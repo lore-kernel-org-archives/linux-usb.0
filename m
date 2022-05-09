@@ -2,98 +2,194 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A35F3C433F5
-	for <linux-usb@archiver.kernel.org>; Mon,  9 May 2022 09:25:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F443C433FE
+	for <linux-usb@archiver.kernel.org>; Mon,  9 May 2022 09:25:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234711AbiEIJ1o (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 9 May 2022 05:27:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46898 "EHLO
+        id S236370AbiEIJ1q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 9 May 2022 05:27:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238373AbiEIJIx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 9 May 2022 05:08:53 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 518AA1F68D4
-        for <linux-usb@vger.kernel.org>; Mon,  9 May 2022 02:04:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652087088; x=1683623088;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XHjKel1jGmEKeYL1JxEVErQG7gKbNDEg2TKyyul7CQM=;
-  b=SaHrvySt1dfrvM8eYgT+eHKwx+7q+gEXmds1l5+4cCpifVxSCD1tnjDX
-   5vmVNwqW0uos6ezMY2j3kbV1y7n+5RbkWJZlq9UT98EG8Pce+/wDrzd82
-   rWTls9iAfwYSU5dp8SGf1kFBn2sZuZr5RXCzpd5defBTLBbFZ5ZX/7y/s
-   FzxatwIG+biMySwyD62SWcRvHaxtD2pVTCYtQdT0vBpcv1QQah8gi3Tj3
-   VU2oxzbz+1SmKwThRxjhfqU5Wv1il5MfZjK0pwaQ0L6QD8YO2q+fP/7r3
-   r1Mn32nco8Q6yLDSlCT0ArUECePT1CSBmHSDWbJDY5pVQwYQX3vNsMBNJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="268650716"
-X-IronPort-AV: E=Sophos;i="5.91,210,1647327600"; 
-   d="scan'208";a="268650716"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2022 02:04:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,210,1647327600"; 
-   d="scan'208";a="540071439"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 09 May 2022 02:04:35 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nnzJj-000GNC-6v;
-        Mon, 09 May 2022 09:04:35 +0000
-Date:   Mon, 9 May 2022 17:04:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Linyu Yuan <quic_linyyuan@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     kbuild-all@lists.01.org, linux-usb@vger.kernel.org,
-        Jack Pham <quic_jackp@quicinc.com>,
-        Linyu Yuan <quic_linyyuan@quicinc.com>
-Subject: Re: [PATCH v2] usb: gadget: update DECLARE_USB_FUNCTION(_INIT) macro
-Message-ID: <202205091634.SZNjdkFo-lkp@intel.com>
-References: <1652077685-30622-1-git-send-email-quic_linyyuan@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1652077685-30622-1-git-send-email-quic_linyyuan@quicinc.com>
+        with ESMTP id S236492AbiEIIvS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 9 May 2022 04:51:18 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 026A5240B7;
+        Mon,  9 May 2022 01:47:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AF3BBB80FEA;
+        Mon,  9 May 2022 08:47:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6063BC385A8;
+        Mon,  9 May 2022 08:47:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652086042;
+        bh=m/b+9hVDs/NpFu20f3zMR0zeKJUF5Hwvxq1T1SnXtL8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=KAkwORF04sxysBiseSCgjyrO0HfAfJI6X4MSl8xqczJ7FPY8SDXfAOAYRY/qivwIP
+         A1G3s2hckFB6zCoTnLzk6ahWwtDAdf4cffN0U/vFDxCELc5yQBIy+8sllm8o8XUYV7
+         Us/tNd/6RsQZFxjXtwTxihanU813H+9L/a3Jane+o7dKfKUn3+KyE5S/WZYrfNyJ6Y
+         7YLzGrLKSVxSLXsiPcdWtvOXTpYIGAeHwoWGMF9RT2jzn8IKPoIL4nkLIhbONPOGI0
+         C+Mm8+cdr6jnTaBINkkUUD7dHzE4bS+TP8Wa4oKNWrSn+mkoAuvfiNtovfnvP/3i0T
+         qbS1anpd/EU7A==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1nnz31-009uWt-Oj; Mon, 09 May 2022 09:47:19 +0100
+Date:   Mon, 09 May 2022 09:47:19 +0100
+Message-ID: <87ilqf6qjs.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Lukas Wunner <lukas@wunner.de>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        UNGLinuxDriver@microchip.com, Oliver Neukum <oneukum@suse.com>,
+        Andre Edich <andre.edich@microchip.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Martyn Welch <martyn.welch@collabora.com>,
+        Gabriel Hojda <ghojda@yo2urs.ro>,
+        Christoph Fritz <chf.fritz@googlemail.com>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        Philipp Rosenberger <p.rosenberger@kunbus.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Russell King <linux@armlinux.org.uk>,
+        Ferry Toth <fntoth@gmail.com>
+Subject: Re: [PATCH net-next v2 5/7] usbnet: smsc95xx: Forward PHY interrupts to PHY driver to avoid polling
+In-Reply-To: <20220506201647.GA30860@wunner.de>
+References: <cover.1651574194.git.lukas@wunner.de>
+        <c6b7f4e4a17913d2f2bc4fe722df0804c2d6fea7.1651574194.git.lukas@wunner.de>
+        <20220505113207.487861b2@kernel.org>
+        <20220505185328.GA14123@wunner.de>
+        <87tua36i70.wl-maz@kernel.org>
+        <20220506201647.GA30860@wunner.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: lukas@wunner.de, mark.rutland@arm.com, kuba@kernel.org, tglx@linutronix.de, davem@davemloft.net, pabeni@redhat.com, netdev@vger.kernel.org, linux-usb@vger.kernel.org, steve.glendinning@shawell.net, UNGLinuxDriver@microchip.com, oneukum@suse.com, andre.edich@microchip.com, linux@rempel-privat.de, martyn.welch@collabora.com, ghojda@yo2urs.ro, chf.fritz@googlemail.com, LinoSanfilippo@gmx.de, p.rosenberger@kunbus.com, hkallweit1@gmail.com, andrew@lunn.ch, linux@armlinux.org.uk, fntoth@gmail.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Linyu,
+On Fri, 06 May 2022 21:16:47 +0100,
+Lukas Wunner <lukas@wunner.de> wrote:
+> 
+> On Fri, May 06, 2022 at 11:58:43AM +0100, Marc Zyngier wrote:
+> > On Thu, 05 May 2022 19:53:28 +0100, Lukas Wunner <lukas@wunner.de> wrote:
+> > > On Thu, May 05, 2022 at 11:32:07AM -0700, Jakub Kicinski wrote:
+> > > > On Tue, 3 May 2022 15:15:05 +0200 Lukas Wunner wrote:
+> > > > > @@ -608,11 +618,20 @@ static void smsc95xx_status(struct usbnet *dev, struct urb *urb)
+> > > > >  	intdata = get_unaligned_le32(urb->transfer_buffer);
+> > > > >  	netif_dbg(dev, link, dev->net, "intdata: 0x%08X\n", intdata);
+> > > > >  
+> > > > > +	/* USB interrupts are received in softirq (tasklet) context.
+> > > > > +	 * Switch to hardirq context to make genirq code happy.
+> > > > > +	 */
+> > > > > +	local_irq_save(flags);
+> > > > > +	__irq_enter_raw();
+> > > > > +
+> > > > >  	if (intdata & INT_ENP_PHY_INT_)
+> > > > > -		;
+> > > > > +		generic_handle_domain_irq(pdata->irqdomain, PHY_HWIRQ);
+> > > > >  	else
+> > > > >  		netdev_warn(dev->net, "unexpected interrupt, intdata=0x%08X\n",
+> > > > >  			    intdata);
+> > > > > +
+> > > > > +	__irq_exit_raw();
+> > > > > +	local_irq_restore(flags);
+> > > > 
+> > > > Full patch:
+> > > > 
+> > > > https://lore.kernel.org/all/c6b7f4e4a17913d2f2bc4fe722df0804c2d6fea7.1651574194.git.lukas@wunner.de/
+> > > 
+> > > This is basically identical to what drivers/net/usb/lan78xx.c does
+> > > in lan78xx_status(), except I'm passing the hw irq instead of the
+> > > linux irq to genirq code, thereby avoiding the overhead of a
+> > > radix_tree_lookup().
+> > > 
+> > > generic_handle_domain_irq() warns unconditionally on !in_irq(),
+> > > unlike handle_irq_desc(), which constrains the warning to
+> > > handle_enforce_irqctx() (i.e. x86 APIC, arm GIC/GICv3).
+> > > Perhaps that's an oversight in generic_handle_domain_irq(),
+> > > unless __irq_resolve_mapping() becomes unsafe outside in_irq()
+> > > for some reason...
+> > > 
+> > > In any case the unconditional in_irq() necessitates __irq_enter_raw()
+> > > here.
+> > > 
+> > > And there's no _safe variant() of generic_handle_domain_irq()
+> > > (unlike generic_handle_irq_safe() which was recently added by
+> > > 509853f9e1e7), hence the necessity of an explicit local_irq_save().
+> > 
+> > Please don't directly use __irq_enter_raw() and similar things
+> > directly in driver code (it doesn't do anything related to RCU, for
+> > example, which could be problematic if used in arbitrary contexts).
+> > Given how infrequent this interrupt is, I'd rather you use something
+> > similar to what lan78xx is doing, and be done with it.
+> > 
+> > And since this is a construct that seems to be often repeated, why
+> > don't you simply make the phy interrupt handling available over a
+> > smp_call_function() interface, which would always put you in the
+> > correct context and avoid faking things up?
+> 
+> As I've explained in the commit message (linked above), LAN95xx chips
+> have 11 GPIOs which can be an interrupt source.  This patch adds
+> PHY interrupt support in such a way that GPIO interrupts can easily
+> be supported by a subsequent commit.  To this end, LAN95xx needs
+> to be represented as a proper irqchip.
+>
+> The crucial thing to understand is that a USB interrupt is not received
+> as a hardirq.  USB gadgets are incapable of directly signaling an
+> interrupt because they cannot initiate a bus transaction by themselves.
+> All communication on the bus is initiated by the host controller,
+> which polls a gadget's Interrupt Endpoint in regular intervals.
+> If an interrupt is pending, that information is passed up the stack
+> in softirq context.  Hence there's no other way than "faking things up",
+> to borrow your language.
+>
+> Another USB driver in the tree, drivers/gpio/gpio-dln2.c, likewise
+> represents the USB gadget as an irqchip to signal GPIO interrupts.
+> This shows that LAN95xx is not an isolated case.  gpio-dln2.c does
+> not invoke __irq_enter_raw(), so I think users will now see a WARN
+> splat with that driver since Mark Rutland's 0953fb263714 (+cc).
+> 
+> As I've pointed out above, it seems like an oversight that Mark
+> didn't make the WARN_ON_ONCE() conditional on handle_enforce_irqctx()
+> (as handle_irq_desc() does).  Sadly you did not respond to that
+> observation.
 
-Thank you for the patch! Yet something to improve:
+When did you make that observation? I can only see an email from you
+being sent *after* the one I am replying to.
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on v5.18-rc6 next-20220506]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> Please clarify whether that is indeed erroneous.
+> Once handle_enforce_irqctx() is added to generic_handle_domain_irq(),
+> there's no need for me to call __irq_enter_raw().  Problem solved.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Linyu-Yuan/usb-gadget-update-DECLARE_USB_FUNCTION-_INIT-macro/20220509-144542
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-config: nios2-randconfig-r035-20220509 (https://download.01.org/0day-ci/archive/20220509/202205091634.SZNjdkFo-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/5c9f589ea23bf995436cde6bd39f1c5b2cc1ec4f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Linyu-Yuan/usb-gadget-update-DECLARE_USB_FUNCTION-_INIT-macro/20220509-144542
-        git checkout 5c9f589ea23bf995436cde6bd39f1c5b2cc1ec4f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
+I don't see it as an oversight. Drivers shouldn't rely on
+architectural quirks, and it is much clearer to simply forbid
+something that cannot be guaranteed across the board, specially for
+something that is as generic as USB.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+> Should there be a valid reason for the missing handle_enforce_irqctx(),
+> then I propose adding a generic_handle_domain_irq_safe() function which
+> calls __irq_enter_raw() (or probably __irq_enter() to get accounting),
+> thereby resolving your objection to calling __irq_enter_raw() from a
+> driver.
 
-All errors (new ones prefixed by >>):
+Feel free to submit a patch.
 
-   nios2-linux-ld: drivers/usb/gadget/function/f_sourcesink.o: in function `sslb_modinit':
->> f_sourcesink.c:(.init.text+0x0): multiple definition of `init_module'; drivers/usb/gadget/function/f_loopback.o:f_loopback.c:(.init.text+0x0): first defined here
-   nios2-linux-ld: drivers/usb/gadget/function/f_sourcesink.o: in function `sslb_modexit':
->> f_sourcesink.c:(.exit.text+0x0): multiple definition of `cleanup_module'; drivers/usb/gadget/function/f_loopback.o:f_loopback.c:(.exit.text+0x0): first defined here
+Thanks,
+
+	M.
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Without deviation from the norm, progress is not possible.
