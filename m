@@ -2,111 +2,147 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 459EBC433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 10 May 2022 15:28:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CA36C433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 10 May 2022 15:55:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244973AbiEJPcF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 May 2022 11:32:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34624 "EHLO
+        id S1346873AbiEJP67 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 May 2022 11:58:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242802AbiEJPan (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 May 2022 11:30:43 -0400
+        with ESMTP id S1347979AbiEJP62 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 May 2022 11:58:28 -0400
 Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id C23822E9E7
-        for <linux-usb@vger.kernel.org>; Tue, 10 May 2022 08:22:18 -0700 (PDT)
-Received: (qmail 164435 invoked by uid 1000); 10 May 2022 11:22:17 -0400
-Date:   Tue, 10 May 2022 11:22:17 -0400
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 3677DE7320
+        for <linux-usb@vger.kernel.org>; Tue, 10 May 2022 08:51:29 -0700 (PDT)
+Received: (qmail 165588 invoked by uid 1000); 10 May 2022 11:51:29 -0400
+Date:   Tue, 10 May 2022 11:51:29 -0400
 From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Pavan Kondeti <quic_pkondeti@quicinc.com>
-Cc:     Matthias Kaehlcke <mka@chromium.org>,
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Felipe Balbi <balbi@kernel.org>,
         USB mailing list <linux-usb@vger.kernel.org>
-Subject: Re: [v15 3/6] usb: dwc3: core: Host wake up support from system
- suspend
-Message-ID: <YnqDKXemavWnJtTc@rowland.harvard.edu>
-References: <YnVD+ltiQhKE+jPf@google.com>
- <YnVSIvwXsKySg33M@google.com>
- <YnVmXmG+6emL4nxv@rowland.harvard.edu>
- <YnVs7kSkpjUBWc5w@google.com>
- <YnWFaSXJJ8T7IYtl@rowland.harvard.edu>
- <20220509033238.GA9170@hu-pkondeti-hyd.qualcomm.com>
- <YnkgaagoaYK7LkCq@rowland.harvard.edu>
- <20220509142341.GA28596@hu-pkondeti-hyd.qualcomm.com>
- <YnkmV1wyC8fwBdub@rowland.harvard.edu>
- <20220510011602.GA16769@hu-pkondeti-hyd.qualcomm.com>
+Subject: [PATCH] USB: gadget: Add ID numbers to gadget names
+Message-ID: <YnqKAXKyp9Vq/pbn@rowland.harvard.edu>
+References: <CAMuHMdVDK0W0T3=+2c1E6wtwy5JTUemTGYyj3PFuVUhK++AzrA@mail.gmail.com>
+ <YnFO0Qr8RY7peFCg@rowland.harvard.edu>
+ <YnaR8LaaPTdLTiok@rowland.harvard.edu>
+ <CAMuHMdUpOiHHMktPk_-NauDW2ufvGThnkFU7Pok376pM6OEyYw@mail.gmail.com>
+ <Ynkh5eKtfxU+AyZX@rowland.harvard.edu>
+ <CAMuHMdVi6jCi=tRBNjBodVcA48ygiqPACQcmHx+1HRYnArJ9tQ@mail.gmail.com>
+ <YnktokC8Uk9j53yO@rowland.harvard.edu>
+ <YnlAAxT5Lq0NvxX0@kroah.com>
+ <YnlFl0M0FRzhxwpK@rowland.harvard.edu>
+ <YnoZva+tZa8Ix+aI@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220510011602.GA16769@hu-pkondeti-hyd.qualcomm.com>
+In-Reply-To: <YnoZva+tZa8Ix+aI@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, May 10, 2022 at 06:46:02AM +0530, Pavan Kondeti wrote:
-> On Mon, May 09, 2022 at 10:33:59AM -0400, Alan Stern wrote:
-> > On Mon, May 09, 2022 at 07:53:41PM +0530, Pavan Kondeti wrote:
-> > > On Mon, May 09, 2022 at 10:08:41AM -0400, Alan Stern wrote:
-> > > > BTW, if there's any trouble with getting device_wakeup_path() to work 
-> > > > the way you want, you could consider instead calling 
-> > > > usb_wakeup_enabled_descendants() on the root hub.  This function returns 
-> > > > a count of the number of wakeup-enabled USB devices at or below the 
-> > > > device you pass to it.
-> > > > 
-> > > 
-> > > This series [1] started with usb_wakeup_enabled_descendants() actually. one
-> > > of the problem with this API is that we have to call this on both USB2.0 and
-> > > USB3.0 root hubs. Do you think we can have a wrapper function like
-> > > usb_hcd_wakeup_enabled_descendants() that accepts hcd as an argument and
-> > > internally call usb_wakeup_enabled_descendants() on both root hubs and return
-> > > the result.
-> > 
-> > Sure you can.  Feel free to write such a function and add it to hcd.c.  
-> > Ideally it should work for host controllers with any number of root 
-> > hubs, just adding up the number of wakeup-enabled descendants for all of 
-> > them.
-> > 
-> Thanks Alan for the suggestion. Does the below diff looks good?
+Putting USB gadgets on a new bus of their own encounters a problem
+when multiple gadgets are present: They all have the same name!  The
+driver core fails with a "sys: cannot create duplicate filename" error
+when creating any of the /sys/bus/gadget/devices/<gadget-name>
+symbolic links after the first.
 
-It looks fine, aside from lacking any comments/kerneldoc.
+This patch fixes the problem by adding a ".N" suffix to each gadget's
+name when the gadget is registered (where N is a unique ID number),
+thus making the names distinct.
 
-Alan Stern
+Reported-and-tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Fixes: fc274c1e9973 ("USB: gadget: Add a new bus for gadgets")
 
-> Thanks,
-> Pavan
-> 
-> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> index c9443aa..f707f9b 100644
-> --- a/drivers/usb/core/hcd.c
-> +++ b/drivers/usb/core/hcd.c
-> @@ -2704,6 +2704,19 @@ int usb_hcd_is_primary_hcd(struct usb_hcd *hcd)
->  }
->  EXPORT_SYMBOL_GPL(usb_hcd_is_primary_hcd);
->  
-> +unsigned int usb_hcd_wakeup_enabled_descendants(struct usb_hcd *hcd)
-> +{
-> +	unsigned int nr_wakeup;
-> +
-> +	nr_wakeup = usb_wakeup_enabled_descendants(hcd->self.root_hub);
-> +
-> +	if (hcd->shared_hcd)
-> +		nr_wakeup += usb_wakeup_enabled_descendants(hcd->shared_hcd->self.root_hub);
-> +
-> +	return nr_wakeup;
-> +}
-> +EXPORT_SYMBOL_GPL(usb_hcd_wakeup_enabled_descendants);
-> +
->  int usb_hcd_find_raw_port_number(struct usb_hcd *hcd, int port1)
->  {
->  	if (!hcd->driver->find_raw_port_number)
-> diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
-> index 1886e81..a5d561b 100644
-> --- a/include/linux/usb/hcd.h
-> +++ b/include/linux/usb/hcd.h
-> @@ -474,6 +474,7 @@ extern void usb_remove_hcd(struct usb_hcd *hcd);
->  extern int usb_hcd_find_raw_port_number(struct usb_hcd *hcd, int port1);
->  int usb_hcd_setup_local_mem(struct usb_hcd *hcd, phys_addr_t phys_addr,
->  			    dma_addr_t dma, size_t size);
-> +extern unsigned int usb_hcd_wakeup_enabled_descendants(struct usb_hcd *hcd);
->  
->  struct platform_device;
->  extern void usb_hcd_platform_shutdown(struct platform_device *dev);
-> 
+---
+
+
+[as1980]
+
+
+ drivers/usb/gadget/udc/core.c |   16 ++++++++++++++--
+ include/linux/usb/gadget.h    |    2 ++
+ 2 files changed, 16 insertions(+), 2 deletions(-)
+
+Index: usb-devel/drivers/usb/gadget/udc/core.c
+===================================================================
+--- usb-devel.orig/drivers/usb/gadget/udc/core.c
++++ usb-devel/drivers/usb/gadget/udc/core.c
+@@ -12,6 +12,7 @@
+ #include <linux/module.h>
+ #include <linux/device.h>
+ #include <linux/list.h>
++#include <linux/idr.h>
+ #include <linux/err.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/sched/task_stack.h>
+@@ -23,6 +24,8 @@
+ 
+ #include "trace.h"
+ 
++static DEFINE_IDA(gadget_id_numbers);
++
+ static struct bus_type gadget_bus_type;
+ 
+ /**
+@@ -1248,7 +1251,6 @@ static void usb_udc_nop_release(struct d
+ void usb_initialize_gadget(struct device *parent, struct usb_gadget *gadget,
+ 		void (*release)(struct device *dev))
+ {
+-	dev_set_name(&gadget->dev, "gadget");
+ 	INIT_WORK(&gadget->work, usb_gadget_state_work);
+ 	gadget->dev.parent = parent;
+ 
+@@ -1304,12 +1306,21 @@ int usb_add_gadget(struct usb_gadget *ga
+ 	usb_gadget_set_state(gadget, USB_STATE_NOTATTACHED);
+ 	udc->vbus = true;
+ 
++	ret = ida_alloc(&gadget_id_numbers, GFP_KERNEL);
++	if (ret < 0)
++		goto err_del_udc;
++	gadget->id_number = ret;
++	dev_set_name(&gadget->dev, "gadget.%d", ret);
++
+ 	ret = device_add(&gadget->dev);
+ 	if (ret)
+-		goto err_del_udc;
++		goto err_free_id;
+ 
+ 	return 0;
+ 
++ err_free_id:
++	ida_free(&gadget_id_numbers, gadget->id_number);
++
+  err_del_udc:
+ 	flush_work(&gadget->work);
+ 	device_del(&udc->dev);
+@@ -1417,6 +1428,7 @@ void usb_del_gadget(struct usb_gadget *g
+ 	kobject_uevent(&udc->dev.kobj, KOBJ_REMOVE);
+ 	flush_work(&gadget->work);
+ 	device_del(&gadget->dev);
++	ida_free(&gadget_id_numbers, gadget->id_number);
+ 	device_unregister(&udc->dev);
+ }
+ EXPORT_SYMBOL_GPL(usb_del_gadget);
+Index: usb-devel/include/linux/usb/gadget.h
+===================================================================
+--- usb-devel.orig/include/linux/usb/gadget.h
++++ usb-devel/include/linux/usb/gadget.h
+@@ -386,6 +386,7 @@ struct usb_gadget_ops {
+  * @lpm_capable: If the gadget max_speed is FULL or HIGH, this flag
+  *	indicates that it supports LPM as per the LPM ECN & errata.
+  * @irq: the interrupt number for device controller.
++ * @id_number: a unique ID number for ensuring that gadget names are distinct
+  *
+  * Gadgets have a mostly-portable "gadget driver" implementing device
+  * functions, handling all usb configurations and interfaces.  Gadget
+@@ -446,6 +447,7 @@ struct usb_gadget {
+ 	unsigned			connected:1;
+ 	unsigned			lpm_capable:1;
+ 	int				irq;
++	int				id_number;
+ };
+ #define work_to_gadget(w)	(container_of((w), struct usb_gadget, work))
+ 
