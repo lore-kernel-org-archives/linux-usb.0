@@ -2,129 +2,147 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E932C433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 10 May 2022 01:45:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B0AEC433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 10 May 2022 03:38:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234036AbiEJBs7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 9 May 2022 21:48:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55844 "EHLO
+        id S235655AbiEJDmE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 9 May 2022 23:42:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232990AbiEJBs5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 9 May 2022 21:48:57 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DEB6289BDC;
-        Mon,  9 May 2022 18:45:02 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id e5so13454236pgc.5;
-        Mon, 09 May 2022 18:45:02 -0700 (PDT)
+        with ESMTP id S235713AbiEJDkk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 9 May 2022 23:40:40 -0400
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E5EA220DD;
+        Mon,  9 May 2022 20:36:22 -0700 (PDT)
+Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-e5e433d66dso16894881fac.5;
+        Mon, 09 May 2022 20:36:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=nP61nKy/ZPvS3vrbOJaB+tc2rmY8ROtm0Xppu8VLlno=;
-        b=DCH/WQHYliiBOM5qtU28mWlxYWa0xEhfYgyUf43q9BDAmCFxHJfCZi/pZarlHfGJoY
-         UqhtZdkilfcKTzRuNdpO6n1i3LHWiGKt6FNX6KLh6Ec4/grUGWdpmjoYWt9+OrJrcK3o
-         rAIYDZlGzNFBsbpO5VdnE8SIjw484E7uyIEp92r/rXF2UolFc3Tx3Ua0lpEeJyGBV4dP
-         /E+RJI0tEyvx/20IPKLFFEvwzGtU+wr/E1lxfdIXjc81WiXHEhpLjv4CE4lJvMgDtANJ
-         sFSjwA9ttKUKEn96X8v4eQgkvHx2NiZvnt8OLaPF2SC14/6kfZxcPWPHUXmFzDod0zYt
-         E0YQ==
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=O5Zna85Vq8b8w5dS9maW5sjIe37UVYxBLIqtZ95PN3Y=;
+        b=dCuWjV5mbmgA3Q2CNvAf2Xy5gjFs/KqhYBFyu5gMWB+vkyjE845Hpn3fseCLSHcYhZ
+         xahV8FsrJXqWzjmPbdX2TzotT5XGds5iKOM8iXLIaJxj2uf5PgwA9Wd3jrRWwp3WBmYu
+         yUJZ2M5BHx3RobC+qvbBSpxx+QByD0kJL1CWpk0/0JzUXOIsiyRdYa2N68dLJagVIMnb
+         eR1f0aG6bPJrxm502fEmwv8Mpu/qteu8i/0tZJaSGi+8ah3o9M+Mq+Fb2Da462YixTpU
+         muTsViJ9Xaw8uAmDB4R2zBU6uz3I3c21Ah5iLlFUoXpdqbnUmeM28VTN1W6IEpzjRHrA
+         s5Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=nP61nKy/ZPvS3vrbOJaB+tc2rmY8ROtm0Xppu8VLlno=;
-        b=2VUjVz3m9zB2L901MpNcYDFqHJD/fW8DWi4fRFY/ZXHZQDitW+a1H6VDNEkGcdLlqy
-         eeIAwFTqT4x19u4N9w9PnY37tzNoYxy1aBi5JJu8CVTN242cvBtCRvarlErq/JQaw2cG
-         Zg1JWtvOnWjITwQP/v16tBplVMt6zP1CUiszvSefnvsUXB4iY0ytlKvoh4TLT7NM/ryj
-         N/RYAH7duI9d2QALXtB2yQcdZPQZ92GETp0iklGPFvqY80XCPJdzR69A+m7IctIEBPlh
-         UwDeeGKxKerUL0sX+8VbRKOiE4QamNSqUKWAcaBjjjOjAAswFx9b5F2hl0/VCjJhB0UN
-         xj6w==
-X-Gm-Message-State: AOAM532R/1qGAumTfTRirZG887tlIz0FwnuwJPSaza21pxIGHZrLABV8
-        I8bircdI0zi7geNuBxDUem91gRvpFKo=
-X-Google-Smtp-Source: ABdhPJwzT/+uJ2WTtLY2nkbyUT0PnbYSh7AqMNOP0QKEmBYONx6/3TFc58YIa9s0ov22A+8PSn8wnw==
-X-Received: by 2002:a63:68c4:0:b0:3c6:c9a6:e316 with SMTP id d187-20020a6368c4000000b003c6c9a6e316mr5139838pgc.399.1652147101507;
-        Mon, 09 May 2022 18:45:01 -0700 (PDT)
-Received: from localhost.localdomain ([49.216.43.238])
-        by smtp.gmail.com with ESMTPSA id x186-20020a627cc3000000b0050dc7628134sm9590075pfc.14.2022.05.09.18.44.56
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 09 May 2022 18:45:00 -0700 (PDT)
-From:   cy_huang <u0084500@gmail.com>
-To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=O5Zna85Vq8b8w5dS9maW5sjIe37UVYxBLIqtZ95PN3Y=;
+        b=bQg/9Nj5d5212CEVK3lV5mAV8Zdg9IbFtLnXKDs6xXfDQ3FnxD+KNHykAkj0IpF5B9
+         3KuyTv23Lq7My1wzxc2fJs1xWYDleD0IUAWTEheZ+zxmynBsgkJW41tiYEQSecEXxmNF
+         3VmV4pvIR3kD6O0Fj8+v6HcoMUVhH29JUNF5FdpdSGitcqQUD6uAIIWeeZH3aBcX7QpH
+         M7oiLYEg2AdnWbklKHQHPt6M7Dc7gjjFx2yg7a/pYZyL2NLhhIVTL1jpiEjQn2QU686V
+         pph+djJAoXjnDFv/PIHYRln4AjO9a0uwFUuEuP+jxT6EYY5xdu1UyiSHoII4XSzcg2CL
+         ZWXg==
+X-Gm-Message-State: AOAM531d6EqzOhbZEuDIIEZz1O0r45oEa2FiCGjmDnYBn9ZhO2uc/p0r
+        +tVCZcEbFs1nDTguv3w7tmw=
+X-Google-Smtp-Source: ABdhPJwLuC+HUAjgP+D9wIF1ftz0XxqbsHdsTkk2ngkkLpSv1crtEWzsMvopu0qSPAu+5F3yStYq3A==
+X-Received: by 2002:a05:6871:887:b0:ed:4b3b:2bc4 with SMTP id r7-20020a056871088700b000ed4b3b2bc4mr12066047oaq.278.1652153781845;
+        Mon, 09 May 2022 20:36:21 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id m33-20020a056870562100b000edf80be4ecsm4885091oao.58.2022.05.09.20.36.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 May 2022 20:36:21 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <514da5d6-9044-181f-bdd1-84b5b9abd346@roeck-us.net>
+Date:   Mon, 9 May 2022 20:36:19 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] usb: typec: tcpci_mt6360: Update for BMC PHY setting
+Content-Language: en-US
+To:     cy_huang <u0084500@gmail.com>, heikki.krogerus@linux.intel.com,
         gregkh@linuxfoundation.org, matthias.bgg@gmail.com
 Cc:     cy_huang@richtek.com, bryan_huang@richtek.com,
         linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: typec: tcpci_mt6360: Update for BMC PHY setting
-Date:   Tue, 10 May 2022 09:44:52 +0800
-Message-Id: <1652147092-19255-1-git-send-email-u0084500@gmail.com>
-X-Mailer: git-send-email 2.7.4
+References: <1652147092-19255-1-git-send-email-u0084500@gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <1652147092-19255-1-git-send-email-u0084500@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: ChiYuan Huang <cy_huang@richtek.com>
+On 5/9/22 18:44, cy_huang wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Update MT6360 BMC PHY Tx/Rx setting for the compatibility.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
+> Hi,
+> 
+> Recently, there's some USBPD MT6360 IOP issue from the user.
+>>From our RD's comment, BMC PHY Tx/Rx setting need to be updated for
+> the compatibility issue.
 
-Update MT6360 BMC PHY Tx/Rx setting for the compatibility.
+I think this needs to be a bit more detailed. What compatibility issue ?
+Compatibility with what ?
 
-Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
----
-Hi,
+Thanks,
+Guenter
 
-Recently, there's some USBPD MT6360 IOP issue from the user.
-From our RD's comment, BMC PHY Tx/Rx setting need to be updated for
-the compatibility issue.
----
- drivers/usb/typec/tcpm/tcpci_mt6360.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/drivers/usb/typec/tcpm/tcpci_mt6360.c b/drivers/usb/typec/tcpm/tcpci_mt6360.c
-index f1bd9e0..8a952ea 100644
---- a/drivers/usb/typec/tcpm/tcpci_mt6360.c
-+++ b/drivers/usb/typec/tcpm/tcpci_mt6360.c
-@@ -15,6 +15,9 @@
- 
- #include "tcpci.h"
- 
-+#define MT6360_REG_PHYCTRL1	0x80
-+#define MT6360_REG_PHYCTRL3	0x82
-+#define MT6360_REG_PHYCTRL7	0x86
- #define MT6360_REG_VCONNCTRL1	0x8C
- #define MT6360_REG_MODECTRL2	0x8F
- #define MT6360_REG_SWRESET	0xA0
-@@ -22,6 +25,8 @@
- #define MT6360_REG_DRPCTRL1	0xA2
- #define MT6360_REG_DRPCTRL2	0xA3
- #define MT6360_REG_I2CTORST	0xBF
-+#define MT6360_REG_PHYCTRL11	0xCA
-+#define MT6360_REG_RXCTRL1	0xCE
- #define MT6360_REG_RXCTRL2	0xCF
- #define MT6360_REG_CTDCTRL2	0xEC
- 
-@@ -106,6 +111,27 @@ static int mt6360_tcpc_init(struct tcpci *tcpci, struct tcpci_data *tdata)
- 	if (ret)
- 		return ret;
- 
-+	/* BMC PHY */
-+	ret = mt6360_tcpc_write16(regmap, MT6360_REG_PHYCTRL1, 0x3A70);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(regmap, MT6360_REG_PHYCTRL3,  0x82);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(regmap, MT6360_REG_PHYCTRL7, 0x36);
-+	if (ret)
-+		return ret;
-+
-+	ret = mt6360_tcpc_write16(regmap, MT6360_REG_PHYCTRL11, 0x3C60);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(regmap, MT6360_REG_RXCTRL1, 0xE8);
-+	if (ret)
-+		return ret;
-+
- 	/* Set shipping mode off, AUTOIDLE on */
- 	return regmap_write(regmap, MT6360_REG_MODECTRL2, 0x7A);
- }
--- 
-2.7.4
+> ---
+>   drivers/usb/typec/tcpm/tcpci_mt6360.c | 26 ++++++++++++++++++++++++++
+>   1 file changed, 26 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpci_mt6360.c b/drivers/usb/typec/tcpm/tcpci_mt6360.c
+> index f1bd9e0..8a952ea 100644
+> --- a/drivers/usb/typec/tcpm/tcpci_mt6360.c
+> +++ b/drivers/usb/typec/tcpm/tcpci_mt6360.c
+> @@ -15,6 +15,9 @@
+>   
+>   #include "tcpci.h"
+>   
+> +#define MT6360_REG_PHYCTRL1	0x80
+> +#define MT6360_REG_PHYCTRL3	0x82
+> +#define MT6360_REG_PHYCTRL7	0x86
+>   #define MT6360_REG_VCONNCTRL1	0x8C
+>   #define MT6360_REG_MODECTRL2	0x8F
+>   #define MT6360_REG_SWRESET	0xA0
+> @@ -22,6 +25,8 @@
+>   #define MT6360_REG_DRPCTRL1	0xA2
+>   #define MT6360_REG_DRPCTRL2	0xA3
+>   #define MT6360_REG_I2CTORST	0xBF
+> +#define MT6360_REG_PHYCTRL11	0xCA
+> +#define MT6360_REG_RXCTRL1	0xCE
+>   #define MT6360_REG_RXCTRL2	0xCF
+>   #define MT6360_REG_CTDCTRL2	0xEC
+>   
+> @@ -106,6 +111,27 @@ static int mt6360_tcpc_init(struct tcpci *tcpci, struct tcpci_data *tdata)
+>   	if (ret)
+>   		return ret;
+>   
+> +	/* BMC PHY */
+> +	ret = mt6360_tcpc_write16(regmap, MT6360_REG_PHYCTRL1, 0x3A70);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(regmap, MT6360_REG_PHYCTRL3,  0x82);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(regmap, MT6360_REG_PHYCTRL7, 0x36);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = mt6360_tcpc_write16(regmap, MT6360_REG_PHYCTRL11, 0x3C60);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(regmap, MT6360_REG_RXCTRL1, 0xE8);
+> +	if (ret)
+> +		return ret;
+> +
+>   	/* Set shipping mode off, AUTOIDLE on */
+>   	return regmap_write(regmap, MT6360_REG_MODECTRL2, 0x7A);
+>   }
 
