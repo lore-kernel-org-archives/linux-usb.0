@@ -2,118 +2,57 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B921C433F5
-	for <linux-usb@archiver.kernel.org>; Wed, 11 May 2022 02:32:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B52DC433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 11 May 2022 05:43:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241267AbiEKCcX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 May 2022 22:32:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54094 "EHLO
+        id S237140AbiEKFnc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 May 2022 01:43:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242343AbiEKCcI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 May 2022 22:32:08 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C10ED5C66D;
-        Tue, 10 May 2022 19:31:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1652236280; x=1683772280;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RlxOaNZc/4I0mSrTZJv3nct2D80p9NBIlZoZaPymPRc=;
-  b=qQzeNiSziR5cFz//AeO52+HaHuUi0Bf5dqItdhHTaGbzcIdoRcR7Yqt8
-   /9FxxsIzgCGzefM29rcdx26JzGuF7sUTyvQPDEkG0/h2pUJ4UzE32YZYu
-   2LrPu7pHahUepzyiny883PkFz1MYOYqtXllhl/JpEgtKWmIjAal9YVd3h
-   M=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 10 May 2022 19:31:20 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2022 19:31:19 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 10 May 2022 19:31:19 -0700
-Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 10 May 2022 19:31:13 -0700
-Date:   Wed, 11 May 2022 08:01:09 +0530
-From:   Pavan Kondeti <quic_pkondeti@quicinc.com>
-To:     Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-CC:     Pavan Kondeti <quic_pkondeti@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Andy Gross" <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        "Matthias Kaehlcke" <mka@chromium.org>,
-        Wesley Cheng <wcheng@codeaurora.org>,
-        <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <quic_ppratap@quicinc.com>,
-        <quic_vpulyala@quicinc.com>
-Subject: Re: [v3 3/3] arm64: dts: qcom: sc7280: Update SNPS Phy params for
- SC7280 IDP device
-Message-ID: <20220511023109.GA13360@hu-pkondeti-hyd.qualcomm.com>
-References: <1652011947-18575-1-git-send-email-quic_kriskura@quicinc.com>
- <1652011947-18575-4-git-send-email-quic_kriskura@quicinc.com>
- <20220509032005.GJ4640@hu-pkondeti-hyd.qualcomm.com>
- <7ef88262-4292-3077-00a1-dc06b2483b10@quicinc.com>
+        with ESMTP id S242093AbiEKFn1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 May 2022 01:43:27 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5926B245610
+        for <linux-usb@vger.kernel.org>; Tue, 10 May 2022 22:43:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B229B616DF
+        for <linux-usb@vger.kernel.org>; Wed, 11 May 2022 05:43:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA04FC385D1;
+        Wed, 11 May 2022 05:43:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1652247805;
+        bh=JUZkdUSRr6SRRguqLIZfivmi1He93RgkOil+cDjvb1U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=U7Xrnaao1h1AIMdzPbWM3AmhvxNfpA/caU15j8oLAlhvBOO+kLS8DQImd30Yn8FYZ
+         JxMv4JXMpnWqZuySZXeDp899zYNcZJ3UOYPmrN1Ht+1zfblHrxaAHfjf5GjDikH3Hp
+         aQ6jgD0eLXWgb2PXBHlEnieRhE9qWd4H1T7sJ3/o=
+Date:   Wed, 11 May 2022 07:43:22 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH] usb: hub: port: add sysfs entry to switch port power
+Message-ID: <YntM+r+rE4AC6SXt@kroah.com>
+References: <20220510231317.1874608-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7ef88262-4292-3077-00a1-dc06b2483b10@quicinc.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+In-Reply-To: <20220510231317.1874608-1-m.grzeschik@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, May 10, 2022 at 11:05:42PM +0530, Krishna Kurapati PSSNV wrote:
+On Wed, May 11, 2022 at 01:13:17AM +0200, Michael Grzeschik wrote:
+> This patch adds an sysfs switch to enable/disable a port on an power
+> switchable hub. It also ensures that the associated device gets
+> disconnected from the logical usb tree.
 > 
-> On 5/9/2022 8:50 AM, Pavan Kondeti wrote:
-> >Hi Krishna,
-> >
-> >On Sun, May 08, 2022 at 05:42:27PM +0530, Krishna Kurapati wrote:
-> >>Overriding the SNPS Phy tuning parameters for SC7280 IDP device.
-> >>
-> >>Signed-off-by: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-> >>Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-> >>---
-> >>  arch/arm64/boot/dts/qcom/sc7280-idp.dtsi | 6 ++++++
-> >>  1 file changed, 6 insertions(+)
-> >>
-> >>diff --git a/arch/arm64/boot/dts/qcom/sc7280-idp.dtsi b/arch/arm64/boot/dts/qcom/sc7280-idp.dtsi
-> >>index 5eb6689..ad85ffb 100644
-> >>--- a/arch/arm64/boot/dts/qcom/sc7280-idp.dtsi
-> >>+++ b/arch/arm64/boot/dts/qcom/sc7280-idp.dtsi
-> >>@@ -325,6 +325,12 @@
-> >>  	vdda-pll-supply = <&vreg_l10c_0p8>;
-> >>  	vdda33-supply = <&vreg_l2b_3p0>;
-> >>  	vdda18-supply = <&vreg_l1c_1p8>;
-> >>+	qcom,hs-rise-fall-time-bps = <0>;
-> >>+	qcom,squelch-detector-bps = <(-2090)>;
-> >>+	qcom,hs-disconnect-bps = <1743>;
-> >>+	qcom,hs-amplitude-bps = <1780>;
-> >>+	qcom,hs-crossover-voltage = <(-31)>;
-> >>+	qcom,hs-output-impedance = <2600>;
-> >>  };
-> >Is this an example change or do we see any HS electrical compliance failures
-> >on SC7280 IDP that will get fixed with these override sequence?
-> >
-> >Thanks,
-> >Pavan
-> 
-> Hi Pavan,
-> 
-> These results were based on compliance testing results.
-> 
-Ok, Do we know what tests are failing and getting fixed with these settings?
-Can you mention it in the changelog?
+> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> ---
+>  drivers/usb/core/port.c | 47 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
 
-Thanks,
-Pavan
+No Documentation/ABI/ update as well?  That means I can't take this
+change or even properly review it :(
+
