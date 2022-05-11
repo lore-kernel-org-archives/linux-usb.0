@@ -2,49 +2,48 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 380A3C433FE
-	for <linux-usb@archiver.kernel.org>; Wed, 11 May 2022 22:03:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42833C433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 11 May 2022 22:03:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348457AbiEKWDt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 May 2022 18:03:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49948 "EHLO
+        id S1348491AbiEKWDw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 May 2022 18:03:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348430AbiEKWDs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 May 2022 18:03:48 -0400
+        with ESMTP id S1348462AbiEKWDu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 May 2022 18:03:50 -0400
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EEADBE3B
-        for <linux-usb@vger.kernel.org>; Wed, 11 May 2022 15:03:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1598B19C2D
+        for <linux-usb@vger.kernel.org>; Wed, 11 May 2022 15:03:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652306627; x=1683842627;
+  t=1652306630; x=1683842630;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=oJSqMfpLpc6oA8C+i3h0PJgXNgUNPcDJ++6lg91E7L0=;
-  b=eBjjHCrtePLWgq+3c0XTH5EDeoH2/+J7M4rwX7VhkRtOxdyYxPpeweEP
-   cPJjMtnPcEOzh49JIXwk2Ym1Pu8BbNIJlxWgN3EZtoQ57w0Z6Sqwolp9F
-   BEUmEdMrbAK2wZkgL83fgX2IBVWMuMPs/oowsZOTQQzenZkdpcV61Zn9+
-   Znp3fwh6rl+8skd9nkIzadjbo2RLU395mVTkuVNjQ3XHc8KVuNWftvaOT
-   ymHH93FAV0pImqwafrsJn5DCwGJihXSuneP7SkDgE8JYkRVLZZNet0qh+
-   IMO5n32s1bCyGqGLygaMSuGa6MNOb6c7H2OUIbBulzeJeDtebHQslvgAc
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="330427454"
+  bh=EN9gmAL1uzE9wzMkMJkqUto04AKi/AUcI0B9kmVfeRo=;
+  b=ZjG6O8hgS40tI7491gSOpcWzUUzWipJYITVSmY9gA6fMU6jvHm5pNrzc
+   5kA87ejlykulJp9vC+gdoYVfpf8NT0he5w+PXhvJD+m2hxIHC4Aq/1AB8
+   66PqkzLtp3H1DSVCwOrB5xACWSnukGNyOswOe01bXs1+s62LjZvveO/Kx
+   Y11lDZdOtHxwX8JZZO8369rZXyvpncJPQzWYM2OUOVsxCJJ1O4IhVpWjn
+   P1FYr8Z5B42RLPUVM25kFSjOAqvKdF/FGeIiAZxIlDRPICrbCeFXGwuKV
+   jT5BcyMsIkHweos7BV6wCFlmQZi4rEqUUt/kDVw2iNi6Jj0PfIIdOUMXN
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="330427463"
 X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; 
-   d="scan'208";a="330427454"
+   d="scan'208";a="330427463"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2022 15:03:46 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2022 15:03:49 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; 
-   d="scan'208";a="542496236"
+   d="scan'208";a="542496249"
 Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
-  by orsmga006.jf.intel.com with ESMTP; 11 May 2022 15:03:45 -0700
+  by orsmga006.jf.intel.com with ESMTP; 11 May 2022 15:03:48 -0700
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
 To:     <gregkh@linuxfoundation.org>
 Cc:     <linux-usb@vger.kernel.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
         Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 5/9] usb: host: xhci-plat: omit shared hcd if either root hub has no ports
-Date:   Thu, 12 May 2022 01:04:46 +0300
-Message-Id: <20220511220450.85367-6-mathias.nyman@linux.intel.com>
+Subject: [PATCH 7/9] xhci: prevent U2 link power state if Intel tier policy prevented U1
+Date:   Thu, 12 May 2022 01:04:48 +0300
+Message-Id: <20220511220450.85367-8-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220511220450.85367-1-mathias.nyman@linux.intel.com>
 References: <20220511220450.85367-1-mathias.nyman@linux.intel.com>
@@ -54,30 +53,64 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Heiner Kallweit <hkallweit1@gmail.com>
+Don't enable U1 or U2 Link powermanagenet (LPM) states for USB3
+devices connected to tier 2 or further hubs.
 
-Activate the just added extension for xhci-plat and omit the shared
-hcd if either of the root hubs has no ports.
+For unknown reasons we previously only prevented U1.
+Be consistent, and prevent both U1/U2 states if tier policy doesn't
+allow LPM.
 
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+Also check the tier policy a bit earlier, and return if U1/U2 is
+not allowed. This avoids unnecessary xhci MEL commands.
+
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci-plat.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/usb/host/xhci.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index c512ec2148ae..044855818cb1 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -245,6 +245,8 @@ static int xhci_plat_probe(struct platform_device *pdev)
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 19363f542d19..18306e28e7f8 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -4886,9 +4886,6 @@ static int xhci_check_intel_tier_policy(struct usb_device *udev,
+ 	struct usb_device *parent;
+ 	unsigned int num_hubs;
  
- 	xhci = hcd_to_xhci(hcd);
+-	if (state == USB3_LPM_U2)
+-		return 0;
+-
+ 	/* Don't enable U1 if the device is on a 2nd tier hub or lower. */
+ 	for (parent = udev->parent, num_hubs = 0; parent->parent;
+ 			parent = parent->parent)
+@@ -4897,7 +4894,7 @@ static int xhci_check_intel_tier_policy(struct usb_device *udev,
+ 	if (num_hubs < 2)
+ 		return 0;
  
-+	xhci->allow_single_roothub = 1;
+-	dev_dbg(&udev->dev, "Disabling U1 link state for device"
++	dev_dbg(&udev->dev, "Disabling U1/U2 link state for device"
+ 			" below second-tier hub.\n");
+ 	dev_dbg(&udev->dev, "Plug device into first-tier hub "
+ 			"to decrease power consumption.\n");
+@@ -4938,9 +4935,6 @@ static u16 xhci_calculate_lpm_timeout(struct usb_hcd *hcd,
+ 		return timeout;
+ 	}
+ 
+-	if (xhci_check_tier_policy(xhci, udev, state) < 0)
+-		return timeout;
+-
+ 	/* Gather some information about the currently installed configuration
+ 	 * and alternate interface settings.
+ 	 */
+@@ -5047,6 +5041,9 @@ static int xhci_enable_usb3_lpm_timeout(struct usb_hcd *hcd,
+ 			!xhci->devs[udev->slot_id])
+ 		return USB3_LPM_DISABLED;
+ 
++	if (xhci_check_tier_policy(xhci, udev, state) < 0)
++		return USB3_LPM_DISABLED;
 +
- 	/*
- 	 * Not all platforms have clks so it is not an error if the
- 	 * clock do not exist.
+ 	hub_encoded_timeout = xhci_calculate_lpm_timeout(hcd, udev, state);
+ 	mel = calculate_max_exit_latency(udev, state, hub_encoded_timeout);
+ 	if (mel < 0) {
 -- 
 2.25.1
 
