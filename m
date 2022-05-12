@@ -2,112 +2,117 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13120C433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 12 May 2022 06:50:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AA4AC433F5
+	for <linux-usb@archiver.kernel.org>; Thu, 12 May 2022 07:33:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350536AbiELGuM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 12 May 2022 02:50:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53686 "EHLO
+        id S1351028AbiELHdN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 May 2022 03:33:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238889AbiELGuG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 May 2022 02:50:06 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1D181FD86A;
-        Wed, 11 May 2022 23:50:03 -0700 (PDT)
-X-UUID: e2bb00be931b4ef0965c0813c8d20856-20220512
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4,REQID:2f8707e3-577b-427d-a100-6e6c181d618f,OB:0,LO
-        B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
-        ON:release,TS:5
-X-CID-META: VersionHash:faefae9,CLOUDID:f5ad05a7-eab7-4b74-a74d-5359964535a9,C
-        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: e2bb00be931b4ef0965c0813c8d20856-20220512
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 556747679; Thu, 12 May 2022 14:49:57 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Thu, 12 May 2022 14:49:56 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 12 May 2022 14:49:55 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Mathias Nyman <mathias.nyman@intel.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        "Eddie Hung" <eddie.hung@mediatek.com>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        <stable@vger.kernel.org>
-Subject: [PATCH 1/2] usb: xhci-mtk: fix fs isoc's transfer error
-Date:   Thu, 12 May 2022 14:49:30 +0800
-Message-ID: <20220512064931.31670-1-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S229502AbiELHdI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 May 2022 03:33:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA76036E1E;
+        Thu, 12 May 2022 00:33:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 18DE561EAC;
+        Thu, 12 May 2022 07:33:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AF99C385B8;
+        Thu, 12 May 2022 07:33:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1652340785;
+        bh=ddtYkLWi+bM8tkL0qc0h+qJ4uhi+fLy4+YkKK0LtHbg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=wV27bUBQBIbBOYhuWHfMGmWDf7fuQPVKdZ14av7tNkdFYnl/u2lO8ebA0WaB2htok
+         RVGNf9JnIoMk73NIyBGm/6aWdJWmVPV8Le+xz/YmhGh3W+OLz5yrdEIamtGtpnEQLN
+         n+BkrZw/qyYzJok9jcempbZproDgzQU9LJ827Wi8=
+Date:   Thu, 12 May 2022 09:33:02 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Albert Wang <albertccwang@google.com>
+Cc:     balbi@kernel.org, quic_jackp@quicinc.com, badhri@google.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: dwc3: gadget: Move null pinter check after
+ window closed
+Message-ID: <Yny4LgeQ+r6w0vhJ@kroah.com>
+References: <20220512043739.1234857-1-albertccwang@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220512043739.1234857-1-albertccwang@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Due to the scheduler allocates the optimal bandwidth for FS ISOC endpoints,
-this may be not enough actually and causes data transfer error, so come up
-with an estimate that is no less than the worst case bandwidth used for
-any one mframe, but may be an over-estimate.
+On Thu, May 12, 2022 at 12:37:39PM +0800, Albert Wang wrote:
+> After inspecting further, we do see the locking is implicit, with the
+> main gotcha being the unlock/re-lock. That creates a window for a race
+> to happen. This change moves the NULL check to be adjacent to where
+> to it's used and after the window is "closed".
+> 
+> Fixes: 26288448120b ("usb: dwc3: gadget: Fix null pointer exception")
+> 
+> Signed-off-by: Albert Wang <albertccwang@google.com>
+> ---
+>  drivers/usb/dwc3/gadget.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> index 19477f4bbf54..fda58951cf27 100644
+> --- a/drivers/usb/dwc3/gadget.c
+> +++ b/drivers/usb/dwc3/gadget.c
+> @@ -3366,14 +3366,19 @@ static bool dwc3_gadget_endpoint_trbs_complete(struct dwc3_ep *dep,
+>  	struct dwc3		*dwc = dep->dwc;
+>  	bool			no_started_trb = true;
+>  
+> -	if (!dep->endpoint.desc)
+> -		return no_started_trb;
+> -
+> +	/*
+> +	 * This function eventually leads to dwc3_giveback() which unlocks
+> +	 * the dwc->lock and relocks afterwards. This actually creates a
+> +	 * a window for a race to happen.
+> +	 */
+>  	dwc3_gadget_ep_cleanup_completed_requests(dep, event, status);
+>  
+>  	if (dep->flags & DWC3_EP_END_TRANSFER_PENDING)
+>  		goto out;
+>  
+> +	if (!dep->endpoint.desc)
+> +		return no_started_trb;
+> +
+>  	if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
+>  		list_empty(&dep->started_list) &&
+>  		(list_empty(&dep->pending_list) || status == -EXDEV))
+> -- 
+> 2.36.0.550.gb090851708-goog
+> 
 
-Fixes: 451d3912586a ("usb: xhci-mtk: update fs bus bandwidth by bw_budget_table")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
- drivers/usb/host/xhci-mtk-sch.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+Hi,
 
-diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
-index f3139ce7b0a9..953d2cd1d4cc 100644
---- a/drivers/usb/host/xhci-mtk-sch.c
-+++ b/drivers/usb/host/xhci-mtk-sch.c
-@@ -464,7 +464,7 @@ static int check_fs_bus_bw(struct mu3h_sch_ep_info *sch_ep, int offset)
- 		 */
- 		for (j = 0; j < sch_ep->num_budget_microframes; j++) {
- 			k = XHCI_MTK_BW_INDEX(base + j);
--			tmp = tt->fs_bus_bw[k] + sch_ep->bw_budget_table[j];
-+			tmp = tt->fs_bus_bw[k] + sch_ep->bw_cost_per_microframe;
- 			if (tmp > FS_PAYLOAD_MAX)
- 				return -ESCH_BW_OVERFLOW;
- 		}
-@@ -538,19 +538,17 @@ static int check_sch_tt(struct mu3h_sch_ep_info *sch_ep, u32 offset)
- static void update_sch_tt(struct mu3h_sch_ep_info *sch_ep, bool used)
- {
- 	struct mu3h_sch_tt *tt = sch_ep->sch_tt;
-+	int bw_updated;
- 	u32 base;
--	int i, j, k;
-+	int i, j;
-+
-+	bw_updated = sch_ep->bw_cost_per_microframe * (used ? 1 : -1);
- 
- 	for (i = 0; i < sch_ep->num_esit; i++) {
- 		base = sch_ep->offset + i * sch_ep->esit;
- 
--		for (j = 0; j < sch_ep->num_budget_microframes; j++) {
--			k = XHCI_MTK_BW_INDEX(base + j);
--			if (used)
--				tt->fs_bus_bw[k] += sch_ep->bw_budget_table[j];
--			else
--				tt->fs_bus_bw[k] -= sch_ep->bw_budget_table[j];
--		}
-+		for (j = 0; j < sch_ep->num_budget_microframes; j++)
-+			tt->fs_bus_bw[XHCI_MTK_BW_INDEX(base + j)] += bw_updated;
- 	}
- 
- 	if (used)
--- 
-2.18.0
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
