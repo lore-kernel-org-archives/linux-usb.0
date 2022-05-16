@@ -2,72 +2,171 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 859FCC433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 16 May 2022 13:04:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE5DC433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 16 May 2022 13:12:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243588AbiEPNEL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 May 2022 09:04:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38414 "EHLO
+        id S230464AbiEPNMO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 May 2022 09:12:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233172AbiEPNEJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 May 2022 09:04:09 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 825CA39B8B;
-        Mon, 16 May 2022 06:04:07 -0700 (PDT)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4L1zs45YMrzGq0p;
-        Mon, 16 May 2022 21:01:12 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 16 May 2022 21:04:05 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 16 May
- 2022 21:04:05 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
-CC:     <heikki.krogerus@linux.intel.com>, <gregkh@linuxfoundation.org>
-Subject: [PATCH -next] usb: typec: ucsi: fix return value check in ucsi_acpi_probe()
-Date:   Mon, 16 May 2022 21:15:27 +0800
-Message-ID: <20220516131527.999909-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S230006AbiEPNMN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 May 2022 09:12:13 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADF4D1AF34
+        for <linux-usb@vger.kernel.org>; Mon, 16 May 2022 06:12:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652706731; x=1684242731;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=fyMN0ZFoo+4DV3z9PLvPDv/xCBpS3GUC6jjMqxiwucA=;
+  b=hp8/gNo3V+q8+fsFXgAZLzHGy7+MXgRBhM2DcUX3vQx81OB0yhITebh5
+   vLdtvLmQ4ndfGmoBXtoY7jKJjtuDecTjCqsAovA347j+mzfeAxTUPawUa
+   XyACDfcOTEMnKB/EmuKYv3J/tv42ONrvdrYGn4aqWNf4zmT0kjvbHvYSI
+   4qdpURnOSp79MFwg1cBqxoXZtmOB3qCMPaJjs6vsx99YlpdJd2tlDjKw8
+   G4fOmrtQ73ZMh4fELCshco5Rv7eCDqwh9lJl6aNRaCb43ISXtn8O3ekRf
+   IJVafspWAlkrVK9/1MwVS4HKwOgxdZFd2OlK+REk71GP0iidNcuZ9xXzS
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10348"; a="268403808"
+X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; 
+   d="scan'208";a="268403808"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2022 06:11:56 -0700
+X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; 
+   d="scan'208";a="741236077"
+Received: from ccdjpclinux26.jer.intel.com (HELO localhost) ([10.12.48.253])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2022 06:11:54 -0700
+Date:   Mon, 16 May 2022 16:21:41 +0300
+From:   Gil Fine <gil.fine@intel.com>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Gil Fine <gil.fine@intel.com>, andreas.noever@gmail.com,
+        michael.jamet@intel.com, YehezkelShB@gmail.com,
+        linux-usb@vger.kernel.org, lukas@wunner.de
+Subject: Re: [PATCH v3 6/6] thunderbolt: Change TMU mode to HiFi
+ uni-directional once DisplayPort tunneled
+Message-ID: <20220516132141.GE8368@ccdjLinux26>
+References: <20220511140549.10571-1-gil.fine@intel.com>
+ <20220511140549.10571-7-gil.fine@intel.com>
+ <Yn4qld89AVEd3cRD@lahna>
+ <20220515202746.GA8368@ccdjLinux26>
+ <YoIMh0Di7QtALQ/Z@lahna>
+ <20220516085903.GC8368@ccdjLinux26>
+ <YoIajuneoVCCcfGZ@lahna>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+Content-Disposition: inline
+In-Reply-To: <YoIajuneoVCCcfGZ@lahna>
+Organization: Intel Israel Jerusalem (IDPj /IDCj) Har Hotzvim, HaMarpe Street
+ 9, Zip code 9777409
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If memremap() fails, it never returns NULL. Replace NULL check
-with IS_ERR().
+Hi Mika,
 
-Fixes: cdc3d2abf438 ("usb: typec: ucsi: acpi: Map the mailbox with memremap()")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/usb/typec/ucsi/ucsi_acpi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Mon, May 16, 2022 at 12:34:06PM +0300, Mika Westerberg wrote:
+> On Mon, May 16, 2022 at 11:59:03AM +0300, Gil Fine wrote:
+> > Hi Mika,
+> > =
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index 7455e3aff2be..8873c1644a29 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -133,8 +133,8 @@ static int ucsi_acpi_probe(struct platform_device *pdev)
- 	}
- 
- 	ua->base = devm_memremap(&pdev->dev, res->start, resource_size(res), MEMREMAP_WB);
--	if (!ua->base)
--		return -ENOMEM;
-+	if (IS_ERR(ua->base))
-+		return PTR_ERR(ua->base);
- 
- 	ret = guid_parse(UCSI_DSM_UUID, &ua->guid);
- 	if (ret)
--- 
-2.25.1
+> > On Mon, May 16, 2022 at 11:34:15AM +0300, Mika Westerberg wrote:
+> > > Hi Gil,
+> > > =
+
+> > > On Sun, May 15, 2022 at 11:27:46PM +0300, Gil Fine wrote:
+> > > > > > +int tb_switch_tmu_config_enable(struct device *dev, void *data)
+> > > > > =
+
+> > > > > Also can we please make it take some real type and not something
+> > > > > arbitrary?
+> > > > You mean the names, right?
+> > > > Something like:
+> > > > int tb_switch_tmu_config_enable(struct device *parent, void *rate)
+> > > > If so, yes, I will
+> > > =
+
+> > > I mean use a real type, not void *.
+> > > =
+
+> > > > > =
+
+> > > > > Can it be const too?
+> > > > IIUC, it shall be a function pointer with specified signature other=
+wise it will fail
+> > > > at compilation
+> > > =
+
+> > > Okay then I suggest to make a reasonable "API" function that handles
+> > > all this internally that does not take arbitrary pointers. Remember to
+> > > document it in kernel-doc too.
+> > =
+
+> > This is a function pointer that shall be passed to device_for_each_chil=
+d()
+> > And it has to be defined as:
+> > =
+
+> > int (*fn)(struct device *dev, void *data)
+> > =
+
+> > Similar as here e.g.:
+> > =
+
+> > static int remove_retimer(struct device *dev, void *data)
+> > {
+> > =BB=B7=B7=B7=B7=B7=B7=B7struct tb_retimer *rt =3D tb_to_retimer(dev);
+> > =BB=B7=B7=B7=B7=B7=B7=B7struct tb_port *port =3D data;
+> > =
+
+> > =BB=B7=B7=B7=B7=B7=B7=B7if (rt && rt->port =3D=3D port)
+> > =BB=B7=B7=B7=B7=B7=B7=B7=BB=B7=B7=B7=B7=B7=B7=B7tb_retimer_remove(rt);
+> > =BB=B7=B7=B7=B7=B7=B7=B7return 0;
+> > }
+> > =
+
+> > void tb_retimer_remove_all(struct tb_port *port)
+> > {
+> > =BB=B7=B7=B7=B7=B7=B7=B7struct usb4_port *usb4;
+> > =
+
+> > =BB=B7=B7=B7=B7=B7=B7=B7usb4 =3D port->usb4;
+> > =BB=B7=B7=B7=B7=B7=B7=B7if (usb4)
+> > =BB=B7=B7=B7=B7=B7=B7=B7=BB=B7=B7=B7=B7=B7=B7=B7device_for_each_child_r=
+everse(&usb4->dev, port,
+> > =BB=B7=B7=B7=B7=B7=B7=B7=BB=B7=B7=B7=B7=B7=B7=B7=BB=B7=B7=B7=B7=B7=B7=
+=B7=BB=B7=B7=B7=B7=B7=B7=B7=BB=B7=B7=B7=B7=B7=B7=B7      remove_retimer);
+> > }
+> > =
+
+> > So not sure I get you...
+> =
+
+> The difference is that above it is static function not exposed outside
+> of that file and used directly below its implementation.
+> =
+
+> In your case you make it non-static "API" function exported from tmu.c
+> and called from tb.c.
+> =
+
+> So instead I suggest to put the device_for_each_child() in tmu.c and
+> then the tb_switch_tmu_config_enable() static right above it. Please
+> also name the resulting API function consistently.
+
+OK, got you and fixed that.
+Please let me know when you think that I can send out the v4 series.
+
+-- =
+
+Thanks,
+Gil
+---------------------------------------------------------------------
+Intel Israel (74) Limited
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
