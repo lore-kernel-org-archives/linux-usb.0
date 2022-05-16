@@ -2,123 +2,147 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0270BC433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 16 May 2022 08:49:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0DB5C433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 16 May 2022 09:16:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241966AbiEPIth (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 May 2022 04:49:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58732 "EHLO
+        id S230469AbiEPJQs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 May 2022 05:16:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbiEPItc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 May 2022 04:49:32 -0400
-Received: from mail.schwermer.no (mail.schwermer.no [49.12.228.226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27C0011C16;
-        Mon, 16 May 2022 01:49:27 -0700 (PDT)
-X-Virus-Scanned: Yes
-From:   Sven Schwermer <sven@svenschwermer.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
-        s=mail; t=1652690964;
-        bh=6JI6nRxa4dp4XI16xrBF0shYaH4B8lhSnubceBvtvF8=;
-        h=From:To:Cc:Subject;
-        b=evzb4NjNJESXsEnNA97YibTqraCjzUGQMSUX6cR/hBFKeAYGto26ptyMspUL8hLAv
-         uDb0nd1L3R4GJ0jSgix+gOJaqjoBuYwKRAvEPETL1aTQI3G2BrsY7pKgLf6mkBcYBy
-         S1qPeRnwbgjFrYDcLqfiIIuZe+H99kthFup4tptOZqLVYyyMUxhCfgBkJDSE8/+QEN
-         LPIkoTpFfzsCUevM3HI+XxCnIwhOmcu3WUQueWvUSek2/MMvHyyikcjvvpRI9VIDbV
-         lyfkjCERP5drxkoIpf7OJlK2C/HV/k2RAwDiZRJW9hf64VWnK/OL1ny+pDaZL+V7Ev
-         1nI3HIj/nS3zA==
-To:     linux-usb@vger.kernel.org, oliver@neukum.org
-Cc:     Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] net: usb: cdc_ether: Add Fibocom L610 modem
-Date:   Mon, 16 May 2022 10:48:46 +0200
-Message-Id: <20220516084847.77586-1-sven@svenschwermer.de>
-Mime-Version: 1.0
+        with ESMTP id S241436AbiEPJQe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 May 2022 05:16:34 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA95C22B3E
+        for <linux-usb@vger.kernel.org>; Mon, 16 May 2022 02:16:31 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id h29so24675440lfj.2
+        for <linux-usb@vger.kernel.org>; Mon, 16 May 2022 02:16:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YtsGQypIAViopoYzHifgjhQ7LfkQrx2vEG1boAc+HPU=;
+        b=kEsPT1AbY0PwOUERQxkG/RWh2QZQTzHttEf2IINRMqoILIbaOwykgbDPzlYa5Fp/YS
+         lApXjekjZixuCk/wGwH4QbjjvHYZxL26uLEh4/DICaw12oKzk/p1UM05U8/sQ8GdvYB9
+         YBgXsInvc0uUt94l4SK62mly05LKK/9CCH/ZwqiLuDkk0/16p/ZX38t21cvle3iqL2dr
+         94nO6zaiABAjYdQ4oGFgxbmmuIZBgiZepgIh5NM6GDZjtvqiQBz6wmY6wYH45BtF9Boa
+         2stdr4XSnPB89r3Ob2iJ6AF5D0E99VwJmXJj1RQf85uaaGVY5PEh+NHOd9PX46b8ZD8e
+         j4Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YtsGQypIAViopoYzHifgjhQ7LfkQrx2vEG1boAc+HPU=;
+        b=kpfnZ2I52qg959f8TFix8QXhemxYi3M4+fFhVio0C9C7Cje1/H50GHXMSqVKXwaq2M
+         PP14+On93rQK0msyUMzgUM97t1eEfzpqySsTl7S+bLgRGIsFCbVIePQ8+tzL4+TAigcH
+         Rs8yKnridOgCjuBxKlqagJLsc2We4ROnFXf/ky9W3R3VK9HnRhAy/n4WWMi9O3R/e73F
+         BycfHsRxiExBiaoZyvONsgt5kF7YfkvSTpJVAnCiWzeeyOPgpMIwZ+n9uv0rV2DBMVsX
+         /AOPJrBBr4A656nFt2ePFlMIz0D+RLKGoOs7F7uvvcMclpk+wgbRiPpgDod5VTIca842
+         47SA==
+X-Gm-Message-State: AOAM531vlyiAapgr70/KkZif/gyLC5Q23mE9lXz+PiOnUX2lQ3+hMarF
+        TOKFmppO60WDHqfxhn+sC7R9/A==
+X-Google-Smtp-Source: ABdhPJwx7w09+cwemCsM2VoYbPtntL8dgFRwE2dglk/1iBkv+l5wV9EGQEyqqT7K08/szaSzTWKkpA==
+X-Received: by 2002:a05:6512:33a7:b0:473:ea35:e1d6 with SMTP id i7-20020a05651233a700b00473ea35e1d6mr12771652lfg.369.1652692590276;
+        Mon, 16 May 2022 02:16:30 -0700 (PDT)
+Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+        by smtp.gmail.com with ESMTPSA id t6-20020a056512208600b0047255d21145sm1251798lfr.116.2022.05.16.02.16.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 May 2022 02:16:29 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        stable@vger.kernel.org, Rui Miguel Silva <rui.silva@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>
+Subject: [PATCH] usb: isp1760: Fix out-of-bounds array access
+Date:   Mon, 16 May 2022 11:14:24 +0200
+Message-Id: <20220516091424.391209-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+Running the driver through kasan gives an interesting splat:
 
-Since this is a modem device enumerating as an Ethernet adapter, we need
-to whitelist it as a WWAN device which tells userspace that this device
-requires setup (via AT commands) before it can be used.
+  BUG: KASAN: global-out-of-bounds in isp1760_register+0x180/0x70c
+  Read of size 20 at addr f1db2e64 by task swapper/0/1
+  (...)
+  isp1760_register from isp1760_plat_probe+0x1d8/0x220
+  (...)
 
-The L610 modem has 3 USB configurations that are configurable via the AT
-command AT+GTUSBMODE={31,32,33} which make the modem enumerate with the
-following interfaces, respectively:
+This happens because the loop reading the regmap fields for the
+different ISP1760 variants look like this:
 
-31: Modem + NV + MOS + Diag + LOG + AT + AT
-32: ECM + Modem + NV + MOS + Diag + LOG + AT + AT
-33: RNDIS + Modem + NV + MOS + Diag + LOG + AT + AT
+  for (i = 0; i < HC_FIELD_MAX; i++) { ... }
 
-A detailed description of the USB configuration for the ECM mode
-(+GTUSBMODE=32) follows:
+Meaning it expects the arrays to be at least HC_FIELD_MAX - 1 long.
 
-T:  Bus=03 Lev=01 Prnt=01 Port=06 Cnt=04 Dev#=122 Spd=480  MxCh= 0
-D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-P:  Vendor=1782 ProdID=4d11 Rev= 0.00
-S:  Manufacturer=FIBOCOM
-S:  Product=L610
-C:* #Ifs= 9 Cfg#= 1 Atr=e0 MxPwr=400mA
-A:  FirstIf#= 0 IfCount= 2 Cls=02(comm.) Sub=06 Prot=00
-I:* If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=06 Prot=00 Driver=cdc_ether
-E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=32ms
-I:  If#= 1 Alt= 0 #EPs= 0 Cls=0a(data ) Sub=00 Prot=00 Driver=cdc_ether
-I:* If#= 1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=cdc_ether
-E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 3 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 4 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=05(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 6 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=06(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 7 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=88(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=07(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 8 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-E:  Ad=89(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=08(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+However the arrays isp1760_hc_reg_fields[], isp1763_hc_reg_fields[],
+isp1763_hc_volatile_ranges[] and isp1763_dc_volatile_ranges[] are
+dynamically sized during compilation.
 
-Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+Fix this by putting an empty assignment to the [HC_FIELD_MAX]
+and [DC_FIELD_MAX] array member at the end of each array.
+This will make the array one member longer than it needs to be,
+but avoids the risk of overwriting whatever is inside
+[HC_FIELD_MAX - 1] and is simple and intuitive to read. Also
+add comments explaining what is going on.
+
+Fixes: 1da9e1c06873 ("usb: isp1760: move to regmap for register access")
+Cc: stable@vger.kernel.org
+Cc: Rui Miguel Silva <rui.silva@linaro.org>
+Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
+Found while testing to compile the Vexpress kernel into the
+vmalloc area in some experimental patches, curiously it did not
+manifest before, I guess we were lucky with padding
+etc.
+---
+ drivers/usb/isp1760/isp1760-core.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Notes:
-    Changes:
-    V1->V2: Add additional comments
-
- drivers/net/usb/cdc_ether.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
-index 9b4dfa3001d6..3a9c4935c180 100644
---- a/drivers/net/usb/cdc_ether.c
-+++ b/drivers/net/usb/cdc_ether.c
-@@ -999,6 +999,12 @@ static const struct usb_device_id	products[] = {
- 				      USB_CDC_SUBCLASS_ETHERNET,
- 				      USB_CDC_PROTO_NONE),
- 	.driver_info = (unsigned long)&wwan_info,
-+}, {
-+	/* Fibocom L610 (ECM mode) */
-+	USB_DEVICE_AND_INTERFACE_INFO(0x1782, 0x4d11, USB_CLASS_COMM,
-+				      USB_CDC_SUBCLASS_ETHERNET,
-+				      USB_CDC_PROTO_NONE),
-+	.driver_info = (unsigned long)&wwan_info,
- }, {
- 	USB_INTERFACE_INFO(USB_CLASS_COMM, USB_CDC_SUBCLASS_ETHERNET,
- 			USB_CDC_PROTO_NONE),
-
-base-commit: 42226c989789d8da4af1de0c31070c96726d990c
+diff --git a/drivers/usb/isp1760/isp1760-core.c b/drivers/usb/isp1760/isp1760-core.c
+index d1d9a7d5da17..af88f4fe00d2 100644
+--- a/drivers/usb/isp1760/isp1760-core.c
++++ b/drivers/usb/isp1760/isp1760-core.c
+@@ -251,6 +251,8 @@ static const struct reg_field isp1760_hc_reg_fields[] = {
+ 	[HW_DM_PULLDOWN]	= REG_FIELD(ISP176x_HC_OTG_CTRL, 2, 2),
+ 	[HW_DP_PULLDOWN]	= REG_FIELD(ISP176x_HC_OTG_CTRL, 1, 1),
+ 	[HW_DP_PULLUP]		= REG_FIELD(ISP176x_HC_OTG_CTRL, 0, 0),
++	/* Make sure the array is sized properly during compilation */
++	[HC_FIELD_MAX]		= {},
+ };
+ 
+ static const struct reg_field isp1763_hc_reg_fields[] = {
+@@ -321,6 +323,8 @@ static const struct reg_field isp1763_hc_reg_fields[] = {
+ 	[HW_DM_PULLDOWN_CLEAR]	= REG_FIELD(ISP1763_HC_OTG_CTRL_CLEAR, 2, 2),
+ 	[HW_DP_PULLDOWN_CLEAR]	= REG_FIELD(ISP1763_HC_OTG_CTRL_CLEAR, 1, 1),
+ 	[HW_DP_PULLUP_CLEAR]	= REG_FIELD(ISP1763_HC_OTG_CTRL_CLEAR, 0, 0),
++	/* Make sure the array is sized properly during compilation */
++	[HC_FIELD_MAX]		= {},
+ };
+ 
+ static const struct regmap_range isp1763_hc_volatile_ranges[] = {
+@@ -405,6 +409,8 @@ static const struct reg_field isp1761_dc_reg_fields[] = {
+ 	[DC_CHIP_ID_HIGH]	= REG_FIELD(ISP176x_DC_CHIPID, 16, 31),
+ 	[DC_CHIP_ID_LOW]	= REG_FIELD(ISP176x_DC_CHIPID, 0, 15),
+ 	[DC_SCRATCH]		= REG_FIELD(ISP176x_DC_SCRATCH, 0, 15),
++	/* Make sure the array is sized properly during compilation */
++	[DC_FIELD_MAX]		= {},
+ };
+ 
+ static const struct regmap_range isp1763_dc_volatile_ranges[] = {
+@@ -458,6 +464,8 @@ static const struct reg_field isp1763_dc_reg_fields[] = {
+ 	[DC_CHIP_ID_HIGH]	= REG_FIELD(ISP1763_DC_CHIPID_HIGH, 0, 15),
+ 	[DC_CHIP_ID_LOW]	= REG_FIELD(ISP1763_DC_CHIPID_LOW, 0, 15),
+ 	[DC_SCRATCH]		= REG_FIELD(ISP1763_DC_SCRATCH, 0, 15),
++	/* Make sure the array is sized properly during compilation */
++	[DC_FIELD_MAX]		= {},
+ };
+ 
+ static const struct regmap_config isp1763_dc_regmap_conf = {
 -- 
-2.36.1
+2.35.1
 
