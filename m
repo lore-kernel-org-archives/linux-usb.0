@@ -2,129 +2,130 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8BCAC433F5
-	for <linux-usb@archiver.kernel.org>; Wed, 18 May 2022 06:13:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA97C433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 18 May 2022 06:21:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230451AbiERGN0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 May 2022 02:13:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57422 "EHLO
+        id S231136AbiERGVM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 May 2022 02:21:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230421AbiERGNZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 May 2022 02:13:25 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B616A4DF60
-        for <linux-usb@vger.kernel.org>; Tue, 17 May 2022 23:13:21 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id f201-20020a2538d2000000b0064d6dbc76d2so1056217yba.6
-        for <linux-usb@vger.kernel.org>; Tue, 17 May 2022 23:13:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=qdumKa4FBuTxuZUv3F0lK1XSfSq71XoSNJznwmGquGM=;
-        b=UZ0XzqGFyIRUXC3XR4/VnzNa5pkMteEGw9q++34hDNEuUG45TA4QDABcKn6K4+mDBY
-         l7Ivyf2LlRsOnsDezdIQaNiupPyubwcYfFSz78nu+TEnezztwdD0p9OULhbGa/kQ4dhQ
-         LhoW/Zt6nA4qmQrdJL3izOx01eMr3gUdJg7645B3+3tV70bBPw9iy1SuGE9e5FBfdO26
-         rnKeMl0L5rKz4hQw3f0/wJP3L9NWNu093LUZzo+Y/pBR38bydJHtnNmGp4JIcVr2M6Sn
-         4NQ+SSeA32kwYy2Sbi05N/WKP8ccmHpZvwDmDW53gW756hlyOHHE59E8Khz4fgl/r3mv
-         DAgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=qdumKa4FBuTxuZUv3F0lK1XSfSq71XoSNJznwmGquGM=;
-        b=qUVrLEjY5LGTNA2BmJ2rhEsBiEiw+sAjEG22hMoW8nBJS+1c2rKSY3cVaW7Fcv0HgD
-         7KPYOg7d7isCjbIR+VmuJLV81Nq94Og/iFK3fa76ZXi8UjZ63RLOQwR4Cp+po+vZl0r+
-         mxUGw4SPr3ueenSLAQWETeckwkodYOZybcY+jkBqnYNsbFgwfiTT7lyEgCYLiEqCNkYe
-         SeY1WIXm74q6KpGBVhw9VwEPK65pBrx/Nt8BM+Dazf0a4HGtMWdvQ5dYGqh9eQTZGLwi
-         gW34czp9Y4Jnex9rnvflfzZFwT6Vizsji8JX21/fxYYYKItEp6Mrkw0IaNqdPa3nk1J5
-         Yo6w==
-X-Gm-Message-State: AOAM531w2d96vXkFUeqBEHh7ICqUXqvIdHsgqgEsGJGfjLaIquRtl8eJ
-        y4orV7GpnCXXovI8mx4U8Tl/SoB9iIGZM0pIwM8=
-X-Google-Smtp-Source: ABdhPJwNXQdoayoEo7D/1Qer+YG/oJ4ICu4ESGhezth/PoFtz4/B+AmIFIfwCrkCSr84e0m/YmL6j0k4SAthbBy+nZI=
-X-Received: from albertccwang.ntc.corp.google.com ([2401:fa00:fc:202:3413:e42f:31c4:c4e8])
- (user=albertccwang job=sendgmr) by 2002:a25:264e:0:b0:64d:e13f:7911 with SMTP
- id m75-20020a25264e000000b0064de13f7911mr9913828ybm.27.1652854400861; Tue, 17
- May 2022 23:13:20 -0700 (PDT)
-Date:   Wed, 18 May 2022 14:13:15 +0800
-Message-Id: <20220518061315.3359198-1-albertccwang@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
-Subject: [PATCH v5] usb: dwc3: gadget: Move null pinter check to proper place
-From:   Albert Wang <albertccwang@google.com>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        quic_jackp@quicinc.com
-Cc:     badhri@google.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Albert Wang <albertccwang@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S231183AbiERGVC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 May 2022 02:21:02 -0400
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F27DEAF
+        for <linux-usb@vger.kernel.org>; Tue, 17 May 2022 23:21:01 -0700 (PDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 24I6790g080863;
+        Wed, 18 May 2022 14:07:10 +0800 (GMT-8)
+        (envelope-from neal_liu@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 18 May
+ 2022 14:20:51 +0800
+From:   Neal Liu <neal_liu@aspeedtech.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        "Andrew Jeffery" <andrew@aj.id.au>,
+        Felipe Balbi <balbi@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Li Yang" <leoyang.li@nxp.com>
+CC:     Neal Liu <neal_liu@aspeedtech.com>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 3/3] dt-bindings: usb: add documentation for aspeed udc
+Date:   Wed, 18 May 2022 14:20:43 +0800
+Message-ID: <20220518062043.1075360-4-neal_liu@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220518062043.1075360-1-neal_liu@aspeedtech.com>
+References: <20220518062043.1075360-1-neal_liu@aspeedtech.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.10.10]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 24I6790g080863
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When dwc3_gadget_ep_cleanup_completed_requests() called to
-dwc3_gadget_giveback() where the dwc3 lock is released, other thread is
-able to execute. In this situation, usb_ep_disable() gets the chance to
-clear endpoint descriptor pointer which leds to the null pointer
-dereference problem. So needs to move the null pointer check to a proper
-place.
+Add device tree binding documentation for the Aspeed USB2.0 Device
+Controller.
 
-Example call stack:
-
-Thread#1:
-dwc3_thread_interrupt()
-  spin_lock
-  -> dwc3_process_event_buf()
-   -> dwc3_process_event_entry()
-    -> dwc3_endpoint_interrupt()
-     -> dwc3_gadget_endpoint_trbs_complete()
-      -> dwc3_gadget_ep_cleanup_completed_requests()
-       ...
-       -> dwc3_giveback()
-          spin_unlock
-          Thread#2 executes
-
-Thread#2:
-configfs_composite_disconnect()
-  -> __composite_disconnect()
-   -> ffs_func_disable()
-    -> ffs_func_set_alt()
-     -> ffs_func_eps_disable()
-      -> usb_ep_disable()
-         wait for dwc3 spin_lock
-         Thread#1 released lock
-         clear endpoint.desc
-
-Fixes: 26288448120b ("usb: dwc3: gadget: Fix null pointer exception")
-Signed-off-by: Albert Wang <albertccwang@google.com>
+Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- v5: Supplement the change log
- v4: Modify the change log text
- v3: Add change log to be compliant with the canonical patch format
- v2: Remove redundant 'else' and add additional comments and more
-     descriptive commit text
+ .../bindings/usb/aspeed,ast2600-udc.yaml      | 52 +++++++++++++++++++
+ 1 file changed, 52 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
 
- drivers/usb/dwc3/gadget.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 19477f4bbf54..7edd4a5dc6af 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -3366,14 +3366,14 @@ static bool dwc3_gadget_endpoint_trbs_complete(struct dwc3_ep *dep,
- 	struct dwc3		*dwc = dep->dwc;
- 	bool			no_started_trb = true;
- 
--	if (!dep->endpoint.desc)
--		return no_started_trb;
--
- 	dwc3_gadget_ep_cleanup_completed_requests(dep, event, status);
- 
- 	if (dep->flags & DWC3_EP_END_TRANSFER_PENDING)
- 		goto out;
- 
-+	if (!dep->endpoint.desc)
-+		return no_started_trb;
+diff --git a/Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml b/Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
+new file mode 100644
+index 000000000000..c3b6be3d8002
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
+@@ -0,0 +1,52 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (c) 2020 Facebook Inc.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/aspeed,ast2600-udc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
- 		list_empty(&dep->started_list) &&
- 		(list_empty(&dep->pending_list) || status == -EXDEV))
++title: ASPEED USB 2.0 Device Controller
++
++maintainers:
++  - Neal Liu <neal_liu@aspeedtech.com>
++
++description: |+
++  The ASPEED USB 2.0 Device Controller implements 1 control endpoint and
++  4 generic endpoints for AST260x.
++
++  Supports independent DMA channel for each generic endpoint.
++  Supports 32/256 stages descriptor mode for all generic endpoints.
++
++properties:
++  compatible:
++    enum:
++      - aspeed,ast2600-udc
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/aspeed-clock.h>
++    udc: usb@1e6a2000 {
++        compatible = "aspeed,ast2600-udc";
++        reg = <0x1e6a2000 0x300>;
++        interrupts = <9>;
++        clocks = <&syscon ASPEED_CLK_GATE_USBPORT2CLK>;
++        pinctrl-names = "default";
++        pinctrl-0 = <&pinctrl_usb2bd_default>;
++    };
 -- 
-2.36.1.124.g0e6072fb45-goog
+2.25.1
 
