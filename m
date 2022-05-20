@@ -2,89 +2,81 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F41D8C433FE
-	for <linux-usb@archiver.kernel.org>; Fri, 20 May 2022 09:08:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90FEDC433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 20 May 2022 10:23:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347563AbiETJH6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 May 2022 05:07:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52160 "EHLO
+        id S1346559AbiETKXF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 May 2022 06:23:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347550AbiETJHz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 May 2022 05:07:55 -0400
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE3566669F;
-        Fri, 20 May 2022 02:07:52 -0700 (PDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 24K8qZVe003709;
-        Fri, 20 May 2022 16:52:35 +0800 (GMT-8)
-        (envelope-from neal_liu@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 20 May
- 2022 17:06:21 +0800
-From:   Neal Liu <neal_liu@aspeedtech.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        "Andrew Jeffery" <andrew@aj.id.au>,
-        Felipe Balbi <balbi@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "Li Yang" <leoyang.li@nxp.com>
-CC:     Neal Liu <neal_liu@aspeedtech.com>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v4 2/3] ARM: dts: aspeed: Add USB2.0 device controller node
-Date:   Fri, 20 May 2022 17:06:16 +0800
-Message-ID: <20220520090617.2225080-3-neal_liu@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220520090617.2225080-1-neal_liu@aspeedtech.com>
-References: <20220520090617.2225080-1-neal_liu@aspeedtech.com>
+        with ESMTP id S1346302AbiETKXE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 May 2022 06:23:04 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ECA6E2776
+        for <linux-usb@vger.kernel.org>; Fri, 20 May 2022 03:23:03 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id s3so10180898edr.9
+        for <linux-usb@vger.kernel.org>; Fri, 20 May 2022 03:23:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=UqgoitLhyMN19YzP8hRzAqqQOEGPkVN4/V2PhW8+bOo=;
+        b=bRdAUN6rJkGoDFmR6BRF/j9fmlwp1Wk51IrYNTbRpc0teqPSSIfThcJvKuGkgKljQ9
+         Xt9IC8dPFpNUD4s4v9Nv4Xirn6go6z3XmU03mhL6f+KR0Wam5P104PEWlwaLBoLjKH6q
+         umJj/Rw5WUfgQgAn6Ug87X9vJ7TDEIx+isWI1QS4rAA8fpOdcuDoQiBR3GGYf3p2F723
+         1pPfmOD/H6QCCTm6rIAar+Q6t7ye6lUMQAetbt6dxmeaA2U7460qUUYxEYIz3RsS9Puu
+         e5e9O1SUnEIaqTTqstYa7BOvilbCS8gJCUTh47kdr6vj5ATYuOzGOhm5jEclDnqBLKFB
+         LdeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=UqgoitLhyMN19YzP8hRzAqqQOEGPkVN4/V2PhW8+bOo=;
+        b=kZycj0/q7TivP6cWkqyn2LLteBnUzF/EeMftLuzQAv+Zr5yOxKW9ECySWJ/szkFthM
+         T5CrUyG70Sjb62wgRiL135sDveVpUehX9ytm662UCSbbXtl1+qsNJgoFaZbFfWg83DLO
+         52D5yXMxiHfVLxQtU555ZIMqioX8XgzM9LmM+9dqUi0Iwz3wo7fVGTj+bxMfMNd/q8l+
+         E3yznQ/isLkrYCZWhBd/jcJ+hRXmEmGnZjadO3gC9gKTLzSX/Oe36UjYECrPwyXymZhn
+         6vBpYQteqSczttcw1+g0ibq6IJlvidmeXEInG2SCzqcFqjy/+OJCQP2ucPYm4D/kbcCm
+         xs2Q==
+X-Gm-Message-State: AOAM531MGmY5NhfrcPQ/tSTWN+2dOAPG6Q6vddDY4nX3fh7tBJfO0oD2
+        dsGeDgNd4PablOwBBoVCFefVXVyt1AWgZQS1x84K5YvarSs=
+X-Google-Smtp-Source: ABdhPJy8IUjW3UAN1X7k7p+Uy2RrJYxBgZgb+MztzBE6C1NqzBS+5XapsyfNsI4WeBgRHjPIlg5I3wBClWOaN4U75Rk=
+X-Received: by 2002:a05:6402:34d4:b0:42b:35e5:fc78 with SMTP id
+ w20-20020a05640234d400b0042b35e5fc78mr395488edc.372.1653042181697; Fri, 20
+ May 2022 03:23:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [192.168.10.10]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 24K8qZVe003709
+From:   Stefan Hoffmeister <stefan.hoffmeister@gmail.com>
+Date:   Fri, 20 May 2022 12:22:50 +0200
+Message-ID: <CALhB_QNhzHkf4Yw6TqZAbCisMK6TBy8ecw0M_Sq=EQXPN728fg@mail.gmail.com>
+Subject: Thunderbolt: One missing DisplayPort?
+To:     linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add USB2.0 device controller(udc) node to device tree
-for AST2600.
+I am trying to diagnose a problem where I get video output on
+Thunderbolt on one DisplayPort, but no output on the second
+DisplayPort.
 
-Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
----
- arch/arm/boot/dts/aspeed-g6.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+I would love to turn on all the (kernel-level) logging output that
+there is, but do not know how to do that.
 
-diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-index 3d5ce9da42c3..822f4fd854f5 100644
---- a/arch/arm/boot/dts/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-@@ -298,6 +298,16 @@ vhub: usb-vhub@1e6a0000 {
- 			status = "disabled";
- 		};
- 
-+		udc: usb@1e6a2000 {
-+			compatible = "aspeed,ast2600-udc";
-+			reg = <0x1e6a2000 0x300>;
-+			interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&syscon ASPEED_CLK_GATE_USBPORT2CLK>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&pinctrl_usb2bd_default>;
-+			status = "disabled";
-+		};
-+
- 		apb {
- 			compatible = "simple-bus";
- 			#address-cells = <1>;
--- 
-2.25.1
+Basically, on a Dell Inspiron 16 Plus (7610) laptop with Thunderbolt
+4, I am running Fedora Linux 36 with kernel 5.17+.
 
+Connecting that laptop to a Thunderbolt docking station (Intel
+Thunderbolt 3 chip inside),
+with two screens attached via DisplayPort, I get only one screen up and running.
+
+I'd like to discover more about this apparent error mode, because
+attaching a different TB3
+setup works fine. I am looking for some means to enable logging or to
+get debugging insight.
+
+Generally speaking, I suspect that this specific Dell laptop
+(configuration) has some challenges
+in the BIOS, and with Thunderbolt in general, but am totally blind to
+what is going on.
+
+This system offers potential for fun, this being a hybrid PRIME
+configuration, with an Intel iGPU passing through to an Nvidia dGPU
+which seems to be the only wired-up way to get DisplayPort output.
