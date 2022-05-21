@@ -2,129 +2,68 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A33C6C433EF
-	for <linux-usb@archiver.kernel.org>; Sat, 21 May 2022 03:28:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8B2BC433F5
+	for <linux-usb@archiver.kernel.org>; Sat, 21 May 2022 11:13:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235669AbiEUD2v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 May 2022 23:28:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52776 "EHLO
+        id S1353944AbiEULNO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 21 May 2022 07:13:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230497AbiEUD2v (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 May 2022 23:28:51 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96ABF17856B;
-        Fri, 20 May 2022 20:28:48 -0700 (PDT)
+        with ESMTP id S1354825AbiEULMl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 21 May 2022 07:12:41 -0400
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C43AF38784;
+        Sat, 21 May 2022 04:12:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1653103728; x=1684639728;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0LDXVKVdyKs0GAHKkPbR5zauQdlYZvFTlw+hJZ4BOLc=;
-  b=PVahPzGcmj2rvYjndNmPbHYpETu2GMMHzIcM1fryh1vZ1vT3SInKsOfQ
-   F5OcxuED1VKd6Y4uPHGCBKyTy6r7f8a9coszg1zD38Uao8yn/6jmp/ZtC
-   wKrX3V7e+KOIEGSpUoDzLF/Z87mDofpZmi4TFHUgYza693nUM39nlXP+0
-   M=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 20 May 2022 20:28:48 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2022 20:28:48 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 20 May 2022 20:28:47 -0700
-Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 20 May 2022 20:28:43 -0700
-Date:   Sat, 21 May 2022 08:58:39 +0530
-From:   Pavan Kondeti <quic_pkondeti@quicinc.com>
-To:     Harsh Agarwal <quic_harshq@quicinc.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_pkondeti@quicinc.com>, <quic_ppratap@quicinc.com>
-Subject: Re: [RFC 1/2] dt-bindings: usb: dwc3: Add support for multiport
- related properties
-Message-ID: <20220521032839.GA15121@hu-pkondeti-hyd.qualcomm.com>
-References: <1652963695-10109-1-git-send-email-quic_harshq@quicinc.com>
- <1652963695-10109-2-git-send-email-quic_harshq@quicinc.com>
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yEykGpJkRalEBg6KxHSq1jJWVkU42El1h5fs3XAbx7g=;
+  b=If+DFAxlBY0JiBk0se2ALkzIyOAPUkGVtovuN1fj6Zi+kCG8RAkEBLo8
+   1mZYYn8SwHJR4PxfwzHCxTNE900sO4z3JrFFjPBnlLIR/iLCeWVi/E0yy
+   D0Dwwg2KGGtPh91wQb+qPJlofzObFbQk4k9tL0z+/3WpYD/q4jrFqfya3
+   g=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.91,242,1647298800"; 
+   d="scan'208";a="14727954"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2022 13:12:01 +0200
+From:   Julia Lawall <Julia.Lawall@inria.fr>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     kernel-janitors@vger.kernel.org,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: typec: tcpm: fix typo in comment
+Date:   Sat, 21 May 2022 13:11:02 +0200
+Message-Id: <20220521111145.81697-52-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <1652963695-10109-2-git-send-email-quic_harshq@quicinc.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Harsh,
+Spelling mistake (triple letters) in comment.
+Detected with the help of Coccinelle.
 
-On Thu, May 19, 2022 at 06:04:54PM +0530, Harsh Agarwal wrote:
-> Added support for multiport, mport, num-ssphy and num-hsphy
-> properties. These properties are used to support devices having
-> a multiport controller.
-> 
-> Signed-off-by: Harsh Agarwal <quic_harshq@quicinc.com>
-> ---
->  .../devicetree/bindings/usb/snps,dwc3.yaml         | 55 ++++++++++++++++++++++
->  1 file changed, 55 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-> index f4471f8..39c61483 100644
-> --- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-> +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-> @@ -341,6 +341,35 @@ properties:
->        This port is used with the 'usb-role-switch' property  to connect the
->        dwc3 to type C connector.
->  
-> +  multiport:
-> +    description:
-> +      If a single USB controller supports multiple ports, then it's referred to as
-> +      a multiport controller. Each port of the multiport controller can support
-> +      either High Speed or Super Speed or both and have their own PHY phandles. Each
-> +      port is represented by "mport" node and all the "mport" nodes are grouped
-> +      together inside the "multiport" node where individual "mport" node defines the
-> +      PHYs supported by that port.
-> +    required:
-> +      - mport
-> +
-> +  num-hsphy:
-> +    description: Total number of HS-PHYs defined by the multiport controller.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +  num-ssphy:
-> +    description: Total number of SS-PHYs defined by the multiport controller.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-Do we need this properties at all? Atleast your next patch in this series is
-not parsing those properties. The idea I believe is to maintain the same
-usb-phy / phys semantics as of today. i.e we expect first PHY to be USB2 PHY
-and 2nd PHY to be USB3 PHY. Obviously, we need to make sure that all ports
-defined under multiport node are passing PHYs without any holes. For example,
-if the controller has 3 ports and passing phys for 1st and 3rd port is not
-acceptible. In any case we need to know the number of HS and SS PHYs so that 
-the GUSB2PHYCFG/GUSB3PIPECTL are configured correctly, irrespective of how we
-handle phy(s) in this node.
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-Can you please clarify on the need for num-hsphy and num-ssphy and what
-happens for USB2 only ports?
+---
+ drivers/usb/typec/tcpm/tcpm.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +  mport:
-> +    description: Each mport node represents one port of the multiport controller.
-> +    patternProperties: "^mport@[0-9a-f]+$"
-> +    oneOf:
-> +       - required:
-> +         - usb-phy
-> +       - required:
-> +          - phys
-> +          - phy-names
-> +
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 3bc2f4ebd1fe..7039383eac6d 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -471,7 +471,7 @@ struct tcpm_port {
+ 
+ 	/*
+ 	 * When set, port requests PD_P_SNK_STDBY_MW upon entering SNK_DISCOVERY and
+-	 * the actual currrent limit after RX of PD_CTRL_PSRDY for PD link,
++	 * the actual current limit after RX of PD_CTRL_PSRDY for PD link,
+ 	 * SNK_READY for non-pd link.
+ 	 */
+ 	bool slow_charger_loop;
 
-Thanks,
-Pavan
