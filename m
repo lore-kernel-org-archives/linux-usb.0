@@ -2,41 +2,43 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8B2BC433F5
-	for <linux-usb@archiver.kernel.org>; Sat, 21 May 2022 11:13:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B645C433F5
+	for <linux-usb@archiver.kernel.org>; Sat, 21 May 2022 11:15:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353944AbiEULNO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 21 May 2022 07:13:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50186 "EHLO
+        id S1355083AbiEULPP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 21 May 2022 07:15:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354825AbiEULMl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 21 May 2022 07:12:41 -0400
+        with ESMTP id S1355049AbiEULOI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 21 May 2022 07:14:08 -0400
 Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C43AF38784;
-        Sat, 21 May 2022 04:12:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 086D1134E2A;
+        Sat, 21 May 2022 04:12:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=yEykGpJkRalEBg6KxHSq1jJWVkU42El1h5fs3XAbx7g=;
-  b=If+DFAxlBY0JiBk0se2ALkzIyOAPUkGVtovuN1fj6Zi+kCG8RAkEBLo8
-   1mZYYn8SwHJR4PxfwzHCxTNE900sO4z3JrFFjPBnlLIR/iLCeWVi/E0yy
-   D0Dwwg2KGGtPh91wQb+qPJlofzObFbQk4k9tL0z+/3WpYD/q4jrFqfya3
-   g=;
+  bh=NmIVCmT4dEODIMGyk8LH8pCZd+C2yghx1HvoC4Qax7Q=;
+  b=NnLnwtnAtSaJFMEOhq45rYw4I0DIITSYYwBiSghECXD2Z9De38Y20eyz
+   Y1+CM9PSIRIR0mJfPv4xTKqsHQdvRadz3klUZ8TLftjE/iGSEcFxMmFCQ
+   2aPh75DoUkLJhbq11c1wl1iN8pod+k9AWO+2gu9aP6onJnZ4A4GkRE2Qh
+   U=;
 Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="5.91,242,1647298800"; 
-   d="scan'208";a="14727954"
+   d="scan'208";a="14728000"
 Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2022 13:12:01 +0200
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2022 13:12:08 +0200
 From:   Julia Lawall <Julia.Lawall@inria.fr>
-To:     Guenter Roeck <linux@roeck-us.net>
+To:     Al Cooper <alcooperx@gmail.com>
 Cc:     kernel-janitors@vger.kernel.org,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: typec: tcpm: fix typo in comment
-Date:   Sat, 21 May 2022 13:11:02 +0200
-Message-Id: <20220521111145.81697-52-Julia.Lawall@inria.fr>
+Subject: [PATCH] usb: gadget: bdc: fix typo in comment
+Date:   Sat, 21 May 2022 13:11:42 +0200
+Message-Id: <20220521111145.81697-92-Julia.Lawall@inria.fr>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,20 +52,20 @@ Detected with the help of Coccinelle.
 Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
 ---
- drivers/usb/typec/tcpm/tcpm.c |    2 +-
+ drivers/usb/gadget/udc/bdc/bdc_cmd.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 3bc2f4ebd1fe..7039383eac6d 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -471,7 +471,7 @@ struct tcpm_port {
- 
- 	/*
- 	 * When set, port requests PD_P_SNK_STDBY_MW upon entering SNK_DISCOVERY and
--	 * the actual currrent limit after RX of PD_CTRL_PSRDY for PD link,
-+	 * the actual current limit after RX of PD_CTRL_PSRDY for PD link,
- 	 * SNK_READY for non-pd link.
+diff --git a/drivers/usb/gadget/udc/bdc/bdc_cmd.c b/drivers/usb/gadget/udc/bdc/bdc_cmd.c
+index 67887316a1a6..1848ced073f8 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc_cmd.c
++++ b/drivers/usb/gadget/udc/bdc/bdc_cmd.c
+@@ -307,7 +307,7 @@ int bdc_ep_clear_stall(struct bdc *bdc, int epnum)
+ 	 * his will reset the seq number for non EP0.
  	 */
- 	bool slow_charger_loop;
+ 	if (epnum != 1) {
+-		/* if the endpoint it not stallled */
++		/* if the endpoint it not stalled */
+ 		if (!(ep->flags & BDC_EP_STALL)) {
+ 			ret = bdc_ep_set_stall(bdc, epnum);
+ 			if (ret)
 
