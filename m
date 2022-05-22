@@ -2,291 +2,505 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEA67C433F5
-	for <linux-usb@archiver.kernel.org>; Sun, 22 May 2022 06:44:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16448C433EF
+	for <linux-usb@archiver.kernel.org>; Sun, 22 May 2022 20:18:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241355AbiEVGoW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 22 May 2022 02:44:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36758 "EHLO
+        id S245659AbiEVUSB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 22 May 2022 16:18:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239914AbiEVGoQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 22 May 2022 02:44:16 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12D1520BC1
-        for <linux-usb@vger.kernel.org>; Sat, 21 May 2022 23:44:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653201855; x=1684737855;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3TcuU8RWyqR7HfqNVmdfzHet6wJxP1h9UPmZ4IfjLhQ=;
-  b=AodGsHRc6esrd9UdQElrs9SXduaknGdAwEFuVy1ny1rz2iVRrr7JOHzS
-   rShwcXRsQZRi/++mY8/USYNyDa69262FETUJJm6ZaNSykC5OhshzaXXct
-   VjUOXd2Nkl3+0DiQdHRVwiM2KIEqYcDnSYNzGvoqdTSPlPRXIVZ72uF7N
-   O3V3N3a4lgBOB40GzQZ+n7AdoBmhnhn3V5s11e56nL3eMwkvq1YcCDfM8
-   sQnlM7dbipVbHDdD+MXNeh99X9evWzmNricD3cDnUvn/7ydIXn8TMgNUq
-   HwER6LInfTO5MhhO1Vs4w30iSFnpbiC3Tg9Q9u3G9MMe2qK4qNsenml4n
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10354"; a="272934952"
-X-IronPort-AV: E=Sophos;i="5.91,243,1647327600"; 
-   d="scan'208";a="272934952"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2022 23:44:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,243,1647327600"; 
-   d="scan'208";a="702445763"
-Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 21 May 2022 23:44:13 -0700
-Received: from kbuild by db63a1be7222 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nsfK0-00008l-OX;
-        Sun, 22 May 2022 06:44:12 +0000
-Date:   Sun, 22 May 2022 14:43:25 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- 97fa5887cf283bb75ffff5f6b2c0e71794c02400
-Message-ID: <6289db8d.Lgi0h/Mrrd2t1Ux1%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S233422AbiEVUR7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 22 May 2022 16:17:59 -0400
+Received: from mail.mutex.one (mail.mutex.one [62.77.152.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2001436695;
+        Sun, 22 May 2022 13:17:57 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.mutex.one (Postfix) with ESMTP id CE2D816C006C;
+        Sun, 22 May 2022 23:17:54 +0300 (EEST)
+X-Virus-Scanned: Debian amavisd-new at mail.mutex.one
+Received: from mail.mutex.one ([127.0.0.1])
+        by localhost (mail.mutex.one [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id fXd59JdzWtS6; Sun, 22 May 2022 23:17:54 +0300 (EEST)
+From:   Marian Postevca <posteuca@mutex.one>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
+        t=1653250674; bh=ZankfS5MIMjTEgPBst3Scd31RiAckWZN6APLJFt3AY4=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ZVes3qHlEwxeNgg9KdJQwv8IgSildxPF7Nmf6ozAMav2heaOjuJSTiammU8hnvs54
+         cppdP77da4R578kh7LUF6DcyLohOqV82VWonvV2abF3AaBEdcMOYi9lGgra5qyppdg
+         zrPD1I/a4Sp7QLwQxhhpsXZVrWlgHri7L4A4r0Uk=
+To:     Maximilian Senftleben <kernel@mail.msdigital.de>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: PROBLEM: No static MAC address for usb gadget ethernet via
+ kernel parameter any more.
+In-Reply-To: <83b013eb-b320-f397-0ecc-f4824f3f45b9@msdigital.de>
+References: <dfaa54ab-1b03-7aec-5927-d52a4233e56a@msdigital.de>
+ <6c0eb462-3fab-473d-8989-b56e5748e5f7@mutex.one>
+ <83b013eb-b320-f397-0ecc-f4824f3f45b9@msdigital.de>
+Date:   Sun, 22 May 2022 23:17:40 +0300
+Message-ID: <874k1htj8b.fsf@mutex.one>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: 97fa5887cf283bb75ffff5f6b2c0e71794c02400  USB: new quirk for Dell Gen 2 devices
+Maximilian Senftleben <kernel@mail.msdigital.de> writes:
 
-elapsed time: 2096m
+> - During debugging and testing we noticed that while 
+> "dev_set_mac_address" used to set "addr_assign_type" to NET_ADDR_SET, 
+> the mentioned commit directly sets "addr_assign_type" to NET_ADDR_RANDOM 
+> and the called "eth_hw_addr_set" does not modify the type afterwards.
+> If I change line 874 "net->addr_assign_type = NET_ADDR_RANDOM;" to 
+> "net->addr_assign_type = NET_ADDR_SET;" then the issue seems to be solved.
 
-configs tested: 211
-configs skipped: 3
+Are you using systemd on the system where this issue is visible?
+I managed to reproduce it only on systemd-systems.
+It seems that systemd, by default, will try to give a persistent
+MAC address to ethernet interfaces that have a random MAC address.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+That is why "net->addr_assign_type = NET_ADDR_SET" fixes the issue,
+systemd sees that the interface doesn't have a random MAC address and
+leaves the one set by the kernel(in your case the one set on the command
+line), but if it sees that the interface has a random MAC address it
+will change the address from the one supplied on the command line, to
+some internal MAC address that systemd generated.
 
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                              allmodconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-sh                            titan_defconfig
-sh                            migor_defconfig
-sh                               j2_defconfig
-um                                  defconfig
-um                               alldefconfig
-arm                        shmobile_defconfig
-mips                      maltasmvp_defconfig
-powerpc                    sam440ep_defconfig
-powerpc                      cm5200_defconfig
-arm                        cerfcube_defconfig
-mips                         db1xxx_defconfig
-sh                          rsk7269_defconfig
-powerpc                     pq2fads_defconfig
-parisc                           allyesconfig
-arm                        mini2440_defconfig
-m68k                            q40_defconfig
-sh                           se7721_defconfig
-arm                           tegra_defconfig
-ia64                          tiger_defconfig
-sh                           se7750_defconfig
-mips                  decstation_64_defconfig
-arm                            zeus_defconfig
-arm                           corgi_defconfig
-xtensa                          iss_defconfig
-xtensa                  audio_kc705_defconfig
-arm                            lart_defconfig
-arc                                 defconfig
-sh                          r7785rp_defconfig
-powerpc                        cell_defconfig
-sh                                  defconfig
-arm                       imx_v6_v7_defconfig
-sh                           se7206_defconfig
-powerpc                         wii_defconfig
-mips                        bcm47xx_defconfig
-um                           x86_64_defconfig
-arm                           h3600_defconfig
-parisc                generic-64bit_defconfig
-sh                           se7619_defconfig
-s390                       zfcpdump_defconfig
-arm                       omap2plus_defconfig
-powerpc64                           defconfig
-mips                 decstation_r4k_defconfig
-arm                           h5000_defconfig
-arm                        multi_v7_defconfig
-ia64                         bigsur_defconfig
-sh                          landisk_defconfig
-arm                        realview_defconfig
-powerpc                     sequoia_defconfig
-arm                            qcom_defconfig
-x86_64                           alldefconfig
-powerpc                 canyonlands_defconfig
-powerpc                       eiger_defconfig
-sh                   rts7751r2dplus_defconfig
-powerpc                   motionpro_defconfig
-arc                          axs103_defconfig
-arm                      jornada720_defconfig
-arm                           sama5_defconfig
-powerpc                 mpc837x_mds_defconfig
-arm                           viper_defconfig
-powerpc                        warp_defconfig
-sh                          sdk7786_defconfig
-powerpc                 mpc837x_rdb_defconfig
-h8300                     edosk2674_defconfig
-arc                           tb10x_defconfig
-m68k                          multi_defconfig
-nios2                            alldefconfig
-arm                        keystone_defconfig
-h8300                       h8s-sim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                generic_kc705_defconfig
-powerpc                       holly_defconfig
-arc                          axs101_defconfig
-alpha                               defconfig
-m68k                       m5208evb_defconfig
-powerpc                      mgcoge_defconfig
-mips                     loongson1b_defconfig
-arc                         haps_hs_defconfig
-m68k                           sun3_defconfig
-m68k                             allmodconfig
-ia64                      gensparse_defconfig
-powerpc                     rainier_defconfig
-sparc64                             defconfig
-arm                            xcep_defconfig
-m68k                       bvme6000_defconfig
-mips                           ci20_defconfig
-arc                 nsimosci_hs_smp_defconfig
-powerpc                mpc7448_hpc2_defconfig
-nios2                         3c120_defconfig
-powerpc                      ppc6xx_defconfig
-m68k                          amiga_defconfig
-sh                         microdev_defconfig
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220519
-arm                  randconfig-c002-20220522
-ia64                                defconfig
-ia64                             allmodconfig
-riscv                             allnoconfig
-m68k                             allyesconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-csky                                defconfig
-nios2                            allyesconfig
-alpha                            allyesconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc64                            defconfig
-s390                             allyesconfig
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-i386                          randconfig-a005
-i386                          randconfig-a001
-i386                          randconfig-a003
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-arc                  randconfig-r043-20220519
-arc                  randconfig-r043-20220522
-s390                 randconfig-r044-20220522
-riscv                randconfig-r042-20220522
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-x86_64                    rhel-8.3-kselftests
-um                             i386_defconfig
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
+If you are using systemd you can workaround this issue with the
+following systemd link file:
 
-clang tested configs:
-arm                  randconfig-c002-20220522
-x86_64                        randconfig-c007
-s390                 randconfig-c005-20220522
-i386                          randconfig-c001
-powerpc              randconfig-c003-20220522
-riscv                randconfig-c006-20220522
-mips                 randconfig-c004-20220522
-s390                 randconfig-c005-20220519
-powerpc              randconfig-c003-20220519
-riscv                randconfig-c006-20220519
-mips                 randconfig-c004-20220519
-arm                  randconfig-c002-20220519
-arm                          ep93xx_defconfig
-mips                      malta_kvm_defconfig
-arm                              alldefconfig
-arm                          ixp4xx_defconfig
-powerpc                     tqm5200_defconfig
-i386                             allyesconfig
-powerpc                          g5_defconfig
-powerpc                    socrates_defconfig
-arm                     davinci_all_defconfig
-arm                         mv78xx0_defconfig
-powerpc                    ge_imp3a_defconfig
-mips                      pic32mzda_defconfig
-powerpc                 mpc8560_ads_defconfig
-arm                       spear13xx_defconfig
-mips                           rs90_defconfig
-powerpc                          allmodconfig
-arm                      tct_hammer_defconfig
-arm                         s5pv210_defconfig
-powerpc                 mpc8315_rdb_defconfig
-arm                        mvebu_v5_defconfig
-powerpc                  mpc885_ads_defconfig
-powerpc                    gamecube_defconfig
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a011
-i386                          randconfig-a013
-i386                          randconfig-a015
-hexagon              randconfig-r045-20220522
-hexagon              randconfig-r041-20220522
-hexagon              randconfig-r041-20220519
-hexagon              randconfig-r045-20220519
-riscv                randconfig-r042-20220519
-s390                 randconfig-r044-20220519
-hexagon              randconfig-r045-20220521
-hexagon              randconfig-r041-20220521
-riscv                randconfig-r042-20220521
-s390                 randconfig-r044-20220521
+[Match]
+OriginalName=usb*
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+[Link]
+MACAddressPolicy=none
+
+You can put the file in /etc/systemd/network/90-bridge.link
+And then reboot the system.
+
+I will send a patch that fixes this issue completely. But in the
+meantime please let me know if the workaround solves the issue for you.
+>
+> - Regarding bootargs and defconfig, we encountered the issue with our 
+> custom board and some own/modified drivers and additional patches, which 
+> might make it difficult to reproduce the issue outside of our setup.
+>
+> bootargs:
+> "root=ubi0:userspace0 ubi.mtd=ubi_volumes rootfstype=ubifs 
+> consoleblank=0 vt.global_cursor_default=0 console=ttyS0 
+> g_ether.dev_addr=46:A2:73:A9:44:56 g_ether.host_addr=46:A2:73:A9:44:55"
+>
+> defconfig:
+>
+> CONFIG_KERNEL_XZ=y
+> CONFIG_SYSVIPC=y
+> CONFIG_NO_HZ=y
+> CONFIG_HIGH_RES_TIMERS=y
+> CONFIG_PREEMPT_VOLUNTARY=y
+> CONFIG_IKCONFIG=y
+> CONFIG_IKCONFIG_PROC=y
+> CONFIG_LOG_BUF_SHIFT=18
+> CONFIG_CGROUPS=y
+> CONFIG_RELAY=y
+> CONFIG_BOOT_CONFIG=y
+> CONFIG_EXPERT=y
+> CONFIG_PERF_EVENTS=y
+> # CONFIG_SLUB_DEBUG is not set
+> # CONFIG_COMPAT_BRK is not set
+> CONFIG_ARCH_MULTI_V6=y
+> CONFIG_ARCH_MXC=y
+> CONFIG_SOC_IMX6Q=y
+> # CONFIG_HARDEN_BRANCH_HISTORY is not set
+> CONFIG_ARM_ERRATA_814220=y
+> CONFIG_SMP=y
+> CONFIG_SCHED_MC=y
+> CONFIG_HAVE_ARM_ARCH_TIMER=y
+> CONFIG_HOTPLUG_CPU=y
+> CONFIG_ARM_PSCI=y
+> CONFIG_HIGHMEM=y
+> CONFIG_ZBOOT_ROM_TEXT=0
+> CONFIG_ZBOOT_ROM_BSS=0
+> CONFIG_CMDLINE="noinitrd console=ttymxc0,115200"
+> CONFIG_CPU_FREQ=y
+> CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND=y
+> CONFIG_ARM_IMX6Q_CPUFREQ=y
+> CONFIG_CPU_IDLE=y
+> CONFIG_VFP=y
+> CONFIG_NEON=y
+> # CONFIG_SUSPEND is not set
+> CONFIG_PM=y
+> CONFIG_PM_DEBUG=y
+> CONFIG_ACMEINC_SPI_CLRC663=y
+> # CONFIG_MXC_GPU_VIV is not set
+> CONFIG_U_DMA_BUF=y
+> CONFIG_MXC_VPU=y
+> CONFIG_WILC_SDIO=y
+> # CONFIG_SECCOMP is not set
+> CONFIG_NET=y
+> CONFIG_PACKET=y
+> CONFIG_UNIX=y
+> CONFIG_INET=y
+> CONFIG_IP_PNP=y
+> CONFIG_IP_PNP_DHCP=y
+> CONFIG_MPTCP=y
+> CONFIG_NETFILTER=y
+> # CONFIG_NETFILTER_EGRESS is not set
+> CONFIG_BRIDGE=y
+> CONFIG_CFG80211=y
+> # CONFIG_CFG80211_DEFAULT_PS is not set
+> CONFIG_CFG80211_DEBUGFS=y
+> CONFIG_CFG80211_WEXT=y
+> CONFIG_MAC80211=y
+> CONFIG_MAC80211_DEBUGFS=y
+> CONFIG_RFKILL=y
+> CONFIG_RFKILL_INPUT=y
+> CONFIG_PCI=y
+> CONFIG_UEVENT_HELPER=y
+> CONFIG_DEVTMPFS=y
+> CONFIG_DEVTMPFS_MOUNT=y
+> # CONFIG_STANDALONE is not set
+> CONFIG_EXTRA_FIRMWARE="mchp/wilc1000_wifi_firmware.bin 
+> imx/sdma/sdma-imx6q.bin vpu_fw_imx6d.bin brcm/brcmfmac43455-sdio.bin 
+> brcm/brcmfmac43455-sdio.acmeinc,imx6q-doorvision.txt vpu_fw_imx6q.bin"
+> CONFIG_EXTRA_FIRMWARE_DIR="drivers/base/firmware_loader/builtin"
+> CONFIG_IMX_WEIM=y
+> CONFIG_CONNECTOR=y
+> CONFIG_MTD=y
+> CONFIG_MTD_CMDLINE_PARTS=y
+> CONFIG_MTD_BLOCK=y
+> CONFIG_MTD_CFI=y
+> CONFIG_MTD_JEDECPROBE=y
+> CONFIG_MTD_CFI_INTELEXT=y
+> CONFIG_MTD_CFI_AMDSTD=y
+> CONFIG_MTD_CFI_STAA=y
+> CONFIG_MTD_DATAFLASH=y
+> CONFIG_MTD_SST25L=y
+> CONFIG_MTD_RAW_NAND=y
+> CONFIG_MTD_NAND_GPMI_NAND=y
+> CONFIG_MTD_SPI_NOR=y
+> CONFIG_MTD_UBI=y
+> CONFIG_MTD_UBI_FASTMAP=y
+> CONFIG_MTD_UBI_BLOCK=y
+> CONFIG_BLK_DEV_LOOP=y
+> CONFIG_BLK_DEV_RAM=y
+> CONFIG_BLK_DEV_RAM_SIZE=65536
+> CONFIG_EEPROM_AT24=y
+> CONFIG_EEPROM_AT25=y
+> CONFIG_SCSI=y
+> # CONFIG_SCSI_PROC_FS is not set
+> CONFIG_BLK_DEV_SD=y
+> # CONFIG_BLK_DEV_BSG is not set
+> CONFIG_SCSI_CONSTANTS=y
+> CONFIG_SCSI_LOGGING=y
+> CONFIG_SCSI_SCAN_ASYNC=y
+> # CONFIG_SCSI_LOWLEVEL is not set
+> CONFIG_NETDEVICES=y
+> # CONFIG_NET_VENDOR_3COM is not set
+> # CONFIG_NET_VENDOR_ADAPTEC is not set
+> # CONFIG_NET_VENDOR_AGERE is not set
+> # CONFIG_NET_VENDOR_ALACRITECH is not set
+> # CONFIG_NET_VENDOR_ALTEON is not set
+> # CONFIG_NET_VENDOR_AMAZON is not set
+> # CONFIG_NET_VENDOR_AMD is not set
+> # CONFIG_NET_VENDOR_AQUANTIA is not set
+> # CONFIG_NET_VENDOR_ARC is not set
+> # CONFIG_NET_VENDOR_ASIX is not set
+> # CONFIG_NET_VENDOR_ATHEROS is not set
+> # CONFIG_NET_VENDOR_BROADCOM is not set
+> # CONFIG_NET_VENDOR_CADENCE is not set
+> # CONFIG_NET_VENDOR_CAVIUM is not set
+> # CONFIG_NET_VENDOR_CHELSIO is not set
+> # CONFIG_NET_VENDOR_CIRRUS is not set
+> # CONFIG_NET_VENDOR_CISCO is not set
+> # CONFIG_NET_VENDOR_CORTINA is not set
+> # CONFIG_NET_VENDOR_DEC is not set
+> # CONFIG_NET_VENDOR_DLINK is not set
+> # CONFIG_NET_VENDOR_EMULEX is not set
+> # CONFIG_NET_VENDOR_ENGLEDER is not set
+> # CONFIG_NET_VENDOR_EZCHIP is not set
+> # CONFIG_NET_VENDOR_FARADAY is not set
+> # CONFIG_NET_VENDOR_GOOGLE is not set
+> # CONFIG_NET_VENDOR_HISILICON is not set
+> # CONFIG_NET_VENDOR_HUAWEI is not set
+> # CONFIG_NET_VENDOR_INTEL is not set
+> # CONFIG_NET_VENDOR_MARVELL is not set
+> # CONFIG_NET_VENDOR_MELLANOX is not set
+> # CONFIG_NET_VENDOR_MICREL is not set
+> # CONFIG_NET_VENDOR_MICROCHIP is not set
+> # CONFIG_NET_VENDOR_MICROSEMI is not set
+> # CONFIG_NET_VENDOR_MYRI is not set
+> # CONFIG_NET_VENDOR_NI is not set
+> # CONFIG_NET_VENDOR_NATSEMI is not set
+> # CONFIG_NET_VENDOR_NETERION is not set
+> # CONFIG_NET_VENDOR_NETRONOME is not set
+> # CONFIG_NET_VENDOR_NVIDIA is not set
+> # CONFIG_NET_VENDOR_OKI is not set
+> # CONFIG_NET_VENDOR_PACKET_ENGINES is not set
+> # CONFIG_NET_VENDOR_PENSANDO is not set
+> # CONFIG_NET_VENDOR_QLOGIC is not set
+> # CONFIG_NET_VENDOR_BROCADE is not set
+> # CONFIG_NET_VENDOR_QUALCOMM is not set
+> # CONFIG_NET_VENDOR_RDC is not set
+> # CONFIG_NET_VENDOR_REALTEK is not set
+> # CONFIG_NET_VENDOR_RENESAS is not set
+> # CONFIG_NET_VENDOR_ROCKER is not set
+> # CONFIG_NET_VENDOR_SAMSUNG is not set
+> # CONFIG_NET_VENDOR_SEEQ is not set
+> # CONFIG_NET_VENDOR_SILAN is not set
+> # CONFIG_NET_VENDOR_SIS is not set
+> # CONFIG_NET_VENDOR_SOLARFLARE is not set
+> # CONFIG_NET_VENDOR_SMSC is not set
+> # CONFIG_NET_VENDOR_SOCIONEXT is not set
+> # CONFIG_NET_VENDOR_STMICRO is not set
+> # CONFIG_NET_VENDOR_SUN is not set
+> # CONFIG_NET_VENDOR_SYNOPSYS is not set
+> # CONFIG_NET_VENDOR_TEHUTI is not set
+> # CONFIG_NET_VENDOR_TI is not set
+> # CONFIG_NET_VENDOR_VERTEXCOM is not set
+> # CONFIG_NET_VENDOR_VIA is not set
+> # CONFIG_NET_VENDOR_WIZNET is not set
+> # CONFIG_NET_VENDOR_XILINX is not set
+> CONFIG_DP83867_PHY=y
+> CONFIG_USB_USBNET=y
+> # CONFIG_WLAN_VENDOR_ADMTEK is not set
+> # CONFIG_WLAN_VENDOR_ATH is not set
+> # CONFIG_WLAN_VENDOR_ATMEL is not set
+> CONFIG_BRCMFMAC=y
+> # CONFIG_WLAN_VENDOR_CISCO is not set
+> # CONFIG_WLAN_VENDOR_INTEL is not set
+> # CONFIG_WLAN_VENDOR_INTERSIL is not set
+> # CONFIG_WLAN_VENDOR_MARVELL is not set
+> # CONFIG_WLAN_VENDOR_MEDIATEK is not set
+> # CONFIG_WLAN_VENDOR_MICROCHIP is not set
+> # CONFIG_WLAN_VENDOR_RALINK is not set
+> # CONFIG_WLAN_VENDOR_REALTEK is not set
+> # CONFIG_WLAN_VENDOR_RSI is not set
+> # CONFIG_WLAN_VENDOR_ST is not set
+> # CONFIG_WLAN_VENDOR_TI is not set
+> # CONFIG_WLAN_VENDOR_ZYDAS is not set
+> # CONFIG_WLAN_VENDOR_QUANTENNA is not set
+> CONFIG_INPUT_EVDEV=y
+> CONFIG_KEYBOARD_GPIO=y
+> CONFIG_KEYBOARD_IMX=y
+> # CONFIG_MOUSE_PS2 is not set
+> CONFIG_INPUT_TOUCHSCREEN=y
+> CONFIG_TOUCHSCREEN_EDT_FT5X06=y
+> CONFIG_INPUT_MISC=y
+> # CONFIG_SERIO_SERPORT is not set
+> # CONFIG_LEGACY_PTYS is not set
+> CONFIG_SERIAL_IMX=y
+> CONFIG_SERIAL_IMX_CONSOLE=y
+> # CONFIG_SERIAL_IMX_EARLYCON is not set
+> CONFIG_SERIAL_FSL_LPUART=y
+> CONFIG_SERIAL_FSL_LPUART_CONSOLE=y
+> # CONFIG_I2C_COMPAT is not set
+> CONFIG_I2C_CHARDEV=y
+> CONFIG_I2C_MUX_GPIO=y
+> # CONFIG_I2C_HELPER_AUTO is not set
+> CONFIG_I2C_GPIO=y
+> CONFIG_I2C_IMX=y
+> CONFIG_SPI=y
+> CONFIG_SPI_FSL_QUADSPI=y
+> CONFIG_SPI_IMX=y
+> CONFIG_SPI_SPIDEV=y
+> CONFIG_PINCTRL_MICROCHIP_SGPIO=y
+> CONFIG_GPIO_SYSFS=y
+> CONFIG_GPIO_MXC=y
+> CONFIG_GPIO_PCA953X=y
+> CONFIG_POWER_RESET=y
+> CONFIG_POWER_RESET_SYSCON=y
+> CONFIG_POWER_RESET_SYSCON_POWEROFF=y
+> CONFIG_POWER_SUPPLY=y
+> CONFIG_SENSORS_GPIO_FAN=y
+> CONFIG_SENSORS_IIO_HWMON=y
+> CONFIG_CPU_THERMAL=y
+> CONFIG_IMX_THERMAL=y
+> CONFIG_WATCHDOG=y
+> CONFIG_RN5T618_WATCHDOG=y
+> CONFIG_IMX2_WDT=y
+> CONFIG_MFD_RN5T618=y
+> CONFIG_REGULATOR=y
+> CONFIG_REGULATOR_FIXED_VOLTAGE=y
+> CONFIG_REGULATOR_ANATOP=y
+> CONFIG_REGULATOR_GPIO=y
+> CONFIG_REGULATOR_RN5T618=y
+> # CONFIG_MEDIA_CEC_SUPPORT is not set
+> CONFIG_MEDIA_SUPPORT=y
+> CONFIG_MEDIA_SUBDRV_AUTOSELECT=y
+> # CONFIG_DVB_NET is not set
+> # CONFIG_DVB_DYNAMIC_MINORS is not set
+> # CONFIG_RADIO_ADAPTERS is not set
+> CONFIG_V4L_PLATFORM_DRIVERS=y
+> CONFIG_VIDEO_MUX=y
+> CONFIG_V4L_MEM2MEM_DRIVERS=y
+> CONFIG_VIDEO_CODA=y
+> CONFIG_VIDEO_IMX_PXP=y
+> CONFIG_VIDEO_MEM2MEM_DEINTERLACE=y
+> CONFIG_VIDEO_IMX219=y
+> CONFIG_VIDEO_IMX415=y
+> CONFIG_IMX_IPUV3_CORE=y
+> CONFIG_DRM=y
+> CONFIG_DRM_PANEL_SIMPLE=y
+> CONFIG_DRM_LVDS_CODEC=y
+> CONFIG_DRM_IMX=y
+> CONFIG_DRM_IMX_PARALLEL_DISPLAY=y
+> CONFIG_DRM_IMX_TVE=y
+> CONFIG_DRM_IMX_LDB=y
+> CONFIG_DRM_IMX_HDMI=y
+> CONFIG_DRM_ETNAVIV=y
+> CONFIG_DRM_MXSFB=y
+> CONFIG_FB=y
+> CONFIG_FB_MODE_HELPERS=y
+> CONFIG_LCD_CLASS_DEVICE=y
+> CONFIG_LCD_PLATFORM=y
+> CONFIG_BACKLIGHT_PWM=y
+> CONFIG_BACKLIGHT_GPIO=y
+> CONFIG_FRAMEBUFFER_CONSOLE=y
+> CONFIG_LOGO=y
+> # CONFIG_LOGO_LINUX_MONO is not set
+> # CONFIG_LOGO_LINUX_VGA16 is not set
+> # CONFIG_LOGO_LINUX_CLUT224 is not set
+> CONFIG_SOUND=y
+> CONFIG_SND=y
+> CONFIG_SND_VERBOSE_PRINTK=y
+> CONFIG_SND_DEBUG=y
+> CONFIG_SND_DEBUG_VERBOSE=y
+> # CONFIG_SND_PCI is not set
+> # CONFIG_SND_USB is not set
+> CONFIG_SND_SOC=y
+> CONFIG_SND_SOC_FSL_ASRC=y
+> CONFIG_SND_SOC_FSL_SPDIF=y
+> CONFIG_SND_IMX_SOC=y
+> CONFIG_SND_SOC_IMX_ZL38060=y
+> CONFIG_SND_SOC_FSL_ASOC_CARD=y
+> CONFIG_SND_SOC_TLV320AIC3X_I2C=y
+> CONFIG_SND_SIMPLE_CARD=y
+> CONFIG_SND_AUDIO_GRAPH_CARD=y
+> CONFIG_USB=y
+> CONFIG_USB_ANNOUNCE_NEW_DEVICES=y
+> CONFIG_USB_EHCI_HCD=y
+> CONFIG_USB_CHIPIDEA=y
+> CONFIG_USB_CHIPIDEA_UDC=y
+> CONFIG_USB_CHIPIDEA_HOST=y
+> CONFIG_NOP_USB_XCEIV=y
+> CONFIG_USB_MXS_PHY=y
+> CONFIG_USB_GADGET=y
+> CONFIG_USB_ETH=y
+> CONFIG_MMC=y
+> CONFIG_MMC_SDHCI=y
+> CONFIG_MMC_SDHCI_PLTFM=y
+> CONFIG_MMC_SDHCI_ESDHC_IMX=y
+> CONFIG_NEW_LEDS=y
+> CONFIG_LEDS_CLASS=y
+> CONFIG_LEDS_GPIO=y
+> CONFIG_LEDS_PWM=y
+> CONFIG_LEDS_TRIGGERS=y
+> CONFIG_LEDS_TRIGGER_TIMER=y
+> CONFIG_LEDS_TRIGGER_ONESHOT=y
+> CONFIG_LEDS_TRIGGER_HEARTBEAT=y
+> CONFIG_LEDS_TRIGGER_BACKLIGHT=y
+> CONFIG_LEDS_TRIGGER_GPIO=y
+> CONFIG_RTC_CLASS=y
+> CONFIG_RTC_INTF_DEV_UIE_EMUL=y
+> CONFIG_RTC_DRV_PCF8563=y
+> CONFIG_RTC_DRV_MXC=y
+> CONFIG_RTC_DRV_MXC_V2=y
+> CONFIG_RTC_DRV_SNVS=y
+> CONFIG_DMADEVICES=y
+> CONFIG_FSL_EDMA=y
+> CONFIG_IMX_SDMA=y
+> CONFIG_MXS_DMA=y
+> # CONFIG_VIRTIO_MENU is not set
+> CONFIG_STAGING=y
+> CONFIG_STAGING_MEDIA=y
+> CONFIG_VIDEO_IMX_MEDIA=y
+> CONFIG_COMMON_CLK_PWM=y
+> CONFIG_IMX_GPCV2_PM_DOMAINS=y
+> CONFIG_IIO=y
+> CONFIG_VF610_ADC=y
+> CONFIG_OPT3001=y
+> CONFIG_VCNL4000=y
+> CONFIG_VCNL4200=y
+> CONFIG_MPL3115=y
+> CONFIG_PWM=y
+> CONFIG_PWM_FSL_FTM=y
+> CONFIG_PWM_IMX27=y
+> CONFIG_RAS=y
+> CONFIG_NVMEM_IMX_OCOTP=y
+> CONFIG_NVMEM_SNVS_LPGPR=y
+> CONFIG_MUX_MMIO=y
+> CONFIG_VALIDATE_FS_PARSER=y
+> CONFIG_QUOTA=y
+> CONFIG_QUOTA_NETLINK_INTERFACE=y
+> # CONFIG_PRINT_QUOTA_WARNING is not set
+> CONFIG_AUTOFS4_FS=y
+> CONFIG_FUSE_FS=y
+> CONFIG_MSDOS_FS=y
+> CONFIG_VFAT_FS=y
+> CONFIG_JFFS2_FS=y
+> CONFIG_JFFS2_FS_WBUF_VERIFY=y
+> CONFIG_JFFS2_COMPRESSION_OPTIONS=y
+> CONFIG_UBIFS_FS=y
+> CONFIG_SQUASHFS=y
+> CONFIG_NFS_FS=y
+> CONFIG_NFS_V3_ACL=y
+> CONFIG_NFS_V4=y
+> CONFIG_ROOT_NFS=y
+> CONFIG_NLS_DEFAULT="cp437"
+> CONFIG_NLS_CODEPAGE_437=y
+> CONFIG_NLS_CODEPAGE_850=y
+> CONFIG_NLS_ASCII=y
+> CONFIG_NLS_ISO8859_1=y
+> CONFIG_NLS_ISO8859_15=y
+> CONFIG_NLS_UTF8=y
+> CONFIG_SECURITYFS=y
+> CONFIG_LSM="yama,loadpin,safesetid,integrity,selinux,smack,tomoyo,apparmor"
+> CONFIG_CRYPTO_ECDH=y
+> CONFIG_CRYPTO_SEQIV=y
+> CONFIG_CRYPTO_SHA1=y
+> CONFIG_CRYPTO_DES=y
+> CONFIG_CRYPTO_DEV_FSL_CAAM=y
+> CONFIG_CRYPTO_DEV_SAHARA=y
+> CONFIG_CRC_CCITT=y
+> CONFIG_CRC_T10DIF=y
+> CONFIG_CRC_ITU_T=y
+> CONFIG_CRC7=y
+> CONFIG_LIBCRC32C=y
+> CONFIG_CMA_SIZE_MBYTES=64
+> CONFIG_FONTS=y
+> CONFIG_FONT_8x8=y
+> CONFIG_FONT_8x16=y
+> CONFIG_PRINTK_TIME=y
+> # CONFIG_DEBUG_BUGVERBOSE is not set
+> CONFIG_MAGIC_SYSRQ=y
+> CONFIG_DEBUG_FS=y
+> CONFIG_PANIC_TIMEOUT=1
+> # CONFIG_SCHED_DEBUG is not set
+> CONFIG_PROVE_LOCKING=y
+> # CONFIG_RCU_TRACE is not set
+> # CONFIG_FTRACE is not set
+>
+>
+>
+> Am 17.05.2022 um 20:55 schrieb Marian Postevca:
+>> 12 May 2022 16:39:02 Maximilian Senftleben<kernel@mail.msdigital.de>:
+>>
+>>> [1.] One line summary of the problem:
+>>>
+>>> No static MAC address for usb gadget ethernet via kernel boot parameter any more.
+>>>
+>>> [2.] Full description of the problem/report:
+>>>
+>>> In 5.15. and before we were able to set a static MAC address for the usb gadget ethernet connection using kernel parameters "g_ether.dev_addr" and "g_ether.host_addr".
+>>> Since 5.16. and more concrete after commit 890d5b40908bfd1a79be018d2d297cf9df60f4ee, this is no longer possible, and a random MAC address is assigned.
+>>> (Possible Regression)
+>>>
+>>> [3.] Keywords (i.e., modules, networking, kernel):
+>>> usb, gadget, mac, g_ether
+>>>
+>>> [4.] Kernel information
+>>> [4.1.] Kernel version (from /proc/version):
+>>> Linux version 5.17.4-141174-ge11818a6ec02 (ms@local) (arm-v7a-linux-gnueabihf-gcc (OSELAS.Toolchain-2020.08.0 10-20200822) 10.2.1 20200822, GNU ld (GNU Binutils) 2.35) #14 SMP Thu May 12 13:51:50 CEST 2022
+>>> [4.2.] Kernel .config file:
+>>> -
+>> Could you please send the kernel .config file and kernel command line with which you reproduce this issue?
