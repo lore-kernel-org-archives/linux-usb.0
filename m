@@ -2,60 +2,83 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D41C2C4332F
-	for <linux-usb@archiver.kernel.org>; Mon, 23 May 2022 08:58:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49764C433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 23 May 2022 09:05:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232283AbiEWI6N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 23 May 2022 04:58:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51900 "EHLO
+        id S232549AbiEWJFC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 23 May 2022 05:05:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232156AbiEWI6M (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 23 May 2022 04:58:12 -0400
-X-Greylist: delayed 1567 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 23 May 2022 01:58:11 PDT
-Received: from mail.tireplot.pl (mail.tireplot.pl [46.183.184.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7203D1E2
-        for <linux-usb@vger.kernel.org>; Mon, 23 May 2022 01:58:10 -0700 (PDT)
-Received: by mail.tireplot.pl (Postfix, from userid 1001)
-        id CC5AA476EA; Mon, 23 May 2022 10:10:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tireplot.pl; s=mail;
-        t=1653293452; bh=Rfzvu4C+yJ1wyuJ4V+t/udh6cgYEQVnY6S5ltO4wdNg=;
-        h=Date:From:To:Subject:From;
-        b=EH032sTMhob4cgozWnMbYnWnfVAgjOw45l9572d3x0bTuOpRSCgKp6KoFDDAyrcuX
-         csh+0Q3wzLpP2wcRUt2bbwlb6tS+LoaiYN5USa9wzQ0nKfuIyjrlZZnbV6CTxvWmT2
-         7YkB9RulX6zP1OgVyUIYZxSctZVxINT0/VenLtsWAREozjZ8mdRP41CkWXVbVZwcbv
-         279vn+sh5zBGEBplpr4dba93g43EW4/93nN4OHL/bFJsovDPZyRI03dtXMmfYncO/G
-         Fksghu919J6i3JDtO3GRDJXA/aP2HFhoYJ64ca4e0DmjjYS8Fsm/d5+SCM7VjXEFlK
-         L8IVP6XASSFGg==
-Received: by mail.tireplot.pl for <linux-usb@vger.kernel.org>; Mon, 23 May 2022 08:10:24 GMT
-Message-ID: <20220523084501-0.1.2k.fze4.0.mkb71bbcb2@tireplot.pl>
-Date:   Mon, 23 May 2022 08:10:24 GMT
-From:   =?UTF-8?Q? "Arkadiusz_Soko=C5=82owski" ?= 
-        <arkadiusz.sokolowski@tireplot.pl>
-To:     <linux-usb@vger.kernel.org>
-Subject: Koszty instalacji fotowoltaicznej
-X-Mailer: mail.tireplot.pl
+        with ESMTP id S232475AbiEWJE7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 23 May 2022 05:04:59 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 267E444769;
+        Mon, 23 May 2022 02:04:58 -0700 (PDT)
+X-UUID: 8eef51b088b4493db3de7bb4d64ed402-20220523
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5,REQID:fb2be12e-0503-4c2e-b0ce-cc0e9d503364,OB:0,LO
+        B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+        ON:release,TS:5
+X-CID-META: VersionHash:2a19b09,CLOUDID:05aa36e3-edbf-4bd4-8a34-dfc5f7bb086d,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+        ,QS:0,BEC:nil
+X-UUID: 8eef51b088b4493db3de7bb4d64ed402-20220523
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1561290479; Mon, 23 May 2022 17:04:53 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Mon, 23 May 2022 17:04:52 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Mon, 23 May 2022 17:04:50 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>
+CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "Mathias Nyman" <mathias.nyman@intel.com>,
+        <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Eddie Hung <eddie.hung@mediatek.com>
+Subject: [PATCH 1/4] dt-bindings: usb: mtk-xhci: add support 'resets' property
+Date:   Mon, 23 May 2022 17:04:46 +0800
+Message-ID: <20220523090449.14430-1-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Add 'resets' property to support IP reset usually by top pericfg.
 
-stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
- obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99. =20
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+ Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
-acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
-ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+index 084d7135b2d9..892718459d25 100644
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+@@ -113,6 +113,9 @@ properties:
+   vbus-supply:
+     description: Regulator of USB VBUS5v
+ 
++  resets:
++    maxItems: 1
++
+   usb3-lpm-capable: true
+ 
+   usb2-lpm-disable: true
+-- 
+2.18.0
 
-Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
-=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
-=2E
-
-Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
-temacie?
-
-Pozdrawiam
-Arkadiusz Soko=C5=82owski
