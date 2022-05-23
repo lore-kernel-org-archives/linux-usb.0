@@ -2,111 +2,60 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47811C433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 23 May 2022 08:56:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D41C2C4332F
+	for <linux-usb@archiver.kernel.org>; Mon, 23 May 2022 08:58:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232305AbiEWI4Q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 23 May 2022 04:56:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49730 "EHLO
+        id S232283AbiEWI6N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 23 May 2022 04:58:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232300AbiEWI4O (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 23 May 2022 04:56:14 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DDA9B7FE;
-        Mon, 23 May 2022 01:56:04 -0700 (PDT)
-X-UUID: 06f49cb5f32b4d2297c06a9166530d90-20220523
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:fbc0daff-b31d-4f7e-a043-af2a02a861df,OB:0,LO
-        B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
-        ON:release,TS:5
-X-CID-META: VersionHash:2a19b09,CLOUDID:dc28467a-5ef6-470b-96c9-bdb8ced32786,C
-        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
-        ,QS:0,BEC:nil
-X-UUID: 06f49cb5f32b4d2297c06a9166530d90-20220523
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 984592553; Mon, 23 May 2022 16:55:59 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Mon, 23 May 2022 16:55:56 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 23 May 2022 16:55:52 +0800
-Message-ID: <e48b8f9194df9add1849a50186570f30f086262f.camel@mediatek.com>
-Subject: Re: [PATCH 1/2] usb: xhci-mtk: fix fs isoc's transfer error
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC:     Mathias Nyman <mathias.nyman@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        <stable@vger.kernel.org>
-Date:   Mon, 23 May 2022 16:55:52 +0800
-In-Reply-To: <7781eaaf-ad09-7283-dbb8-69d0fb3f1d14@collabora.com>
-References: <20220512064931.31670-1-chunfeng.yun@mediatek.com>
-         <7781eaaf-ad09-7283-dbb8-69d0fb3f1d14@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        with ESMTP id S232156AbiEWI6M (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 23 May 2022 04:58:12 -0400
+X-Greylist: delayed 1567 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 23 May 2022 01:58:11 PDT
+Received: from mail.tireplot.pl (mail.tireplot.pl [46.183.184.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7203D1E2
+        for <linux-usb@vger.kernel.org>; Mon, 23 May 2022 01:58:10 -0700 (PDT)
+Received: by mail.tireplot.pl (Postfix, from userid 1001)
+        id CC5AA476EA; Mon, 23 May 2022 10:10:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tireplot.pl; s=mail;
+        t=1653293452; bh=Rfzvu4C+yJ1wyuJ4V+t/udh6cgYEQVnY6S5ltO4wdNg=;
+        h=Date:From:To:Subject:From;
+        b=EH032sTMhob4cgozWnMbYnWnfVAgjOw45l9572d3x0bTuOpRSCgKp6KoFDDAyrcuX
+         csh+0Q3wzLpP2wcRUt2bbwlb6tS+LoaiYN5USa9wzQ0nKfuIyjrlZZnbV6CTxvWmT2
+         7YkB9RulX6zP1OgVyUIYZxSctZVxINT0/VenLtsWAREozjZ8mdRP41CkWXVbVZwcbv
+         279vn+sh5zBGEBplpr4dba93g43EW4/93nN4OHL/bFJsovDPZyRI03dtXMmfYncO/G
+         Fksghu919J6i3JDtO3GRDJXA/aP2HFhoYJ64ca4e0DmjjYS8Fsm/d5+SCM7VjXEFlK
+         L8IVP6XASSFGg==
+Received: by mail.tireplot.pl for <linux-usb@vger.kernel.org>; Mon, 23 May 2022 08:10:24 GMT
+Message-ID: <20220523084501-0.1.2k.fze4.0.mkb71bbcb2@tireplot.pl>
+Date:   Mon, 23 May 2022 08:10:24 GMT
+From:   =?UTF-8?Q? "Arkadiusz_Soko=C5=82owski" ?= 
+        <arkadiusz.sokolowski@tireplot.pl>
+To:     <linux-usb@vger.kernel.org>
+Subject: Koszty instalacji fotowoltaicznej
+X-Mailer: mail.tireplot.pl
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 2022-05-18 at 14:01 +0200, AngeloGioacchino Del Regno wrote:
-> Il 12/05/22 08:49, Chunfeng Yun ha scritto:
-> > Due to the scheduler allocates the optimal bandwidth for FS ISOC
-> > endpoints,
-> > this may be not enough actually and causes data transfer error, so
-> > come up
-> > with an estimate that is no less than the worst case bandwidth used
-> > for
-> > any one mframe, but may be an over-estimate.
-> > 
-> > Fixes: 451d3912586a ("usb: xhci-mtk: update fs bus bandwidth by
-> > bw_budget_table")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> 
-> Hello Chunfeng,
-> I agree this is "a fix"... but is it the best fix?
-> 
-> Shooting the bandwidth very high will have power consumption
-> consequences, are
-> those measurable?
-This is usually limited into one interval; e.g. the last interval
-transfers 8 bytes in fact, but I assume it may transfer 188 bytes, I
-think the consumption increase can be ignored.
+Dzie=C5=84 dobry,
 
-> And if they are, what is the expected power consumption increase in
-> percentage
-> (and/or microamperes)? Also, out of the expected increase, have you
-> got any
-> measurement for that?
-> 
-> Assuming that the measurement is done for one SoC, it's possible to
-> make some
-> assumption about a different part.
-> 
-> Regards,
-> Angelo
-> 
-> > ---
-> >   drivers/usb/host/xhci-mtk-sch.c | 16 +++++++---------
-> >   1 file changed, 7 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/drivers/usb/host/xhci-mtk-sch.c
-> > b/drivers/usb/host/xhci-mtk-sch.c
-> > index f3139ce7b0a9..953d2cd1d4cc 100644
-> > --- a/drivers/usb/host/xhci-mtk-sch.c
-> > +++ b/drivers/usb/host/xhci-mtk-sch.c
+stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
+ obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99. =20
 
+Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
+acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
+ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
+
+Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
+=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
+=2E
+
+Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
+temacie?
+
+Pozdrawiam
+Arkadiusz Soko=C5=82owski
