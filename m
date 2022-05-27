@@ -2,186 +2,125 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79916C433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 27 May 2022 09:16:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F009C433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 27 May 2022 09:25:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238483AbiE0JQe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 27 May 2022 05:16:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39400 "EHLO
+        id S1350441AbiE0JZY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 27 May 2022 05:25:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349886AbiE0JQZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 May 2022 05:16:25 -0400
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2058.outbound.protection.outlook.com [40.107.22.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07C905F278
-        for <linux-usb@vger.kernel.org>; Fri, 27 May 2022 02:16:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RNeEuz6yzZI9+WnIAm+k4XWxm2HaMhc+75KOTecqQaQUpw9t6DjN9Wah+tLRF/yXXPaBWDlC++pY6Fhm0Nt0OkVS4A2bIH5eS3kQE+btGuEFDHBXKbz1hO1PYpTtDYCvo8Q72Y4NoyGbRx2ezUWsSOWGscRBgrPDNuFxluDtJNFWyktbWKl8PxROaFLuQtDNKD96Ne198AxJuzaMg0gv7JOIMng5xvLarC3ImTkWdAn2xV3yk26C1vcFCwMF9f5YUecJrDT01uMP4Oom84Glzf/srSJ84yHp6lpoyy9SCOmtqCo9KJqo6GCxTzLoOLwPtAHh3NZ3+amypn4jRjwEbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FT1cYwWQrESCYRpbxZZpvghH3OsOOjuhKMgzxma6w7E=;
- b=hl1Res7FBxRopsOSxLSm0fyPQ3YFKEZLxrJBrIUO0zakUNi7FBL1mCUQG/GMEskxEzXPPp4oC7hTPiBtcaMC4VPBPnEaMW4/lMpDXmNj+s1a6NzG/xGIpMBRWQDrlTmmsWCq/hzV0ZtCh8K9ntWDeZ9UpEUP0mwFQAtbIFF0M9FO7n9VcsJiSBySh9YMWaaR0KroH0oo9YY3DlGDCQHqymyYAmt92hOw6nO7jFzft+VqCCjIfIiwNJ0SLJYWhRZFZ7BAQrwymd/jXPh64GVwcTRw+yfIKmHwZZBY6jXF+uy/IcsKWRJmhfyHNz+sYfdmgLvNmkEcG0vU4nIGizpVbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FT1cYwWQrESCYRpbxZZpvghH3OsOOjuhKMgzxma6w7E=;
- b=IqHk/YL0xh011d8N0vjvkfPNFdjdF/uWpjcBGH/Wy762gNTqcI617JpIw2jkoW4wZlp8J37vPO4phVz2pQpAKKYHQtNHKn6a8g7blh3IrJqlWePKUCLPJzrpgbtCxORu3qHWuylZs7C+BvAi7qZKxSbO9ARyrDxWKEH+4+qjprQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9640.eurprd04.prod.outlook.com (2603:10a6:102:261::21)
- by DB8PR04MB7161.eurprd04.prod.outlook.com (2603:10a6:10:124::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Fri, 27 May
- 2022 09:16:20 +0000
-Received: from PA4PR04MB9640.eurprd04.prod.outlook.com
- ([fe80::a130:5b1e:a94b:b348]) by PA4PR04MB9640.eurprd04.prod.outlook.com
- ([fe80::a130:5b1e:a94b:b348%8]) with mapi id 15.20.5250.018; Fri, 27 May 2022
- 09:16:20 +0000
-From:   Li Jun <jun.li@nxp.com>
-To:     gregkh@linuxfoundation.org, balbi@kernel.org
-Cc:     linux-usb@vger.kernel.org, Thinh.Nguyen@synopsys.com,
-        jindong.yue@nxp.com
-Subject: [PATCH] usb: dwc3: add power down scale setting
-Date:   Fri, 27 May 2022 17:03:15 +0800
-Message-Id: <1653642195-23889-1-git-send-email-jun.li@nxp.com>
-X-Mailer: git-send-email 2.7.4
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR04CA0008.apcprd04.prod.outlook.com
- (2603:1096:4:197::20) To PA4PR04MB9640.eurprd04.prod.outlook.com
- (2603:10a6:102:261::21)
+        with ESMTP id S239243AbiE0JZU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 May 2022 05:25:20 -0400
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5656F6882
+        for <linux-usb@vger.kernel.org>; Fri, 27 May 2022 02:25:19 -0700 (PDT)
+Received: by mail-io1-f70.google.com with SMTP id z19-20020a05660200d300b0066583f8cf2eso2491788ioe.2
+        for <linux-usb@vger.kernel.org>; Fri, 27 May 2022 02:25:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=Bioz4H7go5J90Q3ZEufZq+kViXZ5tT6di1K26jNf73s=;
+        b=BhjLPKXELlyVlrlOh3rrub0EEfUzw+l4mv4h9XAszRCc9SNPRE3p3Afth7aeR46szD
+         7Ux+/8npZj6Yy66dfUsNSnhbQYXCx0O8ra3fnEyjfYaLNL3a5He5AjUQGRtzaCOH/RMC
+         vnLfx3XelH6u92HvIxRyQRCf36rEzSH98nVbHFIxPX7wCc4OlqaVZ1TNQRVRWNyo85dN
+         TXhQdt4iyy/Z+gTIvOqPmjR6Vc0v6TTmeuNLP1l8cLnJ4E0aYGBbVtEoSZinBKw5APL3
+         Qdzii1oq92jmHoccEMiWaCcHJK9pyuLk0dDJm0d6d43g6FKq+fpFn8ErcQd2qp8FBTGi
+         +suQ==
+X-Gm-Message-State: AOAM531kgbgZ1BKGktbFX8HwoVec6UcrDW4qW8Qd+tyW4GwcN9zFNprd
+        5TrK49c0qjP1ZIa1YEYRL1HderqJtJcdH6EzzlP449AOfXD/
+X-Google-Smtp-Source: ABdhPJwU9+oPb5euZt6EIixTC316LnS7lGlY8wHMCd2LT/iyjaYKsY+BGzV/qzUuWp7h7I8Nl0xv+2yBUkS3lYmP/g5katOSesCO
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5d2f8e05-7618-45ba-2188-08da3fc18fbe
-X-MS-TrafficTypeDiagnostic: DB8PR04MB7161:EE_
-X-Microsoft-Antispam-PRVS: <DB8PR04MB7161A2991BB98E4E70C853DB89D89@DB8PR04MB7161.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: j+BnqFZcdcXbEcQvHbhHuZwI9w1Tg7JL64QZKHauuObfuAcDMLHqw0pqCp6Jcowj51OxAvbqGehcxn73FSIH1zrgKGE6ulYztsMJiSeVtiX96IdUopMPfAN81AjsqHTEGmLq3aQJBnDKWfM7SV7p1K6yMPQxObp0Fr2Z35DHGaMu1qS2kpQzq6KDhm37HcGmFj1v5PRmtHa6CDi273do3+6V42q1tMX6FhrexDjwNnxRfs3T24YekNRhCzoZIH9OKZPg6mjwZp6i2+gMH8TWwb9cIyviuHBMOvSVHqt989ZULyVjwuc7KM89tl+XYgv/txIjyVyoLDLbusaLbkzZ9JDyczKw0ujlpL3W2ge/29KXmJweitI4viVL14t4Sg9XEdrmzeH3+5DbndpN3o7ZnUrM8ogmkLUjzbBsla/p8TM5/txBGi62/j2FFqu93mdpIyAp0mN5AKVmHK3vOM5i7YLtBQ4S1/Ct0L+BQTf+es1mc+5anFktfB5iXUSuD3lak62NFapkWB0utUeacnFNqgEleAEAy+tvnQj5ElbMeiuQiIJpR4g63ioxWaJ1t6nzv/dOn/vOo5KzzowlY6pdSC7WAXO4MtBg2GUmjJJXLltQo1XLrnoK4UQ05LJyACfwi4tD8NLZ5pkmS172M67rIxEnPInHKisiu+/OrxJ3GBkzCp9Nx9KOw3GT8QajirdcXBDG5s6rjxi0rXlp3OXJzw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9640.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(2616005)(6666004)(83380400001)(186003)(5660300002)(66476007)(38350700002)(38100700002)(316002)(86362001)(6506007)(8936002)(36756003)(6486002)(508600001)(26005)(6512007)(8676002)(66946007)(52116002)(4326008)(66556008)(2906002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?e6Z63+UJMJHfkkB2FjqnwEO5uyCEbktCwGvnKpjEM5L0eMCxs8seW3G4IL/x?=
- =?us-ascii?Q?oakwe1tz54yXFCZ/EohaHZHUipLf85FIvqs5kSuH3/getCwg+zSwgRp+euGh?=
- =?us-ascii?Q?JT1Afh0sqxk0DEAHMq6QBFeRB1hieSXYftJBLVTCM5IH/O1XyeddU1vTpxuE?=
- =?us-ascii?Q?RDiVURFyqMlSjuP4En0iXzI0SqnQhqVdvE9XPfbKaCk347H4SxFmTOKjYbuV?=
- =?us-ascii?Q?wBo8zvmq6V4E0W8gUnosFdO1wrbNQIAJupPJGLkPDaiIJKiGETwWYMc8Xei6?=
- =?us-ascii?Q?Yi5iEDmIL3Oiid0K9wuZcZbMd275FmAmMLQgoqWt15566cWgWERpzGpSp8pt?=
- =?us-ascii?Q?d/aGCEpZ3IfDXrAyuv9mFsRNQuFmM0L0v9yawdT0JB6zKwNdQPxVdpnRGBTx?=
- =?us-ascii?Q?gOpT2b2fpRSz3jE6LsZ4Nhk75JnnfOwaVOu8fcs26VeBfelXVwFNPOHeQ+pg?=
- =?us-ascii?Q?wg3dfsTaLZrZH7feXwHawvujOZTVInUS5gKjmppkS49dcZ3i2914L8cIi5JY?=
- =?us-ascii?Q?68Bv7xyQ6CsmzbTwSiM8pEvGjdeWx5mjyTcTo/sSgFujtz/jJPDABr8VL0vw?=
- =?us-ascii?Q?8ozf7v9Ld7xZLVl/Qu0mdg58Yq9cw8s1RpCCoBm9ynRUpfrRdJ7HxZiYaCNz?=
- =?us-ascii?Q?xNMI5TfNx90ILgAhO8zTITlLm/B/LsD+du8xRzDPzTEVeT+d/GYSokaMHeFP?=
- =?us-ascii?Q?lMiWEf7Metb7491pJSwUx0vZWThWZDqgTF3FzxgkkqpkL5bsotzceosW9G3M?=
- =?us-ascii?Q?knS3TF+Qfk46xJG1F0cNd/HJFbwfh/8m029ZO5Qn+Wy7xDcPf70SFWXgfw11?=
- =?us-ascii?Q?+Wn1NkCTDkiFqdaGWiSaeH0od3cnGjthMJUVYZWFMZx66jYk718ZiimVLUSA?=
- =?us-ascii?Q?PXy160xU8rIXMf1kef6dJQtLQQAl2MntT9s5gUq/ohajiy+p6GI1ecFzU1XG?=
- =?us-ascii?Q?cnD3idzd3i01CR+usOq0pFjEXpA+W/su+TqWQvnk64kBFhz9k2b6seH7kLED?=
- =?us-ascii?Q?cVxZdaQoGzzguzYgT/nv2tkG8fPtYDKVgytERtzJqqxPaEfDNfwDCJpbVI1A?=
- =?us-ascii?Q?NLyBBhH1rjyKeFITyl4YOaxy7EfFAYHn4QlENIVTlzyOi8iTIU/Kk9kxJKph?=
- =?us-ascii?Q?SyefElac8LjLzRL7MILegE5Yf782iaOe7UZn8EYt6b9GuNl/QR0V2tHZ91YV?=
- =?us-ascii?Q?KSgATo35eR02wfCnvfdK/SdpNIzHGZzWccdWKNWSXt6u7WNFOPAOLxeZ+sxs?=
- =?us-ascii?Q?T4bYw6/OPuiAOhWclp3k7psjBzFIyIgB+AhNwh89oLmT+5GpaQycaAlkKZzC?=
- =?us-ascii?Q?jgNqjcJ9Q4gYCrUVh4wtxaUjNIsw8h6T0fRTLhMFlcQYYv+EL8B0Ij6skQs4?=
- =?us-ascii?Q?25ywzv26byJjQGXkhWhhR0F1zSQZOvlZpZqKd6dDQd/lB35F+RqfZJJjNLiD?=
- =?us-ascii?Q?9/jAveqgGq2AuBISBfbYNcyct4RApePuxI18JBKycctFs4s/Oaa1mESUmneU?=
- =?us-ascii?Q?gC0Wu40KwdRFgrPnV3rKKIfgEn8YKQFjgE0MnH4JgHjbxBFbiUe7+rUK2AzD?=
- =?us-ascii?Q?GVi6RytcS186EKOfTyCDa5meeK4xhVT3Sz2EKiC2ZS4c8AYvw5EkIps9kPhz?=
- =?us-ascii?Q?Y+aTOJI2bhg8JsMJgtPhPgiVjLeNzMbINA+uppOCh+c3NliY0PEUIIFE9iHu?=
- =?us-ascii?Q?PhU4LpLqwulmkEpxpC2q3xxSCIwpyEbDZkNXE3/WY7SxejUYMajRAwMKyVrW?=
- =?us-ascii?Q?oAjgLCmDIQ=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d2f8e05-7618-45ba-2188-08da3fc18fbe
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9640.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2022 09:16:20.1530
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FhlGPVPwsL1ATEbFucyQQdMl/nc6S4KaDZlxmaO3NT1mBtwpqklJmx2LPjONRAye
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7161
+X-Received: by 2002:a92:ca4a:0:b0:2d3:1817:49b0 with SMTP id
+ q10-20020a92ca4a000000b002d3181749b0mr1751787ilo.258.1653643519221; Fri, 27
+ May 2022 02:25:19 -0700 (PDT)
+Date:   Fri, 27 May 2022 02:25:19 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000008c664105dffae2eb@google.com>
+Subject: [syzbot] WARNING in driver_unregister
+From:   syzbot <syzbot+02b16343704b3af1667e@syzkaller.appspotmail.com>
+To:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, rafael@kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some SoC(e.g NXP imx8MQ) may have a wrong default power down scale
-setting so need init it to be the correct value, the power down
-scale setting description in DWC3 databook:
+Hello,
 
-Power Down Scale (PwrDnScale)
-The USB3 suspend_clk input replaces pipe3_rx_pclk as a clock source to
-a small part of the USB3 core that operates when the SS PHY is in its
-lowest power (P3) state, and therefore does not provide a clock.
-The Power Down Scale field specifies how many suspend_clk periods fit
-into a 16 kHz clock period. When performing the division, round up the
-remainder.
-For example, when using an 8-bit/16-bit/32-bit PHY and 25-MHz Suspend
-clock,
-Power Down Scale = 25000 kHz/16 kHz = 13'd1563 (rounder up)
+syzbot found the following issue on:
 
-So use the suspend clock rate to calculate it.
+HEAD commit:    97fa5887cf28 USB: new quirk for Dell Gen 2 devices
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=170ebdc3f00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d7b232ec3adf5c8d
+dashboard link: https://syzkaller.appspot.com/bug?extid=02b16343704b3af1667e
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1124ad81f00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16d6004df00000
 
-Signed-off-by: Li Jun <jun.li@nxp.com>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+02b16343704b3af1667e@syzkaller.appspotmail.com
+
+kobject_add_internal failed for raw-gadget with -EEXIST, don't try to register things with the same name in the same directory.
+UDC core: USB Raw Gadget: driver registration failed: -17
+misc raw-gadget: fail, usb_gadget_register_driver returned -17
+------------[ cut here ]------------
+Unexpected driver unregister!
+WARNING: CPU: 0 PID: 1308 at drivers/base/driver.c:194 driver_unregister drivers/base/driver.c:194 [inline]
+WARNING: CPU: 0 PID: 1308 at drivers/base/driver.c:194 driver_unregister+0x8c/0xb0 drivers/base/driver.c:191
+Modules linked in:
+CPU: 0 PID: 1308 Comm: syz-executor314 Not tainted 5.18.0-rc5-syzkaller-00157-g97fa5887cf28 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:driver_unregister drivers/base/driver.c:194 [inline]
+RIP: 0010:driver_unregister+0x8c/0xb0 drivers/base/driver.c:191
+Code: 68 4c 89 e7 e8 65 b9 db fe 48 89 ef e8 fd a0 ff ff 5d 41 5c e9 75 fa 78 fe e8 70 fa 78 fe 48 c7 c7 80 7a 81 86 e8 12 96 ee 02 <0f> 0b 5d 41 5c e9 5a fa 78 fe e8 75 93 ad fe eb 96 e8 6e 93 ad fe
+RSP: 0018:ffffc90001087a78 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: ffff88811d184050 RCX: 0000000000000000
+RDX: ffff88810902d580 RSI: ffffffff812bdce8 RDI: fffff52000210f41
+RBP: ffff88811d184098 R08: 0000000000000000 R09: 0000000000000000
+R10: ffffffff812b86be R11: 0000000000000000 R12: 0000000000000000
+R13: ffff88811d184008 R14: ffff88811d05b1a8 R15: ffff8881008456a0
+FS:  0000000000000000(0000) GS:ffff8881f6800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fea994ab2d0 CR3: 0000000007825000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ usb_gadget_unregister_driver+0x48/0x70 drivers/usb/gadget/udc/core.c:1590
+ raw_release+0x18a/0x290 drivers/usb/gadget/legacy/raw_gadget.c:401
+ __fput+0x277/0x9d0 fs/file_table.c:317
+ task_work_run+0xdd/0x1a0 kernel/task_work.c:164
+ exit_task_work include/linux/task_work.h:37 [inline]
+ do_exit+0xaff/0x2980 kernel/exit.c:795
+ do_group_exit+0xd2/0x2f0 kernel/exit.c:925
+ get_signal+0x22df/0x24c0 kernel/signal.c:2864
+ arch_do_signal_or_restart+0x82/0x20f0 arch/x86/kernel/signal.c:867
+ exit_to_user_mode_loop kernel/entry/common.c:166 [inline]
+ exit_to_user_mode_prepare+0x156/0x200 kernel/entry/common.c:201
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:283 [inline]
+ syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:294
+ do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7fea99520a57
+Code: Unable to access opcode bytes at RIP 0x7fea99520a2d.
+RSP: 002b:00007fea994aa258 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffef RBX: 00007fea994ab2d0 RCX: 00007fea99520a57
+RDX: 0000000000000000 RSI: 0000000000005501 RDI: 0000000000000003
+RBP: 0000000000000000 R08: 000000000000ffff R09: 000000000000000b
+R10: 00007fea994aa300 R11: 0000000000000246 R12: 00007fea995a55e0
+R13: 00007fea994aa2a0 R14: 00007fea994ac400 R15: 0000000000000003
+ </TASK>
+
+
 ---
- drivers/usb/dwc3/core.c | 22 ++++++++++++++++++++++
- drivers/usb/dwc3/core.h |  1 +
- 2 files changed, 23 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index e027c0420dc3..16d441dbc28b 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1029,6 +1029,25 @@ static void dwc3_set_incr_burst_type(struct dwc3 *dwc)
- 	dwc3_writel(dwc->regs, DWC3_GSBUSCFG0, cfg);
- }
- 
-+static void dwc3_set_power_down_clk_scale(struct dwc3 *dwc)
-+{
-+	u32 reg, scale;
-+
-+	if (!dwc->susp_clk)
-+		return;
-+
-+	/*
-+	 * The power down scale field specifies how many suspend_clk
-+	 * periods fit into a 16KHz clock period. When performing
-+	 * the division, round up the remainder.
-+	 */
-+	scale = DIV_ROUND_UP(clk_get_rate(dwc->susp_clk), 16384);
-+	reg = dwc3_readl(dwc->regs, DWC3_GCTL);
-+	reg &= ~(DWC3_GCTL_PWRDNSCALE_MASK);
-+	reg |= DWC3_GCTL_PWRDNSCALE(scale);
-+	dwc3_writel(dwc->regs, DWC3_GCTL, reg);
-+}
-+
- /**
-  * dwc3_core_init - Low-level initialization of DWC3 Core
-  * @dwc: Pointer to our controller context structure
-@@ -1105,6 +1124,9 @@ static int dwc3_core_init(struct dwc3 *dwc)
- 	if (ret)
- 		goto err1;
- 
-+	/* Set power down scale of suspend_clk */
-+	dwc3_set_power_down_clk_scale(dwc);
-+
- 	/* Adjust Frame Length */
- 	dwc3_frame_length_adjustment(dwc);
- 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 81c486b3941c..722808d8c0af 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -231,6 +231,7 @@
- 
- /* Global Configuration Register */
- #define DWC3_GCTL_PWRDNSCALE(n)	((n) << 19)
-+#define DWC3_GCTL_PWRDNSCALE_MASK	GENMASK(31, 19)
- #define DWC3_GCTL_U2RSTECN	BIT(16)
- #define DWC3_GCTL_RAMCLKSEL(x)	(((x) & DWC3_GCTL_CLK_MASK) << 6)
- #define DWC3_GCTL_CLK_BUS	(0)
--- 
-2.25.1
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
