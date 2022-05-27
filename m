@@ -2,116 +2,132 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8617FC433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 27 May 2022 21:36:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 760C8C433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 27 May 2022 22:36:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354765AbiE0Vgy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 27 May 2022 17:36:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59660 "EHLO
+        id S1351833AbiE0WgP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 27 May 2022 18:36:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229752AbiE0Vgy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 May 2022 17:36:54 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id CA31D1ADA9
-        for <linux-usb@vger.kernel.org>; Fri, 27 May 2022 14:36:52 -0700 (PDT)
-Received: (qmail 112415 invoked by uid 1000); 27 May 2022 17:36:51 -0400
-Date:   Fri, 27 May 2022 17:36:51 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     syzbot <syzbot+02b16343704b3af1667e@syzkaller.appspotmail.com>
-Cc:     andreyknvl@gmail.com, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] WARNING in driver_unregister
-Message-ID: <YpFEc5zeFK0AXa2q@rowland.harvard.edu>
-References: <YpEi/sbT/R/0yKzo@rowland.harvard.edu>
- <000000000000f9e65705e003513a@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <000000000000f9e65705e003513a@google.com>
+        with ESMTP id S229996AbiE0WgO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 May 2022 18:36:14 -0400
+X-Greylist: delayed 527 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 27 May 2022 15:36:12 PDT
+Received: from freecalypso.org (freecalypso.org [195.154.163.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D31766C96;
+        Fri, 27 May 2022 15:36:12 -0700 (PDT)
+Received: by freecalypso.org (Postfix, from userid 1001)
+        id DA00D374025E; Fri, 27 May 2022 22:27:32 +0000 (UTC)
+From:   "Mychaela N. Falconia" <falcon@freecalypso.org>
+To:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>
+Cc:     linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        mychaela.falconia@gmail.com
+Subject: [PATCH 6/6] USB: serial: ftdi_sio: add support for FreeCalypso
+ DUART28C adapter
+Message-Id: <20220527222732.DA00D374025E@freecalypso.org>
+Date:   Fri, 27 May 2022 22:27:32 +0000 (UTC)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, May 27, 2022 at 12:29:08PM -0700, syzbot wrote:
-> Hello,
-> 
-> syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-> WARNING in sysfs_create_file_ns
-> 
-> really_probe: driver_sysfs_add(gadget.0) failed
-> ------------[ cut here ]------------
-> WARNING: CPU: 0 PID: 2361 at fs/sysfs/file.c:351 sysfs_create_file_ns+0x131/0x1c0 fs/sysfs/file.c:351
-> Modules linked in:
-> CPU: 0 PID: 2361 Comm: syz-executor.0 Not tainted 5.18.0-rc5-syzkaller-00157-g97fa5887cf28-dirty #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-> RIP: 0010:sysfs_create_file_ns+0x131/0x1c0 fs/sysfs/file.c:351
-> Code: e9 03 80 3c 01 00 75 7f 8b 4c 24 38 4d 89 e9 48 89 ee 48 8b 7b 30 44 8b 44 24 48 e8 e9 fa ff ff 41 89 c5 eb 0d e8 cf 7c 9d ff <0f> 0b 41 bd ea ff ff ff e8 c2 7c 9d ff 48 b8 00 00 00 00 00 fc ff
-> RSP: 0018:ffffc900028ffca0 EFLAGS: 00010293
+FreeCalypso DUART28C is an FT2232D-based USB to dual UART adapter
+with a special quirk: Channel B RTS and DTR outputs (BDBUS2 and BDBUS4
+on the chip) have been repurposed to drive PWON and RESET controls
+on Calypso targets.  The circuit is wired such that BDBUS[24] high
+(RTS/DTR inactive) is the normal state with Iota VRPC controls
+NOT activated, whereas BDBUS[24] low (RTS or DTR active) turn ON
+the corresponding open drain control signal drivers.
 
-Here's some extra detail, taken from the console log:
+A special ftdi_sio driver quirk is needed in order to suppress
+automatic assertion of DTR & RTS on device open: this device's
+special PWON and RESET control drivers MUST NOT be activated
+when the port is ordinarily opened for plain serial communication,
+instead they must only be activated when a special userspace
+application explicitly requests such activation with a TIOCMBIS ioctl.
+These special userspace applications are responsible for making the
+needed pulse with a TIOCMBIS, delay, TIOCMBIC sequence.
 
-[   98.336685][ T2361] really_probe: driver_sysfs_add(gadget.0) failed
-[   98.336836][ T2360] sysfs: cannot create duplicate filename '/bus/gadget/drivers/dummy_udc'
-[   98.343498][ T2361] ------------[ cut here ]------------
-[   98.352154][ T2360] CPU: 1 PID: 2360 Comm: syz-executor.0 Not tainted 5.18.0-rc5-syzkaller-00157-g97fa5887cf28-dirty #0
-[   98.357802][ T2361] WARNING: CPU: 0 PID: 2361 at fs/sysfs/file.c:351 sysfs_create_file_ns+0x131/0x1c0
+The special quirk is conditionalized on the DUART28C adapter's custom
+USB ID, and is further limited to FT2232D Channel B only: Channel A
+is wired normally, with the chip's ADBUS2 and ADBUS4 outputs
+actually being RTS and DTR rather than something else.
 
-Simultaneous splats from two different threads trying to add drivers with 
-the same name suggests there might be a concurrency bug in the sysfs 
-filesystem.  This sort of thing should be an error but it shouldn't bring 
-the kernel to its knees.
+Signed-off-by: Mychaela N. Falconia <falcon@freecalypso.org>
+---
+ drivers/usb/serial/ftdi_sio.c     | 25 +++++++++++++++++++++++++
+ drivers/usb/serial/ftdi_sio_ids.h |  1 +
+ 2 files changed, 26 insertions(+)
 
-Greg, do you know anyone who could take a look at this?  I don't know much 
-about sysfs.
+diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
+index 6523a36dcc45..49b792313378 100644
+--- a/drivers/usb/serial/ftdi_sio.c
++++ b/drivers/usb/serial/ftdi_sio.c
+@@ -97,6 +97,7 @@ static int   ftdi_stmclite_probe(struct usb_serial *serial);
+ static int   ftdi_8u2232c_probe(struct usb_serial *serial);
+ static void  ftdi_USB_UIRT_setup(struct usb_serial_port *port);
+ static void  ftdi_HE_TIRA1_setup(struct usb_serial_port *port);
++static void  ftdi_duart28c_setup(struct usb_serial_port *port);
+ 
+ static const struct ftdi_sio_quirk ftdi_jtag_quirk = {
+ 	.probe	= ftdi_jtag_probe,
+@@ -122,6 +123,10 @@ static const struct ftdi_sio_quirk ftdi_8u2232c_quirk = {
+ 	.probe	= ftdi_8u2232c_probe,
+ };
+ 
++static const struct ftdi_sio_quirk ftdi_duart28c_quirk = {
++	.port_probe = ftdi_duart28c_setup,
++};
++
+ /*
+  * The 8U232AM has the same API as the sio except for:
+  * - it can support MUCH higher baudrates; up to:
+@@ -1050,6 +1055,8 @@ static const struct usb_device_id id_table_combined[] = {
+ 		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_FALCONIA_JTAG_UNBUF_PID),
+ 		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
++	{ USB_DEVICE(FTDI_VID, FTDI_FALCONIA_DUART28C_PID),
++		.driver_info = (kernel_ulong_t)&ftdi_duart28c_quirk },
+ 	{ }					/* Terminating entry */
+ };
+ 
+@@ -2372,6 +2379,24 @@ static int ftdi_stmclite_probe(struct usb_serial *serial)
+ 	return 0;
+ }
+ 
++/*
++ * FreeCalypso DUART28C is an FT2232D-based USB to dual UART adapter
++ * with a special quirk: Channel B RTS and DTR outputs (BDBUS2 and BDBUS4
++ * on the chip) have been repurposed to drive PWON and RESET controls.
++ *
++ * Only Channel B is subject to the quirk - Channel A needs to retain
++ * standard POSIX/SUS behaviour.
++ */
++static void ftdi_duart28c_setup(struct usb_serial_port *port)
++{
++	struct usb_serial *serial = port->serial;
++	struct usb_interface *intf = serial->interface;
++	int ifnum = intf->cur_altsetting->desc.bInterfaceNumber;
++
++	if (ifnum == 1)
++		tty_port_set_manual_rtsdtr(&port->port, true);
++}
++
+ static void ftdi_sio_port_remove(struct usb_serial_port *port)
+ {
+ 	struct ftdi_private *priv = usb_get_serial_port_data(port);
+diff --git a/drivers/usb/serial/ftdi_sio_ids.h b/drivers/usb/serial/ftdi_sio_ids.h
+index d1a9564697a4..6ff2509e54a2 100644
+--- a/drivers/usb/serial/ftdi_sio_ids.h
++++ b/drivers/usb/serial/ftdi_sio_ids.h
+@@ -45,6 +45,7 @@
+  */
+ #define FTDI_FALCONIA_JTAG_BUF_PID	0x7150
+ #define FTDI_FALCONIA_JTAG_UNBUF_PID	0x7151
++#define FTDI_FALCONIA_DUART28C_PID	0x7152
+ 
+ /* Sienna Serial Interface by Secyourit GmbH */
+ #define FTDI_SIENNA_PID		0x8348
+-- 
+2.9.0
 
-Alan Stern
-
-> 
-> RAX: 0000000000000000 RBX: ffff88810efd6600 RCX: 0000000000000000
-> RDX: ffff888117a68000 RSI: ffffffff81a6f891 RDI: ffff88810efd6600
-> RBP: ffffffff88041fc0 R08: 0000000000000000 R09: ffff88810095ba13
-> R10: ffffed102012b742 R11: 0000000000000001 R12: 1ffff9200051ff95
-> R13: 0000000000000000 R14: dffffc0000000000 R15: ffff88810efd6630
-> FS:  00007f830048d700(0000) GS:ffff8881f6800000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007f830048d718 CR3: 000000010cb4c000 CR4: 00000000003506f0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> Call Trace:
->  <TASK>
->  sysfs_create_file include/linux/sysfs.h:607 [inline]
->  driver_create_file+0x48/0x70 drivers/base/driver.c:107
->  bus_add_driver+0x309/0x630 drivers/base/bus.c:624
->  driver_register+0x220/0x3a0 drivers/base/driver.c:171
->  usb_gadget_register_driver_owner+0xfb/0x1e0 drivers/usb/gadget/udc/core.c:1558
->  raw_ioctl_run drivers/usb/gadget/legacy/raw_gadget.c:513 [inline]
->  raw_ioctl+0x1883/0x2730 drivers/usb/gadget/legacy/raw_gadget.c:1220
->  vfs_ioctl fs/ioctl.c:51 [inline]
->  __do_sys_ioctl fs/ioctl.c:870 [inline]
->  __se_sys_ioctl fs/ioctl.c:856 [inline]
->  __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:856
->  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
->  do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
->  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> RIP: 0033:0x7f83005590e9
-> Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007f830048d168 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> RAX: ffffffffffffffda RBX: 00007f830066c100 RCX: 00007f83005590e9
-> RDX: 0000000000000000 RSI: 0000000000005501 RDI: 0000000000000003
-> RBP: 00007f83005b308d R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-> R13: 00007ffc1dbfbf0f R14: 00007f830048d300 R15: 0000000000022000
->  </TASK>
-> 
-> 
-> Tested on:
-> 
-> commit:         97fa5887 USB: new quirk for Dell Gen 2 devices
-> git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-> console output: https://syzkaller.appspot.com/x/log.txt?x=154282bdf00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=d7b232ec3adf5c8d
-> dashboard link: https://syzkaller.appspot.com/bug?extid=02b16343704b3af1667e
-> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> patch:          https://syzkaller.appspot.com/x/patch.diff?x=17eec23df00000
-> 
