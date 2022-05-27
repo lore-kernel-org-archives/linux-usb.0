@@ -2,348 +2,206 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95D8EC433FE
-	for <linux-usb@archiver.kernel.org>; Fri, 27 May 2022 08:29:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C57AC433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 27 May 2022 08:46:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348311AbiE0I3X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 27 May 2022 04:29:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33194 "EHLO
+        id S1349905AbiE0Iqo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 27 May 2022 04:46:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234417AbiE0I3T (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 May 2022 04:29:19 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02D75ED8E9;
-        Fri, 27 May 2022 01:29:18 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id h11so4537375eda.8;
-        Fri, 27 May 2022 01:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YQR6JpGqUX0AIkDsDZjw9cLLiQfMbokV9puQAP8OYek=;
-        b=IlDb4StC3rI4UMeMeMtzFNRpe9yH5h3CF0GqeeFvZgFpV9lTTpMTWFEKmS3SIo4y7s
-         uXNbzxovv+d1tS+olhJCc4jv90RwWhjOpPFe7otjzLpx+maTF1i6yA8JPIXwBddmpp6v
-         bCf32qsXjQJDxLxBgRmBx6nFASIuZEKIhy/+qaFk35uWpYTkVJ1kAbcz1NB8U0F75Th+
-         H242M+SE7tmgtoYYptz7B0PDv4F2o8blYP3+D+FdKiBUeWHbXm4IY7tNYsdxrRRktpA4
-         r5tIdUdcdsXCe5ggQV23mpUW+vEVPVHCqbTY0EgWxiXH++Ak59dTSXQ/hAfMLhOxtbGA
-         VYDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YQR6JpGqUX0AIkDsDZjw9cLLiQfMbokV9puQAP8OYek=;
-        b=tr0yzIXmyRLyDmS8S+X3jzBYiSwW49U3TWQA9xaPclfhROMdeHTCU9maFSGzwSmtqU
-         d2uHtV11IDYduUdrkr3O9LjIDIaayAk/WOxG7abOvx+4Aj3LyGzBdMelLN505SIsJD80
-         d38bjZIS9BH1fCXmykqtxz8sP82yzPy5AAsVtbG4IGr6o6HjburPDsf4RFwIzmWt3VzV
-         7NOdpr8ISTIqvZ8lE/PDDYRIaCIxggsSGp2NWL2U1k7oeGpeqTZC+ow2QHxekYWeUnYa
-         12MHmU1e9Rx89/SS4Z1yPT31DoDm8vhXiJaYMjpZGeb8X7q2OMaVmRJmf2tg05gEYA2E
-         sryQ==
-X-Gm-Message-State: AOAM530hPF34tB6//TvzgRUm7ZxL8UnV2xWSAQ9F+cGnpXV8IVGmKaav
-        VJyAhu48iw6tzoaR/QctXNc=
-X-Google-Smtp-Source: ABdhPJywcb9GOlMFBOeT2hDzkNALCzCoPmckQvXUD/U2ATY+BCRBhJMIkkMwQxfICcLs/58Y9ydA8g==
-X-Received: by 2002:aa7:c952:0:b0:42a:f08f:4d4c with SMTP id h18-20020aa7c952000000b0042af08f4d4cmr43719477edt.26.1653640156395;
-        Fri, 27 May 2022 01:29:16 -0700 (PDT)
-Received: from lenny.home-life.hub ([91.254.5.81])
-        by smtp.gmail.com with ESMTPSA id v9-20020a1709062f0900b006febce7081bsm1207934eji.163.2022.05.27.01.29.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 May 2022 01:29:15 -0700 (PDT)
-From:   Carlo Lobrano <c.lobrano@gmail.com>
-To:     =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        Carlo Lobrano <c.lobrano@gmail.com>
-Subject: [PATCH] net: usb: qmi_wwan: add Telit 0x1250 composition
-Date:   Fri, 27 May 2022 10:29:06 +0200
-Message-Id: <20220527082906.321165-1-c.lobrano@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        with ESMTP id S1349898AbiE0Iqg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 May 2022 04:46:36 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D09E12ACB;
+        Fri, 27 May 2022 01:46:33 -0700 (PDT)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4L8dfL4dGyz1JC7l;
+        Fri, 27 May 2022 16:44:58 +0800 (CST)
+Received: from dggpemm500018.china.huawei.com (7.185.36.111) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 27 May 2022 16:46:31 +0800
+Received: from localhost.localdomain (10.175.112.125) by
+ dggpemm500018.china.huawei.com (7.185.36.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 27 May 2022 16:46:30 +0800
+From:   keliu <liuke94@huawei.com>
+To:     <peter.chen@kernel.org>, <gregkh@linuxfoundation.org>,
+        <balbi@kernel.org>, <heikki.krogerus@linux.intel.com>,
+        <mdevaev@gmail.com>, <maze@google.com>, <ruslan.bilovol@gmail.com>,
+        <phil@raspberrypi.com>, <libaokun1@huawei.com>,
+        <dan.carpenter@oracle.com>, <akpm@linux-foundation.org>,
+        <brauner@kernel.org>, <songmuchun@bytedance.com>,
+        <dh10.jung@samsung.com>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     keliu <liuke94@huawei.com>
+Subject: [PATCH] drivers: usb: Directly use ida_alloc()/free()
+Date:   Fri, 27 May 2022 09:08:00 +0000
+Message-ID: <20220527090800.2881397-1-liuke94@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.112.125]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500018.china.huawei.com (7.185.36.111)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support for Telit LN910Cx 0x1250 composition
+Use ida_alloc()/ida_free() instead of deprecated
+ida_simple_get()/ida_simple_remove() .
 
-0x1250: rmnet, tty, tty, tty, tty
-
-Signed-off-by: Carlo Lobrano <c.lobrano@gmail.com>
+Signed-off-by: keliu <liuke94@huawei.com>
 ---
+ drivers/usb/chipidea/core.c             | 6 +++---
+ drivers/usb/gadget/function/f_hid.c     | 6 +++---
+ drivers/usb/gadget/function/f_printer.c | 6 +++---
+ drivers/usb/gadget/function/rndis.c     | 4 ++--
+ drivers/usb/typec/class.c               | 8 ++++----
+ 5 files changed, 15 insertions(+), 15 deletions(-)
 
-Hello,
-
-here is the lsusb output, thanks.
-
-Bus 001 Device 002: ID 1bc7:1250 Telit Wireless Solutions LE910C1-EU
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass            0 
-  bDeviceSubClass         0 
-  bDeviceProtocol         0 
-  bMaxPacketSize0        64
-  idVendor           0x1bc7 Telit Wireless Solutions
-  idProduct          0x1250 
-  bcdDevice            3.18
-  iManufacturer           1 Android
-  iProduct                2 LE910C1-EU
-  iSerial                 3 0123456789ABCDEF
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength       0x00eb
-    bNumInterfaces          5
-    bConfigurationValue     1
-    iConfiguration          0 
-    bmAttributes         0x80
-      (Bus Powered)
-    MaxPower              500mA
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           3
-      bInterfaceClass       255 Vendor Specific Class
-      bInterfaceSubClass    255 Vendor Specific Subclass
-      bInterfaceProtocol    255 Vendor Specific Protocol
-      iInterface              0 
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x82  EP 2 IN
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0008  1x 8 bytes
-        bInterval               9
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x01  EP 1 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        1
-      bAlternateSetting       0
-      bNumEndpoints           3
-      bInterfaceClass       255 Vendor Specific Class
-      bInterfaceSubClass      0 
-      bInterfaceProtocol      0 
-      iInterface              0 
-      ** UNRECOGNIZED:  05 24 00 10 01
-      ** UNRECOGNIZED:  05 24 01 00 00
-      ** UNRECOGNIZED:  04 24 02 02
-      ** UNRECOGNIZED:  05 24 06 00 00
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x84  EP 4 IN
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x000a  1x 10 bytes
-        bInterval               9
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x83  EP 3 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x02  EP 2 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        2
-      bAlternateSetting       0
-      bNumEndpoints           3
-      bInterfaceClass       255 Vendor Specific Class
-      bInterfaceSubClass      0 
-      bInterfaceProtocol      0 
-      iInterface              0 
-      ** UNRECOGNIZED:  05 24 00 10 01
-      ** UNRECOGNIZED:  05 24 01 00 00
-      ** UNRECOGNIZED:  04 24 02 02
-      ** UNRECOGNIZED:  05 24 06 00 00
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x86  EP 6 IN
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x000a  1x 10 bytes
-        bInterval               9
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x85  EP 5 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x03  EP 3 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        3
-      bAlternateSetting       0
-      bNumEndpoints           3
-      bInterfaceClass       255 Vendor Specific Class
-      bInterfaceSubClass      0 
-      bInterfaceProtocol      0 
-      iInterface              0 
-      ** UNRECOGNIZED:  05 24 00 10 01
-      ** UNRECOGNIZED:  05 24 01 00 00
-      ** UNRECOGNIZED:  04 24 02 02
-      ** UNRECOGNIZED:  05 24 06 00 00
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x88  EP 8 IN
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x000a  1x 10 bytes
-        bInterval               9
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x87  EP 7 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x04  EP 4 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        4
-      bAlternateSetting       0
-      bNumEndpoints           3
-      bInterfaceClass       255 Vendor Specific Class
-      bInterfaceSubClass      0 
-      bInterfaceProtocol      0 
-      iInterface              0 
-      ** UNRECOGNIZED:  05 24 00 10 01
-      ** UNRECOGNIZED:  05 24 01 00 00
-      ** UNRECOGNIZED:  04 24 02 02
-      ** UNRECOGNIZED:  05 24 06 00 00
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x8a  EP 10 IN
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x000a  1x 10 bytes
-        bInterval               9
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x89  EP 9 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x05  EP 5 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-Device Qualifier (for other device speed):
-  bLength                10
-  bDescriptorType         6
-  bcdUSB               2.00
-  bDeviceClass            0 
-  bDeviceSubClass         0 
-  bDeviceProtocol         0 
-  bMaxPacketSize0        64
-  bNumConfigurations      1
-Device Status:     0x0000
-  (Bus Powered)
-
----
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 79f8bd849..a659d6fb0 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1366,6 +1366,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x1bc7, 0x1200, 5)},	/* Telit LE920 */
- 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1201, 2)},	/* Telit LE920, LE920A4 */
- 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1230, 2)},	/* Telit LE910Cx */
-+	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1250, 0)},	/* Telit LE910Cx */
- 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1260, 2)},	/* Telit LE910Cx */
- 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1261, 2)},	/* Telit LE910Cx */
- 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1900, 1)},	/* Telit LN940 series */
+diff --git a/drivers/usb/chipidea/core.c b/drivers/usb/chipidea/core.c
+index 5359b2a2e4d2..ab8fd4d96836 100644
+--- a/drivers/usb/chipidea/core.c
++++ b/drivers/usb/chipidea/core.c
+@@ -853,7 +853,7 @@ struct platform_device *ci_hdrc_add_device(struct device *dev,
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
+-	id = ida_simple_get(&ci_ida, 0, 0, GFP_KERNEL);
++	id = ida_alloc(&ci_ida, GFP_KERNEL);
+ 	if (id < 0)
+ 		return ERR_PTR(id);
+ 
+@@ -883,7 +883,7 @@ struct platform_device *ci_hdrc_add_device(struct device *dev,
+ err:
+ 	platform_device_put(pdev);
+ put_id:
+-	ida_simple_remove(&ci_ida, id);
++	ida_free(&ci_ida, id);
+ 	return ERR_PTR(ret);
+ }
+ EXPORT_SYMBOL_GPL(ci_hdrc_add_device);
+@@ -892,7 +892,7 @@ void ci_hdrc_remove_device(struct platform_device *pdev)
+ {
+ 	int id = pdev->id;
+ 	platform_device_unregister(pdev);
+-	ida_simple_remove(&ci_ida, id);
++	ida_free(&ci_ida, id);
+ }
+ EXPORT_SYMBOL_GPL(ci_hdrc_remove_device);
+ 
+diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+index ca0a7d9eaa34..84e834e512dc 100644
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -1028,9 +1028,9 @@ static inline int hidg_get_minor(void)
+ {
+ 	int ret;
+ 
+-	ret = ida_simple_get(&hidg_ida, 0, 0, GFP_KERNEL);
++	ret = ida_alloc(&hidg_ida, GFP_KERNEL);
+ 	if (ret >= HIDG_MINORS) {
+-		ida_simple_remove(&hidg_ida, ret);
++		ida_free(&hidg_ida, ret);
+ 		ret = -ENODEV;
+ 	}
+ 
+@@ -1175,7 +1175,7 @@ static const struct config_item_type hid_func_type = {
+ 
+ static inline void hidg_put_minor(int minor)
+ {
+-	ida_simple_remove(&hidg_ida, minor);
++	ida_free(&hidg_ida, minor);
+ }
+ 
+ static void hidg_free_inst(struct usb_function_instance *f)
+diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
+index abec5c58f525..eb325940566c 100644
+--- a/drivers/usb/gadget/function/f_printer.c
++++ b/drivers/usb/gadget/function/f_printer.c
+@@ -1316,9 +1316,9 @@ static inline int gprinter_get_minor(void)
+ {
+ 	int ret;
+ 
+-	ret = ida_simple_get(&printer_ida, 0, 0, GFP_KERNEL);
++	ret = ida_alloc(&printer_ida, GFP_KERNEL);
+ 	if (ret >= PRINTER_MINORS) {
+-		ida_simple_remove(&printer_ida, ret);
++		ida_free(&printer_ida, ret);
+ 		ret = -ENODEV;
+ 	}
+ 
+@@ -1327,7 +1327,7 @@ static inline int gprinter_get_minor(void)
+ 
+ static inline void gprinter_put_minor(int minor)
+ {
+-	ida_simple_remove(&printer_ida, minor);
++	ida_free(&printer_ida, minor);
+ }
+ 
+ static int gprinter_setup(int);
+diff --git a/drivers/usb/gadget/function/rndis.c b/drivers/usb/gadget/function/rndis.c
+index 713efd9aefde..14e803862940 100644
+--- a/drivers/usb/gadget/function/rndis.c
++++ b/drivers/usb/gadget/function/rndis.c
+@@ -869,12 +869,12 @@ EXPORT_SYMBOL_GPL(rndis_msg_parser);
+ 
+ static inline int rndis_get_nr(void)
+ {
+-	return ida_simple_get(&rndis_ida, 0, 0, GFP_KERNEL);
++	return ida_alloc(&rndis_ida, GFP_KERNEL);
+ }
+ 
+ static inline void rndis_put_nr(int nr)
+ {
+-	ida_simple_remove(&rndis_ida, nr);
++	ida_free(&rndis_ida, nr);
+ }
+ 
+ struct rndis_params *rndis_register(void (*resp_avail)(void *v), void *v)
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index ee0e520707dd..6d7d69d09ed4 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -474,7 +474,7 @@ static int altmode_id_get(struct device *dev)
+ 	else
+ 		ids = &to_typec_port(dev)->mode_ids;
+ 
+-	return ida_simple_get(ids, 0, 0, GFP_KERNEL);
++	return ida_alloc(ids, GFP_KERNEL);
+ }
+ 
+ static void altmode_id_remove(struct device *dev, int id)
+@@ -488,7 +488,7 @@ static void altmode_id_remove(struct device *dev, int id)
+ 	else
+ 		ids = &to_typec_port(dev)->mode_ids;
+ 
+-	ida_simple_remove(ids, id);
++	ida_free(ids, id);
+ }
+ 
+ static void typec_altmode_release(struct device *dev)
+@@ -1599,7 +1599,7 @@ static void typec_release(struct device *dev)
+ {
+ 	struct typec_port *port = to_typec_port(dev);
+ 
+-	ida_simple_remove(&typec_index_ida, port->id);
++	ida_free(&typec_index_ida, port->id);
+ 	ida_destroy(&port->mode_ids);
+ 	typec_switch_put(port->sw);
+ 	typec_mux_put(port->mux);
+@@ -2042,7 +2042,7 @@ struct typec_port *typec_register_port(struct device *parent,
+ 	if (!port)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	id = ida_simple_get(&typec_index_ida, 0, 0, GFP_KERNEL);
++	id = ida_alloc(&typec_index_ida, GFP_KERNEL);
+ 	if (id < 0) {
+ 		kfree(port);
+ 		return ERR_PTR(id);
 -- 
-2.32.0
+2.25.1
 
