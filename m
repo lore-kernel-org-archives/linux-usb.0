@@ -2,76 +2,70 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B42B3C433FE
-	for <linux-usb@archiver.kernel.org>; Fri, 27 May 2022 11:20:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A49CCC43219
+	for <linux-usb@archiver.kernel.org>; Fri, 27 May 2022 12:08:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351255AbiE0LUQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 27 May 2022 07:20:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58816 "EHLO
+        id S240256AbiE0MHw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 27 May 2022 08:07:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244746AbiE0LUO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 May 2022 07:20:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C570D12698F;
-        Fri, 27 May 2022 04:20:13 -0700 (PDT)
+        with ESMTP id S1353661AbiE0MGK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 May 2022 08:06:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CC53166887;
+        Fri, 27 May 2022 04:55:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 68D5861CC4;
-        Fri, 27 May 2022 11:20:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BAB5CC34114;
-        Fri, 27 May 2022 11:20:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653650412;
-        bh=8/A7n2z+nS5p3OnINJGS1Ca9SMmvdtuU8IXec5mnEeM=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=M9pqykIsxnPjyft9LZIP0C+QMLCvpKgVuEvj/z4slwErxMasFBBwYOjGsJ8h6FXc+
-         FYkGb1iXSL/b4QZB6dC8+gxheisK2JlEiaR9ngaGcH5ZNE4PCQijAfKJNXUlm3O94M
-         gXWd4hA0r59/LTCZ8nf2TgisORzkUHYsRcSucJCv0WHKHinsRuLE0sZd1hPalhlrY3
-         N+YUMztFFUlKs+PWajNGQey3LzJ4waYdWQVaZq/d/ikGJKKsPpsl5mSBtFDpL0BKyc
-         LZiS7Q4yLcAA6vqYAftjCK5G6QRfI7y4UETA/YJYQZyMhX8G5P9O25l/Tq+KmbrIJs
-         0EdAsC8PAroCA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 90BB8EAC081;
-        Fri, 27 May 2022 11:20:12 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F37BF61E07;
+        Fri, 27 May 2022 11:55:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2485C385A9;
+        Fri, 27 May 2022 11:55:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1653652512;
+        bh=WpanfLAOGrD7hytn+v8GPcDOtNTViLE3XXQJ7O55lwE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=btxJrZ+6li3ZjV5RvC7RFXUxYkiojd7rpXq8tr+Q502eeAZuhEqcElveXUoIPawJ7
+         FUAlX9Sf216lnv0VsYwgIB97iPY9XQ9vYyjp28QHONbfwntdAb9e5Fr/wIgead/0df
+         FmqZPGLQ87sLKLoLaJKq0e2I/gJ5yN8m8pU0eHvI=
+Date:   Fri, 27 May 2022 10:52:26 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     keliu <liuke94@huawei.com>
+Cc:     peter.chen@kernel.org, balbi@kernel.org,
+        heikki.krogerus@linux.intel.com, mdevaev@gmail.com,
+        maze@google.com, ruslan.bilovol@gmail.com, phil@raspberrypi.com,
+        libaokun1@huawei.com, dan.carpenter@oracle.com,
+        akpm@linux-foundation.org, brauner@kernel.org,
+        songmuchun@bytedance.com, dh10.jung@samsung.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drivers: usb: Directly use ida_alloc()/free()
+Message-ID: <YpCRSojxnKwFbs8Q@kroah.com>
+References: <20220527090800.2881397-1-liuke94@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net: usb: qmi_wwan: add Telit 0x1250 composition
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165365041258.2876.3963171338034628755.git-patchwork-notify@kernel.org>
-Date:   Fri, 27 May 2022 11:20:12 +0000
-References: <20220527082906.321165-1-c.lobrano@gmail.com>
-In-Reply-To: <20220527082906.321165-1-c.lobrano@gmail.com>
-To:     Carlo Lobrano <c.lobrano@gmail.com>
-Cc:     bjorn@mork.no, davem@davemloft.net, kuba@kernel.org,
-        netdev@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220527090800.2881397-1-liuke94@huawei.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net.git (master)
-by David S. Miller <davem@davemloft.net>:
-
-On Fri, 27 May 2022 10:29:06 +0200 you wrote:
-> Add support for Telit LN910Cx 0x1250 composition
+On Fri, May 27, 2022 at 09:08:00AM +0000, keliu wrote:
+> Use ida_alloc()/ida_free() instead of deprecated
+> ida_simple_get()/ida_simple_remove() .
 > 
-> 0x1250: rmnet, tty, tty, tty, tty
-> 
-> Signed-off-by: Carlo Lobrano <c.lobrano@gmail.com>
+> Signed-off-by: keliu <liuke94@huawei.com>
+
+I need a real name here, one that you use to sign legal documents.
+
 > ---
-> 
-> [...]
+>  drivers/usb/chipidea/core.c             | 6 +++---
+>  drivers/usb/gadget/function/f_hid.c     | 6 +++---
+>  drivers/usb/gadget/function/f_printer.c | 6 +++---
+>  drivers/usb/gadget/function/rndis.c     | 4 ++--
+>  drivers/usb/typec/class.c               | 8 ++++----
 
-Here is the summary with links:
-  - net: usb: qmi_wwan: add Telit 0x1250 composition
-    https://git.kernel.org/netdev/net/c/2c262b21de6d
+Please break this up into one-per-driver.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+thanks,
 
-
+greg k-h
