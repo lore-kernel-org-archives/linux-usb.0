@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F2DBC433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 30 May 2022 13:53:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47CDAC433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 30 May 2022 14:14:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238694AbiE3NxQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 May 2022 09:53:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49848 "EHLO
+        id S239627AbiE3OO1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 May 2022 10:14:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239341AbiE3Nv2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 May 2022 09:51:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 366B81FA69;
-        Mon, 30 May 2022 06:36:35 -0700 (PDT)
+        with ESMTP id S240581AbiE3OMX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 May 2022 10:12:23 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B88C9E52A5;
+        Mon, 30 May 2022 06:43:04 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C521260F7B;
-        Mon, 30 May 2022 13:36:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE8CEC385B8;
-        Mon, 30 May 2022 13:36:31 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9C6E9B80D83;
+        Mon, 30 May 2022 13:42:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22821C3411E;
+        Mon, 30 May 2022 13:42:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653917794;
-        bh=4kOCYh6aEID/+O+eKHAI2+opl1Varwr+QK9vIOeuhOc=;
+        s=k20201202; t=1653918162;
+        bh=x4B8zV580+azv9vAE3GUqPaunN3G/DT9gCW5iU7BFrQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SZRPJGlnUZP1Y/KzKgf8nW0lCENp4SwSSYYzJ92sf591isttP3UwlqX64l3r1klUf
-         Bu6tVyOTCzIm0mQmgj5TfgSMmNkyY/nSlA49y5Xo9RUj/xi9oD7Bsl/YVSUxn96fKQ
-         PGopkCwje8avpYfi1Tau/6rMOue8oXWXXsKHrqFWW3HLVrLtcg/yGTAsejmSEdVofy
-         g0QJXQTWycQf3ZfBKjvTUQB5sWjqTPLPHwuJzu6XuMg5sX5/eDEAwXrk7D3ofBzw1V
-         gdKADbX70KOBIi3cSdBxCfjiNrG4RybhcGXSwb3pPw8yraE9/RaIyV2pbn4DIfvFED
-         1M4W11XMpiv7Q==
+        b=oM4olH1TiNqqzik2850SNFLatZbXcFlqLgbnCsxmwmLvC5zTezvC4hQH870yyGi+7
+         FFNifitfw78O0YZk4CnrWF4cwleRmDH9MT/yfy+bveoGDxz8VYsrnb90HODVAeyVig
+         4wMpr6iGobcHARW3lhYG03s1AeotWEgjYieRdNFpPzsNn1uZVOkupQE8baW0NgO4SI
+         m7BZaNUo29QnuPeV+uHbVmDkJ33XWNfiLkGZy0SXbJPLe9YhyL4vULxSvlxghk8BQx
+         SXpFVKvObAqUy0o7fLP224RgIKhrDjPgL7OIHLy7bEEPOwXN5w9a9rzlhTsfS4vtey
+         AZB6a29WRNb1A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Lukas Wunner <lukas@wunner.de>,
@@ -45,12 +45,12 @@ Cc:     Lukas Wunner <lukas@wunner.de>,
         UNGLinuxDriver@microchip.com, linux@rempel-privat.de,
         colin.king@intel.com, paskripkin@gmail.com,
         linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 099/135] usbnet: Run unregister_netdev() before unbind() again
-Date:   Mon, 30 May 2022 09:30:57 -0400
-Message-Id: <20220530133133.1931716-99-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 082/109] usbnet: Run unregister_netdev() before unbind() again
+Date:   Mon, 30 May 2022 09:37:58 -0400
+Message-Id: <20220530133825.1933431-82-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220530133133.1931716-1-sashal@kernel.org>
-References: <20220530133133.1931716-1-sashal@kernel.org>
+In-Reply-To: <20220530133825.1933431-1-sashal@kernel.org>
+References: <20220530133825.1933431-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -103,7 +103,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 5 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_devices.c
-index 6b2fbdf4e0fd..34854ee537dc 100644
+index bd8f8619ad6f..396505396a2e 100644
 --- a/drivers/net/usb/asix_devices.c
 +++ b/drivers/net/usb/asix_devices.c
 @@ -799,11 +799,7 @@ static int ax88772_stop(struct usbnet *dev)
@@ -120,10 +120,10 @@ index 6b2fbdf4e0fd..34854ee537dc 100644
  	return 0;
  }
 diff --git a/drivers/net/usb/smsc95xx.c b/drivers/net/usb/smsc95xx.c
-index a0f29482294d..d81485cd7e90 100644
+index eb0d325e92b7..4e39e4345084 100644
 --- a/drivers/net/usb/smsc95xx.c
 +++ b/drivers/net/usb/smsc95xx.c
-@@ -1218,8 +1218,7 @@ static int smsc95xx_start_phy(struct usbnet *dev)
+@@ -1217,8 +1217,7 @@ static int smsc95xx_start_phy(struct usbnet *dev)
  
  static int smsc95xx_stop(struct usbnet *dev)
  {
@@ -134,10 +134,10 @@ index a0f29482294d..d81485cd7e90 100644
  	return 0;
  }
 diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-index 9a6450f796dc..36b24ec11650 100644
+index a33d7fb82a00..af2bbaff2478 100644
 --- a/drivers/net/usb/usbnet.c
 +++ b/drivers/net/usb/usbnet.c
-@@ -1616,9 +1616,6 @@ void usbnet_disconnect (struct usb_interface *intf)
+@@ -1614,9 +1614,6 @@ void usbnet_disconnect (struct usb_interface *intf)
  		   xdev->bus->bus_name, xdev->devpath,
  		   dev->driver_info->description);
  
@@ -147,7 +147,7 @@ index 9a6450f796dc..36b24ec11650 100644
  	net = dev->net;
  	unregister_netdev (net);
  
-@@ -1626,6 +1623,9 @@ void usbnet_disconnect (struct usb_interface *intf)
+@@ -1624,6 +1621,9 @@ void usbnet_disconnect (struct usb_interface *intf)
  
  	usb_scuttle_anchored_urbs(&dev->deferred);
  
