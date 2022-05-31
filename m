@@ -2,72 +2,112 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F591C433FE
-	for <linux-usb@archiver.kernel.org>; Tue, 31 May 2022 15:18:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BB6BC433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 31 May 2022 16:15:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345583AbiEaPSI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 31 May 2022 11:18:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45560 "EHLO
+        id S1346014AbiEaQPK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 31 May 2022 12:15:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344803AbiEaPSI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 May 2022 11:18:08 -0400
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4463D633B2;
-        Tue, 31 May 2022 08:18:07 -0700 (PDT)
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-e5e433d66dso18768924fac.5;
-        Tue, 31 May 2022 08:18:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=hw6HT0YhpU0Nzy8vat+zVfd+GtraoN/T8IMTFBgNYMw=;
-        b=tfpoIRS1tMPtFNgOICSK7AYhNogSMAX3agLq5ALRg2t6691S2BkybUiLpqGv9CoCBQ
-         NQ63ZUSj+Q8GkI5hAqca1Tgsl1463g78wDsGiOkvw7CZAM523LAM6X06DLztlUmBHXcz
-         Q7jE9MfI/Tk/B/HZkXQJk6dwOXlg/H2iSXYfVm07iE9XqiD94jaqcTfjYt28eZWllvDE
-         q6C9d4wW5AjkxkPZInEktBPw+QNCrV6b/aRldihBn4+NvCrRU/Kh8xuFMhBR4kvvGUzP
-         2MVsI/A2icmInI1ZCVUtmD5mxwP7D/A23wmmqGqmH+1l752WQ2mL5cEx74pKRPDzh/lh
-         4KKg==
-X-Gm-Message-State: AOAM532YFK3Va58YsfA07XqwG7UQIAbaBPE7LRJDTLEdru8onxaP+qaD
-        +5pQsXnzG9x7L0C2EBM16fY8q4X85Q==
-X-Google-Smtp-Source: ABdhPJw6/muc28+MxomD6dKLajsUp3//40HWkOp4KAueSb0Cb/n2QUlgd7og+IQhsYKbhLoeM4vkrQ==
-X-Received: by 2002:a05:6870:c583:b0:f2:e92f:e1c4 with SMTP id ba3-20020a056870c58300b000f2e92fe1c4mr11835783oab.48.1654010286550;
-        Tue, 31 May 2022 08:18:06 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id la13-20020a056871410d00b000f33f8b7603sm2518321oab.17.2022.05.31.08.18.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 08:18:06 -0700 (PDT)
-Received: (nullmailer pid 1781709 invoked by uid 1000);
-        Tue, 31 May 2022 15:18:05 -0000
-Date:   Tue, 31 May 2022 10:18:05 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: usb: snps,dwc3: Add missing 'dma-coherent'
- property
-Message-ID: <20220531151805.GD1742958-robh@kernel.org>
-References: <20220526014118.2872057-1-robh@kernel.org>
+        with ESMTP id S230099AbiEaQPI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 May 2022 12:15:08 -0400
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7850E95DC9;
+        Tue, 31 May 2022 09:15:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1654013706; x=1685549706;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=Edb7o5x82G2kwmy8SarSHg+LzOe4KThZlTxdJSXY1Ww=;
+  b=bPAdWNpskQE85FZUaGmTcvwp+grusoWj4Rsci5rX3EmR1jbmKxSn+UXV
+   IBvZt3rn5PISw0HeKAkxv+jVdueASUi1ZxUZ6B1afKrUUC2s+tpsIi6Wy
+   SG4MEgeGWHh4mifL30bTqCqZyQs0iPbrvVQLULyzwjpwhlpOp7kRYucn+
+   A=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 31 May 2022 09:15:06 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 09:15:05 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 31 May 2022 09:15:04 -0700
+Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 31 May 2022 09:14:58 -0700
+From:   Krishna Kurapati <quic_kriskura@quicinc.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        "Doug Anderson" <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>
+CC:     <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>, <quic_pkondeti@quicinc.com>,
+        <quic_ppratap@quicinc.com>, <quic_vpulyala@quicinc.com>,
+        Krishna Kurapati <quic_kriskura@quicinc.com>
+Subject: [PATCH v7 0/3] Add QCOM SNPS PHY overriding params support
+Date:   Tue, 31 May 2022 21:44:50 +0530
+Message-ID: <1654013693-21484-1-git-send-email-quic_kriskura@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220526014118.2872057-1-robh@kernel.org>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, May 25, 2022 at 08:41:18PM -0500, Rob Herring wrote:
-> The 'unevaluatedProperties' schema checks is not fully working and doesn't
-> catch some cases where there's a $ref to another schema. A fix is pending,
-> but results in new warnings in examples.
-> 
-> Some DWC3 implementations such as Xilinx are hooked up coherently and need
-> to set the 'dma-coherent' property.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+Added support for overriding tuning parameters in QCOM SNPS PHY
+from device tree. This parameter tuning is required to tune the
+hs signal on dp/dm lines for electrical compliance to be successful.
 
-Applied, thanks.
+changes in v7:
+Fixed nitpick in driver code and dtsi file.
+
+changes in v6:
+Fixed errors in dt-bindings.
+Fixed nitpick in driver code.
+
+changes in v5:
+Fixed nitpicks in code.
+Added minimum and maximum for each parameter added in dt-bindings.
+Added proper suffixes to each parameter as per dtschema.
+
+changes in v4:
+Fixed nitpicks in code.
+Initial compliance test results showed overshoot in the middle of eye
+diagram. The current dt values were put in place to correct it and fix
+overshoot issue.
+
+changes in v3:
+Added support for phy tuning parameters to be represented in bps and
+corresponding register values to be written are obtained by traversing
+through data map declared in the driver.
+
+changes in v2:
+Reading the individual fields in each overriding register from
+device tree.
+
+Krishna Kurapati (2):
+  phy: qcom-snps: Add support for overriding phy tuning parameters
+  arm64: dts: qcom: sc7280: Update SNPS Phy params for SC7280 IDP device
+
+Sandeep Maheswaram (1):
+  dt-bindings: phy: qcom,usb-snps-femto-v2: Add phy override params
+    bindings
+
+ .../bindings/phy/qcom,usb-snps-femto-v2.yaml       |  96 ++++++++
+ arch/arm64/boot/dts/qcom/sc7280-idp.dtsi           |   6 +
+ drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c      | 268 ++++++++++++++++++++-
+ 3 files changed, 368 insertions(+), 2 deletions(-)
+
+-- 
+2.7.4
+
