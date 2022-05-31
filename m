@@ -2,133 +2,102 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9272C433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 31 May 2022 04:37:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EF48C433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 31 May 2022 08:20:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243861AbiEaEhx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 31 May 2022 00:37:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47444 "EHLO
+        id S244784AbiEaIUd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 31 May 2022 04:20:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243854AbiEaEhu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 May 2022 00:37:50 -0400
-Received: from freecalypso.org (freecalypso.org [195.154.163.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D6B362BDC;
-        Mon, 30 May 2022 21:37:49 -0700 (PDT)
-Received: by freecalypso.org (Postfix, from userid 1001)
-        id DFBA4374025F; Tue, 31 May 2022 04:37:17 +0000 (UTC)
-From:   "Mychaela N. Falconia" <falcon@freecalypso.org>
-To:     Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>
-Cc:     linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        mychaela.falconia@gmail.com
-Subject: [PATCH v2 6/6] USB: serial: ftdi_sio: add support for FreeCalypso
- DUART28C adapter
-In-Reply-To: <20220531043356.8CAB637401A9@freecalypso.org>
-References: <20220531043356.8CAB637401A9@freecalypso.org>
-Message-Id: <20220531043717.DFBA4374025F@freecalypso.org>
-Date:   Tue, 31 May 2022 04:37:17 +0000 (UTC)
+        with ESMTP id S244790AbiEaIUb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 May 2022 04:20:31 -0400
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63DBC9399D;
+        Tue, 31 May 2022 01:20:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1653985230; x=1685521230;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=71XG4ZmwJ09OcgbOEPiZ9EnPHO86FepcH2+AFt4DG3A=;
+  b=xj0laKrzcJ5t6csilCoHHz9k3xGxS9Pm8kbg1bjj2WF4wkZXp5c6K9ds
+   Jt5rYH0lEbVsCHVsKqCWd4JEhCNZqyc/NeDpRVU+P7JWHEekqyhy7txnZ
+   pv+WW5QRQ45q1h2xvBMcBLkgq/PWmkcSI14WjKCJNtH7mx0foJTkPW7/D
+   A=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 31 May 2022 01:20:30 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 01:20:29 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 31 May 2022 01:20:28 -0700
+Received: from hu-harshq-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 31 May 2022 01:20:24 -0700
+From:   Harsh Agarwal <quic_harshq@quicinc.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+CC:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
+        <quic_ppratap@quicinc.com>, <quic_jackp@quicinc.com>,
+        Harsh Agarwal <quic_harshq@quicinc.com>
+Subject: [PATCH 0/3] Add support for multiport controller 
+Date:   Tue, 31 May 2022 13:50:14 +0530
+Message-ID: <1653985217-20953-1-git-send-email-quic_harshq@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-FreeCalypso DUART28C is an FT2232D-based USB to dual UART adapter
-with a special quirk: Channel B RTS and DTR outputs (BDBUS2 and BDBUS4
-on the chip) have been repurposed to drive PWON and RESET controls
-on Calypso targets.  The circuit is wired such that BDBUS[24] high
-(RTS/DTR inactive) is the normal state with Iota VRPC controls
-NOT activated, whereas BDBUS[24] low (RTS or DTR active) turn ON
-the corresponding open drain control signal drivers.
+Currently the DWC3 driver supports only single port controller which 
+requires at most two PHYs ie HS and SS PHYs. There are SoCs that has
+DWC3 controller with multiple ports that can operate in host mode. Some of
+the port supports both SS+HS and other port supports only HS mode.
 
-A special ftdi_sio driver quirk is needed in order to suppress
-automatic assertion of DTR & RTS on device open: this device's
-special PWON and RESET control drivers MUST NOT be activated
-when the port is ordinarily opened for plain serial communication,
-instead they must only be activated when a special userspace
-application explicitly requests such activation with a TIOCMBIS ioctl.
-These special userspace applications are responsible for making the
-needed pulse with a TIOCMBIS, delay, TIOCMBIC sequence.
+This change refactors the PHY logic to support multiport controller. The 
+implementation has been tested with Generic PHYs as well.
 
-The special quirk is conditionalized on the DUART28C adapter's custom
-USB ID, and is further limited to FT2232D Channel B only: Channel A
-is wired normally, with the chip's ADBUS2 and ADBUS4 outputs
-actually being RTS and DTR rather than something else.
+For any multiport controller we would define a new node "multiport" inside
+dwc3 and then add subsequent "mport" nodes inside it for individual ports
+that it supports. Now each individual "mport" node defines their own PHYs.
 
-Signed-off-by: Mychaela N. Falconia <falcon@freecalypso.org>
----
- drivers/usb/serial/ftdi_sio.c     | 25 +++++++++++++++++++++++++
- drivers/usb/serial/ftdi_sio_ids.h |  1 +
- 2 files changed, 26 insertions(+)
+e.g.
+Consider a Dual port controller where each port supports HS+SS 
 
-diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index 6523a36dcc45..f62d9f804c73 100644
---- a/drivers/usb/serial/ftdi_sio.c
-+++ b/drivers/usb/serial/ftdi_sio.c
-@@ -97,6 +97,7 @@ static int   ftdi_stmclite_probe(struct usb_serial *serial);
- static int   ftdi_8u2232c_probe(struct usb_serial *serial);
- static void  ftdi_USB_UIRT_setup(struct usb_serial_port *port);
- static void  ftdi_HE_TIRA1_setup(struct usb_serial_port *port);
-+static void  ftdi_duart28c_setup(struct usb_serial_port *port);
- 
- static const struct ftdi_sio_quirk ftdi_jtag_quirk = {
- 	.probe	= ftdi_jtag_probe,
-@@ -122,6 +123,10 @@ static const struct ftdi_sio_quirk ftdi_8u2232c_quirk = {
- 	.probe	= ftdi_8u2232c_probe,
- };
- 
-+static const struct ftdi_sio_quirk ftdi_duart28c_quirk = {
-+	.port_probe = ftdi_duart28c_setup,
-+};
-+
- /*
-  * The 8U232AM has the same API as the sio except for:
-  * - it can support MUCH higher baudrates; up to:
-@@ -1050,6 +1055,8 @@ static const struct usb_device_id id_table_combined[] = {
- 		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
- 	{ USB_DEVICE(FTDI_VID, FTDI_FALCONIA_JTAG_UNBUF_PID),
- 		.driver_info = (kernel_ulong_t)&ftdi_jtag_quirk },
-+	{ USB_DEVICE(FTDI_VID, FTDI_FALCONIA_DUART28C_PID),
-+		.driver_info = (kernel_ulong_t)&ftdi_duart28c_quirk },
- 	{ }					/* Terminating entry */
- };
- 
-@@ -2372,6 +2379,24 @@ static int ftdi_stmclite_probe(struct usb_serial *serial)
- 	return 0;
- }
- 
-+/*
-+ * FreeCalypso DUART28C is an FT2232D-based USB to dual UART adapter
-+ * with a special quirk: Channel B RTS and DTR outputs (BDBUS2 and BDBUS4
-+ * on the chip) have been repurposed to drive PWON and RESET controls.
-+ *
-+ * Only Channel B is subject to the quirk - Channel A needs to retain
-+ * standard POSIX/SUS behaviour.
-+ */
-+static void ftdi_duart28c_setup(struct usb_serial_port *port)
-+{
-+	struct usb_serial *serial = port->serial;
-+	struct usb_interface *intf = serial->interface;
-+	int ifnum = intf->cur_altsetting->desc.bInterfaceNumber;
-+
-+	if (ifnum == 1)
-+		tty_port_set_nordy(&port->port, true);
-+}
-+
- static void ftdi_sio_port_remove(struct usb_serial_port *port)
- {
- 	struct ftdi_private *priv = usb_get_serial_port_data(port);
-diff --git a/drivers/usb/serial/ftdi_sio_ids.h b/drivers/usb/serial/ftdi_sio_ids.h
-index d1a9564697a4..6ff2509e54a2 100644
---- a/drivers/usb/serial/ftdi_sio_ids.h
-+++ b/drivers/usb/serial/ftdi_sio_ids.h
-@@ -45,6 +45,7 @@
-  */
- #define FTDI_FALCONIA_JTAG_BUF_PID	0x7150
- #define FTDI_FALCONIA_JTAG_UNBUF_PID	0x7151
-+#define FTDI_FALCONIA_DUART28C_PID	0x7152
- 
- /* Sienna Serial Interface by Secyourit GmbH */
- #define FTDI_SIENNA_PID		0x8348
+multiport {
+	mp_1: mport@1 {
+		usb-phy = <usb2_phy0>, <usb3_phy0>;
+        /* Can define Generic PHYs also */  
+	};	
+	mp_2: mport@2 {
+		usb-phy = <usb2_phy1>, <usb3_phy1>;
+	};	
+
+Harsh Agarwal (3):
+  dt-bindings: usb: dwc3: Add support for multiport related properties
+  usb: phy: Add devm_of_usb_get_phy_by_phandle
+  usb: dwc3: Refactor PHY logic to support Multiport Controller
+
+ .../devicetree/bindings/usb/snps,dwc3.yaml         |  55 +++
+ drivers/usb/dwc3/core.c                            | 400 +++++++++++++++------
+ drivers/usb/dwc3/core.h                            |  12 +-
+ drivers/usb/dwc3/drd.c                             |  16 +-
+ drivers/usb/dwc3/gadget.c                          |   4 +-
+ drivers/usb/phy/phy.c                              |  34 ++
+ include/linux/usb/phy.h                            |   8 +
+ 7 files changed, 402 insertions(+), 127 deletions(-)
+
 -- 
-2.9.0
+2.7.4
 
