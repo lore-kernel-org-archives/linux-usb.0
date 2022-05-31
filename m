@@ -2,115 +2,211 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21FDEC43217
-	for <linux-usb@archiver.kernel.org>; Tue, 31 May 2022 22:47:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E37E7C433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 31 May 2022 23:45:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348564AbiEaWrM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 31 May 2022 18:47:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49690 "EHLO
+        id S1348740AbiEaXpr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 31 May 2022 19:45:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348547AbiEaWrE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 May 2022 18:47:04 -0400
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCDC5AE66;
-        Tue, 31 May 2022 15:47:02 -0700 (PDT)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-f2bb84f9edso346807fac.10;
-        Tue, 31 May 2022 15:47:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=aprzOwmeu9ofv4NArUYUbqpCw1+7K1N79lDMatDRSxY=;
-        b=0Aks7rQphnx2+d+y09s3vRW7UCMY+73AXOo66/dQo4heq+V9fBF/E+EcL0ZSh7ZibI
-         o0dQ7OOJoTse6he4dsRlxxcPhWmkaCV/z4RLJVKGsmpkTmEtXtZt93BcMZVDcuAs9tP8
-         i9UPIiL58Hikj48zlUzvEHY9DIQNFygHAPhIWvbIo1BX/zUXyib0ZGvMe/6Kb6F3yNVT
-         CHkYcBzJWcLBKQS9DEclknBCpopiqm0k92ybRJOPrRLDktp168ugrL7FHid0PEhIzR7C
-         XeUdRVXN8s11XJrcDAr7YNf8YulEM6jdgVwDGqGbtW3efYRo2qauGQ//on/LUBRxAo3I
-         jjQQ==
-X-Gm-Message-State: AOAM5328PUqGs9AijJIpZ+peD0UDDv5Uy2MgWNAHc9MnSsoggTmoI9GN
-        mQUJA480Tfao7IFGjWzjDA==
-X-Google-Smtp-Source: ABdhPJzrxihBjK98eUTkfRJDT5Ew9e/c5AjwMgz/IhfhSleaQEJbbkcrawGZcg5v4oRO3DRzsYRYvw==
-X-Received: by 2002:a05:6870:8985:b0:da:b3f:3253 with SMTP id f5-20020a056870898500b000da0b3f3253mr14896611oaq.259.1654037221882;
-        Tue, 31 May 2022 15:47:01 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id bo44-20020a05680822ac00b0032af1c6bf02sm84725oib.45.2022.05.31.15.47.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 15:47:01 -0700 (PDT)
-Received: (nullmailer pid 2476562 invoked by uid 1000);
-        Tue, 31 May 2022 22:46:54 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     ChiaEn Wu <peterwu.pub@gmail.com>
-Cc:     jic23@kernel.org, gregkh@linuxfoundation.org, sre@kernel.org,
-        jingoohan1@gmail.com, broonie@kernel.org, deller@gmx.de,
-        alice_chen@richtek.com, heikki.krogerus@linux.intel.com,
-        lars@metafoo.de, lee.jones@linaro.org, chunfeng.yun@mediatek.com,
-        linux-pm@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        chiaen_wu@richtek.com, linux-iio@vger.kernel.org,
-        linux@roeck-us.net, daniel.thompson@linaro.org, robh+dt@kernel.org,
-        linux-arm-kernel@lists.infradead.org, lgirdwood@gmail.com,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        krzysztof.kozlowski+dt@linaro.org,
-        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-        pavel@ucw.cz, linux-usb@vger.kernel.org,
-        linux-leds@vger.kernel.org, matthias.bgg@gmail.com,
-        cy_huang@richtek.com
-In-Reply-To: <20220531111900.19422-7-peterwu.pub@gmail.com>
-References: <20220531111900.19422-1-peterwu.pub@gmail.com> <20220531111900.19422-7-peterwu.pub@gmail.com>
-Subject: Re: [RESEND 06/14] dt-bindings: mfd: Add Mediatek MT6370 binding
-Date:   Tue, 31 May 2022 17:46:54 -0500
-Message-Id: <1654037214.477381.2476559.nullmailer@robh.at.kernel.org>
+        with ESMTP id S1348857AbiEaXpi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 May 2022 19:45:38 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA9D9E9C0
+        for <linux-usb@vger.kernel.org>; Tue, 31 May 2022 16:45:34 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nwBYK-0004VK-Sp; Wed, 01 Jun 2022 01:45:32 +0200
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nwBYJ-0006vP-Pi; Wed, 01 Jun 2022 01:45:31 +0200
+Date:   Wed, 1 Jun 2022 01:45:31 +0200
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH] usb: hub: port: add sysfs entry to switch port power
+Message-ID: <20220531234531.GA12543@pengutronix.de>
+References: <20220510231317.1874608-1-m.grzeschik@pengutronix.de>
+ <YnvDlhlcVGoerhLz@rowland.harvard.edu>
+ <20220511203727.GG27481@pengutronix.de>
+ <YnxgvcOIVMWhDbi9@rowland.harvard.edu>
+ <YoAIeQJAvFBs6YNq@rowland.harvard.edu>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="HlL+5n6rz5pIUxbD"
+Content-Disposition: inline
+In-Reply-To: <YoAIeQJAvFBs6YNq@rowland.harvard.edu>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 31 May 2022 19:18:52 +0800, ChiaEn Wu wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> Add Mediatek MT6370 binding documentation.
-> 
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> ---
->  .../bindings/mfd/mediatek,mt6370.yaml         | 282 ++++++++++++++++++
->  .../dt-bindings/iio/adc/mediatek,mt6370_adc.h |  18 ++
->  include/dt-bindings/mfd/mediatek,mt6370.h     |  83 ++++++
->  3 files changed, 383 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
->  create mode 100644 include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
->  create mode 100644 include/dt-bindings/mfd/mediatek,mt6370.h
-> 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+--HlL+5n6rz5pIUxbD
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-yamllint warnings/errors:
+On Sat, May 14, 2022 at 03:52:25PM -0400, Alan Stern wrote:
+>On Wed, May 11, 2022 at 09:19:57PM -0400, Alan Stern wrote:
+>> On Wed, May 11, 2022 at 10:37:27PM +0200, Michael Grzeschik wrote:
+>
+>> > > > +		if (udev) {
+>> > > > +			port_dev->child =3D NULL;
+>> > >
+>> > > That assignment is not necessary; usb_disconnect() will take care of=
+ it.
+>> >
+>> > Here are two things that are in play.
+>> >
+>> > First I have to set port_dev->child =3D NULL before calling
+>> > usb_disconnect. Otherwise the following automatic hub_suspend call (in
+>> > case this was the last operational port of the hub) will print the
+>> > message "device x-y not suspended yet" and will fail the hub to
+>> > suspend.
+>> >
+>> > When calling usb_autoresume_device(udev) instead and before calling
+>> > usb_disconnect, this is no longer the case. The hub will be succesfully
+>> > suspended.
+>> >
+>> > The second thing is the assignment. I still have to explicitly assign =
+NULL to
+>> > port_dev->child. Otherwise a following enable of this port via this sy=
+sfs will
+>> > run into an hub_event with the usb_disonnect for the device on that po=
+rt. But
+>> > this will spit out a ugly traceback leading with the following error:
+>> >
+>> > [   21.718574] usb 2-1.1: USB disconnect, device number -1
+>> >
+>> > [   21.719100] Unable to handle kernel paging request at virtual addre=
+ss 96d628cc24e2e078
+>> > [   21.719807] Mem abort info:
+>> > [   21.720065]   ESR =3D 0x96000044
+>> > [   21.720348]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+>> > [   21.720827]   SET =3D 0, FnV =3D 0
+>> > [   21.721109]   EA =3D 0, S1PTW =3D 0
+>> > [   21.721447]   FSC =3D 0x04: level 0 translation fault
+>> > [   21.721891] Data abort info:
+>> > [   21.722157]   ISV =3D 0, ISS =3D 0x00000044
+>> > [   21.722505]   CM =3D 0, WnR =3D 1
+>> > [   21.722779] [96d628cc24e2e078] address between user and kernel addr=
+ess ranges
+>> > [   21.723429] Internal error: Oops: 96000044 [#1] PREEMPT SMP
+>> > [   21.723927] Modules linked in: uio_pdrv_genirq fuse
+>> > [   21.724380] CPU: 0 PID: 58 Comm: kworker/0:3 Not tainted 5.18.0-rc6=
++ #93
+>> > [   21.724977] Hardware name: Radxa ROCK3 Model A (DT)
+>> > [   21.725412] Workqueue: usb_hub_wq hub_event
+>> > [   21.725802] pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS B=
+TYPE=3D--)
+>> > [   21.726419] pc : usb_disable_endpoint+0x7c/0xdc
+>> > [   21.726832] lr : usb_disable_device_endpoints+0xbc/0xe0
+>> > [   21.727301] sp : ffffffc009b33b30
+>> > [   21.727597] x29: ffffffc009b33b30 x28: ffffff8003ad4ed8 x27: 000000=
+0000000001
+>> > [   21.728239] x26: ffffff8004344928 x25: 0000000000000000 x24: ffffff=
+c0096eb8e0
+>> > [   21.728885] x23: ffffff80043448a8 x22: ffffff8003961800 x21: 000000=
+0000000001
+>> > [   21.729527] x20: 96d628cc24e2e034 x19: ffffff8004344800 x18: ffffff=
+ffffffffff
+>> > [   21.730168] x17: 0000000000000001 x16: 0000000000000001 x15: ffffff=
+c089b33857
+>> > [   21.730810] x14: 0000000000000000 x13: 312d207265626d75 x12: 6e2065=
+6369766564
+>> > [   21.731452] x11: 00000000fffff7ff x10: 00000000fffff7ff x9 : ffffff=
+c00871b8dc
+>> > [   21.732093] x8 : 000000000000bfe8 x7 : ffffffc009b33a38 x6 : 000000=
+0000000001
+>> > [   21.732733] x5 : ffffffc009569000 x4 : ffffffc009569050 x3 : ffffff=
+8004344878
+>> > [   21.733374] x2 : 0000000000000001 x1 : 000000000000008f x0 : 000000=
+0000000001
+>> > [   21.734015] Call trace:
+>> > [   21.734235]  usb_disable_endpoint+0x7c/0xdc
+>> > [   21.734616]  usb_disable_device_endpoints+0xbc/0xe0
+>> > [   21.735054]  usb_disable_device+0x1c0/0x260
+>> > [   21.735432]  usb_disconnect+0x108/0x300
+>> > [   21.735778]  hub_event+0x1378/0x19c0
+>> > [   21.736102]  process_one_work+0x220/0x49c
+>> > [   21.736469]  worker_thread+0x154/0x450
+>> > [   21.736810]  kthread+0xfc/0x110
+>> > [   21.737096]  ret_from_fork+0x10/0x20
+>> > [   21.737429] Code: f941c474 340001e0 f901c47f b4ffff14 (b900469f)
+>> > [   21.737970] ---[ end trace 0000000000000000 ]---
+>> >
+>> > Did I miss something?
+>>
+>> No: You found a real bug in the hub driver!  usb_disconnect() really
+>> is supposed to set port_dev->child to NULL at some point, but it
+>> doesn't.  In fact, port_dev->child never gets set back to NULL (except
+>> in the trivial case where a newly attached device fails to initialize
+>> and enumerate).
+>>
+>> I'll work on a patch to fix this, and I'll CC: you when it's ready.
+>
+>I take it back.  This isn't a bug; it's a mistake in the way you called
+>usb_disconnect().  Your patch did:
+>
+>		if (udev) {
+>			port_dev->child =3D NULL;
+>			usb_disconnect(&udev);
+>		}
+>
+>The argument to usb_disconnect() is supposed to be &port_dev->child, not
+>&udev.  You can see near the end of the function that it sets *pdev to
+>NULL; this is where port_dev->child gets cleared.
 
-dtschema/dtc warnings/errors:
-./Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml: Unable to find schema file matching $id: http://devicetree.org/schemas/power/supply/mediatek,mt6370-charger.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: mt6370@34: charger: False schema does not allow {'compatible': ['mediatek,mt6370-charger'], 'interrupts': [[48], [68], [6]], 'interrupt-names': ['attach_i', 'uvp_d_evt', 'mivr'], 'io-channels': [[1, 5]], 'usb-otg-vbus': {'regulator-compatible': ['mt6370,otg-vbus'], 'regulator-name': ['usb-otg-vbus'], 'regulator-min-microvolt': [[4350000]], 'regulator-max-microvolt': [[5800000]], 'regulator-min-microamp': [[500000]], 'regulator-max-microamp': [[3000000]], 'phandle': [[2]]}}
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: mt6370@34: tcpc: False schema does not allow {'compatible': ['mediatek,mt6370-tcpc'], 'interrupts-extended': [[4294967295, 4, 8]], 'connector': {'compatible': ['usb-c-connector'], 'label': ['USB-C'], 'vbus-supply': [[2]], 'data-role': ['dual'], 'power-role': ['dual'], 'try-power-role': ['sink'], 'source-pdos': [[570527844]], 'sink-pdos': [[570527944]], 'op-sink-microwatt': [[10000000]], 'ports': {'#address-cells': [[1]], '#size-cells': [[0]], 'port@0': {'reg': [[0]], 'endpoint': {'remote-endpoint': [[4294967295]]}}, 'port@1': {'reg': [[1]], 'endpoint': {'remote-endpoint': [[4294967295]]}}, 'port@2': {'reg': [[2]], 'endpoint': {'remote-endpoint': [[4294967295]]}}}}}
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: mt6370@34: indicator: False schema does not allow {'compatible': ['mediatek,mt6370-indicator'], '#address-cells': [[1]], '#size-cells': [[0]], 'multi-led@0': {'reg': [[0]], 'function': ['indicator'], 'color': [[9]], 'led-max-microamp': [[24000]], '#address-cells': [[1]], '#size-cells': [[0]], 'mediatek,soft-start': [[3]], 'led@0': {'reg': [[0]], 'color': [[1]]}, 'led@1': {'reg': [[1]], 'color': [[2]]}, 'led@2': {'reg': [[2]], 'color': [[3]]}}, 'led@3': {'reg': [[3]], 'function': ['indicator'], 'color': [[0]], 'led-max-microamp': [[6000]]}}
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: mt6370@34: flashlight: False schema does not allow {'compatible': ['mediatek,mt6370-flashlight'], '#address-cells': [[1]], '#size-cells': [[0]], 'led@0': {'reg': [[0]], 'led-sources': [[0]], 'function': ['flash'], 'color': [[0]], 'function-enumerator': [[1]], 'led-max-microamp': [[200000]], 'flash-max-microamp': [[500000]], 'flash-max-timeout-us': [[1248000]]}, 'led@1': {'reg': [[1]], 'led-sources': [[1]], 'function': ['flash'], 'color': [[0]], 'function-enumerator': [[2]], 'led-max-microamp': [[200000]], 'flash-max-microamp': [[500000]], 'flash-max-timeout-us': [[1248000]]}}
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:0:0: /example-0/i2c/mt6370@34/charger: failed to match any schema with compatible: ['mediatek,mt6370-charger']
-Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:0:0: /example-0/i2c/mt6370@34/indicator: failed to match any schema with compatible: ['mediatek,mt6370-indicator']
-Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:0:0: /example-0/i2c/mt6370@34/flashlight: failed to match any schema with compatible: ['mediatek,mt6370-flashlight']
-Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:0:0: /example-0/i2c/mt6370@34/tcpc: failed to match any schema with compatible: ['mediatek,mt6370-tcpc']
+Thanks for the clarification.
 
-doc reference errors (make refcheckdocs):
+>Not incidentally, usb_disconnect() requires that you hold hdev's device
+>lock when you call it (this is mentioned in the kerneldoc, although the
+>requirement that pdev points to port_dev->child isn't -- the kerneldoc
+>for that function could stand to be improved).
 
-See https://patchwork.ozlabs.org/patch/
+Okay. I added the lock around the usb_disconnect.
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+I just added some tweaks regarding the pm handling and will send out v2.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+Regards,
+Michael
 
-pip3 install dtschema --upgrade
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
-Please check and re-submit.
+--HlL+5n6rz5pIUxbD
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmKWqJgACgkQC+njFXoe
+LGTalRAAvs7jtVxQNDEmXyzBD7NB/7YZt7xEdEhWyzrhGxdHUeO2KaE6iSp/9aSG
+fTm3UKowxPQbSc9Z8iDDAxgZrb5j4YImJ/j2nb99uM8MmlQJxt70PUuyH8kqJZ49
+/Q/8LbTHjfx/xlvsJLOiKZ3ivy2YNHGddYVCFx4ZFiZ0fW8jm2qqnp9humUoPX7q
+4PozrWhTLvMgEbNFFluHhn/qF1ZYiE8zgFd2vzJBzEI+2ljMdUK2ghVB44rSEVwO
+grMuxm3VVmsac9W+K6iao1zcQwzXMT1pfOywr//Rp0dLairl0JiArzgGSPtJ16zy
+qEZLBcverZ8anCGI7FLZRqf2d2ies3zSgZqW1Qlwj1vgOVneydrlMAzqMZA8DYlw
+/VoCbdtAayd1XUkSXmgkt9PRHp9uTqnAMl9p3wDYShblf837HFj3C6rErIa5uC2V
+iE3ODdJUlLGVsgBocuROznloYjYUQiUkcZARy52LbnDjB+SeUkk/oLd1R2e0yXN5
+VzX6UhaY7BUGCWjpsv0+mSpDEx2aw2X8Tdzv+7kRzgidHVAwo4B+3xczV34KZnXg
+ZVOS0i57+L4kaV4ICn0XqBZjfGdPRwaM/jS542+xb+3CQxZC2UUrGQ986zi5oMZN
+Vk/+IQscNZgHIy1FtVOlToKLpTzDzT7qwGAVxg72f9y0Z2B8bYA=
+=Jbjr
+-----END PGP SIGNATURE-----
+
+--HlL+5n6rz5pIUxbD--
