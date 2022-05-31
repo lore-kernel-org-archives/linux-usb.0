@@ -2,138 +2,118 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBF81C433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 31 May 2022 09:38:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C00C433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 31 May 2022 10:21:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239268AbiEaJiU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 31 May 2022 05:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39044 "EHLO
+        id S242710AbiEaKVN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 31 May 2022 06:21:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232814AbiEaJiT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 May 2022 05:38:19 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 731F850068
-        for <linux-usb@vger.kernel.org>; Tue, 31 May 2022 02:38:18 -0700 (PDT)
+        with ESMTP id S234399AbiEaKVL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 May 2022 06:21:11 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBA5C8DDFF;
+        Tue, 31 May 2022 03:21:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653989898; x=1685525898;
+  t=1653992470; x=1685528470;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=F6tP4ggV3uAmxVkPqZ/A1saK2AVY39HWDnYTr2zG54U=;
-  b=jnbSZPYWnUKF3HJ1+KMa6O689QMsQZ1nFjmCyCg6GyuLqE2Ez3zkLJ9c
-   NNAo8mqQ0UuRi9GhUlHr6NmCTeEHCJ4LYOCgryfEwXXerTlGBmRyU5MW2
-   TRcNgeDn1HLWGpT0Wk4oWKuYt/qwFHE1LTIXgwaC06/W3hMomdYnWS5rw
-   K5e4FgUb5TxCu0e0QjELdUGjrqWzOVRZ0rLAszFbEVjAgXIXgSLg7aajb
-   08TjgsOuj9nE/LC6T7KlLl6X0FL+6cSwtGwUTv1aGwHg4fisxfCpZHwce
-   LmR95+3krQCkSAaxVqWUk/7inRBUsIcgUQI9LhYyYZJsSMvZDoQFGhZeO
+  bh=lxEFp44JsX/JOoOGTIBZIgRYdAkFBgaUx4lYxSNdtkU=;
+  b=dIzb6zsQznD2vyLggpktwF7uTHbuR6u5GMLS/G3iVRSriJqm0s+k47PV
+   Nf+G9750/koUDq0Il5BqF8rxpRXZU68NmI8Q7GeES26T+WJRhHuu/Zl/v
+   H7sYEmIzoSRuQCygZe9V1UKQ00B6sRtAqEuSo1PcIY9SC+jxSCfGQfyjM
+   iLOLPvWZoMFIUXbBDTND7QN4b4Ae1k3rQWxFeNjlhitv803JYW6OeQt/B
+   f9lgv3mBpa7Y1g767lfP75o9dL64ep7Qakj2Bbws8xgWDhccFx6rPIL3J
+   kAUkBJdmk4SM0QMSaW7VII0X/0SkL0OCEY851JwupJXg3Hcyt+DP8m4Yk
    A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10363"; a="361577188"
+X-IronPort-AV: E=McAfee;i="6400,9594,10363"; a="272783031"
 X-IronPort-AV: E=Sophos;i="5.91,264,1647327600"; 
-   d="scan'208";a="361577188"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 02:38:18 -0700
+   d="scan'208";a="272783031"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 03:21:10 -0700
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.91,264,1647327600"; 
-   d="scan'208";a="644944817"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 02:38:15 -0700
-Received: by lahna (sSMTP sendmail emulation); Tue, 31 May 2022 12:36:03 +0300
-Date:   Tue, 31 May 2022 12:36:03 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Stefan Hoffmeister <stefan.hoffmeister@gmail.com>
-Cc:     Tomasz =?utf-8?Q?Mo=C5=84?= <desowin@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-usb@vger.kernel.org
-Subject: Re: Thunderbolt: One missing DisplayPort?
-Message-ID: <YpXhg6wPtotRk6c2@lahna>
-References: <CALhB_QNhzHkf4Yw6TqZAbCisMK6TBy8ecw0M_Sq=EQXPN728fg@mail.gmail.com>
- <Yoy5m3Aa6QwVcFhf@kuha.fi.intel.com>
- <Yoy7oXpMugFFmfBP@lahna>
- <CALhB_QM9SHJt+15pEVHEH_kourb-1Xbd68O1p_XLxOmWB4HAfw@mail.gmail.com>
- <YpCVc6eYkpmjP9AF@lahna>
- <CALhB_QP8SPqubq-eBNa1BTMuy3kCA65OuajOeJGt5DB9jDRKKg@mail.gmail.com>
- <ce969e3b4a6ed04584fdecd3234578bd87d52594.camel@gmail.com>
- <YpSUSk9u5z3ueufa@lahna>
- <CALhB_QNh3vMn2+6H41MC_O0sKPfjiVrPeqmvpnLk=tuHUPQGdg@mail.gmail.com>
+   d="scan'208";a="632977245"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 31 May 2022 03:21:07 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nvyzq-0002be-Gg;
+        Tue, 31 May 2022 10:21:06 +0000
+Date:   Tue, 31 May 2022 18:20:14 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Harsh Agarwal <quic_harshq@quicinc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     kbuild-all@lists.01.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        quic_pkondeti@quicinc.com, quic_ppratap@quicinc.com,
+        quic_jackp@quicinc.com, Harsh Agarwal <quic_harshq@quicinc.com>
+Subject: Re: [PATCH 2/3] usb: phy: Add devm_of_usb_get_phy_by_phandle
+Message-ID: <202205311838.eFoNSZzZ-lkp@intel.com>
+References: <1653985217-20953-3-git-send-email-quic_harshq@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALhB_QNh3vMn2+6H41MC_O0sKPfjiVrPeqmvpnLk=tuHUPQGdg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <1653985217-20953-3-git-send-email-quic_harshq@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Hi Harsh,
 
-On Mon, May 30, 2022 at 08:57:34PM +0200, Stefan Hoffmeister wrote:
-> ********** $ cat /sys/kernel/debug/thunderbolt/0-0/port5/regs
-> ********************
-> # offset relative_offset cap_id vs_cap_id value
-> 0x0000    0 0x00 0x00 0x9a1f8086
-> 0x0001    1 0x00 0x00 0x05080239
-> 0x0002    2 0x00 0x00 0x010e0101
-> 0x0003    3 0x00 0x00 0x80500010
-> 0x0004    4 0x00 0x00 0x4100000d
-> 0x0005    5 0x00 0x00 0x00004809
-> 0x0006    6 0x00 0x00 0x00000000
-> 0x0007    7 0x00 0x00 0x00000000
-> 0x0008    8 0x00 0x00 0x00000000
-> 0x0039    0 0x04 0x00 0xc009048f
+Thank you for the patch! Perhaps something to improve:
 
-The bits 31:30 tell that this tunnel is active.
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on robh/for-next v5.18 next-20220531]
+[cannot apply to balbi-usb/testing/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-> ********** $ cat /sys/kernel/debug/thunderbolt/0-0/port6/regs
-> ********************
-> # offset relative_offset cap_id vs_cap_id value
-> 0x0000    0 0x00 0x00 0x9a1f8086
-> 0x0001    1 0x00 0x00 0x05080239
-> 0x0002    2 0x00 0x00 0x010e0101
-> 0x0003    3 0x00 0x00 0x80600010
-> 0x0004    4 0x00 0x00 0x0100000d
-> 0x0005    5 0x00 0x00 0x00004809
-> 0x0006    6 0x00 0x00 0x00000000
-> 0x0007    7 0x00 0x00 0x00000000
-> 0x0008    8 0x00 0x00 0x00000000
-> 0x0039    0 0x04 0x00 0x0009048f
+url:    https://github.com/intel-lab-lkp/linux/commits/Harsh-Agarwal/Add-support-for-multiport-controller/20220531-162337
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+config: csky-defconfig (https://download.01.org/0day-ci/archive/20220531/202205311838.eFoNSZzZ-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/7af1d0e696ec2ddf574df10e3bf3799299b8061a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Harsh-Agarwal/Add-support-for-multiport-controller/20220531-162337
+        git checkout 7af1d0e696ec2ddf574df10e3bf3799299b8061a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash drivers/usb/phy/
 
-This one is not.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-> ********** $ cat /sys/kernel/debug/thunderbolt/0-1/port11/regs
-> ********************
-> # offset relative_offset cap_id vs_cap_id value
-> 0x0000    0 0x00 0x00 0x15ef8086
-> 0x0001    1 0x00 0x00 0x0608020a
-> 0x0002    2 0x00 0x00 0x010e0102
-> 0x0003    3 0x00 0x00 0x80b00008
-> 0x0004    4 0x00 0x00 0x00800000
-> 0x0005    5 0x00 0x00 0x00004809
-> 0x0006    6 0x00 0x00 0x00000000
-> 0x0007    7 0x00 0x00 0x00000000
-> 0x0008    8 0x00 0x00 0x00000000
-> 0x000a    0 0x03 0x00 0x00000339
-> 0x000b    1 0x03 0x00 0x40110005
-> 0x000c    2 0x03 0x00 0x00000000
-> 0x000d    3 0x03 0x00 0x00000000
-> 0x000e    4 0x03 0x00 0xffffffff
-> 0x000f    5 0x03 0x00 0x00000000
-> 0x0010    6 0x03 0x00 0x000009c4
-> 0x0011    7 0x03 0x00 0x00c80002
-> 0x0039    0 0x04 0x00 0x0009044f
-> 0x003a    1 0x04 0x00 0x00004008
-> 0x003b    2 0x04 0x00 0x000fff40
-> 0x003c    3 0x04 0x00 0x00400005
-> 0x003d    4 0x04 0x00 0x00c0a234
+All warnings (new ones prefixed by >>):
 
-This is the "local" capability and it tells that this one supports MST
-(bit 15).
+   In file included from include/linux/usb/otg.h:14,
+                    from include/linux/usb/of.h:12,
+                    from drivers/usb/phy/of.c:9:
+>> include/linux/usb/phy.h:257:16: warning: 'ERR_PTR' is static but used in inline function 'devm_of_usb_get_phy_by_phandle' which is not static
+     257 |         return ERR_PTR(-ENXIO);
+         |                ^~~~~~~
 
-I wonder if this dock has the two DP outputs behind a MST "hub" or so?
-I've seen such devices out there. This would explain why there is only
-single DP tunnel active.
 
-I don't remember if you already mentioned but have you tried to connect
-the second monitor to the USB-C downstream ports on that dock? At least
-for some docks this is where the second DP OUT adapter is routed.
+vim +257 include/linux/usb/phy.h
 
-If the second DP tunnel gets activated you should also see bits 31:30 of
-the port6/regs to be set by the connection manager firmware.
+   253	
+   254	extern inline struct usb_phy *devm_of_usb_get_phy_by_phandle(struct device *dev,
+   255		const char *phandle, u8 index, struct device_node *lookup_node)
+   256	{
+ > 257		return ERR_PTR(-ENXIO);
+   258	}
+   259	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
