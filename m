@@ -2,51 +2,51 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17478C4332F
-	for <linux-usb@archiver.kernel.org>; Tue, 31 May 2022 13:52:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 393B2C433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 31 May 2022 13:52:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345148AbiEaNwA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 31 May 2022 09:52:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43714 "EHLO
+        id S1345102AbiEaNwI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 31 May 2022 09:52:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344974AbiEaNvb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 May 2022 09:51:31 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FAB2985BE
-        for <linux-usb@vger.kernel.org>; Tue, 31 May 2022 06:50:57 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id c5-20020a1c3505000000b0038e37907b5bso1309398wma.0
-        for <linux-usb@vger.kernel.org>; Tue, 31 May 2022 06:50:57 -0700 (PDT)
+        with ESMTP id S1345008AbiEaNvt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 May 2022 09:51:49 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E6FC996AD
+        for <linux-usb@vger.kernel.org>; Tue, 31 May 2022 06:51:05 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id q7so7831467wrg.5
+        for <linux-usb@vger.kernel.org>; Tue, 31 May 2022 06:51:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Wl0eUhfQkf22AJDmTLSjt67Vrs4AO/BddtK22iFmA/I=;
-        b=YZO96mhcYG0MG87d8UPaolLiT4EBhzbYR+2tvzycFKH95/lqHD4Jvzk66jQVmww9GM
-         Kfuya/cPBUoxIoak9XlXW8H5NmofpLD8gqIUsA33sVyo/Yuc72GVVUFaMBT1tI9z/EKt
-         NS0T+fZwjd0jYvUswsjsKudEOEmH7IyunZjW0vI6BwdFL1QiOfrQQQndMC6y+6yEGjoo
-         WUJ3xntSihv5qvWX5bY6EsT4t/XTIGneUSkxDd+JFVeUG0kyU5v35dRrRxEPhkSvKohE
-         Q/wmLZ/0Dfhgbn0UZjwaY0AWfzaLcCmgbdayY/VxweaTPGhE8DjhUj3npWKQfucbxM0R
-         2K/Q==
+        bh=F+yIDk55VuOl9cCuSgTZgPbJurzlbWspdqV8YJPygQc=;
+        b=htvgPMPg810HOgsL/n8G+IrY6CyzUgbcv6/I4+7ytTovj325fq0rZxlNfBK0vW4cxZ
+         dyf/Ol5KAJmMoo+mtoe9pQg/dUaVR/6Pt6UTXEVZjNmaBZvLBVhbyGexuuiR2kLNsNbz
+         qqIE10FVgfiFvCfxWNi1gDtrnALRyhQYJuUFe9NJze697OCY0g8smzNcDk4IISkgf3gQ
+         Xd+KrwxJ+Rlpq7XT8sg07RD2pyyxXW+HHc5rLzhGtWdYfEcwdQYYl6fYtt+EBbTNWpsA
+         ozL8VwXPxAsUfw3sNyrqnY32vcl5ygsCmI2j8zKnVQ1fIAlOBqoyoreGhlxLkdhfmWX6
+         YvpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Wl0eUhfQkf22AJDmTLSjt67Vrs4AO/BddtK22iFmA/I=;
-        b=gxL4V4wZza2X7I5tf7hRneLzlIgfrSXhJ3QkyPGSlR6t0DOyOHQbq2SS+Rj2LsjZsX
-         x8u4LRjSmEsy+RUZE8GBsY0n+bQtcirjdE6HqdzsPWOw3n59AAdy8GlMbTDfVaNjpHKj
-         z8VrI2HL+OZf/CqM75tjQBhUBA79x3pgD0Crq5Uwji43rzf/R38BV2fcz+XxeQ9fBbhY
-         XplVoen9ZKHsnHMJfWQnt06mOIM5VXbjq1GkWn+fEZ+tpddyhGj+dArjIt/EBLL39l6g
-         6F26IhnYJPaK6Ha+lp0UwhQgB59rv1iKqzmepgi1DUjClwWxDzEgGgoynWk2YvonQf6F
-         /VIQ==
-X-Gm-Message-State: AOAM533zvMQ8wkKblKb9/kxCzrB/T4URzLaCiL4LC6ud+8Qda/ldB7AW
-        PL9xeShoFHfdCD9BmjuYpO1mDA==
-X-Google-Smtp-Source: ABdhPJzY1EA1gKYAjC0/wFLQ8zOis9WUaThFryPbsCAa6HYcRuwOQnBjCPCWIyToQh8i4anN2+EsDQ==
-X-Received: by 2002:a05:600c:2182:b0:397:58f5:c6cf with SMTP id e2-20020a05600c218200b0039758f5c6cfmr23289080wme.86.1654005057059;
-        Tue, 31 May 2022 06:50:57 -0700 (PDT)
+        bh=F+yIDk55VuOl9cCuSgTZgPbJurzlbWspdqV8YJPygQc=;
+        b=tW9zqVykWeny8tnF+YvpeLOlut1OQ1cfiZ8iYVensDmRQV9EyeGxpUCj76t8nxRoo8
+         LRUHwUptcPfVE1fZPCO0UE4cy4L1GePDNjo1MFAZRm8Rhz6j7qKPZCmE38IO8xb1jLMY
+         AjU/5sg9WVV6eqLTAkcprr3FBeT8mtNdnIopNraMBcd4EfPWOX4xHTKMytT6VuU6GgTP
+         ulV2B26aZ22jILouG3ptnQDh/8rbm7CklkTSqQzGPTyWfyuZDtIefyOuQgJoCC1Q0WQQ
+         g2YLNa2Iav5UGvLdxvCo87lvJUQeawuJ6aGQbOc8CLfwK85wa/XNnHHvCWIKJJQn6FxA
+         oVHQ==
+X-Gm-Message-State: AOAM531lJEv+4Hx17S2YNBo+O7hlqKwCbYJWNy3E3yUXQtE7PiuMVgEH
+        9wlrat2jrXPVoAQgYOty7AR0ew==
+X-Google-Smtp-Source: ABdhPJxRndr/fDoyjVrSbqXI6Y+AQpxP3kSIzUtyunLbOSK92Vlbw3Ep6IVSf+uKQoEqmyqn7EQXJA==
+X-Received: by 2002:adf:f405:0:b0:210:2d2d:c8ef with SMTP id g5-20020adff405000000b002102d2dc8efmr11703498wro.256.1654005064855;
+        Tue, 31 May 2022 06:51:04 -0700 (PDT)
 Received: from localhost.localdomain ([88.160.162.107])
-        by smtp.gmail.com with ESMTPSA id l11-20020a05600c1d0b00b00394351e35edsm2404806wms.26.2022.05.31.06.50.55
+        by smtp.gmail.com with ESMTPSA id l11-20020a05600c1d0b00b00394351e35edsm2404806wms.26.2022.05.31.06.51.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 06:50:56 -0700 (PDT)
+        Tue, 31 May 2022 06:51:04 -0700 (PDT)
 From:   Fabien Parent <fparent@baylibre.com>
 To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         vkoul@kernel.org, qii.wang@mediatek.com, matthias.bgg@gmail.com,
@@ -63,9 +63,9 @@ Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
         Fabien Parent <fparent@baylibre.com>
-Subject: [PATCH 10/17] dt-bindings: serial: mediatek: add MT8365 bindings
-Date:   Tue, 31 May 2022 15:50:19 +0200
-Message-Id: <20220531135026.238475-11-fparent@baylibre.com>
+Subject: [PATCH 14/17] dt-bindings: usb: mediatek,mtk-xhci: add MT8365 SoC bindings
+Date:   Tue, 31 May 2022 15:50:23 +0200
+Message-Id: <20220531135026.238475-15-fparent@baylibre.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220531135026.238475-1-fparent@baylibre.com>
 References: <20220531135026.238475-1-fparent@baylibre.com>
@@ -79,21 +79,21 @@ Add binding documentation for the MT8365 SoC.
 
 Signed-off-by: Fabien Parent <fparent@baylibre.com>
 ---
- Documentation/devicetree/bindings/serial/mediatek,uart.yaml | 1 +
+ Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/serial/mediatek,uart.yaml b/Documentation/devicetree/bindings/serial/mediatek,uart.yaml
-index 4ff27d6d4d5b..71e78f285e47 100644
---- a/Documentation/devicetree/bindings/serial/mediatek,uart.yaml
-+++ b/Documentation/devicetree/bindings/serial/mediatek,uart.yaml
-@@ -44,6 +44,7 @@ properties:
-               - mediatek,mt8186-uart
-               - mediatek,mt8192-uart
-               - mediatek,mt8195-uart
-+              - mediatek,mt8365-uart
-               - mediatek,mt8516-uart
-           - const: mediatek,mt6577-uart
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+index 084d7135b2d9..65f0ce225f13 100644
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+@@ -33,6 +33,7 @@ properties:
+           - mediatek,mt8186-xhci
+           - mediatek,mt8192-xhci
+           - mediatek,mt8195-xhci
++          - mediatek,mt8365-xhci
+       - const: mediatek,mtk-xhci
  
+   reg:
 -- 
 2.36.1
 
