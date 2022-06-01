@@ -2,106 +2,84 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D0D4C433EF
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Jun 2022 04:16:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1255C433EF
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Jun 2022 04:22:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232456AbiFAEQA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 1 Jun 2022 00:16:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50272 "EHLO
+        id S1343915AbiFAEWP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 1 Jun 2022 00:22:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232248AbiFAEP7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Jun 2022 00:15:59 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FAC59CF64
-        for <linux-usb@vger.kernel.org>; Tue, 31 May 2022 21:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1654056958; x=1685592958;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=nNCOA0Xb/Vydyork6QOAfUO2Y2Gkm1AhMAj+H0m/n/I=;
-  b=E/5Y8I0FCLwSw3cSOvZUmVtSToTOcC9S751XPSb8ltpmlu26i/MYck+e
-   Rx6euVysKnM3sRlFCOf3XTXsHOIwws7v9jhpuAQEO5liIrCSOhkmMD2z8
-   8XnT+uMzEeXA5Biqu6QMUGdWa1aGCCdH0L5FsTzY3AvW5Hq0Ou65BOhKR
-   g=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 31 May 2022 21:15:58 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 21:15:57 -0700
-Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 31 May 2022 21:15:57 -0700
-Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 31 May 2022 21:15:56 -0700
-From:   Linyu Yuan <quic_linyyuan@quicinc.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>,
-        Michael Wu <michael@allwinnertech.com>,
-        "John Keeping" <john@metanate.com>,
-        Linyu Yuan <quic_linyyuan@quicinc.com>
-Subject: [PATCH v3 2/2] usb: gadget: f_fs: change ep->ep safe in ffs_epfile_io()
-Date:   Wed, 1 Jun 2022 12:15:16 +0800
-Message-ID: <1654056916-2062-3-git-send-email-quic_linyyuan@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1654056916-2062-1-git-send-email-quic_linyyuan@quicinc.com>
-References: <1654056916-2062-1-git-send-email-quic_linyyuan@quicinc.com>
+        with ESMTP id S239067AbiFAEWM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Jun 2022 00:22:12 -0400
+X-Greylist: delayed 916 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 31 May 2022 21:22:10 PDT
+Received: from mail-m972.mail.163.com (mail-m972.mail.163.com [123.126.97.2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 84CB556C3D;
+        Tue, 31 May 2022 21:22:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=NQtIH
+        J06HoYqg4AlgS70TpzgL+X5qu9PjqBNRbTGWww=; b=MXWCIKMhGzqfZQ8Su4hJu
+        rEnVWc6Z+bVxH/fjXKNl84AEUstOc5En4zjaVjXSucmncX9vIg4y3Dmb5nAO7O50
+        qmlehQrC/ArMFL3M3T+SgHzR7plgMV2YEjQf1hsGeSDQMWCPlBfCr8+NvcOU1Iz6
+        B4Y3MxdgfJMk8txOmQLucg=
+Received: from localhost.localdomain (unknown [112.97.51.18])
+        by smtp2 (Coremail) with SMTP id GtxpCgCn4d6P5ZZipNqMFw--.1225S2;
+        Wed, 01 Jun 2022 12:05:37 +0800 (CST)
+From:   Slark Xiao <slark_xiao@163.com>
+To:     bjorn@mork.no, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com
+Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Slark Xiao <slark_xiao@163.com>
+Subject: [PATCH] net: usb: qmi_wwan: Add support for Cinterion MV31 with new baseline
+Date:   Wed,  1 Jun 2022 12:05:31 +0800
+Message-Id: <20220601040531.6016-1-slark_xiao@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: GtxpCgCn4d6P5ZZipNqMFw--.1225S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Ww15CrWDKF1rCr4xKFyDJrb_yoW8Cr1rp3
+        yqkryayF1UX3Wjva4DAF1S9rZYv3ZxW3sF9a47Aws7WFW0yrn2grW8tFyxZ3Z29r4fKa1j
+        vF4qg34xJ3s5GrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0z_g4hxUUUUU=
+X-Originating-IP: [112.97.51.18]
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbBAxkTZGB0KyYyIgAAsk
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In ffs_epfile_io(), when read/write data in blocking mode, it will wait
-the completion in interruptible mode, if task receive a signal, it will
-terminate the wait, at same time, if function unbind occurs,
-ffs_func_unbind() will kfree all eps, ffs_epfile_io() still try to
-dequeue request by dereferencing ep which may become invalid.
+Adding support for Cinterion device MV31 with Qualcomm
+new baseline. Use different PIDs to separate it from
+previous base line products.
+All interfaces settings keep same as previous.
 
-Fix it by add ep spinlock and will not dereference ep if it is not valid.
+T:  Bus=03 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  7 Spd=480 MxCh= 0
+D:  Ver= 2.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
+P:  Vendor=1e2d ProdID=00b9 Rev=04.14
+S:  Manufacturer=Cinterion
+S:  Product=Cinterion PID 0x00B9 USB Mobile Broadband
+S:  SerialNumber=90418e79
+C:  #Ifs= 4 Cfg#= 1 Atr=a0 MxPwr=500mA
+I:  If#=0x0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
+I:  If#=0x1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
+I:  If#=0x3 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
 
-Reported-by: Michael Wu <michael@allwinnertech.com>
-Reviewed-by: John Keeping <john@metanate.com>
-Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
 ---
-v2: add Reviewed-by from John keeping
-v3: add Reported-by from Michael Wu
+ drivers/net/usb/qmi_wwan.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/usb/gadget/function/f_fs.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index d4d8940..9bf9287 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -1077,6 +1077,11 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 		spin_unlock_irq(&epfile->ffs->eps_lock);
- 
- 		if (wait_for_completion_interruptible(&io_data->done)) {
-+			spin_lock_irq(&epfile->ffs->eps_lock);
-+			if (epfile->ep != ep) {
-+				ret = -ESHUTDOWN;
-+				goto error_lock;
-+			}
- 			/*
- 			 * To avoid race condition with ffs_epfile_io_complete,
- 			 * dequeue the request first then check
-@@ -1084,6 +1089,7 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 			 * condition with req->complete callback.
- 			 */
- 			usb_ep_dequeue(ep->ep, req);
-+			spin_unlock_irq(&epfile->ffs->eps_lock);
- 			wait_for_completion(&io_data->done);
- 			interrupted = io_data->status < 0;
- 		}
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index a659d6fb0b12..571a399c195d 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -1389,6 +1389,7 @@ static const struct usb_device_id products[] = {
+ 	{QMI_FIXED_INTF(0x1e2d, 0x0083, 4)},	/* Cinterion PHxx,PXxx (1 RmNet + USB Audio)*/
+ 	{QMI_QUIRK_SET_DTR(0x1e2d, 0x00b0, 4)},	/* Cinterion CLS8 */
+ 	{QMI_FIXED_INTF(0x1e2d, 0x00b7, 0)},	/* Cinterion MV31 RmNet */
++	{QMI_FIXED_INTF(0x1e2d, 0x00b9, 0)},	/* Cinterion MV31 RmNet based on new baseline */
+ 	{QMI_FIXED_INTF(0x413c, 0x81a2, 8)},	/* Dell Wireless 5806 Gobi(TM) 4G LTE Mobile Broadband Card */
+ 	{QMI_FIXED_INTF(0x413c, 0x81a3, 8)},	/* Dell Wireless 5570 HSPA+ (42Mbps) Mobile Broadband Card */
+ 	{QMI_FIXED_INTF(0x413c, 0x81a4, 8)},	/* Dell Wireless 5570e HSPA+ (42Mbps) Mobile Broadband Card */
 -- 
-2.7.4
+2.25.1
 
