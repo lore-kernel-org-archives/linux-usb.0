@@ -2,84 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1255C433EF
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Jun 2022 04:22:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 701BBC433EF
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Jun 2022 06:04:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343915AbiFAEWP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 1 Jun 2022 00:22:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38206 "EHLO
+        id S243177AbiFAGEa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 1 Jun 2022 02:04:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239067AbiFAEWM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Jun 2022 00:22:12 -0400
-X-Greylist: delayed 916 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 31 May 2022 21:22:10 PDT
-Received: from mail-m972.mail.163.com (mail-m972.mail.163.com [123.126.97.2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 84CB556C3D;
-        Tue, 31 May 2022 21:22:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=NQtIH
-        J06HoYqg4AlgS70TpzgL+X5qu9PjqBNRbTGWww=; b=MXWCIKMhGzqfZQ8Su4hJu
-        rEnVWc6Z+bVxH/fjXKNl84AEUstOc5En4zjaVjXSucmncX9vIg4y3Dmb5nAO7O50
-        qmlehQrC/ArMFL3M3T+SgHzR7plgMV2YEjQf1hsGeSDQMWCPlBfCr8+NvcOU1Iz6
-        B4Y3MxdgfJMk8txOmQLucg=
-Received: from localhost.localdomain (unknown [112.97.51.18])
-        by smtp2 (Coremail) with SMTP id GtxpCgCn4d6P5ZZipNqMFw--.1225S2;
-        Wed, 01 Jun 2022 12:05:37 +0800 (CST)
-From:   Slark Xiao <slark_xiao@163.com>
-To:     bjorn@mork.no, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com
-Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH] net: usb: qmi_wwan: Add support for Cinterion MV31 with new baseline
-Date:   Wed,  1 Jun 2022 12:05:31 +0800
-Message-Id: <20220601040531.6016-1-slark_xiao@163.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S238942AbiFAGE3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Jun 2022 02:04:29 -0400
+Received: from louie.mork.no (louie.mork.no [IPv6:2001:41c8:51:8a:feff:ff:fe00:e5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68AC966C93;
+        Tue, 31 May 2022 23:04:27 -0700 (PDT)
+Received: from canardo.dyn.mork.no ([IPv6:2a01:799:c9d:7e00:0:0:0:1])
+        (authenticated bits=0)
+        by louie.mork.no (8.15.2/8.15.2) with ESMTPSA id 25163bpO1194431
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+        Wed, 1 Jun 2022 07:03:38 +0100
+Received: from miraculix.mork.no ([IPv6:2a01:799:c9d:7e02:9be5:c549:1a72:4709])
+        (authenticated bits=0)
+        by canardo.dyn.mork.no (8.15.2/8.15.2) with ESMTPSA id 25163VY73277715
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+        Wed, 1 Jun 2022 08:03:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
+        t=1654063412; bh=Z8VQepQywpNhUdP9sxuS8hnvH4ZlltBtmsUuhQTli2c=;
+        h=From:To:Cc:Subject:References:Date:Message-ID:From;
+        b=fod5sVP1nRIUCLjzh5U/9k1uJkaqhtnrbBpk9XMMyVd9rS53i36+NN5b3jvPIqmjE
+         6ODblHo1JzsyA1n42cglXvZw8FJoMgVVvkO5ha2kZ66mD2WZXrEuNbGmrKnp+jpdFI
+         uY5Dxv/K2gzDJWEYyS1pNIqfODeBOoQUJ8Xrop3c=
+Received: (nullmailer pid 1032539 invoked by uid 1000);
+        Wed, 01 Jun 2022 06:03:31 -0000
+From:   =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
+To:     Slark Xiao <slark_xiao@163.com>
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net: usb: qmi_wwan: Add support for Cinterion MV31 with
+ new baseline
+Organization: m
+References: <20220601040531.6016-1-slark_xiao@163.com>
+Date:   Wed, 01 Jun 2022 08:03:31 +0200
+In-Reply-To: <20220601040531.6016-1-slark_xiao@163.com> (Slark Xiao's message
+        of "Wed, 1 Jun 2022 12:05:31 +0800")
+Message-ID: <87o7zcly30.fsf@miraculix.mork.no>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: GtxpCgCn4d6P5ZZipNqMFw--.1225S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Ww15CrWDKF1rCr4xKFyDJrb_yoW8Cr1rp3
-        yqkryayF1UX3Wjva4DAF1S9rZYv3ZxW3sF9a47Aws7WFW0yrn2grW8tFyxZ3Z29r4fKa1j
-        vF4qg34xJ3s5GrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0z_g4hxUUUUU=
-X-Originating-IP: [112.97.51.18]
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbBAxkTZGB0KyYyIgAAsk
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Virus-Scanned: clamav-milter 0.103.5 at canardo
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Adding support for Cinterion device MV31 with Qualcomm
-new baseline. Use different PIDs to separate it from
-previous base line products.
-All interfaces settings keep same as previous.
+Slark Xiao <slark_xiao@163.com> writes:
 
-T:  Bus=03 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  7 Spd=480 MxCh= 0
-D:  Ver= 2.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
-P:  Vendor=1e2d ProdID=00b9 Rev=04.14
-S:  Manufacturer=Cinterion
-S:  Product=Cinterion PID 0x00B9 USB Mobile Broadband
-S:  SerialNumber=90418e79
-C:  #Ifs= 4 Cfg#= 1 Atr=a0 MxPwr=500mA
-I:  If#=0x0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
-I:  If#=0x1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-I:  If#=0x3 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
+> Adding support for Cinterion device MV31 with Qualcomm
+> new baseline. Use different PIDs to separate it from
+> previous base line products.
+> All interfaces settings keep same as previous.
+>
+> T:  Bus=3D03 Lev=3D01 Prnt=3D01 Port=3D00 Cnt=3D01 Dev#=3D  7 Spd=3D480 M=
+xCh=3D 0
+> D:  Ver=3D 2.10 Cls=3Def(misc ) Sub=3D02 Prot=3D01 MxPS=3D64 #Cfgs=3D  1
+> P:  Vendor=3D1e2d ProdID=3D00b9 Rev=3D04.14
+> S:  Manufacturer=3DCinterion
+> S:  Product=3DCinterion PID 0x00B9 USB Mobile Broadband
+> S:  SerialNumber=3D90418e79
+> C:  #Ifs=3D 4 Cfg#=3D 1 Atr=3Da0 MxPwr=3D500mA
+> I:  If#=3D0x0 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3D50 Drive=
+r=3Dqmi_wwan
+> I:  If#=3D0x1 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3D40 Drive=
+r=3Doption
+> I:  If#=3D0x2 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3D60 Drive=
+r=3Doption
+> I:  If#=3D0x3 Alt=3D 0 #EPs=3D 2 Cls=3Dff(vend.) Sub=3Dff Prot=3D30 Drive=
+r=3Doption
+>
+> Signed-off-by: Slark Xiao <slark_xiao@163.com>
 
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
----
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index a659d6fb0b12..571a399c195d 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1389,6 +1389,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x1e2d, 0x0083, 4)},	/* Cinterion PHxx,PXxx (1 RmNet + USB Audio)*/
- 	{QMI_QUIRK_SET_DTR(0x1e2d, 0x00b0, 4)},	/* Cinterion CLS8 */
- 	{QMI_FIXED_INTF(0x1e2d, 0x00b7, 0)},	/* Cinterion MV31 RmNet */
-+	{QMI_FIXED_INTF(0x1e2d, 0x00b9, 0)},	/* Cinterion MV31 RmNet based on new baseline */
- 	{QMI_FIXED_INTF(0x413c, 0x81a2, 8)},	/* Dell Wireless 5806 Gobi(TM) 4G LTE Mobile Broadband Card */
- 	{QMI_FIXED_INTF(0x413c, 0x81a3, 8)},	/* Dell Wireless 5570 HSPA+ (42Mbps) Mobile Broadband Card */
- 	{QMI_FIXED_INTF(0x413c, 0x81a4, 8)},	/* Dell Wireless 5570e HSPA+ (42Mbps) Mobile Broadband Card */
--- 
-2.25.1
-
+Acked-by: Bj=C3=B8rn Mork <bjorn@mork.no>
