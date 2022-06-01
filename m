@@ -2,91 +2,214 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8EABC433EF
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Jun 2022 16:44:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44646CCA47A
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Jun 2022 17:33:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356214AbiFAQoy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 1 Jun 2022 12:44:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38846 "EHLO
+        id S1356371AbiFARdf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 1 Jun 2022 13:33:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356196AbiFAQon (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Jun 2022 12:44:43 -0400
-X-Greylist: delayed 412 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 01 Jun 2022 09:44:40 PDT
-Received: from mail.toniclab.ru (unknown [194.187.149.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 416B29E9DA
-        for <linux-usb@vger.kernel.org>; Wed,  1 Jun 2022 09:44:39 -0700 (PDT)
-Received: from post.toniclab.ru (localhost [127.0.0.1])
-        by mail.toniclab.ru (Postfix) with ESMTPSA id 76F7F154DF7
-        for <linux-usb@vger.kernel.org>; Wed,  1 Jun 2022 19:37:45 +0300 (MSK)
+        with ESMTP id S1346250AbiFARda (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Jun 2022 13:33:30 -0400
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FFF86E8C3;
+        Wed,  1 Jun 2022 10:33:29 -0700 (PDT)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-e93bbb54f9so3586216fac.12;
+        Wed, 01 Jun 2022 10:33:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=g/q8Ry/wqbpa2LSJpp84P/0VUqJYk079x4LedOp/0TI=;
+        b=Jjquta200CuvHIf3tnkZiTvzXzCxbujkUBZkDTmwQ7VD2v1mUjV/iKvJWOxWZ7jeyz
+         H1/z/lwZU3UvQ+jODcDkRieaBXnzBHQyPvr+rkpthDnjkTbBcCzfz4HSsQ4SIEGX1JLk
+         LwFQBL4cfnt2+M4yg2g6g8Cc4X6rNtCMY9RfCoKk8ab3UAwOAo/6jFv4L3w/h2NGmUBo
+         fO3vzcaOWGAODs9mO68nMSt4K2PjFZIlzhG30jvU5WNZ0B0cSH6dGjTm1FRlHdTrwMII
+         mUMcbZQzapVCbBwu1F+oGIteA3ey00CL2BW85EWDOiN8o44W/Pu8bxWgS1ifbbSCYjJ7
+         FtYQ==
+X-Gm-Message-State: AOAM532eSDRjnEvodOCKj7MW78Cl6IL0xRgeJpUkoIZtmlKZqK7fakvH
+        Vhlk8W0Oc7o/jyGHFJGQCw==
+X-Google-Smtp-Source: ABdhPJwQGOeZSoePmPAvSCimyS6zpImcovhOJ8TREaIjdgLPMYAczQBo/kuJDVlj92kGnCRTZ2SFTQ==
+X-Received: by 2002:a05:6870:631a:b0:ed:7825:e9ff with SMTP id s26-20020a056870631a00b000ed7825e9ffmr17010403oao.54.1654104808291;
+        Wed, 01 Jun 2022 10:33:28 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id e21-20020a4ab995000000b0035f6cf71391sm1122267oop.43.2022.06.01.10.33.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jun 2022 10:33:27 -0700 (PDT)
+Received: (nullmailer pid 71870 invoked by uid 1000);
+        Wed, 01 Jun 2022 17:33:26 -0000
+Date:   Wed, 1 Jun 2022 12:33:26 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Krishna Kurapati <quic_kriskura@quicinc.com>
+Cc:     Andy Gross <agross@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-phy@lists.infradead.org,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sandeep Maheswaram <quic_c_sanm@quicinc.com>,
+        quic_ppratap@quicinc.com, linux-usb@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, quic_vpulyala@quicinc.com,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        quic_pkondeti@quicinc.com, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: Re: [PATCH v8 1/3] dt-bindings: phy: qcom,usb-snps-femto-v2: Add phy
+ override params bindings
+Message-ID: <20220601173326.GA3993065-robh@kernel.org>
+References: <1654066564-20518-1-git-send-email-quic_kriskura@quicinc.com>
+ <1654066564-20518-2-git-send-email-quic_kriskura@quicinc.com>
+ <1654086533.981346.3753217.nullmailer@robh.at.kernel.org>
 MIME-Version: 1.0
-Date:   Wed, 01 Jun 2022 19:37:45 +0300
-From:   "TonicLab.ru" <info@toniclab.ru>
-To:     linux-usb@vger.kernel.org
-Subject: /dev/ttyUSB0 file disappears on Ubuntu 22.04
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <4b9e024d14c40cba7c04d5879ae64866@toniclab.ru>
-X-Sender: info@toniclab.ru
-Organization: TonicLab
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1654086533.981346.3753217.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi all,
+On Wed, Jun 01, 2022 at 07:28:53AM -0500, Rob Herring wrote:
+> On Wed, 01 Jun 2022 12:26:02 +0530, Krishna Kurapati wrote:
+> > From: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
+> > 
+> > Add device tree bindings for SNPS phy tuning parameters.
+> > 
+> > Signed-off-by: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
+> > Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > ---
+> >  .../bindings/phy/qcom,usb-snps-femto-v2.yaml       | 96 ++++++++++++++++++++++
+> >  1 file changed, 96 insertions(+)
+> > 
+> 
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,hs-rise-fall-time-bp: 'oneOf' conditional failed, one must be fixed:
+> 	'type' is a required property
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	Additional properties are not allowed ('maximum', 'minimum' were unexpected)
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,hs-rise-fall-time-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'enum' is a required property
+> 		'const' is a required property
+> 		hint: A vendor string property with exact values has an implicit type
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,hs-rise-fall-time-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'$ref' is a required property
+> 		'allOf' is a required property
+> 		hint: A vendor property needs a $ref to types.yaml
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+> 	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,ls-fs-output-impedance-bp: 'oneOf' conditional failed, one must be fixed:
+> 	'type' is a required property
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	Additional properties are not allowed ('maximum', 'minimum' were unexpected)
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,ls-fs-output-impedance-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'enum' is a required property
+> 		'const' is a required property
+> 		hint: A vendor string property with exact values has an implicit type
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,ls-fs-output-impedance-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'$ref' is a required property
+> 		'allOf' is a required property
+> 		hint: A vendor property needs a $ref to types.yaml
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+> 	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,pre-emphasis-amplitude-bp: 'oneOf' conditional failed, one must be fixed:
+> 	'type' is a required property
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	Additional properties are not allowed ('maximum', 'minimum' were unexpected)
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,pre-emphasis-amplitude-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'enum' is a required property
+> 		'const' is a required property
+> 		hint: A vendor string property with exact values has an implicit type
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,pre-emphasis-amplitude-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'$ref' is a required property
+> 		'allOf' is a required property
+> 		hint: A vendor property needs a $ref to types.yaml
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+> 	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,squelch-detector-bp: 'oneOf' conditional failed, one must be fixed:
+> 	'type' is a required property
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	Additional properties are not allowed ('maximum', 'minimum' were unexpected)
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,squelch-detector-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'enum' is a required property
+> 		'const' is a required property
+> 		hint: A vendor string property with exact values has an implicit type
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,squelch-detector-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'$ref' is a required property
+> 		'allOf' is a required property
+> 		hint: A vendor property needs a $ref to types.yaml
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+> 	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,hs-disconnect-bp: 'oneOf' conditional failed, one must be fixed:
+> 	'type' is a required property
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	Additional properties are not allowed ('maximum', 'minimum' were unexpected)
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,hs-disconnect-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'enum' is a required property
+> 		'const' is a required property
+> 		hint: A vendor string property with exact values has an implicit type
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,hs-disconnect-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'$ref' is a required property
+> 		'allOf' is a required property
+> 		hint: A vendor property needs a $ref to types.yaml
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+> 	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,hs-amplitude-bp: 'oneOf' conditional failed, one must be fixed:
+> 	'type' is a required property
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	Additional properties are not allowed ('maximum', 'minimum' were unexpected)
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,hs-amplitude-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'enum' is a required property
+> 		'const' is a required property
+> 		hint: A vendor string property with exact values has an implicit type
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,hs-amplitude-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'$ref' is a required property
+> 		'allOf' is a required property
+> 		hint: A vendor property needs a $ref to types.yaml
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+> 	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,pre-emphasis-duration-bp: 'oneOf' conditional failed, one must be fixed:
+> 	'type' is a required property
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	Additional properties are not allowed ('maximum', 'minimum' were unexpected)
+> 		hint: A vendor boolean property can use "type: boolean"
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,pre-emphasis-duration-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'enum' is a required property
+> 		'const' is a required property
+> 		hint: A vendor string property with exact values has an implicit type
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: properties:qcom,pre-emphasis-duration-bp: 'oneOf' conditional failed, one must be fixed:
+> 		'$ref' is a required property
+> 		'allOf' is a required property
+> 		hint: A vendor property needs a $ref to types.yaml
+> 		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> 	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+> 	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: ignoring, error in schema: properties: qcom,hs-rise-fall-time-bp
+> Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.example.dtb:0:0: /example-0/phy@88e2000: failed to match any schema with compatible: ['qcom,sm8150-usb-hs-phy']
 
-This problem appeared on a freshly installed Ubuntu 22.04 desktop. Not 
-sure I need to post this here.
+Ignore these. A tool issue which is now fixed.
 
-When I'm attaching a ftdi device into usb everything looks great but 
-there's no /dev/ttyUSB0 file. Seems it created and then disappeared. I 
-tried to remove brltty package (as some recommends on the net) but it 
-didn't help. The same ftdi device works on older Ubuntu version w/o any 
-problems.
-
-I'm having this in syslog:
-Jun  1 16:58:09 qgs-comp kernel: [  538.642086] usb 2-1.5: new 
-full-speed USB device number 5 using ehci-pci
-Jun  1 16:58:10 qgs-comp kernel: [  538.756437] usb 2-1.5: New USB 
-device found, idVendor=0403, idProduct=6001, bcdDevice= 6.00
-Jun  1 16:58:10 qgs-comp kernel: [  538.756445] usb 2-1.5: New USB 
-device strings: Mfr=1, Product=2, SerialNumber=3
-Jun  1 16:58:10 qgs-comp kernel: [  538.756448] usb 2-1.5: Product: USB 
-Serial
-Jun  1 16:58:10 qgs-comp kernel: [  538.756450] usb 2-1.5: Manufacturer: 
-FTDI
-Jun  1 16:58:10 qgs-comp kernel: [  538.756452] usb 2-1.5: SerialNumber: 
-FT0KKBIF
-Jun  1 16:58:10 qgs-comp kernel: [  538.759677] ftdi_sio 2-1.5:1.0: FTDI 
-USB Serial Device converter detected
-Jun  1 16:58:10 qgs-comp kernel: [  538.759713] usb 2-1.5: Detected 
-FT232RL
-Jun  1 16:58:10 qgs-comp kernel: [  538.760546] usb 2-1.5: FTDI USB 
-Serial Device converter now attached to ttyUSB0
-Jun  1 16:58:01 qgs-comp colord-sane: message repeated 2 times: [ 
-io/hpmud/musb.c 2101: Invalid usb_open: Permission denied]
-Jun  1 16:58:10 qgs-comp mtp-probe: checking bus 2, device 5: 
-"/sys/devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.5"
-Jun  1 16:58:10 qgs-comp mtp-probe: bus: 2, device: 5 was not an MTP 
-device
-Jun  1 16:58:10 qgs-comp systemd-udevd[5394]: 2-1.5: Failed to 
-create/update device symlink '/dev/ttyUSB0', ignoring: File exists
-Jun  1 16:58:10 qgs-comp snapd[942]: hotplug.go:199: hotplug device add 
-event ignored, enable experimental.hotplug
-Jun  1 16:58:10 qgs-comp mtp-probe: checking bus 2, device 5: 
-"/sys/devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.5"
-Jun  1 16:58:10 qgs-comp mtp-probe: bus: 2, device: 5 was not an MTP 
-device
-Jun  1 16:58:10 qgs-comp colord-sane: io/hpmud/musb.c 2101: Invalid 
-usb_open: Permission denied
-
-I noticed this line:
-
-Jun  1 16:58:10 qgs-comp systemd-udevd[5394]: 2-1.5: Failed to 
-create/update device symlink '/dev/ttyUSB0', ignoring: File exists
-
-Why is it happening? There's no /dev/ttyUSB0 neither before nor after I 
-attach ftdi device to a USB port.
-
-thanks
+Rob
