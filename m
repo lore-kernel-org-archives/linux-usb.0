@@ -2,68 +2,83 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F590CCA47C
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jun 2022 18:50:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DB7AC433EF
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jun 2022 19:37:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347963AbiFCSu0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jun 2022 14:50:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53988 "EHLO
+        id S242163AbiFCThr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jun 2022 15:37:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349239AbiFCSuU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jun 2022 14:50:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76F23286D4;
-        Fri,  3 Jun 2022 11:50:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 33E07619D9;
-        Fri,  3 Jun 2022 18:50:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9CE14C36AE5;
-        Fri,  3 Jun 2022 18:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654282218;
-        bh=m591v3STS7SyfXpP9BlxK4XZiKIq2ToOWCGMX4Uu/BA=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=oP1Yw4H1THn+/ASQVMz/8EQ0MGa20lsgY3RtBl3fYJ8SGPoV93AY4lZGj/FoCJlMt
-         ubvFqc5Z1Zs2kbrrc0nt2cdnRsiLNEhAX7rqCNEffshT7yZ5ic15ulPw79boky+wje
-         A9EB5W+Uyf3D1uDRjWTJqho2oXeId2bn8CyiyIxgEbttsEvNcUvMTy506TBU9Qolj8
-         cLYv0LiCNk1MiJK9A/s3x0xgCLx5Y22E4TT5ecqvRwrClWWAXiBSqTlNwx2xgxzPQA
-         fEfLcmIjiJiDe/Fo0iUXNQ0hvmOQRXRBWInibiPER1pmrhemnZWG+lAaguIsdGWjGo
-         Yn75zGL2i05IQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 89124F0394E;
-        Fri,  3 Jun 2022 18:50:18 +0000 (UTC)
-Subject: Re: [GIT PULL] USB / Thunderbolt driver updates for 5.19-rc1
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <YpnhBp/nzjpz+Pxr@kroah.com>
-References: <YpnhBp/nzjpz+Pxr@kroah.com>
-X-PR-Tracked-List-Id: <linux-usb.vger.kernel.org>
-X-PR-Tracked-Message-Id: <YpnhBp/nzjpz+Pxr@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.19-rc1
-X-PR-Tracked-Commit-Id: 97fa5887cf283bb75ffff5f6b2c0e71794c02400
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 54c2cc79194c961a213c1d375fe3aa4165664cc4
-Message-Id: <165428221855.10974.5753214896868680091.pr-tracker-bot@kernel.org>
-Date:   Fri, 03 Jun 2022 18:50:18 +0000
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+        with ESMTP id S237761AbiFCThq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jun 2022 15:37:46 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 7D6C6326CF
+        for <linux-usb@vger.kernel.org>; Fri,  3 Jun 2022 12:37:45 -0700 (PDT)
+Received: (qmail 311064 invoked by uid 1000); 3 Jun 2022 15:37:44 -0400
+Date:   Fri, 3 Jun 2022 15:37:44 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Michael Grzeschik <mgr@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH v3] usb: hub: port: add sysfs entry to switch port power
+Message-ID: <YppjCCJrtxc4lEGc@rowland.harvard.edu>
+References: <20220603115222.2151283-1-m.grzeschik@pengutronix.de>
+ <YpovuqKtQBKQoVos@rowland.harvard.edu>
+ <20220603172209.GD26638@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220603172209.GD26638@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The pull request you sent on Fri, 3 Jun 2022 12:23:02 +0200:
+On Fri, Jun 03, 2022 at 07:22:09PM +0200, Michael Grzeschik wrote:
+> On Fri, Jun 03, 2022 at 11:58:50AM -0400, Alan Stern wrote:
+> > On Fri, Jun 03, 2022 at 01:52:22PM +0200, Michael Grzeschik wrote:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.19-rc1
+> > > +static ssize_t disable_show(struct device *dev,
+> > > +			      struct device_attribute *attr, char *buf)
+> > > +{
+> > > +	struct usb_port *port_dev = to_usb_port(dev);
+> > > +	struct usb_device *hdev = to_usb_device(dev->parent->parent);
+> > > +	struct usb_hub *hub = usb_hub_to_struct_hub(hdev);
+> > > +	int port1 = port_dev->portnum;
+> > > +	bool state = test_bit(port1, hub->power_bits);
+> > > +
+> > > +	return sprintf(buf, "%s\n", state ? "0" : "1");
+> > 
+> > Maybe "false" and "true" instead of "0" and "1"?
+> 
+> I prefer 0 and 1 since we also feed this to the file.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/54c2cc79194c961a213c1d375fe3aa4165664cc4
+Oops -- I was wrong about "true" or "false" (which is a little odd; 
+you'd think a parser for boolean values would certainly recognize those 
+words).  However, strtobool() does also recognize "yes", "no", "on", and 
+"off".
 
-Thank you!
+Using "on" and "off" would lead to confusion, since "on" means 
+"disable is turned on", which means the port is off!  "Yes" and "no" 
+would be okay, though.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+> Also, I just found out that just parsing power_bits is not enough.
+> 
+> E.g. when we use other tools to set clear PORT_POWER on the hub like
+> uhubctl to disable a port. The value does not represent the real state
+> of the port.
+
+The value in power_bits is always supposed to match the real state of 
+the port.  How does uhubctl manage to get them to disagree?
+
+> I think it is better to use hub_port_status and port_is_power_on from
+> hub.c to test the real state by sending a GET_STATUS command.
+
+Maybe.  But if power_bits is working properly, this should not be 
+needed.  It would be better to fix the value stored in power_bits.
+
+Alan Stern
+
+> For this, the functions need to be unset static and exported via hub.h.
+> 
+> I will add this in v4.
+
