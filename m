@@ -2,141 +2,112 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD65CCA481
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jun 2022 17:10:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E455C433EF
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jun 2022 17:12:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344252AbiFCRKa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jun 2022 13:10:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52576 "EHLO
+        id S1344263AbiFCRM6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jun 2022 13:12:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230480AbiFCRK0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jun 2022 13:10:26 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 869CE5251B;
-        Fri,  3 Jun 2022 10:10:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0B46BB823AB;
-        Fri,  3 Jun 2022 17:10:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C2A6C385B8;
-        Fri,  3 Jun 2022 17:10:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654276222;
-        bh=Yhb8OPp1sSwZzVcLGVjDxYrN0vlwebO9faHuTNWhG4o=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=pJUj26xM3omq1XfJzae2/kNYP0GNrKZJAlX6qQvFkoORdgX2jatgBaZhjITDetyo4
-         6Ho3r8JCZNDTqYqTywpriBv1enouc70JPjw/sYrT7zAqOY3+TbCZUGrBVxnV0twFzb
-         vBFIAuE6Owl4SCoC0jyhKAh0Wkj62wDDrGkEYuY9ZHlH2kkn5YxDGMdMJ4lJ4ZJtOM
-         8FilAtIOaatwJZHh8x0+lYlCL4U9MemxvnRqpNaXZGP17ucBaA6OSj8utHuAIdF2Zq
-         mOVjuiYHKrUQzkdqfZZndqYO3gcqFcQLMxn6f/bbPrMbEy5YxC7w8yXCWqyVB3lzQC
-         zN8eYoz/vFcNw==
-Date:   Fri, 3 Jun 2022 18:19:17 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     ChiaEn Wu <peterwu.pub@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        lee.jones@linaro.org, daniel.thompson@linaro.org,
-        jingoohan1@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
-        sre@kernel.org, chunfeng.yun@mediatek.com,
-        gregkh@linuxfoundation.org, lars@metafoo.de, lgirdwood@gmail.com,
-        broonie@kernel.org, linux@roeck-us.net,
-        heikki.krogerus@linux.intel.com, deller@gmx.de,
-        ChiYuan Huang <cy_huang@richtek.com>, alice_chen@richtek.com,
-        chiaen_wu@richtek.com, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: Re: [RESEND 10/14] iio: adc: mt6370: Add Mediatek MT6370 support
-Message-ID: <20220603181917.3f737913@jic23-huawei>
-In-Reply-To: <CABtFH5Lg43EXS7juhXQ2wQFZzkpD7YB8rM6UFT=U9BDOKcbaNw@mail.gmail.com>
-References: <20220531111900.19422-1-peterwu.pub@gmail.com>
-        <20220531111900.19422-11-peterwu.pub@gmail.com>
-        <20220531142102.00007df0@Huawei.com>
-        <CABtFH5Lg43EXS7juhXQ2wQFZzkpD7YB8rM6UFT=U9BDOKcbaNw@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+        with ESMTP id S1343523AbiFCRM5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jun 2022 13:12:57 -0400
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E65F31DE0;
+        Fri,  3 Jun 2022 10:12:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1654276373; x=1685812373;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=Urv0hy64qRO+iwE9n3rXyY/3KPM/CjLWoCQfis2GBoo=;
+  b=p/oeStjf4tVuYJj6PW7xuv97ix5YP/BiUYE15WBKhW7kSTKkWXiNdLIv
+   jlxAgpc62KfveilT8mVVwJ+mMrtJbfhoEbz9KzGDVvopxqeg2orvQOXcE
+   mcygNFwoMW+gRh3Fdhmh/WMJ5Py53pcJMn4nTI8spGLYsLmimFrzE0inz
+   M=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 03 Jun 2022 10:12:52 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2022 10:12:52 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 3 Jun 2022 10:12:51 -0700
+Received: from hu-harshq-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 3 Jun 2022 10:12:47 -0700
+From:   Harsh Agarwal <quic_harshq@quicinc.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+CC:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
+        <quic_ppratap@quicinc.com>, <quic_jackp@quicinc.com>,
+        <ahalaney@redhat.com>, Harsh Agarwal <quic_harshq@quicinc.com>
+Subject: [PATCH v2 0/3] Add support for multiport controller 
+Date:   Fri, 3 Jun 2022 22:42:39 +0530
+Message-ID: <1654276362-28930-1-git-send-email-quic_harshq@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-> >  
-> > > +
-> > > +#define MT6370_AICR_400MA            0x6
-> > > +#define MT6370_ICHG_500MA            0x4
-> > > +#define MT6370_ICHG_900MA            0x8
-> > > +
-> > > +#define ADC_CONV_TIME_US             35000
-> > > +#define ADC_CONV_POLLING_TIME                1000
-> > > +
-> > > +struct mt6370_adc_data {
-> > > +     struct device *dev;
-> > > +     struct regmap *regmap;
-> > > +     struct mutex lock;  
-> >
-> > All locks need documentation.  What is the scope of the lock?
-> > Looks like it protects device state when doing setup, wait for read, read
-> > cycles.  
-> 
-> This mutex lock is for preventing the different adc channel from being
-> read at the same time.
-> So, if I just change its name to adc_chan_lock or adc_lock and add the
-> comment for this mutex lock, does this change meet your requirement
+Currently the DWC3 driver supports only single port controller which 
+requires at most two PHYs ie HS and SS PHYs. There are SoCs that has
+DWC3 controller with multiple ports that can operate in host mode. Some of
+the port supports both SS+HS and other port supports only HS mode.
 
-Yes
+This change refactors the PHY logic to support multiport controller. The 
+implementation has been tested with Generic PHYs as well.
 
-> 
-> >  
-> > > +};
-> > > +
-> > > +static int mt6370_adc_read_scale(struct mt6370_adc_data *priv,
-> > > +                              int chan, int *val1, int *val2)
-> > > +{
-> > > +     unsigned int reg_val;
-> > > +     int ret;
-> > > +
-> > > +     switch (chan) {
-> > > +     case MT6370_CHAN_VBAT:
-> > > +     case MT6370_CHAN_VSYS:
-> > > +     case MT6370_CHAN_CHG_VDDP:
-> > > +             *val1 = 5000;  
-> >
-> > This seems very large.  Voltages are in millivolts
-> > as per Documentation/ABI/testing/sysfs-bus-iio
-> > and this means each step is 5 volts.
-> >
-> > So value in mv is currently 5 * _raw
-> >  
-> 
-> OK, I got it. Also, I will add the ABI file in the next version. Thanks!
-Only add ABI documentation for anything non-standard.
+For any multiport controller we would define a new node "multiport" inside
+dwc3 and then add subsequent "mport" nodes inside it for individual ports
+that it supports. Now each individual "mport" node defines their own PHYs.
 
-The documentation scripts really don't like repeats!
+e.g.
+Consider a Dual port controller where each port supports HS+SS 
 
-> 
-> > > +static const char * const mt6370_channel_labels[MT6370_CHAN_MAX] = {  
-> >
-> > Perhaps define an enum with which to index this and the chan spec
-> > and hence ensure they end up matching.
-> >  [vbusdiv5] = "vbusdiv5", etc
-> >  
-> 
-> Do you mean that I can refine this const char array to the following array??
-> 
-> static const char * const mt6370_channel_labels[MT6370_CHAN_MAX] = {
->     [MT6370_CHAN_VBUSDIV5] =  "vbusdiv5",
->     [MT6370_CHAN_VBUSDIV2] =  "vbusdiv2",
->     ...
->     ...
->     [MT6370_CHAN_TEMP_JC] =  "temp_jc",
-> };
+multiport {
+	mp_1: mport1 {
+		usb-phy = <usb2_phy0>, <usb3_phy0>;
+        /* Can define Generic PHYs also */  
+	};	
+	mp_2: mport2 {
+		usb-phy = <usb2_phy1>, <usb3_phy1>;
+	};	
 
-Yes
+Changes in v2:
+Changed dwc3_count_phys to return the number of PHY Phandles in the node.
+This will be used now in dwc3_extract_num_phys to increment num_usb2_phy 
+and num_usb3_phy.
+Added new parameter "ss_idx" in dwc3_core_get_phy_ny_node and changed its
+structure such that the first half is for HS-PHY and second half is for
+SS-PHY.
+In dwc3_core_get_phy, for multiport controller, only if SS-PHY phandle is
+present, pass proper SS_IDX else pass -1.
 
-thanks,
+Harsh Agarwal (3):
+  dt-bindings: usb: dwc3: Add support for multiport related properties
+  usb: phy: Add devm_of_usb_get_phy_by_phandle
+  usb: dwc3: Refactor PHY logic to support Multiport Controller
 
-Jonathan
+ .../devicetree/bindings/usb/snps,dwc3.yaml         |  55 +++
+ drivers/usb/dwc3/core.c                            | 403 +++++++++++++++------
+ drivers/usb/dwc3/core.h                            |  12 +-
+ drivers/usb/dwc3/drd.c                             |  16 +-
+ drivers/usb/dwc3/gadget.c                          |   4 +-
+ drivers/usb/phy/phy.c                              |  34 ++
+ include/linux/usb/phy.h                            |   8 +
+ 7 files changed, 402 insertions(+), 130 deletions(-)
+
+-- 
+2.7.4
+
