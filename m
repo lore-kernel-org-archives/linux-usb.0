@@ -2,102 +2,194 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64B0FC43334
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jun 2022 11:04:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C02C6C433EF
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jun 2022 11:52:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243898AbiFCLEQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jun 2022 07:04:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50394 "EHLO
+        id S244108AbiFCLwc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jun 2022 07:52:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237380AbiFCLEO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jun 2022 07:04:14 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6374C3BFAC;
-        Fri,  3 Jun 2022 04:04:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654254252; x=1685790252;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W/HKIRPNvX152Z7BaxTdygVLuFAkWmCdbyYuVpi8UJg=;
-  b=aaALueKCYAelRvh3ATmM8b2MGMPKbf9ccvLQXzwpXJtPu437lmnKsSeN
-   Z7QQQpIG0E5yMX+D6Z5x9oNGeLtSZ+o6qIVUojQvMBgbA90525ORZNr3r
-   IlgsAmFVpCxwyXPRCBiRi7xKN4YsYHwIUw1VE4lVISk9XSwNM8Oq0/IE4
-   lLOOq1KY+OGFwsfKHgS2Lnf3udejdyqledqxtufCaUfKtNobDu4ovZ6WA
-   pN6m7FNkO3GJ4oDhU7I7fy73D+bxwtOBNshtjfBa2M1Q2RinxzADj1N0p
-   y0y4mbn1lRMoReaF32SHlsGjsbQa260Jr7Tn//nZCkO393BSAUvfGqY/x
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10366"; a="276297015"
-X-IronPort-AV: E=Sophos;i="5.91,274,1647327600"; 
-   d="scan'208";a="276297015"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2022 04:04:12 -0700
-X-IronPort-AV: E=Sophos;i="5.91,274,1647327600"; 
-   d="scan'208";a="530969122"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2022 04:04:08 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nx565-000SQf-2B;
-        Fri, 03 Jun 2022 14:04:05 +0300
-Date:   Fri, 3 Jun 2022 14:04:04 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     syzbot <syzbot+dd3c97de244683533381@syzkaller.appspotmail.com>
-Cc:     gregkh@linuxfoundation.org, hdanton@sina.com, lenb@kernel.org,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rafael.j.wysocki@intel.com, rafael@kernel.org, rjw@rjwysocki.net,
-        syzkaller-bugs@googlegroups.com, linux-usb@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [syzbot] general protection fault in __device_attach
-Message-ID: <YpnqpMYcokTwCB6u@smile.fi.intel.com>
-References: <000000000000bb7f1c05da29b601@google.com>
- <00000000000010b7d305e08837c8@google.com>
+        with ESMTP id S241403AbiFCLwb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jun 2022 07:52:31 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37A7320BF4
+        for <linux-usb@vger.kernel.org>; Fri,  3 Jun 2022 04:52:30 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nx5qu-0007F3-JW; Fri, 03 Jun 2022 13:52:28 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nx5qu-006DAJ-S8; Fri, 03 Jun 2022 13:52:27 +0200
+Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nx5qs-0091fD-Vb; Fri, 03 Jun 2022 13:52:26 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
+        kernel@pengutronix.de
+Subject: [PATCH v3] usb: hub: port: add sysfs entry to switch port power
+Date:   Fri,  3 Jun 2022 13:52:22 +0200
+Message-Id: <20220603115222.2151283-1-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <00000000000010b7d305e08837c8@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jun 03, 2022 at 03:02:07AM -0700, syzbot wrote:
-> syzbot has bisected this issue to:
-> 
-> commit a9c4cf299f5f79d5016c8a9646fa1fc49381a8c1
-> Author: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Date:   Fri Jun 18 13:41:27 2021 +0000
-> 
->     ACPI: sysfs: Use __ATTR_RO() and __ATTR_RW() macros
+In some cases the port of an hub needs to be disabled or switched off
+and on again. E.g. when the connected device needs to be re-enumerated.
+Or it needs to be explicitly disabled while the rest of the usb tree
+stays working.
 
-Hmm... It's not obvious at all how this change can alter the behaviour so
-drastically. device_add() is called from USB core with intf->dev.name == NULL
-by some reason. A-ha, seems like fault injector, which looks like
+For this purpose this patch adds an sysfs switch to enable/disable the
+port on any hub. In the case the hub is supporting power switching, the
+power line will be disabled to the connected device.
 
-	dev_set_name(&intf->dev, "%d-%s:%d.%d", dev->bus->busnum,
-		     dev->devpath, configuration, ifnum);
+When the port gets disabled, the associated device gets disconnected and
+removed from the logical usb tree. No further device will be enumerated
+on that port until the port gets enabled again.
 
-missed the return code check.
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
-But I'm not familiar with that code at all, adding Linux USB ML and Alan.
+---
+v1 -> v2:
+         - improved patch description
+         - moved usb_hub_set_port_power to end of function
+         - renamed value to set
+         - removed udev variable
+         - added usb_set_configuration set to -1 before removing device
+         - calling autosuspend of udev before usb_disconnect, ensuring hub_suspend succeeds
+         - removed port_dev->child = NULL assignment
+         - directly returning count on no failure success
+         - removed test for hub->in_reset
+         - using usb_autopm_get_interface/usb_autopm_put_interface around hub handling
+         - locking usb_disconnect call
+         - using &port_dev->child instead of local udev pointer
+         - added Documentation/ABI
 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1040b80df00000
-> start commit:   d1dc87763f40 assoc_array: Fix BUG_ON during garbage collect
-> git tree:       upstream
-> final oops:     https://syzkaller.appspot.com/x/report.txt?x=1240b80df00000
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1440b80df00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=c51cd24814bb5665
-> dashboard link: https://syzkaller.appspot.com/bug?extid=dd3c97de244683533381
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15613e2bf00000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15c90adbf00000
-> 
-> Reported-by: syzbot+dd3c97de244683533381@syzkaller.appspotmail.com
-> Fixes: a9c4cf299f5f ("ACPI: sysfs: Use __ATTR_RO() and __ATTR_RW() macros")
-> 
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+v2 -> v3:
+         - renamed sysfs file to disable instead of port_power
+         - added disable_show function to read out the current port state
+         - moved usb_lock/unlock_device near put/get_interface
+         - removed unnecessary usb_set_configuration of port_dev->child before disconnect
+         - removed unnecessary usb_autosuspend of port_dev->child before disconnect
+         - moved clearing of port_feature flags to be done after usb_hub_set_port_power
+         - checking for hub->disconnected after locking hdev
+         - updated the ABI documentation
 
+ Documentation/ABI/testing/sysfs-bus-usb | 11 +++++
+ drivers/usb/core/port.c                 | 61 +++++++++++++++++++++++++
+ 2 files changed, 72 insertions(+)
+
+diff --git a/Documentation/ABI/testing/sysfs-bus-usb b/Documentation/ABI/testing/sysfs-bus-usb
+index 7efe31ed3a25c7..d907123ac5d0f9 100644
+--- a/Documentation/ABI/testing/sysfs-bus-usb
++++ b/Documentation/ABI/testing/sysfs-bus-usb
+@@ -253,6 +253,17 @@ Description:
+ 		only if the system firmware is capable of describing the
+ 		connection between a port and its connector.
+ 
++What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/disable
++Date:		June 2022
++Contact:	Michael Grzeschik <m.grzeschik@pengutronix.de>
++Description:
++		This file controls the state to USB ports, including
++		Vbus power output (but only on hubs that support
++		power switching -- most hubs don't support it). When
++		turning a port off, the port is unusable: Devices
++		attached to the port will not be detected, initialized,
++		or enumerated.
++
+ What:		/sys/bus/usb/devices/.../power/usb2_lpm_l1_timeout
+ Date:		May 2013
+ Contact:	Mathias Nyman <mathias.nyman@linux.intel.com>
+diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
+index d5bc36ca5b1f77..8343590c3800f8 100644
+--- a/drivers/usb/core/port.c
++++ b/drivers/usb/core/port.c
+@@ -17,6 +17,66 @@ static int usb_port_block_power_off;
+ 
+ static const struct attribute_group *port_dev_group[];
+ 
++static ssize_t disable_show(struct device *dev,
++			      struct device_attribute *attr, char *buf)
++{
++	struct usb_port *port_dev = to_usb_port(dev);
++	struct usb_device *hdev = to_usb_device(dev->parent->parent);
++	struct usb_hub *hub = usb_hub_to_struct_hub(hdev);
++	int port1 = port_dev->portnum;
++	bool state = test_bit(port1, hub->power_bits);
++
++	return sprintf(buf, "%s\n", state ? "0" : "1");
++}
++
++static ssize_t disable_store(struct device *dev, struct device_attribute *attr,
++			    const char *buf, size_t count)
++{
++	struct usb_port *port_dev = to_usb_port(dev);
++	struct usb_device *hdev = to_usb_device(dev->parent->parent);
++	struct usb_hub *hub = usb_hub_to_struct_hub(hdev);
++	struct usb_interface *intf = to_usb_interface(hub->intfdev);
++	int port1 = port_dev->portnum;
++	bool set;
++	int rc;
++
++	if (!hub)
++		return -EINVAL;
++
++	rc = strtobool(buf, &set);
++	if (rc)
++		return rc;
++
++	rc = usb_autopm_get_interface(intf);
++	if (rc < 0)
++		return rc;
++
++	usb_lock_device(hdev);
++	if (unlikely(hub->disconnected))
++		goto out_hdev_lock;
++
++	if (set && port_dev->child)
++		usb_disconnect(&port_dev->child);
++
++	rc = usb_hub_set_port_power(hdev, hub, port1, !set);
++
++	if (set) {
++		usb_clear_port_feature(hdev, port1, USB_PORT_FEAT_C_CONNECTION);
++		if (!port_dev->is_superspeed)
++			usb_clear_port_feature(hdev, port1, USB_PORT_FEAT_C_ENABLE);
++	}
++
++	if (!rc)
++		rc = count;
++
++out_hdev_lock:
++	usb_unlock_device(hdev);
++	usb_autopm_put_interface(intf);
++
++	return rc;
++}
++static DEVICE_ATTR_RW(disable);
++
+ static ssize_t location_show(struct device *dev,
+ 			     struct device_attribute *attr, char *buf)
+ {
+@@ -153,6 +213,7 @@ static struct attribute *port_dev_attrs[] = {
+ 	&dev_attr_location.attr,
+ 	&dev_attr_quirks.attr,
+ 	&dev_attr_over_current_count.attr,
++	&dev_attr_disable.attr,
+ 	NULL,
+ };
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.30.2
 
