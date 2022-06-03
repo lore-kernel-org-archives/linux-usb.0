@@ -2,87 +2,141 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97E0AC433EF
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jun 2022 16:27:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD65CCA481
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jun 2022 17:10:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343899AbiFCQ12 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jun 2022 12:27:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59806 "EHLO
+        id S1344252AbiFCRKa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jun 2022 13:10:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245137AbiFCQ10 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jun 2022 12:27:26 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id BBF9718378
-        for <linux-usb@vger.kernel.org>; Fri,  3 Jun 2022 09:27:25 -0700 (PDT)
-Received: (qmail 306240 invoked by uid 1000); 3 Jun 2022 12:27:25 -0400
-Date:   Fri, 3 Jun 2022 12:27:25 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        syzbot <syzbot+dd3c97de244683533381@syzkaller.appspotmail.com>,
-        hdanton@sina.com, lenb@kernel.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rafael.j.wysocki@intel.com,
-        rafael@kernel.org, rjw@rjwysocki.net,
-        syzkaller-bugs@googlegroups.com, linux-usb@vger.kernel.org
-Subject: Re: [syzbot] general protection fault in __device_attach
-Message-ID: <Ypo2bbTfzdH3jH42@rowland.harvard.edu>
-References: <000000000000bb7f1c05da29b601@google.com>
- <00000000000010b7d305e08837c8@google.com>
- <YpnqpMYcokTwCB6u@smile.fi.intel.com>
- <Ypor265BTdnmgwpM@rowland.harvard.edu>
- <YpouRmanvCQeKA3S@kroah.com>
- <Ypow1LRZ3Hau36ci@rowland.harvard.edu>
- <Ypoyy/stICFdHauR@kroah.com>
+        with ESMTP id S230480AbiFCRK0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jun 2022 13:10:26 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 869CE5251B;
+        Fri,  3 Jun 2022 10:10:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0B46BB823AB;
+        Fri,  3 Jun 2022 17:10:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C2A6C385B8;
+        Fri,  3 Jun 2022 17:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654276222;
+        bh=Yhb8OPp1sSwZzVcLGVjDxYrN0vlwebO9faHuTNWhG4o=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=pJUj26xM3omq1XfJzae2/kNYP0GNrKZJAlX6qQvFkoORdgX2jatgBaZhjITDetyo4
+         6Ho3r8JCZNDTqYqTywpriBv1enouc70JPjw/sYrT7zAqOY3+TbCZUGrBVxnV0twFzb
+         vBFIAuE6Owl4SCoC0jyhKAh0Wkj62wDDrGkEYuY9ZHlH2kkn5YxDGMdMJ4lJ4ZJtOM
+         8FilAtIOaatwJZHh8x0+lYlCL4U9MemxvnRqpNaXZGP17ucBaA6OSj8utHuAIdF2Zq
+         mOVjuiYHKrUQzkdqfZZndqYO3gcqFcQLMxn6f/bbPrMbEy5YxC7w8yXCWqyVB3lzQC
+         zN8eYoz/vFcNw==
+Date:   Fri, 3 Jun 2022 18:19:17 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     ChiaEn Wu <peterwu.pub@gmail.com>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        lee.jones@linaro.org, daniel.thompson@linaro.org,
+        jingoohan1@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+        sre@kernel.org, chunfeng.yun@mediatek.com,
+        gregkh@linuxfoundation.org, lars@metafoo.de, lgirdwood@gmail.com,
+        broonie@kernel.org, linux@roeck-us.net,
+        heikki.krogerus@linux.intel.com, deller@gmx.de,
+        ChiYuan Huang <cy_huang@richtek.com>, alice_chen@richtek.com,
+        chiaen_wu@richtek.com, dri-devel@lists.freedesktop.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org
+Subject: Re: [RESEND 10/14] iio: adc: mt6370: Add Mediatek MT6370 support
+Message-ID: <20220603181917.3f737913@jic23-huawei>
+In-Reply-To: <CABtFH5Lg43EXS7juhXQ2wQFZzkpD7YB8rM6UFT=U9BDOKcbaNw@mail.gmail.com>
+References: <20220531111900.19422-1-peterwu.pub@gmail.com>
+        <20220531111900.19422-11-peterwu.pub@gmail.com>
+        <20220531142102.00007df0@Huawei.com>
+        <CABtFH5Lg43EXS7juhXQ2wQFZzkpD7YB8rM6UFT=U9BDOKcbaNw@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ypoyy/stICFdHauR@kroah.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jun 03, 2022 at 06:11:55PM +0200, Greg KH wrote:
-> On Fri, Jun 03, 2022 at 12:03:32PM -0400, Alan Stern wrote:
-> > On Fri, Jun 03, 2022 at 05:52:38PM +0200, Greg KH wrote:
-> > > On Fri, Jun 03, 2022 at 11:42:19AM -0400, Alan Stern wrote:
-> > > > So now what should happen when device_add() for an interface fails in 
-> > > > usb_set_configuration()?
-> > > 
-> > > But how can that really fail on a real system?
-> > > 
-> > > Is this just due to error-injection stuff?  If so, I'm really loath to
-> > > rework the world for something that can never happen in real life.
-> > > 
-> > > Or is this a real syzbot-found-with-reproducer issue?
-> > 
-> > Aren't there quite a few reasons why device_add() might fail?  (Although 
-> > most of them probably are memory allocation errors...)
+> >  
+> > > +
+> > > +#define MT6370_AICR_400MA            0x6
+> > > +#define MT6370_ICHG_500MA            0x4
+> > > +#define MT6370_ICHG_900MA            0x8
+> > > +
+> > > +#define ADC_CONV_TIME_US             35000
+> > > +#define ADC_CONV_POLLING_TIME                1000
+> > > +
+> > > +struct mt6370_adc_data {
+> > > +     struct device *dev;
+> > > +     struct regmap *regmap;
+> > > +     struct mutex lock;  
+> >
+> > All locks need documentation.  What is the scope of the lock?
+> > Looks like it protects device state when doing setup, wait for read, read
+> > cycles.  
 > 
-> I was thinking of the dev_set_name() issue further back in the call
-> chain.
+> This mutex lock is for preventing the different adc channel from being
+> read at the same time.
+> So, if I just change its name to adc_chan_lock or adc_lock and add the
+> comment for this mutex lock, does this change meet your requirement
 
-As far as I know, the only reason for dev_set_name() to fail is -ENOMEM.  
-That's not something the user can control directly.
+Yes
 
-> > Basically, you have to make up your mind.  If a function can fail, you 
-> > should be prepared to handle the failure.  If it can't fail, there's no 
-> > point in even checking the return code.
 > 
-> True, ok, we should unwind the mess.  I'll try to look at it after the
-> merge window...
+> >  
+> > > +};
+> > > +
+> > > +static int mt6370_adc_read_scale(struct mt6370_adc_data *priv,
+> > > +                              int chan, int *val1, int *val2)
+> > > +{
+> > > +     unsigned int reg_val;
+> > > +     int ret;
+> > > +
+> > > +     switch (chan) {
+> > > +     case MT6370_CHAN_VBAT:
+> > > +     case MT6370_CHAN_VSYS:
+> > > +     case MT6370_CHAN_CHG_VDDP:
+> > > +             *val1 = 5000;  
+> >
+> > This seems very large.  Voltages are in millivolts
+> > as per Documentation/ABI/testing/sysfs-bus-iio
+> > and this means each step is 5 volts.
+> >
+> > So value in mv is currently 5 * _raw
+> >  
 > 
-> But again, is this a "real and able to be triggered from userspace"
-> problem, or just fault-injection-induced?
+> OK, I got it. Also, I will add the ABI file in the next version. Thanks!
+Only add ABI documentation for anything non-standard.
 
-I don't think any of the failure paths here are controlled by the user.  
-They all seem to involve something going wrong internally in the kernel 
-(i.e., corruption or memory allocation failure for a small buffer).  
-Once that happens, the game is pretty much over anyway.
+The documentation scripts really don't like repeats!
 
-Is it worth handling this sort of thing, or should we ignore the 
-possibility and allow it to escalate to the point where the user can 
-potentially trigger a kernel panic?  Another way of putting it is: How 
-gracefully do you want the kernel to collapse when this sort of 
-corruption happens?
+> 
+> > > +static const char * const mt6370_channel_labels[MT6370_CHAN_MAX] = {  
+> >
+> > Perhaps define an enum with which to index this and the chan spec
+> > and hence ensure they end up matching.
+> >  [vbusdiv5] = "vbusdiv5", etc
+> >  
+> 
+> Do you mean that I can refine this const char array to the following array??
+> 
+> static const char * const mt6370_channel_labels[MT6370_CHAN_MAX] = {
+>     [MT6370_CHAN_VBUSDIV5] =  "vbusdiv5",
+>     [MT6370_CHAN_VBUSDIV2] =  "vbusdiv2",
+>     ...
+>     ...
+>     [MT6370_CHAN_TEMP_JC] =  "temp_jc",
+> };
 
-Alan Stern
+Yes
+
+thanks,
+
+Jonathan
