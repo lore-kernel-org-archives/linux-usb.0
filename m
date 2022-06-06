@@ -2,133 +2,91 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFB52C43334
-	for <linux-usb@archiver.kernel.org>; Sun,  5 Jun 2022 18:31:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BA2AC433EF
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jun 2022 01:28:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346931AbiFESb3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 5 Jun 2022 14:31:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52796 "EHLO
+        id S1351948AbiFFB2q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 5 Jun 2022 21:28:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236164AbiFESb2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 Jun 2022 14:31:28 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11CF912AAF;
-        Sun,  5 Jun 2022 11:31:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1654453887; x=1685989887;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=xHQW/DoGQUs+0ZrxEQ1m+x/wIrTBq1nQRjID76ZhMk0=;
-  b=iP16Cec5Ggg8tQj2jV8ZTfhHF8beWLBfHGque7rJlCjdOiQy1vDcmoAK
-   3IfN+x3U7nXqYB1yt57/oQPJf7yKRqG8mHLybokVtsfy6kQlvy0yxEsZd
-   V6nrQ881AfLWpCPoR5E/f8cZYFSI45pupsYgzsqLhbzKVNcM1N4dlgnOC
-   U=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 05 Jun 2022 11:31:26 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2022 11:31:26 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Sun, 5 Jun 2022 11:31:26 -0700
-Received: from [10.216.59.27] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Sun, 5 Jun 2022
- 11:31:22 -0700
-Message-ID: <62c0b6ac-240c-e581-7bc3-9357dc619d4c@quicinc.com>
-Date:   Mon, 6 Jun 2022 00:01:19 +0530
+        with ESMTP id S1348931AbiFFB2p (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 Jun 2022 21:28:45 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E94B36562;
+        Sun,  5 Jun 2022 18:28:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=v2/b5FqxV2iRhS1Ykan9Lwjt+zRuUcpsfnrGF+r1rwo=; b=ahtDNE/A9/2Pzy2ITsWjUxwbex
+        4iUrMeJfGWfXjeG0gSwGcbTtXtdOX4F2c8Nkv9fpscSwVzdT0JJl1Vg9UdaHn5+hXcDItYdoyxiey
+        +QvwzIs4ulACjTMF0Fk+1kJBPDCITFsirVPIQVkeZf/KsgEJIHD8RXT2IOPfkZFxQ5es=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1ny1XL-005hL6-Hk; Mon, 06 Jun 2022 03:28:07 +0200
+Date:   Mon, 6 Jun 2022 03:28:07 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Lukas Wunner <lukas@wunner.de>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        UNGLinuxDriver@microchip.com, Oliver Neukum <oneukum@suse.com>,
+        Andre Edich <andre.edich@microchip.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Martyn Welch <martyn.welch@collabora.com>,
+        Gabriel Hojda <ghojda@yo2urs.ro>,
+        Christoph Fritz <chf.fritz@googlemail.com>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        Philipp Rosenberger <p.rosenberger@kunbus.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Ferry Toth <fntoth@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        'Linux Samsung SOC' <linux-samsung-soc@vger.kernel.org>
+Subject: Re: [PATCH net-next v3 5/7] usbnet: smsc95xx: Forward PHY interrupts
+ to PHY driver to avoid polling
+Message-ID: <Yp1YJ3lHTFFdRb6P@lunn.ch>
+References: <cover.1652343655.git.lukas@wunner.de>
+ <748ac44eeb97b209f66182f3788d2a49d7bc28fe.1652343655.git.lukas@wunner.de>
+ <CGME20220517101846eucas1p2c132f7e7032ed00996e222e9cc6cdf99@eucas1p2.samsung.com>
+ <a5315a8a-32c2-962f-f696-de9a26d30091@samsung.com>
+ <20220519190841.GA30869@wunner.de>
+ <31baa38c-b2c7-10cd-e9cd-eee140f01788@samsung.com>
+ <20220523094343.GA7237@wunner.de>
+ <Yowv95s7g7Ou5U8J@lunn.ch>
+ <20220524121341.GA10702@wunner.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [RFC v2 1/2] dt-bindings: usb: dwc3: Add support for multiport
- related properties
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-CC:     <quic_pkondeti@quicinc.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        <quic_ppratap@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        <devicetree@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <1653560029-6937-1-git-send-email-quic_harshq@quicinc.com>
- <1653560029-6937-2-git-send-email-quic_harshq@quicinc.com>
- <1653568833.732260.3797150.nullmailer@robh.at.kernel.org>
- <33ce11bd-abc4-0e59-4637-e8133818e0f6@quicinc.com>
- <20220531201050.GD1808817-robh@kernel.org>
-From:   Harsh Agarwal <quic_harshq@quicinc.com>
-In-Reply-To: <20220531201050.GD1808817-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220524121341.GA10702@wunner.de>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+> mdio_bus_phy_resume() does trigger the state machine via
+> phy_start_machine(), so link state changes *are* detected after wakeup.
+> 
+> But you're saying that's not sufficient and you really want the
+> PHY driver's IRQ handler to be called, do I understand that correctly?
 
-On 6/1/2022 1:40 AM, Rob Herring wrote:
-> On Fri, May 27, 2022 at 04:30:34PM +0530, Harsh Agarwal wrote:
->> On 5/26/2022 6:10 PM, Rob Herring wrote:
->>> On Thu, 26 May 2022 15:43:48 +0530, Harsh Agarwal wrote:
->>>> Added support for multiport, mport, num-ssphy and num-hsphy
->>>> properties. These properties are used to support devices having
->>>> a multiport controller.
->>>>
->>>> Signed-off-by: Harsh Agarwal <quic_harshq@quicinc.com>
->>>> ---
->>>>    .../devicetree/bindings/usb/snps,dwc3.yaml         | 55 ++++++++++++++++++++++
->>>>    1 file changed, 55 insertions(+)
->>>>
->>> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
->>> on your patch (DT_CHECKER_FLAGS is new in v5.13):
->>>
->>> yamllint warnings/errors:
->>> ./Documentation/devicetree/bindings/usb/snps,dwc3.yaml:366:8: [warning] wrong indentation: expected 6 but found 7 (indentation)
->>> ./Documentation/devicetree/bindings/usb/snps,dwc3.yaml:367:10: [warning] wrong indentation: expected 11 but found 9 (indentation)
->>> ./Documentation/devicetree/bindings/usb/snps,dwc3.yaml:369:11: [warning] wrong indentation: expected 11 but found 10 (indentation)
->>>
->>> dtschema/dtc warnings/errors:
->>> Documentation/devicetree/bindings/usb/snps,dwc3.example.dts:86.27-89.15: Warning (unit_address_vs_reg): /example-2/usb@4a000000/multiport/mport@1: node has a unit name, but no reg or ranges property
->>> Documentation/devicetree/bindings/usb/snps,dwc3.example.dts:91.27-93.15: Warning (unit_address_vs_reg): /example-2/usb@4a000000/multiport/mport@2: node has a unit name, but no reg or ranges property
->>> Documentation/devicetree/bindings/usb/snps,dwc3.example.dts:95.27-97.15: Warning (unit_address_vs_reg): /example-2/usb@4a000000/multiport/mport@3: node has a unit name, but no reg or ranges property
->>> Documentation/devicetree/bindings/usb/snps,dwc3.example.dts:99.27-101.15: Warning (unit_address_vs_reg): /example-2/usb@4a000000/multiport/mport@4: node has a unit name, but no reg or ranges property
->>> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/snps,dwc3.example.dtb: usb@4a000000: multiport: 'mport' is a required property
->>> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
->>>
->>> doc reference errors (make refcheckdocs):
->>>
->>> See https://patchwork.ozlabs.org/patch/
->>>
->>> This check can fail if there are any dependencies. The base for a patch
->>> series is generally the most recent rc1.
->>>
->>> If you already ran 'make dt_binding_check' and didn't see the above
->>> error(s), then make sure 'yamllint' is installed and dt-schema is up to
->>> date:
->>>
->>> pip3 install dtschema --upgrade
->>>
->>> Please check and re-submit.
->> Indentation error I have rectified in my RFC v2.
->> Regarding below warnings
->>
->> "Documentation/devicetree/bindings/usb/snps,dwc3.example.dts:86.27-89.15: Warning (unit_address_vs_reg): /example-2/usb@4a000000/multiport/mport@1: node has a unit name, but no reg or ranges property"
->> Here the mport expects no "reg" or ranges" property as of now. Only thing that is mandated is either the USB-PHY phandles using "usb-phy" or the Generic PHY declaration using "phy" and "phy-names"
->> Can you please suggest to mask these warnings or do I need to add something else ?
-> A unit-address requires 'reg' or 'ranges' and vice-versa. So you need
-> 'reg'.
->
-> However, usb-hcd.yaml already defines what child nodes are for USB
-> hosts. Whatever you do here needs to be compatible with that.
-Thanks for the info.
-"@" is not actually a requirement for mport.
-We can name them as "mport1" instead of "mport@1".
-Now I do not see this reg, ranges warnings in latest PS v2
->
-> Rob
+It is an interrupt, so i would expect the handler to be called. I've
+never looked deeply how the kernel handles this, but maybe there is
+some core support for this. The kernel does know about wake up
+interrupts. The interesting bit is how do you defer the interrupt
+until you have enough of the system running again you can actually
+service the interrupt.
+
+PHY interrupts mostly are level, not edge, because there are multiple
+sources of interrupts within the PHY. So you do need to clear the
+interrupt source, or you are going to get a storm, as you pointed out.
+But being a level might actually help you. It fires once to get you
+out of sleep, and then fires again when the interrupt controller is
+resumed and is enabled.
+
+	  Andrew
+ 
