@@ -2,149 +2,100 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E09E9CCA481
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jun 2022 15:26:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2A19C43334
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jun 2022 15:32:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240709AbiFFP0O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Jun 2022 11:26:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46068 "EHLO
+        id S240800AbiFFPc4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Jun 2022 11:32:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240584AbiFFPZw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jun 2022 11:25:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BADE1CD350;
-        Mon,  6 Jun 2022 08:25:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 97A6761532;
-        Mon,  6 Jun 2022 15:25:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F9A7C341DE;
-        Mon,  6 Jun 2022 15:25:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654529149;
-        bh=JJt0IO+HD16nKaMzBkekejjxzH6zJTBr5QCuFRGczGE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=FQvjxVAjYkRkMlnXeUbGK/ffXS9EGiIGJB6czmy41m7BUi+gGlw+X1Vu+xVWhr8kL
-         VZmd7RutDKDJkQ6+PNC2k4EBuWcMiwehnWLeUgcaztEFymFfTpyADom9iKEZ2r0U6R
-         8QTKxcO8tqR2nN17KQ7uaYrNw3fG0aG82GOK9/YW0npuVqsyv4lNhNtBEPuUTmVVIT
-         XOE4wPosVqLjYqBNBMuGPxA5PXF0QCAYswfnxGdyJu5zTk6VkYY/y8ZNnVzT895FLj
-         P6YX/uUQeJAT8yJ01In++Ksk7XfTNpL0aA6OZ6qjgQfLIhLB4De2E2AivHQOnNJprR
-         rbUcjc+xUJibQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.95)
-        (envelope-from <mchehab@kernel.org>)
-        id 1nyEby-0012On-0x;
-        Mon, 06 Jun 2022 16:25:46 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Markus Mayer <mmayer@broadcom.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-        keyrings@vger.kernel.org, kvm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-cachefs@redhat.com,
-        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mmc@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-usb@vger.kernel.org,
-        x86@kernel.org
-Subject: [PATCH 00/23] Update Documentation/ cross-references
-Date:   Mon,  6 Jun 2022 16:25:22 +0100
-Message-Id: <cover.1654529011.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.36.1
+        with ESMTP id S240874AbiFFPa7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jun 2022 11:30:59 -0400
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AB1436325
+        for <linux-usb@vger.kernel.org>; Mon,  6 Jun 2022 08:30:55 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id 94CB75C01F2;
+        Mon,  6 Jun 2022 11:30:36 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Mon, 06 Jun 2022 11:30:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1654529436; x=1654615836; bh=egOSofGKO/
+        lFAvwIylp1s1OXwun29h9+WmHE20Wg7AU=; b=oyyV7pmJ/DoEWPmmQAyrFgPLkY
+        t4K76a7iTBSz5wqLutwa1FgLj6yxfgtIYql4Af67EpJICLTZQ2ROXpCRtGe23a16
+        5EecNT6yiE5E1kYMHADuhFkLOimg7U+gFGRCxgORS+41kYqyXnCUCqu/S5fuG/DN
+        vbR0YAFVJ0HpdA2mLIwX/eYaAfg+Cc7GCrggtIcqpiJ1sm6s5HY9txKt6PDIpDaQ
+        3+9idrlJdJAEtd/f5zExuSQU52UZMj7MP9zNIbXRKOKiOP5Y5OENS8LPp7IxUWLs
+        eq/AY739NOeSOmoxM2oHQDYEdUsCTPUKy0r5QATNUT0dowMP3tsb1ZtEZu0A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1654529436; x=1654615836; bh=egOSofGKO/lFAvwIylp1s1OXwun2
+        9h9+WmHE20Wg7AU=; b=BZh+ftbg6zYMmeMXgnSm6wHUFL+m3oKbPvl7ZR2CYbpN
+        8Kmec+vKpq41AQkhFMu2IGbaSNetIGQhXoAkVjNGNTcXUkVMmKb/orBr3o9MaCrR
+        SzSAr/WFeYVbf/I6d55Gcr1/EAzKZ21ddylFOxOXVlil+4tQejZ9BKp8oSOhWhy8
+        Qn20z0nTKH8j4LPc+Elc69ALPHAPvEhy/xApX0wk/shEqaWFo7qahuXY3U7wrUPO
+        Pf66ERbmUS8wtcxXKeGK3UX6fmqSizDiZk6QtWWKvaF8gCOUAa0F1FDQriF0sdZ8
+        8FCDP4pg7KOqOd16yTYl3NvFzncBr5//mhTCY2++Ag==
+X-ME-Sender: <xms:nB2eYiNQ2m1o2Ef01VoYTH1LCHEzmc0BM2W5WBh3PyBC13nCiXAj1g>
+    <xme:nB2eYg-tLWx0DXDQ1UckcQ2IqEXF-EpKbGRIaiuJx-FSMeAOk3XkJSPqMUR2e09aL
+    SlUAZztlg_aFA>
+X-ME-Received: <xmr:nB2eYpSBIpzrNXrNf5cH05mElBBpd0jMtwtYo1oeigI4GXN5_IWrk08BMQIcAEaml5Ne6sgvuTkIC_7kFO27g9ic5wkEmlLO>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtvddgkeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttd
+    ertddttddvnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhm
+    qeenucggtffrrghtthgvrhhnpeegheeuhefgtdeluddtleekfeegjeetgeeikeehfeduie
+    ffvddufeefleevtddtvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
+    hhrdgtohhm
+X-ME-Proxy: <xmx:nB2eYiuQb4w0To6QbK--cuo903HhycQNXsO98YNsAMUR-eQtEZO8SQ>
+    <xmx:nB2eYqfI7nQdA0O-dQWkjIwOdTZ3hZsNFtVzDz5nDExWfrY9P-oFBA>
+    <xmx:nB2eYm0VzJ4UYGe0Rj67kT7NhArOatNPL9vzC1Lvq_ODDUV1eQa7hQ>
+    <xmx:nB2eYrqjVdc3YeqTsThbG3DrJnUCAgK7ADjZp4bjtbgFEjEk4ubxAQ>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 Jun 2022 11:30:36 -0400 (EDT)
+Date:   Mon, 6 Jun 2022 17:30:34 +0200
+From:   Greg KH <greg@kroah.com>
+To:     bugzilla-daemon@kernel.org
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [Bug 216085] New: MCS9990 not maximum speed USB 2.0
+Message-ID: <Yp4dmhYXmlag/QuD@kroah.com>
+References: <bug-216085-208809@https.bugzilla.kernel.org/>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bug-216085-208809@https.bugzilla.kernel.org/>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi John,
+On Mon, Jun 06, 2022 at 03:20:20PM +0000, bugzilla-daemon@kernel.org wrote:
+> https://bugzilla.kernel.org/show_bug.cgi?id=216085
+> 
+>             Bug ID: 216085
+>            Summary: MCS9990 not maximum speed USB 2.0
+>            Product: Drivers
+>            Version: 2.5
+>     Kernel Version: All
+>           Hardware: All
+>                 OS: Linux
+>               Tree: Mainline
+>             Status: NEW
+>           Severity: normal
+>           Priority: P1
+>          Component: USB
+>           Assignee: drivers_usb@kernel-bugs.kernel.org
+>           Reporter: khseal@yandex.ru
+>         Regression: No
+> 
+> Created attachment 301107
+>   --> https://bugzilla.kernel.org/attachment.cgi?id=301107&action=edit
+> Ubuntu low speed.
 
-There were a number of DT binding conversions and other docs change that
-were not updated. Address them, in order to keep the cross-references on
-a sane state.
-
-Patch series is against v5.19-rc1 (and applies cleanly on the top of
-today's -next).
-
-Mauro Carvalho Chehab (23):
-  dt-bindings: mfd: bd9571mwv: update rohm,bd9571mwv.yaml reference
-  dt-bindings: interrupt-controller: update brcm,l2-intc.yaml reference
-  dt-bindings: arm: update vexpress-config.yaml references
-  dt-bindings: reset: update st,stih407-powerdown.yaml references
-  dt-bindings: mfd: rk808: update rockchip,rk808.yaml reference
-  dt-bindings: mmc: exynos-dw-mshc: update samsung,pinctrl.yaml
-    reference
-  docs: netdev: update maintainer-netdev.rst reference
-  docs: filesystems: update netfs-api.rst reference
-  Documentation: update watch_queue.rst references
-  Documentation: KVM: update s390-pv.rst reference
-  Documentation: KVM: update amd-memory-encryption.rst references
-  Documentation: KVM: update msr.rst reference
-  Documentation: KVM: update s390-diag.rst reference
-  MAINTAINERS: update arm,hdlcd.yaml reference
-  MAINTAINERS: update arm,komeda.yaml reference
-  MAINTAINERS: update arm,malidp.yaml reference
-  MAINTAINERS: update cortina,gemini-ethernet.yaml reference
-  MAINTAINERS: update dongwoon,dw9807-vcm.yaml reference
-  MAINTAINERS: update maxim,max77693.yaml reference
-  MAINTAINERS: update snps,axs10x-reset.yaml reference
-  objtool: update objtool.txt references
-  ASoC: wm8731: update wlf,wm8731.yaml reference
-  arch: m68k: q40: README: drop references to IDE driver
-
- .../ABI/testing/sysfs-driver-bd9571mwv-regulator   |  2 +-
- Documentation/admin-guide/kernel-parameters.txt    |  2 +-
- .../bindings/cpufreq/brcm,stb-avs-cpu-freq.txt     |  2 +-
- .../devicetree/bindings/hwmon/vexpress.txt         |  2 +-
- .../devicetree/bindings/mmc/exynos-dw-mshc.txt     |  2 +-
- .../devicetree/bindings/phy/phy-stih407-usb.txt    |  2 +-
- .../devicetree/bindings/pinctrl/pinctrl-rk805.txt  |  2 +-
- .../devicetree/bindings/regulator/vexpress.txt     |  2 +-
- .../bindings/sound/atmel-sam9x5-wm8731-audio.txt   |  2 +-
- Documentation/devicetree/bindings/usb/dwc3-st.txt  |  2 +-
- Documentation/devicetree/bindings/usb/ehci-st.txt  |  2 +-
- Documentation/devicetree/bindings/usb/ohci-st.txt  |  2 +-
- Documentation/security/keys/core.rst               |  2 +-
- Documentation/security/secrets/coco.rst            |  2 +-
- .../translations/it_IT/networking/netdev-FAQ.rst   |  2 +-
- Documentation/virt/kvm/api.rst                     |  4 ++--
- Documentation/virt/kvm/s390/s390-pv-boot.rst       |  2 +-
- Documentation/virt/kvm/x86/hypercalls.rst          |  2 +-
- Documentation/x86/orc-unwinder.rst                 |  2 +-
- MAINTAINERS                                        | 14 +++++++-------
- arch/m68k/q40/README                               |  4 +---
- include/linux/fscache.h                            |  2 +-
- include/linux/objtool.h                            |  2 +-
- include/linux/watch_queue.h                        |  2 +-
- init/Kconfig                                       |  2 +-
- kernel/watch_queue.c                               |  2 +-
- lib/Kconfig.debug                                  |  2 +-
- tools/include/linux/objtool.h                      |  2 +-
- tools/objtool/check.c                              |  2 +-
- 29 files changed, 36 insertions(+), 38 deletions(-)
-
--- 
-2.36.1
-
-
+Please contact Ubuntu for support with their kernel releases.
