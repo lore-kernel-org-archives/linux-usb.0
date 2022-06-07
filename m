@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C24EFC433EF
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 18:18:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CE1FCCA483
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 18:18:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350787AbiFGSSb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Jun 2022 14:18:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51586 "EHLO
+        id S1350884AbiFGSSi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Jun 2022 14:18:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352082AbiFGSQx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 14:16:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACB5D133271;
-        Tue,  7 Jun 2022 10:50:25 -0700 (PDT)
+        with ESMTP id S1351917AbiFGSQs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 14:16:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62D4D13391A;
+        Tue,  7 Jun 2022 10:50:08 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2B2EE6159C;
-        Tue,  7 Jun 2022 17:50:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC3F7C341C5;
-        Tue,  7 Jun 2022 17:50:23 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DD38861794;
+        Tue,  7 Jun 2022 17:50:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67A1EC341C4;
+        Tue,  7 Jun 2022 17:50:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654624224;
-        bh=RpktX0h64ke1ndML5ud9B+DvdtiuU/h/XzPH811aUtE=;
+        s=k20201202; t=1654624207;
+        bh=/iUON9WW6bsYbfVqaGxLRyqJA2zgabLnd46UiDlgoD8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=F57r+Lf6hvh7XuHvgOXZ3nMYdr4NUgQvAOT9nzpawF0nEqwordjWlu1+e/GIs+hmU
-         Ylm+zfhB8SEShYYDmWlDs1DDIW31mfbDhAK4hYiLLDrXHpTbJwxe4ALdwyBlMPkJXb
-         Lm+LPAHHk7y4oZbRXPXylRuUkonIHzhD/4SdKNHzOntt6/z9k3HC178I+8Q9DBEnRd
-         05eZX0WQPgiD2OngZqV/mN1igqkG2RL2gST7URTK024uIMrn9tnkpi9yGDUucYqUK7
-         8Nho4OFx38QhW+qr0/vpDCLW1MhXTw/R/lemM41McUY3uhBjRDvvkcHdFRo30BheHh
-         4Yk4/660NXqJw==
+        b=uASTYLNCryH3nlHEQvqaMECw6fdUuBL04k81iws1utq1dmHM1VU/QnWQBEXBfjrrU
+         KdzVKzNU3S42avTzouAHJqSe8AHuhGCua0XFYo/4dapxPdLcTrAdF1gafHiuz2s4Ld
+         arJKDPzSeImddabzXUqN6d7j0/Lvwak2NAyhgKY6GWOrtscYBm2gcv0lP6o9BgImm1
+         PPDsjpHwbVTEcMro71q1GLrTNSMtzwhjQnQncpaTLOfVoFGMAOT4lk35m7X1l4r6bL
+         ZsO80u3PsVTJNArraN8wVL47hVN28ByL+HhHrZgy7E//xNtB7kkn6hrIGf765zM8bI
+         9uB/pGimt9aVA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+Cc:     Zhen Ni <nizhen@uniontech.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
+        Sasha Levin <sashal@kernel.org>, ok@artecdesign.ee,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 21/68] usb: dwc3: gadget: Only End Transfer for ep0 data phase
-Date:   Tue,  7 Jun 2022 13:47:47 -0400
-Message-Id: <20220607174846.477972-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 13/68] USB: host: isp116x: check return value after calling platform_get_resource()
+Date:   Tue,  7 Jun 2022 13:47:39 -0400
+Message-Id: <20220607174846.477972-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220607174846.477972-1-sashal@kernel.org>
 References: <20220607174846.477972-1-sashal@kernel.org>
@@ -51,50 +51,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+From: Zhen Ni <nizhen@uniontech.com>
 
-[ Upstream commit ace17b6ee4f92ab0375d12a1b42494f8590a96b6 ]
+[ Upstream commit 134a3408c2d3f7e23eb0e4556e0a2d9f36c2614e ]
 
-The driver shouldn't be able to issue End Transfer to the control
-endpoint at anytime. Typically we should only do so in error cases such
-as invalid/unexpected direction of Data Phase as described in the
-control transfer flow of the programming guide. It _may_ end started
-data phase during controller deinitialization from soft disconnect or
-driver removal. However, that should not happen because the driver
-should be maintained in EP0_SETUP_PHASE during driver tear-down. On
-soft-connect, the controller should be reset from a soft-reset and there
-should be no issue starting the control endpoint.
+It will cause null-ptr-deref if platform_get_resource() returns NULL,
+we need check the return value.
 
-Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Link: https://lore.kernel.org/r/3c6643678863a26702e4115e9e19d7d94a30d49c.1650593829.git.Thinh.Nguyen@synopsys.com
+Signed-off-by: Zhen Ni <nizhen@uniontech.com>
+Link: https://lore.kernel.org/r/20220302033716.31272-1-nizhen@uniontech.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/dwc3/gadget.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/usb/host/isp116x-hcd.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 0b9c2493844a..05856bcaf2f7 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -3673,6 +3673,17 @@ static void dwc3_reset_gadget(struct dwc3 *dwc)
- void dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force,
- 	bool interrupt)
- {
-+	struct dwc3 *dwc = dep->dwc;
-+
-+	/*
-+	 * Only issue End Transfer command to the control endpoint of a started
-+	 * Data Phase. Typically we should only do so in error cases such as
-+	 * invalid/unexpected direction as described in the control transfer
-+	 * flow of the programming guide.
-+	 */
-+	if (dep->number <= 1 && dwc->ep0state != EP0_DATA_PHASE)
-+		return;
-+
- 	if (!(dep->flags & DWC3_EP_TRANSFER_STARTED) ||
- 	    (dep->flags & DWC3_EP_DELAY_STOP) ||
- 	    (dep->flags & DWC3_EP_END_TRANSFER_PENDING))
+diff --git a/drivers/usb/host/isp116x-hcd.c b/drivers/usb/host/isp116x-hcd.c
+index 8835f6bd528e..8c7f0991c21b 100644
+--- a/drivers/usb/host/isp116x-hcd.c
++++ b/drivers/usb/host/isp116x-hcd.c
+@@ -1541,10 +1541,12 @@ static int isp116x_remove(struct platform_device *pdev)
+ 
+ 	iounmap(isp116x->data_reg);
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+-	release_mem_region(res->start, 2);
++	if (res)
++		release_mem_region(res->start, 2);
+ 	iounmap(isp116x->addr_reg);
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	release_mem_region(res->start, 2);
++	if (res)
++		release_mem_region(res->start, 2);
+ 
+ 	usb_put_hcd(hcd);
+ 	return 0;
 -- 
 2.35.1
 
