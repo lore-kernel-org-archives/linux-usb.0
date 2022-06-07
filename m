@@ -2,152 +2,80 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82269C43334
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 21:59:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6864BC433EF
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 04:29:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382718AbiFGV7i (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Jun 2022 17:59:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45986 "EHLO
+        id S229887AbiFHE32 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jun 2022 00:29:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382720AbiFGVvp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 17:51:45 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79FE01912F0
-        for <linux-usb@vger.kernel.org>; Tue,  7 Jun 2022 12:09:19 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id d129so16736857pgc.9
-        for <linux-usb@vger.kernel.org>; Tue, 07 Jun 2022 12:09:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Zv6DUaDAW0iYk91AWgt5SeSWK+UTvh87ZNXi8mCkADI=;
-        b=mwjQcID3rvKF93+FfvpOrFV+CjWy6pKoNXnMY/jvTDR27o1WtjtWyytbJp5+ZxSuQG
-         MsV/mGMRqjO6SKY5JLuSafWagoX+C0e3RkwDuP6S6KNJvGq2tllJjGp6Klpc2QstdvEI
-         LGSJKqQFNc9NImfFVyEZdWcd5fcCt4ema/AQU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Zv6DUaDAW0iYk91AWgt5SeSWK+UTvh87ZNXi8mCkADI=;
-        b=yAQ+ZJ8rTp3ysIws7kEX49RMheDhCUgfm+j3L64FBcla9p9Z48OaBgOS0ad5nCZcCU
-         izJeIdWiRCt0Y7VEwWRRGC+3NPMl3BJtkMMjdYvV+rCM+likeuMaVIpuDeFQi2qYQGvN
-         TsnyCu6Q7hw7rvg7jnd73oy80JmHoYRw0QPqYjH6wmuqOZsNzDextx6FpqIesp6GKmou
-         7hOJ4W8YcAqHt4brFH6VtOmJui4s8w56b+1DqpzOt+EETgCLiapjYLrtkXuosaemz7bL
-         sRWVLxdaNoLonCTU6kDnWBxj4FQMvSdAO0pAMLHhpbF8kmUtYi6jviL8zM0exZyF379G
-         05og==
-X-Gm-Message-State: AOAM532nvmJBWnxH7ukUcc4z7gpk3ydhRXdoso6B184sJTtrk+lmWD+S
-        fOCLP1GnGRdgEAMYj2cjlXfoVg==
-X-Google-Smtp-Source: ABdhPJxg13/ypCkYzKXsJqhP1fBID2bU68Drc0UUN8dMixPUYyS7csEranmT2FlCgcicHOIGfd4fvQ==
-X-Received: by 2002:a63:e5d:0:b0:3aa:3c53:537e with SMTP id 29-20020a630e5d000000b003aa3c53537emr26718637pgo.622.1654628958136;
-        Tue, 07 Jun 2022 12:09:18 -0700 (PDT)
-Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id g29-20020aa79ddd000000b0050dc762819esm13236084pfq.120.2022.06.07.12.09.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 12:09:17 -0700 (PDT)
-From:   Prashant Malani <pmalani@chromium.org>
-To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Cc:     bleung@chromium.org, swboyd@chromium.org,
-        heikki.krogerus@linux.intel.com,
-        Prashant Malani <pmalani@chromium.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE BINDINGS),
-        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
-        <nfraprado@collabora.com>, Pin-Yen Lin <treapking@chromium.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Xin Ji <xji@analogixsemi.com>
-Subject: [PATCH 5/7] drm/bridge: anx7625: Register number of Type C switches
-Date:   Tue,  7 Jun 2022 19:00:23 +0000
-Message-Id: <20220607190131.1647511-6-pmalani@chromium.org>
-X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
-In-Reply-To: <20220607190131.1647511-1-pmalani@chromium.org>
-References: <20220607190131.1647511-1-pmalani@chromium.org>
+        with ESMTP id S231742AbiFHE20 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 00:28:26 -0400
+X-Greylist: delayed 5705 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 07 Jun 2022 18:58:51 PDT
+Received: from mail.schule.luebeck.de (mail.schule.luebeck.de [62.214.78.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 585F32F2974
+        for <linux-usb@vger.kernel.org>; Tue,  7 Jun 2022 18:58:51 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by ucssl-05.schule.luebeck.de (Postfix) with ESMTP id 547782A51B3
+        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 01:57:41 +0200 (CEST)
+X-Virus-Scanned: by amavisd-new-2.10.1 (20141025) (Debian) at
+        schule.luebeck.de
+Received: from mail.schule.luebeck.de ([127.0.0.1])
+        by localhost (ucssl-05.schule.luebeck.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id KXQVooHrBEaI for <linux-usb@vger.kernel.org>;
+        Wed,  8 Jun 2022 01:57:41 +0200 (CEST)
+Received: from johnlewis.com (ec2-34-214-85-249.us-west-2.compute.amazonaws.com [34.214.85.249])
+        by ucssl-05.schule.luebeck.de (Postfix) with ESMTPSA id 365FB2A6940
+        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 01:57:39 +0200 (CEST)
+Reply-To: robert_turner@johnlewis-trades.com
+From:   JOHN LEWIS & PARTNERS <robert_turner054@johnlewis.com>
+To:     linux-usb@vger.kernel.org
+Subject:  Quarter Purchase enquiry
+Date:   08 Jun 2022 09:57:35 +1000
+Message-ID: <20220608050712.B076057C09452830@johnlewis.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Parse the "switches" node, if available, and count and store the number
-of Type-C switches within it. Since we currently don't do anything with
-this info, no functional changes are expected from this change.
+Dear linux-usb
 
-This patch sets a foundation for the actual registering of Type-C
-switches with the Type-C connector class framework.
 
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 20 ++++++++++++++++++++
- drivers/gpu/drm/bridge/analogix/anx7625.h |  1 +
- 2 files changed, 21 insertions(+)
+ 
+The world famous brand John Lewis & Partners, is UK's largest 
+multi-channel retailer with over 126 shops and multiple expansion 
+in Africa furnished by European/Asian/American products. We are
+sourcing new products to attract new customers and also retain 
+our existing ones, create new partnerships with companies dealing 
+with different kinds of goods globally.
+ 
+Your company's products are of interest to our market as we have 
+an amazing market for your products.Provide us your current 
+catalog through email to review more. We hope to be able to order
+with you and start a long-term friendly, respectable and solid 
+business partnership. Please we would appreciate it if you could 
+send us your stock availability via email if any.
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 53a5da6c49dd..07ed44c6b839 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -2581,6 +2581,22 @@ static void anx7625_runtime_disable(void *data)
- 	pm_runtime_disable(data);
- }
  
-+static int anx7625_register_typec_switches(struct device *device, struct anx7625_data *ctx)
-+{
-+	struct device_node *of = NULL;
-+	int ret = 0;
-+
-+	of = of_get_child_by_name(device->of_node, "switches");
-+	if (!of)
-+		return -ENODEV;
-+
-+	ctx->num_typec_switches = of_get_child_count(of);
-+	if (ctx->num_typec_switches <= 0)
-+		return -ENODEV;
-+
-+	return ret;
-+}
-+
- static int anx7625_i2c_probe(struct i2c_client *client,
- 			     const struct i2c_device_id *id)
- {
-@@ -2686,6 +2702,10 @@ static int anx7625_i2c_probe(struct i2c_client *client,
- 	if (platform->pdata.intp_irq)
- 		queue_work(platform->workqueue, &platform->work);
+Our payment terms are 15 days net in Europe, 30 days Net in UK 
+and 30 days net in Asia/USA as we have operated with over 5297 
+suppliers around the globe for the past 50 years now. For
+immediate response Send your reply to "robert_turner@johnlewis-
+trades.com" for us to be able to treat with care and urgency.
  
-+	ret = anx7625_register_typec_switches(dev, platform);
-+	if (ret)
-+		dev_info(dev, "Didn't register Type C switches, err: %d\n", ret);
-+
- 	platform->bridge.funcs = &anx7625_bridge_funcs;
- 	platform->bridge.of_node = client->dev.of_node;
- 	if (!anx7625_of_panel_on_aux_bus(&client->dev))
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index e257a84db962..d5cbca708842 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -473,6 +473,7 @@ struct anx7625_data {
- 	struct drm_connector *connector;
- 	struct mipi_dsi_device *dsi;
- 	struct drm_dp_aux aux;
-+	int num_typec_switches;
- };
+
  
- #endif  /* __ANX7625_H__ */
--- 
-2.36.1.255.ge46751e96f-goog
+Best Regards
+Rob Turner
+Head Of Procurement Operations
+John Lewis & Partners.
+robert_turner@johnlewis-trades.com
+Tel: +44-7451-274090
+WhatsApp: +447497483925
+www.johnlewis.com
+REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN
 
