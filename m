@@ -2,82 +2,216 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB055C43334
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 13:25:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91651C43334
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 13:36:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244620AbiFGNZP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Jun 2022 09:25:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46526 "EHLO
+        id S244816AbiFGNgE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Jun 2022 09:36:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243473AbiFGNZK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 09:25:10 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECFD1BE15F;
-        Tue,  7 Jun 2022 06:25:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1654608309; x=1686144309;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Pj2tfW8mZzif7jlpRh0HExia+x5zaVcrwbz9+Z9tZBk=;
-  b=UUjYWNR/kkpDVXafiJdJeBgsBYhQ/R7XbCd3nu7Q5Lrq5PXK3/N8sR8W
-   cj6Zm+HV1ORd4KTK5iGIusUDmDHigUunZq8B4xWjGtxuV7gcRJEHpuEpp
-   eutjkDEN+bdcyIaITc/fmR9qkEyDdU2m9MJJ16+nxHV1pDyi0Dht3UtUH
-   EkrkrNVz+bxT2LOpWCtVFCel7d9SZFXPH43aQGiZdtDp+xY5RT276aEz3
-   cVs0ZOo2XOW8G6/a8uMCUho6XsaBdRJCZIX52pRzs2Sk3tEYu7KUBRVZT
-   8uoWe7A+QayGebucWGLoDXx1XTFOou8iz3DQIBOs+VacCULDCySXlJUP/
-   g==;
-X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; 
-   d="scan'208";a="162235989"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 07 Jun 2022 06:25:05 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.17; Tue, 7 Jun 2022 06:25:04 -0700
-Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex01.mchp-main.com
- (10.10.85.143) with Microsoft SMTP Server id 15.1.2375.17 via Frontend
- Transport; Tue, 7 Jun 2022 06:25:02 -0700
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Bin Liu <b-liu@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Daire McNamara <daire.mcnamara@microchip.com>,
-        Valentina Fernandez <valentina.fernandezalanis@microchip.com>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>,
-        Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH 2/3] MAINTAINERS: add musb to PolarFire SoC entry
-Date:   Tue, 7 Jun 2022 14:22:03 +0100
-Message-ID: <20220607132204.746180-3-conor.dooley@microchip.com>
+        with ESMTP id S244823AbiFGNgC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 09:36:02 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B1A6D2460;
+        Tue,  7 Jun 2022 06:35:59 -0700 (PDT)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id A7591FF808;
+        Tue,  7 Jun 2022 13:35:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1654608958;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=x/2MYis5whDLEikQJTsiWgIVIR/tyXFDwtuLu2I9a4U=;
+        b=kGiqaTcvB3zmW/DKyC1rreLfCGQGhy7BeyOgAQmz+Qn+BMfR08J6eqetbBee36z5Bq1anf
+        9T/Gu77nJKVBLXU0SJvH3fZB0f4amZq/KulUnH13ceMgJF3w5AuaJFuIG9csskQbk9B8Xv
+        3ZPOgVBYjp620dMvwTgnzshBacUqgp4oUgzhcA0PoL7FbWE5ugr5o6wii9QbmaLYMTrjLz
+        oyg9yVu/wINe2z9DGyLf9FAcGSd5ZRk8at3lBZQ/jTdv/Kh51k48NKcSiF4z0c5zLSNv3J
+        4YZ38QHRzz6GnEl4c5We9zLC+7B8CaCkMajIfW9kDzy47mbftxkBgsJiffbf+Q==
+From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc:     =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v2] usb: host: ohci-at91: add support to enter suspend using SMC
+Date:   Tue,  7 Jun 2022 15:34:54 +0200
+Message-Id: <20220607133454.727063-1-clement.leger@bootlin.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220607132204.746180-1-conor.dooley@microchip.com>
-References: <20220607132204.746180-1-conor.dooley@microchip.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add the newly introduced musb driver to the existing PolarFire SoC entry.
+When Linux is running under OP-TEE, the SFR is set as secured and thus
+the AT91_OHCIICR_USB_SUSPEND register isn't accessible. Add a SMC to
+do the appropriate call to suspend the controller.
+The SMC id is fetched from the device-tree property
+"microchip,suspend-smc-id". if present, then the syscon regmap is not
+used to enter suspend and a SMC is issued.
 
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Clément Léger <clement.leger@bootlin.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a6d3bd9d2a8d..b07b2cfa3567 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17143,6 +17143,7 @@ S:	Supported
- F:	arch/riscv/boot/dts/microchip/
- F:	drivers/mailbox/mailbox-mpfs.c
- F:	drivers/soc/microchip/
-+F:	drivers/usb/musb/mpfs.c
- F:	include/soc/microchip/mpfs.h
+Notes:
+    Changes in V2:
+     - Change check order in ohci_at91_port_suspend()
+     - Renamed smc_id to suspend_smc_id for clarity
+
+ drivers/usb/host/ohci-at91.c | 69 ++++++++++++++++++++++++------------
+ 1 file changed, 46 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/usb/host/ohci-at91.c b/drivers/usb/host/ohci-at91.c
+index a24aea3d2759..98326465e2dc 100644
+--- a/drivers/usb/host/ohci-at91.c
++++ b/drivers/usb/host/ohci-at91.c
+@@ -13,6 +13,7 @@
+  * This file is licenced under the GPL.
+  */
  
- RNBD BLOCK DRIVERS
++#include <linux/arm-smccc.h>
+ #include <linux/clk.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/gpio/consumer.h>
+@@ -55,6 +56,7 @@ struct ohci_at91_priv {
+ 	bool clocked;
+ 	bool wakeup;		/* Saved wake-up state for resume */
+ 	struct regmap *sfr_regmap;
++	u32 suspend_smc_id;
+ };
+ /* interface and function clocks; sometimes also an AHB clock */
+ 
+@@ -135,6 +137,19 @@ static void at91_stop_hc(struct platform_device *pdev)
+ 
+ static void usb_hcd_at91_remove (struct usb_hcd *, struct platform_device *);
+ 
++static u32 at91_dt_suspend_smc(struct device *dev)
++{
++	u32 suspend_smc_id;
++
++	if (!dev->of_node)
++		return 0;
++
++	if (of_property_read_u32(dev->of_node, "microchip,suspend-smc-id", &suspend_smc_id))
++		return 0;
++
++	return suspend_smc_id;
++}
++
+ static struct regmap *at91_dt_syscon_sfr(void)
+ {
+ 	struct regmap *regmap;
+@@ -215,9 +230,13 @@ static int usb_hcd_at91_probe(const struct hc_driver *driver,
+ 		goto err;
+ 	}
+ 
+-	ohci_at91->sfr_regmap = at91_dt_syscon_sfr();
+-	if (!ohci_at91->sfr_regmap)
+-		dev_dbg(dev, "failed to find sfr node\n");
++	ohci_at91->suspend_smc_id = at91_dt_suspend_smc(dev);
++	if (!ohci_at91->suspend_smc_id)  {
++		dev_dbg(dev, "failed to find sfr suspend smc id, using regmap\n");
++		ohci_at91->sfr_regmap = at91_dt_syscon_sfr();
++		if (!ohci_at91->sfr_regmap)
++			dev_dbg(dev, "failed to find sfr node\n");
++	}
+ 
+ 	board = hcd->self.controller->platform_data;
+ 	ohci = hcd_to_ohci(hcd);
+@@ -303,24 +322,30 @@ static int ohci_at91_hub_status_data(struct usb_hcd *hcd, char *buf)
+ 	return length;
+ }
+ 
+-static int ohci_at91_port_suspend(struct regmap *regmap, u8 set)
++static int ohci_at91_port_suspend(struct ohci_at91_priv *ohci_at91, u8 set)
+ {
++	struct regmap *regmap = ohci_at91->sfr_regmap;
+ 	u32 regval;
+ 	int ret;
+ 
+-	if (!regmap)
+-		return 0;
++	if (ohci_at91->suspend_smc_id) {
++		struct arm_smccc_res res;
+ 
+-	ret = regmap_read(regmap, AT91_SFR_OHCIICR, &regval);
+-	if (ret)
+-		return ret;
++		arm_smccc_smc(ohci_at91->suspend_smc_id, set, 0, 0, 0, 0, 0, 0, &res);
++		if (res.a0)
++			return -EINVAL;
++	} else if (regmap) {
++		ret = regmap_read(regmap, AT91_SFR_OHCIICR, &regval);
++		if (ret)
++			return ret;
+ 
+-	if (set)
+-		regval |= AT91_OHCIICR_USB_SUSPEND;
+-	else
+-		regval &= ~AT91_OHCIICR_USB_SUSPEND;
++		if (set)
++			regval |= AT91_OHCIICR_USB_SUSPEND;
++		else
++			regval &= ~AT91_OHCIICR_USB_SUSPEND;
+ 
+-	regmap_write(regmap, AT91_SFR_OHCIICR, regval);
++		regmap_write(regmap, AT91_SFR_OHCIICR, regval);
++	}
+ 
+ 	return 0;
+ }
+@@ -357,9 +382,8 @@ static int ohci_at91_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+ 
+ 		case USB_PORT_FEAT_SUSPEND:
+ 			dev_dbg(hcd->self.controller, "SetPortFeat: SUSPEND\n");
+-			if (valid_port(wIndex) && ohci_at91->sfr_regmap) {
+-				ohci_at91_port_suspend(ohci_at91->sfr_regmap,
+-						       1);
++			if (valid_port(wIndex)) {
++				ohci_at91_port_suspend(ohci_at91, 1);
+ 				return 0;
+ 			}
+ 			break;
+@@ -400,9 +424,8 @@ static int ohci_at91_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+ 
+ 		case USB_PORT_FEAT_SUSPEND:
+ 			dev_dbg(hcd->self.controller, "ClearPortFeature: SUSPEND\n");
+-			if (valid_port(wIndex) && ohci_at91->sfr_regmap) {
+-				ohci_at91_port_suspend(ohci_at91->sfr_regmap,
+-						       0);
++			if (valid_port(wIndex)) {
++				ohci_at91_port_suspend(ohci_at91, 0);
+ 				return 0;
+ 			}
+ 			break;
+@@ -630,10 +653,10 @@ ohci_hcd_at91_drv_suspend(struct device *dev)
+ 		/* flush the writes */
+ 		(void) ohci_readl (ohci, &ohci->regs->control);
+ 		msleep(1);
+-		ohci_at91_port_suspend(ohci_at91->sfr_regmap, 1);
++		ohci_at91_port_suspend(ohci_at91, 1);
+ 		at91_stop_clock(ohci_at91);
+ 	} else {
+-		ohci_at91_port_suspend(ohci_at91->sfr_regmap, 1);
++		ohci_at91_port_suspend(ohci_at91, 1);
+ 	}
+ 
+ 	return ret;
+@@ -645,7 +668,7 @@ ohci_hcd_at91_drv_resume(struct device *dev)
+ 	struct usb_hcd	*hcd = dev_get_drvdata(dev);
+ 	struct ohci_at91_priv *ohci_at91 = hcd_to_ohci_at91_priv(hcd);
+ 
+-	ohci_at91_port_suspend(ohci_at91->sfr_regmap, 0);
++	ohci_at91_port_suspend(ohci_at91, 0);
+ 
+ 	if (ohci_at91->wakeup)
+ 		disable_irq_wake(hcd->irq);
 -- 
 2.36.1
 
