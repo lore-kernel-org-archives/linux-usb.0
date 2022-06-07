@@ -2,250 +2,174 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 972FFC43334
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 07:44:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8F2EC43334
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 09:52:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237836AbiFGHol (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Jun 2022 03:44:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42712 "EHLO
+        id S240087AbiFGJwP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Jun 2022 05:52:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235160AbiFGHok (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 03:44:40 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CB972F03F
-        for <linux-usb@vger.kernel.org>; Tue,  7 Jun 2022 00:44:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C22FEB81DA6
-        for <linux-usb@vger.kernel.org>; Tue,  7 Jun 2022 07:44:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2567C385A5;
-        Tue,  7 Jun 2022 07:44:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1654587875;
-        bh=XY1Re45k6uB+kOML7idvAUHGgnDSafRW9+VEGJFkYy8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pNVZV8SWeCBQ8JB90nfMcsL137flY7HaLZIVRFduoiPlrmBA+6lVKgkaZVE2nW0qa
-         vNsPeJJsUpitd/WVIq0/7O23W4k4kF4+OjVkvCGzVCctMKhJ1Z58lVYDOD3CIi5Iih
-         f5dy0jFpaJt53i8V9SbBosauNLlYk/6c/KSiNvCk=
-Date:   Tue, 7 Jun 2022 09:45:31 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc:     linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v4] usb: hub: port: add sysfs entry to switch port power
-Message-ID: <Yp8CG7Nef/vyStzw@kroah.com>
-References: <20220603225242.1090944-1-m.grzeschik@pengutronix.de>
+        with ESMTP id S240204AbiFGJwB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 05:52:01 -0400
+Received: from de-smtp-delivery-102.mimecast.com (de-smtp-delivery-102.mimecast.com [194.104.109.102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA050E8BAA
+        for <linux-usb@vger.kernel.org>; Tue,  7 Jun 2022 02:50:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=mimecast20200619;
+        t=1654595400;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=yVd/gVU65vJ0/hx+3D41i6//ucBNBP1A4AX4UJQF8mc=;
+        b=VFAQcyIWH7CeDATG5gatCnnM/6AT0ZIxVHAdYNNQ2YPpIk4QoR/BWBrl028FoH2dQ3iWdZ
+        rVlY6loivC5CJk6ieR66nAZxsn9AmBh70pockzisGB9+zbdw5fNgyCv/K3uxqt1YgDq51n
+        vXZEuxK+aR9WEBxG78GcsWC6DZfxD4w=
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com
+ (mail-am5eur03lp2051.outbound.protection.outlook.com [104.47.8.51]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ de-mta-39--9Z7yP3BN76EtaQ1_RCQ5Q-2; Tue, 07 Jun 2022 11:49:59 +0200
+X-MC-Unique: -9Z7yP3BN76EtaQ1_RCQ5Q-2
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LazWHD+9xTkUfDjg1/qQ/2f23o5yzPYQcgfctPr1QFGaLV7x6NTCkpXzzZ/UkTVZUGmooirtnK0rGFAohafn2Vl1Xovwx1DwSAZZZUNcnIY69aPH80JVfCWqtrVOR9BCFvuin4F+9MlBf+1IpgjIQxesoqQSAuzW/WIzmAyx99wEZp9SQoi0YaNmA3IHZfK6FP24gqBuQFDe0L1IE4FdzBQdGZdVY8IUEEFep15pzoSOMvBr9hsndUjzkPmQIPgTCLFpUUm+t6V274o1OCIILYS2h0QG5qD+gb2Tf5HjbKy1+4ikk0+w9CxyW8roZgp5U0s4uAAbYxgsg1KQlY5/3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LmJRHRWciqmCVIiGpcdqrc+GknpaBq3ELrtyqCARtiY=;
+ b=N5DPeFGd0i4AjdAPOk7YOsVXJXKlnzqYz8vEPPex4uO2pFIoigbIjdNCvqgzjNXvlEssTt+YYGzfAFUfdRq/L6G/n863outhK06zhKfNiV2jZ4XaDEFszmdMJLb9AeGhoKuv+cD+jnLq4jvzlbod+5eKBTxcaK41SlvDCtXQhrOtXxRIX0afSd8bA10JBiYrUcSF/W+/AVPPXECzm0yFy2sghJTBLD0tAtEJH5ylbDtVa4LA74quY5glCZjEJgG/kVIVtqsieURWemvBCkCi1iz9tUuzRlQe5k2wtRnKCxTH1TkucVbaUKHIga9jYZBBHBwdbDBnupOZCvy542lc7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mysuse.onmicrosoft.com; s=selector1-mysuse-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LmJRHRWciqmCVIiGpcdqrc+GknpaBq3ELrtyqCARtiY=;
+ b=iLf/Z/cXg7206NdgJzdnAKEJi3TNRnT2wmQQmKJl7eycIZMlw1n8erbun4UlBTauzbfkiB3s07tg9o+AUfGafJE49USPfYM0zZzMKXHMBaUqsJfhaETsMyU4IYkc8Ucmd27PEHDZqS6NQmn4qp+JtUfUHQOaJa+CpkxXMsYb42SygQEAxJwPywIq6GcyGp66t+umCyuttevhRY2iJpo2I3GKjZXIm8jqoA+hPXsGmZbXRY3+YHE6wp7gOBVj6CqFQkKmy+3KcX2mmMHtAVudc8zTl/kU43Js9HqLaY8KhM3TGlZZDmiWUhoDM0+O2edWoPU8dsvoKKtLMpKXL27D0Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+Received: from VI1PR0401MB2526.eurprd04.prod.outlook.com
+ (2603:10a6:800:58::16) by DBBPR04MB6316.eurprd04.prod.outlook.com
+ (2603:10a6:10:cb::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.19; Tue, 7 Jun
+ 2022 09:49:55 +0000
+Received: from VI1PR0401MB2526.eurprd04.prod.outlook.com
+ ([fe80::19e2:fafb:553f:d8c]) by VI1PR0401MB2526.eurprd04.prod.outlook.com
+ ([fe80::19e2:fafb:553f:d8c%11]) with mapi id 15.20.5314.019; Tue, 7 Jun 2022
+ 09:49:55 +0000
+Message-ID: <66b14321-667a-46a3-27db-cb8682bd5476@suse.com>
+Date:   Tue, 7 Jun 2022 11:49:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [RFC PATCH] USB: core: urb: add new transfer flag
+ URB_FREE_COHERENT
+Content-Language: en-US
+To:     Vincent MAILHOL <mailhol.vincent@wanadoo.fr>,
+        Oliver Neukum <oneukum@suse.com>
+CC:     Alan Stern <stern@rowland.harvard.edu>,
+        Rhett Aultman <rhett.aultman@samsara.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-can <linux-can@vger.kernel.org>, linux-usb@vger.kernel.org
+References: <alpine.DEB.2.22.394.2206041003320.1657582@thelappy>
+ <20220604144157.208849-1-mailhol.vincent@wanadoo.fr>
+ <YpuLGkPcXrM+Eiwj@rowland.harvard.edu>
+ <a57f4af7-3fbc-0853-dd9c-b80b2425b4f5@suse.com>
+ <CAMZ6Rq+6z-Nz=Nao2u_=LOC5QYF6KBjy-HdK1x41O4zo1c8HHg@mail.gmail.com>
+From:   Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <CAMZ6Rq+6z-Nz=Nao2u_=LOC5QYF6KBjy-HdK1x41O4zo1c8HHg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: AM6PR08CA0014.eurprd08.prod.outlook.com
+ (2603:10a6:20b:b2::26) To VI1PR0401MB2526.eurprd04.prod.outlook.com
+ (2603:10a6:800:58::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220603225242.1090944-1-m.grzeschik@pengutronix.de>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1729d085-db83-4577-960f-08da486b134c
+X-MS-TrafficTypeDiagnostic: DBBPR04MB6316:EE_
+X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
+X-Microsoft-Antispam-PRVS: <DBBPR04MB6316E8130C6774C5DD09951DC7A59@DBBPR04MB6316.eurprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RqjYFWhsSzPSCSOrRnTP7Zyln2HxFJHtAJQeYmGlCILTe7+KYf8QBCezW8LzoMzkosAsjdEsUDOHdzac8hA7aY+zu9htgOc5OtkqViRdbdEK4CCb21wXIXtZHTyMoaUDWmD7s2t2FZQfcAlLxyCjAawoVmmgUP1Sj9kfdZGWA69vPXCY8d+ZB5URJPXiinN+jwN1sv6Gdu6ABwfnHyzGXUcfQiWA6M7j2dUtl4S88GbXS79MURzWg38C08XMdtZv7QOGlzeVmbpdR3z2OjqW4asp6ljtehqxLDUvYXJJfLC7S2iHL8Twbps53Pzqqh4n0AcBzxs8Ozy28GDQLAQ4BLD9+sc4cKRkbWYQGstuuJtFRUQa9UWVtqG7zNRhS6okoBcUyzvg/tA4Pyu85RgZuzTzDb/6oBZemXWPZEHB6k9FrFZ2j3cFhXlJsQwhbUXohWK524g6J8iz//mbZFOHrEMJnsGa7ezB1ZIPmdM+1OuufJJHxjZTAn4jzloWR9enY+Vt0X8iAHEEWev/EGXMxafZRFIkLbppPYzDB+Ds7BgE6iQG0a+DN60A8M1nvIX7EP4vjWBiA1W6DFv/adelHFfEfY9o+FrAqs85RqqcqGq69zG1R1AYdU5mRFdH4rpVSzawlj4ri/dQMpGnMqqnAiQ+eKkbYNmQtSd8fEVdosmTfcXNxPssMc+bVCAO3I0SgTBJ467pGMFZTp6PccY0ODaVn5hM0EzlAYR6V8WSHSs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR0401MB2526.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(508600001)(2616005)(186003)(2906002)(66946007)(31696002)(86362001)(110136005)(6486002)(5660300002)(31686004)(6666004)(54906003)(36756003)(8676002)(4326008)(66556008)(66476007)(83380400001)(8936002)(6506007)(53546011)(6512007)(316002)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?svxXf6AZDDqk4X0mkBa3BSicTFAMgaWoZo0d/bDmnRSA9wTlyQB4Wewd08m5?=
+ =?us-ascii?Q?CvvHFmUXlY6eOyPQMHQj761g14wrEbButuJFuWSbfQuHXLam9enWN/SD2gdY?=
+ =?us-ascii?Q?2DzXThYnWIyTyxLA4+9sfscE2Bg6ve30bOjyadWKijRB0eAT/TTPv079Eg5M?=
+ =?us-ascii?Q?GeHyt8OSws27cDQY9EBl/DQdoEKMM74ktdI8cH6xcPfuwIzVQ+Z3hxTweATl?=
+ =?us-ascii?Q?fVVyvbEkMxIZcp1p68j+YZZr7AO95t8HJO3tB6R5oYu6Xhdsk4s9HmfUDL21?=
+ =?us-ascii?Q?iw7W9F0ucVLx32pVcM1ZBxZ0u14Gdw/RuVwNwNw3Omeeh+TAzayeW/JrHWDH?=
+ =?us-ascii?Q?2B8fQISNnfoAMHHVwWpsiOtDeMNwzYmQLyn1akNyEtAg1AyVakKAJeVeL1Xr?=
+ =?us-ascii?Q?QhUCjnD2UT/9Pta1ejh4Gv5A1c3967lGkm4E9LeyQt1gubLBXkQIDbXj4Zqr?=
+ =?us-ascii?Q?h5rAtyXB+oFqsYCmTkGFncgCwR7xS5XfafA9SimRTmYJqditNWI9+B15qMX3?=
+ =?us-ascii?Q?eog8geXb+nM/a7xOY2Kac/BvDYR5lXOgLxuKBsWz+ZDXoHKd4RERvl1pwbM+?=
+ =?us-ascii?Q?UJjtyZxwY/CkV7aibwAj9HBB61dI8suwkR8xHckzGeGAkqslYaa/kqsk9dz9?=
+ =?us-ascii?Q?Zzej4NDkUmYrxUnrv7Z8vXqq1+8u0yiM6/B77izTUm6xOyXRhg8NUL61KNrv?=
+ =?us-ascii?Q?7pw8GdtwYLun7+sKVtulxBP+XDncg8R/BtMgQcawKfNwTW2nHidTW3aeQHxZ?=
+ =?us-ascii?Q?GS/2tPVZY87JfdcbV64mhOPkp9X/dtxhLRH/IHaqtTbU5tADpRudRrvjI/Y3?=
+ =?us-ascii?Q?Z4ixS06juSKYDUM3kjaEqOOXaZSDP+wEf/GJQkUynkRHdFXuxshXFDw3k6YH?=
+ =?us-ascii?Q?omeCV0u9DylMEiFyjw/aEUneu0qhDStvaq5h4pbqsmgrpIdpeE95WM1oNCf4?=
+ =?us-ascii?Q?sCC5kNxh7+rBdVoQBPXBlZ99QFHsDlQ+SNDiQp++ae/lYbXrUUZVrD96Yyi1?=
+ =?us-ascii?Q?1wfqzjEmKG4AU92/HtAunkVWyzfX3rek1rLjdAoFNRpjGLY0yoeyLfXfF+Sk?=
+ =?us-ascii?Q?rrF5fj0q3+lFHtCp61ULkWQ6GndiZq94Cdy8wD4y1rA0u9LhXhZCW3bXM/OX?=
+ =?us-ascii?Q?1O7GhGpDK3txLhCMH5nhI+P1qIuOKOd8TLvIjrc7nZj2FstAqGi/wXWLDVcl?=
+ =?us-ascii?Q?RAncKga1bZz+kmczGvpT0UrIjZz18eiunz8/wyQZQGASsNlVYNky7qp6tmwI?=
+ =?us-ascii?Q?Zv3um6rXX9jTi7+waWE/UA6Y7ufKlJAJ+CYP/307hiBlWIHwYj2/eDqiUlqB?=
+ =?us-ascii?Q?VmjCr1g3e2G7dLsJZA3b6fT1H/UZ/yFJUjPboBgTkX1V46n8OudRd1fMG2T8?=
+ =?us-ascii?Q?O2xeiUm/WqsQVLj+0idmlaYlCp+oJAkNF1iqglpQoiENn2j1W8bxGbcYX+AZ?=
+ =?us-ascii?Q?TfVIs2/RSLnCWEJHDFZWSzUDaZb7SEO5TYh8Ykoyu9QLgyor7YV52ejOj7UB?=
+ =?us-ascii?Q?DYekDYw5+nvvskFzofVaQYJizk88CIDbaaY7NMLlFepakHNxviKMDwi7fxT9?=
+ =?us-ascii?Q?DATq09Lb+TxKYphbT6gF52MEluIz22KhHbVhrux7BC64mbXfEONb3+N8bcGr?=
+ =?us-ascii?Q?QCKXPt5+4KRC8NmWYzYVOH70RQ7Oe8rCp1jvXeh67Y0Vdmm51h7OyuGpsVnG?=
+ =?us-ascii?Q?M4qb27/ZYW3HgIvIlosHUys+NzvqENz8x/8TWAEYRGLvsEKMn0/RbDZYQIbf?=
+ =?us-ascii?Q?4PTCd69XYlNbfCprTS1vVG5K5YYXgs4MdlpwwOz1r89orPu0vVUI9fPPjBMt?=
+X-MS-Exchange-AntiSpam-MessageData-1: 80WY3gAKzr+Y6A==
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1729d085-db83-4577-960f-08da486b134c
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0401MB2526.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 09:49:55.0239
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sCamLWblCkqYMtjiAcBCeLf9F7pNINuKz1TvrJM2ayMH+91ceesM0QrjomP+w2eADALVEaRx+xEb8GR50Tubjw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB6316
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Jun 04, 2022 at 12:52:42AM +0200, Michael Grzeschik wrote:
-> In some cases the port of an hub needs to be disabled or switched off
-> and on again. E.g. when the connected device needs to be re-enumerated.
-> Or it needs to be explicitly disabled while the rest of the usb tree
-> stays working.
-> 
-> For this purpose this patch adds an sysfs switch to enable/disable the
-> port on any hub. In the case the hub is supporting power switching, the
-> power line will be disabled to the connected device.
-> 
-> When the port gets disabled, the associated device gets disconnected and
-> removed from the logical usb tree. No further device will be enumerated
-> on that port until the port gets enabled again.
-> 
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-> 
-> ---
-> v1 -> v2:
->          - improved patch description
->          - moved usb_hub_set_port_power to end of function
->          - renamed value to set
->          - removed udev variable
->          - added usb_set_configuration set to -1 before removing device
->          - calling autosuspend of udev before usb_disconnect, ensuring hub_suspend succeeds
->          - removed port_dev->child = NULL assignment
->          - directly returning count on no failure success
->          - removed test for hub->in_reset
->          - using usb_autopm_get_interface/usb_autopm_put_interface around hub handling
->          - locking usb_disconnect call
->          - using &port_dev->child instead of local udev pointer
->          - added Documentation/ABI
-> 
-> v2 -> v3:
->          - renamed sysfs file to disable instead of port_power
->          - added disable_show function to read out the current port state
->          - moved usb_lock/unlock_device near put/get_interface
->          - removed unnecessary usb_set_configuration of port_dev->child before disconnect
->          - removed unnecessary usb_autosuspend of port_dev->child before disconnect
->          - moved clearing of port_feature flags to be done after usb_hub_set_port_power
->          - checking for hub->disconnected after locking hdev
->          - updated the ABI documentation
-> v3 -> v4:
->          - exporting hub_port_status + port_is_power_on
->          - changed disable_show from using test_bit(port1, hub->power_bits) to new exported functions
-> 	 - renamed set variable to disabled
-> 	 - rephrased documentation
-> 	 - removed initial check for hub
-> 
->  Documentation/ABI/testing/sysfs-bus-usb | 11 ++++
->  drivers/usb/core/hub.c                  |  4 +-
->  drivers/usb/core/hub.h                  |  3 +
->  drivers/usb/core/port.c                 | 83 +++++++++++++++++++++++++
->  4 files changed, 99 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-usb b/Documentation/ABI/testing/sysfs-bus-usb
-> index 7efe31ed3a25c7..568103d3376ee7 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-usb
-> +++ b/Documentation/ABI/testing/sysfs-bus-usb
-> @@ -253,6 +253,17 @@ Description:
->  		only if the system firmware is capable of describing the
->  		connection between a port and its connector.
->  
-> +What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/disable
-> +Date:		June 2022
-> +Contact:	Michael Grzeschik <m.grzeschik@pengutronix.de>
-> +Description:
-> +		This file controls the state of a USB port, including
-> +		Vbus power output (but only on hubs that support
-> +		power switching -- most hubs don't support it). If
-> +		a port is disabled, the port is unusable: Devices
-> +		attached to the port will not be detected, initialized,
-> +		or enumerated.
-> +
->  What:		/sys/bus/usb/devices/.../power/usb2_lpm_l1_timeout
->  Date:		May 2013
->  Contact:	Mathias Nyman <mathias.nyman@linux.intel.com>
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 1460857026e069..759576df908e93 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -613,7 +613,7 @@ static int hub_ext_port_status(struct usb_hub *hub, int port1, int type,
->  	return ret;
->  }
->  
-> -static int hub_port_status(struct usb_hub *hub, int port1,
-> +int hub_port_status(struct usb_hub *hub, int port1,
->  		u16 *status, u16 *change)
->  {
->  	return hub_ext_port_status(hub, port1, HUB_PORT_STATUS,
-> @@ -3074,7 +3074,7 @@ static int hub_port_reset(struct usb_hub *hub, int port1,
->  }
->  
->  /* Check if a port is power on */
-> -static int port_is_power_on(struct usb_hub *hub, unsigned portstatus)
-> +int port_is_power_on(struct usb_hub *hub, unsigned int portstatus)
->  {
->  	int ret = 0;
->  
-> diff --git a/drivers/usb/core/hub.h b/drivers/usb/core/hub.h
-> index 22ea1f4f2d66d7..a9f0d78be09ba7 100644
-> --- a/drivers/usb/core/hub.h
-> +++ b/drivers/usb/core/hub.h
-> @@ -121,6 +121,9 @@ extern int hub_port_debounce(struct usb_hub *hub, int port1,
->  		bool must_be_connected);
->  extern int usb_clear_port_feature(struct usb_device *hdev,
->  		int port1, int feature);
-> +extern int hub_port_status(struct usb_hub *hub, int port1,
-> +		u16 *status, u16 *change);
-> +extern int port_is_power_on(struct usb_hub *hub, unsigned int portstatus);
-
-Minor nits, as these are now part of the "global kernel namespace", they
-should start with "usb_" to make them obvious what subsystem they came
-from.
 
 
+On 05.06.22 15:45, Vincent MAILHOL wrote:
+>
+> This is how I see things:
+>   * In the open() function, the driver will do the coherent allocation
+> for its transfer_buffers, fill those into URBs and add all the URBs in
+> an anchor.
+>   * During runtime, the driver will keep recycling the same URBs (no
+> need to kill URB nor to usb_free_coherent() the transfer_buffer).
+Yes.
+>   * Finally, in the close() function, the driver has to kill the URBs
+> and usb_free_coherent() the transfer_buffers. As far as I understand,
+> no helper functions allow us to do all that, thus requiring the driver
+> to iterate through the anchor to manually usb_free_coherent() the
+> transfer buffer.
+Yes. But you cannot nicely solve that with a flag as you proposed. You
+would need to use a helper function.
+> So, the intent of this patch is to provide a method to both kill the
+> URBs and usb_free_coherent() the transfer buffer at once. The
+Well, you don't directly. Your patch frees the buffer together with the URB=
+.
+That has some uses, but you still would need to iterate over the URBs
+Yes, there is a helper for that, but then you cover one and only one
+use case, that is, you leave no way to free the buffers without
+at the same time discrading the URBs.
 
->  
->  static inline bool hub_is_port_power_switchable(struct usb_hub *hub)
->  {
-> diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-> index d5bc36ca5b1f77..609ff1ea331b23 100644
-> --- a/drivers/usb/core/port.c
-> +++ b/drivers/usb/core/port.c
-> @@ -17,6 +17,88 @@ static int usb_port_block_power_off;
->  
->  static const struct attribute_group *port_dev_group[];
->  
-> +static ssize_t disable_show(struct device *dev,
-> +			      struct device_attribute *attr, char *buf)
-> +{
-> +	struct usb_port *port_dev = to_usb_port(dev);
-> +	struct usb_device *hdev = to_usb_device(dev->parent->parent);
-> +	struct usb_hub *hub = usb_hub_to_struct_hub(hdev);
-> +	struct usb_interface *intf = to_usb_interface(hub->intfdev);
-> +	int port1 = port_dev->portnum;
-> +	u16 portstatus, unused;
-> +	bool disabled;
-> +	int rc;
-> +
-> +	rc = usb_autopm_get_interface(intf);
-> +	if (rc < 0)
-> +		return rc;
-> +
-> +	usb_lock_device(hdev);
-> +	if (unlikely(hub->disconnected)) {
+You can do that, but it strikes me as unelegant.
 
-ONLY ever use likely/unlikely if you can measure the speed difference
-without it.  For a sysfs access, that's not the case at all.
+=C2=A0=C2=A0=C2=A0 Regards
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Oliver
 
-Turns out that at least 80% of all use of likely/unlikely is wrong
-(there's a kernel option to trace these), the compiler and CPU almost
-always knows better so just trust that.
-
-
-
-> +		rc = -ENODEV;
-> +		goto out_hdev_lock;
-> +	}
-> +
-> +	hub_port_status(hub, port1, &portstatus, &unused);
-> +	disabled = !port_is_power_on(hub, portstatus);
-> +
-> +out_hdev_lock:
-> +	usb_unlock_device(hdev);
-> +	usb_autopm_put_interface(intf);
-> +
-> +	if (rc)
-> +		return rc;
-> +
-> +	return sprintf(buf, "%s\n", disabled ? "1" : "0");
-
-sysfs_emit() please.
-
-> +}
-> +
-> +static ssize_t disable_store(struct device *dev, struct device_attribute *attr,
-> +			    const char *buf, size_t count)
-> +{
-> +	struct usb_port *port_dev = to_usb_port(dev);
-> +	struct usb_device *hdev = to_usb_device(dev->parent->parent);
-> +	struct usb_hub *hub = usb_hub_to_struct_hub(hdev);
-> +	struct usb_interface *intf = to_usb_interface(hub->intfdev);
-> +	int port1 = port_dev->portnum;
-> +	bool disabled;
-> +	int rc;
-> +
-> +	rc = strtobool(buf, &disabled);
-> +	if (rc)
-> +		return rc;
-> +
-> +	rc = usb_autopm_get_interface(intf);
-> +	if (rc < 0)
-> +		return rc;
-> +
-> +	usb_lock_device(hdev);
-> +	if (unlikely(hub->disconnected)) {
-
-Again, not needed.
-
-Overall this is great, sorry for not having the chance to look at this
-before now to catch these.
-
-thanks,
-
-greg k-h
