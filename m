@@ -2,45 +2,44 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A1C6C43334
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 18:54:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C342C2BBF8
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 18:58:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352998AbiFGSyF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Jun 2022 14:54:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59958 "EHLO
+        id S1352333AbiFGS57 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Jun 2022 14:57:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353692AbiFGSwR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 14:52:17 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8F83131F25;
-        Tue,  7 Jun 2022 11:03:35 -0700 (PDT)
+        with ESMTP id S1353107AbiFGSxn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 14:53:43 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AE4714ACA1;
+        Tue,  7 Jun 2022 11:03:43 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6E262618D3;
-        Tue,  7 Jun 2022 18:03:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C48DCC385A5;
-        Tue,  7 Jun 2022 18:03:33 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AA612B82368;
+        Tue,  7 Jun 2022 18:03:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80CA3C385A5;
+        Tue,  7 Jun 2022 18:03:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654625014;
-        bh=hNbRKfVqo+5QFr9vKzpLdRTCK4YVbnY0OIVNBR0p+64=;
+        s=k20201202; t=1654625020;
+        bh=FbHW7wJdsutLxte77RD+vKYaOV2opqcOLhcyd1Y6Q4U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DF5Tc2lwZTaerocK4ehyEQlwVCuHuuLQYJqa9YXtCZn/vgXsGPkzmU9GRMORdGX7X
-         IPgo8XHih8pVLodXjsUcqPLjFAcnyJaDU3sVQWkS9j3Q9Dvj/GiInIhekK2R9c4raH
-         NcysQuWfCFlpzz4dTUxSB0FzOum0+muDoFpi9AMVbB/u/VU9YYyTzilY548FDdSnxu
-         m/jtBe180VDNQPMusO9yuOzsEIQKqqKrbfuxkSWJLCAcTEuHKYxOqdIMDawqvepEu9
-         TM9zhl0DKdpXEPqhqLTsLkLow2seSXXwAav00RKkIzXLeIm0estRnCGqqFOa+56mpw
-         KNs8zfoVcVoEQ==
+        b=lpbYalJwe8sjRvw7rJz3vl0MZM/bdTna6CGipNZfuuwJFi1cKlNXspVGJOWziz9hW
+         7Dh0k9W7ByoEA09IW0u33oJA7UrA3py2k6ccoWFL8vIKD17JShwuUn3K1RuF209gQ9
+         VUXlsXJsJIokOkXdNtoegeyFnB2KHXeHsU74EPW6aPdutEO2EwHn/bG7Rn9cW6hrGz
+         YE1i1C4YcjG8APYXH1T6luTrJBx8OZ0rGOlvrqVNBdmf0+mxsn8ua/m5n1oWKtfWJi
+         HrTOdRxSvxZJJMj+8JfMLm1yrFO0pBPLjN5Jbu/GCU8c0coCpFfPDmCq0sgqS3kEeR
+         ewJFNgCfhkReQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Duoming Zhou <duoming@zju.edu.cn>,
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, mailhol.vincent@wanadoo.fr,
-        cai.huoqing@linux.dev, chi.minghao@zte.com.cn,
+        Sasha Levin <sashal@kernel.org>, hminas@synopsys.com,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 08/19] drivers: usb: host: Fix deadlock in oxu_bus_suspend()
-Date:   Tue,  7 Jun 2022 14:03:03 -0400
-Message-Id: <20220607180317.482354-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 10/19] usb: dwc2: gadget: don't reset gadget's driver->bus
+Date:   Tue,  7 Jun 2022 14:03:05 -0400
+Message-Id: <20220607180317.482354-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220607180317.482354-1-sashal@kernel.org>
 References: <20220607180317.482354-1-sashal@kernel.org>
@@ -52,52 +51,64 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Duoming Zhou <duoming@zju.edu.cn>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
 
-[ Upstream commit 4d378f2ae58138d4c55684e1d274e7dd94aa6524 ]
+[ Upstream commit 3120aac6d0ecd9accf56894aeac0e265f74d3d5a ]
 
-There is a deadlock in oxu_bus_suspend(), which is shown below:
+UDC driver should not touch gadget's driver internals, especially it
+should not reset driver->bus. This wasn't harmful so far, but since
+commit fc274c1e9973 ("USB: gadget: Add a new bus for gadgets") gadget
+subsystem got it's own bus and messing with ->bus triggers the
+following NULL pointer dereference:
 
-   (Thread 1)              |      (Thread 2)
-                           | timer_action()
-oxu_bus_suspend()          |  mod_timer()
- spin_lock_irq() //(1)     |  (wait a time)
- ...                       | oxu_watchdog()
- del_timer_sync()          |  spin_lock_irq() //(2)
- (wait timer to stop)      |  ...
+dwc2 12480000.hsotg: bound driver g_ether
+8<--- cut here ---
+Unable to handle kernel NULL pointer dereference at virtual address 00000000
+[00000000] *pgd=00000000
+Internal error: Oops: 5 [#1] SMP ARM
+Modules linked in: ...
+CPU: 0 PID: 620 Comm: modprobe Not tainted 5.18.0-rc5-next-20220504 #11862
+Hardware name: Samsung Exynos (Flattened Device Tree)
+PC is at module_add_driver+0x44/0xe8
+LR is at sysfs_do_create_link_sd+0x84/0xe0
+...
+Process modprobe (pid: 620, stack limit = 0x(ptrval))
+...
+ module_add_driver from bus_add_driver+0xf4/0x1e4
+ bus_add_driver from driver_register+0x78/0x10c
+ driver_register from usb_gadget_register_driver_owner+0x40/0xb4
+ usb_gadget_register_driver_owner from do_one_initcall+0x44/0x1e0
+ do_one_initcall from do_init_module+0x44/0x1c8
+ do_init_module from load_module+0x19b8/0x1b9c
+ load_module from sys_finit_module+0xdc/0xfc
+ sys_finit_module from ret_fast_syscall+0x0/0x54
+Exception stack(0xf1771fa8 to 0xf1771ff0)
+...
+dwc2 12480000.hsotg: new device is high-speed
+---[ end trace 0000000000000000 ]---
 
-We hold oxu->lock in position (1) of thread 1, and use
-del_timer_sync() to wait timer to stop, but timer handler
-also need oxu->lock in position (2) of thread 2. As a result,
-oxu_bus_suspend() will block forever.
+Fix this by removing driver->bus entry reset.
 
-This patch extracts del_timer_sync() from the protection of
-spin_lock_irq(), which could let timer handler to obtain
-the needed lock.
-
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-Link: https://lore.kernel.org/r/20220417120305.64577-1-duoming@zju.edu.cn
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Link: https://lore.kernel.org/r/20220505104618.22729-1-m.szyprowski@samsung.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/oxu210hp-hcd.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/usb/dwc2/gadget.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/usb/host/oxu210hp-hcd.c b/drivers/usb/host/oxu210hp-hcd.c
-index 2f48da0c0bb3..af5248f62c59 100644
---- a/drivers/usb/host/oxu210hp-hcd.c
-+++ b/drivers/usb/host/oxu210hp-hcd.c
-@@ -3491,8 +3491,10 @@ static int oxu_bus_suspend(struct usb_hcd *hcd)
- 		}
- 	}
+diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
+index 65bcbbad6d54..44bab6727b43 100644
+--- a/drivers/usb/dwc2/gadget.c
++++ b/drivers/usb/dwc2/gadget.c
+@@ -3445,7 +3445,6 @@ static int dwc2_hsotg_udc_start(struct usb_gadget *gadget,
  
-+	spin_unlock_irq(&oxu->lock);
- 	/* turn off now-idle HC */
- 	del_timer_sync(&oxu->watchdog);
-+	spin_lock_irq(&oxu->lock);
- 	ehci_halt(oxu);
- 	hcd->state = HC_STATE_SUSPENDED;
+ 	WARN_ON(hsotg->driver);
  
+-	driver->driver.bus = NULL;
+ 	hsotg->driver = driver;
+ 	hsotg->gadget.dev.of_node = hsotg->dev->of_node;
+ 	hsotg->gadget.speed = USB_SPEED_UNKNOWN;
 -- 
 2.35.1
 
