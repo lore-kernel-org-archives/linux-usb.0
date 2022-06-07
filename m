@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CE1FCCA483
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 18:18:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E66E7C43334
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 18:18:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350884AbiFGSSi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Jun 2022 14:18:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41768 "EHLO
+        id S1351114AbiFGSSl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Jun 2022 14:18:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351917AbiFGSQs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 14:16:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62D4D13391A;
-        Tue,  7 Jun 2022 10:50:08 -0700 (PDT)
+        with ESMTP id S1352088AbiFGSQx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 14:16:53 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F3513393A;
+        Tue,  7 Jun 2022 10:50:25 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DD38861794;
-        Tue,  7 Jun 2022 17:50:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67A1EC341C4;
-        Tue,  7 Jun 2022 17:50:06 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 850F5B82340;
+        Tue,  7 Jun 2022 17:50:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55BD8C3411C;
+        Tue,  7 Jun 2022 17:50:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654624207;
-        bh=/iUON9WW6bsYbfVqaGxLRyqJA2zgabLnd46UiDlgoD8=;
+        s=k20201202; t=1654624223;
+        bh=jGr8WXM1jdPMD04g4tRJ+Sq3zW2YgJpdz6hJ9tysoig=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uASTYLNCryH3nlHEQvqaMECw6fdUuBL04k81iws1utq1dmHM1VU/QnWQBEXBfjrrU
-         KdzVKzNU3S42avTzouAHJqSe8AHuhGCua0XFYo/4dapxPdLcTrAdF1gafHiuz2s4Ld
-         arJKDPzSeImddabzXUqN6d7j0/Lvwak2NAyhgKY6GWOrtscYBm2gcv0lP6o9BgImm1
-         PPDsjpHwbVTEcMro71q1GLrTNSMtzwhjQnQncpaTLOfVoFGMAOT4lk35m7X1l4r6bL
-         ZsO80u3PsVTJNArraN8wVL47hVN28ByL+HhHrZgy7E//xNtB7kkn6hrIGf765zM8bI
-         9uB/pGimt9aVA==
+        b=mAcUeu7QSnJjSR2faZQyjEwvrjDalVv2ZSN+cFIG/RTE1nVk3MuacFmVW655vVIJE
+         GTho+AFPcq2Qq49Qv51+CBOZyjNndhxFG4N8x8sRREan/y/E4iA2FJgGvZGG0DHuz0
+         8DPsKJnH9i0UGqEJtamlpTtv8IVx0WNVBdJwkoSQyaA1d1a+KGgzHgURGeCX6GZSoD
+         vQyjKEwkpB27sd286cr2ULOTBYQzO8T3C7rlXNElYZByr6DIZkXC8wfUlAbPnm+Wz1
+         m8PZVWfqmS3P3WogXojaQKf63GlYbKg22VZJqgFL2JaJ7tmmANdLAcPFvi7NpCScM5
+         SmXDHBTWqq44A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Zhen Ni <nizhen@uniontech.com>,
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, ok@artecdesign.ee,
+        Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 13/68] USB: host: isp116x: check return value after calling platform_get_resource()
-Date:   Tue,  7 Jun 2022 13:47:39 -0400
-Message-Id: <20220607174846.477972-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 20/68] usb: dwc3: host: Stop setting the ACPI companion
+Date:   Tue,  7 Jun 2022 13:47:46 -0400
+Message-Id: <20220607174846.477972-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220607174846.477972-1-sashal@kernel.org>
 References: <20220607174846.477972-1-sashal@kernel.org>
@@ -51,40 +51,48 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Zhen Ni <nizhen@uniontech.com>
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-[ Upstream commit 134a3408c2d3f7e23eb0e4556e0a2d9f36c2614e ]
+[ Upstream commit 7fd069d65da2e20b1caec3b7bcf9dfbe28c04bb2 ]
 
-It will cause null-ptr-deref if platform_get_resource() returns NULL,
-we need check the return value.
+It is no longer needed. The sysdev pointer is now used when
+assigning the ACPI companions to the xHCI ports and USB
+devices.
 
-Signed-off-by: Zhen Ni <nizhen@uniontech.com>
-Link: https://lore.kernel.org/r/20220302033716.31272-1-nizhen@uniontech.com
+Assigning the ACPI companion here resulted in the
+fwnode->secondary pointer to be replaced also for the parent
+dwc3 device since the primary fwnode (the ACPI companion)
+was shared. That was unintentional and it created potential
+side effects like resource leaks.
+
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Link: https://lore.kernel.org/r/20220428111056.3558-3-heikki.krogerus@linux.intel.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/isp116x-hcd.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/usb/dwc3/host.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/usb/host/isp116x-hcd.c b/drivers/usb/host/isp116x-hcd.c
-index 8835f6bd528e..8c7f0991c21b 100644
---- a/drivers/usb/host/isp116x-hcd.c
-+++ b/drivers/usb/host/isp116x-hcd.c
-@@ -1541,10 +1541,12 @@ static int isp116x_remove(struct platform_device *pdev)
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index eda871973d6c..f56c30cf151e 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -7,7 +7,6 @@
+  * Authors: Felipe Balbi <balbi@ti.com>,
+  */
  
- 	iounmap(isp116x->data_reg);
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
--	release_mem_region(res->start, 2);
-+	if (res)
-+		release_mem_region(res->start, 2);
- 	iounmap(isp116x->addr_reg);
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	release_mem_region(res->start, 2);
-+	if (res)
-+		release_mem_region(res->start, 2);
+-#include <linux/acpi.h>
+ #include <linux/irq.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+@@ -83,7 +82,6 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 	}
  
- 	usb_put_hcd(hcd);
- 	return 0;
+ 	xhci->dev.parent	= dwc->dev;
+-	ACPI_COMPANION_SET(&xhci->dev, ACPI_COMPANION(dwc->dev));
+ 
+ 	dwc->xhci = xhci;
+ 
 -- 
 2.35.1
 
