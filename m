@@ -2,87 +2,99 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F409ACCA47C
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 17:32:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C24EFC433EF
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 18:18:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347044AbiFGRcr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Jun 2022 13:32:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42262 "EHLO
+        id S1350787AbiFGSSb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Jun 2022 14:18:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347831AbiFGRbS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 13:31:18 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAEBD10A638
-        for <linux-usb@vger.kernel.org>; Tue,  7 Jun 2022 10:28:32 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id q1so36625414ejz.9
-        for <linux-usb@vger.kernel.org>; Tue, 07 Jun 2022 10:28:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=GDjWLTXODTJxBJfiXt2y7M0qjTHj2KDSDDIwqP8WQ5M=;
-        b=eWNkAw36eW7rbw+ZvYv2KhpceTUczp9VaAl35P4uN0BdQf+0EaFK4cwb3P+1EzIqWq
-         VhWZXLP9mhOh1FBPVIxT4CF4ezsUwp8otsE295i2PYeecU9smlrggCVG7VVrChlzCqVi
-         bMhY9cdUiwg6aNvgONVP4pWZ1Wey1+BxDXgWjgBlWMiOe1+LnIceYYg3fcp1FBdXQuIK
-         NcBgJbkXEwE2lwaxXDrFU3bKAhpevjBB1B4Bcbe1iMWffCxR19L7bLXQnnGic7zLQMLz
-         IfoiLyffLVjpa8vKIM3opzR+i3K9AFzWD8dbxoLxW7jTbS0QpyNtAW0gfFGAW/owx1Id
-         1RnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=GDjWLTXODTJxBJfiXt2y7M0qjTHj2KDSDDIwqP8WQ5M=;
-        b=MTRqszAGvDwEJ/BORp5deBcsw/gpAcPh/qRXdD7YANH/xpnzR2sP+NNL3xs2yBJ6Ww
-         m1E1FP4suHZN7lZj8sm3fxfVXXIKLHC0VntECM0fTsiXbRpX2TiMOKjGAo2zKbwAvCCd
-         A3QbpvChIU/USvob2VpmIaRWT1WzFFT5tP3/rkAZ+fWN6Qf63BFMEao8H5m5R/I8VAKg
-         P6NY1nJe2TQF3GEh4BUGah/UI+GWjzyX9MlnrsMqcUU/CtJSMPMsaEMU0rEYgHy20B0U
-         yhoFnG2NBvWfEJv/9FP5xrdqEUuOiSzv7v9mPgOFOy3/qDVNZxuoVnQ443SiLWqqXbRh
-         yvFQ==
-X-Gm-Message-State: AOAM5332p5HKlf08pGWzlhAyY2VIPMlzf3OKlW4SR+1VcMg+GClOMj4p
-        KGLjjxS2zFgqNBbpisCjsy0eOZu4G7hgO/SDWZQ=
-X-Google-Smtp-Source: ABdhPJzsE9uNeiUh9tIfZ2YSfGjx9yony9kryr0qkTdW8M/G7p/3TO8d+SjPR1L+2sW2kdQeilD/7FsxVXdcUln94Y4=
-X-Received: by 2002:a17:907:2cc3:b0:6f8:5a21:4d62 with SMTP id
- hg3-20020a1709072cc300b006f85a214d62mr28911758ejc.256.1654622911077; Tue, 07
- Jun 2022 10:28:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <CALhB_QNhzHkf4Yw6TqZAbCisMK6TBy8ecw0M_Sq=EQXPN728fg@mail.gmail.com>
- <Yoy5m3Aa6QwVcFhf@kuha.fi.intel.com> <Yoy7oXpMugFFmfBP@lahna>
- <CALhB_QM9SHJt+15pEVHEH_kourb-1Xbd68O1p_XLxOmWB4HAfw@mail.gmail.com>
- <YpCVc6eYkpmjP9AF@lahna> <CALhB_QP8SPqubq-eBNa1BTMuy3kCA65OuajOeJGt5DB9jDRKKg@mail.gmail.com>
- <ce969e3b4a6ed04584fdecd3234578bd87d52594.camel@gmail.com>
- <YpSUSk9u5z3ueufa@lahna> <92ab08fe65c12d6159966bdd7d2c4215044a00ff.camel@gmail.com>
-In-Reply-To: <92ab08fe65c12d6159966bdd7d2c4215044a00ff.camel@gmail.com>
-From:   Stefan Hoffmeister <stefan.hoffmeister@gmail.com>
-Date:   Tue, 7 Jun 2022 19:28:19 +0200
-Message-ID: <CALhB_QM+704m9hoDJHUycbZEFXAj5pCENoWZdcFaFzo-+VhWJg@mail.gmail.com>
-Subject: Re: Thunderbolt: One missing DisplayPort?
-To:     =?UTF-8?Q?Tomasz_Mo=C5=84?= <desowin@gmail.com>
-Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        with ESMTP id S1352082AbiFGSQx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 14:16:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACB5D133271;
+        Tue,  7 Jun 2022 10:50:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2B2EE6159C;
+        Tue,  7 Jun 2022 17:50:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC3F7C341C5;
+        Tue,  7 Jun 2022 17:50:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654624224;
+        bh=RpktX0h64ke1ndML5ud9B+DvdtiuU/h/XzPH811aUtE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=F57r+Lf6hvh7XuHvgOXZ3nMYdr4NUgQvAOT9nzpawF0nEqwordjWlu1+e/GIs+hmU
+         Ylm+zfhB8SEShYYDmWlDs1DDIW31mfbDhAK4hYiLLDrXHpTbJwxe4ALdwyBlMPkJXb
+         Lm+LPAHHk7y4oZbRXPXylRuUkonIHzhD/4SdKNHzOntt6/z9k3HC178I+8Q9DBEnRd
+         05eZX0WQPgiD2OngZqV/mN1igqkG2RL2gST7URTK024uIMrn9tnkpi9yGDUucYqUK7
+         8Nho4OFx38QhW+qr0/vpDCLW1MhXTw/R/lemM41McUY3uhBjRDvvkcHdFRo30BheHh
+         4Yk4/660NXqJw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
         linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH AUTOSEL 5.18 21/68] usb: dwc3: gadget: Only End Transfer for ep0 data phase
+Date:   Tue,  7 Jun 2022 13:47:47 -0400
+Message-Id: <20220607174846.477972-21-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220607174846.477972-1-sashal@kernel.org>
+References: <20220607174846.477972-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jun 2, 2022 at 9:34 PM Tomasz Mo=C5=84 <desowin@gmail.com> wrote:
->
-> How do I determine that the cable is non-Thunderbolt Type-C?
->
-> I have tried with two different brands 1m USB Type-C cables that are
-> not advertised as Thunderbolt. Both cables are electronically marked
-> and 5A capable. When the docking station is connected using these
-> cables, it operates in Thunderbolt mode.
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 
-As far as I can tell, the physical wiring of a "full-featured USB-C
-cable" and a "Thunderbolt cable" are exactly the same - see
-https://en.wikipedia.org/wiki/USB-C#Alternate_Mode_partner_specifications
+[ Upstream commit ace17b6ee4f92ab0375d12a1b42494f8590a96b6 ]
 
-I could imagine that Thunderbolt cable might be produced / designed to
-have better quality (better shielding, reduced tolerances, et al), but
-apart from that ... ?
-https://www.usb.org/sites/default/files/D2T2-2%20-%20USB4%20Cable%20and%20S=
-ystem.pdf
-looks pretty, but I will not pretend to understand much of what is
-written there.
+The driver shouldn't be able to issue End Transfer to the control
+endpoint at anytime. Typically we should only do so in error cases such
+as invalid/unexpected direction of Data Phase as described in the
+control transfer flow of the programming guide. It _may_ end started
+data phase during controller deinitialization from soft disconnect or
+driver removal. However, that should not happen because the driver
+should be maintained in EP0_SETUP_PHASE during driver tear-down. On
+soft-connect, the controller should be reset from a soft-reset and there
+should be no issue starting the control endpoint.
+
+Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Link: https://lore.kernel.org/r/3c6643678863a26702e4115e9e19d7d94a30d49c.1650593829.git.Thinh.Nguyen@synopsys.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/dwc3/gadget.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 0b9c2493844a..05856bcaf2f7 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -3673,6 +3673,17 @@ static void dwc3_reset_gadget(struct dwc3 *dwc)
+ void dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force,
+ 	bool interrupt)
+ {
++	struct dwc3 *dwc = dep->dwc;
++
++	/*
++	 * Only issue End Transfer command to the control endpoint of a started
++	 * Data Phase. Typically we should only do so in error cases such as
++	 * invalid/unexpected direction as described in the control transfer
++	 * flow of the programming guide.
++	 */
++	if (dep->number <= 1 && dwc->ep0state != EP0_DATA_PHASE)
++		return;
++
+ 	if (!(dep->flags & DWC3_EP_TRANSFER_STARTED) ||
+ 	    (dep->flags & DWC3_EP_DELAY_STOP) ||
+ 	    (dep->flags & DWC3_EP_END_TRANSFER_PENDING))
+-- 
+2.35.1
+
