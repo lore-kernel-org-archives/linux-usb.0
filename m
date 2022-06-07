@@ -2,44 +2,46 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E66E7C43334
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 18:18:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6FCBC43334
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 18:23:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351114AbiFGSSl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Jun 2022 14:18:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40052 "EHLO
+        id S1351371AbiFGSXO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Jun 2022 14:23:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352088AbiFGSQx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 14:16:53 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F3513393A;
-        Tue,  7 Jun 2022 10:50:25 -0700 (PDT)
+        with ESMTP id S1352051AbiFGSQw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 14:16:52 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C3A772224;
+        Tue,  7 Jun 2022 10:50:20 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 850F5B82340;
-        Tue,  7 Jun 2022 17:50:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55BD8C3411C;
-        Tue,  7 Jun 2022 17:50:22 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D1CB3B822CD;
+        Tue,  7 Jun 2022 17:50:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47F6AC385A5;
+        Tue,  7 Jun 2022 17:50:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654624223;
-        bh=jGr8WXM1jdPMD04g4tRJ+Sq3zW2YgJpdz6hJ9tysoig=;
+        s=k20201202; t=1654624217;
+        bh=zHMW9ppmNkXJaFgtQFqNOJ8lJrK/3DXGtn+qX81wGKo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mAcUeu7QSnJjSR2faZQyjEwvrjDalVv2ZSN+cFIG/RTE1nVk3MuacFmVW655vVIJE
-         GTho+AFPcq2Qq49Qv51+CBOZyjNndhxFG4N8x8sRREan/y/E4iA2FJgGvZGG0DHuz0
-         8DPsKJnH9i0UGqEJtamlpTtv8IVx0WNVBdJwkoSQyaA1d1a+KGgzHgURGeCX6GZSoD
-         vQyjKEwkpB27sd286cr2ULOTBYQzO8T3C7rlXNElYZByr6DIZkXC8wfUlAbPnm+Wz1
-         m8PZVWfqmS3P3WogXojaQKf63GlYbKg22VZJqgFL2JaJ7tmmANdLAcPFvi7NpCScM5
-         SmXDHBTWqq44A==
+        b=B9EHcXHtqk6bGHCyxGFaMCEqXrXIXlEhwQHpZB5IiYrppCCBdPJ+y3HCJcQRvl7yr
+         OwJqGCajSHWZjyOyzrKV6dT3YCR59cDmmqXwFVAjkrei2G9SNs9dW7dpU7y5JkLnK0
+         zc+ImdlTUXlIyKdJ2AiHI2pwDYvu7YTCPSjZT/r7Qh+9i+sK0+6U5J2y7eqFIHnQ1m
+         f0NEJI8w1mBwfJlrlWD/SqgM0NKVQOAn2fGjPXpJUIPSpjSFtJppwV/PTh80q6T4+w
+         jLQav7j4t9SvmxoS+KDO824GygxaJ+wAmzyhrgks5Ax9eLhQ7iGQu5SGJTqBRL+pvW
+         7yv4EjoY2h7Og==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+Cc:     Evan Green <evgreen@chromium.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 20/68] usb: dwc3: host: Stop setting the ACPI companion
-Date:   Tue,  7 Jun 2022 13:47:46 -0400
-Message-Id: <20220607174846.477972-20-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, christophe.leroy@csgroup.eu,
+        bhelgaas@google.com, yj84.jang@samsung.com,
+        rafael.j.wysocki@intel.com, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.18 16/68] USB: hcd-pci: Fully suspend across freeze/thaw cycle
+Date:   Tue,  7 Jun 2022 13:47:42 -0400
+Message-Id: <20220607174846.477972-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220607174846.477972-1-sashal@kernel.org>
 References: <20220607174846.477972-1-sashal@kernel.org>
@@ -51,48 +53,48 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+From: Evan Green <evgreen@chromium.org>
 
-[ Upstream commit 7fd069d65da2e20b1caec3b7bcf9dfbe28c04bb2 ]
+[ Upstream commit 63acaa8e9c65dc34dc249440216f8e977f5d2748 ]
 
-It is no longer needed. The sysdev pointer is now used when
-assigning the ACPI companions to the xHCI ports and USB
-devices.
+The documentation for the freeze() method says that it "should quiesce
+the device so that it doesn't generate IRQs or DMA". The unspoken
+consequence of not doing this is that MSIs aimed at non-boot CPUs may
+get fully lost if they're sent during the period where the target CPU is
+offline.
 
-Assigning the ACPI companion here resulted in the
-fwnode->secondary pointer to be replaced also for the parent
-dwc3 device since the primary fwnode (the ACPI companion)
-was shared. That was unintentional and it created potential
-side effects like resource leaks.
+The current callbacks for USB HCD do not fully quiesce interrupts,
+specifically on XHCI. Change to use the full suspend/resume flow for
+freeze/thaw to ensure interrupts are fully quiesced. This fixes issues
+where USB devices fail to thaw during hibernation because XHCI misses
+its interrupt and cannot recover.
 
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Link: https://lore.kernel.org/r/20220428111056.3558-3-heikki.krogerus@linux.intel.com
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Evan Green <evgreen@chromium.org>
+Link: https://lore.kernel.org/r/20220421103751.v3.2.I8226c7fdae88329ef70957b96a39b346c69a914e@changeid
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/dwc3/host.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/usb/core/hcd-pci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-index eda871973d6c..f56c30cf151e 100644
---- a/drivers/usb/dwc3/host.c
-+++ b/drivers/usb/dwc3/host.c
-@@ -7,7 +7,6 @@
-  * Authors: Felipe Balbi <balbi@ti.com>,
-  */
- 
--#include <linux/acpi.h>
- #include <linux/irq.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
-@@ -83,7 +82,6 @@ int dwc3_host_init(struct dwc3 *dwc)
- 	}
- 
- 	xhci->dev.parent	= dwc->dev;
--	ACPI_COMPANION_SET(&xhci->dev, ACPI_COMPANION(dwc->dev));
- 
- 	dwc->xhci = xhci;
- 
+diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
+index 8176bc81a635..ae5e6d572376 100644
+--- a/drivers/usb/core/hcd-pci.c
++++ b/drivers/usb/core/hcd-pci.c
+@@ -616,10 +616,10 @@ const struct dev_pm_ops usb_hcd_pci_pm_ops = {
+ 	.suspend_noirq	= hcd_pci_suspend_noirq,
+ 	.resume_noirq	= hcd_pci_resume_noirq,
+ 	.resume		= hcd_pci_resume,
+-	.freeze		= check_root_hub_suspended,
++	.freeze		= hcd_pci_suspend,
+ 	.freeze_noirq	= check_root_hub_suspended,
+ 	.thaw_noirq	= NULL,
+-	.thaw		= NULL,
++	.thaw		= hcd_pci_resume,
+ 	.poweroff	= hcd_pci_suspend,
+ 	.poweroff_noirq	= hcd_pci_suspend_noirq,
+ 	.restore_noirq	= hcd_pci_resume_noirq,
 -- 
 2.35.1
 
