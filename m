@@ -2,148 +2,415 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E36D7CCA47F
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 11:19:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4810C433EF
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jun 2022 11:45:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242876AbiFGLTI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Jun 2022 07:19:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60302 "EHLO
+        id S242054AbiFGLpj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Jun 2022 07:45:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242844AbiFGLRu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 07:17:50 -0400
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-eopbgr130049.outbound.protection.outlook.com [40.107.13.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B024EB1D6;
-        Tue,  7 Jun 2022 04:17:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bB17zz/lqxup7xCHnObrzREQj42EZ/3ytKlhHtOOri6d1cut+QH8fRW2LfEbyUv6a1dJesSib0MaovI6eam9/1QCUphPnVjT+ksMqTnwSyWVqDSv3AxC+FS8r9SmI69b9EwLv6rU1mLmtZpjDp0OMSOk5EwYK8LFGhIuAxIn/um3bCD07zNXzenokBT984SuVmUMjE0N2EQErhhSY64Uj1zQXw2lKw4LrMh56MgKxKA60PWS7jJVJZQ/CekGnvZ5M7QqIm4tLn036cH79fXUYxmMPfzutsOk2AgZfBGfbhpHiMdzKgnLm3NXUyMr8BjAc2vSaAFiclzU2EI/v4CJ3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dEDJjYycruVfUURNiR3+/6h4yGZi+ypNcxJmP8i4Lu8=;
- b=Y+YgyGT5UPVr8UmR8ezvePy40d535K2pRfu+tzKrKzk+qOjo/fArgAd1CYyvdTZQevs5X49Cd7+fH8aEM8zOXlV+laZIV/9q0u0CKQzDEoflPjbFAtzUW2sHFDA9VfLrDfZOl7qSMnykZdaqSJKNVUsD9ILj5SBqV8F7V6IviAqstXhJZ9gCJCzYIWlaH2ZtNK7jWvd6eiV6N/3iPxoc2fBXxSdBc02rDjzx1mBCKX/B5vgxuFdixJ5PVZDSLlNauQhNn+qpo7pl/DrSyLdBXb1yFpLLwWN6V2R9n7pwifiyvPPE0xIe+52XfEm83YgBZ8j2mpW+5uervor/Rapr9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dEDJjYycruVfUURNiR3+/6h4yGZi+ypNcxJmP8i4Lu8=;
- b=f/rAD7ziHa3a+VZZaoSWP6PyAa4UIWYWGscHIDN0NwOOurxkpofEXX0+IOF3u1r7cLpDPRhZJH1kJFTCbWU4mT8SlvNym2HD7r/hbsUXuU5cwjD4tW3BLXrs0aiWJMLWAQb/SxGjzlEWDthL+mbhra93cRPqrPAWL4uR2jq4CSg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from VI1PR04MB4688.eurprd04.prod.outlook.com (2603:10a6:803:6a::30)
- by DB7PR04MB4890.eurprd04.prod.outlook.com (2603:10a6:10:1a::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.19; Tue, 7 Jun
- 2022 11:17:16 +0000
-Received: from VI1PR04MB4688.eurprd04.prod.outlook.com
- ([fe80::a541:25cd:666f:11b1]) by VI1PR04MB4688.eurprd04.prod.outlook.com
- ([fe80::a541:25cd:666f:11b1%5]) with mapi id 15.20.5314.019; Tue, 7 Jun 2022
- 11:17:16 +0000
-From:   Abel Vesa <abel.vesa@nxp.com>
-To:     Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>
-Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
-        <netdev@vger.kernel.org>, linux-phy@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Dong Aisheng <aisheng.dong@nxp.com>
-Subject: [PATCH v9 09/12] dt-bindings: usb: ci-hdrc-usb2: Add i.MX8DXL compatible string
-Date:   Tue,  7 Jun 2022 14:16:22 +0300
-Message-Id: <20220607111625.1845393-10-abel.vesa@nxp.com>
-X-Mailer: git-send-email 2.34.3
-In-Reply-To: <20220607111625.1845393-1-abel.vesa@nxp.com>
-References: <20220607111625.1845393-1-abel.vesa@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM6P195CA0028.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:209:81::41) To VI1PR04MB4688.eurprd04.prod.outlook.com
- (2603:10a6:803:6a::30)
+        with ESMTP id S243081AbiFGLpi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jun 2022 07:45:38 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 953376EC40
+        for <linux-usb@vger.kernel.org>; Tue,  7 Jun 2022 04:45:36 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nyXeQ-0006Jy-SV; Tue, 07 Jun 2022 13:45:34 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nyXeR-006yu4-7d; Tue, 07 Jun 2022 13:45:33 +0200
+Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nyXeP-00E5si-3O; Tue, 07 Jun 2022 13:45:33 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
+        kernel@pengutronix.de
+Subject: [PATCH v5] usb: hub: port: add sysfs entry to switch port power
+Date:   Tue,  7 Jun 2022 13:45:22 +0200
+Message-Id: <20220607114522.3359148-1-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b81b38ce-cb8d-41b8-b9af-08da4877473e
-X-MS-TrafficTypeDiagnostic: DB7PR04MB4890:EE_
-X-Microsoft-Antispam-PRVS: <DB7PR04MB4890C458AA981C9F50E6E65EF6A59@DB7PR04MB4890.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ufKPakbmRSBXm72nV5v6eH+Av6M8pHVcYwT0Da7gNBYu6DHqNsvzmZTjjoGsmEV8sTb0wNrwN6Xq9UFABEyHVZE/IlgRDGauP9TZ6bw0YAJ6bTouD8ttdeSTSkDx7PF8RHR8t1NQW3Y8ka1eCOb3oKI/K90c8tOY4YYWk3jK63HWFvSeAq1g4wnZ0/pmNBM7tLuvcmiiJSUo3sLZc8DG2YV34OfDFJBsxiGK/LqyOrgeoWZ1hEgjaHd+ip4s4GmCclmpji30z+nInuH1q3/ScE1WjuqtcZ0Y5ZvrKL56nac2bvQsBlq7z8uQjTmzV/0eRQGjP8V+1dRnz20D0U3aPOa8d+XzTWZNgJgv64DRnJRS/NnhAxkAv2AImjcoWBIh8Yw4y6h6s66z96JKG3ali8gGofqeFzqheEuxA0LLc1tB3ZzHhTC3UPbXWqcSjkswS1O/R8OX8MOosHzP6bOkgzPIUtQMfyH488DM8os+1sCXuSJCX2CZ9DUstkKYcijhZ8aZEFAq5cCn5HkOzyG7qlFbcibsrS9BRISY+A277M8IahMXYZHgZbRU7/nnxB0s7o/8PacfpR8nQQ+980P35okJcuZCrrHvjKbm4z6dO0QsyqkfHYp3RthVV/kcUJM1NimXGqudR6g4VIcDXboaDfdEMHevAzuWLbJOwuvlDX2M6wxbyZP1a21kd3TS/FdA3AgFRdraTfs/1rfcsTtKkg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB4688.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6486002)(4744005)(44832011)(8936002)(5660300002)(921005)(508600001)(6512007)(186003)(1076003)(7416002)(2906002)(6666004)(86362001)(26005)(2616005)(52116002)(6506007)(66476007)(4326008)(66556008)(66946007)(8676002)(38100700002)(6636002)(54906003)(110136005)(316002)(36756003)(38350700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?U5jR63Pprs3n9nodFIujGcN5ztiqSIV4t0rj9gchQuaNvCMcYPdsSS8pABEe?=
- =?us-ascii?Q?y+v/2pCJiqr6p4OBhgWyp3y0lt6UJ/pJQxGkrjsnzZUCkD6R3SC6M3ntoWBp?=
- =?us-ascii?Q?gZxuluzN+VFTN45czAL7WMV3i9aDTk01DiZqQ1zOoicX2UfYnd8YDkz/mxwd?=
- =?us-ascii?Q?YvW/f9Mh98+yVKHGvpodM71w3i29ckN1B+ao6fhJVylGbkTAjWmtlh+UziQU?=
- =?us-ascii?Q?pL52WsIEjga+XRZvtHfOnFAMti4h8K+6P9Shn8PQAaRs7qoj2YtTc116OIMy?=
- =?us-ascii?Q?Y1eXW5HxTM7bh3ch8nKAidtVvuVBouLL0ulwxf1xws3OQ1o1/3aCvA/3CBV3?=
- =?us-ascii?Q?JvcxQ4SnWG1DbTHeJys4Fttwa5YLgyIyXN2MLCs6noVSYAhLNrbrjJi26Djg?=
- =?us-ascii?Q?EyZYbMeKtB+wmtpWUtRExZMKfTqShmTaVloBpQIkkFAmOjUsn263ZohHHaZ2?=
- =?us-ascii?Q?R8LPFe7fti4e4QFv6rnZBnsUReZwQO3mSHzapBr90JZwyxgQvjY2KZtNmLEw?=
- =?us-ascii?Q?ne0v9bcDtuqOZS2A8SUtzKg2KanxI8lJkjBO/2grOm+8bSftJjjOyiniZo1T?=
- =?us-ascii?Q?LgC9Jw9oVyF13BG4iKxsLYTiMXDUjV21xHOSVoKBEgV610IfbotzBJWavR3h?=
- =?us-ascii?Q?itJLEkT+9YiMNzcNOBLYauajnpZrVURjWgbQNC7/CVPk/E9fB8+TfuY7ZGJr?=
- =?us-ascii?Q?UEwawZn1l9MylOkoK9R46sj3Si/MNNX2jWu2n8bV6z/MX6h+q1D2p7nwW2B7?=
- =?us-ascii?Q?9tjSop/OhxEm9YtzQKI3k/TGaAuJZ1YpYsiZaOA22yXOMyAcSyhMD8x2WCBo?=
- =?us-ascii?Q?QNBa9xUua2Lt1GtonIN4vb5v8LBFl0uDkEiAsFybCG9WzJSxSlBIa6ceCxy/?=
- =?us-ascii?Q?YK0s9UYZQ7ch7DL4b9snL/yybkZMQR58FHtEQKApvxZLKSTHRunTUtvD7SQu?=
- =?us-ascii?Q?ai7unuHMrrxf/e8uCZunkgQ9Z8/rmS7BdpzS+AO+XSaWTLYTWyQo6yKmahdC?=
- =?us-ascii?Q?Ei4yjs7IYmJba3L7hagTDTqHBzS2f3X7vrOxR/5I7YYxDJnIfkCDEBDl+9X1?=
- =?us-ascii?Q?ugMCKCAPmxvZC69biIeT8GfuMAe8gSG9HEupV8j+pXBdGbtdETWGmyrbXAsJ?=
- =?us-ascii?Q?sWpSJnIzFl+hRKrlHe1T46Vm4UxqceaGVZI1G40zhq9Tbwr26WZtNl2/p8XT?=
- =?us-ascii?Q?CaZ76hM1GgUIEqGUqxEflf0i4Nx7n/bk3SFUtls8HUMoOc3FKbuSEuzLR8AR?=
- =?us-ascii?Q?K4PVNyczjfwg2oBpEpoe0qaOCooUt5ImkAHiGNL495nQnwNLXVf6T+0fbB+l?=
- =?us-ascii?Q?IpMUlZBF9/nZ6X7WJRMRlR0rgwRUQkawcpdcNTI64jUDtC0tqmhBBI9UzjLX?=
- =?us-ascii?Q?QsYlttwtMZXmo+ZmILBKZ7aHy4VJ47szuRYnJshkzaIWdwh7HpXyG2eP5kNe?=
- =?us-ascii?Q?/lRLLDJO6Y4uQoBhfLSlKV0/O3g7D/UKK06beqwspbJ/Eit/c2kPMX439Cti?=
- =?us-ascii?Q?YcWQx8RkTtwnXI8zKVBYj/XTq14VgxvhSwm99N2CNDAMY28/oOC35PnUrPUs?=
- =?us-ascii?Q?VOES5nMfgT9+LxRjtn/BzMSfszNmXQyMJjZK4hgQ4giIgkdCoZy8uHwZTLFX?=
- =?us-ascii?Q?vhg+d35g4Bt1ea6fdkBCcrVUFh5qZQGmPcAezAdHBAJGARMfjOWqG44gVH2t?=
- =?us-ascii?Q?Ip3m0JbBUXRX/zcowGfMT5MmdC6kJEVovbY0Lzg2SttO1q9Y99QdTiuQPbI3?=
- =?us-ascii?Q?edBkHNzS7A=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b81b38ce-cb8d-41b8-b9af-08da4877473e
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB4688.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 11:17:16.1822
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2f7zJUj0cRE8dhsUPzFr3Wm4WTSPUZzwb6b2XUYPfZ8KZnJYiyC/xCDp6EZrxi3FkmCpyY5osaCBPCSP/7Ta7Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4890
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add i.MX8DXL compatible string to ci-hdrc-usb2 bindings
-documentation.
+In some cases the port of an hub needs to be disabled or switched off
+and on again. E.g. when the connected device needs to be re-enumerated.
+Or it needs to be explicitly disabled while the rest of the usb tree
+stays working.
 
-Signed-off-by: Abel Vesa <abel.vesa@nxp.com>
-Acked-by: Rob Herring <robh@kernel.org>
+For this purpose this patch adds an sysfs switch to enable/disable the
+port on any hub. In the case the hub is supporting power switching, the
+power line will be disabled to the connected device.
+
+When the port gets disabled, the associated device gets disconnected and
+removed from the logical usb tree. No further device will be enumerated
+on that port until the port gets enabled again.
+
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
+
 ---
- Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt | 1 +
- 1 file changed, 1 insertion(+)
+v1 -> v2:
+         - improved patch description
+         - moved usb_hub_set_port_power to end of function
+         - renamed value to set
+         - removed udev variable
+         - added usb_set_configuration set to -1 before removing device
+         - calling autosuspend of udev before usb_disconnect, ensuring hub_suspend succeeds
+         - removed port_dev->child = NULL assignment
+         - directly returning count on no failure success
+         - removed test for hub->in_reset
+         - using usb_autopm_get_interface/usb_autopm_put_interface around hub handling
+         - locking usb_disconnect call
+         - using &port_dev->child instead of local udev pointer
+         - added Documentation/ABI
 
-diff --git a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt
-index ba51fb1252b9..49fda92aaf3c 100644
---- a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt
-+++ b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt
-@@ -11,6 +11,7 @@ Required properties:
- 	"fsl,imx6ul-usb"
- 	"fsl,imx7d-usb"
- 	"fsl,imx7ulp-usb"
-+	"fsl,imx8dxl-usb"
- 	"lsi,zevio-usb"
- 	"qcom,ci-hdrc"
- 	"chipidea,usb2"
+v2 -> v3:
+         - renamed sysfs file to disable instead of port_power
+         - added disable_show function to read out the current port state
+         - moved usb_lock/unlock_device near put/get_interface
+         - removed unnecessary usb_set_configuration of port_dev->child before disconnect
+         - removed unnecessary usb_autosuspend of port_dev->child before disconnect
+         - moved clearing of port_feature flags to be done after usb_hub_set_port_power
+         - checking for hub->disconnected after locking hdev
+         - updated the ABI documentation
+v3 -> v4:
+         - exporting hub_port_status + port_is_power_on
+         - changed disable_show from using test_bit(port1, hub->power_bits) to new exported functions
+         - renamed set variable to disabled
+         - rephrased documentation
+         - removed initial check for hub
+v4 -> v5:
+         - using sysfs_emit instead of sprintf in disable_show
+         - prefixed now global functions hub_port_status and port_is_power_on with usb_
+         - removed superfluous unlikely in hub->disconnected check
+
+ Documentation/ABI/testing/sysfs-bus-usb | 11 ++++
+ drivers/usb/core/hub.c                  | 39 ++++++------
+ drivers/usb/core/hub.h                  |  3 +
+ drivers/usb/core/port.c                 | 83 +++++++++++++++++++++++++
+ 4 files changed, 117 insertions(+), 19 deletions(-)
+
+diff --git a/Documentation/ABI/testing/sysfs-bus-usb b/Documentation/ABI/testing/sysfs-bus-usb
+index 7efe31ed3a25c7..568103d3376ee7 100644
+--- a/Documentation/ABI/testing/sysfs-bus-usb
++++ b/Documentation/ABI/testing/sysfs-bus-usb
+@@ -253,6 +253,17 @@ Description:
+ 		only if the system firmware is capable of describing the
+ 		connection between a port and its connector.
+ 
++What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/disable
++Date:		June 2022
++Contact:	Michael Grzeschik <m.grzeschik@pengutronix.de>
++Description:
++		This file controls the state of a USB port, including
++		Vbus power output (but only on hubs that support
++		power switching -- most hubs don't support it). If
++		a port is disabled, the port is unusable: Devices
++		attached to the port will not be detected, initialized,
++		or enumerated.
++
+ What:		/sys/bus/usb/devices/.../power/usb2_lpm_l1_timeout
+ Date:		May 2013
+ Contact:	Mathias Nyman <mathias.nyman@linux.intel.com>
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 68e9121c187882..ba406b8d688da8 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -613,7 +613,7 @@ static int hub_ext_port_status(struct usb_hub *hub, int port1, int type,
+ 	return ret;
+ }
+ 
+-static int hub_port_status(struct usb_hub *hub, int port1,
++int usb_hub_port_status(struct usb_hub *hub, int port1,
+ 		u16 *status, u16 *change)
+ {
+ 	return hub_ext_port_status(hub, port1, HUB_PORT_STATUS,
+@@ -1126,7 +1126,7 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
+ 		u16 portstatus, portchange;
+ 
+ 		portstatus = portchange = 0;
+-		status = hub_port_status(hub, port1, &portstatus, &portchange);
++		status = usb_hub_port_status(hub, port1, &portstatus, &portchange);
+ 		if (status)
+ 			goto abort;
+ 
+@@ -2855,7 +2855,7 @@ static int hub_port_wait_reset(struct usb_hub *hub, int port1,
+ 						  &portstatus, &portchange,
+ 						  &ext_portstatus);
+ 		else
+-			ret = hub_port_status(hub, port1, &portstatus,
++			ret = usb_hub_port_status(hub, port1, &portstatus,
+ 					      &portchange);
+ 		if (ret < 0)
+ 			return ret;
+@@ -2956,7 +2956,8 @@ static int hub_port_reset(struct usb_hub *hub, int port1,
+ 		 * If the caller hasn't explicitly requested a warm reset,
+ 		 * double check and see if one is needed.
+ 		 */
+-		if (hub_port_status(hub, port1, &portstatus, &portchange) == 0)
++		if (usb_hub_port_status(hub, port1, &portstatus,
++					&portchange) == 0)
+ 			if (hub_port_warm_reset_required(hub, port1,
+ 							portstatus))
+ 				warm = true;
+@@ -3008,7 +3009,7 @@ static int hub_port_reset(struct usb_hub *hub, int port1,
+ 			 * If a USB 3.0 device migrates from reset to an error
+ 			 * state, re-issue the warm reset.
+ 			 */
+-			if (hub_port_status(hub, port1,
++			if (usb_hub_port_status(hub, port1,
+ 					&portstatus, &portchange) < 0)
+ 				goto done;
+ 
+@@ -3074,7 +3075,7 @@ static int hub_port_reset(struct usb_hub *hub, int port1,
+ }
+ 
+ /* Check if a port is power on */
+-static int port_is_power_on(struct usb_hub *hub, unsigned portstatus)
++int usb_port_is_power_on(struct usb_hub *hub, unsigned int portstatus)
+ {
+ 	int ret = 0;
+ 
+@@ -3140,13 +3141,13 @@ static int check_port_resume_type(struct usb_device *udev,
+ 	}
+ 	/* Is the device still present? */
+ 	else if (status || port_is_suspended(hub, portstatus) ||
+-			!port_is_power_on(hub, portstatus)) {
++			!usb_port_is_power_on(hub, portstatus)) {
+ 		if (status >= 0)
+ 			status = -ENODEV;
+ 	} else if (!(portstatus & USB_PORT_STAT_CONNECTION)) {
+ 		if (retries--) {
+ 			usleep_range(200, 300);
+-			status = hub_port_status(hub, port1, &portstatus,
++			status = usb_hub_port_status(hub, port1, &portstatus,
+ 							     &portchange);
+ 			goto retry;
+ 		}
+@@ -3409,7 +3410,7 @@ int usb_port_suspend(struct usb_device *udev, pm_message_t msg)
+ 			u16 portstatus, portchange;
+ 
+ 			portstatus = portchange = 0;
+-			ret = hub_port_status(hub, port1, &portstatus,
++			ret = usb_hub_port_status(hub, port1, &portstatus,
+ 					&portchange);
+ 
+ 			dev_dbg(&port_dev->dev,
+@@ -3587,13 +3588,13 @@ static int wait_for_connected(struct usb_device *udev,
+ 	while (delay_ms < 2000) {
+ 		if (status || *portstatus & USB_PORT_STAT_CONNECTION)
+ 			break;
+-		if (!port_is_power_on(hub, *portstatus)) {
++		if (!usb_port_is_power_on(hub, *portstatus)) {
+ 			status = -ENODEV;
+ 			break;
+ 		}
+ 		msleep(20);
+ 		delay_ms += 20;
+-		status = hub_port_status(hub, port1, portstatus, portchange);
++		status = usb_hub_port_status(hub, port1, portstatus, portchange);
+ 	}
+ 	dev_dbg(&udev->dev, "Waited %dms for CONNECT\n", delay_ms);
+ 	return status;
+@@ -3653,7 +3654,7 @@ int usb_port_resume(struct usb_device *udev, pm_message_t msg)
+ 	usb_lock_port(port_dev);
+ 
+ 	/* Skip the initial Clear-Suspend step for a remote wakeup */
+-	status = hub_port_status(hub, port1, &portstatus, &portchange);
++	status = usb_hub_port_status(hub, port1, &portstatus, &portchange);
+ 	if (status == 0 && !port_is_suspended(hub, portstatus)) {
+ 		if (portchange & USB_PORT_STAT_C_SUSPEND)
+ 			pm_wakeup_event(&udev->dev, 0);
+@@ -3678,7 +3679,7 @@ int usb_port_resume(struct usb_device *udev, pm_message_t msg)
+ 		 * stop resume signaling.  Then finish the resume
+ 		 * sequence.
+ 		 */
+-		status = hub_port_status(hub, port1, &portstatus, &portchange);
++		status = usb_hub_port_status(hub, port1, &portstatus, &portchange);
+ 	}
+ 
+  SuspendCleared:
+@@ -3791,7 +3792,7 @@ static int check_ports_changed(struct usb_hub *hub)
+ 		u16 portstatus, portchange;
+ 		int status;
+ 
+-		status = hub_port_status(hub, port1, &portstatus, &portchange);
++		status = usb_hub_port_status(hub, port1, &portstatus, &portchange);
+ 		if (!status && portchange)
+ 			return 1;
+ 	}
+@@ -4554,7 +4555,7 @@ int hub_port_debounce(struct usb_hub *hub, int port1, bool must_be_connected)
+ 	struct usb_port *port_dev = hub->ports[port1 - 1];
+ 
+ 	for (total_time = 0; ; total_time += HUB_DEBOUNCE_STEP) {
+-		ret = hub_port_status(hub, port1, &portstatus, &portchange);
++		ret = usb_hub_port_status(hub, port1, &portstatus, &portchange);
+ 		if (ret < 0)
+ 			return ret;
+ 
+@@ -5240,7 +5241,7 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
+ 		 * but only if the port isn't owned by someone else.
+ 		 */
+ 		if (hub_is_port_power_switchable(hub)
+-				&& !port_is_power_on(hub, portstatus)
++				&& !usb_port_is_power_on(hub, portstatus)
+ 				&& !port_dev->port_owner)
+ 			set_port_feature(hdev, port1, USB_PORT_FEAT_POWER);
+ 
+@@ -5557,7 +5558,7 @@ static void port_event(struct usb_hub *hub, int port1)
+ 	clear_bit(port1, hub->event_bits);
+ 	clear_bit(port1, hub->wakeup_bits);
+ 
+-	if (hub_port_status(hub, port1, &portstatus, &portchange) < 0)
++	if (usb_hub_port_status(hub, port1, &portstatus, &portchange) < 0)
+ 		return;
+ 
+ 	if (portchange & USB_PORT_STAT_C_CONNECTION) {
+@@ -5594,7 +5595,7 @@ static void port_event(struct usb_hub *hub, int port1)
+ 				USB_PORT_FEAT_C_OVER_CURRENT);
+ 		msleep(100);	/* Cool down */
+ 		hub_power_on(hub, true);
+-		hub_port_status(hub, port1, &status, &unused);
++		usb_hub_port_status(hub, port1, &status, &unused);
+ 		if (status & USB_PORT_STAT_OVERCURRENT)
+ 			dev_err(&port_dev->dev, "over-current condition\n");
+ 	}
+@@ -5638,7 +5639,7 @@ static void port_event(struct usb_hub *hub, int port1)
+ 			u16 unused;
+ 
+ 			msleep(20);
+-			hub_port_status(hub, port1, &portstatus, &unused);
++			usb_hub_port_status(hub, port1, &portstatus, &unused);
+ 			dev_dbg(&port_dev->dev, "Wait for inactive link disconnect detect\n");
+ 			continue;
+ 		} else if (!udev || !(portstatus & USB_PORT_STAT_CONNECTION)
+diff --git a/drivers/usb/core/hub.h b/drivers/usb/core/hub.h
+index 22ea1f4f2d66d7..3fcb38099ce3bb 100644
+--- a/drivers/usb/core/hub.h
++++ b/drivers/usb/core/hub.h
+@@ -121,6 +121,9 @@ extern int hub_port_debounce(struct usb_hub *hub, int port1,
+ 		bool must_be_connected);
+ extern int usb_clear_port_feature(struct usb_device *hdev,
+ 		int port1, int feature);
++extern int usb_hub_port_status(struct usb_hub *hub, int port1,
++		u16 *status, u16 *change);
++extern int usb_port_is_power_on(struct usb_hub *hub, unsigned int portstatus);
+ 
+ static inline bool hub_is_port_power_switchable(struct usb_hub *hub)
+ {
+diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
+index d5bc36ca5b1f77..38c1a4f4fdeae5 100644
+--- a/drivers/usb/core/port.c
++++ b/drivers/usb/core/port.c
+@@ -17,6 +17,88 @@ static int usb_port_block_power_off;
+ 
+ static const struct attribute_group *port_dev_group[];
+ 
++static ssize_t disable_show(struct device *dev,
++			      struct device_attribute *attr, char *buf)
++{
++	struct usb_port *port_dev = to_usb_port(dev);
++	struct usb_device *hdev = to_usb_device(dev->parent->parent);
++	struct usb_hub *hub = usb_hub_to_struct_hub(hdev);
++	struct usb_interface *intf = to_usb_interface(hub->intfdev);
++	int port1 = port_dev->portnum;
++	u16 portstatus, unused;
++	bool disabled;
++	int rc;
++
++	rc = usb_autopm_get_interface(intf);
++	if (rc < 0)
++		return rc;
++
++	usb_lock_device(hdev);
++	if (hub->disconnected) {
++		rc = -ENODEV;
++		goto out_hdev_lock;
++	}
++
++	usb_hub_port_status(hub, port1, &portstatus, &unused);
++	disabled = !usb_port_is_power_on(hub, portstatus);
++
++out_hdev_lock:
++	usb_unlock_device(hdev);
++	usb_autopm_put_interface(intf);
++
++	if (rc)
++		return rc;
++
++	return sysfs_emit(buf, "%s\n", disabled ? "1" : "0");
++}
++
++static ssize_t disable_store(struct device *dev, struct device_attribute *attr,
++			    const char *buf, size_t count)
++{
++	struct usb_port *port_dev = to_usb_port(dev);
++	struct usb_device *hdev = to_usb_device(dev->parent->parent);
++	struct usb_hub *hub = usb_hub_to_struct_hub(hdev);
++	struct usb_interface *intf = to_usb_interface(hub->intfdev);
++	int port1 = port_dev->portnum;
++	bool disabled;
++	int rc;
++
++	rc = strtobool(buf, &disabled);
++	if (rc)
++		return rc;
++
++	rc = usb_autopm_get_interface(intf);
++	if (rc < 0)
++		return rc;
++
++	usb_lock_device(hdev);
++	if (hub->disconnected) {
++		rc = -ENODEV;
++		goto out_hdev_lock;
++	}
++
++	if (disabled && port_dev->child)
++		usb_disconnect(&port_dev->child);
++
++	rc = usb_hub_set_port_power(hdev, hub, port1, !disabled);
++
++	if (disabled) {
++		usb_clear_port_feature(hdev, port1, USB_PORT_FEAT_C_CONNECTION);
++		if (!port_dev->is_superspeed)
++			usb_clear_port_feature(hdev, port1, USB_PORT_FEAT_C_ENABLE);
++	}
++
++	if (!rc)
++		rc = count;
++
++out_hdev_lock:
++	usb_unlock_device(hdev);
++	usb_autopm_put_interface(intf);
++
++	return rc;
++}
++static DEVICE_ATTR_RW(disable);
++
+ static ssize_t location_show(struct device *dev,
+ 			     struct device_attribute *attr, char *buf)
+ {
+@@ -153,6 +235,7 @@ static struct attribute *port_dev_attrs[] = {
+ 	&dev_attr_location.attr,
+ 	&dev_attr_quirks.attr,
+ 	&dev_attr_over_current_count.attr,
++	&dev_attr_disable.attr,
+ 	NULL,
+ };
+ 
 -- 
-2.34.3
+2.30.2
 
