@@ -2,80 +2,76 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6864BC433EF
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 04:29:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B46E1C433EF
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 06:55:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbiFHE32 convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jun 2022 00:29:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47894 "EHLO
+        id S230476AbiFHGz2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jun 2022 02:55:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231742AbiFHE20 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 00:28:26 -0400
-X-Greylist: delayed 5705 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 07 Jun 2022 18:58:51 PDT
-Received: from mail.schule.luebeck.de (mail.schule.luebeck.de [62.214.78.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 585F32F2974
-        for <linux-usb@vger.kernel.org>; Tue,  7 Jun 2022 18:58:51 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by ucssl-05.schule.luebeck.de (Postfix) with ESMTP id 547782A51B3
-        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 01:57:41 +0200 (CEST)
-X-Virus-Scanned: by amavisd-new-2.10.1 (20141025) (Debian) at
-        schule.luebeck.de
-Received: from mail.schule.luebeck.de ([127.0.0.1])
-        by localhost (ucssl-05.schule.luebeck.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id KXQVooHrBEaI for <linux-usb@vger.kernel.org>;
-        Wed,  8 Jun 2022 01:57:41 +0200 (CEST)
-Received: from johnlewis.com (ec2-34-214-85-249.us-west-2.compute.amazonaws.com [34.214.85.249])
-        by ucssl-05.schule.luebeck.de (Postfix) with ESMTPSA id 365FB2A6940
-        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 01:57:39 +0200 (CEST)
-Reply-To: robert_turner@johnlewis-trades.com
-From:   JOHN LEWIS & PARTNERS <robert_turner054@johnlewis.com>
+        with ESMTP id S233565AbiFHGDT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 02:03:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B6DA26A084
+        for <linux-usb@vger.kernel.org>; Tue,  7 Jun 2022 21:54:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B8B6861964
+        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 04:52:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 21EABC341C8
+        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 04:52:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654663973;
+        bh=LEf5r0E8fR14DbE6FGMLMJl0DZiiOv9T8QIfFxl/hQg=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=DChKVtlLSmtuMnYqZYsVauUgVM12JVC3pKyJlykpRKe0onoHT4Ho7cq7iBdwbD+wn
+         7EeCTV75OL3oZOY5MLDyqODpGQ/9vf116ZrcfQaHct/rHggkW0yyjhPmphhDH6btKk
+         uOgGBwRDpdDqlUtOsPNpQXjjko1nkeyURtcYAQEtm1i9T4in9Xqv3TIpLRfUTr0h4f
+         qim9pSvDfgXOYSqspY+Eh+Hlujo2RpqFzZURUfq+FJFRXS3iYE/mZRJVJSMinlexiN
+         gMloPWMkUQSX8npvoEOIrfH1HvseZGwPDRJGBEEgZb3zNs3UaJlcFHk2LFa7iUdLtC
+         gAaiZn4vOhFjQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 10D74C05FD5; Wed,  8 Jun 2022 04:52:53 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
 To:     linux-usb@vger.kernel.org
-Subject:  Quarter Purchase enquiry
-Date:   08 Jun 2022 09:57:35 +1000
-Message-ID: <20220608050712.B076057C09452830@johnlewis.com>
+Subject: [Bug 210425] Plugging in or unplugging power cord while system is
+ suspended does not trigger updates
+Date:   Wed, 08 Jun 2022 04:52:52 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: bastian@rieck.me
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-210425-208809-xDitVSLPzH@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210425-208809@https.bugzilla.kernel.org/>
+References: <bug-210425-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Dear linux-usb
+https://bugzilla.kernel.org/show_bug.cgi?id=3D210425
 
+--- Comment #14 from Bastian Rieck (bastian@rieck.me) ---
+Does not appear with Arch Linux 5.18.1-arch1-1 any more.
 
- 
-The world famous brand John Lewis & Partners, is UK's largest 
-multi-channel retailer with over 126 shops and multiple expansion 
-in Africa furnished by European/Asian/American products. We are
-sourcing new products to attract new customers and also retain 
-our existing ones, create new partnerships with companies dealing 
-with different kinds of goods globally.
- 
-Your company's products are of interest to our market as we have 
-an amazing market for your products.Provide us your current 
-catalog through email to review more. We hope to be able to order
-with you and start a long-term friendly, respectable and solid 
-business partnership. Please we would appreciate it if you could 
-send us your stock availability via email if any.
+--=20
+You may reply to this email to add a comment.
 
- 
-Our payment terms are 15 days net in Europe, 30 days Net in UK 
-and 30 days net in Asia/USA as we have operated with over 5297 
-suppliers around the globe for the past 50 years now. For
-immediate response Send your reply to "robert_turner@johnlewis-
-trades.com" for us to be able to treat with care and urgency.
- 
-
- 
-Best Regards
-Rob Turner
-Head Of Procurement Operations
-John Lewis & Partners.
-robert_turner@johnlewis-trades.com
-Tel: +44-7451-274090
-WhatsApp: +447497483925
-www.johnlewis.com
-REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
