@@ -2,57 +2,95 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A904BCCA47E
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 09:59:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F15CCA47E
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 10:01:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235852AbiFHJ7v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jun 2022 05:59:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47176 "EHLO
+        id S235425AbiFHKBT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jun 2022 06:01:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235698AbiFHJ7g (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 05:59:36 -0400
-X-Greylist: delayed 2400 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 08 Jun 2022 02:33:18 PDT
-Received: from mail.puregrowthonline.pl (mail.puregrowthonline.pl [51.38.124.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80F9EEAB8A
-        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 02:33:17 -0700 (PDT)
-Received: by mail.puregrowthonline.pl (Postfix, from userid 1002)
-        id AA4F1A25C9; Wed,  8 Jun 2022 08:15:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puregrowthonline.pl;
-        s=mail; t=1654676117;
-        bh=CSKXLMgcdpWkXuTgJn5+jsCVobtU9JEF4vCnS5z6McM=;
-        h=Date:From:To:Subject:From;
-        b=gBRJ+mRob0WoB2GkfAbeGE6qyEr/JVsOtqN6K/aW0ddWfWxr3Tn3bYk/5d7rFFHzi
-         0iyPa2QUhQx+nKAS84DXuVbpHLkbK6bfdKv0oOb7/dkc3oI0RI4/+whLpbS+xsAXvS
-         RSK3cywCKQNkZ3Va6Ziko/tbzbifPTjLkNRFC3CwLHZanQ5uVy59tl6X7lBzxUujPd
-         GumOcYtYeCPNOZow6puWjopbn6AuX9TiXRyTqjKLo/toGbUjvE8KVBEXeOmKxRHX/9
-         L4xjTpuG8jSQOdOIXSJJLW4usmXUXyyVGH0llj00WY1lq+UBUzlgcmVWnWFJmpKKlb
-         IcZii6iZluSpw==
-Received: by mail.puregrowthonline.pl for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 08:15:09 GMT
-Message-ID: <20220608064500-0.1.41.cz0k.0.dlo7kce72c@puregrowthonline.pl>
-Date:   Wed,  8 Jun 2022 08:15:09 GMT
-From:   "Wiktor Nurek" <wiktor.nurek@puregrowthonline.pl>
-To:     <linux-usb@vger.kernel.org>
-Subject: =?UTF-8?Q?Nap=C5=82yw_Klient=C3=B3w_ze_strony?=
-X-Mailer: mail.puregrowthonline.pl
+        with ESMTP id S235795AbiFHKA7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 06:00:59 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB9194D627
+        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 02:36:37 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id me5so39753781ejb.2
+        for <linux-usb@vger.kernel.org>; Wed, 08 Jun 2022 02:36:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Kpmo7UeS2XJUltFXsYvK1cKEeY9o0dVRqp/sC/YL3Dk=;
+        b=uKCZkhB1+8jxuH6AiQ4zRdCOXEvKaBt/5+UnRk6DkVIcXew4DnwU58d/d0dXot9Mam
+         HkT1/ElgHOLf7a9J7rMz76/rtFSO5lHeq6jWMqeHkw4Q+lEm/2R9fAHE55x6UStDLGL9
+         jGZ8tHlPhaQLe/A9KnCyVFhOlUDAfrUI4dBop2mfW9rrEFwORGGo1Om0RMA2QmGvA/ZA
+         j2BsrALYRqbdlQBAIDMdGiOB/Qc84Np6DA1C7yTbAYdpj8pVHLEhUfSI8Jd1LrTWJfbk
+         5k/8bLKvdaN+zEgK+i4ESUJ5QDLAUCH3Ad1zyWjB6CbEj1yjbTHaVQ4cXtyC9kLP5PJ/
+         7t4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Kpmo7UeS2XJUltFXsYvK1cKEeY9o0dVRqp/sC/YL3Dk=;
+        b=qp60SKQN66Lu5lyDtRJ0mIF5ldCyjbLLSoZ2Lxmxm0yknub7lZn2PxaY9xeGpUzvLu
+         fX1+zM5RHHk4f1XVKWlnqw4bUiVg+GA652zIU9alqQfGfCqlxJ0AGBnTVsAfSfmYT0IJ
+         rmEom96Cd8fI5XcAs1Ys/HxLt4ees682sBh2gmg9UjqQYD7IeDDiPdN8vgRZsCl+M/AX
+         oOCjVQ73cUX7zt7XJaVSQ+Y7fFuprT9q6HiLQiuEpORfo3g7B58EOJWqXzGanfcJx8kO
+         4j1lUy0gkJ2MtznMpUKRZSdWLIiREs6EgX6TX7xR+F0YaSdHWWXs3e2nw8zvyu+eH3Iz
+         +qzw==
+X-Gm-Message-State: AOAM5332Epkp4My28WzgTMNNmO+MRQp04Dc1tq4hWFkcAA1kI7SmUwYP
+        Ws+a1PcDX5hQ2LNx5L8cwsNm2w==
+X-Google-Smtp-Source: ABdhPJw8iZ4CGSvQ5CosOn5nP4C7ONH+zhaseW/eid1dlnzNMHrirG75Ha4zhHbFqrG/GvG9OMg60Q==
+X-Received: by 2002:a17:906:7b82:b0:6f3:ee8d:b959 with SMTP id s2-20020a1709067b8200b006f3ee8db959mr31198083ejo.458.1654680996179;
+        Wed, 08 Jun 2022 02:36:36 -0700 (PDT)
+Received: from [192.168.0.191] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id ck11-20020a0564021c0b00b0042de3d661d2sm11974599edb.1.2022.06.08.02.36.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jun 2022 02:36:35 -0700 (PDT)
+Message-ID: <0de4b78f-5ed1-efea-4b53-fe16ed9c7e42@linaro.org>
+Date:   Wed, 8 Jun 2022 11:36:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v8 3/3] arm64: dts: qcom: sc7280: Update SNPS Phy params
+ for SC7280 IDP device
+Content-Language: en-US
+To:     Krishna Kurapati <quic_kriskura@quicinc.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>
+Cc:     devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-phy@lists.infradead.org, quic_pkondeti@quicinc.com,
+        quic_ppratap@quicinc.com, quic_vpulyala@quicinc.com
+References: <1654066564-20518-1-git-send-email-quic_kriskura@quicinc.com>
+ <1654066564-20518-4-git-send-email-quic_kriskura@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1654066564-20518-4-git-send-email-quic_kriskura@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Dzie=C5=84 dobry,
-
-chcia=C5=82bym poinformowa=C4=87 Pa=C5=84stwa o mo=C5=BCliwo=C5=9Bci pozy=
-skania nowych zlece=C5=84 ze strony www.
-
-Widzimy zainteresowanie potencjalnych Klient=C3=B3w Pa=C5=84stwa firm=C4=85=
-, dlatego ch=C4=99tnie pomo=C5=BCemy Pa=C5=84stwu dotrze=C4=87 z ofert=C4=
-=85 do wi=C4=99kszego grona odbiorc=C3=B3w poprzez efektywne metody pozyc=
-jonowania strony w Google.
-
-Czy m=C3=B3g=C5=82bym liczy=C4=87 na kontakt zwrotny?
+On 01/06/2022 08:56, Krishna Kurapati wrote:
+> Overriding the SNPS Phy tuning parameters for SC7280 IDP device.
+> 
+> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/sc7280-idp.dtsi | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
 
-Pozdrawiam serdecznie,
-Wiktor Nurek
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+Best regards,
+Krzysztof
