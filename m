@@ -2,38 +2,38 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21013C43334
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 08:35:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57366C433EF
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 08:35:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231759AbiFHIey (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jun 2022 04:34:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33612 "EHLO
+        id S232006AbiFHIe7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jun 2022 04:34:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232023AbiFHIdj (ORCPT
+        with ESMTP id S232505AbiFHIdj (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 04:33:39 -0400
 Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1084E176D4A
-        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 00:54:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1654671927; cv=none; 
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6BB7BCEAF
+        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 00:54:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1654671910; cv=none; 
         d=zohomail.com; s=zohoarc; 
-        b=cpfPiy1oP6qeyu346ymxsJ7shCsbjhbf6cLbMgiYSAbtOzc/t75Oli8vQCvUz3lk36Lk3/bGt19dIEoZb5TwAhkhMIUzewEq5tFGdLKdFKXUeyMG0xkBr6KuWrhm0thG9Yj4hSHKCk/xdXmn/+02wp6f33+p+JUM462hItgBhUE=
+        b=FuAga62THTO8ISOHCPEFx/rhhtKMuB05AcAXULNCumRh16cX59Nznutz0IZNG+QN9LvQSgInBnIkal7oAUQY+JmMObgPEAdlUqtTnn8BdFhq3W3JT0Ok4osIa4INEKYj/dbrtlG5cp1zCAyaZQEkQgDfP07U0yGlcCgR+b5B8JM=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1654671927; h=Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=MtfJNwoHvECpOHH8HhSZ1SO+XHfKXwwR1b5+QWHvHTo=; 
-        b=Zy+FhDx1LtjdGAPjDg+Q+l6vjrap1WTpgRZRulO9Saz2UdS8Nu2qdZYPk6ebkwnxomTD/vZzd493vgswV6psSUo2uLcj4SvgRNlD/o+mk2Y+kFtENJlqR83SAyUwK3EY+zqbnc4Oo0RuSAveB+XoW1pWR/1fQKiGXR5fqa7Jz2g=
+        t=1654671910; h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+        bh=KsA2pzq+U0bqSmgHyiHZ74OILTwlfJuxl1oir9jP7EM=; 
+        b=W0xNk+4dUt2+PPrS71dVzLn2FlnNO0gOxavPtTqfEtecIkzGi03hhIGKpJycLtcYXrExd3n/Xft3xDBN6xEr/rGidRu6bbKYMR1LVHWsxLllwTVlF30hhlZg9lGDVkGZEp1AuCvkF/kMWY4v+8NEGiNh8wkwoED01RpTE5h7MvE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
         dkim=pass  header.i=icenowy.me;
         spf=pass  smtp.mailfrom=uwu@icenowy.me;
         dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1654671927;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1654671910;
         s=zmail; d=icenowy.me; i=uwu@icenowy.me;
-        h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
-        bh=MtfJNwoHvECpOHH8HhSZ1SO+XHfKXwwR1b5+QWHvHTo=;
-        b=GQybyZFTdzqeCuwxJzFyGpHsh6ITCeokWQjKuilXYSudSAW3YtAA1nVTCMU8irgc
-        EaUKZ+qb5Kp1ohVWU9OXh4q6MiFJN+qpTzf2EI+uHoKvLcdya2uVgM/gdTJ/8cMFd7V
-        Sl+J05D2H82qV52UshkicHNCQ/DWcpXbiQnI6tzk=
+        h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+        bh=KsA2pzq+U0bqSmgHyiHZ74OILTwlfJuxl1oir9jP7EM=;
+        b=JhI3tpeeXoWedikGO4Yh42G6DinriqRxBWRAiA6O/BAj/gcUTC8LCO297j8bH6JB
+        kk8OF2NLO9mPDZ45Yp+EmnwBaHcW+q3QQju2yXdKxX1zj3yQQLdyciN7hoqn21V+q89
+        YePvZxQLlC6BhodOBQ8QHUEExpQZNzmefIKc8dXM=
 Received: from edelgard.icenowy.me (59.41.163.66 [59.41.163.66]) by mx.zohomail.com
-        with SMTPS id 165467192492424.387571387580692; Wed, 8 Jun 2022 00:05:24 -0700 (PDT)
+        with SMTPS id 1654671908459625.697781160352; Wed, 8 Jun 2022 00:05:08 -0700 (PDT)
 From:   Icenowy Zheng <uwu@icenowy.me>
 To:     Kishon Vijay Abraham I <kishon@ti.com>,
         Vinod Koul <vkoul@kernel.org>,
@@ -46,12 +46,10 @@ Cc:     linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
         Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH 3/7] dt-bindings: usb: sunxi-musb: add F1C100s MUSB compatible string
-Date:   Wed,  8 Jun 2022 15:04:48 +0800
-Message-Id: <20220608070452.338006-4-uwu@icenowy.me>
+Subject: [PATCH 0/7] SUNIV USB support (and updating mailmap)
+Date:   Wed,  8 Jun 2022 15:04:45 +0800
+Message-Id: <20220608070452.338006-1-uwu@icenowy.me>
 X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20220608070452.338006-1-uwu@icenowy.me>
-References: <20220608070452.338006-1-uwu@icenowy.me>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
@@ -59,28 +57,33 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Allwinner F1C100s has a hybrid MUSB controller between the A10 one and
-the A33 one.
+This patchset introduces support for F1C100s' USB.
 
-Add a compatible string for it.
+As I switched to a new mail address, and this patchset contains patches
+authored before this change, a mailmap update is added.
 
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
----
- .../devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml        | 1 +
- 1 file changed, 1 insertion(+)
+The DT binding and driver support for SUNIV USB PHY/MUSB are added, in
+addition to DT changes to the DTSI and Lichee Nano DT.
 
-diff --git a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
-index 933fa356d2ce..144f562f2591 100644
---- a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
-+++ b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
-@@ -17,6 +17,7 @@ properties:
-       - const: allwinner,sun6i-a31-musb
-       - const: allwinner,sun8i-a33-musb
-       - const: allwinner,sun8i-h3-musb
-+      - const: allwinner,suniv-f1c100s-musb
-       - items:
-           - enum:
-               - allwinner,sun8i-a83t-musb
+Icenowy Zheng (7):
+  mailmap: update Icenowy Zheng's mail address
+  dt-bindings: phy: add binding document for Allwinner F1C100s USB PHY
+  dt-bindings: usb: sunxi-musb: add F1C100s MUSB compatible string
+  phy: sun4i-usb: add support for the USB PHY on F1C100s SoC
+  musb: sunxi: add support for the F1C100s MUSB controller
+  ARM: suniv: add USB-related device nodes
+  ARM: suniv: f1c100s: enable USB on Lichee Pi Nano
+
+ .mailmap                                      |  3 +
+ .../phy/allwinner,suniv-f1c100s-usb-phy.yaml  | 83 +++++++++++++++++++
+ .../usb/allwinner,sun4i-a10-musb.yaml         |  1 +
+ .../boot/dts/suniv-f1c100s-licheepi-nano.dts  | 16 ++++
+ arch/arm/boot/dts/suniv-f1c100s.dtsi          | 26 ++++++
+ drivers/phy/allwinner/phy-sun4i-usb.c         | 11 +++
+ drivers/usb/musb/sunxi.c                      |  8 +-
+ 7 files changed, 146 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.yaml
+
 -- 
 2.36.0
 
