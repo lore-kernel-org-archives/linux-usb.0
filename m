@@ -2,223 +2,333 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EACDCCA47E
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 10:04:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8C21C433EF
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 10:57:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235828AbiFHKEl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jun 2022 06:04:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33460 "EHLO
+        id S237705AbiFHK55 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jun 2022 06:57:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235908AbiFHKDJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 06:03:09 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0623D1673EA
-        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 02:46:06 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id h19so26344519edj.0
-        for <linux-usb@vger.kernel.org>; Wed, 08 Jun 2022 02:46:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=j0PTdx0/UCIpK0ZOIeulGWW4GyE4LxYKkVGD3OmaXiU=;
-        b=Fk+XgbdK5jt6EWM3XYV3oHRYmbpqB55Wv2esIF2vb1QeiZyuFNKtE0Fo0ZrxudjbGM
-         0PocN0v51sQvP+fC4UV2UnbEwQTyqAOfMPizB1atI1tbT4GpIdEihfqXkFffFnVHvc8Q
-         sN+5ZtpLXnyKbd/m20ae79ezGjRjBi7tmCbJuxjoPvegNDCCGzFK9tEwd2S8DPa012AS
-         1ehQeu8KsrNiL7fprbh2o4ZzSNO1VbDLUE+oDtPtpXvgjzioUQM/15NRH3v8AgB8nbEq
-         SWSNqghBxtngi0n9itnfLNDWRdtoe51Fee1wdWDf07X4XjhsLNyzQAuEuFzV7vLrST0C
-         Ty1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=j0PTdx0/UCIpK0ZOIeulGWW4GyE4LxYKkVGD3OmaXiU=;
-        b=tH6tRwus56PB8IYyTbnXgC9u+M0O67tOHYDNQbRjzz1QZeF2ww416lAKAaIdxzpJ6S
-         c4c1BK+Xy7CTaiaQT2OnP61P+ZzoAT85Xe45G2KvkNs5VjTH6BtC3SaUPxK+PDbD5v6y
-         iFljlD+JI7O+IcC+gL4/NvEaphOqwqfvlBlOwf41Whpm8R71NF61AvUp2lF3J1VBFDot
-         u17Eaf7JzU112m+XD6N6JpDT46wmpAyjoqL0oGdla6pkpS0O+yijJChUSjFncDbKE5Ts
-         tDGpJUBDYgQ06B58t5imuHIsVEICwS2lMp/7ouxOUw8tX7nR4YYMU6u9LDRXOfIlVV3u
-         +ORQ==
-X-Gm-Message-State: AOAM533hT8cgRljiQ3nWKRA3YyBlAJ7puiODX6V1oMLZV4lWbekM7NgO
-        uf1+IK0VfWykbTArkTNjwun0Tw==
-X-Google-Smtp-Source: ABdhPJxvBQYdWTcwz3QvJ11WUeVjDfmXGE7aAyqClhYPiTBjrba7qY3e1zzsvhWdTEtYrBqeoC/9Nw==
-X-Received: by 2002:a05:6402:400b:b0:42d:c902:6c75 with SMTP id d11-20020a056402400b00b0042dc9026c75mr38760810eda.32.1654681565480;
-        Wed, 08 Jun 2022 02:46:05 -0700 (PDT)
-Received: from [192.168.0.191] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id v3-20020a056402348300b0042dccb44e88sm971530edc.23.2022.06.08.02.46.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jun 2022 02:46:04 -0700 (PDT)
-Message-ID: <97d63ed3-ec95-5a2e-edab-01af687c1d34@linaro.org>
-Date:   Wed, 8 Jun 2022 11:46:03 +0200
+        with ESMTP id S236867AbiFHK5z (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 06:57:55 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 497B9117656
+        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 03:57:54 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nytNo-0002yp-KX; Wed, 08 Jun 2022 12:57:52 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nytNp-007AQ7-8B; Wed, 08 Jun 2022 12:57:51 +0200
+Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nytNm-000aQW-O4; Wed, 08 Jun 2022 12:57:50 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
+        laurent.pinchart@ideasonboard.com, paul.elder@ideasonboard.com,
+        kernel@pengutronix.de, nicolas@ndufresne.ca,
+        kieran.bingham@ideasonboard.com
+Subject: [RESEND v7 1/4] media: v4l: move helper functions for fractions from uvc to v4l2-common
+Date:   Wed,  8 Jun 2022 12:57:45 +0200
+Message-Id: <20220608105748.139922-2-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220608105748.139922-1-m.grzeschik@pengutronix.de>
+References: <20220608105748.139922-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v8 2/3] phy: qcom-snps: Add support for overriding phy
- tuning parameters
-Content-Language: en-US
-To:     Krishna Kurapati <quic_kriskura@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>
-Cc:     devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-phy@lists.infradead.org, quic_pkondeti@quicinc.com,
-        quic_ppratap@quicinc.com, quic_vpulyala@quicinc.com
-References: <1654066564-20518-1-git-send-email-quic_kriskura@quicinc.com>
- <1654066564-20518-3-git-send-email-quic_kriskura@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1654066564-20518-3-git-send-email-quic_kriskura@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 01/06/2022 08:56, Krishna Kurapati wrote:
-> Add support for overriding electrical signal tuning parameters for
-> SNPS HS Phy.
-> 
-> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-> Reviewed-by: Pavankumar Kondeti <quic_pkondeti@quicinc.com>
-> ---
->  drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c | 267 +++++++++++++++++++++++++-
->  1 file changed, 265 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c b/drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c
-> index 5d20378..14bbb06 100644
-> --- a/drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c
-> +++ b/drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c
-> @@ -52,6 +52,12 @@
->  #define USB2_SUSPEND_N				BIT(2)
->  #define USB2_SUSPEND_N_SEL			BIT(3)
->  
-> +#define USB2_PHY_USB_PHY_HS_PHY_OVERRIDE_X0		(0x6c)
-> +#define USB2_PHY_USB_PHY_HS_PHY_OVERRIDE_X1		(0x70)
-> +#define USB2_PHY_USB_PHY_HS_PHY_OVERRIDE_X2		(0x74)
-> +#define USB2_PHY_USB_PHY_HS_PHY_OVERRIDE_X3		(0x78)
-> +#define PARAM_OVRD_MASK				0xFF
-> +
->  #define USB2_PHY_USB_PHY_CFG0			(0x94)
->  #define UTMI_PHY_DATAPATH_CTRL_OVERRIDE_EN	BIT(0)
->  #define UTMI_PHY_CMN_CTRL_OVERRIDE_EN		BIT(1)
-> @@ -60,12 +66,76 @@
->  #define REFCLK_SEL_MASK				GENMASK(1, 0)
->  #define REFCLK_SEL_DEFAULT			(0x2 << 0)
->  
-> +#define HS_DISCONNECT_MASK			GENMASK(2, 0)
-> +
-> +#define SQUELCH_DETECTOR_MASK			GENMASK(7, 5)
-> +
+The functions uvc_simplify_fraction and uvc_fraction_to_interval are
+generic helpers which are also useful for other v4l2 drivers. This patch
+moves them to v4l2-common.
 
-I wonder why do you have here blank lines after every define. Are these
-bits from different registers?
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
-> +#define HS_AMPLITUDE_MASK			GENMASK(3, 0)
-> +
-> +#define PREEMPHASIS_DURATION_MASK		BIT(5)
-> +
-> +#define PREEMPHASIS_AMPLITUDE_MASK		GENMASK(7, 6)
+---
+v1 -> v7: -
 
-These two look like from same register...
+ drivers/media/usb/uvc/uvc_driver.c    | 80 --------------------------
+ drivers/media/usb/uvc/uvc_v4l2.c      | 14 ++---
+ drivers/media/usb/uvc/uvcvideo.h      |  3 -
+ drivers/media/v4l2-core/v4l2-common.c | 82 +++++++++++++++++++++++++++
+ include/media/v4l2-common.h           |  4 ++
+ 5 files changed, 93 insertions(+), 90 deletions(-)
 
-> +
-> +#define HS_RISE_FALL_MASK			GENMASK(1, 0)
-> +
-> +#define HS_CROSSOVER_VOLTAGE_MASK		GENMASK(3, 2)
-> +
-> +#define HS_OUTPUT_IMPEDANCE_MASK		GENMASK(5, 4)
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 6c86faecbea21e..2bf7f524e130bc 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -329,86 +329,6 @@ static enum v4l2_ycbcr_encoding uvc_ycbcr_enc(const u8 matrix_coefficients)
+ 	return V4L2_YCBCR_ENC_DEFAULT;  /* Reserved */
+ }
+ 
+-/* Simplify a fraction using a simple continued fraction decomposition. The
+- * idea here is to convert fractions such as 333333/10000000 to 1/30 using
+- * 32 bit arithmetic only. The algorithm is not perfect and relies upon two
+- * arbitrary parameters to remove non-significative terms from the simple
+- * continued fraction decomposition. Using 8 and 333 for n_terms and threshold
+- * respectively seems to give nice results.
+- */
+-void uvc_simplify_fraction(u32 *numerator, u32 *denominator,
+-		unsigned int n_terms, unsigned int threshold)
+-{
+-	u32 *an;
+-	u32 x, y, r;
+-	unsigned int i, n;
+-
+-	an = kmalloc_array(n_terms, sizeof(*an), GFP_KERNEL);
+-	if (an == NULL)
+-		return;
+-
+-	/* Convert the fraction to a simple continued fraction. See
+-	 * https://mathforum.org/dr.math/faq/faq.fractions.html
+-	 * Stop if the current term is bigger than or equal to the given
+-	 * threshold.
+-	 */
+-	x = *numerator;
+-	y = *denominator;
+-
+-	for (n = 0; n < n_terms && y != 0; ++n) {
+-		an[n] = x / y;
+-		if (an[n] >= threshold) {
+-			if (n < 2)
+-				n++;
+-			break;
+-		}
+-
+-		r = x - an[n] * y;
+-		x = y;
+-		y = r;
+-	}
+-
+-	/* Expand the simple continued fraction back to an integer fraction. */
+-	x = 0;
+-	y = 1;
+-
+-	for (i = n; i > 0; --i) {
+-		r = y;
+-		y = an[i-1] * y + x;
+-		x = r;
+-	}
+-
+-	*numerator = y;
+-	*denominator = x;
+-	kfree(an);
+-}
+-
+-/* Convert a fraction to a frame interval in 100ns multiples. The idea here is
+- * to compute numerator / denominator * 10000000 using 32 bit fixed point
+- * arithmetic only.
+- */
+-u32 uvc_fraction_to_interval(u32 numerator, u32 denominator)
+-{
+-	u32 multiplier;
+-
+-	/* Saturate the result if the operation would overflow. */
+-	if (denominator == 0 ||
+-	    numerator/denominator >= ((u32)-1)/10000000)
+-		return (u32)-1;
+-
+-	/* Divide both the denominator and the multiplier by two until
+-	 * numerator * multiplier doesn't overflow. If anyone knows a better
+-	 * algorithm please let me know.
+-	 */
+-	multiplier = 10000000;
+-	while (numerator > ((u32)-1)/multiplier) {
+-		multiplier /= 2;
+-		denominator /= 2;
+-	}
+-
+-	return denominator ? numerator * multiplier / denominator : 0;
+-}
+-
+ /* ------------------------------------------------------------------------
+  * Terminal and unit management
+  */
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 648dcd579e8155..26cf0517e36195 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -382,7 +382,7 @@ static int uvc_v4l2_get_streamparm(struct uvc_streaming *stream,
+ 	mutex_unlock(&stream->mutex);
+ 
+ 	denominator = 10000000;
+-	uvc_simplify_fraction(&numerator, &denominator, 8, 333);
++	v4l2_simplify_fraction(&numerator, &denominator, 8, 333);
+ 
+ 	memset(parm, 0, sizeof(*parm));
+ 	parm->type = stream->type;
+@@ -423,7 +423,7 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
+ 	else
+ 		timeperframe = parm->parm.output.timeperframe;
+ 
+-	interval = uvc_fraction_to_interval(timeperframe.numerator,
++	interval = v4l2_fraction_to_interval(timeperframe.numerator,
+ 		timeperframe.denominator);
+ 	uvc_dbg(stream->dev, FORMAT, "Setting frame interval to %u/%u (%u)\n",
+ 		timeperframe.numerator, timeperframe.denominator, interval);
+@@ -477,7 +477,7 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
+ 	/* Return the actual frame period. */
+ 	timeperframe.numerator = probe.dwFrameInterval;
+ 	timeperframe.denominator = 10000000;
+-	uvc_simplify_fraction(&timeperframe.numerator,
++	v4l2_simplify_fraction(&timeperframe.numerator,
+ 		&timeperframe.denominator, 8, 333);
+ 
+ 	if (parm->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+@@ -1271,7 +1271,7 @@ static int uvc_ioctl_enum_frameintervals(struct file *file, void *fh,
+ 		fival->discrete.numerator =
+ 			frame->dwFrameInterval[index];
+ 		fival->discrete.denominator = 10000000;
+-		uvc_simplify_fraction(&fival->discrete.numerator,
++		v4l2_simplify_fraction(&fival->discrete.numerator,
+ 			&fival->discrete.denominator, 8, 333);
+ 	} else {
+ 		fival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
+@@ -1281,11 +1281,11 @@ static int uvc_ioctl_enum_frameintervals(struct file *file, void *fh,
+ 		fival->stepwise.max.denominator = 10000000;
+ 		fival->stepwise.step.numerator = frame->dwFrameInterval[2];
+ 		fival->stepwise.step.denominator = 10000000;
+-		uvc_simplify_fraction(&fival->stepwise.min.numerator,
++		v4l2_simplify_fraction(&fival->stepwise.min.numerator,
+ 			&fival->stepwise.min.denominator, 8, 333);
+-		uvc_simplify_fraction(&fival->stepwise.max.numerator,
++		v4l2_simplify_fraction(&fival->stepwise.max.numerator,
+ 			&fival->stepwise.max.denominator, 8, 333);
+-		uvc_simplify_fraction(&fival->stepwise.step.numerator,
++		v4l2_simplify_fraction(&fival->stepwise.step.numerator,
+ 			&fival->stepwise.step.denominator, 8, 333);
+ 	}
+ 
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index c5b4febd2d94b6..ec3f8ec0e25ca3 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -909,9 +909,6 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+ 		      struct uvc_xu_control_query *xqry);
+ 
+ /* Utility functions */
+-void uvc_simplify_fraction(u32 *numerator, u32 *denominator,
+-			   unsigned int n_terms, unsigned int threshold);
+-u32 uvc_fraction_to_interval(u32 numerator, u32 denominator);
+ struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
+ 					    u8 epaddr);
+ u16 uvc_endpoint_max_bpi(struct usb_device *dev, struct usb_host_endpoint *ep);
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index df34b2a283bc29..1d0b56249ca0e1 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -482,3 +482,85 @@ s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+ 	return freq > 0 ? freq : -EINVAL;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
++
++/* Simplify a fraction using a simple continued fraction decomposition. The
++ * idea here is to convert fractions such as 333333/10000000 to 1/30 using
++ * 32 bit arithmetic only. The algorithm is not perfect and relies upon two
++ * arbitrary parameters to remove non-significative terms from the simple
++ * continued fraction decomposition. Using 8 and 333 for n_terms and threshold
++ * respectively seems to give nice results.
++ */
++void v4l2_simplify_fraction(u32 *numerator, u32 *denominator,
++		unsigned int n_terms, unsigned int threshold)
++{
++	u32 *an;
++	u32 x, y, r;
++	unsigned int i, n;
++
++	an = kmalloc_array(n_terms, sizeof(*an), GFP_KERNEL);
++	if (an == NULL)
++		return;
++
++	/* Convert the fraction to a simple continued fraction. See
++	 * https://mathforum.org/dr.math/faq/faq.fractions.html
++	 * Stop if the current term is bigger than or equal to the given
++	 * threshold.
++	 */
++	x = *numerator;
++	y = *denominator;
++
++	for (n = 0; n < n_terms && y != 0; ++n) {
++		an[n] = x / y;
++		if (an[n] >= threshold) {
++			if (n < 2)
++				n++;
++			break;
++		}
++
++		r = x - an[n] * y;
++		x = y;
++		y = r;
++	}
++
++	/* Expand the simple continued fraction back to an integer fraction. */
++	x = 0;
++	y = 1;
++
++	for (i = n; i > 0; --i) {
++		r = y;
++		y = an[i-1] * y + x;
++		x = r;
++	}
++
++	*numerator = y;
++	*denominator = x;
++	kfree(an);
++}
++EXPORT_SYMBOL_GPL(v4l2_simplify_fraction);
++
++/* Convert a fraction to a frame interval in 100ns multiples. The idea here is
++ * to compute numerator / denominator * 10000000 using 32 bit fixed point
++ * arithmetic only.
++ */
++u32 v4l2_fraction_to_interval(u32 numerator, u32 denominator)
++{
++	u32 multiplier;
++
++	/* Saturate the result if the operation would overflow. */
++	if (denominator == 0 ||
++	    numerator/denominator >= ((u32)-1)/10000000)
++		return (u32)-1;
++
++	/* Divide both the denominator and the multiplier by two until
++	 * numerator * multiplier doesn't overflow. If anyone knows a better
++	 * algorithm please let me know.
++	 */
++	multiplier = 10000000;
++	while (numerator > ((u32)-1)/multiplier) {
++		multiplier /= 2;
++		denominator /= 2;
++	}
++
++	return denominator ? numerator * multiplier / denominator : 0;
++}
++EXPORT_SYMBOL_GPL(v4l2_fraction_to_interval);
+diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+index 3eb202259e8ccd..df4ad81251195e 100644
+--- a/include/media/v4l2-common.h
++++ b/include/media/v4l2-common.h
+@@ -540,6 +540,10 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+ s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+ 		       unsigned int div);
+ 
++void v4l2_simplify_fraction(u32 *numerator, u32 *denominator,
++		unsigned int n_terms, unsigned int threshold);
++u32 v4l2_fraction_to_interval(u32 numerator, u32 denominator);
++
+ static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
+ {
+ 	/*
+-- 
+2.30.2
 
-The same
-
-> +
-> +#define LS_FS_OUTPUT_IMPEDANCE_MASK		GENMASK(3, 0)
-> +
-> +
->  static const char * const qcom_snps_hsphy_vreg_names[] = {
->  	"vdda-pll", "vdda33", "vdda18",
->  };
->  
->  #define SNPS_HS_NUM_VREGS		ARRAY_SIZE(qcom_snps_hsphy_vreg_names)
->  
-> +struct override_param {
-> +	s32	value;
-> +	u8	reg;
-> +};
-> +
-> +#define OVERRIDE_PARAM(bps, val)\
-> +{				\
-> +	.value = bps,		\
-> +	.reg = val,		\
-> +}
-> +
-> +struct override_param_map {
-> +	struct override_param *param_table;
-> +	u8 table_size;
-> +	u8 reg_offset;
-> +	u8 param_mask;
-> +};
-> +
-> +#define OVERRIDE_PARAM_MAP(table, num_elements, offset, mask)		\
-> +{									\
-> +	.param_table = table,						\
-> +	.table_size = num_elements,					\
-> +	.reg_offset = offset,						\
-> +	.param_mask = mask,						\
-> +}
-> +
-> +struct phy_override_seq {
-> +	bool	need_update;
-> +	u8	offset;
-> +	u8	value;
-> +	u8	mask;
-> +};
-> +
-> +static const char *phy_seq_props[] = {
-
-static const char * const
-
-> +	"qcom,hs-disconnect-bp",
-> +	"qcom,squelch-detector-bp",
-> +	"qcom,hs-amplitude-bp",
-> +	"qcom,pre-emphasis-duration-bp",
-> +	"qcom,pre-emphasis-amplitude-bp",
-> +	"qcom,hs-rise-fall-time-bp",
-> +	"qcom,hs-crossover-voltage-microvolt",
-> +	"qcom,hs-output-impedance-micro-ohms",
-> +	"qcom,ls-fs-output-impedance-bp",
-> +};
-> +
->  /**
->   * struct qcom_snps_hsphy - snps hs phy attributes
->   *
-> @@ -91,6 +161,7 @@ struct qcom_snps_hsphy {
->  
->  	bool phy_initialized;
->  	enum phy_mode mode;
-> +	struct phy_override_seq update_seq_cfg[ARRAY_SIZE(phy_seq_props)];
->  };
->  
->  static inline void qcom_snps_hsphy_write_mask(void __iomem *base, u32 offset,
-> @@ -173,10 +244,147 @@ static int qcom_snps_hsphy_set_mode(struct phy *phy, enum phy_mode mode,
->  	return 0;
->  }
->  
-> +static struct override_param hs_disconnect_sc7280[] = {
-
-This should be const. I see you are using it in non-const way and this
-makes me wonder why... You just need to store the value from the DT and
-program it (after converting the units). Why modifying static driver
-data? What if you have two phy drivers? Which data is being used?
-
-IOW, all these tables should be const and you could store the final
-value in 'struct qcom_snps_hsphy'. Then just program to registers this
-final value.
-
-Best regards,
-Krzysztof
