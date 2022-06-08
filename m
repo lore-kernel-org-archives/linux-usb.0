@@ -2,38 +2,38 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A460CCA47B
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 08:30:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D20D1C433EF
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 08:34:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbiFHI3r (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jun 2022 04:29:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37336 "EHLO
+        id S231402AbiFHIen (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jun 2022 04:34:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230345AbiFHI2T (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 04:28:19 -0400
+        with ESMTP id S230031AbiFHIdn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 04:33:43 -0400
 Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 664E71F7DBC
-        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 00:51:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1654671917; cv=none; 
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11423179082
+        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 00:54:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1654671960; cv=none; 
         d=zohomail.com; s=zohoarc; 
-        b=EwX9GHj36baFZECDvbfvU8mD912tZ+9/+KGQTTtvObKU35dhQ0kSaPkKMjR7WRpTO6A7Q+M5wYVzGb6JLyuZFygwIOZPdxj0PVAXBTixbJh0XwBQUOHd64GL+Uut/fFAJmP52dYib6yXfwi8e0XjiZuLoqUKILvjllpAhyh3Hhw=
+        b=bvBVBp311UrrA3YEXD3M4S9ESkLApb49rsbhfGG8twXJaPM5FGXZEuIkyjKV/qliv4jDa9vpL2y3P8sWLD3CTijGlUjH0N9FLel+k0IdcwWZ/mS1oauxGgIr/5MA62+ilVBZVPReB88NbzKPmtaBQrwTOpDwNa+qlhmCKH3MeVw=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1654671917; h=Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=4qHioTwosoMtsVC5cf0hSqO5QmqpfNid/SOhD8fTy7Y=; 
-        b=GdcGV3gzIoJEsQr7znI/Gf1ba4EPwrnQywrEfjnkN3/n1UCi1MCAV0nwXBtr7a6pFkKH/RlzVaGGIeHZPIpXnPgn92aCq+Edd8EEgXeB4iDjTZVbaoi/Zv/tJJW7jW/3Z3iOeemrnRsldJYYGFmHFn0ryGhF++xuudo+F/4qIu4=
+        t=1654671960; h=Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=bwLNTfaNNmXUu3sy1HadN8NYZVEx7VSfxP8UHGZMLLA=; 
+        b=fmnIHZUjzhMAZTajRK/wUl5YYDW4NxfsHfCceBaEcGVQWhduF4H+9MHWuQcA8EbYm3qHiJy7WQjAMCoiau68k3TCFQdm1zOwpsRhm5TYDTgsBeoKKpv0CVvCXsqGNeDB3jatLlI7trDtrWR2YDQ4OCEhtgP3WwsjXVFzF70x4D0=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
         dkim=pass  header.i=icenowy.me;
         spf=pass  smtp.mailfrom=uwu@icenowy.me;
         dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1654671917;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1654671960;
         s=zmail; d=icenowy.me; i=uwu@icenowy.me;
         h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
-        bh=4qHioTwosoMtsVC5cf0hSqO5QmqpfNid/SOhD8fTy7Y=;
-        b=byVdaaJj/CFCY6LvkPczj0FZUgIyfzT1CfhzFmF164613R0xCJ1voYda6Tk+cUBA
-        7hTddmz0vMKq8GLGzA8sHKK6NI75Ks1qOeIQ4Fnbd03UWAdDiFKIw1HAmpl15pvsjd8
-        edRTAUMtbEoxVzeU8rt9aSMsFPFZckayGjDMjN64=
+        bh=bwLNTfaNNmXUu3sy1HadN8NYZVEx7VSfxP8UHGZMLLA=;
+        b=GXTl4vKL53A4jWqTuURNFn9gezZrfZok8N+u7O9RFmYEcm8rNb8uSOP6nof9hn39
+        8qx6fm11SglYz3ThP5ObLBlFhH8O16B76O29CmNhVwrcN3qrLzbL+G5NJ2z0qnACGsg
+        8kxyu7p/svDe3nUba14D6n9jW11+Wj6JVuecp0jo=
 Received: from edelgard.icenowy.me (59.41.163.66 [59.41.163.66]) by mx.zohomail.com
-        with SMTPS id 1654671914833265.775927181988; Wed, 8 Jun 2022 00:05:14 -0700 (PDT)
+        with SMTPS id 1654671958834763.4225983678638; Wed, 8 Jun 2022 00:05:58 -0700 (PDT)
 From:   Icenowy Zheng <uwu@icenowy.me>
 To:     Kishon Vijay Abraham I <kishon@ti.com>,
         Vinod Koul <vkoul@kernel.org>,
@@ -45,10 +45,10 @@ To:     Kishon Vijay Abraham I <kishon@ti.com>,
 Cc:     linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-        Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH 1/7] mailmap: update Icenowy Zheng's mail address
-Date:   Wed,  8 Jun 2022 15:04:46 +0800
-Message-Id: <20220608070452.338006-2-uwu@icenowy.me>
+        Icenowy Zheng <icenowy@aosc.io>
+Subject: [PATCH 7/7] ARM: suniv: f1c100s: enable USB on Lichee Pi Nano
+Date:   Wed,  8 Jun 2022 15:04:52 +0800
+Message-Id: <20220608070452.338006-8-uwu@icenowy.me>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220608070452.338006-1-uwu@icenowy.me>
 References: <20220608070452.338006-1-uwu@icenowy.me>
@@ -59,34 +59,54 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Due to the SMTP provider adopted by AOSC applied some more restricted
-rate limit that is not suitable for sending kernel patches, I switched
-to a mailbox hosted on my own domain name now. In addition, there's a
-single commit that is pushed to the mainline kernel tree during my
-internship at Sipeed the last year.
+From: Icenowy Zheng <icenowy@aosc.io>
 
-Map two AOSC mail addresses (both aosc.io and aosc.xyz domain names) and
-a defunct Sipeed mail address to the new mail address.
+Lichee Pi Nano has a Micro-USB connector, with its D+, D- pins connected
+to the USB pins of the SoC and ID pin connected to PE2 GPIO.
 
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+Enable the USB functionality.
+
+Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 ---
- .mailmap | 3 +++
- 1 file changed, 3 insertions(+)
+ .../arm/boot/dts/suniv-f1c100s-licheepi-nano.dts | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/.mailmap b/.mailmap
-index 825fae8e6b7b..b4065082029e 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -150,6 +150,9 @@ Henrik Rydberg <rydberg@bitmath.org>
- Herbert Xu <herbert@gondor.apana.org.au>
- Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
- Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
-+Icenowy Zheng <uwu@icenowy.me> <icenowy@aosc.io>
-+Icenowy Zheng <uwu@icenowy.me> <icenowy@aosc.xyz>
-+Icenowy Zheng <uwu@icenowy.me> <icenowy@sipeed.com>
- Jacob Shin <Jacob.Shin@amd.com>
- Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk@google.com>
- Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk.kim@samsung.com>
+diff --git a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
+index 04e59b8381cb..1935d8c8855b 100644
+--- a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
++++ b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
+@@ -6,6 +6,8 @@
+ /dts-v1/;
+ #include "suniv-f1c100s.dtsi"
+ 
++#include <dt-bindings/gpio/gpio.h>
++
+ / {
+ 	model = "Lichee Pi Nano";
+ 	compatible = "licheepi,licheepi-nano", "allwinner,suniv-f1c100s";
+@@ -50,8 +52,22 @@ flash@0 {
+ 	};
+ };
+ 
++&otg_sram {
++	status = "okay";
++};
++
+ &uart0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart0_pe_pins>;
+ 	status = "okay";
+ };
++
++&usb_otg {
++	dr_mode = "otg";
++	status = "okay";
++};
++
++&usbphy {
++	usb0_id_det-gpio = <&pio 4 2 GPIO_ACTIVE_HIGH>; /* PE2 */
++	status = "okay";
++};
 -- 
 2.36.0
 
