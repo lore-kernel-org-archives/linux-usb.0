@@ -2,38 +2,38 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C00CCA47B
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 07:59:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A460CCA47B
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 08:30:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231575AbiFHH7N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jun 2022 03:59:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52178 "EHLO
+        id S229591AbiFHI3r (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jun 2022 04:29:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232512AbiFHH6H (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 03:58:07 -0400
+        with ESMTP id S230345AbiFHI2T (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 04:28:19 -0400
 Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80DE31E0C2E
-        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 00:25:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1654671931; cv=none; 
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 664E71F7DBC
+        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 00:51:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1654671917; cv=none; 
         d=zohomail.com; s=zohoarc; 
-        b=I6iTAv7VV57zQvIZ3qbDQHUVA7U6jmANnzJSSF64qN7oWfgcz7JbbfFFLFK+LkpJN4ukb9IFd7AhKhRT+cqittQNJMgolkveshF27qSCcPZwdGQv0WO16VD7RP7JsWGsbQAGh40T3OkFFo4BDMEYbg7nMdKcSsK1+KE4CQHAgz8=
+        b=EwX9GHj36baFZECDvbfvU8mD912tZ+9/+KGQTTtvObKU35dhQ0kSaPkKMjR7WRpTO6A7Q+M5wYVzGb6JLyuZFygwIOZPdxj0PVAXBTixbJh0XwBQUOHd64GL+Uut/fFAJmP52dYib6yXfwi8e0XjiZuLoqUKILvjllpAhyh3Hhw=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1654671931; h=Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=d2+L3oYy7eNvjEgKjDZKUUUnCobv7HCrKGgG0zEy0dA=; 
-        b=PblKKECZ66RYVO2Gb+iMUgUTDlYNeRJ/xFs6lQJSS5ogy8vfdgGmO0VE8lLq7CA1giqjBC2T37447FAlzm6KnrBcA+tMBoz7jzHzbxNhU+29rKMlk+cLU7ssLJHsiCSWBWHcPvSrXswx/asHMucKYj1N9yq+PqIsi+wuW86DxpU=
+        t=1654671917; h=Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=4qHioTwosoMtsVC5cf0hSqO5QmqpfNid/SOhD8fTy7Y=; 
+        b=GdcGV3gzIoJEsQr7znI/Gf1ba4EPwrnQywrEfjnkN3/n1UCi1MCAV0nwXBtr7a6pFkKH/RlzVaGGIeHZPIpXnPgn92aCq+Edd8EEgXeB4iDjTZVbaoi/Zv/tJJW7jW/3Z3iOeemrnRsldJYYGFmHFn0ryGhF++xuudo+F/4qIu4=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
         dkim=pass  header.i=icenowy.me;
         spf=pass  smtp.mailfrom=uwu@icenowy.me;
         dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1654671931;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1654671917;
         s=zmail; d=icenowy.me; i=uwu@icenowy.me;
         h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
-        bh=d2+L3oYy7eNvjEgKjDZKUUUnCobv7HCrKGgG0zEy0dA=;
-        b=HIJ6fzQ5H58U2YX9pWAZ1Gyp6vbfNYSNNIPe1ojTHRtMXayGuj0HC5OhtsAljhOj
-        hu6MZ8TQh6w6+EGG8zHKij+HY60jpnGmU3ikImCWiFy/VoCZeiVMhqd2EfMBxUc27xN
-        8nl4VnmgKHLo5es0GEz9sj2TqeatBaQXh+P4dLP4=
+        bh=4qHioTwosoMtsVC5cf0hSqO5QmqpfNid/SOhD8fTy7Y=;
+        b=byVdaaJj/CFCY6LvkPczj0FZUgIyfzT1CfhzFmF164613R0xCJ1voYda6Tk+cUBA
+        7hTddmz0vMKq8GLGzA8sHKK6NI75Ks1qOeIQ4Fnbd03UWAdDiFKIw1HAmpl15pvsjd8
+        edRTAUMtbEoxVzeU8rt9aSMsFPFZckayGjDMjN64=
 Received: from edelgard.icenowy.me (59.41.163.66 [59.41.163.66]) by mx.zohomail.com
-        with SMTPS id 1654671930603545.7452579301226; Wed, 8 Jun 2022 00:05:30 -0700 (PDT)
+        with SMTPS id 1654671914833265.775927181988; Wed, 8 Jun 2022 00:05:14 -0700 (PDT)
 From:   Icenowy Zheng <uwu@icenowy.me>
 To:     Kishon Vijay Abraham I <kishon@ti.com>,
         Vinod Koul <vkoul@kernel.org>,
@@ -45,10 +45,10 @@ To:     Kishon Vijay Abraham I <kishon@ti.com>,
 Cc:     linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-        Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH 4/7] phy: sun4i-usb: add support for the USB PHY on F1C100s SoC
-Date:   Wed,  8 Jun 2022 15:04:49 +0800
-Message-Id: <20220608070452.338006-5-uwu@icenowy.me>
+        Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH 1/7] mailmap: update Icenowy Zheng's mail address
+Date:   Wed,  8 Jun 2022 15:04:46 +0800
+Message-Id: <20220608070452.338006-2-uwu@icenowy.me>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220608070452.338006-1-uwu@icenowy.me>
 References: <20220608070452.338006-1-uwu@icenowy.me>
@@ -59,53 +59,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Icenowy Zheng <icenowy@aosc.io>
+Due to the SMTP provider adopted by AOSC applied some more restricted
+rate limit that is not suitable for sending kernel patches, I switched
+to a mailbox hosted on my own domain name now. In addition, there's a
+single commit that is pushed to the mainline kernel tree during my
+internship at Sipeed the last year.
 
-The F1C100s SoC has one USB OTG port connected to a MUSB controller.
+Map two AOSC mail addresses (both aosc.io and aosc.xyz domain names) and
+a defunct Sipeed mail address to the new mail address.
 
-Add support for its USB PHY.
-
-Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 ---
- drivers/phy/allwinner/phy-sun4i-usb.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ .mailmap | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-index d5f3b42eb8ce..f6592c8d611b 100644
---- a/drivers/phy/allwinner/phy-sun4i-usb.c
-+++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-@@ -109,6 +109,7 @@ enum sun4i_usb_phy_type {
- 	sun8i_v3s_phy,
- 	sun50i_a64_phy,
- 	sun50i_h6_phy,
-+	suniv_f1c100s_phy,
- };
- 
- struct sun4i_usb_phy_cfg {
-@@ -859,6 +860,14 @@ static int sun4i_usb_phy_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static const struct sun4i_usb_phy_cfg suniv_f1c100s_cfg = {
-+	.num_phys = 1,
-+	.type = suniv_f1c100s_phy,
-+	.disc_thresh = 3,
-+	.phyctl_offset = REG_PHYCTL_A10,
-+	.dedicated_clocks = true,
-+};
-+
- static const struct sun4i_usb_phy_cfg sun4i_a10_cfg = {
- 	.num_phys = 3,
- 	.type = sun4i_a10_phy,
-@@ -988,6 +997,8 @@ static const struct of_device_id sun4i_usb_phy_of_match[] = {
- 	{ .compatible = "allwinner,sun50i-a64-usb-phy",
- 	  .data = &sun50i_a64_cfg},
- 	{ .compatible = "allwinner,sun50i-h6-usb-phy", .data = &sun50i_h6_cfg },
-+	{ .compatible = "allwinner,suniv-f1c100s-usb-phy",
-+	  .data = &suniv_f1c100s_cfg },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, sun4i_usb_phy_of_match);
+diff --git a/.mailmap b/.mailmap
+index 825fae8e6b7b..b4065082029e 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -150,6 +150,9 @@ Henrik Rydberg <rydberg@bitmath.org>
+ Herbert Xu <herbert@gondor.apana.org.au>
+ Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
+ Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
++Icenowy Zheng <uwu@icenowy.me> <icenowy@aosc.io>
++Icenowy Zheng <uwu@icenowy.me> <icenowy@aosc.xyz>
++Icenowy Zheng <uwu@icenowy.me> <icenowy@sipeed.com>
+ Jacob Shin <Jacob.Shin@amd.com>
+ Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk@google.com>
+ Jaegeuk Kim <jaegeuk@kernel.org> <jaegeuk.kim@samsung.com>
 -- 
 2.36.0
 
