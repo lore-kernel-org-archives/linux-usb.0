@@ -2,190 +2,146 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF5A7CCA483
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 11:03:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77E70CCA47E
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 11:04:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237430AbiFHLD3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jun 2022 07:03:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37250 "EHLO
+        id S237422AbiFHLEC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jun 2022 07:04:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237318AbiFHLDS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 07:03:18 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DD0F3BBFC;
-        Wed,  8 Jun 2022 04:03:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1654686195; x=1686222195;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ULqB0ALK4yryKpsKlIUBRMiV9B3k9ExYEunco0gOzrU=;
-  b=e2XbjhxABY0Ftk5mOV28bnpV94hELbAn/NtNK6GymmLNzJytbKDvaD1q
-   SpTtM5aIZGQFRTjzJwLbr3f7YQaQyNgnETupKYhptZavEhNy9XQ9Q8HKC
-   wtpXT0hCr5a1qQMfkYyEHGnHso9wINmw9GYTUATnOviO+3r4/Rde+f/ik
-   s=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
-  by alexa-out.qualcomm.com with ESMTP; 08 Jun 2022 04:03:15 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2022 04:03:14 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 8 Jun 2022 04:03:14 -0700
-Received: from [10.216.33.38] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 8 Jun 2022
- 04:03:07 -0700
-Message-ID: <5c4f814e-1e5a-1c82-def6-7aba5d0cfd94@quicinc.com>
-Date:   Wed, 8 Jun 2022 16:33:04 +0530
+        with ESMTP id S237567AbiFHLEA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 07:04:00 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFE0B1ECD48
+        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 04:03:53 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nytTc-0003yA-2J; Wed, 08 Jun 2022 13:03:52 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nytTc-007ApQ-MA; Wed, 08 Jun 2022 13:03:51 +0200
+Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nytTa-000ai5-Bv; Wed, 08 Jun 2022 13:03:50 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
+        paul.elder@ideasonboard.com, kieran.bingham@ideasonboard.com,
+        nicolas@ndufresne.ca, laurent.pinchart@ideasonboard.com,
+        kernel@pengutronix.de
+Subject: [RESEND v2 2/3] usb: gadget: uvc: increase worker prio to WQ_HIGHPRI
+Date:   Wed,  8 Jun 2022 13:03:38 +0200
+Message-Id: <20220608110339.141036-3-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220608110339.141036-1-m.grzeschik@pengutronix.de>
+References: <20220608110339.141036-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v8 1/3] dt-bindings: phy: qcom,usb-snps-femto-v2: Add phy
- override params bindings
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Andy Gross" <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        "Matthias Kaehlcke" <mka@chromium.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>
-CC:     <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <quic_pkondeti@quicinc.com>,
-        <quic_ppratap@quicinc.com>, <quic_vpulyala@quicinc.com>,
-        Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-References: <1654066564-20518-1-git-send-email-quic_kriskura@quicinc.com>
- <1654066564-20518-2-git-send-email-quic_kriskura@quicinc.com>
- <00cf0a30-46d5-f566-af35-9f7c33ec4182@linaro.org>
-From:   Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-In-Reply-To: <00cf0a30-46d5-f566-af35-9f7c33ec4182@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Likewise to the uvcvideo hostside driver, this patch is changing the
+simple workqueue to an async_wq with higher priority. This ensures that
+the worker will not be scheduled away while the video stream is handled.
 
-On 6/8/2022 3:06 PM, Krzysztof Kozlowski wrote:
-> On 01/06/2022 08:56, Krishna Kurapati wrote:
->> From: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
->>
->> Add device tree bindings for SNPS phy tuning parameters.
->>
->> Signed-off-by: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
->> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
->> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>   .../bindings/phy/qcom,usb-snps-femto-v2.yaml       | 96 ++++++++++++++++++++++
->>   1 file changed, 96 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml b/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml
->> index 1ce251d..daeeb04 100644
->> --- a/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml
->> +++ b/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml
->> @@ -53,6 +53,102 @@ properties:
->>     vdda33-supply:
->>       description: phandle to the regulator 3.3V supply node.
->>   
->> +  qcom,hs-disconnect-bp:
->> +    description:
->> +      This adjusts the voltage level for the threshold used to
->> +      detect a disconnect event at the host. Possible values are.
->> +      The values defined are in multiples of basis points (1bp = 0.01%).
->> +      The hardware accepts only discrete values. The value closest to the
->> +      provided input will be chosen as the override value for this param.
->> +    minimum: -272
->> +    maximum: 2156
->> +
->> +  qcom,squelch-detector-bp:
->> +    description:
->> +      This adjusts the voltage level for the threshold used to
->> +      detect valid high-speed data.
->> +      The values defined are in multiples of basis points (1bp = 0.01%).
->> +      The hardware accepts only discrete values. The value closest to the
->> +      provided input will be chosen as the override value for this param.
->> +    minimum: -2090
->> +    maximum: 1590
->> +
->> +  qcom,hs-amplitude-bp:
->> +    description:
->> +      This adjusts the high-speed DC level voltage.
->> +      The values defined are in multiples of basis points (1bp = 0.01%).
->> +      The hardware accepts only discrete values. The value closest to the
->> +      provided input will be chosen as the override value for this param.
->> +    minimum: -660
->> +    maximum: 2670
->> +
->> +  qcom,pre-emphasis-duration-bp:
->> +    description:
->> +      This signal controls the duration for which the
->> +      HS pre-emphasis current is sourced onto DP<#> or DM<#>.
->> +      The HS Transmitter pre-emphasis duration is defined in terms of
->> +      unit amounts. One unit of pre-emphasis duration is approximately
->> +      650 ps and is defined as 1X pre-emphasis duration.
->> +      The values defined are in multiples of basis points (1bp = 0.01%).
->> +      The hardware accepts only discrete values. The value closest to the
->> +      provided input will be chosen as the override value for this param.
->> +    minimum: 10000
->> +    maximum: 20000
->> +
->> +  qcom,pre-emphasis-amplitude-bp:
->> +    description:
->> +      This signal controls the amount of current sourced to
->> +      DP<#> and DM<#> after a J-to-K or K-to-J transition.
->> +      The HS Transmitter pre-emphasis current is defined in terms of unit
->> +      amounts. One unit amount is approximately 2 mA and is defined as
->> +      1X pre-emphasis current.
->> +      The values defined are in multiples of basis points (1bp = 0.01%).
->> +      The hardware accepts only discrete values. The value closest to the
->> +      provided input will be chosen as the override value for this param.
->> +    minimum: 10000
->> +    maximum: 40000
->> +
->> +  qcom,hs-rise-fall-time-bp:
->> +    description:
->> +      This adjusts the rise/fall times of the high-speed waveform.
->> +      The values defined are in multiples of basis points (1bp = 0.01%).
->> +      The hardware accepts only discrete values. The value closest to the
->> +      provided input will be chosen as the override value for this param.
->> +    minimum: -4100
->> +    maximum: 5430
->> +
->> +  qcom,hs-crossover-voltage-microvolt:
->> +    description:
->> +      This adjusts the voltage at which the DP<#> and DM<#>
->> +      signals cross while transmitting in HS mode.
->> +      The values defined are in milli volts.
-> It's not accurate anymore - it's microvolt. I propose to skip this one
-> sentence, because unit is obvious from the type.
->
->> +    maximum: 28000
->> +
->> +  qcom,hs-output-impedance-micro-ohms:
->> +    description:
->> +      In some applications, there can be significant series resistance
->> +      on the D+ and D- paths between the transceiver and cable. This adjusts
->> +      the driver source impedance to compensate for added series
->> +      resistance on the USB. The values defined are in milli ohms.
-> The same. Other places might need similar change.
->
-> Best regards,
-> Krzysztof
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
-Hi Krzysztof,
+---
+v1 -> v2: - added destroy_workqueue in uvc_function_unbind
+          - reworded comment above allow_workqueue
 
-     Sure, will modify the description for all the params.
+ drivers/usb/gadget/function/f_uvc.c     | 4 ++++
+ drivers/usb/gadget/function/uvc.h       | 1 +
+ drivers/usb/gadget/function/uvc_v4l2.c  | 2 +-
+ drivers/usb/gadget/function/uvc_video.c | 9 +++++++--
+ 4 files changed, 13 insertions(+), 3 deletions(-)
 
-Regards,
-
-Krishna,
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index d3feeeb50841b8..dcc5f057810973 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -891,10 +891,14 @@ static void uvc_function_unbind(struct usb_configuration *c,
+ {
+ 	struct usb_composite_dev *cdev = c->cdev;
+ 	struct uvc_device *uvc = to_uvc(f);
++	struct uvc_video *video = &uvc->video;
+ 	long wait_ret = 1;
+ 
+ 	uvcg_info(f, "%s()\n", __func__);
+ 
++	if (video->async_wq)
++		destroy_workqueue(video->async_wq);
++
+ 	/* If we know we're connected via v4l2, then there should be a cleanup
+ 	 * of the device from userspace either via UVC_EVENT_DISCONNECT or
+ 	 * though the video device removal uevent. Allow some time for the
+diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+index 58e383afdd4406..1a31e6c6a5ffb8 100644
+--- a/drivers/usb/gadget/function/uvc.h
++++ b/drivers/usb/gadget/function/uvc.h
+@@ -88,6 +88,7 @@ struct uvc_video {
+ 	struct usb_ep *ep;
+ 
+ 	struct work_struct pump;
++	struct workqueue_struct *async_wq;
+ 
+ 	/* Frame parameters */
+ 	u8 bpp;
+diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+index fd8f73bb726dd1..fddc392b8ab95d 100644
+--- a/drivers/usb/gadget/function/uvc_v4l2.c
++++ b/drivers/usb/gadget/function/uvc_v4l2.c
+@@ -170,7 +170,7 @@ uvc_v4l2_qbuf(struct file *file, void *fh, struct v4l2_buffer *b)
+ 		return ret;
+ 
+ 	if (uvc->state == UVC_STATE_STREAMING)
+-		schedule_work(&video->pump);
++		queue_work(video->async_wq, &video->pump);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index a9bb4553db847e..9a9101851bc1e8 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -277,7 +277,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
+ 	spin_unlock_irqrestore(&video->req_lock, flags);
+ 
+ 	if (uvc->state == UVC_STATE_STREAMING)
+-		schedule_work(&video->pump);
++		queue_work(video->async_wq, &video->pump);
+ }
+ 
+ static int
+@@ -478,7 +478,7 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
+ 
+ 	video->req_int_count = 0;
+ 
+-	schedule_work(&video->pump);
++	queue_work(video->async_wq, &video->pump);
+ 
+ 	return ret;
+ }
+@@ -492,6 +492,11 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
+ 	spin_lock_init(&video->req_lock);
+ 	INIT_WORK(&video->pump, uvcg_video_pump);
+ 
++	/* Allocate a work queue for asynchronous video pump handler. */
++	video->async_wq = alloc_workqueue("uvcvideo", WQ_UNBOUND | WQ_HIGHPRI, 0);
++	if (!video->async_wq)
++		return -EINVAL;
++
+ 	video->uvc = uvc;
+ 	video->fcc = V4L2_PIX_FMT_YUYV;
+ 	video->bpp = 16;
+-- 
+2.30.2
 
