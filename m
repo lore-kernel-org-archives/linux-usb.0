@@ -2,324 +2,57 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6835CCCA47B
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 09:59:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A904BCCA47E
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 09:59:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235657AbiFHJ65 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jun 2022 05:58:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50894 "EHLO
+        id S235852AbiFHJ7v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jun 2022 05:59:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235964AbiFHJ6Z (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 05:58:25 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2806B630D;
-        Wed,  8 Jun 2022 02:31:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1654680670; x=1686216670;
-  h=message-id:date:mime-version:subject:from:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=AnYHjZy/FvZbWBNBcv5n8j2WBcm4XS/zrNABP+VAJ/g=;
-  b=SkGWWL7QMPyuh5g+MJ4GbT9fX/ZV2Ejdg7BCBSB+KfT3uZvuzWpw0mIb
-   IsugoRqoSmaWfHOpjZUGrzg+hQ7MQLDqgyr0y0g/3q8fNxL9zo+6jknqE
-   FIhVcxYFMWqDKPgGquPa8NBhMi0Fhb7JJ8bnLACaPNc9HcZQ8UuLDcb3o
-   8=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 08 Jun 2022 02:31:09 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2022 02:31:08 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 8 Jun 2022 02:31:07 -0700
-Received: from [10.216.33.38] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 8 Jun 2022
- 02:31:00 -0700
-Message-ID: <8eeae82b-1021-97e3-64c5-e2bdbdfb1f8a@quicinc.com>
-Date:   Wed, 8 Jun 2022 15:00:56 +0530
+        with ESMTP id S235698AbiFHJ7g (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 05:59:36 -0400
+X-Greylist: delayed 2400 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 08 Jun 2022 02:33:18 PDT
+Received: from mail.puregrowthonline.pl (mail.puregrowthonline.pl [51.38.124.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80F9EEAB8A
+        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 02:33:17 -0700 (PDT)
+Received: by mail.puregrowthonline.pl (Postfix, from userid 1002)
+        id AA4F1A25C9; Wed,  8 Jun 2022 08:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puregrowthonline.pl;
+        s=mail; t=1654676117;
+        bh=CSKXLMgcdpWkXuTgJn5+jsCVobtU9JEF4vCnS5z6McM=;
+        h=Date:From:To:Subject:From;
+        b=gBRJ+mRob0WoB2GkfAbeGE6qyEr/JVsOtqN6K/aW0ddWfWxr3Tn3bYk/5d7rFFHzi
+         0iyPa2QUhQx+nKAS84DXuVbpHLkbK6bfdKv0oOb7/dkc3oI0RI4/+whLpbS+xsAXvS
+         RSK3cywCKQNkZ3Va6Ziko/tbzbifPTjLkNRFC3CwLHZanQ5uVy59tl6X7lBzxUujPd
+         GumOcYtYeCPNOZow6puWjopbn6AuX9TiXRyTqjKLo/toGbUjvE8KVBEXeOmKxRHX/9
+         L4xjTpuG8jSQOdOIXSJJLW4usmXUXyyVGH0llj00WY1lq+UBUzlgcmVWnWFJmpKKlb
+         IcZii6iZluSpw==
+Received: by mail.puregrowthonline.pl for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 08:15:09 GMT
+Message-ID: <20220608064500-0.1.41.cz0k.0.dlo7kce72c@puregrowthonline.pl>
+Date:   Wed,  8 Jun 2022 08:15:09 GMT
+From:   "Wiktor Nurek" <wiktor.nurek@puregrowthonline.pl>
+To:     <linux-usb@vger.kernel.org>
+Subject: =?UTF-8?Q?Nap=C5=82yw_Klient=C3=B3w_ze_strony?=
+X-Mailer: mail.puregrowthonline.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v8 1/3] dt-bindings: phy: qcom,usb-snps-femto-v2: Add phy
- override params bindings
-Content-Language: en-US
-From:   Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        "Kishon Vijay Abraham" <kishon@ti.com>
-CC:     Andy Gross <agross@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Doug Anderson <dianders@chromium.org>,
-        "Stephen Boyd" <swboyd@chromium.org>,
-        <linux-phy@lists.infradead.org>,
-        "Matthias Kaehlcke" <mka@chromium.org>,
-        Sandeep Maheswaram <quic_c_sanm@quicinc.com>,
-        <quic_ppratap@quicinc.com>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <quic_vpulyala@quicinc.com>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <quic_pkondeti@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
-References: <1654066564-20518-1-git-send-email-quic_kriskura@quicinc.com>
- <1654066564-20518-2-git-send-email-quic_kriskura@quicinc.com>
- <1654086533.981346.3753217.nullmailer@robh.at.kernel.org>
- <20220601173326.GA3993065-robh@kernel.org>
- <5d3797bd-915f-2746-b593-1b8a3f792c5d@quicinc.com>
-In-Reply-To: <5d3797bd-915f-2746-b593-1b8a3f792c5d@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Bjorn, Krzysztof, Vinod, Kishon,
+Dzie=C5=84 dobry,
+
+chcia=C5=82bym poinformowa=C4=87 Pa=C5=84stwa o mo=C5=BCliwo=C5=9Bci pozy=
+skania nowych zlece=C5=84 ze strony www.
+
+Widzimy zainteresowanie potencjalnych Klient=C3=B3w Pa=C5=84stwa firm=C4=85=
+, dlatego ch=C4=99tnie pomo=C5=BCemy Pa=C5=84stwu dotrze=C4=87 z ofert=C4=
+=85 do wi=C4=99kszego grona odbiorc=C3=B3w poprzez efektywne metody pozyc=
+jonowania strony w Google.
+
+Czy m=C3=B3g=C5=82bym liczy=C4=87 na kontakt zwrotny?
 
 
-   Can you please help provide your inputs/review on this patch series.
-
-
-Regards,
-
-Krishna,
-
-
-On 6/1/2022 11:06 PM, Krishna Kurapati PSSNV wrote:
-> Thanks Rob !
->
->
-> On 6/1/2022 11:03 PM, Rob Herring wrote:
->> On Wed, Jun 01, 2022 at 07:28:53AM -0500, Rob Herring wrote:
->>> On Wed, 01 Jun 2022 12:26:02 +0530, Krishna Kurapati wrote:
->>>> From: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
->>>>
->>>> Add device tree bindings for SNPS phy tuning parameters.
->>>>
->>>> Signed-off-by: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
->>>> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
->>>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>> ---
->>>>   .../bindings/phy/qcom,usb-snps-femto-v2.yaml       | 96 
->>>> ++++++++++++++++++++++
->>>>   1 file changed, 96 insertions(+)
->>>>
->>> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
->>> on your patch (DT_CHECKER_FLAGS is new in v5.13):
->>>
->>> yamllint warnings/errors:
->>>
->>> dtschema/dtc warnings/errors:
->>> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,hs-rise-fall-time-bp: 'oneOf' conditional failed, 
->>> one must be fixed:
->>>     'type' is a required property
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     Additional properties are not allowed ('maximum', 'minimum' were 
->>> unexpected)
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,hs-rise-fall-time-bp: 'oneOf' conditional failed, 
->>> one must be fixed:
->>>         'enum' is a required property
->>>         'const' is a required property
->>>         hint: A vendor string property with exact values has an 
->>> implicit type
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,hs-rise-fall-time-bp: 'oneOf' conditional failed, 
->>> one must be fixed:
->>>         '$ref' is a required property
->>>         'allOf' is a required property
->>>         hint: A vendor property needs a $ref to types.yaml
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     hint: Vendor specific properties must have a type and 
->>> description unless they have a defined, common suffix.
->>>     from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,ls-fs-output-impedance-bp: 'oneOf' conditional 
->>> failed, one must be fixed:
->>>     'type' is a required property
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     Additional properties are not allowed ('maximum', 'minimum' were 
->>> unexpected)
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,ls-fs-output-impedance-bp: 'oneOf' conditional 
->>> failed, one must be fixed:
->>>         'enum' is a required property
->>>         'const' is a required property
->>>         hint: A vendor string property with exact values has an 
->>> implicit type
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,ls-fs-output-impedance-bp: 'oneOf' conditional 
->>> failed, one must be fixed:
->>>         '$ref' is a required property
->>>         'allOf' is a required property
->>>         hint: A vendor property needs a $ref to types.yaml
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     hint: Vendor specific properties must have a type and 
->>> description unless they have a defined, common suffix.
->>>     from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,pre-emphasis-amplitude-bp: 'oneOf' conditional 
->>> failed, one must be fixed:
->>>     'type' is a required property
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     Additional properties are not allowed ('maximum', 'minimum' were 
->>> unexpected)
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,pre-emphasis-amplitude-bp: 'oneOf' conditional 
->>> failed, one must be fixed:
->>>         'enum' is a required property
->>>         'const' is a required property
->>>         hint: A vendor string property with exact values has an 
->>> implicit type
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,pre-emphasis-amplitude-bp: 'oneOf' conditional 
->>> failed, one must be fixed:
->>>         '$ref' is a required property
->>>         'allOf' is a required property
->>>         hint: A vendor property needs a $ref to types.yaml
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     hint: Vendor specific properties must have a type and 
->>> description unless they have a defined, common suffix.
->>>     from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,squelch-detector-bp: 'oneOf' conditional failed, one 
->>> must be fixed:
->>>     'type' is a required property
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     Additional properties are not allowed ('maximum', 'minimum' were 
->>> unexpected)
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,squelch-detector-bp: 'oneOf' conditional failed, one 
->>> must be fixed:
->>>         'enum' is a required property
->>>         'const' is a required property
->>>         hint: A vendor string property with exact values has an 
->>> implicit type
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,squelch-detector-bp: 'oneOf' conditional failed, one 
->>> must be fixed:
->>>         '$ref' is a required property
->>>         'allOf' is a required property
->>>         hint: A vendor property needs a $ref to types.yaml
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     hint: Vendor specific properties must have a type and 
->>> description unless they have a defined, common suffix.
->>>     from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,hs-disconnect-bp: 'oneOf' conditional failed, one 
->>> must be fixed:
->>>     'type' is a required property
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     Additional properties are not allowed ('maximum', 'minimum' were 
->>> unexpected)
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,hs-disconnect-bp: 'oneOf' conditional failed, one 
->>> must be fixed:
->>>         'enum' is a required property
->>>         'const' is a required property
->>>         hint: A vendor string property with exact values has an 
->>> implicit type
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,hs-disconnect-bp: 'oneOf' conditional failed, one 
->>> must be fixed:
->>>         '$ref' is a required property
->>>         'allOf' is a required property
->>>         hint: A vendor property needs a $ref to types.yaml
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     hint: Vendor specific properties must have a type and 
->>> description unless they have a defined, common suffix.
->>>     from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,hs-amplitude-bp: 'oneOf' conditional failed, one 
->>> must be fixed:
->>>     'type' is a required property
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     Additional properties are not allowed ('maximum', 'minimum' were 
->>> unexpected)
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,hs-amplitude-bp: 'oneOf' conditional failed, one 
->>> must be fixed:
->>>         'enum' is a required property
->>>         'const' is a required property
->>>         hint: A vendor string property with exact values has an 
->>> implicit type
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,hs-amplitude-bp: 'oneOf' conditional failed, one 
->>> must be fixed:
->>>         '$ref' is a required property
->>>         'allOf' is a required property
->>>         hint: A vendor property needs a $ref to types.yaml
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     hint: Vendor specific properties must have a type and 
->>> description unless they have a defined, common suffix.
->>>     from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,pre-emphasis-duration-bp: 'oneOf' conditional 
->>> failed, one must be fixed:
->>>     'type' is a required property
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     Additional properties are not allowed ('maximum', 'minimum' were 
->>> unexpected)
->>>         hint: A vendor boolean property can use "type: boolean"
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,pre-emphasis-duration-bp: 'oneOf' conditional 
->>> failed, one must be fixed:
->>>         'enum' is a required property
->>>         'const' is a required property
->>>         hint: A vendor string property with exact values has an 
->>> implicit type
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> properties:qcom,pre-emphasis-duration-bp: 'oneOf' conditional 
->>> failed, one must be fixed:
->>>         '$ref' is a required property
->>>         'allOf' is a required property
->>>         hint: A vendor property needs a $ref to types.yaml
->>>         from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>>     hint: Vendor specific properties must have a type and 
->>> description unless they have a defined, common suffix.
->>>     from schema $id: 
->>> http://devicetree.org/meta-schemas/vendor-props.yaml#
->>> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml: 
->>> ignoring, error in schema: properties: qcom,hs-rise-fall-time-bp
->>> Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.example.dtb:0:0: 
->>> /example-0/phy@88e2000: failed to match any schema with compatible: 
->>> ['qcom,sm8150-usb-hs-phy']
->> Ignore these. A tool issue which is now fixed.
->>
->> Rob
+Pozdrawiam serdecznie,
+Wiktor Nurek
