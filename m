@@ -2,188 +2,100 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CEA5C433EF
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 10:01:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79B4BCCA47B
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 10:02:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235470AbiFHKB3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jun 2022 06:01:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50442 "EHLO
+        id S236056AbiFHKCb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jun 2022 06:02:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235722AbiFHKAf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 06:00:35 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8754D222B3
-        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 02:36:27 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id v25so26278556eda.6
-        for <linux-usb@vger.kernel.org>; Wed, 08 Jun 2022 02:36:27 -0700 (PDT)
+        with ESMTP id S235995AbiFHKCM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 06:02:12 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FB34EBEAE
+        for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 02:39:03 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id s13so22075418ljd.4
+        for <linux-usb@vger.kernel.org>; Wed, 08 Jun 2022 02:39:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=eI4rRuIF5rwXNrtStQNZCOGZWwsWfQkS5JLBX7fWVXQ=;
-        b=DRxCBnOFXtFvXDB08Qu2T1k921VY6qvaJVNLpoCyU0XijkcKt5mfQl5JSSJvkoo08u
-         8Cnp+cSjN747ozsJLyWF2jGta2Vm92/pWAJfM3gnGC6INl0qkuXS5QGYxT+0bh8WZedZ
-         RiUV7ELu1zvO86fy8VHFet50nvw7jNk1Rvcg8an/xzgDGwfpIWQKX62OUDuECECcejwa
-         BAusj4YBGjftykGx4pcb39RkMzT5yH25BhynJ+VAjWWbq1I5Gm8q3n7TAb+Q/CS8Dyfj
-         5cMg14rbj3Q3OPiUYo/Vzjp+6G36z32cjdwsCFScEBs0VgGirlHlmbBqfyZ6h1NmDNy4
-         85ww==
+        bh=SrlI4ZvXPd3nh0rndjvVL6Gx8d3Y95ZMZayBrSBcgeQ=;
+        b=atMyedj0dOYvk+JBr3HCDOyqLSt+AA/oNNjjWmMnazdMjIIKmii04wFv/xxg5gqiJx
+         t+lgQujSvTPRA1U6iIqe3sOvzuGq3xUOk1P6qbGrbWaJS8SavEHqyaL7FNLbwCpwoA/V
+         3bAkj8eXhMuxwKHgLNcSx8tVM0fsjpHhz54O1x/BNTnpqWEzXku5UzG4+NhqoiBodt41
+         gWEC1sNoKTRrvNCzqqqG3ld++axUQnObLxbXnFNPLiri5fh/pGeTSnFLek60hiIx+sWm
+         +tm/PNy2GCWBJRwO7nlgSEe6Zdfmodq6IZ1ZsVKIJJyyaTqedKEJHfoklslduSkdLdJd
+         HkQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=eI4rRuIF5rwXNrtStQNZCOGZWwsWfQkS5JLBX7fWVXQ=;
-        b=Pw528xibscakaABTP8Wdxmcn5ZkPapjgacZc8Cw9bKQka4xF3s3om19U97NoIjYHFK
-         IR89BscvEUcDlFgUY/qEjNYwDjpHx4lFdYIOYj+nMitgmkGQ4VWO4DIl4YOqa1MxkrvB
-         FZBXMHfQgmOtrwc8+v20e8m1Tkiu+EMuvXSDfxNmtrYqICr12RDLuX9GXl//7Z/SWc5+
-         MHJntq3dQtwjv3qJA9C4NYbwKAPwNgBdbCwpO0+ut7xgHnYskFBRp7lfTiWjuh3pUXyF
-         c2DvGpfrLgqUABFTLzA+0MZLH5tiYiy2SUkWJC1OtoXtca6B13Y3/VNmT1exuhcCIsCL
-         vQpQ==
-X-Gm-Message-State: AOAM533cu/ORgr2z2vpn78u5YfciTa26XjMBdZmvNU6Um3qJRSGikSvU
-        9cwjmpJqdBPXZ4gOtsTRCzfqoA==
-X-Google-Smtp-Source: ABdhPJx2vRZB9jUOwfNQSE3tD1mYIxgaNMiVS9zySc4nX10DE5LPoeunwV0M4wGchyKlmJW2htL1uA==
-X-Received: by 2002:a05:6402:1d51:b0:41f:cf6c:35a5 with SMTP id dz17-20020a0564021d5100b0041fcf6c35a5mr38740410edb.25.1654680986080;
-        Wed, 08 Jun 2022 02:36:26 -0700 (PDT)
+        bh=SrlI4ZvXPd3nh0rndjvVL6Gx8d3Y95ZMZayBrSBcgeQ=;
+        b=lHaw+QnLEcmGYxH/NsN3e4RYWrJrqL9n5pB3OindyhpJBenoT2val2leI3HxvuBz3b
+         MU9SX1Z1cTYjmcK4IokF6iA3vj/NFcosibwINJ49lGAHMLzcytw4J0bqhjoa1Hy9NHlu
+         Br7dgyLLzlxCiY/njtIXUiz72gzWoJEKsEr0baArR7ijU5v2KwJVEfo9eN0Y6lLSzeaE
+         aOKyQt6C+ZcvU7w7ii7dDV+FlRlmEn9j+eiOIkgwG6rMo6eY/VgIPKieBuzdVydTMSRv
+         cqO8VMeijtDwYRVUZ+aB61DdUdwMA25IDwZiVQOpusGZgPfxgJuQ3+CsqsqJrP4Srd6b
+         +fLQ==
+X-Gm-Message-State: AOAM530R0N81wB8ttaKIYbhJO+4ENm4HP0tyTM1BjVIGQlJ1DfK9tGj/
+        0vZJ7+bKg1MGcI4rfC6Upvhf3lAYhAUDRQ==
+X-Google-Smtp-Source: ABdhPJzPvCE2V+oC6R6Q3XAgbksIercChbK0pggFgPN+nrTQ+0XM2KKykuJxK35mOb8/wc0XtF9v9Q==
+X-Received: by 2002:a05:6402:190d:b0:431:4e5d:d780 with SMTP id e13-20020a056402190d00b004314e5dd780mr19911641edz.279.1654681126880;
+        Wed, 08 Jun 2022 02:38:46 -0700 (PDT)
 Received: from [192.168.0.191] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id fg24-20020a1709069c5800b006fe9ec4ba9esm8735506ejc.52.2022.06.08.02.36.24
+        by smtp.gmail.com with ESMTPSA id o22-20020a170906359600b007041e969a8asm8725808ejb.97.2022.06.08.02.38.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jun 2022 02:36:25 -0700 (PDT)
-Message-ID: <00cf0a30-46d5-f566-af35-9f7c33ec4182@linaro.org>
-Date:   Wed, 8 Jun 2022 11:36:24 +0200
+        Wed, 08 Jun 2022 02:38:43 -0700 (PDT)
+Message-ID: <b30c9948-04b8-fbcb-48aa-d65510df4aee@linaro.org>
+Date:   Wed, 8 Jun 2022 11:38:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
 Subject: Re: [PATCH v8 1/3] dt-bindings: phy: qcom,usb-snps-femto-v2: Add phy
  override params bindings
 Content-Language: en-US
-To:     Krishna Kurapati <quic_kriskura@quicinc.com>,
+To:     Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham <kishon@ti.com>
+Cc:     Andy Gross <agross@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stephen Boyd <swboyd@chromium.org>,
         Doug Anderson <dianders@chromium.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-phy@lists.infradead.org,
         Matthias Kaehlcke <mka@chromium.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>
-Cc:     devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-phy@lists.infradead.org, quic_pkondeti@quicinc.com,
-        quic_ppratap@quicinc.com, quic_vpulyala@quicinc.com,
-        Sandeep Maheswaram <quic_c_sanm@quicinc.com>
+        Sandeep Maheswaram <quic_c_sanm@quicinc.com>,
+        quic_ppratap@quicinc.com, linux-usb@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, quic_vpulyala@quicinc.com,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        quic_pkondeti@quicinc.com, Wesley Cheng <quic_wcheng@quicinc.com>
 References: <1654066564-20518-1-git-send-email-quic_kriskura@quicinc.com>
  <1654066564-20518-2-git-send-email-quic_kriskura@quicinc.com>
+ <1654086533.981346.3753217.nullmailer@robh.at.kernel.org>
+ <20220601173326.GA3993065-robh@kernel.org>
+ <5d3797bd-915f-2746-b593-1b8a3f792c5d@quicinc.com>
+ <8eeae82b-1021-97e3-64c5-e2bdbdfb1f8a@quicinc.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1654066564-20518-2-git-send-email-quic_kriskura@quicinc.com>
+In-Reply-To: <8eeae82b-1021-97e3-64c5-e2bdbdfb1f8a@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 01/06/2022 08:56, Krishna Kurapati wrote:
-> From: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
+On 08/06/2022 11:30, Krishna Kurapati PSSNV wrote:
+> Hi Bjorn, Krzysztof, Vinod, Kishon,
 > 
-> Add device tree bindings for SNPS phy tuning parameters.
 > 
-> Signed-off-by: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../bindings/phy/qcom,usb-snps-femto-v2.yaml       | 96 ++++++++++++++++++++++
->  1 file changed, 96 insertions(+)
+>    Can you please help provide your inputs/review on this patch series.
 > 
-> diff --git a/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml b/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml
-> index 1ce251d..daeeb04 100644
-> --- a/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml
-> +++ b/Documentation/devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml
-> @@ -53,6 +53,102 @@ properties:
->    vdda33-supply:
->      description: phandle to the regulator 3.3V supply node.
->  
-> +  qcom,hs-disconnect-bp:
-> +    description:
-> +      This adjusts the voltage level for the threshold used to
-> +      detect a disconnect event at the host. Possible values are.
-> +      The values defined are in multiples of basis points (1bp = 0.01%).
-> +      The hardware accepts only discrete values. The value closest to the
-> +      provided input will be chosen as the override value for this param.
-> +    minimum: -272
-> +    maximum: 2156
-> +
-> +  qcom,squelch-detector-bp:
-> +    description:
-> +      This adjusts the voltage level for the threshold used to
-> +      detect valid high-speed data.
-> +      The values defined are in multiples of basis points (1bp = 0.01%).
-> +      The hardware accepts only discrete values. The value closest to the
-> +      provided input will be chosen as the override value for this param.
-> +    minimum: -2090
-> +    maximum: 1590
-> +
-> +  qcom,hs-amplitude-bp:
-> +    description:
-> +      This adjusts the high-speed DC level voltage.
-> +      The values defined are in multiples of basis points (1bp = 0.01%).
-> +      The hardware accepts only discrete values. The value closest to the
-> +      provided input will be chosen as the override value for this param.
-> +    minimum: -660
-> +    maximum: 2670
-> +
-> +  qcom,pre-emphasis-duration-bp:
-> +    description:
-> +      This signal controls the duration for which the
-> +      HS pre-emphasis current is sourced onto DP<#> or DM<#>.
-> +      The HS Transmitter pre-emphasis duration is defined in terms of
-> +      unit amounts. One unit of pre-emphasis duration is approximately
-> +      650 ps and is defined as 1X pre-emphasis duration.
-> +      The values defined are in multiples of basis points (1bp = 0.01%).
-> +      The hardware accepts only discrete values. The value closest to the
-> +      provided input will be chosen as the override value for this param.
-> +    minimum: 10000
-> +    maximum: 20000
-> +
-> +  qcom,pre-emphasis-amplitude-bp:
-> +    description:
-> +      This signal controls the amount of current sourced to
-> +      DP<#> and DM<#> after a J-to-K or K-to-J transition.
-> +      The HS Transmitter pre-emphasis current is defined in terms of unit
-> +      amounts. One unit amount is approximately 2 mA and is defined as
-> +      1X pre-emphasis current.
-> +      The values defined are in multiples of basis points (1bp = 0.01%).
-> +      The hardware accepts only discrete values. The value closest to the
-> +      provided input will be chosen as the override value for this param.
-> +    minimum: 10000
-> +    maximum: 40000
-> +
-> +  qcom,hs-rise-fall-time-bp:
-> +    description:
-> +      This adjusts the rise/fall times of the high-speed waveform.
-> +      The values defined are in multiples of basis points (1bp = 0.01%).
-> +      The hardware accepts only discrete values. The value closest to the
-> +      provided input will be chosen as the override value for this param.
-> +    minimum: -4100
-> +    maximum: 5430
-> +
-> +  qcom,hs-crossover-voltage-microvolt:
-> +    description:
-> +      This adjusts the voltage at which the DP<#> and DM<#>
-> +      signals cross while transmitting in HS mode.
-> +      The values defined are in milli volts.
 
-It's not accurate anymore - it's microvolt. I propose to skip this one
-sentence, because unit is obvious from the type.
-
-> +    maximum: 28000
-> +
-> +  qcom,hs-output-impedance-micro-ohms:
-> +    description:
-> +      In some applications, there can be significant series resistance
-> +      on the D+ and D- paths between the transceiver and cable. This adjusts
-> +      the driver source impedance to compensate for added series
-> +      resistance on the USB. The values defined are in milli ohms.
-
-The same. Other places might need similar change.
+You got my review tag on the patch and Rob confirmed that
+automated-tool-warning can be ignored. I can take a look at phy code and
+do a code-style review, but I don't know (yet) much about Qualcomm PHYs.
 
 Best regards,
 Krzysztof
