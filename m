@@ -2,38 +2,38 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57D93C43334
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 08:35:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21013C43334
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jun 2022 08:35:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231998AbiFHIe4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jun 2022 04:34:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37190 "EHLO
+        id S231759AbiFHIey (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jun 2022 04:34:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232041AbiFHIdj (ORCPT
+        with ESMTP id S232023AbiFHIdj (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Jun 2022 04:33:39 -0400
 Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1112917856D
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1084E176D4A
         for <linux-usb@vger.kernel.org>; Wed,  8 Jun 2022 00:54:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1654671954; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1654671927; cv=none; 
         d=zohomail.com; s=zohoarc; 
-        b=QBYaXVSrh0KHPaoowHgjYi0kdMbKz9bfxBVEjUFYqcf8Bv+wgjTHbquhmw5vHzoqSXf+TGUJ5f3ItBmiD96AfyryitQ46fUgfLwIe0HvZzqL0DboR9ys6+5VBJ9TNKRv/4nmg3UJ8YDgkwEPUTc2m/JTFvUdb0Igrz8Xv5gu7Yw=
+        b=cpfPiy1oP6qeyu346ymxsJ7shCsbjhbf6cLbMgiYSAbtOzc/t75Oli8vQCvUz3lk36Lk3/bGt19dIEoZb5TwAhkhMIUzewEq5tFGdLKdFKXUeyMG0xkBr6KuWrhm0thG9Yj4hSHKCk/xdXmn/+02wp6f33+p+JUM462hItgBhUE=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1654671954; h=Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=bK+qygT/W8e7IdMMhLssT6sOTIHj4DjaVCfrAGmo3wY=; 
-        b=GqG8SBbImRgbseNAloTdvbc0H4UilPdE75MRoH1taHqrXPebJTd26jXsgf50nnhfRvVbWzGWQVdkHePb7KSyq8nFBqg6eLASVY2dNg1EQIQLCk44SF1FmWMhGNRJw2SgXGCH6javF4pXkpgXOUGevPmC+Ps9AhcmEvaTpEJn0Rg=
+        t=1654671927; h=Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=MtfJNwoHvECpOHH8HhSZ1SO+XHfKXwwR1b5+QWHvHTo=; 
+        b=Zy+FhDx1LtjdGAPjDg+Q+l6vjrap1WTpgRZRulO9Saz2UdS8Nu2qdZYPk6ebkwnxomTD/vZzd493vgswV6psSUo2uLcj4SvgRNlD/o+mk2Y+kFtENJlqR83SAyUwK3EY+zqbnc4Oo0RuSAveB+XoW1pWR/1fQKiGXR5fqa7Jz2g=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
         dkim=pass  header.i=icenowy.me;
         spf=pass  smtp.mailfrom=uwu@icenowy.me;
         dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1654671954;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1654671927;
         s=zmail; d=icenowy.me; i=uwu@icenowy.me;
         h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
-        bh=bK+qygT/W8e7IdMMhLssT6sOTIHj4DjaVCfrAGmo3wY=;
-        b=EIQ6oOQk03dtkmAYYWCnH09Ex0X5yuigfdvdPWL53oPg5rAxSm0GGIVXAsWEesAG
-        qNIz4lceQ9oXGQiDS0Fecr5q+3SioH4bTppeCuL4yfYPQTQx/kZcPS+5XWoFteGNflu
-        vsfBNqT6Yx12CXQYIg72dZ6d7U4Ne71w7IFeHyuY=
+        bh=MtfJNwoHvECpOHH8HhSZ1SO+XHfKXwwR1b5+QWHvHTo=;
+        b=GQybyZFTdzqeCuwxJzFyGpHsh6ITCeokWQjKuilXYSudSAW3YtAA1nVTCMU8irgc
+        EaUKZ+qb5Kp1ohVWU9OXh4q6MiFJN+qpTzf2EI+uHoKvLcdya2uVgM/gdTJ/8cMFd7V
+        Sl+J05D2H82qV52UshkicHNCQ/DWcpXbiQnI6tzk=
 Received: from edelgard.icenowy.me (59.41.163.66 [59.41.163.66]) by mx.zohomail.com
-        with SMTPS id 1654671953211498.9764845551447; Wed, 8 Jun 2022 00:05:53 -0700 (PDT)
+        with SMTPS id 165467192492424.387571387580692; Wed, 8 Jun 2022 00:05:24 -0700 (PDT)
 From:   Icenowy Zheng <uwu@icenowy.me>
 To:     Kishon Vijay Abraham I <kishon@ti.com>,
         Vinod Koul <vkoul@kernel.org>,
@@ -45,10 +45,10 @@ To:     Kishon Vijay Abraham I <kishon@ti.com>,
 Cc:     linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-        Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH 6/7] ARM: suniv: add USB-related device nodes
-Date:   Wed,  8 Jun 2022 15:04:51 +0800
-Message-Id: <20220608070452.338006-7-uwu@icenowy.me>
+        Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH 3/7] dt-bindings: usb: sunxi-musb: add F1C100s MUSB compatible string
+Date:   Wed,  8 Jun 2022 15:04:48 +0800
+Message-Id: <20220608070452.338006-4-uwu@icenowy.me>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220608070452.338006-1-uwu@icenowy.me>
 References: <20220608070452.338006-1-uwu@icenowy.me>
@@ -59,55 +59,28 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Icenowy Zheng <icenowy@aosc.io>
+Allwinner F1C100s has a hybrid MUSB controller between the A10 one and
+the A33 one.
 
-The suniv SoC has a USB OTG controller and a USB PHY like other
-Allwinner SoCs.
+Add a compatible string for it.
 
-Add their device tree node.
-
-Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 ---
- arch/arm/boot/dts/suniv-f1c100s.dtsi | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ .../devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml        | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-index 0edc1724407b..a01541ba42c5 100644
---- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-+++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-@@ -133,6 +133,32 @@ mmc1: mmc@1c10000 {
- 			#size-cells = <0>;
- 		};
- 
-+		usb_otg: usb@1c13000 {
-+			compatible = "allwinner,suniv-f1c100s-musb";
-+			reg = <0x01c13000 0x0400>;
-+			clocks = <&ccu CLK_BUS_OTG>;
-+			resets = <&ccu RST_BUS_OTG>;
-+			interrupts = <26>;
-+			interrupt-names = "mc";
-+			phys = <&usbphy 0>;
-+			phy-names = "usb";
-+			extcon = <&usbphy 0>;
-+			allwinner,sram = <&otg_sram 1>;
-+			status = "disabled";
-+		};
-+
-+		usbphy: phy@1c13400 {
-+			compatible = "allwinner,suniv-f1c100s-usb-phy";
-+			reg = <0x01c13400 0x10>;
-+			reg-names = "phy_ctrl";
-+			clocks = <&ccu CLK_USB_PHY0>;
-+			clock-names = "usb0_phy";
-+			resets = <&ccu RST_USB_PHY0>;
-+			reset-names = "usb0_reset";
-+			#phy-cells = <1>;
-+			status = "disabled";
-+		};
-+
- 		ccu: clock@1c20000 {
- 			compatible = "allwinner,suniv-f1c100s-ccu";
- 			reg = <0x01c20000 0x400>;
+diff --git a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
+index 933fa356d2ce..144f562f2591 100644
+--- a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
++++ b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
+@@ -17,6 +17,7 @@ properties:
+       - const: allwinner,sun6i-a31-musb
+       - const: allwinner,sun8i-a33-musb
+       - const: allwinner,sun8i-h3-musb
++      - const: allwinner,suniv-f1c100s-musb
+       - items:
+           - enum:
+               - allwinner,sun8i-a83t-musb
 -- 
 2.36.0
 
