@@ -2,72 +2,95 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CA61C43334
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Jun 2022 12:23:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63668C43334
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Jun 2022 12:28:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235883AbiFIMXe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Jun 2022 08:23:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37658 "EHLO
+        id S234862AbiFIM2G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Jun 2022 08:28:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234554AbiFIMXO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Jun 2022 08:23:14 -0400
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B318B393D7
-        for <linux-usb@vger.kernel.org>; Thu,  9 Jun 2022 05:23:13 -0700 (PDT)
-Received: by mail-il1-f200.google.com with SMTP id w7-20020a056e021c8700b002d3bc8e95cbso17593128ill.3
-        for <linux-usb@vger.kernel.org>; Thu, 09 Jun 2022 05:23:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=Cqa5lqsjEiB4OaqqzUaqVfFFKeV1C32L8SOc23gcEU0=;
-        b=zapDN1XKoE3/fHkwVmjk8K5ZgJwTr7p4GcBdHTnrkr4Yq51tmglsiK99Yq2S4Xropr
-         NC2N2dL3Tns4CKN65OeAVDx42K5csQZdsoZERnGvC/07RMRu15uV9rBwmN+GpVzhH01c
-         sdx8/+g0XUo35en5qkoRrmqwV87xCyGI9UcMuS1s8dCK2VydJ5zGtW5LhNUWFvVJXQnN
-         b3m1lkNtU9Osuew1Fwa4uSUo/By2C6W7k5OoYBYnRN0QYanFr7MlgCsWTuaW2h2s9OB+
-         40Z6h2dR5ED0smee1IitWaPiCrlZ7f19SvLpaBaS+KfDQfZFFL5ImG4p/qsJh0av8nf2
-         H5pQ==
-X-Gm-Message-State: AOAM532YOsO/QS+8D/7Ni8crNvwGnB2NN1OENCCuM/S4rOEPom5gyzNK
-        SBFZNzp6v2WkDfCHui8fIBbqoqq4FhcPrLTJauZcw1Ujuch6
-X-Google-Smtp-Source: ABdhPJz7RQMxGYxkvxvtTJnOwb+mbJVrz7KfGsAUKFYfMNGMIc+OzaGjjCWW4tV0z15ZFOJkXGhBvFgkmizSa3m4viNqmuCnCzPn
+        with ESMTP id S238220AbiFIM17 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Jun 2022 08:27:59 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F7AF13F69
+        for <linux-usb@vger.kernel.org>; Thu,  9 Jun 2022 05:27:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A6024B82D59
+        for <linux-usb@vger.kernel.org>; Thu,  9 Jun 2022 12:27:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C2D9C34114;
+        Thu,  9 Jun 2022 12:27:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654777674;
+        bh=4zWmIuzaveCjfGj6bsFDRPiaXBvKYmrvO1tUI/f7e6Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FLGFPKYc27kjyD0Letb08zbBarWFqOwamd7dMXb/z9HrePQCszBtqAzwA/N7rn6uF
+         cTW8D6sEZJBddGKPTgnQwi9jD6J+v1XwsOEJU7M7wVlPtqZCfOomTgFklFHYmw6tbs
+         wbvDym5DOtZrtbvAK8La0W49cgx4ffBG9vUxbjQRJGA/Skm7Btgtx8BdQe+nE+7Kt0
+         Lq/f/tc86meYBKR3u0c7jd64PSo8lfcP1YzZc+53uri3W1iE7lWcmBHHgRQl/ifSun
+         W6vNyfuJ0Jf72IZAs6bDwrbHZbpHs++tgeF45GtjN44SYIwSrovPwS86kW0oc41wwk
+         IKCG41d/jNLiQ==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1nzHGQ-0002Jj-9j; Thu, 09 Jun 2022 14:27:50 +0200
+Date:   Thu, 9 Jun 2022 14:27:50 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Carlo Lobrano <c.lobrano@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, Daniele Palmas <dnlplm@gmail.com>
+Subject: Re: [PATCH v3] USB: serial: option: Add Telit LE910Cx 0x1250
+ composition
+Message-ID: <YqHnRmX3+uiobENy@hovoldconsulting.com>
+References: <20220531102301.13435-1-c.lobrano@gmail.com>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:1646:b0:669:89a6:32c6 with SMTP id
- y6-20020a056602164600b0066989a632c6mr4898872iow.203.1654777393073; Thu, 09
- Jun 2022 05:23:13 -0700 (PDT)
-Date:   Thu, 09 Jun 2022 05:23:13 -0700
-In-Reply-To: <000000000000e2fc6405d3061843@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b252fe05e102e228@google.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in cdc_ncm_tx_fixup
-From:   syzbot <syzbot+5ec3d1378e31c88d87f4@syzkaller.appspotmail.com>
-To:     davem@davemloft.net, fgheet255t@gmail.com, hdanton@sina.com,
-        kuba@kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, lukas@wunner.de, netdev@vger.kernel.org,
-        oliver@neukum.org, oneukum@suse.com,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220531102301.13435-1-c.lobrano@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-syzbot suspects this issue was fixed by commit:
+On Tue, May 31, 2022 at 12:23:01PM +0200, Carlo Lobrano wrote:
+> Add support for the following Telit LE910Cx composition:
+> 
+> 0x1250: rmnet, tty, tty, tty, tty
+> 
+> Signed-off-by: Carlo Lobrano <c.lobrano@gmail.com>
+> ---
+> v3: - fix subject prefix and modem name (s/LN910Cx/LE910Cx)
+>     - more descriptive e-mail content
+> v2: use RSVD in place of NCTRL for interface 0 (rmnet)
 
-commit d1408f6b4dd78fb1b9e26bcf64477984e5f85409
-Author: Lukas Wunner <lukas@wunner.de>
-Date:   Thu May 12 08:42:01 2022 +0000
+Thanks for the update (and thanks for reviewing, Daniele).
 
-    usbnet: Run unregister_netdev() before unbind() again
+You forgot to include the lsusb output in v2 and v3 but I found it here:
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=122a4b57f00000
-start commit:   330f4c53d3c2 ARM: fix build error when BPF_SYSCALL is disa..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=aba0ab2928a512c2
-dashboard link: https://syzkaller.appspot.com/bug?extid=5ec3d1378e31c88d87f4
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=135ca155700000
+	https://lore.kernel.org/r/20220528073445.50066-1-c.lobrano@gmail.com
 
-If the result looks correct, please mark the issue as fixed by replying with:
+>  drivers/usb/serial/option.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+> index 152ad882657d..cd9aa61ec801 100644
+> --- a/drivers/usb/serial/option.c
+> +++ b/drivers/usb/serial/option.c
+> @@ -1275,6 +1275,8 @@ static const struct usb_device_id option_ids[] = {
+>  	  .driver_info = NCTRL(0) | RSVD(1) | RSVD(2) },
+>  	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x1231, 0xff),	/* Telit LE910Cx (RNDIS) */
+>  	  .driver_info = NCTRL(2) | RSVD(3) },
+> +	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x1250, 0xff),	/* Telit LE910Cx (rmnet) */
+> +	  .driver_info = RSVD(0) },
 
-#syz fix: usbnet: Run unregister_netdev() before unbind() again
+Looks you can match on the interface SubClass and Protocol using
+USB_DEVICE_INFO() and avoid using RSVD() here which is preferred when
+possible.
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+>  	{ USB_DEVICE(TELIT_VENDOR_ID, 0x1260),
+>  	  .driver_info = NCTRL(0) | RSVD(1) | RSVD(2) },
+>  	{ USB_DEVICE(TELIT_VENDOR_ID, 0x1261),
+
+Care to respin a v4? You can keep Daniele's reviewed-by tag when
+resending (i.e. include it before your SoB).
+
+Johan
