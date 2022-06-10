@@ -2,111 +2,118 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9DF6C433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Jun 2022 03:51:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED67CCCA47E
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Jun 2022 06:46:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346263AbiFJDve (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Jun 2022 23:51:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43378 "EHLO
+        id S1346455AbiFJGqf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Jun 2022 02:46:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346258AbiFJDvb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Jun 2022 23:51:31 -0400
-X-Greylist: delayed 911 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 09 Jun 2022 20:51:28 PDT
-Received: from m13114.mail.163.com (m13114.mail.163.com [220.181.13.114])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5BF9838A976;
-        Thu,  9 Jun 2022 20:51:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=EHbfP
-        YW8sO2DBQfaT1HzvDEAu3fnx4+80a/36SmxcVc=; b=JSTsrIOPGWBDs6DGr53X9
-        mva0cVHbz/g3NWGCQLZlAHLOv5ZTSmVoFmvmQG/vUsP3i437QAhHi2N2YHQNY6oJ
-        XWvQyH5L/rS+rhIOAS8sfqpIoh8yLf9mcgoON9w6dUpvjeV0itMdy14TuZLExeQ2
-        r/iKEDhlrPPpaPcqUj15BU=
-Received: from slark_xiao$163.com ( [43.134.191.38] ) by
- ajax-webmail-wmsvr114 (Coremail) ; Fri, 10 Jun 2022 11:35:42 +0800 (CST)
-X-Originating-IP: [43.134.191.38]
-Date:   Fri, 10 Jun 2022 11:35:42 +0800 (CST)
-From:   "Slark Xiao" <slark_xiao@163.com>
-To:     "Johan Hovold" <johan@kernel.org>
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH] USB: serial: option: add support for Cinterion MV31
- with new baseline
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 163com
-In-Reply-To: <YqHpNAaY/Oez8TrJ@hovoldconsulting.com>
-References: <20220601034740.5438-1-slark_xiao@163.com>
- <YqHpNAaY/Oez8TrJ@hovoldconsulting.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+        with ESMTP id S234950AbiFJGqd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Jun 2022 02:46:33 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 377235A5BC;
+        Thu,  9 Jun 2022 23:46:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654843592; x=1686379592;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bak+PaguLlGs0EMkmOjZv7d+/b+qyh+9qIl37rSGwWQ=;
+  b=n5n/0j+QM4D+bU9C+wo+Nhrvo/4md9X+DLqor+o1kRt+3DVxNYDMfj8y
+   TyMwNs2N52NnLJ9AUhQoUmAoLi6BWoX7ri7HcKv0hh3etgE0PsCPef2hT
+   iecNbJO+Wr5cbLrKMUsaYXnTWUkhqinbx4gTVt8r+tp7YwlEZZOY7AEUO
+   jqDix+Xdq70/2c+v8qzUWFOpap/uAtECC3e25psmnd2/WGx5d0AdnhOOn
+   NYTJsR//i9cX0CiR+GcCno0UdToKa6XhLtndVt2a9fleIWR7BNKBR1r5E
+   HiFUNfGmv2QssCOEJegwz3fqSYGhWiZzkta16vSf11ELW2+vF3nyHILqp
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10373"; a="339289554"
+X-IronPort-AV: E=Sophos;i="5.91,288,1647327600"; 
+   d="scan'208";a="339289554"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2022 23:46:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,288,1647327600"; 
+   d="scan'208";a="724822105"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 09 Jun 2022 23:46:27 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 10 Jun 2022 09:46:26 +0300
+Date:   Fri, 10 Jun 2022 09:46:26 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     Linux ACPI <linux-acpi@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v1 04/16] thunderbolt: ACPI: Use acpi_find_child_by_adr()
+Message-ID: <YqLowrkmibyh56T+@kuha.fi.intel.com>
+References: <1843211.tdWV9SEqCh@kreacher>
+ <7414189.EvYhyI6sBW@kreacher>
 MIME-Version: 1.0
-Message-ID: <87a144d.19f0.1814bae997f.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: csGowAC379IOvKJiNqoQAA--.34039W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRwocZFc7YEwETQACs+
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7414189.EvYhyI6sBW@kreacher>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-CgpBdCAyMDIyLTA2LTA5IDIwOjM2OjA0LCAiSm9oYW4gSG92b2xkIiA8am9oYW5Aa2VybmVsLm9y
-Zz4gd3JvdGU6Cj5PbiBXZWQsIEp1biAwMSwgMjAyMiBhdCAxMTo0Nzo0MEFNICswODAwLCBTbGFy
-ayBYaWFvIHdyb3RlOgo+PiBBZGRpbmcgc3VwcG9ydCBmb3IgQ2ludGVyaW9uIGRldmljZSBNVjMx
-IHdpdGggUXVhbGNvbW0KPj4gbmV3IGJhc2VsaW5lLiBVc2UgZGlmZmVyZW50IFBJRHMgdG8gc2Vw
-YXJhdGUgaXQgZnJvbQo+PiBwcmV2aW91cyBiYXNlIGxpbmUgcHJvZHVjdHMuCj4+IEFsbCBpbnRl
-cmZhY2VzIHNldHRpbmdzIGtlZXAgc2FtZSBhcyBwcmV2aW91cy4KPj4gCj4+IEJlbG93IGlzIHRl
-c3QgZXZpZGVuY2U6Cj4+IFQ6ICBCdXM9MDMgTGV2PTAxIFBybnQ9MDEgUG9ydD0wMCBDbnQ9MDEg
-RGV2Iz0gIDYgU3BkPTQ4MCBNeENoPSAwCj4+IEQ6ICBWZXI9IDIuMTAgQ2xzPWVmKG1pc2MgKSBT
-dWI9MDIgUHJvdD0wMSBNeFBTPTY0ICNDZmdzPSAgMQo+PiBQOiAgVmVuZG9yPTFlMmQgUHJvZElE
-PTAwYjggUmV2PTA0LjE0Cj4+IFM6ICBNYW51ZmFjdHVyZXI9Q2ludGVyaW9uCj4+IFM6ICBQcm9k
-dWN0PUNpbnRlcmlvbiBQSUQgMHgwMEI4IFVTQiBNb2JpbGUgQnJvYWRiYW5kCj4+IFM6ICBTZXJp
-YWxOdW1iZXI9OTA0MThlNzkKPj4gQzogICNJZnM9IDYgQ2ZnIz0gMSBBdHI9YTAgTXhQd3I9NTAw
-bUEKPj4gSTogIElmIz0weDAgQWx0PSAwICNFUHM9IDEgQ2xzPTAyKGNvbW1jKSBTdWI9MGUgUHJv
-dD0wMCBEcml2ZXI9Y2RjX21iaW0KPj4gSTogIElmIz0weDEgQWx0PSAxICNFUHM9IDIgQ2xzPTBh
-KGRhdGEgKSBTdWI9MDAgUHJvdD0wMiBEcml2ZXI9Y2RjX21iaW0KPj4gSTogIElmIz0weDIgQWx0
-PSAwICNFUHM9IDMgQ2xzPWZmKHZlbmQuKSBTdWI9ZmYgUHJvdD00MCBEcml2ZXI9b3B0aW9uCj4+
-IEk6ICBJZiM9MHgzIEFsdD0gMCAjRVBzPSAxIENscz1mZih2ZW5kLikgU3ViPWZmIFByb3Q9ZmYg
-RHJpdmVyPShub25lKQo+PiBJOiAgSWYjPTB4NCBBbHQ9IDAgI0VQcz0gMyBDbHM9ZmYodmVuZC4p
-IFN1Yj1mZiBQcm90PTYwIERyaXZlcj1vcHRpb24KPj4gSTogIElmIz0weDUgQWx0PSAwICNFUHM9
-IDIgQ2xzPWZmKHZlbmQuKSBTdWI9ZmYgUHJvdD0zMCBEcml2ZXI9b3B0aW9uCj4+IAo+PiBUOiAg
-QnVzPTAzIExldj0wMSBQcm50PTAxIFBvcnQ9MDAgQ250PTAxIERldiM9ICA3IFNwZD00ODAgTXhD
-aD0gMAo+PiBEOiAgVmVyPSAyLjEwIENscz1lZihtaXNjICkgU3ViPTAyIFByb3Q9MDEgTXhQUz02
-NCAjQ2Zncz0gIDEKPj4gUDogIFZlbmRvcj0xZTJkIFByb2RJRD0wMGI5IFJldj0wNC4xNAo+PiBT
-OiAgTWFudWZhY3R1cmVyPUNpbnRlcmlvbgo+PiBTOiAgUHJvZHVjdD1DaW50ZXJpb24gUElEIDB4
-MDBCOSBVU0IgTW9iaWxlIEJyb2FkYmFuZAo+PiBTOiAgU2VyaWFsTnVtYmVyPTkwNDE4ZTc5Cj4+
-IEM6ICAjSWZzPSA0IENmZyM9IDEgQXRyPWEwIE14UHdyPTUwMG1BCj4+IEk6ICBJZiM9MHgwIEFs
-dD0gMCAjRVBzPSAzIENscz1mZih2ZW5kLikgU3ViPWZmIFByb3Q9NTAgRHJpdmVyPXFtaV93d2Fu
-Cj4+IEk6ICBJZiM9MHgxIEFsdD0gMCAjRVBzPSAzIENscz1mZih2ZW5kLikgU3ViPWZmIFByb3Q9
-NDAgRHJpdmVyPW9wdGlvbgo+PiBJOiAgSWYjPTB4MiBBbHQ9IDAgI0VQcz0gMyBDbHM9ZmYodmVu
-ZC4pIFN1Yj1mZiBQcm90PTYwIERyaXZlcj1vcHRpb24KPj4gSTogIElmIz0weDMgQWx0PSAwICNF
-UHM9IDIgQ2xzPWZmKHZlbmQuKSBTdWI9ZmYgUHJvdD0zMCBEcml2ZXI9b3B0aW9uCj4+IAo+PiBG
-b3IgUElEIDAwYjgsIGludGVyZmFjZSAzIGlzIEdOU1MgcG9ydCB3aGljaCBkb24ndCB1c2Ugc2Vy
-aWFsIGRyaXZlci4KPj4gCj4+IFNpZ25lZC1vZmYtYnk6IFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9A
-MTYzLmNvbT4KPj4gLS0tCj4+ICBkcml2ZXJzL3VzYi9zZXJpYWwvb3B0aW9uLmMgfCA2ICsrKysr
-Kwo+PiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKQo+PiAKPj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvdXNiL3NlcmlhbC9vcHRpb24uYyBiL2RyaXZlcnMvdXNiL3NlcmlhbC9vcHRpb24u
-Ywo+PiBpbmRleCBlNjA0MjViYmY1MzcuLjVlMjZlOTBkYjdkNiAxMDA2NDQKPj4gLS0tIGEvZHJp
-dmVycy91c2Ivc2VyaWFsL29wdGlvbi5jCj4+ICsrKyBiL2RyaXZlcnMvdXNiL3NlcmlhbC9vcHRp
-b24uYwo+PiBAQCAtNDMyLDYgKzQzMiw4IEBAIHN0YXRpYyB2b2lkIG9wdGlvbl9pbnN0YXRfY2Fs
-bGJhY2soc3RydWN0IHVyYiAqdXJiKTsKPj4gICNkZWZpbmUgQ0lOVEVSSU9OX1BST0RVQ1RfQ0xT
-OAkJCTB4MDBiMAo+PiAgI2RlZmluZSBDSU5URVJJT05fUFJPRFVDVF9NVjMxX01CSU0JCTB4MDBi
-Mwo+PiAgI2RlZmluZSBDSU5URVJJT05fUFJPRFVDVF9NVjMxX1JNTkVUCQkweDAwYjcKPj4gKyNk
-ZWZpbmUgQ0lOVEVSSU9OX1BST0RVQ1RfTVYzMV9NQklNMgkJMHgwMGI4Cj4+ICsjZGVmaW5lIENJ
-TlRFUklPTl9QUk9EVUNUX01WMzFfUk1ORVQyCQkweDAwYjkKPgo+VGhhbmtzIGZvciB0aGUgcGF0
-Y2guIEkndmUgYXBwbGllZCBpdCBub3cgYWZ0ZXIgcmVuYW1pbmcgdGhlIGRlZmluZXMgdG8KPm1h
-a2UgdGhlIHZhcmlhbnQgYW4gaW5maXggaW5zdGVhZCAoZS5nLiBDSU5URVJJT05fUFJPRFVDVF9N
-VjMxXzJfTUJJTSkuCj4KVGhhbmtzIGZvciB0aGlzIGxpdHRsZSBjaGFuZ2UuCgo+PiAgI2RlZmlu
-ZSBDSU5URVJJT05fUFJPRFVDVF9NVjMyX1dBCQkweDAwZjEKPj4gICNkZWZpbmUgQ0lOVEVSSU9O
-X1BST0RVQ1RfTVYzMl9XQgkJMHgwMGYyCj4+ICAKPj4gQEAgLTE5NzksNiArMTk4MSwxMCBAQCBz
-dGF0aWMgY29uc3Qgc3RydWN0IHVzYl9kZXZpY2VfaWQgb3B0aW9uX2lkc1tdID0gewo+PiAgCSAg
-LmRyaXZlcl9pbmZvID0gUlNWRCgzKX0sCj4+ICAJeyBVU0JfREVWSUNFX0lOVEVSRkFDRV9DTEFT
-UyhDSU5URVJJT05fVkVORE9SX0lELCBDSU5URVJJT05fUFJPRFVDVF9NVjMxX1JNTkVULCAweGZm
-KSwKPj4gIAkgIC5kcml2ZXJfaW5mbyA9IFJTVkQoMCl9LAo+PiArCXsgVVNCX0RFVklDRV9JTlRF
-UkZBQ0VfQ0xBU1MoQ0lOVEVSSU9OX1ZFTkRPUl9JRCwgQ0lOVEVSSU9OX1BST0RVQ1RfTVYzMV9N
-QklNMiwgMHhmZiksCj4+ICsJICAuZHJpdmVyX2luZm8gPSBSU1ZEKDMpfSwKPj4gKwl7IFVTQl9E
-RVZJQ0VfSU5URVJGQUNFX0NMQVNTKENJTlRFUklPTl9WRU5ET1JfSUQsIENJTlRFUklPTl9QUk9E
-VUNUX01WMzFfUk1ORVQyLCAweGZmKSwKPj4gKwkgIC5kcml2ZXJfaW5mbyA9IFJTVkQoMCl9LAo+
-PiAgCXsgVVNCX0RFVklDRV9JTlRFUkZBQ0VfQ0xBU1MoQ0lOVEVSSU9OX1ZFTkRPUl9JRCwgQ0lO
-VEVSSU9OX1BST0RVQ1RfTVYzMl9XQSwgMHhmZiksCj4+ICAJICAuZHJpdmVyX2luZm8gPSBSU1ZE
-KDMpfSwKPj4gIAl7IFVTQl9ERVZJQ0VfSU5URVJGQUNFX0NMQVNTKENJTlRFUklPTl9WRU5ET1Jf
-SUQsIENJTlRFUklPTl9QUk9EVUNUX01WMzJfV0IsIDB4ZmYpLAo+Cj5Kb2hhbgo=
+On Thu, Jun 09, 2022 at 03:54:40PM +0200, Rafael J. Wysocki wrote:
+> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> 
+> Instead of walking the list of children of an ACPI device directly
+> in order to find the child matching a given bus address, use
+> acpi_find_child_by_adr() for this purpose.
+> 
+> Apart from simplifying the code, this will help to eliminate the
+> children list head from struct acpi_device as it is redundant and it
+> is used in questionable ways in some places (in particular, locking is
+> needed for walking the list pointed to it safely, but it is often
+> missing).
+> 
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+>  drivers/thunderbolt/acpi.c |    9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
+> 
+> Index: linux-pm/drivers/thunderbolt/acpi.c
+> ===================================================================
+> --- linux-pm.orig/drivers/thunderbolt/acpi.c
+> +++ linux-pm/drivers/thunderbolt/acpi.c
+> @@ -304,8 +304,6 @@ static bool tb_acpi_bus_match(struct dev
+>  static struct acpi_device *tb_acpi_find_port(struct acpi_device *adev,
+>  					     const struct tb_port *port)
+>  {
+> -	struct acpi_device *port_adev;
+> -
+>  	if (!adev)
+>  		return NULL;
+>  
+> @@ -313,12 +311,7 @@ static struct acpi_device *tb_acpi_find_
+>  	 * Device routers exists under the downstream facing USB4 port
+>  	 * of the parent router. Their _ADR is always 0.
+>  	 */
+> -	list_for_each_entry(port_adev, &adev->children, node) {
+> -		if (acpi_device_adr(port_adev) == port->port)
+> -			return port_adev;
+> -	}
+> -
+> -	return NULL;
+> +	return acpi_find_child_by_adr(adev, port->port);
+>  }
+>  
+>  static struct acpi_device *tb_acpi_switch_find_companion(struct tb_switch *sw)
+
+I don't think you need tb_acpi_find_port() anymore. You can just call
+acpi_find_child_by_ard(ACPI_COMPANION(...), port->port) directly, no?
+
+thanks,
+
+-- 
+heikki
