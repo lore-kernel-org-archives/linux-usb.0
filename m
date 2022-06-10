@@ -2,80 +2,138 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF1DDC433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Jun 2022 10:18:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F476C43334
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Jun 2022 10:29:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348660AbiFJKSG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Jun 2022 06:18:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36008 "EHLO
+        id S245312AbiFJK30 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Jun 2022 06:29:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244420AbiFJKSG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Jun 2022 06:18:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E3203E5D6;
-        Fri, 10 Jun 2022 03:18:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 97F4A61F93;
-        Fri, 10 Jun 2022 10:18:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81020C3411E;
-        Fri, 10 Jun 2022 10:18:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1654856282;
-        bh=Mgof106cR39tCNt2/D1vN1oOa5Rp+UIYZiiD80oMBuY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OgpKivqT9cZqXAgrW/tfIVrc5r8vOzX/GEqwOLFyBG2EaoIOyj128iD8Gi9w0U5MZ
-         Gr/rM4W9g8rimCzQAq6pifSKCrHsQm22eg0Gkzrb14KZKep8f174nubAuG3Pem6HnX
-         dhD2abwlHXkE+xhfVXWHQGjR+2/Sfz7fXjhbgmw8=
-Date:   Fri, 10 Jun 2022 12:17:54 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Xin Ji <xji@analogixsemi.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        bliang@analogixsemi.com, qwen@analogixsemi.com,
-        jli@analogixsemi.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v9 1/3] usb: typec: tcpci: move tcpci.h to
- include/linux/usb/
-Message-ID: <YqMaUroS87rjnCny@kroah.com>
-References: <20220309023404.1221453-1-xji@analogixsemi.com>
+        with ESMTP id S245467AbiFJK3Y (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Jun 2022 06:29:24 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4180140E0
+        for <linux-usb@vger.kernel.org>; Fri, 10 Jun 2022 03:29:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654856961; x=1686392961;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=HZuIijc8fWgTGCK4Z3i/HNb7Z1JBlts+rsxDupZdIBc=;
+  b=jk/fA8fyDeP90GBH3N3dr0dUZug2S27w4sCXtNrhdTsYASffNegT71An
+   zzEg5lWNX4gHWWI48Sxk4hfwXtn1iJYZaejuuzPzayUaBscwN8jaupNFa
+   FiuDgx7MhDMzPFOQVy+kE+ZrkX8zbeAx2AdHak658CKWXEKqPFtD5mWt6
+   XmUkyIYl443Z/+DjmEYVaCHXCgdu5TjiYb5suXH1OYCgKNe4hqeNvPidk
+   76RagiRVR398MHfKbbhxeFy/SeUCcCktzWnLOCf7SjgDSqRrGpjw10tBy
+   EbdnApIXCRk1CpfQjGd+i2Yi62XPUfb/wVE8HRiHoBbs1Bl+TX77SSpnf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10373"; a="278388541"
+X-IronPort-AV: E=Sophos;i="5.91,290,1647327600"; 
+   d="scan'208";a="278388541"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2022 03:29:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,290,1647327600"; 
+   d="scan'208";a="724906779"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2022 03:29:19 -0700
+Message-ID: <5b00c02f-646d-591f-9371-e3d22a1ba9f1@linux.intel.com>
+Date:   Fri, 10 Jun 2022 13:30:47 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220309023404.1221453-1-xji@analogixsemi.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.8.1
+Content-Language: en-US
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org,
+        evgreen@google.com, shobhit.srivastava@intel.com
+References: <20220607135836.627711-1-mathias.nyman@linux.intel.com>
+ <400be833-468c-be0d-c80a-f3617800750d@suse.com>
+ <36fdbf28-47fa-522e-8789-23bb1afa9176@linux.intel.com>
+ <YqCnkNMqBRCy3fdd@rowland.harvard.edu>
+ <7293f560-645d-387c-75c4-4be517cfd925@linux.intel.com>
+ <YqH6Rsc59Bj8tspu@rowland.harvard.edu>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [RFC PATCH 0/1] hibernate and roothub port power
+In-Reply-To: <YqH6Rsc59Bj8tspu@rowland.harvard.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Mar 09, 2022 at 10:34:01AM +0800, Xin Ji wrote:
-> USB PD controllers which consisting of a microcontroller (acting as the TCPM)
-> and a port controller (TCPC) - may require that the driver for the PD
-> controller accesses directly also the on-chip port controller in some cases.
-> 
-> Move tcpci.h to include/linux/usb/ is convenience access TCPC registers.
-> 
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> 
-> ---
-> V8 -> V9: Add more commit message
-> V7 -> V8: Fix Guanter's comment, remove unnecessary explain
-> 
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> ---
->  drivers/usb/typec/tcpm/tcpci.c                        | 3 +--
->  drivers/usb/typec/tcpm/tcpci_maxim.c                  | 3 +--
->  drivers/usb/typec/tcpm/tcpci_mt6360.c                 | 3 +--
->  drivers/usb/typec/tcpm/tcpci_rt1711h.c                | 2 +-
->  {drivers/usb/typec/tcpm => include/linux/usb}/tcpci.h | 1 +
->  5 files changed, 5 insertions(+), 7 deletions(-)
->  rename {drivers/usb/typec/tcpm => include/linux/usb}/tcpci.h (99%)
+On 9.6.2022 16.48, Alan Stern wrote:
+> On Thu, Jun 09, 2022 at 10:59:37AM +0300, Mathias Nyman wrote:
+>> On 8.6.2022 16.43, Alan Stern wrote:
+>>> On Wed, Jun 08, 2022 at 02:47:22PM +0300, Mathias Nyman wrote:
+>>>> On 8.6.2022 11.19, Oliver Neukum wrote:
+>>>>>
+>>>>>
+>>>>> On 07.06.22 15:58, Mathias Nyman wrote:
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>>> In shutdown (S5), with xHCI as host, this can be solved fairly easily
+>>>>>> by turning off roothub port power in the .shutdown path.
+>>>>>
+>>>>> That would suck for the people who charge their phone from their
+>>>>> computer.
+>>>>
+>>>> Good point.
+>>>> My guess is that xHC port power bits won't actually turn off VBus for those
+>>>> Sleep-and-charge, or Always-on ports.
+>>>> VBus is allowed to be on even if port is in power-off state, but usb link state
+>>>> should be forced to ss.Disabled from other states, like U3.
+>>>>
+>>>> Need to try it out, it's possible this turns off VBus for some usb-A ports
+>>>> on some older systems that earlier (accidentally?) supplied VBus on
+>>>> "normal" ports after shutdown.
+>>>
+>>> How about turning off port power _only_ in the shutdown or unbind path,
+>>> and setting the port link states to ss.Disabled in the poweroff or
+>>> poweroff_noirq stage of hibernation (if wakeup is disabled)?  Would that
+>>> solve the problem of the firmware needing to time out on reboot?
+>>>
+>>
+>> That would be optimal, but unfortunately xHCI doesn't support setting link
+>> state directly to ss.Disabled. Only way is to clear port power (PP) bit.
 
-I need an ack by the typec maintainers/developers before I can take this
-(hint...)
+Correction,  we can get USB 3 links to ss.Disabled and port to Disabled state
+by setting the PORTSC PED bit.
+USB 2 link goes to Polling, port Disabled.
 
-thanks,
+Port power is left untouched.
+This could work.
 
-greg k-h
+> 
+> What would happen if you clear the PP bit, wait for the link state to
+> become ss.Disabled, and then turn PP back on?
+
+For USB 3 devices host will detect the device, and do all steps until device is
+in an enabled U0 state. All without driver interaction, and even if host is not running.
+
+USB 2 devices probably stop in Disabled/link:Polling waiting for driver port reset
+
+> 
+>> To avoid turning off VBus in hibernate we could limit port power bit clearing
+>> to xHC hosts that don't have the Port Power Control (PPC) capability flag.
+>>
+>> We know these xHC hosts don't control power switches, and clearing PP won't turn
+>> off VBus (xhci 5.4.8, PORTRSC)
+>>
+>> This could be a solution for some hosts, but probably not cover all.
+>> Not sure if the hardware this was reported on has PPC flag set.
+> 
+> In theory the problem could affect systems having any kind of xHCI
+> hardware, since it's really a defect in the system firmware.
+> 
+> Doesn't Windows have a hibernation mode?  Do you know what state it
+> leaves the xHCI ports in during hibernation?
+
+Good question, haven't looked into what windows does here.
+I think this problematic boot firmware is specific for non-windows systems.
+but again, not sure.
+Worth looking into
+
+Thanks
+
+-Mathias
