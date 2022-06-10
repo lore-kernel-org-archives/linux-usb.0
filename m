@@ -2,65 +2,63 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C79C43334
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Jun 2022 10:29:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A97F9C43334
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Jun 2022 10:41:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344629AbiFJK3f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Jun 2022 06:29:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56876 "EHLO
+        id S232387AbiFJKlN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Jun 2022 06:41:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239779AbiFJK3e (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Jun 2022 06:29:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1220328710;
-        Fri, 10 Jun 2022 03:29:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S1347554AbiFJKkd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Jun 2022 06:40:33 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B48C1E73E3;
+        Fri, 10 Jun 2022 03:36:15 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8CFE961FC6;
-        Fri, 10 Jun 2022 10:29:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C3E5C34114;
-        Fri, 10 Jun 2022 10:29:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1654856973;
-        bh=UZidtPEvEK77l+e2n9kF+wSCIVTS3cV/LYPi3wf/Oy8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KjTJFqG7sII+2/NuzhANjQwG1jp7ahxq5ZCWEHaSTjAcuK6FDvnuLgldJelovZJuX
-         FUnM2VXX97B+ul7xtvX1V8XzsTcnoOGD80NBzEOl0ODSTphiEDGVc5ehOf232rKnHx
-         Gwv3yfNGnqhEFebb2ZU119nq3+BZ32da0xXM4Lho=
-Date:   Fri, 10 Jun 2022 12:29:30 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Benson Leung <bleung@google.com>,
-        Prashant Malani <pmalani@chromium.org>,
-        Jameson Thies <jthies@google.com>,
-        "Regupathy, Rajaram" <rajaram.regupathy@intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Won Chung <wonchung@google.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/3] usb: typec: Separate USB PD from USB Type-C
-Message-ID: <YqMdCr/XHTAsA72l@kroah.com>
-References: <20220502132058.86236-1-heikki.krogerus@linux.intel.com>
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id BAB726601739;
+        Fri, 10 Jun 2022 11:36:08 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1654857369;
+        bh=f5a+MYhGnP4KyJ5AO/ArrESCaa3tE2Fm/8PB6l2aQAc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=YqvofSFSy5+oFQgFvIszQd0Dwa+XnzDwzzDx1GVY7cR1A+jZY79cnnvJ4Au8MfN3w
+         Zw9kPdWStMAJNlyU32/zlsbbB8jgVcoih8Mh6xuZJIuM7thwBitSC8xvkrMeZTLedN
+         PxQfaVupLpyyXkEHuUd8QsQYiZPFnZW0qYyLsdZrAsQWKGI/c8BQrZYO2Eus/PNk80
+         MJImM6w0W/ePP3liAfR3x/cwaKaB8Rhg/uilC31Hr8dR2bextU/FLvqwEHP3jBGKgy
+         9RnBi32OF2uecP5kYS1yflQDs5SJ9zpL5RJQeiA1Xh5S0oxFoTyIeTmGsrqYSgpC2T
+         dl7xDJnTdxlGg==
+Message-ID: <956c7a9d-5f1b-e552-60d6-acc082732b3a@collabora.com>
+Date:   Fri, 10 Jun 2022 12:36:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220502132058.86236-1-heikki.krogerus@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 3/3] usb: mtu3: register mtu3_irq by threaded irq
+Content-Language: en-US
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Eddie Hung <eddie.hung@mediatek.com>
+References: <20220609074233.15532-1-chunfeng.yun@mediatek.com>
+ <20220609074233.15532-3-chunfeng.yun@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220609074233.15532-3-chunfeng.yun@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, May 02, 2022 at 04:20:55PM +0300, Heikki Krogerus wrote:
-> Hi,
+Il 09/06/22 09:42, Chunfeng Yun ha scritto:
+> Use threaded irq to improve time consuming top-half
 > 
-> The data structures are now named "usb_power_deliver*" and the kobject
-> attributes are now device attributes.
-> 
-> 
-> v3 cover letter:
-> 
-> Now everything is a device. There are now other changes.
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
-Much much nicer, thanks for doing this.  All now applied, let's see how
-0-day likes it.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-greg k-h
