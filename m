@@ -2,224 +2,115 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE5EAC433EF
-	for <linux-usb@archiver.kernel.org>; Sun, 12 Jun 2022 10:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79431CCA473
+	for <linux-usb@archiver.kernel.org>; Sun, 12 Jun 2022 21:28:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236057AbiFLKd2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 12 Jun 2022 06:33:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52130 "EHLO
+        id S236285AbiFLV2Q convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 12 Jun 2022 17:28:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231131AbiFLKd1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 12 Jun 2022 06:33:27 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 233E213E19
-        for <linux-usb@vger.kernel.org>; Sun, 12 Jun 2022 03:33:26 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1o0KuI-0006c7-2g; Sun, 12 Jun 2022 12:33:22 +0200
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1o0KuH-0008D6-Pp; Sun, 12 Jun 2022 12:33:21 +0200
-Date:   Sun, 12 Jun 2022 12:33:21 +0200
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     balbi@kernel.org, paul.elder@ideasonboard.com,
-        linux-usb@vger.kernel.org, kieran.bingham@ideasonboard.com,
-        nicolas@ndufresne.ca, kernel@pengutronix.de,
-        linux-media@vger.kernel.org
-Subject: Re: [RESEND v2 2/3] usb: gadget: uvc: increase worker prio to
- WQ_HIGHPRI
-Message-ID: <20220612103321.GD29935@pengutronix.de>
-References: <20220608110339.141036-1-m.grzeschik@pengutronix.de>
- <20220608110339.141036-3-m.grzeschik@pengutronix.de>
- <YqDtWkUbp4LPBRxS@pendragon.ideasonboard.com>
+        with ESMTP id S236111AbiFLV2N (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 12 Jun 2022 17:28:13 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C6AAB24BEE
+        for <linux-usb@vger.kernel.org>; Sun, 12 Jun 2022 14:28:11 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-23-xpV4lFl0PfStBSylmoAXEA-1; Sun, 12 Jun 2022 22:28:08 +0100
+X-MC-Unique: xpV4lFl0PfStBSylmoAXEA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.36; Sun, 12 Jun 2022 22:28:06 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.036; Sun, 12 Jun 2022 22:28:06 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Rhett Aultman' <rhett.aultman@samsara.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        linux-can <linux-can@vger.kernel.org>
+CC:     --cc=Oliver Neukum <oneukum@suse.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Subject: RE: [PATCH v3 2/2] can: gs_usb: fix DMA memory leak on close
+Thread-Topic: [PATCH v3 2/2] can: gs_usb: fix DMA memory leak on close
+Thread-Index: AQHYfRHs6SXKDKJ+HESTVsEc7tmfzq1MTE/A
+Date:   Sun, 12 Jun 2022 21:28:06 +0000
+Message-ID: <0b792b543f5f4b70ab9e102825329474@AcuMS.aculab.com>
+References: <20220609204714.2715188-1-rhett.aultman@samsara.com>
+ <20220610213335.3077375-1-rhett.aultman@samsara.com>
+ <20220610213335.3077375-3-rhett.aultman@samsara.com>
+In-Reply-To: <20220610213335.3077375-3-rhett.aultman@samsara.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="veXX9dWIonWZEC6h"
-Content-Disposition: inline
-In-Reply-To: <YqDtWkUbp4LPBRxS@pendragon.ideasonboard.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+From: Rhett Aultman
+> Sent: 10 June 2022 22:34
+> 
+> The gs_usb driver allocates DMA memory with usb_alloc_coherent() in
+> gs_can_open() and then keeps this memory in an URB, with the expectation
+> that the memory will be freed when the URB is killed in gs_can_close().
+> Memory allocated with usb_alloc_coherent() cannot be freed in this way
+> and must be freed using usb_free_coherent() instead.  This means that
+> repeated cycles of calling gs_can_open() and gs_can_close() will lead to
+> a memory leak.
+> 
+> Historically, drivers have handled this by keeping an array of pointers
+> to their DMA rx buffers and explicitly freeing them.  For an example of
+> this technique used in the esd_usb2 driver, see here:
+> https://www.spinics.net/lists/linux-can/msg08203.html
+> 
+> While the above method works, the conditions that cause this leak are
+> not apparent to driver writers and the method for solving it at the
+> driver level has been piecemeal.  This patch makes use of a new
+> URB_FREE_COHERENT flag on the URB, reducing the solution of this memory
+> leak down to a single line of code.
+> 
+> Signed-off-by: Rhett Aultman <rhett.aultman@samsara.com>
+> Reviewed-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+> ---
+>  drivers/net/can/usb/gs_usb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/can/usb/gs_usb.c b/drivers/net/can/usb/gs_usb.c
+> index b29ba9138866..4e7e6a7b961a 100644
+> --- a/drivers/net/can/usb/gs_usb.c
+> +++ b/drivers/net/can/usb/gs_usb.c
+> @@ -768,7 +768,7 @@ static int gs_can_open(struct net_device *netdev)
+>  					  buf,
+>  					  dev->parent->hf_size_rx,
+>  					  gs_usb_receive_bulk_callback, parent);
+> -			urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
+> +			urb->transfer_flags = URB_NO_TRANSFER_DMA_MAP | URB_FREE_COHERENT;
 
---veXX9dWIonWZEC6h
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Should that be clearing any other flags?
 
-On Wed, Jun 08, 2022 at 09:41:30PM +0300, Laurent Pinchart wrote:
->Hi Michael,
->
->Thank you for the patch.
->
->On Wed, Jun 08, 2022 at 01:03:38PM +0200, Michael Grzeschik wrote:
->> Likewise to the uvcvideo hostside driver, this patch is changing the
->> simple workqueue to an async_wq with higher priority. This ensures that
->> the worker will not be scheduled away while the video stream is handled.
->>
->> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->>
->> ---
->> v1 -> v2: - added destroy_workqueue in uvc_function_unbind
->>           - reworded comment above allow_workqueue
->>
->>  drivers/usb/gadget/function/f_uvc.c     | 4 ++++
->>  drivers/usb/gadget/function/uvc.h       | 1 +
->>  drivers/usb/gadget/function/uvc_v4l2.c  | 2 +-
->>  drivers/usb/gadget/function/uvc_video.c | 9 +++++++--
->>  4 files changed, 13 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/fu=
-nction/f_uvc.c
->> index d3feeeb50841b8..dcc5f057810973 100644
->> --- a/drivers/usb/gadget/function/f_uvc.c
->> +++ b/drivers/usb/gadget/function/f_uvc.c
->> @@ -891,10 +891,14 @@ static void uvc_function_unbind(struct usb_configu=
-ration *c,
->>  {
->>  	struct usb_composite_dev *cdev =3D c->cdev;
->>  	struct uvc_device *uvc =3D to_uvc(f);
->> +	struct uvc_video *video =3D &uvc->video;
->>  	long wait_ret =3D 1;
->>
->>  	uvcg_info(f, "%s()\n", __func__);
->>
->> +	if (video->async_wq)
->> +		destroy_workqueue(video->async_wq);
->> +
->>  	/* If we know we're connected via v4l2, then there should be a cleanup
->>  	 * of the device from userspace either via UVC_EVENT_DISCONNECT or
->>  	 * though the video device removal uevent. Allow some time for the
->> diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/func=
-tion/uvc.h
->> index 58e383afdd4406..1a31e6c6a5ffb8 100644
->> --- a/drivers/usb/gadget/function/uvc.h
->> +++ b/drivers/usb/gadget/function/uvc.h
->> @@ -88,6 +88,7 @@ struct uvc_video {
->>  	struct usb_ep *ep;
->>
->>  	struct work_struct pump;
->> +	struct workqueue_struct *async_wq;
->>
->>  	/* Frame parameters */
->>  	u8 bpp;
->> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget=
-/function/uvc_v4l2.c
->> index fd8f73bb726dd1..fddc392b8ab95d 100644
->> --- a/drivers/usb/gadget/function/uvc_v4l2.c
->> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
->> @@ -170,7 +170,7 @@ uvc_v4l2_qbuf(struct file *file, void *fh, struct v4=
-l2_buffer *b)
->>  		return ret;
->>
->>  	if (uvc->state =3D=3D UVC_STATE_STREAMING)
->> -		schedule_work(&video->pump);
->> +		queue_work(video->async_wq, &video->pump);
->>
->>  	return ret;
->>  }
->> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadge=
-t/function/uvc_video.c
->> index a9bb4553db847e..9a9101851bc1e8 100644
->> --- a/drivers/usb/gadget/function/uvc_video.c
->> +++ b/drivers/usb/gadget/function/uvc_video.c
->> @@ -277,7 +277,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_req=
-uest *req)
->>  	spin_unlock_irqrestore(&video->req_lock, flags);
->>
->>  	if (uvc->state =3D=3D UVC_STATE_STREAMING)
->> -		schedule_work(&video->pump);
->> +		queue_work(video->async_wq, &video->pump);
->>  }
->>
->>  static int
->> @@ -478,7 +478,7 @@ int uvcg_video_enable(struct uvc_video *video, int e=
-nable)
->>
->>  	video->req_int_count =3D 0;
->>
->> -	schedule_work(&video->pump);
->> +	queue_work(video->async_wq, &video->pump);
->>
->>  	return ret;
->>  }
->> @@ -492,6 +492,11 @@ int uvcg_video_init(struct uvc_video *video, struct=
- uvc_device *uvc)
->>  	spin_lock_init(&video->req_lock);
->>  	INIT_WORK(&video->pump, uvcg_video_pump);
->>
->> +	/* Allocate a work queue for asynchronous video pump handler. */
->> +	video->async_wq =3D alloc_workqueue("uvcvideo", WQ_UNBOUND | WQ_HIGHPR=
-I, 0);
->
->Let's call it "uvcgadget" (or "uvc gadget", "uvc-gadget", ...) as
->"uvcvideo" refers to the host side driver.
+	David
 
-Good Idea. I will fix this.
+> 
+>  			usb_anchor_urb(urb, &parent->rx_submitted);
+> 
+> --
+> 2.30.2
 
->I'm still a bit worried about WQ_UNBOUND and the risk of running work
->items in parallel on different CPUs. uvcg_video_pump() looks mostly
->safe, as it protects video->req_free with a spinlock, and the buffer
->queue with another spinlock. The req_int_count increment at the end of
->the loop would be unsafe though.
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
-I didn't think about that. I will have to check for that.
-
->Could we get to the bottom of this and find out whether or not the work
->items can be executed in parallel ?
-
-Do you have an Idea to check for that?
-
->> +	if (!video->async_wq)
->> +		return -EINVAL;
->> +
->>  	video->uvc =3D uvc;
->>  	video->fcc =3D V4L2_PIX_FMT_YUYV;
->>  	video->bpp =3D 16;
->
->--=20
->Regards,
->
->Laurent Pinchart
->
->
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---veXX9dWIonWZEC6h
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmKlwPEACgkQC+njFXoe
-LGT/sg//XI+zbJNYyEnypxXofkpak3fU9COwNpProk2OFKt2zbABubR3zlkM1A6I
-vDtL3WMU/cKDsU9n0s7kirqmHJ7yXA+QBgq9/L9iPJ+QSJwwdkniWdd9YEuYt/Gh
-TcOIFzTNBHRQGKdMvYIwCraBpTmpTXX4sJZk1OqZxgI+T1I2occf3A1eWHID/cYJ
-S7CR+rh1fHQYhA5btpDUzx4RTbrNbjAkYO5+lA5/YyoAIbIM2HnTPAfayKnRMDEM
-RT7FySnUeMJxcGRbux1YAUgdDuCAdPK10ZCF9Z2cSAmVo4JUnADom8aiHHLlXnGI
-t7kdijYpRa6sEN/GKVmrfj8fcJTsRNZ1jxT9mVoAjT7NNIN2aPqapl9RRqNlNEMj
-5KvE6a5YC8aQhA7TbSbVkLdgdPJwRKbgtQU7io74L+T4VUP7OQ3zoRukp2bBzXce
-AF05c8MDx7n2VdMyaVFlj/ShWzO1LRs3qVNVO02LjLYF7wCpAwvcKXVOf17nCZkD
-Q0ohSBvhdG5PR7zorOlxW07Sl35sSEQF2rFq/7YNHl1gtumbQKtfI3YynemTBZSq
-e8Yzxd2MHaA0KMICP10VZkEO5/dc+XmGDKRir72/G0zDsddcbM4iqbvayD2Z3JLj
-x3RVY74f3amu/gNQil6YOiC33t6TPHexXFcWzbX0ONieBTfXoKc=
-=VYxZ
------END PGP SIGNATURE-----
-
---veXX9dWIonWZEC6h--
