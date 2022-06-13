@@ -2,125 +2,120 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04395CCA47B
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Jun 2022 19:41:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5E98C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Jun 2022 20:06:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343881AbiFMTlf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Jun 2022 15:41:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46924 "EHLO
+        id S1343522AbiFMUGQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Jun 2022 16:06:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233593AbiFMTlM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jun 2022 15:41:12 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4305176285
-        for <linux-usb@vger.kernel.org>; Mon, 13 Jun 2022 11:08:35 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id c196so6449354pfb.1
-        for <linux-usb@vger.kernel.org>; Mon, 13 Jun 2022 11:08:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=6RfOO19u1aifVisZByr6WMgdeJkVkBAonCLIE3lhww4=;
-        b=ZayI3pusa6NPPyQZLxoG9kjQSrLh5RNRtXEreB7tn3HaMiEKs1Z81QJIKGnlBiOvT8
-         3ZLMkTlpiBnqjIIlh93/+g4p5UHN4QIWDyTopX3GH7Euacyu8/dnuI4KUls12eDKB465
-         pxLc45h7AyHIaDcwYjMRBCzav/15XOBFQDWOU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6RfOO19u1aifVisZByr6WMgdeJkVkBAonCLIE3lhww4=;
-        b=qBz18scGjxuKQLxNEAMmIvhXu7/kA/2FCcZa3nry5wJYIhJPul5go7AvgYmoLzFnM0
-         Ne6N3mWjzTiagxVnsvkpm/Caxk7oB6IxU65btpYy4O3D4T19yJaehh8rJkwLuqzL9c6q
-         216kTFR+kWlgyH/Z1ZApT/4RSM+8LHV0Ht5x56ITO5XMVoxPDZq9NOqm47s4ye6uZ9dl
-         c7/CKMX+l8IhvqWYeVanmmkUONxNxQ5MPHSO1cGFQ0Vh0VyXTATdUIggW68tDmT4RxKX
-         28ustAEpMDJBfSiQc6yiiwwSwb9x71EBrZhSMDX1AWnW/4CWwF8+Wr9KrnMF1K3PC+O+
-         sGbw==
-X-Gm-Message-State: AOAM531W/vmBaN4hYwDtHLim9jCe8KwHvqm3aTCk3/MuaJEb9H43voZT
-        EdXRt9WUYoPwT3D2W4PiQlRK5g==
-X-Google-Smtp-Source: ABdhPJzyTBSrgeUuj8ZPrTjLj2otwZf42YS9YWJUq0VMLGjI4RlCZxEMTxCgygHUnY0IX59pPnAQ+w==
-X-Received: by 2002:a05:6a00:1acd:b0:51c:795b:860c with SMTP id f13-20020a056a001acd00b0051c795b860cmr591557pfv.16.1655143714650;
-        Mon, 13 Jun 2022 11:08:34 -0700 (PDT)
-Received: from localhost ([2620:15c:11a:202:c4fb:a1d8:47ef:f10c])
-        by smtp.gmail.com with UTF8SMTPSA id f12-20020aa782cc000000b0051bd9981cacsm5734717pfn.123.2022.06.13.11.08.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jun 2022 11:08:34 -0700 (PDT)
-Date:   Mon, 13 Jun 2022 11:08:32 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Krishna Kurapati <quic_kriskura@quicinc.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        with ESMTP id S1344627AbiFMUF4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jun 2022 16:05:56 -0400
+Received: from cloudserver094114.home.pl (cloudserver094114.home.pl [79.96.170.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50DC7BCE95;
+        Mon, 13 Jun 2022 11:40:49 -0700 (PDT)
+Received: from localhost (127.0.0.1) (HELO v370.home.net.pl)
+ by /usr/run/smtp (/usr/run/postfix/private/idea_relay_lmtp) via UNIX with SMTP (IdeaSmtpServer 5.0.0)
+ id c96cbc3b82aed3ce; Mon, 13 Jun 2022 20:40:47 +0200
+Received: from kreacher.localnet (unknown [213.134.187.64])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by v370.home.net.pl (Postfix) with ESMTPSA id 2CFBC66C81D;
+        Mon, 13 Jun 2022 20:40:46 +0200 (CEST)
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Linux ACPI <linux-acpi@vger.kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, quic_pkondeti@quicinc.com,
-        quic_ppratap@quicinc.com, quic_vpulyala@quicinc.com,
-        Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-Subject: Re: [PATCH v20 2/5] usb: dwc3: core: Host wake up support from
- system suspend
-Message-ID: <Yqd9IHQEj3Ex+FcF@google.com>
-References: <1654158277-12921-1-git-send-email-quic_kriskura@quicinc.com>
- <1654158277-12921-3-git-send-email-quic_kriskura@quicinc.com>
- <YpkRDi2m7cLaKYEf@google.com>
- <Yp5nf2w8uVZ38/XZ@google.com>
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH v2 05/16] USB: ACPI: Replace usb_acpi_find_port() with acpi_find_child_by_adr()
+Date:   Mon, 13 Jun 2022 20:39:37 +0200
+Message-ID: <23334378.ouqheUzb2q@kreacher>
+In-Reply-To: <2653857.mvXUDI8C0e@kreacher>
+References: <1843211.tdWV9SEqCh@kreacher> <2653857.mvXUDI8C0e@kreacher>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yp5nf2w8uVZ38/XZ@google.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
+X-CLIENT-IP: 213.134.187.64
+X-CLIENT-HOSTNAME: 213.134.187.64
+X-VADE-SPAMSTATE: clean
+X-VADE-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedguddviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfjqffogffrnfdpggftiffpkfenuceurghilhhouhhtmecuudehtdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkjghfggfgtgesthfuredttddtjeenucfhrhhomhepfdftrghfrggvlhculfdrucghhihsohgtkhhifdcuoehrjhifsehrjhifhihsohgtkhhirdhnvghtqeenucggtffrrghtthgvrhhnpedvffeuiedtgfdvtddugeeujedtffetteegfeekffdvfedttddtuefhgeefvdejhfenucfkphepvddufedrudefgedrudekjedrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddufedrudefgedrudekjedrieegpdhhvghlohepkhhrvggrtghhvghrrdhlohgtrghlnhgvthdpmhgrihhlfhhrohhmpedftfgrfhgrvghlucflrdcuhgihshhotghkihdfuceorhhjfiesrhhjfiihshhotghkihdrnhgvtheqpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehlihhnuhigqdgrtghpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhpmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehlihhnuhigrdhi
+ nhhtvghlrdgtohhmpdhrtghpthhtohepmhhikhgrrdifvghsthgvrhgsvghrgheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehhuggvghhovgguvgesrhgvughhrghtrdgtohhmpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohephhgvihhkkhhirdhkrhhoghgvrhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhigqdhushgssehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-DCC--Metrics: v370.home.net.pl 1024; Body=10 Fuz1=10 Fuz2=10
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jun 06, 2022 at 01:45:51PM -0700, Matthias Kaehlcke wrote:
-> On Thu, Jun 02, 2022 at 12:35:42PM -0700, Matthias Kaehlcke wrote:
-> > Hi Krishna,
-> > 
-> > with this version I see xHCI errors on my SC7180 based system, like
-> > these:
-> > 
-> > [   65.352605] xhci-hcd xhci-hcd.13.auto: xHC error in resume, USBSTS 0x401, Reinit
-> > 
-> > [  101.307155] xhci-hcd xhci-hcd.13.auto: WARN: xHC CMD_RUN timeout
-> > 
-> > After resume a downstream hub isn't enumerated again.
-> > 
-> > So far I didn't see those with v13, but I aso saw the first error with
-> > v16.
-> 
-> It also happens with v13, but only when a wakeup capable vUSB <= 2
-> device is plugged in. Initially I used a wakeup capable USB3 to
-> Ethernet adapter to trigger the wakeup case, however older versions
-> of this series that use usb_wakeup_enabled_descendants() to check
-> for wakeup capable devices didn't actually check for vUSB > 2
-> devices.
-> 
-> So the case were the controller/PHYs is powered down works, but
-> the controller is unhappy when the runtime PM path is used during
-> system suspend.
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-The issue isn't seen on all systems using dwc3-qcom and the problem starts
-during probe(). The expected probe sequence is something like this:
+Instead of walking the list of children of an ACPI device directly
+in order to find the child matching a given bus address, use
+acpi_find_child_by_adr() for this purpose.
 
-dwc3_qcom_probe
-  dwc3_qcom_of_register_core
-    dwc3_probe
+Also notice that if acpi_find_child_by_adr() doesn't find a matching
+child, acpi_find_child_device() will not find it too, so directly
+replace usb_acpi_find_port() in usb_acpi_get_companion_for_port() with
+acpi_find_child_by_adr() and drop it entirely.
 
-  if (device_can_wakeup(&qcom->dwc3->dev))
-    ...
+Apart from simplifying the code, this will help to eliminate the
+children list head from struct acpi_device as it is redundant and it
+is used in questionable ways in some places (in particular, locking is
+needed for walking the list pointed to it safely, but it is often
+missing).
 
-The important part is that device_can_wakeup() is called after dwc3_probe()
-has completed. That's what I see on a QC SC7280 system, where wakeup is
-generally working with these patches.
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
 
-However on a QC SC7180 system dwc3_probe() is deferred and only executed after
-dwc3_qcom_probe(). As a result the device_can_wakeup() call returns false.
-With that the controller/driver ends up in an unhappy state after system
-suspend.
+v1 -> v2:
+   * Drop usb_acpi_find_port() (Heikki, Andy).
+   * Change the subject accordingly.
 
-Probing is deferred on SC7180 because device_links_check_suppliers() finds
-that '88e3000.phy' isn't ready yet.
+---
+ drivers/usb/core/usb-acpi.c |   18 +-----------------
+ 1 file changed, 1 insertion(+), 17 deletions(-)
+
+Index: linux-pm/drivers/usb/core/usb-acpi.c
+===================================================================
+--- linux-pm.orig/drivers/usb/core/usb-acpi.c
++++ linux-pm/drivers/usb/core/usb-acpi.c
+@@ -124,22 +124,6 @@ out:
+  */
+ #define USB_ACPI_LOCATION_VALID (1 << 31)
+ 
+-static struct acpi_device *usb_acpi_find_port(struct acpi_device *parent,
+-					      int raw)
+-{
+-	struct acpi_device *adev;
+-
+-	if (!parent)
+-		return NULL;
+-
+-	list_for_each_entry(adev, &parent->children, node) {
+-		if (acpi_device_adr(adev) == raw)
+-			return adev;
+-	}
+-
+-	return acpi_find_child_device(parent, raw, false);
+-}
+-
+ static struct acpi_device *
+ usb_acpi_get_companion_for_port(struct usb_port *port_dev)
+ {
+@@ -170,7 +154,7 @@ usb_acpi_get_companion_for_port(struct u
+ 		port1 = port_dev->portnum;
+ 	}
+ 
+-	return usb_acpi_find_port(adev, port1);
++	return acpi_find_child_by_adr(adev, port1);
+ }
+ 
+ static struct acpi_device *
+
+
+
