@@ -2,87 +2,88 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E76C433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Jun 2022 14:36:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BFA5C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Jun 2022 15:21:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384350AbiFMOf7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Jun 2022 10:35:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46928 "EHLO
+        id S244304AbiFMPVN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Jun 2022 11:21:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384396AbiFMOeB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jun 2022 10:34:01 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEDB4ADBCF;
-        Mon, 13 Jun 2022 04:49:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1655120957; x=1686656957;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Ip7LDyLvG35PweXXiZXDcl0rYNLBHjbyNoPhnAv4A5k=;
-  b=jTEqqbovheovyfWDNgt2SKwbdHEAYvD6WjS84ok6mYYs0hyZ5UmeMipW
-   5bAD2a6QphiyQoYwrn+1GAMYumCt3B0JmMYZG+BxJ++x2Ufhg4Xo6MDSS
-   MMdb2op62uc76nO0p+OMJj9fPXyAn2lcTMtKBoAfrsAzrtcgeNQR4YFYH
-   35PwVG2fxlJ4brs9LdC/yfEqMhggjO9yH4OPKIz6ryb35ZtF9rSEaJI5k
-   QUY9YGWJscfDFN6ehWlRTLzTU+pVGZDOMDiuO6FB9c9CTU5PIgkTPeANU
-   emtis43FWMQPpHOjfoICtOFViDKA7KVgzJ1Y7n/hIQzefpLIguYAv+sBP
-   A==;
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
-   d="scan'208";a="177684159"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Jun 2022 04:48:29 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.17; Mon, 13 Jun 2022 04:48:29 -0700
-Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex02.mchp-main.com
- (10.10.85.144) with Microsoft SMTP Server id 15.1.2375.17 via Frontend
- Transport; Mon, 13 Jun 2022 04:48:26 -0700
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Bin Liu <b-liu@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Daire McNamara <daire.mcnamara@microchip.com>,
-        Valentina Fernandez <valentina.fernandezalanis@microchip.com>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>,
-        Ben Dooks <ben.dooks@codethink.co.uk>,
-        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-        Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v2 0/2] Add support for PolarFire SoC's musb controller
-Date:   Mon, 13 Jun 2022 12:46:41 +0100
-Message-ID: <20220613114642.1615292-1-conor.dooley@microchip.com>
-X-Mailer: git-send-email 2.36.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+        with ESMTP id S244271AbiFMPU7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jun 2022 11:20:59 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3B5B12E33B;
+        Mon, 13 Jun 2022 05:46:59 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id e5so2916891wma.0;
+        Mon, 13 Jun 2022 05:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=uZn86I/QpaNWIanURTy2oUxTuFO8ontc206QYMJD6nw=;
+        b=aQjJsfvXRZL16rd57OHG7LhT60WRoqn0F6J2oW3ksJnO7zxx2Gi+i86/PHMWZsY5u7
+         8CLR5XziRZxDc60zPngqGA8675DIhsQY3x4L8BBJPOjeckuzr6Va31Hiog93AzeYu934
+         A64+XwXGHCaHTLtQTIwhai4XLQfjOvqiaAhY18Gvnh8mtOE7hRg43dLK+wWoNyRaSura
+         2RNdG2nbNu8JzyjGx7dc/MipLDcbC3KvSVCdmu+swYb9UDLES5Wq1hITfii9hgvfpxzz
+         cfwn916QgHXdinQPL1vi7sX0/6g9Gg/3GDTUOtBLwP27dyPldwDazi4CzmSVfKYC3hB5
+         rxKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=uZn86I/QpaNWIanURTy2oUxTuFO8ontc206QYMJD6nw=;
+        b=X589EG/AZgx/t85dhScRf9k1XrBNBQcJ6b7T0OY5hoChCtXLT5ADo9J7GHCywuLB/j
+         EmjqtzEvkxIiv++Z1pi51Av+2YP1UW50ybxmFoUoUGy1TPe5/JIi1kIOhDzGlM56SdHB
+         ai2sfv0X8MM5t6mENsUlTb/1+y0W+B+wo3zrdRrBI+XbSnETdhI3Nz9d22DopYCeMkGw
+         zxwC3kk3EFjODA9hifa7i9ZLmeKCW9VPIcxmANAf3/lhBv7tcJ5mMt6MCpP1+jYkrMB7
+         MAVOtv0uAL7KHoFqGlQlIvu2HWXPaCW5rYfTLq76vosuJAEuCDkAZvsB3InryFWLNbI+
+         w2dA==
+X-Gm-Message-State: AOAM533ewlKzpZxRVd6Ey6a3ZcUi05EnpsadlIetroVVDEf2G5TKL7jc
+        A9fRTSA/3wlZQDExEOzLtEc=
+X-Google-Smtp-Source: ABdhPJw+qzU9/HjjCnxQbIJ0dzec17ovt8hi7cNWVHrRvPSQzc1d+4qSZU2fSwq9fu5XCgk3h0EPhg==
+X-Received: by 2002:a7b:c856:0:b0:39c:3b44:7ab0 with SMTP id c22-20020a7bc856000000b0039c3b447ab0mr14531641wml.117.1655124418303;
+        Mon, 13 Jun 2022 05:46:58 -0700 (PDT)
+Received: from felia.fritz.box (200116b8260df50011e978c0f780de03.dip.versatel-1u1.de. [2001:16b8:260d:f500:11e9:78c0:f780:de03])
+        by smtp.gmail.com with ESMTPSA id h7-20020a05600016c700b0020c7ec0fdf4sm9985404wrf.117.2022.06.13.05.46.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jun 2022 05:46:57 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] MAINTAINERS: add include/dt-bindings/usb to USB SUBSYSTEM
+Date:   Mon, 13 Jun 2022 14:46:47 +0200
+Message-Id: <20220613124647.32019-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hey Bin, Greg,
-Short series here adding support for USB on Microchip PolarFire SoC FPGAs.
-The kconfig dependency for INVENTRA_DMA has become a bit of a mouthful,
-is there a better way of dealing with that?
-Thanks,
-Conor.
+Maintainers of the directory Documentation/devicetree/bindings/usb
+are also the maintainers of the corresponding directory
+include/dt-bindings/usb.
 
-Changes since v1:
-- Drop unneeded resource copying as per Rob's changes to the other drivers
-- Drop the dts patch
+Add the file entry for include/dt-bindings/usb to the appropriate
+section in MAINTAINERS.
 
-Conor Dooley (2):
-  usb: musb: Add support for PolarFire SoC's musb controller
-  MAINTAINERS: add musb to PolarFire SoC entry
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+Greg, please pick this MAINTAINERS addition to your section.
 
- MAINTAINERS               |   1 +
- drivers/usb/musb/Kconfig  |  13 +-
- drivers/usb/musb/Makefile |   1 +
- drivers/usb/musb/mpfs.c   | 265 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 279 insertions(+), 1 deletion(-)
- create mode 100644 drivers/usb/musb/mpfs.c
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4fd2c1080aa5..b84ef4091535 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20801,6 +20801,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
+ F:	Documentation/devicetree/bindings/usb/
+ F:	Documentation/usb/
+ F:	drivers/usb/
++F:	include/dt-bindings/usb/
+ F:	include/linux/usb.h
+ F:	include/linux/usb/
+ 
 -- 
-2.36.1
+2.17.1
 
