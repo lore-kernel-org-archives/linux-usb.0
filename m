@@ -2,88 +2,144 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BFA5C433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Jun 2022 15:21:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78F08CCA47B
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Jun 2022 15:22:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244304AbiFMPVN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Jun 2022 11:21:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43948 "EHLO
+        id S238776AbiFMPW6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Jun 2022 11:22:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244271AbiFMPU7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jun 2022 11:20:59 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3B5B12E33B;
-        Mon, 13 Jun 2022 05:46:59 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id e5so2916891wma.0;
-        Mon, 13 Jun 2022 05:46:59 -0700 (PDT)
+        with ESMTP id S244573AbiFMPWh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jun 2022 11:22:37 -0400
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2088.outbound.protection.outlook.com [40.107.93.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55B64133917;
+        Mon, 13 Jun 2022 05:48:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LMfmkFnzEOS1rQPrFiwSbvKQgxHWswgMN00HB2smGEBAbcYw25edbjXr+zqm5RYvD0UJ1yv0cGvHR/c3wAKGGf49f9pqVvwlXDalzwgvWVaUqnpk44P6plSNc/onHuC2b36vmWp9ZiY9hgy4FxYTRq7AFSh8G5zbYgLoCjthyxUujg9Cp1JsoZQXMizNO9TuTgCmUijRAKNGlnyMlXChNf88Lgw2/u0pHDjmr/Mz/beKso8Nj4BT2nWLxUNNL1Wn4YS3SKWmtNIdBJVis3zyQ0ly74sdj4N0OiJDr6Xjoo/NAfIs7HPzlTzNC3qyED7fEPA1vuNch9DgRjFhEk1EeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nAwtrkRFqb/GKinsHUzY3y4eLFpbZs6Eo5Tn/14+gFE=;
+ b=gKV0bQG1y3sVzFUjTYBy9GQslbY0tFITtUTItrL0sZdZofgJBGJoDg7XpQLeeamI4dcLqODb8OhJuEoqy46faOClPltHfxluxX+p1cvUOp1OMDf5lSEugIrNEcjfu8KDOgsTLLfHMlQO1NBLSBSQSFGoyp2t5Odp3DT0j031pKylOX/l/JtHWo/LndhVh5972UlTfigNyOkj3gaWqwsTDiLqqUIlyevaNBDoay5Sqg56+6jVPYjb2pXf4PVMBW06xiueKDeRvJJF+fqB1FPuYbBqxGVX0iOoGovZO8WnbjE3pODGtDy+uM+XAG6I7stoIcjOVeS2O3pu1caC2dZjcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=linuxfoundation.org
+ smtp.mailfrom=xilinx.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=xilinx.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=uZn86I/QpaNWIanURTy2oUxTuFO8ontc206QYMJD6nw=;
-        b=aQjJsfvXRZL16rd57OHG7LhT60WRoqn0F6J2oW3ksJnO7zxx2Gi+i86/PHMWZsY5u7
-         8CLR5XziRZxDc60zPngqGA8675DIhsQY3x4L8BBJPOjeckuzr6Va31Hiog93AzeYu934
-         A64+XwXGHCaHTLtQTIwhai4XLQfjOvqiaAhY18Gvnh8mtOE7hRg43dLK+wWoNyRaSura
-         2RNdG2nbNu8JzyjGx7dc/MipLDcbC3KvSVCdmu+swYb9UDLES5Wq1hITfii9hgvfpxzz
-         cfwn916QgHXdinQPL1vi7sX0/6g9Gg/3GDTUOtBLwP27dyPldwDazi4CzmSVfKYC3hB5
-         rxKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=uZn86I/QpaNWIanURTy2oUxTuFO8ontc206QYMJD6nw=;
-        b=X589EG/AZgx/t85dhScRf9k1XrBNBQcJ6b7T0OY5hoChCtXLT5ADo9J7GHCywuLB/j
-         EmjqtzEvkxIiv++Z1pi51Av+2YP1UW50ybxmFoUoUGy1TPe5/JIi1kIOhDzGlM56SdHB
-         ai2sfv0X8MM5t6mENsUlTb/1+y0W+B+wo3zrdRrBI+XbSnETdhI3Nz9d22DopYCeMkGw
-         zxwC3kk3EFjODA9hifa7i9ZLmeKCW9VPIcxmANAf3/lhBv7tcJ5mMt6MCpP1+jYkrMB7
-         MAVOtv0uAL7KHoFqGlQlIvu2HWXPaCW5rYfTLq76vosuJAEuCDkAZvsB3InryFWLNbI+
-         w2dA==
-X-Gm-Message-State: AOAM533ewlKzpZxRVd6Ey6a3ZcUi05EnpsadlIetroVVDEf2G5TKL7jc
-        A9fRTSA/3wlZQDExEOzLtEc=
-X-Google-Smtp-Source: ABdhPJw+qzU9/HjjCnxQbIJ0dzec17ovt8hi7cNWVHrRvPSQzc1d+4qSZU2fSwq9fu5XCgk3h0EPhg==
-X-Received: by 2002:a7b:c856:0:b0:39c:3b44:7ab0 with SMTP id c22-20020a7bc856000000b0039c3b447ab0mr14531641wml.117.1655124418303;
-        Mon, 13 Jun 2022 05:46:58 -0700 (PDT)
-Received: from felia.fritz.box (200116b8260df50011e978c0f780de03.dip.versatel-1u1.de. [2001:16b8:260d:f500:11e9:78c0:f780:de03])
-        by smtp.gmail.com with ESMTPSA id h7-20020a05600016c700b0020c7ec0fdf4sm9985404wrf.117.2022.06.13.05.46.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jun 2022 05:46:57 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] MAINTAINERS: add include/dt-bindings/usb to USB SUBSYSTEM
-Date:   Mon, 13 Jun 2022 14:46:47 +0200
-Message-Id: <20220613124647.32019-1-lukas.bulwahn@gmail.com>
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nAwtrkRFqb/GKinsHUzY3y4eLFpbZs6Eo5Tn/14+gFE=;
+ b=HyrB8DOGsQq8ZshhEr5Fs/eGNhx+5f28eeAnpi2RE7UkvwomsRe7CTr3CUMHsATS29Ant1qjdr5v5GcxOVYyOA86Nvt2d9M3bjK2d0ZaUK/eoxHBkRahrYYpGY1yewj4e9ivgz58/Cm5NA4JeAwuj1EQhYzC8k69bquCm/K2Eto=
+Received: from BN6PR11CA0057.namprd11.prod.outlook.com (2603:10b6:404:f7::19)
+ by DM6PR02MB5931.namprd02.prod.outlook.com (2603:10b6:5:156::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.15; Mon, 13 Jun
+ 2022 12:48:04 +0000
+Received: from BN1NAM02FT010.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:404:f7:cafe::f7) by BN6PR11CA0057.outlook.office365.com
+ (2603:10b6:404:f7::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.13 via Frontend
+ Transport; Mon, 13 Jun 2022 12:48:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com; pr=C
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ BN1NAM02FT010.mail.protection.outlook.com (10.13.2.128) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5332.12 via Frontend Transport; Mon, 13 Jun 2022 12:48:03 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Mon, 13 Jun 2022 05:48:02 -0700
+Received: from smtp.xilinx.com (172.19.127.95) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.14 via Frontend Transport; Mon, 13 Jun 2022 05:48:02 -0700
+Envelope-to: git@xilinx.com,
+ gregkh@linuxfoundation.org,
+ robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org,
+ balbi@kernel.org,
+ linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Received: from [10.140.6.18] (port=39406 helo=xhdlakshmis40.xilinx.com)
+        by smtp.xilinx.com with esmtp (Exim 4.90)
+        (envelope-from <piyush.mehta@xilinx.com>)
+        id 1o0jU9-000A8B-DV; Mon, 13 Jun 2022 05:48:01 -0700
+From:   Piyush Mehta <piyush.mehta@xilinx.com>
+To:     <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <balbi@kernel.org>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <michal.simek@xilinx.com>
+CC:     <git@xilinx.com>, <sivadur@xilinx.com>,
+        Piyush Mehta <piyush.mehta@xilinx.com>
+Subject: [PATCH 1/2] dt-bindings: usb: snps,dwc3: Add 'snps,enable_guctl1_resume_quirk' quirk
+Date:   Mon, 13 Jun 2022 18:17:02 +0530
+Message-ID: <20220613124703.4493-2-piyush.mehta@xilinx.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220613124703.4493-1-piyush.mehta@xilinx.com>
+References: <20220613124703.4493-1-piyush.mehta@xilinx.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 18d2fc54-9e87-4dea-2169-08da4d3af4db
+X-MS-TrafficTypeDiagnostic: DM6PR02MB5931:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR02MB5931420DF6E31644770F9DA2D4AB9@DM6PR02MB5931.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2McO8ovP6/SyaMXe5lkkLtALFTjCMEEMVQK+eHbylCqc6WfZ+6SRDjspdjc4hPfYsql+1iwI+ZT5CnHJ7AVYvaqU5X+D0cu1zWBQbqkauZmODhSANrSaV2hmFz8/k5z/jSm7YB/utUvgJdkltiEhCgYDfKPL4FoF80ZM0vQyNOMXKiZM/xESxGyFfKE5H1oeDWD7OIEzXQXN7GdfKF1zPUxJ9l7RBecfXGTqAVUFNzAENCzAXy7EPJrfuNRkqiu37yAiwoKmlNCqRv8VYW7cYGson8FQjg8/u4Go6G/NqbA2Lpoe2ffRA1P8fqZvpftIt81PJCYgMsGC0WVvf8XfKqf+Rvsv9EzmxlVQ5dzPDVGrgtH8tdbQeKwPVLgifSgbDLC3GYLkPBsAw4q7ETHH+sMoFoqAOlyniLSUYE0Roxes54xT3xDERfhfM3xGFHH+cJWh4V+0hVWXBL1kSwYkMds2Vxg6/oJM/iMsBjDMUT7R7r/7OXrkOS0k/EAstnMI7/IR/vBKQaiB9Ry3kRY2zWIIEVfkgA2L/r82VC677Eu/CPoDGVSQtZY6qH8Kks0biV5C+h7wr0ZcS5EesDQ4xZtvw82IiWkKxylf4lQnKbaku/+g9uDZy9AxougvKg2iA3+EELuiN0Jpg2P5xVR1xmfOwsPI59Y/0C2z47FF768eBGslP/7jWCbHyXs7uYLCldWZOf5NfJxP+wp1XU/+gQ==
+X-Forefront-Antispam-Report: CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(13230016)(4636009)(36840700001)(46966006)(40470700004)(8936002)(70206006)(44832011)(4326008)(9786002)(7696005)(70586007)(5660300002)(316002)(2906002)(83380400001)(426003)(356005)(6636002)(54906003)(110136005)(36756003)(82310400005)(40460700003)(7636003)(8676002)(508600001)(2616005)(26005)(36860700001)(336012)(107886003)(47076005)(1076003)(186003)(102446001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2022 12:48:03.6383
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18d2fc54-9e87-4dea-2169-08da4d3af4db
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT010.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5931
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Maintainers of the directory Documentation/devicetree/bindings/usb
-are also the maintainers of the corresponding directory
-include/dt-bindings/usb.
+Add a new DT quirk to dwc3 core to resolved issue of CRC failed error.
+On the resume path, U3/U2 exit controller fails to send proper CRC
+checksum in CRC5 field. As result Transaction Error is generated.
+Enabling bit 10 of GUCTL1 will correct this problem.
 
-Add the file entry for include/dt-bindings/usb to the appropriate
-section in MAINTAINERS.
+When this bit is set to '1', the UTMI/ULPI opmode will be changed to
+"normal" along with HS terminations after EOR.
+This option is to support certain legacy UTMI/ULPI PHYs.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Signed-off-by: Piyush Mehta <piyush.mehta@xilinx.com>
 ---
-Greg, please pick this MAINTAINERS addition to your section.
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4fd2c1080aa5..b84ef4091535 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20801,6 +20801,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
- F:	Documentation/devicetree/bindings/usb/
- F:	Documentation/usb/
- F:	drivers/usb/
-+F:	include/dt-bindings/usb/
- F:	include/linux/usb.h
- F:	include/linux/usb/
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index d41265ba8ce2..36fa87df57a9 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -234,6 +234,12 @@ properties:
+       avoid -EPROTO errors with usbhid on some devices (Hikey 970).
+     type: boolean
  
++  snps,enable_guctl1_resume_quirk:
++    description:
++      Set if we enable quirk for fixing improper crc generation after resume
++      from suspend.
++    type: boolean
++
+   snps,is-utmi-l1-suspend:
+     description:
+       True when DWC3 asserts output signal utmi_l1_suspend_n, false when
 -- 
 2.17.1
 
