@@ -2,76 +2,126 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76A9CC43334
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Jun 2022 10:05:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 143D4CCA483
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Jun 2022 12:56:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232621AbiFMKFb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Jun 2022 06:05:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46810 "EHLO
+        id S1355387AbiFMM4R (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Jun 2022 08:56:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229808AbiFMKF3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jun 2022 06:05:29 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E39ADDBA;
-        Mon, 13 Jun 2022 03:05:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655114725; x=1686650725;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=m172As3IWVYcn+TF8WEERe47LseaOb5+mE8bYw135yI=;
-  b=Y797UceSDkbIky172FNxvqeKz+SCEjlemGimdPOM2YRBvhYONm3mCk+3
-   aKL3arm++jaBfZv59IifzBpY8faxko5LhHfVTXaYJz2ExabVoz20z5zi9
-   fIuvfYqBkPLkywa9/sSYiOEmSZJNdAu5XxakFfcmBEaqBvOr4Qssq04O3
-   7C3XGrWrcNvyR0CFKILKH7uOjqmXfo6zLXe0DSfkrF9zwwgs3HzLU4gtO
-   YiPSN/mg3T0Ui3p3X6zzYCNxmjl2+WiNM9dsnw9zu+mtsTfAynJAxjZnV
-   whvzjC/TSAm1CuBS5c/58DviE7DT2tT99l0gYRN0G/8oJdW7iybL+7w3i
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10376"; a="275767614"
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
-   d="scan'208";a="275767614"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2022 03:05:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
-   d="scan'208";a="726189170"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 13 Jun 2022 03:05:21 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 13 Jun 2022 13:05:20 +0300
-Date:   Mon, 13 Jun 2022 13:05:20 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Xin Ji <xji@analogixsemi.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        bliang@analogixsemi.com, qwen@analogixsemi.com,
-        jli@analogixsemi.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v9 1/3] usb: typec: tcpci: move tcpci.h to
- include/linux/usb/
-Message-ID: <YqcL4NyPD6JZkPxZ@kuha.fi.intel.com>
-References: <20220309023404.1221453-1-xji@analogixsemi.com>
- <YqMaUroS87rjnCny@kroah.com>
- <YqMyxQGzPSs/HwVi@kuha.fi.intel.com>
- <20220613093948.GA1454902@anxtwsw-Precision-3640-Tower>
+        with ESMTP id S1356440AbiFMMyC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jun 2022 08:54:02 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 053A434BA7;
+        Mon, 13 Jun 2022 04:12:54 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id h192so5246936pgc.4;
+        Mon, 13 Jun 2022 04:12:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=oqTkyZ/R9/aOjKZlhpbfjvDgfGSkULBZvX8wxg4YxyU=;
+        b=EkfouFuwigzPeP3CaHjbjOBiWlhMunkQOLCaHKE2YU6uwGayAsPnUiKSAXGdXu18cJ
+         v4gsLlJJlItr1BUXfBsqy4n/SJ3JfrJozMKwoYPdCNYzW3nIjUOr8xTpW2pnpdzMS6N3
+         fU1tUtmrLaNU1SbFzyXbBnxLXiGR5p8MfWcLVM8ZECExJE9azVAatV/AqH5t25q8zpX3
+         hhfuJLTyojZTZyemTeos0TFjLPWsXyMrWe7iM56nTK6jVjsQpTeVehX8WVnWFMOzDINC
+         A/K/lWvB8Z/L9aRwVHBilttnT0nQc9JF1fuhIfPB9oUg8Paw8u8WsrP8Dvt6YEOmRlZP
+         C7pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=oqTkyZ/R9/aOjKZlhpbfjvDgfGSkULBZvX8wxg4YxyU=;
+        b=MdlEYUkZ+RMXJ0Okv2zwUi40zMOdFmXoNZYw1cmlt6hJAmPEPOLLCnc/L4gwz15AK0
+         aOrCbgr/QDLBMGzumOaTnv3tmyQpDaGHVwrvY5tkrLosgz1OXFQyUMtwKlTgk71vhqmI
+         oPv6iFSLQmLXxdbimd3MY7SEJ2wEku5h3xvNGXhyKfOufv3ZJjQs4AAalZSiQ6+uEkLZ
+         0v15SC6nUIXcM2bdsIi8/tOGCNHvkQisG/w9zo7e2PC7kRh2Uk+H4CNxdJmYNCanqIAj
+         Bo59VvKi+TorNvf9/aZGOP3jAk4+sRHyJNUS2o5GffWtzJSCLnd9hWiMgMqW9mJysViZ
+         q6aQ==
+X-Gm-Message-State: AOAM532vZjB3lBs6pz09r6mTZhd3+A+rlJQRu+3kDjrnEjeL2Z5G+k9o
+        QOkqouDFwoIXEqmcZB+WNng=
+X-Google-Smtp-Source: ABdhPJykU5u3d/PSqbUfSBIHCI7wMOPjK0kTGhhrXnoTs+pr7YZi4FLWyDRwJrY+TNdVd5Qu1JUYlg==
+X-Received: by 2002:a65:67c1:0:b0:3fd:ebd6:5dab with SMTP id b1-20020a6567c1000000b003fdebd65dabmr30448557pgs.75.1655118769299;
+        Mon, 13 Jun 2022 04:12:49 -0700 (PDT)
+Received: from RD-3580-24288.rt.l (42-72-115-109.emome-ip.hinet.net. [42.72.115.109])
+        by smtp.gmail.com with ESMTPSA id g17-20020a056a000b9100b0051b4e53c487sm5199989pfj.45.2022.06.13.04.12.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jun 2022 04:12:49 -0700 (PDT)
+From:   ChiaEn Wu <peterwu.pub@gmail.com>
+To:     jic23@kernel.org, lars@metafoo.de, matthias.bgg@gmail.com,
+        lee.jones@linaro.org, daniel.thompson@linaro.org,
+        jingoohan1@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org
+Cc:     linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        szunichen@gmail.com, ChiYuan Huang <cy_huang@richtek.com>
+Subject: [PATCH v2 01/15] dt-bindings: usb: Add Mediatek MT6370 TCPC
+Date:   Mon, 13 Jun 2022 19:11:32 +0800
+Message-Id: <20220613111146.25221-2-peterwu.pub@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220613111146.25221-1-peterwu.pub@gmail.com>
+References: <20220613111146.25221-1-peterwu.pub@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220613093948.GA1454902@anxtwsw-Precision-3640-Tower>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-On Mon, Jun 13, 2022 at 05:39:48PM +0800, Xin Ji wrote:
-> Hi heikki, OK, I'll rebase on the latest code and resend.
+Add Mediatek MT6370 TCPC binding documentation.
 
-Before you resend, please make sure you check the comments I made to
-the patch 3/3.
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+---
+ .../bindings/usb/mediatek,mt6370-tcpc.yaml    | 36 +++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml
 
-thanks,
-
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml b/Documentation/devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml
+new file mode 100644
+index 000000000000..aa083e92bbba
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml
+@@ -0,0 +1,36 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/usb/mediatek,mt6370-tcpc.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Mediatek MT6370 Type-C Port Switch and Power Delivery controller
++
++maintainers:
++  - ChiYuan Huang <cy_huang@richtek.com>
++
++description: |
++  Mediatek MT6370 is a multi-functional device.
++  It integrates charger, ADC, flash, RGB indicators,
++  regulators (DSV/VIBLDO), and TypeC Port Switch with Power Delivery controller.
++  This document only describes MT6370 Type-C Port Switch and
++  Power Delivery controller.
++
++properties:
++  compatible:
++    enum:
++      - mediatek,mt6370-tcpc
++
++  interrupts:
++    maxItems: 1
++
++  connector:
++    type: object
++    $ref: /schemas/connector/usb-connector.yaml#
++    unevaluatedProperties: false
++
++additionalProperties: false
++
++required:
++  - compatible
++  - interrupts
 -- 
-heikki
+2.25.1
+
