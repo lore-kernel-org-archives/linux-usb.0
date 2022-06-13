@@ -2,133 +2,144 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6572ECCA481
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Jun 2022 20:07:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 781AACCA47F
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Jun 2022 20:16:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350652AbiFMUH4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Jun 2022 16:07:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41326 "EHLO
+        id S1350869AbiFMUQ5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Jun 2022 16:16:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344627AbiFMUHB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jun 2022 16:07:01 -0400
-Received: from cloudserver094114.home.pl (cloudserver094114.home.pl [79.96.170.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1BCD5BD1D;
-        Mon, 13 Jun 2022 11:41:07 -0700 (PDT)
-Received: from localhost (127.0.0.1) (HELO v370.home.net.pl)
- by /usr/run/smtp (/usr/run/postfix/private/idea_relay_lmtp) via UNIX with SMTP (IdeaSmtpServer 5.0.0)
- id a4edbe782fab070e; Mon, 13 Jun 2022 20:41:06 +0200
-Received: from kreacher.localnet (unknown [213.134.187.64])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by v370.home.net.pl (Postfix) with ESMTPSA id 0589866C81D;
-        Mon, 13 Jun 2022 20:41:04 +0200 (CEST)
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Linux ACPI <linux-acpi@vger.kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
+        with ESMTP id S230115AbiFMUQm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jun 2022 16:16:42 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34ECB2AE3C;
+        Mon, 13 Jun 2022 11:53:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655146419; x=1686682419;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N/FooetRT0zhGj9JT4wTV9Q1LeNSCJr8h76SMTw5COE=;
+  b=QHyD+zEUTks6H3km+26SNY3qIxehbSgv3Yp1iJt5Drm3t3a8Ni1bmJqC
+   irggBQsXWq/5l3h22o5O+ZReLBZb/vBHcs5I5m6MKDg9wJbvXr2VCGy3P
+   3tVz4zG5UjMzh9s1f3eBka7ylVtZy0dnF2vujqo3iYuKK7dt34Da5tW0P
+   174mmabEEKj7kOGu9IDDW45ucz3dp9SL22PiAIv6WqyFf1cslmRX6UkDW
+   f5L6YDjAp6KC3p2yQR/L8BUizcgune/C5bSG+RXocEygVMC3Sg3U8BVn6
+   q2NUQz9tn6BCjYZHZuq9/YcCLmSu+US1215RmmrLFy5l7SoBO2FwXyxiE
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="275909478"
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
+   d="scan'208";a="275909478"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2022 11:53:39 -0700
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
+   d="scan'208";a="673448816"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2022 11:53:36 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1o0pBt-000bIT-Rw;
+        Mon, 13 Jun 2022 21:53:33 +0300
+Date:   Mon, 13 Jun 2022 21:53:33 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     Linux ACPI <linux-acpi@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Linux PM <linux-pm@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        linux-usb@vger.kernel.org,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: [PATCH v2 04/16] thunderbolt: ACPI: Replace tb_acpi_find_port() with acpi_find_child_by_adr()
-Date:   Mon, 13 Jun 2022 20:11:36 +0200
-Message-ID: <2851774.e9J7NaK4W3@kreacher>
-In-Reply-To: <2653857.mvXUDI8C0e@kreacher>
-References: <1843211.tdWV9SEqCh@kreacher> <2653857.mvXUDI8C0e@kreacher>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 05/16] USB: ACPI: Replace usb_acpi_find_port() with
+ acpi_find_child_by_adr()
+Message-ID: <YqeHrRe/VFUpEJd6@smile.fi.intel.com>
+References: <1843211.tdWV9SEqCh@kreacher>
+ <2653857.mvXUDI8C0e@kreacher>
+ <23334378.ouqheUzb2q@kreacher>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
-X-CLIENT-IP: 213.134.187.64
-X-CLIENT-HOSTNAME: 213.134.187.64
-X-VADE-SPAMSTATE: clean
-X-VADE-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedguddviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfjqffogffrnfdpggftiffpkfenuceurghilhhouhhtmecuudehtdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkjghfggfgtgesthfuredttddtjeenucfhrhhomhepfdftrghfrggvlhculfdrucghhihsohgtkhhifdcuoehrjhifsehrjhifhihsohgtkhhirdhnvghtqeenucggtffrrghtthgvrhhnpedvffeuiedtgfdvtddugeeujedtffetteegfeekffdvfedttddtuefhgeefvdejhfenucfkphepvddufedrudefgedrudekjedrieegnecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehinhgvthepvddufedrudefgedrudekjedrieegpdhhvghlohepkhhrvggrtghhvghrrdhlohgtrghlnhgvthdpmhgrihhlfhhrohhmpedftfgrfhgrvghlucflrdcuhgihshhotghkihdfuceorhhjfiesrhhjfiihshhotghkihdrnhgvtheqpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehlihhnuhigqdgrtghpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhpmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehlihhnuhigrdhi
- nhhtvghlrdgtohhmpdhrtghpthhtohepmhhikhgrrdifvghsthgvrhgsvghrgheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehhuggvghhovgguvgesrhgvughhrghtrdgtohhmpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheprghnughrvggrshdrnhhovghvvghrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhhitghhrggvlhdrjhgrmhgvthesihhnthgvlhdrtghomhdprhgtphhtthhopegjvghhvgiikhgvlhfuhheusehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidquhhssgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehhvghikhhkihdrkhhrohhgvghruhhssehlihhnuhigrdhinhhtvghlrdgtohhm
-X-DCC--Metrics: v370.home.net.pl 1024; Body=12 Fuz1=12 Fuz2=12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <23334378.ouqheUzb2q@kreacher>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On Mon, Jun 13, 2022 at 08:39:37PM +0200, Rafael J. Wysocki wrote:
+> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> 
+> Instead of walking the list of children of an ACPI device directly
+> in order to find the child matching a given bus address, use
+> acpi_find_child_by_adr() for this purpose.
+> 
+> Also notice that if acpi_find_child_by_adr() doesn't find a matching
+> child, acpi_find_child_device() will not find it too, so directly
+> replace usb_acpi_find_port() in usb_acpi_get_companion_for_port() with
+> acpi_find_child_by_adr() and drop it entirely.
+> 
+> Apart from simplifying the code, this will help to eliminate the
+> children list head from struct acpi_device as it is redundant and it
+> is used in questionable ways in some places (in particular, locking is
+> needed for walking the list pointed to it safely, but it is often
+> missing).
 
-Use acpi_find_child_by_adr() to find the child matching a given bus
-address instead of tb_acpi_find_port() that walks the list of children
-of an ACPI device directly for this purpose and drop the latter.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Apart from simplifying the code, this will help to eliminate the
-children list head from struct acpi_device as it is redundant and it
-is used in questionable ways in some places (in particular, locking is
-needed for walking the list pointed to it safely, but it is often
-missing).
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+> 
+> v1 -> v2:
+>    * Drop usb_acpi_find_port() (Heikki, Andy).
+>    * Change the subject accordingly.
+> 
+> ---
+>  drivers/usb/core/usb-acpi.c |   18 +-----------------
+>  1 file changed, 1 insertion(+), 17 deletions(-)
+> 
+> Index: linux-pm/drivers/usb/core/usb-acpi.c
+> ===================================================================
+> --- linux-pm.orig/drivers/usb/core/usb-acpi.c
+> +++ linux-pm/drivers/usb/core/usb-acpi.c
+> @@ -124,22 +124,6 @@ out:
+>   */
+>  #define USB_ACPI_LOCATION_VALID (1 << 31)
+>  
+> -static struct acpi_device *usb_acpi_find_port(struct acpi_device *parent,
+> -					      int raw)
+> -{
+> -	struct acpi_device *adev;
+> -
+> -	if (!parent)
+> -		return NULL;
+> -
+> -	list_for_each_entry(adev, &parent->children, node) {
+> -		if (acpi_device_adr(adev) == raw)
+> -			return adev;
+> -	}
+> -
+> -	return acpi_find_child_device(parent, raw, false);
+> -}
+> -
+>  static struct acpi_device *
+>  usb_acpi_get_companion_for_port(struct usb_port *port_dev)
+>  {
+> @@ -170,7 +154,7 @@ usb_acpi_get_companion_for_port(struct u
+>  		port1 = port_dev->portnum;
+>  	}
+>  
+> -	return usb_acpi_find_port(adev, port1);
+> +	return acpi_find_child_by_adr(adev, port1);
+>  }
+>  
+>  static struct acpi_device *
+> 
+> 
+> 
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
-
-v1 -> v2:
-   * Drop tb_acpi_find_port() (Heikki, Andy).
-   * Change the subject accordingly
-
----
- drivers/thunderbolt/acpi.c |   27 ++++-----------------------
- 1 file changed, 4 insertions(+), 23 deletions(-)
-
-Index: linux-pm/drivers/thunderbolt/acpi.c
-===================================================================
---- linux-pm.orig/drivers/thunderbolt/acpi.c
-+++ linux-pm/drivers/thunderbolt/acpi.c
-@@ -301,26 +301,6 @@ static bool tb_acpi_bus_match(struct dev
- 	return tb_is_switch(dev) || tb_is_usb4_port_device(dev);
- }
- 
--static struct acpi_device *tb_acpi_find_port(struct acpi_device *adev,
--					     const struct tb_port *port)
--{
--	struct acpi_device *port_adev;
--
--	if (!adev)
--		return NULL;
--
--	/*
--	 * Device routers exists under the downstream facing USB4 port
--	 * of the parent router. Their _ADR is always 0.
--	 */
--	list_for_each_entry(port_adev, &adev->children, node) {
--		if (acpi_device_adr(port_adev) == port->port)
--			return port_adev;
--	}
--
--	return NULL;
--}
--
- static struct acpi_device *tb_acpi_switch_find_companion(struct tb_switch *sw)
- {
- 	struct acpi_device *adev = NULL;
-@@ -331,7 +311,8 @@ static struct acpi_device *tb_acpi_switc
- 		struct tb_port *port = tb_port_at(tb_route(sw), parent_sw);
- 		struct acpi_device *port_adev;
- 
--		port_adev = tb_acpi_find_port(ACPI_COMPANION(&parent_sw->dev), port);
-+		port_adev = acpi_find_child_by_adr(ACPI_COMPANION(&parent_sw->dev),
-+						   port->port);
- 		if (port_adev)
- 			adev = acpi_find_child_device(port_adev, 0, false);
- 	} else {
-@@ -364,8 +345,8 @@ static struct acpi_device *tb_acpi_find_
- 	if (tb_is_switch(dev))
- 		return tb_acpi_switch_find_companion(tb_to_switch(dev));
- 	else if (tb_is_usb4_port_device(dev))
--		return tb_acpi_find_port(ACPI_COMPANION(dev->parent),
--					 tb_to_usb4_port_device(dev)->port);
-+		return acpi_find_child_by_adr(ACPI_COMPANION(dev->parent),
-+					      tb_to_usb4_port_device(dev)->port->port);
- 	return NULL;
- }
- 
-
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
