@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52A89CCA47F
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Jun 2022 14:34:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E76C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Jun 2022 14:36:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384055AbiFMOev (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Jun 2022 10:34:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34068 "EHLO
+        id S1384350AbiFMOf7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Jun 2022 10:35:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385566AbiFMObh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jun 2022 10:31:37 -0400
+        with ESMTP id S1384396AbiFMOeB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jun 2022 10:34:01 -0400
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FBBDABF55;
-        Mon, 13 Jun 2022 04:49:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEDB4ADBCF;
+        Mon, 13 Jun 2022 04:49:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1655120944; x=1686656944;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Pj2tfW8mZzif7jlpRh0HExia+x5zaVcrwbz9+Z9tZBk=;
-  b=qMRDPdF59gqW39xcqHhgQ/WCJ7/Jo5Aecc0qTJ3pu7ABVIp5C/9qMO9e
-   s58r3jIcbWjt1efpZjMSu2f2Ggd5MZEdo4EO/wiRN29IQTPnjPT2cfY7c
-   iCmopRcbzh7t/+tiZ5A/vKyOa6t5amSHaahBsPH2WWEXgDLAJsib+RTzP
-   M5ewXcukkmdYng5HZLFAQ5n70DO8jNureYEZouPrLn5pYYn3W+TO8/SWh
-   UaLdOeKTVoijmyO6LOt6YuJonpaL+JMb2z9dR3qTDSX2zsDN+bLx3l5mi
-   u+IDA9qie4gE5LS6lTlOwIDVOHG2HmfktEgafXck+f/5+fg46tVk9xRA+
-   Q==;
+  t=1655120957; x=1686656957;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Ip7LDyLvG35PweXXiZXDcl0rYNLBHjbyNoPhnAv4A5k=;
+  b=jTEqqbovheovyfWDNgt2SKwbdHEAYvD6WjS84ok6mYYs0hyZ5UmeMipW
+   5bAD2a6QphiyQoYwrn+1GAMYumCt3B0JmMYZG+BxJ++x2Ufhg4Xo6MDSS
+   MMdb2op62uc76nO0p+OMJj9fPXyAn2lcTMtKBoAfrsAzrtcgeNQR4YFYH
+   35PwVG2fxlJ4brs9LdC/yfEqMhggjO9yH4OPKIz6ryb35ZtF9rSEaJI5k
+   QUY9YGWJscfDFN6ehWlRTLzTU+pVGZDOMDiuO6FB9c9CTU5PIgkTPeANU
+   emtis43FWMQPpHOjfoICtOFViDKA7KVgzJ1Y7n/hIQzefpLIguYAv+sBP
+   A==;
 X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
-   d="scan'208";a="168174938"
+   d="scan'208";a="177684159"
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Jun 2022 04:48:34 -0700
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Jun 2022 04:48:29 -0700
 Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.17; Mon, 13 Jun 2022 04:48:34 -0700
+ 15.1.2375.17; Mon, 13 Jun 2022 04:48:29 -0700
 Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex02.mchp-main.com
  (10.10.85.144) with Microsoft SMTP Server id 15.1.2375.17 via Frontend
- Transport; Mon, 13 Jun 2022 04:48:32 -0700
+ Transport; Mon, 13 Jun 2022 04:48:26 -0700
 From:   Conor Dooley <conor.dooley@microchip.com>
 To:     Bin Liu <b-liu@ti.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -48,12 +48,10 @@ CC:     Daire McNamara <daire.mcnamara@microchip.com>,
         Ben Dooks <ben.dooks@codethink.co.uk>,
         Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
         Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v2 2/2] MAINTAINERS: add musb to PolarFire SoC entry
-Date:   Mon, 13 Jun 2022 12:46:43 +0100
-Message-ID: <20220613114642.1615292-3-conor.dooley@microchip.com>
+Subject: [PATCH v2 0/2] Add support for PolarFire SoC's musb controller
+Date:   Mon, 13 Jun 2022 12:46:41 +0100
+Message-ID: <20220613114642.1615292-1-conor.dooley@microchip.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220613114642.1615292-1-conor.dooley@microchip.com>
-References: <20220613114642.1615292-1-conor.dooley@microchip.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -61,25 +59,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add the newly introduced musb driver to the existing PolarFire SoC entry.
+Hey Bin, Greg,
+Short series here adding support for USB on Microchip PolarFire SoC FPGAs.
+The kconfig dependency for INVENTRA_DMA has become a bit of a mouthful,
+is there a better way of dealing with that?
+Thanks,
+Conor.
 
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Changes since v1:
+- Drop unneeded resource copying as per Rob's changes to the other drivers
+- Drop the dts patch
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a6d3bd9d2a8d..b07b2cfa3567 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17143,6 +17143,7 @@ S:	Supported
- F:	arch/riscv/boot/dts/microchip/
- F:	drivers/mailbox/mailbox-mpfs.c
- F:	drivers/soc/microchip/
-+F:	drivers/usb/musb/mpfs.c
- F:	include/soc/microchip/mpfs.h
- 
- RNBD BLOCK DRIVERS
+Conor Dooley (2):
+  usb: musb: Add support for PolarFire SoC's musb controller
+  MAINTAINERS: add musb to PolarFire SoC entry
+
+ MAINTAINERS               |   1 +
+ drivers/usb/musb/Kconfig  |  13 +-
+ drivers/usb/musb/Makefile |   1 +
+ drivers/usb/musb/mpfs.c   | 265 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 279 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/usb/musb/mpfs.c
+
+
+base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
 -- 
 2.36.1
 
