@@ -2,31 +2,31 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 420D4CCA481
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33375CCA47A
 	for <linux-usb@archiver.kernel.org>; Tue, 14 Jun 2022 09:22:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355467AbiFNJVi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Jun 2022 05:21:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60026 "EHLO
+        id S1355368AbiFNJVh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Jun 2022 05:21:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355142AbiFNJVY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Jun 2022 05:21:24 -0400
+        with ESMTP id S1353535AbiFNJVU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Jun 2022 05:21:20 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DC9C44753;
-        Tue, 14 Jun 2022 02:21:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 357BE43AF7;
+        Tue, 14 Jun 2022 02:21:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=tR8Z94IekGls78rbUJyIhZxzVwOy+PTWpnsOz3NKu6E=; b=gJHQoVS3BzTHM+FQukOQW06Mq8
-        TytniOLc+YgupX/fCLXlrki3RX571SH4sFlZJEHhiTXJ0qQjd2NbsIPzPmVi00Zss17MJUC0M6U6z
-        Wyy6vx9GS4aFStzL6/bj/PSy3K1QGKIwy+Hwrl4YpE3ZD4WGOUPoWPvBhVS8vduXGiSoS8OAIS36M
-        mu0BIeAjOG62NwdA3WWpOQYUc5CWP6Jff+DdB789iF+NiK+n+xYrAnGuGK1/fnusTtWoNi7Sy1aip
-        en9uAqTXKJfgmGCSnLT42W2hWyvA19Ib44dzHdZtx55daq5Q5Rva8MGzrlKzbHAfifV1qFyOq3flM
-        Gb9GVSgA==;
+        bh=47uyWGn6/VDW4MRq3GQn7aM6/wNb/0yKe/L4vC2LwhI=; b=ZZiecFu+Aw4MQGV4wGGBfelAih
+        1tmUaW5dp1/liq1NsoMrVlR1MmQ0rBrsez8CL04AqL8h05znUx+UeV9bKATEh6cPIK7z0mkpqD3R5
+        yRTGnXv/gtxx17vFRVdm5eNPEB6pvj5jKk4NWQY6RfIXPiMx3Ruw6G6ZEJL+NH5oDNoJ1hn/VSaxG
+        a9iUk+aIrVeDfQQ+QRKQ6aAOxG0tx8DAxAuSpQmzu+aDezTY4idhkgc5quglcsB5YRTvCf+0ba9fk
+        4VZeUNJq3J502PcbytN99zyBAE+c93zZiezwfYqDaiVoYU7ctjtmq2kZqmoEiuP+9jKOZc/NnkDjq
+        i/HRQjHw==;
 Received: from [2001:4bb8:180:36f6:1fed:6d48:cf16:d13c] (helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o12jQ-008fMO-TJ; Tue, 14 Jun 2022 09:21:05 +0000
+        id 1o12jK-008fJl-U3; Tue, 14 Jun 2022 09:20:59 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Russell King <linux@armlinux.org.uk>,
         Arnd Bergmann <arnd@kernel.org>
@@ -44,9 +44,9 @@ Cc:     Linus Walleij <linus.walleij@linaro.org>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
         Marc Zyngier <maz@kernel.org>
-Subject: [PATCH 05/10] ARM/dma-mapping: use dma_to_phys/phys_to_dma in the dma-mapping code
-Date:   Tue, 14 Jun 2022 11:20:42 +0200
-Message-Id: <20220614092047.572235-6-hch@lst.de>
+Subject: [PATCH 03/10] ARM/dma-mapping: mark various dma-mapping routines static in dma-mapping.c
+Date:   Tue, 14 Jun 2022 11:20:40 +0200
+Message-Id: <20220614092047.572235-4-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220614092047.572235-1-hch@lst.de>
 References: <20220614092047.572235-1-hch@lst.de>
@@ -57,119 +57,277 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use the helpers as expected by the dma-direct code in the old arm
-dma-mapping code to ease a gradual switch to the common DMA code.
+With the dmabounce removal these aren't used outside of dma-mapping.c,
+so mark them static.  Move the dma_map_ops declarations down a bit
+to avoid lots of forward declarations.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 Tested-by: Marc Zyngier <maz@kernel.org>
 ---
- arch/arm/mm/dma-mapping.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ arch/arm/include/asm/dma-mapping.h |  75 ----------------------
+ arch/arm/mm/dma-mapping.c          | 100 +++++++++++++----------------
+ 2 files changed, 46 insertions(+), 129 deletions(-)
 
+diff --git a/arch/arm/include/asm/dma-mapping.h b/arch/arm/include/asm/dma-mapping.h
+index 1e015a7ad86aa..6427b934bd11c 100644
+--- a/arch/arm/include/asm/dma-mapping.h
++++ b/arch/arm/include/asm/dma-mapping.h
+@@ -20,80 +20,5 @@ static inline const struct dma_map_ops *get_arch_dma_ops(struct bus_type *bus)
+ 	return NULL;
+ }
+ 
+-/**
+- * arm_dma_alloc - allocate consistent memory for DMA
+- * @dev: valid struct device pointer, or NULL for ISA and EISA-like devices
+- * @size: required memory size
+- * @handle: bus-specific DMA address
+- * @attrs: optinal attributes that specific mapping properties
+- *
+- * Allocate some memory for a device for performing DMA.  This function
+- * allocates pages, and will return the CPU-viewed address, and sets @handle
+- * to be the device-viewed address.
+- */
+-extern void *arm_dma_alloc(struct device *dev, size_t size, dma_addr_t *handle,
+-			   gfp_t gfp, unsigned long attrs);
+-
+-/**
+- * arm_dma_free - free memory allocated by arm_dma_alloc
+- * @dev: valid struct device pointer, or NULL for ISA and EISA-like devices
+- * @size: size of memory originally requested in dma_alloc_coherent
+- * @cpu_addr: CPU-view address returned from dma_alloc_coherent
+- * @handle: device-view address returned from dma_alloc_coherent
+- * @attrs: optinal attributes that specific mapping properties
+- *
+- * Free (and unmap) a DMA buffer previously allocated by
+- * arm_dma_alloc().
+- *
+- * References to memory and mappings associated with cpu_addr/handle
+- * during and after this call executing are illegal.
+- */
+-extern void arm_dma_free(struct device *dev, size_t size, void *cpu_addr,
+-			 dma_addr_t handle, unsigned long attrs);
+-
+-/**
+- * arm_dma_mmap - map a coherent DMA allocation into user space
+- * @dev: valid struct device pointer, or NULL for ISA and EISA-like devices
+- * @vma: vm_area_struct describing requested user mapping
+- * @cpu_addr: kernel CPU-view address returned from dma_alloc_coherent
+- * @handle: device-view address returned from dma_alloc_coherent
+- * @size: size of memory originally requested in dma_alloc_coherent
+- * @attrs: optinal attributes that specific mapping properties
+- *
+- * Map a coherent DMA buffer previously allocated by dma_alloc_coherent
+- * into user space.  The coherent DMA buffer must not be freed by the
+- * driver until the user space mapping has been released.
+- */
+-extern int arm_dma_mmap(struct device *dev, struct vm_area_struct *vma,
+-			void *cpu_addr, dma_addr_t dma_addr, size_t size,
+-			unsigned long attrs);
+-
+-/*
+- * For SA-1111, IXP425, and ADI systems  the dma-mapping functions are "magic"
+- * and utilize bounce buffers as needed to work around limited DMA windows.
+- *
+- * On the SA-1111, a bug limits DMA to only certain regions of RAM.
+- * On the IXP425, the PCI inbound window is 64MB (256MB total RAM)
+- * On some ADI engineering systems, PCI inbound window is 32MB (12MB total RAM)
+- *
+- * The following are helper functions used by the dmabounce subystem
+- *
+- */
+-
+-/*
+- * The scatter list versions of the above methods.
+- */
+-extern int arm_dma_map_sg(struct device *, struct scatterlist *, int,
+-		enum dma_data_direction, unsigned long attrs);
+-extern void arm_dma_unmap_sg(struct device *, struct scatterlist *, int,
+-		enum dma_data_direction, unsigned long attrs);
+-extern void arm_dma_sync_sg_for_cpu(struct device *, struct scatterlist *, int,
+-		enum dma_data_direction);
+-extern void arm_dma_sync_sg_for_device(struct device *, struct scatterlist *, int,
+-		enum dma_data_direction);
+-extern int arm_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
+-		void *cpu_addr, dma_addr_t dma_addr, size_t size,
+-		unsigned long attrs);
+-
+ #endif /* __KERNEL__ */
+ #endif
 diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
-index 90142183d1045..a09ce16c7ddbd 100644
+index 059cce0185706..90142183d1045 100644
 --- a/arch/arm/mm/dma-mapping.c
 +++ b/arch/arm/mm/dma-mapping.c
-@@ -128,14 +128,14 @@ static dma_addr_t arm_dma_map_page(struct device *dev, struct page *page,
- {
- 	if ((attrs & DMA_ATTR_SKIP_CPU_SYNC) == 0)
- 		__dma_page_cpu_to_dev(page, offset, size, dir);
--	return pfn_to_dma(dev, page_to_pfn(page)) + offset;
-+	return phys_to_dma(dev, page_to_phys(page) + offset);
+@@ -193,50 +193,6 @@ static int arm_dma_supported(struct device *dev, u64 mask)
+ 	return dma_to_pfn(dev, mask) >= max_dma_pfn;
  }
  
- static dma_addr_t arm_coherent_dma_map_page(struct device *dev, struct page *page,
- 	     unsigned long offset, size_t size, enum dma_data_direction dir,
- 	     unsigned long attrs)
- {
--	return pfn_to_dma(dev, page_to_pfn(page)) + offset;
-+	return phys_to_dma(dev, page_to_phys(page) + offset);
- }
- 
- /**
-@@ -156,7 +156,7 @@ static void arm_dma_unmap_page(struct device *dev, dma_addr_t handle,
- 		size_t size, enum dma_data_direction dir, unsigned long attrs)
- {
- 	if ((attrs & DMA_ATTR_SKIP_CPU_SYNC) == 0)
--		__dma_page_dev_to_cpu(pfn_to_page(dma_to_pfn(dev, handle)),
-+		__dma_page_dev_to_cpu(phys_to_page(dma_to_phys(dev, handle)),
- 				      handle & ~PAGE_MASK, size, dir);
- }
- 
-@@ -164,7 +164,7 @@ static void arm_dma_sync_single_for_cpu(struct device *dev,
- 		dma_addr_t handle, size_t size, enum dma_data_direction dir)
- {
- 	unsigned int offset = handle & (PAGE_SIZE - 1);
--	struct page *page = pfn_to_page(dma_to_pfn(dev, handle-offset));
-+	struct page *page = phys_to_page(dma_to_phys(dev, handle-offset));
- 	__dma_page_dev_to_cpu(page, offset, size, dir);
- }
- 
-@@ -172,7 +172,7 @@ static void arm_dma_sync_single_for_device(struct device *dev,
- 		dma_addr_t handle, size_t size, enum dma_data_direction dir)
- {
- 	unsigned int offset = handle & (PAGE_SIZE - 1);
--	struct page *page = pfn_to_page(dma_to_pfn(dev, handle-offset));
-+	struct page *page = phys_to_page(dma_to_phys(dev, handle-offset));
- 	__dma_page_cpu_to_dev(page, offset, size, dir);
- }
- 
-@@ -190,7 +190,7 @@ static int arm_dma_supported(struct device *dev, u64 mask)
- 	 * Translate the device's DMA mask to a PFN limit.  This
- 	 * PFN number includes the page which we can DMA to.
- 	 */
--	return dma_to_pfn(dev, mask) >= max_dma_pfn;
-+	return PHYS_PFN(dma_to_phys(dev, mask)) >= max_dma_pfn;
- }
- 
+-const struct dma_map_ops arm_dma_ops = {
+-	.alloc			= arm_dma_alloc,
+-	.free			= arm_dma_free,
+-	.alloc_pages		= dma_direct_alloc_pages,
+-	.free_pages		= dma_direct_free_pages,
+-	.mmap			= arm_dma_mmap,
+-	.get_sgtable		= arm_dma_get_sgtable,
+-	.map_page		= arm_dma_map_page,
+-	.unmap_page		= arm_dma_unmap_page,
+-	.map_sg			= arm_dma_map_sg,
+-	.unmap_sg		= arm_dma_unmap_sg,
+-	.map_resource		= dma_direct_map_resource,
+-	.sync_single_for_cpu	= arm_dma_sync_single_for_cpu,
+-	.sync_single_for_device	= arm_dma_sync_single_for_device,
+-	.sync_sg_for_cpu	= arm_dma_sync_sg_for_cpu,
+-	.sync_sg_for_device	= arm_dma_sync_sg_for_device,
+-	.dma_supported		= arm_dma_supported,
+-	.get_required_mask	= dma_direct_get_required_mask,
+-};
+-EXPORT_SYMBOL(arm_dma_ops);
+-
+-static void *arm_coherent_dma_alloc(struct device *dev, size_t size,
+-	dma_addr_t *handle, gfp_t gfp, unsigned long attrs);
+-static void arm_coherent_dma_free(struct device *dev, size_t size, void *cpu_addr,
+-				  dma_addr_t handle, unsigned long attrs);
+-static int arm_coherent_dma_mmap(struct device *dev, struct vm_area_struct *vma,
+-		 void *cpu_addr, dma_addr_t dma_addr, size_t size,
+-		 unsigned long attrs);
+-
+-const struct dma_map_ops arm_coherent_dma_ops = {
+-	.alloc			= arm_coherent_dma_alloc,
+-	.free			= arm_coherent_dma_free,
+-	.alloc_pages		= dma_direct_alloc_pages,
+-	.free_pages		= dma_direct_free_pages,
+-	.mmap			= arm_coherent_dma_mmap,
+-	.get_sgtable		= arm_dma_get_sgtable,
+-	.map_page		= arm_coherent_dma_map_page,
+-	.map_sg			= arm_dma_map_sg,
+-	.map_resource		= dma_direct_map_resource,
+-	.dma_supported		= arm_dma_supported,
+-	.get_required_mask	= dma_direct_get_required_mask,
+-};
+-EXPORT_SYMBOL(arm_coherent_dma_ops);
+-
  static void __dma_clear_buffer(struct page *page, size_t size, int coherent_flag)
-@@ -681,7 +681,7 @@ static void *__dma_alloc(struct device *dev, size_t size, dma_addr_t *handle,
- 	if (page) {
- 		unsigned long flags;
- 
--		*handle = pfn_to_dma(dev, page_to_pfn(page));
-+		*handle = phys_to_dma(dev, page_to_phys(page));
- 		buf->virt = args.want_vaddr ? addr : page;
- 
- 		spin_lock_irqsave(&arm_dma_bufs_lock, flags);
-@@ -721,7 +721,7 @@ static int __arm_dma_mmap(struct device *dev, struct vm_area_struct *vma,
- 	int ret = -ENXIO;
- 	unsigned long nr_vma_pages = vma_pages(vma);
- 	unsigned long nr_pages = PAGE_ALIGN(size) >> PAGE_SHIFT;
--	unsigned long pfn = dma_to_pfn(dev, dma_addr);
-+	unsigned long pfn = PHYS_PFN(dma_to_phys(dev, dma_addr));
- 	unsigned long off = vma->vm_pgoff;
- 
- 	if (dma_mmap_from_dev_coherent(dev, vma, cpu_addr, size, &ret))
-@@ -762,7 +762,7 @@ static void __arm_dma_free(struct device *dev, size_t size, void *cpu_addr,
- 			   dma_addr_t handle, unsigned long attrs,
- 			   bool is_coherent)
  {
--	struct page *page = pfn_to_page(dma_to_pfn(dev, handle));
-+	struct page *page = phys_to_page(dma_to_phys(dev, handle));
- 	struct arm_dma_buffer *buf;
- 	struct arm_dma_free_args args = {
- 		.dev = dev,
-@@ -796,15 +796,15 @@ static int arm_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
+ 	/*
+@@ -742,7 +698,7 @@ static void *__dma_alloc(struct device *dev, size_t size, dma_addr_t *handle,
+  * Allocate DMA-coherent memory space and return both the kernel remapped
+  * virtual and bus address for that space.
+  */
+-void *arm_dma_alloc(struct device *dev, size_t size, dma_addr_t *handle,
++static void *arm_dma_alloc(struct device *dev, size_t size, dma_addr_t *handle,
+ 		    gfp_t gfp, unsigned long attrs)
+ {
+ 	pgprot_t prot = __get_dma_pgprot(attrs, PAGE_KERNEL);
+@@ -791,7 +747,7 @@ static int arm_coherent_dma_mmap(struct device *dev, struct vm_area_struct *vma,
+ 	return __arm_dma_mmap(dev, vma, cpu_addr, dma_addr, size, attrs);
+ }
+ 
+-int arm_dma_mmap(struct device *dev, struct vm_area_struct *vma,
++static int arm_dma_mmap(struct device *dev, struct vm_area_struct *vma,
+ 		 void *cpu_addr, dma_addr_t dma_addr, size_t size,
+ 		 unsigned long attrs)
+ {
+@@ -824,7 +780,7 @@ static void __arm_dma_free(struct device *dev, size_t size, void *cpu_addr,
+ 	kfree(buf);
+ }
+ 
+-void arm_dma_free(struct device *dev, size_t size, void *cpu_addr,
++static void arm_dma_free(struct device *dev, size_t size, void *cpu_addr,
+ 		  dma_addr_t handle, unsigned long attrs)
+ {
+ 	__arm_dma_free(dev, size, cpu_addr, handle, attrs, false);
+@@ -836,7 +792,7 @@ static void arm_coherent_dma_free(struct device *dev, size_t size, void *cpu_add
+ 	__arm_dma_free(dev, size, cpu_addr, handle, attrs, true);
+ }
+ 
+-int arm_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
++static int arm_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
  		 void *cpu_addr, dma_addr_t handle, size_t size,
  		 unsigned long attrs)
  {
--	unsigned long pfn = dma_to_pfn(dev, handle);
-+	phys_addr_t paddr = dma_to_phys(dev, handle);
- 	struct page *page;
- 	int ret;
+@@ -977,7 +933,7 @@ static void __dma_page_dev_to_cpu(struct page *page, unsigned long off,
+  * Device ownership issues as mentioned for dma_map_single are the same
+  * here.
+  */
+-int arm_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
++static int arm_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+ 		enum dma_data_direction dir, unsigned long attrs)
+ {
+ 	const struct dma_map_ops *ops = get_dma_ops(dev);
+@@ -1013,8 +969,8 @@ int arm_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+  * Unmap a set of streaming mode DMA translations.  Again, CPU access
+  * rules concerning calls here are the same as for dma_unmap_single().
+  */
+-void arm_dma_unmap_sg(struct device *dev, struct scatterlist *sg, int nents,
+-		enum dma_data_direction dir, unsigned long attrs)
++static void arm_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
++		int nents, enum dma_data_direction dir, unsigned long attrs)
+ {
+ 	const struct dma_map_ops *ops = get_dma_ops(dev);
+ 	struct scatterlist *s;
+@@ -1032,7 +988,7 @@ void arm_dma_unmap_sg(struct device *dev, struct scatterlist *sg, int nents,
+  * @nents: number of buffers to map (returned from dma_map_sg)
+  * @dir: DMA transfer direction (same as was passed to dma_map_sg)
+  */
+-void arm_dma_sync_sg_for_cpu(struct device *dev, struct scatterlist *sg,
++static void arm_dma_sync_sg_for_cpu(struct device *dev, struct scatterlist *sg,
+ 			int nents, enum dma_data_direction dir)
+ {
+ 	const struct dma_map_ops *ops = get_dma_ops(dev);
+@@ -1051,8 +1007,8 @@ void arm_dma_sync_sg_for_cpu(struct device *dev, struct scatterlist *sg,
+  * @nents: number of buffers to map (returned from dma_map_sg)
+  * @dir: DMA transfer direction (same as was passed to dma_map_sg)
+  */
+-void arm_dma_sync_sg_for_device(struct device *dev, struct scatterlist *sg,
+-			int nents, enum dma_data_direction dir)
++static void arm_dma_sync_sg_for_device(struct device *dev,
++		struct scatterlist *sg, int nents, enum dma_data_direction dir)
+ {
+ 	const struct dma_map_ops *ops = get_dma_ops(dev);
+ 	struct scatterlist *s;
+@@ -1063,6 +1019,42 @@ void arm_dma_sync_sg_for_device(struct device *dev, struct scatterlist *sg,
+ 					    dir);
+ }
  
- 	/* If the PFN is not valid, we do not have a struct page */
--	if (!pfn_valid(pfn))
-+	if (!pfn_valid(PHYS_PFN(paddr)))
- 		return -ENXIO;
- 
--	page = pfn_to_page(pfn);
-+	page = phys_to_page(paddr);
- 
- 	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
- 	if (unlikely(ret))
++const struct dma_map_ops arm_dma_ops = {
++	.alloc			= arm_dma_alloc,
++	.free			= arm_dma_free,
++	.alloc_pages		= dma_direct_alloc_pages,
++	.free_pages		= dma_direct_free_pages,
++	.mmap			= arm_dma_mmap,
++	.get_sgtable		= arm_dma_get_sgtable,
++	.map_page		= arm_dma_map_page,
++	.unmap_page		= arm_dma_unmap_page,
++	.map_sg			= arm_dma_map_sg,
++	.unmap_sg		= arm_dma_unmap_sg,
++	.map_resource		= dma_direct_map_resource,
++	.sync_single_for_cpu	= arm_dma_sync_single_for_cpu,
++	.sync_single_for_device	= arm_dma_sync_single_for_device,
++	.sync_sg_for_cpu	= arm_dma_sync_sg_for_cpu,
++	.sync_sg_for_device	= arm_dma_sync_sg_for_device,
++	.dma_supported		= arm_dma_supported,
++	.get_required_mask	= dma_direct_get_required_mask,
++};
++EXPORT_SYMBOL(arm_dma_ops);
++
++const struct dma_map_ops arm_coherent_dma_ops = {
++	.alloc			= arm_coherent_dma_alloc,
++	.free			= arm_coherent_dma_free,
++	.alloc_pages		= dma_direct_alloc_pages,
++	.free_pages		= dma_direct_free_pages,
++	.mmap			= arm_coherent_dma_mmap,
++	.get_sgtable		= arm_dma_get_sgtable,
++	.map_page		= arm_coherent_dma_map_page,
++	.map_sg			= arm_dma_map_sg,
++	.map_resource		= dma_direct_map_resource,
++	.dma_supported		= arm_dma_supported,
++	.get_required_mask	= dma_direct_get_required_mask,
++};
++EXPORT_SYMBOL(arm_coherent_dma_ops);
++
+ static const struct dma_map_ops *arm_get_dma_map_ops(bool coherent)
+ {
+ 	/*
 -- 
 2.30.2
 
