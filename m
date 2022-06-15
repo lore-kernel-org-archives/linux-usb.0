@@ -2,184 +2,81 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DD03CCA473
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jun 2022 17:24:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0C3EC433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jun 2022 17:24:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357500AbiFORYN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jun 2022 13:24:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34224 "EHLO
+        id S1357482AbiFORYT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jun 2022 13:24:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346434AbiFORYM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jun 2022 13:24:12 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 964DB37A3C
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jun 2022 10:24:11 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id f8so10961806plo.9
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jun 2022 10:24:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=fd+38h/ZuXO4QEJ1wGS9J1AZQKshnBpf5+thNgq+mvo=;
-        b=fOBgTZqs3hQWvC0l3F/p+i0TivYNq1gtt4eW8E5d/3EHeKhewOjTxbqwIFFM0Lbu/+
-         GerPeMoFwy6Z4NemLuydPC6RvG7vpFvFGMyg+AVSadlJ5a+5TyQ5+Fa6xMfwhJ89GRj5
-         61ppCfkk/HUEn6FzNFZYKJ5NkQdUVDIEWg3jE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=fd+38h/ZuXO4QEJ1wGS9J1AZQKshnBpf5+thNgq+mvo=;
-        b=LAjA0DzAJyZKOfa6X9C5w7BbscMXba37/8fy67Ql9+NOh1luLGoR4L1SR0erHNKFaj
-         98i+bzLPvEUJjy5PXle2jILyOQeSym6uiWiTrcmzMn6IxFgUdFpVdaoLIn6nkQ2/QZHo
-         UqlQXwJCQHSth8ndaavGoAaNUOj7oDD3eYRSC85TmlTQxV0oCIVKXgXOsRIqeiSvDc1b
-         DoUv1yWgVeVWYxPWhuMc94o0rdl9Crfw114YZ74bTuPIlddAq9fYevNXXR9VxBBrePUG
-         OwlhYTT2vIMRQ0E7+p7c9X9TQ6o/srfMIbZ5VxIZvdnwsCfx8lR6FDsLl8LqZrf9kNys
-         iwlg==
-X-Gm-Message-State: AJIora9nR2TvRXz3NprhRFxq7nhyZcsNf65YsURXyUoTG9nI46mOKcog
-        OM1JT1PYwzyZ4XgZ010ok9o9lw==
-X-Google-Smtp-Source: AGRyM1u814zjEMHfZtf5sU7v86toFZpanB4vAxQLXrCLt1xth/wAXbRon/BiyEIZtPgjcFL0ZTmeDw==
-X-Received: by 2002:a17:902:ca0b:b0:167:4c4d:7320 with SMTP id w11-20020a170902ca0b00b001674c4d7320mr390478pld.113.1655313851115;
-        Wed, 15 Jun 2022 10:24:11 -0700 (PDT)
-Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id d10-20020aa7814a000000b005103abd2fdbsm10147433pfn.206.2022.06.15.10.24.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jun 2022 10:24:10 -0700 (PDT)
-From:   Prashant Malani <pmalani@chromium.org>
-To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Cc:     bleung@chromium.org, swboyd@chromium.org,
-        heikki.krogerus@linux.intel.com,
-        Prashant Malani <pmalani@chromium.org>,
-        kernel test robot <lkp@intel.com>,
-        =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= 
-        <nfraprado@collabora.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE BINDINGS),
-        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Pin-Yen Lin <treapking@chromium.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Xin Ji <xji@analogixsemi.com>
-Subject: [PATCH v4 2/7] usb: typec: mux: Add CONFIG guards for functions
-Date:   Wed, 15 Jun 2022 17:20:18 +0000
-Message-Id: <20220615172129.1314056-3-pmalani@chromium.org>
-X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
-In-Reply-To: <20220615172129.1314056-1-pmalani@chromium.org>
-References: <20220615172129.1314056-1-pmalani@chromium.org>
+        with ESMTP id S237461AbiFORYQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jun 2022 13:24:16 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B03D340ED;
+        Wed, 15 Jun 2022 10:24:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4AD7EB820C6;
+        Wed, 15 Jun 2022 17:24:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAE1BC341C4;
+        Wed, 15 Jun 2022 17:24:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655313852;
+        bh=aAPFBvoAVs1ptpGv+lER+Tuq6aaIXaGbhE/e88fLKT4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=BAEQ6c7S7nRsleTFzWzzFRhlBr6lqUh2YqrfNMjIoBfL53h3m91cowLWuDLzTswUE
+         m5lP871MTa2leLhtPElGvrYpii4+Z924tXvvuYS6tNA/rgEVbrn5Ij9jozsx+SOcex
+         l90gZG8eaJ24LM6iIej3NzFCD9CzFazeP62TNZlJdw//WTQ7kZeyfNFIBLYQqScHWH
+         OsoxsiQwJR+GaxxCS4Ot7z6T7iK80/yN5UV+be9P7IbiwkrQ+PFamtR4PiXXENwVS1
+         D2ZJ/GEhkEVW+aLT4jtkclGc4uyalA4sW003/1634E/226MqRxIw/7J1TJaP2MvA6u
+         42yN6+9Yn9TdA==
+Received: by mail-ua1-f44.google.com with SMTP id q1so4612771uao.1;
+        Wed, 15 Jun 2022 10:24:12 -0700 (PDT)
+X-Gm-Message-State: AJIora8Lq/xRogszM/PgS5yOpGqenD124GkPswV227f65SUFmLDuDkJo
+        97+465ftPJrWXjOHQDtvnpAWsuKYZ6hxr1LlAw==
+X-Google-Smtp-Source: AGRyM1vfc/l1EG9VYea0UnQPrmd5ibZk6KVf5x1y3T1ksyE7i25v91WnBNfknlzC76lYPKd27nWTCa1xHZgirW3FjSI=
+X-Received: by 2002:ab0:2705:0:b0:379:7378:3c75 with SMTP id
+ s5-20020ab02705000000b0037973783c75mr538123uao.77.1655313851652; Wed, 15 Jun
+ 2022 10:24:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <c5d19e2f9714f43effd90208798fc1936098078f.1655301043.git.geert+renesas@glider.be>
+In-Reply-To: <c5d19e2f9714f43effd90208798fc1936098078f.1655301043.git.geert+renesas@glider.be>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 15 Jun 2022 11:24:00 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJbmdJd6+D9zog6NwF_LPO5QC_HsODg4FHLJOnMmPP-mg@mail.gmail.com>
+Message-ID: <CAL_JsqJbmdJd6+D9zog6NwF_LPO5QC_HsODg4FHLJOnMmPP-mg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: usb: ehci: Increase the number of PHYs
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There are some drivers that can use the Type C mux API, but don't have
-to. Introduce CONFIG guards for the mux functions so that drivers can
-include the header file and not run into compilation errors on systems
-which don't have CONFIG_TYPEC enabled. When CONFIG_TYPEC is not enabled,
-the Type C mux functions will be stub versions of the original calls.
+On Wed, Jun 15, 2022 at 7:53 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> "make dtbs_check":
+>
+>     arch/arm/boot/dts/r8a77470-iwg23s-sbc.dtb: usb@ee080100: phys: [[17, 0], [31]] is too long
+>             From schema: Documentation/devicetree/bindings/usb/generic-ehci.yaml
+>     arch/arm/boot/dts/r8a77470-iwg23s-sbc.dtb: usb@ee0c0100: phys: [[17, 1], [33], [21, 0]] is too long
+>             From schema: Documentation/devicetree/bindings/usb/generic-ehci.yaml
+>
+> Some USB EHCI controllers (e.g. on the Renesas RZ/G1C SoC) have multiple
+> PHYs.  Increase the maximum number of PHYs to 3, which is sufficient for
+> now.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
----
+Maybe not so 'generic'. Why are there 3? I understand USB3 HCI having
+2 for SS and HS. Is it for multiple ports? There's a thread about that
+currently (Mediatek IIRC) and how to handle multiple phys.
 
-Changes since v3:
-- No changes.
-
-Changes since v2:
-- Fix up return types for some of the stubs. Remove 1 unnecessary stub
-  in the else condition.
-- Remove unnecessary IS_MODULE config guard.
-- Added Reviewed-by and Tested-by tags.
-
-Changes since v1:
-- Added static inline to stub functions.
-- Updated function signature of stub functions from "struct typec_mux"
-  to "struct typec_mux_dev" in accordance with updates from commit
-  713fd49b430c ("usb: typec: mux: Introduce indirection")
-
- include/linux/usb/typec_mux.h | 44 ++++++++++++++++++++++++++++++-----
- 1 file changed, 38 insertions(+), 6 deletions(-)
-
-diff --git a/include/linux/usb/typec_mux.h b/include/linux/usb/typec_mux.h
-index ee57781dcf28..9292f0e07846 100644
---- a/include/linux/usb/typec_mux.h
-+++ b/include/linux/usb/typec_mux.h
-@@ -58,17 +58,13 @@ struct typec_mux_desc {
- 	void *drvdata;
- };
- 
-+#if IS_ENABLED(CONFIG_TYPEC)
-+
- struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode,
- 				       const struct typec_altmode_desc *desc);
- void typec_mux_put(struct typec_mux *mux);
- int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state);
- 
--static inline struct typec_mux *
--typec_mux_get(struct device *dev, const struct typec_altmode_desc *desc)
--{
--	return fwnode_typec_mux_get(dev_fwnode(dev), desc);
--}
--
- struct typec_mux_dev *
- typec_mux_register(struct device *parent, const struct typec_mux_desc *desc);
- void typec_mux_unregister(struct typec_mux_dev *mux);
-@@ -76,4 +72,40 @@ void typec_mux_unregister(struct typec_mux_dev *mux);
- void typec_mux_set_drvdata(struct typec_mux_dev *mux, void *data);
- void *typec_mux_get_drvdata(struct typec_mux_dev *mux);
- 
-+#else
-+
-+static inline struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode,
-+				       const struct typec_altmode_desc *desc)
-+{
-+	return NULL;
-+}
-+
-+static inline void typec_mux_put(struct typec_mux *mux) {}
-+
-+static inline int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state)
-+{
-+	return 0;
-+}
-+
-+static inline struct typec_mux_dev *
-+typec_mux_register(struct device *parent, const struct typec_mux_desc *desc)
-+{
-+	return ERR_PTR(-EOPNOTSUPP);
-+}
-+static inline void typec_mux_unregister(struct typec_mux_dev *mux) {}
-+
-+static inline void typec_mux_set_drvdata(struct typec_mux_dev *mux, void *data) {}
-+static inline void *typec_mux_get_drvdata(struct typec_mux_dev *mux)
-+{
-+	return ERR_PTR(-EOPNOTSUPP);
-+}
-+
-+#endif /* CONFIG_TYPEC */
-+
-+static inline struct typec_mux *
-+typec_mux_get(struct device *dev, const struct typec_altmode_desc *desc)
-+{
-+	return fwnode_typec_mux_get(dev_fwnode(dev), desc);
-+}
-+
- #endif /* __USB_TYPEC_MUX */
--- 
-2.36.1.476.g0c4daa206d-goog
-
+Rob
