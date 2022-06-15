@@ -2,88 +2,56 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81695C43334
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jun 2022 07:41:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7650CCCA47B
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jun 2022 08:14:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346794AbiFOHlK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jun 2022 03:41:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48676 "EHLO
+        id S1344019AbiFOIOT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jun 2022 04:14:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245632AbiFOHlI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jun 2022 03:41:08 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0C1E3D1E0
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jun 2022 00:41:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5AE16B81C8A
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jun 2022 07:41:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D04EC385A5;
-        Wed, 15 Jun 2022 07:41:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1655278865;
-        bh=XkCoTIkm/Q4hAsZjLG7TEIs8znSu67knXRYuVrmIStg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GkuNXA8KY47XfsqnScntR2GguDb7tspJbbuveqF84CvE+WQ/A9r1WPiyKmD9znMRC
-         QFelMu2OgUZKcxtl8Whk+gS0G7/vBCBhlVB3QQRlqp3CMXyCU1RZqqwIvAka9olxyp
-         3tSI5bYHSU+YUY0fLjnRUV9YRcRYWSyInPXu1Lp4=
-Date:   Wed, 15 Jun 2022 06:59:13 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     John Youn <John.Youn@synopsys.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] usb: dwc3: core: Deprecate GCTL.CORESOFTRESET
-Message-ID: <YqlnIYQ1AOiXqjov@kroah.com>
-References: <54b6e2974bccacbd644f9ba75d8929d09848ecc4.1653586398.git.Thinh.Nguyen@synopsys.com>
- <8c4f423c-613d-2347-0769-3af4674d8582@synopsys.com>
+        with ESMTP id S238834AbiFOIOO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jun 2022 04:14:14 -0400
+X-Greylist: delayed 654 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 15 Jun 2022 01:14:14 PDT
+Received: from mail.olerise.pl (mail.olerise.pl [46.183.184.59])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6184D16598
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jun 2022 01:14:14 -0700 (PDT)
+Received: by mail.olerise.pl (Postfix, from userid 1001)
+        id AA82A25964; Wed, 15 Jun 2022 10:00:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=olerise.pl; s=mail;
+        t=1655280092; bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
+        h=Date:From:To:Subject:From;
+        b=K69T0NSftSdrHOgR3m/6orJ77SGFq4iSVhSupInOml+/2fOY9U6AqZMZiNB6YVSHa
+         hUbotqYFtjKcs14eOeTODqEWytRrWqyMSkJac5LLXruq/UiyftS+DrLutR4y3MmfGm
+         dZAlmFnBBJDgIZqyJ3aKUHpEmVJmc0EJhBOcGkScxInggfVSumsQqHBpVcLrhOo38v
+         Dms16zeL1Sng150bQ+SeD8/38EGUXUHqwejFhmwcEkYFBBMKOH6IF/1+i5md9cTvID
+         KV8j4hU6kDKx8a7Ix4xUVdeCZljaqk/7rv/Hx53FECyI/Y6aBsR7G0GQIY5UAxKg3g
+         IbY2HPfKUxWtg==
+Received: by mail.olerise.pl for <linux-usb@vger.kernel.org>; Wed, 15 Jun 2022 08:00:27 GMT
+Message-ID: <20220615084500-0.1.f.82jn.0.hqy7cvcjq5@olerise.pl>
+Date:   Wed, 15 Jun 2022 08:00:27 GMT
+From:   =?UTF-8?Q? "Przemys=C5=82aw_Wr=C3=B3blewski" ?= 
+        <przemyslaw.wroblewski@olerise.pl>
+To:     <linux-usb@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.olerise.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8c4f423c-613d-2347-0769-3af4674d8582@synopsys.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jun 15, 2022 at 01:21:46AM +0000, Thinh Nguyen wrote:
-> Hi Greg,
-> 
-> Thinh Nguyen wrote:
-> > Synopsys IP DWC_usb32 and DWC_usb31 version 1.90a and above deprecated
-> > GCTL.CORESOFTRESET. The DRD mode switching flow is updated to remove the
-> > GCTL soft reset. Add version checks to prevent using deprecated setting
-> > in mode switching flow.
-> > 
-> > Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-> > ---
-> >  drivers/usb/dwc3/core.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-> > index e027c0420dc3..6b5f6d0eb1dd 100644
-> > --- a/drivers/usb/dwc3/core.c
-> > +++ b/drivers/usb/dwc3/core.c
-> > @@ -159,7 +159,8 @@ static void __dwc3_set_mode(struct work_struct *work)
-> >  	}
-> >  
-> >  	/* For DRD host or device mode only */
-> > -	if (dwc->desired_dr_role != DWC3_GCTL_PRTCAP_OTG) {
-> > +	if ((DWC3_IP_IS(DWC3) || DWC3_VER_IS_PRIOR(DWC31, 190A)) &&
-> > +	    dwc->desired_dr_role != DWC3_GCTL_PRTCAP_OTG) {
-> >  		reg = dwc3_readl(dwc->regs, DWC3_GCTL);
-> >  		reg |= DWC3_GCTL_CORESOFTRESET;
-> >  		dwc3_writel(dwc->regs, DWC3_GCTL, reg);
-> > 
-> > base-commit: 97fa5887cf283bb75ffff5f6b2c0e71794c02400
-> 
-> Just checking to see if we missed this patch. If it needs more review,
-> then we can leave it be.
+Dzie=C5=84 dobry,
 
-It's not in my queue at all, I have no idea what happened to it...
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-Please resubmit if it's still needed.
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
-thanks,
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
 
-greg k-h
+
+Pozdrawiam,
+Przemys=C5=82aw Wr=C3=B3blewski
