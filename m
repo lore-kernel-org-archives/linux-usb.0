@@ -2,56 +2,88 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07EC9C43334
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jun 2022 07:36:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81695C43334
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jun 2022 07:41:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245632AbiFOHgK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jun 2022 03:36:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43572 "EHLO
+        id S1346794AbiFOHlK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jun 2022 03:41:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234267AbiFOHgI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jun 2022 03:36:08 -0400
-Received: from mail.analyzingidea.com (mail.analyzingidea.com [80.211.176.166])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8A4848387
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jun 2022 00:36:02 -0700 (PDT)
-Received: by mail.analyzingidea.com (Postfix, from userid 1001)
-        id BE102A2766; Wed, 15 Jun 2022 08:35:59 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=analyzingidea.com;
-        s=mail; t=1655278559;
-        bh=ttLtL96PXeE3npFWnIfxQS9DSqJ2tboGLsO0fJwyRQM=;
-        h=Date:From:To:Subject:From;
-        b=NdinG/qq5MBHqg5g4oh6hENzsWPRjCY9wy8DARiB9ECVAT7bzcPPcdYi3jWYxwLue
-         QZ/eHoF55i48kR7mlx9ar3PcAraRgqkEzhXU26d42rklur2Gokw5A7IpRK/nBkKeC6
-         A1vnt+tO0Qs7XST/BOEhVLq43iN4sAVsu/yOuZyG/ZtBObyLUqANvC/KgHv1wEIzZt
-         dHixmD6xRskIt5PMGC8qaBX/WVsem1hynEy+WUh+5RJU1l9iFTsC0/ADpQXSxiTg/y
-         hFd7rl3cy11dnCuOdM+7GbdL2ZvNS2qBV3FjJXY0YNabwSM8oxYLwx10tqxzHDhTo4
-         CYJu0vKXe4ppw==
-Received: by mail.analyzingidea.com for <linux-usb@vger.kernel.org>; Wed, 15 Jun 2022 07:35:50 GMT
-Message-ID: <20220615074500-0.1.3b.avfk.0.j4gori0pis@analyzingidea.com>
-Date:   Wed, 15 Jun 2022 07:35:50 GMT
-From:   "Liam Zamorano" <liam.zamorano@analyzingidea.com>
-To:     <linux-usb@vger.kernel.org>
-Subject: Servicio de la flota
-X-Mailer: mail.analyzingidea.com
+        with ESMTP id S245632AbiFOHlI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jun 2022 03:41:08 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0C1E3D1E0
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jun 2022 00:41:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5AE16B81C8A
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jun 2022 07:41:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D04EC385A5;
+        Wed, 15 Jun 2022 07:41:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1655278865;
+        bh=XkCoTIkm/Q4hAsZjLG7TEIs8znSu67knXRYuVrmIStg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GkuNXA8KY47XfsqnScntR2GguDb7tspJbbuveqF84CvE+WQ/A9r1WPiyKmD9znMRC
+         QFelMu2OgUZKcxtl8Whk+gS0G7/vBCBhlVB3QQRlqp3CMXyCU1RZqqwIvAka9olxyp
+         3tSI5bYHSU+YUY0fLjnRUV9YRcRYWSyInPXu1Lp4=
+Date:   Wed, 15 Jun 2022 06:59:13 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     John Youn <John.Youn@synopsys.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH] usb: dwc3: core: Deprecate GCTL.CORESOFTRESET
+Message-ID: <YqlnIYQ1AOiXqjov@kroah.com>
+References: <54b6e2974bccacbd644f9ba75d8929d09848ecc4.1653586398.git.Thinh.Nguyen@synopsys.com>
+ <8c4f423c-613d-2347-0769-3af4674d8582@synopsys.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8c4f423c-613d-2347-0769-3af4674d8582@synopsys.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Buenos d=C3=ADas:
+On Wed, Jun 15, 2022 at 01:21:46AM +0000, Thinh Nguyen wrote:
+> Hi Greg,
+> 
+> Thinh Nguyen wrote:
+> > Synopsys IP DWC_usb32 and DWC_usb31 version 1.90a and above deprecated
+> > GCTL.CORESOFTRESET. The DRD mode switching flow is updated to remove the
+> > GCTL soft reset. Add version checks to prevent using deprecated setting
+> > in mode switching flow.
+> > 
+> > Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> > ---
+> >  drivers/usb/dwc3/core.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+> > index e027c0420dc3..6b5f6d0eb1dd 100644
+> > --- a/drivers/usb/dwc3/core.c
+> > +++ b/drivers/usb/dwc3/core.c
+> > @@ -159,7 +159,8 @@ static void __dwc3_set_mode(struct work_struct *work)
+> >  	}
+> >  
+> >  	/* For DRD host or device mode only */
+> > -	if (dwc->desired_dr_role != DWC3_GCTL_PRTCAP_OTG) {
+> > +	if ((DWC3_IP_IS(DWC3) || DWC3_VER_IS_PRIOR(DWC31, 190A)) &&
+> > +	    dwc->desired_dr_role != DWC3_GCTL_PRTCAP_OTG) {
+> >  		reg = dwc3_readl(dwc->regs, DWC3_GCTL);
+> >  		reg |= DWC3_GCTL_CORESOFTRESET;
+> >  		dwc3_writel(dwc->regs, DWC3_GCTL, reg);
+> > 
+> > base-commit: 97fa5887cf283bb75ffff5f6b2c0e71794c02400
+> 
+> Just checking to see if we missed this patch. If it needs more review,
+> then we can leave it be.
 
-Le escribo para hablarle sobre una de las mejores herramientas GPS en el =
-mercado.
+It's not in my queue at all, I have no idea what happened to it...
 
-La herramienta, que me gustar=C3=ADa presentarle brevemente, dispone de m=
-uchas funciones =C3=BAtiles para su trabajo, que optimizan los procesos d=
-e transporte y le ayudan a realizar tareas de campo de manera m=C3=A1s ef=
-iciente.
+Please resubmit if it's still needed.
 
-=C2=BFQuiere conocer los detalles?
+thanks,
 
-
-Atentamente,
-Liam Zamorano
+greg k-h
