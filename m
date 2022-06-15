@@ -2,139 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E860C43334
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jun 2022 18:13:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A686C43334
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jun 2022 19:44:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349980AbiFOSNt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jun 2022 14:13:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54986 "EHLO
+        id S1350286AbiFOTou (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jun 2022 15:44:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358171AbiFOSNp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jun 2022 14:13:45 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAF2B32EDB
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jun 2022 11:13:44 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-31336535373so69739827b3.2
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jun 2022 11:13:44 -0700 (PDT)
+        with ESMTP id S244636AbiFOTos (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jun 2022 15:44:48 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 874773CFF2;
+        Wed, 15 Jun 2022 12:44:46 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id y19so25255434ejq.6;
+        Wed, 15 Jun 2022 12:44:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=88rWp51m5t+bsaVtWMHrNKjzep9CN6agHaxeYLzqOSg=;
-        b=H8MUMyZkbpsfkUYxJJTUpsb3WM9USwP6+APqKsyACfl9Rvj1vNCBuWn4HVYMWjjkwd
-         V7BpgMIUSiYmd/8sLRw/Vc1cJJL8XwBPAZdLidcg/opIXQrJVk1/XvUTzTAZIDhyoa8X
-         4xUDtSa72THRkFvfsgrVcZvllNcbogoaLUgVg=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=767OJrCK8HUadii808hVEy3GxcnvixklGPCO6V3YD5M=;
+        b=jFT/VeSc63iFgMPMb2xRcBbUCqXUnEZl1E1MVx1Yd2xAmk3ax4Uy65On/y29eZkoe2
+         EPvPLMkZIFEBJbO/DrmTsslXpsOfH14CWV/xGigqff7/K3B/BKmC5+61MIvtfT+WZpjS
+         RMqvC0cMMqe3uUD7OFBaas6cXGWaO+EzMk6KMymXcRzGsE2Ww5xjysjW4+PrZDjsV9tO
+         FyodoLXWhR4ioUoNG6krEdVinHpphmZO+IZVKrD8eX7Le1gfbzgMifUy58g6drBSSZ2S
+         x61qQcs/hRho1FhiO1lqm+d0Zm+1hEgLk1/ro/pRLJUSHwdfNL+b8dGXulEQO0kLlMeF
+         JTgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=88rWp51m5t+bsaVtWMHrNKjzep9CN6agHaxeYLzqOSg=;
-        b=dM+7g7c/OA05DTP/gxKkRi+gfaFrw5W9eAJCQQJzyLhrf7XMXD71NFnxwBHfkKoTtl
-         ybE8TQOhocq0j0ijswjkHB3yl+r6dSMqR3ntsNFnw5nA6XOqYwVG4Wx1KO39xaVTyRc+
-         K6YsCWB/YOG+XDnfAKROCgCDqxpLrwTTxraN1hGQi1X1w/CuJcX3C15rqf/m8GsJbSOb
-         3zURgQts68LckQ5yyYF0hN6/babIaXY0alGs9KhWWzFI5HUY36N8Sf+Ld54LooqvNOP+
-         6EMQhBon049SQv2P2z4s5ZM4HiiIXNz0zQkadSTNYhy1hbk6CRhjP2EgEEtvGD475jd7
-         GD+g==
-X-Gm-Message-State: AJIora+tbN5N/SWbE+qYNqNz7VZ2UilhaXMCAnVuyuKcUWQU5PK3jEeN
-        RcuAxnby9be0GXt5hy+/y2SCndV2OTF3Rn7KEVkCJA==
-X-Google-Smtp-Source: AGRyM1u+RECui2g1rqJWo2sDArYUxX8+ZP/YRCEWMicYm4UeyPBeP4772cKrmnj1CsKqr1gXTmUp8cr2Q3utYCTbhDU=
-X-Received: by 2002:a81:fd1:0:b0:30f:f98b:4957 with SMTP id
- 200-20020a810fd1000000b0030ff98b4957mr1085245ywp.350.1655316824181; Wed, 15
- Jun 2022 11:13:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220615172129.1314056-1-pmalani@chromium.org>
-In-Reply-To: <20220615172129.1314056-1-pmalani@chromium.org>
-From:   Prashant Malani <pmalani@chromium.org>
-Date:   Wed, 15 Jun 2022 11:13:33 -0700
-Message-ID: <CACeCKaetgayTS+yX0cuNiK7j6Yqd4o2ziX6nCoGTt64A3jFT=g@mail.gmail.com>
-Subject: Re: [PATCH v4 0/7] usb: typec: Introduce typec-switch binding
-To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Cc:     bleung@chromium.org, swboyd@chromium.org,
-        heikki.krogerus@linux.intel.com,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=767OJrCK8HUadii808hVEy3GxcnvixklGPCO6V3YD5M=;
+        b=JTmCa6eiGmslLdPSH13yTsPqBSFxejnZGs3LDQDP3lvNlwQRvKZD8JoqpjIUKIyJ8J
+         TWjP/KiVMvIg6At1lFJqBaUDf5p20iIOL7X9Dk0j0V/YIuZfLP+fDz8s0WBg1SN//UQ4
+         RoHYxwUkbSEu+1WM/ofEtW+sbYvm9cUspjsYPhQ0k6RwcLWRwFnP8Luo1HEKyu+JhKwD
+         fCelDcnl91ljatE7WsSJqTgjeDIImEp8sa92eONoriTRBXfXFuDvTpJVE/8ZfeIdNhpu
+         sdEo+xgchPj8CcYoj3sCBzkmi660gxESY7boB6n6PjhMomHWorrI5jn86Hfm8MFVhauJ
+         D3zQ==
+X-Gm-Message-State: AJIora/XOIE4tDxeWB68p3NvAKJRl4H7Ug64vRw9SP6rcvKMx6TAX2pf
+        gwk5FlB+xIOWQCNMgF4lmzomSot8muE=
+X-Google-Smtp-Source: AGRyM1sgGqJHUeVw3u3W7rE3sqf5Kp8zpWdfvFHOMgDNOhP8CojDYKciFvgC5O7XXJFBkGcWqg0OLw==
+X-Received: by 2002:a17:907:c71b:b0:718:d0a2:a447 with SMTP id ty27-20020a170907c71b00b00718d0a2a447mr1266043ejc.157.1655322284933;
+        Wed, 15 Jun 2022 12:44:44 -0700 (PDT)
+Received: from felia.fritz.box (200116b826878200b4eabc3163d51ca4.dip.versatel-1u1.de. [2001:16b8:2687:8200:b4ea:bc31:63d5:1ca4])
+        by smtp.gmail.com with ESMTPSA id i24-20020a05640200d800b0042dcac2afc6sm29565edu.72.2022.06.15.12.44.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jun 2022 12:44:44 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Neal Liu <neal_liu@aspeedtech.com>, linux-aspeed@lists.ozlabs.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>, Pin-Yen Lin <treapking@chromium.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Xin Ji <xji@analogixsemi.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-usb@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] MAINTAINERS: Repair file entry in ASPEED USB UDC DRIVER
+Date:   Wed, 15 Jun 2022 21:44:09 +0200
+Message-Id: <20220615194409.11875-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-I should add:
+Commit 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver") adds
+the section ASPEED USB UDC DRIVER with a file entry to aspeed,udc.yaml,
+but then, commit 0dde9a46a2cf ("dt-bindings: usb: add documentation for
+aspeed udc") actually adds a device tree binding aspeed,ast2600-udc.yaml.
 
-Series submission suggestions (of course, open to better suggestions too):
-- Patches 1-3 can go through the USB repo.
-- Patches 4-7 can:
-   + also go through the USB repo after the maintainer acks have been
-received <or>
-   + go through the DRM repo (after creating a branch from USB repo's
-usb-next branch after Patches 1-3 have been applied).
+Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
+broken reference.
 
-(I"ll add the above to the cover letter if there is a v5).
+Repair the reference to the actually added file in ASPEED USB UDC DRIVER.
 
-Thanks!
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+Neal, please ack.
+Greg, please pick this minor non-urgent clean-up patch in your usb-next tree.
 
-On Wed, Jun 15, 2022 at 10:21 AM Prashant Malani <pmalani@chromium.org> wrote:
->
-> This series introduces a binding for Type-C data lane switches. These
-> control the routing and operating modes of USB Type-C data lanes based
-> on the PD messaging from the Type-C port driver regarding connected
-> peripherals.
->
-> The first patch introduces a change to the Type-C mux class mode-switch
-> matching code, while the second adds a config guard to a Type-C header.
-> The next couple of patches introduce the new "typec-switch" binding as
-> well as one user of it (the ANX7625 drm bridge).
->
-> The remaining patches add functionality to the anx7625 driver to
-> register the mode-switches, as well as program its crosspoint
-> switch depending on which Type-C port has a DisplayPort (DP) peripheral
-> connected to it.
->
-> v3: https://lore.kernel.org/linux-usb/20220614193558.1163205-1-pmalani@chromium.org/
->
-> Changes since v3:
-> - Some more modifications to the anx7625 binding patch (4/7).
-> - Picked up 1 more Reviewed-by tag.
->
-> Pin-Yen Lin (1):
->   drm/bridge: anx7625: Add typec_mux_set callback function
->
-> Prashant Malani (6):
->   usb: typec: mux: Allow muxes to specify mode-switch
->   usb: typec: mux: Add CONFIG guards for functions
->   dt-bindings: usb: Add Type-C switch binding
->   dt-bindings: drm/bridge: anx7625: Add mode-switch support
->   drm/bridge: anx7625: Register number of Type C switches
->   drm/bridge: anx7625: Register Type-C mode switches
->
->  .../display/bridge/analogix,anx7625.yaml      |  64 ++++++++
->  .../devicetree/bindings/usb/typec-switch.yaml |  74 +++++++++
->  drivers/gpu/drm/bridge/analogix/anx7625.c     | 148 ++++++++++++++++++
->  drivers/gpu/drm/bridge/analogix/anx7625.h     |  20 +++
->  drivers/usb/typec/mux.c                       |   8 +-
->  include/linux/usb/typec_mux.h                 |  44 +++++-
->  6 files changed, 350 insertions(+), 8 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/usb/typec-switch.yaml
->
-> --
-> 2.36.1.476.g0c4daa206d-goog
->
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d9c3576b082f..8830d1adb23b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3144,7 +3144,7 @@ ASPEED USB UDC DRIVER
+ M:	Neal Liu <neal_liu@aspeedtech.com>
+ L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/usb/aspeed,udc.yaml
++F:	Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
+ F:	drivers/usb/gadget/udc/aspeed_udc.c
+ 
+ ASUS NOTEBOOKS AND EEEPC ACPI/WMI EXTRAS DRIVERS
+-- 
+2.17.1
+
