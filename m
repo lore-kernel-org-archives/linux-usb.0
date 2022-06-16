@@ -2,165 +2,189 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D61CCA47A
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jun 2022 09:11:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C554CCA47A
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jun 2022 09:19:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376598AbiFPJLZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Jun 2022 05:11:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37522 "EHLO
+        id S1359505AbiFPJTA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Jun 2022 05:19:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358507AbiFPJLY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Jun 2022 05:11:24 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AC725537E;
-        Thu, 16 Jun 2022 02:11:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1655370682; x=1686906682;
+        with ESMTP id S1359311AbiFPJS7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Jun 2022 05:18:59 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE71856F90;
+        Thu, 16 Jun 2022 02:18:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655371137; x=1686907137;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=RAIhqL2xeDknD95cNLZqPbz62ihnEMqznkDfqUykBmo=;
-  b=nXxCyTE8/3lbaqdCmB8/BhVuvZNTnA1d533K8fHP60oPPKEvW2cxm5lj
-   JrQnA99JFBXzrISSCVj362kN+qGXVqnIC/x2pOZTfQWlKTlOwaTgShHKx
-   tskdjFerqty+Ue94ivZsBW/VAuiLzcdH7DNyGGbwHMUzJ9H5QI6BRcgGT
-   4=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 16 Jun 2022 02:11:21 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2022 02:11:21 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 16 Jun 2022 02:11:21 -0700
-Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 16 Jun 2022 02:11:14 -0700
-Date:   Thu, 16 Jun 2022 14:41:10 +0530
-From:   Pavan Kondeti <quic_pkondeti@quicinc.com>
-To:     Matthias Kaehlcke <mka@chromium.org>
-CC:     Krishna Kurapati <quic_kriskura@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Andy Gross" <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+   mime-version:in-reply-to;
+  bh=uhuD9564WbiMR6YEyqZCv/cGg7ljX8YyLbuqxfhjXNo=;
+  b=GSQEHAJFsXX96htgyQNZa2Sadhwem9qB0wfg7pQhCbccMvpJ9d/eGQJG
+   hfEozg/ILlo1xE89q+Lv13Qu2k8d5vIgss8lfsAP1iBdY5OcJJcx+wxJu
+   Ec5G+A4gPcK54iAVuF9vGCZdJWoXKLKoAMFma/VWFfflZHYnBINAdQIxb
+   r+IqghNARErsD9iN5OlJ9oWGLb7eZf8uembTVoBnN1l2qkxDk/A/Lqvg1
+   2ucLFz9tT7fBS6pdeVbRIIAMhl2KIEuw/U80iIUTJbxNY8lh5PZf2jLDK
+   qHD2cQn4RCKTzGD4vSd8K5ou4BL/KlIUuQwrRFYVNGXZRl4CRuWpt5pHx
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="304647613"
+X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; 
+   d="scan'208";a="304647613"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2022 02:18:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; 
+   d="scan'208";a="618816728"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 16 Jun 2022 02:18:54 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o1leP-000OEv-OU;
+        Thu, 16 Jun 2022 09:18:53 +0000
+Date:   Thu, 16 Jun 2022 17:18:39 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     frank zago <frank@zago.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
-        <quic_ppratap@quicinc.com>, <quic_vpulyala@quicinc.com>
-Subject: Re: [PATCH v20 2/5] usb: dwc3: core: Host wake up support from
- system suspend
-Message-ID: <20220616091110.GA24114@hu-pkondeti-hyd.qualcomm.com>
-References: <1654158277-12921-1-git-send-email-quic_kriskura@quicinc.com>
- <1654158277-12921-3-git-send-email-quic_kriskura@quicinc.com>
- <YpkRDi2m7cLaKYEf@google.com>
- <Yp5nf2w8uVZ38/XZ@google.com>
- <Yqd9IHQEj3Ex+FcF@google.com>
- <YqjLHyUVEjf7I3MI@google.com>
+        linux-kernel@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Wolfram Sang <wsa-dev@sang-engineering.com>,
+        Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org
+Cc:     kbuild-all@lists.01.org
+Subject: Re: [PATCH v6 3/4] i2c: ch341: add I2C MFD cell driver for the CH341
+Message-ID: <202206161751.5icAiwNf-lkp@intel.com>
+References: <20220616013747.126051-4-frank@zago.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YqjLHyUVEjf7I3MI@google.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+In-Reply-To: <20220616013747.126051-4-frank@zago.net>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Matthias/Krishna,
+Hi frank,
 
-On Tue, Jun 14, 2022 at 10:53:35AM -0700, Matthias Kaehlcke wrote:
-> On Mon, Jun 13, 2022 at 11:08:32AM -0700, Matthias Kaehlcke wrote:
-> > On Mon, Jun 06, 2022 at 01:45:51PM -0700, Matthias Kaehlcke wrote:
-> > > On Thu, Jun 02, 2022 at 12:35:42PM -0700, Matthias Kaehlcke wrote:
-> > > > Hi Krishna,
-> > > > 
-> > > > with this version I see xHCI errors on my SC7180 based system, like
-> > > > these:
-> > > > 
-> > > > [   65.352605] xhci-hcd xhci-hcd.13.auto: xHC error in resume, USBSTS 0x401, Reinit
-> > > > 
-> > > > [  101.307155] xhci-hcd xhci-hcd.13.auto: WARN: xHC CMD_RUN timeout
-> > > > 
-> > > > After resume a downstream hub isn't enumerated again.
-> > > > 
-> > > > So far I didn't see those with v13, but I aso saw the first error with
-> > > > v16.
-> > > 
-> > > It also happens with v13, but only when a wakeup capable vUSB <= 2
-> > > device is plugged in. Initially I used a wakeup capable USB3 to
-> > > Ethernet adapter to trigger the wakeup case, however older versions
-> > > of this series that use usb_wakeup_enabled_descendants() to check
-> > > for wakeup capable devices didn't actually check for vUSB > 2
-> > > devices.
-> > > 
-> > > So the case were the controller/PHYs is powered down works, but
-> > > the controller is unhappy when the runtime PM path is used during
-> > > system suspend.
-> > 
-> > The issue isn't seen on all systems using dwc3-qcom and the problem starts
-> > during probe(). The expected probe sequence is something like this:
-> > 
-> > dwc3_qcom_probe
-> >   dwc3_qcom_of_register_core
-> >     dwc3_probe
-> > 
-> >   if (device_can_wakeup(&qcom->dwc3->dev))
-> >     ...
-> > 
-> > The important part is that device_can_wakeup() is called after dwc3_probe()
-> > has completed. That's what I see on a QC SC7280 system, where wakeup is
-> > generally working with these patches.
-> > 
-> > However on a QC SC7180 system dwc3_probe() is deferred and only executed after
-> > dwc3_qcom_probe(). As a result the device_can_wakeup() call returns false.
-> > With that the controller/driver ends up in an unhappy state after system
-> > suspend.
-> > 
-> > Probing is deferred on SC7180 because device_links_check_suppliers() finds
-> > that '88e3000.phy' isn't ready yet.
-> 
-> It seems device links could be used to make sure the dwc3 core is present:
-> 
->   Another example for an inconsistent state would be a device link that
->   represents a driver presence dependency, yet is added from the consumer’s
->   ->probe callback while the supplier hasn’t probed yet: Had the driver core
->   known about the device link earlier, it wouldn’t have probed the consumer
->   in the first place. The onus is thus on the consumer to check presence of
->   the supplier after adding the link, and defer probing on non-presence.
-> 
->   https://www.kernel.org/doc/html/v5.18/driver-api/device_link.html#usage
-> 
-> 
-> You could add something like this to dwc3_qcom_of_register_core():
-> 
-> 
->   device_link_add(dev, &qcom->dwc3->dev,
->   		  DL_FLAG_AUTOREMOVE_CONSUMER | DL_FLAG_AUTOPROBE_CONSUMER);
-> 
->   if (qcom->dwc3->dev.links.status != DL_DEV_DRIVER_BOUND)
->       ret = -EPROBE_DEFER;
-> 
-> 
-I am not very sure how the device_link_add() API works. we are the parent and
-creating a depdency on child probe. That does not sound correct to me. Any
-ways, I have another question.
+Thank you for the patch! Yet something to improve:
 
-When dwc3_qcom_of_register_core() returns error back to dwc3_qcom_probe(), we
-goto depopulate label which calls of_platform_depopulate() which destroy the
-child devices that are populated. how does that ensure that child probe is
-completed by the time, our probe is called again. The child device it self is
-gone. Is this working because when our probe is called next time, the child
-probe depenencies are resolved?
+[auto build test ERROR on lee-mfd/for-mfd-next]
+[also build test ERROR on brgl/gpio/for-next wsa/i2c/for-next linus/master v5.19-rc2 next-20220615]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Thanks,
-Pavan
+url:    https://github.com/intel-lab-lkp/linux/commits/frank-zago/add-driver-for-the-WCH-CH341-in-I2C-GPIO-mode/20220616-094113
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+config: nios2-randconfig-r026-20220616 (https://download.01.org/0day-ci/archive/20220616/202206161751.5icAiwNf-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/46c68aee86d34ee630272146a73ad7c3147bb094
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review frank-zago/add-driver-for-the-WCH-CH341-in-I2C-GPIO-mode/20220616-094113
+        git checkout 46c68aee86d34ee630272146a73ad7c3147bb094
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   nios2-linux-ld: drivers/mfd/ch341-core.o: in function `ch341_usb_probe':
+>> drivers/mfd/ch341-core.c:46: undefined reference to `usb_find_common_endpoints'
+   drivers/mfd/ch341-core.c:46:(.text+0x8c): relocation truncated to fit: R_NIOS2_CALL26 against `usb_find_common_endpoints'
+   nios2-linux-ld: drivers/mfd/ch341-core.o: in function `ch341_usb_driver_init':
+>> drivers/mfd/ch341-core.c:86: undefined reference to `usb_register_driver'
+   drivers/mfd/ch341-core.c:86:(.init.text+0x1c): relocation truncated to fit: R_NIOS2_CALL26 against `usb_register_driver'
+   nios2-linux-ld: drivers/i2c/busses/i2c-ch341.o: in function `no_data_xfer':
+>> drivers/i2c/busses/i2c-ch341.c:81: undefined reference to `usb_bulk_msg'
+   drivers/i2c/busses/i2c-ch341.c:81:(.text+0xe0): relocation truncated to fit: R_NIOS2_CALL26 against `usb_bulk_msg'
+>> nios2-linux-ld: drivers/i2c/busses/i2c-ch341.c:89: undefined reference to `usb_bulk_msg'
+   drivers/i2c/busses/i2c-ch341.c:89:(.text+0x134): relocation truncated to fit: R_NIOS2_CALL26 against `usb_bulk_msg'
+   nios2-linux-ld: drivers/i2c/busses/i2c-ch341.o: in function `ch341_i2c_xfer':
+   drivers/i2c/busses/i2c-ch341.c:278: undefined reference to `usb_bulk_msg'
+   drivers/i2c/busses/i2c-ch341.c:278:(.text+0x4e0): relocation truncated to fit: R_NIOS2_CALL26 against `usb_bulk_msg'
+   nios2-linux-ld: drivers/i2c/busses/i2c-ch341.c:290: undefined reference to `usb_bulk_msg'
+   drivers/i2c/busses/i2c-ch341.c:290:(.text+0x558): relocation truncated to fit: R_NIOS2_CALL26 against `usb_bulk_msg'
+   nios2-linux-ld: drivers/i2c/busses/i2c-ch341.o: in function `ch341_i2c_probe':
+   drivers/i2c/busses/i2c-ch341.c:357: undefined reference to `usb_bulk_msg'
+   drivers/i2c/busses/i2c-ch341.c:357:(.text+0x778): relocation truncated to fit: R_NIOS2_CALL26 against `usb_bulk_msg'
+   pahole: .tmp_vmlinux.btf: No such file or directory
+   .btf.vmlinux.bin.o: file not recognized: file format not recognized
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MFD_CH341
+   Depends on HAS_IOMEM && USB
+   Selected by
+   - I2C_CH341 && I2C && HAS_IOMEM
+
+
+vim +46 drivers/mfd/ch341-core.c
+
+f33ee28d4d85a8 frank zago 2022-06-15  29  
+f33ee28d4d85a8 frank zago 2022-06-15  30  static int ch341_usb_probe(struct usb_interface *iface,
+f33ee28d4d85a8 frank zago 2022-06-15  31  			   const struct usb_device_id *usb_id)
+f33ee28d4d85a8 frank zago 2022-06-15  32  {
+f33ee28d4d85a8 frank zago 2022-06-15  33  	struct usb_endpoint_descriptor *bulk_out;
+f33ee28d4d85a8 frank zago 2022-06-15  34  	struct usb_endpoint_descriptor *bulk_in;
+f33ee28d4d85a8 frank zago 2022-06-15  35  	struct usb_endpoint_descriptor *intr_in;
+f33ee28d4d85a8 frank zago 2022-06-15  36  	struct ch341_ddata *ddata;
+f33ee28d4d85a8 frank zago 2022-06-15  37  	int ret;
+f33ee28d4d85a8 frank zago 2022-06-15  38  
+f33ee28d4d85a8 frank zago 2022-06-15  39  	ddata = devm_kzalloc(&iface->dev, sizeof(*ddata), GFP_KERNEL);
+f33ee28d4d85a8 frank zago 2022-06-15  40  	if (!ddata)
+f33ee28d4d85a8 frank zago 2022-06-15  41  		return -ENOMEM;
+f33ee28d4d85a8 frank zago 2022-06-15  42  
+f33ee28d4d85a8 frank zago 2022-06-15  43  	ddata->usb_dev = interface_to_usbdev(iface);
+f33ee28d4d85a8 frank zago 2022-06-15  44  	mutex_init(&ddata->usb_lock);
+f33ee28d4d85a8 frank zago 2022-06-15  45  
+f33ee28d4d85a8 frank zago 2022-06-15 @46  	ret = usb_find_common_endpoints(iface->cur_altsetting, &bulk_in,
+f33ee28d4d85a8 frank zago 2022-06-15  47  					&bulk_out, &intr_in, NULL);
+f33ee28d4d85a8 frank zago 2022-06-15  48  	if (ret) {
+f33ee28d4d85a8 frank zago 2022-06-15  49  		dev_err(&iface->dev, "Could not find all endpoints\n");
+f33ee28d4d85a8 frank zago 2022-06-15  50  		return -ENODEV;
+f33ee28d4d85a8 frank zago 2022-06-15  51  	}
+f33ee28d4d85a8 frank zago 2022-06-15  52  
+f33ee28d4d85a8 frank zago 2022-06-15  53  	ddata->ep_in = bulk_in->bEndpointAddress;
+f33ee28d4d85a8 frank zago 2022-06-15  54  	ddata->ep_out = bulk_out->bEndpointAddress;
+f33ee28d4d85a8 frank zago 2022-06-15  55  	ddata->ep_intr = intr_in->bEndpointAddress;
+f33ee28d4d85a8 frank zago 2022-06-15  56  	ddata->ep_intr_interval = intr_in->bInterval;
+f33ee28d4d85a8 frank zago 2022-06-15  57  
+f33ee28d4d85a8 frank zago 2022-06-15  58  	usb_set_intfdata(iface, ddata);
+f33ee28d4d85a8 frank zago 2022-06-15  59  
+f33ee28d4d85a8 frank zago 2022-06-15  60  	ret = mfd_add_devices(&iface->dev, PLATFORM_DEVID_AUTO, ch341_devs,
+f33ee28d4d85a8 frank zago 2022-06-15  61  			      ARRAY_SIZE(ch341_devs), NULL, 0, NULL);
+f33ee28d4d85a8 frank zago 2022-06-15  62  	if (ret)
+f33ee28d4d85a8 frank zago 2022-06-15  63  		return dev_err_probe(&iface->dev, ret,
+f33ee28d4d85a8 frank zago 2022-06-15  64  				     "Failed to register child devices\n");
+f33ee28d4d85a8 frank zago 2022-06-15  65  
+f33ee28d4d85a8 frank zago 2022-06-15  66  	return 0;
+f33ee28d4d85a8 frank zago 2022-06-15  67  }
+f33ee28d4d85a8 frank zago 2022-06-15  68  
+f33ee28d4d85a8 frank zago 2022-06-15  69  static void ch341_usb_disconnect(struct usb_interface *usb_if)
+f33ee28d4d85a8 frank zago 2022-06-15  70  {
+f33ee28d4d85a8 frank zago 2022-06-15  71  	mfd_remove_devices(&usb_if->dev);
+f33ee28d4d85a8 frank zago 2022-06-15  72  }
+f33ee28d4d85a8 frank zago 2022-06-15  73  
+f33ee28d4d85a8 frank zago 2022-06-15  74  static const struct usb_device_id ch341_usb_table[] = {
+f33ee28d4d85a8 frank zago 2022-06-15  75  	{ USB_DEVICE(0x1a86, 0x5512) },
+f33ee28d4d85a8 frank zago 2022-06-15  76  	{ }
+f33ee28d4d85a8 frank zago 2022-06-15  77  };
+f33ee28d4d85a8 frank zago 2022-06-15  78  MODULE_DEVICE_TABLE(usb, ch341_usb_table);
+f33ee28d4d85a8 frank zago 2022-06-15  79  
+f33ee28d4d85a8 frank zago 2022-06-15  80  static struct usb_driver ch341_usb_driver = {
+f33ee28d4d85a8 frank zago 2022-06-15  81  	.name       = "ch341-mfd",
+f33ee28d4d85a8 frank zago 2022-06-15  82  	.id_table   = ch341_usb_table,
+f33ee28d4d85a8 frank zago 2022-06-15  83  	.probe      = ch341_usb_probe,
+f33ee28d4d85a8 frank zago 2022-06-15  84  	.disconnect = ch341_usb_disconnect,
+f33ee28d4d85a8 frank zago 2022-06-15  85  };
+f33ee28d4d85a8 frank zago 2022-06-15 @86  module_usb_driver(ch341_usb_driver);
+f33ee28d4d85a8 frank zago 2022-06-15  87  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
