@@ -2,63 +2,87 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD227C433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jun 2022 15:15:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A433AC43334
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jun 2022 15:39:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1383100AbiFQPPi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Jun 2022 11:15:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46620 "EHLO
+        id S237141AbiFQPjU convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Jun 2022 11:39:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383069AbiFQPPh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Jun 2022 11:15:37 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 43F4A2CCB1
-        for <linux-usb@vger.kernel.org>; Fri, 17 Jun 2022 08:15:36 -0700 (PDT)
-Received: (qmail 769005 invoked by uid 1000); 17 Jun 2022 11:15:35 -0400
-Date:   Fri, 17 Jun 2022 11:15:35 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Liang He <windhl@126.com>
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: host: ohci-ppc-of: Fix refcount leak bug
-Message-ID: <Yqyal2aXvZRebui+@rowland.harvard.edu>
-References: <20220617034637.4003115-1-windhl@126.com>
+        with ESMTP id S233259AbiFQPjT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Jun 2022 11:39:19 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D7E834ECD6
+        for <linux-usb@vger.kernel.org>; Fri, 17 Jun 2022 08:39:15 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-23-jFPDc8AHPBG7KoJDq-Oxtg-1; Fri, 17 Jun 2022 16:39:13 +0100
+X-MC-Unique: jFPDc8AHPBG7KoJDq-Oxtg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.36; Fri, 17 Jun 2022 16:39:10 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.036; Fri, 17 Jun 2022 16:39:10 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Alan Stern' <stern@rowland.harvard.edu>,
+        Greg KH <gregkh@linuxfoundation.org>
+CC:     Mario Limonciello <mario.limonciello@amd.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "open list:USB HID/HIDBP DRIVERS [USB KEYBOARDS, MICE, REM..." 
+        <linux-usb@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Richard Gong <richard.gong@amd.com>
+Subject: RE: [PATCH v2] HID: usbhid: set mouse as a wakeup resource
+Thread-Topic: [PATCH v2] HID: usbhid: set mouse as a wakeup resource
+Thread-Index: AQHYgluyoC2hoFBpKUup69QWlLdMjq1Tuqsg
+Date:   Fri, 17 Jun 2022 15:39:10 +0000
+Message-ID: <419f8edc2a7744ecbfaa0728227db180@AcuMS.aculab.com>
+References: <20220616183142.14472-1-mario.limonciello@amd.com>
+ <YqugZQiDu35Y8lTu@kroah.com> <YqyYIt2MLmoCRSA9@rowland.harvard.edu>
+In-Reply-To: <YqyYIt2MLmoCRSA9@rowland.harvard.edu>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220617034637.4003115-1-windhl@126.com>
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jun 17, 2022 at 11:46:37AM +0800, Liang He wrote:
-> In ohci_hcd_ppc_of_probe(), of_find_compatible_node() will return
-> a node pointer with refcount incremented. We should use of_node_put()
-> when it is not used anymore.
-> 
-> Signed-off-by: Liang He <windhl@126.com>
-> ---
+From: Alan Stern
+> Sent: 17 June 2022 16:05
+...
+> Another issue is whether wakeup for a mouse means pressing a button or
+> just moving the mouse.  For a mouse that uses LEDs to sense motion,
+> moving it won't generate a wakeup request -- USB suspend does not allow
+> the mouse to use enough current to keep the LEDs illuminated.  On the
+> other hand, there's no reason why wakeup by pressing a button shouldn't
+> always work.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+I'm not even sure I want a system to wake up because it's mouse
+gets knocked.
+I guess a mouse could include accelerometers so that you can shake it!
 
-This seems to be the last one; ehci-ppc-of.c was already fixed by an 
-earlier patch.
+I've an idea that one of my systems manages to boot if the mouse
+is knocked (and it was last shutdown from windows).
+At least, that it why I think it is sometimes booting up.
 
->  drivers/usb/host/ohci-ppc-of.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/usb/host/ohci-ppc-of.c b/drivers/usb/host/ohci-ppc-of.c
-> index 1960b8dfdba5..591f675cc930 100644
-> --- a/drivers/usb/host/ohci-ppc-of.c
-> +++ b/drivers/usb/host/ohci-ppc-of.c
-> @@ -166,6 +166,7 @@ static int ohci_hcd_ppc_of_probe(struct platform_device *op)
->  				release_mem_region(res.start, 0x4);
->  		} else
->  			pr_debug("%s: cannot get ehci offset from fdt\n", __FILE__);
-> +		of_node_put(np);
->  	}
->  
->  	irq_dispose_mapping(irq);
-> -- 
-> 2.25.1
-> 
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
