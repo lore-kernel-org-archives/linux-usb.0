@@ -2,127 +2,112 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 471ECC43334
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Jun 2022 17:41:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A044EC43334
+	for <linux-usb@archiver.kernel.org>; Sun, 19 Jun 2022 07:40:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236943AbiFRRlv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 18 Jun 2022 13:41:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54870 "EHLO
+        id S234454AbiFSHkJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 19 Jun 2022 03:40:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiFRRlu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Jun 2022 13:41:50 -0400
-X-Greylist: delayed 402 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 18 Jun 2022 10:41:49 PDT
-Received: from hosting.gsystem.sk (hosting.gsystem.sk [212.5.213.30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 38E5712740;
-        Sat, 18 Jun 2022 10:41:49 -0700 (PDT)
-Received: from [192.168.0.2] (chello089173232159.chello.sk [89.173.232.159])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by hosting.gsystem.sk (Postfix) with ESMTPSA id 909537A021E;
-        Sat, 18 Jun 2022 19:35:04 +0200 (CEST)
-From:   Ondrej Zary <linux@zary.sk>
-To:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Getting Backpack USB drives to work - looking for lost firmware
-Date:   Sat, 18 Jun 2022 19:35:01 +0200
-User-Agent: KMail/1.9.10
+        with ESMTP id S234274AbiFSHkI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Jun 2022 03:40:08 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0412EE028;
+        Sun, 19 Jun 2022 00:40:05 -0700 (PDT)
+X-UUID: 6c2507ca54b3497c8c3e8ceb1ed55296-20220619
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6,REQID:b2b009e2-bac3-4a6d-9bea-3db8c1ec8af2,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+        ION:release,TS:45
+X-CID-INFO: VERSION:1.1.6,REQID:b2b009e2-bac3-4a6d-9bea-3db8c1ec8af2,OB:0,LOB:
+        0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+        N:release,TS:45
+X-CID-META: VersionHash:b14ad71,CLOUDID:6bcfcaf6-e099-41ba-a32c-13b8bfe63214,C
+        OID:83ca1b803afe,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 6c2507ca54b3497c8c3e8ceb1ed55296-20220619
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1347035379; Sun, 19 Jun 2022 15:40:02 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Sun, 19 Jun 2022 15:40:01 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sun, 19 Jun 2022 15:40:00 +0800
+Message-ID: <d95e046262751a7f746fabc5f1d9a39e675730b3.camel@mediatek.com>
+Subject: Re: [PATCH 2/3] dt-bindings: usb: mtk-xhci: Allow middle optional
+ clocks to be missing
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     "=?ISO-8859-1?Q?N=EDcolas?= F. R. A. Prado" <nfraprado@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+CC:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, <kernel@collabora.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <linux-usb@vger.kernel.org>
+Date:   Sun, 19 Jun 2022 15:40:00 +0800
+In-Reply-To: <20220617222916.2435618-3-nfraprado@collabora.com>
+References: <20220617222916.2435618-1-nfraprado@collabora.com>
+         <20220617222916.2435618-3-nfraprado@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-Message-Id: <202206181935.01392.linux@zary.sk>
+Content-Transfer-Encoding: 8bit
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
-I'm trying to get Micro Solutions Backpack USB CD-RW to work and maybe write a simple firmware loader module. It's based on Cypress EZ-USB FX2 so it should be easy (the loading code is already present in the kernel for other devices).
+On Fri, 2022-06-17 at 18:29 -0400, Nícolas F. R. A. Prado wrote:
+> The current clock list in the binding doesn't allow for one of the
+> optional clocks to be missing and a subsequent clock to be present.
+> An
+> example where this is an issue is in mt8192.dtsi, which has "sys_ck",
+> "ref_ck", "xhci_ck" and would cause dtbs_check warnings.
+How about using fixed clock instead to fix the check warning?
+Using enum way seems make it more complex.
 
-Micro Solutions released firmware and load scrips for Linux - it used to be called bpck-usb-firmware-1.1.tgz but seems to have vanished from the web, even archive.org does not have it. Frugalware distro used to include a package bpck-usb-firmware-1.1-1-i686.fpm until version 1.7 (it was removed in 1.8) but I was not able to find it anywhere (even tried Frugalware developers).
+> 
+> Change the clock list in a way that allows the middle optional clocks
+> to
+> be missing, while still guaranteeing a fixed order. The "ref_ck" is
+> kept
+> as a const even though it is optional for simplicity, since it is
+> present in all current dts files.
+> 
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+> 
+>  .../devicetree/bindings/usb/mediatek,mtk-xhci.yaml       | 9
+> +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-
+> xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-
+> xhci.yaml
+> index 63cbc2b62d18..99a1b233ec90 100644
+> --- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+> +++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+> @@ -80,8 +80,13 @@ properties:
+>      items:
+>        - const: sys_ck  # required, the following ones are optional
+>        - const: ref_ck
+> -      - const: mcu_ck
+> -      - const: dma_ck
+> +      - enum:
+> +          - mcu_ck
+> +          - dma_ck
+> +          - xhci_ck
+> +      - enum:
+> +          - dma_ck
+> +          - xhci_ck
+>        - const: xhci_ck
+>  
+>    assigned-clocks:
 
-At least the load script can be found here:
-https://www.linuxquestions.org/questions/linux-hardware-18/external-usb-backpack-cd-rewriter-problem-212360/
-Firmware filenames extracted from the script:
-BP1SCAN.HEX, BP2SCAN.HEX (scan firmwares)
-BP1CD5.HEX, BP1CD6.HEX, BP1HD5.HEX, BP1HD6.HEX (for USB 1 chips)
-BP2CD5.HEX, BP2CD6.HEX, BP2HD5.HEX, BP2HD6.HEX (for USB 2 chips)
-BPINTCD.HEX, BPINTHD.HEX (for internal USB 2 chips)
-
-So there seems to be two kinds of external USB adapters/cables - with FX (USB 1) and FX2 (USB 2) chips. First, a "scan" firmware is loaded that identifies the drive type and changes the ID appropriately. Then a final firmware is loaded, depending on the chip type, drive version (5 or 6) and drive type (CD or HDD).
-The latest devices have integrated USB support - no scanning is needed, just a CD or HDD firmware is loaded, depending on the ID.
-
-My device (model 222011 with integrated USB) identifies as 0ac9:0010. Once the firmware is loaded, the identification changes to 0ac9:1234. I've tested it in Windows and extracted the firmware from usbsnoop dump. After loading using fxload, the ID changed but the device still reports vendor specific class. Probably the firmware for Windows is not the same as for Linux and is not fully USB mass storage compatible :( 
-
-lsusb output (before loading firmware):
-Bus 002 Device 002: ID 0ac9:0010 Micro Solutions, Inc. BACKPACK
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass            0
-  bDeviceSubClass         0
-  bDeviceProtocol         0
-  bMaxPacketSize0        64
-  idVendor           0x0ac9 Micro Solutions, Inc.
-  idProduct          0x0010 BACKPACK
-  bcdDevice            1.82
-  iManufacturer           1 Micro Solutions
-  iProduct                3 Micro Solutions BACKPACK
-  iSerial                 0
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength       0x0020
-    bNumInterfaces          1
-    bConfigurationValue     1
-    iConfiguration          0
-    bmAttributes         0xc0
-      Self Powered
-    MaxPower                0mA
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           2
-      bInterfaceClass       255 Vendor Specific Class
-      bInterfaceSubClass    255 Vendor Specific Subclass
-      bInterfaceProtocol    255 Vendor Specific Protocol
-      iInterface              0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x88  EP 8 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x02  EP 2 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-Device Qualifier (for other device speed):
-  bLength                10
-  bDescriptorType         6
-  bcdUSB               2.00
-  bDeviceClass            0
-  bDeviceSubClass         0
-  bDeviceProtocol         0
-  bMaxPacketSize0        64
-  bNumConfigurations      1
-Device Status:     0x0000
-  (Bus Powered)
-
-After loading firmware, only idProduct changes to 0x1234. Everything else remains.
-
--- 
-Ondrej Zary
