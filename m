@@ -2,87 +2,140 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A7EEC433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Jun 2022 10:45:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C911DC43334
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Jun 2022 10:52:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239136AbiFTKpV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Jun 2022 06:45:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38176 "EHLO
+        id S239937AbiFTKwM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Jun 2022 06:52:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240795AbiFTKnU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Jun 2022 06:43:20 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 843EC140C7;
-        Mon, 20 Jun 2022 03:43:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655721799; x=1687257799;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=M3bqDonEX7K4lrycc+KmJwuLlRjfv8zoVcZKA2ZbWo0=;
-  b=TCICPZC1pGKCCxxMdOmp+IogJZT2+ZAerxfgMrj5+wlPd2SzCpxNjsrd
-   nRirdqB05PKHiaoY3nCWbL/btQRzWI8bq4pS2d6hA3zXN5iUYxo9gL+O+
-   C2wxzTlE0IX7ij6svk0MrVAbW2ITyiEEJKj/c5xwJXQ7Tu/jaCuGX8RY4
-   jMhfXCacll38vFc+LgVHYScLWiLCwmU99mCJyeapCdU6QMmoGqfnKdsof
-   suGtQVAPDLrd+yer/RC4lnKSnWn1kn0fY6UkVnsm113TUQiSNxBfhBBO0
-   sSCIKGdJS+7gnefPdF9v+y2MZSSPCLxp/9bk1eApuwQ+x8u/YAG7GSgwc
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="366187189"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="366187189"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 03:43:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="729321649"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Jun 2022 03:43:14 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 4E90314F; Mon, 20 Jun 2022 13:43:19 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v1 1/1] usb: typec: wcove: Drop wrong dependency to INTEL_SOC_PMIC
-Date:   Mon, 20 Jun 2022 13:43:16 +0300
-Message-Id: <20220620104316.57592-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S236095AbiFTKwL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Jun 2022 06:52:11 -0400
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CA461180E
+        for <linux-usb@vger.kernel.org>; Mon, 20 Jun 2022 03:52:10 -0700 (PDT)
+Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-3177f4ce3e2so72482617b3.5
+        for <linux-usb@vger.kernel.org>; Mon, 20 Jun 2022 03:52:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vRs5UGEXEzBo3vG7lnGD6TGHEOqRmaEfAKh1aM6DlP0=;
+        b=DWaid7byzlDqg5B87caOqpST81kvUsChUOMj/pf15t0N8V881eQHnCkR7aPGAIKd/6
+         A2q14V7jH4+kuiJuJTlih7Dvtjh0p5qSpTS5QGUJIVJg5RnBDferUlXYx32OrETFcKP2
+         1MiWJ+kFaeStmM/LJd6lOVs5axaSrL7BcmeAQY20AHskAl5BoV3pf+o5QcmiTTEhsN+x
+         /y0E7USAqz/XqWOmc7j6WyzHDaHeqir3iCCqhCeTXQVNGbGopIAhh7qee6gZe3R2/OG0
+         XtZsLJUYKnPqOJQ6zGjYAvuIGNTcXgVb6gbpRgvcxpnJxBLjn63dYMgvuY2qWI086t6S
+         P7RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vRs5UGEXEzBo3vG7lnGD6TGHEOqRmaEfAKh1aM6DlP0=;
+        b=roui/mwwRvMeFuH+DYcjEGG+0TnG/pHmdAcSG3wosstkEd0bXj5pZnrHpkAyuwJJc7
+         fR1lC/x35VBtAVMKmEKrU7fkKpsXUtI3SUIOXIw/MoshWIHFFnMb1/P79PII9vV4DmYZ
+         LZgSqbmHM4N6+7nA2yGnnyBb6odor14B00mpMFmkvpxTtptk5Oy0weRnV7FxUdah9kHB
+         vblj+VhkllQy3t2efYGFi0cSFlHftbFi/qORRN68EfXfEd2wwkf26OjRYm7H/dYhlT15
+         nIECk6cRGDpkzV+DR9bq9s7TeUcnBi4rUsYKjeylWCphO/6kO6aboQwPDqj4o/ORDidH
+         j/Aw==
+X-Gm-Message-State: AJIora+0MEY5jjXI+3a9hQt7PtDivBxFxHyUgEUIDzIvxJt3a+vtv4U5
+        p1koAvkbucHEh5h55GSXzBl2D+UuaHjGoBiQzM8=
+X-Google-Smtp-Source: AGRyM1tW0uu5HDj7qZ8ESXeFMDaPOGzjwDkbhJFSiqPKSYTs8ix1JyGB6NtXYslA4PaGbYH4oQen5Mvvtb7FgP+H4NI=
+X-Received: by 2002:a81:a0c5:0:b0:317:323b:64fe with SMTP id
+ x188-20020a81a0c5000000b00317323b64femr26515020ywg.292.1655722329407; Mon, 20
+ Jun 2022 03:52:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220617133514.357-1-charlesyeh522@gmail.com> <YrBARs5dfARHW9Rl@hovoldconsulting.com>
+In-Reply-To: <YrBARs5dfARHW9Rl@hovoldconsulting.com>
+From:   Charles Yeh <charlesyeh522@gmail.com>
+Date:   Mon, 20 Jun 2022 18:51:58 +0800
+Message-ID: <CAAZvQQ4iHB44=Ug7o+=ZqzTCYSM3igSwfi1xBUGqJS1ChzcbUw@mail.gmail.com>
+Subject: Re: [PATCH] USB: serial: pl2303: Modify the detection method of
+ PL2303HXN (TYPE_HXN)
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+        =?UTF-8?B?WWVoLkNoYXJsZXMgW+iRieamrumRq10=?= 
+        <charles-yeh@prolific.com.tw>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Intel SoC PMIC is a generic name for all PMICs that are used
-on Intel platforms. In particular, INTEL_SOC_PMIC kernel configuration
-option refers to Crystal Cove PMIC, which has never been a part
-of any Intel Broxton hardware. Drop wrong dependency from Kconfig.
+> > The setting value of bcdUSB & bcdDevice of PL2303TA is the same as the
+> > setting value of bcdUSB & bcdDevice of a certain chip of PL2303HXN
+>
+> Which ones would that be?
 
-Note, the correct dependency is satisfied via ACPI PMIC OpRegion driver,
-which the Type-C depends on.
+PL2303GT_R4 (chip version: v4) is the same as PL2303TA.
 
-Fixes: d2061f9cc32d ("usb: typec: add driver for Intel Whiskey Cove PMIC USB Type-C PHY")
-Reported-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/usb/typec/tcpm/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+PL2303TA:
+Bus 003 Device 002: ID 067b:2303 Prolific Technology, Inc. PL2303
+Serial Port / Mobile Action MA-8910P
+Couldn't open device, some information will be missing
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.00
+  bDeviceClass            0
+  bDeviceSubClass         0
+  bDeviceProtocol         0
+  bMaxPacketSize0        64
+  idVendor           0x067b Prolific Technology, Inc.
+  idProduct          0x2303 PL2303 Serial Port / Mobile Action MA-8910P
+  bcdDevice            3.00
+  iManufacturer           1 Prolific Technology Inc.
+  iProduct                2 USB-Serial Controller
+  iSerial                 0
+  bNumConfigurations      1
 
-diff --git a/drivers/usb/typec/tcpm/Kconfig b/drivers/usb/typec/tcpm/Kconfig
-index 557f392fe24d..073fd2ea5e0b 100644
---- a/drivers/usb/typec/tcpm/Kconfig
-+++ b/drivers/usb/typec/tcpm/Kconfig
-@@ -56,7 +56,6 @@ config TYPEC_WCOVE
- 	tristate "Intel WhiskeyCove PMIC USB Type-C PHY driver"
- 	depends on ACPI
- 	depends on MFD_INTEL_PMC_BXT
--	depends on INTEL_SOC_PMIC
- 	depends on BXT_WC_PMIC_OPREGION
- 	help
- 	  This driver adds support for USB Type-C on Intel Broxton platforms
--- 
-2.35.1
 
+PL2303GT_R4 (chip version: v4)
+Bus 001 Device 005: ID 067b:23c3 Prolific Technology, Inc. USB-Serial Controller
+Couldn't open device, some information will be missing
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.00
+  bDeviceClass            0
+  bDeviceSubClass         0
+  bDeviceProtocol         0
+  bMaxPacketSize0        64
+  idVendor           0x067b Prolific Technology, Inc.
+  idProduct          0x23c3
+  bcdDevice            3.00
+  iManufacturer           1 Prolific Technology Inc.
+  iProduct                2 USB-Serial Controller
+  iSerial                 3 BGEK6178R45
+  bNumConfigurations      1
+
+
+> > The setting value of bcdUSB & bcdDevice of PL2303TB is the same as the
+> > setting value of bcdUSB & bcdDevice of a certain chip of PL2303HXN
+>
+> Same question here.
+
+PL2303GE_R4 (chip version: v4) is the same as PL2303TB.
+
+
+> Could you provide a list of the bcdDevice you use for the various HXN
+> types instead?
+
+I also hope to have a complete list of all HXN versions..
+But it is difficult.. I use PL2303GT as an example.
+PL2303GT is currently divided into PL2303GT_R4 / PL2303GT_R5 / PL2303GT_R5+
+
+PL2303GT_R4  : idProduct : 0x23C3, bcdDevice: 0x0300
+PL2303GT_R5  : idProduct : 0x23C3, bcdDevice: 0x0305
+PL2303GT_R5+ : idProduct : 0x23A3, bcdDevice: 0x0305
+
+The above three kinds of PL2303GT are currently available in the market.
+
+From the bcdUSB & bcdDevice of PL2303GT_R4, it is the same as PL2303TA.
+So it needs to be checked again with hx_status check.
+
+As mentioned earlier, some HXNs are currently on sale,
+and some HXN versions are coming out (bcdDevice will have other settings),
+HXN cannot use bcdDevice to determine the type one by one.
+
+
+Charles.
