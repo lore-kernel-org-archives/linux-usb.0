@@ -2,140 +2,210 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B9AACCA47E
-	for <linux-usb@archiver.kernel.org>; Sun, 19 Jun 2022 12:05:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF741C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Jun 2022 02:44:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236878AbiFSMFj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 19 Jun 2022 08:05:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46032 "EHLO
+        id S231308AbiFTCoO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 19 Jun 2022 22:44:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237038AbiFSMFg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Jun 2022 08:05:36 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EC5D12610
-        for <linux-usb@vger.kernel.org>; Sun, 19 Jun 2022 05:05:34 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id e2so655221edv.3
-        for <linux-usb@vger.kernel.org>; Sun, 19 Jun 2022 05:05:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=jakXNefXr+d4XHXk3yMQZ4OQ2nmGeDzmNhlPkvj1/X4=;
-        b=D58WLVKUXyi+dx4Z2fQfDcotvsZXCiAWSQWbsXluKMHKlXC6jSVQM+0nw+Sdn9K6XF
-         rTjtQGmVXuQyIQHrFGrwUojJHyTCDl5nxMHbA8cGs2aZVFWVFeJnwJXC5Ffr8pbiH+Jr
-         JResf2C3FcIn/SNNowXrLlVKeprt7jHqsyiJsOIbawrR7MzGbgFqkCbfrFvdAR57vC6R
-         R9rotoR4f0NPXh5/1HZoWVgPYWqB+lin1Nv+sHnQWY6Ex5AibOj2dpTzaepVk2XXAjeX
-         R+AAhW+DbWMclZiMvAsPoUNTLW+MFB78voLjhmewSuXZpfdxoiMuMfOhCKmptP35fzqR
-         740Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=jakXNefXr+d4XHXk3yMQZ4OQ2nmGeDzmNhlPkvj1/X4=;
-        b=RRUoWQVJTcPr2U8Yih7lcmcjNabMEasAwyTmO+7A5wHm84ROV5AyPWlhmkvQHGBxlr
-         cwb5pW1ta2PT0+7XMMw9vtDFtA/HjHLs+fDjdE+U0ei05kYGZtQ8dwtRYT0mOM8CyDGc
-         fYgqnVkmyKRpxITJQPRK964Vkihw5wejC0Qsr7bXKrSVHQpR8wrh7oZ3EOrnD1YQgjZN
-         HHFBWmq8cvESA1l8fQ6rBTVaBHGDeb0XgqtPkPnWYVPyuXTQ2TWIpiJykqf+PhaxsxUP
-         Zaoh/1ec1urBUubKGRrFEbmhfrQhmqgyxIP/6wO/CZuWi+dTGluxGQSN8BKtPmkr94wM
-         709Q==
-X-Gm-Message-State: AJIora/tNevl21uo8SF2SYcRF/8QSgy1uNDOPMcCrGqeDuzoRO6vnJoT
-        5pjLh4wtqaIRST29vNBt4GdNxw==
-X-Google-Smtp-Source: AGRyM1ubMh4MAcbm8HuB4hANaOoImVAB4pUW4EYnaEi/EHV0T9LSSNyaYUlQlOGQLgoD6UW/FDUnnw==
-X-Received: by 2002:a05:6402:350e:b0:42f:b2c1:9393 with SMTP id b14-20020a056402350e00b0042fb2c19393mr23592753edd.11.1655640332791;
-        Sun, 19 Jun 2022 05:05:32 -0700 (PDT)
-Received: from [192.168.0.206] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id o16-20020a50fd90000000b0042617ba63basm7708329edt.68.2022.06.19.05.05.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Jun 2022 05:05:32 -0700 (PDT)
-Message-ID: <bc5458fe-083c-d679-9fcb-95810a290da8@linaro.org>
-Date:   Sun, 19 Jun 2022 14:05:30 +0200
+        with ESMTP id S230115AbiFTCoN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Jun 2022 22:44:13 -0400
+Received: from mail.gtsys.com.hk (tunnel316222-pt.tunnel.tserv25.sin1.ipv6.he.net [IPv6:2001:470:35:5f1::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B7DC2AF8
+        for <linux-usb@vger.kernel.org>; Sun, 19 Jun 2022 19:44:11 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.gtsys.com.hk (Postfix) with ESMTP id D562D22A0306;
+        Mon, 20 Jun 2022 10:44:08 +0800 (HKT)
+X-Virus-Scanned: Debian amavisd-new at gtsys.com.hk
+Received: from mail.gtsys.com.hk ([127.0.0.1])
+        by localhost (mail.gtsys.com.hk [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id fuPoJPiqNGKA; Mon, 20 Jun 2022 10:44:08 +0800 (HKT)
+Received: from s01.gtsys.com.hk (unknown [10.128.4.2])
+        by mail.gtsys.com.hk (Postfix) with ESMTP id BA75F229C1B1;
+        Mon, 20 Jun 2022 10:44:08 +0800 (HKT)
+Received: from [10.128.1.32] (unknown [182.239.87.123])
+        by s01.gtsys.com.hk (Postfix) with ESMTPSA id 292DDC0139D;
+        Mon, 20 Jun 2022 10:44:08 +0800 (HKT)
+Subject: Re: serial: usb: cdc-acm: OMRON B5L ToF, device probe failed
+From:   Chris Ruehl <chris.ruehl@gtsys.com.hk>
+To:     USB list <linux-usb@vger.kernel.org>
+Cc:     Oliver Neukum <oneukum@suse.com>
+References: <85ebf554-effd-c89e-6eb8-c149442b931c@gtsys.com.hk>
+Message-ID: <fc9986a6-0b11-d949-2196-1ad35d3f4d98@gtsys.com.hk>
+Date:   Mon, 20 Jun 2022 10:44:06 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 2/3] dt-bindings: usb: mtk-xhci: Allow middle optional
- clocks to be missing
-Content-Language: en-US
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-usb@vger.kernel.org
-References: <20220617222916.2435618-1-nfraprado@collabora.com>
- <20220617222916.2435618-3-nfraprado@collabora.com>
- <8639e64d-c659-7090-2d0a-078fd96cfbd4@linaro.org>
- <bb460aa483cc888ffa36709d9e9c1f2e3be0e000.camel@mediatek.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <bb460aa483cc888ffa36709d9e9c1f2e3be0e000.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <85ebf554-effd-c89e-6eb8-c149442b931c@gtsys.com.hk>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 19/06/2022 09:46, Chunfeng Yun wrote:
-> On Fri, 2022-06-17 at 18:25 -0700, Krzysztof Kozlowski wrote:
->> On 17/06/2022 15:29, Nícolas F. R. A. Prado wrote:
->>> The current clock list in the binding doesn't allow for one of the
->>> optional clocks to be missing and a subsequent clock to be present.
->>> An
->>> example where this is an issue is in mt8192.dtsi, which has
->>> "sys_ck",
->>> "ref_ck", "xhci_ck" and would cause dtbs_check warnings.
->>>
->>> Change the clock list in a way that allows the middle optional
->>> clocks to
->>> be missing, while still guaranteeing a fixed order. The "ref_ck" is
->>> kept
->>> as a const even though it is optional for simplicity, since it is
->>> present in all current dts files.
->>>
->>> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
->>> ---
->>>
->>>  .../devicetree/bindings/usb/mediatek,mtk-xhci.yaml       | 9
->>> +++++++--
->>>  1 file changed, 7 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-
->>> xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-
->>> xhci.yaml
->>> index 63cbc2b62d18..99a1b233ec90 100644
->>> --- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
->>> +++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
->>> @@ -80,8 +80,13 @@ properties:
->>>      items:
->>>        - const: sys_ck  # required, the following ones are optional
->>>        - const: ref_ck
->>> -      - const: mcu_ck
->>> -      - const: dma_ck
->>> +      - enum:
->>> +          - mcu_ck
->>> +          - dma_ck
->>> +          - xhci_ck
->>> +      - enum:
->>> +          - dma_ck
->>> +          - xhci_ck
->>>        - const: xhci_ck
->>
->> You allow now almost any order here, including incorrect like
->> sys,ref,xhci,xhci,xhci.
->>
->> The order of clocks has to be fixed and we cannot allow flexibility.
->> Are
->> you sure that these clocks are actually optional (not wired to the
->> device)?
-> In fact, these optional clocks are fixed, due to no gates are provided,
-> SW can't control them by CCF;
-> In this case, I usually use a fixed clock, or ignore it.
+On 17/6/2022 12:11 pm, Chris Ruehl wrote:
+> Hi there,
+>
+> yet an other cdc-acm which not probed and no /dev/ttyACM0 comes up.
+>
+> [  539.655588] usb 2-1.4.3: USB disconnect, device number 9
+> [  568.792182] usb 2-1.4.3: new high-speed USB device number 10 using ehci-pci
+> [  568.890554] usb 2-1.4.3: New USB device found, idVendor=0590, 
+> idProduct=00ca, bcdDevice= 2.00
+> [  568.890562] usb 2-1.4.3: New USB device strings: Mfr=1, Product=2, 
+> SerialNumber=3
+> [  568.890566] usb 2-1.4.3: Product: OMRON B5L-001011
+> [  568.890568] usb 2-1.4.3: Manufacturer: OMRON Corporation
+> [  568.890571] usb 2-1.4.3: SerialNumber: 010000366A1
+> [  568.945679] cdc_acm 2-1.4.3:1.0: Zero length descriptor references
+> [  568.945690] cdc_acm: probe of 2-1.4.3:1.0 failed with error -22
+> [  568.946477] usbcore: registered new interface driver cdc_acm
+> [  568.946480] cdc_acm: USB Abstract Control Model driver for USB modems and 
+> ISDN adapters
+>
+> so I set the quirk in the cdc-acm.c
+>
+>  { USB_DEVICE(0x0590, 0x00ca), /* Omron b5l */
+>      .driver_info = NO_UNION_NORMAL, /* reports zero length descriptor */
+>  },
+>
+> and solved the error.
+>
+> [  724.148131] usbcore: deregistering interface driver cdc_acm
+> [  725.766219] usb 2-1.4.3: USB disconnect, device number 10
+> [  757.467770] usb 2-1.4.3: new high-speed USB device number 11 using ehci-pci
+> [  757.566100] usb 2-1.4.3: New USB device found, idVendor=0590, 
+> idProduct=00ca, bcdDevice= 2.00
+> [  757.566109] usb 2-1.4.3: New USB device strings: Mfr=1, Product=2, 
+> SerialNumber=3
+> [  757.566113] usb 2-1.4.3: Product: OMRON B5L-001011
+> [  757.566115] usb 2-1.4.3: Manufacturer: OMRON Corporation
+> [  757.566117] usb 2-1.4.3: SerialNumber: 010000366A1
+> [  757.622501] usbcore: registered new interface driver cdc_acm
+> [  757.622506] cdc_acm: USB Abstract Control Model driver for USB modems and 
+> ISDN adapters
+>
+>
+> But the kernel does not create the /dev/ttyACM0.
+>
+> Kernel is vanilla 5.15.47
+>
+> lsusb -v get me this.
+>
+> Bus 002 Device 014: ID 0590:00ca Omron Corp. OMRON B5L-001011
+> Device Descriptor:
+>   bLength                18
+>   bDescriptorType         1
+>   bcdUSB               2.00
+>   bDeviceClass            2 Communications
+>   bDeviceSubClass         2 Abstract (modem)
+>   bDeviceProtocol         0
+>   bMaxPacketSize0        64
+>   idVendor           0x0590 Omron Corp.
+>   idProduct          0x00ca
+>   bcdDevice            2.00
+>   iManufacturer           1 OMRON Corporation
+>   iProduct                2 OMRON B5L-001011
+>   iSerial                 3 010000366A1
+>   bNumConfigurations      1
+>   Configuration Descriptor:
+>     bLength                 9
+>     bDescriptorType         2
+>     wTotalLength       0x002e
+>     bNumInterfaces          1
+>     bConfigurationValue     1
+>     iConfiguration          0
+>     bmAttributes         0x80
+>       (Bus Powered)
+>     MaxPower                4mA
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       0
+>       bNumEndpoints           4
+>       bInterfaceClass         2 Communications
+>       bInterfaceSubClass      2 Abstract (modem)
+>       bInterfaceProtocol      0
+>       iInterface              0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x01  EP 1 OUT
+>         bmAttributes            2
+>           Transfer Type            Bulk
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0200  1x 512 bytes
+>         bInterval               0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            2
+>           Transfer Type            Bulk
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0200  1x 512 bytes
+>         bInterval               0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x03  EP 3 OUT
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0040  1x 64 bytes
+>         bInterval              16
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x84  EP 4 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0040  1x 64 bytes
+>         bInterval              16
+> Device Qualifier (for other device speed):
+>   bLength                10
+>   bDescriptorType         6
+>   bcdUSB               2.00
+>   bDeviceClass            2 Communications
+>   bDeviceSubClass         2 Abstract (modem)
+>   bDeviceProtocol         0
+>   bMaxPacketSize0        64
+>   bNumConfigurations      1
+> can't get debug descriptor: Resource temporarily unavailable
+> Device Status:     0x0001
+>   Self Powered
+>
+>
+> Anything you have in mind?
+>
+> Thanks
+> Chris
+>
+>
 
-But in some versions these clocks are controllable or not?
+Enabled the debugfs and checked /sys/kernel/debug/usb/devices for the B5L
 
-Best regards,
-Krzysztof
+T:  Bus=02 Lev=03 Prnt=04 Port=01 Cnt=01 Dev#= 17 Spd=480  MxCh= 0
+D:  Ver= 2.00 Cls=02(comm.) Sub=02 Prot=00 MxPS=64 #Cfgs=  1
+P:  Vendor=0590 ProdID=00ca Rev= 2.00
+S:  Manufacturer=OMRON Corporation
+S:  Product=OMRON B5L-001011
+S:  SerialNumber=010000319A1
+C:* #Ifs= 1 Cfg#= 1 Atr=80 MxPwr=  4mA
+I:* If#= 0 Alt= 0 #EPs= 4 Cls=02(comm.) Sub=02 Prot=00 Driver=(none)
+E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=03(O) Atr=03(Int.) MxPS=  64 Ivl=4096ms
+E:  Ad=84(I) Atr=03(Int.) MxPS=  64 Ivl=4096ms
+
+Driver is not assigned.
+
+-Chris
