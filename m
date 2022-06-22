@@ -2,33 +2,33 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 973A7C43334
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jun 2022 13:04:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A6BCCA47D
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jun 2022 13:04:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349994AbiFVNEy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Jun 2022 09:04:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56902 "EHLO
+        id S1350246AbiFVNE4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Jun 2022 09:04:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbiFVNEv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jun 2022 09:04:51 -0400
+        with ESMTP id S1347800AbiFVNEx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jun 2022 09:04:53 -0400
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2067EE0B3
-        for <linux-usb@vger.kernel.org>; Wed, 22 Jun 2022 06:04:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23F3DBE2F
+        for <linux-usb@vger.kernel.org>; Wed, 22 Jun 2022 06:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1655903089; x=1687439089;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cD6loB9Vms5aqUj8mQhHVmslSoLHNbSElmDSCr9sutQ=;
-  b=C14ZGRY2nyeph3PikWO2y848yF7busbszglnaCb4lBsixba9Djm/zbxE
-   L6BjoUN+VzKelQIRzKA2kfixkpn/9X4/yi3EDnzoDWLfjdT5+7abjPOgq
-   PytYVQa9K/A1sgDjA/xe6KyZpkgREy8cVXbojb0TzWk2v05RtrejiUP0X
-   I4XFd3k3MdMZstG9Is2zBfX/iDK/aOsYmwRh6/ptw0X8+1DM5qJ5ZCRRo
-   NlrzNrECgUC1VO2CFxqPx9n9WYtzBcTUhDJZYFRbRSt3X2w7z7vv75gF3
-   8JMZF9GY8n1eGUp4vfOsZO60X+jmrOoNTMWJSWQAjHVeOB7xL7KQnI28m
-   Q==;
+  t=1655903092; x=1687439092;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=g9p+CdnZ6Dbj2C8XugLowstES1GHafD254UAKc21yY8=;
+  b=SH1+ATP6WlkbBHo3DQtZAO7LwB3dP0e3ViGGNb6n7ge8Z0UO9Nh1EgZz
+   e5RADSyTGVrqjh0TbOI/0ecShZGMpIEFVpIJdZw5QFpm+9xR3NKMxeTIj
+   G6lLOvjyrIx704JYhlTTi3zxqCje1AWkqk6kQSHXwqJXbjpL5vAGVZWWn
+   SGHCQLyobsZuklzATkmoZ0KM8ZXYg9oa/I/o0dehagYiMi8YJ0ALLg5/I
+   bB8agjsPFB5M7c+j+XX3NMamC+9fxkEk4Gv7JOPXQK9/tBytuqmZ97WER
+   +KL4ChXr02SgC/XUUzhlczFUAJDlaItzjB0+lenJE4TBR7EhCB2VEg1nl
+   g==;
 X-IronPort-AV: E=Sophos;i="5.92,212,1650924000"; 
-   d="scan'208";a="24605516"
+   d="scan'208";a="24605520"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
   by mx1-pgp.tq-group.com with ESMTP; 22 Jun 2022 15:04:47 +0200
 Received: from mx1.tq-group.com ([192.168.6.7])
@@ -39,24 +39,24 @@ X-PGP-Universal: processed;
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
   t=1655903087; x=1687439087;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cD6loB9Vms5aqUj8mQhHVmslSoLHNbSElmDSCr9sutQ=;
-  b=P4vqNL7Of/XK6UOV51rEoDKR0CLNJnmsmoAmsyASCqaTOygwBWq9z4ic
-   VZ5SwJKXy6lYEGnj5d7VQ4G2ssi4qk91P39K0eJqbn4ILBYarfjXE7gpX
-   deHwjiDlTS4zeb1f7RlBUhosZ+W9BJZkIIAVXIw5m87Lzdxcs/p+QhQIv
-   xPa12GK3u6qOJIEP3Pk+GTTbdVCHV+pjt2mzfMmOt8hV1N4smBaVDpUAx
-   b3+xc4AXaA5IkCE0CsKlcqGH/ZCeiDDuu4GpJZEUcbG3xF2YF1SJvJ6m1
-   Z0O7zo+HFwvvTcu70pL1U0+wvVnyxKbCNUvJ7xMegYR68qZ2D1WGswZGX
-   A==;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=g9p+CdnZ6Dbj2C8XugLowstES1GHafD254UAKc21yY8=;
+  b=Nltt6A1T4XMs96HKy07ZgjEh+rlKfd2LJHiw+oiIjJtKgWYHzp1yv7cG
+   7XTQt0PaYvYQgDITQz/Lu5SzLLpJbnuBUPVDDWmHKQcdd2ulFoCsW1Uet
+   u1Lqle3iTUqYigUl8BlfaIrhirmkz3jut900/xQIu5uhp2Kc/lf/EMn9I
+   q/usJr/KJcrywbpzGIJJbAZJT7jncZlWvSuDC34wiRkq2lfZwJySWpX3h
+   4b0b9bKaxJ2zrbcZwSFnFXDaYV5lUHfjMfTGcenGDv1b2pcBJQeDAB6dW
+   7fIlbZCuCOcFKYHz52rYJ9fdKWhOVnzQ95246iWkO0rc86DOzT7Lp796X
+   g==;
 X-IronPort-AV: E=Sophos;i="5.92,212,1650924000"; 
-   d="scan'208";a="24605515"
+   d="scan'208";a="24605519"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
   by mx1.tq-group.com with ESMTP; 22 Jun 2022 15:04:47 +0200
 Received: from steina-w.tq-net.de (unknown [10.123.49.12])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 23132280056;
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 78D4B280073;
         Wed, 22 Jun 2022 15:04:47 +0200 (CEST)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -66,61 +66,80 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Felipe Balbi <balbi@kernel.org>
 Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
         linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [RFC PATCH 0/4] USB support for TQMa8MPxL + MBa8MPxL
-Date:   Wed, 22 Jun 2022 15:04:36 +0200
-Message-Id: <20220622130440.955465-1-alexander.stein@ew.tq-group.com>
+Subject: [RFC PATCH 2/4] usb: dwc3: core: add gfladj_refclk_lpm_sel quirk
+Date:   Wed, 22 Jun 2022 15:04:38 +0200
+Message-Id: <20220622130440.955465-3-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220622130440.955465-1-alexander.stein@ew.tq-group.com>
+References: <20220622130440.955465-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi everybody,
+This selects the SOF/ITP counter be running on ref_clk. As documented
+U2_FREECLK_EXISTS has to be set to 0 as well.
 
-this is an RFC for USB support on TQMa8MPxL + MBa8MPxL. DT support is currently
-in progress at [1]. This series is on top of that.
-The DT configuration itself (patch 4) is rather straight forward, but leads to
-the following dmesg errors regarding superspeed ports:
-> [    8.549243] hub 2-1:1.0: hub_ext_port_status failed (err = -110)
-> [   22.885263] usb 2-1: Failed to suspend device, error -110
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+ drivers/usb/dwc3/core.c | 8 +++++++-
+ drivers/usb/dwc3/core.h | 2 ++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-This hardware works fine using the downstream kernel, because for imx8mp this
-ITP sync feature is enabled conditionally [2] & [3].
-Hacking this into mainline resulted in a working superspeed setup as well. I
-also noticed that on some android kernel [4] depending in IP core version either
-GCTL.SOFTITPSYNC or GFLADJ.GFLADJ_REFCLK_LPM_SEL is enabled unconditionally.
-So I opted for the latter one using some quirk (patch 1-3).
-
-I have to admit I do not know what this is actually about, nor why my setup
-does not work without this change or why this fixed my problem. So maybe
-someone with more knowledge can say if this is the way to go or what this is
-about.
-
-Note: I excluded the DT guys (for now) as this is more about usb internals, the
-DT patches are for completeness.
-
-Thanks and best regards,
-Alexander
-
-[1] https://patchwork.kernel.org/project/linux-arm-kernel/cover/20220622114949.889274-1-alexander.stein@ew.tq-group.com/
-[2] https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/usb/dwc3/dwc3-imx8mp.c?h=lf-5.10.y#n134
-[3] https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/usb/dwc3/core.c?h=lf-5.10.y#n333
-[4] https://android.googlesource.com/kernel/msm/+/87a6b154766907020cc74c7726e8a68aaa9d7f6b%5E%21/#F0
-
-Alexander Stein (4):
-  dt-bindings: usb: dwc3: Add gfladj-refclk-lpm-sel-quirk
-  usb: dwc3: core: add gfladj_refclk_lpm_sel quirk
-  arm64: dts: imx8mp: Add snps,gfladj-refclk-lpm-sel quirk to USB nodes
-  arm64: dts: tqma8mpql: add USB support
-
- .../devicetree/bindings/usb/snps,dwc3.yaml    |  5 ++
- .../freescale/imx8mp-tqma8mpql-mba8mpxl.dts   | 68 ++++++++++++++++++-
- arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  2 +
- drivers/usb/dwc3/core.c                       |  8 ++-
- drivers/usb/dwc3/core.h                       |  2 +
- 5 files changed, 83 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index cb8742f2a4b0..e000f3898a6a 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -403,6 +403,10 @@ static void dwc3_ref_clk_period(struct dwc3 *dwc)
+ 	reg |= FIELD_PREP(DWC3_GFLADJ_REFCLK_FLADJ_MASK, fladj)
+ 	    |  FIELD_PREP(DWC3_GFLADJ_240MHZDECR, decr >> 1)
+ 	    |  FIELD_PREP(DWC3_GFLADJ_240MHZDECR_PLS1, decr & 1);
++
++	if (dwc->gfladj_refclk_lpm_sel)
++		reg |=  DWC3_GFLADJ_REFCLK_LPM_SEL;
++
+ 	dwc3_writel(dwc->regs, DWC3_GFLADJ, reg);
+ }
+ 
+@@ -784,7 +788,7 @@ static int dwc3_phy_setup(struct dwc3 *dwc)
+ 	else
+ 		reg |= DWC3_GUSB2PHYCFG_ENBLSLPM;
+ 
+-	if (dwc->dis_u2_freeclk_exists_quirk)
++	if (dwc->dis_u2_freeclk_exists_quirk || dwc->gfladj_refclk_lpm_sel)
+ 		reg &= ~DWC3_GUSB2PHYCFG_U2_FREECLK_EXISTS;
+ 
+ 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
+@@ -1519,6 +1523,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 				"snps,dis-tx-ipgap-linecheck-quirk");
+ 	dwc->parkmode_disable_ss_quirk = device_property_read_bool(dev,
+ 				"snps,parkmode-disable-ss-quirk");
++	dwc->gfladj_refclk_lpm_sel = device_property_read_bool(dev,
++				"snps,gfladj-refclk-lpm-sel-quirk");
+ 
+ 	dwc->tx_de_emphasis_quirk = device_property_read_bool(dev,
+ 				"snps,tx_de_emphasis_quirk");
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 722808d8c0af..92ce2743ccc8 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -391,6 +391,7 @@
+ #define DWC3_GFLADJ_30MHZ_SDBND_SEL		BIT(7)
+ #define DWC3_GFLADJ_30MHZ_MASK			0x3f
+ #define DWC3_GFLADJ_REFCLK_FLADJ_MASK		GENMASK(21, 8)
++#define DWC3_GFLADJ_REFCLK_LPM_SEL		BIT(23)
+ #define DWC3_GFLADJ_240MHZDECR			GENMASK(30, 24)
+ #define DWC3_GFLADJ_240MHZDECR_PLS1		BIT(31)
+ 
+@@ -1310,6 +1311,7 @@ struct dwc3 {
+ 	unsigned		dis_del_phy_power_chg_quirk:1;
+ 	unsigned		dis_tx_ipgap_linecheck_quirk:1;
+ 	unsigned		parkmode_disable_ss_quirk:1;
++	unsigned		gfladj_refclk_lpm_sel:1;
+ 
+ 	unsigned		tx_de_emphasis_quirk:1;
+ 	unsigned		tx_de_emphasis:2;
 -- 
 2.25.1
 
