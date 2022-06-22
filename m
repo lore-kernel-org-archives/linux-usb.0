@@ -2,62 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 847C3C433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jun 2022 14:53:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A014CCA47D
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jun 2022 15:11:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358520AbiFVOxs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Jun 2022 10:53:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53484 "EHLO
+        id S1359161AbiFVPL0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Jun 2022 11:11:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358881AbiFVOxo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jun 2022 10:53:44 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66D99B1E5
-        for <linux-usb@vger.kernel.org>; Wed, 22 Jun 2022 07:53:43 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id u12so34783236eja.8
-        for <linux-usb@vger.kernel.org>; Wed, 22 Jun 2022 07:53:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=HksIOYQ04JYg2f0eKNPT7IHZR7tMMF0Xa3OeTT746VA=;
-        b=mqARrPAKxR8z0ETRJaLvggdZ3s8/6oH8pOtcLK9EdQ//wTAN9usE69XpKc36A4DGCj
-         KXP1LUdMWuA7uY3EXWy3Ax0bndxwsEfh4x54N6zuYD54JzzSZJzwaSw6Zh7QCX8xO2zt
-         IXCZhg2PcrezimwVFqLzo5Ify3K8cbljOnS9ygVFx0TBXMH9iserpKW0ArD3uZyfXcwu
-         wWsUuSJ2HnnMkIkozcHGcalwpQYi/w+0yGZ2LSRWeIRXYv+ulbucy72N+UU1PgQRbbG+
-         eGtfsDJIECXsQNbilsyqaLxFMDKbc4Dct24TG3VuHWkoGv0zqmjrK0PBeDb/5TrrbYJ9
-         HY+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=HksIOYQ04JYg2f0eKNPT7IHZR7tMMF0Xa3OeTT746VA=;
-        b=cLNRY5NV64IMUAXTVz/UoxK57qUCh3U1T167FimXb5Fhr3BjIhPVi6kz3TrQH9r3ur
-         bB/BA//dle72wEHo6GeSRrOoFz42BJ8FbztiUOp39Jkg4MBEFfD9p4x8n5cFyaapBKLI
-         XzggjRRFQRkX9ijopbkrZWnvYBQcM9gqSRFMivK+ueJd7g2ccClZU0sriudftAbINDIh
-         PjFpX0TE3+pxlysanpob65zU0mlg6Tl7bvrh74aohjshg6lmPleOSzmuagAzrackBwTA
-         jMW0jK12l19nU5vBkIomFf89QFp+ErxfCpTE6Cek3+EXF/33twuCjdUgTxugBDrKKpPe
-         i33g==
-X-Gm-Message-State: AJIora8oAsrNCxKzszKEQyPXG2mvdLqZQ+WrvPWvNn+UUIJv0G+FkKKG
-        pFsrZGLakGyPR3yAPl/mTdEThw==
-X-Google-Smtp-Source: AGRyM1u+K1u+xwGtx13m+HGTMXIlqo/MNWEzkQKKWF4vAOgxf/oC3jSGonkXzyloIphNK0YGE1ME8w==
-X-Received: by 2002:a17:906:ca91:b0:70d:52ca:7e7d with SMTP id js17-20020a170906ca9100b0070d52ca7e7dmr3505720ejb.552.1655909621956;
-        Wed, 22 Jun 2022 07:53:41 -0700 (PDT)
-Received: from [192.168.0.226] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id u22-20020a17090617d600b006f3ef214dc0sm9423261eje.38.2022.06.22.07.53.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jun 2022 07:53:41 -0700 (PDT)
-Message-ID: <8f0501c5-84f2-10f1-ae06-4b3936c50b12@linaro.org>
-Date:   Wed, 22 Jun 2022 16:53:40 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v4 0/7] usb: typec: Introduce typec-switch binding
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Prashant Malani <pmalani@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        with ESMTP id S1359153AbiFVPLY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jun 2022 11:11:24 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A823F3E5CC;
+        Wed, 22 Jun 2022 08:11:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 56E58B81F91;
+        Wed, 22 Jun 2022 15:11:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70E5BC34114;
+        Wed, 22 Jun 2022 15:11:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1655910681;
+        bh=85kAYdDSM1kdzcUsEkD4BEv1Jp3ZVjaLheAWsW8yx+U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Mkqi5YRlRB1xY9CLLZ3Zqqn/IxYC0/iNiDBFGMIqg/Pa1tW2zRU4VQmHJHQlM1Y9V
+         OOCfYTNT+rSKEGS8CU+6OBdgj1cXU5Ci8fV5GcAjgugELU+LRwOERTQhPWa4pwQlOk
+         97qTIqt103r7FlTA2nh9vozltw6hbAQ6jNwCMSO8=
+Date:   Wed, 22 Jun 2022 17:11:17 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Prashant Malani <pmalani@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         bleung@chromium.org, swboyd@chromium.org,
         heikki.krogerus@linux.intel.com,
         Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -69,42 +44,49 @@ Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         Hsin-Yi Wang <hsinyi@chromium.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Jonas Karlman <jonas@kwiboo.se>,
-        =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+        =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
         Maxime Ripard <maxime@cerno.tech>,
         Neil Armstrong <narmstrong@baylibre.com>,
-        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado 
         <nfraprado@collabora.com>, Pin-Yen Lin <treapking@chromium.org>,
         Robert Foss <robert.foss@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
         Sam Ravnborg <sam@ravnborg.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         Xin Ji <xji@analogixsemi.com>
+Subject: Re: [PATCH v4 0/7] usb: typec: Introduce typec-switch binding
+Message-ID: <YrMxFeMc0tk/K1qL@kroah.com>
 References: <20220615172129.1314056-1-pmalani@chromium.org>
  <CACeCKaetgayTS+yX0cuNiK7j6Yqd4o2ziX6nCoGTt64A3jFT=g@mail.gmail.com>
  <YrHE9KrF0HG9rVi/@kroah.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YrHE9KrF0HG9rVi/@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <8f0501c5-84f2-10f1-ae06-4b3936c50b12@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8f0501c5-84f2-10f1-ae06-4b3936c50b12@linaro.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 21/06/2022 15:17, Greg Kroah-Hartman wrote:
-> On Wed, Jun 15, 2022 at 11:13:33AM -0700, Prashant Malani wrote:
->> I should add:
->>
->> Series submission suggestions (of course, open to better suggestions too):
->> - Patches 1-3 can go through the USB repo.
+On Wed, Jun 22, 2022 at 04:53:40PM +0200, Krzysztof Kozlowski wrote:
+> On 21/06/2022 15:17, Greg Kroah-Hartman wrote:
+> > On Wed, Jun 15, 2022 at 11:13:33AM -0700, Prashant Malani wrote:
+> >> I should add:
+> >>
+> >> Series submission suggestions (of course, open to better suggestions too):
+> >> - Patches 1-3 can go through the USB repo.
+> > 
+> > I will take patches 1 and 2 now.
+> > 
+> > seems the others need reworks or acks from the DT people.
 > 
-> I will take patches 1 and 2 now.
-> 
-> seems the others need reworks or acks from the DT people.
+> I just gave for patch 3 and before for 4, so you can grab these as well.
 
-I just gave for patch 3 and before for 4, so you can grab these as well.
-Thanks!
+They are gone from my queue, a resend with that ack would be good so
+that I can pick it up easier.
 
-Best regards,
-Krzysztof
+thanks,
+
+gre gk-h
