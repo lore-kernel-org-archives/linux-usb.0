@@ -2,106 +2,88 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA2E1CCA483
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jun 2022 19:44:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 879B5CCA485
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jun 2022 19:44:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231951AbiFWTop (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Jun 2022 15:44:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40152 "EHLO
+        id S231968AbiFWTou (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Jun 2022 15:44:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231398AbiFWToX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Jun 2022 15:44:23 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BC81101E1;
-        Thu, 23 Jun 2022 12:37:12 -0700 (PDT)
-Received: from notapiano.myfiosgateway.com (pool-98-113-53-228.nycmny.fios.verizon.net [98.113.53.228])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nfraprado)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C448C66017EB;
-        Thu, 23 Jun 2022 20:37:09 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1656013031;
-        bh=kok2Tk9hNC8W/8hBE+yjTgkvfCjAF1IKTQhZZf2MFyE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=A6UvB1vgu6Ke9+L8pNqa9NYbo0Ma5QNsklJOHsPJQiCYD0Nt+bJD+wvZZi25MVYmd
-         bdGsdXKjCH63Cd1KQ8ord23GcpnzboiI7MynL6TBUwRH1AMG74rGQ4rI/QqaPVrgeh
-         SwZqRrjfYFn1XZbHTHpEAkvwYjtLqf8aJ38vt7Dq2KVttpve7cXznmCCVv3P9kFVMT
-         hv7lYf22stokSgbpIAX0x/iWcuEL9fhyln4jFppmTcOrofFnIRHVRptG7uTkoBclDZ
-         NZqWh4EpdllpxED/zZSk9tKfOfw1oiJfuw8ApPtCc99MnxmEMCv/A9Z4uW3ZxLgRjg
-         wPRcM8EBIgTdA==
-From:   =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
-        <nfraprado@collabora.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
-        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
-        <nfraprado@collabora.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-usb@vger.kernel.org
-Subject: [PATCH v2 2/4] dt-bindings: usb: mtk-xhci: Make all clocks required
-Date:   Thu, 23 Jun 2022 15:37:00 -0400
-Message-Id: <20220623193702.817996-3-nfraprado@collabora.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220623193702.817996-1-nfraprado@collabora.com>
-References: <20220623193702.817996-1-nfraprado@collabora.com>
+        with ESMTP id S231548AbiFWToY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Jun 2022 15:44:24 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CA7AA4;
+        Thu, 23 Jun 2022 12:37:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=9CGM3MAz5VIB06lBzNjGngOQOoE0/I7wEi8Zke9gm+w=; b=eQsA4dsC7zy0gZGxnWzQsATNue
+        4RNWA+fhmA3erPfzk5dxeMQCaD5Lf11f9oQOKkk8CzdloSz0KwOEP+HRM4wMgGPP8ofcZCZ2qDmwT
+        xfiupW9UG4h8v6ZC3HM8LRHIplQ2b0UahGQFsyNwJUOONvAmQaW+GT7DlYixlYzdJoIae9dvTqpeU
+        gy/FAvkyHsCJjzMv7Un5R+xfx0R5N1LCz8GpdTxJ5A4fM7tBl8UkLYkl8Zu3L9BNeakPSWLUWDFoM
+        lRie2OS7t8onKtNzBXKfM4zQiHwHss/qcyL+N+8jD2XviMbsj2Yz1eEDOSE48nGWdf9/GLVllbreJ
+        XSnwtsig==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1o4SWU-00Bssw-NX; Thu, 23 Jun 2022 19:30:38 +0000
+Message-ID: <bcc5b395-7fd8-f1a0-1b9f-62c9948287af@infradead.org>
+Date:   Thu, 23 Jun 2022 12:29:27 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3 12/14] leds: mt6370: Add Mediatek MT6370 current sink
+ type LED Indicator support
+Content-Language: en-US
+To:     ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
+        daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
+        gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
+        lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
+        heikki.krogerus@linux.intel.com, deller@gmx.de
+Cc:     chiaen_wu@richtek.com, alice_chen@richtek.com,
+        cy_huang@richtek.com, dri-devel@lists.freedesktop.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        szunichen@gmail.com
+References: <20220623115631.22209-1-peterwu.pub@gmail.com>
+ <20220623115631.22209-13-peterwu.pub@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220623115631.22209-13-peterwu.pub@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-All of the clocks listed in the binding are always wired to the XHCI
-controller hardware blocks on all SoCs. The reason some clocks were made
-optional in the binding was to account for the fact that depending on
-the SoC, some of the clocks might be fixed (ie not controlled by
-software).
 
-Given that the devicetree should represent the hardware, make all clocks
-required in the binding. Subsequent patches will make the DTS changes to
-specify fixed-clocks for the clocks that aren't controllable.
 
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+On 6/23/22 04:56, ChiaEn Wu wrote:
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index a49979f..a8c58c3 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -244,6 +244,17 @@ config LEDS_MT6323
+>  	  This option enables support for on-chip LED drivers found on
+>  	  Mediatek MT6323 PMIC.
+>  
+> +config LEDS_MT6370_RGB
+> +	tristate "LED Support for Mediatek MT6370 PMIC"
+> +	depends on LEDS_CLASS
+> +	depends on MFD_MT6370
+> +	select LINEAR_RANGE
+> +	help
+> +	  Say Y here to enable support for MT6370_RGB LED device.
+> +	  In MT6370, there are four channel current-sink LED drivers that
+> +	  support hardware pattern for const current, PWM, and breath mode.
 
----
+Spell out "constant" (if that is what "const" means here). ?
 
-Changes in v2:
-- Undid clock list changes that allowed middle clocks to be missing from
-  v1 and made all clocks required instead
-- Rewrote commit message and title
+> +	  Isink4 channel can also be used as a CHG_VIN power good indicator.
 
- Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-index 63cbc2b62d18..1444d18ef9bc 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-@@ -67,7 +67,6 @@ properties:
-     maxItems: 1
- 
-   clocks:
--    minItems: 1
-     items:
-       - description: Controller clock used by normal mode
-       - description: Reference clock used by low power mode etc
-@@ -76,9 +75,8 @@ properties:
-       - description: controller clock
- 
-   clock-names:
--    minItems: 1
-     items:
--      - const: sys_ck  # required, the following ones are optional
-+      - const: sys_ck
-       - const: ref_ck
-       - const: mcu_ck
-       - const: dma_ck
 -- 
-2.36.1
-
+~Randy
