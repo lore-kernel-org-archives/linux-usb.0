@@ -2,137 +2,146 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66364CCA48C
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jun 2022 04:41:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 353BCCCA47C
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jun 2022 04:41:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230226AbiFWEli (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Jun 2022 00:41:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58160 "EHLO
+        id S230494AbiFWElq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Jun 2022 00:41:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231951AbiFWDHT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jun 2022 23:07:19 -0400
-Received: from EUR02-VE1-obe.outbound.protection.outlook.com (mail-eopbgr20056.outbound.protection.outlook.com [40.107.2.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E496443E5
-        for <linux-usb@vger.kernel.org>; Wed, 22 Jun 2022 20:07:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hz7q0vkA+Q2DCc3g9l7uH8ocG+yIVAFX+j1zKsDytCIa5AFIReUvE5Fgfd8FIs0d0MOim7T8lveuSKFjqAOqv6dQs/GjWraGJGudw99x97A/NIrPKNpUXhpPHuuSVAQfBQqdm77a/P9AW8vIO3e6IVuCCs+LX+t0FsQYnRlDtffULh3uPVCMq9TiwwFXuaykqO7AOODFfg1ZyeBKoESGgA3A1vuNWfyqXRP6G4ZBdko1P63/LaXcm4mRNdxokAGif+nMQSU4/tLmodq+WmmAT2KXagOUHSFttO3SdAH5apteBJp0VNr+xK1HSs+4m7fFx+VnsFynMHqYIeBYgjnc8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ivQybAig8niBvd78NY1XcYpOt7uPBlcP/XNWODsS1mE=;
- b=YBvt/UiS0ZEYSmY7j82WOT7/Z67m7TOl8j+adNRJ4XsQrLBjqM0j+zD19xxg+t32Cj8bzuoBY8sxuGj3TaWH8d1zDICJS1boFpqVpKGXQkLggz0VKeuyoafDmU11bCm0rVwfG9YukQOR6oAAi/wZ2HSW6H+DVy8EtiGvFtPjMFBkniHEmrjyBKED9hejh+ZTQA5F213Z2YK8dRTSVQy/2Wr6lAtD6iCGRqNtzgm/P2fW3RlSkM3QZgI1U6StHECjqnUcKhrb5toJ5pERViZbJcPyqF+KtlnbBPd/3Ehl0yaAjh6RkcduzjN50w8Iea4BS5i8PoFdZ0ft2J2/DSQXnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ivQybAig8niBvd78NY1XcYpOt7uPBlcP/XNWODsS1mE=;
- b=GtKfoZquFZvN7G+IiYsq2SCS6bMBmhNkbSGayPzA73MAeQKM1HHy5Zerinag1riTuKEkuKB1k8yBEMx1OR/BpwuMzril3wf6zdNv3Bw/cPDDdXWuMlhBRIJ5r4M6HQeR4JB4oNoqz+R4o1bFNSgk8YZnJeV9igAeEWHwEZvkX/I=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB8784.eurprd04.prod.outlook.com (2603:10a6:102:20f::23)
- by AM0PR0402MB3523.eurprd04.prod.outlook.com (2603:10a6:208:1b::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.15; Thu, 23 Jun
- 2022 03:07:15 +0000
-Received: from PAXPR04MB8784.eurprd04.prod.outlook.com
- ([fe80::b1cc:4d23:3361:127d]) by PAXPR04MB8784.eurprd04.prod.outlook.com
- ([fe80::b1cc:4d23:3361:127d%9]) with mapi id 15.20.5373.015; Thu, 23 Jun 2022
- 03:07:14 +0000
-From:   Xu Yang <xu.yang_2@nxp.com>
-To:     peter.chen@kernel.org
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        jun.li@nxp.com, linux-imx@nxp.com
-Subject: [PATCH] usb: chipidea: udc: check request status before setting device address
-Date:   Thu, 23 Jun 2022 11:02:42 +0800
-Message-Id: <20220623030242.41796-1-xu.yang_2@nxp.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM0PR10CA0097.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:e6::14) To PAXPR04MB8784.eurprd04.prod.outlook.com
- (2603:10a6:102:20f::23)
+        with ESMTP id S244006AbiFWDwk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jun 2022 23:52:40 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DE163DA6B;
+        Wed, 22 Jun 2022 20:52:38 -0700 (PDT)
+X-UUID: 80e9ecb736d84fa79dd9627cf40f2c4f-20220623
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6,REQID:238ac99b-40d5-4dcf-b4cc-1c4c6c63b6e8,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
+        ION:release,TS:-5
+X-CID-META: VersionHash:b14ad71,CLOUDID:24db3c38-5e4b-44d7-80b2-bb618cb09d29,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+        ,QS:nil,BEC:nil,COL:0
+X-UUID: 80e9ecb736d84fa79dd9627cf40f2c4f-20220623
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
+        (envelope-from <macpaul.lin@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1698252912; Thu, 23 Jun 2022 11:52:33 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Thu, 23 Jun 2022 11:52:32 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 23 Jun 2022 11:52:32 +0800
+From:   Macpaul Lin <macpaul.lin@mediatek.com>
+To:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+CC:     Miles Chen <miles.chen@mediatek.com>,
+        Bear Wang <bear.wang@mediatek.com>,
+        Pablo Sun <pablo.sun@mediatek.com>,
+        Mediatek WSD Upstream <wsd_upstream@mediatek.com>,
+        Macpaul Lin <macpaul.lin@mediatek.com>,
+        "Macpaul Lin" <macpaul@gmail.com>, <stable@vger.kernel.org>,
+        Ballon Shi <ballon.shi@quectel.com>
+Subject: [PATCH] USB: serial: option: add Quectel RM500K module support
+Date:   Thu, 23 Jun 2022 11:52:14 +0800
+Message-ID: <20220623035214.20124-1-macpaul.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 68eaa275-270b-49bd-a637-08da54c5792e
-X-MS-TrafficTypeDiagnostic: AM0PR0402MB3523:EE_
-X-Microsoft-Antispam-PRVS: <AM0PR0402MB3523EA61D6019AB20A1DD1888CB59@AM0PR0402MB3523.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 44zR85Cg/2PS8kR/o9iqfb3SQ3twlAaPVARj29qJEjN1XYJ3BtJnVrtHnnqHGwnIK9iwABygIAx7xEUi7smpanr8zX+U0AjImOCd8+68K2uIt2EedO1lpeNwZc9lm64mNSLoTJ5n9EO5DQ9qVKoa8bNr+LtSxywm3jjgr3QHpY9V1r8owhUVR3Fz2zQs9duG2t155lgwIFDl+4KXZ4wPrzkJuh+e0rp72GZb7yhEG4hv0oodrJZmWC2SFpwSg/WUo9nKn6E1Er+HJKkAn2I6DEJBn+3Zl1Mb3NwPYPraDPXdkIAe/ux2FApj0bKckFkkCnEB83QfwaRndMgR32p8jsdEreRZUAmwkU1xBkpG3nGHjcvdNXBSjrvMb2sK2LmZ/hAhLrIRy74J7q/JM6YtXC6mbnN31fJ8jwmM7zpOaE61mcYPLZ7+lXv9ANYrWBxM+igum0gAElBx5nCe6MNVdfYdjsheDu0mEAPSmJf9njw2MvWWLvAObT7VImhkNky6eZxGKVXTZgD4LI4GZWEh42LKICZCAmStzf2tU4JcfbiToE3S7J/Ym2pZjsxHmy38n+IJGPRAr7TV0qLOz5hELaRCj0apxKtPEdo0cAUITsSJcg2rdwiC3LRpJ6Xa9qX3hmntm6WJF4SxjSqyc6axnfe7ep0m4ItB3BurJUTSeYwAmeH6QZM4eSnEY0O2fMp5arvL4A44fjHu+auXbRACPqgwKjYKHyWX7HMRfI1Ml9pEA2wpekTin6mve1WkHQhF
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8784.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(396003)(136003)(346002)(376002)(39860400002)(6486002)(38350700002)(66946007)(38100700002)(8936002)(66556008)(8676002)(6506007)(2616005)(66476007)(5660300002)(478600001)(4744005)(1076003)(186003)(2906002)(83380400001)(4326008)(36756003)(6666004)(6916009)(6512007)(52116002)(86362001)(316002)(41300700001)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EmToC4QlpTQKbfu5AEVU4YKFRxEnXgePI0gPLgNhTtQeWZULxFcOBxHGw5xT?=
- =?us-ascii?Q?R4vr8iVXFvPEMbrVYYirrHavMNBse5y/1yYC+1zZAqgCgXxVQ4dHjHOiNRnk?=
- =?us-ascii?Q?+90be2VU1O6Ikj3gG1bakpa1wPT5Yc5Wba5mq/jEro6VVjs4uWZ8/CfHeHrt?=
- =?us-ascii?Q?fs+O0CUqorsD+JToeKNy0gtIGeqWDxG5+sXKw6DaRpONfv0TzpeIRQ2ONXeA?=
- =?us-ascii?Q?WYk0MQ0dfJ3kZ+8XsmJgXxKWY8A9D1CBo5eXSL61N4tfZvmJRBNsTrD++dyo?=
- =?us-ascii?Q?BNAJj87AOAT1PHca8k9tk+ddejE2g3pnI6PnRyEzboqIuFz0ZoI97aQDlRqQ?=
- =?us-ascii?Q?BaJze8C+3/XsqxUA1HY0wzg8BjKA9vFZleY8uEt27EIZuC+jkGNcBQk1H/i/?=
- =?us-ascii?Q?yzV/61GLIi64P/dRm/P+NtSWno4679Yj/pSWSHkdDvkll1q9aNX0+T0+4jCy?=
- =?us-ascii?Q?K9p0oUcNMei35E+YNUPJZ4EpFQ7wpmUQbFT4SDBcE3RKkYV5IouvYblefXue?=
- =?us-ascii?Q?+NkrcmYpAhNntOml8VPlLf0bl/MKk1TCZr6bGGYae7jJpPEAo1LX0QY0bOR3?=
- =?us-ascii?Q?k6OYKvsvm/VXV5XF4yAVFLhTgu8s/iUTM0DZRdDyUxxqs4H/jqtfN07BbQVT?=
- =?us-ascii?Q?CS1mK61qn2yfBSMD+yrBkasnTddeixkjI6KQpurlFMGrkDSlQoCshBBjcQ1l?=
- =?us-ascii?Q?TA1cJrRfxK9/Yk5oUBVZqPAZRMCjuvboIO5gedGBKniedtNiZW/M/BayuhTD?=
- =?us-ascii?Q?bXBLC17DpIuoQfsvJi2q8aqBEavr1XdwXgsIXxXTTDKdf+r9eHu0cwi6zwqa?=
- =?us-ascii?Q?9gn4e6IKalWGdhs0ztd3XSUXJa4v14ho5u+M2VU80+43yVOMuPAbysWPT7G1?=
- =?us-ascii?Q?ffpd211C6/gP7JhUK1ALRloPhKQmPjnr9D7RWqfDrZa9TYemm8iKvjQi0rqi?=
- =?us-ascii?Q?oSDPBMtJNUosSQqBg2ncBQjSYeAhlSit/DATAvdZOnH7z5Tq3GARrscbrtID?=
- =?us-ascii?Q?SwYWbwaye5whGBRUXST//JDxYbhREftSZl1Cw7Y7auHhhQPZKRswDPqoLIOe?=
- =?us-ascii?Q?TC8aCpcs6hYelZ+J2bNoErKLvFkfLXCsEngPXcr5kV9YHhlR4eViSXVecJ4e?=
- =?us-ascii?Q?04uZojjxWVtSwA2Cv/G2Qw7oe2IegZnQMlQvTEdqCCF7g6RRZ0N7WJEgwZRv?=
- =?us-ascii?Q?F/++/SuJ5YcObjuXpc/1KJtGXGsPGPnfKzYvPZg1DyH9sMlLGp/g+0PMcN3Y?=
- =?us-ascii?Q?gHL+mlArcLmg/s7WxI5y7XkqZArirRx9ad54aFco+WI1+Bs2MI/xo918KkC+?=
- =?us-ascii?Q?aKGKezvBzoXYC/72MBpUBMU5cp7eSfVWYzjd4xBlSCwH5bmdbVB7x1kreIqS?=
- =?us-ascii?Q?gaRtiYlgmY/EA6Q8xfzvdWQX5JX0sC2W1uPyxpSObnoSuhUzVGEggItVzT04?=
- =?us-ascii?Q?OUnNeq2k/aWsu7eBtDa1Tj2LFZmHibjKzjjMlaW61vVWVYW6CAkvQ97sVIQd?=
- =?us-ascii?Q?xrQpUWYZMEo6vphn7onyubxGdfaOsfqzSsrprSPaZBxg9x8XNhZCCmcUhLRj?=
- =?us-ascii?Q?OssfgThBbB0Plype7h1q6AeA3cSRq4bybwpSD1CMxPBAoPekKMUIw3rTMJLT?=
- =?us-ascii?Q?Z3hzYfwsbeGnpgJ73x8sRtE+3hT10Auw4CLMoksHsseGqZboExMswS3kaELS?=
- =?us-ascii?Q?uIdI10MfadZ7aAGkBtk3tIUjjuIjb5nHl60n7c3HnlPI9Wzg0274n4u7NpJe?=
- =?us-ascii?Q?BitNQKPtUw=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68eaa275-270b-49bd-a637-08da54c5792e
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8784.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 03:07:14.8499
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dMFPEc9RQyvw/aspxxSFd7ObYa4MSKPsC5HkwdbtuWbSXElUpF2SDBq2gKXmrVHX7PDkOxotQ9wCpXBuR1tnEQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR0402MB3523
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The complete() function may be called even though request is not
-completed. In this case, it's necessary to check request status so
-as not to set device address wrongly.
+Add usb product id of the Quectel RM500K module.
 
-Fixes: 10775eb17bee ("usb: chipidea: udc: update gadget states according to ch9")
-cc: <stable@vger.kernel.org>
-Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+RM500K provides 2 maindatory interfaces to Linux host after enumeration.
+ - /dev/ttyUSB5: this is a serial interface for control path. User needs
+   to write AT commands to this device node to query status, set APN,
+   set PIN code, and enable/disable the data connection to 5G network.
+ - ethX: this is the data path provided as a RNDIS devices. After the
+   data connection has been established, Linux host can access 5G data
+   network via this interface.
+
+The following kernel settings is required for RM500K.
+ - CONFIG_USB_SERIAL_GENERIC
+ - CONFIG_USB_SERIAL_CONSOLE
+ - CONFIG_USB_NET_RNDIS_HOST
+ - CONFIG_USB_SERIAL_WWAN
+ - CONFIG_USB_SERIAL_OPTION
+
+usb-devices output for 0x7001:
+T:  Bus=05 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  3 Spd=480 MxCh= 0
+D:  Ver= 2.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
+P:  Vendor=2c7c ProdID=7001 Rev=00.01
+S:  Manufacturer=MediaTek Inc.
+S:  Product=USB DATA CARD
+S:  SerialNumber=869206050009672
+C:  #Ifs=10 Cfg#= 1 Atr=a0 MxPwr=500mA
+I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(commc) Sub=02 Prot=ff Driver=rndis_host
+E:  Ad=82(I) Atr=03(Int.) MxPS=  64 Ivl=125us
+I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=rndis_host
+E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:  If#= 2 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:  If#= 3 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:  If#= 4 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:  If#= 5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
+E:  Ad=05(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:  If#= 6 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=06(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:  If#= 7 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=07(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=88(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:  If#= 8 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=08(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=89(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:  If#= 9 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=09(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=8a(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+
+Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+Signed-off-by: Ballon Shi <ballon.shi@quectel.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/usb/chipidea/udc.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/usb/serial/option.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/chipidea/udc.c b/drivers/usb/chipidea/udc.c
-index 0c9ae9768a67..8c3e3a635ac2 100644
---- a/drivers/usb/chipidea/udc.c
-+++ b/drivers/usb/chipidea/udc.c
-@@ -1048,6 +1048,9 @@ isr_setup_status_complete(struct usb_ep *ep, struct usb_request *req)
- 	struct ci_hdrc *ci = req->context;
- 	unsigned long flags;
- 
-+	if (req->status < 0)
-+		return;
-+
- 	if (ci->setaddr) {
- 		hw_usb_set_address(ci, ci->address);
- 		ci->setaddr = false;
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index e7755d9cfc61..e2587a3c7600 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -253,6 +253,7 @@ static void option_instat_callback(struct urb *urb);
+ #define QUECTEL_PRODUCT_BG96			0x0296
+ #define QUECTEL_PRODUCT_EP06			0x0306
+ #define QUECTEL_PRODUCT_EM12			0x0512
++#define QUECTEL_PRODUCT_RM500K			0x7001
+ #define QUECTEL_PRODUCT_RM500Q			0x0800
+ #define QUECTEL_PRODUCT_EC200S_CN		0x6002
+ #define QUECTEL_PRODUCT_EC200T			0x6026
+@@ -1135,6 +1136,7 @@ static const struct usb_device_id option_ids[] = {
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, 0x0620, 0xff, 0, 0) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(QUECTEL_VENDOR_ID, 0x0700, 0xff), /* BG95 */
+ 	  .driver_info = RSVD(3) | ZLP },
++	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_RM500K, 0xff, 0x00, 0x00) },
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_RM500Q, 0xff, 0xff, 0x30) },
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_RM500Q, 0xff, 0, 0) },
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_RM500Q, 0xff, 0xff, 0x10),
 -- 
-2.25.1
+2.18.0
 
