@@ -2,171 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3EB9C433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jun 2022 11:39:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD46CC433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jun 2022 11:44:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229965AbiFXLjn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Jun 2022 07:39:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60696 "EHLO
+        id S231448AbiFXLoj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Jun 2022 07:44:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229783AbiFXLjm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jun 2022 07:39:42 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B0BF792B9
-        for <linux-usb@vger.kernel.org>; Fri, 24 Jun 2022 04:39:40 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id ay16so4130707ejb.6
-        for <linux-usb@vger.kernel.org>; Fri, 24 Jun 2022 04:39:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Wj6+le4xQYgRWhbJ4o+JcrPIptpoGXL5M4xVrdtZbXI=;
-        b=O26iv82q0trCWgDQwRmW6rUiSusM7pWvnNkO+V25QbNy7sOhu5esaQuJS7PwEwU3me
-         Y5h7BfA9Gsbe2XrGvelcv6XAS5b+QDIjWuyq9j37ZvWmhRmJ48gmjKfPI+n6s0JkG0Im
-         CDVkH9TIGF7b8/w7lXV62OP94WgbzGfx7wpTJbGIrqDtM3uOjQnbLKSKlKwAtePFBT0V
-         p0UC7KC2dcsZiVk+jsW+BB+3hwR39LVFSI68D3J4t1grJmX1kHAWk4K42QCX24AX1oi0
-         SbMSM89C1Pj1C7dtRAeCcSnHR7lTOSfcpvpwV+KgsO9loIxaBH/9by5n0QkWSZvgYpVw
-         4zZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Wj6+le4xQYgRWhbJ4o+JcrPIptpoGXL5M4xVrdtZbXI=;
-        b=e1+tCwtQyBXhqJYsLMaKBVla6EMOswsWSX7guNBEBbxEpK913/fFCXEnABcu8GW+y0
-         pRoApbkqEAlyU2Sp94iuJqjwrZpKdwtjWxBRy3TclhbaGeN8N3OG8qAjGETUNQLXU2zN
-         6FRRGSk1slJduMqQHFi4oGiyBgtUZ1o50kc7xTsgvvB2RAFhdfvmRbRdyZ9JNir9WDR6
-         kPUnQqENHnz2xgzyNl/BWeLGLYrV5hxF5gYDr1NxQ72wdEJSaq4WIh0ufBPKnFkjgSIb
-         MCCWkOCdOppMBKT2k0Seiy3TQyqpvIgWAGcijpPai5GfCMsTAT5rskq7uFHBtgl+zMZ9
-         Ozaw==
-X-Gm-Message-State: AJIora/cKqtg5D6ZUoNs5uGVpG6NcC/YL5X4rpOMHBEYV6oIkXgzD84K
-        w98BMlb6h0mWdqzwk8zIUh0TZg==
-X-Google-Smtp-Source: AGRyM1tMl63rWpj4b70pBJHZZBdq7tLURrxHPvEhTWmOq2GveNEsVZf4u0behvJ6CGqQ22A5aqS+/g==
-X-Received: by 2002:a17:907:7e81:b0:726:2912:7467 with SMTP id qb1-20020a1709077e8100b0072629127467mr7207432ejc.373.1656070778635;
-        Fri, 24 Jun 2022 04:39:38 -0700 (PDT)
-Received: from [192.168.0.235] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id r1-20020a17090638c100b007219c20dcd8sm962517ejd.196.2022.06.24.04.39.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jun 2022 04:39:38 -0700 (PDT)
-Message-ID: <8956c98e-657c-0263-c8d9-d6beb54410f9@linaro.org>
-Date:   Fri, 24 Jun 2022 13:39:36 +0200
+        with ESMTP id S231378AbiFXLod (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jun 2022 07:44:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 887FA7B346;
+        Fri, 24 Jun 2022 04:44:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1F652621E8;
+        Fri, 24 Jun 2022 11:44:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9D02C34114;
+        Fri, 24 Jun 2022 11:44:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1656071071;
+        bh=QQYTSBhO3NWX36hqngi0V5m9BlBXYEOZGEq7c/OcriA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZLYOAJQIt+o4DXE5kCsssmNBVQIJ9N7drzW5z2GH7R8tBJWzJsYPCqJ4zEZl4xyob
+         FEwCN1/csQF2cCiat1k9NQsjCpRfim+iqq33ucczFzkc/jSQrF2WkHdxj7W82wPKJ5
+         0ZbnexP+UlrAdeOfYEP712mDTRQ/O9N6CUGTvH8A=
+Date:   Fri, 24 Jun 2022 08:46:30 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Neal Liu <neal_liu@aspeedtech.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Roger Quadros <roger.quadros@nokia.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+        Cai Huoqing <cai.huoqing@linux.dev>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com
+Subject: Re: [PATCH v2] usb: gadget: f_mass_storage: Make CD-ROM emulation
+ works with Windows OS
+Message-ID: <YrVdxmleSZDeUp19@kroah.com>
+References: <20220624021916.318067-1-neal_liu@aspeedtech.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3 06/14] dt-bindings: mfd: Add Mediatek MT6370
-Content-Language: en-US
-To:     ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
-        daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
-        gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
-        lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
-        heikki.krogerus@linux.intel.com, deller@gmx.de
-Cc:     chiaen_wu@richtek.com, alice_chen@richtek.com,
-        cy_huang@richtek.com, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        szunichen@gmail.com
-References: <20220623115631.22209-1-peterwu.pub@gmail.com>
- <20220623115631.22209-7-peterwu.pub@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220623115631.22209-7-peterwu.pub@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220624021916.318067-1-neal_liu@aspeedtech.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 23/06/2022 13:56, ChiaEn Wu wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
+On Fri, Jun 24, 2022 at 10:19:16AM +0800, Neal Liu wrote:
+> Add read TOC with format 1 to support CD-ROM emulation with
+
+What is "TOC"?  What is "format 1"?
+
+> Windows OS.
+
+Which versions of Windows support this?
+
+> This patch is tested on Windows OS Server 2019.
+
+Does this fix a regression where we used to support this?  Or is this a
+new feature of Windows?
+
+
 > 
-> Add Mediatek MT6370 binding documentation.
-> 
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
 > ---
+>  drivers/usb/gadget/function/f_mass_storage.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> v3
-> - Use " in entire patchset
-> - Refine ADC description
-> - Rename "enable-gpio" to "enable-gpios" in "regualtor"
-> - Change "/schemas/" to "../" in every reference of all MT6370 modules
-> ---
->  .../devicetree/bindings/mfd/mediatek,mt6370.yaml   | 280 +++++++++++++++++++++
->  include/dt-bindings/iio/adc/mediatek,mt6370_adc.h  |  18 ++
->  2 files changed, 298 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
->  create mode 100644 include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-> new file mode 100644
-> index 0000000..fa9da13
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-> @@ -0,0 +1,280 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/mediatek,mt6370.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek MT6370 SubPMIC
-> +
-> +maintainers:
-> +  - ChiYuan Huang <cy_huang@richtek.com>
-> +
-> +description: |
-> +  MT6370 is a highly-integrated smart power management IC, which includes a
-> +  single cell Li-Ion/Li-Polymer switching battery charger, a USB Type-C &
-> +  Power Delivery (PD) controller, dual flash LED current sources, a RGB LED
-> +  driver, a backlight WLED driver, a display bias driver and a general LDO for
-> +  portable devices.
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt6370
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  wakeup-source: true
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  interrupt-controller: true
-> +
-> +  "#interrupt-cells":
-> +    const: 1
-> +
-> +  adc:
-> +    type: object
-> +    description: |
-> +      Provides 9 channels for system monitoring, including VBUSDIV5 (lower
-> +      accuracy, higher measure range), VBUSDIV2 (higher accuracy, lower
-> +      measure range), VBAT, VSYS, CHG_VDDP, TS_BAT, IBUS, IBAT, and TEMP_JC.
-> +
-> +    properties:
-> +      compatible:
-> +        const: mediatek,mt6370-adc
-> +
-> +      "#io-channel-cells":
-> +        const: 1
-> +
-> +    required:
-> +      - compatible
-> +      - "#io-channel-cells"
-> +
-> +  backlight:
-> +    type: object
-> +    $ref: ../leds/backlight/mediatek,mt6370-backlight.yaml#
+> diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
+> index 3a77bca0ebe1..9edf76c22605 100644
+> --- a/drivers/usb/gadget/function/f_mass_storage.c
+> +++ b/drivers/usb/gadget/function/f_mass_storage.c
+> @@ -1209,7 +1209,8 @@ static int do_read_toc(struct fsg_common *common, struct fsg_buffhd *bh)
+>  
+>  	switch (format) {
+>  	case 0:
+> -		/* Formatted TOC */
+> +	case 1:
+> +		/* Formatted TOC, Session info */
+>  		len = 4 + 2*8;		/* 4 byte header + 2 descriptors */
+>  		memset(buf, 0, len);
+>  		buf[1] = len - 2;	/* TOC Length excludes length field */
+> @@ -1250,7 +1251,7 @@ static int do_read_toc(struct fsg_common *common, struct fsg_buffhd *bh)
+>  		return len;
+>  
+>  	default:
+> -		/* Multi-session, PMA, ATIP, CD-TEXT not supported/required */
+> +		/* PMA, ATIP, CD-TEXT not supported/required */
 
-This was correct before: /schemas/leds/ ....
+So case 1 is "multi-session"?  Please document this properly.
 
-Same in other places.
+thanks,
 
-
-Best regards,
-Krzysztof
+greg k-h
