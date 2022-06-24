@@ -2,212 +2,106 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B89C43334
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jun 2022 14:36:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D170FC43334
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jun 2022 14:38:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232926AbiFXOgx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Jun 2022 10:36:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35830 "EHLO
+        id S232900AbiFXOim (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Jun 2022 10:38:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232524AbiFXOfo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jun 2022 10:35:44 -0400
-Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0D7254EF41;
-        Fri, 24 Jun 2022 07:35:17 -0700 (PDT)
-Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id 95B3D16C0;
-        Fri, 24 Jun 2022 17:17:45 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 95B3D16C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1656080266;
-        bh=gBO/Fzd57VMdbFrJwQvKed9BQE5emVVvGrhVWB1wuys=;
-        h=From:To:CC:Subject:Date:From;
-        b=T3jUpF2mg1ifssmj2BLTpIeonf7tZ9POgcShAWvunW2aoQY7wFVMvXCKCfS0HdEKO
-         jTquOmGBsEk9lJCatArY/PSLAOdFDO6GX/AETPiPv4aQVzYpmHMH2pUiyHSDt6TzqF
-         FedEE1DTPTYIl+EWVNTDGRxutTQAVSCGR7zccvqE=
-Received: from localhost (192.168.53.207) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 24 Jun 2022 17:16:25 +0300
-From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        <linux-usb@vger.kernel.org>
-CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-        Serge Semin <fancer.lancer@gmail.com>,
-        Khuong Dinh <khuong@os.amperecomputing.com>,
-        Patrice Chotard <patrice.chotard@st.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linuxppc-dev@lists.ozlabs.org>,
-        <linux-snps-arc@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v9 0/5] dt-bindings: usb: Harmonize xHCI/EHCI/OHCI/DWC3 nodes name
-Date:   Fri, 24 Jun 2022 17:16:16 +0300
-Message-ID: <20220624141622.7149-1-Sergey.Semin@baikalelectronics.ru>
+        with ESMTP id S232644AbiFXOib (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jun 2022 10:38:31 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0427F2DEC
+        for <linux-usb@vger.kernel.org>; Fri, 24 Jun 2022 07:38:30 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id B27B31F92E;
+        Fri, 24 Jun 2022 14:38:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1656081508; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=zEJ+bnOFO9MEmpT8ZqhKqm5rumsDLYR8YKX7swVfOs4=;
+        b=xv9t/oLRk5tnSrz2O42aSRHfNUK4g9fat/ZUoLn3lBtJfynHx2JkBpVsC+w0uQZ4kV1TeO
+        0oDyowCstVscDal3gL9Xc+04Aq0pEUS5z7DSqJQaOocF3ZGWK8raJ7qSLIwRn5rpUVA8Fi
+        428e98R/ZS5jaKFq8WrrP99DBwdxT6w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1656081508;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=zEJ+bnOFO9MEmpT8ZqhKqm5rumsDLYR8YKX7swVfOs4=;
+        b=+J0rfnlMgkfj19e8FcnEzVZWLmyDGusZB6hCHcgoGiqNv/EWTYV6nQnXLGANgdrPpYHpDr
+        QSILXNy8z/ELSnAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7E8F913ACA;
+        Fri, 24 Jun 2022 14:38:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id rg4zHWTMtWKxJgAAMHmgww
+        (envelope-from <jroedel@suse.de>); Fri, 24 Jun 2022 14:38:28 +0000
+Date:   Fri, 24 Jun 2022 16:38:27 +0200
+From:   =?iso-8859-1?Q?J=F6rg_R=F6del?= <jroedel@suse.de>
+To:     Mathias Nyman <mathias.nyman@intel.com>
+Cc:     linux-usb@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+        Jon Grimm <jon.grimm@amd.com>,
+        "Suthikulpanit, Suravee" <suravee.suthikulpanit@amd.com>
+Subject: DMA Faults with XHCI driver
+Message-ID: <YrXMY0Nd0Yn6XDSN@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-As the subject states this series is an attempt to harmonize the xHCI,
-EHCI, OHCI and DWC USB3 DT nodes with the DT schema introduced in the
-framework of the patchset [1].
+Hi Mathias,
 
-Firstly as Krzysztof suggested we've deprecated a support of DWC USB3
-controllers with "synopsys,"-vendor prefix compatible string in favor of
-the ones with valid "snps,"-prefix. It's done in all the DTS files,
-which have been unfortunate to define such nodes.
+here is a report about something strange happening on my system after a
+recent IOMMU change. I am starting to see this message at boot:
 
-Secondly we suggest to fix the snps,quirk-frame-length-adjustment property
-declaration in the Amlogic meson-g12-common.dtsi DTS file, since it has
-been erroneously declared as boolean while having uint32 type. Neil said
-it was ok to init that property with 0x20 value.
+	xhci_hcd 0000:02:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x000f address=0xff00ffffffefe000 flags=0x0000]
 
-Thirdly the main part of the patchset concern fixing the xHCI, EHCI/OHCI
-and DWC USB3 DT nodes name as in accordance with their DT schema the
-corresponding node name is suppose to comply with the Generic USB HCD DT
-schema, which requires the USB nodes to have the name acceptable by the
-regexp: "^usb(@.*)?". Such requirement had been applicable even before we
-introduced the new DT schema in [1], but as we can see it hasn't been
-strictly implemented for a lot the DTS files. Since DT schema is now
-available the automated DTS validation shall make sure that the rule isn't
-violated.
+It means that the XHCI device tried a DMA access at address
+0xff00ffffffefe000, which was not mapped in the IOMMU page table.
 
-Note most of these patches have been a part of the last three patches of
-[1]. But since there is no way to have them merged in in a combined
-manner, I had to move them to the dedicated series and split them up so to
-be accepted by the corresponding subsystem maintainers one-by-one.
+Devices attached to that XHCI controller will not work after that
+message.
 
-[1] Link: https://lore.kernel.org/linux-usb/20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru/
-Changelog v1:
-- As Krzysztof suggested I've created a script which checked whether the
-  node names had been also updated in all the depended dts files. As a
-  result I found two more files which should have been also modified:
-  arch/arc/boot/dts/{axc003.dtsi,axc003_idu.dtsi}
-- Correct the USB DWC3 nodes name found in
-  arch/arm64/boot/dts/apm/{apm-storm.dtsi,apm-shadowcat.dtsi} too.
+There is a related change in the IOMMU code which uncovered this, the
+change basically lets the IOMMU dma-allocator not allocate below 4GB by
+default, but use the whole space covered by the DMA mask.
 
-Link: https://lore.kernel.org/linux-usb/20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru
-Changelog v2:
-- Drop the patch:
-  [PATCH 01/29] usb: dwc3: Discard synopsys,dwc3 compatibility string
-  and get back the one which marks the "synopsys,dwc3" compatible string
-  as deprecated into the DT schema related series.
-- Drop the patches:
-  [PATCH 03/29] arm: dts: am437x: Correct DWC USB3 compatible string
-  [PATCH 04/29] arm: dts: exynos: Correct DWC USB3 compatible string
-  [PATCH 07/29] arm: dts: bcm53x: Harmonize EHCI/OHCI DT nodes name
-  [PATCH 08/29] arm: dts: stm32: Harmonize EHCI/OHCI DT nodes name
-  [PATCH 16/29] arm: dts: bcm5301x: Harmonize xHCI DT nodes name
-  [PATCH 19/29] arm: dts: exynos: Harmonize DWC USB3 DT nodes name
-  [PATCH 21/29] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
-  [PATCH 22/29] arm: dts: omap5: Harmonize DWC USB3 DT nodes name
-  [PATCH 24/29] arm64: dts: allwinner: h6: Harmonize DWC USB3 DT nodes name
-  [PATCH 26/29] arm64: dts: exynos: Harmonize DWC USB3 DT nodes name
-  [PATCH 27/29] arm64: dts: layerscape: Harmonize DWC USB3 DT nodes name
-  since they have been applied to the corresponding maintainers repos.
-- Fix drivers/usb/dwc3/dwc3-qcom.c to be looking for the "usb@"-prefixed
-  sub-node and falling back to the "dwc3@"-prefixed one on failure.
+To better track this down I limited the DMA-space to 48 bits, and the
+message still shows up.
 
-Link: https://lore.kernel.org/linux-usb/20201111091552.15593-1-Sergey.Semin@baikalelectronics.ru
-Changelog v3:
-- Drop the patches:
-  [PATCH v2 04/18] arm: dts: hisi-x5hd2: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 06/18] arm64: dts: hisi: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 07/18] mips: dts: jz47x: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 08/18] mips: dts: sead3: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 09/18] mips: dts: ralink: mt7628a: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 11/18] arm64: dts: marvell: cp11x: Harmonize xHCI DT nodes name
-  [PATCH v2 12/18] arm: dts: marvell: armada-375: Harmonize DWC USB3 DT nodes name
-  [PATCH v2 16/18] arm64: dts: hi3660: Harmonize DWC USB3 DT nodes name
-  since they have been applied to the corresponding maintainers repos.
+I think this might be a problem in the XHCI driver, e.g. it might mangle
+an allocated DMA address somehow if it is bigger than 32 bit.
 
-Link: https://lore.kernel.org/linux-usb/20201205155621.3045-1-Sergey.Semin@baikalelectronics.ru
-Changelog v4:
-- Just resend.
+The device behind 0000:02:00.0 is a
 
-Link: https://lore.kernel.org/linux-usb/20201210091756.18057-1-Sergey.Semin@baikalelectronics.ru/
-Changelog v5:
-- Drop the patch:
-  [PATCH v4 02/10] arm64: dts: amlogic: meson-g12: Set FL-adj property value
-  since it has been applied to the corresponding maintainers repos.
-- Get back the patch:
-  [PATCH 21/29] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
-  as it has been missing in the kernel 5.11-rc7
-- Rebase onto the kernel 5.11-rc7.
+	02:00.0 USB controller: Advanced Micro Devices, Inc. [AMD] Device 43d0 (rev 01)
 
-Link: https://lore.kernel.org/lkml/20210208135154.6645-1-Sergey.Semin@baikalelectronics.ru/
-Changelog v6:
-- Just resend and add linux-usb.vger.kernel.org to the list of Ccecipients.
+Please let me know what I can do to help tracking this down.
 
-Link: https://lore.kernel.org/linux-usb/20210210172850.20849-1-Sergey.Semin@baikalelectronics.ru
-Link: https://lore.kernel.org/linux-usb/20210212205521.14280-1-Sergey.Semin@baikalelectronics.ru
-Changelog v7:
-- Replace "of_get_child_by_name(np, "usb") ?: of_get_child_by_name(np, "dwc3");"
-  pattern with using of_get_compatible_child() method in the Qcom DWC3 driver.
-- Drop the patches:
-  [PATCH v6 01/10] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
-  [PATCH v6 02/10] arm: dts: keystone: Correct DWC USB3 compatible string
-  [PATCH v6 06/10] arm: dts: keystone: Harmonize DWC USB3 DT nodes name
-  since they have been applied to the corresponding maintainers repos.
-- Cleanup the list of recipients.
-- Rebase onto kernel 5.12-rc4.
-
-Link: https://lore.kernel.org/lkml/20210324204836.29668-1-Sergey.Semin@baikalelectronics.ru/
-Changelog v8:
-- Just resend.
-
-Link: https://lore.kernel.org/lkml/20210409113029.7144-1-Sergey.Semin@baikalelectronics.ru
-Changelog v9:
-- Drop the patches:
-  [PATCH RESEND v8 1/8] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
-  [PATCH RESEND v8 7/8] usb: dwc3: qcom: Detect DWC3 DT-nodes using compatible string
-  since they have been applied to the corresponding maintainers repos.
-- Rebase onto the kernel 5.19-rcX.
-
-Cc: Khuong Dinh <khuong@os.amperecomputing.com>
-Cc: Patrice Chotard <patrice.chotard@st.com>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: linux-arm-msm@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-snps-arc@lists.infradead.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-
-Serge Semin (5):
-  arc: dts: Harmonize EHCI/OHCI DT nodes name
-  arm: dts: lpc18xx: Harmonize EHCI/OHCI DT nodes name
-  powerpc: dts: akebono: Harmonize EHCI/OHCI DT nodes name
-  arm: dts: stih407-family: Harmonize DWC USB3 DT nodes name
-  arm64: dts: apm: Harmonize DWC USB3 DT nodes name
-
- arch/arc/boot/dts/axc003.dtsi              | 4 ++--
- arch/arc/boot/dts/axc003_idu.dtsi          | 4 ++--
- arch/arc/boot/dts/axs10x_mb.dtsi           | 4 ++--
- arch/arc/boot/dts/hsdk.dts                 | 4 ++--
- arch/arc/boot/dts/vdk_axs10x_mb.dtsi       | 2 +-
- arch/arm/boot/dts/lpc18xx.dtsi             | 4 ++--
- arch/arm/boot/dts/stih407-family.dtsi      | 2 +-
- arch/arm64/boot/dts/apm/apm-shadowcat.dtsi | 4 ++--
- arch/arm64/boot/dts/apm/apm-storm.dtsi     | 6 +++---
- arch/powerpc/boot/dts/akebono.dts          | 6 +++---
- 10 files changed, 20 insertions(+), 20 deletions(-)
+Regards,
 
 -- 
-2.35.1
+Jörg Rödel
+jroedel@suse.de
+
+SUSE Software Solutions Germany GmbH
+Frankenstraße 146
+90461 Nürnberg
+Germany
+
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
 
