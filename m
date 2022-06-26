@@ -2,93 +2,90 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 523ABCCA47E
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Jun 2022 10:50:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 004CBC43334
+	for <linux-usb@archiver.kernel.org>; Sun, 26 Jun 2022 20:03:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234329AbiFZKuZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 26 Jun 2022 06:50:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41008 "EHLO
+        id S231676AbiFZUDD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 26 Jun 2022 16:03:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234224AbiFZKuY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 26 Jun 2022 06:50:24 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5625213E36
-        for <linux-usb@vger.kernel.org>; Sun, 26 Jun 2022 03:50:22 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id u15so13336582ejc.10
-        for <linux-usb@vger.kernel.org>; Sun, 26 Jun 2022 03:50:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qm3saVsXQFyYF7XKRzCFxHnQjtvbQdpVuuv8fnV6oQQ=;
-        b=fe1iXci9tCe6L2xFZ3P7p/kc36HTF7DyalYl7LT5YmzKnyaEtnBgqkPALfoSYHafMe
-         5seSCpPDdR8BxgPRyhdnMFqxf3xe7G4yT13IqyEaN+mlk28EoUneItnD88p6ExFLvkMV
-         MLTO5q9Nu7Brxsbf/CaW+QS4TqRzAUsl5UG/Ogcjdy8CNSV3tsDX0u/EoStiY42fXP59
-         xWLSI3Nb67HE3r/kxb+JsRZdbZKmuNsfcQD74UeD3JknRSNoqpiT3xZlxr3mghMP0ORF
-         bdc7eXZCZn4C1vKzMxHkOzBUojeGzfPOKNKXbnFD9KRfG3VJ+nEcBbK9Ccl2Bv+ZLMVZ
-         EIaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qm3saVsXQFyYF7XKRzCFxHnQjtvbQdpVuuv8fnV6oQQ=;
-        b=rRRreKPDwBePMAQT8J4RXC3snNUOER6lFDv9sAw7RkMHAM5+q2ZCNAI7zhfRgGAokg
-         hunQVke2pwRKqAxn4Hmj0uepaI5kvX4TF6/DS9l1F59r/GPhlsUPo+S13vsi0YAhl7Ql
-         CHnLsOiu751rWCemKzlbBE5oHF58kq42A0D1gnsKEPxVl+SGVYv3zr9JnUfM4h+icUak
-         EzxMk08YLS8WdoHG1QqNHUakahV1c6bfO2hNilgiYRY00ARhhTgIeqyhOLC0+TiS7FBY
-         8eo/I+eRn8UAUQEdLkcnjWN7RdgiLb/7Zrq5hllXWdD8PhiqCA8dAiUAdsucQU8MhZxP
-         aqlA==
-X-Gm-Message-State: AJIora9+MbxzgZ1j2TZNqzzdEVLfEUpXmwznuI67vv4Bmld349uENuFT
-        5WZYlTzwKAIONUT83VK6RkQrqw==
-X-Google-Smtp-Source: AGRyM1vsckuhI5W/5/+uG8dWjoP8xYOurUPiiZq7KICxgI9Tk9qBUslJdZ7qw4SBHIubDQ+UPYVtVg==
-X-Received: by 2002:a17:906:99c5:b0:6df:8215:4ccd with SMTP id s5-20020a17090699c500b006df82154ccdmr7281866ejn.684.1656240620912;
-        Sun, 26 Jun 2022 03:50:20 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id x6-20020aa7cd86000000b0043574d27ddasm5623845edv.16.2022.06.26.03.50.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jun 2022 03:50:20 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     bjorn.andersson@linaro.org, mpe@ellerman.id.au, vz@mleia.com,
-        robh@kernel.org, abrodkin@synopsys.com,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        krzk@kernel.org, balbi@kernel.org,
-        Sergey.Semin@baikalelectronics.ru, agross@kernel.org,
-        gregkh@linuxfoundation.org, vgupta@synopsys.com,
-        khuong@os.amperecomputing.com, linux-usb@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
-        paulus@samba.org, linux-arm-msm@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, patrice.chotard@st.com,
-        devicetree@vger.kernel.org, fancer.lancer@gmail.com,
-        benh@kernel.crashing.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: (subset) [PATCH RESEND v9 5/5] arm64: dts: apm: Harmonize DWC USB3 DT nodes name
-Date:   Sun, 26 Jun 2022 12:50:18 +0200
-Message-Id: <165624061445.7618.11344979529426500237.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220624141622.7149-6-Sergey.Semin@baikalelectronics.ru>
-References: <20220624141622.7149-1-Sergey.Semin@baikalelectronics.ru> <20220624141622.7149-6-Sergey.Semin@baikalelectronics.ru>
+        with ESMTP id S230484AbiFZUDC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 26 Jun 2022 16:03:02 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52AB1241
+        for <linux-usb@vger.kernel.org>; Sun, 26 Jun 2022 13:03:00 -0700 (PDT)
+Received: from [127.0.0.1] ([86.151.31.128]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.163]) with ESMTPA (Nemesis) id
+ 1M2OEw-1o4zyB1Diw-003yEi; Sun, 26 Jun 2022 22:02:49 +0200
+From:   Darren Stevens <darren@stevens-zone.net>
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
+CC:     linuxppc-dev@lists.ozlabs.org, oss@buserror.net,
+        chzigotzky@xenosoft.de, robh@kernel.org, stern@rowland.harvard.edu,
+        linux-usb@vger.kernel.org, shawnguo@kernel.org, leoyang.li@nxp.com
+Date:   Sun, 26 Jun 2022 20:49:11 +0100 (BST)
+Message-ID: <53ac873c23e.3ae9df00@auth.smtp.1and1.co.uk>
+In-Reply-To: <947e4583-fe0b-b8af-61b3-2d120357727c@gmail.com>
+References: <20220625214151.547b3570@Cyrus.lan>
+ <947e4583-fe0b-b8af-61b3-2d120357727c@gmail.com>
+User-Agent: YAM/2.9p1 (AmigaOS4; PPC; rv:20140418r7798)
+Subject: Re: drivers/usb/host/ehci-fsl: Fix interrupt setup in host mode.
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Provags-ID: V03:K1:SfjM5pV+pCrwIfqqWLt5BucTGFsV7UlQ9sOJsi9ctwNRtha6p6J
+ jzxbYOU7vl8B+GSK6glrIIwUq3zjjXVSab/KFFYaOXKS2X6JyDR2WCFkygAguW6+ZE/EHxw
+ Hb6lpr/xPB1M0B1X37T7YeSt7dSxZvoeMVaj5Pqku6YJfp7k+NJRL++sYrMV+Es5BnjKiV6
+ NhmjV7uHikGIfOL43TjMg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0HwNF0z0VZ0=:VXyehQB/rnX0e7HElsbuyk
+ WRuGiGxVWf7JU0F9UjAU6whPCj0cC6NDWqUOBsOUZPRx3S7QE5bL9yWuVTYybzRfc2oICqDBW
+ PWiJOU1xZcYxuDvbH3+7oMJQqnLhSUXAZ9BDFaVyXnG3ObfLQI+DjdoCecOhpuxBf9SglCyZs
+ PmA0YQsBQrNgfZTh/ubxw5cOB+0J18aPPxW3qmy3pu1Vy/OZM3VO0EqSlCjKbksVMeSlBiNuW
+ PluFD77fPAXp2dGHabqAXBzl0906B5fOTv9dnSO6KwbQ9XmXsBrWTCuUaqH+sQnt9hQqwaHRB
+ dinM+Dg2ZxxXoHC2ui0wWHUFcdV4JsCjT6TU4ptOLkuIJFPhxp7vnpEiAghuHxsSMkFaPuXkF
+ bVLoN3BJxrr+JDxT8Kd739ZgvgK7f+9rh+QSvg3JvpAEgc8GS4yfll7CDh2Q9TY+IoKxMOiCA
+ 4FSeZXX9kGZU35Ej29oT3CSjgRYlD2WPu2MsK5PF0z6oQz3oi2aJcWbmLEgyisK1Ta2smOJk3
+ DMcsbTew8KD0QUdkRqn9CnAG68c+89z+BUNhgAjzqFb1w/glyQPyAQ+fs4978RgFaage8feIf
+ fTEblJVAbL6esH0lY9XKOMAe6QFlXFQQVKqY2aTfgoEOF8BGvo+OS/Mpcn+81ejHZZQc9l+yS
+ ioRxL/Jnfv2lRt727FGHMi8s6zi4X8mo7YHBhW9Q1KUFaJn30zu3zaIaWPhfiazrS9qWejFaT
+ gX+ikblbHoBS8E8SZShQIN9t5plEg9oseWJDWTRH5W4dIOEJMfPtdO93tPk=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, 24 Jun 2022 17:16:21 +0300, Serge Semin wrote:
-> In accordance with the DWC USB3 bindings the corresponding node
-> name is suppose to comply with the Generic USB HCD DT schema, which
-> requires the USB nodes to have the name acceptable by the regexp:
-> "^usb(@.*)?" . Make sure the "snps,dwc3"-compatible nodes are correctly
-> named despite of the warning comment about possible backward
-> compatibility issues.
-> 
+Hello Sergei
+
+On 26/06/2022, Sergei Shtylyov wrote:
+> Hello!
+>
+> On 6/25/22 11:41 PM, Darren Stevens wrote:
+>
+>> In patch a1a2b7125e10 (Drop static setup of IRQ resource from DT
+>> core) we stopped platform_get_resource() from returning the IRQ, as all
+>
+> In commit a1a2b7125e10 ("Drop static setup of IRQ resource from DT core")
+>
+>> drivers were supposed to have switched to platform_get_irq()
+>> Unfortunately the Freescale EHCI driver in host mode got missed. Fix
+>> it. Also fix allocation of resources to work with current kernel.
+>
+>    The basic rule (especially for the fixes) is "do one thing per patch".
+
+I thought I'd done that, this is the minimum amount of changes that fix what changed in the specified commit. 
+
 > [...]
+>> @@ -92,15 +89,18 @@ static int fsl_ehci_drv_probe(struct platform_device *pdev)
+>>          goto err1;
+>>      }
+>>  
+>> -    res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>> -    hcd->regs = devm_ioremap_resource(&pdev->dev, res);
+>> +    tmp = of_address_to_resource(dn, 0, &res);
+>
+>    Hm, why? What does this fix?
 
-Applied, thanks!
+With baseline the mouse and keyboard on our machines don't work - dmesg reports no interrupt. Fixing the interrupt detection throws a 'invalid resoure' error instead (No idea why), which these lines fix. Both problems disappear if we revert the 'fixes' patch.
 
-[5/5] arm64: dts: apm: Harmonize DWC USB3 DT nodes name
-      https://git.kernel.org/krzk/linux/c/fcf036a017b251d362559cf7eb0bb6e614ccf842
+Hmmm, perhaps title shoud be 'fix resource detection in host mode'?
 
-Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Regards
+Darren
+
