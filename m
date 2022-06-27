@@ -2,126 +2,110 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 096A3C433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 27 Jun 2022 11:18:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52BB5CCA486
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Jun 2022 12:08:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234489AbiF0LSo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 27 Jun 2022 07:18:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40510 "EHLO
+        id S238812AbiF0MI2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 27 Jun 2022 08:08:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234233AbiF0LSn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 27 Jun 2022 07:18:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8F6E654C
-        for <linux-usb@vger.kernel.org>; Mon, 27 Jun 2022 04:18:42 -0700 (PDT)
+        with ESMTP id S240409AbiF0MHl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 27 Jun 2022 08:07:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A4D0F2C
+        for <linux-usb@vger.kernel.org>; Mon, 27 Jun 2022 05:05:57 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7663F6142E
-        for <linux-usb@vger.kernel.org>; Mon, 27 Jun 2022 11:18:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D8D74C3411D
-        for <linux-usb@vger.kernel.org>; Mon, 27 Jun 2022 11:18:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656328721;
-        bh=nZ6xYWYvu3mBfpb23cCOu0WDKNZau1FhZpYE7g2WqfE=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=I95b/8tR+/vfAKZ0eGGZ6VDpsRLyOPKzd/U7+0LdMSUikeYKc8SdsmRLak+W7LDSZ
-         QD7HU/8GaXudi57MXsCJgJ5rh3nhA5t3joauC5oXbA69BDz4CZxFpxu+6LJooYM07a
-         w3JUP0Ztkyp1yolQlV32q8lVorUTb4QmH3Ag1xNIAGZ7D1SlDvn+jIDVii9dd+aK4a
-         Z6s1J0u/BB1xsbErFXLUe08kuN7GypVsS89QNoQU2H8Ms18Bzxn1d5qwPtbFj4nW3F
-         nyph+bLVr9dbAT12uKcS0XIQqd1qXrqb3gbi63qNYzdU+iRynHih8QE1ow/doXbR5P
-         dVSBj2WlPSBRQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id C6F07CAC6E2; Mon, 27 Jun 2022 11:18:41 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 216171] Hibernation not working because of xhci_hcd
-Date:   Mon, 27 Jun 2022 11:18:41 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mathias.nyman@linux.intel.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216171-208809-cb4ih45e2f@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216171-208809@https.bugzilla.kernel.org/>
-References: <bug-216171-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2481D61506
+        for <linux-usb@vger.kernel.org>; Mon, 27 Jun 2022 12:05:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05B32C3411D;
+        Mon, 27 Jun 2022 12:05:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1656331556;
+        bh=67Ik/eoZyJhS4eBAvMTvEKN7fzs6K6+e5ThzPYKP6E8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YKBPjpLNmgzfGN4jLiBJCgfjCdGHGsXDDq+A3qCBepae9zbc6mOY3mr9U1DbdM1AR
+         ENFacF4IrU0GjGasW62YqHBf5dVRgQIl7SFTcbZrTzSHjvVEbFjG/uFfij602T1fkB
+         eziPNjLqh/dASBe4VXHXECmLymwq7yUcSrHZPYds=
+Date:   Mon, 27 Jun 2022 13:44:48 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        USB list <linux-usb@vger.kernel.org>
+Subject: Re: f_hid GET_REPORT extension
+Message-ID: <YrmYMO+u4EqSjTZ8@kroah.com>
+References: <CAOf5uwnJ1Z4k6NSqdLZ0UNkbWMdoYgSRecwWNHXMH24_WVZrOg@mail.gmail.com>
+ <YrlacG25I8bZZ1VR@kroah.com>
+ <CAOf5uw=X=y7BZZpdW-89orU=aL5oc01b19q7CvvQpXfOjm+m3Q@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOf5uw=X=y7BZZpdW-89orU=aL5oc01b19q7CvvQpXfOjm+m3Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216171
+On Mon, Jun 27, 2022 at 10:02:27AM +0200, Michael Nazzareno Trimarchi wrote:
+> Hi Greg
+> 
+> On Mon, Jun 27, 2022 at 9:21 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Mon, Jun 27, 2022 at 09:06:05AM +0200, Michael Nazzareno Trimarchi wrote:
+> > > Hi Felipe and Greg
+> > >
+> > > I'm starting to write some code to extend the GET_REPORT and let the
+> > > userspace on the device side to pre-fill the answer on this request.
+> > > Right now the answer is always 0. The idea is to create a sysfs
+> > > support to fill reports struct on report request on the host side.
+> > > This will help to
+> > > emulate devices that export features report for example. As far as I
+> > > understand the hidg side just use read and write and read is used to
+> > > extract
+> > > the result of SET_REPORT is that the gadget is properly configured. Is
+> > > it the right direction?
+> >
+> > Without code, it is very hard to understand what you are doing here,
+> > sorry.
+> >
+> 
+> Agree, I need only a suggestion what is the best way to expose it
+> 
+> > Also, why sysfs?
+> 
+> Let me clarify this point. Right now the userspace manage the set_report
+> 
+> static ssize_t f_hidg_read(struct file *file, char __user *buffer,
+>                            size_t count, loff_t *ptr)
+> {
+>         struct f_hidg *hidg = file->private_data;
+> 
+>         if (hidg->use_out_ep)
+>                 return f_hidg_intout_read(file, buffer, count, ptr);
+>         else
+>                 return f_hidg_ssreport_read(file, buffer, count, ptr);
+> }
+> 
+> The report can be write from usb side and read on gadget side if use_out_ep
+> is 0 (this is a configuration). Now, the answer to set_report is done
+> sync on request
+> and the usb message is buffered on the kernel side. During the
+> get_report as far I understand we should reply
+> the same way on bus. The idea is handle the type and report number and
+> find it on a list of report that must be prepared
+> on the gadget side. The hidg ops interface need to handle report
+> preparation so I was thinking in two solutions:
+> - sysfs kind of interface
+> - ioctl like interface
 
---- Comment #1 from Mathias Nyman (mathias.nyman@linux.intel.com) ---
-On 25.6.2022 20.19, bugzilla-daemon@kernel.org wrote:
-> https://bugzilla.kernel.org/show_bug.cgi?id=3D216171
->=20
->              Bug ID: 216171
->             Summary: Hibernation not working because of xhci_hcd
->             Product: Drivers
->             Version: 2.5
->      Kernel Version: 5.18.6-arch1-1
->            Hardware: All
->                  OS: Linux
->                Tree: Mainline
->              Status: NEW
->            Severity: normal
->            Priority: P1
->           Component: USB
->            Assignee: drivers_usb@kernel-bugs.kernel.org
->            Reporter: prz.kopa@gmail.com
->          Regression: No
->=20
-> Created attachment 301268
->    --> https://bugzilla.kernel.org/attachment.cgi?id=3D301268&action=3Ded=
-it
-> Dmesg log with failed hibernation attempt
->=20
-> Starting from 5.18.4 my notebook (Dell Latitude 3340) won't hibernate -
-> hibernation fails with dmesg errors related to xhci_hcd. I'm attaching dm=
-esg
-> log with failed hibernation attempt. Problem goes away after reverting co=
-mmit
-> 63acaa8e9c65dc34dc249440216f8e977f5d2748 (USB: hcd-pci: Fully suspend acr=
-oss
-> freeze/thaw cycle). After reverting this commit on linux 5.18.6 my system=
- can
-> again successfully hibernate.
->=20
+sysfs is good for "one value per file", but not good for interactions
+where you have back/forth from userspace to the kernel.  ioctls are good
+for "do something in the kernel and get this value back" type of
+operation.  configfs is good for initializing data for something before
+you "finalize" it.  So it all depends on what your userspace
+interaction is going to be here as to what interface to use.
 
-Looks like there is a pending wakeup:
+prototype it and see what works.
 
-[   30.475168] xhci_hcd 0000:00:14.0: PM: pci_pm_freeze():
-hcd_pci_suspend+0x0/0x30 returns -16
-
-Guessing suspend_common() in hcd-pci.c retruns -EBUSY because
-HCD_WAKEUP_PENDING(hcd) flag is set.
-
-Does xhci dynamic debug show some port event before this?
-
-mount -t debugfs none /sys/kernel/debug
-echo 'module xhci_hcd =3Dp' >/sys/kernel/debug/dynamic_debug/control
-echo 'module usbcore =3Dp' >/sys/kernel/debug/dynamic_debug/control
-
-Thanks
--Mathias
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+greg k-h
