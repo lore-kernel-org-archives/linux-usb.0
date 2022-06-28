@@ -2,115 +2,72 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CB10CCA47F
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Jun 2022 13:37:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF277C43334
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Jun 2022 13:55:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346726AbiF1NhS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 28 Jun 2022 09:37:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39690 "EHLO
+        id S1346472AbiF1Nzv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 28 Jun 2022 09:55:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346595AbiF1Ng4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Jun 2022 09:36:56 -0400
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 534A52AC78
-        for <linux-usb@vger.kernel.org>; Tue, 28 Jun 2022 06:36:54 -0700 (PDT)
-Received: by mail-qv1-xf34.google.com with SMTP id n15so19876486qvh.12
-        for <linux-usb@vger.kernel.org>; Tue, 28 Jun 2022 06:36:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=gN4ZNyT9GRZ46Vwx3CUzNgwGxKE3ptwelsb3O/2waMc=;
-        b=SRPS2zIET11DP06FAnMANUW30rX+F+KLnmvgpItTZuHDiHMYbx191l+udZ0BIKVo+p
-         DUqKNFcRnPxEdciA9v/rjMoUuUABeinU5a59o91m7mO0ei+LjGwfeqP1sFK6bST4r2Sc
-         +kwNrequilw+r3whlSvEqjUrw7uEou8aBEv26lUqmckZs7QEO1gxqNAIdKmR6ixdoBBW
-         VwXL+VitONeiHER4+6czyOuvux/gSa01CsajOGl6xQeKgTZdOU9/PF5ai6yeP3/8Na6A
-         VkyCaiWAoLiX3IML+rZ/qAH9obhof6Stg3VEpk4n7D6sOfmWV6A4zI2itZ9nI+NyrBEn
-         GAtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=gN4ZNyT9GRZ46Vwx3CUzNgwGxKE3ptwelsb3O/2waMc=;
-        b=2AaCasdtIzsAesJVu45FkzdZsfFCybt1MiauzP99D4Vk1ySDiti9ct2MILsZQ6Rwxq
-         vClhjz7sT86MLgmVX+lCHtnins9Vs4FvuyRM+zgbttRVki3zwkYWd1VXsnsaGI8H8Zur
-         qSYKuQDSNMtLkfrufdz9o+CnVCkAxkU62/lgEQg37cPiH54KYFo+N3TEfGrmHpYNtf2d
-         gS2O2ld3llMMr8sHoER51aeEgmUpkYY6HJ5dZXwUMtrSBnWCuowkPvLVbTWPfYwIV128
-         rUxt22ScEe0abO+SU1uR7QXnhvMOsUT+RNpmweHnJj4LCyx0Nt0pC07GEQJJ1a6u9EZq
-         9Hzw==
-X-Gm-Message-State: AJIora/PjJRMZdQHOqg/Alq8u1g4A5wNroXxCA6mMIQG3x/5iUO7fvhJ
-        jVL0veAOUYmmnQPziviZYrILsg==
-X-Google-Smtp-Source: AGRyM1uooXTVlKXYemR9EvbrrQp4i2XA4BpQT09bjvN7I6xIwm3cKCnpXCNHNGqwd+HxVz52pv3Omw==
-X-Received: by 2002:ac8:5b0d:0:b0:31b:f519:4107 with SMTP id m13-20020ac85b0d000000b0031bf5194107mr1237416qtw.331.1656423413317;
-        Tue, 28 Jun 2022 06:36:53 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id s10-20020a05620a29ca00b006a79479657fsm708363qkp.108.2022.06.28.06.36.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jun 2022 06:36:52 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1o6BOd-002vAA-VA; Tue, 28 Jun 2022 10:36:51 -0300
-Date:   Tue, 28 Jun 2022 10:36:51 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     Daniel Borkmann <daniel@iogearbox.net>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kernel@vger.kernel.org, x86@kernel.org, dm-devel@redhat.com,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-s390@vger.kernel.org, kvm@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        linux1394-devel@lists.sourceforge.net, io-uring@vger.kernel.org,
-        lvs-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
-        kasan-dev@googlegroups.com, linux-mmc@vger.kernel.org,
-        nvdimm@lists.linux.dev, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, linux-perf-users@vger.kernel.org,
-        linux-raid@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-scsi@vger.kernel.org,
-        target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        v9fs-developer@lists.sourceforge.net, linux-rdma@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] treewide: uapi: Replace zero-length arrays with
- flexible-array members
-Message-ID: <20220628133651.GO23621@ziepe.ca>
-References: <20220627180432.GA136081@embeddedor>
- <6bc1e94c-ce1d-a074-7d0c-8dbe6ce22637@iogearbox.net>
- <20220628004052.GM23621@ziepe.ca>
- <20220628005825.GA161566@embeddedor>
- <20220628022129.GA8452@embeddedor>
+        with ESMTP id S1346983AbiF1Nzj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Jun 2022 09:55:39 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC9A330F64;
+        Tue, 28 Jun 2022 06:55:37 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.54])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LXQzr47xSzkWL4;
+        Tue, 28 Jun 2022 21:53:44 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 28 Jun 2022 21:55:34 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 28 Jun
+ 2022 21:55:34 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>
+CC:     <conor.dooley@microchip.com>,
+        <valentina.fernandezalanis@microchip.com>,
+        <gregkh@linuxfoundation.org>
+Subject: [PATCH -next] usb: musb: mpfs: add missing  clk_disable_unprepare() in mpfs_remove()
+Date:   Tue, 28 Jun 2022 22:05:27 +0800
+Message-ID: <20220628140527.1404439-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220628022129.GA8452@embeddedor>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 04:21:29AM +0200, Gustavo A. R. Silva wrote:
+clock source is prepared and enabled by clk_prepare_enable()
+in probe function, but no disable or unprepare in remove.
 
-> > > Though maybe we could just switch off -Wgnu-variable-sized-type-not-at-end  during configuration ?
+Fixes: 7a96b6ea90a4 ("usb: musb: Add support for PolarFire SoC's musb controller")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+---
+ drivers/usb/musb/mpfs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> We need to think in a different strategy.
+diff --git a/drivers/usb/musb/mpfs.c b/drivers/usb/musb/mpfs.c
+index a69ca338eace..cea2e8108867 100644
+--- a/drivers/usb/musb/mpfs.c
++++ b/drivers/usb/musb/mpfs.c
+@@ -239,6 +239,7 @@ static int mpfs_remove(struct platform_device *pdev)
+ {
+ 	struct mpfs_glue *glue = platform_get_drvdata(pdev);
+ 
++	clk_disable_unprepare(glue->clk);
+ 	platform_device_unregister(glue->musb);
+ 	usb_phy_generic_unregister(pdev);
+ 
+-- 
+2.25.1
 
-I think we will need to switch off the warning in userspace - this is
-doable for rdma-core.
-
-On the other hand, if the goal is to enable the array size check
-compiler warning I would suggest focusing only on those structs that
-actually hit that warning in the kernel. IIRC infiniband doesn't
-trigger it because it just pointer casts the flex array to some other
-struct.
-
-It isn't actually an array it is a placeholder for a trailing
-structure, so it is never indexed.
-
-This is also why we hit the warning because the convient way for
-userspace to compose the message is to squash the header and trailer
-structs together in a super struct on the stack, then invoke the
-ioctl.
-
-Jason 
