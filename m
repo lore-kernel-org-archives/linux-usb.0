@@ -2,117 +2,77 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E8EAC43334
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Jun 2022 08:31:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2942CC43334
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Jun 2022 09:22:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241942AbiF1Ibh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 28 Jun 2022 04:31:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54024 "EHLO
+        id S245553AbiF1JWQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 28 Jun 2022 05:22:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235548AbiF1Ibe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Jun 2022 04:31:34 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E72926542;
-        Tue, 28 Jun 2022 01:31:32 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 82C1E1FE28;
-        Tue, 28 Jun 2022 08:31:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1656405091; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=j25UoOm2dE6A3ykiJ0v4lsMTEc9lp0qSV4lsagNUBdI=;
-        b=X6TAIic0X5iXMa87ccIOYXvkZAj7XlX3qEW0wMzZWwfrZEV+ihsbZNOxT16O5sXb5iOb4h
-        uMkyNxdgny0ipq9rOqNoNhEoaFdFpuTTe3+Q2LLDxUl/uUjWVpcY7Kv0F40OrIOoQVrtem
-        LBevGnYCa1yr4yb215w/UTokX6m9L5c=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4AAF913ACA;
-        Tue, 28 Jun 2022 08:31:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id K12LEGO8umKUMAAAMHmgww
-        (envelope-from <oneukum@suse.com>); Tue, 28 Jun 2022 08:31:31 +0000
-From:   Oliver Neukum <oneukum@suse.com>
-To:     davem@davemloft.net, netdev@vger.kernel.org, kuba@kernel.org,
-        linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [PATCHv2] usbnet: fix memory leak in error case
-Date:   Tue, 28 Jun 2022 10:31:28 +0200
-Message-Id: <20220628083128.28472-1-oneukum@suse.com>
-X-Mailer: git-send-email 2.35.3
+        with ESMTP id S231164AbiF1JWP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Jun 2022 05:22:15 -0400
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 344161D333
+        for <linux-usb@vger.kernel.org>; Tue, 28 Jun 2022 02:22:14 -0700 (PDT)
+Date:   Tue, 28 Jun 2022 19:21:48 +1000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+        t=1656408132;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=cBbs/EKlmPkORXJSAE+YMoFEzEUwS9Y567ky/0pdQGQ=;
+        b=Hb0t39reUs0cdJXopFS/a1J9rcIH5WlDQcXJ4zkza0a8qvNYZQhbq83xs8/tzo3vcUgsVj
+        gwmcNnUrajuxC/ohdFcuESzSTROX13ms45cCFTRGpXQNC6gsep3dosuYiSvltN70Hzd948
+        9plD6QdLLIZL0D4ulSj9tj+ydEd2TSdER92L/JjxHb9iQukZnHlDMI0TolIKtOsVrSpYyb
+        EuZJxqUti9EjeMeA/wIMF5qK7eLLAK5pJlFl4LM9v8TY4lUGPvWNIqmRogWmHnuAMnolEo
+        tpQRfQN5tysBCIa7xeHUFZc+pD2tmbu3MUG17t8D9HruVjEJdiEuPdGsSNtjVQ==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Jookia <contact@jookia.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: acm_port_shutdown hangs for 30 seconds
+Message-ID: <YrrILGzC2R3qGiHu@novena-choice-citizen>
+References: <YiynBKeGJCMEkgyO@novena-choice-citizen>
+ <YrmpLXcPeHW4fnvz@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YrmpLXcPeHW4fnvz@kroah.com>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: jookia.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-usbnet_write_cmd_async() mixed up which buffers
-need to be freed in which error case.
+Hi Greg,
 
-v2: add Fixes tag
+Thanks for getting back to this!
 
-Fixes: 877bd862f32b8 ("usbnet: introduce usbnet 3 command helpers")
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/net/usb/usbnet.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+On Mon, Jun 27, 2022 at 02:57:17PM +0200, Greg KH wrote:
+> What host controller driver is this showing up on?
 
-diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-index 1cb6dab3e2d0..c66d2a097b0c 100644
---- a/drivers/net/usb/usbnet.c
-+++ b/drivers/net/usb/usbnet.c
-@@ -2137,10 +2137,10 @@ static void usbnet_async_cmd_cb(struct urb *urb)
- int usbnet_write_cmd_async(struct usbnet *dev, u8 cmd, u8 reqtype,
- 			   u16 value, u16 index, const void *data, u16 size)
- {
--	struct usb_ctrlrequest *req = NULL;
-+	struct usb_ctrlrequest *req;
- 	struct urb *urb;
- 	int err = -ENOMEM;
--	void *buf = NULL;
-+	void *buf;
- 
- 	netdev_dbg(dev->net, "usbnet_write_cmd cmd=0x%02x reqtype=%02x"
- 		   " value=0x%04x index=0x%04x size=%d\n",
-@@ -2155,7 +2155,7 @@ int usbnet_write_cmd_async(struct usbnet *dev, u8 cmd, u8 reqtype,
- 		if (!buf) {
- 			netdev_err(dev->net, "Error allocating buffer"
- 				   " in %s!\n", __func__);
--			goto fail_free;
-+			goto fail_free_urb;
- 		}
- 	}
- 
-@@ -2179,14 +2179,21 @@ int usbnet_write_cmd_async(struct usbnet *dev, u8 cmd, u8 reqtype,
- 	if (err < 0) {
- 		netdev_err(dev->net, "Error submitting the control"
- 			   " message: status=%d\n", err);
--		goto fail_free;
-+		goto fail_free_all;
- 	}
- 	return 0;
- 
-+fail_free_all:
-+	kfree(req);
- fail_free_buf:
- 	kfree(buf);
--fail_free:
--	kfree(req);
-+	/*
-+	 * avoid a double free
-+	 * needed because the flag can be set only
-+	 * after filling the URB
-+	 */
-+	urb->transfer_flags = 0;
-+fail_free_urb:
- 	usb_free_urb(urb);
- fail:
- 	return err;
--- 
-2.35.3
+I have the following modules loaded:
 
+xhci_pci_renesas
+xhci_pci
+xhci_hcd
+
+This isn't an ARM board or anything, this is a standard x86 desktop
+(B450 plus motherboard, Ryzen 3700x chipset)- but I believe I've had the
+same error when using serial cables on a years older computer and in
+general when doing embedded development.
+
+I believe this issue is related to buggy serial devices, in particular
+ones run by a microcontroller like an ATmega32u4 and perhaps Linux USB
+gadget where the device is abruptly reset but the serial session isn't
+terminated.
+
+The host device USB system has to time out then, which is fine, but in
+userspace this seems to hang close() instead of doing this
+asynchronously.
+
+> thanks,
+> 
+> greg k-h
+
+Jookia.
