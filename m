@@ -2,66 +2,82 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BE5EC43334
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Jun 2022 14:03:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCA0FC43334
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Jun 2022 14:18:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347323AbiF1ODQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 28 Jun 2022 10:03:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42496 "EHLO
+        id S1346616AbiF1OSk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 28 Jun 2022 10:18:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347267AbiF1ODP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Jun 2022 10:03:15 -0400
+        with ESMTP id S1346441AbiF1OSc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Jun 2022 10:18:32 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 792801D0DC
-        for <linux-usb@vger.kernel.org>; Tue, 28 Jun 2022 07:03:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A81CCDEA;
+        Tue, 28 Jun 2022 07:18:30 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 38159B81C9F
-        for <linux-usb@vger.kernel.org>; Tue, 28 Jun 2022 14:03:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86D15C341CC;
-        Tue, 28 Jun 2022 14:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1656424991;
-        bh=yowxv6DcY9RAb5NYJqTI9qf0sQO1qOWm/e9EFTBDL0k=;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5AFB9B81E0B;
+        Tue, 28 Jun 2022 14:18:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B5F2C341C6;
+        Tue, 28 Jun 2022 14:18:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656425908;
+        bh=gNqsfpabtVurh3KrN/HDHkVIuq5HYEGkFj0dq9pxBp0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Zvd3gWVLYv25h+gfEiWKSjq4akNPvyGVbUok9EPDEFzdc27YsVtKLLco8xDL2GwGS
-         2aB8N3ADawTqR5GORwMU9LI5z/7QbVUy869qEoKNtw9XIR82tK+sQxW2IyvJbKXCiJ
-         iCJRqK+40tt/q5k+VWVUSoSdQIMdUbTy9CftqZEE=
-Date:   Tue, 28 Jun 2022 16:02:47 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        linux-usb@vger.kernel.org
-Subject: Re: [GIT PULL] Thunderbolt/USB4 changes for v5.20 merge window
-Message-ID: <YrsKB31lkuE5RnoX@kroah.com>
-References: <YrrVjj+xZyaqjFFi@lahna>
+        b=LKmDxdeiZbNhcfCtRCGKrWsyjlCMGrWNe6JPI6+0Ud4+CdurjXwUmrO+N85g9uStN
+         ZMyX+h6jcWDShk2bKHv4I1CwjG76KgIokSJRaPNHE+tAExMRqCJhyYb+qk23PpSnt8
+         UZagMIRlLLl0N2746CMcacDFBvR451lE95WpeBq0GW4QDuaouxlRRNIVOVHDclrQ6f
+         3R9oBNaPqtGDm4Fzozu0TEhclsuvbNSWpoAarBMEoFPJEcd4AO2pVjb65zJgdF1PVp
+         ef3Ggil+1czhmYD/i4aHezmCjBjk3ri61YXhTXJoT9Ami17Y24U2vq1uockAAm5n3K
+         LL1PsE5NQ0Syg==
+Date:   Tue, 28 Jun 2022 16:18:23 +0200
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Stephen Hemminger <stephen@networkplumber.org>
+Cc:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
+        x86@kernel.org, dm-devel@redhat.com,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-s390@vger.kernel.org, kvm@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net, io-uring@vger.kernel.org,
+        lvs-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
+        kasan-dev@googlegroups.com, linux-mmc@vger.kernel.org,
+        nvdimm@lists.linux.dev, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, linux-perf-users@vger.kernel.org,
+        linux-raid@vger.kernel.org, linux-sctp@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-scsi@vger.kernel.org,
+        target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        v9fs-developer@lists.sourceforge.net, linux-rdma@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH][next] treewide: uapi: Replace zero-length arrays with
+ flexible-array members
+Message-ID: <20220628141823.GB25163@embeddedor>
+References: <20220627180432.GA136081@embeddedor>
+ <20220627125343.44e24c41@hermes.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YrrVjj+xZyaqjFFi@lahna>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220627125343.44e24c41@hermes.local>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 01:18:54PM +0300, Mika Westerberg wrote:
-> Hi Greg,
-> 
-> Please find Thunderbolt/USB4 changes for the next merge window below.
-> I'm sending this one early because I will be on vacation pretty much the
-> whole July. I hope this is fine for you. 
-> 
-> The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a56:
-> 
->   Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v5.20-rc1
+On Mon, Jun 27, 2022 at 12:53:43PM -0700, Stephen Hemminger wrote:
+> Thanks this fixes warning with gcc-12 in iproute2.
+> In function ‘xfrm_algo_parse’,
+>     inlined from ‘xfrm_state_modify.constprop’ at xfrm_state.c:573:5:
+> xfrm_state.c:162:32: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+>   162 |                         buf[j] = val;
+>       |                         ~~~~~~~^~~~~
 
-pulled and pushed out,t hanks.
+Great! This gives me hope. :)
 
-greg k-h
+Thanks
+--
+Gustavo
