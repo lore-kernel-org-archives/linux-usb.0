@@ -2,72 +2,78 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AED1DC433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Jun 2022 07:48:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61D5EC43334
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Jun 2022 08:07:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232021AbiF2HsB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Jun 2022 03:48:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33804 "EHLO
+        id S232448AbiF2IHj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 Jun 2022 04:07:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232153AbiF2HsA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jun 2022 03:48:00 -0400
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85B0E38DA6;
-        Wed, 29 Jun 2022 00:47:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656488873; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=DhK++zDkXH1xcTO3PgDvNVPur+HbX+iFbKa1Dy3JwVudvk/J6kwDtSMH15/vCi7M2VF4tBv7sXzazBpNiIHJ4IfKD4VwsIR0Ioh1Kl2OtyTHrgtqx3YfOJQh15G5/d0tmlXjoURKbdkbGZFwjRVRIfN0A/6iaeooOCrDE0ggdBo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1656488873; h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=RrVeZTg3W+OqqISkusTJIHrK51fZ7mNS1Xl+uRCbfBI=; 
-        b=PZl0bBKKCMQgIt7dALGTnLE6AAIof/munAO29KIgM8ousmOa9rxE3l1mJv4b17qPGBQ0xeQdZglW8n2F7ioFp9TzoOSAzBm5rMQUbPxFCkj6CNwpSSu9gGpddMjW0W2dg0Abh6AIznwf0kmmxcgbJyPEkzLhRCG46N/wAR4YlZ0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=gvisoc.com;
-        spf=pass  smtp.mailfrom=gabriel@gvisoc.com;
-        dmarc=pass header.from=<gabriel@gvisoc.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1656488873;
-        s=zoho; d=gvisoc.com; i=gabriel@gvisoc.com;
-        h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-        bh=RrVeZTg3W+OqqISkusTJIHrK51fZ7mNS1Xl+uRCbfBI=;
-        b=PG7IbTzVwhcLWDBsh22A0w5O1qjj9977tb1mX3C4Nd0x560GwmIClkTPd7RPl7UH
-        40OfREl/PIEo0hKWVxzarMhSAX9uswd8aHmjveoYV7RbQ882z18rhI5MoL8nTW+lWrD
-        3v+zSAl/a8hEPan8KUjUbyIZVE8GgzJC7lYQtQl8=
-Received: from localhost (61-68-176-95.tpgi.com.au [61.68.176.95]) by mx.zohomail.com
-        with SMTPS id 1656488872842632.2175981479204; Wed, 29 Jun 2022 00:47:52 -0700 (PDT)
-Date:   Wed, 29 Jun 2022 17:47:48 +1000
-From:   Gabriel Viso Carrera <gabriel@gvisoc.com>
-To:     Greg KH <greg@kroah.com>
-Cc:     Joe Perches <joe@perches.com>, andreas.noever@gmail.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] staging: Thunderbolt: ctl.c: Fixed comment coding
- style issues
-Message-ID: <YrwDpD+MaNPN+Sl1@vao>
-References: <20220625084913.603556-1-gabriel@gvisoc.com>
- <20220625084913.603556-4-gabriel@gvisoc.com>
- <1a35d3bdf6adde4f21e7c1401f3a2aba64367eb0.camel@perches.com>
- <Yrv3PTCgzZGu3l8j@vao>
- <Yrv5HLEXHL+iIVXq@kroah.com>
+        with ESMTP id S232088AbiF2IHi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jun 2022 04:07:38 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A85213B574;
+        Wed, 29 Jun 2022 01:07:36 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 79B8D66015AE;
+        Wed, 29 Jun 2022 09:07:34 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1656490055;
+        bh=2x7JJI7Gpw9v/avN+IvIawiJAZWgc780v4UFmC7WN1M=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=KIpXSyrfyDOlg0nVmlbqYjC3ymVb5Sap7cwjq6Udb6iHNuvrq9iIMOa/2ca4p4V/5
+         P/kJAMUJa/ciPMEkWhzKE30x2Zz9KoSJXwZFAa9Aq6AsRxgQZQpsmgNT2zKWSAObba
+         vJMVJVOh+/82uJjnZ1HBPPjeNIcBIR7X5qXvMCq1GXYCvOOdFgcAYuPRFnxN7oVa0f
+         yVQiDkg+yDZ3JPMRaB3cnTWx47bg8fBBB2zx9aMQijBlEXSK9iiEGRx/Emi09q2BGT
+         BUXkBXOxHvhjq0d4HQoopaqO0/2SXdiKbvCSZ4DcIvUnXlkJLboMNEEKkg4HQYXGWF
+         mvqB6VSuVbclg==
+Message-ID: <4329eb0e-eb4b-f0d2-358f-e1d15a9c49de@collabora.com>
+Date:   Wed, 29 Jun 2022 10:07:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yrv5HLEXHL+iIVXq@kroah.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2] usb: gadget: f_uac1: add interface association
+ descriptor
+Content-Language: en-US
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Pavel Hofman <pavel.hofman@ivitera.com>,
+        Julian Scheel <julian@jusst.de>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Yunhao Tian <t123yh.xyz@gmail.com>,
+        xin lin <xin.lin@mediatek.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+References: <20220629021304.21725-1-chunfeng.yun@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220629021304.21725-1-chunfeng.yun@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jun 29, 2022 at 09:02:52AM +0200, Greg KH wrote:
-> If you are just learning how to do all of this, I strongly recommend you
-> stick to drivers/staging/* which is much more forgiving and welcoming
-> for basic coding style cleanups.  After you get some experience there,
-> then go out into other subsystems.  Many subsystems do not like coding
-> style fixes as it causes conflicts with other development that is
-> happening.
+Il 29/06/22 04:13, Chunfeng Yun ha scritto:
+> From: xin lin <xin.lin@mediatek.com>
 > 
-> thanks,
+> When we want to use a composite device that supports UVC, UAC1 and
+> ADB at the same time, encounter that UAC1 can't work when connected
+> to windows 10 system.
+> from the online documents of microsoft, "overview of enumeration of
+> interface collections on usb composite devices", it recommends that
+> vendors use IADs (interface association descriptor) to define
+> interface collections.
+> After addding IAD, we can fix the issue.
 > 
-> greg k-h
+> Signed-off-by: xin lin <xin.lin@mediatek.com>
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
-I am doing these patches as my first step, yes.
-Will do as suggested, thanks for that. 
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-~Gabriel
