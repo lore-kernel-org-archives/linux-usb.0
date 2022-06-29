@@ -2,111 +2,72 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A1E6C43334
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Jun 2022 07:05:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AED1DC433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Jun 2022 07:48:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232556AbiF2HFH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Jun 2022 03:05:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46898 "EHLO
+        id S232021AbiF2HsB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 Jun 2022 03:48:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232471AbiF2HEw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jun 2022 03:04:52 -0400
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFD603587C;
-        Wed, 29 Jun 2022 00:02:57 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id DA7435C0339;
-        Wed, 29 Jun 2022 03:02:54 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Wed, 29 Jun 2022 03:02:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1656486174; x=1656572574; bh=nHNM06vkTW
-        gPMdouIJt1yK6bA+sN+N9+s88YvD1NWrA=; b=QwHu0V7++6Dp4TJ9J11wb9QSb7
-        1c/K2CLIzEjBJu25jqlqgq/K3bWv8ec3978LUuVABRzxMollXSyDA16cEWArQ4Qh
-        X0ijoZfQyWncKaHg7EdVHFDStZ0ML5VDRb6sgIBhS/owiEFjFa/uvrCHIafKMEDN
-        753KLMNvE9riOFg1mWOcYk5+VgyJGQUBgqkXpllvBj0RZSBbgvZMPINKHtO7ZIZq
-        Yy3HtX5CUmKlKYIdjY2sFEJztziyh/3wkrUJpKgNPStPq5rJM44mz9K/SNoymUuu
-        IRwBTILPU6L+FOpTIQ6NI06+Svd3e+12OSJVTy73ehJ1ANR5Um4b5S0M5/hA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1656486174; x=1656572574; bh=nHNM06vkTWgPMdouIJt1yK6bA+sN
-        +N9+s88YvD1NWrA=; b=VYgvoUFdfT0y4m6sutD84V8IXw3nhrsAcy8OnN5Oy1sL
-        zgN7um06v421mP2wGVM+f65K/2Hm4HlU3eAe87IJJ+ttBnc67FInPLcyHu0vZs1+
-        95Vlik4nebEvYW+qMJbFwqkdm/vcz2H3fs7gNF7RVWYNDKVFX8NVyoCjgwyZetQ2
-        ZiObZxAyjTaTStMn5ckt6fYWciguH50KOKgD0pE1me1n7eIGKr4TWmEZVDxkuQwH
-        /ifDWpV4b7X1f88dyRDFrYHBdMjmVcVB3cZg/ivUpKj65c3jFISa0IhDUmwp4Abw
-        abojwchaaG8gBs8bQMDvvI3AHk1bgaUYXGtf0R5a9w==
-X-ME-Sender: <xms:Hvm7YmXNQqW_JdAkOA2SXwkcpsaVKTjBut8fSpJHB4Bi_JGUDUTknQ>
-    <xme:Hvm7YilODJk9ciVwg_RZbTOTG4zKBuNoMjGvL0jxeDJCIyh4t3rJhcWrEOGdWaq_M
-    bJ6v0k8JcZynQ>
-X-ME-Received: <xmr:Hvm7YqZ1osvUkp4y_TrSXZYUOn63XX9YW1WaL_3wj5zGQBGlITbD8hYB4Qmb1tP5QGwMfQ6qyyzpBvfeXRg57HkLS7uUnho_>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegkedguddugecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgv
-    ghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeehge
-    dvvedvleejuefgtdduudfhkeeltdeihfevjeekjeeuhfdtueefhffgheekteenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhroh
-    grhhdrtghomh
-X-ME-Proxy: <xmx:Hvm7YtWnyld-8IGvx9kFpfImkiiDczl-fUnZ6QhcyZIVl1YgGmUSWw>
-    <xmx:Hvm7YgmYsh62dnA5OmK6wJhi4eShEU8GReyNRQFPmbzbYlnxm7-snw>
-    <xmx:Hvm7Yidu1f2LXpKKINKXnoeX1xmk7cFLOubkhVYUqSYvYyJvnJgT2w>
-    <xmx:Hvm7Yq4TEsBIulFrXl4Ij83sxsQnmWHmcko1vgRLFKET4eBm4nXTEw>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Jun 2022 03:02:54 -0400 (EDT)
-Date:   Wed, 29 Jun 2022 09:02:52 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Gabriel Viso Carrera <gabriel@gvisoc.com>
+        with ESMTP id S232153AbiF2HsA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jun 2022 03:48:00 -0400
+Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85B0E38DA6;
+        Wed, 29 Jun 2022 00:47:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656488873; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=DhK++zDkXH1xcTO3PgDvNVPur+HbX+iFbKa1Dy3JwVudvk/J6kwDtSMH15/vCi7M2VF4tBv7sXzazBpNiIHJ4IfKD4VwsIR0Ioh1Kl2OtyTHrgtqx3YfOJQh15G5/d0tmlXjoURKbdkbGZFwjRVRIfN0A/6iaeooOCrDE0ggdBo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1656488873; h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=RrVeZTg3W+OqqISkusTJIHrK51fZ7mNS1Xl+uRCbfBI=; 
+        b=PZl0bBKKCMQgIt7dALGTnLE6AAIof/munAO29KIgM8ousmOa9rxE3l1mJv4b17qPGBQ0xeQdZglW8n2F7ioFp9TzoOSAzBm5rMQUbPxFCkj6CNwpSSu9gGpddMjW0W2dg0Abh6AIznwf0kmmxcgbJyPEkzLhRCG46N/wAR4YlZ0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=gvisoc.com;
+        spf=pass  smtp.mailfrom=gabriel@gvisoc.com;
+        dmarc=pass header.from=<gabriel@gvisoc.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1656488873;
+        s=zoho; d=gvisoc.com; i=gabriel@gvisoc.com;
+        h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+        bh=RrVeZTg3W+OqqISkusTJIHrK51fZ7mNS1Xl+uRCbfBI=;
+        b=PG7IbTzVwhcLWDBsh22A0w5O1qjj9977tb1mX3C4Nd0x560GwmIClkTPd7RPl7UH
+        40OfREl/PIEo0hKWVxzarMhSAX9uswd8aHmjveoYV7RbQ882z18rhI5MoL8nTW+lWrD
+        3v+zSAl/a8hEPan8KUjUbyIZVE8GgzJC7lYQtQl8=
+Received: from localhost (61-68-176-95.tpgi.com.au [61.68.176.95]) by mx.zohomail.com
+        with SMTPS id 1656488872842632.2175981479204; Wed, 29 Jun 2022 00:47:52 -0700 (PDT)
+Date:   Wed, 29 Jun 2022 17:47:48 +1000
+From:   Gabriel Viso Carrera <gabriel@gvisoc.com>
+To:     Greg KH <greg@kroah.com>
 Cc:     Joe Perches <joe@perches.com>, andreas.noever@gmail.com,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 3/3] staging: Thunderbolt: ctl.c: Fixed comment coding
  style issues
-Message-ID: <Yrv5HLEXHL+iIVXq@kroah.com>
+Message-ID: <YrwDpD+MaNPN+Sl1@vao>
 References: <20220625084913.603556-1-gabriel@gvisoc.com>
  <20220625084913.603556-4-gabriel@gvisoc.com>
  <1a35d3bdf6adde4f21e7c1401f3a2aba64367eb0.camel@perches.com>
  <Yrv3PTCgzZGu3l8j@vao>
+ <Yrv5HLEXHL+iIVXq@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yrv3PTCgzZGu3l8j@vao>
+In-Reply-To: <Yrv5HLEXHL+iIVXq@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jun 29, 2022 at 04:54:53PM +1000, Gabriel Viso Carrera wrote:
-> On Sat, Jun 25, 2022 at 02:37:54AM -0700, Joe Perches wrote:
-> []
-> > 
-> > I'd indent this only 1 level and put it before the call
-> > (and fix the loose/lose typo)
-> > 
-> > {
-> > 	/* We ignore failures during stop.
-> > 	 * All rx packets are referenced from ctl->rx_packets,
-> > 	 * so we do not lose them.
-> > 	 */
-> > 	tb_ring_rx(pkg->ctl->rx, &pkg->frame);
-> > }
-> > 
+On Wed, Jun 29, 2022 at 09:02:52AM +0200, Greg KH wrote:
+> If you are just learning how to do all of this, I strongly recommend you
+> stick to drivers/staging/* which is much more forgiving and welcoming
+> for basic coding style cleanups.  After you get some experience there,
+> then go out into other subsystems.  Many subsystems do not like coding
+> style fixes as it causes conflicts with other development that is
+> happening.
 > 
-> Fair enough. Not sure on how to proceed, as these were my 
-> first patches ever sent, and I don't want to make anyone 
-> work more than the strictly necessary. 
+> thanks,
+> 
+> greg k-h
 
-If you are just learning how to do all of this, I strongly recommend you
-stick to drivers/staging/* which is much more forgiving and welcoming
-for basic coding style cleanups.  After you get some experience there,
-then go out into other subsystems.  Many subsystems do not like coding
-style fixes as it causes conflicts with other development that is
-happening.
+I am doing these patches as my first step, yes.
+Will do as suggested, thanks for that. 
 
-thanks,
-
-greg k-h
+~Gabriel
