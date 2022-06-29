@@ -2,108 +2,122 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51799C43334
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Jun 2022 08:08:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41E88C433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Jun 2022 08:24:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231329AbiF2IH6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Jun 2022 04:07:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54214 "EHLO
+        id S232113AbiF2IYQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 Jun 2022 04:24:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231171AbiF2IH5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jun 2022 04:07:57 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 791C53BA5D;
-        Wed, 29 Jun 2022 01:07:56 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id q18so13348717pld.13;
-        Wed, 29 Jun 2022 01:07:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=26ZIBRUEZIPtCeugGBeQrsgT3aaPi/jFrSW3XtqmO4E=;
-        b=LD2k1fnO3PEvw5iSj+odGBaj3uUJ/1bZXafHiHJr8dwAQMh7HAro80QefSH/JLvsY/
-         9sVfjCsCTwTv1NgQt+NxnMlz9HWC6fsejYqt30mAbe9+ExgjCwO4Kmmak2r5UC6RsJCL
-         8KKLQeTQjogfO0ePGfWqS0wNbZHCQq3mmG1tZQTkntPEPx2ch1LPrxVCROG63Rv0w/Xf
-         56VD/0HfdhM9EPbPE2o0Qjsrjh4U6qLgIYafgkpLjc5IWUESAZS4q5EPhmJhUoR7Af1I
-         5UrMChIu5XMEHhzVLRVqnYjj24lrm6dtT1PU81wYmPPhJ09bYSI1o61PDN2VphUf/6lI
-         EQWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=26ZIBRUEZIPtCeugGBeQrsgT3aaPi/jFrSW3XtqmO4E=;
-        b=NDG4hEKsFpIk6twQf8NdMRFiSfAFbQlqMq1bjIVflbuuVJcDZGzH6mhn5dSQfBu82g
-         n3XTH91X2qX3D0KYda1UUDoRrakEWZX8on6RSVQszN9SgToZpvvjgMrqwwSRltPkA3qh
-         Sy94EJ4WW03Ln9EoR4exiRxuLQs7Y6qXY0BVnjVrnDJ82PQxMDkRxxrFHHAg5/zq4eem
-         cm44ldW1U8QiBfvDAb3k0KdHvf3yF9KECWoWFaS0Vlygufx0d3YAiTn98wMKU9Ck45RT
-         BWhU44Guci3bdetfwHB31n74kCWWXX4uSEbI5Taojks1EAPo9lPiwBJGSgK50GDHKrJK
-         YLvA==
-X-Gm-Message-State: AJIora/t4DTEghgjSji2n9eD/ylNuLPj/t0zphrzVzXSOpicGyW93+fL
-        KF9pBOd//hiwHMn7y1PqUW0=
-X-Google-Smtp-Source: AGRyM1tilyHqgJTXrJU1LG7dIY6Y7oBwOtiPbyUrYr/8vnrGlc6jHnz2pPhlEKAouHlMINKMc7UTTw==
-X-Received: by 2002:a17:90b:4b8c:b0:1ec:c7b8:7cb9 with SMTP id lr12-20020a17090b4b8c00b001ecc7b87cb9mr4345566pjb.86.1656490075939;
-        Wed, 29 Jun 2022 01:07:55 -0700 (PDT)
-Received: from sebin-inspiron.bbrouter ([103.160.233.84])
-        by smtp.gmail.com with ESMTPSA id kk2-20020a17090b4a0200b001cd4989febcsm1398292pjb.8.2022.06.29.01.07.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 01:07:55 -0700 (PDT)
-From:   SebinSebastian <mailmesebin00@gmail.com>
-Cc:     mailmesebin00@gmail.com, skhan@linuxfoundation.org,
-        Neal Liu <neal_liu@aspeedtech.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joel Stanley <joel@jms.id.au>,
+        with ESMTP id S231801AbiF2IYP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jun 2022 04:24:15 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F10103BF83;
+        Wed, 29 Jun 2022 01:24:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AEF50B8219E;
+        Wed, 29 Jun 2022 08:24:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3E87C34114;
+        Wed, 29 Jun 2022 08:24:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1656491051;
+        bh=oNFvciFtBXFVvkTYaTZDy44e9cB6/PJkGktJZOcWT3I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=wF89c+l/CdVkTKtsn81Bnd/q3QFN086ZA19R/1Hm8HuXbuJWKQ9kyB5fK1rwkqpSG
+         T7APdqXPWeJJC8+gT+EpgjqGt634cFs7K9ct96yBeotcIxoASABP9z5LbzD58C7HZE
+         bZ7j1C7QWyG7TRsK8DlozAhZtsU7WBsqAgGAZKYA=
+Date:   Wed, 29 Jun 2022 10:24:07 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     SebinSebastian <mailmesebin00@gmail.com>
+Cc:     Neal Liu <neal_liu@aspeedtech.com>,
+        Felipe Balbi <balbi@kernel.org>, Joel Stanley <joel@jms.id.au>,
         Andrew Jeffery <andrew@aj.id.au>,
         linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH -next] usb: gadget: dereference before null check
-Date:   Wed, 29 Jun 2022 13:37:25 +0530
-Message-Id: <20220629080726.107297-1-mailmesebin00@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH -next] usb: gadget: dereference before null check
+Message-ID: <YrwMJ+3mdFO2Lpm0@kroah.com>
+References: <20220629080726.107297-1-mailmesebin00@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220629080726.107297-1-mailmesebin00@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix coverity warning dereferencing before null check. _ep and desc is
-dereferenced on all paths until the check for null. Move the
-initializations after the check for null.
-Coverity issue: 1518209
+On Wed, Jun 29, 2022 at 01:37:25PM +0530, SebinSebastian wrote:
+> Fix coverity warning dereferencing before null check. _ep and desc is
+> dereferenced on all paths until the check for null. Move the
+> initializations after the check for null.
+> Coverity issue: 1518209
+> 
+> Signed-off-by: SebinSebastian <mailmesebin00@gmail.com>
+> ---
+>  drivers/usb/gadget/udc/aspeed_udc.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
+> index d75a4e070bf7..96f8193fca15 100644
+> --- a/drivers/usb/gadget/udc/aspeed_udc.c
+> +++ b/drivers/usb/gadget/udc/aspeed_udc.c
+> @@ -341,10 +341,6 @@ static void ast_udc_stop_activity(struct ast_udc_dev *udc)
+>  static int ast_udc_ep_enable(struct usb_ep *_ep,
+>  			     const struct usb_endpoint_descriptor *desc)
+>  {
+> -	u16 maxpacket = usb_endpoint_maxp(desc);
+> -	struct ast_udc_ep *ep = to_ast_ep(_ep);
+> -	struct ast_udc_dev *udc = ep->udc;
+> -	u8 epnum = usb_endpoint_num(desc);
+>  	unsigned long flags;
+>  	u32 ep_conf = 0;
+>  	u8 dir_in;
+> @@ -356,6 +352,11 @@ static int ast_udc_ep_enable(struct usb_ep *_ep,
+>  		return -EINVAL;
+>  	}
+> 
+> +	u16 maxpacket = usb_endpoint_maxp(desc);
+> +	struct ast_udc_ep *ep = to_ast_ep(_ep);
+> +	struct ast_udc_dev *udc = ep->udc;
+> +	u8 epnum = usb_endpoint_num(desc);
+> +
+>  	if (!udc->driver) {
+>  		EP_DBG(ep, "bogus device state\n");
+>  		return -ESHUTDOWN;
+> --
+> 2.34.1
+> 
 
-Signed-off-by: SebinSebastian <mailmesebin00@gmail.com>
----
- drivers/usb/gadget/udc/aspeed_udc.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Hi,
 
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index d75a4e070bf7..96f8193fca15 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -341,10 +341,6 @@ static void ast_udc_stop_activity(struct ast_udc_dev *udc)
- static int ast_udc_ep_enable(struct usb_ep *_ep,
- 			     const struct usb_endpoint_descriptor *desc)
- {
--	u16 maxpacket = usb_endpoint_maxp(desc);
--	struct ast_udc_ep *ep = to_ast_ep(_ep);
--	struct ast_udc_dev *udc = ep->udc;
--	u8 epnum = usb_endpoint_num(desc);
- 	unsigned long flags;
- 	u32 ep_conf = 0;
- 	u8 dir_in;
-@@ -356,6 +352,11 @@ static int ast_udc_ep_enable(struct usb_ep *_ep,
- 		return -EINVAL;
- 	}
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-+	u16 maxpacket = usb_endpoint_maxp(desc);
-+	struct ast_udc_ep *ep = to_ast_ep(_ep);
-+	struct ast_udc_dev *udc = ep->udc;
-+	u8 epnum = usb_endpoint_num(desc);
-+
- 	if (!udc->driver) {
- 		EP_DBG(ep, "bogus device state\n");
- 		return -ESHUTDOWN;
---
-2.34.1
+You are receiving this message because of the following common error(s)
+as indicated below:
 
+- Your patch breaks the build.
+
+- Your patch contains warnings and/or errors noticed by the
+  scripts/checkpatch.pl tool.
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
