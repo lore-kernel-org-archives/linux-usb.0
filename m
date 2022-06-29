@@ -2,60 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2655FC433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Jun 2022 10:21:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17DE3C433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Jun 2022 10:22:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233193AbiF2KVA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Jun 2022 06:21:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60836 "EHLO
+        id S233329AbiF2KWm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 Jun 2022 06:22:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233285AbiF2KU7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jun 2022 06:20:59 -0400
-Received: from out1.migadu.com (out1.migadu.com [91.121.223.63])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8360F2CDEA
-        for <linux-usb@vger.kernel.org>; Wed, 29 Jun 2022 03:20:57 -0700 (PDT)
-Date:   Wed, 29 Jun 2022 20:20:47 +1000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-        t=1656498055;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WjcGeJFro2EiGRKcIX4snppxmD4eF5HXiDEKexHP+yY=;
-        b=kSBRLyelY2cd3rVGqFbRjRNh8KitJBGLaRlZAL6DpSRRMB4aYCMQTZD9QNfTtiCL5KfyHM
-        1S08HASIaxHrDt5Cj5aC/9Tm8bYgOa8t82LIuNX2CIhbEPCy7RFNuJ7n5pBpL0ucdWxpEo
-        wjKXyC6rzO2PpbLXhjRHMtgAYMd3ncjcWY+adf2sX7GA4do/E8hvtI1iQ+tPFDxukKVprP
-        2fKtAQqoyBsUTWae6B0yv2Q2vIAQWnpG+wo93oTUccx+Mb/aq2MpdbdRq6EN4MGq9xuSed
-        eAqkOIqsazP9ZDOWNVHAuxqIYQjsQ/bR+PLNHtijNAcLAdTh4/Z6Z/PjUS3t9Q==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Jookia <contact@jookia.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: acm_port_shutdown hangs for 30 seconds
-Message-ID: <Yrwnf8tR5CC53u2p@novena-choice-citizen>
-References: <YiynBKeGJCMEkgyO@novena-choice-citizen>
- <YrmpLXcPeHW4fnvz@kroah.com>
- <YrrILGzC2R3qGiHu@novena-choice-citizen>
- <YrwPY0faDmVcjTqx@kroah.com>
+        with ESMTP id S233326AbiF2KWm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jun 2022 06:22:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 560CF3BA5F
+        for <linux-usb@vger.kernel.org>; Wed, 29 Jun 2022 03:22:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EA72560E33
+        for <linux-usb@vger.kernel.org>; Wed, 29 Jun 2022 10:22:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17DA1C34114;
+        Wed, 29 Jun 2022 10:22:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1656498160;
+        bh=Nhr8coyi2sWavxuJtuttlu+qQbvUb4AavW/PlugHUZ8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FIY3TeLb3Xh/sualnXPLQwqAz1ws2rDVJ9PokTnaVyO/61b/UX6GZqnSmQtUNWtL3
+         v3qYzY+RzT8K7SGobkFhFh4A08kK/6YKqAkCjLWrP4fNlnx2rW3y8NKSugEv6/yixG
+         HszVtn7gtOL1RIoCDwrpBtuqk9pDTGSoKTv4XL3U=
+Date:   Wed, 29 Jun 2022 12:22:33 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-usb@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: support USB 3.2 function remote wake
+Message-ID: <Yrwn6Y7OMdPtN+g/@kroah.com>
+References: <cd7169df640fe6dab85f6d94cb8f40c181e08d2b.camel@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YrwPY0faDmVcjTqx@kroah.com>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: jookia.org
+In-Reply-To: <cd7169df640fe6dab85f6d94cb8f40c181e08d2b.camel@mediatek.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jun 29, 2022 at 10:37:55AM +0200, Greg KH wrote:
-> The close is timing out as it tries to flush the data to the device
-> which is no longer responding.  So this kind of is expected behavior,
-> sorry.
-
-That makes sense. I'm guessing that changing this behaviour to be
-asynchronous would break applications that rely on the return code from
-close() to say EIO if it does that.
-
+On Wed, Jun 29, 2022 at 05:02:54PM +0800, Chunfeng Yun wrote:
+> Hi,
 > 
-> greg k-h
+> I plan to support function remote wakeup on our usb3 device controller
+> driver.
 
-Jookia.
+Is this based on dwc3 or some new silicon?
+
+> A function may signal that it wants to exit from Function Suspend by
+> sending a Function Wake Notification to the host, and the notification
+> need knows the first interface number in this function.
+> But the current gadget ops:
+>     int (*wakeup)(struct usb_gadget *);
+> does not provide information about interface number;
+
+Why would the interface matter as you need to do this for the whole
+device, not just one interface, right?
+
+> There seems to be two ways:
+> 1. add a new parameter as below,
+>     int (*wakeup)(struct usb_gadget *, u8 intf);
+> 2. add a new ops, such as,
+>     int (*function_wakeup)(struct usb_gadget *, u8 intf);
+> 
+> Do you have any suggestions?
+
+Look at what the existing ones do, I do not think you have different
+suspend levels per USB interface, but rather the whole device.  Try it
+and see.
+
+thanks,
+
+greg k-h
