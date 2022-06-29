@@ -2,77 +2,82 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C68FC43334
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Jun 2022 13:41:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8E1CC433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Jun 2022 14:21:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232041AbiF2Nlr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Jun 2022 09:41:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43734 "EHLO
+        id S231777AbiF2OV4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 Jun 2022 10:21:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229778AbiF2Nlq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jun 2022 09:41:46 -0400
-X-Greylist: delayed 497 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 29 Jun 2022 06:41:44 PDT
-Received: from pasta.tip.net.au (pasta.tip.net.au [203.10.76.2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 746B415FE8
-        for <linux-usb@vger.kernel.org>; Wed, 29 Jun 2022 06:41:44 -0700 (PDT)
-Received: from pasta.tip.net.au (pasta.tip.net.au [203.10.76.2])
-        by mailhost.tip.net.au (Postfix) with ESMTP id 4LY2Tw6w20z9QgT
-        for <linux-usb@vger.kernel.org>; Wed, 29 Jun 2022 23:33:24 +1000 (AEST)
-Received: from [192.168.122.14] (unknown [121.45.58.108])
+        with ESMTP id S229982AbiF2OVz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jun 2022 10:21:55 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DC741C922;
+        Wed, 29 Jun 2022 07:21:54 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by pasta.tip.net.au (Postfix) with ESMTPSA id 4LY2Tw6ShBz9Qfw
-        for <linux-usb@vger.kernel.org>; Wed, 29 Jun 2022 23:33:24 +1000 (AEST)
-Message-ID: <a1ac4690-4d46-4461-a90f-dfa4777dbf54@eyal.emu.id.au>
-Date:   Wed, 29 Jun 2022 23:33:12 +1000
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 0DD131F8B4;
+        Wed, 29 Jun 2022 14:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1656512513; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=aOG9X1b4Ob32haIWwZ2IslSJ0NRUu/DTnEGsmTzdgcg=;
+        b=I4IEOOV4hor01P3bk8KCMmAeWp34J9OTzcGqqy6G/k8nXx8H4htcDboJWSw4BzCrMRUVBP
+        2f7qLRAJPAdfSK5BiSKoSTOqRfo8djeqoejy9RzC41rAhObdcoz7PnlfVl3J4sVq0r0ua/
+        Ypj8KMrGlvTMjEhO5STMRPeQdbKGLl8=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C5F90133D1;
+        Wed, 29 Jun 2022 14:21:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id UX7VLQBgvGJ6BwAAMHmgww
+        (envelope-from <oneukum@suse.com>); Wed, 29 Jun 2022 14:21:52 +0000
+From:   Oliver Neukum <oneukum@suse.com>
+To:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Cc:     Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH] usbnet: use each random address only once
+Date:   Wed, 29 Jun 2022 16:21:49 +0200
+Message-Id: <20220629142149.1298-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-To:     linux-usb@vger.kernel.org
-Content-Language: en-US
-From:   Eyal Lebedinsky <eyal@eyal.emu.id.au>
-Subject: SATA/USB caddy - wrong device size reported
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-I do not know if this is a USB thing (but I think so) or an IDE/SATA issue.
+Even random MACs should be unique to a device.
+Get a new one each time it is used.
 
-I was reading (dd) a few disks and used two different mounts, one is a direct SATA cable, the other uses
-a UDB caddy.
+This bug is as old as the driver.
 
-When I later attempted to loop mount the (dd) images some have failed. The system log show
-	bad geometry: block count 488378390 exceeds size of device (488378389 blocks)
-And sure enough, fdisk shows the device as 4 sectors too short for the partition:
-	Disk set-68-disk-23.dd: 1.82 TiB, 2000398931968 bytes, 3907029164 sectors
-                                                                ^^^^^^^^^^
-	Units: sectors of 1 * 512 = 512 bytes
-	Sector size (logical/physical): 512 bytes / 512 bytes
-	I/O size (minimum/optimal): 512 bytes / 512 bytes
-	Disklabel type: dos
-	Disk identifier: 0xb2c564a3
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+---
+ drivers/net/usb/usbnet.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-	Device             Boot Start        End    Sectors  Size Id Type
-	set-68-disk-23.dd1       2048 3907029167 3907027120  1.8T 83 Linux
-                                       ^^^^^^^^^^
-This image was copied from the USB caddy. Plugging the disk directly (via SATA cable) I get a good geometry:
-	Disk /dev/sdj: 1.82 TiB, 2000398934016 bytes, 3907029168 sectors
-                                                       ^^^^^^^^^^
-
-This is a worry, looks like the caddy cannot be trusted.
-
-I looked and the other copies I made today and it seems that the last 4 sectors are always lost, and the partition end
-is beyond the device size. However the mount usually succeeds because the fs does not use the full partition
-due to the 4k block size.
-
-Is this a known/common issue? Is this a problem with the caddy?
-
-I never noticed this before and would rather dump the caddy if it is at fault.
-
-TIA
-
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index 02b915b1e142..a90aece93f4a 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -1797,8 +1797,11 @@ usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
+ 	}
+ 
+ 	/* let userspace know we have a random address */
+-	if (ether_addr_equal(net->dev_addr, node_id))
++	if (ether_addr_equal(net->dev_addr, node_id)) {
+ 		net->addr_assign_type = NET_ADDR_RANDOM;
++		/* next device needs a new one*/
++		eth_random_addr(node_id);
++	}
+ 
+ 	if ((dev->driver_info->flags & FLAG_WLAN) != 0)
+ 		SET_NETDEV_DEVTYPE(net, &wlan_type);
 -- 
-Eyal Lebedinsky (eyal@eyal.emu.id.au)
+2.35.3
+
