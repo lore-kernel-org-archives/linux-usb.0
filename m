@@ -2,134 +2,93 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1335BC433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Jun 2022 10:11:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC602C433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Jun 2022 10:18:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234814AbiF3KLw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Jun 2022 06:11:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49506 "EHLO
+        id S233695AbiF3KSn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Jun 2022 06:18:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234813AbiF3KLu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Jun 2022 06:11:50 -0400
-X-Greylist: delayed 357 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 30 Jun 2022 03:11:48 PDT
-Received: from pasta.tip.net.au (pasta.tip.net.au [IPv6:2401:fc00:0:129::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 875D44477F
-        for <linux-usb@vger.kernel.org>; Thu, 30 Jun 2022 03:11:48 -0700 (PDT)
-Received: from pasta.tip.net.au (pasta.tip.net.au [203.10.76.2])
-        by mailhost.tip.net.au (Postfix) with ESMTP id 4LYYqQ09pRz9Qjf
-        for <linux-usb@vger.kernel.org>; Thu, 30 Jun 2022 20:05:22 +1000 (AEST)
-Received: from [192.168.122.14] (unknown [121.45.58.108])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by pasta.tip.net.au (Postfix) with ESMTPSA id 4LYYqP6P8kz9Qjc
-        for <linux-usb@vger.kernel.org>; Thu, 30 Jun 2022 20:05:21 +1000 (AEST)
-Message-ID: <fcb5ad8f-1a62-566b-0c3e-9f79066ec7af@eyal.emu.id.au>
-Date:   Thu, 30 Jun 2022 20:05:21 +1000
+        with ESMTP id S230341AbiF3KSm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Jun 2022 06:18:42 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59C1A11473;
+        Thu, 30 Jun 2022 03:18:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656584321; x=1688120321;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kPmwEBc1KMTjojvqHZLvMTlSrK6OdbuwU9EWM04xHY4=;
+  b=W3daoP71+atQEBfLPS/6JWnzcCiDeTsDtduxGmwEQk3Gzx/wxJtZo0SK
+   unJVSGq3opZ6wnaMScZSgEY8p/Fyhh/6KRMxA7I4hJHevgbF2UJlyKCaL
+   SQIi4gFHm+g+vnmGGIHSE5V6KCbhmDkwI7ybLIOjSZjPFBrPdk+eie8Bb
+   K+IaNYBAHt2isFdW1qkFbMECiIKtXpvwsCgCkkAuWZkNww8xbqUN2XlSV
+   C1Z9oqUqrlcmEbPlaLmVeKqgcJSCXrog6ZZ7evUYH66dRRX/yb9LRBvuA
+   Ah2MtwL+QIJlKIQFDCCqpSqad+kgHDc2ilb43LBA1uunkNyIdiy0OChYz
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="279854332"
+X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; 
+   d="scan'208";a="279854332"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 03:18:41 -0700
+X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; 
+   d="scan'208";a="541279538"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 03:18:36 -0700
+Received: by lahna (sSMTP sendmail emulation); Thu, 30 Jun 2022 13:18:33 +0300
+Date:   Thu, 30 Jun 2022 13:18:33 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Prashant Malani <pmalani@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        chrome-platform@lists.linux.dev, bleung@chromium.org,
+        Daisuke Nojiri <dnojiri@chromium.org>,
+        "Dustin L. Howett" <dustin@howett.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH 1/9] usb: typec: Add support for retimers
+Message-ID: <Yr14eZexhvvrWrOS@lahna>
+References: <20220629233314.3540377-1-pmalani@chromium.org>
+ <20220629233314.3540377-2-pmalani@chromium.org>
+ <Yr1cN1I14BR6rN3U@kuha.fi.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: SATA/USB caddy - wrong device size reported
-Content-Language: en-US
-To:     list linux-usb <linux-usb@vger.kernel.org>
-References: <a1ac4690-4d46-4461-a90f-dfa4777dbf54@eyal.emu.id.au>
- <YrxiF/uE0/0Kw7rJ@rowland.harvard.edu>
- <ae3ccebe-79ef-5dda-ae35-b753869a8822@suse.com>
-From:   Eyal Lebedinsky <eyal@eyal.emu.id.au>
-In-Reply-To: <ae3ccebe-79ef-5dda-ae35-b753869a8822@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yr1cN1I14BR6rN3U@kuha.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
-
-On 30/06/2022 18.55, Oliver Neukum wrote:
+On Thu, Jun 30, 2022 at 11:17:59AM +0300, Heikki Krogerus wrote:
+> On Wed, Jun 29, 2022 at 11:32:19PM +0000, Prashant Malani wrote:
+> > Introduce a retimer device class and associated functions that register
+> > and use retimer "switch" devices. These operate in a manner similar to
+> > the "mode-switch" and help configure retimers that exist between the
+> > Type-C connector and host controller(s).
+> > 
+> > Type C ports can be linked to retimers using firmware node device
+> > references (again, in a manner similar to "mode-switch").
+> > 
+> > Signed-off-by: Prashant Malani <pmalani@chromium.org>
 > 
+> Cool! This looks really good to me.
 > 
-> On 29.06.22 16:30, Alan Stern wrote:
+> I'll add Mika here, just to keep him in the loop. Thunderbolt/USB4 can
+> control the same physical retimers over the SBU line. Right now there
+> is no conflict, but I think we want to later be able to use these
+> devices to upgrade the retimer firmware, and that is something that
+> the Thunderbolt/USB4 already does. So let's keep an eye on this.
 > 
->> Historically the problem goes the other way: Lots of devices used to
->> report a total size that was one logical block _larger_ than their
->> actual capacity.  This was caused by the firmware authors
->> misunderstanding the READ CAPACITY command, which is supposed to return
->> the block number of the last logical block -- but instead they would
->> return the total number of logical blocks, which is one higher (since
->> the first block is number 0).
->>
->> Nowadays most devices seem to sorted this out.  It looks like you found
->> one that makes the opposite mistake: The value it reports is one less
->> than the last block number.
->>
->> It is definitely a bug in the caddy.  On the other hand, this bug
->> probably doesn't affect the rest of the caddy's operations.
-> 
-> Or alternatively, the caddy is marked as quirky by mistake.
-> In that case we need the descriptors of your device to compare it
-> to the list of quirky devices. Could you provide "lsusb -v"?
+> I wonder, would it make sense to later make the thunderbolt_retimer
+> devices also part of the device class that's introduced here? I think
+> that way it would be easier to later figure out which
+> thunderbolt_retimer and which retimer_switch represent the same
+> physical retimer. And perhaps it would also be more clear for the user
+> space to have a single device class for the retimers?
 
-Bus 002 Device 030: ID 0bc2:3330 Seagate RSS LLC Raptor 3.5" USB 3.0
-Device Descriptor:
-   bLength                18
-   bDescriptorType         1
-   bcdUSB               3.00
-   bDeviceClass            0
-   bDeviceSubClass         0
-   bDeviceProtocol         0
-   bMaxPacketSize0         9
-   idVendor           0x0bc2 Seagate RSS LLC
-   idProduct          0x3330
-   bcdDevice            0.16
-   iManufacturer           1 Seagate
-   iProduct                2 Raptor 3.5" USB 3.0
-   iSerial                 3 2HC015KJ
-   bNumConfigurations      1
-   Configuration Descriptor:
-     bLength                 9
-     bDescriptorType         2
-     wTotalLength       0x002c
-     bNumInterfaces          1
-     bConfigurationValue     1
-     iConfiguration          0
-     bmAttributes         0xc0
-       Self Powered
-     MaxPower               96mA
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        0
-       bAlternateSetting       0
-       bNumEndpoints           2
-       bInterfaceClass         8 Mass Storage
-       bInterfaceSubClass      6 SCSI
-       bInterfaceProtocol     80 Bulk-Only
-       iInterface              0
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x81  EP 1 IN
-         bmAttributes            2
-           Transfer Type            Bulk
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0400  1x 1024 bytes
-         bInterval               0
-         bMaxBurst              15
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x02  EP 2 OUT
-         bmAttributes            2
-           Transfer Type            Bulk
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0400  1x 1024 bytes
-         bInterval               0
-         bMaxBurst              15
-
-> 	Regards
-> 		Oliver
-
--- 
-Eyal Lebedinsky (eyal@eyal.emu.id.au)
+I agree this makes sense.
