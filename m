@@ -2,137 +2,80 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42E1DCCA47B
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Jun 2022 09:56:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C226BCCA47B
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Jun 2022 10:08:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233935AbiF3J4W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Jun 2022 05:56:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58164 "EHLO
+        id S234767AbiF3KIg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Jun 2022 06:08:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232776AbiF3J4V (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Jun 2022 05:56:21 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23797366AC;
-        Thu, 30 Jun 2022 02:56:21 -0700 (PDT)
+        with ESMTP id S232829AbiF3KIb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Jun 2022 06:08:31 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 924A510551;
+        Thu, 30 Jun 2022 03:08:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656582981; x=1688118981;
-  h=message-id:date:mime-version:to:cc:references:from:
-   subject:in-reply-to:content-transfer-encoding;
-  bh=CHD3dptFN/arpsZ+SxMW13WySF1j6NyJGYBigahJd1I=;
-  b=RizkZqoD/wB9Xl7MJl9NIfpAZk9uz18R5I5Ubbl7Kpj6TN62WmDa+JIn
-   M7IHEi1je/lgPKwdTlImHzPiOE9CmzR24kgGcgzCautBj/BYVw3/pphmt
-   oSysC+xdctLlfllrh+LiIMv6MXL216/DDS2mTx5XCqeeNdxbWqK06g2lY
-   r8d+tf3RG5Luvbd0sX8pS5QcNdgJF+NFNsrrZfBB2a41+Qhv0rA0S4cf0
-   LV5mcJTpZtNMv1DRH8opNtFcUIPm11YCQH+FyuUrD/VPBHFvkBi16x5fu
-   hr+D1O/3MMZmJUkk/EUjjfXVGu4MwE2UYh9VBDgSaw+chnB2zGP4DTGLi
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="368619627"
+  t=1656583710; x=1688119710;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=WznRl6xaiipvfWJGGB8hMSubUdFubuJ4I3rc1anmHEo=;
+  b=ZGgAatgzxat+ZrsZmcLJW2j+prY15FR9VwynbdfYcLpLXGRG3CqXEitd
+   lnVsupoL1mQKCI3MLbxiJoPgdSO5jwpzHxsXFi+g3/iyQMVyyUN4CLfdG
+   k6Et13+awYZtJBu5lHIRVODvPz6Ve0YqX1y8w1iFD/5DQ53wIhrrUUEC6
+   t8VMpfgArhbJasTL+vVbIwj3YXBaBbztvJsAd3j8YE3BKGh5L16inJcao
+   eQbNXZrwLHoATwRfiTV9SsSvfNYGh887FhgEH45XqSi5mwuMFD9LMBRgz
+   MPw+qhifL12PjV8AIFPMOdcLhLIR9yhWcdvNCgLTL9r43UCyJKwYYUYbK
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="283041434"
 X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; 
-   d="scan'208";a="368619627"
+   d="scan'208";a="283041434"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 02:56:20 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 03:08:29 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; 
-   d="scan'208";a="837545374"
+   d="scan'208";a="837549037"
 Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Jun 2022 02:56:19 -0700
-Message-ID: <bcf4d8db-317f-f0c9-0e9e-5edf25e0c7e8@linux.intel.com>
-Date:   Thu, 30 Jun 2022 12:57:51 +0300
+  by fmsmga006.fm.intel.com with ESMTP; 30 Jun 2022 03:08:10 -0700
+Message-ID: <c676e655-bdc8-5930-7516-86be21ae7320@linux.intel.com>
+Date:   Thu, 30 Jun 2022 13:09:42 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Firefox/91.0 Thunderbird/91.8.1
+Subject: Re: [PATCH] usb: host: xhci: Fix potential memory leak in
+ xhci_alloc_stream_info()
 Content-Language: en-US
 To:     Jianglei Nie <niejianglei2021@163.com>, mathias.nyman@intel.com,
         gregkh@linuxfoundation.org
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20220630011008.2167298-1-niejianglei2021@163.com>
+ <bcf4d8db-317f-f0c9-0e9e-5edf25e0c7e8@linux.intel.com>
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH] usb: host: xhci: Fix potential memory leak in
- xhci_alloc_stream_info()
-In-Reply-To: <20220630011008.2167298-1-niejianglei2021@163.com>
+In-Reply-To: <bcf4d8db-317f-f0c9-0e9e-5edf25e0c7e8@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 30.6.2022 4.10, Jianglei Nie wrote:
-> xhci_alloc_stream_info() allocates stream context array for stream_info
-> ->stream_ctx_array with xhci_alloc_stream_ctx(). When some error occurs,
-> stream_info->stream_ctx_array is not released, which will lead to a
-> memory leak.
-
-Nice catch, thanks
-
 > 
-> We can fix it by releasing the stream_info->stream_ctx_array with
-> xhci_free_stream_ctx() on the error path to avoid the potential memory
-> leak.
-> 
-
-Looks like the goto labels were a bit messed up from the beginning.
-There are a couple "goto cleanup_ctx" lines in the code, but
-cleanup_ctx never freed the ctx.
-
-> Signed-off-by: Jianglei Nie <niejianglei2021@163.com>
-> ---
->   drivers/usb/host/xhci-mem.c | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
+> How about:
 > 
 > diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-> index 8c19e151a945..a71d3a873467 100644
+> index 8c19e151a945..f7cac1af51c5 100644
 > --- a/drivers/usb/host/xhci-mem.c
 > +++ b/drivers/usb/host/xhci-mem.c
-> @@ -648,8 +648,13 @@ struct xhci_stream_info *xhci_alloc_stream_info(struct xhci_hcd *xhci,
->   	/* Allocate everything needed to free the stream rings later */
->   	stream_info->free_streams_command =
->   		xhci_alloc_command_with_ctx(xhci, true, mem_flags);
-> -	if (!stream_info->free_streams_command)
-> +	if (!stream_info->free_streams_command) {
-> +		xhci_free_stream_ctx(xhci,
-> +			stream_info->num_stream_ctxs,
-> +			stream_info->stream_ctx_array,
-> +			stream_info->ctx_array_dma);
->   		goto cleanup_ctx;
-> +	}
->   
->   	INIT_RADIX_TREE(&stream_info->trb_address_map, GFP_ATOMIC);
->   
-> @@ -700,6 +705,10 @@ struct xhci_stream_info *xhci_alloc_stream_info(struct xhci_hcd *xhci,
->   			stream_info->stream_rings[cur_stream] = NULL;
->   		}
->   	}
-> +	xhci_free_stream_ctx(xhci,
-> +			stream_info->num_stream_ctxs,
-> +			stream_info->stream_ctx_array,
-> +			stream_info->ctx_array_dma);
->   	xhci_free_command(xhci, stream_info->free_streams_command);
->   cleanup_ctx:
->   	kfree(stream_info->stream_rings);
+> @@ -641,7 +641,7 @@ struct xhci_stream_info *xhci_alloc_stream_info(struct xhci_hcd *xhci,
+>                          num_stream_ctxs, &stream_info->ctx_array_dma,
+>                          mem_flags);
+>          if (!stream_info->stream_ctx_array)
+> -               goto cleanup_ctx;
+> +               goto cleanup_rings;
 
-How about:
+Small sidenote, "cleanup_rings" label was already in use, so maybe something like
+"cleanup_ring_array" could be used
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 8c19e151a945..f7cac1af51c5 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -641,7 +641,7 @@ struct xhci_stream_info *xhci_alloc_stream_info(struct xhci_hcd *xhci,
-                         num_stream_ctxs, &stream_info->ctx_array_dma,
-                         mem_flags);
-         if (!stream_info->stream_ctx_array)
--               goto cleanup_ctx;
-+               goto cleanup_rings;
-         memset(stream_info->stream_ctx_array, 0,
-                         sizeof(struct xhci_stream_ctx)*num_stream_ctxs);
-  
-@@ -702,6 +702,10 @@ struct xhci_stream_info *xhci_alloc_stream_info(struct xhci_hcd *xhci,
-         }
-         xhci_free_command(xhci, stream_info->free_streams_command);
-  cleanup_ctx:
-+       xhci_free_stream_ctx(xhci, stream_info->num_stream_ctxs,
-+                            stream_info->stream_ctx_array,
-+                            stream_info->ctx_array_dma);
-+cleanup_rings:
-         kfree(stream_info->stream_rings);
-  cleanup_info:
+Thanks
+-Mathias
+
+
