@@ -2,109 +2,113 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B69DBC433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Jun 2022 23:15:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82BC8C433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Jun 2022 23:21:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232509AbiF3XPy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Jun 2022 19:15:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37618 "EHLO
+        id S231455AbiF3XVu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Jun 2022 19:21:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232498AbiF3XPw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Jun 2022 19:15:52 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 105C61E3DC
-        for <linux-usb@vger.kernel.org>; Thu, 30 Jun 2022 16:15:47 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id r18so796646edb.9
-        for <linux-usb@vger.kernel.org>; Thu, 30 Jun 2022 16:15:47 -0700 (PDT)
+        with ESMTP id S230199AbiF3XVt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Jun 2022 19:21:49 -0400
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9290C41610
+        for <linux-usb@vger.kernel.org>; Thu, 30 Jun 2022 16:21:41 -0700 (PDT)
+Received: by mail-ot1-x32b.google.com with SMTP id l9-20020a056830268900b006054381dd35so575587otu.4
+        for <linux-usb@vger.kernel.org>; Thu, 30 Jun 2022 16:21:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SWJlfnOUvt/FFKbUgKl5hHMb12qmVk1doHERyZfesTg=;
-        b=Wn+P6bik2DjG8VTAjP17LBoHzLWqHSFvUMIQbK+3Uny2jIXyxPR0eFPIGOGrzNwMtB
-         PAkulFML0VeMMt7xAv/O9qGy3I49Rc4Omb5bXscaWalVPes1iOEFJP2+gkxUtmVmSOP2
-         zg36Q/CMHN4JD0aaRUSYAEmDlrr2+k44vFPKo=
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=kUR5Qxlkv2VG+1nVFyFj0M5xEGNTEOVvRQq3OJdVQgs=;
+        b=PSntTRcqPoByfC6Hz4lzpHn3LJzLyjZ6J9v2Gw/9CwqDwUG5K5pYjyGKE60IUpqemz
+         csOfaY/EhvtPQSCBjmwtt0xkC+vziMex47gWhtn8+LjQKq3z+dOARW9sQ4F9QC0LZsCz
+         vX8ShPn0VqsbDj01CzXSySigIXkRcShlNs8jk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SWJlfnOUvt/FFKbUgKl5hHMb12qmVk1doHERyZfesTg=;
-        b=dkMBMbkff7rFyEsCOmALzd917an/mxil9lINFX8UpHT2xsSspM2Rb7oAb65ymwC2fU
-         ZR1MJfN2I/uO325gz6+4cbkIP470LQNK1fYaiko7UNY6PeD+yNJFJRw9FUJhZDWDhUmX
-         wcyBcgJite9anqtdaLRZ3HyxSDR3I7qDS1UAAHDCrpkgKp/uKW9tTCqzqz866oDVJThV
-         xAcXR+YVsjyv9wlPHrNY5Dsrk+kMYA9FLAs0WsVInJmquC2yOuD/vAVEopF1K+tRmQD8
-         toH7zwHjp8y70NEtyrnhk4zMRa9iB/sq1E8bqqyg4sHkQtgyM88c6FNmfMlu6vUdUYKG
-         XwkA==
-X-Gm-Message-State: AJIora9i3gP3WEVwaSKkq2Ljmxn8ydY6CYOKwQ028AYyTyTmA3B/Gch8
-        SUMhl+WDGb7Toh2940D9R6B1g9+7QhZn0j3MS5c=
-X-Google-Smtp-Source: AGRyM1u/4M0b3vzLBvqozU+R1pzM5orNnWhlSJjcmiN5H7TmubO0v1jhdIJgzE+m6Rv4yvI+QrqlMg==
-X-Received: by 2002:a05:6402:2741:b0:434:fe8a:1f96 with SMTP id z1-20020a056402274100b00434fe8a1f96mr15105269edd.331.1656630946300;
-        Thu, 30 Jun 2022 16:15:46 -0700 (PDT)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by smtp.gmail.com with ESMTPSA id i13-20020a1709061e4d00b006fef51aa566sm9640564ejj.2.2022.06.30.16.15.43
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jun 2022 16:15:44 -0700 (PDT)
-Received: by mail-wm1-f46.google.com with SMTP id l68so241942wml.3
-        for <linux-usb@vger.kernel.org>; Thu, 30 Jun 2022 16:15:43 -0700 (PDT)
-X-Received: by 2002:a05:600c:5107:b0:3a0:4342:ed75 with SMTP id
- o7-20020a05600c510700b003a04342ed75mr12367143wms.93.1656630943574; Thu, 30
- Jun 2022 16:15:43 -0700 (PDT)
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=kUR5Qxlkv2VG+1nVFyFj0M5xEGNTEOVvRQq3OJdVQgs=;
+        b=uEvZ7ss7hxQPOes5b/pRgcp8yIOIGTu6c0I4IWiOOhTw9EgXdzHUB/owYOPDnA8pXE
+         SYQ7scboPJ196gIHall+c8ltLTUqtuARcNGF75DOFKR8GOO7Rd2MieGLxL8AZbZryNLM
+         NjVV29WS+JOrQyIrBOC5rOcvue2OmKC9N9mDIGvVtMaNeFoU5Le7H4W84Ubmbhrktj+s
+         A+LPEE1n8TtvnOw5UGSelJbE/UzqUduLeeNDlBrqJmcWIYMT/IjAZ6V5cxwEeoQEb4wR
+         syH2sNCW7gtQY2oZBybY6jqjMGwvDwhbsZrx2gcnLzOrQFJF+IYZXsWAa07sjdK2ab5Y
+         JCmg==
+X-Gm-Message-State: AJIora9nQXnp4+cagM9JI2E3Sl+52c21/pMJtkhjNReKk50CQtot84s2
+        eBczPBdDEOJFZRzC+3jkZwUqidIwlQJs88k2Q8WTTw==
+X-Google-Smtp-Source: AGRyM1vqO13MJJ6cDRR/NbBgbmt0dA/vGMSsOaDTCVXU7xFDY+OyANJR8RR8KiHUFljvGHszFB+vN6QObK5feiOxPBY=
+X-Received: by 2002:a9d:6484:0:b0:60b:eb0b:4054 with SMTP id
+ g4-20020a9d6484000000b0060beb0b4054mr5246393otl.159.1656631300928; Thu, 30
+ Jun 2022 16:21:40 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 30 Jun 2022 16:21:40 -0700
 MIME-Version: 1.0
-References: <20220630193530.2608178-1-mka@chromium.org> <20220630123445.v24.2.Ie2bbbd3f690826404b8f1059d24edcab33ed898f@changeid>
-In-Reply-To: <20220630123445.v24.2.Ie2bbbd3f690826404b8f1059d24edcab33ed898f@changeid>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 30 Jun 2022 16:15:30 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xj3ejpZ4y3D9gip=rr2jKx9bA1jJWtHVaKv9TYZdQ2BA@mail.gmail.com>
-Message-ID: <CAD=FV=Xj3ejpZ4y3D9gip=rr2jKx9bA1jJWtHVaKv9TYZdQ2BA@mail.gmail.com>
-Subject: Re: [PATCH v24 2/4] dt-bindings: usb: rts5411: Rename property
- 'companion-hub' to 'peer-hub'
-To:     Matthias Kaehlcke <mka@chromium.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
+In-Reply-To: <CACeCKafzB0wW_B2TOEWywLMyB+UhYCpXYDVBV=UbyxBiGnv1Rw@mail.gmail.com>
+References: <20220622173605.1168416-1-pmalani@chromium.org>
+ <20220622173605.1168416-6-pmalani@chromium.org> <CAE-0n517BB8YbN5AZG6M3ZrZGOJDV=+t0R9d8wD+gVqO1aD1Xg@mail.gmail.com>
+ <CACeCKafR8hFke_tc2=1VGDNF-CFrZoAG1aUKuxGJG-6pd37hbg@mail.gmail.com>
+ <CAE-0n50XbO5Wu4-429Ao05A4QrbSXoi1wBjTpGFjKm3pZj1Ybg@mail.gmail.com> <CACeCKafzB0wW_B2TOEWywLMyB+UhYCpXYDVBV=UbyxBiGnv1Rw@mail.gmail.com>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date:   Thu, 30 Jun 2022 16:21:40 -0700
+Message-ID: <CAE-0n50Akd8QikGhaAQgxLkJBhE-7KQf5aJ_P2ajOmCjLk555g@mail.gmail.com>
+Subject: Re: [PATCH v5 5/9] drm/bridge: anx7625: Add typec_mux_set callback function
+To:     Prashant Malani <pmalani@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        bleung@chromium.org, heikki.krogerus@linux.intel.com,
+        Pin-Yen Lin <treapking@chromium.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= 
+        <nfraprado@collabora.com>, Allen Chen <allen.chen@ite.com.tw>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        Roger Quadros <rogerq@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Peter Chen <peter.chen@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+        Sam Ravnborg <sam@ravnborg.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Xin Ji <xji@analogixsemi.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Quoting Prashant Malani (2022-06-28 13:56:22)
+> On Tue, Jun 28, 2022 at 1:40 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> >
+> > I suppose none of those things matter though as long as there is some
+> > typec switch registered here so that the driver can be informed of the
+> > pin assignment. Is it right that the "mode-switch" property is only
+> > required in DT if this device is going to control the mode of the
+> > connector, i.e. USB+DP, or just DP? Where this device can't do that
+> > because it doesn't support only DP.
+>
+> If the anx7625 is used just to route all lanes from 1 usb-c-connector (i.e
+> the USB+DP case), a mode-switch wouldn't be of much use, since one
+> would also route the CC lines to the built-in PD controller; so it will
+> already have knowledge of what mode the switch is in.
+>
+> The mode-switch is likely only relevant for this hardware configuration(
+> it's "DP only" in the sense that the USB pins to the SoC never go anywhere).
+> One only has 2 SS lanes each (from each usb-c-connector).
+>
+> Since there is no CC-line, the anx7625 needs to know which one has DP
+> enabled on it.
 
-On Thu, Jun 30, 2022 at 12:35 PM Matthias Kaehlcke <mka@chromium.org> wrote:
->
-> In the context of USB the term 'companion-hub' is misleading, change the
-> name of the property to 'peer-hub'.
->
-> There are no upstream users of the 'companion-hub' property, neither in
-> the device tree, nor on the driver side, so renaming it shouldn't cause
-> any compatibility issues with existing device trees.
->
-> Changes in v24:
-> - patch added to the series
->
-> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-> ---
->
-> (no changes since v1)
->
->  .../devicetree/bindings/usb/realtek,rts5411.yaml       | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-
-Matches what Alan said...
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Can the CC line be "captured" and not actually sent to the anx7625? I
+imagine if that is possible, maybe the CC lines would go to some
+micro-controller or something that did more typec management things and
+then the anx7625 driver would need to do software control of the mode
+and orientation control.
