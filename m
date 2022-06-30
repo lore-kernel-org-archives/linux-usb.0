@@ -2,66 +2,127 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DFE0C433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Jun 2022 06:54:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65F82C43334
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Jun 2022 07:15:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232852AbiF3Gyh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Jun 2022 02:54:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54938 "EHLO
+        id S232705AbiF3HPl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Jun 2022 03:15:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbiF3Gyg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Jun 2022 02:54:36 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A50E21822;
-        Wed, 29 Jun 2022 23:54:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9EE3EB82604;
-        Thu, 30 Jun 2022 06:54:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CD44C34115;
-        Thu, 30 Jun 2022 06:54:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1656572073;
-        bh=Oc83V9rZVapugamHQO61OIkhuj92VI3JWG+xP2f66GM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1OvESiIreK8McHhAazCMjlaRve/btiMWa1cCLYV3LBwK4wT2EA1thwJ+YPOX7HAws
-         J5Px8R/MROEDDFlp0zwUdczannrmtN41HFzoKB9SnPjddey/1DImW046/EOq6dxUpm
-         cOUq+lScrvqeQV+oYn4E3CI7t0cPlzTm0F4Vgwrw=
-Date:   Thu, 30 Jun 2022 08:54:30 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jianglei Nie <niejianglei2021@163.com>
-Cc:     pawell@cadence.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: cdnsp: Fix potential memory leak in
- cdnsp_alloc_stream_info()
-Message-ID: <Yr1IpjRbxNpvpGbR@kroah.com>
-References: <20220630005148.2166473-1-niejianglei2021@163.com>
+        with ESMTP id S232869AbiF3HPg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Jun 2022 03:15:36 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A189437A00
+        for <linux-usb@vger.kernel.org>; Thu, 30 Jun 2022 00:15:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656573335; x=1688109335;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9910xnaC0XINagdf1P0L4UZclm4fJRN2tdXxJnvKKec=;
+  b=nIHgEQ4qt/wT3agDaz9dWNDxg3/uCUHdcipa+wsvXHii9htk10y3ATjG
+   xLA4nRCVolkBy4YaoeC8KCL+UUUCpc+4bkkPKRAlQsDVl6WtidTyJprLp
+   Pgm8mVdrbwc5lmq1zPRKQLUQPofx5A0i2xWfZLYHip4KL6psaEBDg8R3U
+   jo3DpVLsn3qQbWSPCUVV4UVnTuw8idn6DfgdoYZvFZuRfBllxuYUFs6Rf
+   q6WIldqQvtXDRgpVpGl5lyMFoKMfpce6UsbgbmEVfl9akcj1UJMTkdnWX
+   8cTpvo8KdfC04JRnQjfHT4G8CPQ/5S3ToBVa4iWihuS+HnPdul2bmCxXe
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="282301593"
+X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; 
+   d="scan'208";a="282301593"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 00:15:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; 
+   d="scan'208";a="837487331"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 30 Jun 2022 00:15:34 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o6oOj-000CNY-PS;
+        Thu, 30 Jun 2022 07:15:33 +0000
+Date:   Thu, 30 Jun 2022 15:15:19 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-linus] BUILD SUCCESS
+ 5812175389e258141c5e9f8eadc1ed226f67bc11
+Message-ID: <62bd4d87.KxsGGjOJQ2zdHVi/%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220630005148.2166473-1-niejianglei2021@163.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jun 30, 2022 at 08:51:48AM +0800, Jianglei Nie wrote:
-> cdnsp_alloc_stream_info() allocates stream context array for stream_info
-> ->stream_ctx_array with cdnsp_alloc_stream_ctx(). When some error occurs,
-> stream_info->stream_ctx_array is not released, which will lead to a
-> memory leak.
-> 
-> We can fix it by releasing the stream_info->stream_ctx_array with
-> cdnsp_free_stream_ctx() on the error path to avoid the potential memory
-> leak.
-> 
-> Signed-off-by: Jianglei Nie <niejianglei2021@163.com>
-> ---
->  drivers/usb/cdns3/cdnsp-mem.c | 1 +
->  1 file changed, 1 insertion(+)
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+branch HEAD: 5812175389e258141c5e9f8eadc1ed226f67bc11  usb: dwc3-am62: remove unnecesary clk_put()
 
-What commit id does this fix?
+elapsed time: 724m
 
-thanks,
+configs tested: 52
+configs skipped: 2
 
-greg k-h
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm                              allyesconfig
+arm64                            allyesconfig
+ia64                             allmodconfig
+m68k                             allyesconfig
+alpha                            allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+sh                               allmodconfig
+i386                                defconfig
+i386                             allyesconfig
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+arc                  randconfig-r043-20220629
+s390                 randconfig-r044-20220629
+riscv                randconfig-r042-20220629
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                           allyesconfig
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+x86_64                           rhel-8.3-syz
+x86_64                          rhel-8.3-func
+
+clang tested configs:
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+hexagon              randconfig-r045-20220629
+hexagon              randconfig-r041-20220629
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
