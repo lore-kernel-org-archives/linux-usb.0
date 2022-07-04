@@ -2,357 +2,100 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50092CCA48F
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Jun 2022 07:41:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB932C43334
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Jul 2022 15:54:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232298AbiF2Hlz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Jun 2022 03:41:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56294 "EHLO
+        id S234036AbiGDPyw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 4 Jul 2022 11:54:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229820AbiF2Hlv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jun 2022 03:41:51 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31F1236B42;
-        Wed, 29 Jun 2022 00:41:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656488510; x=1688024510;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=hRLWAheTUgpMqJ+CTyhb8q72eqCf5jXCD+qdlPmQdX8=;
-  b=V7EsYYr9EIij1ip70+OQMY/gzrh5wyGiKcYp8AWCHb25bOJrQa8ldVVA
-   WjfiGM9RSi7+O2v6aTzjnGFtciC06e+wwz660J8d1fRqDhDUuFa+GCisT
-   rKUaoFvcqeLu972MEnNCCaodyFq5KFw65hrEObpxXK1USTMOqGTNjghk1
-   M6eAb7r6RhwTd49jKSf+itMDaZ5Gu/jHoVMqNBN++BYhLvCzxTurIoN9M
-   /3H0k+pz3CbrRrMwvdgEhSQ7BUW5H6fpDqV6CtG6BHjQGM7QYyLOK833q
-   sD1PkwJUKQH1n3D/+a5t4ubmQSAULxHZs8gKZv4cjGcBr80q05Z6ghIMA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="307444900"
-X-IronPort-AV: E=Sophos;i="5.92,230,1650956400"; 
-   d="scan'208";a="307444900"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 00:41:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,230,1650956400"; 
-   d="scan'208";a="733074160"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 29 Jun 2022 00:40:24 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 29 Jun 2022 10:40:23 +0300
-Date:   Wed, 29 Jun 2022 10:40:23 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Wolfram Sang <wsa@kernel.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Russell King <linux@armlinux.org.uk>,
-        Scott Wood <oss@buserror.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Robin van der Gracht <robin@protonic.nl>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Corey Minyard <minyard@acm.org>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Phong LE <ple@baylibre.com>,
-        Adrien Grassein <adrien.grassein@gmail.com>,
-        Peter Senna Tschudin <peter.senna@gmail.com>,
-        Martin Donnelly <martin.donnelly@ge.com>,
-        Martyn Welch <martyn.welch@collabora.co.uk>,
-        Douglas Anderson <dianders@chromium.org>,
-        Stefan Mavrodiev <stefan@olimex.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Florian Fainelli <f.fainelli@gmail.com>, Broad@vger.kernel.org
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-Message-ID: <YrwB5xPKZmHlXzrC@kuha.fi.intel.com>
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S233764AbiGDPyv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Jul 2022 11:54:51 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4097C9FD4
+        for <linux-usb@vger.kernel.org>; Mon,  4 Jul 2022 08:54:50 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 000CF22602;
+        Mon,  4 Jul 2022 15:54:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1656950089; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4oouX+wWA2m9btGP9XKS/GAKwHVqfBLk2MWQfFuvG0o=;
+        b=l0nmfluRNEHcbMd1Fym25gxuKAqtatE66TaR6y45laOz4ICXssAtysCH+jwdOvbl9atQqA
+        xCbkTOG9BgStldi6QCXDDkOq6TEHKmv91GzIRoRgyoSiloRVgIcdKrWJrmeiuR62iVmj4H
+        yWYUHc333Tyy7DZH+0BpqQdL06f1odw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1656950089;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4oouX+wWA2m9btGP9XKS/GAKwHVqfBLk2MWQfFuvG0o=;
+        b=yez1IjpDLdJfo0k8f/gTp1Whv+dgZq7OBvYDoFe9/33o4f0LPaMRbNcFroOBwSMCzTI/5C
+        urMdYsfsrY7cdzCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B87101342C;
+        Mon,  4 Jul 2022 15:54:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id nI1kK0gNw2JVAgAAMHmgww
+        (envelope-from <jroedel@suse.de>); Mon, 04 Jul 2022 15:54:48 +0000
+Date:   Mon, 4 Jul 2022 17:54:47 +0200
+From:   =?iso-8859-1?Q?J=F6rg_R=F6del?= <jroedel@suse.de>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
+        Robin Murphy <robin.murphy@arm.com>,
+        Jon Grimm <jon.grimm@amd.com>,
+        "Suthikulpanit, Suravee" <suravee.suthikulpanit@amd.com>
+Subject: Re: DMA Faults with XHCI driver
+Message-ID: <YsMNR9KtZVPMNC9Y@suse.de>
+References: <YrXMY0Nd0Yn6XDSN@suse.de>
+ <8917c751-76dc-98d3-83ac-652aa2249b7d@linux.intel.com>
+ <YrqzGpuLdNrbfHL5@suse.de>
+ <cdd5b0b2-cfcd-3c25-6b77-2d20ebfc97c5@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <cdd5b0b2-cfcd-3c25-6b77-2d20ebfc97c5@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 04:03:12PM +0200, Uwe Kleine-König wrote:
-> diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
-> index cd47c3597e19..2a58185fb14c 100644
-> --- a/drivers/usb/typec/hd3ss3220.c
-> +++ b/drivers/usb/typec/hd3ss3220.c
-> @@ -245,14 +245,12 @@ static int hd3ss3220_probe(struct i2c_client *client,
->  	return ret;
->  }
->  
-> -static int hd3ss3220_remove(struct i2c_client *client)
-> +static void hd3ss3220_remove(struct i2c_client *client)
->  {
->  	struct hd3ss3220 *hd3ss3220 = i2c_get_clientdata(client);
->  
->  	typec_unregister_port(hd3ss3220->port);
->  	usb_role_switch_put(hd3ss3220->role_sw);
-> -
-> -	return 0;
->  }
->  
->  static const struct of_device_id dev_ids[] = {
-> diff --git a/drivers/usb/typec/mux/fsa4480.c b/drivers/usb/typec/mux/fsa4480.c
-> index 6184f5367190..d6495e533e58 100644
-> --- a/drivers/usb/typec/mux/fsa4480.c
-> +++ b/drivers/usb/typec/mux/fsa4480.c
-> @@ -181,14 +181,12 @@ static int fsa4480_probe(struct i2c_client *client)
->  	return 0;
->  }
->  
-> -static int fsa4480_remove(struct i2c_client *client)
-> +static void fsa4480_remove(struct i2c_client *client)
->  {
->  	struct fsa4480 *fsa = i2c_get_clientdata(client);
->  
->  	typec_mux_unregister(fsa->mux);
->  	typec_switch_unregister(fsa->sw);
-> -
-> -	return 0;
->  }
->  
->  static const struct i2c_device_id fsa4480_table[] = {
-> diff --git a/drivers/usb/typec/mux/pi3usb30532.c b/drivers/usb/typec/mux/pi3usb30532.c
-> index 6ce9f282594e..1cd388b55c30 100644
-> --- a/drivers/usb/typec/mux/pi3usb30532.c
-> +++ b/drivers/usb/typec/mux/pi3usb30532.c
-> @@ -160,13 +160,12 @@ static int pi3usb30532_probe(struct i2c_client *client)
->  	return 0;
->  }
->  
-> -static int pi3usb30532_remove(struct i2c_client *client)
-> +static void pi3usb30532_remove(struct i2c_client *client)
->  {
->  	struct pi3usb30532 *pi = i2c_get_clientdata(client);
->  
->  	typec_mux_unregister(pi->mux);
->  	typec_switch_unregister(pi->sw);
-> -	return 0;
->  }
->  
->  static const struct i2c_device_id pi3usb30532_table[] = {
-> diff --git a/drivers/usb/typec/rt1719.c b/drivers/usb/typec/rt1719.c
-> index f1b698edd7eb..ea8b700b0ceb 100644
-> --- a/drivers/usb/typec/rt1719.c
-> +++ b/drivers/usb/typec/rt1719.c
-> @@ -930,14 +930,12 @@ static int rt1719_probe(struct i2c_client *i2c)
->  	return ret;
->  }
->  
-> -static int rt1719_remove(struct i2c_client *i2c)
-> +static void rt1719_remove(struct i2c_client *i2c)
->  {
->  	struct rt1719_data *data = i2c_get_clientdata(i2c);
->  
->  	typec_unregister_port(data->port);
->  	usb_role_switch_put(data->role_sw);
-> -
-> -	return 0;
->  }
->  
->  static const struct of_device_id __maybe_unused rt1719_device_table[] = {
-> diff --git a/drivers/usb/typec/stusb160x.c b/drivers/usb/typec/stusb160x.c
-> index e7745d1c2a5c..8638f1d39896 100644
-> --- a/drivers/usb/typec/stusb160x.c
-> +++ b/drivers/usb/typec/stusb160x.c
-> @@ -801,7 +801,7 @@ static int stusb160x_probe(struct i2c_client *client)
->  	return ret;
->  }
->  
-> -static int stusb160x_remove(struct i2c_client *client)
-> +static void stusb160x_remove(struct i2c_client *client)
->  {
->  	struct stusb160x *chip = i2c_get_clientdata(client);
->  
-> @@ -823,8 +823,6 @@ static int stusb160x_remove(struct i2c_client *client)
->  
->  	if (chip->main_supply)
->  		regulator_disable(chip->main_supply);
-> -
-> -	return 0;
->  }
->  
->  static int __maybe_unused stusb160x_suspend(struct device *dev)
-> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
-> index 96c55eaf3f80..5e9348f28d50 100644
-> --- a/drivers/usb/typec/tcpm/fusb302.c
-> +++ b/drivers/usb/typec/tcpm/fusb302.c
-> @@ -1771,7 +1771,7 @@ static int fusb302_probe(struct i2c_client *client,
->  	return ret;
->  }
->  
-> -static int fusb302_remove(struct i2c_client *client)
-> +static void fusb302_remove(struct i2c_client *client)
->  {
->  	struct fusb302_chip *chip = i2c_get_clientdata(client);
->  
-> @@ -1783,8 +1783,6 @@ static int fusb302_remove(struct i2c_client *client)
->  	fwnode_handle_put(chip->tcpc_dev.fwnode);
->  	destroy_workqueue(chip->wq);
->  	fusb302_debugfs_exit(chip);
-> -
-> -	return 0;
->  }
->  
->  static int fusb302_pm_suspend(struct device *dev)
-> diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-> index f33e08eb7670..c48fca60bb06 100644
-> --- a/drivers/usb/typec/tcpm/tcpci.c
-> +++ b/drivers/usb/typec/tcpm/tcpci.c
-> @@ -869,7 +869,7 @@ static int tcpci_probe(struct i2c_client *client,
->  	return 0;
->  }
->  
-> -static int tcpci_remove(struct i2c_client *client)
-> +static void tcpci_remove(struct i2c_client *client)
->  {
->  	struct tcpci_chip *chip = i2c_get_clientdata(client);
->  	int err;
-> @@ -880,8 +880,6 @@ static int tcpci_remove(struct i2c_client *client)
->  		dev_warn(&client->dev, "Failed to disable irqs (%pe)\n", ERR_PTR(err));
->  
->  	tcpci_unregister_port(chip->tcpci);
-> -
-> -	return 0;
->  }
->  
->  static const struct i2c_device_id tcpci_id[] = {
-> diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
-> index df2505570f07..a11be5754128 100644
-> --- a/drivers/usb/typec/tcpm/tcpci_maxim.c
-> +++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
-> @@ -493,14 +493,12 @@ static int max_tcpci_probe(struct i2c_client *client, const struct i2c_device_id
->  	return ret;
->  }
->  
-> -static int max_tcpci_remove(struct i2c_client *client)
-> +static void max_tcpci_remove(struct i2c_client *client)
->  {
->  	struct max_tcpci_chip *chip = i2c_get_clientdata(client);
->  
->  	if (!IS_ERR_OR_NULL(chip->tcpci))
->  		tcpci_unregister_port(chip->tcpci);
-> -
-> -	return 0;
->  }
->  
->  static const struct i2c_device_id max_tcpci_id[] = {
-> diff --git a/drivers/usb/typec/tcpm/tcpci_rt1711h.c b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> index b56a0880a044..9ad4924b4ba7 100644
-> --- a/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> +++ b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> @@ -263,12 +263,11 @@ static int rt1711h_probe(struct i2c_client *client,
->  	return 0;
->  }
->  
-> -static int rt1711h_remove(struct i2c_client *client)
-> +static void rt1711h_remove(struct i2c_client *client)
->  {
->  	struct rt1711h_chip *chip = i2c_get_clientdata(client);
->  
->  	tcpci_unregister_port(chip->tcpci);
-> -	return 0;
->  }
->  
->  static const struct i2c_device_id rt1711h_id[] = {
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index dfbba5ae9487..b637e8b378b3 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -857,15 +857,13 @@ static int tps6598x_probe(struct i2c_client *client)
->  	return ret;
->  }
->  
-> -static int tps6598x_remove(struct i2c_client *client)
-> +static void tps6598x_remove(struct i2c_client *client)
->  {
->  	struct tps6598x *tps = i2c_get_clientdata(client);
->  
->  	tps6598x_disconnect(tps, 0);
->  	typec_unregister_port(tps->port);
->  	usb_role_switch_put(tps->role_sw);
-> -
-> -	return 0;
->  }
->  
->  static const struct of_device_id tps6598x_of_match[] = {
-> diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> index 6db7c8ddd51c..920b7e743f56 100644
-> --- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-> +++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> @@ -1398,7 +1398,7 @@ static int ucsi_ccg_probe(struct i2c_client *client,
->  	return status;
->  }
->  
-> -static int ucsi_ccg_remove(struct i2c_client *client)
-> +static void ucsi_ccg_remove(struct i2c_client *client)
->  {
->  	struct ucsi_ccg *uc = i2c_get_clientdata(client);
->  
-> @@ -1408,8 +1408,6 @@ static int ucsi_ccg_remove(struct i2c_client *client)
->  	ucsi_unregister(uc->ucsi);
->  	ucsi_destroy(uc->ucsi);
->  	free_irq(uc->irq, uc);
-> -
-> -	return 0;
->  }
->  
->  static const struct i2c_device_id ucsi_ccg_device_id[] = {
-> diff --git a/drivers/usb/typec/wusb3801.c b/drivers/usb/typec/wusb3801.c
-> index e63509f8b01e..3cc7a15ecbd3 100644
-> --- a/drivers/usb/typec/wusb3801.c
-> +++ b/drivers/usb/typec/wusb3801.c
-> @@ -399,7 +399,7 @@ static int wusb3801_probe(struct i2c_client *client)
->  	return ret;
->  }
->  
-> -static int wusb3801_remove(struct i2c_client *client)
-> +static void wusb3801_remove(struct i2c_client *client)
->  {
->  	struct wusb3801 *wusb3801 = i2c_get_clientdata(client);
->  
-> @@ -411,8 +411,6 @@ static int wusb3801_remove(struct i2c_client *client)
->  
->  	if (wusb3801->vbus_on)
->  		regulator_disable(wusb3801->vbus_supply);
-> -
-> -	return 0;
->  }
+Hi Mathias,
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+On Wed, Jun 29, 2022 at 05:39:49PM +0300, Mathias Nyman wrote:
+> Anyway, maybe flushing the CRCR register by reading it back after writing it would help:
+
+Thanks for your help and sorry for the delay. I tried the patch but it
+didn't help, the io fault still appears and the device does not work.
+
+I added some more debugging, actually printing the cmd_ring address read
+by the calls you patch adds. Unfortunately they all returned 0, looks
+like the register is write-only RAZ on this hardware.
+
+Is it possible that the device actually can't handle a 64 bit DMA mask
+and needs a smaller one, say 40 bits?
+
+Regards,
 
 -- 
-heikki
+Jörg Rödel
+jroedel@suse.de
+
+SUSE Software Solutions Germany GmbH
+Frankenstraße 146
+90461 Nürnberg
+Germany
+
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+
