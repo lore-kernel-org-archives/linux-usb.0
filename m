@@ -2,40 +2,41 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC6ADC433EF
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Jul 2022 22:48:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D70A6CCA47B
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Jul 2022 22:49:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233040AbiGEWsU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Jul 2022 18:48:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44354 "EHLO
+        id S233249AbiGEWtM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Jul 2022 18:49:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232875AbiGEWsK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Jul 2022 18:48:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 248521A059;
-        Tue,  5 Jul 2022 15:47:53 -0700 (PDT)
+        with ESMTP id S232804AbiGEWsN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Jul 2022 18:48:13 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C57301CB00;
+        Tue,  5 Jul 2022 15:47:59 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A402A61D50;
-        Tue,  5 Jul 2022 22:47:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A48EFC341E5;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 19BB9B81A37;
+        Tue,  5 Jul 2022 22:47:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 650A1C341E3;
         Tue,  5 Jul 2022 22:47:51 +0000 (UTC)
 Received: from rostedt by gandalf.local.home with local (Exim 4.95)
         (envelope-from <rostedt@goodmis.org>)
-        id 1o8rKg-001yLT-MW;
+        id 1o8rKg-001yKv-Gh;
         Tue, 05 Jul 2022 18:47:50 -0400
-Message-ID: <20220705224750.532345354@goodmis.org>
+Message-ID: <20220705224750.354926535@goodmis.org>
 User-Agent: quilt/0.66
-Date:   Tue, 05 Jul 2022 18:45:02 -0400
+Date:   Tue, 05 Jul 2022 18:45:01 -0400
 From:   Steven Rostedt <rostedt@goodmis.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Ingo Molnar <mingo@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Bin Liu <b-liu@ti.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH 09/13] usb: musb: tracing: Use the new __vstring() helper
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH 08/13] USB: mtu3: tracing: Use the new __vstring() helper
 References: <20220705224453.120955146@goodmis.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -50,28 +51,30 @@ defeats the purpose of the dynamic array in the first place). Use the new
 __vstring() helper that will use a va_list and only write enough of the
 string into the ring buffer that is needed.
 
-Cc: Bin Liu <b-liu@ti.com>
+Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mediatek@lists.infradead.org
 Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 ---
- drivers/usb/musb/musb_trace.h | 4 ++--
+ drivers/usb/mtu3/mtu3_trace.h | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/musb/musb_trace.h b/drivers/usb/musb/musb_trace.h
-index ec28b5716796..f246b14394c4 100644
---- a/drivers/usb/musb/musb_trace.h
-+++ b/drivers/usb/musb/musb_trace.h
-@@ -28,11 +28,11 @@ TRACE_EVENT(musb_log,
- 	TP_ARGS(musb, vaf),
+diff --git a/drivers/usb/mtu3/mtu3_trace.h b/drivers/usb/mtu3/mtu3_trace.h
+index 1b897636daf2..57981082a6b1 100644
+--- a/drivers/usb/mtu3/mtu3_trace.h
++++ b/drivers/usb/mtu3/mtu3_trace.h
+@@ -25,11 +25,11 @@ TRACE_EVENT(mtu3_log,
+ 	TP_ARGS(dev, vaf),
  	TP_STRUCT__entry(
- 		__string(name, dev_name(musb->controller))
--		__dynamic_array(char, msg, MUSB_MSG_MAX)
-+		__vstring(msg, vaf->fmt, vaf->va)
+ 		__string(name, dev_name(dev))
+-		__dynamic_array(char, msg, MTU3_MSG_MAX)
++		__vstring(msg, vaf->fmt, vaf->va),
  	),
  	TP_fast_assign(
- 		__assign_str(name, dev_name(musb->controller));
--		vsnprintf(__get_str(msg), MUSB_MSG_MAX, vaf->fmt, *vaf->va);
+ 		__assign_str(name, dev_name(dev));
+-		vsnprintf(__get_str(msg), MTU3_MSG_MAX, vaf->fmt, *vaf->va);
 +		__assign_vstr(msg, vaf->fmt, vaf->va);
  	),
  	TP_printk("%s: %s", __get_str(name), __get_str(msg))
