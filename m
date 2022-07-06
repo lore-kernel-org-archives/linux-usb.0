@@ -2,223 +2,126 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C026BC43334
-	for <linux-usb@archiver.kernel.org>; Wed,  6 Jul 2022 14:16:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9F8EC433EF
+	for <linux-usb@archiver.kernel.org>; Wed,  6 Jul 2022 17:16:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230420AbiGFOQN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 6 Jul 2022 10:16:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43358 "EHLO
+        id S232413AbiGFRQP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 6 Jul 2022 13:16:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229870AbiGFOQM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Jul 2022 10:16:12 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id DB22D1836D
-        for <linux-usb@vger.kernel.org>; Wed,  6 Jul 2022 07:16:10 -0700 (PDT)
-Received: (qmail 395406 invoked by uid 1000); 6 Jul 2022 10:16:10 -0400
-Date:   Wed, 6 Jul 2022 10:16:10 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     clivewi1@btinternet.com
-Cc:     USB mailing list <linux-usb@vger.kernel.org>
-Subject: Re: Problem with USB EHCI Drivers on Linux Kernel 5.18.9
-Message-ID: <YsWZKlOAybseQvB9@rowland.harvard.edu>
-References: <000b01d890f8$d22c7e10$76857a30$@btinternet.com>
+        with ESMTP id S233056AbiGFRQO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Jul 2022 13:16:14 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A1E52A43F
+        for <linux-usb@vger.kernel.org>; Wed,  6 Jul 2022 10:16:13 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id bh13so8567654pgb.4
+        for <linux-usb@vger.kernel.org>; Wed, 06 Jul 2022 10:16:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pWXRp5NIoHyhpRcNJ8PbAa5aXIlOP8l12Bd4AXe9kl8=;
+        b=aqRws9t920RS++2cRfQdhRuZqu/9tP3h3Gm9Q372N5Mb9rqUvb1V6aNHOQHnvsdpF+
+         +rian41fTpmSnWlLJ+kEBQ238DR/gvKkfVdawPUA8zI2YmZRaQPI8IvCp9WnU3RP1u/s
+         IBKR0p0BOh8GiiXuW+hHREqlCSwiRtqxTAEc4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pWXRp5NIoHyhpRcNJ8PbAa5aXIlOP8l12Bd4AXe9kl8=;
+        b=impAuuCUMR/uszXuD25stqI2CoGqzAoiv2QX3QM0wo28PrmX6uCZ8NCS/StRUHaEbG
+         VSV5Aq1mKXZwtIr+80TPzyX4uSJKcaZKjjy8jxX6lauO3twYsWeJH31lBbTj5bG0DA1z
+         WpTDDWkZviOI2cloKlrAfTToMwZpfADpav0HI3TcrzSPyRsGkCDdgG8dyykSoLzpWrzG
+         frqaZjfUwlowmNdjAkC4AKog/eQVp60G3pw2jwwuyQz1VenIUHJM8fP4GtKY4zOW5AIO
+         cQfWpuzaFAR/hQ0102Z91vuo/NGbik+b+N3gfRuMgj19HiJWAKKzpkGIgsLJ21O7A02h
+         EWbQ==
+X-Gm-Message-State: AJIora/P+1bZXCGVBTe07oEs7tll/L0l/RPqWmCau/lu9nqKsE03ZiZF
+        tKBvCNK39FyWuz6DnTKJwRgnbg==
+X-Google-Smtp-Source: AGRyM1tG3SsP+RFG7E3/NDUcbQK96rM/ehX0lO+/jKnmPnExRWXzRxoUIUmY/e4pLxxS4Ckpls1B3g==
+X-Received: by 2002:a63:914a:0:b0:40c:f778:9bf with SMTP id l71-20020a63914a000000b0040cf77809bfmr34337527pge.526.1657127773124;
+        Wed, 06 Jul 2022 10:16:13 -0700 (PDT)
+Received: from pmalani.c.googlers.com.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id h14-20020a170902f7ce00b0016be0d5483asm7514953plw.252.2022.07.06.10.16.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Jul 2022 10:16:12 -0700 (PDT)
+From:   Prashant Malani <pmalani@chromium.org>
+To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        chrome-platform@lists.linux.dev
+Cc:     bleung@chromium.org, heikki.krogerus@linux.intel.com,
+        Prashant Malani <pmalani@chromium.org>,
+        Daisuke Nojiri <dnojiri@chromium.org>,
+        "Dustin L. Howett" <dustin@howett.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: [PATCH v2 0/9] platform/chrome: Type-C switch driver and Type-C framework updates
+Date:   Wed,  6 Jul 2022 17:15:04 +0000
+Message-Id: <20220706171601.807042-1-pmalani@chromium.org>
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <000b01d890f8$d22c7e10$76857a30$@btinternet.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jul 06, 2022 at 06:25:35AM +0100, clivewi1@btinternet.com wrote:
-> 
-> 
-> Dear Alan Stern
-> 
->  
-> 
-> I am emailing you because I couldn’t find where to make a bug report, and it
-> appears you are the maintainer of the kernel driver I believe I am having
-> problems with.
+This series introduces a retimer class to the USB Type-C framework,
+It also introduces a Chrome EC (Embedded Controller) switch driver which
+registers the aforementioned retimer switches as well as mode-switches.
 
-The appropriate place for reporting bugs like this is the 
-<linux-usb@vger.kernel.org> mailing list (CC'ed), as shown near the end 
-of your email.  Be aware that the mailing list does not accept emails 
-that are in HTML format (it wants plain text only) and GIF attachments 
-are frowned upon (especially completely blank ones).
+Patch 1 and 2 introduce the retimer class and associated functions to
+the Type-C common code.
 
-> I would expect that you have had this problem brought to your attention so I
-> am hoping you can help me with a solution.
+Patches 3-7 add the cros-typec-switch driver
 
-Nope, I don't recall hearing about it before.
+Patches 8-9 update cros-ec-typec to get and use retimer switch handles
 
-> I have found that the problem being caused by having my Creative Labs Sound
-> Blaster (SB1240) plugged in when the computer is booted with kernel 5.18.9.
-> 
->  
-> 
-> It appears to be something that has changed within USB ECHI drivers between
-> kernel version 5.10.120, and 5.18.9 in the later version is failing to
-> initialise the USB hubs properly when they have a device plugged into them.
+Submission suggestion (as always, open to better suggestions):
+- Patch 1 and 2 can go through the USB repo.
+- Patch 3-9 can go through the chrome-platform repo. Since they depend
+  on patches 1 and 2, we can create an "topic branch" off of usb-next
+  once Patch 1 and 2 are submitted, and then apply Patches 3-9 on top
+  of that "topic branch" before merging it back into chrome-platform's
+  for-next branch
 
-Actually, the error messages below show that the kernel is failing to 
-initialize the Sound Blaster, not the USB hub.  Device 2-1 is the hub; 
-2-1.1 is the Sound Blaster.
 
-You can try running some kernel versions between 5.10 and 5.18, to pin 
-down exactly where the problem first appeared.  Git bisection will help 
-you do this (there are instructions for it easily available on the web).
+v1: https://lore.kernel.org/linux-usb/20220629233314.3540377-1-pmalani@chromium.org/
 
-Incidentally, guessing where in the kernel an important change occurred 
-is rarely a good idea; such guesses are most often wrong.  For instance, 
-in your case the device having trouble is a Sound Blaster, so why not 
-guess that the change occurred in the USB sound driver?  What makes you 
-think the EHCI driver has anything to do with it?  And even if the 
-problem had been initializing a hub rather than the sound device, why 
-not guess that the problem was in the hub driver?  My point is that the 
-problem could have started in many different places; even an expert 
-would have a hard time telling where to look given only the information 
-in your email.
+Changes since v1:
+- Changed class name and retimer device type name, and fixed
+  retimer reference release issue.
 
-> The following is a list of the USB devices with the drivers from the two
-> Kernel versions, and also the shorten error messages from the logs which
-> just keeps repeating.
-> 
->  
-> 
-> Thanks for your assistance with my problem.
-> 
->  
-> 
-> I look forward to receiving any assistance you are able to provide.
+Prashant Malani (9):
+  usb: typec: Add support for retimers
+  usb: typec: Add retimer handle to port
+  platform/chrome: Add Type-C mux set command definitions
+  platform/chrome: cros_typec_switch: Add switch driver
+  platform/chrome: cros_typec_switch: Set EC retimer
+  platform/chrome: cros_typec_switch: Add event check
+  platform/chrome: cros_typec_switch: Register mode switches
+  platform/chrome: cros_ec_typec: Cleanup switch handle return paths
+  platform/chrome: cros_ec_typec: Get retimer handle
 
-Waiting to hear back with the results of your bisection test...
+ MAINTAINERS                                   |   1 +
+ drivers/platform/chrome/Kconfig               |  11 +
+ drivers/platform/chrome/Makefile              |   1 +
+ drivers/platform/chrome/cros_ec_typec.c       |  50 ++-
+ drivers/platform/chrome/cros_typec_switch.c   | 332 ++++++++++++++++++
+ drivers/usb/typec/Makefile                    |   2 +-
+ drivers/usb/typec/class.c                     |  18 +-
+ drivers/usb/typec/class.h                     |   2 +
+ drivers/usb/typec/retimer.c                   | 168 +++++++++
+ drivers/usb/typec/retimer.h                   |  15 +
+ .../linux/platform_data/cros_ec_commands.h    |  18 +
+ include/linux/usb/typec_retimer.h             |  45 +++
+ 12 files changed, 654 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/platform/chrome/cros_typec_switch.c
+ create mode 100644 drivers/usb/typec/retimer.c
+ create mode 100644 drivers/usb/typec/retimer.h
+ create mode 100644 include/linux/usb/typec_retimer.h
 
-Alan Stern
-
-> Yours sincerely
-> 
->  
-> 
-> Clive Widdus
-> 
->  
-> 
-> ============================================================================
-> ========
-> 
->  
-> 
-> Working USB Bus Kernel 5.10.120 built by Debian 11.3 (Buster)
-> 
->  
-> 
-> clive@Vortex-Rikers-5:~$ lsusb -t 
-> /:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/2p, 480M 
->    |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/8p, 480M 
->        |__ Port 1: Dev 3, If 0, Class=Audio, Driver=snd-usb-audio, 12M 
->        |__ Port 1: Dev 3, If 1, Class=Audio, Driver=snd-usb-audio, 12M 
->        |__ Port 1: Dev 3, If 2, Class=Audio, Driver=snd-usb-audio, 12M 
->        |__ Port 1: Dev 3, If 3, Class=Audio, Driver=snd-usb-audio, 12M 
->        |__ Port 1: Dev 3, If 4, Class=Audio, Driver=snd-usb-audio, 12M 
->        |__ Port 1: Dev 3, If 5, Class=Human Interface Device, Driver=usbhid,
-> 12M 
-> /:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/2p, 480M 
->    |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/6p, 480M 
->        |__ Port 5: Dev 3, If 0, Class=Human Interface Device, Driver=usbhid,
-> 1.5M 
->        |__ Port 6: Dev 4, If 1, Class=Human Interface Device, Driver=usbhid,
-> 1.5M 
->        |__ Port 6: Dev 4, If 0, Class=Human Interface Device, Driver=usbhid,
-> 1.5M 
-> clive@Vortex-Rikers-5:~$ 
-> 
-> Nothing from dmesg as the interface works with no problems.
-> 
->  
-> 
->  
-> 
-> Failing USB, Kernel 5.18.9 Built by Clive on Debian 11.3 (Buster)
-> 
->  
-> 
-> Dmesg
-> 
->  
-> 
-> [   17.376149] usb 2-1.1: 4:1: usb_set_interface failed (-32) 
-> [   17.376522] usb 2-1.1: 4:0: usb_set_interface failed (-32)
-> 
-> 
-> 
-> [   17.458654] usb 2-1.1: 2:3: usb_set_interface failed (-32) 
-> [   17.459029] usb 2-1.1: 2:0: usb_set_interface failed (-32)
-> 
-> 
-> 
-> [   17.520952] usb 2-1.1: 3:1: usb_set_interface failed (-32) 
-> [   17.521330] usb 2-1.1: 3:0: usb_set_interface failed (-32)
-> 
-> 
-> 
-> [   17.568827] usb 2-1.1: 1:1: usb_set_interface failed (-32) 
-> [   17.569221] usb 2-1.1: 1:0: usb_set_interface failed (-32) 
-> [   19.007909] rfkill: input handler disabled
-> 
-> 
-> 
-> Nothing from dmesg if the sound blaster is not plugged in; all works fine if
-> the sound blaster is plugged in after the machine has booted.
-> 
-> 
-> 
-> live@Vortex-Rikers-5:~$ lsusb -t  
-> /:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/2p, 480M 
->    |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/8p, 480M 
->        |__ Port 1: Dev 3, If 0, Class=Audio, Driver=snd-usb-audio, 12M 
->        |__ Port 1: Dev 3, If 1, Class=Audio, Driver=snd-usb-audio, 12M 
->        |__ Port 1: Dev 3, If 2, Class=Audio, Driver=snd-usb-audio, 12M 
->        |__ Port 1: Dev 3, If 3, Class=Audio, Driver=snd-usb-audio, 12M 
->        |__ Port 1: Dev 3, If 4, Class=Audio, Driver=snd-usb-audio, 12M 
->        |__ Port 1: Dev 3, If 5, Class=Human Interface Device, Driver=usbhid,
-> 12M 
-> /:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/2p, 480M 
->    |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/6p, 480M 
->        |__ Port 5: Dev 3, If 0, Class=Human Interface Device, Driver=usbhid,
-> 1.5M 
->        |__ Port 6: Dev 4, If 1, Class=Human Interface Device, Driver=usbhid,
-> 1.5M 
->        |__ Port 6: Dev 4, If 0, Class=Human Interface Device, Driver=usbhid,
-> 1.5M 
-> clive@Vortex-Rikers-5:~$ 
-> 
-> USB EHCI DRIVER¶
-> <https://www.kernel.org/doc/html/latest/process/maintainers.html#usb-ehci-dr
-> iver> 
-> 
-> 
-> Mail
-> 
-> Alan Stern <stern@rowland.harvard.edu <mailto:stern%40rowland.harvard.edu> >
-> 
-> Mailing list
-> 
-> linux-usb@vger.kernel.org <mailto:linux-usb%40vger.kernel.org> 
-> 
-> Status
-> 
-> Maintained
-> 
-> Files
-> 
-> usb/ehci <https://www.kernel.org/doc/html/latest/usb/ehci.html>
-> drivers/usb/host/ehci*
-> 
->  
-> 
->  
-> 
-
+-- 
+2.37.0.rc0.161.g10f37bed90-goog
 
