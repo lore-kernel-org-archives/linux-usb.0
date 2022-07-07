@@ -2,202 +2,272 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16EC0C43334
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Jul 2022 10:31:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 590EDCCA483
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Jul 2022 10:49:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234977AbiGGKbe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Jul 2022 06:31:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58200 "EHLO
+        id S235248AbiGGKtk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Jul 2022 06:49:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235318AbiGGKbb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Jul 2022 06:31:31 -0400
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2070.outbound.protection.outlook.com [40.107.95.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 961F05720F
-        for <linux-usb@vger.kernel.org>; Thu,  7 Jul 2022 03:31:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GN0eaErrVy4inzfElWNoeyJ7L1XYORTjNa4EKfaIYvMos+CzZSMv/DUeAW27Koe6HRJRzMTZKLaj6piExfrbc82K/0DId6b5PwexR7CjtFZkNndcEtSc3zr+QzJ3R/lFJEKRPqfNv0gtz2CJPICGlcXQ0j89rphGVR64MktAowJ4pi766p0RGo4zi4gBpg8c1nQxeDHOSKhR6Vb+jVAIoOyHSiX6ljNhABhuuVXDmvXmw8ywfPgpZ/oVXVY5QL+RpCv3n+zYl4VtDCrIJzx4RLZHSmhSokWMy+mmaYWSmLUm20sKuj1eaguVKa44Uq/TxMI3+tQ4v3VLF+w1qeQq5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q+rb94WC0vAND9MCmlh3dpXrqw6aVAR5jAk/eEafcdo=;
- b=lQhymO8LZ+xK9rxgIqyw5ls2GXhKaDsW7MATHzFLmBBKxv1PQJxTuod/unLJ0ERlYVjH5Wf7avAv9+LIueU73RYCIPc+nygqhygXBVBMzmyRzCcDX9ezccmeOU1UCSkn8GolZvu8tnHqUehvWYBSLDpA6+4jejtXaGfeswAZg0Jdf9aPUMARIEr+TeGFz7JCeuKjW1F19Jxq0Oi0+8wO9nZ0X2mxGH5rWmuNIr+jnOepmcLJMklxxy79zblyUomSKRsRFNfedy5xh+BanRrJWPvZBJOHSm5sCg8mx3peY761WoFvPir1WjxwHMsXh5DESpoXT03hAYKYsyglaDXeNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q+rb94WC0vAND9MCmlh3dpXrqw6aVAR5jAk/eEafcdo=;
- b=NMnH1P6ShLFiGG9SGh3fgiwUZpG/MfJoevJs2becJ0XaQVOmVi+HGtBffiMmIqC8t52NKeuG//GILvePkXIN2ogb1O2iM/1IHnTdLSjrz5l3EtXFDsadU7cjvbyzU5yiwcEKP+nmjXdyD3OhVI0z4stJr0DlfOp2jYhoMmmf3TE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6326.namprd12.prod.outlook.com (2603:10b6:8:a3::15) by
- LV2PR12MB5848.namprd12.prod.outlook.com (2603:10b6:408:173::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Thu, 7 Jul
- 2022 10:31:24 +0000
-Received: from DM4PR12MB6326.namprd12.prod.outlook.com
- ([fe80::80db:b311:9abb:61e1]) by DM4PR12MB6326.namprd12.prod.outlook.com
- ([fe80::80db:b311:9abb:61e1%5]) with mapi id 15.20.5395.021; Thu, 7 Jul 2022
- 10:31:24 +0000
-Message-ID: <0b9f2b04-7734-4d05-f027-cd3d7f49064e@amd.com>
-Date:   Thu, 7 Jul 2022 16:01:12 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH] thunderbolt: Add DP out resource when DP tunnel is
- discovered.
-Content-Language: en-US
-From:   Sanjay R Mehta <sanmehta@amd.com>
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Sanjay R Mehta <Sanju.Mehta@amd.com>
-Cc:     mika.westerberg@linux.intel.com, andreas.noever@gmail.com,
-        michael.jamet@intel.com, YehezkelShB@gmail.com,
-        Basavaraj.Natikar@amd.com, mario.limonciello@amd.com,
-        linux-usb@vger.kernel.org
-References: <1657085978-130560-1-git-send-email-Sanju.Mehta@amd.com>
- <YsUq80qWepLR2mZ9@kroah.com> <8c913bc1-1ebc-d536-433e-bf3e2cc1f9c1@amd.com>
-In-Reply-To: <8c913bc1-1ebc-d536-433e-bf3e2cc1f9c1@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BMXP287CA0019.INDP287.PROD.OUTLOOK.COM
- (2603:1096:b00:2c::31) To DM4PR12MB6326.namprd12.prod.outlook.com
- (2603:10b6:8:a3::15)
+        with ESMTP id S231710AbiGGKti (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Jul 2022 06:49:38 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF112564C6;
+        Thu,  7 Jul 2022 03:49:37 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id y9so4344889pff.12;
+        Thu, 07 Jul 2022 03:49:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=/FFWXQHfHuTAnSajIxw6WITRnf577MGViKmqh2rQTck=;
+        b=pNuDXa/tbcZ8L6jUMcFhfkiiN+HCY2bTy8g4vxrKF0uCnbdZzaUEHFI3UEhvKFQ1UC
+         eE6uNL4ZcikxGKWmBQMWNFn2vi2ETQWNjJHAKM/K8ooax1hYtWjIkuCEoiWjzlwmG9GX
+         WoMgg2sO0TOL1BOmFZkYZQjlUeFnk4VUM4ID13qr9aO5fAUOHNV8WcMiuWT0KyCv3tNs
+         yt5TOLt/k314oncIAs4MSxNIPDyesqnVGGLLLmR1OaKx2ayShDI5LtdAatcf/iDhjUT+
+         nlXRge1dqHFL7OZkv58zzWV44JyXq8nAHQm1a8SdNpsI3zpdsjcEr5X6BK+lhzi+b04Z
+         O/RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=/FFWXQHfHuTAnSajIxw6WITRnf577MGViKmqh2rQTck=;
+        b=p/tO1xIVx83xaaVnQOtPe1agONqonGUSwCMwNVjMgG+8XqFqmGWuYZWqsaHuPjo6VW
+         295vUjclOp1Cb8oO4S690ZRH4EmDPx79e4jjLKB78Uet3fwznhU9ghsIQcGMeR67Ap6Q
+         xLVXfketpGr/YcJyV76oY56er0HuDwIw/Kh0+QlfmVZmqyMc98La0SBb73i5zmylmzfR
+         BoC5ZHW28i66xi7ISstl9zdy5yynlLZpixoCnvbkBcNgmjuP+Su41XvWiaA9tFQ5gZIz
+         DPkurssdLXEUfYDxsMb7gugIPLAVzkBc9SoAj04hzOaXh5Vc63nFI3Wqizg2Affilds6
+         GVhw==
+X-Gm-Message-State: AJIora/cpEEQMHlXGfbRHbXz3sb6382yY1YRR/of5dcV0XLcWuitsaFg
+        N/omYqwM35/G1yCPRT16IX5aXsIPQWFKYaL3qzQ=
+X-Google-Smtp-Source: AGRyM1uUqVtaUItLC5GM5dPIqcXaBtnctDbivq8Sa/TY+MZ4zlzxxNsXElMIyQ3R0dNWkSwoY0p+UAWXxA72d7sMMAo=
+X-Received: by 2002:a05:6a00:179e:b0:518:9e1d:1cbd with SMTP id
+ s30-20020a056a00179e00b005189e1d1cbdmr52012436pfg.12.1657190977288; Thu, 07
+ Jul 2022 03:49:37 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 972f6688-0aa0-4e23-6f1b-08da6003d747
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5848:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xRkdo359YHDIZ8w4DSV1xyGxycDQUJSWjcH1mLMXets3M1OMGe8Ql83vur3tZcvF7SaeJCQ6WmB2dJArAhzvY7nMG4TvfvaIkyrNxh+wtNOjyEa7u50sATiebxa+iZVF+km2VAEfSmCE6/9tKafFqxekc9Kkb7YyB/qPeYSwzyAPdr9dgblv0NTwroNcc6aaQOOqvfrpfRDb10/BkYx4ajvNqZBpQdWswB1/pefv6YunYAWLfk/QqbeX2lqarDgqizB0iH1z1FtFwuq8L4tDPh+PLqsZRAtW2YJHzYXGdKq+A6YXb3d88Rp+QJjQIutqdyHo1hiJ1tsdiMmUxIk/h7AQ3DHF+YnVsLO8f7jMxG9NNgHP16Kmbn+kJbNlZkxBPH4g1scbfpgIlhY4kAxTE/7Y1J/jZ4SuVzN64+DY+dw9qamj4MN/re+YG884UsM7L5BFweUtuEId9vU91u55QOg3ns8JB+tLLL3iLOjOGhVF4OQSSE/QVJh68ia2ZLlIxnxXt49lvu7wBM4dbrK6Gnc9I4Jd48niOXfTtdrIb3gK2/zCaYZBEQZAVgElnOzwEpqG4pCcNdxNdEoQx/GUxa730U6K4CdcCUsOO8J3TY84jd9ZNQ44Bhso16G+CCtUv5W+VNBCWYG9qTQWW7qcWMjQ3u2i3iBBxNVyYGYbxUvQXGLcRdY8dl1JPQJU9PklDBDtJpR0Ch+TpcN+OOcqaAGXXUmnslOthxCuJ6E0TeZGp2K5pc8jg+z4tVY37Ab0lVTRVp2GvyLeMXmv4fNLx/HCSh1mXD9omlxeJxr2eUELzPx4fQMFZtuFCGRwp3avx6ItDbdx3w6r3fGNUrkH2iGsi5nRL/T72QlnhF2hKGI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6326.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(136003)(39860400002)(396003)(346002)(366004)(66476007)(8676002)(186003)(66556008)(2616005)(36756003)(66946007)(31686004)(6506007)(6512007)(53546011)(110136005)(26005)(4326008)(6636002)(5660300002)(6666004)(478600001)(31696002)(41300700001)(38100700002)(316002)(2906002)(6486002)(8936002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N1NBcWt0WDRBdUZqK0N6ZjNtWG9EVElvNndqNjhBaTBaYTc0NlNKVnpybW1U?=
- =?utf-8?B?M0pIcVN1ckF5Ty82UUNhU0RnbUM4NEJYbVdJSG9vV2ovelBRVE1pNkE3NWp3?=
- =?utf-8?B?dmtHaC9hSGhIbzZHbHVVdEpPNUhMNkdoS1VKUFE0NEVUalJpbG54aWV6d0lY?=
- =?utf-8?B?aitkVDNIQUI0bUJXa2JDaE9OdTJhSFJDYmluL3ViTE5LamhGU2JIL3EvbXpW?=
- =?utf-8?B?NU5KOFdKQ2NJZ29JSW1FUHZCYVB0SlpseEp4Q0J5YS9RMkxZRzNBNGhZSGZn?=
- =?utf-8?B?eTEvdnNWNjVNYWJNT1JBcWtuMm1scHpKM1o0N0J0YktQZGRhZjNwOStIUk5G?=
- =?utf-8?B?R29XeldNai8wR2NQUmROSVZpZDJzYjdnSVZJbmdWOFhYSlZnTnU3Y2hTL2dq?=
- =?utf-8?B?cElPTFQzdlE0WnJ2emM0dkQ0S1d0MTRtWFEwTURpWWhweG1hazlhR1dNUDRF?=
- =?utf-8?B?V3Zjby9pcVNrN0Z3ZldTN0ExbEhoU0MvdEV4ZC9CUndEcDJTa1Y1Q1JQaHF6?=
- =?utf-8?B?V0YraGJTVmdPa2ZlYno1UkJYMTRqZDF1Snd1cFBEc1p3RzkvbnAySjR1enF1?=
- =?utf-8?B?ZEJPUnd6ZkZXczVVOG1wZWlmYlQ1WVVTNzJ2SXIyb2c2RmRncG12NnVJYUhY?=
- =?utf-8?B?eTR1YjNKZTFVeDM1ZnFCL2o2QytFUUdXWUYrbERRNUJJd1Z3Z2RSMFYrZ3Bn?=
- =?utf-8?B?NHBsSHpHdjl1ZWxSQ1N6K01aRUtLQnFZakQySURudmg0LzRXVU5OTlBrbkRW?=
- =?utf-8?B?bk1FVERqdkpEZmc2bWEzL285Ui8xNUEwc1FMeGJVUDQ0Y05YYk1xZVRwR0ZQ?=
- =?utf-8?B?K3JDTDhEQXBLRHdkQ09IVlRlQzh4emkyUjB2aDNVdmtCM2k3VTVHMUsyT2NS?=
- =?utf-8?B?NWlLc3ZSY0p5dXRUU09ab2NLV3BzZWloYUsyREU2ZjUyZ3I3QVFuZXFuT0dF?=
- =?utf-8?B?aDVnT3o5bnBwSnhXam1uMnQ4RDN0ZEtiSHJCZjZEN1ZQako5bklTbklheXZ5?=
- =?utf-8?B?ZG8xanQxNHdQeUU5YUNucFlpR20xaFY1WUt1ekZ4eVpVTHkvbGRZUlMzeWlI?=
- =?utf-8?B?ZzVRclNXQjMwMmZUZHhCdEtYdTA1ek5mem5RSDRJNFZRaStjdGtncXFqZTRN?=
- =?utf-8?B?RE82Tzd3Q3RoVVNYMUxaclJSUm5NbjR6YTV4eHAxeWRXQTdnSWZ5NHdiK2hu?=
- =?utf-8?B?TGYxamZZVjRZc3JOWnBDZGFweFpuTC8xWWN5UUdFaVZsVWFRZ1FDbUZsWHFZ?=
- =?utf-8?B?N2tLdWZhVTZVam45bFkxV2c1NzNkS3JvVjIyY2Y4aTdXbm02bGVoMWpnRzdQ?=
- =?utf-8?B?TFVhQ2NUMi9pSmozZHZuZWxkRklhbkVmYUJCbGU4bllBUmJKdE1vTUZDc0gz?=
- =?utf-8?B?cW1qeG85ZU05SllmbHNtUVY3RStsTlhQcDh0MG5KNXEwb0VUaU0vVnV0N3BS?=
- =?utf-8?B?RUlOOXZXUU0ranpCSTFvV2NxcVQwdGdSZTI4WHRhSGpIbDNKM2FsUXNpS2tp?=
- =?utf-8?B?TFBsWFFKenZoRVJzVjdBLzV1MDhlcHBHbG40NEtGUVh1ckdXUHVUUFFZSll2?=
- =?utf-8?B?U1J2dm14WlAxUTJzUUdValNzNHpUcXRHemh1bDNRWWk3MjNabE4xanpVZWww?=
- =?utf-8?B?VjMxRnk1azhqRTZYckhCS0tpMDMvaHR2SXJsUkxqN0J2eDdTYVhWdTlSM0Mr?=
- =?utf-8?B?YzJFUytDVXNENS84M3RRTlpFRGxoenViOWtoRXhadWM5RGl1V1RtbTFnK0lQ?=
- =?utf-8?B?a0dvQ2VHQkM5QjV1SUhza0lzM25meHNMNDh1L25NeUJnbHFVbG1sYXQ2UDgr?=
- =?utf-8?B?TW91T0k0b1Y1VkcxWTUzUUFYN1paemhERmtuQ2R6L1JxWXIrRlFLaklJUEM5?=
- =?utf-8?B?eWdPSWNwZGVDOVhFOW1ra1lrRjFIZU13RzlnelZYNStxaVBkY0hKb3A3YWRk?=
- =?utf-8?B?TXd3cCtyeWRIVkU3RG5nZ3pWWUp6MGQ4WnNHR09YTmtPMmVwTmdJemtCWk9h?=
- =?utf-8?B?NW5EbEwyK3lwL3pVc1Y3dktqTlhSZ2pNeVNkNG9lV0lhWlcvUldaRlVqUGl3?=
- =?utf-8?B?U2JkditNZkdzUTI3SjdIeWpHUXpvNjlvQ0ZTZ2ZIZ3JlaUxsZVpOalU3b25I?=
- =?utf-8?Q?Ia6AejKvNnDMjmALhI26NQuwr?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 972f6688-0aa0-4e23-6f1b-08da6003d747
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6326.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2022 10:31:24.2747
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MU5LFB6Pw/UFnOT5Tiew1Ji3ucxai1UzCTOoz37W6DjDXJo4r3hxL9CaR4Ek0gBMHIZ2n+1NrcaZZGzhoprOqw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5848
+References: <20220704053901.728-1-peterwu.pub@gmail.com> <20220704053901.728-13-peterwu.pub@gmail.com>
+ <CAHp75Vciq4M4kVrabNV9vTLLcd1vR=bMe8JLEdAF9MkRTpcB5g@mail.gmail.com>
+In-Reply-To: <CAHp75Vciq4M4kVrabNV9vTLLcd1vR=bMe8JLEdAF9MkRTpcB5g@mail.gmail.com>
+From:   szuni chen <szunichen@gmail.com>
+Date:   Thu, 7 Jul 2022 18:49:26 +0800
+Message-ID: <CA+hk2fbm8ppKecVJL6D9rYJizf9baV8mOmwRx6GyO+MKvJ3xBQ@mail.gmail.com>
+Subject: Re: [PATCH v4 12/13] leds: flashlight: mt6370: Add Mediatek MT6370
+ flashlight support
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     ChiaEn Wu <peterwu.pub@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Helge Deller <deller@gmx.de>,
+        ChiaEn Wu <chiaen_wu@richtek.com>,
+        Alice Chen <alice_chen@richtek.com>,
+        cy_huang <cy_huang@richtek.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        USB <linux-usb@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hi Andy,
 
+Thank you for the valuable comment.
 
-On 7/6/2022 5:30 PM, Sanjay R Mehta wrote:
-> 
-> 
-> On 7/6/2022 11:55 AM, Greg KH wrote:
->> On Wed, Jul 06, 2022 at 12:39:38AM -0500, Sanjay R Mehta wrote:
->>> From: Sanjay R Mehta <sanju.mehta@amd.com>
->>>
->>> If the boot firmware implements a connection manager of its
->>> own it may create a DP tunnel and will be handed off to Linux
->>> CM, but the DP out resource is not saved in the dp_resource
->>> list.
->>>
->>> This patch adds tunnelled DP out port to the dp_resource list
->>> once the DP tunnel is discovered.
->>>
->>> Signed-off-by: Sanjay R Mehta <sanju.mehta@amd.com>
->>> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->>> ---
->>>  drivers/thunderbolt/tb.c     | 15 +++++++++++++++
->>>  drivers/thunderbolt/tb.h     |  1 +
->>>  drivers/thunderbolt/tunnel.c |  2 ++
->>>  3 files changed, 18 insertions(+)
->>>
->>> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
->>> index 9a3214f..dcd0c3e 100644
->>> --- a/drivers/thunderbolt/tb.c
->>> +++ b/drivers/thunderbolt/tb.c
->>> @@ -1006,6 +1006,21 @@ static void tb_dp_resource_unavailable(struct tb *tb, struct tb_port *port)
->>>  	tb_tunnel_dp(tb);
->>>  }
->>>  
->>> +void tb_dp_resource_available_discovered(struct tb *tb, struct tb_port *port)
->>> +{
->>> +	struct tb_cm *tcm = tb_priv(tb);
->>> +	struct tb_port *p;
->>> +
->>> +	list_for_each_entry(p, &tcm->dp_resources, list) {
->>> +		if (p == port)
->>> +			return;
->>> +	}
->>> +
->>> +	tb_port_dbg(port, "DP %s resource available discovered\n",
->>> +		    tb_port_is_dpin(port) ? "IN" : "OUT");
->>> +	list_add_tail(&port->list, &tcm->dp_resources);
->>> +}
->>> +
->>>  static void tb_dp_resource_available(struct tb *tb, struct tb_port *port)
->>>  {
->>>  	struct tb_cm *tcm = tb_priv(tb);
->>> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
->>> index 4602c69..cef2fe3 100644
->>> --- a/drivers/thunderbolt/tb.h
->>> +++ b/drivers/thunderbolt/tb.h
->>> @@ -1222,6 +1222,7 @@ struct usb4_port *usb4_port_device_add(struct tb_port *port);
->>>  void usb4_port_device_remove(struct usb4_port *usb4);
->>>  int usb4_port_device_resume(struct usb4_port *usb4);
->>>  
->>> +void tb_dp_resource_available_discovered(struct tb *tb, struct tb_port *port);
->>
->> Why not put this in the .h file next to the other tb_* calls?
->>
-> 
-Hi Greg,
+Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=9C=
+=885=E6=97=A5 =E9=80=B1=E4=BA=8C =E6=B8=85=E6=99=A85:06=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+>
+> On Mon, Jul 4, 2022 at 7:43 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+>
+> > Add Mediatek MT6370 flashlight support.
+>
+> ...
+>
+> > +         This driver can also be built as a module. If so the module
+>
+> If so,
+>
+Thank you, I'll fix it in the next version.
 
-I forgot to explain that in this function, I have used a structure
-"struct tb_cm" which is defined and used only in tb.c file. Hence have
-to keep this function in tb.c file.
+> > +         will be called "leds-mt6370-flash.ko".
+>
+> No ".ko" part.
+>
+Thank you, I'll fix it in the next version.
 
-- Sanjay
+> ...
+>
+> > +#define MT6370_ITORCH_MINUA            25000
+> > +#define MT6370_ITORCH_STEPUA           12500
+> > +#define MT6370_ITORCH_MAXUA            400000
+> > +#define MT6370_ITORCH_DOUBLE_MAXUA     800000
+> > +#define MT6370_ISTRB_MINUA             50000
+> > +#define MT6370_ISTRB_STEPUA            12500
+> > +#define MT6370_ISTRB_MAXUA             1500000
+> > +#define MT6370_ISTRB_DOUBLE_MAXUA      3000000
+> > +#define MT6370_STRBTO_MINUS            64000
+> > +#define MT6370_STRBTO_STEPUS           32000
+> > +#define MT6370_STRBTO_MAXUS            2432000
+>
+> Make units suffix visible, i.e. _US, _uA, etc.
+>
+Thank you, I'll fix it in the next version.
 
-> Sure Greg. Will make this change.
-> 
-> - Sanjay
-> 
->> thanks,
->>
->> greg k-h
+> ...
+>
+> > +       if (curr)
+> > +               val |=3D MT6370_TORCHEN_MASK;
+> > +
+> > +
+>
+> One blank line is enough.
+>
+Thank you, I'll fix it in the next version.
+
+> ...
+>
+> > +       /*
+> > +        * Due to the current spike when turning on flash,
+> > +        * let brightness to be kept by framework.
+>
+> brightness be
+> the framework
+>
+Thank you, I'll fix it in the next version.
+
+> > +        * This empty function is used to
+> > +        * prevent led_classdev_flash register ops check failure.
+> > +        */
+>
+Thank you, I'll fix it in the next version.
+> ...
+>
+> > +       } else {
+> > +               ret =3D regmap_update_bits(priv->regmap,
+> > +                                        MT6370_REG_FLEDISTRB(led->led_=
+no),
+> > +                                        MT6370_ISTROBE_MASK, val);
+>
+> > +               if (ret)
+> > +                       return ret;
+>
+> Dup of the below.
+>
+Thank you, I'll fix it in the next version.
+
+> > +       }
+> > +       return ret;
+>
+> ...
+>
+> > +       /*
+> > +        * If the flash need to be on,
+> > +        * config the flash current ramping up to the setting value
+> > +        * Else, always recover back to the minimum one
+>
+> Missed periods.
+>
+Thank you, I'll fix it in the next version.
+
+> > +        */
+>
+> ...
+>
+> > +       /*
+> > +        * For the flash turn on/off, HW ramping up/down time is 5ms/50=
+0us
+> > +        * respectively.
+> > +        */
+> > +       if (!prev && curr)
+> > +               usleep_range(5000, 6000);
+> > +       else if (prev && !curr)
+> > +               udelay(500);
+>
+> Comment doesn't explain why this is suddenly a busy loop operation?
+>
+For the flash turn on/off, HW ramping up/down waiting time is
+5ms/500us, respectively.
+The busy loop is for preventing turn on/off in wait time, which will
+cause unexpected problems.
+
+If I change the comment to
+"For the flash turn on/off, HW ramping up/down waiting time is
+5ms/500us, respectively.
+Need to wait until HW ramping successfully to prevent the unexpected proble=
+m.",
+will this meet your expectation?
+
+>
+> > +static int mt6370_led_register(struct device *parent, struct mt6370_le=
+d *led,
+> > +                               struct led_init_data *init_data)
+> > +{
+> > +       struct v4l2_flash_config v4l2_config =3D {0};
+> > +       int ret;
+> > +
+> > +       ret =3D devm_led_classdev_flash_register_ext(parent, &led->flas=
+h,
+> > +                                                  init_data);
+> > +       if (ret) {
+> > +               dev_err(parent, "Couldn't register flash %d\n", led->le=
+d_no);
+> > +               return ret;
+> > +       }
+> > +
+> > +       mt6370_init_v4l2_flash_config(led, &v4l2_config);
+> > +       led->v4l2_flash =3D v4l2_flash_init(parent, init_data->fwnode,
+> > +                                         &led->flash, &v4l2_flash_ops,
+> > +                                         &v4l2_config);
+> > +       if (IS_ERR(led->v4l2_flash)) {
+> > +               dev_err(parent, "Failed to register %d v4l2 sd\n", led-=
+>led_no);
+> > +               return PTR_ERR(led->v4l2_flash);
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+>
+> ...
+>
+> > +       } else
+> > +               val =3D clamp_align(val, MT6370_STRBTO_MINUS, MT6370_ST=
+RBTO_MAXUS,
+> > +                                 MT6370_STRBTO_STEPUS);
+>
+> Missed {}
+>
+Thank you, I'll fix it in the next version.
+
+> > +
+> > +
+>
+> One blank line is enough.
+>
+Thank you, I'll fix it in the next version.
+
+> --
+
+Yours Sincerely,
+Alice
