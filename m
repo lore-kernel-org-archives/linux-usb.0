@@ -2,180 +2,118 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6444BCCA481
-	for <linux-usb@archiver.kernel.org>; Fri,  8 Jul 2022 07:19:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2B8BC43334
+	for <linux-usb@archiver.kernel.org>; Fri,  8 Jul 2022 07:26:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237433AbiGHHT0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 8 Jul 2022 03:19:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60048 "EHLO
+        id S237551AbiGHH0T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 8 Jul 2022 03:26:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237298AbiGHHTU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Jul 2022 03:19:20 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B5AB7B347;
-        Fri,  8 Jul 2022 00:19:17 -0700 (PDT)
-X-UUID: 5e7c28860faa4fb29eb0132610c942e4-20220708
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8,REQID:aca42f3d-30c3-44ae-b6a7-7ee90c0f6877,OB:0,LO
-        B:20,IP:0,URL:5,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,A
-        CTION:release,TS:95
-X-CID-INFO: VERSION:1.1.8,REQID:aca42f3d-30c3-44ae-b6a7-7ee90c0f6877,OB:0,LOB:
-        20,IP:0,URL:5,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,A
-        CTION:quarantine,TS:95
-X-CID-META: VersionHash:0f94e32,CLOUDID:8c70c163-0b3f-4b2c-b3a6-ed5c044366a0,C
-        OID:976e24596999,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:1,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 5e7c28860faa4fb29eb0132610c942e4-20220708
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 203999795; Fri, 08 Jul 2022 15:19:11 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Fri, 8 Jul 2022 15:19:09 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 8 Jul 2022 15:19:08 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Felipe Balbi <balbi@kernel.org>,
+        with ESMTP id S237541AbiGHH0R (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Jul 2022 03:26:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB63B1837B;
+        Fri,  8 Jul 2022 00:26:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 85A4A62573;
+        Fri,  8 Jul 2022 07:26:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93C0BC341C0;
+        Fri,  8 Jul 2022 07:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1657265175;
+        bh=QdvPGPSzMNSg9331rSs6uqhsyZcyL0jGteXXpQTEB54=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eQpH3wwn/LMkE/zE1L6/QVSe2SW+7eP99yr6bduwIXYsXehxUIblhDiThhWU+HDob
+         8HSMfy3fkaLzxj9YpXXGxnDFRb5rvabUFzB0Uh4X2Rq9OHFJb0e8/8ePL3t53pYk4n
+         Vwnk/2vgWmp0/yVxfz/G6Z2tyf63Ad7nyYYWLZi8=
+Date:   Fri, 8 Jul 2022 09:26:13 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Felipe Balbi <balbi@kernel.org>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH 5/5] usb: mtu3: support function remote wakeup
-Date:   Fri, 8 Jul 2022 15:19:03 +0800
-Message-ID: <20220708071903.25752-5-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220708071903.25752-1-chunfeng.yun@mediatek.com>
+Subject: Re: [PATCH 1/5] usb: mtu3: fix coverity of string buffer
+Message-ID: <YsfcFXtkDxe6ndFT@kroah.com>
 References: <20220708071903.25752-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220708071903.25752-1-chunfeng.yun@mediatek.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add function wake notification to support function remote wakeup,
-currently assume the composite device only enable function wake
-for the first interface.
+On Fri, Jul 08, 2022 at 03:18:59PM +0800, Chunfeng Yun wrote:
+> Use snprintf instead of sprintf which could cause buffer overflow.
 
-Forward request to function driver when the recipient is an interface,
-including:
-GetStatus() request to the first interface in a function returns the
-information about 'function remote wakeup' and 'function remote wakeup
-capalbe';
-SetFeature request of FUNCTION_SUSPEND to an interface recipient, the
-controller driver saves the suspend option;
+How can it cause an overflow?
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
- drivers/usb/mtu3/mtu3_gadget.c     | 18 ++++++++++++++++++
- drivers/usb/mtu3/mtu3_gadget_ep0.c |  8 ++++----
- drivers/usb/mtu3/mtu3_hw_regs.h    | 16 ++++++++++++++++
- 3 files changed, 38 insertions(+), 4 deletions(-)
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+>  drivers/usb/mtu3/mtu3.h         | 4 +++-
+>  drivers/usb/mtu3/mtu3_debugfs.c | 2 +-
+>  drivers/usb/mtu3/mtu3_gadget.c  | 4 ++--
+>  3 files changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
+> index 8408e1b1a24a..9893dd1bafbb 100644
+> --- a/drivers/usb/mtu3/mtu3.h
+> +++ b/drivers/usb/mtu3/mtu3.h
+> @@ -92,6 +92,8 @@ struct mtu3_request;
+>  
+>  #define BULK_CLKS_CNT	4
+>  
+> +#define MTU3_EP_NAME_LEN	12
+> +
+>  /* device operated link and speed got from DEVICE_CONF register */
+>  enum mtu3_speed {
+>  	MTU3_SPEED_INACTIVE = 0,
+> @@ -272,7 +274,7 @@ struct ssusb_mtk {
+>   */
+>  struct mtu3_ep {
+>  	struct usb_ep ep;
+> -	char name[12];
+> +	char name[MTU3_EP_NAME_LEN];
+>  	struct mtu3 *mtu;
+>  	u8 epnum;
+>  	u8 type;
+> diff --git a/drivers/usb/mtu3/mtu3_debugfs.c b/drivers/usb/mtu3/mtu3_debugfs.c
+> index d27de647c86a..a6f72494b819 100644
+> --- a/drivers/usb/mtu3/mtu3_debugfs.c
+> +++ b/drivers/usb/mtu3/mtu3_debugfs.c
+> @@ -132,7 +132,7 @@ static void mtu3_debugfs_regset(struct mtu3 *mtu, void __iomem *base,
+>  	if (!mregs)
+>  		return;
+>  
+> -	sprintf(mregs->name, "%s", name);
+> +	snprintf(mregs->name, MTU3_DEBUGFS_NAME_LEN, "%s", name);
 
-diff --git a/drivers/usb/mtu3/mtu3_gadget.c b/drivers/usb/mtu3/mtu3_gadget.c
-index a751e0533c2d..291ec53c6c75 100644
---- a/drivers/usb/mtu3/mtu3_gadget.c
-+++ b/drivers/usb/mtu3/mtu3_gadget.c
-@@ -433,6 +433,13 @@ static int mtu3_gadget_get_frame(struct usb_gadget *gadget)
- 	return (int)mtu3_readl(mtu->mac_base, U3D_USB20_FRAME_NUM);
- }
- 
-+static void function_wake_notif(struct mtu3 *mtu, u8 intf)
-+{
-+	mtu3_writel(mtu->mac_base, U3D_DEV_NOTIF_0,
-+		    TYPE_FUNCTION_WAKE | DEV_NOTIF_VAL_FW(intf));
-+	mtu3_setbits(mtu->mac_base, U3D_DEV_NOTIF_0, SEND_DEV_NOTIF);
-+}
-+
- static int mtu3_gadget_wakeup(struct usb_gadget *gadget)
- {
- 	struct mtu3 *mtu = gadget_to_mtu3(gadget);
-@@ -446,7 +453,18 @@ static int mtu3_gadget_wakeup(struct usb_gadget *gadget)
- 
- 	spin_lock_irqsave(&mtu->lock, flags);
- 	if (mtu->g.speed >= USB_SPEED_SUPER) {
-+		/*
-+		 * class driver may do function wakeup even UFP is in U0,
-+		 * and UX_EXIT only takes effect in U1/U2/U3;
-+		 */
- 		mtu3_setbits(mtu->mac_base, U3D_LINK_POWER_CONTROL, UX_EXIT);
-+		/*
-+		 * Assume there's only one function on the composite device
-+		 * and enable remote wake for the first interface.
-+		 * FIXME if the IAD (interface association descriptor) shows
-+		 * there is more than one function.
-+		 */
-+		function_wake_notif(mtu, 0);
- 	} else {
- 		mtu3_setbits(mtu->mac_base, U3D_POWER_MANAGEMENT, RESUME);
- 		spin_unlock_irqrestore(&mtu->lock, flags);
-diff --git a/drivers/usb/mtu3/mtu3_gadget_ep0.c b/drivers/usb/mtu3/mtu3_gadget_ep0.c
-index 7e7013508af6..e4fd1bb14a55 100644
---- a/drivers/usb/mtu3/mtu3_gadget_ep0.c
-+++ b/drivers/usb/mtu3/mtu3_gadget_ep0.c
-@@ -226,6 +226,8 @@ ep0_get_status(struct mtu3 *mtu, const struct usb_ctrlrequest *setup)
- 
- 		break;
- 	case USB_RECIP_INTERFACE:
-+		/* status of function remote wakeup, forward request */
-+		handled = 0;
- 		break;
- 	case USB_RECIP_ENDPOINT:
- 		epnum = (u8) le16_to_cpu(setup->wIndex);
-@@ -397,10 +399,8 @@ static int ep0_handle_feature(struct mtu3 *mtu,
- 		/* superspeed only */
- 		if (value == USB_INTRF_FUNC_SUSPEND &&
- 		    mtu->g.speed >= USB_SPEED_SUPER) {
--			/*
--			 * forward the request because function drivers
--			 * should handle it
--			 */
-+			/* forward the request for function suspend */
-+			mtu->may_wakeup = !!(index & USB_INTRF_FUNC_SUSPEND_RW);
- 			handled = 0;
- 		}
- 		break;
-diff --git a/drivers/usb/mtu3/mtu3_hw_regs.h b/drivers/usb/mtu3/mtu3_hw_regs.h
-index 072db1f6470e..519a58301f45 100644
---- a/drivers/usb/mtu3/mtu3_hw_regs.h
-+++ b/drivers/usb/mtu3/mtu3_hw_regs.h
-@@ -341,6 +341,8 @@
- #define U3D_LINK_UX_INACT_TIMER	(SSUSB_USB3_SYS_CSR_BASE + 0x020C)
- #define U3D_LINK_POWER_CONTROL	(SSUSB_USB3_SYS_CSR_BASE + 0x0210)
- #define U3D_LINK_ERR_COUNT	(SSUSB_USB3_SYS_CSR_BASE + 0x0214)
-+#define U3D_DEV_NOTIF_0		(SSUSB_USB3_SYS_CSR_BASE + 0x0290)
-+#define U3D_DEV_NOTIF_1		(SSUSB_USB3_SYS_CSR_BASE + 0x0294)
- 
- /*---------------- SSUSB_USB3_SYS_CSR FIELD DEFINITION ----------------*/
- 
-@@ -365,6 +367,20 @@
- #define CLR_LINK_ERR_CNT	BIT(16)
- #define LINK_ERROR_COUNT	GENMASK(15, 0)
- 
-+/* U3D_DEV_NOTIF_0 */
-+#define DEV_NOTIF_TYPE_SPECIFIC_LOW_MSK		GENMASK(31, 8)
-+#define DEV_NOTIF_VAL_FW(x)		(((x) & 0xff) << 8)
-+#define DEV_NOTIF_VAL_LTM(x)	(((x) & 0xfff) << 8)
-+#define DEV_NOTIF_VAL_IAM(x)	(((x) & 0xffff) << 8)
-+#define DEV_NOTIF_TYPE_MSK		GENMASK(7, 4)
-+/* Notification Type */
-+#define TYPE_FUNCTION_WAKE			(0x1 << 4)
-+#define TYPE_LATENCY_TOLERANCE_MESSAGE		(0x2 << 4)
-+#define TYPE_BUS_INTERVAL_ADJUST_MESSAGE	(0x3 << 4)
-+#define TYPE_HOST_ROLE_REQUEST			(0x4 << 4)
-+#define TYPE_SUBLINK_SPEED			(0x5 << 4)
-+#define SEND_DEV_NOTIF			BIT(0)
-+
- /*---------------- SSUSB_USB2_CSR REGISTER DEFINITION ----------------*/
- 
- #define U3D_POWER_MANAGEMENT		(SSUSB_USB2_CSR_BASE + 0x0004)
--- 
-2.18.0
+Where does name come from?  It looks like you control this string, so
+there is no overflow anywhere.
 
+>  	regset = &mregs->regset;
+>  	regset->regs = regs;
+>  	regset->nregs = nregs;
+> diff --git a/drivers/usb/mtu3/mtu3_gadget.c b/drivers/usb/mtu3/mtu3_gadget.c
+> index 30999b4debb8..a751e0533c2d 100644
+> --- a/drivers/usb/mtu3/mtu3_gadget.c
+> +++ b/drivers/usb/mtu3/mtu3_gadget.c
+> @@ -635,8 +635,8 @@ static void init_hw_ep(struct mtu3 *mtu, struct mtu3_ep *mep,
+>  
+>  	INIT_LIST_HEAD(&mep->req_list);
+>  
+> -	sprintf(mep->name, "ep%d%s", epnum,
+> -		!epnum ? "" : (is_in ? "in" : "out"));
+> +	snprintf(mep->name, MTU3_EP_NAME_LEN, "ep%d%s", epnum,
+> +		 !epnum ? "" : (is_in ? "in" : "out"));
+
+Same here, you already control this string size, so where is the issue?
+
+thanks,
+
+greg k-h
