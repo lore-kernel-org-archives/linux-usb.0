@@ -2,155 +2,159 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00149C43334
-	for <linux-usb@archiver.kernel.org>; Sat,  9 Jul 2022 02:00:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07506C433EF
+	for <linux-usb@archiver.kernel.org>; Sat,  9 Jul 2022 02:26:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbiGICAU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 8 Jul 2022 22:00:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38668 "EHLO
+        id S229544AbiGIC0W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 8 Jul 2022 22:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbiGICAT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Jul 2022 22:00:19 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79A134E876
-        for <linux-usb@vger.kernel.org>; Fri,  8 Jul 2022 19:00:18 -0700 (PDT)
+        with ESMTP id S229456AbiGIC0V (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Jul 2022 22:26:21 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 289EC79EDE;
+        Fri,  8 Jul 2022 19:26:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657332018; x=1688868018;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=QEzG0hgZbevx4ZbYcKitU47GwWSQA0HeqqXVJ0SWhfg=;
-  b=ZOXtSiZrepYDFl+v4GAjtnm3fFey3CioVOOjNBRuK+oc36lxxmGJnf1N
-   loT+RnHlFON6DJvEjiiVnfWJU5GMfh28Qv/iu/B+bZ/f9fgtHjqa+6Rt/
-   I/lyWCM0rIghxGVQzafA9rT35fd6arpMTU2Z5KkW/lQIJy2CK2EqNWI8T
-   6B4gUYVG3h9u3c0qUGsh6kLqBjIzCmm7CxbKmwpVzTsuwSpIrAy91vawB
-   HJiVFcziE8tA0znUsGwK8jCtIB68oXXvkAtjYkplxU67+tnx1C7HPQye6
-   /LJIHZE0elJU/LbEBIki7BE9oglBuv30FHb3753b9HCmobMz7YSmWwoIi
+  t=1657333580; x=1688869580;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NFZVAj+FkFGpC1g8eGOjw6NUO0iZIB6Us6j0cDgGUKU=;
+  b=EJWH8H40Uw2kaEUrAyGpENWaEKGUI5l22TvroLefmXNcAVj8VWAd8W5O
+   rhruf8ycFjlw4duzyVP5B5oygmWKfJ8auUHqfl5p75TSIfYnY33P02KLm
+   RRiH/rG06F8eW/q6pwvm9KgfJ6EQ63yv6dtY5nQl6dCuM8FWXh+3vtylY
+   zFHXstH4EhkdxjlJSkK86X54REMNHYXbDtoyPowiGwE0uj9JCoOwNShxc
+   lMYg7OsOWgWQwSHsWGVF6XPwDSoFVnC5nG0MMMjb0IufsBN7S8LnP9y34
+   o5lmDLx0bUqAvfdeOcqRG+RI1FPB1ZVL5c41Ez760qbMH7xOfXwNCP4F1
    Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10402"; a="264177147"
+X-IronPort-AV: E=McAfee;i="6400,9594,10402"; a="348386967"
 X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
-   d="scan'208";a="264177147"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2022 19:00:18 -0700
+   d="scan'208";a="348386967"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2022 19:26:19 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
-   d="scan'208";a="544402115"
+   d="scan'208";a="770962947"
 Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 08 Jul 2022 19:00:16 -0700
+  by orsmga005.jf.intel.com with ESMTP; 08 Jul 2022 19:26:17 -0700
 Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1o9zlY-000OAo-9G;
-        Sat, 09 Jul 2022 02:00:16 +0000
-Date:   Sat, 09 Jul 2022 09:59:36 +0800
+        id 1oA0Aj-000OCS-3n;
+        Sat, 09 Jul 2022 02:26:17 +0000
+Date:   Sat, 9 Jul 2022 10:26:11 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- 8affe37c525d800a2628c4ecfaed13b77dc5634a
-Message-ID: <62c8e108.SWXm/uCw5I/HJICA%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+To:     Wesley Cheng <quic_wcheng@quicinc.com>, balbi@kernel.org,
+        gregkh@linuxfoundation.org
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, Thinh.Nguyen@synopsys.com,
+        quic_jackp@quicinc.com, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: Re: [PATCH 3/5] usb: dwc3: gadget: Adjust IRQ management during soft
+ disconnect/connect
+Message-ID: <202207091054.eGEUvBXn-lkp@intel.com>
+References: <20220708185007.21743-4-quic_wcheng@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20220708185007.21743-4-quic_wcheng@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: 8affe37c525d800a2628c4ecfaed13b77dc5634a  usb: dwc3: gadget: fix high speed multiplier setting
+Hi Wesley,
 
-elapsed time: 723m
+Thank you for the patch! Perhaps something to improve:
 
-configs tested: 81
-configs skipped: 2
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on linus/master v5.19-rc5 next-20220708]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+url:    https://github.com/intel-lab-lkp/linux/commits/Wesley-Cheng/Fix-controller-halt-and-endxfer-timeout-issues/20220709-025241
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+config: x86_64-randconfig-a002 (https://download.01.org/0day-ci/archive/20220709/202207091054.eGEUvBXn-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/457fe4752b0f6dcc5c1b329f91003b7ffc518b44
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Wesley-Cheng/Fix-controller-halt-and-endxfer-timeout-issues/20220709-025241
+        git checkout 457fe4752b0f6dcc5c1b329f91003b7ffc518b44
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/usb/dwc3/
 
-gcc tested configs:
-arm                                 defconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-i386                          randconfig-c001
-ia64                          tiger_defconfig
-sh                          rsk7264_defconfig
-sh                        edosk7705_defconfig
-arm                           corgi_defconfig
-powerpc                     ep8248e_defconfig
-powerpc                 linkstation_defconfig
-arm                         vf610m4_defconfig
-sh                           se7619_defconfig
-sh                           se7712_defconfig
-sh                           se7721_defconfig
-sh                           se7750_defconfig
-mips                         rt305x_defconfig
-alpha                            alldefconfig
-arm                        clps711x_defconfig
-arm                        oxnas_v6_defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-ia64                             allmodconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-i386                             allyesconfig
-i386                                defconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-arc                  randconfig-r043-20220707
-s390                 randconfig-r044-20220707
-riscv                randconfig-r042-20220707
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-clang tested configs:
-hexagon                          alldefconfig
-arm                   milbeaut_m10v_defconfig
-powerpc                      walnut_defconfig
-powerpc                          g5_defconfig
-mips                       rbtx49xx_defconfig
-arm                         palmz72_defconfig
-x86_64                        randconfig-k001
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a006
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-i386                          randconfig-a011
-i386                          randconfig-a015
-i386                          randconfig-a013
-hexagon              randconfig-r041-20220707
-hexagon              randconfig-r045-20220707
+All warnings (new ones prefixed by >>):
+
+   drivers/usb/dwc3/gadget.c: In function 'dwc3_gadget_ep_dequeue':
+>> drivers/usb/dwc3/gadget.c:2032:41: warning: unused variable 'flags' [-Wunused-variable]
+    2032 |         unsigned long                   flags;
+         |                                         ^~~~~
+
+
+vim +/flags +2032 drivers/usb/dwc3/gadget.c
+
+d4f1afe5e896c1 Felipe Balbi 2018-08-01  2022  
+72246da40f3719 Felipe Balbi 2011-08-19  2023  static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
+72246da40f3719 Felipe Balbi 2011-08-19  2024  		struct usb_request *request)
+72246da40f3719 Felipe Balbi 2011-08-19  2025  {
+72246da40f3719 Felipe Balbi 2011-08-19  2026  	struct dwc3_request		*req = to_dwc3_request(request);
+72246da40f3719 Felipe Balbi 2011-08-19  2027  	struct dwc3_request		*r = NULL;
+72246da40f3719 Felipe Balbi 2011-08-19  2028  
+72246da40f3719 Felipe Balbi 2011-08-19  2029  	struct dwc3_ep			*dep = to_dwc3_ep(ep);
+72246da40f3719 Felipe Balbi 2011-08-19  2030  	struct dwc3			*dwc = dep->dwc;
+72246da40f3719 Felipe Balbi 2011-08-19  2031  
+72246da40f3719 Felipe Balbi 2011-08-19 @2032  	unsigned long			flags;
+72246da40f3719 Felipe Balbi 2011-08-19  2033  	int				ret = 0;
+72246da40f3719 Felipe Balbi 2011-08-19  2034  
+2c4cbe6e5a9c71 Felipe Balbi 2014-04-30  2035  	trace_dwc3_ep_dequeue(req);
+2c4cbe6e5a9c71 Felipe Balbi 2014-04-30  2036  
+457fe4752b0f6d Wesley Cheng 2022-07-08  2037  	spin_lock(&dwc->lock);
+72246da40f3719 Felipe Balbi 2011-08-19  2038  
+a7027ca69d82ae Thinh Nguyen 2020-03-05  2039  	list_for_each_entry(r, &dep->cancelled_list, list) {
+72246da40f3719 Felipe Balbi 2011-08-19  2040  		if (r == req)
+fcd2def6639293 Thinh Nguyen 2020-03-05  2041  			goto out;
+72246da40f3719 Felipe Balbi 2011-08-19  2042  	}
+72246da40f3719 Felipe Balbi 2011-08-19  2043  
+aa3342c8bb618a Felipe Balbi 2016-03-14  2044  	list_for_each_entry(r, &dep->pending_list, list) {
+fcd2def6639293 Thinh Nguyen 2020-03-05  2045  		if (r == req) {
+fcd2def6639293 Thinh Nguyen 2020-03-05  2046  			dwc3_gadget_giveback(dep, req, -ECONNRESET);
+fcd2def6639293 Thinh Nguyen 2020-03-05  2047  			goto out;
+fcd2def6639293 Thinh Nguyen 2020-03-05  2048  		}
+72246da40f3719 Felipe Balbi 2011-08-19  2049  	}
+72246da40f3719 Felipe Balbi 2011-08-19  2050  
+aa3342c8bb618a Felipe Balbi 2016-03-14  2051  	list_for_each_entry(r, &dep->started_list, list) {
+72246da40f3719 Felipe Balbi 2011-08-19  2052  		if (r == req) {
+a7027ca69d82ae Thinh Nguyen 2020-03-05  2053  			struct dwc3_request *t;
+a7027ca69d82ae Thinh Nguyen 2020-03-05  2054  
+72246da40f3719 Felipe Balbi 2011-08-19  2055  			/* wait until it is processed */
+c5353b225df9b2 Felipe Balbi 2019-02-13  2056  			dwc3_stop_active_transfer(dep, true, true);
+cf3113d893d442 Felipe Balbi 2017-02-17  2057  
+a7027ca69d82ae Thinh Nguyen 2020-03-05  2058  			/*
+a7027ca69d82ae Thinh Nguyen 2020-03-05  2059  			 * Remove any started request if the transfer is
+a7027ca69d82ae Thinh Nguyen 2020-03-05  2060  			 * cancelled.
+a7027ca69d82ae Thinh Nguyen 2020-03-05  2061  			 */
+a7027ca69d82ae Thinh Nguyen 2020-03-05  2062  			list_for_each_entry_safe(r, t, &dep->started_list, list)
+04dd6e76b22889 Ray Chi      2021-03-28  2063  				dwc3_gadget_move_cancelled_request(r,
+04dd6e76b22889 Ray Chi      2021-03-28  2064  						DWC3_REQUEST_STATUS_DEQUEUED);
+cf3113d893d442 Felipe Balbi 2017-02-17  2065  
+a5c7682aaaa10e Thinh Nguyen 2021-01-04  2066  			dep->flags &= ~DWC3_EP_WAIT_TRANSFER_COMPLETE;
+a5c7682aaaa10e Thinh Nguyen 2021-01-04  2067  
+fcd2def6639293 Thinh Nguyen 2020-03-05  2068  			goto out;
+72246da40f3719 Felipe Balbi 2011-08-19  2069  		}
+72246da40f3719 Felipe Balbi 2011-08-19  2070  	}
+fcd2def6639293 Thinh Nguyen 2020-03-05  2071  
+04fb365c453e14 Felipe Balbi 2017-05-17  2072  	dev_err(dwc->dev, "request %pK was not queued to %s\n",
+72246da40f3719 Felipe Balbi 2011-08-19  2073  		request, ep->name);
+72246da40f3719 Felipe Balbi 2011-08-19  2074  	ret = -EINVAL;
+fcd2def6639293 Thinh Nguyen 2020-03-05  2075  out:
+457fe4752b0f6d Wesley Cheng 2022-07-08  2076  	spin_unlock(&dwc->lock);
+72246da40f3719 Felipe Balbi 2011-08-19  2077  
+72246da40f3719 Felipe Balbi 2011-08-19  2078  	return ret;
+72246da40f3719 Felipe Balbi 2011-08-19  2079  }
+72246da40f3719 Felipe Balbi 2011-08-19  2080  
 
 -- 
 0-DAY CI Kernel Test Service
