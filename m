@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D179DC433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Jul 2022 11:49:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0017AC43334
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Jul 2022 12:01:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231252AbiGKLt2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Jul 2022 07:49:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40896 "EHLO
+        id S229721AbiGKMBt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Jul 2022 08:01:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229877AbiGKLtR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Jul 2022 07:49:17 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2B5A11822;
-        Mon, 11 Jul 2022 04:49:15 -0700 (PDT)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26B7OwU6002052;
-        Mon, 11 Jul 2022 13:48:48 +0200
+        with ESMTP id S229685AbiGKMBr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Jul 2022 08:01:47 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCCAA37F8C;
+        Mon, 11 Jul 2022 05:01:46 -0700 (PDT)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26BB1qC9000697;
+        Mon, 11 Jul 2022 14:01:38 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=selector1;
  bh=jHypv5E2Ntg6iXVsvy1Ne3ieQ+rIz+C8sBC7FRD48UU=;
- b=CfwGKCFb8FhRCNmuGS7ezjPjNOM75gDBRANc/Q6vr5It5rRWY4t0/UsUdPVQ4J7oAin4
- NxaaMYXpMF+MeD+Ts/D4plfFxeDrnxcss5Hr9/ymnLzWac6dcy9qbKeVoZmAQXBWeFwv
- AQenA8JQjhjPQMK+Ul7xIDURGijz02m/Td41KblcSVXPE2d7CjRNNAXkOny5QOwkrXKo
- ZfknCI65agd+H1j7/YXau6EEueXucJqnsbX46+Iq7siI1d0G2LBFzhfw86dsYsSgUjn0
- Se0TD/LeEG9T4k7wrK6LmubiA2HwrD4qDPCh8xvjGdLiS0T891vF0VgZc4441inlGdhJ hg== 
+ b=vW4bZd/jCn66wdgq1ucTAX+nWsOI+ewsHPGNeO5MhBrjj+xAiq7wlzfmc9RGhvtLrOiM
+ FTsrZ3RVO4AgsStSZD0TYONBvkYL5oubLWgdP2mQW6dEIief0UlMqt/fVX5gxyosAkPo
+ IGHCrL3sVyNapt+qmzfdL6luVVqYPlDvW0ZsQdmlJz5bmi5vPFQILhm3SAxdx2ww/mub
+ /3o3YVapTQC9N4UWBl4UJtfaIGfihpV9OZCrh1ZE7oOY7QxOc4mHeCwGt4y6bWcpXelL
+ MGfkbacMha5LmsGoJBUHU5XXDf+iF/5aFG+v0tP2sHo+nYnCjU22fe6tc1tUv0q+rTfj Pw== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3h71122phb-1
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3h6xtak5vd-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Jul 2022 13:48:48 +0200
+        Mon, 11 Jul 2022 14:01:38 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E4166100034;
-        Mon, 11 Jul 2022 13:48:46 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0301F10002A;
+        Mon, 11 Jul 2022 14:01:37 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id CE46F21D383;
-        Mon, 11 Jul 2022 13:48:46 +0200 (CEST)
-Received: from localhost (10.75.127.49) by SHFDAG1NODE2.st.com (10.75.129.70)
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id ED10E21ED2B;
+        Mon, 11 Jul 2022 14:01:37 +0200 (CEST)
+Received: from localhost (10.75.127.50) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.20; Mon, 11 Jul
- 2022 13:48:46 +0200
+ 2022 14:01:37 +0200
 From:   Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 To:     <krzysztof.kozlowski+dt@linaro.org>, <robh+dt@kernel.org>,
         <heikki.krogerus@linux.intel.com>, <gregkh@linuxfoundation.org>
@@ -49,15 +49,15 @@ CC:     <christophe.jaillet@wanadoo.fr>, <devicetree@vger.kernel.org>,
         <amelie.delaunay@foss.st.com>, <alexandre.torgue@foss.st.com>,
         <fabrice.gasnier@foss.st.com>
 Subject: [PATCH v2 1/4] dt-bindings: usb: typec: add bindings for stm32g0 controller
-Date:   Mon, 11 Jul 2022 13:48:28 +0200
-Message-ID: <20220711114831.25205-2-fabrice.gasnier@foss.st.com>
+Date:   Mon, 11 Jul 2022 14:01:19 +0200
+Message-ID: <20220711120122.25804-2-fabrice.gasnier@foss.st.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220711114831.25205-1-fabrice.gasnier@foss.st.com>
-References: <20220711114831.25205-1-fabrice.gasnier@foss.st.com>
+In-Reply-To: <20220711120122.25804-1-fabrice.gasnier@foss.st.com>
+References: <20220711120122.25804-1-fabrice.gasnier@foss.st.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.75.127.49]
+X-Originating-IP: [10.75.127.50]
 X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE2.st.com
  (10.75.129.70)
 X-Proofpoint-Virus-Version: vendor=baseguard
