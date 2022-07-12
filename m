@@ -2,75 +2,184 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73385C433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Jul 2022 13:44:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB9CDC43334
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Jul 2022 15:14:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232771AbiGLNoQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Jul 2022 09:44:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54810 "EHLO
+        id S229918AbiGLPOX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Jul 2022 11:14:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229700AbiGLNny (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Jul 2022 09:43:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A83C1BE96;
-        Tue, 12 Jul 2022 06:43:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S233235AbiGLPNu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Jul 2022 11:13:50 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC63D1393;
+        Tue, 12 Jul 2022 08:06:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1657638410; x=1689174410;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=OfgXpXXnxYkkdwb4bULIi/Pbx109DJwee81W/cf3QsM=;
+  b=Maf5gXjPcn35A/9jvJKn2XzTDtwdW6Wlo+WOt8ObjYqYFhqpHWlKCJGe
+   /wLhQpe54FVfcjpN+puM8xN21nQhzZkW6xqzkYw0dVyPryiUKQyWiniYC
+   bldaEJ+vcQKVgoqB+Mw2j//894ScxVWeW3a02HeIhRc0S1Kt8+bkjBPvm
+   /RVrCN1Kp28IixrDbxkLgXzVBJnc0+3v7CTJgeC1Wy+ted8waRKyZAf7T
+   zS95DvSk84WZBRLvcfims6OKOexZIfDnJMUDJrJOosIb/CH/zjbPnIZHp
+   7/d9/YeEBEIUO+Tbglnew6v74SiXghR6lo1qbiU1m04pksZpdShRER+OO
+   g==;
+X-IronPort-AV: E=Sophos;i="5.92,266,1650924000"; 
+   d="scan'208";a="25005746"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 12 Jul 2022 17:06:47 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Tue, 12 Jul 2022 17:06:47 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Tue, 12 Jul 2022 17:06:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1657638407; x=1689174407;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=OfgXpXXnxYkkdwb4bULIi/Pbx109DJwee81W/cf3QsM=;
+  b=pZxY0k/GxPT9fzQAfFCsullpK6SF5cWRHKvR6cqycTBkoXt2CxrUkfKP
+   dt7QilL6/Zflulc0E0Ir23Bh/Rq2XnoyP01/jRxpzU6YFlWG1ILhq1Vrj
+   5ya14V7fuwA4a+TjRFmbnhDCDb3FHvnPCH2AX1X3FdFWOKKKS4ckZuJJY
+   FLZhxosavLGGcxUlUQRkQ1ywo7lLYJ8cRbAREgCIeUXCOwQf3nglH379T
+   DTLKkE6/jiv+XNA4Uk/Enwi48I5qVgMpH6PQU7gy81hPCmIwKKSCLLQfh
+   9d2VWiC5VaBZw70fJYHhBCOZhzuvN+RuSdSjRmkn/Dejs0ZPictoyNtwn
+   g==;
+X-IronPort-AV: E=Sophos;i="5.92,266,1650924000"; 
+   d="scan'208";a="25005739"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 12 Jul 2022 17:06:32 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E2852617FE;
-        Tue, 12 Jul 2022 13:43:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A813AC341C8;
-        Tue, 12 Jul 2022 13:43:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1657633431;
-        bh=Qb/oUeQurbQ9x0BxaRhTtPoP0Rue+w9iCNr3XC122bw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RKJm9saZQJLyT7txlacfxKQhiRYO2mgMqWSMoSF4rBGk2U2eLzJt/dPWBYiN//8uE
-         mE8YiOrmiTYxuOJj2Yy9pr7naWd8pWnDtQMNn3RSKZY1cp2HioL4/5oHbOa2G+aCsm
-         H7ytYiR8Pj9r9Az3wxx/jAkJyNZvOa1GrZBxTy1g=
-Date:   Tue, 12 Jul 2022 15:43:48 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Xin Ji <xji@analogixsemi.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        bliang@analogixsemi.com, qwen@analogixsemi.com,
-        jli@analogixsemi.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v16 1/3] usb: typec: tcpci: move tcpci.h to
- include/linux/usb/
-Message-ID: <Ys16lEvhVSSSRMP7@kroah.com>
-References: <20220712090534.2783494-1-xji@analogixsemi.com>
- <0bd85140-f006-8b29-0a43-500733f1654c@roeck-us.net>
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 02425280072;
+        Tue, 12 Jul 2022 17:06:31 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Kaehlcke <mka@chromium.org>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH 2/3] usb: misc: onboard_usb_hub: Add reset-gpio support
+Date:   Tue, 12 Jul 2022 17:06:26 +0200
+Message-Id: <20220712150627.1444761-2-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220712150627.1444761-1-alexander.stein@ew.tq-group.com>
+References: <20220712150627.1444761-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0bd85140-f006-8b29-0a43-500733f1654c@roeck-us.net>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jul 12, 2022 at 06:31:22AM -0700, Guenter Roeck wrote:
-> On 7/12/22 02:05, Xin Ji wrote:
-> > USB PD controllers which consisting of a microcontroller (acting as the TCPM)
-> > and a port controller (TCPC) - may require that the driver for the PD
-> > controller accesses directly also the on-chip port controller in some cases.
-> > 
-> > Move tcpci.h to include/linux/usb/ is convenience access TCPC registers.
-> > 
-> > Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-> > Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > 
-> > ---
-> > V9 -> V10: Rebase on the latest code
-> > V8 -> V9 : Add more commit message
-> > V7 -> V8 : Fix Guanter's comment, remove unnecessary explain
-> 
-> We are now at v16. The change log has not been updated since v10,
-> making it all but worthless.
+Despite default reset upon probe, release reset line after powering up
+the hub and assert reset again before powering down.
 
-It's also already in my tree for a while, so I have no idea what this is
-being generated against :(
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+My current DT node on my TQMa8MPxL looks like this
+```
+&usb_dwc3_1 {
+	dr_mode = "host";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usbhub>;
+	status = "okay";
+
+	hub_2_0: hub@1 {
+		compatible = "usb451,8142";
+		reg = <1>;
+		peer-hub = <&hub_3_0>;
+		reset-gpio = <&gpio1 11 GPIO_ACTIVE_LOW>;
+	};
+
+	hub_3_0: hub@2 {
+		compatible = "usb451,8140";
+		reg = <2>;
+		peer-hub = <&hub_2_0>;
+		reset-gpio = <&gpio1 11 GPIO_ACTIVE_LOW>;
+	};
+};
+```
+which I don't like much for 2 reasons:
+* the pinctrl has to be put in a common top-node of USB hub node. The pinctrl
+  can not be requested twice.
+* Apparently there is no conflict on the reset-gpio only because just one device
+  gets probed here:
+> $ ls /sys/bus/platform/drivers/onboard-usb-hub/
+> 38200000.usb:hub@1  bind  uevent  unbind
+
+But this seems better than to use a common fixed-regulator referenced by both
+hub nodes, which just is controlled by GPIO and does not supply any voltages.
+Note: It might also be necessary to add bindings to specify ramp up times and/or
+reset timeouts.
+
+ drivers/usb/misc/onboard_usb_hub.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
+index 6b9b949d17d3..348fb5270266 100644
+--- a/drivers/usb/misc/onboard_usb_hub.c
++++ b/drivers/usb/misc/onboard_usb_hub.c
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/device.h>
+ #include <linux/export.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/list.h>
+@@ -38,6 +39,7 @@ struct usbdev_node {
+ struct onboard_hub {
+ 	struct regulator *vdd;
+ 	struct device *dev;
++	struct gpio_desc *reset_gpio;
+ 	bool always_powered_in_suspend;
+ 	bool is_powered_on;
+ 	bool going_away;
+@@ -56,6 +58,10 @@ static int onboard_hub_power_on(struct onboard_hub *hub)
+ 		return err;
+ 	}
+ 
++	/* Deassert reset */
++	usleep_range(3000, 3100);
++	gpiod_set_value_cansleep(hub->reset_gpio, 0);
++
+ 	hub->is_powered_on = true;
+ 
+ 	return 0;
+@@ -65,6 +71,10 @@ static int onboard_hub_power_off(struct onboard_hub *hub)
+ {
+ 	int err;
+ 
++	/* Assert reset */
++	gpiod_set_value_cansleep(hub->reset_gpio, 1);
++	usleep_range(4000, 5000);
++
+ 	err = regulator_disable(hub->vdd);
+ 	if (err) {
+ 		dev_err(hub->dev, "failed to disable regulator: %d\n", err);
+@@ -231,6 +241,14 @@ static int onboard_hub_probe(struct platform_device *pdev)
+ 	if (IS_ERR(hub->vdd))
+ 		return PTR_ERR(hub->vdd);
+ 
++	/* Put the hub into reset, pull reset line low, and assure 4ms reset low timing. */
++	hub->reset_gpio = devm_gpiod_get_optional(dev, "reset",
++						  GPIOD_OUT_HIGH);
++	if (IS_ERR(hub->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(hub->reset_gpio), "failed to get reset GPIO\n");
++
++	usleep_range(4000, 5000);
++
+ 	hub->dev = dev;
+ 	mutex_init(&hub->lock);
+ 	INIT_LIST_HEAD(&hub->udev_list);
+-- 
+2.25.1
 
