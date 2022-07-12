@@ -2,33 +2,33 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6A08CCA483
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Jul 2022 15:14:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFB2CC433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Jul 2022 15:14:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232887AbiGLPOY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Jul 2022 11:14:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44086 "EHLO
+        id S233059AbiGLPOZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Jul 2022 11:14:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232197AbiGLPOC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Jul 2022 11:14:02 -0400
+        with ESMTP id S233633AbiGLPN5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Jul 2022 11:13:57 -0400
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 343C1D086D;
-        Tue, 12 Jul 2022 08:06:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AD6FD13A7;
+        Tue, 12 Jul 2022 08:06:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1657638414; x=1689174414;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=/Wy7p69Rlikhs7cHVdkBQN+SOCE/0e4kE1BnAWx2HhY=;
-  b=q6W2m4WfQ6btRIRHuU6C8pdwCivM0QDUPb+aMgakAR0dY4iqbTUU/b94
-   nQgpx6ltNOoev/Nrszq30CtLBd1NSwqwiqqZc39fQBZZH+CCTkUasJDle
-   HrV8akoub+BBxTfsTO9adJPmitEzxPyE71186ONU+FGiDkO/tzmkAfUcz
-   XYr8gvbao6jm1tbYUCnhZj8h6l3C6UteKUARGEjVCmAw7DDi5WZLZz+pM
-   2h4bD7eg66HE4lD9p034h9JiEMGrjYEZK+MKaqLQElo2J2+H9ZP9qtUWi
-   /6t959e5071VnsFLkoXhechHRAPXUK5Tzt+PAJ6rzAJCX6REElHoRuyJi
-   w==;
+  t=1657638415; x=1689174415;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=H20Yshd9F2kwcQGnW9HMTIT2LodAkeqAkKIMjvmxWKo=;
+  b=GplaDu+ZsUxb3xolw5jPNsfaogZP+c0VnVn83M/E6ScHRUcGMkH7j6hR
+   3LsEoW6XVFlo1W3iBrHdaydIVqi++eHw9xmi+PfdJtmOMQaZROsVJq1ng
+   e4fykOvinygs5g/pk9EhKKYVQy84He1cGuOk6zJ9nP9+fQxgC9QTA6C2z
+   0p0oadU3qz+br17F0hgJSMMS58V+C6EdbZAoeVl9+h+gS0k5kRaaDeRq9
+   1UO+HgehOwR35lUWlSobuM685W2jmWQfq2zt8HYrYg20cSJZ5qnMIPUGN
+   EPGxYflb5B60cnp6zuFDfqINrlABsFugRHrhZTdrstg5G0xG8TYL5L2Zj
+   g==;
 X-IronPort-AV: E=Sophos;i="5.92,266,1650924000"; 
-   d="scan'208";a="25005747"
+   d="scan'208";a="25005749"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
   by mx1-pgp.tq-group.com with ESMTP; 12 Jul 2022 17:06:47 +0200
 Received: from mx1.tq-group.com ([192.168.6.7])
@@ -39,25 +39,25 @@ X-PGP-Universal: processed;
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
   t=1657638407; x=1689174407;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=/Wy7p69Rlikhs7cHVdkBQN+SOCE/0e4kE1BnAWx2HhY=;
-  b=XIhSpYUWshSH66cQvAgqth5GfVDyia/U/pul2xakLktBvGa5E00Iuli1
-   YSnBuy/vzcKjtOUXcPCRo3gcGPMeYWpbBTEGldhsrBIGsOQSGyB3yYX4x
-   Qn0vnM22DobAThAkvGYu/wW/mCb+gJpooGiq8ddjhiOZjJxKQajGlQntB
-   WAiLcV1Vda+LQTo7LZQ9eQcrPQ4cZRJWn27pV8TuTJSCTjoE9tnyf2GBG
-   gwx4mHVqPhhyWFJXRU2DxBDXQli7vZmHNnyXocBNhXdU/YdbE+1Wxvj0k
-   WD21/S/r46BRWebum7tCJU187V36M/QxXr8WlR3Ugy8SRYQrdhMXo/6uh
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=H20Yshd9F2kwcQGnW9HMTIT2LodAkeqAkKIMjvmxWKo=;
+  b=HSsaPnjCWcjiHvXdY66kdKz35WsATJ09KzZKlD0eFUpIymnVQveae6VX
+   pw8M9ygp84FBKvvwVpSFLO6OSpuPBcvxGl3Nsdi3Ik+EbMBKBMawXl/Sz
+   UTctCrYGHX50gshRpg8BaJmXObIhbjxRf4JnLbUVHF299UIP+8oDButfp
+   YTCXwmBjTp5P7R+i33io+K5LRqEyYc/keg24Is76qzEOeduBFAKeuIjzh
+   Z/SZIPpfJI8Pyzu8d0rZqE2nLC6r95AjxBWyThkNewFh/igws1PCuSFRH
+   RPrsCtx2/Ajxxtd4N0jRyGL14jBm6IKlAmmMOYxY6Zm2DfiOWg+s2mRKd
    g==;
 X-IronPort-AV: E=Sophos;i="5.92,266,1650924000"; 
-   d="scan'208";a="25005740"
+   d="scan'208";a="25005738"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
   by mx1.tq-group.com with ESMTP; 12 Jul 2022 17:06:32 +0200
 Received: from steina-w.tq-net.de (unknown [10.123.49.12])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2799D280056;
-        Tue, 12 Jul 2022 17:06:32 +0200 (CEST)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D205F280056;
+        Tue, 12 Jul 2022 17:06:31 +0200 (CEST)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -65,60 +65,110 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Matthias Kaehlcke <mka@chromium.org>
 Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
         linux-usb@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH 3/3] usb: misc: onboard_usb_hub: Add TI USB8041 hub support
-Date:   Tue, 12 Jul 2022 17:06:27 +0200
-Message-Id: <20220712150627.1444761-3-alexander.stein@ew.tq-group.com>
+Subject: [PATCH 1/3] dt-bindings: usb: Add binding for TI USB8041 hub controller
+Date:   Tue, 12 Jul 2022 17:06:25 +0200
+Message-Id: <20220712150627.1444761-1-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220712150627.1444761-1-alexander.stein@ew.tq-group.com>
-References: <20220712150627.1444761-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is a 4-port 3.0 USB hub.
+The TI USB8041 is a USB 3.0 hub controller with 4 ports.
+
+This initial version of the binding only describes USB related aspects
+of the USB8041, it does not cover the option of connecting the controller
+as an i2c slave.
 
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- drivers/usb/misc/onboard_usb_hub.c | 3 +++
- drivers/usb/misc/onboard_usb_hub.h | 2 ++
- 2 files changed, 5 insertions(+)
+Well, this is essentially a ripoff of
+Documentation/devicetree/bindings/usb/realtek,rts5411.yaml with USB IDs
+replaced, reset-gpio added and example adjusted.
+IMHO this should be merged together with realtek,rts5411.yaml. Is it ok
+to rename bindings files? I guess a common onboard-usb-hub.yaml matching
+the driver seens reasonable. Any recommendations how to proceed?
 
-diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
-index 348fb5270266..5c07cd64a4ef 100644
---- a/drivers/usb/misc/onboard_usb_hub.c
-+++ b/drivers/usb/misc/onboard_usb_hub.c
-@@ -328,6 +328,7 @@ static struct platform_driver onboard_hub_driver = {
- /************************** USB driver **************************/
- 
- #define VENDOR_ID_REALTEK	0x0bda
-+#define VENDOR_ID_TI		0x0451
- 
- /*
-  * Returns the onboard_hub platform device that is associated with the USB
-@@ -405,6 +406,8 @@ static const struct usb_device_id onboard_hub_id_table[] = {
- 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x5411) }, /* RTS5411 USB 2.1 */
- 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x0414) }, /* RTS5414 USB 3.2 */
- 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x5414) }, /* RTS5414 USB 2.1 */
-+	{ USB_DEVICE(VENDOR_ID_TI, 0x8140) }, /* TI USB8041 3.0 */
-+	{ USB_DEVICE(VENDOR_ID_TI, 0x8142) }, /* TI USB8041 2.0 */
- 	{}
- };
- MODULE_DEVICE_TABLE(usb, onboard_hub_id_table);
-diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
-index d3a5b6938582..a3a988fbc740 100644
---- a/drivers/usb/misc/onboard_usb_hub.h
-+++ b/drivers/usb/misc/onboard_usb_hub.h
-@@ -7,6 +7,8 @@
- #define _USB_MISC_ONBOARD_USB_HUB_H
- 
- static const struct of_device_id onboard_hub_match[] = {
-+	{ .compatible = "usb451,8140" },
-+	{ .compatible = "usb451,8142" },
- 	{ .compatible = "usbbda,411" },
- 	{ .compatible = "usbbda,5411" },
- 	{ .compatible = "usbbda,414" },
+ .../devicetree/bindings/usb/ti,usb8041.yaml   | 69 +++++++++++++++++++
+ 1 file changed, 69 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/ti,usb8041.yaml
+
+diff --git a/Documentation/devicetree/bindings/usb/ti,usb8041.yaml b/Documentation/devicetree/bindings/usb/ti,usb8041.yaml
+new file mode 100644
+index 000000000000..9a49d60527b1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/ti,usb8041.yaml
+@@ -0,0 +1,69 @@
++# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/ti,usb8041.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Binding for the TI USB8041 USB 3.0 hub controller
++
++maintainers:
++  - Matthias Kaehlcke <mka@chromium.org>
++
++allOf:
++  - $ref: usb-device.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - usb451,8140
++          - usb451,8142
++
++  reg: true
++
++  reset-gpio:
++    maxItems: 1
++    description:
++      GPIO specifier for GSRT# pin.
++
++  vdd-supply:
++    description:
++      phandle to the regulator that provides power to the hub.
++
++  peer-hub:
++    $ref: '/schemas/types.yaml#/definitions/phandle'
++    description:
++      phandle to the peer hub on the controller.
++
++required:
++  - peer-hub
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    usb {
++        dr_mode = "host";
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        /* 2.0 hub on port 1 */
++        hub_2_0: hub@1 {
++          compatible = "usb451,8142";
++          reg = <1>;
++          peer-hub = <&hub_3_0>;
++          reset-gpio = <&gpio1 11 GPIO_ACTIVE_LOW>;
++        };
++
++        /* 3.0 hub on port 2 */
++        hub_3_0: hub@2 {
++          compatible = "usb451,8140";
++          reg = <2>;
++          peer-hub = <&hub_2_0>;
++          reset-gpio = <&gpio1 11 GPIO_ACTIVE_LOW>;
++        };
++    };
 -- 
 2.25.1
 
