@@ -2,93 +2,114 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EDC2C433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Jul 2022 13:18:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21812C433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jul 2022 14:00:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236332AbiGMNSM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Jul 2022 09:18:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40908 "EHLO
+        id S236435AbiGMOAO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Jul 2022 10:00:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236240AbiGMNSB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Jul 2022 09:18:01 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 253EE9590;
-        Wed, 13 Jul 2022 06:18:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CFB6BB81F46;
-        Wed, 13 Jul 2022 13:17:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D96EC341C0;
-        Wed, 13 Jul 2022 13:17:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657718277;
-        bh=ypT31tttdamVrW0wkBqfoCyXu3GpzfgCFgVZIeiit8M=;
-        h=From:To:Cc:Subject:Date:From;
-        b=sxjuT2RL8eWwPUUFkwcXBR6iPW+CXYxuTb8phCmAG/XWIEVVoU3NTdK/DmjxEcxjS
-         FZz88TSiXMfu6V9TYo8a0cZyoprp/+wkNyr1obzJdUrH7mEhDEttQN1VprcV9S3lFF
-         rIx63oSHN31Ra4GcRy45kgHRQOgglobVo3Cbp0IGXrV10/5loBeGnPc09ozLJDW+gl
-         3VGDKV6ErJ7C12Ig5ilEeTQ+ruuAtpg/gxPrDlRUltavIMDnzbt3tmKjkNWuyqbStx
-         nrmodDv0GLfvS8vCCS2/ywHkQSKblyRti+pkWE5gV02JiNBZaoA3FWxJnhYwmEM9+X
-         hfVZun/u63Z4g==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan+linaro@kernel.org>)
-        id 1oBcFc-0007gE-V5; Wed, 13 Jul 2022 15:18:01 +0200
-From:   Johan Hovold <johan+linaro@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        with ESMTP id S231301AbiGMOAL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Jul 2022 10:00:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E4D0D2C66A
+        for <linux-usb@vger.kernel.org>; Wed, 13 Jul 2022 07:00:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1657720810;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=LVM/9+bL0Plqw8a52QPl3k4n9Q1+GAafg2rUTujh0Gc=;
+        b=C7MeA/4Cvzux7KlM9poxwLLOphu8PWeg/WjqbwGM9Gufr63eGbZBsoRhWvCslo6Z+EpLod
+        2VRMFcy9MGUROEnhQrxLp2+sSev16rE5TS32z7p5kLa+9bnRHqe+H6/5jpCUoAa6O2y/WE
+        ztIGCHspJ+JGWN8iOAQD0YOPaHvpvZc=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-591-yTTJTtgHM5uAikvwHowsFg-1; Wed, 13 Jul 2022 10:00:08 -0400
+X-MC-Unique: yTTJTtgHM5uAikvwHowsFg-1
+Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-1015d202b74so5946742fac.20
+        for <linux-usb@vger.kernel.org>; Wed, 13 Jul 2022 07:00:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LVM/9+bL0Plqw8a52QPl3k4n9Q1+GAafg2rUTujh0Gc=;
+        b=e06804iMGqIxHiMVb1o5RQQHXz1Jl6hGiHTI82xlfhsPeVqw79uc68/wR4QCblGaCF
+         Qn6dgY1Z3/bdYUYeDJoulRXozRqW5OOuVaNZ9aoRzsRy5mVWG9QcsbqMUdLyvXzsVS9h
+         cihKN0b7znwIKIdtRqk/dhhdJ3faFZ3YXKoFbJVjPNudt3elL9o0Ch4po0SgazAOx2rh
+         aFShCsohfbpLtOVtlrqrIW/ONEHbRqTmJmdKAeYI7PHe9a0NxtlpRy+iP8Z+AI1MP1Wt
+         qfY1YloMLgLn9x9nWAEjcTuhMYhfChdAf2/vxllu6Svgi1d+H20QjmBIxwu4MoQHplQz
+         0PxQ==
+X-Gm-Message-State: AJIora/s7ZYhPs2/8Dlugm9LENi0XNOnFzNfMrTwg4+FjPwCb54hVHrL
+        aXeW8bFO3X1cg4Jg0drs8ekpwWJ7OZ+T9JXc0TD9V0h31gV9kOdHGKuMSdt8uZPfsmhsF83j9T0
+        AONDtW61UrPjHTcTETb1L
+X-Received: by 2002:a05:6870:f149:b0:de:e873:4a46 with SMTP id l9-20020a056870f14900b000dee8734a46mr1710707oac.286.1657720807871;
+        Wed, 13 Jul 2022 07:00:07 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tWU5P/M2v4yhf5rjgNK8fNjmlmpbF71huQvwUWO4e55Sg67LK3nJe2ebY/U445BU5Ynrdnxw==
+X-Received: by 2002:a05:6870:f149:b0:de:e873:4a46 with SMTP id l9-20020a056870f14900b000dee8734a46mr1710691oac.286.1657720807684;
+        Wed, 13 Jul 2022 07:00:07 -0700 (PDT)
+Received: from halaneylaptop ([2600:1700:1ff0:d0e0::2e])
+        by smtp.gmail.com with ESMTPSA id h82-20020aca3a55000000b00339ff117f38sm3726085oia.53.2022.07.13.07.00.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jul 2022 07:00:07 -0700 (PDT)
+Date:   Wed, 13 Jul 2022 09:00:05 -0500
+From:   Andrew Halaney <ahalaney@redhat.com>
+To:     Johan Hovold <johan+linaro@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Felipe Balbi <balbi@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
         Konrad Dybcio <konrad.dybcio@somainline.org>,
         Wesley Cheng <quic_wcheng@quicinc.com>,
         linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH 0/7] usb: dwc3: add support for SC8280XP
-Date:   Wed, 13 Jul 2022 15:13:33 +0200
-Message-Id: <20220713131340.29401-1-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.35.1
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/7] usb: dwc3: qcom: fix missing optional irq warnings
+Message-ID: <20220713140005.qw3nhjlin4vobhvd@halaneylaptop>
+References: <20220713131340.29401-1-johan+linaro@kernel.org>
+ <20220713131340.29401-4-johan+linaro@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220713131340.29401-4-johan+linaro@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series adds the missing devicetree binding for SC8280XP, clean up
-the current bindings somewhat and fixes a related driver warning when an
-optional wakeup interrupt is missing.
+On Wed, Jul 13, 2022 at 03:13:36PM +0200, Johan Hovold wrote:
+> Not all platforms have all of the four currently supported wakeup
+> interrupts so use the optional irq helpers when looking up interrupts to
+> avoid printing error messages when an optional interrupt is not found:
+> 
+> 	dwc3-qcom a6f8800.usb: error -ENXIO: IRQ hs_phy_irq not found
+> 
+> Fixes: a4333c3a6ba9 ("usb: dwc3: Add Qualcomm DWC3 glue driver")
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+> ---
+>  drivers/usb/dwc3/dwc3-qcom.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+> index 77036551987a..c5e482f53e9d 100644
+> --- a/drivers/usb/dwc3/dwc3-qcom.c
+> +++ b/drivers/usb/dwc3/dwc3-qcom.c
+> @@ -490,9 +490,9 @@ static int dwc3_qcom_get_irq(struct platform_device *pdev,
+>  	int ret;
+>  
+>  	if (np)
+> -		ret = platform_get_irq_byname(pdev_irq, name);
+> +		ret = platform_get_irq_byname_optional(pdev_irq, name);
+>  	else
+> -		ret = platform_get_irq(pdev_irq, num);
+> +		ret = platform_get_irq_optional(pdev_irq, num);
+>  
+>  	return ret;
+>  }
+> -- 
+> 2.35.1
+> 
 
-The last four patches fix up the SC8280XP devicetree that's currently in
-Bjorn's tree and addresses some DT schema warnings in other Qualcomm
-devicetrees and are only included here for completeness.
-
-The binding and driver updates are expected to go though the USB tree,
-while the devicetree updates can be picked up by Bjorn once the binding
-updates have been merged.
-
-Johan
-
-
-Johan Hovold (7):
-  dt-bindings: usb: qcom,dwc3: add SC8280XP binding
-  dt-bindings: usb: qcom,dwc3: refine interrupt requirements
-  usb: dwc3: qcom: fix missing optional irq warnings
-  arm64: dts: qcom: sc8280xp: fix USB clock order
-  arm64: dts: qcom: sc8280xp: fix USB interrupts
-  arm64: dts: qcom: sc7280: reorder USB interrupts
-  arm64: dts: qcom: reorder USB interrupts
-
- .../devicetree/bindings/usb/qcom,dwc3.yaml    | 152 ++++++++++++++++--
- arch/arm/boot/dts/qcom-sdx65.dtsi             |  10 +-
- arch/arm64/boot/dts/qcom/sc7280.dtsi          |  15 +-
- arch/arm64/boot/dts/qcom/sc8280xp.dtsi        |  28 ++--
- arch/arm64/boot/dts/qcom/sm8250.dtsi          |  20 ++-
- arch/arm64/boot/dts/qcom/sm8350.dtsi          |  20 ++-
- drivers/usb/dwc3/dwc3-qcom.c                  |   4 +-
- 7 files changed, 194 insertions(+), 55 deletions(-)
-
--- 
-2.35.1
+Reviewed-by: Andrew Halaney <ahalaney@redhat.com>
 
