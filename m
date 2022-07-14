@@ -2,40 +2,46 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6E90C433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jul 2022 14:55:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EDDAC43334
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jul 2022 14:56:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239528AbiGNOz1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 Jul 2022 10:55:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33066 "EHLO
+        id S238983AbiGNO4V (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 Jul 2022 10:56:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239437AbiGNOz0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 Jul 2022 10:55:26 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295A8474F6;
-        Thu, 14 Jul 2022 07:55:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1657810525; x=1689346525;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=f7RaRgDoZZGQ1vuyDsPSY35GCbn3E4x7n2cFx773AbU=;
-  b=SJ2Ckgt+pj9y5/5jkjiITiaXR1HthPxBfJEmuCWkCHU6V2/cCSHodGmX
-   AemYBLzQZvzCJ004TNEHOeV5bHQVApCMpTk9wgIeg/0TE8Q3RlbUr7Q/6
-   LcqEjIoP/jWsrsZ4ASz1GcMU2AtbFGfOFcUg5aEXYkVLyKy3+w8yPy7fm
-   8=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
-  by alexa-out.qualcomm.com with ESMTP; 14 Jul 2022 07:55:25 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 07:55:24 -0700
+        with ESMTP id S238743AbiGNO4T (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 Jul 2022 10:56:19 -0400
+X-Greylist: delayed 1487 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 14 Jul 2022 07:56:19 PDT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33EDF5C369;
+        Thu, 14 Jul 2022 07:56:19 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26EBFpls031152;
+        Thu, 14 Jul 2022 14:31:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=f7RaRgDoZZGQ1vuyDsPSY35GCbn3E4x7n2cFx773AbU=;
+ b=hPFEFLXgOWebDJdlCkAGDRrohGCls/EdZo51pwO5FHsUtf5F+V+3DE9wZ++75NrbqwvQ
+ dOtR7rUal82ygv/5s2syx/Phe1fygKYse/nr05XwoKJ8JMmQtidDlK8Ia88tr+ikocM4
+ laqrp2SXDzx4tvwO87YMFrznweJTN4j/E6Z3eoqjDPV66o/d+nDutGsECvnYEBDyPKGg
+ PJe3ecaVkRT8u8MH+VxkCptXHwgLK2Jmj0mjnf1jbAZVhvhqxUqngklk7cvmAukgjgod
+ aBJZH7e22aJCbEArKudn1Qtx9trMhdcCDwCH5emrcu8c5wj0A6+MeyLzfKLBHUSJEuS0 4A== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3habdxhen5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 14 Jul 2022 14:31:24 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.47.97.222])
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 26EEVNpL000573
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 14 Jul 2022 14:31:23 GMT
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 14 Jul 2022 07:55:24 -0700
+ 15.2.986.22; Thu, 14 Jul 2022 07:31:23 -0700
 Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 14 Jul 2022 07:55:20 -0700
+ 15.2.986.22; Thu, 14 Jul 2022 07:31:20 -0700
 From:   Krishna Kurapati <quic_kriskura@quicinc.com>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -46,14 +52,25 @@ CC:     <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         Krishna Kurapati <quic_kriskura@quicinc.com>
 Subject: [PATCH] usb: dwc3: qcom: Defer dwc3-qcom probe if dwc3 isn't probed properly
-Date:   Thu, 14 Jul 2022 20:25:16 +0530
-Message-ID: <1657810516-31143-1-git-send-email-quic_kriskura@quicinc.com>
+Date:   Thu, 14 Jul 2022 20:01:07 +0530
+Message-ID: <1657809067-25815-1-git-send-email-quic_kriskura@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: NTHbb-mJtXegfmadFR-BxpUZlypN0hJH
+X-Proofpoint-GUID: NTHbb-mJtXegfmadFR-BxpUZlypN0hJH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-14_10,2022-07-14_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ priorityscore=1501 bulkscore=0 mlxlogscore=999 clxscore=1011 phishscore=0
+ adultscore=0 mlxscore=0 malwarescore=0 impostorscore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207140061
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
