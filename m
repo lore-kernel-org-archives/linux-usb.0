@@ -2,93 +2,74 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8187C433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jul 2022 13:39:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CDBBC43334
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jul 2022 14:05:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239585AbiGNNjD convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 Jul 2022 09:39:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36462 "EHLO
+        id S239273AbiGNOFo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 Jul 2022 10:05:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239541AbiGNNjC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 Jul 2022 09:39:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 898D119289;
-        Thu, 14 Jul 2022 06:39:00 -0700 (PDT)
+        with ESMTP id S232207AbiGNOFn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 14 Jul 2022 10:05:43 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A2A5382;
+        Thu, 14 Jul 2022 07:05:38 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2AE5862090;
-        Thu, 14 Jul 2022 13:39:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81832C34115;
-        Thu, 14 Jul 2022 13:38:58 +0000 (UTC)
-Date:   Thu, 14 Jul 2022 09:38:57 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Ingo Molnar <mingo@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH 08/13 v2] USB: mtu3: tracing: Use the new __vstring() helper
-Message-ID: <20220714093857.1135e95a@gandalf.local.home>
-In-Reply-To: <20220705224750.354926535@goodmis.org>
-References: <20220705224453.120955146@goodmis.org>
-        <20220705224750.354926535@goodmis.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0402EB8259F;
+        Thu, 14 Jul 2022 14:05:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92FCFC34114;
+        Thu, 14 Jul 2022 14:05:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657807535;
+        bh=D5GgF02NPdE9LjaZDIxMtrmQj0pAf83Dl48OJxwjnTU=;
+        h=Date:From:To:Cc:Subject:From;
+        b=mWU3J659D19e9YIWg5I+0qFf1bBw1wGqqd5y/M9yVoW5a4OGi4ZJ9Ojz24qMTq+Ok
+         V7/5H+zN0hGakxWi4FY9FekRrtApFVryRLB7novLvm/SvxjwNDQY3XhaT+X8Z2yPWK
+         tlbIUFanj6nrRUEkdR+1hm6WEoTs17i3Jyi+8DPAdycb690evsjOYbxve7lUFOaXuz
+         TBFvdoJGgjuH4MKhxliNEugBEeNI7CjSSSeQJTelegaKl86JVx91QADcYlsvTVrrYL
+         DXMUhh19PhlCNs0d9NN1lDqtdOkSTexFLHR507pbMuA/gGnhU7gqj2o/gGQN2sSuAx
+         bsTO0200PsvjQ==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1oBzTI-0007zu-Ul; Thu, 14 Jul 2022 16:05:41 +0200
+Date:   Thu, 14 Jul 2022 16:05:40 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] USB-serial fixes for 5.19-rc7
+Message-ID: <YtAitIrTRRVkaUKJ@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From d6485fe54bd4f04256a8500156a7c05cb3fb9592 Mon Sep 17 00:00:00 2001
-From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-Date: Tue, 5 Jul 2022 18:45:01 -0400
-Subject: [PATCH] USB: mtu3: tracing: Use the new __vstring() helper
+The following changes since commit 32346491ddf24599decca06190ebca03ff9de7f8:
 
-Instead of open coding a __dynamic_array() with a fixed length (which
-defeats the purpose of the dynamic array in the first place). Use the new
-__vstring() helper that will use a va_list and only write enough of the
-string into the ring buffer that is needed.
+  Linux 5.19-rc6 (2022-07-10 14:40:51 -0700)
 
-Link: https://lkml.kernel.org/r/20220705224750.354926535@goodmis.org
+are available in the Git repository at:
 
-Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-mediatek@lists.infradead.org
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
----
+  https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-5.19-rc7
 
-Changes since v1: remove ',' that fails the build.
+for you to fetch changes up to 7c239a071d1f04b7137789810807b4108d475c72:
 
- drivers/usb/mtu3/mtu3_trace.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+  USB: serial: ftdi_sio: add Belimo device ids (2022-07-13 08:20:32 +0200)
 
-diff --git a/drivers/usb/mtu3/mtu3_trace.h b/drivers/usb/mtu3/mtu3_trace.h
-index 1b897636daf2..ef3c17e2f8a6 100644
---- a/drivers/usb/mtu3/mtu3_trace.h
-+++ b/drivers/usb/mtu3/mtu3_trace.h
-@@ -25,11 +25,11 @@ TRACE_EVENT(mtu3_log,
- 	TP_ARGS(dev, vaf),
- 	TP_STRUCT__entry(
- 		__string(name, dev_name(dev))
--		__dynamic_array(char, msg, MTU3_MSG_MAX)
-+		__vstring(msg, vaf->fmt, vaf->va)
- 	),
- 	TP_fast_assign(
- 		__assign_str(name, dev_name(dev));
--		vsnprintf(__get_str(msg), MTU3_MSG_MAX, vaf->fmt, *vaf->va);
-+		__assign_vstr(msg, vaf->fmt, vaf->va);
- 	),
- 	TP_printk("%s: %s", __get_str(name), __get_str(msg))
- );
--- 
-2.35.1
+----------------------------------------------------------------
+USB-serial fixes for 5.19-rc7
 
+Here are a couple of new device ids for ftdi_sio.
+
+Everything has been in linux-next with no reported issues.
+
+----------------------------------------------------------------
+Lucien Buchmann (1):
+      USB: serial: ftdi_sio: add Belimo device ids
+
+ drivers/usb/serial/ftdi_sio.c     | 3 +++
+ drivers/usb/serial/ftdi_sio_ids.h | 6 ++++++
+ 2 files changed, 9 insertions(+)
