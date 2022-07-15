@@ -2,154 +2,189 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CE18C43334
-	for <linux-usb@archiver.kernel.org>; Fri, 15 Jul 2022 06:53:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9056C433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 15 Jul 2022 07:33:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230341AbiGOGxg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 15 Jul 2022 02:53:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60138 "EHLO
+        id S231915AbiGOHdJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 15 Jul 2022 03:33:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230055AbiGOGxf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 Jul 2022 02:53:35 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 645871D5;
-        Thu, 14 Jul 2022 23:53:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229560AbiGOHdI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 Jul 2022 03:33:08 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FB017BE15;
+        Fri, 15 Jul 2022 00:33:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1657870386; x=1689406386;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=EtijF1TtJbE7eHGNasjw3sq90Rj8NAQWPgQrZ6WvuZY=;
+  b=kNrls2tmHHZ0mJoqN8OC92v49U5civAk4fhZYvExMz29bt2yzo8CUrpo
+   r4x4l2DJNaEl/ClDh4AXU+T1oeZEJZ2f5sDz0hqdpgAOjzxzzFxE1sgAW
+   kXD4LJ8tgqasLJNv3JXZSLu8hXQ4bsV0mpHVmSXV03pU7A1lEKvFdMd6H
+   60fGoZDIM5I0x7e+c0QyfoZZUco9OjhJALAcNbF6ndv92c+gGSkIZ3UBu
+   nBFv6wqD+JUOlQG4oC2yVtae0MPtoVcRkGmGyrWym4YTuA6anZCXsvNHQ
+   7bg/B/Dxwe8XL9wGQ/KcpOhkiPFPSyXCRzdjHlDUPH49aZCm8rlX91Sm7
+   w==;
+X-IronPort-AV: E=Sophos;i="5.92,273,1650924000"; 
+   d="scan'208";a="25068550"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 15 Jul 2022 09:33:04 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Fri, 15 Jul 2022 09:33:04 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Fri, 15 Jul 2022 09:33:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1657870384; x=1689406384;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=EtijF1TtJbE7eHGNasjw3sq90Rj8NAQWPgQrZ6WvuZY=;
+  b=G/xBnLTcckUPL0cuWDvjSdwgIH/CYNT7K9pt+3fkJIT24GvFh/TEw+oG
+   14tvy/lDPw8JfhrisWqCBzVYsBb73lAXBWMUXs/d60i5vlLgXV1xQmFbH
+   2ohIx57sGOzCm1n/DpSrMhQHhl7y/XZiQdp5x0Pb7GYdnKQZ9CzAbohGZ
+   8UT8mGA54rqg+4GfvBAeRM0pIldPzzMTcdYJ2YByBE2Z3wts99nsVhr15
+   3gtddVp25t/NI64xIrE46Z4BHvjAbiKrl8Tmbs8NagKA1iBVmtkaD7o04
+   Yk5IRNZeSYCrmO9waIIOLgkeKBpVLmU8e9kOZBbVbrJiGz4WNWG+4BCxQ
+   A==;
+X-IronPort-AV: E=Sophos;i="5.92,273,1650924000"; 
+   d="scan'208";a="25068548"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 15 Jul 2022 09:33:04 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 21C26B82ABC;
-        Fri, 15 Jul 2022 06:53:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07E9CC34115;
-        Fri, 15 Jul 2022 06:53:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1657868010;
-        bh=EVtVearHjWGz5Xx49kNdWSKu+VjDeCukGlny9J6I41g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=y4bPUUP3ooIplnSDdF1krn6bOpFtUmhUBj0YBMEmlFczWzFLUcWTWnnrumilpH5r5
-         tcq0a7fvCBk4H0hw04mGkNOEtELADJnEOT0iPOqCK6n9lwGgxz4g16zx0tia5SCUy0
-         UmzOQYfgCdJHftWXrUqQcle9F2VDuV1hnqB2JevA=
-Date:   Fri, 15 Jul 2022 08:53:27 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     sdlyyxy <sdlyyxy@bupt.edu.cn>
-Cc:     johan@kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] USB: serial: option: adding support for OPPO R11 diag
- port
-Message-ID: <YtEO51uf0RQNZIRP@kroah.com>
-References: <20220714102037.4113889-1-sdlyyxy@bupt.edu.cn>
- <Ys/2dN9ktCirZsd9@kroah.com>
- <5F187A64-2C88-4F7E-98AD-2A52B17B0DA4@bupt.edu.cn>
- <YtENDiIpq++2l6yD@kroah.com>
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id A0ABF280072;
+        Fri, 15 Jul 2022 09:33:04 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Kaehlcke <mka@chromium.org>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH v2 2/3] usb: misc: onboard_usb_hub: Add reset-gpio support
+Date:   Fri, 15 Jul 2022 09:32:59 +0200
+Message-Id: <20220715073300.868087-2-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220715073300.868087-1-alexander.stein@ew.tq-group.com>
+References: <20220715073300.868087-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YtENDiIpq++2l6yD@kroah.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jul 15, 2022 at 08:45:34AM +0200, Greg KH wrote:
-> On Fri, Jul 15, 2022 at 02:39:06PM +0800, sdlyyxy wrote:
-> > Hi Greg,
-> > Thanks for your comments!
-> > 
-> > > On Jul 14, 2022, at 18:56, Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > 
-> > > On Thu, Jul 14, 2022 at 06:20:37PM +0800, sdlyyxy wrote:
-> > >> From: Yan Xinyu <sdlyyxy@bupt.edu.cn>
-> > >> 
-> > >> This patch adds support for OPPO R11 USB diag serial port to option
-> > >> driver. This phone uses Qualcomm Snapdragon 660 SoC.
-> > >> 
-> > >> usb-devices output:
-> > >> T: Bus=03 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#= 10 Spd=480 MxCh= 0
-> > >> D: Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs= 1
-> > >> P: Vendor=22d9 ProdID=276c Rev=04.04
-> > >> S: Manufacturer=OPPO
-> > >> S: Product=SDM660-MTP _SN:09C6BCA7
-> > >> S: SerialNumber=beb2c403
-> > >> C: #Ifs= 2 Cfg#= 1 Atr=80 MxPwr=500mA
-> > >> I: If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-> > > 
-> > > I do not think this has an option usb-serial chip in the device, this is
-> > > a phone with a debug port instead.
-> > > 
-> > Yeah, this phone uses a Qualcomm chip, not an option usb-serial chip.
-> > It has the functionality to enter into a special mode, which provides 
-> > a QCDM-capable diag port as the same behaviour of USB modems. For
-> > Qualcomm devices, there are several drivers: qcserial, qcaux, and 
-> > option. According to qcserial.c, qcaux.c source code and mailing list
-> > conversations [1], this device with diag+adb layout should be driven
-> > by option.
-> 
-> No, this is not an option chip, and does not follow the option device
-> protocols at all.  So this is not the driver to use here.
-> 
-> We should probably switch those other devices as well, they aren't
-> really option devices either.
-> 
-> > >> I: If#=0x1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=usbfs
-> > > 
-> > > What userspace program is bound to this endpoint?
-> > > 
-> > I think it is used by adb via libusb.
-> > >> 
-> > >> Signed-off-by: Yan Xinyu <sdlyyxy@bupt.edu.cn>
-> > >> ---
-> > >> drivers/usb/serial/option.c | 5 +++++
-> > >> 1 file changed, 5 insertions(+)
-> > >> 
-> > >> diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-> > >> index de59fa919540..cf65cb84c3ca 100644
-> > >> --- a/drivers/usb/serial/option.c
-> > >> +++ b/drivers/usb/serial/option.c
-> > >> @@ -573,6 +573,10 @@ static void option_instat_callback(struct urb *urb);
-> > >> #define WETELECOM_PRODUCT_6802			0x6802
-> > >> #define WETELECOM_PRODUCT_WMD300		0x6803
-> > >> 
-> > >> +/* OPPO products */
-> > >> +#define OPPO_VENDOR_ID				0x22d9
-> > >> +#define OPPO_PRODUCT_R11			0x276c
-> > >> +
-> > >> 
-> > >> /* Device flags */
-> > >> 
-> > >> @@ -2155,6 +2159,7 @@ static const struct usb_device_id option_ids[] = {
-> > >> 	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1404, 0xff) },			/* GosunCn GM500 RNDIS */
-> > >> 	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1405, 0xff) },			/* GosunCn GM500 MBIM */
-> > >> 	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1406, 0xff) },			/* GosunCn GM500 ECM/NCM */
-> > >> +	{ USB_DEVICE_AND_INTERFACE_INFO(OPPO_VENDOR_ID, OPPO_PRODUCT_R11, 0xff, 0xff, 0x30) },
-> > > 
-> > > This does not look correct, sorry. Try using the usbserial generic
-> > > driver instead to transmit and recieve?
-> > > 
-> > Yes I have tried using usbserial generic driver. As for the interface
-> > #0x0 diag port, it seems working. However, in the same time the 
-> > generic driver will also be attached to interface #0x1, which causes
-> > nonfunction of adb. Using this patch, diag and adb can run 
-> > simultaneously. So it's better than the generic driver?
-> 
-> Ah, we should just bind the simple usb-serial driver to this interface
-> and not bind the generic usb-serial driver to this interface.
-> 
-> Let me make up a simple patch for this for you to test...
+Despite default reset upon probe, release reset line after powering up
+the hub and assert reset again before powering down.
 
-Can you try the patch here for this, it should work the same as your
-patch:
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+Changes in v2:
+* Use device specific sleep times, if present
+* Use fsleep instead of usleep_range
 
+ drivers/usb/misc/onboard_usb_hub.c | 29 +++++++++++++++++++++++++++++
+ drivers/usb/misc/onboard_usb_hub.h |  5 +++++
+ 2 files changed, 34 insertions(+)
 
-diff --git a/drivers/usb/serial/usb-serial-simple.c b/drivers/usb/serial/usb-serial-simple.c
-index 4c6747889a19..eb832b94aa3a 100644
---- a/drivers/usb/serial/usb-serial-simple.c
-+++ b/drivers/usb/serial/usb-serial-simple.c
-@@ -60,7 +60,9 @@ DEVICE(flashloader, FLASHLOADER_IDS);
- 	{ USB_VENDOR_AND_INTERFACE_INFO(0x18d1,			\
- 					USB_CLASS_VENDOR_SPEC,	\
- 					0x50,			\
--					0x01) }
-+					0x01) },		\
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x22d9, 0x276c,		\
-+					0xff, 0xff, 0x30) }
- DEVICE(google, GOOGLE_IDS);
+diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
+index 6b9b949d17d3..1dd7f4767def 100644
+--- a/drivers/usb/misc/onboard_usb_hub.c
++++ b/drivers/usb/misc/onboard_usb_hub.c
+@@ -7,6 +7,7 @@
  
- /* Libtransistor USB console */
+ #include <linux/device.h>
+ #include <linux/export.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/list.h>
+@@ -38,6 +39,8 @@ struct usbdev_node {
+ struct onboard_hub {
+ 	struct regulator *vdd;
+ 	struct device *dev;
++	const struct onboard_hub_devtype_data *devtype_data;
++	struct gpio_desc *reset_gpio;
+ 	bool always_powered_in_suspend;
+ 	bool is_powered_on;
+ 	bool going_away;
+@@ -56,6 +59,11 @@ static int onboard_hub_power_on(struct onboard_hub *hub)
+ 		return err;
+ 	}
+ 
++	if (hub->devtype_data)
++		fsleep(hub->devtype_data->power_stable_time);
++	if (hub->reset_gpio)
++		gpiod_set_value_cansleep(hub->reset_gpio, 0);
++
+ 	hub->is_powered_on = true;
+ 
+ 	return 0;
+@@ -65,6 +73,12 @@ static int onboard_hub_power_off(struct onboard_hub *hub)
+ {
+ 	int err;
+ 
++	if (hub->reset_gpio) {
++		gpiod_set_value_cansleep(hub->reset_gpio, 1);
++		if (hub->devtype_data)
++			fsleep(hub->devtype_data->reset_duration);
++	}
++
+ 	err = regulator_disable(hub->vdd);
+ 	if (err) {
+ 		dev_err(hub->dev, "failed to disable regulator: %d\n", err);
+@@ -219,6 +233,7 @@ static void onboard_hub_attach_usb_driver(struct work_struct *work)
+ 
+ static int onboard_hub_probe(struct platform_device *pdev)
+ {
++	const struct of_device_id *of_id;
+ 	struct device *dev = &pdev->dev;
+ 	struct onboard_hub *hub;
+ 	int err;
+@@ -227,10 +242,24 @@ static int onboard_hub_probe(struct platform_device *pdev)
+ 	if (!hub)
+ 		return -ENOMEM;
+ 
++	of_id = of_match_device(onboard_hub_match, &pdev->dev);
++	if (of_id)
++		hub->devtype_data = of_id->data;
++	else
++		return -ENODEV;
++
+ 	hub->vdd = devm_regulator_get(dev, "vdd");
+ 	if (IS_ERR(hub->vdd))
+ 		return PTR_ERR(hub->vdd);
+ 
++	hub->reset_gpio = devm_gpiod_get_optional(dev, "reset",
++						  GPIOD_OUT_HIGH);
++	if (IS_ERR(hub->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(hub->reset_gpio), "failed to get reset GPIO\n");
++
++	if (hub->devtype_data && hub->reset_gpio)
++		fsleep(hub->devtype_data->reset_duration);
++
+ 	hub->dev = dev;
+ 	mutex_init(&hub->lock);
+ 	INIT_LIST_HEAD(&hub->udev_list);
+diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
+index d3a5b6938582..7e743f4c8aaa 100644
+--- a/drivers/usb/misc/onboard_usb_hub.h
++++ b/drivers/usb/misc/onboard_usb_hub.h
+@@ -6,6 +6,11 @@
+ #ifndef _USB_MISC_ONBOARD_USB_HUB_H
+ #define _USB_MISC_ONBOARD_USB_HUB_H
+ 
++struct onboard_hub_devtype_data {
++	unsigned long power_stable_time;	/* power stabilization time in us */
++	unsigned long reset_duration;		/* reset pulse width in us */
++};
++
+ static const struct of_device_id onboard_hub_match[] = {
+ 	{ .compatible = "usbbda,411" },
+ 	{ .compatible = "usbbda,5411" },
+-- 
+2.25.1
+
