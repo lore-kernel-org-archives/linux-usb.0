@@ -2,115 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E794C433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 15 Jul 2022 13:43:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F31B3C433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 15 Jul 2022 14:24:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234715AbiGONnF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 15 Jul 2022 09:43:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45120 "EHLO
+        id S231487AbiGOOY7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 15 Jul 2022 10:24:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232707AbiGONnC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 Jul 2022 09:43:02 -0400
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82F8F7E006;
-        Fri, 15 Jul 2022 06:43:01 -0700 (PDT)
-Received: by mail-io1-f52.google.com with SMTP id z132so3906892iof.0;
-        Fri, 15 Jul 2022 06:43:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=03wcnwqW6SswNVSW3NYFh+nPKkFyDcywCPMc3nrTTzo=;
-        b=TdH2JtsYB6QRHzBN/92KFqwdGYKhHjdyXCuZM2aotId2+++XH3D5mX4a+RmDrIHJRF
-         U4WJ9tIylHXl9VKUOX+NGL0TfB5FLrH9wpgzuy5jCNZP3Bp1MvzEIyGmLVFCqex+W12A
-         uUfauLWZrk6jRc/cI9hyxAyiHbFvvnWXIUSlZ2tWlV/osLK4UY2HQ8WDYbbXKS1RXVzk
-         n9QIzRg0xTloij76/vYsdCDaR38UuSPuRM2MVjLNdufq4oovPcj8Zb1+4HM8a5lorraU
-         Vg8TpjKC53Hv9mK2T4PgQmtUAKxEGVQiH/a2spjezQg9AWtDY4PZHNiK4mpFgvQQ7FTu
-         8jZA==
-X-Gm-Message-State: AJIora/9WOi3jRjfzDpdyk4s5MK2mprVAmOXui7m4wYtI7++wX9Ubv8G
-        yMtc6M7C56PWWWEK8sF3MQ==
-X-Google-Smtp-Source: AGRyM1uzHWN8yj4iBWno2bNl4tSBHdD45HjKJL19BAJUQTQyoHWpBthV9k3/tF7H+HVOqQ0U4hzPtA==
-X-Received: by 2002:a02:ac0a:0:b0:33f:713a:9589 with SMTP id a10-20020a02ac0a000000b0033f713a9589mr7633647jao.289.1657892580691;
-        Fri, 15 Jul 2022 06:43:00 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id g7-20020a92dd87000000b002dc789a3dddsm1703976iln.5.2022.07.15.06.42.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jul 2022 06:43:00 -0700 (PDT)
-Received: (nullmailer pid 520291 invoked by uid 1000);
-        Fri, 15 Jul 2022 13:42:55 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     ChiaEn Wu <peterwu.pub@gmail.com>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        lee.jones@linaro.org, heikki.krogerus@linux.intel.com,
-        broonie@kernel.org, cy_huang@richtek.com, deller@gmx.de,
-        linux@roeck-us.net,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        szunichen@gmail.com, matthias.bgg@gmail.com,
-        dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
-        linux-fbdev@vger.kernel.org, jingoohan1@gmail.com,
-        chunfeng.yun@mediatek.com, lgirdwood@gmail.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        jic23@kernel.org, pavel@ucw.cz, gregkh@linuxfoundation.org,
-        robh+dt@kernel.org, lars@metafoo.de, alice_chen@richtek.com,
-        linux-iio@vger.kernel.org, linux-pm@vger.kernel.org,
-        sre@kernel.org, chiaen_wu@richtek.com,
-        linux-mediatek@lists.infradead.org, linux-usb@vger.kernel.org,
-        krzysztof.kozlowski+dt@linaro.org
-In-Reply-To: <20220715112607.591-7-peterwu.pub@gmail.com>
-References: <20220715112607.591-1-peterwu.pub@gmail.com> <20220715112607.591-7-peterwu.pub@gmail.com>
-Subject: Re: [PATCH v5 06/13] dt-bindings: mfd: Add MediaTek MT6370
-Date:   Fri, 15 Jul 2022 07:42:55 -0600
-Message-Id: <1657892575.865405.520290.nullmailer@robh.at.kernel.org>
+        with ESMTP id S231394AbiGOOY5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 Jul 2022 10:24:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B355D6C11C;
+        Fri, 15 Jul 2022 07:24:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2671B619BA;
+        Fri, 15 Jul 2022 14:24:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 023F4C34115;
+        Fri, 15 Jul 2022 14:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1657895094;
+        bh=gqsoRO92+mlK0ZwNvJsGoKnNnTCOYRtKI3/YidxBbgA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pWnBapWadb8KavruX98mihY0W9d4gGhIWwwBhQUThI3GIWNzhnmsujkRtyQEng2pN
+         ZMpT6O1TOnGYC8NXyhr7fQu8qnvYNs3BkTkrp6FfsiYjlFPUkzqBclF8ASTP8PJXat
+         p7GR2osWup7j2ocp/WKjZtbCPXhZDHW4yLdtnX08=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     johan@kernel.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yan Xinyu <sdlyyxy@bupt.edu.cn>
+Subject: [PATCH] USB: usb-serial-simple: add new device id for OPPO R11
+Date:   Fri, 15 Jul 2022 16:24:44 +0200
+Message-Id: <20220715142444.4173681-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.37.1
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1360; i=gregkh@linuxfoundation.org; h=from:subject; bh=gqsoRO92+mlK0ZwNvJsGoKnNnTCOYRtKI3/YidxBbgA=; b=owGbwMvMwCRo6H6F97bub03G02pJDEkXK5aus/rpLdgjOL9H9Jiv4bRXwcUGUv7cXyV+7112Ibcp ZKthRywLgyATg6yYIsuXbTxH91ccUvQytD0NM4eVCWQIAxenAExkdhzD/Ciuc7Iy/sZV6penqcrKJH 88suJlPcM82+csPNmlrwRCzAIWFE7arJD+4cZWAA==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, 15 Jul 2022 19:26:00 +0800, ChiaEn Wu wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> Add MediaTek MT6370 binding documentation.
-> 
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../devicetree/bindings/mfd/mediatek,mt6370.yaml   | 280 +++++++++++++++++++++
->  include/dt-bindings/iio/adc/mediatek,mt6370_adc.h  |  18 ++
->  2 files changed, 298 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
->  create mode 100644 include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
-> 
+The Oppo R11 diagnostic USB connection needs to be bound to the
+usb-serial-simple driver as it just wants to use a dumb pipe to
+communicate to the host.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+usb-devices output:
+ T: Bus=03 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#= 10 Spd=480 MxCh= 0
+ D: Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs= 1
+ P: Vendor=22d9 ProdID=276c Rev=04.04
+ S: Manufacturer=OPPO
+ S: Product=SDM660-MTP _SN:09C6BCA7
+ S: SerialNumber=beb2c403
+ C: #Ifs= 2 Cfg#= 1 Atr=80 MxPwr=500mA
+ I: If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30
 
-yamllint warnings/errors:
+Reported-by: Yan Xinyu <sdlyyxy@bupt.edu.cn>
+Cc: Johan Hovold <johan@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/usb/serial/usb-serial-simple.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: pmic@34: indicator:multi-led@0:led@0: Unevaluated properties are not allowed ('reg' was unexpected)
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: pmic@34: indicator:multi-led@0:led@1: Unevaluated properties are not allowed ('reg' was unexpected)
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: pmic@34: indicator:multi-led@0:led@2: Unevaluated properties are not allowed ('reg' was unexpected)
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: indicator: multi-led@0:led@0: Unevaluated properties are not allowed ('reg' was unexpected)
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: indicator: multi-led@0:led@1: Unevaluated properties are not allowed ('reg' was unexpected)
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: indicator: multi-led@0:led@2: Unevaluated properties are not allowed ('reg' was unexpected)
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/drivers/usb/serial/usb-serial-simple.c b/drivers/usb/serial/usb-serial-simple.c
+index 4c6747889a19..eb832b94aa3a 100644
+--- a/drivers/usb/serial/usb-serial-simple.c
++++ b/drivers/usb/serial/usb-serial-simple.c
+@@ -60,7 +60,9 @@ DEVICE(flashloader, FLASHLOADER_IDS);
+ 	{ USB_VENDOR_AND_INTERFACE_INFO(0x18d1,			\
+ 					USB_CLASS_VENDOR_SPEC,	\
+ 					0x50,			\
+-					0x01) }
++					0x01) },		\
++	{ USB_DEVICE_AND_INTERFACE_INFO(0x22d9, 0x276c,		\
++					0xff, 0xff, 0x30) }
+ DEVICE(google, GOOGLE_IDS);
+ 
+ /* Libtransistor USB console */
+-- 
+2.37.1
 
