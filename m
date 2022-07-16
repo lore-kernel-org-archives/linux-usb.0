@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B1C3C43334
-	for <linux-usb@archiver.kernel.org>; Sat, 16 Jul 2022 13:36:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22FC3C43334
+	for <linux-usb@archiver.kernel.org>; Sat, 16 Jul 2022 13:38:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231995AbiGPNgs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 16 Jul 2022 09:36:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44432 "EHLO
+        id S229668AbiGPNiu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 16 Jul 2022 09:38:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231835AbiGPNgr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 16 Jul 2022 09:36:47 -0400
-Received: from smtpbg.qq.com (biz-43-154-54-12.mail.qq.com [43.154.54.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 978621C930;
-        Sat, 16 Jul 2022 06:36:40 -0700 (PDT)
-X-QQ-mid: bizesmtp69t1657978594tmh7wpjd
+        with ESMTP id S229499AbiGPNis (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 16 Jul 2022 09:38:48 -0400
+Received: from smtpbg.qq.com (unknown [43.155.67.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAFDE213;
+        Sat, 16 Jul 2022 06:38:42 -0700 (PDT)
+X-QQ-mid: bizesmtp76t1657978717ts20f4ix
 Received: from localhost.localdomain ( [182.148.15.157])
         by bizesmtp.qq.com (ESMTP) with 
-        id ; Sat, 16 Jul 2022 21:36:31 +0800 (CST)
+        id ; Sat, 16 Jul 2022 21:38:32 +0800 (CST)
 X-QQ-SSF: 01000000002000B0D000B00A0000000
-X-QQ-FEAT: LXSsMpCYUN44Zwbh5S9T03HwiGj/SR1xldZRgq2j+ROdaARlN4cyVVCxOxX5D
-        vVCwplOnhauXBiX2iqCca7NjrMybyxfiA28jGLOO41yxmw1u+tCyHh8lvVyTmSc0fAUFYYt
-        f/vohTQn9iAOgmJcLKkXXmEnnDQhKSwldnzzy1aMEddTnm3OV5haHP76v8TXedJAB8QVU08
-        0b9GH17HDhUNZqjIX13uD8MiSnfapNCO/scNwV86T+H0ajYTMW7JaYEemlO6bVNB1GM8/Kd
-        UfxBVo0KUiwFs3No0uROhZZ+bRqeyNmCRveIFniIYuOlu1UGwmpgGp3f23eI8mTyUJ0WFM0
-        UYpXsZgC3mymThKoC/nJwY+FM408qFmcAsjUsUgujVIVRlZ40fatTY5tDgdiaDn5YCXHgNW
+X-QQ-FEAT: zK0nlCs2Z6HAdltJbsCKbdC2wcaj4eyRd7aC4uBhsez2cY7937vDU9f66xjVT
+        P1rFgHJ6gZK2WI4hPT1fgKhZomaDTKD4i7ps8pBUyHyN7hWOsrnuHXY/6LiiP06AMKbWsgC
+        ZqogqEAu9D6NE42wGrdcfD3rxGXIfif6nZKWXAMIY3FyN+k1uBkERePG1Z0q9ayOm7hOjP5
+        gK5EAMo1jtZesL9D01nStpdHAx6bQpZLB4mrltVVwJbQVOVQlHtkutyDpm8YkhbV/XW16dx
+        /AFAiJ2W9HdyOdTLk+R2FqPT5k9QpeSEVGjjNXXxVyRDeqnNr5xjtj6OIRipzKsGDjHZcha
+        MQBDTjrvbUdVkXHX0p1sFlqxUe9hRudsKtKSBhgZHhPcD5K2DMZd8wY62Z2Rg==
 X-QQ-GoodBg: 0
 From:   Jilin Yuan <yuanjilin@cdjrlc.com>
-To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu
+To:     gregkh@linuxfoundation.org
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jilin Yuan <yuanjilin@cdjrlc.com>
-Subject: [PATCH] usb/host: fix repeated words in comments
-Date:   Sat, 16 Jul 2022 21:36:24 +0800
-Message-Id: <20220716133624.41994-1-yuanjilin@cdjrlc.com>
+Subject: [PATCH] usb/image: fix repeated words in comments
+Date:   Sat, 16 Jul 2022 21:38:25 +0800
+Message-Id: <20220716133825.43161-1-yuanjilin@cdjrlc.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -43,54 +43,25 @@ List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
  Delete the redundant word 'the'.
- Delete the redundant word 'to'.
 
 Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
 ---
- drivers/usb/host/max3421-hcd.c | 2 +-
- drivers/usb/host/uhci-grlib.c  | 2 +-
- drivers/usb/host/uhci-hcd.h    | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/usb/image/mdc800.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/max3421-hcd.c b/drivers/usb/host/max3421-hcd.c
-index 502a3ac5e35b..352e3ac2b377 100644
---- a/drivers/usb/host/max3421-hcd.c
-+++ b/drivers/usb/host/max3421-hcd.c
-@@ -312,7 +312,7 @@ static const int hrsl_to_error[] = {
- 
- /*
-  * See https://www.beyondlogic.org/usbnutshell/usb4.shtml#Control for a
-- * reasonable overview of how control transfers use the the IN/OUT
-+ * reasonable overview of how control transfers use the IN/OUT
-  * tokens.
-  */
- #define MAX3421_HXFR_BULK_IN(ep)	(0x00 | (ep))	/* bulk or interrupt */
-diff --git a/drivers/usb/host/uhci-grlib.c b/drivers/usb/host/uhci-grlib.c
-index 0a201a73b196..3ef6d52839e5 100644
---- a/drivers/usb/host/uhci-grlib.c
-+++ b/drivers/usb/host/uhci-grlib.c
-@@ -43,7 +43,7 @@ static int uhci_grlib_init(struct usb_hcd *hcd)
- 
- 	uhci->rh_numports = uhci_count_ports(hcd);
- 
--	/* Set up pointers to to generic functions */
-+	/* Set up pointers to generic functions */
- 	uhci->reset_hc = uhci_generic_reset_hc;
- 	uhci->check_and_reset_hc = uhci_generic_check_and_reset_hc;
- 	/* No special actions need to be taken for the functions below */
-diff --git a/drivers/usb/host/uhci-hcd.h b/drivers/usb/host/uhci-hcd.h
-index 8ae5ccd26753..0688c3e5bfe2 100644
---- a/drivers/usb/host/uhci-hcd.h
-+++ b/drivers/usb/host/uhci-hcd.h
-@@ -314,7 +314,7 @@ struct uhci_td {
+diff --git a/drivers/usb/image/mdc800.c b/drivers/usb/image/mdc800.c
+index fc0e22cc6fda..67f098579fb4 100644
+--- a/drivers/usb/image/mdc800.c
++++ b/drivers/usb/image/mdc800.c
+@@ -38,7 +38,7 @@
   *
-  * There's a special skeleton QH for Isochronous QHs which never appears
-  * on the schedule.  Isochronous TDs go on the schedule before the
-- * the skeleton QHs.  The hardware accesses them directly rather than
-+ * skeleton QHs.  The hardware accesses them directly rather than
-  * through their QH, which is used only for bookkeeping purposes.
-  * While the UHCI spec doesn't forbid the use of QHs for Isochronous,
-  * it doesn't use them either.  And the spec says that queues never
+  * version 0.7.3
+  * bugfix : The mdc800->state field gets set to READY after the
+- * the disconnect function sets it to NOT_CONNECTED. This makes the
++ * disconnect function sets it to NOT_CONNECTED. This makes the
+  * driver running like the camera is connected and causes some
+  * hang ups.
+  *
 -- 
 2.36.1
 
