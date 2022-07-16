@@ -2,97 +2,128 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA182C43334
-	for <linux-usb@archiver.kernel.org>; Sat, 16 Jul 2022 13:32:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC6E2C43334
+	for <linux-usb@archiver.kernel.org>; Sat, 16 Jul 2022 13:36:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231797AbiGPNcF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 16 Jul 2022 09:32:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41968 "EHLO
+        id S231998AbiGPNgp convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 16 Jul 2022 09:36:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229784AbiGPNcE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 16 Jul 2022 09:32:04 -0400
-Received: from smtpbg.qq.com (biz-43-154-54-12.mail.qq.com [43.154.54.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F36921903F;
-        Sat, 16 Jul 2022 06:31:58 -0700 (PDT)
-X-QQ-mid: bizesmtp76t1657978299tkxijqkf
-Received: from localhost.localdomain ( [182.148.15.157])
+        with ESMTP id S231994AbiGPNgn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 16 Jul 2022 09:36:43 -0400
+Received: from smtpproxy21.qq.com (smtpbg703.qq.com [203.205.195.89])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A68E61A811
+        for <linux-usb@vger.kernel.org>; Sat, 16 Jul 2022 06:36:39 -0700 (PDT)
+X-QQ-mid: bizesmtp76t1657978588to1mi2xn
+Received: from smtpclient.apple ( [111.193.9.146])
         by bizesmtp.qq.com (ESMTP) with 
-        id ; Sat, 16 Jul 2022 21:31:35 +0800 (CST)
-X-QQ-SSF: 01000000002000B0D000B00A0000000
-X-QQ-FEAT: tnN4C/PdIDUH5M3+9HbKBvi8qoEujs23VsHfFNI7f625tUkxiBLMBU51wYxgi
-        TbX7sXTD34GnB0y+o83Yirrl4qmDiC9sbTGVCk1kCxbhQtaEStznEqbrGyPJJV7keu59r6f
-        +X7HfbD7gmXzyzkbCDYMaBH42UpA1RfWhssWBY+h/L4jQLqVUTgI9SZXgEM/4ZLnQvJX92R
-        j56Cb76y37lWa+OgMlodpKi5SDOJOcB+RVnA2bQTBah1rvc2juWUKxclVy2JaL3g7O4lPYC
-        GP6J3AMW0wLAN+csJ0U0NjB1/yqFxOqYsGKsPo7CTodvZSlQRGAnqNgwUyEIUseSUazR/qq
-        jclbsIViDsIB7yZ9CVmt4n+SmG0f0vRsOGXnTD1juFvAMqVX70vnZSvyKURpg==
-X-QQ-GoodBg: 0
-From:   Jilin Yuan <yuanjilin@cdjrlc.com>
-To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
-        mathias.nyman@intel.com
-Cc:     linux-usb@vger.kernel.org, inux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Jilin Yuan <yuanjilin@cdjrlc.com>
-Subject: [PATCH] usb/host: fix repeated words in comments
-Date:   Sat, 16 Jul 2022 21:31:29 +0800
-Message-Id: <20220716133129.40575-1-yuanjilin@cdjrlc.com>
-X-Mailer: git-send-email 2.36.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id ; Sat, 16 Jul 2022 21:36:27 +0800 (CST)
+X-QQ-SSF: 01400000000000B0V000B00A0000000
+X-QQ-FEAT: XrEBpEcZEe1Cj4fayQZUg0OXzuD0PvM2lhXbXnWJ8U3bxtL+YyTNENp6Wbjg+
+        uSJlyVvvCCJw7i+7BF5Pi30oHM2gJSkfS5evsQItbj1YqbTX4faB2EeST1FK3Xgvg9Nl0i2
+        a4q4qv7dXowUXZ3/fPlw7BDBv0m2dwP2oZPCJyxd1um2BtS/cnqmjvClzt3/Bqb11/sMl7r
+        5qohEQ8q/o6k6f6hXqOOhQ9bVTSv3QU/+GaWi3yqmTeDBLj5SlnHLdeAAVj+Y4+GxnI5KBo
+        s32VTILfmwuBxhf3McjFf9RzvpcitvYS5ptN/cqwyLcRqIcYfKhFCLLsXgPJsdqRcYP7xCZ
+        uzheXLFcsoWhT4+0XNkZEjnctiWUiX8f9VoskbAFXQl1q3Ge0c97Jfp5CPHTQ==
+X-QQ-GoodBg: 2
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.100.31\))
+Subject: Re: [PATCH] USB: usb-serial-simple: add new device id for OPPO R11
+From:   sdlyyxy <sdlyyxy@bupt.edu.cn>
+In-Reply-To: <YtKrbucYNulPEKUp@arcor.de>
+Date:   Sat, 16 Jul 2022 21:36:27 +0800
+Cc:     johan@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 8BIT
+Message-Id: <333E5B85-7534-4CE5-8AB6-464571CBF61E@bupt.edu.cn>
+References: <20220715142444.4173681-1-gregkh@linuxfoundation.org>
+ <119D7B0F-7809-464A-AFF1-DF72FFF9E63F@bupt.edu.cn>
+ <YtKrbucYNulPEKUp@arcor.de>
+To:     Reinhard Speyerer <rspmn@arcor.de>
+X-Mailer: Apple Mail (2.3696.100.31)
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
+Feedback-ID: bizesmtp:bupt.edu.cn:qybgforeign:qybgforeign9
+X-QQ-Bgrelay: 1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
- Delete the redundant word 'to'.
- Delete the redundant word 'the'.
- Delete the redundant word 'then'.
+Hi Reinhard,
 
-Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
----
- drivers/usb/host/uhci-platform.c | 2 +-
- drivers/usb/host/uhci-q.c        | 2 +-
- drivers/usb/host/xhci-ring.c     | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+> On Jul 16, 2022, at 20:13, Reinhard Speyerer <rspmn@arcor.de> wrote:
+> 
+> On Fri, Jul 15, 2022 at 10:59:13PM +0800, sdlyyxy wrote:
+>> 
+>>> On Jul 15, 2022, at 22:24, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+>>> 
+>>> The Oppo R11 diagnostic USB connection needs to be bound to the
+>>> usb-serial-simple driver as it just wants to use a dumb pipe to
+>>> communicate to the host.
+>>> 
+>>> usb-devices output:
+>>> T: Bus=03 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#= 10 Spd=480 MxCh= 0
+>>> D: Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs= 1
+>>> P: Vendor=22d9 ProdID=276c Rev=04.04
+>>> S: Manufacturer=OPPO
+>>> S: Product=SDM660-MTP _SN:09C6BCA7
+>>> S: SerialNumber=beb2c403
+>>> C: #Ifs= 2 Cfg#= 1 Atr=80 MxPwr=500mA
+>>> I: If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30
+>>> 
+>>> Reported-by: Yan Xinyu <sdlyyxy@bupt.edu.cn>
+>>> Cc: Johan Hovold <johan@kernel.org>
+>>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>>> ---
+>>> drivers/usb/serial/usb-serial-simple.c | 4 +++-
+>>> 1 file changed, 3 insertions(+), 1 deletion(-)
+>>> 
+>>> diff --git a/drivers/usb/serial/usb-serial-simple.c b/drivers/usb/serial/usb-serial-simple.c
+>>> index 4c6747889a19..eb832b94aa3a 100644
+>>> --- a/drivers/usb/serial/usb-serial-simple.c
+>>> +++ b/drivers/usb/serial/usb-serial-simple.c
+>>> @@ -60,7 +60,9 @@ DEVICE(flashloader, FLASHLOADER_IDS);
+>>> 	{ USB_VENDOR_AND_INTERFACE_INFO(0x18d1,			\
+>>> 					USB_CLASS_VENDOR_SPEC,	\
+>>> 					0x50,			\
+>>> -					0x01) }
+>>> +					0x01) },		\
+>>> +	{ USB_DEVICE_AND_INTERFACE_INFO(0x22d9, 0x276c,		\
+>>> +					0xff, 0xff, 0x30) }
+>>> DEVICE(google, GOOGLE_IDS);
+>>> 
+>>> /* Libtransistor USB console */
+>>> -- 
+>>> 2.37.1
+>> Tested-by: Yan Xinyu <sdlyyxy@bupt.edu.cn>
+> 
+> While this may work sufficiently well for real low-volume diag traffic I'd
+> expect a significant percentage of diag messages to be lost in practice
+> with the usb-serial-simple driver.
+> 
+> According to the usb-devices output this looks like the Qualcomm USB gadget
+> in the DIAG + ADB composition to me.
+> 
+> Since the option driver uses the usb-wwan framework my suggestion would be
+> for the original patch to be applied instead similar to what has been done
+> e.g. for the Quectel RM500Q diag port.
+> 
+> Regards,
+> Reinhard
+> 
+I tested the diag port using two userspace programs: QCSuper[1] 
+and scat[2]. Both option and usb-serial-simple drivers generate
+similar output, so I cannot comfirm diag message loss. Do you
+have any test method suggestions to generate high-volume diag 
+traffic and detect message loss?
 
-diff --git a/drivers/usb/host/uhci-platform.c b/drivers/usb/host/uhci-platform.c
-index b2049b47a08d..c7ef58c05276 100644
---- a/drivers/usb/host/uhci-platform.c
-+++ b/drivers/usb/host/uhci-platform.c
-@@ -20,7 +20,7 @@ static int uhci_platform_init(struct usb_hcd *hcd)
- 	if (!uhci->rh_numports)
- 		uhci->rh_numports = uhci_count_ports(hcd);
- 
--	/* Set up pointers to to generic functions */
-+	/* Set up pointers to generic functions */
- 	uhci->reset_hc = uhci_generic_reset_hc;
- 	uhci->check_and_reset_hc = uhci_generic_check_and_reset_hc;
- 
-diff --git a/drivers/usb/host/uhci-q.c b/drivers/usb/host/uhci-q.c
-index 35fcb826152c..e7f4c1f28349 100644
---- a/drivers/usb/host/uhci-q.c
-+++ b/drivers/usb/host/uhci-q.c
-@@ -345,7 +345,7 @@ static int uhci_cleanup_queue(struct uhci_hcd *uhci, struct uhci_qh *qh,
- 		goto done;
- 	}
- 
--	/* If the QH element pointer is UHCI_PTR_TERM then then currently
-+	/* If the QH element pointer is UHCI_PTR_TERM then currently
- 	 * executing URB has already been unlinked, so this one isn't it. */
- 	if (qh_element(qh) == UHCI_PTR_TERM(uhci))
- 		goto done;
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 46d0b9ad6f74..ad81e9a508b1 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -1964,7 +1964,7 @@ static void handle_port_status(struct xhci_hcd *xhci,
- 
- 	/*
- 	 * Check to see if xhci-hub.c is waiting on RExit to U0 transition (or
--	 * RExit to a disconnect state).  If so, let the the driver know it's
-+	 * RExit to a disconnect state).  If so, let the driver know it's
- 	 * out of the RExit state.
- 	 */
- 	if (!DEV_SUPERSPEED_ANY(portsc) && hcd->speed < HCD_USB3 &&
--- 
-2.36.1
+
+[1] https://github.com/P1sec/QCSuper
+[2] https://github.com/fgsect/scat
+
+Thanks,
+sdlyyxy
+
+
 
