@@ -2,90 +2,144 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF221C43334
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jul 2022 16:01:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5DFAC433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jul 2022 18:19:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235348AbiGRQBU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Jul 2022 12:01:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38842 "EHLO
+        id S235200AbiGRSTV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Jul 2022 14:19:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235325AbiGRQBT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Jul 2022 12:01:19 -0400
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A519425E86;
-        Mon, 18 Jul 2022 09:01:17 -0700 (PDT)
-Received: from localhost.localdomain (unknown [83.149.199.65])
-        by mail.ispras.ru (Postfix) with ESMTPS id 594DE40737DF;
-        Mon, 18 Jul 2022 16:01:11 +0000 (UTC)
-From:   Andrey Strachuk <strochuk@ispras.ru>
-To:     Peter Chen <peter.chen@kernel.org>
-Cc:     Andrey Strachuk <strochuk@ispras.ru>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Roger Quadros <rogerq@kernel.org>,
-        Aswath Govindraju <a-govindraju@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ldv-project@linuxtesting.org
-Subject: [PATCH v2] usb: cdns3: change place of 'priv_ep' assignment in cdns3_gadget_ep_dequeue(), cdns3_gadget_ep_enable()
-Date:   Mon, 18 Jul 2022 19:00:52 +0300
-Message-Id: <20220718160052.4188-1-strochuk@ispras.ru>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S229639AbiGRSTU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Jul 2022 14:19:20 -0400
+Received: from maillog.nuvoton.com (maillog.nuvoton.com [202.39.227.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6586A5FBF;
+        Mon, 18 Jul 2022 11:19:18 -0700 (PDT)
+Received: from NTHCCAS01.nuvoton.com (NTHCCAS01.nuvoton.com [10.1.8.28])
+        by maillog.nuvoton.com (Postfix) with ESMTP id 3AD2D1C80FCD;
+        Tue, 19 Jul 2022 02:19:17 +0800 (CST)
+Received: from NTHCML01A.nuvoton.com (10.1.8.177) by NTHCCAS01.nuvoton.com
+ (10.1.8.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.7; Tue, 19 Jul
+ 2022 02:19:17 +0800
+Received: from NTHCCAS04.nuvoton.com (10.1.8.29) by NTHCML01A.nuvoton.com
+ (10.1.8.177) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2176.2; Tue, 19 Jul
+ 2022 02:19:16 +0800
+Received: from taln60.nuvoton.co.il (10.191.1.180) by NTHCCAS04.nuvoton.com
+ (10.1.12.25) with Microsoft SMTP Server id 15.1.2176.2 via Frontend
+ Transport; Tue, 19 Jul 2022 02:19:16 +0800
+Received: by taln60.nuvoton.co.il (Postfix, from userid 10070)
+        id C948663A20; Mon, 18 Jul 2022 21:19:15 +0300 (IDT)
+From:   Tomer Maimon <tmaimon77@gmail.com>
+To:     <avifishman70@gmail.com>, <tali.perry1@gmail.com>,
+        <joel@jms.id.au>, <venture@google.com>, <yuenn@google.com>,
+        <benjaminfair@google.com>, <gregkh@linuxfoundation.org>,
+        <stern@rowland.harvard.edu>, <tony@atomide.com>,
+        <felipe.balbi@linux.intel.com>, <jgross@suse.com>,
+        <lukas.bulwahn@gmail.com>, <arnd@arndb.de>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>
+CC:     <openbmc@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Tomer Maimon <tmaimon77@gmail.com>
+Subject: [PATCH v2 1/3] usb: host: npcm7xx: remove USB EHCI host reset sequence
+Date:   Mon, 18 Jul 2022 21:18:40 +0300
+Message-ID: <20220718181842.61040-2-tmaimon77@gmail.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20220718181842.61040-1-tmaimon77@gmail.com>
+References: <20220718181842.61040-1-tmaimon77@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If 'ep' is NULL, result of ep_to_cdns3_ep(ep) is invalid pointer
-and its dereference with priv_ep->cdns3_dev may cause panic.
+Remove USB EHCI host controller reset sequence from NPCM7XX USB EHCI
+host probe function because it is done in the NPCM reset driver.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-Signed-off-by: Andrey Strachuk <strochuk@ispras.ru>
-Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
+Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 ---
- drivers/usb/cdns3/cdns3-gadget.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/usb/host/ehci-npcm7xx.c | 50 ---------------------------------
+ 1 file changed, 50 deletions(-)
 
-diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-index 5c15c48952a6..aea5db0ec72d 100644
---- a/drivers/usb/cdns3/cdns3-gadget.c
-+++ b/drivers/usb/cdns3/cdns3-gadget.c
-@@ -2285,13 +2285,14 @@ static int cdns3_gadget_ep_enable(struct usb_ep *ep,
- 	int val;
-
- 	priv_ep = ep_to_cdns3_ep(ep);
--	priv_dev = priv_ep->cdns3_dev;
--	comp_desc = priv_ep->endpoint.comp_desc;
+diff --git a/drivers/usb/host/ehci-npcm7xx.c b/drivers/usb/host/ehci-npcm7xx.c
+index 6b5a7a873e01..1d2e2c3c0bf0 100644
+--- a/drivers/usb/host/ehci-npcm7xx.c
++++ b/drivers/usb/host/ehci-npcm7xx.c
+@@ -22,19 +22,9 @@
  
- 	if (!ep || !desc || desc->bDescriptorType != USB_DT_ENDPOINT) {
- 		dev_dbg(priv_dev->dev, "usbss: invalid parameters\n");
- 		return -EINVAL;
- 	}
-+
-+	comp_desc = priv_ep->endpoint.comp_desc;
-+	priv_dev = priv_ep->cdns3_dev;
-
- 	if (!desc->wMaxPacketSize) {
- 		dev_err(priv_dev->dev, "usbss: missing wMaxPacketSize\n");
-@@ -2600,7 +2601,7 @@ int cdns3_gadget_ep_dequeue(struct usb_ep *ep,
- 			    struct usb_request *request)
+ #include "ehci.h"
+ 
+-#include <linux/regmap.h>
+-#include <linux/mfd/syscon.h>
+-
+ #define DRIVER_DESC "EHCI npcm7xx driver"
+ 
+ static const char hcd_name[] = "npcm7xx-ehci";
+-
+-#define  USB2PHYCTL_OFFSET 0x144
+-
+-#define  IPSRST2_OFFSET 0x24
+-#define  IPSRST3_OFFSET 0x34
+-
+-
+ static struct hc_driver __read_mostly ehci_npcm7xx_hc_driver;
+ 
+ static int __maybe_unused ehci_npcm7xx_drv_suspend(struct device *dev)
+@@ -60,52 +50,12 @@ static int npcm7xx_ehci_hcd_drv_probe(struct platform_device *pdev)
  {
- 	struct cdns3_endpoint *priv_ep = ep_to_cdns3_ep(ep);
--	struct cdns3_device *priv_dev = priv_ep->cdns3_dev;
-+	struct cdns3_device *priv_dev;
- 	struct usb_request *req, *req_temp;
- 	struct cdns3_request *priv_req;
- 	struct cdns3_trb *link_trb;
-@@ -2610,6 +2611,8 @@ int cdns3_gadget_ep_dequeue(struct usb_ep *ep,
+ 	struct usb_hcd *hcd;
+ 	struct resource *res;
+-	struct regmap *gcr_regmap;
+-	struct regmap *rst_regmap;
+ 	const struct hc_driver *driver = &ehci_npcm7xx_hc_driver;
+ 	int irq;
+ 	int retval;
  
- 	if (!ep || !request || !ep->desc)
- 		return -EINVAL;
-+
-+	priv_dev = priv_ep->cdns3_dev;
-
- 	spin_lock_irqsave(&priv_dev->lock, flags);
-
+ 	dev_dbg(&pdev->dev,	"initializing npcm7xx ehci USB Controller\n");
+ 
+-	gcr_regmap = syscon_regmap_lookup_by_compatible("nuvoton,npcm750-gcr");
+-	if (IS_ERR(gcr_regmap)) {
+-		dev_err(&pdev->dev, "%s: failed to find nuvoton,npcm750-gcr\n",
+-			__func__);
+-		return PTR_ERR(gcr_regmap);
+-	}
+-
+-	rst_regmap = syscon_regmap_lookup_by_compatible("nuvoton,npcm750-rst");
+-	if (IS_ERR(rst_regmap)) {
+-		dev_err(&pdev->dev, "%s: failed to find nuvoton,npcm750-rst\n",
+-			__func__);
+-		return PTR_ERR(rst_regmap);
+-	}
+-
+-	/********* phy init  ******/
+-	// reset usb host
+-	regmap_update_bits(rst_regmap, IPSRST2_OFFSET,
+-			(0x1 << 26), (0x1 << 26));
+-	regmap_update_bits(rst_regmap, IPSRST3_OFFSET,
+-			(0x1 << 25), (0x1 << 25));
+-	regmap_update_bits(gcr_regmap, USB2PHYCTL_OFFSET,
+-			(0x1 << 28), 0);
+-
+-	udelay(1);
+-
+-	// enable phy
+-	regmap_update_bits(rst_regmap, IPSRST3_OFFSET,
+-			(0x1 << 25), 0);
+-
+-	udelay(50); // enable phy
+-
+-	regmap_update_bits(gcr_regmap, USB2PHYCTL_OFFSET,
+-			(0x1 << 28), (0x1 << 28));
+-
+-	// enable host
+-	regmap_update_bits(rst_regmap, IPSRST2_OFFSET,
+-			(0x1 << 26), 0);
+-
+ 	if (usb_disabled())
+ 		return -ENODEV;
+ 
 -- 
-2.25.1
+2.33.0
 
