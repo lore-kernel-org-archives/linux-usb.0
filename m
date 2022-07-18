@@ -2,111 +2,88 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CE85C433EF
-	for <linux-usb@archiver.kernel.org>; Sun, 17 Jul 2022 20:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54161C43334
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jul 2022 01:01:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231483AbiGQUOv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 17 Jul 2022 16:14:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53320 "EHLO
+        id S231629AbiGRBBC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 17 Jul 2022 21:01:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229770AbiGQUOu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 17 Jul 2022 16:14:50 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05F4411A1B;
-        Sun, 17 Jul 2022 13:14:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A1220B80DFF;
-        Sun, 17 Jul 2022 20:14:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93FF9C3411E;
-        Sun, 17 Jul 2022 20:14:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1658088886;
-        bh=uk08sAzkVMY+XZxQEzLyrIPyICsHFAdaxskNvnRcQDI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CgpE/A8k8vJX0M0cBGOTf+pmR+w+H6NFZYcvPtv++HUDOAU+O15bX4tSEcEv3BAAJ
-         ss579Xvy/RCOFDBNhmt942Z6OK+72sHHaxr9rGX1Du27zrTNgz9oKecUhMDrPsgFju
-         d4/52pSKO1WHjjGEAy/hEqa+KSG1BtkjatwQA4d0=
-Date:   Sun, 17 Jul 2022 22:14:43 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Reinhard Speyerer <rspmn@arcor.de>
-Cc:     sdlyyxy <sdlyyxy@bupt.edu.cn>, johan@kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] USB: usb-serial-simple: add new device id for OPPO R11
-Message-ID: <YtRtswctFMLxeglu@kroah.com>
-References: <20220715142444.4173681-1-gregkh@linuxfoundation.org>
- <119D7B0F-7809-464A-AFF1-DF72FFF9E63F@bupt.edu.cn>
- <YtKrbucYNulPEKUp@arcor.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YtKrbucYNulPEKUp@arcor.de>
+        with ESMTP id S229535AbiGRBBA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 17 Jul 2022 21:01:00 -0400
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E614B10FE2
+        for <linux-usb@vger.kernel.org>; Sun, 17 Jul 2022 18:00:59 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.west.internal (Postfix) with ESMTP id E8E9B32004AE;
+        Sun, 17 Jul 2022 21:00:57 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+  by compute3.internal (MEProxy); Sun, 17 Jul 2022 21:00:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+        :content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1658106057; x=1658192457; bh=pZ2SMsvoEU
+        9jMk4Qeosj7aj6d+ArzaS+GKQ/JX9WfCs=; b=a05vVXTc0DM43XiFUYBVw/L68j
+        Pd7veUWZL88TdTrqYJ1ndndlpX9lNqh96523/w8Ez7BqcXrFxUCsD4w9kD1Ttj8v
+        5WqpxTTMHotHXkxx+/4VnOe4Y8dbvRtSp7BXvl+MSrKfduE7Z6+COqUbgR41X2Xy
+        cikiZNpOsWnMz9WyVkcYGfm7gKpMAmu/lzpMEzIlt+yBx5Vr/IXEI+ZZTttsZO+X
+        BNXr0aVSBI8McWmG5y5MHqFSkXET0lnB+gWDlOuaO2lvdohUeOfFauBVKxx9CuSO
+        DJ+UWbdLc1EcytyD5R6nEFfyzhwCizSfTK8C75JuKO9gc62UI+IrKM39Ax7w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1658106057; x=1658192457; bh=pZ2SMsvoEU9jMk4Qeosj7aj6d+Ar
+        zaS+GKQ/JX9WfCs=; b=zVMA6HpEG2vdMYtJv8phE182r+LrH58zyY3VQJTiHikH
+        G5GAZ3imzaKLyfk7E4sfSATSrIZTrmvUu1OCx7YBuAoBJ+yg992lCE5TUK2iYtgW
+        eaEEVm3aDa/WFmn7y2lQiyeslXydYsiCs+ugQamd7RcDBEvQsiZmH6oX3aNkYBz0
+        1LDUx8INvJ+RG9eLkKJJBPNRwLFZpBwlH37/I3HrhR11VGJ8pa3MfpsEMSTl4CMb
+        I3ICSkVIJF12aUQ8ZnJvoo+q2x8MjQyZG3rPo1GdgFz808DrTjANe9LGuo1QmOmh
+        kwm6dWTTkNI1228Lafi2iZessRSYb3ac65b1e0ffiQ==
+X-ME-Sender: <xms:yLDUYtV6eSymNvBrAi0VjXf5YQHQGsQWjmwamPgsa1Mcphe2z4AKGQ>
+    <xme:yLDUYtnGZk4ALLiD4ReyNa9QSlArj8iKI5xxWCcQrCcjatot0SqRfA0IvNM3gStGl
+    en0tQEOiKGpW9aFTw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudekjedggeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+    rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+    grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
+    hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:yLDUYpb41S1SW8hHoFCBNj8AH5zE4PJIXEIeoZmmLOJAblIjpjNCRA>
+    <xmx:yLDUYgUInUS40Y7vOx8cFtNcu_vctdAaciLr2luaHTs1NM3LCRfOQg>
+    <xmx:yLDUYnms8EKv7djS0s4MrhzigsUfj6gi5iuo2zkq9bd1mvjkzzyBng>
+    <xmx:ybDUYsxvbe3IgR9RndMDmcrMPUv8XQyRIR9pSp-YEpQPnBv7q27z_g>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id BE73F170007E; Sun, 17 Jul 2022 21:00:56 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-755-g3e1da8b93f-fm-20220708.002-g3e1da8b9
+Mime-Version: 1.0
+Message-Id: <031f66b9-8e68-4026-8ef0-5fa70027abef@www.fastmail.com>
+In-Reply-To: <20220713120528.368168-1-windhl@126.com>
+References: <20220713120528.368168-1-windhl@126.com>
+Date:   Mon, 18 Jul 2022 10:30:35 +0930
+From:   "Andrew Jeffery" <andrew@aj.id.au>
+To:     "Liang He" <windhl@126.com>, "Felipe Balbi" <balbi@kernel.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "Joel Stanley" <joel@jms.id.au>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: aspeed-vhub: Fix refcount leak bug in ast_vhub_init_desc()
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Jul 16, 2022 at 02:13:34PM +0200, Reinhard Speyerer wrote:
-> On Fri, Jul 15, 2022 at 10:59:13PM +0800, sdlyyxy wrote:
-> > 
-> > > On Jul 15, 2022, at 22:24, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> > > 
-> > > The Oppo R11 diagnostic USB connection needs to be bound to the
-> > > usb-serial-simple driver as it just wants to use a dumb pipe to
-> > > communicate to the host.
-> > > 
-> > > usb-devices output:
-> > > T: Bus=03 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#= 10 Spd=480 MxCh= 0
-> > > D: Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs= 1
-> > > P: Vendor=22d9 ProdID=276c Rev=04.04
-> > > S: Manufacturer=OPPO
-> > > S: Product=SDM660-MTP _SN:09C6BCA7
-> > > S: SerialNumber=beb2c403
-> > > C: #Ifs= 2 Cfg#= 1 Atr=80 MxPwr=500mA
-> > > I: If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30
-> > > 
-> > > Reported-by: Yan Xinyu <sdlyyxy@bupt.edu.cn>
-> > > Cc: Johan Hovold <johan@kernel.org>
-> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > ---
-> > > drivers/usb/serial/usb-serial-simple.c | 4 +++-
-> > > 1 file changed, 3 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/usb/serial/usb-serial-simple.c b/drivers/usb/serial/usb-serial-simple.c
-> > > index 4c6747889a19..eb832b94aa3a 100644
-> > > --- a/drivers/usb/serial/usb-serial-simple.c
-> > > +++ b/drivers/usb/serial/usb-serial-simple.c
-> > > @@ -60,7 +60,9 @@ DEVICE(flashloader, FLASHLOADER_IDS);
-> > > 	{ USB_VENDOR_AND_INTERFACE_INFO(0x18d1,			\
-> > > 					USB_CLASS_VENDOR_SPEC,	\
-> > > 					0x50,			\
-> > > -					0x01) }
-> > > +					0x01) },		\
-> > > +	{ USB_DEVICE_AND_INTERFACE_INFO(0x22d9, 0x276c,		\
-> > > +					0xff, 0xff, 0x30) }
-> > > DEVICE(google, GOOGLE_IDS);
-> > > 
-> > > /* Libtransistor USB console */
-> > > -- 
-> > > 2.37.1
-> > Tested-by: Yan Xinyu <sdlyyxy@bupt.edu.cn>
-> 
-> While this may work sufficiently well for real low-volume diag traffic I'd
-> expect a significant percentage of diag messages to be lost in practice
-> with the usb-serial-simple driver.
-> 
-> According to the usb-devices output this looks like the Qualcomm USB gadget
-> in the DIAG + ADB composition to me.
-> 
-> Since the option driver uses the usb-wwan framework my suggestion would be
-> for the original patch to be applied instead similar to what has been done
-> e.g. for the Quectel RM500Q diag port.
 
-But this is not using the option chip, nor using the option flow control
-protocol at all, so it should not be showing up as a device controlled
-by the option driver.  It just will not work properly, the simple driver
-should be doing the exact same thing here.
 
-thank,
+On Wed, 13 Jul 2022, at 21:35, Liang He wrote:
+> We should call of_node_put() for the reference returned by
+> of_get_child_by_name() which has increased the refcount.
+>
+> Fixes: 30d2617fd7ed ("usb: gadget: aspeed: allow to set usb strings in 
+> device tree")
+> Signed-off-by: Liang He <windhl@126.com>
 
-greg k-h
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
