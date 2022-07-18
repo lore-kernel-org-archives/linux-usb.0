@@ -2,173 +2,183 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0696DCCA485
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jul 2022 11:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8887FC43334
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jul 2022 12:36:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234527AbiGRLjU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Jul 2022 07:39:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58656 "EHLO
+        id S234573AbiGRMgk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Jul 2022 08:36:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234469AbiGRLjQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Jul 2022 07:39:16 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C2292704;
-        Mon, 18 Jul 2022 04:39:13 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id m8so1395959edd.9;
-        Mon, 18 Jul 2022 04:39:13 -0700 (PDT)
+        with ESMTP id S234537AbiGRMgj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Jul 2022 08:36:39 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2087.outbound.protection.outlook.com [40.107.223.87])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8ED3E0DC;
+        Mon, 18 Jul 2022 05:36:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kU00M/HfGiP1yqslaH3a5jqMsNlAaNWUJhkj1MDviMnHhpF8P1tK0dqvcsm7jTckneMh7k/CAFSXP6xMg5XKgLPTvIchkMTxypQykWLAGexQ8Okx+0ga+AgW/y1zPyIDb8l05IPd3Ub3LjvoQGjedUTdSReEDM03F2BdfsjZpQjCIhRCfk/yTwb0gAYjjmkQCCcWyTJCVzPmvK1o4Kr1txg+WpJodNywuKeoGDteUEvjeA6eQ6oEW+PLAzkBNEX8Nqd50zP2TF9CS+99FvrQ3LHmjJMZlNGPKDBPC3Yeb7TCGdZuYT+MdS9O1OtMBBlqFKVTvynkReyV5Usc1/dfkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wIBA6SaIQDgiyX43ZMoL5ZRp1ZT0Wv8JGx7bz03IrU0=;
+ b=MGzhEHqKvx+EDQ6i9bjEplA+OZGZEF6hn0BqCcSB6kvangGXBhKF7zLOfk7SXcGnCEPvd47fmmZ5ak4cMWwRvlKhtCmUE09smUMfaS6S2UIX4H0OVttEKQs2NCW6huq0znPnHBJpeeqqjfqgiNeevMYXtTBFb0CkQuwJRMww1ROZY2Bk01gzNBNFNnVi87qxnf+7emt6ukPI5NpBMUDbS8K/aff9F9BotzHQnnwBCXj1J+QAZ950PtL+CopDgnezzvvsW1IofyK5Br+ejCO22bKlHuJyxP3vHfSF4QNHa3aa99QlE2ObjnMWPKyLKYWgybFoRF7cRJBYQ/ZpQ05C/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WM+zWzeYAitwMFZLUVsc8lp6MA3Zpo/kJcizrD/8ssk=;
-        b=OvcuKUIjR4uhqpfL8lpsxLQ88mCYxcDOZ5lSaz8YMU5SyNSpWm2LhWIoS9CC+qDuiX
-         DI/fnwo811XGeH4U+R290EOyJleoAHOZMLhaBd4hEdDGJHO0ZVerBEE3gVl6te9BpcT4
-         KyyXCEIlVZI9vzIm3Fjqb3WD+Kz4vqa72ux+kIiV8AtKAdtI87dFPLp0/j+Mpfxof+su
-         lev/A8157qmlXkCgs9+5cRS0ruqiTC3/PHuZcO3JHcb+eMLKX823Z/MyUYWDhywL+lc6
-         ZEQD7h68BhRbIcXy5EQnFOo4JXLrkrtrSYjrBnXa5BTwwYZFNpiLwNcI86j6oai3JcHf
-         Kb7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WM+zWzeYAitwMFZLUVsc8lp6MA3Zpo/kJcizrD/8ssk=;
-        b=ZPzABo93bnWSf4CHpIJ+mtevlCaIMyi7sdL5NY4HacH09HwL/vR97GBSlDS+1DG8rV
-         erOe41DsfrcUEupmTUtssvzTrh1gKVWrWy0VFcWJvVKMRSfCcEkkBuQAMn44WF313Y9R
-         arEIWomj3UU/9Ovtv6mkXJoewEKSYBA4AbafY23LQuwrKOyuemF3J6NIBha+d7+Ld/54
-         F6dasTaUobv1LSoXbrt4+9VnLcnQjtNZl3h86Yc3dynIom83ihN96OQTJvXPB/hyXR7c
-         QpcNqr2IeD72plYgLjRyitIL06HvknE1D7W8WYrlYG6JuMcD7NNYZPyEBZODQ7ekPGDh
-         GdGw==
-X-Gm-Message-State: AJIora/VW1UdhFwT2CeR9JblilLwjoIjTf3Bf7NsF//p2OnvnZF/o1EY
-        2XgXIlJJtj44+Fcj+HE7hdoVxBc8a4VUQoJ6dcE=
-X-Google-Smtp-Source: AGRyM1uLSUr+2lvxiCg3cwvu9VMJCLD+uDi8ZOzhv3dgH0XROSPP5YW44n0Pb3saV+i0UvUB6nImoWisC6NYG7PACSY=
-X-Received: by 2002:a05:6402:34c5:b0:43a:8f90:e643 with SMTP id
- w5-20020a05640234c500b0043a8f90e643mr35599070edc.88.1658144351737; Mon, 18
- Jul 2022 04:39:11 -0700 (PDT)
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wIBA6SaIQDgiyX43ZMoL5ZRp1ZT0Wv8JGx7bz03IrU0=;
+ b=NbeTPfz7oc40lVD/7wka3R7UkxP86gDKtmb6CGAngEm4tjSOQAB6AqUUlPsLKzx8C15uqy9hm38uMnfDm5P4Rv8sgVlO3xudtOA37bQpZEUxEod2YeqXVgX6lNyxJEmmSvqWtYtC3qPFJ+dwPMAq7NBeTnhq1qRWd7FRmX/eFhU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=synaptics.com;
+Received: from SJ0PR03MB6533.namprd03.prod.outlook.com (2603:10b6:a03:386::12)
+ by BN9PR03MB6171.namprd03.prod.outlook.com (2603:10b6:408:100::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.17; Mon, 18 Jul
+ 2022 12:36:36 +0000
+Received: from SJ0PR03MB6533.namprd03.prod.outlook.com
+ ([fe80::d52:5cb7:8c3b:f666]) by SJ0PR03MB6533.namprd03.prod.outlook.com
+ ([fe80::d52:5cb7:8c3b:f666%7]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
+ 12:36:35 +0000
+From:   =?UTF-8?q?=C5=81ukasz=20Spintzyk?= <lukasz.spintzyk@synaptics.com>
+To:     netdev@vger.kernel.org
+Cc:     linux-usb@vger.kernel.org, oliver@neukum.org, kuba@kernel.org,
+        ppd-posix@synaptics.com, Bernice.Chen@synaptics.com
+Subject: [PATCH v3 1/2] net/cdc_ncm: Enable ZLP for DisplayLink ethernet devices
+Date:   Mon, 18 Jul 2022 14:36:17 +0200
+Message-Id: <20220718123618.7410-1-lukasz.spintzyk@synaptics.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <YtAJ2KleMpkeFfQq@kroah.com>
+References: <YtAJ2KleMpkeFfQq@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BE1P281CA0019.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:15::12) To SJ0PR03MB6533.namprd03.prod.outlook.com
+ (2603:10b6:a03:386::12)
 MIME-Version: 1.0
-References: <20220715112607.591-1-peterwu.pub@gmail.com> <20220715112607.591-9-peterwu.pub@gmail.com>
- <CAHp75VdCgdTOu-CdNo9XGY+PrhPh93v_CkAHJC6hkArsKeiXbA@mail.gmail.com> <20220718080831.GA31509@cyhuang-hp-elitebook-840-g3.rt>
-In-Reply-To: <20220718080831.GA31509@cyhuang-hp-elitebook-840-g3.rt>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 18 Jul 2022 13:38:35 +0200
-Message-ID: <CAHp75Ve2_UcS9e3pJC2j4FBc21=S8878tQusyxNV1mXtQG423w@mail.gmail.com>
-Subject: Re: [PATCH v5 08/13] usb: typec: tcpci_mt6370: Add MediaTek MT6370
- tcpci driver
-To:     ChiYuan Huang <u0084500@gmail.com>
-Cc:     ChiaEn Wu <peterwu.pub@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Helge Deller <deller@gmx.de>,
-        ChiaEn Wu <chiaen_wu@richtek.com>,
-        Alice Chen <alice_chen@richtek.com>,
-        cy_huang <cy_huang@richtek.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        USB <linux-usb@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        szuni chen <szunichen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 952cc97e-ba51-4685-68c8-08da68ba2738
+X-MS-TrafficTypeDiagnostic: BN9PR03MB6171:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9MqeVEQ65/ixowCjxpd6EcHQ1iupctc1+3flhRfyF27QxKQNB5OM2s/+Tf8Irjgskgt2sE/muqXW+a1EGlsrfkmFqmblbXs+mNOK9OSUBlFl4Ihn/3tQeQR87kvNxpCU7/e2yPBMI5XuCuXG8meSSj7xIqN3foKLXrH+YH6rsHpoVO/bAc59iA6IrZqGzhOLFdR53BCtbyzsj7s3rVlfVdsqI9DaIdtPaFkvdmqsDBtwyr3feojBKfRbN3nGO3Z9KkWi/IvJylf3dlHlpiaJkC4Y3tJMiWVrh1bM6yYKEMksbbm2Lszmm5fyPcMH76k7B2zPn348QL9XII6unuk/6prMmJKbnT6PRX7Ri7adjJoq0EbkX+Tgno09VJxDC72iE6rWRRgH7bleplQzI73UNQyVzMiSY8P1ZAL/UkoYlHquueBzpSK1aq26B5ANZtKnJCEICNgSZPgciiI7h5bfEvMKB3OS3slDb/25NZ0VhOIwkKU5FBsRatHkr37hj2w7dRH2kBS8Ly+EHV5nwGI3KqMAjw42Mb9F/wkKWXYlwMnbSr9fOxKjBiNcadhlx8sW+fkns3XIaq/6osp34j8q+paXDO9Pk7MY15sveUdeolHxI3LxWdOGynJ9AkznhI9ur+B69ky4eLKXWBw5q6V5cToAal75BdbtqUu0NZOVMW7HtRQ/hUSscHj3udhCRuuqdYqfyBiKGrabFAaI3FcvlaXmihkQtRjkpZQiM9zM03KBUFenfh32KlLl29JwOBYgpwFXStI1FQAxO6kmOIpV2xRRjKau8dvAHF+5BYcfUEPzAQSpua+y++gx504/UO0C
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6533.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(376002)(39860400002)(396003)(346002)(136003)(6916009)(38350700002)(19627235002)(38100700002)(316002)(36756003)(66556008)(66946007)(4326008)(8676002)(66476007)(26005)(41300700001)(2906002)(6666004)(186003)(6512007)(83380400001)(86362001)(5660300002)(2616005)(6486002)(478600001)(8936002)(107886003)(6506007)(52116002)(1076003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c1RVWkcxUWtCWW90RXFFcko1N0ZNQjZCcUxQNThtTUJjd1BVNnB4eEdiTzJT?=
+ =?utf-8?B?SmllT3NsZGtjbTR4QWhKVytvVGZzRGRPU0JNU1Y3V3gvSDAzVmErNDlvall5?=
+ =?utf-8?B?Z2tvYnhPR2xKZnJwaVlPRVpmUnlRUTdrbFZwUFMvZlhURlZlYnlDcXRjZm14?=
+ =?utf-8?B?Q1o3clE1RXBiK0RQN3pDcCs3Y1pxWDJnNmZydVlqMHVCWWRxV2tFdGMxdUk1?=
+ =?utf-8?B?NTQzRmJxK3lXM0Rtdk9oWFIxZEdBc1hvSFN3L2Znb3crSlpPUFhnVVZyekZF?=
+ =?utf-8?B?ZG5lRXBwOStUcEM0bHJsVnFSTTR4ekIyWkE4UnhobmhiT2wvWWVUbzV4YWxN?=
+ =?utf-8?B?U1dCakpjS2VyQ1ZNRHczN3N4ajFHUXJ0a0xENE9DUEhHY0lUWFJRd2FpOTBP?=
+ =?utf-8?B?b05WdTBRb2tSOUQ0dHNHUGp0L0VSaGtTQzd6aVAwMzhPVDFRYWRtdGJUbUtq?=
+ =?utf-8?B?aDhFZjQreDU4NWl6emJrZXRXQlY2THlEcHVJazhCZzNycWdpamJqTnVlVHUz?=
+ =?utf-8?B?cDVvMDJHaGFJVXVlYmF1OWgvRC9NY1FzYUdWQkhycGFwcjBrRUZMSW9wNEoz?=
+ =?utf-8?B?VDF6M0tGc1NVQ054aEFyWmJsOGRTdDR3OTRTcXk3QWxZcG8wcEpYWHhTOWFY?=
+ =?utf-8?B?eVYvdHc0V3JlcEtwNU5pSWpmYkJpMTJIVTRvSUpXZ0ZRNGZoeUFBY1BKbm90?=
+ =?utf-8?B?NDM1L3VMQy9kSS9WdGlYNWlYZmp4TjNPUWNDSGxZU1g3RnpaVk4ramNraGgv?=
+ =?utf-8?B?alRLWEFGYnI5Y2RsNGV4TWRXSmwxeXpqeS81NHNPcXVJTmZ1Zmw1ZkhIRWxO?=
+ =?utf-8?B?SmE2ZVFOeTVHNk56STdOUmhKU21UUjlNc21iRjU5Mm1DZXN3ZmxjRE9CcGc1?=
+ =?utf-8?B?OG1RY0lURjk5cVpKWmxQdTErUWExd0M0UmMyZXNqVExvQ2ZKdFJ1bUZjVVBO?=
+ =?utf-8?B?cG1RTXpWZVJUM2I5YUNNVE5ZTHRHUkZWKytRWkZlYkM0N3h3N2ZDcnNLWHo5?=
+ =?utf-8?B?d2ZsOEhRZW5QOG1vdEVhd2ROc0djTGJRV0ZVNytnWjgwR0NtYWM3aTU4clFm?=
+ =?utf-8?B?dld5V2kxalR6UzNvajM5dXJaUnRmaVN4UWhEUDBtMXhUOTVZY3NCU0NNb0Q2?=
+ =?utf-8?B?UGVXU0JnQ0ZQdGhzQ1ljVzE5ZDdYeWVoUUwzT2E0ZEIvdUpxVWIwdXZWeWNZ?=
+ =?utf-8?B?clAwR2NUMkFjajlIdE0ycWR5QmZ4L1lqVldrZTMvMFAwZ1VONG9Ndy9QRFhU?=
+ =?utf-8?B?MXhNejA2U0ppK1ZTQ3lDMVg5Wm5ZQmd3OEd5S2FFMjdnT3U3OGdtMFdqZzNk?=
+ =?utf-8?B?Zi9IZExRS0RrV05QVytCV0gzUGE0azBrVUZUSnM3Wm9UeGJOS2ZEckxsWHRv?=
+ =?utf-8?B?NFE1NktQNzZvSzhhbHZIUVJiaXdNQTUzL3JKajBoZFBQNTJHTGhNMi8yMUdG?=
+ =?utf-8?B?YzhvSC9LVGIyZDJuOXZKZVJocFJ5WjVMOWFPcXM2U0FzbnkzUjlMdi9teGs5?=
+ =?utf-8?B?UldEdEJxNzNKci95clVKV05Za1JUVjhJQnZTaFlqd3BqSXpGWFlQN000M1p2?=
+ =?utf-8?B?WU9GNEV2ZFhQV281ZVcyRUhYWDB1aHpxbWFWckJjMDRscUw0NSsyN1dVUU1m?=
+ =?utf-8?B?L1VrazBwZDIraFVqMkJWSGVvTE9YaEljVWY1MUZiWkUzQXJHSDQ3aENoVkZp?=
+ =?utf-8?B?bVdMQ095cm5yNmtjUHo1Z0JzbDZkZmFjUUU2cG1aK09ncFF6eUVlcTJFZzRV?=
+ =?utf-8?B?QzdCaWdFcDMwQlY4RkV2MmxNeDVrdkNrb1R0L1k4bzhEMXZlK3hpRXo1TEJ2?=
+ =?utf-8?B?eGRISDh0aGV3RVB6bUZ2YlAwNEFqTGZ0ak9HNnptajhmQkF4aGNKRlZmWUk5?=
+ =?utf-8?B?akU0Wll4RmQ2bFd1ZzNsT1ZwdTRyUlIvOEQxbm45ZHo3b1lmT0d5MWo1U0I3?=
+ =?utf-8?B?TFFvU3l6VXdLNXMweko2dWhIdUYzSEJML3NPZ1FId3NqczF3ZVN0MW02eDdw?=
+ =?utf-8?B?MVNNT2FacjhGdWd5cENNWkx6SjBwZW1WWStzRjEzQWRWQjhoaVpPSXFBTFZT?=
+ =?utf-8?B?emVWWW90VTZqSUpwOThGYVJJWDN2RkxQUU5LTDVYZkU1cWlqRUNZd2pnQ2V2?=
+ =?utf-8?B?Q2FNTTZJVTdJa0gvNjc5S1dSTXZucWJ0dFVjajcySGZzcmFmNmRyRTdNZzRS?=
+ =?utf-8?B?QWc9PQ==?=
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 952cc97e-ba51-4685-68c8-08da68ba2738
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6533.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 12:36:35.8966
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NNckzpqMgvyRa/aYyqinQutdo0SfcHxfcjUtmrt+TWyIxO900+ny2HhiGl1SQOF9MgOgHyBoHvearlGp1dIJbw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR03MB6171
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jul 18, 2022 at 10:08 AM ChiYuan Huang <u0084500@gmail.com> wrote:
-> On Fri, Jul 15, 2022 at 03:10:42PM +0200, Andy Shevchenko wrote:
-> > On Fri, Jul 15, 2022 at 1:28 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+From: Dominik Czerwik <dominik.czerwik@synaptics.com>
 
-...
+This improves performance and stability of
+DL-3xxx/DL-5xxx/DL-6xxx device series.
 
-> > > This commit add support for the Type-C & Power Delivery controller in
-> >
-> > This commit add -> Add
-> >
-> Upper case? Or rewrite it as 'This commit is to add .....'?
+Specifically prevents device from temporary network dropouts when
+playing video from the web and network traffic going through is high.
 
-Please, read this documentation [1] for better understanding. It
-should clarify this and perhaps other possible questions.
+Signed-off-by: Dominik Czerwik <dominik.czerwik@synaptics.com>
+Signed-off-by: Łukasz Spintzyk <lukasz.spintzyk@synaptics.com>
+---
 
-[1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
+v3: We have decided to remove that copyright as this is not really 
+    necessary.
 
-> > > MediaTek MT6370 IC.
+    This is v3 revision of the patch series.
+    Please forgive me it is wrongly resubmitted with git-send-mail.
 
-...
+ drivers/net/usb/cdc_ncm.c ssary +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-> > > +       ret = devm_request_threaded_irq(dev, priv->irq, NULL,
-> > > +                                       mt6370_irq_handler, IRQF_ONESHOT,
-> > > +                                       dev_name(dev), priv);
-> > > +       if (ret) {
-> >
-> > > +               tcpci_unregister_port(priv->tcpci);
-> >
-> > This is wrong.
-> > You mixed devm_ with non-devm. Either drop devm_ *after* the first
-> > non-devm_ call, or convert everything to be managed.
-> >
-> How about to add 'devm_add_action_or_reset' for tcpci_unregister_port?
-> This will convert all as 'devm_' version.
-
-I think it would work, that wrapper was designed to cover cases like this.
-
-> > > +               return dev_err_probe(dev, ret, "Failed to allocate irq\n");
-> > > +       }
-
-...
-
-> > > +static int mt6370_tcpc_remove(struct platform_device *pdev)
-> > > +{
-> > > +       struct mt6370_priv *priv = platform_get_drvdata(pdev);
-> >
-> > > +       disable_irq(priv->irq);
-> >
-> > Why?
-> > An ugly workaround due to ordering issues in ->probe()?
-> >
-> Yes, due to the ordering in probe.
-> 'bus remove' will be called before device resource releases.
->
-> Like as you said, another way is to convert all as non-devm
-> version after 'tcpci_unregister_port'.
->
-> If to keep the original order, 'disable_irq' before
-> 'tcpci_unregister_port' can make the flow more safe.
->
-> Or you can think one case if irq triggers after
-> 'tcpci_unregister_port'. Null pointer occurs.
->
-> Anyway, in next revision, I'll convert all to be 'devm_' version.
-> For this remove callback, only 'dev_pm_clear_wake_irq' and
-> 'device_init_wakeup' will be kept.
->
-> Is this better?
-
-Sounds like a plan!
-
-> > > +       tcpci_unregister_port(priv->tcpci);
-> > > +       dev_pm_clear_wake_irq(&pdev->dev);
-> > > +       device_init_wakeup(&pdev->dev, false);
-> > > +
-> > > +       return 0;
-> > > +}
-
+diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
+index d55f59ce4a31..af84ac0d65c9 100644
+--- a/drivers/net/usb/cdc_ncm.c
++++ b/drivers/net/usb/cdc_ncm.c
+@@ -1904,6 +1904,19 @@ static const struct driver_info cdc_ncm_info = {
+ 	.set_rx_mode = usbnet_cdc_update_filter,
+ };
+ 
++/* Same as cdc_ncm_info, but with FLAG_SEND_ZLP  */
++static const struct driver_info cdc_ncm_zlp_info = {
++	.description = "CDC NCM (SEND ZLP)",
++	.flags = FLAG_POINTTOPOINT | FLAG_NO_SETINT | FLAG_MULTI_PACKET
++			| FLAG_LINK_INTR | FLAG_ETHER | FLAG_SEND_ZLP,
++	.bind = cdc_ncm_bind,
++	.unbind = cdc_ncm_unbind,
++	.manage_power = usbnet_manage_power,
++	.status = cdc_ncm_status,
++	.rx_fixup = cdc_ncm_rx_fixup,
++	.tx_fixup = cdc_ncm_tx_fixup,
++};
++
+ /* Same as cdc_ncm_info, but with FLAG_WWAN */
+ static const struct driver_info wwan_info = {
+ 	.description = "Mobile Broadband Network Device",
+@@ -2010,6 +2023,16 @@ static const struct usb_device_id cdc_devs[] = {
+ 	  .driver_info = (unsigned long)&wwan_info,
+ 	},
+ 
++	/* DisplayLink docking stations */
++	{ .match_flags = USB_DEVICE_ID_MATCH_INT_INFO
++		| USB_DEVICE_ID_MATCH_VENDOR,
++	  .idVendor = 0x17e9,
++	  .bInterfaceClass = USB_CLASS_COMM,
++	  .bInterfaceSubClass = USB_CDC_SUBCLASS_NCM,
++	  .bInterfaceProtocol = USB_CDC_PROTO_NONE,
++	  .driver_info = (unsigned long)&cdc_ncm_zlp_info,
++	},
++
+ 	/* Generic CDC-NCM devices */
+ 	{ USB_INTERFACE_INFO(USB_CLASS_COMM,
+ 		USB_CDC_SUBCLASS_NCM, USB_CDC_PROTO_NONE),
 -- 
-With Best Regards,
-Andy Shevchenko
+2.36.1
+
