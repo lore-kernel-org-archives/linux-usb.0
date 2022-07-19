@@ -2,103 +2,227 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C40ACCA479
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jul 2022 02:28:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A846EC43334
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jul 2022 02:47:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236910AbiGSC22 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Jul 2022 22:28:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58982 "EHLO
+        id S235478AbiGSCrd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Jul 2022 22:47:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231645AbiGSC21 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Jul 2022 22:28:27 -0400
-Received: from mx0a-00230701.pphosted.com (mx0a-00230701.pphosted.com [148.163.156.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1AAC3AE74;
-        Mon, 18 Jul 2022 19:28:26 -0700 (PDT)
-Received: from pps.filterd (m0297266.ppops.net [127.0.0.1])
-        by mx0a-00230701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26INawLW011668;
-        Mon, 18 Jul 2022 18:28:11 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=date : message-id :
- in-reply-to : references : from : subject : to : cc; s=pfptdkimsnps;
- bh=BygQ6+1FH3jCaSFf7qCsSOuQqp/3Wicq5Kz0DudzHSc=;
- b=hAcFbV/GEOeIJWAEXS/eq3UEIy0g4XQhVLx5uVy8abeLgRiultUw48DqDnJPTnZny8Uq
- whSTR5CsllCojd1UP52Z0zDaavvSnPbm61/fBgjIwpCOwNjkO40oDpRqzMDTjyw9Ja1b
- hdf0hTIa7k67GQJFCr7fCR69lvC+C1ymernhu+Wwzzt2i8RUJRFno9/bfL54fQNdQj9C
- DgYARq0v6rZFTFjGj//PC6lHrX38greNm7fovIOQvRvTs8nnjSUZgD2OUCrHwYT9K3Xi
- maXhH+W58jM8+xasoWOZTVesATjeDQdS4ZU/USL5uxPTSopkokAOCLQzmCa6Ukv2Dl4u Ww== 
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.73.133])
-        by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 3hbvk5whqu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 18 Jul 2022 18:28:11 -0700
-Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com [10.205.2.134])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 5602440097;
-        Tue, 19 Jul 2022 01:28:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1658194091; bh=Hu9EZfKQjGaOvgd4CEzDGOBcW56c1F3mlREuvVB3bmg=;
-        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=mY3hbt8OThXNhwN/J3LIgKLeNB99vTGyFAQvCR1ZcykQ7C16/GUcHfw54dknU96IT
-         jRjsW2fwWGazUg7tT6NwX32t6/oX7JX+HSfvbBloCys6L6OGHzSRRbBx4cL3PZvo28
-         J4tQr5Js7Aawl9Oe2fkb79RCqNpLB87RITRGXMWK8HudOw43zWNiTr513ki+o7KwbN
-         3WOLfCtod2Lk3RhwmQBchNgfu0AHW8hYz/Coj8xr+45oLZXC3bY6V21k31mrm0L5Ws
-         oTdZp6/zj45YE1eIywq/Mp0U8bGnBnwnh6XUK55i/NiWbIg+8kzFrLEIwXBh7o5Nmz
-         a1R9QqLQkMeEw==
-Received: from te-lab16-v2 (nanobot.internal.synopsys.com [10.204.48.11])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (Client did not present a certificate)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id 34EEBA0096;
-        Tue, 19 Jul 2022 01:28:10 +0000 (UTC)
-Received: by te-lab16-v2 (sSMTP sendmail emulation); Mon, 18 Jul 2022 18:28:10 -0700
-Date:   Mon, 18 Jul 2022 18:28:10 -0700
-Message-Id: <a4f8072a44e01c0a512fad001f458471548313a1.1658192351.git.Thinh.Nguyen@synopsys.com>
-In-Reply-To: <cover.1658192351.git.Thinh.Nguyen@synopsys.com>
-References: <cover.1658192351.git.Thinh.Nguyen@synopsys.com>
-X-SNPS-Relay: synopsys.com
-From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: [PATCH v2 20/25] usb: gadget: f_tcm: Save CPU ID per command
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Bogdanov <d.bogdanov@yadro.com>
-Cc:     linux-scsi@vger.kernel.org, target-devel@vger.kernel.org
-X-Proofpoint-GUID: 9HEe-fpxbqdu5ye2vAoO0qlYKYC5UgS0
-X-Proofpoint-ORIG-GUID: 9HEe-fpxbqdu5ye2vAoO0qlYKYC5UgS0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-18_22,2022-07-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
- mlxscore=0 phishscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
- mlxlogscore=672 malwarescore=0 clxscore=1015 bulkscore=0 impostorscore=0
- priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2206140000 definitions=main-2207190004
+        with ESMTP id S231645AbiGSCrc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Jul 2022 22:47:32 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2117.outbound.protection.outlook.com [40.107.94.117])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F17032ED9;
+        Mon, 18 Jul 2022 19:47:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C4EoJy4jhLaTwTeExyo0lrqKP9JLTKw+Tj8q9voielT7VN57ogwFwcTXLD6Y395HmZYyCepCzBexx6rZRri/qxmJHarFVN62+cYcI5Pea3PC6pinFsR62Ax0JKfJM00xtF8y+c5WCeCohvap4ybmvdzJQGIEmvL1wkgRhFJeGhbKRY3PR0Qnbrb4NhTpPoYGWA+ECwlqR5OO7cEWmYskt/EgztDBayYL6xWlgYgeJRCM6mEC9KnifFcDjHhIWL21V4HcwcnROLcLNerpQTpzi1+rePQsYJwuOcS+dsKco+SlTQ9xPGTjMj0xEzQkghRjONKVBEy3/H5nuewB2K6sRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y37IkE7lI7Q8VwypdQYoD+N7vpljHsLKA0CVcA04OZw=;
+ b=dTPjdBiD07z2oy5zJLkNIC2iDCrG/7awcnlLvNQIfvQXqY2+fQUE7GFfC94i1H72hdKJRhUTTW8JBNK2x8+GMBih0clepGfG/XI8a8hwF9JCx3Ybrbe3HQV30U1Pk0X4a96j7zHr83LsLUaJXO9NUBaucbRDWW0FmizwBabAW8YHTm8DwDX79gCT1Mh0E1AIHv5rri0rvK/KuRg/LC1+nRlVpjiLYh3G0rNn6UAo0UO2s0tq+qW9Vj0d8VoxGst4YZ1NBbM9QcLapr9J79kvUZoZMYqhr0pbyoNPNAHk9jFJc6q0W8YDdjkk/xJa/47H1BFY3HY+JbP0FluGypUt0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
+ header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y37IkE7lI7Q8VwypdQYoD+N7vpljHsLKA0CVcA04OZw=;
+ b=JQLt6dX3pHi2ABuDhV9n5R09K1ySz0alNdxBG+4rGZcnTVPhXx4oYQxUbjfQ5W4B5lkKqE4JWFJ5lPs4DnVdnTifIrdoblRos8G1d9zlWmt2a2ObsXC1YNyhjWs5KiPD6Uk0BLFnJI81FLSOY3zubBLw05C3x64CS05mrMwp13c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=analogixsemi.com;
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
+ by SN6PR04MB5247.namprd04.prod.outlook.com (2603:10b6:805:fb::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.13; Tue, 19 Jul
+ 2022 02:47:28 +0000
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::f02d:f2e:cba9:223b]) by BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::f02d:f2e:cba9:223b%6]) with mapi id 15.20.5438.023; Tue, 19 Jul 2022
+ 02:47:22 +0000
+From:   Xin Ji <xji@analogixsemi.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Xin Ji <xji@analogixsemi.com>
+Cc:     bliang@analogixsemi.com, qwen@analogixsemi.com,
+        jli@analogixsemi.com, Rob Herring <robh@kernel.org>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v20 1/2] dt-bindings: usb: Add analogix anx7411 PD binding
+Date:   Tue, 19 Jul 2022 10:47:03 +0800
+Message-Id: <20220719024704.47395-1-xji@analogixsemi.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCPR01CA0029.jpnprd01.prod.outlook.com
+ (2603:1096:405:1::17) To BY5PR04MB6739.namprd04.prod.outlook.com
+ (2603:10b6:a03:229::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4db00092-2077-4489-8536-08da69310160
+X-MS-TrafficTypeDiagnostic: SN6PR04MB5247:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: w2ujpuMU6CjGXVLBqUAUwaHoQfxciIDfWApK+TeY/QotUeVFrHV804BWfENk3Hwc949D6U48mTVtWeTFdFrwS/0subpDXakaD9oAPRVjIxe9DKpGN1qJ7hJKFaNl1nIB1EWowkifBmJNrVazf0sJ1yRV+3EaA+VzcF24bvFOaWJ98sfrLCqg03LTTklEhkvx6JxhJksWK/dKAV4rTSqCzMGN+J24i7p48uMfhhMffZOVC1mQaItBEikxzjtw5xbvDPddxIYgcD7376BCPUrok5BnD4WhoypsIokr8boFehw/L0Ibr9zNmw5FkLeP5XT8/ZOHfJW/BRHfqvj9jbmZ9/4BOMmfp6bsmpxYOglon9LRKahywtT4OR0P9gJyeL6PI+SXlUps9RCW+2874JRIr8GuQcQUCjeP1HVtur56osileQC9kiFT5ppiqFwLUTPlC0cEjtwQ+bayq7a2bmdtSH1gsbmUVCcwfYPFnszQ0ZFBoD8qD3QDmeL0WicD5ao+Ixcjc53uXbLYjr2at3mMJWk3R2mm1Qa2/UFezoVpFbMVnD6jd0ftevU3cmEcCuS4tNcSIXbJdWYQ0fTu068R06SUDjcV4yHFGZbm4TisNLsSbYmeEvDYX+fU1Qc7hLrvLPSgBBJtPTLz4Z8t1XNH2jtZaKK0Sm1tDOJCRoG+v3tZw8OzDNSDuhNkxPk9obk98A+0zujoI+4Q3z5EP3R0ind2vIE61RORbi0fj+w2NDLGoEvPTj4Mseq0dek4gjoPbX1wLdOMo++AZlqz8Q9bo0ZuOgCfVmw+NdGa6huD5HB1vW8UAalvxqcBW380WQx+XHvVrX7/f0ORefpqBplVfw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR04MB6739.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(396003)(366004)(136003)(376002)(346002)(39840400004)(2616005)(66946007)(6512007)(8676002)(4326008)(66476007)(186003)(1076003)(7049001)(8936002)(5660300002)(86362001)(38350700002)(38100700002)(478600001)(110136005)(6486002)(6666004)(966005)(316002)(66556008)(6506007)(52116002)(36756003)(2906002)(41300700001)(26005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZtjMcQZ9w+GSdQAhTC4RwPRdiCMRxL5gMe4r3+5eYat2rUzyir5mE4PPZheX?=
+ =?us-ascii?Q?tzpQwChUsYImVvC2Zjlkz5PurV9YpvSB8xrUN5LLJQ8r+H68DkJYPM7uwEfB?=
+ =?us-ascii?Q?cxU0eFe2qeste/nGxw6TDU8fxudgzPcZv9BIY1KJ50PnZ7HZkSUfdZXu0zK+?=
+ =?us-ascii?Q?Xz+LGJIjxUWwlkTApDIi3fxZwmIwsRxibIjuBeWmJPmY3SYhZLAeMSXUwQLm?=
+ =?us-ascii?Q?RS6/OwlH0PKda8Vr+anzAxJNAZtpup2vyaBeozpZC8ee3KZy1RgyxodGs0dw?=
+ =?us-ascii?Q?GjlpDnDpH4VwUurH7ROsL9EI1vKGBgiomjLNBTBw4DvxLiddDbtVpsOw78X9?=
+ =?us-ascii?Q?UNjNPzGgFW1wxx+3SqV55lpF214AsqAEhR4PUEVJPj90Ohjp++6Hzu38XiJa?=
+ =?us-ascii?Q?b+5qq3aKuoXk86lzgjPOQfxeGHJN0Qewud3Lc+dLbeutBcYfE+zzQRocI1fE?=
+ =?us-ascii?Q?9N1CyPdkLUDUNHDw4KLbdagTKQzgO2dnKbpI7GqeMu7jUF/xj7veHGd1urwr?=
+ =?us-ascii?Q?0OSLxzoAjOM7hGJV3GiMhQw8jhtiYjZAgj7FmnT0+pUANadT/CSyBpuBB77/?=
+ =?us-ascii?Q?s/84f46GgB3cI4ClrVlo3x6SmslEBitfpN71N8JnZI1nrWK4u0QSoQOL+EnE?=
+ =?us-ascii?Q?rNDjjapZR8Q/L6mk3yj4x8xNXjn6YMrqvqq2JAMwnHtJG4iUQyJreblzdKWz?=
+ =?us-ascii?Q?p5GOeGBHVdmVslKJn3YPfB7ygx85tV/CeMD0pcuWiTNRcb+ON8QWekQHccT2?=
+ =?us-ascii?Q?6lwUPkhScQjeHcksimIIgwymUfsUnR5HZYzndGMgKJb+69tsPrqOGRzVvt3x?=
+ =?us-ascii?Q?Kn5aKIVdkRKs4MbGg2vlBfGuT0yp3qSaGkTxsKcc6ucD64zM6Rf/a4ELUyhV?=
+ =?us-ascii?Q?oMBbd8XJ5V1jooX0rVtHtyCZ7MMxXl5nHxGD3w4OtpoF5CCePQhzlT+CklqR?=
+ =?us-ascii?Q?LSHsyxJ90acEb9HA52Y4/YdNJRbJpDBqvzydqSIh8ibhNI03jpTpXQenvs0p?=
+ =?us-ascii?Q?Nh2DYCyxSGYQj0abg3YEhD10BJYEYrLBRH5Zey0UYkIjmd4bPQ7HOa3F0uiz?=
+ =?us-ascii?Q?jOb0PJjm3hgbt1ru1pwiqY37w2pxE4FKBgHMeVQ4HnP/7eFl0UAHExK8iXPZ?=
+ =?us-ascii?Q?fTtmPFBMI/is1WrrTkH2yVF+3OzpG9VcFr+UP6iGl9nATR6+J9Sr19V3pSrI?=
+ =?us-ascii?Q?fYBRnGmedA+Aqrseqy8LqqkuGcogOEbi/cpvIS4xVhAeuwDuyiB3lSsoKhD9?=
+ =?us-ascii?Q?EHe2N9Km3DmmbL7Jdzt9zg3OAz/RQrAs333KyodEODyhHBf6CDfi/3rDrNvp?=
+ =?us-ascii?Q?kadJkaOu7OMIBthAZ7NFRb528m3dVi6IbOXfxPpJCcFF0s5NM42Pevyhv0+M?=
+ =?us-ascii?Q?vW4bzAKaSOqjig0to6W5zvRwEq0IJiKEI0MF8LHJKW2xd9Lz5vboiNxueB0v?=
+ =?us-ascii?Q?DhzRFY3s7+aUr12PUEXJgAW5nIguG3D6TBz5qkW4lN/dxt3Ux0G4OOYdBrN9?=
+ =?us-ascii?Q?tWIWI1HKMnrUUPkRLDGvmdxnEbvSbkt+yywiVClCaaHIzyA7yDAM9n2dR7F7?=
+ =?us-ascii?Q?Ogz/3vyxobHQrT48ejnf0HqAUTVxg6rU53Qr90Et?=
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4db00092-2077-4489-8536-08da69310160
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2022 02:47:22.5950
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: L6elc3eTMD5c05I8+lspRSw/pNkmeO7mjFE3LvMJpa0LNQP9cCwctGkuckMQ7ezdLbNyZUxoxxtey9r2JGgtpg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB5247
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Normally we don't care about the CPU id, but if we ever use
-TARGET_SCF_USE_CPUID, then we need to save the cpuid.
+Add analogix PD chip anx7411 device binding
 
-Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Xin Ji <xji@analogixsemi.com>
+
 ---
- Changes in v2:
- - None
+v19 -> v20 : No changes
+v18 -> v19 : Change node name to "typec"
+v17 -> v18 : Change node name from "usb_typec" to "typec"
+v16 -> v17 : Add node name "usb_typec"
+v15 -> v16 : No changes
+v14 -> v15 : No changes
+v13 -> v14 :
+    1. Fix Robot compile error. Fix node name not correct.
+    2. Change HEX to lowercase.
+    3. Use "ports" property.
+v12 -> v13 :
+    1. Drop the quotes for "$id" and "$schema"
+    2. Remove "allOf" label
+    3. Change node name from "i2c1" to "i2c"
+    4. Change node name from "typec" to "usb-typec"
+---
+ .../bindings/usb/analogix,anx7411.yaml        | 81 +++++++++++++++++++
+ 1 file changed, 81 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/analogix,anx7411.yaml
 
- drivers/usb/gadget/function/f_tcm.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
-index 6cf95c9723a3..084143213176 100644
---- a/drivers/usb/gadget/function/f_tcm.c
-+++ b/drivers/usb/gadget/function/f_tcm.c
-@@ -1069,6 +1069,7 @@ static struct usbg_cmd *usbg_get_cmd(struct f_uas *fu,
- 	memset(cmd, 0, sizeof(*cmd));
- 	cmd->se_cmd.map_tag = tag;
- 	cmd->se_cmd.map_cpu = cpu;
-+	cmd->se_cmd.cpuid = cpu;
- 	cmd->se_cmd.tag = cmd->tag = scsi_tag;
- 	cmd->fu = fu;
- 
+diff --git a/Documentation/devicetree/bindings/usb/analogix,anx7411.yaml b/Documentation/devicetree/bindings/usb/analogix,anx7411.yaml
+new file mode 100644
+index 000000000000..ee436308e5dc
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/analogix,anx7411.yaml
+@@ -0,0 +1,81 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/analogix,anx7411.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analogix ANX7411 Type-C controller bindings
++
++maintainers:
++  - Xin Ji <xji@analogixsemi.com>
++
++properties:
++  compatible:
++    enum:
++      - analogix,anx7411
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  connector:
++    type: object
++    $ref: ../connector/usb-connector.yaml
++    description:
++      Properties for usb c connector.
++
++    properties:
++      compatible:
++        const: usb-c-connector
++
++      power-role: true
++
++      data-role: true
++
++      try-power-role: true
++
++    required:
++      - compatible
++
++required:
++  - compatible
++  - reg
++  - connector
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        typec@2c {
++            compatible = "analogix,anx7411";
++            reg = <0x2c>;
++            interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
++            interrupt-parent = <&gpio0>;
++
++            typec_con: connector {
++                compatible = "usb-c-connector";
++                power-role = "dual";
++                data-role = "dual";
++                try-power-role = "source";
++
++                ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++                    port@0 {
++                        reg = <0>;
++                        typec_con_ep: endpoint {
++                            remote-endpoint = <&usbotg_hs_ep>;
++                        };
++                    };
++                };
++            };
++        };
++    };
++...
 -- 
-2.28.0
+2.25.1
 
