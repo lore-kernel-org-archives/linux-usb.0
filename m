@@ -2,181 +2,117 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B53A9C433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jul 2022 23:59:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5EDECCA479
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jul 2022 01:44:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235542AbiGRX7J (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Jul 2022 19:59:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34762 "EHLO
+        id S234349AbiGSBog (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Jul 2022 21:44:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236256AbiGRX6o (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Jul 2022 19:58:44 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEDFF33E2B;
-        Mon, 18 Jul 2022 16:58:37 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id u7-20020a17090a3fc700b001f1efc76be2so977889pjm.1;
-        Mon, 18 Jul 2022 16:58:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=kEb4hoOhi8CD/XwbMaUD4a9U4Omjx9rjALTJdXy2eYk=;
-        b=T5W7pqEHmAyucMxobeaee1znTp86VUbOMIWRgD3+x5jIjgppq/RlguxsrqF5uxSRYT
-         VpPjM5hBxcY4wY0D/EeghBLfW1K9svmx/jZAyqtD+AmLPn2Y5TwgdltU+lQ9v1Zio+BL
-         xgTIj7SxZcub+VXqtLHFWGU2hXe0TX+5KCVbi0gqNng4CY6prFj83aWEzO+gGTk365No
-         tiWYAMftoA0MPP9bQqemXQKBl2T9rXcTDoyPbFWc9+e+b2rNJe27iz19BXnBWuZWIwtj
-         jxR52oXRL9e0Fb57yvPOKvDnunU0yS2UeXb/VsR6gX/tOUDqYgJjrn7cEDN9jELjuSyP
-         ARFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=kEb4hoOhi8CD/XwbMaUD4a9U4Omjx9rjALTJdXy2eYk=;
-        b=wMD3pDR8+hPcACC5IfpMSn0sWBmklSKyYnFQSkl5M0p7K9hJnrbWXci5Qwhz4sWIa7
-         X5rHfTngXKJOLS3bMDMKo4Awvztr4wNlaAEcHf9AlzlbWikQPy71yHIgK4QwVXs1EF+o
-         IAAlV2VoLn3kAC6uh4e6nlFvi/wpZe6429HDBqM6fx14vgnCO77ra7Xiar/M6Gk2I74y
-         eMjO/RQlFV2YE4oTFAhTIyDab2wmxtXJ9+NSQfGhcqv3pDhjhQa8j1aLYiQ69AgMtOY8
-         p6rwoptrc3zEO7oMArH7AO4hq5leazXFD2hDEoii9HoSSK1UQ5jA8Ui4/NZWHyDvBgCh
-         cUBA==
-X-Gm-Message-State: AJIora/PGyzhyoglRULCuwRFehYDGE661WPd7Fzy5c7v/HSD40zMk759
-        gg+nq5kXnVISOs50d2+ukNqiKQhIaUk=
-X-Google-Smtp-Source: AGRyM1t21sRhvd9eziBz44wABhsJy/t2Ze2/Aos/o9F+2g3bhjFZ+hN2v2iPqyTPzN/7Hs4me5/UTw==
-X-Received: by 2002:a17:902:d54b:b0:16b:f246:e32e with SMTP id z11-20020a170902d54b00b0016bf246e32emr30177743plf.4.1658188716191;
-        Mon, 18 Jul 2022 16:58:36 -0700 (PDT)
-Received: from stbirv-lnx-2.igp.broadcom.net ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id j20-20020a170902759400b00161ccdc172dsm10027067pll.300.2022.07.18.16.58.34
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Jul 2022 16:58:35 -0700 (PDT)
-From:   justinpopo6@gmail.com
-To:     linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, jannh@google.com, jackychou@asix.com.tw,
-        jesionowskigreg@gmail.com, joalonsof@gmail.com,
-        justinpopo6@gmail.com, pabeni@redhat.com, kuba@kernel.org,
-        edumazet@google.com, davem@davemloft.net, f.fainelli@gmail.com
-Cc:     justin.chen@broadcom.com
-Subject: [PATCH 5/5] net: usb: ax88179_178a: wol optimizations
-Date:   Mon, 18 Jul 2022 16:58:09 -0700
-Message-Id: <1658188689-30846-6-git-send-email-justinpopo6@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1658188689-30846-1-git-send-email-justinpopo6@gmail.com>
-References: <1658188689-30846-1-git-send-email-justinpopo6@gmail.com>
+        with ESMTP id S231635AbiGSBof (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Jul 2022 21:44:35 -0400
+X-Greylist: delayed 1009 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 Jul 2022 18:44:34 PDT
+Received: from mx0a-00230701.pphosted.com (mx0a-00230701.pphosted.com [148.163.156.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09548EE38;
+        Mon, 18 Jul 2022 18:44:33 -0700 (PDT)
+Received: from pps.filterd (m0098571.ppops.net [127.0.0.1])
+        by mx0a-00230701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26IM5U1w002272;
+        Mon, 18 Jul 2022 18:27:59 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=date : message-id :
+ in-reply-to : references : from : subject : to : cc; s=pfptdkimsnps;
+ bh=b7MfKPf9nQqlmO/dDxc6MjRx/cnBJnR5IidJCKntjdg=;
+ b=jJj62atp918abmoxQFFL17Z3GqYvon6Lsd3M8l+wuNWgMwAVTwpvl05XMijEdA+1s91w
+ E0Ux1NGUZZIEIthVoG+0P661JSMiaMXwbgifKd5jKYOE7wAbzMZYWxe9b7fmxaDzYlQ8
+ fOaMA94LtU+VYm2YL+JeSeqjAGqPkKtluBXIUylRFjGh5Z9RRSVupTvfo6ee2CI9hDjp
+ nDiLdoQa5I/l90rDMuPBC39p/dGmIJ4ZdBgBTKL1MC6R8G5ZtloI3ymze5uduPBfa4aZ
+ THA64T0FCGrSS5VktyrdeISWg2S9h6SyCYGSnQQY6Ck6VP2LWo1n3uccStlWd/GbjwLp Tg== 
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.73.133])
+        by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 3hbvbmwhtr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 18 Jul 2022 18:27:59 -0700
+Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com [10.205.2.134])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 17B274008A;
+        Tue, 19 Jul 2022 01:27:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1658194079; bh=OrBOJOTlFf/nTJ3m0qhtxxTxNpwmgDDjmhBn0n85VZo=;
+        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
+        b=bNleh05+dhtViPOLnCBYh7xUbQI3U/dKoHajoIjH8S723gmeeawj8/fsNb0FLtd6J
+         9xtxlPduknuKJRfJgKMAlGh3RyEM8IR8Om8Ab7luAfdPDRHwBmYhtrqBQogJ+AQ1f4
+         8IWbD49HzePd0lK/8oTymb+UJ/BcWBfI4ITyo0S27PRVEK11GXA5kQk2/ACzl8xiTm
+         sza1tvb4LDiIksQTxiTwu6qbqHfQsq2wVCp6gtErQldw33V7YQTvvqAM0WHzV4gwQg
+         BST5PgcBRNPz1uz1xsaIGvs+yBg1B2G5+u3O4eiWNdgsTgeVb4VasVgMxNRWjLQ+sV
+         +p+jCfk6Tp1vw==
+Received: from te-lab16-v2 (nanobot.internal.synopsys.com [10.204.48.11])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (Client did not present a certificate)
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id E95D2A0096;
+        Tue, 19 Jul 2022 01:27:57 +0000 (UTC)
+Received: by te-lab16-v2 (sSMTP sendmail emulation); Mon, 18 Jul 2022 18:27:57 -0700
+Date:   Mon, 18 Jul 2022 18:27:57 -0700
+Message-Id: <782c62e59d8902044e6021fa7dd6c249a4ea4288.1658192351.git.Thinh.Nguyen@synopsys.com>
+In-Reply-To: <cover.1658192351.git.Thinh.Nguyen@synopsys.com>
+References: <cover.1658192351.git.Thinh.Nguyen@synopsys.com>
+X-SNPS-Relay: synopsys.com
+From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Subject: [PATCH v2 18/25] usb: gadget: f_tcm: Cleanup requests on ep disable
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Bogdanov <d.bogdanov@yadro.com>
+Cc:     linux-scsi@vger.kernel.org, target-devel@vger.kernel.org
+X-Proofpoint-GUID: x7H5AlVZrQl5IezmB09RvunRrE48r1NQ
+X-Proofpoint-ORIG-GUID: x7H5AlVZrQl5IezmB09RvunRrE48r1NQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-18_22,2022-07-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
+ clxscore=1015 priorityscore=1501 impostorscore=0 suspectscore=0
+ bulkscore=0 mlxlogscore=740 phishscore=0 lowpriorityscore=0 adultscore=0
+ malwarescore=0 spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2206140000 definitions=main-2207190004
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Justin Chen <justinpopo6@gmail.com>
+If the endpoint is disabled, then free the command. Normally we don't
+free a command until it's completed its UASP status (failure or not).
 
-- Check if wol is supported on reset instead of everytime get_wol
-is called.
-- Save wolopts in private data instead of relying on the HW to save it.
-- Defer enabling WoL until suspend instead of enabling it everytime
-set_wol is called.
-
-Signed-off-by: Justin Chen <justinpopo6@gmail.com>
+Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 ---
- drivers/net/usb/ax88179_178a.c | 52 +++++++++++++++++++++++-------------------
- 1 file changed, 28 insertions(+), 24 deletions(-)
+ Changes in v2:
+ - Use goto cleanup for a cleaner look.
 
-diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
-index cb7b89f..757c1d9b 100644
---- a/drivers/net/usb/ax88179_178a.c
-+++ b/drivers/net/usb/ax88179_178a.c
-@@ -171,6 +171,8 @@ struct ax88179_data {
- 	u8  eee_active;
- 	u16 rxctl;
- 	u8 in_pm;
-+	u32 wol_supported;
-+	u32 wolopts;
- };
+ drivers/usb/gadget/function/f_tcm.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
+index 8f7eb7045e64..a8a730e5126d 100644
+--- a/drivers/usb/gadget/function/f_tcm.c
++++ b/drivers/usb/gadget/function/f_tcm.c
+@@ -572,7 +572,7 @@ static void uasp_status_data_cmpl(struct usb_ep *ep, struct usb_request *req)
+ 	struct f_uas *fu = cmd->fu;
+ 	int ret;
  
- struct ax88179_int_data {
-@@ -400,6 +402,7 @@ ax88179_phy_write_mmd_indirect(struct usbnet *dev, u16 prtad, u16 devad,
- static int ax88179_suspend(struct usb_interface *intf, pm_message_t message)
- {
- 	struct usbnet *dev = usb_get_intfdata(intf);
-+	struct ax88179_data *priv = dev->driver_priv;
- 	u16 tmp16;
- 	u8 tmp8;
+-	if (req->status < 0)
++	if (req->status == -ESHUTDOWN)
+ 		goto cleanup;
  
-@@ -407,6 +410,19 @@ static int ax88179_suspend(struct usb_interface *intf, pm_message_t message)
+ 	switch (cmd->state) {
+@@ -936,7 +936,10 @@ static void usbg_data_write_cmpl(struct usb_ep *ep, struct usb_request *req)
  
- 	usbnet_suspend(intf, message);
+ 	cmd->state = UASP_QUEUE_COMMAND;
  
-+	/* Enable WoL */
-+	if (priv->wolopts) {
-+		ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MONITOR_MOD,
-+				 1, 1, &tmp8);
-+		if (priv->wolopts & WAKE_PHY)
-+			tmp8 |= AX_MONITOR_MODE_RWLC;
-+		if (priv->wolopts & WAKE_MAGIC)
-+			tmp8 |= AX_MONITOR_MODE_RWMP;
+-	if (req->status < 0) {
++	if (req->status == -ESHUTDOWN)
++		goto cleanup;
 +
-+		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MONITOR_MOD,
-+				  1, 1, &tmp8);
-+	}
-+
- 	/* Disable RX path */
- 	ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE,
- 			 2, 2, &tmp16);
-@@ -480,40 +496,22 @@ static void
- ax88179_get_wol(struct net_device *net, struct ethtool_wolinfo *wolinfo)
- {
- 	struct usbnet *dev = netdev_priv(net);
--	u8 opt;
--
--	if (ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MONITOR_MOD,
--			     1, 1, &opt) < 0) {
--		wolinfo->supported = 0;
--		wolinfo->wolopts = 0;
--		return;
--	}
-+	struct ax88179_data *priv = dev->driver_priv;
- 
--	wolinfo->supported = WAKE_PHY | WAKE_MAGIC;
--	wolinfo->wolopts = 0;
--	if (opt & AX_MONITOR_MODE_RWLC)
--		wolinfo->wolopts |= WAKE_PHY;
--	if (opt & AX_MONITOR_MODE_RWMP)
--		wolinfo->wolopts |= WAKE_MAGIC;
-+	wolinfo->supported = priv->wol_supported;
-+	wolinfo->wolopts = priv->wolopts;
- }
- 
- static int
- ax88179_set_wol(struct net_device *net, struct ethtool_wolinfo *wolinfo)
- {
- 	struct usbnet *dev = netdev_priv(net);
--	u8 opt = 0;
-+	struct ax88179_data *priv = dev->driver_priv;
- 
--	if (wolinfo->wolopts & ~(WAKE_PHY | WAKE_MAGIC))
-+	if (wolinfo->wolopts & ~(priv->wol_supported))
- 		return -EINVAL;
- 
--	if (wolinfo->wolopts & WAKE_PHY)
--		opt |= AX_MONITOR_MODE_RWLC;
--	if (wolinfo->wolopts & WAKE_MAGIC)
--		opt |= AX_MONITOR_MODE_RWMP;
--
--	if (ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MONITOR_MOD,
--			      1, 1, &opt) < 0)
--		return -EINVAL;
-+	priv->wolopts = wolinfo->wolopts;
- 
- 	return 0;
- }
-@@ -1643,6 +1641,12 @@ static int ax88179_reset(struct usbnet *dev)
- 	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE,
- 			  2, 2, tmp16);
- 
-+	/* Check if WoL is supported */
-+	ax179_data->wol_supported = 0;
-+	if (ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MONITOR_MOD,
-+			     1, 1, &tmp) > 0)
-+		ax179_data->wol_supported = WAKE_MAGIC | WAKE_PHY;
-+
- 	ax88179_led_setting(dev);
- 
- 	ax179_data->eee_enabled = 0;
++	if (req->status) {
+ 		pr_err("%s() state %d transfer failed\n", __func__, cmd->state);
+ 		goto cleanup;
+ 	}
 -- 
-2.7.4
+2.28.0
 
