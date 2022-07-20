@@ -2,66 +2,53 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE9F1C433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jul 2022 19:48:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C6FC43334
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jul 2022 20:34:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230019AbiGTTsf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 20 Jul 2022 15:48:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52664 "EHLO
+        id S229884AbiGTUe4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 20 Jul 2022 16:34:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbiGTTse (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 Jul 2022 15:48:34 -0400
-Received: from smtpbg.qq.com (biz-43-154-54-12.mail.qq.com [43.154.54.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 898DE21251;
-        Wed, 20 Jul 2022 12:48:29 -0700 (PDT)
-X-QQ-mid: bizesmtp79t1658346498tq4heer9
-Received: from harry-jrlc.. ( [125.70.163.183])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Thu, 21 Jul 2022 03:48:09 +0800 (CST)
-X-QQ-SSF: 0100000000200030C000C00A0000020
-X-QQ-FEAT: hoArX50alxF+DlkLpK/znEs8vSXXS42yNM8fy/pw1WkpLuttolCDx8u4ZxPru
-        +3fomMndDQLzvzKL9GxM8ipflxICWic0CIb7fbX4tUBgmzkhOZW7ih6yCHr9QhR0w/dF8Bd
-        yvccaCovBdCc+1PX1AOMkbbGdOqPPfd5l8/umQA/koLOYIudYCZyXEhAMEup4gKW+bDXgFa
-        KYhJTKZuhx+eMkRvqvexuFyF1o+1+oG08VJ9eyZRom9VcQfBE8NRjvxP8iFPw2LyMBJYRoN
-        V3UvS9pfRVlK2nQijOVtRn9bugW9kyCEIkhUBoa8TTauz9ziyGJb+6VmMrfOhAUH7CHuc/0
-        mZC5uQvI2a9UlE0khMLGsHTUKGuu+Q+PnyHRn3ax0LuLt3msvzeIVK+LGK80w==
-X-QQ-GoodBg: 0
-From:   Xin Gao <gaoxin@cdjrlc.com>
-To:     balbi@kernel.org
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Xin Gao <gaoxin@cdjrlc.com>
-Subject: [PATCH] USB:do not initialise statics to 0.
-Date:   Thu, 21 Jul 2022 03:48:08 +0800
-Message-Id: <20220720194808.8799-1-gaoxin@cdjrlc.com>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S229449AbiGTUey (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 Jul 2022 16:34:54 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A6B34B48A;
+        Wed, 20 Jul 2022 13:34:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id C6AE0CE22FB;
+        Wed, 20 Jul 2022 20:34:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E4C4C3411E;
+        Wed, 20 Jul 2022 20:34:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1658349290;
+        bh=5amI2+X3xNxx7qzEY33FLhbsd5G4SlT8HyQquY6/rwM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bgxYG4mJ3U2dpvoxaU50ZIl6Yje+pat4OrEwXsEtuq4mXpseFGo8RtcZ+wkFJuew9
+         Ich5rjQXTtmhYEI7SHpc9hNFJl0oYzIJkyEbkUVMBbAyQyAgo1Tp5HSj2tNuI+MDDS
+         hliBTgoQWgBP5m+RNMe+UCo5ck81DxT3qemZNCKY=
+Date:   Wed, 20 Jul 2022 22:34:46 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Xin Gao <gaoxin@cdjrlc.com>
+Cc:     balbi@kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB:do not initialise statics to 0.
+Message-ID: <Ythm5o1nfv0v/zY0@kroah.com>
+References: <20220720194808.8799-1-gaoxin@cdjrlc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220720194808.8799-1-gaoxin@cdjrlc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-do not initialise statics to 0.
+On Thu, Jul 21, 2022 at 03:48:08AM +0800, Xin Gao wrote:
+> do not initialise statics to 0.
 
-Signed-off-by: Xin Gao <gaoxin@cdjrlc.com>
----
- drivers/usb/gadget/legacy/zero.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Why not?
 
-diff --git a/drivers/usb/gadget/legacy/zero.c b/drivers/usb/gadget/legacy/zero.c
-index 23312a07efb4..c5f6d496064b 100644
---- a/drivers/usb/gadget/legacy/zero.c
-+++ b/drivers/usb/gadget/legacy/zero.c
-@@ -56,7 +56,7 @@ static const char longname[] = "Gadget Zero";
-  * work better with hosts where config changes are problematic or
-  * controllers (like original superh) that only support one config.
-  */
--static bool loopdefault = 0;
-+static bool loopdefault;
- module_param(loopdefault, bool, S_IRUGO|S_IWUSR);
- 
- static struct usb_zero_options gzero_options = {
--- 
-2.30.2
+You need to be very specific in changelog texts please.
 
+greg k-h
