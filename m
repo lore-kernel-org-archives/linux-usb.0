@@ -2,81 +2,99 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1E9EC433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jul 2022 13:50:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82180C433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jul 2022 13:58:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230389AbiGUNuj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Jul 2022 09:50:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59708 "EHLO
+        id S230147AbiGUN6t (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Jul 2022 09:58:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230217AbiGUNu1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 Jul 2022 09:50:27 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45307F58F;
-        Thu, 21 Jul 2022 06:50:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D1B80B8251F;
-        Thu, 21 Jul 2022 13:50:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 637EFC341C6;
-        Thu, 21 Jul 2022 13:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658411413;
-        bh=DwHS4x4VdAzK7fYgjOzKqAO/8GHishU3PbAMBk3Oi24=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=S2LESK03Frxv6vOQFnzJXklhNnhqYnf+jkZFf9M/8gKBjM8WWj/P40J3o4B7D8O5I
-         1044uJL7KgXD/YQczrzbF5zrxc/Ikejxp4dN0hRylszlEPOe9OKlzmumUYJkL+0umB
-         PRUUWx8lDkDzr5h2m3b2nHqU8NKm54smGC3xut3EcA2Cw1TziQJ+cqqEQVP6Myof6A
-         s3td5qdMSu/UWuMgbZWDAy78c4pTgAcacXXO6muZFAJn6+3c6vs3oJU6RwFaf1Bfio
-         FKi2NiaDQH14Tn7vh0Sw3DhJhrMAcf0MKREThSXiVVj5a8xo0Cp6b+nXkZYUx37od/
-         CynkP7MDkR0pA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 43915E451BA;
-        Thu, 21 Jul 2022 13:50:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229826AbiGUN6r (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 Jul 2022 09:58:47 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 03ADE3120A
+        for <linux-usb@vger.kernel.org>; Thu, 21 Jul 2022 06:58:42 -0700 (PDT)
+Received: (qmail 230677 invoked by uid 1000); 21 Jul 2022 09:58:42 -0400
+Date:   Thu, 21 Jul 2022 09:58:42 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     syzbot <syzbot+b0de012ceb1e2a97891b@syzkaller.appspotmail.com>
+Cc:     andriy.shevchenko@linux.intel.com, balbi@kernel.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, rogerq@ti.com,
+        syzkaller-bugs@googlegroups.com, zhengdejin5@gmail.com
+Subject: Re: [syzbot] KASAN: use-after-free Read in usb_udc_uevent
+Message-ID: <YtlbkmVGJyhO4kR6@rowland.harvard.edu>
+References: <0000000000004de90405a719c951@google.com>
+ <000000000000d36e8705e4406a16@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v5 1/2] net/cdc_ncm: Enable ZLP for DisplayLink ethernet
- devices
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165841141327.10842.14500268917851858367.git-patchwork-notify@kernel.org>
-Date:   Thu, 21 Jul 2022 13:50:13 +0000
-References: <20220720060518.541-1-lukasz.spintzyk@synaptics.com>
-In-Reply-To: <20220720060518.541-1-lukasz.spintzyk@synaptics.com>
-To:     =?utf-8?q?=C5=81ukasz_Spintzyk_=3Clukasz=2Espintzyk=40synaptics=2Ecom=3E?=@ci.codeaurora.org
-Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        oliver@neukum.org, kuba@kernel.org, ppd-posix@synaptics.com,
-        Bernice.Chen@synaptics.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <000000000000d36e8705e4406a16@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello:
-
-This series was applied to netdev/net-next.git (master)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Wed, 20 Jul 2022 08:05:17 +0200 you wrote:
-> From: Dominik Czerwik <dominik.czerwik@synaptics.com>
+On Wed, Jul 20, 2022 at 11:03:24AM -0700, syzbot wrote:
+> syzbot has found a reproducer for the following issue on:
 > 
-> This improves performance and stability of
-> DL-3xxx/DL-5xxx/DL-6xxx device series.
+> HEAD commit:    cb71b93c2dc3 Add linux-next specific files for 20220628
+> git tree:       linux-next
+> console output: https://syzkaller.appspot.com/x/log.txt?x=172591aa080000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=badbc1adb2d582eb
+> dashboard link: https://syzkaller.appspot.com/bug?extid=b0de012ceb1e2a97891b
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13ab4d62080000
 > 
-> Specifically prevents device from temporary network dropouts when
-> playing video from the web and network traffic going through is high.
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+b0de012ceb1e2a97891b@syzkaller.appspotmail.com
 > 
-> [...]
+> ==================================================================
+> BUG: KASAN: use-after-free in usb_udc_uevent+0x11f/0x130 drivers/usb/gadget/udc/core.c:1732
+> Read of size 8 at addr ffff888078ce2050 by task udevd/2968
+> 
+> CPU: 1 PID: 2968 Comm: udevd Not tainted 5.19.0-rc4-next-20220628-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/29/2022
+> Call Trace:
+>  <TASK>
+>  __dump_stack lib/dump_stack.c:88 [inline]
+>  dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+>  print_address_description mm/kasan/report.c:317 [inline]
+>  print_report.cold+0x2ba/0x719 mm/kasan/report.c:433
+>  kasan_report+0xbe/0x1f0 mm/kasan/report.c:495
+>  usb_udc_uevent+0x11f/0x130 drivers/usb/gadget/udc/core.c:1732
+>  dev_uevent+0x290/0x770 drivers/base/core.c:2424
+>  uevent_show+0x1b8/0x380 drivers/base/core.c:2480
 
-Here is the summary with links:
-  - [v5,1/2] net/cdc_ncm: Enable ZLP for DisplayLink ethernet devices
-    https://git.kernel.org/netdev/net-next/c/266c0190aee3
-  - [v5,2/2] net/cdc_ncm: Increase NTB max RX/TX values to 64kb
-    https://git.kernel.org/netdev/net-next/c/5588d6280270
+It looks like the usb_udc_uevent call races with gadget removal.  The 
+problem is that usb_udc_uevent accesses udc->driver but does not hold 
+the udc_lock mutex (which protects this field) while doing so.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Alan Stern
 
+#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/ cb71b93c2dc3
+
+Index: usb-devel/drivers/usb/gadget/udc/core.c
+===================================================================
+--- usb-devel.orig/drivers/usb/gadget/udc/core.c
++++ usb-devel/drivers/usb/gadget/udc/core.c
+@@ -1728,13 +1728,14 @@ static int usb_udc_uevent(struct device
+ 		return ret;
+ 	}
+ 
+-	if (udc->driver) {
++	mutex_lock(&udc_lock);
++	if (udc->driver)
+ 		ret = add_uevent_var(env, "USB_UDC_DRIVER=%s",
+ 				udc->driver->function);
+-		if (ret) {
+-			dev_err(dev, "failed to add uevent USB_UDC_DRIVER\n");
+-			return ret;
+-		}
++	mutex_unlock(&udc_lock);
++	if (ret) {
++		dev_err(dev, "failed to add uevent USB_UDC_DRIVER\n");
++		return ret;
+ 	}
+ 
+ 	return 0;
 
