@@ -2,89 +2,246 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B9A4CCA483
-	for <linux-usb@archiver.kernel.org>; Sat, 23 Jul 2022 10:26:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3352EC433EF
+	for <linux-usb@archiver.kernel.org>; Sat, 23 Jul 2022 10:57:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239073AbiGWK0w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 23 Jul 2022 06:26:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39548 "EHLO
+        id S237288AbiGWK5B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 23 Jul 2022 06:57:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239039AbiGWK0a (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 23 Jul 2022 06:26:30 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B9CB78DC8;
-        Sat, 23 Jul 2022 03:18:51 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id b26so9535075wrc.2;
-        Sat, 23 Jul 2022 03:18:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2PsGZSWn0bfvtONY6PDPYrkHIwoL8aynVvc2kGa9teo=;
-        b=UBW7PtNXbdPbsimJC+KyVkiUt/Nz+2BDq1KjUxOcLO0OqWIhYuTY9MVgTs4C1PwgbJ
-         IhQSL67p6NBuf78XSZ3W9LnJ7UDSutE2aOqfzVtZ8T2LDMsTfDsjZPLLIp5ec2aH7NFp
-         9r5pbkEnwS7BYBw43OMwZtJZn13b+mIjWg3qznMIA/ZvhqjxkgFY+a8kidt5I8T2QfRa
-         /ykUXrFCPgt3dSeCQmDLhcDH0crvirS44sD03He55SYlL6VlgILxCH/yH1TeE5qarVuN
-         Vn1MPOd61KYArMf0/LzwW+LUs2hS8D1jC5WpnZ3Br8zoZRXwAVgFl32YCQptti6sZ0nP
-         qmHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2PsGZSWn0bfvtONY6PDPYrkHIwoL8aynVvc2kGa9teo=;
-        b=0pCjehYu6TqrzImnlv9SYv0NghDD0KGvbnzV4cuFI2kawLIHdtW/jHQYIIcerpwvD3
-         KwL8sgfJtGRB06xPC1gU4OQ6lpiQ7yQYMyxJWvJ1TdXIuoneM/FQLmtL/Pp2yjyNzfq4
-         chFAN7/+uGds5tgjsssJbSbE9vASaZJCGmuGtesf7ZmBhpSzpmHL/aijUWMWaG2jgmP6
-         +no0bGZmUzsOPdMZlqKE1JIgAdY5nxSAGvovW0pS9l2ZSmKkI2M4QKNuU8I7w/msENYe
-         g8LPIGRgq7W3otcydKDKf1BVpb1WYXwUgLkICcmS73CdaNiPz3iIKCFdfPH0lj5BhcXa
-         qiBQ==
-X-Gm-Message-State: AJIora9SWh7A5diXzzDN6lNgMwT/rsSsBHvg234Y95I+UuSpxxDRESfs
-        zzamaPy5Zh1phxBi5q8sS14=
-X-Google-Smtp-Source: AGRyM1unTp8g5WHUUH5FU/LcH6liCfcE0kUzkRIkE4yWBS0MVpzyd9Hfh9FMn9D0WeSYwh6MnzysLg==
-X-Received: by 2002:a05:6000:1f0b:b0:21d:6dae:7d04 with SMTP id bv11-20020a0560001f0b00b0021d6dae7d04mr2496059wrb.414.1658571530047;
-        Sat, 23 Jul 2022 03:18:50 -0700 (PDT)
-Received: from reki (62-44-238.netrun.cytanet.com.cy. [62.228.44.238])
-        by smtp.gmail.com with ESMTPSA id q5-20020a1ce905000000b003a0323463absm7849803wmc.45.2022.07.23.03.18.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Jul 2022 03:18:49 -0700 (PDT)
-Date:   Sat, 23 Jul 2022 13:18:47 +0300
-From:   Maxim Devaev <mdevaev@gmail.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-next@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stern@rowland.harvard.edu, sfr@canb.auug.org.au
-Subject: Re: [PATCH v2] docs: fixed table margin in
- configfs-usb-gadget-mass-storage
-Message-ID: <20220723131847.131a92b5@reki>
-In-Reply-To: <YtvAJGY2jleLodgt@kroah.com>
-References: <20220723074054.54995-1-mdevaev@gmail.com>
-        <YtvAJGY2jleLodgt@kroah.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+        with ESMTP id S230399AbiGWK5A (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 23 Jul 2022 06:57:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 910C61CFC0;
+        Sat, 23 Jul 2022 03:56:59 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2BFB761452;
+        Sat, 23 Jul 2022 10:56:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BE6FC341C0;
+        Sat, 23 Jul 2022 10:56:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658573818;
+        bh=Bof95L078ymoWmkaWti13lIBN2DjIGWgHlz5Uvmuf8g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YSCdXmENcBYjWdlf6e3lSWyuhQyVpj/FgD6aBYnwoVj4mzB/dA7mZddKv5Q+mjlMk
+         Plh4QNQ4/Stw/FPgXz6IEQnGGH4iu2NdIyzXhJmfoJhUV+azg1hJC/E5pAlDRXjo5L
+         h/lqJ84fDG4ycfy7eJ4azb0TfaCNzQGU89eGptoWrs174UxFsb1fqPyuG44HeTMQTY
+         8fjxNUwWofjVww9fBCVafM/YRiZOM8AqY1kd3pe7sL6X3bJkOylfpAXNbDaTLdugtf
+         4jSp5F3TlUjKm3uOlzEYOo3wJBaS082jVGTg7lwoOTd3u6wVBWKYZY503j8fi0+JIT
+         cOYPHDG/GkfzA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1oFCoh-0001Mf-Qe; Sat, 23 Jul 2022 12:57:03 +0200
+Date:   Sat, 23 Jul 2022 12:57:03 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Jonathan Woithe <jwoithe@just42.net>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, Aidan Thornton <makosoft@gmail.com>,
+        Grigori Goronzy <greg@chown.ath.cx>,
+        Michael Hanselmann <public@hansmi.ch>
+Subject: Re: [Regression] CH341 USB-serial converter passes data in 32 byte
+ chunks
+Message-ID: <YtvT/6DqPjUumpsl@hovoldconsulting.com>
+References: <Ys1sfRyL6El7go94@kroah.com>
+ <Ys2nEmkvz2dfAKkU@hovoldconsulting.com>
+ <Ys4QOgNF0pJDwRCJ@marvin.atrad.com.au>
+ <YtUfcSOTl/ia+ahL@hovoldconsulting.com>
+ <YtYsFVCShDeVCeis@marvin.atrad.com.au>
+ <YtZG5vFNpXCXIMf0@hovoldconsulting.com>
+ <YtZQjcUMYZEky+Ta@marvin.atrad.com.au>
+ <YtZbWhGx/nqgAIX7@hovoldconsulting.com>
+ <YtZlwLoDO9CVt9RO@marvin.atrad.com.au>
+ <YtahM9hyrPVATchX@marvin.atrad.com.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YtahM9hyrPVATchX@marvin.atrad.com.au>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-=D0=92 Sat, 23 Jul 2022 11:32:20 +0200
-Greg KH <gregkh@linuxfoundation.org> =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+On Tue, Jul 19, 2022 at 09:48:59PM +0930, Jonathan Woithe wrote:
+> On Tue, Jul 19, 2022 at 05:35:22PM +0930, Jonathan Woithe wrote:
+> > > Can you try the below patch and see if that still triggers the lost
+> > > character after probe and line settings changes? Please also try to
+> > > confirm that LCR can be updated this way at all.
+> > 
+> > :
+> > Of course all testing to this point has been with a loopback adapter which
+> > means there's no indication whether line speed (or any other LCR parameters)
+> > have really changed.  For complicated reasons I can't easily test using the
+> > programmer hardware right now.  I will see if I can work out a way to verify
+> > speed and LCR changes with the hardware I have available.  Hacking up a
+> > null-modem cable and connecting to a PC which happens to have a real
+> > hardware serial port may be the easiest.
+> 
+> I have done further testing with the patch below in place.  Unfortunately
+> the PC with the real serial port decided not to boot, so instead I'm testing
+> with a 3-wire null modem cable into a PL2303-based USB-serial converter on
+> another box running a 5.15.38 kernel.  Flow control was turned off since the
+> cable wasn't wired for that.
+> 
+> Tests done in minicom:
+> 
+>  * Speed: change from 115200 to 38400 and back again.
+> 
+>    The speed setting of the CH341 appears to work correctly.
+> 
+>  * Data length: change from 8 to 7 bits in minicom on both adapters
+> 
+>    CH341 = 8 bits, PL2303 = 8 bits
+>     - Data delivered correctly in both directions.
+> 
+>    CH341 = 8 bits, PL2303 = 7 bits
+>     - Data sent by the CH341 received correctly by the PL2303
+>     - Data sent by the PL2303 not received correctly by the CH341
+> 
+>    CH341 = 7 bits, PL2303 = 7 bits
+>     - Data sent by the CH341 received correctly by the PL2303
+>     - Data sent by the PL2303 not received correctly by the CH341
+> 
+>    CH341 = 7 bits, PL2303 = 8 bits
+>     - Data delivered correctly in both directions.
+>
+>    There are too many variables in play to know what to make of this given
+>    that the response of the PL2303 driver to these changes is unknown.  At
+>    first glance the results appear to be rather inconsistent.  Maybe the
+>    data length setting is not always affecting tx and rx on one or both of
+>    the adapters.
 
-> On Sat, Jul 23, 2022 at 10:40:54AM +0300, Maxim Devaev wrote:
-> > Fixes: 421c8d9a20da ("usb: gadget: f_mass_storage: forced_eject attribu=
-te")
-> > Signed-off-by: Maxim Devaev <mdevaev@gmail.com>
-> > ---
-> >  v1 -> v2: Added Greg KH to CC so that he can accept this into his bran=
-ch =20
->=20
-> For obvious reasons, I can not take a change without any changelog text
-> at all, and neither should any other maintainer.
->=20
-> Also you forgot the reported-by line :(
->=20
-> thanks,
->=20
-> greg k-h
+Thanks for testing this. The above observations appear consistent with
+LCR updates for your CH341 not taking effect (e.g. stuck at 8N1 unlike
+the PL2303).
 
-Thank you for your patience. V3 sent.
+An easy way to test this is to send the letter 'q' (0x71) from CH341 to
+PL2303 (in 8N1 mode). This should be received as 0xf1 if the CH341 is in
+7N1 mode as the stop bit is interpreted as MSB, or as 0x71 if still in
+8N1 mode.
+
+> I'm not sure what this proves: most of these settings don't appear to be
+> having any effect on either adapter.  In the end, 8N1 works and this is,
+> after all, what most people would be using.  The situation with the patch is
+> clearly better than it was without the patch because the CH341 is now
+> delivering data in a timely manner - just like it did under 4.4.14.
+> 
+> The behaviour of the LCR setting on version 0x27 may not be a new thing: all
+> my applications use 8N1, so if any of the other combinations were faulty
+> under 4.4.14 I wouldn't know.  I may look into testing the LCR settings
+> under 4.4.14 if you think there's value in it.  I expect it will show that
+> the patch below restores the 4.4.14 behaviour for hardware version 0x27, and
+> that the LCR issues were present in 4.4.14 but masked due to the almost
+> universal use of 8N1).  I can also try to work out an alternative way to
+> get a real hardware serial port if that would help: I'm thinking it would
+> remove any doubt about the LCR setting at one end of the link.
+
+Actually, LCR configuration wasn't supported before 4.10 either so the
+only question would be if LCR control works at all with your chip
+(except for the lost character).
+
+I found this thread where Micahel provides some details after apparently
+having disassembled the vendor driver:
+
+	https://lore.kernel.org/all/2e80916d-1be8-dc0f-abf9-adc0feea1803@msgid.hansmi.ch/
+
+Based on that (and the comment that made it into the driver), chips
+before version 0x30 uses a different protocol for updating LCR so that
+anything but 8N1 has indeed likely never worked for these chips. 
+
+Could you try the patch below, which simply disables LCR updates for
+older chips and which I believe you already confirmed works.
+
+And then as a follow up, see if enabling the LCR update again has any
+effect on the word size (e.g. rerun the test you did above, or the "q"
+test I mentioned).
+
+This may give an indication of how far we are from being able to support
+LCR updates on older chips even this is not something we need to
+implement now.
+
+Johan
+
+
+From 4d12bb8ba4fe760cd5893b7c5f981524e16536fc Mon Sep 17 00:00:00 2001
+From: Johan Hovold <johan@kernel.org>
+Date: Mon, 18 Jul 2022 10:21:41 +0200
+Subject: [PATCH] USB: serial: ch341: fix disabled rx timer on older devices
+
+At least one older CH341 appears to have the RX timer enable bit
+inverted so that setting it disables the RX timer and prevents the FIFO
+from emptying until it is full.
+
+Only set the RX timer enable bit for devices with version newer than
+0x27 (even though this probably affects all pre-0x30 devices).
+
+Also disable LCR updates for pre-0x30 devices which use a different
+protocol and where the current register write causes the next received
+character to be lost.
+
+FIXME: split in two patches
+
+Reported-by: Jonathan Woithe <jwoithe@just42.net>
+Link: https://lore.kernel.org/r/Ys1iPTfiZRWj2gXs@marvin.atrad.com.au
+Fixes: 4e46c410e050 ("USB: serial: ch341: reinitialize chip on reconfiguration")
+Fixes: 55fa15b5987d ("USB: serial: ch341: fix baud rate and line-control handling")
+Not-Signed-off-yet-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/ch341.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/serial/ch341.c b/drivers/usb/serial/ch341.c
+index 2798fca71261..af01a462cc43 100644
+--- a/drivers/usb/serial/ch341.c
++++ b/drivers/usb/serial/ch341.c
+@@ -97,7 +97,10 @@ struct ch341_private {
+ 	u8 mcr;
+ 	u8 msr;
+ 	u8 lcr;
++
+ 	unsigned long quirks;
++	u8 version;
++
+ 	unsigned long break_end;
+ };
+ 
+@@ -250,8 +253,12 @@ static int ch341_set_baudrate_lcr(struct usb_device *dev,
+ 	/*
+ 	 * CH341A buffers data until a full endpoint-size packet (32 bytes)
+ 	 * has been received unless bit 7 is set.
++	 *
++	 * At least one device with version 0x27 appears to have this bit
++	 * inverted.
+ 	 */
+-	val |= BIT(7);
++	if (priv->version > 0x27)
++		val |= BIT(7);
+ 
+ 	r = ch341_control_out(dev, CH341_REQ_WRITE_REG,
+ 			      CH341_REG_DIVISOR << 8 | CH341_REG_PRESCALER,
+@@ -265,6 +272,9 @@ static int ch341_set_baudrate_lcr(struct usb_device *dev,
+ 	 * (stop bits, parity and word length). Version 0x30 and above use
+ 	 * CH341_REG_LCR only and CH341_REG_LCR2 is always set to zero.
+ 	 */
++	if (priv->version < 0x30)
++		return 0;
++
+ 	r = ch341_control_out(dev, CH341_REQ_WRITE_REG,
+ 			      CH341_REG_LCR2 << 8 | CH341_REG_LCR, lcr);
+ 	if (r)
+@@ -308,7 +318,9 @@ static int ch341_configure(struct usb_device *dev, struct ch341_private *priv)
+ 	r = ch341_control_in(dev, CH341_REQ_READ_VERSION, 0, 0, buffer, size);
+ 	if (r)
+ 		return r;
+-	dev_dbg(&dev->dev, "Chip version: 0x%02x\n", buffer[0]);
++
++	priv->version = buffer[0];
++	dev_dbg(&dev->dev, "Chip version: 0x%02x\n", priv->version);
+ 
+ 	r = ch341_control_out(dev, CH341_REQ_SERIAL_INIT, 0, 0);
+ 	if (r < 0)
+-- 
+2.35.1
+
+
+
