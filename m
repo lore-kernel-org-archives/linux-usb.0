@@ -2,80 +2,118 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F12FC433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Jul 2022 08:00:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6492CC43334
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Jul 2022 08:00:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232905AbiGYIAH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Jul 2022 04:00:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49334 "EHLO
+        id S232941AbiGYIAI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Jul 2022 04:00:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232654AbiGYIAE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jul 2022 04:00:04 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CDCD13D10;
-        Mon, 25 Jul 2022 01:00:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 40083B80DFD;
-        Mon, 25 Jul 2022 08:00:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7E47C341C6;
-        Mon, 25 Jul 2022 08:00:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658736001;
-        bh=foX6nf1pYS8r8PQACJBat3Wk6rDL4/p2BD6eGaKMujI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LMP6cfhgD8NZdjE0/kEUhFFzKnxpxcp402c3tWetzjeP7OsuvvqjcpWe1ja5i4w6z
-         ELMl0ruvhApRJH5SZKayPsqoN+eC0Fkhx3d4DgaSjbcn02iuKFlPEcd5jIAeTWl39j
-         EUEUbze1SjaeBkO2kIcIbzBRAvLv5fngOs+SKjqVxeTd7Hu3ZLFlo2yboceFa8OxGN
-         zb3OZ25ESyEjSSmbbdtdOqVTtQEAx3Ed6/tNC8sN6x92KvV0dPwqO8FaOmdDP28UlM
-         zaH3mJku1p2zocQExzUYxVUJEaw5FaDtVC39eVkNYLo4TUvUVF2EFjpR9bPe7tUeEH
-         35J7fQUWZuFJg==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1oFt0d-0000K1-TY; Mon, 25 Jul 2022 10:00:11 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Oliver Neukum <oneukum@suse.com>,
-        Felipe Balbi <balbi@kernel.org>
-Cc:     Yan Xinyu <sdlyyxy@bupt.edu.cn>, linux-staging@lists.linux.dev,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH 1/7] USB: cdc: add control-signal defines
-Date:   Mon, 25 Jul 2022 09:58:35 +0200
-Message-Id: <20220725075841.1187-2-johan@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220725075841.1187-1-johan@kernel.org>
-References: <20220725075841.1187-1-johan@kernel.org>
+        with ESMTP id S232440AbiGYIAC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jul 2022 04:00:02 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61B8A13CE5;
+        Mon, 25 Jul 2022 01:00:01 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id b11so19028327eju.10;
+        Mon, 25 Jul 2022 01:00:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/cFBmHW3aWYSVzhv+dCF1Vjg7vV6HTDbULFzKNdh7eA=;
+        b=D59brI8ncH+WCdwU0Nfnk9ctLnRDZ3UUdc+xeXG2BjO1rrMZJ0I+JhW0C2WVRsU6I7
+         ahgas2HVf3s+Q1M1+toqG4BgdFjA14FX2WipfWZqqPlpU/p57MdP2KZYLh9lAwA5I3P2
+         78VXDrlkxZllvMa8g5WSechgcttVRJFweVlLmJ6o0bSzPej2NwYO4DbX/BcfTjOk0y/T
+         XpvbkQ4bjio6MMumjuisV+WVTBnLQJzUwpW1vfpHFzzVndm/NE5Ss1d3hZjedpOJXc7m
+         LuSKiZVCLZQUmdrfrVkrncRSqXCACm1BmRyqtDh1etSR8scG0DGif8X1+PGv78ob7tYR
+         qx5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/cFBmHW3aWYSVzhv+dCF1Vjg7vV6HTDbULFzKNdh7eA=;
+        b=Hjh5zul4oRbNWzqIzxAErdO3BqwqTfX34vdWQs3YlOo7b4Q94WDl5e1KsSjPXuCIxB
+         Erlww9mGep7LmlS2hS2VIy2HY7bRsWPTOWJehw9pTO2MJawzhRM4sYQcA98q6vppLqd5
+         GfWy46N5YErNcnYf300N5/67ayuZzrl510Oxau4x+bFtn2UL1ctUlu5arPBbj2xgcKLY
+         CPPj/RMnk6Cz0/A0nBdAZt6T9yCn3yNttKP2kLg/4pIaIf1OOT40noQjBPf1YgmfGy4h
+         Uun4c7ulHdRUxFbTMw/ppNWJcY5cZblw4UtfPIfptdAbr5D+pch7P+ZQcfV7ZtmSKrSB
+         e/pA==
+X-Gm-Message-State: AJIora+0LwDGmFynA3TgdUbOyp3bOhBAJV/UfsWCwi8L6PpVpyUYyQDO
+        M8bU7saQSzIyfef2wQrSzpUHuQV7hp24J7qw2RI=
+X-Google-Smtp-Source: AGRyM1unetnhWIzb3en09GsAOIg0xuhKBXgSQV7z/NkK9g6NHIamuCgYKepx6i2vYNKCBrnrnWiAXWzNdcPwAolpJPg=
+X-Received: by 2002:a17:907:75da:b0:72b:3ce0:2524 with SMTP id
+ jl26-20020a17090775da00b0072b3ce02524mr9140700ejc.394.1658735999558; Mon, 25
+ Jul 2022 00:59:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220722102407.2205-1-peterwu.pub@gmail.com> <20220722102407.2205-8-peterwu.pub@gmail.com>
+In-Reply-To: <20220722102407.2205-8-peterwu.pub@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 25 Jul 2022 09:59:23 +0200
+Message-ID: <CAHp75VfiKMROzxeEaCH6qCthK9qanJPqbjADLMVH-V0upKf+9Q@mail.gmail.com>
+Subject: Re: [PATCH v6 07/13] mfd: mt6370: Add MediaTek MT6370 support
+To:     ChiaEn Wu <peterwu.pub@gmail.com>
+Cc:     Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Helge Deller <deller@gmx.de>,
+        ChiaEn Wu <chiaen_wu@richtek.com>,
+        Alice Chen <alice_chen@richtek.com>,
+        cy_huang <cy_huang@richtek.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        USB <linux-usb@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+        szuni chen <szunichen@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add defines for the Control Signal Bitmap Values from section 6.2.14
-SetControlLineState of the CDC specification version 1.1.
+On Fri, Jul 22, 2022 at 12:25 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+>
+> From: ChiYuan Huang <cy_huang@richtek.com>
+>
+> This adds support for the MediaTek MT6370 SubPMIC. MediaTek MT6370 is a
+> SubPMIC consisting of a single cell battery charger with ADC monitoring,
+> RGB LEDs, dual channel flashlight, WLED backlight driver, display bias
+> voltage supply, one general purpose LDO, and the USB Type-C & PD controller
+> complies with the latest USB Type-C and PD standards.
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- include/uapi/linux/usb/cdc.h | 4 ++++
- 1 file changed, 4 insertions(+)
+...
 
-diff --git a/include/uapi/linux/usb/cdc.h b/include/uapi/linux/usb/cdc.h
-index 6d61550959ef..372c81425cae 100644
---- a/include/uapi/linux/usb/cdc.h
-+++ b/include/uapi/linux/usb/cdc.h
-@@ -271,6 +271,10 @@ struct usb_cdc_line_coding {
- 	__u8	bDataBits;
- } __attribute__ ((packed));
- 
-+/* Control Signal Bitmap Values from 6.2.14 SetControlLineState */
-+#define USB_CDC_CTRL_DTR			(1 << 0)
-+#define USB_CDC_CTRL_RTS			(1 << 1)
-+
- /* table 62; bits in multicast filter */
- #define	USB_CDC_PACKET_TYPE_PROMISCUOUS		(1 << 0)
- #define	USB_CDC_PACKET_TYPE_ALL_MULTICAST	(1 << 1) /* no filter */
+> +#define MT6370_REG_DEV_INFO    0x100
+> +#define MT6370_REG_CHG_IRQ1    0x1C0
+> +#define MT6370_REG_CHG_MASK1   0x1E0
+> +
+> +#define MT6370_VENID_MASK      GENMASK(7, 4)
+> +
+> +#define MT6370_NUM_IRQREGS     16
+> +#define MT6370_USBC_I2CADDR    0x4E
+
+> +#define MT6370_REG_ADDRLEN     2
+> +#define MT6370_REG_MAXADDR     0x1FF
+
+These two more logically to have near to other _REG_* definitions above.
+
 -- 
-2.35.1
-
+With Best Regards,
+Andy Shevchenko
