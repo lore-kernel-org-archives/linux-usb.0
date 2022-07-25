@@ -2,107 +2,130 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F8A6CCA473
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Jul 2022 08:00:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16910C43334
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Jul 2022 08:04:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233106AbiGYIAS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Jul 2022 04:00:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49508 "EHLO
+        id S233358AbiGYIEV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Jul 2022 04:04:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232935AbiGYIAI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jul 2022 04:00:08 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D966613CE5;
-        Mon, 25 Jul 2022 01:00:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 55B21CE10D4;
-        Mon, 25 Jul 2022 08:00:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 311B7C341D2;
-        Mon, 25 Jul 2022 08:00:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658736001;
-        bh=7HPL7TSph7xHTwSwFr2eiOHKgS3Uzq/+C4Qi1l0Xe+o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=o7liZPuaHI1qRg0PKIiLRfQuTCCno8X5u0oznAEQuftElgWtko5jHR38a2nm5A5pL
-         IDvruIlHGBrHtS4Qocx4CLEo7Bxg6qwmJWabYB+GDZJCCYQceMy4gP30ao6AMYyvke
-         23U7AIHk8Rm3FgSdzAB7c9NSgHcNDYOemUxkV8OkrQ2kNagPE8snG/jJwU/OCVgqW5
-         AsOwHkdYlz09iv9jcb0OhiHXobP5rYASQq2R+u9E8fyLyZumIeoMIjy1ycfUfAq1f+
-         SyP8se2dngo6744xj8uc2bsBw6Tg2r2NChBwGJ1PXs3BKTPfpC7Ssaq7/DQFXDdNmz
-         RJ9lnQ0jqIqzA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1oFt0e-0000KG-Ec; Mon, 25 Jul 2022 10:00:12 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Oliver Neukum <oneukum@suse.com>,
-        Felipe Balbi <balbi@kernel.org>
-Cc:     Yan Xinyu <sdlyyxy@bupt.edu.cn>, linux-staging@lists.linux.dev,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH 7/7] USB: serial: usb_wwan: replace DTR/RTS magic numbers with macros
-Date:   Mon, 25 Jul 2022 09:58:41 +0200
-Message-Id: <20220725075841.1187-8-johan@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220725075841.1187-1-johan@kernel.org>
-References: <20220725075841.1187-1-johan@kernel.org>
+        with ESMTP id S232399AbiGYIET (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jul 2022 04:04:19 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 628FA5FEF;
+        Mon, 25 Jul 2022 01:04:18 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id j22so19126473ejs.2;
+        Mon, 25 Jul 2022 01:04:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=r9oGiDsxiFpBH+3rbxjYFk4fKS6kxjytRyEJ438nM14=;
+        b=CJb2GrDqw5wptQkMGvGnlEHmNqNpBTz+oVejWM8vbDuV20ZOTC6BJ/xAOcSduhufTS
+         CtY8s0Ob07oaPbu/f4yqfvkHz/xDY1O6vs2/oftm3gv1Uc+ykJC+fUd1S21cXIv8VjyW
+         kSXeGTgiv3k4SaU7t5pXcn2tjl5/OFjnaZJ8Uu0DxeB/9Oof1BN5BOo2rRbXDmOoY1Oc
+         CAj9lT0OP1cy+XTY99JtA98O+TDOotsScJIH1YM0dQeqD+8VHoEVugkGshM79Qhx2IYY
+         Qmh4+CVjG1cahmKQrRaUHy+VKbjtu21T43SHNPAsr2ti4ofng6x5uib9AjGL5NY7lM5l
+         yEHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=r9oGiDsxiFpBH+3rbxjYFk4fKS6kxjytRyEJ438nM14=;
+        b=qZNUDlfWV1gfKJrxcTaZGJJhKHsk86f362lbhhUtJH+39QG18dOLO63N1sHxgCRE1H
+         hXm6eU6V0zn4Ngv/zQjWMXrfZCkvsMO/VMSSToZETMcw0REBy9BmK+P9YJfC+nZgw5cT
+         F+qDNuwoySwOch2p8/iJA5ylWFoyf0v7tFAwEeaH0uWrL6+ZZT4aBARFcbEv55R4JkOu
+         2wncweioY2IspB39VCmTaBJU8caqKqXBd+e1p9oyen/hPiOj5FQVl/1Y+O0e0bEuHsCf
+         KjK7sJb4BxeEWWf1jzEqXuorh3Ov6obUdVU+bbyYUqQ67tauI+GTcAOFluXaORzYiWvf
+         Zysg==
+X-Gm-Message-State: AJIora8TqEE87kbc31MTqzf5aii+SPJ4mSYWqmMxH1ccYAQZK7hV2fAY
+        /mR9EM6czKo4CmxzsJ13XvQCrJJhJsU0MZbEpVU=
+X-Google-Smtp-Source: AGRyM1slRdGOzS2afMezkzisSa07VKYBk0S3NkjvREARPdSLLPsbko0C4F61HAPbqNjfvUDyrYKyJb1xX+GfnwkFVZU=
+X-Received: by 2002:a17:906:8a4a:b0:72b:5b23:3065 with SMTP id
+ gx10-20020a1709068a4a00b0072b5b233065mr9334315ejc.557.1658736256789; Mon, 25
+ Jul 2022 01:04:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220722102407.2205-1-peterwu.pub@gmail.com> <20220722102407.2205-9-peterwu.pub@gmail.com>
+In-Reply-To: <20220722102407.2205-9-peterwu.pub@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 25 Jul 2022 10:03:40 +0200
+Message-ID: <CAHp75VessBZMBA6wNWhhXhPshDCghgkV8EkEUUqOeLqn-5pmpA@mail.gmail.com>
+Subject: Re: [PATCH v6 08/13] usb: typec: tcpci_mt6370: Add MediaTek MT6370
+ tcpci driver
+To:     ChiaEn Wu <peterwu.pub@gmail.com>
+Cc:     Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Helge Deller <deller@gmx.de>,
+        ChiaEn Wu <chiaen_wu@richtek.com>,
+        Alice Chen <alice_chen@richtek.com>,
+        cy_huang <cy_huang@richtek.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        USB <linux-usb@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+        szuni chen <szunichen@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Yan Xinyu <sdlyyxy@bupt.edu.cn>
+On Fri, Jul 22, 2022 at 12:25 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+>
+> From: ChiYuan Huang <cy_huang@richtek.com>
+>
+> The MediaTek MT6370 is a highly-integrated smart power management IC,
+> which includes a single cell Li-Ion/Li-Polymer switching battery
+> charger, a USB Type-C & Power Delivery (PD) controller, dual
+> Flash LED current sources, a RGB LED driver, a backlight WLED driver,
+> a display bias driver and a general LDO for portable devices.
+>
+> Add support for the Type-C & Power Delivery controller in
+> MediaTek MT6370 IC.
 
-The usb_wwan_send_setup function generates DTR/RTS signals in compliance
-with CDC ACM standard. This patch changes magic numbers in this function
-to equivalent macros.
+...
 
-Signed-off-by: Yan Xinyu <sdlyyxy@bupt.edu.cn>
-Link: https://lore.kernel.org/r/20220722085040.704885-1-sdlyyxy@bupt.edu.cn
-[ johan: use the new CDC control-line defines ]
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/serial/usb_wwan.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+> +static int mt6370_tcpc_set_vconn(struct tcpci *tcpci, struct tcpci_data *data,
+> +                                bool enable)
+> +{
+> +       return regmap_update_bits(data->regmap, MT6370_REG_SYSCTRL8,
+> +                                 MT6370_AUTOIDLE_MASK,
+> +                                 !enable ? MT6370_AUTOIDLE_MASK : 0);
 
-diff --git a/drivers/usb/serial/usb_wwan.c b/drivers/usb/serial/usb_wwan.c
-index dab38b63eaf7..6129a6e26f2c 100644
---- a/drivers/usb/serial/usb_wwan.c
-+++ b/drivers/usb/serial/usb_wwan.c
-@@ -29,6 +29,7 @@
- #include <linux/bitops.h>
- #include <linux/uaccess.h>
- #include <linux/usb.h>
-+#include <linux/usb/cdc.h>
- #include <linux/usb/serial.h>
- #include <linux/serial.h>
- #include "usb-wwan.h"
-@@ -48,9 +49,9 @@ static int usb_wwan_send_setup(struct usb_serial_port *port)
- 	portdata = usb_get_serial_port_data(port);
- 
- 	if (portdata->dtr_state)
--		val |= 0x01;
-+		val |= USB_CDC_CTRL_DTR;
- 	if (portdata->rts_state)
--		val |= 0x02;
-+		val |= USB_CDC_CTRL_RTS;
- 
- 	ifnum = serial->interface->cur_altsetting->desc.bInterfaceNumber;
- 
-@@ -59,8 +60,9 @@ static int usb_wwan_send_setup(struct usb_serial_port *port)
- 		return res;
- 
- 	res = usb_control_msg(serial->dev, usb_sndctrlpipe(serial->dev, 0),
--				0x22, 0x21, val, ifnum, NULL, 0,
--				USB_CTRL_SET_TIMEOUT);
-+				USB_CDC_REQ_SET_CONTROL_LINE_STATE,
-+				USB_DIR_OUT | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
-+				val, ifnum, NULL, 0, USB_CTRL_SET_TIMEOUT);
- 
- 	usb_autopm_put_interface(port->serial->interface);
- 
+Why not positive conditional?
+
+  enable ? 0 : mask
+
+> +}
+
+...
+
+> +       ret = devm_add_action_or_reset(dev, mt6370_unregister_tcpci_port,
+> +                                      priv->tcpci);
+
+I believe nothing bad will happen if you put it on one line.
+
 -- 
-2.35.1
-
+With Best Regards,
+Andy Shevchenko
