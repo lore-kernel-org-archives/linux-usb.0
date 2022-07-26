@@ -2,41 +2,42 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFCD6C3F6B0
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jul 2022 14:15:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A22CC00140
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jul 2022 15:12:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233807AbiGZOPa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jul 2022 10:15:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53656 "EHLO
+        id S232057AbiGZPMM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jul 2022 11:12:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233594AbiGZOP3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Jul 2022 10:15:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09C08DFEC
-        for <linux-usb@vger.kernel.org>; Tue, 26 Jul 2022 07:15:28 -0700 (PDT)
+        with ESMTP id S231784AbiGZPML (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Jul 2022 11:12:11 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C82312F00E
+        for <linux-usb@vger.kernel.org>; Tue, 26 Jul 2022 08:12:10 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BFCD2B8166E
-        for <linux-usb@vger.kernel.org>; Tue, 26 Jul 2022 14:15:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7049AC433D7
-        for <linux-usb@vger.kernel.org>; Tue, 26 Jul 2022 14:15:25 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 5F314CE19E8
+        for <linux-usb@vger.kernel.org>; Tue, 26 Jul 2022 15:12:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 907BFC433B5
+        for <linux-usb@vger.kernel.org>; Tue, 26 Jul 2022 15:12:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658844925;
-        bh=Ug/D8G6amUZHytCAwfJ9/if/iHgHD6mzXLE7Jm02SEI=;
+        s=k20201202; t=1658848325;
+        bh=eT6ePSAw0AXByDde07Eip3pRO7e71D60fnpBRWNow4E=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=GB3aeIqaiE1xWQOkuM2zqfnNM1+pJU8Z+FyJFAjX9CBjKjpHFqf497gsrguSerUZP
-         koNb0UweEqa9BZKrflhpaxmzIWlnVCHYeLKHNmEdGDh96p62Ct3dic8Kc+AgRZcNq2
-         IfShoJ/FrmD1L6SbJGNaBb3FI+KuqH/9mwuvYOsrZn7++GURJih5a6Ol1b4heGDAKh
-         5IUGsS72rG4bbqtccIRHiLsE7Fb+9g3Ol5wt/lhNP7iN8+TngaZPGmpowRAgjyiQyI
-         EujrRN1mIkfiH1U9+v0UfDE1wlnEbogEDnwZ9QNA69xhSyF0v86Yl6D3VN9hzo/sQX
-         VqZ/3LMpGYTHg==
+        b=N4ilJB6fZOuyIBI2V7xg3lZUIp2kgjajrFaPElOhCWAvI++tGnNRTOPvCxdsA9ZCJ
+         wNWPy0XSLZ9ZLxm1C9db6uK5l7elO4zuZp3ltrI/yIbzoCVkAEeMDQZWu96kpEIVhm
+         jrvnysHbjnIw8yvNh3s861rwwEYoiNSCBuMKhVuNofm5atJn/FQO/ivXrequGBdpCN
+         nPwXURV5F1+yfECdWJYpDQKW8new8XhnEj2xegOcGvsTjTQuv0B4BRt64yuiOlS5kO
+         O8hdY+3jxCMFHMeI1/bngDWTMd6IDbuqxN/hOeSoeYgeO6uB/rF+oiRStxlklQQA1I
+         mPUgZIdRwMNqQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 4D5E2C433E6; Tue, 26 Jul 2022 14:15:25 +0000 (UTC)
+        id 76528C433E4; Tue, 26 Jul 2022 15:12:05 +0000 (UTC)
 From:   bugzilla-daemon@kernel.org
 To:     linux-usb@vger.kernel.org
-Subject: [Bug 216282] usb-mass storage
-Date:   Tue, 26 Jul 2022 14:15:25 +0000
+Subject: [Bug 215890] Regression in 5.18: bcm5974 trackpad causes error:
+ xhci_hcd rejecting DMA map of vmalloc memory
+Date:   Tue, 26 Jul 2022 15:12:05 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -44,17 +45,17 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: stern@rowland.harvard.edu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: satadru@umich.edu
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216282-208809-JoSXzSlyJb@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216282-208809@https.bugzilla.kernel.org/>
-References: <bug-216282-208809@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-215890-208809-MkUdBsh7Rt@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215890-208809@https.bugzilla.kernel.org/>
+References: <bug-215890-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -64,33 +65,14 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216282
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215890
 
---- Comment #8 from Alan Stern (stern@rowland.harvard.edu) ---
-Some of the things you wrote above are not correct.  "When you Turn-on the
-USB3.0 to SATA controller, electrons travel near the speed of light."  Not =
-true
-at all; electric waves travel near the speed of light but the electrons
-themselves move at only a few centimeters per second (bulk motion).
+Satadru Pramanik (satadru@umich.edu) changed:
 
-Anyway, the information you reported doesn't indicate what's going wrong.  I
-don't think it's simply a matter of waiting for the disk to spin up; the
-commands sent by the kernel have a 30-second timeout and that should be ple=
-nty
-of time.
-
-A usbmon trace of a non-working connection should help.  Before you plug in=
- the
-USB cable, do:
-
-   cat /sys/kernel/debug/usb/usbmon/2u >mon.out
-
-Then after the drive has been plugged in and the drive has failed to appear,
-kill the "cat" process with ^C and attach the mon.out file to this bug repo=
-rt.
-
-In fact, you might want to do this twice: once where the drive doesn't work,
-and once where it does work, for comparison.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|REOPENED                    |RESOLVED
+         Resolution|---                         |CODE_FIX
 
 --=20
 You may reply to this email to add a comment.
