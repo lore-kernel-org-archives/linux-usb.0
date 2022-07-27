@@ -2,178 +2,68 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D2BAC04A68
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jul 2022 09:38:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3DABC19F29
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jul 2022 09:55:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231202AbiG0JiX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Jul 2022 05:38:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50214 "EHLO
+        id S231363AbiG0JzZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Jul 2022 05:55:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231629AbiG0JiO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jul 2022 05:38:14 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8014247B9A;
-        Wed, 27 Jul 2022 02:38:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1658914691; x=1690450691;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OzYJ1HAiwxCqKstvTbidtou/YL9g88MGig64r0nWnVw=;
-  b=aNeaQNmmHY29thqsSw8GOw0fDq4B7lw7J82QrtKTYrrOAh2JYmbVmL9a
-   7vNU9VAiS0rrx5fwKKxx+bUg3C2UdtOoj+ovqVQfPbusblPhQIXy4ryE5
-   37BIKQp3Z4+Y58GxCAR2gUTeDIqw9XoREOAZrfHYFC1k2qTvZOV9psKPs
-   G1Y/YPzUAYa1Cz7qjWCYOlrK8c1i/fWZvSHVdUXFFENqyBSekxTc1D8Eo
-   ZOD62a9MhX73woMFLEguwyQEjZbqdxX9C8OR7iN+BWs2AlQVMNXxQxvrS
-   uRAu0J95LNl7dTu4YF3/RSwPtPKZ07l44O8JojNIUWf1y6arRUs4g5j94
-   w==;
-X-IronPort-AV: E=Sophos;i="5.93,195,1654552800"; 
-   d="scan'208";a="25289990"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 27 Jul 2022 11:38:05 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Wed, 27 Jul 2022 11:38:05 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Wed, 27 Jul 2022 11:38:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1658914685; x=1690450685;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OzYJ1HAiwxCqKstvTbidtou/YL9g88MGig64r0nWnVw=;
-  b=FlSgKtPatqXzQybeO1M5i+vW3M+lts1fznYqlX/bnsNyvfB4OV0vG/gZ
-   dvkO3dIVeqtle4Jb7OwQw4Ld6yPWTyNiXtG2SY/2mG8IoNLpXpbX2dd4r
-   H6mczfS2/S75oqVfA3vV75nFy95v5WP8ohJ3rA4MUdM6G78zvbbyTlruz
-   HvPiD2v7W4fnpgBDQbaezisQ8Vws835x3iHIKsjmr13KBg5l50fwYZgEO
-   ZBs+h2KLtc22TUkSVrmMrv7jUE88HPWi5+nw5zW4gbKSrwsdzB+vifFX9
-   KGWaHaKEsIzdmpNiS7A/cBeuetxbWPU1qBKmO8FEIfaRQKtJxRqkporsO
-   w==;
-X-IronPort-AV: E=Sophos;i="5.93,195,1654552800"; 
-   d="scan'208";a="25289987"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 27 Jul 2022 11:38:04 +0200
-Received: from steina-w.tq-net.de (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        with ESMTP id S231723AbiG0JzP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jul 2022 05:55:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD4E1CF2;
+        Wed, 27 Jul 2022 02:55:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id C6C12280056;
-        Wed, 27 Jul 2022 11:38:04 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Kaehlcke <mka@chromium.org>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v3 1/3] dt-bindings: usb: Add binding for TI USB8041 hub controller
-Date:   Wed, 27 Jul 2022 11:37:59 +0200
-Message-Id: <20220727093801.687361-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.25.1
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6AD00617C3;
+        Wed, 27 Jul 2022 09:55:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 098D7C433C1;
+        Wed, 27 Jul 2022 09:55:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1658915711;
+        bh=bhTSXCt1ePSDDeplP4J42KNtAtIFCBpuBXvtfYursXk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=zPl1dMeO4/qrZZaTMLX020EHP5y6fOJ3ce8u3NVr77etzG1dgVWVvGRn9tTHa3dZe
+         wr9IW2tBG1vu4pBrqj90rObr/YCLQAuMiWijQqFX6dHYKlwduQSZd6mCJfNHLChGv+
+         4PtbJeTw7UCtjLsFi112VIvSYqLv634p7GN3GvCk=
+Date:   Wed, 27 Jul 2022 11:55:08 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Pratham Pratap <quic_ppratap@quicinc.com>
+Cc:     Matthias Kaehlcke <mka@chromium.org>,
+        Krishna Kurapati <quic_kriskura@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: dwc3: qcom: Defer dwc3-qcom probe if dwc3 isn't
+ probed properly
+Message-ID: <YuELfGQv8lbftnV/@kroah.com>
+References: <1657810516-31143-1-git-send-email-quic_kriskura@quicinc.com>
+ <YtAv8R7QlTZCjvRO@kroah.com>
+ <YtA78UfeibaQW4pf@google.com>
+ <9f8551be-4848-1f68-fe55-2c6108fa2f67@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9f8551be-4848-1f68-fe55-2c6108fa2f67@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The TI USB8041 is a USB 3.0 hub controller with 4 ports.
+On Wed, Jul 27, 2022 at 03:03:01PM +0530, Pratham Pratap wrote:
 
-This initial version of the binding only describes USB related aspects
-of the USB8041, it does not cover the option of connecting the controller
-as an i2c slave.
+<snip>
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-Thanks Matthias for your review.
+Please note that html email is not allowed on kernel mailing lists and
+the messages are thrown away, so no one can see them :(
 
-Changes in v3:
-* Put myself as maintainer
-* Removed quotes around description
+Please fix your email client so that you can participate in kernel
+development.
 
-Changes in v2:
-* Removed 'items' from compatible, it's just en enum now
-* Rename reset-gpio to reset-gpios
-* Use 'items' for reset-gpios
-* Adjust description of vdd-supply
-* Sorted required list
-* Adjusted example
+thanks,
 
-.../devicetree/bindings/usb/ti,usb8041.yaml   | 67 +++++++++++++++++++
- 1 file changed, 67 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/ti,usb8041.yaml
-
-diff --git a/Documentation/devicetree/bindings/usb/ti,usb8041.yaml b/Documentation/devicetree/bindings/usb/ti,usb8041.yaml
-new file mode 100644
-index 000000000000..e04fbd8ab0b7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/ti,usb8041.yaml
-@@ -0,0 +1,67 @@
-+# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/ti,usb8041.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Binding for the TI USB8041 USB 3.0 hub controller
-+
-+maintainers:
-+  - Alexander Stein <alexander.stein@ew.tq-group.com>
-+
-+allOf:
-+  - $ref: usb-device.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - usb451,8140
-+      - usb451,8142
-+
-+  reg: true
-+
-+  reset-gpios:
-+    items:
-+      - description: GPIO specifier for GRST# pin.
-+
-+  vdd-supply:
-+    description:
-+      VDD power supply to the hub
-+
-+  peer-hub:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      phandle to the peer hub on the controller.
-+
-+required:
-+  - compatible
-+  - reg
-+  - peer-hub
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    usb {
-+        dr_mode = "host";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        /* 2.0 hub on port 1 */
-+        hub_2_0: hub@1 {
-+          compatible = "usb451,8142";
-+          reg = <1>;
-+          peer-hub = <&hub_3_0>;
-+          reset-gpios = <&gpio1 11 GPIO_ACTIVE_LOW>;
-+        };
-+
-+        /* 3.0 hub on port 2 */
-+        hub_3_0: hub@2 {
-+          compatible = "usb451,8140";
-+          reg = <2>;
-+          peer-hub = <&hub_2_0>;
-+          reset-gpios = <&gpio1 11 GPIO_ACTIVE_LOW>;
-+        };
-+    };
--- 
-2.25.1
-
+greg k-h
