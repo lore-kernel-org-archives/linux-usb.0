@@ -2,90 +2,134 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D75C04A68
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jul 2022 14:01:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71867C19F2B
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jul 2022 14:11:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232374AbiG0OB2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Jul 2022 10:01:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60924 "EHLO
+        id S233300AbiG0OL1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Jul 2022 10:11:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231716AbiG0OB1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jul 2022 10:01:27 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F282DB03
-        for <linux-usb@vger.kernel.org>; Wed, 27 Jul 2022 07:01:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S233103AbiG0OL0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jul 2022 10:11:26 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 775EE1F2DE;
+        Wed, 27 Jul 2022 07:11:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658931084; x=1690467084;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=mYWbJM8yu1gSCjfjUci2q7KPRVTpcO+wc3/snKXGb7M=;
+  b=Hw7EDDzE1XQ2H7hUov1MdxbckWTVTr8V2Hhknw3dpTyGOpbEwJ+Ms4OH
+   NSbHDyvibf6kWBUGOEa6C9lg++69qorigOT+vDbYPlumW2HeC2TejwBg9
+   Ffj/ATOjsuvivblYhraXzA3bDcwGF9nh2AsNRQlefh36gNFO7upY0Fo+n
+   IDJDNzu3OFyTptSkjiW4HZUFsWDykbh09CP/QfFVCKSz5cTKZnKIhZ6Q4
+   UnqKHZtXQVGFgT9ckkty/DpMXJmMCxcdTk/CWU/HolRCjevidMr3kVO80
+   83aFhZhOl5Kj4HDceKPNrkrmZsmdFvCTd80ucEFeqVnua4+rZijwTPu2N
+   w==;
+X-IronPort-AV: E=Sophos;i="5.93,195,1654552800"; 
+   d="scan'208";a="25297898"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 27 Jul 2022 16:11:22 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Wed, 27 Jul 2022 16:11:22 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Wed, 27 Jul 2022 16:11:22 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1658931082; x=1690467082;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=mYWbJM8yu1gSCjfjUci2q7KPRVTpcO+wc3/snKXGb7M=;
+  b=k/0qQI9GliMtNvaIyUrRpCWk23sSPVMdalgVYa7pikrr1KdD5AULNLet
+   WOycv0O4qBZ0lYSw8snkZZug5Cq7xXMZ2Q0ayXa7jCOr68Fx3o0lu8xMs
+   HMlRMNR/hGRWTua3iktg5jojVQPTMwVZ2PUAflgW0isg5DuTju8x3RvKx
+   fdoIHf6ltsRV1yFqt9xORC5Xrh0gIGuSCj32QOGpHyqzrIpHkphNdb5Rx
+   vqyLLh6OECEeZOiw/mrwdpM0W6ZPLNzSv4jq/vnUDMM5ZJZK9Z1mWsCjy
+   xdP5lv5kJUfS+RnGrAOTVxChOddMDCAOlOfiUFvgb8OalIUhxg08JgzEw
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.93,195,1654552800"; 
+   d="scan'208";a="25297896"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 27 Jul 2022 16:11:22 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 63916B81F66
-        for <linux-usb@vger.kernel.org>; Wed, 27 Jul 2022 14:01:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 220B8C433D7
-        for <linux-usb@vger.kernel.org>; Wed, 27 Jul 2022 14:01:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658930484;
-        bh=+F1pARcMEB83xS/n++hBOPeYrr/fz7YdxwHeY/p+2qM=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=ta3l9kcwSGEl+bDAC20JLrkvBy3JfflCOwuoEmAGQPsV+E+6LDh2xma7waib+sbFR
-         vhSm2yCTazb7og4387C7768YpUOgC+qVWKSpx0DKGMCrWcKtx4O1iP3ZBi/DhKxwBZ
-         XkWOUsCfbFzp4KiOOJAkMyv3H08NHGtbv6FwBCX3jMWmlLTi33RXbWajbJCz5AdspQ
-         1uIk5W9v/1EseVcE0DZoPD83Y40DVops86h5duaHrMgmJRL71wwONcw4O9RTo05+1P
-         bmT2hDquvwu4IOq34Tq2Ak5keMr0fHuGSqOqEvUfzO7g9hYm7lcizljr1erZT1aZ41
-         CNKJ6rb7F00kg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 09FAEC433E6; Wed, 27 Jul 2022 14:01:24 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 216282] usb-mass storage
-Date:   Wed, 27 Jul 2022 14:01:23 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: stern@rowland.harvard.edu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-216282-208809-hhW3EdNHQ6@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216282-208809@https.bugzilla.kernel.org/>
-References: <bug-216282-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 586E2280072;
+        Wed, 27 Jul 2022 16:11:22 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Kaehlcke <mka@chromium.org>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH v4 2/2] usb: misc: onboard_usb_hub: Add TI USB8041 hub support
+Date:   Wed, 27 Jul 2022 16:11:17 +0200
+Message-Id: <20220727141117.909361-2-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220727141117.909361-1-alexander.stein@ew.tq-group.com>
+References: <20220727141117.909361-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216282
+This is a 4-port 3.0 USB hub.
 
-Alan Stern (stern@rowland.harvard.edu) changed:
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+Changes in v4:
+* Rebased to [1] commit e0c6b1f3d757 ("USB: usbsevseg: convert sysfs snprintf to sysfs_emit")
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|stern@rowland.harvard.edu   |
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git Branch usb-testing
 
---- Comment #16 from Alan Stern (stern@rowland.harvard.edu) ---
-The question is which directory or file on that path is missing.  From comm=
-ent
-13, it looks like /sys/kernel/debug/usb should exist.  Maybe it doesn't hav=
-e a
-usbmon subdirectory because the usbmon module hasn't been loaded.  If you d=
-o:
+ drivers/usb/misc/onboard_usb_hub.c | 3 +++
+ drivers/usb/misc/onboard_usb_hub.h | 6 ++++++
+ 2 files changed, 9 insertions(+)
 
-   modprobe usbmon
+diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
+index 0c81417dd9a7..eb8aef25a22d 100644
+--- a/drivers/usb/misc/onboard_usb_hub.c
++++ b/drivers/usb/misc/onboard_usb_hub.c
+@@ -339,6 +339,7 @@ static struct platform_driver onboard_hub_driver = {
+ 
+ #define VENDOR_ID_MICROCHIP	0x0424
+ #define VENDOR_ID_REALTEK	0x0bda
++#define VENDOR_ID_TI		0x0451
+ 
+ /*
+  * Returns the onboard_hub platform device that is associated with the USB
+@@ -417,6 +418,8 @@ static const struct usb_device_id onboard_hub_id_table[] = {
+ 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x5411) }, /* RTS5411 USB 2.1 */
+ 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x0414) }, /* RTS5414 USB 3.2 */
+ 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x5414) }, /* RTS5414 USB 2.1 */
++	{ USB_DEVICE(VENDOR_ID_TI, 0x8140) }, /* TI USB8041 3.0 */
++	{ USB_DEVICE(VENDOR_ID_TI, 0x8142) }, /* TI USB8041 2.0 */
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(usb, onboard_hub_id_table);
+diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
+index 562fa48fcf10..34beab8bce3d 100644
+--- a/drivers/usb/misc/onboard_usb_hub.h
++++ b/drivers/usb/misc/onboard_usb_hub.h
+@@ -18,8 +18,14 @@ static const struct onboard_hub_pdata realtek_rts5411_data = {
+ 	.reset_us = 0,
+ };
+ 
++static const struct onboard_hub_pdata ti_tusb8041_data = {
++	.reset_us = 3000,
++};
++
+ static const struct of_device_id onboard_hub_match[] = {
+ 	{ .compatible = "usb424,2514", .data = &microchip_usb424_data, },
++	{ .compatible = "usb451,8140", .data = &ti_tusb8041_data, },
++	{ .compatible = "usb451,8142", .data = &ti_tusb8041_data, },
+ 	{ .compatible = "usbbda,411", .data = &realtek_rts5411_data, },
+ 	{ .compatible = "usbbda,5411", .data = &realtek_rts5411_data, },
+ 	{ .compatible = "usbbda,414", .data = &realtek_rts5411_data, },
+-- 
+2.25.1
 
-it should create that directory and the 2u file within it.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
