@@ -2,71 +2,89 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 735ACC04A68
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Jul 2022 14:01:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC432C04A68
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Jul 2022 14:43:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229594AbiG1OBD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 Jul 2022 10:01:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33390 "EHLO
+        id S232909AbiG1Om6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 Jul 2022 10:42:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbiG1OBC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Jul 2022 10:01:02 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E35A265D9
-        for <linux-usb@vger.kernel.org>; Thu, 28 Jul 2022 07:00:58 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id o3so1883642ple.5
-        for <linux-usb@vger.kernel.org>; Thu, 28 Jul 2022 07:00:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=fswC/i0v6E79SSY7fTiByjsbaX9Ll7VbjlECbWd+3d4=;
-        b=PTwwTl1f8C6LBKPD2OVQnC1ltcPVxbJflifswKX4NDedJMbrAKp3z9oIGYZlR/hm7L
-         s7l9qYWKQI15GOv34+PfuhDK9+fEa7meZpKFfEKy0evollwKQKXh4S0/XRZomUpWsuNk
-         NnyB7Jic7VLnM8Jhtl6f/jDH78mv88fMCqrgg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=fswC/i0v6E79SSY7fTiByjsbaX9Ll7VbjlECbWd+3d4=;
-        b=7S1XK4bfzZh57UQxXUnCZNO5kQmEzW681PfkWozCj2y+6pXozZHUZdYDw1TimFKKuj
-         zGeu5LsbYLCs8qEdUqDtlLzc0z+cEa/ka+im+U3VYVu8RXgzs4tbnPqPzGUFetjE3ja2
-         2CJcSKsXWppYDb2MnxNbH4Lxavh3mSfGOP5aPoaMUZq+f8c0KYWff5nu4U+dVfV93neX
-         r1CAjX0vK0IeaNvQWtST+xB+508Eg//SsJfBjrdQPDmp4zq+Kms4fLMU/DbGdmImLvKD
-         SgmzT8LBLXbmzfpHMAYkGYK7/+4Fw98n1OEs2zgG34lw1L1EoLoNy6uT9cwahNP1vusi
-         oTNg==
-X-Gm-Message-State: AJIora+jrCe5OHm0JGS6y91aTiSZWDLBbBwtnZw9HLMn2LHx23rJT+7J
-        BVaLr0Fr1U3qqvBpF3xuSmv0tQ==
-X-Google-Smtp-Source: AGRyM1vpz00cuZlEriin/SDtlUUaK/Y+CnMoB1L/umTjFpcH4S3lehwFyfZ7c4ameWpx+HLTq2c+oA==
-X-Received: by 2002:a17:90a:4402:b0:1f2:3507:5f96 with SMTP id s2-20020a17090a440200b001f235075f96mr10200525pjg.22.1659016858427;
-        Thu, 28 Jul 2022 07:00:58 -0700 (PDT)
-Received: from localhost ([2620:15c:11a:202:bb10:e729:7f59:7cbc])
-        by smtp.gmail.com with UTF8SMTPSA id z7-20020a17090abd8700b001f02a72f29csm1121556pjr.8.2022.07.28.07.00.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Jul 2022 07:00:58 -0700 (PDT)
-Date:   Thu, 28 Jul 2022 07:00:56 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/1] usb: misc: onboard_usb_hub: Remove duplicated
- power_on delay
-Message-ID: <YuKWmORTe7mrCFNb@google.com>
-References: <20220728064937.917935-1-alexander.stein@ew.tq-group.com>
+        with ESMTP id S233182AbiG1Omj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Jul 2022 10:42:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3CF62CCB9
+        for <linux-usb@vger.kernel.org>; Thu, 28 Jul 2022 07:42:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3E9EA619A5
+        for <linux-usb@vger.kernel.org>; Thu, 28 Jul 2022 14:42:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A3BDCC43470
+        for <linux-usb@vger.kernel.org>; Thu, 28 Jul 2022 14:42:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659019339;
+        bh=NZgRR9WjY0KMpvSTSWwPnOatHWinKQKnBv25jNxheO8=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=Yl4w/QKUdcHmFc6sylTmS/wv7yfvZyf+o2FLgSUsDwCXnqqmVaPXnl+acoaa3MuRd
+         gqI0YuCaoPXNRy/tnZ9iH7aVmLbWW8J+/0mPF97o3jmfhFwJaBAqXO/p2LlONIpEoO
+         YPryjQOKi1HZu/HUG6kLXHN2TpTdyIL/y5iJ4bBF/6yw+B3VpUe1nq3Ph/+LswdxM2
+         waCCtGLELCJdg9UJriKcatZtQqMcVsd7YPCI1pn+vL0+ZFQHzqn/DR957NcagWPjlH
+         atlgwrVOljrbeK/fPjCm+ybOmdfjUCRLqn6Cj599iePYZ9jMvAeaEfkxOcpcux3eUG
+         TXfXRQgkq87lg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 814ABC433E6; Thu, 28 Jul 2022 14:42:19 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 216282] usb-mass storage
+Date:   Thu, 28 Jul 2022 14:42:19 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: stern@rowland.harvard.edu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216282-208809-GFQTzhN3xS@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216282-208809@https.bugzilla.kernel.org/>
+References: <bug-216282-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220728064937.917935-1-alexander.stein@ew.tq-group.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jul 28, 2022 at 08:49:37AM +0200, Alexander Stein wrote:
-> onboard_hub_power_on() already ensures the reset pulse width delay, so
-> there is no need to wait right after requesting GPIO as well.
-> 
-> Fixes: 40758e493f4d ("usb: misc: onboard_usb_hub: Add reset-gpio support")
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216282
 
-That shouldn't be needed, since it's not an actual bug.
+--- Comment #19 from Alan Stern (stern@rowland.harvard.edu) ---
+Make sure your current directory is something regular, like your home
+directory. Not something under /sys/ -- those directories aren't writeable.
 
-Anyway, I see Greg already landed it.
+It's normal for the files under /sys to show up as 0 bytes long in an "ls -=
+l"
+listing.  They aren't real files, but interfaces to the kernel.  As long as
+they do show up at all they should be okay.
+
+While the "cat" process is running, any activity on the USB bus (such as
+activity caused by plugging in the drive) will get copied to the "mon.out"
+file.
+
+(By the way, the output from neofetch is not really useful.  You might as w=
+ell
+stop including it.)
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
