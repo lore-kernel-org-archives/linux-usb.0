@@ -2,171 +2,168 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E527EC19F2C
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Aug 2022 10:28:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B714FC00144
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Aug 2022 11:18:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230428AbiHAK2B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 Aug 2022 06:28:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57746 "EHLO
+        id S229953AbiHALSO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 Aug 2022 07:18:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230229AbiHAK1l (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Aug 2022 06:27:41 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A86093B95B;
-        Mon,  1 Aug 2022 03:27:34 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id v18so10031754plo.8;
-        Mon, 01 Aug 2022 03:27:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=56/QJjULF7AfhC6vcAuv9Bly6Dkpm9meWtKBdCbDI90=;
-        b=dCOo1FunfTVLFeGxeKtOmWYLZCwAVx/HuA8tXZY5lJnHrME/Hj8XXx2MnuAJNAddbq
-         HkVSSdNXTBOn2cZgxRihFz5B7W9OvtFD76g76TiO4tYCeCkCXa2LB2iG9+xDgUVem4k8
-         peaevhqX6B0MxW0njkE5X3gzrn1a+bmYtj3z8eaZdrENnexDbOQXuT8CkNAbycy7jfXg
-         HXjUPSj0TNM9U4JIBQuJvycAyIFSYVbouvanEfRUkmcVXLmQkkgwAL7psrb/X06H0IEb
-         guc1x4GwPJ/7FVmOEtcfkYj60ii9o+142ioyeYs8Q7uc8W8h+vAoZwi6K+AG6On9UOPX
-         fZrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=56/QJjULF7AfhC6vcAuv9Bly6Dkpm9meWtKBdCbDI90=;
-        b=Db8VOWwCntLS5HZjIr/5Yl3MSTMuT2z0frxaSsGr2rZdoG+JYVbbSaqEJsg4TWAum1
-         kdyVm70giLN1ah0eD5VWQjG00khncj2QvHts6QknfO6369hZnsQyKxYMQQnyK9q9EUIP
-         YqmTLfX4XeqdA0CoFy9dEjTivvDDgMfpapfu3RiygVtsp6Ddkf3sgf/bph+QGmXf9C7l
-         YPPrkyufLKvfK194tqB6m4Lzh0+WfppPQNull6naD8ZB/jV1S/RlsfPMZPtjFam/KfF6
-         WJmHaVKeFt+hFURot1hW5hp2NpjDtrrh4OvJbS+0iCA8iCSfzw5vfohQD7W08yhyMMhq
-         97mw==
-X-Gm-Message-State: ACgBeo0cGwGBdHFr24ETulL4O4ALHhK0nh2kBPQaMeRbYntfbCgNQNdp
-        jM3FYKGT5F8Ctnj3HFqtIsA=
-X-Google-Smtp-Source: AA6agR6eVx8+14LniTe55nM7Nmy9BGY51yMgSjQnu/IXnM2mbJT04adOamzI3yk5kjDdW47CwxL2Ew==
-X-Received: by 2002:a17:902:8302:b0:16d:d74f:e5cc with SMTP id bd2-20020a170902830200b0016dd74fe5ccmr13541293plb.6.1659349653572;
-        Mon, 01 Aug 2022 03:27:33 -0700 (PDT)
-Received: from genechen-System-Product-Name.richtek.com ([2402:7500:579:6a6f:8d46:b2ef:57e3:7c30])
-        by smtp.gmail.com with ESMTPSA id q12-20020a170902a3cc00b0016c6a6d8967sm9199302plb.83.2022.08.01.03.27.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Aug 2022 03:27:33 -0700 (PDT)
-From:   Gene Chen <gene.chen.richtek@gmail.com>
-To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
-        gregkh@linuxfoundation.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, gene_chen@richtek.com,
-        cy_huang@richtek.com
-Subject: [PATCH v3 7/7] usb: typec: tcpci_rt1711h: Fix CC PHY noise filter of voltage level
-Date:   Mon,  1 Aug 2022 18:14:47 +0800
-Message-Id: <20220801101447.86207-8-gene.chen.richtek@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220801101447.86207-1-gene.chen.richtek@gmail.com>
-References: <20220801101447.86207-1-gene.chen.richtek@gmail.com>
+        with ESMTP id S229862AbiHALSN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Aug 2022 07:18:13 -0400
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2074.outbound.protection.outlook.com [40.107.93.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCD4227B32
+        for <linux-usb@vger.kernel.org>; Mon,  1 Aug 2022 04:18:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PvB7dbwBwQjwT9S3hLdTy6VJ7Ehd9hKrJvZKi6y8iScZoOQH/6odfs9epXvqLmrx5VtecoH1VCbgAtnd+IjwEYa+RHKLU3qPBXtrmHImx8ufQDyz0K+9rjsV9XRgsU9LlxwaYrkMJ6HPtXxT/qdEa4zilxhfBd8WpeHEwnHWhFaHqvsqqhb3Xr8Z+Y7VW51NezrCPJgcVhoXQN2I9LpXl3x17ulxoAondSQwrw7OxDiGB2mTb7kAHFyy/rU6ZpNDrGxL7uaM68ubj3Iv1JrYCVRk0XK8lYKfJdtn5MLGNw7nwsUbeAUuyGhbiQM71wisJTy/EksEStwOLZsrOp3EdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lRLciTTmBw+dzpaVv0oynzyVbLspz4i2oK5OfaqOzaY=;
+ b=OzBovIFyfOgsz3cYcde62FTEtKpGzxrYuX49ohkMN8bJOgxANiwbhEwQZxTDlPKiUAPVnOvRu0hqtD5tamBj+GXQHR6BbSf+aUuxbs43MkS19Qa5jAm3SD4UX1QH5Y98HWq67ZRjUDF23RTutU3w+RQQ5Sj7KBk9/gLE9m8wx8Q8PxyxyDYUvONJ8ptk4aIlpO2ZUMdIjQcgLCHLtqROUeC1EaclZdHjoE8dj98pdwDDIooq9BbnQ//VsPPtoMf8KYmti1BCaOrmanbEq+QEvFFuIhQpYQSi6fumI1Nnad6cK4NdkzyOgp1YBHo9VJl0dyCHxmk7XN25QzzrqhoDVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lRLciTTmBw+dzpaVv0oynzyVbLspz4i2oK5OfaqOzaY=;
+ b=X6kU+Ef50kAjHqlZn83l1d5sK6IophhgRzuJq/vJGa0Jt1SK56foLU8SndHYxNykh0knE7DnWAaTZFO6f2r6IVH0Jl20N1ceuY2iWdH7jOhUCY5q2O0qdj066c7USwS2TsdIRm7lH3bn8hhxwwfCYnhPsCmrh6epI9sG73FSCho=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6326.namprd12.prod.outlook.com (2603:10b6:8:a3::15) by
+ BN6PR12MB1828.namprd12.prod.outlook.com (2603:10b6:404:108::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5482.11; Mon, 1 Aug 2022 11:18:10 +0000
+Received: from DM4PR12MB6326.namprd12.prod.outlook.com
+ ([fe80::71da:a1dc:7ef7:f733]) by DM4PR12MB6326.namprd12.prod.outlook.com
+ ([fe80::71da:a1dc:7ef7:f733%8]) with mapi id 15.20.5482.016; Mon, 1 Aug 2022
+ 11:18:10 +0000
+Message-ID: <9a87289d-51f1-6e22-1998-9feba7d4dd29@amd.com>
+Date:   Mon, 1 Aug 2022 16:47:56 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v2 RESEND] thunderbolt: Add DP out resource when DP tunnel
+ is discovered.
+Content-Language: en-US
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Sanjay R Mehta <Sanju.Mehta@amd.com>
+Cc:     andreas.noever@gmail.com, michael.jamet@intel.com,
+        YehezkelShB@gmail.com, Basavaraj.Natikar@amd.com,
+        mario.limonciello@amd.com, linux-usb@vger.kernel.org
+References: <1657215088-6185-1-git-send-email-Sanju.Mehta@amd.com>
+ <Yuely4dKR6Xy5Mdk@lahna>
+From:   Sanjay R Mehta <sanmehta@amd.com>
+In-Reply-To: <Yuely4dKR6Xy5Mdk@lahna>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0116.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:27::31) To DM4PR12MB6326.namprd12.prod.outlook.com
+ (2603:10b6:8:a3::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ba4a3d5f-a89b-484f-845c-08da73af841c
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1828:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BnWCCeMiS1Od6R2NvwZsMjsr4qk/yhUNHkMns+5jYwX2+PNc4TH+nicF+FrPzDk0Zr8PVKdB+cOgQc2ifI+jd2vzAT7aGMeQDfDDQARBBLfIst1DAcH9434Qfot6No1i167EzGTUM9noK3pT4qZ1mjTb5ZfcepmYllVBwAKoJhNGZxpjsSZHXj2U26x5nTXAK1aTzYMunhGUaWJDVaYXGsCbYybIGfPCQ8BgBvhcWnS1VkW6hQA2qzsDJJ84g8J/wompPomAOOfq0qNnxid8NTbR3Xc1pddcxoptD7REqbqXv0fnKztTAYcVwQiUFdcn5ZRrO22jmJR8WEnGCT4zXJS/TenGMB6cjMdIIdYe34XvG5BvBmp3caBkX9DcjrgrFZZEIV014oH1mP9ylZO4C+xxS+UAD3Jzb2tt7j5RhgQ3JENFqFj7HvHBQuYpNl9mXwdqYFYALHGJQGUZqZdeKgxAY8BcFmwsDoDdNs2EJmwShh/H/uSfO+aSkgWF9WZe8AiEZ8xQA1ymOl18eH9JbXozyxxSIpf9qfMMNFuHMo5NKVuzFr17+V/DQmailegAWiuNKydAsHxT5afFvi70J11Ot91QkAZajaeQgbz+3QXq2tPvXq1hM8SidfCGCyPRBmm8L6oCyrTK8B6FNWahVt6J0oRcxY0+aNF6bDS0WEUkESURY9AelOoNLZG1dWlzE1g9y8W3vNFWLgibs+fd92Vehq2L8464CjB9XCgjpk2zCytFOvIJNIDW41KrU9Hu3vzzxbmEqJeG9JILXLK7opGtqBqymU4/lHkaIu3//NhAVPAo6YXpfFTR4kkI9RraY2cDOaQ7TyKQGT5jNet+nA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6326.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(376002)(396003)(136003)(366004)(346002)(8676002)(36756003)(2906002)(478600001)(66476007)(31686004)(4326008)(66556008)(66946007)(110136005)(6636002)(316002)(6486002)(31696002)(2616005)(83380400001)(6512007)(38100700002)(6666004)(41300700001)(186003)(6506007)(53546011)(8936002)(5660300002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QzNNNlJVYkh6a0F5V1RtbjZTbFhxWXIzVjRmS1VEWEtkT1lpdHNSMWwycTFV?=
+ =?utf-8?B?ZnYxaExKSGJ3R2plMEpSWFF2ZXBNcVFsOHR3NHByakhHeDBKZUtsVm5MNHBS?=
+ =?utf-8?B?aS8yUnVXTkNiU1FleUM5Wk9CUEVmMzd2bUhMRllTQ2NXV3lid09UNThENWNI?=
+ =?utf-8?B?clJFMVFiZ0I5NWlrTkFjN2pkLzErOHJHc3FMbGhHZUd3WDBISkJkN0tuUzhp?=
+ =?utf-8?B?L3hRcDk1T2J6UHZ3YlJVdWdIckZIMHRsNm5LT2NuZW1NWFVYQXZxUTA1TG5I?=
+ =?utf-8?B?M2ZaallEWFNlUWxzZXV6YTVPbjQ4Y3RhSEhwcll4N3l5MVhiQVJPVFFTaGt5?=
+ =?utf-8?B?ai8xaUEvSHVaSTZ6N2p6WndzS3ZmallSclpibUFpR294UkoySWRVSHkwWHcy?=
+ =?utf-8?B?Ry9iMGMrdlN6U2QzWmZOVHdRd0pXb2xzcGNRMS95MmRoZUFGaDVTN3Yvb3pG?=
+ =?utf-8?B?elZUS2FjWi9zRDk2ZGpESWk0dW54b1RjVmZBWnpYUmxsbkh2UERTOG1RYmVO?=
+ =?utf-8?B?WG9CNUNhdTZyUkRKTU5QZkR4QSsweUN6WEJTU3laL2NiMi9VTXJuTmVFODdX?=
+ =?utf-8?B?ak1ab3d0dUxYQWk0dXV6eGY2amhYVGZ2S0lJOFNhL0xGN0xaODJ0Q3M4aDlN?=
+ =?utf-8?B?cjg1WHNtaDN2OEtmREVCWTc3bWRaRlZkNmdFblBsVWphT1htOWdXOVc1QlMr?=
+ =?utf-8?B?TkdxSDBKVUk2VStGVmV2SkxRcm1PeTJHeTd0Ukt1Vy93czJEb0s4VnkrQWxT?=
+ =?utf-8?B?eDVsanRVaHl5MllNMkZiMUJuMVV6OFp3UC9qYmpITWg4b2tCZC8wYU44N3hT?=
+ =?utf-8?B?cys2ZXB1elVDUG43UGh4TVBKNzJWVWVYQm8rdlp1bHFRcGgzTjNUangrdERT?=
+ =?utf-8?B?bEVYSCtpSVJ4SXREaVJ1WlkyRTdkRVZYQzBjdk1oTkVoUWNBWGJkMDF2M1NH?=
+ =?utf-8?B?c21iTFZTSVJDM0hNejlxRmVZK2FDNmxPZjloV1ZNNktpSU9iZGFFYnZ6SDBX?=
+ =?utf-8?B?RE5icC9mbjdzSmh5NFlmc1V4emVkQURQUGJVdkIwTU5MTGxEQW5SaUJMdHFF?=
+ =?utf-8?B?K1ZDZ3JNRzhtbUR6N0wwc2RkNGttTXBDdWRWK2RMcTZxNDVUL3JNY2tIdEEr?=
+ =?utf-8?B?Mld2SUJmeEdlQ3RQZktiWGdOWEl0Mm5WcWVwN3gydFFReXRqZjNNNHV4Nncv?=
+ =?utf-8?B?WGpMaStLem9NeXB6WUtHcFp5UE4vNTR2dUE1ckY2eGlJbWpYbU1NWlk5RnJ2?=
+ =?utf-8?B?c0hBcFlKVVR1bGFlSVdJTnRPa1h2cUdxTlFRYXFrQU83WUo4UkJPTlh0dmVl?=
+ =?utf-8?B?TldjZGx0U0g1WGhCV3VOU3lnZnl1eEw0Z1RrNXFWZDF1ZmNKTFozdGpGRlh5?=
+ =?utf-8?B?NXZxR0kySm1QNEFkTXV3d2oyMWdGdUlPVmg4Z3JKSTN5c3VkU2ZNMXlQSnhU?=
+ =?utf-8?B?U3owWTg0WndkbVUyS1ZXSXRaZkdweEdHNHlOWUlxaVdXR0hNbHd3RnRDTHNS?=
+ =?utf-8?B?L1hUYk55eHBxWHVCWkNTNFlXWStRVXZFUDFGejM0ZTFOanlneDRBSFU2YXVN?=
+ =?utf-8?B?M2JkTXZOR25JMStrS3F2OWVMK29EdzBrNS9yWUNOY3A2SEJRMFE2VFNuUE8v?=
+ =?utf-8?B?S2xKOVJkU3kyRUVEOUw2NC9YY1ZVaEo0Uks1NWd2cHNmVnJKT1F6eXFvZ28z?=
+ =?utf-8?B?OGNFbDlNNzM2SmJzaGxvd1J6Z0NkTmUzdlpScEY1UWlGTnNtelNxS01SNXN6?=
+ =?utf-8?B?ZU1rL0pwSytlbkRpZStPWUM4ZWVHaHRDVU11SjYzMUxLSGtlb3Y2bzhsNm5h?=
+ =?utf-8?B?dG9TemJYYkdDY09vajVQQmNsZEdoeTNFZHQybU5vTWdEQUVpQ1BLSkI2dng4?=
+ =?utf-8?B?R1NsQ0lJY09hbGU4RXdKdjBmWnRFaGd2UG91cTYvWGphMys1Mzc0K1JVSXFh?=
+ =?utf-8?B?cGk1M01ZVG1RQ0ZUeTdhcVNXZmtFaUs3TkhIbWZxbmxySEQ4UXBvVjBvcCtu?=
+ =?utf-8?B?RzdabXVVSWowOUNkSnpxQUtBM1ZmQWlXZ1hIbFkyS043Zm1DQlo0Z1VvdEF5?=
+ =?utf-8?B?MGFUY2ZIc1BJSlBPbmpZMGlDbHRFTFduby9WazVLbG9sOWhnVFdQVGhuV2xM?=
+ =?utf-8?B?QXZoaENEcHZXOFNhcEQ4azh2OFV6UDJhZkFaall2Q3h4K2MzNHZNNHBvbEpH?=
+ =?utf-8?Q?1UMsGIiKXhQc8JW5Sjjf17CJ3nAn54P9Iavoj4XwUc6s?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba4a3d5f-a89b-484f-845c-08da73af841c
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6326.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2022 11:18:10.2728
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Qa3PXzPmCgPPKoX5AoYXotz4+NMwosyo1cNpeLYHyBsGwIaXF7FtD93dT27lCPLwC+TOZHU3KUwcnpUeAEugHg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1828
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Gene Chen <gene_chen@richtek.com>
 
-Fix CC PHY noise filter of voltage level according to
-current cc voltage level
 
-Signed-off-by: Gene Chen <gene_chen@richtek.com>
----
- drivers/usb/typec/tcpm/tcpci_rt1711h.c | 58 +++++++++++++++++++++++++-
- 1 file changed, 57 insertions(+), 1 deletion(-)
+On 8/1/2022 3:37 PM, Mika Westerberg wrote:
+> Hi,
+> 
+> On Thu, Jul 07, 2022 at 12:31:28PM -0500, Sanjay R Mehta wrote:
+>> From: Sanjay R Mehta <sanju.mehta@amd.com>
+>>
+>> If the boot firmware implements a connection manager of its
+>> own it may create a DP tunnel and will be handed off to Linux
+>> CM, but the DP out resource is not saved in the dp_resource
+>> list.
+>>
+>> This patch adds tunnelled DP out port to the dp_resource list
+>> once the DP tunnel is discovered.
+>>
+>> Signed-off-by: Sanjay R Mehta <sanju.mehta@amd.com>
+>> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+>>
+>> ---
+>> v2: Re-ordering the function declaration as per Greg's comment.
+>>
+>> ---
+>>  drivers/thunderbolt/tb.c     | 15 +++++++++++++++
+>>  drivers/thunderbolt/tb.h     |  1 +
+>>  drivers/thunderbolt/tunnel.c |  2 ++
+>>  3 files changed, 18 insertions(+)
+>>
+>> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+>> index 9a3214f..dcd0c3e 100644
+>> --- a/drivers/thunderbolt/tb.c
+>> +++ b/drivers/thunderbolt/tb.c
+>> @@ -1006,6 +1006,21 @@ static void tb_dp_resource_unavailable(struct tb *tb, struct tb_port *port)
+>>  	tb_tunnel_dp(tb);
+>>  }
+>>  
+>> +void tb_dp_resource_available_discovered(struct tb *tb, struct tb_port *port)
+> 
+> Please call this tb_discover_dp_resources() make it static and call it
+> right after tb_discover_tunnels() in tb_start() or in
+> tb_discover_tunnels().
+> 
+Thanks Mika. Sure, I'll address this & will send you the v3.
 
-diff --git a/drivers/usb/typec/tcpm/tcpci_rt1711h.c b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-index da35dd3e8a59..6d2568de553b 100644
---- a/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-+++ b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-@@ -25,8 +25,11 @@
- #define RT1711H_PHYCTRL1	0x80
- #define RT1711H_PHYCTRL2	0x81
- 
--#define RT1711H_RTCTRL8		0x9B
-+#define RT1711H_RTCTRL4		0x93
-+/* rx threshold of rd/rp: 1b0 for level 0.4V/0.7V, 1b1 for 0.35V/0.75V */
-+#define RT1711H_BMCIO_RXDZSEL	BIT(0)
- 
-+#define RT1711H_RTCTRL8		0x9B
- /* Autoidle timeout = (tout * 2 + 1) * 6.4ms */
- #define RT1711H_RTCTRL8_SET(ck300, ship_off, auto_idle, tout) \
- 			    (((ck300) << 7) | ((ship_off) << 5) | \
-@@ -45,6 +48,10 @@
- #define RT1711H_RTCTRL15	0xA2
- #define RT1711H_RTCTRL16	0xA3
- 
-+#define RT1711H_RTCTRL18	0xAF
-+/* 1b0 as fixed rx threshold of rd/rp 0.55V, 1b1 depends on RTCRTL4[0] */
-+#define BMCIO_RXDZEN	BIT(0)
-+
- struct rt1711h_chip {
- 	struct tcpci_data data;
- 	struct tcpci *tcpci;
-@@ -165,6 +172,53 @@ static int rt1711h_set_vconn(struct tcpci *tcpci, struct tcpci_data *tdata,
- 				  RT1711H_AUTOIDLEEN, enable ? 0 : RT1711H_AUTOIDLEEN);
- }
- 
-+/*
-+ * Selects the CC PHY noise filter voltage level according to the remote current
-+ * CC voltage level.
-+ *
-+ * @status: The port's current cc status read from IC
-+ * Return 0 if writes succeed; failure code otherwise
-+ */
-+static inline int rt1711h_init_cc_params(struct rt1711h_chip *chip, u8 status)
-+{
-+	int ret, cc1, cc2;
-+	u8 role = 0;
-+	u32 rxdz_en, rxdz_sel;
-+
-+	ret = rt1711h_read8(chip, TCPC_ROLE_CTRL, &role);
-+	if (ret < 0)
-+		return ret;
-+
-+	cc1 = tcpci_to_typec_cc((status >> TCPC_CC_STATUS_CC1_SHIFT) &
-+				TCPC_CC_STATUS_CC1_MASK,
-+				status & TCPC_CC_STATUS_TERM ||
-+				tcpc_presenting_rd(role, CC1));
-+	cc2 = tcpci_to_typec_cc((status >> TCPC_CC_STATUS_CC2_SHIFT) &
-+				TCPC_CC_STATUS_CC2_MASK,
-+				status & TCPC_CC_STATUS_TERM ||
-+				tcpc_presenting_rd(role, CC2));
-+
-+	if ((cc1 >= TYPEC_CC_RP_1_5 && cc2 < TYPEC_CC_RP_DEF) ||
-+	    (cc2 >= TYPEC_CC_RP_1_5 && cc1 < TYPEC_CC_RP_DEF)) {
-+		rxdz_en = BMCIO_RXDZEN;
-+		if (chip->did == RT1715_DID)
-+			rxdz_sel = RT1711H_BMCIO_RXDZSEL;
-+		else
-+			rxdz_sel = 0;
-+	} else {
-+		rxdz_en = 0;
-+		rxdz_sel = RT1711H_BMCIO_RXDZSEL;
-+	}
-+
-+	ret = regmap_update_bits(chip->data.regmap, RT1711H_RTCTRL18,
-+				 BMCIO_RXDZEN, rxdz_en);
-+	if (ret < 0)
-+		return ret;
-+
-+	return regmap_update_bits(chip->data.regmap, RT1711H_RTCTRL4,
-+				  RT1711H_BMCIO_RXDZSEL, rxdz_sel);
-+}
-+
- static int rt1711h_start_drp_toggling(struct tcpci *tcpci,
- 				      struct tcpci_data *tdata,
- 				      enum typec_cc_status cc)
-@@ -225,6 +279,8 @@ static irqreturn_t rt1711h_irq(int irq, void *dev_id)
- 		/* Clear cc change event triggered by starting toggling */
- 		if (status & TCPC_CC_STATUS_TOGGLING)
- 			rt1711h_write8(chip, TCPC_ALERT, TCPC_ALERT_CC_STATUS);
-+		else
-+			rt1711h_init_cc_params(chip, status);
- 	}
- 
- out:
--- 
-2.25.1
 
+> Thanks!
