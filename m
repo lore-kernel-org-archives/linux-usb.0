@@ -2,38 +2,38 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4660C25B07
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Aug 2022 15:14:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F850C25B06
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Aug 2022 15:14:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237083AbiHBPOV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Aug 2022 11:14:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53252 "EHLO
+        id S237225AbiHBPOY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Aug 2022 11:14:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235854AbiHBPOT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Aug 2022 11:14:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0757F15A3C;
-        Tue,  2 Aug 2022 08:14:16 -0700 (PDT)
+        with ESMTP id S236168AbiHBPOU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Aug 2022 11:14:20 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0FC418373;
+        Tue,  2 Aug 2022 08:14:18 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9870D60276;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7DBF1B81F47;
+        Tue,  2 Aug 2022 15:14:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AB9AC433D6;
         Tue,  2 Aug 2022 15:14:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E513FC433C1;
-        Tue,  2 Aug 2022 15:14:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1659453256;
-        bh=/vM1hbYvcMcG5rgPtJ9rOtDS7RIJfleSu0m9KM3s3sk=;
+        bh=j2nJx8as9UlVhaaVa9FxipRqThk43lXnnVB/YIARXa4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jlZ95wzALbGyX321n1ji2Ck4jAuKFTVOg4FpY+7WMSTTDsG3vh7QBKUWvDaRCt5Rr
-         qdRL7TUySimjCFz+6DzBFSKgIXvNKptyuLW7BSaCB82vskAPh8MUeZxFoL4jqZ1vi3
-         SD+QT4kDcUy2tUxbxSaqzV6xXo7PAW3b+UHcnHZUqq4kI6ykED3jWtbEwZqL2xWSad
-         Ky/kmHQR/QGPHQp4TA3Wg6sOJMDapfU6Kfe5YV0rclfSh+sbaxWY+bm+SjZspsxU67
-         soX5Yy5Vlr0N++u82JsxDQ5WekzmPNzPZmxQQmyYvSvNz8Qzybk+0xpVbQZFw1ytD+
-         DKO6duxbQys7A==
+        b=pbvJQq8pE6Ks5bYHErzelIKTO/zg9HHbBjyIxtk/eXSDKrLiAdSND7WzKypwWeI1G
+         HQ5uIzSC7gq7gEYaewaIqKd9K/1xAtioRdg4f36aYJ1Ok36/krOUToQnTV64k18Wup
+         vLSDKDFUGoHf1A1A7yr6Q1vnjjG+17jqWpt/ipCEhNHC8wUIQ0oVRfYSiAopFYp75o
+         mJpx5DtgibmUZLHzxK//RdcDYevTzrV3jDhI++MVYc8eiO0RZLLQy3bTxUNUR24kJX
+         6KBre9MVd47+kyLUQZ+wxsM5gtkKoxE9x6JliFUWTlqYxtLkOcq1hrENCNKbL5idg5
+         dQqIq7MhJkw/g==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan+linaro@kernel.org>)
-        id 1oItbM-0000Tg-JZ; Tue, 02 Aug 2022 17:14:32 +0200
+        id 1oItbM-0000TY-8k; Tue, 02 Aug 2022 17:14:32 +0200
 From:   Johan Hovold <johan+linaro@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Felipe Balbi <balbi@kernel.org>
@@ -52,9 +52,9 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH 7/8] usb: dwc3: qcom: fix wakeup implementation
-Date:   Tue,  2 Aug 2022 17:14:03 +0200
-Message-Id: <20220802151404.1797-8-johan+linaro@kernel.org>
+Subject: [PATCH 3/8] usb: dwc3: qcom: fix broken non-host-mode suspend
+Date:   Tue,  2 Aug 2022 17:13:59 +0200
+Message-Id: <20220802151404.1797-4-johan+linaro@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220802151404.1797-1-johan+linaro@kernel.org>
 References: <20220802151404.1797-1-johan+linaro@kernel.org>
@@ -64,81 +64,48 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-It is the Qualcomm glue wakeup interrupts that may be able to wake the
-system from suspend and this can now be described in the devicetree.
+A recent commit implementing wakeup support in host mode instead broke
+suspend for peripheral and OTG mode.
 
-Move the wakeup-source property handling over from the core driver and
-instead propagate the capability setting to the core device during
-probe.
+The hack that was added in the suspend path to determine the speed of
+any device connected to the USB2 bus not only accesses internal driver
+data for a child device, but also dereferences a NULL pointer when not
+in host mode and there is no HCD.
 
-This is needed as there is currently no way for the core driver to query
-the wakeup setting of the glue device, but it is the core driver that
-manages the PHY power state during suspend.
+As the controller can switch role at any time when in OTG mode, there's
+no quick fix to this, and since reverting would leave us with broken
+suspend in host-mode (wakeup triggers immediately), keep the hack for
+now and only fix the NULL-pointer dereference.
 
-Also don't leave the PHYs enabled when system wakeup has been disabled
-through sysfs.
-
-Fixes: 649f5c842ba3 ("usb: dwc3: core: Host wake up support from system suspend")
+Fixes: 6895ea55c385 ("usb: dwc3: qcom: Configure wakeup interrupts during suspend")
 Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- drivers/usb/dwc3/core.c      | 5 ++---
- drivers/usb/dwc3/dwc3-qcom.c | 6 +++++-
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ drivers/usb/dwc3/dwc3-qcom.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 16d1f328775f..8c8e32651473 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1822,7 +1822,6 @@ static int dwc3_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, dwc);
- 	dwc3_cache_hwparams(dwc);
--	device_init_wakeup(&pdev->dev, of_property_read_bool(dev->of_node, "wakeup-source"));
- 
- 	spin_lock_init(&dwc->lock);
- 	mutex_init(&dwc->mutex);
-@@ -1984,7 +1983,7 @@ static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
- 		dwc3_core_exit(dwc);
- 		break;
- 	case DWC3_GCTL_PRTCAP_HOST:
--		if (!PMSG_IS_AUTO(msg) && !device_can_wakeup(dwc->dev)) {
-+		if (!PMSG_IS_AUTO(msg) && !device_may_wakeup(dwc->dev)) {
- 			dwc3_core_exit(dwc);
- 			break;
- 		}
-@@ -2045,7 +2044,7 @@ static int dwc3_resume_common(struct dwc3 *dwc, pm_message_t msg)
- 		spin_unlock_irqrestore(&dwc->lock, flags);
- 		break;
- 	case DWC3_GCTL_PRTCAP_HOST:
--		if (!PMSG_IS_AUTO(msg) && !device_can_wakeup(dwc->dev)) {
-+		if (!PMSG_IS_AUTO(msg) && !device_may_wakeup(dwc->dev)) {
- 			ret = dwc3_core_init_for_resume(dwc);
- 			if (ret)
- 				return ret;
 diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index 57d3a0e6f280..1bd2818b4daa 100644
+index be2e3dd36440..b75ff40f75a2 100644
 --- a/drivers/usb/dwc3/dwc3-qcom.c
 +++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -771,6 +771,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	struct resource		*res, *parent_res = NULL;
- 	int			ret, i;
- 	bool			ignore_pipe_clk;
-+	bool			wakeup_source;
- 
- 	qcom = devm_kzalloc(&pdev->dev, sizeof(*qcom), GFP_KERNEL);
- 	if (!qcom)
-@@ -886,7 +887,10 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto interconnect_exit;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	wakeup_source = of_property_read_bool(dev->of_node, "wakeup-source");
-+	device_init_wakeup(&pdev->dev, wakeup_source);
-+	device_init_wakeup(&qcom->dwc3->dev, wakeup_source);
+@@ -301,8 +301,17 @@ static void dwc3_qcom_interconnect_exit(struct dwc3_qcom *qcom)
+ static enum usb_device_speed dwc3_qcom_read_usb2_speed(struct dwc3_qcom *qcom)
+ {
+ 	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
+-	struct usb_hcd *hcd = platform_get_drvdata(dwc->xhci);
+ 	struct usb_device *udev;
++	struct usb_hcd *hcd;
 +
- 	qcom->is_suspended = false;
- 	pm_runtime_set_active(dev);
- 	pm_runtime_enable(dev);
++	if (qcom->mode != USB_DR_MODE_HOST)
++		return USB_SPEED_UNKNOWN;
++
++	/*
++	 * FIXME: Fix this nasty layering violation which currently only
++	 *        "works" in host mode.
++	 */
++	hcd = platform_get_drvdata(dwc->xhci);
+ 
+ 	/*
+ 	 * It is possible to query the speed of all children of
 -- 
 2.35.1
 
