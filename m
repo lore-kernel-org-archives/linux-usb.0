@@ -2,38 +2,38 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B21BC25B0E
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Aug 2022 15:14:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13075C25B0D
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Aug 2022 15:14:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234780AbiHBPOW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Aug 2022 11:14:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53258 "EHLO
+        id S237301AbiHBPO0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Aug 2022 11:14:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234433AbiHBPOT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Aug 2022 11:14:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B66417E12;
-        Tue,  2 Aug 2022 08:14:18 -0700 (PDT)
+        with ESMTP id S236314AbiHBPOU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Aug 2022 11:14:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6FB017E09;
+        Tue,  2 Aug 2022 08:14:17 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A5C9D60682;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 326B260304;
         Tue,  2 Aug 2022 15:14:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04A83C43470;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E712C43142;
         Tue,  2 Aug 2022 15:14:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659453257;
-        bh=hWf/PttupFOeNrraP/UCkmJULP8/JeCaWQYuByvGBJ4=;
+        s=k20201202; t=1659453256;
+        bh=Oc10iKL8iP3YYDdhgl1EaSJB79hlUqWQiGPijpdOAlg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WsMAAOaNz6It61LU7U0hj9yT6Jep64APeNUprgTkP4sBE6sH2iXKoQPlLgi5QPAgg
-         L3YRjT8D6TKyYsPhlDTp9gCpMWOTt+rfAVfQVrKBTwU48lxPycwXcKYgeNf+t0bx5U
-         //toRJ0q/OL8TBrgKBfc9EqA5WbE+3RyLsdicjdpBhv39LNIf1Ypx5Qloq8P6JjBUz
-         qBghT+50Z+FNYALrbWWltqjTFSdnBH1bbgnLRseSbK337upz4HXhKHpou3VgnNK080
-         lnQnw01yN+sMp+ySHAVciPORh69LtKVjN0YF8S7HM+ourkQQYYBHYlngyKlzYxvlyh
-         k/4OrrZfqN0hQ==
+        b=IQMOp4ILxF80F4WoPemsfIMbZ6Iz7BuR2KIvzqR5hVXSA6SbgX+wHhJvf1qg53MoA
+         qmH7LatfiN5vrLP8CQgimUFEfy12VeFj7+3Xy91UqstCyq6FheaL34QcgZwe3JOE2I
+         4OSHvvIgv44fzTvnKG+Go1ZUylGZFF83IodMpPozuw22Qm1sCRXHsdknUFrzirnRGj
+         A+YteNZQOdOPHwba/3RIHOcUCfzYTxCPIgbV/VWfrsjCK4c5ulYisjpMcGOUfT2IZD
+         oCQlN23usfjVX1sRvBGh9gefeqpZA1DW5gSs9MZV4a05dVzxahdyTliZyLE96o1ANJ
+         NxSegAiccZfTA==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan+linaro@kernel.org>)
-        id 1oItbM-0000Tc-EW; Tue, 02 Aug 2022 17:14:32 +0200
+        id 1oItbM-0000TW-5k; Tue, 02 Aug 2022 17:14:32 +0200
 From:   Johan Hovold <johan+linaro@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Felipe Balbi <balbi@kernel.org>
@@ -52,9 +52,9 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH 5/8] Revert "dt-bindings: usb: dwc3: Add wakeup-source property support"
-Date:   Tue,  2 Aug 2022 17:14:01 +0200
-Message-Id: <20220802151404.1797-6-johan+linaro@kernel.org>
+Subject: [PATCH 2/8] Revert "usb: dwc3: qcom: Keep power domain on to retain controller status"
+Date:   Tue,  2 Aug 2022 17:13:58 +0200
+Message-Id: <20220802151404.1797-3-johan+linaro@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220802151404.1797-1-johan+linaro@kernel.org>
 References: <20220802151404.1797-1-johan+linaro@kernel.org>
@@ -64,43 +64,91 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This reverts commit 098c4d43b91a269e89f60331a26a3f3b914677ed.
+This reverts commit d9be8d5c5b032e5383ff5c404ff4155e9c705429.
 
-A devicetree binding should describe hardware capabilities and not be
-used to configure power-management policies (even if things are a bit
-blurry when it comes to "wakeup-source"). It should also not be used to
-work around Linux driver implementation issues such as how to coordinate
-the glue and core dwc3 drivers.
+Generic power-domain flags must be set before the power-domain is
+initialised and must specifically not be modified by drivers for devices
+that happen to be in the domain.
 
-For the Qualcomm dwc3 controllers, it is the glue device that manages
-the wakeup interrupts, which may or may not be able to wake the system
-up from system suspend.
+To make sure that USB power-domains are left enabled during system
+suspend when a device in the domain is in the wakeup path, the
+GENPD_FLAG_ACTIVE_WAKEUP flag should instead be set for the domain
+unconditionally when it is registered.
 
-Also note that USB remote wakeup is always enabled during runtime
-suspend.
+Note that this also avoids keeping power-domains on during suspend when
+wakeup has not been enabled (e.g. through sysfs).
 
-Fixes: 098c4d43b91a ("dt-bindings: usb: dwc3: Add wakeup-source property support")
+For the runtime PM case, making sure that the PHYs are not suspended and
+that they are in the same domain as the controller prevents the domain
+from being suspended. If there are cases where this is not possible or
+desirable, the genpd implementation may need to be extended.
+
+Fixes: d9be8d5c5b03 ("usb: dwc3: qcom: Keep power domain on to retain controller status")
 Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/usb/dwc3/dwc3-qcom.c | 28 +++++++---------------------
+ 1 file changed, 7 insertions(+), 21 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index 1779d08ba1c0..d41265ba8ce2 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -343,11 +343,6 @@ properties:
-       This port is used with the 'usb-role-switch' property  to connect the
-       dwc3 to type C connector.
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index c5e482f53e9d..be2e3dd36440 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -17,7 +17,6 @@
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/phy/phy.h>
+-#include <linux/pm_domain.h>
+ #include <linux/usb/of.h>
+ #include <linux/reset.h>
+ #include <linux/iopoll.h>
+@@ -757,13 +756,12 @@ dwc3_qcom_create_urs_usb_platdev(struct device *dev)
  
--  wakeup-source:
--    $ref: /schemas/types.yaml#/definitions/flag
--    description:
--      Enable USB remote wakeup.
+ static int dwc3_qcom_probe(struct platform_device *pdev)
+ {
+-	struct device_node *np = pdev->dev.of_node;
+-	struct device *dev = &pdev->dev;
+-	struct dwc3_qcom *qcom;
+-	struct resource	*res, *parent_res = NULL;
+-	int ret, i;
+-	bool ignore_pipe_clk;
+-	struct generic_pm_domain *genpd;
++	struct device_node	*np = pdev->dev.of_node;
++	struct device		*dev = &pdev->dev;
++	struct dwc3_qcom	*qcom;
++	struct resource		*res, *parent_res = NULL;
++	int			ret, i;
++	bool			ignore_pipe_clk;
+ 
+ 	qcom = devm_kzalloc(&pdev->dev, sizeof(*qcom), GFP_KERNEL);
+ 	if (!qcom)
+@@ -772,8 +770,6 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, qcom);
+ 	qcom->dev = &pdev->dev;
+ 
+-	genpd = pd_to_genpd(qcom->dev->pm_domain);
 -
- unevaluatedProperties: false
+ 	if (has_acpi_companion(dev)) {
+ 		qcom->acpi_pdata = acpi_device_get_match_data(dev);
+ 		if (!qcom->acpi_pdata) {
+@@ -881,17 +877,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto interconnect_exit;
  
- required:
+-	if (device_can_wakeup(&qcom->dwc3->dev)) {
+-		/*
+-		 * Setting GENPD_FLAG_ALWAYS_ON flag takes care of keeping
+-		 * genpd on in both runtime suspend and system suspend cases.
+-		 */
+-		genpd->flags |= GENPD_FLAG_ALWAYS_ON;
+-		device_init_wakeup(&pdev->dev, true);
+-	} else {
+-		genpd->flags |= GENPD_FLAG_RPM_ALWAYS_ON;
+-	}
+-
++	device_init_wakeup(&pdev->dev, 1);
+ 	qcom->is_suspended = false;
+ 	pm_runtime_set_active(dev);
+ 	pm_runtime_enable(dev);
 -- 
 2.35.1
 
