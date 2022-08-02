@@ -2,172 +2,164 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A67B8C19F28
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Aug 2022 18:01:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AD3BC00140
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Aug 2022 19:18:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236495AbiHBSB5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Aug 2022 14:01:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46918 "EHLO
+        id S230014AbiHBTSp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Aug 2022 15:18:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236911AbiHBSBZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Aug 2022 14:01:25 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E15550723;
-        Tue,  2 Aug 2022 11:00:45 -0700 (PDT)
+        with ESMTP id S229532AbiHBTSo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Aug 2022 15:18:44 -0400
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 877B613CCE;
+        Tue,  2 Aug 2022 12:18:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1659463245; x=1690999245;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=H9H/J/Y8vTONOMCsoFtnKSU588klsT0jif+kmYaamfc=;
-  b=m4sV6ITvMABvG0FTGb6BSn2kILWZSOSah0hRj+SQIoJDRkm+5kGhpuwx
-   MR9sPJHH5PNzITG3dAAlX3zM5+LZ4J2fQrTaOpF54mbn10UTW3kGm5hz9
-   TnERJUzovsZpIJ308tb0CyXWdofhx8+DeNAqdhyXa/XwuhAtzHSM7XtRO
-   I=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 02 Aug 2022 11:00:44 -0700
+  t=1659467923; x=1691003923;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=Ky3hajG51y45sWKL2Azm+Pql0QLC7hUAs8rv8/gaqfw=;
+  b=FCb9vVFYx0OvpzLtDKwrn1exv+woOqnt1TtEGIBeRiF2eDVbcHWPPbjh
+   lTg+uK/Wcsb/aUpZkQSzb6+NvLRQJ8/BZcP1OehTqW/lgkxLNJzU7qgLk
+   pZUBiOj5PEjBkVS0Z9wDicBBN+uP6CslvLejkDLzHTsTlUqOVfQajGQOY
+   A=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 02 Aug 2022 12:18:42 -0700
 X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2022 11:00:43 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 2 Aug 2022 11:00:43 -0700
-Received: from [10.216.16.162] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 2 Aug 2022
- 11:00:37 -0700
-Message-ID: <3c175fd4-861a-37a9-4cd7-87370c2e46df@quicinc.com>
-Date:   Tue, 2 Aug 2022 23:30:34 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 2/8] Revert "usb: dwc3: qcom: Keep power domain on to
- retain controller status"
-Content-Language: en-US
-To:     Johan Hovold <johan+linaro@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        "Bjorn Andersson" <bjorn.andersson@linaro.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        "Doug Anderson" <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
-        <quic_ppratap@quicinc.com>, <quic_vpulyala@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20220802151404.1797-1-johan+linaro@kernel.org>
- <20220802151404.1797-3-johan+linaro@kernel.org>
-From:   Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-In-Reply-To: <20220802151404.1797-3-johan+linaro@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Received: from hu-eserrao-lv.qualcomm.com (HELO hu-devc-lv-c.qualcomm.com) ([10.47.235.164])
+  by ironmsg09-lv.qualcomm.com with ESMTP; 02 Aug 2022 12:18:42 -0700
+Received: by hu-devc-lv-c.qualcomm.com (Postfix, from userid 464172)
+        id 78DF9211BD; Tue,  2 Aug 2022 12:18:42 -0700 (PDT)
+From:   Elson Roy Serrao <quic_eserrao@quicinc.com>
+To:     balbi@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
+        quic_mrana@quicinc.com, Thinh.Nguyen@synopsys.com,
+        Elson Roy Serrao <quic_eserrao@quicinc.com>
+Subject: [PATCH 3/5] usb: dwc3: Add function suspend and function wakeup support
+Date:   Tue,  2 Aug 2022 12:18:38 -0700
+Message-Id: <1659467920-9095-4-git-send-email-quic_eserrao@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1659467920-9095-1-git-send-email-quic_eserrao@quicinc.com>
+References: <1659467920-9095-1-git-send-email-quic_eserrao@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+USB host sends function suspend and resume notifications to
+device through SET_FEATURE setup packet. This packet is directed
+to the interface to which function suspend/resume is intended to.
+Add support to handle this packet by delegating the request to composite
+layer. To exit from function suspend the interface needs to trigger a
+function wakeup in case it wants to initate a data transfer. Expose a
+new gadget op so that an interface can send function wakeup request to
+the host.
 
-On 8/2/2022 8:43 PM, Johan Hovold wrote:
-> This reverts commit d9be8d5c5b032e5383ff5c404ff4155e9c705429.
->
-> Generic power-domain flags must be set before the power-domain is
-> initialised and must specifically not be modified by drivers for devices
-> that happen to be in the domain.
->
-> To make sure that USB power-domains are left enabled during system
-> suspend when a device in the domain is in the wakeup path, the
-> GENPD_FLAG_ACTIVE_WAKEUP flag should instead be set for the domain
-> unconditionally when it is registered.
-Hi Johan, Thanks for the review and suggestion.
+Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
+---
+ drivers/usb/dwc3/core.h   |  1 +
+ drivers/usb/dwc3/ep0.c    | 12 ++++--------
+ drivers/usb/dwc3/gadget.c | 30 ++++++++++++++++++++++++++++++
+ 3 files changed, 35 insertions(+), 8 deletions(-)
 
-In case we need the genpd framework to set the GENPD_FLAG_ACTIVE_WAKEUP
-flag for a particular domain that will be used by a device (which is
-wakeup capable) and hasn't been probed yet , can you help me understand if
-there any dt-flags we  can add to convey the same the genpd  framework
-so that it will set that flag during domain registration ?
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 3306b1c..e08e522 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -519,6 +519,7 @@
+ #define DWC3_DGCMD_SET_SCRATCHPAD_ADDR_LO	0x04
+ #define DWC3_DGCMD_SET_SCRATCHPAD_ADDR_HI	0x05
+ 
++#define DWC3_DGCMD_XMIT_DEV		0x07
+ #define DWC3_DGCMD_SELECTED_FIFO_FLUSH	0x09
+ #define DWC3_DGCMD_ALL_FIFO_FLUSH	0x0a
+ #define DWC3_DGCMD_SET_ENDPOINT_NRDY	0x0c
+diff --git a/drivers/usb/dwc3/ep0.c b/drivers/usb/dwc3/ep0.c
+index 4cc3d3a..cedc890 100644
+--- a/drivers/usb/dwc3/ep0.c
++++ b/drivers/usb/dwc3/ep0.c
+@@ -30,6 +30,8 @@
+ static void __dwc3_ep0_do_control_status(struct dwc3 *dwc, struct dwc3_ep *dep);
+ static void __dwc3_ep0_do_control_data(struct dwc3 *dwc,
+ 		struct dwc3_ep *dep, struct dwc3_request *req);
++static int dwc3_ep0_delegate_req(struct dwc3 *dwc,
++				 struct usb_ctrlrequest *ctrl);
+ 
+ static void dwc3_ep0_prepare_one_trb(struct dwc3_ep *dep,
+ 		dma_addr_t buf_dma, u32 len, u32 type, bool chain)
+@@ -365,7 +367,7 @@ static int dwc3_ep0_handle_status(struct dwc3 *dwc,
+ 		 * Function Remote Wake Capable	D0
+ 		 * Function Remote Wakeup	D1
+ 		 */
+-		break;
++		return dwc3_ep0_delegate_req(dwc, ctrl);
+ 
+ 	case USB_RECIP_ENDPOINT:
+ 		dep = dwc3_wIndex_to_dep(dwc, ctrl->wIndex);
+@@ -511,13 +513,7 @@ static int dwc3_ep0_handle_intf(struct dwc3 *dwc,
+ 
+ 	switch (wValue) {
+ 	case USB_INTRF_FUNC_SUSPEND:
+-		/*
+-		 * REVISIT: Ideally we would enable some low power mode here,
+-		 * however it's unclear what we should be doing here.
+-		 *
+-		 * For now, we're not doing anything, just making sure we return
+-		 * 0 so USB Command Verifier tests pass without any errors.
+-		 */
++		ret = dwc3_ep0_delegate_req(dwc, ctrl);
+ 		break;
+ 	default:
+ 		ret = -EINVAL;
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index d6697da..0b2947e 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2357,6 +2357,35 @@ static int dwc3_gadget_wakeup(struct usb_gadget *g)
+ 	return ret;
+ }
+ 
++static int dwc3_gadget_func_wakeup(struct usb_gadget *g, int interface_id)
++{
++	int	ret = 0;
++	u32	reg;
++	struct	dwc3 *dwc = gadget_to_dwc(g);
++
++	reg = dwc3_readl(dwc->regs, DWC3_DSTS);
++
++	/*
++	 * If the link is in LPM, first bring the link to U0
++	 * before triggering function wakeup. Ideally this
++	 * needs to be expanded to other LPMs as well in
++	 * addition to U3
++	 */
++	if (DWC3_DSTS_USBLNKST(reg) == DWC3_LINK_STATE_U3) {
++		dwc3_gadget_wakeup(g);
++		return -EAGAIN;
++	}
++
++	ret = dwc3_send_gadget_generic_command(dwc, DWC3_DGCMD_XMIT_DEV,
++					       0x1 | (interface_id << 4));
++
++	if (ret)
++		dev_err(dwc->dev, "Function wakeup HW command failed, ret %d\n",
++			ret);
++
++	return ret;
++}
++
+ static int dwc3_gadget_set_selfpowered(struct usb_gadget *g,
+ 		int is_selfpowered)
+ {
+@@ -2978,6 +3007,7 @@ static void dwc3_gadget_async_callbacks(struct usb_gadget *g, bool enable)
+ static const struct usb_gadget_ops dwc3_gadget_ops = {
+ 	.get_frame		= dwc3_gadget_get_frame,
+ 	.wakeup			= dwc3_gadget_wakeup,
++	.func_wakeup		= dwc3_gadget_func_wakeup,
+ 	.set_selfpowered	= dwc3_gadget_set_selfpowered,
+ 	.pullup			= dwc3_gadget_pullup,
+ 	.udc_start		= dwc3_gadget_start,
+-- 
+2.7.4
 
-Regards,
-Krishna,
->
-> Note that this also avoids keeping power-domains on during suspend when
-> wakeup has not been enabled (e.g. through sysfs).
->
-> For the runtime PM case, making sure that the PHYs are not suspended and
-> that they are in the same domain as the controller prevents the domain
-> from being suspended. If there are cases where this is not possible or
-> desirable, the genpd implementation may need to be extended.
->
-> Fixes: d9be8d5c5b03 ("usb: dwc3: qcom: Keep power domain on to retain controller status")
-> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> ---
->   drivers/usb/dwc3/dwc3-qcom.c | 28 +++++++---------------------
->   1 file changed, 7 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-> index c5e482f53e9d..be2e3dd36440 100644
-> --- a/drivers/usb/dwc3/dwc3-qcom.c
-> +++ b/drivers/usb/dwc3/dwc3-qcom.c
-> @@ -17,7 +17,6 @@
->   #include <linux/of_platform.h>
->   #include <linux/platform_device.h>
->   #include <linux/phy/phy.h>
-> -#include <linux/pm_domain.h>
->   #include <linux/usb/of.h>
->   #include <linux/reset.h>
->   #include <linux/iopoll.h>
-> @@ -757,13 +756,12 @@ dwc3_qcom_create_urs_usb_platdev(struct device *dev)
->   
->   static int dwc3_qcom_probe(struct platform_device *pdev)
->   {
-> -	struct device_node *np = pdev->dev.of_node;
-> -	struct device *dev = &pdev->dev;
-> -	struct dwc3_qcom *qcom;
-> -	struct resource	*res, *parent_res = NULL;
-> -	int ret, i;
-> -	bool ignore_pipe_clk;
-> -	struct generic_pm_domain *genpd;
-> +	struct device_node	*np = pdev->dev.of_node;
-> +	struct device		*dev = &pdev->dev;
-> +	struct dwc3_qcom	*qcom;
-> +	struct resource		*res, *parent_res = NULL;
-> +	int			ret, i;
-> +	bool			ignore_pipe_clk;
->   
->   	qcom = devm_kzalloc(&pdev->dev, sizeof(*qcom), GFP_KERNEL);
->   	if (!qcom)
-> @@ -772,8 +770,6 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->   	platform_set_drvdata(pdev, qcom);
->   	qcom->dev = &pdev->dev;
->   
-> -	genpd = pd_to_genpd(qcom->dev->pm_domain);
-> -
->   	if (has_acpi_companion(dev)) {
->   		qcom->acpi_pdata = acpi_device_get_match_data(dev);
->   		if (!qcom->acpi_pdata) {
-> @@ -881,17 +877,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->   	if (ret)
->   		goto interconnect_exit;
->   
-> -	if (device_can_wakeup(&qcom->dwc3->dev)) {
-> -		/*
-> -		 * Setting GENPD_FLAG_ALWAYS_ON flag takes care of keeping
-> -		 * genpd on in both runtime suspend and system suspend cases.
-> -		 */
-> -		genpd->flags |= GENPD_FLAG_ALWAYS_ON;
-> -		device_init_wakeup(&pdev->dev, true);
-> -	} else {
-> -		genpd->flags |= GENPD_FLAG_RPM_ALWAYS_ON;
-> -	}
-> -
-> +	device_init_wakeup(&pdev->dev, 1);
->   	qcom->is_suspended = false;
->   	pm_runtime_set_active(dev);
->   	pm_runtime_enable(dev);
