@@ -2,69 +2,116 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3B08C00140
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Aug 2022 12:13:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFF8CC00140
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Aug 2022 12:27:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236860AbiHBMNO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Aug 2022 08:13:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60440 "EHLO
+        id S236860AbiHBM1p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Aug 2022 08:27:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236793AbiHBMM6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Aug 2022 08:12:58 -0400
-Received: from smtpbg.qq.com (biz-43-154-54-12.mail.qq.com [43.154.54.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FF294D83A;
-        Tue,  2 Aug 2022 05:12:54 -0700 (PDT)
-X-QQ-mid: bizesmtp76t1659442224t38kaiui
-Received: from kali.lan ( [125.69.43.47])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Tue, 02 Aug 2022 20:10:22 +0800 (CST)
-X-QQ-SSF: 01000000002000F0U000B00A0000000
-X-QQ-FEAT: CR3LFp2JE4kvdAkg1838GGR9h1B20aUDo+DYhQrsi99En5o0bwJthNDcQ5DRs
-        JeCQObOQ6GIX+kQ3dyrpJ/BF0TKQy+sJ/aUL9tLn/3HCTAKAbIV7ymKxd3SXN42eW4mHV13
-        wpBrTKmJKRDMSoPKfhdQok1XXDawHk7IQl9HLb9C8S+G5G8M2W4vkRrBV70xVv4HqnDCe4H
-        tHYcYv7hN7ahNU6DmniODa+05HuEtXQJT+pj7Y7RtlnirqmLN3F7r6RfgjLxCbvVmxWKI4j
-        Z3dmVJq+5Dvm3pLPliri0QN6wuZmf6nogCL7Lvb0q0mBk5zYgSA27oq2lAFYiMlcEkSPuyb
-        G3f8zyjHgcB3p4U5W7k2Yq9f39P/x581896qnbRvx38D86dtCy7cNvQvBPG3Q==
-X-QQ-GoodBg: 0
-From:   Jason Wang <wangborong@cdjrlc.com>
-To:     mathias.nyman@linux.intel.com
-Cc:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
-        kai.heng.feng@canonical.com, dianders@chromium.org,
-        dan.carpenter@oracle.com, m.grzeschik@pengutronix.de,
-        mka@chromium.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jason Wang <wangborong@cdjrlc.com>
-Subject: [PATCH] usb: core: hub: Fix comment typo
-Date:   Wed,  3 Aug 2022 04:10:19 +0800
-Message-Id: <20220802201019.6657-1-wangborong@cdjrlc.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S231732AbiHBM1o (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Aug 2022 08:27:44 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50FED5071A
+        for <linux-usb@vger.kernel.org>; Tue,  2 Aug 2022 05:27:43 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id kb8so11070802ejc.4
+        for <linux-usb@vger.kernel.org>; Tue, 02 Aug 2022 05:27:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=semihalf.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=9yYkGp6E9QKEaYucsZdmHNy21sOkuSdQhxrr89SzmeI=;
+        b=Det5oftkIwzy9AE9USffPNIxlBxjIbRrBOpvR6K7qIaCBBkxU1SETvEITt09YSfYlp
+         XWHqcYU5FOJU2A7Rt59hcaXcx2MvvbVrWZ3iLvPD81mmVo5L/AZVJ5uv+XfhFQRjcrRb
+         XCYZsKA3kAtyKgtbXc5r0ubm4vyC/8udYX9Sjs1jxvMJW+SRjpyw5VnIe1O0pYoVzm/W
+         ioWZ8f+uESsJTUfk1oDo9/ZYswR6wUstVjx5oNNdzn04xRN3ie2wj+j13YdGVHloA8uG
+         r8+cUmTKYF6Or5vpj40ekfSa/lIAmimDPokKmwwbdVFvUtkyVHBrfQJTBMP4VwOe7fxj
+         S72A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9yYkGp6E9QKEaYucsZdmHNy21sOkuSdQhxrr89SzmeI=;
+        b=uYe1w3FbdxttwOqhYdj/KowbDuQpM5qlkeQ1yFMVRu1EF3f6XzlUNnB7vUCxMqk3dE
+         k0kuy8Ia1BOf+6n5DvPPndnymPIRCU6A2NBOyBatFEKPatwB7VSdyHxi3SE4bsjF0zpP
+         itMJx7pI32rSGs2aCQmaMLE6dKmp+GBUeC8IiKfK5ZuY9JkQ8vMRNDaI3dODt4YbS5fR
+         FSlMZipcvUslAJDrVfF5lR0jRiQTHKby8UgLeyoJ+SaK4DSD45PffINy1Sdh8rNCkODU
+         6JN9QednEnG4DSu/gO8Fti3Xs+Orpk6TcjOA5TUD+gUpQ6BepupYb6RLc3je2n2hn7Gp
+         xW4w==
+X-Gm-Message-State: AJIora+guR7k43uBN+KzVhkYG2B3U1Q01CL9xos+LDWKqXBj/STNuy//
+        pLdZzb32H3i4J8iKQPgsGQO/uJN5zQfRiz2yZKPq
+X-Google-Smtp-Source: AGRyM1uaVGYBctHnloi8+hxyk8YSIAMW5xBrn+gQ/hov9jQD+YE4DMJENyynVJKWr2ZuHY6QVGJElY68ozfpVJp41V0=
+X-Received: by 2002:a17:907:86ac:b0:72b:87f6:75c2 with SMTP id
+ qa44-20020a17090786ac00b0072b87f675c2mr16462776ejc.667.1659443261733; Tue, 02
+ Aug 2022 05:27:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr6
+References: <20220729094022.186496-1-lb@semihalf.com> <Yuep3lpI02gWiJY9@lahna>
+In-Reply-To: <Yuep3lpI02gWiJY9@lahna>
+From:   =?UTF-8?Q?=C5=81ukasz_Bartosik?= <lb@semihalf.com>
+Date:   Tue, 2 Aug 2022 14:27:30 +0200
+Message-ID: <CAK8ByeL4AJoXndO02Os0UPYZRiMeLmBjB-00VaEe-8KJF0tWzQ@mail.gmail.com>
+Subject: Re: [PATCH v2] thunderbolt: fix PCI device class after powering up
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        linux-usb@vger.kernel.org, upstream@semihalf.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The double `can' is duplicated in the comment, remove one.
+>
+> Hi,
+>
+> On Fri, Jul 29, 2022 at 11:40:22AM +0200, =C5=81ukasz Bartosik wrote:
+> > A thunderbolt
+> > lspci -d 8086:9a1b -vmmknn
+> > Slot: 00:0d.2
+> > Class:        System peripheral [0880]
+> > Vendor:       Intel Corporation [8086]
+> > Device:       Tiger Lake-LP Thunderbolt 4 NHI #0 [9a1b]
+> >
+> > presents itself with PCI class 0x088000 after Chromebook boots.
+> > lspci -s 00:0d.2 -xxx
+> > 00:0d.2 System peripheral: Intel Corporation Tiger Lake-LP Thunderbolt =
+4
+> > NHI #0 (rev 01)
+> > 00: 86 80 1b 9a 00 00 10 00 01 00 80 08 00 00 00 00
+> > ...
+> >
+> > However after thunderbolt is powered up in nhi_probe()
+> > its class changes to 0x0c0340
+> > lspci -s 00:0d.2 -xxx
+> > 00:0d.2 System peripheral: Intel Corporation Tiger Lake-LP Thunderbolt =
+4
+> > NHI #0 (rev 01)
+> > 00: 86 80 1b 9a 06 04 10 00 01 40 03 0c 00 00 00 00
+> > ...
+> >
+> > which leaves pci_dev structure with old class value
+> > cat /sys/bus/pci/devices/0000:00:0d.2/class
+> > 0x088000
+>
+> This is completely unexpected. Which Chromebook this is and have you
+> tried to upgrade it to the latest?
+>
 
-Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
----
- drivers/usb/core/hub.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This happens on a Tiger Lake based reference Chromebook platform.
+The issue also happens on the latest ChromeOS image available for that plat=
+form.
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 2633acde7ac1..7d19f09dbd01 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -2036,7 +2036,7 @@ static void recursively_mark_NOTATTACHED(struct usb_device *udev)
-  *
-  * udev->state is _not_ fully protected by the device lock.  Although
-  * most transitions are made only while holding the lock, the state can
-- * can change to USB_STATE_NOTATTACHED at almost any time.  This
-+ * change to USB_STATE_NOTATTACHED at almost any time.  This
-  * is so that devices can be marked as disconnected as soon as possible,
-  * without having to wait for any semaphores to be released.  As a result,
-  * all changes to any device's state must be protected by the
--- 
-2.35.1
+> > This fix updates PCI device class in pci_dev structure after
+> > thunderbolt is powered up.
+>
+> I think we need to understand why this happens in the first place before
+> doing anything else.
 
+If you have suggestions what else to check apart from what I already
+did then please
+let me know I will gladly do it.
+
+Thanks,
+Lukasz
