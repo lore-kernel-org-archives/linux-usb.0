@@ -2,136 +2,89 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AD53C00140
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Aug 2022 15:07:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D495C25B06
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Aug 2022 15:14:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231271AbiHBPHB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Aug 2022 11:07:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48740 "EHLO
+        id S236752AbiHBPOU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Aug 2022 11:14:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230497AbiHBPG6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Aug 2022 11:06:58 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA34DDD3
-        for <linux-usb@vger.kernel.org>; Tue,  2 Aug 2022 08:06:53 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id y13so12481549ejp.13
-        for <linux-usb@vger.kernel.org>; Tue, 02 Aug 2022 08:06:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=semihalf.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=czlQRRw4wf34jy5V1aejP4PCqstdb7kIcZ7rGrcUmqI=;
-        b=pMkxp22s1U6+qgQMpdxHa2WfuG6Fy+Y4HZzBLML9MbFd7HKxLx7f6bO6+4xZkxyWU9
-         V3lzmxRPM5JLrMSGKHAK+80D+DjuNXg3v7+eChR9+h9myqndVNVG9byDXwlQSFTuJbtP
-         SDbQGvudFPjseym0SNY9rSob1DArrkJBY5b0vjQm0As+9jccSBSJLyNBca9ddhwIYVti
-         JbLpy9KqOTa0LQUNI3Xbzz+nJBAyvb04WW98x/49OryIGd2FeZkqyr78yecw5kL/WfB/
-         UwZpL+ppiTS/h0fAdq9jnTXi1AH3v7W27re/sCSpgtTWuQMttVyKx7dg9uuNX/BB+Yd4
-         49Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=czlQRRw4wf34jy5V1aejP4PCqstdb7kIcZ7rGrcUmqI=;
-        b=FwDtp2jmRxROkpd5dZPFp6KYMOq/jVmRwYjiAYd6vVAgkYSSB3s8vhLduv7LpuxVaS
-         Xy72hNU6S79XlDe5i/YZ3r0ovfyBc9BgRiYyUr/UWtV7tBPIXqGhyOGWvcXHS4ELXiWC
-         sMBrwRyQ0rSC91oyErKDxsW2cuxEA/yjgsF+ReyFWUoPZTxk3p7D/j0Z258rLyXxc/GU
-         S0RmTQmM2XLhMhnhVMUj0GytJCarijtWHbFvsCTg4v0NyBzNPZfUvas0a///MsWtoLsj
-         eL1yM8i1NenLz94w16jyz9WZeJWdVqiSAIY3aUWgV6mDpUyA/zhhSCTKO0fdBT7QEwdZ
-         1blA==
-X-Gm-Message-State: AJIora+5Nai253GRFuS+RAnqfTlsDkIjusd4PDPq9NSit3Z8mo+lk1kD
-        8KJV4Q+LF9QEjilIgTqo3rdYSmn0slfOgMvXeuSs
-X-Google-Smtp-Source: AGRyM1vqbVxax9ixl7m+zjGtQPxTUuH+G/Zx/J0iEzmZSGaFUYFBmG5leuD0d4tNyWUpRQHnARA2vb36Uz6ArOBsJm0=
-X-Received: by 2002:a17:906:a089:b0:72f:826b:e084 with SMTP id
- q9-20020a170906a08900b0072f826be084mr17049854ejy.708.1659452812164; Tue, 02
- Aug 2022 08:06:52 -0700 (PDT)
+        with ESMTP id S234780AbiHBPOT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Aug 2022 11:14:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3875C17581;
+        Tue,  2 Aug 2022 08:14:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BB23C60303;
+        Tue,  2 Aug 2022 15:14:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04ED5C433D7;
+        Tue,  2 Aug 2022 15:14:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659453256;
+        bh=m0f8snPhaM+LiCifg3cCGC6xDAvaa10HN0gcVGJbM74=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=j7Za+fK2PUc7lGtw2mlIm40rw6IKQY2EH+JUBHOXhFtsHkedF6k9sc4Vq6bggDgT0
+         yqLDr2W6dhfdduqPF3RYj2+RxJsk9tVpuBzAviH+6iaa9Xaf+wIOZ+w1xizG1p8gGS
+         bAasM/1+SX3v9WAoaHieWTt/WZxsAXAyAvhaSLJ4yw1PaysJQFSvsJYT025a0CkWHr
+         l5fzfFhtFcYYDXdY3/SJ9c4szQaxhtiuNwlxgFsoZDRmq7j6Jak8S6vnhCf6gCeDwJ
+         9ylQFcxfi6qA9DS2++7Jbfm2AwK8g1MB5k5I5T2hU6cZl04zHCYoOvsXatLqIutjic
+         FXGP1AfX81uPQ==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan+linaro@kernel.org>)
+        id 1oItbM-0000Te-H1; Tue, 02 Aug 2022 17:14:32 +0200
+From:   Johan Hovold <johan+linaro@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Krishna Kurapati <quic_kriskura@quicinc.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        "Matthias Kaehlcke" <mka@chromium.org>,
+        Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
+        quic_ppratap@quicinc.com, quic_vpulyala@quicinc.com,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Johan Hovold <johan+linaro@kernel.org>
+Subject: [PATCH 6/8] dt-bindings: usb: qcom,dwc3: add wakeup-source property
+Date:   Tue,  2 Aug 2022 17:14:02 +0200
+Message-Id: <20220802151404.1797-7-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220802151404.1797-1-johan+linaro@kernel.org>
+References: <20220802151404.1797-1-johan+linaro@kernel.org>
 MIME-Version: 1.0
-References: <20220729094022.186496-1-lb@semihalf.com> <Yuep3lpI02gWiJY9@lahna>
- <CAK8ByeL4AJoXndO02Os0UPYZRiMeLmBjB-00VaEe-8KJF0tWzQ@mail.gmail.com> <YukhjOo4CteuM8q9@lahna>
-In-Reply-To: <YukhjOo4CteuM8q9@lahna>
-From:   =?UTF-8?Q?=C5=81ukasz_Bartosik?= <lb@semihalf.com>
-Date:   Tue, 2 Aug 2022 17:06:40 +0200
-Message-ID: <CAK8ByeJ0=rbGr5+GZ_dDhMRnHjYxuCO9_cZONuXSz2tyL+QLzw@mail.gmail.com>
-Subject: Re: [PATCH v2] thunderbolt: fix PCI device class after powering up
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        linux-usb@vger.kernel.org, upstream@semihalf.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
->
-> On Tue, Aug 02, 2022 at 02:27:30PM +0200, =C5=81ukasz Bartosik wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Fri, Jul 29, 2022 at 11:40:22AM +0200, =C5=81ukasz Bartosik wrote:
-> > > > A thunderbolt
-> > > > lspci -d 8086:9a1b -vmmknn
-> > > > Slot: 00:0d.2
-> > > > Class:        System peripheral [0880]
-> > > > Vendor:       Intel Corporation [8086]
-> > > > Device:       Tiger Lake-LP Thunderbolt 4 NHI #0 [9a1b]
-> > > >
-> > > > presents itself with PCI class 0x088000 after Chromebook boots.
-> > > > lspci -s 00:0d.2 -xxx
-> > > > 00:0d.2 System peripheral: Intel Corporation Tiger Lake-LP Thunderb=
-olt 4
-> > > > NHI #0 (rev 01)
-> > > > 00: 86 80 1b 9a 00 00 10 00 01 00 80 08 00 00 00 00
-> > > > ...
-> > > >
-> > > > However after thunderbolt is powered up in nhi_probe()
-> > > > its class changes to 0x0c0340
-> > > > lspci -s 00:0d.2 -xxx
-> > > > 00:0d.2 System peripheral: Intel Corporation Tiger Lake-LP Thunderb=
-olt 4
-> > > > NHI #0 (rev 01)
-> > > > 00: 86 80 1b 9a 06 04 10 00 01 40 03 0c 00 00 00 00
-> > > > ...
-> > > >
-> > > > which leaves pci_dev structure with old class value
-> > > > cat /sys/bus/pci/devices/0000:00:0d.2/class
-> > > > 0x088000
-> > >
-> > > This is completely unexpected. Which Chromebook this is and have you
-> > > tried to upgrade it to the latest?
-> > >
-> >
-> > This happens on a Tiger Lake based reference Chromebook platform.
-> > The issue also happens on the latest ChromeOS image available for that =
-platform.
->
-> Is this something available for purchase? I'm asking because I have Acer
-> Tiger Lake based Chromebook (740 spin or something) here and the TBT
-> controller class is "USB controller" all the time, and this is what is
-> expected. It should not change the class at any point.
+Add a wakeup-source property to the binding to describe whether the
+wakeup interrupts can wake the system from suspend.
 
-Sorry this platform is not available on the market.
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+---
+ Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I compared the platform where I see the issue with another platform
-where thunderbolt is "usb controller" all the time
-and I noticed one difference in function icl_nhi_force_power() in
-drivers/thunderbolt/nhi_ops.c I observed the value of VS_CAP_22
-after being read and before being written again with additional bits
-set. And on the platform where thunderbolt is "usb controller" all the
-time
-this value was 0x22061002 after reading and 0x22061002 before being
-written. The value has not changed
-which suggest that thunderbolt was already powered up during probe.
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index fea3e7092ace..f6e118bf04f6 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -108,6 +108,8 @@ properties:
+       HS/FS/LS modes are supported.
+     type: boolean
+ 
++  wakeup-source: true
++
+ # Required child node:
+ 
+ patternProperties:
+-- 
+2.35.1
 
-On the platform where I observe the issue where thunderbolt class
-changes the observed
-read value was 0x6061000 and then 0x22061002 before being written.
-That's the difference I spotted.
-
-Anyway I can provide logs or run experiments to shed more light on the
-issue. Just need
-to know what might be useful ?
-
-Thanks,
-Lukasz
