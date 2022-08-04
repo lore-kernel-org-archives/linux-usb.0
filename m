@@ -2,72 +2,93 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0159BC00144
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Aug 2022 07:08:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE9AC3F6B0
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Aug 2022 07:35:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238997AbiHDHIP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 4 Aug 2022 03:08:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37954 "EHLO
+        id S239092AbiHDHe7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 4 Aug 2022 03:34:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbiHDHIO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Aug 2022 03:08:14 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E12F861D5D
-        for <linux-usb@vger.kernel.org>; Thu,  4 Aug 2022 00:08:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659596893; x=1691132893;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Jij6uqEbSZiCIELlG0NLopdorqcATkUF2LZZUQACsBE=;
-  b=GU9Usot9xlxqXWDa15rsrOeWxdQPWImKOAO2E+NBKsNzYJ86cJA/sFAK
-   wCJoDO5qxCCjPZvaTV7Qbfem2PefnNRsgzXWyQg9iBGhOhDd/7RnhGVHn
-   EUVWvp9Ue/e1x5i4N3oZPgAawp04pXLpKhmDZcMlDmxRcBr2US8Xuziif
-   2oxnOjU/e/lhU9MtCwhmJc5imHMX0PNdiGd7yzPxB2k4UdzHQTAbBoygR
-   rJiUMtisiXoJDg+3OUacD4pfw46RBjigvYXOza9LzBso06esK2vtjGAMx
-   zme43nDSY0omaVp/8SBHAV5YVIJRsmzCD/asDDSW9D/qOxu4cS/xXgztS
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10428"; a="272904214"
-X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; 
-   d="scan'208";a="272904214"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2022 00:08:13 -0700
-X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; 
-   d="scan'208";a="745355221"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2022 00:08:10 -0700
-Received: by lahna (sSMTP sendmail emulation); Thu, 04 Aug 2022 10:08:08 +0300
-Date:   Thu, 4 Aug 2022 10:08:08 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Sanjay R Mehta <sanmehta@amd.com>
-Cc:     andreas.noever@gmail.com, michael.jamet@intel.com,
-        YehezkelShB@gmail.com, Basavaraj.Natikar@amd.com,
-        mario.limonciello@amd.com, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3] thunderbolt: Add DP out resource when DP tunnel is
- discovered.
-Message-ID: <YutwWI8xENDkAtg9@lahna>
-References: <1659587394-115256-1-git-send-email-Sanju.Mehta@amd.com>
- <Yutnjq64OO07QbAR@lahna>
- <a5b6e0a1-a334-1bc5-46fa-b9ee5f53688f@amd.com>
+        with ESMTP id S233711AbiHDHe5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Aug 2022 03:34:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DACF28E29;
+        Thu,  4 Aug 2022 00:34:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CA8A2612D3;
+        Thu,  4 Aug 2022 07:34:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2366DC433D6;
+        Thu,  4 Aug 2022 07:34:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659598496;
+        bh=MGOY78NG2d2SKFi6yJqShuDYdWhD9bgmij+Ad5jmRpc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ew3XvjJbix0q34wQ9O9nF530Z7d+EgTIibHKMfZvh/weR0mceAWte7sU8eqBYDZDp
+         QjGJ7JFtt0sZdqQN+sN5CoC6ajOJ/k+bmFGehy0abody2TVYSSFGoJMxWUvAgJolnN
+         wUkwHcOAR1OKWHHXRq3ycpUZEZSkQZqBdKXiM+TDREyOjMutBPzb1jadLKC1jCpUUq
+         WA1KrAVljq6PU43C2raO0BTBuRHcw94CZrONuTu2olEnB/hA6ygzXhBWHBitxs7xXB
+         xxwBm9fGWVTwfn4otaORvKN87IVgkimyXGuoJyZPKYRRm19zO4i5Yyqh28OjIe6bu8
+         D52DqB5Z8j98A==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1oJVO0-00035j-4y; Thu, 04 Aug 2022 09:35:16 +0200
+Date:   Thu, 4 Aug 2022 09:35:16 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Matthias Kaehlcke <mka@chromium.org>
+Cc:     Johan Hovold <johan+linaro@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Krishna Kurapati <quic_kriskura@quicinc.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
+        quic_ppratap@quicinc.com, quic_vpulyala@quicinc.com,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/8] usb: dwc3: qcom: fix runtime PM wakeup
+Message-ID: <Yut2tLqGfu82xcDs@hovoldconsulting.com>
+References: <20220802151404.1797-1-johan+linaro@kernel.org>
+ <20220802151404.1797-5-johan+linaro@kernel.org>
+ <YurviWfzut9sursr@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a5b6e0a1-a334-1bc5-46fa-b9ee5f53688f@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <YurviWfzut9sursr@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 04, 2022 at 12:34:09PM +0530, Sanjay R Mehta wrote:
-> >>  			tunnel = tb_tunnel_discover_dp(tb, port, alloc_hopids);
+On Wed, Aug 03, 2022 at 02:58:33PM -0700, Matthias Kaehlcke wrote:
+> On Tue, Aug 02, 2022 at 05:14:00PM +0200, Johan Hovold wrote:
+> > A device must enable wakeups during runtime suspend regardless of
+> > whether it is capable and allowed to wake the system up from system
+> > suspend.
 > > 
-> > Here tunnel can be NULL...
-> > 
-> >> +			tb_dp_resource_available_discovered(tb, tunnel->dst_port);
-> > 
-> > ... so this will crash and burn.
+> > Fixes: 2664deb09306 ("usb: dwc3: qcom: Honor wakeup enabled/disabled state")
+> > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 > 
-> Thanks. Agree, I will add check here and resend the patch.
+> Ah, I wasn't aware that the same wakeup mechanism is used in runtime suspend.
+> 
+> In how far is runtime PM actually supported/used by this driver? The device is
+> set 'active' in _probe(), and there are no other pm_runtime_* calls, except
+> in dwc3_qcom_remove() and qcom_dwc3_resume_irq(). How does the device get from
+> 'active' into 'suspended'?
 
-Please don't add the check here but move this to tb_start() as I
-suggested.
+It will be runtime suspended when the child (core) device suspends, but
+you need to enable runtime PM through sysfs first.
+
+And the controller is resumed in the wakeup-interrupt handler for the
+runtime PM case.
+
+It seems to work ok, and it looks like the driver has supported this
+since it was first merged.
+
+Johan
