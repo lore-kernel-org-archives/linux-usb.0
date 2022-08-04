@@ -2,42 +2,44 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D53C25B06
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Aug 2022 15:10:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57ECCC25B06
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Aug 2022 15:17:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239864AbiHDPKX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 4 Aug 2022 11:10:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47478 "EHLO
+        id S233472AbiHDPRg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 4 Aug 2022 11:17:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239029AbiHDPKD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Aug 2022 11:10:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6247E5E308;
-        Thu,  4 Aug 2022 08:09:57 -0700 (PDT)
+        with ESMTP id S237976AbiHDPPd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Aug 2022 11:15:33 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7F896442;
+        Thu,  4 Aug 2022 08:15:31 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 968526106C;
-        Thu,  4 Aug 2022 15:09:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A548C41679;
-        Thu,  4 Aug 2022 15:09:55 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 66DF0B82521;
+        Thu,  4 Aug 2022 15:15:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AA4AC433D6;
+        Thu,  4 Aug 2022 15:15:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659625795;
-        bh=IO2m3x1jImWrsxZYiJ2BMxGUrpa2LxovXjBMsp4YmCo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QanGkkS4xs9guEML3UUpdfeTWuhqiyq1gKgwPxX0liM7aZuxQKXtTSxuFlR5aBUBU
-         2JLwKWrkuUxAAMKOH8mLsuGPQ2eYFH7zIT54cDycwqHzjYQXB9rQGG092mY+o0g9AU
-         U0WYe8pYX45Z+mxM25zX5lxAhBml0q91KPnohgt+OUYOPCvTLUZjZpKzY7oyRyV5j0
-         gVlz7IJJkIhOLCUA1lNgtFbVqIR4XdCK8+Sy2DiNUV18khQlQ8oRrhbTTw+rCTyCjl
-         AIulqYUjJl1RC84pkMhtDJTD0Am4w+NNQgswzBDGUw8NOo1nIxzKGCAvRTWac5j6EZ
-         ovUq+BCe8ycVQ==
+        s=k20201202; t=1659626129;
+        bh=0WM06FlWTMrhJfmtTNAejPGE0UPGqF0VPbPowF/tSjc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=e7MA+BYE9DqiDJuH46z2MUaQvbHjG00/xCIcMqPMvBX9QkjXPWItaCq3TsLjd3iXT
+         meNp1kCnU5MnFm+rf2Ogd3TOvy9Ih1ID67A94X96iiofZe/nThFZyIoZ4s/ecxOAr9
+         iMQDn9lXJqjkxll0qAy2o88YyVLRxClQ+xkeIlPfoz7T7lCnKUYTWGkBoAkfYl2mLv
+         MycgxgDefsMRoTlJF9SQtLjJ9ZRzndyWvKbCs2Pf7zOhkEiCUQxzVcG/nqpvyHvQYy
+         yCtVcsaaDZLmvpsVf5oZaLsrqtibOK3ySLs3j0xY6MfefJIa05STib1jwtxNKqrQRj
+         SV9LjbQ+29WiQ==
 Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan+linaro@kernel.org>)
-        id 1oJcUL-00069c-CT; Thu, 04 Aug 2022 17:10:17 +0200
-From:   Johan Hovold <johan+linaro@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        (envelope-from <johan@kernel.org>)
+        id 1oJcZj-0006IB-1G; Thu, 04 Aug 2022 17:15:51 +0200
+Date:   Thu, 4 Aug 2022 17:15:51 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Johan Hovold <johan+linaro@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -46,60 +48,33 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         Krishna Kurapati <quic_kriskura@quicinc.com>,
         Stephen Boyd <swboyd@chromium.org>,
         Doug Anderson <dianders@chromium.org>,
-        "Matthias Kaehlcke" <mka@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
         Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
         quic_ppratap@quicinc.com, quic_vpulyala@quicinc.com,
         linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v2 7/9] dt-bindings: usb: qcom,dwc3: add wakeup-source property
-Date:   Thu,  4 Aug 2022 17:09:59 +0200
-Message-Id: <20220804151001.23612-8-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220804151001.23612-1-johan+linaro@kernel.org>
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/9] usb: dwc3: qcom: fix wakeup implementation
+Message-ID: <Yuvip8irUb9DsZ8M@hovoldconsulting.com>
 References: <20220804151001.23612-1-johan+linaro@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220804151001.23612-1-johan+linaro@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a wakeup-source property to the binding to describe whether the
-wakeup interrupts can wake the system from suspend.
+On Thu, Aug 04, 2022 at 05:09:52PM +0200, Johan Hovold wrote:
 
-Acked-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
+> Changes in v2
+>  - add review and ack tags
+>  - fix a gadget-only build breakage (new patch)
+>  - fix a use-after-free on wakeup from runtime suspend (new patch)
+>  - disable wakeup completely instead of falling back to the
+>    "disconnected" host configuration when not acting as host
+>  - disallow 'wakeup-source' in child node in the binding
 
-Changes in v2
- - disallow 'wakeup-source' in child node (Krzysztof)
+Forgot to mention that I also dropped the revert of the dt-binding
+commit adding 'wakeup-source' to the core node as Rob suggested.
 
- Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-index fea3e7092ace..d5959bdea63e 100644
---- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-@@ -108,12 +108,17 @@ properties:
-       HS/FS/LS modes are supported.
-     type: boolean
- 
-+  wakeup-source: true
-+
- # Required child node:
- 
- patternProperties:
-   "^usb@[0-9a-f]+$":
-     $ref: snps,dwc3.yaml#
- 
-+    properties:
-+      wakeup-source: false
-+
- required:
-   - compatible
-   - reg
--- 
-2.35.1
-
+Johan
