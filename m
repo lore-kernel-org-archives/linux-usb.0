@@ -2,119 +2,108 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2223BC00140
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Aug 2022 06:03:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3E9CC19F2D
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Aug 2022 06:57:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235997AbiHEGDl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Aug 2022 02:03:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60866 "EHLO
+        id S240056AbiHEG5l (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Aug 2022 02:57:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230448AbiHEGDj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Aug 2022 02:03:39 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34E272409A;
-        Thu,  4 Aug 2022 23:03:35 -0700 (PDT)
-X-UUID: 206181eae9144f4785e737598d72959e-20220805
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=23FU57Y5iweDzXI1x7JWFvRjW/yH5v34g0TDJb7qp4U=;
-        b=kBkMc7spM9uj6yVeldehhMpxYc0U1ByN3QaUpykySJel/yHgVReoViBLc7a729f9yQM2EbEicy2H502NJx5uZ8ZrdfrJ78bC4waDUHPTaES//GvHQvguaiBCQiPFIV3ISYuymaDHHqkxd1WfttGHwBrJk47Av58z5po1YlWKfgg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.8,REQID:3750a06c-e998-44fd-afe4-6a6164014fa9,OB:0,LO
-        B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,ACT
-        ION:release,TS:100
-X-CID-INFO: VERSION:1.1.8,REQID:3750a06c-e998-44fd-afe4-6a6164014fa9,OB:0,LOB:
-        0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,ACT
-        ION:quarantine,TS:100
-X-CID-META: VersionHash:0f94e32,CLOUDID:6f88cc48-f57f-4088-93dd-066979cdb4e6,C
-        OID:be6c369feb71,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:1,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 206181eae9144f4785e737598d72959e-20220805
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1334609278; Fri, 05 Aug 2022 14:03:31 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Fri, 5 Aug 2022 14:03:30 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Fri, 5 Aug 2022 14:03:30 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Ikjoon Jang <ikjn@chromium.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH v2 1/2] usb: xhci-mtk: relax TT periodic bandwidth allocation
-Date:   Fri, 5 Aug 2022 14:03:27 +0800
-Message-ID: <20220805060328.6189-1-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S236168AbiHEG5j (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Aug 2022 02:57:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A932973936;
+        Thu,  4 Aug 2022 23:57:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6D71461291;
+        Fri,  5 Aug 2022 06:57:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1F29C433B5;
+        Fri,  5 Aug 2022 06:57:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659682656;
+        bh=7wVSYAXfgVRFomBLJ5fepMw1/KUsFhNQwWZThUeegwY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lZy9/fITFaey8t+kOVz6102aWgEQed/6TU/EP200llXv1YeHyxlrtAjahm/CYBJYR
+         C9hDI6UIHfrro+AWYmxu/Mq/jDokusSgR/BQnBVC0DZIF0TN25Zyb9STlCFCR2uuho
+         YCzwhA1U5w9/4ZAotSCw9MPvonjVuXE0Yu5bB9r8XC2eg0GzWUNG296yCZ2eGtWV/r
+         BRBEU7KYN5g4KNJEq/GXu+DxvVPTvv4VuVYM0plm0bRzNHdbwbHFb9W/STvm8ooOSv
+         GDrFLnH32f/UuwPb0tV3ayRPj68OAYwKEwzwdNVIwYColT0LK1vsSbErGEhuTMJwEv
+         pge1KeVNxzkcg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1oJrHU-0007IR-27; Fri, 05 Aug 2022 08:58:00 +0200
+Date:   Fri, 5 Aug 2022 08:58:00 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     kernel test robot <lkp@intel.com>
+Cc:     Johan Hovold <johan+linaro@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>, kbuild-all@lists.01.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Krishna Kurapati <quic_kriskura@quicinc.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
+        quic_ppratap@quicinc.com, quic_vpulyala@quicinc.com,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 6/9] usb: dwc3: qcom: fix peripheral and OTG suspend
+Message-ID: <Yuy/eM1Wo+gDAJPQ@hovoldconsulting.com>
+References: <20220804151001.23612-7-johan+linaro@kernel.org>
+ <202208050544.ijUhoUyB-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202208050544.ijUhoUyB-lkp@intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently uses the worst case byte budgets on FS/LS bus bandwidth,
-for example, for an isochronos IN endpoint with 192 bytes budget, it
-will consume the whole 5 uframes(188 * 5) while the actual FS bus
-budget should be just 192 bytes. It cause that many usb audio headsets
-with 3 interfaces (audio input, audio output, and HID) cannot be
-configured.
-To improve it, changes to use "approximate" best case budget for FS/LS
-bandwidth management. For the same endpoint from the above example,
-the approximate best case budget is now reduced to (188 * 2) bytes.
+On Fri, Aug 05, 2022 at 05:38:30AM +0800, kernel test robot wrote:
+> Hi Johan,
+> 
+> I love your patch! Perhaps something to improve:
+> 
+> [auto build test WARNING on usb/usb-testing]
+> [also build test WARNING on linus/master next-20220804]
+> [cannot apply to robh/for-next v5.19]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Johan-Hovold/usb-dwc3-qcom-fix-wakeup-implementation/20220804-231122
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> config: arc-randconfig-r002-20220804 (https://download.01.org/0day-ci/archive/20220805/202208050544.ijUhoUyB-lkp@intel.com/config)
+> compiler: arc-elf-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/f3778ca026b16474e49c5e0188a0eb91d73eef2f
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Johan-Hovold/usb-dwc3-qcom-fix-wakeup-implementation/20220804-231122
+>         git checkout f3778ca026b16474e49c5e0188a0eb91d73eef2f
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/usb/dwc3/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/usb/dwc3/dwc3-qcom.c: In function 'dwc3_qcom_read_usb2_speed':
+> >> drivers/usb/dwc3/dwc3-qcom.c:313:25: warning: variable 'hcd' set but not used [-Wunused-but-set-variable]
+>      313 |         struct usb_hcd *hcd;
+>          |                         ^~~> 
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
-v2: change commit message
----
- drivers/usb/host/xhci-mtk-sch.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+I'm not seeing this one with gcc-10.3.0, but I'll slap a __maybe_unused
+in there to keep your robot's W=1 builds quiet.
 
-diff --git a/drivers/usb/host/xhci-mtk-sch.c
- b/drivers/usb/host/xhci-mtk-sch.c
-index 06a6b19acaae..a17bc584ee99 100644
---- a/drivers/usb/host/xhci-mtk-sch.c
-+++ b/drivers/usb/host/xhci-mtk-sch.c
-@@ -425,7 +425,6 @@ static int check_fs_bus_bw(struct mu3h_sch_ep_info
- *sch_ep, int offset)
- 
- static int check_sch_tt(struct mu3h_sch_ep_info *sch_ep, u32 offset)
- {
--	u32 extra_cs_count;
- 	u32 start_ss, last_ss;
- 	u32 start_cs, last_cs;
- 
-@@ -461,18 +460,12 @@ static int check_sch_tt(struct mu3h_sch_ep_info
- *sch_ep, u32 offset)
- 		if (last_cs > 7)
- 			return -ESCH_CS_OVERFLOW;
- 
--		if (sch_ep->ep_type == ISOC_IN_EP)
--			extra_cs_count = (last_cs == 7) ? 1 : 2;
--		else /*  ep_type : INTR IN / INTR OUT */
--			extra_cs_count = 1;
--
--		cs_count += extra_cs_count;
- 		if (cs_count > 7)
- 			cs_count = 7; /* HW limit */
- 
- 		sch_ep->cs_count = cs_count;
--		/* one for ss, the other for idle */
--		sch_ep->num_budget_microframes = cs_count + 2;
-+		/* ss, idle are ignored */
-+		sch_ep->num_budget_microframes = cs_count;
- 
- 		/*
- 		 * if interval=1, maxp >752, num_budge_micoframe is larger
--- 
-2.18.0
-
+Johan
