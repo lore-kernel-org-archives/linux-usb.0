@@ -2,194 +2,129 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42D47C3F6B0
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Aug 2022 17:22:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4E23C00140
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Aug 2022 18:35:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236287AbiHHRWO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Aug 2022 13:22:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60764 "EHLO
+        id S236878AbiHHSf3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Aug 2022 14:35:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbiHHRWN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Aug 2022 13:22:13 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB5CF15A2B
-        for <linux-usb@vger.kernel.org>; Mon,  8 Aug 2022 10:22:11 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id d7so9109690pgc.13
-        for <linux-usb@vger.kernel.org>; Mon, 08 Aug 2022 10:22:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=4ISRmfPuzAq5iPA9W7SoAaYtOXEzjnhWi555d7SJED8=;
-        b=nY3cdk1gWCUthARunn+1V5ONlEaJCy1aeQA+5MIdzACrZnvUMxuvRRGrBP8vmXW716
-         KEwygp7xRisTAS1k8qmj7xeHcaG4KkSGfbHhM8pBHkUFiJaS/v3cwWb9su+SqtTlAZu/
-         k3I2I1qk80aFlw2YsI5Ai9QRQDlq/U3MgxLDs=
+        with ESMTP id S229516AbiHHSf1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Aug 2022 14:35:27 -0400
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F6B1DEE
+        for <linux-usb@vger.kernel.org>; Mon,  8 Aug 2022 11:35:26 -0700 (PDT)
+Received: by mail-io1-f69.google.com with SMTP id u5-20020a6b4905000000b00681e48dbd92so5072012iob.21
+        for <linux-usb@vger.kernel.org>; Mon, 08 Aug 2022 11:35:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=4ISRmfPuzAq5iPA9W7SoAaYtOXEzjnhWi555d7SJED8=;
-        b=v0Sn+V8b3+x7xfAuSbFcYy4BqRkh3TfketxGqiCgsjzyHlN8QSO5cLBjdWzHyDylW7
-         4frmveCd9Fo+/UIR1pYaltLNHN4sRbUaEjG1W9ZyHzQq9dA1RvAgF/I8SbzO6EvZdhsv
-         A4bF5lspfLIo6EksuivEA6ComW45VxmTkI9caAkskwFUz4ejQIMILxJCdWKp/fKQgMtr
-         2ww51N591Z4MDsiPROTRNY3xSWPbKdwPj2Ra30N0O0vRGzPt2jO+tVAytS9QeAoGMTrC
-         XqB+nsQkzQTDRTQHSIP1uirv60rYkAlF7gkbPZQD0Xy6b5s9Xw9bJIF4OmC4StiFdFI9
-         ZTxw==
-X-Gm-Message-State: ACgBeo2rAavuaqoBkdMvvbN4rvYqjxmFFvJrVB4yZLNdDMZQC/ZE4o++
-        txhttTWvMlYX9pjkHmOtUjmLBg==
-X-Google-Smtp-Source: AA6agR66v0hA8Eemx2dKzdaVrT6+rtDHvVGdEsmUWrdfx899jKGr/hzPQxI3VEKvhRUidNhEM1Uhzg==
-X-Received: by 2002:a63:2244:0:b0:41d:a9c4:e83 with SMTP id t4-20020a632244000000b0041da9c40e83mr1943438pgm.271.1659979331250;
-        Mon, 08 Aug 2022 10:22:11 -0700 (PDT)
-Received: from localhost ([2620:15c:11a:202:7a1:96b:e08b:5ba0])
-        by smtp.gmail.com with UTF8SMTPSA id cp2-20020a170902e78200b0016db7f49cc2sm9008576plb.115.2022.08.08.10.22.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Aug 2022 10:22:10 -0700 (PDT)
-Date:   Mon, 8 Aug 2022 10:22:07 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Johan Hovold <johan+linaro@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Krishna Kurapati <quic_kriskura@quicinc.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
-        quic_ppratap@quicinc.com, quic_vpulyala@quicinc.com,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 8/9] usb: dwc3: qcom: fix wakeup implementation
-Message-ID: <YvFGP90eyXoPbcy8@google.com>
-References: <20220804151001.23612-1-johan+linaro@kernel.org>
- <20220804151001.23612-9-johan+linaro@kernel.org>
- <Yuv7AM/5jtO/pgcm@google.com>
- <Yu1MO9sgPslEDAjR@google.com>
- <Yu6VTYn2/cG79dvl@hovoldconsulting.com>
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc;
+        bh=ogaPJSHpPjbMUvj6KD5YIrjyZ1VPcpx2+/D7i1DP9RY=;
+        b=G9IzRmQJHGAhrjbL6htHRATR9ucp6BuC6JS2Aj//2YdHXqx7iKrIt+EnK3k1MND+gv
+         FZyjdrlWxmDfWjLWWGNSq2o9ArMdgcJ9ZqYg5JnydIUh+zKgCNOPt6Mh8qlJOeZzJ8eV
+         FaTCKfLxZqvr7Bf3DTb7T04nE1npW7HY0Anxa58wdDB7qfxoIn/hLkFAZvV1mKKlgKXj
+         AG7oYjaBwJKu9GJ6Aaiu71Yq7kaFbG1dsiescIa+b3ypJhIxo34zwB5+GFLPmc+ZN4Z/
+         l5hIw6ix6zgfgmmCTb/mAdJ9Spl40dAKyzFsOTmGF8HQg5N0Wpu2CqZrm9Bw6lKyP9oD
+         4bEw==
+X-Gm-Message-State: ACgBeo2tzraQHglM9k7lpY1D2bsgiBUYJhes5lJzyC8J0MCWYhX+MFxh
+        W7o4HJQQnKDIcaTorB3ZPXZRXrDLSwFkY9Sfn9yIc129Kwhy
+X-Google-Smtp-Source: AA6agR6MsYsBxoMw+TyGgl9Bu4S0Z6Upv7JHcK3PUkLYZQeQ/nB3cZrk/E4RYLrDVirutxCWNaPmg7hRRMFMiWj37IgW/ejikviN
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yu6VTYn2/cG79dvl@hovoldconsulting.com>
+X-Received: by 2002:a6b:640a:0:b0:684:b422:eaa with SMTP id
+ t10-20020a6b640a000000b00684b4220eaamr2299464iog.205.1659983725580; Mon, 08
+ Aug 2022 11:35:25 -0700 (PDT)
+Date:   Mon, 08 Aug 2022 11:35:25 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000004bda3505e5bf143e@google.com>
+Subject: [syzbot] WARNING: locking bug in vtime_task_switch_generic
+From:   syzbot <syzbot+0d5283dca94c28f7d52d@syzkaller.appspotmail.com>
+To:     andreyknvl@gmail.com, balbi@kernel.org, gregkh@linuxfoundation.org,
+        jj251510319013@gmail.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Aug 06, 2022 at 06:22:37PM +0200, Johan Hovold wrote:
-> On Fri, Aug 05, 2022 at 09:58:35AM -0700, Matthias Kaehlcke wrote:
-> > On Thu, Aug 04, 2022 at 09:59:44AM -0700, Matthias Kaehlcke wrote:
-> > > On Thu, Aug 04, 2022 at 05:10:00PM +0200, Johan Hovold wrote:
-> > > > It is the Qualcomm glue wakeup interrupts that may be able to wake the
-> > > > system from suspend and this can now be described in the devicetree.
-> > > > 
-> > > > Move the wakeup-source property handling over from the core driver and
-> > > > instead propagate the capability setting to the core device during
-> > > > probe.
-> > > > 
-> > > > This is needed as there is currently no way for the core driver to query
-> > > > the wakeup setting of the glue device, but it is the core driver that
-> > > > manages the PHY power state during suspend.
-> > > > 
-> > > > Also don't leave the PHYs enabled when system wakeup has been disabled
-> > > > through sysfs.
-> > > > 
-> > > > Fixes: 649f5c842ba3 ("usb: dwc3: core: Host wake up support from system suspend")
-> > > > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> > > > ---
-> > > >  drivers/usb/dwc3/core.c      | 5 ++---
-> > > >  drivers/usb/dwc3/dwc3-qcom.c | 6 +++++-
-> > > >  2 files changed, 7 insertions(+), 4 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-> > > > index 16d1f328775f..8c8e32651473 100644
-> > > > --- a/drivers/usb/dwc3/core.c
-> > > > +++ b/drivers/usb/dwc3/core.c
-> > > > @@ -1822,7 +1822,6 @@ static int dwc3_probe(struct platform_device *pdev)
-> > > >  
-> > > >  	platform_set_drvdata(pdev, dwc);
-> > > >  	dwc3_cache_hwparams(dwc);
-> > > > -	device_init_wakeup(&pdev->dev, of_property_read_bool(dev->of_node, "wakeup-source"));
-> > > >  
-> > > >  	spin_lock_init(&dwc->lock);
-> > > >  	mutex_init(&dwc->mutex);
-> > > > @@ -1984,7 +1983,7 @@ static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
-> > > >  		dwc3_core_exit(dwc);
-> > > >  		break;
-> > > >  	case DWC3_GCTL_PRTCAP_HOST:
-> > > > -		if (!PMSG_IS_AUTO(msg) && !device_can_wakeup(dwc->dev)) {
-> > > > +		if (!PMSG_IS_AUTO(msg) && !device_may_wakeup(dwc->dev)) {
-> > > 
-> > > Let me explain the rationale for why device_can_wakeup() was used here:
-> > > 
-> > > On QCOM SC7180 based Chromebooks we observe that the onboard USB hub consumes
-> > > ~80 mW during system suspend when the PHYs are disabled, as opposed to ~17 mW
-> > > when the PHYs remain enabled. This is a significant delta when the device is
-> > > on a battery power.
-> > > 
-> > > The initial idea was to leave the PHYs always enabled (in a low power mode),
-> > > but then I dug up commit c4a5153e87fd ("usb: dwc3: core: Power-off core/PHYs
-> > > on system_suspend in host mode"), which provides a rationale for the PHYs
-> > > being powered off:
-> > > 
-> > >   Commit 689bf72c6e0d ("usb: dwc3: Don't reinitialize core during
-> > >   host bus-suspend/resume") updated suspend/resume routines to not
-> > >   power_off and reinit PHYs/core for host mode.
-> > >   It broke platforms that rely on DWC3 core to power_off PHYs to
-> > >   enter low power state on system suspend.
-> > > 
-> > > Unfortunately we don't know which platforms are impacted by this. The idea
-> > > behind using device_can_wakeup() was to use it as a proxy for platforms
-> > > that are *not* impacted. If a platform supports USB wakeup supposedly the
-> > > SoC can enter its low power mode during system suspend with the PHYs
-> > > enabled.
-> > > 
-> > > By now I'm not 100% sure if the above assumption is correct. I recently
-> > > saw allegations that the power consumption of a given QC SoC with USB
-> > > wakeup support drops significantly when wakeup is disabled (i.e. when
-> > > the PHYs are off), but haven't confirmed this yet.
-> > 
-> > So far power measurements don't support the claim that SoC power
-> > consumption is substantially lower with USB wakeup disabled/the PHYs
-> > off. I asked the person who made that claim to provide more
-> > details/data (the discussion is in an internal forum).
-> 
-> Thanks for the background on this. So clearly it has nothing to with
-> supporting wakeup as the commit summary claimed, and this should
-> probably never have been made to depend on wakeup capability either.
+Hello,
 
-To be clear, there are two different (supposed) impacts on suspend power:
+syzbot found the following issue on:
 
-1. with the PHYs powered off an onboard hub on SC7180/SC7280 boards draws
-   ~80mW during system suspend, vs. ~17mW with the PHYs being on. This is
-   confirmed.
+HEAD commit:    8288c99fc263 usb: misc: onboard_usb_hub: Remove duplicated..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=14679fb1080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6749cc6053521b55
+dashboard link: https://syzkaller.appspot.com/bug?extid=0d5283dca94c28f7d52d
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
-   For SC7180/SC7280 Chrome OS boards in particular it would be ok to
-   power the PHYs off based on device_may_wakeup(), since Chrome OS
-   leaves USB wakeup enabled, hence the PHYs would remain powered as
-   desired.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-   However boards that opt for disabling USB wakeup could be impacted
-   by increased power consumption of USB peripherals, as seen with the
-   hub of SC7180/SC7280 Chrome OS boards.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+0d5283dca94c28f7d52d@syzkaller.appspotmail.com
 
-2. with the PHYs on during system suspend allegedly some QC SoCs can't
-   reach their lowest power mode (commit c4a5153e87fd). I don't know
-   which SoCs are impacted.
+------------[ cut here ]------------
+DEBUG_LOCKS_WARN_ON(chain_key != INITIAL_CHAIN_KEY)
+WARNING: CPU: 0 PID: 3855 at kernel/locking/lockdep.c:5031 __lock_acquire+0x1a0f/0x5660 kernel/locking/lockdep.c:5031
+Modules linked in:
+CPU: 0 PID: 3855 Comm: syz-executor.2 Not tainted 5.19.0-rc7-syzkaller-00199-g8288c99fc263 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
+RIP: 0010:__lock_acquire+0x1a0f/0x5660 kernel/locking/lockdep.c:5031
+Code: d2 0f 85 d4 28 00 00 44 8b 35 55 f2 b3 07 45 85 f6 0f 85 32 f4 ff ff 48 c7 c6 40 cc 47 86 48 c7 c7 e0 9b 47 86 e8 ac 94 96 04 <0f> 0b e9 1b f4 ff ff 48 c7 c2 00 96 91 8b 48 b8 00 00 00 00 00 fc
+RSP: 0018:ffffc900016cf858 EFLAGS: 00010082
+RAX: 0000000000000000 RBX: 000000000000002c RCX: 0000000000000000
+RDX: ffff888110643900 RSI: ffffffff812c21e8 RDI: fffff520002d9efd
+RBP: ffff88811064431a R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000080000002 R11: 0000000000000001 R12: ffff8881106442f8
+R13: ffff888110643900 R14: 0000000000000000 R15: 0000000000000000
+FS:  00007f1c31d7f700(0000) GS:ffff8881f6800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f5c285b4d60 CR3: 00000001104c6000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ lock_acquire kernel/locking/lockdep.c:5665 [inline]
+ lock_acquire+0x1ab/0x570 kernel/locking/lockdep.c:5630
+ do_write_seqcount_begin_nested include/linux/seqlock.h:516 [inline]
+ do_write_seqcount_begin include/linux/seqlock.h:541 [inline]
+ vtime_task_switch_generic+0xb5/0x5a0 kernel/sched/cputime.c:768
+ vtime_task_switch include/linux/vtime.h:95 [inline]
+ finish_task_switch.isra.0+0x4e3/0xa10 kernel/sched/core.c:5020
+ context_switch kernel/sched/core.c:5149 [inline]
+ __schedule+0x947/0x2630 kernel/sched/core.c:6458
+ schedule+0xd2/0x1f0 kernel/sched/core.c:6530
+ schedule_timeout+0x1db/0x2a0 kernel/time/timer.c:1911
+ ___down_common kernel/locking/semaphore.c:225 [inline]
+ __down_common+0x363/0x770 kernel/locking/semaphore.c:246
+ down_interruptible+0x7b/0xa0 kernel/locking/semaphore.c:87
+ raw_event_queue_fetch drivers/usb/gadget/legacy/raw_gadget.c:99 [inline]
+ raw_ioctl_event_fetch drivers/usb/gadget/legacy/raw_gadget.c:588 [inline]
+ raw_ioctl+0x1010/0x2780 drivers/usb/gadget/legacy/raw_gadget.c:1256
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:870 [inline]
+ __se_sys_ioctl fs/ioctl.c:856 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:856
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f1c32608fc7
+Code: 3c 1c 48 f7 d8 49 39 c4 72 b8 e8 34 54 02 00 85 c0 78 bd 48 83 c4 08 4c 89 e0 5b 41 5c c3 0f 1f 44 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f1c31d7d098 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f1c31d7e110 RCX: 00007f1c32608fc7
+RDX: 00007f1c31d7e110 RSI: 0000000080085502 RDI: 0000000000000003
+RBP: 0000000000000003 R08: 000000000000ffff R09: 000000000000000b
+R10: 00007f1c31d7d140 R11: 0000000000000246 R12: 0000000800000000
+R13: 0000000000000000 R14: 0000000020000000 R15: 00007f1c3266ecd5
+ </TASK>
 
-   Someone from QC claims that SC7280 has significantly lower power
-   consumption with "USB wakeup disabled", so far this has not been
-   confirmed by my colleague who takes power measurements, I'm in
-   the process of clarifying what "USB wakeup disabled" exactly
-   means in this context (e.g. no wakeup source flag vs. no wakeup
-   capable device plugged).
 
-> I'll revisit this after the merge window, but perhaps we should just rip
-> this out completely and use a more descriptive property to configure the
-> PHY suspend state. But depending on the results from your internal
-> measurements, perhaps not even that is needed.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Ok, I'll keep you posted on power findings on our side, though that will
-only cover SC7180/SC7280.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
