@@ -2,96 +2,324 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53AC3C00140
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Aug 2022 09:47:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C528FC00140
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Aug 2022 10:18:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230055AbiHJJrQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Aug 2022 05:47:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53976 "EHLO
+        id S230234AbiHJKSG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Aug 2022 06:18:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231429AbiHJJrD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Aug 2022 05:47:03 -0400
-Received: from m13114.mail.163.com (m13114.mail.163.com [220.181.13.114])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2A74EB46
-        for <linux-usb@vger.kernel.org>; Wed, 10 Aug 2022 02:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=FryoR
-        m8qpMRZLvSSer5jc0v+pkFjWZPVOxn3ZzDbYKI=; b=Qcaadhu4KilUZ30mBk9f3
-        W61jbN0r328GpeBmJSMSCCr1FN1bYaqFSDlSqRrcdM5Et47JDwHwu+E84UzRWxzt
-        Rmlvt0mSzaf0+azEknTGQUWo6g1Wa4orS8WsUbfmyXB+qDr01O+ySKPyU6GKSsR5
-        WGAieDadViqaLLRspsG1FQ=
-Received: from slark_xiao$163.com ( [112.97.48.210] ) by
- ajax-webmail-wmsvr114 (Coremail) ; Wed, 10 Aug 2022 17:28:51 +0800 (CST)
-X-Originating-IP: [112.97.48.210]
-Date:   Wed, 10 Aug 2022 17:28:51 +0800 (CST)
-From:   "Slark Xiao" <slark_xiao@163.com>
-To:     =?UTF-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
-Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH] net: usb: qmi_wwan: Add support for Cinterion MV32
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 163com
-In-Reply-To: <8735e4mvtd.fsf@miraculix.mork.no>
-References: <20220810014521.9383-1-slark_xiao@163.com>
- <8735e4mvtd.fsf@miraculix.mork.no>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S230006AbiHJKSE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Aug 2022 06:18:04 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072BB6F563;
+        Wed, 10 Aug 2022 03:18:01 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id x23so13840813pll.7;
+        Wed, 10 Aug 2022 03:18:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=XB+XqKHbpNMS7fnvlhelkSlDSr5r2pbQ+tbkKgP7v+c=;
+        b=AYC2RdzGxVPY/FfVdja26JsXpaXU5giPb18iVq/Ui2bIIf6HYvnl9dcNEJrC23qK2d
+         0kkvIm4P2lQeA5S92DPXl5bJ/r+7vo6x4SmSjXG1qP4eWdmLoXvQ6Rk88kbAay1x7SVf
+         IF022QVmFD2uY+HFLofxz+uD6AmBYdWL0fNrP02noGWx05jFL6tVdgM7w1nHJcyFsQNn
+         4KzsBBop9hv4vrv4s1prBaQz+yRcox33rF6LcrhluFDlMNaSE3P2ltI8X0GiaFS4eBBg
+         LRaxgddQZ8y1BI4dNjsSt7xDk39OkAjoXkhkAK2Fud1e7JNdOzT7x+3rz4M3YsgfQfj1
+         8lAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=XB+XqKHbpNMS7fnvlhelkSlDSr5r2pbQ+tbkKgP7v+c=;
+        b=obN1x35N8Jvk5qjUIujwGbmupPv9nJpkEgRdGxqaePS+Dc7Ig27rWUKWCUda7ruUfW
+         pFrHnVN4pszviKxJwBjoFo2jwLvf7e/bNtqzOEsQHL8VkH/nsDHgJHm3d+7kBknfL6uf
+         Au2tEIMpU4VEga3akL7GSHhMdghjQhoFHqByPtaGyhO7y6zppW/lu1TN2f9l1TCvXONG
+         JQgoc7CgS6h4bHb1KPBEggt5e06dwec7iBDxEoezSKrD4SC3JJG92eWFFS7YG051kzw0
+         ovJ3h4QXqIpRRXZ6RwL99Dg/w1BKwHO6alN5QnaUt9ud+tg+VZsIu9iQu3EJ/mP8kQok
+         pM0w==
+X-Gm-Message-State: ACgBeo2KiZxA0lPKlXegOyrZMSUSKYUKbHN0blSJF78Rirp+5MZDjdxw
+        P/SN7Nz997VycwlBMUlNO5s=
+X-Google-Smtp-Source: AA6agR4eWDA14qJ3bh3ygXze00gIyn+w2HIqklz+mg4yOVJchQczP360bEpp2jU9lvdIlENEGc+V0w==
+X-Received: by 2002:a17:902:d54f:b0:16f:843d:efcb with SMTP id z15-20020a170902d54f00b0016f843defcbmr27020383plf.55.1660126680391;
+        Wed, 10 Aug 2022 03:18:00 -0700 (PDT)
+Received: from sw.. (220-128-98-63.hinet-ip.hinet.net. [220.128.98.63])
+        by smtp.gmail.com with ESMTPSA id g74-20020a62524d000000b0052d40c4c06esm1542201pfb.39.2022.08.10.03.17.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Aug 2022 03:18:00 -0700 (PDT)
+From:   Szuying Chen <chensiying21@gmail.com>
+To:     gregkh@linuxfoundation.org, mika.westerberg@linux.intel.com,
+        andreas.noever@gmail.com, michael.jamet@intel.com,
+        YehezkelShB@gmail.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Yd_Tseng@asmedia.com.tw, Chloe_Chen@asmedia.com.tw,
+        Richard_Hsu@asmedia.com.tw, Szuying Chen <chensiying21@gmail.com>
+Subject: [PATCH] thunderbolt: thunderbolt: add vendor's NVM formats
+Date:   Wed, 10 Aug 2022 18:17:43 +0800
+Message-Id: <20220810101743.11214-1-chensiying21@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Message-ID: <e7fdcfc.30e7.1828715d7af.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: csGowACHv9JTevNihIgsAA--.29964W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbBDQJZZFaEKSJRGQABsi
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-CgoKCgoKCgoKCgoKCgoKCkF0IDIwMjItMDgtMTAgMTQ6NTU6NDIsICJCasO4cm4gTW9yayIgPGJq
-b3JuQG1vcmsubm8+IHdyb3RlOgo+U2xhcmsgWGlhbyA8c2xhcmtfeGlhb0AxNjMuY29tPiB3cml0
-ZXM6Cj4KPj4gVGhlcmUgYXJlIDIgbW9kZWxzIGZvciBNVjMyIHNlcmlhbHMuIE1WMzItVy1BIGlz
-IGRlc2lnbmVkCj4+IGJhc2VkIG9uIFF1YWxjb21tIFNEWDYyIGNoaXAsIGFuZCBNVjMyLVctQiBp
-cyBkZXNpZ25lZCBiYXNlZAo+PiBvbiBRdWFsY29tbSBTRFg2NSBjaGlwLiBTbyB3ZSB1c2UgMiBk
-aWZmZXJlbnQgUElEIHRvIHNlcGFyYXRlIGl0Lgo+Pgo+PiBUZXN0IGV2aWRlbmNlIGFzIGJlbG93
-Ogo+PiBUOiAgQnVzPTAzIExldj0wMSBQcm50PTAxIFBvcnQ9MDIgQ250PTAzIERldiM9ICAzIFNw
-ZD00ODAgTXhDaD0gMAo+PiBEOiAgVmVyPSAyLjEwIENscz1lZihtaXNjICkgU3ViPTAyIFByb3Q9
-MDEgTXhQUz02NCAjQ2Zncz0gIDEKPj4gUDogIFZlbmRvcj0xZTJkIFByb2RJRD0wMGYzIFJldj0w
-NS4wNAo+PiBTOiAgTWFudWZhY3R1cmVyPUNpbnRlcmlvbgo+PiBTOiAgUHJvZHVjdD1DaW50ZXJp
-b24gUElEIDB4MDBGMyBVU0IgTW9iaWxlIEJyb2FkYmFuZAo+PiBTOiAgU2VyaWFsTnVtYmVyPWQ3
-YjRiZThkCj4+IEM6ICAjSWZzPSA0IENmZyM9IDEgQXRyPWEwIE14UHdyPTUwMG1BCj4+IEk6ICBJ
-ZiM9MHgwIEFsdD0gMCAjRVBzPSAzIENscz1mZih2ZW5kLikgU3ViPWZmIFByb3Q9NTAgRHJpdmVy
-PXFtaV93d2FuCj4+IEk6ICBJZiM9MHgxIEFsdD0gMCAjRVBzPSAzIENscz1mZih2ZW5kLikgU3Vi
-PWZmIFByb3Q9NDAgRHJpdmVyPW9wdGlvbgo+PiBJOiAgSWYjPTB4MiBBbHQ9IDAgI0VQcz0gMyBD
-bHM9ZmYodmVuZC4pIFN1Yj1mZiBQcm90PTQwIERyaXZlcj1vcHRpb24KPj4gSTogIElmIz0weDMg
-QWx0PSAwICNFUHM9IDIgQ2xzPWZmKHZlbmQuKSBTdWI9ZmYgUHJvdD0zMCBEcml2ZXI9b3B0aW9u
-Cj4KPlRoZSBwYXRjaCBsb29rcyBuaWNlLCBidXQgSSBoYXZlIGEgY291cGxlIG9mIHF1ZXN0aW9u
-cyBzaW5jZSB5b3UncmUgb25lCj5vZiB0aGUgZmlyc3QgcHVzaGluZyBvbmUgb2YgdGhlc2UgU0RY
-NnggbW9kZW1zLgo+Cj5JcyB0aGF0IHByb3RvY29sIHBhdHRlcm4gZml4ZWQgb24gdGhpcyBnZW5l
-cmF0aW9uIG9mIFF1YWxjb21tIGNoaXBzPyAgSXQKPmxvb2tzIGxpa2UgYW4gZXh0ZW5zaW9uIG9m
-IHdoYXQgdGhleSBzdGFydGVkIHdpdGggdGhlIFNEWDU1IGdlbmVyYXRpb24sCj53aGVyZSB0aGUg
-RElBRyBwb3J0IHdhcyBpZGVudGlmaWVkIGJ5IGZmL2ZmLzMwIGFjcm9zcyBtdWx0aXBsZSB2ZW5k
-b3JzLgo+CiBTZWVtcyB5ZXMuIEkgY2hlY2tlZCBzb21lIGRpZmZlcmVudCB1c2JfY29tcG9zaXRp
-b25zIGFuZCBmb3VuZCB0aGF0CiBkaWFnIHBvcnQgaXMgdXNpbmcgcHJvdG9jb2wgJzMwJyBhbHdh
-eXMuCgo+U3BlY2lmaWNhbGx5IHdydCB0aGlzIGRyaXZlciBhbmQgcGF0Y2gsIEkgd29uZGVyIGlm
-IHdlIGNhbi9zaG91bGQgbWF0Y2gKPm9uIGZmL2ZmLzUwIGluc3RlYWQgb2YgaW50ZXJmYWNlIG51
-bWJlciBoZXJlPyAgSSBub3RlIHRoYXQgdGhlIGludGVyZmFjZQoKSSBjaGVja2VkIGFsbCBvdXIg
-ZWRpdGVkIHVzYl9jb21wb3NpdGlvbnMgYW5kIGFsbCBRQyBkZWZhdWx0IHVzYiAKY29tcG9zaXRp
-b25zKDkwMjUsIDkwZGIsIDkwNjcsOTBkNSw5MDg0LDkwOTEsOTBhZCw5MGI4LDkwZTUpLCAKZmYv
-ZmYvNTAgaXMgcm1uZXQgdXNlZCBvbmx5LiAKCj5udW1iZXJzIGFyZSBhbGxvY2F0ZWQgc2VxdWVu
-dGlvbmFsbHkuIFByb2JhYmx5IGluIHRoZSBvcmRlciB0aGVzZQo+ZnVuY3Rpb24gYXJlIGVuYWJs
-ZWQgYnkgdGhlIGZpcm13YXJlPyBJZiBzbywgYXJlIHdlIHN1cmUgdGhpcyBpcyBzdGF0aWM/CgpU
-aGlzIG5lZWRzIG1vcmUgdGltZSB0byBjb25maXJtLiBJIHdpbGwga2VlcCB5b3UgdXBkYXRlZC4K
-Cj5PciBjb3VsZCB3ZSByaXNrIGNvbmZpZyB2YXJpYW50cyB3aGVyZSB0aGUgUk1ORVQvUU1JIGZ1
-bmN0aW9uIGhhdmUgYQo+ZGlmZmVyZW50IGludGVyZmFjZSBudW1iZXIgZm9yIHRoZSBzYW1lIFBJ
-RHM/Cj4KPkFuZCBhbm90aGVyIHBvc3NpYmlsaXR5IHlvdSBtaWdodCBjb25zaWRlci4gIEFzc3Vt
-aW5nIHRoYXQgZmYvZmYvNTAKPnVuaXF1ZWx5IGlkZW50aWZpZXMgUk1ORVQvUU1JIGZ1bmN0aW9u
-cyByZWdhcmRsZXNzIG9mIFBJRCwgd291bGQgeW91Cj5jb25zaWRlciBhIFZJRCtjbGFzcyBtYXRj
-aCB0byBjYXRjaCBhbGwgb2YgdGhlbT8gIFRoaXMgd291bGQgbm90IG9ubHkKPnN1cHBvcnQgYm90
-aCB0aGUgUElEcyBvZiB0aGlzIHBhdGNoIGluIG9uZSBnbywgYnV0IGFsc28gYW55IGZ1dHVyZSBQ
-SURzCj53aXRob3V0IHRoZSBuZWVkIGZvciBmdXJ0aGVyIGRyaXZlciBwYXRjaGVzLgo+Cj4KPkJq
-w7hybgoKSSBoYXZlIGEgY29uY2VybiwgaWYgQ2ludGVyaW9uIG9yIG90aGVyIFZlbmRvcnMsIGxp
-a2UgUXVlY3RlbCwgdXNlIG90aGVyIApjaGlwIChzdWNoIGFzIGludGVsLCBtZWRpYXRlY2sgYW5k
-IHNvIG9uKSwgdGhpcyBtZXRob2RzIG1heSB3b24ndCB3b3JrLApiZWNhdXNlICB0aGV5IHNoYXJl
-IGEgc2FtZSBWSUQuIEFsc28gdGhpcyBtYXkgYmUgY2hhbmdlZCBvbmNlIFF1YWxjb21tIAp1cGRh
-dGUgdGhlIHByb3RvY29sIHBhdHRlcm5zIGZvciBmdXR1cmUgY2hpcC4=
+The patch add tb_nvm_quirks() contain an array that has functions
+pointers to tb_nvm_vendor_apply().
+And tb_nvm_vendor_apply() that recognize supported vendor works in one
+of the following cases:
+Case NvmUpgradeSuppport: enable nvm's attribute by setting
+no_nvm_upgrade flag to create nvm_authenticate file node.
+Case NvmAdd:add active/non-active NVM devices.
+Case NvmWrite:update firmware to non-ative NVM device.
+
+Signed-off-by: Szuying Chen <chensiying21@gmail.com>
+---
+ drivers/thunderbolt/nvm.c    | 59 ++++++++++++++----------------------
+ drivers/thunderbolt/switch.c | 19 +++++++-----
+ drivers/thunderbolt/tb.h     | 18 +++++++----
+ 3 files changed, 46 insertions(+), 50 deletions(-)
+
+diff --git a/drivers/thunderbolt/nvm.c b/drivers/thunderbolt/nvm.c
+index d5f283889da8..2aae8b3fa5dc 100644
+--- a/drivers/thunderbolt/nvm.c
++++ b/drivers/thunderbolt/nvm.c
+@@ -14,6 +14,7 @@
+ #include "tb.h"
+
+ static DEFINE_IDA(nvm_ida);
++
+ static int tb_switch_nvm_read(void *priv, unsigned int offset, void *val,
+ 			      size_t bytes)
+ {
+@@ -22,7 +23,6 @@ static int tb_switch_nvm_read(void *priv, unsigned int offset, void *val,
+ 	int ret;
+
+ 	pm_runtime_get_sync(&sw->dev);
+-
+ 	if (!mutex_trylock(&sw->tb->lock)) {
+ 		ret = restart_syscall();
+ 		goto out;
+@@ -60,22 +60,23 @@ static int tb_switch_nvm_write(void *priv, unsigned int offset, void *val,
+ 	return ret;
+ }
+
+ Refer to thunderbolt source: switch.c.
+
+-static int tb_nvm_vendor_apply(struct tb_switch *sw, unsigned int handle)
++static int asm_nvm_apply(struct tb_switch *sw, unsigned int handle)
+ {
++	struct tb_nvm *nvm;
++	u32 val;
++	u32 nvm_size;
+ 	int ret = 0;
++	unsigned int image_size;
++	const u8 *buf = sw->nvm->buf;
+
+ 	switch (handle) {
+-	case 0:
++	case NvmUpgradeSuppport:
+ 		if (sw->no_nvm_upgrade)
+ 			sw->no_nvm_upgrade = false;
+
+ 		break;
+
+-	case 1:
+-		struct tb_nvm *nvm;
+-		u32 val;
+-		u32 nvm_size;
+-
++	case NvmAdd:
+ 		nvm = tb_nvm_alloc(&sw->dev);
+ 		if (IS_ERR(nvm)) {
+ 			ret = PTR_ERR(nvm);
+@@ -86,13 +87,13 @@ static int tb_nvm_vendor_apply(struct tb_switch *sw, unsigned int handle)
+ 		if (ret)
+ 			break;
+
+-		nvm->vendor.date = (((u8)val) << 0x10 | ((u8)(val >> 0x8)) << 0x8 | (u8)(val >> 0x10));
++		nvm->nvm_asm.date = (((u8)val) << 0x10 | ((u8)(val >> 0x8)) << 0x8 | (u8)(val >> 0x10));
+ 		ret = usb4_switch_nvm_read(sw, NVM_CUSTOMER_ID, &val, sizeof(val));
+ 		if (ret)
+ 			break;
+
+-		nvm->vendor.customerID = (((u8)val) << 0x8 | ((u8)(val >> 0x8)));
+-		nvm->vendor.version = (u8)(val >> 0x10);
++		nvm->nvm_asm.customerID = (((u8)val) << 0x8 | ((u8)(val >> 0x8)));
++		nvm->nvm_asm.version = (u8)(val >> 0x10);
+ 		nvm_size = SZ_512K;
+ 		ret = tb_nvm_add_active(nvm, nvm_size, tb_switch_nvm_read);
+ 		if (ret)
+@@ -105,10 +106,7 @@ static int tb_nvm_vendor_apply(struct tb_switch *sw, unsigned int handle)
+ 		sw->nvm = nvm;
+ 		break;
+
+-	case 2:
+-		unsigned int image_size;
+-		const u8 *buf = sw->nvm->buf;
+-
++	case NvmWrite:
+ 		if (!buf) {
+ 			ret = -EINVAL;
+ 			break;
+@@ -128,7 +126,7 @@ static int tb_nvm_vendor_apply(struct tb_switch *sw, unsigned int handle)
+ 		break;
+ 	}
+
+-	if ((handle == 1) && (ret != 0))
++	if ((handle == NvmAdd) && (ret != 0))
+ 		tb_nvm_free(sw->nvm);
+
+ 	return ret;
+@@ -136,45 +134,32 @@ static int tb_nvm_vendor_apply(struct tb_switch *sw, unsigned int handle)
+
+ struct tb_nvm_id {
+ 	u16 hw_vendor_id;
+-	u16 hw_device_id;
+-	u16 vendor;
+-	u16 device;
+ 	int (*hook)(struct tb_switch *sw, unsigned int handle);
+ };
+
+ static const struct tb_nvm_id tb_nvm_vendors[] = {
+ 	/* ASMedia software CM firmware upgrade */
+-	{ 0x174c, 0x2428, 0x174c, 0x0009, tb_nvm_vendor_apply },
++	{ 0x174c, asm_nvm_apply },
+ };
+
+ /**
+- * tb_nvm_quirks() - support vendor's NVM format
++ * tb_nvm_vendor_handle() - support vendor's NVM format
+  * @sw: Thunderbolt switch
++ * @handle: 0:NvmUpgradeSuppport, 1:NvmAdd, 2:NvmWrite
+  */
+-int tb_nvm_quirks(struct tb_switch *sw, unsigned int handle)
++int tb_nvm_vendor_handle(struct tb_switch *sw, unsigned int handle)
+ {
+ 	int res, i;
+-	bool NoVendor = true;
+
+ 	for (i = 0; i < ARRAY_SIZE(tb_nvm_vendors); i++) {
+-		const struct tb_nvm_id *q = &tb_nvm_vendors[i];
++		const struct tb_nvm_id *id = &tb_nvm_vendors[i];
+
+-		if (q->hw_vendor_id && q->hw_vendor_id != sw->config.vendor_id)
+-			continue;
+-		if (q->hw_device_id && q->hw_device_id != sw->config.device_id)
+-			continue;
+-		if (q->vendor && q->vendor != sw->vendor)
+-			continue;
+-		if (q->device && q->device != sw->device)
++		if (id->hw_vendor_id && id->hw_vendor_id != sw->config.vendor_id)
+ 			continue;
+
+-		 res = q->hook(sw, handle);
+-		 NoVendor = false;
++		 res = id->hook(sw, handle);
+ 	}
+-	if (NoVendor)
+-		return -ENODEV;
+-	else
+-		return res;
++	return res;
+ }
+
+ /**
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index a654b6951bef..8fa9efa8a900 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -114,8 +114,12 @@ static int nvm_validate_and_write(struct tb_switch *sw)
+ 	if (image_size < NVM_MIN_SIZE || image_size > NVM_MAX_SIZE)
+ 		return -EINVAL;
+
+-	ret = tb_nvm_quirks(sw, 2);
+-	if (ret != -ENODEV)
++	/*
++	 * Vendor's nvm write. If the image has been flushed to the
++	 * storage are, nvm write is complete.
++	 */
++	ret = tb_nvm_vendor_handle(sw, NvmWrite);
++	if (sw->nvm->flushed)
+ 		return ret;
+
+ 	/*
+@@ -394,9 +398,9 @@ static int tb_switch_nvm_add(struct tb_switch *sw)
+ 	if (!nvm_readable(sw))
+ 		return 0;
+
+-	/* Vendor's NVM formats definition */
+-	ret = tb_nvm_quirks(sw, 1);
+-	if (ret != -ENODEV)
++	/* Vendor's NVM formats add */
++	ret = tb_nvm_vendor_handle(sw, NvmAdd);
++	if (ret)
+ 		return ret;
+
+ 	/*
+@@ -1962,8 +1966,9 @@ static ssize_t nvm_version_show(struct device *dev,
+ 		ret = -ENODATA;
+ 	else if (!sw->nvm)
+ 		ret = -EAGAIN;
++	/*ASMedia NVM version show format xxxxxx_xxxx_xx */
+ 	else if (sw->config.vendor_id == 0x174C)
+-		ret = sprintf(buf, "%06x_%04x_%02x\n", sw->nvm->vendor.date, sw->nvm->vendor.customerID, sw->nvm->vendor.version);
++		ret = sprintf(buf, "%06x_%04x_%02x\n", sw->nvm->nvm_asm.date, sw->nvm->nvm_asm.customerID, sw->nvm->nvm_asm.version);
+ 	else
+ 		ret = sprintf(buf, "%x.%x\n", sw->nvm->major, sw->nvm->minor);
+
+@@ -2871,7 +2876,7 @@ int tb_switch_add(struct tb_switch *sw)
+ 		tb_sw_dbg(sw, "uid: %#llx\n", sw->uid);
+
+ 		tb_check_quirks(sw);
+-		tb_nvm_quirks(sw, 0);
++		tb_nvm_vendor_handle(sw, NvmUpgradeSuppport);
+
+ 		ret = tb_switch_set_uuid(sw);
+ 		if (ret) {
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index 9dd1ba7b07b6..a8dd0ae04741 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -31,10 +31,16 @@
+ #define NVM_Date	0x1C
+ #define NVM_CUSTOMER_ID	0x28
+
+-struct tb_nvm_vendor {
+-	int	date;
+-	u16	customerID;
+-	u8	version;
++/* ASMedia specific NVM handle */
++#define NvmUpgradeSuppport 0
++#define NvmAdd 1
++#define NvmWrite 2
++
++struct nvm_asmedia {
++	u32 date;
++	u32 customerID:16;
++	u32 version:8;
++	u32 reserved:8;
+ };
+
+ /**
+@@ -66,7 +72,7 @@ struct tb_nvm {
+ 	size_t buf_data_size;
+ 	bool authenticating;
+ 	bool flushed;
+-	struct tb_nvm_vendor vendor;
++	struct nvm_asmedia nvm_asm;
+ };
+
+ enum tb_nvm_write_ops {
+@@ -746,7 +752,7 @@ static inline void tb_domain_put(struct tb *tb)
+ 	put_device(&tb->dev);
+ }
+
+-int tb_nvm_quirks(struct tb_switch *sw, unsigned int handle);
++int tb_nvm_vendor_handle(struct tb_switch *sw, unsigned int handle);
+ struct tb_nvm *tb_nvm_alloc(struct device *dev);
+ int tb_nvm_add_active(struct tb_nvm *nvm, size_t size, nvmem_reg_read_t reg_read);
+ int tb_nvm_write_buf(struct tb_nvm *nvm, unsigned int offset, void *val,
+--
+2.34.1
+
