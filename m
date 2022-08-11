@@ -2,60 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB587C25B08
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Aug 2022 02:55:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 364E4C00140
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Aug 2022 02:57:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233835AbiHKCzk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Aug 2022 22:55:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40470 "EHLO
+        id S233819AbiHKC5g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Aug 2022 22:57:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233829AbiHKCzj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Aug 2022 22:55:39 -0400
-Received: from hust.edu.cn (unknown [202.114.0.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9F4057221;
-        Wed, 10 Aug 2022 19:55:37 -0700 (PDT)
-Received: from localhost.localdomain ([172.16.0.254])
-        (user=dzm91@hust.edu.cn mech=LOGIN bits=0)
-        by mx1.hust.edu.cn  with ESMTP id 27B2sjkh021700-27B2sjkk021700
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Thu, 11 Aug 2022 10:54:50 +0800
-From:   Dongliang Mu <dzm91@hust.edu.cn>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dongliang Mu <mudongliangabcd@gmail.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] USB: trancevibrator: remove redundant space
-Date:   Thu, 11 Aug 2022 10:53:41 +0800
-Message-Id: <20220811025346.113199-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S231707AbiHKC5f (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Aug 2022 22:57:35 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61418883FB;
+        Wed, 10 Aug 2022 19:57:34 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id gk3so31149620ejb.8;
+        Wed, 10 Aug 2022 19:57:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=G86Am7xGIToyaZgK/6Sab+lZR8ERmbEP88Zj48JSJOo=;
+        b=e401BypWBb9Uj3fapfDvFSIF9O4yrz1yM46IqgdveWnBegztl3dY7vk23S19OA8aIg
+         dr/xV/5wqXXJdPpmXbPXNtiIskbqasRaSXQbXy48KFT5atvPF47rtykTDh9kVNjW6XIi
+         kVXhuqJYvcuabql2Tj2JxAkdtrQQDMQxp8mTXkioiflvGknaORONFp0VgR8dNG+oC+kD
+         74nNDESYPOu5RhPHETyd0UX29ynnwe5+nzIKvGbFFaoeWHfRPYtBeJ3J1vRZPcx0bab9
+         pw/Ja7pYHsgbqAaZ/U4c7+p1LBhO96mBtxMVXkUK2sEDIuEhZfGVDA/GghsO2NXqtOOU
+         CWSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=G86Am7xGIToyaZgK/6Sab+lZR8ERmbEP88Zj48JSJOo=;
+        b=QlyFYkpT8MniWcDKV4AmeKJxIzHI4VPAcS+gdHdehP3SDI/G1jRpJ4Jp/Pm4LhOM1S
+         t8dcKAShB0SRatHyLvBJQgMo3Ywp9ZjPk4W855uwa6svVtFOrVm5Q2mgK9ZVJXY8CTAU
+         6Nrt0q53AQya5/LEr6KimU7KrFOIqW9wIQNEKM2iLPthF5QKT/r37HxmdPnTYAympCPQ
+         fuzeKmwp/CZHlM0ZZUuJ7Sm9b24Ook9iv+eBiw1FGmkKo4MgqqeBMegr2d0osdDCOzMW
+         vMezUssvclbCnbnUTbcX4/IzkooaMqFb6iM4mfNx/SzNkU7VXsOuDVCwJwObMbtI4abH
+         H7lQ==
+X-Gm-Message-State: ACgBeo1vi+5nHRwOsuX5vo7ekhOjuAip0jrpxC7P6XzZ/0SFRwDWFFMi
+        VsoVs2tP+FysuIa5mkC2kCtR1oYwdi5+YiBvSfI=
+X-Google-Smtp-Source: AA6agR43pYyUGN3beZhMeBiH2MZK8M8Mau0iR54OijLEETUOWNJm2EneLyt0CY6xYmlioMoJtjF3gx2sYBhrBEpDnDk=
+X-Received: by 2002:a17:907:28c9:b0:730:c053:986f with SMTP id
+ en9-20020a17090728c900b00730c053986fmr22195591ejc.194.1660186652989; Wed, 10
+ Aug 2022 19:57:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-FEAS-AUTH-USER: dzm91@hust.edu.cn
+References: <20220720072346.33511-1-dzm91@hust.edu.cn> <YuEu3mqTRCN9A5ig@kroah.com>
+In-Reply-To: <YuEu3mqTRCN9A5ig@kroah.com>
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+Date:   Thu, 11 Aug 2022 10:56:17 +0800
+Message-ID: <CAD-N9QXsQpFmLk-dfx6Y=Agtt1=7=Z5eP1RZTcTpgU9XK8NEDA@mail.gmail.com>
+Subject: Re: [PATCH] usb: trancevibrator: simplify tv_probe
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Dongliang Mu <dzm91@hust.edu.cn>, USB <linux-usb@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Dongliang Mu <mudongliangabcd@gmail.com>
+On Wed, Jul 27, 2022 at 8:26 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Jul 20, 2022 at 03:23:43PM +0800, Dongliang Mu wrote:
+> > From: Dongliang Mu <mudongliangabcd@gmail.com>
+> >
+> > The function tv_probe does not need to invoke kfree when the
+> > allocation fails. So let's simplify the code of tv_probe.
+> > Another change is to remove a redundant space.
+>
+> Those are two different things, please resend as a patch series of 2
+> different patches.
 
-remove a redundant space after usb_get_intfdata
+Sure, I have sent the patch series.
 
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
----
- drivers/usb/misc/trancevibrator.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/misc/trancevibrator.c b/drivers/usb/misc/trancevibrator.c
-index 26baba3ab7d7..55cb63652eda 100644
---- a/drivers/usb/misc/trancevibrator.c
-+++ b/drivers/usb/misc/trancevibrator.c
-@@ -106,7 +106,7 @@ static void tv_disconnect(struct usb_interface *interface)
- {
- 	struct trancevibrator *dev;
- 
--	dev = usb_get_intfdata (interface);
-+	dev = usb_get_intfdata(interface);
- 	usb_set_intfdata(interface, NULL);
- 	usb_put_dev(dev->udev);
- 	kfree(dev);
--- 
-2.35.1
-
+>
+> thanks,
+>
+> greg k-h
