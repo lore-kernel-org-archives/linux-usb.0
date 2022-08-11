@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1568AC25B0C
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Aug 2022 16:27:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42859C25B0C
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Aug 2022 16:32:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238198AbiHKQ1j (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Aug 2022 12:27:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49726 "EHLO
+        id S238397AbiHKQc1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Aug 2022 12:32:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238040AbiHKQ0b (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Aug 2022 12:26:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08F2A9A952;
-        Thu, 11 Aug 2022 09:07:57 -0700 (PDT)
+        with ESMTP id S238504AbiHKQaF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Aug 2022 12:30:05 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BC4CB56EC;
+        Thu, 11 Aug 2022 09:09:34 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9C82F6141C;
-        Thu, 11 Aug 2022 16:07:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 430F5C433B5;
-        Thu, 11 Aug 2022 16:07:55 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D8FDCB821AD;
+        Thu, 11 Aug 2022 16:09:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6613C433C1;
+        Thu, 11 Aug 2022 16:09:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660234076;
-        bh=mdnpCeHlv68NdTHAHexetYHZMr80HP5Rn5SNtefedMk=;
+        s=k20201202; t=1660234171;
+        bh=gc6u3kLKnq5R+c/Wa6E6LECxoOL7urAtXXWQLpvW4V8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RUp2O8RiRlv5+pAG7xlVmWT+bxOVpjNjnIQ2TeiOSI29n85SKJpLAxgs1Xq6dwMUu
-         O05i5RzO7vy116W10YhDrjWGJ7XnooChoWoQrhwYj/j8iDK7aJ6ajK254lrR6c0JqE
-         BqKFob5yVVQjVAPEDpjIBpc/aP6UBUhYlTS7bA54Ot1RZmAeBk9jQ+h8FYR0rIwjyh
-         hOPbSa/7/Xw2jEhgXzH+OJa25s+2q/XUmE1dlCwb88tDkWtJRWYR5FvD6oGJ9c2jd7
-         NFqAT95Cnn3g0o45HOiMo24hLgUedj3Fd7nmU+zvJnJVwY41IcxyiVihngfuZIkCHf
-         EbmUlbelBAt3Q==
+        b=Y+mDqsa27i13zh0XOujud6elhrrq8zmhA4SZAdjGOXM0TvDV9qNL2I76iWGWj0OUx
+         mXtF+GrfeQtx9JNwv8F587wPi4Xoj3WWi7GTvZkw9IXiIejln943isS5iwx8Sksgv3
+         c/F8zJLHlmKUvD1NuzeqWHwI2b7xOgZoOzgqABgt0lnPMtpi83ztxkuikIe2TeP0bO
+         t4hfWNKhpWnzHwGuxxov973NqwTKgsjyM6RTsB9Ba25QgGkeMHEm8+lQLX1Bh7cidr
+         CDeGaXzwOvMykfO4JM+5eIShAEna9OweWsZLnLd5mp9bKQNqYxTbdB188KEScquz0T
+         c5tVKBQI8B/Xw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     =?UTF-8?q?=C5=81ukasz=20Spintzyk?= <lukasz.spintzyk@synaptics.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Paolo Abeni <pabeni@redhat.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 37/46] net/cdc_ncm: Increase NTB max RX/TX values to 64kb
-Date:   Thu, 11 Aug 2022 12:04:01 -0400
-Message-Id: <20220811160421.1539956-37-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 20/25] net/cdc_ncm: Increase NTB max RX/TX values to 64kb
+Date:   Thu, 11 Aug 2022 12:08:15 -0400
+Message-Id: <20220811160826.1541971-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220811160421.1539956-1-sashal@kernel.org>
-References: <20220811160421.1539956-1-sashal@kernel.org>
+In-Reply-To: <20220811160826.1541971-1-sashal@kernel.org>
+References: <20220811160826.1541971-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -112,11 +112,11 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/include/linux/usb/cdc_ncm.h b/include/linux/usb/cdc_ncm.h
-index 0ce4377545f8..20a8ab9272d8 100644
+index 1646c06989df..78cc32168640 100644
 --- a/include/linux/usb/cdc_ncm.h
 +++ b/include/linux/usb/cdc_ncm.h
-@@ -53,8 +53,8 @@
- #define USB_CDC_NCM_NDP32_LENGTH_MIN		0x20
+@@ -50,8 +50,8 @@
+ #define USB_CDC_NCM_NDP16_LENGTH_MIN		0x10
  
  /* Maximum NTB length */
 -#define	CDC_NCM_NTB_MAX_SIZE_TX			32768	/* bytes */
