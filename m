@@ -2,130 +2,105 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2885C28B2B
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Aug 2022 16:37:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA65EC19F2A
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Aug 2022 17:12:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238692AbiHKQhc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Aug 2022 12:37:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45564 "EHLO
+        id S236251AbiHKRMy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Aug 2022 13:12:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239039AbiHKQgN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Aug 2022 12:36:13 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7FB21145C;
-        Thu, 11 Aug 2022 09:11:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7B204B821B5;
-        Thu, 11 Aug 2022 16:11:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66D20C43470;
-        Thu, 11 Aug 2022 16:11:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660234293;
-        bh=qbGmSL5+mI2mRveAOxNCmHqKNyNI3Kq/djApgX84KAA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Q3KhieBz4pGPUyL5uEpE92V4gVJNp6FRFFt16f/tiP2VNu8g1Zk+1s0gg3JY1ygrh
-         c0sCTmuHSAIMDmiFqwv86ch/muEjbfLvzeRwymS8nOoB0USSoU2Omv8EnN7VvtGO9a
-         FYykRFFJZDbb0EM8F6sEfW/wm5LnzdpGgMg30ZT3J+G772EHp78TobkQZiKvBH/cXS
-         H+nGHqlyIKs1qrvIuUFtIJPwS58wB+LFu3qCDrBltARm1jlSmNGWm7+glwfuut5we/
-         ewHNDsgWrBqQJ4MUHFi/hhNvJRMJCWlGs9l8mCqVEYXBwCSzUEXuUKtZcWM5yi76S8
-         /ProXCyM/uCig==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?=C5=81ukasz=20Spintzyk?= <lukasz.spintzyk@synaptics.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 11/14] net/cdc_ncm: Increase NTB max RX/TX values to 64kb
-Date:   Thu, 11 Aug 2022 12:10:40 -0400
-Message-Id: <20220811161050.1543183-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220811161050.1543183-1-sashal@kernel.org>
-References: <20220811161050.1543183-1-sashal@kernel.org>
+        with ESMTP id S235728AbiHKRMd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Aug 2022 13:12:33 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 6312C9DF81
+        for <linux-usb@vger.kernel.org>; Thu, 11 Aug 2022 09:52:07 -0700 (PDT)
+Received: (qmail 9907 invoked by uid 1000); 11 Aug 2022 12:52:07 -0400
+Date:   Thu, 11 Aug 2022 12:52:07 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Rondreis <linhaoguo86@gmail.com>
+Cc:     balbi@kernel.org, andriy.shevchenko@linux.intel.com,
+        jakobkoschel@gmail.com, quic_wcheng@quicinc.com,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: kernel v5.19 warn in usb_ep_queue
+Message-ID: <YvUzt6yeKU4aOu34@rowland.harvard.edu>
+References: <CAB7eexKe2YtpYHy0Ohyr-SXLAWUjErJGLSspSUCeEL=CWyZSKw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAB7eexKe2YtpYHy0Ohyr-SXLAWUjErJGLSspSUCeEL=CWyZSKw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Łukasz Spintzyk <lukasz.spintzyk@synaptics.com>
+On Thu, Aug 11, 2022 at 10:12:04AM +0800, Rondreis wrote:
+> Hello,
+> 
+> When fuzzing the Linux kernel driver 5.19.0-rc4-00208-g69cb6c6556ad,
+> the following crash was triggered.
+> 
+> HEAD commit: 4b0986a3613c92f4ec1bdc7f60ec66fea135991f (HEAD, tag: v5.18)
 
-[ Upstream commit 5588d628027092e66195097bdf6835ddf64418b3 ]
+Why does this say v5.18 if the kernel you were testing was 5.19?
 
-DisplayLink ethernet devices require NTB buffers larger then 32kb
-in order to run with highest performance.
+> git tree: upstream
+> 
+> kernel config: https://pastebin.com/KecL2gaG
+> C reproducer: https://pastebin.com/wLDJ9cnP
+> console output: https://pastebin.com/t0r8EwTw
 
-This patch is changing upper limit of the rx and tx buffers.
-Those buffers are initialized with CDC_NCM_NTB_DEF_SIZE_RX and
-CDC_NCM_NTB_DEF_SIZE_TX which is 16kb so by default no device is
-affected by increased limit.
+This link is bad.  The pastebin.com page contains a second copy of the C 
+reproducer, not the console output.
 
-Rx and tx buffer is increased under two conditions:
- - Device need to advertise that it supports higher buffer size in
-   dwNtbMaxInMaxSize and dwNtbMaxOutMaxSize.
- - cdc_ncm/rx_max and cdc_ncm/tx_max driver parameters must be adjusted
-   with udev rule or ethtool.
+Alan Stern
 
-Summary of testing and performance results:
-Tests were performed on following devices:
- - DisplayLink DL-3xxx family device
- - DisplayLink DL-6xxx family device
- - ASUS USB-C2500 2.5G USB3 ethernet adapter
- - Plugable USB3 1G USB3 ethernet adapter
- - EDIMAX EU-4307 USB-C ethernet adapter
- - Dell DBQBCBC064 USB-C ethernet adapter
-
-Performance measurements were done with:
- - iperf3 between two linux boxes
- - http://openspeedtest.com/ instance running on local test machine
-
-Insights from tests results:
- - All except one from third party usb adapters were not affected by
-   increased buffer size to their advertised dwNtbOutMaxSize and
-   dwNtbInMaxSize.
-   Devices were generally reaching 912-940Mbps both download and upload.
-
-   Only EDIMAX adapter experienced decreased download size from
-   929Mbps to 827Mbps with iper3, with openspeedtest decrease was from
-   968Mbps to 886Mbps.
-
- - DisplayLink DL-3xxx family devices experienced performance increase
-   with iperf3 download from 300Mbps to 870Mbps and
-   upload from 782Mbps to 844Mbps.
-   With openspeedtest download increased from 556Mbps to 873Mbps
-   and upload from 727Mbps to 973Mbps
-
- - DiplayLink DL-6xxx family devices are not affected by
-   increased buffer size.
-
-Signed-off-by: Łukasz Spintzyk <lukasz.spintzyk@synaptics.com>
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Link: https://lore.kernel.org/r/20220720060518.541-2-lukasz.spintzyk@synaptics.com
-Signed-off-by: Paolo Abeni <pabeni@redhat.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- include/linux/usb/cdc_ncm.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/usb/cdc_ncm.h b/include/linux/usb/cdc_ncm.h
-index 1a59699cf82a..94aeaa231c71 100644
---- a/include/linux/usb/cdc_ncm.h
-+++ b/include/linux/usb/cdc_ncm.h
-@@ -49,8 +49,8 @@
- #define USB_CDC_NCM_NDP16_LENGTH_MIN		0x10
- 
- /* Maximum NTB length */
--#define	CDC_NCM_NTB_MAX_SIZE_TX			32768	/* bytes */
--#define	CDC_NCM_NTB_MAX_SIZE_RX			32768	/* bytes */
-+#define	CDC_NCM_NTB_MAX_SIZE_TX			65536	/* bytes */
-+#define	CDC_NCM_NTB_MAX_SIZE_RX			65536	/* bytes */
- 
- /* Initial NTB length */
- #define	CDC_NCM_NTB_DEF_SIZE_TX			16384	/* bytes */
--- 
-2.35.1
-
+> 
+> Basically, in the c reproducer, we use the gadget module to emulate
+> the process of attaching a usb device (vendor id: 0xbaf, product id:
+> 0x121, with function: midi and ms_null).
+> To reproduce this crash, we utilize a third-party library to emulate
+> the attaching process: https://github.com/linux-usb-gadgets/libusbgx.
+> Just clone this repository, make install it, and compile the c
+> reproducer with ``` gcc crash.c -lusbgx -o crash ``` will do the
+> trick.
+> 
+> It seems that an error state in struct usb_ep trigger such kernel warning.
+> 
+> The crash report is as follow:
+> 
+> ```
+> ------------[ cut here ]------------
+> ------------[ cut here ]------------
+> WARNING: CPU: 3 PID: 3442 at drivers/usb/gadget/udc/core.c:283
+> usb_ep_queue+0x16b/0x3b0 drivers/usb/gadget/udc/core.c:283
+> Modules linked in:
+> CPU: 3 PID: 3442 Comm: file-storage Not tainted
+> 5.19.0-rc4-00208-g69cb6c6556ad #1
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+> 1.13.0-1ubuntu1.1 04/01/2014
+> RIP: 0010:usb_ep_queue+0x16b/0x3b0 drivers/usb/gadget/udc/core.c:283
+> Code: 46 05 0f 92 c3 31 ff 89 de e8 f1 e9 49 fd 84 db 0f 85 16 01 00
+> 00 e8 c4 e8 49 fd 44 89 e0 5b 5d 41 5c 41 5d c3 e8 b5 e8 49 fd <0f> 0b
+> 41 bc 94 ff ff ff e9 73 ff ff ff e8 a3 e8 49 fd 65 8b 1d cc
+> RSP: 0018:ffffc9000490fd00 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: 0000000000000002 RCX: ffff888110e0d580
+> RDX: 0000000000000000 RSI: ffff888110e0d580 RDI: 0000000000000002
+> RBP: ffff88810ae84158 R08: ffffffff83fb31eb R09: 0000000000000000
+> R10: 0000000000000001 R11: ffffed10221c1ab0 R12: 0000000000000cc0
+> R13: ffff888111843f10 R14: ffff888111843f10 R15: ffff88811084e000
+> FS: 0000000000000000(0000) GS:ffff88811a980000(0000) knlGS:0000000000000000
+> CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007f841985e020 CR3: 000000010d19a000 CR4: 0000000000350ee0
+> Call Trace:
+> <TASK>
+> start_transfer.isra.0+0x26/0x100
+> drivers/usb/gadget/function/f_mass_storage.c:527
+> start_out_transfer.isra.0+0xf0/0x1b0
+> drivers/usb/gadget/function/f_mass_storage.c:560
+> get_next_command drivers/usb/gadget/function/f_mass_storage.c:2249 [inline]
+> fsg_main_thread+0x377/0x6fc0 drivers/usb/gadget/function/f_mass_storage.c:2572
+> kthread+0x2ef/0x3a0 kernel/kthread.c:376
+> ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:302
+> </TASK>
+> 
+> 
+> ```
