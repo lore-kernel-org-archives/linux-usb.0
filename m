@@ -2,60 +2,45 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE254C25B0C
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Aug 2022 09:03:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCF9FC19F2A
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Aug 2022 09:05:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234851AbiHKJD3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Aug 2022 05:03:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45576 "EHLO
+        id S234870AbiHKJFK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Aug 2022 05:05:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234841AbiHKJD0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Aug 2022 05:03:26 -0400
-Received: from hust.edu.cn (unknown [202.114.0.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2A7E186CC;
-        Thu, 11 Aug 2022 02:03:25 -0700 (PDT)
-Received: from localhost.localdomain ([172.16.0.254])
-        (user=dzm91@hust.edu.cn mech=LOGIN bits=0)
-        by mx1.hust.edu.cn  with ESMTP id 27B934X8019956-27B934XB019956
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Thu, 11 Aug 2022 17:03:10 +0800
-From:   Dongliang Mu <dzm91@hust.edu.cn>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dongliang Mu <mudongliangabcd@gmail.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] USB: trancevibrator: remove redundant space
-Date:   Thu, 11 Aug 2022 17:02:08 +0800
-Message-Id: <20220811090213.35899-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.35.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-FEAS-AUTH-USER: dzm91@hust.edu.cn
+        with ESMTP id S233983AbiHKJFI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Aug 2022 05:05:08 -0400
+Received: from mail.nfschina.com (unknown [IPv6:2400:dd01:100f:2:72e2:84ff:fe10:5f45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8C39020BE7;
+        Thu, 11 Aug 2022 02:05:06 -0700 (PDT)
+Received: from localhost (unknown [127.0.0.1])
+        by mail.nfschina.com (Postfix) with ESMTP id 74C4B1E80D32;
+        Thu, 11 Aug 2022 17:03:03 +0800 (CST)
+X-Virus-Scanned: amavisd-new at test.com
+Received: from mail.nfschina.com ([127.0.0.1])
+        by localhost (mail.nfschina.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id I1Wo2GY-nHMM; Thu, 11 Aug 2022 17:03:00 +0800 (CST)
+Received: from localhost.localdomain (unknown [219.141.250.2])
+        (Authenticated sender: zhoujie@nfschina.com)
+        by mail.nfschina.com (Postfix) with ESMTPA id C6A071E80CE3;
+        Thu, 11 Aug 2022 17:03:00 +0800 (CST)
+From:   Zhou jie <zhoujie@nfschina.com>
+To:     gregkh@linuxfoundation.org
+Cc:     johan@kernel.org, kernel@nfschina.com,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        zhoujie@nfschina.com
+Subject: Re: [PATCH v2] usb/serial:Repair function return value
+Date:   Thu, 11 Aug 2022 17:05:00 +0800
+Message-Id: <20220811090501.6999-1-zhoujie@nfschina.com>
+X-Mailer: git-send-email 2.18.2
+In-Reply-To: <YvTDCpjrqxxK46Us@kroah.com>
+References: <YvTDCpjrqxxK46Us@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Dongliang Mu <mudongliangabcd@gmail.com>
 
-remove a redundant space after usb_get_intfdata
-
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
----
- drivers/usb/misc/trancevibrator.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/misc/trancevibrator.c b/drivers/usb/misc/trancevibrator.c
-index 26baba3ab7d7..55cb63652eda 100644
---- a/drivers/usb/misc/trancevibrator.c
-+++ b/drivers/usb/misc/trancevibrator.c
-@@ -106,7 +106,7 @@ static void tv_disconnect(struct usb_interface *interface)
- {
- 	struct trancevibrator *dev;
- 
--	dev = usb_get_intfdata (interface);
-+	dev = usb_get_intfdata(interface);
- 	usb_set_intfdata(interface, NULL);
- 	usb_put_dev(dev->udev);
- 	kfree(dev);
--- 
-2.35.1
+The return value processing has been done in the write_mos_reg() function, no additional operations are required here, just return the result directly.
+Also the indentation of the second line is now incorrect? What's wrong?
 
