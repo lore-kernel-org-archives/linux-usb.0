@@ -2,43 +2,44 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87BB8C25B06
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:42:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D05BC28B2C
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:42:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241194AbiHNPmi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Aug 2022 11:42:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37214 "EHLO
+        id S241210AbiHNPmk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Aug 2022 11:42:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241581AbiHNPl5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:41:57 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E70E23165;
-        Sun, 14 Aug 2022 08:33:19 -0700 (PDT)
+        with ESMTP id S241309AbiHNPlR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:41:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2A96220C9;
+        Sun, 14 Aug 2022 08:32:55 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 28754B80B4D;
-        Sun, 14 Aug 2022 15:33:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AD99C433D6;
-        Sun, 14 Aug 2022 15:33:16 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7FF8060BC9;
+        Sun, 14 Aug 2022 15:32:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A55AC433D6;
+        Sun, 14 Aug 2022 15:32:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660491196;
-        bh=0LLFBfOKHFPod6bxQlh8610jSWOZ/Fs0Wgi1kYBiWWk=;
+        s=k20201202; t=1660491173;
+        bh=/QLmC2S3Y9ckObInugCjVY1KWeEqBnsxxCQOD44T8/k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UqXk83PhSsG/V6e7e1gd83UM7+JZ7GRHdi2I9v/+6aSdKUB+qOULUsqTwiCrMfFc8
-         XBVwCl0J0ZgzBau/0pVKqgNsqVHosO5G0Lumeel/DXBt+caALBtuv/+eCEFVcY2U/0
-         VGAHNTgm+inEXUy0ggmxkNNyYrSFEDV//qnY65E48JtabobcY0ztp34244wfN9lmn/
-         eqNg07Kfrrg3NZQopojrYQwmgtxaZ+lnENs42yqQbpzHOyXQRL1hXwR3N3jXmlC8TL
-         o09GLE7xYyw2aOZ9bIauJykp3kPaUTcWhAqF+roVcomV/EizQGApULYt/jsx5Ai9D4
-         thICB0WRXNy0g==
+        b=ESU3NMTUPDOpRTJp+wm/at+NZsYoNb/XM2c9MS+Ybpt2p5OGycIQ+hRq8+4isqY4l
+         OjPLVuzGT1rdNPrmG22UM48fmnkddyqSGWBNI2GKOhcxhRJnEzTxQou1egIpSGPaMT
+         wk/dcTk5BeO0CwZmw3pkl/JhGWjT8tCjSPpl+hmtqgJHcEqzMH2HL0DWUlBTqKwvTu
+         TwJ/P5vYUBT3CrX+X6FxIfw4APioassN8kdG44qLDYSXuqQHnuijtMbfA3T1BmAVKl
+         Gok4yDCqSX2AcPaPZkUsqIrNwBxCoqmkWaE286NvkQOy7dyqBKIO+/RZgyB9FbzIDc
+         5IvbIeHmihpKA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Liang He <windhl@126.com>, Alan Stern <stern@rowland.harvard.edu>,
+Cc:     Frank Li <Frank.Li@nxp.com>, Faqiang Zhu <faqiang.zhu@nxp.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 13/46] usb: host: ohci-ppc-of: Fix refcount leak bug
-Date:   Sun, 14 Aug 2022 11:32:14 -0400
-Message-Id: <20220814153247.2378312-13-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, peter.chen@kernel.org,
+        pawell@cadence.com, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 04/46] usb: cdns3 fix use-after-free at workaround 2
+Date:   Sun, 14 Aug 2022 11:32:05 -0400
+Message-Id: <20220814153247.2378312-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220814153247.2378312-1-sashal@kernel.org>
 References: <20220814153247.2378312-1-sashal@kernel.org>
@@ -50,35 +51,51 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Liang He <windhl@126.com>
+From: Frank Li <Frank.Li@nxp.com>
 
-[ Upstream commit 40a959d7042bb7711e404ad2318b30e9f92c6b9b ]
+[ Upstream commit 7d602f30149a117eea260208b1661bc404c21dfd ]
 
-In ohci_hcd_ppc_of_probe(), of_find_compatible_node() will return
-a node pointer with refcount incremented. We should use of_node_put()
-when it is not used anymore.
+BUG: KFENCE: use-after-free read in __list_del_entry_valid+0x10/0xac
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Liang He <windhl@126.com>
-Link: https://lore.kernel.org/r/20220617034637.4003115-1-windhl@126.com
+cdns3_wa2_remove_old_request()
+{
+	...
+	kfree(priv_req->request.buf);
+	cdns3_gadget_ep_free_request(&priv_ep->endpoint, &priv_req->request);
+	list_del_init(&priv_req->list);
+	^^^ use after free
+	...
+}
+
+cdns3_gadget_ep_free_request() free the space pointed by priv_req,
+but priv_req is used in the following list_del_init().
+
+This patch move list_del_init() before cdns3_gadget_ep_free_request().
+
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+Signed-off-by: Faqiang Zhu <faqiang.zhu@nxp.com>
+Link: https://lore.kernel.org/r/20220608190430.2814358-1-Frank.Li@nxp.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/ohci-ppc-of.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/cdns3/cdns3-gadget.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/ohci-ppc-of.c b/drivers/usb/host/ohci-ppc-of.c
-index 45f7cceb6df3..98e46725999e 100644
---- a/drivers/usb/host/ohci-ppc-of.c
-+++ b/drivers/usb/host/ohci-ppc-of.c
-@@ -169,6 +169,7 @@ static int ohci_hcd_ppc_of_probe(struct platform_device *op)
- 				release_mem_region(res.start, 0x4);
- 		} else
- 			pr_debug("%s: cannot get ehci offset from fdt\n", __FILE__);
-+		of_node_put(np);
- 	}
+diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
+index d6d515d598dc..c4f90b124e55 100644
+--- a/drivers/usb/cdns3/cdns3-gadget.c
++++ b/drivers/usb/cdns3/cdns3-gadget.c
+@@ -625,9 +625,9 @@ static void cdns3_wa2_remove_old_request(struct cdns3_endpoint *priv_ep)
+ 		trace_cdns3_wa2(priv_ep, "removes eldest request");
  
- 	irq_dispose_mapping(irq);
+ 		kfree(priv_req->request.buf);
++		list_del_init(&priv_req->list);
+ 		cdns3_gadget_ep_free_request(&priv_ep->endpoint,
+ 					     &priv_req->request);
+-		list_del_init(&priv_req->list);
+ 		--priv_ep->wa2_counter;
+ 
+ 		if (!chain)
 -- 
 2.35.1
 
