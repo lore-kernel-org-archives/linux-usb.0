@@ -2,46 +2,49 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68E86C25B06
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:34:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68CFCC25B06
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:36:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231252AbiHNPeo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Aug 2022 11:34:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54448 "EHLO
+        id S240518AbiHNPgk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Aug 2022 11:36:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240745AbiHNPeQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:34:16 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED0ABE23;
-        Sun, 14 Aug 2022 08:30:33 -0700 (PDT)
+        with ESMTP id S240830AbiHNPfL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:35:11 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3CBB1CB25;
+        Sun, 14 Aug 2022 08:30:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 745A8B80B7E;
-        Sun, 14 Aug 2022 15:30:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22CF5C433C1;
-        Sun, 14 Aug 2022 15:30:28 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 13E2BB80B4D;
+        Sun, 14 Aug 2022 15:30:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3A69C43141;
+        Sun, 14 Aug 2022 15:30:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660491029;
-        bh=ebo6kPnfZ6o+Q1fsjAA8jeQY9HT8MUugEfOa0/b02xE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=qqeMILVRzrnyMCODpMc+97MO7Z5sHBTFaFS4Qc/tuXaxJ8xGwWIMf1MsrydmVrCk0
-         fYEP3/jK8YnAYh2ZhlQtd/bkgRkIhi94W3tHQJk0MHeljeZbaPJ8+AZh3/pNyNmuCN
-         Wi+DEHy441MrNcJbAmpcc49bTyhsgLQqwJ6P9oEJw1xEHAqxJoDkXYMszO2pCXuHBx
-         v8gA0Zj2Zokn3gsG9kDuCLzitC+73JuDmKvg5DrrVIGx3semOPUe1q4o9OFFplO9VB
-         7j4N4SwHCztDnRBwuli7l+Aq6hZkPLwWJ8YsL6ZUZSb89dMN8MgtHR5IG07hqJavV8
-         5E+ZcvaJQCS+w==
+        s=k20201202; t=1660491036;
+        bh=XfTpIaEcdH4Kr+11fCWTXZMYxUdU3fx7fJjlYGcy0nk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=gPoKhwZjxWCwqMPVprLMv65qQrASytTagIWCVMkQVoZUMfBoBcpV9SJz2XYNE9h61
+         HdX319kKN0fR/DWGf7HQcdOsoZNCjQ7xC6ZmUf+3joMn91CkzKuDz1XpBE9m2/EnDR
+         IaTk8B2mXpa0tzXdIVDW18h2TW4866pHqW+xEk9uHYxAsjSujCDcHtHd9d5YJnS/4u
+         SJg6lnc7dvHjMWZIOl+vHgJzFVMOuU6C6Q5pyLacSGKfRhImYInxB1QRVJGCZuDqAP
+         M3d8p5Sds0dosMLkuwjFhbgCG4nCnaslc5G24uKZ+aH+lcbPxkWKVl44eArOsoYQSC
+         y797YmrF56dRA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Gil Fine <gil.fine@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>, andreas.noever@gmail.com,
-        michael.jamet@intel.com, YehezkelShB@gmail.com,
+Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Dan Vacura <w36195@motorola.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>,
+        laurent.pinchart@ideasonboard.com, balbi@kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 01/56] thunderbolt: Change downstream router's TMU rate in both TMU uni/bidir mode
-Date:   Sun, 14 Aug 2022 11:29:31 -0400
-Message-Id: <20220814153026.2377377-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 07/56] usb: gadget: uvc: calculate the number of request depending on framesize
+Date:   Sun, 14 Aug 2022 11:29:37 -0400
+Message-Id: <20220814153026.2377377-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220814153026.2377377-1-sashal@kernel.org>
+References: <20220814153026.2377377-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,51 +53,68 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Gil Fine <gil.fine@intel.com>
+From: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
-[ Upstream commit 5fd6b9a5cbe63fea4c490fee8af34144a139a266 ]
+[ Upstream commit 87d76b5f1d8eeb49efa16e2018e188864cbb9401 ]
 
-In case of uni-directional time sync, TMU handshake is
-initiated by upstream router. In case of bi-directional
-time sync, TMU handshake is initiated by downstream router.
-In order to handle correctly the case of uni-directional mode,
-we avoid changing the upstream router's rate to off,
-because it might have another downstream router plugged that is set to
-uni-directional mode (and we don't want to change its mode).
-Instead, we always change downstream router's rate.
+The current limitation of possible number of requests being handled is
+dependent on the gadget speed. It makes more sense to depend on the
+typical frame size when calculating the number of requests. This patch
+is changing this and is using the previous limits as boundaries for
+reasonable minimum and maximum number of requests.
 
-Signed-off-by: Gil Fine <gil.fine@intel.com>
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+For a 1080p jpeg encoded video stream with a maximum imagesize of
+e.g. 800kB with a maxburst of 8 and an multiplier of 1 the resulting
+number of requests is calculated to 49.
+
+        800768         1
+nreqs = ------ * -------------- ~= 49
+          2      (1024 * 8 * 1)
+
+Tested-by: Dan Vacura <w36195@motorola.com>
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Link: https://lore.kernel.org/r/20220529223848.105914-2-m.grzeschik@pengutronix.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/thunderbolt/tmu.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/usb/gadget/function/uvc_queue.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/thunderbolt/tmu.c b/drivers/thunderbolt/tmu.c
-index e4a07a26f693..93ba1d00335b 100644
---- a/drivers/thunderbolt/tmu.c
-+++ b/drivers/thunderbolt/tmu.c
-@@ -359,13 +359,14 @@ int tb_switch_tmu_disable(struct tb_switch *sw)
- 		 * In case of uni-directional time sync, TMU handshake is
- 		 * initiated by upstream router. In case of bi-directional
- 		 * time sync, TMU handshake is initiated by downstream router.
--		 * Therefore, we change the rate to off in the respective
--		 * router.
-+		 * We change downstream router's rate to off for both uni/bidir
-+		 * cases although it is needed only for the bi-directional mode.
-+		 * We avoid changing upstream router's mode since it might
-+		 * have another downstream router plugged, that is set to
-+		 * uni-directional mode and we don't want to change it's TMU
-+		 * mode.
- 		 */
--		if (unidirectional)
--			tb_switch_tmu_rate_write(parent, TB_SWITCH_TMU_RATE_OFF);
--		else
--			tb_switch_tmu_rate_write(sw, TB_SWITCH_TMU_RATE_OFF);
-+		tb_switch_tmu_rate_write(sw, TB_SWITCH_TMU_RATE_OFF);
+diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
+index 2cda982f3765..5b78e000cded 100644
+--- a/drivers/usb/gadget/function/uvc_queue.c
++++ b/drivers/usb/gadget/function/uvc_queue.c
+@@ -44,7 +44,8 @@ static int uvc_queue_setup(struct vb2_queue *vq,
+ {
+ 	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+ 	struct uvc_video *video = container_of(queue, struct uvc_video, queue);
+-	struct usb_composite_dev *cdev = video->uvc->func.config->cdev;
++	unsigned int req_size;
++	unsigned int nreq;
  
- 		tb_port_tmu_time_sync_disable(up);
- 		ret = tb_port_tmu_time_sync_disable(down);
+ 	if (*nbuffers > UVC_MAX_VIDEO_BUFFERS)
+ 		*nbuffers = UVC_MAX_VIDEO_BUFFERS;
+@@ -53,10 +54,16 @@ static int uvc_queue_setup(struct vb2_queue *vq,
+ 
+ 	sizes[0] = video->imagesize;
+ 
+-	if (cdev->gadget->speed < USB_SPEED_SUPER)
+-		video->uvc_num_requests = 4;
+-	else
+-		video->uvc_num_requests = 64;
++	req_size = video->ep->maxpacket
++		 * max_t(unsigned int, video->ep->maxburst, 1)
++		 * (video->ep->mult);
++
++	/* We divide by two, to increase the chance to run
++	 * into fewer requests for smaller framesizes.
++	 */
++	nreq = DIV_ROUND_UP(DIV_ROUND_UP(sizes[0], 2), req_size);
++	nreq = clamp(nreq, 4U, 64U);
++	video->uvc_num_requests = nreq;
+ 
+ 	return 0;
+ }
 -- 
 2.35.1
 
