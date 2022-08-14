@@ -2,48 +2,46 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43841C2BB41
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:52:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AEC0C3F6B0
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:52:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241882AbiHNPwZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Aug 2022 11:52:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54712 "EHLO
+        id S241966AbiHNPw0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Aug 2022 11:52:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241555AbiHNPt0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:49:26 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45D3F101D1;
-        Sun, 14 Aug 2022 08:35:38 -0700 (PDT)
+        with ESMTP id S242163AbiHNPvV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:51:21 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 328AE1DA55;
+        Sun, 14 Aug 2022 08:36:59 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E12B0B80B4D;
-        Sun, 14 Aug 2022 15:35:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC6F9C4347C;
-        Sun, 14 Aug 2022 15:35:35 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A10B3B80B7F;
+        Sun, 14 Aug 2022 15:36:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0815C43140;
+        Sun, 14 Aug 2022 15:36:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660491336;
-        bh=SXrx+DlaLHzX4I2b5Q7/9xvnCK8Sl1fsEV9Ilr6BdHc=;
+        s=k20201202; t=1660491416;
+        bh=X32xtPBWcVE6Z6gxu3/jbMLK/pP7I1mcOKV4OxfaTWk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DDbSd+08Gba7wNTAYCA+sG2DhxHJx0ZaSJGjm7SAGQiKVJMkJmjrC2V8/lhWqxHM2
-         L3zWCGoNblo8e2SGcUYq6/RwIn+jd+G7oJBItSLfLZTrJKa7+4szePJy86Byc3n1UJ
-         4RBlpFSgsiuUOQ7uCrwUKk82+brusyk7yqfimSTzn9tVMhveAlo/fK9q457Iv4rbdg
-         bzDCvRw2oRMmGoM47w2/IkpbruGbUUbr48ZPzcu7MERneqPZkAMy3+tBNQdb8XiOJn
-         nvjz5G9gZBOuC3Rx9qJE0N9Dp2Tbb/a0RME79t03y6PvTc2HymNTiuzQ/gPR7tV16c
-         pVAh1+M7HWYWg==
+        b=qB54QccF1ijeZiVuNtY5W1MvYCX636kLWzNqWBOg4E7Hl3svgzI0iDirZvTLDUtOq
+         lItgVHn9RG7VxTSqRwUp4MVgcL6V1vXY1bvVcSlOSDA5L6NzqjPiS88fjpnVR48RX/
+         rPQxOHqTbj+MXfuHJXPn49o6770xTvXXBdFh7LtiD6FAsjmUVQPsdoonBjzHMVIsoK
+         bYLwUBfKZp1tXRcT1uhU+4pIbxKOOXdTX+m80j3M2hSEgIPe0ssxe6uucRLhC6Zqmg
+         gw8msLx2Mh0GMQRoT4A21IWJSpWMMSP03z7m80lLysNPRpAbLtSF79LCimAZZfzoHA
+         AMLGiBcSSeGGQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc:     Liang He <windhl@126.com>, Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 03/21] usb: gadget: uvc: call uvc uvcg_warn on completed status instead of uvcg_info
-Date:   Sun, 14 Aug 2022 11:35:13 -0400
-Message-Id: <20220814153531.2379705-3-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.9 2/7] usb: host: ohci-ppc-of: Fix refcount leak bug
+Date:   Sun, 14 Aug 2022 11:36:47 -0400
+Message-Id: <20220814153652.2380549-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814153531.2379705-1-sashal@kernel.org>
-References: <20220814153531.2379705-1-sashal@kernel.org>
+In-Reply-To: <20220814153652.2380549-1-sashal@kernel.org>
+References: <20220814153652.2380549-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,36 +50,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Michael Grzeschik <m.grzeschik@pengutronix.de>
+From: Liang He <windhl@126.com>
 
-[ Upstream commit a725d0f6dfc5d3739d6499f30ec865305ba3544d ]
+[ Upstream commit 40a959d7042bb7711e404ad2318b30e9f92c6b9b ]
 
-Likewise to the uvcvideo hostside driver, this patch is changing the
-usb_request message of an non zero completion handler call from dev_info
-to dev_warn.
+In ohci_hcd_ppc_of_probe(), of_find_compatible_node() will return
+a node pointer with refcount incremented. We should use of_node_put()
+when it is not used anymore.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Link: https://lore.kernel.org/r/20220529223848.105914-4-m.grzeschik@pengutronix.de
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Liang He <windhl@126.com>
+Link: https://lore.kernel.org/r/20220617034637.4003115-1-windhl@126.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/uvc_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/host/ohci-ppc-of.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 5c042f380708..f9fad639a489 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -191,7 +191,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
- 		goto requeue;
+diff --git a/drivers/usb/host/ohci-ppc-of.c b/drivers/usb/host/ohci-ppc-of.c
+index 4f87a5c61b08..d22a70363fbf 100644
+--- a/drivers/usb/host/ohci-ppc-of.c
++++ b/drivers/usb/host/ohci-ppc-of.c
+@@ -168,6 +168,7 @@ static int ohci_hcd_ppc_of_probe(struct platform_device *op)
+ 				release_mem_region(res.start, 0x4);
+ 		} else
+ 			pr_debug("%s: cannot get ehci offset from fdt\n", __FILE__);
++		of_node_put(np);
+ 	}
  
- 	default:
--		uvcg_info(&video->uvc->func,
-+		uvcg_warn(&video->uvc->func,
- 			  "VS request completed with status %d.\n",
- 			  req->status);
- 		uvcg_queue_cancel(queue, 0);
+ 	irq_dispose_mapping(irq);
 -- 
 2.35.1
 
