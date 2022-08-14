@@ -2,48 +2,48 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F09E9C282E7
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:52:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB297C3F6B0
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:52:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242103AbiHNPwj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Aug 2022 11:52:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40028 "EHLO
+        id S242078AbiHNPwf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Aug 2022 11:52:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242067AbiHNPvI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:51:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250D01A805;
-        Sun, 14 Aug 2022 08:36:48 -0700 (PDT)
+        with ESMTP id S242166AbiHNPvV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:51:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 767391DA79;
+        Sun, 14 Aug 2022 08:37:01 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AFCE560CF5;
-        Sun, 14 Aug 2022 15:36:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E83DCC433C1;
-        Sun, 14 Aug 2022 15:36:45 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AB60F60CF5;
+        Sun, 14 Aug 2022 15:37:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 006A7C433C1;
+        Sun, 14 Aug 2022 15:36:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660491407;
-        bh=2IANWfcDXn8gdk1Z4gv51ItWI+UvkHS6CpqklXgJFeg=;
+        s=k20201202; t=1660491420;
+        bh=FRJzzAnCaxoDotjb7MHc+PSZZr5SJZD7UjAEYcm83gc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CP+djlBD/sA/kbRYMsdmL0uHLHBhqxxzPeiEfK4o+nkl29XrQKUNk15qrq4WwcQBL
-         AdW88K/+oOZPkSeeg8JKiNmanwPichFwn+gcMu8Z/2GNi06PLranSATbw6zYcfrrM/
-         r5ILS4HkfbBhVDjHcZL3EjyEilKNdEeVbAjOXiUEdltL28uCWaSGb9jHPnfL9XMZ8e
-         25NRc8QNerJt/vwZ7S5VFS4IKdj7Y7QD+T12SUaMZfzlwBqNCi0+sfLrvySEpJZagZ
-         2+2d0wXp6XJxccdx0xVwcRnrCkCLVcihqQVi+sJ1waQPUixXB39ZK317aT8R3q9bEq
-         zcfx1sWWYJK7w==
+        b=oTykyOxkHLbkvyL4oaYTIFP2pKTZhAXX5SZEUV6eFwN11CWRTib5BzwHuHUx01J2d
+         C2/y1MtF/j2JpeKvI7jorZzgtAMHqEr95e2R8EgbRRwIGcox1kU3//9qA7yvBbN817
+         C76ch6osxNI9ryvxTaSJsJnC1moDjdAl5YhWTcnnDx3ZGz5pSyiocDhpjhxloe8+58
+         HLkZPdBgRYt5OdHJbh7AYWjL2BEq5b25oT/2qIPyYGH50v5IqhA5IHZShQElF+yhUp
+         6MS31rSOY5/YM2wdyDQ7ECHXGlIeKD/FXJ3QQTsIjVgimk5elypFU2UkrXNd7G9DRG
+         tsES3KKSBRu0g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Jozef Martiniak <jomajm@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
-        stern@rowland.harvard.edu, axboe@kernel.dk, hbh25y@gmail.com,
+        stern@rowland.harvard.edu, hbh25y@gmail.com, axboe@kernel.dk,
         rdunlap@infradead.org, mingo@kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 5/9] gadgetfs: ep_io - wait until IRQ finishes
-Date:   Sun, 14 Aug 2022 11:36:32 -0400
-Message-Id: <20220814153637.2380406-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 3/7] gadgetfs: ep_io - wait until IRQ finishes
+Date:   Sun, 14 Aug 2022 11:36:48 -0400
+Message-Id: <20220814153652.2380549-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814153637.2380406-1-sashal@kernel.org>
-References: <20220814153637.2380406-1-sashal@kernel.org>
+In-Reply-To: <20220814153652.2380549-1-sashal@kernel.org>
+References: <20220814153652.2380549-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -70,7 +70,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
-index 53d17e1bb65a..f0f41cc8b2f1 100644
+index 2b30b5a1b577..8d53b3ac31c6 100644
 --- a/drivers/usb/gadget/legacy/inode.c
 +++ b/drivers/usb/gadget/legacy/inode.c
 @@ -365,6 +365,7 @@ ep_io (struct ep_data *epdata, void *buf, unsigned len)
