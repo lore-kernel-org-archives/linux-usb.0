@@ -2,43 +2,45 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06992C28B2B
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:47:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48239C2BB45
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:47:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241518AbiHNPrU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Aug 2022 11:47:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54740 "EHLO
+        id S241528AbiHNPrW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Aug 2022 11:47:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241857AbiHNPq3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:46:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BA702717E;
-        Sun, 14 Aug 2022 08:34:55 -0700 (PDT)
+        with ESMTP id S241703AbiHNPqK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:46:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5156ABC1A;
+        Sun, 14 Aug 2022 08:34:39 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0181BB80B79;
-        Sun, 14 Aug 2022 15:34:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A264C433D6;
-        Sun, 14 Aug 2022 15:34:51 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BC12360CF7;
+        Sun, 14 Aug 2022 15:34:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CD26C43145;
+        Sun, 14 Aug 2022 15:34:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660491292;
-        bh=9krYIMZkWByFYm0Z2MCMjTdo/cKY77hHZASSi3Elm3k=;
+        s=k20201202; t=1660491278;
+        bh=XCAFwGt6ZZvGEEsPqFEisCf1nOo3sIPK3uhYeB8yzeQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gN+5t6zwdGVtw2dyhmEU7AqNfmzBKorqu2AesFxBI4TF/QM1W99NIuh3kk11/CIXG
-         oiZeH3Kc1sHaAiqMw9qvLWP8VRmOFxaawgI8EGpdzU5D5lJHFGa7n6SzaPLxEl+EaT
-         LiRI8/obp4SM5fMEP9iebTE6rw2ySMIYQReY8ukrS8Fyi/AbSMxeHx07iTH+5hKobu
-         xlHCpgL7JiMazdxklPPQ/K3iOeCXMuznVZqdHwwUM8YZpnfk1tkJWmDX2BKf9YjF+n
-         FYvdUmUCTpSYXIO4eUOyi+423gZlr4qt6UjdeAg+juHC5W8p4wVfqnRzincfqLmaY+
-         /GuBTc5NMPeWQ==
+        b=aJavevuT+uTlhH2CVD+/cbXfad1j+c+8FfP9gaL5czloKYEXit3aBnGea1tuA5iNg
+         BSUMM0H3U06FawagtGsL8SCflFzOXC508FR2wm1YSSS2VF+QoDYi6eTqicXwr4Qt9M
+         TSJzcmyilmIUwkPkf8ztus5AvjhEsN/DFJ/vEVT42vM1liIx9rs4B5g5rj1x5J2ki0
+         STzROC1poAdKpToL5FlgvfGQvHhFHuwOzQM8J6ScGF9t24VB1w4a9W4Lmr3KbZNJJ4
+         ZxddyVSqG2Z0ZwQZ9af3TJgUVSWAv4qHLI9lqgrbNi3AIrWzQqlVyfN5shQuXGt9Cj
+         8Rwri+UBLvsNQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Liang He <windhl@126.com>,
+Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 09/31] usb: renesas: Fix refcount leak bug
-Date:   Sun, 14 Aug 2022 11:34:09 -0400
-Message-Id: <20220814153431.2379231-9-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
+        linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 04/31] usb: gadget: uvc: call uvc uvcg_warn on completed status instead of uvcg_info
+Date:   Sun, 14 Aug 2022 11:34:04 -0400
+Message-Id: <20220814153431.2379231-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220814153431.2379231-1-sashal@kernel.org>
 References: <20220814153431.2379231-1-sashal@kernel.org>
@@ -50,37 +52,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Liang He <windhl@126.com>
+From: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
-[ Upstream commit 9d6d5303c39b8bc182475b22f45504106a07f086 ]
+[ Upstream commit a725d0f6dfc5d3739d6499f30ec865305ba3544d ]
 
-In usbhs_rza1_hardware_init(), of_find_node_by_name() will return
-a node pointer with refcount incremented. We should use of_node_put()
-when it is not used anymore.
+Likewise to the uvcvideo hostside driver, this patch is changing the
+usb_request message of an non zero completion handler call from dev_info
+to dev_warn.
 
-Signed-off-by: Liang He <windhl@126.com>
-Link: https://lore.kernel.org/r/20220618023205.4056548-1-windhl@126.com
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Link: https://lore.kernel.org/r/20220529223848.105914-4-m.grzeschik@pengutronix.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/renesas_usbhs/rza.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/gadget/function/uvc_video.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/renesas_usbhs/rza.c b/drivers/usb/renesas_usbhs/rza.c
-index 24de64edb674..2d77edefb4b3 100644
---- a/drivers/usb/renesas_usbhs/rza.c
-+++ b/drivers/usb/renesas_usbhs/rza.c
-@@ -23,6 +23,10 @@ static int usbhs_rza1_hardware_init(struct platform_device *pdev)
- 	extal_clk = of_find_node_by_name(NULL, "extal");
- 	of_property_read_u32(usb_x1_clk, "clock-frequency", &freq_usb);
- 	of_property_read_u32(extal_clk, "clock-frequency", &freq_extal);
-+
-+	of_node_put(usb_x1_clk);
-+	of_node_put(extal_clk);
-+
- 	if (freq_usb == 0) {
- 		if (freq_extal == 12000000) {
- 			/* Select 12MHz XTAL */
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index 633e23d58d86..5ce548c2359d 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -159,7 +159,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
+ 		break;
+ 
+ 	default:
+-		uvcg_info(&video->uvc->func,
++		uvcg_warn(&video->uvc->func,
+ 			  "VS request completed with status %d.\n",
+ 			  req->status);
+ 		uvcg_queue_cancel(queue, 0);
 -- 
 2.35.1
 
