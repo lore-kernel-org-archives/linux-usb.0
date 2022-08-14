@@ -2,45 +2,46 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48239C2BB45
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:47:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E3C3C28B2C
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:47:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241528AbiHNPrW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Aug 2022 11:47:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55354 "EHLO
+        id S241544AbiHNPrY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Aug 2022 11:47:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241703AbiHNPqK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:46:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5156ABC1A;
-        Sun, 14 Aug 2022 08:34:39 -0700 (PDT)
+        with ESMTP id S241939AbiHNPqs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:46:48 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 889FAE0C3;
+        Sun, 14 Aug 2022 08:35:08 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BC12360CF7;
-        Sun, 14 Aug 2022 15:34:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CD26C43145;
-        Sun, 14 Aug 2022 15:34:37 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 288D1B80B27;
+        Sun, 14 Aug 2022 15:35:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4C3CC433D7;
+        Sun, 14 Aug 2022 15:35:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660491278;
-        bh=XCAFwGt6ZZvGEEsPqFEisCf1nOo3sIPK3uhYeB8yzeQ=;
+        s=k20201202; t=1660491305;
+        bh=LZIZyf0FE07OAIZ/aPC5nFYOADhyKlFyy9n8rGNcgA8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aJavevuT+uTlhH2CVD+/cbXfad1j+c+8FfP9gaL5czloKYEXit3aBnGea1tuA5iNg
-         BSUMM0H3U06FawagtGsL8SCflFzOXC508FR2wm1YSSS2VF+QoDYi6eTqicXwr4Qt9M
-         TSJzcmyilmIUwkPkf8ztus5AvjhEsN/DFJ/vEVT42vM1liIx9rs4B5g5rj1x5J2ki0
-         STzROC1poAdKpToL5FlgvfGQvHhFHuwOzQM8J6ScGF9t24VB1w4a9W4Lmr3KbZNJJ4
-         ZxddyVSqG2Z0ZwQZ9af3TJgUVSWAv4qHLI9lqgrbNi3AIrWzQqlVyfN5shQuXGt9Cj
-         8Rwri+UBLvsNQ==
+        b=iuei/dYwZJqkX27h65aNCcVRN3Fw7/yxDjwMVP7swDW9qnrIpwOOIsbqIf6t4R0gr
+         c+rzXKFAvXB8dabvyJHL0GWhNm3nDR1grcgBsdGl2v7IFCme/8kE3+Mvb7H5n0nb/k
+         JJtnqBJdpeZAXHhqaZUmCr+5qo8xbZ7NGVteYz7ZFXxPNiDLQNTeTRfbCpVtqzKoVh
+         L/qyWEu4s+lwMkcUF4oZX7WWPtcX2YGKNxFZ3IgLja+BqLo5xIzJ1F1thj+whXXs95
+         ROvw210m3fgZB1DSVhCf7S1+BsnHew2XFtXFzOS9AwPSJLUqprqzS6d+d/r2AJ8aZB
+         257xYXfqYKuWQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc:     Jozef Martiniak <jomajm@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
+        stern@rowland.harvard.edu, hbh25y@gmail.com, axboe@kernel.dk,
+        ira.weiny@intel.com, rdunlap@infradead.org, mingo@kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 04/31] usb: gadget: uvc: call uvc uvcg_warn on completed status instead of uvcg_info
-Date:   Sun, 14 Aug 2022 11:34:04 -0400
-Message-Id: <20220814153431.2379231-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 17/31] gadgetfs: ep_io - wait until IRQ finishes
+Date:   Sun, 14 Aug 2022 11:34:17 -0400
+Message-Id: <20220814153431.2379231-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220814153431.2379231-1-sashal@kernel.org>
 References: <20220814153431.2379231-1-sashal@kernel.org>
@@ -52,36 +53,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Michael Grzeschik <m.grzeschik@pengutronix.de>
+From: Jozef Martiniak <jomajm@gmail.com>
 
-[ Upstream commit a725d0f6dfc5d3739d6499f30ec865305ba3544d ]
+[ Upstream commit 04cb742d4d8f30dc2e83b46ac317eec09191c68e ]
 
-Likewise to the uvcvideo hostside driver, this patch is changing the
-usb_request message of an non zero completion handler call from dev_info
-to dev_warn.
+after usb_ep_queue() if wait_for_completion_interruptible() is
+interrupted we need to wait until IRQ gets finished.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Link: https://lore.kernel.org/r/20220529223848.105914-4-m.grzeschik@pengutronix.de
+Otherwise complete() from epio_complete() can corrupt stack.
+
+Signed-off-by: Jozef Martiniak <jomajm@gmail.com>
+Link: https://lore.kernel.org/r/20220708070645.6130-1-jomajm@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/uvc_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/gadget/legacy/inode.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 633e23d58d86..5ce548c2359d 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -159,7 +159,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
- 		break;
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index 454860d52ce7..cd097474b6c3 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -362,6 +362,7 @@ ep_io (struct ep_data *epdata, void *buf, unsigned len)
+ 				spin_unlock_irq (&epdata->dev->lock);
  
- 	default:
--		uvcg_info(&video->uvc->func,
-+		uvcg_warn(&video->uvc->func,
- 			  "VS request completed with status %d.\n",
- 			  req->status);
- 		uvcg_queue_cancel(queue, 0);
+ 				DBG (epdata->dev, "endpoint gone\n");
++				wait_for_completion(&done);
+ 				epdata->status = -ENODEV;
+ 			}
+ 		}
 -- 
 2.35.1
 
