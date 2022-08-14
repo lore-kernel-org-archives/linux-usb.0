@@ -2,44 +2,45 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 631B0C25B08
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79510C3F6B0
 	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:47:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241473AbiHNPrP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Aug 2022 11:47:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55086 "EHLO
+        id S241485AbiHNPrR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Aug 2022 11:47:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241672AbiHNPqG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:46:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30C1D2528B;
-        Sun, 14 Aug 2022 08:34:38 -0700 (PDT)
+        with ESMTP id S241846AbiHNPq1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:46:27 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 047B5275DD;
+        Sun, 14 Aug 2022 08:34:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6AE8360DDA;
-        Sun, 14 Aug 2022 15:34:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5288C433D6;
-        Sun, 14 Aug 2022 15:34:35 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 26CF2B80B27;
+        Sun, 14 Aug 2022 15:34:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 133F8C433D7;
+        Sun, 14 Aug 2022 15:34:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660491276;
-        bh=dyJOthvr6oSUl/doNTPZjgQxVs7NMIJmhIQjnx2L0YU=;
+        s=k20201202; t=1660491293;
+        bh=s13R4a8PeApI8DNa3FJYBlL7I+6m6pE3xwfI2dqz9Oo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dfONxJwvyMcT8EYJDHe7vPF0QPmsZh1G23gIVDgCbYPtOZbcr3SFVJcZ9Bk1pdcF7
-         0zTVkRrqRHEDptHskeDU6Lgsm9WY9OgUWyNvtuwkPnV+snMfY6wM0x+rUQ1iuL4EOr
-         MqUmFlGAgaSf0dWXPqJA9iXcPoLEyo9tmDgtQfC9J0d/YdfdrU+PTKHgMwPgAQgDmv
-         SQRosDA7DNkPQR2AElDsFP8EnTOUcWZckpRcDWKH83Cc7nrddAl18F4nuJhI52meRc
-         LFTkVj3paDFggt9EZyshsufsBd3yZJBNymn//YmqT8zTsU8iIMTD7xeq5f9Z0+Rnal
-         L6YS/y6zXA87w==
+        b=NoEKa3N/sm222jBRfQ1+TqG+EJpdWWmo+tVAP9TPs83gDcf2oSIb/Qvn5B1AVat45
+         v2vyinx8twwFBoJXygE/yYlrB4vL6Qi93yXaPoR8UMExSl5LY7+hjy6XCbVb5BVu/C
+         xtgsIoJPqMPPtziBm2dLL3k1Opl5EgiC0xWLPXyPG09aKhpd0/AsYinktPL8fSFgMJ
+         7rcjcLNNGHag9S30kErvtISKCBwz6WUtFfymi07wlDRBaVE5kob81UWfQU8HkNEAHz
+         g6AOYQou5sICEZCtdfEmtzgrTavFnpwaZWoNver6i416shKezdzuwIcoGTZ71nYUYI
+         /l891naJBYLtA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Frank Li <Frank.Li@nxp.com>, Faqiang Zhu <faqiang.zhu@nxp.com>,
+Cc:     Amelie Delaunay <amelie.delaunay@foss.st.com>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, peter.chen@kernel.org,
-        pawell@cadence.com, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 03/31] usb: cdns3 fix use-after-free at workaround 2
-Date:   Sun, 14 Aug 2022 11:34:03 -0400
-Message-Id: <20220814153431.2379231-3-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 10/31] usb: dwc2: gadget: remove D+ pull-up while no vbus with usb-role-switch
+Date:   Sun, 14 Aug 2022 11:34:10 -0400
+Message-Id: <20220814153431.2379231-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220814153431.2379231-1-sashal@kernel.org>
 References: <20220814153431.2379231-1-sashal@kernel.org>
@@ -51,51 +52,42 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Frank Li <Frank.Li@nxp.com>
+From: Amelie Delaunay <amelie.delaunay@foss.st.com>
 
-[ Upstream commit 7d602f30149a117eea260208b1661bc404c21dfd ]
+[ Upstream commit db638c6500abaffb8f7770b2a69c40d003d54ae1 ]
 
-BUG: KFENCE: use-after-free read in __list_del_entry_valid+0x10/0xac
+When using usb-role-switch, D+ pull-up is set as soon as DTCL_SFTDISCON is
+cleared, whatever the vbus valid signal state is. The pull-up should not
+be set when vbus isn't present (this is determined by the drd controller).
 
-cdns3_wa2_remove_old_request()
-{
-	...
-	kfree(priv_req->request.buf);
-	cdns3_gadget_ep_free_request(&priv_ep->endpoint, &priv_req->request);
-	list_del_init(&priv_req->list);
-	^^^ use after free
-	...
-}
+This patch ensures that B-Session (so Peripheral role + vbus valid signal)
+is valid before clearing the DCTL_SFTDISCON bit when role switch is used.
+Keep original behavior when usb-role-switch isn't used.
 
-cdns3_gadget_ep_free_request() free the space pointed by priv_req,
-but priv_req is used in the following list_del_init().
-
-This patch move list_del_init() before cdns3_gadget_ep_free_request().
-
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
-Signed-off-by: Faqiang Zhu <faqiang.zhu@nxp.com>
-Link: https://lore.kernel.org/r/20220608190430.2814358-1-Frank.Li@nxp.com
+Acked-by: Minas Harutyunyan <hminas@synopsys.com>
+Signed-off-by: Amelie Delaunay <amelie.delaunay@foss.st.com>
+Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Link: https://lore.kernel.org/r/20220622160717.314580-1-fabrice.gasnier@foss.st.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/cdns3/gadget.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/dwc2/gadget.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/cdns3/gadget.c b/drivers/usb/cdns3/gadget.c
-index d5056cc34974..75bfc039fb7b 100644
---- a/drivers/usb/cdns3/gadget.c
-+++ b/drivers/usb/cdns3/gadget.c
-@@ -655,9 +655,9 @@ static void cdns3_wa2_remove_old_request(struct cdns3_endpoint *priv_ep)
- 		trace_cdns3_wa2(priv_ep, "removes eldest request");
+diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
+index 64485f82dc5b..da0df69cc234 100644
+--- a/drivers/usb/dwc2/gadget.c
++++ b/drivers/usb/dwc2/gadget.c
+@@ -3593,7 +3593,8 @@ void dwc2_hsotg_core_disconnect(struct dwc2_hsotg *hsotg)
+ void dwc2_hsotg_core_connect(struct dwc2_hsotg *hsotg)
+ {
+ 	/* remove the soft-disconnect and let's go */
+-	dwc2_clear_bit(hsotg, DCTL, DCTL_SFTDISCON);
++	if (!hsotg->role_sw || (dwc2_readl(hsotg, GOTGCTL) & GOTGCTL_BSESVLD))
++		dwc2_clear_bit(hsotg, DCTL, DCTL_SFTDISCON);
+ }
  
- 		kfree(priv_req->request.buf);
-+		list_del_init(&priv_req->list);
- 		cdns3_gadget_ep_free_request(&priv_ep->endpoint,
- 					     &priv_req->request);
--		list_del_init(&priv_req->list);
- 		--priv_ep->wa2_counter;
- 
- 		if (!chain)
+ /**
 -- 
 2.35.1
 
