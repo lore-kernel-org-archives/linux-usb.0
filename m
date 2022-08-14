@@ -2,46 +2,46 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54DA6C25B08
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:52:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51BB8C282E7
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:52:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241785AbiHNPwP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Aug 2022 11:52:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39858 "EHLO
+        id S241758AbiHNPwN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Aug 2022 11:52:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242039AbiHNPvF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:51:05 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B423317AB0;
-        Sun, 14 Aug 2022 08:36:44 -0700 (PDT)
+        with ESMTP id S241998AbiHNPux (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:50:53 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD08A1CFFC;
+        Sun, 14 Aug 2022 08:36:18 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4E4C4B80B56;
-        Sun, 14 Aug 2022 15:36:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64526C43470;
-        Sun, 14 Aug 2022 15:36:41 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 475D0B80B48;
+        Sun, 14 Aug 2022 15:36:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FEFEC433C1;
+        Sun, 14 Aug 2022 15:36:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660491402;
-        bh=X32xtPBWcVE6Z6gxu3/jbMLK/pP7I1mcOKV4OxfaTWk=;
+        s=k20201202; t=1660491376;
+        bh=dYGbQYEVSg+7i9OX+zbS1WofhspkrL24iXLAfO+kxgA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TBt1HThrz9JxiAAOe/IQBYrFVQTwjKS4GZt0ilyjIKRbXuG5moPVkZ5DIH1sElVR6
-         1wrXIGtMAIfr0psmvAL9stMM7tJSkHXKcZlDdWSLQeBHIRc85KBhLWakyw3wEJwdyo
-         /TOTtukmUWkoRo9F0ki1rIrcWrYjS5LmVbV/ABKLaMe5LZHUgi6dNZdmQKNe+CWauI
-         kJxVJD45fWj80QXNrWJibu1WpHuB83823yVJ4DRGed7jthpybjfa0W9mm2G1hH0lka
-         2cz9vr5cbdeVsLWYaLu7dStoGY04Hg0G4lnJLSLp+9TsOcgjKgP+wkf4t6br7fl3iE
-         vvFkfqJlmLy+w==
+        b=oFmpIF1wT+wlwk/3gDae4nyvh3yPWyjMUrqcBUAyh8hlR0qJyNOd88VyOGmnUiqtU
+         GyUbGx1Ssa7qW7FBK/b4hjqCQrgNHEAS8+WaOCbNS1HkrA3crSmHezw/eZ+CsnXtPV
+         gBNZtkWLtPvDalw+9hu0bJ3MIZPydsRKL/iDAUB3sps1/tUFiR+3MpUw/rR7I3uqBK
+         mYP1pF3D62ikGXuQfEZAdF1BpgnsoggVM1xZ5i+EocoeBIxrWZcMlrz8g/VLSyImUX
+         ZAwJjnVQY+ju9eR1l4tTp8eFC7TMRQ8756F0XaCs9BPOnPLVz6Rg7CqE8r1dfq5Uqt
+         vS4vwlKlEYWdw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Liang He <windhl@126.com>, Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 3/9] usb: host: ohci-ppc-of: Fix refcount leak bug
-Date:   Sun, 14 Aug 2022 11:36:30 -0400
-Message-Id: <20220814153637.2380406-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 03/13] usb: host: ohci-ppc-of: Fix refcount leak bug
+Date:   Sun, 14 Aug 2022 11:36:00 -0400
+Message-Id: <20220814153610.2380234-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814153637.2380406-1-sashal@kernel.org>
-References: <20220814153637.2380406-1-sashal@kernel.org>
+In-Reply-To: <20220814153610.2380234-1-sashal@kernel.org>
+References: <20220814153610.2380234-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -68,10 +68,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/usb/host/ohci-ppc-of.c b/drivers/usb/host/ohci-ppc-of.c
-index 4f87a5c61b08..d22a70363fbf 100644
+index 76a9b40b08f1..96c5c7655283 100644
 --- a/drivers/usb/host/ohci-ppc-of.c
 +++ b/drivers/usb/host/ohci-ppc-of.c
-@@ -168,6 +168,7 @@ static int ohci_hcd_ppc_of_probe(struct platform_device *op)
+@@ -169,6 +169,7 @@ static int ohci_hcd_ppc_of_probe(struct platform_device *op)
  				release_mem_region(res.start, 0x4);
  		} else
  			pr_debug("%s: cannot get ehci offset from fdt\n", __FILE__);
