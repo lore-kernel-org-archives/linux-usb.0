@@ -2,48 +2,48 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F3C6C25B06
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:36:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 744E6C28B2C
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Aug 2022 15:42:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240867AbiHNPgv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Aug 2022 11:36:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53568 "EHLO
+        id S241091AbiHNPmY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Aug 2022 11:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240653AbiHNPfJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:35:09 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 424EB1CB33;
-        Sun, 14 Aug 2022 08:30:54 -0700 (PDT)
+        with ESMTP id S241602AbiHNPl7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Aug 2022 11:41:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 178B42317F;
+        Sun, 14 Aug 2022 08:33:22 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5CAA7B80B83;
-        Sun, 14 Aug 2022 15:30:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34A2EC43143;
-        Sun, 14 Aug 2022 15:30:37 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8C5DC60C8C;
+        Sun, 14 Aug 2022 15:33:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30153C433B5;
+        Sun, 14 Aug 2022 15:33:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660491038;
-        bh=OIEXWfEWVldJFPuulknFHeZLnw4GjOwoPX3ngtDhBlY=;
+        s=k20201202; t=1660491201;
+        bh=FieQMfNxzXPSEp5kaQfeG0576MsAbAodd6WqEw1eqxE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iic59+VYcCcco6AnFknvqX3NN3+8Je+NWhwwEuvCou0ciwD36B6/pe+3VZxZLpvPQ
-         uWwrlng+O70lzHurk2nel9lAYD2u8oklcm2+yOwlaMVi5UX8oTvCrSvRZTbh7x7fyT
-         vlbeRa70ZfYXTETK1+yKDc83DIzJp3hPvE/1s5CopfPflYI6NvUSKzazcISFqhpXdr
-         z4lV+W4PfBHvSlHXvp4kPEk0ZITehIgVZEGw+ZV1wgisuItONtoxa5TmMVPWXjesrK
-         gK9i9DkolDI9VDT4K3jvFAGj5ryXFqvMRZFK1fL3crajVaYFfqnNK20A7ixIp1y0zS
-         CGN/i60zONKfg==
+        b=jU1Dog+IUkc5CpmkvtG7dyso6HbeuNcqnVaaqLTfzpbE7NPegdncUOKRqA9vI5SC1
+         9+UV5cLXApzd241YPaEtujM8mDqcq/CuzqEMDP5g3V5TATqQ9rdFrDSX9MRlRgjLig
+         Ee2LhXjJc4R5lT4Ljf5JkHrcBRf/VAQE8EWzjoZooJc/MiOD7xdNiyk30/2Qs8W9qp
+         c7KDIuDAz4uWxad/Mgorm7rtcMfuLV3UkY5AiuVJKjHWWnGZTGqdA6yl2GeClmj9yu
+         aepc1aarwtpMBVGGkg5AD5h/o0+RdKc1g1wSH2ziPNDIWoyyENcdJtoHYHvACYZ2AZ
+         O3wz9lDCnenwQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc:     Amelie Delaunay <amelie.delaunay@foss.st.com>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 08/56] usb: gadget: uvc: call uvc uvcg_warn on completed status instead of uvcg_info
-Date:   Sun, 14 Aug 2022 11:29:38 -0400
-Message-Id: <20220814153026.2377377-8-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 15/46] usb: dwc2: gadget: remove D+ pull-up while no vbus with usb-role-switch
+Date:   Sun, 14 Aug 2022 11:32:16 -0400
+Message-Id: <20220814153247.2378312-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814153026.2377377-1-sashal@kernel.org>
-References: <20220814153026.2377377-1-sashal@kernel.org>
+In-Reply-To: <20220814153247.2378312-1-sashal@kernel.org>
+References: <20220814153247.2378312-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,36 +52,42 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Michael Grzeschik <m.grzeschik@pengutronix.de>
+From: Amelie Delaunay <amelie.delaunay@foss.st.com>
 
-[ Upstream commit a725d0f6dfc5d3739d6499f30ec865305ba3544d ]
+[ Upstream commit db638c6500abaffb8f7770b2a69c40d003d54ae1 ]
 
-Likewise to the uvcvideo hostside driver, this patch is changing the
-usb_request message of an non zero completion handler call from dev_info
-to dev_warn.
+When using usb-role-switch, D+ pull-up is set as soon as DTCL_SFTDISCON is
+cleared, whatever the vbus valid signal state is. The pull-up should not
+be set when vbus isn't present (this is determined by the drd controller).
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Link: https://lore.kernel.org/r/20220529223848.105914-4-m.grzeschik@pengutronix.de
+This patch ensures that B-Session (so Peripheral role + vbus valid signal)
+is valid before clearing the DCTL_SFTDISCON bit when role switch is used.
+Keep original behavior when usb-role-switch isn't used.
+
+Acked-by: Minas Harutyunyan <hminas@synopsys.com>
+Signed-off-by: Amelie Delaunay <amelie.delaunay@foss.st.com>
+Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Link: https://lore.kernel.org/r/20220622160717.314580-1-fabrice.gasnier@foss.st.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/uvc_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/dwc2/gadget.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 4e4a7c312646..6fabdea0ddd6 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -258,7 +258,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
- 		break;
+diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
+index e1cebf581a4a..519bb82b00e8 100644
+--- a/drivers/usb/dwc2/gadget.c
++++ b/drivers/usb/dwc2/gadget.c
+@@ -3594,7 +3594,8 @@ void dwc2_hsotg_core_disconnect(struct dwc2_hsotg *hsotg)
+ void dwc2_hsotg_core_connect(struct dwc2_hsotg *hsotg)
+ {
+ 	/* remove the soft-disconnect and let's go */
+-	dwc2_clear_bit(hsotg, DCTL, DCTL_SFTDISCON);
++	if (!hsotg->role_sw || (dwc2_readl(hsotg, GOTGCTL) & GOTGCTL_BSESVLD))
++		dwc2_clear_bit(hsotg, DCTL, DCTL_SFTDISCON);
+ }
  
- 	default:
--		uvcg_info(&video->uvc->func,
-+		uvcg_warn(&video->uvc->func,
- 			  "VS request completed with status %d.\n",
- 			  req->status);
- 		uvcg_queue_cancel(queue, 0);
+ /**
 -- 
 2.35.1
 
