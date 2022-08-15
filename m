@@ -2,97 +2,155 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C418BC3F6B0
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Aug 2022 19:18:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF852C25B0E
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Aug 2022 20:23:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343594AbiHOTSh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Aug 2022 15:18:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43764 "EHLO
+        id S1347217AbiHOUXk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Aug 2022 16:23:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345052AbiHOTSC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Aug 2022 15:18:02 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E927956BA2;
-        Mon, 15 Aug 2022 11:39:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3EFD2B81082;
-        Mon, 15 Aug 2022 18:39:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 826A6C433D7;
-        Mon, 15 Aug 2022 18:39:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1660588764;
-        bh=TAuUMR7MhN059r8wH39ZJ2WwqdyBclsgrNGwmEPdtag=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TXXqmpbtb7SL9OBYzWbxI1vBluuofNkCrFVllicmUQbd/+EpdzvQa4FemYMmQepNT
-         bo6YmzwTUEtRrCmpjpQOJdMKo/T4FBdgGExOu+x/+aSruqw4b/EGz7buQ+ksbebi2W
-         RHgcm8UkzRYfPxUq18GMJvLmz/Li92Apy+9Zrxyo=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org,
-        Raviteja Garimella <raviteja.garimella@broadcom.com>,
-        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.15 490/779] usb: gadget: udc: amd5536 depends on HAS_DMA
-Date:   Mon, 15 Aug 2022 20:02:14 +0200
-Message-Id: <20220815180358.203350793@linuxfoundation.org>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220815180337.130757997@linuxfoundation.org>
-References: <20220815180337.130757997@linuxfoundation.org>
-User-Agent: quilt/0.67
+        with ESMTP id S1347324AbiHOUWR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Aug 2022 16:22:17 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D43D33E0A
+        for <linux-usb@vger.kernel.org>; Mon, 15 Aug 2022 12:02:22 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id j5so9520185oih.6
+        for <linux-usb@vger.kernel.org>; Mon, 15 Aug 2022 12:02:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=FXKmrP/pbsROn1aoadPg4g+qxA+kRllQx0lP+zTedsA=;
+        b=neban4pVoRjzEa9KEuGd7hnG033/4gzHTMNaamFcn+gaMraokUloPudEJifgKIICRg
+         eqGi4vaSM4X1VqVaqUAP7KRWXzGSSAbmll+u0FcCK7udwMf97n23cCchQGxI9zAVVnZ+
+         1vJP9nzCWakgztCAb+GEOkEQMP3y1EorG1+XcLWIQ4edRsYGdxjTZgAyzP1xJW4BmVgB
+         Fk7WBBpTBM7cd4aUEVBiA6mr0GKQFH+b689yTkNyhCpXTQMDUsx5tTVlY1xbELhY841B
+         2AVhv9LwWDxKwFKb8ghAV30g3C6RXPgc6jFIbG8LmSMVarHuHp5gb3PG6F68y5rlmCtB
+         AOag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=FXKmrP/pbsROn1aoadPg4g+qxA+kRllQx0lP+zTedsA=;
+        b=OhOartsTxd27/2ohKxo57Ffv9LOItitiyGv3af1N6+/w6W/O+zHVMz4dF+Bg0X0mC4
+         Isfz+5l5ML6iDcE5SPoV6b53rbsVasbyXwbaRSaf8mUlyxWm/G1Q0Nx8R3S0yzxLOan0
+         IEpRa4y22uEeVZQFAsAmfPZxXLRY3O6sXXfgkze1N0rzNB+RSQoWrYXsVyamM+1fLg5I
+         SJ32JQUQaoYTZdWPbUz2GxyXXwYH7XVw5I3nvyWUxVc8aPf/WOyiCmo5BJcljeO53O7O
+         /kVhL9FgbD4ZwKPSqvY3A77VhCIwtE5XWkB8NRrXIK42Zya200bTBSVxhdezdGIpDfau
+         zbFw==
+X-Gm-Message-State: ACgBeo2d5R+FJSOq8/LS93XntCTjlcyW9oLsKpTDBOnZz8UDmhVRtLpd
+        8kyJoaZl1htuhYjG+E1Ur0cUSM+r4bhB+nXdd/KWjg==
+X-Google-Smtp-Source: AA6agR4Coleu8pzh89mfpze9vJNwbI+hwjuKBF/xQGmn51tXtdbSkOyl+eejU7WOMf6TAaJ9NzCLKjuSy/w6RPNPNcw=
+X-Received: by 2002:a05:6808:3096:b0:342:ff93:4672 with SMTP id
+ bl22-20020a056808309600b00342ff934672mr7877802oib.174.1660590141139; Mon, 15
+ Aug 2022 12:02:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220607135836.627711-1-mathias.nyman@linux.intel.com>
+ <400be833-468c-be0d-c80a-f3617800750d@suse.com> <36fdbf28-47fa-522e-8789-23bb1afa9176@linux.intel.com>
+ <YqCnkNMqBRCy3fdd@rowland.harvard.edu> <7293f560-645d-387c-75c4-4be517cfd925@linux.intel.com>
+ <CAE=gft6GEV58buVgErAD2O+SHJBbf+KubiBge_y4NXYaojnKAw@mail.gmail.com>
+ <a5e9da68-fcf8-a89d-8e52-9798bc929170@linux.intel.com> <CAE=gft6ZFbdx8_M6qFZ6710YfLoe+XdoAdWnQOfEGkUFOz8EOA@mail.gmail.com>
+ <ceb50ab3-f244-be72-68ec-93591a785a3a@linux.intel.com>
+In-Reply-To: <ceb50ab3-f244-be72-68ec-93591a785a3a@linux.intel.com>
+From:   Evan Green <evgreen@google.com>
+Date:   Mon, 15 Aug 2022 12:01:44 -0700
+Message-ID: <CAE=gft4S7NepC8OG5cRNjaxGqpKZzfz3YwQN=DUOn-nHz31RXQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/1] hibernate and roothub port power
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org,
+        "Srivastava, Shobhit" <shobhit.srivastava@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Tue, Aug 9, 2022 at 6:47 AM Mathias Nyman
+<mathias.nyman@linux.intel.com> wrote:
+>
+> On 21.7.2022 0.53, Evan Green wrote:
+> > On Tue, Jun 14, 2022 at 3:06 AM Mathias Nyman
+> > <mathias.nyman@linux.intel.com> wrote:
+> >>
+> >> On 9.6.2022 18.08, Evan Green wrote:
+> >>> On Thu, Jun 9, 2022 at 12:58 AM Mathias Nyman
+> >>> <mathias.nyman@linux.intel.com> wrote:
+> >>>>
+> >>>> On 8.6.2022 16.43, Alan Stern wrote:
+> >>>>> On Wed, Jun 08, 2022 at 02:47:22PM +0300, Mathias Nyman wrote:
+> >>>>>> On 8.6.2022 11.19, Oliver Neukum wrote:
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> On 07.06.22 15:58, Mathias Nyman wrote:
+> >>>>>>>
+> >>>>>>> Hi,
+> >>>>>>>
+> >>>>>>>> In shutdown (S5), with xHCI as host, this can be solved fairly easily
+> >>>>>>>> by turning off roothub port power in the .shutdown path.
+> >>>>>>>
+> >>>>>>> That would suck for the people who charge their phone from their
+> >>>>>>> computer.
+> >>>>>>
+> >>>>>> Good point.
+> >>>>>> My guess is that xHC port power bits won't actually turn off VBus for those
+> >>>>>> Sleep-and-charge, or Always-on ports.
+> >>>>>> VBus is allowed to be on even if port is in power-off state, but usb link state
+> >>>>>> should be forced to ss.Disabled from other states, like U3.
+> >>>>>>
+> >>>>>> Need to try it out, it's possible this turns off VBus for some usb-A ports
+> >>>>>> on some older systems that earlier (accidentally?) supplied VBus on
+> >>>>>> "normal" ports after shutdown.
+> >>>>>
+> >>>>> How about turning off port power _only_ in the shutdown or unbind path,
+> >>>>> and setting the port link states to ss.Disabled in the poweroff or
+> >>>>> poweroff_noirq stage of hibernation (if wakeup is disabled)?  Would that
+> >>>>> solve the problem of the firmware needing to time out on reboot?
+> >>>>>
+> >>>>
+> >>>> That would be optimal, but unfortunately xHCI doesn't support setting link
+> >>>> state directly to ss.Disabled. Only way is to clear port power (PP) bit.
+> >>>>
+> >>>> To avoid turning off VBus in hibernate we could limit port power bit clearing
+> >>>> to xHC hosts that don't have the Port Power Control (PPC) capability flag.
+> >>>>
+> >>>> We know these xHC hosts don't control power switches, and clearing PP won't turn
+> >>>> off VBus (xhci 5.4.8, PORTRSC)
+> >>>>
+> >>>> This could be a solution for some hosts, but probably not cover all.
+> >>>> Not sure if the hardware this was reported on has PPC flag set.
+> >>>
+> >>> It appears it does not, HCCPARAMS1 for both USB controllers seems to
+> >>> be 0x20007fc1 (missing bit 3). You can check my work in case I made an
+> >>> error here: https://pastebin.com/9raZc63N
+> >>> -Evan
+> >>
+> >> Thanks, good to know.
+> >> So if disabling ports in hibernate doesn't work then we could turn off port power for
+> >> hosts with PPC==0. It should at least solve the issue for this particular system,
+> >> and not change current VBus policy in hibernate.
+> >
+> > Did a new version of this ever make it out?
+> > -Evan
+>
+> started writing a patch before vacation that sets port link to ss.Disabled instead of
+> turning off power power.
+>
+> Still has some FIXME lines and extra prints, but should be testable.
+> pushed to a fix_port_disable_s4 topic branch on top of 5.19:
+>
+> git://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git fix_port_disable_s4
+> https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=fix_port_disable_s4
 
-[ Upstream commit 8097cf2fb3b2205257f1c76f4808e3398d66b6d9 ]
+Thanks! I was OOO last week, but I'm back and should be able to give
+it a try shortly.
 
-USB_AMD5536UDC should depend on HAS_DMA since it selects USB_SNP_CORE,
-which depends on HAS_DMA and since 'select' does not follow any
-dependency chains.
+>
+> There was also one reported regression with powering off ports in shutdown S5, probably need
+> to sort that out before pushing this.
 
-Fixes this kconfig warning:
+Uh oh, I was just made aware of a regression as well on 4.19 that got
+narrowed down to that. I'm trying to learn more now.
 
-WARNING: unmet direct dependencies detected for USB_SNP_CORE
-  Depends on [n]: USB_SUPPORT [=y] && USB_GADGET [=y] && (USB_AMD5536UDC [=y] || USB_SNP_UDC_PLAT [=n]) && HAS_DMA [=n]
-  Selected by [y]:
-  - USB_AMD5536UDC [=y] && USB_SUPPORT [=y] && USB_GADGET [=y] && USB_PCI [=y]
-
-Fixes: 97b3ffa233b9 ("usb: gadget: udc: amd5536: split core and PCI layer")
-Cc: Raviteja Garimella <raviteja.garimella@broadcom.com>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: linux-usb@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Link: https://lore.kernel.org/r/20220709013601.7536-1-rdunlap@infradead.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/gadget/udc/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
-index 69394dc1cdfb..2cdd37be165a 100644
---- a/drivers/usb/gadget/udc/Kconfig
-+++ b/drivers/usb/gadget/udc/Kconfig
-@@ -311,7 +311,7 @@ source "drivers/usb/gadget/udc/bdc/Kconfig"
- 
- config USB_AMD5536UDC
- 	tristate "AMD5536 UDC"
--	depends on USB_PCI
-+	depends on USB_PCI && HAS_DMA
- 	select USB_SNP_CORE
- 	help
- 	   The AMD5536 UDC is part of the AMD Geode CS5536, an x86 southbridge.
--- 
-2.35.1
-
-
-
+>
+> Thanks
+> -Mathias
