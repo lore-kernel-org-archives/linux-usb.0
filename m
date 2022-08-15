@@ -2,82 +2,117 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88380C00140
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Aug 2022 13:50:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 054A3C25B0E
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Aug 2022 14:45:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229770AbiHONuu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Aug 2022 09:50:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34652 "EHLO
+        id S231912AbiHOOpn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Aug 2022 10:45:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242693AbiHONuq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Aug 2022 09:50:46 -0400
-X-Greylist: delayed 301 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 15 Aug 2022 06:50:42 PDT
-Received: from so254-38.mailgun.net (so254-38.mailgun.net [198.61.254.38])
-        by lindbergh.monkeyblade.net (Postfix) with UTF8SMTPS id 5159D64F9
-        for <linux-usb@vger.kernel.org>; Mon, 15 Aug 2022 06:50:41 -0700 (PDT)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=novakom.com.ua; q=dns/txt;
- s=k1; t=1660571441; x=1660780241; h=Content-Transfer-Encoding:
- Content-Type: MIME-Version: Message-ID: Date: Subject: Subject: To: To:
- From: From: Reply-To: Sender: Sender;
- bh=KzEfijimmTgf/Idw28owWpX3KdmNgHVsmvH1HFKgOuA=; b=qE0Y536UfJWNv0g1H+5UmQnEMEAfGscp2y+5+hAmAM8LlHVQbH4pZM8kT3vCPkUzj3qwt9ko
- QENW+Qa7rdTaF/iTygR0VFzgOmqOV9LriqwXbm2G/MjYYcPdWa6vhV8vM24kAouS/7IrfBf7
- Um0OH0P2oDruYqplT3iNRmZt9P8=
-X-Mailgun-Sending-Ip: 198.61.254.38
-X-Mailgun-Sid: WyIwNDczNiIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgIjA5YmRkYyJd
-Received: from qisap.novakom.com.ua (163.94.199.104.bc.googleusercontent.com
- [104.199.94.163]) by 8ae5b4e8cd00 with SMTP id 62fa4e031406336f29762899
- (version=TLS1.2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 15 Aug
- 2022 13:45:39 GMT
-Sender: robert_turner0=johnlewis.com@novakom.com.ua
-Received: from johnlewis.com (ec2-18-130-41-140.eu-west-2.compute.amazonaws.com [18.130.41.140])
-        by qisap.novakom.com.ua (Postfix) with ESMTPSA id A07F51FD90C
-        for <linux-usb@vger.kernel.org>; Mon, 15 Aug 2022 16:23:20 +0300 (EEST)
-Reply-To: robert_turner@johnlewis-trades.com
-From:   John Lewis & Partners <robert_turner0@johnlewis.com>
-To:     linux-usb@vger.kernel.org
-Subject: Procurement  (8/15/2022)
-Date:   15 Aug 2022 23:23:22 +1000
-Message-ID: <20220815223254.51FF8DAE5426F054@johnlewis.com>
+        with ESMTP id S231674AbiHOOpg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Aug 2022 10:45:36 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2070.outbound.protection.outlook.com [40.107.94.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E65C25D5;
+        Mon, 15 Aug 2022 07:45:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nwu+ZFyz1j9cwafCgQU1eRn9AmyljWpyqaa99CHT/EhqkKFv7LDLqFzjalGyvUO+x3+i3VmprmcIwQAT2kz7x4jM8ugghySj1aSpwNc9ii3szIIvlVfGbPMAbmXSZjCDEKe3KjmChZDunHD+s2JBDrxFfo5RxhaHjtvykp3t/C+Q1U+sh01c7Y4KAL7IVQ5mIG+318yynBmQzX4nzC1rp4uAwjeaMTgg0yP6ibP7VqcF3EzJcIGx8ncey9YOjNmTvgp2/Hj7yYKAlpRDByoOTUisu+4zVmpEKN9M0xyT4LvOnEo7//FHFmMeT52BSGqkUSWrM6vyPqAY3hPnL9sEnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rV6aFZhwlMIKe8BW/4iD7Fc9HRKFVUHewdKVeTg9ruU=;
+ b=dgYmHyjj2ry/9pHotuLz++WDbw5REGzfCnQKF3vtH6lFrncydGY0g8Lcp7LdpgyO7/s3CSzi5r1g0hZVpvrFwNrAQ/lUiH6FH34r1YYB6wFJvK8SUu2vFahfSPDBq2PhwaGcxmmze2Ry6v99rjMqIBnycNTrlyj/Z2Sejaa4Pd5fscIDXKEcQhz4MtImz6P4xRJ2eKDcZZGnb1P1TTW83kHeIqgebU+buyp+TLYpQuYXMNugBFpzgRw/vuAaWw5sn6AfEIHDlVOMmx94qYIMgrbtp0xBXZjPYinNtBLaNnT2WINAkPlc3MLRxfdHM5/f2tEKAEtpo8xs6b24uO3gNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.234) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rV6aFZhwlMIKe8BW/4iD7Fc9HRKFVUHewdKVeTg9ruU=;
+ b=H589z16b7ptR8TAf77TnthvYj2dNQV+eOGstSZAJysrpLIPVWWRjsbf3b2H9zi7J0zpBFapC6QxVU/XSVb3M2TRM3gaX4T3aklgWqWcWmgF/78PiWRc5lpimbgaB8YwijhnYEiyhUMaQ8Wel9nRqh1M1fRIWA61KJ08SZMyN6vAypuh6yyL9ItpOQKk0BYbaJYQXmldVcJCOOq9nhj5UyXvbTqUpSAZNfuzL8l5ssHvENjP34pt5mmthRt6q7Oc9dEPgNA+HyJFLwV6GsNVhgn59wbp2hOLRmtXPp7PU5sStuTYSLy+9/UQYQRM7B/b3cmGBHNkmilcRDOAPTbDI8Q==
+Received: from BN9P221CA0012.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::7)
+ by DM5PR12MB2424.namprd12.prod.outlook.com (2603:10b6:4:b7::34) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.17; Mon, 15 Aug
+ 2022 14:45:32 +0000
+Received: from BN8NAM11FT059.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:10a:cafe::b2) by BN9P221CA0012.outlook.office365.com
+ (2603:10b6:408:10a::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.16 via Frontend
+ Transport; Mon, 15 Aug 2022 14:45:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.234 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.234; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (12.22.5.234) by
+ BN8NAM11FT059.mail.protection.outlook.com (10.13.177.120) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5525.11 via Frontend Transport; Mon, 15 Aug 2022 14:45:32 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by DRHQMAIL101.nvidia.com
+ (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Mon, 15 Aug
+ 2022 14:45:31 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 15 Aug
+ 2022 07:45:30 -0700
+Received: from jilin-desktop.nvidia.com (10.127.8.11) by mail.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server id 15.2.986.29 via Frontend
+ Transport; Mon, 15 Aug 2022 07:45:28 -0700
+From:   Jim Lin <jilin@nvidia.com>
+To:     <jckuo@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>
+CC:     <kishon@ti.com>, <vkoul@kernel.org>, <balbi@kernel.org>,
+        <gregkh@linuxfoundation.org>, <jilin@nvidia.com>,
+        <bhsieh@nvidia.com>, <linux-phy@lists.infradead.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+Subject: [PATCH 0/2] usb: tegra: power down UTMI pad
+Date:   Mon, 15 Aug 2022 22:44:47 +0800
+Message-ID: <20220815144449.9525-1-jilin@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6e5feb56-3f6b-454d-0dd5-08da7eccce26
+X-MS-TrafficTypeDiagnostic: DM5PR12MB2424:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: voCeQl3ucvl5cQXKTo6CybMF8/5ecmypcvT6NwcJ82X5rnzCKSzp65evS6CQ4WW5k8eoCRK7S7JaeuiCOcpjf+/EXWQvHMsx3TTRYZygzS4+vvz5Qo7/s6940CxWEyprzkOEKZ4aR3OvttBNbbmJiT6c82gGgTmS3RnuU1iEHjaVCFzJTP8+6Rvqi8IpoUsRSiOsjKGszrSJpRxu3QG/orGgdojMf9T2TJvx9ZmTjz8tOu6EhBP/Ixiubj1V9M6WcawCm/dpZR3aha5hlWNXUv7dSz7ILtLIceX53L/NGhvRVrhDH3xss8Z/GuwadZnmBHVS6mWZhYVJczNWG4Ayqsfe6DX41nsK9C0hGtFhginRMXj44qu+nhBqG57cB78LIo+bpfAgxjAewdOqRnOUYBSV4sKCENwelraPbcMwkqb1KgAEmD9cbkNZr/o5Qhply63BbCzYdqLseAxmZGPDt4SUbF2wT0JmlzW7hmwfCVtsmKkZqAtK53pWKOP0CONu9VnXAv+BeZ+ENhGxmaNKVy4zEMdxa/E/SofEiwd2Jctne9AOGFBPGBFXepcwF3vfN7/wt6L2ATGdMWE82Sr/R69Go/i5r/2t3leOe5/Mod/gQUZ4H80Z7b7XJTpJPZDFwhn3QeXNJfxY3ZCIMrn/NTuWgpSGvrxXMo+ImXXg2284zfD1YaaSjt35fYsgK4HUWhBQcnqSZFtaVcJkyAeA1JhYgLrq/MhM6KeUvOpXO0+WC5xqp1vjgMb8wudHz1OS2zuYXdq6pv8XcyY/qMCM86kybsayz7IAgy/OVuJmST4sARp8plnVRz6qCiBECo8Rvq1GmOThIR2Nk9uzMtU0kA==
+X-Forefront-Antispam-Report: CIP:12.22.5.234;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(346002)(396003)(376002)(136003)(39860400002)(46966006)(36840700001)(40470700004)(40480700001)(36860700001)(83380400001)(40460700003)(81166007)(356005)(86362001)(82740400003)(70206006)(70586007)(316002)(478600001)(82310400005)(4326008)(8676002)(54906003)(6636002)(186003)(336012)(426003)(1076003)(7696005)(47076005)(26005)(5660300002)(110136005)(2906002)(2616005)(36756003)(8936002)(6666004)(4744005)(41300700001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 14:45:32.1656
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e5feb56-3f6b-454d-0dd5-08da7eccce26
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.234];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT059.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2424
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Dear linux-usb
+1. Make functions to be generic and public for tegra host/gadget driver 
+ to power on/down UTMI pad
+2. For tegra gadget driver to power down pad after disconnected
 
+Jim Lin (2):
+  phy: tegra: xusb: add utmi pad power on/down ops
+  usb: gadget: tegra: Reduce pad power
 
+ drivers/phy/tegra/xusb-tegra186.c   | 19 ++++++++++++-------
+ drivers/phy/tegra/xusb.c            | 22 +++++++++++++++++++++-
+ drivers/phy/tegra/xusb.h            |  4 +++-
+ drivers/usb/gadget/udc/tegra-xudc.c |  4 ++++
+ include/linux/phy/tegra/xusb.h      |  2 ++
+ 5 files changed, 42 insertions(+), 9 deletions(-)
 
-The world famous brand John Lewis & Partners, is UK's largest=20
-multi-channel retailer with over 126 shops and multiple expansion=20
-in Africa furnished by European/Asian/American products. We are=20
-sourcing new products to attract new customers and also retain=20
-our existing ones, create new partnerships with companies dealing=20
-with different kinds of goods globally.
+-- 
+2.17.1
 
-Your company's products are of interest to our market as we have=20
-an amazing market for your products.Provide us your current=20
-catalog through email to review more. We hope to be able to order=20
-with you and start a long-term friendly, respectable and solid=20
-business partnership. Please we would appreciate it if you could=20
-send us your stock availability via email if any.
-
-
-Our payment terms are 15 days net in Europe, 30 days Net in UK=20
-and 30 days net in Asia/USA as we have operated with over 5297=20
-suppliers around the globe for the past 50 years now. For=20
-immediate response Send your reply to "robert_turner@johnlewis-
-trades.com" for us to be able to treat with care and urgency.
-
-
-Best Regards
-Rob Turner
-Head Of Procurement Operations
-John Lewis & Partners.
-robert_turner@johnlewis-trades.com
-Tel: +44-7451-274090
-WhatsApp: +447497483925
-www.johnlewis.com
-REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN
