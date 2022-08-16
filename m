@@ -2,63 +2,83 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AD9CC2BB41
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Aug 2022 11:20:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1E02C32789
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Aug 2022 11:26:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234466AbiHPLUG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Aug 2022 07:20:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40536 "EHLO
+        id S232657AbiHPL0W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Aug 2022 07:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233895AbiHPLTr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Aug 2022 07:19:47 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCDD37E025;
-        Tue, 16 Aug 2022 02:50:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 32EE6B8165D;
-        Tue, 16 Aug 2022 09:50:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BD3FC433C1;
-        Tue, 16 Aug 2022 09:50:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1660643404;
-        bh=j7OD01BeQky2yyGnFRKJwW2CZrOcLTaiWu0OC6mAhKk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=saKTtlrvrYOUXC5N+ab/ECi+H2W7J6qjYMYJVooEh3opiy1oPj85/x1CaCOAJ7E3R
-         lGiuB+rwqesV9DGEja1zPurkclOMxYy99nXkIJgOSsx7TWws5Wj2C/AJdXuH++2a1Z
-         Z9ietn+WxBELZXF4vMijO7pFrDjVI0F7Y5guY3wU=
-Date:   Tue, 16 Aug 2022 11:50:01 +0200
-From:   gregkh <gregkh@linuxfoundation.org>
-To:     Slark Xiao <slark_xiao@163.com>
-Cc:     johan <johan@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-usb <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] USB: serial: option: add support for Cinterion
- MV32-WA/WB RmNet mode
-Message-ID: <YvtoSQUVuUkMCXtl@kroah.com>
-References: <20220810033050.3117-1-slark_xiao@163.com>
- <54f2b923.341c.182a606bab3.Coremail.slark_xiao@163.com>
+        with ESMTP id S231992AbiHPLZt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Aug 2022 07:25:49 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 305C63DBD8
+        for <linux-usb@vger.kernel.org>; Tue, 16 Aug 2022 03:40:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660646449; x=1692182449;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=quHjxeEytV85JkCY9Ooohw8ukzLZgiWMuGKF3jXsWck=;
+  b=c/zWRrdYsVyjijeWaScxGSPH/+s8wXQTQoMZ6MOFJ+qdUmColhkuxcLi
+   Tp6L33vvlQlYV23i6qbBhPQu/4YCu/QiDgg1BENgMpwhUY+0BH/MZofnq
+   mDugUY8GcuaxQK/sSD3fubveEmN5s8pKCDWMpJkieyO1+82mcoJTBk8P7
+   bftHxTFwqMdRgKL0P5sN/FPeJKXUlLWIU2sSBNfl/xRqZRn4xrxBhIC6g
+   c2EuOfbGla92rJ96GuSNyzAZ95lcMwR61RzxRUt6WDO+YiEsPopy7BttN
+   rpuZeEHviAdKIT+cgn/IKBQXxNMvnNE0IaLNrF1ih0RSN0TLIXwhgoIXw
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="275238690"
+X-IronPort-AV: E=Sophos;i="5.93,240,1654585200"; 
+   d="scan'208";a="275238690"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 03:40:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,240,1654585200"; 
+   d="scan'208";a="610219060"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga007.fm.intel.com with ESMTP; 16 Aug 2022 03:40:46 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 9B1BF2F6; Tue, 16 Aug 2022 13:40:59 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 1/2] thunderbolt: Use the actual buffer in tb_async_error()
+Date:   Tue, 16 Aug 2022 13:40:58 +0300
+Message-Id: <20220816104059.71844-1-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <54f2b923.341c.182a606bab3.Coremail.slark_xiao@163.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Aug 16, 2022 at 05:40:35PM +0800, Slark Xiao wrote:
-> Any response？
+The received notification packet is held in pkg->buffer and not in pkg
+itself. Fix this by using the correct buffer.
 
-To what?
+Fixes: 81a54b5e1986 ("thunderbolt: Let the connection manager handle all notifications")
+Cc: stable@vger.kernel.org
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/ctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It was the middle of the merge window, we can't do anything with new
-patches until after -rc1 is out, and then we have a few thousand to dig
-through afterward.
+diff --git a/drivers/thunderbolt/ctl.c b/drivers/thunderbolt/ctl.c
+index e5ede5debfb0..0c661a706160 100644
+--- a/drivers/thunderbolt/ctl.c
++++ b/drivers/thunderbolt/ctl.c
+@@ -407,7 +407,7 @@ static void tb_ctl_rx_submit(struct ctl_pkg *pkg)
+ 
+ static int tb_async_error(const struct ctl_pkg *pkg)
+ {
+-	const struct cfg_error_pkg *error = (const struct cfg_error_pkg *)pkg;
++	const struct cfg_error_pkg *error = pkg->buffer;
+ 
+ 	if (pkg->frame.eof != TB_CFG_PKG_ERROR)
+ 		return false;
+-- 
+2.35.1
 
-Relax, there is no rush here.
-
-thanks,
-
-greg k-h
