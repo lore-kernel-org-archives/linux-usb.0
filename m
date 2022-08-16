@@ -2,121 +2,135 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9515AC32771
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Aug 2022 10:27:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC994C3F6B0
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Aug 2022 10:33:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234578AbiHPK1a (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Aug 2022 06:27:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41722 "EHLO
+        id S234767AbiHPKdt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Aug 2022 06:33:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234533AbiHPK1G (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Aug 2022 06:27:06 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35BEB118DD9;
-        Tue, 16 Aug 2022 01:24:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZEDn+MMpPPuhHnbRNaM0Ny661NrO9XDFJYoHpOWNYTJo5Po0vcj/xzc2Dewg5vjYrYTnx8sqYDBek3fbplegsUtenQhrAcLsZEWlmNWVVSfDuLJod8fMQqmmEiwcpH+8IfyHDW0SOfgyqvAOZ0xXDCoUJK8x5lkZXyk9LQ+c1pM+23ygYJlbT2i0DAjquIMvL+gP5Dkxx1GLZHtWPNh5v3e2VCZHZGmgk9F6qqWOn5U80h7KMOEYXKHqRZFO+tXtnxg21ROuGoe6j8RrQHZOa30SBrIQ16Od6A279AAJjrPxRixqJfqcacYxc4z3K9K7zXwhD0SZMU9HW5Psri6uBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QbSqgDbRO1qrFuSattDjN/6k3i4SwBMrEUT990l7bxQ=;
- b=D6t1HNcuVRyc1uVpzY7kV29agXWSf6Hth1new4BqBxa8EJTEepy6CHHIVzg15PYcXKhTcsUtfgLdUF7MCVvFYNOwmyAe0cVJdN4w3ncIZkM5eIOtjgGk+Rz40i9toKRoKDO6A0QylVQuBZfO/Ba49BQf2U4UOpUbyMNDQTvXhUihu3lpbQVrp1MDiLMK93MRF18OlZ4jPFjXxaI9lvo1/svcy8c8IQO6fXU/iH75BvJ4RvnxJdAWqlYIK2zlRXuXOMwg+oPAB5SXpzZLnFCL6mLitTZ3S7dwCFupkGNGV+hS0n7qJ/TtLqYUaWmRWDy5MVl6zUdsqEmmGjIYKkg0yA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.236) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QbSqgDbRO1qrFuSattDjN/6k3i4SwBMrEUT990l7bxQ=;
- b=f3H8VH2ctYE24fl2vJ5vopwvrJGVeN8K7BCJmdkZMSQGmTxQrTheSB5O2yBG1wJOris0J4BWsIe4nH1L0/aIMI4FCFRouuyDtx9WhQmotyDqh0p4n9Sxsc8u8F16FYw5ODZZJ+XokfPjsxPrO0Bw58/Iuiw3x0PJ2Z1MI6NoRSp1K4vj6V51JI14dx9Dg4tOZdtoRtcUzZZXcamjaNuLnpLHIq2EVXrdHFL4iwA+nJrr/kUCodhVLulP4qquKn84ivtM8dGLHrjAx8zTbv8TY9NwM1Ody+cLDRMDPuR/zErwAte3nTT+ejr2YQcwdMbWaeFKOCFN5kWMuV/nGCi/uQ==
-Received: from DS7PR07CA0004.namprd07.prod.outlook.com (2603:10b6:5:3af::13)
- by BN6PR1201MB0004.namprd12.prod.outlook.com (2603:10b6:404:ac::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.10; Tue, 16 Aug
- 2022 08:24:01 +0000
-Received: from DM6NAM11FT030.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3af:cafe::f5) by DS7PR07CA0004.outlook.office365.com
- (2603:10b6:5:3af::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.10 via Frontend
- Transport; Tue, 16 Aug 2022 08:24:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.236; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.236) by
- DM6NAM11FT030.mail.protection.outlook.com (10.13.172.146) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5525.11 via Frontend Transport; Tue, 16 Aug 2022 08:24:01 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL109.nvidia.com
- (10.27.9.19) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Tue, 16 Aug
- 2022 08:23:59 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 16 Aug
- 2022 01:23:58 -0700
-Received: from jilin-desktop.nvidia.com (10.127.8.12) by mail.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server id 15.2.986.29 via Frontend
- Transport; Tue, 16 Aug 2022 01:23:56 -0700
-From:   Jim Lin <jilin@nvidia.com>
-To:     <jckuo@nvidia.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>
-CC:     <vkoul@kernel.org>, <balbi@kernel.org>,
-        <gregkh@linuxfoundation.org>, <jilin@nvidia.com>,
-        <bhsieh@nvidia.com>, <linux-phy@lists.infradead.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>
-Subject: [PATCH v2 0/2] usb: tegra: power down UTMI pad
-Date:   Tue, 16 Aug 2022 16:23:51 +0800
-Message-ID: <20220816082353.13390-1-jilin@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
-MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3407395d-378a-464b-fa0e-08da7f60ac6f
-X-MS-TrafficTypeDiagnostic: BN6PR1201MB0004:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zTAgtGPQocCTpqOaQ2n+4XJBRDPL5HXBJ4FXNytfIQhgSyGwB+aIYaUjdsEr+ahRze8u0kJTU87Jm8KzUDiZ83W4UUOMG6iv0yhXjycvFXLX32rSgbANtJ8MTVQLMlW+GPNL3HTigzVButfCj2NzADEUsFT8aUWMNrOFVXsoEIUpCbyKjRH6bZlyAYNkWt+NiSB7RjWWParDsKeCjBEJvcAy3cnQJ+V79IJYChy/FXXNstnMM5CetTGk14TdFwKZ72KiVKsreha7+czJsehSNba1Nht8PSpub+lpfFHTWIjFP3l8E0qMnSpbtvBrCt/zUesecD7zSLHmgW4Ozh9qN9hhzPHE/Z0OHaiTol20m+LBXSlBLWqOKhbnMcw8xTdVSleuaamC3ZilonoMq+rJSknloNqlXD6d1WEiIsp8Uc2OaFwftwg7S+YaN/IEBhSJ+OvlqezrSKuyywsW9cXlFQr6MjvCzjGSpqmYYO+8PPBVl6ouJYcBJO/Tyqo2riGQXRWGbO0dNItr/1mylz18oBdKaAB1VEAvKYYyHNm6BVSIzKTxzp9SOzvjbeuPfkURNRFpWapMrad4shqmNb0WzfEhsKSeGa+5cJ8tckAYawaHhdBKnCzZolWYjaIho/aYmzrW5MaOD4BqexaLAeXkXOpPtckEpdoKFnc97K4Bo1srN4lqFGYlVDih6DKMleKKPRXca+5NLAvlLz5Scefl6QXu80AUx36/fXVvUz3UkYTDLcI0Y8E8KRmyC+V7ejwIIM7eqxoJo6UO5VWipz8yqBmUIYoNyLt3QRLcRFzJseaf2U0/YJROjN4KohoPMGtw9rptfKCVwoLyzpJpMcw+dg==
-X-Forefront-Antispam-Report: CIP:12.22.5.236;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(376002)(396003)(39860400002)(136003)(346002)(36840700001)(40470700004)(46966006)(336012)(7696005)(6666004)(36756003)(86362001)(41300700001)(186003)(47076005)(83380400001)(1076003)(110136005)(426003)(478600001)(2616005)(26005)(40460700003)(36860700001)(316002)(6636002)(82740400003)(2906002)(8676002)(70206006)(40480700001)(54906003)(70586007)(4744005)(4326008)(5660300002)(356005)(81166007)(8936002)(82310400005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2022 08:24:01.1704
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3407395d-378a-464b-fa0e-08da7f60ac6f
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.236];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT030.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0004
+        with ESMTP id S234456AbiHPKdX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Aug 2022 06:33:23 -0400
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B38B33419
+        for <linux-usb@vger.kernel.org>; Tue, 16 Aug 2022 01:39:13 -0700 (PDT)
+Received: by mail-pg1-x549.google.com with SMTP id z32-20020a631920000000b0042903cb8dfcso1983134pgl.5
+        for <linux-usb@vger.kernel.org>; Tue, 16 Aug 2022 01:39:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
+         :date:from:to:cc;
+        bh=bB93z6epEEktgqWPKqCS2yAkD9gaQQnHEzx7X0wo89k=;
+        b=LBUekVZbKwjYB6iREXgnr6/dM7aUHkeeUVgIKavekxJRHMpaR5GmbH36Wo7f35PhMr
+         qFed3KzKfZEhK6wbXZCuUJg0wj88/OsxPnGsu7Mx+2hcwgoKib/YEaqtlEdOJRIXaQ6N
+         ujLmjUERqv4Xqmb0I3ospKzIO6NkBRgvK1ufjI/hB9DWc3yFWOKtGv1lGx7R2QFL7xmT
+         hwx9srMqjWHG4F+T+cXDyL6WffHLHty/vt9nTIa/c7DQuVGJsXphgdSSK5ebrBEIB9Ve
+         FCnGXHkRgYzC8TNkBtKXABrWNZYQE69QH2JUsIBGNuav6Ow3IKnI7JLSCIPZSgmNi9e5
+         FtQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
+         :date:x-gm-message-state:from:to:cc;
+        bh=bB93z6epEEktgqWPKqCS2yAkD9gaQQnHEzx7X0wo89k=;
+        b=CISxbLn9bixvHL2Bwf0EzHibd/CjL2aYsG/awkROQpfAfKStH8HtTo0ocueP5mRqgu
+         3ODg14r4W/T31pwFVIGQFeL8j/WLOOUxLJdLHo9QXv+cuIou52RmAVbwGRl+LDQVTklm
+         cNyvwNX8P5t5hTUOW3Rgn3+n6j5EChWGvWqthB8/llujC+zlPagtvhtNRFZR64QD+XPu
+         9QAndbDv6yyBXRPqS6nwX2k2hbWruQMYODx/dtxQ5cX4+qDWc19ZNKosV21zkoF069wJ
+         7NtHQnJ/ZJpj9ajBwayEohe+wJcTvORLb0vIGmDV680ECzn2pFAb3dWaO5Cn3iLJzRgK
+         CMKQ==
+X-Gm-Message-State: ACgBeo0X/dA5Kgmq/+lVv/L251xV6CownJ3cN+r/jzCuPWn8qKh20kq+
+        InLxDXAo3n8p9S4qtEDIl5GWG60xWl0=
+X-Google-Smtp-Source: AA6agR54uF8KKRbV8DX/kPh89GDgFvO2Xmrnjc3ibq1RSfDiZt18v2MUXc+jMD8Q35DJXDMBoxLKFfJ0VuM=
+X-Received: from raychi.tao.corp.google.com ([2401:fa00:fc:202:5bfb:2ce6:1e1b:f496])
+ (user=raychi job=sendgmr) by 2002:a05:6a00:10ca:b0:4f7:5af4:47b6 with SMTP id
+ d10-20020a056a0010ca00b004f75af447b6mr20152772pfu.6.1660639152696; Tue, 16
+ Aug 2022 01:39:12 -0700 (PDT)
+Date:   Tue, 16 Aug 2022 16:38:54 +0800
+In-Reply-To: <20220816083854.1491886-1-raychi@google.com>
+Message-Id: <20220816083854.1491886-3-raychi@google.com>
+Mime-Version: 1.0
+References: <20220816083854.1491886-1-raychi@google.com>
+X-Mailer: git-send-email 2.37.1.595.g718a3a8f04-goog
+Subject: [PATCH 2/2] usb: xhci: add check_init_status hook support
+From:   Ray Chi <raychi@google.com>
+To:     gregkh@linuxfoundation.org, mathias.nyman@intel.com,
+        stern@rowland.harvard.edu
+Cc:     badhri@google.com, albertccwang@google.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ray Chi <raychi@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-1. Make functions to be generic and public for tegra host/gadget driver 
- to power on/down UTMI pad
-2. For tegra gadget driver to power down pad after disconnected
---
-v2: update copyright year
-    drivers/usb/gadget/udc/tegra-xudc.c
-    include/linux/phy/tegra/xusb.h
+In general, xHCI didn't do anything for port initialization. However,
+there are some requirement or limitation on various platforms, so
+vendors need to do some error handlings if the device connected to a
+broken USB accessory.
 
-Jim Lin (2):
-  phy: tegra: xusb: add utmi pad power on/down ops
-  usb: gadget: tegra: Reduce pad power
+This patch also add the hook to xhci_driver_overrides so that vendors
+can add their specific protection easily if needed.
 
- drivers/phy/tegra/xusb-tegra186.c   | 19 ++++++++++++-------
- drivers/phy/tegra/xusb.c            | 22 +++++++++++++++++++++-
- drivers/phy/tegra/xusb.h            |  4 +++-
- drivers/usb/gadget/udc/tegra-xudc.c |  6 +++++-
- include/linux/phy/tegra/xusb.h      |  4 +++-
- 5 files changed, 44 insertions(+), 11 deletions(-)
+Signed-off-by: Ray Chi <raychi@google.com>
+---
+ drivers/usb/host/xhci.c | 17 +++++++++++++++++
+ drivers/usb/host/xhci.h |  1 +
+ 2 files changed, 18 insertions(+)
 
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 65858f607437..f237af9d6e2e 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -4358,6 +4358,20 @@ static int xhci_enable_device(struct usb_hcd *hcd, struct usb_device *udev)
+ 	return xhci_setup_device(hcd, udev, SETUP_CONTEXT_ONLY);
+ }
+ 
++/*
++ * The function could get the status of port initialization.
++ */
++static int xhci_check_init_status(struct usb_hcd *hcd, struct usb_device *udev, int r)
++{
++	/*
++	 * In general, this function is not necessory. Some platforms may
++	 * need doing error handling when the port initialization takes a
++	 * long time to do. The device can use the override callback to
++	 * do specific handlings.
++	 */
++	return 0;
++}
++
+ /*
+  * Transfer the port index into real index in the HW port status
+  * registers. Caculate offset between the port's PORTSC register
+@@ -5455,6 +5469,7 @@ static const struct hc_driver xhci_hc_driver = {
+ 	.enable_device =	xhci_enable_device,
+ 	.update_hub_device =	xhci_update_hub_device,
+ 	.reset_device =		xhci_discover_or_reset_device,
++	.check_init_status =	xhci_check_init_status,
+ 
+ 	/*
+ 	 * scheduling support
+@@ -5503,6 +5518,8 @@ void xhci_init_driver(struct hc_driver *drv,
+ 			drv->check_bandwidth = over->check_bandwidth;
+ 		if (over->reset_bandwidth)
+ 			drv->reset_bandwidth = over->reset_bandwidth;
++		if (over->check_init_status)
++			drv->check_init_status = over->check_init_status;
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(xhci_init_driver);
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 1960b47acfb2..33ce873236e9 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1944,6 +1944,7 @@ struct xhci_driver_overrides {
+ 			     struct usb_host_endpoint *ep);
+ 	int (*check_bandwidth)(struct usb_hcd *, struct usb_device *);
+ 	void (*reset_bandwidth)(struct usb_hcd *, struct usb_device *);
++	int (*check_init_status)(struct usb_hcd *hcd, struct usb_device *udev, int r);
+ };
+ 
+ #define	XHCI_CFC_DELAY		10
 -- 
-2.17.1
+2.37.1.595.g718a3a8f04-goog
 
