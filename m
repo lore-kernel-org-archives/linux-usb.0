@@ -2,29 +2,29 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E7BFC32772
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Aug 2022 21:13:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70EFBC25B0E
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Aug 2022 21:29:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237423AbiHPVNW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Aug 2022 17:13:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50974 "EHLO
+        id S237235AbiHPV31 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Aug 2022 17:29:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233835AbiHPVNV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Aug 2022 17:13:21 -0400
+        with ESMTP id S229472AbiHPV30 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Aug 2022 17:29:26 -0400
 Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [IPv6:2a01:e0c:1:1599::11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C456852E63;
-        Tue, 16 Aug 2022 14:13:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 879FAF0D;
+        Tue, 16 Aug 2022 14:29:25 -0700 (PDT)
 Received: from debian-tgbt.home (unknown [IPv6:2a01:cb08:8f65:d300:4b96:ac4c:4229:8341])
         (Authenticated sender: thierry.guibert@free.fr)
-        by smtp2-g21.free.fr (Postfix) with ESMTPSA id 960EA2003B4;
-        Tue, 16 Aug 2022 23:13:11 +0200 (CEST)
+        by smtp2-g21.free.fr (Postfix) with ESMTPSA id DA12A2003BE;
+        Tue, 16 Aug 2022 23:29:18 +0200 (CEST)
 From:   Thierry GUIBERT <thierry.guibert@croix-rouge.fr>
 To:     gregkh@linuxfoundation.org, oneukum@suse.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Thierry GUIBERT <thierry.guibert@croix-rouge.fr>
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        thierry.guibert@croix-rouge.fr, thierry.guibert@free.fr
 Subject: [PATCH] CDC-ACM : Add Icom PMR F3400 support (0c26:0020)
-Date:   Tue, 16 Aug 2022 23:12:50 +0200
-Message-Id: <20220816211250.20985-1-thierry.guibert@croix-rouge.fr>
+Date:   Tue, 16 Aug 2022 23:28:58 +0200
+Message-Id: <20220816212858.21200-1-thierry.guibert@croix-rouge.fr>
 X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
