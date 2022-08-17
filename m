@@ -2,140 +2,185 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63D22C32772
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Aug 2022 10:26:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8353AC25B08
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Aug 2022 12:04:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239147AbiHQK0A (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Aug 2022 06:26:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34038 "EHLO
+        id S239180AbiHQMEQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Aug 2022 08:04:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239060AbiHQKZi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Aug 2022 06:25:38 -0400
-Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 669A35A3E9;
-        Wed, 17 Aug 2022 03:25:34 -0700 (PDT)
-Received: from debian-tgbt.home (unknown [IPv6:2a01:cb08:8f65:d300:4b96:ac4c:4229:8341])
-        (Authenticated sender: thierry.guibert@free.fr)
-        by smtp2-g21.free.fr (Postfix) with ESMTPSA id 812182003DD;
-        Wed, 17 Aug 2022 12:25:27 +0200 (CEST)
-From:   Thierry GUIBERT <thierry.guibert@croix-rouge.fr>
-To:     oneukum@suse.com, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        thierry.guibert@free.fr
-Cc:     Thierry GUIBERT <thierry.guibert@croix-rouge.fr>
-Subject: [PATCH] CDC-ACM : Add Icom PMR F3400 support (0c26:0020)
-Date:   Wed, 17 Aug 2022 12:24:40 +0200
-Message-Id: <20220817102440.117640-1-thierry.guibert@croix-rouge.fr>
-X-Mailer: git-send-email 2.37.2
+        with ESMTP id S236580AbiHQMEP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Aug 2022 08:04:15 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 461844C62A;
+        Wed, 17 Aug 2022 05:04:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660737854; x=1692273854;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Sw03qyNAB0MNEYgJP3KDR/9fx3+F8UT/HeVmqYUt2GE=;
+  b=Wip09kIPrY9+dtHdJJ1xkDqJ88AoZCotBUpwVJ1cbc7lXwkHwEStLNWl
+   nA66f1taTPDa/jQk4A2v4piCtZ+MLBFAKWCWfiLlDkvZAjrqeFgA76d7f
+   tiy0r+f0MSK+Qwxb8GO6U258dCYiN5I/tLZpD2q7hjf3fKDZk0c+iaz76
+   yNxgdRD3gkOdCD8jv0rQ/txx0/Bq4dZkoAcShncBn4J9wm5LRmOfoaFP7
+   b7WTS7bthyNuduy+HdmvhRZ0UtvJdNI9gnagQmw53uTriL/lUn2rTXuas
+   ID85G38SR9ScRPX1uUO8aLn4tyxxWULYLOC5c1d0HCycvHZvnf9LttnQA
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10441"; a="356471447"
+X-IronPort-AV: E=Sophos;i="5.93,243,1654585200"; 
+   d="scan'208";a="356471447"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2022 05:04:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,243,1654585200"; 
+   d="scan'208";a="583742759"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga006.jf.intel.com with ESMTP; 17 Aug 2022 05:04:09 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 0BF04235; Wed, 17 Aug 2022 15:04:22 +0300 (EEST)
+Date:   Wed, 17 Aug 2022 15:04:22 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Szuying Chen <chensiying21@gmail.com>
+Cc:     mario.limonciello@amd.com, gregkh@linuxfoundation.org,
+        andreas.noever@gmail.com, michael.jamet@intel.com,
+        YehezkelShB@gmail.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yd_Tseng@asmedia.com.tw,
+        Chloe_Chen@asmedia.com.tw, Richard_Hsu@asmedia.com.tw
+Subject: Re: RE: [PATCH v4] thunderbolt: thunderbolt: add vendor's NVM formats
+Message-ID: <YvzZRsyGR/hakhIo@black.fi.intel.com>
+References: <20220817102450.63514-1-chensiying21@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220817102450.63514-1-chensiying21@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Supports for ICOM F3400 and ICOM F4400 PMR radios in CDC-ACM driver
-enabling the AT serial port.
-The Vendor Id is 0x0C26
-The Product ID is 0x0020
+Hi,
 
-Output of lsusb :
-Bus 001 Device 009: ID 0c26:0020 Prolific Technology Inc. ICOM Radio
-Couldn't open device, some information will be missing
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass            2 Communications
-  bDeviceSubClass         0
-  bDeviceProtocol         0
-  bMaxPacketSize0        64
-  idVendor           0x0c26 Prolific Technology Inc.
-  idProduct          0x0020
-  bcdDevice            0.00
-  iManufacturer           1 ICOM Inc.
-  iProduct                2 ICOM Radio
-  iSerial                 3 *obfuscated*
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength       0x0030
-    bNumInterfaces          2
-    bConfigurationValue     1
-    iConfiguration          0
-    bmAttributes         0xc0
-      Self Powered
-    MaxPower                0mA
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           1
-      bInterfaceClass         2 Communications
-      bInterfaceSubClass      2 Abstract (modem)
-      bInterfaceProtocol      1 AT-commands (v.25ter)
-      iInterface              0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x83  EP 3 IN
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0040  1x 64 bytes
-        bInterval              12
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        1
-      bAlternateSetting       0
-      bNumEndpoints           2
-      bInterfaceClass        10 CDC Data
-      bInterfaceSubClass      0
-      bInterfaceProtocol      0
-      iInterface              0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x82  EP 2 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x02  EP 2 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
+On Wed, Aug 17, 2022 at 06:24:50PM +0800, Szuying Chen wrote:
+> From: Szuying Chen <Chloe_Chen@asmedia.com.tw>
+> 
+> Signed-off-by: Szuying Chen <Chloe_Chen@asmedia.com.tw>
+> ---
+> Hi,
+> 
+> >> From: Szuying Chen <Chloe_Chen@asmedia.com.tw>
+> >>
+> 
+> >> +static int asmedia_nvm_validate(struct tb_switch *sw, unsigned int mode)
+> >> +{
+> >> +	struct tb_nvm *nvm;
+> >> +	u32 val;
+> >> +	u32 nvm_size;
+> >> +	int ret = 0;
+> >> +	unsigned int image_size;
+> >> +
+> >> +	switch (mode) {
+> >> +	case NVM_UPGRADE:
+> >> +		if (sw->no_nvm_upgrade)
+> >> +			sw->no_nvm_upgrade = false;
+> >> +
+> >> +		break;
+> >> +
+> >> +	case NVM_ADD:
+> >> +		nvm = tb_nvm_alloc(&sw->dev);
+> >
+> >This function does not only "validate" but it also creates the NVMem
+> >devices and whatnot.
+> >
+> >Do you have some public description of the ASMedia format that I could
+> >take a look? Perhaps we can find some simpler way of validating the
+> >thing that works accross different vendors.
+> >
+> 
+> ASMedia NVM format include rom file, firmware and security
+> configuration information. And active firmware depend on this
+> information for processing. We don't need to do any validation during
+> firmware upgrade, so we haven't public description of the ASMedia
+> format.
+> 
+> I think I use "validate" is not fit. This function mainly to create
+> the NVMem devices and write. I will rename in the next patch.
 
-Signed-off-by: Thierry GUIBERT <thierry.guibert@croix-rouge.fr>
----
- drivers/usb/class/cdc-acm.c | 3 +++
- 1 file changed, 3 insertions(+)
+So instead what you now do, I suggest that we move all the vendor
+support out to nvm.c, that includes Intel too. What I mean by this is
+that the tb_switch_nvm_add() would then look something like this:
 
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index 9b9aea24d58c..7735c6edce73 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -1813,6 +1813,9 @@ static const struct usb_device_id acm_ids[] = {
- 	{ USB_DEVICE(0x0ca6, 0xa050), /* Castles VEGA3000 */
- 	.driver_info = NO_UNION_NORMAL, /* reports zero length descriptor */
- 	},
-+	{ USB_DEVICE(0x0c26, 0x0020), /* Icom ICF3400 Serie */
-+	.driver_info = NO_UNION_NORMAL, /* reports zero length descriptor */
-+	},
- 
- 	{ USB_DEVICE(0x2912, 0x0001), /* ATOL FPrint */
- 	.driver_info = CLEAR_HALT_CONDITIONS,
--- 
-2.37.2
+tb_switch_nvm_add(sw)
+{
+	if (!nvm_readable(sw))
+		return 0;
 
+	nvm = tb_switch_nvm_alloc(sw);
+	if (IS_ERR(nvm)) {
+		if (PTR_ERR(nvm) == -EOPNOTSUPP) {
+			dev_info(&sw->dev,
+				"NVM format of vendor %#x is not known, disabling NVM upgrade\n",
+				sw->config.vendor_id);
+			return 0;
+		}
+
+		return PTR_ERR(nvm);
+	}
+
+	ret = tb_nvm_add_active(nvm, nvm->size, tb_switch_nvm_read);
+	if (ret)
+		...
+
+	if (!sw->no_nvm_upgrade) {
+		ret = tb_nvm_add_non_active(nvm, NVM_MAX_SIZE, tb_switch_nvm_write);
+		if (ret)
+			...
+	}
+
+	sw->nvm = nvm;
+	...
+}
+
+And the tb_switch_nvm_alloc() resides in nvm.c and that one goes over an
+array of supported vendors matching sw->config.vendor_id and if it finds
+the match it will set nvm->vops to point the vendor specific operations
+and in addition it will will populate rest of the nvm fields like this:
+
+static const struct {
+	u16 vendor;
+	const struct tb_nvm_vendor_ops *vops;
+} switch_nvm_vendors[] = {
+	{ 0x8086, &intel_switch_nvm_ops },
+	{ 0x8087, &intel_switch_nvm_ops },
+	{ 0x174c, &asmedia_switch_nvm_ops },
+};
+
+tb_switch_nvm_alloc(sw)
+{
+	struct tb_nvm_vendor_ops *ops = NULL;
+	int i;
+
+	for (i = 0; i < ARRAY_SIZE(switch_nvm_vendors); i++) {
+		if (switch_nvm_vendors[i].vendor == sw->config.vendor_id)
+			vops = &switch_nvm_vendors[i].vops;
+			break;
+	}
+
+	if (!vops)
+		return ERR_PTR(-EOPNOTSUPP);
+
+	nvm = tb_nvm_alloc(&sw->dev);
+	if (IS_ERR(nvm))
+		...
+
+	nvm->vops = vops;
+	ret = vops->populate(nvm);
+	if (ret)
+		...
+
+	...
+}
+
+Then we would have all the vendor specific things in
+intel_switch_nvm_ops and asmedia_switch_nvm_ops accordingly and the rest
+of the code is generic USB4 stuff. We need to do the same for retimers
+too at some point.
