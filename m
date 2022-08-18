@@ -2,178 +2,118 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0EB1C3F6B0
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Aug 2022 21:01:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C544C00140
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Aug 2022 21:08:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346380AbiHRVBg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Aug 2022 17:01:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36608 "EHLO
+        id S1346472AbiHRVI3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Aug 2022 17:08:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346282AbiHRVAm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Aug 2022 17:00:42 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAB4FD398C
-        for <linux-usb@vger.kernel.org>; Thu, 18 Aug 2022 14:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=dxPXuV6VeCxHx96vosgf4BR2smZ
-        L5nHKKB2D/6luVfo=; b=VBFD/YmCgvoVhwLb0SzKbbVUneB65FqvX1pfIgHt3gC
-        tOh4K9Axr7CmaF8w3qHEENxXnmesbdw/M1rvYndhAwdcOdbdzMck7lbrHjJNzT7m
-        d8YctR6xD/Tm4LY2ERtRhjpJrrm+svYpoFq6nH0bIql1jwekmgRI2x46WUsTgasM
-        =
-Received: (qmail 3959956 invoked from network); 18 Aug 2022 23:00:10 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Aug 2022 23:00:10 +0200
-X-UD-Smtp-Session: l3s3148p1@ruFZRIrmuNgucref
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ping Cheng <ping.cheng@wacom.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        linux-input@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH] HID: move from strlcpy with unused retval to strscpy
-Date:   Thu, 18 Aug 2022 23:00:09 +0200
-Message-Id: <20220818210010.6745-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S1346509AbiHRVIE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Aug 2022 17:08:04 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7FBA9411D
+        for <linux-usb@vger.kernel.org>; Thu, 18 Aug 2022 14:03:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660856618; x=1692392618;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=czIt9/GjYMkH8ldLVLj9OXo6Mzlzk0geJNRfromC7rY=;
+  b=kKq/RCisNDuVKtcUEkqo1J5W6UOar4kC+O6fbKlq/xh4uqEey4WfuQSY
+   KLyRIavd1rcjRvzSyMO9rMYBXO9D6OJKqM/N8A5l0p1e9B5FKsJlMNCL4
+   6tH2YrsuAr7uSjHTvf16Nm0OG8oxz6cUN9xeGGIGNID9IM/ZEoIr+GI2h
+   oIEiUhwS27f3grLniyW4DxH2Vu01RiXoCn7hFGj/LsRbsc/OTXR8+5u7X
+   iYRzDKUWGhmkUzRlS2ciwmWNBzIodgfY67ElleeWS5XUjzOUjQGwR+Sf4
+   jbHBpUGy1wABVEef4UWjtRKCpdDPSRL9MFOGlYsm3knSjFWD3w9sGBV/P
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="318893171"
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; 
+   d="scan'208";a="318893171"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2022 14:03:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; 
+   d="scan'208";a="636993124"
+Received: from lkp-server01.sh.intel.com (HELO 44b6dac04a33) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 18 Aug 2022 14:03:11 -0700
+Received: from kbuild by 44b6dac04a33 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oOmfW-0000br-0c;
+        Thu, 18 Aug 2022 21:03:10 +0000
+Date:   Fri, 19 Aug 2022 05:02:39 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Johan Hovold <johan+linaro@kernel.org>
+Cc:     kbuild-all@lists.01.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [usb:usb-linus 9/18] drivers/usb/dwc3/dwc3-qcom.c:313:25: warning:
+ variable 'hcd' set but not used
+Message-ID: <202208190411.1lugjsYz-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Follow the advice of the below link and prefer 'strscpy' in this
-subsystem. Conversion is 1:1 because the return value is not used.
-Generated by a coccinelle script.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+head:   aece382251f8fa660d8f621a7f50b0ea0f390178
+commit: c5f14abeb52b0177b940fd734133d383da3521d8 [9/18] usb: dwc3: qcom: fix peripheral and OTG suspend
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20220819/202208190411.1lugjsYz-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?id=c5f14abeb52b0177b940fd734133d383da3521d8
+        git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
+        git fetch --no-tags usb usb-linus
+        git checkout c5f14abeb52b0177b940fd734133d383da3521d8
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/usb/dwc3/
 
-Link: https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/hid/hid-steam.c            | 8 ++++----
- drivers/hid/i2c-hid/i2c-hid-core.c | 2 +-
- drivers/hid/usbhid/hid-core.c      | 2 +-
- drivers/hid/usbhid/usbkbd.c        | 2 +-
- drivers/hid/usbhid/usbmouse.c      | 2 +-
- drivers/hid/wacom_sys.c            | 6 +++---
- 6 files changed, 11 insertions(+), 11 deletions(-)
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
-index a3b151b29bd7..f675e1aa08c9 100644
---- a/drivers/hid/hid-steam.c
-+++ b/drivers/hid/hid-steam.c
-@@ -246,7 +246,7 @@ static int steam_get_serial(struct steam_device *steam)
- 	if (reply[0] != 0xae || reply[1] != 0x15 || reply[2] != 0x01)
- 		return -EIO;
- 	reply[3 + STEAM_SERIAL_LEN] = 0;
--	strlcpy(steam->serial_no, reply + 3, sizeof(steam->serial_no));
-+	strscpy(steam->serial_no, reply + 3, sizeof(steam->serial_no));
- 	return 0;
- }
- 
-@@ -514,7 +514,7 @@ static int steam_register(struct steam_device *steam)
- 		 */
- 		mutex_lock(&steam->mutex);
- 		if (steam_get_serial(steam) < 0)
--			strlcpy(steam->serial_no, "XXXXXXXXXX",
-+			strscpy(steam->serial_no, "XXXXXXXXXX",
- 					sizeof(steam->serial_no));
- 		mutex_unlock(&steam->mutex);
- 
-@@ -689,9 +689,9 @@ static struct hid_device *steam_create_client_hid(struct hid_device *hdev)
- 	client_hdev->version = hdev->version;
- 	client_hdev->type = hdev->type;
- 	client_hdev->country = hdev->country;
--	strlcpy(client_hdev->name, hdev->name,
-+	strscpy(client_hdev->name, hdev->name,
- 			sizeof(client_hdev->name));
--	strlcpy(client_hdev->phys, hdev->phys,
-+	strscpy(client_hdev->phys, hdev->phys,
- 			sizeof(client_hdev->phys));
- 	/*
- 	 * Since we use the same device info than the real interface to
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index c078f09a2318..347c80ec6fff 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -1036,7 +1036,7 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
- 
- 	snprintf(hid->name, sizeof(hid->name), "%s %04X:%04X",
- 		 client->name, (u16)hid->vendor, (u16)hid->product);
--	strlcpy(hid->phys, dev_name(&client->dev), sizeof(hid->phys));
-+	strscpy(hid->phys, dev_name(&client->dev), sizeof(hid->phys));
- 
- 	ihid->quirks = i2c_hid_lookup_quirk(hid->vendor, hid->product);
- 
-diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-index 4490e2f7252a..be4c731aaa65 100644
---- a/drivers/hid/usbhid/hid-core.c
-+++ b/drivers/hid/usbhid/hid-core.c
-@@ -1381,7 +1381,7 @@ static int usbhid_probe(struct usb_interface *intf, const struct usb_device_id *
- 		hid->type = HID_TYPE_USBNONE;
- 
- 	if (dev->manufacturer)
--		strlcpy(hid->name, dev->manufacturer, sizeof(hid->name));
-+		strscpy(hid->name, dev->manufacturer, sizeof(hid->name));
- 
- 	if (dev->product) {
- 		if (dev->manufacturer)
-diff --git a/drivers/hid/usbhid/usbkbd.c b/drivers/hid/usbhid/usbkbd.c
-index b4b007c4beb6..c439ed2f16db 100644
---- a/drivers/hid/usbhid/usbkbd.c
-+++ b/drivers/hid/usbhid/usbkbd.c
-@@ -294,7 +294,7 @@ static int usb_kbd_probe(struct usb_interface *iface,
- 	spin_lock_init(&kbd->leds_lock);
- 
- 	if (dev->manufacturer)
--		strlcpy(kbd->name, dev->manufacturer, sizeof(kbd->name));
-+		strscpy(kbd->name, dev->manufacturer, sizeof(kbd->name));
- 
- 	if (dev->product) {
- 		if (dev->manufacturer)
-diff --git a/drivers/hid/usbhid/usbmouse.c b/drivers/hid/usbhid/usbmouse.c
-index fb1d7d1f6999..3fd93c2e4f4a 100644
---- a/drivers/hid/usbhid/usbmouse.c
-+++ b/drivers/hid/usbhid/usbmouse.c
-@@ -142,7 +142,7 @@ static int usb_mouse_probe(struct usb_interface *intf, const struct usb_device_i
- 	mouse->dev = input_dev;
- 
- 	if (dev->manufacturer)
--		strlcpy(mouse->name, dev->manufacturer, sizeof(mouse->name));
-+		strscpy(mouse->name, dev->manufacturer, sizeof(mouse->name));
- 
- 	if (dev->product) {
- 		if (dev->manufacturer)
-diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-index 194a2e327591..102302e9afd9 100644
---- a/drivers/hid/wacom_sys.c
-+++ b/drivers/hid/wacom_sys.c
-@@ -2226,7 +2226,7 @@ static void wacom_update_name(struct wacom *wacom, const char *suffix)
- 		} else if (strstr(product_name, "Wacom") ||
- 			   strstr(product_name, "wacom") ||
- 			   strstr(product_name, "WACOM")) {
--			strlcpy(name, product_name, sizeof(name));
-+			strscpy(name, product_name, sizeof(name));
- 		} else {
- 			snprintf(name, sizeof(name), "Wacom %s", product_name);
- 		}
-@@ -2244,7 +2244,7 @@ static void wacom_update_name(struct wacom *wacom, const char *suffix)
- 		if (name[strlen(name)-1] == ' ')
- 			name[strlen(name)-1] = '\0';
- 	} else {
--		strlcpy(name, features->name, sizeof(name));
-+		strscpy(name, features->name, sizeof(name));
- 	}
- 
- 	snprintf(wacom_wac->name, sizeof(wacom_wac->name), "%s%s",
-@@ -2509,7 +2509,7 @@ static void wacom_wireless_work(struct work_struct *work)
- 				goto fail;
- 		}
- 
--		strlcpy(wacom_wac->name, wacom_wac1->name,
-+		strscpy(wacom_wac->name, wacom_wac1->name,
- 			sizeof(wacom_wac->name));
- 		error = wacom_initialize_battery(wacom);
- 		if (error)
+All warnings (new ones prefixed by >>):
+
+   drivers/usb/dwc3/dwc3-qcom.c: In function 'dwc3_qcom_read_usb2_speed':
+>> drivers/usb/dwc3/dwc3-qcom.c:313:25: warning: variable 'hcd' set but not used [-Wunused-but-set-variable]
+     313 |         struct usb_hcd *hcd;
+         |                         ^~~
+
+
+vim +/hcd +313 drivers/usb/dwc3/dwc3-qcom.c
+
+   308	
+   309	static enum usb_device_speed dwc3_qcom_read_usb2_speed(struct dwc3_qcom *qcom)
+   310	{
+   311		struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
+   312		struct usb_device *udev;
+ > 313		struct usb_hcd *hcd;
+   314	
+   315		/*
+   316		 * FIXME: Fix this layering violation.
+   317		 */
+   318		hcd = platform_get_drvdata(dwc->xhci);
+   319	
+   320		/*
+   321		 * It is possible to query the speed of all children of
+   322		 * USB2.0 root hub via usb_hub_for_each_child(). DWC3 code
+   323		 * currently supports only 1 port per controller. So
+   324		 * this is sufficient.
+   325		 */
+   326	#ifdef CONFIG_USB
+   327		udev = usb_hub_find_child(hcd->self.root_hub, 1);
+   328	#else
+   329		udev = NULL;
+   330	#endif
+   331		if (!udev)
+   332			return USB_SPEED_UNKNOWN;
+   333	
+   334		return udev->speed;
+   335	}
+   336	
+
 -- 
-2.35.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
