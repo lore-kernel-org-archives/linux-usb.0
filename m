@@ -2,97 +2,106 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26316C32773
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Aug 2022 16:22:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 774D2C28B2B
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Aug 2022 17:13:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352338AbiHSQWE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Aug 2022 12:22:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35118 "EHLO
+        id S1351057AbiHSRNG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 19 Aug 2022 13:13:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352434AbiHSQUz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Aug 2022 12:20:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AABF24A101;
-        Fri, 19 Aug 2022 09:01:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S1350057AbiHSRMr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Aug 2022 13:12:47 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 068FE11E929;
+        Fri, 19 Aug 2022 09:32:45 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 88E1161698;
-        Fri, 19 Aug 2022 16:01:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9673C433C1;
-        Fri, 19 Aug 2022 16:01:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1660924916;
-        bh=W02nud47FAwyYJH8y0n+a0JMGBj+6bFQPEtMBhqJBfk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QW0dGWxe1YQouNYOCz9Yp4NUtkf4nB0vWWdg0TJc9ANt/tDf7XwsbQD0tGISwlXX0
-         ldMGy5PzCFpA6HAAOXgaa/Sb3nBr9c67LsHEwb6H+wP0si2q5+zT3Ps617EutVjfM2
-         y6XHtr0Lg+zWy58vgHy3jauLkoYF2Be2CkVfb2kY=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org,
-        Raviteja Garimella <raviteja.garimella@broadcom.com>,
-        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.10 324/545] usb: gadget: udc: amd5536 depends on HAS_DMA
-Date:   Fri, 19 Aug 2022 17:41:34 +0200
-Message-Id: <20220819153843.859521384@linuxfoundation.org>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220819153829.135562864@linuxfoundation.org>
-References: <20220819153829.135562864@linuxfoundation.org>
-User-Agent: quilt/0.67
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 2F2C120020;
+        Fri, 19 Aug 2022 16:32:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1660926764; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type;
+        bh=Q2pLXvlU5YgHaptan5BWvmSxGKks847fO3qHv94Cm9Q=;
+        b=kvHiRkoxnvdE/i6OGkLnvWUlxvnxcOhdMiymht7uikU22JdUHmuW38ZyG0Xd2aMVCQzeTE
+        0QNIq6+s7d5m0VikvSLuohZafIpJ8HakpRLEKF5VGXVJEQtTwyBuFkF2y4ZFr5WJl1lUZb
+        dRGGw0ob9aNGyIyKrMFAv/Op713NfG4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1660926764;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type;
+        bh=Q2pLXvlU5YgHaptan5BWvmSxGKks847fO3qHv94Cm9Q=;
+        b=wQxQTa/eeS/24YYJTxCI5Opt9Z63dB5dtfn8/xRe8h3YoMxOUJE1nqbal2Zu+wPzwE6prk
+        z8Zv7oDmU2hR5uAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0C0F813AC1;
+        Fri, 19 Aug 2022 16:32:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id DnENAiy7/2JqJgAAMHmgww
+        (envelope-from <tiwai@suse.de>); Fri, 19 Aug 2022 16:32:44 +0000
+Date:   Fri, 19 Aug 2022 18:32:43 +0200
+Message-ID: <87r11cmbx0.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Linyu Yuan <quic_linyyuan@quicinc.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [REGRESSION 5.19] NULL dereference by ucsi_acpi driver
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Hi,
 
-[ Upstream commit 8097cf2fb3b2205257f1c76f4808e3398d66b6d9 ]
+we've got multiple reports about 5.19 kernel starting crashing after
+some time, and this turned out to be triggered by ucsi_acpi driver.
+The details are found in:
+  https://bugzilla.suse.com/show_bug.cgi?id=1202386
 
-USB_AMD5536UDC should depend on HAS_DMA since it selects USB_SNP_CORE,
-which depends on HAS_DMA and since 'select' does not follow any
-dependency chains.
+The culprit seems to be the commit 87d0e2f41b8c
+    usb: typec: ucsi: add a common function ucsi_unregister_connectors()
+    
+This commit looks as if it were a harmless cleanup, but this failed in
+a subtle way.  Namely, in the error scenario, the driver gets an error
+at ucsi_register_altmodes(), and goes to the error handling to release
+the resources.  Through this refactoring, the release part was unified
+to a funciton ucsi_unregister_connectors().  And there, it has a NULL
+check of con->wq, and it bails out the loop if it's NULL. 
+Meanwhile, ucsi_register_port() itself still calls destroy_workqueue()
+and clear con->wq at its error path.  This ended up in the leftover
+power supply device with the uninitialized / cleared device.
 
-Fixes this kconfig warning:
+It was confirmed that the problem could be avoided by a simple
+revert.
 
-WARNING: unmet direct dependencies detected for USB_SNP_CORE
-  Depends on [n]: USB_SUPPORT [=y] && USB_GADGET [=y] && (USB_AMD5536UDC [=y] || USB_SNP_UDC_PLAT [=n]) && HAS_DMA [=n]
-  Selected by [y]:
-  - USB_AMD5536UDC [=y] && USB_SUPPORT [=y] && USB_GADGET [=y] && USB_PCI [=y]
+I guess another fix could be removing the part clearing con->wq, i.e.
 
-Fixes: 97b3ffa233b9 ("usb: gadget: udc: amd5536: split core and PCI layer")
-Cc: Raviteja Garimella <raviteja.garimella@broadcom.com>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: linux-usb@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Link: https://lore.kernel.org/r/20220709013601.7536-1-rdunlap@infradead.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/gadget/udc/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
-index 933e80d5053a..f28e1bbd5724 100644
---- a/drivers/usb/gadget/udc/Kconfig
-+++ b/drivers/usb/gadget/udc/Kconfig
-@@ -311,7 +311,7 @@ source "drivers/usb/gadget/udc/bdc/Kconfig"
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -1192,11 +1192,6 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+ out_unlock:
+ 	mutex_unlock(&con->lock);
  
- config USB_AMD5536UDC
- 	tristate "AMD5536 UDC"
--	depends on USB_PCI
-+	depends on USB_PCI && HAS_DMA
- 	select USB_SNP_CORE
- 	help
- 	   The AMD5536 UDC is part of the AMD Geode CS5536, an x86 southbridge.
--- 
-2.35.1
+-	if (ret && con->wq) {
+-		destroy_workqueue(con->wq);
+-		con->wq = NULL;
+-	}
+-
+ 	return ret;
+ }
+ 
+
+... but it's totally untested and I'm not entirely sure whether it's
+better.
 
 
+thanks,
 
+Takashi
