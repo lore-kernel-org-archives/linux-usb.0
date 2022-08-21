@@ -2,101 +2,146 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EC49C00140
-	for <linux-usb@archiver.kernel.org>; Sun, 21 Aug 2022 07:01:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D58C00140
+	for <linux-usb@archiver.kernel.org>; Sun, 21 Aug 2022 08:17:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229824AbiHUHBv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 21 Aug 2022 03:01:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50610 "EHLO
+        id S229724AbiHUIRW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 21 Aug 2022 04:17:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229738AbiHUHBi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 21 Aug 2022 03:01:38 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C45C92AC49;
-        Sun, 21 Aug 2022 00:01:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id ECC64B80BA8;
-        Sun, 21 Aug 2022 07:01:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D1A8C433D6;
-        Sun, 21 Aug 2022 07:01:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1661065293;
-        bh=IkBhuQ4Ga0ENimbZcXbIIWSwXIVkLhO73dH4+EuA5qk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gaRiIVD//Qr759lieITGg0VK5y8wZHNrbBrROJxrwx7M8f0yQz3U3PklMmRWCJ2ac
-         A/2TxsYoxPbDbFCMPf2cNq41YOSAOVZhklFeCGAZb/qHkk5y7eyqU93AD1oIStI8uV
-         YjlV4MWCK0hySxeUQOkFco/U5bjU9gBtUYvMYTNo=
-Date:   Sat, 20 Aug 2022 20:40:52 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Takashi Iwai <tiwai@suse.de>
-Cc:     Linyu Yuan <quic_linyyuan@quicinc.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [REGRESSION 5.19] NULL dereference by ucsi_acpi driver
-Message-ID: <YwEqtGB2WldUeiEN@kroah.com>
-References: <87r11cmbx0.wl-tiwai@suse.de>
+        with ESMTP id S229931AbiHUIP2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 21 Aug 2022 04:15:28 -0400
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B16161C909
+        for <linux-usb@vger.kernel.org>; Sun, 21 Aug 2022 01:15:25 -0700 (PDT)
+Received: by mail-il1-f197.google.com with SMTP id x7-20020a056e021ca700b002ded2e6331aso6382002ill.20
+        for <linux-usb@vger.kernel.org>; Sun, 21 Aug 2022 01:15:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc;
+        bh=5NNw78fjZsnUXvVEAxNq4Tv/jLfrtC69PnIsZeDg9vw=;
+        b=vNToY/gxeTnoDoj3NHuQvpKhO68KQfpl8MGtLZQ53jVj9YFh5Lydczss0OO53AhDbC
+         WfTZ7J5XJeMNwWLC5hOzfzQNP9P/qrRa1xfUDFbxtGF1M1ReUNsLVu0g7s8+1JswQQ8l
+         LD03DW513gR6Pt+Q1aACRRZrutLMCzOc7kq2IqUy5RmdNoUSVRvjy26q0WCZKKDsVaUB
+         sJIq8ohr6UXwn3UPQYOHjwGYG8Wd2y+64Lj8L0kFMrbVyVvH1/FNRCDy0Ek5qJAXQQ5l
+         CqttHdjaexg6ukwm+BzmiLHDJw5FDCne2b2nVmyl+oM7iiVd5ynRqkuvd7U0pJHh6eQ+
+         h0OA==
+X-Gm-Message-State: ACgBeo1dPXHV8N92Q1zaHueVPqK+nsdCkxqRklIstyrkuJ4Rq5b+03DV
+        E7tmEFWwU+etwcci0ObHf7CExzk0Gc2dJDqhEC+y0mbC5fVH
+X-Google-Smtp-Source: AA6agR5EnAm50Et/OCwgPw0eNqolIi56KqTa8X1oagg72eJ8BBxEUERfECSFLAALPm1UeYtemL+67P9apSCbCk3yyqM2OGLaXio5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87r11cmbx0.wl-tiwai@suse.de>
+X-Received: by 2002:a05:6e02:170f:b0:2e5:f6d2:4ea9 with SMTP id
+ u15-20020a056e02170f00b002e5f6d24ea9mr7142704ill.146.1661069725030; Sun, 21
+ Aug 2022 01:15:25 -0700 (PDT)
+Date:   Sun, 21 Aug 2022 01:15:25 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000e85eff05e6bbeed3@google.com>
+Subject: [syzbot] usb-testing boot error: general protection fault in mm_alloc
+From:   syzbot <syzbot+0c4c86507aef43117d25@syzkaller.appspotmail.com>
+To:     akpm@linux-foundation.org, bigeasy@linutronix.de,
+        bpf@vger.kernel.org, brauner@kernel.org, david@redhat.com,
+        ebiederm@xmission.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, luto@kernel.org,
+        syzkaller-bugs@googlegroups.com, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Aug 19, 2022 at 06:32:43PM +0200, Takashi Iwai wrote:
-> Hi,
-> 
-> we've got multiple reports about 5.19 kernel starting crashing after
-> some time, and this turned out to be triggered by ucsi_acpi driver.
-> The details are found in:
->   https://bugzilla.suse.com/show_bug.cgi?id=1202386
-> 
-> The culprit seems to be the commit 87d0e2f41b8c
->     usb: typec: ucsi: add a common function ucsi_unregister_connectors()
+Hello,
 
-Adding Heikki to the thread...
+syzbot found the following issue on:
 
->     
-> This commit looks as if it were a harmless cleanup, but this failed in
-> a subtle way.  Namely, in the error scenario, the driver gets an error
-> at ucsi_register_altmodes(), and goes to the error handling to release
-> the resources.  Through this refactoring, the release part was unified
-> to a funciton ucsi_unregister_connectors().  And there, it has a NULL
-> check of con->wq, and it bails out the loop if it's NULL. 
-> Meanwhile, ucsi_register_port() itself still calls destroy_workqueue()
-> and clear con->wq at its error path.  This ended up in the leftover
-> power supply device with the uninitialized / cleared device.
-> 
-> It was confirmed that the problem could be avoided by a simple
-> revert.
+HEAD commit:    ad57410d231d usb: gadget: rndis: use %u instead of %d to p..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=15b2b1a5080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3cb39b084894e9a5
+dashboard link: https://syzkaller.appspot.com/bug?extid=0c4c86507aef43117d25
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
-I'll be glad to revert this now, unless Heikki thinks:
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+0c4c86507aef43117d25@syzkaller.appspotmail.com
 
-> 
-> I guess another fix could be removing the part clearing con->wq, i.e.
-> 
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -1192,11 +1192,6 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
->  out_unlock:
->  	mutex_unlock(&con->lock);
->  
-> -	if (ret && con->wq) {
-> -		destroy_workqueue(con->wq);
-> -		con->wq = NULL;
-> -	}
-> -
->  	return ret;
->  }
->  
-> 
-> ... but it's totally untested and I'm not entirely sure whether it's
-> better.
+general protection fault, probably for non-canonical address 0xffff000000000328: 0000 [#1] PREEMPT SMP KASAN
+KASAN: maybe wild-memory-access in range [0xfff8200000001940-0xfff8200000001947]
+CPU: 0 PID: 266 Comm: kworker/u4:2 Not tainted 6.0.0-rc1-syzkaller-00005-gad57410d231d #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
+RIP: 0010:freelist_dereference mm/slub.c:347 [inline]
+RIP: 0010:get_freepointer mm/slub.c:354 [inline]
+RIP: 0010:get_freepointer_safe mm/slub.c:368 [inline]
+RIP: 0010:slab_alloc_node mm/slub.c:3211 [inline]
+RIP: 0010:slab_alloc mm/slub.c:3251 [inline]
+RIP: 0010:__kmem_cache_alloc_lru mm/slub.c:3258 [inline]
+RIP: 0010:kmem_cache_alloc+0x15d/0x4a0 mm/slub.c:3268
+Code: 51 08 48 8b 01 48 83 79 10 00 48 89 04 24 0f 84 7c 02 00 00 48 85 c0 0f 84 73 02 00 00 49 8b 3c 24 41 8b 4c 24 28 40 f6 c7 0f <48> 8b 1c 08 0f 85 7b 02 00 00 48 8d 4a 08 65 48 0f c7 0f 0f 94 c0
+RSP: 0000:ffffc900015dfe18 EFLAGS: 00010246
+RAX: ffff000000000000 RBX: ffff88810e746600 RCX: 0000000000000328
+RDX: 0000000000000338 RSI: 0000000000000cc0 RDI: 000000000003e3f0
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff88810016d8c0
+R13: 0000000000000cc0 R14: ffffffff811440e9 R15: 0000000000000cc0
+FS:  0000000000000000(0000) GS:ffff8881f6800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff88823ffff000 CR3: 0000000007825000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ mm_alloc+0x19/0xc0 kernel/fork.c:1171
+ bprm_mm_init fs/exec.c:369 [inline]
+ alloc_bprm+0x1c3/0x900 fs/exec.c:1534
+ kernel_execve+0xab/0x500 fs/exec.c:1974
+ call_usermodehelper_exec_async+0x2e3/0x580 kernel/umh.c:112
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:freelist_dereference mm/slub.c:347 [inline]
+RIP: 0010:get_freepointer mm/slub.c:354 [inline]
+RIP: 0010:get_freepointer_safe mm/slub.c:368 [inline]
+RIP: 0010:slab_alloc_node mm/slub.c:3211 [inline]
+RIP: 0010:slab_alloc mm/slub.c:3251 [inline]
+RIP: 0010:__kmem_cache_alloc_lru mm/slub.c:3258 [inline]
+RIP: 0010:kmem_cache_alloc+0x15d/0x4a0 mm/slub.c:3268
+Code: 51 08 48 8b 01 48 83 79 10 00 48 89 04 24 0f 84 7c 02 00 00 48 85 c0 0f 84 73 02 00 00 49 8b 3c 24 41 8b 4c 24 28 40 f6 c7 0f <48> 8b 1c 08 0f 85 7b 02 00 00 48 8d 4a 08 65 48 0f c7 0f 0f 94 c0
+RSP: 0000:ffffc900015dfe18 EFLAGS: 00010246
+RAX: ffff000000000000 RBX: ffff88810e746600 RCX: 0000000000000328
+RDX: 0000000000000338 RSI: 0000000000000cc0 RDI: 000000000003e3f0
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff88810016d8c0
+R13: 0000000000000cc0 R14: ffffffff811440e9 R15: 0000000000000cc0
+FS:  0000000000000000(0000) GS:ffff8881f6800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff88823ffff000 CR3: 0000000007825000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	51                   	push   %rcx
+   1:	08 48 8b             	or     %cl,-0x75(%rax)
+   4:	01 48 83             	add    %ecx,-0x7d(%rax)
+   7:	79 10                	jns    0x19
+   9:	00 48 89             	add    %cl,-0x77(%rax)
+   c:	04 24                	add    $0x24,%al
+   e:	0f 84 7c 02 00 00    	je     0x290
+  14:	48 85 c0             	test   %rax,%rax
+  17:	0f 84 73 02 00 00    	je     0x290
+  1d:	49 8b 3c 24          	mov    (%r12),%rdi
+  21:	41 8b 4c 24 28       	mov    0x28(%r12),%ecx
+  26:	40 f6 c7 0f          	test   $0xf,%dil
+* 2a:	48 8b 1c 08          	mov    (%rax,%rcx,1),%rbx <-- trapping instruction
+  2e:	0f 85 7b 02 00 00    	jne    0x2af
+  34:	48 8d 4a 08          	lea    0x8(%rdx),%rcx
+  38:	65 48 0f c7 0f       	cmpxchg16b %gs:(%rdi)
+  3d:	0f 94 c0             	sete   %al
 
-that is any better?
 
-thanks,
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-greg k-h
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
