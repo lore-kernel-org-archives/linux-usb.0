@@ -2,143 +2,46 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73EE7C3F6B0
-	for <linux-usb@archiver.kernel.org>; Sat, 20 Aug 2022 20:03:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2F29C3F6B0
+	for <linux-usb@archiver.kernel.org>; Sun, 21 Aug 2022 06:23:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232707AbiHTUDE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 20 Aug 2022 16:03:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51474 "EHLO
+        id S229683AbiHUGXv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 21 Aug 2022 02:23:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233977AbiHTUCq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 20 Aug 2022 16:02:46 -0400
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75E1F5FC9
-        for <linux-usb@vger.kernel.org>; Sat, 20 Aug 2022 13:02:26 -0700 (PDT)
-Received: by mail-il1-f198.google.com with SMTP id l20-20020a056e02067400b002dfa7256498so5427530ilt.4
-        for <linux-usb@vger.kernel.org>; Sat, 20 Aug 2022 13:02:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc;
-        bh=0ti6bdWx7eJyJTMvgibKwHk7j3bL4kbd6UHfX1PdkdM=;
-        b=IWLVPhFY0f7HxWmKCo0sfkQuX05YR9jndoyoUFnzL+IpIO/ZjkES+BAvj3v9rYkKQy
-         TUWi7SRsSB/eoX9ZIFbV/HW8XGVh/c3DAUrYjFJCAqSgdBTSxcwa7etRFmszjZ9xXFjL
-         pxRmGoNPCm8QqE07CV2rS6sl2GLyYZOZ58lHasg/bAAIb/VG5Z6iEXEw/vtPzqHCQZHG
-         WDaP2q1cOjfTumKxoYcsEdo5kEuolFgd8HojB89ygqiTfPbyc+LwyeY2czDigRLNUC3Z
-         BTDgSO2fKhTuQ5UWPUQPrWqr0TWU+vi6kkTEaBaZV6nhHsghMGaPPqkKDcUvGmpewVLN
-         rxFg==
-X-Gm-Message-State: ACgBeo0IHxdwyk1bMk6BUeGXER4IshcH+cXOWr8cPIb2BqB5XHQ5QbbR
-        M3IjSPUsPCiw+olaSQryLicpA2X6rjHnMOPYmmaL3Hb0GFO+
-X-Google-Smtp-Source: AA6agR40X3ivhOiMhcBs0aGUPcAZswpztm9Xr9dtno5uKWoy5SpuLtlMJqetyRN7ua6t0OOAZDf7kE3d0XvhK471Slok4MGuS4ay
+        with ESMTP id S229441AbiHUGXu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 21 Aug 2022 02:23:50 -0400
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAFB91F2D5;
+        Sat, 20 Aug 2022 23:23:48 -0700 (PDT)
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 8576B68AA6; Sun, 21 Aug 2022 08:23:45 +0200 (CEST)
+Date:   Sun, 21 Aug 2022 08:23:45 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     "Alan J. Wylie" <alan@wylie.me.uk>, linux-usb@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: Regression in 5.19.0: USB errors during boot
+Message-ID: <20220821062345.GA26598@lst.de>
+References: <25342.20092.262450.330346@wylie.me.uk> <Yv5Q8gDvVTGOHd8k@kroah.com>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1c25:b0:2df:21fd:5a6b with SMTP id
- m5-20020a056e021c2500b002df21fd5a6bmr6302990ilh.128.1661025745851; Sat, 20
- Aug 2022 13:02:25 -0700 (PDT)
-Date:   Sat, 20 Aug 2022 13:02:25 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000008b5c5405e6b1b158@google.com>
-Subject: [syzbot] usb-testing boot error: general protection fault in getname_kernel
-From:   syzbot <syzbot+ef0cb91001b03cc06610@syzkaller.appspotmail.com>
-To:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com,
-        viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yv5Q8gDvVTGOHd8k@kroah.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+On Thu, Aug 18, 2022 at 04:47:14PM +0200, Greg Kroah-Hartman wrote:
+> What is the output of the lspci -v for the USB 3 controller?
+> 
+> Christoph, any ideas?
 
-syzbot found the following issue on:
+Well, with that commit it must be related to dma ops selection.
+As this appears to be an AMD system the options here are direct,
+amd_iommu and possibly amd_gart as the odd one in the mix.
 
-HEAD commit:    568035b01cfb Linux 6.0-rc1
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=179f7647080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3cb39b084894e9a5
-dashboard link: https://syzkaller.appspot.com/bug?extid=ef0cb91001b03cc06610
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ef0cb91001b03cc06610@syzkaller.appspotmail.com
-
-general protection fault, probably for non-canonical address 0xffff000000000800: 0000 [#1] PREEMPT SMP KASAN
-KASAN: maybe wild-memory-access in range [0xfff8200000004000-0xfff8200000004007]
-CPU: 0 PID: 299 Comm: kworker/u4:1 Not tainted 6.0.0-rc1-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
-RIP: 0010:freelist_dereference mm/slub.c:347 [inline]
-RIP: 0010:get_freepointer mm/slub.c:354 [inline]
-RIP: 0010:get_freepointer_safe mm/slub.c:368 [inline]
-RIP: 0010:slab_alloc_node mm/slub.c:3211 [inline]
-RIP: 0010:slab_alloc mm/slub.c:3251 [inline]
-RIP: 0010:__kmem_cache_alloc_lru mm/slub.c:3258 [inline]
-RIP: 0010:kmem_cache_alloc+0x15d/0x4a0 mm/slub.c:3268
-Code: 51 08 48 8b 01 48 83 79 10 00 48 89 04 24 0f 84 7c 02 00 00 48 85 c0 0f 84 73 02 00 00 49 8b 3c 24 41 8b 4c 24 28 40 f6 c7 0f <48> 8b 1c 08 0f 85 7b 02 00 00 48 8d 4a 08 65 48 0f c7 0f 0f 94 c0
-RSP: 0000:ffffc900017afe50 EFLAGS: 00010246
-RAX: ffff000000000000 RBX: 000000000000000e RCX: 0000000000000800
-RDX: 00000000000007f0 RSI: 0000000000000cc0 RDI: 000000000003e6c0
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: ffff88810016e500
-R13: 0000000000000cc0 R14: ffffffff8183a35e R15: 0000000000000cc0
-FS:  0000000000000000(0000) GS:ffff8881f6800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffff88823ffff000 CR3: 0000000007825000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- getname_kernel+0x4e/0x370 fs/namei.c:227
- kernel_execve+0x7a/0x500 fs/exec.c:1970
- call_usermodehelper_exec_async+0x2e3/0x580 kernel/umh.c:112
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:freelist_dereference mm/slub.c:347 [inline]
-RIP: 0010:get_freepointer mm/slub.c:354 [inline]
-RIP: 0010:get_freepointer_safe mm/slub.c:368 [inline]
-RIP: 0010:slab_alloc_node mm/slub.c:3211 [inline]
-RIP: 0010:slab_alloc mm/slub.c:3251 [inline]
-RIP: 0010:__kmem_cache_alloc_lru mm/slub.c:3258 [inline]
-RIP: 0010:kmem_cache_alloc+0x15d/0x4a0 mm/slub.c:3268
-Code: 51 08 48 8b 01 48 83 79 10 00 48 89 04 24 0f 84 7c 02 00 00 48 85 c0 0f 84 73 02 00 00 49 8b 3c 24 41 8b 4c 24 28 40 f6 c7 0f <48> 8b 1c 08 0f 85 7b 02 00 00 48 8d 4a 08 65 48 0f c7 0f 0f 94 c0
-RSP: 0000:ffffc900017afe50 EFLAGS: 00010246
-
-RAX: ffff000000000000 RBX: 000000000000000e RCX: 0000000000000800
-RDX: 00000000000007f0 RSI: 0000000000000cc0 RDI: 000000000003e6c0
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: ffff88810016e500
-R13: 0000000000000cc0 R14: ffffffff8183a35e R15: 0000000000000cc0
-FS:  0000000000000000(0000) GS:ffff8881f6800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffff88823ffff000 CR3: 0000000007825000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	51                   	push   %rcx
-   1:	08 48 8b             	or     %cl,-0x75(%rax)
-   4:	01 48 83             	add    %ecx,-0x7d(%rax)
-   7:	79 10                	jns    0x19
-   9:	00 48 89             	add    %cl,-0x77(%rax)
-   c:	04 24                	add    $0x24,%al
-   e:	0f 84 7c 02 00 00    	je     0x290
-  14:	48 85 c0             	test   %rax,%rax
-  17:	0f 84 73 02 00 00    	je     0x290
-  1d:	49 8b 3c 24          	mov    (%r12),%rdi
-  21:	41 8b 4c 24 28       	mov    0x28(%r12),%ecx
-  26:	40 f6 c7 0f          	test   $0xf,%dil
-* 2a:	48 8b 1c 08          	mov    (%rax,%rcx,1),%rbx <-- trapping instruction
-  2e:	0f 85 7b 02 00 00    	jne    0x2af
-  34:	48 8d 4a 08          	lea    0x8(%rdx),%rcx
-  38:	65 48 0f c7 0f       	cmpxchg16b %gs:(%rdi)
-  3d:	0f 94 c0             	sete   %al
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Alan, can you send me your .config?
