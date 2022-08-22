@@ -2,47 +2,48 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97349C28D13
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Aug 2022 19:48:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F22DC3F6B0
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Aug 2022 19:48:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238122AbiHVTsh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Aug 2022 15:48:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35796 "EHLO
+        id S238009AbiHVTsi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Aug 2022 15:48:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237439AbiHVTsd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Aug 2022 15:48:33 -0400
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4484FE029
+        with ESMTP id S237625AbiHVTsf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Aug 2022 15:48:35 -0400
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B607713F2A
         for <linux-usb@vger.kernel.org>; Mon, 22 Aug 2022 12:48:32 -0700 (PDT)
-Received: by mail-il1-f197.google.com with SMTP id o9-20020a056e0214c900b002dc29c288bfso9039835ilk.3
+Received: by mail-il1-f200.google.com with SMTP id q10-20020a056e020c2a00b002dedb497c7fso9062500ilg.16
         for <linux-usb@vger.kernel.org>; Mon, 22 Aug 2022 12:48:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc;
-        bh=pz50IIbxyx33+nWabTiAdIsjgxs4XJ7Q5EWkKJhISNg=;
-        b=TnF0zEUVua+IDgvfSHUuxnAyb+YdoUjuJwwfizf8KwQBwxrv64Z7+bQgZjlaAYerJj
-         gt65C9hMBAvCL5aqmuywqHVGplWFK6yLabcGInOn+LALnyLyZT6G3hFPVDhoEAtI8jMl
-         jIht5NI7HDcxdMlzz5pVqQDX5rpK0KWTJDKChS3Jr9UPLfzEUa/8nKEudQo2XakMKLS9
-         f3lWLMT2apRpi8z7NDFAHWIEgkZWVwQEzhWldg8vhDEh5WvehAIMBC+f5IZzSNulYHBR
-         7McGRIz4PrHtbu8grTIhHFRj0o+Q49E21jzRsbp9/+iHpxGzKtbLkiMWPo4Zu0F+XrR6
-         YBSw==
-X-Gm-Message-State: ACgBeo3TVJRRvnLwYB6TK4chxH2GJC2+TCxaakNMt5ueWnNSPEIVO4U3
-        7rKTkuYOVhJ0Sg3Csr3sVRC6WZihUDKKdEmRUZil5UnQk+W2
-X-Google-Smtp-Source: AA6agR7IyVH/TvQuqqZYaHxZxwdgjhsI1d+Eyhjg2/4/W5pTNpbeW/z7IswKz3Y+9DivWSpJOH43xvPM2ML1YbcajltVJReWzHjQ
+        bh=MalLwQaiGlhzIrxCHC2o/INfRJWqzd8HOJsi21AnIho=;
+        b=G1CDUwDq0JsGEEA7p4DcGoR/eY1JYO7YE9sB1HQLpPO8dlCyUhkrtGCknzf9OmBVxm
+         +9U2s4bxC/5szBmhieCcMnuhggfdRchC5aKTRO9JLxksKei98ofwIb6CuhrODNt6F8Wf
+         siJ30d5HZY/n4u0XIiD0bGyw+yxD1jKW/7hMFDhh0E6iv7dqRBUeQFhbStj21CT4+qTp
+         rjrRWMcDuzYjjpaf5c0yaGF0+GD70c31r63j2HjOchUYYUlCkzj9UH5UCHh5/sAQHuSJ
+         6zEFJcXWiOt4m4XhlYtOS0VNhTfdl2/uGYkDVWW+Cp2K67Jf1IQUrVwtrdUyBLI+BK35
+         rRTQ==
+X-Gm-Message-State: ACgBeo3AWLhzEUYTGFBWsRx6yiH0ZQ3fNnF2rS9xlmRLuxK+QMwkzco7
+        zb/cdLKEPXTniFOhNG0/o29JMta1EysLfMXKaAR9XF3foo1d
+X-Google-Smtp-Source: AA6agR7mUVz1zH8YW88I3sZKwQYF/yWh8IAsjogMXWzV6tuZHBKQB9KU/e59S2iZXuBBVtWDIjdraQTFd0o0JqK8a8NaYRIUjXSF
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:31c1:b0:33f:2450:46a9 with SMTP id
- n1-20020a05663831c100b0033f245046a9mr10085585jav.45.1661197711680; Mon, 22
- Aug 2022 12:48:31 -0700 (PDT)
-Date:   Mon, 22 Aug 2022 12:48:31 -0700
+X-Received: by 2002:a05:6e02:1b83:b0:2e5:b254:69e5 with SMTP id
+ h3-20020a056e021b8300b002e5b25469e5mr10654334ili.292.1661197712023; Mon, 22
+ Aug 2022 12:48:32 -0700 (PDT)
+Date:   Mon, 22 Aug 2022 12:48:32 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000081a9cc05e6d9bb84@google.com>
-Subject: [syzbot] usb-testing boot error: kernel panic: corrupted stack end in call_usermodehelper_exec_async
-From:   syzbot <syzbot+0d36a7d5e61d057c150d@syzkaller.appspotmail.com>
-To:     brauner@kernel.org, ebiederm@xmission.com, keescook@chromium.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
+Message-ID: <00000000000086ea5105e6d9bb44@google.com>
+Subject: [syzbot] usb-testing boot error: general protection fault in alloc_bprm
+From:   syzbot <syzbot+b3c801d39e8c3daed0fa@syzkaller.appspotmail.com>
+To:     ebiederm@xmission.com, keescook@chromium.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-usb@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
@@ -54,31 +55,84 @@ syzbot found the following issue on:
 
 HEAD commit:    ad57410d231d usb: gadget: rndis: use %u instead of %d to p..
 git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=1294c603080000
+console output: https://syzkaller.appspot.com/x/log.txt?x=17c13aa5080000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=3cb39b084894e9a5
-dashboard link: https://syzkaller.appspot.com/bug?extid=0d36a7d5e61d057c150d
+dashboard link: https://syzkaller.appspot.com/bug?extid=b3c801d39e8c3daed0fa
 compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0d36a7d5e61d057c150d@syzkaller.appspotmail.com
+Reported-by: syzbot+b3c801d39e8c3daed0fa@syzkaller.appspotmail.com
 
-Kernel panic - not syncing: corrupted stack end detected inside scheduler
-CPU: 0 PID: 243 Comm: kworker/u4:1 Not tainted 6.0.0-rc1-syzkaller-00005-gad57410d231d #0
+general protection fault, probably for non-canonical address 0xffff000000000100: 0000 [#1] PREEMPT SMP KASAN
+KASAN: maybe wild-memory-access in range [0xfff8200000000800-0xfff8200000000807]
+CPU: 1 PID: 375 Comm: kworker/u4:0 Not tainted 6.0.0-rc1-syzkaller-00005-gad57410d231d #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
+RIP: 0010:freelist_dereference mm/slub.c:347 [inline]
+RIP: 0010:get_freepointer mm/slub.c:354 [inline]
+RIP: 0010:get_freepointer_safe mm/slub.c:368 [inline]
+RIP: 0010:slab_alloc_node mm/slub.c:3211 [inline]
+RIP: 0010:slab_alloc mm/slub.c:3251 [inline]
+RIP: 0010:kmem_cache_alloc_trace+0x15e/0x3b0 mm/slub.c:3282
+Code: 8b 51 08 48 8b 01 48 83 79 10 00 48 89 44 24 08 0f 84 9d 01 00 00 48 85 c0 0f 84 94 01 00 00 48 8b 7d 00 8b 4d 28 40 f6 c7 0f <48> 8b 1c 08 0f 85 a0 01 00 00 48 8d 4a 08 65 48 0f c7 0f 0f 94 c0
+RSP: 0000:ffffc900018afe28 EFLAGS: 00010246
+RAX: ffff000000000000 RBX: ffff88810eae1100 RCX: 0000000000000100
+RDX: 0000000000001411 RSI: 0000000000000dc0 RDI: 000000000003b380
+RBP: ffff888100041c80 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000dc0
+R13: 00000000000001a0 R14: 0000000000000dc0 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff8881f6900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 0000000007825000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
  <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- panic+0x2c8/0x627 kernel/panic.c:274
- schedule_debug kernel/sched/core.c:5737 [inline]
- __schedule+0x26dd/0x26f0 kernel/sched/core.c:6388
- do_task_dead+0xd1/0x100 kernel/sched/core.c:6512
- do_exit+0x18bd/0x2930 kernel/exit.c:847
- call_usermodehelper_exec_async+0x418/0x580 kernel/umh.c:125
+ kmalloc include/linux/slab.h:600 [inline]
+ kzalloc include/linux/slab.h:733 [inline]
+ alloc_bprm+0x51/0x900 fs/exec.c:1514
+ kernel_execve+0xab/0x500 fs/exec.c:1974
+ call_usermodehelper_exec_async+0x2e3/0x580 kernel/umh.c:112
  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
  </TASK>
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
+Modules linked in:
+
+---[ end trace 0000000000000000 ]---
+RIP: 0010:freelist_dereference mm/slub.c:347 [inline]
+RIP: 0010:get_freepointer mm/slub.c:354 [inline]
+RIP: 0010:get_freepointer_safe mm/slub.c:368 [inline]
+RIP: 0010:slab_alloc_node mm/slub.c:3211 [inline]
+RIP: 0010:slab_alloc mm/slub.c:3251 [inline]
+RIP: 0010:kmem_cache_alloc_trace+0x15e/0x3b0 mm/slub.c:3282
+Code: 8b 51 08 48 8b 01 48 83 79 10 00 48 89 44 24 08 0f 84 9d 01 00 00 48 85 c0 0f 84 94 01 00 00 48 8b 7d 00 8b 4d 28 40 f6 c7 0f <48> 8b 1c 08 0f 85 a0 01 00 00 48 8d 4a 08 65 48 0f c7 0f 0f 94 c0
+RSP: 0000:ffffc900018afe28 EFLAGS: 00010246
+
+RAX: ffff000000000000 RBX: ffff88810eae1100 RCX: 0000000000000100
+RDX: 0000000000001411 RSI: 0000000000000dc0 RDI: 000000000003b380
+RBP: ffff888100041c80 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000dc0
+R13: 00000000000001a0 R14: 0000000000000dc0 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff8881f6900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 0000000007825000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	8b 51 08             	mov    0x8(%rcx),%edx
+   3:	48 8b 01             	mov    (%rcx),%rax
+   6:	48 83 79 10 00       	cmpq   $0x0,0x10(%rcx)
+   b:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+  10:	0f 84 9d 01 00 00    	je     0x1b3
+  16:	48 85 c0             	test   %rax,%rax
+  19:	0f 84 94 01 00 00    	je     0x1b3
+  1f:	48 8b 7d 00          	mov    0x0(%rbp),%rdi
+  23:	8b 4d 28             	mov    0x28(%rbp),%ecx
+  26:	40 f6 c7 0f          	test   $0xf,%dil
+* 2a:	48 8b 1c 08          	mov    (%rax,%rcx,1),%rbx <-- trapping instruction
+  2e:	0f 85 a0 01 00 00    	jne    0x1d4
+  34:	48 8d 4a 08          	lea    0x8(%rdx),%rcx
+  38:	65 48 0f c7 0f       	cmpxchg16b %gs:(%rdi)
+  3d:	0f 94 c0             	sete   %al
 
 
 ---
