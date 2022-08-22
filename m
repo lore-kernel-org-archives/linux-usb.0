@@ -2,368 +2,120 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79765C28D13
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Aug 2022 07:43:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA22AC28D13
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Aug 2022 08:18:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233297AbiHVHnp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Aug 2022 03:43:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33498 "EHLO
+        id S233259AbiHVISn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Aug 2022 04:18:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233173AbiHVHnh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Aug 2022 03:43:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EFB36557;
-        Mon, 22 Aug 2022 00:43:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BD86A60FE8;
-        Mon, 22 Aug 2022 07:43:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CD8AC433D6;
-        Mon, 22 Aug 2022 07:43:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1661154214;
-        bh=NAqES7EIpLS3x+1LddXyZJxh5OvdRXevxcrSdTFOsKw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rz9nZLufgR42eu/eeWYFpOh5oRVx46f5G48QNCk5eUUIGkBvuGukcINIjFBRb115c
-         wPDJUBTt6xZR8/gaL36Re43dy0yeMk+R14KZI4g35vZJLg2z73IBV4GraU3/cFqSpd
-         GIAZiUOu15/11xj0htYxRLf5+5Lu90+sAioiiISk=
-Date:   Mon, 22 Aug 2022 09:43:31 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Szuying Chen <chensiying21@gmail.com>
-Cc:     mario.limonciello@amd.com, mika.westerberg@linux.intel.com,
-        andreas.noever@gmail.com, michael.jamet@intel.com,
-        YehezkelShB@gmail.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yd_Tseng@asmedia.com.tw,
-        Chloe_Chen@asmedia.com.tw, Richard_Hsu@asmedia.com.tw
-Subject: Re: [PATCH v5] thunderbolt: thunderbolt: add vendor's NVM formats
-Message-ID: <YwMzo2IhL+ZqQMs3@kroah.com>
-References: <20220822073105.10509-1-chensiying21@gmail.com>
+        with ESMTP id S233057AbiHVISm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Aug 2022 04:18:42 -0400
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B55912A96
+        for <linux-usb@vger.kernel.org>; Mon, 22 Aug 2022 01:18:33 -0700 (PDT)
+Received: by mail-io1-f69.google.com with SMTP id v14-20020a6b5b0e000000b0067bc967a6c0so5146740ioh.5
+        for <linux-usb@vger.kernel.org>; Mon, 22 Aug 2022 01:18:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc;
+        bh=1iYF7Owrbe1QC0mi1CzjUmfXmKZlI8V18K28aWI+DSE=;
+        b=GaNWrHMiw4qFD6fzKUJF8IwtcdTAsyHHhW1UF2i+R9NVvOU8e49bvKt8KkIoPakEUp
+         tgAJHjxm+KuKhLsq9BvLA9xQilvAS4DI0AXyNsv/sJA+GHQBaY7tUVSYy/R0l+D558xN
+         ylNDnwhVJJ/rX5di15bx0IjXmkWxQWu28y2gF0yK9bMdE04MUnQV4RNScVy44cxVSr0b
+         nMIkjBBjUvmGhTB/QDMNLpms2r0OiRX9uDrXIE3Z/LrXK5Y5lrJh1jUWrrRLKt/U/Gvo
+         TGWH2xbZN+qPqsxyS2B14k4k1t1jq8j7/B1PJD0Nn/Fcrxc5IkZk0GVBli7ZnH1Wrz5L
+         DF9g==
+X-Gm-Message-State: ACgBeo0Ts3LuHzeXQ+tnIioqmHvxuwdzSMf9TraxYWzFQl2ulfCAsu2W
+        xiX64CjKdnZEXFHa9fEmUi4KxNaw72V9CIM5AyjH7OarBph5
+X-Google-Smtp-Source: AA6agR6pHFPnFANG+CDkfNJqTwAGVmg2VG9mJUpoM24MSGzBSXaH9E25yMZQQcw/p+PgBCDtiSw1ebOZu0Nqu95mELFdyG4bzpka
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220822073105.10509-1-chensiying21@gmail.com>
+X-Received: by 2002:a05:6602:27c1:b0:688:6a81:8d91 with SMTP id
+ l1-20020a05660227c100b006886a818d91mr8538746ios.189.1661156312516; Mon, 22
+ Aug 2022 01:18:32 -0700 (PDT)
+Date:   Mon, 22 Aug 2022 01:18:32 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000ec8f5c05e6d0175f@google.com>
+Subject: [syzbot] usb-testing boot error: BUG: corrupted list in pick_next_task_fair
+From:   syzbot <syzbot+b637b6748f2b5dc92271@syzkaller.appspotmail.com>
+To:     Henry.Wang@arm.com, bigeasy@linutronix.de,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        longpeng2@huawei.com, syzkaller-bugs@googlegroups.com,
+        tglx@linutronix.de, vschneid@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 22, 2022 at 03:31:05PM +0800, Szuying Chen wrote:
-> From: Szuying Chen <Chloe_Chen@asmedia.com.tw>
-> 
-> The patch add tb_switch_nvm_alloc() contain an array that has functions
-> pointers to vendor_ops that vendor to define.
-> And add tb_switch_nvm_upgradable() to enable nvm upgrade for vendors
-> that in switch_nvm_upgrade_vendors[].
-> 
-> Signed-off-by: Szuying Chen <Chloe_Chen@asmedia.com.tw>
-> ---
-> v4 -> v5 : Take Mika's suggestion and use nvm->vops to point the vendor
-> specific operations. Moved vendor:intel part of the code to make all
-> the vendors (includes Intel) support it in nvm.c. And add nvm specific
-> operations for ASMedia.
-> 
->  drivers/thunderbolt/nvm.c    | 204 +++++++++++++++++++++++++++++++++++
->  drivers/thunderbolt/switch.c | 100 ++++-------------
->  drivers/thunderbolt/tb.h     |  19 +++-
->  3 files changed, 242 insertions(+), 81 deletions(-)
-> 
-> diff --git a/drivers/thunderbolt/nvm.c b/drivers/thunderbolt/nvm.c
-> index b3f310389378..6ee048565616 100644
-> --- a/drivers/thunderbolt/nvm.c
-> +++ b/drivers/thunderbolt/nvm.c
-> @@ -12,8 +12,212 @@
-> 
->  #include "tb.h"
-> 
-> +/* Switch NVM support */
-> +#define NVM_CSS
-> +
->  static DEFINE_IDA(nvm_ida);
-> 
-> +/* Vendor provides NVM firmware upgrade function */
-> +static const u32 switch_nvm_upgrade_vendors[] = {
-> +	0x174c,
-> +};
-> +
-> +void tb_switch_nvm_upgradable(struct tb_switch *sw)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(switch_nvm_upgrade_vendors); i++) {
-> +		if (switch_nvm_upgrade_vendors[i] == sw->config.vendor_id)
-> +			sw->no_nvm_upgrade = false;
-> +	}
-> +}
-> +
-> +static inline int nvm_read(struct tb_switch *sw, unsigned int address,
-> +			   void *buf, size_t size)
-> +{
-> +	if (tb_switch_is_usb4(sw))
-> +		return usb4_switch_nvm_read(sw, address, buf, size);
-> +	return dma_port_flash_read(sw->dma_port, address, buf, size);
-> +}
-> +
-> +static int  asmedia_nvm_version(struct tb_switch *sw)
+Hello,
 
-Odd extra space :(
+syzbot found the following issue on:
 
-> +{
-> +	struct tb_nvm *nvm = sw->nvm;
-> +	u64 val;
-> +	int ret;
-> +
-> +	ret = nvm_read(sw, 0x1c, &val, sizeof(val));
-> +	if (ret)
-> +		return ret;
-> +
-> +	nvm->major = (((u8)val >> 0x18) << 0x10 | ((u8)(val >> 0x20)) << 0x8 | (u8)(val >> 0x28));
-> +	nvm->minor = (((u8)val) << 0x10 | ((u8)(val >> 0x8)) << 0x8 | (u8)(val >> 0x10));
+HEAD commit:    568035b01cfb Linux 6.0-rc1
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=13cc503d080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3cb39b084894e9a5
+dashboard link: https://syzkaller.appspot.com/bug?extid=b637b6748f2b5dc92271
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
-That's tough to read, want to add a comment explaining what you are
-doing here?  Like "the major number is in bits X-Y..." and such?
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b637b6748f2b5dc92271@syzkaller.appspotmail.com
 
-> +	nvm->nvm_size = SZ_512K;
-> +
-> +	return 0;
-> +}
-> +
-> +static int  intel_nvm_version(struct tb_switch *sw)
+list_del corruption. next->prev should be ffff88810b71d628, but was ffff000000000000. (next=ffff88810e7380a8)
+------------[ cut here ]------------
+kernel BUG at lib/list_debug.c:62!
+invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+CPU: 1 PID: 19 Comm: ksoftirqd/1 Not tainted 6.0.0-rc1-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
+RIP: 0010:__list_del_entry_valid.cold+0x70/0x72 lib/list_debug.c:62
+Code: fc ff 0f 0b 4c 89 ea 48 89 ee 48 c7 c7 40 b4 62 86 e8 c7 1e fc ff 0f 0b 4c 89 e9 48 89 ee 48 c7 c7 80 b5 62 86 e8 b3 1e fc ff <0f> 0b 83 c3 01 b8 ff ff 37 00 89 1d 22 2a ce 05 48 c1 e0 2a 65 48
+RSP: 0000:ffffc9000014fd58 EFLAGS: 00010082
+RAX: 000000000000006d RBX: ffff8881f6937b00 RCX: 0000000000000000
+RDX: ffff888100365580 RSI: ffffffff812c97e8 RDI: fffff52000029f9d
+RBP: ffff88810b71d628 R08: 000000000000006d R09: 0000000000000000
+R10: 0000000080000002 R11: 000000000000004e R12: ffff8881f69385e8
+R13: ffff88810e7380a8 R14: ffff8881f69385e8 R15: ffffc9000014fe30
+FS:  0000000000000000(0000) GS:ffff8881f6900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 0000000007825000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ __list_del_entry include/linux/list.h:134 [inline]
+ list_move include/linux/list.h:217 [inline]
+ pick_next_task_fair+0x170/0xf80 kernel/sched/fair.c:7468
+ __pick_next_task kernel/sched/core.c:5804 [inline]
+ pick_next_task kernel/sched/core.c:6313 [inline]
+ __schedule+0x3a3/0x26f0 kernel/sched/core.c:6458
+ schedule+0xda/0x1b0 kernel/sched/core.c:6570
+ smpboot_thread_fn+0x2eb/0x9c0 kernel/smpboot.c:160
+ kthread+0x2ea/0x3a0 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__list_del_entry_valid.cold+0x70/0x72 lib/list_debug.c:62
+Code: fc ff 0f 0b 4c 89 ea 48 89 ee 48 c7 c7 40 b4 62 86 e8 c7 1e fc ff 0f 0b 4c 89 e9 48 89 ee 48 c7 c7 80 b5 62 86 e8 b3 1e fc ff <0f> 0b 83 c3 01 b8 ff ff 37 00 89 1d 22 2a ce 05 48 c1 e0 2a 65 48
+RSP: 0000:ffffc9000014fd58 EFLAGS: 00010082
+RAX: 000000000000006d RBX: ffff8881f6937b00 RCX: 0000000000000000
+RDX: ffff888100365580 RSI: ffffffff812c97e8 RDI: fffff52000029f9d
+RBP: ffff88810b71d628 R08: 000000000000006d R09: 0000000000000000
+R10: 0000000080000002 R11: 000000000000004e R12: ffff8881f69385e8
+R13: ffff88810e7380a8 R14: ffff8881f69385e8 R15: ffffc9000014fe30
+FS:  0000000000000000(0000) GS:ffff8881f6900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 0000000007825000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
-extra space.
 
-> +{
-> +	struct tb_nvm *nvm = sw->nvm;
-> +	u32 val;
-> +	int ret;
-> +
-> +	/*
-> +	 * If the switch is in safe-mode the only accessible portion of
-> +	 * the NVM is the non-active one where userspace is expected to
-> +	 * write new functional NVM.
-> +	 */
-> +	if (!sw->safe_mode) {
-> +		u32 nvm_size, hdr_size;
-> +
-> +		ret = nvm_read(sw, NVM_FLASH_SIZE, &val, sizeof(val));
-> +		if (ret)
-> +			return ret;
-> +
-> +		hdr_size = sw->generation < 3 ? SZ_8K : SZ_16K;
-> +		nvm_size = (SZ_1M << (val & 7)) / 8;
-> +		nvm_size = (nvm_size - hdr_size) / 2;
-> +
-> +		ret = nvm_read(sw, NVM_VERSION, &val, sizeof(val));
-> +		if (ret)
-> +			return ret;
-> +
-> +		nvm->major = val >> 16;
-> +		nvm->minor = val >> 8;
-> +		nvm->nvm_size = nvm_size;
-> +
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-extra blank line.  Did you run this patch through checkpatch.pl first?
-
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int  intel_nvm_validate(struct tb_switch *sw)
-> +{
-> +	unsigned int image_size, hdr_size;
-> +	const u8 *buf = sw->nvm->buf;
-> +	u16 ds_size;
-> +	int ret;
-> +
-> +	image_size = sw->nvm->buf_data_size;
-> +	if (image_size < NVM_MIN_SIZE || image_size > NVM_MAX_SIZE)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * FARB pointer must point inside the image and must at least
-> +	 * contain parts of the digital section we will be reading here.
-> +	 */
-> +	hdr_size = (*(u32 *)buf) & 0xffffff;
-> +	if (hdr_size + NVM_DEVID + 2 >= image_size)
-> +		return -EINVAL;
-> +
-> +	/* Digital section start should be aligned to 4k page */
-> +	if (!IS_ALIGNED(hdr_size, SZ_4K))
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * Read digital section size and check that it also fits inside
-> +	 * the image.
-> +	 */
-> +	ds_size = *(u16 *)(buf + hdr_size);
-> +	if (ds_size >= image_size)
-> +		return -EINVAL;
-> +
-> +	if (!sw->safe_mode) {
-> +		u16 device_id;
-> +
-> +		/*
-> +		 * Make sure the device ID in the image matches the one
-> +		 * we read from the switch config space.
-> +		 */
-> +		device_id = *(u16 *)(buf + hdr_size + NVM_DEVID);
-> +		if (device_id != sw->config.device_id)
-> +			return -EINVAL;
-> +
-> +		if (sw->generation < 3) {
-> +			/* Write CSS headers first */
-> +			ret = dma_port_flash_write(sw->dma_port,
-> +				DMA_PORT_CSS_ADDRESS, buf + NVM_CSS,
-> +				DMA_PORT_CSS_MAX_SIZE);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +
-> +		/* Skip headers in the image */
-> +		buf += hdr_size;
-> +		image_size -= hdr_size;
-> +	}
-> +
-> +	return image_size;
-> +}
-> +
-> +struct tb_nvm_vendor_ops asmedia_switch_nvm_ops = {
-> +	.version = asmedia_nvm_version,
-> +};
-> +
-> +struct tb_nvm_vendor_ops intel_switch_nvm_ops = {
-> +	.version = intel_nvm_version,
-> +	.validate = intel_nvm_validate,
-> +};
-> +
-> +struct switch_nvm_vendor {
-> +	u16 vendor;
-> +	const struct tb_nvm_vendor_ops *vops;
-> +};
-> +
-> +static const struct switch_nvm_vendor switch_nvm_vendors[] = {
-> +	{ 0x8086, &intel_switch_nvm_ops },
-> +	{ 0x8087, &intel_switch_nvm_ops },
-> +	{ 0x174c, &asmedia_switch_nvm_ops },
-> +
-> +};
-> +
-> +/**
-> + * tb_switch_nvm_alloc() - alloc nvm and set nvm->vops to point
-> + * the vendor specific operations.
-> + * @sw: thunderbolt switch
-> + *
-> + */
-> +struct tb_nvm *tb_switch_nvm_alloc(struct tb_switch *sw)
-> +{
-> +	const struct tb_nvm_vendor_ops *vops = NULL;
-> +	struct tb_nvm *nvm;
-> +	int i;
-> +	int ret;
-> +
-> +	/**
-
-No need for kernel-doc format here.
-
-> +	 * If the vendor matches on the array then set nvm->vops to
-> +	 * point the vendor specific operations.
-> +	 */
-> +	for (i = 0; i < ARRAY_SIZE(switch_nvm_vendors); i++) {
-> +		const struct switch_nvm_vendor *v = &switch_nvm_vendors[i];
-> +
-> +		if (v->vendor == sw->config.vendor_id) {
-> +			vops = v->vops;
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (!vops)
-> +		return ERR_PTR(-EOPNOTSUPP);
-> +
-> +	nvm = tb_nvm_alloc(&sw->dev);
-> +	if (IS_ERR(nvm))
-> +		return nvm;
-> +
-> +	nvm->vops = vops;
-> +	sw->nvm = nvm;
-> +	ret = vops->version(sw);
-> +	if (ret)
-> +		goto err_nvm;
-> +
-> +	return nvm;
-> +
-> +err_nvm:
-> +	tb_nvm_free(nvm);
-> +	return ERR_PTR(ret);
-> +}
-> +
->  /**
->   * tb_nvm_alloc() - Allocate new NVM structure
->   * @dev: Device owning the NVM
-> diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-> index 244f8cd38b25..392586641828 100644
-> --- a/drivers/thunderbolt/switch.c
-> +++ b/drivers/thunderbolt/switch.c
-> @@ -102,10 +102,10 @@ static void nvm_clear_auth_status(const struct tb_switch *sw)
-> 
->  static int nvm_validate_and_write(struct tb_switch *sw)
->  {
-> -	unsigned int image_size, hdr_size;
-> +	unsigned int image_size;
->  	const u8 *buf = sw->nvm->buf;
-> -	u16 ds_size;
->  	int ret;
-> +	const struct tb_nvm_vendor_ops *vops = sw->nvm->vops;
-> 
->  	if (!buf)
->  		return -EINVAL;
-> @@ -114,49 +114,13 @@ static int nvm_validate_and_write(struct tb_switch *sw)
->  	if (image_size < NVM_MIN_SIZE || image_size > NVM_MAX_SIZE)
->  		return -EINVAL;
-> 
-> -	/*
-> -	 * FARB pointer must point inside the image and must at least
-> -	 * contain parts of the digital section we will be reading here.
-> -	 */
-> -	hdr_size = (*(u32 *)buf) & 0xffffff;
-> -	if (hdr_size + NVM_DEVID + 2 >= image_size)
-> -		return -EINVAL;
-> -
-> -	/* Digital section start should be aligned to 4k page */
-> -	if (!IS_ALIGNED(hdr_size, SZ_4K))
-> -		return -EINVAL;
-> -
-> -	/*
-> -	 * Read digital section size and check that it also fits inside
-> -	 * the image.
-> -	 */
-> -	ds_size = *(u16 *)(buf + hdr_size);
-> -	if (ds_size >= image_size)
-> -		return -EINVAL;
-> -
-> -	if (!sw->safe_mode) {
-> -		u16 device_id;
-> -
-> -		/*
-> -		 * Make sure the device ID in the image matches the one
-> -		 * we read from the switch config space.
-> -		 */
-> -		device_id = *(u16 *)(buf + hdr_size + NVM_DEVID);
-> -		if (device_id != sw->config.device_id)
-> -			return -EINVAL;
-> -
-> -		if (sw->generation < 3) {
-> -			/* Write CSS headers first */
-> -			ret = dma_port_flash_write(sw->dma_port,
-> -				DMA_PORT_CSS_ADDRESS, buf + NVM_CSS,
-> -				DMA_PORT_CSS_MAX_SIZE);
-> -			if (ret)
-> -				return ret;
-> -		}
-> +	/*Vendors to validate before write to router NVM*/
-
-Extra ' ' character please.
-
-thanks,
-
-greg k-h
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
