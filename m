@@ -2,83 +2,149 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEAADC38142
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Aug 2022 17:11:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38D3DC3814E
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Aug 2022 17:22:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343698AbiHWRLq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Aug 2022 13:11:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50550 "EHLO
+        id S231925AbiHWRWZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Aug 2022 13:22:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344048AbiHWRKG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Aug 2022 13:10:06 -0400
-Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [IPv6:2a01:4f8:150:2161:1:b009:f23e:0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A54087693
-        for <linux-usb@vger.kernel.org>; Tue, 23 Aug 2022 07:02:18 -0700 (PDT)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-         client-signature RSA-PSS (4096 bits) client-digest SHA256)
-        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
-        by bmailout3.hostsharing.net (Postfix) with ESMTPS id CAF88100B54CE;
-        Tue, 23 Aug 2022 16:02:16 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id A36F636622; Tue, 23 Aug 2022 16:02:16 +0200 (CEST)
-Date:   Tue, 23 Aug 2022 16:02:16 +0200
-From:   Lukas Wunner <lukas@wunner.de>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     linux-usb@vger.kernel.org, Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>
-Subject: Re: [PATCH 3/4] thunderbolt: Add helpers to check if CL states are
- enabled on port
-Message-ID: <20220823140216.GA28421@wunner.de>
-References: <20220823105352.56306-1-mika.westerberg@linux.intel.com>
- <20220823105352.56306-4-mika.westerberg@linux.intel.com>
+        with ESMTP id S241767AbiHWRVS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Aug 2022 13:21:18 -0400
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C266AC251;
+        Tue, 23 Aug 2022 07:57:29 -0700 (PDT)
+Received: by mail-oi1-f174.google.com with SMTP id s199so16320760oie.3;
+        Tue, 23 Aug 2022 07:57:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=FAI+J/BAzIOCuYieqj21rHdsHuRaSuJ4Vj8kHpJSNAE=;
+        b=Bguy5gXkBeLZqFWOQeDUzyvG2Dh1lvWQ5M1H3lAWbE8AeicHVgTcaeWv9P0JvKC750
+         Gzr3ibcGK71O2EP+ihg6zRki7XD5NK6bVl0pxo8rFk7n+6xaH6pwSNLePhBalIf/j6do
+         NZHLYH2uZUap4VEBxI1rnY7ImPaXe3PalgnoM984VJyXLz/9+BIINGt4RKGjkDhKvfxF
+         x8BKI8XayQ3u3gHLmVSsjoI4VNW+XGbcep0j4xY9jl9tPpAfCMVwCJ7FX03Cnu+rNy46
+         aLBSYCns9D1BUaU0sUG17eJgITTMZCl3mHHcGCvj11LcKoPh5Dp7fWsxraQ8W8a8E2Lj
+         4ppA==
+X-Gm-Message-State: ACgBeo3jpUgCtT7s9lWaZShSa36wPutKFi+YYKJxiW9ebI2VhFUFPanE
+        ZYeq2R1KX23penPSt1gsYg==
+X-Google-Smtp-Source: AA6agR4hSJQAGxX3KN7ayKSxhwLdWv6s8/qh4bhvrE5yHsP9wzSBH+Rc0HRRZkXNGG1/4mMLZExhJw==
+X-Received: by 2002:aca:3056:0:b0:345:64e9:7435 with SMTP id w83-20020aca3056000000b0034564e97435mr1417894oiw.19.1661266648690;
+        Tue, 23 Aug 2022 07:57:28 -0700 (PDT)
+Received: from xps15.. (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.googlemail.com with ESMTPSA id t1-20020a056870600100b0011c65559b04sm3840637oaa.34.2022.08.23.07.57.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Aug 2022 07:57:28 -0700 (PDT)
+From:   Rob Herring <robh@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Xin Ji <xji@analogixsemi.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Amelie Delaunay <amelie.delaunay@foss.st.com>,
+        Samuel Holland <samuel@sholland.org>
+Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org
+Subject: [PATCH] dt-bindings: usb: Add missing (unevaluated|additional)Properties on child nodes
+Date:   Tue, 23 Aug 2022 09:56:40 -0500
+Message-Id: <20220823145649.3118479-9-robh@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220823105352.56306-4-mika.westerberg@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Aug 23, 2022 at 01:53:51PM +0300, Mika Westerberg wrote:
-> +/**
-> + * tb_port_is_clx_enabled() - Is given CL state enabled
-> + * @port: USB4 port to check
-> + * @clx: CL state to check
-> + *
-> + * Returns true if given CL state is enabled for @port.
-> + */
-> +bool tb_port_is_clx_enabled(struct tb_port *port, enum tb_clx clx)
-> +{
-> +	u32 phy, mask = LANE_ADP_CS_1_CL0S_ENABLE | LANE_ADP_CS_1_CL1_ENABLE;
-> +	int ret;
-> +
-> +	if (!tb_port_clx_supported(port, clx))
-> +		return false;
-> +
-> +	ret = tb_port_read(port, &phy, TB_CFG_PORT,
-> +			   port->cap_phy + LANE_ADP_CS_1, 1);
-> +	if (ret)
-> +		return false;
-> +
-> +	return (phy & mask) == mask;
-> +}
-> +
-[...]
-> +static inline bool tb_port_are_clx_enabled(struct tb_port *port)
-> +{
-> +	return tb_port_is_clx_enabled(port, TB_CL1) ||
-> +	       tb_port_is_clx_enabled(port, TB_CL2);
-> +}
+In order to ensure only documented properties are present, node schemas
+must have unevaluatedProperties or additionalProperties set to false
+(typically).
 
-If you change enum tb_clx to use "power of two" values (0 1 2 4 8 ...)
-then you could just pass a bitmask to tb_port_is_clx_enabled()
-and thus need only a single invocation in tb_port_are_clx_enabled().
-Just a thought.
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .../devicetree/bindings/usb/analogix,anx7411.yaml    |  2 ++
+ .../devicetree/bindings/usb/aspeed,usb-vhub.yaml     |  2 ++
+ .../devicetree/bindings/usb/st,stusb160x.yaml        | 12 +++++++++---
+ .../devicetree/bindings/usb/willsemi,wusb3801.yaml   |  1 +
+ 4 files changed, 14 insertions(+), 3 deletions(-)
 
-Thanks,
+diff --git a/Documentation/devicetree/bindings/usb/analogix,anx7411.yaml b/Documentation/devicetree/bindings/usb/analogix,anx7411.yaml
+index ee436308e5dc..0e72c08e6566 100644
+--- a/Documentation/devicetree/bindings/usb/analogix,anx7411.yaml
++++ b/Documentation/devicetree/bindings/usb/analogix,anx7411.yaml
+@@ -23,6 +23,8 @@ properties:
+   connector:
+     type: object
+     $ref: ../connector/usb-connector.yaml
++    unevaluatedProperties: false
++
+     description:
+       Properties for usb c connector.
+ 
+diff --git a/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml b/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
+index 8b019ac05bbe..a86bcd95100e 100644
+--- a/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
++++ b/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
+@@ -67,6 +67,7 @@ properties:
+ 
+   vhub-strings:
+     type: object
++    additionalProperties: false
+ 
+     properties:
+       '#address-cells':
+@@ -78,6 +79,7 @@ properties:
+     patternProperties:
+       '^string@[0-9a-f]+$':
+         type: object
++        additionalProperties: false
+         description: string descriptors of the specific language
+ 
+         properties:
+diff --git a/Documentation/devicetree/bindings/usb/st,stusb160x.yaml b/Documentation/devicetree/bindings/usb/st,stusb160x.yaml
+index b5a8c9814dd3..b8974807b666 100644
+--- a/Documentation/devicetree/bindings/usb/st,stusb160x.yaml
++++ b/Documentation/devicetree/bindings/usb/st,stusb160x.yaml
+@@ -33,6 +33,7 @@ properties:
+   connector:
+     type: object
+     $ref: /schemas/connector/usb-connector.yaml#
++    unevaluatedProperties: false
+ 
+     properties:
+       compatible:
+@@ -74,9 +75,14 @@ examples:
+                 data-role = "dual";
+                 typec-power-opmode = "default";
+ 
+-                port {
+-                    typec_con_ep: endpoint {
+-                        remote-endpoint = <&usbotg_hs_ep>;
++                ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++                    port@0 {
++                        reg = <0>;
++                        typec_con_ep: endpoint {
++                            remote-endpoint = <&usbotg_hs_ep>;
++                        };
+                     };
+                 };
+             };
+diff --git a/Documentation/devicetree/bindings/usb/willsemi,wusb3801.yaml b/Documentation/devicetree/bindings/usb/willsemi,wusb3801.yaml
+index c2b2243c7892..5aa4ffd67119 100644
+--- a/Documentation/devicetree/bindings/usb/willsemi,wusb3801.yaml
++++ b/Documentation/devicetree/bindings/usb/willsemi,wusb3801.yaml
+@@ -28,6 +28,7 @@ properties:
+   connector:
+     type: object
+     $ref: ../connector/usb-connector.yaml#
++    unevaluatedProperties: false
+     description:
+       The managed USB Type-C connector. Since WUSB3801 does not support
+       Power Delivery, the node should have the "pd-disable" property.
+-- 
+2.34.1
 
-Lukas
