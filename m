@@ -2,121 +2,97 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C0C5C32796
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Aug 2022 11:17:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21FEEC32793
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Aug 2022 11:27:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350616AbiHWLRv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Aug 2022 07:17:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35830 "EHLO
+        id S241912AbiHWL1y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Aug 2022 07:27:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357857AbiHWLQs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Aug 2022 07:16:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD24BD287
-        for <linux-usb@vger.kernel.org>; Tue, 23 Aug 2022 02:20:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661246405;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=RK7XtREpFLhbfzxnimWw3D/7SMk9co/GteGqXfWisLY=;
-        b=HTaQIHQkbtv4MdLYbkrzG8WXezxFEpZPKvd8+wZZ+rl6PZEPQbqo3mi+xzVnoCSyTv6tJ+
-        7+65s3at5Hbjfp5aqnffq8zPLRdlO/6czvqIbI7ErIngV09FbKJU92wxAPWrVwwvldy129
-        I3VaS90APFUrC2pNd2A/qctZpVZ87zs=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-325-t6LFKt7uPmicf4EJBctJfw-1; Tue, 23 Aug 2022 05:20:04 -0400
-X-MC-Unique: t6LFKt7uPmicf4EJBctJfw-1
-Received: by mail-qv1-f72.google.com with SMTP id ea4-20020ad458a4000000b0049682af0ca8so7147518qvb.21
-        for <linux-usb@vger.kernel.org>; Tue, 23 Aug 2022 02:20:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:user-agent:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc;
-        bh=RK7XtREpFLhbfzxnimWw3D/7SMk9co/GteGqXfWisLY=;
-        b=ff2cy9ZvHiQjD4o6xwTZqQIum2iiVmeNsoJgRTp4jA0o+9qWp9CHlPe5zVsRSq2y+4
-         j66PsDBTU8d9YFOvBbLzqUKBXH1zAqaFrWkMaH7teLA3NEoFdLybAhd4PZmVVEB8iwgv
-         oflyS1tNVICB4A0SVfUtWfd/vj15UOVL+iqXrtqstQrBsVIuRqwTVZqSDaW+AyK1PDnj
-         /WXe4ZXfgAMckaVhvRlZ8ji7yeLIEpRQX7f5gfi50uZo4zqJFluDCuAfjcWqXcSMpFt4
-         a9Iw5cw71dtaYRPThz7s07VamsdwP1CRUyKhWTmwq0/hxaFjqO6qhSoDswdNhe8GFl3C
-         idmA==
-X-Gm-Message-State: ACgBeo1pzOoKVD7qbx/X3VszdHyCmk7ldRQS4TqwJBFKGe7LOB4xvDxX
-        z4PUCV7j3PGmc2YsbooGOV2FYefFVgbDXhO/evqOb+Y9tACqSGa1n9/ymrsufvY375fXUDztttG
-        DQCvOoBHzGQFC23yqIJTr
-X-Received: by 2002:a05:620a:1990:b0:6bb:61c3:8970 with SMTP id bm16-20020a05620a199000b006bb61c38970mr15401560qkb.394.1661246403623;
-        Tue, 23 Aug 2022 02:20:03 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4scwdvU3X5bSXYFjzLfBWQF4j11vAlCrZyx7tLKMNMOtVgqKg9TOrjDWVBkK33M3QbDk49fg==
-X-Received: by 2002:a05:620a:1990:b0:6bb:61c3:8970 with SMTP id bm16-20020a05620a199000b006bb61c38970mr15401551qkb.394.1661246403407;
-        Tue, 23 Aug 2022 02:20:03 -0700 (PDT)
-Received: from [10.35.4.238] (bzq-82-81-161-50.red.bezeqint.net. [82.81.161.50])
-        by smtp.gmail.com with ESMTPSA id j10-20020ac8664a000000b0033fc75c3469sm9976682qtp.27.2022.08.23.02.20.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 02:20:03 -0700 (PDT)
-Message-ID: <3745745afedb2eff890277041896356149a8f2bf.camel@redhat.com>
-Subject: Commit 'r8152: fix a WOL issue' makes Ethernet port on Lenovo
- Thunderbolt 3 dock go crazy
-From:   Maxim Levitsky <mlevitsk@redhat.com>
-To:     netdev@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Hayes Wang <hayeswang@realtek.com>
-Date:   Tue, 23 Aug 2022 12:20:00 +0300
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-5.fc34) 
+        with ESMTP id S1357884AbiHWL04 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Aug 2022 07:26:56 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27AB5C04DF;
+        Tue, 23 Aug 2022 02:24:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7FE44B81C96;
+        Tue, 23 Aug 2022 09:24:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B044BC433C1;
+        Tue, 23 Aug 2022 09:24:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1661246676;
+        bh=bFP8WNIAi/xpN+RuABosBRmY0Hj9c/EwfxNDVdA0MPY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=umHRHl0TgrVf3sBGAi6Mz9dJrYgNodZwlE4PoaEwW4x3naG9m/rCd74HheRkj3YUn
+         uUz/0daA8D8vsh2dN5tXSuukeD/qTI0b+13+nQCYqfzLsqqnXFAjT5ELyNHn88jfip
+         LNNJaF4i5rbTlJ6f6ni534nprLpnzd3Ps1Q90ezs=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org,
+        Raviteja Garimella <raviteja.garimella@broadcom.com>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.4 184/389] usb: gadget: udc: amd5536 depends on HAS_DMA
+Date:   Tue, 23 Aug 2022 10:24:22 +0200
+Message-Id: <20220823080123.321428081@linuxfoundation.org>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220823080115.331990024@linuxfoundation.org>
+References: <20220823080115.331990024@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+From: Randy Dunlap <rdunlap@infradead.org>
 
-I recently bisected an issue on my Lenovo P1 gen3, which is connected to the Lenovo Thunderbolt 3 dock.
+[ Upstream commit 8097cf2fb3b2205257f1c76f4808e3398d66b6d9 ]
 
-After I suspend the laptop to ram, the ethernet port led on the dock starts to blink like crazy,
-its peer port on my ethernet switch blinks as well, and eventually the switch stops forwarding packets,
-bringing all my network down.
+USB_AMD5536UDC should depend on HAS_DMA since it selects USB_SNP_CORE,
+which depends on HAS_DMA and since 'select' does not follow any
+dependency chains.
 
-Likely the ethernet card in the dock sends some kind of a garbage over the wire.
+Fixes this kconfig warning:
 
-Resuming the laptop, "fixes" the issue (leds stops blinking, and the network starts working again
-after a minute or so).
+WARNING: unmet direct dependencies detected for USB_SNP_CORE
+  Depends on [n]: USB_SUPPORT [=y] && USB_GADGET [=y] && (USB_AMD5536UDC [=y] || USB_SNP_UDC_PLAT [=n]) && HAS_DMA [=n]
+  Selected by [y]:
+  - USB_AMD5536UDC [=y] && USB_SUPPORT [=y] && USB_GADGET [=y] && USB_PCI [=y]
 
-I also tried to connect the dock directly to my main desktop over a dedicated usb network card
-and try to capture the packets that are sent, but no packets were captured. I will soon retry
-this test with another network card. I did use promicious mode.
+Fixes: 97b3ffa233b9 ("usb: gadget: udc: amd5536: split core and PCI layer")
+Cc: Raviteja Garimella <raviteja.garimella@broadcom.com>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Link: https://lore.kernel.org/r/20220709013601.7536-1-rdunlap@infradead.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/gadget/udc/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
+index f985bb4a42db..ccf2c736d495 100644
+--- a/drivers/usb/gadget/udc/Kconfig
++++ b/drivers/usb/gadget/udc/Kconfig
+@@ -311,7 +311,7 @@ source "drivers/usb/gadget/udc/bdc/Kconfig"
+ 
+ config USB_AMD5536UDC
+ 	tristate "AMD5536 UDC"
+-	depends on USB_PCI
++	depends on USB_PCI && HAS_DMA
+ 	select USB_SNP_CORE
+ 	help
+ 	   The AMD5536 UDC is part of the AMD Geode CS5536, an x86 southbridge.
+-- 
+2.35.1
 
 
-This is the offending commit, and reverting it helps:
-
-commit cdf0b86b250fd3c1c3e120c86583ea510c52e4ce
-Author: Hayes Wang <hayeswang@realtek.com>
-Date:   Mon Jul 18 16:21:20 2022 +0800
-
-    r8152: fix a WOL issue
-    
-    This fixes that the platform is waked by an unexpected packet. The
-    size and range of FIFO is different when the device enters S3 state,
-    so it is necessary to correct some settings when suspending.
-    
-    Regardless of jumbo frame, set RMS to 1522 and MTPS to MTPS_DEFAULT.
-    Besides, enable MCU_BORW_EN to update the method of calculating the
-    pointer of data. Then, the hardware could get the correct data.
-    
-    Fixes: 195aae321c82 ("r8152: support new chips")
-    Signed-off-by: Hayes Wang <hayeswang@realtek.com>
-    Link: https://lore.kernel.org/r/20220718082120.10957-391-nic_swsd@realtek.com
-    Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-
-
-WOL from dock was enabled in BIOS, but I tested with it disabled as well, and
-no change in behavier.
-
-Any help is welcome. I can test patches if needed, the laptop currently runs 6.0-rc2
-with this commit reverted.
-
-When I find some time I can also narrow the change down by reverting only parts
-of the patch.
-
-Best regards,
-	Maxim Levitsky
 
