@@ -2,52 +2,52 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E045C32789
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Aug 2022 14:41:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53292C32789
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Aug 2022 14:42:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242506AbiHWOlp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Aug 2022 10:41:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42150 "EHLO
+        id S241570AbiHWOmN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Aug 2022 10:42:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242564AbiHWOl1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Aug 2022 10:41:27 -0400
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on20608.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e1a::608])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFD2F2CF90E;
-        Tue, 23 Aug 2022 04:59:43 -0700 (PDT)
+        with ESMTP id S241430AbiHWOlz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Aug 2022 10:41:55 -0400
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-he1eur01on0604.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe1e::604])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97A3D2D0976;
+        Tue, 23 Aug 2022 05:00:07 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OtSOhbQbApvD+bvwggMqsLC6eXE/xd04MHR9/fWKkA4M2JtolK+PByfpX/ngqXp6ZqIsiGBwHVTMuFcu6en0icxgaXP6Cjrwi1LI4pv5PitsiTMXxN7sqJhPHluUfTyEuxNrk8fJUBPrYRksQJm7HptRSFLeEWkNcBeud6pn8RaFCmb+9HlvjKb5Sbvz4eHFdwaQr5uw0EC/W8XLGdy3VgNX8laKNVtgfGHFnh/O3ZYU192zyIwcW+C2HGoiffDD273i6J/PhJBgQRrMlcg2qsnn4h8egeW25GGCfWSeqd4rZXO7jhfNXIwwZ6y8uzvCeo9PFzGcfoJNX0p4VWVfgQ==
+ b=SzxO4+4CQRLleOx3BTm3jHk70BrxLkImddRtJlQ2V3d/8OrvOFbhurhEwIfJxwTZLsGVrZ8OkDra8+KA6cFbVx5RR8bsubVO+mQVtssV1hb9DLwgH5M61v54NT32GTI/lipisAdAWv2LwSTb2anWeqQJ1njq8+UoDm4xF+NBpXgjaOCx4y9OnUOUwcMEmyaMlA47K12wVqXnP+aB85livlEcF7A0pxKyf575mKcXzQOtUQTaah/OtL+2FWaPQZAox0AlNNqSoLge8flgFK39Ev8JEOC7InhoiKKvgW6o72t+cgOAKhbMYJKnjd6pCf/go+JKLnhr4Qx91ZttK89iZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mDLc6BDZyYOkWIDUubehY7WBYEo7axYU4TpsHPO76q0=;
- b=XyMI17phl8ElILmJrnUts2ERfzcJZ1M/+3t2ftXb89KMprbM37T1rp+RxSjglCnGMjFLia4j5FqT5/Njq3S5SkI4sn4ZW2w+2qBdy0EQiTYkpdCzKKzI5CbTjOeqOEKfmCvfRQb86mjAHZRPd7khqaCh/YMGa8KAhcvSBwGbxifr5iGSvUwkQnKSY+sYF88s3k8jhb+JoaCyLqZupJ+h4uZg+z182O8eitXq0e8NgX5p9qkqRrhL9gcDJmHbN95mqn4iGRkUlhf7Hn7SU5Z4va3HNVWuTFBSjKro48+ZgtI9VD3ag7krKPKCnIQakV80sClpg7zWus8sx207ecaJlw==
+ bh=+LLbE1Q6XPZaP2naT3ealao5u80azla42tVcyyT4V0M=;
+ b=GNKG4DhDAKGdHB/2aRzdkyZ/M6B+D+AaFPRcrT7yiqR4cxEcosAuPgQ03+iFvEj3y5FnTomVJZSvn/mAl8kZhbQfK6Ni18Nie8v7o5KPQDqmXCxzzh54JFFlDFIjgEAzs1+8ZyY5UBxphai88nXHFgdGdOedZTxniiWcWXh2Igwxp3/FyG8vwGoBqbLPcE7h3Tt/XR4qbYtUxtcKvi0JzZCJadmXbyTQhx8fwB4eH2kNBJLVgW3J+TK0gbfHx8Bws5jmy7nvkTdryURZdTaeZrO4oR837b/rXuIP4W1d1mh6Tmph5OxD/HgZwX/xshtQ5eq9xqh2fiKWo4nx0arb6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mDLc6BDZyYOkWIDUubehY7WBYEo7axYU4TpsHPO76q0=;
- b=hZZu1gfLXqY2qHelcMJhMHGTVqJ1no/v414o1D5ab5eabDlukOAhFZF7DYC1ZjDXz4F2QodkhrePOskzTxZ9sUVqBQZf+VjPo9Izo1+qCeVKdPWZ/p4RlZCgo1c1A5XMtp/h4rye1u1qu6juKwxhV9uU4obldoku7Qza35NIJ7Y=
+ bh=+LLbE1Q6XPZaP2naT3ealao5u80azla42tVcyyT4V0M=;
+ b=p72Z+nwQaO12jYEOL+xqJyX3tPR8GgHHyojSO6euADDF5x1FerHOINI6TsdI9VeQgjSlelFK7G1Ux/6QG7Xn9yVevE/op3bL7locsm9YlIeGqkzzKKYuPe3+UHG+i6AxufDqYHrGoBrnG0WVl7F3PfwXMJ6grQLfQq0/bi/oXIU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from PAXPR04MB8784.eurprd04.prod.outlook.com (2603:10a6:102:20f::23)
- by DB8PR04MB6668.eurprd04.prod.outlook.com (2603:10a6:10:10b::27) with
+ by VI1PR0402MB2720.eurprd04.prod.outlook.com (2603:10a6:800:b3::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.22; Tue, 23 Aug
- 2022 11:53:22 +0000
+ 2022 11:53:15 +0000
 Received: from PAXPR04MB8784.eurprd04.prod.outlook.com
  ([fe80::60b7:af13:8472:2e8c]) by PAXPR04MB8784.eurprd04.prod.outlook.com
  ([fe80::60b7:af13:8472:2e8c%4]) with mapi id 15.20.5546.022; Tue, 23 Aug 2022
- 11:53:22 +0000
+ 11:53:15 +0000
 From:   Xu Yang <xu.yang_2@nxp.com>
 To:     heikki.krogerus@linux.intel.com, robh+dt@kernel.org,
         peda@axentia.se, shawnguo@kernel.org
 Cc:     gregkh@linuxfoundation.org, linux@roeck-us.net, jun.li@nxp.com,
         xu.yang_2@nxp.com, linux-usb@vger.kernel.org, linux-imx@nxp.com,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 3/4] usb: typec: mux: add typec orientation switch support via mux controller
-Date:   Wed, 24 Aug 2022 03:54:28 +0800
-Message-Id: <20220823195429.1243516-4-xu.yang_2@nxp.com>
+Subject: [PATCH v2 1/4] dt-bindings: connector: Add typec orientation switch properties
+Date:   Wed, 24 Aug 2022 03:54:26 +0800
+Message-Id: <20220823195429.1243516-2-xu.yang_2@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220823195429.1243516-1-xu.yang_2@nxp.com>
 References: <20220823195429.1243516-1-xu.yang_2@nxp.com>
@@ -57,232 +57,99 @@ X-ClientProxiedBy: SG2PR04CA0155.apcprd04.prod.outlook.com (2603:1096:4::17)
  To PAXPR04MB8784.eurprd04.prod.outlook.com (2603:10a6:102:20f::23)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8bb2dce8-bd40-4001-5767-08da84fe145f
-X-MS-TrafficTypeDiagnostic: DB8PR04MB6668:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66fd00ff-cc2d-4590-c13b-08da84fe101f
+X-MS-TrafficTypeDiagnostic: VI1PR0402MB2720:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YDAK5RxILIQSlS8W/DbnhTnnyC31gR/NwSd+BiQK+g06ub+wwwdvHeVhwwMcrI6LIXuDhYSfHfRxHJ+MfT5T9nJFIxFM+8YulDg4j0NqYWXyzJlGmb1qXeaGAoDx9sPd2zKiAah3qLnYp8RyVQciztsDIsU0/z2VqQxVD9vHNggGOgOKg4EaR4YXUSMXDjQaIbmVIcE09B1GpDysRFs+y0NEgx8HjxhR8QVZa7lcyVJh4H7hKIJhiU6ZzedgCKz8XT7G5WcFasf42tcsOT/ER4Y2ZDIwp/hVp6nI7qLt6w7N6iip1mxho6BVl1z3c80c4wAvFidrhw/X9epuXhpDT4/tF3dnwNR/O4GdDzs2y4cJpv05mnhGbJ0KO5e4K8E/xnac6P9jLM5sCscEEGNnyG3pi2eCfQ/nXP5diPQ8GJmwhjVrBmHljJ21t346e2iP40GVZsNDd1NtUQ6im2oMJpTjN3aWqk+brh8UbJP76gc5pCD54zX9vUdYdks53PvuWYEXIIAOhImvMtJZ40VxpfKS8QP/Okk4rEQE8d9FPjkY4nay18s0zAzgJX3UKOX4cu5+dXOyYk2G/6sC9JVZmNR8oAWNxBRLZ1MORsWzzEs0EdaUM9p5xpvmJd9JcR+FV6UCZNgppiwZ9ToFoZrM+Vy8I8lnTZ0e3JCpQmHl64SMEN1eMfUvQVydJW+tcNVp+g490sRz9yih8siVxPab7XeamGQ5xN1+4SZ8qu2KOXC3RkrPZo830yonOwTn8W8Z5NcVHXB2gVqpurT/VKJr1g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8784.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(396003)(376002)(346002)(136003)(366004)(38100700002)(66556008)(8676002)(66476007)(4326008)(86362001)(38350700002)(66946007)(36756003)(2616005)(26005)(52116002)(6512007)(6506007)(6486002)(5660300002)(478600001)(186003)(316002)(8936002)(1076003)(2906002)(83380400001)(41300700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: GSiZgEbcx6jhe7MyU4Z8jUCzNKyloxC52xEGH+fWCQ5UfnsLwZx6IdmShuvp2/kI4rduM1v6shrXGD9fJbY+/J4b3P8DNcQ2p6oCVGDygnBIMYYc658HrU32ojoHzzCfxgjjIjWo9hN8U7sVxogdCNtnmer8P7wgeLlOY6RPrJvYGWgu2mnWKPSJXlaSIJlUDohsJ3uvMET53moZivC0DI+nhe6uFN7TMX1g24BPYHZnGnvy8r1SAINdzD+REKijsjMbzznpuJ189pJja+chlyAkCNQqJmYGDOiCa8QeTVJUtLv+UmLtk1JIeEa8TRLrm8bAi0ILFMn+jHDeeYidlIHtrgxJVt2VmKRmiqtFeid7Gld7vCTBJFMDlK0EO6ZEZsV3jiOd+DWWyQq2GXrNvhNpY7thVbs1Xh9BSHPpGPo5taIBGJh5F+mg8mgvexrAaJLTgUtkN08IG9wsKNsnNSALLaBt9m++sbHB2/ev/57i03drzjewmk+RM8AFhUIx1wivOfzCVMgOz2CDcNakOgOq7wraT+uvAFI+UDVjrdOCoGm3p3G+PUdfj9AIozgTXUbxSyahm/yQdYou/pNoxrz6E4vcRuoKQLJc7iT0z69V19DxDTDfJ+4ubQTcxMDJgj8V3aVQxszT2PVVlkaZvylYf3TPi+pT2VXeSwugzTsXoGzgJj1tYoOR7Z0OdfXus703GbLzR/Aj+gx7rVeCYdB/wfTvrtmq6BH+ZmGhrItYYv36AlVbpQGo2QemHoIl
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8784.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(376002)(366004)(39860400002)(346002)(136003)(66556008)(66476007)(66946007)(8676002)(4326008)(86362001)(38350700002)(38100700002)(36756003)(186003)(8936002)(26005)(6512007)(52116002)(1076003)(6666004)(6506007)(41300700001)(6486002)(478600001)(316002)(2906002)(5660300002)(83380400001)(2616005);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lo2nh7cFpsenc4cworR+GmYSUE74dJkafQTsNfj9+xRhCdQCONZY33Rzvuz1?=
- =?us-ascii?Q?H1i5M0XcfdcW0Rxc+OzmfclFc2On4m9avd1B52lfffKdABLXlc/TkyGtJPG0?=
- =?us-ascii?Q?fV6yPt3vHSz5b3OkUu3tgYh8YR/8ovAut5jZT5udmfu4Zr3npRTjGo589FtO?=
- =?us-ascii?Q?tQfj8z1d+6kEa//nwccKKN8O4EbEen/RtfMz9SWK7G8W55J9ZN0ZJQP+VErS?=
- =?us-ascii?Q?xHZZERmudXYLM+J7LYO65Lh/Nw+bebTp0lbviQ9vfgFz3ANOeIV+rfBnBWGC?=
- =?us-ascii?Q?P5+vUwq4QWsNbzJz2G5gQ/92WAbW99mWmtWFfP3K8KZhJ97GmAy1LoJHghbT?=
- =?us-ascii?Q?kfC8/ZAZi8RSVPAIipwqkIplhrF9n/96ZIfOi0xHp77gRtvzLQ7tB0+Bu6K5?=
- =?us-ascii?Q?IM+JlqkYgIMRu1AXNM1OId625G9WUb9UuhMwOvWpc+iq0/6r1iE2/ojAIOWw?=
- =?us-ascii?Q?Vlh/VYyps8aiPVOZ5r8CWVEiJHLw+Hl2I6ZZZrf7GQpw0ptel9yWHQoV/uQf?=
- =?us-ascii?Q?GL3YhUFhpXuM81NS5xPRW+hCyzX7qwv1+dXWr8My0U9GoNlNxvNWcOzyDSNY?=
- =?us-ascii?Q?zqsRrv7n0pQuGOg2iCh94GNbMi0STFGt1aKxQHgEdcBmFcrkVW+OimJgK7By?=
- =?us-ascii?Q?Cixli6/o8y+FPw9GCHb/71CZzCzcji8t1Z6P4lI1qmdzGcPXLnphywg9qLvr?=
- =?us-ascii?Q?lRqIXVevFhkpxt7ed8zqkOUiwh3m4eMkjXrg3utktKwUloUKHrxEux+XGqRW?=
- =?us-ascii?Q?+PctPN0kVH1wmuJYXLNmHfD8BG0O+IVwINIDgyNm5CVUsMd2+LYwzUeW6PiF?=
- =?us-ascii?Q?NCml3FkWjiqilKVM48mwTgJfDbYV74fTUJ4RjwXLhf4kSHTXJKooKBQmkjYB?=
- =?us-ascii?Q?IEdVCn6IIpz5hV4q9CptjvOeTcQ/YbB8p9m/pykEh9gv1kheTCscphq/Bba7?=
- =?us-ascii?Q?HUjGeqwK22f+6TcQ1Xqx0nZ6KAhWRfa3Pqcl6ToTzQ4Xfv62Erz91NPcrZRH?=
- =?us-ascii?Q?OR4g+7ZFN+Yk3OxiQGZMGs6aWxtyHoC/ZsCXyd1PZ9YWS3UHkFHN1+WdGebb?=
- =?us-ascii?Q?Zfvj0tRls8hBXtezfbySRKO4ayRyVKT52R5qzf2nzWN6rdBAnZtcC2/W6lSD?=
- =?us-ascii?Q?xB1FmKr2as+DP+5NZIFgs78reWp/lH+kdRTU4p08HLtT2aczj4gQfe5qTUK4?=
- =?us-ascii?Q?Y+IET8GRH1MvTMGN92ayKmG7M5iNC3t6Yq5IWGZuTVI4ZTzYoN0rGjZHo22g?=
- =?us-ascii?Q?D3UxLytCKmmMCmkU+NfMNK4IXiS9ipGVm1aPiZRqrWKWoQ9CGDizUI9A27x8?=
- =?us-ascii?Q?JPLkIfkzE8gNBaIfTUbzz557OGg2k23mQfqmKuZXGy+mX6zRwFDSfbQrE+mL?=
- =?us-ascii?Q?/yr23EL6y80J4n7ros6XcFrLLZrLvuH6gOFJcaFFJhqoJ4GrpyiBvd6iprYc?=
- =?us-ascii?Q?NOai6Uz4ryD56Yb42uDWJ7pbswMeDvK5U2i9GYkQ5yiNEZ/PNzkRl0a/mm3a?=
- =?us-ascii?Q?HVe1LOfFdcncnhc/n/QEnGuQo5uHsrGZ7cXeXTvZ9lgDvjU6SJWE9vjG3FYz?=
- =?us-ascii?Q?xtgySCQNWazDeU1ieiyEqZVB5oilA1qq8XOkJbW2?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UFkSdq26jkyub2jAt+G22SMLo+jIcQtwJ3lYiyC3ad7NVQN3m+HdYpEhVYZh?=
+ =?us-ascii?Q?jM0le7qFzp0hzWEZ5K30sFqPF0Y3NjxdSoSp3aXf7fzE4TevoCPgVPiz1Arg?=
+ =?us-ascii?Q?ArGriUNZ182KsRjfQ9pYCU2y5Ynr5PRKPw1718lSw2DvscBLeEulSWoo5VzZ?=
+ =?us-ascii?Q?1CL4ZrapcFFGtIgpmoxxLEWBA8vcWWjv48Fr1v37r/dKRAxss4jeM5/HE8db?=
+ =?us-ascii?Q?WX2+czKIdOO03QyO2hkaA+BbrT6T175b/QwGzBO8H5n5imx7cuafjLZ004qG?=
+ =?us-ascii?Q?5Gap3aMlJFMjiwLp7oi0w+2Gi/xIjeVVZWhB11Hf1KiJWfhaniqV5pe5uyNE?=
+ =?us-ascii?Q?d6IhesGjOy9JXc/xDFR8/Xv1JtPsuze/tNulRL8W+zJwsZAtNA73uwLFlPkN?=
+ =?us-ascii?Q?+iagpfrnJbH+lKOHYYcfNDV2krUbx6Ue+sIBcUxzGT7snstXp3joswg5UmfN?=
+ =?us-ascii?Q?Sj4ZMsgksBn9r95nZthDciK662ZWWokfpd3TlSwxvwsnc90xJ/S/4o10KEb0?=
+ =?us-ascii?Q?uK5yGwhqrheeHI+BhF2hzkKfkLi6oYbLRLawbJxPJeI7ayabPCo2DwEzfqcX?=
+ =?us-ascii?Q?2g0FDDKMORgdXEpOsKlRCPPlBFnTgkTQyegR9zEhF9N5RKUBSKodzcwo1jgF?=
+ =?us-ascii?Q?uw9M/8LqWw9D7jeSDd/ghxruFTlZ5IDxGUMJLHgNqmF2y3URJTqQdt3U7KMo?=
+ =?us-ascii?Q?6q7laLFuCHbCbpPQAQdyc0qmReALhd9+DTyef1fxC3CR1kJG/XMX+KGraRa2?=
+ =?us-ascii?Q?b6uEZwm72bPFHRZY4OcIWnwt5IBIdFh2fGMPjrHiWvAsE5cXiRQHIij3kX7U?=
+ =?us-ascii?Q?VZ9Hpzgc2uslCTnryH+XAHP17Ax74thu4NIZK/wSC2HbZXA4f0kkxfGPR+u+?=
+ =?us-ascii?Q?2rmjwUI0iCGySo599hHoMgO+/4/jZrU4uJXDNyhojRq3cCnrHDUTtCdzAo+V?=
+ =?us-ascii?Q?XhaSXNt4Ij8PfZBN/SmZEX7HMKMBdtA5trcY2RBalceUxdAJWhbl8BK4d9WT?=
+ =?us-ascii?Q?tpHsiy3CC3r3u5zmgZcnors/47bJpEMQ98ztHbtfmTyu+5nuHNCgN8rZgx2z?=
+ =?us-ascii?Q?E9W2H4YxubV56AxnGNcybDviI6yPPWWCqd3Vx/UD2J3WOS5/Dij1TPtGNrHr?=
+ =?us-ascii?Q?SVviW2HpuyfN+xpGUy8sMu4owNrU/v3EzX+ou15vPyU78GRyNjajnti55RRR?=
+ =?us-ascii?Q?JyjaZw4Hs2zgHShETaWgOwTcz9nuXrzycOHRQzE9XFMsCDktznuK4rnHJkoh?=
+ =?us-ascii?Q?c5MgxZpWcre5LHfB7e6wa6MdMUdXXfm+Sk6wScnfU73Gics8z5PIS6teTX9P?=
+ =?us-ascii?Q?qnTxF9ZxH6mhmUmy/j3U8cR/Rol+t+EPRn9xUSmLeZFywVUcVAgujWTqIv4E?=
+ =?us-ascii?Q?FQq3QlEjFQOYfPR/eVT/s4rOs2ajQjRbLEm+fzH5suU0SuxmMwd6TcMmUyDD?=
+ =?us-ascii?Q?7Ui3cL7MCpl/TeiupcFsLOxoAXmN4FIoY3Q3dQQQ9soAEXxElUzZcs5ZLhr0?=
+ =?us-ascii?Q?TxzM1ubU6/9u0jSb8Ki1REfM3WouRi6ij+DEcazFqsrTB49XwWegTNdGgWaG?=
+ =?us-ascii?Q?2kpBRLugUm5tMejVWWj5U2bjV5ylKfekE/YhcMi2?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8bb2dce8-bd40-4001-5767-08da84fe145f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66fd00ff-cc2d-4590-c13b-08da84fe101f
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8784.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2022 11:53:22.6430
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2022 11:53:15.5141
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4txh/yDkDwtFt2Phx9DZstC3eTaNYOZ9ZnkzxPNIrE/03D1l3DDFUhdxyqlUFyw4U3jrBV2LYYU85+mMkZ/pAg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6668
+X-MS-Exchange-CrossTenant-UserPrincipalName: hFO6Fp2eCqHsRPNJMKSZxH2xiRW41Jy1Y7yqCZHW3TpSG8Px8X5u1nnv2uNvE3HOIpxrwGUfiaJ/m/oL4bKjqg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB2720
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some dedicated mux block can use existing mux controller as a mux
-provider, typec port as a consumer to select channel for orientation
-switch, this can be an alternate way to control typec orientation switch.
-Also, one mux controller could cover highspeed, superspeed and sideband
-use case one time in this implementation.
+Typec orientation switch can be implemented as a consumer of mux
+controller. So we can use mux controller to control simple gpio switch
+or other types of switch. This will cover the following typec switch
+use case: High Speed, Super Speed and Sideband switch.
 
-Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
 
 ---
 Changes since v1:
-- add build dependence (select MULTIPLEXER)
-- improve Multiplexer control logic
+- No changes.
 
- drivers/usb/typec/Kconfig     |  1 +
- drivers/usb/typec/mux.c       | 76 ++++++++++++++++++++++++++++++++++-
- include/linux/usb/typec_mux.h |  7 +---
- 3 files changed, 78 insertions(+), 6 deletions(-)
+ .../bindings/connector/usb-connector.yaml      | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
-index 5defdfead653..73d4976d8148 100644
---- a/drivers/usb/typec/Kconfig
-+++ b/drivers/usb/typec/Kconfig
-@@ -2,6 +2,7 @@
+diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+index ae515651fc6b..47f53cdbf31a 100644
+--- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
++++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+@@ -221,6 +221,24 @@ properties:
+       SNK_READY for non-pd link.
+     type: boolean
  
- menuconfig TYPEC
- 	tristate "USB Type-C Support"
-+	select MULTIPLEXER
- 	help
- 	  USB Type-C Specification defines a cable and connector for USB where
- 	  only one type of plug is supported on both ends, i.e. there will not
-diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
-index 464330776cd6..05e6ed217620 100644
---- a/drivers/usb/typec/mux.c
-+++ b/drivers/usb/typec/mux.c
-@@ -13,6 +13,7 @@
- #include <linux/mutex.h>
- #include <linux/property.h>
- #include <linux/slab.h>
-+#include <linux/mux/consumer.h>
- 
- #include "class.h"
- #include "mux.h"
-@@ -22,6 +23,11 @@
- struct typec_switch {
- 	struct typec_switch_dev *sw_devs[TYPEC_MUX_MAX_DEVS];
- 	unsigned int num_sw_devs;
++  # The following are optional properties for "usb-c-connector".
++  mux-controls:
++    description: Mux controller node to use for orientation switch selection. This mux controller
++      could handle High Speed, Super Speed and Sideband switch use case one time. In orde to do so,
++      besides mux settings need to be properly configured for each switch under mux-controller node,
++      correct states should also be assigned to typec-switch-states parameter.
++    maxItems: 1
 +
-+	/* Could handle HighSpeed, SuperSpeed, Sideband switch one time */
-+	struct mux_control *mux_switch;
-+	/* 3 state correspond to NONE, NORMAL, REVERSE for all switches */
-+	int mux_states[3];
- };
- 
- static int switch_fwnode_match(struct device *dev, const void *fwnode)
-@@ -117,6 +123,58 @@ struct typec_switch *fwnode_typec_switch_get(struct fwnode_handle *fwnode)
- }
- EXPORT_SYMBOL_GPL(fwnode_typec_switch_get);
- 
-+static struct typec_switch *mux_control_typec_switch_get(struct device *dev)
-+{
-+	struct typec_switch *sw;
-+	struct mux_control *mux;
-+	int ret;
++  typec-switch-states:
++    description: An ordered u32 array describing the mux state value for each typec orientations.
++      Three states correspond to NONE(high impedance), NORMAL, REVERSE respectively. If there is
++      no HW mux state for NONE, use value of NORMAL or REVERSE for it. If this mux controller
++      handle more than 1 switch, correct states value need to be caculated according to the mux
++      settings.
++    minItems: 3
++    maxItems: 3
++    $ref: /schemas/types.yaml#/definitions/uint32-array
 +
-+	if (!device_property_present(dev, "mux-controls"))
-+		return NULL;
-+
-+	sw = kzalloc(sizeof(*sw), GFP_KERNEL);
-+	if (!sw)
-+		return ERR_PTR(-ENOMEM);
-+
-+	mux = mux_control_get(dev, NULL);
-+	if (!IS_ERR(mux)) {
-+		sw->mux_switch = mux;
-+		ret = device_property_read_u32_array(dev,
-+			"typec-switch-states", sw->mux_states, 3);
-+		if (ret) {
-+			kfree(sw);
-+			return ERR_PTR(ret);
-+		}
-+	} else {
-+		kfree(sw);
-+		return ERR_CAST(mux);
-+	}
-+
-+	return sw;
-+}
-+
-+/**
-+ * typec_switch_get - Find USB Type-C orientation switch
-+ * @dev: The device using switch
-+ *
-+ * Finds a switch used by @dev. Returns a reference to the switch on
-+ * success, NULL if no matching connection was found, or
-+ * ERR_PTR(-EPROBE_DEFER) when a connection was found but the switch
-+ * has not been enumerated yet, or ERR_PTR with a negative errno.
-+ */
-+struct typec_switch *typec_switch_get(struct device *dev)
-+{
-+	struct typec_switch *sw;
-+
-+	sw = fwnode_typec_switch_get(dev_fwnode(dev));
-+	if (!sw)
-+		/* Try get switch based on mux control */
-+		sw = mux_control_typec_switch_get(dev);
-+
-+	return sw;
-+}
-+EXPORT_SYMBOL_GPL(typec_switch_get);
-+
- /**
-  * typec_switch_put - Release USB Type-C orientation switch
-  * @sw: USB Type-C orientation switch
-@@ -137,6 +195,10 @@ void typec_switch_put(struct typec_switch *sw)
- 		module_put(sw_dev->dev.parent->driver->owner);
- 		put_device(&sw_dev->dev);
- 	}
-+
-+	if (sw->mux_switch)
-+		mux_control_put(sw->mux_switch);
-+
- 	kfree(sw);
- }
- EXPORT_SYMBOL_GPL(typec_switch_put);
-@@ -204,6 +266,7 @@ int typec_switch_set(struct typec_switch *sw,
- 		     enum typec_orientation orientation)
- {
- 	struct typec_switch_dev *sw_dev;
-+	struct mux_control *mux;
- 	unsigned int i;
- 	int ret;
- 
-@@ -218,7 +281,18 @@ int typec_switch_set(struct typec_switch *sw,
- 			return ret;
- 	}
- 
--	return 0;
-+	mux = sw->mux_switch;
-+	if (!mux)
-+		return 0;
-+
-+	ret = mux_control_select(mux, sw->mux_states[orientation]);
-+	if (ret)
-+		return ret;
-+
-+	/* Keep it as it is since idle_state is MUX_IDLE_AS_IS */
-+	ret = mux_control_deselect(mux);
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(typec_switch_set);
- 
-diff --git a/include/linux/usb/typec_mux.h b/include/linux/usb/typec_mux.h
-index 9292f0e07846..2287e5a5f591 100644
---- a/include/linux/usb/typec_mux.h
-+++ b/include/linux/usb/typec_mux.h
-@@ -24,16 +24,13 @@ struct typec_switch_desc {
- 	void *drvdata;
- };
- 
-+
-+struct typec_switch *typec_switch_get(struct device *dev);
- struct typec_switch *fwnode_typec_switch_get(struct fwnode_handle *fwnode);
- void typec_switch_put(struct typec_switch *sw);
- int typec_switch_set(struct typec_switch *sw,
- 		     enum typec_orientation orientation);
- 
--static inline struct typec_switch *typec_switch_get(struct device *dev)
--{
--	return fwnode_typec_switch_get(dev_fwnode(dev));
--}
--
- struct typec_switch_dev *
- typec_switch_register(struct device *parent,
- 		      const struct typec_switch_desc *desc);
+ dependencies:
+   sink-vdos-v1: [ 'sink-vdos' ]
+   sink-vdos: [ 'sink-vdos-v1' ]
 -- 
 2.34.1
 
