@@ -2,205 +2,211 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76775C32793
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Aug 2022 08:03:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF0CFC32774
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Aug 2022 09:34:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241295AbiHWIDn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Aug 2022 04:03:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49376 "EHLO
+        id S1351062AbiHWJeA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Aug 2022 05:34:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241622AbiHWIDY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Aug 2022 04:03:24 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEA0066116
-        for <linux-usb@vger.kernel.org>; Tue, 23 Aug 2022 01:03:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661241787; x=1692777787;
-  h=message-id:date:mime-version:to:references:from:subject:
-   in-reply-to:content-transfer-encoding;
-  bh=0IxY+YlLL3VDowsiUttNcqHUeo1TzNO+p0FWU6TFxbk=;
-  b=Mr2zGDeQvcfUB3Z2/cJgufqIkf3BeYmQCiRWtVXogMLsz1NKHMP+l5Cj
-   jXsU/L+PVx2tGVfUssjg+rSQ2q5tLbJ8j0o4SaJSQz7BZ1M8KaRoEgKDj
-   t6VgVvCmxuDPmIlEk06rZt7WqOafIEZcOuew99/3jKzMC6hbaaNesy5n0
-   yIoXDCwdRoVPZnNhl7OLokU/veQALsVBX3KaavvW3IX7c+K5Qc/tGF6Dh
-   97ULtr7aQPMyFnkHFMnBTOXwOcInHfApOpHYuWQrwN9TKYBydwr3tU2QR
-   XoEz/QvmlOjv8ACaIbGEzYqdOVra+4VJ8KyoJ6gGhB0MIlcpCp+Yf0Ggl
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10447"; a="319662954"
-X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; 
-   d="scan'208";a="319662954"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2022 01:03:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; 
-   d="scan'208";a="677527671"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmsmga004.fm.intel.com with ESMTP; 23 Aug 2022 01:03:06 -0700
-Message-ID: <0e13b14f-be11-3f00-28b6-fa334667ee35@linux.intel.com>
-Date:   Tue, 23 Aug 2022 11:04:23 +0300
+        with ESMTP id S1350721AbiHWJcm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Aug 2022 05:32:42 -0400
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1018674CC1
+        for <linux-usb@vger.kernel.org>; Tue, 23 Aug 2022 01:38:51 -0700 (PDT)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-32a09b909f6so361086377b3.0
+        for <linux-usb@vger.kernel.org>; Tue, 23 Aug 2022 01:38:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=semihalf.com; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=cgc+e/QzNdyD2sfucJY+c/VRbtSyirfoyG9awCiqMa4=;
+        b=kUrFjIHECTaBr9+CKEUTz4OLFtxjYaXXGh+DIth9fw223PK1yidFfqVYBKotKgREon
+         rn0SdwopAWDltNNwEtcw8x2F4jYDo+6O72ACtJg7eBBRL/AtQFzIr6nPHvoVFHuF6wWG
+         46gE7n2khQGERr18D6bX/yfDzzeEfTcEyt3a4PX0Lpn8i8eI2QGzBb1k1k5n+VLPfqmT
+         gSrfA521jCdxvgWL9H8ZopNm35pxb0KtwT0tRmg2ex7JMIFXZiYCZUrsbBv3K3M4IqNV
+         wgimq51IM18LsFVOViGgvdqQzAZsqDCvnWjnghr+KMQxIUS2HTY1R+lgifuQMzMiyfA2
+         UU8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=cgc+e/QzNdyD2sfucJY+c/VRbtSyirfoyG9awCiqMa4=;
+        b=QV/YwPYi6v3U2eibIUFiiunBhbkKztxH4u5e/2dbSE+yVI1pNLYCspVxUM3SUhUCoJ
+         I4qxsnFLXXOaj6WCXssArPEB7a/iU4uS8RIKheArxaxvkr+qrbANWcv2UbmN7ttuNg9B
+         yXU7w1ke7TRrE4Ed9GIGgE07lzBku9oLUkYGXoPD2d5Sx/J6iqr6/1jK7kQKu72q3UjC
+         ZUqOMV8R3/jYGYguLahvhHRf8QeFtDSBZxV/ZQkDbXGf5XFlViLLhwsdRQYcSDLEBh/i
+         /xiK1Z7w2YzpAZGpQYCL0q+vdHnsUguya/E0zkabe4PTNzj015SyPJqRBA46DvaiRDoG
+         clXw==
+X-Gm-Message-State: ACgBeo3Q0/CUFQyBW/IvtCMuqN5W442mRCPfG0uohUPwu2xiTyiK96IO
+        WKwYUYJsB3rUlTb5azxzM7LHsVEBDWAC/ovZmJ0fsQ==
+X-Google-Smtp-Source: AA6agR5Cgtu718MiKMVY1/XiyInsuBVJHNdFRsvSqTrNoHkmhAshU/tLTB8cZgDu+q0Z/EZnw0wrJC4b3x0GnuHi6qs=
+X-Received: by 2002:a05:6902:387:b0:694:159f:ad3c with SMTP id
+ f7-20020a056902038700b00694159fad3cmr20730903ybs.223.1661243870140; Tue, 23
+ Aug 2022 01:37:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        linux-usb <linux-usb@vger.kernel.org>,
-        "regressions@lists.linux.dev" <regressions@lists.linux.dev>
-References: <587e5aa0-63d2-3b0b-4cc5-8c0240a9e8df@redhat.com>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: 6.0-rc1 new XHCI cacheline tracking EEXIST WARN/oops
-In-Reply-To: <587e5aa0-63d2-3b0b-4cc5-8c0240a9e8df@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+References: <20200917022547.198090-1-linux@roeck-us.net> <20220311202426.GE23776@pengutronix.de>
+ <YizpxhxPBxJ0EHQR@pendragon.ideasonboard.com>
+In-Reply-To: <YizpxhxPBxJ0EHQR@pendragon.ideasonboard.com>
+From:   Lukasz Majczak <lma@semihalf.com>
+Date:   Tue, 23 Aug 2022 10:37:39 +0200
+Message-ID: <CAFJ_xbr+b26DdNomysXKJZ57SaRAJi3nSJd8VK90y=hicEWZ=A@mail.gmail.com>
+Subject: Re: [PATCH RESEND v3 0/5] media: uvcvideo: Fix race conditions
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Michael Grzeschik <mgr@pengutronix.de>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-T24gMTkuOC4yMDIyIDE1LjA0LCBIYW5zIGRlIEdvZWRlIHdyb3RlOg0KPiBIaSBBbGwsDQo+
-IA0KPiBXaGlsZSBkb2dmb29kaW5nIDYuMC1yYzEgb24gbXkgbWFpbiB3b3Jrc3RhdGlvbiBJ
-IG5vdGljZWQgdGhlIGZvbGxvd2luZw0KPiBuZXcgV0FSTi9vb3BzOg0KPiANCj4gQXVnIDE5
-IDEyOjIyOjM5IHNoYWxlbSBrZXJuZWw6IC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0t
-LS0tLS0tLQ0KPiBBdWcgMTkgMTI6MjI6Mzkgc2hhbGVtIGtlcm5lbDogRE1BLUFQSTogeGhj
-aV9oY2QgMDAwMDozMDowMC4zOiBjYWNoZWxpbmUgdHJhY2tpbmcgRUVYSVNULCBvdmVybGFw
-cGluZyBtYXBwaW5ncyBhcmVuJ3Qgc3VwcG9ydGVkDQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFs
-ZW0ga2VybmVsOiBXQVJOSU5HOiBDUFU6IDE0IFBJRDogODMyMSBhdCBrZXJuZWwvZG1hL2Rl
-YnVnLmM6NTcwIGFkZF9kbWFfZW50cnkrMHgxZWQvMHgyNzANCj4gQXVnIDE5IDEyOjIyOjM5
-IHNoYWxlbSBrZXJuZWw6IE1vZHVsZXMgbGlua2VkIGluOiByZmNvbW0gc25kX3NlcV9kdW1t
-eSBzbmRfaHJ0aW1lciBxcnRyIGJuZXAgdmJveG5ldGFkcChPRSkgdmJveG5ldGZsdChPRSkg
-dmJveGRydihPRSkgYmluZm10X21pc2MgdmZhdCBmYXQgaW50ZWxfcmFwbF9tc3IgaW50ZWxf
-cmFwbF9jb21tb24gaXdsbXZtIHNuZF9oZGFfY29kZWNfcmVhbHRlayBzbmRfaGRhX2NvZGVj
-X2dlbmVyaWMgZWRhY19tY2VfYW1kIG1hYzgwMjExIGxlZHRyaWdfYXVkaW8gc25kX2hkYV9j
-b2RlY19oZG1pIGt2bV9hbWQgc25kX2hkYV9pbnRlbCBzbmRfaW50ZWxfZHNwY2ZnIHNuZF9p
-bnRlbF9zZHdfYWNwaSBsaWJhcmM0IGt2bSBzbmRfaGRhX2NvZGVjIGlycWJ5cGFzcyBpd2x3
-aWZpIHNuZF9oZGFfY29yZSBzbmRfdXNiX2F1ZGlvIGJ0dXNiIHJhcGwgYnRydGwgc25kX3Vz
-Ym1pZGlfbGliIGl3bG1laSBidGJjbSBzbmRfaHdkZXAgYnRpbnRlbCBzbmRfcmF3bWlkaSBz
-bmRfc2VxIG1jIGJ0bXRrIHNuZF9zZXFfZGV2aWNlIGNmZzgwMjExIHdtaV9ibW9mIGJsdWV0
-b290aCBzbmRfcGNtIGpveWRldiBzbmRfdGltZXIgcmZraWxsIG1laSByODE2OSBzbmQgc291
-bmRjb3JlIGkyY19waWl4NCBrMTB0ZW1wIGdwaW9fYW1kcHQgZ3Bpb19nZW5lcmljIHpyYW0g
-ZG1fY3J5cHQgYW1kZ3B1IGRybV90dG1faGVscGVyIHR0bSBpb21tdV92MiBjcmN0MTBkaWZf
-cGNsbXVsIGdwdV9zY2hlZCBjcmMzMl9wY2xtdWwgY3JjMzJjX2ludGVsIGRybV9idWRkeSBo
-aWRfbGdfZzE1IGRybV9kaXNwbGF5X2hlbHBlciBudm1lIGdoYXNoX2NsbXVsbmlfaW50ZWwg
-bnZtZV9jb3JlIGNjcCBjZWMgc3A1MTAwX3RjbyB3bWkgdmlkZW8gaGlkX2xvZ2l0ZWNoX2hp
-ZHBwIHVhcyB1c2Jfc3RvcmFnZSBoaWRfbG9naXRlY2hfZGogaXA2X3RhYmxlcyBpcF90YWJs
-ZXMgZnVzZSBpMmNfZGV2DQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiBVbmxv
-YWRlZCB0YWludGVkIG1vZHVsZXM6IGFjcGlfY3B1ZnJlcSgpOjEgYWNwaV9jcHVmcmVxKCk6
-MSBhY3BpX2NwdWZyZXEoKToxIGFjcGlfY3B1ZnJlcSgpOjEgYWNwaV9jcHVmcmVxKCk6MSBw
-Y2NfY3B1ZnJlcSgpOjEgcGNjX2NwdWZyZXEoKToxIGFjcGlfY3B1ZnJlcSgpOjEgYWNwaV9j
-cHVmcmVxKCk6MSBhY3BpX2NwdWZyZXEoKToxIGFtZDY0X2VkYWMoKToxIGFjcGlfY3B1ZnJl
-cSgpOjEgYW1kNjRfZWRhYygpOjEgYWNwaV9jcHVmcmVxKCk6MSBhbWQ2NF9lZGFjKCk6MSBh
-Y3BpX2NwdWZyZXEoKToxIGFtZDY0X2VkYWMoKToxIGFjcGlfY3B1ZnJlcSgpOjEgYW1kNjRf
-ZWRhYygpOjEgYW1kNjRfZWRhYygpOjEgYWNwaV9jcHVmcmVxKCk6MSBmamVzKCk6MSBhbWQ2
-NF9lZGFjKCk6MSBhY3BpX2NwdWZyZXEoKToxIGZqZXMoKToxIGFtZDY0X2VkYWMoKToxIGFj
-cGlfY3B1ZnJlcSgpOjEgZmplcygpOjEgcGNjX2NwdWZyZXEoKToxIGFtZDY0X2VkYWMoKTox
-IGFjcGlfY3B1ZnJlcSgpOjEgZmplcygpOjEgYW1kNjRfZWRhYygpOjEgYWNwaV9jcHVmcmVx
-KCk6MSBwY2NfY3B1ZnJlcSgpOjEgZmplcygpOjEgYWNwaV9jcHVmcmVxKCk6MSBhbWQ2NF9l
-ZGFjKCk6MSBwY2NfY3B1ZnJlcSgpOjEgYWNwaV9jcHVmcmVxKCk6MSBmamVzKCk6MSBhbWQ2
-NF9lZGFjKCk6MSBwY2NfY3B1ZnJlcSgpOjEgYWNwaV9jcHVmcmVxKCk6MSBmamVzKCk6MSBh
-bWQ2NF9lZGFjKCk6MSBwY2NfY3B1ZnJlcSgpOjEgZmplcygpOjEgYW1kNjRfZWRhYygpOjEg
-YWNwaV9jcHVmcmVxKCk6MSBwY2NfY3B1ZnJlcSgpOjEgZmplcygpOjEgYW1kNjRfZWRhYygp
-OjEgYWNwaV9jcHVmcmVxKCk6MSBwY2NfY3B1ZnJlcSgpOjEgYW1kNjRfZWRhYygpOjEgZmpl
-cygpOjEgcGNjX2NwdWZyZXEoKToxIGFjcGlfY3B1ZnJlcSgpOjEgYWNwaV9jcHVmcmVxKCk6
-MSBwY2NfY3B1ZnJlcSgpOjEgZmplcygpOjEgYWNwaV9jcHVmcmVxKCk6MSBwY2NfY3B1ZnJl
-cSgpOjENCj4gQXVnIDE5IDEyOjIyOjM5IHNoYWxlbSBrZXJuZWw6ICBmamVzKCk6MSBhY3Bp
-X2NwdWZyZXEoKToxIHBjY19jcHVmcmVxKCk6MSBhY3BpX2NwdWZyZXEoKToxIGZqZXMoKTox
-IHBjY19jcHVmcmVxKCk6MSBhY3BpX2NwdWZyZXEoKToxIGFjcGlfY3B1ZnJlcSgpOjEgZmpl
-cygpOjEgcGNjX2NwdWZyZXEoKToxIGFjcGlfY3B1ZnJlcSgpOjEgZmplcygpOjEgYWNwaV9j
-cHVmcmVxKCk6MSBwY2NfY3B1ZnJlcSgpOjEgZmplcygpOjEgYWNwaV9jcHVmcmVxKCk6MQ0K
-PiBBdWcgMTkgMTI6MjI6Mzkgc2hhbGVtIGtlcm5lbDogQ1BVOiAxNCBQSUQ6IDgzMjEgQ29t
-bToga3dvcmtlci91NjQ6NTcgVGFpbnRlZDogRyAgICAgICAgICAgT0UgICAgIC0tLS0tLS0g
-IC0tLSAgNi4wLjAtMC5yYzEuMjAyMjA4MTdnaXQzY2M0MGE0NDNhMDQuMTQuZmMzOC54ODZf
-NjQgIzENCj4gQXVnIDE5IDEyOjIyOjM5IHNoYWxlbSBrZXJuZWw6IEhhcmR3YXJlIG5hbWU6
-IE1pY3JvLVN0YXIgSW50ZXJuYXRpb25hbCBDby4sIEx0ZC4gTVMtN0M5NS9CNTUwTSBQUk8t
-VkRIIFdJRkkgKE1TLTdDOTUpLCBCSU9TIDIuOTAgMTIvMjMvMjAyMQ0KPiBBdWcgMTkgMTI6
-MjI6Mzkgc2hhbGVtIGtlcm5lbDogV29ya3F1ZXVlOiBldmVudHNfdW5ib3VuZCBhc3luY19y
-dW5fZW50cnlfZm4NCj4gQXVnIDE5IDEyOjIyOjM5IHNoYWxlbSBrZXJuZWw6IFJJUDogMDAx
-MDphZGRfZG1hX2VudHJ5KzB4MWVkLzB4MjcwDQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0g
-a2VybmVsOiBDb2RlOiBmZiAwZiA4NCA5NyAwMCAwMCAwMCA0OCA4YiA1ZiA1MCA0OCA4NSBk
-YiA3NSAwMyA0OCA4YiAxZiBlOCAxNSA5NiA4NSAwMCA0OCA4OSBjNiA0OCA4OSBkYSA0OCBj
-NyBjNyAzMCBjOSA4NiA4NSBlOCA3MyA5OSBjZSAwMCA8MGY+IDBiIDQ4IDg1IGVkIDBmIDg1
-IGE5IDUwIGNmIDAwIDhiIDA1IGYyIDA5IDIzIDAyIDg1IGMwIDBmIDg1IGNhDQo+IEF1ZyAx
-OSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiBSU1A6IDAwMTg6ZmZmZmE3OGRjMmMwYmEyMCBF
-RkxBR1M6IDAwMDEwMjgyDQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiBSQVg6
-IDAwMDAwMDAwMDAwMDAwNjAgUkJYOiBmZmZmOGFjMTg2YTYzNmMwIFJDWDogMDAwMDAwMDAw
-MDAwMDAwMA0KPiBBdWcgMTkgMTI6MjI6Mzkgc2hhbGVtIGtlcm5lbDogUkRYOiAwMDAwMDAw
-MDAwMDAwMDAxIFJTSTogZmZmZmZmZmY4NThkMDdhNCBSREk6IDAwMDAwMDAwZmZmZmZmZmYN
-Cj4gQXVnIDE5IDEyOjIyOjM5IHNoYWxlbSBrZXJuZWw6IFJCUDogZmZmZjhhYzE4NGYxN2E4
-MCBSMDg6IDAwMDAwMDAwMDAwMDAwMDEgUjA5OiAwMDAwMDAwMDAwMDAwMDAxDQo+IEF1ZyAx
-OSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiBSMTA6IDAwMDAwMDAwMDAwMDAwMDEgUjExOiAw
-MDAwMDAwMDAwMDAwMDAwIFIxMjogMDAwMDAwMDAwMDAwMDAwMA0KPiBBdWcgMTkgMTI6MjI6
-Mzkgc2hhbGVtIGtlcm5lbDogUjEzOiAwMDAwMDAwMDAwMDAwMDAxIFIxNDogMDAwMDAwMDAw
-MDAwMDIwNiBSMTU6IDAwMDAwMDAwMDQyZjY1YmQNCj4gQXVnIDE5IDEyOjIyOjM5IHNoYWxl
-bSBrZXJuZWw6IEZTOiAgMDAwMDAwMDAwMDAwMDAwMCgwMDAwKSBHUzpmZmZmOGFjNDA5YTAw
-MDAwKDAwMDApIGtubEdTOjAwMDAwMDAwMDAwMDAwMDANCj4gQXVnIDE5IDEyOjIyOjM5IHNo
-YWxlbSBrZXJuZWw6IENTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAw
-ODAwNTAwMzMNCj4gQXVnIDE5IDEyOjIyOjM5IHNoYWxlbSBrZXJuZWw6IENSMjogMDAwMDAw
-MDAwMDAwMDAwMCBDUjM6IDAwMDAwMDAxNGMwMjgwMDAgQ1I0OiAwMDAwMDAwMDAwNzUwZWUw
-DQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiBQS1JVOiA1NTU1NTU1NA0KPiBB
-dWcgMTkgMTI6MjI6Mzkgc2hhbGVtIGtlcm5lbDogQ2FsbCBUcmFjZToNCj4gQXVnIDE5IDEy
-OjIyOjM5IHNoYWxlbSBrZXJuZWw6ICA8VEFTSz4NCj4gQXVnIDE5IDEyOjIyOjM5IHNoYWxl
-bSBrZXJuZWw6ICBkbWFfbWFwX3BhZ2VfYXR0cnMrMHg4Mi8weDJkMA0KPiBBdWcgMTkgMTI6
-MjI6Mzkgc2hhbGVtIGtlcm5lbDogID8gX3Jhd19zcGluX3VubG9ja19pcnFyZXN0b3JlKzB4
-MzAvMHg2MA0KPiBBdWcgMTkgMTI6MjI6Mzkgc2hhbGVtIGtlcm5lbDogIHVzYl9oY2RfbWFw
-X3VyYl9mb3JfZG1hKzB4NDIzLzB4NTAwDQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2Vy
-bmVsOiAgdXNiX2hjZF9zdWJtaXRfdXJiKzB4OWIvMHhiODANCj4gQXVnIDE5IDEyOjIyOjM5
-IHNoYWxlbSBrZXJuZWw6ICA/IGxvY2tkZXBfaW5pdF9tYXBfdHlwZSsweDYyLzB4MjYwDQo+
-IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiAgdXNiX3N0YXJ0X3dhaXRfdXJiKzB4
-NTUvMHgxNDANCj4gQXVnIDE5IDEyOjIyOjM5IHNoYWxlbSBrZXJuZWw6ICB1c2JfY29udHJv
-bF9tc2crMHhjOS8weDEyMA0KPiBBdWcgMTkgMTI6MjI6Mzkgc2hhbGVtIGtlcm5lbDogIGh1
-Yl9leHRfcG9ydF9zdGF0dXMrMHg4OS8weDExMA0KPiBBdWcgMTkgMTI6MjI6Mzkgc2hhbGVt
-IGtlcm5lbDogIGh1Yl9hY3RpdmF0ZSsweDExYy8weDhiMA0KPiBBdWcgMTkgMTI6MjI6Mzkg
-c2hhbGVtIGtlcm5lbDogID8gdXNiX2Rldl90aGF3KzB4MTAvMHgxMA0KPiBBdWcgMTkgMTI6
-MjI6Mzkgc2hhbGVtIGtlcm5lbDogIGh1Yl9yZXN1bWUrMHgyMy8weGUwDQo+IEF1ZyAxOSAx
-MjoyMjozOSBzaGFsZW0ga2VybmVsOiAgPyB1c2JfZGV2X3RoYXcrMHgxMC8weDEwDQo+IEF1
-ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiAgdXNiX3Jlc3VtZV9pbnRlcmZhY2UuY29u
-c3Rwcm9wLjAuaXNyYS4wKzB4ODkvMHhkMA0KPiBBdWcgMTkgMTI6MjI6Mzkgc2hhbGVtIGtl
-cm5lbDogIHVzYl9yZXN1bWVfYm90aCsweDEwOS8weDE4MA0KPiBBdWcgMTkgMTI6MjI6Mzkg
-c2hhbGVtIGtlcm5lbDogID8gdXNiX2Rldl90aGF3KzB4MTAvMHgxMA0KPiBBdWcgMTkgMTI6
-MjI6Mzkgc2hhbGVtIGtlcm5lbDogIHVzYl9yZXN1bWUrMHgxNS8weDYwDQo+IEF1ZyAxOSAx
-MjoyMjozOSBzaGFsZW0ga2VybmVsOiAgZHBtX3J1bl9jYWxsYmFjaysweDUzLzB4YzANCj4g
-QXVnIDE5IDEyOjIyOjM5IHNoYWxlbSBrZXJuZWw6ICBkZXZpY2VfcmVzdW1lKzB4YTgvMHgy
-MDANCj4gQXVnIDE5IDEyOjIyOjM5IHNoYWxlbSBrZXJuZWw6ICBhc3luY19yZXN1bWUrMHgx
-OS8weDMwDQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiAgYXN5bmNfcnVuX2Vu
-dHJ5X2ZuKzB4MzAvMHgxMzANCj4gQXVnIDE5IDEyOjIyOjM5IHNoYWxlbSBrZXJuZWw6ICBw
-cm9jZXNzX29uZV93b3JrKzB4MmEwLzB4NjAwDQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0g
-a2VybmVsOiAgd29ya2VyX3RocmVhZCsweDRmLzB4M2EwDQo+IEF1ZyAxOSAxMjoyMjozOSBz
-aGFsZW0ga2VybmVsOiAgPyBwcm9jZXNzX29uZV93b3JrKzB4NjAwLzB4NjAwDQo+IEF1ZyAx
-OSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiAga3RocmVhZCsweGY1LzB4MTIwDQo+IEF1ZyAx
-OSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiAgPyBrdGhyZWFkX2NvbXBsZXRlX2FuZF9leGl0
-KzB4MjAvMHgyMA0KPiBBdWcgMTkgMTI6MjI6Mzkgc2hhbGVtIGtlcm5lbDogIHJldF9mcm9t
-X2ZvcmsrMHgyMi8weDMwDQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiAgPC9U
-QVNLPg0KPiBBdWcgMTkgMTI6MjI6Mzkgc2hhbGVtIGtlcm5lbDogaXJxIGV2ZW50IHN0YW1w
-OiAyMTE1DQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiBoYXJkaXJxcyBsYXN0
-ICBlbmFibGVkIGF0ICgyMTIzKTogWzxmZmZmZmZmZjg0MThmYjUyPl0gdnByaW50a19lbWl0
-KzB4MzQyLzB4MzUwDQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiBoYXJkaXJx
-cyBsYXN0IGRpc2FibGVkIGF0ICgyMTMwKTogWzxmZmZmZmZmZjg0MThmYjAxPl0gdnByaW50
-a19lbWl0KzB4MmYxLzB4MzUwDQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiBz
-b2Z0aXJxcyBsYXN0ICBlbmFibGVkIGF0ICgwKTogWzxmZmZmZmZmZjg0MGY1MDc5Pl0gY29w
-eV9wcm9jZXNzKzB4YTQ5LzB4MWU1MA0KPiBBdWcgMTkgMTI6MjI6Mzkgc2hhbGVtIGtlcm5l
-bDogc29mdGlycXMgbGFzdCBkaXNhYmxlZCBhdCAoMCk6IFs8MDAwMDAwMDAwMDAwMDAwMD5d
-IDB4MA0KPiBBdWcgMTkgMTI6MjI6Mzkgc2hhbGVtIGtlcm5lbDogLS0tWyBlbmQgdHJhY2Ug
-MDAwMDAwMDAwMDAwMDAwMCBdLS0tDQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2VybmVs
-OiBETUEtQVBJOiBNYXBwZWQgYXQ6DQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2VybmVs
-OiAgZGVidWdfZG1hX21hcF9wYWdlKzB4NjYvMHgxMDANCj4gQXVnIDE5IDEyOjIyOjM5IHNo
-YWxlbSBrZXJuZWw6ICBkbWFfbWFwX3BhZ2VfYXR0cnMrMHg4Mi8weDJkMA0KPiBBdWcgMTkg
-MTI6MjI6Mzkgc2hhbGVtIGtlcm5lbDogIHVzYl9oY2RfbWFwX3VyYl9mb3JfZG1hKzB4NDIz
-LzB4NTAwDQo+IEF1ZyAxOSAxMjoyMjozOSBzaGFsZW0ga2VybmVsOiAgdXNiX2hjZF9zdWJt
-aXRfdXJiKzB4OWIvMHhiODANCj4gQXVnIDE5IDEyOjIyOjM5IHNoYWxlbSBrZXJuZWw6ICB1
-c2Jfc3RhcnRfd2FpdF91cmIrMHg1NS8weDE0MA0KPiANCg0KSSdtIGd1ZXNzaW5nIHRoYXQg
-dGhlIGRhdGEgYnVmZmVyIHdoZXJlIGh1YiBkcml2ZXIgc3RvcmVzIHBvcnQgc3RhdHVzIGRh
-dGENCndhcyBhbHJlYWR5IGRtYSBtYXBwZWQgd2hlbiBodWIgZHJpdmVyIHN1Ym1pdHRlZCBh
-IG5ldyBnZXQgcG9ydCBzdGF0dXMgVVJCLg0KdXNiIGNvcmUgdHJpZXMgdG8gbWFwIHRoZSBi
-dWZmZXIgYWdhaW4gYXQgdXJiIHN1Yml0LCB0cmlnZ2VyaW5nIHRoaXMuDQoNCkh1YiBkcml2
-ZXIgYWxsb2NhdGVzIG9uZSBkYXRhIGJ1ZmZlciBvbmNlLCBhbmQgdXNlcyBpdCB0byBzdG9y
-ZSBib3RoDQpodWIgc3RhdHVzIGRhdGEgYW5kIHBvcnQgc3RhdHVzIGRhdGEuICh1bmlvbiAm
-aHViLT5zdGF0dXMtPnBvcnQgYW5kICZodWItPnN0YXR1cy0+aHViKQ0KDQpTbyBwcm9iYWJs
-eSB0aGUgcHJldmlvdXMgVVJCIChnZXQgcG9ydCBzdGF0dXMsIG9yIGdldCBodWIgc3RhdHVz
-KSBuZXZlciBzdWNjZXNzZnVsbHkNCmNvbXBsZXRlZCwgb3IgZm9yIHNvbWUgcmVhc29uIGRp
-ZG4ndCB1bm1hcCBkbWEgYXQgY29tcGxldGlvbi4NCg0KTG9va3MgbGlrZSB0aGlzIGlzc3Vl
-IGlzIGhpdCBpbiByZXN1bWUsIHNvIG1heWJlIHNvbWV0aGluIHdlbnQgd3JvbmcgaW4gY29t
-cGxldGluZyB0aGUNCmh1YiBVUkIgaW4gc3VzcGVuZD8NCg0KV2FzIHRoaXMgZWFzeSB0byBy
-ZXByb2R1Y2U/IGFueSBleHRlcm5hbCBodWJzIGNvbm5lY3RlZD8NCg0KT25lIHRoaW5nIHRv
-IGNoZWNrIHdvdWxkIGJlIGlmIHVzYm1vbiBzaG93cyBhbiB1bmNvbXBsZXRlZCBodWIgVVJC
-IHdoZW4NCmEgbmV3IFVSQiBpcyBzdWJtaXR0ZWQsIHRyaWdnZXJpbmcgdGhpcy4NCg0KVGhh
-bmtzDQotTWF0aGlhcw0K
+sob., 12 mar 2022 o 19:43 Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> napisa=C5=82(a):
+>
+> Hi Michael,
+>
+> On Fri, Mar 11, 2022 at 09:24:26PM +0100, Michael Grzeschik wrote:
+> > Ping!
+> >
+> > This series seems to be hanging around. It would be nice to get these
+> > patches upstream, as they help my uvc-gadget workflow. Without them it
+> > is likely that in the development cases my gadget won't start and then
+> > leave the whole xhci controller broken.
+> >
+> > @Laurent, what do you think?
+>
+> I think I've explained before how this should be fixed at the V4L2
+> level. The problem actually affects character devices globally, and Greg
+> KH said he would have a go at fixing it there, but I don't think much
+> happened. Starting with a V4L2-level fix is fine with me.
+>
+> There are a few patches in the series that are specific to uvcvideo,
+> I'll have another look and merge those.
+>
+> > On Wed, Sep 16, 2020 at 07:25:42PM -0700, Guenter Roeck wrote:
+> > > Something seems to have gone wrong with v3 of this patch series.
+> > > I am sure I sent it out, but I don't find it anywhere.
+> > > Resending. Sorry for any duplicates.
+> > >
+> > > The uvcvideo code has no lock protection against USB disconnects
+> > > while video operations are ongoing. This has resulted in random
+> > > error reports, typically pointing to a crash in usb_ifnum_to_if(),
+> > > called from usb_hcd_alloc_bandwidth(). A typical traceback is as
+> > > follows.
+> > >
+> > > usb 1-4: USB disconnect, device number 3
+> > > BUG: unable to handle kernel NULL pointer dereference at 000000000000=
+0000
+> > > PGD 0 P4D 0
+> > > Oops: 0000 [#1] PREEMPT SMP PTI
+> > > CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d=
+29ca36db06 #1
+> > > Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/201=
+9
+> > > RIP: 0010:usb_ifnum_to_if+0x29/0x40
+> > > Code: <...>
+> > > RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
+> > > RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
+> > > RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
+> > > RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
+> > > R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
+> > > R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
+> > > FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000=
+000000
+> > > CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
+> > > Call Trace:
+> > >  usb_hcd_alloc_bandwidth+0x1ee/0x30f
+> > >  usb_set_interface+0x1a3/0x2b7
+> > >  uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
+> > >  uvc_video_start_streaming+0x91/0xdd [uvcvideo]
+> > >  uvc_start_streaming+0x28/0x5d [uvcvideo]
+> > >  vb2_start_streaming+0x61/0x143 [videobuf2_common]
+> > >  vb2_core_streamon+0xf7/0x10f [videobuf2_common]
+> > >  uvc_queue_streamon+0x2e/0x41 [uvcvideo]
+> > >  uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
+> > >  __video_do_ioctl+0x33d/0x42a
+> > >  video_usercopy+0x34e/0x5ff
+> > >  ? video_ioctl2+0x16/0x16
+> > >  v4l2_ioctl+0x46/0x53
+> > >  do_vfs_ioctl+0x50a/0x76f
+> > >  ksys_ioctl+0x58/0x83
+> > >  __x64_sys_ioctl+0x1a/0x1e
+> > >  do_syscall_64+0x54/0xde
+> > >
+> > > While there are not many references to this problem on mailing lists,=
+ it is
+> > > reported on a regular basis on various Chromebooks (roughly 300 repor=
+ts
+> > > per month). The problem is relatively easy to reproduce by adding msl=
+eep()
+> > > calls into the code.
+> > >
+> > > I tried to reproduce the problem with non-uvcvideo webcams, but was
+> > > unsuccessful. I was unable to get Philips (pwc) webcams to work. gspc=
+a
+> > > based webcams don't experience the problem, or at least I was unable =
+to
+> > > reproduce it (The gspa driver does not trigger sending USB messages i=
+n the
+> > > open function, and otherwise uses the locking mechanism provided by t=
+he
+> > > v4l2/vb2 core).
+> > >
+> > > I don't presume to claim that I found every issue, but this patch ser=
+ies
+> > > should fix at least the major problems.
+> > >
+> > > The patch series was tested exensively on a Chromebook running chrome=
+os-4.19
+> > > and on a Linux system running a v5.8.y based kernel.
+> > >
+> > > v3:
+> > > - In patch 5/5, add missing calls to usb_autopm_put_interface() and k=
+free()
+> > >   to failure code path
+> > >
+> > > v2:
+> > > - Added details about problem frequency and testing with non-uvc webc=
+ams
+> > >   to summary
+> > > - In patch 4/5, return EPOLLERR instead of -ENODEV on poll errors
+> > > - Fix description in patch 5/5
+> > >
+> > > ----------------------------------------------------------------
+> > > Guenter Roeck (5):
+> > >       media: uvcvideo: Cancel async worker earlier
+> > >       media: uvcvideo: Lock video streams and queues while unregister=
+ing
+> > >       media: uvcvideo: Release stream queue when unregistering video =
+device
+> > >       media: uvcvideo: Protect uvc queue file operations against disc=
+onnect
+> > >       media: uvcvideo: Abort uvc_v4l2_open if video device is unregis=
+tered
+> > >
+> > >  drivers/media/usb/uvc/uvc_ctrl.c   | 11 ++++++----
+> > >  drivers/media/usb/uvc/uvc_driver.c | 12 ++++++++++
+> > >  drivers/media/usb/uvc/uvc_queue.c  | 32 +++++++++++++++++++++++++--
+> > >  drivers/media/usb/uvc/uvc_v4l2.c   | 45 ++++++++++++++++++++++++++++=
+++++++++--
+> > >  drivers/media/usb/uvc/uvcvideo.h   |  1 +
+> > >  5 files changed, 93 insertions(+), 8 deletions(-)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+Hi Laurent,
+
+Have you had time to take another look at those patches? Can we
+somehow move at least with the uvcvideo patches?
+
+Best regards,
+Lukasz
