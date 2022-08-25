@@ -2,137 +2,77 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01134C28D13
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Aug 2022 15:07:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95D56ECAA24
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Aug 2022 16:13:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240249AbiHYPHg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Aug 2022 11:07:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35550 "EHLO
+        id S242010AbiHYQNu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Aug 2022 12:13:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237455AbiHYPHf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Aug 2022 11:07:35 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 969A981B2E;
-        Thu, 25 Aug 2022 08:07:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661440054; x=1692976054;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1DOhxGeiZXBrAneenWdEy15uEJy6cOb8JqHxpZ9EpwA=;
-  b=PzLu4/fdoCIkGhByX1eE4hWzpCsYAtRdIcwUtpd2kRRxPEvdnekDQ6SF
-   RooW6HNRktrEcZwA9SP4tYw0U9zJubUM1Cohoi1kcPLr73VHyJQv+u4vX
-   SBhPhKbxVn2KCZao/7DUFWpi4LM4+NMvAMevtgnK3Ug4W3jgUFK3XXFxu
-   IH9uDcM8hQ3KU90nIonexBSSOzMj8jVEf8AjzT6ShJHyJ5nLM+plASnyz
-   dLMtcsFvQNfj9uFQaUpBqG8dk4AMVfF3pgX8Fn9596GE3A2Ds8Oku3zJt
-   dggqJmNFbFGvMQmQN0IRIZ9NSRnLat7AldfW0TBXEm0J3kJup6bZw7Lhf
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="355981801"
-X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; 
-   d="scan'208";a="355981801"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2022 08:07:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; 
-   d="scan'208";a="643284826"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
-  by orsmga001.jf.intel.com with ESMTP; 25 Aug 2022 08:07:31 -0700
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-To:     <gregkh@linuxfoundation.org>
-Cc:     <linux-usb@vger.kernel.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        stable@vger.kernel.org
-Subject: [PATCH 2/3] xhci: Add grace period after xHC start to prevent premature runtime suspend.
-Date:   Thu, 25 Aug 2022 18:08:39 +0300
-Message-Id: <20220825150840.132216-3-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220825150840.132216-1-mathias.nyman@linux.intel.com>
-References: <20220825150840.132216-1-mathias.nyman@linux.intel.com>
+        with ESMTP id S230173AbiHYQNs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Aug 2022 12:13:48 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DE64B442C;
+        Thu, 25 Aug 2022 09:13:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3452AB82A1D;
+        Thu, 25 Aug 2022 16:13:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D6A1C433D6;
+        Thu, 25 Aug 2022 16:13:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661444024;
+        bh=vZbgVY2G/5OHN0gh3qchTpghD4a8tCzza/y15Oz5I0U=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=P7A+WAnDdtwS91BYv3Rv+pX+9G0TX8G9reOfyDHKMgWrvjxXDNBk1hLpS7tdtM51a
+         Gfi05PdZWtNQPamG+NZ3OIlndVUYqjuF+0xv63qIKv5h/KcPnnqmRj4vVwXbL5EOwX
+         p7oRbum5ZMBMQvfwKVaqqsRbVe8wr6/qJ0MOUFs4tz7+nn58jFq6ear4LQ4xENQfeq
+         at28aIP0Dpr5xz9B7ohAY5O2IbCFjjLVBVSrd5T4mLoD2A5RqKnfB/Zw6IyyXdGlJB
+         5Lf5ZD6Qj3GpmTYrlM1wOvySQhYri3Kvy3rnUj4NAfCXwQ9SeIK7PCdnFhFH27dzBa
+         6i1XM2OMv+ViQ==
+Date:   Thu, 25 Aug 2022 09:13:43 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Thorsten Leemhuis <regressions@leemhuis.info>
+Cc:     Maxim Levitsky <mlevitsk@redhat.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Hayes Wang <hayeswang@realtek.com>,
+        "regressions@lists.linux.dev" <regressions@lists.linux.dev>
+Subject: Re: Commit 'r8152: fix a WOL issue' makes Ethernet port on Lenovo
+ Thunderbolt 3 dock go crazy
+Message-ID: <20220825091343.2e5f99dd@kernel.org>
+In-Reply-To: <8c214c0b-4b8f-5e62-5aef-76668987e8fd@leemhuis.info>
+References: <3745745afedb2eff890277041896356149a8f2bf.camel@redhat.com>
+        <339e2f94-213c-d707-b792-86d53329b3e5@leemhuis.info>
+        <8c214c0b-4b8f-5e62-5aef-76668987e8fd@leemhuis.info>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-After xHC controller is started, either in probe or resume, it can take
-a while before any of the connected usb devices are visible to the roothub
-due to link training.
+On Thu, 25 Aug 2022 09:26:21 +0200 Thorsten Leemhuis wrote:
+> On 24.08.22 13:16, Thorsten Leemhuis wrote:
+> > Hi, this is your Linux kernel regression tracker.
+> > 
+> > Quick note before the boilerplate: there is another report about issues
+> > caused by cdf0b86b250fd3 also involving a dock, but apparently it's
+> > ignored so far:
+> > https://bugzilla.kernel.org/show_bug.cgi?id=216333  
+> 
+> TWIMC, apparently it's the same problem.
+> 
+> Fun fact: Hayes discussed this in privately with the bug reporter
+> according to this comment:
+> https://bugzilla.kernel.org/show_bug.cgi?id=216333#c3
+> 
+> Well, that's not how things normally should be handled, but whatever, he
+> in the end recently submitted a patch to fix it that is already merged
+> to net.git:
+> 
+> https://lore.kernel.org/lkml/20220818080620.14538-394-nic_swsd@realtek.com/
 
-It's possible xhci driver loads, sees no acivity and suspends the host
-before the USB device is visible.
+Yup, it will be part of 6.0-rc3. 
 
-In one testcase with a hotplugged xHC controller the host finally detected
-the connected USB device and generated a wake 500ms after host initial
-start.
-
-If hosts didn't suspend the device duringe training it probablty wouldn't
-take up to 500ms to detect it, but looking at specs reveal USB3 link
-training has a couple long timeout values, such as 120ms
-RxDetectQuietTimeout, and 360ms PollingLFPSTimeout.
-
-So Add a 500ms grace period that keeps polling the roothub for 500ms after
-start, preventing runtime suspend until USB devices are detected.
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
- drivers/usb/host/xhci-hub.c | 11 +++++++++++
- drivers/usb/host/xhci.c     |  4 +++-
- drivers/usb/host/xhci.h     |  2 +-
- 3 files changed, 15 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index 0fdc014c9401..b30298986a69 100644
---- a/drivers/usb/host/xhci-hub.c
-+++ b/drivers/usb/host/xhci-hub.c
-@@ -1648,6 +1648,17 @@ int xhci_hub_status_data(struct usb_hcd *hcd, char *buf)
- 
- 	status = bus_state->resuming_ports;
- 
-+	/*
-+	 * SS devices are only visible to roothub after link training completes.
-+	 * Keep polling roothubs for a grace period after xHC start
-+	 */
-+	if (xhci->run_graceperiod) {
-+		if (time_before(jiffies, xhci->run_graceperiod))
-+			status = 1;
-+		else
-+			xhci->run_graceperiod = 0;
-+	}
-+
- 	mask = PORT_CSC | PORT_PEC | PORT_OCC | PORT_PLC | PORT_WRC | PORT_CEC;
- 
- 	/* For each port, did anything change?  If so, set that bit in buf. */
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 65858f607437..1afd32beec99 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -151,9 +151,11 @@ int xhci_start(struct xhci_hcd *xhci)
- 		xhci_err(xhci, "Host took too long to start, "
- 				"waited %u microseconds.\n",
- 				XHCI_MAX_HALT_USEC);
--	if (!ret)
-+	if (!ret) {
- 		/* clear state flags. Including dying, halted or removing */
- 		xhci->xhc_state = 0;
-+		xhci->run_graceperiod = jiffies + msecs_to_jiffies(500);
-+	}
- 
- 	return ret;
- }
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 1960b47acfb2..df6f2ebaff18 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1826,7 +1826,7 @@ struct xhci_hcd {
- 
- 	/* Host controller watchdog timer structures */
- 	unsigned int		xhc_state;
--
-+	unsigned long		run_graceperiod;
- 	u32			command;
- 	struct s3_save		s3;
- /* Host controller is dying - not responding to commands. "I'm not dead yet!"
--- 
-2.25.1
-
+Thanks!
