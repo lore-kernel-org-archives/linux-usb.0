@@ -2,79 +2,80 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C7AAC64990
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Aug 2022 14:20:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED9CDC32774
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Aug 2022 15:07:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241093AbiHYOUQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Aug 2022 10:20:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60252 "EHLO
+        id S236396AbiHYPHd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Aug 2022 11:07:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240733AbiHYOSr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Aug 2022 10:18:47 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 63F77B2490
-        for <linux-usb@vger.kernel.org>; Thu, 25 Aug 2022 07:18:46 -0700 (PDT)
-Received: (qmail 2280 invoked by uid 1000); 25 Aug 2022 10:18:44 -0400
-Date:   Thu, 25 Aug 2022 10:18:44 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Khalid Masum <khalid.masum.92@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jack Pham <jackp@codeaurora.org>,
-        Manu Gautam <mgautam@codeaurora.org>
-Subject: Re: [PATCH v2] usb: ehci: Use endpoint in URB to get maxpacket
-Message-ID: <YweExOC5uvYkc+kA@rowland.harvard.edu>
-References: <20220824193813.13129-1-khalid.masum.92@gmail.com>
+        with ESMTP id S237360AbiHYPHc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Aug 2022 11:07:32 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A940A7EFD0
+        for <linux-usb@vger.kernel.org>; Thu, 25 Aug 2022 08:07:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661440051; x=1692976051;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=q0ID/2UoE/y+AF7jod32wQ5q5PZAMzEq4aNsc8gUY9A=;
+  b=Gxi64OnJDfIlNpUeIk3HPsmlVbHQy0LlEIE23DgQhJHLyLtrpVX89ZDx
+   6xm0/1LMi1dWRE2jLOu41A/nos9dS7+aIj3ylCoBzVLr2lom7SYmlEtFV
+   ruMo3N1VQF2Ym5jlVqquBETA2jaSGZex8j6wKKtUQCL8RE6adN3iKuwpU
+   2G/73IEP3uURD02D8S62ZuRSRZclkynaC/LYYKKB9lekmPDVWUq5TULlR
+   w9aq9UwO80bcRsNZTrDhds5oRrzpoTlawufp5e7DD86C7wk3GW3VwWrK6
+   0unWOcIrQnc8EoHx8ljbJi7fctgv50GoaaykXSOTBiXt+jB0Td0fDG6KQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="355981776"
+X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; 
+   d="scan'208";a="355981776"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2022 08:07:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; 
+   d="scan'208";a="643284819"
+Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
+  by orsmga001.jf.intel.com with ESMTP; 25 Aug 2022 08:07:28 -0700
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+To:     <gregkh@linuxfoundation.org>
+Cc:     <linux-usb@vger.kernel.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH 0/3] xhci fixes for usb-linus
+Date:   Thu, 25 Aug 2022 18:08:37 +0300
+Message-Id: <20220825150840.132216-1-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220824193813.13129-1-khalid.masum.92@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 25, 2022 at 01:38:13AM +0600, Khalid Masum wrote:
-> usb_maxpacket() looks up the endpoint number in the pipe which can fail
-> if the interface or configuration changes before the routine is called.
-> This is unexpected and may even cause a modulo by zero afterwards.
-> 
-> So use usb_endpoint_maxp() routine which uses the endpoint stored in URB
-> to get the maxpacket.
-> 
-> Addresses-Coverity: 744857 ("Division or modulo by zero")
-> Addresses-Coverity: 1487371 ("Division or modulo by zero")
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
-> ---
-> Changes since v1:
->  - Update commit description
->  - Use usb_endpoint_maxp() instead of checking whether getting maxpacket
->    failed
->  - Link: https://lore.kernel.org/lkml/20220823182758.13401-1-khalid.masum.92@gmail.com/
-> 
->  drivers/usb/host/ehci-q.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/host/ehci-q.c b/drivers/usb/host/ehci-q.c
-> index 807e64991e3e..666f5c4db25a 100644
-> --- a/drivers/usb/host/ehci-q.c
-> +++ b/drivers/usb/host/ehci-q.c
-> @@ -645,7 +645,7 @@ qh_urb_transaction (
->  		token |= (1 /* "in" */ << 8);
->  	/* else it's already initted to "out" pid (0 << 8) */
->  
-> -	maxpacket = usb_maxpacket(urb->dev, urb->pipe);
-> +	maxpacket = usb_endpoint_maxp(&urb->ep->desc);
->  
->  	/*
->  	 * buffer gets wrapped in one or more qtds;
-> @@ -1218,7 +1218,7 @@ static int ehci_submit_single_step_set_feature(
->  
->  	token |= (1 /* "in" */ << 8);  /*This is IN stage*/
->  
-> -	maxpacket = usb_maxpacket(urb->dev, urb->pipe);
-> +	maxpacket = usb_endpoint_maxp(&urb->ep->desc);
->  
->  	qtd_fill(ehci, qtd, buf, len, token, maxpacket);
+Hi Greg
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+A few xhci fixes for usb-linus.
+
+USB3 devices aren't visible immediately after xHC reset, so don't
+stop polling the roothub and suspend too early after xHC reset.
+
+Also Revert the port poweroff patch due to regression,
+and fix a null pointer issue for xHC hosts with just one roothub.
+
+-Mathias
+
+Mathias Nyman (3):
+  xhci: Fix null pointer dereference in remove if xHC has only one
+    roothub
+  xhci: Add grace period after xHC start to prevent premature runtime
+    suspend.
+  Revert "xhci: turn off port power in shutdown"
+
+ drivers/usb/host/xhci-hub.c  | 13 ++++++++++++-
+ drivers/usb/host/xhci-plat.c | 11 ++++++++---
+ drivers/usb/host/xhci.c      | 19 +++++--------------
+ drivers/usb/host/xhci.h      |  4 +---
+ 4 files changed, 26 insertions(+), 21 deletions(-)
+
+-- 
+2.25.1
+
