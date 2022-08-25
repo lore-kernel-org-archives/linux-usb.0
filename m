@@ -2,79 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 281B1C28D13
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Aug 2022 14:04:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 936EFC64991
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Aug 2022 14:20:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234778AbiHYOEi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Aug 2022 10:04:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36380 "EHLO
+        id S237660AbiHYOUK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Aug 2022 10:20:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240638AbiHYOEV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Aug 2022 10:04:21 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CA90B6014
-        for <linux-usb@vger.kernel.org>; Thu, 25 Aug 2022 07:04:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661436251; x=1692972251;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1cK+9SxPYNZV4dLKgcmEvxjOmc6XkHw/SpIppWBBeTc=;
-  b=KWnK8jBIaFvhX1C1nc5ssOiY2vvjSItvj3ZOFp9aaidGd2I5gDPgKZ2E
-   utQz3jtp7KP6juiDPwxgFWyQqgCN92EV3TH8tbYU48XhyHnwCJs6OvAYx
-   yHtVn3TsFy/epzCFF9e2zQsLUpLElokAWmK3BqhAhRRnrkw7vmxC5I3CH
-   JU/JnVFpVWtZILyt5irxu8UGiU+gkxFyPnjMsrj9/dmv4BvOgLlXafES0
-   YrcKejXV2psf/iWc0crNislniyKr1t4AE+O8WxsSZmcxlurOJuqW+RPvt
-   x9JzH953ceVn+yMg+GxMV6FgpRpiwjzbmOu9RTruJMSNKtTSNsUq/7xPu
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="358209860"
-X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; 
-   d="scan'208";a="358209860"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2022 07:03:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; 
-   d="scan'208";a="752492806"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Aug 2022 07:03:56 -0700
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Prashant Malani <pmalani@chromium.org>, linux-usb@vger.kernel.org
-Subject: [PATCH] usb: typec: Remove retimers properly
-Date:   Thu, 25 Aug 2022 17:04:11 +0300
-Message-Id: <20220825140411.10743-1-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S241459AbiHYOT1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Aug 2022 10:19:27 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 0351CAE9F5
+        for <linux-usb@vger.kernel.org>; Thu, 25 Aug 2022 07:19:26 -0700 (PDT)
+Received: (qmail 2307 invoked by uid 1000); 25 Aug 2022 10:19:26 -0400
+Date:   Thu, 25 Aug 2022 10:19:26 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Khalid Masum <khalid.masum.92@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Weitao Wang <WeitaoWang-oc@zhaoxin.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2] usb: host: Initiate urb ep with udev ep0
+Message-ID: <YweE7jCfGDhLB16G@rowland.harvard.edu>
+References: <20220824203107.14908-1-khalid.masum.92@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220824203107.14908-1-khalid.masum.92@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Retimer device class is left dangling when the typec module
-is unloaded. Attempts to reload the module failed with warning:
+On Thu, Aug 25, 2022 at 02:31:07AM +0600, Khalid Masum wrote:
+> Currently we look up for endpoint in a table and initate urb endpoint
+> with it. This is unnecessary because the lookup will always result in
+> endpoint 0.
+> 
+> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+> ---
+> Changes since v1:
+>  - Remove endpoint lookup and NULL check
+>  - Remove unnecessary variable *ep
+>  - Initiate urb ep with udev ep0
+>  - Update commit message
+>  - v1 Link: https://lore.kernel.org/lkml/20220824130702.10912-1-khalid.masum.92@gmail.com/ 
+> 
+>  drivers/usb/core/hcd.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
+> 
+> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> index 94b305bbd621..05f30ae5570b 100644
+> --- a/drivers/usb/core/hcd.c
+> +++ b/drivers/usb/core/hcd.c
+> @@ -2158,21 +2158,14 @@ static struct urb *request_single_step_set_feature_urb(
+>  {
+>  	struct urb *urb;
+>  	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
+> -	struct usb_host_endpoint *ep;
+>  
+>  	urb = usb_alloc_urb(0, GFP_KERNEL);
+>  	if (!urb)
+>  		return NULL;
+>  
+>  	urb->pipe = usb_rcvctrlpipe(udev, 0);
+> -	ep = (usb_pipein(urb->pipe) ? udev->ep_in : udev->ep_out)
+> -				[usb_pipeendpoint(urb->pipe)];
+> -	if (!ep) {
+> -		usb_free_urb(urb);
+> -		return NULL;
+> -	}
+>  
+> -	urb->ep = ep;
+> +	urb->ep = &udev->ep0;
+>  	urb->dev = udev;
+>  	urb->setup_packet = (void *)dr;
+>  	urb->transfer_buffer = buf;
 
-        "sysfs: cannot create duplicate filename '/class/retimer'"
-
-Fixing the issue by unregistering the class properly.
-
-Fixes: ddaf8d96f93b ("usb: typec: Add support for retimers")
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- drivers/usb/typec/class.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index ebc29ec20e3fb..bd5e5dd704313 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -2346,6 +2346,7 @@ static void __exit typec_exit(void)
- 	ida_destroy(&typec_index_ida);
- 	bus_unregister(&typec_bus);
- 	class_unregister(&typec_mux_class);
-+	class_unregister(&retimer_class);
- }
- module_exit(typec_exit);
- 
--- 
-2.35.1
-
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
