@@ -2,101 +2,189 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5CFAECAAA3
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Aug 2022 07:50:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64BC7ECAAD8
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Aug 2022 07:53:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245659AbiHZHuz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Aug 2022 03:50:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59074 "EHLO
+        id S245714AbiHZHxp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Aug 2022 03:53:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245644AbiHZHux (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Aug 2022 03:50:53 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B8FEC7B96;
-        Fri, 26 Aug 2022 00:50:50 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id v23so923286plo.9;
-        Fri, 26 Aug 2022 00:50:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=hrOvC4yxHykycH1IrQSO1OAlTlALBHw2gbda8sHjukQ=;
-        b=V+3b4HppDthK+E27D+Ob2MuVAzk8M25k8L3N7shYeVWOyGm/xr8NsO4fqjGS2Pv7xq
-         llw0cS6psMf+IDLozZJ7k0UTpTquBcsOvHvUgb3UQwlcXoTaJZ4YCjmcAUNa2b1jHFOX
-         fV5x7CK/ooq5in5cB7QDj/4w4WQLYpcTEiUbfnP10d7qtGzKMoxt74f/NssFwESOKHTl
-         rowKDMVlQQ+gPiu0uWUUWNmFxOlqtOciBUi0JrbXWert6cQfpN2a4dPUjHcEgtnIBAst
-         9atgkFtkcKmKaZUmA4fxIcmBHKDAEtwt898dXiQOyQ9neCzRLrXUMY2Pv4S1NzGeAoDX
-         svTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=hrOvC4yxHykycH1IrQSO1OAlTlALBHw2gbda8sHjukQ=;
-        b=x7RtrIYLkIOmWtgujtWmSRQIWiuibtbhv2YdYGk8u8RV8vaA5qegwIgbf5pWYdveBq
-         iRFViHLGJMVpb7CG1Fa29f/BTIUktrC/K5zSj9Flq3uMnRXbrtSdA9M2Psvjh1r1gKvE
-         RHX6mfMG51h7v/ZqbJldTsc7EKMowETUCDAV+Tm4/tswQgUC0KzL/53lxX77yMxLy70e
-         Z741R/oDvLftl67V+0r2r3zaxXH728EgWvVrD3vtEPLhZ7FmZEVUvSoZcxGqAl0ykHHs
-         3JzTnzTI7zggHvyoiDi7BrhJmhwHKa3wqTIUDBTOzlIl5f9BjwIdsqNmDWDbkbN9DnaL
-         I/4w==
-X-Gm-Message-State: ACgBeo1AUPaf9LliNZynMT1dWAs05Gl8LZd5WYKgOZOSrkfSzziJNmRl
-        GEwra+AB51EFXEYB68Ra0lDM70WbPEE=
-X-Google-Smtp-Source: AA6agR7aMEamn8+vtzCRfUAq2feU9PfS+OkUObU7cXAlJ5iFpSZryzVIZh8jATa928ftLMxWp8gf+g==
-X-Received: by 2002:a17:902:d34d:b0:174:429d:7789 with SMTP id l13-20020a170902d34d00b00174429d7789mr423764plk.144.1661500249548;
-        Fri, 26 Aug 2022 00:50:49 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id u1-20020a17090341c100b001726b585d4bsm870993ple.202.2022.08.26.00.50.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Aug 2022 00:50:49 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: xu.panda@zte.com.cn
-To:     linux@roeck-us.net
-Cc:     heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        xupanda <xu.panda@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH linux-next] usb: typec: tcpm: tcpci: Remove the unneeded result variable
-Date:   Fri, 26 Aug 2022 07:48:57 +0000
-Message-Id: <20220826074856.253810-1-xu.panda@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S245731AbiHZHxj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Aug 2022 03:53:39 -0400
+Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [IPv6:2a01:37:1000::53df:5f64:0])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA84D3EF8;
+        Fri, 26 Aug 2022 00:53:35 -0700 (PDT)
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+         client-signature RSA-PSS (4096 bits) client-digest SHA256)
+        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
+        by bmailout1.hostsharing.net (Postfix) with ESMTPS id B9BAF30002503;
+        Fri, 26 Aug 2022 09:53:31 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+        id A6DE64F247; Fri, 26 Aug 2022 09:53:31 +0200 (CEST)
+Date:   Fri, 26 Aug 2022 09:53:31 +0200
+From:   Lukas Wunner <lukas@wunner.de>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        UNGLinuxDriver@microchip.com, Oliver Neukum <oneukum@suse.com>,
+        Andre Edich <andre.edich@microchip.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Martyn Welch <martyn.welch@collabora.com>,
+        Gabriel Hojda <ghojda@yo2urs.ro>,
+        Christoph Fritz <chf.fritz@googlemail.com>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        Philipp Rosenberger <p.rosenberger@kunbus.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Russell King <linux@armlinux.org.uk>,
+        Ferry Toth <fntoth@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        'Linux Samsung SOC' <linux-samsung-soc@vger.kernel.org>
+Subject: Re: [PATCH net-next v3 5/7] usbnet: smsc95xx: Forward PHY interrupts
+ to PHY driver to avoid polling
+Message-ID: <20220826075331.GA32117@wunner.de>
+References: <cover.1652343655.git.lukas@wunner.de>
+ <748ac44eeb97b209f66182f3788d2a49d7bc28fe.1652343655.git.lukas@wunner.de>
+ <CGME20220517101846eucas1p2c132f7e7032ed00996e222e9cc6cdf99@eucas1p2.samsung.com>
+ <a5315a8a-32c2-962f-f696-de9a26d30091@samsung.com>
+ <20220519190841.GA30869@wunner.de>
+ <31baa38c-b2c7-10cd-e9cd-eee140f01788@samsung.com>
+ <e598a232-6c78-782a-316f-77902644ad6c@samsung.com>
+ <20220826071924.GA21264@wunner.de>
+ <2b1a1588-505e-dff3-301d-bfc1fb14d685@samsung.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <2b1a1588-505e-dff3-301d-bfc1fb14d685@samsung.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: xupanda <xu.panda@zte.com.cn>
+On Fri, Aug 26, 2022 at 09:41:46AM +0200, Marek Szyprowski wrote:
+> On 26.08.2022 09:19, Lukas Wunner wrote:
+> > On Fri, Aug 26, 2022 at 08:51:58AM +0200, Marek Szyprowski wrote:
+> >> On 19.05.2022 23:22, Marek Szyprowski wrote:
+> >>> On 19.05.2022 21:08, Lukas Wunner wrote:
+> >>>> On Tue, May 17, 2022 at 12:18:45PM +0200, Marek Szyprowski wrote:
+> >>>>> This patch landed in the recent linux next-20220516 as commit
+> >>>>> 1ce8b37241ed ("usbnet: smsc95xx: Forward PHY interrupts to PHY
+> >>>>> driver to
+> >>>>> avoid polling"). Unfortunately it breaks smsc95xx usb ethernet
+> >>>>> operation
+> >>>>> after system suspend-resume cycle. On the Odroid XU3 board I got the
+> >>>>> following warning in the kernel log:
+> >>>>>
+> >>>>> # time rtcwake -s10 -mmem
+> >>>>> rtcwake: wakeup from "mem" using /dev/rtc0 at Tue May 17 09:16:07 2022
+> >>>>> PM: suspend entry (deep)
+> >>>>> Filesystems sync: 0.001 seconds
+> >>>>> Freezing user space processes ... (elapsed 0.002 seconds) done.
+> >>>>> OOM killer disabled.
+> >>>>> Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
+> >>>>> printk: Suspending console(s) (use no_console_suspend to debug)
+> >>>>> smsc95xx 4-1.1:1.0 eth0: entering SUSPEND2 mode
+> >>>>> smsc95xx 4-1.1:1.0 eth0: Failed to read reg index 0x00000114: -113
+> >>>>> smsc95xx 4-1.1:1.0 eth0: Error reading MII_ACCESS
+> >>>>> smsc95xx 4-1.1:1.0 eth0: __smsc95xx_mdio_read: MII is busy
+> >>>>> ------------[ cut here ]------------
+> >>>>> WARNING: CPU: 2 PID: 73 at drivers/net/phy/phy.c:946
+> >>>>> phy_state_machine+0x98/0x28c
+> >>>> [...]
+> >>>>> It looks that the driver's suspend/resume operations might need some
+> >>>>> adjustments. After the system suspend/resume cycle the driver is not
+> >>>>> operational anymore. Reverting the $subject patch on top of linux
+> >>>>> next-20220516 restores ethernet operation after system suspend/resume.
+> >>>> Thanks a lot for the report. It seems the PHY is signaling a link
+> >>>> change
+> >>>> shortly before system sleep and by the time the phy_state_machine()
+> >>>> worker
+> >>>> gets around to handle it, the device has already been suspended and thus
+> >>>> refuses any further USB requests with -EHOSTUNREACH (-113):
+> > [...]
+> >>>> Assuming the above theory is correct, calling phy_stop_machine()
+> >>>> after usbnet_suspend() would be sufficient to fix the issue.
+> >>>> It cancels the phy_state_machine() worker.
+> >>>>
+> >>>> The small patch below does that. Could you give it a spin?
+> >>> That's it. Your analysis is right and the patch fixes the issue. Thanks!
+> >>>
+> >>> Feel free to add:
+> >>>
+> >>> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> >>>
+> >>> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> >> Gentle ping for the final patch...
+> > Hm?  Actually this issue is supposed to be fixed by mainline commit
+> > 1758bde2e4aa ("net: phy: Don't trigger state machine while in suspend").
+> >
+> > The initial fix attempt that you're replying to should not be necessary
+> > with that commit.
+> >
+> > Are you still seeing issues even with 1758bde2e4aa applied?
+> > Or are you maybe using a custom downstream tree which is missing that commit?
+> 
+> On Linux next-20220825 I still get the following warning during 
+> suspend/resume cycle:
+> 
+> ------------[ cut here ]------------
+> WARNING: CPU: 0 PID: 1483 at drivers/net/phy/phy_device.c:323 
+> mdio_bus_phy_resume+0x10c/0x110
+> Modules linked in: exynos_gsc s5p_jpeg s5p_mfc videobuf2_dma_contig 
+> v4l2_mem2mem videobuf2_memops videobuf2_v4l2 videobuf2_common videodev 
+> mc s5p_cec
+> CPU: 0 PID: 1483 Comm: rtcwake Not tainted 6.0.0-rc2-next-20220825 #5482
+> Hardware name: Samsung Exynos (Flattened Device Tree)
+>   unwind_backtrace from show_stack+0x10/0x14
+>   show_stack from dump_stack_lvl+0x58/0x70
+>   dump_stack_lvl from __warn+0xc8/0x220
+>   __warn from warn_slowpath_fmt+0x5c/0xb4
+>   warn_slowpath_fmt from mdio_bus_phy_resume+0x10c/0x110
+>   mdio_bus_phy_resume from dpm_run_callback+0x94/0x208
+>   dpm_run_callback from device_resume+0x124/0x21c
+>   device_resume from dpm_resume+0x108/0x278
+>   dpm_resume from dpm_resume_end+0xc/0x18
+>   dpm_resume_end from suspend_devices_and_enter+0x208/0x70c
+>   suspend_devices_and_enter from pm_suspend+0x364/0x430
+>   pm_suspend from state_store+0x68/0xc8
+>   state_store from kernfs_fop_write_iter+0x110/0x1d4
+>   kernfs_fop_write_iter from vfs_write+0x1c4/0x2ac
+>   vfs_write from ksys_write+0x5c/0xd4
+>   ksys_write from ret_fast_syscall+0x0/0x1c
+> Exception stack(0xf2ee5fa8 to 0xf2ee5ff0)
+> 5fa0:                   00000004 0002b438 00000004 0002b438 00000004 
+> 00000000
+> 5fc0: 00000004 0002b438 000291b0 00000004 0002b438 00000004 befd9c1c 
+> 00028160
+> 5fe0: 0000006c befd9ae8 b6eb4148 b6f118a4
+> irq event stamp: 58381
+> hardirqs last  enabled at (58393): [<c019ff28>] vprintk_emit+0x320/0x344
+> hardirqs last disabled at (58400): [<c019fedc>] vprintk_emit+0x2d4/0x344
+> softirqs last  enabled at (58258): [<c0101694>] __do_softirq+0x354/0x618
+> softirqs last disabled at (58247): [<c012dd18>] __irq_exit_rcu+0x140/0x1ec
+> ---[ end trace 0000000000000000 ]---
+> 
+> The mentioned patch fixes it.
 
-Return the value regmap_update_bits() directly instead of
-storing it in another redundant variable.
+Color me confused.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: xupanda <xu.panda@zte.com.cn>
----
- drivers/usb/typec/tcpm/tcpci.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+With "the mentioned patch", are you referring to 1758bde2e4aa
+or are you referring to the little test patch in this e-mail:
+https://lore.kernel.org/netdev/20220519190841.GA30869@wunner.de/
 
-diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-index b2bfcebe218f..4436e9e5e2f7 100644
---- a/drivers/usb/typec/tcpm/tcpci.c
-+++ b/drivers/usb/typec/tcpm/tcpci.c
-@@ -328,11 +328,9 @@ static int tcpci_set_vconn(struct tcpc_dev *tcpc, bool enable)
- static int tcpci_enable_auto_vbus_discharge(struct tcpc_dev *dev, bool enable)
- {
- 	struct tcpci *tcpci = tcpc_to_tcpci(dev);
--	int ret;
- 
--	ret = regmap_update_bits(tcpci->regmap, TCPC_POWER_CTRL, TCPC_POWER_CTRL_AUTO_DISCHARGE,
-+	return regmap_update_bits(tcpci->regmap, TCPC_POWER_CTRL, TCPC_POWER_CTRL_AUTO_DISCHARGE,
- 				 enable ? TCPC_POWER_CTRL_AUTO_DISCHARGE : 0);
--	return ret;
- }
- 
- static int tcpci_set_auto_vbus_discharge_threshold(struct tcpc_dev *dev, enum typec_pwr_opmode mode,
-@@ -884,5 +882,3 @@ static struct i2c_driver tcpci_i2c_driver = {
- };
- module_i2c_driver(tcpci_i2c_driver);
- 
--MODULE_DESCRIPTION("USB Type-C Port Controller Interface driver");
--MODULE_LICENSE("GPL");
--- 
-2.25.1
+There's a Tested-by from you on 1758bde2e4aa, so I assume the
+commit fixed the issue at the time.  Does it still occur
+intermittently?  Or does it occur every time?  In the latter case,
+I'd assume some other change was made in the meantime and that
+other change exposed the issue again...
 
+Thanks,
+
+Lukas
