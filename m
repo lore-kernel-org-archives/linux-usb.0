@@ -2,110 +2,75 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E1ADC64991
-	for <linux-usb@archiver.kernel.org>; Sat, 27 Aug 2022 13:19:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFDB0ECAAD2
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Aug 2022 15:30:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbiH0NTk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 27 Aug 2022 09:19:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57600 "EHLO
+        id S232214AbiH0Paq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 27 Aug 2022 11:30:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229677AbiH0NTi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 27 Aug 2022 09:19:38 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37B587198A;
-        Sat, 27 Aug 2022 06:19:37 -0700 (PDT)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MFHJc4yxCzkWV9;
-        Sat, 27 Aug 2022 21:16:00 +0800 (CST)
-Received: from dggpemm500002.china.huawei.com (7.185.36.229) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 27 Aug 2022 21:19:35 +0800
-Received: from [10.174.178.247] (10.174.178.247) by
- dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 27 Aug 2022 21:19:34 +0800
-Subject: Re: [PATCH v2 5/5] ACPI: Drop parent field from struct acpi_device
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux ACPI <linux-acpi@vger.kernel.org>
-CC:     LKML <linux-kernel@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Mark Brown <broonie@kernel.org>,
-        "Andreas Noever" <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        <linux-hyperv@vger.kernel.org>, <linux-spi@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>, "Will Deacon" <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        "Konrad Dybcio" <konrad.dybcio@somainline.org>
-References: <12036348.O9o76ZdvQC@kreacher> <2196460.iZASKD2KPV@kreacher>
- <5857822.lOV4Wx5bFT@kreacher>
-From:   Hanjun Guo <guohanjun@huawei.com>
-Message-ID: <a0cab176-3c3a-707a-02c3-74ffc1b4926e@huawei.com>
-Date:   Sat, 27 Aug 2022 21:19:33 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        with ESMTP id S233528AbiH0Paj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 27 Aug 2022 11:30:39 -0400
+Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.155.67.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4004E4D4EF;
+        Sat, 27 Aug 2022 08:30:35 -0700 (PDT)
+X-QQ-mid: bizesmtp67t1661614217tneioxme
+Received: from localhost.localdomain ( [182.148.13.26])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Sat, 27 Aug 2022 23:30:09 +0800 (CST)
+X-QQ-SSF: 01000000002000B0C000B00A0000000
+X-QQ-FEAT: ao4JQgu0M3/ShWn/GLYK3b1OEZ3uMzuPtuR360O+xT4remUF8sEJUmlGenu1w
+        7ozriyuDdhpj/ywfiV9TfWTIJ3IRRnAonvd1p7+qSpW3t8l7cSqosdLODe5NTd5LMVlBYMM
+        vswvAoch5YOsj1AVU8EXQYXm3DmaJCnxlVX0jwCdCIfA4sPvwyh056LbeO1BMv8PJXdIdy+
+        40GmK/QyUP4cjFsGNWc48c8ZOT6X3jFk5Wa9htaVF96RDaS5HUszn6Ue2B5mUBzHNornNNF
+        scQp0O3vTf/pY0grjz1rtIpG9d2q+lLNZ26zS7+aYrvrWrRNedoRU95YAwoGxGRXV2dEAuJ
+        5+QIvqfs0+NMuJlsW6p8cHMXbJqP3nlktmWXfCBprgQrnj5w0E=
+X-QQ-GoodBg: 0
+From:   Shaomin Deng <dengshaomin@cdjrlc.com>
+To:     balbi@kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, Shaomin Deng <dengshaomin@cdjrlc.com>
+Subject: [PATCH] usb: gadget: net2272: Remove the initialization of statics to 0
+Date:   Sat, 27 Aug 2022 11:30:09 -0400
+Message-Id: <20220827153009.4768-1-dengshaomin@cdjrlc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <5857822.lOV4Wx5bFT@kreacher>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.247]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500002.china.huawei.com (7.185.36.229)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Rafael,
+It is always unnecessary to initialise statics to 0.
 
-On 2022/8/25 0:59, Rafael J. Wysocki wrote:
-> Index: linux-pm/include/acpi/acpi_bus.h
-> ===================================================================
-> --- linux-pm.orig/include/acpi/acpi_bus.h
-> +++ linux-pm/include/acpi/acpi_bus.h
-> @@ -365,7 +365,6 @@ struct acpi_device {
->   	int device_type;
->   	acpi_handle handle;		/* no handle for fixed hardware */
->   	struct fwnode_handle fwnode;
-> -	struct acpi_device *parent;
->   	struct list_head wakeup_list;
->   	struct list_head del_list;
->   	struct acpi_device_status status;
-> @@ -458,6 +457,14 @@ static inline void *acpi_driver_data(str
->   #define to_acpi_device(d)	container_of(d, struct acpi_device, dev)
->   #define to_acpi_driver(d)	container_of(d, struct acpi_driver, drv)
->   
-> +static inline struct acpi_device *acpi_dev_parent(struct acpi_device *adev)
-> +{
-> +	if (adev->dev.parent)
-> +		return to_acpi_device(adev->dev.parent);
-> +
-> +	return NULL;
-> +}
-> +
->   static inline void acpi_set_device_status(struct acpi_device *adev, u32 sta)
->   {
->   	*((u32 *)&adev->status) = sta;
-> @@ -478,6 +485,7 @@ void acpi_initialize_hp_context(struct a
->   /* acpi_device.dev.bus == &acpi_bus_type */
->   extern struct bus_type acpi_bus_type;
->   
-> +struct acpi_device *acpi_dev_parent(struct acpi_device *adev);
+Signed-off-by: Shaomin Deng <dengshaomin@cdjrlc.com>
+---
+ drivers/usb/gadget/udc/net2272.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-We have a static inline function above, is it duplicated here?
-Or did I miss some use cases?
+diff --git a/drivers/usb/gadget/udc/net2272.c b/drivers/usb/gadget/udc/net2272.c
+index c97cd4bc817c..84605a4d0715 100644
+--- a/drivers/usb/gadget/udc/net2272.c
++++ b/drivers/usb/gadget/udc/net2272.c
+@@ -91,7 +91,7 @@ module_param(dma_mode, ushort, 0644);
+  *      mode 2 == ep-a 1k, ep-b 1k, ep-c 512db
+  *      mode 3 == ep-a 1k, ep-b disabled, ep-c 512db
+  */
+-static ushort fifo_mode = 0;
++static ushort fifo_mode;
+ module_param(fifo_mode, ushort, 0644);
+ 
+ /*
+@@ -100,7 +100,7 @@ module_param(fifo_mode, ushort, 0644);
+  * USB suspend requests will be ignored.  This is acceptable for
+  * self-powered devices.  For bus powered devices set this to 1.
+  */
+-static ushort enable_suspend = 0;
++static ushort enable_suspend;
+ module_param(enable_suspend, ushort, 0644);
+ 
+ static void assert_out_naking(struct net2272_ep *ep, const char *where)
+-- 
+2.35.1
 
-Thanks
-Hanjun
