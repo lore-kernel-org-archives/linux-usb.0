@@ -2,144 +2,123 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EEA7ECAAD4
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Aug 2022 08:51:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06D9BECAAD4
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Aug 2022 09:00:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbiH2Ivz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Aug 2022 04:51:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37628 "EHLO
+        id S229751AbiH2JAH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Aug 2022 05:00:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229897AbiH2Ivx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Aug 2022 04:51:53 -0400
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com (mail-eopbgr00059.outbound.protection.outlook.com [40.107.0.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5212C5A147
-        for <linux-usb@vger.kernel.org>; Mon, 29 Aug 2022 01:51:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CH4BRc17ZwhCqoaLTzKzpgXzdD0dB2os+erzDnbxyr/T+HHyOwtX5IKBKTuTv+2sz3sX8Hnzs5GP0g3vRAVc99y47FNEHo3QY07h2vfGKKJgK4kbv/g6n7CXfx+dahoAnvVuku3JM0spHldw7sfz/sBN8hGkuQcWuhI7PwV8z2Cggq+4xDdmCLkJARJrFqeLP7M8+UOolmR219ElYMHhG38i5TMiDOlaPhUwblevUTpUWJaoHR1/hS91dHKBrryTeuNrbPf9ObjnCl+eTUkgd58JaR5rL49IZKfm8fttTgTQc2FETFglU83jaz8Af9fM5vvI5bFifHMCjlsexKRu8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fn8Aq0S5AvogV9uwdM/bWTMLNVp5z8HlOMblM7If8kg=;
- b=WhB6955PoDSN50ZGS1bvmSuJQN5Daoh2yXjVpbpgQ+VMn+QIizNGgEv2RzppK0vxmNL8475ZZoYPHKwkNQa5wM7iRQrsjt8gwrThQyTcnKQScNFrhWpXwTCxVzPz7vrCOfN1f1VVxAgseZPg+O4JKH0NmjOapxETztU+8OQ2Yx/p0Xj3C4mFZTHGAsAr0WY9WhJpINCiYMKz7A4T+SprxzMODj8KDW7gjhLaOeMIYQ8kM3bqXEU4hl06Z1PYBosY0tXn+xnIv1EML6SOU2UbAqjn59dsZGgFug/oVz3eOjYsx3Er0Fuc6tf+x9GBrqpAwSAiKocWJDbwfHPpdRZs0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fn8Aq0S5AvogV9uwdM/bWTMLNVp5z8HlOMblM7If8kg=;
- b=jas5i0pK1yoM07aDhAy/4kLMFI5NYI1HGEKkEQr8eL+tyDsvP9odQkFIqeeuwW0UGEWovFSeg4hn5G55q5tjh79ikkwXWHd4HKiKJhyzRGICLsJywHOMYrnHHGAuk3dFbfOtj6z/yPA23WVIU6lS4vjxU6kckyXj0IZ9vuURvPgvw49+zBL/ak3q1Xo3xOeiYAo+kWC94G8W4Ron+hdOwUs0wKYV9wgNhj36R7rDwVL+AnLRqEOhxBjQc1xxSeJDgmlH4Eo9VGP0vH+CZJiaFNQT9MlVGZmwO4y1RYLP3ajFpOuE9AqEvHouKl1GfmsUjF478cL2THEmFVuuGDdHqw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=suse.com;
-Received: from VI1PR04MB7104.eurprd04.prod.outlook.com (2603:10a6:800:126::9)
- by AM5PR0401MB2562.eurprd04.prod.outlook.com (2603:10a6:203:3a::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.21; Mon, 29 Aug
- 2022 08:51:48 +0000
-Received: from VI1PR04MB7104.eurprd04.prod.outlook.com
- ([fe80::b083:534b:70ae:416a]) by VI1PR04MB7104.eurprd04.prod.outlook.com
- ([fe80::b083:534b:70ae:416a%2]) with mapi id 15.20.5566.021; Mon, 29 Aug 2022
- 08:51:48 +0000
-Message-ID: <e68358f4-7206-df4f-a2a1-22974d77cea9@suse.com>
-Date:   Mon, 29 Aug 2022 10:51:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: Linux Kernel Issue in cdc_acm V5.15.x -- /dev/ttyACM0 Does Not
- Work
-Content-Language: en-US
-To:     Noel <n-a-i@sbcglobal.net>, oneukum@suse.com,
-        Johan Hovold <johan@kernel.org>
-References: <1e00a54f-c609-3c3e-34d8-1ea38105e7bd@sbcglobal.net>
- <dc74f362-8946-0a43-a556-73f7391b4053@sbcglobal.net>
-Cc:     USB list <linux-usb@vger.kernel.org>
-From:   Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <dc74f362-8946-0a43-a556-73f7391b4053@sbcglobal.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0132.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:94::12) To VI1PR04MB7104.eurprd04.prod.outlook.com
- (2603:10a6:800:126::9)
+        with ESMTP id S229476AbiH2JAG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Aug 2022 05:00:06 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75D7065F7
+        for <linux-usb@vger.kernel.org>; Mon, 29 Aug 2022 02:00:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3B35FB80D53
+        for <linux-usb@vger.kernel.org>; Mon, 29 Aug 2022 09:00:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B5AC433D6;
+        Mon, 29 Aug 2022 09:00:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1661763602;
+        bh=hJ7pQKuZUP+0llxe7b+ppp+OrLVGlE+Ul7hxkT4zd/A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vfH3d0wU9O4v8UcA3rLE8QK+NMw57ht1DydAOmRd2r2/RIWt4hEBAYJvZ8SYjC/SG
+         X6Y45Py2NYUKjFRh2JSTXO1bbtXWO8xf8tZa7gXDn8CSFQ1VsLbOnmiuByX5f3+IS8
+         laCvVnCV6yC73nm1jfSoLO5v03uSUdgDrFpXUPpA=
+Date:   Mon, 29 Aug 2022 10:59:59 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Hu Xiaoying <huxiaoying2008@gmail.com>
+Cc:     usb-storage@lists.one-eyed-alien.net, linux-usb@vger.kernel.org,
+        stern@rowland.harvard.edu
+Subject: Re: [PATCH v2] usb: Improves USB2.0 write performance
+Message-ID: <YwyADyS9kD2qyoKJ@kroah.com>
+References: <CABd4UjYSaZv6H9Q-UbM8QQZk8HcBPrJ7=DfDQGxJNVNot68Kfg@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e3d52fbd-90de-4376-f1f8-08da899bb514
-X-MS-TrafficTypeDiagnostic: AM5PR0401MB2562:EE_
-X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MYiZP7PqdJZkAM+W14X9Nyl51vXECYJcUFVZY80cmuCpvv/bwTvmS3BZv3LZlGS+t9RBZA/wgaYbOiBY2Y/I3SNPphYCd2RA81mnc7Aefa6MN+/uXfjUxvD5XWCIIqCNugp5svcPPIUkhgIjXuc4v0OIL9Uf/ovW3BOeTMWub3Wr6nYIP/7yOGaSs89koMuIsolh/F/4oS7rtYsFA9mk0/eA1Js+9bEHXG7kCRGUm7PPKvScJHp+P4uHbEDtWiyb3bdhNt0kXMroiMsqi3v5z6iD52KHjojh48kc36l1BVmLXBaafd6dmCO7+8HXWZYJlsRmxSGmeArCYd/cHwTA361RDcjRMYw1FYKGO8Xgn+7+WkjgXn3wEXOPqPGWrIuwBLXbEu+Hnt9oXLPgYrOnU2vtkwUA/s0JuHTE0AiFge845zuy+gOGWzL/wza4VjHcMHgwd5FtV7qAd9pHFF0VrPkWUPtSI5p1Nir/tD/ojJ9BDLRRPGRWG7pa4fHbDpp/iXZ8zhIv0Jovk84Hq6P4DAxjD7deNiYMMcYIVjTjdxcfN/jd1jizQprP1jRQ/lYb2hZlWUlY4h5SGJFSF3sazePgwygwMo6ThN/WZ40v+QEMs/4YTOZNG+GitmKUgnssjMuIVlm4sHkBB+acjBn6WArlu9JXBl5IPVnGLaBINhrpDbER2fnr98V/zy1dFOeR6vqO5eHXvbMZCmj+rxXPGvvPl3ECWcCuyTbDOqX7dW1v9NkRoyE9O4uGBxUeGJk2ujuGygg82mFuNqn1riKlVRuJawgbC5rnFfjg2mGrj0c=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB7104.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(396003)(376002)(366004)(136003)(346002)(39860400002)(186003)(4744005)(6512007)(2616005)(5660300002)(4326008)(8676002)(66946007)(66556008)(8936002)(66476007)(31686004)(36756003)(2906002)(86362001)(110136005)(316002)(478600001)(53546011)(6506007)(41300700001)(6486002)(31696002)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U0NiTHpONjJiSGNNSHoyZkUwYmIzSDdVZkNQWEpnb1orQTdOc1VCeWtuUSt2?=
- =?utf-8?B?a1Zua3ZUMHBPbkluM1RORXdidGVDa1ZsdHFRUjYySThuclVFajRrQXF0VU9Z?=
- =?utf-8?B?eGZGNFM5UnhkQWUyZEpNclpXdVg0ZmFZQnFOK1N3Wmloa0xzcFJRYmNOTk5j?=
- =?utf-8?B?cHNGVUhMVDN5czRzb1ZnVC9Lc25wN0hLb2NmNURXa1NGbmRLNG9Ob1J2SUk0?=
- =?utf-8?B?UmtJZEZqcktUQk1ScTAwVXFQZXRhZnJSSUZwZzg1dmp6ZW5FUDhVdWhiemZ5?=
- =?utf-8?B?QTcxaUNvWmdSaXloc3FBZXNyUjdZczZaZTMxZUU2TURhZWR2VW9zaE5RNXVw?=
- =?utf-8?B?Vmp1MzI1SnF5enE4V2VHTzVBeGpsTEpmSDJHaTJhZVhjSVJqSUlHT3dreU9v?=
- =?utf-8?B?QitXN1FOblNYRHhDVFNzMFRqbElKMEJ5enhYejNud0Q3WFVyOXp6NVBoVEh2?=
- =?utf-8?B?NGYvTzRpeUhpbWl1STlpakFNS2Q0NFBTQktiMHBCTWpTMEpLSG5XU05oR0tJ?=
- =?utf-8?B?YVNreVhUN3orUlYxdGF1cG1GOHI0SE1xVVNVL2NkT1I4VUZpY2tSRmowcmJ0?=
- =?utf-8?B?eUpJZlJLNnhVdW9FOElYZ3AxMlI0Mkl5RXhsZVZFbmduS0s1SnorNXlYMkxQ?=
- =?utf-8?B?MDZqSFZVYU1oajQvMjZnN1ZGTnlMUWd1QUJDbkUxRHMwRlYreHhIN1I0UWx2?=
- =?utf-8?B?UXIxQXhqeWJ3NTFpRGU5cDBTRFYwZGdoc08yL3J4VmVFeEx4UituQW9ZbDRO?=
- =?utf-8?B?TE1qMUxTT04rRGtaZTZQc2tkblNlMzAyZ0VTS3lHalJlSDRqbjVyVDQ0VGRT?=
- =?utf-8?B?R2ZWOTFlRnRSUS9UVURWK05EaW5JSmg2UHdEVlZzUWRZSkc5N01mU0tnaFZJ?=
- =?utf-8?B?dDRPeEZQY1FNbXV2dmdzOUcyM1dpYk9ONHg4a1YyWm5HYVI0K2tDQTJTcFZj?=
- =?utf-8?B?eXJ4VDhNT200U3RHLzNkU1BaeUVFQlBHanNaTXVqRHp3OVVGeG45azI5REVy?=
- =?utf-8?B?ekdvWExZVkQ5Y1RpNE5MaFo1VldiaEtoNS9nZ1ZPdmpYcDFFck9Vd1B0dmth?=
- =?utf-8?B?emh0UXVQa0ppR0R6U0dyQmdIUUQrVkhIblRGYU1NQjBwbXlVSGlmY2pvVWxr?=
- =?utf-8?B?Vk9FRXJnei9OdVpDT3hyRFd0cUl1cGY3SWFQTXh6cXlLOUFHSVlaQjVWNFhR?=
- =?utf-8?B?SURCK3NOVlgzRHppbXlZZ0d1YmxPSHQ3dlVZdjZRZFg2VFFPYVRra1U1ZkVR?=
- =?utf-8?B?QWNZNHBWSXY4MnBiSmtrNHFrSHBNQ09Sa0tUNHlmTngrQzc0TDd6ajIyejVh?=
- =?utf-8?B?WmVqQjhPN3gxVFVqNUp2SkpQVlN3S2JDZ0oxdkxmN08vSU1uem9ZY2JHRjR2?=
- =?utf-8?B?bk1iS3FuNGVJUDBtN1o2OW82UnJsNndVMTRWZGZLWHhEK3Z6OUhhclVLdTl5?=
- =?utf-8?B?eDN5UERzTitucmhWc1o2dnVIWE1iV3krWEZkb05nbytkeThpdlhsN1VhUS9Z?=
- =?utf-8?B?c3l1dHpIbFZpK0hqbFJ6SDZkRGp4ekVZSDRDa1BMUTNLR25LMXAvNnREbHVP?=
- =?utf-8?B?dUNKaG9Rdk1JTXNncEpFUFVTM0FwUXRuZHFiV2s5dHBzdWhOQ2JTWkhHd3B1?=
- =?utf-8?B?cEExbHBMeFFhY3JVME5lMFVBOWZQdjhtUUFUTUxDQlB1ZnRIL3d6MUxwQ0JP?=
- =?utf-8?B?bi9wNU11N2s2TzZCMWF0clRlNExHWnE0dG1OZlRwd3Z5NWNYUStXTGgwQW13?=
- =?utf-8?B?dHFBZUZPWkE0Yk1zTnNQZnJmQi96TlRWeWIrc0xOeTFST3Z2UlJKc3B5VEs0?=
- =?utf-8?B?VFdaVEhtODVINEdCMnhVMytBa0w4QzlhN2FKQWI4dk5FVExBZVRjSFNmT2No?=
- =?utf-8?B?eTF5am5lTkFuUTRwd2xEaXFrUXEwaS9zRmFYK1FNTGUwZTdxTjkydld5U0pV?=
- =?utf-8?B?a2V5eTUxUE1MNDdMcEZtOEcyT3hnenllYktpTm1JR0Vvc3F2NlI0RU8rYyt2?=
- =?utf-8?B?cHVWMExEd3FndzFqcmZvdGZUbGF1bXJCOVU1QWd2K0tTd0FtaHovaW95cGZH?=
- =?utf-8?B?VjFjakllalZZejdmS2N1UERsU3JDTWVpeWRaV3FKVElVTlVMNGM4ekYzeG11?=
- =?utf-8?B?VTJPR25xbHVZZHIwcm5nQWRwUWFWOXhzRE1ldWs5eFE3QmliM043SnVkdEJM?=
- =?utf-8?Q?HeihjsizhloEDZn+nXOAoOg=3D?=
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3d52fbd-90de-4376-f1f8-08da899bb514
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB7104.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2022 08:51:47.8737
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yfNCO2DVOYBXjMMmcHhYmvU3WVrVPqjXmnQUHaab2qcgOtKJM6jxV5KLs3w4wMbbEo/KuKN1YKrWn1a0nLrzXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0401MB2562
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABd4UjYSaZv6H9Q-UbM8QQZk8HcBPrJ7=DfDQGxJNVNot68Kfg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
-
-On 25.08.22 18:42, Noel wrote:
-
+On Mon, Aug 29, 2022 at 04:52:36PM +0800, Hu Xiaoying wrote:
+> >From ad9e714341bbc944d4b8868229f15622592f37d5 Mon Sep 17 00:00:00 2001
+> From: Hu Xiaoying <huxiaoying@gmail.com>
+> Date: Wed, 22 Jun 2022 16:35:59 +0800
+> Subject: [PATCH] usb: Improves USB2.0 write performance
 > 
->       Modem issue ... will re-try: [Errno 16] could not open port
-> /dev/ttyACM0: [Errno 16] Device or resource busy: '/dev/ttyACM0'
->       Modem issue ... will re-try: [Errno 16] could not open port
-> /dev/ttyACM0: [Errno 16] Device or resource busy: '/dev/ttyACM0'
->       Modem issue ... will re-try: [Errno 16] could not open port
-> /dev/ttyACM0: [Errno 16] Device or resource busy: '/dev/ttyACM0'
->         ... eventually gives up trying
+> USB external storage device(0x0b05:1932), use gnome-disk-utility tools
+> to test usb write  < 30MB/s.
+> Then, igoned to load module of uas for this device.
+> ===============================================
+> Write speed: Improves form 27MB/s to 40MB/s+
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hu Xiaoying <huxiaoying@gmail.com>
+> ---
+>  drivers/usb/storage/unusual_uas.h | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/usb/storage/unusual_uas.h
+> b/drivers/usb/storage/unusual_uas.h
+> index 4051c8cd0cd8..abaf4ea8138b 100644
+> --- a/drivers/usb/storage/unusual_uas.h
+> +++ b/drivers/usb/storage/unusual_uas.h
+> @@ -157,3 +157,10 @@ UNUSUAL_DEV(0x4971, 0x8024, 0x0000, 0x9999,
+>                 "External HDD",
+>                 USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+>                 US_FL_ALWAYS_SYNC),
+> +
+> +/* Reported-by: Tom Hu <huxiaoying@gmail.com> */
+> +UNUSUAL_DEV(0x0b05, 0x1932, 0x0000, 0x9999,
+> +               "ASUS",
+> +               "External HDD",
+> +               USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+> +               US_FL_IGNORE_UAS),
+> -- 
+> 2.25.1
 
 Hi,
 
--EBUSY is odd, because CDC-ACM does not return -EBUSY. This
-seems to come from the TTY layer. But just to make sure,
-what does lusb say about your device?
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-	Regards
-		Oliver
+You are receiving this message because of the following common error(s)
+as indicated below:
 
+- Your patch was attached, please place it inline so that it can be
+  applied directly from the email message itself.
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what a proper Subject: line should
+  look like.
+
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file, Documentation/SubmittingPatches
+  for how to do this correctly.
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
