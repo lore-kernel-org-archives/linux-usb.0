@@ -2,79 +2,73 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FFD4ECAAD2
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Aug 2022 13:56:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57325C0502C
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Aug 2022 14:26:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229919AbiH2N46 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Aug 2022 09:56:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38258 "EHLO
+        id S229886AbiH2O0N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Aug 2022 10:26:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbiH2N44 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Aug 2022 09:56:56 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 266947D7A9
-        for <linux-usb@vger.kernel.org>; Mon, 29 Aug 2022 06:56:53 -0700 (PDT)
-Received: (qmail 122685 invoked by uid 1000); 29 Aug 2022 09:56:52 -0400
-Date:   Mon, 29 Aug 2022 09:56:52 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Hu Xiaoying <huxiaoying2008@gmail.com>
-Cc:     usb-storage@lists.one-eyed-alien.net, linux-usb@vger.kernel.org,
-        gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2] usb: Improves USB2.0 write performance
-Message-ID: <YwzFpJeoIPjOS8K7@rowland.harvard.edu>
-References: <CABd4UjYS4QDozv-RKp3_9XhQec=LO+z9U8+=Oa8=MEFyaeXYhA@mail.gmail.com>
+        with ESMTP id S229776AbiH2O0L (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Aug 2022 10:26:11 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8403C7EFCB;
+        Mon, 29 Aug 2022 07:26:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A4F5AB810A1;
+        Mon, 29 Aug 2022 14:26:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61C11C433D6;
+        Mon, 29 Aug 2022 14:26:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661783162;
+        bh=9eUkVvrgSAAseCe5J1s4E5xEhEYSsVSGWWJ+TQD8XI0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=fnbghB92BQX5Z6taA4jfSnowberbx9YEDGfWynLF2rlwKdzG02MJ7UVVH0y8Qy2Et
+         G+As1QyMIDpxhPHoN9Fk4c9CdcX4U4ULcTBUH4BqAOMwsNm6ecmZsBppojc59ATuBl
+         6QQ5pWBULvEHuspMe4AXD6bwlbQUX7eSoCJgtQR8l/GI6ZLjpjOZeGhemGpADOun9z
+         Bj5Cp/WJJEtci+a7jRWXzDgucHkD3SWIxDf0RaTZz/SvTDF1UFtk94v1gJciaT1QnB
+         H3FrqB6AXIVOuQNhZ0izi6dSff0rkeSlrp1bGaPNfz0pl5iDpQnpns04r5ZOV8bhqM
+         pdKsUMn8+HnNg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1oSfiM-00079t-LG; Mon, 29 Aug 2022 16:26:10 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Radisson97@web.de, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH] USB: serial: cp210x: add Decagon UCA device id
+Date:   Mon, 29 Aug 2022 16:25:50 +0200
+Message-Id: <20220829142550.27505-1-johan@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABd4UjYS4QDozv-RKp3_9XhQec=LO+z9U8+=Oa8=MEFyaeXYhA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 29, 2022 at 04:58:57PM +0800, Hu Xiaoying wrote:
-> From: Hu Xiaoying <huxiaoying@gmail.com>
-> 
-> USB external storage device(0x0b05:1932), use gnome-disk-utility tools
-> to test usb write  < 30MB/s.
-> Then, igoned to load module of uas for this device.
---------^^^^^^
+Add the device id for Decagon Devices USB Cable Adapter.
 
-"igoned" is not a word in English.
+Link: https://lore.kernel.org/r/trinity-819f9db2-d3e1-40e9-a669-9c245817c046-1661523546680@msvc-mesg-web108
+Cc: stable@vger.kernel.org
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/cp210x.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> ===============================================
+diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+index c374620a486f..a34957c4b64c 100644
+--- a/drivers/usb/serial/cp210x.c
++++ b/drivers/usb/serial/cp210x.c
+@@ -130,6 +130,7 @@ static const struct usb_device_id id_table[] = {
+ 	{ USB_DEVICE(0x10C4, 0x83AA) }, /* Mark-10 Digital Force Gauge */
+ 	{ USB_DEVICE(0x10C4, 0x83D8) }, /* DekTec DTA Plus VHF/UHF Booster/Attenuator */
+ 	{ USB_DEVICE(0x10C4, 0x8411) }, /* Kyocera GPS Module */
++	{ USB_DEVICE(0x10C4, 0x8414) }, /* Decagon USB Cable Adapter */
+ 	{ USB_DEVICE(0x10C4, 0x8418) }, /* IRZ Automation Teleport SG-10 GSM/GPRS Modem */
+ 	{ USB_DEVICE(0x10C4, 0x846E) }, /* BEI USB Sensor Interface (VCP) */
+ 	{ USB_DEVICE(0x10C4, 0x8470) }, /* Juniper Networks BX Series System Console */
+-- 
+2.35.1
 
-Why did you put this line here?
-
-> Write speed: Improves form 27MB/s to 40MB/s+
-------------------------^^^^
----------------------------------------^^^^^^^
-"from", not "form".
-"> 40MB/s", not "40MB/s+".
-
-> 
-> Signed-off-by: Hu Xiaoying <huxiaoying@gmail.com>
-> ---
->  drivers/usb/storage/unusual_uas.h | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/usb/storage/unusual_uas.h
-> b/drivers/usb/storage/unusual_uas.h
-> index 4051c8cd0cd8..abaf4ea8138b 100644
-> --- a/drivers/usb/storage/unusual_uas.h
-> +++ b/drivers/usb/storage/unusual_uas.h
-> @@ -157,3 +157,10 @@ UNUSUAL_DEV(0x4971, 0x8024, 0x0000, 0x9999,
->                 "External HDD",
->                 USB_SC_DEVICE, USB_PR_DEVICE, NULL,
->                 US_FL_ALWAYS_SYNC),
-> +
-> +/* Reported-by: Tom Hu <huxiaoying@gmail.com> */
-> +UNUSUAL_DEV(0x0b05, 0x1932, 0x0000, 0x9999,
-> +               "ASUS",
-> +               "External HDD",
-> +               USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-> +               US_FL_IGNORE_UAS),
-
-Entries should be sorted by vendor ID and product ID.  This entry is 
-added in the wrong place (0x0b05 comes before 0x4971, not after).
-
-Alan Stern
