@@ -2,43 +2,43 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25089ECAAA1
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Aug 2022 13:28:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D569ECAAA1
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Aug 2022 13:28:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229772AbiH3N2Q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 Aug 2022 09:28:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50520 "EHLO
+        id S230239AbiH3N2T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 Aug 2022 09:28:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbiH3N1p (ORCPT
+        with ESMTP id S229669AbiH3N1p (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 30 Aug 2022 09:27:45 -0400
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C805A571B
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C6339C8F0
         for <linux-usb@vger.kernel.org>; Tue, 30 Aug 2022 06:27:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1661866062; x=1693402062;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=w/KE0Uacg3JOaf64DfXRxNh/K2WO9WOHwTy2Y4+MsC0=;
-  b=jUMAf2gPyRUcDuhNxYTXz8rXY+p0E2xLSRTWwNGdgsdtZfCA/AnUQrQI
-   4NR7NEMlVC/x5gmghSSZXn2J7bIRS8C4CVD4KCKUlNmF2Eflw8lr31LtD
-   9NH7CbdBJnzU6JKMkMkzLRzIuBMBQw4wtryXg83yuYPuALp/M+wwR/syb
-   ohIeQH4C1tn92vqjAi+/c5iM5/xOn7nZr9TR66rwQ0WQZIJfV4a1B8v5+
-   PqyeAlwOVifijC60cqDs5NDcHpcER3MEoUA3Ll6rcDdl7S6itfn0+XMlj
-   ug+RNzI64ObzKhxQvZZyp36iMLH09eTbi2FfoCFubBKbGlvOurXFbHsBj
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="321301071"
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=thtzIx7KBlO2CVcFELLqSIpPod3DbJ7OMeoA9urAECo=;
+  b=GiZqZLjSUNaFVTu3rvjfyHNurwjThqEKIkWfwrmpK6Odde9QLTB/ssEn
+   UJwJmPsU/U/NhDPLWS4fn72+XT+cCsliUKqyDoRQ1RYiGgIoQJEYo1LBw
+   3/+LEH6pxp/rQwbTplx4FrvxTISrQUZwym8Ft66B3sJ2f5aaLwqDY2jdI
+   xn+q1N9EsCDrUtzErd1QQmy6ctTXaQ7sW9z0iLZKTbLrAawidQG19fmxb
+   rKanIFZlBScaZjWkXhcmn/Y+YfZp+tyvE3RQ9rFANnASvj6PcN5rxd4yn
+   gbpWPkZK1+Mju42+wPe9tkQGgyl1Ovp5WFhz+VHVSC22k6Dc3y/DPXpy+
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="321301068"
 X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; 
-   d="scan'208";a="321301071"
+   d="scan'208";a="321301068"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2022 06:27:39 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; 
-   d="scan'208";a="562643204"
+   d="scan'208";a="562643202"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orsmga003.jf.intel.com with ESMTP; 30 Aug 2022 06:27:37 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 017E5AD; Tue, 30 Aug 2022 16:27:51 +0300 (EEST)
+        id 341E71C3; Tue, 30 Aug 2022 16:27:52 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -46,58 +46,90 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Lukas Wunner <lukas@wunner.de>,
         Andreas Noever <andreas.noever@gmail.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH v2 0/5] thunderbolt: Add support for receiver lane margining
-Date:   Tue, 30 Aug 2022 16:27:46 +0300
-Message-Id: <20220830132751.42518-1-mika.westerberg@linux.intel.com>
+Subject: [PATCH v2 4/5] thunderbolt: Add helper to check if CL states are enabled on port
+Date:   Tue, 30 Aug 2022 16:27:50 +0300
+Message-Id: <20220830132751.42518-5-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220830132751.42518-1-mika.westerberg@linux.intel.com>
+References: <20220830132751.42518-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi all,
+We will need this when enabling lane margining support.
 
-This series adds support for receiver lane margining. This is standard
-USB4 port feature that can be used in manufacturing to check electrical
-robustness and quality of given USB4 port. This is a separate Kconfig
-option (CONFIG_USB4_DEBUGFS_MARGINING) that can be enabled by the
-kernels used in manufacturing floor (normal distro kernels do not need
-this to be enabled).
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/switch.c  | 28 ++++++++++++++++++++++++++++
+ drivers/thunderbolt/tb.h      |  1 +
+ drivers/thunderbolt/tb_regs.h |  1 +
+ 3 files changed, 30 insertions(+)
 
-This exposes a new debugfs directory "margining" under each connected
-USB4 port that can be used to run the margining test. This supports both
-hardware and software lane margining although I have only tested the
-former as the current Intel hardware only supports that.
-
-Previous version of the series can be found here:
-  
-  https://lore.kernel.org/linux-usb/20220823105352.56306-1-mika.westerberg@linux.intel.com/
-
-Changes from the previous version:
-
-  * Pass bitmask of CL states into tb_port_clx_supported(). This is a
-    new patch 3/5.
-  * Use bitmask of CL states also in tb_port_is_clx_enabled() and drop
-    tb_port_are_clx_enabled().
-
-Mika Westerberg (5):
-  thunderbolt: Move tb_xdomain_parent() to tb.h
-  thunderbolt: Move port CL state functions into correct place in switch.c
-  thunderbolt: Pass CL state bitmask to tb_port_clx_supported()
-  thunderbolt: Add helper to check if CL states are enabled on port
-  thunderbolt: Add support for receiver lane margining
-
- drivers/thunderbolt/Kconfig   |  10 +
- drivers/thunderbolt/debugfs.c | 836 ++++++++++++++++++++++++++++++++++
- drivers/thunderbolt/sb_regs.h |  58 +++
- drivers/thunderbolt/switch.c  | 235 +++++-----
- drivers/thunderbolt/tb.h      |  25 +-
- drivers/thunderbolt/tb_regs.h |   2 +
- drivers/thunderbolt/usb4.c    | 120 +++++
- drivers/thunderbolt/xdomain.c |   9 +-
- 8 files changed, 1182 insertions(+), 113 deletions(-)
-
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index 0671f5361b5b..bd815e2cc6ec 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -1330,6 +1330,34 @@ static int tb_port_clx_enable(struct tb_port *port, enum tb_clx clx)
+ 	return __tb_port_clx_set(port, clx, true);
+ }
+ 
++/**
++ * tb_port_is_clx_enabled() - Is given CL state enabled
++ * @port: USB4 port to check
++ * @clx_mask: Mask of CL states to check
++ *
++ * Returns true if any of the given CL states is enabled for @port.
++ */
++bool tb_port_is_clx_enabled(struct tb_port *port, unsigned int clx_mask)
++{
++	u32 val, mask = 0;
++	int ret;
++
++	if (!tb_port_clx_supported(port, clx_mask))
++		return false;
++
++	if (clx_mask & TB_CL1)
++		mask |= LANE_ADP_CS_1_CL0S_ENABLE | LANE_ADP_CS_1_CL1_ENABLE;
++	if (clx_mask & TB_CL2)
++		mask |= LANE_ADP_CS_1_CL2_ENABLE;
++
++	ret = tb_port_read(port, &val, TB_CFG_PORT,
++			   port->cap_phy + LANE_ADP_CS_1, 1);
++	if (ret)
++		return false;
++
++	return !!(val & mask);
++}
++
+ static int tb_port_start_lane_initialization(struct tb_port *port)
+ {
+ 	int ret;
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index 8555ad9d7234..ded1f1d6c12e 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -1035,6 +1035,7 @@ void tb_port_lane_bonding_disable(struct tb_port *port);
+ int tb_port_wait_for_link_width(struct tb_port *port, int width,
+ 				int timeout_msec);
+ int tb_port_update_credits(struct tb_port *port);
++bool tb_port_is_clx_enabled(struct tb_port *port, enum tb_clx clx);
+ 
+ int tb_switch_find_vse_cap(struct tb_switch *sw, enum tb_switch_vse_cap vsec);
+ int tb_switch_find_cap(struct tb_switch *sw, enum tb_switch_cap cap);
+diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
+index a45f295533cd..0fe1daa21423 100644
+--- a/drivers/thunderbolt/tb_regs.h
++++ b/drivers/thunderbolt/tb_regs.h
+@@ -334,6 +334,7 @@ struct tb_regs_port_header {
+ #define LANE_ADP_CS_1_TARGET_WIDTH_DUAL		0x3
+ #define LANE_ADP_CS_1_CL0S_ENABLE		BIT(10)
+ #define LANE_ADP_CS_1_CL1_ENABLE		BIT(11)
++#define LANE_ADP_CS_1_CL2_ENABLE		BIT(12)
+ #define LANE_ADP_CS_1_LD			BIT(14)
+ #define LANE_ADP_CS_1_LB			BIT(15)
+ #define LANE_ADP_CS_1_CURRENT_SPEED_MASK	GENMASK(19, 16)
 -- 
 2.35.1
 
