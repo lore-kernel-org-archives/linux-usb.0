@@ -2,43 +2,43 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BED5C0502C
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Aug 2022 15:32:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C67FECAAA1
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Aug 2022 15:32:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230440AbiH3Pcm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 Aug 2022 11:32:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35754 "EHLO
+        id S230450AbiH3Pcq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 Aug 2022 11:32:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229985AbiH3Pck (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 Aug 2022 11:32:40 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 366FB107C41;
-        Tue, 30 Aug 2022 08:32:40 -0700 (PDT)
+        with ESMTP id S229608AbiH3Pco (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 Aug 2022 11:32:44 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79DB213287E;
+        Tue, 30 Aug 2022 08:32:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661873560; x=1693409560;
+  t=1661873563; x=1693409563;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=s6ThNQayhgxoGFufX0OFKDMWnUd2cZs0wkPKt2ZE1gY=;
-  b=PdUmjYrz0zoLqWRgFhTDLdf+CD59habTeHDWYJLUZPjvxtOhb/MJ1ygk
-   z8c3x1+eII6LkeZHhpwRDGLWYqZ0QNxCckQvIqe7H08X/mSL35sBV9qCJ
-   N5qkbxd1wQVqWG+wbusSlUXgP92gH6qCZCkbV2i+ntTqzNOEHQ8HDNzLT
-   B31kV5gG19Cg5b/O1n1FN7KAAjanmf2dRqVQvDgP2I2jmCk7CIGaW9sTS
-   0bTK4z19v2SBzCG6t9wrGrLBNvnj6p6tNqPbTYKVH8mKil+0htXQx2Oyo
-   FSBpEBjpaiQP26r9foPVbTk7/gB6F4kaWFfWqNGloi98qeuLbX1ZENN76
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="278225132"
+  bh=3xZ3Q/436z1VYacKyP5nvTwV3/1ny0fzonH0Qns2GVI=;
+  b=LRZ0EyCHIPtH6VuyqXvMgMd0Qw2A89rjds1/LpQQIIFxbDIPY/ccUsCp
+   PzyRrj9m3jjVAbFhqDxAz2vJi/7QT1JfPH0qXo2mnocX6Awgwiwe84LZ1
+   RwlxSMhw6Sn4CmIVlcyuBldBn1GBgvXZVKlweYQ+2uCytZF3OdK67xZ4n
+   l4Yq/WpCwhaz9AuntIhsWjc/hO02jNiV3GuB8SxgOv/hTyJtw+UwfY7D0
+   mq0LGDfJwPUIfOPtzvXo9GonNScWXlqzYB05yMEGgBNpScTqovj36N46K
+   JAEtwbCLUmSBt/b3gcxO9YmK8xZ+bnXRzEsMxzNL3fOlwAh8XN2vugAmZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="274956341"
 X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; 
-   d="scan'208";a="278225132"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2022 08:32:39 -0700
+   d="scan'208";a="274956341"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2022 08:32:43 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; 
-   d="scan'208";a="857136888"
+   d="scan'208";a="641421603"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Aug 2022 08:32:36 -0700
+  by orsmga008.jf.intel.com with ESMTP; 30 Aug 2022 08:32:40 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 3DAE519D; Tue, 30 Aug 2022 18:32:51 +0300 (EEST)
+        id 5ADC5238; Tue, 30 Aug 2022 18:32:51 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Michael Jamet <michael.jamet@intel.com>,
@@ -50,9 +50,9 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Paolo Abeni <pabeni@redhat.com>,
         Andreas Noever <andreas.noever@gmail.com>,
         Lukas Wunner <lukas@wunner.de>, netdev@vger.kernel.org
-Subject: [PATCH 3/5] thunderbolt: Add back Intel Falcon Ridge end-to-end flow control workaround
-Date:   Tue, 30 Aug 2022 18:32:48 +0300
-Message-Id: <20220830153250.15496-4-mika.westerberg@linux.intel.com>
+Subject: [PATCH 5/5] net: thunderbolt: Update module description with mention of USB4
+Date:   Tue, 30 Aug 2022 18:32:50 +0300
+Message-Id: <20220830153250.15496-6-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220830153250.15496-1-mika.westerberg@linux.intel.com>
 References: <20220830153250.15496-1-mika.westerberg@linux.intel.com>
@@ -62,120 +62,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-As we are now enabling full end-to-end flow control to the Thunderbolt
-networking driver, in order for it to work properly on second generation
-Thunderbolt hardware (Falcon Ridge), we need to add back the workaround
-that was removed with commit 53f13319d131 ("thunderbolt: Get rid of E2E
-workaround"). However, this time we only apply it for Falcon Ridge
-controllers as a form of an additional quirk. For non-Falcon Ridge this
-does nothing.
-
-While there fix a typo 'reqister' -> 'register' in the comment.
+It is Thunderbolt/USB4 now so reflect that in the module description too
+to avoid any confusion. No functional changes.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/nhi.c | 49 +++++++++++++++++++++++++++++++++------
- 1 file changed, 42 insertions(+), 7 deletions(-)
+ drivers/net/thunderbolt.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index 75c8bfdeb1fe..caca9f164beb 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -28,7 +28,11 @@
- #define RING_TYPE(ring) ((ring)->is_tx ? "TX ring" : "RX ring")
- 
- #define RING_FIRST_USABLE_HOPID	1
--
-+/*
-+ * Used with QUIRK_E2E to specify an unused HopID the Rx credits are
-+ * transferred.
-+ */
-+#define RING_E2E_RESERVED_HOPID	RING_FIRST_USABLE_HOPID
+diff --git a/drivers/net/thunderbolt.c b/drivers/net/thunderbolt.c
+index 8e272d2a61e5..c058eabd7b36 100644
+--- a/drivers/net/thunderbolt.c
++++ b/drivers/net/thunderbolt.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
  /*
-  * Minimal number of vectors when we use MSI-X. Two for control channel
-  * Rx/Tx and the rest four are for cross domain DMA paths.
-@@ -38,7 +42,9 @@
- 
- #define NHI_MAILBOX_TIMEOUT	500 /* ms */
- 
-+/* Host interface quirks */
- #define QUIRK_AUTO_CLEAR_INT	BIT(0)
-+#define QUIRK_E2E		BIT(1)
- 
- static int ring_interrupt_index(struct tb_ring *ring)
- {
-@@ -458,8 +464,18 @@ static void ring_release_msix(struct tb_ring *ring)
- 
- static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
- {
-+	unsigned int start_hop = RING_FIRST_USABLE_HOPID;
- 	int ret = 0;
- 
-+	if (nhi->quirks & QUIRK_E2E) {
-+		start_hop = RING_FIRST_USABLE_HOPID + 1;
-+		if (ring->flags & RING_FLAG_E2E && !ring->is_tx) {
-+			dev_dbg(&nhi->pdev->dev, "quirking E2E TX HopID %u -> %u\n",
-+				ring->e2e_tx_hop, RING_E2E_RESERVED_HOPID);
-+			ring->e2e_tx_hop = RING_E2E_RESERVED_HOPID;
-+		}
-+	}
-+
- 	spin_lock_irq(&nhi->lock);
- 
- 	if (ring->hop < 0) {
-@@ -469,7 +485,7 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
- 		 * Automatically allocate HopID from the non-reserved
- 		 * range 1 .. hop_count - 1.
- 		 */
--		for (i = RING_FIRST_USABLE_HOPID; i < nhi->hop_count; i++) {
-+		for (i = start_hop; i < nhi->hop_count; i++) {
- 			if (ring->is_tx) {
- 				if (!nhi->tx_rings[i]) {
- 					ring->hop = i;
-@@ -484,6 +500,11 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
- 		}
- 	}
- 
-+	if (ring->hop > 0 && ring->hop < start_hop) {
-+		dev_warn(&nhi->pdev->dev, "invalid hop: %d\n", ring->hop);
-+		ret = -EINVAL;
-+		goto err_unlock;
-+	}
- 	if (ring->hop < 0 || ring->hop >= nhi->hop_count) {
- 		dev_warn(&nhi->pdev->dev, "invalid hop: %d\n", ring->hop);
- 		ret = -EINVAL;
-@@ -1097,12 +1118,26 @@ static void nhi_shutdown(struct tb_nhi *nhi)
- 
- static void nhi_check_quirks(struct tb_nhi *nhi)
- {
--	/*
--	 * Intel hardware supports auto clear of the interrupt status
--	 * reqister right after interrupt is being issued.
--	 */
--	if (nhi->pdev->vendor == PCI_VENDOR_ID_INTEL)
-+	if (nhi->pdev->vendor == PCI_VENDOR_ID_INTEL) {
-+		/*
-+		 * Intel hardware supports auto clear of the interrupt
-+		 * status register right after interrupt is being
-+		 * issued.
-+		 */
- 		nhi->quirks |= QUIRK_AUTO_CLEAR_INT;
-+
-+		switch (nhi->pdev->device) {
-+		case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_2C_NHI:
-+		case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_4C_NHI:
-+			/*
-+			 * Falcon Ridge controller needs the end-to-end
-+			 * flow control workaround to avoid losing Rx
-+			 * packets when RING_FLAG_E2E is set.
-+			 */
-+			nhi->quirks |= QUIRK_E2E;
-+			break;
-+		}
-+	}
- }
- 
- static int nhi_check_iommu_pdev(struct pci_dev *pdev, void *data)
+- * Networking over Thunderbolt cable using Apple ThunderboltIP protocol
++ * Networking over Thunderbolt/USB4 cables using USB4NET protocol
++ * (formerly Apple ThunderboltIP).
+  *
+  * Copyright (C) 2017, Intel Corporation
+  * Authors: Amir Levy <amir.jer.levy@intel.com>
+@@ -1410,5 +1411,5 @@ module_exit(tbnet_exit);
+ MODULE_AUTHOR("Amir Levy <amir.jer.levy@intel.com>");
+ MODULE_AUTHOR("Michael Jamet <michael.jamet@intel.com>");
+ MODULE_AUTHOR("Mika Westerberg <mika.westerberg@linux.intel.com>");
+-MODULE_DESCRIPTION("Thunderbolt network driver");
++MODULE_DESCRIPTION("Thunderbolt/USB4 network driver");
+ MODULE_LICENSE("GPL v2");
 -- 
 2.35.1
 
