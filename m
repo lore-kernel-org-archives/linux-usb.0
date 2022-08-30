@@ -2,97 +2,135 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAC0DECAAA1
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Aug 2022 15:25:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB5D9ECAAD1
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Aug 2022 15:32:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230437AbiH3PZL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 Aug 2022 11:25:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50720 "EHLO
+        id S230377AbiH3Pcl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 Aug 2022 11:32:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230459AbiH3PZD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 Aug 2022 11:25:03 -0400
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87368AE55;
-        Tue, 30 Aug 2022 08:24:56 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 1D3E25C0145;
-        Tue, 30 Aug 2022 11:24:55 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 30 Aug 2022 11:24:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1661873095; x=1661959495; bh=OmTYbgq3ym
-        zCgFNPdz53oo2sqm/UojddZkcXYiaY6/Y=; b=DK/jbJuBUTMb2rnbkv3gjAsJ7J
-        HjQO4m97NmbnoU2zN7G9Jcxom9ZgWKM+7UJdMMu1Iw6uQEg10L6ANuhZF2k4ePgs
-        sOApNWqNga7snlviFv0u+fyxvTPuXm1idcp95F+cYMJbKD1mdCdk3jJVbt+yJvjv
-        pZty9VL9bhBBv+ERPI/KyJaUX19iPWIDDGHYFIg/wXpgppHOwp4tN0juWqVA+Wbz
-        KS4ESEt3Zvphn0ZML4mb4EcBVlxdnApsMi9YnTtvjj5j2150R/XhMvbKgk7lPBMv
-        P8GfMAN7+xNjNtxcxgcJt5AIS0oD8+Tvu5/IF4auSLp3vB9PKJA4PLgCZ0Kg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1661873095; x=1661959495; bh=OmTYbgq3ymzCgFNPdz53oo2sqm/U
-        ojddZkcXYiaY6/Y=; b=PwtgwiJZ3o8XBj6Lugz0r9hm0EgOY5LiojD7i1Gu+MuS
-        H2BYUL4UhMu4DEzBfmMicAfWteDidaDwn4VELaSx/BMlSJ1cGGXxhDWKTCdB/rmM
-        Aw+jZYoQz1U50pc16E6rj0MtLkIMy7Bb/ao/4j2RvfgTfXqKnCj/Q+aIVBaLij+c
-        soQEyxbs2Wodp22L2fN2a/QGudSNfLrcYdukCddq5D1wFL0+f0ttwTMyv9/kIAv7
-        CT81bGmNJeupv4FSt/Igbhpa2T0wFtq5v92+XTrd/jiAmOmQpF51EazQMW6rJVzX
-        YmWt2VreniHBpFjfxPd+bfsazty699sI33aRTqR/kw==
-X-ME-Sender: <xms:xSsOY9DMnqYirKCyFPHiP1Xn7lqcnfWqOpfGXlR-A8_zPqvGBxN6kw>
-    <xme:xSsOY7gwVhXPUl5Xqv_N9HEDQjM-ca42ERNmS4unvIT4b9cJxnVXqbwFDoOHW7R1L
-    a9Tchm06Aw8gQ>
-X-ME-Received: <xmr:xSsOY4lmePaeEyhJkUs9yt5NFYKoWglTyUErRIGgJ6RHLaQNRWANuXdazW-3DGFirkzH7Ti1fqx4EDfBN6jyfkEU_ghwi78K>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekfedgkeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttd
-    ertddttddvnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhm
-    qeenucggtffrrghtthgvrhhnpeehgedvvedvleejuefgtdduudfhkeeltdeihfevjeekje
-    euhfdtueefhffgheekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
-    ihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
-X-ME-Proxy: <xmx:xSsOY3wqkrZTt3PynE_fWlKb6QdUo8LzjROFEFhJVU7sNZphETUufw>
-    <xmx:xSsOYyRD-_yqOU-fL3wT7J5s802ay2FWRELA1Un8_QmnRqjyn0LQ1A>
-    <xmx:xSsOY6aKZBN2qc__t4NGnyuDpqFvNW9Gj8TjvsgcE01Z_omwMtzPhA>
-    <xmx:xysOY7RmvrOEnA6nIg7eDS5aUYhy_dXpHyIkkFw6-JQk9IBZa9UZrg>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 30 Aug 2022 11:24:53 -0400 (EDT)
-Date:   Tue, 30 Aug 2022 17:24:49 +0200
-From:   Greg KH <greg@kroah.com>
-To:     cgel.zte@gmail.com
-Cc:     stern@rowland.harvard.edu, skhan@linuxfoundation.org,
-        richard.leitner@skidata.com, tasos@tasossah.com,
-        wsa+renesas@sang-engineering.com, ingo.rohloff@lauterbach.com,
-        cui.jinpeng2@zte.com.cn, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH linux-next] usb: core: remove redundant variables ret
-Message-ID: <Yw4rweh3lKeWkZJ5@kroah.com>
-References: <20220830143318.299640-1-cui.jinpeng2@zte.com.cn>
+        with ESMTP id S229476AbiH3Pck (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 Aug 2022 11:32:40 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B620AB8A67;
+        Tue, 30 Aug 2022 08:32:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661873559; x=1693409559;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=8UrC6dfbE1tCNABiEQzXKijmPHbOIJwMBaMF9WQYhwk=;
+  b=b6Fk1dochJGV1vaxj/ys90oUNEO88huBXMQ9ZrkW+Tct7UeytCuoRPC3
+   MH4yHXTCJW8rz7zU4aVqxOtDkk/RAKDV6P0G33QfuyBl6KiL9zDHZOT8c
+   KxY+d4ocwMw3RvYLvk31L4fhjQjicwUaRjmwLu+Ro146HLWdd4YLZ3hHf
+   2fneXsG3B6vrr6zPREEwgPlpTM+qXlEOOv7WMziyaDZQ7WZIUUaxHM5jh
+   5Yzi6YUYHeYaEUw+Ix9GC/xd4ps5GSJCdx2k8NRhUlVCod19vw8XTdq4d
+   rOLhwbFuvbIv+DuNHLM6wxkBGeTUdPezxRnVwp0xhr8i1KrmOUsc8W5ro
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="356923005"
+X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; 
+   d="scan'208";a="356923005"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2022 08:32:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; 
+   d="scan'208";a="644871183"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga001.jf.intel.com with ESMTP; 30 Aug 2022 08:32:36 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 2672D41; Tue, 30 Aug 2022 18:32:51 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Lukas Wunner <lukas@wunner.de>, netdev@vger.kernel.org
+Subject: [PATCH 1/5] net: thunderbolt: Enable DMA paths only after rings are enabled
+Date:   Tue, 30 Aug 2022 18:32:46 +0300
+Message-Id: <20220830153250.15496-2-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220830153250.15496-1-mika.westerberg@linux.intel.com>
+References: <20220830153250.15496-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220830143318.299640-1-cui.jinpeng2@zte.com.cn>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Aug 30, 2022 at 02:33:18PM +0000, cgel.zte@gmail.com wrote:
-> From: Jinpeng Cui <cui.jinpeng2@zte.com.cn>
-> 
-> Rturn value directly from usbdev_do_ioctl() instead of
-> getting value from redundant variable ret.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
+If the other host starts sending packets early on it is possible that we
+are still in the middle of populating the initial Rx ring packets to the
+ring. This causes the tbnet_poll() to mess over the queue and causes
+list corruption. This happens specifically when connected with macOS as
+it seems start sending various IP discovery packets as soon as its side
+of the paths are configured.
 
-As stated before, please read the documentation for how to handle stuff
-coming from research tools like this and properly document it in your
-changelog text.
+To prevent this we move the DMA path enabling to happen after we have
+primed the Rx ring. This makes sure no incoming packets can arrive
+before we are ready to handle them.
 
-Also, why is this being sent from a gmail account?  How do we know this
-is really from a zte.com.cn address?
+Fixes: e69b6c02b4c3 ("net: Add support for networking over Thunderbolt cable")
+Cc: stable@vger.kernel.org
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/net/thunderbolt.c | 28 +++++++++++++++++-----------
+ 1 file changed, 17 insertions(+), 11 deletions(-)
 
-thanks,
+diff --git a/drivers/net/thunderbolt.c b/drivers/net/thunderbolt.c
+index ff5d0e98a088..ab3f04562980 100644
+--- a/drivers/net/thunderbolt.c
++++ b/drivers/net/thunderbolt.c
+@@ -612,18 +612,13 @@ static void tbnet_connected_work(struct work_struct *work)
+ 		return;
+ 	}
+ 
+-	/* Both logins successful so enable the high-speed DMA paths and
+-	 * start the network device queue.
++	/* Both logins successful so enable the rings, high-speed DMA
++	 * paths and start the network device queue.
++	 *
++	 * Note we enable the DMA paths last to make sure we have primed
++	 * the Rx ring before any incoming packets are allowed to
++	 * arrive.
+ 	 */
+-	ret = tb_xdomain_enable_paths(net->xd, net->local_transmit_path,
+-				      net->rx_ring.ring->hop,
+-				      net->remote_transmit_path,
+-				      net->tx_ring.ring->hop);
+-	if (ret) {
+-		netdev_err(net->dev, "failed to enable DMA paths\n");
+-		return;
+-	}
+-
+ 	tb_ring_start(net->tx_ring.ring);
+ 	tb_ring_start(net->rx_ring.ring);
+ 
+@@ -635,10 +630,21 @@ static void tbnet_connected_work(struct work_struct *work)
+ 	if (ret)
+ 		goto err_free_rx_buffers;
+ 
++	ret = tb_xdomain_enable_paths(net->xd, net->local_transmit_path,
++				      net->rx_ring.ring->hop,
++				      net->remote_transmit_path,
++				      net->tx_ring.ring->hop);
++	if (ret) {
++		netdev_err(net->dev, "failed to enable DMA paths\n");
++		goto err_free_tx_buffers;
++	}
++
+ 	netif_carrier_on(net->dev);
+ 	netif_start_queue(net->dev);
+ 	return;
+ 
++err_free_tx_buffers:
++	tbnet_free_buffers(&net->tx_ring);
+ err_free_rx_buffers:
+ 	tbnet_free_buffers(&net->rx_ring);
+ err_stop_rings:
+-- 
+2.35.1
 
-greg k-h
