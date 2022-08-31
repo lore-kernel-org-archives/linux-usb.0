@@ -2,136 +2,128 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1911DECAAD1
-	for <linux-usb@archiver.kernel.org>; Wed, 31 Aug 2022 17:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E87C9ECAAD3
+	for <linux-usb@archiver.kernel.org>; Wed, 31 Aug 2022 18:37:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231896AbiHaRvc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 31 Aug 2022 13:51:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43090 "EHLO
+        id S232926AbiHaShO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 31 Aug 2022 14:37:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229826AbiHaRv3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Aug 2022 13:51:29 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0293BB938;
-        Wed, 31 Aug 2022 10:51:27 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id fa2so7162413pjb.2;
-        Wed, 31 Aug 2022 10:51:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date;
-        bh=HeHd13NUasJVCk4KgKhrFLwhTEXtxTOChOcy1/oX1Kk=;
-        b=T3LTxnDRIVReJHwofzw8MZ2qvXfgMT4g2ghnvIhL51ORKruE4CxWgyIGCEuhsrqJGs
-         71nm++fCd3TSlgdZWfe8X5JelIqfT6FhGPivegZmZ9te5yfzyy8hp12KSxl2rgPnvFWg
-         lq+Um47WnFZ0ZA/pLUW9aFGS1PWKIn+L9RQSYQ0wFJXuSbbIvoQQhMX09g5xcgVFPn7Y
-         rvvANWn6DoJb1jxRagdXdjHJbZEm0FkR6kAKh61Fe4wAGKfHYTvdXHNlZgus30qhvZCc
-         P0iofwI3avwqlQmh4hFasO3tYD8P6/+cY3XrQNIdjji7xY3r3aThxJAzMSRqrYknUu9a
-         6c+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date;
-        bh=HeHd13NUasJVCk4KgKhrFLwhTEXtxTOChOcy1/oX1Kk=;
-        b=pna58Aw7/7wb1pWtxC/qyjpRR7IMmwCAw+netoYACZ4kTEecXBKWZqXEXSX3NAYc0C
-         wZrgUPUK8ehtU+ePV5MZ1ZhNV/2HPZwjF1k8b6AlOXeH4CzTbCRDV2kE9eay12N9q8VM
-         yFpXbLZL0BH3D1y/AFbnpfbFyU4gXM09OYL6Pwp22W52Z4hqIMb373BbsADEu0A545A7
-         rjy8T7f0ZL7CmNaDcxRc+Ivpehxd90gj1HBz/UZgE16CE7LdaeMQBNaT1Wh1P1uC3LaB
-         z5GChAmWDBqlwXRDX0DpWcdfojOKLD9zVkTEBYK6DXuZHNc776EVn1ZFXBcRIM9/v9e9
-         LyxQ==
-X-Gm-Message-State: ACgBeo2a/IvfF7mLaiTp2KRaKpo8S/eBVrVt+f81ElkZowVtrVSVc5Q6
-        aQrbuciPiCqQhHaTNuXZhUQ=
-X-Google-Smtp-Source: AA6agR5HBd4CNH6zTJ8+Z3CX9INI+OIwMpJqpGsYZjR7qeZm/8PiyItn0SSCIb5xClMyuzkKaycn7Q==
-X-Received: by 2002:a17:903:187:b0:175:4e37:c294 with SMTP id z7-20020a170903018700b001754e37c294mr2271991plg.129.1661968287105;
-        Wed, 31 Aug 2022 10:51:27 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 96-20020a17090a0fe900b001f54fa41242sm1558355pjz.42.2022.08.31.10.51.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Aug 2022 10:51:25 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <7bf33aaa-11d3-2ff2-8c32-70e11340a3a9@roeck-us.net>
-Date:   Wed, 31 Aug 2022 10:51:23 -0700
+        with ESMTP id S232900AbiHaSg5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Aug 2022 14:36:57 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B4E9EE19;
+        Wed, 31 Aug 2022 11:33:04 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27VH4MIf014935;
+        Wed, 31 Aug 2022 18:33:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=3LJJ5qUWnBghkb1uIJdLeNjGZugIaLIY0yyt9HdfvjY=;
+ b=D0ZE5hzCJvNhq/SF0TfZnK4w4KhA88yDSXImhcugFySFtuXm9HQGwdINJMfaF7CiTpXz
+ wHDiaHUfzao4WRuPrSEzWtNzQFXHbQ/U8lTzqj9JBpogJEs0FDvekvm+9ivjAKqOXi89
+ 29XTswO0c0GND+JEUxD/dm+DNh0OWDPw2INdmXUexbkU8kmAMhrk6cHJK6zqA+tKpyIb
+ GqG8WA67XNcqJcGjIvjiZQMyFQp2awHp0hVTpgLAaraxh80ldbEyOhNarRPsc/DfJ8qv
+ NSewF3DUrFHVTUJRkwTz51DRgzDXPO2PI4Xel9wF0FigpggBB6fmBK4Dy3RHccqkVLtf tQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jabqk0bkf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 31 Aug 2022 18:33:00 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27VIWxBH009993
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 31 Aug 2022 18:32:59 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Wed, 31 Aug 2022 11:32:59 -0700
+From:   Wesley Cheng <quic_wcheng@quicinc.com>
+To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <quic_jackp@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v5 2/5] usb: dwc3: Remove DWC3 locking during gadget suspend/resume
+Date:   Wed, 31 Aug 2022 11:32:39 -0700
+Message-ID: <20220831183242.27826-3-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220831183242.27826-1-quic_wcheng@quicinc.com>
+References: <20220831183242.27826-1-quic_wcheng@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 1/3] usb: typec: tcpm: Add callbacks to mitigate
- wakeups due to contaminant
-Content-Language: en-US
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Badhri Jagan Sridharan <badhri@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kyle Tso <kyletso@google.com>
-References: <20220831001555.285081-1-badhri@google.com>
- <Yw90JmdIxg/YdUYH@kuha.fi.intel.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <Yw90JmdIxg/YdUYH@kuha.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 0XY__OPHIE0shu3VU_7L7X10lon7gs2w
+X-Proofpoint-ORIG-GUID: 0XY__OPHIE0shu3VU_7L7X10lon7gs2w
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-31_11,2022-08-31_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1015
+ impostorscore=0 mlxscore=0 priorityscore=1501 adultscore=0
+ lowpriorityscore=0 malwarescore=0 spamscore=0 phishscore=0 bulkscore=0
+ mlxlogscore=747 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208310089
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 8/31/22 07:45, Heikki Krogerus wrote:
-> Hi Badhri,
-> 
-> On Tue, Aug 30, 2022 at 05:15:53PM -0700, Badhri Jagan Sridharan wrote:
->> On some of the TCPC implementations, when the Type-C port is exposed
->> to contaminants, such as water, TCPC stops toggling while reporting OPEN
->> either by the time TCPM reads CC pin status or during CC debounce
->> window. This causes TCPM to be stuck in TOGGLING state. If TCPM is made
->> to restart toggling, the behavior recurs causing redundant CPU wakeups
->> till the USB-C port is free of contaminant.
->>
->> [206199.287817] CC1: 0 -> 0, CC2: 0 -> 0 [state TOGGLING, polarity 0, disconnected]
->> [206199.640337] CC1: 0 -> 0, CC2: 0 -> 0 [state TOGGLING, polarity 0, disconnected]
->> [206199.985789] CC1: 0 -> 0, CC2: 0 -> 0 [state TOGGLING, polarity 0, disconnected]
->> ...
->>
->> To mitigate redundant TCPM wakeups, TCPCs which do have the needed hardware
->> can implement the check_contaminant callback which is invoked by TCPM
->> to evaluate for presence of contaminant. Lower level TCPC driver can
->> restart toggling through TCPM_PORT_CLEAN event when the driver detects
->> that USB-C port is free of contaminant. check_contaminant callback also passes
->> the disconnect_while_debounce flag which when true denotes that the CC pins
->> transitioned to OPEN state during the CC debounce window.
-> 
-> I'm a little bit concerned about the size of the state machine. I
-> think this is a special case that at least in the beginning only the
-> Maxim port controller can support, but it's still mixed into the
-> "generic" state machine.
-> 
-> How about if we just add "run_state_machine" callback for the port
-> controller drivers so they can handle this kind of special cases on
-> their own - they can then also add custom states?
-> 
+Remove the need for making dwc3_gadget_suspend() and dwc3_gadget_resume()
+to be called in a spinlock, as dwc3_gadget_run_stop() could potentially
+take some time to complete.
 
-Same concern here. I would very much prefer an approach as suggested below,
-especially since the changes around the added disconnect_while_debounce flag
-are extensive and difficult to verify.
+Reviewed-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ drivers/usb/dwc3/core.c   | 4 ----
+ drivers/usb/dwc3/gadget.c | 5 +++++
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-Thanks,
-Guenter
-
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 904c7b4ce2f0c..91c22945ba258 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -4858,9 +4858,11 @@ static void run_state_machine(struct tcpm_port *port)
->                  tcpm_set_state(port, port->pwr_role == TYPEC_SOURCE ? SRC_READY : SNK_READY, 0);
->                  break;
->          default:
-> -               WARN(1, "Unexpected port state %d\n", port->state);
->                  break;
->          }
-> +
-> +       if (port->tcpc->run_state_machine)
-> +               port->tcpc->run_state_machine(port->tcpc);
->   }
->   
->   static void tcpm_state_machine_work(struct kthread_work *work)
-> 
-> thanks,
-> 
-
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index c5c238ab3083..23e123a1ab5f 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1976,9 +1976,7 @@ static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
+ 	case DWC3_GCTL_PRTCAP_DEVICE:
+ 		if (pm_runtime_suspended(dwc->dev))
+ 			break;
+-		spin_lock_irqsave(&dwc->lock, flags);
+ 		dwc3_gadget_suspend(dwc);
+-		spin_unlock_irqrestore(&dwc->lock, flags);
+ 		synchronize_irq(dwc->irq_gadget);
+ 		dwc3_core_exit(dwc);
+ 		break;
+@@ -2039,9 +2037,7 @@ static int dwc3_resume_common(struct dwc3 *dwc, pm_message_t msg)
+ 			return ret;
+ 
+ 		dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_DEVICE);
+-		spin_lock_irqsave(&dwc->lock, flags);
+ 		dwc3_gadget_resume(dwc);
+-		spin_unlock_irqrestore(&dwc->lock, flags);
+ 		break;
+ 	case DWC3_GCTL_PRTCAP_HOST:
+ 		if (!PMSG_IS_AUTO(msg) && !device_can_wakeup(dwc->dev)) {
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 6f2491fc109e..08281c4f47e6 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -4520,12 +4520,17 @@ void dwc3_gadget_exit(struct dwc3 *dwc)
+ 
+ int dwc3_gadget_suspend(struct dwc3 *dwc)
+ {
++	unsigned long flags;
++
+ 	if (!dwc->gadget_driver)
+ 		return 0;
+ 
+ 	dwc3_gadget_run_stop(dwc, false, false);
++
++	spin_lock_irqsave(&dwc->lock, flags);
+ 	dwc3_disconnect_gadget(dwc);
+ 	__dwc3_gadget_stop(dwc);
++	spin_unlock_irqrestore(&dwc->lock, flags);
+ 
+ 	return 0;
+ }
