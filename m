@@ -2,57 +2,97 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89DD3ECAAD5
-	for <linux-usb@archiver.kernel.org>; Wed, 31 Aug 2022 13:37:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABD38ECAAD4
+	for <linux-usb@archiver.kernel.org>; Wed, 31 Aug 2022 14:21:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229518AbiHaNhx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 31 Aug 2022 09:37:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46858 "EHLO
+        id S232054AbiHaOVk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 31 Aug 2022 10:21:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229943AbiHaNhl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Aug 2022 09:37:41 -0400
-X-Greylist: delayed 1499 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 31 Aug 2022 06:37:36 PDT
-Received: from server.atrad.com.au (server.atrad.com.au [150.101.241.2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5436262B;
-        Wed, 31 Aug 2022 06:37:36 -0700 (PDT)
-Received: from marvin.atrad.com.au (marvin.atrad.com.au [192.168.0.2])
-        by server.atrad.com.au (8.17.1/8.17.1) with ESMTPS id 27VD9wFf001483
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-        Wed, 31 Aug 2022 22:40:00 +0930
-Date:   Wed, 31 Aug 2022 22:39:58 +0930
-From:   Jonathan Woithe <jwoithe@just42.net>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] USB: serial: ch341: fixes for older devices
-Message-ID: <Yw9dpgmPbEz6nkxg@marvin.atrad.com.au>
-References: <20220831081525.30557-1-johan@kernel.org>
+        with ESMTP id S232030AbiHaOVj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Aug 2022 10:21:39 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id B465FB2CE6
+        for <linux-usb@vger.kernel.org>; Wed, 31 Aug 2022 07:21:37 -0700 (PDT)
+Received: (qmail 191439 invoked by uid 1000); 31 Aug 2022 10:21:36 -0400
+Date:   Wed, 31 Aug 2022 10:21:36 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, kernel test robot <lkp@intel.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Rob Herring <robh@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: hcd: remove unused hcd_name variables
+Message-ID: <Yw9ucDxO7huIl/2W@rowland.harvard.edu>
+References: <20220831073032.1409291-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220831081525.30557-1-johan@kernel.org>
-X-MIMEDefang-action: accept
-X-Scanned-By: MIMEDefang 2.86 on 192.168.0.1
+In-Reply-To: <20220831073032.1409291-1-gregkh@linuxfoundation.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 31, 2022 at 10:15:23AM +0200, Johan Hovold wrote:
-> Jonathan Woithe reported that there was a regression for some older
-> ch341 devices in 4.10. Turns out there were two of them.
+On Wed, Aug 31, 2022 at 09:30:32AM +0200, Greg Kroah-Hartman wrote:
+> In the commit 10174220f55a ("usb: reduce kernel log spam on driver
+> registration") a lot of unneeded kernel log messages were removed, but
+> that caused a few build warnings to show up where the variable
+> `hcd_name` was being set but never used anymore.
 > 
-> Jonathan, feel free to reply to this mail with a Tested-by tag. You've
-> already tested these changes during development even if I've since split
-> the patch in two. And thanks again for your careful testing while
-> tracking this down.
+> Resolve this by just removing these variables as they are not needed
+> anymore
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Cc: Alim Akhtar <alim.akhtar@samsung.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-samsung-soc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Fixes: 10174220f55a ("usb: reduce kernel log spam on driver registration")
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  drivers/usb/host/ehci-exynos.c   | 1 -
+>  drivers/usb/host/ehci-platform.c | 2 --
+>  drivers/usb/host/ohci-platform.c | 2 --
+>  3 files changed, 5 deletions(-)
 
-Tested-by: Jonathan Woithe <jwoithe@just42.net>
+This isn't enough, as you can see from this kernel test robot excerpt:
 
-> Johan Hovold (2):
->   USB: serial: ch341: fix lost character on LCR updates
->   USB: serial: ch341: fix disabled rx timer on older devices
-> 
->  drivers/usb/serial/ch341.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
-> 
-> -- 
-> 2.35.1
+clang_recent_errors
+|-- arm-s5pv210_defconfig
+|   |-- drivers-usb-host-ehci-exynos.c:warning:unused-variable-hcd_name
+|   `-- drivers-usb-host-ohci-exynos.c:warning:unused-variable-hcd_name
+|-- hexagon-randconfig-r024-20220830
+|   |-- drivers-usb-host-ehci-atmel.c:warning:unused-variable-hcd_name
+|   |-- drivers-usb-host-ehci-exynos.c:warning:unused-variable-hcd_name
+|   |-- drivers-usb-host-ehci-orion.c:warning:unused-variable-hcd_name
+|   |-- 
+drivers-usb-host-ehci-platform.c:warning:unused-variable-hcd_name
+|   |-- drivers-usb-host-ehci-spear.c:warning:unused-variable-hcd_name
+|   `-- 
+drivers-usb-host-ohci-platform.c:warning:unused-variable-hcd_name
+|-- hexagon-randconfig-r036-20220830
+|   |-- drivers-usb-host-ehci-atmel.c:warning:unused-variable-hcd_name
+|   |-- drivers-usb-host-ehci-npcm7xx.c:warning:unused-variable-hcd_name
+|   |-- 
+drivers-usb-host-ehci-platform.c:warning:unused-variable-hcd_name
+|   |-- drivers-usb-host-ehci-st.c:warning:unused-variable-hcd_name
+|   |-- drivers-usb-host-ohci-at91.c:warning:unused-variable-hcd_name
+|   |-- 
+drivers-usb-host-ohci-platform.c:warning:unused-variable-hcd_name
+|   |-- drivers-usb-host-ohci-s3c2410.c:warning:unused-variable-hcd_name
+|   |-- drivers-usb-host-ohci-spear.c:warning:unused-variable-hcd_name
+|   `-- drivers-usb-host-ohci-st.c:warning:unused-variable-hcd_name
+
+Yes, it has duplicates and your patch handles some of these.  But there 
+are others that still need to be fixed.  Also, this list is missing 
+ohci-pxa27x.c.
+
+Alan Stern
