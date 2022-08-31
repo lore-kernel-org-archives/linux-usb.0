@@ -2,90 +2,57 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7667ECAAD4
-	for <linux-usb@archiver.kernel.org>; Wed, 31 Aug 2022 13:20:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89DD3ECAAD5
+	for <linux-usb@archiver.kernel.org>; Wed, 31 Aug 2022 13:37:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230257AbiHaNUV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 31 Aug 2022 09:20:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50324 "EHLO
+        id S229518AbiHaNhx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 31 Aug 2022 09:37:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229794AbiHaNUS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Aug 2022 09:20:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 992634C613;
-        Wed, 31 Aug 2022 06:20:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2C02B61AAC;
-        Wed, 31 Aug 2022 13:20:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 80440C433D6;
-        Wed, 31 Aug 2022 13:20:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661952016;
-        bh=kfskSvGs0EaG0N6+EOLLY3xTESBBvnf66NZHzdfg9Cw=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=DmMJV86gkP0DyhvQ3h85XHKfuuEKPIrq6sQDqe7K+arVHKWOEnKwZ6yUMhKVbQwUJ
-         9uhBf8GswS03puTQhvs5liFWSkefvL+dOLH89yzNBVkDuufipzxM9zwiRbBvo0kVsm
-         NCY/vV1WucRzUBvtkXGDuTaTg9HQvmJfOxrmEeQmdupG8e10Hwysr9UDYAZI2FHGMm
-         4FWKVCLSHnzpkut0pohMsR0KzQvYaqCJerjfl4PKbLWW4eEY5SewmSAe6ZVfC3OZEl
-         G3mgOLoFE+4plKkW+o2L+HjNGKug8AgGqnu7SfCwCL2QgLuzSXybiGLpyoj4zXudpP
-         aJrVkGis8sODQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6555BE924D9;
-        Wed, 31 Aug 2022 13:20:16 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229943AbiHaNhl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Aug 2022 09:37:41 -0400
+X-Greylist: delayed 1499 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 31 Aug 2022 06:37:36 PDT
+Received: from server.atrad.com.au (server.atrad.com.au [150.101.241.2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5436262B;
+        Wed, 31 Aug 2022 06:37:36 -0700 (PDT)
+Received: from marvin.atrad.com.au (marvin.atrad.com.au [192.168.0.2])
+        by server.atrad.com.au (8.17.1/8.17.1) with ESMTPS id 27VD9wFf001483
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+        Wed, 31 Aug 2022 22:40:00 +0930
+Date:   Wed, 31 Aug 2022 22:39:58 +0930
+From:   Jonathan Woithe <jwoithe@just42.net>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] USB: serial: ch341: fixes for older devices
+Message-ID: <Yw9dpgmPbEz6nkxg@marvin.atrad.com.au>
+References: <20220831081525.30557-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/5] thunderbolt: net: Enable full end-to-end flow control
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166195201641.2919.1480626545715329070.git-patchwork-notify@kernel.org>
-Date:   Wed, 31 Aug 2022 13:20:16 +0000
-References: <20220830153250.15496-1-mika.westerberg@linux.intel.com>
-In-Reply-To: <20220830153250.15496-1-mika.westerberg@linux.intel.com>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     linux-usb@vger.kernel.org, michael.jamet@intel.com,
-        YehezkelShB@gmail.com, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, andreas.noever@gmail.com,
-        lukas@wunner.de, netdev@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220831081525.30557-1-johan@kernel.org>
+X-MIMEDefang-action: accept
+X-Scanned-By: MIMEDefang 2.86 on 192.168.0.1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello:
-
-This series was applied to netdev/net-next.git (master)
-by David S. Miller <davem@davemloft.net>:
-
-On Tue, 30 Aug 2022 18:32:45 +0300 you wrote:
-> Hi all,
+On Wed, Aug 31, 2022 at 10:15:23AM +0200, Johan Hovold wrote:
+> Jonathan Woithe reported that there was a regression for some older
+> ch341 devices in 4.10. Turns out there were two of them.
 > 
-> Thunderbolt/USB4 host controllers support full end-to-end flow control
-> that prevents dropping packets if there are not enough hardware receive
-> buffers. So far it has not been enabled for the networking driver yet
-> but this series changes that. There is one snag though: the second
-> generation (Intel Falcon Ridge) had a bug that needs special quirk to
-> get it working. We had that in the early stages of the Thunderbolt/USB4
-> driver but it got dropped because it was not needed at the time. Now we
-> add it back as a quirk for the host controller (NHI).
+> Jonathan, feel free to reply to this mail with a Tested-by tag. You've
+> already tested these changes during development even if I've since split
+> the patch in two. And thanks again for your careful testing while
+> tracking this down.
+
+Tested-by: Jonathan Woithe <jwoithe@just42.net>
+
+> Johan Hovold (2):
+>   USB: serial: ch341: fix lost character on LCR updates
+>   USB: serial: ch341: fix disabled rx timer on older devices
 > 
-> [...]
-
-Here is the summary with links:
-  - [1/5] net: thunderbolt: Enable DMA paths only after rings are enabled
-    https://git.kernel.org/netdev/net-next/c/ff7cd07f3064
-  - [2/5] thunderbolt: Show link type for XDomain connections too
-    https://git.kernel.org/netdev/net-next/c/f9cad07b840e
-  - [3/5] thunderbolt: Add back Intel Falcon Ridge end-to-end flow control workaround
-    https://git.kernel.org/netdev/net-next/c/54669e2f17cb
-  - [4/5] net: thunderbolt: Enable full end-to-end flow control
-    https://git.kernel.org/netdev/net-next/c/8bdc25cf62c7
-  - [5/5] net: thunderbolt: Update module description with mention of USB4
-    https://git.kernel.org/netdev/net-next/c/e550ed4b87ad
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+>  drivers/usb/serial/ch341.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+> 
+> -- 
+> 2.35.1
