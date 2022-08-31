@@ -2,113 +2,96 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD9EECAAD4
-	for <linux-usb@archiver.kernel.org>; Wed, 31 Aug 2022 21:35:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 208D0ECAAD5
+	for <linux-usb@archiver.kernel.org>; Wed, 31 Aug 2022 22:00:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232384AbiHaVfo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 31 Aug 2022 17:35:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39126 "EHLO
+        id S232391AbiHaWAY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 31 Aug 2022 18:00:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232377AbiHaVfl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Aug 2022 17:35:41 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F18865A88A
-        for <linux-usb@vger.kernel.org>; Wed, 31 Aug 2022 14:35:39 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id 72so15675392pfx.9
-        for <linux-usb@vger.kernel.org>; Wed, 31 Aug 2022 14:35:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=k+a5ywY0A19s4ewXtlKzkVso1icQ7ila5o+nOXUa5t0=;
-        b=c5JgVe1Byofhc6O6ncpug3jMP9vrBQ8mg1iV4x6OffluDyNwdc5yQC0i91mRpeqi+R
-         e60mwo7NYHqTwKLefxzxP98T5zdFGDwLlfZQhYzJomTXQ3P9D2BppXIkeoRHIChSYNap
-         k39or0uq0Q9ofWiwRcSOxl+34jVOM9ez6ZVUQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=k+a5ywY0A19s4ewXtlKzkVso1icQ7ila5o+nOXUa5t0=;
-        b=2v9sjCNeuA1F3BHSQCpU1sf4SLiOdtyy+PdbAqod/qah3+E5SUoQm9tE8KHzOTYLRM
-         En4MuLGwpSSw7tGNBaWAVTQPn9mM7Uvo/Ycg6UFTHA1Ieg0kLoFjMHy3T0wqseNtB9e1
-         Z7JUStqd38U7EaZ82aiScRb46U6MFrzO9Q97XVL7glUiTKg9veD17+v4x8u7GAc1OTJB
-         ufysdLOr8DTFEVolXdbZRks3MjY2DhrlAWP2kCKRcArVpxZ9CYPIl8wGyM/yvnnZkMgh
-         utK+4hi3YfQ3Jf4i11M63579vHc8pFz+llHNPouMEsUfEoQffzyDxSk4wCcXugLvLbWn
-         FF9A==
-X-Gm-Message-State: ACgBeo2yHpoHEo7RF5BDL67rAxRQ0Pd25eOzTWS6XGGKbgTIdGDyK20Z
-        iX3LTzMMwCXh1rIeWDf6vKK43g==
-X-Google-Smtp-Source: AA6agR7bFSZUedthvJeKRtZPEbMNHJYiT50MWzKxjKEkFCt2A0WVVF41IJxipQKQFVlWm7oAFPkp1Q==
-X-Received: by 2002:a63:d16:0:b0:41d:fe52:1d2f with SMTP id c22-20020a630d16000000b0041dfe521d2fmr23976158pgl.416.1661981739540;
-        Wed, 31 Aug 2022 14:35:39 -0700 (PDT)
-Received: from localhost ([2620:15c:11a:202:732f:b56c:f5e0:57d])
-        by smtp.gmail.com with UTF8SMTPSA id t10-20020a170902e84a00b00174f4316c24sm6051640plg.245.2022.08.31.14.35.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Aug 2022 14:35:39 -0700 (PDT)
-Date:   Wed, 31 Aug 2022 14:35:36 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Hu Xiaoying <huxiaoying@kylinos.cn>
-Cc:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] usb: Improves USB2.0 write performance.
-Message-ID: <Yw/UKNu0++5MtvbK@google.com>
-References: <20220831015624.1119578-1-huxiaoying@kylinos.cn>
+        with ESMTP id S232331AbiHaWAW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Aug 2022 18:00:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DEAD6B8CE;
+        Wed, 31 Aug 2022 15:00:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C789861B54;
+        Wed, 31 Aug 2022 22:00:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 325C4C43140;
+        Wed, 31 Aug 2022 22:00:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661983217;
+        bh=0Id/y64t6cfH50JJx8vqYFk/uzNSHQPlNmuqbIiJDNc=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=L2tbZx18UUI5eb9f+nbj2OM8C65zE9IdAgVWMM0V97J/r0SyCq0frSFuyc4HQkXF1
+         AXp3mFNl1CoBp7igprBlgNyTPQK7smdSNTDoi7tHevthxgW7JMj85A+Vr6HX3/SpUK
+         8NpxeZ+tKMuvSyCH1WLQH6szonmRdAIDP3KKjsd8jz5BRDdztKOSdb4NN+flO6UFVs
+         ldPoabPd3bcesPcXcVRAv6UTpBjYXRb1Lpk4a37oI7Kl5SkiI29sLtcR3RUGNoVG7w
+         2ChZKTQT2G+d2CAE+VYnr/nBmJBmMWtGZKZwhQo1M/NNtx5nOaPBIPvVUNSh4C6vXQ
+         siLSuXk0YdA+w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 10271E924DC;
+        Wed, 31 Aug 2022 22:00:17 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220831015624.1119578-1-huxiaoying@kylinos.cn>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 1/3] net: move from strlcpy with unused retval to strscpy
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166198321706.20200.5436138666484099605.git-patchwork-notify@kernel.org>
+Date:   Wed, 31 Aug 2022 22:00:17 +0000
+References: <20220830201457.7984-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220830201457.7984-1-wsa+renesas@sang-engineering.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-kernel@vger.kernel.org, mkl@pengutronix.de,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, j.vosburgh@gmail.com, vfalico@gmail.com,
+        andy@greyhouse.net, wg@grandegger.com, f.fainelli@gmail.com,
+        andrew@lunn.ch, vivien.didelot@gmail.com, olteanv@gmail.com,
+        kurt@linutronix.de, kys@microsoft.com, haiyangz@microsoft.com,
+        sthemmin@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+        sridhar.samudrala@intel.com, jdmason@kudzu.us,
+        dave.jiang@intel.com, allenbh@gmail.com,
+        michael.hennerich@analog.com, hkallweit1@gmail.com,
+        linux@armlinux.org.uk, bcm-kernel-feedback-list@broadcom.com,
+        jiri@resnulli.us, petkan@nucleusys.com, oneukum@suse.com,
+        mst@redhat.com, jasowang@redhat.com, doshir@vmware.com,
+        pv-drivers@vmware.com, dsahern@kernel.org, netdev@vger.kernel.org,
+        linux-can@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        ntb@lists.linux.dev, linux-usb@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 31, 2022 at 09:56:24AM +0800, Hu Xiaoying wrote:
+Hello:
 
-> Subject: [PATCH v4] usb: Improves USB2.0 write performance.
+This series was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Virtually everyone who sees this will think that this patch improves
-USB 2.0 write performance in general, which isn't the case.
-
-Instead the subject could be something like:
-
-USB: storage: Add ASUS <model> to IGNORE_UAS
-
-> USB external storage device(0x0b05:1932), use gnome-disk-utility tools
-> to test usb write  < 30MB/s.
-> if does not to load module of uas for this device, can increase the
-> write speed from 20MB/s to >40MB/s.
+On Tue, 30 Aug 2022 22:14:52 +0200 you wrote:
+> Follow the advice of the below link and prefer 'strscpy' in this
+> subsystem. Conversion is 1:1 because the return value is not used.
+> Generated by a coccinelle script.
 > 
-> Signed-off-by: Hu Xiaoying <huxiaoying@kylinos.cn>
-> ---
-> change for v4
->  - Update two email addresses to be the same.
-> change for v3
->  - Does not send html mail to the mailing lists.
->  - Update patch, which sorted by vendor ID and product ID.
->  - Modify discription, correct some english words.
-> change for v2
->  - Update discription for patch.
-> ---
->  drivers/usb/storage/unusual_uas.h | 7 +++++++
->  1 file changed, 7 insertions(+)
+> Link: https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Acked-by: Marc Kleine-Budde <mkl@pengutronix.de> # for CAN
 > 
-> diff --git a/drivers/usb/storage/unusual_uas.h b/drivers/usb/storage/unusual_uas.h
-> index 4051c8cd0cd8..23ab3b048d9b 100644
-> --- a/drivers/usb/storage/unusual_uas.h
-> +++ b/drivers/usb/storage/unusual_uas.h
-> @@ -62,6 +62,13 @@ UNUSUAL_DEV(0x0984, 0x0301, 0x0128, 0x0128,
->  		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
->  		US_FL_IGNORE_UAS),
->  
-> +/* Reported-by: Tom Hu <huxiaoying@kylinos.cn> */
-> +UNUSUAL_DEV(0x0b05, 0x1932, 0x0000, 0x9999,
-> +		"ASUS",
-> +		"External HDD",
-> +		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-> +		US_FL_IGNORE_UAS),
-> +
->  /* Reported-by: David Webb <djw@noc.ac.uk> */
->  UNUSUAL_DEV(0x0bc2, 0x331a, 0x0000, 0x9999,
->  		"Seagate",
-> -- 
-> 2.25.1
-> 
+> [...]
+
+Here is the summary with links:
+  - [v2,1/3] net: move from strlcpy with unused retval to strscpy
+    https://git.kernel.org/netdev/net-next/c/fb3ceec187e8
+  - [v2,2/3] net: wireless: move from strlcpy with unused retval to strscpy
+    (no matching commit)
+  - [v2,3/3] net: ethernet: move from strlcpy with unused retval to strscpy
+    https://git.kernel.org/netdev/net-next/c/f029c781dd6d
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
