@@ -2,145 +2,152 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD903ECAAD3
-	for <linux-usb@archiver.kernel.org>; Wed, 31 Aug 2022 18:37:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80404ECAAD1
+	for <linux-usb@archiver.kernel.org>; Wed, 31 Aug 2022 19:18:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233054AbiHaShX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 31 Aug 2022 14:37:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60082 "EHLO
+        id S229886AbiHaTSp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 31 Aug 2022 15:18:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232946AbiHaShB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Aug 2022 14:37:01 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4525473320;
-        Wed, 31 Aug 2022 11:33:09 -0700 (PDT)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27VGnB2k024239;
-        Wed, 31 Aug 2022 18:32:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=dzuvMUL5SjsoQagMUlJy1ABYsbExTZwQhop48MntG68=;
- b=YbBsLOoOO6ej33G5OsGp+n/tZSOBVYMl6Q44zJKC3ZWTbsaBITdwM0iJwp2YtqDmaIi+
- ZQdM7ulHZ9/BvSoi9oehP90NRov/tR6qkCjzGKdw0GZAFur4FjA7cirPtbyfEx0b9bC4
- U7tgIOAX+mYnVoEmneemO5EYBLNmaxjeDuWkPimlu7MnYqCXvVUFDio2YSZyvdbkMYnY
- ynhdsBoSuTIpA0l0Fd9K1cwcEatKwylpyiUxDvA8NfGqzDCGjCxfO/r78qm35azkZK8J
- onc5UQYX5Y7bW6b2YGGaamom2f3dGwVub6XZRqoGxzy+iqct+57yV3ga6bueqCeFH2y1 xQ== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jabgcrev5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 31 Aug 2022 18:32:59 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27VIWxme003735
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 31 Aug 2022 18:32:59 GMT
-Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Wed, 31 Aug 2022 11:32:58 -0700
-From:   Wesley Cheng <quic_wcheng@quicinc.com>
-To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>
-CC:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <quic_jackp@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v5 1/5] usb: dwc3: Avoid unmapping USB requests if endxfer is not complete
-Date:   Wed, 31 Aug 2022 11:32:38 -0700
-Message-ID: <20220831183242.27826-2-quic_wcheng@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220831183242.27826-1-quic_wcheng@quicinc.com>
-References: <20220831183242.27826-1-quic_wcheng@quicinc.com>
+        with ESMTP id S229787AbiHaTSo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Aug 2022 15:18:44 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC91CDA3E2
+        for <linux-usb@vger.kernel.org>; Wed, 31 Aug 2022 12:18:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661973523; x=1693509523;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=TZkH63pFfr3Mu/2NxuC6Tra86VE9OnM1XQka6YIcYFs=;
+  b=G2Qg/L827aByoVtASubx0KsXYarzbQ2Sm22X+ircszYFMES8G1GO7toZ
+   nK4z0jwCxXefvA6ZlhPbCywOE82mXPgJG5Rx1x1WgaC/+9zRrksbnkG/H
+   8tkdCy08VOH4e3rM+D5lXZB5R8aRt7vk2SIMN0fEjd4XE27eJFMc5LpIC
+   RO7w+wf9LtDvI60iZ+Hju2d4oblMKqf7etF6Bh5KZNfmTjqpytPY+XGKI
+   tW7oQ9Yh2V3+VHp4Q7SYVs/bdeIzgYcObd+S/ednipe0LDjaxf3+W/wZu
+   H4+AFU35ihu+1fJtZGHK9THalA7JC5W/ayi0u/jBB3yXiayYtxC7OLyhk
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="321667830"
+X-IronPort-AV: E=Sophos;i="5.93,278,1654585200"; 
+   d="scan'208";a="321667830"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2022 12:18:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,278,1654585200"; 
+   d="scan'208";a="563146410"
+Received: from lkp-server02.sh.intel.com (HELO 811e2ceaf0e5) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 31 Aug 2022 12:18:24 -0700
+Received: from kbuild by 811e2ceaf0e5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oTTEF-0000ci-2n;
+        Wed, 31 Aug 2022 19:18:23 +0000
+Date:   Thu, 01 Sep 2022 03:17:47 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-next] BUILD SUCCESS
+ 8f36b3b4e1b58dca7d05e1579019230437e55d43
+Message-ID: <630fb3db.mBEzsNhfjps6zND2%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: F_5P5GooP-XxGLAse9sbFNw5o0GWXXRs
-X-Proofpoint-GUID: F_5P5GooP-XxGLAse9sbFNw5o0GWXXRs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-31_11,2022-08-31_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
- lowpriorityscore=0 adultscore=0 clxscore=1015 phishscore=0 bulkscore=0
- priorityscore=1501 mlxlogscore=887 spamscore=0 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208310089
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If DWC3_EP_DELAYED_STOP is set during stop active transfers, then do not
-continue attempting to unmap request buffers during dwc3_remove_requests().
-This can lead to SMMU faults, as the controller has not stopped the
-processing of the TRB.  Defer this sequence to the EP0 out start, which
-ensures that there are no pending SETUP transactions before issuing the
-endxfer.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
+branch HEAD: 8f36b3b4e1b58dca7d05e1579019230437e55d43  usbip: add USBIP_URB_* URB transfer flags
 
-Reviewed-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
----
- drivers/usb/dwc3/core.h   | 3 +++
- drivers/usb/dwc3/ep0.c    | 5 ++++-
- drivers/usb/dwc3/gadget.c | 6 +++++-
- 3 files changed, 12 insertions(+), 2 deletions(-)
+elapsed time: 725m
 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 4fe4287dc934..7327e5767df9 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -1560,6 +1560,7 @@ int dwc3_send_gadget_ep_cmd(struct dwc3_ep *dep, unsigned int cmd,
- int dwc3_send_gadget_generic_command(struct dwc3 *dwc, unsigned int cmd,
- 		u32 param);
- void dwc3_gadget_clear_tx_fifos(struct dwc3 *dwc);
-+void dwc3_remove_requests(struct dwc3 *dwc, struct dwc3_ep *dep);
- #else
- static inline int dwc3_gadget_init(struct dwc3 *dwc)
- { return 0; }
-@@ -1581,6 +1582,8 @@ static inline int dwc3_send_gadget_generic_command(struct dwc3 *dwc,
- { return 0; }
- static inline void dwc3_gadget_clear_tx_fifos(struct dwc3 *dwc)
- { }
-+static inline void dwc3_remove_requests(struct dwc3 *dwc, struct dwc3_ep *dep)
-+{ }
- #endif
- 
- #if IS_ENABLED(CONFIG_USB_DWC3_DUAL_ROLE)
-diff --git a/drivers/usb/dwc3/ep0.c b/drivers/usb/dwc3/ep0.c
-index 33cee0089609..fbb154a5ee1f 100644
---- a/drivers/usb/dwc3/ep0.c
-+++ b/drivers/usb/dwc3/ep0.c
-@@ -293,7 +293,10 @@ void dwc3_ep0_out_start(struct dwc3 *dwc)
- 			continue;
- 
- 		dwc3_ep->flags &= ~DWC3_EP_DELAY_STOP;
--		dwc3_stop_active_transfer(dwc3_ep, true, true);
-+		if (dwc->connected)
-+			dwc3_stop_active_transfer(dwc3_ep, true, true);
-+		else
-+			dwc3_remove_requests(dwc, dwc3_ep);
- 	}
- }
- 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index d6c0cb79ace3..6f2491fc109e 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -965,12 +965,16 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *dep, unsigned int action)
- 	return 0;
- }
- 
--static void dwc3_remove_requests(struct dwc3 *dwc, struct dwc3_ep *dep, int status)
-+void dwc3_remove_requests(struct dwc3 *dwc, struct dwc3_ep *dep, int status)
- {
- 	struct dwc3_request		*req;
- 
- 	dwc3_stop_active_transfer(dep, true, false);
- 
-+	/* If endxfer is delayed, avoid unmapping requests */
-+	if (dep->flags & DWC3_EP_DELAY_STOP)
-+		return;
-+
- 	/* - giveback all requests to gadget driver */
- 	while (!list_empty(&dep->started_list)) {
- 		req = next_request(&dep->started_list);
+configs tested: 77
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+arc                  randconfig-r043-20220830
+arm                                 defconfig
+i386                                defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+arm64                            allyesconfig
+x86_64                               rhel-8.3
+x86_64                        randconfig-a002
+arm                              allyesconfig
+i386                          randconfig-a014
+x86_64                        randconfig-a004
+powerpc                           allnoconfig
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+i386                          randconfig-a001
+i386                          randconfig-a012
+x86_64                        randconfig-a013
+i386                          randconfig-a003
+i386                             allyesconfig
+i386                          randconfig-a016
+x86_64                        randconfig-a011
+x86_64                        randconfig-a006
+i386                          randconfig-a005
+x86_64                           rhel-8.3-kvm
+x86_64                        randconfig-a015
+powerpc                          allmodconfig
+x86_64                    rhel-8.3-kselftests
+m68k                             allmodconfig
+x86_64                           rhel-8.3-syz
+sh                               allmodconfig
+arc                              allyesconfig
+mips                             allyesconfig
+alpha                            allyesconfig
+m68k                             allyesconfig
+ia64                             allmodconfig
+loongarch                           defconfig
+loongarch                         allnoconfig
+arc                        nsim_700_defconfig
+parisc                generic-32bit_defconfig
+riscv             nommu_k210_sdcard_defconfig
+sh                          lboxre2_defconfig
+csky                              allnoconfig
+alpha                             allnoconfig
+arc                               allnoconfig
+riscv                             allnoconfig
+s390                 randconfig-r044-20220831
+arc                  randconfig-r043-20220831
+riscv                randconfig-r042-20220831
+arc                           tb10x_defconfig
+arm                       multi_v4t_defconfig
+parisc64                            defconfig
+powerpc                      cm5200_defconfig
+arm                            hisi_defconfig
+powerpc                      pcm030_defconfig
+sh                   rts7751r2dplus_defconfig
+powerpc                     rainier_defconfig
+arm                      jornada720_defconfig
+
+clang tested configs:
+hexagon              randconfig-r045-20220830
+riscv                randconfig-r042-20220830
+hexagon              randconfig-r041-20220830
+s390                 randconfig-r044-20220830
+x86_64                        randconfig-a001
+i386                          randconfig-a013
+x86_64                        randconfig-a003
+i386                          randconfig-a011
+x86_64                        randconfig-a005
+x86_64                        randconfig-a014
+i386                          randconfig-a015
+i386                          randconfig-a002
+x86_64                        randconfig-a016
+x86_64                        randconfig-a012
+i386                          randconfig-a006
+i386                          randconfig-a004
+arm                        vexpress_defconfig
+arm                         socfpga_defconfig
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
