@@ -2,91 +2,80 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB64BC54EE9
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Sep 2022 07:01:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45B69C54EE9
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Sep 2022 07:11:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234650AbiIBHBP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 2 Sep 2022 03:01:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44224 "EHLO
+        id S231544AbiIBHL6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 2 Sep 2022 03:11:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234495AbiIBHBN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Sep 2022 03:01:13 -0400
-X-Greylist: delayed 1822 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 02 Sep 2022 00:01:09 PDT
-Received: from mail-m964.mail.126.com (mail-m964.mail.126.com [123.126.96.4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A648EAC253
-        for <linux-usb@vger.kernel.org>; Fri,  2 Sep 2022 00:01:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-        s=s110527; h=Message-ID:Date:From:MIME-Version:Subject; bh=NxpLC
-        jVaDr0bSOlI0jjJCyEdsZruRdWOhxTjNts6PDw=; b=lDcEy69LUJdfv0f+fFGC+
-        UOyQ2ggVELPQ+k7FpbrTKdKZQAV2PuPqminr/E8vftqdnKIFHFsvaYaJnO2pLztG
-        U6j+spP1kiyiaKMg++tTMCaYxGKhY8XpwGtwnO4aJkcefnUsq61TXEVkQcmvgTKe
-        M0l18XWOsx9vTbItyYIMPE=
-Received: from localhost.localdomain (unknown [112.64.161.44])
-        by smtp9 (Coremail) with SMTP id NeRpCgBHbxYFoxFjh+0iAw--.47228S2;
-        Fri, 02 Sep 2022 14:30:30 +0800 (CST)
-Message-ID: <6311A323.40100@126.com>
-Date:   Fri, 02 Sep 2022 14:30:59 +0800
-From:   nana <zhongling0719@126.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+        with ESMTP id S230295AbiIBHL5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Sep 2022 03:11:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DCE953D38
+        for <linux-usb@vger.kernel.org>; Fri,  2 Sep 2022 00:11:56 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 97EBD62052
+        for <linux-usb@vger.kernel.org>; Fri,  2 Sep 2022 07:11:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FDB0C433D6;
+        Fri,  2 Sep 2022 07:11:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1662102715;
+        bh=e3wfoOXNqB4e9v10cVo1zs6I9Kg09agO+AMgKxziAzg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mEKll9FhbTh9oHd/Q2Tl3dmrydkvsSAlKLldKBVUu4UcuSrw597ZBgoaxtP/uhXd2
+         oPN+vmoo14I8A26/8r3kiy1cGYJXxtjxmnPdYCJOiu044cgzSegc2Kgf0MNHRWIxJh
+         kuBuepVGx+2qfZnQXmXbCfq7xc68ySJ2YDYzdD2w=
+Date:   Fri, 2 Sep 2022 09:11:52 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     kernel test robot <lkp@intel.com>
+Cc:     Piyush Mehta <piyush.mehta@amd.com>, kbuild-all@lists.01.org,
+        linux-usb@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [usb:usb-linus 33/42]
+ drivers/usb/gadget/udc/udc-xilinx.c:502:25: sparse: sparse: incorrect type
+ in argument 1 (different address spaces)
+Message-ID: <YxGsuFERTuz0puLP@kroah.com>
+References: <202209020044.CX2PfZzM-lkp@intel.com>
 MIME-Version: 1.0
-To:     gregkh <gregkh@linuxfoundation.org>
-CC:     zenghongling <zenghongling@kylinos.cn>,
-        stern <stern@rowland.harvard.edu>,
-        linux-usb <linux-usb@vger.kernel.org>,
-        usb-storage <usb-storage@lists.one-eyed-alien.net>
-Subject: Re: [PATCH v4] uas: add no-uas quirk for Thinkplus and Hiksemi usb-storage
-References: <1662015653-12976-1-git-send-email-zenghongling@kylinos.cn> <YxBvNEn0jEEd0lXV@kroah.com> <2022090120371974113815@126.com> <YxCtyOUkRlIqcC4d@kroah.com> <2022090121570194160929@126.com> <YxDCdQ885wdyr8wG@kroah.com>
-In-Reply-To: <YxDCdQ885wdyr8wG@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: NeRpCgBHbxYFoxFjh+0iAw--.47228S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Cr17uw4xXw18WFWUJry5Arb_yoW8Gr4xpF
-        92q3Z3GF4DtF18JFsrAr1Iva18X395tr929ryrWw42ya1aqF90vrZ2g398u3W5GrykGw4U
-        Krn8Jry8Gw4DXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UGjgxUUUUU=
-X-Originating-IP: [112.64.161.44]
-X-CM-SenderInfo: x2kr0wpolqwiqxrzqiyswou0bp/1tbiYAZw0FpEI2ddwQAAsA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202209020044.CX2PfZzM-lkp@intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Sorry,replay again
+On Fri, Sep 02, 2022 at 01:07:15AM +0800, kernel test robot wrote:
+> Hi Piyush,
+> 
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+> head:   a6aedb58a887aa2ea142ee914ff4030d019584bf
+> commit: 8cb339f1c1f04baede9d54c1e40ac96247a6393b [33/42] usb: gadget: udc-xilinx: replace memcpy with memcpy_toio
+> config: arm-randconfig-s033-20220901 (https://download.01.org/0day-ci/archive/20220902/202209020044.CX2PfZzM-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+> reproduce:
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # apt-get install sparse
+>         # sparse version: v0.6.4-39-gce1a6720-dirty
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?id=8cb339f1c1f04baede9d54c1e40ac96247a6393b
+>         git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
+>         git fetch --no-tags usb usb-linus
+>         git checkout 8cb339f1c1f04baede9d54c1e40ac96247a6393b
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/usb/gadget/udc/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> Reported-by: kernel test robot <lkp@intel.com>
 
-a)These disks have a broken uas implementation, the tag field of the 
-status iu-s is not set properly,
-so we need to fall-back to usb-storage for these.
+I've now reverted this offending commit.
 
-b).I found this patch . The causes of errors are similar.
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=v4.9.326&id=3ba5d3a2cf40c4ebdc1f702af3b5dea405a6a11e
+Piyush, please fix up and resend a commit that works properly.
 
-c) not to express clearly, the driver cause hang on by copy big files or 
-stress read/write.
+thanks,
 
-
-在 2022年09月01日 22:32, gregkh 写道:
-> A: http://en.wikipedia.org/wiki/Top_post
-> Q: Were do I find info about this thing called top-posting?
-> A: Because it messes up the order in which people normally read text.
-> Q: Why is top-posting such a bad thing?
-> A: Top-posting.
-> Q: What is the most annoying thing in e-mail?
->
-> A: No.
-> Q: Should I include quotations after my reply?
->
-> http://daringfireball.net/2007/07/on_top
->
-> On Thu, Sep 01, 2022 at 09:58:03PM +0800, zhongling0719@126.com wrote:
->> Some UASP capable USB-to-SATA bridge controllers are not compatible,this problem has always existed.
-> What problem is this exactly?  Why is this failing on only Linux?
->
->> you can refer to other auther submit the similar patch.
-> What other author and other patch?
->
->>   this patch is fixed no speed,not slow speed.
-> I do not understand, sorry.
->
-> thanks,
->
-> greg k-h
-
+greg k-h
