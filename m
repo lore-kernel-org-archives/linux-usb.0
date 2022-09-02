@@ -2,77 +2,150 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88CB0ECAAA1
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Sep 2022 05:24:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC8BEECAAA1
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Sep 2022 06:36:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233530AbiIBFYx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 2 Sep 2022 01:24:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58534 "EHLO
+        id S234788AbiIBGg5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 2 Sep 2022 02:36:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbiIBFYw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Sep 2022 01:24:52 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ADF7EE21;
-        Thu,  1 Sep 2022 22:24:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BAA6FB81CCF;
-        Fri,  2 Sep 2022 05:24:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F6F4C433C1;
-        Fri,  2 Sep 2022 05:24:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1662096281;
-        bh=4X2YpCNGs+Lc0xdA7x/qqOj/KFmabIXoSeXWOx7VaHw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IANCZLQq9rVauziIqD1LfkMYvIpsCEA97Nopw7t5SyP5gDbSUbub4WXJVL2nzAnum
-         dMFpJMK9cOn5J0qHdVnDqxWvL82lw+y30HUWmeCURIETcP6WK/B5fA5KuKoERB91p5
-         TFbJJ19u0FfthE719GMnxfyoTKWiDoYspZYXIk3s=
-Date:   Fri, 2 Sep 2022 07:24:38 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Cc:     johan@kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] USB: serial: ftdi_sio: Add check for create_sysfs_attrs
-Message-ID: <YxGTlhCVbv1LsO0K@kroah.com>
-References: <20220902032002.3859368-1-jiasheng@iscas.ac.cn>
+        with ESMTP id S231266AbiIBGg4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Sep 2022 02:36:56 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9F9D1A1A42;
+        Thu,  1 Sep 2022 23:36:53 -0700 (PDT)
+Received: from localhost.localdomain (unknown [10.180.13.64])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxFeJ5pBFjqpsPAA--.2392S2;
+        Fri, 02 Sep 2022 14:36:46 +0800 (CST)
+From:   Yinbo Zhu <zhuyinbo@loongson.cn>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <greg@kroah.com>,
+        Patchwork Bot <patchwork-bot@kernel.org>
+Cc:     zhuyinbo@loongson.cn
+Subject: [PATCH v4] usb: ohci-platform: fix usb disconnect issue after s4
+Date:   Fri,  2 Sep 2022 14:36:39 +0800
+Message-Id: <20220902063639.17875-1-zhuyinbo@loongson.cn>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220902032002.3859368-1-jiasheng@iscas.ac.cn>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8AxFeJ5pBFjqpsPAA--.2392S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGFW3KrWDtFyDZFyrArW7XFb_yoW5tw4UpF
+        4UJFWftr48GF42g3y7AwnrZFWrCwsag3y7K34UKwnF9a90q3s8JF4jyFy0yFnxXry7Jw1k
+        tF4jyFWUCF4UZrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkI14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+        JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+        xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+        6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+        0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVCm-wCF
+        04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
+        r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+        1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+        x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Sep 02, 2022 at 11:20:02AM +0800, Jiasheng Jiang wrote:
-> As create_sysfs_attrs() can return error number,
-> it should be better to check the return value and
-> deal with the exception.
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> ---
->  drivers/usb/serial/ftdi_sio.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-> index d5a3986dfee7..c28f894430a5 100644
-> --- a/drivers/usb/serial/ftdi_sio.c
-> +++ b/drivers/usb/serial/ftdi_sio.c
-> @@ -2251,7 +2251,11 @@ static int ftdi_sio_port_probe(struct usb_serial_port *port)
->  	if (read_latency_timer(port) < 0)
->  		priv->latency = 16;
->  	write_latency_timer(port);
-> -	create_sysfs_attrs(port);
-> +	result = create_sysfs_attrs(port);
-> +	if (result) {
-> +		remove_sysfs_attrs(port);
-> +		return result;
-> +	}
+The ohci retaining bogus hardware states cause usb disconnect devices
+connected before hibernation(s4), this issue occur when ohci-platform
+driver build as a module and the built-in ohci-platform driver will
+re probe and re enumerate the devices, so there will be no such problem.
 
-Again, this should be changed to use a default attribute group instead.
-Please make that change.
+Avoid retaining bogus hardware states during resume-from-hibernation.
+Previously we had reset the hardware as part of preparing to reinstate
+the snapshot image. But we can do better now with the new PM framework,
+since we know exactly which resume operations are from hibernation.
 
-thanks,
+According to the commit 'cd1965db054e ("USB: ohci: move ohci_pci_{
+suspend,resume} to ohci-hcd.c")' and commit '6ec4beb5c701 ("USB: new
+flag for resume-from-hibernation")', the flag "hibernated" is for
+resume-from-hibernation and it should be true when usb resume from disk.
 
-greg k-h
+When this flag "hibernated" is set, the drivers will reset the hardware
+to get rid of any existing state and make sure resume from hibernation
+re-enumerates everything for ohci.
+
+Signed-off-by: Yinbo Zhu <zhuyinbo@loongson.cn>
+---
+Change in v4:
+		Add explain what this disconnect issue is.
+
+ drivers/usb/host/ohci-platform.c | 28 ++++++++++++++++++++++++----
+ 1 file changed, 24 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/host/ohci-platform.c b/drivers/usb/host/ohci-platform.c
+index 0adae6265127..822a0f927e62 100644
+--- a/drivers/usb/host/ohci-platform.c
++++ b/drivers/usb/host/ohci-platform.c
+@@ -289,7 +289,7 @@ static int ohci_platform_suspend(struct device *dev)
+ 	return ret;
+ }
+ 
+-static int ohci_platform_resume(struct device *dev)
++static int ohci_platform_resume_common(struct device *dev, bool hibernated)
+ {
+ 	struct usb_hcd *hcd = dev_get_drvdata(dev);
+ 	struct usb_ohci_pdata *pdata = dev_get_platdata(dev);
+@@ -301,7 +301,7 @@ static int ohci_platform_resume(struct device *dev)
+ 			return err;
+ 	}
+ 
+-	ohci_resume(hcd, false);
++	ohci_resume(hcd, hibernated);
+ 
+ 	pm_runtime_disable(dev);
+ 	pm_runtime_set_active(dev);
+@@ -309,6 +309,16 @@ static int ohci_platform_resume(struct device *dev)
+ 
+ 	return 0;
+ }
++
++static int ohci_platform_resume(struct device *dev)
++{
++	return ohci_platform_resume_common(dev, false);
++}
++
++static int ohci_platform_restore(struct device *dev)
++{
++	return ohci_platform_resume_common(dev, true);
++}
+ #endif /* CONFIG_PM_SLEEP */
+ 
+ static const struct of_device_id ohci_platform_ids[] = {
+@@ -325,8 +335,16 @@ static const struct platform_device_id ohci_platform_table[] = {
+ };
+ MODULE_DEVICE_TABLE(platform, ohci_platform_table);
+ 
+-static SIMPLE_DEV_PM_OPS(ohci_platform_pm_ops, ohci_platform_suspend,
+-	ohci_platform_resume);
++#ifdef CONFIG_PM_SLEEP
++static const struct dev_pm_ops ohci_platform_pm_ops = {
++	.suspend = ohci_platform_suspend,
++	.resume = ohci_platform_resume,
++	.freeze = ohci_platform_suspend,
++	.thaw = ohci_platform_resume,
++	.poweroff = ohci_platform_suspend,
++	.restore = ohci_platform_restore,
++};
++#endif
+ 
+ static struct platform_driver ohci_platform_driver = {
+ 	.id_table	= ohci_platform_table,
+@@ -335,7 +353,9 @@ static struct platform_driver ohci_platform_driver = {
+ 	.shutdown	= usb_hcd_platform_shutdown,
+ 	.driver		= {
+ 		.name	= "ohci-platform",
++#ifdef CONFIG_PM_SLEEP
+ 		.pm	= &ohci_platform_pm_ops,
++#endif
+ 		.of_match_table = ohci_platform_ids,
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 	}
+-- 
+2.31.1
+
