@@ -2,112 +2,116 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F26FC6FA82
-	for <linux-usb@archiver.kernel.org>; Sat,  3 Sep 2022 10:31:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 624B2C54EE9
+	for <linux-usb@archiver.kernel.org>; Sun,  4 Sep 2022 00:04:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231183AbiICKbs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 3 Sep 2022 06:31:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60442 "EHLO
+        id S229680AbiIDAE2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 3 Sep 2022 20:04:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230501AbiICKbl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 3 Sep 2022 06:31:41 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BF4B59279;
-        Sat,  3 Sep 2022 03:31:34 -0700 (PDT)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 283AGBkl027701;
-        Sat, 3 Sep 2022 10:31:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=nFjaabrQNY09jR57Vw3+gq4pp7hiX6Yx4HqOBOuEyuM=;
- b=euMhdGex0T9MpxehGqZDkWO51VXaMiySATthlffz4pyGpuagoh1EplUmzaWxL5aLZNlf
- OTAnd0MtoHIiB9vdZ0CQPLpywXrQBYXE/6lwdLm258kXfTsys46ugNznvB1k2bixV+1M
- ek7zYG6J1Lr8DPrMlMLwsLj2NerxT7NIuCLHqWpiCeAVIifgAvuuCWlFif5NS9m75QEy
- 3JPWkPJg47KfCkSoq2AH+SnNEn3DJdA6ckcGxD40HCzwK8QUGxhDGtDCjwkjGwIOl4Z1
- mxMRUUtoSbzag3UI3pmwa8vjIxsKV+COmoVZSZbLTGQcATGBd7hT+nM5cokGaaucH7kT HQ== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jc03v0hed-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 03 Sep 2022 10:31:22 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 283AVMLH024663
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 3 Sep 2022 10:31:22 GMT
-Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Sat, 3 Sep 2022 03:31:15 -0700
-From:   Krishna Kurapati <quic_kriskura@quicinc.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>
-CC:     <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <quic_pkondeti@quicinc.com>,
-        <quic_ppratap@quicinc.com>, <quic_vpulyala@quicinc.com>,
-        Krishna Kurapati <quic_kriskura@quicinc.com>
-Subject: [PATCH v12 3/3] arm64: dts: qcom: sc7280: Update SNPS Phy params for SC7280 IDP device
-Date:   Sat, 3 Sep 2022 16:00:48 +0530
-Message-ID: <1662201048-26049-4-git-send-email-quic_kriskura@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1662201048-26049-1-git-send-email-quic_kriskura@quicinc.com>
-References: <1662201048-26049-1-git-send-email-quic_kriskura@quicinc.com>
+        with ESMTP id S229487AbiIDAE0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 3 Sep 2022 20:04:26 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D66422A;
+        Sat,  3 Sep 2022 17:04:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662249861; x=1693785861;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RVEhZ6y4T1JLmd8UZJsB2e4A0dQiVCt7KFVfFW0jwQA=;
+  b=cAtyjK00jWHVtA2WvzESCxsPrAKFS0tycokzzT+8Tt+S9CfaBxUeKnJc
+   R3jSL9ttdEEmeQjCuRodx4Vb8PS5Ir3/1iWekFv3JmzDCYIoUkaxT2rKZ
+   AjbQ6jPZtDwbhFAHygsg2uisHpGslDA1AScnhwRrZMaoLwAYunSrQLQRy
+   2+fAJk9tCYavi+M1t8kU1c3HTF6pMIfoRJsFheoR6e+X9JXBIVNiDY6Fu
+   3HGn7Zx+MD1817DUVUGoz0uAcveV4ZsdGfgmlUSKILxLP3X5zM1Pgb+Wc
+   5D/a72JXPKwNeL9/2MVDREaIkfc2oxXGu2AMHeCUHmcQ0i5gx2lOLJK8R
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10459"; a="297494730"
+X-IronPort-AV: E=Sophos;i="5.93,287,1654585200"; 
+   d="scan'208";a="297494730"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2022 17:04:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,287,1654585200"; 
+   d="scan'208";a="564348244"
+Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 03 Sep 2022 17:04:17 -0700
+Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oUd7Y-0002Ll-1R;
+        Sun, 04 Sep 2022 00:04:16 +0000
+Date:   Sun, 4 Sep 2022 08:03:51 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Szuying Chen <chensiying21@gmail.com>, gregkh@linuxfoundation.org,
+        mario.limonciello@amd.com, mika.westerberg@linux.intel.com,
+        andreas.noever@gmail.com, michael.jamet@intel.com,
+        YehezkelShB@gmail.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, Yd_Tseng@asmedia.com.tw,
+        Chloe_Chen@asmedia.com.tw, Richard_Hsu@asmedia.com.tw
+Subject: Re: [PATCH v8 1/3] thunderbolt: Add vendor's specific operations of
+ NVM
+Message-ID: <202209040723.T3GBSVUx-lkp@intel.com>
+References: <20220902094010.2170-2-chensiying21@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: jvsscNWZggA4EwLm8w20FtB3mlsaWjAI
-X-Proofpoint-ORIG-GUID: jvsscNWZggA4EwLm8w20FtB3mlsaWjAI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-09-03_03,2022-08-31_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
- impostorscore=0 mlxscore=0 spamscore=0 priorityscore=1501 bulkscore=0
- phishscore=0 clxscore=1015 mlxlogscore=783 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209030053
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220902094010.2170-2-chensiying21@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Overriding the SNPS Phy tuning parameters for SC7280 IDP device.
+Hi Szuying,
 
-Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- arch/arm64/boot/dts/qcom/sc7280-idp.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+Thank you for the patch! Perhaps something to improve:
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280-idp.dtsi b/arch/arm64/boot/dts/qcom/sc7280-idp.dtsi
-index 0c48db6..053fd1e 100644
---- a/arch/arm64/boot/dts/qcom/sc7280-idp.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280-idp.dtsi
-@@ -325,6 +325,12 @@
- 	vdda-pll-supply = <&vreg_l10c_0p8>;
- 	vdda33-supply = <&vreg_l2b_3p0>;
- 	vdda18-supply = <&vreg_l1c_1p8>;
-+	qcom,hs-rise-fall-time-bp = <0>;
-+	qcom,squelch-detector-bp = <(-2090)>;
-+	qcom,hs-disconnect-bp = <1743>;
-+	qcom,hs-amplitude-bp = <1780>;
-+	qcom,hs-crossover-voltage-microvolt = <(-31000)>;
-+	qcom,hs-output-impedance-micro-ohms = <2600000>;
- };
- 
- &usb_1_qmpphy {
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.0-rc3 next-20220901]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Szuying-Chen/thunderbolt-add-vendor-s-NVM-formats/20220902-174246
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 42e66b1cc3a070671001f8a1e933a80818a192bf
+config: loongarch-randconfig-s051-20220901 (https://download.01.org/0day-ci/archive/20220904/202209040723.T3GBSVUx-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/02a1339d2c5a67367909bfcb11e307d3cfa44f74
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Szuying-Chen/thunderbolt-add-vendor-s-NVM-formats/20220902-174246
+        git checkout 02a1339d2c5a67367909bfcb11e307d3cfa44f74
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+sparse warnings: (new ones prefixed by >>)
+   drivers/thunderbolt/nvm.c: note: in included file:
+>> drivers/thunderbolt/tb.h:743:20: sparse: sparse: marked inline, but without a definition
+>> drivers/thunderbolt/tb.h:743:20: sparse: sparse: marked inline, but without a definition
+
+vim +743 drivers/thunderbolt/tb.h
+
+   742	
+ > 743	inline int nvm_read(struct tb_switch *sw, unsigned int address,
+   744				   void *buf, size_t size);
+   745	struct tb_nvm *tb_nvm_alloc(struct device *dev);
+   746	int tb_nvm_add_active(struct tb_nvm *nvm, size_t size, nvmem_reg_read_t reg_read);
+   747	int tb_nvm_write_buf(struct tb_nvm *nvm, unsigned int offset, void *val,
+   748			     size_t bytes);
+   749	int tb_nvm_add_non_active(struct tb_nvm *nvm, size_t size,
+   750				  nvmem_reg_write_t reg_write);
+   751	void tb_nvm_free(struct tb_nvm *nvm);
+   752	void tb_nvm_exit(void);
+   753	
+
 -- 
-2.7.4
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
