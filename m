@@ -2,108 +2,109 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89109C6FA83
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Sep 2022 10:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3722C6FA8B
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Sep 2022 10:41:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236197AbiIEKS4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Sep 2022 06:18:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49862 "EHLO
+        id S236686AbiIEKlM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Sep 2022 06:41:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237327AbiIEKSP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Sep 2022 06:18:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91D4E56BBA
-        for <linux-usb@vger.kernel.org>; Mon,  5 Sep 2022 03:17:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4D0B4611E3
-        for <linux-usb@vger.kernel.org>; Mon,  5 Sep 2022 10:17:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C8F1C433C1;
-        Mon,  5 Sep 2022 10:17:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1662373040;
-        bh=zexbFhyo7ClmCsE1D0fdZxpmtAoMSQd9AuNjqNON82M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aj68C0Sp0XpukcZLiecZ77GZcBHShk4HM559dVqRveJMoxfMpfSj90pn+RojUuA6p
-         fyVaQecMQvNBABnD07ZXSxPlbFFYO86xhBEPsQ7y8HjY1fwA2fJCX0LzwXvloBbJBl
-         0sTW2z30g4486QGs1NBzJu4fV5FQDXukbfGJEt+8=
-Date:   Mon, 5 Sep 2022 12:17:17 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org,
-        linux-usb@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>
-Subject: Re: [usb:usb-testing 29/47] drivers/usb/host/ehci-platform.c:56:19:
- warning: 'hcd_name' defined but not used
-Message-ID: <YxXMrW06iuT5w2pf@kroah.com>
-References: <202208310007.6yJMsSYz-lkp@intel.com>
- <Yw5E7n+lNgz1ANEH@rowland.harvard.edu>
- <Yw75Aa35sWOjKMN0@kroah.com>
- <CAMj1kXHaFa6GqPvXjuat6ccLt7D1V1XypbPH1F_TES-cLgx1Ww@mail.gmail.com>
+        with ESMTP id S236507AbiIEKlL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Sep 2022 06:41:11 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A98154C60E
+        for <linux-usb@vger.kernel.org>; Mon,  5 Sep 2022 03:41:07 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id og21so16245784ejc.2
+        for <linux-usb@vger.kernel.org>; Mon, 05 Sep 2022 03:41:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=9xdYuu62zn6DTVuFLIdNqNTZMNwzsKHXEqC14OZNWNU=;
+        b=FtboF37GSOE63UVBPDmVZNlKbNYdyQQTJ+s3UhSQJVLQL/lfTP9LWjRJrI2IirL10P
+         RMbzluYFwNJzfe1PcgqLCwlKFYldMq9paXhxYn0sYX271CaSDJZHidZ5q96JxBOSW2zn
+         lOaTLbWVAi26m6UIISjWArsPGILqnhZGi9fcT8kQksgDAK0cglTE62X2uT7bK8xfV6Jn
+         69jfdmKiWiZCu5sVLeXkE7kdKvJZrfswHvHuNhGjcoCD973h5vcRXPGP0giAbPSsgah9
+         jm2PSTYF7H/HxnDS4XHxekgDOaHjJVatxbEhAECSvMHM/cKDnbe76RrHLb0Ztl/YmXn8
+         00eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=9xdYuu62zn6DTVuFLIdNqNTZMNwzsKHXEqC14OZNWNU=;
+        b=1Fc6cfWjukJZhOugSFwwpzGzFDa7qtI1Cu/dYRhkiJ8PKf/ktR0Fjoq4tQuZVvEz2C
+         JP+Qc0FZX4B53mRBJEqfh3YK5VqgxyXONvcI5Va/voWKWtAXu1021G+dksAUOwI4hrTP
+         qm6YgGsnYWkTWGf1UJDFkieb24lnbzZ7DRLOAD+/63wsR06L4hW6/Gf+tIC0lur7xI0Z
+         d2wWYVPEHC2QGJtT47PKpLtS8kuFP/0FAguuWGLaOqVdtOYHI3HAWxUFMRkBh0wUjUrs
+         x3BPldyZueEZIOQRE02bXK+bhcvMVnExLCA7QYJNRtJUoleGJiYaWzRgiPFQouv77VfC
+         LQBA==
+X-Gm-Message-State: ACgBeo1crCgiSqTtns3SPGiHTYAiOoYOIV2uUqOA0g8WK7r1c+pIaWAz
+        dU3/sOAXQi0I+kotDdxlIJWG/ezrZbsrf3G/9gMuIQ==
+X-Google-Smtp-Source: AA6agR5WFwFd/TQ7W2jnfHYcXDAkiN6tuxUzvxuNvMwW96MkN6StF/cPpx6O6HJW2jg3g8odW82qLRa+WoEMj2LUhdw=
+X-Received: by 2002:a17:906:58c8:b0:6fe:91d5:18d2 with SMTP id
+ e8-20020a17090658c800b006fe91d518d2mr35853646ejs.190.1662374466240; Mon, 05
+ Sep 2022 03:41:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMj1kXHaFa6GqPvXjuat6ccLt7D1V1XypbPH1F_TES-cLgx1Ww@mail.gmail.com>
+References: <20220903-gpiod_get_from_of_node-remove-v1-0-b29adfb27a6c@gmail.com>
+ <20220903-gpiod_get_from_of_node-remove-v1-11-b29adfb27a6c@gmail.com>
+In-Reply-To: <20220903-gpiod_get_from_of_node-remove-v1-11-b29adfb27a6c@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 5 Sep 2022 12:40:55 +0200
+Message-ID: <CACRpkdbYc3vbgq26cXz4FYdzgDp-ro3fq=JGmuj9=cq+Zu13PQ@mail.gmail.com>
+Subject: Re: [PATCH v1 11/11] gpiolib: of: remove [devm_]gpiod_get_from_of_node()
+ APIs
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Airlie <airlied@linux.ie>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Rob Herring <robh@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+        linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Sep 05, 2022 at 12:13:03PM +0200, Ard Biesheuvel wrote:
-> On Wed, 31 Aug 2022 at 08:00, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Tue, Aug 30, 2022 at 01:12:14PM -0400, Alan Stern wrote:
-> > > On Wed, Aug 31, 2022 at 12:10:36AM +0800, kernel test robot wrote:
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-> > > > head:   594b9411b4adceb59ca8a66997eec1eaa3756785
-> > > > commit: 5cfdb45657c97315501316657e504298b381ceee [29/47] usb: reduce kernel log spam on driver registration
-> > > > config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220831/202208310007.6yJMsSYz-lkp@intel.com/config)
-> > > > compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
-> > > > reproduce (this is a W=1 build):
-> > > >         # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?id=5cfdb45657c97315501316657e504298b381ceee
-> > > >         git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-> > > >         git fetch --no-tags usb usb-testing
-> > > >         git checkout 5cfdb45657c97315501316657e504298b381ceee
-> > > >         # save the config file
-> > > >         mkdir build_dir && cp config build_dir/.config
-> > > >         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/usb/host/
-> > > >
-> > > > If you fix the issue, kindly add following tag where applicable
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > >
-> > > > All warnings (new ones prefixed by >>):
-> > > >
-> > > > >> drivers/usb/host/ehci-platform.c:56:19: warning: 'hcd_name' defined but not used [-Wunused-const-variable=]
-> > > >       56 | static const char hcd_name[] = "ehci-platform";
-> > > >          |                   ^~~~~~~~
-> > > > --
-> > > > >> drivers/usb/host/ohci-platform.c:44:19: warning: 'hcd_name' defined but not used [-Wunused-const-variable=]
-> > > >       44 | static const char hcd_name[] = "ohci-platform";
-> > > >          |                   ^~~~~~~~
-> > >
-> > > This is a side effect from Ard's patch removing the pr_info lines from
-> > > these drivers.  It will show up in some of the other drivers too (the
-> > > ones that don't initialize their own hc_driver structure).  The solution
-> > > is simply to remove the unused definitions.
-> > >
-> > > Ard, do you want to write a fixup patch to do this?
-> >
-> > I'll go fix it up...
-> >
-> 
-> Apologies for missing this, I was on vacation last week.
-> 
-> Is there anything that needs to be done at this point?
+On Mon, Sep 5, 2022 at 8:31 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 
-Yeah, my fixup patch was incomplete and I'll not have the chance to fix
-it up for a few more days due to travel :(
+> Now that everyone is using [devm_]fwnode_gpiod_get[_index]() APIs, we no
+> longer need to expose OF-specific [devm_]gpiod_get_from_of_node().
+>
+> Note that we are keeping gpiod_get_from_of_node() but only as a private
+> to gpiolib function.
+>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-So if you want to send a follow-on patch, like my fixup one but in more
-places, that would be great!
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-thanks,
-
-greg k-h
+Yours,
+Linus Walleij
