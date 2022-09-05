@@ -2,118 +2,124 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71ED4ECAAD3
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Sep 2022 11:18:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC1B9ECAAD5
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Sep 2022 12:02:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237657AbiIELSP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Sep 2022 07:18:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51424 "EHLO
+        id S230203AbiIEMCA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Sep 2022 08:02:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235874AbiIELSM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Sep 2022 07:18:12 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D3FC5AC67;
-        Mon,  5 Sep 2022 04:18:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BE86BB810EE;
-        Mon,  5 Sep 2022 11:18:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84511C43147;
-        Mon,  5 Sep 2022 11:18:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662376688;
-        bh=VqDluIVUCa0cvkguJgqU0qU0mM2vHSOAmaSO20HhtAk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=q6BmZ1QMF63HoDD/P7moeMLa+G1n88M4wOMcVbYClfBxzKmPMQ74uqDdaHwSku00i
-         /IPgadj+DfsdTH/0T/kD8oU55dlB+s7yobE3ZWCVPguW8bL6ufitxHc/7f/OcdKlvA
-         rJEsYPOu0mhYpikubnPNVWmFkAG0ZSR6v4S/c0ldh5FxqlmRZ7iWi6WrrhnhsaNykE
-         PKuAE2qyazipp7WwSvqB4mlW4MlYsNw0F14tpXl32678ssVZo6gSMfgS6uIH3CZ14r
-         wwODrSCcZdTazHd9orXEuwKIzq3hOjUIE/kQA3woApsD/yniXCW5SpwBe4bbs4jhoi
-         asmoteEajmSMA==
-Received: by mail-lj1-f170.google.com with SMTP id k22so8908507ljg.2;
-        Mon, 05 Sep 2022 04:18:08 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1322twlth2xDs7zUirfnZmdc32Mck2zjtKHz2I5anf3QO33v9/
-        4WAynM3Mx0SuXPsDJAQFCfWyYpyN7dRAImhmkds=
-X-Google-Smtp-Source: AA6agR5KS/N7PwAIE1VgLmLrimzWOIJ66TyKWYDA3eq+4LJpciY5M1NhNEKFX77c9InbsebrMfDTY91CD1+6hxCAd/U=
-X-Received: by 2002:a2e:9b0e:0:b0:268:cb68:575b with SMTP id
- u14-20020a2e9b0e000000b00268cb68575bmr5579388lji.152.1662376686339; Mon, 05
- Sep 2022 04:18:06 -0700 (PDT)
+        with ESMTP id S234228AbiIEMB5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Sep 2022 08:01:57 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80E3957E03
+        for <linux-usb@vger.kernel.org>; Mon,  5 Sep 2022 05:01:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662379314; x=1693915314;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=/S8WiKjmYAhpqH+osEBpfozXJYT7V2OyEpiaVRL5fag=;
+  b=CG7OfIbjb5CzYfm+XBPNn+LVPGan9FCzHyH6aLMLNO5uuoLrnrzRicv7
+   MY72R8aIcxE3JvABEhepokCF2vLd9rWho4WMZ1HF27poS8MZU04/1ox/s
+   TwHZMBz93223cvgG2C0rHFN+yomUNB3DRLhB8yCBXHCReDOEQVOJzn57q
+   GUSbiLpu6PENl20QQY4Y8CSDeJx2m4UVdKjLXR9pvATmHWJ3/jNZIkRL7
+   yW29H76t1lQSb6qZla1nfTBs01SwpbS0QPLQOb+B4RNGM1evyzsUydJVl
+   mA/3BKuVc/P42wkpNFn5j/MgpKr+9gg7n9cuW1ywgUg18+ocL5QwtT3GW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="295113121"
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; 
+   d="scan'208";a="295113121"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 05:01:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; 
+   d="scan'208";a="613760090"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga002.jf.intel.com with ESMTP; 05 Sep 2022 05:01:50 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 35739193; Mon,  5 Sep 2022 15:02:06 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Szuying Chen <Chloe_Chen@asmedia.com.tw>
+Cc:     gregkh@linuxfoundation.org, mario.limonciello@amd.com,
+        andreas.noever@gmail.com, michael.jamet@intel.com,
+        YehezkelShB@gmail.com, Yd_Tseng@asmedia.com.tw,
+        Richard_Hsu@asmedia.com.tw, Lukas Wunner <lukas@wunner.de>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH v9 2/6] thunderbolt: Extend NVM version fields to 32-bits
+Date:   Mon,  5 Sep 2022 15:02:01 +0300
+Message-Id: <20220905120205.23025-3-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220905120205.23025-1-mika.westerberg@linux.intel.com>
+References: <20220905120205.23025-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-References: <20220905105252.351795-1-ardb@kernel.org> <YxXYgNsug4BIWsoF@kroah.com>
-In-Reply-To: <YxXYgNsug4BIWsoF@kroah.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Mon, 5 Sep 2022 13:17:55 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXFuzXPmah+bO+tORQSWnBn_YktDA716FJA=_Psez0OTmg@mail.gmail.com>
-Message-ID: <CAMj1kXFuzXPmah+bO+tORQSWnBn_YktDA716FJA=_Psez0OTmg@mail.gmail.com>
-Subject: Re: [PATCH v2] usb: reduce kernel log spam on driver registration
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 5 Sept 2022 at 13:07, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Mon, Sep 05, 2022 at 12:52:52PM +0200, Ard Biesheuvel wrote:
-> > Drivers are typically supposed to be quiet unless they are actually
-> > probed, but for some reason, USB host controllers seem to be exempt from
-> > this rule, and happily broadcast their existence into the kernel log at
-> > boot even if the hardware in question is nowhere to be found.
-> >
-> > Let's fix that, and remove these pr_info() calls.
-> >
-> > Cc: Alan Stern <stern@rowland.harvard.edu>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> > Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > Cc: Claudiu Beznea <claudiu.beznea@microchip.com>
-> > Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > Cc: Alim Akhtar <alim.akhtar@samsung.com>
-> > Cc: Avi Fishman <avifishman70@gmail.com>
-> > Cc: Tomer Maimon <tmaimon77@gmail.com>
-> > Cc: Tali Perry <tali.perry1@gmail.com>
-> > Cc: Patrick Venture <venture@google.com>
-> > Cc: Nancy Yuen <yuenn@google.com>
-> > Cc: Benjamin Fair <benjaminfair@google.com>
-> > Cc: Patrice Chotard <patrice.chotard@foss.st.com>
-> > Cc: Vladimir Zapolskiy <vz@mleia.com>
-> > Cc: linux-usb@vger.kernel.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: linux-samsung-soc@vger.kernel.org
-> > Cc: linux-omap@vger.kernel.org
-> > Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > Acked-by: Alan Stern <stern@rowland.harvard.edu>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > Reviewed-by: Alim Akhtar <alim.akhtar@samsung.com>
-> > ---
-> > v2: - drop another couple of occurrences pointed out by Robert
-> >     - drop hcd_name variables as well if the only reference to them is
-> >       being dropped
-> >     - pick up acks
->
-> I've already applied your first version, so can you rebase this against
-> linux-next and send just the fixups?
->
+From: Szuying Chen <Chloe_Chen@asmedia.com.tw>
 
-OK
+In order to support non-Intel NVM image formats extend the NVM major and
+minor version to 32-bits to better accommondate different versioning
+schemes.
+
+No functional impact.
+
+Signed-off-by: Szuying Chen <Chloe_Chen@asmedia.com.tw>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/retimer.c | 4 ++--
+ drivers/thunderbolt/switch.c  | 4 ++--
+ drivers/thunderbolt/tb.h      | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/thunderbolt/retimer.c b/drivers/thunderbolt/retimer.c
+index 8c29bd556ae0..dc0fc90e81cf 100644
+--- a/drivers/thunderbolt/retimer.c
++++ b/drivers/thunderbolt/retimer.c
+@@ -71,8 +71,8 @@ static int tb_retimer_nvm_add(struct tb_retimer *rt)
+ 	if (ret)
+ 		goto err_nvm;
+ 
+-	nvm->major = val >> 16;
+-	nvm->minor = val >> 8;
++	nvm->major = (val >> 16) & 0xff;
++	nvm->minor = (val >> 8) & 0xff;
+ 
+ 	ret = usb4_port_retimer_nvm_read(rt->port, rt->index, NVM_FLASH_SIZE,
+ 					 &val, sizeof(val));
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index bd815e2cc6ec..ac8d7145e9ff 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -427,8 +427,8 @@ static int tb_switch_nvm_add(struct tb_switch *sw)
+ 		if (ret)
+ 			goto err_nvm;
+ 
+-		nvm->major = val >> 16;
+-		nvm->minor = val >> 8;
++		nvm->major = (val >> 16) & 0xff;
++		nvm->minor = (val >> 8) & 0xff;
+ 
+ 		ret = tb_nvm_add_active(nvm, nvm_size, tb_switch_nvm_read);
+ 		if (ret)
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index 6cca6b759c5f..610ed62b55f2 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -48,8 +48,8 @@
+  */
+ struct tb_nvm {
+ 	struct device *dev;
+-	u8 major;
+-	u8 minor;
++	u32 major;
++	u32 minor;
+ 	int id;
+ 	struct nvmem_device *active;
+ 	struct nvmem_device *non_active;
+-- 
+2.35.1
+
