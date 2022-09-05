@@ -2,43 +2,43 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55973C6FA83
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Sep 2022 12:02:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A24CECAAD3
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Sep 2022 12:02:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236609AbiIEMCM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Sep 2022 08:02:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56744 "EHLO
+        id S236720AbiIEMCR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Sep 2022 08:02:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236751AbiIEMB5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Sep 2022 08:01:57 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C1925C34D
-        for <linux-usb@vger.kernel.org>; Mon,  5 Sep 2022 05:01:54 -0700 (PDT)
+        with ESMTP id S236832AbiIEMCA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Sep 2022 08:02:00 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C76757E03
+        for <linux-usb@vger.kernel.org>; Mon,  5 Sep 2022 05:01:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662379314; x=1693915314;
+  t=1662379318; x=1693915318;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=qdaHVAEk2NuyqO0h8gjWmE8N1nUGXp37XCNSdOi2Nyc=;
-  b=AXScR/EXIHKH0BpJyRvIwP91HCgd5l0//PpaGXIhy8S7dVMS0k3fZIHx
-   6QBFH3nYqJwKnWQu7ZTAS8vp5XhbyB1729MbA78FmNcuqPGkvc6XDhbWu
-   orHt2YwdMaDtVWP74E0052FkShPbCQg5B4hg/i7gJXMiJuUx4e9/UGteU
-   g7TLhXks0yHaYWDw4TOqFdfeRwoiu2FaSs6saaPR3flph0+OiBe2epbDs
-   J/mcRLMBImzPpBTUfCRkA5oOaGq0bjaXf6P6ZGtnB4sCiA7S24PgpfKjU
-   RqV5phRpzBj8JYBb+TKghfg1ZbZoqRwU80Fo5g7ZKF1Mo6jhFwpwEH2dv
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="283368898"
+  bh=faW4CsHzIIJ/763i7/5zlOy4v4vRxbE0KLLC3CY4mqU=;
+  b=NhIJzrNhudSV+bkfTYHBsGXnMjnh5KytTAsGcfTubYK2TRkU0mh5MtuP
+   lMBSJ+Zt0HSZ8oP9zUbeJrZza3WMi9VBZjZniYicF8rv2YjK9fPZKpbju
+   +7ciDWuFJCqRgDfLtGFyE8s7pXjiGzkUhghcI/f/5TIF2tS0yrTy97KeQ
+   /DICvXlUTHWGVkqSJCjE3GH9GWZ1AQASjWMefiRXy6va7OXETudKssl4T
+   X+gFMEy/qGHMzLu+UwyH8EJawkb00iK+uNIus9BaWKxV/EBjBarBZv/SJ
+   b+L0Y8I7Eceij5tfZL142Sbh+7qXMnKiCeLRKFrYlRJk922we0ubN93vh
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="322543271"
 X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; 
-   d="scan'208";a="283368898"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 05:01:53 -0700
+   d="scan'208";a="322543271"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 05:01:58 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; 
-   d="scan'208";a="739573246"
+   d="scan'208";a="609657974"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga004.jf.intel.com with ESMTP; 05 Sep 2022 05:01:50 -0700
+  by orsmga007.jf.intel.com with ESMTP; 05 Sep 2022 05:01:54 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 3E4541E0; Mon,  5 Sep 2022 15:02:06 +0300 (EEST)
+        id 587224F1; Mon,  5 Sep 2022 15:02:06 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     Szuying Chen <Chloe_Chen@asmedia.com.tw>
 Cc:     gregkh@linuxfoundation.org, mario.limonciello@amd.com,
@@ -47,9 +47,9 @@ Cc:     gregkh@linuxfoundation.org, mario.limonciello@amd.com,
         Richard_Hsu@asmedia.com.tw, Lukas Wunner <lukas@wunner.de>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         linux-usb@vger.kernel.org
-Subject: [PATCH v9 3/6] thunderbolt: Rename and make nvm_read() available for other files
-Date:   Mon,  5 Sep 2022 15:02:02 +0300
-Message-Id: <20220905120205.23025-4-mika.westerberg@linux.intel.com>
+Subject: [PATCH v9 6/6] thunderbolt: Add support for ASMedia NVM image format
+Date:   Mon,  5 Sep 2022 15:02:05 +0300
+Message-Id: <20220905120205.23025-7-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220905120205.23025-1-mika.westerberg@linux.intel.com>
 References: <20220905120205.23025-1-mika.westerberg@linux.intel.com>
@@ -61,132 +61,73 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Szuying Chen <Chloe_Chen@asmedia.com.tw>
 
-In order to support non-Intel NVM formats the vendor specific NVM
-validation code that will live in nvm.c needs to be able to read various
-parts of the NVM so make the function available outside of switch.c and
-rename it accordingly.
+Add support for ASMedia specific NVM image format. This makes it
+possible to upgrade the NVM firmware of ASMedia routers in addition to
+Intel ones.
 
 Signed-off-by: Szuying Chen <Chloe_Chen@asmedia.com.tw>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/switch.c | 44 +++++++++++++++++++++---------------
- drivers/thunderbolt/tb.h     |  2 ++
- 2 files changed, 28 insertions(+), 18 deletions(-)
+ drivers/thunderbolt/nvm.c | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index ac8d7145e9ff..a073a702c381 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -300,14 +300,6 @@ static inline bool nvm_upgradeable(struct tb_switch *sw)
- 	return nvm_readable(sw);
- }
+diff --git a/drivers/thunderbolt/nvm.c b/drivers/thunderbolt/nvm.c
+index 2e9b132af321..710536de12f3 100644
+--- a/drivers/thunderbolt/nvm.c
++++ b/drivers/thunderbolt/nvm.c
+@@ -18,6 +18,10 @@
+ #define INTEL_NVM_CSS			0x10
+ #define INTEL_NVM_FLASH_SIZE		0x45
  
--static inline int nvm_read(struct tb_switch *sw, unsigned int address,
--			   void *buf, size_t size)
--{
--	if (tb_switch_is_usb4(sw))
--		return usb4_switch_nvm_read(sw, address, buf, size);
--	return dma_port_flash_read(sw->dma_port, address, buf, size);
--}
--
- static int nvm_authenticate(struct tb_switch *sw, bool auth_only)
- {
- 	int ret;
-@@ -335,8 +327,26 @@ static int nvm_authenticate(struct tb_switch *sw, bool auth_only)
- 	return ret;
- }
++/* ASMedia specific NVM offsets */
++#define ASMEDIA_NVM_DATE		0x1c
++#define ASMEDIA_NVM_VERSION		0x28
++
+ static DEFINE_IDA(nvm_ida);
  
--static int tb_switch_nvm_read(void *priv, unsigned int offset, void *val,
--			      size_t bytes)
-+/**
-+ * tb_switch_nvm_read() - Read router NVM
-+ * @sw: Router whose NVM to read
-+ * @address: Start address on the NVM
-+ * @buf: Buffer where the read data is copied
-+ * @size: Size of the buffer in bytes
-+ *
-+ * Reads from router NVM and returns the requested data in @buf. Locking
-+ * is up to the caller. Returns %0 in success and negative errno in case
-+ * of failure.
-+ */
-+int tb_switch_nvm_read(struct tb_switch *sw, unsigned int address, void *buf,
-+		       size_t size)
+ /**
+@@ -149,8 +153,41 @@ static const struct tb_nvm_vendor_ops intel_switch_nvm_ops = {
+ 	.write_headers = intel_switch_nvm_write_headers,
+ };
+ 
++static int asmedia_switch_nvm_version(struct tb_nvm *nvm)
 +{
-+	if (tb_switch_is_usb4(sw))
-+		return usb4_switch_nvm_read(sw, address, buf, size);
-+	return dma_port_flash_read(sw->dma_port, address, buf, size);
++	struct tb_switch *sw = tb_to_switch(nvm->dev);
++	u32 val;
++	int ret;
++
++	ret = tb_switch_nvm_read(sw, ASMEDIA_NVM_VERSION, &val, sizeof(val));
++	if (ret)
++		return ret;
++
++	nvm->major = (val << 16) & 0xff0000;
++	nvm->minor |= val & 0x00ff00;
++	nvm->major |= (val >> 16) & 0x0000ff;
++
++	ret = tb_switch_nvm_read(sw, ASMEDIA_NVM_DATE, &val, sizeof(val));
++	if (ret)
++		return ret;
++
++	nvm->minor = (val << 16) & 0xff0000;
++	nvm->minor |= val & 0x00ff00;
++	nvm->minor |= (val >> 16) & 0x0000ff;
++
++	/* ASMedia NVM size is fixed to 512k */
++	nvm->active_size = SZ_512K;
++
++	return 0;
 +}
 +
-+static int nvm_read(void *priv, unsigned int offset, void *val, size_t bytes)
- {
- 	struct tb_nvm *nvm = priv;
- 	struct tb_switch *sw = tb_to_switch(nvm->dev);
-@@ -349,7 +359,7 @@ static int tb_switch_nvm_read(void *priv, unsigned int offset, void *val,
- 		goto out;
- 	}
- 
--	ret = nvm_read(sw, offset, val, bytes);
-+	ret = tb_switch_nvm_read(sw, offset, val, bytes);
- 	mutex_unlock(&sw->tb->lock);
- 
- out:
-@@ -359,8 +369,7 @@ static int tb_switch_nvm_read(void *priv, unsigned int offset, void *val,
- 	return ret;
- }
- 
--static int tb_switch_nvm_write(void *priv, unsigned int offset, void *val,
--			       size_t bytes)
-+static int nvm_write(void *priv, unsigned int offset, void *val, size_t bytes)
- {
- 	struct tb_nvm *nvm = priv;
- 	struct tb_switch *sw = tb_to_switch(nvm->dev);
-@@ -415,7 +424,7 @@ static int tb_switch_nvm_add(struct tb_switch *sw)
- 	if (!sw->safe_mode) {
- 		u32 nvm_size, hdr_size;
- 
--		ret = nvm_read(sw, NVM_FLASH_SIZE, &val, sizeof(val));
-+		ret = tb_switch_nvm_read(sw, NVM_FLASH_SIZE, &val, sizeof(val));
- 		if (ret)
- 			goto err_nvm;
- 
-@@ -423,21 +432,20 @@ static int tb_switch_nvm_add(struct tb_switch *sw)
- 		nvm_size = (SZ_1M << (val & 7)) / 8;
- 		nvm_size = (nvm_size - hdr_size) / 2;
- 
--		ret = nvm_read(sw, NVM_VERSION, &val, sizeof(val));
-+		ret = tb_switch_nvm_read(sw, NVM_VERSION, &val, sizeof(val));
- 		if (ret)
- 			goto err_nvm;
- 
- 		nvm->major = (val >> 16) & 0xff;
- 		nvm->minor = (val >> 8) & 0xff;
- 
--		ret = tb_nvm_add_active(nvm, nvm_size, tb_switch_nvm_read);
-+		ret = tb_nvm_add_active(nvm, nvm_size, nvm_read);
- 		if (ret)
- 			goto err_nvm;
- 	}
- 
- 	if (!sw->no_nvm_upgrade) {
--		ret = tb_nvm_add_non_active(nvm, NVM_MAX_SIZE,
--					    tb_switch_nvm_write);
-+		ret = tb_nvm_add_non_active(nvm, NVM_MAX_SIZE, nvm_write);
- 		if (ret)
- 			goto err_nvm;
- 	}
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 610ed62b55f2..f9b241ee109f 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -759,6 +759,8 @@ int tb_nvm_write_data(unsigned int address, const void *buf, size_t size,
- 		      unsigned int retries, write_block_fn write_next_block,
- 		      void *write_block_data);
- 
-+int tb_switch_nvm_read(struct tb_switch *sw, unsigned int address, void *buf,
-+		       size_t size);
- struct tb_switch *tb_switch_alloc(struct tb *tb, struct device *parent,
- 				  u64 route);
- struct tb_switch *tb_switch_alloc_safe_mode(struct tb *tb,
++static const struct tb_nvm_vendor_ops asmedia_switch_nvm_ops = {
++	.read_version = asmedia_switch_nvm_version,
++};
++
+ /* Router vendor NVM support table */
+ static const struct tb_nvm_vendor switch_nvm_vendors[] = {
++	{ 0x174c, &asmedia_switch_nvm_ops },
+ 	{ PCI_VENDOR_ID_INTEL, &intel_switch_nvm_ops },
+ 	{ 0x8087, &intel_switch_nvm_ops },
+ };
 -- 
 2.35.1
 
