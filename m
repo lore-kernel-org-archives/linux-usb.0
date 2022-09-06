@@ -2,98 +2,153 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70AE3ECAAA1
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Sep 2022 14:45:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6A46ECAAD5
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Sep 2022 15:35:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242173AbiIFOpN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 6 Sep 2022 10:45:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46546 "EHLO
+        id S238706AbiIFPfR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 6 Sep 2022 11:35:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242170AbiIFOor (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Sep 2022 10:44:47 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36664B7D7;
-        Tue,  6 Sep 2022 07:04:30 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id bj14so2354727wrb.12;
-        Tue, 06 Sep 2022 07:04:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=6qmWJOLRR+n4c7sVjdfAUPTsyzenHuuzlHk1wiFMkLo=;
-        b=ZghPrPVGnY0NJr9kyqP6SguuWE16ZeTMQr/gX/w075kNfE2vCSEUsM9wCYOyt4I7x0
-         NT8mmE5xAnh0QMjkIqiMhXx5raZmDL1WAUa79E/CxRWWK/7+X12M7Gj9RlXsY/i/EQwF
-         Z6pMacus3IW/EVkoyRSPivC/U/cJOQ6MBTvT+7CfDR5ojwcw67v/lqlcpbufsn/QY5EZ
-         W+uk5qU57YclFrjQaGpZwU6AUt+EMAGM7V90nsWOxAi4CJAmmmyFfgMiGhhQ7dwVMgrj
-         VXGVmzCXsEE4xHdWuxy7cYGuQvIj+S9Z8ytbQ9RhbKxKIrMw9N26v6roiecJFyrH/ZLy
-         ZF4A==
+        with ESMTP id S231831AbiIFPeB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Sep 2022 11:34:01 -0400
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F4914DF18
+        for <linux-usb@vger.kernel.org>; Tue,  6 Sep 2022 07:44:38 -0700 (PDT)
+Received: by mail-il1-f199.google.com with SMTP id m12-20020a056e021c2c00b002ed9189c241so9653003ilh.15
+        for <linux-usb@vger.kernel.org>; Tue, 06 Sep 2022 07:44:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=6qmWJOLRR+n4c7sVjdfAUPTsyzenHuuzlHk1wiFMkLo=;
-        b=XLevXNRF4r3KZfetSxn/ErmxJmZAHlWB0h8HoIigM1OZ8UgMKMYor6uVf1AGhekx1H
-         k4BGmV8sflNoJ3V81gpyDpHwrqJ9ibrjKmJ2UrhXPkT0osklBeq15nc7Gvy9I9FmesqS
-         CZ967krpAhTZW0OidOP0DndzkSoOVenYYk0SqNljrFlJB7vjFJiVQnNClpJ/clV9m4Be
-         Pu02ABlRLVxST7LwreX3Y0FJ0+ke1scVlfP0v/5HFw1cn05O0S/RA8qWASNSlM8wVfOU
-         Wbiu+QQbmurWgAtHD+KHFctB2CZGyfjrYkdHNxqz4wnDuIUdAuNrtyES0kAUGfEzCig+
-         LzVg==
-X-Gm-Message-State: ACgBeo1fYNkpANOBcb0vVa+FRy5j//p1j9l10Ylnr3PdS0S9R57tfeW2
-        FHsYNSC0qwT6iW5fgRJNiqQ=
-X-Google-Smtp-Source: AA6agR5b6Y7mG/H4/nwWAeRBkvKJP6MTXAPVn9o3Mcv5TE06x6z3xSOGO0zYrMTyGM7YJJ3kVM02iA==
-X-Received: by 2002:a5d:458e:0:b0:228:cd6e:dc56 with SMTP id p14-20020a5d458e000000b00228cd6edc56mr3853162wrq.614.1662472995649;
-        Tue, 06 Sep 2022 07:03:15 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id h23-20020a05600c2cb700b003a2f2bb72d5sm26239598wmc.45.2022.09.06.07.03.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Sep 2022 07:03:15 -0700 (PDT)
-From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        linux-usb@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH][next] thunderbolt: debugfs: Fix spelling mistakes in seq_puts text
-Date:   Tue,  6 Sep 2022 15:03:14 +0100
-Message-Id: <20220906140314.194565-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.37.1
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=Fe89WGWJZwiIb158sxstTr/GnL2kLOTXmABZOYRz0hw=;
+        b=1eFdBh5HFmUFr4B2bqUyjuEjVxLwsyiHOQ2aMNZPu5FOQYq6bFJP+kyAU36Mov3kf+
+         2G0VXQ1hSUjAHjkGC9tugSmu04SWeFK99BQ4rjTKyqrgxyp50QA21YZQrWHq4bWRs9Kw
+         mmJoSQjFoEA+wgTibjG/Nc3yqpyahBMIwX8aW+0oCRXGFNuNxB7bVXeNtQijQyAcKGjX
+         oC6MvCUbu2D0c84tbK3YwG89qjYfK55mbrKJL0Xq4pU5M88XCw4ZbGSRXAm5qJe2VuP8
+         YgTAiL7L68SVz0Yc4kUCcPNaxN7bQBf4wU1vUvl7acqRFesSRgipE2QGfkI+U5heApFW
+         LVKA==
+X-Gm-Message-State: ACgBeo0Pu+Y0hy2Y5QCGzmiP2WWcL7qwvQbCQa1kA6yIMRhUtj/VsjCd
+        1W5c6gkn1WW0XI1N27mKrmTHuEu8UTxflm1YTmrcQphCLnnd
+X-Google-Smtp-Source: AA6agR6UbPF1yi0UcJv+otI7unVJjhlAKyO1RsEcB8JlQSEq+cfX8KQb0M4+0FH+ofYXeEYxmb4LC2NcF/HOw6U4uZe+2iofILjf
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:1bcb:b0:2ed:3517:3292 with SMTP id
+ x11-20020a056e021bcb00b002ed35173292mr12792554ilv.103.1662475465936; Tue, 06
+ Sep 2022 07:44:25 -0700 (PDT)
+Date:   Tue, 06 Sep 2022 07:44:25 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000098580e05e8033b9a@google.com>
+Subject: [syzbot] usb-testing boot error: BUG: unable to handle kernel paging
+ request in follow_page_mask
+From:   syzbot <syzbot+6b3a1fd733d73b7a14d7@syzkaller.appspotmail.com>
+To:     akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-usb@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There are a handful of spelling mistakes in seq_puts text. Fix them.
+Hello,
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+syzbot found the following issue on:
+
+HEAD commit:    4e55e22d3d9a USB: hcd-pci: Drop the unused id parameter fr..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=16b2d4d7080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3cb39b084894e9a5
+dashboard link: https://syzkaller.appspot.com/bug?extid=6b3a1fd733d73b7a14d7
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/05f931abacee/disk-4e55e22d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9b749a498398/vmlinux-4e55e22d.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+6b3a1fd733d73b7a14d7@syzkaller.appspotmail.com
+
+BUG: unable to handle page fault for address: ffffeefda00001ff
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 0 P4D 0 
+Oops: 0000 [#1] PREEMPT SMP KASAN
+CPU: 1 PID: 687 Comm: kworker/u4:0 Not tainted 6.0.0-rc1-syzkaller-00049-g4e55e22d3d9a #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
+RIP: 0010:native_pud_val arch/x86/include/asm/pgtable_types.h:347 [inline]
+RIP: 0010:pud_none arch/x86/include/asm/pgtable.h:829 [inline]
+RIP: 0010:follow_pud_mask mm/gup.c:730 [inline]
+RIP: 0010:follow_p4d_mask mm/gup.c:782 [inline]
+RIP: 0010:follow_page_mask+0x1a9/0x1c90 mm/gup.c:846
+Code: 00 80 88 ff ff 4c 01 e8 4d 89 e5 49 c1 ed 1b 41 81 e5 f8 0f 00 00 49 01 c5 48 b8 00 00 00 00 00 fc ff df 4c 89 ea 48 c1 ea 03 <80> 3c 02 00 0f 85 d4 18 00 00 4d 8b 75 00 31 ff 49 83 e6 9f 4c 89
+RSP: 0000:ffffc90001e7fb10 EFLAGS: 00010a06
+RAX: dffffc0000000000 RBX: ffff88810e732500 RCX: 0000000000000000
+RDX: 1ffff2fda00001ff RSI: ffffffff8167fdbd RDI: 0000000000000007
+RBP: ffffc90001e7fc48 R08: 0000000000000007 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 00007fffffffefc0
+R13: ffff97ed00000ff8 R14: 0000000000000000 R15: 0000000000002017
+FS:  0000000000000000(0000) GS:ffff8881f6900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffeefda00001ff CR3: 0000000007825000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ __get_user_pages+0x3f2/0x1020 mm/gup.c:1193
+ __get_user_pages_locked mm/gup.c:1399 [inline]
+ __get_user_pages_remote+0x18f/0x830 mm/gup.c:2109
+ get_user_pages_remote+0x84/0xc0 mm/gup.c:2182
+ get_arg_page+0xe4/0x2a0 fs/exec.c:222
+ copy_string_kernel+0x169/0x460 fs/exec.c:639
+ copy_strings_kernel+0xb3/0x190 fs/exec.c:655
+ kernel_execve+0x377/0x500 fs/exec.c:2001
+ call_usermodehelper_exec_async+0x2e3/0x580 kernel/umh.c:112
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+ </TASK>
+Modules linked in:
+CR2: ffffeefda00001ff
+---[ end trace 0000000000000000 ]---
+RIP: 0010:native_pud_val arch/x86/include/asm/pgtable_types.h:347 [inline]
+RIP: 0010:pud_none arch/x86/include/asm/pgtable.h:829 [inline]
+RIP: 0010:follow_pud_mask mm/gup.c:730 [inline]
+RIP: 0010:follow_p4d_mask mm/gup.c:782 [inline]
+RIP: 0010:follow_page_mask+0x1a9/0x1c90 mm/gup.c:846
+Code: 00 80 88 ff ff 4c 01 e8 4d 89 e5 49 c1 ed 1b 41 81 e5 f8 0f 00 00 49 01 c5 48 b8 00 00 00 00 00 fc ff df 4c 89 ea 48 c1 ea 03 <80> 3c 02 00 0f 85 d4 18 00 00 4d 8b 75 00 31 ff 49 83 e6 9f 4c 89
+RSP: 0000:ffffc90001e7fb10 EFLAGS: 00010a06
+RAX: dffffc0000000000 RBX: ffff88810e732500 RCX: 0000000000000000
+RDX: 1ffff2fda00001ff RSI: ffffffff8167fdbd RDI: 0000000000000007
+RBP: ffffc90001e7fc48 R08: 0000000000000007 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 00007fffffffefc0
+R13: ffff97ed00000ff8 R14: 0000000000000000 R15: 0000000000002017
+FS:  0000000000000000(0000) GS:ffff8881f6900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffeefda00001ff CR3: 0000000007825000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	00 80 88 ff ff 4c    	add    %al,0x4cffff88(%rax)
+   6:	01 e8                	add    %ebp,%eax
+   8:	4d 89 e5             	mov    %r12,%r13
+   b:	49 c1 ed 1b          	shr    $0x1b,%r13
+   f:	41 81 e5 f8 0f 00 00 	and    $0xff8,%r13d
+  16:	49 01 c5             	add    %rax,%r13
+  19:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  20:	fc ff df
+  23:	4c 89 ea             	mov    %r13,%rdx
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
+  2e:	0f 85 d4 18 00 00    	jne    0x1908
+  34:	4d 8b 75 00          	mov    0x0(%r13),%r14
+  38:	31 ff                	xor    %edi,%edi
+  3a:	49 83 e6 9f          	and    $0xffffffffffffff9f,%r14
+  3e:	4c                   	rex.WR
+  3f:	89                   	.byte 0x89
+
+
 ---
- drivers/thunderbolt/debugfs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
-index a1df3a7f159b..834bcad42e9f 100644
---- a/drivers/thunderbolt/debugfs.c
-+++ b/drivers/thunderbolt/debugfs.c
-@@ -351,7 +351,7 @@ static int margining_caps_show(struct seq_file *s, void *not_used)
- 		seq_puts(s, "# hardware margining: no\n");
- 	}
- 
--	seq_printf(s, "# both lanes simultaneusly: %s\n",
-+	seq_printf(s, "# both lanes simultaneously: %s\n",
- 		  both_lanes(usb4) ? "yes" : "no");
- 	seq_printf(s, "# voltage margin steps: %u\n",
- 		   usb4->margining->voltage_steps);
-@@ -366,7 +366,7 @@ static int margining_caps_show(struct seq_file *s, void *not_used)
- 		seq_puts(s, "# returns high or low voltage margin\n");
- 		break;
- 	case USB4_MARGIN_CAP_0_VOLTAGE_BOTH:
--		seq_puts(s, "# returns both hight and low margings\n");
-+		seq_puts(s, "# returns both high and low margins\n");
- 		break;
- 	}
- 
--- 
-2.37.1
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
