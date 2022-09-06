@@ -2,123 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A59E5C6FA89
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Sep 2022 13:50:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70AE3ECAAA1
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Sep 2022 14:45:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232875AbiIFNuM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 6 Sep 2022 09:50:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41720 "EHLO
+        id S242173AbiIFOpN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 6 Sep 2022 10:45:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238985AbiIFNs5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Sep 2022 09:48:57 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91578D68;
-        Tue,  6 Sep 2022 06:39:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662471567; x=1694007567;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=875CevRVJe80L7/rtpiMmo6eouC3PweRugFAgUKQzIA=;
-  b=CWeXbFsbUwURNngJZSEnO5kBPyMb8gAh+81qEjsTXm3W/Y/YjUwLe600
-   FfOX4WXEnQiQ7GtijHHMlePn3FFjAsihXLnRyZGjJ9hxxec0fdlYZ9cBM
-   vLxzw9u6k11la5lsgflW52biXJOi0eGVemZTjaU5TbV1vQ0YqsGNy3RAe
-   T7GTyon2yMoapd2mINhj3Ch8ksPVKpOgWkBbCRi3m6XhoBjaAHkFBKQjq
-   fM6lskGAXi+5NhMxy0R90VEPIZksy/Krrlqn4q6763nm9idiulYtdgAX2
-   cGin830Vz7EeIHIlTtts/iXpTfVxksA9ZMPWYtQeUEw03s6qU9AeD5sIi
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="276331670"
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
-   d="scan'208";a="276331670"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 06:37:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
-   d="scan'208";a="614095396"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga002.jf.intel.com with ESMTP; 06 Sep 2022 06:37:31 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 1F37C235; Tue,  6 Sep 2022 16:37:47 +0300 (EEST)
-Date:   Tue, 6 Sep 2022 16:37:47 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc:     andreas.noever@gmail.com, michael.jamet@intel.com,
-        YehezkelShB@gmail.com, sanju.mehta@amd.com,
-        mario.limonciello@amd.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] thunderbolt: Resume PCIe bridges after switch is found
- on AMD USB4 controller
-Message-ID: <YxdNKx1OFKsgBUBu@black.fi.intel.com>
-References: <20220905065622.1573811-1-kai.heng.feng@canonical.com>
- <YxWgGKIAvsxwSz85@black.fi.intel.com>
- <CAAd53p4iV=ne5bDGZ6FxE9bBUVoFh=eXF9_oMPvPzjVj=UVoog@mail.gmail.com>
- <YxWqSYDWe0NitSkL@black.fi.intel.com>
- <CAAd53p6bSmTPavjA0v6tybc6=HrwiDn0JGzXwVOG_m5EVw1p1w@mail.gmail.com>
- <YxYXH5dqKqPANeVX@black.fi.intel.com>
- <CAAd53p5tYG=mAR-RSr1g_iznmmcCy1QpthG5vQzr99AP4QLJyg@mail.gmail.com>
+        with ESMTP id S242170AbiIFOor (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Sep 2022 10:44:47 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36664B7D7;
+        Tue,  6 Sep 2022 07:04:30 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id bj14so2354727wrb.12;
+        Tue, 06 Sep 2022 07:04:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=6qmWJOLRR+n4c7sVjdfAUPTsyzenHuuzlHk1wiFMkLo=;
+        b=ZghPrPVGnY0NJr9kyqP6SguuWE16ZeTMQr/gX/w075kNfE2vCSEUsM9wCYOyt4I7x0
+         NT8mmE5xAnh0QMjkIqiMhXx5raZmDL1WAUa79E/CxRWWK/7+X12M7Gj9RlXsY/i/EQwF
+         Z6pMacus3IW/EVkoyRSPivC/U/cJOQ6MBTvT+7CfDR5ojwcw67v/lqlcpbufsn/QY5EZ
+         W+uk5qU57YclFrjQaGpZwU6AUt+EMAGM7V90nsWOxAi4CJAmmmyFfgMiGhhQ7dwVMgrj
+         VXGVmzCXsEE4xHdWuxy7cYGuQvIj+S9Z8ytbQ9RhbKxKIrMw9N26v6roiecJFyrH/ZLy
+         ZF4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=6qmWJOLRR+n4c7sVjdfAUPTsyzenHuuzlHk1wiFMkLo=;
+        b=XLevXNRF4r3KZfetSxn/ErmxJmZAHlWB0h8HoIigM1OZ8UgMKMYor6uVf1AGhekx1H
+         k4BGmV8sflNoJ3V81gpyDpHwrqJ9ibrjKmJ2UrhXPkT0osklBeq15nc7Gvy9I9FmesqS
+         CZ967krpAhTZW0OidOP0DndzkSoOVenYYk0SqNljrFlJB7vjFJiVQnNClpJ/clV9m4Be
+         Pu02ABlRLVxST7LwreX3Y0FJ0+ke1scVlfP0v/5HFw1cn05O0S/RA8qWASNSlM8wVfOU
+         Wbiu+QQbmurWgAtHD+KHFctB2CZGyfjrYkdHNxqz4wnDuIUdAuNrtyES0kAUGfEzCig+
+         LzVg==
+X-Gm-Message-State: ACgBeo1fYNkpANOBcb0vVa+FRy5j//p1j9l10Ylnr3PdS0S9R57tfeW2
+        FHsYNSC0qwT6iW5fgRJNiqQ=
+X-Google-Smtp-Source: AA6agR5b6Y7mG/H4/nwWAeRBkvKJP6MTXAPVn9o3Mcv5TE06x6z3xSOGO0zYrMTyGM7YJJ3kVM02iA==
+X-Received: by 2002:a5d:458e:0:b0:228:cd6e:dc56 with SMTP id p14-20020a5d458e000000b00228cd6edc56mr3853162wrq.614.1662472995649;
+        Tue, 06 Sep 2022 07:03:15 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id h23-20020a05600c2cb700b003a2f2bb72d5sm26239598wmc.45.2022.09.06.07.03.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Sep 2022 07:03:15 -0700 (PDT)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        linux-usb@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH][next] thunderbolt: debugfs: Fix spelling mistakes in seq_puts text
+Date:   Tue,  6 Sep 2022 15:03:14 +0100
+Message-Id: <20220906140314.194565-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAd53p5tYG=mAR-RSr1g_iznmmcCy1QpthG5vQzr99AP4QLJyg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Sep 06, 2022 at 08:57:20PM +0800, Kai-Heng Feng wrote:
-> On Mon, Sep 5, 2022 at 11:34 PM Mika Westerberg
-> <mika.westerberg@linux.intel.com> wrote:
-> >
-> > On Mon, Sep 05, 2022 at 11:21:36PM +0800, Kai-Heng Feng wrote:
-> > > > Hmm, so you see the actual hotplug but the tunneled PCIe link may not be
-> > > > detected? Does the PCIe "Card Present" (or Data Link Layer Active)
-> > > > status change at all or is it always 0?
-> > >
-> > > It changes only after tb_switch_add() is called.
-> >
-> > I doubt tb_switch_add() does anything but instead it is the established
-> > PCIe tunnel that then shows up as it toggles the Card Present bit or so.
-> > But that should also trigger PME if the root port is in D3 so you should
-> > see this wake if everything works accordingly (unless I'm missing
-> > something).
-> 
-> You are right. Sometimes it may still fail to detect hotplugged device
-> right after tb_switch_add().
-> At which point PCIe tunnels are established? Is it after tb_scan_port()?
+There are a handful of spelling mistakes in seq_puts text. Fix them.
 
-They are established when userspace writes "1" to ../authorized of the
-device (not automatically).
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/thunderbolt/debugfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Ubuntu that's boltd that handles this so you may need to disable it
-before you do the experiment.
+diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
+index a1df3a7f159b..834bcad42e9f 100644
+--- a/drivers/thunderbolt/debugfs.c
++++ b/drivers/thunderbolt/debugfs.c
+@@ -351,7 +351,7 @@ static int margining_caps_show(struct seq_file *s, void *not_used)
+ 		seq_puts(s, "# hardware margining: no\n");
+ 	}
+ 
+-	seq_printf(s, "# both lanes simultaneusly: %s\n",
++	seq_printf(s, "# both lanes simultaneously: %s\n",
+ 		  both_lanes(usb4) ? "yes" : "no");
+ 	seq_printf(s, "# voltage margin steps: %u\n",
+ 		   usb4->margining->voltage_steps);
+@@ -366,7 +366,7 @@ static int margining_caps_show(struct seq_file *s, void *not_used)
+ 		seq_puts(s, "# returns high or low voltage margin\n");
+ 		break;
+ 	case USB4_MARGIN_CAP_0_VOLTAGE_BOTH:
+-		seq_puts(s, "# returns both hight and low margings\n");
++		seq_puts(s, "# returns both high and low margins\n");
+ 		break;
+ 	}
+ 
+-- 
+2.37.1
 
-> I found that it's cleaner to wakeup hotplug ports via iterating device
-> link consumers at the end of tb_scan_port().
-> 
-> According to your commit b2be2b05cf3b1c7b499d3b05decdcc524879fea7
-> ("thunderbolt: Create device links from ACPI description"), it states
-> "The _DSD can be added to tunneled USB3 and PCIe ports, and is needed to
-> make sure the USB4 NHI is resumed before any of the tunneled ports so
-> the protocol tunnels get established properly before the actual port
-> itself is resumed. Othwerwise the USB/PCI core find the link may not be
-> established and starts tearing down the device stack."
-> 
-> So isn't waking them up a logical thing to do here?
-
-No they should wake up themselves.
-
-> > So if you do this:
-> >
-> > 1. Boot the system up, nothing connected
-> > 2. Plug in the TBT/USB4 device but do not authorize the PCIe tunnel
-> > 3. Wait for the TBT/USB4 domain to enter sleep (runtime suspend)
-> > 4. Authorize the PCIe tunnel
-> >
-> >   # echo 1 > .../authorized
-> >
-> > The established PCIe tunnel should trigger PME and the root port then
-> > should be able to detect the PCIe link. Can you add full dmesg with
-> > "thunderbolt.dyndbg=+p" in the command line to the bug?
-> 
-> dmesg attached. Unfortunately there's no PME.
-
-Hmm, attached to where? Forgot to attach? ;-)
