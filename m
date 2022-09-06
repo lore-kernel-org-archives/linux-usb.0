@@ -2,88 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58F9EECAAA1
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Sep 2022 15:38:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4392C6FA83
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Sep 2022 15:40:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229916AbiIFPiC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 6 Sep 2022 11:38:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45154 "EHLO
+        id S231958AbiIFPkr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 6 Sep 2022 11:40:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229782AbiIFPhk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Sep 2022 11:37:40 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 0FDAF6068A
-        for <linux-usb@vger.kernel.org>; Tue,  6 Sep 2022 07:47:03 -0700 (PDT)
-Received: (qmail 382878 invoked by uid 1000); 6 Sep 2022 09:58:20 -0400
-Date:   Tue, 6 Sep 2022 09:58:20 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     zenghongling <zenghongling@kylinos.cn>
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net, zhongling0719@126.com
-Subject: Re: [PATCH 1/3] uas: add no-uas quirk for Hiksemi usb_disk
-Message-ID: <YxdR/LJusrGHpwSr@rowland.harvard.edu>
-References: <1662434874-5116-1-git-send-email-zenghongling@kylinos.cn>
+        with ESMTP id S234269AbiIFPkS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Sep 2022 11:40:18 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DDEF857D9;
+        Tue,  6 Sep 2022 07:50:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BC668B8164A;
+        Tue,  6 Sep 2022 14:50:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 485DEC433D6;
+        Tue,  6 Sep 2022 14:50:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1662475847;
+        bh=IWYwNU18G9PTGfD+4nqLzyhb3k5q7mA/RA7vnU/IXHU=;
+        h=Date:From:To:Cc:Subject:From;
+        b=Uzy/5s1hgpoOJsBlO5KS7ndSsoM/jWofjiZFoFoc4IV+vlJYIfP/bpAIdDgftB85G
+         5JCx6BAsmD/yLH70mv9EbRBb3jhNyeSJmzy7u1/YPmBWfsVyRsDtmN957rjo90Edds
+         y+HQHz8IvNkzW7EdusjiOZhup4ynBW6FhFeBsVYmwiWMzj7mw4wFEUGZF/9s3B3Eiy
+         Asbas0toxzs9aEvqPUQwME8UhlHrxE5cQ8Ac9CUnwZ5WULvD9T4SXqllA1OVtTl8WY
+         e3fdQS+uaQpdgUoiZsUi/JXbREBEk6ni4ZqjWvNpw1AbyGKwHk/mIzMNRAr+DJwcW4
+         eUweX+lmF+Kew==
+Date:   Tue, 6 Sep 2022 09:50:45 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        linux-usb@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: [bugzilla-daemon@kernel.org: [Bug 216448] New: AMD USB4 pciehp can't
+ detect external PCIe devices]
+Message-ID: <20220906145045.GA6927@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1662434874-5116-1-git-send-email-zenghongling@kylinos.cn>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Sep 06, 2022 at 11:27:54AM +0800, zenghongling wrote:
-> The UAS mode of Hiksemi is reported to fail to work on several platforms
-> with the following error message, then after re-connecting the device will
-> be offlined and not working at all.
-> 
-> [  592.518442][ 2] sd 8:0:0:0: [sda] tag#17 uas_eh_abort_handler 0 uas-tag 18
->                    inflight: CMD
-> [  592.527575][ 2] sd 8:0:0:0: [sda] tag#17 CDB: Write(10) 2a 00 03 6f 88 00 00
->                    04 00 00
-> [  592.536330][ 2] sd 8:0:0:0: [sda] tag#0 uas_eh_abort_handler 0 uas-tag 1
->                    inflight: CMD
-> [  592.545266][ 2] sd 8:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 07 44 1a 88 00
->                    00 08 00
-> 
-> These disks have a broken uas implementation, the tag field of the status 
-> iu-s is not set properly,so we need to fall-back to usb-storage.
-> 
-> Signed-off-by: zenghongling <zenghongling@kylinos.cn>
+Few details so far, but bugzilla has lspci and dmesg.
 
-In all three patches, the name in your Signed-off-by: line must be your 
-real name (that is, the name you would use when signing a legal 
-document), not an email alias.  Furthermore, the same name should appear 
-in the From: field of the email message
+----- Forwarded message from bugzilla-daemon@kernel.org -----
 
-In patches 2 and 3, the new entries are in the wrong place in the file.  
-Entries are sorted by vendor and product ID.
+Date: Mon, 05 Sep 2022 06:51:52 +0000
+From: bugzilla-daemon@kernel.org
+To: bjorn@helgaas.com
+Subject: [Bug 216448] New: AMD USB4 pciehp can't detect external PCIe devices
+Message-ID: <bug-216448-41252@https.bugzilla.kernel.org/>
 
-In patch 3, how do you know that the problem is in the drive?  Does it 
-fail in the same way on a Windows or Mac OSX system?
+https://bugzilla.kernel.org/show_bug.cgi?id=216448
 
-Alan Stern
+            Bug ID: 216448
+           Summary: AMD USB4 pciehp can't detect external PCIe devices
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: mainline, linux-next
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: PCI
+          Assignee: drivers_pci@kernel-bugs.osdl.org
+          Reporter: kai.heng.feng@canonical.com
+        Regression: No
 
-> ---
->  linux-4.9.327/drivers/usb/storage/unusual_uas.h | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/linux-4.9.327/drivers/usb/storage/unusual_uas.h b/linux-4.9.327/drivers/usb/storage/unusual_uas.h
-> index cdff7dc..2fc6787 100644
-> --- a/linux-4.9.327/drivers/usb/storage/unusual_uas.h
-> +++ b/linux-4.9.327/drivers/usb/storage/unusual_uas.h
-> @@ -62,6 +62,12 @@ UNUSUAL_DEV(0x059f, 0x1061, 0x0000, 0x9999,
->  		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
->  		US_FL_IGNORE_UAS),
->  
-> +UNUSUAL_DEV(0x090c, 0x2000, 0x0000, 0x9999,
-> +		"Hiksemi",
-> +		"External HDD",
-> +		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-> +		US_FL_IGNORE_UAS),
-> +
->  /*
->   * Apricorn USB3 dongle sometimes returns "USBSUSBSUSBS" in response to SCSI
->   * commands in UAS mode.  Observed with the 1.28 firmware; are there others?
-> -- 
-> 2.1.0
-> 
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
+
+----- End forwarded message -----
