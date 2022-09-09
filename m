@@ -2,200 +2,226 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95215C6FA89
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Sep 2022 06:31:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E839AECAAA1
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Sep 2022 06:35:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231195AbiIIGbQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Sep 2022 02:31:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57756 "EHLO
+        id S231214AbiIIGf5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Sep 2022 02:35:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231131AbiIIGbM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Sep 2022 02:31:12 -0400
-Received: from condef-02.nifty.com (condef-02.nifty.com [202.248.20.67])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E64C3F0289;
-        Thu,  8 Sep 2022 23:31:09 -0700 (PDT)
-Received: from conssluserg-03.nifty.com ([10.126.8.82])by condef-02.nifty.com with ESMTP id 2896PLmq003944;
-        Fri, 9 Sep 2022 15:25:21 +0900
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 2896Otxx016731;
-        Fri, 9 Sep 2022 15:24:56 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 2896Otxx016731
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662704696;
-        bh=7NjVtVy//nlbx9x3Pt5ijYazqoLxIT1B+J2u/cAaj5Q=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=KaFtlN+jzzJHMJL7c8FlP3XnT2MXGlN9MN3qKNXeuVsKp446gcsOJv9z4a+ybaOmB
-         OlhaK0CsiSKB0kA7ZAto9iF/oIf7KX7lgF97kID7F2pP6njvRlaSud7i9Vb9zsFGa9
-         veemIoSD/Rg4KipRuU4apgs5oIFnTpCzTrJTNHJxmobqqXttLfN1zc6XU/3uawal4q
-         155fKL5LmrGfd131UnybC6I2MS+65fjIrCjjsAy7f/x2xgjV7tRpJoTfLqMgJ7priv
-         x20/MBLp8EzPvOmlnLaJF1mpMqqSz7oeHQFrW6NlQkKs1vWm5L1/m84CDLAl9BhImh
-         nRlaRcf9BZeUQ==
-X-Nifty-SrcIP: [209.85.160.42]
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1225219ee46so1563400fac.2;
-        Thu, 08 Sep 2022 23:24:56 -0700 (PDT)
-X-Gm-Message-State: ACgBeo2x3Mz0Gix4lRa9CirddqtGJIK88sL7DJlQR7SzX5RmmHMN5VnQ
-        +irFiAgiq+LE6vAv+dtyZe+uyGKbP1maYiKIeoE=
-X-Google-Smtp-Source: AA6agR68HxJp7Gt5/W9hJjJn1oNwjlIoYy1BfzwQ+ek2/Aphzioca6ZO3YEOgn/MHLAPX31bHXbrpRG4YXb9tNqZENw=
-X-Received: by 2002:a05:6808:1b85:b0:34d:8ce1:d5b0 with SMTP id
- cj5-20020a0568081b8500b0034d8ce1d5b0mr1415326oib.194.1662704695320; Thu, 08
- Sep 2022 23:24:55 -0700 (PDT)
+        with ESMTP id S231210AbiIIGf4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Sep 2022 02:35:56 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7895D51EB
+        for <linux-usb@vger.kernel.org>; Thu,  8 Sep 2022 23:35:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662705355; x=1694241355;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=eflQTn+cmUwegMHUWTiEsFoY0414RhnagsZtAOw7M4g=;
+  b=jcyynuPWThDoEv0CQy2a41xYs1dsHWHYYS77XJP1S46yXk27cMqq8ABX
+   9fmOUMS0+LYFmWVxt0WYqjnoV7dfXtMc9A6WB2TzyfFBmQgH3iSuPRH5g
+   I+ikNCh+MJJ448SI9kofghYqmoJdvbYhnxrIx3ROHyzYkfZB8ai+byeEU
+   i+St7ZXXes3SCSTcGvSSw6yw7DY8PDCo+TiAd93HJOHHhUfXsRO49mDAP
+   nM52dFZzIarq9KHENlEk8swgyQnFz3wkGOzDZbRlotXaS9fwROP5oCU53
+   gZuGJoNSoAZJuBhEZAdzQXHgbbFgu6rkVUtKirVThGNH90WBiWXoKods9
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="294990542"
+X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; 
+   d="scan'208";a="294990542"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 23:35:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; 
+   d="scan'208";a="943664122"
+Received: from lkp-server02.sh.intel.com (HELO b2938d2e5c5a) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 08 Sep 2022 23:35:54 -0700
+Received: from kbuild by b2938d2e5c5a with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oWXcH-0000nK-2Y;
+        Fri, 09 Sep 2022 06:35:53 +0000
+Date:   Fri, 09 Sep 2022 14:35:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD SUCCESS
+ d818320ea200b02f2fea693b2be204f1990bb7e9
+Message-ID: <631adea3.vTr4UW1JAWTdhizM%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20220908104337.11940-1-lukas.bulwahn@gmail.com> <20220908104337.11940-7-lukas.bulwahn@gmail.com>
-In-Reply-To: <20220908104337.11940-7-lukas.bulwahn@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 9 Sep 2022 15:24:19 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT4_BJfWqB4ydFqscMaC2zRd7fKycaJvK=8ThXAYMFbDw@mail.gmail.com>
-Message-ID: <CAK7LNAT4_BJfWqB4ydFqscMaC2zRd7fKycaJvK=8ThXAYMFbDw@mail.gmail.com>
-Subject: Re: [PATCH 6/6] init/Kconfig: remove confusing config EMBEDDED
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb <linux-usb@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Sep 8, 2022 at 7:44 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
->
-> Commit 6a108a14fa35 ("kconfig: rename CONFIG_EMBEDDED to CONFIG_EXPERT")
-> introduces CONFIG_EXPERT to carry the previous intent of CONFIG_EMBEDDED
-> and just gives that intent a much better name. That has been clearly a good
-> and long overdue renaming, and it is clearly an improvement to the kernel
-> build configuration that has shown to help managing the kernel build
-> configuration in the last decade.
->
-> However, rather than bravely and radically just deleting CONFIG_EMBEDDED,
-> this commit gives CONFIG_EMBEDDED a new intended semantics, but keeps it
-> open for future contributors to implement that intended semantics:
->
->     A new CONFIG_EMBEDDED option is added that automatically selects
->     CONFIG_EXPERT when enabled and can be used in the future to isolate
->     options that should only be considered for embedded systems (RISC
->     architectures, SLOB, etc).
->
-> Since then, this CONFIG_EMBEDDED implicitly had two purposes:
->
->   - It can make even more options visible beyond what CONFIG_EXPERT makes
->     visible. In other words, it may introduce another level of enabling the
->     visibility of configuration options: always visible, visible with
->     CONFIG_EXPERT and visible with CONFIG_EMBEDDED.
->
->   - Set certain default values of some configurations differently,
->     following the assumption that configuring a kernel build for an
->     embedded system generally starts with a different set of default values
->     compared to kernel builds for all other kind of systems.
->
-> Considering the first purpose, at the point in time where CONFIG_EMBEDDED
-> was renamed to CONFIG_EXPERT, CONFIG_EXPERT already made 130 more options
-> become visible throughout all different menus for the kernel configuration.
-> Over the last decade, this has gradually increased, so that currently, with
-> CONFIG_EXPERT, roughly 170 more options become visible throughout all
-> different menus for the kernel configuration. In comparison, currently with
-> CONFIG_EMBEDDED enabled, just seven more options are visible, one in x86,
-> one in arm, and five for the ChipIdea Highspeed Dual Role Controller.
->
-> As the numbers suggest, these two levels of enabling the visibility of even
-> more configuration options---beyond what CONFIG_EXPERT enables---never
-> evolved to a good solution in the last decade. In other words, this
-> additional level of visibility of configuration option with CONFIG_EMBEDDED
-> compared to CONFIG_EXPERT has since its introduction never become really
-> valuable. It requires quite some investigation to actually understand what
-> is additionally visible and it does not differ significantly in complexity
-> compared to just enabling CONFIG_EXPERT. This CONFIG_EMBEDDED---or any
-> other config to show more detailed options beyond CONFIG_EXPERT---is
-> unlikely to be valuable unless somebody puts significant effort in
-> identifying how such visibility options can be properly split and creating
-> clear criteria, when some config option is visible with CONFIG_EXPERT and
-> when some config option is visible only with some further option enabled
-> beyond CONFIG_EXPERT, such as CONFIG_EMBEDDED attempted to do. For now, it
-> is much more reasonable to simply make those additional seven options that
-> visible with CONFIG_EMBEDDED, visible with CONFIG_EXPERT, and then remove
-> CONFIG_EMBEDDED. If anyone spends significant effort in structuring the
-> visibility of config options, they may re-introduce suitable new config
-> options simply as they see fit.
->
-> Hence, all uses of CONFIG_EMBEDDED have been replaced with CONFIG_EXPERT.
->
-> Considering the second purpose, note that already probably arguing that a
-> kernel build for an embedded system would choose some values differently is
-> already tricky: the set of embedded systems with Linux kernels is already
-> quite diverse. Many embedded system have powerful CPUs and it would not be
-> clear that all embedded systems just optimize towards one specific aspect,
-> e.g., a smaller kernel image size. So, it is unclear if starting with "one
-> set of default configuration" that is induced by CONFIG_EMBEDDED is a good
-> offer for developers configuring their kernels.
->
-> Also, the differences of needed user-space features in an embedded system
-> compared to a non-embedded system are probably difficult or even impossible
-> to name in some generic way.
->
-> So it is not surprising that in the last decade hardly anyone has
-> contributed changes to make something default differently in case of
-> CONFIG_EMBEDDED=y.
->
-> In v6.0-rc4, SECRETMEM is the only config switched off if
-> CONFIG_EMBEDDED=y. That one use was removed as well, SECRETMEM was made
-> configurable at build time by experts using menuconfig instead.
->
-> As there are no further uses of CONFIG_EMBEDDED and CONFIG_EMBEDDED never
-> lived up to its intended purpose defined above, simply delete this
-> confusing CONFIG_EMBEDDED.
->
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
->  init/Kconfig | 8 --------
->  1 file changed, 8 deletions(-)
->
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 9e3fd79b089c..d7429e0b8cae 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -1818,14 +1818,6 @@ config DEBUG_RSEQ
->
->           If unsure, say N.
->
-> -config EMBEDDED
-> -       bool "Embedded system"
-> -       select EXPERT
-> -       help
-> -         This option should be enabled if compiling the kernel for
-> -         an embedded system so certain expert options are available
-> -         for configuration.
-> -
->  config HAVE_PERF_EVENTS
->         bool
->         help
-> --
-> 2.17.1
->
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+branch HEAD: d818320ea200b02f2fea693b2be204f1990bb7e9  usb: chipidea: make configs for glue drivers visible with EXPERT
 
+elapsed time: 1063m
 
+configs tested: 151
+configs skipped: 3
 
-So, I am supposed to pick this up after 01-05 land.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-(please ping me if I forget about it).
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+alpha                            allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+m68k                             allyesconfig
+x86_64                        randconfig-a013
+x86_64                        randconfig-a002
+x86_64                        randconfig-a011
+i386                                defconfig
+x86_64                        randconfig-a015
+x86_64                        randconfig-a004
+x86_64                           allyesconfig
+x86_64                        randconfig-a006
+powerpc                           allnoconfig
+i386                          randconfig-a001
+i386                          randconfig-a003
+mips                             allyesconfig
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-kvm
+x86_64                    rhel-8.3-kselftests
+powerpc                          allmodconfig
+x86_64                           rhel-8.3-syz
+i386                          randconfig-a005
+x86_64                          rhel-8.3-func
+sh                               allmodconfig
+i386                             allyesconfig
+arm64                            allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+riscv                randconfig-r042-20220908
+s390                 randconfig-r044-20220908
+i386                             alldefconfig
+powerpc                     ep8248e_defconfig
+m68k                          hp300_defconfig
+m68k                        m5272c3_defconfig
+arm                          exynos_defconfig
+sparc                             allnoconfig
+arm                        cerfcube_defconfig
+powerpc                      arches_defconfig
+openrisc                 simple_smp_defconfig
+powerpc                     asp8347_defconfig
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+arm                          iop32x_defconfig
+parisc64                            defconfig
+openrisc                            defconfig
+sh                        sh7757lcr_defconfig
+sparc                               defconfig
+sh                     sh7710voipgw_defconfig
+i386                          randconfig-c001
+arm                      integrator_defconfig
+sparc64                             defconfig
+arc                     haps_hs_smp_defconfig
+arm                         assabet_defconfig
+arm                            zeus_defconfig
+mips                            ar7_defconfig
+mips                         rt305x_defconfig
+arc                      axs103_smp_defconfig
+openrisc                    or1ksim_defconfig
+csky                              allnoconfig
+alpha                             allnoconfig
+arc                               allnoconfig
+riscv                             allnoconfig
+loongarch                           defconfig
+sh                             shx3_defconfig
+xtensa                              defconfig
+mips                    maltaup_xpa_defconfig
+mips                  maltasmvp_eva_defconfig
+sh                        edosk7705_defconfig
+mips                     decstation_defconfig
+powerpc                     stx_gp3_defconfig
+sh                          sdk7780_defconfig
+loongarch                         allnoconfig
+arm                        mini2440_defconfig
+sh                            shmin_defconfig
+powerpc                        cell_defconfig
+nios2                               defconfig
+mips                 decstation_r4k_defconfig
+arm                      footbridge_defconfig
+arm                        realview_defconfig
+m68k                       m5275evb_defconfig
+parisc                           allyesconfig
+arm                             pxa_defconfig
+arc                              alldefconfig
+arm                           u8500_defconfig
+m68k                          multi_defconfig
+nios2                            allyesconfig
+sh                             espt_defconfig
+sh                     magicpanelr2_defconfig
+powerpc                      mgcoge_defconfig
+m68k                                defconfig
+arc                  randconfig-r043-20220907
+arc                  randconfig-r043-20220908
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+arm                            hisi_defconfig
+xtensa                    smp_lx200_defconfig
+m68k                          atari_defconfig
+m68k                       m5475evb_defconfig
+powerpc                 mpc834x_itx_defconfig
+powerpc                     tqm8548_defconfig
+parisc                              defconfig
+powerpc                      ppc40x_defconfig
+mips                      loongson3_defconfig
+sh                         apsh4a3a_defconfig
+parisc                           alldefconfig
+sh                            migor_defconfig
+arc                    vdk_hs38_smp_defconfig
+sh                         microdev_defconfig
+mips                           xway_defconfig
+sparc64                          alldefconfig
+arm                         nhk8815_defconfig
+i386                          debian-10.3-kvm
+i386                        debian-10.3-kunit
+i386                         debian-10.3-func
+x86_64                        randconfig-c001
+arm                  randconfig-c002-20220908
+ia64                             allmodconfig
 
-
-For now,
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
-
-
+clang tested configs:
+x86_64                        randconfig-a001
+x86_64                        randconfig-a012
+x86_64                        randconfig-a003
+x86_64                        randconfig-a016
+x86_64                        randconfig-a014
+x86_64                        randconfig-a005
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+x86_64                        randconfig-k001
+hexagon              randconfig-r045-20220908
+riscv                randconfig-r042-20220907
+hexagon              randconfig-r041-20220907
+hexagon              randconfig-r045-20220907
+s390                 randconfig-r044-20220907
+powerpc                        fsp2_defconfig
+powerpc                 mpc8272_ads_defconfig
+mips                        qi_lb60_defconfig
+arm                          pcm027_defconfig
+i386                          randconfig-a013
+i386                          randconfig-a015
+i386                          randconfig-a011
+mips                           mtx1_defconfig
+mips                          ath79_defconfig
+powerpc                     ppa8548_defconfig
+mips                           ip22_defconfig
 
 -- 
-Best Regards
-Masahiro Yamada
+0-DAY CI Kernel Test Service
+https://01.org/lkp
