@@ -2,104 +2,354 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE3FC6FA82
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Sep 2022 22:04:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67FD8ECAAA1
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Sep 2022 22:13:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232085AbiIIWEH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Sep 2022 18:04:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49940 "EHLO
+        id S231297AbiIIWNp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Sep 2022 18:13:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232361AbiIIWCl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Sep 2022 18:02:41 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC4C14A51B;
-        Fri,  9 Sep 2022 15:02:34 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id gh9so7131603ejc.8;
-        Fri, 09 Sep 2022 15:02:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date;
-        bh=5wDSQei0VH/0N0cIYpX+WvxREvgCAsAfy7LHoQVjBlQ=;
-        b=pzeyCMXPWtw5W3TzsjGLnySXo8soVYUYeJ9xFygN5yMcAFfkmo68Mn5NVSDaAqvEef
-         eMfcgrKdofMIrb0NkC9c/9Vds5bjV3ktzlLzWstteZoyzJiblmObGx9yNFJOzwAvY7lO
-         1KY9hKyA68Qr0+/E5uvCFdh+SbIOxQgl4kCdLO3bEGLkkfQGP9D/Q9zv03tqjXBbFmW/
-         wQA877zU19eUftI9o02PkytlYbM/sujtsOJ3kUS0dJ/fdCEs1YH93ga6tw2Zt32RLYLH
-         dvfsrtjWpLuPSgMAfQYmTNPST7qelX0TgYFbw5w+81Sytx+Gi4mwLwH/2plVR4zEjN9H
-         7bkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=5wDSQei0VH/0N0cIYpX+WvxREvgCAsAfy7LHoQVjBlQ=;
-        b=F3HCG7L//kgoDJrzYe+NHXevX4FMYr/mOfckkY9UiMdW75Jt75KEJfaEWla9QBXWEt
-         8KV4xU7H1cLDSPDaGPB4IOo/ecTZ+MUkHKo5wvrWld4UykUNo5gT7J6J+8AEwqwozzyf
-         Nw6KJmiTcotPujdcucTvvi0y+bA4mRoOCJtzBQERRXMGlZywYDYGHpg0k6Zfj5e/P58A
-         HueLAjnXzhhsjp7F5LV+7VeCjiLqTL5gKnkmdlnAWS/WJGVsu9YGx3TaL+akcp/iro8a
-         Pu/ytwsBSg9CICSq4/qpDDcLGSIYYSWzyFdOVkc2hiRIkEZTc+4g1VVNNRWZMJvazQdp
-         2MGw==
-X-Gm-Message-State: ACgBeo1/aaw/tDvawkIN+gg+jIv09L3TnbJFxV3lwP4+XMZIGiqjgbdT
-        pM9e3hRr9puUuEiHXrpLoZI=
-X-Google-Smtp-Source: AA6agR5i2KdDv0Rikxka5ZmZqz4fP9NU9rl0imXOMXzTXa+EpchEAZGLS2pB1pzRZUktqmDJgOVSoQ==
-X-Received: by 2002:a17:907:3d8e:b0:741:8ebe:3464 with SMTP id he14-20020a1709073d8e00b007418ebe3464mr11326966ejc.747.1662760952366;
-        Fri, 09 Sep 2022 15:02:32 -0700 (PDT)
-Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id x17-20020a1709065ad100b0073d87068042sm804845ejs.110.2022.09.09.15.02.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Sep 2022 15:02:32 -0700 (PDT)
-Message-ID: <405db21d-154e-fed0-7524-ace1cef0203c@gmail.com>
-Date:   Sat, 10 Sep 2022 00:02:30 +0200
+        with ESMTP id S229702AbiIIWNn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Sep 2022 18:13:43 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F4258D3C3
+        for <linux-usb@vger.kernel.org>; Fri,  9 Sep 2022 15:13:41 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oWmFn-000179-94; Sat, 10 Sep 2022 00:13:39 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oWmFk-004tr3-MW; Sat, 10 Sep 2022 00:13:38 +0200
+Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oWmFl-0005tW-50; Sat, 10 Sep 2022 00:13:37 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
+        laurent.pinchart@ideasonboard.com, paul.elder@ideasonboard.com,
+        kernel@pengutronix.de, nicolas@ndufresne.ca,
+        kieran.bingham@ideasonboard.com
+Subject: [PATCH v2 3/4] usb: gadget: uvc: add v4l2 enumeration api calls
+Date:   Sat, 10 Sep 2022 00:13:34 +0200
+Message-Id: <20220909221335.15033-4-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220909221335.15033-1-m.grzeschik@pengutronix.de>
+References: <20220909221335.15033-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-From:   Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v1 02/11] dt-bindings: i2c: rockchip: add rockchip,rk3128-i2c
-To:     kever.yang@rock-chips.com
-Cc:     sjg@chromium.org, philipp.tomsich@vrull.eu, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        ulf.hansson@linaro.org, miquel.raynal@bootlin.com, richard@nod.at,
-        vigneshr@ti.com, kishon@ti.com, vkoul@kernel.org,
-        thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
-        gregkh@linuxfoundation.org, broonie@kernel.org,
-        wim@linux-watchdog.org, linux@roeck-us.net,
-        zhangqing@rock-chips.com, jamie@jamieiles.com,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-phy@lists.infradead.org,
-        linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-watchdog@vger.kernel.org
-References: <20220909212543.17428-1-jbx6244@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20220909212543.17428-1-jbx6244@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add rockchip,rk3128-i2c compatible string.
+This patch adds support to the v4l2 VIDIOCs for enum_format,
+enum_framesizes and enum_frameintervals. This way, the userspace
+application can use these VIDIOCS to query the via configfs exported
+frame capabilities. With thes callbacks the userspace doesn't have to
+bring its own configfs parser.
 
-Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+
 ---
- Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml | 1 +
- 1 file changed, 1 insertion(+)
+v13 -> v1:
+    - moved to this smaller patch series
+    - improved the error handling in uvc_alloc like suggested by Dan Scally
+v1  -> v2:
+    - declare all local helper functions as static
 
-diff --git a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-index ee9f8b91d..82b9d6682 100644
---- a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-+++ b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-@@ -29,6 +29,7 @@ properties:
-       - items:
-           - enum:
-               - rockchip,rk3036-i2c
-+              - rockchip,rk3128-i2c
-               - rockchip,rk3368-i2c
-           - const: rockchip,rk3288-i2c
-       - items:
+ drivers/usb/gadget/function/f_uvc.c    |  30 +++++
+ drivers/usb/gadget/function/uvc.h      |   2 +
+ drivers/usb/gadget/function/uvc_v4l2.c | 176 +++++++++++++++++++++++++
+ 3 files changed, 208 insertions(+)
+
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index 09961f4ca981da..e6948cf8def30b 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -888,6 +888,7 @@ static void uvc_free(struct usb_function *f)
+ 	struct uvc_device *uvc = to_uvc(f);
+ 	struct f_uvc_opts *opts = container_of(f->fi, struct f_uvc_opts,
+ 					       func_inst);
++	config_item_put(&uvc->header->item);
+ 	--opts->refcnt;
+ 	kfree(uvc);
+ }
+@@ -945,6 +946,7 @@ static struct usb_function *uvc_alloc(struct usb_function_instance *fi)
+ 	struct uvc_device *uvc;
+ 	struct f_uvc_opts *opts;
+ 	struct uvc_descriptor_header **strm_cls;
++	struct config_item *streaming, *header, *h;
+ 
+ 	uvc = kzalloc(sizeof(*uvc), GFP_KERNEL);
+ 	if (uvc == NULL)
+@@ -977,6 +979,29 @@ static struct usb_function *uvc_alloc(struct usb_function_instance *fi)
+ 	uvc->desc.fs_streaming = opts->fs_streaming;
+ 	uvc->desc.hs_streaming = opts->hs_streaming;
+ 	uvc->desc.ss_streaming = opts->ss_streaming;
++
++	streaming = config_group_find_item(&opts->func_inst.group, "streaming");
++	if (!streaming)
++		goto err_config;
++
++	header = config_group_find_item(to_config_group(streaming), "header");
++	config_item_put(streaming);
++	if (!header)
++		goto err_config;
++
++	h = config_group_find_item(to_config_group(header), "h");
++	config_item_put(header);
++	if (!h)
++		goto err_config;
++
++	uvc->header = to_uvcg_streaming_header(h);
++	config_item_put(h);
++	if (!uvc->header->linked) {
++		mutex_unlock(&opts->lock);
++		kfree(uvc);
++		return ERR_PTR(-EBUSY);
++	}
++
+ 	++opts->refcnt;
+ 	mutex_unlock(&opts->lock);
+ 
+@@ -992,6 +1017,11 @@ static struct usb_function *uvc_alloc(struct usb_function_instance *fi)
+ 	uvc->func.bind_deactivated = true;
+ 
+ 	return &uvc->func;
++
++err_config:
++	mutex_unlock(&opts->lock);
++	kfree(uvc);
++	return ERR_PTR(-ENOENT);
+ }
+ 
+ DECLARE_USB_FUNCTION_INIT(uvc, uvc_alloc_inst, uvc_alloc);
+diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+index 1a31e6c6a5ffb8..40226b1f7e148a 100644
+--- a/drivers/usb/gadget/function/uvc.h
++++ b/drivers/usb/gadget/function/uvc.h
+@@ -134,6 +134,8 @@ struct uvc_device {
+ 	bool func_connected;
+ 	wait_queue_head_t func_connected_queue;
+ 
++	struct uvcg_streaming_header *header;
++
+ 	/* Descriptors */
+ 	struct {
+ 		const struct uvc_descriptor_header * const *fs_control;
+diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+index d6dbf9b763b2e1..417655e4a83dd7 100644
+--- a/drivers/usb/gadget/function/uvc_v4l2.c
++++ b/drivers/usb/gadget/function/uvc_v4l2.c
+@@ -18,12 +18,92 @@
+ #include <media/v4l2-dev.h>
+ #include <media/v4l2-event.h>
+ #include <media/v4l2-ioctl.h>
++#include <media/v4l2-uvc.h>
+ 
+ #include "f_uvc.h"
+ #include "uvc.h"
+ #include "uvc_queue.h"
+ #include "uvc_video.h"
+ #include "uvc_v4l2.h"
++#include "uvc_configfs.h"
++
++static struct uvc_format_desc *to_uvc_format(struct uvcg_format *uformat)
++{
++	char guid[16] = UVC_GUID_FORMAT_MJPEG;
++	struct uvc_format_desc *format;
++	struct uvcg_uncompressed *unc;
++
++	if (uformat->type == UVCG_UNCOMPRESSED) {
++		unc = to_uvcg_uncompressed(&uformat->group.cg_item);
++		if (!unc)
++			return ERR_PTR(-EINVAL);
++
++		memcpy(guid, unc->desc.guidFormat, sizeof(guid));
++	}
++
++	format = uvc_format_by_guid(guid);
++	if (!format)
++		return ERR_PTR(-EINVAL);
++
++	return format;
++}
++
++static struct uvcg_format *find_format_by_index(struct uvc_device *uvc, int index)
++{
++	struct uvcg_format_ptr *format;
++	struct uvcg_format *uformat = NULL;
++	int i = 1;
++
++	list_for_each_entry(format, &uvc->header->formats, entry) {
++		if (index == i) {
++			uformat = format->fmt;
++			break;
++		}
++		i++;
++	}
++
++	return uformat;
++}
++
++static struct uvcg_frame *find_frame_by_index(struct uvc_device *uvc,
++				       struct uvcg_format *uformat,
++				       int index)
++{
++	struct uvcg_format_ptr *format;
++	struct uvcg_frame_ptr *frame;
++	struct uvcg_frame *uframe = NULL;
++
++	list_for_each_entry(format, &uvc->header->formats, entry) {
++		if (format->fmt->type != uformat->type)
++			continue;
++		list_for_each_entry(frame, &format->fmt->frames, entry) {
++			if (index == frame->frm->frame.b_frame_index) {
++				uframe = frame->frm;
++				break;
++			}
++		}
++	}
++
++	return uframe;
++}
++
++static struct uvcg_format *find_format_by_pix(struct uvc_device *uvc,
++					      u32 pixelformat)
++{
++	struct uvcg_format_ptr *format;
++	struct uvcg_format *uformat = NULL;
++
++	list_for_each_entry(format, &uvc->header->formats, entry) {
++		struct uvc_format_desc *fmtdesc = to_uvc_format(format->fmt);
++
++		if (fmtdesc->fcc == pixelformat) {
++			uformat = format->fmt;
++			break;
++		}
++	}
++
++	return uformat;
++}
+ 
+ /* --------------------------------------------------------------------------
+  * Requests handling
+@@ -134,6 +214,99 @@ uvc_v4l2_set_format(struct file *file, void *fh, struct v4l2_format *fmt)
+ 	return 0;
+ }
+ 
++static int
++uvc_v4l2_enum_frameintervals(struct file *file, void *fh,
++		struct v4l2_frmivalenum *fival)
++{
++	struct video_device *vdev = video_devdata(file);
++	struct uvc_device *uvc = video_get_drvdata(vdev);
++	struct uvcg_format *uformat = NULL;
++	struct uvcg_frame *uframe = NULL;
++	struct uvcg_frame_ptr *frame;
++
++	uformat = find_format_by_pix(uvc, fival->pixel_format);
++	if (!uformat)
++		return -EINVAL;
++
++	list_for_each_entry(frame, &uformat->frames, entry) {
++		if (frame->frm->frame.w_width == fival->width &&
++		    frame->frm->frame.w_height == fival->height) {
++			uframe = frame->frm;
++			break;
++		}
++	}
++	if (!uframe)
++		return -EINVAL;
++
++	if (fival->index >= uframe->frame.b_frame_interval_type)
++		return -EINVAL;
++
++	fival->discrete.numerator =
++		uframe->dw_frame_interval[fival->index];
++
++	/* TODO: handle V4L2_FRMIVAL_TYPE_STEPWISE */
++	fival->type = V4L2_FRMIVAL_TYPE_DISCRETE;
++	fival->discrete.denominator = 10000000;
++	v4l2_simplify_fraction(&fival->discrete.numerator,
++		&fival->discrete.denominator, 8, 333);
++
++	return 0;
++}
++
++static int
++uvc_v4l2_enum_framesizes(struct file *file, void *fh,
++		struct v4l2_frmsizeenum *fsize)
++{
++	struct video_device *vdev = video_devdata(file);
++	struct uvc_device *uvc = video_get_drvdata(vdev);
++	struct uvcg_format *uformat = NULL;
++	struct uvcg_frame *uframe = NULL;
++
++	uformat = find_format_by_pix(uvc, fsize->pixel_format);
++	if (!uformat)
++		return -EINVAL;
++
++	if (fsize->index >= uformat->num_frames)
++		return -EINVAL;
++
++	uframe = find_frame_by_index(uvc, uformat, fsize->index + 1);
++	if (!uframe)
++		return -EINVAL;
++
++	fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
++	fsize->discrete.width = uframe->frame.w_width;
++	fsize->discrete.height = uframe->frame.w_height;
++
++	return 0;
++}
++
++static int
++uvc_v4l2_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
++{
++	struct video_device *vdev = video_devdata(file);
++	struct uvc_device *uvc = video_get_drvdata(vdev);
++	struct uvc_format_desc *fmtdesc;
++	struct uvcg_format *uformat;
++
++	if (f->index >= uvc->header->num_fmt)
++		return -EINVAL;
++
++	uformat = find_format_by_index(uvc, f->index + 1);
++	if (!uformat)
++		return -EINVAL;
++
++	if (uformat->type != UVCG_UNCOMPRESSED)
++		f->flags |= V4L2_FMT_FLAG_COMPRESSED;
++
++	fmtdesc = to_uvc_format(uformat);
++	f->pixelformat = fmtdesc->fcc;
++
++	strscpy(f->description, fmtdesc->name, sizeof(f->description));
++	f->description[strlen(fmtdesc->name) - 1] = 0;
++
++	return 0;
++}
++
+ static int
+ uvc_v4l2_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers *b)
+ {
+@@ -300,6 +473,9 @@ const struct v4l2_ioctl_ops uvc_v4l2_ioctl_ops = {
+ 	.vidioc_querycap = uvc_v4l2_querycap,
+ 	.vidioc_g_fmt_vid_out = uvc_v4l2_get_format,
+ 	.vidioc_s_fmt_vid_out = uvc_v4l2_set_format,
++	.vidioc_enum_frameintervals = uvc_v4l2_enum_frameintervals,
++	.vidioc_enum_framesizes = uvc_v4l2_enum_framesizes,
++	.vidioc_enum_fmt_vid_out = uvc_v4l2_enum_format,
+ 	.vidioc_reqbufs = uvc_v4l2_reqbufs,
+ 	.vidioc_querybuf = uvc_v4l2_querybuf,
+ 	.vidioc_qbuf = uvc_v4l2_qbuf,
 -- 
-2.20.1
+2.30.2
 
