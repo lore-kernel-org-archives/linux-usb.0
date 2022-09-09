@@ -2,65 +2,96 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78452ECAAA1
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Sep 2022 05:47:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1444ECAAD5
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Sep 2022 06:22:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229623AbiIIFrm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Sep 2022 01:47:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54156 "EHLO
+        id S230248AbiIIGWz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Sep 2022 02:22:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229643AbiIIFrk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Sep 2022 01:47:40 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 088027F12D
-        for <linux-usb@vger.kernel.org>; Thu,  8 Sep 2022 22:47:31 -0700 (PDT)
+        with ESMTP id S229679AbiIIGWw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Sep 2022 02:22:52 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F889123EEA;
+        Thu,  8 Sep 2022 23:22:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662702451; x=1694238451;
+  t=1662704570; x=1694240570;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XiDDHnUE/yTK60Wl2/aP5+lgd5KHEy/rJRGA6czObsA=;
-  b=b4kdIAhI/ZnOYJpb3zGtTE05RztJy4P46r3iRi5T6VI1DVA0j1lJ2WL2
-   QIQNtgIbS7aGhMC4x8/LRu6Jrvgt8jSJL6l2tCjWkhMAaXZtvOzyb1wzC
-   JXynwW4QY82yXGTZdRiMtG3dTT/xfHnq/aq/TyJSME9MJkHZMV0IXeGeq
-   4Q/V36Y9CbpXvgalhqfuUBhIwc6tQxTJeFk0xLCatCuWiGMJaNd5e1Qqz
-   6VVfb0piAi5kW0dLOWH3Nvw59o8xZY9d4Oz/p4WA1QWNUG2LuvNdZAUYM
-   3vil087XbVtyAP1HuBxvX1zjGN5FpirJX0eQVA1yHzDKUT6/G47SYEdfw
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Ge6oNL64EH6DJvUJEasK+o1/wuEDfP9x78sReGaAu/A=;
+  b=NKzqofGhXXDVRROd2KbgYqde+6VgvXydsb+7JgkLCcLat2v3nDnnnezc
+   wilJYgLn4FGwgeOyx73FHVAwMamum4VCsk21x1QWsIjlz2IkPUdTPc/U5
+   5HEEQQMSWYMfYYjlYjiRdTHjQr1xJFW8gonBfyYw1ILPI4LJGenSA31OO
+   sttxh6gO5U99lk9l8A0N3EOugXA0oaI3+UXDgpcKYcECs5B0Ey/SgIEkx
+   qqeLRJt/my+wxsj2O5pgpWZpXpTpblhoklV/88ZiqlsUbq+qdvAFsPC0X
+   c64HXLcU1TIFePBNYhia4y2pAjZElMpyptw6tNZIEZR9F+EV23ML6yKSp
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="284422286"
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="294989121"
 X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; 
-   d="scan'208";a="284422286"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 22:47:30 -0700
+   d="scan'208";a="294989121"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 23:22:50 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; 
-   d="scan'208";a="704289418"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by FMSMGA003.fm.intel.com with ESMTP; 08 Sep 2022 22:47:28 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 9E4A8F7; Fri,  9 Sep 2022 08:47:44 +0300 (EEST)
-Date:   Fri, 9 Sep 2022 08:47:44 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Gil Fine <gil.fine@intel.com>
-Cc:     andreas.noever@gmail.com, michael.jamet@intel.com,
-        YehezkelShB@gmail.com, linux-usb@vger.kernel.org, lukas@wunner.de
-Subject: Re: [PATCH] thunderbolt: Add support for Intel Maple Ridge single
- port controller
-Message-ID: <YxrTgG+kAEFbPyLR@black.fi.intel.com>
-References: <20220908104320.3409720-1-gil.fine@intel.com>
+   d="scan'208";a="757494786"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 08 Sep 2022 23:22:46 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 09 Sep 2022 09:22:45 +0300
+Date:   Fri, 9 Sep 2022 09:22:45 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Bastian Rieck <bastian@rieck.me>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        grzegorz.alibozek@gmail.com, andrew.co@free.fr, meven29@gmail.com,
+        pchernik@gmail.com, jorge.cep.mart@gmail.com,
+        danielmorgan@disroot.org, bernie@codewiz.org,
+        saipavanchitta1998@gmail.com, rubin@starset.net,
+        maniette@gmail.com, nate@kde.org
+Subject: Re: [RFC PATCH 0/2] usb: typec: ucsi: Check connection on resume
+Message-ID: <YxrbtWDR7XI4s+Q+@kuha.fi.intel.com>
+References: <20220907115626.21976-1-heikki.krogerus@linux.intel.com>
+ <27257661.hdJqBvvX10@nimue>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220908104320.3409720-1-gil.fine@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <27257661.hdJqBvvX10@nimue>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Sep 08, 2022 at 01:43:20PM +0300, Gil Fine wrote:
-> Add support for Maple Ridge discrete USB4 host controller from Intel
-> which has a single USB4 port (versus the already supported dual port
-> Maple Ridge USB4 host controller).
+On Thu, Sep 08, 2022 at 07:01:34AM +0200, Bastian Rieck wrote:
+> Dear Heikki,
 > 
-> Signed-off-by: Gil Fine <gil.fine@intel.com>
+> > I'm sending these as an RFC first because I'm not done testing.
+> > 
+> > I made a small modification to my original proposal (in the bug
+> > report). Now also connection during suspend should be covered.
+> > 
+> > I would appreciate if you guys could test these again. If
+> > everything works, and the bug is fixed, let me know, and I'll add
+> > your Tested-by tags to the patches.
+> >
+> 
+> Thanks so much for these changes—that's awesome! I have just finished 
+> testing this against 5.19.7 (Arch Linux) with a Lenovo X1 (Gen 9).
+> 
+> I am very happy to see that, as far as I can tell, the issue 
+> disappeared completely!
+> 
+> However, I am receiving additional warnings via `journalctl` that I 
+> did not receive before; I have attached this trace as an additional 
+> log file. Nothing in there seems critical and I can confirm that the 
+> system continues to operate normally. I merely wanted to provide you 
+> with this additional information in case it is of relevance.
+> 
+> Please let me know if there's anything else I can do here; I really 
+> appreciate the time you spent on this!
 
-Applied to thunderbolt.git/fixes, thanks!
+Thank you for the report. That warning certainly needs to be sorted
+out before I send the final versions. I'll try to reproduce that.
+
+thanks,
+
+-- 
+heikki
