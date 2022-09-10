@@ -2,845 +2,124 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBB28ECAAA1
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Sep 2022 22:13:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0464C6FA82
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Sep 2022 01:04:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231737AbiIIWNt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Sep 2022 18:13:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43200 "EHLO
+        id S229727AbiIJBEX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Sep 2022 21:04:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231316AbiIIWNp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Sep 2022 18:13:45 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A9C8E4F4
-        for <linux-usb@vger.kernel.org>; Fri,  9 Sep 2022 15:13:41 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oWmFn-000177-91; Sat, 10 Sep 2022 00:13:39 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oWmFk-004tqv-Cr; Sat, 10 Sep 2022 00:13:38 +0200
-Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oWmFl-0005tU-4E; Sat, 10 Sep 2022 00:13:37 +0200
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
-        laurent.pinchart@ideasonboard.com, paul.elder@ideasonboard.com,
-        kernel@pengutronix.de, nicolas@ndufresne.ca,
-        kieran.bingham@ideasonboard.com,
-        Daniel Scally <dan.scally@ideasonboard.com>
-Subject: [PATCH v2 2/4] media: uvcvideo: move uvc_format_desc to common header
-Date:   Sat, 10 Sep 2022 00:13:33 +0200
-Message-Id: <20220909221335.15033-3-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220909221335.15033-1-m.grzeschik@pengutronix.de>
-References: <20220909221335.15033-1-m.grzeschik@pengutronix.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+        with ESMTP id S229563AbiIJBEW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Sep 2022 21:04:22 -0400
+Received: from m15112.mail.126.com (m15112.mail.126.com [220.181.15.112])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 932039E68E
+        for <linux-usb@vger.kernel.org>; Fri,  9 Sep 2022 18:04:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+        s=s110527; h=Date:From:Subject:Mime-Version:Message-ID; bh=TfJi2
+        5Z7TnRKUh4yF3zy+OLkAzt/e6EWRrTbx5Ko17Y=; b=kX2h5vH3FiCS3ql3xJXPs
+        lqcL9iq1UVS8EHmz0P1M9bB5Y+PFYf1Gy64OoG2wazCUR0XrC5tZGuBf3frmk67S
+        +Fpj0VybgVkv+TvySps/ysWl5tDPS4SabTR/oFTi/lcCt72T8GlMiD0D6mZVOWng
+        ikT/pobG/bKYEpNQaoDpbc=
+Received: from 0V5ZS2WE6VIK6H0 (unknown [117.143.49.84])
+        by smtp2 (Coremail) with SMTP id DMmowACnrrqB4htj5_cLBQ--.28515S2;
+        Sat, 10 Sep 2022 09:04:02 +0800 (CST)
+Date:   Sat, 10 Sep 2022 09:04:04 +0800
+From:   "zhongling0719@126.com" <zhongling0719@126.com>
+To:     "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>
+Cc:     "zenghongling@kylinos.cn" <zenghongling@kylinos.cn>,
+        "Greg KH" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "usb-storage@lists.one-eyed-alien.net" 
+        <usb-storage@lists.one-eyed-alien.net>
+Subject: Re: Re: [PATCH v4 3/3] uas: ignore UAS for Thinkplus chips
+References: <1662720530-32313-1-git-send-email-zenghongling@kylinos.cn>, 
+        <YxsucjOnUkb8NxKo@rowland.harvard.edu>, 
+        <202209092121245768249@126.com>, 
+        <YxuDzEdZX1zrIwOQ@rowland.harvard.edu>
+X-Priority: 3
+X-GUID: 0C8E818A-4AB4-4711-A9B6-31B417E79DC9
+X-Has-Attach: no
+X-Mailer: Foxmail 7.2.16.188[cn]
+Mime-Version: 1.0
+Message-ID: <2022091009030319446573@126.com>
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: base64
+X-CM-TRANSID: DMmowACnrrqB4htj5_cLBQ--.28515S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAFWDKrW3GF4UKr45Gw1kAFb_yoW5KF13pa
+        s8tF98Crs5KF1IvFnrtw47AFyYqanYyFW5Kr9IywnrZw4FkFnrtrn8Jr48u347ur48Ww40
+        vFWqqFW7Kw4DWaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pi-6pPUUUUU=
+X-Originating-IP: [117.143.49.84]
+X-CM-SenderInfo: x2kr0wpolqwiqxrzqiyswou0bp/1tbiYB540FpEI7R41QABsz
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The uvc_format_desc, GUID defines and the uvc_format_by_guid helper is
-also useful for the uvc gadget stack. This patch moves them to a common
-header.
-
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-Tested-by: Daniel Scally <dan.scally@ideasonboard.com>
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-
----
-v13 -> v1:
-    - added Reviewed-by and Tested-by from Dan
-    - moved to this smaller patch series
-v1 -> v2:
-    -
-
- drivers/media/usb/uvc/uvc_ctrl.c   |   1 +
- drivers/media/usb/uvc/uvc_driver.c | 206 +----------------
- drivers/media/usb/uvc/uvcvideo.h   | 144 ------------
- include/media/v4l2-uvc.h           | 359 +++++++++++++++++++++++++++++
- 4 files changed, 361 insertions(+), 349 deletions(-)
- create mode 100644 include/media/v4l2-uvc.h
-
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 8c208db9600b46..b8a00a51679f6d 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -18,6 +18,7 @@
- #include <linux/workqueue.h>
- #include <linux/atomic.h>
- #include <media/v4l2-ctrls.h>
-+#include <media/v4l2-uvc.h>
- 
- #include "uvcvideo.h"
- 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 0f14dee4b6d794..2891bc9d319280 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -20,6 +20,7 @@
- 
- #include <media/v4l2-common.h>
- #include <media/v4l2-ioctl.h>
-+#include <media/v4l2-uvc.h>
- 
- #include "uvcvideo.h"
- 
-@@ -34,198 +35,6 @@ static unsigned int uvc_quirks_param = -1;
- unsigned int uvc_dbg_param;
- unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
- 
--/* ------------------------------------------------------------------------
-- * Video formats
-- */
--
--static struct uvc_format_desc uvc_fmts[] = {
--	{
--		.name		= "YUV 4:2:2 (YUYV)",
--		.guid		= UVC_GUID_FORMAT_YUY2,
--		.fcc		= V4L2_PIX_FMT_YUYV,
--	},
--	{
--		.name		= "YUV 4:2:2 (YUYV)",
--		.guid		= UVC_GUID_FORMAT_YUY2_ISIGHT,
--		.fcc		= V4L2_PIX_FMT_YUYV,
--	},
--	{
--		.name		= "YUV 4:2:0 (NV12)",
--		.guid		= UVC_GUID_FORMAT_NV12,
--		.fcc		= V4L2_PIX_FMT_NV12,
--	},
--	{
--		.name		= "MJPEG",
--		.guid		= UVC_GUID_FORMAT_MJPEG,
--		.fcc		= V4L2_PIX_FMT_MJPEG,
--	},
--	{
--		.name		= "YVU 4:2:0 (YV12)",
--		.guid		= UVC_GUID_FORMAT_YV12,
--		.fcc		= V4L2_PIX_FMT_YVU420,
--	},
--	{
--		.name		= "YUV 4:2:0 (I420)",
--		.guid		= UVC_GUID_FORMAT_I420,
--		.fcc		= V4L2_PIX_FMT_YUV420,
--	},
--	{
--		.name		= "YUV 4:2:0 (M420)",
--		.guid		= UVC_GUID_FORMAT_M420,
--		.fcc		= V4L2_PIX_FMT_M420,
--	},
--	{
--		.name		= "YUV 4:2:2 (UYVY)",
--		.guid		= UVC_GUID_FORMAT_UYVY,
--		.fcc		= V4L2_PIX_FMT_UYVY,
--	},
--	{
--		.name		= "Greyscale 8-bit (Y800)",
--		.guid		= UVC_GUID_FORMAT_Y800,
--		.fcc		= V4L2_PIX_FMT_GREY,
--	},
--	{
--		.name		= "Greyscale 8-bit (Y8  )",
--		.guid		= UVC_GUID_FORMAT_Y8,
--		.fcc		= V4L2_PIX_FMT_GREY,
--	},
--	{
--		.name		= "Greyscale 8-bit (D3DFMT_L8)",
--		.guid		= UVC_GUID_FORMAT_D3DFMT_L8,
--		.fcc		= V4L2_PIX_FMT_GREY,
--	},
--	{
--		.name		= "IR 8-bit (L8_IR)",
--		.guid		= UVC_GUID_FORMAT_KSMEDIA_L8_IR,
--		.fcc		= V4L2_PIX_FMT_GREY,
--	},
--	{
--		.name		= "Greyscale 10-bit (Y10 )",
--		.guid		= UVC_GUID_FORMAT_Y10,
--		.fcc		= V4L2_PIX_FMT_Y10,
--	},
--	{
--		.name		= "Greyscale 12-bit (Y12 )",
--		.guid		= UVC_GUID_FORMAT_Y12,
--		.fcc		= V4L2_PIX_FMT_Y12,
--	},
--	{
--		.name		= "Greyscale 16-bit (Y16 )",
--		.guid		= UVC_GUID_FORMAT_Y16,
--		.fcc		= V4L2_PIX_FMT_Y16,
--	},
--	{
--		.name		= "BGGR Bayer (BY8 )",
--		.guid		= UVC_GUID_FORMAT_BY8,
--		.fcc		= V4L2_PIX_FMT_SBGGR8,
--	},
--	{
--		.name		= "BGGR Bayer (BA81)",
--		.guid		= UVC_GUID_FORMAT_BA81,
--		.fcc		= V4L2_PIX_FMT_SBGGR8,
--	},
--	{
--		.name		= "GBRG Bayer (GBRG)",
--		.guid		= UVC_GUID_FORMAT_GBRG,
--		.fcc		= V4L2_PIX_FMT_SGBRG8,
--	},
--	{
--		.name		= "GRBG Bayer (GRBG)",
--		.guid		= UVC_GUID_FORMAT_GRBG,
--		.fcc		= V4L2_PIX_FMT_SGRBG8,
--	},
--	{
--		.name		= "RGGB Bayer (RGGB)",
--		.guid		= UVC_GUID_FORMAT_RGGB,
--		.fcc		= V4L2_PIX_FMT_SRGGB8,
--	},
--	{
--		.name		= "RGB565",
--		.guid		= UVC_GUID_FORMAT_RGBP,
--		.fcc		= V4L2_PIX_FMT_RGB565,
--	},
--	{
--		.name		= "BGR 8:8:8 (BGR3)",
--		.guid		= UVC_GUID_FORMAT_BGR3,
--		.fcc		= V4L2_PIX_FMT_BGR24,
--	},
--	{
--		.name		= "H.264",
--		.guid		= UVC_GUID_FORMAT_H264,
--		.fcc		= V4L2_PIX_FMT_H264,
--	},
--	{
--		.name		= "H.265",
--		.guid		= UVC_GUID_FORMAT_H265,
--		.fcc		= V4L2_PIX_FMT_HEVC,
--	},
--	{
--		.name		= "Greyscale 8 L/R (Y8I)",
--		.guid		= UVC_GUID_FORMAT_Y8I,
--		.fcc		= V4L2_PIX_FMT_Y8I,
--	},
--	{
--		.name		= "Greyscale 12 L/R (Y12I)",
--		.guid		= UVC_GUID_FORMAT_Y12I,
--		.fcc		= V4L2_PIX_FMT_Y12I,
--	},
--	{
--		.name		= "Depth data 16-bit (Z16)",
--		.guid		= UVC_GUID_FORMAT_Z16,
--		.fcc		= V4L2_PIX_FMT_Z16,
--	},
--	{
--		.name		= "Bayer 10-bit (SRGGB10P)",
--		.guid		= UVC_GUID_FORMAT_RW10,
--		.fcc		= V4L2_PIX_FMT_SRGGB10P,
--	},
--	{
--		.name		= "Bayer 16-bit (SBGGR16)",
--		.guid		= UVC_GUID_FORMAT_BG16,
--		.fcc		= V4L2_PIX_FMT_SBGGR16,
--	},
--	{
--		.name		= "Bayer 16-bit (SGBRG16)",
--		.guid		= UVC_GUID_FORMAT_GB16,
--		.fcc		= V4L2_PIX_FMT_SGBRG16,
--	},
--	{
--		.name		= "Bayer 16-bit (SRGGB16)",
--		.guid		= UVC_GUID_FORMAT_RG16,
--		.fcc		= V4L2_PIX_FMT_SRGGB16,
--	},
--	{
--		.name		= "Bayer 16-bit (SGRBG16)",
--		.guid		= UVC_GUID_FORMAT_GR16,
--		.fcc		= V4L2_PIX_FMT_SGRBG16,
--	},
--	{
--		.name		= "Depth data 16-bit (Z16)",
--		.guid		= UVC_GUID_FORMAT_INVZ,
--		.fcc		= V4L2_PIX_FMT_Z16,
--	},
--	{
--		.name		= "Greyscale 10-bit (Y10 )",
--		.guid		= UVC_GUID_FORMAT_INVI,
--		.fcc		= V4L2_PIX_FMT_Y10,
--	},
--	{
--		.name		= "IR:Depth 26-bit (INZI)",
--		.guid		= UVC_GUID_FORMAT_INZI,
--		.fcc		= V4L2_PIX_FMT_INZI,
--	},
--	{
--		.name		= "4-bit Depth Confidence (Packed)",
--		.guid		= UVC_GUID_FORMAT_CNF4,
--		.fcc		= V4L2_PIX_FMT_CNF4,
--	},
--	{
--		.name		= "HEVC",
--		.guid		= UVC_GUID_FORMAT_HEVC,
--		.fcc		= V4L2_PIX_FMT_HEVC,
--	},
--};
--
- /* ------------------------------------------------------------------------
-  * Utility functions
-  */
-@@ -245,19 +54,6 @@ struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
- 	return NULL;
- }
- 
--static struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
--{
--	unsigned int len = ARRAY_SIZE(uvc_fmts);
--	unsigned int i;
--
--	for (i = 0; i < len; ++i) {
--		if (memcmp(guid, uvc_fmts[i].guid, 16) == 0)
--			return &uvc_fmts[i];
--	}
--
--	return NULL;
--}
--
- static enum v4l2_colorspace uvc_colorspace(const u8 primaries)
- {
- 	static const enum v4l2_colorspace colorprimaries[] = {
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index ff710bdd38b3fd..df93db259312e7 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -41,144 +41,6 @@
- #define UVC_EXT_GPIO_UNIT		0x7ffe
- #define UVC_EXT_GPIO_UNIT_ID		0x100
- 
--/* ------------------------------------------------------------------------
-- * GUIDs
-- */
--#define UVC_GUID_UVC_CAMERA \
--	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
--	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}
--#define UVC_GUID_UVC_OUTPUT \
--	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
--	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02}
--#define UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT \
--	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
--	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03}
--#define UVC_GUID_UVC_PROCESSING \
--	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
--	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01}
--#define UVC_GUID_UVC_SELECTOR \
--	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
--	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02}
--#define UVC_GUID_EXT_GPIO_CONTROLLER \
--	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
--	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
--
--#define UVC_GUID_FORMAT_MJPEG \
--	{ 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_YUY2 \
--	{ 'Y',  'U',  'Y',  '2', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_YUY2_ISIGHT \
--	{ 'Y',  'U',  'Y',  '2', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0x00, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_NV12 \
--	{ 'N',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_YV12 \
--	{ 'Y',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_I420 \
--	{ 'I',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_UYVY \
--	{ 'U',  'Y',  'V',  'Y', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y800 \
--	{ 'Y',  '8',  '0',  '0', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y8 \
--	{ 'Y',  '8',  ' ',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y10 \
--	{ 'Y',  '1',  '0',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y12 \
--	{ 'Y',  '1',  '2',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y16 \
--	{ 'Y',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_BY8 \
--	{ 'B',  'Y',  '8',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_BA81 \
--	{ 'B',  'A',  '8',  '1', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_GBRG \
--	{ 'G',  'B',  'R',  'G', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_GRBG \
--	{ 'G',  'R',  'B',  'G', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_RGGB \
--	{ 'R',  'G',  'G',  'B', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_BG16 \
--	{ 'B',  'G',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_GB16 \
--	{ 'G',  'B',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_RG16 \
--	{ 'R',  'G',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_GR16 \
--	{ 'G',  'R',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_RGBP \
--	{ 'R',  'G',  'B',  'P', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_BGR3 \
--	{ 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
--	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
--#define UVC_GUID_FORMAT_M420 \
--	{ 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--
--#define UVC_GUID_FORMAT_H264 \
--	{ 'H',  '2',  '6',  '4', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_H265 \
--	{ 'H',  '2',  '6',  '5', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y8I \
--	{ 'Y',  '8',  'I',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y12I \
--	{ 'Y',  '1',  '2',  'I', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Z16 \
--	{ 'Z',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_RW10 \
--	{ 'R',  'W',  '1',  '0', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_INVZ \
--	{ 'I',  'N',  'V',  'Z', 0x90, 0x2d, 0x58, 0x4a, \
--	 0x92, 0x0b, 0x77, 0x3f, 0x1f, 0x2c, 0x55, 0x6b}
--#define UVC_GUID_FORMAT_INZI \
--	{ 'I',  'N',  'Z',  'I', 0x66, 0x1a, 0x42, 0xa2, \
--	 0x90, 0x65, 0xd0, 0x18, 0x14, 0xa8, 0xef, 0x8a}
--#define UVC_GUID_FORMAT_INVI \
--	{ 'I',  'N',  'V',  'I', 0xdb, 0x57, 0x49, 0x5e, \
--	 0x8e, 0x3f, 0xf4, 0x79, 0x53, 0x2b, 0x94, 0x6f}
--#define UVC_GUID_FORMAT_CNF4 \
--	{ 'C',  ' ',  ' ',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--
--#define UVC_GUID_FORMAT_D3DFMT_L8 \
--	{0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_KSMEDIA_L8_IR \
--	{0x32, 0x00, 0x00, 0x00, 0x02, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--
--#define UVC_GUID_FORMAT_HEVC \
--	{ 'H',  'E',  'V',  'C', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--
--
- /* ------------------------------------------------------------------------
-  * Driver specific constants.
-  */
-@@ -283,12 +145,6 @@ struct uvc_control {
- 	struct uvc_fh *handle;	/* File handle that last changed the control. */
- };
- 
--struct uvc_format_desc {
--	char *name;
--	u8 guid[16];
--	u32 fcc;
--};
--
- /*
-  * The term 'entity' refers to both UVC units and UVC terminals.
-  *
-diff --git a/include/media/v4l2-uvc.h b/include/media/v4l2-uvc.h
-new file mode 100644
-index 00000000000000..f83e31661333bb
---- /dev/null
-+++ b/include/media/v4l2-uvc.h
-@@ -0,0 +1,359 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ *  v4l2 uvc internal API header
-+ *
-+ *  Some commonly needed functions for uvc drivers
-+ */
-+
-+#ifndef __LINUX_V4L2_UVC_H
-+#define __LINUX_V4L2_UVC_H
-+
-+/* ------------------------------------------------------------------------
-+ * GUIDs
-+ */
-+#define UVC_GUID_UVC_CAMERA \
-+	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-+	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}
-+#define UVC_GUID_UVC_OUTPUT \
-+	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-+	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02}
-+#define UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT \
-+	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-+	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03}
-+#define UVC_GUID_UVC_PROCESSING \
-+	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-+	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01}
-+#define UVC_GUID_UVC_SELECTOR \
-+	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-+	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02}
-+#define UVC_GUID_EXT_GPIO_CONTROLLER \
-+	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-+	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
-+
-+#define UVC_GUID_FORMAT_MJPEG \
-+	{ 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_YUY2 \
-+	{ 'Y',  'U',  'Y',  '2', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_YUY2_ISIGHT \
-+	{ 'Y',  'U',  'Y',  '2', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0x00, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_NV12 \
-+	{ 'N',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_YV12 \
-+	{ 'Y',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_I420 \
-+	{ 'I',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_UYVY \
-+	{ 'U',  'Y',  'V',  'Y', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y800 \
-+	{ 'Y',  '8',  '0',  '0', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y8 \
-+	{ 'Y',  '8',  ' ',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y10 \
-+	{ 'Y',  '1',  '0',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y12 \
-+	{ 'Y',  '1',  '2',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y16 \
-+	{ 'Y',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_BY8 \
-+	{ 'B',  'Y',  '8',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_BA81 \
-+	{ 'B',  'A',  '8',  '1', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_GBRG \
-+	{ 'G',  'B',  'R',  'G', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_GRBG \
-+	{ 'G',  'R',  'B',  'G', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_RGGB \
-+	{ 'R',  'G',  'G',  'B', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_BG16 \
-+	{ 'B',  'G',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_GB16 \
-+	{ 'G',  'B',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_RG16 \
-+	{ 'R',  'G',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_GR16 \
-+	{ 'G',  'R',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_RGBP \
-+	{ 'R',  'G',  'B',  'P', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_BGR3 \
-+	{ 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
-+	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
-+#define UVC_GUID_FORMAT_M420 \
-+	{ 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+
-+#define UVC_GUID_FORMAT_H264 \
-+	{ 'H',  '2',  '6',  '4', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_H265 \
-+	{ 'H',  '2',  '6',  '5', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y8I \
-+	{ 'Y',  '8',  'I',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y12I \
-+	{ 'Y',  '1',  '2',  'I', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Z16 \
-+	{ 'Z',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_RW10 \
-+	{ 'R',  'W',  '1',  '0', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_INVZ \
-+	{ 'I',  'N',  'V',  'Z', 0x90, 0x2d, 0x58, 0x4a, \
-+	 0x92, 0x0b, 0x77, 0x3f, 0x1f, 0x2c, 0x55, 0x6b}
-+#define UVC_GUID_FORMAT_INZI \
-+	{ 'I',  'N',  'Z',  'I', 0x66, 0x1a, 0x42, 0xa2, \
-+	 0x90, 0x65, 0xd0, 0x18, 0x14, 0xa8, 0xef, 0x8a}
-+#define UVC_GUID_FORMAT_INVI \
-+	{ 'I',  'N',  'V',  'I', 0xdb, 0x57, 0x49, 0x5e, \
-+	 0x8e, 0x3f, 0xf4, 0x79, 0x53, 0x2b, 0x94, 0x6f}
-+#define UVC_GUID_FORMAT_CNF4 \
-+	{ 'C',  ' ',  ' ',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+
-+#define UVC_GUID_FORMAT_D3DFMT_L8 \
-+	{0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_KSMEDIA_L8_IR \
-+	{0x32, 0x00, 0x00, 0x00, 0x02, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+
-+#define UVC_GUID_FORMAT_HEVC \
-+	{ 'H',  'E',  'V',  'C', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+
-+/* ------------------------------------------------------------------------
-+ * Video formats
-+ */
-+
-+struct uvc_format_desc {
-+	char *name;
-+	u8 guid[16];
-+	u32 fcc;
-+};
-+
-+static struct uvc_format_desc uvc_fmts[] = {
-+	{
-+		.name		= "YUV 4:2:2 (YUYV)",
-+		.guid		= UVC_GUID_FORMAT_YUY2,
-+		.fcc		= V4L2_PIX_FMT_YUYV,
-+	},
-+	{
-+		.name		= "YUV 4:2:2 (YUYV)",
-+		.guid		= UVC_GUID_FORMAT_YUY2_ISIGHT,
-+		.fcc		= V4L2_PIX_FMT_YUYV,
-+	},
-+	{
-+		.name		= "YUV 4:2:0 (NV12)",
-+		.guid		= UVC_GUID_FORMAT_NV12,
-+		.fcc		= V4L2_PIX_FMT_NV12,
-+	},
-+	{
-+		.name		= "MJPEG",
-+		.guid		= UVC_GUID_FORMAT_MJPEG,
-+		.fcc		= V4L2_PIX_FMT_MJPEG,
-+	},
-+	{
-+		.name		= "YVU 4:2:0 (YV12)",
-+		.guid		= UVC_GUID_FORMAT_YV12,
-+		.fcc		= V4L2_PIX_FMT_YVU420,
-+	},
-+	{
-+		.name		= "YUV 4:2:0 (I420)",
-+		.guid		= UVC_GUID_FORMAT_I420,
-+		.fcc		= V4L2_PIX_FMT_YUV420,
-+	},
-+	{
-+		.name		= "YUV 4:2:0 (M420)",
-+		.guid		= UVC_GUID_FORMAT_M420,
-+		.fcc		= V4L2_PIX_FMT_M420,
-+	},
-+	{
-+		.name		= "YUV 4:2:2 (UYVY)",
-+		.guid		= UVC_GUID_FORMAT_UYVY,
-+		.fcc		= V4L2_PIX_FMT_UYVY,
-+	},
-+	{
-+		.name		= "Greyscale 8-bit (Y800)",
-+		.guid		= UVC_GUID_FORMAT_Y800,
-+		.fcc		= V4L2_PIX_FMT_GREY,
-+	},
-+	{
-+		.name		= "Greyscale 8-bit (Y8  )",
-+		.guid		= UVC_GUID_FORMAT_Y8,
-+		.fcc		= V4L2_PIX_FMT_GREY,
-+	},
-+	{
-+		.name		= "Greyscale 8-bit (D3DFMT_L8)",
-+		.guid		= UVC_GUID_FORMAT_D3DFMT_L8,
-+		.fcc		= V4L2_PIX_FMT_GREY,
-+	},
-+	{
-+		.name		= "IR 8-bit (L8_IR)",
-+		.guid		= UVC_GUID_FORMAT_KSMEDIA_L8_IR,
-+		.fcc		= V4L2_PIX_FMT_GREY,
-+	},
-+	{
-+		.name		= "Greyscale 10-bit (Y10 )",
-+		.guid		= UVC_GUID_FORMAT_Y10,
-+		.fcc		= V4L2_PIX_FMT_Y10,
-+	},
-+	{
-+		.name		= "Greyscale 12-bit (Y12 )",
-+		.guid		= UVC_GUID_FORMAT_Y12,
-+		.fcc		= V4L2_PIX_FMT_Y12,
-+	},
-+	{
-+		.name		= "Greyscale 16-bit (Y16 )",
-+		.guid		= UVC_GUID_FORMAT_Y16,
-+		.fcc		= V4L2_PIX_FMT_Y16,
-+	},
-+	{
-+		.name		= "BGGR Bayer (BY8 )",
-+		.guid		= UVC_GUID_FORMAT_BY8,
-+		.fcc		= V4L2_PIX_FMT_SBGGR8,
-+	},
-+	{
-+		.name		= "BGGR Bayer (BA81)",
-+		.guid		= UVC_GUID_FORMAT_BA81,
-+		.fcc		= V4L2_PIX_FMT_SBGGR8,
-+	},
-+	{
-+		.name		= "GBRG Bayer (GBRG)",
-+		.guid		= UVC_GUID_FORMAT_GBRG,
-+		.fcc		= V4L2_PIX_FMT_SGBRG8,
-+	},
-+	{
-+		.name		= "GRBG Bayer (GRBG)",
-+		.guid		= UVC_GUID_FORMAT_GRBG,
-+		.fcc		= V4L2_PIX_FMT_SGRBG8,
-+	},
-+	{
-+		.name		= "RGGB Bayer (RGGB)",
-+		.guid		= UVC_GUID_FORMAT_RGGB,
-+		.fcc		= V4L2_PIX_FMT_SRGGB8,
-+	},
-+	{
-+		.name		= "RGB565",
-+		.guid		= UVC_GUID_FORMAT_RGBP,
-+		.fcc		= V4L2_PIX_FMT_RGB565,
-+	},
-+	{
-+		.name		= "BGR 8:8:8 (BGR3)",
-+		.guid		= UVC_GUID_FORMAT_BGR3,
-+		.fcc		= V4L2_PIX_FMT_BGR24,
-+	},
-+	{
-+		.name		= "H.264",
-+		.guid		= UVC_GUID_FORMAT_H264,
-+		.fcc		= V4L2_PIX_FMT_H264,
-+	},
-+	{
-+		.name		= "H.265",
-+		.guid		= UVC_GUID_FORMAT_H265,
-+		.fcc		= V4L2_PIX_FMT_HEVC,
-+	},
-+	{
-+		.name		= "Greyscale 8 L/R (Y8I)",
-+		.guid		= UVC_GUID_FORMAT_Y8I,
-+		.fcc		= V4L2_PIX_FMT_Y8I,
-+	},
-+	{
-+		.name		= "Greyscale 12 L/R (Y12I)",
-+		.guid		= UVC_GUID_FORMAT_Y12I,
-+		.fcc		= V4L2_PIX_FMT_Y12I,
-+	},
-+	{
-+		.name		= "Depth data 16-bit (Z16)",
-+		.guid		= UVC_GUID_FORMAT_Z16,
-+		.fcc		= V4L2_PIX_FMT_Z16,
-+	},
-+	{
-+		.name		= "Bayer 10-bit (SRGGB10P)",
-+		.guid		= UVC_GUID_FORMAT_RW10,
-+		.fcc		= V4L2_PIX_FMT_SRGGB10P,
-+	},
-+	{
-+		.name		= "Bayer 16-bit (SBGGR16)",
-+		.guid		= UVC_GUID_FORMAT_BG16,
-+		.fcc		= V4L2_PIX_FMT_SBGGR16,
-+	},
-+	{
-+		.name		= "Bayer 16-bit (SGBRG16)",
-+		.guid		= UVC_GUID_FORMAT_GB16,
-+		.fcc		= V4L2_PIX_FMT_SGBRG16,
-+	},
-+	{
-+		.name		= "Bayer 16-bit (SRGGB16)",
-+		.guid		= UVC_GUID_FORMAT_RG16,
-+		.fcc		= V4L2_PIX_FMT_SRGGB16,
-+	},
-+	{
-+		.name		= "Bayer 16-bit (SGRBG16)",
-+		.guid		= UVC_GUID_FORMAT_GR16,
-+		.fcc		= V4L2_PIX_FMT_SGRBG16,
-+	},
-+	{
-+		.name		= "Depth data 16-bit (Z16)",
-+		.guid		= UVC_GUID_FORMAT_INVZ,
-+		.fcc		= V4L2_PIX_FMT_Z16,
-+	},
-+	{
-+		.name		= "Greyscale 10-bit (Y10 )",
-+		.guid		= UVC_GUID_FORMAT_INVI,
-+		.fcc		= V4L2_PIX_FMT_Y10,
-+	},
-+	{
-+		.name		= "IR:Depth 26-bit (INZI)",
-+		.guid		= UVC_GUID_FORMAT_INZI,
-+		.fcc		= V4L2_PIX_FMT_INZI,
-+	},
-+	{
-+		.name		= "4-bit Depth Confidence (Packed)",
-+		.guid		= UVC_GUID_FORMAT_CNF4,
-+		.fcc		= V4L2_PIX_FMT_CNF4,
-+	},
-+	{
-+		.name		= "HEVC",
-+		.guid		= UVC_GUID_FORMAT_HEVC,
-+		.fcc		= V4L2_PIX_FMT_HEVC,
-+	},
-+};
-+
-+static inline struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
-+{
-+	unsigned int len = ARRAY_SIZE(uvc_fmts);
-+	unsigned int i;
-+
-+	for (i = 0; i < len; ++i) {
-+		if (memcmp(guid, uvc_fmts[i].guid, 16) == 0)
-+			return &uvc_fmts[i];
-+	}
-+
-+	return NULL;
-+}
-+
-+#endif /* __LINUX_V4L2_UVC_H */
--- 
-2.30.2
+SSB0ZXN0ZWQgbWFueSBvdGhlciBQSUQvVklEIG9mIHRoaW5rcGx1cyBvbiBsaW51eCBpcyBvaywg
+T25seSB0aGUoMHgxN2VmLCAweDM4OTkpIMKgb3V0cHV0IGVycm9yIG1lc3NnYWdlIG9mIHVhcyBp
+biBkbWVzZyAsCm5vdCBjYW4ndCB3b3JrICwgTGF0ZXIgSSBmb3VuZCBpdCBhZmZlY3RlZCB0aGUg
+cGVyZm9ybWFuY2UsVGhlIGRpc2sgc3BlZWQgaXMgwqBsb3dlciDCoHRoYW4gdXNlIHVzYi1zdG9y
+YWdlLiDCoApXaW4xMCAncyBzcGVlZCBpcyBsb3dlciB0aGFuIHdpbjcuIMKgc28gc2F5IG5vdCBn
+b29kIG9uIHdpbjEwLsKgCgoKPkkgd291bGQgZ3Vlc3MgdGhhdCBXaW5kb3dzIDcgZG9lc24ndCB1
+c2UgVUFTIGJ1dCBXaW5kb3dzIDEwIGRvZXMuIMKgSXQncwo+c3VycHJpc2luZyB0aGF0IHRoZXNl
+IGRldmljZXMgY2FuIGJlIHNvbGQgbm93YWRheXMgaWYgdGhleSBkb24ndCB3b3JrCj53aXRoIFdp
+bmRvd3MgMTAgLS0gd2hvIHdvdWxkIGJ1eSB0aGVtPwoKCj5CdXQgYWdhaW4sIEkgZmluZCBpdCB2
+ZXJ5IHZlcnkgaGFyZCB0byBiZWxpZXZlIHRoZXkgZG8gbm90IHdvcmsgcHJvcGVybHkKPm9uIFdp
+bmRvd3MgMTAvMTEvT1NYIGFzIHdlbGwgYXMgV2luZG93cyAxMCBoYXMgYmVlbiBvdXQgZm9yIGEg
+dmVyeSBsb25nCj50aW1lIG5vdyBhbmQgbm8gb25lIHdvdWxkIGFjY2VwdCBzdWNoIHBvb3IgcGVy
+Zm9ybWFuY2Ugb24gdGhvc2UgZGV2aWNlcy4KCnpob25nbGluZzA3MTlAMTI2LmNvbQrCoApGcm9t
+OsKgc3Rlcm5Acm93bGFuZC5oYXJ2YXJkLmVkdQpEYXRlOsKgMjAyMi0wOS0xMMKgMDI6MTkKVG86
+wqB6aG9uZ2xpbmcwNzE5QDEyNi5jb20KQ0M6wqB6ZW5naG9uZ2xpbmdAa3lsaW5vcy5jbjsgR3Jl
+ZyBLSDsgbGludXgtdXNiQHZnZXIua2VybmVsLm9yZzsgdXNiLXN0b3JhZ2VAbGlzdHMub25lLWV5
+ZWQtYWxpZW4ubmV0ClN1YmplY3Q6wqBSZTogUmU6IFtQQVRDSCB2NCAzLzNdIHVhczogaWdub3Jl
+IFVBUyBmb3IgVGhpbmtwbHVzIGNoaXBzCk9uIEZyaSwgU2VwIDA5LCAyMDIyIGF0IDA5OjIyOjI1
+UE0gKzA4MDAsIHpob25nbGluZzA3MTlAMTI2LmNvbSB3cm90ZToKPiBTb3JyeSAsIEkgdGVzdGVk
+IGl0IHdvcmsgd2VsbCBvbiBXaW43LCBub3QgZ29vZCBvbiBXaW4xMC7CoArCoApJIHdvdWxkIGd1
+ZXNzIHRoYXQgV2luZG93cyA3IGRvZXNuJ3QgdXNlIFVBUyBidXQgV2luZG93cyAxMCBkb2VzLsKg
+IEl0J3MKc3VycHJpc2luZyB0aGF0IHRoZXNlIGRldmljZXMgY2FuIGJlIHNvbGQgbm93YWRheXMg
+aWYgdGhleSBkb24ndCB3b3JrCndpdGggV2luZG93cyAxMCAtLSB3aG8gd291bGQgYnV5IHRoZW0/
+CsKgCj4gSSBkb24ndCBoYXZlIE1hYyBPU1ggc3lzdGVtLiBXZSBhbHdheXMgd29yayBvbiBsaW51
+eMKgZW52aXJvbm1lbnQuCj4gTmVlZCBJIHJlc2VuZCB0aGUgdmVyc2lvbiBWNSBmb3IgcGF0Y2gg
+MyDCoGNhbmNlbCAiYWNrZWQgYnkiID8KwqAKR3JlZywgZG8geW91IGhhdmUgYW4gb3Bpbmlvbj/C
+oCBJIGRvbid0IGZlZWwgdmVyeSBzdHJvbmdseSBhYm91dCB0aGlzLgrCoApBbGFuIFN0ZXJuCsKg
+Cj4gVGhhbmtzIQo+Cj4gemhvbmdsaW5nMDcxOUAxMjYuY29tCj4gwqAKPiBGcm9tOsKgQWxhbiBT
+dGVybgo+IERhdGU6wqAyMDIyLTA5LTA5wqAyMDoxNQo+IFRvOsKgSG9uZ2xpbmcgWmVuZwo+IEND
+OsKgZ3JlZ2toOyBsaW51eC11c2I7IHVzYi1zdG9yYWdlOyB6aG9uZ2xpbmcwNzE5Cj4gU3ViamVj
+dDrCoFJlOiBbUEFUQ0ggdjQgMy8zXSB1YXM6IGlnbm9yZSBVQVMgZm9yIFRoaW5rcGx1cyBjaGlw
+cwo+IE9uIEZyaSwgU2VwIDA5LCAyMDIyIGF0IDA2OjQ4OjUwUE0gKzA4MDAsIEhvbmdsaW5nIFpl
+bmcgd3JvdGU6Cj4gPiBUaGUgVUFTIG1vZGUgb2YgVGhpbmtwbHVzIGlzIHJlcG9ydGVkIHRvIGZh
+aWwgdG8gd29yayBvbgo+ID4gc2V2ZXJhbCBwbGF0Zm9ybXMgd2l0aCB0aGUgZm9sbG93aW5nIGVy
+cm9yIG1lc3NhZ2U6Cj4gPgo+ID4gW8KgwqAgMzkuNzAyNDM5XSB4aGNpX2hjZCAwMDAwOjBjOjAw
+LjM6IEVSUk9SIFRyYW5zZmVyIGV2ZW50IGZvciBkaXNhYmxlZAo+ID7CoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgZW5kcG9pbnQgb3IgaW5jb3JyZWN0IHN0cmVhbSByaW5nCj4gPiBbwqDC
+oCAzOS43MDI0NDJdIHhoY2lfaGNkIDAwMDA6MGM6MDAuMzogQDAwMDAwMDAyNmM2MWY4MTAgMDAw
+MDAwMDAgMDAwMDAwMDAKPiA+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDFiMDAwMDAw
+IDA1MDM4MDAwCj4gPgo+ID4gRmFsbGluZyBiYWNrIHRvIFVTQiBtYXNzIHN0b3JhZ2UgY2FuIHNv
+bHZlIHRoaXMgcHJvYmxlbSwgc28gaWdub3JlIFVBUwo+ID4gZnVuY3Rpb24gb2YgdGhpcyBjaGlw
+Lgo+ID4KPiA+IEFja2VkLWJ5OiBBbGFuIFN0ZXJuIDxzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1
+Pgo+IMKgCj4gSSBuZXZlciBzZW50IHlvdSBhbiBBY2tlZC1ieTogZm9yIHRoaXMgcGF0Y2guwqAg
+SW4gZmFjdCwgSSBhc2tlZCB5b3UKPiBxdWVzdGlvbnMgYWJvdXQgaXQgd2hpY2ggeW91IGhhdmVu
+J3QgeWV0IGFuc3dlcmVkLgo+IMKgCj4gU3BlY2lmaWNhbGx5OiBIb3cgZG8gV2luZG93cyBhbmQg
+TWFjIE9TWCB3b3JrIHdpdGggdGhpcyBkcml2ZT8KPiDCoAo+IEFsYW4gU3Rlcm4KPiDCoAo+ID4g
+U2lnbmVkLW9mZi1ieTogSG9uZ2xpbmcgWmVuZyA8emVuZ2hvbmdsaW5nQGt5bGlub3MuY24+Cj4g
+PiAtLS0KPiA+IENoYW5nZSBmb3IgdjEKPiA+wqAgLSBDaGFuZ2UgdGhlIGVtYWlsIHJlYWwgbmFt
+ZSBhbmQgdGhlIGNvZGUgd29ybmcgcGxhY2UuCj4gPgo+ID4gQ2hhbmdlIGZvciB2Mgo+ID7CoCAt
+Q2hhbmdlIHNwZWxsaW5nIGVycm9yLgo+ID4KPiA+IENoYW5nZSBmb3IgdjMKPiA+wqAgLUFkZCBh
+Y2tlZC1ieQo+ID4KPiA+IENoYW5nZSBmb3IgdjQKPiA+wqAgLUZpeCB2ZXJzaW9uIGVycm9yCj4g
+PiAtLS0KPiA+wqAgZHJpdmVycy91c2Ivc3RvcmFnZS91bnVzdWFsX3Vhcy5oIHwgNyArKysrKysr
+Cj4gPsKgIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKykKPiA+Cj4gPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy91c2Ivc3RvcmFnZS91bnVzdWFsX3Vhcy5oIGIvZHJpdmVycy91c2Ivc3RvcmFn
+ZS91bnVzdWFsX3Vhcy5oCj4gPiBpbmRleCA4YTE4ZDU4Li4xNTZlODljIDEwMDY0NAo+ID4gLS0t
+IGEvZHJpdmVycy91c2Ivc3RvcmFnZS91bnVzdWFsX3Vhcy5oCj4gPiArKysgYi9kcml2ZXJzL3Vz
+Yi9zdG9yYWdlL3VudXN1YWxfdWFzLmgKPiA+IEBAIC0xOTgsNiArMTk4LDEzIEBAIFVOVVNVQUxf
+REVWKDB4MTU0YiwgMHhmMDBkLCAweDAwMDAsIDB4OTk5OSwKPiA+wqAgVVNCX1NDX0RFVklDRSwg
+VVNCX1BSX0RFVklDRSwgTlVMTCwKPiA+wqAgVVNfRkxfTk9fQVRBXzFYKSwKPiA+wqAKPiA+ICsv
+KiBSZXBvcnRlZC1ieTogSG9uZ2xpbmcgWmVuZyA8emVuZ2hvbmdsaW5nQGt5bGlub3MuY24+ICov
+Cj4gPiArVU5VU1VBTF9ERVYoMHgxN2VmLCAweDM4OTksIDB4MDAwMCwgMHg5OTk5LAo+ID4gKwki
+VGhpbmtwbHVzIiwKPiA+ICsJIkV4dGVybmFsIEhERCIsCj4gPiArCVVTQl9TQ19ERVZJQ0UsIFVT
+Ql9QUl9ERVZJQ0UsIE5VTEwsCj4gPiArCVVTX0ZMX0lHTk9SRV9VQVMpLAo+ID4gKwo+ID7CoCAv
+KiBSZXBvcnRlZC1ieTogSGFucyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4gKi8KPiA+
+wqAgVU5VU1VBTF9ERVYoMHgyMTA5LCAweDA3MTEsIDB4MDAwMCwgMHg5OTk5LAo+ID7CoCAiVklB
+IiwKPiA+IC0tCj4gPiAyLjEuMAo+ID4=
 
