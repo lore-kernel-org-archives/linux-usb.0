@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16EDCC6FA83
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Sep 2022 21:26:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0A79C6FA83
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Sep 2022 21:31:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231364AbiIJV0y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Sep 2022 17:26:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56198 "EHLO
+        id S230017AbiIJVb3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Sep 2022 17:31:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231261AbiIJVZp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Sep 2022 17:25:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5951452FD4;
-        Sat, 10 Sep 2022 14:21:00 -0700 (PDT)
+        with ESMTP id S229997AbiIJVbI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Sep 2022 17:31:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEC945727C;
+        Sat, 10 Sep 2022 14:25:26 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2116460EF8;
-        Sat, 10 Sep 2022 21:19:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 992ADC4347C;
-        Sat, 10 Sep 2022 21:19:36 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1E99860E86;
+        Sat, 10 Sep 2022 21:19:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5DFAC43140;
+        Sat, 10 Sep 2022 21:18:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662844777;
-        bh=iPJdzqZkaPbbW0M+Sk9HKES9lv2O1Zy8J6UuE8E/eg4=;
+        s=k20201202; t=1662844740;
+        bh=m0CCmXn+DRNmptGEaAfo1O1jNqKFsxS0zWNvH9+boSk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MSeuLqFs7q/+PfiFp0kNpg6giQs/mnA+nI+WZmXTc6KvaNORHM9CsX+AtX3IExQOn
-         sX4Y5Ao/vd9BImsuj15swP2sicvufwBUeW8fBbiAQC5crpGjZK1f46wB5ObcbReuZw
-         iX29ezBScXPOHSXyC9nShjmmHS223Z9/38yK7BZlNYtJ6fFu8V/nuQFF813WXNHoqr
-         d9HiUvwD2Yf4WVLCiXwHrdBhbVLFuWbxvQa0hsDNp5SX6TxG2mFGJTiYuP42QD66nu
-         q7j2k+/7i6RJedEwzsWY0IitmU6Bd8osqrZ063PCD6JOSfnhGCvwp1VsoRn5xZu38F
-         HUFmq66iNAM0g==
+        b=ew+rl11en3lMuV+LU3AvbUtfLC5e7/r5IVmBtXfOPfSMO9E1+dSJxXB8WSBsZoZZP
+         xwOvNE21t4nbSNKVU/469Bd803x6kXt0JpUBP0xOQ0c3J4IL1O5uLbqMGYitQsnNPv
+         CisM3gMuRX1ZuZAmB1HKp28kbkDU9ZlBQXiDyR942rEC/ScqgAdfo19IaOvkh254wi
+         qU06QVc/bRKmbfr8vsK2StQnl2oL6JjmwgSzbWPL7ZrwPZnQNPXYCIgHkJDKpRvVvf
+         1oYDSVa1aAQUWAFT3bDCI0TWXb/JCsD3mA83DLXZtPrwsdiJo8jiSZ0PzdOs80y3c9
+         tWUbttOP9+AXQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hu Xiaoying <huxiaoying@kylinos.cn>,
@@ -39,12 +39,12 @@ Cc:     Hu Xiaoying <huxiaoying@kylinos.cn>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         usb-storage@lists.one-eyed-alien.net
-Subject: [PATCH AUTOSEL 4.19 8/8] usb: storage: Add ASUS <0x0b05:0x1932> to IGNORE_UAS
-Date:   Sat, 10 Sep 2022 17:19:21 -0400
-Message-Id: <20220910211921.70891-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 14/14] usb: storage: Add ASUS <0x0b05:0x1932> to IGNORE_UAS
+Date:   Sat, 10 Sep 2022 17:18:32 -0400
+Message-Id: <20220910211832.70579-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220910211921.70891-1-sashal@kernel.org>
-References: <20220910211921.70891-1-sashal@kernel.org>
+In-Reply-To: <20220910211832.70579-1-sashal@kernel.org>
+References: <20220910211832.70579-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -73,7 +73,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+)
 
 diff --git a/drivers/usb/storage/unusual_uas.h b/drivers/usb/storage/unusual_uas.h
-index 2f72753c3e225..0b37c8e550e7d 100644
+index 4051c8cd0cd8a..23ab3b048d9be 100644
 --- a/drivers/usb/storage/unusual_uas.h
 +++ b/drivers/usb/storage/unusual_uas.h
 @@ -62,6 +62,13 @@ UNUSUAL_DEV(0x0984, 0x0301, 0x0128, 0x0128,
