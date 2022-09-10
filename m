@@ -2,109 +2,558 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AE7EC6FA89
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Sep 2022 05:20:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AA1AECAAD5
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Sep 2022 05:46:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbiIJFLp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Sep 2022 01:11:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39980 "EHLO
+        id S229810AbiIJFqe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Sep 2022 01:46:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbiIJFLo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Sep 2022 01:11:44 -0400
-Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C3AC57880
-        for <linux-usb@vger.kernel.org>; Fri,  9 Sep 2022 22:11:37 -0700 (PDT)
-X-UUID: 2927a0b319be4192aefb1c26302fbe98-20220910
-Message-ID: <1662786724148418.11.seg@mailgw>
-X-GW-Reason: 11109
-X-Content-Feature: ica/max.line-size 82
-        audit/email.address 2
-        dict/software 1
-        meta/cnt.alert 1
-X-CPASD-INFO: 419e086a96be42e0afff3cd9e3e21feb@fYFzhV1qZJFlVqSxg3WwaoGXmJJTsqZ
-        zhWOTYl2GurSMbFJkYl1ZgYFqUWJnX2FZVXp4blJgYGJcWHh4lHKPVGBeYIJUdJOAdmtZlV5o
-X-CLOUD-ID: 419e086a96be42e0afff3cd9e3e21feb
-X-CPASD-SUMMARY: SIP:-1,APTIP:-2.0,KEY:0.0,FROMBLOCK:1,OB:0.0,URL:-5,TVAL:172.
-        0,ESV:0.0,ECOM:-5.0,ML:12.0,FD:0.0,CUTS:166.0,IP:-2.0,MAL:-5.0,PHF:-5.0,PHC:-
-        5.0,SPF:4.0,EDMS:-5,IPLABEL:4480.0,FROMTO:0,AD:0,FFOB:0.0,CFOB:0.0,SPC:0,SIG:
-        -5,AUF:33,DUF:4509,ACD:75,DCD:75,SL:0,EISP:0,AG:0,CFC:0.256,CFSR:0.104,UAT:0,
-        RAF:0,IMG:-5.0,DFA:0,DTA:0,IBL:-2.0,ADI:-5,SBL:0,REDM:0,REIP:0,ESB:0,ATTNUM:0
-        ,EAF:0,CID:-5.0,VERSION:2.3.17
-X-CPASD-ID: 2927a0b319be4192aefb1c26302fbe98-20220910
-X-CPASD-BLOCK: 12
-X-CPASD-STAGE: 1
-X-UUID: 2927a0b319be4192aefb1c26302fbe98-20220910
-X-User: zenghongling@kylinos.cn
-Received: from localhost.localdomain [(112.64.161.44)] by mailgw
-        (envelope-from <zenghongling@kylinos.cn>)
-        (Generic MTA)
-        with ESMTP id 1185665759; Sat, 10 Sep 2022 12:32:45 +0800
-From:   Hongling Zeng <zenghongling@kylinos.cn>
-To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-        zhongling0719@126.com, Hongling Zeng <zenghongling@kylinos.cn>
-Subject: [PATCH v5 1/3] uas: add no-uas quirk for Hiksemi usb_disk
-Date:   Sat, 10 Sep 2022 12:32:38 +0800
-X-Mailer: git-send-email 2.1.0
+        with ESMTP id S229546AbiIJFqd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Sep 2022 01:46:33 -0400
+Received: from smtp.smtpout.orange.fr (smtp-23.smtpout.orange.fr [80.12.242.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDA76AE87A
+        for <linux-usb@vger.kernel.org>; Fri,  9 Sep 2022 22:46:28 -0700 (PDT)
+Received: from pop-os.home ([90.11.190.129])
+        by smtp.orange.fr with ESMTPA
+        id WtJwooghV4lbwWtJxojjMH; Sat, 10 Sep 2022 07:46:26 +0200
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 10 Sep 2022 07:46:26 +0200
+X-ME-IP: 90.11.190.129
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Minas Harutyunyan <hminas@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH] usb: dwc2: Remove redundant license text
+Date:   Sat, 10 Sep 2022 07:46:21 +0200
+Message-Id: <030a7e187d707f8734a492cda7a6b54d459c4bb3.1662788747.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The UAS mode of Hiksemi is reported to fail to work on several platforms
-with the following error message, then after re-connecting the device will
-be offlined and not working at all.
+SPDX-License-Identifier have been added in commit 5fd54ace4721 ("USB: add
+SPDX identifiers to all remaining files in drivers/usb/")
 
-[  592.518442][ 2] sd 8:0:0:0: [sda] tag#17 uas_eh_abort_handler 0 uas-tag 18
-                   inflight: CMD
-[  592.527575][ 2] sd 8:0:0:0: [sda] tag#17 CDB: Write(10) 2a 00 03 6f 88 00 00
-                   04 00 00
-[  592.536330][ 2] sd 8:0:0:0: [sda] tag#0 uas_eh_abort_handler 0 uas-tag 1
-                   inflight: CMD
-[  592.545266][ 2] sd 8:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 07 44 1a 88 00
-                   00 08 00
+There is no point in keeping the now redundant license text.
 
-These disks have a broken uas implementation, the tag field of the status
-iu-s is not set properly,so we need to fall-back to usb-storage.
+Remove it.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
-change for v1
- -Change the email real name
+ drivers/usb/dwc2/core.c      | 30 ------------------------------
+ drivers/usb/dwc2/core.h      | 30 ------------------------------
+ drivers/usb/dwc2/core_intr.c | 30 ------------------------------
+ drivers/usb/dwc2/hcd.c       | 30 ------------------------------
+ drivers/usb/dwc2/hcd.h       | 31 +------------------------------
+ drivers/usb/dwc2/hcd_ddma.c  | 30 ------------------------------
+ drivers/usb/dwc2/hcd_intr.c  | 30 ------------------------------
+ drivers/usb/dwc2/hcd_queue.c | 30 ------------------------------
+ drivers/usb/dwc2/hw.h        | 30 ------------------------------
+ drivers/usb/dwc2/params.c    | 30 ------------------------------
+ drivers/usb/dwc2/pci.c       | 30 ------------------------------
+ drivers/usb/dwc2/platform.c  | 30 ------------------------------
+ 12 files changed, 1 insertion(+), 360 deletions(-)
 
-Change for v2
- -Change spelling error
-
-Change for v3
- -Add Acked-by
-
-Change for v4
- -Fix version error
-
-Change for v5
- -change version
----
- drivers/usb/storage/unusual_uas.h | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/usb/storage/unusual_uas.h b/drivers/usb/storage/unusual_uas.h
-index cdff7dc..a6bf87a 100644
---- a/drivers/usb/storage/unusual_uas.h
-+++ b/drivers/usb/storage/unusual_uas.h
-@@ -62,6 +62,13 @@ UNUSUAL_DEV(0x059f, 0x1061, 0x0000, 0x9999,
- 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
- 		US_FL_IGNORE_UAS),
+diff --git a/drivers/usb/dwc2/core.c b/drivers/usb/dwc2/core.c
+index dc4fc72ab1b6..5635e4d7ec88 100644
+--- a/drivers/usb/dwc2/core.c
++++ b/drivers/usb/dwc2/core.c
+@@ -3,36 +3,6 @@
+  * core.c - DesignWare HS OTG Controller common routines
+  *
+  * Copyright (C) 2004-2013 Synopsys, Inc.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. Redistributions in binary form must reproduce the above copyright
+- *    notice, this list of conditions and the following disclaimer in the
+- *    documentation and/or other materials provided with the distribution.
+- * 3. The names of the above-listed copyright holders may not be used
+- *    to endorse or promote products derived from this software without
+- *    specific prior written permission.
+- *
+- * ALTERNATIVELY, this software may be distributed under the terms of the
+- * GNU General Public License ("GPL") as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any
+- * later version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
  
-+/* Reported-by: Hongling Zeng <zenghongling@kylinos.cn> */
-+UNUSUAL_DEV(0x090c, 0x2000, 0x0000, 0x9999,
-+		"Hiksemi",
-+		"External HDD",
-+		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-+		US_FL_IGNORE_UAS),
-+
  /*
-  * Apricorn USB3 dongle sometimes returns "USBSUSBSUSBS" in response to SCSI
-  * commands in UAS mode.  Observed with the 1.28 firmware; are there others?
+diff --git a/drivers/usb/dwc2/core.h b/drivers/usb/dwc2/core.h
+index 0683852e47e4..40cf2880d7e5 100644
+--- a/drivers/usb/dwc2/core.h
++++ b/drivers/usb/dwc2/core.h
+@@ -3,36 +3,6 @@
+  * core.h - DesignWare HS OTG Controller common declarations
+  *
+  * Copyright (C) 2004-2013 Synopsys, Inc.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. Redistributions in binary form must reproduce the above copyright
+- *    notice, this list of conditions and the following disclaimer in the
+- *    documentation and/or other materials provided with the distribution.
+- * 3. The names of the above-listed copyright holders may not be used
+- *    to endorse or promote products derived from this software without
+- *    specific prior written permission.
+- *
+- * ALTERNATIVELY, this software may be distributed under the terms of the
+- * GNU General Public License ("GPL") as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any
+- * later version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+ #ifndef __DWC2_CORE_H__
+diff --git a/drivers/usb/dwc2/core_intr.c b/drivers/usb/dwc2/core_intr.c
+index a5c52b237e72..158ede753854 100644
+--- a/drivers/usb/dwc2/core_intr.c
++++ b/drivers/usb/dwc2/core_intr.c
+@@ -3,36 +3,6 @@
+  * core_intr.c - DesignWare HS OTG Controller common interrupt handling
+  *
+  * Copyright (C) 2004-2013 Synopsys, Inc.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. Redistributions in binary form must reproduce the above copyright
+- *    notice, this list of conditions and the following disclaimer in the
+- *    documentation and/or other materials provided with the distribution.
+- * 3. The names of the above-listed copyright holders may not be used
+- *    to endorse or promote products derived from this software without
+- *    specific prior written permission.
+- *
+- * ALTERNATIVELY, this software may be distributed under the terms of the
+- * GNU General Public License ("GPL") as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any
+- * later version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+ /*
+diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
+index aaf7b9fc4d34..657f1f659ffa 100644
+--- a/drivers/usb/dwc2/hcd.c
++++ b/drivers/usb/dwc2/hcd.c
+@@ -3,36 +3,6 @@
+  * hcd.c - DesignWare HS OTG Controller host-mode routines
+  *
+  * Copyright (C) 2004-2013 Synopsys, Inc.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. Redistributions in binary form must reproduce the above copyright
+- *    notice, this list of conditions and the following disclaimer in the
+- *    documentation and/or other materials provided with the distribution.
+- * 3. The names of the above-listed copyright holders may not be used
+- *    to endorse or promote products derived from this software without
+- *    specific prior written permission.
+- *
+- * ALTERNATIVELY, this software may be distributed under the terms of the
+- * GNU General Public License ("GPL") as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any
+- * later version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+ /*
+diff --git a/drivers/usb/dwc2/hcd.h b/drivers/usb/dwc2/hcd.h
+index ea02ee63ac6d..b7254d94fdc3 100644
+--- a/drivers/usb/dwc2/hcd.h
++++ b/drivers/usb/dwc2/hcd.h
+@@ -3,37 +3,8 @@
+  * hcd.h - DesignWare HS OTG Controller host-mode declarations
+  *
+  * Copyright (C) 2004-2013 Synopsys, Inc.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. Redistributions in binary form must reproduce the above copyright
+- *    notice, this list of conditions and the following disclaimer in the
+- *    documentation and/or other materials provided with the distribution.
+- * 3. The names of the above-listed copyright holders may not be used
+- *    to endorse or promote products derived from this software without
+- *    specific prior written permission.
+- *
+- * ALTERNATIVELY, this software may be distributed under the terms of the
+- * GNU General Public License ("GPL") as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any
+- * later version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
++
+ #ifndef __DWC2_HCD_H__
+ #define __DWC2_HCD_H__
+ 
+diff --git a/drivers/usb/dwc2/hcd_ddma.c b/drivers/usb/dwc2/hcd_ddma.c
+index a858b5f9c1d6..6b4d825e97a2 100644
+--- a/drivers/usb/dwc2/hcd_ddma.c
++++ b/drivers/usb/dwc2/hcd_ddma.c
+@@ -3,36 +3,6 @@
+  * hcd_ddma.c - DesignWare HS OTG Controller descriptor DMA routines
+  *
+  * Copyright (C) 2004-2013 Synopsys, Inc.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. Redistributions in binary form must reproduce the above copyright
+- *    notice, this list of conditions and the following disclaimer in the
+- *    documentation and/or other materials provided with the distribution.
+- * 3. The names of the above-listed copyright holders may not be used
+- *    to endorse or promote products derived from this software without
+- *    specific prior written permission.
+- *
+- * ALTERNATIVELY, this software may be distributed under the terms of the
+- * GNU General Public License ("GPL") as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any
+- * later version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+ /*
+diff --git a/drivers/usb/dwc2/hcd_intr.c b/drivers/usb/dwc2/hcd_intr.c
+index d5f4ec1b73b1..c9740caa5974 100644
+--- a/drivers/usb/dwc2/hcd_intr.c
++++ b/drivers/usb/dwc2/hcd_intr.c
+@@ -3,36 +3,6 @@
+  * hcd_intr.c - DesignWare HS OTG Controller host-mode interrupt handling
+  *
+  * Copyright (C) 2004-2013 Synopsys, Inc.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. Redistributions in binary form must reproduce the above copyright
+- *    notice, this list of conditions and the following disclaimer in the
+- *    documentation and/or other materials provided with the distribution.
+- * 3. The names of the above-listed copyright holders may not be used
+- *    to endorse or promote products derived from this software without
+- *    specific prior written permission.
+- *
+- * ALTERNATIVELY, this software may be distributed under the terms of the
+- * GNU General Public License ("GPL") as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any
+- * later version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+ /*
+diff --git a/drivers/usb/dwc2/hcd_queue.c b/drivers/usb/dwc2/hcd_queue.c
+index 24beff610cf2..0a1145592fc7 100644
+--- a/drivers/usb/dwc2/hcd_queue.c
++++ b/drivers/usb/dwc2/hcd_queue.c
+@@ -3,36 +3,6 @@
+  * hcd_queue.c - DesignWare HS OTG Controller host queuing routines
+  *
+  * Copyright (C) 2004-2013 Synopsys, Inc.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. Redistributions in binary form must reproduce the above copyright
+- *    notice, this list of conditions and the following disclaimer in the
+- *    documentation and/or other materials provided with the distribution.
+- * 3. The names of the above-listed copyright holders may not be used
+- *    to endorse or promote products derived from this software without
+- *    specific prior written permission.
+- *
+- * ALTERNATIVELY, this software may be distributed under the terms of the
+- * GNU General Public License ("GPL") as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any
+- * later version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+ /*
+diff --git a/drivers/usb/dwc2/hw.h b/drivers/usb/dwc2/hw.h
+index 6b16fbf98bc6..13abdd5f6752 100644
+--- a/drivers/usb/dwc2/hw.h
++++ b/drivers/usb/dwc2/hw.h
+@@ -3,36 +3,6 @@
+  * hw.h - DesignWare HS OTG Controller hardware definitions
+  *
+  * Copyright 2004-2013 Synopsys, Inc.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. Redistributions in binary form must reproduce the above copyright
+- *    notice, this list of conditions and the following disclaimer in the
+- *    documentation and/or other materials provided with the distribution.
+- * 3. The names of the above-listed copyright holders may not be used
+- *    to endorse or promote products derived from this software without
+- *    specific prior written permission.
+- *
+- * ALTERNATIVELY, this software may be distributed under the terms of the
+- * GNU General Public License ("GPL") as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any
+- * later version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+ #ifndef __DWC2_HW_H__
+diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
+index fdb8a42fff86..8eab5f38b110 100644
+--- a/drivers/usb/dwc2/params.c
++++ b/drivers/usb/dwc2/params.c
+@@ -1,36 +1,6 @@
+ // SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause)
+ /*
+  * Copyright (C) 2004-2016 Synopsys, Inc.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. Redistributions in binary form must reproduce the above copyright
+- *    notice, this list of conditions and the following disclaimer in the
+- *    documentation and/or other materials provided with the distribution.
+- * 3. The names of the above-listed copyright holders may not be used
+- *    to endorse or promote products derived from this software without
+- *    specific prior written permission.
+- *
+- * ALTERNATIVELY, this software may be distributed under the terms of the
+- * GNU General Public License ("GPL") as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any
+- * later version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+ #include <linux/kernel.h>
+diff --git a/drivers/usb/dwc2/pci.c b/drivers/usb/dwc2/pci.c
+index a93559b4ecdb..b7306ed8be4c 100644
+--- a/drivers/usb/dwc2/pci.c
++++ b/drivers/usb/dwc2/pci.c
+@@ -3,36 +3,6 @@
+  * pci.c - DesignWare HS OTG Controller PCI driver
+  *
+  * Copyright (C) 2004-2013 Synopsys, Inc.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. Redistributions in binary form must reproduce the above copyright
+- *    notice, this list of conditions and the following disclaimer in the
+- *    documentation and/or other materials provided with the distribution.
+- * 3. The names of the above-listed copyright holders may not be used
+- *    to endorse or promote products derived from this software without
+- *    specific prior written permission.
+- *
+- * ALTERNATIVELY, this software may be distributed under the terms of the
+- * GNU General Public License ("GPL") as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any
+- * later version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+ /*
+diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
+index fd0ccf6f3ec5..ec4ace0107f5 100644
+--- a/drivers/usb/dwc2/platform.c
++++ b/drivers/usb/dwc2/platform.c
+@@ -3,36 +3,6 @@
+  * platform.c - DesignWare HS OTG Controller platform driver
+  *
+  * Copyright (C) Matthijs Kooijman <matthijs@stdin.nl>
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. Redistributions in binary form must reproduce the above copyright
+- *    notice, this list of conditions and the following disclaimer in the
+- *    documentation and/or other materials provided with the distribution.
+- * 3. The names of the above-listed copyright holders may not be used
+- *    to endorse or promote products derived from this software without
+- *    specific prior written permission.
+- *
+- * ALTERNATIVELY, this software may be distributed under the terms of the
+- * GNU General Public License ("GPL") as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any
+- * later version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+ #include <linux/kernel.h>
 -- 
-2.1.0
+2.34.1
 
