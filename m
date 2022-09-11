@@ -2,94 +2,68 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0A79C6FA83
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Sep 2022 21:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E09C5C54EE9
+	for <linux-usb@archiver.kernel.org>; Sun, 11 Sep 2022 05:51:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230017AbiIJVb3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Sep 2022 17:31:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33562 "EHLO
+        id S229846AbiIKFvs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 11 Sep 2022 01:51:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229997AbiIJVbI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Sep 2022 17:31:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEC945727C;
-        Sat, 10 Sep 2022 14:25:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1E99860E86;
-        Sat, 10 Sep 2022 21:19:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5DFAC43140;
-        Sat, 10 Sep 2022 21:18:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662844740;
-        bh=m0CCmXn+DRNmptGEaAfo1O1jNqKFsxS0zWNvH9+boSk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ew+rl11en3lMuV+LU3AvbUtfLC5e7/r5IVmBtXfOPfSMO9E1+dSJxXB8WSBsZoZZP
-         xwOvNE21t4nbSNKVU/469Bd803x6kXt0JpUBP0xOQ0c3J4IL1O5uLbqMGYitQsnNPv
-         CisM3gMuRX1ZuZAmB1HKp28kbkDU9ZlBQXiDyR942rEC/ScqgAdfo19IaOvkh254wi
-         qU06QVc/bRKmbfr8vsK2StQnl2oL6JjmwgSzbWPL7ZrwPZnQNPXYCIgHkJDKpRvVvf
-         1oYDSVa1aAQUWAFT3bDCI0TWXb/JCsD3mA83DLXZtPrwsdiJo8jiSZ0PzdOs80y3c9
-         tWUbttOP9+AXQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hu Xiaoying <huxiaoying@kylinos.cn>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net
-Subject: [PATCH AUTOSEL 5.10 14/14] usb: storage: Add ASUS <0x0b05:0x1932> to IGNORE_UAS
-Date:   Sat, 10 Sep 2022 17:18:32 -0400
-Message-Id: <20220910211832.70579-14-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220910211832.70579-1-sashal@kernel.org>
-References: <20220910211832.70579-1-sashal@kernel.org>
+        with ESMTP id S229599AbiIKFvr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Sep 2022 01:51:47 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C05844572;
+        Sat, 10 Sep 2022 22:51:46 -0700 (PDT)
+Received: from kwepemi500023.china.huawei.com (unknown [172.30.72.57])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MQJhn0gCKzHnkl;
+        Sun, 11 Sep 2022 13:49:45 +0800 (CST)
+Received: from huawei.com (10.175.112.208) by kwepemi500023.china.huawei.com
+ (7.221.188.76) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Sun, 11 Sep
+ 2022 13:51:43 +0800
+From:   Peng Wu <wupeng58@huawei.com>
+To:     <vincent.sunplus@gmail.com>, <kishon@ti.com>, <vkoul@kernel.org>
+CC:     <linux-usb@vger.kernel.org>, <inux-phy@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <liwei391@huawei.com>,
+        <wupeng58@huawei.com>
+Subject: [PATCH] phy: sunplus: Fix an IS_ERR() vs NULL bug in sp_usb_phy_probe
+Date:   Sun, 11 Sep 2022 05:49:31 +0000
+Message-ID: <20220911054931.122530-1-wupeng58@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.208]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemi500023.china.huawei.com (7.221.188.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Hu Xiaoying <huxiaoying@kylinos.cn>
+The devm_ioremap() function returns NULL on error, it doesn't return
+error pointers.
 
-[ Upstream commit c61feaee68b9735be06f162bc046c7f1959efb0c ]
-
-USB external storage device(0x0b05:1932), use gnome-disk-utility tools
-to test usb write  < 30MB/s.
-if does not to load module of uas for this device, can increase the
-write speed from 20MB/s to >40MB/s.
-
-Suggested-by: Matthias Kaehlcke <mka@chromium.org>
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Hu Xiaoying <huxiaoying@kylinos.cn>
-Link: https://lore.kernel.org/r/20220901045737.3438046-1-huxiaoying@kylinos.cn
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Fixes: 99d9ccd973852 ("phy: usb: Add USB2.0 phy driver for Sunplus SP7021")
+Signed-off-by: Peng Wu <wupeng58@huawei.com>
 ---
- drivers/usb/storage/unusual_uas.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/phy/sunplus/phy-sunplus-usb2.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/storage/unusual_uas.h b/drivers/usb/storage/unusual_uas.h
-index 4051c8cd0cd8a..23ab3b048d9be 100644
---- a/drivers/usb/storage/unusual_uas.h
-+++ b/drivers/usb/storage/unusual_uas.h
-@@ -62,6 +62,13 @@ UNUSUAL_DEV(0x0984, 0x0301, 0x0128, 0x0128,
- 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
- 		US_FL_IGNORE_UAS),
+diff --git a/drivers/phy/sunplus/phy-sunplus-usb2.c b/drivers/phy/sunplus/phy-sunplus-usb2.c
+index 5269968b3060..0e64eb3e6db5 100644
+--- a/drivers/phy/sunplus/phy-sunplus-usb2.c
++++ b/drivers/phy/sunplus/phy-sunplus-usb2.c
+@@ -256,8 +256,8 @@ static int sp_usb_phy_probe(struct platform_device *pdev)
+ 	usbphy->moon4_res_mem = platform_get_resource_byname(pdev, IORESOURCE_MEM, "moon4");
+ 	usbphy->moon4_regs = devm_ioremap(&pdev->dev, usbphy->moon4_res_mem->start,
+ 					  resource_size(usbphy->moon4_res_mem));
+-	if (IS_ERR(usbphy->moon4_regs))
+-		return PTR_ERR(usbphy->moon4_regs);
++	if (!usbphy->moon4_regs)
++		return -ENOMEM;
  
-+/* Reported-by: Tom Hu <huxiaoying@kylinos.cn> */
-+UNUSUAL_DEV(0x0b05, 0x1932, 0x0000, 0x9999,
-+		"ASUS",
-+		"External HDD",
-+		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-+		US_FL_IGNORE_UAS),
-+
- /* Reported-by: David Webb <djw@noc.ac.uk> */
- UNUSUAL_DEV(0x0bc2, 0x331a, 0x0000, 0x9999,
- 		"Seagate",
+ 	usbphy->phy_clk = devm_clk_get(&pdev->dev, NULL);
+ 	if (IS_ERR(usbphy->phy_clk))
 -- 
-2.35.1
+2.17.1
 
