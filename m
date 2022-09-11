@@ -2,38 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E09C5C54EE9
-	for <linux-usb@archiver.kernel.org>; Sun, 11 Sep 2022 05:51:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ED47ECAAA1
+	for <linux-usb@archiver.kernel.org>; Sun, 11 Sep 2022 06:03:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229846AbiIKFvs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 11 Sep 2022 01:51:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39080 "EHLO
+        id S229854AbiIKGDI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 11 Sep 2022 02:03:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229599AbiIKFvr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Sep 2022 01:51:47 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C05844572;
-        Sat, 10 Sep 2022 22:51:46 -0700 (PDT)
-Received: from kwepemi500023.china.huawei.com (unknown [172.30.72.57])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MQJhn0gCKzHnkl;
-        Sun, 11 Sep 2022 13:49:45 +0800 (CST)
+        with ESMTP id S229716AbiIKGDG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Sep 2022 02:03:06 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB74928E3A;
+        Sat, 10 Sep 2022 23:03:05 -0700 (PDT)
+Received: from kwepemi500023.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MQJvv0TFRzmV91;
+        Sun, 11 Sep 2022 13:59:23 +0800 (CST)
 Received: from huawei.com (10.175.112.208) by kwepemi500023.china.huawei.com
  (7.221.188.76) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Sun, 11 Sep
- 2022 13:51:43 +0800
+ 2022 14:03:02 +0800
 From:   Peng Wu <wupeng58@huawei.com>
 To:     <vincent.sunplus@gmail.com>, <kishon@ti.com>, <vkoul@kernel.org>
-CC:     <linux-usb@vger.kernel.org>, <inux-phy@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <liwei391@huawei.com>,
-        <wupeng58@huawei.com>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <liwei391@huawei.com>, <wupeng58@huawei.com>
 Subject: [PATCH] phy: sunplus: Fix an IS_ERR() vs NULL bug in sp_usb_phy_probe
-Date:   Sun, 11 Sep 2022 05:49:31 +0000
-Message-ID: <20220911054931.122530-1-wupeng58@huawei.com>
+Date:   Sun, 11 Sep 2022 06:00:53 +0000
+Message-ID: <20220911060053.123594-1-wupeng58@huawei.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.175.112.208]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  kwepemi500023.china.huawei.com (7.221.188.76)
 X-CFilter-Loop: Reflected
 Precedence: bulk
