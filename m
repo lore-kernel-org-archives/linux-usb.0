@@ -2,85 +2,76 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E35CC54EE9
-	for <linux-usb@archiver.kernel.org>; Sun, 11 Sep 2022 14:03:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CBE4C54EE9
+	for <linux-usb@archiver.kernel.org>; Sun, 11 Sep 2022 14:03:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230408AbiIKODX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 11 Sep 2022 10:03:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53144 "EHLO
+        id S230423AbiIKODZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 11 Sep 2022 10:03:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230354AbiIKODN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Sep 2022 10:03:13 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 808E233419;
+        with ESMTP id S230358AbiIKODO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Sep 2022 10:03:14 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99E0533A19;
         Sun, 11 Sep 2022 07:03:12 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AD7A5B80B17;
-        Sun, 11 Sep 2022 14:03:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D289C433C1;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4D6F7B80B50;
+        Sun, 11 Sep 2022 14:03:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64F70C43141;
         Sun, 11 Sep 2022 14:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1662904989;
-        bh=GRV2tQa0RAvPCK+3aZDH0ELBAMql4z6Q7mw6IXBUTMc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Ni8gSIo3yFGnqW+JZw6vuHef91H4O7dWh08/aS2K77HYzDx0cGrtmcTDqMMJtgKrA
-         lPC2D86i3oM5nvTHY5jmOVnVzJ3/Vg5pcdtuvkJ5bZvYY8EoeoHj3/FQABbBhBnxg8
-         FGjygsy3lyMEaWXx9iN8BiWICfRw4+wUKk9rospeyfknzROTD/CMr07QJ68+GjSIQH
-         IKkX1OnWm7wuVX/wuW45i2pKMi0M0OCZqBstepRb0RFQTKb+KXowIzxs6mtztKnOii
-         kD/B72vQnjtOGoOxhBzQwgZN9v7317yr/xzO7BqHuTNzCAkMplFhm1nu72SWPPfwhM
-         oTHrJJiRepTCQ==
+        bh=WWx3AJlX6Slk7wqDxJ03BK7fBMO8+hLbvGw5qltzu88=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=S2ME8UJtIiwFMdofFqm+rWwVReu7wqvU+NEaE0uj6TTATHVsdwpTF7LaNltA7HXqL
+         yP65rwTzpl4J8+mn521HOqNiC+92Qq3yj805zqr24ntUo+vT6B+PKamYzmkNbmU2Ji
+         QzpBzF5IBTeR7fU8gSqt8o2A+2Y3hNvh7MMbay/CqaO7uST9kjM5sFkBC13BjutfEf
+         vxzZHMVRtXZ0Ok4XxrA9+aieFlouWcl+yjEX+2vUKZXpsUK5oG85lKcyeWRvF5swBD
+         /3hc8iremlwoQs4/4oYXFb2PUy0MvQUYz4C4yB0oCw74aItvvCm3Do5IhNlXPMFc/B
+         5aGjSTroV8fUA==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1oXNYL-0007wW-Do; Sun, 11 Sep 2022 16:03:17 +0200
+        id 1oXNYL-0007wg-Pg; Sun, 11 Sep 2022 16:03:17 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Amireddy mallikarjuna reddy <mallikarjuna.reddy@ftdichip.com>,
         arun.pappan@ftdichip.com, sowjanya.reddy@ftdichip.com,
         malliamireddy009@gmail.com, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 00/12] USB: serial: ftdi_sio: type cleanup and HP/HA support
-Date:   Sun, 11 Sep 2022 16:02:04 +0200
-Message-Id: <20220911140216.30481-1-johan@kernel.org>
+Subject: [PATCH 04/12] USB: serial: ftdi_sio: include FT2232D in type string
+Date:   Sun, 11 Sep 2022 16:02:08 +0200
+Message-Id: <20220911140216.30481-5-johan@kernel.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220911140216.30481-1-johan@kernel.org>
+References: <20220911140216.30481-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-I finally got around to completing the clean up of the ftdi_sio device
-type handling which I started years ago but never to around to
-finishing.
+Include the updated D-version in the type string for the FT2232C type.
 
-A recent patch from FTDI adding support for further device types has
-been rebased on top.
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/ftdi_sio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Johan
-
-
-Amireddy mallikarjuna reddy (1):
-  USB: serial: ftdi_sio: add support for HP and HA devices
-
-Johan Hovold (11):
-  USB: serial: ftdi_sio: clean up chip type enum
-  USB: serial: ftdi_sio: drop redundant chip type comments
-  USB: serial: ftdi_sio: rename chip types
-  USB: serial: ftdi_sio: include FT2232D in type string
-  USB: serial: ftdi_sio: rename channel index
-  USB: serial: ftdi_sio: tighten device-type detection
-  USB: serial: ftdi_sio: clean up modem-status handling
-  USB: serial: ftdi_sio: clean up attribute handling
-  USB: serial: ftdi_sio: clean up baudrate request
-  USB: serial: ftdi_sio: assume hi-speed type
-  USB: serial: ftdi_sio: simplify divisor handling
-
- drivers/usb/serial/ftdi_sio.c     | 335 +++++++++++++++---------------
- drivers/usb/serial/ftdi_sio.h     |  22 +-
- drivers/usb/serial/ftdi_sio_ids.h |   7 +
- 3 files changed, 184 insertions(+), 180 deletions(-)
-
+diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
+index b4db6a4ea223..cd3cdecc5f90 100644
+--- a/drivers/usb/serial/ftdi_sio.c
++++ b/drivers/usb/serial/ftdi_sio.c
+@@ -1074,7 +1074,7 @@ static const char *ftdi_chip_name[] = {
+ 	[SIO]		= "SIO",	/* the serial part of FT8U100AX */
+ 	[FT232A]	= "FT232A",
+ 	[FT232B]	= "FT232B",
+-	[FT2232C]	= "FT2232C",
++	[FT2232C]	= "FT2232C/D",
+ 	[FT232R]	= "FT232R",
+ 	[FT232H]	= "FT232H",
+ 	[FT2232H]	= "FT2232H",
 -- 
 2.35.1
 
