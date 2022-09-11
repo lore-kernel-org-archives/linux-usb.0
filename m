@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4428C54EE9
-	for <linux-usb@archiver.kernel.org>; Sun, 11 Sep 2022 14:03:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B5EEC6FA86
+	for <linux-usb@archiver.kernel.org>; Sun, 11 Sep 2022 14:03:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230393AbiIKODU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 11 Sep 2022 10:03:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53114 "EHLO
+        id S230404AbiIKODW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 11 Sep 2022 10:03:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230338AbiIKODM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Sep 2022 10:03:12 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE0C5326C0;
-        Sun, 11 Sep 2022 07:03:11 -0700 (PDT)
+        with ESMTP id S230352AbiIKODN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Sep 2022 10:03:13 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80EC433A23;
+        Sun, 11 Sep 2022 07:03:12 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 59BBE61048;
-        Sun, 11 Sep 2022 14:03:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F047C4314B;
+        by ams.source.kernel.org (Postfix) with ESMTPS id C5202B80B57;
+        Sun, 11 Sep 2022 14:03:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50897C4347C;
         Sun, 11 Sep 2022 14:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1662904989;
-        bh=8hzbbHrrGmUOdQqlSJTWWGTPUH/13Z+G4m3ZYEOgNvc=;
+        bh=PEHzzoH9IF5H8guB1gj3gMHXET+ye+3uJaMUPxbg1us=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=enVnn68zg9k4o1V/OCt/4mezo8NKe/wT8/lv9XAirYMcn+T5zICCv0Q8rehhW3u4S
-         XbDkZ/y0/Qzu/dDDQqOZMMHEkzI0DBWNrNqSfq3dkft3g+vTpX4nX7lfz87tkBfERz
-         XtZNPEu5K4xjDfnJQs+Yv2pBkTa9UpsECnlBhA8SrY6iFtyn4nDTHi4XyRdfuKuUKh
-         6nP1xAgq2GO2qqreas4J8dm2f/ILk9LWSIw8WOeAL2e3c/d6wfE11bjrKi4O9ofZ6v
-         VFL8yvtd5nb8aw2YfhYUWIaQNA9E2gbFMx2N4P/KtgtLrpPwy6d0FilT8sC7vwcHO4
-         oGsu1FlAj0Ojw==
+        b=kIdFj89bb+WtZNYc1l8Ki70QoDiqYBv1ldKR5Tj9ljvCrSfWpCMa1d07wM4byN/aZ
+         leM8U+iZO8t/DYh7HZR4GZ7aFPr2z8k1FgK8IRi4ZK6b10X8gky6bB3NitYcybHP3m
+         2DmYtHrYXsex6NbqltKRYPqE/vzkTF8RFgKA0wO/1F7oVKnW8haiH6ffoJlxP+1EDy
+         cjOFUzIGH1WQXbtK2Pj9kds99NBTnBd5T5kHho79Y3QV4/DpEwbt4BtBHHtBDfpnSz
+         NufXRoC0dZg5Y67EMFChMZbtR57I5R8ja9GWLWEPsNqnjTr9Z4L03ED5jq8fm4xgtC
+         9fdYLaC57gAEQ==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1oXNYM-0007wv-8b; Sun, 11 Sep 2022 16:03:18 +0200
+        id 1oXNYL-0007wY-HQ; Sun, 11 Sep 2022 16:03:17 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Amireddy mallikarjuna reddy <mallikarjuna.reddy@ftdichip.com>,
         arun.pappan@ftdichip.com, sowjanya.reddy@ftdichip.com,
         malliamireddy009@gmail.com, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 09/12] USB: serial: ftdi_sio: clean up baudrate request
-Date:   Sun, 11 Sep 2022 16:02:13 +0200
-Message-Id: <20220911140216.30481-10-johan@kernel.org>
+Subject: [PATCH 01/12] USB: serial: ftdi_sio: clean up chip type enum
+Date:   Sun, 11 Sep 2022 16:02:05 +0200
+Message-Id: <20220911140216.30481-2-johan@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220911140216.30481-1-johan@kernel.org>
 References: <20220911140216.30481-1-johan@kernel.org>
@@ -52,54 +52,61 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Multi-channel devices need to encode the channel selector in their
-control requests and newer single-channel chip types use the same
-request format.
-
-Set the channel index also for these single-channel types so that the
-index can be used to determine the baudrate request format instead of
-listing types explicitly.
-
-Note that FT232H and FTX accept either 0 or 1 as selector for their
-single channel, presumably for backward compatibility reasons.
+Clean up the chip type enum by dropping the explicit values and moving
+the definition to the implementation to make it easier to add further
+types.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/ftdi_sio.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/usb/serial/ftdi_sio.c | 11 +++++++++++
+ drivers/usb/serial/ftdi_sio.h | 12 ------------
+ 2 files changed, 11 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index 835e12fc971a..e772aacae562 100644
+index 52d59be92034..3757931284cb 100644
 --- a/drivers/usb/serial/ftdi_sio.c
 +++ b/drivers/usb/serial/ftdi_sio.c
-@@ -1407,13 +1407,8 @@ static int change_speed(struct tty_struct *tty, struct usb_serial_port *port)
- 	index_value = get_ftdi_divisor(tty, port);
- 	value = (u16)index_value;
- 	index = (u16)(index_value >> 16);
--	if (priv->chip_type == FT2232C || priv->chip_type == FT2232H ||
--			priv->chip_type == FT4232H || priv->chip_type == FT232H ||
--			priv->chip_type == FTX) {
--		/* Probably the BM type needs the MSB of the encoded fractional
--		 * divider also moved like for the chips above. Any infos? */
-+	if (priv->channel)
- 		index = (u16)((index << 8) | priv->channel);
--	}
+@@ -47,6 +47,17 @@
+ #define DRIVER_AUTHOR "Greg Kroah-Hartman <greg@kroah.com>, Bill Ryder <bryder@sgi.com>, Kuba Ober <kuba@mareimbrium.org>, Andreas Mohr, Johan Hovold <jhovold@gmail.com>"
+ #define DRIVER_DESC "USB FTDI Serial Converters Driver"
  
- 	rv = usb_control_msg(port->serial->dev,
- 			    usb_sndctrlpipe(port->serial->dev, 0),
-@@ -1596,10 +1591,12 @@ static int ftdi_determine_type(struct usb_serial_port *port)
- 		break;
- 	case 0x900:
- 		priv->chip_type = FT232H;
-+		priv->channel = CHANNEL_A + ifnum;
- 		priv->baud_base = 120000000 / 2;
- 		break;
- 	case 0x1000:
- 		priv->chip_type = FTX;
-+		priv->channel = CHANNEL_A + ifnum;
- 		break;
- 	default:
- 		if (version < 0x200) {
++enum ftdi_chip_type {
++	SIO,
++	FT8U232AM,
++	FT232BM,
++	FT2232C,
++	FT232RL,
++	FT2232H,
++	FT4232H,
++	FT232H,
++	FTX,
++};
+ 
+ struct ftdi_private {
+ 	enum ftdi_chip_type chip_type;
+diff --git a/drivers/usb/serial/ftdi_sio.h b/drivers/usb/serial/ftdi_sio.h
+index be1641e0408b..12bc3a82ac2c 100644
+--- a/drivers/usb/serial/ftdi_sio.h
++++ b/drivers/usb/serial/ftdi_sio.h
+@@ -153,18 +153,6 @@
+  * not supported by the FT8U232AM).
+  */
+ 
+-enum ftdi_chip_type {
+-	SIO = 1,
+-	FT8U232AM = 2,
+-	FT232BM = 3,
+-	FT2232C = 4,
+-	FT232RL = 5,
+-	FT2232H = 6,
+-	FT4232H = 7,
+-	FT232H  = 8,
+-	FTX     = 9,
+-};
+-
+ enum ftdi_sio_baudrate {
+ 	ftdi_sio_b300 = 0,
+ 	ftdi_sio_b600 = 1,
 -- 
 2.35.1
 
