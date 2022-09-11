@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14135C54EE9
-	for <linux-usb@archiver.kernel.org>; Sun, 11 Sep 2022 14:03:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F7D2C54EE9
+	for <linux-usb@archiver.kernel.org>; Sun, 11 Sep 2022 14:03:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230345AbiIKODM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 11 Sep 2022 10:03:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53094 "EHLO
+        id S230355AbiIKODN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 11 Sep 2022 10:03:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230139AbiIKODL (ORCPT
+        with ESMTP id S230237AbiIKODL (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Sep 2022 10:03:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A4E0326C0;
-        Sun, 11 Sep 2022 07:03:10 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3681E33419;
+        Sun, 11 Sep 2022 07:03:11 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 00E9561012;
-        Sun, 11 Sep 2022 14:03:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56045C43470;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C06CC60F5B;
+        Sun, 11 Sep 2022 14:03:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87AF2C43146;
         Sun, 11 Sep 2022 14:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1662904989;
-        bh=nhRqD/sx9Bg9OQB7wlx22Zh4neB2ClHMeK+G19F5nZk=;
+        bh=AEuQN1qN6g4lPNcGSyMgkuEVA8PP453BV0ADwWgFgQ0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fHl+UYFDyc9hgxyCCqbEbyuAycVDgCkpId92WnzHynB8lZHCpMwv7dh4tN+Bgyz9k
-         9ldSpyf3QSX0ySTmJFxO+cisPeLzzrW0lOj9i25m70wMrVm+l30tEBEt0U0t7jql7M
-         184ypNApHU8+6NQ8u2Arek4WxdBGRJLmlRWlw7B75SaReZs5UfbpqXmCxU0/XQaSyZ
-         oFn3xLn4hOlF6ZZxbO/FUd6NbcWMypTQ0lNyMfW+1FvjKQOdoxuqsZojxEu/aFDFbT
-         RrcqoK43aEf6Jy53yxbbe+NC/mvkA+aA9DFHkRC/AoHelNxOW2devG9ESuipiJVrPN
-         pNEY9KpifMlgA==
+        b=usPjSiPoWKN/+cbGghdmZOsmNK8WmSkn2z0waF9Doxij9MQM9jGqUSQcCAgQBP4QP
+         MSQX7lFNP3knTEpkm96ktvS7fqMqQpZ+CAevgb5iLlEpEBdZfe/1cJTpczQRnTm7OG
+         p6qad5mI9g8yUDdl1QOpkGnYi72nNkeyxgTQwFW7CjvSwYb01VsIMydjhHk2MWjdku
+         UoLVBREBCsjTwNWpnTTOhfAgHUZqqce+Bp8XkR1U5PXddR9/RFYT6FPsRLfIXgvH4S
+         BK9yM6yV7yIC2i2AyblhFEhTi0p9NogBs9iQTlpg4mrM9WO73m0M8RcjOiG2CYPP+X
+         357X7OT9pwulA==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1oXNYL-0007wm-Vr; Sun, 11 Sep 2022 16:03:18 +0200
+        id 1oXNYM-0007ws-5j; Sun, 11 Sep 2022 16:03:18 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Amireddy mallikarjuna reddy <mallikarjuna.reddy@ftdichip.com>,
         arun.pappan@ftdichip.com, sowjanya.reddy@ftdichip.com,
         malliamireddy009@gmail.com, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 06/12] USB: serial: ftdi_sio: tighten device-type detection
-Date:   Sun, 11 Sep 2022 16:02:10 +0200
-Message-Id: <20220911140216.30481-7-johan@kernel.org>
+Subject: [PATCH 08/12] USB: serial: ftdi_sio: clean up attribute handling
+Date:   Sun, 11 Sep 2022 16:02:12 +0200
+Message-Id: <20220911140216.30481-9-johan@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220911140216.30481-1-johan@kernel.org>
 References: <20220911140216.30481-1-johan@kernel.org>
@@ -52,185 +52,85 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Clean up and tighten the device-type detection, which is based on
-bcdDevice.
+The driver exposes two attributes for all chip types but FT232A, which
+doesn't have a configurable latency timer, and SIO, which (probably)
+doesn't support the event-char mechanism either.
 
-Don't make assumptions about unknown (future) types (currently assumed
-to be either FT2232C or FT-X depending on bNumInterfaces) and instead
-log an error and refuse to bind so that we can add proper support when
-needed.
-
-Note that the bcdDevice values have been provided by FTDI.
+Explicitly test for the exceptions rather than list each and every
+supported device type in the attribute helpers.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/ftdi_sio.c | 118 ++++++++++++++++------------------
- 1 file changed, 55 insertions(+), 63 deletions(-)
+ drivers/usb/serial/ftdi_sio.c | 47 ++++++++++++-----------------------
+ 1 file changed, 16 insertions(+), 31 deletions(-)
 
 diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index 707dc3d67a19..f372f55a1bdf 100644
+index 58e0acb211df..835e12fc971a 100644
 --- a/drivers/usb/serial/ftdi_sio.c
 +++ b/drivers/usb/serial/ftdi_sio.c
-@@ -1547,89 +1547,73 @@ static int get_lsr_info(struct usb_serial_port *port,
- 	return 0;
- }
- 
--
--/* Determine type of FTDI chip based on USB config and descriptor. */
--static void ftdi_determine_type(struct usb_serial_port *port)
-+static int ftdi_determine_type(struct usb_serial_port *port)
+@@ -1726,46 +1726,31 @@ static DEVICE_ATTR_WO(event_char);
+ static int create_sysfs_attrs(struct usb_serial_port *port)
  {
  	struct ftdi_private *priv = usb_get_serial_port_data(port);
- 	struct usb_serial *serial = port->serial;
- 	struct usb_device *udev = serial->dev;
--	unsigned version;
--	unsigned interfaces;
-+	unsigned int version, ifnum;
-+
-+	version = le16_to_cpu(udev->descriptor.bcdDevice);
-+	ifnum = serial->interface->cur_altsetting->desc.bInterfaceNumber;
- 
--	/* Assume it is not the original SIO device for now. */
- 	priv->baud_base = 48000000 / 2;
-+	priv->channel = 0;
- 
--	version = le16_to_cpu(udev->descriptor.bcdDevice);
--	interfaces = udev->actconfig->desc.bNumInterfaces;
--	dev_dbg(&port->dev, "%s: bcdDevice = 0x%x, bNumInterfaces = %u\n", __func__,
--		version, interfaces);
--	if (interfaces > 1) {
--		struct usb_interface *intf = serial->interface;
--		int ifnum = intf->cur_altsetting->desc.bInterfaceNumber;
+-	int retval = 0;
 -
--		/* Multiple interfaces.*/
--		if (version == 0x0800) {
--			priv->chip_type = FT4232H;
--			/* Hi-speed - baud clock runs at 120MHz */
--			priv->baud_base = 120000000 / 2;
--		} else if (version == 0x0700) {
--			priv->chip_type = FT2232H;
--			/* Hi-speed - baud clock runs at 120MHz */
--			priv->baud_base = 120000000 / 2;
--		} else
--			priv->chip_type = FT2232C;
--
--		if (ifnum == 0)
--			priv->channel = CHANNEL_A;
--		else if (ifnum == 1)
--			priv->channel = CHANNEL_B;
--		else if (ifnum == 2)
--			priv->channel = CHANNEL_C;
--		else if (ifnum == 3)
--			priv->channel = CHANNEL_D;
--
--		/* BM-type devices have a bug where bcdDevice gets set
--		 * to 0x200 when iSerialNumber is 0.  */
--		if (version < 0x500) {
--			dev_dbg(&port->dev,
--				"%s: something fishy - bcdDevice too low for multi-interface device\n",
--				__func__);
+-	/* XXX I've no idea if the original SIO supports the event_char
+-	 * sysfs parameter, so I'm playing it safe.  */
+-	if (priv->chip_type != SIO) {
+-		dev_dbg(&port->dev, "sysfs attributes for %s\n", ftdi_chip_name[priv->chip_type]);
+-		retval = device_create_file(&port->dev, &dev_attr_event_char);
+-		if ((!retval) &&
+-		    (priv->chip_type == FT232B ||
+-		     priv->chip_type == FT2232C ||
+-		     priv->chip_type == FT232R ||
+-		     priv->chip_type == FT2232H ||
+-		     priv->chip_type == FT4232H ||
+-		     priv->chip_type == FT232H ||
+-		     priv->chip_type == FTX)) {
+-			retval = device_create_file(&port->dev,
+-						    &dev_attr_latency_timer);
 -		}
--	} else if (version < 0x200) {
--		/* Old device.  Assume it's the original SIO. */
--		priv->chip_type = SIO;
--		priv->baud_base = 12000000 / 16;
--	} else if (version < 0x400) {
--		/* Assume it's an FT8U232AM (or FT8U245AM) */
-+	switch (version) {
-+	case 0x200:
- 		priv->chip_type = FT232A;
++	enum ftdi_chip_type type = priv->chip_type;
++	int ret = 0;
 +
- 		/*
--		 * It might be a BM type because of the iSerialNumber bug.
--		 * If iSerialNumber==0 and the latency timer is readable,
--		 * assume it is BM type.
-+		 * FT232B devices have a bug where bcdDevice gets set to 0x200
-+		 * when iSerialNumber is 0. Assume it is an FT232B in case the
-+		 * latency timer is readable.
- 		 */
- 		if (udev->descriptor.iSerialNumber == 0 &&
- 				_read_latency_timer(port) >= 0) {
--			dev_dbg(&port->dev,
--				"%s: has latency timer so not an AM type\n",
--				__func__);
- 			priv->chip_type = FT232B;
- 		}
--	} else if (version < 0x600) {
--		/* Assume it's an FT232BM (or FT245BM) */
-+		break;
-+	case 0x400:
- 		priv->chip_type = FT232B;
--	} else if (version < 0x900) {
--		/* Assume it's an FT232RL */
-+		break;
-+	case 0x500:
-+		priv->chip_type = FT2232C;
-+		priv->channel = CHANNEL_A + ifnum;
-+		break;
-+	case 0x600:
- 		priv->chip_type = FT232R;
--	} else if (version < 0x1000) {
--		/* Assume it's an FT232H */
-+		break;
-+	case 0x700:
-+		priv->chip_type = FT2232H;
-+		priv->channel = CHANNEL_A + ifnum;
-+		priv->baud_base = 120000000 / 2;
-+		break;
-+	case 0x800:
-+		priv->chip_type = FT4232H;
-+		priv->channel = CHANNEL_A + ifnum;
-+		priv->baud_base = 120000000 / 2;
-+		break;
-+	case 0x900:
- 		priv->chip_type = FT232H;
--	} else {
--		/* Assume it's an FT-X series device */
-+		priv->baud_base = 120000000 / 2;
-+		break;
-+	case 0x1000:
- 		priv->chip_type = FTX;
-+		break;
-+	default:
-+		if (version < 0x200) {
-+			priv->chip_type = SIO;
-+			priv->baud_base = 12000000 / 16;
-+		} else {
-+			dev_err(&port->dev, "unknown device type: 0x%02x\n", version);
-+			return -ENODEV;
-+		}
++	if (type != SIO) {
++		ret = device_create_file(&port->dev, &dev_attr_event_char);
++		if (ret)
++			return ret;
  	}
- 
- 	dev_info(&udev->dev, "Detected %s\n", ftdi_chip_name[priv->chip_type]);
+-	return retval;
 +
-+	return 0;
++	if (type != SIO && type != FT232A)
++		ret = device_create_file(&port->dev, &dev_attr_latency_timer);
++
++	return ret;
  }
  
+ static void remove_sysfs_attrs(struct usb_serial_port *port)
+ {
+ 	struct ftdi_private *priv = usb_get_serial_port_data(port);
++	enum ftdi_chip_type type = priv->chip_type;
  
-@@ -2256,7 +2240,10 @@ static int ftdi_sio_port_probe(struct usb_serial_port *port)
+-	/* XXX see create_sysfs_attrs */
+-	if (priv->chip_type != SIO) {
++	if (type != SIO)
+ 		device_remove_file(&port->dev, &dev_attr_event_char);
+-		if (priv->chip_type == FT232B ||
+-		    priv->chip_type == FT2232C ||
+-		    priv->chip_type == FT232R ||
+-		    priv->chip_type == FT2232H ||
+-		    priv->chip_type == FT4232H ||
+-		    priv->chip_type == FT232H ||
+-		    priv->chip_type == FTX) {
+-			device_remove_file(&port->dev, &dev_attr_latency_timer);
+-		}
+-	}
  
- 	usb_set_serial_port_data(port, priv);
- 
--	ftdi_determine_type(port);
-+	result = ftdi_determine_type(port);
-+	if (result)
-+		goto err_free;
-+
- 	ftdi_set_max_packet_size(port);
- 	if (read_latency_timer(port) < 0)
- 		priv->latency = 16;
-@@ -2271,6 +2258,11 @@ static int ftdi_sio_port_probe(struct usb_serial_port *port)
- 	}
- 
- 	return 0;
-+
-+err_free:
-+	kfree(priv);
-+
-+	return result;
++	if (type != SIO && type != FT232A)
++		device_remove_file(&port->dev, &dev_attr_latency_timer);
  }
  
- /* Setup for the USB-UIRT device, which requires hardwired
+ #ifdef CONFIG_GPIOLIB
 -- 
 2.35.1
 
