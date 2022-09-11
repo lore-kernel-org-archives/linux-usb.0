@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A0A4C54EE9
-	for <linux-usb@archiver.kernel.org>; Sun, 11 Sep 2022 14:03:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3CBBC54EE9
+	for <linux-usb@archiver.kernel.org>; Sun, 11 Sep 2022 14:03:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230427AbiIKODb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 11 Sep 2022 10:03:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53214 "EHLO
+        id S230430AbiIKODd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 11 Sep 2022 10:03:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230370AbiIKODQ (ORCPT
+        with ESMTP id S230377AbiIKODQ (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Sep 2022 10:03:16 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6713C33A3B;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6125333A3A;
         Sun, 11 Sep 2022 07:03:15 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C8DA0B80B3B;
-        Sun, 11 Sep 2022 14:03:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F68EC43149;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 13C83B80B52;
+        Sun, 11 Sep 2022 14:03:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C02B8C43150;
         Sun, 11 Sep 2022 14:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1662904989;
-        bh=37cnzMM3fHj4HuHjrrjP7jTiSZuXJ1j1atdznt3e8Hc=;
+        bh=SAqqcP5lBP9yri+H9v6GzRI9aDJ/79pe958bAhnOMkw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pepUIK7+4MCU4bGUVs4WRJUA0mEgHALyh3xx8GjxAj7Rb86mJnGkxBX0GgjHKBAGP
-         0jemwS3p6nE6gC4g+3kKUgo8hY1jQjPdYDRwaWODTGnb2P8s1ma3Fw7xnnKag1tW70
-         Gr8Y/6v4ReELfhaBfzGaYpkhMgggyWP6PA31yLZui1iWlQIQrVbKVnsJvEuA7xNaFh
-         41xwZebw6XtD1Ay0FxsHIRLnAIPXELfzTQG9dCh98TKc3/u8wuoCoRJpz5PGyFPuza
-         5IYOI0slfL6D6nO5QLp/jscmhiE3X+JBrv7CK4ly+k/PUvKrfPrH60e5GdNkYpcian
-         hwlH40e72dGuA==
+        b=vI+EiDCpbWLRRhLV5ZS31hyuSwJCqJLEM9sc0cJeJXnKvIQ+94kHhn4jVlcvE9j5d
+         VYcvotOyucCGqVHzLw7fFVu+isOpTq/sOmk5DgO0CnivCAuGAEd04ziDnDtnUCh5B/
+         gcX3CEVs0RxSgZKjHo3QNFaM1HZQx/iO1AadP7Zrx0s+0WItfXoGUuT4qo8QnLOb+X
+         xnHQtSSgp7KSD9/hr4XTUpdqMcST1EylREk5+Mb8E9IGGn8H4+YT/UPpStkU9eYff6
+         GyfO82AfaZk6jxhBvdDIkbJQmbx/yiEqr2RcpEO0/OUhGqK8hm+D19PUl0W+YuYC8T
+         BwQjRn+DQxHqQ==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1oXNYM-0007wp-2p; Sun, 11 Sep 2022 16:03:18 +0200
+        id 1oXNYM-0007wy-BC; Sun, 11 Sep 2022 16:03:18 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Amireddy mallikarjuna reddy <mallikarjuna.reddy@ftdichip.com>,
         arun.pappan@ftdichip.com, sowjanya.reddy@ftdichip.com,
         malliamireddy009@gmail.com, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 07/12] USB: serial: ftdi_sio: clean up modem-status handling
-Date:   Sun, 11 Sep 2022 16:02:11 +0200
-Message-Id: <20220911140216.30481-8-johan@kernel.org>
+Subject: [PATCH 10/12] USB: serial: ftdi_sio: assume hi-speed type
+Date:   Sun, 11 Sep 2022 16:02:14 +0200
+Message-Id: <20220911140216.30481-11-johan@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220911140216.30481-1-johan@kernel.org>
 References: <20220911140216.30481-1-johan@kernel.org>
@@ -52,51 +52,83 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-All chip types but the original SIO (FT8U100AX) return a two-byte modem
-status and there's no need to explicitly list every other type in the
-handler.
+In preparation for adding further Hi-Speed types, assume a 120 MHz clock
+and set the channel index by default and instead override these values
+as needed for legacy types.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/ftdi_sio.c | 22 ++++------------------
- 1 file changed, 4 insertions(+), 18 deletions(-)
+ drivers/usb/serial/ftdi_sio.c | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index f372f55a1bdf..58e0acb211df 100644
+index e772aacae562..a43101000ee3 100644
 --- a/drivers/usb/serial/ftdi_sio.c
 +++ b/drivers/usb/serial/ftdi_sio.c
-@@ -2821,27 +2821,13 @@ static int ftdi_get_modem_status(struct usb_serial_port *port,
- 	if (!buf)
- 		return -ENOMEM;
- 	/*
--	 * The 8U232AM returns a two byte value (the SIO a 1 byte value) in
--	 * the same format as the data returned from the in point.
-+	 * The device returns a two byte value (the SIO a 1 byte value) in the
-+	 * same format as the data returned from the IN endpoint.
- 	 */
--	switch (priv->chip_type) {
--	case SIO:
-+	if (priv->chip_type == SIO)
- 		len = 1;
--		break;
--	case FT232A:
--	case FT232B:
--	case FT2232C:
--	case FT232R:
--	case FT2232H:
--	case FT4232H:
--	case FT232H:
--	case FTX:
-+	else
- 		len = 2;
--		break;
--	default:
--		ret = -EFAULT;
--		goto out;
--	}
+@@ -1552,13 +1552,15 @@ static int ftdi_determine_type(struct usb_serial_port *port)
+ 	version = le16_to_cpu(udev->descriptor.bcdDevice);
+ 	ifnum = serial->interface->cur_altsetting->desc.bInterfaceNumber;
  
- 	ret = usb_control_msg(port->serial->dev,
- 			usb_rcvctrlpipe(port->serial->dev, 0),
+-	priv->baud_base = 48000000 / 2;
+-	priv->channel = 0;
++	/* Assume Hi-Speed type */
++	priv->baud_base = 120000000 / 2;
++	priv->channel = CHANNEL_A + ifnum;
+ 
+ 	switch (version) {
+ 	case 0x200:
+ 		priv->chip_type = FT232A;
+-
++		priv->baud_base = 48000000 / 2;
++		priv->channel = 0;
+ 		/*
+ 		 * FT232B devices have a bug where bcdDevice gets set to 0x200
+ 		 * when iSerialNumber is 0. Assume it is an FT232B in case the
+@@ -1571,37 +1573,36 @@ static int ftdi_determine_type(struct usb_serial_port *port)
+ 		break;
+ 	case 0x400:
+ 		priv->chip_type = FT232B;
++		priv->baud_base = 48000000 / 2;
++		priv->channel = 0;
+ 		break;
+ 	case 0x500:
+ 		priv->chip_type = FT2232C;
+-		priv->channel = CHANNEL_A + ifnum;
++		priv->baud_base = 48000000 / 2;
+ 		break;
+ 	case 0x600:
+ 		priv->chip_type = FT232R;
++		priv->baud_base = 48000000 / 2;
++		priv->channel = 0;
+ 		break;
+ 	case 0x700:
+ 		priv->chip_type = FT2232H;
+-		priv->channel = CHANNEL_A + ifnum;
+-		priv->baud_base = 120000000 / 2;
+ 		break;
+ 	case 0x800:
+ 		priv->chip_type = FT4232H;
+-		priv->channel = CHANNEL_A + ifnum;
+-		priv->baud_base = 120000000 / 2;
+ 		break;
+ 	case 0x900:
+ 		priv->chip_type = FT232H;
+-		priv->channel = CHANNEL_A + ifnum;
+-		priv->baud_base = 120000000 / 2;
+ 		break;
+ 	case 0x1000:
+ 		priv->chip_type = FTX;
+-		priv->channel = CHANNEL_A + ifnum;
++		priv->baud_base = 48000000 / 2;
+ 		break;
+ 	default:
+ 		if (version < 0x200) {
+ 			priv->chip_type = SIO;
+ 			priv->baud_base = 12000000 / 16;
++			priv->channel = 0;
+ 		} else {
+ 			dev_err(&port->dev, "unknown device type: 0x%02x\n", version);
+ 			return -ENODEV;
 -- 
 2.35.1
 
