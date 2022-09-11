@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3CBBC54EE9
-	for <linux-usb@archiver.kernel.org>; Sun, 11 Sep 2022 14:03:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D018BC6FA86
+	for <linux-usb@archiver.kernel.org>; Sun, 11 Sep 2022 14:03:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230430AbiIKODd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 11 Sep 2022 10:03:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53218 "EHLO
+        id S230401AbiIKODg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 11 Sep 2022 10:03:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230377AbiIKODQ (ORCPT
+        with ESMTP id S230374AbiIKODQ (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sun, 11 Sep 2022 10:03:16 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6125333A3A;
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 577C733A38;
         Sun, 11 Sep 2022 07:03:15 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 13C83B80B52;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 06FB0B80B4B;
         Sun, 11 Sep 2022 14:03:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C02B8C43150;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F20EBC43153;
         Sun, 11 Sep 2022 14:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662904989;
-        bh=SAqqcP5lBP9yri+H9v6GzRI9aDJ/79pe958bAhnOMkw=;
+        s=k20201202; t=1662904990;
+        bh=IKrZDRYxuBggOVlSeyt3KrXHgAe9Y/gZ2LAGYJArBlA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vI+EiDCpbWLRRhLV5ZS31hyuSwJCqJLEM9sc0cJeJXnKvIQ+94kHhn4jVlcvE9j5d
-         VYcvotOyucCGqVHzLw7fFVu+isOpTq/sOmk5DgO0CnivCAuGAEd04ziDnDtnUCh5B/
-         gcX3CEVs0RxSgZKjHo3QNFaM1HZQx/iO1AadP7Zrx0s+0WItfXoGUuT4qo8QnLOb+X
-         xnHQtSSgp7KSD9/hr4XTUpdqMcST1EylREk5+Mb8E9IGGn8H4+YT/UPpStkU9eYff6
-         GyfO82AfaZk6jxhBvdDIkbJQmbx/yiEqr2RcpEO0/OUhGqK8hm+D19PUl0W+YuYC8T
-         BwQjRn+DQxHqQ==
+        b=UO8Qs6nYuHLExz8QkzQXGuoMXIEqTPb4+p4Mc8IxaTDEVW+nPC8VCTNI+LJl2epUk
+         znWs2BExVS5rrIck3KlMiw8LHeNTDch/cU6JA8rcuGSl6BTFhMm47XvR/vH5/k+GjQ
+         +lBdNhTUwEDfoo0KyhAIDvgbtNk47j4i40P6mfgUs6itfLqzCOyogd+Q9m7Ok9iRFn
+         XzcMkfweHU9HTze42XQcAlJaDHA/b2mTh/N67/fg+HmqjrEwy6fCCGdcGMSJCtGQ85
+         5WlZxSzFX14tJGY7dSW7O87si7+YiGobnJQTIecDs4i9lnMyxreHH0VWNNPUzd7Qwc
+         iZacRyw6W66TA==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1oXNYM-0007wy-BC; Sun, 11 Sep 2022 16:03:18 +0200
+        id 1oXNYM-0007x4-Gd; Sun, 11 Sep 2022 16:03:18 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Amireddy mallikarjuna reddy <mallikarjuna.reddy@ftdichip.com>,
         arun.pappan@ftdichip.com, sowjanya.reddy@ftdichip.com,
         malliamireddy009@gmail.com, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 10/12] USB: serial: ftdi_sio: assume hi-speed type
-Date:   Sun, 11 Sep 2022 16:02:14 +0200
-Message-Id: <20220911140216.30481-11-johan@kernel.org>
+Subject: [PATCH 12/12] USB: serial: ftdi_sio: add support for HP and HA devices
+Date:   Sun, 11 Sep 2022 16:02:16 +0200
+Message-Id: <20220911140216.30481-13-johan@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220911140216.30481-1-johan@kernel.org>
 References: <20220911140216.30481-1-johan@kernel.org>
@@ -52,83 +52,114 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In preparation for adding further Hi-Speed types, assume a 120 MHz clock
-and set the channel index by default and instead override these values
-as needed for legacy types.
+From: Amireddy mallikarjuna reddy <mallikarjuna.reddy@ftdichip.com>
 
+Add the product IDs for the USB-to-Serial devices FT2233HP, FT2232HP,
+FT4233HP, FT4232HP, FT233HP, FT232HP, and FT4232HA.
+Also include BCD values so that the chip type can be determined.
+
+Signed-off-by: Amireddy mallikarjuna reddy <mallikarjuna.reddy@ftdichip.com>
+Link: https://lore.kernel.org/r/ac28f2c5eba23a645b3b9299c224f2755a233eef.1658385786.git.mallikarjuna.reddy@ftdichip.com
+[ johan: rebase on type-handling rework, drop "Q" from automotive type
+         name ]
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/ftdi_sio.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+ drivers/usb/serial/ftdi_sio.c     | 42 +++++++++++++++++++++++++++++++
+ drivers/usb/serial/ftdi_sio_ids.h |  7 ++++++
+ 2 files changed, 49 insertions(+)
 
 diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index e772aacae562..a43101000ee3 100644
+index e9f508e31876..c1e707555fe0 100644
 --- a/drivers/usb/serial/ftdi_sio.c
 +++ b/drivers/usb/serial/ftdi_sio.c
-@@ -1552,13 +1552,15 @@ static int ftdi_determine_type(struct usb_serial_port *port)
- 	version = le16_to_cpu(udev->descriptor.bcdDevice);
- 	ifnum = serial->interface->cur_altsetting->desc.bInterfaceNumber;
+@@ -56,6 +56,13 @@ enum ftdi_chip_type {
+ 	FT232H,
+ 	FT2232H,
+ 	FT4232H,
++	FT4232HA,
++	FT232HP,
++	FT233HP,
++	FT2232HP,
++	FT2233HP,
++	FT4232HP,
++	FT4233HP,
+ 	FTX,
+ };
  
--	priv->baud_base = 48000000 / 2;
--	priv->channel = 0;
-+	/* Assume Hi-Speed type */
-+	priv->baud_base = 120000000 / 2;
-+	priv->channel = CHANNEL_A + ifnum;
+@@ -189,6 +196,13 @@ static const struct usb_device_id id_table_combined[] = {
+ 	{ USB_DEVICE(FTDI_VID, FTDI_4232H_PID) },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_232H_PID) },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_FTX_PID) },
++	{ USB_DEVICE(FTDI_VID, FTDI_FT2233HP_PID) },
++	{ USB_DEVICE(FTDI_VID, FTDI_FT4233HP_PID) },
++	{ USB_DEVICE(FTDI_VID, FTDI_FT2232HP_PID) },
++	{ USB_DEVICE(FTDI_VID, FTDI_FT4232HP_PID) },
++	{ USB_DEVICE(FTDI_VID, FTDI_FT233HP_PID) },
++	{ USB_DEVICE(FTDI_VID, FTDI_FT232HP_PID) },
++	{ USB_DEVICE(FTDI_VID, FTDI_FT4232HA_PID) },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_MICRO_CHAMELEON_PID) },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_RELAIS_PID) },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_OPENDCC_PID) },
+@@ -1078,6 +1092,13 @@ static const char *ftdi_chip_name[] = {
+ 	[FT232H]	= "FT232H",
+ 	[FT2232H]	= "FT2232H",
+ 	[FT4232H]	= "FT4232H",
++	[FT4232HA]	= "FT4232HA",
++	[FT232HP]	= "FT232HP",
++	[FT233HP]	= "FT233HP",
++	[FT2232HP]	= "FT2232HP",
++	[FT2233HP]	= "FT2233HP",
++	[FT4232HP]	= "FT4232HP",
++	[FT4233HP]	= "FT4233HP",
+ 	[FTX]		= "FT-X",
+ };
  
- 	switch (version) {
- 	case 0x200:
- 		priv->chip_type = FT232A;
--
-+		priv->baud_base = 48000000 / 2;
-+		priv->channel = 0;
- 		/*
- 		 * FT232B devices have a bug where bcdDevice gets set to 0x200
- 		 * when iSerialNumber is 0. Assume it is an FT232B in case the
-@@ -1571,37 +1573,36 @@ static int ftdi_determine_type(struct usb_serial_port *port)
- 		break;
- 	case 0x400:
- 		priv->chip_type = FT232B;
-+		priv->baud_base = 48000000 / 2;
-+		priv->channel = 0;
- 		break;
- 	case 0x500:
- 		priv->chip_type = FT2232C;
--		priv->channel = CHANNEL_A + ifnum;
-+		priv->baud_base = 48000000 / 2;
- 		break;
- 	case 0x600:
- 		priv->chip_type = FT232R;
-+		priv->baud_base = 48000000 / 2;
-+		priv->channel = 0;
- 		break;
- 	case 0x700:
- 		priv->chip_type = FT2232H;
--		priv->channel = CHANNEL_A + ifnum;
--		priv->baud_base = 120000000 / 2;
- 		break;
- 	case 0x800:
- 		priv->chip_type = FT4232H;
--		priv->channel = CHANNEL_A + ifnum;
--		priv->baud_base = 120000000 / 2;
- 		break;
- 	case 0x900:
- 		priv->chip_type = FT232H;
--		priv->channel = CHANNEL_A + ifnum;
--		priv->baud_base = 120000000 / 2;
- 		break;
- 	case 0x1000:
+@@ -1596,6 +1617,27 @@ static int ftdi_determine_type(struct usb_serial_port *port)
  		priv->chip_type = FTX;
--		priv->channel = CHANNEL_A + ifnum;
-+		priv->baud_base = 48000000 / 2;
+ 		priv->baud_base = 48000000 / 2;
  		break;
++	case 0x2800:
++		priv->chip_type = FT2233HP;
++		break;
++	case 0x2900:
++		priv->chip_type = FT4233HP;
++		break;
++	case 0x3000:
++		priv->chip_type = FT2232HP;
++		break;
++	case 0x3100:
++		priv->chip_type = FT4232HP;
++		break;
++	case 0x3200:
++		priv->chip_type = FT233HP;
++		break;
++	case 0x3300:
++		priv->chip_type = FT232HP;
++		break;
++	case 0x3600:
++		priv->chip_type = FT4232HA;
++		break;
  	default:
  		if (version < 0x200) {
  			priv->chip_type = SIO;
- 			priv->baud_base = 12000000 / 16;
-+			priv->channel = 0;
- 		} else {
- 			dev_err(&port->dev, "unknown device type: 0x%02x\n", version);
- 			return -ENODEV;
+diff --git a/drivers/usb/serial/ftdi_sio_ids.h b/drivers/usb/serial/ftdi_sio_ids.h
+index 31c8ccabbbb7..e2099445db70 100644
+--- a/drivers/usb/serial/ftdi_sio_ids.h
++++ b/drivers/usb/serial/ftdi_sio_ids.h
+@@ -25,6 +25,13 @@
+ #define FTDI_4232H_PID 0x6011 /* Quad channel hi-speed device */
+ #define FTDI_232H_PID  0x6014 /* Single channel hi-speed device */
+ #define FTDI_FTX_PID   0x6015 /* FT-X series (FT201X, FT230X, FT231X, etc) */
++#define FTDI_FT2233HP_PID	0x6040 /* Dual channel hi-speed device with PD */
++#define FTDI_FT4233HP_PID	0x6041 /* Quad channel hi-speed device with PD */
++#define FTDI_FT2232HP_PID	0x6042 /* Dual channel hi-speed device with PD */
++#define FTDI_FT4232HP_PID	0x6043 /* Quad channel hi-speed device with PD */
++#define FTDI_FT233HP_PID	0x6044 /* Dual channel hi-speed device with PD */
++#define FTDI_FT232HP_PID	0x6045 /* Dual channel hi-speed device with PD */
++#define FTDI_FT4232HA_PID	0x6048 /* Quad channel automotive grade hi-speed device */
+ #define FTDI_SIO_PID	0x8372	/* Product Id SIO application of 8U100AX */
+ #define FTDI_232RL_PID  0xFBFA  /* Product ID for FT232RL */
+ 
 -- 
 2.35.1
 
