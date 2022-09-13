@@ -2,80 +2,74 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C98BC6FA8A
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Sep 2022 14:59:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3940EC6FA8B
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Sep 2022 15:19:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234766AbiIMO7v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 13 Sep 2022 10:59:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35012 "EHLO
+        id S235509AbiIMPTU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 13 Sep 2022 11:19:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235010AbiIMO6z (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Sep 2022 10:58:55 -0400
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16A2B67C97;
-        Tue, 13 Sep 2022 07:28:36 -0700 (PDT)
-Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-11e9a7135easo32544794fac.6;
-        Tue, 13 Sep 2022 07:28:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=zYRS5/+Q00Jt+sqvHB1fjEMsS/sAzxnNY3oApp6VsX4=;
-        b=BDR0mhRW0cZNaNfmjAann9vKWXeLTkg8G8vI1awTj8pz/GDwkR3cK29FJghbA8RlAk
-         Vv6Rmd6Uwmcc6Uuc6sY0MxTpHn2MunKE4aXels7LbXsAGaOdo7dmmpV1kz5pjAkgnmFQ
-         6gyBnn39DThc73eIFjhxhH0kMV8Wb6tiDJdun2E8rRSc0V/AnUIV5CM3JK+WhtT9Rcmm
-         bhtHdsdd4jI161DBuSFcodN9OdBI0/r96rpu7RJhE8i/eXM/56BG6qsNJPDkSqNExxHz
-         vrA+b08LI/8IlVxJOGYMmg87BrTNdTrMnk/fZoo2zXiOWjl/6BkYhI06lhsfL6QCpuUu
-         J1Dg==
-X-Gm-Message-State: ACgBeo3pZ04ZQ0KZa0OFBe4YcYHxfLx51hXFtV9ZUB+NLbMVpHBgj4Av
-        4vHRYP6vQhW5UcLQmnoA/czu+59jjw==
-X-Google-Smtp-Source: AA6agR6hOpZPvoPt2Eb14Hvai4q1Lk4rE7+yyu9TNmztp+7DqLeOhYDLvEKfa24JcgVwwqI0QlyFNw==
-X-Received: by 2002:a05:6808:15aa:b0:34f:b7e3:26f5 with SMTP id t42-20020a05680815aa00b0034fb7e326f5mr1747211oiw.22.1663078560574;
-        Tue, 13 Sep 2022 07:16:00 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id i34-20020a056870892200b0012644cc4feasm6980943oao.55.2022.09.13.07.15.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 07:15:59 -0700 (PDT)
-Received: (nullmailer pid 3606168 invoked by uid 1000);
-        Tue, 13 Sep 2022 14:15:58 -0000
-Date:   Tue, 13 Sep 2022 09:15:58 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Johan Jonker <jbx6244@gmail.com>
-Cc:     kishon@ti.com, wim@linux-watchdog.org, linux@roeck-us.net,
-        sjg@chromium.org, heiko@sntech.de, linux-watchdog@vger.kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-serial@vger.kernel.org,
-        linux-i2c@vger.kernel.org, broonie@kernel.org,
-        miquel.raynal@bootlin.com, linux-rockchip@lists.infradead.org,
-        linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, richard@nod.at, ulf.hansson@linaro.org,
-        linux-arm-kernel@lists.infradead.org, zhangqing@rock-chips.com,
-        jamie@jamieiles.com, thierry.reding@gmail.com,
-        linux-mmc@vger.kernel.org, robh+dt@kernel.org,
-        kever.yang@rock-chips.com, linux-spi@vger.kernel.org,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        vkoul@kernel.org, philipp.tomsich@vrull.eu,
-        linux-phy@lists.infradead.org, linux-pwm@vger.kernel.org,
-        u.kleine-koenig@pengutronix.de, vigneshr@ti.com
-Subject: Re: [PATCH v1 04/11] dt-bindings: mmc: rockchip: add
- rockchip,rk3128-dw-mshc
-Message-ID: <20220913141558.GA3606130-robh@kernel.org>
-References: <20220909212543.17428-1-jbx6244@gmail.com>
- <f2cb42c8-3664-a2d5-074d-5c9a10c693e8@gmail.com>
+        with ESMTP id S235921AbiIMPSe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Sep 2022 11:18:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17BC34D808;
+        Tue, 13 Sep 2022 07:34:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 10AA1614D3;
+        Tue, 13 Sep 2022 14:34:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD1AC433D7;
+        Tue, 13 Sep 2022 14:34:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663079689;
+        bh=2d3LptxMXzkoXlaSrt8wY8ciXTV2Oe42v3GLdwXwVcE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZaqTmJaZMYrzJfEi29ZmYp5VDETIcvvBqZ9RjH1YLAAOQMHf5ZKGZRTZTu686eKcM
+         cZtYuRBnpXSH+GdBt5+1WA/QNOiM3M9VWjZRnF2RZXZJPJonS4qWVKqgMdTXxsV/kO
+         1TVKdRWUFT7DaGBSnZpFHPyBxYrdt0S+qp7WOlHCT6s23QyC8AEoJCzVeT7PSyijbs
+         xlraAbJRvJEO7ztier6w12vRxQf+Pv92Hw8SoMDdwe+ZR2PhWundTwwR/9nKKaZISe
+         US7cj5Jzsekz008xBpbHPgzlZQ0qn/3KUxFrBnLEVYHatT2h0ETJDBwq5suG2rs/1e
+         +pNvPFYj7dsWg==
+Date:   Tue, 13 Sep 2022 20:04:45 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     JC Kuo <jckuo@nvidia.com>
+Cc:     Jim Lin <jilin@nvidia.com>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, balbi@kernel.org, gregkh@linuxfoundation.org,
+        bhsieh@nvidia.com, linux-phy@lists.infradead.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] phy: tegra: xusb: add utmi pad power on/down ops
+Message-ID: <YyCVBVRQo+qPo5vH@matsya>
+References: <20220816082353.13390-1-jilin@nvidia.com>
+ <20220816082353.13390-2-jilin@nvidia.com>
+ <YxS6FBeyS1Cs7xhI@matsya>
+ <8d33abb0-51ab-67c4-50b3-ae95a5d9fb55@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f2cb42c8-3664-a2d5-074d-5c9a10c693e8@gmail.com>
+In-Reply-To: <8d33abb0-51ab-67c4-50b3-ae95a5d9fb55@nvidia.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, 10 Sep 2022 00:02:14 +0200, Johan Jonker wrote:
-> Add rockchip,rk3128-dw-mshc compatible string.
-> 
-> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
-> ---
->  Documentation/devicetree/bindings/mmc/rockchip-dw-mshc.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+On 06-09-22, 10:43, JC Kuo wrote:
+> Hi Vinod,
 
-Acked-by: Rob Herring <robh@kernel.org>
+Please _do_ _not_ _top_ _post_
+
+> Before the device or host is being attached, we can keep most of the
+> transceivers powered down (PD=1/PD_DR=1) to minimize power consumption. At this
+> stage, in .phy_power_on(), we enable only the single-ended receiver (PD_ZI=0)
+> for detecting connection. Upon detecting device's or host's connection, host or
+> controller driver will invoke tegra_phy_xusb_utmi_pad_power_on() to power on all
+> of the transceivers (PD=0/PD_DR=0) to equip full link functionality.
+
+Thanks for this explanation... It helps!
+
+Just a suggestion, can this be moved into phy_init() you have detected
+connection in phy_power_on(), the transceiver can be enabled in
+phy_int... Would that work?
+
+-- 
+~Vinod
