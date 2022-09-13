@@ -2,118 +2,70 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3638FC54EE9
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Sep 2022 17:15:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F070FC6FA82
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Sep 2022 17:23:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232696AbiIMRPB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 13 Sep 2022 13:15:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33804 "EHLO
+        id S232917AbiIMRX0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 13 Sep 2022 13:23:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232606AbiIMROd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Sep 2022 13:14:33 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC12174348
-        for <linux-usb@vger.kernel.org>; Tue, 13 Sep 2022 09:03:03 -0700 (PDT)
+        with ESMTP id S232809AbiIMRXE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Sep 2022 13:23:04 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15D4546601;
+        Tue, 13 Sep 2022 09:10:19 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4F00DB80E22
-        for <linux-usb@vger.kernel.org>; Tue, 13 Sep 2022 16:02:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0A69EC433D6
-        for <linux-usb@vger.kernel.org>; Tue, 13 Sep 2022 16:02:11 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 48D22B80EF7;
+        Tue, 13 Sep 2022 15:14:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 455FAC433D6;
+        Tue, 13 Sep 2022 15:14:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663084931;
-        bh=h6RNdQBXNVMC1ofGQ22JixNLu4C3ADU8C4Ujdc506NQ=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=smZ4PVfXNE8Sj5R/bOuvUAQL0z4g3wiARoOOTiZDxFTLgoRAF7q2u7gLStBqpgMzb
-         2/874o/eAkH85euomDJ1szDy2A7KWZF8n8QnJ5d8at14eAGukUWw0o6SIN1DBaHSyk
-         2qwRAUDaY9ToPcRdXkRAmkKCCx5OXwl2Ti8OBZBGVJ1vSkyiwRWiGLUkTtUR1WlfqM
-         l2d+f1YycJPIKciViSsNXp0aEXhx/HtlKO7tr9iWIwOdadhwQ+V9V6t0MaHuBE0K0l
-         XFrtG0DNU4LRPmxkTgoFBm0rcXAzk6Laux5/hYva7TFKFXo3ybh7BTUMp2xAgY6x1D
-         nO7vpfkWdwE7g==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id DADA2C433E4; Tue, 13 Sep 2022 16:02:10 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 216470] [Regression] xhci_hcd 0000:08:00.2: xHC error in
- resume, USBSTS 0x401, Reinit
-Date:   Tue, 13 Sep 2022 16:02:10 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: ASSIGNED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216470-208809-HCY9v44gGU@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216470-208809@https.bugzilla.kernel.org/>
-References: <bug-216470-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        s=k20201202; t=1663082053;
+        bh=psJfDRHpoMuZdeioB0y5ST0RSTAXOKEZZykJ7BXBqD8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WqJjEdvmLxIEnHSzgulW/soDVczfpbdOoMtXBdi+1HgTgM8cExb9GF1Rz0O3tIHym
+         ATRnXvnTY9j3Ld4XSaXe47PKtErAxaDHmX++KjTJ+yEj7oNJY2pjBiWr2koO/2m8vo
+         cbnp0kPZT3M2m/mvkShtVyu/45Qgn7036csi6/j/9ODYT6e97NIzJnz8PG5+YC62WF
+         hhO0i0/2moQ4+uDk7wTpssjlsgzYagfHF85uu12Kys0AYHDUZ6kc0wK5QyZqp1AybH
+         EN/qDnv2+bw4nKZ5b/FqYvZ029jfpyBdKhE6Uv4t5E4wD73R7mBMm2iuyS11kRwIzi
+         7uT9y3cajd3OA==
+Date:   Tue, 13 Sep 2022 20:44:09 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Krishna Kurapati <quic_kriskura@quicinc.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-phy@lists.infradead.org, quic_pkondeti@quicinc.com,
+        quic_ppratap@quicinc.com, quic_vpulyala@quicinc.com
+Subject: Re: [PATCH v13 0/3] Add QCOM SNPS PHY overriding params support
+Message-ID: <YyCeQUfsVfpI1Z+k@matsya>
+References: <1662480933-12326-1-git-send-email-quic_kriskura@quicinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1662480933-12326-1-git-send-email-quic_kriskura@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216470
+On 06-09-22, 21:45, Krishna Kurapati wrote:
+> Added support for overriding tuning parameters in QCOM SNPS PHY
+> from device tree. This parameter tuning is required to tune the
+> hs signal on dp/dm lines for electrical compliance to be successful.
 
---- Comment #4 from Artem S. Tashkinov (aros@gmx.com) ---
-(In reply to Mario Limonciello (AMD) from comment #3)
-> It's a new message as of 5.17-rc6 or later.
->=20
-> https://github.com/torvalds/linux/commit/
-> 8b328f8002bcf29ef517ee4bf234e09aabec4d2e
->=20
-> The behavior however is not new; it's due to this quirk introduced a few
-> years back for your model.
->=20
-> https://github.com/torvalds/linux/commit/
-> a7d57abcc8a5bdeb53bbf8e87558e8e0a2c2a29d
->=20
-> I don't think we should be doing anything functionally here.  The only th=
-ink
-> that might make sense IMO is downgrading the message to INFO or not showi=
-ng
-> it instead of WARN when `xhci->broken_suspend` is set.
->=20
-> Something like this:
->=20
-> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> index 38649284ff88..a7ef675f00fd 100644
-> --- a/drivers/usb/host/xhci.c
-> +++ b/drivers/usb/host/xhci.c
-> @@ -1183,7 +1183,8 @@ int xhci_resume(struct xhci_hcd *xhci, bool hiberna=
-ted)
->         /* re-initialize the HC on Restore Error, or Host Controller Erro=
-r */
->         if (temp & (STS_SRE | STS_HCE)) {
->                 reinit_xhc =3D true;
-> -               xhci_warn(xhci, "xHC error in resume, USBSTS 0x%x,
-> Reinit\n", temp);
-> +               if (!xhci->broken_suspend)
-> +                       xhci_warn(xhci, "xHC error in resume, USBSTS 0x%x,
-> Reinit\n", temp);
->         }
->=20
->         if (reinit_xhc) {
+Applied 1-2 to phy-next, thanks
 
-Both options look good to me; would be great _not_ to get this warning at
-`dmesg -t --level=3Dalert,crit,err,warn`.
-
-Thanks a lot!
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+~Vinod
