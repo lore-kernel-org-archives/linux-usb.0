@@ -2,98 +2,90 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14FB1ECAAD8
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Sep 2022 16:41:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38D4FC54EE9
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Sep 2022 16:44:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231776AbiIMQlB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 13 Sep 2022 12:41:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55824 "EHLO
+        id S230378AbiIMQoK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 13 Sep 2022 12:44:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231771AbiIMQko (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Sep 2022 12:40:44 -0400
+        with ESMTP id S230092AbiIMQnu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Sep 2022 12:43:50 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C73E7726AC
-        for <linux-usb@vger.kernel.org>; Tue, 13 Sep 2022 08:35:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5010F5F7F1
+        for <linux-usb@vger.kernel.org>; Tue, 13 Sep 2022 08:38:21 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9E42D614C6
-        for <linux-usb@vger.kernel.org>; Tue, 13 Sep 2022 15:34:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03BFDC433C1;
-        Tue, 13 Sep 2022 15:34:17 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1297561494
+        for <linux-usb@vger.kernel.org>; Tue, 13 Sep 2022 14:59:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 755B5C433D6;
+        Tue, 13 Sep 2022 14:59:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663083258;
-        bh=D5iaErh5d9BHkso017KYb9XorE4affS6CGjhUK+ny8Y=;
+        s=k20201202; t=1663081162;
+        bh=cSyvyJwD0x8+qqSmJj0XCYGahbowAcdGRoyBTXyPor8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=G5pzvqUGt7mX7titad+/p9eJLx18eV1InkT9rMCCBfcMl7rj+hge/OP8X7TeNE7wF
-         iCsmisJZgEn9GIerkGbYw7uIxhQnDpPyfbh2nXoMMZUBUnI2pNsu2O49qXqTXbJr2z
-         e+nsny198aGE3IxtgrIhcCPEpLnfRtjv/auuDcO9Emo3Pcgst3jHT+Z1iA5OYbwniS
-         zrZA+B6vHkUqV9qfEpWdoJ2+ceMw/AUqXHsWRWtWc2MpIzq61HO4Ve3iaiVf7Hkpe5
-         3mm1I3s/FD3m8nS2/M+zvYn5OmTUZw1mWZlN5i8qrJwm3XjyeQFXv2VSb/JeDoKmIa
-         3h8l7OeAmIAoQ==
+        b=IVCKBlhJzSK+9aSh4XcInsSlG6hpkQy3R1GZgLl9lRVfsgHG0AcG68hLHFIKoA+o7
+         vhbovW/0id/CAyH8gKC5kUhMZPwtY4YY/lhPjq4Z90MigAJEA2RXy457MA2vNUAP0r
+         gymgaXVj5A8bHSqZK4oTiUCtoRExAj9DSpuhY2G2URuFyoeKezCjE2rz9bekOcj5jk
+         OLA3S7cgKe1/umlB8CUwyZFakdwVM4tyCHGW1iTi9qD89kZALDoigMN03hTTQw8v1H
+         QQCXoPG6P56qu4v4YIsxEe4btBAJQ0jsZ7sJWm6b1kJVFlZqlQXwhlKnVIrFmmsDyL
+         JBED4yqQU8jCw==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1oY7vV-0006mr-1t; Tue, 13 Sep 2022 17:34:17 +0200
-Date:   Tue, 13 Sep 2022 17:34:17 +0200
+        id 1oY7Ni-0005Rz-6e; Tue, 13 Sep 2022 16:59:22 +0200
+Date:   Tue, 13 Sep 2022 16:59:22 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
 Cc:     Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
         linux-usb@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 7/7] USB: serial: ftdi_sio: Fill c_*speed fields with
- real baud rate
-Message-ID: <YyCi+W/mugQBEg18@hovoldconsulting.com>
+Subject: Re: [PATCH v2 6/7] USB: serial: ftdi_sio: Fix custom_divisor and
+ c_*speed for ASYNC_SPD_CUST
+Message-ID: <YyCayj7H/3My2amz@hovoldconsulting.com>
 References: <20220712115306.26471-1-kabel@kernel.org>
- <20220712115306.26471-8-kabel@kernel.org>
- <Yt097+xTMPrMpfvX@hovoldconsulting.com>
- <20220818141738.axssxkaizys4rphl@pali>
- <YyCbj8RGQD/gV8U0@hovoldconsulting.com>
- <20220913152405.72qkojbufy5fvjuj@pali>
+ <20220712115306.26471-7-kabel@kernel.org>
+ <Yt06+wicNYMt/D7f@hovoldconsulting.com>
+ <20220724123351.icqqvvfxjm7ogo5u@pali>
+ <Yt1BIsPqAVH0ajlf@hovoldconsulting.com>
+ <20220724125908.6vu3jveiaisvpocb@pali>
+ <Yt1EOcRWi0LdKqrB@hovoldconsulting.com>
+ <20220818140952.r4c3plso4mm5s7jb@pali>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220913152405.72qkojbufy5fvjuj@pali>
+In-Reply-To: <20220818140952.r4c3plso4mm5s7jb@pali>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Sep 13, 2022 at 05:24:05PM +0200, Pali Rohár wrote:
-> On Tuesday 13 September 2022 17:02:39 Johan Hovold wrote:
-> > On Thu, Aug 18, 2022 at 04:17:38PM +0200, Pali Rohár wrote:
-> > > On Sunday 24 July 2022 14:41:19 Johan Hovold wrote:
-
-> > > > >  static unsigned short int ftdi_232am_baud_base_to_divisor(int baud, int base)
-> > > > >  {
-> > > > >  	unsigned short int divisor;
-> > > > > @@ -1189,15 +1206,33 @@ static unsigned short int ftdi_232am_baud_base_to_divisor(int baud, int base)
-> > > > >  	return divisor;
-> > > > >  }
-> > > > >  
-> > > > > +static int ftdi_232am_divisor_base_to_baud(unsigned short int divisor, int base)
-> > > > 
-> > > > I believe "base" was used as a function name suffix in the inverse
-> > > > function (due to the additional base argument).
-> > > 
-> > > Yes, in the same way as it used in name of ftdi_232am_baud_base_to_divisor.
+On Thu, Aug 18, 2022 at 04:09:52PM +0200, Pali Rohár wrote:
+> On Sunday 24 July 2022 15:08:09 Johan Hovold wrote:
+> > On Sun, Jul 24, 2022 at 02:59:08PM +0200, Pali Rohár wrote:
+> > > On Sunday 24 July 2022 14:54:58 Johan Hovold wrote:
+> > > > On Sun, Jul 24, 2022 at 02:33:51PM +0200, Pali Rohár wrote:
 > > 
-> > No, you used "base" as an infix here.
-
-> Yes, of course, it is "in the middle" because I said I used it in the
-> same way as in ftdi_232am_baud_base_to_divisor.
+> > > > > What is updated is the real baudrate in c_ispeed and c_ospeed
+> > > > > extensions.
+> > > > > 
+> > > > > It is really wrong? I thought that c_cflag should stay unchanged at
+> > > > > B38400 when ASYNC_SPD_CUST is used.
+> > > > 
+> > > > Yeah, cflags stay unchanged, but you shouldn't touch those fields when
+> > > > using the deprecated ASYNC_SPD_CUST hack.
+> > > 
+> > > Hm... Why? I thought that new extended fields (c_ispeed and c_ospeed)
+> > > should contain current real speed. What is the reason that c_*speed
+> > > fields should have 38400 when ASYNC_SPD_CUST hack is set?
+> > 
+> > Because we shouldn't go adding new features built around the deprecated
+> > ASYNC_SPD_CUST hack.
 > 
-> ftdi_232am_baud_base_to_divisor converts input "baud" and input "base"
-> to return "divisor". Hence baud_base_to_divisor.
-> 
-> And so ftdi_232am_divisor_base_to_baud converts input "divisor" and
-> input "base" to return value "baud". Hence divisor_base_to_baud.
-> 
-> So what is the problem? I still have not caught.
+> But this is not a new feature in the old deprecated hack. It for the
+> new interface.
 
-Ok, I should have looked closer at the code before replying.
-
-I believe I expected "base" to be used as a suffix in the current code
-but that doesn't appear to be the case. So you're just following the
-current style.
+I think I understand what you're getting at, but no. Let's not add more
+features built around ASYNC_SPD_CUST.
 
 Johan
