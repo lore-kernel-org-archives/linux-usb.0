@@ -2,164 +2,70 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78CC6C54EE9
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Sep 2022 17:36:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B66F0C6FA8D
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Sep 2022 17:46:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232957AbiIMRgD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 13 Sep 2022 13:36:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51694 "EHLO
+        id S233617AbiIMRqi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 13 Sep 2022 13:46:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232939AbiIMRfl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Sep 2022 13:35:41 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6A7778BFE
-        for <linux-usb@vger.kernel.org>; Tue, 13 Sep 2022 09:25:19 -0700 (PDT)
+        with ESMTP id S233315AbiIMRqJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Sep 2022 13:46:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A99463E4;
+        Tue, 13 Sep 2022 09:42:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 652A8B80EF6
-        for <linux-usb@vger.kernel.org>; Tue, 13 Sep 2022 14:49:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08B6FC433D6;
-        Tue, 13 Sep 2022 14:49:02 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 998F1614B2;
+        Tue, 13 Sep 2022 16:42:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AC96C433C1;
+        Tue, 13 Sep 2022 16:42:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663080543;
-        bh=RsML42YILI2efVyT2FQCIt3Tw3Z0Zhqn/iCQSNdfriA=;
+        s=k20201202; t=1663087347;
+        bh=3Q42QFQ/ngGZQQeyp7QhP6eTWM1+zQJpWZ4yQpNfCck=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rK17FfmVXURFLY8/h59goEjJ9WEIeoG0QZwCw4FlO3lDEf/LTHg8mmW9+jQyhWcuK
-         JXerqnemRPJO+nrz9xjCj0XFRKDRsth9WZmofuoZREshZ5xNgAc7fZohbAoe6WXYxh
-         TYIMUFREoVd7Z54NiiOUF8pHKsumescmt4jHdkwqNytGLUq9OXTitoHJsx2+anAb7b
-         wCtWCXNbJlbMUUkvDwOZoCF1fewjnvg3DmYZ3NZgFW4OfBCyJ+GpIdF2tdYepgDItj
-         0tRost/XRlCvs6oFFpUWWcr0n56Oh3RqUPnSsgCx8GKW9ybJm+1XD+kNKDQlrkoQSO
-         JtQjm900D9loA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1oY7Dh-0005Lu-Rk; Tue, 13 Sep 2022 16:49:02 +0200
-Date:   Tue, 13 Sep 2022 16:49:01 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-Cc:     Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 3/7] USB: serial: ftdi_sio: Extract SIO divisor code
- to function
-Message-ID: <YyCYXar28dIkEnf2@hovoldconsulting.com>
-References: <20220712115306.26471-1-kabel@kernel.org>
- <20220712115306.26471-4-kabel@kernel.org>
- <Yt01zjWx7VTWnQo9@hovoldconsulting.com>
- <20220818141140.m2yitpbeaddw3xjt@pali>
+        b=CxcOkubrZXQn2EQ474gG4UJo8mQX4nMBEhGTo20JqjXQk8APbj4ESssFffXLIIrHe
+         EkQekGPKV6oi28uzSCB2vMMBMNbL4MG/Y5Jqo/Ck6PRg6Gf6/9R/4ETjb53/y1bDmI
+         ER8i6KF9wD8A2E87VuxXZrTmY3TJJvX2uADpxHUwm4/hxI6WH3ha1O7+/zCtIQmadL
+         tSaG76vGXeo3tTYJOqbp4CDh6cL8oz16K6lPvZscMq0aHIQ5cAbdBIkL0kaQ1BFzBj
+         ZnFYabEV5yARdpuFbCj0JK78O4TM5SxigD6MRnGzfigOv/gp8fXAhW6xuuCQGo/mmn
+         t/XgkL+PxS2DQ==
+Date:   Tue, 13 Sep 2022 22:12:23 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Johan Jonker <jbx6244@gmail.com>
+Cc:     kever.yang@rock-chips.com, sjg@chromium.org,
+        philipp.tomsich@vrull.eu, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
+        ulf.hansson@linaro.org, miquel.raynal@bootlin.com, richard@nod.at,
+        vigneshr@ti.com, kishon@ti.com, thierry.reding@gmail.com,
+        u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org,
+        broonie@kernel.org, wim@linux-watchdog.org, linux@roeck-us.net,
+        zhangqing@rock-chips.com, jamie@jamieiles.com,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-phy@lists.infradead.org,
+        linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH v1 09/11] dt-bindings: phy: phy-rockchip-inno-usb2: add
+ rockchip,rk3128-usb2phy
+Message-ID: <YyCy7838UGnV2qcR@matsya>
+References: <20220909212543.17428-1-jbx6244@gmail.com>
+ <d477a077-a68f-e752-5192-807db80a9e68@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220818141140.m2yitpbeaddw3xjt@pali>
+In-Reply-To: <d477a077-a68f-e752-5192-807db80a9e68@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 18, 2022 at 04:11:40PM +0200, Pali Rohár wrote:
-> On Sunday 24 July 2022 14:06:38 Johan Hovold wrote:
-> > On Tue, Jul 12, 2022 at 01:53:02PM +0200, Marek Behún wrote:
-> > > From: Pali Rohár <pali@kernel.org>
-> > > 
-> > > In preparation for following changes, extract divisor code for SIO chip
-> > > into new function ftdi_sio_baud_to_divisor(), as is done for other
-> > > chips.
-> > > 
-> > > No functional change.
-> > > 
-> > > Signed-off-by: Pali Rohár <pali@kernel.org>
-> > > Tested-by: Marek Behún <kabel@kernel.org>
-> > > Signed-off-by: Marek Behún <kabel@kernel.org>
-> > > ---
-> > >  drivers/usb/serial/ftdi_sio.c | 36 ++++++++++++++++++++---------------
-> > >  1 file changed, 21 insertions(+), 15 deletions(-)
-> > > 
-> > > diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-> > > index 717b97f4e094..5b109714612f 100644
-> > > --- a/drivers/usb/serial/ftdi_sio.c
-> > > +++ b/drivers/usb/serial/ftdi_sio.c
-> > > @@ -1150,6 +1150,23 @@ static struct usb_serial_driver * const serial_drivers[] = {
-> > >   * ***************************************************************************
-> > >   */
-> > >  
-> > > +static int ftdi_sio_baud_to_divisor(int baud)
-> > > +{
-> > > +	switch (baud) {
-> > > +	case 300: return ftdi_sio_b300;
-> > > +	case 600: return ftdi_sio_b600;
-> > > +	case 1200: return ftdi_sio_b1200;
-> > > +	case 2400: return ftdi_sio_b2400;
-> > > +	case 4800: return ftdi_sio_b4800;
-> > > +	case 9600: return ftdi_sio_b9600;
-> > > +	case 19200: return ftdi_sio_b19200;
-> > > +	case 38400: return ftdi_sio_b38400;
-> > > +	case 57600: return ftdi_sio_b57600;
-> > > +	case 115200: return ftdi_sio_b115200;
-> > > +	default: return -1;
-> > 
-> > Please add a line break after the colons.
-> > 
-> > Adding another enum for the invalid value might be preferable.
-> 
-> Enum describe HW values, so it cannot be added to hw list.
+On 10-09-22, 00:01, Johan Jonker wrote:
+> Add rockchip,rk3128-usb2phy compatible string.
 
-Of course you can, but perhaps you'll figure out some other way to do
-this.
+Applied, thanks
 
-> > > +	}
-> > > +}
-> > > +
-> > >  static unsigned short int ftdi_232am_baud_base_to_divisor(int baud, int base)
-> > >  {
-> > >  	unsigned short int divisor;
-> > > @@ -1286,7 +1303,7 @@ static u32 get_ftdi_divisor(struct tty_struct *tty,
-> > >  {
-> > >  	struct ftdi_private *priv = usb_get_serial_port_data(port);
-> > >  	struct device *dev = &port->dev;
-> > > -	u32 div_value = 0;
-> > > +	int div_value = 0;
-> > 
-> > And don't change the type here.
-> 
-> This type change was explicitly asked during v1 review. v1 had u32.
-
-Ok, but don't. This variable is used in other parts of this function.
-
-> > >  	int div_okay = 1;
-> > >  	int baud;
-> > >  
-> > > @@ -1309,23 +1326,12 @@ static u32 get_ftdi_divisor(struct tty_struct *tty,
-> > >  		baud = 9600;
-> > >  	switch (priv->chip_type) {
-> > >  	case SIO: /* SIO chip */
-> > > -		switch (baud) {
-> > > -		case 300: div_value = ftdi_sio_b300; break;
-> > > -		case 600: div_value = ftdi_sio_b600; break;
-> > > -		case 1200: div_value = ftdi_sio_b1200; break;
-> > > -		case 2400: div_value = ftdi_sio_b2400; break;
-> > > -		case 4800: div_value = ftdi_sio_b4800; break;
-> > > -		case 9600: div_value = ftdi_sio_b9600; break;
-> > > -		case 19200: div_value = ftdi_sio_b19200; break;
-> > > -		case 38400: div_value = ftdi_sio_b38400; break;
-> > > -		case 57600: div_value = ftdi_sio_b57600;  break;
-> > > -		case 115200: div_value = ftdi_sio_b115200; break;
-> > > -		} /* baud */
-> > > -		if (div_value == 0) {
-
-Looks like there's another bug here in the current driver as b300 is
-defined as 0.
-
-I'll fix that up separately first.
-
-> > > +		div_value = ftdi_sio_baud_to_divisor(baud);
-> > > +		if (div_value == -1) {
-> > >  			dev_dbg(dev, "%s - Baudrate (%d) requested is not supported\n",
-> > >  				__func__,  baud);
-> > > -			div_value = ftdi_sio_b9600;
-> > >  			baud = 9600;
-> > > +			div_value = ftdi_sio_baud_to_divisor(baud);
-> > >  			div_okay = 0;
-> > >  		}
-> > >  		break;
-
-Johan
+-- 
+~Vinod
