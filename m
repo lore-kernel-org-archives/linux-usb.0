@@ -2,94 +2,64 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D01D3ECAAD8
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Sep 2022 17:00:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 414FCC6FA8B
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Sep 2022 17:06:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231799AbiIMRAo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 13 Sep 2022 13:00:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57076 "EHLO
+        id S232408AbiIMRGL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 13 Sep 2022 13:06:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231793AbiIMQ74 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Sep 2022 12:59:56 -0400
+        with ESMTP id S232039AbiIMRFm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Sep 2022 13:05:42 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69629C228A
-        for <linux-usb@vger.kernel.org>; Tue, 13 Sep 2022 08:51:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D14D4B0FB;
+        Tue, 13 Sep 2022 08:55:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E9284B80F1A
-        for <linux-usb@vger.kernel.org>; Tue, 13 Sep 2022 15:02:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AED4EC433D6;
-        Tue, 13 Sep 2022 15:02:39 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CC010B81002;
+        Tue, 13 Sep 2022 15:28:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E931EC433D6;
+        Tue, 13 Sep 2022 15:28:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663081359;
-        bh=mvWG6uEHI9/Md5pz2zy2PlX8tl+QtRBKp5umlNEcC4A=;
+        s=k20201202; t=1663082928;
+        bh=YrUHxOpGXMQ+CcAAIAIP/KVdj5zfY8VH1kxTHt3bOjM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OnXgpYB2m/S2XplwBdqOWmi/dXCLQ5T6Zb68vowDmg7NPaeD3QXvpn4n3K5+yERfN
-         xTAnsysc3VRNSC52QRiPuu4hBK+EcEGvPHNKnMbpdG6I1QQPpk+CbBYmM/9g4eWew8
-         s3S4Xpycc1yY5HZwEpXQ5DbPA19Ij4V8xU5Ym7eY49e8UmOpmGvuyEnJgb5rboiMT2
-         Tv6gsd8K8/LBhjxNieQLGtZs+qyiieUDT2pyiXrYBuzTi45I4KqXr/C6rn/Y+/pxZZ
-         WXsT33JhgNfLMToru6Zm77aGMb87rgZXaLb2D61c+8BkEwd6HhlV3zuQe+TUuBPgy4
-         4cNcTt1AmT6CA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1oY7Qt-0005TG-5I; Tue, 13 Sep 2022 17:02:39 +0200
-Date:   Tue, 13 Sep 2022 17:02:39 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-Cc:     Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 7/7] USB: serial: ftdi_sio: Fill c_*speed fields with
- real baud rate
-Message-ID: <YyCbj8RGQD/gV8U0@hovoldconsulting.com>
-References: <20220712115306.26471-1-kabel@kernel.org>
- <20220712115306.26471-8-kabel@kernel.org>
- <Yt097+xTMPrMpfvX@hovoldconsulting.com>
- <20220818141738.axssxkaizys4rphl@pali>
+        b=P1lHYdk2/ISuWnH9L/UBgazYb6nXLGCeAwerCcAGW3AIAbwoaMpf1pp4f/v+CVwcW
+         i4Uix5Z7BlrHhflfMIdO9c+4WRXdCVk/pJrqKiFuf+UuSv2b4WuCGkFv9a/HGp+8R5
+         VVKJ8yTExLnOQ5lyLx43HletUZIbDsMchGb+QIb91AUKkE5o85T51o/sD2asFpUnrW
+         m6LCmLwTNakgBCzrIkHkm8GveMvsg1VnxxHxDscz61MUtMAU3TC2i4KFsjaIvUQldE
+         hJc6gNY6VE7VFSGxNysw6L//cpWSI/UYw7y/b4B0wFliLHpi+JlDNGoUrCaijkpiNF
+         AVcLyZ/heZk0Q==
+Date:   Tue, 13 Sep 2022 20:58:43 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Wei Yongjun <weiyongjun@huaweicloud.com>
+Cc:     Vincent Shih <vincent.sunplus@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Wei Yongjun <weiyongjun1@huawei.com>,
+        linux-usb@vger.kernel.org, linux-phy@lists.infradead.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH -next] phy: usb: sunplus: Fix return value check in
+ update_disc_vol()
+Message-ID: <YyChq1vgN6W5KW0P@matsya>
+References: <20220909094709.1790970-1-weiyongjun@huaweicloud.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220818141738.axssxkaizys4rphl@pali>
+In-Reply-To: <20220909094709.1790970-1-weiyongjun@huaweicloud.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 18, 2022 at 04:17:38PM +0200, Pali Rohár wrote:
-> On Sunday 24 July 2022 14:41:19 Johan Hovold wrote:
-> > On Tue, Jul 12, 2022 at 01:53:06PM +0200, Marek Behún wrote:
-> > > From: Pali Rohár <pali@kernel.org>
-> > > 
-> > > Calculate baud rate value in c_*speed fields to the real values which were
-> > > set on hardware. For this operation, add a new set of methods
-> > > *_divisor_to_baud() for each chip and use them for calculating the real
-> > > baud rate values.
-> > > 
-> > > Each *_divisor_to_baud() method is constructed as an inverse function of
-> > > its corresponding *_baud_to_divisor() method.
-> > > 
-> > > Signed-off-by: Pali Rohár <pali@kernel.org>
-> > > Tested-by: Marek Behún <kabel@kernel.org>
-> > > Signed-off-by: Marek Behún <kabel@kernel.org>
-> > > ---
-> > >  drivers/usb/serial/ftdi_sio.c | 83 +++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 83 insertions(+)
-
-> > >  static unsigned short int ftdi_232am_baud_base_to_divisor(int baud, int base)
-> > >  {
-> > >  	unsigned short int divisor;
-> > > @@ -1189,15 +1206,33 @@ static unsigned short int ftdi_232am_baud_base_to_divisor(int baud, int base)
-> > >  	return divisor;
-> > >  }
-> > >  
-> > > +static int ftdi_232am_divisor_base_to_baud(unsigned short int divisor, int base)
-> > 
-> > I believe "base" was used as a function name suffix in the inverse
-> > function (due to the additional base argument).
+On 09-09-22, 09:47, Wei Yongjun wrote:
+> From: Wei Yongjun <weiyongjun1@huawei.com>
 > 
-> Yes, in the same way as it used in name of ftdi_232am_baud_base_to_divisor.
+> In case of error, the function nvmem_cell_read() returns ERR_PTR()
+> and never returns NULL. The NULL test in the return value check
+> should be replaced with IS_ERR().
 
-No, you used "base" as an infix here.
+Applied, thanks
 
-Johan
+-- 
+~Vinod
