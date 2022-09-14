@@ -2,85 +2,103 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86EE8ECAAD8
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Sep 2022 09:29:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DB20ECAAD3
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Sep 2022 09:31:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230332AbiINJ3x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Sep 2022 05:29:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35806 "EHLO
+        id S231429AbiINJbu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Sep 2022 05:31:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230199AbiINJ3c (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Sep 2022 05:29:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E124389804;
-        Wed, 14 Sep 2022 02:18:24 -0700 (PDT)
+        with ESMTP id S231474AbiINJbZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Sep 2022 05:31:25 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9021DF9A
+        for <linux-usb@vger.kernel.org>; Wed, 14 Sep 2022 02:20:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A3A7D61A88;
-        Wed, 14 Sep 2022 09:18:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72907C433D6;
-        Wed, 14 Sep 2022 09:18:07 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7BBF3B818B8
+        for <linux-usb@vger.kernel.org>; Wed, 14 Sep 2022 09:20:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14156C433D7;
+        Wed, 14 Sep 2022 09:20:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663147088;
-        bh=UHQJoSkLYmXYza4glAH1ozt2TZVXVau7q0IPkofdgoY=;
+        s=k20201202; t=1663147254;
+        bh=jQFYw3YFJfQZ0feH+FnlOR1EhYXSn1Ul34Wbd87EZ0M=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=u2Y7MMFuI342ZmPmtE+Xo03E+MrtfhFYlhl2SviNtwsHfnhr3obWyd44/uY4TvYpR
-         Bc4lMagIoEPLocq+ECsXNYcns7mNBjfOpGdDoJnkOHZO9YbsH6ULFsiWTVaf5Z9OVw
-         TSplM15Y02O7f11GPwn2OhOJo+OR2c5i57+RI0uhrqrMQao3Onz3Ke7CZMkvQCEWlT
-         f3SxREaoaB9ds5x0Yx7kMjqDdfSkYz25GMmqZ84Ik+4m8zi1ti/cgJHnKoZPjQnx1k
-         cHQhtyZcrwaGYUUm2Uz//VSGq5ILHStzPOjkHy7mYUgWb9vkzPsRmLEaNCVl8x7QFz
-         fE5e0OwJBi/Hw==
-Date:   Wed, 14 Sep 2022 10:18:03 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Gaosheng Cui <cuigaosheng1@huawei.com>
-Cc:     rostedt@goodmis.org, mingo@redhat.com, linux@armlinux.org.uk,
-        tony@atomide.com, bcousson@baylibre.com, paul@pwsan.com,
-        krzysztof.kozlowski@linaro.org, alim.akhtar@samsung.com,
-        stefan@agner.ch, rmk+kernel@armlinux.org.uk,
-        linus.walleij@linaro.org, sebastian.reichel@collabora.co.uk,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 2/3] ARM: s3c: remove orphan declarations from
- arch/arm/mach-s3c/devs.h
-Message-ID: <YyGcS+SX67rjQSk4@sirena.org.uk>
-References: <20220914034615.1240860-1-cuigaosheng1@huawei.com>
- <20220914034615.1240860-3-cuigaosheng1@huawei.com>
+        b=J5ipmVguy9ANOTOBCeRMpFPz4+YgENxCI8TVqTgMXDApkKWODeX3kaX3JuY1R0iFE
+         4CqOONlL3YqJn/lrWgr8e4qmEALeQpUuM17tfVBMVpg/RgqBPA08wOI3CvVru+oZpk
+         8jTb6lhwR6A7veTZwgIMoAUQXUqLBm7kZb6498CkJ9ethL6daA74kFDIBwa1nz3Olm
+         VYk0tnaBJNQthepYn+R3cGKjGo+XUL3oCiaQmFdj7jAXm8uQ4vTyr+ePqKQT2SEAKz
+         yWNy1c7x4t2NslxNioVYfkSPTC4zQWvm+tcHTXD1+w1+6gYosFVxwBAt+Sk8izdVOW
+         Ld2Qd/TJleHAA==
+Received: by pali.im (Postfix)
+        id 7BFB27B8; Wed, 14 Sep 2022 11:20:51 +0200 (CEST)
+Date:   Wed, 14 Sep 2022 11:20:51 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
+        linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2 6/7] USB: serial: ftdi_sio: Fix custom_divisor and
+ c_*speed for ASYNC_SPD_CUST
+Message-ID: <20220914092051.bixv2ihjtlolcytq@pali>
+References: <20220724123351.icqqvvfxjm7ogo5u@pali>
+ <Yt1BIsPqAVH0ajlf@hovoldconsulting.com>
+ <20220724125908.6vu3jveiaisvpocb@pali>
+ <Yt1EOcRWi0LdKqrB@hovoldconsulting.com>
+ <20220818140952.r4c3plso4mm5s7jb@pali>
+ <YyCayj7H/3My2amz@hovoldconsulting.com>
+ <20220914084831.wboticmzy33guzam@pali>
+ <YyGXyGvmAD4G1h2b@hovoldconsulting.com>
+ <20220914091006.bltnzb4gmwomc3yo@pali>
+ <YyGcS/DwPtN5qnmm@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Z3UFEgAeoGv2ULf4"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220914034615.1240860-3-cuigaosheng1@huawei.com>
-X-Cookie: One FISHWICH coming up!!
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YyGcS/DwPtN5qnmm@hovoldconsulting.com>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On Wednesday 14 September 2022 11:18:03 Johan Hovold wrote:
+> On Wed, Sep 14, 2022 at 11:10:06AM +0200, Pali Rohár wrote:
+> > On Wednesday 14 September 2022 10:58:48 Johan Hovold wrote:
+> > > On Wed, Sep 14, 2022 at 10:48:31AM +0200, Pali Rohár wrote:
+> 
+> > > > Seems that you did not understand the point. So I will try to explain it
+> > > > again. This is not a new feature for _old_ ASYNC_SPD_CUST. This is the
+> > > > fix for the _new_ TCGETS2 API, to ensure that driver will always returns
+> > > > corrects values in c_*speed fields. If driver is not going to fix this
+> > > > _new_ TCGETS2 API then there is _NO_ point to use this new API in
+> > > > userspace and it is better to stick with the old ASYNC_SPD_CUST. And
+> > > > this is the current userspace state. So based on your input, it is the
+> > > > time to deprecate TCGETS2?
+> > > 
+> > > Stop being silly. As I've said repeatedly, we don't care about
+> > > ASYNC_SPD_CUST. Just return 38400 regardless of whatever magic happens
+> > > behind the scenes with the TIOCSSERIAL ioctl.
+> 
+> > I'm not silly here. Look, those APIs are for userspace. And if userspace
+> > application cannot use this new TCGETS2 API (for more reasons) then they
+> > stick with the old one TIOCSSERIAL. And your inputs just say that it is
+> > not a good idea to switch TCGETS2 as this API stay broken in some
+> > drivers. Silly is the one who do not see (or do not want to see it;
+> > because of own API perfectionism) the reasons why new "proposed API" is
+> > still not (widely) used and applications stick with TCGETS + TIOCSSERIAL.
+> > 
+> > That is why I'm asking, it is time to starting deprecating TCGETS2 and
+> > create for example TCGETS3? Only just few application use TCGETS2, so
+> > deprecation of TCGETS2 can be done _now_ without pain as this API is not
+> > widely used.
+> 
+> You're trying to keep the ASYNC_SPD hack alive by forcing drivers to
+> take it into consideration for TCGETS2. Just stop using the former and
+> switch to using BOTHER. And if something is missing in user space for
+> that, then fix that.
+> 
+> Johan
 
---Z3UFEgAeoGv2ULf4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Wed, Sep 14, 2022 at 11:46:14AM +0800, Gaosheng Cui wrote:
-> s3c64xx_device_spi1 and s3c64xx_device_spi2 were removed by
-> commit f1ba938e4f98 ("spi: s3c64xx: Delete unused boardfile
-> helpers"), so remove the declaration, too.
-
-Reviewed-by: Mark Brown <broonie@kernel.org>
-
---Z3UFEgAeoGv2ULf4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmMhnEoACgkQJNaLcl1U
-h9An1wf9GnRFeDEorlrW4PsHe24zynUBiEXNF5FZxlFsiEiklvE26GGQH2Y4WA8p
-/f26CiJeaQ4bskOWw6zVGJytKs5oUyOKAuFV1op7h0JDJ0SkCUExhqBT0AeCF5xY
-sQ9uLLwLMhVGs7ZtQGhKLd834MKTSr/lnCA2wR9I4DETBOTvmi2dUp9KELhfSDlE
-GGIw9V3HZwMPAmPgCUV36WgOP1xWJRCg4b3m0mklhAFYqpKOyHsSPc8E/lXbjCLk
-kT+mXwiTB8kAKYpurqvzlz3ueqzoP7Bb5qM4Xvj3s4np6a4ajHUITAHASJrRrbq2
-TcgJd8b1Eeoc/ygXBILaewFfGF3e9g==
-=HvVZ
------END PGP SIGNATURE-----
-
---Z3UFEgAeoGv2ULf4--
+And what is the point of switching to BOTHER/TCGETS2 if some drivers
+do not return _correct_ values?
