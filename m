@@ -2,85 +2,96 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 271B1C6FA8A
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Sep 2022 14:43:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E518C6FA82
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Sep 2022 16:24:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229599AbiINOnt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Sep 2022 10:43:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48050 "EHLO
+        id S229820AbiINQYc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Sep 2022 12:24:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229845AbiINOn3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Sep 2022 10:43:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5698359270
-        for <linux-usb@vger.kernel.org>; Wed, 14 Sep 2022 07:43:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6D53661E0A
-        for <linux-usb@vger.kernel.org>; Wed, 14 Sep 2022 14:43:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CF8FBC433D7
-        for <linux-usb@vger.kernel.org>; Wed, 14 Sep 2022 14:43:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663166604;
-        bh=NS/QZDbM5WyfHS6Wtqhc6Nt3WI0d/DnYFOE3ahX+WME=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=ocXF5YRCNKBiPABnaSst0dAmSwOrzO+GGc7lfmLtzUKzo/VKRTtnx97LCeWdAoClg
-         l6udb16UhugjaLEi+/T1BJ9dVqf81kDFakDVd0CNipuN8oCX8JfirOAtWkw6K3aiiX
-         UXXpjwbyUaxw3gJ66Ih+dYX4f/f9bvMKDHXIa8Tg4nbf2sD00Nhca8I5VmWESsvzyT
-         Xaq0LEwfajOdJiNuVrRpyRdy9rEsmgTMwFGC5zN+s1qVgVAEsKz2958gHv/PG0xjou
-         S1bFlD8B4NEC98FsB++5FcUOhlDBABqghBnqQJ0alMDmyD3fba9uBIFDzrjbJQjQ9d
-         4sV+vsW6RXo5Q==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id B21F4C433E6; Wed, 14 Sep 2022 14:43:24 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 216470] [Regression] xhci_hcd 0000:08:00.2: xHC error in
- resume, USBSTS 0x401, Reinit
-Date:   Wed, 14 Sep 2022 14:43:24 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: mario.limonciello@amd.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-216470-208809-g11ybugQzi@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216470-208809@https.bugzilla.kernel.org/>
-References: <bug-216470-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        with ESMTP id S229657AbiINQYb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Sep 2022 12:24:31 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94489E55;
+        Wed, 14 Sep 2022 09:24:29 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id m10-20020a17090a730a00b001fa986fd8eeso19603228pjk.0;
+        Wed, 14 Sep 2022 09:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=1xfAttjBNPJfxtb2E9TpigfOTCC44pqkuTF09xMIE/Y=;
+        b=ZUmP/LWkJ80NgeLZCrUctArN9tCXv0/OhrqrK2V9652lwfpuzNs4ulKzj4AcaPkTfT
+         r0VmZULDVvnjei/QQjGZvetTEzPY1F6XrcO2cxrycBrbMK1z9rHqrM8DwF1XU2qm80Nx
+         GrbHiYBoGxHRdUg0UFrHddTacogLdVUJgAEngbyJzmaSGpFS2Iyw+wkWhl3YW1y1tZLm
+         kpjhnZesqgz3KahFwkPvFoL4yDEdeK7ZGH0RQwU1LnwM9zIT4mieaa5GNtStug+0cVy8
+         QvJrZay0fsDowrUepq9wa2CvEnr+ix3krWCpmTzVTARlDldtYE/vrP+rilVZELt5RPzz
+         GKPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=1xfAttjBNPJfxtb2E9TpigfOTCC44pqkuTF09xMIE/Y=;
+        b=6sz33LPWmRvfPxH2JcqdiNsypBQDw8qCpY2qGF16IdfRQnC3azGbM8EV3kb/bP2C69
+         DT07i8YzO7QSdiu9MmvCIslKrAGJZGZcSFMadGLuOLO2sq4AT+tG2NXvSAzIDVOxQR/l
+         51Qn6Z/8qpcHAeDdU8gINyCev75wvcnmPTYsFPnmjAAul0dZh1rFJ70EqwZA21JigAu1
+         q3qu2fiNREOX4640LOOo7o7jZgp9PZEDHg9YQfUsFIIGSQSxoIrE56BOfB7tFnYGe9Za
+         SFtO9t5cq35C/6qLNAwkw7YTZW+RR7Wgu39lzK51/pq+fD1t+F3xnY+R0FqvshuVPRCR
+         0QNQ==
+X-Gm-Message-State: ACgBeo0mdsiPREaV4HCpsrD0U3ayCmyTV/8G1kbL53TzVoxndDk5BO0P
+        Vun2heSd6Kg1o9zMT9ZhBtc=
+X-Google-Smtp-Source: AA6agR6yqUO2xlxnDZIsxZUQ1iiTrfUkJpZoGwYNT/mYAHZk1/oWXAceWvhjUUWuegu4XCccv1M7lw==
+X-Received: by 2002:a17:902:ebcb:b0:168:e3ba:4b5a with SMTP id p11-20020a170902ebcb00b00168e3ba4b5amr37498461plg.11.1663172669034;
+        Wed, 14 Sep 2022 09:24:29 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id s14-20020a65644e000000b00438fe64d61esm6701672pgv.0.2022.09.14.09.24.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Sep 2022 09:24:27 -0700 (PDT)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: cui.jinpeng2@zte.com.cn
+To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, hayeswang@realtek.com
+Cc:     aaron.ma@canonical.com, jflf_kernel@gmx.com, dober6023@gmail.com,
+        svenva@chromium.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jinpeng Cui <cui.jinpeng2@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH linux-next] r8152: Replace conditional statement with min() function
+Date:   Wed, 14 Sep 2022 16:23:26 +0000
+Message-Id: <20220914162326.23880-1-cui.jinpeng2@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216470
+From: Jinpeng Cui <cui.jinpeng2@zte.com.cn>
 
-Mario Limonciello (AMD) (mario.limonciello@amd.com) changed:
+Use the min() function instead of "if else" to get the minimum value.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|ASSIGNED                    |RESOLVED
-         Resolution|---                         |CODE_FIX
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Jinpeng Cui <cui.jinpeng2@zte.com.cn>
+---
+ drivers/net/usb/r8152.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
---- Comment #5 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
-Here is the fix queued up.
-https://lore.kernel.org/linux-usb/02ef1ae2-9dae-6f02-9951-1230939f06e2@linu=
-x.intel.com/T/#t
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index a51d8ded60f3..6cead36aef56 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -4829,10 +4829,7 @@ static void rtl_ram_code_speed_up(struct r8152 *tp, struct fw_phy_speed_up *phy,
+ 		u32 ocp_data, size;
+ 		int i;
+ 
+-		if (len < 2048)
+-			size = len;
+-		else
+-			size = 2048;
++		size = min(2048, len);
+ 
+ 		ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_GPHY_CTRL);
+ 		ocp_data |= GPHY_PATCH_DONE | BACKUP_RESTRORE;
+-- 
+2.25.1
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
