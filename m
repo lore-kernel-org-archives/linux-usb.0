@@ -2,189 +2,111 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58F23C32771
-	for <linux-usb@archiver.kernel.org>; Thu, 15 Sep 2022 23:26:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99119C32771
+	for <linux-usb@archiver.kernel.org>; Fri, 16 Sep 2022 02:02:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229768AbiIOX0D (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 15 Sep 2022 19:26:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40726 "EHLO
+        id S230002AbiIPCCn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 15 Sep 2022 22:02:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229869AbiIOX0A (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 15 Sep 2022 19:26:00 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9209F86061
-        for <linux-usb@vger.kernel.org>; Thu, 15 Sep 2022 16:25:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663284356; x=1694820356;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1tD7z4QsamIfoWevRx3YopmEJmd7XSIpih+uXY/ohKM=;
-  b=XEmt2xmAZfCS5/YdDLnXCtuiy99wssnOzYTvjt01CAPRAZRutsURTNW2
-   lQ0PAxxf3fr52S2xMdjIkv8L2P8WcTIVirEtriSaakzoYzZ5Pn/ty9f11
-   hxDAckRh8/H+xevh6OK3c724igg62n+aKZ5if2RhY0Fx1QeJEb6lxMlfZ
-   By2aevkWHj2gVNQfyB6r66OoYHwkeOErmxvo8swajrqZIxfxh7oQ1mI+Q
-   YSdkzenp6CZ8NE/nqrUG2LA7KYx5Zt0euEE4YHRCPZPFE+sxHj6t0gPGT
-   gfTr/G7iidRlebwowqHYgJlPp1aghtw4PioUZFqUodSEzrAQ5mvAqKlyc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="299688934"
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; 
-   d="scan'208";a="299688934"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2022 16:25:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; 
-   d="scan'208";a="679741820"
-Received: from lkp-server02.sh.intel.com (HELO 41300c7200ea) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Sep 2022 16:25:54 -0700
-Received: from kbuild by 41300c7200ea with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oYyEz-0001Al-2g;
-        Thu, 15 Sep 2022 23:25:53 +0000
-Date:   Fri, 16 Sep 2022 07:24:56 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-linus] BUILD SUCCESS
- ce001778dfc34804f2b1fa6faaad7ac888326afb
-Message-ID: <6323b448.fUzWxsrZl0COQMYa%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S230033AbiIPCC2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 15 Sep 2022 22:02:28 -0400
+Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE40C8286F
+        for <linux-usb@vger.kernel.org>; Thu, 15 Sep 2022 19:02:07 -0700 (PDT)
+X-UUID: 370feca3514c4802ad7065663d166d1a-20220916
+X-CPASD-INFO: a0f3b37712304be898a08849f62aadb5
+        @qoCgU49lZWddUnV8g6WwcllpkWBoZFSIqHBSkY-
+        UjlWVhH5xTV5uYFV9fWtVYV9dYVR6eGxQYmBgZFJ4i3-XblBgXoZgUZB3sHKgU5JhZw==
+X-CLOUD-ID: a0f3b37712304be898a08849f62aadb5
+X-CPASD-SUMMARY: SIP:-1,APTIP:-2.0,KEY:0.0,FROMBLOCK:1,OB:0.0,URL:-5,TVAL:172.
+        0,ESV:0.0,ECOM:-5.0,ML:0.0,FD:0.0,CUTS:174.0,IP:-2.0,MAL:-5.0,PHF:-5.0,PHC:-5
+        .0,SPF:4.0,EDMS:-5,IPLABEL:4480.0,FROMTO:0,AD:0,FFOB:0.0,CFOB:0.0,SPC:0,SIG:-
+        5,AUF:38,DUF:4913,ACD:81,DCD:81,SL:0,EISP:0,AG:0,CFC:0.287,CFSR:0.095,UAT:0,R
+        AF:0,IMG:-5.0,DFA:0,DTA:0,IBL:-2.0,ADI:-5,SBL:0,REDM:0,REIP:0,ESB:0,ATTNUM:0,
+        EAF:0,CID:-5.0,VERSION:2.3.17
+X-CPASD-ID: 370feca3514c4802ad7065663d166d1a-20220916
+X-CPASD-BLOCK: 1000
+X-CPASD-STAGE: 1
+X-UUID: 370feca3514c4802ad7065663d166d1a-20220916
+X-User: zenghongling@kylinos.cn
+Received: from localhost.localdomain [(112.64.161.44)] by mailgw
+        (envelope-from <zenghongling@kylinos.cn>)
+        (Generic MTA)
+        with ESMTP id 394404056; Fri, 16 Sep 2022 10:02:29 +0800
+From:   Hongling Zeng <zenghongling@kylinos.cn>
+To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+        zhongling0719@126.com, Hongling Zeng <zenghongling@kylinos.cn>
+Subject: [PATCH v7 1/3] uas: add no-uas quirk for Hiksemi usb_disk
+Date:   Fri, 16 Sep 2022 10:02:17 +0800
+Message-Id: <1663293737-20014-1-git-send-email-zenghongling@kylinos.cn>
+X-Mailer: git-send-email 2.1.0
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-branch HEAD: ce001778dfc34804f2b1fa6faaad7ac888326afb  Merge tag 'thunderbolt-for-v6.0-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt into usb-linus
+The UAS mode of Hiksemi is reported to fail to work on several platforms
+with the following error message, then after re-connecting the device will
+be offlined and not working at all.
 
-elapsed time: 721m
+[  592.518442][ 2] sd 8:0:0:0: [sda] tag#17 uas_eh_abort_handler 0 uas-tag 18
+                   inflight: CMD
+[  592.527575][ 2] sd 8:0:0:0: [sda] tag#17 CDB: Write(10) 2a 00 03 6f 88 00 00
+                   04 00 00
+[  592.536330][ 2] sd 8:0:0:0: [sda] tag#0 uas_eh_abort_handler 0 uas-tag 1
+                   inflight: CMD
+[  592.545266][ 2] sd 8:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 07 44 1a 88 00
+                   00 08 00
 
-configs tested: 114
-configs skipped: 3
+These disks have a broken uas implementation, the tag field of the status
+iu-s is not set properly,so we need to fall-back to usb-storage.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+---
+change for v1
+ -Change the email real name
 
-gcc tested configs:
-um                           x86_64_defconfig
-um                             i386_defconfig
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-s390                                defconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-s390                             allyesconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-x86_64                           rhel-8.3-kvm
-i386                             allyesconfig
-i386                                defconfig
-ia64                             allmodconfig
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
-s390                 randconfig-r044-20220915
-arc                  randconfig-r043-20220915
-riscv                randconfig-r042-20220915
-x86_64                           rhel-8.3-syz
-csky                              allnoconfig
-alpha                             allnoconfig
-arc                               allnoconfig
-riscv                             allnoconfig
-sparc                               defconfig
-xtensa                           allyesconfig
-csky                                defconfig
-sparc                            allyesconfig
-x86_64                                  kexec
-powerpc                          allyesconfig
-riscv                               defconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-mips                     decstation_defconfig
-m68k                        m5272c3_defconfig
-m68k                       m5275evb_defconfig
-powerpc                     asp8347_defconfig
-i386                          randconfig-c001
-arm64                               defconfig
-ia64                             allyesconfig
-arm                              allmodconfig
-m68k                                defconfig
-ia64                                defconfig
-mips                             allmodconfig
-i386                          debian-10.3-kvm
-i386                        debian-10.3-kunit
-i386                         debian-10.3-func
-powerpc                        warp_defconfig
-xtensa                           alldefconfig
-powerpc                      mgcoge_defconfig
-m68k                        m5307c3_defconfig
-arm                           viper_defconfig
-sh                         ap325rxa_defconfig
-arc                          axs103_defconfig
-mips                            gpr_defconfig
-sh                             sh03_defconfig
-powerpc                         wii_defconfig
-openrisc                       virt_defconfig
-powerpc                      ep88xc_defconfig
-sparc                       sparc32_defconfig
-powerpc                      arches_defconfig
-sh                          rsk7203_defconfig
-arm                         vf610m4_defconfig
-powerpc                        cell_defconfig
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-loongarch                           defconfig
-loongarch                         allnoconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220916
-nios2                            allyesconfig
-nios2                               defconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
+Change for v2
+ -Change spelling error
 
-clang tested configs:
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-hexagon              randconfig-r045-20220915
-hexagon              randconfig-r041-20220915
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a011
-i386                          randconfig-a013
-i386                          randconfig-a015
-x86_64                        randconfig-k001
-powerpc                 xes_mpc85xx_defconfig
-mips                           ip28_defconfig
-powerpc                    socrates_defconfig
-arm                        mvebu_v5_defconfig
-mips                   sb1250_swarm_defconfig
-powerpc                    gamecube_defconfig
+Change for v3
+ -Add Acked-by
 
+Change for v4
+ -Fix version error
+
+Change for v5
+ -change version
+
+Change for v6
+ -Change the git message for patch 3 
+
+Change for v7
+ -Upate patch 2
+---
+ drivers/usb/storage/unusual_uas.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/usb/storage/unusual_uas.h b/drivers/usb/storage/unusual_uas.h
+index cdff7dc..a6bf87a 100644
+--- a/drivers/usb/storage/unusual_uas.h
++++ b/drivers/usb/storage/unusual_uas.h
+@@ -62,6 +62,13 @@ UNUSUAL_DEV(0x059f, 0x1061, 0x0000, 0x9999,
+ 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+ 		US_FL_IGNORE_UAS),
+ 
++/* Reported-by: Hongling Zeng <zenghongling@kylinos.cn> */
++UNUSUAL_DEV(0x090c, 0x2000, 0x0000, 0x9999,
++		"Hiksemi",
++		"External HDD",
++		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
++		US_FL_IGNORE_UAS),
++
+ /*
+  * Apricorn USB3 dongle sometimes returns "USBSUSBSUSBS" in response to SCSI
+  * commands in UAS mode.  Observed with the 1.28 firmware; are there others?
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.1.0
+
