@@ -2,224 +2,186 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EF92ECAAD3
-	for <linux-usb@archiver.kernel.org>; Mon, 19 Sep 2022 13:21:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA2B8ECAAD3
+	for <linux-usb@archiver.kernel.org>; Mon, 19 Sep 2022 13:25:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230403AbiISNVt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 19 Sep 2022 09:21:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49558 "EHLO
+        id S230350AbiISNZd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 19 Sep 2022 09:25:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230332AbiISNVq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 19 Sep 2022 09:21:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BE692A959;
-        Mon, 19 Sep 2022 06:21:45 -0700 (PDT)
+        with ESMTP id S230112AbiISNZb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 19 Sep 2022 09:25:31 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40842D10F;
+        Mon, 19 Sep 2022 06:25:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CCCC761C5A;
-        Mon, 19 Sep 2022 13:21:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 330FEC433D6;
-        Mon, 19 Sep 2022 13:21:44 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 71312B81BD9;
+        Mon, 19 Sep 2022 13:25:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 256DAC433C1;
+        Mon, 19 Sep 2022 13:25:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663593704;
-        bh=hZS6MzobL+bSd/8qqpnr03/CZFdi1wPNppEVe3Cs1Lg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iq5dE1QYgWVYU7xNFqQJzMhc0ui2c3BkFXvAmIaQ7wGhOllJHKMsXu8+smgvsXMYx
-         djqzI1skQcyWXayUJlcejAizJhTWEoV9DKJQy/0Wq09ws+G3zk+Kl18uU6YrvsZYcH
-         4QmqiRmafRCqH1vWSEZ5ha6yYhA6hVXQTJX5htMtommFun4mHTWGC84Qb7tEACQRiX
-         mHz0r9uaPOW7u34BPZ3d6hGgEfro4qhxHq5Wrbk3hDyqRocuh40PVjHwZSikw9tQxN
-         qOPOpLELJauOoyk/Ihbd0jlfhhaLZVZO72HJL/LzlUvpQP1H57A3Ow++VA+SvSSylC
-         jcKzB6m9zU5gg==
+        s=k20201202; t=1663593926;
+        bh=YaeRxWbt+/MWcq8tF2wVcj1FK8OAKg3UKPDh2LMI0H8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=oGDaRJJbV5AY9AJdcBpa5yc4VlrZD3NtG4Na7iZu/uG9K6jI8438B9TjZi9Qi3IIa
+         IVmiU4yxKVKdrT5ISZ3ZJejM1CReitaxL+KbyKFPekdUwO8IKKfHdwHtWmcyQ6L6F4
+         qRjU2wWzdpj6CuDj6mwP9DFgqO9B4Xq4yOgixiUntCTgRXyh2HV+sSsUyokmMD/3d/
+         aXbXCjExPzEn8yIuKoGN0ImIyBbfPU9MBGIs6isB6qW0RGhm27HlKxzdMz6Z7b1fJN
+         4XnSXUgtSJ64RqH3tgdxGC2fuLftkDwZLFbA79jrsK8JegLOn0/2VkqRp22TxahObe
+         Pv8o6KCrvuDzA==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1oaGia-0005Og-BX; Mon, 19 Sep 2022 15:21:49 +0200
-Date:   Mon, 19 Sep 2022 15:21:48 +0200
+        id 1oaGmB-0005R7-50; Mon, 19 Sep 2022 15:25:31 +0200
 From:   Johan Hovold <johan@kernel.org>
-To:     Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Jiasheng Jiang <jiasheng@iscas.ac.cn>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] USB: serial: ftdi_sio: Convert to use dev_groups
-Message-ID: <Yyhs7CW1iZKGfKab@hovoldconsulting.com>
-References: <20220914071334.2820756-1-jiasheng@iscas.ac.cn>
+Subject: [PATCH 2/3] USB: serial: ftdi_sio: move driver structure
+Date:   Mon, 19 Sep 2022 15:24:55 +0200
+Message-Id: <20220919132456.20851-3-johan@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220919132456.20851-1-johan@kernel.org>
+References: <20220919132456.20851-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220914071334.2820756-1-jiasheng@iscas.ac.cn>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Sep 14, 2022 at 03:13:34PM +0800, Jiasheng Jiang wrote:
-> The driver core supports the ability to handle the creation and removal
-> of device-specific sysfs files in a race-free manner.
+Move the definition of the USB serial driver structure to the end of the
+file where it is used and drop the now redundant forward declarations.
 
-> Moreover, it can
-> guarantee the success of creation.
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/ftdi_sio.c | 101 ++++++++++++----------------------
+ 1 file changed, 35 insertions(+), 66 deletions(-)
 
-I don't believe this is true, driver core just handles the errors.
+diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
+index a5fc199cde0b..cd594937b0e6 100644
+--- a/drivers/usb/serial/ftdi_sio.c
++++ b/drivers/usb/serial/ftdi_sio.c
+@@ -1108,77 +1108,11 @@ static const char *ftdi_chip_name[] = {
+ #define FTDI_STATUS_B1_MASK	(FTDI_RS_BI)
+ /* End TIOCMIWAIT */
+ 
+-/* function prototypes for a FTDI serial converter */
+-static int  ftdi_sio_probe(struct usb_serial *serial,
+-					const struct usb_device_id *id);
+-static int  ftdi_sio_port_probe(struct usb_serial_port *port);
+-static void ftdi_sio_port_remove(struct usb_serial_port *port);
+-static int  ftdi_open(struct tty_struct *tty, struct usb_serial_port *port);
+-static void ftdi_dtr_rts(struct usb_serial_port *port, int on);
+-static void ftdi_process_read_urb(struct urb *urb);
+-static int ftdi_prepare_write_buffer(struct usb_serial_port *port,
+-						void *dest, size_t size);
+ static void ftdi_set_termios(struct tty_struct *tty,
+ 			struct usb_serial_port *port, struct ktermios *old);
+-static int  ftdi_tiocmget(struct tty_struct *tty);
+-static int  ftdi_tiocmset(struct tty_struct *tty,
+-			unsigned int set, unsigned int clear);
+-static int  ftdi_ioctl(struct tty_struct *tty,
+-			unsigned int cmd, unsigned long arg);
+-static void get_serial_info(struct tty_struct *tty, struct serial_struct *ss);
+-static int set_serial_info(struct tty_struct *tty,
+-				struct serial_struct *ss);
+-static void ftdi_break_ctl(struct tty_struct *tty, int break_state);
+-static bool ftdi_tx_empty(struct usb_serial_port *port);
+ static int ftdi_get_modem_status(struct usb_serial_port *port,
+ 						unsigned char status[2]);
+ 
+-static unsigned short int ftdi_232am_baud_base_to_divisor(int baud, int base);
+-static unsigned short int ftdi_232am_baud_to_divisor(int baud);
+-static u32 ftdi_232bm_baud_base_to_divisor(int baud, int base);
+-static u32 ftdi_232bm_baud_to_divisor(int baud);
+-static u32 ftdi_2232h_baud_base_to_divisor(int baud, int base);
+-static u32 ftdi_2232h_baud_to_divisor(int baud);
+-
+-static const struct attribute_group *ftdi_groups[];
+-
+-static struct usb_serial_driver ftdi_sio_device = {
+-	.driver = {
+-		.owner =	THIS_MODULE,
+-		.name =		"ftdi_sio",
+-		.dev_groups =	ftdi_groups,
+-	},
+-	.description =		"FTDI USB Serial Device",
+-	.id_table =		id_table_combined,
+-	.num_ports =		1,
+-	.bulk_in_size =		512,
+-	.bulk_out_size =	256,
+-	.probe =		ftdi_sio_probe,
+-	.port_probe =		ftdi_sio_port_probe,
+-	.port_remove =		ftdi_sio_port_remove,
+-	.open =			ftdi_open,
+-	.dtr_rts =		ftdi_dtr_rts,
+-	.throttle =		usb_serial_generic_throttle,
+-	.unthrottle =		usb_serial_generic_unthrottle,
+-	.process_read_urb =	ftdi_process_read_urb,
+-	.prepare_write_buffer =	ftdi_prepare_write_buffer,
+-	.tiocmget =		ftdi_tiocmget,
+-	.tiocmset =		ftdi_tiocmset,
+-	.tiocmiwait =		usb_serial_generic_tiocmiwait,
+-	.get_icount =           usb_serial_generic_get_icount,
+-	.ioctl =		ftdi_ioctl,
+-	.get_serial =		get_serial_info,
+-	.set_serial =		set_serial_info,
+-	.set_termios =		ftdi_set_termios,
+-	.break_ctl =		ftdi_break_ctl,
+-	.tx_empty =		ftdi_tx_empty,
+-};
+-
+-static struct usb_serial_driver * const serial_drivers[] = {
+-	&ftdi_sio_device, NULL
+-};
+-
+-
+ #define WDR_TIMEOUT 5000 /* default urb timeout */
+ #define WDR_SHORT_TIMEOUT 1000	/* shorter urb timeout */
+ 
+@@ -2931,6 +2865,41 @@ static int ftdi_ioctl(struct tty_struct *tty,
+ 	return -ENOIOCTLCMD;
+ }
+ 
++static struct usb_serial_driver ftdi_sio_device = {
++	.driver = {
++		.owner =	THIS_MODULE,
++		.name =		"ftdi_sio",
++		.dev_groups =	ftdi_groups,
++	},
++	.description =		"FTDI USB Serial Device",
++	.id_table =		id_table_combined,
++	.num_ports =		1,
++	.bulk_in_size =		512,
++	.bulk_out_size =	256,
++	.probe =		ftdi_sio_probe,
++	.port_probe =		ftdi_sio_port_probe,
++	.port_remove =		ftdi_sio_port_remove,
++	.open =			ftdi_open,
++	.dtr_rts =		ftdi_dtr_rts,
++	.throttle =		usb_serial_generic_throttle,
++	.unthrottle =		usb_serial_generic_unthrottle,
++	.process_read_urb =	ftdi_process_read_urb,
++	.prepare_write_buffer =	ftdi_prepare_write_buffer,
++	.tiocmget =		ftdi_tiocmget,
++	.tiocmset =		ftdi_tiocmset,
++	.tiocmiwait =		usb_serial_generic_tiocmiwait,
++	.get_icount =           usb_serial_generic_get_icount,
++	.ioctl =		ftdi_ioctl,
++	.get_serial =		get_serial_info,
++	.set_serial =		set_serial_info,
++	.set_termios =		ftdi_set_termios,
++	.break_ctl =		ftdi_break_ctl,
++	.tx_empty =		ftdi_tx_empty,
++};
++
++static struct usb_serial_driver * const serial_drivers[] = {
++	&ftdi_sio_device, NULL
++};
+ module_usb_serial_driver(serial_drivers, id_table_combined);
+ 
+ MODULE_AUTHOR(DRIVER_AUTHOR);
+-- 
+2.35.1
 
-> Therefore, it should be better to
-> convert to use dev_groups.
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> ---
-> Changelog:
-> 
-> v4 -> v5:
-> 
-> 1. Use a forward declaration for ftdi_sio_groups.
-> 2. Correct ftdi_sio_attr_is_visible() implementation.
-> 
-> v3 -> v4:
-> 
-> 1. Move the code and remove the pre-definitions.
-> 
-> v2 -> v3:
-> 
-> 1. Add is_visible to filter the unneeded files.
-> 
-> v1 -> v2:
-> 
-> 1. Change the title.
-> 2. Switch to use an attribute group.
-> ---
->  drivers/usb/serial/ftdi_sio.c | 60 +++++++++++++++++------------------
->  1 file changed, 29 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-> index d5a3986dfee7..660181064cda 100644
-> --- a/drivers/usb/serial/ftdi_sio.c
-> +++ b/drivers/usb/serial/ftdi_sio.c
-> @@ -1108,10 +1108,13 @@ static u32 ftdi_232bm_baud_to_divisor(int baud);
->  static u32 ftdi_2232h_baud_base_to_divisor(int baud, int base);
->  static u32 ftdi_2232h_baud_to_divisor(int baud);
->  
-> +extern const struct attribute_group *ftdi_sio_groups[];
-
-Why did you use extern here? Should be static.
-
-> +
->  static struct usb_serial_driver ftdi_sio_device = {
->  	.driver = {
->  		.owner =	THIS_MODULE,
->  		.name =		"ftdi_sio",
-> +		.dev_groups =	ftdi_sio_groups,
->  	},
->  	.description =		"FTDI USB Serial Device",
->  	.id_table =		id_table_combined,
-> @@ -1729,38 +1732,19 @@ static ssize_t event_char_store(struct device *dev,
->  }
->  static DEVICE_ATTR_WO(event_char);
->  
-> -static int create_sysfs_attrs(struct usb_serial_port *port)
-> +static umode_t ftdi_sio_attr_is_visible(struct kobject *kobj,
-> +					 struct attribute *attr, int idx)
-
-I'd drop the "sio" infix from all of these new symbols and just call
-this one ftdi_is_visible().
-
->  {
-> +	struct device *dev = kobj_to_dev(kobj);
-> +	struct usb_serial_port *port = container_of(dev, struct usb_serial_port, dev);
->  	struct ftdi_private *priv = usb_get_serial_port_data(port);
-> -	int retval = 0;
-> +	umode_t mode = attr->mode;
->  
->  	/* XXX I've no idea if the original SIO supports the event_char
->  	 * sysfs parameter, so I'm playing it safe.  */
->  	if (priv->chip_type != SIO) {
-> -		dev_dbg(&port->dev, "sysfs attributes for %s\n", ftdi_chip_name[priv->chip_type]);
-> -		retval = device_create_file(&port->dev, &dev_attr_event_char);
-> -		if ((!retval) &&
-> -		    (priv->chip_type == FT232BM ||
-> -		     priv->chip_type == FT2232C ||
-> -		     priv->chip_type == FT232RL ||
-> -		     priv->chip_type == FT2232H ||
-> -		     priv->chip_type == FT4232H ||
-> -		     priv->chip_type == FT232H ||
-> -		     priv->chip_type == FTX)) {
-> -			retval = device_create_file(&port->dev,
-> -						    &dev_attr_latency_timer);
-> -		}
-> -	}
-> -	return retval;
-> -}
-> -
-> -static void remove_sysfs_attrs(struct usb_serial_port *port)
-> -{
-> -	struct ftdi_private *priv = usb_get_serial_port_data(port);
-> -
-> -	/* XXX see create_sysfs_attrs */
-> -	if (priv->chip_type != SIO) {
-> -		device_remove_file(&port->dev, &dev_attr_event_char);
-> +		if (attr == &dev_attr_event_char.attr)
-> +			return mode;
->  		if (priv->chip_type == FT232BM ||
->  		    priv->chip_type == FT2232C ||
->  		    priv->chip_type == FT232RL ||
-> @@ -1768,12 +1752,29 @@ static void remove_sysfs_attrs(struct usb_serial_port *port)
->  		    priv->chip_type == FT4232H ||
->  		    priv->chip_type == FT232H ||
->  		    priv->chip_type == FTX) {
-> -			device_remove_file(&port->dev, &dev_attr_latency_timer);
-> +			if (attr == &dev_attr_latency_timer.attr)
-> +				return mode;
->  		}
->  	}
-> -
-> +	return 0;
->  }
->  
-> +static struct attribute *ftdi_sio_attrs[] = {
-> +	&dev_attr_event_char.attr,
-> +	&dev_attr_latency_timer.attr,
-> +	NULL,
-
-nit: no need for comma after NULL.
-
-> +};
-> +
-> +static const struct attribute_group ftdi_sio_group = {
-> +	.attrs = ftdi_sio_attrs,
-> +	.is_visible = ftdi_sio_attr_is_visible,
-> +};
-> +
-> +const struct attribute_group *ftdi_sio_groups[] = {
-
-Missing static.
-
-> +	&ftdi_sio_group,
-> +	NULL
-> +};
-> +
->  #ifdef CONFIG_GPIOLIB
->  
->  static int ftdi_set_bitmode(struct usb_serial_port *port, u8 mode)
-> @@ -2251,7 +2252,6 @@ static int ftdi_sio_port_probe(struct usb_serial_port *port)
->  	if (read_latency_timer(port) < 0)
->  		priv->latency = 16;
->  	write_latency_timer(port);
-> -	create_sysfs_attrs(port);
->  
->  	result = ftdi_gpio_init(port);
->  	if (result < 0) {
-> @@ -2377,8 +2377,6 @@ static void ftdi_sio_port_remove(struct usb_serial_port *port)
->  
->  	ftdi_gpio_remove(port);
->  
-> -	remove_sysfs_attrs(port);
-> -
->  	kfree(priv);
->  }
-
-But in general this looks good now.
-
-There has been some recent changes to how this driver handles device
-types so I rebased this patch on top, fixed up the above and amended the
-commit message. The result is here:
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git/commit/?h=usb-next&id=0f6632e2e8beb6a1e0895c1309dd0b84b805c202
-
-Thanks.
-
-Johan
