@@ -2,84 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B69EECAAD8
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Sep 2022 08:48:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E2BAC6FA91
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Sep 2022 09:01:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231501AbiITIsV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Sep 2022 04:48:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36660 "EHLO
+        id S230378AbiITJBS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Sep 2022 05:01:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231348AbiITIsJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Sep 2022 04:48:09 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C9A02FFE3;
-        Tue, 20 Sep 2022 01:48:07 -0700 (PDT)
-Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MWw705lpZzMn9l;
-        Tue, 20 Sep 2022 16:43:24 +0800 (CST)
-Received: from dggpeml500008.china.huawei.com (7.185.36.147) by
- dggpeml500024.china.huawei.com (7.185.36.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 20 Sep 2022 16:48:05 +0800
-Received: from huawei.com (10.67.175.34) by dggpeml500008.china.huawei.com
- (7.185.36.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 20 Sep
- 2022 16:48:05 +0800
-From:   Ren Zhijie <renzhijie2@huawei.com>
-To:     <heikki.krogerus@linux.intel.com>, <gregkh@linuxfoundation.org>,
-        <xji@analogixsemi.com>
-CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Ren Zhijie <renzhijie2@huawei.com>
-Subject: [PATCH -next] usb: typec: anx7411: Fix build error without CONFIG_POWER_SUPPLY
-Date:   Tue, 20 Sep 2022 16:44:31 +0800
-Message-ID: <20220920084431.196258-1-renzhijie2@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S230270AbiITJAl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Sep 2022 05:00:41 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD6F6C10A;
+        Tue, 20 Sep 2022 02:00:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D149EB8264D;
+        Tue, 20 Sep 2022 09:00:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B1F8C433D7;
+        Tue, 20 Sep 2022 09:00:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663664433;
+        bh=Lt+A+WTpxhk3dZD3hAMkDrayEMrJWIiZOAr0Aio6a0Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DpwsQxZqbgO4GYvR+BqSYobYpKO3aFmd005W1jSW7IBmZM9ckiW4lVRCoNAB/SaK6
+         WAHSA8bQYYeHYBkKo9op18iDFDnfqJ6cJYy8ZJdr8/qtN4puWF0Q1dGxIwVTib7FzS
+         XFSNvLkqjUCSyhhYHzFJMKBzqH/35cdskFD3t9+QNsLvt0tsEegB42bCQgAUuo/+AF
+         yT3MtflV8gON3XEK19FZbWRKYv/+WU57McAxG5Ofz0fgdJdTmnP5J1OBIQ0f0WJJDz
+         XXHY5AfqWbAtrMS8D9qSCdapFmiLVuuyUSabeQwg6bUqNAOq28WBvuaO79XvdqCJOk
+         +iesX/kSVgkGg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1oaZ7L-0002J7-7i; Tue, 20 Sep 2022 11:00:35 +0200
+Date:   Tue, 20 Sep 2022 11:00:35 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Oliver Neukum <oneukum@suse.com>, stable@vger.kernel.org,
+        Dongliang Mu <mudongliangabcd@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH RESEND] media: flexcop-usb: fix endpoint type check
+Message-ID: <YymBM1wJLAsBDU4E@hovoldconsulting.com>
+References: <20220822151027.27026-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.175.34]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500008.china.huawei.com (7.185.36.147)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220822151027.27026-1-johan@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Building without CONFIG_POWER_SUPPLY will fail:
+Mauro and Hans,
 
-drivers/usb/typec/anx7411.o: In function `anx7411_detect_power_mode':
-anx7411.c:(.text+0x527): undefined reference to `power_supply_changed'
-drivers/usb/typec/anx7411.o: In function `anx7411_psy_set_prop':
-anx7411.c:(.text+0x90d): undefined reference to `power_supply_get_drvdata'
-anx7411.c:(.text+0x930): undefined reference to `power_supply_changed'
-drivers/usb/typec/anx7411.o: In function `anx7411_psy_get_prop':
-anx7411.c:(.text+0x94d): undefined reference to `power_supply_get_drvdata'
-drivers/usb/typec/anx7411.o: In function `anx7411_i2c_probe':
-anx7411.c:(.text+0x111d): undefined reference to
-`devm_power_supply_register'
-drivers/usb/typec/anx7411.o: In function `anx7411_work_func':
-anx7411.c:(.text+0x167c): undefined reference to `power_supply_changed'
-anx7411.c:(.text+0x1b55): undefined reference to `power_supply_changed'
+On Mon, Aug 22, 2022 at 05:10:27PM +0200, Johan Hovold wrote:
+> Commit d725d20e81c2 ("media: flexcop-usb: sanity checking of endpoint
+> type") tried to add an endpoint type sanity check for the single
+> isochronous endpoint but instead broke the driver by checking the wrong
+> descriptor or random data beyond the last endpoint descriptor.
+> 
+> Make sure to check the right endpoint descriptor.
+> 
+> Fixes: d725d20e81c2 ("media: flexcop-usb: sanity checking of endpoint type")
+> Cc: Oliver Neukum <oneukum@suse.com>
+> Cc: stable@vger.kernel.org	# 5.9
+> Reported-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
+> 
+> It's been two months and two completely ignored reminders so resending.
+> 
+> Can someone please pick this fix up and let me know when that has been
+> done?
 
-Add POWER_SUPPLY dependency to Kconfig.
+It's been another month so sending yet another reminder. This driver as
+been broken since 5.9 and I posted this fix almost four months ago and
+have sent multiple reminders since.
 
-Fixes: fe6d8a9c8e64 ("usb: typec: anx7411: Add Analogix PD ANX7411 support")
-Signed-off-by: Ren Zhijie <renzhijie2@huawei.com>
----
- drivers/usb/typec/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Can someone please pick this one and the follow-up cleanups up?
 
-diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
-index 5defdfead653..831e7049977d 100644
---- a/drivers/usb/typec/Kconfig
-+++ b/drivers/usb/typec/Kconfig
-@@ -56,6 +56,7 @@ config TYPEC_ANX7411
- 	tristate "Analogix ANX7411 Type-C DRP Port controller driver"
- 	depends on I2C
- 	depends on USB_ROLE_SWITCH
-+	depends on POWER_SUPPLY
- 	help
- 	  Say Y or M here if your system has Analogix ANX7411 Type-C DRP Port
- 	  controller driver.
--- 
-2.17.1
-
+Johan
+ 
+>  drivers/media/usb/b2c2/flexcop-usb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/b2c2/flexcop-usb.c b/drivers/media/usb/b2c2/flexcop-usb.c
+> index 7835bb0f32fc..e012b21c4fd7 100644
+> --- a/drivers/media/usb/b2c2/flexcop-usb.c
+> +++ b/drivers/media/usb/b2c2/flexcop-usb.c
+> @@ -511,7 +511,7 @@ static int flexcop_usb_init(struct flexcop_usb *fc_usb)
+>  
+>  	if (fc_usb->uintf->cur_altsetting->desc.bNumEndpoints < 1)
+>  		return -ENODEV;
+> -	if (!usb_endpoint_is_isoc_in(&fc_usb->uintf->cur_altsetting->endpoint[1].desc))
+> +	if (!usb_endpoint_is_isoc_in(&fc_usb->uintf->cur_altsetting->endpoint[0].desc))
+>  		return -ENODEV;
+>  
+>  	switch (fc_usb->udev->speed) {
