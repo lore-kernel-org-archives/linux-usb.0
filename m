@@ -2,82 +2,75 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB4BBC6FA86
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 13:48:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86908C6FA92
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 13:50:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231835AbiIVNsU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Sep 2022 09:48:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53830 "EHLO
+        id S231888AbiIVNuw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Sep 2022 09:50:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231833AbiIVNr4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 09:47:56 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C29ACF3933;
-        Thu, 22 Sep 2022 06:47:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 014E8B836EC;
-        Thu, 22 Sep 2022 13:47:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0624C433D6;
-        Thu, 22 Sep 2022 13:47:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1663854430;
-        bh=GHdswNwa2l6I7a9Y1aPqdGywYJbHnh4/1zLSt2sJKZo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=i+GJonRlXcgtZo99D8zxZCnqgRyctr7FVQfHZzpnKMgBzpoiZ2MRFrzxBRfn1ufhz
-         IWUdzwMAHWUO3Zty4tNp7/a5R3D0NDGp8DweWGpCZEuAw2A3SnZ0xZ0SPbkS4vv7Tp
-         F8TUNynX+wDwbK8QwfmSgKCJgM0BukGcs377BI1w=
-Date:   Thu, 22 Sep 2022 15:47:02 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Shawn Guo <shawnguo@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>, Li Jun <jun.li@nxp.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: Re: [PATCH v2 4/4] arm64: dts: tqma8mpql: add support for 2nd
- USB (host) interface
-Message-ID: <YyxnVicN/W/M2/ir@kroah.com>
-References: <20220915062855.751881-1-alexander.stein@ew.tq-group.com>
- <20220915062855.751881-5-alexander.stein@ew.tq-group.com>
- <YyxgUtT1gtyMIHeY@kroah.com>
- <5606023.DvuYhMxLoT@steina-w>
+        with ESMTP id S231482AbiIVNua (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 09:50:30 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EEA1AEDBF;
+        Thu, 22 Sep 2022 06:50:13 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MYGlT3l6jzWgq8;
+        Thu, 22 Sep 2022 21:46:13 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 22 Sep 2022 21:50:10 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 22 Sep
+ 2022 21:50:10 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
+CC:     <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@somainline.org>, <heikki.krogerus@linux.intel.com>,
+        <gregkh@linuxfoundation.org>, <yangyingliang@huawei.com>
+Subject: [PATCH -next] usb: typec: qcom-pmic-typec: Switch to use dev_err_probe() helper
+Date:   Thu, 22 Sep 2022 21:57:08 +0800
+Message-ID: <20220922135708.2212249-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5606023.DvuYhMxLoT@steina-w>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Sep 22, 2022 at 03:39:01PM +0200, Alexander Stein wrote:
-> Hi Greg,
-> 
-> Am Donnerstag, 22. September 2022, 15:17:06 CEST schrieb Greg Kroah-Hartman:
-> > On Thu, Sep 15, 2022 at 08:28:55AM +0200, Alexander Stein wrote:
-> > > The on-board USB hub has a single reset line which needs to be enabled.
-> > > 
-> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > > ---
-> > > 
-> > >  .../freescale/imx8mp-tqma8mpql-mba8mpxl.dts   | 41 +++++++++++++++++++
-> > >  1 file changed, 41 insertions(+)
-> > 
-> > This patch failed to apply, please rebase and resend.
-> 
-> If I rebase this one to usb-testing (or usb-next) this will conflict with 
-> additional patches for this file already in linux-next later on, especially 
-> fb4f0b69565e ("arm64: dts: tqma8mpql: add USB DR support"). So IMHO this might 
-> not the best idea.
-> How to proceed here? Maybe Shawn can take this one once the other 3 patches 
-> hit linux-next.
+In the probe path, dev_err() can be replaced with dev_err_probe()
+which will check if error code is -EPROBE_DEFER and prints the
+error name. It also sets the defer probe reason which can be
+checked later through debugfs. It's more simple in error path.
 
-Yeah, or just wait for 6.1-rc1 to come out?
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+---
+ drivers/usb/typec/qcom-pmic-typec.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Your call,
+diff --git a/drivers/usb/typec/qcom-pmic-typec.c b/drivers/usb/typec/qcom-pmic-typec.c
+index a0454a80c4a2..432ea62f1bab 100644
+--- a/drivers/usb/typec/qcom-pmic-typec.c
++++ b/drivers/usb/typec/qcom-pmic-typec.c
+@@ -195,9 +195,8 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
+ 
+ 	qcom_usb->role_sw = fwnode_usb_role_switch_get(dev_fwnode(qcom_usb->dev));
+ 	if (IS_ERR(qcom_usb->role_sw)) {
+-		if (PTR_ERR(qcom_usb->role_sw) != -EPROBE_DEFER)
+-			dev_err(dev, "failed to get role switch\n");
+-		ret = PTR_ERR(qcom_usb->role_sw);
++		ret = dev_err_probe(dev, PTR_ERR(qcom_usb->role_sw),
++				    "failed to get role switch\n");
+ 		goto err_typec_port;
+ 	}
+ 
+-- 
+2.25.1
 
-greg k-h
