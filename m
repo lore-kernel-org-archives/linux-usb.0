@@ -2,75 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86908C6FA92
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 13:50:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD76CC54EE9
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 13:51:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231888AbiIVNuw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Sep 2022 09:50:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33856 "EHLO
+        id S231472AbiIVNvh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Sep 2022 09:51:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231482AbiIVNua (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 09:50:30 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EEA1AEDBF;
-        Thu, 22 Sep 2022 06:50:13 -0700 (PDT)
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MYGlT3l6jzWgq8;
-        Thu, 22 Sep 2022 21:46:13 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 22 Sep 2022 21:50:10 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 22 Sep
- 2022 21:50:10 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
-CC:     <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@somainline.org>, <heikki.krogerus@linux.intel.com>,
-        <gregkh@linuxfoundation.org>, <yangyingliang@huawei.com>
-Subject: [PATCH -next] usb: typec: qcom-pmic-typec: Switch to use dev_err_probe() helper
-Date:   Thu, 22 Sep 2022 21:57:08 +0800
-Message-ID: <20220922135708.2212249-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S231182AbiIVNvg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 09:51:36 -0400
+Received: from hust.edu.cn (unknown [202.114.0.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEB871DA4D;
+        Thu, 22 Sep 2022 06:51:17 -0700 (PDT)
+Received: from localhost.localdomain ([172.16.0.254])
+        (user=dzm91@hust.edu.cn mech=LOGIN bits=0)
+        by mx1.hust.edu.cn  with ESMTP id 28MDoPOU015858-28MDoPOX015858
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Thu, 22 Sep 2022 21:50:29 +0800
+From:   Dongliang Mu <dzm91@hust.edu.cn>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
+        syzbot+79832d33eb89fb3cd092@syzkaller.appspotmail.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: idmouse: fix an uninit-value in idmouse_open
+Date:   Thu, 22 Sep 2022 21:48:44 +0800
+Message-Id: <20220922134847.1101921-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+X-FEAS-AUTH-USER: dzm91@hust.edu.cn
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In the probe path, dev_err() can be replaced with dev_err_probe()
-which will check if error code is -EPROBE_DEFER and prints the
-error name. It also sets the defer probe reason which can be
-checked later through debugfs. It's more simple in error path.
+From: Dongliang Mu <mudongliangabcd@gmail.com>
 
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+In idmouse_create_image, if any ftip_command fails, it will
+go to the reset label. However, this leads to the data in
+bulk_in_buffer[HEADER..IMGSIZE] uninitialized. And the check
+for valid image incurs an uninitialized dereference.
+
+Fix this by moving the check before reset label since this
+check only be valid if the data after bulk_in_buffer[HEADER]
+has concrete data.
+
+Note that this is found by KMSAN, so only kernel compilation
+is tested.
+
+Reported-by: syzbot+79832d33eb89fb3cd092@syzkaller.appspotmail.com
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
 ---
- drivers/usb/typec/qcom-pmic-typec.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/usb/misc/idmouse.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/typec/qcom-pmic-typec.c b/drivers/usb/typec/qcom-pmic-typec.c
-index a0454a80c4a2..432ea62f1bab 100644
---- a/drivers/usb/typec/qcom-pmic-typec.c
-+++ b/drivers/usb/typec/qcom-pmic-typec.c
-@@ -195,9 +195,8 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
- 
- 	qcom_usb->role_sw = fwnode_usb_role_switch_get(dev_fwnode(qcom_usb->dev));
- 	if (IS_ERR(qcom_usb->role_sw)) {
--		if (PTR_ERR(qcom_usb->role_sw) != -EPROBE_DEFER)
--			dev_err(dev, "failed to get role switch\n");
--		ret = PTR_ERR(qcom_usb->role_sw);
-+		ret = dev_err_probe(dev, PTR_ERR(qcom_usb->role_sw),
-+				    "failed to get role switch\n");
- 		goto err_typec_port;
+diff --git a/drivers/usb/misc/idmouse.c b/drivers/usb/misc/idmouse.c
+index e9437a176518..ea39243efee3 100644
+--- a/drivers/usb/misc/idmouse.c
++++ b/drivers/usb/misc/idmouse.c
+@@ -177,10 +177,6 @@ static int idmouse_create_image(struct usb_idmouse *dev)
+ 		bytes_read += bulk_read;
  	}
  
+-	/* reset the device */
+-reset:
+-	ftip_command(dev, FTIP_RELEASE, 0, 0);
+-
+ 	/* check for valid image */
+ 	/* right border should be black (0x00) */
+ 	for (bytes_read = sizeof(HEADER)-1 + WIDTH-1; bytes_read < IMGSIZE; bytes_read += WIDTH)
+@@ -192,6 +188,10 @@ static int idmouse_create_image(struct usb_idmouse *dev)
+ 		if (dev->bulk_in_buffer[bytes_read] != 0xFF)
+ 			return -EAGAIN;
+ 
++	/* reset the device */
++reset:
++	ftip_command(dev, FTIP_RELEASE, 0, 0);
++
+ 	/* should be IMGSIZE == 65040 */
+ 	dev_dbg(&dev->interface->dev, "read %d bytes fingerprint data\n",
+ 		bytes_read);
 -- 
 2.25.1
 
