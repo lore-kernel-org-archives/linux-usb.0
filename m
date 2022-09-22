@@ -2,78 +2,180 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87238C6FA82
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 14:30:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87F1EC6FA82
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 14:33:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231238AbiIVOaQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Sep 2022 10:30:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50078 "EHLO
+        id S231238AbiIVOc7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Sep 2022 10:32:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230257AbiIVOaO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 10:30:14 -0400
-Received: from radex-web.radex.nl (smtp.radex.nl [178.250.146.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 53B8C9C2ED;
-        Thu, 22 Sep 2022 07:30:11 -0700 (PDT)
-Received: from [192.168.1.35] (cust-178-250-146-69.breedbanddelft.nl [178.250.146.69])
-        by radex-web.radex.nl (Postfix) with ESMTPS id 1872B2408B;
-        Thu, 22 Sep 2022 16:30:10 +0200 (CEST)
-Message-ID: <b533e337-3d5f-c514-f0d1-e4684e3a5d64@gmail.com>
-Date:   Thu, 22 Sep 2022 16:30:09 +0200
+        with ESMTP id S230101AbiIVOck (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 10:32:40 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE219F50AD;
+        Thu, 22 Sep 2022 07:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663857157; x=1695393157;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=OKjHW1dMKm5D2qAz3WSwiiU+cflw8eIq6V9TO1jHvJQ=;
+  b=Tj8cEzgf73yjS9oJQB3iJHZnhvuTB5OeuyLnEIua5E9uqB0Qd7CTnLxr
+   8bXgPkdyzs1SFmJbVaRJmC7c8NzfkaP7WytYtERM2JG5pJKaIvm5SnPb+
+   IfSntTy1w3ShsPH2U3jDrcaZXy7nmflksPJxZL7/qTfkK5zuZc8tBIk4T
+   U0g8OKE4atq38pS3lvhW1XOgSUtRkA19aoBfnkE9E9bt37pc3BnzvjdPL
+   iJi9ndC8+h35q0V9yiiJDgBmJr6s48VSV+NYdUYz3qMtj37VxjF7YNwMd
+   tqPHDP/BRkV9QgwvrKrfAkPGpTSzfs93NnFmsDEWFen/YAuIaw7ebLPrH
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="283364527"
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; 
+   d="scan'208";a="283364527"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 07:32:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; 
+   d="scan'208";a="745401463"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga004.jf.intel.com with ESMTP; 22 Sep 2022 07:32:33 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 5BD21238; Thu, 22 Sep 2022 17:32:51 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Szuying Chen <Chloe_Chen@asmedia.com.tw>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>
+Subject: [PATCH v1 2/2] thunderbolt: Use dev_err_probe()
+Date:   Thu, 22 Sep 2022 17:32:40 +0300
+Message-Id: <20220922143240.36878-2-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220922143240.36878-1-andriy.shevchenko@linux.intel.com>
+References: <20220922143240.36878-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-From:   Ferry Toth <fntoth@gmail.com>
-Subject: Re: [PATCH v4] usb: dwc3: Don't switch OTG -> peripheral if extcon is
- present
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Andrey Smirnov <andrew.smirnov@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Thinh Nguyen <thinhn@synopsys.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-References: <20220403164907.662860-1-andrew.smirnov@gmail.com>
- <Yyw0K/hcTZ02UP+A@smile.fi.intel.com>
-Content-Language: en-US
-In-Reply-To: <Yyw0K/hcTZ02UP+A@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Unify error message format by using dev_err_probe().
+While at it, use temporary variable for device in
+the rest of the messaging calls.
 
-Resending this due to html reject, sorry.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/thunderbolt/nhi.c | 48 +++++++++++++++------------------------
+ 1 file changed, 18 insertions(+), 30 deletions(-)
 
-On 22-09-2022 12:08, Andy Shevchenko wrote:
-> On Sun, Apr 03, 2022 at 09:49:07AM -0700, Andrey Smirnov wrote:
->> If the extcon device exists, get the mode from the extcon device. If
->> the controller is DRD and the driver is unable to determine the mode,
->> only then default the dr_mode to USB_DR_MODE_PERIPHERAL.
-> According to Ferry (Cc'ed) this broke Intel Merrifield platform. Ferry, can you
-> share bisect log?
+diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+index caca9f164beb..4dce2edd86ea 100644
+--- a/drivers/thunderbolt/nhi.c
++++ b/drivers/thunderbolt/nhi.c
+@@ -1184,6 +1184,7 @@ static void nhi_check_iommu(struct tb_nhi *nhi)
+ static int nhi_init_msi(struct tb_nhi *nhi)
+ {
+ 	struct pci_dev *pdev = nhi->pdev;
++	struct device *dev = &pdev->dev;
+ 	int res, irq, nvec;
+ 
+ 	/* In case someone left them on. */
+@@ -1214,10 +1215,8 @@ static int nhi_init_msi(struct tb_nhi *nhi)
+ 
+ 		res = devm_request_irq(&pdev->dev, irq, nhi_msi,
+ 				       IRQF_NO_SUSPEND, "thunderbolt", nhi);
+-		if (res) {
+-			dev_err(&pdev->dev, "request_irq failed, aborting\n");
+-			return res;
+-		}
++		if (res)
++			return dev_err_probe(dev, res, "request_irq failed, aborting\n");
+ 	}
+ 
+ 	return 0;
+@@ -1258,26 +1257,21 @@ static struct tb *nhi_select_cm(struct tb_nhi *nhi)
+ 
+ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
++	struct device *dev = &pdev->dev;
+ 	struct tb_nhi *nhi;
+ 	struct tb *tb;
+ 	int res;
+ 
+-	if (!nhi_imr_valid(pdev)) {
+-		dev_warn(&pdev->dev, "firmware image not valid, aborting\n");
+-		return -ENODEV;
+-	}
++	if (!nhi_imr_valid(pdev))
++		return dev_err_probe(dev, -ENODEV, "firmware image not valid, aborting\n");
+ 
+ 	res = pcim_enable_device(pdev);
+-	if (res) {
+-		dev_err(&pdev->dev, "cannot enable PCI device, aborting\n");
+-		return res;
+-	}
++	if (res)
++		return dev_err_probe(dev, res, "cannot enable PCI device, aborting\n");
+ 
+ 	res = pcim_iomap_regions(pdev, 1 << 0, "thunderbolt");
+-	if (res) {
+-		dev_err(&pdev->dev, "cannot obtain PCI resources, aborting\n");
+-		return res;
+-	}
++	if (res)
++		return dev_err_probe(dev, res, "cannot obtain PCI resources, aborting\n");
+ 
+ 	nhi = devm_kzalloc(&pdev->dev, sizeof(*nhi), GFP_KERNEL);
+ 	if (!nhi)
+@@ -1288,7 +1282,7 @@ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	/* cannot fail - table is allocated in pcim_iomap_regions */
+ 	nhi->iobase = pcim_iomap_table(pdev)[0];
+ 	nhi->hop_count = ioread32(nhi->iobase + REG_HOP_COUNT) & 0x3ff;
+-	dev_dbg(&pdev->dev, "total paths: %d\n", nhi->hop_count);
++	dev_dbg(dev, "total paths: %d\n", nhi->hop_count);
+ 
+ 	nhi->tx_rings = devm_kcalloc(&pdev->dev, nhi->hop_count,
+ 				     sizeof(*nhi->tx_rings), GFP_KERNEL);
+@@ -1301,18 +1295,14 @@ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	nhi_check_iommu(nhi);
+ 
+ 	res = nhi_init_msi(nhi);
+-	if (res) {
+-		dev_err(&pdev->dev, "cannot enable MSI, aborting\n");
+-		return res;
+-	}
++	if (res)
++		return dev_err_probe(dev, res, "cannot enable MSI, aborting\n");
+ 
+ 	spin_lock_init(&nhi->lock);
+ 
+ 	res = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+-	if (res) {
+-		dev_err(&pdev->dev, "failed to set DMA mask\n");
+-		return res;
+-	}
++	if (res)
++		return dev_err_probe(dev, res, "failed to set DMA mask\n");
+ 
+ 	pci_set_master(pdev);
+ 
+@@ -1323,13 +1313,11 @@ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	}
+ 
+ 	tb = nhi_select_cm(nhi);
+-	if (!tb) {
+-		dev_err(&nhi->pdev->dev,
++	if (!tb)
++		return dev_err_probe(dev, -ENODEV,
+ 			"failed to determine connection manager, aborting\n");
+-		return -ENODEV;
+-	}
+ 
+-	dev_dbg(&nhi->pdev->dev, "NHI initialized, starting thunderbolt\n");
++	dev_dbg(dev, "NHI initialized, starting thunderbolt\n");
+ 
+ 	res = tb_domain_add(tb);
+ 	if (res) {
+-- 
+2.35.1
 
-I can but not right now. But what I did was bisect between 5.18.0 (good) 
-and 5.19.0 (bad) then when I got near the culprit (~20 remaining) based 
-on the commit message I tried 0f01017191384e3962fa31520a9fd9846c3d352f 
-"usb: dwc3: Don't switch OTG -> peripheral if extcon is present" (bad) 
-and commit before that (good).
-
-The effect of the patch is that on Merrifield (I tested with Intel 
-Edison Arduino board which has a HW switch to select between host and 
-device mode) device mode works but in host mode USB is completely not 
-working.
-
-Currently on host mode - when working - superfluous error messages from 
-tusb1210 appear. When host mode is not working there are no tusb1210 
-messages in the logs / on the console at all. Seemingly tusb1210 is not 
-probed, which points in the direction of a relation to extcon.
-
-> Taking into account the late cycle, I would like to revert the change. And
-> Ferry and I would help to test any other (non-regressive) approach).
->
-I have not yet tested if a simple revert fixes the problem but will tonight.
-
-
-I would be happy to test other approaches too.
