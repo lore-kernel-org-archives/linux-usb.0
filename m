@@ -2,74 +2,56 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6454CC54EE9
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 13:41:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEFBCC54EE9
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 13:44:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229893AbiIVNlR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Sep 2022 09:41:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48904 "EHLO
+        id S230233AbiIVNoA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Sep 2022 09:44:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229656AbiIVNlP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 09:41:15 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 226BBB5A67
-        for <linux-usb@vger.kernel.org>; Thu, 22 Sep 2022 06:41:15 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.57])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MYGXx0Lqmz14Rbc;
-        Thu, 22 Sep 2022 21:37:05 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 22 Sep 2022 21:41:13 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 22 Sep
- 2022 21:41:12 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-usb@vger.kernel.org>
-CC:     <linux@roeck-us.net>, <heikki.krogerus@linux.intel.com>,
-        <gregkh@linuxfoundation.org>
-Subject: [PATCH -next] usb: typec: fusb302: Switch to use dev_err_probe() helper
-Date:   Thu, 22 Sep 2022 21:48:06 +0800
-Message-ID: <20220922134806.2204579-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S230263AbiIVNn7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 09:43:59 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DB9BB5A67;
+        Thu, 22 Sep 2022 06:43:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3945FB8231C;
+        Thu, 22 Sep 2022 13:43:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60406C433D6;
+        Thu, 22 Sep 2022 13:43:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1663854235;
+        bh=Gv/u/HsijpsHM5eZqhwNdqJc8A3ZzJU1+qlSoUtlBdo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gWOnwBuv9s1QRgeJ48hIUSKu2bbOME4ZPvPFT+YmsTsxc7ozs01+Bw+jx4PQmVa0M
+         ApMRK6c3OaYKPhhZLCEk16iJiovwD+HCVbTPhgmvJW9PUGjUiBQdwyPm383U0RW6f/
+         rxEEETwIT4fhPI03gtHkIM5n18vreMZsBMScKabU=
+Date:   Thu, 22 Sep 2022 15:43:52 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [GIT PULL] USB-serial fixes for 6.0-rc7
+Message-ID: <YyxmmIUsZyjGktWz@kroah.com>
+References: <YyxkgPNrbp7g/+w5@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YyxkgPNrbp7g/+w5@hovoldconsulting.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In the probe path, dev_err() can be replaced with dev_err_probe()
-which will check if error code is -EPROBE_DEFER and prints the
-error name. It also sets the defer probe reason which can be
-checked later through debugfs. It's more simple in error path.
+On Thu, Sep 22, 2022 at 03:34:56PM +0200, Johan Hovold wrote:
+> The following changes since commit 7e18e42e4b280c85b76967a9106a13ca61c16179:
+> 
+>   Linux 6.0-rc4 (2022-09-04 13:10:01 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-6.0-rc7
 
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/usb/typec/tcpm/fusb302.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Pulled and pushed out, thanks.
 
-diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
-index db83b377b2f6..721b2a548084 100644
---- a/drivers/usb/typec/tcpm/fusb302.c
-+++ b/drivers/usb/typec/tcpm/fusb302.c
-@@ -1743,9 +1743,8 @@ static int fusb302_probe(struct i2c_client *client,
- 	chip->tcpm_port = tcpm_register_port(&client->dev, &chip->tcpc_dev);
- 	if (IS_ERR(chip->tcpm_port)) {
- 		fwnode_handle_put(chip->tcpc_dev.fwnode);
--		ret = PTR_ERR(chip->tcpm_port);
--		if (ret != -EPROBE_DEFER)
--			dev_err(dev, "cannot register tcpm port, ret=%d", ret);
-+		ret = dev_err_probe(dev, PTR_ERR(chip->tcpm_port),
-+				    "cannot register tcpm port\n");
- 		goto destroy_workqueue;
- 	}
- 
--- 
-2.25.1
-
+greg k-h
