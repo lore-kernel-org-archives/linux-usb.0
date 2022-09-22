@@ -2,101 +2,57 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DBFBC54EE9
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 13:51:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA22AC54EE9
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 13:53:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231841AbiIVNvx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Sep 2022 09:51:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40030 "EHLO
+        id S231735AbiIVNxE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Sep 2022 09:53:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231833AbiIVNvp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 09:51:45 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB9E11824
-        for <linux-usb@vger.kernel.org>; Thu, 22 Sep 2022 06:51:29 -0700 (PDT)
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MYGpF51kpzpVNk;
-        Thu, 22 Sep 2022 21:48:37 +0800 (CST)
-Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 22 Sep 2022 21:51:25 +0800
-Received: from huawei.com (10.175.113.32) by dggpemm100009.china.huawei.com
- (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 22 Sep
- 2022 21:51:27 +0800
-From:   Liu Shixin <liushixin2@huawei.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, Liu Shixin <liushixin2@huawei.com>
-Subject: [PATCH] usb: ulpi: use DEFINE_SHOW_ATTRIBUTE to simplify ulpi_regs
-Date:   Thu, 22 Sep 2022 22:25:05 +0800
-Message-ID: <20220922142505.3248167-1-liushixin2@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S231875AbiIVNw6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 09:52:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59766DE0D7;
+        Thu, 22 Sep 2022 06:52:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D3D7B6349E;
+        Thu, 22 Sep 2022 13:52:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8740C433C1;
+        Thu, 22 Sep 2022 13:52:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1663854771;
+        bh=EXFw8APFB2TGEMNzh7PpyOxkeuxYM6y1awGndA0jKP8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GrqYDwn26ZI/9m/tp82oC0VTPVCfxqf0wcZO8KwRdafBm7gFk1Suu+g++nKzufyOn
+         h5uYw32rVWerp8oUYXRV61MmQGwyvg0TnHI7SKzGDJb4tgPWZxXcUb4rVDhhaLcVvC
+         l+S88/t0QQInmE/rQoSM0C7dF7g4kz6UCTvPS2rA=
+Date:   Thu, 22 Sep 2022 15:52:13 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [GIT PULL] USB-serial updates for 6.1-rc1
+Message-ID: <YyxojRDiGg+ZAkwQ@kroah.com>
+References: <YyxnVZCqZekklv8V@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.32]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm100009.china.huawei.com (7.185.36.113)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YyxnVZCqZekklv8V@hovoldconsulting.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use DEFINE_SHOW_ATTRIBUTE helper macro to simplify the code.
-No functional change.
+On Thu, Sep 22, 2022 at 03:47:01PM +0200, Johan Hovold wrote:
+> Hi Greg,
+> 
+> As Stephen reported the other day, there's a trivial conflict with a change in
+> the TTY tree that made one of the set_termios parameters const:
+> 
+> 	https://lore.kernel.org/lkml/20220921151109.174cad24@canb.auug.org.au/
 
-Signed-off-by: Liu Shixin <liushixin2@huawei.com>
----
- drivers/usb/common/ulpi.c | 20 +++-----------------
- 1 file changed, 3 insertions(+), 17 deletions(-)
+Yeah, I'll watch out for that, thanks.
 
-diff --git a/drivers/usb/common/ulpi.c b/drivers/usb/common/ulpi.c
-index 0a4f441aff8f..d7c8461976ce 100644
---- a/drivers/usb/common/ulpi.c
-+++ b/drivers/usb/common/ulpi.c
-@@ -233,7 +233,7 @@ static int ulpi_read_id(struct ulpi *ulpi)
- 	return 0;
- }
- 
--static int ulpi_regs_read(struct seq_file *seq, void *data)
-+static int ulpi_regs_show(struct seq_file *seq, void *data)
- {
- 	struct ulpi *ulpi = seq->private;
- 
-@@ -269,21 +269,7 @@ static int ulpi_regs_read(struct seq_file *seq, void *data)
- 
- 	return 0;
- }
--
--static int ulpi_regs_open(struct inode *inode, struct file *f)
--{
--	struct ulpi *ulpi = inode->i_private;
--
--	return single_open(f, ulpi_regs_read, ulpi);
--}
--
--static const struct file_operations ulpi_regs_ops = {
--	.owner = THIS_MODULE,
--	.open = ulpi_regs_open,
--	.release = single_release,
--	.read = seq_read,
--	.llseek = seq_lseek
--};
-+DEFINE_SHOW_ATTRIBUTE(ulpi_regs);
- 
- #define ULPI_ROOT debugfs_lookup(KBUILD_MODNAME, NULL)
- 
-@@ -316,7 +302,7 @@ static int ulpi_register(struct device *dev, struct ulpi *ulpi)
- 	}
- 
- 	root = debugfs_create_dir(dev_name(dev), ULPI_ROOT);
--	debugfs_create_file("regs", 0444, root, ulpi, &ulpi_regs_ops);
-+	debugfs_create_file("regs", 0444, root, ulpi, &ulpi_regs_fops);
- 
- 	dev_dbg(&ulpi->dev, "registered ULPI PHY: vendor %04x, product %04x\n",
- 		ulpi->id.vendor, ulpi->id.product);
--- 
-2.25.1
+now pulled and pushed out.
 
+greg k-h
