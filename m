@@ -2,76 +2,115 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 449BCC54EE9
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 13:46:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93CDAC54EE9
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 13:48:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231710AbiIVNqg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Sep 2022 09:46:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53336 "EHLO
+        id S231790AbiIVNsF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Sep 2022 09:48:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231713AbiIVNpw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 09:45:52 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59278D74EC
-        for <linux-usb@vger.kernel.org>; Thu, 22 Sep 2022 06:45:46 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MYGfL74jSzWgtp;
-        Thu, 22 Sep 2022 21:41:46 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 22 Sep 2022 21:45:44 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 22 Sep
- 2022 21:45:43 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-usb@vger.kernel.org>
-CC:     <heikki.krogerus@linux.intel.com>, <gregkh@linuxfoundation.org>,
-        <yangyingliang@huawei.com>
-Subject: [PATCH -next] usb: typec: stusb160x: Switch to use dev_err_probe() helper
-Date:   Thu, 22 Sep 2022 21:52:28 +0800
-Message-ID: <20220922135228.2206755-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S231545AbiIVNrp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 09:47:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A28C3DED54;
+        Thu, 22 Sep 2022 06:47:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 229FD6347F;
+        Thu, 22 Sep 2022 13:46:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 850E6C433B5;
+        Thu, 22 Sep 2022 13:46:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663854416;
+        bh=37Il2yCQHQKRSZhahyU45WyhOadLsemdGPbLtWnIC+A=;
+        h=Date:From:To:Cc:Subject:From;
+        b=RZxA0x6s+vHbWuBArvXHyePVv/QiJsz2spvYDWruluN6iQSTKYp0epe9L8mYLcAye
+         NfJD4bT3u92w5zxT+PZpLNL0NJpsRTa9pkTCPq6XtW9+UsYHwu/TEHZ+509OVf3PEv
+         RnhHzd0fibaCrinkEfr4PpL4de5D3H+ZbiyosaKizV1AHoGg7yEnfEAvw1N2ce74ti
+         Z8fwovjqNi+eL9Flu5kxxBnjggmd2vFxnxsnAdDE9oWD/wPHk82RAFxERKGpFQf3xa
+         NFXbznPesIusM7iXOe+Sh88LR1/yapRQMZF/N1zvNtmEjwHs5zVxDw2Oixc1EO7mIL
+         HsxpoS7o3aKEg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1obMXd-0005Jm-Ug; Thu, 22 Sep 2022 15:47:02 +0200
+Date:   Thu, 22 Sep 2022 15:47:01 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] USB-serial updates for 6.1-rc1
+Message-ID: <YyxnVZCqZekklv8V@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In the probe path, dev_err() can be replaced with dev_err_probe()
-which will check if error code is -EPROBE_DEFER and prints the
-error name. It also sets the defer probe reason which can be
-checked later through debugfs. It's more simple in error path.
+Hi Greg,
 
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/usb/typec/stusb160x.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+As Stephen reported the other day, there's a trivial conflict with a change in
+the TTY tree that made one of the set_termios parameters const:
 
-diff --git a/drivers/usb/typec/stusb160x.c b/drivers/usb/typec/stusb160x.c
-index 8638f1d39896..494b371151e0 100644
---- a/drivers/usb/typec/stusb160x.c
-+++ b/drivers/usb/typec/stusb160x.c
-@@ -750,11 +750,8 @@ static int stusb160x_probe(struct i2c_client *client)
- 	if (client->irq) {
- 		chip->role_sw = fwnode_usb_role_switch_get(fwnode);
- 		if (IS_ERR(chip->role_sw)) {
--			ret = PTR_ERR(chip->role_sw);
--			if (ret != -EPROBE_DEFER)
--				dev_err(chip->dev,
--					"Failed to get usb role switch: %d\n",
--					ret);
-+			ret = dev_err_probe(chip->dev, PTR_ERR(chip->role_sw),
-+					    "Failed to get usb role switch\n");
- 			goto port_unregister;
- 		}
- 
--- 
-2.25.1
+	https://lore.kernel.org/lkml/20220921151109.174cad24@canb.auug.org.au/
 
+Johan
+
+
+The following changes since commit 7e18e42e4b280c85b76967a9106a13ca61c16179:
+
+  Linux 6.0-rc4 (2022-09-04 13:10:01 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-6.1-rc1
+
+for you to fetch changes up to 6b2fe3df7c0ca3cf9ee9cea4470462fa708baf87:
+
+  USB: serial: ftdi_sio: clean up driver prefix (2022-09-20 09:45:50 +0200)
+
+----------------------------------------------------------------
+USB-serial updates for 6.1-rc1
+
+Here are the USB-serial updates for 6.1-rc1, including:
+
+ - a fix for a very long-standing FTDI SIO regression
+ - a long-overdue cleanup of the FTDI type handling
+ - support for new FTDI HP and HA devices
+
+Included are also various clean ups.
+
+All have been in linux-next with no reported issues.
+
+----------------------------------------------------------------
+Amireddy mallikarjuna reddy (1):
+      USB: serial: ftdi_sio: add support for HP and HA devices
+
+Jiasheng Jiang (1):
+      USB: serial: ftdi_sio: convert to use dev_groups
+
+Johan Hovold (15):
+      USB: serial: ftdi_sio: fix 300 bps rate for SIO
+      USB: serial: ftdi_sio: clean up chip type enum
+      USB: serial: ftdi_sio: drop redundant chip type comments
+      USB: serial: ftdi_sio: rename chip types
+      USB: serial: ftdi_sio: include FT2232D in type string
+      USB: serial: ftdi_sio: rename channel index
+      USB: serial: ftdi_sio: tighten device-type detection
+      USB: serial: ftdi_sio: clean up modem-status handling
+      USB: serial: ftdi_sio: clean up attribute handling
+      USB: serial: ftdi_sio: clean up baudrate request
+      USB: serial: ftdi_sio: assume hi-speed type
+      USB: serial: ftdi_sio: simplify divisor handling
+      USB: serial: ftdi_sio: clean up attribute visibility logic
+      USB: serial: ftdi_sio: move driver structure
+      USB: serial: ftdi_sio: clean up driver prefix
+
+Liang He (1):
+      USB: serial: console: move mutex_unlock() before usb_serial_put()
+
+ drivers/usb/serial/console.c      |   2 +-
+ drivers/usb/serial/ftdi_sio.c     | 485 ++++++++++++++++++--------------------
+ drivers/usb/serial/ftdi_sio.h     |  22 +-
+ drivers/usb/serial/ftdi_sio_ids.h |   7 +
+ 4 files changed, 245 insertions(+), 271 deletions(-)
