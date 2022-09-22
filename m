@@ -2,102 +2,80 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8E46C6FA91
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 10:12:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 821D3C6FA86
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 10:43:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229918AbiIVKMb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Sep 2022 06:12:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51814 "EHLO
+        id S231473AbiIVKn4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Sep 2022 06:43:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbiIVKM3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 06:12:29 -0400
+        with ESMTP id S231395AbiIVKnr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 06:43:47 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1278D58A6;
-        Thu, 22 Sep 2022 03:12:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94C8FAA358;
+        Thu, 22 Sep 2022 03:43:43 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6EBF862AF2;
-        Thu, 22 Sep 2022 10:12:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75089C433C1;
-        Thu, 22 Sep 2022 10:12:26 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 316FE62C01;
+        Thu, 22 Sep 2022 10:43:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5215C433D6;
+        Thu, 22 Sep 2022 10:43:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1663841546;
-        bh=v+Uci2d8FhQSAzpo1oW4eL5doTYbscRDuPgbPTJydJM=;
+        s=korg; t=1663843422;
+        bh=hQve4RUpU6UvGleEcv5d/p34i3nmjflrXZmmiQ+EPQU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=V0+VkoGlaRwfJiSryLl1g6JQOCWRXw4xsuwoPGTdwaB97Zcyb3QeZYju7QPyO1Yak
-         5UWNyQHtw/4nQhoE8itsp39lvwbA9KyeM3GUvtPaXHdeENBTBtPctKJyX67lKARoVs
-         bl6Ag2Ng+ppJQzpnNYg6xHckwYXwH6rtUdlpNNW4=
-Date:   Thu, 22 Sep 2022 12:12:24 +0200
+        b=Ggw5XBcfAjEsF6klSZQhkI65IOZK2fTlkK/KIcDZLLIwXLgamy2U7WLUrXn8L5UDS
+         JSusgY/8NGa7KV53ZdmSJ1Y/lVlkRS6+j0V5uQPxFGhSABeSD6smaY9r0TErH33p+j
+         WKqOddkUUfWVIL3TgP6WK16FNZi0+vObXzW1qYpo=
+Date:   Thu, 22 Sep 2022 12:43:39 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     Sean Young <sean@mess.org>
+Cc:     Johan Hovold <johan@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Oliver Neukum <oneukum@suse.com>, stable@vger.kernel.org,
-        Dongliang Mu <mudongliangabcd@gmail.com>
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Oliver Neukum <oneukum@suse.com>,
+        stable@vger.kernel.org, Dongliang Mu <mudongliangabcd@gmail.com>
 Subject: Re: [PATCH RESEND] media: flexcop-usb: fix endpoint type check
-Message-ID: <Yyw1CJgv6nreCtB9@kroah.com>
+Message-ID: <Yyw8W8rnhHv9Aqgk@kroah.com>
 References: <20220822151027.27026-1-johan@kernel.org>
  <YymBM1wJLAsBDU4E@hovoldconsulting.com>
  <YywfxwBmdmvQ0i21@kroah.com>
  <Yyws4Pd4bAl3iq2e@hovoldconsulting.com>
+ <Yyw1CJgv6nreCtB9@kroah.com>
+ <Yyw7X2KkabBpPvIo@gofer.mess.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yyws4Pd4bAl3iq2e@hovoldconsulting.com>
+In-Reply-To: <Yyw7X2KkabBpPvIo@gofer.mess.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Sep 22, 2022 at 11:37:36AM +0200, Johan Hovold wrote:
-> On Thu, Sep 22, 2022 at 10:41:43AM +0200, Greg Kroah-Hartman wrote:
-> > On Tue, Sep 20, 2022 at 11:00:35AM +0200, Johan Hovold wrote:
-> > > Mauro and Hans,
+On Thu, Sep 22, 2022 at 11:39:27AM +0100, Sean Young wrote:
+> On Thu, Sep 22, 2022 at 12:12:24PM +0200, Greg Kroah-Hartman wrote:
+> > On Thu, Sep 22, 2022 at 11:37:36AM +0200, Johan Hovold wrote:
+> > > Thanks. These are the follow-up cleanups:
 > > > 
-> > > On Mon, Aug 22, 2022 at 05:10:27PM +0200, Johan Hovold wrote:
-> > > > Commit d725d20e81c2 ("media: flexcop-usb: sanity checking of endpoint
-> > > > type") tried to add an endpoint type sanity check for the single
-> > > > isochronous endpoint but instead broke the driver by checking the wrong
-> > > > descriptor or random data beyond the last endpoint descriptor.
-> > > > 
-> > > > Make sure to check the right endpoint descriptor.
-> > > > 
-> > > > Fixes: d725d20e81c2 ("media: flexcop-usb: sanity checking of endpoint type")
-> > > > Cc: Oliver Neukum <oneukum@suse.com>
-> > > > Cc: stable@vger.kernel.org	# 5.9
-> > > > Reported-by: Dongliang Mu <mudongliangabcd@gmail.com>
-> > > > Signed-off-by: Johan Hovold <johan@kernel.org>
-> > > > ---
-> > > > 
-> > > > It's been two months and two completely ignored reminders so resending.
-> > > > 
-> > > > Can someone please pick this fix up and let me know when that has been
-> > > > done?
-> > > 
-> > > It's been another month so sending yet another reminder. This driver as
-> > > been broken since 5.9 and I posted this fix almost four months ago and
-> > > have sent multiple reminders since.
-> > > 
-> > > Can someone please pick this one and the follow-up cleanups up?
+> > > 	https://lore.kernel.org/lkml/20220822151456.27178-1-johan@kernel.org/
 > > 
-> > I've taken this one in my tree now.  Which one were the "follow-up"
-> > cleanups?
+> > Thanks, I'll take them after the first one was merged into Linus's tree.
+> > 
+> > > Perhaps we should start taking USB related changes like this through the
+> > > USB tree by default. Posting patches to the media subsystem feels like
+> > > shooting patches at a black hole.
+> > 
+> > I agree, there's been a bunch of patches sent there (some with security
+> > fixes) that are not getting responded to :(
 > 
-> Thanks. These are the follow-up cleanups:
+> The patches were missed are all DVB related, which is Mauro's responsibility.
 > 
-> 	https://lore.kernel.org/lkml/20220822151456.27178-1-johan@kernel.org/
+> As far as I can see, other parts of the media subsystem are well looked after.
 
-Thanks, I'll take them after the first one was merged into Linus's tree.
+That's good, it's hard to know who is responsible for which parts at
+times.
 
-> Perhaps we should start taking USB related changes like this through the
-> USB tree by default. Posting patches to the media subsystem feels like
-> shooting patches at a black hole.
-
-I agree, there's been a bunch of patches sent there (some with security
-fixes) that are not getting responded to :(
-
-thanks,
+Hopefully Mauro comes back soon...
 
 greg k-h
