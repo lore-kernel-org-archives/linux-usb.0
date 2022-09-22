@@ -2,110 +2,74 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7491EC6FA86
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 13:39:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6454CC54EE9
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Sep 2022 13:41:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231482AbiIVNjk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Sep 2022 09:39:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35756 "EHLO
+        id S229893AbiIVNlR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Sep 2022 09:41:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231544AbiIVNjS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 09:39:18 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C670883D9;
-        Thu, 22 Sep 2022 06:39:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1663853946; x=1695389946;
-  h=subject:from:to:cc:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=CvNGXgqzeE+QXCg49n3Dh9W15AC3+5BUxUFylLugfkY=;
-  b=RUAJLQ6ICVrEDsj1lXooZ8oeEld4ON+vhu522EmMsPp3nyUE/SLV0gK3
-   Azvq9u4uwnSLDeCmGwCsblaVpml/zqdfERDA9SqmX658OoQCRukX30FQr
-   CwT67fftb/5I5l8UEBEVITj4/aOQCIybKlzeyi3+lOVnXcBHwaGfEfkWI
-   +CNhNs0Iax+RJmGFCn8RabJ8bi1DJqUPr2V1Vm5aQmEcxFIuUMZsYeymU
-   U2t6Dy43TWZqdPH2DIUual3DrGnHdNvATzvm1gfyh7Y5iwR8lRqFr6MvA
-   aDUPg6HdMTS9wsiv347ikbSODGd+K+5uuFqnO9XMkL67GP67OHyM7Fe7m
-   A==;
-X-IronPort-AV: E=Sophos;i="5.93,335,1654552800"; 
-   d="scan'208";a="26339193"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 22 Sep 2022 15:39:04 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Thu, 22 Sep 2022 15:39:04 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Thu, 22 Sep 2022 15:39:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1663853944; x=1695389944;
-  h=from:to:cc:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding:subject;
-  bh=CvNGXgqzeE+QXCg49n3Dh9W15AC3+5BUxUFylLugfkY=;
-  b=c7DZenHHYRGr2lVSyapJ4pLRCazWnuagwlY6sswvrVT56tX+qeuAt06e
-   LXUs9zT5qmjXUmp3HJfcgIxyHWFkyOv+fmfTFtT5dcv3Ce22Uvf3p42KT
-   tzJCgUxGST3vE2Fqvid9IshwKjFX3/KyMLM3sR8nVGv/NEXXMsNEGRB6R
-   oa7DUhkjl5BEEvILm5PoBedNq4BhFMx2visXdxl16qOne2FELsNTMQWiY
-   5WKQQQAUgO4ETHTZCkSPGfG5JsW10S00jNP5M+hEI8h3RjAuzl8QfzMHz
-   LCT5z4iSc7iyWLfUwOOrABDKbrAHIJewp1e1Vz69Tv0XBpPMWeXJD+up+
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.93,335,1654552800"; 
-   d="scan'208";a="26339192"
-Subject: Re: Re: [PATCH v2 4/4] arm64: dts: tqma8mpql: add support for 2nd USB (host)
- interface
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 22 Sep 2022 15:39:04 +0200
-Received: from steina-w.localnet (unknown [10.123.49.11])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D247B280056;
-        Thu, 22 Sep 2022 15:39:03 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>, Li Jun <jun.li@nxp.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Date:   Thu, 22 Sep 2022 15:39:01 +0200
-Message-ID: <5606023.DvuYhMxLoT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <YyxgUtT1gtyMIHeY@kroah.com>
-References: <20220915062855.751881-1-alexander.stein@ew.tq-group.com> <20220915062855.751881-5-alexander.stein@ew.tq-group.com> <YyxgUtT1gtyMIHeY@kroah.com>
+        with ESMTP id S229656AbiIVNlP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Sep 2022 09:41:15 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 226BBB5A67
+        for <linux-usb@vger.kernel.org>; Thu, 22 Sep 2022 06:41:15 -0700 (PDT)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.57])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MYGXx0Lqmz14Rbc;
+        Thu, 22 Sep 2022 21:37:05 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 22 Sep 2022 21:41:13 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 22 Sep
+ 2022 21:41:12 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-usb@vger.kernel.org>
+CC:     <linux@roeck-us.net>, <heikki.krogerus@linux.intel.com>,
+        <gregkh@linuxfoundation.org>
+Subject: [PATCH -next] usb: typec: fusb302: Switch to use dev_err_probe() helper
+Date:   Thu, 22 Sep 2022 21:48:06 +0800
+Message-ID: <20220922134806.2204579-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg,
+In the probe path, dev_err() can be replaced with dev_err_probe()
+which will check if error code is -EPROBE_DEFER and prints the
+error name. It also sets the defer probe reason which can be
+checked later through debugfs. It's more simple in error path.
 
-Am Donnerstag, 22. September 2022, 15:17:06 CEST schrieb Greg Kroah-Hartman:
-> On Thu, Sep 15, 2022 at 08:28:55AM +0200, Alexander Stein wrote:
-> > The on-board USB hub has a single reset line which needs to be enabled.
-> > 
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> > 
-> >  .../freescale/imx8mp-tqma8mpql-mba8mpxl.dts   | 41 +++++++++++++++++++
-> >  1 file changed, 41 insertions(+)
-> 
-> This patch failed to apply, please rebase and resend.
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+---
+ drivers/usb/typec/tcpm/fusb302.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-If I rebase this one to usb-testing (or usb-next) this will conflict with 
-additional patches for this file already in linux-next later on, especially 
-fb4f0b69565e ("arm64: dts: tqma8mpql: add USB DR support"). So IMHO this might 
-not the best idea.
-How to proceed here? Maybe Shawn can take this one once the other 3 patches 
-hit linux-next.
-
-Best regards,
-Alexander
-
-
+diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+index db83b377b2f6..721b2a548084 100644
+--- a/drivers/usb/typec/tcpm/fusb302.c
++++ b/drivers/usb/typec/tcpm/fusb302.c
+@@ -1743,9 +1743,8 @@ static int fusb302_probe(struct i2c_client *client,
+ 	chip->tcpm_port = tcpm_register_port(&client->dev, &chip->tcpc_dev);
+ 	if (IS_ERR(chip->tcpm_port)) {
+ 		fwnode_handle_put(chip->tcpc_dev.fwnode);
+-		ret = PTR_ERR(chip->tcpm_port);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(dev, "cannot register tcpm port, ret=%d", ret);
++		ret = dev_err_probe(dev, PTR_ERR(chip->tcpm_port),
++				    "cannot register tcpm port\n");
+ 		goto destroy_workqueue;
+ 	}
+ 
+-- 
+2.25.1
 
