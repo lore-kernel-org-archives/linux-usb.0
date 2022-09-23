@@ -2,43 +2,42 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1D03ECAAD8
-	for <linux-usb@archiver.kernel.org>; Fri, 23 Sep 2022 13:09:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2596ECAAD8
+	for <linux-usb@archiver.kernel.org>; Fri, 23 Sep 2022 13:25:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231880AbiIWNJG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 23 Sep 2022 09:09:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60574 "EHLO
+        id S231527AbiIWNZq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 23 Sep 2022 09:25:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230409AbiIWNJE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Sep 2022 09:09:04 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2045.outbound.protection.outlook.com [40.107.94.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 279B513A3AE;
-        Fri, 23 Sep 2022 06:09:03 -0700 (PDT)
+        with ESMTP id S229624AbiIWNZp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Sep 2022 09:25:45 -0400
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2089.outbound.protection.outlook.com [40.107.101.89])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4047B109124;
+        Fri, 23 Sep 2022 06:25:43 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iyaPiv5dBpcQzbw60QHF+iohovftM98K3L4mR7Ue1yhl7mAA9Kwdm63/mCL06Dsl3xy0ibj6UV04gKiHxsmDhaxoKZ1gNXCHbG+GRrrLa7d0nK0TzowIGifgH5VxEb/LvdrChjsl9yJKkRGG/IeyNlXcbaOBiSkhNf2ZvTrX20i+HX7xrzzLGaPh5eZWI4K2+G9Xc+0t/GXlsJaJj9Hd8vNkkWY9LJEhaY5sVUyM6xssSe5jKRUwiBj1avfu2eZVTFuEOiqnnqtSy9xVS6EVkPKJsptatgaHfWXPilinNnXu8exaT36emm0yvb+bBmZvhp0279xUm+Gc6LI7yjnR4A==
+ b=CHwRzMLXYtiro8FHA0vifnZL++rUIk8rW1hkUEzL06RR8Ug1361jykB0kw8k9oItEfQSlTLCZ19o4RCR9/+JTj1G/cZcrbe3DQv7GMnNYzWda2NevGnmpwagNIxoqfy+BtmSsATdEGUlTsT8bGZMRYxFmqdNFxaykPP5vPLLA6+9wvjkR3t9n8iywXygmsKuu2aO4e3zQ23d+RkILclDHqdaFPX1ZdL86NWbAlx8cMQfVOGbWYJSHIK93R1tt7a1uLoyUG6G7TVTIgq/Zng3ojhyr9OoiW6BphRImUVqhSkXIp9TfKUff01E7rwYr2SA/VH0CTZs6WXWabfC2K7X1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ivaQcTI4CleZXPdYOJR6OqkjyPtfKRBXpnIG/VW7M2k=;
- b=U7lOKuvYAnfh1KdVLDUh8sPXPwndT8kCTXrH7BZxmZWLUZr1J883TxbhLXZm9xlwO0I3dk1K766HdHVAczr3yFzXd+IYfousNJDXKz7nrjI2/hJTCsifUr3nA4458ld+GXw2Knoqd1Pa6Sxg7nvfEQfOl5/2uI0JIrjL/+SkkrQAVL33XL7mfKmSyAI5M9D8DpFdpjdIbksqYda6N9jfUWavw4vfVXkSAuhSbpOwXvhJoctVxTjhjcfVK0xKMS9Lg1jdCbaPOIz9V8T3lTRBMD4nrfO0KrAVkRJQnvWfpWw9Tav7KGmOSj6lB72Ev3GWMtWD2HnDjEp2YmP/3TmyKQ==
+ bh=S31c+t19SRQ4xEMSLtXDmv4ANK1eezjvDbn/qZaF1Nc=;
+ b=VW2BV5MDZu6SdSoObsYc+gXg9OeXEfeo0L9C/0X78sOY4edMYE4jWfr3mpjqNA2/gRrceFRoj8aIlr5hTts5AG/u2FxiXQtwmVFivRl7diW5rq49iqO/D2zozTxY3N0x5Z0yVnI/lEZZE1gme2zUE3yOrkDBsmMnHefEqK4IRJgn0Y6LtIg22F5bGZ1f18mbUsuJBiObVnODC5z3b/LQ1wNDvOgchzxKzdEIFpsFEr8H14Kc7ijn93Iv7Op9P4rIxv5V8hs+MEW65mjnhHr7nXsTnhKeOcqy2SYhWD9SUEWgxpbbucXsHlMnan0f5ec0uJHDM4m7M2gSYhnW3Gk/2w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=chromium.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
+ 165.204.84.17) smtp.rcpttodomain=balbi.sh smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ivaQcTI4CleZXPdYOJR6OqkjyPtfKRBXpnIG/VW7M2k=;
- b=y7k3Tn/7KQO0V56wyh8gfkZZFmrYi/exQ+r/Y6hi4Hi7lZo+4tkzz1yExZVuPqff2aqRaXULsAmbl+3hZSosUYhS5mw+zzMHllrlKz45lDTTYOc+84C32rWM/4TJCpt3HIFNYSfgVGdH1G70lmhPj3E2kBtoCk/XWmM2nrAUaN8=
-Received: from MWH0EPF00056D13.namprd21.prod.outlook.com
- (2603:10b6:30f:fff2:0:1:0:16) by DM6PR12MB4435.namprd12.prod.outlook.com
- (2603:10b6:5:2a6::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.20; Fri, 23 Sep
- 2022 13:09:01 +0000
-Received: from CO1NAM11FT017.eop-nam11.prod.protection.outlook.com
- (2a01:111:f400:7eab::206) by MWH0EPF00056D13.outlook.office365.com
- (2603:1036:d20::b) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.9 via Frontend
- Transport; Fri, 23 Sep 2022 13:09:01 +0000
+ bh=S31c+t19SRQ4xEMSLtXDmv4ANK1eezjvDbn/qZaF1Nc=;
+ b=lz/tY5I66fj0tvmaDsoGn4mWhVGBTbOjc34n+hs8xz4+mQ2PcWvIRIpvTztVhnfIH5whlOSNGxUPaHVlpUHgp+qETtC6TuFWT5XiKfTnpcDEqbmobhuo5weTXnBkct2BFDse/KoAE5ik+m1lE4LA2zN0xCKNQ1PqwSJ1tLf+6MQ=
+Received: from MW4PR03CA0202.namprd03.prod.outlook.com (2603:10b6:303:b8::27)
+ by DS7PR12MB5886.namprd12.prod.outlook.com (2603:10b6:8:79::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5654.17; Fri, 23 Sep 2022 13:25:40 +0000
+Received: from CO1NAM11FT068.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:b8:cafe::25) by MW4PR03CA0202.outlook.office365.com
+ (2603:10b6:303:b8::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.19 via Frontend
+ Transport; Fri, 23 Sep 2022 13:25:40 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,29 +45,31 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT017.mail.protection.outlook.com (10.13.175.108) with Microsoft SMTP
+ CO1NAM11FT068.mail.protection.outlook.com (10.13.175.142) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5654.14 via Frontend Transport; Fri, 23 Sep 2022 13:09:00 +0000
+ 15.20.5654.14 via Frontend Transport; Fri, 23 Sep 2022 13:25:39 +0000
 Received: from [10.254.241.52] (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Fri, 23 Sep
- 2022 08:08:56 -0500
-Message-ID: <479b13a3-08f6-c7c9-dce3-13831d69da3e@amd.com>
-Date:   Fri, 23 Sep 2022 15:08:54 +0200
+ 2022 08:25:35 -0500
+Message-ID: <e4dfbb55-c8ae-e98c-89c3-4bfb54311a30@amd.com>
+Date:   Fri, 23 Sep 2022 15:25:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.1
-From:   Michal Simek <michal.simek@amd.com>
-Subject: USB companion HUB for usb5744
-To:     Matthias Kaehlcke <mka@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "Mehta, Piyush" <piyush.mehta@amd.com>, Marek Vasut <marex@denx.de>
-CC:     Linux USB List <linux-usb@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "git (AMD-Xilinx)" <git@amd.com>,
-        "Paladugu, Siva Durga Prasad" <siva.durga.prasad.paladugu@amd.com>
+Subject: Re: [PATCH] dt-bindings: usb: dwc3: Add interrupt-names to include
+ hibernation interrupt
 Content-Language: en-US
+To:     Felipe Balbi <felipe@balbi.sh>, Piyush Mehta <piyush.mehta@amd.com>
+CC:     <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <linux-usb@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <siva.durga.prasad.paladugu@amd.com>,
+        Manish Narani <manish.narani@xilinx.com>
+References: <20220912085730.390555-1-piyush.mehta@amd.com>
+ <87y1uab6re.fsf@balbi.sh>
+From:   Michal Simek <michal.simek@amd.com>
+In-Reply-To: <87y1uab6re.fsf@balbi.sh>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.180.168.240]
@@ -76,75 +77,64 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT017:EE_|DM6PR12MB4435:EE_
-X-MS-Office365-Filtering-Correlation-Id: 88951ce4-c18d-457e-719d-08da9d64c871
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT068:EE_|DS7PR12MB5886:EE_
+X-MS-Office365-Filtering-Correlation-Id: e914c189-8685-4df3-5fba-08da9d671bdf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AahqgyjWVU652GJL6HOqPEKqs7uZZK3nro8zDtM2WK/aYy5tndcMU/gUfFiOlx6BhysxSBQ9LPDQHhaD7HVWObJhIwyWThPwcDSUwNtkK/ZZJIJJKkD45mDdMOMatb256BSPnb9YoBLZltS6Y1U7cf3Kgum78ascsiI9RF0crCRQx+WlGOYdZ8+sUt0GjnL1FDKZb6cwhm+Ot3ZIBFp4fdIdma26lxm8Lbb69MH9edHqyw04sKdZpGbtPHa0SU16d61FuJQDM4kw9o7DSzl2We91pZosve6Vj4tMR2s3FpZfW2luqf6L9tZhfgQRZSljAIPFX8ul44RhwTuFadtRsiBKwcm+A/39OmNjUPdI4ErEq9eeZn1OCQ/IGLMsu0R7AkACrrbPIaZfb5ZdsPCIZdbu3HEZj4pdinRH05cxeH2RRq7/j516T5eZ6fpT/4BeOKWDb4nux04r6xfzgnnyNC9UjEGPrd4CaeXWwG/GhLs7Zli/GW4kWJvoTv79IXR+8Et+nwu/hcqH6f33ZkywWg+rVfhygyehaOZQJdaR4MmlTxfK3mm1XJvv4/7X7muQKXmwWFi4RYe793y9WCvsXjjW4ydU4XXvTiTwMmH4xLUxLnBPGaoMC4VbU6uv/K26QEyANDvNpEvWoZrmd9+auXxHzs4Hj+6pqRt4e1oPHOSM8UZHdb7ytqB0E295SszFXvA8wWzYtehAKt0mWxLxD3zs86HuKXVKp5c0w5Tpys6oGmYlNbKjL/P7LH8dU9KahWxlCYqijAwHJq/NbqPMIX0dwilLIErWAOajiPne3QiqWycFLzl3QOvN6nAmOd07pm8Fc5G1iMTYvdjgLjYSVL4wbOLM0b28YYjanB05o0E=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(376002)(396003)(136003)(39860400002)(346002)(451199015)(36840700001)(46966006)(40470700004)(356005)(82740400003)(4326008)(8936002)(70586007)(70206006)(40460700003)(36756003)(86362001)(31696002)(44832011)(81166007)(2906002)(5660300002)(82310400005)(426003)(16526019)(2616005)(336012)(186003)(40480700001)(26005)(478600001)(8676002)(966005)(47076005)(41300700001)(36860700001)(110136005)(54906003)(316002)(16576012)(31686004)(43740500002)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 4guJfy9YdBLlKh58imynI2Cs+N4ZKPgjZ5sI2mu1+SJqJW6492o9XQbUulHi6COz9kkrcaCLS703rpfSWnSHAbayio4cXcvd+56mc2KfH3pbdOyAgphBVnCBS4NVwZNBwSd9Lt0m3hlc4JFpB3LUeSWUwb5lJiPnvd2HmYEA9HXaZ5A1IfTMh6TOQ1DYKdMcHq/95X2Hhv/qVmqpcz2nHDLnEKG414CGjRjoR1LnhMNnA9//W7WoGxb52wwcdHdrQKcOId4zBmnPUhC+doJUR1HGcLr9lwa+J+DuhhxUJRrghWERRhG8BMNAZsDYPR6yU3oQopLehRTaU84XA1wF4w8NNy9wavpfkHI4bs3odbCPbM3NBVnubbpupjDl124D9U9kYaEJLyXWUNlGFrgU8EeqtKlNSZjkBaJTa7KnZfnnMI/Af+f6esSQahegGOzMvTfoabzg/h6vpEqaMtmj+DEa560owB4m+6ucUGQUsTSQZL3V+4Lc6SzvIMHGzo6JhTS6TaO8gZHy0l5vhyjAYwDPYIghA+2VWIxYZd1qSwFC91V5u33XuRLG+Qjinl5yMzvc5duzdd+zCGWk9t3OhfuMwuG077iSGNUOTDsezE8XjjO20kj3hW2xQicSIX33MRzIO8EsjDZycc5fLYVJX0kmVz5shm7wajWM0Ssz+CyLVEiTF0x9HtHd/GA/xz8yCGV19jeQGVwrIDHw8w6dJ3UoPtGAfP6BI4AUkoiKTWLAtMDkASMBa9YwpMFpbcKXvGlkUtgpOLxgoY417HdujYjF/Fr23lRuE1scoDqqWRfvRAEgOs8fvaeBX6kKuG8UvaUMwt9DO5yWK1+WqyAKkA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(396003)(136003)(346002)(39860400002)(376002)(451199015)(46966006)(40470700004)(36840700001)(110136005)(316002)(31686004)(40480700001)(36860700001)(356005)(478600001)(31696002)(4326008)(6636002)(86362001)(107886003)(8676002)(54906003)(82740400003)(36756003)(426003)(47076005)(44832011)(70586007)(26005)(81166007)(41300700001)(5660300002)(2616005)(336012)(2906002)(82310400005)(70206006)(40460700003)(8936002)(186003)(16526019)(16576012)(53546011)(43740500002)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2022 13:09:00.9639
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2022 13:25:39.9287
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88951ce4-c18d-457e-719d-08da9d64c871
+X-MS-Exchange-CrossTenant-Network-Message-Id: e914c189-8685-4df3-5fba-08da9d671bdf
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT017.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT068.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4435
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5886
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Matthias,
+Hi Felipe,
 
-I want to follow up with you on discussion we had couple of months ago around 
-usb companion HUB series which is finally merged to the tree.
-We are using USB5744 hub(4 ports), it supports USB3.0 functionality backward 
-compatible with USB2.0.
+On 9/23/22 14:43, Felipe Balbi wrote:
+> 
+> Hi,
+> 
+> Piyush Mehta <piyush.mehta@amd.com> writes:
+>> From: Manish Narani <manish.narani@xilinx.com>
+>>
+>> The hibernation feature enabled for Xilinx ZynqMP SoC in DWC3 IP.
+>> Added the below interrupt-names in the binding schema for the same.
+>>
+>> dwc_usb3: dwc3 core interrupt-names
+>> otg: otg interrupt-names
+>> hiber: hibernation interrupt-names
+>>
+>> Signed-off-by: Manish Narani <manish.narani@xilinx.com>
+>> Signed-off-by: Piyush Mehta <piyush.mehta@amd.com>
+>> ---
+>>   Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+>> index 1779d08ba1c0..618fa7bd32be 100644
+>> --- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+>> +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+>> @@ -53,6 +53,8 @@ properties:
+>>         - const: dwc_usb3
+>>         - items:
+>>             enum: [host, peripheral, otg]
+>> +      - items:
+>> +          enum: [dwc_usb3, otg, hiber]
+> 
+> I would spell it out; i.e. `hibernation' instead of `hiber'.
 
-To generic driver support for regulator and gpio reset was added.
-In our case usb hub has i2c interface connected and hub expects initialization 
-via i2c to start to operate.
-
-In past you mentioned to create new file just for handling hubs itself.
-
-Anyway from DT perspective I discussed description with Rob some time ago
-https://lore.kernel.org/all/CAL_JsqJZBbu+UXqUNdZwg-uv0PAsNg55026PTwhKr5wQtxCjVQ@mail.gmail.com/
-where he wanted to use i2c-bus link.
-
-It will end up with description like this.
-
-	usbhub0_2_0: hub@1 { /* u43 */
-		compatible = "usb424,2744";
-		reg = <1>;
-		i2c-bus = <&usbhub_i2c0>;
-		reset-gpios = <&slg7xl45106 3 GPIO_ACTIVE_LOW>;
-		peer-hub = <&usbhub0_3_0>;
-	};
-
-	usbhub0_3_0: hub@2 { /* u43 */
-		compatible = "usb424,5744";
-		reg = <2>;
-		i2c-bus = <&usbhub_i2c0>;
-		reset-gpios = <&slg7xl45106 3 GPIO_ACTIVE_LOW>;
-		peer-hub = <&usbhub0_2_0>;
-	};
-
-In probe onboard_hub_power_on is called to toggle gpio line which we need and 
-then we need to write 16 bits to basic initialization (or more for different one).
-Marek also mentioned that he has another chip from Microchip where i2c address 
-can be setup. I think it would be good to get any guidance how this should be 
-integrated.
-
- From my perspective i2c address should be described in DT.
-
-Can we use any description like?
-i2c-bus = <&usbhub_i2c0 0x2d>;
-
-And initialization sequence via any property with 
-uint32-array/uint16-array/uint8-array types.
+that wouldn't be an issue. What about that wake-up line?
 
 Thanks,
 Michal
+
