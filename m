@@ -2,89 +2,97 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D4E2C07E9D
-	for <linux-usb@archiver.kernel.org>; Sat, 24 Sep 2022 08:59:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0019BC32771
+	for <linux-usb@archiver.kernel.org>; Sat, 24 Sep 2022 10:29:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230044AbiIXI7U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 24 Sep 2022 04:59:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48844 "EHLO
+        id S231389AbiIXK3X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 24 Sep 2022 06:29:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233437AbiIXI7T (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 24 Sep 2022 04:59:19 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A62D219F
-        for <linux-usb@vger.kernel.org>; Sat, 24 Sep 2022 01:59:18 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id t3so2142376ply.2
-        for <linux-usb@vger.kernel.org>; Sat, 24 Sep 2022 01:59:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gaul.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=ZeXdtwy3Yv/zxts7snaA6HbOFxTLg7KLB5BOsTPDQlY=;
-        b=hwb04X+SWSWCUrJIsskRP7RsFi0uYdBFDG5EAA/XjtHs7UD8ECGDn7gq4WdNtqNMWy
-         LXAkrOM7PEapcD0ziY1Zr725mNKg2BqNxM9NHVvu4c3MvTLHjtfOI7ydd1TXIgcY39KN
-         GN1YfTrcIhJ7JddAYQiC1snci9r/ghYcEeL+Sf7Xpyt3BayQEKDTYwjsHZepbkV9REYJ
-         pHABsYttbDJ9x9izK4nW4hyTYV4yQYyQ6nept6PDbC9ql2yS0+PpFu2yNYhk1pcxcjCy
-         ykgl16To9mTYlmnKRBzMQzf48dNH0/LWCafSGbf1qAq/rY2flAZsi59l0izU17MO6NhG
-         07BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=ZeXdtwy3Yv/zxts7snaA6HbOFxTLg7KLB5BOsTPDQlY=;
-        b=gH6tjuTI+1GIx2e6+sfxPNTcYiaI0c6YTYiaeVgk5oUJkdq4biEbiQbnNmkaN/agfG
-         soJpo4dbDhQAGy8csD5bsYCh0RQKKc+INV+N8SprOaZnaRDimqvmmK5t/+k+c09Yh4UA
-         sLA8HQoQnC5NndaI4xZDJqYX9+ns73KokGw0L7+DA6r5aRbClvY33x8xziq+TGS2W3qN
-         V/bP6uNen++X70NTY+4JBekEqyzKZR+MetZtY0sDXhLq1ur+hb1v93ttHJ4PLGXE7ZwR
-         YKRtaFhUqavq7zyXTuZit0gk28rosIbvGWaIuxOx7lPdGrg1b6xjuDW1ijkGrczG+8lf
-         BEcg==
-X-Gm-Message-State: ACrzQf3o584JRA0ZEN+7v2itMvHRDtA6BHO/zcalQmcg93vjbNL+MQZN
-        WIzyYtX+mV0u2uueGmxnPl5V2sjGIxLDRdOg
-X-Google-Smtp-Source: AMsMyM4UfjwshO2BGJsWvHyWM1OUjSB/1MakDMsnrH7V9G8nHekZfGBLHN3ifCnihVJxlf3o6olRBg==
-X-Received: by 2002:a17:90b:390e:b0:202:affa:1c91 with SMTP id ob14-20020a17090b390e00b00202affa1c91mr26034992pjb.233.1664009957403;
-        Sat, 24 Sep 2022 01:59:17 -0700 (PDT)
-Received: from watson.. (58x5x227x72.ap58.ftth.ucom.ne.jp. [58.5.227.72])
-        by smtp.googlemail.com with ESMTPSA id l16-20020a170903121000b00176b3d7db49sm7502717plh.0.2022.09.24.01.59.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Sep 2022 01:59:16 -0700 (PDT)
-From:   Andrew Gaul <gaul@gaul.org>
-X-Google-Original-From: Andrew Gaul <gaul@google.com>
-Cc:     linux-usb@vger.kernel.org, hayeswang@realtek.com,
-        Andrew Gaul <gaul@google.com>
-Subject: [PATCH] r8152: Rate limit overflow messages
-Date:   Sat, 24 Sep 2022 17:57:31 +0900
-Message-Id: <20220924085731.628073-1-gaul@google.com>
-X-Mailer: git-send-email 2.37.3
+        with ESMTP id S229495AbiIXK3W (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 24 Sep 2022 06:29:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5215311ED6A
+        for <linux-usb@vger.kernel.org>; Sat, 24 Sep 2022 03:29:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D301F6124B
+        for <linux-usb@vger.kernel.org>; Sat, 24 Sep 2022 10:29:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BC00C433B5;
+        Sat, 24 Sep 2022 10:29:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664015360;
+        bh=jS8PAUWdG58J8HZV3voE3Kk+kDMzClw8lsUzIiP6HVM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=QRmpWXDqfBPOzumZ5uUbPV2sCWNC2Bdi4SaW2WVMon6GhMqQbhfF/eKuF7wjZKoqt
+         j8BIJYBs2RRbR3v/Gavsl3WjxRNRC9biwlqzkwXnGnnbx5aeOvrQSJ39oigVDRU2Ao
+         xkqf2cX996W+gcxVGCX3loJpjEcT4MOsxJC32zD2/lmfxeXv+K3A0lw7nMsb+wSyyV
+         PwIgUje0U9EgFfj9To7lvDV0+TYIHO7XKv+492QHAfWeMFuaffwQdfbIvba1dhcrSf
+         6sOyNW42Qal9Gc2mJ6W0T22aJNDDnzYklR6KgkuJ97bbiELT55SBqx49fHqrXd/IXn
+         Bh3EOY4nHq7kg==
+Received: by pali.im (Postfix)
+        id 885941231; Sat, 24 Sep 2022 12:29:17 +0200 (CEST)
+From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
+To:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [PATCH v3 2/7] USB: serial: ftdi_sio: Add missing baud rate validation
+Date:   Sat, 24 Sep 2022 12:27:13 +0200
+Message-Id: <20220924102718.2984-3-pali@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220924102718.2984-1-pali@kernel.org>
+References: <20220924102718.2984-1-pali@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-My system shows almost 10 million of these messages over a 24-hour
-period which pollutes my logs.
+Add lower checks for requested baud rate for FT8U232AM, FT232BM, FT2232C,
+FT232RL, FTX, FT2232H, FT4232H and FT232H. For all of these the minimum
+baud rate they can generate is 183 Baud.
 
-Signed-off-by: Andrew Gaul <gaul@google.com>
+Signed-off-by: Pali Rohár <pali@kernel.org>
+Tested-by: Marek Behún <kabel@kernel.org>
+Signed-off-by: Marek Behún <kabel@kernel.org>
 ---
- drivers/net/usb/r8152.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/usb/serial/ftdi_sio.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 688905ea0a6d..e7b0b59e2bc8 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -1874,7 +1874,9 @@ static void intr_callback(struct urb *urb)
- 			   "Stop submitting intr, status %d\n", status);
- 		return;
- 	case -EOVERFLOW:
--		netif_info(tp, intr, tp->netdev, "intr status -EOVERFLOW\n");
-+		if (net_ratelimit())
-+			netif_info(tp, intr, tp->netdev,
-+				   "intr status -EOVERFLOW\n");
- 		goto resubmit;
- 	/* -EPIPE:  should clear the halt */
- 	default:
+diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
+index b2febe8d573a..bfa601fc14fe 100644
+--- a/drivers/usb/serial/ftdi_sio.c
++++ b/drivers/usb/serial/ftdi_sio.c
+@@ -1335,7 +1335,7 @@ static u32 get_ftdi_divisor(struct tty_struct *tty,
+ 		}
+ 		break;
+ 	case FT8U232AM: /* 8U232AM chip */
+-		if (baud <= 3000000) {
++		if (baud >= 183 && baud <= 3000000) {
+ 			div_value = ftdi_232am_baud_to_divisor(baud);
+ 		} else {
+ 			dev_dbg(dev, "%s - Baud rate too high!\n", __func__);
+@@ -1348,7 +1348,7 @@ static u32 get_ftdi_divisor(struct tty_struct *tty,
+ 	case FT2232C: /* FT2232C chip */
+ 	case FT232RL: /* FT232RL chip */
+ 	case FTX:     /* FT-X series */
+-		if (baud <= 3000000) {
++		if (baud >= 183 && baud <= 3000000) {
+ 			u16 product_id = le16_to_cpu(
+ 				port->serial->dev->descriptor.idProduct);
+ 			if (((product_id == FTDI_NDI_HUC_PID)		||
+@@ -1372,7 +1372,7 @@ static u32 get_ftdi_divisor(struct tty_struct *tty,
+ 	case FT232H:  /* FT232H chip */
+ 		if ((baud <= 12000000) && (baud >= 1200)) {
+ 			div_value = ftdi_2232h_baud_to_divisor(baud);
+-		} else if (baud < 1200) {
++		} else if (baud >= 183 && baud < 1200) {
+ 			div_value = ftdi_232bm_baud_to_divisor(baud);
+ 		} else {
+ 			dev_dbg(dev, "%s - Baud rate too high!\n", __func__);
 -- 
-2.37.3
+2.20.1
 
