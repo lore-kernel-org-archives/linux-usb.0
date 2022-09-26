@@ -2,34 +2,34 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95ECBC07E9D
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Sep 2022 16:27:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A85AC07E9D
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Sep 2022 16:27:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231703AbiIZQ1U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Sep 2022 12:27:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43254 "EHLO
+        id S229689AbiIZQ1l (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Sep 2022 12:27:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230380AbiIZQ0v (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Sep 2022 12:26:51 -0400
-X-Greylist: delayed 94 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 26 Sep 2022 08:15:33 PDT
-Received: from mxout3.routing.net (mxout3.routing.net [IPv6:2a03:2900:1:a::8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D3347E015;
-        Mon, 26 Sep 2022 08:15:32 -0700 (PDT)
+        with ESMTP id S229960AbiIZQ1P (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Sep 2022 12:27:15 -0400
+Received: from mxout1.routing.net (mxout1.routing.net [134.0.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1213FA061C;
+        Mon, 26 Sep 2022 08:15:42 -0700 (PDT)
 Received: from mxbox3.masterlogin.de (unknown [192.168.10.78])
-        by mxout3.routing.net (Postfix) with ESMTP id 60F71604B1;
-        Mon, 26 Sep 2022 15:08:06 +0000 (UTC)
+        by mxout1.routing.net (Postfix) with ESMTP id E39273FFF0;
+        Mon, 26 Sep 2022 15:08:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
-        s=20200217; t=1664204886;
+        s=20200217; t=1664204892;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=xZG8JkRaZLK232kDPLAOmHeKNwxxMI/j9n7ukbBYAW0=;
-        b=s7SVLJJEfwZODlXq4TDif6GkRLd/BTItP/PGcCqfAYRBoFlTPD258SCsJ00KGW9KyA30B6
-        EQLEANnwyYPg7HpgU5ZiRhGmk1enjE9QTn0f/WMjlQKEfCUECDjLtWptAiEj+mcofcbEBU
-        GZBWbxMWoNDf5A7oajch6PbbW58b3lA=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=NHI+QS/eBkDGWbjwEnXiouNM7fwY5aYplh9m0mNl5TI=;
+        b=xpaCvBxZGQB3+F03ZzwI/+1XzVIHuwDxCWqdUtecGEWj9YkLlczuAYVds04bU/Ucynjrxg
+        yqAeK8r2WT/APSP3Fhpsb5uo/2ZOWrwGi7oIP0zlwJ6mx1yI3sGANyLEaT8DzVwu+d/aRv
+        BvG+YHBakei73qczJDlBKajGfHKP5GA=
 Received: from frank-G5.. (fttx-pool-217.61.154.230.bambit.de [217.61.154.230])
-        by mxbox3.masterlogin.de (Postfix) with ESMTPSA id 77D0C360037;
-        Mon, 26 Sep 2022 15:08:05 +0000 (UTC)
+        by mxbox3.masterlogin.de (Postfix) with ESMTPSA id 1C26536018E;
+        Mon, 26 Sep 2022 15:08:11 +0000 (UTC)
 From:   Frank Wunderlich <linux@fw-web.de>
 To:     linux-usb@vger.kernel.org
 Cc:     Frank Wunderlich <frank-w@public-files.de>,
@@ -40,32 +40,43 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         Paolo Abeni <pabeni@redhat.com>,
         Johan Hovold <johan@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] Add Support for Dell 5811e with usb-id 0x413c:0x81c2
-Date:   Mon, 26 Sep 2022 17:07:38 +0200
-Message-Id: <20220926150740.6684-1-linux@fw-web.de>
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: [PATCH 2/2] net: usb: qmi_wwan: Add new usb-id for Dell branded EM7455
+Date:   Mon, 26 Sep 2022 17:07:40 +0200
+Message-Id: <20220926150740.6684-3-linux@fw-web.de>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220926150740.6684-1-linux@fw-web.de>
+References: <20220926150740.6684-1-linux@fw-web.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mail-ID: 46a954e0-9594-4660-91c0-7275a392d480
+X-Mail-ID: 73473d7a-5ce6-4892-a86a-201a34497ef9
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Frank Wunderlich <frank-w@public-files.de>
 
-Add new USB-id for dell branded EM7455 with this usb-id in qcserial and qmi
-driver.
-MBIM-mode works out of the box with 6.0-rc6.
+Add support for Dell 5811e (EM7455) with USB-id 0x413c:0x81c2.
 
-Frank Wunderlich (2):
-  USB: serial: qcserial: add new usb-id for Dell branded EM7455
-  net: usb: qmi_wwan: Add new usb-id for Dell branded EM7455
+Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+Cc: stable@vger.kernel.org
+---
+ drivers/net/usb/qmi_wwan.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/net/usb/qmi_wwan.c    | 1 +
- drivers/usb/serial/qcserial.c | 1 +
- 2 files changed, 2 insertions(+)
-
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index 0cb187def5bc..26c34a7c21bd 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -1402,6 +1402,7 @@ static const struct usb_device_id products[] = {
+ 	{QMI_FIXED_INTF(0x413c, 0x81b3, 8)},	/* Dell Wireless 5809e Gobi(TM) 4G LTE Mobile Broadband Card (rev3) */
+ 	{QMI_FIXED_INTF(0x413c, 0x81b6, 8)},	/* Dell Wireless 5811e */
+ 	{QMI_FIXED_INTF(0x413c, 0x81b6, 10)},	/* Dell Wireless 5811e */
++	{QMI_FIXED_INTF(0x413c, 0x81c2, 8)},	/* Dell Wireless 5811e */
+ 	{QMI_FIXED_INTF(0x413c, 0x81cc, 8)},	/* Dell Wireless 5816e */
+ 	{QMI_FIXED_INTF(0x413c, 0x81d7, 0)},	/* Dell Wireless 5821e */
+ 	{QMI_FIXED_INTF(0x413c, 0x81d7, 1)},	/* Dell Wireless 5821e preproduction config */
 -- 
 2.34.1
 
