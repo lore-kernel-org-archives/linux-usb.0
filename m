@@ -2,71 +2,72 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3835CC6FA83
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Sep 2022 15:17:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31258C07E9D
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Sep 2022 15:19:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236038AbiIZPRk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Sep 2022 11:17:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42486 "EHLO
+        id S234746AbiIZPTW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Sep 2022 11:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236040AbiIZPQs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Sep 2022 11:16:48 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC17A11C16
-        for <linux-usb@vger.kernel.org>; Mon, 26 Sep 2022 07:03:20 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Mbkrg43r2zWhBH;
-        Mon, 26 Sep 2022 21:59:15 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 26 Sep 2022 22:03:18 +0800
-Received: from [10.174.178.174] (10.174.178.174) by
- dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 26 Sep 2022 22:03:18 +0800
-Subject: Re: [PATCH -next 0/5] usb: musb: Switch to use dev_err_probe() helper
-To:     <linux-usb@vger.kernel.org>
-CC:     <gregkh@linuxfoundation.org>, <b-liu@ti.com>,
-        <yangyingliang@huawei.com>
-References: <20220926140348.2028052-1-yangyingliang@huawei.com>
-From:   Yang Yingliang <yangyingliang@huawei.com>
-Message-ID: <87d0eea6-cc17-143b-01ea-5da5403ea21c@huawei.com>
-Date:   Mon, 26 Sep 2022 22:03:17 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        with ESMTP id S235817AbiIZPSH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Sep 2022 11:18:07 -0400
+Received: from hust.edu.cn (unknown [202.114.0.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A122F29;
+        Mon, 26 Sep 2022 07:04:15 -0700 (PDT)
+Received: from localhost.localdomain ([172.16.0.254])
+        (user=dzm91@hust.edu.cn mech=LOGIN bits=0)
+        by mx1.hust.edu.cn  with ESMTP id 28QE18mb009835-28QE18me009835
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Mon, 26 Sep 2022 22:01:19 +0800
+From:   Dongliang Mu <dzm91@hust.edu.cn>
+To:     Peter Chen <peter.chen@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Aswath Govindraju <a-govindraju@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: cdns3: remove dead code
+Date:   Mon, 26 Sep 2022 21:59:21 +0800
+Message-Id: <20220926135922.24541-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <20220926140348.2028052-1-yangyingliang@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.178.174]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+X-FEAS-AUTH-USER: dzm91@hust.edu.cn
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-I missed SoB in patch #1, #2, please ignore this patchset, I will resend it.
+From: Dongliang Mu <mudongliangabcd@gmail.com>
 
-Thanks,
-Yang
-On 2022/9/26 22:03, Yang Yingliang wrote:
-> This patchset is trying to replace dev_err() with dev_err_probe() in
-> the probe path.
->
-> Yang Yingliang (5):
->    usb: musb: core: Switch to use dev_err_probe() helper
->    usb: musb: da8xx: Switch to use dev_err_probe() helper
->    usb: musb: cppi41: Switch to use dev_err_probe() helper
->    usb: musb: jz4740: Switch to use dev_err_probe() helper
->    usb: musb: sunxi: Switch to use dev_err_probe() helper
->
->   drivers/usb/musb/da8xx.c       |  8 +++-----
->   drivers/usb/musb/jz4740.c      | 10 +++-------
->   drivers/usb/musb/musb_core.c   |  5 ++---
->   drivers/usb/musb/musb_cppi41.c |  6 ++----
->   drivers/usb/musb/sunxi.c       | 29 +++++++++--------------------
->   5 files changed, 19 insertions(+), 39 deletions(-)
->
+Smatch reports the following error:
+
+drivers/usb/cdns3/cdns3-plat.c:113 cdns3_plat_probe() warn:
+platform_get_irq() does not return zero
+
+From the document, platform_get_irq_byname_optional only returns
+non-zero value, and negative value on failure.
+
+Fix this by removing the zero value checking.
+
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+---
+ drivers/usb/cdns3/cdns3-plat.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/usb/cdns3/cdns3-plat.c b/drivers/usb/cdns3/cdns3-plat.c
+index dc068e940ed5..2bc5d094548b 100644
+--- a/drivers/usb/cdns3/cdns3-plat.c
++++ b/drivers/usb/cdns3/cdns3-plat.c
+@@ -110,8 +110,6 @@ static int cdns3_plat_probe(struct platform_device *pdev)
+ 	cdns->wakeup_irq = platform_get_irq_byname_optional(pdev, "wakeup");
+ 	if (cdns->wakeup_irq == -EPROBE_DEFER)
+ 		return cdns->wakeup_irq;
+-	else if (cdns->wakeup_irq == 0)
+-		return -EINVAL;
+ 
+ 	if (cdns->wakeup_irq < 0) {
+ 		dev_dbg(dev, "couldn't get wakeup irq\n");
+-- 
+2.35.1
+
