@@ -2,39 +2,41 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5011C6FA82
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Sep 2022 16:37:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E79AC07E9D
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Sep 2022 17:46:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229807AbiIZQh3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Sep 2022 12:37:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42240 "EHLO
+        id S231251AbiIZRqV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Sep 2022 13:46:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbiIZQhH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Sep 2022 12:37:07 -0400
-X-Greylist: delayed 553 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 26 Sep 2022 08:24:51 PDT
-Received: from mxout4.routing.net (mxout4.routing.net [IPv6:2a03:2900:1:a::9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 548E212AED8;
-        Mon, 26 Sep 2022 08:24:50 -0700 (PDT)
-Received: from mxbox3.masterlogin.de (unknown [192.168.10.78])
-        by mxout4.routing.net (Postfix) with ESMTP id 7FA2410091E;
-        Mon, 26 Sep 2022 15:08:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
-        s=20200217; t=1664204890;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Gu67iLTcMpzYQt0Kue8AjzxM20d7cDhso1y+s0Ycn7g=;
-        b=RAUT8RO+l3S5C0EbsiIAqJrOtc6mi51v6SnxF3MDzvuGPIe2q8Du10hOelfdywvYQUG7lc
-        ouXDA/LX9x2oxu7G0WXWOQrrUzSi9va61jy/RC8EFdBNQwaJVMWWOgQJSRmakMLIeecSRN
-        rzroY7VpG6XJ5veRAiZevj5mrtxiiSs=
-Received: from frank-G5.. (fttx-pool-217.61.154.230.bambit.de [217.61.154.230])
-        by mxbox3.masterlogin.de (Postfix) with ESMTPSA id B727B36026A;
-        Mon, 26 Sep 2022 15:08:09 +0000 (UTC)
-From:   Frank Wunderlich <linux@fw-web.de>
-To:     linux-usb@vger.kernel.org
-Cc:     Frank Wunderlich <frank-w@public-files.de>,
-        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
+        with ESMTP id S230171AbiIZRpt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Sep 2022 13:45:49 -0400
+X-Greylist: delayed 651 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 26 Sep 2022 10:15:46 PDT
+Received: from louie.mork.no (louie.mork.no [IPv6:2001:41c8:51:8a:feff:ff:fe00:e5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C1E072B4C;
+        Mon, 26 Sep 2022 10:15:44 -0700 (PDT)
+Received: from canardo.dyn.mork.no ([IPv6:2a01:799:c9e:d400:0:0:0:1])
+        (authenticated bits=0)
+        by louie.mork.no (8.15.2/8.15.2) with ESMTPSA id 28QH4KZ8672490
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+        Mon, 26 Sep 2022 18:04:22 +0100
+Received: from miraculix.mork.no ([IPv6:2a01:799:c9e:d402:994f:a892:5647:3399])
+        (authenticated bits=0)
+        by canardo.dyn.mork.no (8.15.2/8.15.2) with ESMTPSA id 28QH4FPd3519149
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+        Mon, 26 Sep 2022 19:04:15 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
+        t=1664211855; bh=PqndwwYw1ihtRY0vSKmdDtjYH38o8PijP0Upc5+FQhk=;
+        h=From:To:Cc:Subject:References:Date:Message-ID:From;
+        b=SPRlWzSh0GqPerWaLEGfitcRmPvVnFn2tsRf9fFHqbrUHDzaotI9DdcctX5zwJfrD
+         39g03HaXQd207SsfvAx/573cOx8NEJ8sdP3r6xKzPUuUk27j+e/iSA2oaB82kA/3qt
+         LsqKbryOY7rwhyWBB6GqU3YDxYq69Z4oKDwOkslE=
+Received: (nullmailer pid 818259 invoked by uid 1000);
+        Mon, 26 Sep 2022 17:04:15 -0000
+From:   =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
+To:     Frank Wunderlich <linux@fw-web.de>
+Cc:     linux-usb@vger.kernel.org,
+        Frank Wunderlich <frank-w@public-files.de>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
@@ -43,41 +45,50 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
         stable@vger.kernel.org
-Subject: [PATCH 1/2] USB: serial: qcserial: add new usb-id for Dell branded EM7455
-Date:   Mon, 26 Sep 2022 17:07:39 +0200
-Message-Id: <20220926150740.6684-2-linux@fw-web.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220926150740.6684-1-linux@fw-web.de>
+Subject: Re: [PATCH 2/2] net: usb: qmi_wwan: Add new usb-id for Dell branded
+ EM7455
+Organization: m
 References: <20220926150740.6684-1-linux@fw-web.de>
+        <20220926150740.6684-3-linux@fw-web.de>
+Date:   Mon, 26 Sep 2022 19:04:15 +0200
+In-Reply-To: <20220926150740.6684-3-linux@fw-web.de> (Frank Wunderlich's
+        message of "Mon, 26 Sep 2022 17:07:40 +0200")
+Message-ID: <87sfke9ieo.fsf@miraculix.mork.no>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mail-ID: d1679d74-3f87-4a09-a7db-2a1401a2b864
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Virus-Scanned: clamav-milter 0.103.7 at canardo
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Frank Wunderlich <frank-w@public-files.de>
+Frank Wunderlich <linux@fw-web.de> writes:
 
-Add support for Dell 5811e (EM7455) with USB-id 0x413c:0x81c2.
+> From: Frank Wunderlich <frank-w@public-files.de>
+>
+> Add support for Dell 5811e (EM7455) with USB-id 0x413c:0x81c2.
+>
+> Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+> Cc: stable@vger.kernel.org
+> ---
+>  drivers/net/usb/qmi_wwan.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+> index 0cb187def5bc..26c34a7c21bd 100644
+> --- a/drivers/net/usb/qmi_wwan.c
+> +++ b/drivers/net/usb/qmi_wwan.c
+> @@ -1402,6 +1402,7 @@ static const struct usb_device_id products[] =3D {
+>  	{QMI_FIXED_INTF(0x413c, 0x81b3, 8)},	/* Dell Wireless 5809e Gobi(TM) 4G=
+ LTE Mobile Broadband Card (rev3) */
+>  	{QMI_FIXED_INTF(0x413c, 0x81b6, 8)},	/* Dell Wireless 5811e */
+>  	{QMI_FIXED_INTF(0x413c, 0x81b6, 10)},	/* Dell Wireless 5811e */
+> +	{QMI_FIXED_INTF(0x413c, 0x81c2, 8)},	/* Dell Wireless 5811e */
+>  	{QMI_FIXED_INTF(0x413c, 0x81cc, 8)},	/* Dell Wireless 5816e */
+>  	{QMI_FIXED_INTF(0x413c, 0x81d7, 0)},	/* Dell Wireless 5821e */
+>  	{QMI_FIXED_INTF(0x413c, 0x81d7, 1)},	/* Dell Wireless 5821e preproducti=
+on config */
 
-Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
-Cc: stable@vger.kernel.org
----
- drivers/usb/serial/qcserial.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/serial/qcserial.c b/drivers/usb/serial/qcserial.c
-index 586ef5551e76..7897609916a6 100644
---- a/drivers/usb/serial/qcserial.c
-+++ b/drivers/usb/serial/qcserial.c
-@@ -177,6 +177,7 @@ static const struct usb_device_id id_table[] = {
- 	{DEVICE_SWI(0x413c, 0x81b3)},	/* Dell Wireless 5809e Gobi(TM) 4G LTE Mobile Broadband Card (rev3) */
- 	{DEVICE_SWI(0x413c, 0x81b5)},	/* Dell Wireless 5811e QDL */
- 	{DEVICE_SWI(0x413c, 0x81b6)},	/* Dell Wireless 5811e QDL */
-+	{DEVICE_SWI(0x413c, 0x81c2)},	/* Dell Wireless 5811e QDL */
- 	{DEVICE_SWI(0x413c, 0x81cb)},	/* Dell Wireless 5816e QDL */
- 	{DEVICE_SWI(0x413c, 0x81cc)},	/* Dell Wireless 5816e */
- 	{DEVICE_SWI(0x413c, 0x81cf)},   /* Dell Wireless 5819 */
--- 
-2.34.1
-
+Acked-by: Bj=C3=B8rn Mork <bjorn@mork.no>
