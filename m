@@ -2,174 +2,83 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8CBDC6FA92
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Sep 2022 14:28:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1322CC07E9D
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Sep 2022 14:51:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232276AbiI0O2a (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Sep 2022 10:28:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48884 "EHLO
+        id S233030AbiI0Ovo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Sep 2022 10:51:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232348AbiI0O2O (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Sep 2022 10:28:14 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1360F3FA3;
-        Tue, 27 Sep 2022 07:28:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664288893; x=1695824893;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6GnvNvsRVzevPy91Tli/IN1ZpRHSoqDRvpUzQPBiTDI=;
-  b=M7LirVhCLf6HT/NGjBpu6I0czX4rsZvwAO48481fGNgfHt3C44mL+Hoc
-   V9TkrkPKpJWAdCkCNzIkjsRrlfB9MXv/upCEAKAAhmT8ns7VkUfU3wvIK
-   rt4JBQ+aYHRiasozL6xcOa6OFYExGCyNsMvEOCYQjNV0GiJBl6eHoPj3W
-   nczV/nPSn34pk8g9gfXWP94nzUkDXefNtfKVXoMsJvsiXnpGcuiUQhRxb
-   Y/x3CHOj31wtLe3I+2M8KuqJaEtT/0k0+PBn0DVwBz5/RcuwsBQCH8WN6
-   Nuy3KOh0LzE+kAZfSJvPN3z78jwOtGPRSP4pcJCOZwoGGEh0qgQwDNzmC
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="365370925"
-X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
-   d="scan'208";a="365370925"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2022 07:28:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="616845983"
-X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
-   d="scan'208";a="616845983"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga007.jf.intel.com with ESMTP; 27 Sep 2022 07:28:08 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id E8EC87C; Tue, 27 Sep 2022 17:28:26 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Prashant Malani <pmalani@chromium.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Cc:     Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: [PATCH v1 2/5] device property: Constify fwnode connection match APIs
-Date:   Tue, 27 Sep 2022 17:28:18 +0300
-Message-Id: <20220927142822.4095-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220927142822.4095-1-andriy.shevchenko@linux.intel.com>
-References: <20220927142822.4095-1-andriy.shevchenko@linux.intel.com>
+        with ESMTP id S233141AbiI0OvL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Sep 2022 10:51:11 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295E55B077;
+        Tue, 27 Sep 2022 07:50:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6470561A05;
+        Tue, 27 Sep 2022 14:50:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BE671C433D6;
+        Tue, 27 Sep 2022 14:50:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664290215;
+        bh=axSkT7wopRkPF4+TxkNdX6InmludY04cLnPwzYvxWp8=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=GxUuVqGFSzk+7xviLu2t/xrxAexr9sDWvpOjgpAlrSPrXobFCPUCrPDE5HSo8/WmL
+         GV2onFYGXuLic5bEwqfkim0HaXkAGiqncM47TLkMy6wzkvb9YVnqhz/ErmV7Mo0rTM
+         OHHeMvljkadCsg8tGr3laaag0McodM16RGCFrApU7P6Zo+/6Za8t5YNBrGsUtqOfe3
+         H3ksUU4BPNmNerdOvI6f8vW+ADghpZu9wgocn7dl4oXr6ckxoJjKucjuGRfdK0VXCs
+         0eD1vRpfYov8lfP12AoXyHD8qclFyKDdpneQt+xQGBI3ZoorMbd4kizfymfkN/QCsP
+         PP0Foq2AnogwA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A12A9E21EC5;
+        Tue, 27 Sep 2022 14:50:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/2] Add Support for Dell 5811e with usb-id 0x413c:0x81c2
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166429021565.22749.13023746895326673030.git-patchwork-notify@kernel.org>
+Date:   Tue, 27 Sep 2022 14:50:15 +0000
+References: <20220926150740.6684-1-linux@fw-web.de>
+In-Reply-To: <20220926150740.6684-1-linux@fw-web.de>
+To:     Frank Wunderlich <linux@fw-web.de>
+Cc:     linux-usb@vger.kernel.org, frank-w@public-files.de, bjorn@mork.no,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, johan@kernel.org, gregkh@linuxfoundation.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The fwnode and device parameters are not altered in the fwnode
-connection match APIs, constify them.
+Hello:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/base/property.c     |  8 ++++----
- drivers/usb/roles/class.c   |  2 +-
- drivers/usb/typec/retimer.c |  2 +-
- include/linux/property.h    | 10 +++++-----
- 4 files changed, 11 insertions(+), 11 deletions(-)
+This series was applied to netdev/net.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 699f1b115e0a..1a1616c9b599 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -1213,7 +1213,7 @@ const void *device_get_match_data(const struct device *dev)
- }
- EXPORT_SYMBOL_GPL(device_get_match_data);
- 
--static unsigned int fwnode_graph_devcon_matches(struct fwnode_handle *fwnode,
-+static unsigned int fwnode_graph_devcon_matches(const struct fwnode_handle *fwnode,
- 						const char *con_id, void *data,
- 						devcon_match_fn_t match,
- 						void **matches,
-@@ -1247,7 +1247,7 @@ static unsigned int fwnode_graph_devcon_matches(struct fwnode_handle *fwnode,
- 	return count;
- }
- 
--static unsigned int fwnode_devcon_matches(struct fwnode_handle *fwnode,
-+static unsigned int fwnode_devcon_matches(const struct fwnode_handle *fwnode,
- 					  const char *con_id, void *data,
- 					  devcon_match_fn_t match,
- 					  void **matches,
-@@ -1289,7 +1289,7 @@ static unsigned int fwnode_devcon_matches(struct fwnode_handle *fwnode,
-  * device node. @match will be used to convert the connection description to
-  * data the caller is expecting to be returned.
-  */
--void *fwnode_connection_find_match(struct fwnode_handle *fwnode,
-+void *fwnode_connection_find_match(const struct fwnode_handle *fwnode,
- 				   const char *con_id, void *data,
- 				   devcon_match_fn_t match)
- {
-@@ -1326,7 +1326,7 @@ EXPORT_SYMBOL_GPL(fwnode_connection_find_match);
-  *
-  * Return: Number of matches resolved, or negative errno.
-  */
--int fwnode_connection_find_matches(struct fwnode_handle *fwnode,
-+int fwnode_connection_find_matches(const struct fwnode_handle *fwnode,
- 				   const char *con_id, void *data,
- 				   devcon_match_fn_t match,
- 				   void **matches, unsigned int matches_len)
-diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-index dfaed7eee94f..a3575a5a18ce 100644
---- a/drivers/usb/roles/class.c
-+++ b/drivers/usb/roles/class.c
-@@ -87,7 +87,7 @@ enum usb_role usb_role_switch_get_role(struct usb_role_switch *sw)
- }
- EXPORT_SYMBOL_GPL(usb_role_switch_get_role);
- 
--static void *usb_role_switch_match(struct fwnode_handle *fwnode, const char *id,
-+static void *usb_role_switch_match(const struct fwnode_handle *fwnode, const char *id,
- 				   void *data)
- {
- 	struct device *dev;
-diff --git a/drivers/usb/typec/retimer.c b/drivers/usb/typec/retimer.c
-index 2003731f1bee..8edfdc709a28 100644
---- a/drivers/usb/typec/retimer.c
-+++ b/drivers/usb/typec/retimer.c
-@@ -34,7 +34,7 @@ static int retimer_fwnode_match(struct device *dev, const void *fwnode)
- 	return dev_fwnode(dev) == fwnode && dev_name_ends_with(dev, "-retimer");
- }
- 
--static void *typec_retimer_match(struct fwnode_handle *fwnode, const char *id, void *data)
-+static void *typec_retimer_match(const struct fwnode_handle *fwnode, const char *id, void *data)
- {
- 	struct device *dev;
- 
-diff --git a/include/linux/property.h b/include/linux/property.h
-index ae5d7f8eccf4..6f9d6604edc3 100644
---- a/include/linux/property.h
-+++ b/include/linux/property.h
-@@ -438,21 +438,21 @@ unsigned int fwnode_graph_get_endpoint_count(struct fwnode_handle *fwnode,
- int fwnode_graph_parse_endpoint(const struct fwnode_handle *fwnode,
- 				struct fwnode_endpoint *endpoint);
- 
--typedef void *(*devcon_match_fn_t)(struct fwnode_handle *fwnode, const char *id,
-+typedef void *(*devcon_match_fn_t)(const struct fwnode_handle *fwnode, const char *id,
- 				   void *data);
- 
--void *fwnode_connection_find_match(struct fwnode_handle *fwnode,
-+void *fwnode_connection_find_match(const struct fwnode_handle *fwnode,
- 				   const char *con_id, void *data,
- 				   devcon_match_fn_t match);
- 
--static inline void *device_connection_find_match(struct device *dev,
-+static inline void *device_connection_find_match(const struct device *dev,
- 						 const char *con_id, void *data,
- 						 devcon_match_fn_t match)
- {
--	return fwnode_connection_find_match(dev_fwnode(dev), con_id, data, match);
-+	return fwnode_connection_find_match(dev_fwnode_const(dev), con_id, data, match);
- }
- 
--int fwnode_connection_find_matches(struct fwnode_handle *fwnode,
-+int fwnode_connection_find_matches(const struct fwnode_handle *fwnode,
- 				   const char *con_id, void *data,
- 				   devcon_match_fn_t match,
- 				   void **matches, unsigned int matches_len);
+On Mon, 26 Sep 2022 17:07:38 +0200 you wrote:
+> From: Frank Wunderlich <frank-w@public-files.de>
+> 
+> Add new USB-id for dell branded EM7455 with this usb-id in qcserial and qmi
+> driver.
+> MBIM-mode works out of the box with 6.0-rc6.
+> 
+> Frank Wunderlich (2):
+>   USB: serial: qcserial: add new usb-id for Dell branded EM7455
+>   net: usb: qmi_wwan: Add new usb-id for Dell branded EM7455
+> 
+> [...]
+
+Here is the summary with links:
+  - [1/2] USB: serial: qcserial: add new usb-id for Dell branded EM7455
+    (no matching commit)
+  - [2/2] net: usb: qmi_wwan: Add new usb-id for Dell branded EM7455
+    https://git.kernel.org/netdev/net/c/797666cd5af0
+
+You are awesome, thank you!
 -- 
-2.35.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
