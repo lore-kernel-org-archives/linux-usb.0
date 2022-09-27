@@ -2,279 +2,240 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E4DBC07E9D
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Sep 2022 15:50:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A736C07E9D
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Sep 2022 15:53:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231848AbiI0Pur (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Sep 2022 11:50:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56886 "EHLO
+        id S230118AbiI0Pxv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Sep 2022 11:53:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231432AbiI0PuV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Sep 2022 11:50:21 -0400
-Received: from mail1.bemta31.messagelabs.com (mail1.bemta31.messagelabs.com [67.219.246.3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91F525E651;
-        Tue, 27 Sep 2022 08:48:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com;
-        s=Selector; t=1664293682; i=@motorola.com;
-        bh=muqfVUx/mpxcI3+xSxkIJS8bgdxtr+N6oOA1TE2KqkI=;
-        h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-         Content-Type:In-Reply-To;
-        b=JJ7XeU4VCCH925Ia2amsr+6tanQuQcnsu0b8J6H9SwczDmAfq53rqQGTo6dOATwgB
-         LSXLcbecK/TY9naZ72S60O6AtD70cZ/KVaqCWLKv4MPOXh0Tx8Pvo1a1z4rtVHbeSq
-         Xk7eUWWUVZXePkB5glugz2iFFN0ggeUoRmZYZUvzhm8O2ab4u29kEJRdG+RheghSBB
-         o4IUnDlqQF0xq8oFtNU7kP9TSzrhYZtAnXqsGZE3vciz+u0Slla22fr5m+H7d+MyxC
-         Vug2RkEdv5p9OgtddZAFvqsyWhp4TjMkLnE5+YqO7Ef+DdLlILQPCrxgvIHBLuTPJm
-         d8dVmYSkN4XKA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrIIsWRWlGSWpSXmKPExsWS8eKJuK6htHG
-  yQftcY4tjbU/YLZoXr2ez6Jy4hN3i8q45bBaLlrUyW2xpu8JksWDjI0aLVQsOsDtweMzumMnq
-  sWlVJ5vH/rlr2D36/xp4bNn/mdHj8ya5ALYo1sy8pPyKBNaMbTuWMxZ0WlfM2LWSqYFxt0EXI
-  xeHkMAMJon9nS+YIJxlTBINr2awdDFycLAIqErc7SvtYuTkYBNQk1jwehUziC0iYCzRf3YWO0
-  g9s0AnUPPfN2AJYQEXiaVrFoDZvALKEgt+noca2sYosXPpdBaIhKDEyZlPwGxmAS2JG/9eMoE
-  sYxaQllj+jwMkzCmgKbFj6S2WCYy8s5B0zELSMQuhYwEj8ypGq6SizPSMktzEzBxdQwMDXUND
-  E11zXUNzM73EKt1EvdJi3dTE4hJdQ73E8mK91OJiveLK3OScFL281JJNjMBwTyli37CDcV7PT
-  71DjJIcTEqivLv/GiUL8SXlp1RmJBZnxBeV5qQWH2KU4eBQkuCdJGmcLCRYlJqeWpGWmQOMPZ
-  i0BAePkghvFEiat7ggMbc4Mx0idYrRmGPq7H/7mTk693cdYBZiycvPS5US5/WQAioVACnNKM2
-  DGwRLCZcYZaWEeRkZGBiEeApSi3IzS1DlXzGKczAqCfMyg0zhycwrgdv3CugUJqBTPjKBnVKS
-  iJCSamDin6gdOT2i7NWO9L8v08WkKy/3yvze9u/FDKl9JfqG/G82Tjrcmcy/c4vcPCG+l+29l
-  hoXTDj8OK/3vmkQD1OIbC3ujDeYIGN73nHNYq9Cv5R/z1h00rIOrHg4V2fznzIHYW+m5hebzx
-  dp/rj07mWpQf3mYwUbrwhkp81sVA09N8tw25kXGSe4rQV/pOQXVUSbhn06HnwnMVfCK31OZ6X
-  o0UMzMqzMhWbumaAwNUghLPnA5JtnfV4Gvl4mat3/UNa852tjmWRw1MEOXW2hayViPs+aNC55
-  LD2au4bjf7FE6u0f3qWOcl57+ZL40rjufky723FQKmX6P96I7bYzP4d8Xbdpi7GQ1L9nRWKKT
-  UosxRmJhlrMRcWJAKkVXkqEAwAA
-X-Env-Sender: w36195@motorola.com
-X-Msg-Ref: server-16.tower-686.messagelabs.com!1664293681!93017!1
-X-Originating-IP: [104.232.228.23]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.87.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 23920 invoked from network); 27 Sep 2022 15:48:01 -0000
-Received: from unknown (HELO va32lpfpp03.lenovo.com) (104.232.228.23)
-  by server-16.tower-686.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 27 Sep 2022 15:48:01 -0000
-Received: from va32lmmrp01.lenovo.com (va32lmmrp01.mot.com [10.62.177.113])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by va32lpfpp03.lenovo.com (Postfix) with ESMTPS id 4McPCj4BVFz50WfM;
-        Tue, 27 Sep 2022 15:48:01 +0000 (UTC)
-Received: from p1g3 (unknown [100.64.172.121])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: w36195)
-        by va32lmmrp01.lenovo.com (Postfix) with ESMTPSA id 4McPCj2SZJzf6f8;
-        Tue, 27 Sep 2022 15:48:01 +0000 (UTC)
-Date:   Tue, 27 Sep 2022 10:47:55 -0500
-From:   Dan Vacura <w36195@motorola.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        stable@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: uvc: fix sg handling in error case
-Message-ID: <YzMbK0ZZ08WD8ql+@p1g3>
-References: <20220926195307.110121-1-w36195@motorola.com>
- <20220926195307.110121-2-w36195@motorola.com>
- <YzK1Xry5KIrMr18F@kroah.com>
+        with ESMTP id S229779AbiI0Pxa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Sep 2022 11:53:30 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76CBC5E662;
+        Tue, 27 Sep 2022 08:53:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664294006; x=1695830006;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=yWf0AKBcbKVO8mFX9yX+cExaY/j0C7Lc8cRLyTHGlqI=;
+  b=ivfrbgqdwJFPYe48lZqgrlIWHfDVhm03IfvgK+VBzXItRYOEocBvUaRe
+   lLXZYwnPbzo8P+to2+fscrNlC3MCd157if1IlBVFq0Q/qK/mpBS1c4lD+
+   A5JZAf45bc22N1f1zvakho6MD8/25EH65ZfYxWR6MW1KYH1UKLrg9dcGO
+   ocD9l0lZCGkNKbQD70lSLlHRHlNUCln5woQ0gfi87MmvOXsWpkRsT6WD1
+   BvHvYBKYN5Zf8f2X5MJBExvb02yJruma6Y5EUXUsxdhBoJVqKWWE09oUk
+   ACjskrIBMLdXNRtx/wHGLpxDGWrwQrrgB0Rm4MyPKi7owm8QRrCd9+m6y
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="365395783"
+X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
+   d="scan'208";a="365395783"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2022 08:53:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="950335528"
+X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
+   d="scan'208";a="950335528"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga005.fm.intel.com with ESMTP; 27 Sep 2022 08:53:22 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 78D8D101; Tue, 27 Sep 2022 18:53:41 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andrey Smirnov <andrew.smirnov@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Felipe Balbi <balbi@kernel.org>, Ferry Toth <fntoth@gmail.com>,
+        stable@vger.kernel.org
+Subject: [PATCH v2 2/2] Revert "usb: dwc3: Don't switch OTG -> peripheral if extcon is present"
+Date:   Tue, 27 Sep 2022 18:53:32 +0300
+Message-Id: <20220927155332.10762-3-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220927155332.10762-1-andriy.shevchenko@linux.intel.com>
+References: <20220927155332.10762-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YzK1Xry5KIrMr18F@kroah.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg,
+This reverts commit 0f01017191384e3962fa31520a9fd9846c3d352f.
 
-On Tue, Sep 27, 2022 at 10:33:34AM +0200, Greg Kroah-Hartman wrote:
-> On Mon, Sep 26, 2022 at 02:53:07PM -0500, Dan Vacura wrote:
-> > If there is a transmission error the buffer will be returned too early,
-> > causing a memory fault as subsequent requests for that buffer are still
-> > queued up to be sent. Refactor the error handling to wait for the final
-> > request to come in before reporting back the buffer to userspace for all
-> > transfer types (bulk/isoc/isoc_sg) to ensure userspace knows if the
-> > frame was successfully sent.
-> > 
-> > Fixes: e81e7f9a0eb9 ("usb: gadget: uvc: add scatter gather support")
-> > Cc: <stable@vger.kernel.org> # 859c675d84d4: usb: gadget: uvc: consistently use define for headerlen
-> > Cc: <stable@vger.kernel.org> # f262ce66d40c: usb: gadget: uvc: use on returned header len in video_encode_isoc_sg
-> > Cc: <stable@vger.kernel.org> # 61aa709ca58a: usb: gadget: uvc: rework uvcg_queue_next_buffer to uvcg_complete_buffer
-> > Cc: <stable@vger.kernel.org> # 9b969f93bcef: usb: gadget: uvc: giveback vb2 buffer on req complete
-> > Cc: <stable@vger.kernel.org> # aef11279888c: usb: gadget: uvc: improve sg exit condition
-> 
-> I don't understand, why we backport all of these commits to 5.15.y if
-> the original problem isn't in 5.15.y?
-> 
-> Or is it?
-> 
-> I'm confused,
+As pointed out by Ferry this breaks Dual Role support on
+Intel Merrifield platforms.
 
-It seems we have a regression in 5.15 with some recent, still in
-development, features for the uvc gadget driver. Compared to the last
-kernel I worked with, 5.10, I'm seeing stability and functional issues
-in 5.15, explained in my summary here:
-https://lore.kernel.org/all/20220926195307.110121-1-w36195@motorola.com/
+Fixes: 0f0101719138 ("usb: dwc3: Don't switch OTG -> peripheral if extcon is present")
+Reported-by: Ferry Toth <fntoth@gmail.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Tested-by: Ferry Toth <fntoth@gmail.com> # for Merrifield
+---
+ drivers/usb/dwc3/core.c | 55 +----------------------------------------
+ drivers/usb/dwc3/drd.c  | 50 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+), 54 deletions(-)
 
-I think we have few approaches.
-1) Work through these issues and get the fixes into mainline and stable
-versions, this patch starts that effort, but there's still more work to
-be done.
-2) Revert the changes that are causing regressions in 5.15 (two changes
-from what I can see).
-3) Add a configfs ability to allow sg isoc transfers and couple the
-quarter interrupt logic to only sg xfers.
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index c2b463469d51..219d797e2230 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -23,7 +23,6 @@
+ #include <linux/delay.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/of.h>
+-#include <linux/of_graph.h>
+ #include <linux/acpi.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/reset.h>
+@@ -86,7 +85,7 @@ static int dwc3_get_dr_mode(struct dwc3 *dwc)
+ 		 * mode. If the controller supports DRD but the dr_mode is not
+ 		 * specified or set to OTG, then set the mode to peripheral.
+ 		 */
+-		if (mode == USB_DR_MODE_OTG && !dwc->edev &&
++		if (mode == USB_DR_MODE_OTG &&
+ 		    (!IS_ENABLED(CONFIG_USB_ROLE_SWITCH) ||
+ 		     !device_property_read_bool(dwc->dev, "usb-role-switch")) &&
+ 		    !DWC3_VER_IS_PRIOR(DWC3, 330A))
+@@ -1668,51 +1667,6 @@ static void dwc3_check_params(struct dwc3 *dwc)
+ 	}
+ }
+ 
+-static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
+-{
+-	struct device *dev = dwc->dev;
+-	struct device_node *np_phy;
+-	struct extcon_dev *edev = NULL;
+-	const char *name;
+-
+-	if (device_property_read_bool(dev, "extcon"))
+-		return extcon_get_edev_by_phandle(dev, 0);
+-
+-	/*
+-	 * Device tree platforms should get extcon via phandle.
+-	 * On ACPI platforms, we get the name from a device property.
+-	 * This device property is for kernel internal use only and
+-	 * is expected to be set by the glue code.
+-	 */
+-	if (device_property_read_string(dev, "linux,extcon-name", &name) == 0) {
+-		edev = extcon_get_extcon_dev(name);
+-		if (!edev)
+-			return ERR_PTR(-EPROBE_DEFER);
+-
+-		return edev;
+-	}
+-
+-	/*
+-	 * Try to get an extcon device from the USB PHY controller's "port"
+-	 * node. Check if it has the "port" node first, to avoid printing the
+-	 * error message from underlying code, as it's a valid case: extcon
+-	 * device (and "port" node) may be missing in case of "usb-role-switch"
+-	 * or OTG mode.
+-	 */
+-	np_phy = of_parse_phandle(dev->of_node, "phys", 0);
+-	if (of_graph_is_present(np_phy)) {
+-		struct device_node *np_conn;
+-
+-		np_conn = of_graph_get_remote_node(np_phy, -1, -1);
+-		if (np_conn)
+-			edev = extcon_find_edev_by_node(np_conn);
+-		of_node_put(np_conn);
+-	}
+-	of_node_put(np_phy);
+-
+-	return edev;
+-}
+-
+ static int dwc3_probe(struct platform_device *pdev)
+ {
+ 	struct device		*dev = &pdev->dev;
+@@ -1849,13 +1803,6 @@ static int dwc3_probe(struct platform_device *pdev)
+ 		goto err2;
+ 	}
+ 
+-	dwc->edev = dwc3_get_extcon(dwc);
+-	if (IS_ERR(dwc->edev)) {
+-		ret = PTR_ERR(dwc->edev);
+-		dev_err_probe(dwc->dev, ret, "failed to get extcon\n");
+-		goto err3;
+-	}
+-
+ 	ret = dwc3_get_dr_mode(dwc);
+ 	if (ret)
+ 		goto err3;
+diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+index 039bf241769a..8cad9e7d3368 100644
+--- a/drivers/usb/dwc3/drd.c
++++ b/drivers/usb/dwc3/drd.c
+@@ -8,6 +8,7 @@
+  */
+ 
+ #include <linux/extcon.h>
++#include <linux/of_graph.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/property.h>
+@@ -438,6 +439,51 @@ static int dwc3_drd_notifier(struct notifier_block *nb,
+ 	return NOTIFY_DONE;
+ }
+ 
++static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
++{
++	struct device *dev = dwc->dev;
++	struct device_node *np_phy;
++	struct extcon_dev *edev = NULL;
++	const char *name;
++
++	if (device_property_read_bool(dev, "extcon"))
++		return extcon_get_edev_by_phandle(dev, 0);
++
++	/*
++	 * Device tree platforms should get extcon via phandle.
++	 * On ACPI platforms, we get the name from a device property.
++	 * This device property is for kernel internal use only and
++	 * is expected to be set by the glue code.
++	 */
++	if (device_property_read_string(dev, "linux,extcon-name", &name) == 0) {
++		edev = extcon_get_extcon_dev(name);
++		if (!edev)
++			return ERR_PTR(-EPROBE_DEFER);
++
++		return edev;
++	}
++
++	/*
++	 * Try to get an extcon device from the USB PHY controller's "port"
++	 * node. Check if it has the "port" node first, to avoid printing the
++	 * error message from underlying code, as it's a valid case: extcon
++	 * device (and "port" node) may be missing in case of "usb-role-switch"
++	 * or OTG mode.
++	 */
++	np_phy = of_parse_phandle(dev->of_node, "phys", 0);
++	if (of_graph_is_present(np_phy)) {
++		struct device_node *np_conn;
++
++		np_conn = of_graph_get_remote_node(np_phy, -1, -1);
++		if (np_conn)
++			edev = extcon_find_edev_by_node(np_conn);
++		of_node_put(np_conn);
++	}
++	of_node_put(np_phy);
++
++	return edev;
++}
++
+ #if IS_ENABLED(CONFIG_USB_ROLE_SWITCH)
+ #define ROLE_SWITCH 1
+ static int dwc3_usb_role_switch_set(struct usb_role_switch *sw,
+@@ -542,6 +588,10 @@ int dwc3_drd_init(struct dwc3 *dwc)
+ 	    device_property_read_bool(dwc->dev, "usb-role-switch"))
+ 		return dwc3_setup_role_switch(dwc);
+ 
++	dwc->edev = dwc3_get_extcon(dwc);
++	if (IS_ERR(dwc->edev))
++		return PTR_ERR(dwc->edev);
++
+ 	if (dwc->edev) {
+ 		dwc->edev_nb.notifier_call = dwc3_drd_notifier;
+ 		ret = extcon_register_notifier(dwc->edev, EXTCON_USB_HOST,
+-- 
+2.35.1
 
-Approach 2 is my preference, as there are issues still present that need
-to be figured out. However, I don't know how we can revert to just a
-stable line. I'm basically looking for feedback and input for the next
-steps, and if it's just me with these issues on 5.15.
-
-> 
-> greg k-h
-> 
-> 
-> > Cc: <stable@vger.kernel.org>
-> > Signed-off-by: Dan Vacura <w36195@motorola.com>
-> > 
-> > ---
-> >  drivers/usb/gadget/function/uvc_queue.c |  8 +++++---
-> >  drivers/usb/gadget/function/uvc_queue.h |  2 +-
-> >  drivers/usb/gadget/function/uvc_video.c | 18 ++++++++++++++----
-> >  3 files changed, 20 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-> > index ec500ee499ee..72e7ffd9a021 100644
-> > --- a/drivers/usb/gadget/function/uvc_queue.c
-> > +++ b/drivers/usb/gadget/function/uvc_queue.c
-> > @@ -304,6 +304,7 @@ int uvcg_queue_enable(struct uvc_video_queue *queue, int enable)
-> >  
-> >  		queue->sequence = 0;
-> >  		queue->buf_used = 0;
-> > +		queue->flags &= ~UVC_QUEUE_MISSED_XFER;
-> >  	} else {
-> >  		ret = vb2_streamoff(&queue->queue, queue->queue.type);
-> >  		if (ret < 0)
-> > @@ -329,10 +330,11 @@ int uvcg_queue_enable(struct uvc_video_queue *queue, int enable)
-> >  void uvcg_complete_buffer(struct uvc_video_queue *queue,
-> >  					  struct uvc_buffer *buf)
-> >  {
-> > -	if ((queue->flags & UVC_QUEUE_DROP_INCOMPLETE) &&
-> > -	     buf->length != buf->bytesused) {
-> > -		buf->state = UVC_BUF_STATE_QUEUED;
-> > +	if ((queue->flags & UVC_QUEUE_MISSED_XFER)) {
-> > +		queue->flags &= ~UVC_QUEUE_MISSED_XFER;
-> > +		buf->state = UVC_BUF_STATE_ERROR;
-> >  		vb2_set_plane_payload(&buf->buf.vb2_buf, 0, 0);
-> > +		vb2_buffer_done(&buf->buf.vb2_buf, VB2_BUF_STATE_ERROR);
-> >  		return;
-> >  	}
-> >  
-> > diff --git a/drivers/usb/gadget/function/uvc_queue.h b/drivers/usb/gadget/function/uvc_queue.h
-> > index 41f87b917f6b..741ec58ae9bb 100644
-> > --- a/drivers/usb/gadget/function/uvc_queue.h
-> > +++ b/drivers/usb/gadget/function/uvc_queue.h
-> > @@ -42,7 +42,7 @@ struct uvc_buffer {
-> >  };
-> >  
-> >  #define UVC_QUEUE_DISCONNECTED		(1 << 0)
-> > -#define UVC_QUEUE_DROP_INCOMPLETE	(1 << 1)
-> > +#define UVC_QUEUE_MISSED_XFER 		(1 << 1)
-> 
-> Why change the name of the error?
-
-I thought MISSED_XFER was a more explicit name to what is going on,
-instead of an action. I can change it back.
-
-> 
-> >  
-> >  struct uvc_video_queue {
-> >  	struct vb2_queue queue;
-> > diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-> > index bb037fcc90e6..e46591b067a8 100644
-> > --- a/drivers/usb/gadget/function/uvc_video.c
-> > +++ b/drivers/usb/gadget/function/uvc_video.c
-> > @@ -88,6 +88,7 @@ uvc_video_encode_bulk(struct usb_request *req, struct uvc_video *video,
-> >  		struct uvc_buffer *buf)
-> >  {
-> >  	void *mem = req->buf;
-> > +	struct uvc_request *ureq = req->context;
-> >  	int len = video->req_size;
-> >  	int ret;
-> >  
-> > @@ -113,13 +114,14 @@ uvc_video_encode_bulk(struct usb_request *req, struct uvc_video *video,
-> >  		video->queue.buf_used = 0;
-> >  		buf->state = UVC_BUF_STATE_DONE;
-> >  		list_del(&buf->queue);
-> > -		uvcg_complete_buffer(&video->queue, buf);
-> >  		video->fid ^= UVC_STREAM_FID;
-> > +		ureq->last_buf = buf;
-> >  
-> >  		video->payload_size = 0;
-> >  	}
-> >  
-> >  	if (video->payload_size == video->max_payload_size ||
-> > +	    video->queue.flags & UVC_QUEUE_MISSED_XFER ||
-> >  	    buf->bytesused == video->queue.buf_used)
-> >  		video->payload_size = 0;
-> >  }
-> > @@ -180,7 +182,8 @@ uvc_video_encode_isoc_sg(struct usb_request *req, struct uvc_video *video,
-> >  	req->length -= len;
-> >  	video->queue.buf_used += req->length - header_len;
-> >  
-> > -	if (buf->bytesused == video->queue.buf_used || !buf->sg) {
-> > +	if (buf->bytesused == video->queue.buf_used || !buf->sg ||
-> > +			video->queue.flags & UVC_QUEUE_MISSED_XFER) {
-> >  		video->queue.buf_used = 0;
-> >  		buf->state = UVC_BUF_STATE_DONE;
-> >  		buf->offset = 0;
-> > @@ -195,6 +198,7 @@ uvc_video_encode_isoc(struct usb_request *req, struct uvc_video *video,
-> >  		struct uvc_buffer *buf)
-> >  {
-> >  	void *mem = req->buf;
-> > +	struct uvc_request *ureq = req->context;
-> >  	int len = video->req_size;
-> >  	int ret;
-> >  
-> > @@ -209,12 +213,13 @@ uvc_video_encode_isoc(struct usb_request *req, struct uvc_video *video,
-> >  
-> >  	req->length = video->req_size - len;
-> >  
-> > -	if (buf->bytesused == video->queue.buf_used) {
-> > +	if (buf->bytesused == video->queue.buf_used ||
-> > +			video->queue.flags & UVC_QUEUE_MISSED_XFER) {
-> >  		video->queue.buf_used = 0;
-> >  		buf->state = UVC_BUF_STATE_DONE;
-> >  		list_del(&buf->queue);
-> > -		uvcg_complete_buffer(&video->queue, buf);
-> >  		video->fid ^= UVC_STREAM_FID;
-> > +		ureq->last_buf = buf;
-> >  	}
-> >  }
-> >  
-> > @@ -255,6 +260,11 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
-> >  	case 0:
-> >  		break;
-> >  
-> > +	case -EXDEV:
-> > +		uvcg_info(&video->uvc->func, "VS request missed xfer.\n");
-> 
-> Why are you spamming the kernel logs at the info level for a USB
-> transmission problem?   That could get very noisy, please change this to
-> be at the debug level.
-
-Previously this would printout as a dev_warn in a725d0f6dfc5 ("usb:
-gadget: uvc: call uvc uvcg_warn on completed status instead of
-uvcg_info"), which I think might be too noisy. Info is helpful to
-see what's going on if there is video corruption, but I can change to a
-dbg as well.
-
-> 
-> thanks,
-> 
-> greg k-h
-
-
-Appreciate the input,
-
-Dan
