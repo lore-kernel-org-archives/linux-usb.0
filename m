@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CE1CC54EE9
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Sep 2022 14:28:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 599B3C6FA82
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Sep 2022 14:28:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232190AbiI0O20 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Sep 2022 10:28:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48878 "EHLO
+        id S231964AbiI0O22 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Sep 2022 10:28:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231974AbiI0O2O (ORCPT
+        with ESMTP id S232342AbiI0O2O (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Sep 2022 10:28:14 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DDEA1857BF;
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C121EF0AF;
         Tue, 27 Sep 2022 07:28:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1664288893; x=1695824893;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cGiBw8L0ywgUyx1iTQQodYnhEJ/yQh4jXSXjDl9NZPU=;
-  b=KnnM+75F+3zK44k+OT8tZVlBxacbRF9my+XVgO/I7BNcYLgsdsRU7KUI
-   dusHHpWIS0FDnBjf4vGBatCZ/VYI3gN7gchpsAQgezWwV6jU4+RRFscBr
-   NR1bekf4jYeYo+dluvUK2fv918gak7Abqdldpafr1PVbp9vOvEALhpBmR
-   75ddTT032xP0HgTxjSFZwhcI03BBwZnMZvbPjCNDSCDrcVB6+Kyc//h0B
-   G7aMRZgV+kWT/5dxDuDiJpFDqVE1Ky4bCagRBgMfaMvoMYkAF1rvVOI6/
-   Etmbv+gs1A52dimUFwsZesGTrdDaGYBi0ciA7st44MAoNZZsDEYETuOiC
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="302808028"
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=5Ldno0VG4b7OFqx4NzeiuH/7QWhkds3QSmsBZXHBdbQ=;
+  b=jq9hNAvqdGATEeVZxFo5W7XGKbbbJN6oUBFWQgCYrv5705qBl/SmSBrG
+   El98UFG4lKQE7ckMgKLg3VG0XRT4CuqHfLoOVDCHowAks4118JQV4bG9v
+   GJDfQw41tk/S2eyww2Se5r55w6ZbXmXxbJYL37hJv5tktpXs/jS0CEtOt
+   j2euaRVYutMsWzX399qxxvbqiop+dfepWZYIkPKhZt92GqXGpQSn1sZaV
+   N6pZhvdkq+b3801Z6jgOMwmGMBAoyLbvZ/2QnDikdGZujDugSWvmQI+ZX
+   z3KvmtmK5ZceN8Ju3eR8Xys4mB0hHXRI+Nqqe6Ava8XlvO81FVkXcsyMI
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="365370926"
 X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
-   d="scan'208";a="302808028"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2022 07:28:11 -0700
+   d="scan'208";a="365370926"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2022 07:28:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="684008507"
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="616845984"
 X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
-   d="scan'208";a="684008507"
+   d="scan'208";a="616845984"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga008.fm.intel.com with ESMTP; 27 Sep 2022 07:28:08 -0700
+  by orsmga007.jf.intel.com with ESMTP; 27 Sep 2022 07:28:08 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id DFA38F7; Tue, 27 Sep 2022 17:28:26 +0300 (EEST)
+        id 149F9268; Tue, 27 Sep 2022 17:28:27 +0300 (EEST)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Prashant Malani <pmalani@chromium.org>,
@@ -50,79 +50,71 @@ Cc:     Daniel Scally <djrscally@gmail.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: [PATCH v1 1/5] device property: Keep dev_fwnode() and dev_fwnode_const() separate
-Date:   Tue, 27 Sep 2022 17:28:17 +0300
-Message-Id: <20220927142822.4095-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 5/5] device property: Constify parameter in device_dma_supported() and device_get_dma_attr()
+Date:   Tue, 27 Sep 2022 17:28:21 +0300
+Message-Id: <20220927142822.4095-5-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220927142822.4095-1-andriy.shevchenko@linux.intel.com>
+References: <20220927142822.4095-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-It's not fully correct to take a const parameter pointer to a struct
-and return a non-const pointer to a member of that struct.
+Constify parameter in device_dma_supported() and device_get_dma_attr()
+since they don't alter anything related to it.
 
-Instead, introduce a const version of the dev_fwnode() API which takes
-and returns const pointers and use it where it's applicable.
-
-Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Fixes: aade55c86033 ("device property: Add const qualifier to device_get_match_data() parameter")
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/base/property.c  | 11 +++++++++--
- include/linux/property.h |  3 ++-
- 2 files changed, 11 insertions(+), 3 deletions(-)
+ drivers/base/property.c  | 10 +++++-----
+ include/linux/property.h |  5 ++---
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 4d6278a84868..699f1b115e0a 100644
+index 04eb5e0ab407..5b0417f7e561 100644
 --- a/drivers/base/property.c
 +++ b/drivers/base/property.c
-@@ -17,13 +17,20 @@
- #include <linux/property.h>
- #include <linux/phy.h>
- 
--struct fwnode_handle *dev_fwnode(const struct device *dev)
-+struct fwnode_handle *dev_fwnode(struct device *dev)
- {
- 	return IS_ENABLED(CONFIG_OF) && dev->of_node ?
- 		of_fwnode_handle(dev->of_node) : dev->fwnode;
+@@ -871,18 +871,18 @@ unsigned int device_get_child_node_count(const struct device *dev)
  }
- EXPORT_SYMBOL_GPL(dev_fwnode);
+ EXPORT_SYMBOL_GPL(device_get_child_node_count);
  
-+const struct fwnode_handle *dev_fwnode_const(const struct device *dev)
-+{
-+	return IS_ENABLED(CONFIG_OF) && dev->of_node ?
-+		of_fwnode_handle(dev->of_node) : dev->fwnode;
-+}
-+EXPORT_SYMBOL_GPL(dev_fwnode_const);
-+
- /**
-  * device_property_present - check if a property of a device is present
-  * @dev: Device whose property is being checked
-@@ -1202,7 +1209,7 @@ EXPORT_SYMBOL(fwnode_graph_parse_endpoint);
- 
- const void *device_get_match_data(const struct device *dev)
+-bool device_dma_supported(struct device *dev)
++bool device_dma_supported(const struct device *dev)
  {
--	return fwnode_call_ptr_op(dev_fwnode(dev), device_get_match_data, dev);
-+	return fwnode_call_ptr_op(dev_fwnode_const(dev), device_get_match_data, dev);
+-	return fwnode_call_bool_op(dev_fwnode(dev), device_dma_supported);
++	return fwnode_call_bool_op(dev_fwnode_const(dev), device_dma_supported);
  }
- EXPORT_SYMBOL_GPL(device_get_match_data);
+ EXPORT_SYMBOL_GPL(device_dma_supported);
+ 
+-enum dev_dma_attr device_get_dma_attr(struct device *dev)
++enum dev_dma_attr device_get_dma_attr(const struct device *dev)
+ {
+-	if (!fwnode_has_op(dev_fwnode(dev), device_get_dma_attr))
++	if (!fwnode_has_op(dev_fwnode_const(dev), device_get_dma_attr))
+ 		return DEV_DMA_NOT_SUPPORTED;
+ 
+-	return fwnode_call_int_op(dev_fwnode(dev), device_get_dma_attr);
++	return fwnode_call_int_op(dev_fwnode_const(dev), device_get_dma_attr);
+ }
+ EXPORT_SYMBOL_GPL(device_get_dma_attr);
  
 diff --git a/include/linux/property.h b/include/linux/property.h
-index 117cc200c656..ae5d7f8eccf4 100644
+index 31dd6cbea9b0..a9498757155d 100644
 --- a/include/linux/property.h
 +++ b/include/linux/property.h
-@@ -32,7 +32,8 @@ enum dev_dma_attr {
- 	DEV_DMA_COHERENT,
- };
+@@ -384,9 +384,8 @@ property_entries_dup(const struct property_entry *properties);
  
--struct fwnode_handle *dev_fwnode(const struct device *dev);
-+struct fwnode_handle *dev_fwnode(struct device *dev);
-+const struct fwnode_handle *dev_fwnode_const(const struct device *dev);
+ void property_entries_free(const struct property_entry *properties);
  
- bool device_property_present(struct device *dev, const char *propname);
- int device_property_read_u8_array(struct device *dev, const char *propname,
+-bool device_dma_supported(struct device *dev);
+-
+-enum dev_dma_attr device_get_dma_attr(struct device *dev);
++bool device_dma_supported(const struct device *dev);
++enum dev_dma_attr device_get_dma_attr(const struct device *dev);
+ 
+ const void *device_get_match_data(const struct device *dev);
+ 
 -- 
 2.35.1
 
