@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28746C6FA93
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Sep 2022 10:58:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3016C32771
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Sep 2022 10:58:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234012AbiI1K6f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Sep 2022 06:58:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42626 "EHLO
+        id S232333AbiI1K65 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Sep 2022 06:58:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233968AbiI1K6E (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Sep 2022 06:58:04 -0400
+        with ESMTP id S234020AbiI1K6F (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Sep 2022 06:58:05 -0400
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA185A15D;
-        Wed, 28 Sep 2022 03:57:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 879164B4B0;
+        Wed, 28 Sep 2022 03:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664362656; x=1695898656;
+  t=1664362657; x=1695898657;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=hGfbEq9OADeieqfMdhXXTPithXdnj/o9K+7f9b845sI=;
-  b=S8Mt6q2+iB8Bhyjj0FJWJVgawDxNuDcN/UfYsamjsIzK08251Qavc8Ww
-   snqYtY0Cfaw8PD0l5w3AxwVyf8xysUH83i1Q5renxU00ubM4wJqSiInQc
-   matrjFa963WP39akyVuGrawcsV3Me1O1vnpwdbWRke2F5K1ZajZNjnDp6
-   8nBFQjd3SKE/L+kGjv7lxOTIJDwy8083/pPWS3iv00usjw8jamw7VSCAQ
-   w+3QQkupzTeugCwbjiAO9DdlA0Klfgn7gyeXXZuleu9HX7CBbQWFqbHVZ
-   yxH5ae6WPd2SjiOBZ6CLw5pMp4Z/sS09A51l94u/8yX3escPk/niC8BXJ
+  bh=skX/WDwNM/DXd0kPEwSKK6N878en+b7YxS0IVV3SxMc=;
+  b=SO6Bae/lsRYYg9lADEgzU0rlFRIXHKWt/n+rzI3+UW4tnnszvhtzwoxO
+   bZveginox5mhaX6TRpbUTVkwkSnAJ1fE5Da4kNSjE1N+r2xKLqtLlMBo9
+   l1XYx/ki32Mx3ZNCbxIskxU39XkiNLfyRUFMBRQnksIeuwnX0/EgOG2OI
+   JtczwInSzp/819vxwELXMCRsHuvN1DjhHErti82Y8VWCQpM8BF+kcZBxh
+   CV4Y5569QNhr8dN9HHeooUBYkGl5Lk1wjYF/gneC2Fa+dIXYy5SkDk0xq
+   lPln7M/SSP2ssvyQFRRA+r+vleR5L2Z5PsqIJCP3F6Ab5AvfGoe0GhAiz
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="281288049"
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="281288064"
 X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; 
-   d="scan'208";a="281288049"
+   d="scan'208";a="281288064"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2022 03:57:33 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2022 03:57:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="621881361"
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="621881391"
 X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; 
-   d="scan'208";a="621881361"
+   d="scan'208";a="621881391"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga002.jf.intel.com with ESMTP; 28 Sep 2022 03:57:30 -0700
+  by orsmga002.jf.intel.com with ESMTP; 28 Sep 2022 03:57:34 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id F2AC8265; Wed, 28 Sep 2022 13:57:48 +0300 (EEST)
+        id 2573E57F; Wed, 28 Sep 2022 13:57:49 +0300 (EEST)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -51,9 +51,9 @@ To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-usb@vger.kernel.org
 Cc:     Daniel Scally <djrscally@gmail.com>,
         "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: [PATCH v2 2/5] device property: Constify fwnode connection match APIs
-Date:   Wed, 28 Sep 2022 13:57:43 +0300
-Message-Id: <20220928105746.51208-3-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 5/5] device property: Constify parameter in device_dma_supported() and device_get_dma_attr()
+Date:   Wed, 28 Sep 2022 13:57:46 +0300
+Message-Id: <20220928105746.51208-6-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220928105746.51208-1-andriy.shevchenko@linux.intel.com>
 References: <20220928105746.51208-1-andriy.shevchenko@linux.intel.com>
@@ -63,143 +63,61 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The fwnode and device parameters are not altered in the fwnode
-connection match APIs, constify them.
+Constify parameter in device_dma_supported() and device_get_dma_attr()
+since they don't alter anything related to it.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/base/property.c     |  8 ++++----
- drivers/usb/roles/class.c   |  2 +-
- drivers/usb/typec/mux.c     |  8 ++++----
- drivers/usb/typec/retimer.c |  2 +-
- include/linux/property.h    | 10 +++++-----
- 5 files changed, 15 insertions(+), 15 deletions(-)
+ drivers/base/property.c  | 10 +++++-----
+ include/linux/property.h |  5 ++---
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 699f1b115e0a..1a1616c9b599 100644
+index 04eb5e0ab407..5b0417f7e561 100644
 --- a/drivers/base/property.c
 +++ b/drivers/base/property.c
-@@ -1213,7 +1213,7 @@ const void *device_get_match_data(const struct device *dev)
+@@ -871,18 +871,18 @@ unsigned int device_get_child_node_count(const struct device *dev)
  }
- EXPORT_SYMBOL_GPL(device_get_match_data);
+ EXPORT_SYMBOL_GPL(device_get_child_node_count);
  
--static unsigned int fwnode_graph_devcon_matches(struct fwnode_handle *fwnode,
-+static unsigned int fwnode_graph_devcon_matches(const struct fwnode_handle *fwnode,
- 						const char *con_id, void *data,
- 						devcon_match_fn_t match,
- 						void **matches,
-@@ -1247,7 +1247,7 @@ static unsigned int fwnode_graph_devcon_matches(struct fwnode_handle *fwnode,
- 	return count;
- }
- 
--static unsigned int fwnode_devcon_matches(struct fwnode_handle *fwnode,
-+static unsigned int fwnode_devcon_matches(const struct fwnode_handle *fwnode,
- 					  const char *con_id, void *data,
- 					  devcon_match_fn_t match,
- 					  void **matches,
-@@ -1289,7 +1289,7 @@ static unsigned int fwnode_devcon_matches(struct fwnode_handle *fwnode,
-  * device node. @match will be used to convert the connection description to
-  * data the caller is expecting to be returned.
-  */
--void *fwnode_connection_find_match(struct fwnode_handle *fwnode,
-+void *fwnode_connection_find_match(const struct fwnode_handle *fwnode,
- 				   const char *con_id, void *data,
- 				   devcon_match_fn_t match)
+-bool device_dma_supported(struct device *dev)
++bool device_dma_supported(const struct device *dev)
  {
-@@ -1326,7 +1326,7 @@ EXPORT_SYMBOL_GPL(fwnode_connection_find_match);
-  *
-  * Return: Number of matches resolved, or negative errno.
-  */
--int fwnode_connection_find_matches(struct fwnode_handle *fwnode,
-+int fwnode_connection_find_matches(const struct fwnode_handle *fwnode,
- 				   const char *con_id, void *data,
- 				   devcon_match_fn_t match,
- 				   void **matches, unsigned int matches_len)
-diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-index dfaed7eee94f..a3575a5a18ce 100644
---- a/drivers/usb/roles/class.c
-+++ b/drivers/usb/roles/class.c
-@@ -87,7 +87,7 @@ enum usb_role usb_role_switch_get_role(struct usb_role_switch *sw)
+-	return fwnode_call_bool_op(dev_fwnode(dev), device_dma_supported);
++	return fwnode_call_bool_op(dev_fwnode_const(dev), device_dma_supported);
  }
- EXPORT_SYMBOL_GPL(usb_role_switch_get_role);
+ EXPORT_SYMBOL_GPL(device_dma_supported);
  
--static void *usb_role_switch_match(struct fwnode_handle *fwnode, const char *id,
-+static void *usb_role_switch_match(const struct fwnode_handle *fwnode, const char *id,
- 				   void *data)
+-enum dev_dma_attr device_get_dma_attr(struct device *dev)
++enum dev_dma_attr device_get_dma_attr(const struct device *dev)
  {
- 	struct device *dev;
-diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
-index 464330776cd6..f81ea26ab389 100644
---- a/drivers/usb/typec/mux.c
-+++ b/drivers/usb/typec/mux.c
-@@ -32,8 +32,8 @@ static int switch_fwnode_match(struct device *dev, const void *fwnode)
- 	return dev_fwnode(dev) == fwnode;
+-	if (!fwnode_has_op(dev_fwnode(dev), device_get_dma_attr))
++	if (!fwnode_has_op(dev_fwnode_const(dev), device_get_dma_attr))
+ 		return DEV_DMA_NOT_SUPPORTED;
+ 
+-	return fwnode_call_int_op(dev_fwnode(dev), device_get_dma_attr);
++	return fwnode_call_int_op(dev_fwnode_const(dev), device_get_dma_attr);
  }
- 
--static void *typec_switch_match(struct fwnode_handle *fwnode, const char *id,
--				void *data)
-+static void *typec_switch_match(const struct fwnode_handle *fwnode,
-+				const char *id, void *data)
- {
- 	struct device *dev;
- 
-@@ -262,8 +262,8 @@ static int mux_fwnode_match(struct device *dev, const void *fwnode)
- 	return dev_fwnode(dev) == fwnode;
- }
- 
--static void *typec_mux_match(struct fwnode_handle *fwnode, const char *id,
--			     void *data)
-+static void *typec_mux_match(const struct fwnode_handle *fwnode,
-+			     const char *id, void *data)
- {
- 	const struct typec_altmode_desc *desc = data;
- 	struct device *dev;
-diff --git a/drivers/usb/typec/retimer.c b/drivers/usb/typec/retimer.c
-index 2003731f1bee..8edfdc709a28 100644
---- a/drivers/usb/typec/retimer.c
-+++ b/drivers/usb/typec/retimer.c
-@@ -34,7 +34,7 @@ static int retimer_fwnode_match(struct device *dev, const void *fwnode)
- 	return dev_fwnode(dev) == fwnode && dev_name_ends_with(dev, "-retimer");
- }
- 
--static void *typec_retimer_match(struct fwnode_handle *fwnode, const char *id, void *data)
-+static void *typec_retimer_match(const struct fwnode_handle *fwnode, const char *id, void *data)
- {
- 	struct device *dev;
+ EXPORT_SYMBOL_GPL(device_get_dma_attr);
  
 diff --git a/include/linux/property.h b/include/linux/property.h
-index ae5d7f8eccf4..6f9d6604edc3 100644
+index 31dd6cbea9b0..a9498757155d 100644
 --- a/include/linux/property.h
 +++ b/include/linux/property.h
-@@ -438,21 +438,21 @@ unsigned int fwnode_graph_get_endpoint_count(struct fwnode_handle *fwnode,
- int fwnode_graph_parse_endpoint(const struct fwnode_handle *fwnode,
- 				struct fwnode_endpoint *endpoint);
+@@ -384,9 +384,8 @@ property_entries_dup(const struct property_entry *properties);
  
--typedef void *(*devcon_match_fn_t)(struct fwnode_handle *fwnode, const char *id,
-+typedef void *(*devcon_match_fn_t)(const struct fwnode_handle *fwnode, const char *id,
- 				   void *data);
+ void property_entries_free(const struct property_entry *properties);
  
--void *fwnode_connection_find_match(struct fwnode_handle *fwnode,
-+void *fwnode_connection_find_match(const struct fwnode_handle *fwnode,
- 				   const char *con_id, void *data,
- 				   devcon_match_fn_t match);
+-bool device_dma_supported(struct device *dev);
+-
+-enum dev_dma_attr device_get_dma_attr(struct device *dev);
++bool device_dma_supported(const struct device *dev);
++enum dev_dma_attr device_get_dma_attr(const struct device *dev);
  
--static inline void *device_connection_find_match(struct device *dev,
-+static inline void *device_connection_find_match(const struct device *dev,
- 						 const char *con_id, void *data,
- 						 devcon_match_fn_t match)
- {
--	return fwnode_connection_find_match(dev_fwnode(dev), con_id, data, match);
-+	return fwnode_connection_find_match(dev_fwnode_const(dev), con_id, data, match);
- }
+ const void *device_get_match_data(const struct device *dev);
  
--int fwnode_connection_find_matches(struct fwnode_handle *fwnode,
-+int fwnode_connection_find_matches(const struct fwnode_handle *fwnode,
- 				   const char *con_id, void *data,
- 				   devcon_match_fn_t match,
- 				   void **matches, unsigned int matches_len);
 -- 
 2.35.1
 
