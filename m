@@ -2,156 +2,135 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0169AC04A95
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Sep 2022 09:18:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 593F9C32771
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Sep 2022 10:08:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233549AbiI1JSV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Sep 2022 05:18:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57390 "EHLO
+        id S231642AbiI1KIl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Sep 2022 06:08:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233520AbiI1JR7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Sep 2022 05:17:59 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FE0361B0D;
-        Wed, 28 Sep 2022 02:17:34 -0700 (PDT)
-X-UUID: be06d884694b4eb3bf06e891a3658ca3-20220928
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=XXqYom0PShqqvqx1Lq9wqOLByxK/9HTGJNY8mFnsriY=;
-        b=EJRiYPDe0203cIf33SGVWKn4006aT7zvRZqCJMOpJiqS/biujUFomlXkaYldZLrreIZPJOrDJoKntq7gt4x6eaDcrDsaVUritkpgVMlq5ZSgnpxevV5glF7nuPFFTiPTaRLAEdDXHWTXrJg6MCCKFwvC0tdv/s4S029omOZC5os=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11,REQID:c900f38b-d3e3-4413-95c1-6e46600a2056,IP:0,U
-        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-        N:release,TS:-25
-X-CID-META: VersionHash:39a5ff1,CLOUDID:79ef4d07-1cee-4c38-b21b-a45f9682fdc0,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: be06d884694b4eb3bf06e891a3658ca3-20220928
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 782486596; Wed, 28 Sep 2022 17:17:28 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Wed, 28 Sep 2022 17:17:27 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 28 Sep 2022 17:17:26 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+        with ESMTP id S233610AbiI1KIi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Sep 2022 06:08:38 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63888D5762
+        for <linux-usb@vger.kernel.org>; Wed, 28 Sep 2022 03:08:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664359716; x=1695895716;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nFCIRsR2syuFhjqPxfuFJin0ZyDmtLjdBuvxTUiHzw4=;
+  b=C052lggt85YsUM1Z4FZLCdpy/3e1Q2xKHliWBwqxyEQUOdqtrwnGoLwR
+   IPGhs+wXxNspZa3WWreztaPUE0sBVBKXveHUIxCYRW3pHvhe4Jt712tl2
+   vbr+1qlkkebxSCdC/EixGppiak/QwBdCiPX6+4Uv7P0j2No7QFWPI4qaD
+   061zodeVNQeVL8CeMGeJaku13+ktuslFP5Yyx+A30+I/swdB7+zsRejPa
+   b/hddr7QfW+57wa7bT9dr5gH6FmW2UxV5+/3sSL78fVRBgQ7xdxRsAkyR
+   MMD9vwx7n3aAHVfgUv/zq88tRPzsNSfSA1ikTEqJeJTRZoCTeLRPU3oHG
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="299161954"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; 
+   d="scan'208";a="299161954"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2022 03:08:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="764232245"
+X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; 
+   d="scan'208";a="764232245"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 28 Sep 2022 03:08:33 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 1B9D686; Wed, 28 Sep 2022 13:08:52 +0300 (EEST)
+Date:   Wed, 28 Sep 2022 13:08:51 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Min Guo <min.guo@mediatek.com>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        <Stable@vger.kernel.org>
-Subject: [PATCH 1/2] usb: mtu3: fix ep0's stall of out data stage
-Date:   Wed, 28 Sep 2022 17:17:20 +0800
-Message-ID: <20220928091721.26112-1-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-usb@vger.kernel.org
+Subject: [GIT PULL] Thunderbolt/USB4 changes for v6.1 merge window
+Message-ID: <YzQdM0/5yFGjBCgY@black.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-It happens when enable uvc function, the flow as below:
-the controller switch to data stage, then call
-    -> foward_to_driver() -> composite_setup() -> uvc_function_setup(),
-it send out an event to user layer to notify it call
-    -> ioctl() -> uvc_send_response() -> usb_ep_queue(),
-but before the user call ioctl to queue ep0's buffer, the host already send
-out data, but the controller find that no buffer is queued to receive data,
-it send out STALL handshake.
+Hi Greg,
 
-To fix the issue, don't send out ACK of setup stage to switch to out data
-stage until the buffer is available.
+The following changes since commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868:
 
-Cc: <Stable@vger.kernel.org>
-Reported-by: Min Guo <min.guo@mediatek.com>
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
- drivers/usb/mtu3/mtu3.h            |  4 ++++
- drivers/usb/mtu3/mtu3_gadget_ep0.c | 22 +++++++++++++++++++---
- 2 files changed, 23 insertions(+), 3 deletions(-)
+  Linux 6.0-rc1 (2022-08-14 15:50:18 -0700)
 
-diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
-index 2d7b57e07eee..6b64ad17724d 100644
---- a/drivers/usb/mtu3/mtu3.h
-+++ b/drivers/usb/mtu3/mtu3.h
-@@ -318,6 +318,9 @@ static inline struct ssusb_mtk *dev_to_ssusb(struct device *dev)
-  *		for GET_STATUS and SET_SEL
-  * @setup_buf: ep0 response buffer for GET_STATUS and SET_SEL requests
-  * @u3_capable: is capable of supporting USB3
-+ * @delayed_setup: delay the setup stage to avoid STALL handshake in
-+ *		out data stage due to the class driver doesn't queue buffer
-+ *		before the host send out data
-  */
- struct mtu3 {
- 	spinlock_t lock;
-@@ -360,6 +363,7 @@ struct mtu3 {
- 	unsigned connected:1;
- 	unsigned async_callbacks:1;
- 	unsigned separate_fifo:1;
-+	unsigned delayed_setup:1;
- 
- 	u8 address;
- 	u8 test_mode_nr;
-diff --git a/drivers/usb/mtu3/mtu3_gadget_ep0.c b/drivers/usb/mtu3/mtu3_gadget_ep0.c
-index e4fd1bb14a55..f7a71cc83e15 100644
---- a/drivers/usb/mtu3/mtu3_gadget_ep0.c
-+++ b/drivers/usb/mtu3/mtu3_gadget_ep0.c
-@@ -162,6 +162,19 @@ static void ep0_do_status_stage(struct mtu3 *mtu)
- 	mtu3_writel(mbase, U3D_EP0CSR, value | EP0_SETUPPKTRDY | EP0_DATAEND);
- }
- 
-+/* delay sending out ACK of setup stage to wait for OUT buffer queued */
-+static void ep0_setup_stage_send_ack(struct mtu3 *mtu)
-+{
-+	void __iomem *mbase = mtu->mac_base;
-+	u32 value;
-+
-+	if (mtu->delayed_setup) {
-+		value = mtu3_readl(mbase, U3D_EP0CSR) & EP0_W1C_BITS;
-+		mtu3_writel(mbase, U3D_EP0CSR, value | EP0_SETUPPKTRDY);
-+		mtu->delayed_setup = 0;
-+	}
-+}
-+
- static int ep0_queue(struct mtu3_ep *mep0, struct mtu3_request *mreq);
- 
- static void ep0_dummy_complete(struct usb_ep *ep, struct usb_request *req)
-@@ -628,8 +641,9 @@ static void ep0_read_setup(struct mtu3 *mtu, struct usb_ctrlrequest *setup)
- 			csr | EP0_SETUPPKTRDY | EP0_DPHTX);
- 		mtu->ep0_state = MU3D_EP0_STATE_TX;
- 	} else {
--		mtu3_writel(mtu->mac_base, U3D_EP0CSR,
--			(csr | EP0_SETUPPKTRDY) & (~EP0_DPHTX));
-+		mtu3_writel(mtu->mac_base, U3D_EP0CSR, csr & ~EP0_DPHTX);
-+		/* send ACK when the buffer is queued */
-+		mtu->delayed_setup = 1;
- 		mtu->ep0_state = MU3D_EP0_STATE_RX;
- 	}
- }
-@@ -804,9 +818,11 @@ static int ep0_queue(struct mtu3_ep *mep, struct mtu3_request *mreq)
- 
- 	switch (mtu->ep0_state) {
- 	case MU3D_EP0_STATE_SETUP:
--	case MU3D_EP0_STATE_RX:	/* control-OUT data */
- 	case MU3D_EP0_STATE_TX:	/* control-IN data */
- 		break;
-+	case MU3D_EP0_STATE_RX:	/* control-OUT data */
-+		ep0_setup_stage_send_ack(mtu);
-+		break;
- 	default:
- 		dev_err(mtu->dev, "%s, error in ep0 state %s\n", __func__,
- 			decode_ep0_state(mtu));
--- 
-2.18.0
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v6.1-rc1
+
+for you to fetch changes up to 5d2569cb4a65c373896ec0217febdf88739ed295:
+
+  thunderbolt: Explicitly enable lane adapter hotplug events at startup (2022-09-26 20:18:25 +0300)
+
+----------------------------------------------------------------
+thunderbolt: Changes for v6.1 merge window
+
+This includes following Thunderbolt/USB4 changes for the v6.1 merge
+window:
+
+  - Support for Intel Meteor Lake integrated Thunderbolt/USB4 controller
+  - Support for ASMedia USB4 controller NVM firmware upgrade
+  - Receiver lane margining support
+  - Few fixes and cleanups.
+
+All these have been in linux-next with no reported issues.
+
+----------------------------------------------------------------
+Andy Shevchenko (2):
+      thunderbolt: Convert to use sysfs_emit()/sysfs_emit_at() APIs
+      thunderbolt: Use dev_err_probe()
+
+Colin Ian King (2):
+      thunderbolt: debugfs: Fix spelling mistakes in seq_puts text
+      thunderbolt: Fix spelling mistake "simultaneusly" -> "simultaneously"
+
+Mario Limonciello (1):
+      thunderbolt: Explicitly enable lane adapter hotplug events at startup
+
+Mika Westerberg (8):
+      thunderbolt: Add comment where Thunderbolt 4 PCI IDs start
+      thunderbolt: Add support for Intel Meteor Lake
+      thunderbolt: Move tb_xdomain_parent() to tb.h
+      thunderbolt: Move port CL state functions into correct place in switch.c
+      thunderbolt: Pass CL state bitmask to tb_port_clx_supported()
+      thunderbolt: Add helper to check if CL states are enabled on port
+      thunderbolt: Add support for receiver lane margining
+      thunderbolt: Provide tb_retimer_nvm_read() analogous to tb_switch_nvm_read()
+
+Sanjay R Mehta (1):
+      thunderbolt: Add DP OUT resource when DP tunnel is discovered
+
+Szuying Chen (5):
+      thunderbolt: Allow NVM upgrade of USB4 host routers
+      thunderbolt: Extend NVM version fields to 32-bits
+      thunderbolt: Rename and make nvm_read() available for other files
+      thunderbolt: Move vendor specific NVM handling into nvm.c
+      thunderbolt: Add support for ASMedia NVM image format
+
+ Documentation/ABI/testing/sysfs-bus-thunderbolt |   4 +-
+ drivers/thunderbolt/Kconfig                     |  10 +
+ drivers/thunderbolt/debugfs.c                   | 836 ++++++++++++++++++++++++
+ drivers/thunderbolt/domain.c                    |  10 +-
+ drivers/thunderbolt/icm.c                       |   3 +
+ drivers/thunderbolt/nhi.c                       |  55 +-
+ drivers/thunderbolt/nhi.h                       |   3 +
+ drivers/thunderbolt/nvm.c                       | 385 ++++++++++-
+ drivers/thunderbolt/retimer.c                   | 113 ++--
+ drivers/thunderbolt/sb_regs.h                   |  58 ++
+ drivers/thunderbolt/switch.c                    | 449 +++++++------
+ drivers/thunderbolt/tb.c                        |  33 +-
+ drivers/thunderbolt/tb.h                        |  56 +-
+ drivers/thunderbolt/tb_regs.h                   |   3 +
+ drivers/thunderbolt/usb4.c                      | 140 ++++
+ drivers/thunderbolt/xdomain.c                   |  35 +-
+ 16 files changed, 1822 insertions(+), 371 deletions(-)
 
