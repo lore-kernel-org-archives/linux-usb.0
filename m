@@ -2,110 +2,76 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BB21C6FA82
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Sep 2022 08:47:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0903FC433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Sep 2022 09:27:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235600AbiI2Iru (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Sep 2022 04:47:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52186 "EHLO
+        id S234420AbiI2J1r (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Sep 2022 05:27:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235585AbiI2Irq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Sep 2022 04:47:46 -0400
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16C6B12E421;
-        Thu, 29 Sep 2022 01:47:43 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 5EAC75C0150;
-        Thu, 29 Sep 2022 04:47:40 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute2.internal (MEProxy); Thu, 29 Sep 2022 04:47:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1664441260; x=1664527660; bh=dk
-        M3wIQDoYndkcHfwuQVpdncU+62VEaoUMXwD9D/Gy0=; b=flg8i4MbVNdOli5ES5
-        xzdo0er3T4ut6N/ut8EMJC1RAuY2yZ4BLZS0G/QbeN/PC6YcbHb5V9XZI1raxRRR
-        pN428YbdurvSl3PkV3gxraGfRQLjF6Kgv61hxXryivJF83uUEqUaItAj0y7pl9BL
-        dDFIHb6ws1Dbtd67/q4DGr53p3SAoLDpywPjpljX+E5mGMu2pq8/VBt/zPeaPMhv
-        QcCzdoXaaPeRy4LdKMsR3M/ME8a0WFWiBHCd5195z7fsGq/4criIsn0Pqri3PsP0
-        QaC7k9x1zt3tOoYUZg215DYyf37ukbpAtCFtH93S8jkwU1OMx4XQDL6LXIrBOCFp
-        9flA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1664441260; x=1664527660; bh=dkM3wIQDoYndkcHfwuQVpdncU+62
-        VEaoUMXwD9D/Gy0=; b=s8QhI8pSHrorgnbDj27E5z6FMSmt/Vn5Ht8rdpcM9/TX
-        oNptLejlyEljqggdR2H1X5tk7vg4wOXG87hprj/+Z4ODOVqDIjd8GUc20lETT8l7
-        l4ye3gLmpabtvDRip123Q+s4f9dItc8g57x+NzyHeBT1TMOXSC7BejIfWzYdZG1X
-        XLT5xSgejBc8CEkmSKvCVX0vXK44Wihqb7wYQrSrsaGj9dThO4RJhPhWgTU9bcsn
-        RtnP7R6rQyguher/IW/LP8tu/Rkb99QrCkwIaeLf/5FV5yBL/Ix6p0xDcv8MpkuR
-        VKU1EsPdvr5n8FTNIvFhnoalOTTZuoEw7H1ruV8/mg==
-X-ME-Sender: <xms:rFs1YwpzYglwJCPYPXJjAmB_016Ndgvsf0XDtF2Q_T6cfmE7UsakDw>
-    <xme:rFs1Y2oTdHPg7tzbqrm6y571sE_QktMyEsm7DFEwXtrWqz1w82WGrfrtGXVcead5W
-    MGvN1_HoHBTKsW1FOk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeehtddgtdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
-    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
-    grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
-    ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:rFs1Y1PY9Tqx3fS9dOLwQgte36eK1XX0Po7bJhkDJROZUw--ZvkJ1Q>
-    <xmx:rFs1Y34Zb6ZMg5-tR8PwRUzVhHQZAWL2A_XyRnYL5viqIu44KiNDUA>
-    <xmx:rFs1Y_7SoK4z5WaORkt5LmMNrH6fIZ_MjnIlqE2NuZ9RhYgVRt7MNQ>
-    <xmx:rFs1Y1SyIT2IwN8YSQO67E-EV9RefNSyWmRnjmYGE45z0LnMpLdpdQ>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 26F46A6007C; Thu, 29 Sep 2022 04:47:40 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-968-g04df58079d-fm-20220921.001-g04df5807
-Mime-Version: 1.0
-Message-Id: <21064478-92ce-475d-b5b2-c7b9badba40c@app.fastmail.com>
-In-Reply-To: <CAHQ1cqG5RmqnOuTch02y=pE-XK5dZABTN+FNaF2LOg5oJx=PPQ@mail.gmail.com>
-References: <20220927155332.10762-1-andriy.shevchenko@linux.intel.com>
- <20220927155332.10762-3-andriy.shevchenko@linux.intel.com>
- <CAHQ1cqG5RmqnOuTch02y=pE-XK5dZABTN+FNaF2LOg5oJx=PPQ@mail.gmail.com>
-Date:   Thu, 29 Sep 2022 10:47:19 +0200
-From:   "Sven Peter" <sven@svenpeter.dev>
-To:     "Andrey Smirnov" <andrew.smirnov@gmail.com>
-Cc:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Felipe Balbi" <balbi@kernel.org>, "Ferry Toth" <fntoth@gmail.com>,
-        stable@vger.kernel.org,
-        "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v2 2/2] Revert "usb: dwc3: Don't switch OTG -> peripheral if extcon
- is present"
-Content-Type: text/plain
+        with ESMTP id S234861AbiI2J1q (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Sep 2022 05:27:46 -0400
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6C6C14597D
+        for <linux-usb@vger.kernel.org>; Thu, 29 Sep 2022 02:27:44 -0700 (PDT)
+Received: by mail-io1-f70.google.com with SMTP id e9-20020a6b7309000000b006a27af93e45so369083ioh.9
+        for <linux-usb@vger.kernel.org>; Thu, 29 Sep 2022 02:27:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=3rnofjxYuMLNQKQGEXkSsKh61oqRxR3JYXNg07PZbaA=;
+        b=rkJ/VG5uLke4J+TRnFSgwTmTLlRrHoMDBtDnogjCFkooyk41c/4F+78w2VooOkc+se
+         Z+8W1n3Qq8ys+RuLiP6pqwZcORfEGveGChQqZH4gERsE+UuHSQd2hxW6IYUYQ/SfVF0w
+         ecVSi3a0Cq+vtEErx2jxpsUUmtJHOQWCXHs2R3CxLn3g7EPvqDaMN32e7Twh0inEosjp
+         zq8cA8NDjTz06cMnhlTWMNaOXDsqwOdjxXHxNorV3lzr3E57ngDTn8w4EcgBZnU2Ajpi
+         iP+JSab5UqUFldDDiulOjKdhkjbjQYzEZjli4/hx7AZxR2O9+Ae53vS7vRXM0B8E423y
+         l2Jw==
+X-Gm-Message-State: ACrzQf1qAbw+gTJIjRfWpjfeIfIg9IJNlJEAlOcYQYfUkewhxTzdc9YT
+        3+LVuQLxUFkjJughc7bm06w70l/oBQnC32GtGeb1NoaUiKQX
+X-Google-Smtp-Source: AMsMyM4PS2lcOPagpguHu9CFdnAr3H91sKtWgWyWh5qqkW5219kt3wrG0A7LaRnG2GHbKpLPeDc42bSI+vDDp2LnGaEyEAqtJKaB
+MIME-Version: 1.0
+X-Received: by 2002:a02:6d4b:0:b0:35a:40a6:5730 with SMTP id
+ e11-20020a026d4b000000b0035a40a65730mr1299771jaf.198.1664443663854; Thu, 29
+ Sep 2022 02:27:43 -0700 (PDT)
+Date:   Thu, 29 Sep 2022 02:27:43 -0700
+In-Reply-To: <673033a0-de29-f05f-b7c0-abf3d108b9e6@suse.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000055321905e9cd7db5@google.com>
+Subject: Re: [syzbot] KMSAN: uninit-value in idmouse_open
+From:   syzbot <syzbot+79832d33eb89fb3cd092@syzkaller.appspotmail.com>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     linux-usb@vger.kernel.org, oneukum@suse.com,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
-
-On Thu, Sep 29, 2022, at 05:01, Andrey Smirnov wrote:
-> On Tue, Sep 27, 2022 at 8:53 AM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
->>
->> This reverts commit 0f01017191384e3962fa31520a9fd9846c3d352f.
->>
->> As pointed out by Ferry this breaks Dual Role support on
->> Intel Merrifield platforms.
->>
->> Fixes: 0f0101719138 ("usb: dwc3: Don't switch OTG -> peripheral if extcon is present")
->> Reported-by: Ferry Toth <fntoth@gmail.com>
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->> Tested-by: Ferry Toth <fntoth@gmail.com> # for Merrifield
 >
-> Sven can you check that this also fixes the regression of your fix?
+>
+> On 19.09.22 10:21, syzbot wrote:
+>> Hello,
+>> 
+>> syzbot found the following issue on:
+>> 
+>> HEAD commit:    ce8056d1f79e wip: changed copy_from_user where instrumented
+>> git tree:       https://github.com/google/kmsan.git master
+>> console output: https://syzkaller.appspot.com/x/log.txt?x=16a02941900000
+>> kernel config:  https://syzkaller.appspot.com/x/.config?x=3afe005fb99591f
+>> dashboard link: https://syzkaller.appspot.com/bug?extid=79832d33eb89fb3cd092
+>> compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
+>> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=165e850e900000
+>> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=123a8c96900000
+>> 
+>> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+>> Reported-by: syzbot+79832d33eb89fb3cd092@syzkaller.appspotmail.com
+>
+> #syz test   https://git.kernel.org/pub/scm/linux/kernel/git/greg/usb.git 
 
-I'll only have time to test this on the weekend but the fix looks good to me.
+KMSAN bugs can only be tested on https://github.com/google/kmsan.git tree
+because KMSAN tool is not upstreamed yet.
+See https://goo.gl/tpsmEJ#kmsan-bugs for details.
 
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
-
-
-Sven
-
+> ce8056d1f79e
