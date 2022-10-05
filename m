@@ -2,238 +2,484 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE314C433F5
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Oct 2022 02:12:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F8B6C352AA
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Oct 2022 02:51:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbiJFCMe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Oct 2022 22:12:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47072 "EHLO
+        id S230040AbiJFCvG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Oct 2022 22:51:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbiJFCMc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Oct 2022 22:12:32 -0400
-Received: from mx0a-00230701.pphosted.com (mx0a-00230701.pphosted.com [148.163.156.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FD142CCBC;
-        Wed,  5 Oct 2022 19:12:32 -0700 (PDT)
-Received: from pps.filterd (m0297266.ppops.net [127.0.0.1])
-        by mx0a-00230701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 295HCihW024334;
-        Wed, 5 Oct 2022 19:12:25 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=pfptdkimsnps;
- bh=LY88+k/0WFToL3n40za9yGgjPgMdKj0iGM3KKIl3+yk=;
- b=BR5QH3/eWcbKKhPJwcDRFxDbV3s7soDW+LZqfzZdLLQFnY2/POF4ERU9IPAu6RyWWslX
- ZAgT9Q1P21LYSCFKqvsR4v3h/LwbDwKobKSqThIIYSu3UnrAWY0ENgp8rpfd00TxgLts
- Ie2lVy+dgTkQOaMup7s1ijNH9sTheHTawC+i8YtLkzNDpqPt3M3hgQVbaKjzygu4wFVs
- /gLt2PgwepB1MgJbGjmfZpa8gZO8KXEA8+LIKACrN9Ul3sNQPSAfbKna+Ly4UYs8wIV7
- j2Y8hMMU7Is3RX6YCAZU7WU+2hRNanwZfGRQIFEIhLbA2dwau494Tz8lfJ9oPGU6en3X Vg== 
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
-        by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 3k04h7dgkw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 05 Oct 2022 19:12:25 -0700
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com [10.192.0.17])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 3953AC0845;
-        Thu,  6 Oct 2022 02:12:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1665022345; bh=LY88+k/0WFToL3n40za9yGgjPgMdKj0iGM3KKIl3+yk=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=iaAc/gebPZhEADR4LM1gZbhG/FCPbL+VLICNgvC/xN2px0MTOIONDoMtaIaZ45xgQ
-         Jgzt5lyvHB+e+UsHHT9oPSKkBKu8vLlOmnl91ak6HWUqP67EAZ0uOhIMuSl1R7ayZ5
-         WVxlkfakO9cVkPoBz+vgrsw22gWApjA3wlD7dqcCoZKBpkHbye7w82Mc+lq/P0WwBr
-         //vpDPzC23nqvW9dTldN9vfJRJbFkvSgOys8AMcxI+BUhYj9nmG2G6H5EHVfghTZl7
-         1zho3mERTT+i3/Dvq3d6bgpkgMR/Hqu5THrIJ/HqF3gE9IC90e4iV9Nl2bj6huGHe7
-         3PtJwx9T2Iijg==
-Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com [10.4.161.137])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 545EFA0071;
-        Thu,  6 Oct 2022 02:12:23 +0000 (UTC)
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
+        with ESMTP id S229468AbiJFCvB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Oct 2022 22:51:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6557E83D;
+        Wed,  5 Oct 2022 19:50:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
-        by o365relay-in.synopsys.com (Postfix) with ESMTPS id DEF3180083;
-        Thu,  6 Oct 2022 02:12:22 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=thinhn@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="vJdlm42u";
-        dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YGy8vwH/2YadE5Oy8i+qlutbRE+xWXxiPc+NXjpnSq1IyBZcWLuw747RjoxcSTItZx5WU73LRBXVEwgxjSiLF0O7KlFNxHoeBcU8BvjG6VxLC6WuSL7sbmvkQTtXeIC2/mJQEGkxh0shTmSv8tP13whZYEg5IbQLm76lwWAPZ+FN9NBvGs8ADVRe1AQqyhxlQ4hx6SR2BSjfs/W5qCvwjeCEErPMMD+epOJzP7YF+K6PpDmGK3NEECLvUBieoLzqzMGhnW+qieG3kOchnur0hsab2Br0cn45dUXS179FKVy9NYKFtaJxyhHECO45iaL062yViz+fRL0vxsMhFExr2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LY88+k/0WFToL3n40za9yGgjPgMdKj0iGM3KKIl3+yk=;
- b=QjKqkZmfTKnV5w96NY0y0GvysL1xpcd27ePqkdTHlE6Ym+40E3rwYZ6dpRikJ4D6Bou81XP0NT1+ytKs78YSKL2xJmqIW2wrOWdr4hiRGRrUmHN6fFbw08pGAR79V7gU9ZXRE4TubXU4thdlnUAiL8NxRWoZpIiReD65X0wLCBn1W1621rLwGa9SBgR0qZEVgBBqvybDEBG1kBdlQxxU5NRgdxqIENPesy7v/xoxOJJcTFm9kf7fBS6mkXwIsfkVBBQhnc6NTP2RzgKuqBgfx2n+XmzlSd8NdGGcaXqeD33id0QxjTp+JrENl0aDmQYMa/CdFU/1yjJbzsJtk+mrkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LY88+k/0WFToL3n40za9yGgjPgMdKj0iGM3KKIl3+yk=;
- b=vJdlm42uFlK79YJyWccdqVbR6Tpmnf6xU82iirIjruFDaJZpnuY4kA405muphz3YIf/PO3Na4lAcgfRYxzTOJutnpsuHMWQ0/wHI+Rs/s3ayA59pvdr768wIgl3uIH7NNbcjK4cQ7KbxAbqB07+mnqKreCm8OgpFuo8cyqiZvNw=
-Received: from BYAPR12MB4791.namprd12.prod.outlook.com (2603:10b6:a03:10a::12)
- by BY5PR12MB4194.namprd12.prod.outlook.com (2603:10b6:a03:210::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.28; Thu, 6 Oct
- 2022 02:12:20 +0000
-Received: from BYAPR12MB4791.namprd12.prod.outlook.com
- ([fe80::525b:92b6:eafc:8629]) by BYAPR12MB4791.namprd12.prod.outlook.com
- ([fe80::525b:92b6:eafc:8629%7]) with mapi id 15.20.5676.031; Thu, 6 Oct 2022
- 02:12:20 +0000
-X-SNPS-Relay: synopsys.com
-From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-To:     Ferry Toth <fntoth@gmail.com>
-CC:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrey Smirnov <andrew.smirnov@gmail.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] Revert "usb: dwc3: Don't switch OTG -> peripheral
- if extcon is present"
-Thread-Topic: [PATCH v2 2/2] Revert "usb: dwc3: Don't switch OTG -> peripheral
- if extcon is present"
-Thread-Index: AQHY0omsjm4tTlL0CEmkY916+rpAAK39QTUAgACwSgCAALRxgIAAdL8AgABe9QCAATNWAA==
-Date:   Thu, 6 Oct 2022 02:12:20 +0000
-Message-ID: <20221006021204.hz7iteao65dgsev6@synopsys.com>
-References: <20220927155332.10762-1-andriy.shevchenko@linux.intel.com>
- <20220927155332.10762-3-andriy.shevchenko@linux.intel.com>
- <20221003215734.7l3cnb2zy57nrxkk@synopsys.com>
- <YzvusOI89ju9e5+0@smile.fi.intel.com>
- <a7724993-6c04-92c5-3a26-3aef6d29c9e3@gmail.com>
- <20221005021212.qwnbmq6p7t26c3a4@synopsys.com>
- <2886b82d-a1f6-d288-e8d1-edae54046b4f@gmail.com>
-In-Reply-To: <2886b82d-a1f6-d288-e8d1-edae54046b4f@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR12MB4791:EE_|BY5PR12MB4194:EE_
-x-ms-office365-filtering-correlation-id: f4c68566-73b0-4d4f-7b12-08daa7403309
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rCgc6r+TeJQzEFRBx22Ly26y1wz11v4XTi4iZNAiO/jHb0YCPbOkHgET6g3OXDD4jfKveJOrKNnFE+OQbiWd04JauGji9dwwP67MqZG8a4hbaBgYobMgU21rWahj2tFfTGyGeQ7+WvQAMVz0eS/zfo+40gEC709ajRuDbsWB5+4jKgoIcBsbhhSCPAA9J+RgFEsJGzs7R/EOiGR47PpWKxWtktIguZQKqkWuLLPxfed8qpK1a1YycO1F3AviZ/v2eWgyo+coxrvVMwJ8UOz36v4/8VULhpW9pPZcEDHwgwcZJaPzh2B21dIcniu3PfumX1TcIV3kJ2saRfNKJTovtBz0M+w6N1UsiFlSirlponVZJyUdn7vpOBULA65WiSki0ENuleQ5tBnPqVL/FWsCvbsxTmN7pgmZAe/FmkGG04nUUNf3crRyB0xGx7R6Qcdz+F1+Kc1E7sSFittO76oQ6MrpRNZ0GwqtT2BimHcoSbJo6GMeazh+0EIMsvZuu9ZnKhU9uB+6IgoRmU7txKaN4g907iGlNQKgGUjohKeSGfzpq/UrWQF0dpVTg0YNE2tbAGlsPF9kbYt0NL/kCPmjAZaMzSP6l0oWebMnd9uwdCwu4qbFZnTAul1BdGdZrRZJu2p+xUpy/zMvvF/hg89AzFr3l1Z3XJZU+9Ov8Hlk98WOfZRYmQFt58XiBVnhbJ5lFOBpethQ/A+tzb+lAIWuUbcEYEu+4xKW5hR/WD3+BuQzMIHQcodHwQLZ6ekwv4vIPYenRD013b2F1h+1idSOHw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB4791.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(376002)(346002)(396003)(39850400004)(366004)(451199015)(86362001)(38070700005)(66556008)(64756008)(8676002)(66476007)(36756003)(6916009)(76116006)(6486002)(4326008)(54906003)(41300700001)(83380400001)(2906002)(8936002)(5660300002)(478600001)(2616005)(1076003)(26005)(186003)(71200400001)(6512007)(38100700002)(6506007)(66446008)(122000001)(66946007)(316002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RmNSN0JiNU4rbTB6bGpIUlJOZmE3aXA1Unc1OVI5cHdTZVJtUjBJbWRtUWRo?=
- =?utf-8?B?Z0hUdmtHYlNGU0JDUmRETkhCQWlxRDQ1d2ovUEhVZHo3SDBlcmUzWlZqOEhq?=
- =?utf-8?B?VjZUbDJLVHpHSEpNdksvK2p4MlJPTWdUeFFtT2hrTTFmbEpEbUdZMUptcGNH?=
- =?utf-8?B?STdkOXpITEN6M0xnbDRrbU1GV3JYaFFXT0ZRcUhQTFpiMWoyajRGZkJ4Nmdj?=
- =?utf-8?B?MkdIcHI3cXJRZkNCQ21USU4xRFB4VVVjNzdYb3p6Mlc4T1BZVVpxcjBIZWZO?=
- =?utf-8?B?aHM5UHVmeFphcE9XL3ZsRHgwNGZtYkFLZ0xUMy9YeFRxd25UYWxRNzQzM3ZT?=
- =?utf-8?B?Qzk4aVB2dTZ3aERTM29DOHZOd1RXY3NVVEFhbDcwWG8xbVJHYVg3T05HUjdp?=
- =?utf-8?B?OThwWGpvU3J3VmpWeXllWlNyQy85MndpTTZDOVlOMzF6UXdtZEdYdWlSOE5n?=
- =?utf-8?B?bk4wMnA2RFdmaTBaWGZrVVdUYS93bDhZUTBRczk5Rml3bFE1SWVBY2JjelEv?=
- =?utf-8?B?V2t4WVBaR1N2Smw1V0w2ekxrOWVjNVh0b3ZvWUxMZzBTTjJUQ1M1NzY3UTJv?=
- =?utf-8?B?dGxUQ1pjdkNzSWYrWmRGY296a2s1WUl6M2VYWHpJUXRvbWdZWGExeFF5bnhu?=
- =?utf-8?B?VlVFTmNINUNQWkpzNmN5a0RFckE1T0hKUjVTZGpvZUk5UGFLaEdWZE1EVnli?=
- =?utf-8?B?RmxVVEdPbXJIaC9XeVdvUEhZT2haZGJ0NDl1MlhuN05COTVPc0dGS1BwT2x0?=
- =?utf-8?B?UVRqRDBENm1NbHdTb3lqTnE4UXFPMUdjblhJQithNm4zbjVTeHRxenlpMmFh?=
- =?utf-8?B?clBuN1hkVEpXZHRROFZpS2owbExTcFNjOHhtbGNWcmtjRGhoT04vSzNRNnBp?=
- =?utf-8?B?U0lGUE1UK3R6SUJpWGtBY1Q3ZFZzOHBRNFJpTm5tT2lsVXJ4NGhnZUxFRFdq?=
- =?utf-8?B?TWRhZjRzaS9xZkZxa3BIck9MUWhua1hDWmU0NzFIOEgrSXE2VmtvU2pnMU92?=
- =?utf-8?B?RnlSZjJjUTl0b1BUSWxpUFNIaXg2VFI2UXBtYzBjK2ZHL2Z0RHVZV1NLeUQz?=
- =?utf-8?B?M0lZNzd5VjZmTGhGWkdDN01xaXQ3RDJ1RnNPbVZ1cUxmNVJ0blVZNkQvdkgr?=
- =?utf-8?B?cHdhakxQUFNrNVNkN0lOR1BLbnJtZjIwY2YyM09tNGtNblNUMk1tSTlJWjdF?=
- =?utf-8?B?TExHM1BIeVlaQVJka2dibWdXRStMOGtxVUlNeDArdXRnZi8xUTF1ZnRla0ww?=
- =?utf-8?B?cFR0Qm91elB0dERuYWFIUVAxSEZlSkVDVGpMdExvKzQzUkJvWVQvK0s3dFc2?=
- =?utf-8?B?a1BzVkk1QmxTMVZYVjhRRDY0V2t6RWJUTUdrQnJVV29kNmVlWVBzZEowaHhY?=
- =?utf-8?B?WXFnZDZ1YUZlVHB1NnVHZFlKWFUzeXJCZkRyK2xIYUg3UzhiTG5mTUYwdGRu?=
- =?utf-8?B?c0huNUJMWVVaZ0lnT2FzbWo3RzZ6QUpWUEs5cmFiekJ0ODgzdmNLL2ZPeElK?=
- =?utf-8?B?WkpMUjRieWtTTnlkeWdCNmZtUVRYZ1d6YjdVdVowZGhYV0JjTnFSUG5SSXN6?=
- =?utf-8?B?cTUrbDN6b2ZONm9SeW1DRkFSc2pKMVZ1OHBOMGtvUkJ6TldyTVViTWs5czA5?=
- =?utf-8?B?b3BLWXRqSEQvaGRRMk0zUTFlZXAzMSs5RFBsb3gxS2pyK0JHMStRVFVFVWhl?=
- =?utf-8?B?dXkrWEMwVTAyd3RRY2QxUHJJd255a3JxbmRyRVMxckNldkJJbHAvN3VZZDlD?=
- =?utf-8?B?aHBSMnExRGNPOEpvclZiNDZKb1FxdjNmK2trL2dRemtnblFYa2NRMzl6VGpH?=
- =?utf-8?B?dmJITW1JOFpvNkJQZndBT2hSbVBmUVR6aWpML3dBa2RxUGpwNjREQTlUTXBy?=
- =?utf-8?B?eHJBOURWWFc5WlZRRUJkS1pTMG5SUUxQVzBteXN5eXR0M0lickY3am9iUUlF?=
- =?utf-8?B?YzVqUFpwWG16NlEwYlpTaFl0OFphVlp5dUk4eGpiQXBTVXcxajRUWDdsZzRk?=
- =?utf-8?B?QVEyOU83dG9md3lyRXpSaEZEODY1eGNkWDRTckt0Vy9XcWJld3VGdlo3ckNX?=
- =?utf-8?B?a2R2Y1ZvdEhqMDdiZm12cjM2cnRZUGNRczkzVXh5T1JzakJMbGNjTEtpbFRz?=
- =?utf-8?Q?/mNr/dBQfaC2mGp7LN31Ar66R?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A8014FAEA345DC4D96372CB199424A16@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 199736181A;
+        Thu,  6 Oct 2022 02:50:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5A5AC433D6;
+        Thu,  6 Oct 2022 02:50:55 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="J8ZlHze6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1665024654;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=kCoSuUs9/UuRmM69QeDy2i9LHinxGmdLR45ZcTaEirk=;
+        b=J8ZlHze6sqai3o7SvOSz7LCNjiTd0iy1m0Y4XI+eT5AImUvZr7raWMM6G4rEI94cHJCpxn
+        XjlegKcoSMS8i1dxSH+vfMysjIZ2bhfg2hvS66iR5sZJK2Dmj1F+eRKIiZG4Kn68b6cX6p
+        zxxQ1acjouQWyuYV2XHGTzovx3YOSQs=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 873c7cbc (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Thu, 6 Oct 2022 02:50:53 +0000 (UTC)
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        brcm80211-dev-list.pdl@broadcom.com, cake@lists.bufferbloat.net,
+        ceph-devel@vger.kernel.org, coreteam@netfilter.org,
+        dccp@vger.kernel.org, dev@openvswitch.org,
+        dmaengine@vger.kernel.org, drbd-dev@lists.linbit.com,
+        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
+        linux-actions@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-hams@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mm@kvack.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-raid@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-sctp@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-xfs@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        lvs-devel@vger.kernel.org, netdev@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, rds-devel@oss.oracle.com,
+        SHA-cyfmac-dev-list@infineon.com, target-devel@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net
+Subject: [PATCH v1 0/5] treewide cleanup of random integer usage
+Date:   Wed,  5 Oct 2022 23:48:39 +0200
+Message-Id: <20221005214844.2699-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?Q1JUWVltYWNsRUsvTXQ0aUhlSkFpbCtxSmFzWXZnZUJaVDNXRkhZY01Fa2pk?=
- =?utf-8?B?cXRTSkt0S2ptZ2xLRWV0UHNBcTdPUHorYUFSMnQ2ZnFzdStSUEd6WXM5S0wv?=
- =?utf-8?B?VmpXOFlJRUYzS3JzM3EwWWdSbW1BNHFVZWQ5ZUlrU2djZlE5OENZQmNHK3Jr?=
- =?utf-8?B?QS9Gc3F2QlVWdjVxQ1JCdWZ6NlFRcGlKNkVZL0dvYUxxSld5L0pUd3ZydFox?=
- =?utf-8?B?a2VSRFFmZEFVOERzbVRlY2owVSt5dXk3RlJ5Rm52dGoySUdLMnUyVmJnQmpl?=
- =?utf-8?B?OW1ySVlyUnY0d25EZ3ZNZUN5Y09kemtTMmpJTjh5ZnJXeDUyUEc4bWZRWGtt?=
- =?utf-8?B?Ni9RbGRJdW9KV0dQTVJtVW5tWGcvbVc3S2hsbklKZnhTMmNKSGtxUmhsN0Vi?=
- =?utf-8?B?bTRZbkFHTlhOVnpDeFd6b2lZSWlzMXU1MjV6cWZhMldBWVQ5OG1xbU80TFh1?=
- =?utf-8?B?V3pYRk1TL2xzTlZGTTU2K3B1bmx6ZFFJRkVqM2YxeG1BajVvNTdYRGNsajlQ?=
- =?utf-8?B?K2MyaDlHZUk5bXZJMjBkWFpTSldXNDJTMGNuK3JvZHpJZ29tWU9naDN2aUxJ?=
- =?utf-8?B?dzIrZlFnNy9tWGNhWnpLOXQyVXBUcmpDNHcxVFVFOVdmQUpYWVFrM0JCd0FE?=
- =?utf-8?B?aEJBdkRJeVFHbThnV0lmaWNQNHBFODd0cFZSMGRXMzU1VWdhcWx4a3pPTU9i?=
- =?utf-8?B?b1ZNM3MzOFRBcGtzOEdhRHhPazBNRzBCMDFZYzJjaEJFNGJId1pwWjlPN0I4?=
- =?utf-8?B?Vm1rZm5tYm1pNjRRNmlNTzAxVFJBY0d2REpKbm8wNFM1VldsSUV2QTlBY0dn?=
- =?utf-8?B?cE5FMFZUa0xWeWhtSm5aVmRiVHZlYm9LY3JlUkpEWkJueTYrM3RHWi83bmFB?=
- =?utf-8?B?ZityTjVHUldYZTg3UFlkL1JGMVlBanZFSGUvcmlEUGdGWTE4RVB6QWk2cWRu?=
- =?utf-8?B?NWJtYmVIbFp5WGNYV3pnZnh4amdBbFgvbTR6STdDbHlQdGRKeWxycFd4RDFY?=
- =?utf-8?B?N21RVUd4aE5CS3h4Q0VQWlRhUnlTTWxla0Uycmtqb2djZHZNcDZVWkVzUU9G?=
- =?utf-8?B?Qmc2RUlLK1RWZWRrbUVUVGV6ODhvMm9TeXpwYTYzYlE3Yy9IQkd4RWpmVUFy?=
- =?utf-8?B?WEFjUjB5M2IzcGVzVDNYZ3RRY1dqdHZteWFIWm4wNE5CNXNJcjJ4S2xTVlVI?=
- =?utf-8?B?NTlEbTUxOHdrSitja0Ftc3p6WXZaSmtra2JTUk5DRTZnRVVzNWF1MDlKTVdk?=
- =?utf-8?B?M002Zmd0K3FteDlWQmUyakV2WWlDSTY5QllOQVhaK0QwdFZnYUx4YkZadnlj?=
- =?utf-8?B?TFpGS0pIS3RNRDRjeVJsSFlQYlpPYWJCUTd4b25mT3ZicGhFaFlFZ2ZXdXc4?=
- =?utf-8?B?QlI2TktVcitIc0dieURDajZHYVBPYURaZTZWZWxxM0VnVGpDdUd4dUdaTHNE?=
- =?utf-8?Q?IlexjzKp?=
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4791.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4c68566-73b0-4d4f-7b12-08daa7403309
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Oct 2022 02:12:20.2038
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Qi5M3piZlUCAKHhG92AW90gJ3jGdTKh2HwBcSW3Rx1QNFcaJUdS3fjw0iOhjOwCUnBhxLTwmh+R0G8WeZswkiw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4194
-X-Proofpoint-ORIG-GUID: CMyXZL4Fq80W7s4UkztknYiR8PQwvIhN
-X-Proofpoint-GUID: CMyXZL4Fq80W7s4UkztknYiR8PQwvIhN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-05_05,2022-10-05_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
- adultscore=0 impostorscore=0 clxscore=1015 suspectscore=0
- lowpriorityscore=0 malwarescore=0 phishscore=0 mlxscore=0
- priorityscore=1501 spamscore=0 mlxlogscore=633 bulkscore=0 classifier=spam
- adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2210060012
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-T24gV2VkLCBPY3QgMDUsIDIwMjIsIEZlcnJ5IFRvdGggd3JvdGU6DQo+IEhpLA0KPiANCj4gICAg
-IFRoYW5rcyENCj4gDQo+ICAgICBEb2VzIHRoZSBmYWlsdXJlIG9ubHkgaGFwcGVuIHRoZSBmaXJz
-dCB0aW1lIGhvc3QgaXMgaW5pdGlhbGl6ZWQ/IE9yIGNhbg0KPiAgICAgaXQgcmVjb3ZlciBhZnRl
-ciBzd2l0Y2hpbmcgdG8gZGV2aWNlIHRoZW4gYmFjayB0byBob3N0IG1vZGU/DQo+IA0KPiBJIGNh
-biBzd2l0Y2ggYmFjayBhbmQgZm9ydGggYW5kIGRldmljZSBtb2RlIHdvcmtzIGVhY2ggdGltZSwg
-aG9zdCBtb2RlIHJlbWFpbnMNCj4gZGVhZC4NCg0KT2suDQoNCj4gDQo+ICAgICBQcm9iYWJseSB0
-aGUgZmFpbHVyZSBoYXBwZW5zIGlmIHNvbWUgc3RlcChzKSBpbiBkd2MzX2NvcmVfaW5pdCgpIGhh
-c24ndA0KPiAgICAgY29tcGxldGVkLg0KPiANCj4gICAgIHR1c2IxMjEwIGlzIGEgcGh5IGRyaXZl
-ciByaWdodD8gVGhlIGlzc3VlIGlzIHByb2JhYmx5IGJlY2F1c2Ugd2UgZGlkbid0DQo+ICAgICBp
-bml0aWFsaXplIHRoZSBwaHkgeWV0LiBTbywgSSBzdXNwZWN0IHBsYWNpbmcgZHdjM19nZXRfZXh0
-Y29uKCkgYWZ0ZXINCj4gICAgIGluaXRpYWxpemluZyB0aGUgcGh5IHdpbGwgcHJvYmFibHkgc29s
-dmUgdGhlIGRlcGVuZGVuY3kgcHJvYmxlbS4NCj4gDQo+ICAgICBZb3UgY2FuIHRyeSBzb21ldGhp
-bmcgZm9yIHlvdXJzZWxmIG9yIEkgY2FuIHByb3ZpZGUgc29tZXRoaW5nIHRvIHRlc3QNCj4gICAg
-IGxhdGVyIGlmIHlvdSBkb24ndCBtaW5kIChtYXliZSBuZXh0IHdlZWsgaWYgaXQncyBvaykuDQo+
-IA0KPiBZZXMsIHRoZSBjb2RlIG1vdmUgSSBtZW50aW9uZWQgYWJvdmUgIm1vdmVzIGR3YzNfZ2V0
-X2V4dGNvbigpIHVudGlsIGFmdGVyDQo+IGR3YzNfY29yZV9pbml0KCkgYnV0IGp1c3QgYmVmb3Jl
-IGR3YzNfY29yZV9pbml0X21vZGUoKS4gQUZBSVUgaW5pdGlhbGx5DQo+IGR3YzNfZ2V0X2V4dGNv
-bigpIHdhcyBjYWxsZWQgZnJvbSB3aXRoaW4gZHdjM19jb3JlX2luaXRfbW9kZSgpIGJ1dCBvbmx5
-IGZvcg0KPiBjYXNlIFVTQl9EUl9NT0RFX09URy4gU28gd2l0aCB0aGlzIGNoYW5nZSBvcmRlciBv
-ZiBldmVudHMgaXMgbW9yZSBvciBsZXNzDQo+IHVuY2hhbmdlZCIgc29sdmVzIHRoZSBpc3N1ZS4N
-Cj4gDQoNCkkgc2F3IHRoZSBleHBlcmltZW50IHlvdSBkaWQgZnJvbSB0aGUgbGluayB5b3UgcHJv
-dmlkZWQuIFdlIHdhbnQgdG8gYWxzbw0KY29uZmlybSBleGFjdGx5IHdoaWNoIHN0ZXAgaW4gZHdj
-M19jb3JlX2luaXQoKSB3YXMgbmVlZGVkLg0KDQpUaGFua3MsDQpUaGluaA==
+Hi folks,
+
+This is a five part treewide cleanup of random integer handling. The
+rules for random integers are:
+
+- If you want a secure or an insecure random u64, use get_random_u64().
+- If you want a secure or an insecure random u32, use get_random_u32().
+  * The old function prandom_u32() has been deprecated for a while now
+    and is just a wrapper around get_random_u32().
+- If you want a secure or an insecure random u16, use get_random_u16().
+- If you want a secure or an insecure random u8, use get_random_u8().
+- If you want secure or insecure random bytes, use get_random_bytes().
+  * The old function prandom_bytes() has been deprecated for a while now
+    and has long been a wrapper around get_random_bytes().
+- If you want a non-uniform random u32, u16, or u8 bounded by a certain
+  open interval maximum, use prandom_u32_max().
+  * I say "non-uniform", because it doesn't do any rejection sampling or
+    divisions. Hence, it stays within the prandom_* namespace.
+
+These rules ought to be applied uniformly, so that we can clean up the
+deprecated functions, and earn the benefits of using the modern
+functions. In particular, in addition to the boring substitutions, this
+patchset accomplishes a few nice effects:
+
+- By using prandom_u32_max() with an upper-bound that the compiler can
+  prove at compile-time is ≤65536 or ≤256, internally get_random_u16()
+  or get_random_u8() is used, which wastes fewer batched random bytes,
+  and hence has higher throughput.
+
+- By using prandom_u32_max() instead of %, when the upper-bound is not a
+  constant, division is still avoided, because prandom_u32_max() uses
+  a faster multiplication-based trick instead.
+
+- By using get_random_u16() or get_random_u8() in cases where the return
+  value is intended to indeed be a u16 or a u8, we waste fewer batched
+  random bytes, and hence have higher throughput.
+
+So, based on those rules and benefits from following them, this patchset
+breaks down into the following five steps:
+
+1) Replace `prandom_u32() % max` and variants thereof with
+   prandom_u32_max(max).
+
+2) Replace `(type)get_random_u32()` and variants thereof with
+   get_random_u16() or get_random_u8(). I took the pains to actually
+   look and see what every lvalue type was across the entire tree.
+
+3) Replace remaining deprecated uses of prandom_u32() with
+   get_random_u32(). 
+
+4) Replace remaining deprecated uses of prandom_bytes() with
+   get_random_bytes().
+
+5) Remove the deprecated and now-unused prandom_u32() and
+   prandom_bytes() inline wrapper functions.
+
+I was thinking of taking this through my random.git tree (on which this
+series is currently based) and submitting it near the end of the merge
+window, or waiting for the very end of the 6.1 cycle when there will be
+the fewest new patches brewing. If somebody with some treewide-cleanup
+experience might share some wisdom about what the best timing usually
+winds up being, I'm all ears.
+
+I've CC'd get_maintainers.pl, which is a pretty big list. Probably some
+portion of those are going to bounce, too, and everytime you reply to
+this thread, you'll have to deal with a bunch of bounces coming
+immediately after. And a recipient list this big will probably dock my
+email domain's spam reputation, at least temporarily. Sigh. I think
+that's just how it goes with treewide cleanups though. Again, let me
+know if I'm doing it wrong.
+
+Please take a look!
+
+Thanks,
+Jason
+
+Cc: Ajay Singh <ajay.kathat@microchip.com>
+Cc: Akinobu Mita <akinobu.mita@gmail.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Amitkumar Karwar <amitkarwar@gmail.com>
+Cc: Andreas Dilger <adilger.kernel@dilger.ca>
+Cc: Andreas Färber <afaerber@suse.de>
+Cc: Andreas Noever <andreas.noever@gmail.com>
+Cc: Andrew Lunn <andrew@lunn.ch>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrii Nakryiko <andrii@kernel.org>
+Cc: Andy Gospodarek <andy@greyhouse.net>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>
+Cc: Anna Schumaker <anna@kernel.org>
+Cc: Arend van Spriel <aspriel@gmail.com>
+Cc: Ayush Sawal <ayush.sawal@chelsio.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Chao Yu <chao@kernel.org>
+Cc: Christoph Böhmwalder <christoph.boehmwalder@linbit.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Chuck Lever <chuck.lever@oracle.com>
+Cc: Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Cong Wang <xiyou.wangcong@gmail.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Darrick J. Wong <djwong@kernel.org>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: David Ahern <dsahern@kernel.org>
+Cc: David S. Miller <davem@davemloft.net>
+Cc: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
+Cc: Dick Kennedy <dick.kennedy@broadcom.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Florian Westphal <fw@strlen.de>
+Cc: Franky Lin <franky.lin@broadcom.com>
+Cc: Ganapathi Bhat <ganapathi017@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Gregory Greenman <gregory.greenman@intel.com>
+Cc: H. Peter Anvin <hpa@zytor.com>
+Cc: Hannes Reinecke <hare@suse.de>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Hante Meuleman <hante.meuleman@broadcom.com>
+Cc: Hao Luo <haoluo@google.com>
+Cc: Haoyue Xu <xuhaoyue1@hisilicon.com>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>
+Cc: Hugh Dickins <hughd@google.com>
+Cc: Igor Mitsyanko <imitsyanko@quantenna.com>
+Cc: Ilya Dryomov <idryomov@gmail.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Jack Wang <jinpu.wang@ionos.com>
+Cc: Jaegeuk Kim <jaegeuk@kernel.org>
+Cc: Jaehoon Chung <jh80.chung@samsung.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: James E.J. Bottomley <jejb@linux.ibm.com>
+Cc: James Smart <james.smart@broadcom.com>
+Cc: Jan Kara <jack@suse.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Jay Vosburgh <j.vosburgh@gmail.com>
+Cc: Jean-Paul Roubelat <jpr@f6fbb.org>
+Cc: Jeff Layton <jlayton@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Cc: Jiri Pirko <jiri@resnulli.us>
+Cc: Johannes Berg <johannes@sipsolutions.net>
+Cc: John Fastabend <john.fastabend@gmail.com>
+Cc: John Stultz <jstultz@google.com>
+Cc: Jon Maloy <jmaloy@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
+Cc: Julian Anastasov <ja@ssi.bg>
+Cc: KP Singh <kpsingh@kernel.org>
+Cc: Kalle Valo <kvalo@kernel.org>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Keith Busch <kbusch@kernel.org>
+Cc: Lars Ellenberg <lars.ellenberg@linbit.com>
+Cc: Leon Romanovsky <leon@kernel.org>
+Cc: Manish Rangankar <mrangankar@marvell.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>
+Cc: Marco Elver <elver@google.com>
+Cc: Martin K. Petersen <martin.petersen@oracle.com>
+Cc: Martin KaFai Lau <martin.lau@linux.dev>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Md. Haris Iqbal <haris.iqbal@ionos.com>
+Cc: Michael Chan <michael.chan@broadcom.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Michael Jamet <michael.jamet@intel.com>
+Cc: Michal Januszewski <spock@gentoo.org>
+Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Naveen N. Rao <naveen.n.rao@linux.ibm.com>
+Cc: Neil Horman <nhorman@tuxdriver.com>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Nilesh Javali <njavali@marvell.com>
+Cc: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Philipp Reisner <philipp.reisner@linbit.com>
+Cc: Potnuri Bharat Teja <bharat@chelsio.com>
+Cc: Pravin B Shelar <pshelar@ovn.org>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Rohit Maheshwari <rohitm@chelsio.com>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Sagi Grimberg <sagi@grimberg.me>
+Cc: Santosh Shilimkar <santosh.shilimkar@oracle.com>
+Cc: Sergey Matyukevich <geomatsi@gmail.com>
+Cc: Sharvari Harisangam <sharvari.harisangam@nxp.com>
+Cc: Simon Horman <horms@verge.net.au>
+Cc: Song Liu <song@kernel.org>
+Cc: Stanislav Fomichev <sdf@google.com>
+Cc: Steffen Klassert <steffen.klassert@secunet.com>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: Stephen Hemminger <stephen@networkplumber.org>
+Cc: Sungjong Seo <sj1557.seo@samsung.com>
+Cc: Theodore Ts'o <tytso@mit.edu>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Thomas Graf <tgraf@suug.ch>
+Cc: Thomas Sailer <t.sailer@alumni.ethz.ch>
+Cc: Toke Høiland-Jørgensen <toke@toke.dk>
+Cc: Trond Myklebust <trond.myklebust@hammerspace.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Varun Prakash <varun@chelsio.com>
+Cc: Veaceslav Falico <vfalico@gmail.com>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Vinay Kumar Yadav <vinay.yadav@chelsio.com>
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: Vlad Yasevich <vyasevich@gmail.com>
+Cc: Wenpeng Liang <liangwenpeng@huawei.com>
+Cc: Xinming Hu <huxinming820@gmail.com>
+Cc: Xiubo Li <xiubli@redhat.com>
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc: Ying Xue <ying.xue@windriver.com>
+Cc: Yishai Hadas <yishaih@nvidia.com>
+Cc: Yonghong Song <yhs@fb.com>
+Cc: Yury Norov <yury.norov@gmail.com>
+Cc: brcm80211-dev-list.pdl@broadcom.com
+Cc: cake@lists.bufferbloat.net
+Cc: ceph-devel@vger.kernel.org
+Cc: coreteam@netfilter.org
+Cc: dccp@vger.kernel.org
+Cc: dev@openvswitch.org
+Cc: dmaengine@vger.kernel.org
+Cc: drbd-dev@lists.linbit.com
+Cc: dri-devel@lists.freedesktop.org
+Cc: kasan-dev@googlegroups.com
+Cc: linux-actions@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-block@vger.kernel.org
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-ext4@vger.kernel.org
+Cc: linux-f2fs-devel@lists.sourceforge.net
+Cc: linux-fbdev@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-hams@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-mmc@vger.kernel.org
+Cc: linux-mtd@lists.infradead.org
+Cc: linux-nfs@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org
+Cc: linux-raid@vger.kernel.org
+Cc: linux-rdma@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org
+Cc: linux-sctp@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-usb@vger.kernel.org
+Cc: linux-wireless@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: lvs-devel@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: netfilter-devel@vger.kernel.org
+Cc: rds-devel@oss.oracle.com
+Cc: SHA-cyfmac-dev-list@infineon.com
+Cc: target-devel@vger.kernel.org
+Cc: tipc-discussion@lists.sourceforge.net
+
+Jason A. Donenfeld (5):
+  treewide: use prandom_u32_max() when possible
+  treewide: use get_random_{u8,u16}() when possible
+  treewide: use get_random_u32() when possible
+  treewide: use get_random_bytes when possible
+  prandom: remove unused functions
+
+ Documentation/networking/filter.rst           |  2 +-
+ arch/powerpc/crypto/crc-vpmsum_test.c         |  2 +-
+ arch/x86/mm/pat/cpa-test.c                    |  4 +-
+ block/blk-crypto-fallback.c                   |  2 +-
+ crypto/async_tx/raid6test.c                   |  2 +-
+ crypto/testmgr.c                              | 94 +++++++++----------
+ drivers/block/drbd/drbd_receiver.c            |  4 +-
+ drivers/dma/dmatest.c                         |  2 +-
+ drivers/infiniband/core/cma.c                 |  2 +-
+ drivers/infiniband/hw/cxgb4/cm.c              |  4 +-
+ drivers/infiniband/hw/cxgb4/id_table.c        |  4 +-
+ drivers/infiniband/hw/hfi1/tid_rdma.c         |  2 +-
+ drivers/infiniband/hw/hns/hns_roce_ah.c       |  5 +-
+ drivers/infiniband/hw/mlx4/mad.c              |  2 +-
+ drivers/infiniband/ulp/ipoib/ipoib_cm.c       |  2 +-
+ drivers/infiniband/ulp/rtrs/rtrs-clt.c        |  3 +-
+ drivers/md/raid5-cache.c                      |  2 +-
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c |  2 +-
+ .../media/test-drivers/vivid/vivid-radio-rx.c |  4 +-
+ drivers/mmc/core/core.c                       |  4 +-
+ drivers/mmc/host/dw_mmc.c                     |  2 +-
+ drivers/mtd/nand/raw/nandsim.c                |  8 +-
+ drivers/mtd/tests/mtd_nandecctest.c           | 12 +--
+ drivers/mtd/tests/speedtest.c                 |  2 +-
+ drivers/mtd/tests/stresstest.c                | 19 +---
+ drivers/mtd/ubi/debug.c                       |  2 +-
+ drivers/mtd/ubi/debug.h                       |  6 +-
+ drivers/net/bonding/bond_main.c               |  2 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  2 +-
+ drivers/net/ethernet/broadcom/cnic.c          |  5 +-
+ .../chelsio/inline_crypto/chtls/chtls_cm.c    |  4 +-
+ .../chelsio/inline_crypto/chtls/chtls_io.c    |  4 +-
+ drivers/net/ethernet/rocker/rocker_main.c     |  8 +-
+ drivers/net/hamradio/baycom_epp.c             |  2 +-
+ drivers/net/hamradio/hdlcdrv.c                |  2 +-
+ drivers/net/hamradio/yam.c                    |  2 +-
+ drivers/net/phy/at803x.c                      |  2 +-
+ drivers/net/wireguard/selftest/allowedips.c   | 16 ++--
+ .../broadcom/brcm80211/brcmfmac/p2p.c         |  2 +-
+ .../net/wireless/intel/iwlwifi/mvm/mac-ctxt.c |  2 +-
+ .../net/wireless/marvell/mwifiex/cfg80211.c   |  4 +-
+ .../wireless/microchip/wilc1000/cfg80211.c    |  2 +-
+ .../net/wireless/quantenna/qtnfmac/cfg80211.c |  2 +-
+ drivers/nvme/common/auth.c                    |  2 +-
+ drivers/scsi/cxgbi/cxgb4i/cxgb4i.c            |  4 +-
+ drivers/scsi/fcoe/fcoe_ctlr.c                 |  4 +-
+ drivers/scsi/lpfc/lpfc_hbadisc.c              |  6 +-
+ drivers/scsi/qedi/qedi_main.c                 |  2 +-
+ drivers/target/iscsi/cxgbit/cxgbit_cm.c       |  2 +-
+ drivers/thunderbolt/xdomain.c                 |  2 +-
+ drivers/video/fbdev/uvesafb.c                 |  2 +-
+ fs/ceph/inode.c                               |  2 +-
+ fs/ceph/mdsmap.c                              |  2 +-
+ fs/exfat/inode.c                              |  2 +-
+ fs/ext2/ialloc.c                              |  2 +-
+ fs/ext4/ialloc.c                              |  4 +-
+ fs/ext4/ioctl.c                               |  4 +-
+ fs/ext4/mmp.c                                 |  2 +-
+ fs/ext4/super.c                               |  7 +-
+ fs/f2fs/gc.c                                  |  2 +-
+ fs/f2fs/namei.c                               |  2 +-
+ fs/f2fs/segment.c                             |  8 +-
+ fs/fat/inode.c                                |  2 +-
+ fs/nfsd/nfs4state.c                           |  4 +-
+ fs/ubifs/debug.c                              | 10 +-
+ fs/ubifs/journal.c                            |  2 +-
+ fs/ubifs/lpt_commit.c                         | 14 +--
+ fs/ubifs/tnc_commit.c                         |  2 +-
+ fs/xfs/libxfs/xfs_alloc.c                     |  2 +-
+ fs/xfs/libxfs/xfs_ialloc.c                    |  4 +-
+ fs/xfs/xfs_error.c                            |  2 +-
+ fs/xfs/xfs_icache.c                           |  2 +-
+ fs/xfs/xfs_log.c                              |  2 +-
+ include/linux/prandom.h                       | 12 ---
+ include/net/netfilter/nf_queue.h              |  2 +-
+ include/net/red.h                             |  2 +-
+ include/net/sock.h                            |  2 +-
+ kernel/kcsan/selftest.c                       |  4 +-
+ kernel/time/clocksource.c                     |  2 +-
+ lib/fault-inject.c                            |  2 +-
+ lib/find_bit_benchmark.c                      |  4 +-
+ lib/random32.c                                |  4 +-
+ lib/reed_solomon/test_rslib.c                 | 12 +--
+ lib/sbitmap.c                                 |  4 +-
+ lib/test_fprobe.c                             |  2 +-
+ lib/test_kprobes.c                            |  2 +-
+ lib/test_list_sort.c                          |  2 +-
+ lib/test_objagg.c                             |  2 +-
+ lib/test_rhashtable.c                         |  6 +-
+ lib/test_vmalloc.c                            | 19 +---
+ lib/uuid.c                                    |  2 +-
+ mm/shmem.c                                    |  2 +-
+ net/802/garp.c                                |  2 +-
+ net/802/mrp.c                                 |  2 +-
+ net/ceph/mon_client.c                         |  2 +-
+ net/ceph/osd_client.c                         |  2 +-
+ net/core/neighbour.c                          |  2 +-
+ net/core/pktgen.c                             | 47 +++++-----
+ net/core/stream.c                             |  2 +-
+ net/dccp/ipv4.c                               |  4 +-
+ net/ipv4/datagram.c                           |  2 +-
+ net/ipv4/igmp.c                               |  6 +-
+ net/ipv4/inet_connection_sock.c               |  2 +-
+ net/ipv4/inet_hashtables.c                    |  2 +-
+ net/ipv4/ip_output.c                          |  2 +-
+ net/ipv4/route.c                              |  2 +-
+ net/ipv4/tcp_cdg.c                            |  2 +-
+ net/ipv4/tcp_ipv4.c                           |  4 +-
+ net/ipv4/udp.c                                |  2 +-
+ net/ipv6/addrconf.c                           |  8 +-
+ net/ipv6/ip6_flowlabel.c                      |  2 +-
+ net/ipv6/mcast.c                              | 10 +-
+ net/ipv6/output_core.c                        |  2 +-
+ net/mac80211/rc80211_minstrel_ht.c            |  2 +-
+ net/mac80211/scan.c                           |  2 +-
+ net/netfilter/ipvs/ip_vs_conn.c               |  2 +-
+ net/netfilter/ipvs/ip_vs_twos.c               |  4 +-
+ net/netfilter/nf_nat_core.c                   |  4 +-
+ net/netfilter/xt_statistic.c                  |  2 +-
+ net/openvswitch/actions.c                     |  2 +-
+ net/packet/af_packet.c                        |  2 +-
+ net/rds/bind.c                                |  2 +-
+ net/sched/act_gact.c                          |  2 +-
+ net/sched/act_sample.c                        |  2 +-
+ net/sched/sch_cake.c                          |  8 +-
+ net/sched/sch_netem.c                         | 22 ++---
+ net/sched/sch_pie.c                           |  2 +-
+ net/sched/sch_sfb.c                           |  2 +-
+ net/sctp/socket.c                             |  4 +-
+ net/sunrpc/auth_gss/gss_krb5_wrap.c           |  4 +-
+ net/sunrpc/cache.c                            |  2 +-
+ net/sunrpc/xprt.c                             |  2 +-
+ net/sunrpc/xprtsock.c                         |  2 +-
+ net/tipc/socket.c                             |  2 +-
+ net/unix/af_unix.c                            |  2 +-
+ net/xfrm/xfrm_state.c                         |  2 +-
+ 136 files changed, 304 insertions(+), 339 deletions(-)
+
+-- 
+2.37.3
