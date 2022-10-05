@@ -2,176 +2,82 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D834BC433FE
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Oct 2022 20:23:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F51FC433F5
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Oct 2022 20:35:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230029AbiJEUXy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Oct 2022 16:23:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55414 "EHLO
+        id S230384AbiJEUfw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Oct 2022 16:35:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230037AbiJEUXs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Oct 2022 16:23:48 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB8D552E5D;
-        Wed,  5 Oct 2022 13:23:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k+qrTKLKrz2qYsA/hJgY03g0U6FOJCLZgQuQuk9PHaNe9RWeVQc+lkjUmBXY0FDtKhOd9/kQttyQteOJNFt+PL+XohaA93CU1ejRQEKetUPdFrpDtXO0diJnAxA2VtxsvP/f55fkR9GPHOnZ+P53Ru3CQf7swmIOz7511Evld56bkJcn0kmjuAwV8BrfbNTvOVGvCSaJ+eJ514uBd8FniV1fQ+xFRvoNzIPpP6f/zUdX2xN+nHYh0lvnNZ5cmQaCM6GThWIJ8bpR/kUgpGcBdLPfI6P62h1R7g84gTRSD866mLuTaDZEYpr4UbbhtOQkKVesNKTr9P0CgAg35F5IMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aIb/pm+/xArYkw9iZhejHSYZDfF+1lxSmkXgqvDyYlU=;
- b=gp6UahDM7lmTTiNQKG2A4svvsgfDHR9AGILxM5lMYYTFI3wZLlHp5/iLIZHrEGc66vScLSpQBHfNkkJ8XRmUX+2IfC80cSYTPi3PbCQfcdAFcrybceUPjcVUX9yS162174UFlIP7wMLxRI60k0cMMazNexqI0vx2kvlYPWWqBIiUu4Q1occfG8NPtMf7wd108PnRSfbzajCHwDsj/CdtYZrZDkum15EjalVhfTdwVkUyPelqlV5F05oGlOAAH0XNgHrQkXYZkvXqZjo2iaQ1rghTxQR0wgpVbrBcr0GB4C+yHIGg5QRCfwoWnZFpMrKrIIvynpRwo2Si+KgOpLwaIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aIb/pm+/xArYkw9iZhejHSYZDfF+1lxSmkXgqvDyYlU=;
- b=MlqYmbv/op9sJQmqJKQlb38bo/wQPllOxWrBm7qsNGII9JuSDZuMkXsCg5x5pzdBtRU/Patl5NSmrcvjUYgD9lQ4fNw9YHnHKMKOWVllO1mSTCQXYOCQhVj24qd5SLI1Kca4X7dY98d9PAqVkzrhaCNYTBoVVYnLAwxHZ1mfE00=
-Received: from DM6PR03CA0063.namprd03.prod.outlook.com (2603:10b6:5:100::40)
- by PH7PR12MB5758.namprd12.prod.outlook.com (2603:10b6:510:1d1::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.35; Wed, 5 Oct
- 2022 20:23:44 +0000
-Received: from DM6NAM11FT009.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:100:cafe::d5) by DM6PR03CA0063.outlook.office365.com
- (2603:10b6:5:100::40) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.24 via Frontend
- Transport; Wed, 5 Oct 2022 20:23:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT009.mail.protection.outlook.com (10.13.173.20) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5709.10 via Frontend Transport; Wed, 5 Oct 2022 20:23:44 +0000
-Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 5 Oct
- 2022 15:23:43 -0500
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     <mathias.nyman@intel.com>, <mika.westerberg@linux.intel.com>
-CC:     <Sanju.Mehta@amd.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 3/4] xhci-pci: Remove a number of controllers from the runtime PM allowlist
-Date:   Wed, 5 Oct 2022 15:23:51 -0500
-Message-ID: <20221005202353.1269-4-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221005202353.1269-1-mario.limonciello@amd.com>
-References: <20221005202353.1269-1-mario.limonciello@amd.com>
+        with ESMTP id S230037AbiJEUfu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Oct 2022 16:35:50 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F85D39BB9;
+        Wed,  5 Oct 2022 13:35:49 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id 27so2945596qkc.8;
+        Wed, 05 Oct 2022 13:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=c2sIbsiDjA2SMjGMWD+26Laqk16I6ZwxVSuTAC9N2/A=;
+        b=SAYe0EeTRn5ySNJLY9UgTUSOJ0t/cmdVcBr2P+xRdmkEDDPfVpLmgAwuTc95MdWDN7
+         /CU77OoiTEujAbW8ivDREtCmnUIE9Ibw0EbdTC2nR4j29NYcJ9bE+9M+hJVYnmahxx0k
+         UP+j3TvVS6H4rWhBfnim5Wr3hatctVRYdUigtJP0/0ue5RXj/1ungu0mL7HFACWRFM7s
+         Sm+ZkDbOoaLf5+0hJYojFXo9HsUJsy/05b+m2r5+Fbt7T2KLFPHflcl46XnN7xr97BTQ
+         Tm/cZExsV8/Ol92PaXx0no3QnYF20roCCtrNc0Bzc7l9bC5bqKr4VRU6Twkv4W3DioiJ
+         7+qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=c2sIbsiDjA2SMjGMWD+26Laqk16I6ZwxVSuTAC9N2/A=;
+        b=bZsgkVXPlL0b+h+zkwQxyIEYy5S2Cl+q7VrNmKEqkWXWpfHDqDxFU3maDvGSBuNBah
+         fqArgtheNQVeumBFJ9nd4T2kRV2jpxdWJYkzzxjAFu0qCQ4UyGDVbW3rk4CD/LUbF+s7
+         O/+1i3GqswmduTs89/mH1WkZpx/2xKxCO0AciXNDrJ+3zUOWYR293gjt1f28dp3/pPcw
+         jMY1wOnyI5zCtLYdB06s71F2gAM61JeuqN9Q1ScQisKT9BUP68OV+Z3+KIgsTlXKLxDx
+         IH8l2j4QELu1vIFbaT+JfY5mFvhFMOVHT3T2mHew76D8Ocq0mRe/Ru3NwaYFXc1Bksp5
+         SzJQ==
+X-Gm-Message-State: ACrzQf16ntpmx9eYTU3v/wSFNHTGh0/RIkkGPX/x0d4ZfJTbayUPuCs9
+        46d2qD0tzoPhdwV6ah7+cio=
+X-Google-Smtp-Source: AMsMyM6CrC9+UVRmv8m9FFzFc/aplhzAFhIJWzXVFjGUi5tvtuzP5ttoNttmGvdGNAehNN8bcir2sg==
+X-Received: by 2002:a37:e116:0:b0:6cf:4dbd:18f1 with SMTP id c22-20020a37e116000000b006cf4dbd18f1mr994643qkm.120.1665002148299;
+        Wed, 05 Oct 2022 13:35:48 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id f1-20020ac81341000000b00339b8a5639csm14623547qtj.95.2022.10.05.13.35.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Oct 2022 13:35:47 -0700 (PDT)
+Message-ID: <33f5b1d2-7d31-de19-c47e-1fc53ce958e3@gmail.com>
+Date:   Wed, 5 Oct 2022 13:35:41 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT009:EE_|PH7PR12MB5758:EE_
-X-MS-Office365-Filtering-Correlation-Id: de018c1e-df01-4091-7412-08daa70f806b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 17kctkJFp9xyVbzVvUpyX+PyepSWBsFtHAd8REFbo/V2+fzLu1HObTDsA9MmO2FWK6cIH4GmiZnC4DD3ogRebF/2rDHDRdIgOs/Zl61CRF+3u/S2byBH7Od+Bi5sB5yURC3DL6DT/iuruQM41JarZi0qRbBLwqB7px7Op1GCkXhBeI42mcXwaYzldqX0H37WnlL0iOJj2XPNRLecZgqj0gLEmV6ua9YYV4nn45PWyUpEcgTSlLGtQgxATWMbtUfTgvox7lVp4jPW0jjd570RQPMzmGXSrolfKEJgA+Psiq66lA/KeMpaJ2DHXkPvnGqZSmyo9JRTLecUWANDPsSav1wbOyQWh0ppUZIPc2VgoQxJ3H+1jzv7FSoclibKVQyzLSna9UbThBTvzVlvaGNx5jkkirile5Ecj5TW1tSPfmdReQkGOdLEB0T1f5NN075q2jq4VOMRlZQf35qVpCkkZ083ftTiRUxVHysUgrAIVBsq0lkH/2/ZdZG4U+0Z5P+hsgX4fHtxpBT4bH9rRtkU92MnQ1cpXFmPsD75vEoCqt/z3gj8N3XMlPY3qn2MsEiAT6WjF30l6GdG0GW3Bf5eCF1UXG6O+aclCj9PomXaJMXO9c1d7m2iHvTZgImTc8Zi0VNvtejZvVKu3U3lONDCRPUl/2O10eLzGBnLUyw4sicl00jKf5oHHUbsoX3QB0VKDRVaG/1C3q4xO7TjtQg0Owll6cneTEGrG26Fykp8uZbqIUEX9rMH+Nc6l15kyTdsMkO+m2+BQl8YNpi52xjPU12EaRCaqAUL2IA7wdUARppC3jPIpmboQU6uO10vp3XfjjTP1kTqALStKKuFtALcFg==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(376002)(396003)(39860400002)(451199015)(40470700004)(46966006)(36840700001)(36756003)(336012)(86362001)(426003)(36860700001)(44832011)(54906003)(8936002)(82740400003)(47076005)(356005)(110136005)(16526019)(81166007)(2616005)(66574015)(83380400001)(1076003)(7696005)(26005)(4326008)(6666004)(40460700003)(316002)(478600001)(40480700001)(41300700001)(5660300002)(186003)(82310400005)(70586007)(70206006)(8676002)(2906002)(36900700001)(2101003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2022 20:23:44.6282
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: de018c1e-df01-4091-7412-08daa70f806b
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT009.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5758
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] usb: bdc: change state when port disconnected
+Content-Language: en-US
+To:     justinpopo6@gmail.com, alcooperx@gmail.com, balbi@kernel.org,
+        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     bcm-kernel-feedback-list@broadcom.com, justin.chen@broadcom.com
+References: <1664997235-18198-1-git-send-email-justinpopo6@gmail.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <1664997235-18198-1-git-send-email-justinpopo6@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When creating a device link from the XHCI PCI device to the USB4 router
-the thunderbolt driver will opt the XHCI PCI device into runtime PM.
+On 10/5/22 12:13, justinpopo6@gmail.com wrote:
+> From: Justin Chen <justinpopo6@gmail.com>
+> 
+> When port is connected and then disconnected, the state stays as
+> configured. Which is incorrect as the port is no longer configured,
+> but in a not attached state.
+> 
+> Signed-off-by: Justin Chen <justinpopo6@gmail.com>
 
-As such it's not necessary to include a hardcoded list of these XHCI
-controllers.  This is effectively a full or partial revert of the following
-commits:
-
-* commit 8ffdc53a60049 ("xhci-pci: Allow host runtime PM as default for
-Intel Meteor Lake xHCI")
-* commit 7516da47a349e ("xhci-pci: Allow host runtime PM as default for
-Intel Raptor Lake xHCI")
-* commit 74f55a62c4c35 ("xhci: Allow host runtime PM as default for
-Intel Alder Lake N xHCI")
-* commit b813511135e8b ("xhci-pci: Allow host runtime PM as default for
-Intel Alder Lake xHCI")
-* commit f886d4fbb7c97 ("usb: xhci: Extend support for runtime power
-management for AMD's Yellow carp.")
-
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-RFC v1->PATCH v1:
- * Drop ICL and TGL, these need it even for FW CM and don't have
-   device links
- * Rebase on top of patch to make a table instead
----
- drivers/usb/host/xhci-pci.c | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 6e5bcec9b2b16..c17f748b05929 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -58,11 +58,7 @@
- #define PCI_DEVICE_ID_INTEL_CML_XHCI			0xa3af
- #define PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI		0x9a13
- #define PCI_DEVICE_ID_INTEL_MAPLE_RIDGE_XHCI		0x1138
--#define PCI_DEVICE_ID_INTEL_ALDER_LAKE_XHCI		0x461e
--#define PCI_DEVICE_ID_INTEL_ALDER_LAKE_N_XHCI		0x464e
- #define PCI_DEVICE_ID_INTEL_ALDER_LAKE_PCH_XHCI	0x51ed
--#define PCI_DEVICE_ID_INTEL_RAPTOR_LAKE_XHCI		0xa71e
--#define PCI_DEVICE_ID_INTEL_METEOR_LAKE_XHCI		0x7ec0
- 
- #define PCI_DEVICE_ID_AMD_RENOIR_XHCI			0x1639
- #define PCI_DEVICE_ID_AMD_PROMONTORYA_4			0x43b9
-@@ -73,10 +69,8 @@
- #define PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_2		0x161b
- #define PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_3		0x161d
- #define PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_4		0x161e
--#define PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_5		0x15d6
--#define PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_6		0x15d7
--#define PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_7		0x161c
--#define PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_8		0x161f
-+#define PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_5		0x161c
-+#define PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_6		0x161f
- 
- #define PCI_DEVICE_ID_ASMEDIA_1042_XHCI			0x1042
- #define PCI_DEVICE_ID_ASMEDIA_1042A_XHCI		0x1142
-@@ -98,11 +92,7 @@ static const struct pci_device_id runtime_allow_pci_ids[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_ICE_LAKE_XHCI) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_MAPLE_RIDGE_XHCI) },
--	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_ALDER_LAKE_XHCI) },
--	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_ALDER_LAKE_N_XHCI) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_ALDER_LAKE_PCH_XHCI) },
--	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_RAPTOR_LAKE_XHCI) },
--	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_METEOR_LAKE_XHCI) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_1) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_2) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_3) },
-@@ -110,8 +100,6 @@ static const struct pci_device_id runtime_allow_pci_ids[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_4) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_5) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_6) },
--	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_7) },
--	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_REMBRANDT_XHCI_8) },
- 	{ 0 }
- };
- 
+Acked-by: Florian Fainelli <f.fainelli@gmail.com>
 -- 
-2.34.1
-
+Florian
