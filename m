@@ -2,157 +2,105 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2940C4332F
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Oct 2022 21:15:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48F20C433FE
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Oct 2022 23:21:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232383AbiJFVPx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Oct 2022 17:15:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44164 "EHLO
+        id S232066AbiJFXVZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Oct 2022 19:21:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232350AbiJFVPr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Oct 2022 17:15:47 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2050.outbound.protection.outlook.com [40.107.93.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0481EB274E;
-        Thu,  6 Oct 2022 14:15:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CsUFB5w5c+dC9ZF5Ww4QgCxfvu4erC5XO8MXdT8zXec81R76vd40T5+UmFAG1kPcYnjOIiI+sOcBR26ThqEFJ5nUfzmeLU6udbXKC9kAxLYhrxsq67BV9dkJPfu9qnfdu6Zm4kbYdSCIzsaMXMHx1E3i0FYcHFyTn3LbJ3yHSzZoPRQVVi7AwgDrdU+VMEEmnf1clGPMvtN7ScB76vFtaJQZWduchxP8juhPB0O5EKbOrZeLZs7Xlokqi7BZx/aswmhHu0/XzRFUgXiQ75x1kc5om3Bni7ABKW4io/ravqTLmAvaX6b3hz7gyLhFlc4PAIV/YJ1CWeDtkRURfFHDLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Dy7II8PwCaJKzoOpY6yjmJMrU1zimTllkXxXT00hyWs=;
- b=e6tO3rdcqav63FQs3s7TrC79yqHc71xjg3VzCaNZDRq+/Ch9b0mXzmIPelxxkhc8tSOc8Azp4p2KRhxoZlOC5+LjEXEHKsWx+cUNMVQWfR8Ka/9FhCi/6BT/mxPZ4iXtNb4gXGf1IVaqXa6zXbbeAnRrV8Rho6OC7hSsy/+mZAEEqAE1YX7F9CCkni9AWZqjTBJTG+/5fcwgg7RfmKBngE+gDQy/awgp2CfAUQ+cqvxAxBGZSGLBNqJYkP0bQQXFu6+BZr+Cv/39zOh5eiFGtX1pGUUwJalG6sve/gvkBNS+01AS5m0sL/iRMsqEPsFWHmTU/9MOcr1pRFfR/L3R7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dy7II8PwCaJKzoOpY6yjmJMrU1zimTllkXxXT00hyWs=;
- b=UXjzXQWyeFwQh1WHmqOtl6aDkm0+1sSSYh6SVE0NiD4/30kXX4SuFhEfrmwHMj/v5L8QAEAJEw9DlhCpFI15cbzntw4OzXJh8sbAX06yd5oVyBM33i9YMwgJzSSPin1QM6hcAAvjEkEMbNqKMLyoCmzlAoUBKUTdMOCayPgBFkA=
-Received: from DS7PR03CA0170.namprd03.prod.outlook.com (2603:10b6:5:3b2::25)
- by BL1PR12MB5802.namprd12.prod.outlook.com (2603:10b6:208:392::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.36; Thu, 6 Oct
- 2022 21:15:40 +0000
-Received: from DM6NAM11FT104.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3b2:cafe::a5) by DS7PR03CA0170.outlook.office365.com
- (2603:10b6:5:3b2::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.24 via Frontend
- Transport; Thu, 6 Oct 2022 21:15:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT104.mail.protection.outlook.com (10.13.173.232) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5709.10 via Frontend Transport; Thu, 6 Oct 2022 21:15:40 +0000
-Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 6 Oct
- 2022 16:15:39 -0500
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        <mika.westerberg@linux.intel.com>
-CC:     Mehta Sanju <Sanju.Mehta@amd.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 1/2] xhci-pci: Set runtime PM as default policy on all xHC 1.2 or later devices
-Date:   Thu, 6 Oct 2022 16:15:28 -0500
-Message-ID: <20221006211529.1858-2-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221006211529.1858-1-mario.limonciello@amd.com>
-References: <20221006211529.1858-1-mario.limonciello@amd.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT104:EE_|BL1PR12MB5802:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1185982-d377-4039-7fe3-08daa7dfec10
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eLNQQwTeujZdN9UgrvHEgtLqdpye0dAv5tMIzNIfIhzoriL0NAwuSXBGqosQABMK1WlprDM3aaAq2rtqZf4zJqLqphamDRzP5DrYafdCs7g5vxkbpG7KCfieZNVllSaOw0rSkw4WB3gF9x1rUTcMcwTWPidYPpkkU4GujiVxYdeAakb+d79RW4RGpstOxXzF0+JtriQjpKxhJbDmXzwWWX5ua7bOox9uxNnonxyahxE9GVPk5GA4uWlCxWQNtyAoow9PFyiDtBE3DWmX5j3PrfFQSjKLu1bY5rIuKeDsV2aa7YuPNpFkLn9ymeFMVx61Zk59jjgMjhEg8qUAUd11lOcWxK5ykQ76TlNuEjTkqskUnF94+a11jbu1w/kq6O2UcoWWibrV9Oi+yiAN0SN/Dm2FOiqp6QvunkEbp86oLIXo28zcPZsNapC6jASgjNvIH6iMdS5FnAVVBjJG3xK9ds9JC3yawlCmhVoL+yxKW9Q6wW5dNDo5+ISrE9q+YPh8zn3NaCa0XlEnU+DB0P8bPorgovsTrLrX52LqJg1qoNSl5NnKyvQYiN3dS5yj3hy3OiUS9ZvEXZFt2P+/SUKb14/qUK+IF0yfQNgWFJE4TZya6lNMrIlfIDUeJJ+yg2rVKaW3rjOjhe2ylAhsgdCAThIflJsRIqWZDoreVgP/RJqadc8aG9dKEPpZuKQOxK2P1IQRXLKzli7tadVe/0CRzTooukBSJmnfTewi9oyEry7TUD+V49/B/XPHC2nduTycq/DnLmzn/vVzXpZgg3JsWzjdYjd3f35MoND4QE0L1QhuhD02j3sb3G3A9L3P1of1DrmCZ//n3dR/sbUkxTAcMaz0pDJ3h1VnxJ1ft+WPGgc=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(396003)(376002)(136003)(451199015)(40470700004)(46966006)(36840700001)(2906002)(44832011)(5660300002)(316002)(36756003)(110136005)(478600001)(36860700001)(70206006)(70586007)(6666004)(54906003)(7696005)(4326008)(8676002)(426003)(2616005)(86362001)(41300700001)(356005)(83380400001)(8936002)(40480700001)(81166007)(966005)(47076005)(82310400005)(82740400003)(26005)(336012)(186003)(1076003)(16526019)(40460700003)(2101003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2022 21:15:40.5459
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1185982-d377-4039-7fe3-08daa7dfec10
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT104.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5802
+        with ESMTP id S231725AbiJFXVY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Oct 2022 19:21:24 -0400
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 956BECD5DE;
+        Thu,  6 Oct 2022 16:21:23 -0700 (PDT)
+Received: by mail-qt1-x82b.google.com with SMTP id g10so52376qtu.2;
+        Thu, 06 Oct 2022 16:21:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HsUtilPeZlwiKK6ImAsDozMQbGgITU56YSuN7fZPUFg=;
+        b=oLvgSk7wyDNAxPsi04wSzI05U8IFD/9D6c0gJSCWFNXXnS7nT63SxHTJMIkMhn7u4s
+         W7YM5OXBjrvqpaDC4n3IywUaXI5wfPq95R9NCx8HfeJEHcTr0U2UPBYszrIgLVaDWIWu
+         wYb8qWPrBN+sAFLuoheZrQvzmiEsgrZ1nQzaefRUTkQ1//CmL/roECN8+yKNUs+rdNCs
+         7y+sbHtClpAjgo9lSYO1j/CMm5hQ4VraD/nNVSP03gIf3u9a1//qLqsGgLCloII0P1Pz
+         10s9y1EzNZerXaEyAEsfuEpPzxTgbVlmwGfIIijW7jUosW9wbYUuITiFI5ZAnzIvslfL
+         MZPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HsUtilPeZlwiKK6ImAsDozMQbGgITU56YSuN7fZPUFg=;
+        b=EycEFOt97XK/ugnZ0cX13ZBYSTRdGAStIT4WhB6zY9S4a2lYavqdS6haxLKhyBXgoA
+         WNK+WEOclAMB2G9Ufh3ighdAT5KTeb+K/p1qQvkIWyx0Imve42Bt3leknV7jCD39qfmW
+         /jzxnDcDkhbj3ucclGzL8hFiB12ZRN6W3zT97c8KxJgAdR9sbNvRl1pCFLDm7aAsl3aM
+         OKNe1vUj6A6Wma8dIuYUWhgVKz2Q83OTcpndKknMrdIfLBgmNaSRbQOHCFSRXNFLhnX+
+         OsGZj+vXHsHm2/L5ErfFU8EKUpfVOFmBLbXb2k0XjK5iVhlnzSnHXNz3Jnbjj9akRU3o
+         WX1Q==
+X-Gm-Message-State: ACrzQf1KHqFVOnpU6FTW0rR5pm+l7IaeG/1jHb0VldIdgM745k7nxBP8
+        p8qDygttn1eExpNpSUVtagll4K3sLa3uBg==
+X-Google-Smtp-Source: AMsMyM7UZNC5pCZp5Bpvb39hed0mQQU7FrMrF0YiKgsU7ewt+TMNuQVg1kIrsvbfNI4bAjY64Arj7Q==
+X-Received: by 2002:a05:622a:164a:b0:35c:b87f:4839 with SMTP id y10-20020a05622a164a00b0035cb87f4839mr2307111qtj.219.1665098482325;
+        Thu, 06 Oct 2022 16:21:22 -0700 (PDT)
+Received: from stbirv-lnx-2.igp.broadcom.net ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id ay18-20020a05620a179200b006ce2c3c48ebsm386825qkb.77.2022.10.06.16.21.20
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 06 Oct 2022 16:21:21 -0700 (PDT)
+From:   justinpopo6@gmail.com
+To:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        gregkh@linuxfoundation.org, vkoul@kernel.org, kishon@ti.com,
+        linux-phy@lists.infradead.org
+Cc:     f.fainelli@gmail.com, alcooperx@gmail.com,
+        bcm-kernel-feedback-list@broadcom.com, justin.chen@broadcom.com,
+        Justin Chen <justinpopo6@gmail.com>
+Subject: [PATCH] MAINTAINERS: Update maintainers for broadcom USB
+Date:   Thu,  6 Oct 2022 16:21:09 -0700
+Message-Id: <1665098469-19008-1-git-send-email-justinpopo6@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For optimal power consumption of USB4 routers the XHCI PCIe endpoint
-used for tunneling must be in D3.  Historically this is accomplished
-by a long list of PCIe IDs that correspond to these endpoints because
-the xhci_hcd driver will not default to allowing runtime PM for all
-devices.
+From: Justin Chen <justinpopo6@gmail.com>
 
-As both AMD and Intel have released new products with new XHCI controllers
-this list continues to grow. In reviewing the XHCI specification v1.2 on
-page 607 there is already a requirement that the PCI power management
-states D3hot and D3cold must be supported.
+Al Cooper is no longer the downstream maintainer for broadcom USB.
+I will be taking his place as downstream and as an additional
+upstream maintainer.
 
-In the quirk list, use this to indicate that runtime PM should be allowed
-on XHCI controllers.
-
-Suggested-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-Link: https://www.intel.com/content/dam/www/public/us/en/documents/technical-specifications/extensible-host-controler-interface-usb-xhci.pdf
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Justin Chen <justinpopo6@gmail.com>
 ---
- drivers/usb/host/xhci-pci.c | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
+ MAINTAINERS | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index dce6c0ec8d340..0d2d1cea94a4f 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -69,14 +69,6 @@
- #define PCI_DEVICE_ID_AMD_PROMONTORYA_3			0x43ba
- #define PCI_DEVICE_ID_AMD_PROMONTORYA_2			0x43bb
- #define PCI_DEVICE_ID_AMD_PROMONTORYA_1			0x43bc
--#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_1		0x161a
--#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_2		0x161b
--#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_3		0x161d
--#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_4		0x161e
--#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_5		0x15d6
--#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_6		0x15d7
--#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_7		0x161c
--#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_8		0x161f
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8656ab7..3e8ecde2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4078,6 +4078,7 @@ N:	bcm7038
+ N:	bcm7120
  
- #define PCI_DEVICE_ID_ASMEDIA_1042_XHCI			0x1042
- #define PCI_DEVICE_ID_ASMEDIA_1042A_XHCI		0x1142
-@@ -336,15 +328,7 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
- 	     pdev->device == PCI_DEVICE_ID_AMD_PROMONTORYA_4))
- 		xhci->quirks |= XHCI_NO_SOFT_RETRY;
+ BROADCOM BDC DRIVER
++M:	Justin Chen <justinpopo6@gmail.com>
+ M:	Al Cooper <alcooperx@gmail.com>
+ L:	linux-usb@vger.kernel.org
+ R:	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+@@ -4184,6 +4185,7 @@ F:	Documentation/devicetree/bindings/serial/brcm,bcm7271-uart.yaml
+ F:	drivers/tty/serial/8250/8250_bcm7271.c
  
--	if (pdev->vendor == PCI_VENDOR_ID_AMD &&
--	    (pdev->device == PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_1 ||
--	    pdev->device == PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_2 ||
--	    pdev->device == PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_3 ||
--	    pdev->device == PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_4 ||
--	    pdev->device == PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_5 ||
--	    pdev->device == PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_6 ||
--	    pdev->device == PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_7 ||
--	    pdev->device == PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_8))
-+	if (xhci->hci_version >= 0x102)
- 		xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
+ BROADCOM BRCMSTB USB EHCI DRIVER
++M:	Justin Chen <justinpopo6@gmail.com>
+ M:	Al Cooper <alcooperx@gmail.com>
+ R:	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+ L:	linux-usb@vger.kernel.org
+@@ -4200,6 +4202,7 @@ F:	Documentation/devicetree/bindings/usb/brcm,usb-pinmap.yaml
+ F:	drivers/usb/misc/brcmstb-usb-pinmap.c
  
- 	if (xhci->quirks & XHCI_RESET_ON_RESUME)
+ BROADCOM BRCMSTB USB2 and USB3 PHY DRIVER
++M:	Justin Chen <justinpopo6@gmail.com>
+ M:	Al Cooper <alcooperx@gmail.com>
+ R:	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+ L:	linux-kernel@vger.kernel.org
 -- 
-2.34.1
+2.7.4
 
