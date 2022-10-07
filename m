@@ -2,131 +2,338 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0482C433FE
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Oct 2022 14:20:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FE6FC433F5
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Oct 2022 14:20:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbiJGOUq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 Oct 2022 10:20:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55768 "EHLO
+        id S229624AbiJGOU6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 Oct 2022 10:20:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbiJGOUm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Oct 2022 10:20:42 -0400
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07583BE2CB
-        for <linux-usb@vger.kernel.org>; Fri,  7 Oct 2022 07:20:40 -0700 (PDT)
-Received: by mail-il1-f197.google.com with SMTP id h8-20020a056e021b8800b002f9c2e31750so3946249ili.1
-        for <linux-usb@vger.kernel.org>; Fri, 07 Oct 2022 07:20:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P93AvNzX7xWtYgWFViNoiHNR6oJ154XiRau4RHqwpSg=;
-        b=KH/pUkNP94G1JROyiN9JbjnbjVAW6MZpvir9JjLcn2H4E/qEOTggf8ZlciIXouTlGC
-         0iRvdNR+tRYha54TL3yZvCvEozVCls/7lhjCXelOW86DMqvcQukODQu3XmT9c+v04jVZ
-         WC0zObz7vqSXLCw0ga0QpspzJ5Syj6kFZH+Bs3rJVDxqrHGpn/ObSmSXFN/aEXIV6jOp
-         v3bR12tH5zA7WmKfFvTBYSPtwEBkE8bqW8Y3Q9EKVQrhdsyggD3nyMgblL7tn3Q6nybJ
-         UhQLZlZaM30TCjeSBscngLq4B8GqO5AStvHFlsCnkfEQbSHEpwSdHqdtXGHxqqwOHfYo
-         N4yg==
-X-Gm-Message-State: ACrzQf0r7EZA0oV+TE8UYML9UPsh2ZumfNy87RqUmxRDxPOCHeJqe6BF
-        vLhK7Np8Ir3G0fvfcgS7r40MJxKvKgTYQ6KVyvrewaV8Z7sF
-X-Google-Smtp-Source: AMsMyM65eMOlIsu6ZWObVCjAkZM5EpOP47G2HGafvLAJ6O+Xv0t+REXonX86Hm1e6RxMkVbW18Q8OOvwYtFmtaJCRH2ZIQEB29Kq
+        with ESMTP id S229591AbiJGOU4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Oct 2022 10:20:56 -0400
+Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2171.outbound.protection.outlook.com [40.92.62.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 832CB11877D
+        for <linux-usb@vger.kernel.org>; Fri,  7 Oct 2022 07:20:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TQO2U7tIY9YVZNDW99L4E2zyTrgF9EuJydt3aaZmeI2SnIy1J06wCnMDo4dRvKz8n3IKGlCGb4aNe6Hr4ifxOE6o16BPiEhJPkayh5IhW6vzG4JHhipP11SDmNhu+3q5LLjdjkFAVXWZ4RWmAA1AgNTkjJOhQOckyiXK3bnazhYUkYLG5WTCqynJabfMwG93RCeRzXnza8Wddd6tb7TTVWVXSSo3j87nL8U32NBzwU9aDYlFcwRHF5lXIJ5xVcxlO9T3iZaD1O9xCQ3zWdrA5QJ+3/WDVnjIPhqKEKsvV4O4P2rMKQnj3/QpGq5UYnvurb30sG0SM1YHsEpyNWyANA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oK9tbQsMylI7AlQMq3ATfw11RQ5+bFVq5Sfu1PDnLPY=;
+ b=IAn5+B5t1aNI2XAtDDw9GH/2ghc+bkRRIkrCa2gH7G8uhF/RKzrJtafQ6WU4ASy4O3NG9SkNIKnObJhQNwdz/3Ha98L4apM+goTcIMBNX33P/N1vXM1o+G5+CQmJ4mkVD5Da/eVOj8Nd6umigs8o6RMnhJ5bvatobEFSDvnW0mJna8HV4SbQGDRzoKHC+GFCyuP/gHQTiPiZWXWsHK3whCGbXcz2s/GeCGl/t3lRlZhCe4xQKJhC7d6T4Kzm9iQUELI+8q3Qzp53wwlMFKlPl6cDR5GNzj4nQ8bBWul9hbG9aeCz2C0hpHIHO7H0DxpZCiFKHpHYkryvFiQ1r61z4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oK9tbQsMylI7AlQMq3ATfw11RQ5+bFVq5Sfu1PDnLPY=;
+ b=sxCDsHA/GVfRHhZruwj6zHjmiV9okdLeJ/q8YAK5aiabqjLnyYCqk+DNnTjPGSPPCd3hEwqBvlU7bjpo0bmcR/3f96O9iZi2XdSgZl95SISC6Xw5j3vtLvz2bl5w7XcCI65YTCqLr0sQqIRe2uagHq7Cu3awxGMBc4xZigIA4GdCZjuFd8SgGSQ1NBy5R0WbqfEztY/+mMfQpAsv/IArjz7NhB0HUkY0ie0W7hLd1bCN4UDtzUxfPsugcn0lCUDnOZN1zedeywB22ut9rczId11LUU0Yy7tY0zOd9l2jSrU/9u8UihHqgHu4jFIYEuWdlSETJ0H9aUjfJiSeGSkjsw==
+Received: from ME3P282MB2827.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:13c::13)
+ by MEYP282MB3181.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:160::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.15; Fri, 7 Oct
+ 2022 14:20:50 +0000
+Received: from ME3P282MB2827.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::d403:bdaa:515:ae06]) by ME3P282MB2827.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::d403:bdaa:515:ae06%8]) with mapi id 15.20.5676.038; Fri, 7 Oct 2022
+ 14:20:50 +0000
+From:   Chun-Chao Yen <nothingstopsme@hotmail.com>
+To:     davem@davemloft.net
+Cc:     linux-usb@vger.kernel.org
+Subject: [PATCH 1/3] net: usb: ax88179_178a: Enable FLAG_MULTI_PACKET to improve tx stability
+Date:   Fri,  7 Oct 2022 22:20:36 +0800
+Message-ID: <ME3P282MB2827A82474F353487FF91CE4D15F9@ME3P282MB2827.AUSP282.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.32.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN:  [nInBIeXckUijPxhIp3A8suA4EhPYSt2N]
+X-ClientProxiedBy: PUZP153CA0016.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:301:c2::18) To ME3P282MB2827.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:220:13c::13)
+X-Microsoft-Original-Message-ID: <20221007142038.2814378-1-nothingstopsme@hotmail.com>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:2d83:b0:6a4:ea1e:3fe8 with SMTP id
- k3-20020a0566022d8300b006a4ea1e3fe8mr2440898iow.163.1665152439414; Fri, 07
- Oct 2022 07:20:39 -0700 (PDT)
-Date:   Fri, 07 Oct 2022 07:20:39 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000a5fa2905ea7283f3@google.com>
-Subject: [syzbot] WARNING: ODEBUG bug in usb_unbind_interface
-From:   syzbot <syzbot+1dc86a35505aa14c1115@syzkaller.appspotmail.com>
-To:     evgreen@chromium.org, gregkh@linuxfoundation.org,
-        heghedus.razvan@gmail.com, jj251510319013@gmail.com,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com,
-        yuanjilin@cdjrlc.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: ME3P282MB2827:EE_|MEYP282MB3181:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0b528dc0-b1ea-4fc8-72e5-08daa86f227c
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JTkb2CnyWhC5jdnpCj5EyeSxESMArGwjDzLfJYZDh4iHDPSId6xRQo7My9bSC6IGiC/Hs6vo4BWSPorkzhVPGjMm2CstJl0Gwxg1fbL0EiCzZillgkmG7cEKhP/kgFUZFf9Q9TdeOClPdLWKS2ap7MesrK3MeEKawdggQqgqApbOjuPF/M9OcQM7rhpCYGE09xW8wzvIgS4wSH048/o35zTCevZiwkNsHk4bBfaQI63gR48wr7/xcMKnbdL3iqILwjP8DVA37Ui1AcpkjxTtaFpo7hBLq9A6XuMFeVGSIQmWU8nIBjP3P85XwMUd5XP6Sc7t4yXQLkAEonbofukRmpLiza6S4DKEy6blrVn/V//OrfUFhz5Ph14WkJpJA95ckfhjlNl/RTBAo9TPVQtNI0zGQ8v2h9zivQELcG2Y04Mu4gR9MBiwPx4NTD6dWRe2ejKcFZhwdthdFqgMf0Q1DtbxdMtP8eIp7u9r9zG9SFbZ5EACN2GcfNS5FV7Jq/N2Sop9MVeT6/Js8RVM/fLLvcU4LUcs0ZdmgxTbpmoTYeL5oOBq+9OXBgPeOTZC4q++X9d21FOs2QnbD94SFYqpp3VBfqqs5hpxUbBINx7RkF67Vp8ADUVUIKEVT7UFWu27
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NF4DPY21YzJQ8RFRcV08Ow8sIdaElBf9w7B/Ub1Ald5vVO2zqx9SCFoCVGiZ?=
+ =?us-ascii?Q?nbWHbbu2uLINFXIeJYVyKaCrMRF00c0TwZUu+zcKsAROsQh19DehF9tRY+xt?=
+ =?us-ascii?Q?KvTGLEpnO5v8gUMGUVytIDYuytHPItEahfpZMT99dQJC/lf6PLQQkbSEfNCi?=
+ =?us-ascii?Q?YrOq/SOKybDBWCCJJl1wzD/Z7aVeud2KxzaDVPkhD9WH6I7fo2oSD44OBpe+?=
+ =?us-ascii?Q?LbRDZdQNTE3mpjnWFpajQLqaoo3LsRsKQcox3rH1webP/vwo+bKAZz9URFUZ?=
+ =?us-ascii?Q?EnVwGutOLfaQFQOmH5hH7yMOlZJv3L5ZkIW+0n1qcMViKZSgpqG+UWfsKNAd?=
+ =?us-ascii?Q?Q+cpExCcUBh7cWFT8R5YFl638cHmrxpCp7KCHSOoLeJDETmG1rVpVmCsn4BL?=
+ =?us-ascii?Q?N56i58Yocyzc9srrMu9W1uOL37aIIjXMUMVsqDucelHK3DLD8b/OdhuZoS6j?=
+ =?us-ascii?Q?cW2roXlLkq+WQmjvjypN1Syx542W2qWlXn7LeERTJ5bldKwtSclCWwj7RkoY?=
+ =?us-ascii?Q?qzvDaCfsOsWJ6EVhkcew0M56k+k6K2m5C8Ppcb7bN+JI0flTLe/Zwi/Pl2Y7?=
+ =?us-ascii?Q?p1m82wk84fXuTUwdwc0tetJx++ztKYaZDN71RsXyv3XMfhW8kZb3hPCDmGQU?=
+ =?us-ascii?Q?ISROwwLdIZI6+TX/fhsSGuG4F3v74mDlQ/RO+4EXphavpr8gQbT8I8Ol3whB?=
+ =?us-ascii?Q?SVU8Gga7EJi9PKUTjiluiJiAhl85CwkzgKhWwlzlCKA0GBGZWzbfRIr9ApRv?=
+ =?us-ascii?Q?GIDmDpYcuHcb5QgPg7jU7B85woLVOPLGQ8glPxaC6yglFrnIn18bc0Bcdoza?=
+ =?us-ascii?Q?NnbAxvmBXotD0VaDzKthy8Z1c5Lh2p/Dn3kYLdtehrp+M/qWl0rPGL1VldDg?=
+ =?us-ascii?Q?9CH83nx1Y4HXZAmLCOLcNok1Imxs0pGDnUuRm33Alw29ZFikfQpySyAx+LJX?=
+ =?us-ascii?Q?dSUkAchlEt+AvE5jgmCwvu9KQIOFIRll3ACQdDZr98FgGvh6VO/Q4tsqHlKs?=
+ =?us-ascii?Q?F0+gha9MorN2mukoLWVJYIr8Wi0yMo1reAYD4Qw67mLoi3X15mxHZsdQDMb9?=
+ =?us-ascii?Q?5Gqjw+8Y04EAr2/iuhMFKtcQOzb93zW7FkaDIHlgLCcvqIeuvSXkgFl0QDyd?=
+ =?us-ascii?Q?b4KjtJnPGSMOzk8Ff3Yd1BIRPS4TGGew3+mAo0yHrEBH8/U3RwYPRvhhxPiM?=
+ =?us-ascii?Q?gc3Lm5IeR3TWf6Dq1e/aO80Tmeen2LXOYjn0DF+GmBgQDuic+XPNaFz217Wh?=
+ =?us-ascii?Q?Od5geqxqUfhJ8DXrJOqQFo6meVGhfHe38kFetZo4sBdmhS6dyj7SR4Rakmdk?=
+ =?us-ascii?Q?rMQ=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-746f3.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b528dc0-b1ea-4fc8-72e5-08daa86f227c
+X-MS-Exchange-CrossTenant-AuthSource: ME3P282MB2827.AUSP282.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2022 14:20:50.2431
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MEYP282MB3181
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+Problem Description:
+The current way of handling the boundary case in tx, i.e. adding one-byte
+padding when the size of an outbound packet is a multiple of the maximum
+frame size used for USB bulk transfer, does not work with the hardware.
+This can be shown by running a loading test via iperf with this hardware as
+the sender; one can then tune the iperf parameters on the sender side (e.g.
+"-M 510" in my testing environment) so that sent packets frequently hit the
+boundary condition, and observe a significant drop in the transmission
+rate. In the worst case (often after a long run), the hardware can stop
+functioning (can not send or receive packets anymore, albeit the
+corresponding network interface is still reported present by ifconfig).
 
-syzbot found the following issue on:
+It is also believed that this problem is highly relevant to this bug [1].
 
-HEAD commit:    4fe89d07dcc2 Linux 6.0
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=153e9148880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8b8947ea4cc7fb5d
-dashboard link: https://syzkaller.appspot.com/bug?extid=1dc86a35505aa14c1115
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+Solution:
+Enable FLAG_MULTI_PACKET and modify both ax88179_rx_fixup() and
+ax88179_tx_fixup() accordingly.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Rationale:
+When FLAG_MULTI_PACKET is enabled (and FLAG_SEND_ZLP is off, which is the
+case for this driver), usbnet will skip padding, and trust that each
+sk_buff returned from the mini-driver's tx_fixup function has been taken
+care of to cater for the requirement of its target hardware. That
+mechanism allows this mini-driver to send, even when the boundary condition
+is detected, "untampered" packets (no padding, no extra flags, as if in the
+normal case) that the hardware accepts, and therefore resolves this
+problem.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/afc7f54b2a64/disk-4fe89d07.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/e8dddd4401ab/vmlinux-4fe89d07.xz
+Note that rather than being viewed as a workaround, enabling
+FLAG_MULTI_PACKET is intended to better match the overall behaviour of the
+hardware, as it also echos well the rx procedure conducting multiple-packet
+extraction from a single sk_buff in ax88179_rx_fixup().
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+1dc86a35505aa14c1115@syzkaller.appspotmail.com
+Verification:
+Only tested with this device:
+0b95:1790 ASIX Electronics Corp. AX88179 Gigabit Ethernet
 
-usb 1-1: USB disconnect, device number 20
-cdc_ncm 1-1:1.0 usb0: unregister 'cdc_ncm' usb-dummy_hcd.0-1, CDC NCM (NO ZLP)
-------------[ cut here ]------------
-ODEBUG: free active (active state 0) object type: work_struct hint: usbnet_deferred_kevent+0x0/0xae0 drivers/net/usb/usbnet.c:1584
-WARNING: CPU: 1 PID: 27 at lib/debugobjects.c:505 debug_print_object lib/debugobjects.c:502 [inline]
-WARNING: CPU: 1 PID: 27 at lib/debugobjects.c:505 __debug_check_no_obj_freed lib/debugobjects.c:989 [inline]
-WARNING: CPU: 1 PID: 27 at lib/debugobjects.c:505 debug_check_no_obj_freed+0x46b/0x650 lib/debugobjects.c:1020
-Modules linked in:
-CPU: 1 PID: 27 Comm: kworker/1:1 Not tainted 6.0.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:debug_print_object lib/debugobjects.c:502 [inline]
-RIP: 0010:__debug_check_no_obj_freed lib/debugobjects.c:989 [inline]
-RIP: 0010:debug_check_no_obj_freed+0x46b/0x650 lib/debugobjects.c:1020
-Code: 48 89 ef e8 47 32 a2 fd 48 8b 13 4c 8b 45 00 48 c7 c7 20 71 0a 8b 48 c7 c6 00 6e 0a 8b 44 89 f1 4d 89 f9 31 c0 e8 85 55 16 fd <0f> 0b 48 ba 00 00 00 00 00 fc ff df ff 05 9f cd ea 09 48 8b 5c 24
-RSP: 0018:ffffc90000a2f0d8 EFLAGS: 00010246
-RAX: 62d25ed28b046b00 RBX: ffffffff8b0a7198 RCX: 0000000000040000
-RDX: ffffc90013401000 RSI: 0000000000014bfa RDI: 0000000000014bfb
-RBP: ffffffff8aac8220 R08: ffffffff816d5a8d R09: ffffed10173667f1
-R10: ffffed10173667f1 R11: 1ffff110173667f0 R12: ffff888091fa6c1c
-R13: ffff888091fa6c28 R14: 0000000000000000 R15: ffffffff85fb5eb0
-FS:  0000000000000000(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000055f462a01950 CR3: 0000000095603000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- slab_free_hook mm/slub.c:1734 [inline]
- slab_free_freelist_hook+0xcf/0x1a0 mm/slub.c:1785
- slab_free mm/slub.c:3539 [inline]
- kfree+0xda/0x210 mm/slub.c:4567
- device_release+0x98/0x1c0
- kobject_cleanup+0x235/0x470 lib/kobject.c:673
- usb_unbind_interface+0x1f2/0x860 drivers/usb/core/driver.c:458
- device_remove drivers/base/dd.c:550 [inline]
- __device_release_driver drivers/base/dd.c:1249 [inline]
- device_release_driver_internal+0x5bc/0x8a0 drivers/base/dd.c:1275
- bus_remove_device+0x2fd/0x410 drivers/base/bus.c:529
- device_del+0x6ec/0xbe0 drivers/base/core.c:3704
- usb_disable_device+0x3dd/0x820 drivers/usb/core/message.c:1419
- usb_disconnect+0x346/0x890 drivers/usb/core/hub.c:2235
- hub_port_connect+0x296/0x2930 drivers/usb/core/hub.c:5197
- hub_port_connect_change+0x619/0xbe0 drivers/usb/core/hub.c:5497
- port_event+0xec6/0x13b0 drivers/usb/core/hub.c:5653
- hub_event+0x5c1/0xd80 drivers/usb/core/hub.c:5735
- process_one_work+0x81c/0xd10 kernel/workqueue.c:2289
- worker_thread+0xb14/0x1330 kernel/workqueue.c:2436
- kthread+0x266/0x300 kernel/kthread.c:376
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
- </TASK>
+References:
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=212731
 
-
+Signed-off-by: Chun-Chao Yen <nothingstopsme@hotmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/net/usb/ax88179_178a.c | 62 ++++++++++++++--------------------
+ 1 file changed, 26 insertions(+), 36 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
+index aff39bf3161d..b50748b3776c 100644
+--- a/drivers/net/usb/ax88179_178a.c
++++ b/drivers/net/usb/ax88179_178a.c
+@@ -1426,58 +1426,48 @@ static int ax88179_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+ 		if ((*pkt_hdr & (AX_RXHDR_CRC_ERR | AX_RXHDR_DROP_ERR)) ||
+ 		    pkt_len < 2 + ETH_HLEN) {
+ 			dev->net->stats.rx_errors++;
+-			skb_pull(skb, pkt_len_plus_padd);
+-			continue;
+-		}
+-
+-		/* last packet */
+-		if (pkt_len_plus_padd == skb->len) {
+-			skb_trim(skb, pkt_len);
+-
+-			/* Skip IP alignment pseudo header */
+-			skb_pull(skb, 2);
+-
+-			skb->truesize = SKB_TRUESIZE(pkt_len_plus_padd);
+-			ax88179_rx_checksum(skb, pkt_hdr);
+-			return 1;
++			goto advance_data_ptr;
+ 		}
+ 
+ 		ax_skb = skb_clone(skb, GFP_ATOMIC);
+-		if (!ax_skb)
+-			return 0;
++		if (!ax_skb) {
++			/* Report a packet droped, and continue parsing the rest
++			 */
++			dev->net->stats.rx_dropped++;
++			goto advance_data_ptr;
++		}
+ 		skb_trim(ax_skb, pkt_len);
+ 
+ 		/* Skip IP alignment pseudo header */
+ 		skb_pull(ax_skb, 2);
+ 
+-		skb->truesize = pkt_len_plus_padd +
+-				SKB_DATA_ALIGN(sizeof(struct sk_buff));
++		ax_skb->truesize = SKB_TRUESIZE(pkt_len);
+ 		ax88179_rx_checksum(ax_skb, pkt_hdr);
+ 		usbnet_skb_return(dev, ax_skb);
+ 
++advance_data_ptr:
+ 		skb_pull(skb, pkt_len_plus_padd);
+ 	}
+ 
+-	return 0;
++	return 1;
+ }
+ 
+ static struct sk_buff *
+ ax88179_tx_fixup(struct usbnet *dev, struct sk_buff *skb, gfp_t flags)
+ {
+ 	u32 tx_hdr1, tx_hdr2;
+-	int frame_size = dev->maxpacket;
+ 	int headroom;
+ 	void *ptr;
+ 
+ 	tx_hdr1 = skb->len;
+ 	tx_hdr2 = skb_shinfo(skb)->gso_size; /* Set TSO mss */
+-	if (((skb->len + 8) % frame_size) == 0)
+-		tx_hdr2 |= 0x80008000;	/* Enable padding */
+ 
+ 	headroom = skb_headroom(skb) - 8;
+ 
+-	if ((dev->net->features & NETIF_F_SG) && skb_linearize(skb))
++	if ((dev->net->features & NETIF_F_SG) && skb_linearize(skb)) {
++		dev_kfree_skb_any(skb);
+ 		return NULL;
++	}
+ 
+ 	if ((skb_header_cloned(skb) || headroom < 0) &&
+ 	    pskb_expand_head(skb, headroom < 0 ? 8 : 0, 0, GFP_ATOMIC)) {
+@@ -1680,7 +1670,7 @@ static const struct driver_info ax88179_info = {
+ 	.link_reset = ax88179_link_reset,
+ 	.reset = ax88179_reset,
+ 	.stop = ax88179_stop,
+-	.flags = FLAG_ETHER | FLAG_FRAMING_AX,
++	.flags = FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET,
+ 	.rx_fixup = ax88179_rx_fixup,
+ 	.tx_fixup = ax88179_tx_fixup,
+ };
+@@ -1693,7 +1683,7 @@ static const struct driver_info ax88178a_info = {
+ 	.link_reset = ax88179_link_reset,
+ 	.reset = ax88179_reset,
+ 	.stop = ax88179_stop,
+-	.flags = FLAG_ETHER | FLAG_FRAMING_AX,
++	.flags = FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET,
+ 	.rx_fixup = ax88179_rx_fixup,
+ 	.tx_fixup = ax88179_tx_fixup,
+ };
+@@ -1706,7 +1696,7 @@ static const struct driver_info cypress_GX3_info = {
+ 	.link_reset = ax88179_link_reset,
+ 	.reset = ax88179_reset,
+ 	.stop = ax88179_stop,
+-	.flags = FLAG_ETHER | FLAG_FRAMING_AX,
++	.flags = FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET,
+ 	.rx_fixup = ax88179_rx_fixup,
+ 	.tx_fixup = ax88179_tx_fixup,
+ };
+@@ -1719,7 +1709,7 @@ static const struct driver_info dlink_dub1312_info = {
+ 	.link_reset = ax88179_link_reset,
+ 	.reset = ax88179_reset,
+ 	.stop = ax88179_stop,
+-	.flags = FLAG_ETHER | FLAG_FRAMING_AX,
++	.flags = FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET,
+ 	.rx_fixup = ax88179_rx_fixup,
+ 	.tx_fixup = ax88179_tx_fixup,
+ };
+@@ -1732,7 +1722,7 @@ static const struct driver_info sitecom_info = {
+ 	.link_reset = ax88179_link_reset,
+ 	.reset = ax88179_reset,
+ 	.stop = ax88179_stop,
+-	.flags = FLAG_ETHER | FLAG_FRAMING_AX,
++	.flags = FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET,
+ 	.rx_fixup = ax88179_rx_fixup,
+ 	.tx_fixup = ax88179_tx_fixup,
+ };
+@@ -1745,7 +1735,7 @@ static const struct driver_info samsung_info = {
+ 	.link_reset = ax88179_link_reset,
+ 	.reset = ax88179_reset,
+ 	.stop = ax88179_stop,
+-	.flags = FLAG_ETHER | FLAG_FRAMING_AX,
++	.flags = FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET,
+ 	.rx_fixup = ax88179_rx_fixup,
+ 	.tx_fixup = ax88179_tx_fixup,
+ };
+@@ -1758,7 +1748,7 @@ static const struct driver_info lenovo_info = {
+ 	.link_reset = ax88179_link_reset,
+ 	.reset = ax88179_reset,
+ 	.stop = ax88179_stop,
+-	.flags = FLAG_ETHER | FLAG_FRAMING_AX,
++	.flags = FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET,
+ 	.rx_fixup = ax88179_rx_fixup,
+ 	.tx_fixup = ax88179_tx_fixup,
+ };
+@@ -1771,7 +1761,7 @@ static const struct driver_info belkin_info = {
+ 	.link_reset = ax88179_link_reset,
+ 	.reset	= ax88179_reset,
+ 	.stop	= ax88179_stop,
+-	.flags	= FLAG_ETHER | FLAG_FRAMING_AX,
++	.flags	= FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET,
+ 	.rx_fixup = ax88179_rx_fixup,
+ 	.tx_fixup = ax88179_tx_fixup,
+ };
+@@ -1784,7 +1774,7 @@ static const struct driver_info toshiba_info = {
+ 	.link_reset = ax88179_link_reset,
+ 	.reset	= ax88179_reset,
+ 	.stop = ax88179_stop,
+-	.flags	= FLAG_ETHER | FLAG_FRAMING_AX,
++	.flags	= FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET,
+ 	.rx_fixup = ax88179_rx_fixup,
+ 	.tx_fixup = ax88179_tx_fixup,
+ };
+@@ -1797,7 +1787,7 @@ static const struct driver_info mct_info = {
+ 	.link_reset = ax88179_link_reset,
+ 	.reset	= ax88179_reset,
+ 	.stop	= ax88179_stop,
+-	.flags	= FLAG_ETHER | FLAG_FRAMING_AX,
++	.flags	= FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET,
+ 	.rx_fixup = ax88179_rx_fixup,
+ 	.tx_fixup = ax88179_tx_fixup,
+ };
+@@ -1810,7 +1800,7 @@ static const struct driver_info at_umc2000_info = {
+ 	.link_reset = ax88179_link_reset,
+ 	.reset  = ax88179_reset,
+ 	.stop   = ax88179_stop,
+-	.flags  = FLAG_ETHER | FLAG_FRAMING_AX,
++	.flags  = FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET,
+ 	.rx_fixup = ax88179_rx_fixup,
+ 	.tx_fixup = ax88179_tx_fixup,
+ };
+@@ -1823,7 +1813,7 @@ static const struct driver_info at_umc200_info = {
+ 	.link_reset = ax88179_link_reset,
+ 	.reset  = ax88179_reset,
+ 	.stop   = ax88179_stop,
+-	.flags  = FLAG_ETHER | FLAG_FRAMING_AX,
++	.flags  = FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET,
+ 	.rx_fixup = ax88179_rx_fixup,
+ 	.tx_fixup = ax88179_tx_fixup,
+ };
+@@ -1836,7 +1826,7 @@ static const struct driver_info at_umc2000sp_info = {
+ 	.link_reset = ax88179_link_reset,
+ 	.reset  = ax88179_reset,
+ 	.stop   = ax88179_stop,
+-	.flags  = FLAG_ETHER | FLAG_FRAMING_AX,
++	.flags  = FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET,
+ 	.rx_fixup = ax88179_rx_fixup,
+ 	.tx_fixup = ax88179_tx_fixup,
+ };
+-- 
+2.32.0
+
