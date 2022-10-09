@@ -2,50 +2,50 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7D9AC4332F
-	for <linux-usb@archiver.kernel.org>; Sun,  9 Oct 2022 22:40:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF6FDC433FE
+	for <linux-usb@archiver.kernel.org>; Sun,  9 Oct 2022 22:50:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233193AbiJIWkm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 9 Oct 2022 18:40:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53002 "EHLO
+        id S233590AbiJIWuC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 9 Oct 2022 18:50:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233459AbiJIWkM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 9 Oct 2022 18:40:12 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 567BB40E3C;
-        Sun,  9 Oct 2022 15:21:29 -0700 (PDT)
+        with ESMTP id S231305AbiJIWr7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 9 Oct 2022 18:47:59 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1875027FD1;
+        Sun,  9 Oct 2022 15:24:30 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B8F61B80DCD;
-        Sun,  9 Oct 2022 22:21:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0988AC433C1;
-        Sun,  9 Oct 2022 22:21:25 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7C4C0B80DD6;
+        Sun,  9 Oct 2022 22:24:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF91BC433C1;
+        Sun,  9 Oct 2022 22:24:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665354087;
-        bh=2iUEDWD1ezspTCzc9bg+WDR4WYNaE+zGwReBsYIZA+Q=;
+        s=k20201202; t=1665354269;
+        bh=x7s5FodyCgdFL3IoZenT3fUfYMYukWJrqWbEO524k2c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uV37X/44DgAdhNNtx27kwFEMWFneuR2dOVHtXpaINpY/R/0fgSR5m50aX+D/T6u2l
-         jUDpqS6KIqwBBjsHEWe+7GlQZnyRhP5WFNGCv5z1SxaNVHVPCZ4oaakJ5H+wnRQLiy
-         /1YOg0GfyBwNanU1pIEve+YgI9jtJkCvULT0g1InaKyXgL1FbZLQMwauIfMrGhCY66
-         ExqaLOC22rNvnyLaMhy6JO6M8MYmfT72WIhyMeeO/8ydFFocxfKwP+I+GBIheFLZoY
-         P81vee3WU2f1UQrhLjFAIBE/djWxt2sNRz/fOVmPOkcs61+hz5MmjJTd77tQFpdDSU
-         rSjG4Dsllbsgw==
+        b=IYZcHYflVETAa7usfZPtRzMnY0SGGcW7SisWRZnucyQUSzArm68CE0cYsMDt+VqaK
+         UGQ9JOCHBUCeJHHg7vnX2R0G1DZk4IfH72po6RE9NJ+kdLWzk2seDx1BcEcyMreqYX
+         vGn3QWFzdhk4z0U1o1GPJGycLDLISqI6sLfvkz+j5U6qLEnRZVmEcg71VjcShXhX80
+         nN/QzmmNNYD3O26U/EE18TSl3LU+imnbvsZBlfvy2776rl1x9FUEVrxWYOmRY1TGvV
+         zcs9tzigDcZEq9Ek9HnOxrEzId5NCjXtyX7svx4bj47N6Y1mX3SFfpUVIOWqCFwUdr
+         ijOIm+EMxqaCQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Andrew Gaul <gaul@gaul.org>, Andrew Gaul <gaul@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Sasha Levin <sashal@kernel.org>, davem@davemloft.net,
         edumazet@google.com, pabeni@redhat.com, hayeswang@realtek.com,
-        aaron.ma@canonical.com, jflf_kernel@gmx.com, svenva@chromium.org,
-        dober6023@gmail.com, linux-usb@vger.kernel.org,
+        aaron.ma@canonical.com, jflf_kernel@gmx.com, dober6023@gmail.com,
+        svenva@chromium.org, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 46/46] r8152: Rate limit overflow messages
-Date:   Sun,  9 Oct 2022 18:19:11 -0400
-Message-Id: <20221009221912.1217372-46-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 29/29] r8152: Rate limit overflow messages
+Date:   Sun,  9 Oct 2022 18:23:04 -0400
+Message-Id: <20221009222304.1218873-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221009221912.1217372-1-sashal@kernel.org>
-References: <20221009221912.1217372-1-sashal@kernel.org>
+In-Reply-To: <20221009222304.1218873-1-sashal@kernel.org>
+References: <20221009222304.1218873-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -70,10 +70,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 7e821bed91ce..c7169243aa6e 100644
+index 873f288e7cec..d1519138f833 100644
 --- a/drivers/net/usb/r8152.c
 +++ b/drivers/net/usb/r8152.c
-@@ -1871,7 +1871,9 @@ static void intr_callback(struct urb *urb)
+@@ -1479,7 +1479,9 @@ static void intr_callback(struct urb *urb)
  			   "Stop submitting intr, status %d\n", status);
  		return;
  	case -EOVERFLOW:
