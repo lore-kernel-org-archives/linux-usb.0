@@ -2,74 +2,66 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A2E4C433FE
-	for <linux-usb@archiver.kernel.org>; Sun,  9 Oct 2022 05:34:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F45DC433F5
+	for <linux-usb@archiver.kernel.org>; Sun,  9 Oct 2022 06:52:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229728AbiJIFeu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 9 Oct 2022 01:34:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47384 "EHLO
+        id S229975AbiJIGw3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 9 Oct 2022 02:52:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbiJIFes (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 9 Oct 2022 01:34:48 -0400
-Received: from hust.edu.cn (mail.hust.edu.cn [202.114.0.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 721C06580;
-        Sat,  8 Oct 2022 22:34:45 -0700 (PDT)
-Received: from localhost.localdomain ([172.16.0.254])
-        (user=dzm91@hust.edu.cn mech=LOGIN bits=0)
-        by mx1.hust.edu.cn  with ESMTP id 2995YOn1011882-2995YOn4011882
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Sun, 9 Oct 2022 13:34:29 +0800
-From:   Dongliang Mu <dzm91@hust.edu.cn>
-To:     Pawel Laszczak <pawell@cadence.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
+        with ESMTP id S229553AbiJIGw2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 9 Oct 2022 02:52:28 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95B732A426;
+        Sat,  8 Oct 2022 23:52:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 53813B80B02;
+        Sun,  9 Oct 2022 06:52:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F405C433C1;
+        Sun,  9 Oct 2022 06:52:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1665298345;
+        bh=hY2moWN7aawBvjhYz3VFmMcafpGLPLpnIUUqaC4drow=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fHNCuCS+gEepH4lsAV9JqYFZIn/NCllLjIpdUjNP0iOxVlrodnLjY9xleiEM1vNJw
+         SohQbjKkag8Tb6GxJhyT+sPdBi1aItTWHMCZjY2MXFp1zPw/byzs5IKh3AbOWGo0fW
+         O6j2I0Q4qCl0XhCHhS3LwEwTtuXyHINnlsMye1zk=
+Date:   Sun, 9 Oct 2022 08:53:07 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Dongliang Mu <dzm91@hust.edu.cn>
+Cc:     Pawel Laszczak <pawell@cadence.com>,
+        Dongliang Mu <mudongliangabcd@gmail.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: cdns3: adjust the partial logic of cdnsp_pci_remove
-Date:   Sun,  9 Oct 2022 13:32:45 +0800
-Message-Id: <20221009053245.154922-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.35.1
+Subject: Re: [PATCH] usb: cdns3: adjust the partial logic of cdnsp_pci_remove
+Message-ID: <Y0Jv0zkDYM9nuPol@kroah.com>
+References: <20221009053245.154922-1-dzm91@hust.edu.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-FEAS-AUTH-USER: dzm91@hust.edu.cn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221009053245.154922-1-dzm91@hust.edu.cn>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Dongliang Mu <mudongliangabcd@gmail.com>
+On Sun, Oct 09, 2022 at 01:32:45PM +0800, Dongliang Mu wrote:
+> From: Dongliang Mu <mudongliangabcd@gmail.com>
+> 
+> In cdnsp_pci_remove, if pci_is_enabled returns true, it will
+> call cdns_remove; else it will call kfree. Then both control flow
+> goes to pci_dev_put.
+> 
+> Adjust this logic by modifying it to an if else.
+> 
+> Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
 
-In cdnsp_pci_remove, if pci_is_enabled returns true, it will
-call cdns_remove; else it will call kfree. Then both control flow
-goes to pci_dev_put.
+Your email address does not match your From: address, and your From:
+address is saying it is being spoofed and not correct :(
 
-Adjust this logic by modifying it to an if else.
+Please work with your school to fix your email system and do not use
+gmail to hide it.
 
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
----
- drivers/usb/cdns3/cdnsp-pci.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+thanks,
 
-diff --git a/drivers/usb/cdns3/cdnsp-pci.c b/drivers/usb/cdns3/cdnsp-pci.c
-index fe8a114c586c..efd54ed918b9 100644
---- a/drivers/usb/cdns3/cdnsp-pci.c
-+++ b/drivers/usb/cdns3/cdnsp-pci.c
-@@ -192,14 +192,12 @@ static void cdnsp_pci_remove(struct pci_dev *pdev)
- 	if (pci_dev_run_wake(pdev))
- 		pm_runtime_get_noresume(&pdev->dev);
- 
--	if (!pci_is_enabled(func)) {
-+	if (pci_is_enabled(func)) {
-+		cdns_remove(cdnsp);
-+	} else {
- 		kfree(cdnsp);
--		goto pci_put;
- 	}
- 
--	cdns_remove(cdnsp);
--
--pci_put:
- 	pci_dev_put(func);
- }
- 
--- 
-2.35.1
-
+greg k-h
