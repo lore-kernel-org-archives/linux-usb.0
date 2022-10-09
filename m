@@ -2,176 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 820E0C4707A
-	for <linux-usb@archiver.kernel.org>; Sun,  9 Oct 2022 22:35:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DBADC43217
+	for <linux-usb@archiver.kernel.org>; Sun,  9 Oct 2022 22:35:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232037AbiJIWfe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 9 Oct 2022 18:35:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59330 "EHLO
+        id S232606AbiJIWff (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 9 Oct 2022 18:35:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232769AbiJIWcn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 9 Oct 2022 18:32:43 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCE621C139;
-        Sun,  9 Oct 2022 15:19:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6DE26B80DD2;
-        Sun,  9 Oct 2022 22:19:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36037C433C1;
-        Sun,  9 Oct 2022 22:19:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665353989;
-        bh=20Rf8tPmh/l/YzXwh60DAMJdzhLKNMHFPZGvh6qw//4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bsbbVn9F1zu6jgVC7vqd2zMrZM8ffDTDrHbzfZt0futqLffhMkHKGG5mUv/I4ql9F
-         yCk8in9110pdmfgGtc3Aa+ch0sGVZJHhYRZnFznHeulFTeymNKVoW+JPdK5WEfjby7
-         WtIdTPSeYqwyGhXg8dS0iwSz21/GARtiPLYlxInrFO8cJQtwM3z28DB6IuwYLLRjVc
-         uUtrEnMotjgPttdRr3JDd60GLIw09grpSaR0k8p0tte5X6U9W6+1a0QHD3FW7SHL0W
-         fNZ6CQyI81YNQ4d8fFSX+B6k0KP6MYasauyABhRg3vnbUyqOZ+hww5lrVbvJtmQE7X
-         vuFV2MpXfo5ew==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, andreas.noever@gmail.com,
-        michael.jamet@intel.com, YehezkelShB@gmail.com,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 13/46] thunderbolt: Add back Intel Falcon Ridge end-to-end flow control workaround
-Date:   Sun,  9 Oct 2022 18:18:38 -0400
-Message-Id: <20221009221912.1217372-13-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221009221912.1217372-1-sashal@kernel.org>
-References: <20221009221912.1217372-1-sashal@kernel.org>
+        with ESMTP id S232809AbiJIWdN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 9 Oct 2022 18:33:13 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 462C73ED53
+        for <linux-usb@vger.kernel.org>; Sun,  9 Oct 2022 15:20:14 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oheeR-000407-I5; Mon, 10 Oct 2022 00:20:03 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oheeQ-000Zdc-Px; Mon, 10 Oct 2022 00:20:02 +0200
+Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oheeQ-007VmL-2Z; Mon, 10 Oct 2022 00:20:02 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
+        laurent.pinchart@ideasonboard.com, kernel@pengutronix.de
+Subject: [PATCH] usb: gadget: uvc: mark the ctrl request for the streaming interface
+Date:   Mon, 10 Oct 2022 00:20:00 +0200
+Message-Id: <20221009222000.1790385-1-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
+For the userspace it is needed to distinguish between reqeuests for the
+control or streaming interace. The userspace would have to parse the
+configfs to know which interface index it has to compare the ctrl
+requests against, since the interface numbers are not fixed, e.g. for
+composite gadgets.
 
-[ Upstream commit 54669e2f17cb5a4c41ade89427f074dc22cecb17 ]
+The kernel has this information when handing over the ctrl request to
+the userspace. This patch adds a variable to indicate if the ctrl
+request was meant for the streaming interface.
 
-As we are now enabling full end-to-end flow control to the Thunderbolt
-networking driver, in order for it to work properly on second generation
-Thunderbolt hardware (Falcon Ridge), we need to add back the workaround
-that was removed with commit 53f13319d131 ("thunderbolt: Get rid of E2E
-workaround"). However, this time we only apply it for Falcon Ridge
-controllers as a form of an additional quirk. For non-Falcon Ridge this
-does nothing.
-
-While there fix a typo 'reqister' -> 'register' in the comment.
-
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 ---
- drivers/thunderbolt/nhi.c | 49 +++++++++++++++++++++++++++++++++------
- 1 file changed, 42 insertions(+), 7 deletions(-)
+ drivers/usb/gadget/function/f_uvc.c | 6 ++++++
+ include/uapi/linux/usb/g_uvc.h      | 2 ++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index c73da0532be4..aa6cf7f2f438 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -25,7 +25,11 @@
- #define RING_TYPE(ring) ((ring)->is_tx ? "TX ring" : "RX ring")
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index 6e196e06181ecf..132d47798c0f13 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -228,6 +228,7 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
+ 	struct uvc_device *uvc = to_uvc(f);
+ 	struct v4l2_event v4l2_event;
+ 	struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
++	unsigned int interface = le16_to_cpu(ctrl->wIndex) & 0xff;
  
- #define RING_FIRST_USABLE_HOPID	1
--
-+/*
-+ * Used with QUIRK_E2E to specify an unused HopID the Rx credits are
-+ * transferred.
-+ */
-+#define RING_E2E_RESERVED_HOPID	RING_FIRST_USABLE_HOPID
- /*
-  * Minimal number of vectors when we use MSI-X. Two for control channel
-  * Rx/Tx and the rest four are for cross domain DMA paths.
-@@ -35,7 +39,9 @@
+ 	if ((ctrl->bRequestType & USB_TYPE_MASK) != USB_TYPE_CLASS) {
+ 		uvcg_info(f, "invalid request type\n");
+@@ -246,6 +247,11 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
+ 	uvc->event_length = le16_to_cpu(ctrl->wLength);
  
- #define NHI_MAILBOX_TIMEOUT	500 /* ms */
- 
-+/* Host interface quirks */
- #define QUIRK_AUTO_CLEAR_INT	BIT(0)
-+#define QUIRK_E2E		BIT(1)
- 
- static int ring_interrupt_index(struct tb_ring *ring)
- {
-@@ -455,8 +461,18 @@ static void ring_release_msix(struct tb_ring *ring)
- 
- static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
- {
-+	unsigned int start_hop = RING_FIRST_USABLE_HOPID;
- 	int ret = 0;
- 
-+	if (nhi->quirks & QUIRK_E2E) {
-+		start_hop = RING_FIRST_USABLE_HOPID + 1;
-+		if (ring->flags & RING_FLAG_E2E && !ring->is_tx) {
-+			dev_dbg(&nhi->pdev->dev, "quirking E2E TX HopID %u -> %u\n",
-+				ring->e2e_tx_hop, RING_E2E_RESERVED_HOPID);
-+			ring->e2e_tx_hop = RING_E2E_RESERVED_HOPID;
-+		}
-+	}
+ 	memset(&v4l2_event, 0, sizeof(v4l2_event));
 +
- 	spin_lock_irq(&nhi->lock);
- 
- 	if (ring->hop < 0) {
-@@ -466,7 +482,7 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
- 		 * Automatically allocate HopID from the non-reserved
- 		 * range 1 .. hop_count - 1.
- 		 */
--		for (i = RING_FIRST_USABLE_HOPID; i < nhi->hop_count; i++) {
-+		for (i = start_hop; i < nhi->hop_count; i++) {
- 			if (ring->is_tx) {
- 				if (!nhi->tx_rings[i]) {
- 					ring->hop = i;
-@@ -481,6 +497,11 @@ static int nhi_alloc_hop(struct tb_nhi *nhi, struct tb_ring *ring)
- 		}
- 	}
- 
-+	if (ring->hop > 0 && ring->hop < start_hop) {
-+		dev_warn(&nhi->pdev->dev, "invalid hop: %d\n", ring->hop);
-+		ret = -EINVAL;
-+		goto err_unlock;
-+	}
- 	if (ring->hop < 0 || ring->hop >= nhi->hop_count) {
- 		dev_warn(&nhi->pdev->dev, "invalid hop: %d\n", ring->hop);
- 		ret = -EINVAL;
-@@ -1094,12 +1115,26 @@ static void nhi_shutdown(struct tb_nhi *nhi)
- 
- static void nhi_check_quirks(struct tb_nhi *nhi)
- {
--	/*
--	 * Intel hardware supports auto clear of the interrupt status
--	 * reqister right after interrupt is being issued.
--	 */
--	if (nhi->pdev->vendor == PCI_VENDOR_ID_INTEL)
-+	if (nhi->pdev->vendor == PCI_VENDOR_ID_INTEL) {
-+		/*
-+		 * Intel hardware supports auto clear of the interrupt
-+		 * status register right after interrupt is being
-+		 * issued.
-+		 */
- 		nhi->quirks |= QUIRK_AUTO_CLEAR_INT;
++	/* check for the interface number, so the userspace doesn't have to */
++	if (interface == uvc->streaming_intf)
++		uvc_event->ctrlreq_streaming = 1;
 +
-+		switch (nhi->pdev->device) {
-+		case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_2C_NHI:
-+		case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_4C_NHI:
-+			/*
-+			 * Falcon Ridge controller needs the end-to-end
-+			 * flow control workaround to avoid losing Rx
-+			 * packets when RING_FLAG_E2E is set.
-+			 */
-+			nhi->quirks |= QUIRK_E2E;
-+			break;
-+		}
-+	}
- }
+ 	v4l2_event.type = UVC_EVENT_SETUP;
+ 	memcpy(&uvc_event->req, ctrl, sizeof(uvc_event->req));
+ 	v4l2_event_queue(&uvc->vdev, &v4l2_event);
+diff --git a/include/uapi/linux/usb/g_uvc.h b/include/uapi/linux/usb/g_uvc.h
+index 652f169a019e7d..8711d706e5bfb0 100644
+--- a/include/uapi/linux/usb/g_uvc.h
++++ b/include/uapi/linux/usb/g_uvc.h
+@@ -27,6 +27,8 @@ struct uvc_request_data {
+ };
  
- static int nhi_init_msi(struct tb_nhi *nhi)
+ struct uvc_event {
++	/* indicate if the ctrl request is for the streaming interface */
++	__u8 ctrlreq_streaming;
+ 	union {
+ 		enum usb_device_speed speed;
+ 		struct usb_ctrlrequest req;
 -- 
-2.35.1
+2.30.2
 
