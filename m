@@ -2,295 +2,155 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD0ACC4167B
-	for <linux-usb@archiver.kernel.org>; Tue, 11 Oct 2022 08:29:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D0A8C433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 11 Oct 2022 09:21:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbiJKI3x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 11 Oct 2022 04:29:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41630 "EHLO
+        id S229738AbiJKJVa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 11 Oct 2022 05:21:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229829AbiJKI3o (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 11 Oct 2022 04:29:44 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49F39DA0
-        for <linux-usb@vger.kernel.org>; Tue, 11 Oct 2022 01:29:38 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <sha@pengutronix.de>)
-        id 1oiAdl-0005Su-77; Tue, 11 Oct 2022 10:29:29 +0200
-Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <sha@pengutronix.de>)
-        id 1oiAdj-000r7F-PV; Tue, 11 Oct 2022 10:29:27 +0200
-Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <sha@pengutronix.de>)
-        id 1oiAdi-003iNj-Cf; Tue, 11 Oct 2022 10:29:26 +0200
-From:   Sascha Hauer <s.hauer@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Peter Chen <peter.chen@kernel.org>,
-        Peng Fan <peng.fan@oss.nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>
-Subject: [PATCH 3/6] usb: chipidea: usbmisc_imx: Use GENMASK/FIELD_PREP for bitfields
-Date:   Tue, 11 Oct 2022 10:29:21 +0200
-Message-Id: <20221011082924.884123-4-s.hauer@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221011082924.884123-1-s.hauer@pengutronix.de>
-References: <20221011082924.884123-1-s.hauer@pengutronix.de>
+        with ESMTP id S229715AbiJKJV0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 11 Oct 2022 05:21:26 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AF3A74BAA;
+        Tue, 11 Oct 2022 02:21:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665480085; x=1697016085;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/iqPBs1hBs9f/qKO6UtSulhE5K4l2ShU4hkvQSIklmM=;
+  b=Ue+w6wSeGkCZQUWbtyTh2nJeb7Rrk3QLEAxMk7fjjnPi3OyyuO8n7GuV
+   7/WwBhll3hzgtBbcvdFEYCm0NM3XEjXBBggd3ML/4Rx/jG4mUraCHirYd
+   dkkMMtT5xbcMGc9t/mTuH/D2JhkWv3M3UKUW3qfF+Q/qkU+Cs5H9FMP0y
+   /rp0OuwrlW07FLvA/jcizPiATh/j1W0/uJWaqqMqFY6kJz6ZnmSjW6dVk
+   31JeMU3RdcvPOTZo6uaZdHkX/5vmbCXcq6n0P6TXgeqiGkz5EgB7T8huw
+   PG5ZW3otHkIENWEAQo9QlU8hr9TADu205N9VnC1UFuYxgjmBEgPJCEaS5
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="390762496"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; 
+   d="scan'208";a="390762496"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2022 02:21:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="577371739"
+X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; 
+   d="scan'208";a="577371739"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003.jf.intel.com with ESMTP; 11 Oct 2022 02:21:22 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1oiBRv-005F1U-2p;
+        Tue, 11 Oct 2022 12:21:19 +0300
+Date:   Tue, 11 Oct 2022 12:21:19 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andrey Smirnov <andrew.smirnov@gmail.com>
+Cc:     Ferry Toth <fntoth@gmail.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] Revert "usb: dwc3: Don't switch OTG -> peripheral
+ if extcon is present"
+Message-ID: <Y0U1j2LXmGLBYLAV@smile.fi.intel.com>
+References: <a7724993-6c04-92c5-3a26-3aef6d29c9e3@gmail.com>
+ <20221005021212.qwnbmq6p7t26c3a4@synopsys.com>
+ <2886b82d-a1f6-d288-e8d1-edae54046b4f@gmail.com>
+ <20221006021204.hz7iteao65dgsev6@synopsys.com>
+ <d52cc102-6a4f-78e9-6176-b33e2813fd1d@gmail.com>
+ <20221007021122.nnwmqc6sq43e5xbn@synopsys.com>
+ <ade865f1-8ed5-a8e3-e441-cb7688c6d001@gmail.com>
+ <CAHQ1cqGSmNSg73DzURrcP=a-cCd6KdVUtUmnonhP54vWVDmEhw@mail.gmail.com>
+ <Y0PFZGLaREQUazVP@smile.fi.intel.com>
+ <CAHQ1cqG73UAoU=ag9qSuKdp+MzT9gYJcwGv8k8BOa=e8gWwzSg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHQ1cqG73UAoU=ag9qSuKdp+MzT9gYJcwGv8k8BOa=e8gWwzSg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-GENMASK and FIELD_PREP offer a convenient unified way to manipulate
-bitfields in registers without having to define mask and shift
-separately. Broaden the use of this mechanism by converting usbmisc_imx
-over to it. No functional change intended.
+On Mon, Oct 10, 2022 at 02:40:30PM -0700, Andrey Smirnov wrote:
+> On Mon, Oct 10, 2022 at 12:13 AM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Sun, Oct 09, 2022 at 10:02:26PM -0700, Andrey Smirnov wrote:
+> > > On Fri, Oct 7, 2022 at 6:07 AM Ferry Toth <fntoth@gmail.com> wrote:
 
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
----
- drivers/usb/chipidea/usbmisc_imx.c | 116 +++++++++++++++--------------
- 1 file changed, 59 insertions(+), 57 deletions(-)
+...
 
-diff --git a/drivers/usb/chipidea/usbmisc_imx.c b/drivers/usb/chipidea/usbmisc_imx.c
-index e1b4b7f9b3f31..95f2ba01c0df1 100644
---- a/drivers/usb/chipidea/usbmisc_imx.c
-+++ b/drivers/usb/chipidea/usbmisc_imx.c
-@@ -9,24 +9,23 @@
- #include <linux/io.h>
- #include <linux/delay.h>
- #include <linux/usb/otg.h>
-+#include <linux/bits.h>
-+#include <linux/bitfield.h>
- 
- #include "ci_hdrc_imx.h"
- 
- #define MX25_USB_PHY_CTRL_OFFSET	0x08
- #define MX25_BM_EXTERNAL_VBUS_DIVIDER	BIT(23)
- 
--#define MX25_EHCI_INTERFACE_SINGLE_UNI	(2 << 0)
--#define MX25_EHCI_INTERFACE_DIFF_UNI	(0 << 0)
--#define MX25_EHCI_INTERFACE_MASK	(0xf)
-+#define MX25_EHCI_INTERFACE_SINGLE_UNI	2
-+#define MX25_EHCI_INTERFACE_DIFF_UNI	0
- 
--#define MX25_OTG_SIC_SHIFT		29
--#define MX25_OTG_SIC_MASK		(0x3 << MX25_OTG_SIC_SHIFT)
-+#define MX25_OTG_SIC			GENMASK(30, 29)
- #define MX25_OTG_PM_BIT			BIT(24)
- #define MX25_OTG_PP_BIT			BIT(11)
- #define MX25_OTG_OCPOL_BIT		BIT(3)
- 
--#define MX25_H1_SIC_SHIFT		21
--#define MX25_H1_SIC_MASK		(0x3 << MX25_H1_SIC_SHIFT)
-+#define MX25_H1_SIC			GENMASK(22, 21)
- #define MX25_H1_PP_BIT			BIT(18)
- #define MX25_H1_PM_BIT			BIT(16)
- #define MX25_H1_IPPUE_UP_BIT		BIT(7)
-@@ -42,10 +41,10 @@
- #define MX53_USB_OTG_PHY_CTRL_0_OFFSET	0x08
- #define MX53_USB_OTG_PHY_CTRL_1_OFFSET	0x0c
- #define MX53_USB_CTRL_1_OFFSET	        0x10
--#define MX53_USB_CTRL_1_H2_XCVR_CLK_SEL_MASK (0x3 << 2)
--#define MX53_USB_CTRL_1_H2_XCVR_CLK_SEL_ULPI BIT(2)
--#define MX53_USB_CTRL_1_H3_XCVR_CLK_SEL_MASK (0x3 << 6)
--#define MX53_USB_CTRL_1_H3_XCVR_CLK_SEL_ULPI BIT(6)
-+#define MX53_USB_CTRL_1_H2_XCVR_CLK_SEL	GENMASK(3, 2)
-+#define MX53_USB_CTRL_1_H2_XCVR_CLK_SEL_ULPI 1
-+#define MX53_USB_CTRL_1_H3_XCVR_CLK_SEL	GENMASK(5, 4)
-+#define MX53_USB_CTRL_1_H3_XCVR_CLK_SEL_ULPI 1
- #define MX53_USB_UH2_CTRL_OFFSET	0x14
- #define MX53_USB_UH3_CTRL_OFFSET	0x18
- #define MX53_USB_CLKONOFF_CTRL_OFFSET	0x24
-@@ -85,26 +84,24 @@
- #define MX6_USB_OTG1_PHY_CTRL		0x18
- /* For imx6dql, it is host-only controller, for later imx6, it is otg's */
- #define MX6_USB_OTG2_PHY_CTRL		0x1c
--#define MX6SX_USB_VBUS_WAKEUP_SOURCE(v)	(v << 8)
--#define MX6SX_USB_VBUS_WAKEUP_SOURCE_VBUS	MX6SX_USB_VBUS_WAKEUP_SOURCE(0)
--#define MX6SX_USB_VBUS_WAKEUP_SOURCE_AVALID	MX6SX_USB_VBUS_WAKEUP_SOURCE(1)
--#define MX6SX_USB_VBUS_WAKEUP_SOURCE_BVALID	MX6SX_USB_VBUS_WAKEUP_SOURCE(2)
--#define MX6SX_USB_VBUS_WAKEUP_SOURCE_SESS_END	MX6SX_USB_VBUS_WAKEUP_SOURCE(3)
-+#define MX6SX_USB_VBUS_WAKEUP_SOURCE		GENMASK(9, 8)
-+#define MX6SX_USB_VBUS_WAKEUP_SOURCE_VBUS	0
-+#define MX6SX_USB_VBUS_WAKEUP_SOURCE_AVALID	1
-+#define MX6SX_USB_VBUS_WAKEUP_SOURCE_BVALID	2
-+#define MX6SX_USB_VBUS_WAKEUP_SOURCE_SESS_END	3
- 
- #define VF610_OVER_CUR_DIS		BIT(7)
- 
- #define MX7D_USBNC_USB_CTRL2		0x4
--#define MX7D_USB_VBUS_WAKEUP_SOURCE_MASK	0x3
--#define MX7D_USB_VBUS_WAKEUP_SOURCE(v)		(v << 0)
--#define MX7D_USB_VBUS_WAKEUP_SOURCE_VBUS	MX7D_USB_VBUS_WAKEUP_SOURCE(0)
--#define MX7D_USB_VBUS_WAKEUP_SOURCE_AVALID	MX7D_USB_VBUS_WAKEUP_SOURCE(1)
--#define MX7D_USB_VBUS_WAKEUP_SOURCE_BVALID	MX7D_USB_VBUS_WAKEUP_SOURCE(2)
--#define MX7D_USB_VBUS_WAKEUP_SOURCE_SESS_END	MX7D_USB_VBUS_WAKEUP_SOURCE(3)
-+#define MX7D_USB_VBUS_WAKEUP_SOURCE		GENMASK(1, 0)
-+#define MX7D_USB_VBUS_WAKEUP_SOURCE_VBUS	0
-+#define MX7D_USB_VBUS_WAKEUP_SOURCE_AVALID	1
-+#define MX7D_USB_VBUS_WAKEUP_SOURCE_BVALID	2
-+#define MX7D_USB_VBUS_WAKEUP_SOURCE_SESS_END	3
- #define MX7D_USBNC_AUTO_RESUME				BIT(2)
- /* The default DM/DP value is pull-down */
--#define MX7D_USBNC_USB_CTRL2_OPMODE(v)			(v << 6)
--#define MX7D_USBNC_USB_CTRL2_OPMODE_NON_DRIVING	MX7D_USBNC_USB_CTRL2_OPMODE(1)
--#define MX7D_USBNC_USB_CTRL2_OPMODE_OVERRIDE_MASK	(BIT(7) | BIT(6))
-+#define MX7D_USBNC_USB_CTRL2_OPMODE		GENMASK(7, 6)
-+#define MX7D_USBNC_USB_CTRL2_OPMODE_NON_DRIVING	1
- #define MX7D_USBNC_USB_CTRL2_OPMODE_OVERRIDE_EN		BIT(8)
- #define MX7D_USBNC_USB_CTRL2_DP_OVERRIDE_VAL		BIT(12)
- #define MX7D_USBNC_USB_CTRL2_DP_OVERRIDE_EN		BIT(13)
-@@ -129,10 +126,8 @@
- #define MX7D_USB_OTG_PHY_STATUS_CHRGDET		BIT(29)
- 
- #define MX7D_USB_OTG_PHY_CFG1		0x30
--#define TXPREEMPAMPTUNE0_BIT		28
--#define TXPREEMPAMPTUNE0_MASK		(3 << 28)
--#define TXVREFTUNE0_BIT			20
--#define TXVREFTUNE0_MASK		(0xf << 20)
-+#define TXPREEMPAMPTUNE0		GENMASK(29, 28)
-+#define TXVREFTUNE0			GENMASK(23, 20)
- 
- #define MX6_USB_OTG_WAKEUP_BITS (MX6_BM_WAKEUP_ENABLE | MX6_BM_VBUS_WAKEUP | \
- 				 MX6_BM_ID_WAKEUP)
-@@ -173,8 +168,8 @@ static int usbmisc_imx25_init(struct imx_usbmisc_data *data)
- 	switch (data->index) {
- 	case 0:
- 		val = readl(usbmisc->base);
--		val &= ~(MX25_OTG_SIC_MASK | MX25_OTG_PP_BIT);
--		val |= (MX25_EHCI_INTERFACE_DIFF_UNI & MX25_EHCI_INTERFACE_MASK) << MX25_OTG_SIC_SHIFT;
-+		val &= ~(MX25_OTG_SIC | MX25_OTG_PP_BIT);
-+		val |= FIELD_PREP(MX25_OTG_SIC, MX25_EHCI_INTERFACE_DIFF_UNI);
- 		val |= (MX25_OTG_PM_BIT | MX25_OTG_OCPOL_BIT);
- 
- 		/*
-@@ -188,8 +183,8 @@ static int usbmisc_imx25_init(struct imx_usbmisc_data *data)
- 		break;
- 	case 1:
- 		val = readl(usbmisc->base);
--		val &= ~(MX25_H1_SIC_MASK | MX25_H1_PP_BIT |  MX25_H1_IPPUE_UP_BIT);
--		val |= (MX25_EHCI_INTERFACE_SINGLE_UNI & MX25_EHCI_INTERFACE_MASK) << MX25_H1_SIC_SHIFT;
-+		val &= ~(MX25_H1_SIC | MX25_H1_PP_BIT |  MX25_H1_IPPUE_UP_BIT);
-+		val |= FIELD_PREP(MX25_H1_SIC, MX25_EHCI_INTERFACE_SINGLE_UNI);
- 		val |= (MX25_H1_PM_BIT | MX25_H1_OCPOL_BIT | MX25_H1_TLL_BIT |
- 			MX25_H1_USBTE_BIT | MX25_H1_IPPUE_DOWN_BIT);
- 
-@@ -308,8 +303,9 @@ static int usbmisc_imx53_init(struct imx_usbmisc_data *data)
- 			reg = usbmisc->base + MX53_USB_CTRL_1_OFFSET;
- 			val = readl(reg) | MX53_USB_CTRL_1_UH2_ULPI_EN;
- 			/* select ULPI clock */
--			val &= ~MX53_USB_CTRL_1_H2_XCVR_CLK_SEL_MASK;
--			val |= MX53_USB_CTRL_1_H2_XCVR_CLK_SEL_ULPI;
-+			val &= ~MX53_USB_CTRL_1_H2_XCVR_CLK_SEL;
-+			val |= FIELD_PREP(MX53_USB_CTRL_1_H2_XCVR_CLK_SEL,
-+					  MX53_USB_CTRL_1_H2_XCVR_CLK_SEL_ULPI);
- 			writel(val, reg);
- 			/* Set interrupt wake up enable */
- 			reg = usbmisc->base + MX53_USB_UH2_CTRL_OFFSET;
-@@ -338,8 +334,9 @@ static int usbmisc_imx53_init(struct imx_usbmisc_data *data)
- 			reg = usbmisc->base + MX53_USB_CTRL_1_OFFSET;
- 			val = readl(reg) | MX53_USB_CTRL_1_UH3_ULPI_EN;
- 			/* select ULPI clock */
--			val &= ~MX53_USB_CTRL_1_H3_XCVR_CLK_SEL_MASK;
--			val |= MX53_USB_CTRL_1_H3_XCVR_CLK_SEL_ULPI;
-+			val &= ~MX53_USB_CTRL_1_H3_XCVR_CLK_SEL;
-+			val |= FIELD_PREP(MX53_USB_CTRL_1_H3_XCVR_CLK_SEL,
-+					  MX53_USB_CTRL_1_H3_XCVR_CLK_SEL_ULPI);
- 			writel(val, reg);
- 			/* Set interrupt wake up enable */
- 			reg = usbmisc->base + MX53_USB_UH3_CTRL_OFFSET;
-@@ -551,8 +548,10 @@ static int usbmisc_imx6sx_init(struct imx_usbmisc_data *data)
- 		spin_lock_irqsave(&usbmisc->lock, flags);
- 		/* Set vbus wakeup source as bvalid */
- 		val = readl(reg);
--		val &= ~MX6SX_USB_VBUS_WAKEUP_SOURCE(3);
--		writel(val | MX6SX_USB_VBUS_WAKEUP_SOURCE_BVALID, reg);
-+		val &= ~MX6SX_USB_VBUS_WAKEUP_SOURCE;
-+		val |= FIELD_PREP(MX6SX_USB_VBUS_WAKEUP_SOURCE,
-+				  MX6SX_USB_VBUS_WAKEUP_SOURCE_BVALID);
-+		writel(val, reg);
- 		/*
- 		 * Disable dp/dm wakeup in device mode when vbus is
- 		 * not there.
-@@ -652,22 +651,23 @@ static int usbmisc_imx7d_init(struct imx_usbmisc_data *data)
- 
- 	if (!data->hsic) {
- 		reg = readl(usbmisc->base + MX7D_USBNC_USB_CTRL2);
--		reg &= ~MX7D_USB_VBUS_WAKEUP_SOURCE_MASK;
--		writel(reg | MX7D_USB_VBUS_WAKEUP_SOURCE_BVALID
--			| MX7D_USBNC_AUTO_RESUME,
--			usbmisc->base + MX7D_USBNC_USB_CTRL2);
-+		reg &= ~MX7D_USB_VBUS_WAKEUP_SOURCE;
-+		reg |= FIELD_PREP(MX7D_USB_VBUS_WAKEUP_SOURCE,
-+				  MX7D_USB_VBUS_WAKEUP_SOURCE_BVALID);
-+		reg |= MX7D_USBNC_AUTO_RESUME;
-+		writel(reg, usbmisc->base + MX7D_USBNC_USB_CTRL2);
- 		/* PHY tuning for signal quality */
- 		reg = readl(usbmisc->base + MX7D_USB_OTG_PHY_CFG1);
--		if (data->emp_curr_control && data->emp_curr_control <=
--			(TXPREEMPAMPTUNE0_MASK >> TXPREEMPAMPTUNE0_BIT)) {
--			reg &= ~TXPREEMPAMPTUNE0_MASK;
--			reg |= (data->emp_curr_control << TXPREEMPAMPTUNE0_BIT);
-+		if (data->emp_curr_control &&
-+		    FIELD_FIT(TXPREEMPAMPTUNE0, data->emp_curr_control)) {
-+			reg &= ~TXPREEMPAMPTUNE0;
-+			reg |= FIELD_PREP(TXPREEMPAMPTUNE0, data->emp_curr_control);
- 		}
- 
--		if (data->dc_vol_level_adjust && data->dc_vol_level_adjust <=
--			(TXVREFTUNE0_MASK >> TXVREFTUNE0_BIT)) {
--			reg &= ~TXVREFTUNE0_MASK;
--			reg |= (data->dc_vol_level_adjust << TXVREFTUNE0_BIT);
-+		if (data->dc_vol_level_adjust &&
-+		    FIELD_FIT(TXVREFTUNE0, data->dc_vol_level_adjust)) {
-+			reg &= ~TXVREFTUNE0;
-+			reg |= FIELD_PREP(TXVREFTUNE0, data->dc_vol_level_adjust);
- 		}
- 
- 		writel(reg, usbmisc->base + MX7D_USB_OTG_PHY_CFG1);
-@@ -742,7 +742,7 @@ static void imx7_disable_charger_detector(struct imx_usbmisc_data *data)
- 
- 	/* Set OPMODE to be 2'b00 and disable its override */
- 	val = readl(usbmisc->base + MX7D_USBNC_USB_CTRL2);
--	val &= ~MX7D_USBNC_USB_CTRL2_OPMODE_OVERRIDE_MASK;
-+	val &= ~MX7D_USBNC_USB_CTRL2_OPMODE;
- 	writel(val, usbmisc->base + MX7D_USBNC_USB_CTRL2);
- 
- 	val = readl(usbmisc->base + MX7D_USBNC_USB_CTRL2);
-@@ -852,8 +852,9 @@ static int imx7d_charger_detection(struct imx_usbmisc_data *data)
- 	 */
- 	spin_lock_irqsave(&usbmisc->lock, flags);
- 	val = readl(usbmisc->base + MX7D_USBNC_USB_CTRL2);
--	val &= ~MX7D_USBNC_USB_CTRL2_OPMODE_OVERRIDE_MASK;
--	val |= MX7D_USBNC_USB_CTRL2_OPMODE_NON_DRIVING;
-+	val &= ~MX7D_USBNC_USB_CTRL2_OPMODE;
-+	val |= FIELD_PREP(MX7D_USBNC_USB_CTRL2_OPMODE,
-+			  MX7D_USBNC_USB_CTRL2_OPMODE_NON_DRIVING);
- 	writel(val, usbmisc->base + MX7D_USBNC_USB_CTRL2);
- 
- 	val = readl(usbmisc->base + MX7D_USBNC_USB_CTRL2);
-@@ -926,9 +927,10 @@ static int usbmisc_imx7ulp_init(struct imx_usbmisc_data *data)
- 			usbmisc->base + MX7D_USBNC_USB_CTRL2);
- 	} else {
- 		reg = readl(usbmisc->base + MX7D_USBNC_USB_CTRL2);
--		reg &= ~MX7D_USB_VBUS_WAKEUP_SOURCE_MASK;
--		writel(reg | MX7D_USB_VBUS_WAKEUP_SOURCE_BVALID,
--			 usbmisc->base + MX7D_USBNC_USB_CTRL2);
-+		reg &= ~MX7D_USB_VBUS_WAKEUP_SOURCE;
-+		reg |= FIELD_PREP(MX7D_USB_VBUS_WAKEUP_SOURCE,
-+				  MX7D_USB_VBUS_WAKEUP_SOURCE_BVALID);
-+		writel(reg, usbmisc->base + MX7D_USBNC_USB_CTRL2);
- 	}
- 
- 	spin_unlock_irqrestore(&usbmisc->lock, flags);
+> > > OK, Ferry, I think I'm going to need clarification on specifics on
+> > > your test setup. Can you share your kernel config, maybe your
+> > > "/proc/config.gz", somewhere? When you say you are running vanilla
+> > > Linux, do you mean it or do you mean vanilla tree + some patch delta?
+> > >
+> > > The reason I'm asking is because I'm having a hard time reproducing
+> > > the problem on my end. In fact, when I build v6.0
+> > > (4fe89d07dcc2804c8b562f6c7896a45643d34b2f) and then do a
+> > >
+> > > git revert 8bd6b8c4b100 0f0101719138 (original revert proposed by Andy)
+> > >
+> > > I get an infinite loop of reprobing that looks something like (some
+> > > debug tracing, function name + line number, included):
+> >
+> > Yes, this is (one of) known drawback(s) of deferred probe hack. I think
+> > the kernel that Ferry runs has a patch that basically reverts one from
+> > 2014 [1] and allows to have extcon as a module. (1)
+> >
+> > [1]: 58b116bce136 ("drivercore: deferral race condition fix")
+> >
+> > > which renders the system completely unusable, but USB host is
+> > > definitely going to be broken too. Now, ironically, with my patch
+> > > in-place, an attempt to probe extcon that ends up deferring the probe
+> > > happens before the ULPI driver failure (which wasn't failing driver
+> > > probe prior to https://lore.kernel.org/all/20220213130524.18748-7-hdegoede@redhat.com/),
+> > > there no "driver binding" event that re-triggers deferred probe
+> > > causing the loop, so the system progresses to a point where extcon is
+> > > available and dwc3 driver eventually loads.
+> > >
+> > > After that, and I don't know if I'm doing the same test, USB host
+> > > seems to work as expected. lsusb works, my USB stick enumerates as
+> > > expected. Switching the USB mux to micro-USB and back shuts the host
+> > > functionality down and brings it up as expected. Now I didn't try to
+> > > load any gadgets to make sure USB gadget works 100%, but since you
+> > > were saying it was USB host that was broken, I wasn't concerned with
+> > > that. Am I doing the right test?
+> >
+> > Hmm... What you described above sounds more like a yet another attempt to
+> > workaround (1). _If_ this is the case, we probably can discuss how to fix
+> > it in generic way (somewhere in dd.c, rather than in the certain driver).
+> 
+> No, I'm not describing an attempt to fix anything. Just how vanilla
+> v6.0 (where my patch is not reverted) works and where my patch, fixing
+> a logical problem in which extcon was requested too late causing a
+> forced OTG -> "gadget only" switch, also changed the ordering enough
+> to accidentally avoid the loop.
+
+You still refer to a fix, but my question was if it's the same problem or not.
+
+> > That said, the real test case should be performed on top of clean kernel
+> > before judging if it's good or bad.
+> 
+> Given your level of involvemnt with this particular platform and you
+> being the author of
+> https://github.com/edison-fw/meta-intel-edison/blob/master/meta-intel-edison-bsp/recipes-kernel/linux/files/0043b-TODO-driver-core-Break-infinite-loop-when-deferred-p.patch
+> I assumed/expected you to double check this before sending this revert
+> out. Please do so next time.
+
+As I said I have not yet restored my testing environment for that platform and
+I relied on the Ferry's report. Taking into account the history of breakages
+that done for Intel Merrifield, in particular by not wide tested patches
+against DWC3 driver, I immediately react with a revert. I agree that I had had
+to think about that ordering issue and a patch on top of it first. I thought
+that Yocto configuration that Ferry is using is clean of custom (controversial)
+patches like that. Now, since you have this platform, you can also help with
+testing the DWC3 on it.
+
 -- 
-2.30.2
+With Best Regards,
+Andy Shevchenko
+
 
