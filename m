@@ -2,59 +2,60 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA26C433FE
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Oct 2022 13:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F518C433FE
+	for <linux-usb@archiver.kernel.org>; Wed, 12 Oct 2022 13:11:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229745AbiJLNLO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Oct 2022 09:11:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51218 "EHLO
+        id S229972AbiJLNLZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Oct 2022 09:11:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229808AbiJLNLK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 09:11:10 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8B2CCBFC8
-        for <linux-usb@vger.kernel.org>; Wed, 12 Oct 2022 06:11:04 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id g11so5461877qts.1
-        for <linux-usb@vger.kernel.org>; Wed, 12 Oct 2022 06:11:04 -0700 (PDT)
+        with ESMTP id S229839AbiJLNLS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 09:11:18 -0400
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E286A2852
+        for <linux-usb@vger.kernel.org>; Wed, 12 Oct 2022 06:11:15 -0700 (PDT)
+Received: by mail-qt1-x82f.google.com with SMTP id a24so2544002qto.10
+        for <linux-usb@vger.kernel.org>; Wed, 12 Oct 2022 06:11:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=UqyKv0XYLPEVdA5JJtsH2C4lrk87Khcgzczr+S4ad18=;
-        b=MqaobulmgicuadCCH89dsRp8x/x4N6tzQugx5DMzikid18PoYnadVJtRbEBLfCHQiI
-         5q+YNh97Jl0AMjtR+qF+0/0MmDwIbxcx1S/6I+1GpsBeZHziTyVpa+jCosnto1B/ZzaW
-         RFoGKMS96CNXAwFQiCMez3Qpfy54SL88JGWTHka3+pwu31uXlsyZazC3JBVQduXYWny0
-         +cd8wdxYySw2thR0pRlI0Q01XqY6a11wR9NiLT56MULAkxoPjvwS+RvdVsNEjWC2z9cp
-         VmOyZQ40hL7RToidel5+andZTNlrzWXP4ayK/4922wBQN8SABAYOAx9RC8Kw/lf0vHd3
-         DyBA==
+        bh=duZMII461PybSOKzGZSZqhJJ/qLu0MRfPY5z6dxigmI=;
+        b=a7bw5Q23wINBvoFwz/iFZmdlemcJRCm9fhL7eS0XFlNQBZ19p4im/mcGTwHU1NAtzD
+         jk6jZhamKzPFSoVWO4p59MOJu3n5voX+W74YhAqC7zhP2wesfnJPhWUO72deAIFWJSC7
+         1p84rOHvcqZr6MaJnxgvtHgl8Y7lZOjcflhrDrkG1Qpr8tBoWZAXn7m+cbyhPn418YZX
+         PzSlw2xNcMvMAr0PyXBqclS6lkLZ6DWGl3D4omft/y9F/Aic/TZwQ8Dz3yxFtaCJM/lm
+         JFVVbcwmfcVn4kc6k5L7cHk5gOn9ei/ckUCjW4d+no+hO8d6nJWpK6ew5z4KYzrgRvwn
+         V2UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UqyKv0XYLPEVdA5JJtsH2C4lrk87Khcgzczr+S4ad18=;
-        b=fri6vICF+5c+riZvQSrOWglUhQ2h7Y80xitsIvXo9Q6w/Q5OS1Ns7B7PIZddQtJsIh
-         rFs9i4SL3EgY8pKHPsyM0vjFL3qHQwxz2K4V0h3faQ3UtH32nrw2MPM/u9uTdY4iK7Xw
-         lCKvyTxm63zUF5B5MkfAJPPY7tc60O44aQUU0x+6qPBCg50og0tk2ew9CqHE8OB83LdB
-         y3FlLoU9Sr9FA0nJMSvNYOwIikoxQcntxcbSsk39YrBFQ3VeBbJ3T/EKfpGA9vqwdsYB
-         Gnpy86HzY7TiA8EiHpbjNbcLHoeq0hCsDg7J1ScCda9UPmUiy9yrhMxS4RVLiIdt/2xH
-         RpYA==
-X-Gm-Message-State: ACrzQf3MSIakTAo5RKtQzGVW9TvLXeycdWZQtXbs8glRYzj2RjMVkt1R
-        IHqA/jndWkUCy3BiOnai0gmVcg==
-X-Google-Smtp-Source: AMsMyM4tx+xcp7HZkRDiMRLGc4Qh39k6W10pp8XbW0JoxyTNqsJPbm86beuyuM1vWEooI9gyiiMTZw==
-X-Received: by 2002:a05:622a:2d0:b0:395:e96a:8eeb with SMTP id a16-20020a05622a02d000b00395e96a8eebmr21894460qtx.176.1665580263754;
-        Wed, 12 Oct 2022 06:11:03 -0700 (PDT)
+        bh=duZMII461PybSOKzGZSZqhJJ/qLu0MRfPY5z6dxigmI=;
+        b=GgxTJ0j53PHkXOxq+pGNaggDt91csn8PAdZjRPneqawn7LS78x5p5/8d89Qiw6QZTR
+         Q/VXPfftky9USPAoTvU40eyMngHwLxStR+CSXGc7H9zpTOfIFp1jbIIvA9vN7JETA5lz
+         TDfsgJAQYhO3o1540aARGsOymaw5Uz2WiJ+lGl3gudFbl0I9H1Mzegf1FnI4nfYK62AS
+         mD50c8640iGh4Zb1ZLd58rWREj/xm3YgCR+uhbOLFrV/0ALUq7WLSk4ei4DGBiLlxzL/
+         h6Lt2VF6FRDlFsOO3obAud52Jhpoup5ZQJQkaR0I7YQ7ubXwFUl5K3HscV4b1q6dCNKV
+         a5XQ==
+X-Gm-Message-State: ACrzQf20sxosEiD3yZc2qLbIWv+DPoskQ3ENzveIuIi9CyI6XlVkDtQF
+        Lr54haz3UvfyaEGUg+0isjK7Ow==
+X-Google-Smtp-Source: AMsMyM5zJrz3dx98rqmztHfBVMqSLyUW8p6tkWsBylvPbfbtBcCaSwdh6OYo7aZ0HedmoRQQhkOkng==
+X-Received: by 2002:ac8:7fcc:0:b0:39c:bdf4:6323 with SMTP id b12-20020ac87fcc000000b0039cbdf46323mr2836670qtk.201.1665580274377;
+        Wed, 12 Oct 2022 06:11:14 -0700 (PDT)
 Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
-        by smtp.gmail.com with ESMTPSA id m8-20020ac84448000000b0039a1146e0e1sm6826054qtn.33.2022.10.12.06.11.01
+        by smtp.gmail.com with ESMTPSA id he35-20020a05622a602300b0039a55f78792sm6338703qtb.89.2022.10.12.06.11.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Oct 2022 06:11:02 -0700 (PDT)
-Message-ID: <cdbcf5a3-3bb0-4270-1211-a45a0596224f@linaro.org>
-Date:   Wed, 12 Oct 2022 09:08:49 -0400
+        Wed, 12 Oct 2022 06:11:13 -0700 (PDT)
+Message-ID: <12461098-aea7-e486-f303-ef2387a6ae1f@linaro.org>
+Date:   Wed, 12 Oct 2022 09:11:12 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.2
-Subject: Re: [PATCH v2 08/10] dt-bindings: vendor-prefixes: add Source Parts
+Subject: Re: [PATCH v2 10/10] ARM: dts: suniv: add device tree for PopStick
+ v1.1
 Content-Language: en-US
 To:     Icenowy Zheng <uwu@icenowy.me>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -68,9 +69,9 @@ Cc:     soc@kernel.org, linux-kernel@vger.kernel.org,
         linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
         linux-usb@vger.kernel.org
 References: <20221012055602.1544944-1-uwu@icenowy.me>
- <20221012055602.1544944-9-uwu@icenowy.me>
+ <20221012055602.1544944-11-uwu@icenowy.me>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221012055602.1544944-9-uwu@icenowy.me>
+In-Reply-To: <20221012055602.1544944-11-uwu@icenowy.me>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -78,13 +79,66 @@ List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 On 12/10/2022 01:56, Icenowy Zheng wrote:
-> Source Parts Inc. [1] is a company that makes a series of SBCs, SoMs,
-> etc under a brand called Popcorn Computer [2].
-> 
-> Add it to the vendor prefixes list.
+> PopStick is a minimal Allwinner F1C200s dongle, with its USB controller
+> wired to a USB Type-A port, a SD slot and a SPI NAND flash on board, and
+> an on-board CH340 USB-UART converted connected to F1C200s's UART0.
 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+(...)
+
+> +
+> +	chosen {
+> +		stdout-path = "serial0:115200n8";
+> +	};
+> +
+> +	leds {
+> +		compatible = "gpio-leds";
+> +
+> +		led {
+> +			function = LED_FUNCTION_STATUS;
+> +			color = <LED_COLOR_ID_GREEN>;
+> +			gpios = <&pio 4 6 GPIO_ACTIVE_HIGH>; /* PE6 */
+> +			linux,default-trigger = "heartbeat";
+> +		};
+> +	};
+> +
+> +	reg_vcc3v3: vcc3v3 {
+
+Generic node names, so at least generic "regulator" prefix or suffix.
+
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc3v3";
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +	};
+> +};
+> +
+> +&mmc0 {
+> +	cd-gpios = <&pio 4 3 GPIO_ACTIVE_LOW>; /* PE3 */
+> +	bus-width = <4>;
+> +	disable-wp;
+> +	status = "okay";
+
+Keep status as last property.
+
+> +	vmmc-supply = <&reg_vcc3v3>;
+> +};
+> +
+> +&spi0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&spi0_pc_pins>;
+> +	status = "okay";
+> +
+> +	flash@0 {
+> +		#address-cells = <1>;
+> +		#size-cells = <1>;
+> +		compatible = "spi-nand";
+> +		reg = <0>;
+
+compatible and reg are by convention the first properties.
+
+> +		spi-max-frequency = <40000000>;
+> +
 
 Best regards,
 Krzysztof
