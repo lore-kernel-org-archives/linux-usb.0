@@ -2,45 +2,44 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE79C433FE
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:17:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F702C43217
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:20:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbiJMARX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Oct 2022 20:17:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38256 "EHLO
+        id S230040AbiJMAT6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Oct 2022 20:19:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229906AbiJMAQu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:16:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6431815E0F1;
-        Wed, 12 Oct 2022 17:16:28 -0700 (PDT)
+        with ESMTP id S230093AbiJMATM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:19:12 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6662171CC7;
+        Wed, 12 Oct 2022 17:17:41 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 45CE0616BD;
-        Thu, 13 Oct 2022 00:16:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C864EC4347C;
-        Thu, 13 Oct 2022 00:16:25 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C4AA3B81CC1;
+        Thu, 13 Oct 2022 00:17:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2DBBC43142;
+        Thu, 13 Oct 2022 00:17:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620186;
-        bh=cMPXsVuPdcph4KjBelvtN/XnqSk3H6dZgGkqU0pF/dA=;
+        s=k20201202; t=1665620251;
+        bh=FI1/P8LsnBP0jwLJMuF+pIIuLsGmJQiWyDvQhgeTR1g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nWQ9CNEz5cZ79FLgYfdtahm1iBbbx00V1LC+6r9LchsUA1NnT5jDs4mp6Om+RW2OH
-         nnTLbHhKMlNvwoPaq71QD47GdjEG+vXYEbPYTGQ5R6JZN8BtTGsqVv2ippVUPH1PZL
-         6xzbVDrA0cgFrCC9p5DBhF9VHK1UX5/hldXVoog61+hZn8Ug1ACP/cegbSQgyKi9np
-         86pVhp4Zxwt0HrxkOp6xGVr+yszQukUgk4X8mvB9vGGn6JIrwxRE+B/zesu0MkLpyD
-         w2CWqLqI2YgYFgPeB1zzCqc7YQICrbELwvcQJMuPT7UJKYwJVbDavtgAu4jbEFVwMJ
-         g8DIOE6D3LLhw==
+        b=csMvjebZ07m5j+hdt1T/MzVGDyehnQPBw0r3y288IBhOZ0+t5vR3YVyyZIZYk47WF
+         g1NSxUFC+ZAaRAoQe1a7Js+qf7vYJRQzred/Wwgi4ZRVKpqp6ILXlyvTZw7pxnPrds
+         A98QMEuXncWlJiu1oY9hyx/dGArKcxSyspP6xJxbC5iyB56zWfTccZlC1Qnp+qYAPP
+         QgG5xHrnR/oZFxxF9vxM+KO9MS3okI7SPITr9ketD6cr17rvnwV0hkN7rCGpOMcmh/
+         5oZu+cEiKKs/Tdq+hOh9l0O43zRhGqHsRnzJZlPZosybqCj29Uim8G0gYPZf7L6ZBA
+         uALugbdJQD9GQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
+Cc:     Piyush Mehta <piyush.mehta@amd.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>,
-        laurent.pinchart@ideasonboard.com, balbi@kernel.org,
+        Sasha Levin <sashal@kernel.org>, Thinh.Nguyen@synopsys.com,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 14/67] usb: gadget: uvc: increase worker prio to WQ_HIGHPRI
-Date:   Wed, 12 Oct 2022 20:14:55 -0400
-Message-Id: <20221013001554.1892206-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 41/67] usb: dwc3: core: Enable GUCTL1 bit 10 for fixing termination error after resume bug
+Date:   Wed, 12 Oct 2022 20:15:22 -0400
+Message-Id: <20221013001554.1892206-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221013001554.1892206-1-sashal@kernel.org>
 References: <20221013001554.1892206-1-sashal@kernel.org>
@@ -52,105 +51,95 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Michael Grzeschik <m.grzeschik@pengutronix.de>
+From: Piyush Mehta <piyush.mehta@amd.com>
 
-[ Upstream commit 9b91a65230784a9ef644b8bdbb82a79ba4ae9456 ]
+[ Upstream commit 63d7f9810a38102cdb8cad214fac98682081e1a7 ]
 
-This patch is changing the simple workqueue in the gadget driver to be
-allocated as async_wq with a higher priority. The pump worker, that is
-filling the usb requests, will have a higher priority and will not be
-scheduled away so often while the video stream is handled. This will
-lead to fewer streaming underruns.
+When configured in HOST mode, after issuing U3/L2 exit controller fails
+to send proper CRC checksum in CRC5 field. Because of this behavior
+Transaction Error is generated, resulting in reset and re-enumeration of
+usb device attached. Enabling chicken bit 10 of GUCTL1 will correct this
+problem.
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Link: https://lore.kernel.org/r/20220907215818.2670097-1-m.grzeschik@pengutronix.de
+When this bit is set to '1', the UTMI/ULPI opmode will be changed to
+"normal" along with HS terminations, term, and xcvr signals after EOR.
+This option is to support certain legacy UTMI/ULPI PHYs.
+
+Added "snps,resume-hs-terminations" quirk to resolved the above issue.
+
+Signed-off-by: Piyush Mehta <piyush.mehta@amd.com>
+Link: https://lore.kernel.org/r/20220920052235.194272-3-piyush.mehta@amd.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/f_uvc.c     | 4 ++++
- drivers/usb/gadget/function/uvc.h       | 1 +
- drivers/usb/gadget/function/uvc_v4l2.c  | 2 +-
- drivers/usb/gadget/function/uvc_video.c | 9 +++++++--
- 4 files changed, 13 insertions(+), 3 deletions(-)
+ drivers/usb/dwc3/core.c | 17 +++++++++++++++++
+ drivers/usb/dwc3/core.h |  4 ++++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 71669e0e4d00..241b0de7b4aa 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -897,10 +897,14 @@ static void uvc_function_unbind(struct usb_configuration *c,
- {
- 	struct usb_composite_dev *cdev = c->cdev;
- 	struct uvc_device *uvc = to_uvc(f);
-+	struct uvc_video *video = &uvc->video;
- 	long wait_ret = 1;
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 4123462cac9b..4fea1fcac754 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1184,6 +1184,21 @@ static int dwc3_core_init(struct dwc3 *dwc)
+ 		dwc3_writel(dwc->regs, DWC3_GUCTL2, reg);
+ 	}
  
- 	uvcg_info(f, "%s()\n", __func__);
- 
-+	if (video->async_wq)
-+		destroy_workqueue(video->async_wq);
++	/*
++	 * When configured in HOST mode, after issuing U3/L2 exit controller
++	 * fails to send proper CRC checksum in CRC5 feild. Because of this
++	 * behaviour Transaction Error is generated, resulting in reset and
++	 * re-enumeration of usb device attached. All the termsel, xcvrsel,
++	 * opmode becomes 0 during end of resume. Enabling bit 10 of GUCTL1
++	 * will correct this problem. This option is to support certain
++	 * legacy ULPI PHYs.
++	 */
++	if (dwc->resume_hs_terminations) {
++		reg = dwc3_readl(dwc->regs, DWC3_GUCTL1);
++		reg |= DWC3_GUCTL1_RESUME_OPMODE_HS_HOST;
++		dwc3_writel(dwc->regs, DWC3_GUCTL1, reg);
++	}
 +
- 	/*
- 	 * If we know we're connected via v4l2, then there should be a cleanup
- 	 * of the device from userspace either via UVC_EVENT_DISCONNECT or
-diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index 58e383afdd44..1a31e6c6a5ff 100644
---- a/drivers/usb/gadget/function/uvc.h
-+++ b/drivers/usb/gadget/function/uvc.h
-@@ -88,6 +88,7 @@ struct uvc_video {
- 	struct usb_ep *ep;
+ 	if (!DWC3_VER_IS_PRIOR(DWC3, 250A)) {
+ 		reg = dwc3_readl(dwc->regs, DWC3_GUCTL1);
  
- 	struct work_struct pump;
-+	struct workqueue_struct *async_wq;
+@@ -1527,6 +1542,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 				"snps,dis-del-phy-power-chg-quirk");
+ 	dwc->dis_tx_ipgap_linecheck_quirk = device_property_read_bool(dev,
+ 				"snps,dis-tx-ipgap-linecheck-quirk");
++	dwc->resume_hs_terminations = device_property_read_bool(dev,
++				"snps,resume-hs-terminations");
+ 	dwc->parkmode_disable_ss_quirk = device_property_read_bool(dev,
+ 				"snps,parkmode-disable-ss-quirk");
+ 	dwc->gfladj_refclk_lpm_sel = device_property_read_bool(dev,
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 11975a03316f..3ac9313e66f9 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -263,6 +263,7 @@
+ #define DWC3_GUCTL1_DEV_FORCE_20_CLK_FOR_30_CLK	BIT(26)
+ #define DWC3_GUCTL1_DEV_L1_EXIT_BY_HW		BIT(24)
+ #define DWC3_GUCTL1_PARKMODE_DISABLE_SS		BIT(17)
++#define DWC3_GUCTL1_RESUME_OPMODE_HS_HOST	BIT(10)
  
- 	/* Frame parameters */
- 	u8 bpp;
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index fd8f73bb726d..fddc392b8ab9 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -170,7 +170,7 @@ uvc_v4l2_qbuf(struct file *file, void *fh, struct v4l2_buffer *b)
- 		return ret;
+ /* Global Status Register */
+ #define DWC3_GSTS_OTG_IP	BIT(10)
+@@ -1097,6 +1098,8 @@ struct dwc3_scratchpad_array {
+  *			change quirk.
+  * @dis_tx_ipgap_linecheck_quirk: set if we disable u2mac linestate
+  *			check during HS transmit.
++ * @resume-hs-terminations: Set if we enable quirk for fixing improper crc
++ *			generation after resume from suspend.
+  * @parkmode_disable_ss_quirk: set if we need to disable all SuperSpeed
+  *			instances in park mode.
+  * @tx_de_emphasis_quirk: set if we enable Tx de-emphasis quirk
+@@ -1312,6 +1315,7 @@ struct dwc3 {
+ 	unsigned		dis_u2_freeclk_exists_quirk:1;
+ 	unsigned		dis_del_phy_power_chg_quirk:1;
+ 	unsigned		dis_tx_ipgap_linecheck_quirk:1;
++	unsigned		resume_hs_terminations:1;
+ 	unsigned		parkmode_disable_ss_quirk:1;
+ 	unsigned		gfladj_refclk_lpm_sel:1;
  
- 	if (uvc->state == UVC_STATE_STREAMING)
--		schedule_work(&video->pump);
-+		queue_work(video->async_wq, &video->pump);
- 
- 	return ret;
- }
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index c00ce0e91f5d..bb037fcc90e6 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -277,7 +277,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
- 	spin_unlock_irqrestore(&video->req_lock, flags);
- 
- 	if (uvc->state == UVC_STATE_STREAMING)
--		schedule_work(&video->pump);
-+		queue_work(video->async_wq, &video->pump);
- }
- 
- static int
-@@ -485,7 +485,7 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
- 
- 	video->req_int_count = 0;
- 
--	schedule_work(&video->pump);
-+	queue_work(video->async_wq, &video->pump);
- 
- 	return ret;
- }
-@@ -499,6 +499,11 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
- 	spin_lock_init(&video->req_lock);
- 	INIT_WORK(&video->pump, uvcg_video_pump);
- 
-+	/* Allocate a work queue for asynchronous video pump handler. */
-+	video->async_wq = alloc_workqueue("uvcgadget", WQ_UNBOUND | WQ_HIGHPRI, 0);
-+	if (!video->async_wq)
-+		return -EINVAL;
-+
- 	video->uvc = uvc;
- 	video->fcc = V4L2_PIX_FMT_YUYV;
- 	video->bpp = 16;
 -- 
 2.35.1
 
