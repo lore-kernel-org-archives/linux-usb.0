@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1855C43217
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:30:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9A1AC4321E
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:30:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231307AbiJMAaB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Oct 2022 20:30:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47220 "EHLO
+        id S231326AbiJMAaD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Oct 2022 20:30:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231335AbiJMA1e (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:27:34 -0400
+        with ESMTP id S231313AbiJMA12 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:27:28 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6EA81285EC;
-        Wed, 12 Oct 2022 17:25:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 175F56DFA2;
+        Wed, 12 Oct 2022 17:25:04 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A58EB616EC;
-        Thu, 13 Oct 2022 00:20:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 416CEC43143;
-        Thu, 13 Oct 2022 00:20:56 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 484C8616DD;
+        Thu, 13 Oct 2022 00:20:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0718CC433D6;
+        Thu, 13 Oct 2022 00:20:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620457;
-        bh=2ZxUg/1wAsgJI7Aj9gDfm/S13ITpUsPEtiIhR3IIIoc=;
+        s=k20201202; t=1665620412;
+        bh=yy1LzY/k4eWn7O3Bo53AqA6dt4/zM2XYo6Qw9qUfJl4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rpUwaEGO4+BczxnRqrALkxQianMMDRez8ADppXsqQY/WpI1DnaSFdI12FSdNPQ5xq
-         S3mtpxIUiKSFwGir2w3IANdDLw4VOTl63phAu5yFAXOZ/h7lUlF9zVmavSFVjjrDy9
-         oGjfM1gnAEIV0stH2hS7AolWoa09vyuaXP/lkYfouOLdi1Kd6hA6eFBFjuWKdQ1mUP
-         zydezcxIsOHQDOg5sKkhemiDewD4asOW6h0bdyjbUt6UTc556twYLofbeInM9FwAI7
-         Ny8T2JXRjdB7vyV9tNscVjhI8MaKBVXy6Rn2vyHsPdPpFQ0dzrFgwyNATvLeg3o6dh
-         NV04B64079pCw==
+        b=YIzhvs6eZAIGBqE+AlPGKOXoKfShIlsF/DPAv7mcbQD9JKDGON8Tk8PW2M99H/WnV
+         iDLehu9MDtZnCurMfTYWKn+KfyGchMzl8CChK5w0+345KUVrZRv7YYiDVTuUaAKQuQ
+         BQ3qaDYUMQOuoc3FVC2Sk+7Vzb1iHEHs6cWD2xq1f3n4ZsrDQzMlPKELCG5NCBDUKl
+         Wle5HjFr9w04/OUNKfw/zYzMmzpc8kbWBoh6IUD8kZ9sJ4XL9OPOqYVhL8UgK2YjlF
+         PCs9dtqFyS2eSlRT8NmDm/dg2hE9vYU9sP8zSLlxmqP1dp5niY1dKnBDDv6jOIiZww
+         XqU/NgIeJreAA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
-        syzbot+79832d33eb89fb3cd092@syzkaller.appspotmail.com,
+Cc:     Robin Guo <guoweibin@inspur.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 53/63] usb: idmouse: fix an uninit-value in idmouse_open
-Date:   Wed, 12 Oct 2022 20:18:27 -0400
-Message-Id: <20221013001842.1893243-53-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, b-liu@ti.com,
+        linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.19 37/63] usb: musb: Fix musb_gadget.c rxstate overflow bug
+Date:   Wed, 12 Oct 2022 20:18:11 -0400
+Message-Id: <20221013001842.1893243-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221013001842.1893243-1-sashal@kernel.org>
 References: <20221013001842.1893243-1-sashal@kernel.org>
@@ -51,57 +51,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Dongliang Mu <mudongliangabcd@gmail.com>
+From: Robin Guo <guoweibin@inspur.com>
 
-[ Upstream commit bce2b0539933e485d22d6f6f076c0fcd6f185c4c ]
+[ Upstream commit eea4c860c3b366369eff0489d94ee4f0571d467d ]
 
-In idmouse_create_image, if any ftip_command fails, it will
-go to the reset label. However, this leads to the data in
-bulk_in_buffer[HEADER..IMGSIZE] uninitialized. And the check
-for valid image incurs an uninitialized dereference.
+The usb function device call musb_gadget_queue() adds the passed
+request to musb_ep::req_list,If the (request->length > musb_ep->packet_sz)
+and (is_buffer_mapped(req) return false),the rxstate() will copy all data
+in fifo to request->buf which may cause request->buf out of bounds.
 
-Fix this by moving the check before reset label since this
-check only be valid if the data after bulk_in_buffer[HEADER]
-has concrete data.
+Fix it by add the length check :
+fifocnt = min_t(unsigned, request->length - request->actual, fifocnt);
 
-Note that this is found by KMSAN, so only kernel compilation
-is tested.
-
-Reported-by: syzbot+79832d33eb89fb3cd092@syzkaller.appspotmail.com
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
-Link: https://lore.kernel.org/r/20220922134847.1101921-1-dzm91@hust.edu.cn
+Signed-off-by: Robin Guo <guoweibin@inspur.com>
+Link: https://lore.kernel.org/r/20220906102119.1b071d07a8391ff115e6d1ef@inspur.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/misc/idmouse.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/usb/musb/musb_gadget.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/misc/idmouse.c b/drivers/usb/misc/idmouse.c
-index e9437a176518..ea39243efee3 100644
---- a/drivers/usb/misc/idmouse.c
-+++ b/drivers/usb/misc/idmouse.c
-@@ -177,10 +177,6 @@ static int idmouse_create_image(struct usb_idmouse *dev)
- 		bytes_read += bulk_read;
- 	}
+diff --git a/drivers/usb/musb/musb_gadget.c b/drivers/usb/musb/musb_gadget.c
+index 51274b87f46c..dc67fff8e941 100644
+--- a/drivers/usb/musb/musb_gadget.c
++++ b/drivers/usb/musb/musb_gadget.c
+@@ -760,6 +760,9 @@ static void rxstate(struct musb *musb, struct musb_request *req)
+ 			musb_writew(epio, MUSB_RXCSR, csr);
  
--	/* reset the device */
--reset:
--	ftip_command(dev, FTIP_RELEASE, 0, 0);
--
- 	/* check for valid image */
- 	/* right border should be black (0x00) */
- 	for (bytes_read = sizeof(HEADER)-1 + WIDTH-1; bytes_read < IMGSIZE; bytes_read += WIDTH)
-@@ -192,6 +188,10 @@ static int idmouse_create_image(struct usb_idmouse *dev)
- 		if (dev->bulk_in_buffer[bytes_read] != 0xFF)
- 			return -EAGAIN;
- 
-+	/* reset the device */
-+reset:
-+	ftip_command(dev, FTIP_RELEASE, 0, 0);
-+
- 	/* should be IMGSIZE == 65040 */
- 	dev_dbg(&dev->interface->dev, "read %d bytes fingerprint data\n",
- 		bytes_read);
+ buffer_aint_mapped:
++			fifo_count = min_t(unsigned int,
++					request->length - request->actual,
++					(unsigned int)fifo_count);
+ 			musb_read_fifo(musb_ep->hw_ep, fifo_count, (u8 *)
+ 					(request->buf + request->actual));
+ 			request->actual += fifo_count;
 -- 
 2.35.1
 
