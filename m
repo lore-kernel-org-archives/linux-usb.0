@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98159C43217
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:36:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DD5EC433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:36:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231924AbiJMAgC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Oct 2022 20:36:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39044 "EHLO
+        id S231935AbiJMAgE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Oct 2022 20:36:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231940AbiJMAdi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:33:38 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22A9E26117;
-        Wed, 12 Oct 2022 17:28:42 -0700 (PDT)
+        with ESMTP id S231909AbiJMAde (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:33:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3975CD9952;
+        Wed, 12 Oct 2022 17:28:48 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9CAE5B81D01;
-        Thu, 13 Oct 2022 00:26:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78748C43144;
-        Thu, 13 Oct 2022 00:26:47 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 865EF616DC;
+        Thu, 13 Oct 2022 00:20:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14BCBC433C1;
+        Thu, 13 Oct 2022 00:20:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620808;
-        bh=9nmIX1CbbtzBfzsDqPxMj8VYIeUwmfAAsFdjW+FQUjg=;
+        s=k20201202; t=1665620421;
+        bh=6vbKmmz0ryFxKZLGyy2yrARzgTOezGzvxGBhsplRrh8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BGm+JhxJ+abTO/6aZgAW+krP/oVDnc6SgKK+URGIcDOwZm9CTVXQxQ1egJ+hEsJhX
-         jqeRs26CeHNavtLzn2sBud0AN9leb9ix/JK7Hq73PeUn44bRaRCvy7MvgdeVGH4HuM
-         OuIkFo/ngqRTOOXUSZ6bO4PFpFDI42+PivQwPXjJ6poApBM1sEca51FBhvmWuQKLlm
-         Y3cAfqVtsHp33CaRh1ZCqVpgFDp6fgMFYtZIA060J8zsEgLUAxCl+m3moqt226ZnFi
-         xSKXEMJDXFdEnOJ7Z0BB5nGWf1hiFOk4wGxAOu8ATYoEoKrguZXBGHnbfEimbmErtq
-         JDlRSe1hgNO6Q==
+        b=HuyFqub24PHNgKocqDsq6KsGK1iBCQXg1nyRhzcyNAJhAbX3sXNbN5GjqUmI++yFg
+         yadRUCu6/GWhGhz35WvB8G5xWq5NNwhAIT0PzhhfQnzgCgs5r0U2VR/EPuKScYhFPf
+         s4tnmirc8QKdEuPykIYXBRV236AgoiShOCVdT2eEV+gJv8UUEpMf4/iXzidz9U8Ymr
+         LsQBCBnCfDSQv1BCYfvfNwGdNLN9yaY1vwytByXD/PPvtzYnboPARldfjykdtImlNe
+         h+ziAo5q9vpMj1rfl3zPDUUfxXKNHrA88YFGbzwXTLY2Y5dWiHwaLrYmvSuvbpTLEh
+         s2WMiLWzDpCqg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     sunghwan jung <onenowy@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, stern@rowland.harvard.edu,
         linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
-Subject: [PATCH AUTOSEL 4.19 13/19] Revert "usb: storage: Add quirk for Samsung Fit flash"
-Date:   Wed, 12 Oct 2022 20:26:12 -0400
-Message-Id: <20221013002623.1895576-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 41/63] Revert "usb: storage: Add quirk for Samsung Fit flash"
+Date:   Wed, 12 Oct 2022 20:18:15 -0400
+Message-Id: <20221013001842.1893243-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221013002623.1895576-1-sashal@kernel.org>
-References: <20221013002623.1895576-1-sashal@kernel.org>
+In-Reply-To: <20221013001842.1893243-1-sashal@kernel.org>
+References: <20221013001842.1893243-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -86,7 +86,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 deletions(-)
 
 diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/unusual_devs.h
-index 6a59950a63a0..b270be141b8e 100644
+index 4993227ab293..20dcbccb290b 100644
 --- a/drivers/usb/storage/unusual_devs.h
 +++ b/drivers/usb/storage/unusual_devs.h
 @@ -1275,12 +1275,6 @@ UNUSUAL_DEV( 0x090a, 0x1200, 0x0000, 0x9999,
