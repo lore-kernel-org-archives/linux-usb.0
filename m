@@ -2,45 +2,44 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 156C8C4332F
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:20:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A2D8C4332F
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:20:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230153AbiJMAUA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Oct 2022 20:20:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39166 "EHLO
+        id S230106AbiJMAUK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Oct 2022 20:20:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230100AbiJMATR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:19:17 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8469815E0D9;
-        Wed, 12 Oct 2022 17:17:34 -0700 (PDT)
+        with ESMTP id S230076AbiJMATY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:19:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19E3518C94F;
+        Wed, 12 Oct 2022 17:17:47 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 77D9DB81CBD;
-        Thu, 13 Oct 2022 00:17:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B6C8C43470;
-        Thu, 13 Oct 2022 00:17:25 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5DDC8616B6;
+        Thu, 13 Oct 2022 00:17:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E83ECC433C1;
+        Thu, 13 Oct 2022 00:17:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620246;
-        bh=rTa3Ku8s8RfWGDNKrTIwY1D75QMDAhQeks95usefagY=;
+        s=k20201202; t=1665620252;
+        bh=6vbKmmz0ryFxKZLGyy2yrARzgTOezGzvxGBhsplRrh8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VfSJfGVefLMwLGnyI98VoGaxeUlUSqLvmyvlhUEyvwnYVSMifN6lwPDzkKtFM9qPL
-         s/4oJDrYcZ0nAOuuqdpBH3E0yqQ2lPeBC7yjlMhgBeo2e3b2bmUJ3iw+iFj77lzhXP
-         KOa5JejJHE6Cl4ha1xDMscz5+QUTqAnjJ/ntylrLeEswJScT9H+6S2kXqUjZUkzrbc
-         xoiZM4JyyqcJjsBd0gjadw+DHWIaqfThXCPp0vcn4MqSuslj6nP98KDEKRkKX8v3MU
-         b6nzdab1i2Kjc2sup4MJ3SsJ2R1xyscNjyJsDWPvc//182PdndLrXT7sL6q6ytnZkp
-         2JWRsyygZxxJw==
+        b=oRo1pKDVz9ZBeNjIMuirVSs5F/amDJEhUeRaysSgsR/IK3ht09seqvCDrg5A7x7E8
+         sZ4TVRFdd5e3/Uv7FGzugw84TDW3yy8EvyORLacNMkz/TJ+vFZv2usJmzdISnpJXR1
+         bYGJjWvAtvFgAK0f/R3Lv0ytdm7++W/exgIoKa7nSAGYaf0ZKXE3BPwS8BgXoBxSCB
+         VzcUGUY1CJ6K0ia7Mj7XPl9KEHmsQvXcgTMwqqmWxMajudh/ScvmElV7n7ItcOE20Y
+         LgG9EMLRPhdiUArxdFx4nRJk97CqhQw+p+YOTDrxUKNlE2uZXYoruXypeBvgQx0VR3
+         YJ8ALfbzPdfBA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Li Jun <jun.li@nxp.com>,
+Cc:     sunghwan jung <onenowy@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, Thinh.Nguyen@synopsys.com,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 39/67] usb: dwc3: core: add gfladj_refclk_lpm_sel quirk
-Date:   Wed, 12 Oct 2022 20:15:20 -0400
-Message-Id: <20221013001554.1892206-39-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, stern@rowland.harvard.edu,
+        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
+Subject: [PATCH AUTOSEL 6.0 42/67] Revert "usb: storage: Add quirk for Samsung Fit flash"
+Date:   Wed, 12 Oct 2022 20:15:23 -0400
+Message-Id: <20221013001554.1892206-42-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221013001554.1892206-1-sashal@kernel.org>
 References: <20221013001554.1892206-1-sashal@kernel.org>
@@ -52,76 +51,57 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
+From: sunghwan jung <onenowy@gmail.com>
 
-[ Upstream commit a6fc2f1b092787e9d7dbe472d720cede81680315 ]
+[ Upstream commit ad5dbfc123e6ffbbde194e2a4603323e09f741ee ]
 
-This selects the SOF/ITP counter be running on ref_clk. As documented
-U2_FREECLK_EXISTS has to be set to 0 as well.
+This reverts commit 86d92f5465958752481269348d474414dccb1552,
+which fix the timeout issue for "Samsung Fit Flash".
 
-Reviewed-by: Li Jun <jun.li@nxp.com>
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-Link: https://lore.kernel.org/r/20220915062855.751881-3-alexander.stein@ew.tq-group.com
+But the commit affects not only "Samsung Fit Flash" but also other usb
+storages that use the same controller and causes severe performance
+regression.
+
+ # hdparm -t /dev/sda (without the quirk)
+ Timing buffered disk reads: 622 MB in  3.01 seconds = 206.66 MB/sec
+
+ # hdparm -t /dev/sda (with the quirk)
+ Timing buffered disk reads: 220 MB in  3.00 seconds =  73.32 MB/sec
+
+The commit author mentioned that "Issue was reproduced after device has
+bad block", so this quirk should be applied when we have the timeout
+issue with a device that has bad blocks.
+
+We revert the commit so that we apply this quirk by adding kernel
+paramters using a bootloader or other ways when we really need it,
+without the performance regression with devices that don't have the
+issue.
+
+Signed-off-by: sunghwan jung <onenowy@gmail.com>
+Link: https://lore.kernel.org/r/20220913114913.3073-1-onenowy@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/dwc3/core.c | 8 +++++++-
- drivers/usb/dwc3/core.h | 2 ++
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ drivers/usb/storage/unusual_devs.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index d0237b30c9be..4123462cac9b 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -408,6 +408,10 @@ static void dwc3_ref_clk_period(struct dwc3 *dwc)
- 	reg |= FIELD_PREP(DWC3_GFLADJ_REFCLK_FLADJ_MASK, fladj)
- 	    |  FIELD_PREP(DWC3_GFLADJ_240MHZDECR, decr >> 1)
- 	    |  FIELD_PREP(DWC3_GFLADJ_240MHZDECR_PLS1, decr & 1);
-+
-+	if (dwc->gfladj_refclk_lpm_sel)
-+		reg |=  DWC3_GFLADJ_REFCLK_LPM_SEL;
-+
- 	dwc3_writel(dwc->regs, DWC3_GFLADJ, reg);
- }
+diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/unusual_devs.h
+index 4993227ab293..20dcbccb290b 100644
+--- a/drivers/usb/storage/unusual_devs.h
++++ b/drivers/usb/storage/unusual_devs.h
+@@ -1275,12 +1275,6 @@ UNUSUAL_DEV( 0x090a, 0x1200, 0x0000, 0x9999,
+ 		USB_SC_RBC, USB_PR_BULK, NULL,
+ 		0 ),
  
-@@ -789,7 +793,7 @@ static int dwc3_phy_setup(struct dwc3 *dwc)
- 	else
- 		reg |= DWC3_GUSB2PHYCFG_ENBLSLPM;
- 
--	if (dwc->dis_u2_freeclk_exists_quirk)
-+	if (dwc->dis_u2_freeclk_exists_quirk || dwc->gfladj_refclk_lpm_sel)
- 		reg &= ~DWC3_GUSB2PHYCFG_U2_FREECLK_EXISTS;
- 
- 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
-@@ -1525,6 +1529,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
- 				"snps,dis-tx-ipgap-linecheck-quirk");
- 	dwc->parkmode_disable_ss_quirk = device_property_read_bool(dev,
- 				"snps,parkmode-disable-ss-quirk");
-+	dwc->gfladj_refclk_lpm_sel = device_property_read_bool(dev,
-+				"snps,gfladj-refclk-lpm-sel-quirk");
- 
- 	dwc->tx_de_emphasis_quirk = device_property_read_bool(dev,
- 				"snps,tx_de_emphasis_quirk");
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 4fe4287dc934..11975a03316f 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -391,6 +391,7 @@
- #define DWC3_GFLADJ_30MHZ_SDBND_SEL		BIT(7)
- #define DWC3_GFLADJ_30MHZ_MASK			0x3f
- #define DWC3_GFLADJ_REFCLK_FLADJ_MASK		GENMASK(21, 8)
-+#define DWC3_GFLADJ_REFCLK_LPM_SEL		BIT(23)
- #define DWC3_GFLADJ_240MHZDECR			GENMASK(30, 24)
- #define DWC3_GFLADJ_240MHZDECR_PLS1		BIT(31)
- 
-@@ -1312,6 +1313,7 @@ struct dwc3 {
- 	unsigned		dis_del_phy_power_chg_quirk:1;
- 	unsigned		dis_tx_ipgap_linecheck_quirk:1;
- 	unsigned		parkmode_disable_ss_quirk:1;
-+	unsigned		gfladj_refclk_lpm_sel:1;
- 
- 	unsigned		tx_de_emphasis_quirk:1;
- 	unsigned		tx_de_emphasis:2;
+-UNUSUAL_DEV(0x090c, 0x1000, 0x1100, 0x1100,
+-		"Samsung",
+-		"Flash Drive FIT",
+-		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+-		US_FL_MAX_SECTORS_64),
+-
+ /* aeb */
+ UNUSUAL_DEV( 0x090c, 0x1132, 0x0000, 0xffff,
+ 		"Feiya",
 -- 
 2.35.1
 
