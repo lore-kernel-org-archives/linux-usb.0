@@ -2,49 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8EF8C43217
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 01:37:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A20D7C433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 01:42:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229954AbiJMBhc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Oct 2022 21:37:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36826 "EHLO
+        id S229599AbiJMBm1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Oct 2022 21:42:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbiJMBh2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 21:37:28 -0400
+        with ESMTP id S229550AbiJMBmZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 21:42:25 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A362150481;
-        Wed, 12 Oct 2022 18:37:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4A84183B8;
+        Wed, 12 Oct 2022 18:42:24 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CBA7C616E2;
-        Thu, 13 Oct 2022 00:21:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31C7EC433C1;
-        Thu, 13 Oct 2022 00:21:12 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5BC27616FE;
+        Thu, 13 Oct 2022 00:24:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05062C43143;
+        Thu, 13 Oct 2022 00:24:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620473;
-        bh=pZTA8+b6t89yvqWaduEatUoC/Fpvy1u8fwa7q8EqwVU=;
+        s=k20201202; t=1665620669;
+        bh=6vbKmmz0ryFxKZLGyy2yrARzgTOezGzvxGBhsplRrh8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AaXfSvPAke1/qRyo9d3HC3HnmuwWB/RQzHuSkIXv7acTrjXUK3OmHSib1S7FvEU5F
-         fNFVfxCtAZWD2BSXrmmtQNo+VRUJDZsuaocIYjb4GCt2iGnzIu4fug+t7uE1AZKLSZ
-         f5DsBAB9NmyGsahRm7kGEinknB/HNUh+mYj7SrlZQWcO0EVjh67vrNjyvW6IMBjwjg
-         vpcuIIp9IgEH/YhVaKZvRoocfOzZ+5ptimZfeYQJdc4wFYnTqbYnwdQXSCHNdqrZU/
-         jrJ4yZk/xBe0nwOkzNTvSpBPqJ8nonxe43R0gslPDI4AkE4wFdqL1UmQgJaCYqBk8M
-         gBxgxQqEbqeTQ==
+        b=Ae715EYy27XQYWrTsRoYGByZ06yW8Wgror7GL7IWu0b3WHrya1UIkwFprh5En6Jas
+         lNA+ql0EOhjZ1Iy6zAdFrPWuZJq5om/nbPKTjX5z/uE2oDLcpUvVBDEc0B4x9v9Jwy
+         MZqDacNMCxvgIwPQc/XyNK1btdB2xv547CaikbwGmg8JNlrhqbDDNlzGfQtksgGBa2
+         k3K89z7sU/gkVlLlT64vuoiNm2SuaLhPurc56VoB6bz+dF8xJF7MhB07EMOR4Gj5JK
+         54+yR33RW0XiVk55vWdv0BHSx7R6A6IuJLVzY4T+eA9AyG3V/5aYjIEThv96+8nCxq
+         ZdZ0aylAkktlw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Wayne Chang <waynec@nvidia.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+Cc:     sunghwan jung <onenowy@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, quic_linyyuan@quicinc.com,
-        rajaram.regupathy@intel.com, tiwai@suse.de,
-        saranya.gopal@intel.com, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 61/63] usb: typec: ucsi: Don't warn on probe deferral
-Date:   Wed, 12 Oct 2022 20:18:35 -0400
-Message-Id: <20221013001842.1893243-61-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, stern@rowland.harvard.edu,
+        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
+Subject: [PATCH AUTOSEL 5.10 24/33] Revert "usb: storage: Add quirk for Samsung Fit flash"
+Date:   Wed, 12 Oct 2022 20:23:23 -0400
+Message-Id: <20221013002334.1894749-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221013001842.1893243-1-sashal@kernel.org>
-References: <20221013001842.1893243-1-sashal@kernel.org>
+In-Reply-To: <20221013002334.1894749-1-sashal@kernel.org>
+References: <20221013002334.1894749-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -53,48 +51,57 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Wayne Chang <waynec@nvidia.com>
+From: sunghwan jung <onenowy@gmail.com>
 
-[ Upstream commit fce703a991b7e8c7e1371de95b9abaa832ecf9c3 ]
+[ Upstream commit ad5dbfc123e6ffbbde194e2a4603323e09f741ee ]
 
-Deferred probe is an expected return value for fwnode_usb_role_switch_get().
-Given that the driver deals with it properly, there's no need to output a
-warning that may potentially confuse users.
+This reverts commit 86d92f5465958752481269348d474414dccb1552,
+which fix the timeout issue for "Samsung Fit Flash".
 
---
-V2 -> V3: remove the Fixes and Cc
-V1 -> V2: adjust the coding style for better reading format.
- drivers/usb/typec/ucsi/ucsi.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+But the commit affects not only "Samsung Fit Flash" but also other usb
+storages that use the same controller and causes severe performance
+regression.
 
-Signed-off-by: Wayne Chang <waynec@nvidia.com>
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Link: https://lore.kernel.org/r/20220927134512.2651067-1-waynec@nvidia.com
+ # hdparm -t /dev/sda (without the quirk)
+ Timing buffered disk reads: 622 MB in  3.01 seconds = 206.66 MB/sec
+
+ # hdparm -t /dev/sda (with the quirk)
+ Timing buffered disk reads: 220 MB in  3.00 seconds =  73.32 MB/sec
+
+The commit author mentioned that "Issue was reproduced after device has
+bad block", so this quirk should be applied when we have the timeout
+issue with a device that has bad blocks.
+
+We revert the commit so that we apply this quirk by adding kernel
+paramters using a bootloader or other ways when we really need it,
+without the performance regression with devices that don't have the
+issue.
+
+Signed-off-by: sunghwan jung <onenowy@gmail.com>
+Link: https://lore.kernel.org/r/20220913114913.3073-1-onenowy@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/typec/ucsi/ucsi.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/usb/storage/unusual_devs.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 6364f0d467ea..74fb5a4c6f21 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -1067,11 +1067,9 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/unusual_devs.h
+index 4993227ab293..20dcbccb290b 100644
+--- a/drivers/usb/storage/unusual_devs.h
++++ b/drivers/usb/storage/unusual_devs.h
+@@ -1275,12 +1275,6 @@ UNUSUAL_DEV( 0x090a, 0x1200, 0x0000, 0x9999,
+ 		USB_SC_RBC, USB_PR_BULK, NULL,
+ 		0 ),
  
- 	cap->fwnode = ucsi_find_fwnode(con);
- 	con->usb_role_sw = fwnode_usb_role_switch_get(cap->fwnode);
--	if (IS_ERR(con->usb_role_sw)) {
--		dev_err(ucsi->dev, "con%d: failed to get usb role switch\n",
--			con->num);
--		return PTR_ERR(con->usb_role_sw);
--	}
-+	if (IS_ERR(con->usb_role_sw))
-+		return dev_err_probe(ucsi->dev, PTR_ERR(con->usb_role_sw),
-+			"con%d: failed to get usb role switch\n", con->num);
- 
- 	/* Delay other interactions with the con until registration is complete */
- 	mutex_lock(&con->lock);
+-UNUSUAL_DEV(0x090c, 0x1000, 0x1100, 0x1100,
+-		"Samsung",
+-		"Flash Drive FIT",
+-		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+-		US_FL_MAX_SECTORS_64),
+-
+ /* aeb */
+ UNUSUAL_DEV( 0x090c, 0x1132, 0x0000, 0xffff,
+ 		"Feiya",
 -- 
 2.35.1
 
