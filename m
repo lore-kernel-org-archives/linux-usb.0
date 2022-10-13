@@ -2,48 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B93D8C43217
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:38:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC638C4332F
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:45:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231934AbiJMAiI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Oct 2022 20:38:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42898 "EHLO
+        id S232106AbiJMApd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Oct 2022 20:45:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232109AbiJMAgw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:36:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CFA1D4A10;
-        Wed, 12 Oct 2022 17:31:19 -0700 (PDT)
+        with ESMTP id S232099AbiJMAoy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:44:54 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B1ECEC51C;
+        Wed, 12 Oct 2022 17:37:17 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 78DCE616C3;
-        Thu, 13 Oct 2022 00:19:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BE66C433D7;
-        Thu, 13 Oct 2022 00:19:03 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 07568B81CD7;
+        Thu, 13 Oct 2022 00:26:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E63B9C43141;
+        Thu, 13 Oct 2022 00:26:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620344;
-        bh=COvMImI5EhtK7DDUN4rrlXlj6Olbp9bHPrM5fbNPEo8=;
+        s=k20201202; t=1665620771;
+        bh=9IwWBpBPAy1XPz+qmN4K1594agSedGaY6AGFztpHjGA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BeNQJ8CL7YiEJmYxvlCZ8JbMZ3djTEhrfqcyWLJ03HrIApUQGr0LhF3l86EixeM1d
-         d/Tcxm8ANlxu9AKS46NRGXbhWrptrLF0kWDCPbTV9fSsPeYzuWz2wKjUr1zotPHB0j
-         IBNTSboATK8NAA1pqZvveZqTvakVthRKZNAKJbGWTWx2qbx1l6QAQ5RWv0bqprcPdo
-         Ev4R2GB0A6fNNilQKf5jgatzsROKA2HbnWrgJeb/1PKmQKfnSBDiXCqIwKnHwoLqTb
-         lG6BUWupUzu3C3kDokOjn+wz+5SWyR2pIoCEwPXCchCyZalaR55TyTjISr4tqMWTd1
-         jOJmSXu0jq/fQ==
+        b=rPu2PsmTQIFVkMkLuTeINc4abaKSSz1u5zBqXu2nB/J2h8Wo/PyY8c3HF25zcyTXR
+         ZGypwAXcSo4/vVnsthafh+HwKBkSjuXpNbT8QVvrhmb4/qwKGnoWmSIYgpxw5QwuiY
+         beLCju/JdCfmqeVrxM+p4SkmsQL+SWEFYURnCLWNJ5ZYCqzextxTlWP5Mv/IXnuyXP
+         0LD2LucyQJLtcNImzQRWhMCc45pDELMZQqyHYEFda8cvgZ5xHa/x3gW3kqWJfGqmsC
+         adQKaiUfTSNEZLavom96MHYcqV/n1NL3A87GKcQEO5z4bGf6w8FQh0PDJ+Zcpzhz2q
+         Al5HF1vdj1wrQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Justin Chen <justinpopo6@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
+Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
+        syzbot+79832d33eb89fb3cd092@syzkaller.appspotmail.com,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, mathias.nyman@intel.com,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 07/63] usb: host: xhci-plat: suspend and resume clocks
-Date:   Wed, 12 Oct 2022 20:17:41 -0400
-Message-Id: <20221013001842.1893243-7-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 24/27] usb: idmouse: fix an uninit-value in idmouse_open
+Date:   Wed, 12 Oct 2022 20:24:56 -0400
+Message-Id: <20221013002501.1895204-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221013001842.1893243-1-sashal@kernel.org>
-References: <20221013001842.1893243-1-sashal@kernel.org>
+In-Reply-To: <20221013002501.1895204-1-sashal@kernel.org>
+References: <20221013002501.1895204-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,70 +51,57 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Justin Chen <justinpopo6@gmail.com>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
 
-[ Upstream commit 8bd954c56197caf5e3a804d989094bc3fe6329aa ]
+[ Upstream commit bce2b0539933e485d22d6f6f076c0fcd6f185c4c ]
 
-Introduce XHCI_SUSPEND_RESUME_CLKS quirk as a means to suspend and resume
-clocks if the hardware is capable of doing so. We assume that clocks will
-be needed if the device may wake.
+In idmouse_create_image, if any ftip_command fails, it will
+go to the reset label. However, this leads to the data in
+bulk_in_buffer[HEADER..IMGSIZE] uninitialized. And the check
+for valid image incurs an uninitialized dereference.
 
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-Signed-off-by: Justin Chen <justinpopo6@gmail.com>
-Link: https://lore.kernel.org/r/1660170455-15781-2-git-send-email-justinpopo6@gmail.com
+Fix this by moving the check before reset label since this
+check only be valid if the data after bulk_in_buffer[HEADER]
+has concrete data.
+
+Note that this is found by KMSAN, so only kernel compilation
+is tested.
+
+Reported-by: syzbot+79832d33eb89fb3cd092@syzkaller.appspotmail.com
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+Link: https://lore.kernel.org/r/20220922134847.1101921-1-dzm91@hust.edu.cn
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/xhci-plat.c | 16 +++++++++++++++-
- drivers/usb/host/xhci.h      |  1 +
- 2 files changed, 16 insertions(+), 1 deletion(-)
+ drivers/usb/misc/idmouse.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index a8641b6536ee..ef10982ad482 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -437,7 +437,16 @@ static int __maybe_unused xhci_plat_suspend(struct device *dev)
- 	 * xhci_suspend() needs `do_wakeup` to know whether host is allowed
- 	 * to do wakeup during suspend.
- 	 */
--	return xhci_suspend(xhci, device_may_wakeup(dev));
-+	ret = xhci_suspend(xhci, device_may_wakeup(dev));
-+	if (ret)
-+		return ret;
-+
-+	if (!device_may_wakeup(dev) && (xhci->quirks & XHCI_SUSPEND_RESUME_CLKS)) {
-+		clk_disable_unprepare(xhci->clk);
-+		clk_disable_unprepare(xhci->reg_clk);
-+	}
-+
-+	return 0;
- }
+diff --git a/drivers/usb/misc/idmouse.c b/drivers/usb/misc/idmouse.c
+index bb24527f3c70..ba2b6fbab9b8 100644
+--- a/drivers/usb/misc/idmouse.c
++++ b/drivers/usb/misc/idmouse.c
+@@ -178,10 +178,6 @@ static int idmouse_create_image(struct usb_idmouse *dev)
+ 		bytes_read += bulk_read;
+ 	}
  
- static int __maybe_unused xhci_plat_resume(struct device *dev)
-@@ -446,6 +455,11 @@ static int __maybe_unused xhci_plat_resume(struct device *dev)
- 	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
- 	int ret;
+-	/* reset the device */
+-reset:
+-	ftip_command(dev, FTIP_RELEASE, 0, 0);
+-
+ 	/* check for valid image */
+ 	/* right border should be black (0x00) */
+ 	for (bytes_read = sizeof(HEADER)-1 + WIDTH-1; bytes_read < IMGSIZE; bytes_read += WIDTH)
+@@ -193,6 +189,10 @@ static int idmouse_create_image(struct usb_idmouse *dev)
+ 		if (dev->bulk_in_buffer[bytes_read] != 0xFF)
+ 			return -EAGAIN;
  
-+	if (!device_may_wakeup(dev) && (xhci->quirks & XHCI_SUSPEND_RESUME_CLKS)) {
-+		clk_prepare_enable(xhci->clk);
-+		clk_prepare_enable(xhci->reg_clk);
-+	}
++	/* reset the device */
++reset:
++	ftip_command(dev, FTIP_RELEASE, 0, 0);
 +
- 	ret = xhci_priv_resume_quirk(hcd);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 7caa0db5e826..6dfbf73ee840 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1899,6 +1899,7 @@ struct xhci_hcd {
- #define XHCI_NO_SOFT_RETRY	BIT_ULL(40)
- #define XHCI_BROKEN_D3COLD	BIT_ULL(41)
- #define XHCI_EP_CTX_BROKEN_DCS	BIT_ULL(42)
-+#define XHCI_SUSPEND_RESUME_CLKS	BIT_ULL(43)
- 
- 	unsigned int		num_active_eps;
- 	unsigned int		limit_active_eps;
+ 	/* should be IMGSIZE == 65040 */
+ 	dev_dbg(&dev->interface->dev, "read %d bytes fingerprint data\n",
+ 		bytes_read);
 -- 
 2.35.1
 
