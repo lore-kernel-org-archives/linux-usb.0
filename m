@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC638C4332F
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:45:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 199B5C433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:56:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232106AbiJMApd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Oct 2022 20:45:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36652 "EHLO
+        id S232311AbiJMA4g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Oct 2022 20:56:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232099AbiJMAoy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:44:54 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B1ECEC51C;
-        Wed, 12 Oct 2022 17:37:17 -0700 (PDT)
+        with ESMTP id S232200AbiJMA4W (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:56:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6923225593;
+        Wed, 12 Oct 2022 17:53:30 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 07568B81CD7;
-        Thu, 13 Oct 2022 00:26:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E63B9C43141;
-        Thu, 13 Oct 2022 00:26:10 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 21160616FF;
+        Thu, 13 Oct 2022 00:24:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD660C4314D;
+        Thu, 13 Oct 2022 00:24:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620771;
-        bh=9IwWBpBPAy1XPz+qmN4K1594agSedGaY6AGFztpHjGA=;
+        s=k20201202; t=1665620692;
+        bh=2ZxUg/1wAsgJI7Aj9gDfm/S13ITpUsPEtiIhR3IIIoc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rPu2PsmTQIFVkMkLuTeINc4abaKSSz1u5zBqXu2nB/J2h8Wo/PyY8c3HF25zcyTXR
-         ZGypwAXcSo4/vVnsthafh+HwKBkSjuXpNbT8QVvrhmb4/qwKGnoWmSIYgpxw5QwuiY
-         beLCju/JdCfmqeVrxM+p4SkmsQL+SWEFYURnCLWNJ5ZYCqzextxTlWP5Mv/IXnuyXP
-         0LD2LucyQJLtcNImzQRWhMCc45pDELMZQqyHYEFda8cvgZ5xHa/x3gW3kqWJfGqmsC
-         adQKaiUfTSNEZLavom96MHYcqV/n1NL3A87GKcQEO5z4bGf6w8FQh0PDJ+Zcpzhz2q
-         Al5HF1vdj1wrQ==
+        b=bhF52xCYOzG00mwQk+a+oe3M2Y1HiE1NBGVFc8JBWNyhGHU/tP3qUFP0lEs7W+PXB
+         wbDqDZWrIwA0Vw76+iDjL44L3W/IIMpLscIcp/RfiEupQ/JHBAvD74p8sXN3M0zLLD
+         4FbnpgKuZ25FqKlpNXPibRTdN/IVzMuRzQ9Tr32NP5wudFK3flUXyd2ctC7eDS3Ihn
+         LMNwVzO11h58xH0fDOpL6jv5sg/wZsFBRu+duWyC3L/DQeThEdnA6E+XvCPYZgD+Qs
+         cKI/CmcJlcVcf6v8wjUAkpr4EPnxaAc1sRslVKRZywKTU6akbf0yuBc1SLppfY1O1n
+         StT1pE0Ub2RVg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
         syzbot+79832d33eb89fb3cd092@syzkaller.appspotmail.com,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 24/27] usb: idmouse: fix an uninit-value in idmouse_open
-Date:   Wed, 12 Oct 2022 20:24:56 -0400
-Message-Id: <20221013002501.1895204-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 30/33] usb: idmouse: fix an uninit-value in idmouse_open
+Date:   Wed, 12 Oct 2022 20:23:29 -0400
+Message-Id: <20221013002334.1894749-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221013002501.1895204-1-sashal@kernel.org>
-References: <20221013002501.1895204-1-sashal@kernel.org>
+In-Reply-To: <20221013002334.1894749-1-sashal@kernel.org>
+References: <20221013002334.1894749-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -77,10 +77,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/usb/misc/idmouse.c b/drivers/usb/misc/idmouse.c
-index bb24527f3c70..ba2b6fbab9b8 100644
+index e9437a176518..ea39243efee3 100644
 --- a/drivers/usb/misc/idmouse.c
 +++ b/drivers/usb/misc/idmouse.c
-@@ -178,10 +178,6 @@ static int idmouse_create_image(struct usb_idmouse *dev)
+@@ -177,10 +177,6 @@ static int idmouse_create_image(struct usb_idmouse *dev)
  		bytes_read += bulk_read;
  	}
  
@@ -91,7 +91,7 @@ index bb24527f3c70..ba2b6fbab9b8 100644
  	/* check for valid image */
  	/* right border should be black (0x00) */
  	for (bytes_read = sizeof(HEADER)-1 + WIDTH-1; bytes_read < IMGSIZE; bytes_read += WIDTH)
-@@ -193,6 +189,10 @@ static int idmouse_create_image(struct usb_idmouse *dev)
+@@ -192,6 +188,10 @@ static int idmouse_create_image(struct usb_idmouse *dev)
  		if (dev->bulk_in_buffer[bytes_read] != 0xFF)
  			return -EAGAIN;
  
