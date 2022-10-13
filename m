@@ -2,48 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4771C4332F
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:35:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5356C4321E
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:35:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231331AbiJMAfy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Oct 2022 20:35:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38892 "EHLO
+        id S231867AbiJMAf4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Oct 2022 20:35:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231904AbiJMAde (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:33:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61EAEDFC3B;
-        Wed, 12 Oct 2022 17:28:44 -0700 (PDT)
+        with ESMTP id S232084AbiJMAeI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:34:08 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87C7327CC5;
+        Wed, 12 Oct 2022 17:29:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AE3EC615D9;
-        Thu, 13 Oct 2022 00:19:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CC9BC43141;
-        Thu, 13 Oct 2022 00:19:05 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 31225B81D00;
+        Thu, 13 Oct 2022 00:27:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11B31C433D6;
+        Thu, 13 Oct 2022 00:27:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620346;
-        bh=1TJHyyfg+QsA6U78R8mxqIahZXicXXqn1XHvFq8xnAo=;
+        s=k20201202; t=1665620854;
+        bh=iEJsBoW3YU23uXGXgTyOnGGgbdob3FhR9ZJsI+4No/o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=J9qfStIHTMXF+6y4Dcp03HClXOhwYt+hLMEa16M1CdbucqB5yhbef9FzyygUnbG+H
-         i6NAOxD0BewSYtYNM9SEr2TsWybXHa7wz9sRI+Av72sb4YD0VtvSVypyre6FmzMByu
-         I032wO/+9CTfHUAzLMLkTbGWWOvdgNgTXSyAAanRpJWFAPkudSTLZ8RulvW2jzzPmW
-         knyRCNVPjrTxWThByqLApTN2LWda6Vt70UqXku87L2hd+wvoS/dZaY+lCf4UbqQjoP
-         jcmLxuk9J0xtV2nMq/UrPzNyhLTIDPZf28IPrRO6Tj7EZ4ckzUXIX5qePewFJxn4F4
-         l2UNm7QIjzZBA==
+        b=iDxyGcBNkGr8cMOh7xUCYMmG6gvSvoL0Qfr7/VEi8ETCCm/E/JX+6JpBx9teWGhsG
+         xUSslhQgZIvx1IRxpjokUonUzn1kyw2JW3+yTtcF2q5LIGhsbL6WdMzgwNhK3CKzdd
+         vDfQacqvCMCkMIe3r53uquhUUAr4Mdzog9XsW2iqX40x/UnCCFOS9q7j9SWcv3PMip
+         cgkmF3A1sOB0mX7vFU/nnvK5wDtSYIm8rtlaXgS+yxdO3ctGM/YUOSO7AJ5azeUeSF
+         OfMVdxEuSzzYlzFRiBDTJ9YhqU9OmTfrFvENgoC0PAKxS6iFHoU2G/XN2skxLuqa6E
+         RxpuaswiTg0xg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Justin Chen <justinpopo6@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
+Cc:     sunghwan jung <onenowy@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, mathias.nyman@intel.com,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 08/63] usb: host: xhci-plat: suspend/resume clks for brcm
-Date:   Wed, 12 Oct 2022 20:17:42 -0400
-Message-Id: <20221013001842.1893243-8-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, stern@rowland.harvard.edu,
+        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
+Subject: [PATCH AUTOSEL 4.14 10/13] Revert "usb: storage: Add quirk for Samsung Fit flash"
+Date:   Wed, 12 Oct 2022 20:27:09 -0400
+Message-Id: <20221013002716.1895839-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221013001842.1893243-1-sashal@kernel.org>
-References: <20221013001842.1893243-1-sashal@kernel.org>
+In-Reply-To: <20221013002716.1895839-1-sashal@kernel.org>
+References: <20221013002716.1895839-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,36 +51,57 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Justin Chen <justinpopo6@gmail.com>
+From: sunghwan jung <onenowy@gmail.com>
 
-[ Upstream commit c69400b09e471a3f1167adead55a808f0da6534a ]
+[ Upstream commit ad5dbfc123e6ffbbde194e2a4603323e09f741ee ]
 
-The xhci_plat_brcm xhci block can enter suspend with clock disabled to save
-power and re-enable them on resume. Make use of the XHCI_SUSPEND_RESUME_CLKS
-quirk to do so.
+This reverts commit 86d92f5465958752481269348d474414dccb1552,
+which fix the timeout issue for "Samsung Fit Flash".
 
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-Signed-off-by: Justin Chen <justinpopo6@gmail.com>
-Link: https://lore.kernel.org/r/1660170455-15781-3-git-send-email-justinpopo6@gmail.com
+But the commit affects not only "Samsung Fit Flash" but also other usb
+storages that use the same controller and causes severe performance
+regression.
+
+ # hdparm -t /dev/sda (without the quirk)
+ Timing buffered disk reads: 622 MB in  3.01 seconds = 206.66 MB/sec
+
+ # hdparm -t /dev/sda (with the quirk)
+ Timing buffered disk reads: 220 MB in  3.00 seconds =  73.32 MB/sec
+
+The commit author mentioned that "Issue was reproduced after device has
+bad block", so this quirk should be applied when we have the timeout
+issue with a device that has bad blocks.
+
+We revert the commit so that we apply this quirk by adding kernel
+paramters using a bootloader or other ways when we really need it,
+without the performance regression with devices that don't have the
+issue.
+
+Signed-off-by: sunghwan jung <onenowy@gmail.com>
+Link: https://lore.kernel.org/r/20220913114913.3073-1-onenowy@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/xhci-plat.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/storage/unusual_devs.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index ef10982ad482..5fb55bf19493 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -123,7 +123,7 @@ static const struct xhci_plat_priv xhci_plat_renesas_rcar_gen3 = {
- };
+diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/unusual_devs.h
+index 8c186ab5b5f7..8b38dd7d89b7 100644
+--- a/drivers/usb/storage/unusual_devs.h
++++ b/drivers/usb/storage/unusual_devs.h
+@@ -1294,12 +1294,6 @@ UNUSUAL_DEV( 0x090a, 0x1200, 0x0000, 0x9999,
+ 		USB_SC_RBC, USB_PR_BULK, NULL,
+ 		0 ),
  
- static const struct xhci_plat_priv xhci_plat_brcm = {
--	.quirks = XHCI_RESET_ON_RESUME,
-+	.quirks = XHCI_RESET_ON_RESUME | XHCI_SUSPEND_RESUME_CLKS,
- };
- 
- static const struct of_device_id usb_xhci_of_match[] = {
+-UNUSUAL_DEV(0x090c, 0x1000, 0x1100, 0x1100,
+-		"Samsung",
+-		"Flash Drive FIT",
+-		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+-		US_FL_MAX_SECTORS_64),
+-
+ /* aeb */
+ UNUSUAL_DEV( 0x090c, 0x1132, 0x0000, 0xffff,
+ 		"Feiya",
 -- 
 2.35.1
 
