@@ -2,48 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E25EBC4332F
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 01:27:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA4BEC433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 01:32:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229776AbiJMB10 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Oct 2022 21:27:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35450 "EHLO
+        id S229907AbiJMBc0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Oct 2022 21:32:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229726AbiJMB1Z (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 21:27:25 -0400
+        with ESMTP id S229533AbiJMBcY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 21:32:24 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 717A010A6;
-        Wed, 12 Oct 2022 18:27:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DC9234704;
+        Wed, 12 Oct 2022 18:32:23 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E2F8D6166F;
-        Thu, 13 Oct 2022 00:22:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79DF0C433D6;
-        Thu, 13 Oct 2022 00:22:41 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 56FA0615BE;
+        Thu, 13 Oct 2022 00:28:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF972C43142;
+        Thu, 13 Oct 2022 00:28:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620562;
-        bh=u6bQ6shkJdvnR5gPrBU77s9UZD5wLmWhUJw1JoEnmAw=;
+        s=k20201202; t=1665620897;
+        bh=X/cIJmrKiiqRqx/BcVynhDgyBSUjjuc0ViUWGM72QBM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rfPq601wjIY6JGr5HKQfaBC2nGUZ1GAS5a979+3MtVEv2RwphiIZQx8698MD1rQFg
-         pZVxisx7j7ac6LxzdRSFLHuuC+CRaEztRl6EJvrsx37DMWpYylgNG9/opuV9LZqwVs
-         v6ajkZC+DZroMMLqtFKhbxKPHr7XFyK4DFFe/Vw/W5+xmPimxO7x/VuK8OKbG1SLHH
-         ZyMaufucqNBOElC6ieoRoVZ4RP4zwd8f9111udgBSxgkngZWfVPVF06+T6XOomdbm3
-         NOYkZbOtEqE8TK/sm5FzGyKg+suhsfMILTuR0506XT+UFH2F0NTiIEUx+ock833STt
-         US/IZWj7DjEqw==
+        b=ftspPhV9WjFaBvQTQgl+aYBa7S+OWtNIcQ33C5axRwvPRpSS/OxJFb4Pep3uUhnXR
+         uiSGv+wf8eliDhHUSFMEYpCT79ol1YoWOa3n94QJCfdozIhLuzyTh6UsqnZD9TtPoH
+         YXJGdNxvUlQReJv6eUV7cOaE9R1drsiFUGUSqwVLluiBsX5yIzqtOWcmvKJmWfo2hM
+         ZvaTA2rrg1gCQA6A/kkA5BsXQXdyGjQwThd8/vfCQ3AQqH25KHdjMTz8lEXlLqp8Ku
+         D9nLNaGt4Pu4Kihu/LZ6zKXmH5xmBLh5PCQpBmMVJgYC8M6zZ1aou3uCwaPU1/FUZ2
+         vQSaJwwocYHRA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jianglei Nie <niejianglei2021@163.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
+Cc:     sunghwan jung <onenowy@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, mathias.nyman@intel.com,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 29/47] usb: host: xhci: Fix potential memory leak in xhci_alloc_stream_info()
-Date:   Wed, 12 Oct 2022 20:21:04 -0400
-Message-Id: <20221013002124.1894077-29-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, stern@rowland.harvard.edu,
+        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
+Subject: [PATCH AUTOSEL 4.9 08/10] Revert "usb: storage: Add quirk for Samsung Fit flash"
+Date:   Wed, 12 Oct 2022 20:27:55 -0400
+Message-Id: <20221013002802.1896096-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221013002124.1894077-1-sashal@kernel.org>
-References: <20221013002124.1894077-1-sashal@kernel.org>
+In-Reply-To: <20221013002802.1896096-1-sashal@kernel.org>
+References: <20221013002802.1896096-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,53 +51,57 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Jianglei Nie <niejianglei2021@163.com>
+From: sunghwan jung <onenowy@gmail.com>
 
-[ Upstream commit 7e271f42a5cc3768cd2622b929ba66859ae21f97 ]
+[ Upstream commit ad5dbfc123e6ffbbde194e2a4603323e09f741ee ]
 
-xhci_alloc_stream_info() allocates stream context array for stream_info
-->stream_ctx_array with xhci_alloc_stream_ctx(). When some error occurs,
-stream_info->stream_ctx_array is not released, which will lead to a
-memory leak.
+This reverts commit 86d92f5465958752481269348d474414dccb1552,
+which fix the timeout issue for "Samsung Fit Flash".
 
-We can fix it by releasing the stream_info->stream_ctx_array with
-xhci_free_stream_ctx() on the error path to avoid the potential memory
-leak.
+But the commit affects not only "Samsung Fit Flash" but also other usb
+storages that use the same controller and causes severe performance
+regression.
 
-Signed-off-by: Jianglei Nie <niejianglei2021@163.com>
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-Link: https://lore.kernel.org/r/20220921123450.671459-2-mathias.nyman@linux.intel.com
+ # hdparm -t /dev/sda (without the quirk)
+ Timing buffered disk reads: 622 MB in  3.01 seconds = 206.66 MB/sec
+
+ # hdparm -t /dev/sda (with the quirk)
+ Timing buffered disk reads: 220 MB in  3.00 seconds =  73.32 MB/sec
+
+The commit author mentioned that "Issue was reproduced after device has
+bad block", so this quirk should be applied when we have the timeout
+issue with a device that has bad blocks.
+
+We revert the commit so that we apply this quirk by adding kernel
+paramters using a bootloader or other ways when we really need it,
+without the performance regression with devices that don't have the
+issue.
+
+Signed-off-by: sunghwan jung <onenowy@gmail.com>
+Link: https://lore.kernel.org/r/20220913114913.3073-1-onenowy@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/xhci-mem.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/usb/storage/unusual_devs.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index b398d3fdabf6..02cd4d7c3e7e 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -642,7 +642,7 @@ struct xhci_stream_info *xhci_alloc_stream_info(struct xhci_hcd *xhci,
- 			num_stream_ctxs, &stream_info->ctx_array_dma,
- 			mem_flags);
- 	if (!stream_info->stream_ctx_array)
--		goto cleanup_ctx;
-+		goto cleanup_ring_array;
- 	memset(stream_info->stream_ctx_array, 0,
- 			sizeof(struct xhci_stream_ctx)*num_stream_ctxs);
+diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/unusual_devs.h
+index 5a6ca1460711..8c51bb66f16f 100644
+--- a/drivers/usb/storage/unusual_devs.h
++++ b/drivers/usb/storage/unusual_devs.h
+@@ -1294,12 +1294,6 @@ UNUSUAL_DEV( 0x090a, 0x1200, 0x0000, 0x9999,
+ 		USB_SC_RBC, USB_PR_BULK, NULL,
+ 		0 ),
  
-@@ -703,6 +703,11 @@ struct xhci_stream_info *xhci_alloc_stream_info(struct xhci_hcd *xhci,
- 	}
- 	xhci_free_command(xhci, stream_info->free_streams_command);
- cleanup_ctx:
-+	xhci_free_stream_ctx(xhci,
-+		stream_info->num_stream_ctxs,
-+		stream_info->stream_ctx_array,
-+		stream_info->ctx_array_dma);
-+cleanup_ring_array:
- 	kfree(stream_info->stream_rings);
- cleanup_info:
- 	kfree(stream_info);
+-UNUSUAL_DEV(0x090c, 0x1000, 0x1100, 0x1100,
+-		"Samsung",
+-		"Flash Drive FIT",
+-		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+-		US_FL_MAX_SECTORS_64),
+-
+ /* aeb */
+ UNUSUAL_DEV( 0x090c, 0x1132, 0x0000, 0xffff,
+ 		"Feiya",
 -- 
 2.35.1
 
