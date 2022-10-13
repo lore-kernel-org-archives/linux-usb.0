@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51310C43219
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:28:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 910C4C43217
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:29:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231173AbiJMA21 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Oct 2022 20:28:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58326 "EHLO
+        id S230399AbiJMA3v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Oct 2022 20:29:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231151AbiJMA10 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:27:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A73ECDCAC4;
-        Wed, 12 Oct 2022 17:25:10 -0700 (PDT)
+        with ESMTP id S231815AbiJMA3P (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:29:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D745129750;
+        Wed, 12 Oct 2022 17:26:47 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 222FB616BE;
-        Thu, 13 Oct 2022 00:24:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C323BC43470;
-        Thu, 13 Oct 2022 00:24:27 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A49EB61705;
+        Thu, 13 Oct 2022 00:26:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B1CDC433B5;
+        Thu, 13 Oct 2022 00:26:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620668;
-        bh=7sB32oWCb0KoLBpJX2Qr1UEhrUV8KsBVv2ewNAThFVE=;
+        s=k20201202; t=1665620807;
+        bh=HvREvjpTGd2nnADgQQw/gRZ+w1eD5zoouABPrVUj1hQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GET+Yaghhfg5QhxHPiOazJkkQ7SooZHWtp35UtWuUMammnMMFN8xewDplr1U3mYUR
-         Fi+5yQ1RwpHW+B/RJIP3dS+Lk5pO6SlxKqQX/SRJEiFOG2VeWlqG0ss/OKQf83nvZD
-         aCTe4uDoxshJAiamZ3ji9yhawYipXpsZICsS42w6EaSyYlTqw+QV/XnZ5jLUwImAh9
-         qc4dIqhLIvPOaSnotDI+cdyQRtNuuS4Lkm4+LMo5nxtQ4SNkkSdtzerOz5k/sjhEfH
-         oLMix5DgPRohtejsGr5YjR484MNHZiEhGFuDwq8ww3twZYoJCSzhCQSyJEV8xbrw6n
-         xn9w9ndw78SvA==
+        b=MP6C94WWISUBGZRgQvbFRpWnG6IVbfXauBSKt2aXNJIfeFl0gtmxFIGJS8O/o/SIE
+         brqHJk795oaD6jrkMIO2r71f1SFpAcbXX8zMtVWIuHFISQg4+lFY4e4SfiwfVuaQY8
+         vw7mIz7OzSjWrGYWnmbb8IK4AJ0N60vU7A4OsSC6FEMhK9vRph5f6jrklWNkg2Z8j+
+         9nr+u2/7rThBWe39X5TT7vomcF1VViovyUomFSz23Cbtlu/Tf/mDa4k7hFUPFxK0QZ
+         XkumG8mlN7rgMA6irs+9yi9UAdRG//RGH5HrQ5VFJUD2wZ3pYbRt3Q+KUjZQ33L9sh
+         p+wto4sbGg65A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Robin Guo <guoweibin@inspur.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, b-liu@ti.com,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 23/33] usb: musb: Fix musb_gadget.c rxstate overflow bug
-Date:   Wed, 12 Oct 2022 20:23:22 -0400
-Message-Id: <20221013002334.1894749-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 12/19] usb: musb: Fix musb_gadget.c rxstate overflow bug
+Date:   Wed, 12 Oct 2022 20:26:11 -0400
+Message-Id: <20221013002623.1895576-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221013002334.1894749-1-sashal@kernel.org>
-References: <20221013002334.1894749-1-sashal@kernel.org>
+In-Reply-To: <20221013002623.1895576-1-sashal@kernel.org>
+References: <20221013002623.1895576-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -72,7 +72,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/usb/musb/musb_gadget.c b/drivers/usb/musb/musb_gadget.c
-index fb806b33178a..c273eee35aaa 100644
+index 4622400ba4dd..8e83995fc3bd 100644
 --- a/drivers/usb/musb/musb_gadget.c
 +++ b/drivers/usb/musb/musb_gadget.c
 @@ -760,6 +760,9 @@ static void rxstate(struct musb *musb, struct musb_request *req)
