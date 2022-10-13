@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A2D8C4332F
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:20:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D54E6C4332F
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Oct 2022 00:20:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230106AbiJMAUK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Oct 2022 20:20:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38362 "EHLO
+        id S230185AbiJMAUY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Oct 2022 20:20:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230076AbiJMATY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:19:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19E3518C94F;
-        Wed, 12 Oct 2022 17:17:47 -0700 (PDT)
+        with ESMTP id S229927AbiJMATZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Oct 2022 20:19:25 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 048F8E6F74;
+        Wed, 12 Oct 2022 17:17:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5DDC8616B6;
-        Thu, 13 Oct 2022 00:17:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E83ECC433C1;
-        Thu, 13 Oct 2022 00:17:31 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 25CF0B81C48;
+        Thu, 13 Oct 2022 00:17:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 261DBC433C1;
+        Thu, 13 Oct 2022 00:17:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620252;
-        bh=6vbKmmz0ryFxKZLGyy2yrARzgTOezGzvxGBhsplRrh8=;
+        s=k20201202; t=1665620244;
+        bh=2fdLn/QEe5cJvzhuHn+H7MqMQb9Zx1z0xrlir9w8xYE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oRo1pKDVz9ZBeNjIMuirVSs5F/amDJEhUeRaysSgsR/IK3ht09seqvCDrg5A7x7E8
-         sZ4TVRFdd5e3/Uv7FGzugw84TDW3yy8EvyORLacNMkz/TJ+vFZv2usJmzdISnpJXR1
-         bYGJjWvAtvFgAK0f/R3Lv0ytdm7++W/exgIoKa7nSAGYaf0ZKXE3BPwS8BgXoBxSCB
-         VzcUGUY1CJ6K0ia7Mj7XPl9KEHmsQvXcgTMwqqmWxMajudh/ScvmElV7n7ItcOE20Y
-         LgG9EMLRPhdiUArxdFx4nRJk97CqhQw+p+YOTDrxUKNlE2uZXYoruXypeBvgQx0VR3
-         YJ8ALfbzPdfBA==
+        b=KWUrhJhJzn2w68A4hJxL18eLOdt2+OcWb0ph7p33aqrcLMydlfJXRHSIWXJ2EXCZl
+         PnQAV8qjS2ucrEdj3y6BEhNAOdPQmYsOCPlkD07PuKqBGgQQGQBckwe93xoA+nqq2r
+         ofjW3KurxkKGd516qsmPcmA59qIpvAMBGbdX3u8g+jF3+x3rLuFYUQgh1+CnkqsYNp
+         3XBujaVZof4d2qtrc43ffVMD8gdncYCThEL93rTRnQrZsFAnE8lYY4+CYDaEfibzEV
+         Nfr5gHsS5yE7C+xevB8tvTi3rJBrmtkJV+lp2WBbFgWCW5TSI8ju8CqQNYl5VjmzYB
+         vEHgqxI8B7XDw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     sunghwan jung <onenowy@gmail.com>,
+Cc:     Robin Guo <guoweibin@inspur.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, stern@rowland.harvard.edu,
-        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
-Subject: [PATCH AUTOSEL 6.0 42/67] Revert "usb: storage: Add quirk for Samsung Fit flash"
-Date:   Wed, 12 Oct 2022 20:15:23 -0400
-Message-Id: <20221013001554.1892206-42-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, b-liu@ti.com,
+        linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.0 38/67] usb: musb: Fix musb_gadget.c rxstate overflow bug
+Date:   Wed, 12 Oct 2022 20:15:19 -0400
+Message-Id: <20221013001554.1892206-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221013001554.1892206-1-sashal@kernel.org>
 References: <20221013001554.1892206-1-sashal@kernel.org>
@@ -51,57 +51,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: sunghwan jung <onenowy@gmail.com>
+From: Robin Guo <guoweibin@inspur.com>
 
-[ Upstream commit ad5dbfc123e6ffbbde194e2a4603323e09f741ee ]
+[ Upstream commit eea4c860c3b366369eff0489d94ee4f0571d467d ]
 
-This reverts commit 86d92f5465958752481269348d474414dccb1552,
-which fix the timeout issue for "Samsung Fit Flash".
+The usb function device call musb_gadget_queue() adds the passed
+request to musb_ep::req_list,If the (request->length > musb_ep->packet_sz)
+and (is_buffer_mapped(req) return false),the rxstate() will copy all data
+in fifo to request->buf which may cause request->buf out of bounds.
 
-But the commit affects not only "Samsung Fit Flash" but also other usb
-storages that use the same controller and causes severe performance
-regression.
+Fix it by add the length check :
+fifocnt = min_t(unsigned, request->length - request->actual, fifocnt);
 
- # hdparm -t /dev/sda (without the quirk)
- Timing buffered disk reads: 622 MB in  3.01 seconds = 206.66 MB/sec
-
- # hdparm -t /dev/sda (with the quirk)
- Timing buffered disk reads: 220 MB in  3.00 seconds =  73.32 MB/sec
-
-The commit author mentioned that "Issue was reproduced after device has
-bad block", so this quirk should be applied when we have the timeout
-issue with a device that has bad blocks.
-
-We revert the commit so that we apply this quirk by adding kernel
-paramters using a bootloader or other ways when we really need it,
-without the performance regression with devices that don't have the
-issue.
-
-Signed-off-by: sunghwan jung <onenowy@gmail.com>
-Link: https://lore.kernel.org/r/20220913114913.3073-1-onenowy@gmail.com
+Signed-off-by: Robin Guo <guoweibin@inspur.com>
+Link: https://lore.kernel.org/r/20220906102119.1b071d07a8391ff115e6d1ef@inspur.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/storage/unusual_devs.h | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/usb/musb/musb_gadget.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/unusual_devs.h
-index 4993227ab293..20dcbccb290b 100644
---- a/drivers/usb/storage/unusual_devs.h
-+++ b/drivers/usb/storage/unusual_devs.h
-@@ -1275,12 +1275,6 @@ UNUSUAL_DEV( 0x090a, 0x1200, 0x0000, 0x9999,
- 		USB_SC_RBC, USB_PR_BULK, NULL,
- 		0 ),
+diff --git a/drivers/usb/musb/musb_gadget.c b/drivers/usb/musb/musb_gadget.c
+index daada4b66a92..6704a62a1665 100644
+--- a/drivers/usb/musb/musb_gadget.c
++++ b/drivers/usb/musb/musb_gadget.c
+@@ -760,6 +760,9 @@ static void rxstate(struct musb *musb, struct musb_request *req)
+ 			musb_writew(epio, MUSB_RXCSR, csr);
  
--UNUSUAL_DEV(0x090c, 0x1000, 0x1100, 0x1100,
--		"Samsung",
--		"Flash Drive FIT",
--		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
--		US_FL_MAX_SECTORS_64),
--
- /* aeb */
- UNUSUAL_DEV( 0x090c, 0x1132, 0x0000, 0xffff,
- 		"Feiya",
+ buffer_aint_mapped:
++			fifo_count = min_t(unsigned int,
++					request->length - request->actual,
++					(unsigned int)fifo_count);
+ 			musb_read_fifo(musb_ep->hw_ep, fifo_count, (u8 *)
+ 					(request->buf + request->actual));
+ 			request->actual += fifo_count;
 -- 
 2.35.1
 
