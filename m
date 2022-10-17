@@ -2,88 +2,115 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB2EFC4332F
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Oct 2022 15:12:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F132C433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Oct 2022 16:13:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230444AbiJQPMg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Oct 2022 11:12:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43354 "EHLO
+        id S230390AbiJQQNm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Oct 2022 12:13:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230259AbiJQPMf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Oct 2022 11:12:35 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BE532A728;
-        Mon, 17 Oct 2022 08:12:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F03E5611C3;
-        Mon, 17 Oct 2022 14:57:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B22E7C433D7;
-        Mon, 17 Oct 2022 14:57:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1666018647;
-        bh=VJTE+2hp8fGyRxB0IEGDftCi/XVK1bxYcq7vcLg9Iko=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NchuVzu6vD+1pn9aAjCRUEmSnbOA1iORJCncsGjYky9RFcFuvrw+8x7EIjrMNWk2f
-         ch1x+qqTLDDjBbkVOrCeRkZ1dY3cvb7Q6TQobs8Tt8V/SBq0noKxulQA/UL356S634
-         zVzRMJlaUQUrslrK/vSE1btDohHNBiiUvDxkFmbA=
-Date:   Mon, 17 Oct 2022 16:57:23 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Pavel Machek <pavel@denx.de>
-Cc:     Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org, sunghwan jung <onenowy@gmail.com>,
-        stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net
-Subject: Re: [PATCH AUTOSEL 4.9 08/10] Revert "usb: storage: Add quirk for
- Samsung Fit flash"
-Message-ID: <Y01tU0BLnON2zfRz@kroah.com>
-References: <20221013002802.1896096-1-sashal@kernel.org>
- <20221013002802.1896096-8-sashal@kernel.org>
- <20221017124632.GA13227@duo.ucw.cz>
+        with ESMTP id S231208AbiJQQNd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Oct 2022 12:13:33 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 095986D568
+        for <linux-usb@vger.kernel.org>; Mon, 17 Oct 2022 09:13:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666023213; x=1697559213;
+  h=message-id:date:mime-version:to:cc:from:references:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=SLSxHWX/H3XYuCgqmcmwpNKC4MgfnOBKYpz7CE/2n1c=;
+  b=aLaE/YVPUSMBOIJmJN0V8+fmIE33/SLcSrhUbegUlAjSv4n42f8wAeqY
+   pVynZjQzo0iQFIRGbMubLB2EosAv07dx9GLYicQvubzJruGuet8xgZ5Wv
+   wzoq/navBuMTT0Hs7rE9pVZLd3AHKwtq6ZT18UVVojg2pxWtLsKM3oW5S
+   MV79mOJ/c9SfTekLRq6KWoRdnBVMPmcIxwdzIMjaBSs6U0/GWWyPsu7e/
+   83XacQdgEGxoetnQ3+KxXKLNVsU47EuOz0flCaj/0TmuyopVoW7+w9Cie
+   mg0VLg9/tFgHwAAZ5p7QoZI9XZm4XOVsKNk0AlvU5WGcskb7Oei+Ilk8g
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="285567152"
+X-IronPort-AV: E=Sophos;i="5.95,192,1661842800"; 
+   d="scan'208";a="285567152"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 09:11:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="733215534"
+X-IronPort-AV: E=Sophos;i="5.95,192,1661842800"; 
+   d="scan'208";a="733215534"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmsmga002.fm.intel.com with ESMTP; 17 Oct 2022 09:11:07 -0700
+Message-ID: <e56eb603-56b0-373b-b52b-c0098d669b73@linux.intel.com>
+Date:   Mon, 17 Oct 2022 19:12:36 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221017124632.GA13227@duo.ucw.cz>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Content-Language: en-US
+To:     =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?= 
+        <marmarek@invisiblethingslab.com>
+Cc:     linux-usb@vger.kernel.org
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+References: <Yw6r7FxMCCYSzfTk@mail-itl> <Y0i5h9Tx/1mxvh9A@mail-itl>
+ <7eaf9861-5571-584f-b124-fa7076920090@linux.intel.com>
+ <Y0nGsKipsnl3gtrp@mail-itl>
+Subject: Re: list_del corruption (NULL pointer dereference) on xhci-pci unbind
+In-Reply-To: <Y0nGsKipsnl3gtrp@mail-itl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Oct 17, 2022 at 02:46:32PM +0200, Pavel Machek wrote:
-> Hi!
+On 14.10.2022 23.29, Marek Marczykowski-Górecki wrote:
+> On Fri, Oct 14, 2022 at 07:02:13PM +0300, Mathias Nyman wrote:
+>> This whole software bandwidth issue should only be visible in Intel
+>> Panther Point PCH xHC (Ivy bridge)
 > 
-> > From: sunghwan jung <onenowy@gmail.com>
-> > 
-> > [ Upstream commit ad5dbfc123e6ffbbde194e2a4603323e09f741ee ]
-> > 
-> > This reverts commit 86d92f5465958752481269348d474414dccb1552,
-> > which fix the timeout issue for "Samsung Fit Flash".
-> > 
-> > But the commit affects not only "Samsung Fit Flash" but also other usb
-> > storages that use the same controller and causes severe performance
-> > regression.
-> > 
-> >  # hdparm -t /dev/sda (without the quirk)
-> >  Timing buffered disk reads: 622 MB in  3.01 seconds = 206.66 MB/sec
-> > 
-> >  # hdparm -t /dev/sda (with the quirk)
-> >  Timing buffered disk reads: 220 MB in  3.00 seconds =  73.32 MB/sec
-> > 
-> > The commit author mentioned that "Issue was reproduced after device has
-> > bad block", so this quirk should be applied when we have the timeout
-> > issue with a device that has bad blocks.
-> > 
-> > We revert the commit so that we apply this quirk by adding kernel
-> > paramters using a bootloader or other ways when we really need it,
-> > without the performance regression with devices that don't have the
-> > issue.
+> It is indeed Ivy Bridge platform.
 > 
-> Re-introducing timeouts for users in middle of stable series... may
-> not be nice. Is there better fix in a follow up to this that was not
-> backported?
+>> Endpoints should be deleted from bw_table list, and xhci_virt_devices
+>> should be freed already before xhci_mem_cleanup() is called if all goes well.
+>>
+>> Normally endpoints are deleted from bw_table list during usb_disconnect()
+>>
+>> usb_disconnect()
+>>    ...
+>>    usb_hcd_alloc_bandwidth(dev, NULL, NULL, NULL);
+>>      hcd->driver->drop_endpoint()  // flags endpoint to be dropped
+>>      hcd->driver->check_bandwidth()
+>>      ->xhci_check_bandwidth()
+>>        xhci_configure_endpoint()
+>>          xhci_reserve_bandwidth()  // only for Panther Point
+>>            xhci_drop_ep_from_interval_table()
+>>
+>> But to avoid queuing new commands to a host in XHCI_STATE_DYING or
+>> XHCI_STATE_REMOVING state we return early, not calling xhci_reserve_bandwidth().
+> 
+> Indeed when I remove that early return in xhci_check_bandwidth(), the
+> crash is gone. What's the proper solution?
+> 
 
-No.
+We could probably just delete the endpoint from the bw list when freeing the device and
+endpoints. Currently we just print that "endpoint x not removed from BW list!" message
 
-thanks,
+does the below help?
 
-greg k-h
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 9e56aa28efcd..2adc0c2b470c 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -894,10 +894,12 @@ void xhci_free_virt_device(struct xhci_hcd *xhci, int slot_id)
+                  * We can't drop them anyway, because the udev might have gone
+                  * away by this point, and we can't tell what speed it was.
+                  */
+-               if (!list_empty(&dev->eps[i].bw_endpoint_list))
++               if (!list_empty(&dev->eps[i].bw_endpoint_list)) {
++                       list_del_init(&dev->eps[i].bw_endpoint_list);
+                         xhci_warn(xhci, "Slot %u endpoint %u "
+                                         "not removed from BW list!\n",
+                                         slot_id, i);
++               }
+         }
+         /* If this is a hub, free the TT(s) from the TT list */
+         xhci_free_tt_info(xhci, dev, slot_id);
+
+Thanks
+-Mathias
