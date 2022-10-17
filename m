@@ -2,105 +2,110 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 334D1C433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Oct 2022 14:37:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3B22C4332F
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Oct 2022 15:08:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230303AbiJQOhH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Oct 2022 10:37:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45722 "EHLO
+        id S230434AbiJQPIX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Oct 2022 11:08:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230041AbiJQOhG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Oct 2022 10:37:06 -0400
-Received: from titan5.planetwebservers.net (titan5.planetwebservers.net [51.222.33.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6186E60CB4
-        for <linux-usb@vger.kernel.org>; Mon, 17 Oct 2022 07:37:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lockie.ca;
-        s=default; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:
-        References:In-Reply-To:Message-ID:Cc:To:From:Date:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=Q49K2CcSkJh55GGbhyKI2uSvI95q52ryOVs+Tys93QU=; b=My5CAt1gAPfOI0zw6zOlaxIBBT
-        /UGHfjiVz4QWyGGdighULLYR6gY3nsotWonmp8l/1s1nodJxwGSqp2o+Ge4qCqo0LpjfVkzrQBb7s
-        zLyEIlFvI7vLZm1FObU1S5DlVmfQ/dqz5YXOH8gXWbjIsn6N6jjFZkQZFXA64iWKa/ycWzPR4IMMr
-        JlJFYxBSz5GuTEw93ouYgevn95pSIW3UdOEamjAemW5RiwS7/shhVGp117c5RBs1zwugo9LEp/QQK
-        o0HDhhd8EiptAScGEAA/y0Y7IHAfEdTkDLnPI5FbHoUlot0ceyrhWfB4anIcc9o0DqYAiRKLfLbS5
-        /C8SxImw==;
-Received: from [66.79.242.44] (port=44931 helo=dummy.faircode.eu)
-        by titan.planetwebservers.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.95)
-        (envelope-from <bjlockie@lockie.ca>)
-        id 1okREe-0007OW-R8;
-        Tue, 18 Oct 2022 01:37:04 +1100
-Date:   Mon, 17 Oct 2022 14:36:55 +0000 (UTC)
-From:   James <bjlockie@lockie.ca>
-To:     Greg KH <gregkh@linuxfoundation.org>
+        with ESMTP id S231626AbiJQPIJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Oct 2022 11:08:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1CC11CB29
+        for <linux-usb@vger.kernel.org>; Mon, 17 Oct 2022 08:07:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3938B611AD
+        for <linux-usb@vger.kernel.org>; Mon, 17 Oct 2022 15:01:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32150C433C1;
+        Mon, 17 Oct 2022 15:01:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1666018891;
+        bh=lRedT7GTNvkgvG4IxutUJlPo4iQDn8kOOiFYrz1u3Hs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=B/z5M9EC7rH4dJIMD13+mTbSyKA5CUR2chubOsWHU7cP+6vvzI7erwmtKhm7Svd2T
+         X4d7F1xNi0hrAmr+XdpO+Nzhqi05y/FVfIF3PG9hdbxQW/iHvQ3ctfM3S5sYumBrkK
+         kY+y7nMm5rNIylYrdq3PtfJjCUnNK4SDf1tkjYUk=
+Date:   Mon, 17 Oct 2022 17:01:28 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     James <bjlockie@lockie.ca>
 Cc:     linux-usb@vger.kernel.org
-Message-ID: <7cb0f51d-6ad1-488d-a989-08eb6727e9b7@lockie.ca>
-In-Reply-To: <Y0zheI+RSeLNulpx@kroah.com>
-References: <8526b38d-64b2-05b0-48e5-a54936f6332f@lockie.ca> <Y0zheI+RSeLNulpx@kroah.com>
 Subject: Re: is usb.ids used anymore?
+Message-ID: <Y01uSKYMXBkZVgOJ@kroah.com>
+References: <8526b38d-64b2-05b0-48e5-a54936f6332f@lockie.ca>
+ <Y0zheI+RSeLNulpx@kroah.com>
+ <7cb0f51d-6ad1-488d-a989-08eb6727e9b7@lockie.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <7cb0f51d-6ad1-488d-a989-08eb6727e9b7@lockie.ca>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - titan.planetwebservers.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lockie.ca
-X-Get-Message-Sender-Via: titan.planetwebservers.net: authenticated_id: bjlockie@lockie.ca
-X-Authenticated-Sender: titan.planetwebservers.net: bjlockie@lockie.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-From-Rewrite: unmodified, already matched
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7cb0f51d-6ad1-488d-a989-08eb6727e9b7@lockie.ca>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On Mon, Oct 17, 2022 at 02:36:55PM +0000, James wrote:
+> 
+> >> but I didn't receive a confirmation to the email and the ids show up in the
+> >> web interface but there are no names associated.
+> >
+> > What do you mean by this?
+> 
+> I tried to add:
+> 7961 MT7921AU 802.11a/b/g/n/ac/ax Wireless Adapter
+> 
+> 7961 shows up but the description/name is blank on:
+> https://usb-ids.gowdy.us/read/UD/0e8d
+> 
+> I also tried to add 0608  the 7921k USB Bluetooth portion of a pci card.
 
->> but I didn't receive a confirmation to the email and the ids show up in =
-the
->> web interface but there are no names associated.
->
-> What do you mean by this?
+I don't understand, how is a USB device part of a PCI device?
 
-I tried to add:
-7961 MT7921AU 802.11a/b/g/n/ac/ax Wireless Adapter
+What does 'lsusb' show for these devices?
 
-7961 shows up but the description/name is blank on:
-https://usb-ids.gowdy.us/read/UD/0e8d
+> Someone else added 2870 but it doesn't show a name either.
 
-I also tried to add 0608=C2=A0 the 7921k USB Bluetooth portion of a pci car=
-d.
+Is there a name in the device itself?  That's the best place for this
+information, and is why USB added strings to the configuration
+descriptors, so that no external tool should ever really be needed.
 
-Someone else added 2870 but it doesn't show a name either.
+> I expected to get an email back acknowledging my diff submission.
+> I did it on the website too.
 
-I expected to get an email back acknowledging my diff submission.
-I did it on the website too.
+I do not think emails are sent back, but it's been a while since I last
+looked at it.
 
+> >> The link to the maintainer is no longer valid. :-(
+> >
+> > What link?
+> 
+> It says "This site maintained by Stephen J. Gowdy." and has a link to http://cern.ch/gowdy which is 404 not found.
 
->
->> The link to the maintainer is no longer valid. :-(
->
-> What link?
+There might be an email address on the file itself if you really want to
+contact them.
 
-It says "This site maintained by Stephen J. Gowdy." and has a link to http:=
-//cern.ch/gowdy which is 404 not found.
+> >> Wouldn't it be easier to keep in a github if it is still used?
+> >
+> > Why is github easier?
+> 
+> It tracks the commits of who added what.
+> I guess it would be harder for people who haven't used git.
+> 
+> 
+> Should it say:
+> 802.11a/b/g/n/ac/ax Wireless
+> or should it say:
+> Wifi 6
+> ?
 
+I have no idea, what does the device itself say?
 
->
->> Wouldn't it be easier to keep in a github if it is still used?
->
-> Why is github easier?
+Again, there is no real need to add new devices to this file, unless
+the strings in the device are somehow wrong and you want the userspace
+tools to display the updated version instead.
 
-It tracks the commits of who added what.
-I guess it would be harder for people who haven't used git.
+thanks,
 
-
-Should it say:
-802.11a/b/g/n/ac/ax Wireless
-or should it say:
-Wifi 6
-?
+greg k-h
