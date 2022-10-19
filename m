@@ -2,82 +2,117 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDC9CC4332F
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Oct 2022 15:05:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9D98C433FE
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Oct 2022 15:10:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230435AbiJSPFw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Oct 2022 11:05:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39086 "EHLO
+        id S231976AbiJSPKT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Oct 2022 11:10:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230442AbiJSPER (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Oct 2022 11:04:17 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B6B413FDDA;
-        Wed, 19 Oct 2022 07:59:04 -0700 (PDT)
-From:   John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1666191372;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ROOYEsR0MhxheCxKtRPcb2mfw4k8DWEDO6Xw87lE788=;
-        b=dj7K4xySpq7whNrvoUhtROBd4luyoKbpg6xTwFwhdIXZhbdt5NpgczLROroEXs3PgPR5nV
-        6HyH+7+1+Yrdno3e7XSvm+Rjun5P+yUigjsQD0kip44MepJ/Q022Y5oOoN2gaVaa8YRfl2
-        6KkfTfDFLG8D29GLh1KJj/8usWDl8staheqlg16yBFk55WoMgh3s8R3HdP3566EXWHdGH6
-        o7Jh2LwVPpRUpZwQ1KaXB7R3RaCUqh3kXswyT6GrZvNhezCCaXRsvfm77BMTZHoEQMPfxJ
-        d6S8ayitsuWXl06xJ3vmxP14O6b/Blx/0zYuHK1UiScgBw0QdiyNqqvsWRpJLA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1666191372;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ROOYEsR0MhxheCxKtRPcb2mfw4k8DWEDO6Xw87lE788=;
-        b=ryuSpo1BnIE5ZnNgWQJ91gufZbr2BMikTU+gIGl5WJJn0EfZEC0dlR7JSp8t5SfbRRzeKa
-        qe9zWCaaaGZeIqAA==
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH printk v2 18/38] usb: early: xhci-dbc: use console_is_enabled()
-Date:   Wed, 19 Oct 2022 17:01:40 +0206
-Message-Id: <20221019145600.1282823-19-john.ogness@linutronix.de>
-In-Reply-To: <20221019145600.1282823-1-john.ogness@linutronix.de>
-References: <20221019145600.1282823-1-john.ogness@linutronix.de>
+        with ESMTP id S232667AbiJSPJe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Oct 2022 11:09:34 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D72041981;
+        Wed, 19 Oct 2022 08:03:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666191784; x=1697727784;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=M5avbZVzN3hkB86Ed3UZwrL75aggqypPsv/GEymhqa0=;
+  b=BMRGLnU3DFO3j9EEawe3vJecObozbMcIOlK2ZNLPGhmBrgHku4Kw8UdE
+   rV4FH5oMVXkrTS4Q/RkuLFNoihUs20pqenvQ6ErB+FWM6j58qbHQr/ZiJ
+   1MQrLapNPtJIWNAgeYBvOfJeMGEoGg5tGq5WQgp17DrX7nTwjHBOxnotW
+   8pCvleKDigHqi9H+SvC7dxMvFSU56HJXLtNRhbDk7ZjFXrREa7zqIoKWN
+   SOhPaHywuANWEaJSpjpiUTHKShKT/hUrIaEsG5aBtCxIrjHv9wjSpXNZ1
+   n8SoPmtx0E8lJ96jVGiHAMkfuax6eV0u+04YKuCal2L48jtlGKTsg8gB+
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="286826908"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; 
+   d="scan'208";a="286826908"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2022 08:02:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="771825861"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; 
+   d="scan'208";a="771825861"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 19 Oct 2022 08:02:45 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 19 Oct 2022 18:02:44 +0300
+Date:   Wed, 19 Oct 2022 18:02:44 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] thunderbolt: ACPI: Use the helper fwnode_find_reference()
+Message-ID: <Y1ARlOfUYW7OpczT@kuha.fi.intel.com>
+References: <20221019142854.27364-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221019142854.27364-1-heikki.krogerus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Replace (console->flags & CON_ENABLED) usage with console_is_enabled().
+On Wed, Oct 19, 2022 at 05:28:54PM +0300, Heikki Krogerus wrote:
+> Replacing the direct fwnode_property_get_reference_args()
+> call will this wrapper function.
+> 
+> No functional changes intended.
+> 
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> ---
+>  drivers/thunderbolt/acpi.c | 15 ++++-----------
+>  1 file changed, 4 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/thunderbolt/acpi.c b/drivers/thunderbolt/acpi.c
+> index 7a8adf5ad5a09..48ac227e6d8a0 100644
+> --- a/drivers/thunderbolt/acpi.c
+> +++ b/drivers/thunderbolt/acpi.c
+> @@ -15,24 +15,17 @@ static acpi_status tb_acpi_add_link(acpi_handle handle, u32 level, void *data,
+>  				    void **return_value)
+>  {
+>  	struct acpi_device *adev = acpi_fetch_acpi_dev(handle);
+> -	struct fwnode_reference_args args;
+>  	struct fwnode_handle *fwnode;
+>  	struct tb_nhi *nhi = data;
+>  	struct pci_dev *pdev;
+>  	struct device *dev;
+> -	int ret;
+> -
+> -	if (!adev)
+> -		return AE_OK;
 
-Signed-off-by: John Ogness <john.ogness@linutronix.de>
----
- drivers/usb/early/xhci-dbc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Oh, I'm sorry, I did not mean to remove that check. I'll resend.
 
-diff --git a/drivers/usb/early/xhci-dbc.c b/drivers/usb/early/xhci-dbc.c
-index bfb7e2b85299..b1a9c393160b 100644
---- a/drivers/usb/early/xhci-dbc.c
-+++ b/drivers/usb/early/xhci-dbc.c
-@@ -927,7 +927,7 @@ void __init early_xdbc_register_console(void)
- 
- static void xdbc_unregister_console(void)
- {
--	if (early_xdbc_console.flags & CON_ENABLED)
-+	if (console_is_enabled(&early_xdbc_console))
- 		unregister_console(&early_xdbc_console);
- }
- 
+> -	fwnode = acpi_fwnode_handle(adev);
+> -	ret = fwnode_property_get_reference_args(fwnode, "usb4-host-interface",
+> -						 NULL, 0, 0, &args);
+> -	if (ret)
+> +	fwnode = fwnode_find_reference(acpi_fwnode_handle(adev), "usb4-host-interface", 0);
+> +	if (IS_ERR(fwnode))
+>  		return AE_OK;
+>  
+>  	/* It needs to reference this NHI */
+> -	if (dev_fwnode(&nhi->pdev->dev) != args.fwnode)
+> +	if (dev_fwnode(&nhi->pdev->dev) != fwnode)
+>  		goto out_put;
+>  
+>  	/*
+> @@ -100,7 +93,7 @@ static acpi_status tb_acpi_add_link(acpi_handle handle, u32 level, void *data,
+>  	}
+>  
+>  out_put:
+> -	fwnode_handle_put(args.fwnode);
+> +	fwnode_handle_put(fwnode);
+>  	return AE_OK;
+>  }
+>  
+
+thanks,
+
 -- 
-2.30.2
-
+heikki
