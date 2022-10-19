@@ -2,52 +2,53 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A87B3C4332F
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Oct 2022 13:47:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 091DFC433FE
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Oct 2022 13:48:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233501AbiJSNrT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Oct 2022 09:47:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56792 "EHLO
+        id S233594AbiJSNsM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Oct 2022 09:48:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232971AbiJSNqH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Oct 2022 09:46:07 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C27AEF5B9;
-        Wed, 19 Oct 2022 06:31:59 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id z97so25267200ede.8;
-        Wed, 19 Oct 2022 06:31:59 -0700 (PDT)
+        with ESMTP id S233430AbiJSNq6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Oct 2022 09:46:58 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 134B8172506;
+        Wed, 19 Oct 2022 06:32:04 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id q9so40023218ejd.0;
+        Wed, 19 Oct 2022 06:32:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FpZmcn2cTD/NH3e8oQBnzwHR3E7WtRpt5UObiqSdGoY=;
-        b=KprqBJRE/SGTZhmUZri4mNeE9YuwwHHZCJpYeclhGOKTTjX4t/I2++rxLhxZ/Ng0Tx
-         Dj4jCN4ziikaQzOS0MiqJ6+wSchWXQlBlVb0u/spRsSq0KR2UDqzXCfkf/sow2cyPHrX
-         0Tsc3Pa6hs47vFDBCtwnvyRYwxByXWDVpG2IIXjLWMH3InkB3nxwJx53waPbSotJV36p
-         faPSNNjD+HPf5ge0cCFEkxQlTPU9CbuchO46QorySFOx7EYQdrlzKQoxBp+Nm/WwjnTc
-         HmfQ9xq6E9KtmyapGLAfaPfOtAMWG719ISIdtvK9rB0BaVSzhwzXDOY/eqPj3vAfo6jZ
-         S6ZQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=44Y6rKJn569B0Ledh04VG4kfOWeXNWHzbX7P9B3WEhs=;
+        b=dpJqkjKciYIviPCq4WSl7PWBLe7lOArO2MMC+weZcyz5airKWp/mTA0/j4aFZ+OTpm
+         mfaalgeVGpsmsjyj7orwCLzFEtmADZxQ57c/kyU4C3teaKSV1JwEK01GXYHZUPjvWPC1
+         ER7BCxNiM/9bLBm6aEnyF2wbiSSghzKNEXRpwtm+CzQ8nTVUBBtNAlL4rJFinH6vAXk5
+         MpEGKcrrWcwgisqfq9jbCT+mfygernhGHav1n+ndLYwLweMHDDsdhvTpmFaoLgPlQD60
+         ZDTlvel7H8ctzdUuKrLTcwVerslnnDbPutYFqjCSq3eFgfUrR/NMFxMqBWcjOorNQCYE
+         HS/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FpZmcn2cTD/NH3e8oQBnzwHR3E7WtRpt5UObiqSdGoY=;
-        b=YGnx8f1vRtBnFx/Bg3VBdVlt2dDJ63vwIkhgTNUc9WIRZTRTshXmZTWlf89SirDFpH
-         ZPDDeB/N1YSGg5DSpMWvqLUvASk/ITO+wZjAc6fJlafCDuZ0MYKPo0Mre60UOCaP1/xn
-         q0U+Uw1ZOMnka4jPAi4x1LRncT81C8hODJcz0cbcXsAU73FHP1Ev/kI+CDtar6WGaZRi
-         UlMzIP2S/VKZtGu29A0DjS0sw1AY9UyQVmzx63/DmPFbSfGdfLql3B3szLopuPpAuAti
-         qGbWp2fsJ9QGf1RnFkXvC/C7BtLtQ8w/97jr1ALxLQ8693jOEVmAMtgHtyJQzQGgSwcU
-         CI9Q==
-X-Gm-Message-State: ACrzQf2nFCW0rC66iaaf0O4JFGPc9cgvdcR2+UkZ9AWWe1rrzMfV652X
-        QwM6RhvWeGWmFaRRBWD6Q4Q=
-X-Google-Smtp-Source: AMsMyM7rjlStMfKaq7jnq1Q9XwOzTya1m2gh1pfsMtivYdp8gPVPN7mlHvxJ4K4WxSseZVrgogrtlg==
-X-Received: by 2002:aa7:c78e:0:b0:456:c524:90ec with SMTP id n14-20020aa7c78e000000b00456c52490ecmr7488174eds.192.1666186295800;
-        Wed, 19 Oct 2022 06:31:35 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=44Y6rKJn569B0Ledh04VG4kfOWeXNWHzbX7P9B3WEhs=;
+        b=h+2pToYwWy3/klFsTThv8jRfd7DVbuQFlsYtdKrWXk7iyJmT3+jB1x0jClwXHpdWfh
+         RG5tHm5oQ9lnusDD3zmgT/Zr2HKhZGlhzU8Yyt5Q4VtgE6TZTyg4xPaOBA3IIOQBRgXf
+         64WZVFAO5rADpmEDwf+Ve+gpc6IxilmMPgNjd7agN6gh8BNNklJxDq2VEf4bnNCd9RVS
+         IanGYZp6BIwYOxC6EXxH4iDaoXe7ABCuQABvkgK8GH1RHWuHaZUTc1sQg1vi8Hu2u4Rc
+         NbyUf3ipfbZ6akfomj7WkjBdeyxDcGe8vdiVdbNMpG4moMUXBUOFGXNkiRoP0vqpYPGw
+         4QXQ==
+X-Gm-Message-State: ACrzQf1ltOgyaaE61hTOUCsiRr4X6IApDHnuA4rr4U0SttuTQnJQOr3F
+        5oQmNbu9jRt1nA50hJLDdSnl7BGX4OXndQ==
+X-Google-Smtp-Source: AMsMyM7ZSvihs4kkMZ0T2RSCSUCIRV9VOxcSTtatBBCOxc+sD80A8oi0OmPEAoNU4cJLNT40TtRsrA==
+X-Received: by 2002:a17:907:6288:b0:78d:ab30:c374 with SMTP id nd8-20020a170907628800b0078dab30c374mr6853882ejc.266.1666186305491;
+        Wed, 19 Oct 2022 06:31:45 -0700 (PDT)
 Received: from ThinkStation-P340.. (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
-        by smtp.gmail.com with ESMTPSA id o14-20020a170906768e00b0077a8fa8ba55sm8894792ejm.210.2022.10.19.06.31.35
+        by smtp.gmail.com with ESMTPSA id o14-20020a170906768e00b0077a8fa8ba55sm8894792ejm.210.2022.10.19.06.31.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Oct 2022 06:31:35 -0700 (PDT)
+        Wed, 19 Oct 2022 06:31:45 -0700 (PDT)
 From:   Daniele Palmas <dnlplm@gmail.com>
 To:     =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
         David Miller <davem@davemloft.net>,
@@ -56,67 +57,66 @@ To:     =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
         Eric Dumazet <edumazet@google.com>
 Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
         Daniele Palmas <dnlplm@gmail.com>
-Subject: [PATCH net-next 0/2] net: usb: qmi_wwan implement tx packets aggregation
-Date:   Wed, 19 Oct 2022 15:25:01 +0200
-Message-Id: <20221019132503.6783-1-dnlplm@gmail.com>
+Subject: [PATCH net-next 2/2] Documentation: ABI: sysfs-class-net-qmi: document tx aggregation files
+Date:   Wed, 19 Oct 2022 15:25:03 +0200
+Message-Id: <20221019132503.6783-3-dnlplm@gmail.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20221019132503.6783-1-dnlplm@gmail.com>
+References: <20221019132503.6783-1-dnlplm@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello Bjørn and all,
+Add documentation for:
 
-this patchset implements and document tx qmap packets aggregation in qmi_wwan.
+/sys/class/net/<iface>/qmi/tx_max_datagrams_mux
+/sys/class/net/<iface>/qmi/tx_max_size_mux
 
-Low-cat Thread-x based modem are not capable of properly reaching the maximum
-allowed throughput both in tx and rx during a bidirectional test if tx packets
-aggregation is not enabled.
+related to the qmap tx aggregation feature.
 
-I verified this problem by using a MDM9207 Cat. 4 based modem (50Mbps/150Mbps
-max throughput). What is actually happening is pictured at
-https://drive.google.com/file/d/1xuAuDBfBEIM3Cdg2zHYQJ5tdk-JkfQn7/view?usp=sharing
+Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
+---
+ Documentation/ABI/testing/sysfs-class-net-qmi | 28 +++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-When rx and tx flows are tested singularly there's no issue in tx and minor
-issues in rx (a few spikes). When there are concurrent tx and rx flows, tx
-throughput has an huge drop. rx a minor one, but still present.
-
-The same scenario with tx aggregation enabled is pictured at
-https://drive.google.com/file/d/1Kw8TVFLVgr31o841fRu4fuMX9DNZqJB5/view?usp=sharing
-showing a regular graph.
-
-This issue does not happen with high-cat modems (e.g. SDX20), or at least it
-does not happen at the throughputs I'm able to test currently: maybe the same
-could happen when moving close to the maximum rates supported by those modems.
-Anyway, having the tx aggregation enabled should not hurt.
-
-It is interesting to note that, for what I can understand, rmnet too does not
-support tx aggregation.
-
-I'm aware that rmnet should be the preferred way for qmap, but I think there's
-still value in adding this feature to qmi_wwan qmap implementation since there
-are in the field many users of that.
-
-Moreover, having this in mainline could simplify backporting for those who are
-using qmi_wwan qmap feature but are stuck with old kernel versions.
-
-I'm also aware of the fact that sysfs files for configuration are not the
-preferred way, but it would feel odd changing the way for configuring the driver
-just for this feature, having it different from the previous knobs.
-
-Thanks,
-Daniele
-
-Daniele Palmas (2):
-  net: usb: qmi_wwan: implement qmap uplink tx aggregation
-  Documentation: ABI: sysfs-class-net-qmi: document tx aggregation files
-
- Documentation/ABI/testing/sysfs-class-net-qmi |  28 ++
- drivers/net/usb/qmi_wwan.c                    | 242 +++++++++++++++++-
- 2 files changed, 266 insertions(+), 4 deletions(-)
-
+diff --git a/Documentation/ABI/testing/sysfs-class-net-qmi b/Documentation/ABI/testing/sysfs-class-net-qmi
+index 47e6b9732337..9c69ffa64b51 100644
+--- a/Documentation/ABI/testing/sysfs-class-net-qmi
++++ b/Documentation/ABI/testing/sysfs-class-net-qmi
+@@ -74,3 +74,31 @@ Description:
+ 
+ 		'Pass-through' mode can be enabled when the device is in
+ 		'raw-ip' mode only.
++
++What:		/sys/class/net/<iface>/qmi/tx_max_datagrams_mux
++Date:		October 2022
++KernelVersion:	6.2
++Contact:	Daniele Palmas <dnlplm@gmail.com>
++Description:
++		Unsigned integer. Default: 1, meaning tx aggregation disabled
++
++		The maximum number of QMAP aggregated tx packets.
++
++		This value is returned by the modem when calling the QMI request
++		wda set data format with QMAP tx aggregation enabled: userspace
++		should take care of setting the returned value to this file.
++
++What:		/sys/class/net/<iface>/qmi/tx_max_size_mux
++Date:		October 2022
++KernelVersion:	6.2
++Contact:	Daniele Palmas <dnlplm@gmail.com>
++Description:
++		Unsigned integer
++
++		The maximum size in bytes of a block of QMAP aggregated tx packets.
++
++		This value is returned by the modem when calling the QMI request
++		wda set data format with QMAP tx aggregation enabled: userspace
++		should take care of setting the returned value to this file.
++
++		This value is not considered if tx_aggregation is disabled.
 -- 
 2.37.1
 
