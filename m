@@ -2,117 +2,285 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4083C4332F
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Oct 2022 15:02:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6C95C4167E
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Oct 2022 15:03:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231584AbiJSPCU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Oct 2022 11:02:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42080 "EHLO
+        id S231842AbiJSPDB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Oct 2022 11:03:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231376AbiJSPCF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Oct 2022 11:02:05 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 465C31B8679
-        for <linux-usb@vger.kernel.org>; Wed, 19 Oct 2022 07:56:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666191382; x=1697727382;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=SJbDBIeDgAEEIfDcDA+mqFqKBIRESFBYYvf/x7mE/IU=;
-  b=TMbxZCS8zbqc+FwIu4xSIKkwHNortYAWbcG26fFL+RuN+8aROPGq8oai
-   aGIVN7yQhT+eVOi19UpgphbAAddprDrewTbmtLl1vgPIwrs9Qgcn+HII4
-   XWM5rCoAqbIU/Nk1YRsLDVW8w11MyEFu/YPm9Sc6/hvWLdrf51Jg41+84
-   GT3r2Ef/RSz5eZfx6jxPLrP8dOGZZvavN0aIZio9G2YuYwdJc68uPwJPH
-   1j5r6yXz/TOlYGPQA9FrOrN7bmGCcXapbG5/P+hroDtNxy6xCPSXGt8B2
-   U2S8xz64DMcXYf8A7aEe0t2R9epla6fuc8AFfV3DWKI7SJa2FGpwSCZio
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="304048682"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; 
-   d="scan'208";a="304048682"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2022 07:55:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="771822973"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; 
-   d="scan'208";a="771822973"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Oct 2022 07:55:30 -0700
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Prashant Malani <pmalani@chromium.org>, linux-usb@vger.kernel.org
-Subject: [PATCH] usb: typec: retimer: Use device type for matching
-Date:   Wed, 19 Oct 2022 17:55:52 +0300
-Message-Id: <20221019145552.32493-1-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S231313AbiJSPCq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Oct 2022 11:02:46 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA8F9161FD4;
+        Wed, 19 Oct 2022 07:57:25 -0700 (PDT)
+From:   John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1666191362;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=zkI+7kE11pEfvJZCSjIsOIHfnjIhjBs6goKb/AUL2D4=;
+        b=YYO7v04TmKSkEL8SQfYf9FANh400BpV31ZQR/trpNhqYtbMsqHy7XZuAyWZcYguh+KTZKz
+        uMkqVYF2Idk8ssJy6cSwkhJih5dltGrVFm3Z7MoL7Nhtw4GkmZEKblfArE1vVoKGDs5p81
+        WHY9OAlLqzr8G07YBDVNtY0AT4QClPosfQAXC7SCLUuMtHyHR5c2LCkNDByg36nTiuRcRN
+        AVWPIk+/COT66KSdFzs7sxleUpL2onRYs8JoVdAMBeDCEkOf8Yvmkp92DVD8xjN57OewPI
+        lAF6m3iPq5588431gmChW8+srrThoCLrEllt8f0GsYtka8ApK0mxiWi8JG1KQQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1666191362;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=zkI+7kE11pEfvJZCSjIsOIHfnjIhjBs6goKb/AUL2D4=;
+        b=taXn8qnVlav1KthfUzD2BUf7770pohYL/ecGjx8VGuNp3NOcr/dyz4UXH5Ok4L9J1BRVse
+        cqmXXqp/T3jlr9Bg==
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org,
+        Jason Wessel <jason.wessel@windriver.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        kgdb-bugreport@lists.sourceforge.net, linux-serial@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-m68k@lists.linux-m68k.org,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-um@lists.infradead.org, Ard Biesheuvel <ardb@kernel.org>,
+        linux-efi@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        Shile Zhang <shile.zhang@linux.alibaba.com>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        linuxppc-dev@lists.ozlabs.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        Michal Simek <michal.simek@xilinx.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-usb@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        Helge Deller <deller@gmx.de>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>, Tom Rix <trix@redhat.com>,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH printk v2 00/38] reduce console_lock scope
+Date:   Wed, 19 Oct 2022 17:01:22 +0206
+Message-Id: <20221019145600.1282823-1-john.ogness@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Device name is not reliable so using the type instead in
-retimer_fwnode_match().
+This is v2 of a series to prepare for threaded/atomic
+printing. It is a rework of patches 6-12 of the v1 [0]. From
+the v1, patches 1-5 are already mainline and a rework of
+patches >12 will be posted in a later series.
 
-This will also introduce is_typec_retimer() helper, and
-remove the static keyword from the retimer device type. That
-will make it accessible also in the main typec class.
+This series focuses on reducing the scope of the BKL
+console_lock. It achieves this by switching to SRCU and a
+dedicated mutex for console list iteration and modification,
+respectively. The console_lock will no longer offer this
+protection and is completely removed from
+(un)register_console() and console_stop/start() code.
 
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- drivers/usb/typec/retimer.c | 16 ++--------------
- drivers/usb/typec/retimer.h |  4 ++++
- 2 files changed, 6 insertions(+), 14 deletions(-)
+All users of the console_lock for list iteration have been
+modified. For the call sites where the console_lock is still
+needed (because of other reasons), I added comments to explain
+exactly why the console_lock was needed.
 
-diff --git a/drivers/usb/typec/retimer.c b/drivers/usb/typec/retimer.c
-index ee94dbbe47453..3a4146ea6e7cf 100644
---- a/drivers/usb/typec/retimer.c
-+++ b/drivers/usb/typec/retimer.c
-@@ -17,21 +17,9 @@
- #include "class.h"
- #include "retimer.h"
- 
--static bool dev_name_ends_with(struct device *dev, const char *suffix)
--{
--	const char *name = dev_name(dev);
--	const int name_len = strlen(name);
--	const int suffix_len = strlen(suffix);
--
--	if (suffix_len > name_len)
--		return false;
--
--	return strcmp(name + (name_len - suffix_len), suffix) == 0;
--}
--
- static int retimer_fwnode_match(struct device *dev, const void *fwnode)
- {
--	return device_match_fwnode(dev, fwnode) && dev_name_ends_with(dev, "-retimer");
-+	return is_typec_retimer(dev) && device_match_fwnode(dev, fwnode);
- }
- 
- static void *typec_retimer_match(struct fwnode_handle *fwnode, const char *id, void *data)
-@@ -97,7 +85,7 @@ static void typec_retimer_release(struct device *dev)
- 	kfree(to_typec_retimer(dev));
- }
- 
--static const struct device_type typec_retimer_dev_type = {
-+const struct device_type typec_retimer_dev_type = {
- 	.name = "typec_retimer",
- 	.release = typec_retimer_release,
- };
-diff --git a/drivers/usb/typec/retimer.h b/drivers/usb/typec/retimer.h
-index fa15951d48468..e34bd23323be5 100644
---- a/drivers/usb/typec/retimer.h
-+++ b/drivers/usb/typec/retimer.h
-@@ -12,4 +12,8 @@ struct typec_retimer {
- 
- #define to_typec_retimer(_dev_) container_of(_dev_, struct typec_retimer, dev)
- 
-+const struct device_type typec_retimer_dev_type;
-+
-+#define is_typec_retimer(dev) ((dev)->type == &typec_retimer_dev_type)
-+
- #endif /* __USB_TYPEC_RETIMER__ */
+The base commit for this series is from Paul McKenney's RCU tree
+and provides an NMI-safe SRCU implementation [1]. Without the
+NMI-safe SRCU implementation, this series is not less safe than
+mainline. But we will need the NMI-safe SRCU implementation for
+atomic consoles anyway, so we might as well get it in
+now. Especially since it _does_ increase the reliability for
+mainline in the panic path.
+
+Changes since v2:
+
+general:
+
+- introduce console_is_enabled() to document safe data race on
+  console->flags
+
+- switch all "console->flags & CON_ENABLED" code sites to
+  console_is_enabled()
+
+- add "for_each_console_srcu" to .clang-format
+
+- cleanup/clarify comments relating to console_lock
+  coverage/usage
+
+um:
+
+- kmsg_dumper: use srcu instead of console_lock for list
+  iteration
+
+kgdb/kdb:
+
+- configure_kgdboc: keep console_lock for console->device()
+  synchronization, use srcu for list iteration
+
+- kgdboc_earlycon_pre_exp_handler: use srcu instead of
+  documenting unsafety for list iteration
+
+- kgdboc_earlycon_init: use console_list_lock instead of
+  console_lock to lock list
+
+- kdb_msg_write: use srcu instead of documenting unsafety for
+  list iteration
+
+tty:
+
+- show_cons_active: keep console_lock for console->device()
+  synchronization
+
+fbdev:
+
+- xen-fbfront: xenfb_probe: use srcu instead of console_lock
+  for list iteration, introduce console_force_preferred() to
+  safely implement hack
+
+proc/consoles:
+
+- show_console_dev: keep console_lock for console->device()
+  synchronization
+
+- c_next: use hlist_entry_safe() instead of
+  hlist_for_each_entry_continue()
+
+printk:
+
+- remove console_lock from console_stop/start() and
+  (un)register_console()
+
+- introduce console_srcu_read_(un)lock() to wrap scru read
+  (un)lock
+
+- rename cons_first() macro to console_first()
+
+- for_each_console: add lockdep check instead of introducing
+  new for_each_registered_console()
+
+- console_list_lock: add warning if in read-side critical
+  section
+
+- release srcu read lock on handover
+
+- console_flush_all: use srcu instead of relying on console
+  lock for list iteration
+
+- console_unblank: use srcu instead of relying on console_lock
+  for list iteration
+
+- console_flush_on_panic: use srcu for list iteration and
+  document console->seq race
+
+- device: keep console_lock for console->device()
+  synchronization, usr srcu for list iteration
+
+- register_console: split list adding logic into the 3 distinct
+  scenarios
+
+- register_console: set initial sequence number before adding
+  to list
+
+- unregister_console: fix ENODEV return value if the console is
+  not registered
+
+- console_stop: synchronize srcu
+
+- printk_late_init: use _safe variant of iteration
+
+- __pr_flush: use srcu instead of relying on console_lock for
+  list iteration
+
+John Ogness
+
+[0] https://lore.kernel.org/r/20220924000454.3319186-1-john.ogness@linutronix.de
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/log/?h=srcunmisafe.2022.10.18b
+
+John Ogness (37):
+  printk: Convert console_drivers list to hlist
+  printk: Prepare for SRCU console list protection
+  printk: introduce console_is_enabled() wrapper
+  printk: use console_is_enabled()
+  tty: nfcon: use console_is_enabled()
+  um: kmsg_dump: use console_is_enabled()
+  efi: earlycon: use console_is_enabled()
+  netconsole: use console_is_enabled()
+  tty: hvc: use console_is_enabled()
+  tty: serial: earlycon: use console_is_enabled()
+  tty: serial: kgdboc: use console_is_enabled()
+  tty: serial: pic32_uart: use console_is_enabled()
+  tty: serial: samsung_tty: use console_is_enabled()
+  tty: serial: serial_core: use console_is_enabled()
+  tty: serial: xilinx_uartps: use console_is_enabled()
+  tty: tty_io: use console_is_enabled()
+  usb: early: xhci-dbc: use console_is_enabled()
+  kdb: kdb_io: use console_is_enabled()
+  um: kmsg_dumper: use srcu console list iterator
+  serial: kgdboc: use srcu console list iterator
+  serial: kgdboc: document console_lock usage
+  tty: tty_io: document console_lock usage
+  xen: fbfront: use srcu console list iterator
+  proc: consoles: document console_lock usage
+  kdb: use srcu console list iterator
+  printk: console_flush_all: use srcu console list iterator
+  printk: console_unblank: use srcu console list iterator
+  printk: console_flush_on_panic: use srcu console list iterator
+  printk: console_device: use srcu console list iterator
+  printk: register_console: use srcu console list iterator
+  printk: __pr_flush: use srcu console list iterator
+  printk: introduce console_list_lock
+  serial: kgdboc: use console_list_lock instead of console_lock
+  tty: tty_io: use console_list_lock for list synchronization
+  proc: consoles: use console_list_lock for list iteration
+  printk: relieve console_lock of list synchronization duties
+  printk, xen: fbfront: create/use safe function for forcing preferred
+
+Thomas Gleixner (1):
+  serial: kgdboc: Lock console list in probe function
+
+ .clang-format                      |   1 +
+ arch/m68k/emu/nfcon.c              |   4 +-
+ arch/um/kernel/kmsg_dump.c         |  15 +-
+ drivers/firmware/efi/earlycon.c    |   4 +-
+ drivers/net/netconsole.c           |   4 +-
+ drivers/tty/hvc/hvc_console.c      |   2 +-
+ drivers/tty/serial/earlycon.c      |   4 +-
+ drivers/tty/serial/kgdboc.c        |  37 ++-
+ drivers/tty/serial/pic32_uart.c    |   2 +-
+ drivers/tty/serial/samsung_tty.c   |   2 +-
+ drivers/tty/serial/serial_core.c   |   2 +-
+ drivers/tty/serial/xilinx_uartps.c |   2 +-
+ drivers/tty/tty_io.c               |  18 +-
+ drivers/usb/early/xhci-dbc.c       |   2 +-
+ drivers/video/fbdev/xen-fbfront.c  |  16 +-
+ fs/proc/consoles.c                 |  20 +-
+ include/linux/console.h            |  75 +++++-
+ include/linux/serial_core.h        |   2 +-
+ kernel/debug/kdb/kdb_io.c          |   7 +-
+ kernel/printk/printk.c             | 373 +++++++++++++++++++++--------
+ 20 files changed, 438 insertions(+), 154 deletions(-)
+
+
+base-commit: c2d158a284abd63d727dad7402a2eed650dd4233
 -- 
-2.35.1
+2.30.2
 
