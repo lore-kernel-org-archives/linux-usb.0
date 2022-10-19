@@ -2,90 +2,45 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3571C433FE
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Oct 2022 15:53:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B31DC43217
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Oct 2022 15:53:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232623AbiJSPxh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Oct 2022 11:53:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33020 "EHLO
+        id S232342AbiJSPx4 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Oct 2022 11:53:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232711AbiJSPxO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Oct 2022 11:53:14 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAE4632B9C;
-        Wed, 19 Oct 2022 08:50:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BFA61B824F3;
-        Wed, 19 Oct 2022 15:48:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A444C433C1;
-        Wed, 19 Oct 2022 15:48:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1666194518;
-        bh=3Ruo5jB3xafvIKI2yCrU2v1/8ZFB6GkBfPPKWvQZBTI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jVtcxDVWZC3OicxMHdC71Xxb3H/q0VoNxCyri2oFM+761jEBhUMSlVSS4K8N8yidn
-         RIYrThULdf0vFT4jS+wjw1d936khsHUySUkNYWIb/rruad1QAqlW94xxH66NlqOndL
-         ct1OE7nLBOfjceBO1fnPhaoz1D2LaPkDKLHkgk0M=
-Date:   Wed, 19 Oct 2022 17:48:35 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     =?iso-8859-1?Q?Bj=F8rn?= Mork <bjorn@mork.no>
-Cc:     Daniele Palmas <dnlplm@gmail.com>,
-        David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH net-next 0/2] net: usb: qmi_wwan implement tx packets
- aggregation
-Message-ID: <Y1AcU0CH/j69uvwx@kroah.com>
-References: <20221019132503.6783-1-dnlplm@gmail.com>
- <87lepbsvls.fsf@miraculix.mork.no>
+        with ESMTP id S232506AbiJSPxg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Oct 2022 11:53:36 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64B8317FD5E;
+        Wed, 19 Oct 2022 08:50:53 -0700 (PDT)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5B1C420008;
+        Wed, 19 Oct 2022 15:49:14 +0000 (UTC)
+Message-ID: <b1309e015d07abc47a2cf987e229a87f533430b5.camel@hadess.net>
+Subject: Re: Litra Glow on Linux
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Alan Stern <stern@rowland.harvard.edu>, linux-input@vger.kernel.org
+Cc:     Andreas Bergmeier <abergmeier@gmx.net>,
+        USB mailing list <linux-usb@vger.kernel.org>
+Date:   Wed, 19 Oct 2022 17:49:14 +0200
+In-Reply-To: <Y1AVDck5sQf8+QFX@rowland.harvard.edu>
+References: <Y1AVDck5sQf8+QFX@rowland.harvard.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.46.0 (3.46.0-2.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87lepbsvls.fsf@miraculix.mork.no>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Oct 19, 2022 at 05:04:31PM +0200, Bjørn Mork wrote:
-> Daniele Palmas <dnlplm@gmail.com> writes:
-> > I'm aware that rmnet should be the preferred way for qmap, but I think there's
-> > still value in adding this feature to qmi_wwan qmap implementation since there
-> > are in the field many users of that.
-> >
-> > Moreover, having this in mainline could simplify backporting for those who are
-> > using qmi_wwan qmap feature but are stuck with old kernel versions.
-> >
-> > I'm also aware of the fact that sysfs files for configuration are not the
-> > preferred way, but it would feel odd changing the way for configuring the driver
-> > just for this feature, having it different from the previous knobs.
-> 
-> It's not just that it's not the preferred way.. I believe I promised
-> that we wouldn't add anything more to this interface.  And then I broke
-> that promise, promising that it would never happen again.  So much for
-> my integrity.
-> 
-> This all looks very nice to me, and the results are great, and it's just
-> another knob...
-> 
+On Wed, 2022-10-19 at 11:17 -0400, Alan Stern wrote:
+> Via (hardware) buttons you can switch the device on, regulate the
+> color temperature as well as the brightness.
+> I know of no way to fully control the device from my computer and
+> would like to change that.
 
-Please no more sysfs files for stuff like this.  This turns into
-vendor-specific random files that no one knows how to change over time
-with no way to know what userspace tools are accessing them, or if even
-anyone is using them at all.
+Anything that those libraries and tools can't do?
 
-Shouldn't there be standard ethtool apis for this?
-
-> But I don't think we can continue adding this stuff.  The QMAP handling
-> should be done in the rmnet driver. Unless there is some reason it can't
-> be there? Wouldn't the same code work there?
-
-rmnet would be better, but again, no new sysfs files please,
-
-thanks,
-
-greg k-h
+https://github.com/search?q=litra+glow
