@@ -2,117 +2,127 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9D98C433FE
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Oct 2022 15:10:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D04A0C4332F
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Oct 2022 15:13:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231976AbiJSPKT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Oct 2022 11:10:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58984 "EHLO
+        id S232351AbiJSPNO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Oct 2022 11:13:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232667AbiJSPJe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Oct 2022 11:09:34 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D72041981;
-        Wed, 19 Oct 2022 08:03:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666191784; x=1697727784;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M5avbZVzN3hkB86Ed3UZwrL75aggqypPsv/GEymhqa0=;
-  b=BMRGLnU3DFO3j9EEawe3vJecObozbMcIOlK2ZNLPGhmBrgHku4Kw8UdE
-   rV4FH5oMVXkrTS4Q/RkuLFNoihUs20pqenvQ6ErB+FWM6j58qbHQr/ZiJ
-   1MQrLapNPtJIWNAgeYBvOfJeMGEoGg5tGq5WQgp17DrX7nTwjHBOxnotW
-   8pCvleKDigHqi9H+SvC7dxMvFSU56HJXLtNRhbDk7ZjFXrREa7zqIoKWN
-   SOhPaHywuANWEaJSpjpiUTHKShKT/hUrIaEsG5aBtCxIrjHv9wjSpXNZ1
-   n8SoPmtx0E8lJ96jVGiHAMkfuax6eV0u+04YKuCal2L48jtlGKTsg8gB+
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="286826908"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; 
-   d="scan'208";a="286826908"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2022 08:02:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="771825861"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; 
-   d="scan'208";a="771825861"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 19 Oct 2022 08:02:45 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 19 Oct 2022 18:02:44 +0300
-Date:   Wed, 19 Oct 2022 18:02:44 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] thunderbolt: ACPI: Use the helper fwnode_find_reference()
-Message-ID: <Y1ARlOfUYW7OpczT@kuha.fi.intel.com>
-References: <20221019142854.27364-1-heikki.krogerus@linux.intel.com>
+        with ESMTP id S232001AbiJSPM5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Oct 2022 11:12:57 -0400
+Received: from louie.mork.no (louie.mork.no [IPv6:2001:41c8:51:8a:feff:ff:fe00:e5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD39616D886;
+        Wed, 19 Oct 2022 08:05:13 -0700 (PDT)
+Received: from canardo.dyn.mork.no ([IPv6:2a01:799:c9c:2c00:0:0:0:1])
+        (authenticated bits=0)
+        by louie.mork.no (8.15.2/8.15.2) with ESMTPSA id 29JF4akO009427
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+        Wed, 19 Oct 2022 16:04:38 +0100
+Received: from miraculix.mork.no ([IPv6:2a01:799:c9c:2c02:34cc:c78d:869d:3d9d])
+        (authenticated bits=0)
+        by canardo.dyn.mork.no (8.15.2/8.15.2) with ESMTPSA id 29JF4VnP052259
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+        Wed, 19 Oct 2022 17:04:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
+        t=1666191871; bh=LJCnM3YAgkdlJZWdcjae8h64Q6JFjYVZRen0elz/ql8=;
+        h=From:To:Cc:Subject:References:Date:Message-ID:From;
+        b=mtHHmh8fOheuKiLEub3V7z/OotTNSy7j1gETxlE7wAB1KlMoNzPaJ3TZfumcxyOgW
+         BF0bQS4F/OulIS3MvbwIqtmnlvl/jbSmAQEsDUNAXzxDDwIaeMdp0LhlI3Hop5U2hV
+         +MJXRmSitvO8w2WGqaXqQixtDQSNfr+gUZVEtXCA=
+Received: (nullmailer pid 11689 invoked by uid 1000);
+        Wed, 19 Oct 2022 15:04:31 -0000
+From:   =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
+To:     Daniele Palmas <dnlplm@gmail.com>
+Cc:     David Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH net-next 0/2] net: usb: qmi_wwan implement tx packets
+ aggregation
+Organization: m
+References: <20221019132503.6783-1-dnlplm@gmail.com>
+Date:   Wed, 19 Oct 2022 17:04:31 +0200
+In-Reply-To: <20221019132503.6783-1-dnlplm@gmail.com> (Daniele Palmas's
+        message of "Wed, 19 Oct 2022 15:25:01 +0200")
+Message-ID: <87lepbsvls.fsf@miraculix.mork.no>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221019142854.27364-1-heikki.krogerus@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Virus-Scanned: clamav-milter 0.103.7 at canardo
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Oct 19, 2022 at 05:28:54PM +0300, Heikki Krogerus wrote:
-> Replacing the direct fwnode_property_get_reference_args()
-> call will this wrapper function.
-> 
-> No functional changes intended.
-> 
-> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> ---
->  drivers/thunderbolt/acpi.c | 15 ++++-----------
->  1 file changed, 4 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/thunderbolt/acpi.c b/drivers/thunderbolt/acpi.c
-> index 7a8adf5ad5a09..48ac227e6d8a0 100644
-> --- a/drivers/thunderbolt/acpi.c
-> +++ b/drivers/thunderbolt/acpi.c
-> @@ -15,24 +15,17 @@ static acpi_status tb_acpi_add_link(acpi_handle handle, u32 level, void *data,
->  				    void **return_value)
->  {
->  	struct acpi_device *adev = acpi_fetch_acpi_dev(handle);
-> -	struct fwnode_reference_args args;
->  	struct fwnode_handle *fwnode;
->  	struct tb_nhi *nhi = data;
->  	struct pci_dev *pdev;
->  	struct device *dev;
-> -	int ret;
-> -
-> -	if (!adev)
-> -		return AE_OK;
+Daniele Palmas <dnlplm@gmail.com> writes:
 
-Oh, I'm sorry, I did not mean to remove that check. I'll resend.
+> I verified this problem by using a MDM9207 Cat. 4 based modem (50Mbps/150=
+Mbps
+> max throughput). What is actually happening is pictured at
+> https://drive.google.com/file/d/1xuAuDBfBEIM3Cdg2zHYQJ5tdk-JkfQn7/view?us=
+p=3Dsharing
+>
+> When rx and tx flows are tested singularly there's no issue in tx and min=
+or
+> issues in rx (a few spikes). When there are concurrent tx and rx flows, tx
+> throughput has an huge drop. rx a minor one, but still present.
+>
+> The same scenario with tx aggregation enabled is pictured at
+> https://drive.google.com/file/d/1Kw8TVFLVgr31o841fRu4fuMX9DNZqJB5/view?us=
+p=3Dsharing
+> showing a regular graph.
 
-> -	fwnode = acpi_fwnode_handle(adev);
-> -	ret = fwnode_property_get_reference_args(fwnode, "usb4-host-interface",
-> -						 NULL, 0, 0, &args);
-> -	if (ret)
-> +	fwnode = fwnode_find_reference(acpi_fwnode_handle(adev), "usb4-host-interface", 0);
-> +	if (IS_ERR(fwnode))
->  		return AE_OK;
->  
->  	/* It needs to reference this NHI */
-> -	if (dev_fwnode(&nhi->pdev->dev) != args.fwnode)
-> +	if (dev_fwnode(&nhi->pdev->dev) != fwnode)
->  		goto out_put;
->  
->  	/*
-> @@ -100,7 +93,7 @@ static acpi_status tb_acpi_add_link(acpi_handle handle, u32 level, void *data,
->  	}
->  
->  out_put:
-> -	fwnode_handle_put(args.fwnode);
-> +	fwnode_handle_put(fwnode);
->  	return AE_OK;
->  }
->  
+That's pretty extreme.  Are these tcp tests?  Did you experiment with
+qdisc options? What about latency here?
 
-thanks,
+> This issue does not happen with high-cat modems (e.g. SDX20), or at least=
+ it
+> does not happen at the throughputs I'm able to test currently: maybe the =
+same
+> could happen when moving close to the maximum rates supported by those mo=
+dems.
+> Anyway, having the tx aggregation enabled should not hurt.
+>
+> It is interesting to note that, for what I can understand, rmnet too does=
+ not
+> support tx aggregation.
 
--- 
-heikki
+Looks like that is missing, yes. Did you consider implementing it there
+instead?
+
+> I'm aware that rmnet should be the preferred way for qmap, but I think th=
+ere's
+> still value in adding this feature to qmi_wwan qmap implementation since =
+there
+> are in the field many users of that.
+>
+> Moreover, having this in mainline could simplify backporting for those wh=
+o are
+> using qmi_wwan qmap feature but are stuck with old kernel versions.
+>
+> I'm also aware of the fact that sysfs files for configuration are not the
+> preferred way, but it would feel odd changing the way for configuring the=
+ driver
+> just for this feature, having it different from the previous knobs.
+
+It's not just that it's not the preferred way.. I believe I promised
+that we wouldn't add anything more to this interface.  And then I broke
+that promise, promising that it would never happen again.  So much for
+my integrity.
+
+This all looks very nice to me, and the results are great, and it's just
+another knob...
+
+But I don't think we can continue adding this stuff.  The QMAP handling
+should be done in the rmnet driver. Unless there is some reason it can't
+be there? Wouldn't the same code work there?
+
+Luckily I can chicken out here, and leave final the decision to Jakub
+and David.
+
+
+
+Bj=C3=B8rn
