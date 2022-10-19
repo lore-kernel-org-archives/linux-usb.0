@@ -2,102 +2,108 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27CA8C4167B
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Oct 2022 21:44:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2169C433FE
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Oct 2022 22:14:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231220AbiJSVoH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Oct 2022 17:44:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46876 "EHLO
+        id S230452AbiJSWN7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Oct 2022 18:13:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230192AbiJSVoG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Oct 2022 17:44:06 -0400
-Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B909519C202
-        for <linux-usb@vger.kernel.org>; Wed, 19 Oct 2022 14:44:04 -0700 (PDT)
-Received: from sopl295.home ([109.220.248.156])
-        by smtp.orange.fr with ESMTPA
-        id lGNoo1NB2g7y2lGNpocFOd; Wed, 19 Oct 2022 23:13:51 +0200
-X-ME-Helo: sopl295.home
-X-ME-Auth: amFyem1pay5yb2JlcnRAb3JhbmdlLmZy
-X-ME-Date: Wed, 19 Oct 2022 23:13:51 +0200
-X-ME-IP: 109.220.248.156
-From:   Robert Jarzmik <jarzmik.robert@orange.fr>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        stern@rowland.harvard.edu, alexandre.belloni@bootlin.com,
-        brgl@bgdev.pl, damien.lemoal@opensource.wdc.com,
-        dmitry.torokhov@gmail.com, linux@dominikbrodowski.net,
-        balbi@kernel.org, gregkh@linuxfoundation.org, deller@gmx.de,
-        perex@perex.cz, jingoohan1@gmail.com, lee@kernel.org,
-        kernel@wantstofly.org, lgirdwood@gmail.com,
-        linus.walleij@linaro.org, marek.vasut@gmail.com,
-        broonie@kernel.org, mkpetch@internode.on.net,
-        miquel.raynal@bootlin.com, lost.distance@yahoo.com,
-        philipp.zabel@gmail.com, linux@armlinux.org.uk, sre@kernel.org,
-        slapin@ossfans.org, s.shtylyov@omp.ru, sudipm.mukherjee@gmail.com,
-        tiwai@suse.com, ulf.hansson@linaro.org, vigneshr@ti.com,
-        viresh.kumar@linaro.org, wsa+renesas@sang-engineering.com,
-        linux-pm@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
-        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-rtc@vger.kernel.org,
-        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 00/30] ARM: pxa: remove all unused boards&drivers
-In-Reply-To: <20221019161831.3864786-1-arnd@kernel.org> (Arnd Bergmann's
-        message of "Wed, 19 Oct 2022 18:17:53 +0200")
-References: <20221019161831.3864786-1-arnd@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
-X-URL:  http://belgarath.falguerolles.org/
-Date:   Wed, 19 Oct 2022 23:13:48 +0200
-Message-ID: <m2r0z3h5yr.fsf@sopl295.home>
+        with ESMTP id S231366AbiJSWN5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Oct 2022 18:13:57 -0400
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E79031C117F
+        for <linux-usb@vger.kernel.org>; Wed, 19 Oct 2022 15:13:56 -0700 (PDT)
+Received: by mail-io1-xd33.google.com with SMTP id i65so15773027ioa.0
+        for <linux-usb@vger.kernel.org>; Wed, 19 Oct 2022 15:13:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qQeR0ieP3s5ZVzO3+vZRqufO+WICMvatnDl9VCVTCfU=;
+        b=ZyFnNe7t2+atLC5f/yFrHkOY+RyYcl0YQ1IaPN8bt9eQ/jPJ4oxmXGzi8XqO9mIhj7
+         f3tnPJ33gRG9dZF1yFPgPaNhpV0h+bRTpU0Yc9emdgmLERqZZAT7c0GGXcEnivMbwmgT
+         LlnKSIqcqaVNzXymgrL8OiEj2J39GdgZe8F36r+vhJfPvoSadpfnREDmLYHlfslRLvpD
+         UO/AHbbLUI5zP/i+T8EfRlUuwbUFO1mcnvv3tyOXc7B/Q32EpAoOjYle3Fdincff8d56
+         WuPQSUNfwEer7gDfrJomC7mQvnQUUAiYv6Y3LafPTrTzMyPm7MvqosoFIOrOZZWlabqT
+         7arw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qQeR0ieP3s5ZVzO3+vZRqufO+WICMvatnDl9VCVTCfU=;
+        b=dkDC/FnLeU5rlbx5Hbt86DFf3AuUW3hopoPSD1y1AWMm/qPOJNW0lCqsJvfffPNpw/
+         K748jk3lqwtdQaSgnmMtRcbuZIE/ypExopea2KhVNgcrcEKqX811o9D2uC0vl7USnrHh
+         UHwXd0+I315y3HE9uXor58EkdYRn2XBvUtvtqxdNlCTU4WtbJea45yIP/pwRFK5W4RA7
+         yB6H3kU4DFGHlutWyv9VkV+KaxBsEmEw27KFzxpOEkhsQXMnvtoKhjpseYEz0NRO8zku
+         /KRc5OZVsfHcujgI/lWBH6xoPwgHnJDsx8HS4qnPrnDtLP/+G8eq61WNFF3xMyMpJpem
+         Q99g==
+X-Gm-Message-State: ACrzQf30O20Hm4TkoTVPS7NKqYMoNURVdcx/Yt2S01iJC0EnKIv36LIG
+        25z0JWyTPflC1PfmGwo1P2D7mlezcmdbaINbRh/5rys7xhg=
+X-Google-Smtp-Source: AMsMyM54N9Lz9ZtAszShkkaH1Z8qxB8JBgLkajf4AUFI4qlNwEZ1KYbMEBLvZOeK8DGvVhekPQf44UK9Ut3NYXjqhUk=
+X-Received: by 2002:a05:6638:4803:b0:363:c2ad:878 with SMTP id
+ cp3-20020a056638480300b00363c2ad0878mr7370165jab.230.1666217636004; Wed, 19
+ Oct 2022 15:13:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+From:   Avichal Rakesh <arakesh@google.com>
+Date:   Wed, 19 Oct 2022 15:13:44 -0700
+Message-ID: <CAMHf4WL66dTxkadqJh3aHTdrnur6svpx0z9CVK4+kg+dRKsCjQ@mail.gmail.com>
+Subject: UVC gadget driver not working with other gadget functions
+To:     linux-usb@vger.kernel.org
+Cc:     Jayant Chowdhary <jchowdhary@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Arnd Bergmann <arnd@kernel.org> writes:
+Hey all,
 
-> From: Arnd Bergmann <arnd@arndb.de>
-...zip...
+Disclaimer: I am very new to the kernel space so apologies for any
+newb mistakes.
 
-> A good number of drivers become impossible to select after this, so
-> each of these also get dropped. I'm including the driver patches in the
-> series here and can either merge them through the soc tree, or they
-> can get picked up by the individual subsystem maintainers. Since both
-> the platform and the drivers get removed, the order should not matter.
-This part is a bit ... bothering.
-I at least identified these :
->  delete mode 100644 drivers/input/touchscreen/wm9705.c
->  delete mode 100644 drivers/input/touchscreen/wm9712.c
->  delete mode 100644 drivers/input/touchscreen/wm9713.c
->  delete mode 100644 drivers/input/touchscreen/wm97xx-core.c
->  delete mode 100644 drivers/mfd/wm97xx-core.c
->  delete mode 100644 sound/ac97/bus.c
->  delete mode 100644 sound/ac97/codec.c
->  delete mode 100644 sound/ac97/snd_ac97_compat.c
+I am working on trying to enable the UVC gadget driver on an Android
+Device. The device already supports configfs and has a few gadget
+functions already working. ADB (f_fs) and USB Tethering (f_ncm) are
+the ones I tested with.
 
-For the existing platforms working with devicetree support (mioa701 for
-example), the wm9713 was properly used, providing both sound support and input
-touchscreen.
-So was the a97 part, providing a framework to make the wm9713 work.
+I added CONFIG_USB_CONFIGFS_F_UVC=y to the kernel's config, was able
+to create a uvc function following the example in
+https://docs.kernel.org/usb/gadget-testing.html#uvc-function.
 
-So I'm wondering how the choice to chop these drivers was done, and it is
-necessary to remove them. If so, maybe pxa support in the kernel should be
-removed all together, as people playing with it loose part of the working DT
-platforms they had.
+After symlinking the uvc function to configfs, when the gadget is
+pulled up I see that all functions including UVC are bound to the
+composite gadget without any errors. However, while the UVC function
+is linked, no other function can communicate over their endpoints. The
+host is able to enumerate all the functions, but is unable to read
+from or write to non-uvc endpoints. Removing the UVC function from
+configfs and pulling up the gadget again restores all other functions.
 
-As for the removal of defconfigs and arch-pxa, sure, this was PXA's destiny.
+Testing the UVC gadget shows that the UVC driver is functioning
+properly and a linux host is able to communicate with the UVC gadget
+over V4L2 as expected.
 
-Cheers.
+AFAICT, there are no kernel logs showing errors in reading/writing to
+endpoints even after enabling debug logs. Some rudimentary debugging
+shows that the endpoints of other functions stop responding if the UVC
+gadget writes its usb descriptors to its usb_function in
+uvc_function_bind. I stub out all functionality from the uvc gadget
+(except alloc and free), the other functions work properly. But if I
+unstub uvc_function_bind to go as far as writing the descriptor in
+fs_descriptors (f_uvc.c, uvc_function_bind line#713), the other
+functions stop working.
 
---
-Robert
+Is this a known issue, or am I missing something obvious? Any help
+would be appreciated!
 
-PS: If this mail is sent twice, sorry in advance, my mailer is a bad mood
-lately.
+Misc info:
+- Kernel Version: 5.10.107
+- USB controller: DWC3 (unfortunately, I don't have devices with any
+other controllers available)
+- Changes made: None. The gadget drivers show this behavior without
+any changes. I tried to copy over changes from ToT
+https://github.com/torvalds/linux/blob/master/drivers/usb/gadget/function/f_uvc.c
+which fixed some crashes, but this behavior sticks.
+
+Thank you!
+
+- Avi
