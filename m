@@ -2,94 +2,93 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 644AEC433FE
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Oct 2022 13:38:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D81FCC4332F
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Oct 2022 13:38:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230453AbiJUNiK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Oct 2022 09:38:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37050 "EHLO
+        id S229828AbiJUNiL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Oct 2022 09:38:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229961AbiJUNiI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Oct 2022 09:38:08 -0400
+        with ESMTP id S230027AbiJUNiJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Oct 2022 09:38:09 -0400
 Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 721FB275198
-        for <linux-usb@vger.kernel.org>; Fri, 21 Oct 2022 06:38:06 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id b4so4940948wrs.1
-        for <linux-usb@vger.kernel.org>; Fri, 21 Oct 2022 06:38:06 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01FEA27518E
+        for <linux-usb@vger.kernel.org>; Fri, 21 Oct 2022 06:38:07 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id a10so4391022wrm.12
+        for <linux-usb@vger.kernel.org>; Fri, 21 Oct 2022 06:38:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UbUGLzx95uGCyDlhKABUDk0TwFKBK1rRFm9Lq1bvWhQ=;
-        b=Cztud/XNPRfILkeYrDGH7fD8D/44agAxp7x2SuaOpkBbOzEm6vowqmYgkH9gRN8SqA
-         KXTP5EooRHITXkNczVUXmVGX0rB4DmcteoTH3TdIMK8RcY6G5bkyXWnMb7ADnVLkmeq8
-         N9XNz2l2tmiwNlyFHz1FFxVKOmYSTeMLrtGqs7TwTEchbAJ/rVmxqMqt1cU1PLrNx6rN
-         T3lM6BneGF/FoKJuZUXw5qP5M/o9Vj5O8xiT4NThcFernyw0cj5aha9bvCprmpFEslc3
-         61ye4j09ZLyS5AvzUaOqtFHAPWq8qMvP94x5xP8n/73306oLNumKYfgG64lbRXcUWSGZ
-         FkPQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qLW9FnoLQc7PleQYsjtukTsF4zwFV4e2UFMmghknV0A=;
+        b=ymzonE0YR7nXbf5vxYalyCAO/LLN+uDz1EynBBLkY0GBLxkOL8k7Gb9siuEUNMdE81
+         rLIwlljVOwe5I4g3IfRz5UWo/xJiEip68tl2PF8zqoaP0qLzmgjigdHkYOWbBq7yv5vZ
+         oJAC0fOTMdzOfhj+CMc8h9LFSDoTqqmINPQ9XqX+axkvhhuErT5HNQs9/zPoicBEVc5U
+         Kqp1K/fno53dVbWpQ56ustjbOrptAIVrtwrCDTq5/QHJYVok1vRmPKz+rlTPC3Q9/aWG
+         Q0IlK3hFsWAT95i6cHf/edrzCuEhVDw4cTFvvlO2iSXoICqHRNnY7awIWdx3TjtyGaiX
+         DbCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UbUGLzx95uGCyDlhKABUDk0TwFKBK1rRFm9Lq1bvWhQ=;
-        b=DiFaFFiETwCqs2XSa2kWD6DfYZgNyxwGp5mdeZVoiwf17fPYBCw5xpnRq5bQlj9YdV
-         rJFkIOVW5+5uDuglgGSRTT2yiWvjBEx8UoIZ46ontj7h20kFaHDB0Ls5v06bcB7jx425
-         a/UCBnWc2syuqJ7dXjtmZ5OTbmH5WL7LvxxI9ei5veA4U4b2vqXVljo9tBHBTe68ja7m
-         xW7bpV7uYsgqq10mAWb5gKZ/HIKE7YmHKoGoP5RWzMoPb6vuo+fft9KIQxpE00Dd1OYr
-         ehf7g6cNt1YJk5JyABe4h2JOhKYgnDk2BtFb8lG8EZlj4h2jOVbca+JycVI+tZgs7Rrn
-         qO3Q==
-X-Gm-Message-State: ACrzQf2xGqdVg/wzl7wPG0Kpg9fw/RqcXRBzxp1vPxH73Qo9cp89mTJo
-        DWcIV0QwTWJ6pQpKD/xAyXpv6A==
-X-Google-Smtp-Source: AMsMyM7qEGEFybZQ/s1vwsv5EnaCGOXvocUhKwgK8vrYIiDHjtFPPAIasFVplw2SF1mw3CbgefYa2w==
-X-Received: by 2002:a5d:42c7:0:b0:236:4ddd:3576 with SMTP id t7-20020a5d42c7000000b002364ddd3576mr4144203wrr.289.1666359485075;
-        Fri, 21 Oct 2022 06:38:05 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qLW9FnoLQc7PleQYsjtukTsF4zwFV4e2UFMmghknV0A=;
+        b=n6YTkDJ4G3zo4uZRu7yEXa1mg2cl+x2YkAH9ICTwgo7YzT8KrClCIhnVHVyHU7V857
+         CcrmJ/4dJclkva9K5bcQFwZNbTOn9cD+o26QgPkihpiEFTd29Ey5xaWWC+Pomb4H1Whp
+         97c/nNx3iwU7JoJXdZeYA+ufxRmJcura4L3R6o9jXnub/XyIuZoUcCqqmNLLymyYa1kX
+         KXvU1/N25UNC8pWURLqeebDfiR7tqEwiw5BtBN31hIVxUHaP8PUWQWcwPo7jsVOIRFN/
+         hsdPEMsPFBVjaX03I61muh/NhqvjmqlxRbh0mHuLEcubq67OlAs2z2YS/L1rgfFYSZqh
+         HWjA==
+X-Gm-Message-State: ACrzQf0SVhOp2IsR6OlZ0nsUYcRgdxArZuis3lDjTEUdJXTKmSI7Rt5z
+        CBmwm99xiLMc7fKqswQRBtyo1feobl3W2Faz
+X-Google-Smtp-Source: AMsMyM78KxID0nlhfiPnA8La+isJ1lYfn0KYj8PqfiXRifKWZDT56bvl00KPWG3O4rhRbTxlWh3DAg==
+X-Received: by 2002:a05:6000:2ad:b0:231:48fb:3a64 with SMTP id l13-20020a05600002ad00b0023148fb3a64mr11952614wry.184.1666359486433;
+        Fri, 21 Oct 2022 06:38:06 -0700 (PDT)
 Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id l35-20020a05600c1d2300b003b477532e66sm10462313wms.2.2022.10.21.06.38.04
+        by smtp.googlemail.com with ESMTPSA id l35-20020a05600c1d2300b003b477532e66sm10462313wms.2.2022.10.21.06.38.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Oct 2022 06:38:04 -0700 (PDT)
+        Fri, 21 Oct 2022 06:38:06 -0700 (PDT)
 From:   Corentin Labbe <clabbe@baylibre.com>
 To:     gregkh@linuxfoundation.org, johan@kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         neil.armstrong@linaro.org, Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH v2 0/2] usb: serial: add support for CH348
-Date:   Fri, 21 Oct 2022 13:37:56 +0000
-Message-Id: <20221021133758.1881904-1-clabbe@baylibre.com>
+Subject: [PATCH v2 2/2] usb: serial: add myself as maintainer of CH348
+Date:   Fri, 21 Oct 2022 13:37:58 +0000
+Message-Id: <20221021133758.1881904-3-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221021133758.1881904-1-clabbe@baylibre.com>
+References: <20221021133758.1881904-1-clabbe@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello
+Since I did the driver and have hardware to test, set myself as
+maintainer of it.
 
-The CH348 is an octo serial to USB adapter.
-The following patch adds a driver for supporting it.
-Since there is no public datasheet, unfortunatly it remains some magic values.
+Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+---
+ MAINTAINERS | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-It was tested with a large range of baud from 1200 to 1500000 and used with
-success in one of our kernel CI testlab.
-
-Regards
-
-Changes since v1:
-- use a data structure for encoding/decoding messages.
-- check if needed endpoints exists
-- fix URB leak in ch348_allocate_status_read error case
-- test for maximum baud rate as stated by datasheet
-
-Corentin Labbe (2):
-  usb: serial: add support for CH348
-  usb: serial: add myself as maintainer of CH348
-
- MAINTAINERS                 |   5 +
- drivers/usb/serial/Kconfig  |   9 +
- drivers/usb/serial/Makefile |   1 +
- drivers/usb/serial/ch348.c  | 738 ++++++++++++++++++++++++++++++++++++
- 4 files changed, 753 insertions(+)
- create mode 100644 drivers/usb/serial/ch348.c
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b9ed414dd8ab..cc498aa84a4f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4847,6 +4847,11 @@ S:	Maintained
+ F:	drivers/auxdisplay/cfag12864bfb.c
+ F:	include/linux/cfag12864b.h
+ 
++CH348 USB SERIAL ADAPTER
++M:	Corentin Labbe <clabbe@baylibre.com>
++S:	Maintained
++F:	drivers/usb/serial/ch348.c
++
+ CHAR and MISC DRIVERS
+ M:	Arnd Bergmann <arnd@arndb.de>
+ M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 -- 
 2.37.4
 
