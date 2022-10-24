@@ -2,168 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84F62ECAAA1
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Oct 2022 17:35:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCAAFFA373F
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Oct 2022 17:53:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233380AbiJXRfO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Oct 2022 13:35:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58412 "EHLO
+        id S232624AbiJXRxM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Oct 2022 13:53:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233237AbiJXRex (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 13:34:53 -0400
-Received: from mx0a-0014ca01.pphosted.com (mx0a-0014ca01.pphosted.com [208.84.65.235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79C1A4DF13;
-        Mon, 24 Oct 2022 09:09:52 -0700 (PDT)
-Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
-        by mx0a-0014ca01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29OCu0pT011978;
-        Mon, 24 Oct 2022 07:04:57 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=proofpoint;
- bh=/pk38fEZ9U0+nRNaqE9OQAzzGVgDKqaCIE5yNVgKWZU=;
- b=Gbt7rWGO+gU4SbmxkflEj+uVO8bmRjccs3rk0hkDaH8GORI/Rv3LjQ2Dpd55P6QToMRR
- d41el+UdBN9oRf+IZGPpjQmJeBfhpJ/TNU83WBi1toEzJ+7QMEXdjt8Dn4vfWsX6GM4X
- 2rK0Yknc6+HzD2O4lzoaIHZXHjLz+G86o3rck9PuFoWri3toHoru2qdRR91eFmDqo+Pz
- YZQ+TIKRhxEgboKpt6bpGSHQ+p0WaMEhH97T7oRoJ1W44NmjcmMhC0iuptiHqquqGJbV
- RZ2lNEkp97vrxRnWFG3koBgTcMvinWBB1rU/gx7wbexmbMtkB+I7myGOMBPxWqY2dqIm Og== 
-Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam04lp2049.outbound.protection.outlook.com [104.47.74.49])
-        by mx0a-0014ca01.pphosted.com (PPS) with ESMTPS id 3kcd30rex2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 24 Oct 2022 07:04:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WlHDOm/tLup3L4hgHeUlBNMDV+4ySZ3hW/935urcMP61tBHKgjKcdnjIIEZZZXCpNz8FLt23+Fi3RAx/gNiO7uk8xe5Q4c9sAcYXIXaXICejPTCJu2aZ2pLcPaRNtm2bkLAadBA+zu7bXZyOPweq6arM9ttSK62pQ1kSxPLrroOVLbEkyThtmHSstaU61zPZvXc2FSfmskb0R//tqMNvyH7DRD+/rxbq+8oOs5FBEkDAvujSLYngAKX292mSlJe4suwRHzDdoDacRYKDLuxCCHwIb+X33F7sXU207/Qv5yYOiG/K7SVdSXja3oXi2zVgzD7Xe85c63IxTxDEYjUmsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/pk38fEZ9U0+nRNaqE9OQAzzGVgDKqaCIE5yNVgKWZU=;
- b=ksBvzV+/bfv5H+tEufqDiR+z3EgStM459rfPRYV8KKCHvYWB+cuLvLrXBEDGy1SojpgRzRyedBncjOXRer47zxPsTmEFN+hvqdl6RhigT8NimSRgc+r86d+fqnjVy7gTj4XL+o6x+aSpx5oalJJeypH//VnSIoqIVTExziFbm/Fdv5LoRhlZ+6ntuSNul7t1XxEZxjZZwu14d/32NTa0OAnt5oXgwRayvBBgI12pP9T1fq8/tpqSwrzCYC9H0plD5kXfGK1J2+k2Dve2enbf4AHV2jjR7SJSRZAHgNdOtnz6TDzaOYvb8I/lLPms4JntvL1gPB43NWdTbWixECxlbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 158.140.1.147) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=cadence.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/pk38fEZ9U0+nRNaqE9OQAzzGVgDKqaCIE5yNVgKWZU=;
- b=03Kw9fEZEBOyZYjM7x1+NnFSuC5ZaXB7xMoTs18WuOBN5VJWg8jApeOnG5bC1QN5uekFIbRCW3/qbl4r4zJtF1PkqHz4fzAiIrMrZOaUSEula65jTjORIU3zoV4YpoD5NUhWg2dwGql21qP9f8zNPGj6oZ6LvIchZ9K0I0X+dpg=
-Received: from MW4P221CA0007.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::12)
- by PH8PR07MB9582.namprd07.prod.outlook.com (2603:10b6:510:225::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.29; Mon, 24 Oct
- 2022 14:04:53 +0000
-Received: from MW2NAM12FT010.eop-nam12.prod.protection.outlook.com
- (2603:10b6:303:8b:cafe::db) by MW4P221CA0007.outlook.office365.com
- (2603:10b6:303:8b::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.26 via Frontend
- Transport; Mon, 24 Oct 2022 14:04:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 158.140.1.147)
- smtp.mailfrom=cadence.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=cadence.com;
-Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
- 158.140.1.147 as permitted sender) receiver=protection.outlook.com;
- client-ip=158.140.1.147; helo=sjmaillnx1.cadence.com; pr=C
-Received: from sjmaillnx1.cadence.com (158.140.1.147) by
- MW2NAM12FT010.mail.protection.outlook.com (10.13.180.77) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5769.10 via Frontend Transport; Mon, 24 Oct 2022 14:04:52 +0000
-Received: from maileu4.global.cadence.com (eudvw-maileu4.cadence.com [10.160.110.201])
-        by sjmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id 29OE4o46005187
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 24 Oct 2022 07:04:51 -0700
-Received: from maileu5.global.cadence.com (10.160.110.202) by
- maileu4.global.cadence.com (10.160.110.201) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Mon, 24 Oct 2022 16:04:49 +0200
-Received: from eu-cn01.cadence.com (10.160.89.184) by
- maileu5.global.cadence.com (10.160.110.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24 via Frontend Transport; Mon, 24 Oct 2022 16:04:49 +0200
-Received: from eu-cn01.cadence.com (localhost.localdomain [127.0.0.1])
-        by eu-cn01.cadence.com (8.14.7/8.14.7) with ESMTP id 29OE4naR139902;
-        Mon, 24 Oct 2022 10:04:49 -0400
-Received: (from pawell@localhost)
-        by eu-cn01.cadence.com (8.14.7/8.14.7/Submit) id 29OE4nnV139899;
-        Mon, 24 Oct 2022 10:04:49 -0400
-From:   Pawel Laszczak <pawell@cadence.com>
-To:     <peter.chen@kernel.org>
-CC:     <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>, <stable@vger.kernel.org>
-Subject: [PATCH v2] usb: cdnsp: fix issue with ZLP - added TD_SIZE = 1
-Date:   Mon, 24 Oct 2022 10:04:35 -0400
-Message-ID: <1666620275-139704-1-git-send-email-pawell@cadence.com>
-X-Mailer: git-send-email 2.4.5
+        with ESMTP id S231670AbiJXRw6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 13:52:58 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E810F1552E8;
+        Mon, 24 Oct 2022 09:30:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 70D0BB81440;
+        Mon, 24 Oct 2022 16:29:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 766C7C433D6;
+        Mon, 24 Oct 2022 16:29:14 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="baNLxAdt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1666628952;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=f+qKYAdQp0ZEOEJVb3ZMoRSM9GmC/NBgUVzDe+p3Xhc=;
+        b=baNLxAdtA79kdxbhdqIBu/sjlNgsqeE2qUVKkORCsOuwuWBg0oRL38hXps3SPUOqqXVNKS
+        Z/2iGMt2QmEyErn1cqnsbvPubWrdcwPi2UrTbif0wjaLMue3qmMQcH6GHyTOyhPN2swfo0
+        BElAlULw6U5wYTHdnPfAbh4rI7IHzeI=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 2b4b3ec4 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Mon, 24 Oct 2022 16:29:12 +0000 (UTC)
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Thomas Winischhofer <thomas@winischhofer.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Helge Deller <deller@gmx.de>, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] video: fbdev: sis: use explicitly signed char
+Date:   Mon, 24 Oct 2022 18:29:01 +0200
+Message-Id: <20221024162901.535972-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-CrossPremisesHeadersFilteredBySendConnector: maileu4.global.cadence.com
-X-OrganizationHeadersPreserved: maileu4.global.cadence.com
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW2NAM12FT010:EE_|PH8PR07MB9582:EE_
-X-MS-Office365-Filtering-Correlation-Id: f13f8119-9b9d-481b-52aa-08dab5c8b916
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qWBGWRT2dlEd/SbxcXbSGdqZZMKdvTE3xmC3+4C8AVlpPv6jP0YlA2qWqrcci3RW3/fJ6qBaT8Zx1iEZ17MKSgI7X+B03MV0vx+wBOVO9EyHWJPjCSqfabszxKXCHnwbgbjUBvrf5T5EqwfCEx3TwRTmR1Icsl2j1u0Gmb3nkN9OECIU5msZC2pGam6ukKzSbOdDSiZ3n2qrmMtuY27visZEI5wKx8zlGlxLQfR7OoGfCWsRUvr5ClA0MwhWjG8izJbvuLezkixsK/r1OGcDvkIJScsNkdya69nJoALONYjCsiJiBbjTlVt6ouddv8J/bQ0kqesydqiIQKCxtWsqXD0gCiO6EeeiCD3hlzj25mZA8/r9ww8Kpab1huEXJQ8LQLJsivxSiuWDmUz36ioPjEBuVymLN7ZmKu/jktUMi7nxNFwLn5mKI0Liwj5coeG7wTRhne7Lo16dgPnagH1EmQ5/LXBe96lO583Z0vl+oksDUyfXRfuB5WPJmjCggh0KQfpLn+o9YkvcXgIHToCnTUuod3CGZ2PdHsjMD5lN+jAzr1T2+Z7dEKk65JC/i/hYUzeVfk+LvbiE6TCSDm2JOzd9QHY4wyWe5RbOA3DVXxJMSlvuvFFe5yuAUCmrhqJN6+KjZIpZzAdyhxhy4hAxJVCrwRMCjt/ftVQjAQg+iVIru76Nn1Rh/G69bnSxO6kRQyf5oH2Ek6iC2aH50aziXX11JugPwz5XN1WnpcCjb++qaKP6rWbfoBYvQUm5ykyJoL96h5KAaFsgZRSCAfdyhA==
-X-Forefront-Antispam-Report: CIP:158.140.1.147;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sjmaillnx1.cadence.com;PTR:unknown.Cadence.COM;CAT:NONE;SFS:(13230022)(4636009)(136003)(346002)(396003)(39860400002)(376002)(36092001)(451199015)(40470700004)(46966006)(36840700001)(83380400001)(82310400005)(36756003)(2616005)(36860700001)(356005)(47076005)(54906003)(5660300002)(336012)(426003)(70206006)(7636003)(4326008)(186003)(6916009)(82740400003)(86362001)(70586007)(316002)(40480700001)(478600001)(40460700003)(42186006)(2906002)(41300700001)(8936002)(26005)(8676002)(6666004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 14:04:52.9212
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f13f8119-9b9d-481b-52aa-08dab5c8b916
-X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[158.140.1.147];Helo=[sjmaillnx1.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: MW2NAM12FT010.eop-nam12.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR07MB9582
-X-Proofpoint-GUID: RXyMBqr0p2137ijI-LzIFHmLtizwhBRq
-X-Proofpoint-ORIG-GUID: RXyMBqr0p2137ijI-LzIFHmLtizwhBRq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-24_04,2022-10-21_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 bulkscore=0
- clxscore=1015 priorityscore=1501 impostorscore=0 malwarescore=0
- adultscore=0 suspectscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0
- mlxlogscore=488 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2209130000 definitions=main-2210240086
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Patch modifies the TD_SIZE in TRB before ZLP TRB.
-The TD_SIZE in TRB before ZLP TRB must be set to 1 to force
-processing ZLP TRB by controller.
+With char becoming unsigned by default, and with `char` alone being
+ambiguous and based on architecture, signed chars need to be marked
+explicitly as such. This fixes warnings like:
 
-cc: <stable@vger.kernel.org>
-Fixes: 3d82904559f4 ("usb: cdnsp: cdns3 Add main part of Cadence USBSSP DRD Driver")
-Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+drivers/video/fbdev/sis/init301.c:3549 SiS_GetCRT2Data301() warn: 'SiS_Pr->SiS_EModeIDTable[ModeIdIndex]->ROMMODEIDX661' is unsigned
 
+Cc: Thomas Winischhofer <thomas@winischhofer.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-usb@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
-Changelog:
-v2:
-- returned value for last TRB must be 0
+ drivers/usb/misc/sisusbvga/sisusb_struct.h | 2 +-
+ drivers/video/fbdev/sis/vstruct.h          | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
- drivers/usb/cdns3/cdnsp-ring.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/cdns3/cdnsp-ring.c b/drivers/usb/cdns3/cdnsp-ring.c
-index 04dfcaa08dc4..aa79bce89d8a 100644
---- a/drivers/usb/cdns3/cdnsp-ring.c
-+++ b/drivers/usb/cdns3/cdnsp-ring.c
-@@ -1769,8 +1769,13 @@ static u32 cdnsp_td_remainder(struct cdnsp_device *pdev,
+diff --git a/drivers/usb/misc/sisusbvga/sisusb_struct.h b/drivers/usb/misc/sisusbvga/sisusb_struct.h
+index 3df64d2a9d43..a86032a26d36 100644
+--- a/drivers/usb/misc/sisusbvga/sisusb_struct.h
++++ b/drivers/usb/misc/sisusbvga/sisusb_struct.h
+@@ -91,7 +91,7 @@ struct SiS_Ext {
+ 	unsigned char VB_ExtTVYFilterIndex;
+ 	unsigned char VB_ExtTVYFilterIndexROM661;
+ 	unsigned char REFindex;
+-	char ROMMODEIDX661;
++	signed char ROMMODEIDX661;
+ };
  
- 	/* One TRB with a zero-length data packet. */
- 	if (!more_trbs_coming || (transferred == 0 && trb_buff_len == 0) ||
--	    trb_buff_len == td_total_len)
-+	    trb_buff_len == td_total_len) {
-+		/* Before ZLP driver needs set TD_SIZE=1. */
-+		if (more_trbs_coming)
-+			return 1;
-+
- 		return 0;
-+	}
+ struct SiS_Ext2 {
+diff --git a/drivers/video/fbdev/sis/vstruct.h b/drivers/video/fbdev/sis/vstruct.h
+index ea94d214dcff..d7a14e63ba5a 100644
+--- a/drivers/video/fbdev/sis/vstruct.h
++++ b/drivers/video/fbdev/sis/vstruct.h
+@@ -148,7 +148,7 @@ struct SiS_Ext {
+ 	unsigned char  VB_ExtTVYFilterIndex;
+ 	unsigned char  VB_ExtTVYFilterIndexROM661;
+ 	unsigned char  REFindex;
+-	char           ROMMODEIDX661;
++	signed char    ROMMODEIDX661;
+ };
  
- 	maxp = usb_endpoint_maxp(preq->pep->endpoint.desc);
- 	total_packet_count = DIV_ROUND_UP(td_total_len, maxp);
+ struct SiS_Ext2 {
 -- 
-2.25.1
+2.38.1
 
