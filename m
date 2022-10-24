@@ -2,93 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97A17C38A2D
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Oct 2022 20:59:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34858FA373F
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Oct 2022 21:14:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235053AbiJXU7v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Oct 2022 16:59:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36382 "EHLO
+        id S232690AbiJXVN5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Oct 2022 17:13:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235462AbiJXU7Y (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 16:59:24 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AA7CD189805;
-        Mon, 24 Oct 2022 12:05:36 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7FCA61515;
-        Mon, 24 Oct 2022 07:17:24 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D63D3F792;
-        Mon, 24 Oct 2022 07:17:16 -0700 (PDT)
-Date:   Mon, 24 Oct 2022 15:17:14 +0100
-From:   Andre Przywara <andre.przywara@arm.com>
-To:     Icenowy Zheng <uwu@icenowy.me>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        soc@kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 09/10] dt-binding: arm: sunxi: add compatible strings
- for PopStick v1.1
-Message-ID: <20221024151714.59968916@donnerap.cambridge.arm.com>
-In-Reply-To: <20221012055602.1544944-10-uwu@icenowy.me>
-References: <20221012055602.1544944-1-uwu@icenowy.me>
-        <20221012055602.1544944-10-uwu@icenowy.me>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+        with ESMTP id S233870AbiJXVNa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 17:13:30 -0400
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C3A99F34B;
+        Mon, 24 Oct 2022 12:19:08 -0700 (PDT)
+Received: by mail-oi1-x22c.google.com with SMTP id n83so11832935oif.11;
+        Mon, 24 Oct 2022 12:19:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QIBzsXoRmDPCk+QGItVKsAnVTVNA5SJC3SeSu8UPZ0Q=;
+        b=mxQII/Jy11+yUIWhqP2PeP/Lr5BZnFAyoiWSsR67VgllbOqCaHbffVdgag7PditIqG
+         T3Yj8xynxS6yQkYDJQkTQSS8HcuG+KCC3qKsR0yIr207Fj43g9WgxVgWEU8lpAjWdmoc
+         6iLCrydLb2bIii1k6Rjkxy9/B+NhHDbeT320FBBRLnFhva8C3l8tHL2JopTXczJafejH
+         LQcmBzdFDRNXzHb+gBZRobEDhjQtczFcpHHAGKnFTdWQ5MABWWZ1iU7iNm7JPiNBH12L
+         4q0FP/5M4u0OGmjH1JbEzWFAUhpF00tQpHTWcQDfSeMLHlDdNXpedQ/UyETzFyiHPGAd
+         UQDg==
+X-Gm-Message-State: ACrzQf2tz6RR+gTPoOrmHhTioArP0XOk3sgav0UoPNkTiWTa44V34FZO
+        sb3vKL91t8/7pItXlJ2A3DVOWr2T+g==
+X-Google-Smtp-Source: AMsMyM4MB6WxE1PPXgNUticTmOt/0jgwpX4JDtNdVwFd2Y/nV7ZFEF/0yX9UhR/ug7Xqhywv3Aw1Dw==
+X-Received: by 2002:a05:6808:16a6:b0:351:7211:6192 with SMTP id bb38-20020a05680816a600b0035172116192mr17441079oib.251.1666638994336;
+        Mon, 24 Oct 2022 12:16:34 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id x6-20020a05680801c600b0035173c2fddasm172201oic.51.2022.10.24.12.16.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Oct 2022 12:16:33 -0700 (PDT)
+Received: (nullmailer pid 2064239 invoked by uid 1000);
+        Mon, 24 Oct 2022 19:16:35 -0000
+Date:   Mon, 24 Oct 2022 14:16:35 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, Felipe Balbi <balbi@kernel.org>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2 v1] usb: phy: phy-gpio-vbus-usb: Add devicetree
+ bindings
+Message-ID: <20221024191635.GA2060090-robh@kernel.org>
+References: <20221022121149.3329641-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221022121149.3329641-1-linus.walleij@linaro.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 12 Oct 2022 13:56:01 +0800
-Icenowy Zheng <uwu@icenowy.me> wrote:
-
-Hi Icenowy,
-
-> SourceParts PopStick is a F1C200s-based stick-shaped SBC.
+On Sat, Oct 22, 2022 at 02:11:48PM +0200, Linus Walleij wrote:
+> This adds a simple device tree binding for a GPIO-based
+> VBUS detection PHY.
 > 
-> Add a compatible string list for its v1.1 version (the first public
-> one).
-
-If v1.0 (or anything prior) never made it to the outside world, I don't
-think we need to mention that in the public bindings.
-In general Linux seems to discourage support for unreleased hardware, so I
-think you can just drop the "sourceparts,popstick-v1.1" name.
-
-Cheers,
-Andre
-
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> Cc: Felipe Balbi <balbi@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
-> New patch introduced in v2.
+>  .../bindings/phy/phy-usb-vbus-gpio.yaml       | 47 +++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/phy/phy-usb-vbus-gpio.yaml
 > 
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> index 3ad1cd50e3fe..c6e0ad7f461d 100644
-> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> @@ -807,6 +807,13 @@ properties:
->            - const: sinlinx,sina33
->            - const: allwinner,sun8i-a33
->  
-> +      - description: SourceParts PopStick v1.1
-> +        items:
-> +          - const: sourceparts,popstick-v1.1
-> +          - const: sourceparts,popstick
-> +          - const: allwinner,suniv-f1c200s
-> +          - const: allwinner,suniv-f1c100s
+> diff --git a/Documentation/devicetree/bindings/phy/phy-usb-vbus-gpio.yaml b/Documentation/devicetree/bindings/phy/phy-usb-vbus-gpio.yaml
+> new file mode 100644
+> index 000000000000..4e10b58f8235
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/phy-usb-vbus-gpio.yaml
+> @@ -0,0 +1,47 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/phy-usb-vbus-gpio.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->        - description: SL631 Action Camera with IMX179
->          items:
->            - const: allwinner,sl631-imx179
+> +title: GPIO-based VBUS detection USB PHY
+> +
+> +maintainers:
+> +  - Linus Walleij <linus.walleij@linaro.org>
+> +
+> +description: A VBUS event occurs when a USB plug is attached to
+> +  a USB host and peripheral, the voltage (VBUS) is exposed from the
+> +  host to the peripheral when the last of the two ends of the
+> +  cable is plugged in. This can be either on the host side or on
+> +  the peripheral side, whichever comes last. It is possible to
+> +  provide a very simple USB VBUS detection mechanism by using a
+> +  GPIO line that will trigger on an edge event on the VBUS
+> +  pin.
 
+We already have Vbus GPIOs in the USB connector binding and there is 
+also the usb-nop-transceiver. Surely one of those works for you? 
+Preferably the former.
+
+Rob
