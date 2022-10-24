@@ -2,25 +2,25 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9E74FA3740
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Oct 2022 18:44:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C47FFA3741
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Oct 2022 18:44:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231252AbiJXSoU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Oct 2022 14:44:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41856 "EHLO
+        id S231337AbiJXSoX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Oct 2022 14:44:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232348AbiJXSnh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 14:43:37 -0400
+        with ESMTP id S232165AbiJXSnn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 14:43:43 -0400
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E02E6144089;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E036F147074;
         Mon, 24 Oct 2022 10:25:51 -0700 (PDT)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BBAC4D6E;
-        Mon, 24 Oct 2022 07:56:49 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 401551477;
+        Mon, 24 Oct 2022 07:17:12 -0700 (PDT)
 Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B75B83F792;
-        Mon, 24 Oct 2022 07:56:41 -0700 (PDT)
-Date:   Mon, 24 Oct 2022 15:56:39 +0100
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 243153F792;
+        Mon, 24 Oct 2022 07:17:04 -0700 (PDT)
+Date:   Mon, 24 Oct 2022 15:17:01 +0100
 From:   Andre Przywara <andre.przywara@arm.com>
 To:     Icenowy Zheng <uwu@icenowy.me>
 Cc:     Rob Herring <robh+dt@kernel.org>,
@@ -32,13 +32,13 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         soc@kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 10/10] ARM: dts: suniv: add device tree for PopStick
- v1.1
-Message-ID: <20221024155639.5e97d205@donnerap.cambridge.arm.com>
-In-Reply-To: <20221012055602.1544944-11-uwu@icenowy.me>
+        linux-usb@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 02/10] dt-bindings: phy: add binding document for
+ Allwinner F1C100s USB PHY
+Message-ID: <20221024151701.3dff5794@donnerap.cambridge.arm.com>
+In-Reply-To: <20221012055602.1544944-3-uwu@icenowy.me>
 References: <20221012055602.1544944-1-uwu@icenowy.me>
-        <20221012055602.1544944-11-uwu@icenowy.me>
+        <20221012055602.1544944-3-uwu@icenowy.me>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 MIME-Version: 1.0
@@ -48,162 +48,132 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 12 Oct 2022 13:56:02 +0800
+On Wed, 12 Oct 2022 13:55:54 +0800
 Icenowy Zheng <uwu@icenowy.me> wrote:
 
-Hi,
-
-> PopStick is a minimal Allwinner F1C200s dongle, with its USB controller
-> wired to a USB Type-A port, a SD slot and a SPI NAND flash on board, and
-> an on-board CH340 USB-UART converted connected to F1C200s's UART0.
+> Allwinner F1C100s has the most simple USB PHY among all Allwinner SoCs,
+> because it has only one OTG USB controller, no host-only OHCI/EHCI
+> controllers.
 > 
-> Add a device tree for it. As F1C200s is just F1C100s with a different
-> DRAM chip co-packaged, directly use F1C100s DTSI here.
+> Add a binding document for it. Following the current situation of one
+> YAML file per SoC, this one is based on
+> allwinner,sun8i-v3s-usb-phy.yaml, but with OHCI/EHCI-related bits
+> removed. (The same driver in Linux, phy-sun4i-usb, covers all these
+> binding files now.)
 > 
-> This commit covers the v1.1 version of this board, which is now shipped.
-> v1.0 is some internal sample that have not been shipped at all.
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+> Changes in v2:
+> - Clarify the relation with other phy-sun4i-usb bindings.
+> - Added Rob's ACK.
+> 
+>  .../phy/allwinner,suniv-f1c100s-usb-phy.yaml  | 83 +++++++++++++++++++
+>  1 file changed, 83 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.yaml b/Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.yaml
+> new file mode 100644
+> index 000000000000..22ff8e0f2331
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.yaml
+> @@ -0,0 +1,83 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/allwinner,suniv-f1c100s-usb-phy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner F1C100s USB PHY Device Tree Bindings
 
-As mentioned in the other patch, if that is the case, I don't think we
-need to bother about the version number in the filename and compatible
-strings, especially if a v1.0 will never be upstreamed. If there are users
-of the internal version still, they can use an explicit "v1.0" in their
-downstream versions.
+I see that commit dd3cb467ebb56 [1] discourages the redundant "Device Tree
+Bindings" suffix in the title name, so I think you should remove that.
 
-So apart from what Krzysztof and Clement already mentioned, the DT itself
-looks fine to me otherwise. I also ran dt-validate on it, and used it as a
-base for another F1C200s board.
+The rest looks alright to me, compared against the manual and what the
+driver expects, so with that fixed:
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
 Cheers,
 Andre
 
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> ---
-> New patch introduced in v2.
-> 
->  arch/arm/boot/dts/Makefile                    |   3 +-
->  .../boot/dts/suniv-f1c200s-popstick-v1.1.dts  | 101 ++++++++++++++++++
->  2 files changed, 103 insertions(+), 1 deletion(-)
->  create mode 100644 arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
-> 
-> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-> index 6aa7dc4db2fc..0249c07bd8a6 100644
-> --- a/arch/arm/boot/dts/Makefile
-> +++ b/arch/arm/boot/dts/Makefile
-> @@ -1391,7 +1391,8 @@ dtb-$(CONFIG_MACH_SUN9I) += \
->  	sun9i-a80-optimus.dtb \
->  	sun9i-a80-cubieboard4.dtb
->  dtb-$(CONFIG_MACH_SUNIV) += \
-> -	suniv-f1c100s-licheepi-nano.dtb
-> +	suniv-f1c100s-licheepi-nano.dtb \
-> +	suniv-f1c200s-popstick-v1.1.dtb
->  dtb-$(CONFIG_ARCH_TEGRA_2x_SOC) += \
->  	tegra20-acer-a500-picasso.dtb \
->  	tegra20-asus-tf101.dtb \
-> diff --git a/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
-> new file mode 100644
-> index 000000000000..121dfc6f609d
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
-> @@ -0,0 +1,101 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright 2022 Icenowy Zheng <uwu@icenowy.me>
-> + */
+[1]
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dd3cb467ebb56
+
 > +
-> +/dts-v1/;
-> +#include "suniv-f1c100s.dtsi"
+> +maintainers:
+> +  - Chen-Yu Tsai <wens@csie.org>
+> +  - Maxime Ripard <mripard@kernel.org>
 > +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/leds/common.h>
+> +properties:
+> +  "#phy-cells":
+> +    const: 1
 > +
-> +/ {
-> +	model = "Popcorn Computer PopStick v1.1";
-> +	compatible = "sourceparts,popstick-v1.1", "sourceparts,popstick",
-> +		     "allwinner,suniv-f1c200s", "allwinner,suniv-f1c100s";
+> +  compatible:
+> +    const: allwinner,suniv-f1c100s-usb-phy
 > +
-> +	aliases {
-> +		mmc0 = &mmc0;
-> +		serial0 = &uart0;
-> +		spi0 = &spi0;
-> +	};
+> +  reg:
+> +    maxItems: 1
+> +    description: PHY Control registers
 > +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
+> +  reg-names:
+> +    const: phy_ctrl
 > +
-> +	leds {
-> +		compatible = "gpio-leds";
+> +  clocks:
+> +    maxItems: 1
+> +    description: USB OTG PHY bus clock
 > +
-> +		led {
-> +			function = LED_FUNCTION_STATUS;
-> +			color = <LED_COLOR_ID_GREEN>;
-> +			gpios = <&pio 4 6 GPIO_ACTIVE_HIGH>; /* PE6 */
-> +			linux,default-trigger = "heartbeat";
-> +		};
-> +	};
+> +  clock-names:
+> +    const: usb0_phy
 > +
-> +	reg_vcc3v3: vcc3v3 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc3v3";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +	};
-> +};
+> +  resets:
+> +    maxItems: 1
+> +    description: USB OTG reset
 > +
-> +&mmc0 {
-> +	cd-gpios = <&pio 4 3 GPIO_ACTIVE_LOW>; /* PE3 */
-> +	bus-width = <4>;
-> +	disable-wp;
-> +	status = "okay";
-> +	vmmc-supply = <&reg_vcc3v3>;
-> +};
+> +  reset-names:
+> +    const: usb0_reset
 > +
-> +&spi0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&spi0_pc_pins>;
-> +	status = "okay";
+> +  usb0_id_det-gpios:
+> +    maxItems: 1
+> +    description: GPIO to the USB OTG ID pin
 > +
-> +	flash@0 {
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		compatible = "spi-nand";
-> +		reg = <0>;
-> +		spi-max-frequency = <40000000>;
+> +  usb0_vbus_det-gpios:
+> +    maxItems: 1
+> +    description: GPIO to the USB OTG VBUS detect pin
 > +
-> +		partitions {
-> +			compatible = "fixed-partitions";
-> +			#address-cells = <1>;
-> +			#size-cells = <1>;
+> +  usb0_vbus_power-supply:
+> +    description: Power supply to detect the USB OTG VBUS
 > +
-> +			partition@0 {
-> +				label = "u-boot-with-spl";
-> +				reg = <0x0 0x100000>;
-> +			};
+> +  usb0_vbus-supply:
+> +    description: Regulator controlling USB OTG VBUS
 > +
-> +			ubi@100000 {
-> +				label = "ubi";
-> +				reg = <0x100000 0x7f00000>;
-> +			};
-> +		};
-> +	};
-> +};
+> +required:
+> +  - "#phy-cells"
+> +  - compatible
+> +  - clocks
+> +  - clock-names
+> +  - reg
+> +  - reg-names
+> +  - resets
+> +  - reset-names
 > +
-> +&otg_sram {
-> +	status = "okay";
-> +};
+> +additionalProperties: false
 > +
-> +&uart0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart0_pe_pins>;
-> +	status = "okay";
-> +};
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/clock/suniv-ccu-f1c100s.h>
+> +    #include <dt-bindings/reset/suniv-ccu-f1c100s.h>
 > +
-> +&usb_otg {
-> +	dr_mode = "peripheral";
-> +	status = "okay";
-> +};
-> +
-> +&usbphy {
-> +	status = "okay";
-> +};
+> +    phy@1c13400 {
+> +        compatible = "allwinner,suniv-f1c100s-usb-phy";
+> +        reg = <0x01c13400 0x10>;
+> +        reg-names = "phy_ctrl";
+> +        clocks = <&ccu CLK_USB_PHY0>;
+> +        clock-names = "usb0_phy";
+> +        resets = <&ccu RST_USB_PHY0>;
+> +        reset-names = "usb0_reset";
+> +        #phy-cells = <1>;
+> +        usb0_id_det-gpios = <&pio 4 2 GPIO_ACTIVE_HIGH>;
+> +    };
 
