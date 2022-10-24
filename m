@@ -2,62 +2,89 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AACC6FA373F
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Oct 2022 19:34:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 403F3FA373F
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Oct 2022 20:06:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231383AbiJXTeu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Oct 2022 15:34:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49564 "EHLO
+        id S231979AbiJXUG1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Oct 2022 16:06:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232949AbiJXTdt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 15:33:49 -0400
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2E8B22B13
-        for <linux-usb@vger.kernel.org>; Mon, 24 Oct 2022 11:04:35 -0700 (PDT)
-Received: by mail-pl1-f171.google.com with SMTP id g24so4113074plq.3
-        for <linux-usb@vger.kernel.org>; Mon, 24 Oct 2022 11:04:35 -0700 (PDT)
+        with ESMTP id S231938AbiJXUFl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 16:05:41 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0CB558076
+        for <linux-usb@vger.kernel.org>; Mon, 24 Oct 2022 11:26:30 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id b185so3468314pfb.9
+        for <linux-usb@vger.kernel.org>; Mon, 24 Oct 2022 11:26:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4oIVzfpMgaAT0HX4FWTthc6xrrun7ylc9/g6rsWhf08=;
+        b=1O1ZHqYiBlXY2fwJNdkh+vQ/VNUVsNL1SE/FLAfOhoxD5MPiaq4El7Qm3wHo+8cgb3
+         gl9aeVRIggYlqbyizkSb3bBtxGG+NDi5jQPFLC5t5vcs2zVF6v3XXS2LwIAxKpdiwggC
+         n0PBC2uHZpCn05uEfUStTvJ1YOjR10a1WhlYwJ1EMZXodMLzQ2LjYg7xigqwXSPkiO03
+         194iUFBYOfLlARIf+xoEZo/W0V34QwVqxfhOTk30UjgjuOg0gjGBGTFOiN2O2yCX/CJd
+         B7mqvd4VripHn5nnSvfz8dNOkV/MSTcHE9+6t9xVPrjJY5DORvB26GRhxou4kxGlK326
+         FM1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CPf6G/73Hd0s0zh7PYg5rvhdRmvS3jQjXsc+lqFusyc=;
-        b=7dgkL+g4+97KDdP8HbLlhpskVi0nr/YRASo9eK8WVyCBB8RUFUwgo/Uqv1ipslx2Sm
-         hH/Vfzj5H4XHljL/CwK7sBMe4ZCJ3PSjnNGkzXpssGPoFoY26v+22tIGhKlknksIc539
-         2PCpYtjtT5S8f8v6mDlt1W3KQXfEIdEpXimrZhvoJqLZMeoERiAI3G512ZjO7HbenAqk
-         MtRkIa8lVXi6UY6plsGW4esekJyGHseKqTFbHnXJLO02IHGejqxioAHh3ghzPM+/3Iqf
-         rAiZtYWjDjxZYC4RTAD8TxqT0s+2JSqAjafgPMQkbqL9ySOqkecbL1ZHXi90EPhHNGS9
-         KVyg==
-X-Gm-Message-State: ACrzQf0vrf2+gMcr8Ef4jobqxApLCvG6UkKkvFGwmoENXNAp1UteQ7sH
-        0ljQd5PlgkJVvzulPL0tV7UL0w==
-X-Google-Smtp-Source: AMsMyM4Gm7Aig8YT5fRJeyMGddzfvxxYUrUEmpPq2PCQ/RGA1i1Qlql9jRoJlFidSVPdqq8RCQds4g==
-X-Received: by 2002:a17:90a:fe6:b0:212:bfc3:31f5 with SMTP id 93-20020a17090a0fe600b00212bfc331f5mr25482041pjz.215.1666634594766;
-        Mon, 24 Oct 2022 11:03:14 -0700 (PDT)
+        bh=4oIVzfpMgaAT0HX4FWTthc6xrrun7ylc9/g6rsWhf08=;
+        b=evyWd4TOgjUevyZM9RRGPdodAdTlxzhGPF8Sv3CiLiBFvDFtYqrgPAv753qPXdqREW
+         glikDt7NjYEhJfx+TxyMWAiKu8fQAnN4gUQDODSBn9a2iPQ78crYVLsbFqvHVg5AeLHZ
+         0dLHpvEAm2FYLM2bwUyFuMI8uIybnr8IzPqE1AaDRXDtGJBMILSaZcLudlfv2hW91Yc4
+         8BBg92oivKCsCVXvGdFEUwNBodyovhhmCQKl4Gqfcj/bAon+DKpjLw5pvPWcRESKzjdF
+         cgO85wJNiLtZXf/P/J7vk3RKmBtCF88uBeuIJOC+TGgEm+LwDNFWXvZNyW/fmI5+B8Lb
+         6mCg==
+X-Gm-Message-State: ACrzQf3FCCj7gIH+dh/qyVVRz8QGL44wi6rAX6liCdGO8t3xoFv5cHpk
+        F7bNC2P8KoWpZ7m33fLHjPuP7w==
+X-Google-Smtp-Source: AMsMyM5NJO1kEdsQTHB/8tQPhUzIwVroAro5GyKcBeo3+9Tpkq+lfovTaDaocHC24z3Nm955Wr4NWg==
+X-Received: by 2002:aa7:81cc:0:b0:563:4e53:c08b with SMTP id c12-20020aa781cc000000b005634e53c08bmr34743652pfn.19.1666635958991;
+        Mon, 24 Oct 2022 11:25:58 -0700 (PDT)
 Received: from localhost ([75.172.140.17])
-        by smtp.gmail.com with ESMTPSA id mj19-20020a17090b369300b002131a9f8dcbsm1291814pjb.46.2022.10.24.11.03.13
+        by smtp.gmail.com with ESMTPSA id z11-20020a170903018b00b00177f4ef7970sm72911plg.11.2022.10.24.11.25.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 11:03:14 -0700 (PDT)
-From:   Kevin Hilman <khilman@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Paul Walmsley <paul@pwsan.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Tony Lindgren <tony@atomide.com>
+        Mon, 24 Oct 2022 11:25:58 -0700 (PDT)
+From:   Kevin Hilman <khilman@baylibre.com>
+To:     Arnd Bergmann <arnd@kernel.org>, Sekhar Nori <nsekhar@ti.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        linux-arm-kernel@lists.infradead.org
 Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-omap@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        David Lechner <david@lechnology.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>, Bin Liu <b-liu@ti.com>,
-        Helge Deller <deller@gmx.de>, linux-usb@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 14/17] ARM: omap1: remove dead code
-In-Reply-To: <20221019150410.3851944-14-arnd@kernel.org>
-References: <20221019144119.3848027-1-arnd@kernel.org>
- <20221019150410.3851944-1-arnd@kernel.org>
- <20221019150410.3851944-14-arnd@kernel.org>
-Date:   Mon, 24 Oct 2022 11:03:13 -0700
-Message-ID: <7hbkq1hzfi.fsf@baylibre.com>
+        Bin Liu <b-liu@ti.com>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        linux-media@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-usb@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH 00/14] ARM: remove unused davinci board & drivers
+In-Reply-To: <20221019152947.3857217-1-arnd@kernel.org>
+References: <20221019152947.3857217-1-arnd@kernel.org>
+Date:   Mon, 24 Oct 2022 11:25:57 -0700
+Message-ID: <7h7d0phydm.fsf@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -68,16 +95,15 @@ Arnd Bergmann <arnd@kernel.org> writes:
 
 > From: Arnd Bergmann <arnd@arndb.de>
 >
-> After the removal of the unused board files, I went through the
-> omap1 code to look for code that no longer has any callers
-> and remove that.
+> As part of removing all board files that were previously marked as unused,
+> I looked through the davinci platform and recursively removed everything
+> that has now become unused.
 >
-> In particular, support for the omap7xx/omap8xx family is now
-> completely unused, so I'm only leaving omap15xx/omap16xx/omap59xx.
+> In particular, this is for all dm3xx support, in addition to the dm64xx
+> support removed previously. The remaining support is now for da8xx using
+> devicetree only, which means a lot of the da8xx specific device support
+> can also go away.
 
 Acked-by: Kevin Hilman <khilman@baylibre.com>
-
-with a few tears shed since omap7xx/omap8xx was the first family I
-contributed to upstream. :(
 
 Kevin
