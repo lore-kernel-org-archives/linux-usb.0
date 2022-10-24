@@ -2,98 +2,84 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCAAFFA373F
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Oct 2022 17:53:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B929CC38A2D
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Oct 2022 18:11:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232624AbiJXRxM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Oct 2022 13:53:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54696 "EHLO
+        id S231410AbiJXSL1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Oct 2022 14:11:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231670AbiJXRw6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 13:52:58 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E810F1552E8;
-        Mon, 24 Oct 2022 09:30:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 70D0BB81440;
-        Mon, 24 Oct 2022 16:29:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 766C7C433D6;
-        Mon, 24 Oct 2022 16:29:14 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="baNLxAdt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1666628952;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=f+qKYAdQp0ZEOEJVb3ZMoRSM9GmC/NBgUVzDe+p3Xhc=;
-        b=baNLxAdtA79kdxbhdqIBu/sjlNgsqeE2qUVKkORCsOuwuWBg0oRL38hXps3SPUOqqXVNKS
-        Z/2iGMt2QmEyErn1cqnsbvPubWrdcwPi2UrTbif0wjaLMue3qmMQcH6GHyTOyhPN2swfo0
-        BElAlULw6U5wYTHdnPfAbh4rI7IHzeI=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 2b4b3ec4 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Mon, 24 Oct 2022 16:29:12 +0000 (UTC)
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Thomas Winischhofer <thomas@winischhofer.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helge Deller <deller@gmx.de>, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] video: fbdev: sis: use explicitly signed char
-Date:   Mon, 24 Oct 2022 18:29:01 +0200
-Message-Id: <20221024162901.535972-1-Jason@zx2c4.com>
+        with ESMTP id S232202AbiJXSLF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 14:11:05 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD3F1111BAE
+        for <linux-usb@vger.kernel.org>; Mon, 24 Oct 2022 09:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666630371; x=1698166371;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=AODbczhR65GGx/ladMshofrucIAvN66WbE5eTGzvRfY=;
+  b=QEB5ju3fZV0SY2XT7gBjIfpK+8pZxaNCtLIUtqFc6bss47zWyaOkxeil
+   m/Ss7spHe8u83DxJU84tAV1HJFI0hZ0Ktqp3CGAruvx2LJ7Kbwam0hONY
+   rpsJz+PEALyAY1h1WKNWigF/WTtwqMvyXVunwHr53z+jWBR0U7uLf7WhP
+   8GPiMG1lFWy3/GCe+ZJwt471z35TwRxITL8tAk5tXu0HYGBrCMxpDChwZ
+   kyYFINzPanBkxDHTWL07hkLw7KXBDyvPa/Ns+WRJiRagXCmb+1EFPJiIT
+   NKiIHx37ehExYt0aGXgTy1/NX400OhOsppjiN37+c/EdNYod6neA1T6uD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="290732853"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
+   d="scan'208";a="290732853"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 07:26:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="700177609"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
+   d="scan'208";a="700177609"
+Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
+  by fmsmga004.fm.intel.com with ESMTP; 24 Oct 2022 07:25:59 -0700
+From:   Mathias Nyman <mathias.nyman@intel.com>
+To:     <gregkh@linuxfoundation.org>
+Cc:     <linux-usb@vger.kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Subject: [PATCH 0/4] xhci fixes for usb-linus
+Date:   Mon, 24 Oct 2022 17:27:16 +0300
+Message-Id: <20221024142720.4122053-1-mathias.nyman@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-With char becoming unsigned by default, and with `char` alone being
-ambiguous and based on architecture, signed chars need to be marked
-explicitly as such. This fixes warnings like:
+Hi Greg
 
-drivers/video/fbdev/sis/init301.c:3549 SiS_GetCRT2Data301() warn: 'SiS_Pr->SiS_EModeIDTable[ModeIdIndex]->ROMMODEIDX661' is unsigned
+Some xhci fixes for usb-linus, mostly tuning quirks, but also fixing
+one linked list issue.
 
-Cc: Thomas Winischhofer <thomas@winischhofer.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Helge Deller <deller@gmx.de>
-Cc: linux-usb@vger.kernel.org
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- drivers/usb/misc/sisusbvga/sisusb_struct.h | 2 +-
- drivers/video/fbdev/sis/vstruct.h          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Thanks
+Mathias
 
-diff --git a/drivers/usb/misc/sisusbvga/sisusb_struct.h b/drivers/usb/misc/sisusbvga/sisusb_struct.h
-index 3df64d2a9d43..a86032a26d36 100644
---- a/drivers/usb/misc/sisusbvga/sisusb_struct.h
-+++ b/drivers/usb/misc/sisusbvga/sisusb_struct.h
-@@ -91,7 +91,7 @@ struct SiS_Ext {
- 	unsigned char VB_ExtTVYFilterIndex;
- 	unsigned char VB_ExtTVYFilterIndexROM661;
- 	unsigned char REFindex;
--	char ROMMODEIDX661;
-+	signed char ROMMODEIDX661;
- };
- 
- struct SiS_Ext2 {
-diff --git a/drivers/video/fbdev/sis/vstruct.h b/drivers/video/fbdev/sis/vstruct.h
-index ea94d214dcff..d7a14e63ba5a 100644
---- a/drivers/video/fbdev/sis/vstruct.h
-+++ b/drivers/video/fbdev/sis/vstruct.h
-@@ -148,7 +148,7 @@ struct SiS_Ext {
- 	unsigned char  VB_ExtTVYFilterIndex;
- 	unsigned char  VB_ExtTVYFilterIndexROM661;
- 	unsigned char  REFindex;
--	char           ROMMODEIDX661;
-+	signed char    ROMMODEIDX661;
- };
- 
- struct SiS_Ext2 {
+Jens Glathe (1):
+  usb: xhci: add XHCI_SPURIOUS_SUCCESS to ASM1042 despite being a V0.96
+    controller
+
+Mario Limonciello (1):
+  xhci-pci: Set runtime PM as default policy on all xHC 1.2 or later
+    devices
+
+Mathias Nyman (2):
+  xhci: Add quirk to reset host back to default state at shutdown
+  xhci: Remove device endpoints from bandwidth list when freeing the
+    device
+
+ drivers/usb/host/xhci-mem.c | 20 ++++++++++-------
+ drivers/usb/host/xhci-pci.c | 44 +++++++++++++------------------------
+ drivers/usb/host/xhci.c     | 10 +++++++--
+ drivers/usb/host/xhci.h     |  1 +
+ 4 files changed, 36 insertions(+), 39 deletions(-)
+
 -- 
-2.38.1
+2.25.1
 
