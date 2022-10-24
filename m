@@ -2,131 +2,93 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7C6DC67871
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Oct 2022 20:13:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97A17C38A2D
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Oct 2022 20:59:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231590AbiJXUNP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Oct 2022 16:13:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37064 "EHLO
+        id S235053AbiJXU7v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Oct 2022 16:59:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231607AbiJXUMn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 16:12:43 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 271C1183DBE;
-        Mon, 24 Oct 2022 11:31:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1666636167;
-        bh=icVbzJtZ9pqflJ14jNdNOlB/DYImZ+gyK6fC/SDHPeo=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=Kkvqf/+txMBi7sxfZs0V/5+nqVslh0tnBxX4/FfBbX4K5PxEYxT5PP/zpCOkVp7bv
-         AjdzA1IvFe+Vl83LXPdeQMLwEY5VuZuTJREUOnmXgB7DCslsdCKNZhD1ffx1GoVLqb
-         rKyNNUqFB0P2skYG5FNKeRZ8QSxQWKQjW3JNG1LI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.136.30]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MIdiZ-1oqd7434DN-00EaCt; Mon, 24
- Oct 2022 20:29:27 +0200
-Message-ID: <ec8edb92-a21b-6291-4275-d7cba97d7ad7@gmx.de>
-Date:   Mon, 24 Oct 2022 20:29:26 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH] video: fbdev: sis: use explicitly signed char
-Content-Language: en-US
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        linux-kernel@vger.kernel.org
-Cc:     Thomas Winischhofer <thomas@winischhofer.net>,
+        with ESMTP id S235462AbiJXU7Y (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 16:59:24 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AA7CD189805;
+        Mon, 24 Oct 2022 12:05:36 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7FCA61515;
+        Mon, 24 Oct 2022 07:17:24 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D63D3F792;
+        Mon, 24 Oct 2022 07:17:16 -0700 (PDT)
+Date:   Mon, 24 Oct 2022 15:17:14 +0100
+From:   Andre Przywara <andre.przywara@arm.com>
+To:     Icenowy Zheng <uwu@icenowy.me>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-References: <20221024162901.535972-1-Jason@zx2c4.com>
-From:   Helge Deller <deller@gmx.de>
-In-Reply-To: <20221024162901.535972-1-Jason@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:fgln+OSb5Fs7l921QypIIY6GvbB8Dpo8NbcH6CX//FlDdIZKoPn
- HTH8weoBRqVlYnQaJOUuVnLRopE3hTyC0rQ7NFop1qJoWADAuwh/gwd/DNyU80Z/nBkvvlj
- xLpYb1wKKdGZeA8sSZnuNeBXV4k3vo2v4nRR1R3a5fNPt5ryrwPOPk8q//T+CrXTBvb8tGY
- ylAA2rLff9VDqREvNVy4Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YeTgNuQ6oBE=:x+MrTPIRv+ADg3bGSjOX2x
- c8XbmCSjtFftDhFgoBgA63vaJowCwC+3di5UjTuwo1cjyBDugLxf99Ls4mxXN6KNNLDlOGAj3
- Wl6mR0AP9W+8LUZDKcgR9x2KCpFAxB7TRmVgTZk88Hvdh10HEecFZtsnjASzNO8/2eG8/PskI
- zCW1cPfDSUtI/WSbPa7xipFxEn0bVZTrkHYJEJucNxTHt47sb0MMTLPuKU305/eTDuJh2MnFy
- N7dUAut84zTqvFUU4rVzQEaytLznUNTgQWuMw8iJhg0Y9r1gxdBobn/uS7A7UwpBfvcO95+la
- ExXo7tBr/QBo2R1zZFQqkWyLFfgq3Ucb+aUoRrs8RCU5lp3A+epBw+c2uzINC6vK/bTysxH4u
- 74VxveNrMEvEJeCuNwYfaQuCUZWS03JmRx0e8zzV08dapRsrcIyXp90UUGCB0ofpbwRdKa6z4
- iVJS+44cs4OdFyrWLx+JvO3V2lW2Ha1db3TeAI9VZOZvaWPWtO6g3smWISdQxmx26grR9QzR8
- lJ7/VCImckMTs7vQOJleMD4MEatVye+/uZlIWjiuxRpIOwD4mH23TQvkwYlVXhNnZB/5GsqLz
- VUqAexb1W2LapEPynIWtHfq6YnO/C6tIguZH2VlDJctLyBTyY5Ldteibfif7AdyVT3wbM3fg2
- n5zXbAYkC8SArLNKh7IcZp/j+BSvyWaVeWjbChcVR4rtPN+mKVI1BPOUYspQKnVDix+qvsoSE
- uLcConOmvdqLBSSqMr/QhnSEN8rMQhQdcMJxiNm60kLCxDxmZPMBEQ/gcuWMJjIfQdxzCQzXx
- XMUEoYR2xhoeI2ejsM8HtXUrRjSf1Apkwn2dlggGOeQrwU6mA+BQiIYmNFITAcbeVZxxG6x8O
- 746n9OVaOt4FrW0BToKm4gwFWCF1UFE3c/CEWVbzDYx73EzfCMuD/Z/dtVcAYNxxwjhNnFDp5
- 8utlguY9KCJgr07er4rwSu0GsC3jknq0TAIeME9v16xKSDcc2TIVpo976zBvonR0+MPybIcCM
- h2H2g5OJOn9BrqbcG9Fk4omj8xfqBjsC2nI7ULK4ZNtwSNkL4RWX1lUChj6VQVFEHo5ptjBdt
- UYRiyhO9rWcu/rgcBPXb83TqbyZiBMwK61+QvZcn0+DacPRzUpqe9iHCYEohp87oJsMkDWf7g
- 5tWzTVkU2WEhcEoBQOaIM9TLnOhpui0xVHCt3i2ChLG+oBQnDCdeqVmhOuP3nugZ4AFSHjm5s
- 1Vj1RWF2rhVPMK22jsLg7C4VPdecfyXbhtdJXGBCMdC5/PesfYAfQcVD1YpLkNrA9PuFXEDXh
- RC9SkKW4N7S/kPU5B8dCwYXVWnbtCTZlsjLfNmRqDveBSnMo782+7qGudFzP/fPnD3AzOq2WG
- C4txTHKBUgDkTOOgru1dp0fjnM5oXhkcvzC4mApzEc+DFHwaxpAHbIp2ScSj95wpB6eVqAIlb
- sXZ20FkJ2MN+Mk7WiXrpUkwEEJdEn2cTKNP1vqFwpg4tR3vGSP7j4/hbYLpbli5f3N1phP2fq
- r6dpFpstHxDSUm+0+SFiELW5DZ+6atWpEcW35DAGYFASa
+        soc@kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 09/10] dt-binding: arm: sunxi: add compatible strings
+ for PopStick v1.1
+Message-ID: <20221024151714.59968916@donnerap.cambridge.arm.com>
+In-Reply-To: <20221012055602.1544944-10-uwu@icenowy.me>
+References: <20221012055602.1544944-1-uwu@icenowy.me>
+        <20221012055602.1544944-10-uwu@icenowy.me>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 10/24/22 18:29, Jason A. Donenfeld wrote:
-> With char becoming unsigned by default, and with `char` alone being
-> ambiguous and based on architecture, signed chars need to be marked
-> explicitly as such. This fixes warnings like:
->
-> drivers/video/fbdev/sis/init301.c:3549 SiS_GetCRT2Data301() warn: 'SiS_P=
-r->SiS_EModeIDTable[ModeIdIndex]->ROMMODEIDX661' is unsigned
->
-> Cc: Thomas Winischhofer <thomas@winischhofer.net>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: linux-usb@vger.kernel.org
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+On Wed, 12 Oct 2022 13:56:01 +0800
+Icenowy Zheng <uwu@icenowy.me> wrote:
 
-Applied to linux-fbdev git tree.
+Hi Icenowy,
 
-Thanks,
-Helge
+> SourceParts PopStick is a F1C200s-based stick-shaped SBC.
+> 
+> Add a compatible string list for its v1.1 version (the first public
+> one).
 
+If v1.0 (or anything prior) never made it to the outside world, I don't
+think we need to mention that in the public bindings.
+In general Linux seems to discourage support for unreleased hardware, so I
+think you can just drop the "sourceparts,popstick-v1.1" name.
 
+Cheers,
+Andre
+
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 > ---
->   drivers/usb/misc/sisusbvga/sisusb_struct.h | 2 +-
->   drivers/video/fbdev/sis/vstruct.h          | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/usb/misc/sisusbvga/sisusb_struct.h b/drivers/usb/mi=
-sc/sisusbvga/sisusb_struct.h
-> index 3df64d2a9d43..a86032a26d36 100644
-> --- a/drivers/usb/misc/sisusbvga/sisusb_struct.h
-> +++ b/drivers/usb/misc/sisusbvga/sisusb_struct.h
-> @@ -91,7 +91,7 @@ struct SiS_Ext {
->   	unsigned char VB_ExtTVYFilterIndex;
->   	unsigned char VB_ExtTVYFilterIndexROM661;
->   	unsigned char REFindex;
-> -	char ROMMODEIDX661;
-> +	signed char ROMMODEIDX661;
->   };
->
->   struct SiS_Ext2 {
-> diff --git a/drivers/video/fbdev/sis/vstruct.h b/drivers/video/fbdev/sis=
-/vstruct.h
-> index ea94d214dcff..d7a14e63ba5a 100644
-> --- a/drivers/video/fbdev/sis/vstruct.h
-> +++ b/drivers/video/fbdev/sis/vstruct.h
-> @@ -148,7 +148,7 @@ struct SiS_Ext {
->   	unsigned char  VB_ExtTVYFilterIndex;
->   	unsigned char  VB_ExtTVYFilterIndexROM661;
->   	unsigned char  REFindex;
-> -	char           ROMMODEIDX661;
-> +	signed char    ROMMODEIDX661;
->   };
->
->   struct SiS_Ext2 {
+> New patch introduced in v2.
+> 
+>  Documentation/devicetree/bindings/arm/sunxi.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> index 3ad1cd50e3fe..c6e0ad7f461d 100644
+> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> @@ -807,6 +807,13 @@ properties:
+>            - const: sinlinx,sina33
+>            - const: allwinner,sun8i-a33
+>  
+> +      - description: SourceParts PopStick v1.1
+> +        items:
+> +          - const: sourceparts,popstick-v1.1
+> +          - const: sourceparts,popstick
+> +          - const: allwinner,suniv-f1c200s
+> +          - const: allwinner,suniv-f1c100s
+> +
+>        - description: SL631 Action Camera with IMX179
+>          items:
+>            - const: allwinner,sl631-imx179
 
