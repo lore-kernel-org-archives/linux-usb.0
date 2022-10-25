@@ -2,58 +2,60 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95549FA3740
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Oct 2022 01:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2468C38A2D
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Oct 2022 01:44:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230319AbiJYBoL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Oct 2022 21:44:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44272 "EHLO
+        id S231635AbiJYBoN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Oct 2022 21:44:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231518AbiJYBno (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 21:43:44 -0400
-Received: from mx0b-00230701.pphosted.com (mx0b-00230701.pphosted.com [148.163.158.9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C3AB58DEC;
-        Mon, 24 Oct 2022 18:28:04 -0700 (PDT)
-Received: from pps.filterd (m0297265.ppops.net [127.0.0.1])
-        by mx0a-00230701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29OLNlAK031812;
-        Mon, 24 Oct 2022 18:27:54 -0700
+        with ESMTP id S231625AbiJYBnv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 21:43:51 -0400
+Received: from mx0a-00230701.pphosted.com (mx0a-00230701.pphosted.com [148.163.156.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BD135A83B;
+        Mon, 24 Oct 2022 18:28:14 -0700 (PDT)
+Received: from pps.filterd (m0098571.ppops.net [127.0.0.1])
+        by mx0a-00230701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29OLNnHF020951;
+        Mon, 24 Oct 2022 18:28:07 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=date : message-id :
- from : subject : to : cc; s=pfptdkimsnps;
- bh=h0qyDvIpYCN6j4GB3/O/UoMcuzvsRYm1PQSGGJT5QNU=;
- b=OYHADP1os4ahEgviH6T+6uvVeOEYb9IY6/abce7GXnoH4qY6I6dEGDZ21Do05mN8yJm7
- c67Y1AtGOytvEwQpOZB6XKn/tQNJaDmge4tzzmOQof+A5lDgTMWu9XNkao3aliKWjqZE
- vqwkWiwSPqnjv2lwOkOkhlMc158729OK+rzuW1bMlsETL2+e4ZGqpBx98edoAZTwIId1
- H/g9oQy4FTajecLSkyIto0wp0piIZBWknlwhXyv/j7oCWPvdhUUyEtus2+zdmXHx88Ox
- yeGTSTJx9grYa0zzcCqSHIsdz6oNjIq1j3Q6T3yjBEYCVmx4N+tv+R23MFryghtntAtV iA== 
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
-        by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 3kcfevum1w-1
+ in-reply-to : references : from : subject : to : cc; s=pfptdkimsnps;
+ bh=j8u7odBZ81mHIRZo/nAx2BOvHTuFJvY2SBxLiVE7XW8=;
+ b=g2djoElJlr2d635rDaxqamCOxBkKnJGFu+eLVDCALgsXZDpqeYebIJTXgpgygQ5ct3lA
+ UIMoC0ugzgJThANzZNhDRShdO5vUTYJNpo5rc4XlXkXzWrhWW+Mji7iYi0zzPo6VO5O3
+ uiKVZP1DkBCq2Hqpl2LeUc/cm8/EK9sHaPqSeOBU/MYQ9z+tL8xt1J8K1QvVXbRKhVT/
+ lX99fcU1zm9SUwW5EHhaPqgGTMDC9bfKRem2jKoTzUoZ4SUsG3WZKSaQdvpX9MAL+57F
+ tE28VNuEVfem01f7DgEwH/9S/0ZSRh+TCQdfRZfyTnWR/6lQYa5ZmY2zccWy6yKlP8hW ig== 
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.73.133])
+        by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 3kcfhp3nx9-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 24 Oct 2022 18:27:54 -0700
-Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com [10.205.2.131])
+        Mon, 24 Oct 2022 18:28:07 -0700
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com [10.205.2.132])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 17FA9C0108;
-        Tue, 25 Oct 2022 01:27:53 +0000 (UTC)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 1A1E24014E;
+        Tue, 25 Oct 2022 01:28:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1666661273; bh=Yp7O0hdO+tsJ/CofUJRGVeylUPMGC1EhMgg3QSNxDo0=;
-        h=Date:From:Subject:To:Cc:From;
-        b=Fk/lZyXbWkz483MrN5mTIBes3KkABNF+kpl1pOkVClpIDNkU9B+z5QedRFr4sfjE1
-         BGKE+5lG+MC+gaQelzcEM1dlEdY+ateeS2+uWlhfCUy98N6eOGbZHGJoJ3RP20ohHT
-         NdeFb3o8nLTxcP/KyMDkFjUqkbyp77RwZEIBA2/JkcVvB3XMVcKeYXFX6EVcsYWZC2
-         eJcL/6alPtEMKJ1rL9vopKr0Io+NK7iLmM0Y721FuXXTun2WavECPMQEx/QI6uQ2x+
-         olN/iQ2bQO8a63s58Vcpjr4VSGl8ehB+MzRYUUGKFasK2QTWNe0Oq8LlL2zwm0XNZe
-         DDJGK9MA8YmHg==
+        t=1666661286; bh=7+buHRxrH15h1LLhl9qL95HI2i43zo5YDGWA6OAiTaw=;
+        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
+        b=HXITD/Jxu8NQ+daO8CGFXMgYzvy8C/QqSbQkjKw/FetR+uPnCNX7ydyvDE4AjWHDF
+         3bI4qBQLQruMLNRmaGvXUXYImD1L1RklDVNFlMKYaiZ9BMxVdExNqcpU2IPfkGHRNp
+         sNqSPM4RTap9nVp4meQyY1IJKSMrj2yAlU+aaXeWWVPM/H+zlTHDBXl8u7+Dyn+oi7
+         b5tlH1oC88X/H24YL4hhzmowAIOBKPBgF6GSfFc80Ofw+cUNpj5yC7kcIstlxQpemm
+         89nt1j3VfomsAq9lMbJGO73ul/maJHbX94ACpzUslJR8tqUvqGun+D9NyOQyZypyFz
+         Ow9+h3a22HXGA==
 Received: from te-lab16-v2 (nanobot.internal.synopsys.com [10.204.48.11])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (Client did not present a certificate)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id 75A13A005F;
-        Tue, 25 Oct 2022 01:27:51 +0000 (UTC)
-Received: by te-lab16-v2 (sSMTP sendmail emulation); Mon, 24 Oct 2022 18:27:51 -0700
-Date:   Mon, 24 Oct 2022 18:27:51 -0700
-Message-Id: <cover.1666661013.git.Thinh.Nguyen@synopsys.com>
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id A0F2CA007F;
+        Tue, 25 Oct 2022 01:28:04 +0000 (UTC)
+Received: by te-lab16-v2 (sSMTP sendmail emulation); Mon, 24 Oct 2022 18:28:04 -0700
+Date:   Mon, 24 Oct 2022 18:28:04 -0700
+Message-Id: <453f4dc3189eb855e31768d5caa6bfc7f4bf5074.1666661013.git.Thinh.Nguyen@synopsys.com>
+In-Reply-To: <cover.1666661013.git.Thinh.Nguyen@synopsys.com>
+References: <cover.1666661013.git.Thinh.Nguyen@synopsys.com>
 X-SNPS-Relay: synopsys.com
 From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: [PATCH v2 0/2] usb: dwc3: gadget: Fix isoc interrupt check
+Subject: [PATCH v2 2/2] usb: dwc3: gadget: Don't set IMI for no_interrupt
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
@@ -61,38 +63,51 @@ To:     Felipe Balbi <balbi@kernel.org>,
 Cc:     John Youn <John.Youn@synopsys.com>, stable@vger.kernel.org,
         Jeff Vanhoof <jdv1029@gmail.com>,
         Dan Vacura <w36195@motorola.com>
-X-Proofpoint-ORIG-GUID: 2RyPTji8x9sAU6QUW2f7BbGSfHNIXXVi
-X-Proofpoint-GUID: 2RyPTji8x9sAU6QUW2f7BbGSfHNIXXVi
+X-Proofpoint-GUID: vmE0e8uHF1a0MSEG2IkviMt6huOWc_kJ
+X-Proofpoint-ORIG-GUID: vmE0e8uHF1a0MSEG2IkviMt6huOWc_kJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-10-24_09,2022-10-21_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
- spamscore=0 clxscore=1015 lowpriorityscore=0 bulkscore=0 suspectscore=0
- impostorscore=0 phishscore=0 mlxlogscore=553 adultscore=0 malwarescore=0
- priorityscore=1501 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2209130000 definitions=main-2210250006
+ mlxlogscore=655 malwarescore=0 clxscore=1015 impostorscore=0 adultscore=0
+ mlxscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0
+ priorityscore=1501 spamscore=0 bulkscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2210250007
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix issues where usb_request->no_interrupt is set for isoc transfers.
-* Make sure no interrupt is asserted if no_interrupt is set
-* Make sure to stop reclaiming TRBs when the driver needs to stop
+The gadget driver may have a certain expectation of how the request
+completion flow should be from to its configuration. Make sure the
+controller driver respect that. That is, don't set IMI (Interrupt on
+Missed Isoc) when usb_request->no_interrupt is set.
 
+Fixes: 72246da40f37 ("usb: Introduce DesignWare USB3 DRD Driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+---
+ Changes in v2:
+ - None
 
-Thinh Nguyen (2):
-  usb: dwc3: gadget: Stop processing more requests on IMI
-  usb: dwc3: gadget: Don't set IMI for no_interrupt
+ drivers/usb/dwc3/gadget.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/usb/dwc3/gadget.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-Changes in v2:
-* Fix missing cover letter subject
-* No need to check for the last chained TRB
-
-
-base-commit: fb8f60dd1b67520e0e0d7978ef17d015690acfc1
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 230b3c660054..702bdf42ad2f 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -1292,8 +1292,8 @@ static void dwc3_prepare_one_trb(struct dwc3_ep *dep,
+ 			trb->ctrl = DWC3_TRBCTL_ISOCHRONOUS;
+ 		}
+ 
+-		/* always enable Interrupt on Missed ISOC */
+-		trb->ctrl |= DWC3_TRB_CTRL_ISP_IMI;
++		if (!req->request.no_interrupt)
++			trb->ctrl |= DWC3_TRB_CTRL_ISP_IMI;
+ 		break;
+ 
+ 	case USB_ENDPOINT_XFER_BULK:
 -- 
 2.28.0
 
