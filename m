@@ -2,100 +2,113 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A08DC38A2D
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Oct 2022 01:05:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69E0DC38A2D
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Oct 2022 01:12:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229916AbiJYBFc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Oct 2022 21:05:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33214 "EHLO
+        id S231460AbiJYBMi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Oct 2022 21:12:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231139AbiJYBEo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 21:04:44 -0400
-Received: from mx0a-00230701.pphosted.com (mx0a-00230701.pphosted.com [148.163.156.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4FBC4B9AC;
-        Mon, 24 Oct 2022 17:07:52 -0700 (PDT)
-Received: from pps.filterd (m0098571.ppops.net [127.0.0.1])
-        by mx0a-00230701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29OLNkN5020921;
-        Mon, 24 Oct 2022 17:07:38 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=date : message-id :
- from : subject : to : cc; s=pfptdkimsnps;
- bh=4neXYTo8GuuyOsW3meUrGjKmzCGXBG6LJT3MvC0gBhQ=;
- b=MaXSHeFQpNKUxCjzGiRYSAp4WARZEWo2mc7vhLygifuZI5lOrCD8vQYyJJ1Dk2svXA6P
- e6ZylILF45WtEZblWFlZjiSOWdiOMHyggmLT8ocvwui3vBi7moTBq5YRDzN3x5D8PQZU
- R1H9S92R2IZktxwsN8FEGzFE66f8or3KXXP0p2FlAss7wad7IGEfFabU79/0/3Try9RX
- /cKJ2QsHUkHu1wKsFEHh4847f3z1svwFU91tTKzPLJkBVdtT0ck1vd6ghaC5GvyT4VDs
- OXyT3wkoVCJkD4yemrppOlYhQZnsgRt5wy24Pk7tjkeqVsfRATS5u06PbGvUxNEvYRyv 4Q== 
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
-        by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 3kcfhp3ckt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 24 Oct 2022 17:07:37 -0700
-Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com [10.205.2.134])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 4155FC0108;
-        Tue, 25 Oct 2022 00:07:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1666656457; bh=P2g67vxCFm9dsYCe4B4NukVScIEmyjwQIXex3BuTdmA=;
-        h=Date:From:Subject:To:Cc:From;
-        b=Kq0AuUsjxkFMRD4VyzXoWzeT9O6jcJ9baElQGAVtV1GCx/Ls4FLJv4fFcQC47d/wO
-         CmrKsX1Orr4h8l76T/K/bTTOUreM0GmIA6mUX0hiXuPZ3A6gw5Y+Tzc8mG7UUQckJG
-         UBKErrKi5GCnGIasdmhCohgBcbWUttMhzv+30OeWVhUWIqNfabE+QCPXVO02ezQ+B9
-         tvLr28TbzvyDXB7YbiXrGLoG/qJ3ezJYe+mjL1wAKf9wmg6PABX2anKYBqdG2ClyZp
-         vpSMPXu29a0iFF9okCgkQzYidHJrRFoclrNU25ZlG4+vWtwQ2enr98xoCkoNrgTHzz
-         FkpRakJdwwoEA==
-Received: from te-lab16-v2 (nanobot.internal.synopsys.com [10.204.48.11])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (Client did not present a certificate)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id D60ECA00A9;
-        Tue, 25 Oct 2022 00:07:35 +0000 (UTC)
-Received: by te-lab16-v2 (sSMTP sendmail emulation); Mon, 24 Oct 2022 17:07:35 -0700
-Date:   Mon, 24 Oct 2022 17:07:35 -0700
-Message-Id: <cover.1666654589.git.Thinh.Nguyen@synopsys.com>
-X-SNPS-Relay: synopsys.com
-From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: [PATCH 0/2] 
-usb:    dwc3: gadget: Fix isoc interrupt check
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        linux-usb@vger.kernel.org
-Cc:     John Youn <John.Youn@synopsys.com>, stable@vger.kernel.org,
-        Jeff Vanhoof <jdv1029@gmail.com>,
-        Dan Vacura <w36195@motorola.com>
-X-Proofpoint-GUID: HnS8k2W7jsUkYvvHGyBsu3p8H6TijxGN
-X-Proofpoint-ORIG-GUID: HnS8k2W7jsUkYvvHGyBsu3p8H6TijxGN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-24_08,2022-10-21_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
- mlxlogscore=556 malwarescore=0 clxscore=1015 impostorscore=0 adultscore=0
- mlxscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0
- priorityscore=1501 spamscore=0 bulkscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2210240144
+        with ESMTP id S231440AbiJYBMS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Oct 2022 21:12:18 -0400
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 474D96FA3B
+        for <linux-usb@vger.kernel.org>; Mon, 24 Oct 2022 17:23:03 -0700 (PDT)
+Received: by mail-qv1-xf32.google.com with SMTP id ml12so6554865qvb.0
+        for <linux-usb@vger.kernel.org>; Mon, 24 Oct 2022 17:23:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n2ZK0pIwvnKz9btbqVhS6qb6VUA1xVkqcBxceuT21jg=;
+        b=ManPbIKyZv/+T1JkITSAJucu8qY5zP7Y0+l3/bsuPHPtnmYrHLwtBfNAtTJT1/MMM/
+         5Ld8aEYMyK9seMLN4gQFZkmhjKsx9ymyaOI6nM9k1WDjdSGoX32FEjd4HrJoHbt34jwq
+         /+GHL1zzaLykPsnWBzOv8ZeThMcIoyy7CkiPj7Tgw2r1gsde7Ajk//w/UE64qp8A1LMN
+         X9OsvIQGul5t96Hrpx7WamK+NCg10YlnvSNa1PeDQe/ZjDxrq/XmT1WZXx1sdLT1NNaL
+         EDeb2zqfF58VDuMoHONDqaRWVjv6kMz+eiJOxZkWVG12QbFZxNgB6BNC+05q8omVcugn
+         0ZPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n2ZK0pIwvnKz9btbqVhS6qb6VUA1xVkqcBxceuT21jg=;
+        b=jiak61tot0qB+6P0thxpsqDk9d0gHnjBlxEZWmWhlYfIcKRqPPhMy1IWkvuNWooT4m
+         UQ2Zxj87kqyj3hHfZf8HWkd2HE1kHxiIbmMZNO07Q0txax1k3etyFMVECKDlMnsDHWA9
+         gckT1YSm6hfkcXXvCKw3mZ/EfqLyjzq7kTRBhjilX5WycJ8g1CGnraEs+C6lOF8rD7fL
+         kVrNHZ6jpXTzdolS9MUYn7FFA2d7IfWc6C1+cmY/6dsmlE681ILC/zF0ZGvGHKpnV4fM
+         +p8L4qqwFPe2F3umWguv6r6T18EB9fX6KIjPb/kNm8A/YoVuXFQ2FM2J4Hx6FI1okY0U
+         iTxg==
+X-Gm-Message-State: ACrzQf1HDXySaSpXzNRjfcRTiKv3YUsK0rLAEfqyJHiPG6F4WViYrGZ6
+        +j6jvHgRnQHsx3Tm1yjUvBVB5Q==
+X-Google-Smtp-Source: AMsMyM5krORH3TMYiw4uI9MuckR6IhPi4NL+ctXiPYzQE+B8oQ8bNhyISAIestAdJL5l/Z/8jdzx1g==
+X-Received: by 2002:a05:6214:62e:b0:4bb:7f43:1fd5 with SMTP id a14-20020a056214062e00b004bb7f431fd5mr4001806qvx.112.1666657382417;
+        Mon, 24 Oct 2022 17:23:02 -0700 (PDT)
+Received: from [192.168.1.11] ([64.57.193.93])
+        by smtp.gmail.com with ESMTPSA id y9-20020a37f609000000b006b8e8c657ccsm888544qkj.117.2022.10.24.17.23.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Oct 2022 17:23:01 -0700 (PDT)
+Message-ID: <1995a21d-1458-8c80-4a24-641f4b5dcf81@linaro.org>
+Date:   Mon, 24 Oct 2022 20:23:00 -0400
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH 1/2] dt-bindings: usb: usb-nop-xceiv: add wakeup-source
+ property
+Content-Language: en-US
+To:     Li Jun <jun.li@nxp.com>, gregkh@linuxfoundation.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+Cc:     balbi@kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, xu.yang_2@nxp.com
+References: <1666588648-1047-1-git-send-email-jun.li@nxp.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1666588648-1047-1-git-send-email-jun.li@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix reported issues where usb_request->no_interrupt is set for isoc
-transfers.
+On 24/10/2022 01:17, Li Jun wrote:
+> usb phy may be part of wakeup source, so add wakeup source property
 
-* Make sure no interrupt is asserted if no_interrupt is set
-* Make sure to stop reclaiming TRBs when the driver needs to stop
+s/usb/USB/
 
-Just one of the fixes above may resolve the crash reported by Jeff and
-Dan, but it's more proper to have both in place.
+"part of wakeup source" is actually not descriptive. What do you want to
+say here?
 
+> to keep its resource(e.g power domain) active to make usb remote
 
-Thinh Nguyen (2):
-  usb: dwc3: gadget: Stop processing more requests on IMI
-  usb: dwc3: gadget: Don't set IMI for no_interrupt
+space before (
+s/e.g/e.g./
+s/usb/USB/
 
- drivers/usb/dwc3/gadget.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+> wakeup work.
+> 
+> Signed-off-by: Li Jun <jun.li@nxp.com>
+> ---
+>  Documentation/devicetree/bindings/usb/usb-nop-xceiv.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/usb-nop-xceiv.yaml b/Documentation/devicetree/bindings/usb/usb-nop-xceiv.yaml
+> index 2824c17285ee..7b71e32d1df0 100644
+> --- a/Documentation/devicetree/bindings/usb/usb-nop-xceiv.yaml
+> +++ b/Documentation/devicetree/bindings/usb/usb-nop-xceiv.yaml
+> @@ -39,6 +39,11 @@ properties:
+>        the VBus line.
+>      $ref: /schemas/types.yaml#/definitions/phandle
+>  
+> +  wakeup-source:
+> +    $ref: /schemas/types.yaml#/definitions/flag
 
+This shouldn't be needed, as it is a standard property.
 
-base-commit: fb8f60dd1b67520e0e0d7978ef17d015690acfc1
--- 
-2.28.0
+> +    description:
+> +      Specify if it's USB remote wakeup capable.
+
+Now you have to explain in the bindings what is "USB remote wakeup".
+
+Best regards,
+Krzysztof
 
