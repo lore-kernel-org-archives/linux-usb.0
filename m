@@ -2,92 +2,141 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D187C38A2D
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Oct 2022 22:37:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8F7FA373D
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Oct 2022 23:24:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231828AbiJYWhK convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 Oct 2022 18:37:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46282 "EHLO
+        id S232169AbiJYXYs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 Oct 2022 19:24:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231351AbiJYWhI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Oct 2022 18:37:08 -0400
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2065624BCD;
-        Tue, 25 Oct 2022 15:37:06 -0700 (PDT)
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 29PMTNiP006450;
-        Tue, 25 Oct 2022 17:29:24 -0500
-Message-ID: <49d97f97e63edb70392279845186547d73b2290e.camel@kernel.crashing.org>
-Subject: Re: [PATCH] usb: gadget: aspeed: fix buffer overflow
-From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To:     Lei Yu <yulei.sh@bytedance.com>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Henry Tian <tianxiaofeng@bytedance.com>,
-        Jakob Koschel <jakobkoschel@gmail.com>,
-        linux-usb@vger.kernel.org,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-aspeed@lists.ozlabs.org>,
-        open list <linux-kernel@vger.kernel.org>
-Date:   Wed, 26 Oct 2022 09:29:23 +1100
-In-Reply-To: <CAGm54UE1oS1N_hn4RKuF8a+OWgfvJ-OCc0-uju4mXbtz-jw8VA@mail.gmail.com>
-References: <20221024094853.2877441-1-yulei.sh@bytedance.com>
-         <661b43881b7f8764919847f29c0daf1866441090.camel@kernel.crashing.org>
-         <CAGm54UE1oS1N_hn4RKuF8a+OWgfvJ-OCc0-uju4mXbtz-jw8VA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.44.4-0ubuntu1 
+        with ESMTP id S229497AbiJYXYn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Oct 2022 19:24:43 -0400
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4096EBC3C;
+        Tue, 25 Oct 2022 16:24:40 -0700 (PDT)
+Received: by mail-oi1-f170.google.com with SMTP id u132so3411556oib.0;
+        Tue, 25 Oct 2022 16:24:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nFoJ65FSeRoha1pQ1K6lL6hQjEH1NFBZHC7qdvsbi9k=;
+        b=bwOYT8gKV3BXQRAjQz+EX3VrqeLmQbjSddYxD0jgM5rznOrmX1/Hp5jFyDxMT+qFTg
+         p28R7onyUu4oYOghJSKOeWChgr52uyROv0QL45ZLdE3ddYuneiXV8QxZ0+KP3J3YjHEa
+         3tOJDrFge8Cjk8FupsYKzHYfRlnf5fDv0/gtFy4EO5g+o7Nj56S7GvxoJsPqtyn4+8o1
+         SZFojWaO9wW+56H/3cyvLIuXgq0kxPrhzUrbndD0yhvBCl8RFIDGuMEDUZCq+APxw1Jl
+         FyxOQ60OFGXvqBIKCcchHpALiSPoAo8OYWTV9y+S5Y5xO7TDgiktbLPxOGZZ5bvzhpGd
+         S/Sg==
+X-Gm-Message-State: ACrzQf2PW7C+DJVwWYC3FSDgrNM8o015oqrjIpcPDSuwt7T3jmwgNhFv
+        rwemDTKc+Ls++fp2m1YMog==
+X-Google-Smtp-Source: AMsMyM7mAJ5G1LaKL+vJ2m0VrWl3wbGGik1naUdUeZ6GBAnBrys0Zfp+2Jly//XkJ/OFRb3N0fhkFQ==
+X-Received: by 2002:a05:6808:130f:b0:355:167f:c668 with SMTP id y15-20020a056808130f00b00355167fc668mr373366oiv.143.1666740279428;
+        Tue, 25 Oct 2022 16:24:39 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id 63-20020a9d0345000000b006391adb6034sm1545527otv.72.2022.10.25.16.24.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Oct 2022 16:24:38 -0700 (PDT)
+Received: (nullmailer pid 3438758 invoked by uid 1000);
+        Tue, 25 Oct 2022 23:24:40 -0000
+Date:   Tue, 25 Oct 2022 18:24:40 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Wayne Chang <waynec@nvidia.com>
+Cc:     gregkh@linuxfoundation.org, krzysztof.kozlowski+dt@linaro.org,
+        treding@nvidia.com, jonathanh@nvidia.com, thierry.reding@gmail.com,
+        heikki.krogerus@linux.intel.com, ajayg@nvidia.com, kishon@ti.com,
+        vkoul@kernel.org, p.zabel@pengutronix.de, balbi@kernel.org,
+        mathias.nyman@intel.com, jckuo@nvidia.com,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, singhanc@nvidia.com,
+        linux-i2c@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 01/11] dt-bindings: usb: tegra-xudc: Add Tegra234 XUSB
+ controller support
+Message-ID: <20221025232440.GA3430479-robh@kernel.org>
+References: <20221024074128.1113554-1-waynec@nvidia.com>
+ <20221024074128.1113554-2-waynec@nvidia.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221024074128.1113554-2-waynec@nvidia.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 2022-10-25 at 14:21 +0800, Lei Yu wrote:
+On Mon, Oct 24, 2022 at 03:41:18PM +0800, Wayne Chang wrote:
+> Extend the Tegra XUSB controller device tree binding with Tegra234
+> support.
 > 
+> Signed-off-by: Wayne Chang <waynec@nvidia.com>
+> ---
+>  .../bindings/usb/nvidia,tegra-xudc.yaml       | 24 ++++++++++++-------
+>  1 file changed, 16 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
+> index fd6e7c81426e..517fb692f199 100644
+> --- a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
+> +++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
+> @@ -22,6 +22,7 @@ properties:
+>            - nvidia,tegra210-xudc # For Tegra210
+>            - nvidia,tegra186-xudc # For Tegra186
+>            - nvidia,tegra194-xudc # For Tegra194
+> +          - nvidia,tegra234-xudc # For Tegra234
+>  
+>    reg:
+>      minItems: 2
+> @@ -90,21 +91,27 @@ properties:
+>  
+>    phys:
+>      minItems: 1
+> +    maxItems: 8
+>      description:
+>        Must contain an entry for each entry in phy-names.
+>        See ../phy/phy-bindings.txt for details.
+>  
+>    phy-names:
+>      minItems: 1
+> +    maxItems: 8
+>      items:
+> -      - const: usb2-0
+> -      - const: usb2-1
+> -      - const: usb2-2
+> -      - const: usb2-3
+> -      - const: usb3-0
+> -      - const: usb3-1
+> -      - const: usb3-2
+> -      - const: usb3-3
+> +      anyOf:
+> +        - const: usb2-0
+> +        - const: usb2-1
+> +        - const: usb2-2
+> +        - const: usb2-3
+> +        - const: usb3-0
+> +        - const: usb3-1
+> +        - const: usb3-2
+> +        - const: usb3-3
 
-> This case is treated as an error and we do not care about the
-> following data.
-> Similarly, if we change the MTU in BMC and let BMC ping the OS, the
-> OS
-> kernel does not crash and it gets RX errors, and the ping fails.
-> 
->  # ifconfig usb0
->  usb0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
->          ...
->          RX packets 85  bytes 15380 (15.0 KiB)
->          RX errors 51  dropped 0  overruns 0  frame 51
-> 
-> With this patch, we get the similar behavior on BMC that the RX
-> errors
-> are increasing.
-> 
-> > Additionally, I'm curious, why in this specific case is the device
-> > sending more data than
-> > the buffer can hold ? The MTU change should have resulted in
-> > buffers being re-allocated no ?
-> 
-> The issue is found in a rare case during BIOS boot, we assume that
-> BIOS is sending unexpected data to BMC for unknown reasons.
+items:
+  pattern: '^usb[23]-[0-3]$'
 
-Ok thanks.
+And an explanation why you need any random order. If it is just 
+different for Tegra234, then you need an if/then schema for this.
 
-Acked-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-
-
-> > Or did you change the MTU on the remote and not on the local device
-> > ?
-> > 
+> +
+> +  dma-coherent:
+> +    type: boolean
+>  
+>    avddio-usb-supply:
+>      description: PCIe/USB3 analog logic power supply. Must supply 1.05 V.
+> @@ -153,6 +160,7 @@ allOf:
+>              enum:
+>                - nvidia,tegra186-xudc
+>                - nvidia,tegra194-xudc
+> +              - nvidia,tegra234-xudc
+>      then:
+>        properties:
+>          reg:
+> -- 
+> 2.25.1
 > 
-> Yes, the MTU is changed to 2000 in OS and kept 1500 on BMC, then the
-> issue is reproduced. (see detailed steps in the above email).
 > 
-> The reason we made the above test is because we are trying to
-> reproduce the behavior as BIOS, and from the logs it looks like it's
-> sending a packet larger than MTU. Then we tried to adjust the MTU on
-> the OS side and reproduced the issue.
-
