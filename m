@@ -2,142 +2,141 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECC47C433FE
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Oct 2022 06:33:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D7A7C433FE
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Oct 2022 06:40:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233170AbiJZGdf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Oct 2022 02:33:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49426 "EHLO
+        id S229629AbiJZGkZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Oct 2022 02:40:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233181AbiJZGdb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Oct 2022 02:33:31 -0400
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60079.outbound.protection.outlook.com [40.107.6.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91098AC3A0;
-        Tue, 25 Oct 2022 23:33:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DJGA9TEObVP+9jfC4Hfdv5JDcgoQW/X+KxlfyrZOezDvyY2C4eC38LSKGqg3w9XpSo+yjT+SiE+m2lw4ui6fkR3tKVY6Tz7c00aoqMni8/oX2C4roZkEtNONIC3JBg0283Q1NmMAhwBLc+koxJ3ylcNKsxPRNBAR0VBXTfuOA6CY7NQgEeOW4tJVtLymgL+FD0Omvxs9TX2U38tjGnOmuZ5yOoVq7f+XY92cE3rVpnJ0vYpphVgrUoDVt5uQOi7QcNmWNG9GnvKElwdXxz6FKAihKUcgI/Mw/H5xVVjz6DcdT35cKrPSDJikKHjbWPj43GfVnrb6XxeD+1kUrK8OvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=daT8jiD13HyFZbUY1k1LuqglIJN2jfWzXCVPebGlPx4=;
- b=OXaudbY6G8hpvARlU+fMdsuIXXtzsgqMYoSUogsxIi1yU+1HMB7ktTZh/96kvmY14i0Atys6Y4dVUXeyKPu0g28bhNlN9YHSh6UOPyezumBcavlxItiqNfEZwkFC8xjENo+zywf/uwIk45MEETtVRMKX9ukdWIC3e7r9OiSXg1pBMNQwEL1yCyyZQdTvP5rmBT3a8ggCQjW7FtEO7tzOlGMXgeoj873iYCz0u+P0A0+5ehZwv0/oxwOHNZW11diX9BVm//tGUmlIz6mjZAlflUUkDcaJ6+nQyx67qKBiCF9+3SEiqsROYEjbamcUj6ojJ7/UVzxjJai1yaOa6ZToJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=daT8jiD13HyFZbUY1k1LuqglIJN2jfWzXCVPebGlPx4=;
- b=QmGfuSOswDJHbMX+iMlXKqgRjTHtUQvPk+zhs+7kmv8sJK0MWpheyez5WenuVfAbaAKVz5IpqG9J1QtAG2GP6H2WI71Edsos6YWt986ooWA4QHdoUG9Qaj6FT4n1Z7oEVjoiBna13dwNZPLlgobzdDAmFYSUuYRJ9dRRtdFHt5I=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9640.eurprd04.prod.outlook.com (2603:10a6:102:261::21)
- by PAXPR04MB9232.eurprd04.prod.outlook.com (2603:10a6:102:2ba::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.34; Wed, 26 Oct
- 2022 06:33:18 +0000
-Received: from PA4PR04MB9640.eurprd04.prod.outlook.com
- ([fe80::cc4:c5c2:db97:1313]) by PA4PR04MB9640.eurprd04.prod.outlook.com
- ([fe80::cc4:c5c2:db97:1313%7]) with mapi id 15.20.5746.026; Wed, 26 Oct 2022
- 06:33:18 +0000
-From:   Li Jun <jun.li@nxp.com>
-To:     gregkh@linuxfoundation.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org
-Cc:     balbi@kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, xu.yang_2@nxp.com, jun.li@nxp.com
-Subject: [PATCH v2 2/2] usb: phy: generic: Add wakeup capability
-Date:   Wed, 26 Oct 2022 14:12:22 +0800
-Message-Id: <1666764742-4201-2-git-send-email-jun.li@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1666764742-4201-1-git-send-email-jun.li@nxp.com>
-References: <1666764742-4201-1-git-send-email-jun.li@nxp.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR06CA0238.apcprd06.prod.outlook.com
- (2603:1096:4:ac::22) To PA4PR04MB9640.eurprd04.prod.outlook.com
- (2603:10a6:102:261::21)
+        with ESMTP id S232803AbiJZGkX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Oct 2022 02:40:23 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29E2B3ECD3
+        for <linux-usb@vger.kernel.org>; Tue, 25 Oct 2022 23:40:21 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id f193so13961165pgc.0
+        for <linux-usb@vger.kernel.org>; Tue, 25 Oct 2022 23:40:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=t84snMklNQgAUUFtqaZeJX3WNh39jvDGq6ud9s+DjwI=;
+        b=P8LMEncS7UpMFZ9kjr8UTqD4Xw5hk+O7tlYxzzatXbpfIaYT8zJD3wmuPIBBD63DKM
+         u5+BHymviF8baEQA7DbkT0av0l66UJwf43/odKYV4lrrJ8DDBX/Ijz+9iu3d9WEXxyNU
+         MWP2qh09idhRP1g8BXd2qm33noMqcBewC2Ors=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t84snMklNQgAUUFtqaZeJX3WNh39jvDGq6ud9s+DjwI=;
+        b=h8ZuT4hO/boLXf4DynilxAtJiP1lU1vQnypOCgUgfG1SFZY6caVjBKGjnQR7wEkuas
+         2x8vJU3H22IsiXMXHGmgop/BmTHzq3Ime2tqKvAJLYG6cHAXfQdepPAMeXrdgeMuD0xt
+         mquNRya3qLDWzVbKlHxPBUue/iw7JCNQcNfn2gDGmYJQa0HbJ505x1FtZGl3PHrSL36o
+         cKxwiXXr73sJjIIgB6X1ejlRZpUA++VZ7lehQvUHZDLoSBlD8bEYf4Kabnpk6CxV911a
+         nKf9kWdqK/UyUqxNdXtKf2eQ0F+7BaR3ZqGCdPYTfl8l1SmmDiaiZ7K9e9OdkepY25l0
+         O94g==
+X-Gm-Message-State: ACrzQf1H1vQI/FNZS8tu6TqxoRXoHV73OMiThGVkswtD7Kk0/FOILoYr
+        3uEyBL7AjMydvMv8pGYXYbQZdSZD3teffF1VwCtEDA==
+X-Google-Smtp-Source: AMsMyM73hBksBZIsg2tJ8obDeVovGPgqNfOE2e8nLDMqCQ5y8BIkgbTn5oXMqsXLRcBFmWQ0tzF1jv7W7D3F7xbe0+w=
+X-Received: by 2002:a62:a503:0:b0:56b:cb10:2d87 with SMTP id
+ v3-20020a62a503000000b0056bcb102d87mr14986305pfm.79.1666766421409; Tue, 25
+ Oct 2022 23:40:21 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9640:EE_|PAXPR04MB9232:EE_
-X-MS-Office365-Filtering-Correlation-Id: b1120e01-ca4f-4f12-eb83-08dab71bf810
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n0a1/5wkKxvBb5oevZRCxuymu636qzlo4JRlOLZoirJ7aIGkDW48U4C2BhcbI37olCrLYjLg0hgpgmAnbxmNETqf0SdTstDCCJvN+SSq1jGUbkhftozVIjg+0SF2r3RRxf+oHYeifvWKG/Lw5Jnihzja0KRFLKSnYcCwnmE7mzSBEMaJeAUkYFWMI2Wd5qrgjsL2/PTbKwmZeKX3FWofy76FpHV7alXyGVFX1mvZllt43Tnyt71VmK4qIUbbbV6p7mLXHQOBSwAxVY2UlzhbW3FBhyOr3ADS9HDuTv2qapL8jylsYJEqP7EHc0GK4MW6FbuI9AQ3OChVeo0Eo1mVHFpEzr0bdQalUqHJVhfDPJWt4mNSuSz5cEDwY914WTtZsKJF0XP4Ix2AZ2Ncckc0yBrreD5hUBngZycLftlTiO8znIpZGznql8XLCR9fN0tk4Yo31dcsRz51NwKvUmXF4ag3XmGRmSGeuJg9OsOw4IAs0Qx8X1sEp5zAfbkIYg9sp751WFD+my1Zryfe2pgNrr2yHjOU9SIo8wlZXLv4YaUS4smjQ5BenZSrBFc7Ixw4zXWShktVkWbktrPC7h0NFtCahYzhQHhevRP5P5OIvMdJJyq2xgSAYrVpTGy7HdwkAvhIkTbxkdnZXMP0S9uOjd7aZyKboyx9rBZj2722ls83YTtU4C8a07H3Ti0aoRLBvLOtGGTIH+DEbdv2X1QK8Mz+/rQP7EDCYWgRvlkmchNk3BQqeSZ3ejVjgqdLS4IO4I6+Uyhwh4a1WQBjNsgbsmMN9bExMlm2rUEYj7dNwVI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9640.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(396003)(366004)(346002)(39860400002)(451199015)(86362001)(6506007)(26005)(52116002)(36756003)(4326008)(41300700001)(66556008)(66946007)(6512007)(8676002)(66476007)(5660300002)(6666004)(8936002)(316002)(4744005)(2906002)(6486002)(186003)(38100700002)(38350700002)(2616005)(478600001)(41533002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iT0JIlcaTnO1vLZ57LIp5tA10rVBUO1jct9aok4teyKE174YPYJCON1hqmY7?=
- =?us-ascii?Q?sAtHYkp1Ar9aU1GttahG673MFpXGGu/7CYlWsZYTVBuFDjYT7xPlvZEMsomC?=
- =?us-ascii?Q?Rf9fj93QT1TIrXrG3CBRaqzjDQ0Iq2bY9bgPE8+YZ4T0cM4O2t636MPpbPu/?=
- =?us-ascii?Q?pt2Iml+te6awK1sMgv431tEfm0BQETgiigPbJHpI9PCc5aIU621MFXvsmca+?=
- =?us-ascii?Q?Z/QZ0rka+MHm8sZOXHZG7UO017h+hpmZJdxS0NXRMNEH9kr5JI8wv1Z6Nueq?=
- =?us-ascii?Q?is1wUcVZwQtxiXACqQQiVEAC+aeh+jDXBet2pFUVVpK7zIkIrVZOqKiWJ5qT?=
- =?us-ascii?Q?eirZ+Dxr0c9qgAmOxdbPXWVGLWRt1pCfYM7azHiiE8VKlNv5jq0Xl42apT2s?=
- =?us-ascii?Q?yz2OWKfajht6yBlf/DyRdMj97blF2m0AEbcVQa+GVkB7/iJ9A4BZS9I451lB?=
- =?us-ascii?Q?A9weJUkHzfCjgJm8dgXbRCUUkTweTGtsbgkZZrdhZQRNFvSAywdPoh30qOxX?=
- =?us-ascii?Q?TYxmR9xczn/fF+kRcCkRFvsOAFK3a1ebrJW6pXNkkBZo3NGUQU7fVbXjxd7z?=
- =?us-ascii?Q?72PW82KnSrC319zFRHYSFyn2ODeGvWhm6ETY4HCya1mtR+1iV8drJVVxyRpr?=
- =?us-ascii?Q?AZjnlklJZYJgZS3KDKSugSM2t5RLU3wBp+/4mGPGeBIv9TXUGuMO70FeqnIX?=
- =?us-ascii?Q?/T0xS0527qbzLAJCb+p0ka47OlZOg06edwtJqenwzm42yvpcgqH+RmP1SZIX?=
- =?us-ascii?Q?8D+vfb3hdS5jFvWyd1YjuJsNpLekVPw8tJD7GLqN9l9LE+twCqcjr1feZ5z9?=
- =?us-ascii?Q?4vn2Y8jD4piFSQBpypu8YcHeTH1RAF+IDaqRrf5yIRH/EQ9IQmpA3tqxJmba?=
- =?us-ascii?Q?XZAdLWStpOPuS4mhmTzVTwAO/N33E36pT/WbskdMCifpHIYrH1Bk8CoRmoZc?=
- =?us-ascii?Q?psgtydMwXsvumppDTcezmUm1b39iS+7cjX8vr4vkUoMxTbOjPUo/fCIckyXn?=
- =?us-ascii?Q?3rBaCC/wa0ljElEmyKm6nxrFoUOK+EOWzjvXxe2UL5s7KZo9h2hWqjNW0plV?=
- =?us-ascii?Q?UHvZZSLCkbYizpx8VFW/QE4+2jjVGZpOlRBs78NAMW6JWdQ8qTRXvfMahchL?=
- =?us-ascii?Q?cG/Su0nkcmCBURi1LcOdwazg0M/fdMdTTjJwMq7kHA+Cni94wzKGljtcJLpu?=
- =?us-ascii?Q?pqC5lJHP2dT5SzD/DJwbtoaD54+nAEqu+jaFu7T88HDWWE5R1/ud1/XvULj+?=
- =?us-ascii?Q?AA9uZLF/st61sJ7aNPwQaMll+4gpqwn38Eywi1fXzeiJr0GUD8FalIVYmNI2?=
- =?us-ascii?Q?epurNzEs5UNeUVgQVS9RMRiYJ0t1aQu281yjUxZgcRGCw4BDedLT+c2kYsFt?=
- =?us-ascii?Q?Mt4R1PcAV8aDLJhnP0dxXHIkS6VfbAcp3FtqsIIi10GK+5UmDJbeH+67QGmV?=
- =?us-ascii?Q?/2YzqmKuKM8Aw3ccIpM6Y+BekrJ9ALv29xE/MscMYqXYDwn1X5UlvE/y5NZl?=
- =?us-ascii?Q?nQ5hxC+i2QvXdRz8jbB6e0T7y28bKk2KS4c6pcHvEIW0cr32LZPkBNV/G2xJ?=
- =?us-ascii?Q?2j9QlyBRHlUm6bBa0pG3JhODvYO5decNvmx1e1rJ?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1120e01-ca4f-4f12-eb83-08dab71bf810
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9640.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2022 06:33:18.3653
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mxS0nC94cKroZQwncMmEF6pfSibK9HETqZoGhHukffej8eELT44LaeEK599X0Yib
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9232
+References: <20221024142720.4122053-1-mathias.nyman@intel.com> <20221024142720.4122053-3-mathias.nyman@intel.com>
+In-Reply-To: <20221024142720.4122053-3-mathias.nyman@intel.com>
+From:   Reka Norman <rekanorman@chromium.org>
+Date:   Wed, 26 Oct 2022 17:40:10 +1100
+Message-ID: <CAEmPcwsBDwFoXOcXKXkx1aebnq3CV036Ygz_oXOobcyKoQQNnQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] xhci: Add quirk to reset host back to default state
+ at shutdown
+To:     Mathias Nyman <mathias.nyman@intel.com>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In case USB phy is the wakeup source, enable its wakeup
-capability.
+On Wed, Oct 26, 2022 at 5:01 PM Mathias Nyman <mathias.nyman@intel.com> wrote:
+>
+> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+>
+> Systems based on Alder Lake P see significant boot time delay if
+> boot firmware tries to control usb ports in unexpected link states.
+>
+> This is seen with self-powered usb devices that survive in U3 link
+> suspended state over S5.
+>
+> A more generic solution to power off ports at shutdown was attempted in
+> commit 83810f84ecf1 ("xhci: turn off port power in shutdown")
+> but it caused regression.
+>
+> Add host specific XHCI_RESET_TO_DEFAULT quirk which will reset host and
+> ports back to default state in shutdown.
+>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> ---
+>  drivers/usb/host/xhci-pci.c |  4 ++++
+>  drivers/usb/host/xhci.c     | 10 ++++++++--
+>  drivers/usb/host/xhci.h     |  1 +
+>  3 files changed, 13 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+> index 6dd3102749b7..fbbd547ba12a 100644
+> --- a/drivers/usb/host/xhci-pci.c
+> +++ b/drivers/usb/host/xhci-pci.c
+> @@ -257,6 +257,10 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+>              pdev->device == PCI_DEVICE_ID_INTEL_DNV_XHCI))
+>                 xhci->quirks |= XHCI_MISSING_CAS;
+>
+> +       if (pdev->vendor == PCI_VENDOR_ID_INTEL &&
+> +           pdev->device == PCI_DEVICE_ID_INTEL_ALDER_LAKE_PCH_XHCI)
 
-Signed-off-by: Li Jun <jun.li@nxp.com>
----
-No change for v2.
+We need this quirk for ADL-N too (device ID 0x54ed). Would you mind
+updating the patch? Or I can send a separate patch if you prefer.
 
- drivers/usb/phy/phy-generic.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/usb/phy/phy-generic.c b/drivers/usb/phy/phy-generic.c
-index 8ed9327cc4a5..c1309ea24a52 100644
---- a/drivers/usb/phy/phy-generic.c
-+++ b/drivers/usb/phy/phy-generic.c
-@@ -286,6 +286,7 @@ EXPORT_SYMBOL_GPL(usb_phy_gen_create_phy);
- static int usb_phy_generic_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-+	struct device_node *dn = dev->of_node;
- 	struct usb_phy_generic	*nop;
- 	int err;
- 
-@@ -323,6 +324,9 @@ static int usb_phy_generic_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, nop);
- 
-+	device_set_wakeup_capable(&pdev->dev,
-+				  of_property_read_bool(dn, "wakeup-source"));
-+
- 	return 0;
- }
- 
--- 
-2.34.1
-
+> +               xhci->quirks |= XHCI_RESET_TO_DEFAULT;
+> +
+>         if (pdev->vendor == PCI_VENDOR_ID_INTEL &&
+>             (pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_2C_XHCI ||
+>              pdev->device == PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_4C_XHCI ||
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index 5176765c4013..79d7931c048a 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -810,9 +810,15 @@ void xhci_shutdown(struct usb_hcd *hcd)
+>
+>         spin_lock_irq(&xhci->lock);
+>         xhci_halt(xhci);
+> -       /* Workaround for spurious wakeups at shutdown with HSW */
+> -       if (xhci->quirks & XHCI_SPURIOUS_WAKEUP)
+> +
+> +       /*
+> +        * Workaround for spurious wakeps at shutdown with HSW, and for boot
+> +        * firmware delay in ADL-P PCH if port are left in U3 at shutdown
+> +        */
+> +       if (xhci->quirks & XHCI_SPURIOUS_WAKEUP ||
+> +           xhci->quirks & XHCI_RESET_TO_DEFAULT)
+>                 xhci_reset(xhci, XHCI_RESET_SHORT_USEC);
+> +
+>         spin_unlock_irq(&xhci->lock);
+>
+>         xhci_cleanup_msix(xhci);
+> diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+> index c0964fe8ac12..cc084d9505cd 100644
+> --- a/drivers/usb/host/xhci.h
+> +++ b/drivers/usb/host/xhci.h
+> @@ -1897,6 +1897,7 @@ struct xhci_hcd {
+>  #define XHCI_BROKEN_D3COLD     BIT_ULL(41)
+>  #define XHCI_EP_CTX_BROKEN_DCS BIT_ULL(42)
+>  #define XHCI_SUSPEND_RESUME_CLKS       BIT_ULL(43)
+> +#define XHCI_RESET_TO_DEFAULT  BIT_ULL(44)
+>
+>         unsigned int            num_active_eps;
+>         unsigned int            limit_active_eps;
+> --
+> 2.25.1
+>
