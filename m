@@ -2,75 +2,134 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70F00FA3740
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Oct 2022 14:23:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCE51ECAAA1
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Oct 2022 15:10:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234545AbiJ0OXF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Oct 2022 10:23:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41882 "EHLO
+        id S236375AbiJ0PKP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Oct 2022 11:10:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235059AbiJ0OXE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Oct 2022 10:23:04 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE7EE7E810
-        for <linux-usb@vger.kernel.org>; Thu, 27 Oct 2022 07:23:03 -0700 (PDT)
+        with ESMTP id S236073AbiJ0PJR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Oct 2022 11:09:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A71D418F90F;
+        Thu, 27 Oct 2022 08:09:14 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 71650B8256B
-        for <linux-usb@vger.kernel.org>; Thu, 27 Oct 2022 14:23:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7A52C433C1;
-        Thu, 27 Oct 2022 14:23:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666880580;
-        bh=qzbWJDtdj3gsN+WcG0QmV6ZCMOHB8JwmqN03Oxkt73M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SXNt7uXn5uWKXKLISybrbm1C9IJV2rvkcfi9kZmQzfA5xAaLIHWcKOvyVUFLLlytd
-         H9XNkER7o+9gWt0vVDaS6S6pzXdi+LPBxkZRaMAQcRFZqoLMbHVl7t5CSIkMQ6uSuZ
-         wGTqlsbgKBjXifzRYiQu/DourxyY+md17AQ2n+XCewarMKPfFZ3aOrz3TTU+7yXhUF
-         03taQ0969S84ZkNWE0wQN35Ym0Dq69TUPAMB26lZ3brpeQUZS2+wRcqYn9kpQjzkzC
-         CJqJGiF1Hf8nf4lWYwXmxX7Zqp6uHYINMq029ewjX5Cge2LRxGIakFgk4bmq7uLCkK
-         s3HhHk17uAJBw==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1oo3mQ-0002be-SN; Thu, 27 Oct 2022 16:22:46 +0200
-Date:   Thu, 27 Oct 2022 16:22:46 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     =?utf-8?Q?Beno=C3=AEt?= Monin <benoit.monin@gmx.fr>
-Cc:     linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] USB: serial: option: add Sierra Wireless EM9191
-Message-ID: <Y1qUNvRkAhfLbQ0b@hovoldconsulting.com>
-References: <fafbac7f1c5d85dc4e7049e72635a478a5aef67a.1665665539.git.benoit.monin@gmx.fr>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 82469623A9;
+        Thu, 27 Oct 2022 15:09:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E98B0C433D6;
+        Thu, 27 Oct 2022 15:09:13 +0000 (UTC)
+Received: from rostedt by gandalf.local.home with local (Exim 4.96)
+        (envelope-from <rostedt@goodmis.org>)
+        id 1oo4Vd-00Bvcm-0V;
+        Thu, 27 Oct 2022 11:09:29 -0400
+Message-ID: <20221027150928.983388020@goodmis.org>
+User-Agent: quilt/0.66
+Date:   Thu, 27 Oct 2022 11:05:45 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Johan Hovold <johan@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Bhuvanesh Surachari <Bhuvanesh_Surachari@mentor.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        linux-usb@vger.kernel.org
+Subject: [RFC][PATCH v2 20/31] timers: usb: Use del_timer_shutdown() before freeing timer
+References: <20221027150525.753064657@goodmis.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fafbac7f1c5d85dc4e7049e72635a478a5aef67a.1665665539.git.benoit.monin@gmx.fr>
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Oct 13, 2022 at 04:26:48PM +0200, Benoît Monin wrote:
-> Add support for the AT and diag ports, similar to other qualcomm SDX55
-> modems. In QDL mode, the modem uses a different device ID and support
-> is provided by qcserial in commit 11c52d250b34 ("USB: serial: qcserial:
-> add EM9191 QDL support").
-> 
-> T:  Bus=08 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  3 Spd=5000 MxCh= 0
-> D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
-> P:  Vendor=1199 ProdID=90d3 Rev=00.06
-> S:  Manufacturer=Sierra Wireless, Incorporated
-> S:  Product=Sierra Wireless EM9191
-> S:  SerialNumber=xxxxxxxxxxxxxxxx
-> C:  #Ifs= 4 Cfg#= 1 Atr=a0 MxPwr=896mA
-> I:  If#=0x0 Alt= 0 #EPs= 1 Cls=02(commc) Sub=0e Prot=00 Driver=cdc_mbim
-> I:  If#=0x1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
-> I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=(none)
-> I:  If#=0x4 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=(none)
-> 
-> Signed-off-by: Benoît Monin <benoit.monin@gmx.fr>
+From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
-Applied, thanks.
+Before a timer is freed, del_timer_shutdown() must be called.
 
-Johan
+Link: https://lore.kernel.org/all/20220407161745.7d6754b3@gandalf.local.home/
+
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Johan Hovold <johan@kernel.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc: Matthias Kaehlcke <mka@chromium.org>
+Cc: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc: Bhuvanesh Surachari <Bhuvanesh_Surachari@mentor.com>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linux-usb@vger.kernel.org
+Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+---
+ drivers/usb/core/hub.c              | 3 +++
+ drivers/usb/gadget/udc/m66592-udc.c | 2 +-
+ drivers/usb/serial/garmin_gps.c     | 2 +-
+ drivers/usb/serial/mos7840.c        | 2 +-
+ 4 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index bbab424b0d55..397f263ab7da 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -1261,6 +1261,9 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
+ 
+ 		/* Don't do a long sleep inside a workqueue routine */
+ 		if (type == HUB_INIT2) {
++			/* Timers must be shutdown before they are re-initialized */
++			if (hub->init_work.work.func)
++				del_timer_shutdown(&hub->init_work.timer);
+ 			INIT_DELAYED_WORK(&hub->init_work, hub_init_func3);
+ 			queue_delayed_work(system_power_efficient_wq,
+ 					&hub->init_work,
+diff --git a/drivers/usb/gadget/udc/m66592-udc.c b/drivers/usb/gadget/udc/m66592-udc.c
+index 931e6362a13d..a6e2f8358adf 100644
+--- a/drivers/usb/gadget/udc/m66592-udc.c
++++ b/drivers/usb/gadget/udc/m66592-udc.c
+@@ -1519,7 +1519,7 @@ static int m66592_remove(struct platform_device *pdev)
+ 
+ 	usb_del_gadget_udc(&m66592->gadget);
+ 
+-	del_timer_sync(&m66592->timer);
++	del_timer_shutdown(&m66592->timer);
+ 	iounmap(m66592->reg);
+ 	free_irq(platform_get_irq(pdev, 0), m66592);
+ 	m66592_free_request(&m66592->ep[0].ep, m66592->ep0_req);
+diff --git a/drivers/usb/serial/garmin_gps.c b/drivers/usb/serial/garmin_gps.c
+index f1a8d8343623..2a53f26468bd 100644
+--- a/drivers/usb/serial/garmin_gps.c
++++ b/drivers/usb/serial/garmin_gps.c
+@@ -1405,7 +1405,7 @@ static void garmin_port_remove(struct usb_serial_port *port)
+ 
+ 	usb_kill_anchored_urbs(&garmin_data_p->write_urbs);
+ 	usb_kill_urb(port->interrupt_in_urb);
+-	del_timer_sync(&garmin_data_p->timer);
++	del_timer_shutdown(&garmin_data_p->timer);
+ 	kfree(garmin_data_p);
+ }
+ 
+diff --git a/drivers/usb/serial/mos7840.c b/drivers/usb/serial/mos7840.c
+index 6b12bb4648b8..a90a706d27de 100644
+--- a/drivers/usb/serial/mos7840.c
++++ b/drivers/usb/serial/mos7840.c
+@@ -1726,7 +1726,7 @@ static void mos7840_port_remove(struct usb_serial_port *port)
+ 		mos7840_set_led_sync(port, MODEM_CONTROL_REGISTER, 0x0300);
+ 
+ 		del_timer_sync(&mos7840_port->led_timer1);
+-		del_timer_sync(&mos7840_port->led_timer2);
++		del_timer_shutdown(&mos7840_port->led_timer2);
+ 
+ 		usb_kill_urb(mos7840_port->led_urb);
+ 		usb_free_urb(mos7840_port->led_urb);
+-- 
+2.35.1
