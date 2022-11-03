@@ -2,90 +2,123 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 518A5C433FE
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Nov 2022 16:02:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54385C43219
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Nov 2022 16:08:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231387AbiKCQCB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Nov 2022 12:02:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60170 "EHLO
+        id S230153AbiKCQI3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Nov 2022 12:08:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231935AbiKCQBt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Nov 2022 12:01:49 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 240161C436
-        for <linux-usb@vger.kernel.org>; Thu,  3 Nov 2022 08:59:30 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id hh9so1467118qtb.13
-        for <linux-usb@vger.kernel.org>; Thu, 03 Nov 2022 08:59:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HqPHgJ6Q3vsyoxK2rxkkcSzhGC1UMJJ4vLngK8JJSBI=;
-        b=R9NxGyinhuqPxRu1XcOQxXx1AQlXSnqe5SzfUST4sZES5Ne3V+NcpkLYWRDAc+kaKi
-         RCK3x7Ix9mm3qtDMJh4X3aPsLN4rAVj/l3fBb3Nt2I50gGuDfSa6oQ6ZPQ/vTYC8pfKL
-         4hMxOu/EW0fKOxNQc/hrCj1AyPFB0kdTkte5bxk7/ka5xTa+LZzAVmjUN/M+bxT4G+ej
-         V17k/ssV/HC7/doIEf40Nk/XlzKrWt3Sy0/ogXkcByxBw5gRilJBEA5s9zyyqgNGGaNJ
-         fW5Mi/KKehwLmr+JuPy6/o9h3YrkBVEzqjoeSaipOgQzmgONJPBUcaSCAcSZLES7TFwS
-         qp/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HqPHgJ6Q3vsyoxK2rxkkcSzhGC1UMJJ4vLngK8JJSBI=;
-        b=yUe41MlEOh3fW6CD8x9TYPLGklVJQzdYNBUM/emYcrgZARw1kheHfo+823YaBZhvNo
-         bVjk1zKPt2YXMmi2dOw2bSBtl+K2b5NHjVYqGKZEqp4FVVwL8XqYuH3kVjgoYGOdy4yk
-         6gftPh4VsC6yalq++w3unYY2w0rbR1ks7jaApy415ok30S8PolPBH4f+5a5f5tpB3Ucm
-         ofuOhJGM2wC2Fqts/C56UTFf9/g3D71wW5gsxphqsEFkbU5opIgJ2At9Fe9j0LmFyqtz
-         XqevxlMdc9VraYsl11AWiy+JIa0wlTqYRL2P2a6Y8w7g2oWkKkjdWGlAPc9vekZRTF/z
-         n57Q==
-X-Gm-Message-State: ACrzQf0hQE7urcvNAx1Bb++jkH3cw/g41mF1dVMpcMlAs264r35a+9s/
-        Z+S8zUEwNDCzNlyODFc1VdiCPQ==
-X-Google-Smtp-Source: AMsMyM4Ez+YmyQckzZYNxvQpqbdHwzT1eLOp+gEs2cCwM+O0LA358ApAAKdIr2bWWenPpWNwhruefQ==
-X-Received: by 2002:a05:622a:42:b0:3a5:62:af70 with SMTP id y2-20020a05622a004200b003a50062af70mr25527159qtw.106.1667491169243;
-        Thu, 03 Nov 2022 08:59:29 -0700 (PDT)
-Received: from ?IPV6:2601:586:5000:570:a35d:9f85:e3f7:d9fb? ([2601:586:5000:570:a35d:9f85:e3f7:d9fb])
-        by smtp.gmail.com with ESMTPSA id bp9-20020a05620a458900b006f7ee901674sm1016996qkb.2.2022.11.03.08.59.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Nov 2022 08:59:28 -0700 (PDT)
-Message-ID: <c6dd773f-3554-7cb6-51e7-0e49a451b42e@linaro.org>
-Date:   Thu, 3 Nov 2022 11:59:27 -0400
+        with ESMTP id S232106AbiKCQH5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Nov 2022 12:07:57 -0400
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C88EDBE23;
+        Thu,  3 Nov 2022 09:07:51 -0700 (PDT)
+Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
+        by mx0a-002e3701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A3G5qhn014486;
+        Thu, 3 Nov 2022 16:07:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : subject :
+ date : message-id : in-reply-to : references : mime-version; s=pps0720;
+ bh=PijJeW7nT9vvqoxeQzAjDcw+HIn5vW1PglHKsUborrQ=;
+ b=CpVP+LDzngHA3hV/k/ez7Fd+36l1ghc3zxlHb2VoSbHxIF6cBMES3/d1eZGwIWsu4oY3
+ ZFIk057C2X8k3vAB8yUSL736ke5J4z7GlZjYOO62a0eJffn/MztQEZpO8+RBC6m5e99M
+ fiw4RLnSd0fYVZZderdYeaDetyvlMxeW6LXl3fcKPJxTbQSBR3qlBGFhLEjPeviOVTDJ
+ MpVsgCl8YK9wAdb0W/h2rnFZpRkQqAqwnlf7G6Jx17t+fSV6bk5Nls/YrJokxYvpbAlj
+ +ZrmMy0wrVX+Kh4MiOCNsSusgwKRTPHsN4bYv4OYtMnYtiAlCIQEpE5JRekOOqZ6EZ/f rQ== 
+Received: from p1lg14878.it.hpe.com (p1lg14878.it.hpe.com [16.230.97.204])
+        by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 3kmghb84a4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 03 Nov 2022 16:07:35 +0000
+Received: from p1lg14885.dc01.its.hpecorp.net (unknown [10.119.18.236])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by p1lg14878.it.hpe.com (Postfix) with ESMTPS id 254B013961;
+        Thu,  3 Nov 2022 16:07:35 +0000 (UTC)
+Received: from hpe.com (unknown [16.231.227.36])
+        by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTP id 8E4808036BB;
+        Thu,  3 Nov 2022 16:07:34 +0000 (UTC)
+From:   richard.yu@hpe.com
+To:     verdun@hpe.com, nick.hawkins@hpe.com, richard.yu@hpe.com,
+        gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux@armlinux.org.uk,
+        balbi@kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v1 4/7] dt-bindings: usb: hpe,gxp-vuhc: add binding for gxp vEHCI
+Date:   Thu,  3 Nov 2022 11:06:22 -0500
+Message-Id: <20221103160625.15574-5-richard.yu@hpe.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20221103160625.15574-1-richard.yu@hpe.com>
+References: <20221103160625.15574-1-richard.yu@hpe.com>
+X-Proofpoint-GUID: 52PkHq7mYRBwpWf7ph1UgTQ1cW_-sLe6
+X-Proofpoint-ORIG-GUID: 52PkHq7mYRBwpWf7ph1UgTQ1cW_-sLe6
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] dt-bindings: usb: usb-drd: Describe default dual-role
- mode
-Content-Language: en-US
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org
-References: <20221103115923.1467525-1-thierry.reding@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221103115923.1467525-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-03_04,2022-11-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ impostorscore=0 clxscore=1015 mlxlogscore=972 spamscore=0 adultscore=0
+ bulkscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2211030107
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 03/11/2022 07:59, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> The dual-role mode default, in the absence of the dr_mode property, is
-> already documented to be OTG. Use the "default" property to mark it as
-> such more explicitly.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  Documentation/devicetree/bindings/usb/usb-drd.yaml | 1 +
->  1 file changed, 1 insertion(+)
+From: Richard Yu <richard.yu@hpe.com>
 
+Create documentation for the hpe,gxp-vuhc binding to support access to
+the gxp virtual EHCI controller.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Richard Yu <richard.yu@hpe.com>
+---
+ .../devicetree/bindings/usb/hpe,gxp-vuhc.yaml | 34 +++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/hpe,gxp-vuhc.yaml
 
-Best regards,
-Krzysztof
+diff --git a/Documentation/devicetree/bindings/usb/hpe,gxp-vuhc.yaml b/Documentation/devicetree/bindings/usb/hpe,gxp-vuhc.yaml
+new file mode 100644
+index 000000000000..1411a2550092
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/hpe,gxp-vuhc.yaml
+@@ -0,0 +1,34 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/hpe,gxp-vuhc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: HPE GXP Virtual Universal Host Controller (vUHC)
++
++maintainers:
++  - Richard Yu <richard.yu@hpe.com>
++  - Jean-Marie Verdun <verdun@hpe.com>
++  - Nick Hawkins <nick.hawkins@hpe.com>
++
++properties:
++  compatible:
++    items:
++      - const: hpe,gxp-vuhc
++      - const: syscon
++
++  reg:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    vuhc@80400000 {
++      compatible = "hpe,gxp-vuhc", "syscon";
++      reg = <0x80400000 0x80>;
++    };
+-- 
+2.17.1
 
