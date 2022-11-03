@@ -2,282 +2,95 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41512C4321E
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Nov 2022 14:13:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 449E4C4332F
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Nov 2022 14:13:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231395AbiKCONC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Nov 2022 10:13:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34762 "EHLO
+        id S231417AbiKCONV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Nov 2022 10:13:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbiKCOMu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Nov 2022 10:12:50 -0400
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ACA213D7A
-        for <linux-usb@vger.kernel.org>; Thu,  3 Nov 2022 07:12:41 -0700 (PDT)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20221103141240euoutp0128cdb9c7ea0403640abf8dba64fed616~kGI4EWre_2402224022euoutp011
-        for <linux-usb@vger.kernel.org>; Thu,  3 Nov 2022 14:12:40 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20221103141240euoutp0128cdb9c7ea0403640abf8dba64fed616~kGI4EWre_2402224022euoutp011
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1667484760;
-        bh=qCDUQNE7TNiVdNuYLngBq2PYfEAAqmyEHBheVRACkuw=;
-        h=From:To:Cc:Subject:Date:References:From;
-        b=UJL1bjj9in0aXQ2UCVJ/cMuTTinlq4BAwoKRL7VJoBbNz2CBpJ/ihzte1WX2mM5Vf
-         nYVnqGnMmxW1RFiGxOQhQeE/gW7CfiHiuSLeIiSR9f3qnRlP/D+ZrqJXn6WbUJrdD4
-         DkpBo6em6IHBixeP6sMib1FsaF1ULoWAt70Oiy1g=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20221103141239eucas1p2639310d953c20b950f8e209a9a0ada60~kGI3duCEp1870018700eucas1p2j;
-        Thu,  3 Nov 2022 14:12:39 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id F6.01.07817.75CC3636; Thu,  3
-        Nov 2022 14:12:39 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20221103141239eucas1p29dac7ffb7202852c18e48c48c068a90f~kGI26Po1U2133321333eucas1p2h;
-        Thu,  3 Nov 2022 14:12:39 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20221103141239eusmtrp2240f41799f400654257dcadac7e7200c~kGI25W1Wl2294622946eusmtrp2K;
-        Thu,  3 Nov 2022 14:12:39 +0000 (GMT)
-X-AuditID: cbfec7f4-8abff70000011e89-fa-6363cc573943
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 25.57.07473.65CC3636; Thu,  3
-        Nov 2022 14:12:38 +0000 (GMT)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20221103141238eusmtip2e021576b43f6c021db3721c93d63eeb4~kGI2Pr3hB1225412254eusmtip2R;
-        Thu,  3 Nov 2022 14:12:38 +0000 (GMT)
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-To:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Stefan Agner <stefan@agner.ch>,
-        Johan Hovold <johan@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH 1/2] usb: dwc3: exynos: force PHY control from XHCI HCD
-Date:   Thu,  3 Nov 2022 15:12:32 +0100
-Message-Id: <20221103141233.20179-1-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA0VSe0hTcRTud+/uw+Gt2yr9ZbLBMiOr9SDiQg+KpC5BFkUI0WvOm5VuyuZM
-        e5hmpq6ssCC1RZZlNp3WtNXUrGw06bFpRj6wopfOrdI1I6ycua7Vf9/5HueDwyFRkQ4LIfeo
-        kjm1Sp4gxYUC86Mhx9zopwrF/O5+CXPRaseYok8jOJNVWo0zRzpOYMxd9y2CaavT40yhoxFh
-        Lpdlo4zR+opgsu9aCaamKodgDCX3iRWBbOn31yhrKX5FsCZDHs52v2zA2XsXKgn2ZK0BsLX3
-        vID1msQbyC3CpbFcwp4UTj1v+U7hbqfDTSQNzE4teJiFZgB7mA4EkJBeBPNtPYgOCEkRXQ5g
-        38BTnB8GAfxoPor5XSLaC2DLl+V/Ex57u4A3XQOwsv459i/R2dhI+F04vQDqPutwP55MH4SW
-        1po/a1H6BQL1BacQvzCJXgN1Dt8fk4CeAa/k3x7lSZKil0F3PeDbJLDixn3Un4V0AwlvVlUg
-        vBAJ66zlGI8nQZetluBxKByxXET4QA6AJT/fjA2nAczo7RpbuwR223/g/jaUngWr6+bx9EpY
-        3VqG+mlIj4cdnyf6aXQUFpjPjdEUzD0m4t3hsNhW9a/2QctzlMcs1J/pRfnLbYN2Tx56GoiL
-        /3eVAGAAwZxWo4zjNAtV3D6ZRq7UaFVxMkWi0gRG3+WJzzZ4B1xzeWRNACFBE4AkKp1MfTUr
-        FCIqVp62n1Mn7lBrEzhNE5hGCqTBFF4YoRDRcfJkLp7jkjj1XxUhA0IykPhTduWBjdG+vF1D
-        pVwRsK3VhdZ3huc+k56ITOx/PDOtuK0t+2yU89iR7UotOU4cEH1FmK3rnWLe63Lp178r72v+
-        MTQ3RvSroNtt7PLZZatfCJW2fCTj5rqatO8WTfvVzKDFK2rmfHOmUBLs0hSxsRLbOrPc4V6l
-        /zC9VT6xPevosDWxJHV8w4Dv17jA5EwrFZazciTqPeW5nm76yZZOOB831SQL8nZWGAtDUmIP
-        Nb01SEQLYzo9mFOcGtyeOZzwpNV1PEwriTbPP5ne9THZUvvSvkm2edvedas6zr+9bAjx9jvT
-        N26O+pJEvRnqDy7bmXubPdysQjvCP5iNPeJhqUCzW74gAlVr5L8Bbd/VDZ0DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrILMWRmVeSWpSXmKPExsVy+t/xe7phZ5KTDR52WlnMP3KO1WLmm/9s
-        Fs2L17NZNN3oYbXY+3oru8XlXXPYLGac38dksWhZK7PF2iN32S1a9x5ht9i8rp3dYtWCA+wO
-        PB6Lv99j9tg56y67x6ZVnWwed67tYfPYP3cNu0ffllWMHlv2f2b0+LxJLoAjSs+mKL+0JFUh
-        I7+4xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384mJTUnsyy1SN8uQS/jxfnX7AUftCsmHW5m
-        bmA8p9LFyMkhIWAi8fHcdZYuRi4OIYGljBK3OiYwQSRkJE5Oa2CFsIUl/lzrYoMo+sQo0df5
-        HqyITcBQoustREJEoIFRYsfkv0wgDrPADSaJCXP72ECqhAXcJbrO/wOzWQRUJZb0bgcq4uDg
-        FbCVeL2bEWKDvMTqDQeYJzDyLGBkWMUoklpanJueW2yoV5yYW1yal66XnJ+7iREY1tuO/dy8
-        g3Heq496hxiZOBgPMUpwMCuJ8H7alpwsxJuSWFmVWpQfX1Sak1p8iNEUaN1EZinR5HxgZOWV
-        xBuaGZgamphZGphamhkrifN6FnQkCgmkJ5akZqemFqQWwfQxcXBKNTBpzP0bGDf5x+EFxjNv
-        rrp0tvLBLuubCQ2zj694Khe/rufP89AEi1Uyc+Zn1J7wz3pk7Pjn+XYmFs0dXO8X7WGT6U0L
-        r+ide4NBX7Hthq5bq2neUf1N4bMnqUw6+sFQjykxbM2mXVPlZFr1V50XTu9n2fBG0LEufIP2
-        Ajb2P/87hZZczImb7D69f++Bj52GqxNWRjJ9bdgR5mj3olbYTrW67Gj+lD88u8N5lvgubeTa
-        2vHietav3A7eU1b5FwLvbD9p+zpCt2gZu69cQgsHX2HaH/UVkX1sv+c0sd5Ibl22IMJ817L9
-        KqLucz+f5mbP8nK8fGhLRqkhb1aF6OyolM1zuTg/9Vvdf3NOVjF6hYkSS3FGoqEWc1FxIgDx
-        qYkf9AIAAA==
-X-CMS-MailID: 20221103141239eucas1p29dac7ffb7202852c18e48c48c068a90f
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20221103141239eucas1p29dac7ffb7202852c18e48c48c068a90f
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20221103141239eucas1p29dac7ffb7202852c18e48c48c068a90f
-References: <CGME20221103141239eucas1p29dac7ffb7202852c18e48c48c068a90f@eucas1p2.samsung.com>
+        with ESMTP id S231643AbiKCONC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Nov 2022 10:13:02 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D33175A4
+        for <linux-usb@vger.kernel.org>; Thu,  3 Nov 2022 07:12:59 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id z14so2962355wrn.7
+        for <linux-usb@vger.kernel.org>; Thu, 03 Nov 2022 07:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DW6qOLggUDgASb5BXWgCGBn6wiJ6RjTplDMM4RvHv1c=;
+        b=szGfA5+M7RAuJB1RtigO8OXQnPyhSSGas+YyiakeOYmPUpGUE0ADMCc2/g+DMiQggO
+         0awI303q89XBifILuOCdf9y2/b6mq6D6HrBD58ZICMYPRUkHL3/Iuct87QptioaXQiUb
+         8Bnt2+VIzshGlCDK3bwtpaht99yOc9iPNZi4fgtel3xBl9UAwO5yHoN1WMH5ATwSsb44
+         VO2EVWWE56QgaA+IQECwMT1S3tWfVRFdItFfj2HEkaR4JKShBPy+yIhnKzPpnq7zKjH/
+         vZCHDjKzarQ8jX6IQNG2aUcsbMLiQ+YOKtRC4Cf9bfQjQlvCDoz57weFZRHwHOpnqpsp
+         hkDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DW6qOLggUDgASb5BXWgCGBn6wiJ6RjTplDMM4RvHv1c=;
+        b=hjmjVRYX1fme0damOM4w0jDY8u0oZPQU4au5pV7GX0G+uHMbGj8ywGzifRpzVs9cuY
+         jQpz7LAY+BvNN6tgjdeWZplgXRPEpyBT7KlO1hUGe9dt3D90AOYHhb1M6GohtRF5z4pU
+         s8smSnKNlPAowW45XbDmAPzpmwTLJERljjrWu9StVHOar+MemHxZxqw3TPoha4S7KZfb
+         y5fNo70QfYYua0G8qtrj5NAKm1qwWLmWSGFF00V7wnKypUDFa++Rpz4lhV02/RhxMj+i
+         7TK6DOAATEs0KNROY5PYso6IEI8o+L7FNOcMSv9Bw2o46BLoU+2OmXfuWrJRekaSk9hQ
+         Z1dg==
+X-Gm-Message-State: ACrzQf1kGCZpk43J3ItES4B7qimwdzr0h7jtKtlSeIYHtg9TkFpFmcZG
+        0f1/W0MGgSPJvobQXEkuy+Oyt9jAPwF9QZrGsY2/dA==
+X-Google-Smtp-Source: AMsMyM5IngcZNcehorWq6IuX0vGpEwpnOakPgOR/8mDTynUw7/vFc41S411CVdIbzMmXMYIVD5Xcmk+c/RbP4ad4h/0=
+X-Received: by 2002:adf:db4d:0:b0:236:699b:be5e with SMTP id
+ f13-20020adfdb4d000000b00236699bbe5emr18209276wrj.147.1667484777461; Thu, 03
+ Nov 2022 07:12:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <20221027004050.4192111-1-albertccwang@google.com>
+ <20221027004050.4192111-3-albertccwang@google.com> <Y1oj7TlC93oOKyB7@kroah.com>
+In-Reply-To: <Y1oj7TlC93oOKyB7@kroah.com>
+From:   Albert Wang <albertccwang@google.com>
+Date:   Thu, 3 Nov 2022 22:12:45 +0800
+Message-ID: <CANqn-rjNKJasYe4LxMcSNANCOVkGaiQ8=nwaMTjvBkyts=uG8w@mail.gmail.com>
+Subject: Re: [PATCH 2/3] usb: xhci-plat: add xhci_plat_priv_overwrite
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     mathias.nyman@intel.com, badhri@google.com, howardyen@google.com,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Force controlling of the generic USB PHYs also from XHCI HCD to let XHCI
-driver call calibrate() method during the HCD reset. DWC3 also controls
-USB PHYs, but it is not able to call the calibrate() method at the right
-moment.
+Understood, will fix and re-upload v2 patch set.
 
-Fixes: 6000b8d900cd ("usb: dwc3: disable USB core PHY management")
-Reported-by: Stefan Agner <stefan@agner.ch>
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
-This fixes the issue reported here:
-https://lore.kernel.org/all/808bdba846bb60456adf10a3016911ee@agner.ch/
+Thanks,
+Albert
 
-Alternative for this change is a complete revert of the 6000b8d900cd
-("usb: dwc3: disable USB core PHY management") commit.
+Albert Wang | Pixel USB Software  | albertccwang@google.com | +886-918-695-245
 
-Best regards
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland 
----
- drivers/usb/dwc3/core.c        |  2 ++
- drivers/usb/dwc3/core.h        |  1 +
- drivers/usb/dwc3/dwc3-exynos.c | 65 +++++++++++++++++++++++-----------
- drivers/usb/dwc3/host.c        |  3 +-
- 4 files changed, 49 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index c0e7c76dc5c8..87d4472fc031 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1548,6 +1548,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
- 				"snps,parkmode-disable-ss-quirk");
- 	dwc->gfladj_refclk_lpm_sel = device_property_read_bool(dev,
- 				"snps,gfladj-refclk-lpm-sel-quirk");
-+	dwc->xhci_force_phy_control_quirk = device_property_read_bool(dev,
-+				"snps,xhci_force_phy_control");
- 
- 	dwc->tx_de_emphasis_quirk = device_property_read_bool(dev,
- 				"snps,tx_de_emphasis_quirk");
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 8f9959ba9fd4..4d53edaf5999 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -1318,6 +1318,7 @@ struct dwc3 {
- 	unsigned		resume_hs_terminations:1;
- 	unsigned		parkmode_disable_ss_quirk:1;
- 	unsigned		gfladj_refclk_lpm_sel:1;
-+	unsigned		xhci_force_phy_control_quirk:1;
- 
- 	unsigned		tx_de_emphasis_quirk:1;
- 	unsigned		tx_de_emphasis:2;
-diff --git a/drivers/usb/dwc3/dwc3-exynos.c b/drivers/usb/dwc3/dwc3-exynos.c
-index 0ecf20eeceee..fbeefc9eb9c5 100644
---- a/drivers/usb/dwc3/dwc3-exynos.c
-+++ b/drivers/usb/dwc3/dwc3-exynos.c
-@@ -13,6 +13,7 @@
- #include <linux/slab.h>
- #include <linux/platform_device.h>
- #include <linux/clk.h>
-+#include <linux/dma-mapping.h>
- #include <linux/of.h>
- #include <linux/of_platform.h>
- #include <linux/regulator/consumer.h>
-@@ -35,22 +36,20 @@ struct dwc3_exynos {
- 
- 	struct regulator	*vdd33;
- 	struct regulator	*vdd10;
-+	struct platform_device	*dwc3;
- };
- 
--static int dwc3_exynos_remove_child(struct device *dev, void *unused)
--{
--	struct platform_device *pdev = to_platform_device(dev);
--
--	platform_device_unregister(pdev);
--
--	return 0;
--}
-+static const struct property_entry dwc3_exynos_properties[] = {
-+	PROPERTY_ENTRY_BOOL("snps,xhci_force_phy_control"),
-+	{}
-+};
- 
- static int dwc3_exynos_probe(struct platform_device *pdev)
- {
- 	struct dwc3_exynos	*exynos;
- 	struct device		*dev = &pdev->dev;
--	struct device_node	*node = dev->of_node;
-+	struct device_node	*node = dev->of_node, *child;
-+	struct platform_device	*dwc3;
- 	const struct dwc3_exynos_driverdata *driver_data;
- 	int			i, ret;
- 
-@@ -109,21 +108,44 @@ static int dwc3_exynos_probe(struct platform_device *pdev)
- 		goto vdd10_err;
- 	}
- 
--	if (node) {
--		ret = of_platform_populate(node, NULL, NULL, dev);
--		if (ret) {
--			dev_err(dev, "failed to add dwc3 core\n");
--			goto populate_err;
--		}
--	} else {
--		dev_err(dev, "no device node, failed to add dwc3 core\n");
--		ret = -ENODEV;
--		goto populate_err;
-+	child = of_get_next_child(node, NULL);
-+	if (!child) {
-+		dev_err(dev, "Failed to find DWC3 core device node\n");
-+		goto dwc3_child_err;
-+	}
-+
-+	dwc3 = of_device_alloc(child, NULL, dev);
-+	if (!dwc3) {
-+		dev_err(dev, "Failed to allocate DWC3 core device\n");
-+		goto dwc3_alloc_err;
-+	}
-+
-+	dwc3->dev.coherent_dma_mask = DMA_BIT_MASK(32);
-+	dwc3->dev.dma_mask = &dwc3->dev.coherent_dma_mask;
-+	dwc3->dev.bus = &platform_bus_type;
-+
-+	ret = device_create_managed_software_node(&dwc3->dev,
-+						  dwc3_exynos_properties, NULL);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to add properties to DWC3 device\n");
-+		goto dwc3_props_err;
-+	}
-+
-+	ret = of_device_add(dwc3);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to register DWC3 core device\n");
-+		goto dwc3_props_err;
- 	}
-+	exynos->dwc3 = dwc3;
-+	of_node_put(child);
- 
- 	return 0;
- 
--populate_err:
-+dwc3_props_err:
-+	platform_device_put(dwc3);
-+dwc3_alloc_err:
-+	of_node_put(child);
-+dwc3_child_err:
- 	regulator_disable(exynos->vdd10);
- vdd10_err:
- 	regulator_disable(exynos->vdd33);
-@@ -142,7 +164,8 @@ static int dwc3_exynos_remove(struct platform_device *pdev)
- 	struct dwc3_exynos	*exynos = platform_get_drvdata(pdev);
- 	int i;
- 
--	device_for_each_child(&pdev->dev, NULL, dwc3_exynos_remove_child);
-+	device_remove_software_node(&exynos->dwc3->dev);
-+	of_device_unregister(exynos->dwc3);
- 
- 	for (i = exynos->num_clks - 1; i >= 0; i--)
- 		clk_disable_unprepare(exynos->clks[i]);
-diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-index a7154fe8206d..84f25f392dbd 100644
---- a/drivers/usb/dwc3/host.c
-+++ b/drivers/usb/dwc3/host.c
-@@ -97,7 +97,8 @@ int dwc3_host_init(struct dwc3 *dwc)
- 		goto err;
- 	}
- 
--	ret = platform_device_add_data(xhci, &dwc3_xhci_plat_priv,
-+	if (!dwc->xhci_force_phy_control_quirk)
-+		ret = platform_device_add_data(xhci, &dwc3_xhci_plat_priv,
- 					sizeof(dwc3_xhci_plat_priv));
- 	if (ret)
- 		goto err;
--- 
-2.17.1
-
+On Thu, Oct 27, 2022 at 2:22 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Oct 27, 2022 at 08:40:49AM +0800, Albert Wang wrote:
+> > From: Howard Yen <howardyen@google.com>
+> >
+> > Add an overwrite to platform specific callback for setting up the
+> > xhci_offload_ops, allow vendor to store the xhci_offload_ops and
+> > overwrite them when xhci_plat_probe invoked.
+> >
+> > Signed-off-by: Howard Yen <howardyen@google.com>
+> > Link: https://lore.kernel.org/r/20210119101044.1637023-1-howardyen@google.com
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@google.com>
+>
+> Again, no, I do NOT sign off on this submission.
+>
+> Also, you did not sign off on it, yet you forwarded it on.  That's not
+> allowed either, and makes this whole series not even able to be
+> accepted, if it were a valid set of changes :(
+>
+> Please fix.
+>
+> thanks,
+>
+> greg k-h
