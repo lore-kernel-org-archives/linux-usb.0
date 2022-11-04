@@ -2,130 +2,86 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86F15C433FE
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Nov 2022 13:10:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A2E5C43219
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Nov 2022 13:28:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231721AbiKDNKm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Nov 2022 09:10:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45960 "EHLO
+        id S231837AbiKDN2h (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Nov 2022 09:28:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231600AbiKDNKh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Nov 2022 09:10:37 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BCC9286E6
-        for <linux-usb@vger.kernel.org>; Fri,  4 Nov 2022 06:10:36 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <sha@pengutronix.de>)
-        id 1oqwSw-0000Yo-Sl; Fri, 04 Nov 2022 14:10:34 +0100
-Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <sha@pengutronix.de>)
-        id 1oqwSx-002HHl-3T; Fri, 04 Nov 2022 14:10:34 +0100
-Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <sha@pengutronix.de>)
-        id 1oqwSv-004043-44; Fri, 04 Nov 2022 14:10:33 +0100
-From:   Sascha Hauer <s.hauer@pengutronix.de>
+        with ESMTP id S231844AbiKDN10 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Nov 2022 09:27:26 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B221A303C4
+        for <linux-usb@vger.kernel.org>; Fri,  4 Nov 2022 06:25:43 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id d59-20020a17090a6f4100b00213202d77e1so8197261pjk.2
+        for <linux-usb@vger.kernel.org>; Fri, 04 Nov 2022 06:25:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NOTt+uWk2ZToNMGO7O1EdD6mnGN+67PDaHwyai6cOo4=;
+        b=LWtUeYEpcNvhKSMeUpw3oh4EeJqjbHi+ZcU0Tye+R2fwSdRopXwABAwLHyVZ6yhSQr
+         4467oe7efnlbhp3xX1cQ4GRITJz96GqiOh6gRBSYTuqYT9LIF4Sj3cmqPlmpgoTu98Td
+         f6XxqnLI0rFKx7+SIZ88+RD89AMcuCZmUQW7oJg40MXULr9Jp2hGJdGoB2m2GM5/RXes
+         9w+Xh6xw6X4B3FSKFDvK930rNQdfroCOe06qIgqS72Es3gsalcqOAmqIN4otwq4S7eG5
+         59kIRVK0VfbN0v1jFOZKIxSE5lGQ5n16Rse16YAYxh4TE+Usu4B7RFJWfBnVDOWNiXYH
+         gGVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NOTt+uWk2ZToNMGO7O1EdD6mnGN+67PDaHwyai6cOo4=;
+        b=mEH5sxuJQC7SgS05w4MqDKfYbkravRyfWtizNuXrnXDm6mgG5gTdWLsMCRwXG5LYuu
+         3X5r66wo4GlUMqU2DxUE0iGmO46LzOPW6U+Ag8G04uz2ic6n8lCA0AMwCO6DRRb6BUBx
+         xYEJO6+IhkP/VcuuulPOvW7BTWk5IPwN7a6gcEX/Dj8Xpqw6xuB4QIGOF05ydKwxGFpw
+         EtBl2MoWkNtQa68ns500CofnZLSF8O9vkj5kotPT76WHXjhU2auyAFVWF23jbRAgQSmx
+         E+0JNQNHJaoBkKS3YUsWhCWO3M5QkqmHskKkOgin9nvGFRJS/ANhlrvNATsLHnvf4n8y
+         uHOg==
+X-Gm-Message-State: ACrzQf1iRPUg8+GhGnSSvV5CkgOgjriQ3Uim6qpWFGFUKu1NDICNiTQk
+        z6vweMALo7n7h87zzza39I0QrouhHM/B6lHR
+X-Google-Smtp-Source: AMsMyM45Hcm2Yo3qy8x/7GP0YMSDO6FImnZNvx69mDQdOW1RoWKBf6WpN5DQ9fgJzLZjdEKsidSUhA==
+X-Received: by 2002:a17:902:ecc1:b0:186:b57e:d229 with SMTP id a1-20020a170902ecc100b00186b57ed229mr36215993plh.167.1667568342940;
+        Fri, 04 Nov 2022 06:25:42 -0700 (PDT)
+Received: from albert-XPS-13-9360.. ([2405:6e00:490:8cdf:ad7d:ac3d:d463:5046])
+        by smtp.gmail.com with ESMTPSA id e12-20020a170902d38c00b0017b264a2d4asm2655828pld.44.2022.11.04.06.25.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Nov 2022 06:25:42 -0700 (PDT)
+From:   Albert Zhou <albert.zhou.50@gmail.com>
 To:     linux-usb@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, kernel@pengutronix.de,
-        Sascha Hauer <s.hauer@pengutronix.de>
-Subject: [PATCH 1/2] usb: gadget: u_ether: Do not make UDC parent of the net device
-Date:   Fri,  4 Nov 2022 14:10:30 +0100
-Message-Id: <20221104131031.850850-2-s.hauer@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221104131031.850850-1-s.hauer@pengutronix.de>
-References: <20221104131031.850850-1-s.hauer@pengutronix.de>
+Cc:     gregkh@linuxfoundation.org, nic_swsd@realtek.com,
+        Albert Zhou <albert.zhou.50@gmail.com>
+Subject: [PATCH net-next 0/2] Update R8152 module to version 2
+Date:   Sat,  5 Nov 2022 00:25:24 +1100
+Message-Id: <20221104132526.64530-1-albert.zhou.50@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The UDC is not a suitable parent of the net device as the UDC can
-change or vanish during the lifecycle of the ethernet gadget. This
-can be illustrated with the following:
+As per my discussion with Greg K H, here is a patch for the updated
+R8152 module, version 2, obtained from Realtek website. This is my
+first ever patch, I hope it's useful.
 
-mkdir -p /sys/kernel/config/usb_gadget/mygadget
-cd /sys/kernel/config/usb_gadget/mygadget
-mkdir -p configs/c.1/strings/0x409
-echo "C1:Composite Device" > configs/c.1/strings/0x409/configuration
-mkdir -p functions/ecm.usb0
-ln -s functions/ecm.usb0 configs/c.1/
-echo "dummy_udc.0" > UDC
-rmmod dummy_hcd
+Albert Zhou (2):
+  Reverse 744d49daf8bd3b17b345c836f2e6f97d49fa6ae8 so that the v2 r8152
+    driver can use netif_set_gso_max_*
+  Update R8152 module to v2 obtained from the Realtek website, included
+    in a comment in r8152.c. The only other modification to r8152.c is
+    amending netif_napi_add, see comment for explanation.
 
-The 'rmmod' removes the UDC from the just created gadget, leaving
-the still existing net device with a no longer existing parent.
+ drivers/net/usb/r8152.c               | 17938 +++++++++++++++++++-----
+ drivers/net/usb/r8152_compatibility.h |   658 +
+ include/linux/netdevice.h             |    21 +
+ net/core/dev.h                        |    21 -
+ 4 files changed, 15151 insertions(+), 3487 deletions(-)
+ create mode 100644 drivers/net/usb/r8152_compatibility.h
 
-Accessing the ethernet device with commands like:
 
-ip --details link show usb0
-
-will result in a KASAN splat:
-
-==================================================================
-BUG: KASAN: use-after-free in if_nlmsg_size+0x3e8/0x528
-Read of size 4 at addr c5c84754 by task ip/357
-
-CPU: 3 PID: 357 Comm: ip Not tainted 6.1.0-rc3-00013-gd14953726b24-dirty #324
-Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
- unwind_backtrace from show_stack+0x10/0x14
- show_stack from dump_stack_lvl+0x58/0x70
- dump_stack_lvl from print_report+0x134/0x4d4
- print_report from kasan_report+0x78/0x10c
- kasan_report from if_nlmsg_size+0x3e8/0x528
- if_nlmsg_size from rtnl_getlink+0x2b4/0x4d0
- rtnl_getlink from rtnetlink_rcv_msg+0x1f4/0x674
- rtnetlink_rcv_msg from netlink_rcv_skb+0xb4/0x1f8
- netlink_rcv_skb from netlink_unicast+0x294/0x478
- netlink_unicast from netlink_sendmsg+0x328/0x640
- netlink_sendmsg from ____sys_sendmsg+0x2a4/0x3b4
- ____sys_sendmsg from ___sys_sendmsg+0xc8/0x12c
- ___sys_sendmsg from sys_sendmsg+0xa0/0x120
- sys_sendmsg from ret_fast_syscall+0x0/0x1c
-
-Solve this by not setting the parent of the ethernet device.
-
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
----
- drivers/usb/gadget/function/u_ether.c | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
-index e06022873df16..8f12f3f8f6eeb 100644
---- a/drivers/usb/gadget/function/u_ether.c
-+++ b/drivers/usb/gadget/function/u_ether.c
-@@ -798,7 +798,6 @@ struct eth_dev *gether_setup_name(struct usb_gadget *g,
- 	net->max_mtu = GETHER_MAX_MTU_SIZE;
- 
- 	dev->gadget = g;
--	SET_NETDEV_DEV(net, &g->dev);
- 	SET_NETDEV_DEVTYPE(net, &gadget_type);
- 
- 	status = register_netdev(net);
-@@ -873,8 +872,6 @@ int gether_register_netdev(struct net_device *net)
- 	struct usb_gadget *g;
- 	int status;
- 
--	if (!net->dev.parent)
--		return -EINVAL;
- 	dev = netdev_priv(net);
- 	g = dev->gadget;
- 
-@@ -905,7 +902,6 @@ void gether_set_gadget(struct net_device *net, struct usb_gadget *g)
- 
- 	dev = netdev_priv(net);
- 	dev->gadget = g;
--	SET_NETDEV_DEV(net, &g->dev);
- }
- EXPORT_SYMBOL_GPL(gether_set_gadget);
- 
+base-commit: ee6050c8af96bba2f81e8b0793a1fc2f998fcd20
 -- 
-2.30.2
+2.34.1
 
