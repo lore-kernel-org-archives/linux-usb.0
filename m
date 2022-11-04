@@ -2,39 +2,41 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECE72C433FE
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Nov 2022 13:10:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6626DC4332F
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Nov 2022 13:10:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231638AbiKDNKj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Nov 2022 09:10:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45946 "EHLO
+        id S231655AbiKDNKk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Nov 2022 09:10:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231587AbiKDNKg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Nov 2022 09:10:36 -0400
+        with ESMTP id S231592AbiKDNKh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Nov 2022 09:10:37 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4339C764B
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB2220F6C
         for <linux-usb@vger.kernel.org>; Fri,  4 Nov 2022 06:10:36 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <sha@pengutronix.de>)
-        id 1oqwSw-0000Yl-HE; Fri, 04 Nov 2022 14:10:34 +0100
+        id 1oqwSw-0000Yk-F9; Fri, 04 Nov 2022 14:10:34 +0100
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <sha@pengutronix.de>)
-        id 1oqwSw-002HHi-Oq; Fri, 04 Nov 2022 14:10:33 +0100
+        id 1oqwSw-002HHf-My; Fri, 04 Nov 2022 14:10:33 +0100
 Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <sha@pengutronix.de>)
-        id 1oqwSv-004041-3P; Fri, 04 Nov 2022 14:10:33 +0100
+        id 1oqwSv-004046-4s; Fri, 04 Nov 2022 14:10:33 +0100
 From:   Sascha Hauer <s.hauer@pengutronix.de>
 To:     linux-usb@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-kernel@vger.kernel.org, kernel@pengutronix.de,
         Sascha Hauer <s.hauer@pengutronix.de>
-Subject: [PATCH 0/2] use-after-free issues in configfs
-Date:   Fri,  4 Nov 2022 14:10:29 +0100
-Message-Id: <20221104131031.850850-1-s.hauer@pengutronix.de>
+Subject: [PATCH 2/2] usb: gadget: f_ecm: Always set current gadget in ecm_bind()
+Date:   Fri,  4 Nov 2022 14:10:31 +0100
+Message-Id: <20221104131031.850850-3-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221104131031.850850-1-s.hauer@pengutronix.de>
+References: <20221104131031.850850-1-s.hauer@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -45,31 +47,89 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series addresses a few problems with the users of the gether code.
-The problem arises when a UDC is disconnected from a gadget created with
-configfs doing a "echo '' > UDC". It seems the existing code is tested
-up to the point where the gadget from configfs is up, tearing it down
-still seems to make problems. I for myself am also not interested in tearing
-it down, but I see use-after-free issues when doing a reboot -f.
+The gadget may change over bind/unbind cycles, so set it each time during
+bind, not only the first time. Without it we get a use-after-free with
+the following example:
 
-The underlying problem is that the eth_dev returned by the gether code is used
-for multiple bind/unbind cycles, but only initialized properly once.
+cd /sys/kernel/config/usb_gadget/; mkdir -p mygadget; cd mygadget
+mkdir -p configs/c.1/strings/0x409
+echo "C1:Composite Device" > configs/c.1/strings/0x409/configuration
+mkdir -p functions/ecm.usb0
+ln -s functions/ecm.usb0 configs/c.1/
+rmmod dummy_hcd
+modprobe dummy_hcd
 
-The usb_gadget * is only valid between bind and unbind, so it is not a suitable
-parent for the net_device whose lifetime spans multiple bind/unbind cycles.
+KASAN will complain shortly after the 'modprobe':
 
-I solved the issues for the f_ecm driver, similar problems exist in the other users
-like f_eem or f_ncm as well. I can prepare patches for these once it's clear
-that this is really the way to go.
+usb 2-1: New USB device found, idVendor=0000, idProduct=0000, bcdDevice= 6.01
+usb 2-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+==================================================================
+BUG: KASAN: use-after-free in gether_connect+0xb8/0x30c
+Read of size 4 at addr cbef170c by task swapper/3/0
 
-Sascha Hauer (2):
-  usb: gadget: u_ether: Do not make UDC parent of the net device
-  usb: gadget: f_ecm: Always set current gadget in ecm_bind()
+CPU: 3 PID: 0 Comm: swapper/3 Not tainted 6.1.0-rc3-00014-g41ff012f50cb-dirty #322
+Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
+ unwind_backtrace from show_stack+0x10/0x14
+ show_stack from dump_stack_lvl+0x58/0x70
+ dump_stack_lvl from print_report+0x134/0x4d4
+ print_report from kasan_report+0x78/0x10c
+ kasan_report from gether_connect+0xb8/0x30c
+ gether_connect from ecm_set_alt+0x124/0x254
+ ecm_set_alt from composite_setup+0xb98/0x2b18
+ composite_setup from configfs_composite_setup+0x80/0x98
+ configfs_composite_setup from dummy_timer+0x8f0/0x14a0 [dummy_hcd]
+ ...
 
- drivers/usb/gadget/function/f_ecm.c   | 22 +++++++++-------------
- drivers/usb/gadget/function/u_ether.c |  4 ----
- 2 files changed, 9 insertions(+), 17 deletions(-)
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+---
+ drivers/usb/gadget/function/f_ecm.c | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
 
+diff --git a/drivers/usb/gadget/function/f_ecm.c b/drivers/usb/gadget/function/f_ecm.c
+index ffe2486fce71c..a7ab30e603e20 100644
+--- a/drivers/usb/gadget/function/f_ecm.c
++++ b/drivers/usb/gadget/function/f_ecm.c
+@@ -685,7 +685,7 @@ ecm_bind(struct usb_configuration *c, struct usb_function *f)
+ 	struct usb_composite_dev *cdev = c->cdev;
+ 	struct f_ecm		*ecm = func_to_ecm(f);
+ 	struct usb_string	*us;
+-	int			status;
++	int			status = 0;
+ 	struct usb_ep		*ep;
+ 
+ 	struct f_ecm_opts	*ecm_opts;
+@@ -695,23 +695,19 @@ ecm_bind(struct usb_configuration *c, struct usb_function *f)
+ 
+ 	ecm_opts = container_of(f->fi, struct f_ecm_opts, func_inst);
+ 
+-	/*
+-	 * in drivers/usb/gadget/configfs.c:configfs_composite_bind()
+-	 * configurations are bound in sequence with list_for_each_entry,
+-	 * in each configuration its functions are bound in sequence
+-	 * with list_for_each_entry, so we assume no race condition
+-	 * with regard to ecm_opts->bound access
+-	 */
++	mutex_lock(&ecm_opts->lock);
++
++	gether_set_gadget(ecm_opts->net, cdev->gadget);
++
+ 	if (!ecm_opts->bound) {
+-		mutex_lock(&ecm_opts->lock);
+-		gether_set_gadget(ecm_opts->net, cdev->gadget);
+ 		status = gether_register_netdev(ecm_opts->net);
+-		mutex_unlock(&ecm_opts->lock);
+-		if (status)
+-			return status;
+ 		ecm_opts->bound = true;
+ 	}
+ 
++	mutex_unlock(&ecm_opts->lock);
++	if (status)
++		return status;
++
+ 	ecm_string_defs[1].s = ecm->ethaddr;
+ 
+ 	us = usb_gstrings_attach(cdev, ecm_strings,
 -- 
 2.30.2
 
