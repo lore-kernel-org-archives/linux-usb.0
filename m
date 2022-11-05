@@ -2,84 +2,90 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A73EC3A5A7
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Nov 2022 18:06:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FCCBC4332F
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Nov 2022 18:28:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230047AbiKESGA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 5 Nov 2022 14:06:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41006 "EHLO
+        id S229889AbiKES2v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 5 Nov 2022 14:28:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiKESFz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Nov 2022 14:05:55 -0400
+        with ESMTP id S229533AbiKES2u (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Nov 2022 14:28:50 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9579CBF62;
-        Sat,  5 Nov 2022 11:05:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90B12DFE6
+        for <linux-usb@vger.kernel.org>; Sat,  5 Nov 2022 11:28:49 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3557B60684;
-        Sat,  5 Nov 2022 18:05:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08FEEC433D6;
-        Sat,  5 Nov 2022 18:05:51 +0000 (UTC)
-Date:   Sat, 5 Nov 2022 14:05:50 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-bluetooth@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
-        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org,
-        Julia Lawall <Julia.Lawall@inria.fr>
-Subject: Re: [PATCH v4a 00/38] timers: Use timer_shutdown*() before freeing
- timers
-Message-ID: <20221105140550.0ccb277c@rorschach.local.home>
-In-Reply-To: <20221105140356.6a3da628@rorschach.local.home>
-References: <20221105060024.598488967@goodmis.org>
-        <CAHk-=wi95dGkg7DiuOZ27gGW+mxJipn9ykB6LHB-HrbbLG6OMQ@mail.gmail.com>
-        <20221105123642.596371c7@rorschach.local.home>
-        <20221105140356.6a3da628@rorschach.local.home>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F3F960B7A
+        for <linux-usb@vger.kernel.org>; Sat,  5 Nov 2022 18:28:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7C4AEC433B5
+        for <linux-usb@vger.kernel.org>; Sat,  5 Nov 2022 18:28:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667672928;
+        bh=Ty1mOBa2tUqEVXCtEZ5RqfeLVbr9dI4diLWc4mztVlw=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=QrguZD9onGZgb1HCVrsAfwB3VtsTBCR4h4HPMWQI/M8H+aIUa1ghqIIeVI4Sh4SgJ
+         +KhiRJcOvaaAOanwrJjzI02PuW8awQxf6tyXlPJu6mbs8UxVHHRjIc5Y5Aax2G9wh+
+         PjvRU2HULq/M22a4g3GAJyuTXWq/Z7+L4P8aDpnw6aITdqRaBQu7XM0eT6Stvi9aRo
+         RUFq64GWaCPlMR59V5vsyQueRK3udRrC8QSMUm+MoBIo2JJWKL9XvrQzMxwhnBy6CY
+         LU8DZlSf36ymWmstka4A0bWXm4X7HdKDrM6XNghsLZ5I1bLLAE9w8g0W5pf+a7u0YF
+         8ZtEMGwhT5Zfg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 61928C433E7; Sat,  5 Nov 2022 18:28:48 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 214259] Discrete Thunderbold Controller 8086:1137 throws DMAR
+ and XHCI errors and is only partially functional
+Date:   Sat, 05 Nov 2022 18:28:48 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kjhambrick@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: DUPLICATE
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-214259-208809-syexvownDX@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214259-208809@https.bugzilla.kernel.org/>
+References: <bug-214259-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, 5 Nov 2022 14:03:56 -0400
-Steven Rostedt <rostedt@goodmis.org> wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214259
 
-> --- a/drivers/isdn/hardware/mISDN/hfcmulti.c
-> +++ b/drivers/isdn/hardware/mISDN/hfcmulti.c
-> @@ -4544,7 +4544,7 @@ release_port(struct hfc_multi *hc, struct dchannel *dch)
->  	spin_lock_irqsave(&hc->lock, flags);
->  
->  	if (dch->timer.function) {
-> -		del_timer(&dch->timer);
-> +		timer_shutdown(&dch->timer);
->  		dch->timer.function = NULL;
->  	}
->  
+--- Comment #32 from Konrad J Hambrick (kjhambrick@gmail.com) ---
+Bjorn --
 
-I still hate the above.
+You're welcome.=20=20
 
--- Steve
+I was unable to successfully apply those patches against 5.15.y and then I
+believe the patches were reverted or partially reverted in 5.19.y.
+
+I will consider running a newer Long-Term Kernel when it is announced next
+month, especially if it fixes Discrete Thunderbolt and especially since 5.1=
+5.y
+will go EoL in Oct 2023.
+
+Thanks for all you do for the Linux Kernel, Bjorn !
+
+-- kjh
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
