@@ -2,89 +2,123 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E97DC433FE
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Nov 2022 21:14:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44FD6C43217
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Nov 2022 21:19:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230332AbiKEVOw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 5 Nov 2022 17:14:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55556 "EHLO
+        id S230078AbiKEVTJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 5 Nov 2022 17:19:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230274AbiKEVOI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Nov 2022 17:14:08 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B560713CCC;
-        Sat,  5 Nov 2022 14:14:06 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id x2so12258264edd.2;
-        Sat, 05 Nov 2022 14:14:05 -0700 (PDT)
+        with ESMTP id S230054AbiKEVTH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Nov 2022 17:19:07 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52E5B26CA
+        for <linux-usb@vger.kernel.org>; Sat,  5 Nov 2022 14:19:06 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id l15so5140736qtv.4
+        for <linux-usb@vger.kernel.org>; Sat, 05 Nov 2022 14:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i4NP9yupkpzBRyQpmDT8lYy2UWrONdv5iBY3bNlIxTE=;
-        b=fCiW8BnrNQDhBG/jBne3EdTh6WbpaMBZr0F+ItEpV+9o7LtESAX2aCcb+qyicB3bn8
-         +FaoQd4zmCu+TlYQHJ2H2xdkCtVzvPtpvOwBhjdjzhKVgExK6JdmAKdkznuvKbepHrno
-         2NdOKVdyCHeyq2DxSa4fgVDTENLg3+BkhY7FPazBwTUhDuCppyy8GUzuW3HIFsMs9b5p
-         MN98D0CttT2kxUXk5byk6dAiowgXhoKFFIs6HE6Xe6YSWfZLL6b/+7BoaKt0VQ1JXVq+
-         8gli8a/2wpo9zaqpgDilmHe91hlF/v1Hsr3wi2qfUMkTV4HpQ9a/bNr+5TNpb5kVJA7M
-         7EBA==
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oAUSnUna3zS1fBFrtEIiCL0CSikhXV9H9gl4bxAoOlg=;
+        b=ZuJIeLB+J2B+Wi1b1yHoLdNdJG615BQeh3CPU6LD93y3msmDVTjWdZW9SDWuwWG0Ca
+         YhJ+P7666j6kD5Xt3qGOHQOk6MqT4dr6x8NEoIAvnzfrmsju0oEob+uN+nSjB06pGmVE
+         9YOPL0fQ+TfTab0XaBhkdWiy9kYH1H39RsusA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=i4NP9yupkpzBRyQpmDT8lYy2UWrONdv5iBY3bNlIxTE=;
-        b=FoyzYaJOHataHhE5BOVo8WFWBFckbHB6l1iiT4tBgcDsgi92QxVafMSDiSGTGamQyO
-         clF6d4YQinWJWMbrQzBj3TMcNIkAJqhfZj+TpYMGeQOM22q1+s0WcES25ynzqYOLSMzU
-         yC4bXCV2UfFqCehmXTK75vp7UdQkB+0YT/ed+25ePoOb+wWIdOM91ddKsOKGXEZb3t1X
-         BYjpUWACjjad2kvcQjEgYUeCcRSup0cTIWQmHD7zwsiPDgkxy9bN1Dy3pYz4WvQFuPZD
-         FDs9aTP8vVEplfKhATlqAq0dNdDqnrpQ3YOMsPMpcyZdvf9+eqpyuvGdKOVhDDuW6Mp6
-         Emtw==
-X-Gm-Message-State: ACrzQf192XcskXlgA7wuG/rokmxmnZD+37Zq0Qd1aOr8qAHAZnRH7NYY
-        DLQd4rr6Jq14xGhl3L8TI7M=
-X-Google-Smtp-Source: AMsMyM58qlmgkIdlBAoBbOk1+UZVOpUM/uCQW/HCKTww4S/Feij3fS3NWbeHWkIPIyrAr2a613tvFg==
-X-Received: by 2002:a05:6402:90b:b0:45c:16a0:ec1e with SMTP id g11-20020a056402090b00b0045c16a0ec1emr43671146edz.427.1667682844639;
-        Sat, 05 Nov 2022 14:14:04 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id h6-20020a170906828600b00731803d4d04sm1330633ejx.82.2022.11.05.14.14.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Nov 2022 14:14:04 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Andre Przywara <andre.przywara@arm.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, Karl Kurbjun <karl.os@veroson.com>,
-        Icenowy Zheng <uwu@icenowy.me>
-Subject: Re: [PATCH v2 7/7] arm64: dts: allwinner: h616: X96 Mate: Add USB nodes
-Date:   Sat, 05 Nov 2022 22:14:03 +0100
-Message-ID: <8136023.T7Z3S40VBb@jernej-laptop>
-In-Reply-To: <20221031111358.3387297-8-andre.przywara@arm.com>
-References: <20221031111358.3387297-1-andre.przywara@arm.com> <20221031111358.3387297-8-andre.przywara@arm.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oAUSnUna3zS1fBFrtEIiCL0CSikhXV9H9gl4bxAoOlg=;
+        b=rDLhVv9dFySQ/xK14ditivMHGOlaRbWKEsInJx9oiSpuJArelySqpy4mHowwNws1ZS
+         /BHEE+GeM3ClCFgx92Pd+cVNrafcWpLJL2AruwTSrJ8hlcbBKptMZ/GmNzqWpqYO6TtA
+         on9sT5AFTunwpC0929mlka2fWH8we7v8V4nCVYo2cKzOmhb5gRbu81vyXn+FmfbO42dR
+         Bn95Oy2tcRJ8iAppPUyCpipARngT9JZYIpA43ABiWIGvKwjOg3oNhAHUpzZlCIAL3f9U
+         Mt/krwQff8ZAgnBJoCJ14yHVswdVK8mdtSiIarx+IKx88Y+QSPDa/ULFffZnbYdt6RsK
+         gIMQ==
+X-Gm-Message-State: ACrzQf1xOxJL6BeGctIRF58s5jUU81FVYLFgAKqJICfbjygReQWR5F/6
+        ce/ZMMi9Dn4ZpjTOHqs4hHdL8EUZ9UGWmA==
+X-Google-Smtp-Source: AMsMyM7zKogicuZheC0c1mf8kSaBxUQoh+ua0e14Cdf8ZNNndI+i4eQxH2o9427D7m7Hz3yEzdDhrg==
+X-Received: by 2002:ac8:444a:0:b0:3a5:1ac6:44d6 with SMTP id m10-20020ac8444a000000b003a51ac644d6mr32544120qtn.78.1667683145257;
+        Sat, 05 Nov 2022 14:19:05 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id f18-20020a05620a409200b006ce76811a07sm2729464qko.75.2022.11.05.14.19.04
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Nov 2022 14:19:05 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-368edbc2c18so72593037b3.13
+        for <linux-usb@vger.kernel.org>; Sat, 05 Nov 2022 14:19:04 -0700 (PDT)
+X-Received: by 2002:a05:6902:1352:b0:6bb:3f4b:9666 with SMTP id
+ g18-20020a056902135200b006bb3f4b9666mr38314227ybu.101.1667682810745; Sat, 05
+ Nov 2022 14:13:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20221105060024.598488967@goodmis.org> <CAHk-=wi95dGkg7DiuOZ27gGW+mxJipn9ykB6LHB-HrbbLG6OMQ@mail.gmail.com>
+ <20221105123642.596371c7@rorschach.local.home> <Y2bPlllkHo5DUmLY@zx2c4.com>
+In-Reply-To: <Y2bPlllkHo5DUmLY@zx2c4.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sat, 5 Nov 2022 14:13:14 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjkkomrdcrAxxFijs-Lih6vHze+A2TgM+v7-Z7ZkXT+WA@mail.gmail.com>
+Message-ID: <CAHk-=wjkkomrdcrAxxFijs-Lih6vHze+A2TgM+v7-Z7ZkXT+WA@mail.gmail.com>
+Subject: Re: [PATCH v4a 00/38] timers: Use timer_shutdown*() before freeing timers
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Anna-Maria Gleixner <anna-maria@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-acpi@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-bluetooth@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
+        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Dne ponedeljek, 31. oktober 2022 ob 12:13:58 CET je Andre Przywara napisal(a):
-> The X96 Mate TV box has two USB-A ports, VBUS is always on and connected
-> to the DC input.
-> Since USB port 0 is connected to an USB-A receptable, we configure it
-> as a host port. Using it as a peripheral is dangerous, because VBUS is
-> always on.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+On Sat, Nov 5, 2022 at 2:03 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+>
+> Something that might help here is changing the `...` into
+> `... when exists` or into `... when != ptr` or similar.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+I actually tried that.
 
-Best regards,
-Jernej
+You don't want "when exists", you'd want "when forall", but that seems
+to be the default.
 
+And trying "when != ptr->timer" actually does the right thing in that
+it gets rid of the case where the timer is modified outside of the
+del_timer() case, *but* it also causes odd other changes to the
+output.
 
+Look at what it generates for that
+
+   drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+
+file, which finds a lot of triggers with the "when !=  ptr->timer",
+but only does one without it.
+
+So I gave up, just because I clearly don't understand the rules.
+
+(Comparing output is also fun because the ordering of the patches is
+random, so consecutive runs with the same rule will give different
+patches. I assume that it's just because it's done in parallel, but it
+doesn't help the "try to see what changes when you change the script"
+;)
+
+                 Linus
