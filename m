@@ -2,90 +2,57 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BB47C433FE
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Nov 2022 10:47:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 026BFC4332F
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Nov 2022 11:02:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231189AbiKIKrD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Nov 2022 05:47:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33828 "EHLO
+        id S229821AbiKILCg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Nov 2022 06:02:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbiKIKrC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Nov 2022 05:47:02 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BFDDEA8
-        for <linux-usb@vger.kernel.org>; Wed,  9 Nov 2022 02:47:01 -0800 (PST)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 489A611EC;
-        Wed,  9 Nov 2022 11:46:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1667990820;
-        bh=MqnggFOy/8U5C56JPdGT8FLprlKtaeEFNELJwDWXaJI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Dflq2lzttVWmHAlxvAop0Wv/6kxhcfwEJEsKP9pim0sMy3Y0Bj8nlVNpMYcwg4Rw/
-         YWpAg9S+fzQ88pK24Etge/e847nBJoUCzVtMhn7vF3MMcOEksAarLVsr2zcn/7gSvq
-         kMlHlS5cg3zImZr+XwXTA2YkDYvBX6Qidsph6oVQ=
-Message-ID: <963901c2-7a8c-ee21-fe25-d6a95d09cdfc@ideasonboard.com>
-Date:   Wed, 9 Nov 2022 10:46:56 +0000
+        with ESMTP id S230387AbiKILCZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Nov 2022 06:02:25 -0500
+X-Greylist: delayed 4201 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Nov 2022 03:02:25 PST
+Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35B5913CDB
+        for <linux-usb@vger.kernel.org>; Wed,  9 Nov 2022 03:02:25 -0800 (PST)
+Received: by mail.lokoho.com (Postfix, from userid 1001)
+        id AAE9982A83; Tue,  8 Nov 2022 09:15:43 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
+        t=1667898955; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
+        h=Date:From:To:Subject:From;
+        b=JAN1z8F4gHpR9QmoWVrwy2vipyvsMSUrqjkkKaDvucySEBW6UwjFHPRt4UCmSdMNR
+         Ni6W7huUtChuJNRmc8Xqp295d3B2f4IH67Z78zw5td9KZdzJKAFIqQ7waYZKwDzkRV
+         Qq+yqrAOP1ozBKVHMcKsFeQ/rbwVUcy6C3NXBSpbrk/nQHNtX966JU6UIbnsmt+fT0
+         8p1hm5NIpwGlNZ6SKuIrANM7qsRdIREBjwAd8yJMy3kKnLEcd5XW/9gAUq8iutWCc+
+         0ZVTjw7euk8uzczSghM11EF0l2cef4FWAaXfBUSxG4/Hxnedj94WdMMFv37n7+XQ7T
+         mfWm0Qy1Z3l1g==
+Received: by mail.lokoho.com for <linux-usb@vger.kernel.org>; Tue,  8 Nov 2022 09:15:34 GMT
+Message-ID: <20221108074500-0.1.24.5p7q.0.2bh61p12n9@lokoho.com>
+Date:   Tue,  8 Nov 2022 09:15:34 GMT
+From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
+To:     <linux-usb@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.lokoho.com
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] uvc: gadget: uvc: Defer uvcg_complete_buffer() until
- .complete()
-Content-Language: en-US
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        kieran@linuxembedded.co.uk, balbi@kernel.org, mgr@pengutronix.de,
-        w36195@motorola.com
-References: <20221019124535.2712902-1-dan.scally@ideasonboard.com>
- <Y2uE94G9y99ynP7r@kroah.com>
-From:   Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <Y2uE94G9y99ynP7r@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg
+Dzie=C5=84 dobry,
 
-On 09/11/2022 10:46, Greg KH wrote:
-> On Wed, Oct 19, 2022 at 01:45:35PM +0100, Daniel Scally wrote:
->> Calling uvcg_complete_buffer() from uvc_video_encode_isoc() sometimes
->> causes the final isoc packet for a video frame to be delayed long
->> enough to cause the USB controller to drop it. The first isoc packet
->> of the next video frame is then received by the host, which interprets
->> the toggled FID bit correctly such that the stream continues without
->> interruption, but the first frame will be missing the last isoc
->> packet's worth of bytes.
->>
->> To fix the issue delay the call to uvcg_complete_buffer() until the
->> usb_request's .complete() callback, as already happens when the data
->> is encoded via uvc_video_encode_isoc_sg(). For consistency's sake the
->> same change is applied to uvc_video_encode_bulk().
->>
->> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
->> ---
->>
->> Changes in v2:
->>
->> 	- Applied the same change to uvc_video_encode_bulk() for consistency
->>
->> @Dan - In the end I thought this is probably worth separating from your "usb:
->> gadget: uvc: fix sg handling in error case" patch, since it fixes a separate
->> issue by itself. I _think_ they're separable but I wasn't experiencing the
->> problem you were so I can't test that - let me know if I'm wrong.
->>
->> @Michael - I dropped your R-b since I made the change to uvc_video_encode_bulk()
->> too, didn't want to jump the gun :)
->
-> Does not apply to my tree anymore :(
->
-> Can you rebase against the usb-linus branch of usb.git and resend?
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
+
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
 
 
-Sure thing
-
->
-> thanks,
->
-> greg k-h
+Pozdrawiam
+Adam Charachuta
