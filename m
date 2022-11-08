@@ -2,103 +2,63 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98046C4332F
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Nov 2022 11:55:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E1D9C4332F
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Nov 2022 15:11:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233953AbiKHLzN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Nov 2022 06:55:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52292 "EHLO
+        id S233828AbiKHPLg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Nov 2022 10:11:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233876AbiKHLzM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Nov 2022 06:55:12 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A62512080;
-        Tue,  8 Nov 2022 03:55:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667908511; x=1699444511;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LCJ+LA4EoECYwdOJcOySMDwZZdQunAqwqpjhdUCb7Fw=;
-  b=Nu3EwoRTDgQE8cK07vXXhhBXpLWblfeEfxffSi31ElJtFlEm2RIoOOJW
-   pgnBzAj2n3Xbj6s7W4xe5Sx12XhYOUtkaQBkmnNUBxfMY6N85jjM8j4WO
-   dWzOzx0+zss+LBU9DFS7zHkXGMWCO6TWHtM5zXjmvyKgeqe9oiAz6pkfL
-   mIksvV4sRdeR9FV4AANigItniqrd/40x0luyk9KbSfp27CEHblEqPcTXC
-   d9/LIPIlWWr9wXi10Kak9En2zNGBZTjCypw7YnfzLGCvuv9b+X6NKXfER
-   IcCwNGUssNx33RM+P8rvbiS3fI4uLq98zSccEQ9LGV8hmGlYDro/fTxOj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="311830255"
-X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
-   d="scan'208";a="311830255"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 03:55:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="761470048"
-X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
-   d="scan'208";a="761470048"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004.jf.intel.com with ESMTP; 08 Nov 2022 03:55:08 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1osNC6-0096tw-0T;
-        Tue, 08 Nov 2022 13:55:06 +0200
-Date:   Tue, 8 Nov 2022 13:55:05 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Qiang Zhao <qiang.zhao@nxp.com>, Arnd Bergmann <arnd@arndb.de>,
-        Li Yang <leoyang.li@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] soc: fsl: qe: request pins non-exclusively
-Message-ID: <Y2pDmaHKU+1/ai9k@smile.fi.intel.com>
-References: <Y2nKIbKxHAMimxII@google.com>
- <CACRpkdaW-dwKNtTQ2_Mj4JpG34N3m19g+s5xcs3Xj=2kAdE0cw@mail.gmail.com>
+        with ESMTP id S233601AbiKHPLe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Nov 2022 10:11:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 363F01D33A;
+        Tue,  8 Nov 2022 07:11:34 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DCDBAB81B2D;
+        Tue,  8 Nov 2022 15:11:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEB3FC433C1;
+        Tue,  8 Nov 2022 15:11:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1667920291;
+        bh=bUhm8bPYBefFFA0xuG61eYa8uJmFZP0Vu2o13BUbaSk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=x8e+hjMnIsQ0CHkl5VCQ8dlJ+6Dm4XqSpYb45QwZC6A6edmx+Urdiz1jFivcY1u5b
+         hWQP0QJfkTWu2oiSUXsnUxa9DoyJO0GbVZ9niK/A2dm7QYzcmR0msteAz2aleuQw32
+         WSYDNqhncHJsbpm5xwZXV8Ezmt45EP5yM3RAx9l0=
+Date:   Tue, 8 Nov 2022 16:11:28 +0100
+From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+To:     "Zhangjiantao (Kirin, nanjing)" <water.zhangjiantao@huawei.com>
+Cc:     =?utf-8?B?6Jab5rab?= <xuetao09@huawei.com>,
+        stern@rowland.harvard.edu, jakobkoschel@gmail.com,
+        geert+renesas@glider.be, colin.i.king@gmail.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?utf-8?B?6JSh5Lqa5Lic?= <caiyadong@huawei.com>,
+        =?utf-8?B?5b6Q5rW35rSL?= <xuhaiyang5@hisilicon.com>,
+        =?utf-8?B?6IuP5bqE6Yqu?= <suzhuangluan@hisilicon.com>
+Subject: Re: [PATCH] USB: gadget: Fix CFI failure during usb config switch.
+Message-ID: <Y2pxoJySPpTkL6Rw@kroah.com>
+References: <b71e1b4b-4d33-fc36-a35f-ea40904a40b6@huawei.com>
+ <32d2bf3e-6730-f598-afef-e8d6f4a509b0@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACRpkdaW-dwKNtTQ2_Mj4JpG34N3m19g+s5xcs3Xj=2kAdE0cw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <32d2bf3e-6730-f598-afef-e8d6f4a509b0@huawei.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Nov 08, 2022 at 11:50:07AM +0100, Linus Walleij wrote:
-> On Tue, Nov 8, 2022 at 4:16 AM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> 
-> > Commit 84582f9ed090 ("soc: fsl: qe: Avoid using gpio_to_desc()") changed
-> > qe_pin_request() to request and hold GPIO corresponding to a given pin.
-> > Unfortunately this does not work, as fhci-hcd requests these GPIOs
-> > first, befor calling qe_pin_request() (see
-> > drivers/usb/host/fhci-hcd.c::of_fhci_probe()).
-> > To fix it change qe_pin_request() to request GPIOs non-exclusively, and
-> > free them once the code determines GPIO controller and offset for each
-> > GPIO/pin.
-> >
-> > Also reaching deep into gpiolib implementation is not the best idea. We
-> > should either export gpio_chip_hwgpio() or keep converting to the global
-> > gpio numbers space until we fix the driver to implement proper pin
-> > control.
-> >
-> > Fixes: 84582f9ed090 ("soc: fsl: qe: Avoid using gpio_to_desc()")
-> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> 
-> Wow! Thanks for fixing this!
-> 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> 
-> I just sent that patch into the SoC patch tracker (soc@kernel.org)
-> with a not to apply it directly, I suggest you do the same (or ask me
-> to sign it off and send it).
+On Tue, Nov 08, 2022 at 08:39:52PM +0800, Zhangjiantao (Kirin, nanjing) wrote:
 
-It depends on the patch in my tree, which is in your tree as well.
-I guess you need to take or wait for v6.2-rc1.
+<snip>
 
--- 
-With Best Regards,
-Andy Shevchenko
+Please fix your email client to not send HTML email, otherwise the
+mailing list rejects it.
 
+Fix that up and respond and I will be glad to reply.
 
+thanks,
+
+greg k-h
