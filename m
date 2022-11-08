@@ -2,96 +2,126 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4B4FC4332F
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Nov 2022 10:50:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8667C4332F
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Nov 2022 11:28:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233808AbiKHKuz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Nov 2022 05:50:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39500 "EHLO
+        id S234070AbiKHL2g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Nov 2022 06:28:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234034AbiKHKui (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Nov 2022 05:50:38 -0500
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B545419AB
-        for <linux-usb@vger.kernel.org>; Tue,  8 Nov 2022 02:50:20 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id n12so37430741eja.11
-        for <linux-usb@vger.kernel.org>; Tue, 08 Nov 2022 02:50:20 -0800 (PST)
+        with ESMTP id S233771AbiKHL23 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Nov 2022 06:28:29 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E44572B25C
+        for <linux-usb@vger.kernel.org>; Tue,  8 Nov 2022 03:28:27 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id j16so20753186lfe.12
+        for <linux-usb@vger.kernel.org>; Tue, 08 Nov 2022 03:28:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cI1zMfq3lTc8UzWRLodrLvVbxywyN3pwGfeoh4TP7Pk=;
-        b=HbSjHAG+XMjuE1yuF4Dqsww1Soriw/tDonvjEn0RhbG+dx+XK/8rNeqM9nIhaOci/i
-         IhP4Iu9O+G4vaxfHK2IvYHtLJ3wrdJ7/2pByztIlpV6zD6khoDqfZwfecGHBtSu6Kbuh
-         QMhjVDGzCZhCkUNYa1oFs+lzelwJLwKAWi22MirwImE3XSBLphjrI6wB9baH2oYH9Ijj
-         nIWof0HDKDJUzG2DkSO5EmnherOt+8ASNa0iRG56Y1hzmQg9xkxB/o56l9XI/qvzUjaI
-         XRh0xaRroeM3nx65FnZlrRtcNMAxDGy3d1RVQw2LFNcj215HWrk9t017EfrBrP070Rj+
-         EDog==
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/4bF5b4uSR+PiYI+2EWUk5/vuKUO/CvUGHdFYYb5oFo=;
+        b=eQF7DappUd2N5b981o9yxaOb99guRAo/uqgsDGSn0OHT6KEsr9JBcQZsnjJryaoGQu
+         Lzd7refSfqCHKxgt/iggiTidS17wYvvC5/njGYkdC7HWK5XCGhl+Eogk13MTtcjuyj7w
+         dDDkX4Lov7LGbMfUDGJqQdlf/PwCVg5LcwJ9numup5jCw/DOl9OZUsByaXBbjqTwsT+N
+         YjxwKE0BouFoXlnRZnOaxl0uOnh8gTFc0/DyiJACGRQzvjg0M9eiPLWCNRjcV6KeTg64
+         ORO/CyTHsaZuXplWrTB4h9ClRxhgLqDCGVJvYxeY4MqGlvWkP1SUxntZZmZmFEsL+YO9
+         0Fzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cI1zMfq3lTc8UzWRLodrLvVbxywyN3pwGfeoh4TP7Pk=;
-        b=vKBVBFWhS//pE7WstxX9TDJE8evqmh+lCKVvU5uA9pcaZrN6Mf+DMXSoL47Bi0lw32
-         TF33tRs55CXkWk27Kl6nvpfbjbv3eaR3tjks2Z8CxcCQRbs5M5YiOPIzzG0IOhyB1uFM
-         dvvuUpWUKqrCgunO8jN1dkPxsYoxVzVfRpGHZGXnYaH97RdWqY57YBtMx7V2uLiZDQlh
-         xi5ehex7PEpeYuS5TTkDKhNZaMc4nbL/5Ru+M6lFsyo+s0BRxSyvh+VUxysGpvIISrhp
-         VyNDdjxZ0PoKXDlsEsZXu/q3TSoaIxuCNfBIao1AxmHlLvScij96NtZRHIVS/53aCi36
-         SIdA==
-X-Gm-Message-State: ACrzQf0iSR7YRm4DWvrIgB8jRU54itQ7mGORkU+6N8bRDuQ67ntNNAop
-        a7p0gJb9/b2xESK96ztJxvgUASGJmJvtKaAq4QrOqA==
-X-Google-Smtp-Source: AMsMyM6TWlffPm2NhzhPMpDHWJ7vQjbA7Kdk+SXNums04xc/5fH3UzZ48rtJuLU8M+7f5WqkQMIJWkoF20YdR/IBeKQ=
-X-Received: by 2002:a17:906:4c4b:b0:7ad:a197:b58e with SMTP id
- d11-20020a1709064c4b00b007ada197b58emr53429067ejw.203.1667904619249; Tue, 08
- Nov 2022 02:50:19 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/4bF5b4uSR+PiYI+2EWUk5/vuKUO/CvUGHdFYYb5oFo=;
+        b=BefcXj+R6hZKZgDH4NVMxtUCuI69sCd3ORKYL/YzL29ftv782D6BdEJeSCjpcWDYSt
+         Tz2tKkfhACePWb7SpYzwHTiuIe5mbAr3sZPck0kpOkngDvVj1EKK4NTvacv4jzCmM+Is
+         kvfoyggMjvVX+UXyDWGSY+3FqP4SkUqqNYMiz1O6grkBm0xVt47zZoELD/7Mb25UG+oh
+         Tspg4ChBfIq3C3Dz+N4hkqk43NaovgLGTE/yq1AmNnNjNO7QU0QHhmHHccwg2Jfm6tvv
+         JCPCLiamcpRvO2Rd38JEUidVDCgQ3hqcpgiTjA1d7K10S/Mzm0oLYGJk5davP3B3Djik
+         biQg==
+X-Gm-Message-State: ACrzQf2/ME/wYcdGQ96BYplUTAJCvu7YlxiBVw9WBX0NlSN7aRqdLSqQ
+        fj4RHIZ3LzMzKNl2zKO2j3OSlw==
+X-Google-Smtp-Source: AMsMyM4yHGNR2Ct1uNwRmvEy3UsNs7Pg4gtxGic+wGvnBCnfwKCtFXI0kII1QiSaoswtC8dY0bIHIg==
+X-Received: by 2002:a05:6512:150c:b0:4aa:f81e:6c17 with SMTP id bq12-20020a056512150c00b004aaf81e6c17mr20752532lfb.275.1667906906320;
+        Tue, 08 Nov 2022 03:28:26 -0800 (PST)
+Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
+        by smtp.gmail.com with ESMTPSA id v21-20020a2e9255000000b002776ce08326sm1699183ljg.29.2022.11.08.03.28.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Nov 2022 03:28:25 -0800 (PST)
+Message-ID: <fd9ee5df-0b9d-59c1-92c6-4874312aae1c@linaro.org>
+Date:   Tue, 8 Nov 2022 12:28:24 +0100
 MIME-Version: 1.0
-References: <Y2nKIbKxHAMimxII@google.com>
-In-Reply-To: <Y2nKIbKxHAMimxII@google.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 8 Nov 2022 11:50:07 +0100
-Message-ID: <CACRpkdaW-dwKNtTQ2_Mj4JpG34N3m19g+s5xcs3Xj=2kAdE0cw@mail.gmail.com>
-Subject: Re: [PATCH] soc: fsl: qe: request pins non-exclusively
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Qiang Zhao <qiang.zhao@nxp.com>, Arnd Bergmann <arnd@arndb.de>,
-        Li Yang <leoyang.li@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v1 5/7] ARM: dts: hpe: Add UDC nodes
+Content-Language: en-US
+To:     richard.yu@hpe.com, verdun@hpe.com, nick.hawkins@hpe.com,
+        gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux@armlinux.org.uk,
+        balbi@kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20221103160625.15574-1-richard.yu@hpe.com>
+ <20221103160625.15574-6-richard.yu@hpe.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221103160625.15574-6-richard.yu@hpe.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Nov 8, 2022 at 4:16 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
+On 03/11/2022 17:06, richard.yu@hpe.com wrote:
+> From: Richard Yu <richard.yu@hpe.com>
+> 
+> Add support for the USB drivers on HPE GXP SoC.
+> 
+> Signed-off-by: Richard Yu <richard.yu@hpe.com>
+> ---
+>  arch/arm/boot/dts/hpe-gxp.dtsi | 30 ++++++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/hpe-gxp.dtsi b/arch/arm/boot/dts/hpe-gxp.dtsi
+> index cf735b3c4f35..60f2d3b15d90 100644
+> --- a/arch/arm/boot/dts/hpe-gxp.dtsi
+> +++ b/arch/arm/boot/dts/hpe-gxp.dtsi
+> @@ -59,6 +59,36 @@
+>  			ranges = <0x0 0xc0000000 0x30000000>;
+>  			dma-ranges;
+>  
+> +			vuhc0: vuhc@80400000 {
+> +				compatible = "hpe,gxp-vuhc", "syscon";
+> +				reg = <0x80400000 0x80>;
+> +			};
+> +
+> +			udc_system_controller: system-controller@80400800 {
+> +				compatible = "hpe,gxp-udcg", "syscon";
+> +				reg = <0x80400800 0x200>;
+> +			};
+> +
+> +			gadget0: udc@80401000 {
+> +				compatible = "hpe,gxp-udc";
+> +				reg = <0x80401000 0x1000>;
+> +				interrupts = <13>;
+> +				interrupt-parent = <&vic1>;
+> +				vdevnum = <0>;
+> +				fepnum = <7>;
+> +				hpe,syscon-phandle = <&udc_system_controller>;
+> +			};
+> +
+> +			gadget1: udc@80402000 {
+> +				compatible = "hpe,gxp-udc";
+> +				reg = <0x80402000 0x1000>;
+> +				interrupts = <13>;
+> +				interrupt-parent = <&vic1>;
+> +				vdevnum = <1>;
+> +				fepnum = <7>;
+> +				hpe,syscon-phandle = <&udc_system_controller>;
 
-> Commit 84582f9ed090 ("soc: fsl: qe: Avoid using gpio_to_desc()") changed
-> qe_pin_request() to request and hold GPIO corresponding to a given pin.
-> Unfortunately this does not work, as fhci-hcd requests these GPIOs
-> first, befor calling qe_pin_request() (see
-> drivers/usb/host/fhci-hcd.c::of_fhci_probe()).
-> To fix it change qe_pin_request() to request GPIOs non-exclusively, and
-> free them once the code determines GPIO controller and offset for each
-> GPIO/pin.
->
-> Also reaching deep into gpiolib implementation is not the best idea. We
-> should either export gpio_chip_hwgpio() or keep converting to the global
-> gpio numbers space until we fix the driver to implement proper pin
-> control.
->
-> Fixes: 84582f9ed090 ("soc: fsl: qe: Avoid using gpio_to_desc()")
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Based on your bindings explanation, UDC should be rather the device
+with multiple children representing actual devices.
 
-Wow! Thanks for fixing this!
+Best regards,
+Krzysztof
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-I just sent that patch into the SoC patch tracker (soc@kernel.org)
-with a not to apply it directly, I suggest you do the same (or ask me
-to sign it off and send it).
-
-Yours,
-Linus Walleij
