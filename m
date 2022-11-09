@@ -2,57 +2,99 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 026BFC4332F
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Nov 2022 11:02:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3B33C4332F
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Nov 2022 11:03:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229821AbiKILCg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Nov 2022 06:02:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48604 "EHLO
+        id S230038AbiKILDZ convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Nov 2022 06:03:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230387AbiKILCZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Nov 2022 06:02:25 -0500
-X-Greylist: delayed 4201 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Nov 2022 03:02:25 PST
-Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35B5913CDB
-        for <linux-usb@vger.kernel.org>; Wed,  9 Nov 2022 03:02:25 -0800 (PST)
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-        id AAE9982A83; Tue,  8 Nov 2022 09:15:43 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-        t=1667898955; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-        h=Date:From:To:Subject:From;
-        b=JAN1z8F4gHpR9QmoWVrwy2vipyvsMSUrqjkkKaDvucySEBW6UwjFHPRt4UCmSdMNR
-         Ni6W7huUtChuJNRmc8Xqp295d3B2f4IH67Z78zw5td9KZdzJKAFIqQ7waYZKwDzkRV
-         Qq+yqrAOP1ozBKVHMcKsFeQ/rbwVUcy6C3NXBSpbrk/nQHNtX966JU6UIbnsmt+fT0
-         8p1hm5NIpwGlNZ6SKuIrANM7qsRdIREBjwAd8yJMy3kKnLEcd5XW/9gAUq8iutWCc+
-         0ZVTjw7euk8uzczSghM11EF0l2cef4FWAaXfBUSxG4/Hxnedj94WdMMFv37n7+XQ7T
-         mfWm0Qy1Z3l1g==
-Received: by mail.lokoho.com for <linux-usb@vger.kernel.org>; Tue,  8 Nov 2022 09:15:34 GMT
-Message-ID: <20221108074500-0.1.24.5p7q.0.2bh61p12n9@lokoho.com>
-Date:   Tue,  8 Nov 2022 09:15:34 GMT
-From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
-To:     <linux-usb@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+        with ESMTP id S229714AbiKILDY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Nov 2022 06:03:24 -0500
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 48CB713D23;
+        Wed,  9 Nov 2022 03:03:19 -0800 (PST)
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 2A9B2FAz8022767, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 2A9B2FAz8022767
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
+        Wed, 9 Nov 2022 19:02:15 +0800
+Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Wed, 9 Nov 2022 19:02:53 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Wed, 9 Nov 2022 19:02:53 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::15b5:fc4b:72f3:424b]) by
+ RTEXMBS04.realtek.com.tw ([fe80::15b5:fc4b:72f3:424b%5]) with mapi id
+ 15.01.2375.007; Wed, 9 Nov 2022 19:02:53 +0800
+From:   Hayes Wang <hayeswang@realtek.com>
+To:     Albert Zhou <albert.zhou.50@gmail.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        nic_swsd <nic_swsd@realtek.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: RE: [PATCH net-next RFC 0/5] Update r8152 to version two
+Thread-Topic: [PATCH net-next RFC 0/5] Update r8152 to version two
+Thread-Index: AQHY84eCZedYEX+95EOjyKXiF2YVV642Rxog
+Date:   Wed, 9 Nov 2022 11:02:52 +0000
+Message-ID: <77e816857bbd46ec8357134f767be785@realtek.com>
+References: <20221108153342.18979-1-albert.zhou.50@gmail.com>
+In-Reply-To: <20221108153342.18979-1-albert.zhou.50@gmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.177.203]
+x-kse-serverinfo: RTEXMBS05.realtek.com.tw, 9
+x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
+ rules found
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: =?us-ascii?Q?Clean,_bases:_2022/11/9_=3F=3F_09:47:00?=
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Albert Zhou <albert.zhou.50@gmail.com>
+> Sent: Tuesday, November 8, 2022 11:34 PM
+> Subject: [PATCH net-next RFC 0/5] Update r8152 to version two
+> 
+> This patch integrates the version-two r8152 drivers from Realtek into
+> the kernel. I am new to kernel development, so apologies if I make
+> newbie mistakes.
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+The Realtek's in-house driver doesn't satisfy the rules or requests of
+Linux kernel, so I don't think you could use it to replace the Linux
+kernel r8152 driver.
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+The version is used to distinguish between the Realtek's in-house driver
+and Linux kernel r8152 driver. It doesn't mean you have to use version 2,
+even the version 2 may contain more experiment features.
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+Best Regards,
+Hayes
 
+> I have tested the updated module in v6.1 on my machine, without any
+> issues.
+> 
+> A final note, when I removed all the code for earlier kernel versions,
+> the header r8152_compatibility.h reduced dramatically in size. This
+> leads me to suspect that some of the headers like <linux/init.h> are no
+> longer  needed. However, I left them in there just in case.
 
-Pozdrawiam
-Adam Charachuta
