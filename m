@@ -2,39 +2,38 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83846C4332F
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Nov 2022 21:12:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2EBEC433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Nov 2022 21:13:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232130AbiKJVM6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Nov 2022 16:12:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34814 "EHLO
+        id S232343AbiKJVNp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Nov 2022 16:13:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231243AbiKJVM5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Nov 2022 16:12:57 -0500
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 10 Nov 2022 13:12:56 PST
+        with ESMTP id S232260AbiKJVNV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Nov 2022 16:13:21 -0500
 Received: from mailfilter05-out40.webhostingserver.nl (mailfilter05-out40.webhostingserver.nl [195.211.74.36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4403658009
-        for <linux-usb@vger.kernel.org>; Thu, 10 Nov 2022 13:12:56 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A39C35D6A1
+        for <linux-usb@vger.kernel.org>; Thu, 10 Nov 2022 13:13:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=exalondelft.nl; s=whs1;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
-         from;
-        bh=HVPhfYr7DNSpFtVrBK6cs5Ear7GeE+3dyp5oKyJUU7g=;
-        b=a7MkH5ss9Yvvp2qaaaDRqUwYtPAgWixQ+563+Z3Wb4t2mJ780vNO//BwaPaRJY7AywE9b4hhx2h01
-         qtY2mHCzwF5mWMm+fCdrQoC1GLRcxV/SqvrX3dvcCQS+5GsbwxH3Ux+I4Yfb4fWcoqxnQFNVF7tGqR
-         Vni7V4hCZi6chNwoxh6wAs7Y0Ba5oL5brhfhKCFF/pIx3HnJfEsMFfgOx05dd8x31M3q+LnH2BGneu
-         /wNc2ex6gLqOgvxA1Ha+6h9kIrfm+7x9THFX38Mv6WZS2GSzlBtk3HNPXSNQcHNSSIfoQ4j9a8lXPd
-         89uQt/OD9yRabUhqu81L0iNRioBZW7A==
-X-Halon-ID: 4bf3f4ca-613c-11ed-9686-001a4a4cb933
+        h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
+         subject:cc:to:from:from;
+        bh=A4MtRV/Oz/92ZR5qGyeTjm00+NMx36cJ5lbhoagSP70=;
+        b=Mv7dlS1SmB5BpnCMLPauvzc5SGhClRH8tqUa1YhqKZsA9nFJTZk6I5VX/EcvmTFDsEo9BBEAiC+sB
+         eCjKeZr8JwGdRLXgtoDNe6HSZFOxP9bjE8BAobx94xsx5KJV0dnPAFnEp90Xd2snK4xRdBWL3tRBH4
+         XHj3yDb3ahhc8f3UTUhA8uqvDKG+wQHnIox56svGnnPmGOTyuwQBAgjltW96d0LP7R6tEdS0luUeFZ
+         SSzeqipG02o+WRR+ZoE/vZ7oitBhMTlxjkHRb8eGO1urOXGY24CF7Z1CHoaHHo4u4YO5POtlF1bcn8
+         yKtsUCgu0viJsXgB4oRgSk/Rfx+pJmg==
+X-Halon-ID: 580cd1a3-613c-11ed-9686-001a4a4cb933
 Received: from s198.webhostingserver.nl (s198.webhostingserver.nl [141.138.168.154])
         by mailfilter05.webhostingserver.nl (Halon) with ESMTPSA
-        id 4bf3f4ca-613c-11ed-9686-001a4a4cb933;
-        Thu, 10 Nov 2022 22:11:51 +0100 (CET)
+        id 580cd1a3-613c-11ed-9686-001a4a4cb933;
+        Thu, 10 Nov 2022 22:12:12 +0100 (CET)
 Received: from 2a02-a466-68ed-1-7ff6-3899-7171-85b5.fixed6.kpn.net ([2a02:a466:68ed:1:7ff6:3899:7171:85b5] helo=delfion.fritz.box)
         by s198.webhostingserver.nl with esmtpa (Exim 4.96)
         (envelope-from <ftoth@exalondelft.nl>)
-        id 1otEpz-005Dpg-26;
-        Thu, 10 Nov 2022 22:11:51 +0100
+        id 1otEqJ-005Dpg-3B;
+        Thu, 10 Nov 2022 22:12:12 +0100
 From:   Ferry Toth <ftoth@exalondelft.nl>
 To:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -46,10 +45,12 @@ Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Andrey Smirnov <andrew.smirnov@gmail.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Ferry Toth <ftoth@exalondelft.nl>
-Subject: [PATCH v2 0/2] usb: dwc3: core: defer probe on ulpi_read_id timeout
-Date:   Thu, 10 Nov 2022 22:11:30 +0100
-Message-Id: <20221110211132.297512-1-ftoth@exalondelft.nl>
+Subject: [PATCH v2 2/2] usb: dwc3: core: defer probe on ulpi_read_id timeout
+Date:   Thu, 10 Nov 2022 22:11:32 +0100
+Message-Id: <20221110211132.297512-3-ftoth@exalondelft.nl>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221110211132.297512-1-ftoth@exalondelft.nl>
+References: <20221110211132.297512-1-ftoth@exalondelft.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Antivirus-Scanner: Clean mail though you should still use an Antivirus
@@ -57,19 +58,43 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-v2:
-- Split into separate commits (Thinh)
-- One defer probe on -ETIMEDOUT (Thinh)
-- Loose curly brackets (Heikki)
+Since commit 0f010171
+Dual Role support on Intel Merrifield platform broke due to rearranging
+the call to dwc3_get_extcon().
 
-Ferry Toth (2):
-  usb: ulpi: defer ulpi_register on ulpi_read_id timeout
-  usb: dwc3: core: defer probe on ulpi_read_id timeout
+It appears to be caused by ulpi_read_id() masking the timeout on the first
+test write. In the past dwc3 probe continued by calling dwc3_core_soft_reset()
+followed by dwc3_get_extcon() which happend to return -EPROBE_DEFER.
+On deferred probe ulpi_read_id() finally succeeded.
 
- drivers/usb/common/ulpi.c | 2 +-
- drivers/usb/dwc3/core.c   | 7 ++++++-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+As we now changed ulpi_read_id() to return -ETIMEDOUT in this case, we
+need to handle the error by calling dwc3_core_soft_reset() and request
+-EPROBE_DEFER. On deferred probe ulpi_read_id() is retried and succeeds.
 
+Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
+---
+ drivers/usb/dwc3/core.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 648f1c570021..2779f17bffaf 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1106,8 +1106,13 @@ static int dwc3_core_init(struct dwc3 *dwc)
+ 
+ 	if (!dwc->ulpi_ready) {
+ 		ret = dwc3_core_ulpi_init(dwc);
+-		if (ret)
++		if (ret) {
++			if (ret == -ETIMEDOUT) {
++				dwc3_core_soft_reset(dwc);
++				ret = -EPROBE_DEFER;
++			}
+ 			goto err0;
++		}
+ 		dwc->ulpi_ready = true;
+ 	}
+ 
 -- 
 2.34.1
 
