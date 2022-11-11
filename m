@@ -2,124 +2,136 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B8CBC4332F
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Nov 2022 14:48:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFEA3C433FE
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Nov 2022 15:06:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232918AbiKKOsb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Nov 2022 09:48:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55270 "EHLO
+        id S234895AbiKKPGn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Nov 2022 10:06:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233317AbiKKOs2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Nov 2022 09:48:28 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CF64EB4
-        for <linux-usb@vger.kernel.org>; Fri, 11 Nov 2022 06:48:26 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id l12so8644078lfp.6
-        for <linux-usb@vger.kernel.org>; Fri, 11 Nov 2022 06:48:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SmEdonpCyxaLNAbSjpGD5xDqbmheNMSyPL+5TLjTAiM=;
-        b=PGCPD1+DdoZzrxmD/gRH+Q4QBxAGkO0Qr4vHh2nBCkWDFSE1TsDGa48xZDC1ICXQuG
-         /WX2/BPBlSbLpSck1CN4U4vghFox47iXm78LmC42Snkvc1QiHReb927z3FjmzSUTUQFY
-         Id0gIa1m68n/SNZiATfEwurnlegW1tynEgL2qPq6UtgeQQCorMw9TiWpMDE+MJPF2/7w
-         CAsCZ4LTdY++UlyPVaVaVwmIUHG2HJc7F6o3tdzdG9OhNjrfCZtn31XiyQFcRRORM21A
-         drjaL9PZnJE+bJEHUBKMmKR9N7O7rqToIAWf1kwR1CCjKMLOdxG0lasbfZAhcKt/ACWU
-         QFpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SmEdonpCyxaLNAbSjpGD5xDqbmheNMSyPL+5TLjTAiM=;
-        b=tfK73DWu5eBHyIzW7WVfg4DzMM7FCm33dNwsMsbtz9UszhBeNIzXE5acaxlyeRWK76
-         8Bgk5tCh9CEXb+qjYH/i8Mubbm1i0ZqV8i6MqecCm3905tp9cs28hlVUhjC1UfUUlrR0
-         vp1S1keFy4aSnCbJiOIUORwBx+AzATl0TwzyERIQM+vM6w0DOR49AjuoJQXBzHGaj1rC
-         9U4xz1b2cZXv8BJv24Ae5c7i7rQ4HPOobJe2UcpoetUm+1bvJr943qjox2TDkSneKhpG
-         +FBmR1q54OAP+WmTOKS5qYR6dT8INsaKwtT+vz2tfc18+iNIvksYP7bECcEjijHquotW
-         Q5PA==
-X-Gm-Message-State: ANoB5pm93bjOKSZdMv4WWyDF8ZpW2F2OKXlmAea44R8Fm8PtwSCicg1j
-        WyAlxGvgc1nxlfC4s56L52v8bQ==
-X-Google-Smtp-Source: AA0mqf7EfMrTDVZhQviTJj0d7YrsqDDz5L2ghrHHkCfAVyPDfsuifpObShKiveUJ5ZMpOZDPQubu2Q==
-X-Received: by 2002:a05:6512:3f01:b0:4a6:396d:a06a with SMTP id y1-20020a0565123f0100b004a6396da06amr888628lfa.514.1668178104535;
-        Fri, 11 Nov 2022 06:48:24 -0800 (PST)
-Received: from Fecusia.lan (c-05d8225c.014-348-6c756e10.bbcust.telenor.se. [92.34.216.5])
-        by smtp.gmail.com with ESMTPSA id t16-20020a2e8e70000000b0026daf4fc0f7sm433339ljk.92.2022.11.11.06.48.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Nov 2022 06:48:24 -0800 (PST)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        kernel test robot <lkp@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH] usb: fotg210: Fix Kconfig for USB host modules
-Date:   Fri, 11 Nov 2022 15:48:21 +0100
-Message-Id: <20221111144821.113665-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.38.1
+        with ESMTP id S234928AbiKKPEe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Nov 2022 10:04:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8859670195;
+        Fri, 11 Nov 2022 07:02:11 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 00DE5B8262F;
+        Fri, 11 Nov 2022 15:02:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 285ECC433C1;
+        Fri, 11 Nov 2022 15:02:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1668178928;
+        bh=RHFd6lZBWi3UidtHgAb7H5B7CyFXKaoJYUnzOJpdDKI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=wZKtfKCvtkAHcRqegBZ5rvf2fSNNT5Jp9nsa7tHBLJ1FunZbXoHExBErfTh3zuzNX
+         r4hkvCOmTK0QrFH0l20rbMnWE8AU+P8nmZyOgzviFZBoh2abXcFzInYkCbLbS13H++
+         MWXzls89wSjwmcEEze0qkRehIsJUzk/MHeWbOui4=
+Date:   Fri, 11 Nov 2022 16:02:05 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     haozhe.chang@mediatek.com
+Cc:     M Chetan Kumar <m.chetan.kumar@intel.com>,
+        Intel Corporation <linuxwwan@intel.com>,
+        Loic Poulain <loic.poulain@linaro.org>,
+        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@linux.intel.com>,
+        Liu Haijun <haijun.liu@mediatek.com>,
+        Ricardo Martinez <ricardo.martinez@linux.intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        Shang XiaoJing <shangxiaojing@huawei.com>,
+        "open list:INTEL WWAN IOSM DRIVER" <netdev@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:REMOTE PROCESSOR MESSAGING (RPMSG) WWAN CONTROL..." 
+        <linux-remoteproc@vger.kernel.org>,
+        "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>, lambert.wang@mediatek.com,
+        xiayu.zhang@mediatek.com, hua.yang@mediatek.com
+Subject: Re: [PATCH v3] wwan: core: Support slicing in port TX flow of WWAN
+ subsystem
+Message-ID: <Y25j7fTdvCRqr26k@kroah.com>
+References: <20221111100840.105305-1-haozhe.chang@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221111100840.105305-1-haozhe.chang@mediatek.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The kernel robot reports a link failure when activating the
-FOTG210 host subdriver with =y on a system where the USB host
-core is a module (CONFIG_USB=m).
+On Fri, Nov 11, 2022 at 06:08:36PM +0800, haozhe.chang@mediatek.com wrote:
+> From: haozhe chang <haozhe.chang@mediatek.com>
+> 
+> wwan_port_fops_write inputs the SKB parameter to the TX callback of
+> the WWAN device driver. However, the WWAN device (e.g., t7xx) may
+> have an MTU less than the size of SKB, causing the TX buffer to be
+> sliced and copied once more in the WWAN device driver.
+> 
+> This patch implements the slicing in the WWAN subsystem and gives
+> the WWAN devices driver the option to slice(by frag_len) or not. By
+> doing so, the additional memory copy is reduced.
+> 
+> Meanwhile, this patch gives WWAN devices driver the option to reserve
+> headroom in fragments for the device-specific metadata.
+> 
+> Signed-off-by: haozhe chang <haozhe.chang@mediatek.com>
+> 
+> ---
+> Changes in v2
+>   -send fragments to device driver by skb frag_list.
+> 
+> Changes in v3
+>   -move frag_len and headroom_len setting to wwan_create_port.
+> ---
+>  drivers/net/wwan/iosm/iosm_ipc_port.c  |  3 +-
+>  drivers/net/wwan/mhi_wwan_ctrl.c       |  2 +-
+>  drivers/net/wwan/rpmsg_wwan_ctrl.c     |  2 +-
+>  drivers/net/wwan/t7xx/t7xx_port_wwan.c | 34 +++++++--------
+>  drivers/net/wwan/wwan_core.c           | 59 ++++++++++++++++++++------
+>  drivers/net/wwan/wwan_hwsim.c          |  2 +-
+>  drivers/usb/class/cdc-wdm.c            |  2 +-
+>  include/linux/wwan.h                   |  6 ++-
+>  8 files changed, 73 insertions(+), 37 deletions(-)
+> 
+> diff --git a/drivers/net/wwan/iosm/iosm_ipc_port.c b/drivers/net/wwan/iosm/iosm_ipc_port.c
+> index b6d81c627277..dc43b8f0d1af 100644
+> --- a/drivers/net/wwan/iosm/iosm_ipc_port.c
+> +++ b/drivers/net/wwan/iosm/iosm_ipc_port.c
+> @@ -63,7 +63,8 @@ struct iosm_cdev *ipc_port_init(struct iosm_imem *ipc_imem,
+>  	ipc_port->ipc_imem = ipc_imem;
+>  
+>  	ipc_port->iosm_port = wwan_create_port(ipc_port->dev, port_type,
+> -					       &ipc_wwan_ctrl_ops, ipc_port);
+> +					       &ipc_wwan_ctrl_ops, 0, 0,
+> +					       ipc_port);
 
-This is a bit of special case, so mimic the Kconfig incantations
-from DWC3: let the subdrivers for host or peripheral depend
-on the host or gadget support being =y or the same as the
-FOTG210 core itself.
+How is 0, 0 a valid option here?
 
-This should ensure that either:
+and if it is a valid option, shouldn't you just have 2 different
+functions, one that needs these values and one that does not?  That
+would make it more descriptive as to what those options are, and ensure
+that you get them right.
 
-- The host (CONFIG_USB) or gadget (CONFIG_GADGET) is compiled
-  in and then the FOTG210 can be either module or compiled
-  in.
+> @@ -112,7 +117,6 @@ void wwan_port_rx(struct wwan_port *port, struct sk_buff *skb);
+>   */
+>  void wwan_port_txoff(struct wwan_port *port);
+>  
+> -
+>  /**
 
-- The host or gadget is modular, and then the FOTG210 module
-  must be a module too, or we cannot resolve the symbols
-  at link time.
+Unneeded change.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/linux-usb/202211112132.0BUPGKCd-lkp@intel.com/
-Cc: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-I don't dare to put a Fixes on this since it is in Greg's
-usb-testing for the moment, I don't expect those commit hashes
-to be stable.
+thanks,
 
-Cc to Arnd as he knows KConfig better than me, this is to
-the best of my ability...
----
- drivers/usb/fotg210/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/fotg210/Kconfig b/drivers/usb/fotg210/Kconfig
-index 534206ee0d1d..2db6ac9f8074 100644
---- a/drivers/usb/fotg210/Kconfig
-+++ b/drivers/usb/fotg210/Kconfig
-@@ -14,7 +14,7 @@ if USB_FOTG210
- 
- config USB_FOTG210_HCD
- 	bool "Faraday FOTG210 USB Host Controller support"
--	depends on USB
-+	depends on USB=y || USB=USB_FOTG210
- 	help
- 	  Faraday FOTG210 is an OTG controller which can be configured as
- 	  an USB2.0 host. It is designed to meet USB2.0 EHCI specification
-@@ -24,7 +24,7 @@ config USB_FOTG210_HCD
- 	  module will be called fotg210-hcd.
- 
- config USB_FOTG210_UDC
--	depends on USB_GADGET
-+	depends on USB_GADGET=y || USB_GADGET=USB_FOTG210
- 	bool "Faraday FOTG210 USB Peripheral Controller support"
- 	help
- 	   Faraday USB2.0 OTG controller which can be configured as
--- 
-2.38.1
-
+greg k-h
