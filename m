@@ -2,177 +2,96 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF5F3C43219
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Nov 2022 15:59:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20230C433FE
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Nov 2022 16:57:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234265AbiKKP7V (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Nov 2022 10:59:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39592 "EHLO
+        id S233903AbiKKQ5a (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Nov 2022 11:57:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233842AbiKKP7S (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Nov 2022 10:59:18 -0500
-X-Greylist: delayed 2394 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 11 Nov 2022 07:59:17 PST
-Received: from smtpout.efficios.com (smtpout.efficios.com [IPv6:2607:5300:203:5aae::31e5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB2623C6CE;
-        Fri, 11 Nov 2022 07:59:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-        s=smtpout1; t=1668177821;
-        bh=EYvFyeYoIXdpRZUrDIt9Kwnd3gAkvdIgxw1lIXG8SKY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=l66N3oiBVl0WpLOT0hkLWrSBLQJsJSW4+ouPxFZH5QD5KKmXDB6CMjzwtM8VVLLpX
-         a4mvKpJXJiuV9Qw3ANDqSRII+7K5waLtTRLYZ90oeO3HFXyKJpVusI8jz1TOHWpOiX
-         dJRcqsFN0mN40E/3U0KhejsRReLLA8QsqIZLb9mPKd4oL95EyLfXlhHXXYFtuTieM/
-         mQitMOSC/OQ89QyOELCnHdOHRibH9OXvgNxVpUIxiREjJL0PTMu3jrCYcnxgmXCUU+
-         h1vYvH07RGr00OmtJNBP+zQXctnrrr738WJXcAPDjU36sTOHtCkNno5wnO/vjAKkO+
-         R+/kME1qSOXkw==
-Received: from [172.16.0.153] (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
-        by smtpout.efficios.com (Postfix) with ESMTPSA id 4N81fh5HFrzgt1;
-        Fri, 11 Nov 2022 09:43:40 -0500 (EST)
-Message-ID: <02cdf436-6942-89a7-98b2-bfa75ba5f301@efficios.com>
-Date:   Fri, 11 Nov 2022 09:43:49 -0500
+        with ESMTP id S233180AbiKKQ52 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Nov 2022 11:57:28 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C33CF14083;
+        Fri, 11 Nov 2022 08:57:27 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id v7so3277943wmn.0;
+        Fri, 11 Nov 2022 08:57:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mZWE3AHjm+gVGD7RjCCyAAkQNQ6fQcTinGqa03Nm0yY=;
+        b=M57CLED+h6xY1FdHDVIKLrr7HuIBw1ojq+s7RW+ZVVLFwCms6Sln9BMUam1LKX9MMZ
+         1PY3I48TtXvWDU8MoccKdaEww2T043SS1049ZnY5Vzu7N8W3JY4SXNioIt2Vk0cH8o/Z
+         oOiKodoMiJNL2SM/V4k1EmQrzdfAOAJGhq99hBquE6a9QxKHRYAbVThXwDCqjNoIeEt+
+         +hZuL3jJ2KfbZyk+NJ1ZPFdIN38C+jfyIdOSHglSgX/3RyV28hTatew3zU3g2X7JRsS3
+         aHOcjXg5SkfE3aZNTAtomPFoOp/ANaUZLPzNdKVv2jAaaPaQCoN0gNl6rAg7xUDUpXtK
+         6jWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mZWE3AHjm+gVGD7RjCCyAAkQNQ6fQcTinGqa03Nm0yY=;
+        b=mAA3P7Kvy2ngqY2pbuUnwVaurHI4/noW5yQOXT9yI3jSJdKESWqxv44LebCrHB03M/
+         vytYslF6luIOuh/CqM3pHj0Wjz7htsE68XPW7cuDcW5gyQMJ+WwIwOJ8Nup5Q6CK2hvi
+         veF++qSIxHGk9ANsi37Iu1iP/Rzp8IET2UL9oqafd8PFoRIAcRsriLgzkLbItSr8hFvq
+         62ZZTGmqmDp9AjFhaHP4nyn5fmNVD3E7CqGsKnV7cCZkaIy6kR7UXPprNz+GrSQmBg8W
+         lFfnDP1coh47+hdD82VpNfXNrXcIx+X393VgjxVHNvx/QXpv9OySvLJIJU8jcUcmuAcn
+         5IXw==
+X-Gm-Message-State: ANoB5plcmL4ymT8hxmaAAQfBdIu9y8NgW4Ap/7eamU4eG/s0+a0XP3lQ
+        IL237OpUYQ60f/Us9iAAgnVMsk15n2DR8g==
+X-Google-Smtp-Source: AA0mqf7a6cJmLgQuXV2EMAULPMVyJhpIuKWjQrCUXJmxXe7mNEM/97RVv5bU3KVaJEUAGgklO6L4cA==
+X-Received: by 2002:a05:600c:3b83:b0:3cf:5d41:b74b with SMTP id n3-20020a05600c3b8300b003cf5d41b74bmr1849391wms.184.1668185846282;
+        Fri, 11 Nov 2022 08:57:26 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id f7-20020adfe907000000b0023677081f3asm2302241wrm.42.2022.11.11.08.57.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Nov 2022 08:57:25 -0800 (PST)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wei Yongjun <weiyongjun1@huawei.com>, linux-usb@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: ftdi-elan: remove variable l
+Date:   Fri, 11 Nov 2022 16:57:24 +0000
+Message-Id: <20221111165724.557152-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH printk v3 00/40] reduce console_lock scope
-Content-Language: en-US
-To:     John Ogness <john.ogness@linutronix.de>,
-        Petr Mladek <pmladek@suse.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org,
-        Jason Wessel <jason.wessel@windriver.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        kgdb-bugreport@lists.sourceforge.net, linux-serial@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-um@lists.infradead.org, Luis Chamberlain <mcgrof@kernel.org>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Tony Lindgren <tony@atomide.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-m68k@lists.linux-m68k.org, Ard Biesheuvel <ardb@kernel.org>,
-        linux-efi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        Michal Simek <michal.simek@xilinx.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        linux-usb@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
-        Helge Deller <deller@gmx.de>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Juergen Gross <jgross@suse.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Tom Rix <trix@redhat.com>, linux-fbdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-References: <20221107141638.3790965-1-john.ogness@linutronix.de>
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-In-Reply-To: <20221107141638.3790965-1-john.ogness@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2022-11-07 09:15, John Ogness wrote:
-[...]
-> 
-> The base commit for this series is from Paul McKenney's RCU tree
-> and provides an NMI-safe SRCU implementation [1]. Without the
-> NMI-safe SRCU implementation, this series is not less safe than
-> mainline. But we will need the NMI-safe SRCU implementation for
-> atomic consoles anyway, so we might as well get it in
-> now. Especially since it _does_ increase the reliability for
-> mainline in the panic path.
+Variable l is just being accumulated and it's never used
+anywhere else. The variable and the addition are redundant so
+remove it.
 
-So, your email got me to review the SRCU nmi-safe series:
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/usb/misc/ftdi-elan.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/log/?h=srcunmisafe.2022.10.21a
-
-Especially this commit:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?h=srcunmisafe.2022.10.21a&id=5d0f5953b60f5f7a278085b55ddc73e2932f4c33
-
-I disagree with the overall approach taken there, which is to create
-yet another SRCU flavor, this time with explicit "nmi-safe" read-locks.
-This adds complexity to the kernel APIs and I think we can be clever
-about this and make SRCU nmi-safe without requiring a whole new incompatible
-API.
-
-You can find the basic idea needed to achieve this in the libside RCU
-user-space implementation. I needed to introduce a split-counter concept
-to support rseq vs atomics to keep track of per-cpu grace period counters.
-The "rseq" counter is the fast-path, but if rseq fails, the abort handler
-uses the atomic counter instead.
-
-https://github.com/compudj/side/blob/main/src/rcu.h#L23
-
-struct side_rcu_percpu_count {
-	uintptr_t begin;
-	uintptr_t rseq_begin;
-	uintptr_t end;
-	uintptr_t rseq_end;
-}  __attribute__((__aligned__(SIDE_CACHE_LINE_SIZE)));
-
-The idea is to "split" each percpu counter into two counters, one for rseq,
-and the other for atomics. When a grace period wants to observe the value of
-a percpu counter, it simply sums the two counters:
-
-https://github.com/compudj/side/blob/main/src/rcu.c#L112
-
-The same idea can be applied to SRCU in the kernel: one counter for percpu ops,
-and the other counter for nmi context, so basically:
-
-srcu_read_lock()
-
-if (likely(!in_nmi()))
-   increment the percpu-ops lock counter
-else
-   increment the atomic lock counter
-
-srcu_read_unlock()
-
-if (likely(!in_nmi()))
-   increment the percpu-ops unlock counter
-else
-   increment the atomic unlock counter
-
-Then in the grace period sum the percpu-ops and the atomic values whenever
-each counter value is read.
-
-This would allow SRCU to be NMI-safe without requiring the callers to
-explicitly state whether they need to be nmi-safe or not, and would only
-take the overhead of the atomics in the NMI handlers rather than for all
-users which happen to use SRCU read locks shared with nmi handlers.
-
-Thoughts ?
-
-Thanks,
-
-Mathieu
-
+diff --git a/drivers/usb/misc/ftdi-elan.c b/drivers/usb/misc/ftdi-elan.c
+index 33b35788bd0b..8ce191e3a4c0 100644
+--- a/drivers/usb/misc/ftdi-elan.c
++++ b/drivers/usb/misc/ftdi-elan.c
+@@ -1624,7 +1624,6 @@ wait:if (ftdi->disconnected > 0) {
+ 			char data[30 *3 + 4];
+ 			char *d = data;
+ 			int m = (sizeof(data) - 1) / 3 - 1;
+-			int l = 0;
+ 			struct u132_target *target = &ftdi->target[ed];
+ 			struct u132_command *command = &ftdi->command[
+ 				COMMAND_MASK & ftdi->command_next];
+@@ -1647,7 +1646,6 @@ wait:if (ftdi->disconnected > 0) {
+ 				} else if (i++ < m) {
+ 					int w = sprintf(d, " %02X", *b++);
+ 					d += w;
+-					l += w;
+ 				} else
+ 					d += sprintf(d, " ..");
+ 			}
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+2.38.1
 
