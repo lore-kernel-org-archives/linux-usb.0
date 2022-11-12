@@ -2,35 +2,34 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5238FC4332F
-	for <linux-usb@archiver.kernel.org>; Sat, 12 Nov 2022 09:21:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7E3BC433FE
+	for <linux-usb@archiver.kernel.org>; Sat, 12 Nov 2022 09:22:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233223AbiKLJVl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 12 Nov 2022 04:21:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57930 "EHLO
+        id S233552AbiKLJWa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 12 Nov 2022 04:22:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230327AbiKLJVk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 12 Nov 2022 04:21:40 -0500
-X-Greylist: delayed 363 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 12 Nov 2022 01:21:39 PST
-Received: from mxout4.routing.net (mxout4.routing.net [IPv6:2a03:2900:1:a::9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86465DEF4
-        for <linux-usb@vger.kernel.org>; Sat, 12 Nov 2022 01:21:39 -0800 (PST)
+        with ESMTP id S234551AbiKLJWY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 12 Nov 2022 04:22:24 -0500
+Received: from mxout1.routing.net (mxout1.routing.net [IPv6:2a03:2900:1:a::a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72BD2DF1E
+        for <linux-usb@vger.kernel.org>; Sat, 12 Nov 2022 01:22:22 -0800 (PST)
 Received: from mxbox3.masterlogin.de (unknown [192.168.10.78])
-        by mxout4.routing.net (Postfix) with ESMTP id 1A7361012B6;
-        Sat, 12 Nov 2022 09:15:41 +0000 (UTC)
+        by mxout1.routing.net (Postfix) with ESMTP id EDC9E4049F;
+        Sat, 12 Nov 2022 09:15:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
-        s=20200217; t=1668244541;
+        s=20200217; t=1668244538;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=peGOBv1MRXa6QuGm3gOWpQoih2shYYM8LVD0p2GT22Q=;
-        b=WVQL2KhmOC9Oj5AP5iDEhEsM6/cZbnsBzmpl+tpGl87ruo4QP8n4rfa79V3ylvaZw1OIAc
-        36l9GqkM/JxmBvD933ASHiJmc8ZqzC0Br4mYJ3yXlkWyRXkhqDCDwzUlTWRj6LFWXmgBCu
-        niFkhvji3PWakZ7ThdvSLfG6UYgoeb8=
+        bh=OaWf3qjjR7qXqnVUdNYm0fg2Fkt2lXEHVHwEltIrxBA=;
+        b=vpRZ03LYG+i3I6+Min23afHPEBbMWy7Wz8iiDaYybbM08KY+aGpddbRH5IFTPL/QyusYuQ
+        fUV5sc89N////scmAyRiXllnJ+35VZwlcJ08sxqAf1ZmVBn1erI3EKg8UeDcSMl8RVkykY
+        lKKK8aZXjKtfwPFrYig38gPq9JYlfdg=
 Received: from frank-G5.. (fttx-pool-157.180.227.41.bambit.de [157.180.227.41])
-        by mxbox3.masterlogin.de (Postfix) with ESMTPSA id 018FA360D0E;
-        Sat, 12 Nov 2022 09:15:39 +0000 (UTC)
+        by mxbox3.masterlogin.de (Postfix) with ESMTPSA id D6583360217;
+        Sat, 12 Nov 2022 09:15:36 +0000 (UTC)
 From:   Frank Wunderlich <linux@fw-web.de>
 To:     linux-mediatek@lists.infradead.org
 Cc:     Frank Wunderlich <frank-w@public-files.de>,
@@ -50,204 +49,110 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
-        Sam Shih <sam.shih@mediatek.com>
-Subject: [PATCH v4 07/11] arm64: dts: mt7986: add usb related device nodes
-Date:   Sat, 12 Nov 2022 10:15:14 +0100
-Message-Id: <20221112091518.7846-8-linux@fw-web.de>
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v4 04/11] dt-bindings: PCI: mediatek-gen3: add SoC based clock config
+Date:   Sat, 12 Nov 2022 10:15:11 +0100
+Message-Id: <20221112091518.7846-5-linux@fw-web.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221112091518.7846-1-linux@fw-web.de>
 References: <20221112091518.7846-1-linux@fw-web.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mail-ID: cfd39774-4e07-4b4d-b961-838885ec8763
+X-Mail-ID: 9d62bb0d-11b4-4200-84cf-08d93f4e105f
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Sam Shih <sam.shih@mediatek.com>
+From: Frank Wunderlich <frank-w@public-files.de>
 
-This patch adds USB support for MT7986.
+The PCIe driver covers different SOC which needing different clock
+configs. Define them based on compatible.
 
-Signed-off-by: Sam Shih <sam.shih@mediatek.com>
 Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
-changes compared to sams original version:
-- reorder xhci-clocks based on yaml binding
+v2:
+- fix typo in mediatek,mt8192-pcie
+v3:
+- remove contains to match only if compatible is no fallback
+  tested with series "Add driver nodes for MT8195 SoC" and mt7986
+  pcie-nodes, dtbs_check is now clean
 ---
- arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts | 28 ++++++++++
- arch/arm64/boot/dts/mediatek/mt7986a.dtsi    | 55 ++++++++++++++++++++
- arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts | 28 ++++++++++
- 3 files changed, 111 insertions(+)
+ .../bindings/pci/mediatek-pcie-gen3.yaml      | 47 ++++++++++++++-----
+ 1 file changed, 35 insertions(+), 12 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts b/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
-index 006878e3f2b2..2b5d7ea31b4d 100644
---- a/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
-@@ -23,6 +23,24 @@ memory@40000000 {
- 		device_type = "memory";
- 		reg = <0 0x40000000 0 0x40000000>;
- 	};
-+
-+	reg_3p3v: regulator-3p3v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-3.3V";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
-+
-+	reg_5v: regulator-5v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-5V";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
- };
+diff --git a/Documentation/devicetree/bindings/pci/mediatek-pcie-gen3.yaml b/Documentation/devicetree/bindings/pci/mediatek-pcie-gen3.yaml
+index c00be39af64e..5d7369debff2 100644
+--- a/Documentation/devicetree/bindings/pci/mediatek-pcie-gen3.yaml
++++ b/Documentation/devicetree/bindings/pci/mediatek-pcie-gen3.yaml
+@@ -43,9 +43,6 @@ description: |+
+   each set has its own address for MSI message, and supports 32 MSI vectors
+   to generate interrupt.
  
- &crypto {
-@@ -140,6 +158,12 @@ &spi1 {
- 	status = "okay";
- };
+-allOf:
+-  - $ref: /schemas/pci/pci-bus.yaml#
+-
+ properties:
+   compatible:
+     oneOf:
+@@ -84,15 +81,7 @@ properties:
+     maxItems: 6
  
-+&ssusb {
-+	vusb33-supply = <&reg_3p3v>;
-+	vbus-supply = <&reg_5v>;
-+	status = "okay";
-+};
-+
- &switch {
- 	ports {
- 		#address-cells = <1>;
-@@ -201,6 +225,10 @@ &uart2 {
- 	status = "okay";
- };
+   clock-names:
+-    items:
+-      - const: pl_250m
+-      - const: tl_26m
+-      - const: tl_96m
+-      - const: tl_32k
+-      - const: peri_26m
+-      - enum:
+-          - top_133m        # for MT8192
+-          - peri_mem        # for MT8188/MT8195
++    maxItems: 6
  
-+&usb_phy {
-+	status = "okay";
-+};
-+
- &wifi {
- 	status = "okay";
- 	pinctrl-names = "default", "dbdc";
-diff --git a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi b/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
-index 29da9b8ed753..2bcf48890ba8 100644
---- a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
-@@ -281,6 +281,61 @@ spi1: spi@1100b000 {
- 			status = "disabled";
- 		};
+   assigned-clocks:
+     maxItems: 1
+@@ -138,6 +127,40 @@ required:
+   - '#interrupt-cells'
+   - interrupt-controller
  
-+		ssusb: usb@11200000 {
-+			compatible = "mediatek,mt7986-xhci",
-+				     "mediatek,mtk-xhci";
-+			reg = <0 0x11200000 0 0x2e00>,
-+			      <0 0x11203e00 0 0x0100>;
-+			reg-names = "mac", "ippc";
-+			interrupts = <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&infracfg CLK_INFRA_IUSB_SYS_CK>,
-+				 <&infracfg CLK_INFRA_IUSB_CK>,
-+				 <&infracfg CLK_INFRA_IUSB_133_CK>,
-+				 <&infracfg CLK_INFRA_IUSB_66M_CK>,
-+				 <&topckgen CLK_TOP_U2U3_XHCI_SEL>;
-+			clock-names = "sys_ck",
-+				      "ref_ck",
-+				      "mcu_ck",
-+				      "dma_ck",
-+				      "xhci_ck";
-+			phys = <&u2port0 PHY_TYPE_USB2>,
-+			       <&u3port0 PHY_TYPE_USB3>,
-+			       <&u2port1 PHY_TYPE_USB2>;
-+			status = "disabled";
-+		};
++allOf:
++  - $ref: /schemas/pci/pci-bus.yaml#
++  - if:
++      properties:
++        compatible:
++          const: mediatek,mt8192-pcie
++    then:
++      properties:
++        clock-names:
++          items:
++            - const: pl_250m
++            - const: tl_26m
++            - const: tl_96m
++            - const: tl_32k
++            - const: peri_26m
++            - const: top_133m
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - mediatek,mt8188-pcie
++              - mediatek,mt8195-pcie
++    then:
++      properties:
++        clock-names:
++          items:
++            - const: pl_250m
++            - const: tl_26m
++            - const: tl_96m
++            - const: tl_32k
++            - const: peri_26m
++            - const: peri_mem
 +
-+		usb_phy: t-phy@11e10000 {
-+			compatible = "mediatek,mt7986-tphy",
-+				     "mediatek,generic-tphy-v2";
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			ranges;
-+			status = "disabled";
-+
-+			u2port0: usb-phy@11e10000 {
-+				reg = <0 0x11e10000 0 0x700>;
-+				clocks = <&topckgen CLK_TOP_DA_U2_REFSEL>,
-+					 <&topckgen CLK_TOP_DA_U2_CK_1P_SEL>;
-+				clock-names = "ref", "da_ref";
-+				#phy-cells = <1>;
-+			};
-+
-+			u3port0: usb-phy@11e10700 {
-+				reg = <0 0x11e10700 0 0x900>;
-+				clocks = <&topckgen CLK_TOP_USB3_PHY_SEL>;
-+				clock-names = "ref";
-+				#phy-cells = <1>;
-+			};
-+
-+			u2port1: usb-phy@11e11000 {
-+				reg = <0 0x11e11000 0 0x700>;
-+				clocks = <&topckgen CLK_TOP_DA_U2_REFSEL>,
-+					 <&topckgen CLK_TOP_DA_U2_CK_1P_SEL>;
-+				clock-names = "ref", "da_ref";
-+				#phy-cells = <1>;
-+			};
-+		};
-+
- 		ethsys: syscon@15000000 {
- 			 #address-cells = <1>;
- 			 #size-cells = <1>;
-diff --git a/arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts b/arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts
-index 2c7f1d4fb352..a98025112b5a 100644
---- a/arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts
-@@ -23,6 +23,24 @@ memory@40000000 {
- 		device_type = "memory";
- 		reg = <0 0x40000000 0 0x40000000>;
- 	};
-+
-+	reg_3p3v: regulator-3p3v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-3.3V";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
-+
-+	reg_5v: regulator-5v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-5V";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
- };
+ unevaluatedProperties: false
  
- &crypto {
-@@ -167,10 +185,20 @@ &spi1 {
- 	status = "okay";
- };
- 
-+&ssusb {
-+	vusb33-supply = <&reg_3p3v>;
-+	vbus-supply = <&reg_5v>;
-+	status = "okay";
-+};
-+
- &uart0 {
- 	status = "okay";
- };
- 
-+&usb_phy {
-+	status = "okay";
-+};
-+
- &wifi {
- 	status = "okay";
- 	pinctrl-names = "default", "dbdc";
+ examples:
 -- 
 2.34.1
 
