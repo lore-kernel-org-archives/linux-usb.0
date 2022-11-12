@@ -2,34 +2,34 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BFCDC4332F
-	for <linux-usb@archiver.kernel.org>; Sat, 12 Nov 2022 09:24:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD6B9C43217
+	for <linux-usb@archiver.kernel.org>; Sat, 12 Nov 2022 09:24:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234617AbiKLJYq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 12 Nov 2022 04:24:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59106 "EHLO
+        id S234627AbiKLJYs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 12 Nov 2022 04:24:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234007AbiKLJYp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 12 Nov 2022 04:24:45 -0500
+        with ESMTP id S234007AbiKLJYr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 12 Nov 2022 04:24:47 -0500
 Received: from mxout2.routing.net (mxout2.routing.net [IPv6:2a03:2900:1:a::b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BAD01056C
-        for <linux-usb@vger.kernel.org>; Sat, 12 Nov 2022 01:24:44 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 277B0389F
+        for <linux-usb@vger.kernel.org>; Sat, 12 Nov 2022 01:24:46 -0800 (PST)
 Received: from mxbox3.masterlogin.de (unknown [192.168.10.78])
-        by mxout2.routing.net (Postfix) with ESMTP id 256E460479;
-        Sat, 12 Nov 2022 09:15:43 +0000 (UTC)
+        by mxout2.routing.net (Postfix) with ESMTP id 04ED15FBEB;
+        Sat, 12 Nov 2022 09:15:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
-        s=20200217; t=1668244543;
+        s=20200217; t=1668244536;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=RY8+9ND4n/9TSXTqXvKked5EltzRypGczAsVjbvOd7o=;
-        b=mSfWgvsx9xZv9eIrM30SPE/I1H+Dc4VMu6GKOuN+iA6UVdlqUO+Qw6zX9OXCv6BwV73Pt+
-        kuI/o30Kvj7G1z+e0eFN4AjaFfzSBch7Xo7Wr8ZPQvOFpnJ3YzmZuTrKG9cdwaaPf55UrM
-        0+jPvweJ4x+HAAP8jhLvQoKpeZcS808=
+        bh=BMoGK6t6fYgg/EQRDzZCZ4FUszG8HE/2N6GDwKaceWc=;
+        b=GSVIPMwrtsKXa8RZQJZBlfEJRdROnJpz5GqUNACy/KOQkgIXIhCtrPCWNlosjvB4Yf/WYl
+        Y4A0DA8Q0X234nvlrRe1/3z9LKWySjl8zrhS4oeqQCR9GuHxtInB8SxJUcJ9cpFxNfHPPu
+        LqhlBa5e+VRRmUjci07QBs8nHxqxKVc=
 Received: from frank-G5.. (fttx-pool-157.180.227.41.bambit.de [157.180.227.41])
-        by mxbox3.masterlogin.de (Postfix) with ESMTPSA id 0D27636065F;
-        Sat, 12 Nov 2022 09:15:41 +0000 (UTC)
+        by mxbox3.masterlogin.de (Postfix) with ESMTPSA id E007836065F;
+        Sat, 12 Nov 2022 09:15:34 +0000 (UTC)
 From:   Frank Wunderlich <linux@fw-web.de>
 To:     linux-mediatek@lists.infradead.org
 Cc:     Frank Wunderlich <frank-w@public-files.de>,
@@ -48,147 +48,41 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         Bo Jiao <Bo.Jiao@mediatek.com>, linux-pci@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
-        Sam Shih <sam.shih@mediatek.com>,
-        Jieyy Yang <jieyy.yang@mediatek.com>
-Subject: [PATCH v4 09/11] arm64: dts: mt7986: add pcie related device nodes
-Date:   Sat, 12 Nov 2022 10:15:16 +0100
-Message-Id: <20221112091518.7846-10-linux@fw-web.de>
+        linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
+Subject: [PATCH v4 02/11] dt-bindings: phy: mediatek,tphy: add support for mt7986
+Date:   Sat, 12 Nov 2022 10:15:09 +0100
+Message-Id: <20221112091518.7846-3-linux@fw-web.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221112091518.7846-1-linux@fw-web.de>
 References: <20221112091518.7846-1-linux@fw-web.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mail-ID: facedc48-9d5f-451f-bc74-ce9662f350ab
+X-Mail-ID: 588d4fd9-a5c1-4e37-a075-c3c1c4c7a0d9
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Sam Shih <sam.shih@mediatek.com>
+From: Frank Wunderlich <frank-w@public-files.de>
 
-This patch adds PCIe support for MT7986.
+Add compatible string for mt7986.
 
-Signed-off-by: Jieyy Yang <jieyy.yang@mediatek.com>
-Signed-off-by: Sam Shih <sam.shih@mediatek.com>
 Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
-
 ---
-changes compared to sams original version:
+ Documentation/devicetree/bindings/phy/mediatek,tphy.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-- add clock-names to pcie node
-- update clocks to new binding
----
-bindings-patches:
-https://patchwork.kernel.org/project/linux-mediatek/list/?series=690172
----
- arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts | 16 ++++++
- arch/arm64/boot/dts/mediatek/mt7986a.dtsi    | 52 ++++++++++++++++++++
- 2 files changed, 68 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts b/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
-index e1a0331aaa5f..01fa08c57c39 100644
---- a/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
-@@ -102,6 +102,15 @@ &mmc0 {
- 	non-removable;
- 	no-sd;
- 	no-sdio;
-+};
-+
-+&pcie {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pcie_pins>;
-+	status = "okay";
-+};
-+
-+&pcie_phy {
- 	status = "okay";
- };
- 
-@@ -164,6 +173,13 @@ conf-rst {
- 		};
- 	};
- 
-+	pcie_pins: pcie-pins {
-+		mux {
-+			function = "pcie";
-+			groups = "pcie_clk", "pcie_wake", "pcie_pereset";
-+		};
-+	};
-+
- 	spi_flash_pins: spi-flash-pins {
- 		mux {
- 			function = "spi";
-diff --git a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi b/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
-index 4b85a645fd55..97cef0fd9d8f 100644
---- a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
-@@ -8,6 +8,7 @@
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- #include <dt-bindings/clock/mt7986-clk.h>
- #include <dt-bindings/reset/mt7986-resets.h>
-+#include <dt-bindings/phy/phy.h>
- 
- / {
- 	interrupt-parent = <&gic>;
-@@ -319,6 +320,57 @@ mmc0: mmc@11230000 {
- 			status = "disabled";
- 		};
- 
-+		pcie: pcie@11280000 {
-+			compatible = "mediatek,mt7986-pcie",
-+				     "mediatek,mt8192-pcie";
-+			device_type = "pci";
-+			#address-cells = <3>;
-+			#size-cells = <2>;
-+			reg = <0x00 0x11280000 0x00 0x4000>;
-+			reg-names = "pcie-mac";
-+			interrupts = <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>;
-+			bus-range = <0x00 0xff>;
-+			ranges = <0x82000000 0x00 0x20000000 0x00
-+				  0x20000000 0x00 0x10000000>;
-+			clocks = <&infracfg CLK_INFRA_IPCIE_PIPE_CK>,
-+				 <&infracfg CLK_INFRA_IPCIE_CK>,
-+				 <&infracfg CLK_INFRA_IPCIER_CK>,
-+				 <&infracfg CLK_INFRA_IPCIEB_CK>;
-+			clock-names = "pl_250m", "tl_26m", "peri_26m", "top_133m";
-+			status = "disabled";
-+
-+			phys = <&pcie_port PHY_TYPE_PCIE>;
-+			phy-names = "pcie-phy";
-+
-+			#interrupt-cells = <1>;
-+			interrupt-map-mask = <0 0 0 0x7>;
-+			interrupt-map = <0 0 0 1 &pcie_intc 0>,
-+					<0 0 0 2 &pcie_intc 1>,
-+					<0 0 0 3 &pcie_intc 2>,
-+					<0 0 0 4 &pcie_intc 3>;
-+			pcie_intc: interrupt-controller {
-+				#address-cells = <0>;
-+				#interrupt-cells = <1>;
-+				interrupt-controller;
-+			};
-+		};
-+
-+		pcie_phy: t-phy@11c00000 {
-+			compatible = "mediatek,mt7986-tphy",
-+				     "mediatek,generic-tphy-v2";
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			ranges;
-+			status = "disabled";
-+
-+			pcie_port: pcie-phy@11c00000 {
-+				reg = <0 0x11c00000 0 0x20000>;
-+				clocks = <&clk40m>;
-+				clock-names = "ref";
-+				#phy-cells = <1>;
-+			};
-+		};
-+
- 		usb_phy: t-phy@11e10000 {
- 			compatible = "mediatek,mt7986-tphy",
- 				     "mediatek,generic-tphy-v2";
+diff --git a/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml b/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
+index 5613cc5106e3..230a17f24966 100644
+--- a/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
++++ b/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
+@@ -79,6 +79,7 @@ properties:
+           - enum:
+               - mediatek,mt2712-tphy
+               - mediatek,mt7629-tphy
++              - mediatek,mt7986-tphy
+               - mediatek,mt8183-tphy
+               - mediatek,mt8186-tphy
+               - mediatek,mt8192-tphy
 -- 
 2.34.1
 
