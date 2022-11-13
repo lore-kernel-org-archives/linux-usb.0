@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A547C4332F
-	for <linux-usb@archiver.kernel.org>; Sun, 13 Nov 2022 04:02:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B657FC43217
+	for <linux-usb@archiver.kernel.org>; Sun, 13 Nov 2022 04:03:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235151AbiKMECp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 12 Nov 2022 23:02:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60530 "EHLO
+        id S235179AbiKMEDG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 12 Nov 2022 23:03:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235145AbiKMECm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 12 Nov 2022 23:02:42 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 904DFDFA0;
-        Sat, 12 Nov 2022 20:02:41 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so10975100pjs.4;
-        Sat, 12 Nov 2022 20:02:41 -0800 (PST)
+        with ESMTP id S235174AbiKMEDC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 12 Nov 2022 23:03:02 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F8213F71;
+        Sat, 12 Nov 2022 20:02:51 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id u8-20020a17090a5e4800b002106dcdd4a0so11002768pji.1;
+        Sat, 12 Nov 2022 20:02:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=c6xstQC+oWBeL9AwJF0jL3DBXjH1eGPpeBG49uXCkMc=;
-        b=VgkwktM/HL3nCI90zl2uv8vS1vPSCpE5RtTlaAa9072v6Br7A5muUYlZmRYvFr1ZbM
-         UmFAugafSFGTbmHX/aNEDJu6Npq1ZZrx9QtyoE/j8UEpCnhA/HBoa55UcPd/iG1ymtV+
-         iTK9I5qHx+/x4+ymEcu2pwtZpdmDLsCE9AiyNrSx9pMfGm0/+j106qIxT1eOx5zULt/Y
-         ugj/ucdtLOvgEJFwAHe6oueW6FaJFukayeCEc/7dOU3WY888vl2yteOVMqqJbC6waPMG
-         aAwIYvOabahX2x7+tieJk2p2Y0YR52uXZZTVhEU4miXux8SNkjGJhzX7PasWPZqn3XpM
-         XHtg==
+        bh=hDuvicETB47o1CIVZJhl8/Y9cPAH0K8QGejUp0fFrIg=;
+        b=PfhhcE1ybwFdUQ/LcvjTBXSkXd4uA29ayC9av6hO0Izwf1LYMSx0c6JarAgAdaVbRY
+         r1OvZzyqnH7pprM173+rOSWqpWqpAI00Xj/EwbBOc117ctFCrgFmoUW1xM8YaJTJ9iAs
+         A1flunV8MOILrgB0bI9WNUlHKWrKI4QpjSX0s3lBUdId2OL8DjIwrZxIYgW6e80JSoF2
+         zWIlAxaryArW4dU7fVBb07u2DICW7640/Tb8hoAXJ7iHELqNMxQz1h7Zb9allRp7jS8e
+         an85URhYygnHVxCzuW3fWQ8ufC8/rIjoaL3ob7DbUJWdscd3vRcH/a/ogvfKvXHZRkiU
+         ewxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=c6xstQC+oWBeL9AwJF0jL3DBXjH1eGPpeBG49uXCkMc=;
-        b=PUqreZkv5MjIEQlgopQ/DucsmQrAJPJaxJrad5udkhXSWilOUwrEZBKtDyl2jilGon
-         KFZ8nJeI1ZqrFaH+2kB8KzqEBG6rNfNa45Al0yUaa9BDSZ9NdtZzsHLR9qoTgUPPCLGn
-         5gyvKpfnpDUDYPKfsU7HosMd0G2sBKYgfcJE30+1CbY+GOD1qoHY3tmH2n5EpOXXFvSS
-         UzsZDeKVelkKnc296bfgu05uaP9ErITc4FuZe8GbJjcFPfJV0EB9RkV7+ckhJNULHKeE
-         2GpAJZwlSSPkSe61yJfRb3TYoup+WDZ0w6OuJ0VkHepHZsm0j58PqeSU2BAA72XU3fAt
-         DK7w==
-X-Gm-Message-State: ANoB5plWYgNcUmzZX0JBED+cp1d2XmliPxyNaTPc+xiRG6goINKZh4pQ
-        QE2lgm4ywU33BWPHQmbDmAw=
-X-Google-Smtp-Source: AA0mqf5paTOxQOWiF4XUNC0+gFvm+JFkmjt0YP+KEpQw+D32KTSaVvSuqMHDuJTU6AA7rB9wHvZypQ==
-X-Received: by 2002:a17:902:b717:b0:186:6019:d49d with SMTP id d23-20020a170902b71700b001866019d49dmr8766697pls.140.1668312160993;
-        Sat, 12 Nov 2022 20:02:40 -0800 (PST)
+        bh=hDuvicETB47o1CIVZJhl8/Y9cPAH0K8QGejUp0fFrIg=;
+        b=hsmp2XosM7cMGuH9/DelIVv23bYs2r0Jp1RvmDpgYvxtjSh6Fbt5HHKMVrgDNMpBek
+         M0gU7CRfYd/xe8JGfDVGVf3MktMlgg1ilWG6ysnON0ZngrxdhwTz5eIOPVl87hbpbGxH
+         tkXehden/u5k+ZHau1mRKhQfpP0Tl8UvuBldaVac9vg5mGMqYN79nw+zrAh18ju3fVhT
+         FbzfavDuOHWy8zLWCLF5KJzYw2mRKXQJoxFAvfiOgH0oHd86JNJRadg8R7Jx60xnsE5S
+         qDVDlicCCyw0gWRSK1lKeIpuJ8TruIC/M3QbjlM1GzQ8Yn+MpmJjblKgEEYWHlX3bJca
+         JJMA==
+X-Gm-Message-State: ANoB5pkviWhPYsR243fjzrv0kWnm+rz38yZ6ZrfdC/u+G5bZTrbVE1pk
+        YMl17ozJOZfcpir0PE+7k/k=
+X-Google-Smtp-Source: AA0mqf4eRIpKEXGVlu+vzC91odIvs50k4JA6h0gtI90ohrVjuqCvCCGAnQe+iGqWWCeZvX9HS/aoew==
+X-Received: by 2002:a17:90a:c702:b0:213:16b5:f45e with SMTP id o2-20020a17090ac70200b0021316b5f45emr8505607pjt.170.1668312170547;
+        Sat, 12 Nov 2022 20:02:50 -0800 (PST)
 Received: from localhost.localdomain (124x33x176x97.ap124.ftth.ucom.ne.jp. [124.33.176.97])
-        by smtp.gmail.com with ESMTPSA id n63-20020a17090a5ac500b00200461cfa99sm7122686pji.11.2022.11.12.20.02.39
+        by smtp.gmail.com with ESMTPSA id n63-20020a17090a5ac500b00200461cfa99sm7122686pji.11.2022.11.12.20.02.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Nov 2022 20:02:40 -0800 (PST)
+        Sat, 12 Nov 2022 20:02:50 -0800 (PST)
 Sender: Vincent Mailhol <vincent.mailhol@gmail.com>
 From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 To:     Marc Kleine-Budde <mkl@pengutronix.de>, linux-can@vger.kernel.org
@@ -56,9 +56,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org,
         Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Subject: [PATCH v3 1/3] USB: core: export usb_cache_string()
-Date:   Sun, 13 Nov 2022 13:01:06 +0900
-Message-Id: <20221113040108.68249-2-mailhol.vincent@wanadoo.fr>
+Subject: [PATCH v3 3/3] can: etas_es58x: report firmware-version through ethtool
+Date:   Sun, 13 Nov 2022 13:01:08 +0900
+Message-Id: <20221113040108.68249-4-mailhol.vincent@wanadoo.fr>
 X-Mailer: git-send-email 2.37.4
 In-Reply-To: <20221113040108.68249-1-mailhol.vincent@wanadoo.fr>
 References: <20221104073659.414147-1-mailhol.vincent@wanadoo.fr>
@@ -69,51 +69,59 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-usb_cache_string() can also be useful for the drivers so export it.
+Implement ethtool_ops::get_drvinfo() in order to report the firmware
+version.
+
+Firmware version 0.0.0 has a special meaning and just means that we
+could not parse the product information string. In such case, do
+nothing (i.e. leave the .fw_version string empty).
 
 Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 ---
- drivers/usb/core/message.c | 1 +
- drivers/usb/core/usb.h     | 1 -
- include/linux/usb.h        | 1 +
- 3 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index 4d59d927ae3e..127fac1af676 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -1037,6 +1037,7 @@ char *usb_cache_string(struct usb_device *udev, int index)
- 	}
- 	return smallbuf;
- }
-+EXPORT_SYMBOL_GPL(usb_cache_string);
+*N.B.* Drivers had to also fill ethtool_drvinfo::driver and
+ethtool_drvinfo::bus_info. Starting this week, this is not needed
+anymore because of commit edaf5df22cb8 ("ethtool: ethtool_get_drvinfo:
+populate drvinfo fields even if callback exits").
+
+  https://git.kernel.org/netdev/net-next/c/edaf5df22cb8
+---
+ drivers/net/can/usb/etas_es58x/es58x_core.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/drivers/net/can/usb/etas_es58x/es58x_core.c b/drivers/net/can/usb/etas_es58x/es58x_core.c
+index c5109117f8e6..a048e0d40c97 100644
+--- a/drivers/net/can/usb/etas_es58x/es58x_core.c
++++ b/drivers/net/can/usb/etas_es58x/es58x_core.c
+@@ -1978,7 +1978,28 @@ static const struct net_device_ops es58x_netdev_ops = {
+ 	.ndo_eth_ioctl = can_eth_ioctl_hwts,
+ };
  
- /*
-  * usb_get_device_descriptor - (re)reads the device descriptor (usbcore)
-diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-index 82538daac8b8..0eac7d4285d1 100644
---- a/drivers/usb/core/usb.h
-+++ b/drivers/usb/core/usb.h
-@@ -47,7 +47,6 @@ extern int usb_get_device_descriptor(struct usb_device *dev,
- extern int usb_set_isoch_delay(struct usb_device *dev);
- extern int usb_get_bos_descriptor(struct usb_device *dev);
- extern void usb_release_bos_descriptor(struct usb_device *dev);
--extern char *usb_cache_string(struct usb_device *udev, int index);
- extern int usb_set_configuration(struct usb_device *dev, int configuration);
- extern int usb_choose_configuration(struct usb_device *udev);
- extern int usb_generic_driver_probe(struct usb_device *udev);
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index 9ff1ad4dfad1..d2d2f41052c0 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -1829,6 +1829,7 @@ static inline int usb_get_ptm_status(struct usb_device *dev, void *data)
++/**
++ * es58x_get_drvinfo() - Get the firmware version.
++ * @netdev: CAN network device.
++ * @drvinfo: Driver information.
++ *
++ * Populate @drvinfo with the firmware version. The core will populate
++ * the rest.
++ */
++static void es58x_get_drvinfo(struct net_device *netdev,
++			      struct ethtool_drvinfo *drvinfo)
++{
++	struct es58x_device *es58x_dev = es58x_priv(netdev)->es58x_dev;
++	struct es58x_sw_version *fw_ver = &es58x_dev->firmware_version;
++
++	if (fw_ver->major || fw_ver->minor || fw_ver->revision)
++		snprintf(drvinfo->fw_version, sizeof(drvinfo->fw_version),
++			 "%02u.%02u.%02u",
++			 fw_ver->major, fw_ver->minor, fw_ver->revision);
++}
++
+ static const struct ethtool_ops es58x_ethtool_ops = {
++	.get_drvinfo = es58x_get_drvinfo,
+ 	.get_ts_info = can_ethtool_op_get_ts_info_hwts,
+ };
  
- extern int usb_string(struct usb_device *dev, int index,
- 	char *buf, size_t size);
-+extern char *usb_cache_string(struct usb_device *udev, int index);
- 
- /* wrappers that also update important state inside usbcore */
- extern int usb_clear_halt(struct usb_device *dev, int pipe);
 -- 
 2.37.4
 
