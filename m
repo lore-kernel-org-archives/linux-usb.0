@@ -2,73 +2,106 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31961C433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Nov 2022 16:15:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EC8CC4332F
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Nov 2022 16:21:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237380AbiKNQPB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Nov 2022 11:15:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51512 "EHLO
+        id S235941AbiKNQV6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Nov 2022 11:21:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237378AbiKNQO7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Nov 2022 11:14:59 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2EAF1A3A9;
-        Mon, 14 Nov 2022 08:14:56 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7C284612AC;
-        Mon, 14 Nov 2022 16:14:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38AEDC43140;
-        Mon, 14 Nov 2022 16:14:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1668442495;
-        bh=Cc1eIBz+pYCTV16m3BvnLaFad44tEe0/JnnWJhh/Rio=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=URAeiTMm0IcYD22EXJiZXkkdOFvgMbSmD3fMChOhN+3OPYPbN8phjZAoLMafs0wk8
-         doUgosGROeI4M1+yQber/QXxEmC6xkK+wrBlZ5N15xPLt2VzaGUh0omvry+pxHPaVN
-         jdW47tAz1MyY90O8yAtHBszi342x7Do7tO2D+gCY=
-Date:   Mon, 14 Nov 2022 17:14:52 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Cc:     sre@kernel.org, orsonzhai@gmail.com, baolin.wang@linux.alibaba.com,
-        zhang.lyra@gmail.com, felipe.balbi@linux.intel.com,
-        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com, linux-usb@vger.kernel.org,
-        tony@atomide.com
-Subject: Re: [PATCH] usb: phy: add dedicated notifier for charger events
-Message-ID: <Y3JpfDU7T2Ks/H4m@kroah.com>
-References: <1668430562-27114-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
+        with ESMTP id S236716AbiKNQVw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Nov 2022 11:21:52 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E16262DE9;
+        Mon, 14 Nov 2022 08:21:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668442910; x=1699978910;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=w8JnsSQEeOM8g80fNSiY85GCK9KLByACfZ2G33EPHKE=;
+  b=kUWML0nQpU20kQH7V/vUzzcHZViAnDrSrz6bJAFSvBAtfswFPCUryx14
+   EO6Z/ZTq+GiRv95SgHKwJZ2GVyyfoYMFe0uv6+Udlc2TBfqHK3bvxVgpq
+   dJLKKpZI6wpPsdf7PejlbBnOqRGt2TUysLJQK4Pd8m8tjT7hIFkC+RAaA
+   SoJug8hfJANmg9cmHeVFm0av+6sDE1D2MpURMx+7V8zosmTFv58tp7Igq
+   wzU8MWWSNn6n/1Wy/bOQU/YWfiaZLV4G9TR39V+/oDd5rAGFpqbTBFrfJ
+   jt/YKp1E4KpAyWtI6RLX+Yx6xpMzIYUgT1JA3/p/zO3C6SS/OU49AqtxT
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="398302924"
+X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
+   d="scan'208";a="398302924"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 08:21:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="616372363"
+X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
+   d="scan'208";a="616372363"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga006.jf.intel.com with ESMTP; 14 Nov 2022 08:21:46 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id D065D346; Mon, 14 Nov 2022 18:22:10 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Jakob Koschel <jakobkoschel@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kevin Cernekee <cernekee@gmail.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v2 4/4] xhci: Convert to use list_count()
+Date:   Mon, 14 Nov 2022 18:22:07 +0200
+Message-Id: <20221114162207.62559-4-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221114162207.62559-1-andriy.shevchenko@linux.intel.com>
+References: <20221114162207.62559-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1668430562-27114-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Nov 14, 2022 at 02:56:02PM +0200, Ivaylo Dimitrov wrote:
-> usb_phy::notifier is already used by various PHY drivers (including
-> phy_generic) to report VBUS status changes and its usage conflicts with
-> charger current limit changes reporting.
+The list API now provides the list_count() to help with counting
+existing nodes in the list. Uilise it.
 
-How exactly does it conflict?
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+v2: no change
+ drivers/usb/host/xhci-ring.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-> Fix that by introducing a second notifier that is dedicated to usb charger
-> notifications. Add usb_charger_XXX_notifier functions. Fix charger drivers
-> that currently (ab)use usb_XXX_notifier() to use the new API.
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index ad81e9a508b1..817c31e3b0c8 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -2532,7 +2532,6 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 	union xhci_trb *ep_trb;
+ 	int status = -EINPROGRESS;
+ 	struct xhci_ep_ctx *ep_ctx;
+-	struct list_head *tmp;
+ 	u32 trb_comp_code;
+ 	int td_num = 0;
+ 	bool handling_skipped_tds = false;
+@@ -2580,10 +2579,8 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 	}
+ 
+ 	/* Count current td numbers if ep->skip is set */
+-	if (ep->skip) {
+-		list_for_each(tmp, &ep_ring->td_list)
+-			td_num++;
+-	}
++	if (ep->skip)
++		td_num += list_count(&ep_ring->td_list);
+ 
+ 	/* Look for common error cases */
+ 	switch (trb_comp_code) {
+-- 
+2.35.1
 
-Why not just set the notifier type to be a new one instead of adding a
-whole new notifier list?  Or use a real callback?  notifier lists are
-really horrid and should be avoided whenever possible.
-
-> Fixes: a9081a008f84 ("usb: phy: Add USB charger support")
-> 
-> Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-
-You can't have a blank line between there, checkpatch.pl should have
-complained.
-
-thanks,
-
-greg k-h
