@@ -2,124 +2,159 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 144DDC4332F
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Nov 2022 11:56:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ADEAC433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Nov 2022 11:56:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236942AbiKNL4p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Nov 2022 06:56:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58962 "EHLO
+        id S237003AbiKNL4r (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Nov 2022 06:56:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236923AbiKNL4b (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Nov 2022 06:56:31 -0500
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9E9724952
-        for <linux-usb@vger.kernel.org>; Mon, 14 Nov 2022 03:52:09 -0800 (PST)
-Received: by mail-lj1-x22c.google.com with SMTP id h12so12815411ljg.9
-        for <linux-usb@vger.kernel.org>; Mon, 14 Nov 2022 03:52:09 -0800 (PST)
+        with ESMTP id S236958AbiKNL4c (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Nov 2022 06:56:32 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5063B25E81
+        for <linux-usb@vger.kernel.org>; Mon, 14 Nov 2022 03:52:15 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id be13so18858833lfb.4
+        for <linux-usb@vger.kernel.org>; Mon, 14 Nov 2022 03:52:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=23J2rxW29+aENYRjYQO3CvbM83oXKeca0v4ut8EgLyc=;
-        b=SSqYE2X6QeuX6Oc6rgira/TUu8ELeOHcfffGwFc1Jjku0sOgO4gIum4DoqTQNT5qNk
-         hcbN7I69awhwye9HmUNBROziQ1TlnxA+U6LVOkFHQ3YIE9Bb7hXNRCPjotMA1gBy/+Wp
-         wi2pmlaPqGtHVKecw5bV/vZenlc6Nvg+zwbCebB1fn9A2PuvdEO0SejLUp2A/BDu3dhE
-         nmRZNsVyk0Rrir4Zc/D9H0Rku9EnlC/GUpOn4JLVtn2J7Vzm2xvZdwPAF3XDhvG8JCT2
-         t0kXticvcPgHboc6IVMENf27bFBfyu6zKs2Lo7iXqID4R5R1+qrMNdkZ5w4iFiVyIeHl
-         cZNw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r7exiVCrJbaM9H+RqYL7LmV64o+Q+SRzu55CzL4HBG8=;
+        b=NlqU7a5Rms7Kf+dRf9fj/RAcJYMVgYbgccJ41nRDEhxNwFkXz1flwK4D1V6YhFdG+8
+         LsAKCKNNgkKp0UqQwYcQmx8Ng08xXgiiIP18GxkeGnR/ggPOsP1DPzaybFySgIppXthn
+         bRaD9F4D9r6b2aQAWP5Or5dXjl3ZttLHcWr5Tup2UXfpybSpWWNABnxfi9oJYc52gFrq
+         V0osDhi8G2rtJ36fP+ZxTgogx18D1hq5d7mf3v85AYezqHjta70DlGyvGNkpd3XDabdK
+         xojC27P2dPTmvSZ+fv0YTkq5XErneMgyexBbLi5yIXgOC99hv2wSF+/XPf6nv8wKytIh
+         FYpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=23J2rxW29+aENYRjYQO3CvbM83oXKeca0v4ut8EgLyc=;
-        b=iJev4WOPhpkh4sxIXagT4Y4ODIcuCG5wOeQRttp0NBdY8cWpsuVg4vPg4qWt0H3mtN
-         g8Jm3EI5CIktlNxMIZ/gHvQ3C+RLTr+UKIxaM2PNclWtWaEckuFrVywhUDtdnNleKn8E
-         NYHgKv4ZxGJ0iKVp0NBtUuRyBkMsrsofj79AvlqiRTRSQW8aYd9uttTw4FdMGpa4vqdp
-         Iap2QRXdAbBE0CV6AR2+g3e3jchCxSrn17dXDRVuRoOeugEAunjgRQF8gMyU8EzODf71
-         bD3LZXhwBBr0wxuKnpU1hM6Q16YuzatauumXQRK5Hi2vrBe2ju9FqTNs7F9PBqnflJCh
-         AoLA==
-X-Gm-Message-State: ANoB5pnsIDSY6PzLsuAm3rMt5lgQfmC+u30ct4BJBAjY0iFIVGrpIXRI
-        MrRQzR7GeJMVneRNVjf8fGGxLEOl8U5FHQ==
-X-Google-Smtp-Source: AA0mqf7XeSBAJW33aWa+cj4Lwq//cEDc+UOJ45dGGge6iVbcmhseP5juMhNmoC3w2qnm4TwB/KLfJg==
-X-Received: by 2002:a2e:be0a:0:b0:277:a8b:4a53 with SMTP id z10-20020a2ebe0a000000b002770a8b4a53mr3849259ljq.197.1668426728192;
-        Mon, 14 Nov 2022 03:52:08 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r7exiVCrJbaM9H+RqYL7LmV64o+Q+SRzu55CzL4HBG8=;
+        b=fDIV6KVfuBA2BUzpj7kpLbOqQcQdNgQzwcL11z2W/WDl8LP/1+u6JrR99vVT+ifeI+
+         LFgz7cFQ20IpmQjOTHIqz37J1nhy/RIWAl+zEaneec5V1RVaCrJE0HEX3Q64NOvPkWt8
+         BCOHe/1Qvkw6n2SPHE43cgOMLz6ShzDROOSLRMgFNZzn2jHOV/4G0sB/46Q9UD7WyXeU
+         HzH+yoqXFKiPek+p2rzd/qVS70/GGB0Ef1eTD2b4ShypBe+gSh1KxemNBNqYl36+fvkQ
+         egw+f56zg7gLmy8u4oNjHhowUAdTRELdJDLlzGCCAO0KqR2IZInvje9IQ3dbNscVGz2X
+         6ToA==
+X-Gm-Message-State: ANoB5plQAjZCbGo78I+zUF4BOY3+chwwsPbaX2l+M6MgNip4k2R/KEXX
+        GLeBXgKVWC8Rh07Xc+TAjIQempKmcNCSiw==
+X-Google-Smtp-Source: AA0mqf7CUNguB9m6WTIBXnmWrKskLozk/fLnIAN4ZwufexQSGY2VKnvYsxT6pRa3p5egCQcjxoddLg==
+X-Received: by 2002:a19:7909:0:b0:4a2:4282:89c7 with SMTP id u9-20020a197909000000b004a2428289c7mr4192598lfc.437.1668426733676;
+        Mon, 14 Nov 2022 03:52:13 -0800 (PST)
 Received: from Fecusia.lan (c-05d8225c.014-348-6c756e10.bbcust.telenor.se. [92.34.216.5])
-        by smtp.gmail.com with ESMTPSA id h8-20020a05651c124800b0027758f0619fsm1981531ljh.132.2022.11.14.03.52.07
+        by smtp.gmail.com with ESMTPSA id h8-20020a05651c124800b0027758f0619fsm1981531ljh.132.2022.11.14.03.52.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Nov 2022 03:52:07 -0800 (PST)
+        Mon, 14 Nov 2022 03:52:13 -0800 (PST)
 From:   Linus Walleij <linus.walleij@linaro.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Felipe Balbi <balbi@kernel.org>
 Cc:     linux-usb@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH 1/4] fotg210-udc: Use dev pointer in probe and dev_messages
-Date:   Mon, 14 Nov 2022 12:51:58 +0100
-Message-Id: <20221114115201.302887-1-linus.walleij@linaro.org>
+Subject: [PATCH 3/4] fotg210-udc: Handle PCLK
+Date:   Mon, 14 Nov 2022 12:52:00 +0100
+Message-Id: <20221114115201.302887-3-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221114115201.302887-1-linus.walleij@linaro.org>
+References: <20221114115201.302887-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a local struct device *dev pointer and use dev_err()
-etc to report status.
+This adds optional handling of the peripheral clock PCLK.
 
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/usb/fotg210/fotg210-udc.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/usb/fotg210/fotg210-udc.c | 30 ++++++++++++++++++++++++++++--
+ drivers/usb/fotg210/fotg210-udc.h |  1 +
+ 2 files changed, 29 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/fotg210/fotg210-udc.c b/drivers/usb/fotg210/fotg210-udc.c
-index 3c357ce42d3b..b3106e4b3194 100644
+index 4026103330e1..de0f72ca103c 100644
 --- a/drivers/usb/fotg210/fotg210-udc.c
 +++ b/drivers/usb/fotg210/fotg210-udc.c
-@@ -1091,6 +1091,7 @@ int fotg210_udc_probe(struct platform_device *pdev)
- 	struct resource *res, *ires;
- 	struct fotg210_udc *fotg210 = NULL;
- 	struct fotg210_ep *_ep[FOTG210_MAX_NUM_EP];
-+	struct device *dev = &pdev->dev;
- 	int ret = 0;
- 	int i;
+@@ -15,6 +15,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/usb/ch9.h>
+ #include <linux/usb/gadget.h>
++#include <linux/clk.h>
+ #include <linux/usb/otg.h>
+ #include <linux/usb/phy.h>
  
-@@ -1122,7 +1123,7 @@ int fotg210_udc_probe(struct platform_device *pdev)
- 
- 	fotg210->reg = ioremap(res->start, resource_size(res));
- 	if (fotg210->reg == NULL) {
--		pr_err("ioremap error.\n");
-+		dev_err(dev, "ioremap error\n");
- 		goto err_alloc;
- 	}
- 
-@@ -1133,8 +1134,8 @@ int fotg210_udc_probe(struct platform_device *pdev)
- 	fotg210->gadget.ops = &fotg210_gadget_ops;
- 
- 	fotg210->gadget.max_speed = USB_SPEED_HIGH;
--	fotg210->gadget.dev.parent = &pdev->dev;
--	fotg210->gadget.dev.dma_mask = pdev->dev.dma_mask;
-+	fotg210->gadget.dev.parent = dev;
-+	fotg210->gadget.dev.dma_mask = dev->dma_mask;
- 	fotg210->gadget.name = udc_name;
- 
- 	INIT_LIST_HEAD(&fotg210->gadget.ep_list);
-@@ -1180,15 +1181,15 @@ int fotg210_udc_probe(struct platform_device *pdev)
- 	ret = request_irq(ires->start, fotg210_irq, IRQF_SHARED,
- 			  udc_name, fotg210);
- 	if (ret < 0) {
--		pr_err("request_irq error (%d)\n", ret);
-+		dev_err(dev, "request_irq error (%d)\n", ret);
- 		goto err_req;
- 	}
- 
--	ret = usb_add_gadget_udc(&pdev->dev, &fotg210->gadget);
-+	ret = usb_add_gadget_udc(dev, &fotg210->gadget);
- 	if (ret)
- 		goto err_add_udc;
- 
--	dev_info(&pdev->dev, "version %s\n", DRIVER_VERSION);
-+	dev_info(dev, "version %s\n", DRIVER_VERSION);
+@@ -1132,6 +1133,10 @@ int fotg210_udc_remove(struct platform_device *pdev)
+ 	fotg210_ep_free_request(&fotg210->ep[0]->ep, fotg210->ep0_req);
+ 	for (i = 0; i < FOTG210_MAX_NUM_EP; i++)
+ 		kfree(fotg210->ep[i]);
++
++	if (!IS_ERR(fotg210->pclk))
++		clk_disable_unprepare(fotg210->pclk);
++
+ 	kfree(fotg210);
  
  	return 0;
+@@ -1167,17 +1172,34 @@ int fotg210_udc_probe(struct platform_device *pdev)
+ 
+ 	fotg210->dev = dev;
+ 
++	/* It's OK not to supply this clock */
++	fotg210->pclk = devm_clk_get(dev, "PCLK");
++	if (!IS_ERR(fotg210->pclk)) {
++		ret = clk_prepare_enable(fotg210->pclk);
++		if (ret) {
++			dev_err(dev, "failed to enable PCLK\n");
++			return ret;
++		}
++	} else if (PTR_ERR(fotg210->pclk) == -EPROBE_DEFER) {
++		/*
++		 * Percolate deferrals, for anything else,
++		 * just live without the clocking.
++		 */
++		ret = -EPROBE_DEFER;
++		goto err;
++	}
++
+ 	fotg210->phy = devm_usb_get_phy_by_phandle(dev->parent, "usb-phy", 0);
+ 	if (IS_ERR(fotg210->phy)) {
+ 		ret = PTR_ERR(fotg210->phy);
+ 		if (ret == -EPROBE_DEFER)
+-			goto err;
++			goto err_pclk;
+ 		dev_info(dev, "no PHY found\n");
+ 		fotg210->phy = NULL;
+ 	} else {
+ 		ret = usb_phy_init(fotg210->phy);
+ 		if (ret)
+-			goto err;
++			goto err_pclk;
+ 		dev_info(dev, "found and initialized PHY\n");
+ 	}
+ 
+@@ -1277,6 +1299,10 @@ int fotg210_udc_probe(struct platform_device *pdev)
+ err_alloc:
+ 	for (i = 0; i < FOTG210_MAX_NUM_EP; i++)
+ 		kfree(fotg210->ep[i]);
++err_pclk:
++	if (!IS_ERR(fotg210->pclk))
++		clk_disable_unprepare(fotg210->pclk);
++
+ 	kfree(fotg210);
+ 
+ err:
+diff --git a/drivers/usb/fotg210/fotg210-udc.h b/drivers/usb/fotg210/fotg210-udc.h
+index e3067d22a895..fadb57ca8d78 100644
+--- a/drivers/usb/fotg210/fotg210-udc.h
++++ b/drivers/usb/fotg210/fotg210-udc.h
+@@ -231,6 +231,7 @@ struct fotg210_ep {
+ struct fotg210_udc {
+ 	spinlock_t		lock; /* protect the struct */
+ 	void __iomem		*reg;
++	struct clk		*pclk;
+ 
+ 	unsigned long		irq_trigger;
  
 -- 
 2.38.1
