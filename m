@@ -2,88 +2,103 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A39A2C4332F
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Nov 2022 11:19:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93CD3C433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Nov 2022 11:21:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236375AbiKNLTK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Nov 2022 06:19:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42476 "EHLO
+        id S236339AbiKNLVZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Nov 2022 06:21:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236520AbiKNLRp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Nov 2022 06:17:45 -0500
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0508CA190;
-        Mon, 14 Nov 2022 03:15:49 -0800 (PST)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPA id 612D660004;
-        Mon, 14 Nov 2022 11:15:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1668424548;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5UZmAHjc+nU5bxoFrl7cCvCg0uv7jGLLCbb1brlNZ+0=;
-        b=EzwS1tlQ7fU2aYnUpqReVPgs645PoyGlScCGNIUPc+0CPYZMktpTBHPxxvhLd3Wb+ydXdG
-        eBEeh9U0qcLYUupTNBakRa5DNt8mWUtebHqgeZo4re4CXTZJfrP0z2APrbKHBL0uwLwgB3
-        prgTPJXkndQY9cJsXGiIriexKji66VF/MMaownGhNt678YJNanhx+get9og0z8qBK5Y0it
-        M0ca12r8atsumyscaroL0wM9GLTcFLw6Bbar0P8x5F+JO9+DoeTJiFyXWM2oBj7RhgQ4Xd
-        pWZOEoOeF1orlKlewae70Sy8graGcnn6XhZBAEnRM4KTc5AHm6TuwPCBuJS1gA==
-From:   Herve Codina <herve.codina@bootlin.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH v2 7/7] MAINTAINERS: add the Renesas RZ/N1 USBF controller entry
-Date:   Mon, 14 Nov 2022 12:15:13 +0100
-Message-Id: <20221114111513.1436165-8-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221114111513.1436165-1-herve.codina@bootlin.com>
-References: <20221114111513.1436165-1-herve.codina@bootlin.com>
+        with ESMTP id S236146AbiKNLVB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Nov 2022 06:21:01 -0500
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528C66475;
+        Mon, 14 Nov 2022 03:17:35 -0800 (PST)
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AEA5lcD016147;
+        Mon, 14 Nov 2022 06:17:09 -0500
+Received: from nwd2mta3.analog.com ([137.71.173.56])
+        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3ktwrrp6ck-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 14 Nov 2022 06:17:09 -0500
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+        by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 2AEBH7Jm006008
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 14 Nov 2022 06:17:07 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Mon, 14 Nov
+ 2022 06:17:07 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Mon, 14 Nov 2022 06:17:06 -0500
+Received: from tachici-Precision-5530.ad.analog.com ([10.48.65.157])
+        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 2AEBGh5h031805;
+        Mon, 14 Nov 2022 06:16:45 -0500
+From:   Alexandru Tachici <alexandru.tachici@analog.com>
+To:     <linux-kernel@vger.kernel.org>
+CC:     <andrew@lunn.ch>, <linux@armlinux.org.uk>, <davem@davemloft.net>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <netdev@vger.kernel.org>, <steve.glendinning@shawell.net>,
+        <UNGLinuxDriver@microchip.com>, <andre.edich@microchip.com>,
+        <linux-usb@vger.kernel.org>
+Subject: [net] net: usb: smsc95xx: fix external PHY reset
+Date:   Mon, 14 Nov 2022 15:16:43 +0200
+Message-ID: <20221114131643.19450-1-alexandru.tachici@analog.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-ORIG-GUID: 4Fuyddp9qQM8wFjQvmTtI4D4ho-JUD95
+X-Proofpoint-GUID: 4Fuyddp9qQM8wFjQvmTtI4D4ho-JUD95
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-14_10,2022-11-11_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ priorityscore=1501 clxscore=1011 bulkscore=0 mlxlogscore=759
+ malwarescore=0 impostorscore=0 mlxscore=0 suspectscore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211140082
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-After contributing the driver, add myself as the maintainer
-for Renesas RZ/N1 USBF controller.
+An external PHY needs settling time after power up or reser.
+In the bind() function an mdio bus is registered. If at this point
+the external PHY is still initialising, no valid PHY ID will be
+read and on phy_find_first() the bind() function will fail.
 
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+If an external PHY is present, wait the maximum time specified
+in 802.3 45.2.7.1.1.
+
+Fixes: 05b35e7eb9a1 ("smsc95xx: add phylib support")
+Signed-off-by: Alexandru Tachici <alexandru.tachici@analog.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/net/usb/smsc95xx.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 379945f82a64..9ccac3275a88 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17627,6 +17627,14 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
- F:	drivers/rtc/rtc-rzn1.c
+diff --git a/drivers/net/usb/smsc95xx.c b/drivers/net/usb/smsc95xx.c
+index bfb58c91db04..5ed001c0cd56 100644
+--- a/drivers/net/usb/smsc95xx.c
++++ b/drivers/net/usb/smsc95xx.c
+@@ -1134,8 +1134,15 @@ static int smsc95xx_bind(struct usbnet *dev, struct usb_interface *intf)
+ 		goto free_mdio;
  
-+RENESAS RZ/N1 USBF CONTROLLER DRIVER
-+M:	Herve Codina <herve.codina@bootlin.com>
-+L:	linux-renesas-soc@vger.kernel.org
-+L:	linux-usb@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/usb/renesas,usbf.yaml
-+F:	drivers/usb/gadget/udc/renesas_usbf.c
-+
- RENESAS R-CAR GEN3 & RZ/N1 NAND CONTROLLER DRIVER
- M:	Miquel Raynal <miquel.raynal@bootlin.com>
- L:	linux-mtd@lists.infradead.org
+ 	is_internal_phy = !(val & HW_CFG_PSEL_);
+-	if (is_internal_phy)
++	if (is_internal_phy) {
+ 		pdata->mdiobus->phy_mask = ~(1u << SMSC95XX_INTERNAL_PHY_ID);
++	} else {
++		/* Driver has no knowledge at this point about the external PHY.
++		 * The 802.3 specifies that the reset process shall
++		 * be completed within 0.5 s.
++		 */
++		fsleep(500000);
++	}
+ 
+ 	pdata->mdiobus->priv = dev;
+ 	pdata->mdiobus->read = smsc95xx_mdiobus_read;
 -- 
-2.38.1
+2.34.1
 
