@@ -2,147 +2,216 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8367C4332F
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Nov 2022 16:30:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAF27C43217
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Nov 2022 16:47:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238670AbiKOQay (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Nov 2022 11:30:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48650 "EHLO
+        id S231953AbiKOQrL convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Nov 2022 11:47:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbiKOQax (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Nov 2022 11:30:53 -0500
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69C8F64F4
-        for <linux-usb@vger.kernel.org>; Tue, 15 Nov 2022 08:30:52 -0800 (PST)
-Received: by mail-lj1-x22e.google.com with SMTP id d20so18189444ljc.12
-        for <linux-usb@vger.kernel.org>; Tue, 15 Nov 2022 08:30:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WgmhkilsxspOz5NWRqSMIhLipP/HJEPgQBayMZdWBrw=;
-        b=FGIToAWnLxWH/nNXH4Bc8NPARTKs+TGdOcxBxW+NwDA8ogN+41Yy9hAXq6hZYmg5rm
-         E5WwGRSzNfdPh4RKw/qzCgAmNx8PB8fXQiJY2BhtgUBmp2Wg7DPDkLXeTQW5jCRBpxUY
-         5ZI96mIUE34Ez+kcUW/KBPbPmebd5pme11C81WRfl+TtOWA8AetIBdJ4T/5GXw1AdiD8
-         A0t+yrlvyW45uGPQND8zUBzZ4ec5l4T6aWUCCFvntu2dB2D4qP1ff4rpqYZ0Q1cbiNC1
-         6tPcToXU5iuwpTLyY1xq8ZYZB7aO47yzHWDD+rngVtDKcK04TfoXgLJvMDDzuW1ExSho
-         dvBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WgmhkilsxspOz5NWRqSMIhLipP/HJEPgQBayMZdWBrw=;
-        b=Lg1CBPNzqdf1MC+af4ZO/+7T4kkloUiuYK1acbZpA8CIMY7yXZuVnDzR+kleZW+chf
-         uz8TnR5t9SxKTyDT1HRtLBhDTWiA8V0ONuaGB9R9uQkLopncvmjJ+LH5mIn2jTZMUomw
-         iNBktVMN8B4hqzsJGmVhLGfjm2VDWvCc8yXUeFQxYcuceeybLu0RRZqGpDWZ1iz0Mqr2
-         yAlD7m3MMki2MjihEpDK+LF4G16Y3V0ZnQT4+REjyLYuEqfMCoAKofqKtgQf5p7HMHjS
-         C3Jm99Xk5tHkBx+ux7iLFIR8cHN30nhpcVIXSo3qlhZr3j5v3Lf5rT4DvYTF4u5U+eHV
-         /RQg==
-X-Gm-Message-State: ANoB5pmJEsYwsdA/5g1uqlY8Yj+NKkoBOTYpNxFiLqKlmFidPSqjl3rZ
-        Uz3ONzwrXa96bpcVQ34VrFxy9Q==
-X-Google-Smtp-Source: AA0mqf6Tx5INGoZ78d+9myc+vdTm5mzsmp5rLWprRQV1O1l0dTir56KzqEnejFqId0Li9Ws03Fr7Vw==
-X-Received: by 2002:a05:651c:2314:b0:277:2123:120e with SMTP id bi20-20020a05651c231400b002772123120emr6513113ljb.4.1668529850815;
-        Tue, 15 Nov 2022 08:30:50 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id v14-20020ac258ee000000b004998d9ccb62sm2262902lfo.99.2022.11.15.08.30.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Nov 2022 08:30:50 -0800 (PST)
-Message-ID: <8e80a8ae-41dd-3f17-b165-eaba5335ae68@linaro.org>
-Date:   Tue, 15 Nov 2022 17:30:49 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 6/7] ARM: dts: r9a06g032: Add the USBF controller node
-Content-Language: en-US
-To:     Herve Codina <herve.codina@bootlin.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+        with ESMTP id S231853AbiKOQrJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Nov 2022 11:47:09 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9132E14D35;
+        Tue, 15 Nov 2022 08:47:08 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9E4FD13D5;
+        Tue, 15 Nov 2022 08:47:14 -0800 (PST)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AB9273F587;
+        Tue, 15 Nov 2022 08:47:06 -0800 (PST)
+Date:   Tue, 15 Nov 2022 16:47:04 +0000
+From:   Andre Przywara <andre.przywara@arm.com>
+To:     Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+Cc:     Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-References: <20221114111513.1436165-1-herve.codina@bootlin.com>
- <20221114111513.1436165-7-herve.codina@bootlin.com>
- <51d42fc2-0492-9077-302d-5c3be4b45cd1@linaro.org>
- <20221115142754.6253881b@bootlin.com> <20221115160917.73e7b4ef@bootlin.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221115160917.73e7b4ef@bootlin.com>
+        Icenowy Zheng <uwu@icenowy.me>, soc@kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 09/11] ARM: dts: suniv: add device tree for PopStick
+ v1.1
+Message-ID: <20221115164704.1d9db428@donnerap.cambridge.arm.com>
+In-Reply-To: <4752971.GXAFRqVoOG@kista>
+References: <20221106154826.6687-1-andre.przywara@arm.com>
+        <20221106154826.6687-10-andre.przywara@arm.com>
+        <4752971.GXAFRqVoOG@kista>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 15/11/2022 16:09, Herve Codina wrote:
-> Hi Krzysztof
-> 
-> On Tue, 15 Nov 2022 14:27:54 +0100
-> Herve Codina <herve.codina@bootlin.com> wrote:
-> 
->> Hi Krzysztof,
->>
->> On Tue, 15 Nov 2022 14:16:27 +0100
->> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
->>
->>> On 14/11/2022 12:15, Herve Codina wrote:  
->>>> Add the USBF controller available in the r9a06g032 SoC.
->>>>
->>>> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
->>>> ---
->>>>  arch/arm/boot/dts/r9a06g032.dtsi | 12 ++++++++++++
->>>>  1 file changed, 12 insertions(+)
->>>>
->>>> diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
->>>> index 563024c9a4ae..a4bb069457a3 100644
->>>> --- a/arch/arm/boot/dts/r9a06g032.dtsi
->>>> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
->>>> @@ -117,6 +117,18 @@ dmamux: dma-router@a0 {
->>>>  			};
->>>>  		};
->>>>  
->>>> +		udc: usb@4001e000 {
->>>> +			compatible = "renesas,r9a06g032-usbf", "renesas,rzn1-usbf";
->>>> +			reg = <0x4001e000 0x2000>;
->>>> +			interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
->>>> +				     <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>;
->>>> +			clocks = <&sysctrl R9A06G032_HCLK_USBF>,
->>>> +				 <&sysctrl R9A06G032_HCLK_USBPM>;
->>>> +			clock-names = "hclkf", "hclkpm";
->>>> +			power-domains = <&sysctrl>;
->>>> +			status = "disabled";    
->>>
->>> If you provided all resources (clocks, power domains etc), why disabling it?  
->>
->> Because I forgot to remove the 'status' property ...
->> 'status' will be simply removed in v3.
->> Sorry for this mistake.
->>
->> Thanks for the review,
->> Hervé
->>
-> 
-> I said something completely wrong for this point.
-> 
-> status is set disabled because it is a .dtsi and can be
-> included by several dts to represent a board.
-> This node (USB device) can be wired on some board and not on
-> some others.
-> So, the node will be enabled in each dts board that has the USBF
-> device wired and used.
+On Mon, 07 Nov 2022 18:35:09 +0100
+Jernej Škrabec <jernej.skrabec@gmail.com> wrote:
 
-So it depends on having the connector? Yes, makes sense as well.
-Actually my recommendation was about internal parts of OS, which usually
-do not require anything from board. I missed the part that it is an USB...
+Hi Jernej,
 
-Best regards,
-Krzysztof
+> Dne nedelja, 06. november 2022 ob 16:48:24 CET je Andre Przywara napisal(a):
+> > From: Icenowy Zheng <uwu@icenowy.me>
+> > 
+> > PopStick is a minimal Allwinner F1C200s dongle, with its USB controller
+> > wired to a USB Type-A port, a SD slot and a SPI NAND flash on board, and
+> > an on-board CH340 USB-UART converted connected to F1C200s's UART0.
+> > 
+> > Add a device tree for it. As F1C200s is just F1C100s with a different
+> > DRAM chip co-packaged, directly use F1C100s DTSI here.
+> > 
+> > This commit covers the v1.1 version of this board, which is now shipped.
+> > v1.0 is some internal sample that have not been shipped at all.
+> > 
+> > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  arch/arm/boot/dts/Makefile                    |  3 +-
+> >  .../boot/dts/suniv-f1c200s-popstick-v1.1.dts  | 99 +++++++++++++++++++
+> >  2 files changed, 101 insertions(+), 1 deletion(-)
+> >  create mode 100644 arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
+> > 
+> > diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+> > index 6aa7dc4db2fc..0249c07bd8a6 100644
+> > --- a/arch/arm/boot/dts/Makefile
+> > +++ b/arch/arm/boot/dts/Makefile
+> > @@ -1391,7 +1391,8 @@ dtb-$(CONFIG_MACH_SUN9I) += \
+> >  	sun9i-a80-optimus.dtb \
+> >  	sun9i-a80-cubieboard4.dtb
+> >  dtb-$(CONFIG_MACH_SUNIV) += \
+> > -	suniv-f1c100s-licheepi-nano.dtb
+> > +	suniv-f1c100s-licheepi-nano.dtb \
+> > +	suniv-f1c200s-popstick-v1.1.dtb
+> >  dtb-$(CONFIG_ARCH_TEGRA_2x_SOC) += \
+> >  	tegra20-acer-a500-picasso.dtb \
+> >  	tegra20-asus-tf101.dtb \
+> > diff --git a/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
+> > b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts new file mode 100644
+> > index 000000000000..7d69b5fcb905
+> > --- /dev/null
+> > +++ b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
+> > @@ -0,0 +1,99 @@
+> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > +/*
+> > + * Copyright 2022 Icenowy Zheng <uwu@icenowy.me>
+> > + */
+> > +
+> > +/dts-v1/;
+> > +#include "suniv-f1c100s.dtsi"
+> > +
+> > +#include <dt-bindings/gpio/gpio.h>
+> > +#include <dt-bindings/leds/common.h>
+> > +
+> > +/ {
+> > +	model = "Popcorn Computer PopStick v1.1";
+> > +	compatible = "sourceparts,popstick-v1.1", "sourceparts,popstick",
+> > +		     "allwinner,suniv-f1c200s", "allwinner,suniv-  
+> f1c100s";
+> > +
+> > +	aliases {
+> > +		serial0 = &uart0;
+> > +	};
+> > +
+> > +	chosen {
+> > +		stdout-path = "serial0:115200n8";
+> > +	};
+> > +
+> > +	leds {
+> > +		compatible = "gpio-leds";
+> > +
+> > +		led {
+> > +			function = LED_FUNCTION_STATUS;
+> > +			color = <LED_COLOR_ID_GREEN>;
+> > +			gpios = <&pio 4 6 GPIO_ACTIVE_HIGH>; /* PE6   
+> */
+> > +			linux,default-trigger = "heartbeat";
+> > +		};
+> > +	};
+> > +
+> > +	reg_vcc3v3: regulator-3v3 {
+> > +		compatible = "regulator-fixed";
+> > +		regulator-name = "vcc3v3";
+> > +		regulator-min-microvolt = <3300000>;
+> > +		regulator-max-microvolt = <3300000>;
+> > +	};
+> > +};
+> > +
+> > +&mmc0 {
+> > +	cd-gpios = <&pio 4 3 GPIO_ACTIVE_LOW>; /* PE3 */
+> > +	bus-width = <4>;
+> > +	disable-wp;
+> > +	vmmc-supply = <&reg_vcc3v3>;
+> > +	status = "okay";
+> > +};
+> > +
+> > +&otg_sram {
+> > +	status = "okay";
+> > +};
+> > +
+> > +&spi0 {
+> > +	pinctrl-names = "default";
+> > +	pinctrl-0 = <&spi0_pc_pins>;
+> > +	status = "okay";
+> > +
+> > +	flash@0 {
+> > +		compatible = "spi-nand";
+> > +		reg = <0>;
+> > +		spi-max-frequency = <40000000>;
+> > +		#address-cells = <1>;
+> > +		#size-cells = <1>;
+> > +
+> > +		partitions {  
+> 
+> "make dtbs_check" is not happy with cells and partitions. Do we really need 
+> them? If yes, then binding needs to be updated beforehand.
+
+Right, my dt-validate run didn't initially complain, but does now, after
+updating dt-schema.git.
+So yes, I will just drop the partitions, for now. The partition scheme
+seems to be legit, as described in mtd/fixed-partitions.yaml, but it
+apparently just needs to be somehow included in spi-nand.yaml. Will do
+that later, then update this .dts.
+
+Cheers,
+Andre
+
+> 
+> > +			compatible = "fixed-partitions";
+> > +			#address-cells = <1>;
+> > +			#size-cells = <1>;
+> > +
+> > +			partition@0 {
+> > +				label = "u-boot-with-spl";
+> > +				reg = <0x0 0x100000>;
+> > +			};
+> > +
+> > +			ubi@100000 {
+> > +				label = "ubi";
+> > +				reg = <0x100000 0x7f00000>;
+> > +			};
+> > +		};
+> > +	};
+> > +};
+> > +
+> > +&uart0 {
+> > +	pinctrl-names = "default";
+> > +	pinctrl-0 = <&uart0_pe_pins>;
+> > +	status = "okay";
+> > +};
+> > +
+> > +&usb_otg {
+> > +	dr_mode = "peripheral";
+> > +	status = "okay";
+> > +};
+> > +
+> > +&usbphy {
+> > +	status = "okay";
+> > +};
+> > --
+> > 2.35.5  
+> 
+> 
 
