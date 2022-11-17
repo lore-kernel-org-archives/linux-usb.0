@@ -2,310 +2,122 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F8AEC433FE
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Nov 2022 05:00:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9021AC433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Nov 2022 05:36:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234615AbiKQFAu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Nov 2022 00:00:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57690 "EHLO
+        id S234503AbiKQFgR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Nov 2022 00:36:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234506AbiKQFAq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Nov 2022 00:00:46 -0500
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A67DB3C6F9;
-        Wed, 16 Nov 2022 21:00:43 -0800 (PST)
-Received: by mail-pg1-x536.google.com with SMTP id o13so972393pgu.7;
-        Wed, 16 Nov 2022 21:00:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HA1QsfEuzbBhgepitG955qUnAJxiZQscJPVW3flAVUA=;
-        b=NcN3bGV7GA+FUtplC1WRnJaUjHf7LDJmm7w4g6968XslzuIy0utVQa6CRuQQQCJDXQ
-         SHP2gXW/v6xkYzadw0e3Jsqrbvyh3bisdYJFADbvj/Bajvao/ALucCiHDvQckt0ZCoEe
-         CtpFrUKN248CygtQYCAt6WwzBILnX6fb/zSB2gaYWHCI4WFBBH0wGhlmY04bz/WOhdGa
-         708ipm4r4n55p5u+kFQHpcDwvYgDWfkAhBodxfm1E2ezHZogNp8AzRnt44xRpALaYZVZ
-         uvH12VygSX9vonZHexEnBLqbA8CjABTaL2uLyLiYxtnnytbG6Qm9EBgwIbGpoUJP0IrT
-         GLlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HA1QsfEuzbBhgepitG955qUnAJxiZQscJPVW3flAVUA=;
-        b=NLN18Svr8ThsUbRwoakWUc7b0eNfRuyyzmuqb65tM3ed3kfy5fRzqGGAF1mZtBLJBy
-         oMTSFTvAd47RLbZilKvqzQSz9/LhRDJpTLYWLD1webwJVEFvuVKc4HFQfkkWf6AoCRgA
-         +3h7TDQMkakIyVS0dURqtZeugUiFl/LN5ExyuYT85yq/LUBHLL3IDzWAhnoknJnBa9E0
-         2jh6JAfs0hCKPKyVAbd6TpA7IRbsiR+z0LhUEzQXxb137UEJbO1q1Sh1SiREGKMGKSAu
-         pFtw9ocHNNAYefCat1lMPxNCiy2xr+sQ+GDOAPdLHL4RDi4H+6xYJ4tkbv6+aiOOQusD
-         XqaQ==
-X-Gm-Message-State: ANoB5pnX1uLCTtm5tOjyfTGuD3ZTGWxNcq2E1VIwbgGd1tbgOi82MY3T
-        PUF55Cu3VVg9u5ms2nptKAU=
-X-Google-Smtp-Source: AA0mqf5fWH62Ko/mokQIicf0fp6esOmP/elejSqNMsKttqkHWS8xP9l45tFqRFlO7Cmzx3QN7vPmOQ==
-X-Received: by 2002:a63:ff62:0:b0:476:898c:ded8 with SMTP id s34-20020a63ff62000000b00476898cded8mr617148pgk.251.1668661243102;
-        Wed, 16 Nov 2022 21:00:43 -0800 (PST)
-Received: from localhost.localdomain ([175.124.254.119])
-        by smtp.gmail.com with ESMTPSA id y18-20020aa79af2000000b0053e468a78a8sm11911178pfp.158.2022.11.16.21.00.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 21:00:42 -0800 (PST)
-From:   Hyunwoo Kim <imv4bel@gmail.com>
-To:     mchehab@kernel.org
-Cc:     kernel@tuxforce.de, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, cai.huoqing@linux.dev, tiwai@suse.de,
-        imv4bel@gmail.com, kernel test robot <lkp@intel.com>,
-        Dan Carpenter <error27@gmail.com>
-Subject: [PATCH v3 3/4] media: dvb-core: Fix use-after-free due to race condition occurring in dvb_register_device()
-Date:   Wed, 16 Nov 2022 20:59:24 -0800
-Message-Id: <20221117045925.14297-4-imv4bel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221117045925.14297-1-imv4bel@gmail.com>
-References: <20221117045925.14297-1-imv4bel@gmail.com>
+        with ESMTP id S234320AbiKQFgQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Nov 2022 00:36:16 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66C546AED0
+        for <linux-usb@vger.kernel.org>; Wed, 16 Nov 2022 21:36:15 -0800 (PST)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AH2crpZ007000;
+        Thu, 17 Nov 2022 05:36:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=ppiFqY1YyZgg6wkYgcvR7bwboaz5L+wvlGMUiJZ0TiQ=;
+ b=D0iklfsc+L2hi87S+8DG0csMl4LkJGOVQ2gZXv6myiOktQ72A/1ECl4BMR74Vamm1Oqm
+ 8wx2isLwUBWHho1yz3ZWukxXulhO0tztQ9TNFjCRIBdxHfpOVheGasqxXXHv/TiEnSas
+ BnRJlGyPJGqPc51HYV3rh2/BXI3P/sAvgCUUFh+cob/AD4ImuKHYvdunp5LCUH/cR7HX
+ NKMluIPKNR7d+NoxPhY33io52vPNlloXZl2Zf/rHX2jIDBzI9nk9DiXnMdu6KC3ejSKy
+ BNw4liwE2drgie7Lh5ETlZhaf5JPtAIMJYzrOMXj3XNss7mcWcDehlmystytBv+KVQiT Cg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kw3phsf90-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 17 Nov 2022 05:36:07 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2AH5a6rG002137
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 17 Nov 2022 05:36:06 GMT
+Received: from hu-ugoswami-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Wed, 16 Nov 2022 21:36:03 -0800
+From:   Udipto Goswami <quic_ugoswami@quicinc.com>
+To:     Jack Pham <quic_jackp@quicinc.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>
+CC:     Pratham Pratap <quic_ppratap@quicinc.com>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Udipto Goswami <quic_ugoswami@quicinc.com>
+Subject: [PATCH] usb: gadget: configfs: Prevent double delete from purge_configs_funcs
+Date:   Thu, 17 Nov 2022 11:05:48 +0530
+Message-ID: <20221117053548.28158-1-quic_ugoswami@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Xo_qsbm3EIE8y2d5yRx-WV409-MiGvzU
+X-Proofpoint-GUID: Xo_qsbm3EIE8y2d5yRx-WV409-MiGvzU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-17_02,2022-11-16_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
+ lowpriorityscore=0 spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0
+ suspectscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211170040
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-dvb_register_device() dynamically allocates fops with kmemdup()
-to set the fops->owner.
-And these fops are registered in 'file->f_ops' using replace_fops()
-in the dvb_device_open() process, and kfree()d in dvb_free_device().
+Currently the function purge_configs_funcs isn't protected by any lock
+So there is a potential race possible there id udc called composite_unbind
+and say at the same time the configfs_composite_bind also got executed.
+If bind fails and follows the error path, driver will end up calling the
+purge_configfs_funcs again, resulting in double free from func_list.
 
-However, it is not common to use dynamically allocated fops instead
-of 'static const' fops as an argument of replace_fops(),
-and UAF may occur.
-These UAFs can occur on any dvb type using dvb_register_device(),
-such as dvb_dvr, dvb_demux, dvb_frontend, dvb_net, etc.
+Fix this by introducing mutex gi->lock to make sure serial execution
+can be maintained. Also, usage of list_for_each_entry_safe is risky
+here since the tmp variable is still valid for the next iteration, in
+order to ensure list traversal is clean, use list_last_entry.
 
-So, instead of kfree() the fops dynamically allocated in
-dvb_register_device() in dvb_free_device() called during the
-.disconnect() process, kfree() it collectively in exit_dvbdev()
-called when the dvbdev.c module is removed.
-
-Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <error27@gmail.com>
+Fixes: 6cd0fe913879 ("usb: gadget: configfs: Preserve function ordering after bind failure")
+Signed-off-by: Udipto Goswami <quic_ugoswami@quicinc.com>
 ---
- drivers/media/dvb-core/dvbdev.c | 84 ++++++++++++++++++++++++---------
- include/media/dvbdev.h          | 15 ++++++
- 2 files changed, 78 insertions(+), 21 deletions(-)
+ drivers/usb/gadget/configfs.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 675d877a67b2..ff5b11df932c 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -27,6 +27,7 @@
- #include <media/tuner.h>
- 
- static DEFINE_MUTEX(dvbdev_mutex);
-+static LIST_HEAD(dvbdevfops_list);
- static int dvbdev_debug;
- 
- module_param(dvbdev_debug, int, 0644);
-@@ -448,14 +449,15 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 			enum dvb_device_type type, int demux_sink_pads)
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index 3a6b4926193e..f1ac87906897 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -1246,14 +1246,14 @@ static void purge_configs_funcs(struct gadget_info *gi)
  {
- 	struct dvb_device *dvbdev;
--	struct file_operations *dvbdevfops;
-+	struct file_operations *dvbdevfops = NULL;
-+	struct dvbdevfops_node *node = NULL, *new_node = NULL;
- 	struct device *clsdev;
- 	int minor;
- 	int id, ret;
+ 	struct usb_configuration	*c;
  
- 	mutex_lock(&dvbdev_register_lock);
++	mutex_lock(&gi->lock);
+ 	list_for_each_entry(c, &gi->cdev.configs, list) {
+-		struct usb_function *f, *tmp;
++		struct usb_function *f;
+ 		struct config_usb_cfg *cfg;
  
--	if ((id = dvbdev_get_free_id (adap, type)) < 0){
-+	if ((id = dvbdev_get_free_id (adap, type)) < 0) {
- 		mutex_unlock(&dvbdev_register_lock);
- 		*pdvbdev = NULL;
- 		pr_err("%s: couldn't find free device id\n", __func__);
-@@ -463,18 +465,45 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 		cfg = container_of(c, struct config_usb_cfg, c);
+-
+-		list_for_each_entry_safe_reverse(f, tmp, &c->functions, list) {
+-
++		while (!list_empty(&c->functions)) {
++			f = list_last_entry(&c->functions, struct usb_function, list);
+ 			list_move(&f->list, &cfg->func_list);
+ 			if (f->unbind) {
+ 				dev_dbg(&gi->cdev.gadget->dev,
+@@ -1269,6 +1269,7 @@ static void purge_configs_funcs(struct gadget_info *gi)
+ 		c->highspeed = 0;
+ 		c->fullspeed = 0;
  	}
- 
- 	*pdvbdev = dvbdev = kzalloc(sizeof(*dvbdev), GFP_KERNEL);
--
- 	if (!dvbdev){
- 		mutex_unlock(&dvbdev_register_lock);
- 		return -ENOMEM;
- 	}
- 
--	dvbdevfops = kmemdup(template->fops, sizeof(*dvbdevfops), GFP_KERNEL);
-+	/*
-+	 * When a device of the same type is probe()d more than once,
-+	 * the first allocated fops are used. This prevents memory leaks
-+	 * that can occur when the same device is probe()d repeatedly.
-+	 */
-+	list_for_each_entry(node, &dvbdevfops_list, list_head) {
-+		if (node->fops->owner == adap->module &&
-+				node->type == type &&
-+				node->template == template) {
-+			dvbdevfops = node->fops;
-+			break;
-+		}
-+	}
- 
--	if (!dvbdevfops){
--		kfree (dvbdev);
--		mutex_unlock(&dvbdev_register_lock);
--		return -ENOMEM;
-+	if (dvbdevfops == NULL) {
-+		dvbdevfops = kmemdup(template->fops, sizeof(*dvbdevfops), GFP_KERNEL);
-+		if (!dvbdevfops) {
-+			kfree(dvbdev);
-+			mutex_unlock(&dvbdev_register_lock);
-+			return -ENOMEM;
-+		}
-+
-+		new_node = kzalloc(sizeof(struct dvbdevfops_node), GFP_KERNEL);
-+		if (!new_node) {
-+			kfree(dvbdevfops);
-+			kfree(dvbdev);
-+			mutex_unlock(&dvbdev_register_lock);
-+			return -ENOMEM;
-+		}
-+
-+		new_node->fops = dvbdevfops;
-+		new_node->type = type;
-+		new_node->template = template;
-+		list_add_tail (&new_node->list_head, &dvbdevfops_list);
- 	}
- 
- 	memcpy(dvbdev, template, sizeof(struct dvb_device));
-@@ -484,20 +513,20 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 	dvbdev->priv = priv;
- 	dvbdev->fops = dvbdevfops;
- 	init_waitqueue_head (&dvbdev->wait_queue);
--
- 	dvbdevfops->owner = adap->module;
--
- 	list_add_tail (&dvbdev->list_head, &adap->device_list);
--
- 	down_write(&minor_rwsem);
- #ifdef CONFIG_DVB_DYNAMIC_MINORS
- 	for (minor = 0; minor < MAX_DVB_MINORS; minor++)
- 		if (dvb_minors[minor] == NULL)
- 			break;
--
- 	if (minor == MAX_DVB_MINORS) {
-+		if (new_node) {
-+			list_del (&new_node->list_head);
-+			kfree(dvbdevfops);
-+			kfree(new_node);
-+		}
- 		list_del (&dvbdev->list_head);
--		kfree(dvbdevfops);
- 		kfree(dvbdev);
- 		up_write(&minor_rwsem);
- 		mutex_unlock(&dvbdev_register_lock);
-@@ -506,41 +535,47 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- #else
- 	minor = nums2minor(adap->num, type, id);
- #endif
--
- 	dvbdev->minor = minor;
- 	dvb_minors[minor] = dvbdev;
- 	up_write(&minor_rwsem);
--
- 	ret = dvb_register_media_device(dvbdev, type, minor, demux_sink_pads);
- 	if (ret) {
- 		pr_err("%s: dvb_register_media_device failed to create the mediagraph\n",
- 		      __func__);
--
-+		if (new_node) {
-+			list_del (&new_node->list_head);
-+			kfree(dvbdevfops);
-+			kfree(new_node);
-+		}
- 		dvb_media_device_free(dvbdev);
- 		list_del (&dvbdev->list_head);
--		kfree(dvbdevfops);
- 		kfree(dvbdev);
- 		mutex_unlock(&dvbdev_register_lock);
- 		return ret;
- 	}
- 
--	mutex_unlock(&dvbdev_register_lock);
--
- 	clsdev = device_create(dvb_class, adap->device,
- 			       MKDEV(DVB_MAJOR, minor),
- 			       dvbdev, "dvb%d.%s%d", adap->num, dnames[type], id);
- 	if (IS_ERR(clsdev)) {
- 		pr_err("%s: failed to create device dvb%d.%s%d (%ld)\n",
- 		       __func__, adap->num, dnames[type], id, PTR_ERR(clsdev));
-+		if (new_node) {
-+			list_del (&new_node->list_head);
-+			kfree(dvbdevfops);
-+			kfree(new_node);
-+		}
- 		dvb_media_device_free(dvbdev);
- 		list_del (&dvbdev->list_head);
--		kfree(dvbdevfops);
- 		kfree(dvbdev);
-+		mutex_unlock(&dvbdev_register_lock);
- 		return PTR_ERR(clsdev);
- 	}
-+
- 	dprintk("DVB: register adapter%d/%s%d @ minor: %i (0x%02x)\n",
- 		adap->num, dnames[type], id, minor, minor);
- 
-+	mutex_unlock(&dvbdev_register_lock);
- 	return 0;
- }
- EXPORT_SYMBOL(dvb_register_device);
-@@ -569,7 +604,6 @@ void dvb_free_device(struct dvb_device *dvbdev)
- 	if (!dvbdev)
- 		return;
- 
--	kfree (dvbdev->fops);
- 	kfree (dvbdev);
- }
- EXPORT_SYMBOL(dvb_free_device);
-@@ -1061,9 +1095,17 @@ static int __init init_dvbdev(void)
- 
- static void __exit exit_dvbdev(void)
- {
-+	struct dvbdevfops_node *node, *next;
-+
- 	class_destroy(dvb_class);
- 	cdev_del(&dvb_device_cdev);
- 	unregister_chrdev_region(MKDEV(DVB_MAJOR, 0), MAX_DVB_MINORS);
-+
-+	list_for_each_entry_safe(node, next, &dvbdevfops_list, list_head) {
-+		list_del (&node->list_head);
-+		kfree(node->fops);
-+		kfree(node);
-+	}
++	mutex_unlock(&gi->lock);
  }
  
- subsys_initcall(init_dvbdev);
-diff --git a/include/media/dvbdev.h b/include/media/dvbdev.h
-index 2f6b0861322a..1e5413303705 100644
---- a/include/media/dvbdev.h
-+++ b/include/media/dvbdev.h
-@@ -187,6 +187,21 @@ struct dvb_device {
- 	void *priv;
- };
- 
-+/**
-+ * struct dvbdevfops_node - fops nodes registered in dvbdevfops_list
-+ *
-+ * @fops:		Dynamically allocated fops for ->owner registration
-+ * @type:		type of dvb_device
-+ * @template:		dvb_device used for registration
-+ * @list_head:		list_head for dvbdevfops_list
-+ */
-+struct dvbdevfops_node {
-+	struct file_operations *fops;
-+	enum dvb_device_type type;
-+	const struct dvb_device *template;
-+	struct list_head list_head;
-+};
-+
- /**
-  * dvb_register_adapter - Registers a new DVB adapter
-  *
+ static int configfs_composite_bind(struct usb_gadget *gadget,
 -- 
-2.25.1
+2.17.1
 
