@@ -2,90 +2,56 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45FA4C4332F
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Nov 2022 20:55:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 784F0C4321E
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Nov 2022 21:09:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239207AbiKQUzf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Nov 2022 15:55:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45500 "EHLO
+        id S240718AbiKQVJr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Nov 2022 16:09:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239229AbiKQUze (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Nov 2022 15:55:34 -0500
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 17 Nov 2022 12:55:32 PST
-Received: from mailfilter03-out40.webhostingserver.nl (mailfilter03-out40.webhostingserver.nl [195.211.72.99])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB7945ADDD
-        for <linux-usb@vger.kernel.org>; Thu, 17 Nov 2022 12:55:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=exalondelft.nl; s=whs1;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
-         subject:cc:to:from:from;
-        bh=Pc/8xsignvpb7hB1IAB5J46UWvZn4zJkaYhKUZ3kXYA=;
-        b=fBkyeFIAvIHuBpWxkopNlU0s0jmiZ0nClgzFjBf1U5Fg+FSegUv0B1lwH5D5rhFJmJk0c7k+bmq9V
-         WrmICmEuf/aFU8sJsIuyYL/zaYYMrlYtFI25aZrSaKDvSNsBgLvhJPsuuh6Tqs0ADbuVuELh8ui/Im
-         ti8K0oyPVy0rlZdeNmbbE93NUgmuHXeARwwsRQVjHrLqd0wA7O52hrKtbmqsWdEd7hyTufvjTNx4He
-         d5LzxcYaBLBJah6ROmxCg8ZcUPAVyMto4aazd+nNs/fhQMwsJqarD1tpPPiRz5y6qpGvB6SN+FJqKW
-         ypUTLzKeq2RoviHALqpzpXBdLYgpwDA==
-X-Halon-ID: ccbc479a-66b9-11ed-af3a-001a4a4cb9a5
-Received: from s198.webhostingserver.nl (s198.webhostingserver.nl [141.138.168.154])
-        by mailfilter03.webhostingserver.nl (Halon) with ESMTPSA
-        id ccbc479a-66b9-11ed-af3a-001a4a4cb9a5;
-        Thu, 17 Nov 2022 21:52:50 +0100 (CET)
-Received: from 2a02-a466-68ed-1-6f6f-9a68-8ab0-3e9e.fixed6.kpn.net ([2a02:a466:68ed:1:6f6f:9a68:8ab0:3e9e] helo=delfion.fritz.box)
-        by s198.webhostingserver.nl with esmtpa (Exim 4.96)
-        (envelope-from <ftoth@exalondelft.nl>)
-        id 1ovltz-0054mk-1t;
-        Thu, 17 Nov 2022 21:54:27 +0100
-From:   Ferry Toth <ftoth@exalondelft.nl>
-To:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Sean Anderson <sean.anderson@seco.com>,
-        Liu Shixin <liushixin2@huawei.com>,
-        Ferry Toth <fntoth@gmail.com>,
-        Andrey Smirnov <andrew.smirnov@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        stable@vger.kernel.org, Ferry Toth <ftoth@exalondelft.nl>
-Subject: [PATCH v3 1/2] usb: ulpi: defer ulpi_register on ulpi_read_id timeout
-Date:   Thu, 17 Nov 2022 21:54:10 +0100
-Message-Id: <20221117205411.11489-2-ftoth@exalondelft.nl>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20221117205411.11489-1-ftoth@exalondelft.nl>
-References: <20221117205411.11489-1-ftoth@exalondelft.nl>
+        with ESMTP id S240580AbiKQVJ3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Nov 2022 16:09:29 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1E761005D;
+        Thu, 17 Nov 2022 13:08:30 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9584361E76;
+        Thu, 17 Nov 2022 21:08:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1255C433D6;
+        Thu, 17 Nov 2022 21:08:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1668719309;
+        bh=HYS9XYfwOlhjzRSnx323mT7QdkoJmUme8EZAv392/H4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IZQXChmNt4PzZ/4eVwmyyX7mfZRL2T0Esdhbo6eE3+oUqhqCw+C2pOiDTGwVqYO+Z
+         7AaOmb82L7xZj1vAD6AZZkqqH0xFTdirm5qUOyKqDaBjllGzXnerFRkyalkUkiFMFC
+         aksBgsnZUJALSLllmgle5Jecs+ILhWFQ+4fIDq94=
+Date:   Thu, 17 Nov 2022 22:07:52 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [GIT PULL] USB-serial fixes for 6.1-rc6
+Message-ID: <Y3aiqDVXybMnLp8u@kroah.com>
+References: <Y3YdxR2djUf0ibBC@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Antivirus-Scanner: Clean mail though you should still use an Antivirus
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y3YdxR2djUf0ibBC@hovoldconsulting.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Since commit 0f010171
-Dual Role support on Intel Merrifield platform broke due to rearranging
-the call to dwc3_get_extcon().
+On Thu, Nov 17, 2022 at 12:40:53PM +0100, Johan Hovold wrote:
+> The following changes since commit 247f34f7b80357943234f93f247a1ae6b6c3a740:
+> 
+>   Linux 6.1-rc2 (2022-10-23 15:27:33 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-6.1-rc6
 
-It appears to be caused by ulpi_read_id() on the first test write failing
-with -ETIMEDOUT. Currently ulpi_read_id() expects to discover the phy via
-DT when the test write fails and returns 0 in that case even if DT does not
-provide the phy. As a result usb probe completes without phy.
+Pulled and pushed out, thanks.
 
-Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
----
- drivers/usb/common/ulpi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/common/ulpi.c b/drivers/usb/common/ulpi.c
-index d7c8461976ce..60e8174686a1 100644
---- a/drivers/usb/common/ulpi.c
-+++ b/drivers/usb/common/ulpi.c
-@@ -207,7 +207,7 @@ static int ulpi_read_id(struct ulpi *ulpi)
- 	/* Test the interface */
- 	ret = ulpi_write(ulpi, ULPI_SCRATCH, 0xaa);
- 	if (ret < 0)
--		goto err;
-+		return ret;
- 
- 	ret = ulpi_read(ulpi, ULPI_SCRATCH);
- 	if (ret < 0)
--- 
-2.37.2
-
+greg k-h
