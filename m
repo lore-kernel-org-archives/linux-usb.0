@@ -2,24 +2,24 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59509C43217
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Nov 2022 10:37:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76D53C4332F
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Nov 2022 10:37:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239607AbiKQKhg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Nov 2022 05:37:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34240 "EHLO
+        id S234717AbiKQKhi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Nov 2022 05:37:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234781AbiKQKhP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Nov 2022 05:37:15 -0500
+        with ESMTP id S239595AbiKQKhU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Nov 2022 05:37:20 -0500
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 49CC432BA0;
-        Thu, 17 Nov 2022 02:37:12 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E0B31570;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4D634391DC;
         Thu, 17 Nov 2022 02:37:18 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 63E07D6E;
+        Thu, 17 Nov 2022 02:37:24 -0800 (PST)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A7D43F73B;
-        Thu, 17 Nov 2022 02:37:10 -0800 (PST)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 505FC3F73B;
+        Thu, 17 Nov 2022 02:37:16 -0800 (PST)
 From:   Andre Przywara <andre.przywara@arm.com>
 To:     Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -31,9 +31,9 @@ Cc:     Icenowy Zheng <uwu@icenowy.me>,
         devicetree@vger.kernel.org, soc@kernel.org,
         linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-sunxi@lists.linux.dev
-Subject: [PATCH v4 05/11] ARM: dts: suniv: licheepi-nano: enable USB
-Date:   Thu, 17 Nov 2022 10:36:50 +0000
-Message-Id: <20221117103656.1085840-6-andre.przywara@arm.com>
+Subject: [PATCH v4 08/11] ARM: dts: suniv: add device tree for PopStick v1.1
+Date:   Thu, 17 Nov 2022 10:36:53 +0000
+Message-Id: <20221117103656.1085840-9-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221117103656.1085840-1-andre.przywara@arm.com>
 References: <20221117103656.1085840-1-andre.przywara@arm.com>
@@ -45,52 +45,123 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Icenowy Zheng <uwu@icenowy.me>
 
-Lichee Pi Nano has a Micro-USB connector, with its D+, D- pins connected
-to the USB pins of the SoC and ID pin connected to PE2 GPIO.
+PopStick is a minimal Allwinner F1C200s dongle, with its USB controller
+wired to a USB Type-A plug, a SD slot and a SPI NAND flash on board, and
+an on-board CH340 USB-UART converted connected to F1C200s's UART0.
 
-Enable the USB functionality.
+Add a device tree for it. As F1C200s is just F1C100s with a different
+DRAM chip co-packaged, directly use F1C100s DTSI here.
+
+This commit covers the v1.1 version of this board, which is now shipped.
+v1.0 is some internal sample that have not been shipped at all.
 
 Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- .../arm/boot/dts/suniv-f1c100s-licheepi-nano.dts | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ arch/arm/boot/dts/Makefile                    |  3 +-
+ .../boot/dts/suniv-f1c200s-popstick-v1.1.dts  | 81 +++++++++++++++++++
+ 2 files changed, 83 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
 
-diff --git a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-index 04e59b8381cb8..43896723a994c 100644
---- a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-+++ b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-@@ -6,6 +6,8 @@
- /dts-v1/;
- #include "suniv-f1c100s.dtsi"
- 
-+#include <dt-bindings/gpio/gpio.h>
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 6aa7dc4db2fc8..0249c07bd8a6b 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1391,7 +1391,8 @@ dtb-$(CONFIG_MACH_SUN9I) += \
+ 	sun9i-a80-optimus.dtb \
+ 	sun9i-a80-cubieboard4.dtb
+ dtb-$(CONFIG_MACH_SUNIV) += \
+-	suniv-f1c100s-licheepi-nano.dtb
++	suniv-f1c100s-licheepi-nano.dtb \
++	suniv-f1c200s-popstick-v1.1.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_2x_SOC) += \
+ 	tegra20-acer-a500-picasso.dtb \
+ 	tegra20-asus-tf101.dtb \
+diff --git a/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
+new file mode 100644
+index 0000000000000..184c245041a6e
+--- /dev/null
++++ b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
+@@ -0,0 +1,81 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Copyright 2022 Icenowy Zheng <uwu@icenowy.me>
++ */
 +
- / {
- 	model = "Lichee Pi Nano";
- 	compatible = "licheepi,licheepi-nano", "allwinner,suniv-f1c100s";
-@@ -50,8 +52,22 @@ flash@0 {
- 	};
- };
- 
++/dts-v1/;
++#include "suniv-f1c100s.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/leds/common.h>
++
++/ {
++	model = "Popcorn Computer PopStick v1.1";
++	compatible = "sourceparts,popstick-v1.1", "sourceparts,popstick",
++		     "allwinner,suniv-f1c200s", "allwinner,suniv-f1c100s";
++
++	aliases {
++		serial0 = &uart0;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		led {
++			function = LED_FUNCTION_STATUS;
++			color = <LED_COLOR_ID_GREEN>;
++			gpios = <&pio 4 6 GPIO_ACTIVE_HIGH>; /* PE6 */
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	reg_vcc3v3: regulator-3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "vcc3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++	};
++};
++
++&mmc0 {
++	cd-gpios = <&pio 4 3 GPIO_ACTIVE_LOW>; /* PE3 */
++	bus-width = <4>;
++	disable-wp;
++	vmmc-supply = <&reg_vcc3v3>;
++	status = "okay";
++};
++
 +&otg_sram {
 +	status = "okay";
 +};
 +
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_pe_pins>;
- 	status = "okay";
- };
++&spi0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&spi0_pc_pins>;
++	status = "okay";
++
++	flash@0 {
++		compatible = "spi-nand";
++		reg = <0>;
++		spi-max-frequency = <40000000>;
++	};
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_pe_pins>;
++	status = "okay";
++};
 +
 +&usb_otg {
-+	dr_mode = "otg";
++	dr_mode = "peripheral";
 +	status = "okay";
 +};
 +
 +&usbphy {
-+	usb0_id_det-gpios = <&pio 4 2 GPIO_ACTIVE_HIGH>; /* PE2 */
 +	status = "okay";
 +};
 -- 
