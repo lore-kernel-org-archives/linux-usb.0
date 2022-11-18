@@ -2,108 +2,235 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4DC9C43217
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Nov 2022 18:51:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21E72C43219
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Nov 2022 19:02:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241802AbiKRSu7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Nov 2022 13:50:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51044 "EHLO
+        id S242862AbiKRTCW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Nov 2022 14:02:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235421AbiKRSu6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Nov 2022 13:50:58 -0500
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD6766A684;
-        Fri, 18 Nov 2022 10:50:53 -0800 (PST)
-Received: by mail-ot1-f44.google.com with SMTP id t19-20020a9d7753000000b0066d77a3d474so3602119otl.10;
-        Fri, 18 Nov 2022 10:50:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=JOLYMjkXXvB/weWZsQxyRISw40hXb3p7LqGqtWVTDyk=;
-        b=sTF/mHtX5e0RWJM4kWUnBNqThzunWU5J/qo9/hkGcTQFwClaO9VetXNd8tg5XNR+Bm
-         d5FxSP9Uq3e3SqnBJPBBVBiJGk9P9YmYmEsZneg1rjBFTl8T3HxswfnkmZrHf0hSifWI
-         auhVf/39Nb9clnemKYo46dttBw75Y3yS7xLU0EljSg9EwwS1CdqmlucNVb4sjFcEB263
-         JlI4Waj6sFrHtkELi0sYN9VRV+pZwAYapXVRrIDLeHpieQgACbltPobQ4i+FedlMh2pV
-         uJm5afTPURkRkc25zszPjvN9GLXk2yQ8a+aUCuzSIgGQnZS+LtUpRPmHJTF8UBHveu46
-         0cMQ==
-X-Gm-Message-State: ANoB5pkpChfOo+TPhkgojzaK20crAZceZ6NrLlpbBqo5Y1qyEmnTlXyz
-        njUpllYXDsCm7EG3HtnnyA==
-X-Google-Smtp-Source: AA0mqf7tBcu9Tt0wpRksmHNxtPfG9uapvJ93nee4Ye90gw6t5D9ERUX1LfIp81dsHVG05A5sBN7PqQ==
-X-Received: by 2002:a9d:7e9a:0:b0:66c:6096:1878 with SMTP id m26-20020a9d7e9a000000b0066c60961878mr4549610otp.203.1668797452969;
-        Fri, 18 Nov 2022 10:50:52 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id r25-20020a056830135900b00661c0747545sm1889218otq.44.2022.11.18.10.50.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 10:50:52 -0800 (PST)
-Received: (nullmailer pid 856954 invoked by uid 1000);
-        Fri, 18 Nov 2022 18:50:54 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S242976AbiKRTCA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Nov 2022 14:02:00 -0500
+Received: from mxout2.routing.net (mxout2.routing.net [IPv6:2a03:2900:1:a::b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB06E3055F;
+        Fri, 18 Nov 2022 11:01:41 -0800 (PST)
+Received: from mxbulk.masterlogin.de (unknown [192.168.10.85])
+        by mxout2.routing.net (Postfix) with ESMTP id 00F516050E;
+        Fri, 18 Nov 2022 19:01:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
+        s=20200217; t=1668798099;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HErHfykO7IYXVp4U9iKhL1dv6JpdE4zIk+xeou1yDI8=;
+        b=OVH4VMaHj8qdFZZChl/q7vFQ1/PfQMV/JYtJQK154Uilc21qz5omAv0WD4BcihgmkSPijS
+        dknPhmigVsayS96rEpleUSkJ+L2qHiMVZM0vYUsH5pqfWQD+mEHID+K8OQ9rz8HwBCMko9
+        OJGyuMmfyuehvbfhzWf7MUMSd/+rWGo=
+Received: from frank-G5.. (fttx-pool-80.245.77.125.bambit.de [80.245.77.125])
+        by mxbulk.masterlogin.de (Postfix) with ESMTPSA id 9B2D41226BC;
+        Fri, 18 Nov 2022 19:01:38 +0000 (UTC)
+From:   Frank Wunderlich <linux@fw-web.de>
+To:     linux-mediatek@lists.infradead.org
+Cc:     Frank Wunderlich <frank-w@public-files.de>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Jianjun Wang <jianjun.wang@mediatek.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Bo Jiao <Bo.Jiao@mediatek.com>, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
+        Sam Shih <sam.shih@mediatek.com>
+Subject: [PATCH v6 08/11] arm64: dts: mt7986: add mmc related device nodes
+Date:   Fri, 18 Nov 2022 20:01:23 +0100
+Message-Id: <20221118190126.100895-9-linux@fw-web.de>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221118190126.100895-1-linux@fw-web.de>
+References: <20221118190126.100895-1-linux@fw-web.de>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     krzysztof.kozlowski+dt@linaro.org, linux-tegra@vger.kernel.org,
-        treding@nvidia.com, linux-usb@vger.kernel.org, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-phy@lists.infradead.org,
-        waynec@nvidia.com, Mathias Nyman <mathias.nyman@intel.com>,
-        vkoul@kernel.org, gregkh@linuxfoundation.org
-In-Reply-To: <20221118154006.173082-2-jonathanh@nvidia.com>
-References: <20221118154006.173082-1-jonathanh@nvidia.com>
- <20221118154006.173082-2-jonathanh@nvidia.com>
-Message-Id: <166879727106.849035.12126185559088998329.robh@kernel.org>
-Subject: Re: [PATCH V4 1/6] dt-bindings: usb: Add NVIDIA Tegra234 XUSB host
- controller binding
-Date:   Fri, 18 Nov 2022 12:50:54 -0600
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+From: Sam Shih <sam.shih@mediatek.com>
 
-On Fri, 18 Nov 2022 15:40:01 +0000, Jon Hunter wrote:
-> From: Wayne Chang <waynec@nvidia.com>
-> 
-> Add device-tree binding documentation for the XUSB host controller present
-> on Tegra234 SoC. This controller supports the USB 3.1 specification.
-> 
-> Signed-off-by: Wayne Chang <waynec@nvidia.com>
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> ---
-> V3 -> V4: minor update to the power-domain description
-> V2 -> V3: nothing has changed
-> V1 -> V2: address the issue on phy-names property
-> 
->  .../bindings/usb/nvidia,tegra234-xusb.yaml    | 158 ++++++++++++++++++
->  1 file changed, 158 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra234-xusb.yaml
-> 
+This patch adds mmc support for MT7986.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Signed-off-by: Sam Shih <sam.shih@mediatek.com>
+Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+---
+v2:
+- update mmc-node because clocks changed
 
-yamllint warnings/errors:
+v3:
+- fix pullups/pulldowns for mt7986a-rfb to have generic bias-pull-*
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/usb/nvidia,tegra234-xusb.example.dts:36.29-30 syntax error
-FATAL ERROR: Unable to parse input tree
-make[1]: *** [scripts/Makefile.lib:406: Documentation/devicetree/bindings/usb/nvidia,tegra234-xusb.example.dtb] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1492: dt_binding_check] Error 2
+v6:
+- add 3v3 regulator in mt7986a-rfb (was in usb patch before)
+- dropped AngeloGioacchino RB because of this change
+---
+ arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts | 96 ++++++++++++++++++++
+ arch/arm64/boot/dts/mediatek/mt7986a.dtsi    | 15 +++
+ 2 files changed, 111 insertions(+)
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221118154006.173082-2-jonathanh@nvidia.com
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command.
+diff --git a/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts b/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
+index 828d504a4e48..4c0b879d6703 100644
+--- a/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
++++ b/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
+@@ -5,6 +5,8 @@
+  */
+ 
+ /dts-v1/;
++#include <dt-bindings/pinctrl/mt65xx.h>
++
+ #include "mt7986a.dtsi"
+ 
+ / {
+@@ -23,6 +25,24 @@ memory@40000000 {
+ 		device_type = "memory";
+ 		reg = <0 0x40000000 0 0x40000000>;
+ 	};
++
++	reg_1p8v: regulator-1p8v {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-1.8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
++	reg_3p3v: regulator-3p3v {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-3.3V";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
+ };
+ 
+ &crypto {
+@@ -58,7 +78,83 @@ switch: switch@0 {
+ 	};
+ };
+ 
++&mmc0 {
++	pinctrl-names = "default", "state_uhs";
++	pinctrl-0 = <&mmc0_pins_default>;
++	pinctrl-1 = <&mmc0_pins_uhs>;
++	bus-width = <8>;
++	max-frequency = <200000000>;
++	cap-mmc-highspeed;
++	mmc-hs200-1_8v;
++	mmc-hs400-1_8v;
++	hs400-ds-delay = <0x14014>;
++	vmmc-supply = <&reg_3p3v>;
++	vqmmc-supply = <&reg_1p8v>;
++	non-removable;
++	no-sd;
++	no-sdio;
++	status = "okay";
++};
++
+ &pio {
++	mmc0_pins_default: mmc0-pins {
++		mux {
++			function = "emmc";
++			groups = "emmc_51";
++		};
++		conf-cmd-dat {
++			pins = "EMMC_DATA_0", "EMMC_DATA_1", "EMMC_DATA_2",
++			       "EMMC_DATA_3", "EMMC_DATA_4", "EMMC_DATA_5",
++			       "EMMC_DATA_6", "EMMC_DATA_7", "EMMC_CMD";
++			input-enable;
++			drive-strength = <4>;
++			bias-pull-up = <MTK_PUPD_SET_R1R0_01>; /* pull-up 10K */
++		};
++		conf-clk {
++			pins = "EMMC_CK";
++			drive-strength = <6>;
++			bias-pull-down = <MTK_PUPD_SET_R1R0_10>; /* pull-down 50K */
++		};
++		conf-ds {
++			pins = "EMMC_DSL";
++			bias-pull-down = <MTK_PUPD_SET_R1R0_10>; /* pull-down 50K */
++		};
++		conf-rst {
++			pins = "EMMC_RSTB";
++			drive-strength = <4>;
++			bias-pull-up = <MTK_PUPD_SET_R1R0_01>; /* pull-up 10K */
++		};
++	};
++
++	mmc0_pins_uhs: mmc0-uhs-pins {
++		mux {
++			function = "emmc";
++			groups = "emmc_51";
++		};
++		conf-cmd-dat {
++			pins = "EMMC_DATA_0", "EMMC_DATA_1", "EMMC_DATA_2",
++			       "EMMC_DATA_3", "EMMC_DATA_4", "EMMC_DATA_5",
++			       "EMMC_DATA_6", "EMMC_DATA_7", "EMMC_CMD";
++			input-enable;
++			drive-strength = <4>;
++			bias-pull-up = <MTK_PUPD_SET_R1R0_01>; /* pull-up 10K */
++		};
++		conf-clk {
++			pins = "EMMC_CK";
++			drive-strength = <6>;
++			bias-pull-down = <MTK_PUPD_SET_R1R0_10>; /* pull-down 50K */
++		};
++		conf-ds {
++			pins = "EMMC_DSL";
++			bias-pull-down = <MTK_PUPD_SET_R1R0_10>; /* pull-down 50K */
++		};
++		conf-rst {
++			pins = "EMMC_RSTB";
++			drive-strength = <4>;
++			bias-pull-up = <MTK_PUPD_SET_R1R0_01>; /* pull-up 10K */
++		};
++	};
++
+ 	spi_flash_pins: spi-flash-pins {
+ 		mux {
+ 			function = "spi";
+diff --git a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi b/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
+index c69b8bff7f4a..b3ad8978b563 100644
+--- a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
+@@ -304,6 +304,21 @@ ssusb: usb@11200000 {
+ 			status = "disabled";
+ 		};
+ 
++		mmc0: mmc@11230000 {
++			compatible = "mediatek,mt7986-mmc";
++			reg = <0 0x11230000 0 0x1000>,
++			      <0 0x11c20000 0 0x1000>;
++			interrupts = <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&topckgen CLK_TOP_EMMC_416M_SEL>,
++				 <&infracfg CLK_INFRA_MSDC_HCK_CK>,
++				 <&infracfg CLK_INFRA_MSDC_CK>,
++				 <&infracfg CLK_INFRA_MSDC_133M_CK>,
++				 <&infracfg CLK_INFRA_MSDC_66M_CK>;
++			clock-names = "source", "hclk", "source_cg", "bus_clk",
++				      "sys_cg";
++			status = "disabled";
++		};
++
+ 		usb_phy: t-phy@11e10000 {
+ 			compatible = "mediatek,mt7986-tphy",
+ 				     "mediatek,generic-tphy-v2";
+-- 
+2.34.1
 
