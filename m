@@ -2,34 +2,34 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23311C47089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 901F3C43217
 	for <linux-usb@archiver.kernel.org>; Fri, 18 Nov 2022 19:02:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242924AbiKRTC0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Nov 2022 14:02:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35116 "EHLO
+        id S242943AbiKRTC1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Nov 2022 14:02:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242845AbiKRTBw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Nov 2022 14:01:52 -0500
-Received: from mxout1.routing.net (mxout1.routing.net [IPv6:2a03:2900:1:a::a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B728130550;
-        Fri, 18 Nov 2022 11:01:38 -0800 (PST)
+        with ESMTP id S242959AbiKRTBx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Nov 2022 14:01:53 -0500
+Received: from mxout3.routing.net (mxout3.routing.net [IPv6:2a03:2900:1:a::8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 091EA2FFFC;
+        Fri, 18 Nov 2022 11:01:39 -0800 (PST)
 Received: from mxbulk.masterlogin.de (unknown [192.168.10.85])
-        by mxout1.routing.net (Postfix) with ESMTP id D092F4039D;
-        Fri, 18 Nov 2022 19:01:36 +0000 (UTC)
+        by mxout3.routing.net (Postfix) with ESMTP id 41062604DC;
+        Fri, 18 Nov 2022 19:01:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
-        s=20200217; t=1668798097;
+        s=20200217; t=1668798098;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=0G8A0Vfo5m7AIOUJk0K0IJlgKB0iQp40ZYsUGIkco0E=;
-        b=miuTTB51NT/kO2sKHO/2VyDlH4Kc5NLo6WnZxaMyP4eIt/g9EX3Kxz2ZrQUQRDJPo357nW
-        EKDcCfvHT4l7gcTBVRKJMg6gHPWbvrg5/ptkSesICi7iyy+/D8hstXwaKO8UY3zbSoISKA
-        EPHLN7RTg+sp3cIzwiZnkqip8AcwvVM=
+        bh=rLXaSi0nuYISQNA4/ZZOAgFRiUbo5QoSWGShK+kyzL8=;
+        b=RzpUfc38A2J1HvklQknH14z6OqQdbFlIs+cswd/DJsnTKTaQDBe65Dp0iNk7+Oo57WLr1e
+        KdTjCZ4R5VTq4apKt9ccuiMWk4maCRq8LvhhdmWjGWVx9XMLtOFtXV1yLorZEiFMrOmZnB
+        7KYY0XdG1K0Cfz6bgu1sZ+qrN+7PG4M=
 Received: from frank-G5.. (fttx-pool-80.245.77.125.bambit.de [80.245.77.125])
-        by mxbulk.masterlogin.de (Postfix) with ESMTPSA id 76AC81226BC;
-        Fri, 18 Nov 2022 19:01:36 +0000 (UTC)
+        by mxbulk.masterlogin.de (Postfix) with ESMTPSA id E1F5C1226BC;
+        Fri, 18 Nov 2022 19:01:37 +0000 (UTC)
 From:   Frank Wunderlich <linux@fw-web.de>
 To:     linux-mediatek@lists.infradead.org
 Cc:     Frank Wunderlich <frank-w@public-files.de>,
@@ -49,12 +49,12 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Sam Shih <sam.shih@mediatek.com>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v6 02/11] dt-bindings: phy: mediatek,tphy: add support for mt7986
-Date:   Fri, 18 Nov 2022 20:01:17 +0100
-Message-Id: <20221118190126.100895-3-linux@fw-web.de>
+Subject: [PATCH v6 06/11] arm64: dts: mt7986: add spi related device nodes
+Date:   Fri, 18 Nov 2022 20:01:21 +0100
+Message-Id: <20221118190126.100895-7-linux@fw-web.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221118190126.100895-1-linux@fw-web.de>
 References: <20221118190126.100895-1-linux@fw-web.de>
@@ -64,30 +64,164 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Frank Wunderlich <frank-w@public-files.de>
+From: Sam Shih <sam.shih@mediatek.com>
 
-Add compatible string for mt7986.
+This patch adds spi support for MT7986.
 
+Signed-off-by: Sam Shih <sam.shih@mediatek.com>
 Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- Documentation/devicetree/bindings/phy/mediatek,tphy.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts | 35 ++++++++++++++++++++
+ arch/arm64/boot/dts/mediatek/mt7986a.dtsi    | 28 ++++++++++++++++
+ arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts | 35 ++++++++++++++++++++
+ 3 files changed, 98 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml b/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
-index 5613cc5106e3..230a17f24966 100644
---- a/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
-+++ b/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
-@@ -79,6 +79,7 @@ properties:
-           - enum:
-               - mediatek,mt2712-tphy
-               - mediatek,mt7629-tphy
-+              - mediatek,mt7986-tphy
-               - mediatek,mt8183-tphy
-               - mediatek,mt8186-tphy
-               - mediatek,mt8192-tphy
+diff --git a/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts b/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
+index 2f48cc3d3ddb..006878e3f2b2 100644
+--- a/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
++++ b/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
+@@ -59,6 +59,20 @@ switch: switch@0 {
+ };
+ 
+ &pio {
++	spi_flash_pins: spi-flash-pins {
++		mux {
++			function = "spi";
++			groups = "spi0", "spi0_wp_hold";
++		};
++	};
++
++	spic_pins: spic-pins {
++		mux {
++			function = "spi";
++			groups = "spi1_2";
++		};
++	};
++
+ 	uart1_pins: uart1-pins {
+ 		mux {
+ 			function = "uart";
+@@ -105,6 +119,27 @@ conf {
+ 	};
+ };
+ 
++&spi0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&spi_flash_pins>;
++	cs-gpios = <0>, <0>;
++	status = "okay";
++	spi_nand: spi_nand@0 {
++		compatible = "spi-nand";
++		reg = <0>;
++		spi-max-frequency = <10000000>;
++		spi-tx-buswidth = <4>;
++		spi-rx-buswidth = <4>;
++	};
++};
++
++&spi1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&spic_pins>;
++	cs-gpios = <0>, <0>;
++	status = "okay";
++};
++
+ &switch {
+ 	ports {
+ 		#address-cells = <1>;
+diff --git a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi b/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
+index afc01abfa99c..29da9b8ed753 100644
+--- a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
+@@ -253,6 +253,34 @@ i2c0: i2c@11008000 {
+ 			status = "disabled";
+ 		};
+ 
++		spi0: spi@1100a000 {
++			compatible = "mediatek,mt7986-spi-ipm", "mediatek,spi-ipm";
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0 0x1100a000 0 0x100>;
++			interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&topckgen CLK_TOP_MPLL_D2>,
++				 <&topckgen CLK_TOP_SPI_SEL>,
++				 <&infracfg CLK_INFRA_SPI0_CK>,
++				 <&infracfg CLK_INFRA_SPI0_HCK_CK>;
++			clock-names = "parent-clk", "sel-clk", "spi-clk", "hclk";
++			status = "disabled";
++		};
++
++		spi1: spi@1100b000 {
++			compatible = "mediatek,mt7986-spi-ipm", "mediatek,spi-ipm";
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0 0x1100b000 0 0x100>;
++			interrupts = <GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&topckgen CLK_TOP_MPLL_D2>,
++				 <&topckgen CLK_TOP_SPIM_MST_SEL>,
++				 <&infracfg CLK_INFRA_SPI1_CK>,
++				 <&infracfg CLK_INFRA_SPI1_HCK_CK>;
++			clock-names = "parent-clk", "sel-clk", "spi-clk", "hclk";
++			status = "disabled";
++		};
++
+ 		ethsys: syscon@15000000 {
+ 			 #address-cells = <1>;
+ 			 #size-cells = <1>;
+diff --git a/arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts b/arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts
+index 79c5c78f7a14..2c7f1d4fb352 100644
+--- a/arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts
++++ b/arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts
+@@ -100,6 +100,20 @@ fixed-link {
+ };
+ 
+ &pio {
++	spi_flash_pins: spi-flash-pins {
++		mux {
++			function = "spi";
++			groups = "spi0", "spi0_wp_hold";
++		};
++	};
++
++	spic_pins: spic-pins {
++		mux {
++			function = "spi";
++			groups = "spi1_2";
++		};
++	};
++
+ 	wf_2g_5g_pins: wf-2g-5g-pins {
+ 		mux {
+ 			function = "wifi";
+@@ -132,6 +146,27 @@ conf {
+ 	};
+ };
+ 
++&spi0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&spi_flash_pins>;
++	cs-gpios = <0>, <0>;
++	status = "okay";
++	spi_nand: spi_nand@0 {
++		compatible = "spi-nand";
++		reg = <0>;
++		spi-max-frequency = <10000000>;
++		spi-tx-buswidth = <4>;
++		spi-rx-buswidth = <4>;
++	};
++};
++
++&spi1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&spic_pins>;
++	cs-gpios = <0>, <0>;
++	status = "okay";
++};
++
+ &uart0 {
+ 	status = "okay";
+ };
 -- 
 2.34.1
 
