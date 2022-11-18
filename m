@@ -2,47 +2,45 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18029C433FE
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Nov 2022 23:38:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDFB2C4167B
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Nov 2022 23:48:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236276AbiKRXiT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Nov 2022 18:38:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39784 "EHLO
+        id S233572AbiKRXsH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Nov 2022 18:48:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236824AbiKRXh6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Nov 2022 18:37:58 -0500
+        with ESMTP id S236949AbiKRXrK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Nov 2022 18:47:10 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC9B3A6A16
-        for <linux-usb@vger.kernel.org>; Fri, 18 Nov 2022 15:22:49 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 142D4DEAED
+        for <linux-usb@vger.kernel.org>; Fri, 18 Nov 2022 15:25:42 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA9h-0005Gw-DA; Fri, 18 Nov 2022 23:48:17 +0100
+        id 1owA9i-0005JE-71; Fri, 18 Nov 2022 23:48:18 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA9e-0058ry-JI; Fri, 18 Nov 2022 23:48:15 +0100
+        id 1owA9f-0058sI-EK; Fri, 18 Nov 2022 23:48:16 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA9e-0000UI-R3; Fri, 18 Nov 2022 23:48:14 +0100
+        id 1owA9f-0000UW-Hv; Fri, 18 Nov 2022 23:48:15 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
 To:     Angel Iglesias <ang.iglesiasg@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
         Grant Likely <grant.likely@linaro.org>,
         Wolfram Sang <wsa@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ajay Gupta <ajayg@nvidia.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Petr Machata <petrm@nvidia.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+        Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 576/606] usb: phy: isp1301: Convert to i2c's .probe_new()
-Date:   Fri, 18 Nov 2022 23:45:10 +0100
-Message-Id: <20221118224540.619276-577-uwe@kleine-koenig.org>
+Subject: [PATCH 579/606] usb: typec: tcpm/fusb302: Convert to i2c's .probe_new()
+Date:   Fri, 18 Nov 2022 23:45:13 +0100
+Message-Id: <20221118224540.619276-580-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
@@ -64,31 +62,31 @@ can be trivially converted.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/usb/phy/phy-isp1301.c | 5 ++---
+ drivers/usb/typec/tcpm/fusb302.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/phy/phy-isp1301.c b/drivers/usb/phy/phy-isp1301.c
-index c2777a5c1f4e..f4ee14d98585 100644
---- a/drivers/usb/phy/phy-isp1301.c
-+++ b/drivers/usb/phy/phy-isp1301.c
-@@ -92,8 +92,7 @@ static int isp1301_phy_set_vbus(struct usb_phy *phy, int on)
- 	return 0;
+diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+index 721b2a548084..1ffce00d94b4 100644
+--- a/drivers/usb/typec/tcpm/fusb302.c
++++ b/drivers/usb/typec/tcpm/fusb302.c
+@@ -1677,8 +1677,7 @@ static struct fwnode_handle *fusb302_fwnode_get(struct device *dev)
+ 	return fwnode;
  }
  
--static int isp1301_probe(struct i2c_client *client,
--			 const struct i2c_device_id *i2c_id)
-+static int isp1301_probe(struct i2c_client *client)
+-static int fusb302_probe(struct i2c_client *client,
+-			 const struct i2c_device_id *id)
++static int fusb302_probe(struct i2c_client *client)
  {
- 	struct isp1301 *isp;
- 	struct usb_phy *phy;
-@@ -133,7 +132,7 @@ static struct i2c_driver isp1301_driver = {
- 		.name = DRV_NAME,
- 		.of_match_table = isp1301_of_match,
- 	},
--	.probe = isp1301_probe,
-+	.probe_new = isp1301_probe,
- 	.remove = isp1301_remove,
- 	.id_table = isp1301_id,
+ 	struct fusb302_chip *chip;
+ 	struct i2c_adapter *adapter = client->adapter;
+@@ -1837,7 +1836,7 @@ static struct i2c_driver fusb302_driver = {
+ 		   .pm = &fusb302_pm_ops,
+ 		   .of_match_table = of_match_ptr(fusb302_dt_match),
+ 		   },
+-	.probe = fusb302_probe,
++	.probe_new = fusb302_probe,
+ 	.remove = fusb302_remove,
+ 	.id_table = fusb302_i2c_device_id,
  };
 -- 
 2.38.1
