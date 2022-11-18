@@ -2,44 +2,45 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8887EC4167B
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Nov 2022 23:29:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 696E1C433FE
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Nov 2022 23:33:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235853AbiKRX30 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Nov 2022 18:29:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46154 "EHLO
+        id S236084AbiKRXdb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Nov 2022 18:33:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235794AbiKRX2p (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Nov 2022 18:28:45 -0500
+        with ESMTP id S236198AbiKRXcN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Nov 2022 18:32:13 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91DD8B9491
-        for <linux-usb@vger.kernel.org>; Fri, 18 Nov 2022 15:16:52 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A182EA0
+        for <linux-usb@vger.kernel.org>; Fri, 18 Nov 2022 15:19:56 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA9h-0005Hu-Tt; Fri, 18 Nov 2022 23:48:17 +0100
+        id 1owA9i-0005KB-IM; Fri, 18 Nov 2022 23:48:18 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA9f-0058s6-3D; Fri, 18 Nov 2022 23:48:16 +0100
+        id 1owA9f-0058sQ-Sk; Fri, 18 Nov 2022 23:48:16 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA9f-0000UL-3i; Fri, 18 Nov 2022 23:48:15 +0100
+        id 1owA9f-0000Ud-So; Fri, 18 Nov 2022 23:48:15 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
 To:     Angel Iglesias <ang.iglesiasg@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
         Grant Likely <grant.likely@linaro.org>,
         Wolfram Sang <wsa@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 577/606] usb: typec: anx7411: Convert to i2c's .probe_new()
-Date:   Fri, 18 Nov 2022 23:45:11 +0100
-Message-Id: <20221118224540.619276-578-uwe@kleine-koenig.org>
+Subject: [PATCH 581/606] usb: typec: tcpm/tcpci_maxim: Convert to i2c's .probe_new()
+Date:   Fri, 18 Nov 2022 23:45:15 +0100
+Message-Id: <20221118224540.619276-582-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
@@ -61,32 +62,31 @@ can be trivially converted.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/usb/typec/anx7411.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/usb/typec/tcpm/tcpci_maxim.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/typec/anx7411.c b/drivers/usb/typec/anx7411.c
-index b8f3b75fd7eb..3d5edce270a4 100644
---- a/drivers/usb/typec/anx7411.c
-+++ b/drivers/usb/typec/anx7411.c
-@@ -1440,8 +1440,7 @@ static int anx7411_psy_register(struct anx7411_data *ctx)
- 	return PTR_ERR_OR_ZERO(ctx->psy);
+diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
+index 03f89e6f1a78..83e140ffcc3e 100644
+--- a/drivers/usb/typec/tcpm/tcpci_maxim.c
++++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
+@@ -438,7 +438,7 @@ static int tcpci_init(struct tcpci *tcpci, struct tcpci_data *data)
+ 	return -1;
  }
  
--static int anx7411_i2c_probe(struct i2c_client *client,
--			     const struct i2c_device_id *id)
-+static int anx7411_i2c_probe(struct i2c_client *client)
+-static int max_tcpci_probe(struct i2c_client *client, const struct i2c_device_id *i2c_id)
++static int max_tcpci_probe(struct i2c_client *client)
  {
- 	struct anx7411_data *plat;
- 	struct device *dev = &client->dev;
-@@ -1585,7 +1584,7 @@ static struct i2c_driver anx7411_driver = {
- 		.of_match_table = anx_match_table,
- 		.pm = &anx7411_pm_ops,
+ 	int ret;
+ 	struct max_tcpci_chip *chip;
+@@ -519,7 +519,7 @@ static struct i2c_driver max_tcpci_i2c_driver = {
+ 		.name = "maxtcpc",
+ 		.of_match_table = of_match_ptr(max_tcpci_of_match),
  	},
--	.probe = anx7411_i2c_probe,
-+	.probe_new = anx7411_i2c_probe,
- 	.remove = anx7411_i2c_remove,
- 
- 	.id_table = anx7411_id,
+-	.probe = max_tcpci_probe,
++	.probe_new = max_tcpci_probe,
+ 	.remove = max_tcpci_remove,
+ 	.id_table = max_tcpci_id,
+ };
 -- 
 2.38.1
 
