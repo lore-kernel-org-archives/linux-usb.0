@@ -2,34 +2,34 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 901F3C43217
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Nov 2022 19:02:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D10B6C352A1
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Nov 2022 19:02:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242943AbiKRTC1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Nov 2022 14:02:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35128 "EHLO
+        id S242952AbiKRTC2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Nov 2022 14:02:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242959AbiKRTBx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Nov 2022 14:01:53 -0500
-Received: from mxout3.routing.net (mxout3.routing.net [IPv6:2a03:2900:1:a::8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 091EA2FFFC;
-        Fri, 18 Nov 2022 11:01:39 -0800 (PST)
+        with ESMTP id S242746AbiKRTBw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Nov 2022 14:01:52 -0500
+Received: from mxout2.routing.net (mxout2.routing.net [IPv6:2a03:2900:1:a::b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6DD3218B9;
+        Fri, 18 Nov 2022 11:01:38 -0800 (PST)
 Received: from mxbulk.masterlogin.de (unknown [192.168.10.85])
-        by mxout3.routing.net (Postfix) with ESMTP id 41062604DC;
-        Fri, 18 Nov 2022 19:01:38 +0000 (UTC)
+        by mxout2.routing.net (Postfix) with ESMTP id 6FE836049C;
+        Fri, 18 Nov 2022 19:01:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
-        s=20200217; t=1668798098;
+        s=20200217; t=1668798096;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=rLXaSi0nuYISQNA4/ZZOAgFRiUbo5QoSWGShK+kyzL8=;
-        b=RzpUfc38A2J1HvklQknH14z6OqQdbFlIs+cswd/DJsnTKTaQDBe65Dp0iNk7+Oo57WLr1e
-        KdTjCZ4R5VTq4apKt9ccuiMWk4maCRq8LvhhdmWjGWVx9XMLtOFtXV1yLorZEiFMrOmZnB
-        7KYY0XdG1K0Cfz6bgu1sZ+qrN+7PG4M=
+        bh=46LdQBOByeZuglrOcnrqp2nEUUTk+5YvyMsAuNPulHE=;
+        b=CAxCOxpWvAWCGTh5ZffOzvCq2/ySZWMAFalBqJAmESSJ2nKG6TincnY9WqVhvuQiyw2OMK
+        QFBRs8nxohB4gg7KbtHVEh9ZKEc6Duhk6Ahh1Rz+d8XNFCDCHXEc3v/yJyPicqCj95XqJm
+        GWVB5HCTruNVKQ6qy9BHb4KoB1dDsAI=
 Received: from frank-G5.. (fttx-pool-80.245.77.125.bambit.de [80.245.77.125])
-        by mxbulk.masterlogin.de (Postfix) with ESMTPSA id E1F5C1226BC;
-        Fri, 18 Nov 2022 19:01:37 +0000 (UTC)
+        by mxbulk.masterlogin.de (Postfix) with ESMTPSA id 1B27812271E;
+        Fri, 18 Nov 2022 19:01:36 +0000 (UTC)
 From:   Frank Wunderlich <linux@fw-web.de>
 To:     linux-mediatek@lists.infradead.org
 Cc:     Frank Wunderlich <frank-w@public-files.de>,
@@ -49,12 +49,11 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
-        Sam Shih <sam.shih@mediatek.com>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v6 06/11] arm64: dts: mt7986: add spi related device nodes
-Date:   Fri, 18 Nov 2022 20:01:21 +0100
-Message-Id: <20221118190126.100895-7-linux@fw-web.de>
+Subject: [PATCH v6 01/11] arm64: dts: mt7986: move wed_pcie node
+Date:   Fri, 18 Nov 2022 20:01:16 +0100
+Message-Id: <20221118190126.100895-2-linux@fw-web.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221118190126.100895-1-linux@fw-web.de>
 References: <20221118190126.100895-1-linux@fw-web.de>
@@ -64,164 +63,47 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Sam Shih <sam.shih@mediatek.com>
+From: Frank Wunderlich <frank-w@public-files.de>
 
-This patch adds spi support for MT7986.
+Move the wed_pcie node to have node aligned by address.
 
-Signed-off-by: Sam Shih <sam.shih@mediatek.com>
+Fixes: 00b9903996b3 ("arm64: dts: mediatek: mt7986: add support for Wireless Ethernet Dispatch")
 Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts | 35 ++++++++++++++++++++
- arch/arm64/boot/dts/mediatek/mt7986a.dtsi    | 28 ++++++++++++++++
- arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts | 35 ++++++++++++++++++++
- 3 files changed, 98 insertions(+)
+ arch/arm64/boot/dts/mediatek/mt7986a.dtsi | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts b/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
-index 2f48cc3d3ddb..006878e3f2b2 100644
---- a/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt7986a-rfb.dts
-@@ -59,6 +59,20 @@ switch: switch@0 {
- };
- 
- &pio {
-+	spi_flash_pins: spi-flash-pins {
-+		mux {
-+			function = "spi";
-+			groups = "spi0", "spi0_wp_hold";
-+		};
-+	};
-+
-+	spic_pins: spic-pins {
-+		mux {
-+			function = "spi";
-+			groups = "spi1_2";
-+		};
-+	};
-+
- 	uart1_pins: uart1-pins {
- 		mux {
- 			function = "uart";
-@@ -105,6 +119,27 @@ conf {
- 	};
- };
- 
-+&spi0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spi_flash_pins>;
-+	cs-gpios = <0>, <0>;
-+	status = "okay";
-+	spi_nand: spi_nand@0 {
-+		compatible = "spi-nand";
-+		reg = <0>;
-+		spi-max-frequency = <10000000>;
-+		spi-tx-buswidth = <4>;
-+		spi-rx-buswidth = <4>;
-+	};
-+};
-+
-+&spi1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spic_pins>;
-+	cs-gpios = <0>, <0>;
-+	status = "okay";
-+};
-+
- &switch {
- 	ports {
- 		#address-cells = <1>;
 diff --git a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi b/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
-index afc01abfa99c..29da9b8ed753 100644
+index a22e10e89ab9..afc01abfa99c 100644
 --- a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
 +++ b/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
-@@ -253,6 +253,34 @@ i2c0: i2c@11008000 {
- 			status = "disabled";
+@@ -112,6 +112,12 @@ infracfg: infracfg@10001000 {
+ 			#clock-cells = <1>;
  		};
  
-+		spi0: spi@1100a000 {
-+			compatible = "mediatek,mt7986-spi-ipm", "mediatek,spi-ipm";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0 0x1100a000 0 0x100>;
-+			interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&topckgen CLK_TOP_MPLL_D2>,
-+				 <&topckgen CLK_TOP_SPI_SEL>,
-+				 <&infracfg CLK_INFRA_SPI0_CK>,
-+				 <&infracfg CLK_INFRA_SPI0_HCK_CK>;
-+			clock-names = "parent-clk", "sel-clk", "spi-clk", "hclk";
-+			status = "disabled";
++		wed_pcie: wed-pcie@10003000 {
++			compatible = "mediatek,mt7986-wed-pcie",
++				     "syscon";
++			reg = <0 0x10003000 0 0x10>;
 +		};
 +
-+		spi1: spi@1100b000 {
-+			compatible = "mediatek,mt7986-spi-ipm", "mediatek,spi-ipm";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0 0x1100b000 0 0x100>;
-+			interrupts = <GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&topckgen CLK_TOP_MPLL_D2>,
-+				 <&topckgen CLK_TOP_SPIM_MST_SEL>,
-+				 <&infracfg CLK_INFRA_SPI1_CK>,
-+				 <&infracfg CLK_INFRA_SPI1_HCK_CK>;
-+			clock-names = "parent-clk", "sel-clk", "spi-clk", "hclk";
-+			status = "disabled";
-+		};
-+
- 		ethsys: syscon@15000000 {
- 			 #address-cells = <1>;
- 			 #size-cells = <1>;
-diff --git a/arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts b/arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts
-index 79c5c78f7a14..2c7f1d4fb352 100644
---- a/arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt7986b-rfb.dts
-@@ -100,6 +100,20 @@ fixed-link {
- };
+ 		topckgen: topckgen@1001b000 {
+ 			compatible = "mediatek,mt7986-topckgen", "syscon";
+ 			reg = <0 0x1001B000 0 0x1000>;
+@@ -257,12 +263,6 @@ ethsys: syscon@15000000 {
+ 			 #reset-cells = <1>;
+ 		};
  
- &pio {
-+	spi_flash_pins: spi-flash-pins {
-+		mux {
-+			function = "spi";
-+			groups = "spi0", "spi0_wp_hold";
-+		};
-+	};
-+
-+	spic_pins: spic-pins {
-+		mux {
-+			function = "spi";
-+			groups = "spi1_2";
-+		};
-+	};
-+
- 	wf_2g_5g_pins: wf-2g-5g-pins {
- 		mux {
- 			function = "wifi";
-@@ -132,6 +146,27 @@ conf {
- 	};
- };
- 
-+&spi0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spi_flash_pins>;
-+	cs-gpios = <0>, <0>;
-+	status = "okay";
-+	spi_nand: spi_nand@0 {
-+		compatible = "spi-nand";
-+		reg = <0>;
-+		spi-max-frequency = <10000000>;
-+		spi-tx-buswidth = <4>;
-+		spi-rx-buswidth = <4>;
-+	};
-+};
-+
-+&spi1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spic_pins>;
-+	cs-gpios = <0>, <0>;
-+	status = "okay";
-+};
-+
- &uart0 {
- 	status = "okay";
- };
+-		wed_pcie: wed-pcie@10003000 {
+-			compatible = "mediatek,mt7986-wed-pcie",
+-				     "syscon";
+-			reg = <0 0x10003000 0 0x10>;
+-		};
+-
+ 		wed0: wed@15010000 {
+ 			compatible = "mediatek,mt7986-wed",
+ 				     "syscon";
 -- 
 2.34.1
 
