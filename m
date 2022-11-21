@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBF9EC43217
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Nov 2022 09:25:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B39C4332F
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Nov 2022 09:25:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230202AbiKUJZs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Nov 2022 04:25:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40560 "EHLO
+        id S230209AbiKUJZu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Nov 2022 04:25:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230191AbiKUJZq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Nov 2022 04:25:46 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295078DA78
-        for <linux-usb@vger.kernel.org>; Mon, 21 Nov 2022 01:25:44 -0800 (PST)
+        with ESMTP id S230191AbiKUJZt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Nov 2022 04:25:49 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 035C58F3C2
+        for <linux-usb@vger.kernel.org>; Mon, 21 Nov 2022 01:25:47 -0800 (PST)
 Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2392C13FF;
-        Mon, 21 Nov 2022 10:25:38 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6506A1929;
+        Mon, 21 Nov 2022 10:25:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669022738;
-        bh=M4RUnKIxyhOz/QWC4Ne3ZHQNRWTpH4gOSL0xfbtYq3A=;
+        s=mail; t=1669022739;
+        bh=QiqTDLml8o8JhNkflKyyqaqrHzrPjH/a0fzolPjCV0s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FRLPUTJlYPhLzSgHOogTx+fLtuqvcZeSOAdUWJo4642Um9QYm0RTIlZ5IjAkCebhx
-         WgEfKCIOkQKSJyQfoM7Nqtfk0e7ymlQKPb18i3qDZa/vJo4BGmQnSFXIFTwOWiM8jg
-         Q4bHZ30g5SeHo7mzFG0f9BshVHi1va4M1IJb1T88=
+        b=F1fBogi6GpWd/IRiJv6BtnugcNJZDf6saUxTIWnxXbuLxVKjqKjyX93nFmod5yxJr
+         +QsVkvU9Jk9rWuSFIWM1V440DBN96gRT3dZuwGK56Sis7M1E0t6QCBPmwTmPLFKGJH
+         oTtqY/OymfYZausT5xygWTTPDuXv4JzwVbvAD+o4=
 From:   Daniel Scally <dan.scally@ideasonboard.com>
 To:     linux-usb@vger.kernel.org
 Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
         laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com,
         torleiv@huddly.com, mgr@pengutronix.de,
         Daniel Scally <dan.scally@ideasonboard.com>
-Subject: [PATCH v2 5/9] usb: gadget: uvc: Support arbitrary string descriptors
-Date:   Mon, 21 Nov 2022 09:25:13 +0000
-Message-Id: <20221121092517.225242-6-dan.scally@ideasonboard.com>
+Subject: [PATCH v2 7/9] usb: gadget: uvc: Attach custom string descriptors
+Date:   Mon, 21 Nov 2022 09:25:15 +0000
+Message-Id: <20221121092517.225242-8-dan.scally@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221121092517.225242-1-dan.scally@ideasonboard.com>
 References: <20221121092517.225242-1-dan.scally@ideasonboard.com>
@@ -42,11 +42,9 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently string descriptors for the UVC function are largely hard
-coded. It's not practically possible to support string descriptors
-that describe Extension Units that way, so add a mechanism to the
-configfs tree that allows the definition of arbitrary string
-descriptors.
+Now that we have support for arbitrary string descriptors we need to
+attach them during uvc_function_bind(). Set the iExtension field of
+any Extension Units after the strings have attached.
 
 Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
 ---
@@ -54,449 +52,103 @@ Changes in v2:
 
 	- New patch
 
- .../ABI/testing/configfs-usb-gadget-uvc       |  20 ++
- drivers/usb/gadget/function/f_uvc.c           |   1 +
- drivers/usb/gadget/function/u_uvc.h           |   7 +
- drivers/usb/gadget/function/uvc_configfs.c    | 302 ++++++++++++++++++
- drivers/usb/gadget/function/uvc_configfs.h    |  30 ++
- 5 files changed, 360 insertions(+)
+ drivers/usb/gadget/function/f_uvc.c | 71 ++++++++++++++++++++++++++++-
+ 1 file changed, 70 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-index 045c57e7e245..5faa049ed759 100644
---- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
-+++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-@@ -10,6 +10,26 @@ Description:	UVC function directory
- 		function_name		string [32]
- 		===================	=============================
- 
-+What:		/config/usb-gadget/gadget/functions/uvc.name/strings
-+Date:		Nov 2022
-+KernelVersion:	6.1
-+Description:	String descriptors
-+
-+What:		/config/usb-gadget/gadget/functions/uvc.name/strings/langid
-+Date:		Nov 2022
-+KernelVersion:	6.1
-+Description:	String descriptors for langid (e.g. 0x409)
-+
-+What:		/config/usb-gadget/gadget/functions/uvc.name/strings/langid/name
-+Date:		Nov 2022
-+KernelVersion:	6.1
-+Description:	String descriptor
-+
-+		===================	=============================
-+		id			id of the string descriptor
-+		s			126 character string
-+		===================	=============================
-+
- What:		/config/usb-gadget/gadget/functions/uvc.name/control
- Date:		Dec 2014
- KernelVersion:	4.0
 diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index e0a308f1355c..1b8871a24be8 100644
+index 1b8871a24be8..7821fe8f9120 100644
 --- a/drivers/usb/gadget/function/f_uvc.c
 +++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -912,6 +912,7 @@ static struct usb_function_instance *uvc_alloc_inst(void)
- 		(const struct uvc_descriptor_header * const *)ctl_cls;
- 
- 	INIT_LIST_HEAD(&opts->extension_units);
-+	INIT_LIST_HEAD(&opts->languages);
- 
- 	opts->streaming_interval = 1;
- 	opts->streaming_maxpacket = 1024;
-diff --git a/drivers/usb/gadget/function/u_uvc.h b/drivers/usb/gadget/function/u_uvc.h
-index 5119cfe5ee4e..c1c9ea5931d3 100644
---- a/drivers/usb/gadget/function/u_uvc.h
-+++ b/drivers/usb/gadget/function/u_uvc.h
-@@ -81,6 +81,13 @@ struct f_uvc_opts {
- 	struct uvc_descriptor_header			**uvc_hs_streaming_cls;
- 	struct uvc_descriptor_header			**uvc_ss_streaming_cls;
- 
-+	/*
-+	 * A list of languages, associated with which may be string descriptors
-+	 * for various parts of the gadget, including the IAD and XUs.
-+	 */
-+	struct list_head				languages;
-+	unsigned int					nlangs;
-+
- 	/*
- 	 * Read/write access to configfs attributes is handled by configfs.
- 	 *
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index 0a69eb6cf221..da2f70036993 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -13,6 +13,8 @@
- #include "uvc_configfs.h"
- 
- #include <linux/sort.h>
-+#include <linux/usb/gadget.h>
-+
- 
- /* -----------------------------------------------------------------------------
-  * Global Utility Structures and Macros
-@@ -2824,6 +2826,305 @@ static const struct uvcg_config_group_type uvcg_streaming_grp_type = {
- 	},
- };
- 
-+/* -----------------------------------------------------------------------------
-+ * strings/<langid>
-+ */
-+
-+static ssize_t uvcg_string_id_show(struct config_item *item, char *page)
-+{
-+	struct config_group *group = to_config_group(item->ci_parent);
-+	struct mutex *su_mutex = &group->cg_subsys->su_mutex;
-+	struct uvcg_string *string = to_uvcg_string(item);
-+	struct config_item *opts_item;
-+	struct f_uvc_opts *opts;
-+	int ret;
-+
-+	mutex_lock(su_mutex);
-+
-+	opts_item = item->ci_parent->ci_parent->ci_parent;
-+	opts = to_f_uvc_opts(opts_item);
-+
-+	mutex_lock(&opts->lock);
-+	ret = sprintf(page, "%u\n", string->usb_string.id);
-+	mutex_unlock(&opts->lock);
-+
-+	mutex_unlock(su_mutex);
-+
-+	return ret;
-+}
-+UVC_ATTR_RO(uvcg_string_, id, id);
-+
-+static ssize_t uvcg_string_s_show(struct config_item *item, char *page)
-+{
-+	struct config_group *group = to_config_group(item->ci_parent);
-+	struct mutex *su_mutex = &group->cg_subsys->su_mutex;
-+	struct uvcg_string *string = to_uvcg_string(item);
-+	struct config_item *opts_item;
-+	struct f_uvc_opts *opts;
-+	int ret;
-+
-+	mutex_lock(su_mutex);
-+
-+	opts_item = item->ci_parent->ci_parent->ci_parent;
-+	opts = to_f_uvc_opts(opts_item);
-+
-+	mutex_lock(&opts->lock);
-+	ret = snprintf(page, sizeof(string->string), "%s\n", string->string);
-+	mutex_unlock(&opts->lock);
-+
-+	mutex_unlock(su_mutex);
-+
-+	return ret;
-+}
-+
-+static ssize_t uvcg_string_s_store(struct config_item *item, const char *page,
-+				   size_t len)
-+{
-+	struct config_group *group = to_config_group(item->ci_parent);
-+	struct mutex *su_mutex = &group->cg_subsys->su_mutex;
-+	struct uvcg_string *string = to_uvcg_string(item);
-+	int size = min(sizeof(string->string), len + 1);
-+	struct config_item *opts_item;
-+	struct f_uvc_opts *opts;
-+	int ret;
-+
-+	if (len > USB_MAX_STRING_LEN)
-+		return -EINVAL;
-+
-+	mutex_lock(su_mutex);
-+
-+	opts_item = item->ci_parent->ci_parent->ci_parent;
-+	opts = to_f_uvc_opts(opts_item);
-+
-+	mutex_lock(&opts->lock);
-+	ret = strscpy(string->string, page, size);
-+	mutex_unlock(&opts->lock);
-+
-+	mutex_unlock(su_mutex);
-+
-+	return len;
-+}
-+UVC_ATTR(uvcg_string_, s, s);
-+
-+static struct configfs_attribute *uvcg_string_attrs[] = {
-+	&uvcg_string_attr_id,
-+	&uvcg_string_attr_s,
-+	NULL,
-+};
-+
-+static void uvcg_string_release(struct config_item *item)
-+{
-+	struct uvcg_string *string = to_uvcg_string(item);
-+
-+	kfree(string);
-+}
-+
-+static struct configfs_item_operations uvcg_string_item_ops = {
-+	.release	= uvcg_string_release,
-+};
-+
-+static const struct config_item_type uvcg_string_type = {
-+	.ct_item_ops	= &uvcg_string_item_ops,
-+	.ct_attrs	= uvcg_string_attrs,
-+	.ct_owner	= THIS_MODULE,
-+};
-+
-+static struct config_item *uvcg_string_make(struct config_group *group,
-+					    const char *name)
-+{
-+	struct uvcg_language *language;
-+	struct config_item *opts_item;
-+	struct uvcg_string *string;
-+	struct f_uvc_opts *opts;
-+
-+	language = to_uvcg_language(group);
-+
-+	string = kzalloc(sizeof(*string), GFP_KERNEL);
-+	if (!string)
-+		return ERR_PTR(-ENOMEM);
-+
-+	opts_item = group->cg_item.ci_parent->ci_parent;
-+	opts = to_f_uvc_opts(opts_item);
-+
-+	mutex_lock(&opts->lock);
-+
-+	string->usb_string.id = language->nstrings++;
-+	string->usb_string.s = string->string;
-+	list_add_tail(&string->list, &language->strings);
-+
-+	config_item_init_type_name(&string->item, name, &uvcg_string_type);
-+
-+	mutex_unlock(&opts->lock);
-+
-+	return &string->item;
-+}
-+
-+static void uvcg_string_drop(struct config_group *group, struct config_item *item)
-+{
-+	struct uvcg_language *language;
-+	struct config_item *opts_item;
-+	struct uvcg_string *string;
-+	struct f_uvc_opts *opts;
-+	unsigned int i = 1;
-+
-+	language = to_uvcg_language(group);
-+	string = to_uvcg_string(item);
-+
-+	opts_item = group->cg_item.ci_parent->ci_parent;
-+	opts = to_f_uvc_opts(opts_item);
-+
-+	mutex_lock(&opts->lock);
-+
-+	list_del(&string->list);
-+	language->nstrings--;
-+
-+	/* Reset the ids for the language's strings to guarantee a continuous set */
-+	list_for_each_entry(string, &language->strings, list)
-+		string->usb_string.id = i++;
-+
-+	mutex_unlock(&opts->lock);
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * strings/
-+ */
-+
-+static struct configfs_group_operations uvcg_language_group_ops = {
-+	.make_item	= uvcg_string_make,
-+	.drop_item	= uvcg_string_drop,
-+};
-+
-+static void uvcg_language_release(struct config_item *item)
-+{
-+	struct uvcg_language *language = to_uvcg_language(to_config_group(item));
-+
-+	kfree(language);
-+}
-+
-+static struct configfs_item_operations uvcg_language_item_ops = {
-+	.release	= uvcg_language_release,
-+};
-+
-+/*
-+ * The strings attribute is really a helper for users - having defined some string
-+ * descriptors for this language, actually checking what's set when they're all
-+ * in separate directories would be a bit...suboptimal. This read-only attribute
-+ * gives a summary at language-level.
-+ */
-+static ssize_t uvcg_language_strings_show(struct config_item *item, char *page)
-+{
-+	struct config_group *group = to_config_group(item);
-+	struct uvcg_language *language = to_uvcg_language(group);
-+	struct mutex *su_mutex = &group->cg_subsys->su_mutex;
-+	struct config_item *opts_item;
-+	struct uvcg_string *string;
-+	struct f_uvc_opts *opts;
-+	char *pg = page;
-+	int ret = 0;
-+
-+	mutex_lock(su_mutex);
-+
-+	opts_item = item->ci_parent->ci_parent;
-+	opts = to_f_uvc_opts(opts_item);
-+
-+	mutex_lock(&opts->lock);
-+
-+	list_for_each_entry(string, &language->strings, list) {
-+		ret += sprintf(pg, "%s: %s [%u]\n", string->item.ci_name,
-+			       string->usb_string.s, string->usb_string.id);
-+		pg = page + ret;
-+	}
-+
-+	mutex_unlock(&opts->lock);
-+
-+	mutex_unlock(su_mutex);
-+
-+	return ret;
-+}
-+UVC_ATTR_RO(uvcg_language_, strings, strings);
-+
-+static struct configfs_attribute *uvcg_language_attrs[] = {
-+	&uvcg_language_attr_strings,
-+	NULL
-+};
-+
-+static const struct config_item_type uvcg_language_type = {
-+	.ct_item_ops	= &uvcg_language_item_ops,
-+	.ct_group_ops	= &uvcg_language_group_ops,
-+	.ct_attrs	= uvcg_language_attrs,
-+	.ct_owner	= THIS_MODULE,
-+};
-+
-+static struct config_group *uvcg_language_make(struct config_group *group,
-+					       const char *name)
-+{
-+	struct uvcg_language *language;
-+	struct config_item *opts_item;
-+	struct f_uvc_opts *opts;
-+	int ret;
-+	u16 num;
-+
-+	ret = kstrtou16(name, 0, &num);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	if (!usb_validate_langid(num))
-+		return ERR_PTR(-EINVAL);
-+
-+	language = kzalloc(sizeof(*language), GFP_KERNEL);
-+	if (!language)
-+		return ERR_PTR(-ENOMEM);
-+
-+	opts_item = group->cg_item.ci_parent;
-+	opts = to_f_uvc_opts(opts_item);
-+
-+	mutex_lock(&opts->lock);
-+
-+	language->stringtab.language = num;
-+	list_add_tail(&language->list, &opts->languages);
-+	opts->nlangs++;
-+	INIT_LIST_HEAD(&language->strings);
-+
-+	config_group_init_type_name(&language->group, name, &uvcg_language_type);
-+
-+	mutex_unlock(&opts->lock);
-+
-+	return &language->group;
-+}
-+
-+static void uvcg_language_drop(struct config_group *group, struct config_item *item)
-+{
-+	struct uvcg_language *language;
-+	struct config_item *opts_item;
-+	struct f_uvc_opts *opts;
-+
-+	language = to_uvcg_language(to_config_group(item));
-+
-+	opts_item = group->cg_item.ci_parent;
-+	opts = to_f_uvc_opts(opts_item);
-+
-+	mutex_lock(&opts->lock);
-+
-+	list_del(&language->list);
-+	config_item_put(item);
-+
-+	mutex_unlock(&opts->lock);
-+}
-+
-+static struct configfs_group_operations uvcg_strings_grp_ops = {
-+	.make_group	= uvcg_language_make,
-+	.drop_item	= uvcg_language_drop,
-+};
-+
-+static const struct uvcg_config_group_type uvcg_strings_grp_type = {
-+	.type = {
-+		.ct_item_ops	= &uvcg_config_item_ops,
-+		.ct_group_ops	= &uvcg_strings_grp_ops,
-+		.ct_owner	= THIS_MODULE,
-+	},
-+	.name = "strings",
-+};
-+
- /* -----------------------------------------------------------------------------
-  * UVC function
-  */
-@@ -2951,6 +3252,7 @@ static const struct uvcg_config_group_type uvc_func_type = {
- 	.children = (const struct uvcg_config_group_type*[]) {
- 		&uvcg_control_grp_type,
- 		&uvcg_streaming_grp_type,
-+		&uvcg_strings_grp_type,
- 		NULL,
- 	},
- };
-diff --git a/drivers/usb/gadget/function/uvc_configfs.h b/drivers/usb/gadget/function/uvc_configfs.h
-index c9a4182fb26f..a714426a174a 100644
---- a/drivers/usb/gadget/function/uvc_configfs.h
-+++ b/drivers/usb/gadget/function/uvc_configfs.h
-@@ -13,6 +13,7 @@
- #define UVC_CONFIGFS_H
- 
- #include <linux/configfs.h>
-+#include <linux/usb/gadget.h>
- 
- #include "u_uvc.h"
- 
-@@ -132,6 +133,35 @@ static inline struct uvcg_mjpeg *to_uvcg_mjpeg(struct config_item *item)
- 	return container_of(to_uvcg_format(item), struct uvcg_mjpeg, fmt);
+@@ -622,12 +622,72 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
+ 	return hdr;
  }
  
-+/* -----------------------------------------------------------------------------
-+ * strings/
-+ */
++static struct usb_string *
++uvc_function_attach_usb_strings(struct usb_composite_dev *cdev, struct usb_function *f)
++{
++	struct f_uvc_opts *opts = fi_to_f_uvc_opts(f->fi);
++	struct usb_gadget_strings **gadget_strings;
++	struct uvcg_language *language;
++	struct uvcg_string *string;
++	struct usb_string *us;
++	unsigned int i = 0;
++	int nstrings = -1;
++	unsigned int j;
 +
-+struct uvcg_language {
-+	struct config_group group;
-+	unsigned int nstrings;
-+	struct list_head list;
-+	struct list_head strings;
-+	struct usb_gadget_strings stringtab;
-+};
++	gadget_strings = kcalloc(opts->nlangs + 1, /* including NULL terminator */
++				 sizeof(struct usb_gadget_strings *), GFP_KERNEL);
++	if (!gadget_strings)
++		return ERR_PTR(-ENOMEM);
 +
-+#define to_uvcg_language(language) \
-+container_of(language, struct uvcg_language, group)
++	list_for_each_entry(language, &opts->languages, list) {
++		if (nstrings == -1) {
++			nstrings = language->nstrings;
++		} else if (nstrings != language->nstrings) {
++			uvcg_err(f, "languages must contain the same number of strings\n");
++			us = ERR_PTR(-EINVAL);
++			goto cleanup;
++		}
 +
-+/* -----------------------------------------------------------------------------
-+ * strings/<LANGID>
-+ */
++		language->stringtab.strings = kcalloc(language->nstrings + 1,
++						      sizeof(struct usb_string),
++						      GFP_KERNEL);
++		if (!language->stringtab.strings) {
++			us = ERR_PTR(-ENOMEM);
++			goto cleanup;
++		}
 +
-+struct uvcg_string {
-+	struct config_item item;
-+	struct list_head list;
-+	char string[USB_MAX_STRING_LEN];
-+	struct usb_string usb_string;
-+};
++		j = 0;
++		list_for_each_entry(string, &language->strings, list) {
++			memcpy(&language->stringtab.strings[j], &string->usb_string,
++			       sizeof(struct usb_string));
++			j++;
++		}
 +
-+#define to_uvcg_string(str_item)\
-+container_of(str_item, struct uvcg_string, item)
++		gadget_strings[i] = &language->stringtab;
++		i++;
++	}
 +
- /* -----------------------------------------------------------------------------
-  * control/extensions/<NAME>
-  */
++	us = usb_gstrings_attach(cdev, gadget_strings, nstrings);
++
++cleanup:
++
++	list_for_each_entry(language, &opts->languages, list) {
++		kfree(language->stringtab.strings);
++		language->stringtab.strings = NULL;
++	}
++
++	kfree(gadget_strings);
++
++	return us;
++}
++
+ static int
+ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
+ {
+ 	struct usb_composite_dev *cdev = c->cdev;
+ 	struct uvc_device *uvc = to_uvc(f);
+-	struct usb_string *us;
++	struct uvcg_extension *xu;
++	struct usb_string *us, *cus;
+ 	unsigned int max_packet_mult;
+ 	unsigned int max_packet_size;
+ 	struct usb_ep *ep;
+@@ -715,6 +775,15 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
+ 	uvc_hs_streaming_ep.bEndpointAddress = uvc->video.ep->address;
+ 	uvc_ss_streaming_ep.bEndpointAddress = uvc->video.ep->address;
+ 
++	cus = uvc_function_attach_usb_strings(cdev, f);
++	if (IS_ERR(cus)) {
++		ret = PTR_ERR(cus);
++		goto error;
++	}
++
++	list_for_each_entry(xu, &opts->extension_units, list)
++		xu->desc.iExtension = cus[xu->string_descriptor_index].id;
++
+ 	uvc_en_us_strings[UVC_STRING_CONTROL_IDX].s = opts->function_name;
+ 	us = usb_gstrings_attach(cdev, uvc_function_strings,
+ 				 ARRAY_SIZE(uvc_en_us_strings));
 -- 
 2.34.1
 
