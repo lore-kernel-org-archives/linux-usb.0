@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F294DC433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Nov 2022 09:25:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26EF8C4332F
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Nov 2022 09:25:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230193AbiKUJZq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Nov 2022 04:25:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40538 "EHLO
+        id S230201AbiKUJZs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Nov 2022 04:25:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230191AbiKUJZo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Nov 2022 04:25:44 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19DF927DC0
-        for <linux-usb@vger.kernel.org>; Mon, 21 Nov 2022 01:25:43 -0800 (PST)
+        with ESMTP id S230197AbiKUJZq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Nov 2022 04:25:46 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44EB427DE4
+        for <linux-usb@vger.kernel.org>; Mon, 21 Nov 2022 01:25:45 -0800 (PST)
 Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A4111221;
-        Mon, 21 Nov 2022 10:25:37 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BFADD1905;
+        Mon, 21 Nov 2022 10:25:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669022737;
-        bh=Dt5JT/JR5B1p0r4QWKNtKfzx30qHivKh1ksLo73KsvU=;
+        s=mail; t=1669022739;
+        bh=28K8LD+f0JZGAxJz0Tf5aEHpV0AcAjYiab70NsIvnbY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kUOT+xd5amhR1hex0aGjIZRhrZ+4u1Bh/78y43lLFDdmcu413D4f43kGnTA5OHDaf
-         y9QG+jWznULozj4CArhu9pecQMy4fpp69/zPMUDldkHvuggbKdpKgsmRojH1Vzb/1i
-         z8rJBYJI0nSKkD11rIiHZNrxBKDWxvSjqM/rQVV0=
+        b=cB3ph/tjBIrTRmuqZpxGQ55HWxVSVGKefYwgJkia6Gqa5ZxB+D9JdnIM0IQxduf5v
+         5LLZ4oEKaL1eNtxEQCp37+WMeJMsLQjq4oSFNh3/vFmMJS+SPiyNG5MAsJIRdzet0r
+         p00VZeu5tRShNq/CZKojhgDgt5Dls3ppvoPKiss0=
 From:   Daniel Scally <dan.scally@ideasonboard.com>
 To:     linux-usb@vger.kernel.org
 Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
         laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com,
         torleiv@huddly.com, mgr@pengutronix.de,
         Daniel Scally <dan.scally@ideasonboard.com>
-Subject: [PATCH v2 4/9] usb: gadget: uvc: Copy XU descriptors during .bind()
-Date:   Mon, 21 Nov 2022 09:25:12 +0000
-Message-Id: <20221121092517.225242-5-dan.scally@ideasonboard.com>
+Subject: [PATCH v2 6/9] usb: gadget: uvc: Allow linking XUs to string descriptors
+Date:   Mon, 21 Nov 2022 09:25:14 +0000
+Message-Id: <20221121092517.225242-7-dan.scally@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221121092517.225242-1-dan.scally@ideasonboard.com>
 References: <20221121092517.225242-1-dan.scally@ideasonboard.com>
@@ -42,106 +42,104 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Now that extension unit support is available through configfs we need
-to copy the descriptors for the XUs during uvc_function_bind() so that
-they're exposed to the usb subsystem.
+Add .allow_link() and .drop_link() callbacks to allow users to link
+an extension unit descriptor to a string descriptor.
 
 Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
 ---
 Changes in v2:
 
-	- none
+	- New patch
 
- drivers/usb/gadget/function/f_uvc.c | 35 +++++++++++++++++++++++++++++
- drivers/usb/gadget/function/uvc.h   |  1 +
- 2 files changed, 36 insertions(+)
+ drivers/usb/gadget/function/uvc_configfs.c | 60 ++++++++++++++++++++++
+ drivers/usb/gadget/function/uvc_configfs.h |  1 +
+ 2 files changed, 61 insertions(+)
 
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index eca5f36dfa74..e0a308f1355c 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -464,6 +464,25 @@ uvc_register_video(struct uvc_device *uvc)
- 		} \
- 	} while (0)
+diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
+index da2f70036993..5c51862150c4 100644
+--- a/drivers/usb/gadget/function/uvc_configfs.c
++++ b/drivers/usb/gadget/function/uvc_configfs.c
+@@ -1053,8 +1053,68 @@ static void uvcg_extension_release(struct config_item *item)
+ 	kfree(xu);
+ }
  
-+#define UVC_COPY_XU_DESCRIPTOR(mem, dst, desc)					\
-+	do {									\
-+		*(dst)++ = mem;							\
-+		memcpy(mem, desc, 22); /* bLength to bNrInPins */		\
-+		mem += 22;							\
-+										\
-+		memcpy(mem, desc->baSourceID, desc->bNrInPins);			\
-+		mem += desc->bNrInPins;						\
-+										\
-+		memcpy(mem, &desc->bControlSize, 1);				\
-+		mem++;								\
-+										\
-+		memcpy(mem, desc->bmControls, desc->bControlSize);		\
-+		mem += desc->bControlSize;					\
-+										\
-+		memcpy(mem, &desc->iExtension, 1);				\
-+		mem++;								\
-+	} while (0)
++static int uvcg_extension_allow_link(struct config_item *src, struct config_item *tgt)
++{
++	struct mutex *su_mutex = &src->ci_group->cg_subsys->su_mutex;
++	struct uvcg_extension *xu = to_uvcg_extension(src);
++	struct config_item *strings;
++	struct uvcg_string *string;
++	struct config_item *opts_item;
++	struct f_uvc_opts *opts;
++	int ret = 0;
 +
- static struct usb_descriptor_header **
- uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
- {
-@@ -475,6 +494,7 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
- 	const struct usb_descriptor_header * const *src;
- 	struct usb_descriptor_header **dst;
- 	struct usb_descriptor_header **hdr;
-+	struct uvcg_extension *xu;
- 	unsigned int control_size;
- 	unsigned int streaming_size;
- 	unsigned int n_desc;
-@@ -539,6 +559,13 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
- 		bytes += (*src)->bLength;
- 		n_desc++;
- 	}
++	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
 +
-+	list_for_each_entry(xu, uvc->desc.extension_units, list) {
-+		control_size += xu->desc.bLength;
-+		bytes += xu->desc.bLength;
-+		n_desc++;
++	/* Validate that the target of the link is an entry in strings/<langid> */
++	opts_item = src->ci_parent->ci_parent->ci_parent;
++
++	strings = config_group_find_item(to_config_group(opts_item), "strings");
++	if (!strings || tgt->ci_parent->ci_parent != strings) {
++		ret = -EINVAL;
++		goto put_strings;
 +	}
 +
- 	for (src = (const struct usb_descriptor_header **)uvc_streaming_cls;
- 	     *src; ++src) {
- 		streaming_size += (*src)->bLength;
-@@ -565,6 +592,13 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
- 	uvc_control_header = mem;
- 	UVC_COPY_DESCRIPTORS(mem, dst,
- 		(const struct usb_descriptor_header **)uvc_control_desc);
++	string = to_uvcg_string(tgt);
++	opts = to_f_uvc_opts(opts_item);
 +
-+	list_for_each_entry(xu, uvc->desc.extension_units, list) {
-+		struct uvcg_extension_unit_descriptor *desc = &xu->desc;
++	mutex_lock(&opts->lock);
 +
-+		UVC_COPY_XU_DESCRIPTOR(mem, dst, desc);
-+	}
++	xu->string_descriptor_index = string->usb_string.id;
 +
- 	uvc_control_header->wTotalLength = cpu_to_le16(control_size);
- 	uvc_control_header->bInCollection = 1;
- 	uvc_control_header->baInterfaceNr[0] = uvc->streaming_intf;
-@@ -988,6 +1022,7 @@ static struct usb_function *uvc_alloc(struct usb_function_instance *fi)
- 	uvc->desc.fs_streaming = opts->fs_streaming;
- 	uvc->desc.hs_streaming = opts->hs_streaming;
- 	uvc->desc.ss_streaming = opts->ss_streaming;
-+	uvc->desc.extension_units = &opts->extension_units;
++	mutex_unlock(&opts->lock);
++
++put_strings:
++	config_item_put(strings);
++	mutex_unlock(su_mutex);
++
++	return ret;
++}
++
++static void uvcg_extension_drop_link(struct config_item *src, struct config_item *tgt)
++{
++	struct mutex *su_mutex = &src->ci_group->cg_subsys->su_mutex;
++	struct uvcg_extension *xu = to_uvcg_extension(src);
++	struct config_item *opts_item;
++	struct f_uvc_opts *opts;
++
++	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
++
++	opts_item = src->ci_parent->ci_parent->ci_parent;
++	opts = to_f_uvc_opts(opts_item);
++
++	mutex_lock(&opts->lock);
++
++	xu->string_descriptor_index = 0;
++
++	mutex_unlock(&opts->lock);
++
++	mutex_unlock(su_mutex);
++}
++
+ static struct configfs_item_operations uvcg_extension_item_ops = {
+ 	.release	= uvcg_extension_release,
++	.allow_link	= uvcg_extension_allow_link,
++	.drop_link	= uvcg_extension_drop_link,
+ };
  
- 	streaming = config_group_find_item(&opts->func_inst.group, "streaming");
- 	if (!streaming)
-diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index 40226b1f7e14..f1a016d20bb6 100644
---- a/drivers/usb/gadget/function/uvc.h
-+++ b/drivers/usb/gadget/function/uvc.h
-@@ -143,6 +143,7 @@ struct uvc_device {
- 		const struct uvc_descriptor_header * const *fs_streaming;
- 		const struct uvc_descriptor_header * const *hs_streaming;
- 		const struct uvc_descriptor_header * const *ss_streaming;
-+		struct list_head *extension_units;
- 	} desc;
+ static const struct config_item_type uvcg_extension_type = {
+diff --git a/drivers/usb/gadget/function/uvc_configfs.h b/drivers/usb/gadget/function/uvc_configfs.h
+index a714426a174a..e1308026aed6 100644
+--- a/drivers/usb/gadget/function/uvc_configfs.h
++++ b/drivers/usb/gadget/function/uvc_configfs.h
+@@ -183,6 +183,7 @@ struct uvcg_extension_unit_descriptor {
+ struct uvcg_extension {
+ 	struct config_item item;
+ 	struct list_head list;
++	u8 string_descriptor_index;
+ 	struct uvcg_extension_unit_descriptor desc;
+ };
  
- 	unsigned int control_intf;
 -- 
 2.34.1
 
