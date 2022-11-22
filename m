@@ -2,115 +2,152 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 159F2C433FE
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Nov 2022 09:02:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73120C43219
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Nov 2022 09:07:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233024AbiKVJCl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Nov 2022 04:02:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35118 "EHLO
+        id S233194AbiKVJH0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Nov 2022 04:07:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233019AbiKVJCe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Nov 2022 04:02:34 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4825239E
-        for <linux-usb@vger.kernel.org>; Tue, 22 Nov 2022 01:02:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669107752; x=1700643752;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9lYdUS0fcH0AFppWnWjU+TBzBUS1lFO4GIGgF2G6wWU=;
-  b=bYqOGed6dHMwxvFQ+0uNer2XfDsOlsF+uloLx+wEe50N8ObEO5k/5E8V
-   74BUdXOc4rN952o4yfF8S/omQk7CgZZAj5+NVdtsgfCz9u64T3Rz7wJiT
-   5eGf/ELnp0TzSZwcoCMSBK5sS0FFjAkTaz0AAqWRLCvMcOoTwsuvLByfo
-   bXO9Q6SL9War+MPKe1MLnXo8VnVCvQe4mP4q5JhNwAV0p2776bSuXO2/i
-   tTsuOXEEKKaVY/ppPiQ01U9TBWBD0EKKWZO/owD4tCldC3IxEqB0mfZcR
-   kKchrVG785ZEaDbr0Q6oB4h0gdXC9LD3WWm6tv8hK6aOebkhb0O+dX13h
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="297125817"
-X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; 
-   d="scan'208";a="297125817"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2022 01:02:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="783775399"
-X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; 
-   d="scan'208";a="783775399"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 22 Nov 2022 01:02:20 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 22 Nov 2022 11:02:19 +0200
-Date:   Tue, 22 Nov 2022 11:02:19 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     gregkh@linuxfoundation.org, chunfeng.yun@mediatek.com,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3] usb: roles: fix of node refcount leak in
- usb_role_switch_is_parent()
-Message-ID: <Y3yQG+vwB7p9Msul@kuha.fi.intel.com>
-References: <20221121144620.4059019-1-yangyingliang@huawei.com>
- <Y3yJYXBKgwD1fmCg@kuha.fi.intel.com>
- <3dca37e7-a8d7-eaaa-384b-c70d88aee934@huawei.com>
+        with ESMTP id S233151AbiKVJHQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Nov 2022 04:07:16 -0500
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F9C345ECE;
+        Tue, 22 Nov 2022 01:07:12 -0800 (PST)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 4ABDD20020;
+        Tue, 22 Nov 2022 09:07:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1669108030;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6Dz9Z+NGn0lP9RbIYv43VrueImmxYaOjVbuyx5C9qq4=;
+        b=UEO3XOz82Lnuu6MKsFKK2Eg38zIJFP7P2/65MotSeCr7EDM545DwJTe9TFRch/FYY/maNR
+        TemkYuWp/M16uAQ0dKjNIpYMJZcYwPL6GoxHzmUPXbCWdgmoaRLovylhneNMQwOermC6P+
+        gpsPElqwP4NraCNdlmMAxfL7r31pfc41tSFlBXNXHO0N4lJofh/HgibuTnzlxpMiaWj39S
+        J3I//MbJTZQ1ph7BhRUHTHj1IvmQGDpYDOoWwnH0JZzsPhPEkyI9D0IGRGrCWr46OoSolU
+        0lvF2BoZVjYRzBFUnabESwT3ADRfDnYkpoc1yZjAOtkGoZGXHTBMcOUeZMMr+A==
+Date:   Tue, 22 Nov 2022 10:07:06 +0100
+From:   Herve Codina <herve.codina@bootlin.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 2/7] dt-bindings: clock: renesas,r9a06g032-sysctrl:
+ Add h2mode property
+Message-ID: <20221122100706.739cec4d@bootlin.com>
+In-Reply-To: <191a7f3e-0733-8058-5829-fe170a06dd5a@linaro.org>
+References: <20221114111513.1436165-1-herve.codina@bootlin.com>
+        <20221114111513.1436165-3-herve.codina@bootlin.com>
+        <a1a7fdf4-2608-d6c9-7c7a-f8e8fae3a742@linaro.org>
+        <c9a77262-f137-21d9-58af-eb4efb8aadbf@linaro.org>
+        <20221115150417.513955a7@bootlin.com>
+        <20221118112349.7f09eefb@bootlin.com>
+        <d9bd5075-9d06-888d-36a9-911e2d7ec5af@linaro.org>
+        <20221121165921.559d6538@bootlin.com>
+        <4e54bfb4-bb67-73b8-f58f-56797c5925d3@linaro.org>
+        <CAMuHMdU=-ZUzHSb0Z8P3wsLK9cgGVCPdMi6AcjTH23tUQEeEBA@mail.gmail.com>
+        <a3e1332e-fc15-8a78-0ddd-6d5b26197f11@linaro.org>
+        <CAMuHMdXzqZB4sKMmroriq5oPp7z=yXiHk=+eQKwSyPhNbYqgYA@mail.gmail.com>
+        <1f12883b-1e37-7f2b-f9e9-c8bad290a133@linaro.org>
+        <CAMuHMdVbzg8y2So+A=z8nUwHMoL+XKUrvoXp9QdbCnUve1_Atw@mail.gmail.com>
+        <191a7f3e-0733-8058-5829-fe170a06dd5a@linaro.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3dca37e7-a8d7-eaaa-384b-c70d88aee934@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Nov 22, 2022 at 04:47:00PM +0800, Yang Yingliang wrote:
-> 
-> On 2022/11/22 16:33, Heikki Krogerus wrote:
-> > Hi,
-> > 
-> > On Mon, Nov 21, 2022 at 10:46:20PM +0800, Yang Yingliang wrote:
-> > > I got the following report while doing device(mt6370-tcpc) load
-> > > test with CONFIG_OF_UNITTEST and CONFIG_OF_DYNAMIC enabled:
-> > > 
-> > >    OF: ERROR: memory leak, expected refcount 1 instead of 2,
-> > >    of_node_get()/of_node_put() unbalanced - destroy cset entry:
-> > >    attach overlay node /i2c/pmic@34
-> > > 
-> > > The 'parent' returned by fwnode_get_parent() with refcount incremented.
-> > > it needs be put after using.
-> > > 
-> > > Fixes: 6fadd72943b8 ("usb: roles: get usb-role-switch from parent")
-> > > Suggested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > That's not the appropriate tag in this case. I have not suggested
-> > this patch.
-> > 
-> > > Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> > > ---
-> > > v2 -> v3:
-> > >    Remove not needed null pointer check.
-> > > 
-> > > v1 -> v2:
-> > >    Add description to how is the report generated.
-> > > ---
-> > >   drivers/usb/roles/class.c | 5 ++++-
-> > >   1 file changed, 4 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-> > > index dfaed7eee94f..0650295f261c 100644
-> > > --- a/drivers/usb/roles/class.c
-> > > +++ b/drivers/usb/roles/class.c
-> > > @@ -106,10 +106,13 @@ usb_role_switch_is_parent(struct fwnode_handle *fwnode)
-> > >   	struct fwnode_handle *parent = fwnode_get_parent(fwnode);
-> > >   	struct device *dev;
-> > > -	if (!parent || !fwnode_property_present(parent, "usb-role-switch"))
-> > > +	if (!parent || !fwnode_property_present(parent, "usb-role-switch")) {
-> > Please change that as well like I proposed earlier:
-> > 
-> > 	if (!fwnode_property_present(parent, "usb-role-switch")) {
-> > 
-> > You don't need to check the parent separately.
-> Yes, fwnode_property_present() has already checked the parent, the parent
-> check can be removed.
-> Need I add your suggest tag when I send v4 to change it as above.
+On Tue, 22 Nov 2022 09:42:48 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-No. I still have not suggested this patch. I've only commented it.
+> On 22/11/2022 09:25, Geert Uytterhoeven wrote:
+> > Hi Krzysztof,
+> >=20
+> > On Tue, Nov 22, 2022 at 8:45 AM Krzysztof Kozlowski
+> > <krzysztof.kozlowski@linaro.org> wrote: =20
+> >> On 21/11/2022 21:46, Geert Uytterhoeven wrote: =20
+> >>>> This does not change anything. Herve wrote:
+> >>>> =20
+> >>>>> probe some devices (USB host and probably others) =20
+> >>>>
+> >>>> Why some can be probed earlier and some not, if there are no
+> >>>> dependencies? If there are dependencies, it's the same case with sys=
+ctrl
+> >>>> touching the register bit and the USB controller touching it (as well
+> >>>> via syscon, but that's obvious, I assume).
+> >>>>
+> >>>> Where is the synchronization problem? =20
+> >>>
+> >>> The h2mode bit (and probably a few other controls we haven't figured =
+out
+> >>> yet) in the sysctrl must be set before any of the USB devices is acti=
+ve.
+> >>> Hence it's safest for the sysctrl to do this before any of the USB dr=
+ivers
+> >>> probes. =20
+> >>
+> >> Again, this does not differ from many, many of other devices. All of
+> >> them must set something in system controller block, before they start
+> >> operating (or at specific time). It's exactly the same everywhere. =20
+> >=20
+> > The issue here is that there are two _different drivers_ (USB host
+> > and device). When both are modular, and the driver that depends on the
+> > sysctrl setting is loaded second, you have a problem: the sysctrl change
+> > must not be done when the first driver is already using the hardware.
+> >=20
+> > Hence the sysctrl driver should take care of it itself during early
+> > initialization (it's the main clock controller, so it's a dependency
+> > for all other I/O device drivers). =20
+>=20
+> I assumed you have there bit for the first device (which can switch
+> between USB host and USB device) to choose appropriate mode. The
+> bindings also expressed this - "the USBs are". Never said anything about
+> dependency between these USBs.
+>=20
+> Are you saying that the mode for first device cannot be changed once the
+> second device (which is only host) is started? IOW, the mode setup must
+> happen before any of these devices are started?
+>=20
+> Anyway with sysctrl approach you will have dependency and you cannot
+> rely on clock provider-consumer relationship to order that dependency.
+> What if you make all clocks on and do not take any clocks in USB device?
+> Broken dependency. What if you want to use this in a different SoC,
+> where the sysctrl does not provide clocks? Broken dependency.
 
-thanks,
+The issue is really related to the Renesas sysctrl itself and not related
+to the USB drivers themselves.
+=46rom the drivers themselves, the issue is not seen (I mean the driver
+takes no specific action related to this issue).
+If we change the SOC, the issue will probably not exist anymore.
 
--- 
-heikki
+>=20
+> You have here in such case parent-child dependency, not
+> provider-consumer. Just like for all serial-protocol engines (I2C/UART/SP=
+I).
+>=20
+> Best regards,
+> Krzysztof
+>=20
+
+
+
+--=20
+Herv=C3=A9 Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
