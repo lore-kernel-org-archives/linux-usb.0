@@ -2,142 +2,144 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F58C433FE
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Nov 2022 14:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7FC1C433FE
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Nov 2022 14:53:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237411AbiKWOtY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Nov 2022 09:49:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49608 "EHLO
+        id S238126AbiKWOxZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Nov 2022 09:53:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237580AbiKWOtQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Nov 2022 09:49:16 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 264306CA12;
-        Wed, 23 Nov 2022 06:49:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669214954; x=1700750954;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6CaDzmwprgLasCtAjji0nqGgQ6qOSWdVD2cInwSVDOE=;
-  b=P5vnlveyz4nNZzzJ/MQgHJOvUpWYDjlnFsFExWsTsy6GUdHXkeKoAozL
-   HHjGuw8LcB+1tJhgjjIyuA/Ga9cYu0WrUnYFKVe8nqL4sRrsqIoa/rK0H
-   5OvoW2/4SPLObauGFQ6GP7yk6CsgQQ7bhzNFDrvL2SiD40R8n9R5Njoqt
-   z2/kONs+QEIJFJSWXI0C59K+/yh50Dd+isUyAjKk3dMqkSamd2ZE/hkUC
-   HcuxWmZBxZ4US64jL6y9RH0m+LOjsjwRqUQJWAiXPKGU3cgk3QHRmFbNb
-   IfDFRcWi3I2jh14eMRKClfpxMuBfTdSJbvGwatRrnH51rq/4qLP74AMlL
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="376225212"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; 
-   d="scan'208";a="376225212"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2022 06:48:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="635936973"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; 
-   d="scan'208";a="635936973"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga007.jf.intel.com with ESMTP; 23 Nov 2022 06:48:37 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 80918128; Wed, 23 Nov 2022 16:49:03 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Jakob Koschel <jakobkoschel@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        with ESMTP id S237907AbiKWOxN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Nov 2022 09:53:13 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7E471EEF2;
+        Wed, 23 Nov 2022 06:53:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=d34IWNksyN/fUaMdJSyNyFr5/NYJSUamcGjA6pAMtuA=; b=caDYBku0DlKozdr16VvQx2Pf47
+        2FemMLhC3IcrPQOUzURzAZnbhstHNQck3oc9tp/PXObEiBO1MfrwTzqTVM4sWneDrW/0ivZt02rfR
+        GJ97qbtKp6invRyg7JlLsZYl3ZG3vWExlD7hzk57S+mKdQTrPuVtfzCSbDoVVJ8FxhHKtoRSJ0jtU
+        XYB3KakhM7UNmV0lB+Oflj6FYMkeTc2cxN2tMw87mvmQsXCHH2Ve1EXgve0TduL0q7RtvwUTii1c5
+        R8WonwObHfVSic7ZLMDFLvXv3RjVaPGgy5xWCwSrWbCPm+c1AWWTPP+4n4zTi5sjodPbwnBYZMh7x
+        2Km029GQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oxr7T-007j3f-RC; Wed, 23 Nov 2022 14:53:00 +0000
+Date:   Wed, 23 Nov 2022 14:52:59 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kevin Cernekee <cernekee@gmail.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
+        linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Wolfram Sang <wsa@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
-        Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v4 1/4] i915: Move list_count() to list.h for broader use
-Date:   Wed, 23 Nov 2022 16:48:58 +0200
-Message-Id: <20221123144901.40493-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
+        Mark Gross <markgross@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Ming Lei <ming.lei@redhat.com>,
+        Jilin Yuan <yuanjilin@cdjrlc.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 3/5] driver core: make struct device_type.uevent() take a
+ const *
+Message-ID: <Y34zyzdbRUdyOSkA@casper.infradead.org>
+References: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
+ <20221123122523.1332370-3-gregkh@linuxfoundation.org>
+ <711d5275-7e80-c00d-0cdc-0f3d52175361@gmail.com>
+ <Y34hgIW8p1RlQTBB@smile.fi.intel.com>
+ <97be39ed-3cea-d55a-caa6-c2652baef399@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <97be39ed-3cea-d55a-caa6-c2652baef399@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some of the existing users, and definitely will be new ones, want to
-count existing nodes in the list. Provide a generic API for that by
-moving code from i915 to list.h.
+On Wed, Nov 23, 2022 at 02:59:00PM +0100, Maximilian Luz wrote:
+> On 11/23/22 14:34, Andy Shevchenko wrote:
+> > On Wed, Nov 23, 2022 at 02:14:31PM +0100, Maximilian Luz wrote:
+> > > On 11/23/22 13:25, Greg Kroah-Hartman wrote:
+> > > > The uevent() callback in struct device_type should not be modifying the
+> > > > device that is passed into it, so mark it as a const * and propagate the
+> > > > function signature changes out into all relevant subsystems that use
+> > > > this callback.
+> > 
+> > [...]
+> > 
+> > > > -static inline struct ssam_device *to_ssam_device(struct device *d)
+> > > > +static inline struct ssam_device *to_ssam_device(const struct device *d)
+> > > >    {
+> > > >    	return container_of(d, struct ssam_device, dev);
+> > > >    }
+> > > 
+> > > I am slightly conflicted about this change as that now more or less
+> > > implicitly drops the const. So I'm wondering if it wouldn't be better to
+> > > either create a function specifically for const pointers or to just
+> > > open-code it in the instance above.
+> > > 
+> > > I guess we could also convert this to a macro. Then at least there
+> > > wouldn't be an explicit and potentially misleading const-conversion
+> > > indicated in the function signature.
+> > 
+> > This is an intermediate step as far as I know since moving container_of to
+> > recognize const is a bit noisy right now. I guess you can find a discussion
+> > on the topic between Greg and Sakari.
+> 
+> Thanks! I assume you are referring to the following?
+> 
+> 	https://lore.kernel.org/lkml/4218173bd72b4f1899d4c41a8e251f0d@AcuMS.aculab.com/T/
+> 
+> As far as I can tell this is only a warning in documentation, not
+> compile time (which would probably be impossible?).
+> 
+> As I've said I'd be fine with converting the function to a macro (and
+> preferably adding a similar warning like the one proposed in that
+> thread). The point that irks me up is just that, as proposed, the
+> function signature would now advertise a conversion that should never be
+> happening.
+> 
+> Having two separate functions would create a compile-time guarantee, so
+> I'd prefer that, but I can understand if that might be considered too
+> noisy in code. Or if there is a push to make container_of() emit a
+> compile-time warning I'd also be perfectly happy with converting it to a
+> macro now as that'd alleviate the need for functions in the future.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
----
-v4: fixed prototype when converting to static inline
-v3: added tag (Jani), changed to be static inline (Mike)
-v2: dropped the duplicate code in i915 (LKP)
- drivers/gpu/drm/i915/gt/intel_engine_cs.c | 13 +------------
- include/linux/list.h                      | 15 +++++++++++++++
- 2 files changed, 16 insertions(+), 12 deletions(-)
+Can't we do:
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index c33e0d72d670..b96c8217743c 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -2094,17 +2094,6 @@ static void print_request_ring(struct drm_printer *m, struct i915_request *rq)
- 	}
- }
- 
--static unsigned long list_count(struct list_head *list)
--{
--	struct list_head *pos;
--	unsigned long count = 0;
--
--	list_for_each(pos, list)
--		count++;
--
--	return count;
--}
--
- static unsigned long read_ul(void *p, size_t x)
- {
- 	return *(unsigned long *)(p + x);
-@@ -2279,7 +2268,7 @@ void intel_engine_dump(struct intel_engine_cs *engine,
- 	spin_lock_irqsave(&engine->sched_engine->lock, flags);
- 	engine_dump_active_requests(engine, m);
- 
--	drm_printf(m, "\tOn hold?: %lu\n",
-+	drm_printf(m, "\tOn hold?: %zu\n",
- 		   list_count(&engine->sched_engine->hold));
- 	spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
- 
-diff --git a/include/linux/list.h b/include/linux/list.h
-index 61762054b4be..632a298c7018 100644
---- a/include/linux/list.h
-+++ b/include/linux/list.h
-@@ -655,6 +655,21 @@ static inline void list_splice_tail_init(struct list_head *list,
- 	     !list_is_head(pos, (head)); \
- 	     pos = n, n = pos->prev)
- 
-+/**
-+ * list_count - count nodes in the list
-+ * @head:	the head for your list.
-+ */
-+static inline size_t list_count(struct list_head *head)
-+{
-+	struct list_head *pos;
-+	size_t count = 0;
-+
-+	list_for_each(pos, head)
-+		count++;
-+
-+	return count;
-+}
-+
- /**
-  * list_entry_is_head - test if the entry points to the head of the list
-  * @pos:	the type * to cursor
--- 
-2.35.1
+static inline const struct ssam_device *to_ssam_device(const struct device *d)
+{
+	return container_of(d, const struct ssam_device, dev);
+}
 
