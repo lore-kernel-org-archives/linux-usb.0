@@ -2,82 +2,70 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45BEAC46467
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Nov 2022 10:42:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36F2BC4321E
+	for <linux-usb@archiver.kernel.org>; Sat, 26 Nov 2022 14:15:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbiKZKmW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 26 Nov 2022 05:42:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58700 "EHLO
+        id S229489AbiKZOP3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 26 Nov 2022 09:15:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiKZKmV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 26 Nov 2022 05:42:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE3AB1E723
-        for <linux-usb@vger.kernel.org>; Sat, 26 Nov 2022 02:42:19 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8B07460A5C
-        for <linux-usb@vger.kernel.org>; Sat, 26 Nov 2022 10:42:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 898CDC433D6;
-        Sat, 26 Nov 2022 10:42:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1669459339;
-        bh=Am4kvXRVZ6pRKQ8wFgTqG4Ro1Obhe/Y4VpooYwjIvxs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IOJe8BJSGG3/MIHUYAoDH8bUqW1IGR5JH/7jnfaAnK2zIe5ewCSfzsDpswDV8DV78
-         CsV4TpXqw4BOtH+jm9fKmeXAhoLqnVQu4cHm5ZW5PluUSVuYNDuzXDIvv6obIQP8YT
-         VbzLeFAymGe2G/X5vJ7gnpXsVzfd6hcN1D1UCHGw=
-Date:   Sat, 26 Nov 2022 08:10:07 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Alex Henrie <alexh@vpitech.com>
-Cc:     linux-usb@vger.kernel.org, johan@kernel.org,
-        johanna.abrahamsson@afconsult.com, alexhenrie24@gmail.com
-Subject: Re: [PATCH] USB: serial: cp210x: map B0 to B9600
-Message-ID: <Y4G7z0fa7W/qseqw@kroah.com>
-References: <20221126035825.6991-1-alexh@vpitech.com>
+        with ESMTP id S229436AbiKZOP2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 26 Nov 2022 09:15:28 -0500
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F7A61D30B
+        for <linux-usb@vger.kernel.org>; Sat, 26 Nov 2022 06:15:27 -0800 (PST)
+Received: from canpemm500010.china.huawei.com (unknown [172.30.72.57])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NKDJV3cFTzRpLZ;
+        Sat, 26 Nov 2022 22:14:50 +0800 (CST)
+Received: from localhost.localdomain (10.175.112.70) by
+ canpemm500010.china.huawei.com (7.192.105.118) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Sat, 26 Nov 2022 22:15:24 +0800
+From:   Wang Yufen <wangyufen@huawei.com>
+To:     <b-liu@ti.com>, <gregkh@linuxfoundation.org>,
+        <lgirdwood@gmail.com>, <broonie@kernel.org>
+CC:     <linux-usb@vger.kernel.org>, <abailon@baylibre.com>,
+        Wang Yufen <wangyufen@huawei.com>
+Subject: [PATCH] usb: musb: fix error return code in da8xx_musb_init()
+Date:   Sat, 26 Nov 2022 22:35:32 +0800
+Message-ID: <1669473332-14165-1-git-send-email-wangyufen@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221126035825.6991-1-alexh@vpitech.com>
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.70]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ canpemm500010.china.huawei.com (7.192.105.118)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Nov 25, 2022 at 08:58:25PM -0700, Alex Henrie wrote:
-> When a baud rate of 0 is requested, both the 8250 driver and the FTDI
-> driver reset the baud rate to the default of 9600 (see the comment above
-> the uart_get_baud_rate function). Some old versions of the NXP blhost
-> utility depend on this behavior. However, the CP210x driver resets the
-> baud rate to the minimum supported rate of 300. Special-case B0 so that
-> it returns the baud rate to the more sensible default of 9600.
-> 
-> Signed-off-by: Alex Henrie <alexh@vpitech.com>
-> ---
->  drivers/usb/serial/cp210x.c | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
-> index 3bcec419f463..2c910550dca8 100644
-> --- a/drivers/usb/serial/cp210x.c
-> +++ b/drivers/usb/serial/cp210x.c
-> @@ -1051,9 +1051,14 @@ static void cp210x_change_speed(struct tty_struct *tty,
->  	 * This maps the requested rate to the actual rate, a valid rate on
->  	 * cp2102 or cp2103, or to an arbitrary rate in [1M, max_speed].
->  	 *
-> -	 * NOTE: B0 is not implemented.
-> +	 * NOTE: B0 is not implemented, apart from returning the baud rate to
-> +	 * the default of B9600.
->  	 */
-> -	baud = clamp(tty->termios.c_ospeed, priv->min_speed, priv->max_speed);
-> +	if (tty->termios.c_ospeed) {
-> +		baud = clamp(tty->termios.c_ospeed, priv->min_speed, priv->max_speed);
-> +	} else {
-> +		baud = 9600;
-> +	}
+Fix to return a negative error code -ENODEV instead of 0 as before
+commit 09721ba6daa1 ("usb: musb: da8xx: Call earlier
+clk_prepare_enable()") did.
 
-No need for { } here (checkpatch.pl should have warned about this.)
+Fixes: 09721ba6daa1 ("usb: musb: da8xx: Call earlier clk_prepare_enable()")
+Signed-off-by: Wang Yufen <wangyufen@huawei.com>
+---
+ drivers/usb/musb/da8xx.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-thanks,
+diff --git a/drivers/usb/musb/da8xx.c b/drivers/usb/musb/da8xx.c
+index a4e55b0..d47e5c9 100644
+--- a/drivers/usb/musb/da8xx.c
++++ b/drivers/usb/musb/da8xx.c
+@@ -368,8 +368,10 @@ static int da8xx_musb_init(struct musb *musb)
+ 
+ 	/* Returns zero if e.g. not clocked */
+ 	rev = musb_readl(reg_base, DA8XX_USB_REVISION_REG);
+-	if (!rev)
++	if (!rev) {
++		ret = -ENODEV;
+ 		goto fail;
++	}
+ 
+ 	musb->xceiv = usb_get_phy(USB_PHY_TYPE_USB2);
+ 	if (IS_ERR_OR_NULL(musb->xceiv)) {
+-- 
+1.8.3.1
 
-greg k-h
