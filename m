@@ -2,80 +2,49 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DFEDC4332F
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Nov 2022 10:35:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45BEAC46467
+	for <linux-usb@archiver.kernel.org>; Sat, 26 Nov 2022 10:42:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229598AbiKZKfM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 26 Nov 2022 05:35:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55242 "EHLO
+        id S229585AbiKZKmW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 26 Nov 2022 05:42:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbiKZKfL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 26 Nov 2022 05:35:11 -0500
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4400E26AE8
-        for <linux-usb@vger.kernel.org>; Sat, 26 Nov 2022 02:35:07 -0800 (PST)
-Received: from [192.168.1.103] (31.173.86.88) by msexch01.omp.ru (10.188.4.12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Sat, 26 Nov
- 2022 13:34:57 +0300
+        with ESMTP id S229450AbiKZKmV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 26 Nov 2022 05:42:21 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE3AB1E723
+        for <linux-usb@vger.kernel.org>; Sat, 26 Nov 2022 02:42:19 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8B07460A5C
+        for <linux-usb@vger.kernel.org>; Sat, 26 Nov 2022 10:42:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 898CDC433D6;
+        Sat, 26 Nov 2022 10:42:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1669459339;
+        bh=Am4kvXRVZ6pRKQ8wFgTqG4Ro1Obhe/Y4VpooYwjIvxs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IOJe8BJSGG3/MIHUYAoDH8bUqW1IGR5JH/7jnfaAnK2zIe5ewCSfzsDpswDV8DV78
+         CsV4TpXqw4BOtH+jm9fKmeXAhoLqnVQu4cHm5ZW5PluUSVuYNDuzXDIvv6obIQP8YT
+         VbzLeFAymGe2G/X5vJ7gnpXsVzfd6hcN1D1UCHGw=
+Date:   Sat, 26 Nov 2022 08:10:07 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Alex Henrie <alexh@vpitech.com>
+Cc:     linux-usb@vger.kernel.org, johan@kernel.org,
+        johanna.abrahamsson@afconsult.com, alexhenrie24@gmail.com
 Subject: Re: [PATCH] USB: serial: cp210x: map B0 to B9600
-To:     Alex Henrie <alexh@vpitech.com>, <linux-usb@vger.kernel.org>,
-        <johan@kernel.org>, <johanna.abrahamsson@afconsult.com>,
-        <alexhenrie24@gmail.com>
+Message-ID: <Y4G7z0fa7W/qseqw@kroah.com>
 References: <20221126035825.6991-1-alexh@vpitech.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <1c6a413e-dbeb-277c-ad7b-991e2d1970ff@omp.ru>
-Date:   Sat, 26 Nov 2022 13:34:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20221126035825.6991-1-alexh@vpitech.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.86.88]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 11/26/2022 10:14:31
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 19
-X-KSE-AntiSpam-Info: Lua profiles 173778 [Nov 25 2022]
-X-KSE-AntiSpam-Info: Version: 5.9.59.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 502 502 69dee8ef46717dd3cb3eeb129cb7cc8dab9e30f6
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.86.88 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: 31.173.86.88:7.1.2;127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.86.88
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 19
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 11/26/2022 10:17:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 11/26/2022 9:02:00 AM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello!
-
-On 11/26/22 6:58 AM, Alex Henrie wrote:
-
+On Fri, Nov 25, 2022 at 08:58:25PM -0700, Alex Henrie wrote:
 > When a baud rate of 0 is requested, both the 8250 driver and the FTDI
 > driver reset the baud rate to the default of 9600 (see the comment above
 > the uart_get_baud_rate function). Some old versions of the NXP blhost
@@ -107,8 +76,8 @@ On 11/26/22 6:58 AM, Alex Henrie wrote:
 > +		baud = 9600;
 > +	}
 
-   {} not needed at all...
+No need for { } here (checkpatch.pl should have warned about this.)
 
-[...]
+thanks,
 
-MBR, Sergey
+greg k-h
