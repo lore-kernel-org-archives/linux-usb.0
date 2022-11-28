@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70A77C4167D
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Nov 2022 17:42:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95BB7C4321E
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Nov 2022 17:46:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233344AbiK1Rl6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Nov 2022 12:41:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51776 "EHLO
+        id S233583AbiK1RqR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Nov 2022 12:46:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233083AbiK1RlV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Nov 2022 12:41:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92AC527FEC;
-        Mon, 28 Nov 2022 09:39:33 -0800 (PST)
+        with ESMTP id S233540AbiK1Rpo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Nov 2022 12:45:44 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56D1E2CE17;
+        Mon, 28 Nov 2022 09:41:21 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9DDD0612E7;
-        Mon, 28 Nov 2022 17:39:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CC3BC433C1;
-        Mon, 28 Nov 2022 17:39:30 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C3D0AB80E9F;
+        Mon, 28 Nov 2022 17:41:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7113FC43148;
+        Mon, 28 Nov 2022 17:41:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669657172;
-        bh=+773NVBJ1rdGVmfPoeJ8qJj58LssXUFQRfaBKPLnqjI=;
+        s=k20201202; t=1669657278;
+        bh=xcTAaAZ8vGEWaRJppBzJCoGpeZG0IL4L9Rdnd8i+H3g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GBshBdTRuxExelsz9KA8mX8Xj947HVTz8OkA68JhFhA7SYI6WFYOAUuuacOrZcCcg
-         QMXS9hzPHNDg0RNGxegTJwYRal9A92BUz17ubuNAA0cBfZ86PJccrgzXbIUwBzovCl
-         BWvKigUmsdYmsdkTH5VTCwa0QYUw63UbvKxB+jWPm/qNgQX+ugwY494KYDk+ved/qF
-         LEzTE30xMUITCbFDYI/ua202KVbzYtmVw/tnLVCFr2RGu5m/P4Kp3eAS5O1IABnlx3
-         BDd1kynDS5q51yGfLdeFt5qGNiUTS0Fu1AbMU6d4gwFUSucqJNyXDK+GdAkBIWoKF4
-         QPKzLjcVyFZqg==
+        b=GhwEv22KN23VVA/Qi0HViNyg8NAhZWO2rkGfgzIaRtEWNlU2Vnu5sZqNvbYu/BBDy
+         OB/pwfhKnw9PVJleu9LLz9WVA61RYBvi0bL51HUdEQgxYiZAWiKbH8kzenZMouNAdc
+         UiISgceEPvFv6G94R0K4w1ckh+uhBAiPyklK/t/KWh3fRpeYMK5zqEfWXBTjb7z1qO
+         XWbVgsIVLaXJRzR+5qAoUwk6/HIYRWugOpMJI+qHnaQRSI6VZ7f/TOIoXkSgyCoZAw
+         k6d2fgWBEJPsT2Pb0jZfxZnzUp+njxaxT3uXKkoq3oCKbJx0PinO8Nzh5zNf4eztF8
+         e50i5Sg41x5Uw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Davide Tronchin <davide.tronchin.94@gmail.com>,
@@ -39,12 +39,12 @@ Cc:     Davide Tronchin <davide.tronchin.94@gmail.com>,
         Sasha Levin <sashal@kernel.org>, edumazet@google.com,
         kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 35/39] net: usb: qmi_wwan: add u-blox 0x1342 composition
-Date:   Mon, 28 Nov 2022 12:36:15 -0500
-Message-Id: <20221128173642.1441232-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 24/24] net: usb: qmi_wwan: add u-blox 0x1342 composition
+Date:   Mon, 28 Nov 2022 12:40:24 -0500
+Message-Id: <20221128174027.1441921-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221128173642.1441232-1-sashal@kernel.org>
-References: <20221128173642.1441232-1-sashal@kernel.org>
+In-Reply-To: <20221128174027.1441921-1-sashal@kernel.org>
+References: <20221128174027.1441921-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -85,10 +85,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 26c34a7c21bd..c0f7def66b2d 100644
+index 6bf5c75f519d..bb31eca28d6c 100644
 --- a/drivers/net/usb/qmi_wwan.c
 +++ b/drivers/net/usb/qmi_wwan.c
-@@ -1422,6 +1422,7 @@ static const struct usb_device_id products[] = {
+@@ -1412,6 +1412,7 @@ static const struct usb_device_id products[] = {
  	{QMI_FIXED_INTF(0x0489, 0xe0b4, 0)},	/* Foxconn T77W968 LTE */
  	{QMI_FIXED_INTF(0x0489, 0xe0b5, 0)},	/* Foxconn T77W968 LTE with eSIM support*/
  	{QMI_FIXED_INTF(0x2692, 0x9025, 4)},    /* Cellient MPL200 (rebranded Qualcomm 05c6:9025) */
