@@ -2,74 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 710C3C433FE
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Nov 2022 06:24:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD225C433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Nov 2022 07:04:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235682AbiK2GYw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Nov 2022 01:24:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50214 "EHLO
+        id S229783AbiK2HEF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Nov 2022 02:04:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235691AbiK2GYs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Nov 2022 01:24:48 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22460532C0;
-        Mon, 28 Nov 2022 22:24:47 -0800 (PST)
-Received: from canpemm500010.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NLsf3756yzqSlv;
-        Tue, 29 Nov 2022 14:20:43 +0800 (CST)
-Received: from [10.174.179.191] (10.174.179.191) by
- canpemm500010.china.huawei.com (7.192.105.118) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 29 Nov 2022 14:24:45 +0800
-Message-ID: <3c8b9e41-dabb-f6f6-04e7-778c91a6b432@huawei.com>
-Date:   Tue, 29 Nov 2022 14:24:44 +0800
+        with ESMTP id S229552AbiK2HED (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Nov 2022 02:04:03 -0500
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA700391EE;
+        Mon, 28 Nov 2022 23:04:01 -0800 (PST)
+Received: by mail-pj1-f54.google.com with SMTP id hd14-20020a17090b458e00b0021909875bccso518144pjb.1;
+        Mon, 28 Nov 2022 23:04:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FDBBVGb3vVgUNo8t/6IIvRT92H3GgjNyrjnKQ0u5Jiw=;
+        b=35u+fOJrw4/yI0hrmDlB9ogSl2FDErWDaDyQ/zsE74+uF8moKrcRC3wlvu5y6Ak5YS
+         ok/KILUF7WCfZLbUEdvW+70Ec5c9WNDxLMPEEzn3mZJkPEopEJvA67BFxOS0psxfEeEu
+         B3fAOiZZwPOqUjc5F95w8CmHfpcA8ZV0iAQbmctJqttiHlaSYxJrtipmJqAWOrKh3Xr/
+         PW8wxQvl0SQGksY5NV71S0AvZmUvg7eLSttPnbFxLXMgcLBMu38TJJIDFqh8y6HogP6i
+         zVP5hKQKGB/s63fYnRQGD8US6R21UrkMkDDA9g6ZzR6xxu42XCNa/yJbHqIzxhI2jUO6
+         xnMw==
+X-Gm-Message-State: ANoB5pkSZYpLjt591Y7lTDUcpiwPMnRf2UTr0idegzSNQlP9CMtVBe0f
+        0MrA4KVzVovRZH0ED6ybq7oRjYDYnME+Ppjkk1k=
+X-Google-Smtp-Source: AA0mqf6l+enkVVGQLai+KWiZd79TKE9e5GTzpEIPM0wnvPOa9DgHHhjHnDSd7hXaF28h9XrWCvFuXgAw1rjCeASJuBw=
+X-Received: by 2002:a17:90a:a60c:b0:213:2e97:5ea4 with SMTP id
+ c12-20020a17090aa60c00b002132e975ea4mr64367458pjq.92.1669705441138; Mon, 28
+ Nov 2022 23:04:01 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v2] USB: FHCI: fix error return code in of_fhci_probe()
-To:     <gregkh@linuxfoundation.org>, <linus.walleij@linaro.org>,
-        <mailhol.vincent@wanadoo.fr>
-CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1669704115-40011-1-git-send-email-wangyufen@huawei.com>
-From:   wangyufen <wangyufen@huawei.com>
-In-Reply-To: <1669704115-40011-1-git-send-email-wangyufen@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.179.191]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- canpemm500010.china.huawei.com (7.192.105.118)
-X-CFilter-Loop: Reflected
+References: <1669704232-40228-1-git-send-email-wangyufen@huawei.com>
+In-Reply-To: <1669704232-40228-1-git-send-email-wangyufen@huawei.com>
+From:   Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
+Date:   Tue, 29 Nov 2022 16:03:50 +0900
+Message-ID: <CAMZ6Rq+rTiAu3+SZ1GrE1+NoRnuoJ=g_6LA7GKZBOreQZVC3jQ@mail.gmail.com>
+Subject: Re: [PATCH v3] USB: FHCI: fix error return code in of_fhci_probe()
+To:     Wang Yufen <wangyufen@huawei.com>
+Cc:     gregkh@linuxfoundation.org, linus.walleij@linaro.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Please ignore.
-
-Thanks.
-
-在 2022/11/29 14:41, Wang Yufen 写道:
+On Tue. 29 Nov. 2022 at 15:43, Wang Yufen <wangyufen@huawei.com> wrote:
 > Fix to return a negative error code of PTR_ERR(fhci->gpiods[i])
 > instead of 0.
-> 
+>
 > Fixes: a4efdb8a423b ("USB: FHCI: Switch to GPIO descriptors")
 > Signed-off-by: Wang Yufen <wangyufen@huawei.com>
 > ---
->   drivers/usb/host/fhci-hcd.c | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
-> 
+>  drivers/usb/host/fhci-hcd.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
 > diff --git a/drivers/usb/host/fhci-hcd.c b/drivers/usb/host/fhci-hcd.c
-> index 95a4446..ca4b311 100644
+> index 95a4446..c8a1b98 100644
 > --- a/drivers/usb/host/fhci-hcd.c
 > +++ b/drivers/usb/host/fhci-hcd.c
 > @@ -639,8 +639,9 @@ static int of_fhci_probe(struct platform_device *ofdev)
->   					NULL, i, GPIOD_OUT_LOW);
->   
->   		if (IS_ERR(fhci->gpiods[i])) {
-> -			dev_err(dev, "incorrect GPIO%d: %ld\n",
-> -				i, PTR_ERR(fhci->gpiods[i]));
-> +			ret = PTR_ERR(fhci->gpiods[i])
-> +			dev_err(dev, "incorrect GPIO%d: %d\n",
-> +				i, ret);
->   			goto err_gpios;
->   		}
->   		if (!fhci->gpiods[i]) {
+>                                         NULL, i, GPIOD_OUT_LOW);
+>
+>                 if (IS_ERR(fhci->gpiods[i])) {
+> -                       dev_err(dev, "incorrect GPIO%d: %ld\n",
+> -                               i, PTR_ERR(fhci->gpiods[i]));
+> +                       ret = PTR_ERR(fhci->gpiods[i]);
+> +                       dev_err(dev, "incorrect GPIO%d: %d\n",
+> +                               i, ret);
+
+Nitpick: you do not need a new line. It fits the 80 characters limit very well.
+
+Aside of that:
+Reviewed-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+
+>                         goto err_gpios;
+>                 }
+>                 if (!fhci->gpiods[i]) {
+> --
+> 1.8.3.1
+>
