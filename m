@@ -2,284 +2,108 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B5DAC433FE
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Nov 2022 13:29:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC66CC4332F
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Nov 2022 13:48:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234408AbiK3N3E (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Nov 2022 08:29:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35504 "EHLO
+        id S229897AbiK3NsW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Nov 2022 08:48:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbiK3N3D (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Nov 2022 08:29:03 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 739A75CD07
-        for <linux-usb@vger.kernel.org>; Wed, 30 Nov 2022 05:29:01 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1p0N91-0000Ms-O7; Wed, 30 Nov 2022 14:28:59 +0100
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1p0N90-001Jq3-2R; Wed, 30 Nov 2022 14:28:58 +0100
-Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1p0N90-005VxR-5R; Wed, 30 Nov 2022 14:28:58 +0100
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
-        balbi@kernel.org, laurent.pinchart@ideasonboard.com,
-        kernel@pengutronix.de
-Subject: [PATCH v8] usb: gadget: uvc: add validate and fix function for uvc response
-Date:   Wed, 30 Nov 2022 14:28:55 +0100
-Message-Id: <20221130132855.1263114-1-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S229633AbiK3NsV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Nov 2022 08:48:21 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09E1C5F48;
+        Wed, 30 Nov 2022 05:48:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669816101; x=1701352101;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=I2235I6+qL/ul/8hqTNNkG+zjnVNh7zDAoRuFikuV88=;
+  b=LgvrD5zQb0ocysQASAYDCx17e3g9SqkHqFkwDP7cEfTaRxbauVpDeweM
+   BuUmaZnXMGwRMZ1wuZOg8d1JuEx7YZ7kQkNLziPm9J1DHq0Ee9f4IWhw1
+   ezNwsKMAaNu48Q5XtDMFO9AxZuJZDEagTrkS6azEcIetvZKcYZmBaxp9T
+   IvEDPFns8Yg6ZSoJwE61E3ZwLJcxAep81bFW4UFk60n6bD5yIY5Bu6j8R
+   THcliaLzmXdcv0NK9Y+pzZnyscCf4a/O3zThNQv5vKCLB7x9ByaMNFlEW
+   LXnk9zIgcxVM4bFfNlu/aBGLlfKCA5M96AShL5frIIwREP9C6NIrASZsQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="317244867"
+X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
+   d="scan'208";a="317244867"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2022 05:48:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="973108894"
+X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
+   d="scan'208";a="973108894"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga005.fm.intel.com with ESMTP; 30 Nov 2022 05:48:12 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id B1E6E184; Wed, 30 Nov 2022 15:48:39 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kevin Cernekee <cernekee@gmail.com>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Subject: [PATCH v5 4/4] xhci: Convert to use list_count_nodes()
+Date:   Wed, 30 Nov 2022 15:48:38 +0200
+Message-Id: <20221130134838.23805-4-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221130134838.23805-1-andriy.shevchenko@linux.intel.com>
+References: <20221130134838.23805-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When the userspace gets the setup requests for UVC_GET_CUR, UVC_GET_MIN,
-UVC_GET_MAX, UVC_GET_DEF it will fill out the ctrl response. This data
-needs to be validated. Since the kernel also knows the limits we can
-return EINVAL if the userspace does try to send invalid data to the
-host.
+The list API provides the list_count_nodes() to help with counting
+existing nodes in the list. Utilise it.
 
-For UVC_GET_MAX and UVC_GET_MIN we fixup the bFrameIndex and
-bFormatIndex to the correct boundaries. And for all other requests we
-set valid dwFrameInterval, dwMaxPayloadTransferSize and
-dwMaxVideoFrameSize if the userspace did not set any value at all.
-
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-
+Acked-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-v1: -> v4:
-- new patch
-v4: -> v5:
-- changed uvcg_info to uvcg_dbg for fixups, updated info strings
-v5: -> v6:
-- no changes
-v6 -> v7:
-- reworked to not need 'd182bf156c4c ("usb: gadget: uvc: default the ctrl request interface offsets")'
-v7 -> v8:
-- splitup validate and fix to separate functions
-- only validate on UVC_GET_CUR
-- return with EINVAL if validate fails
-- fixup on UVC_GET_MIN, UVC_GET_MAX and UVC_GET_DEF
-- rebased again on necessary patch 'd182bf156c4c ("usb: gadget: uvc: default the ctrl request interface offsets")'
-- after validating one streaming request unset the current streaming_request
+v5: used renamed API (LKP)
+v4: added tag (Mathias)
+v3: no change
+v2: no change
+ drivers/usb/host/xhci-ring.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
- drivers/usb/gadget/function/f_uvc.c    |   4 +-
- drivers/usb/gadget/function/uvc.h      |   1 +
- drivers/usb/gadget/function/uvc_v4l2.c | 154 +++++++++++++++++++++++++
- 3 files changed, 158 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 6e131624011a5e..098bd3c4e3c0b3 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -254,8 +254,10 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
- 	 */
- 	mctrl = &uvc_event->req;
- 	mctrl->wIndex &= ~cpu_to_le16(0xff);
--	if (interface == uvc->streaming_intf)
-+	if (interface == uvc->streaming_intf) {
-+		uvc->streaming_request = ctrl->bRequest;
- 		mctrl->wIndex = cpu_to_le16(UVC_STRING_STREAMING_IDX);
-+	}
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index ddc30037f9ce..aa4d34efecd2 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -2528,7 +2528,6 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 	union xhci_trb *ep_trb;
+ 	int status = -EINPROGRESS;
+ 	struct xhci_ep_ctx *ep_ctx;
+-	struct list_head *tmp;
+ 	u32 trb_comp_code;
+ 	int td_num = 0;
+ 	bool handling_skipped_tds = false;
+@@ -2582,10 +2581,8 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 	}
  
- 	v4l2_event_queue(&uvc->vdev, &v4l2_event);
+ 	/* Count current td numbers if ep->skip is set */
+-	if (ep->skip) {
+-		list_for_each(tmp, &ep_ring->td_list)
+-			td_num++;
+-	}
++	if (ep->skip)
++		td_num += list_count_nodes(&ep_ring->td_list);
  
-diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index 40226b1f7e148a..1be4d5f24b46bf 100644
---- a/drivers/usb/gadget/function/uvc.h
-+++ b/drivers/usb/gadget/function/uvc.h
-@@ -151,6 +151,7 @@ struct uvc_device {
- 	void *control_buf;
- 
- 	unsigned int streaming_intf;
-+	unsigned char streaming_request;
- 
- 	/* Events */
- 	unsigned int event_length;
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index a189b08bba800d..a5a109e7708f4b 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -178,6 +178,137 @@ static struct uvcg_frame *find_closest_frame_by_size(struct uvc_device *uvc,
-  * Requests handling
-  */
- 
-+/* validate streaming ctrl request response data for valid parameters */
-+static int
-+uvc_validate_streaming_ctrl(struct uvc_device *uvc,
-+			    struct uvc_streaming_control *ctrl)
-+{
-+	struct f_uvc_opts *opts = fi_to_f_uvc_opts(uvc->func.fi);
-+	unsigned int iformat, iframe;
-+	struct uvcg_format *uformat;
-+	struct uvcg_frame *uframe;
-+	bool ival_found = false;
-+	int i;
-+
-+	iformat = ctrl->bFormatIndex;
-+	iframe = ctrl->bFrameIndex;
-+
-+	iformat = clamp((unsigned int)iformat, 1U,
-+			(unsigned int)uvc->header->num_fmt);
-+	if (iformat != ctrl->bFormatIndex) {
-+		uvcg_dbg(&uvc->func,
-+			 "invalid bFormatIndex set: %d\n",
-+			 ctrl->bFormatIndex);
-+		return -EINVAL;
-+	}
-+	uformat = find_format_by_index(uvc, iformat);
-+
-+	iframe = clamp((unsigned int)iframe, 1U,
-+		       (unsigned int)uformat->num_frames);
-+	if (iframe != ctrl->bFrameIndex) {
-+		uvcg_dbg(&uvc->func,
-+			 "invalid bFrameIndex set: %d\n",
-+			 ctrl->bFrameIndex);
-+		return -EINVAL;
-+	}
-+	uframe = find_frame_by_index(uvc, uformat, iframe);
-+
-+	if (ctrl->dwFrameInterval) {
-+		for (i = 0; i < uframe->frame.b_frame_interval_type; i++) {
-+			if (ctrl->dwFrameInterval ==
-+				 uframe->dw_frame_interval[i]) {
-+				ival_found = true;
-+				break;
-+			}
-+		}
-+		if (!ival_found) {
-+			uvcg_dbg(&uvc->func,
-+				 "invalid dwFrameInterval set: %d\n",
-+				 ctrl->dwFrameInterval);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	if (ctrl->dwMaxPayloadTransferSize >
-+				opts->streaming_maxpacket) {
-+		uvcg_dbg(&uvc->func,
-+			  "invalid dwMaxPayloadTransferSize set: %d\n",
-+			  ctrl->dwMaxPayloadTransferSize);
-+		return -EINVAL;
-+	}
-+
-+	if (ctrl->dwMaxVideoFrameSize >
-+				uframe->frame.dw_max_video_frame_buffer_size) {
-+		uvcg_dbg(&uvc->func,
-+			  "invalid dwMaxVideoFrameSize set: %d\n",
-+			  ctrl->dwMaxVideoFrameSize);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static void
-+uvc_fixup_streaming_ctrl(struct uvc_device *uvc,
-+			    struct uvc_streaming_control *ctrl)
-+{
-+	struct f_uvc_opts *opts = fi_to_f_uvc_opts(uvc->func.fi);
-+	unsigned int iformat, iframe;
-+	struct uvcg_format *uformat;
-+	struct uvcg_frame *uframe;
-+
-+	iformat = ctrl->bFormatIndex;
-+	iframe = ctrl->bFrameIndex;
-+
-+	/* Fixup the bFormatIndex on UVC_GET_{MIN,MAX} events */
-+	if (ctrl->bFormatIndex == U8_MAX || !ctrl->bFormatIndex) {
-+		iformat = clamp((unsigned int)iformat, 1U,
-+				(unsigned int)uvc->header->num_fmt);
-+		ctrl->bFormatIndex = iformat;
-+		uvcg_dbg(&uvc->func,
-+			  "fixup bFormatIndex: %d\n",
-+			  ctrl->bFormatIndex);
-+	}
-+
-+	uformat = find_format_by_index(uvc, iformat);
-+
-+	/* Fixup the bFrameIndex on UVC_GET_{MIN,MAX} events */
-+	if (ctrl->bFrameIndex == U8_MAX || !ctrl->bFrameIndex) {
-+		iframe = clamp((unsigned int)iframe, 1U,
-+			       (unsigned int)uformat->num_frames);
-+		ctrl->bFrameIndex = iframe;
-+		uvcg_dbg(&uvc->func,
-+			  "fixup bFrameIndex: %d\n",
-+			  ctrl->bFrameIndex);
-+	}
-+
-+	uframe = find_frame_by_index(uvc, uformat, iframe);
-+
-+	/* Fixup values where the userspace does not set the paramters
-+	 * but does handover the preparing of the values to the kernel.
-+	 */
-+	if (!ctrl->dwFrameInterval) {
-+		ctrl->dwFrameInterval = uframe->frame.dw_default_frame_interval;
-+		uvcg_dbg(&uvc->func,
-+			  "fixup dwFrameInterval: %d\n",
-+			  ctrl->dwFrameInterval);
-+	}
-+
-+	if (!ctrl->dwMaxPayloadTransferSize) {
-+		ctrl->dwMaxPayloadTransferSize = opts->streaming_maxpacket;
-+		uvcg_dbg(&uvc->func,
-+			  "fixup dwMaxPayloadTransferSize: %d\n",
-+			  ctrl->dwMaxPayloadTransferSize);
-+	}
-+
-+	if (!ctrl->dwMaxVideoFrameSize) {
-+		ctrl->dwMaxVideoFrameSize = uvc_get_frame_size(uformat, uframe);
-+		uvcg_dbg(&uvc->func,
-+			  "fixup dwMaxVideoFrameSize: %d\n",
-+			  ctrl->dwMaxVideoFrameSize);
-+	}
-+}
-+
- static int
- uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
- {
-@@ -192,6 +323,29 @@ uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
- 
- 	memcpy(req->buf, data->data, req->length);
- 
-+	/* validate the ctrl content and fixup */
-+	if (!uvc->event_setup_out) {
-+		struct uvc_streaming_control *ctrl = req->buf;
-+		int ret;
-+
-+		switch (uvc->streaming_request) {
-+		case UVC_GET_CUR:
-+			ret = uvc_validate_streaming_ctrl(uvc, ctrl);
-+			if (ret)
-+				return ret;
-+			fallthrough;
-+		case UVC_GET_MIN:
-+		case UVC_GET_MAX:
-+		case UVC_GET_DEF:
-+			uvc_fixup_streaming_ctrl(uvc, ctrl);
-+			break;
-+		default:
-+			break;
-+		}
-+
-+		uvc->streaming_request = UVC_RC_UNDEFINED;
-+	}
-+
- 	return usb_ep_queue(cdev->gadget->ep0, req, GFP_KERNEL);
- }
- 
+ 	/* Look for common error cases */
+ 	switch (trb_comp_code) {
 -- 
-2.30.2
+2.35.1
 
