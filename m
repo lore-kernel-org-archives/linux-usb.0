@@ -2,68 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8560FC4321E
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Dec 2022 12:06:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF7DBC43217
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Dec 2022 12:22:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231226AbiLAMGL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 1 Dec 2022 07:06:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50402 "EHLO
+        id S231253AbiLAMWs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 1 Dec 2022 07:22:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230454AbiLAMGK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Dec 2022 07:06:10 -0500
-X-Greylist: delayed 4898 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 01 Dec 2022 04:06:06 PST
-Received: from turkiyesunucu.com (turkiyesunucu.com [188.132.176.4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E93790776
-        for <linux-usb@vger.kernel.org>; Thu,  1 Dec 2022 04:06:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=tfselektrik.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Message-ID:From:Date:Subject:To:Sender:Reply-To:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=mnS0CIxxMlsg7tPPZsN8s7uDB9zg3MlBKvK25PcEfsE=; b=SQCoXeh8xZFsrazu5exg4z7s8X
-        V1THDwcZN1JuHLy7CJsnvywuCAhroABX5Cx0XFy+9ek2L77Wluao6OHguOvq4EkZGcbMrgALAU6ft
-        rZqE5WpzOnbi7qzhCFtsqpVwnONcPyJVnPSMwZh0uUUAU1V9lRPO64olFSjeSfvgaCGsfYk2qGEcK
-        Tabb7y3dgbNEKf/3wW2TNb+x6pJ3wCd53Jgg3xU38ur7zkxcAAJnwN47s8/r0hDG2ZcfiYZ6RAfN0
-        LILnGA612swMgjPICgAii5zAUe0jZS/tDvnRSR61xOCuA9pmBnctZzK2T3Oe7QePLPqW+n1RpbYJx
-        N6Rwv/Kg==;
-Received: from tfselkww by atlantis.turkiyesunucu.com with local (Exim 4.95)
-        (envelope-from <info@trdia.com.tr>)
-        id 1p0h3J-0001Qv-N4
-        for linux-usb@vger.kernel.org;
-        Thu, 01 Dec 2022 13:44:25 +0300
-To:     linux-usb@vger.kernel.org
-Subject: =?utf-8?Q?THERE_IS_AN_OPPORTUNITY_TO_EARN_$5,000,000_IN_3_MONTHS,_LEARN_M?=  =?utf-8?Q?ORE_https://7000-aud-per-week.blogspot.co.il/=3Fl=3D9zs_-_TFS_E?=  =?utf-8?Q?lektrik_i=C3=A7in_hesap_ayr=C4=B1nt=C4=B1lar=C4=B1?=
-X-PHP-Script: tfselektrik.com/index.php for 146.70.123.190
-X-PHP-Originating-Script: 1331:class.phpmailer.php
-Date:   Thu, 1 Dec 2022 10:44:25 +0000
-From:   TFS Elektrik <info@trdia.com.tr>
-Message-ID: <6294aee5ab9a2dfec227d2bfe5f0d458@tfselektrik.com>
+        with ESMTP id S230281AbiLAMWq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Dec 2022 07:22:46 -0500
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ECD06244;
+        Thu,  1 Dec 2022 04:22:43 -0800 (PST)
+Received: by mail-lj1-x235.google.com with SMTP id r8so1675776ljn.8;
+        Thu, 01 Dec 2022 04:22:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NOExxS2IjahwCF/S/WjAjF0c/H0u99gptUVy0XMPdbc=;
+        b=JF2WeLbwMFKR38u4Giaiah8fZew5H5mwyzSwBzBjrGud/hQUaiEQO6fzZXlrFbyuWK
+         MGRZK2VTqN1UHQBr07fG8P0L5mVPcccKclxvy9Cqr7MZlRGCVZDN9JlJMDYe1vM1iuOH
+         NhjhlEmgKsKrF0HOEnaNJDyMVsAS+/AQgJXDrzauhkieKSr5jrQNWChhMVLwaj1k8q14
+         tr7qgXxmI7RTt5gaAZFs0PQKmq4V3Vm7fCu+dbmR/Td7xbJej4rglj3vWqtqcFrqJlrf
+         QAfZqRYpmVNJRqNyy9xCkDhg3A3pyy5uXEbXdwvwtnAHJZZmhpMwx9piLBdd1bjtIdxv
+         h9ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NOExxS2IjahwCF/S/WjAjF0c/H0u99gptUVy0XMPdbc=;
+        b=Zwo3y27M+/ZnpdOUCYZBvkO5EeCBwH0+8sh5Lk7+/nS7jgI+AlOCJw/U4ktts9qFjM
+         AV7WENjfiie05u5lQQ37ZY+M4Eq+SHOQPZICBdQAjrE4d3M7v2OzuxFfCQwTkaw16G+A
+         9s8XIOqTZzB5c/+jq6CI6kkC91PsP4as4FxrVZxbWSzR10oqromQKyKfAPXGkGSXbYg1
+         Sws8y+UJ8a4NLRoj0E+PHQc5xXYHtv3PAcdVqzDQbk9jxGsvV0nKgXpQLeBl/oOGTI2Q
+         WYo5SeZQjJe7WQuTVSnlrS3NYj0vJ2yHQ4cs1qqTe8aWeiRjEhRLOcyBpPVZGSdqJVvU
+         Jn5g==
+X-Gm-Message-State: ANoB5pkYF8iPkIGuBnTAju4xhbdtftXgkuqeNix+gS4Q9fsAA9ty4sHB
+        E1IRxzzv+sFHszFajb0VcVs=
+X-Google-Smtp-Source: AA0mqf7wEdj4ql8TNl/pKZ5ROwZ8e68q5E8vY/MPsgX1mM0BAnCMcq4QDDHqm8eydKtYZGdTvb1KSg==
+X-Received: by 2002:a05:651c:c8b:b0:277:f8b:bb4f with SMTP id bz11-20020a05651c0c8b00b002770f8bbb4fmr16556345ljb.161.1669897362141;
+        Thu, 01 Dec 2022 04:22:42 -0800 (PST)
+Received: from localhost.localdomain (077222238151.warszawa.vectranet.pl. [77.222.238.151])
+        by smtp.googlemail.com with ESMTPSA id 11-20020ac25f4b000000b00492dbf809e8sm627184lfz.118.2022.12.01.04.22.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Dec 2022 04:22:41 -0800 (PST)
+From:   Szymon Heidrich <szymon.heidrich@gmail.com>
+To:     laurent.pinchart@ideasonboard.com
+Cc:     szymon.heidrich@gmail.com, Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Prevent buffer overflow in UVC Gadget setup handler
+Date:   Thu,  1 Dec 2022 13:21:41 +0100
+Message-Id: <20221201122141.8739-1-szymon.heidrich@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - atlantis.turkiyesunucu.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [1331 992] / [47 12]
-X-AntiAbuse: Sender Address Domain - trdia.com.tr
-X-Get-Message-Sender-Via: atlantis.turkiyesunucu.com: authenticated_id: tfselkww/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: atlantis.turkiyesunucu.com: tfselkww
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Merhaba THERE IS AN OPPORTUNITY TO EARN $5,000,000 IN 3 MONTHS, LEARN MORE https://7000-aud-per-week.blogspot.co.il/?l=9zs,
+Setup function uvc_function_setup permits control transfer
+requests with up to 64 bytes of payload (UVC_MAX_REQUEST_SIZE),
+data stage handler for OUT transfer uses memcpy to copy req->actual
+bytes to uvc_event->data.data array of size 60. This may result
+in an overflow of 4 bytes.
 
-TFS Elektrik alanına kayıt olduğunuz için teşekkürler. Hesabınız oluşturuldu ve kullanmadan önce etkinleştirilmelidir.
-Hesabı etkinleştirmek için takip eden bağlantıyı seçin ya da tarayıcınıza kopyalayıp yapıştırın:
-https://tfselektrik.com/component/users/?task=registration.activate&token=f4fc291d2a8de0ae6c183c502bac3500&Itemid=101 
+Signed-off-by: Szymon Heidrich <szymon.heidrich@gmail.com>
+---
+ drivers/usb/gadget/function/f_uvc.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Etkinleştirmeden sonra https://tfselektrik.com/ alanına belirtilen kullanıcı adı ve parola ile oturum açabilirsiniz:
-
-Kullanıcı Adı: THERE IS AN OPPORTUNITY TO EARN $5,000,000 IN 3 MONTHS, LEARN MORE https://7000-aud-per-week.blogspot.co.il/?l=9zs
-Parola: Fj327pg%reV
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index 6e196e061..69c5eb3a3 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -216,8 +216,9 @@ uvc_function_ep0_complete(struct usb_ep *ep, struct usb_request *req)
+ 
+ 		memset(&v4l2_event, 0, sizeof(v4l2_event));
+ 		v4l2_event.type = UVC_EVENT_DATA;
+-		uvc_event->data.length = req->actual;
+-		memcpy(&uvc_event->data.data, req->buf, req->actual);
++		uvc_event->data.length = (req->actual > sizeof(uvc_event->data.data) ?
++			sizeof(uvc_event->data.data) : req->actual);
++		memcpy(&uvc_event->data.data, req->buf, uvc_event->data.length);
+ 		v4l2_event_queue(&uvc->vdev, &v4l2_event);
+ 	}
+ }
+-- 
+2.38.1
 
