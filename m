@@ -2,155 +2,68 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2FBAC43217
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Dec 2022 11:28:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8560FC4321E
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Dec 2022 12:06:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230093AbiLAL2c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 1 Dec 2022 06:28:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44740 "EHLO
+        id S231226AbiLAMGL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 1 Dec 2022 07:06:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230159AbiLAL20 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Dec 2022 06:28:26 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6D3A56570
-        for <linux-usb@vger.kernel.org>; Thu,  1 Dec 2022 03:28:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669894105; x=1701430105;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=tGbH4aBNhYJBoutC+L9DQp3CaXhhSZEZk0VPrYJEiEc=;
-  b=MqKd7qn44NdGkiwh1MTlxM+gj+AjaoXskFHUowgFuMe4MTSZ7HvwGDPh
-   jYYL5Xa9lcV5/KgJFrQQCa8VAniqzMFfThyc/NNjn+1WWoa/tyiUcU6xN
-   bQIgNpJ1jHUUOIYS0BoyMH5Xz2N3X4b8TacZ085KnvSeCijR6sWz0z8t8
-   jzc6zz3F8h3LCuAatmAsSgcUSHbzIAFG/LVIIuBK+WJ9r6uwcTVZ4vrZW
-   BIBPFbqo/x7AzsE/SRU5f2IFDeBMYbmuFe0yvl2MPpGtz2ll1DkzNwelJ
-   fLg7Cm3CCrKSXWoN4dB6HUKkS9ohpZAE1DwBb7puueAWjZxIzLiw03OmW
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="317523116"
-X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; 
-   d="scan'208";a="317523116"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2022 03:28:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="750766598"
-X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; 
-   d="scan'208";a="750766598"
-Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 01 Dec 2022 03:28:23 -0800
-Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1p0hjq-000CVW-2g;
-        Thu, 01 Dec 2022 11:28:22 +0000
-Date:   Thu, 01 Dec 2022 19:27:36 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-next] BUILD SUCCESS
- 51daa42d6b86efa366320b99e7bbe29a490ed348
-Message-ID: <63888fa8.JfdhnkNxhrXOdDYE%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S230454AbiLAMGK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Dec 2022 07:06:10 -0500
+X-Greylist: delayed 4898 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 01 Dec 2022 04:06:06 PST
+Received: from turkiyesunucu.com (turkiyesunucu.com [188.132.176.4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E93790776
+        for <linux-usb@vger.kernel.org>; Thu,  1 Dec 2022 04:06:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=tfselektrik.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Message-ID:From:Date:Subject:To:Sender:Reply-To:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=mnS0CIxxMlsg7tPPZsN8s7uDB9zg3MlBKvK25PcEfsE=; b=SQCoXeh8xZFsrazu5exg4z7s8X
+        V1THDwcZN1JuHLy7CJsnvywuCAhroABX5Cx0XFy+9ek2L77Wluao6OHguOvq4EkZGcbMrgALAU6ft
+        rZqE5WpzOnbi7qzhCFtsqpVwnONcPyJVnPSMwZh0uUUAU1V9lRPO64olFSjeSfvgaCGsfYk2qGEcK
+        Tabb7y3dgbNEKf/3wW2TNb+x6pJ3wCd53Jgg3xU38ur7zkxcAAJnwN47s8/r0hDG2ZcfiYZ6RAfN0
+        LILnGA612swMgjPICgAii5zAUe0jZS/tDvnRSR61xOCuA9pmBnctZzK2T3Oe7QePLPqW+n1RpbYJx
+        N6Rwv/Kg==;
+Received: from tfselkww by atlantis.turkiyesunucu.com with local (Exim 4.95)
+        (envelope-from <info@trdia.com.tr>)
+        id 1p0h3J-0001Qv-N4
+        for linux-usb@vger.kernel.org;
+        Thu, 01 Dec 2022 13:44:25 +0300
+To:     linux-usb@vger.kernel.org
+Subject: =?utf-8?Q?THERE_IS_AN_OPPORTUNITY_TO_EARN_$5,000,000_IN_3_MONTHS,_LEARN_M?=  =?utf-8?Q?ORE_https://7000-aud-per-week.blogspot.co.il/=3Fl=3D9zs_-_TFS_E?=  =?utf-8?Q?lektrik_i=C3=A7in_hesap_ayr=C4=B1nt=C4=B1lar=C4=B1?=
+X-PHP-Script: tfselektrik.com/index.php for 146.70.123.190
+X-PHP-Originating-Script: 1331:class.phpmailer.php
+Date:   Thu, 1 Dec 2022 10:44:25 +0000
+From:   TFS Elektrik <info@trdia.com.tr>
+Message-ID: <6294aee5ab9a2dfec227d2bfe5f0d458@tfselektrik.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - atlantis.turkiyesunucu.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [1331 992] / [47 12]
+X-AntiAbuse: Sender Address Domain - trdia.com.tr
+X-Get-Message-Sender-Via: atlantis.turkiyesunucu.com: authenticated_id: tfselkww/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: atlantis.turkiyesunucu.com: tfselkww
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
-branch HEAD: 51daa42d6b86efa366320b99e7bbe29a490ed348  Revert "i915: Move list_count() to list.h for broader use"
+Merhaba THERE IS AN OPPORTUNITY TO EARN $5,000,000 IN 3 MONTHS, LEARN MORE https://7000-aud-per-week.blogspot.co.il/?l=9zs,
 
-elapsed time: 1432m
+TFS Elektrik alanına kayıt olduğunuz için teşekkürler. Hesabınız oluşturuldu ve kullanmadan önce etkinleştirilmelidir.
+Hesabı etkinleştirmek için takip eden bağlantıyı seçin ya da tarayıcınıza kopyalayıp yapıştırın:
+https://tfselektrik.com/component/users/?task=registration.activate&token=f4fc291d2a8de0ae6c183c502bac3500&Itemid=101 
 
-configs tested: 79
-configs skipped: 2
+Etkinleştirmeden sonra https://tfselektrik.com/ alanına belirtilen kullanıcı adı ve parola ile oturum açabilirsiniz:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Kullanıcı Adı: THERE IS AN OPPORTUNITY TO EARN $5,000,000 IN 3 MONTHS, LEARN MORE https://7000-aud-per-week.blogspot.co.il/?l=9zs
+Parola: Fj327pg%reV
 
-gcc tested configs:
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-s390                                defconfig
-s390                             allyesconfig
-powerpc                           allnoconfig
-um                             i386_defconfig
-x86_64                          rhel-8.3-func
-um                           x86_64_defconfig
-x86_64                    rhel-8.3-kselftests
-sh                               allmodconfig
-m68k                             allyesconfig
-mips                             allyesconfig
-m68k                             allmodconfig
-powerpc                          allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-x86_64                              defconfig
-ia64                             allmodconfig
-x86_64                               rhel-8.3
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-x86_64                           allyesconfig
-i386                 randconfig-a002-20221128
-i386                 randconfig-a003-20221128
-arc                  randconfig-r043-20221128
-i386                 randconfig-a001-20221128
-i386                 randconfig-a004-20221128
-x86_64               randconfig-a002-20221128
-i386                 randconfig-a005-20221128
-x86_64               randconfig-a001-20221128
-x86_64               randconfig-a003-20221128
-i386                 randconfig-a006-20221128
-x86_64               randconfig-a004-20221128
-x86_64               randconfig-a005-20221128
-x86_64               randconfig-a006-20221128
-i386                          randconfig-a014
-i386                                defconfig
-i386                          randconfig-a012
-i386                             allyesconfig
-i386                          randconfig-a016
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-arc                  randconfig-r043-20221201
-riscv                randconfig-r042-20221201
-s390                 randconfig-r044-20221201
-arm                                 defconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-
-clang tested configs:
-hexagon              randconfig-r045-20221128
-riscv                randconfig-r042-20221128
-hexagon              randconfig-r041-20221128
-s390                 randconfig-r044-20221128
-x86_64               randconfig-a013-20221128
-x86_64               randconfig-a012-20221128
-x86_64               randconfig-a014-20221128
-x86_64               randconfig-a011-20221128
-x86_64               randconfig-a015-20221128
-x86_64               randconfig-a016-20221128
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                 randconfig-a014-20221128
-i386                 randconfig-a011-20221128
-i386                 randconfig-a013-20221128
-i386                 randconfig-a016-20221128
-i386                 randconfig-a012-20221128
-i386                 randconfig-a015-20221128
-i386                          randconfig-a013
-i386                          randconfig-a015
-i386                          randconfig-a011
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
