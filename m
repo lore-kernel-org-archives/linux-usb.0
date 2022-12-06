@@ -2,64 +2,87 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4429DC47090
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Dec 2022 13:17:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E91C352A1
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Dec 2022 13:49:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232604AbiLFNR3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 6 Dec 2022 08:17:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52800 "EHLO
+        id S234506AbiLFNtw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 6 Dec 2022 08:49:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235217AbiLFNRS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Dec 2022 08:17:18 -0500
-Received: from h2.cmg1.smtp.forpsi.com (h2.cmg1.smtp.forpsi.com [81.2.195.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08A1921C
-        for <linux-usb@vger.kernel.org>; Tue,  6 Dec 2022 05:17:14 -0800 (PST)
-Received: from lenoch ([91.218.190.200])
-        by cmgsmtp with ESMTPSA
-        id 2Xoqpl95JPm6C2XorpDD1b; Tue, 06 Dec 2022 14:17:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
-        t=1670332630; bh=GqSJOeghA8W8mo11jILaQIx87BJR/+I2RE5VHJ2kr5I=;
-        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-        b=DYu10/1F653qO6Jxp5L+xHcLMPv6imQA//GXfZQRf7Zb9RGBCtZhHHVbuuc1oIYLw
-         Rwhy5jU5XRC5Ovl+YnBZ86IKgbe5eusoJOK0U9eNY/WVlhwJJILfrNoKB2GXtS5Kja
-         6V15rfDHF1HEMmF9+m3baNGvW05yC1MHW8KcvHPyjGaWUsXpB+zKg8sGvx4BwyjtAx
-         2u73B69ltzT7QekId9YaLC+EB1K4cN7bRM+Th5mjyE5ub95PeMROXs7fwM6+wqrtyu
-         r7lnXeo2kADZMbbLyLaRHK8bVxwYDk0WtTN5JcuafAUDxjtVr1Jvaj+5QKOj0E3FYD
-         1IhpClBcvWPzw==
-Date:   Tue, 6 Dec 2022 14:17:08 +0100
-From:   Ladislav Michl <oss-lists@triops.cz>
-To:     linux-usb@vger.kernel.org
-Subject: Re: xHCI host dies on device unplug
-Message-ID: <Y49A1Pv6dUScQ9x/@lenoch>
-References: <Y45iXb6VCNiz7ZVd@lenoch>
+        with ESMTP id S233466AbiLFNtw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Dec 2022 08:49:52 -0500
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FF112A942
+        for <linux-usb@vger.kernel.org>; Tue,  6 Dec 2022 05:49:51 -0800 (PST)
+Received: by mail-yb1-xb2a.google.com with SMTP id c140so18583139ybf.11
+        for <linux-usb@vger.kernel.org>; Tue, 06 Dec 2022 05:49:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+SBgDf21nE7Fz3DEe+AUeblmVxcRq4JLFAaeQh0074k=;
+        b=HMspc9TmlnuApAZpE9HFknz/zaPGdRa8yhRZdQUd9Jb5lztXIxnwpk5yTzg8JKIJke
+         Ahe5W1KJ23WU42G6eaEQIfMVl8ED8nI4z4NuK9lUAwCKIVv5ox6guQy/uer6p2WjRIws
+         Sn4Di8RN9kjKsGxKNxMD+mzo4XcasifOzDAQFEqR5b5qCe7iWbMn21cjexSk+tsJMEfD
+         fOFzJ5SKSF33RR2oz5AqZDQ8DZ0IJVNY+XsQhPmauE64K9UGwCWSGYEsFbwVKdmOLxNT
+         D1qrOqYQ5mZCkOQQq8TGB5Dwxrro858u2maQg5Bt4faJ1upH8fqgROBI5ayZsoDzytci
+         l02A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+SBgDf21nE7Fz3DEe+AUeblmVxcRq4JLFAaeQh0074k=;
+        b=iXSZSA+xr0aSVUDM5JPauFb6rJyV2vD4K+KaOanpT7U4+nReim2iBNnp96sk5FoLQ+
+         3nKLrGp9RiGAdU6A6uokNdDC5k5N614ewYaxvNi3Tlg+d0cJpkfRF3ztIAFAJ6OayYX8
+         ibuwEYSycmzjFnWyK2ObGvLybIZUNR/H1lw27OrvyZJmaG2ys41UKlMMfzJAiZP1Hwkf
+         PFb4DJHSqohnXIBke0KqsfU/eoEkkMexBdFpm6nAcFoPd3yxZL1Hj8OwnHKQn1Vne2Tk
+         PmNhlpCQewFLrtZ8SRxkxYTEegXHjZpT+hoqaCalICdtq6bR8IhrVJ3D0eSLweoexMxr
+         9tjw==
+X-Gm-Message-State: ANoB5pnaCtkKUyvXf9Xn55t7Jpy7tINjldtATWLwmJnxVIwxxVJACt3s
+        1TWLNlouQfe1zlRRnch58mfpy+FKUE200Hgv9zz5zg==
+X-Google-Smtp-Source: AA0mqf6PPhad0dT7AQIq72om4eiZw0XHpyFWIjc/NSq9ASGSg9Iv/RYo/rQ1EvHP5JLLxgvc3vGDT/5EA2EgEcJas3A=
+X-Received: by 2002:a25:d8d4:0:b0:6f0:36e2:5fc2 with SMTP id
+ p203-20020a25d8d4000000b006f036e25fc2mr58067021ybg.52.1670334590231; Tue, 06
+ Dec 2022 05:49:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y45iXb6VCNiz7ZVd@lenoch>
-X-CMAE-Envelope: MS4wfLd2UW8iXt/3L0sExGT42CiIWfoR5oYsk2UbxdrcSCcdvZIPysp5CMPuGKaBUXtgDfArSGX35y5TdaCFK6RoqdZFuRbtjYmPaMGwFmLnuFQnCmv1NiE0
- 5zMUIRTL34XYveu7nefoT4qMbsT6YW56kA2e332E04/qFLb03In3OB6E
+References: <a989b3b798ecaf3b45f35160e30e605636d66a77.1669044086.git.geert+renesas@glider.be>
+ <CACRpkdZPhKT=wjToSiY+iyXk2_WdBZ1hEvmNvQQLJPZGN==-xQ@mail.gmail.com> <CAMuHMdVDYsCPko9NJfa+JLk_MRFAR1dgSF3GahtTeABysDFyBA@mail.gmail.com>
+In-Reply-To: <CAMuHMdVDYsCPko9NJfa+JLk_MRFAR1dgSF3GahtTeABysDFyBA@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 6 Dec 2022 14:49:38 +0100
+Message-ID: <CACRpkdb+eXGwdDgMP6VXnObfz-_k=xQ=Er8b4=cvhmYEzt5j9w@mail.gmail.com>
+Subject: Re: [PATCH] usb: USB_FOTG210 should depend on ARCH_GEMINI
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Fabian Vogt <fabian@ritter-vogt.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Dec 05, 2022 at 10:27:57PM +0100, Ladislav Michl wrote:
-> I'm running current linux.git on custom Marvell OCTEON III CN7020
-> based board. USB devices like FTDI (idVendor=0403, idProduct=6001,
-> bcdDevice= 6.00) Realtek WiFi dongle (idVendor=0bda, idProduct=8179,
-> bcdDevice= 0.00) works without issues, while Ralink WiFi dongle 
-> (idVendor=148f, idProduct=5370, bcdDevice= 1.01) kills the host on
-> disconnect:
-> xhci-hcd xhci-hcd.0.auto: xHCI host not responding to stop endpoint command
-> xhci-hcd xhci-hcd.0.auto: xHCI host controller not responding, assume dead
-> xhci-hcd xhci-hcd.0.auto: HC died; cleaning up
-> 
-> Unfortunately I do not have a datasheet for CN7020 SoC, so it is hard
-> to tell if there is any errata :/ In case anyone see a clue in debug
-> logs bellow, I'll happily give it a try.
+On Tue, Dec 6, 2022 at 9:01 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Mon, Dec 5, 2022 at 11:24 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> > On Mon, Nov 21, 2022 at 4:22 PM Geert Uytterhoeven
+> > <geert+renesas@glider.be> wrote:
+> > > The Faraday Technology FOTG210 USB2 Dual Role Controller is only present
+> > > on Cortina Systems Gemini SoCs.
+> >
+> > As it turns out, this is not true. The TI nSpire uses this too, I should have
+> > noted since the nSpire maintainer was patching the driver...
+> > https://lore.kernel.org/linux-usb/20210324141115.9384-1-fabian@ritter-vogt.de/
+> >
+> > Shall we revert it or just add another clause for the nSpire?
+>
+> Oh, but the integration is not (yet) upstream, as I didn't find any
+> "faraday,fotg210" outside gemini.dtsi.
 
-So I do have datasheet now. As a wild guess I tried to use dlmc_ref_clk0
-instead of dlmc_ref_clk1 as a refclk-type-ss and it fixed unplug death.
-I have no clue why, but anyway - sorry for the noise :) Perhaps Octeon's
-clock init is worth to be verified...
+Ah it is still brewing, sorry.
 
-	ladis
+> I guess another clause would be the most-userfriendly solution.
+
+Yeah we can just add it when adding nSpire II.
+
+Yours,
+Linus Walleij
