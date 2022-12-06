@@ -2,99 +2,90 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F95AC352A1
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Dec 2022 06:09:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 615B5C352A1
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Dec 2022 08:01:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233008AbiLFGJM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 6 Dec 2022 01:09:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48910 "EHLO
+        id S231641AbiLFIBJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 6 Dec 2022 03:01:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232748AbiLFGJI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Dec 2022 01:09:08 -0500
-Received: from sender4-op-o16.zoho.com (sender4-op-o16.zoho.com [136.143.188.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60EB826AF8
-        for <linux-usb@vger.kernel.org>; Mon,  5 Dec 2022 22:08:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1670306020; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=LtRxaus840eTgSFHKHI4FiRq3Sc28LDH0d/vsir1aLsM47Dz5lTsmzu9KAKU9UaUn70G3vMEVybA19G2NMezI3cxJeNnXPctmgsredCuDwcU2INW0D6GvUPfE6Ay/U4Ke07sJ8aaLB3EIP93ewd6jY7B+luxviKo9UfqI41kHU0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1670306020; h=Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=/k1Z2WEqHllTXos8B4dmbQlQ4/WttliYjSasnsZMvhQ=; 
-        b=aZgxRZV+Ut4+VNrJQIBc6M3Ogxo/14bI9TvtCotaf8hrbakldORtxHAntcopZzbE/u3h+WJ+lbcGHbmPJEUPtkK1sAF+SmCqW//vkqIpgugVSJ6CHAKmKrXw77bnJQkKWvvVec3dgTkQDgiDo0oe/rSG98vI66VPOshpnOjb1mk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=icenowy.me;
-        spf=pass  smtp.mailfrom=uwu@icenowy.me;
-        dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1670306020;
-        s=zmail; d=icenowy.me; i=uwu@icenowy.me;
-        h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
-        bh=/k1Z2WEqHllTXos8B4dmbQlQ4/WttliYjSasnsZMvhQ=;
-        b=N/qlKYX8tYoyB7VdKKHgswYT4lcoDv2xLKWQP2j+JWExnbTnCRCQCrCg5KzDlOHE
-        m7pjEqIlcUMMMUTLGuNwnRP/J7cnP6n3ARLuuyk+wO4YE3QdHsiHwdRtA/w5s8Z3fTb
-        IcL6O8waDQp2ylfJh6vFFeVMWuQ/kcMIAfz9zWAA=
-Received: from edelgard.fodlan.icenowy.me (120.85.99.143 [120.85.99.143]) by mx.zohomail.com
-        with SMTPS id 167030601851298.70551810068184; Mon, 5 Dec 2022 21:53:38 -0800 (PST)
-From:   Icenowy Zheng <uwu@icenowy.me>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Andre Przywara <andre.przywara@arm.com>
-Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, Icenowy Zheng <uwu@icenowy.me>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 5/6] dt-bindings: arm: sunxi: add Rongpin RP-H6B board
-Date:   Tue,  6 Dec 2022 13:52:27 +0800
-Message-Id: <20221206055228.306074-6-uwu@icenowy.me>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221206055228.306074-1-uwu@icenowy.me>
-References: <20221206055228.306074-1-uwu@icenowy.me>
+        with ESMTP id S230327AbiLFIBB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Dec 2022 03:01:01 -0500
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76441178A2;
+        Tue,  6 Dec 2022 00:01:00 -0800 (PST)
+Received: by mail-qk1-f173.google.com with SMTP id v8so6891538qkg.12;
+        Tue, 06 Dec 2022 00:01:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NwtnhNDE77wY8xo2aeVHI67JHPZRh1RTuiZ2DWCBbZc=;
+        b=Ae/vfjtMldeQ/+G4WeRVUY0visx3TnckD1iWkyBuu/YsnWtOXv8hhOJRowajiVJ6Ln
+         YOBpprutHVSRN016g43bSfv6Usicv/FzWtTWRqn8QhsoLHj2II9Q+2IY7BmVS0sMjbDZ
+         LCT6Au3/sCJqe/5t+B4Rp45h8/XSy/4fpUsRyW4J0Se09bZyws9yrMUCB5XvZ9D9WJJG
+         hXiPwBS081WqK0nlbLXzgsbi6Hh2qMv0ajHLPuaKkVXzEZa9TgszIike5pmE/RzylOu7
+         WRJ9dVJPAyUFwxgBbIl7+zMIfrlg2YdMB2ADMmggCYh6LWz9UQ7oXNkRgNStkhcTDpjT
+         z/mQ==
+X-Gm-Message-State: ANoB5pkPmEWH0Nqq94cln71M0H7J0H12XkYT89nyMcaE/4GkyKX9tXyv
+        itu5NfBiPI/dPr+afqzeclQuo7kwKKSNUw==
+X-Google-Smtp-Source: AA0mqf7JcNGGKOmHaJ/73QQdP3YXe4/dTLFF0/RKcy442c/IzQICTUPSoFfbCMh37gecUjWhZGVdqg==
+X-Received: by 2002:a05:620a:12bc:b0:6fc:add2:58e4 with SMTP id x28-20020a05620a12bc00b006fcadd258e4mr16033683qki.681.1670313659392;
+        Tue, 06 Dec 2022 00:00:59 -0800 (PST)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id u3-20020a05622a17c300b003a6947863e1sm9153801qtk.11.2022.12.06.00.00.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Dec 2022 00:00:59 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id 7so17594133ybp.13;
+        Tue, 06 Dec 2022 00:00:58 -0800 (PST)
+X-Received: by 2002:a25:7a02:0:b0:6f7:952d:b145 with SMTP id
+ v2-20020a257a02000000b006f7952db145mr33481513ybc.604.1670313657864; Tue, 06
+ Dec 2022 00:00:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <a989b3b798ecaf3b45f35160e30e605636d66a77.1669044086.git.geert+renesas@glider.be>
+ <CACRpkdZPhKT=wjToSiY+iyXk2_WdBZ1hEvmNvQQLJPZGN==-xQ@mail.gmail.com>
+In-Reply-To: <CACRpkdZPhKT=wjToSiY+iyXk2_WdBZ1hEvmNvQQLJPZGN==-xQ@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 6 Dec 2022 09:00:46 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVDYsCPko9NJfa+JLk_MRFAR1dgSF3GahtTeABysDFyBA@mail.gmail.com>
+Message-ID: <CAMuHMdVDYsCPko9NJfa+JLk_MRFAR1dgSF3GahtTeABysDFyBA@mail.gmail.com>
+Subject: Re: [PATCH] usb: USB_FOTG210 should depend on ARCH_GEMINI
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Fabian Vogt <fabian@ritter-vogt.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Rongpin RP-H6B is a development board with RP-H6C SoM, which uses an
-Allwinner H6 SoC.
+Hi Linus,
 
-Add compatible strings for it, including the board-specific compatible
-and the SoM compatible.
+On Mon, Dec 5, 2022 at 11:24 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> On Mon, Nov 21, 2022 at 4:22 PM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+> > The Faraday Technology FOTG210 USB2 Dual Role Controller is only present
+> > on Cortina Systems Gemini SoCs.
+>
+> As it turns out, this is not true. The TI nSpire uses this too, I should have
+> noted since the nSpire maintainer was patching the driver...
+> https://lore.kernel.org/linux-usb/20210324141115.9384-1-fabian@ritter-vogt.de/
+>
+> Shall we revert it or just add another clause for the nSpire?
 
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Samuel Holland <samuel@sholland.org>
----
-Changes in v3:
-- Add Samuel's Reviewed tag.
-Changes in v2:
-- Add Krzysztof's ACK.
+Oh, but the integration is not (yet) upstream, as I didn't find any
+"faraday,fotg210" outside gemini.dtsi.
 
- Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+I guess another clause would be the most-userfriendly solution.
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index 3ad1cd50e3fe..482631815f2f 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -792,6 +792,12 @@ properties:
-           - const: rervision,h3-dvk
-           - const: allwinner,sun8i-h3
- 
-+      - description: Rongpin RP-H6B development board
-+        items:
-+          - const: rongpin,rp-h6b
-+          - const: rongpin,rp-h6c
-+          - const: allwinner,sun50i-h6
-+
-       - description: Sinlinx SinA31s Core Board
-         items:
-           - const: sinlinx,sina31s
--- 
-2.38.1
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
