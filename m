@@ -2,85 +2,161 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64282C4332F
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Dec 2022 10:59:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 481FFC4332F
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Dec 2022 16:08:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229905AbiLJK7y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Dec 2022 05:59:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50206 "EHLO
+        id S229743AbiLJQID (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Dec 2022 11:08:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229894AbiLJK7t (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Dec 2022 05:59:49 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B86B91CFC9
-        for <linux-usb@vger.kernel.org>; Sat, 10 Dec 2022 02:59:45 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3C65DB827DF
-        for <linux-usb@vger.kernel.org>; Sat, 10 Dec 2022 10:59:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D84A9C433F1
-        for <linux-usb@vger.kernel.org>; Sat, 10 Dec 2022 10:59:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670669982;
-        bh=rxZmzn4Rd3JucAmUWzCzqtKU+YiA0zPbXM55oBO4GAs=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=gX6dLec7G8sFtPMMXcHjOHIzZNwoQmXaYf8TzFYy5+2l2dx28RuBZBvQC3+sw3Amx
-         eeeXHVhIVIeMFQ7tFPhlB3lJQqMQZOg4YhSiEJ5yz4ftrE1ZpEvY8USWJbd9+LF9bQ
-         yb8oD6ehaEEEvI0FDO/bM2MVayBy0EUFE7lZlnm2+bX/wF4n4IxuO3g++Pi5X9E41j
-         PdLPuefMYh+ShQ3jtRUPgmEy1sHAszWH/I94dNZ+UjFRY9OGFejF0+EiiDKdJPbNlC
-         yoyNJ+RlZJoF2g7SgiJk42R4jCaka386otuiWalIn1EdP3/VWK2RcV5/xawg21f1ww
-         E1PKutJWUSCrw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id BD5CAC004D5; Sat, 10 Dec 2022 10:59:42 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 216697] Resume from suspend stopped working
-Date:   Sat, 10 Dec 2022 10:59:42 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: regressions@leemhuis.info
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216697-208809-HRLSk4TlNL@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216697-208809@https.bugzilla.kernel.org/>
-References: <bug-216697-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        with ESMTP id S229538AbiLJQIC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Dec 2022 11:08:02 -0500
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com [IPv6:2001:4860:4864:20::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BB6B2715;
+        Sat, 10 Dec 2022 08:08:01 -0800 (PST)
+Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-1447c7aa004so3358293fac.11;
+        Sat, 10 Dec 2022 08:08:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=X90OAossxf96hzJz48GuBDU3cdz+acl5ootwmwc92vw=;
+        b=EHgs57gMzUu90cUfjVA3PB0/tuIxO++M6Haf1jYx+t+LDQhLIvZFW6+BTgz/p1z+Ho
+         LoqkJUAg3ZfNBMFemrlo/KqJmpYCEibrS8fVUlAwtjSqyhXGPb1uvOvCwp51mHHZD1Cb
+         palK4A9a3TgXmvd+sy5u3g4X3y4JFGnE7XryUptj0JMwhGxEBhkmfPryHRCZpDGKPOrS
+         /K8WS1nR246i6VQQcw5v/vgve3teTUso90HZDUkFmdbqEPvS97PooxSOHlilYPOGpLm5
+         cnuMICcr1ygrrN6+n7YIq62QtqvobYW5JR8nkBxMOKap2O7M2hZIZpWipA4f4IeEMAwe
+         Sraw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X90OAossxf96hzJz48GuBDU3cdz+acl5ootwmwc92vw=;
+        b=WYehI2BqLuUI1EGlYwseT4Gfxk/v494bI+p1dgbXH7amEtc5LNlz2GSf43omSpCQGJ
+         uhvVthRnlQrLacO4ZtAXcET6EcoNxbgmS+YrXL3vIVOnGoWrzge935AiqPhc2pdzofW9
+         cXZLKmzaAfhlvOELQx0juXS5hM5miNCpNeyU+K2bK0qq8sAHgTErlVxSo9MVjH6V2dIq
+         Chi60XQm89+g2ffbKh7L8+qxVDxT7/oc3qSprP7i5UhI5yChenxYij8ZxGh/ZoEg5JKA
+         uKIeKiZ2ShvjzqGml9JsUsZITaVs+2gXPHNYa4T++xsi9iZBHCAlx3Ld9HC5CeFwGhtA
+         FMiA==
+X-Gm-Message-State: ANoB5pnk3+v93XcxNkb0uonOHxcijHMzF/waTgoxhs/+2oVVT/tFohwK
+        LcL36mgXuj87IbXOsgjhHUzYqUNCE50=
+X-Google-Smtp-Source: AA0mqf4/enyviU4doy1gifL84yCFW3yO4ZaqSEPM08OXpTK0pkiokzUBnZUnLtcEDEIMPOIuFj+enA==
+X-Received: by 2002:a05:6870:88aa:b0:137:3ad9:acca with SMTP id m42-20020a05687088aa00b001373ad9accamr6714430oam.54.1670688480187;
+        Sat, 10 Dec 2022 08:08:00 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id kw32-20020a056870ac2000b0013b911d5960sm2432837oab.49.2022.12.10.08.07.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 10 Dec 2022 08:07:59 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <52ed8d2f-813f-b9b6-238a-b7764f488924@roeck-us.net>
+Date:   Sat, 10 Dec 2022 08:07:58 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v9 2/3] usb: typec: tcpci: Add callback for evaluating
+ contaminant presence
+Content-Language: en-US
+To:     Badhri Jagan Sridharan <badhri@google.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kyle Tso <kyletso@google.com>
+References: <20221210061626.948426-1-badhri@google.com>
+ <20221210061626.948426-2-badhri@google.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20221210061626.948426-2-badhri@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216697
+On 12/9/22 22:16, Badhri Jagan Sridharan wrote:
+> This change adds callback to evaluate presence of contaminant in
+> the TCPCI layer.
+> 
+> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+> ---
+> Changes since v7:
+> * None. Skipped versions by mistake.
+> Changes since v6:
+> * Removed is_potential_contaminant callback
+> Changes since v5:
+> * None
+> Changes since v4:
+> * None
+> Changes since v3:
+> * None
+> Changes since v2:
+> * Added tcpci_is_potential_contaminant to offload
+> * disconnect_while_debounce logic
+> ---
+>   drivers/usb/typec/tcpm/tcpci.c | 9 +++++++++
+>   include/linux/usb/tcpci.h      | 7 +++++++
+>   2 files changed, 16 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+> index fe781a38dc82..c8e78c13c9c4 100644
+> --- a/drivers/usb/typec/tcpm/tcpci.c
+> +++ b/drivers/usb/typec/tcpm/tcpci.c
+> @@ -403,6 +403,14 @@ static void tcpci_frs_sourcing_vbus(struct tcpc_dev *dev)
+>   		tcpci->data->frs_sourcing_vbus(tcpci, tcpci->data);
+>   }
+>   
+> +static void tcpci_check_contaminant(struct tcpc_dev *dev)
+> +{
+> +	struct tcpci *tcpci = tcpc_to_tcpci(dev);
+> +
+> +	if (tcpci->data->check_contaminant)
+> +		tcpci->data->check_contaminant(tcpci, tcpci->data);
+> +}
+> +
 
---- Comment #7 from The Linux kernel's regression tracker (Thorsten Leemhui=
-s) (regressions@leemhuis.info) ---
-(In reply to Heikki Krogerus from comment #6)
-> There is a fix for bug 216706, but it hasn't made it into the mainline nor
-> the stable kernels yet. Can somebody test that fix separately, if it helps
-> with this bug as well?
-> https://bugzilla.kernel.org/attachment.cgi?id=3D303247
+With this callback to tcpm in place, how does tcpm ever leave the
+CHECK_CONTAMINANT state if the low level driver does not support
+the callback ?
 
-Denis, Roman, did you try?
+Thanks,
+Guenter
 
-Heikki, just btw, there was another issue (bug 216788) where that patch hel=
-ped.
 
---=20
-You may reply to this email to add a comment.
+>   static int tcpci_set_bist_data(struct tcpc_dev *tcpc, bool enable)
+>   {
+>   	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
+> @@ -777,6 +785,7 @@ struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data)
+>   	tcpci->tcpc.enable_frs = tcpci_enable_frs;
+>   	tcpci->tcpc.frs_sourcing_vbus = tcpci_frs_sourcing_vbus;
+>   	tcpci->tcpc.set_partner_usb_comm_capable = tcpci_set_partner_usb_comm_capable;
+> +	tcpci->tcpc.check_contaminant = tcpci_check_contaminant;
+>   
+>   	if (tcpci->data->auto_discharge_disconnect) {
+>   		tcpci->tcpc.enable_auto_vbus_discharge = tcpci_enable_auto_vbus_discharge;
+> diff --git a/include/linux/usb/tcpci.h b/include/linux/usb/tcpci.h
+> index 17657451c762..85e95a3251d3 100644
+> --- a/include/linux/usb/tcpci.h
+> +++ b/include/linux/usb/tcpci.h
+> @@ -188,6 +188,12 @@ struct tcpci;
+>    *		Optional; The USB Communications Capable bit indicates if port
+>    *		partner is capable of communication over the USB data lines
+>    *		(e.g. D+/- or SS Tx/Rx). Called to notify the status of the bit.
+> + * @check_contaminant:
+> + *		Optional; The callback is invoked when chiplevel drivers indicated
+> + *		that the USB port needs to be checked for contaminant presence.
+> + *		Chip level drivers are expected to check for contaminant and call
+> + *		tcpm_clean_port when the port is clean to put the port back into
+> + *		toggling state.
+>    */
+>   struct tcpci_data {
+>   	struct regmap *regmap;
+> @@ -204,6 +210,7 @@ struct tcpci_data {
+>   	void (*frs_sourcing_vbus)(struct tcpci *tcpci, struct tcpci_data *data);
+>   	void (*set_partner_usb_comm_capable)(struct tcpci *tcpci, struct tcpci_data *data,
+>   					     bool capable);
+> +	void (*check_contaminant)(struct tcpci *tcpci, struct tcpci_data *data);
+>   };
+>   
+>   struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data);
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
