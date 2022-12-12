@@ -2,40 +2,38 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A9DC00145
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Dec 2022 13:56:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23B54C4332F
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Dec 2022 13:57:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233294AbiLLN4z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Dec 2022 08:56:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56210 "EHLO
+        id S233207AbiLLN5S (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Dec 2022 08:57:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233324AbiLLN42 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Dec 2022 08:56:28 -0500
-X-Greylist: delayed 1115 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 12 Dec 2022 05:56:16 PST
-Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 256F615A2B;
-        Mon, 12 Dec 2022 05:56:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=metanate.com; s=stronger; h=In-Reply-To:Content-Type:References:Message-ID:
-        Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description; bh=cO3Dx3OHHxJSEXzaZsdDqnwyc7eLG61Edw6kEr88FUU=; b=PIQL8
-        ifItxTKeDkURpz5aWa2Szu4wbUbPUFIZ/PBC1DzBkkbw4AqIoX2oJJSZS/z0fFB94RtbBN8iKFZJg
-        uZR3hqZ+C3AZz5J2pS+eao6GdpH5bTt4Op0V8S2PqBvApykhwFZxE86rebXibIlbHczI0XomGMuvD
-        IqUVhDRbEL/Q4OuRu8f5If7WdhMwZLdODpQ7jGAoDF5eBfrAcGeCBP+hVN6qKa8q5tWgYjwafQPIh
-        BTt1yjNgLigmm7pj9zkp3VRo8HiiOrKiGhamiJm9xfDqE8cQeV2RvGRx7uKgd57mK2mOZCQbwf+T5
-        vaPUkMWPMVhhloR9njp8L0UCy8qaQ==;
-Received: from [81.174.171.191] (helo=donbot)
-        by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <john@metanate.com>)
-        id 1p4izs-0007Q1-Hs;
-        Mon, 12 Dec 2022 13:37:33 +0000
-Date:   Mon, 12 Dec 2022 13:37:31 +0000
-From:   John Keeping <john@metanate.com>
+        with ESMTP id S233157AbiLLN5P (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Dec 2022 08:57:15 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C497B9FDF;
+        Mon, 12 Dec 2022 05:57:14 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4104561115;
+        Mon, 12 Dec 2022 13:57:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E93C2C433F0;
+        Mon, 12 Dec 2022 13:57:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1670853433;
+        bh=SosdTNqvZlwkRrhdbSd1fjxE5vGZbAdcWj210RKTI3A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=o52V7S3C2/BOF2hvCpJBT3nZMNMTaJw5lytNmb8LuvDuJqKK8rnGrgR7vdIaWNefT
+         Vfzo/Y2FAxBzTu+EGJhQLNEXM6lcEjRjtpEw3Olu6xVcMxg9EBvrSb53G1lsFI5GB2
+         MQJIJO//nzvxRzUd4qCe4THaT7/LUVrsSQfa6RT8=
+Date:   Mon, 12 Dec 2022 14:35:04 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Prashanth K <quic_prashk@quicinc.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+Cc:     "Gustavo A . R . Silva" <gustavoars@kernel.org>,
         Shuah Khan <skhan@linuxfoundation.org>,
+        John Keeping <john@metanate.com>,
         Linyu Yuan <quic_linyyuan@quicinc.com>,
         Pratham Pratap <quic_ppratap@quicinc.com>,
         Vincent Pelletier <plr.vincent@gmail.com>,
@@ -44,13 +42,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         "# 5 . 15" <stable@vger.kernel.org>
 Subject: Re: usb: f_fs: Fix CFI failure in ki_complete
-Message-ID: <Y5cum5pYxro1SYtx@donbot>
+Message-ID: <Y5cuCMhFIaKraUyi@kroah.com>
 References: <1670851464-8106-1-git-send-email-quic_prashk@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <1670851464-8106-1-git-send-email-quic_prashk@quicinc.com>
-X-Authenticated: YES
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -61,8 +58,14 @@ On Mon, Dec 12, 2022 at 06:54:24PM +0530, Prashanth K wrote:
 > might cause a CFI failure, as ki_complete is an indirect call
 > with mismatched prototype. Fix this by typecasting the second
 > argument to long.
-> 
+
+"might"?  Does it or not?  If it does, why hasn't this been reported
+before?
+
 > Cc: <stable@vger.kernel.org> # 5.15
+
+CFI first showed up in 6.1, not 5.15, right?
+
 > Signed-off-by: Prashanth K <quic_prashk@quicinc.com>
 > 
 > ---
@@ -80,13 +83,14 @@ On Mon, Dec 12, 2022 at 06:54:24PM +0530, Prashanth K wrote:
 > -	io_data->kiocb->ki_complete(io_data->kiocb, ret);
 > +	io_data->kiocb->ki_complete(io_data->kiocb, (long)ret);
 
-I don't understand the problem here, ki_complete() is declared with a
-long parameter, so won't integer promotion kick in so that the function
-is called with a long?  Why is the explicit cast necessary?
+Why just fix up this one instance?  What about ep_user_copy_worker()?
+And what about all other calls to ki_complete that are not using a
+(long) cast?
 
->  
->  	if (io_data->ffs->ffs_eventfd && !kiocb_has_eventfd)
->  		eventfd_signal(io_data->ffs->ffs_eventfd, 1);
-> -- 
-> 2.7.4
-> 
+This feels wrong, what exactly is the reported error and how come other
+kernel calls to this function pointer have not had a problem with CFI?
+ceph_aio_complete() would be another example, right?
+
+thanks,
+
+greg k-h
