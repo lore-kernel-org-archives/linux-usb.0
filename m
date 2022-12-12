@@ -2,72 +2,55 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95327C4708D
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Dec 2022 13:50:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A9DC00145
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Dec 2022 13:56:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233183AbiLLNuO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Dec 2022 08:50:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48150 "EHLO
+        id S233294AbiLLN4z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Dec 2022 08:56:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233072AbiLLNta (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Dec 2022 08:49:30 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9011812620;
-        Mon, 12 Dec 2022 05:49:21 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id v124-20020a1cac82000000b003cf7a4ea2caso5190276wme.5;
-        Mon, 12 Dec 2022 05:49:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OMzRkMMjSU4aJEZO827x0ihXjxjaMrKMObfU28boQDs=;
-        b=jCu5h2zKA4iyuE40Ez5NWetZAH7PIzKMupyd2HvVqZe6FMX0rVFTes6g2VFr/yvawq
-         HbWRXogz11Y+I47mhmUD4aznRTFoZEOZN6al56/nNlXeqktf+AjCGjpE4el9DtYKKmnQ
-         sklm7vfhpGVN/ONsgrmQhCiHp+i8oOJpHXRMMeYjHEPEvZ39ZPq0giw0MTfNFvDfaK2Q
-         BZi5Xz788a7eOxhKKu6mmoK2VLv5h9EiPGgKloJXzUiR+VSZrcK44VQdN4tuZ2o23jio
-         MS1myL3FeeuSHWqv7ejq1dzEG+jds2q7wsi27EOOrIYUGwBjG/0AGjmkwZg+fx9dO9R/
-         VJhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OMzRkMMjSU4aJEZO827x0ihXjxjaMrKMObfU28boQDs=;
-        b=AhkBudamjPj2rKBketMLLw8b6JheRIpc6ULdSvyBLpnNGiHXB3zhZTZA5CgFHEF9oN
-         X9RzxGyvkL0zofeui919vTEqRdVlyr65RkQtVjjZIx5KP7VLXhsQTzcToz9slNpqU1Ba
-         Rj5to8VDawOs9lV6te+2uG8otwZz/NNDl5yIDiR6PSLNM6KQ0qFpaKX2YzchIHV3EQv2
-         lWJ2njltcauG18TXXLBP+QQNhOEZaRb/LyB/HFVlS/eH51n6wJWSpdxhYWWpymZ9xryE
-         QS0bKpB3yTdNmJXWVj+4YizI0bH/jGzmGi2udzl6nPAKFBwGKwrogY4Qy9SPRm1gTVox
-         0Rew==
-X-Gm-Message-State: ANoB5pnVoc6VhijGJODsWNaKzWJsyTbWUemX/yZYBXloEk45l0U+FZPB
-        uT2HvkXw8S/X8IYRcSKPaDs=
-X-Google-Smtp-Source: AA0mqf6maMa4WcXRcvhdMnv1l/9rgQcRIvpUePdM3Ur1GffCsn7GrZ98YsRPG5i6culYFniArIa9dg==
-X-Received: by 2002:a05:600c:1d02:b0:3cf:d365:1ea3 with SMTP id l2-20020a05600c1d0200b003cfd3651ea3mr12833700wms.12.1670852960150;
-        Mon, 12 Dec 2022 05:49:20 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id j27-20020a05600c1c1b00b003cfaae07f68sm10137258wms.17.2022.12.12.05.49.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Dec 2022 05:49:19 -0800 (PST)
-Date:   Mon, 12 Dec 2022 16:49:15 +0300
-From:   Dan Carpenter <error27@gmail.com>
+        with ESMTP id S233324AbiLLN42 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Dec 2022 08:56:28 -0500
+X-Greylist: delayed 1115 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 12 Dec 2022 05:56:16 PST
+Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 256F615A2B;
+        Mon, 12 Dec 2022 05:56:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=metanate.com; s=stronger; h=In-Reply-To:Content-Type:References:Message-ID:
+        Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description; bh=cO3Dx3OHHxJSEXzaZsdDqnwyc7eLG61Edw6kEr88FUU=; b=PIQL8
+        ifItxTKeDkURpz5aWa2Szu4wbUbPUFIZ/PBC1DzBkkbw4AqIoX2oJJSZS/z0fFB94RtbBN8iKFZJg
+        uZR3hqZ+C3AZz5J2pS+eao6GdpH5bTt4Op0V8S2PqBvApykhwFZxE86rebXibIlbHczI0XomGMuvD
+        IqUVhDRbEL/Q4OuRu8f5If7WdhMwZLdODpQ7jGAoDF5eBfrAcGeCBP+hVN6qKa8q5tWgYjwafQPIh
+        BTt1yjNgLigmm7pj9zkp3VRo8HiiOrKiGhamiJm9xfDqE8cQeV2RvGRx7uKgd57mK2mOZCQbwf+T5
+        vaPUkMWPMVhhloR9njp8L0UCy8qaQ==;
+Received: from [81.174.171.191] (helo=donbot)
+        by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <john@metanate.com>)
+        id 1p4izs-0007Q1-Hs;
+        Mon, 12 Dec 2022 13:37:33 +0000
+Date:   Mon, 12 Dec 2022 13:37:31 +0000
+From:   John Keeping <john@metanate.com>
 To:     Prashanth K <quic_prashk@quicinc.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Gustavo A . R . Silva" <gustavoars@kernel.org>,
         Shuah Khan <skhan@linuxfoundation.org>,
-        John Keeping <john@metanate.com>,
         Linyu Yuan <quic_linyyuan@quicinc.com>,
         Pratham Pratap <quic_ppratap@quicinc.com>,
         Vincent Pelletier <plr.vincent@gmail.com>,
+        Dan Carpenter <error27@gmail.com>,
         Udipto Goswami <quic_ugoswami@quicinc.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         "# 5 . 15" <stable@vger.kernel.org>
 Subject: Re: usb: f_fs: Fix CFI failure in ki_complete
-Message-ID: <Y5cxW7xc+pegcbNv@kadam>
+Message-ID: <Y5cum5pYxro1SYtx@donbot>
 References: <1670851464-8106-1-git-send-email-quic_prashk@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <1670851464-8106-1-git-send-email-quic_prashk@quicinc.com>
+X-Authenticated: YES
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -97,21 +80,13 @@ On Mon, Dec 12, 2022 at 06:54:24PM +0530, Prashanth K wrote:
 > -	io_data->kiocb->ki_complete(io_data->kiocb, ret);
 > +	io_data->kiocb->ki_complete(io_data->kiocb, (long)ret);
 
-I don't understand this commit at all.  CFI is Control Flow Integrity
-or Common Flash Interface depending on which subsystem we're talking
-about.
+I don't understand the problem here, ki_complete() is declared with a
+long parameter, so won't integer promotion kick in so that the function
+is called with a long?  Why is the explicit cast necessary?
 
-I really think that Clang needs to be fixed if this really causes an
-issue for Clang.  How on earth are we going to know where to add all
-the casts?
-
-The commit message says "this might cause a CFI" failure.  Either it
-does or it doesn't.  Please someone test this so we can know what's
-going on.
-
-Why is it backported to 5.15?  I thought CFI was not going to backported
-that far and I has seen people complaining about CFI backports.
-
-regards,
-dan carpenter
-
+>  
+>  	if (io_data->ffs->ffs_eventfd && !kiocb_has_eventfd)
+>  		eventfd_signal(io_data->ffs->ffs_eventfd, 1);
+> -- 
+> 2.7.4
+> 
