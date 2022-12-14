@@ -2,83 +2,60 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 560D0C4167B
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Dec 2022 14:56:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7640C4332F
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Dec 2022 15:19:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238731AbiLNO4e (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Dec 2022 09:56:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60054 "EHLO
+        id S238769AbiLNPT4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Dec 2022 10:19:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238744AbiLNO4b (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Dec 2022 09:56:31 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79DAC27B26;
-        Wed, 14 Dec 2022 06:56:29 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 16B4261807;
-        Wed, 14 Dec 2022 14:56:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB9B4C433D2;
-        Wed, 14 Dec 2022 14:56:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1671029788;
-        bh=maUEsgzJ2DJN1ffH0fFG9b002yrOqNh2td9Dk+SSa6U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DnVPosIOGOUiUQ7xNBq2QwKrLOcB2ifUac18WOMx7X+g68JJIMYsk5AaVrPZttqLK
-         N6YVs4hSBp7IpU/MvgiwhAYhMMTRnorqQPOLFheYY0nwJwnC0wERlYUd+iFbnNeDgS
-         EsGxxwRqqmYnRL+C4RN78eC3jUcBPlWE6H67BOK4=
-Date:   Wed, 14 Dec 2022 15:56:25 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Prashanth K <quic_prashk@quicinc.com>
-Cc:     "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        John Keeping <john@metanate.com>,
-        Linyu Yuan <quic_linyyuan@quicinc.com>,
-        Pratham Pratap <quic_ppratap@quicinc.com>,
-        Vincent Pelletier <plr.vincent@gmail.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Udipto Goswami <quic_ugoswami@quicinc.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "# 5 . 15" <stable@vger.kernel.org>
-Subject: Re: usb: f_fs: Fix CFI failure in ki_complete
-Message-ID: <Y5nkGdJOpmn1hXZo@kroah.com>
-References: <1670851464-8106-1-git-send-email-quic_prashk@quicinc.com>
- <Y5cuCMhFIaKraUyi@kroah.com>
- <214c4b8f-b86b-3e1f-d34b-ccfa756f3136@quicinc.com>
+        with ESMTP id S238761AbiLNPTx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Dec 2022 10:19:53 -0500
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id C01641146C
+        for <linux-usb@vger.kernel.org>; Wed, 14 Dec 2022 07:19:52 -0800 (PST)
+Received: (qmail 927420 invoked by uid 1000); 14 Dec 2022 10:19:51 -0500
+Date:   Wed, 14 Dec 2022 10:19:51 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     syzbot <syzbot+33d7ad66d65044b93f16@syzkaller.appspotmail.com>
+Cc:     gregkh@linuxfoundation.org, hbh25y@gmail.com,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        mingo@kernel.org, rdunlap@infradead.org,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] KASAN: use-after-free Write in gadgetfs_kill_sb
+Message-ID: <Y5npl6gtsuf3+FKB@rowland.harvard.edu>
+References: <Y5kgHgl2dU6fkr3p@rowland.harvard.edu>
+ <00000000000066fb0905efc09dd1@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <214c4b8f-b86b-3e1f-d34b-ccfa756f3136@quicinc.com>
+In-Reply-To: <00000000000066fb0905efc09dd1@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Dec 14, 2022 at 06:38:17PM +0530, Prashanth K wrote:
+On Tue, Dec 13, 2022 at 06:37:17PM -0800, syzbot wrote:
+> Hello,
 > 
+> syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 > 
-> On 12-12-22 07:05 pm, Greg Kroah-Hartman wrote:
-> > On Mon, Dec 12, 2022 at 06:54:24PM +0530, Prashanth K wrote:
-> > > Function pointer ki_complete() expects 'long' as its second
-> > > argument, but we pass integer from ffs_user_copy_worker. This
-> > > might cause a CFI failure, as ki_complete is an indirect call
-> > > with mismatched prototype. Fix this by typecasting the second
-> > > argument to long.
-> > 
-> > "might"?  Does it or not?  If it does, why hasn't this been reported
-> > before?
-> Sorry for the confusion in commit text, We caught a CFI (Control Flow
-> Integrity) failure internally on 5.15, hence pushed this patch. But later I
-> came to know that CFI was implemented on 5.4 kernel for Android. Will push
-> the same on ACK and share the related details there.
+> Reported-and-tested-by: syzbot+33d7ad66d65044b93f16@syzkaller.appspotmail.com
 
-I will have the same questions there, namely, "why just this one
-instance and why is it trigging anything"?
+I'll take this as an indication that the previously reported RCU stall 
+was caused by something unrelated to the patch.  The patch will get 
+submitted in the next few days.
 
-So please, work this out here, in public, don't bury stuff in random
-vendor kernel trees.  That's not the way to solve anything properly, you
-know this :)
+Alan Stern
 
-thanks,
-
-greg k-h
+> 
+> Tested on:
+> 
+> commit:         830b3c68 Linux 6.1
+> git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/
+> console output: https://syzkaller.appspot.com/x/log.txt?x=10f5988b880000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=5a194ed4fc682723
+> dashboard link: https://syzkaller.appspot.com/bug?extid=33d7ad66d65044b93f16
+> compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+> patch:          https://syzkaller.appspot.com/x/patch.diff?x=12208bc0480000
+> 
+> Note: testing is done by a robot and is best-effort only.
