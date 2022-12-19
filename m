@@ -2,56 +2,56 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B5F8C4332F
-	for <linux-usb@archiver.kernel.org>; Mon, 19 Dec 2022 19:19:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8521EC3DA71
+	for <linux-usb@archiver.kernel.org>; Mon, 19 Dec 2022 19:19:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232558AbiLSTTJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 19 Dec 2022 14:19:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44102 "EHLO
+        id S232505AbiLSTTN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 19 Dec 2022 14:19:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231981AbiLSTTB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 19 Dec 2022 14:19:01 -0500
+        with ESMTP id S232504AbiLSTTD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 19 Dec 2022 14:19:03 -0500
 Received: from mail-il1-x149.google.com (mail-il1-x149.google.com [IPv6:2607:f8b0:4864:20::149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7896120B6
-        for <linux-usb@vger.kernel.org>; Mon, 19 Dec 2022 11:19:00 -0800 (PST)
-Received: by mail-il1-x149.google.com with SMTP id o10-20020a056e02102a00b003006328df7bso7082617ilj.17
-        for <linux-usb@vger.kernel.org>; Mon, 19 Dec 2022 11:19:00 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E80512D04
+        for <linux-usb@vger.kernel.org>; Mon, 19 Dec 2022 11:19:02 -0800 (PST)
+Received: by mail-il1-x149.google.com with SMTP id h9-20020a92c269000000b00303494c4f3eso7077620ild.15
+        for <linux-usb@vger.kernel.org>; Mon, 19 Dec 2022 11:19:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JPHDmjOz4kw82vudyh2gpNSeY/P1g0Ll1cHkuMKd04M=;
-        b=Hl9NxWeWRbBMNIcYbJvo9h4lOhGhAZEsdPi5MbDF9oJxtlLgXY3/mwkDZQWTaIwfkQ
-         uRsDLcZ4I/U1gY4gCmXSISAxWk/Q+4bC9AjBLvXBDAGpdcTe6ZvPzE244kYMz+eA42M7
-         wUWTlTn5N9Ycs5PdWjiOwiuS4D24OyLvoF1F0RZuvYaBBxdnihvlB8yySBabO1K/gMER
-         IlHNuvhH7i1NM5Zkqc62EZrJphOMVnPQVdcgqbAIpZbhRekeIOeieN7xMd/0cZm4sCYW
-         wHN2yrmAvyiCOSq4m09u35HFC2IdBGxzUUkasE0xaZ33SnBQTRz5fBVfqCSpGlQ3qR0I
-         8geg==
+        bh=OWNuZYCaMdD0VqCL395Kor3n/H1hGaRkxYaUC/R9e30=;
+        b=RevcIhrqWVnTCyAyG1KYmPiklVQWXA6oi8x63005w1ZE4ju2L/vacA4mHJ3tzsUG9w
+         tm5E52DZ1yKiQv8pr++SD+Rs/mldhfd1d6nlHjOudWQnSdRCzhgib95wcTln9tJ3kCOV
+         nGeUsUR+5Jpjs+vcGTPCLqGeHyTnuYy6ssOnebtfbiqypMz1LCoi/zuDJNTwvpDetH7v
+         hiZapLh9uGgpwQz708WoD8g3H+Bd3jbX2yfQIs2qyjU2B9q8K63mGE5vwX/1b1TWKFAD
+         ggRTtY0Rvl9k6GEbhiURa3jZBTCeNq4aOO+ob4U7EhG7P4rK1sOpl9qhG2jmBzOoGN0R
+         /ZxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JPHDmjOz4kw82vudyh2gpNSeY/P1g0Ll1cHkuMKd04M=;
-        b=Ae9TrYrDvpDF31LXlSZj5Q4GBBnpPo7/sk4ipnZM42wW0SpqJRJuiemTgLigdPKzKx
-         zyKkl1b/JVrmg8kUQ0IoXEL0nTjh3SVpYSS4HoRj5VRtmu4WNZu23YXGPkHbvjLxzmvt
-         9mMPjh/e4KbmPd6b7zVziahki1hhnj5Kh9penh2Y3UOtKe7l4E4ZFPTm69FM3FwVWjcw
-         1fLPAei/tLtpZtPOm6If3i09Rv/4M4sY2O/gsxvQ2e4jKzXqk3ggPSIQ0rVPI1dYLry1
-         mzEzHZyzUFbyyTDwXSOmGflznEBxwoa/tBKDObbCwGIZ5Fv2BCjPdYvFvRr5GsummkBS
-         cDRg==
-X-Gm-Message-State: ANoB5pmMz8RWVLMeVtPVwaTZ0zOJQxCaVoUuZfJJw5HcAjAEYZXflWZp
-        O+ARLnrF98L4LUAXtQGTvdmYPmZKY4TLOqI=
-X-Google-Smtp-Source: AA0mqf7amPioeMnlA+AUyAIaYb0aW6unNmd1qq3ubnJMOsmcaI05zjSC6BLtBwo3k1pZCRKGf3aTO/JDpU7ONFw=
+        bh=OWNuZYCaMdD0VqCL395Kor3n/H1hGaRkxYaUC/R9e30=;
+        b=mQPK/ZEN1Z+4S/emc6FCO+SwTFr+saMB06aIHy1ZNjlVFD57xCjo6mx1FSuEdMfMWV
+         0sprNYzcbePfnrd9c5zno76/ETYcbsEjoOF69JHlN0GPoqw5uwdP1P/6p+xqPXqSnLYh
+         GPaEx2BbP5ebrXFpqXW1oKZ8A1jmoUz7YCEf5C+LUWHNsCJM4iaMh+ABiw8snWn1mDVI
+         mS/PoG9ENxZaQ/DtoEj8PEwfTr45L9pnW1vW9P2cHdq6jUvU9VPbwgdsX4Y8iHIb81q6
+         YA+8u1ytmgQT3x+xxnup3b60m1FFTiam1TeinmHTV7QZqhwJLPDS+d9BRyNG5BsR0b3Z
+         k0oQ==
+X-Gm-Message-State: ANoB5pnHlxZg8aonoj5AYkh14kLhWP5tqm08gg+/ux11eeyUg/g+LhaU
+        B6B21PDx8ETREWS6RV+hooxesjdrHpeUfns=
+X-Google-Smtp-Source: AA0mqf6anYld01mlT0bgsEUW2E614uK1xY0nfYX11Z7gH5gt8Lz/huRlMVEEPaCK3ttoKX4XoKeMyd/3padWXCE=
 X-Received: from allenwebb.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:12e8])
- (user=allenwebb job=sendgmr) by 2002:a02:a117:0:b0:38a:7675:fd26 with SMTP id
- f23-20020a02a117000000b0038a7675fd26mr5696278jag.300.1671477540032; Mon, 19
- Dec 2022 11:19:00 -0800 (PST)
-Date:   Mon, 19 Dec 2022 13:18:47 -0600
+ (user=allenwebb job=sendgmr) by 2002:a5d:9158:0:b0:6df:b406:273c with SMTP id
+ y24-20020a5d9158000000b006dfb406273cmr21977487ioq.110.1671477542105; Mon, 19
+ Dec 2022 11:19:02 -0800 (PST)
+Date:   Mon, 19 Dec 2022 13:18:49 -0600
 In-Reply-To: <20221219191855.2010466-1-allenwebb@google.com>
 Mime-Version: 1.0
 References: <20221216221703.294683-1-allenwebb@google.com> <20221219191855.2010466-1-allenwebb@google.com>
 X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
-Message-ID: <20221219191855.2010466-2-allenwebb@google.com>
-Subject: [PATCH v8 1/9] imx: Fix typo
+Message-ID: <20221219191855.2010466-4-allenwebb@google.com>
+Subject: [PATCH v8 3/9] scsi/BusLogic: Always include device id table
 From:   Allen Webb <allenwebb@google.com>
 To:     "linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
@@ -66,28 +66,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-A one character difference in the name supplied to MODULE_DEVICE_TABLE
-breaks a future patch set, so fix the typo.
+A future patch makes use of the device table for built-in modules, so
+do not ifdef out the match id table.
 
 Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Allen Webb <allenwebb@google.com>
 ---
- drivers/soc/imx/imx8mp-blk-ctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/scsi/BusLogic.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/soc/imx/imx8mp-blk-ctrl.c b/drivers/soc/imx/imx8mp-blk-ctrl.c
-index 0e3b6ba22f943..344a0a71df14a 100644
---- a/drivers/soc/imx/imx8mp-blk-ctrl.c
-+++ b/drivers/soc/imx/imx8mp-blk-ctrl.c
-@@ -743,7 +743,7 @@ static const struct of_device_id imx8mp_blk_ctrl_of_match[] = {
- 		/* Sentinel */
- 	}
- };
--MODULE_DEVICE_TABLE(of, imx8m_blk_ctrl_of_match);
-+MODULE_DEVICE_TABLE(of, imx8mp_blk_ctrl_of_match);
+diff --git a/drivers/scsi/BusLogic.c b/drivers/scsi/BusLogic.c
+index f2abffce26599..0c60867c9e7c0 100644
+--- a/drivers/scsi/BusLogic.c
++++ b/drivers/scsi/BusLogic.c
+@@ -3715,7 +3715,6 @@ static void __exit blogic_exit(void)
  
- static struct platform_driver imx8mp_blk_ctrl_driver = {
- 	.probe = imx8mp_blk_ctrl_probe,
+ __setup("BusLogic=", blogic_setup);
+ 
+-#ifdef MODULE
+ /*static struct pci_device_id blogic_pci_tbl[] = {
+ 	{ PCI_VENDOR_ID_BUSLOGIC, PCI_DEVICE_ID_BUSLOGIC_MULTIMASTER,
+ 	  PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
+@@ -3731,7 +3730,6 @@ static const struct pci_device_id blogic_pci_tbl[] = {
+ 	{PCI_DEVICE(PCI_VENDOR_ID_BUSLOGIC, PCI_DEVICE_ID_BUSLOGIC_FLASHPOINT)},
+ 	{0, },
+ };
+-#endif
+ MODULE_DEVICE_TABLE(pci, blogic_pci_tbl);
+ 
+ module_init(blogic_init);
 -- 
 2.37.3
 
