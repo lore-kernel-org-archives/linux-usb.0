@@ -2,56 +2,56 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 410FBC10F1B
-	for <linux-usb@archiver.kernel.org>; Mon, 19 Dec 2022 19:19:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51811C4167B
+	for <linux-usb@archiver.kernel.org>; Mon, 19 Dec 2022 19:19:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232590AbiLSTTP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 19 Dec 2022 14:19:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44370 "EHLO
+        id S232633AbiLSTTT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 19 Dec 2022 14:19:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232476AbiLSTTC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 19 Dec 2022 14:19:02 -0500
-Received: from mail-io1-xd4a.google.com (mail-io1-xd4a.google.com [IPv6:2607:f8b0:4864:20::d4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C202512AA3
-        for <linux-usb@vger.kernel.org>; Mon, 19 Dec 2022 11:19:01 -0800 (PST)
-Received: by mail-io1-xd4a.google.com with SMTP id n8-20020a6b4108000000b006de520dc5c9so4487246ioa.19
-        for <linux-usb@vger.kernel.org>; Mon, 19 Dec 2022 11:19:01 -0800 (PST)
+        with ESMTP id S232518AbiLSTTF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 19 Dec 2022 14:19:05 -0500
+Received: from mail-il1-x149.google.com (mail-il1-x149.google.com [IPv6:2607:f8b0:4864:20::149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B13C12D09
+        for <linux-usb@vger.kernel.org>; Mon, 19 Dec 2022 11:19:04 -0800 (PST)
+Received: by mail-il1-x149.google.com with SMTP id i14-20020a056e020d8e00b003034b93bd07so7116836ilj.14
+        for <linux-usb@vger.kernel.org>; Mon, 19 Dec 2022 11:19:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SrckFgIzMRVl6+GO1T3v4CruUzPwCuVcCKFsHg7YtbI=;
-        b=UUg8L5dKlwXq1e+434Szr7yJM4I3XvLE2Kj3IAUcBAJhzycVgHnpnDWZJixg41Bzu0
-         Bglv5AuYNxO4yUAs5anz/yyS/SJZIxhFBGSp1o1H+JBbVbP4ZQPdtshdi2G7b6zQ2TRm
-         a1ckZr585Q1ZQDCPi/esiX5NCl5hcCwsaHGRTgZLQPCmDpFuA8dGAPqVCPGDdTrSCyjc
-         L9498BQ4QGUn0ANdxFu/Q6/wpthwE6O/mvrppdfsZIGK22MLbQE9BxASuBhA7zsI0xP3
-         3oTjQw/sT5gVvSgvGlauwxYSrZBsMdrkBbJuPXF6dAxhgtkTuK7ZS3butDgZzyABglCb
-         n70g==
+        bh=eqmNATfXsr4DizCCpcth0y0vfLVrabd2UB2TT6EQhwI=;
+        b=nRXB21sdSHLfWpo7N4XIXagu8tN6MLNzEf/XK5MEcty8CuPQL5YMnsqfai5Q+IbdIF
+         14DWDkSr96sCp8k/zeJi6r+/dxB35qGUcm/v4Imy4LtNfr1hENCjQfCdPqCCXcw1NOpf
+         X5brWGCUwXzedJ4uBBYdErJSmBmo9bZ+VhN4ropseS0jooJkefrkjJCxLUyqEg4yrqwA
+         2JbTOWGNMctd6cY471HxpoKlkDPq/qR70l7yRpzMa443BWcv5Z/L3CP/YeVU+uugx6+O
+         8OYloy1b30G4FeiksfDhGmD3kXgh7vcE1sRJe4lOtLajRMKuDx9f2PisIfIiQAmzA7uY
+         UjYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SrckFgIzMRVl6+GO1T3v4CruUzPwCuVcCKFsHg7YtbI=;
-        b=3NHSt/CX3qLhJNm3rhXK5fj2pUlhvpdi8EhCKoB68/ixevWcmRaOyAMj/V9p8KO5PR
-         Lzt4SdX9o+AMKeB7vKt1puztxk+4Y3+WiRlMa3+eaqO0ZEw6q14A+dlh5fnlAr7nHZL2
-         O7JgRiM4zbZYszkRBM9J3rrA2G2Z4qHplsEpPO3Jf6exvIBHMN4BWGVw/CjRURm2uBtO
-         dXMaGDjElcmQFiNo7MdoQkUH8QwIHIU1QX4DXyj1cp4JPzWxMYwVhcMbaQvAVzmthHT0
-         9nMgls7xdLKmPLSRwx2HKMQHPSCyXbwmy64CX42OkIcAhLbqJaJ0ZEm88N//EoDFxuoB
-         K8WQ==
-X-Gm-Message-State: ANoB5plrlKHCnCuf9TxPYfWjZvdypP10ksUz+240wZQQhq4fZ6ldHkxs
-        JM6VD69hO1BTqvawDuXoC6l1URjznXor/bY=
-X-Google-Smtp-Source: AA0mqf6JCC52SozjS5ylrKtkpi02QdTsujBz6LZgGENwtkn6N6otc3tBkW107xbibsd3ona8Ic+arlAKgL/LDgo=
+        bh=eqmNATfXsr4DizCCpcth0y0vfLVrabd2UB2TT6EQhwI=;
+        b=hf0bmYoUWfCTBh4X5PM/7LXDXZGSFcfA26PbNTOY183yFA1di6WA0niANWmaMpefew
+         Ww4XzPGtGW6F/VrwiK37obSLHFbQyCnUCYNoR5PQeBedFDsp1PJWREeObaablnBhBWca
+         OAXTD+QizObjaPHCA5w9o/CR0sIbe9FS6aH9AFFHEUuLmbl4l1CxQLG4wVWEpz0djJxo
+         bE6g5eaNSPibiCau7rT/IhIJcnsD4ZqYHm5gI2KsmVhQM73FpxWdgGdqKBzDFO3kqQyB
+         pwwIO6RdO7w5pJoU7ViKQPkFaZWF4kdlLNvcviyt3OA+vQsc+akwuYSie//HGDktU3QX
+         WRrw==
+X-Gm-Message-State: ANoB5pn9/GtQWHEY26XKxoKgZ1WNASKVlBFOX39WhbCwm1EuPp5sQyZP
+        JVA4dLgZJwoQbwJPOVwHb+WJJgCuTooxHxk=
+X-Google-Smtp-Source: AA0mqf6/69oC+XVcb8sc3AmTmcabYuhNR/zI/qvKBjqLFxGT52ZtwxDb0ia9EL4d7otrnLTHTSp8eFpx2JtnIhc=
 X-Received: from allenwebb.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:12e8])
- (user=allenwebb job=sendgmr) by 2002:a92:d750:0:b0:302:4bf3:237d with SMTP id
- e16-20020a92d750000000b003024bf3237dmr35832752ilq.312.1671477541236; Mon, 19
- Dec 2022 11:19:01 -0800 (PST)
-Date:   Mon, 19 Dec 2022 13:18:48 -0600
+ (user=allenwebb job=sendgmr) by 2002:a05:6e02:1d84:b0:302:ce48:40ee with SMTP
+ id h4-20020a056e021d8400b00302ce4840eemr35088599ila.157.1671477543996; Mon,
+ 19 Dec 2022 11:19:03 -0800 (PST)
+Date:   Mon, 19 Dec 2022 13:18:51 -0600
 In-Reply-To: <20221219191855.2010466-1-allenwebb@google.com>
 Mime-Version: 1.0
 References: <20221216221703.294683-1-allenwebb@google.com> <20221219191855.2010466-1-allenwebb@google.com>
 X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
-Message-ID: <20221219191855.2010466-3-allenwebb@google.com>
-Subject: [PATCH v8 2/9] rockchip-mailbox: Fix typo
+Message-ID: <20221219191855.2010466-6-allenwebb@google.com>
+Subject: [PATCH v8 5/9] module.h: MODULE_DEVICE_TABLE for built-in modules
 From:   Allen Webb <allenwebb@google.com>
 To:     "linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
@@ -59,35 +59,46 @@ To:     "linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
 Cc:     Luis Chamberlain <mcgrof@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
-        Allen Webb <allenwebb@google.com>,
-        kernel test robot <lkp@intel.com>
+        Allen Webb <allenwebb@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-A one character difference in the name supplied to MODULE_DEVICE_TABLE
-breaks a future patch set, so fix the typo.
+Implement MODULE_DEVICE_TABLE for build-in modules to make it possible
+to generate a builtin.alias file to complement modules.alias.
 
-Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Allen Webb <allenwebb@google.com>
 ---
- drivers/mailbox/rockchip-mailbox.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/module.h | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/mailbox/rockchip-mailbox.c b/drivers/mailbox/rockchip-mailbox.c
-index 979acc810f307..ca50f7f176f6a 100644
---- a/drivers/mailbox/rockchip-mailbox.c
-+++ b/drivers/mailbox/rockchip-mailbox.c
-@@ -159,7 +159,7 @@ static const struct of_device_id rockchip_mbox_of_match[] = {
- 	{ .compatible = "rockchip,rk3368-mailbox", .data = &rk3368_drv_data},
- 	{ },
- };
--MODULE_DEVICE_TABLE(of, rockchp_mbox_of_match);
-+MODULE_DEVICE_TABLE(of, rockchip_mbox_of_match);
+diff --git a/include/linux/module.h b/include/linux/module.h
+index ec61fb53979a9..3d1b04ca63505 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -243,7 +243,20 @@ extern void cleanup_module(void);
+ extern typeof(name) __mod_##type##__##name##_device_table		\
+   __attribute__ ((unused, alias(__stringify(name))))
+ #else  /* !MODULE */
+-#define MODULE_DEVICE_TABLE(type, name)
++/*
++ * The names may not be unique for built-in modules, so include the module name
++ * to guarantee uniqueness.
++ *
++ * Note that extern is needed because modpost reads these symbols to generate
++ * modalias entries for each match id in each device table. They are not used
++ * at runtime.
++ */
++#define MODULE_DEVICE_TABLE(type, name)					\
++extern void *CONCATENATE(						\
++	CONCATENATE(__mod_##type##__##name##__,				\
++		__KBUILD_MODNAME),					\
++	_device_table)							\
++	__attribute__ ((unused, alias(__stringify(name))))
+ #endif
  
- static int rockchip_mbox_probe(struct platform_device *pdev)
- {
+ /* Version of form [<epoch>:]<version>[-<extra-version>].
 -- 
 2.37.3
 
