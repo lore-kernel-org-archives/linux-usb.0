@@ -2,174 +2,146 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F473C4167B
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Dec 2022 10:19:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C93BC4332F
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Dec 2022 12:06:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234450AbiLUKTe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Dec 2022 05:19:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43506 "EHLO
+        id S229476AbiLUMF7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Dec 2022 07:05:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbiLUKTd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Dec 2022 05:19:33 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7455BFF0;
-        Wed, 21 Dec 2022 02:19:32 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7BD9BFB;
-        Wed, 21 Dec 2022 11:19:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671617970;
-        bh=4tVRLsFsteeUnfyjwQCv+uDaxwbCBf1JSypzdiC6Kno=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oS4pimTQRQ2Ifs+muPC7s4eP0zqks1fjoa5KFiN5jWAYE2xvrLMWCK4LCnzbX0QrX
-         7oWQnhU8k148KYMJzfPAuRAXqbsLF0Y2Q+rWbvZWvHKH+/XGoCXxyB3ycgg8FhwhkS
-         QET0xRHCM2pE6a29q8LFDGojTtzuhUH9cTCIgZMA=
-Date:   Wed, 21 Dec 2022 12:19:25 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] USB: Improve usb_fill_* documentation
-Message-ID: <Y6LdrdQ0CDRqkTfh@pendragon.ideasonboard.com>
-References: <20221220-usb-dmadoc-v3-0-6009f4d27631@chromium.org>
+        with ESMTP id S229448AbiLUMF6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Dec 2022 07:05:58 -0500
+Received: from h2.cmg1.smtp.forpsi.com (h2.cmg1.smtp.forpsi.com [81.2.195.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDC49389F
+        for <linux-usb@vger.kernel.org>; Wed, 21 Dec 2022 04:05:55 -0800 (PST)
+Received: from lenoch ([91.218.190.200])
+        by cmgsmtp with ESMTPSA
+        id 7xr5p2Hy0Pm6C7xr6pq6SC; Wed, 21 Dec 2022 13:05:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
+        t=1671624353; bh=vEuANjwNfjVYvIeAr8Wz4It+sVgJ5ulC3ipw9ZcnQFQ=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+        b=WcraAVQQvAYnfwvy7Ql3GqvLBfe7k7TbtezLoFAgW2ijlCKczgACSL6hJ4OMqoZRe
+         Of3zrI84+VQ0/HVjOQI9F32+t88cwJMA9HPs1nbF1YESJUe5xAqBierDvz7vb0hxS1
+         g9dlRzXVKuKnO8f9n42u6A8fbZY6P1MRLdfcb9omQx/uqV6uLiAHEZZ9xKgsJWZyyo
+         ZABSa6BtPSWyDdU9Z+xQ5ieDbEKLM+liafiR5CesSJL0/Rd3QY4ZLoq02UbiKEKs86
+         IUSplZtlR0sAnQ6NZn1AKc3AEV/Jrf4fepgYs/dPZtyU2qKTyGXffFljJsMOOC39Pc
+         GDSkqiWgbPqAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
+        t=1671624353; bh=vEuANjwNfjVYvIeAr8Wz4It+sVgJ5ulC3ipw9ZcnQFQ=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+        b=WcraAVQQvAYnfwvy7Ql3GqvLBfe7k7TbtezLoFAgW2ijlCKczgACSL6hJ4OMqoZRe
+         Of3zrI84+VQ0/HVjOQI9F32+t88cwJMA9HPs1nbF1YESJUe5xAqBierDvz7vb0hxS1
+         g9dlRzXVKuKnO8f9n42u6A8fbZY6P1MRLdfcb9omQx/uqV6uLiAHEZZ9xKgsJWZyyo
+         ZABSa6BtPSWyDdU9Z+xQ5ieDbEKLM+liafiR5CesSJL0/Rd3QY4ZLoq02UbiKEKs86
+         IUSplZtlR0sAnQ6NZn1AKc3AEV/Jrf4fepgYs/dPZtyU2qKTyGXffFljJsMOOC39Pc
+         GDSkqiWgbPqAA==
+Date:   Wed, 21 Dec 2022 13:05:50 +0100
+From:   Ladislav Michl <oss-lists@triops.cz>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     linux-usb@vger.kernel.org, Sneeker Yeh <sneeker.yeh@gmail.com>
+Subject: Re: xHCI host dies on device unplug
+Message-ID: <Y6L2nnXpkkAJVLgh@lenoch>
+References: <Y49A1Pv6dUScQ9x/@lenoch>
+ <Y5tHWwHctY6wr+CJ@lenoch>
+ <abfec817-0b32-ece3-4965-7503aa5a77fa@linux.intel.com>
+ <Y5zkCxQqBWR+/b4F@lenoch>
+ <983a1eb1-4599-517b-6c88-63a0051ae261@linux.intel.com>
+ <Y6Ct5s5fIoA9FsAt@lenoch>
+ <Y6Dbh1xJucfNvwXq@lenoch>
+ <Y6KyWqnHi1TFN0pa@lenoch>
+ <6ac1cee8-b58a-b53f-2d0f-94336ac039b1@linux.intel.com>
+ <Y6Lbxhc/98QA6dMU@lenoch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221220-usb-dmadoc-v3-0-6009f4d27631@chromium.org>
+In-Reply-To: <Y6Lbxhc/98QA6dMU@lenoch>
+X-CMAE-Envelope: MS4wfM6AagF/ySLIYyghncd4RC4ljxMrOEAXBxEcaJV4kXoyvEIt2FR6hfLivnTXogRBr1iSoMtO7qS9f0JPDmECnNpZjZdKZl1hLJO0CAK+MOc3+uDj0i+m
+ /AYWXDs9xPREP1r4zS8gDmZNjqu+1cjbkiU2m7i+6GpAuNbe4vXIWcbi9UL6b4ZZufdQSUfxOiA4sbKsGG7mH4Aj7raHR4tSjmYfWOg0oE5XBCex9wfcmytv
+ Yg6nL/cptW2EHF2CKFnb+w==
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Ricardo,
-
-Thank you for the patch.
-
-On Wed, Dec 21, 2022 at 11:15:14AM +0100, Ricardo Ribalda wrote:
-> Document the transfer buffer requirement. That is, the buffer must be
-> DMAble - otherwise data corruption might occur.
+On Wed, Dec 21, 2022 at 11:11:19AM +0100, Ladislav Michl wrote:
+> On Wed, Dec 21, 2022 at 11:58:42AM +0200, Mathias Nyman wrote:
+> > Looked at that same series and turned patch 1/5 into a standalone quick hack that applies on 6.1
+> > 
+> > Untested, does it work for you?
 > 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> USB: Improve usb_fill_* documentation
+> Applied on the top of you stop_endpoint_fixes, 6.1.0. is a base tree:
+> [   24.800835] xhci-hcd xhci-hcd.0.auto: Delay clearing port-1 CSC
+> [   24.806788] usb 1-1: USB disconnect, device number 2
+> [   28.148451] ieee80211 phy0: rt2x00usb_vendor_request: Error - Vendor Request 0x07 failed for offset 0x101c with error -19
+> [   29.828466] xhci-hcd xhci-hcd.0.auto: xHCI host not responding to stop endpoint command
+> [   29.856656] xhci-hcd xhci-hcd.0.auto: xHCI host controller not responding, assume dead
+> [   29.864804] xhci-hcd xhci-hcd.0.auto: HC died; cleaning up
+> [   29.949460] xhci-hcd xhci-hcd.0.auto: Late clearing port-1 CSC, portsc 0x202a0
 > 
-> After trying to "cleanup" the uvc code, I was patiently explained about
-> the requirements of the urb transfer buffers.
-> 
-> Lets make this explicit, so other developers do not make the same mistake.
-> 
-> To: Bagas Sanjaya <bagasdotme@gmail.com>
-> To: Randy Dunlap <rdunlap@infradead.org>
-> To: Alan Stern <stern@rowland.harvard.edu>
-> To: Christoph Hellwig <hch@lst.de>
-> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-usb@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> ---
-> Changes in v3:
-> - Improve commit message. Thanks Bagas!
-> - Improve field description. Thanks Alan!
-> - Link to v2: https://lore.kernel.org/r/20221220-usb-dmadoc-v2-0-4dd4f198113e@chromium.org
-> 
-> Changes in v2:
-> - s/allocatiing/allocating/ Thanks Randy
-> - Link to v1: https://lore.kernel.org/r/20221220-usb-dmadoc-v1-0-28386d2eb6cd@chromium.org
-> ---
->  include/linux/usb.h | 27 +++++++++++++++++++++++----
->  1 file changed, 23 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/linux/usb.h b/include/linux/usb.h
-> index 7d5325d47c45..06cde9ddca97 100644
-> --- a/include/linux/usb.h
-> +++ b/include/linux/usb.h
-> @@ -1626,14 +1626,25 @@ struct urb {
->   * @urb: pointer to the urb to initialize.
->   * @dev: pointer to the struct usb_device for this urb.
->   * @pipe: the endpoint pipe
-> - * @setup_packet: pointer to the setup_packet buffer
-> - * @transfer_buffer: pointer to the transfer buffer
-> + * @setup_packet: pointer to the setup_packet buffer. The buffer must be
-> + *	suitable for DMA.
-> + * @transfer_buffer: pointer to the transfer buffer. The buffer must be
-> + *	suitable for DMA.
->   * @buffer_length: length of the transfer buffer
->   * @complete_fn: pointer to the usb_complete_t function
->   * @context: what to set the urb context to.
->   *
->   * Initializes a control urb with the proper information needed to submit
->   * it to a device.
-> + *
-> + * The transfer buffer and the setup_packet buffer will most likely be filled
-> + * via DMA. The simplest way to get a buffer that can be DMAed to is
-> + * allocating it via kmalloc() or equivalent, even for very small buffers.
-> + * If the buffers are embedded in a bigger structure, there is a risk that
-> + * the buffer itself, the previous field and/or the next field are corrupted
+> What about checking whenever anything is still connected on command timeout
+> and considering device autosuspended instead of killing it?
 
-s/field/fields/g
-
-> + * due to cache incoherencies; or slowed down if they are evicted from the
-> + * cache.
-> + *
->   */
->  static inline void usb_fill_control_urb(struct urb *urb,
->  					struct usb_device *dev,
-> @@ -1658,13 +1669,17 @@ static inline void usb_fill_control_urb(struct urb *urb,
->   * @urb: pointer to the urb to initialize.
->   * @dev: pointer to the struct usb_device for this urb.
->   * @pipe: the endpoint pipe
-> - * @transfer_buffer: pointer to the transfer buffer
-> + * @transfer_buffer: pointer to the transfer buffer. The buffer must be
-> + *	suitable for DMA.
->   * @buffer_length: length of the transfer buffer
->   * @complete_fn: pointer to the usb_complete_t function
->   * @context: what to set the urb context to.
->   *
->   * Initializes a bulk urb with the proper information needed to submit it
->   * to a device.
-> + *
-> + * Please refer to usb_fill_control_urb() for a description of the
-
-I would drop "please". Same below.
-
-With or without those changes,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> + * requirements for transfer_buffer.
->   */
->  static inline void usb_fill_bulk_urb(struct urb *urb,
->  				     struct usb_device *dev,
-> @@ -1687,7 +1702,8 @@ static inline void usb_fill_bulk_urb(struct urb *urb,
->   * @urb: pointer to the urb to initialize.
->   * @dev: pointer to the struct usb_device for this urb.
->   * @pipe: the endpoint pipe
-> - * @transfer_buffer: pointer to the transfer buffer
-> + * @transfer_buffer: pointer to the transfer buffer. The buffer must be
-> + *	suitable for DMA.
->   * @buffer_length: length of the transfer buffer
->   * @complete_fn: pointer to the usb_complete_t function
->   * @context: what to set the urb context to.
-> @@ -1697,6 +1713,9 @@ static inline void usb_fill_bulk_urb(struct urb *urb,
->   * Initializes a interrupt urb with the proper information needed to submit
->   * it to a device.
->   *
-> + * Please refer to usb_fill_control_urb() for a description of the
-> + * requirements for transfer_buffer.
-> + *
->   * Note that High Speed and SuperSpeed(+) interrupt endpoints use a logarithmic
->   * encoding of the endpoint interval, and express polling intervals in
->   * microframes (eight per millisecond) rather than in frames (one per
-> 
-> ---
-> base-commit: b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
-> change-id: 20221220-usb-dmadoc-29384acebd48
-
--- 
-Regards,
-
-Laurent Pinchart
+Just completed test run, it is working, but I'd consider it insane at least...
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index b07d3740f554..d7b7faaac647 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -1580,6 +1580,21 @@ static bool xhci_pending_command_completion(struct xhci_hcd *xhci)
+ 	return false;
+ }
+ 
++static bool xhci_is_anything_connected(struct xhci_hcd *xhci)
++{
++	struct usb_hcd *hcd = xhci_to_hcd(xhci);
++	struct xhci_hub *rhub = xhci_get_rhub(hcd);
++	struct xhci_port **ports = rhub->ports;
++	int i, max_ports = rhub->num_ports;
++
++	max_ports = rhub->num_ports;
++	for (i = 0; i < max_ports; i++)
++		if (PORT_CONNECT & readl(ports[i]->addr))
++			return true;
++
++	return false;
++}
++
+ void xhci_handle_command_timeout(struct work_struct *work)
+ {
+ 	struct xhci_hcd	*xhci;
+@@ -1587,7 +1602,6 @@ void xhci_handle_command_timeout(struct work_struct *work)
+ 	char		str[XHCI_MSG_MAX];
+ 	u64		hw_ring_state;
+ 	u32		cmd_field3;
+-	u32		usbsts;
+ 
+ 	xhci = container_of(to_delayed_work(work), struct xhci_hcd, cmd_timer);
+ 
+@@ -1602,9 +1616,9 @@ void xhci_handle_command_timeout(struct work_struct *work)
+ 		return;
+ 	}
+ 
+-	cmd_field3 = le32_to_cpu(xhci->current_cmd->command_trb->generic.field[3]);
+-	usbsts = readl(&xhci->op_regs->status);
+-	xhci_dbg(xhci, "Command timeout, USBSTS:%s\n", xhci_decode_usbsts(str, usbsts));
++	xhci_dbg(xhci, "Command timeout, USBSTS:%s, USBCMD: %08x\n",
++		 xhci_decode_usbsts(str, readl(&xhci->op_regs->status)),
++		 readl(&xhci->op_regs->command));
+ 
+ 	/* Did hw complete the command but event handler was blocked? */
+ 	if (xhci_pending_interrupt(xhci) > 0 &&
+@@ -1616,10 +1630,16 @@ void xhci_handle_command_timeout(struct work_struct *work)
+ 		return;
+ 	}
+ 
++	cmd_field3 = le32_to_cpu(xhci->current_cmd->command_trb->generic.field[3]);
+ 	/* Bail out and tear down xhci if a stop endpoint command failed */
+ 	if (TRB_FIELD_TO_TYPE(cmd_field3) == TRB_STOP_RING) {
+ 		struct xhci_virt_ep	*ep;
+ 
++		if (!(xhci_is_anything_connected(xhci))) {
++			xhci_info(xhci, "xHCI autosuspended?\n");
++			goto time_out_completed;
++		}
++
+ 		xhci_warn(xhci, "xHCI host not responding to stop endpoint command\n");
+ 
+ 		ep = xhci_get_virt_ep(xhci, TRB_TO_SLOT_ID(cmd_field3),
