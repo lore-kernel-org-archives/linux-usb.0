@@ -2,104 +2,91 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B33EC4167B
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Dec 2022 05:11:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D850C001B2
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Dec 2022 05:50:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235074AbiLVFLS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Dec 2022 00:11:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59898 "EHLO
+        id S234829AbiLVFuO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Dec 2022 00:50:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234935AbiLVFK4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Dec 2022 00:10:56 -0500
-Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 381B31658E;
-        Wed, 21 Dec 2022 21:10:54 -0800 (PST)
-From:   Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1671685851;
-        bh=3tt57RWBYX5CpuseBTCAV7ztLBfuQPQBKVNcrS3Coqo=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=epcg2+BoRcWGmGGExUkIbvMK3fOGUjiEpfuFMiP5Tk8cnxTRWIzvBWidu537lLYcD
-         XHcmWj/niC/YYxHl2d9Tp0CCnRI/ez+gg1Vk9vrfKrMDW/6mLdadFHCPQe40DB5U0f
-         LMgI6Wat2IpMhJynmRD6LU6BVfS5HjScNkZKUq7I=
-Date:   Thu, 22 Dec 2022 05:10:50 +0000
-Subject: [PATCH 7/8] HID: Unexport struct i2c_hid_ll_driver
+        with ESMTP id S229531AbiLVFuM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Dec 2022 00:50:12 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 406FA1903A;
+        Wed, 21 Dec 2022 21:50:11 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5806DB81C5A;
+        Thu, 22 Dec 2022 05:50:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62572C433EF;
+        Thu, 22 Dec 2022 05:50:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1671688207;
+        bh=rvy9/rPm/x49iOtpFVEv3WNErYHDHxMW8hxv3BT0guo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JWnLwNlA2vlDTzocWm0yBlRPuMgd9z+Za4jmxl2ltdocQp3H4LYpXCjUFASeOL8qi
+         POKPZoHEKehU4YMTiRXhC4glWliKjxMNQu/wqSv1ArTZgEyHLAQeCLPwcDuhSVKx3h
+         Q+deEXqsSs+WSXD7q28JW0v8KQOqNj5btEQNtT68=
+Date:   Thu, 22 Dec 2022 06:50:04 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Matthias Kaehlcke <mka@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Stefan Wahren <stefan.wahren@i2se.com>, stable@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>
+Subject: Re: [PATCH v2 1/2] usb: misc: onboard_usb_hub: Don't create platform
+ devices for DT nodes without 'vdd-supply'
+Message-ID: <Y6PwDC0fRi+Volne@kroah.com>
+References: <20221222022605.v2.1.If5e7ec83b1782e4dffa6ea759416a27326c8231d@changeid>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Message-Id: <20221222-hid-v1-7-f4a6c35487a5@weissschuh.net>
-References: <20221222-hid-v1-0-f4a6c35487a5@weissschuh.net>
-In-Reply-To: <20221222-hid-v1-0-f4a6c35487a5@weissschuh.net>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Johan Hedberg <johan.hedberg@gmail.com>,
-        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        netdev@vger.kernel.org,
-        Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.11.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1671685845; l=1468;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=3tt57RWBYX5CpuseBTCAV7ztLBfuQPQBKVNcrS3Coqo=;
- b=osblnINoh9h3TCBJu+R5RiGx1YADyMfECKm+DAviSnAPrv2sUjAeix34W7wZKB3wMhcCKrZ6KPas
- ScB0DkgNAuPTRFqHvN9l+muu7v+WUErl0i20VnRMX4+88j1EYq/f
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221222022605.v2.1.If5e7ec83b1782e4dffa6ea759416a27326c8231d@changeid>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-As there are no external users this implementation detail does not need
-to be exported.
+On Thu, Dec 22, 2022 at 02:26:44AM +0000, Matthias Kaehlcke wrote:
+> The primary task of the onboard_usb_hub driver is to control the
+> power of an onboard USB hub. The driver gets the regulator from the
+> device tree property "vdd-supply" of the hub's DT node. Some boards
+> have device tree nodes for USB hubs supported by this driver, but
+> don't specify a "vdd-supply". This is not an error per se, it just
+> means that the onboard hub driver can't be used for these hubs, so
+> don't create platform devices for such nodes.
+> 
+> This change doesn't completely fix the reported regression. It
+> should fix it for the RPi 3 B Plus and boards with similar hub
+> configurations (compatible DT nodes without "vdd-supply"), boards
+> that actually use the onboard hub driver could still be impacted
+> by the race conditions discussed in that thread. Not creating the
+> platform devices for nodes without "vdd-supply" is the right
+> thing to do, independently from the race condition, which will
+> be fixed in future patch.
+> 
+> Fixes: 8bc063641ceb ("usb: misc: Add onboard_usb_hub driver")
+> Link: https://lore.kernel.org/r/d04bcc45-3471-4417-b30b-5cf9880d785d@i2se.com/
+> Reported-by: Stefan Wahren <stefan.wahren@i2se.com>
+> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+> ---
+> 
+> Changes in v2:
+> - don't create platform devices when "vdd-supply" is missing,
+>   rather than returning an error from _find_onboard_hub()
+> - check for "vdd-supply" not "vdd" (Johan)
+> - updated subject and commit message
+> - added 'Link' tag (regzbot)
+> 
+>  drivers/usb/misc/onboard_usb_hub_pdevs.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/hid/i2c-hid/i2c-hid-core.c | 3 +--
- include/linux/hid.h                | 2 --
- 2 files changed, 1 insertion(+), 4 deletions(-)
+<formletter>
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index b86b62f97108..fc5a0dd4eb92 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -842,7 +842,7 @@ static void i2c_hid_close(struct hid_device *hid)
- 	clear_bit(I2C_HID_STARTED, &ihid->flags);
- }
- 
--struct hid_ll_driver i2c_hid_ll_driver = {
-+static struct hid_ll_driver i2c_hid_ll_driver = {
- 	.parse = i2c_hid_parse,
- 	.start = i2c_hid_start,
- 	.stop = i2c_hid_stop,
-@@ -851,7 +851,6 @@ struct hid_ll_driver i2c_hid_ll_driver = {
- 	.output_report = i2c_hid_output_report,
- 	.raw_request = i2c_hid_raw_request,
- };
--EXPORT_SYMBOL_GPL(i2c_hid_ll_driver);
- 
- static int i2c_hid_init_irq(struct i2c_client *client)
- {
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 21017e1ddbdb..60a092150bc6 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -853,8 +853,6 @@ struct hid_ll_driver {
- 	bool (*may_wakeup)(struct hid_device *hdev);
- };
- 
--extern struct hid_ll_driver i2c_hid_ll_driver;
--
- extern bool hid_is_usb(const struct hid_device *hdev);
- 
- #define	PM_HINT_FULLON	1<<5
+This is not the correct way to submit patches for inclusion in the
+stable kernel tree.  Please read:
+    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+for how to do this properly.
 
--- 
-2.39.0
+</formletter>
