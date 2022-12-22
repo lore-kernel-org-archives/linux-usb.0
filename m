@@ -2,125 +2,123 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97750C46467
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Dec 2022 21:37:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A712C4332F
+	for <linux-usb@archiver.kernel.org>; Fri, 23 Dec 2022 02:40:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235065AbiLVVhj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Dec 2022 16:37:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49318 "EHLO
+        id S230444AbiLWCke convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Dec 2022 21:40:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229797AbiLVVhi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Dec 2022 16:37:38 -0500
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2059023307;
-        Thu, 22 Dec 2022 13:37:36 -0800 (PST)
-Date:   Thu, 22 Dec 2022 16:37:21 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=t-8ch.de; s=mail;
-        t=1671745054; bh=taNf+JuA+NAMhycQCNzWXEG5n+O4upNWA9xFd9MUSiU=;
-        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-        b=cZ9SMaJMjee/jh8Z3sJJPaJy1Es9jq25h0S9RFBgt3MtxIo6FXWx1OmpvhrCeb0q0
-         ozCZINowrizahr0OY7i8872tpZrBihliRxFepbQb+ppUSTu49yqQW7jRs5mcKhGmuF
-         GJ71lbAXU6F64GGQUN+GtpfTY16XDjuca6z3ja+o=
-From:   =?UTF-8?Q?Thomas_Wei=C3=9Fschuh_?= <thomas@t-8ch.de>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Johan Hedberg <johan.hedberg@gmail.com>,
-        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, netdev@vger.kernel.org
-Message-ID: <4d42a44d-e0f3-4d01-8564-267d0f3f061a@t-8ch.de>
-In-Reply-To: <CAO-hwJL+zenkC+qPuPWLO-dFkg_pWoGTQYXR5mzSqUrnX6MObA@mail.gmail.com>
-References: <20221222-hid-v1-0-f4a6c35487a5@weissschuh.net> <20221222-hid-v1-2-f4a6c35487a5@weissschuh.net> <CAO-hwJL+zenkC+qPuPWLO-dFkg_pWoGTQYXR5mzSqUrnX6MObA@mail.gmail.com>
-Subject: Re: [PATCH 2/8] HID: usbhid: Make hid_is_usb() non-inline
+        with ESMTP id S229524AbiLWCkd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Dec 2022 21:40:33 -0500
+X-Greylist: delayed 58089 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 22 Dec 2022 18:40:31 PST
+Received: from fallback4.mail.ox.ac.uk (fallback4.mail.ox.ac.uk [129.67.1.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 688D218E25
+        for <linux-usb@vger.kernel.org>; Thu, 22 Dec 2022 18:40:31 -0800 (PST)
+Received: from relay20.mail.ox.ac.uk ([163.1.2.170])
+        by fallback4.mail.ox.ac.uk with esmtp (Exim 4.92)
+        (envelope-from <dimpase@cs.ox.ac.uk>)
+        id 1p8Is9-0000YK-GR; Thu, 22 Dec 2022 10:32:21 +0000
+Received: from smtp8.mail.ox.ac.uk ([163.1.2.204])
+        by relay20.mail.ox.ac.uk with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <dimpase@cs.ox.ac.uk>)
+        id 1p8Is1-000735-Fh; Thu, 22 Dec 2022 10:32:13 +0000
+Received: from 170.red-88-24-106.staticip.rima-tde.net ([88.24.106.170]:37392 helo=[127.0.0.1])
+        by smtp8.mail.ox.ac.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.94.2)
+        (envelope-from <dimpase@cs.ox.ac.uk>)
+        id 1p8Is0-000350-So; Thu, 22 Dec 2022 10:32:13 +0000
+Date:   Thu, 22 Dec 2022 10:32:09 +0000
+From:   Dima Pasechnik <dimpase@cs.ox.ac.uk>
+To:     Alan Stern <stern@rowland.harvard.edu>, dima.pasechnik@cs.ox.ac.uk
+CC:     Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+Subject: Re: usb 1-3: Product: BBC micro:bit CMSIS-DAP not recognised
+User-Agent: K-9 Mail for Android
+In-Reply-To: <Y6ITkWEb25Si4zts@rowland.harvard.edu>
+References: <Y6Bfx+Ksm/Qz3N8y@hilbert> <Y6B8jd7dHsa85Wny@kroah.com> <Y6CRbgwHzjr2KNxK@hilbert> <Y6CpKxZ4KsiYttbL@hilbert> <Y6Csfzqvy6GExhVB@kroah.com> <Y6DjwFAp4M8I+T4P@hilbert> <Y6Fc2Fz8w4KoX952@kroah.com> <Y6HLqYpxwT+v3BgX@hilbert> <Y6ITkWEb25Si4zts@rowland.harvard.edu>
+Message-ID: <35B854FE-1F32-47FD-8ED1-CDE033327531@cs.ox.ac.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <4d42a44d-e0f3-4d01-8564-267d0f3f061a@t-8ch.de>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8BIT
+X-Oxford-Username: coml0531
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 
-Dec 22, 2022 16:13:06 Benjamin Tissoires <benjamin.tissoires@redhat.com>:
 
-> On Thu, Dec 22, 2022 at 6:16 AM Thomas Wei=C3=9Fschuh <linux@weissschuh.n=
-et> wrote:
->>
->> By making hid_is_usb() a non-inline function the lowlevel usbhid driver
->> does not have to be exported anymore.
->>
->> Also mark the argument as const as it is not modified.
->>
->> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
->> ---
->> drivers/hid/usbhid/hid-core.c | 6 ++++++
->> include/linux/hid.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 5 +----
->> 2 files changed, 7 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core=
-.c
->> index be4c731aaa65..54b0280d0073 100644
->> --- a/drivers/hid/usbhid/hid-core.c
->> +++ b/drivers/hid/usbhid/hid-core.c
->> @@ -1334,6 +1334,12 @@ struct hid_ll_driver usb_hid_driver =3D {
->> };
->> EXPORT_SYMBOL_GPL(usb_hid_driver);
->>
->> +bool hid_is_usb(const struct hid_device *hdev)
->> +{
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return hdev->ll_driver =3D=3D &usb=
-_hid_driver;
->> +}
->> +EXPORT_SYMBOL_GPL(hid_is_usb);
->> +
->> static int usbhid_probe(struct usb_interface *intf, const struct usb_dev=
-ice_id *id)
->> {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct usb_host_interface *in=
-terface =3D intf->cur_altsetting;
->> diff --git a/include/linux/hid.h b/include/linux/hid.h
->> index 8677ae38599e..e8400aa78522 100644
->> --- a/include/linux/hid.h
->> +++ b/include/linux/hid.h
->> @@ -864,10 +864,7 @@ static inline bool hid_is_using_ll_driver(struct hi=
-d_device *hdev,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return hdev->ll_driver =3D=3D=
- driver;
->> }
->>
->> -static inline bool hid_is_usb(struct hid_device *hdev)
->> -{
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return hid_is_using_ll_driver(hdev=
-, &usb_hid_driver);
->> -}
->> +extern bool hid_is_usb(const struct hid_device *hdev);
+On 20 December 2022 19:57:05 WET, Alan Stern <stern@rowland.harvard.edu> wrote:
+>On Tue, Dec 20, 2022 at 02:50:17PM +0000, dima.pasechnik@cs.ox.ac.uk wrote:
+>> See https://tech.microbit.org/hardware/ 
+>> (choose V2.2X there)
+>> I have nRF52833-QDAA (there is also a different option)
 >
-> The problem here is that CONFIG_USB_HID can be set to either m or n.
-> In the n case, you'll end up with an undefined symbol, in the m case,
-> it won't link too if CONFIG_HID is set to Y (and it'll be quite a mess
-> to call it if the module is not loaded yet).
+>Under the "USB Communications" section, that page says:
+>
+>USB classes supported	Mass Storage Class (MSC)
+>			Communications Device Class (CDC)
+>			CMSIS-DAP HID & WinUSB
+>			WebUSB CMSIS-DAP HID
+>
+>You already know about the MSC and CDC classes.  The other two appear to 
+>be versions of a CMSIS-DAP HID protocol, which is clearly not a serial 
+>communications protocol since it is HID.
+>
+>So it looks like you aren't missing anything.
+>
+>> here is "details" on the board itself (describing firmware, I suppose)
+>> 
+>> # DAPLink Firmware - see https://daplink.io
+>> Build ID: alpha9-189-g5dd23001 (gcc)
+>> Unique ID: 9905360200052833525e24a702a68552000000006e052820
+>> HIC ID: 6e052820
+>> Auto Reset: 1
+>> Automation allowed: 0
+>> Overflow detection: 0
+>> Incompatible image detection: 1
+>> Page erasing: 0
+>> Daplink Mode: Interface
+>> Interface Version: 0256
+>> Bootloader Version: 0256
+>> Git SHA: 5dd23001a7a3199d74870790049d6686e183316c
+>> Local Mods: 0
+>> USB Interfaces: MSD, CDC, HID, WebUSB
+>
+>Which agrees with the information on the web site.  I have no idea what 
+>WebUSB is supposed to be.
 
-Shouldn't we already have the same problem with
-the symbol usb_hid_driver itself that is defined
-right next to the new hid_is_usb()?
+WebUSB is a JavaScript API, supported by Chromium -derived browsers (Firefox not there yet)
 
-Thomas
+https://en.wikipedia.org/wiki/WebUSB
 
->>
->> #define=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PM_HINT_FULLON=C2=A0 1=
-<<5
->> #define PM_HINT_NORMAL 1<<1
->>
->> --
->> 2.39.0
->>
 
+>  In the lsusb output it doesn't have any 
+>resources -- in particular, no endpoints -- so all of its communications 
+>must occur over endpoint 0.
+>
+>> Bootloader CRC: 0xa60a7780
+>> Interface CRC: 0x0bac75fa
+>> Remount count: 0
+>> URL: https://microbit.org/device/?id=9905&v=0256
+>
+>The dmesg log in your original message showed you were trying to bind 
+>the usb-serial generic driver to interfaces 4 and 5.  But interface 4 is 
+>the WebUSB thing which, whatever it is, certainly isn't a serial 
+>interface.  And interface 5 is another HID interface; it calls itself 
+>CMSIS-DAP v2.  It sounds like an updated form of the other CMSIS-DAP HID 
+>interface.  It probably would have bound to the HID driver if you hadn't 
+>told the usb-serial driver to control it.
+>
+>In short, there's no reason at all to expect the micro:bit board to give 
+>rise to a ttyUSB device.
+
+Thanks for the advice, much appreciated.
+
+Best,
+Dmitrii
+
+>
+>Alan Stern
