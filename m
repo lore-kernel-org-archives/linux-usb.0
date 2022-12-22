@@ -2,90 +2,81 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E516C4332F
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Dec 2022 03:50:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A2AC4167B
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Dec 2022 05:10:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230092AbiLVDur (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Dec 2022 22:50:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37712 "EHLO
+        id S234961AbiLVFK4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Dec 2022 00:10:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229601AbiLVDuo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Dec 2022 22:50:44 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D00BE6E
-        for <linux-usb@vger.kernel.org>; Wed, 21 Dec 2022 19:50:43 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2A434B81CF8
-        for <linux-usb@vger.kernel.org>; Thu, 22 Dec 2022 03:50:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B9F86C433F0
-        for <linux-usb@vger.kernel.org>; Thu, 22 Dec 2022 03:50:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671681040;
-        bh=fo9RuBtVGwCvhHbODDVKPwMvXD44uMGMCOqDLnLoHHI=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=k/Nn5JzTe55ydTKjNcxhd3wfVIjQ8IwIcB/+BtIKWcZQy4knlwgPdzrkB4aTehAhG
-         loFOaMnS1ONrcEO/Uw06fmtoB/iwmo309/4znNqTOqJQscW1Y0CJ5ud9gswbL89854
-         laomRA4GJZhWkmepdEfkxfBTzSaknh/Gs9oKc8d8ruBxXeaSY9TuTE9gnSPWUdKzJ/
-         FCPOZ2rDp6CyPS3Pauf22H+xx4jLuGXLIb1ibjGaCTe/5HFc1WenFWE18IR8fkgFXd
-         9k9MJY5BaQPxnW74d2Rvsgb0AUH76Jku1y8SQxLvave+zQ5G5t2Jd6z381XGncq1jR
-         edtvosV4aGqog==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 93D83C43142; Thu, 22 Dec 2022 03:50:40 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 216822] Thunderbolt USB Controller (Maple Ridge) and its
- upstream pcie port fail to runtime resume
-Date:   Thu, 22 Dec 2022 03:50:40 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: mail@jakemoroni.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-216822-208809-DVPvAgESvT@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216822-208809@https.bugzilla.kernel.org/>
-References: <bug-216822-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        with ESMTP id S229561AbiLVFKw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Dec 2022 00:10:52 -0500
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12ACD1705E;
+        Wed, 21 Dec 2022 21:10:50 -0800 (PST)
+From:   Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1671685847;
+        bh=+TwYUhNEMciEbKy4LBuWCzsBr/FmeYPjRzvFbPwU3T0=;
+        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+        b=dkHGyX+F319hDFe8JREAbJkgVdPhAr4CDz63BQACf6YbFBNMSaW7heWcM4okGjKAG
+         OBKf9L99sesfe+Ip0v+vT3Q8tzrBjLPSxIYbFSG8JJVBMuF53J+cPWhdZ5zp82kOSl
+         LZ3pBptvCET0wdj8JRs4FopuKnYTOapc1polxjus=
+Date:   Thu, 22 Dec 2022 05:10:44 +0000
+Subject: [PATCH 1/8] HID: letsketch: Use hid_is_usb()
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Message-Id: <20221222-hid-v1-1-f4a6c35487a5@weissschuh.net>
+References: <20221222-hid-v1-0-f4a6c35487a5@weissschuh.net>
+In-Reply-To: <20221222-hid-v1-0-f4a6c35487a5@weissschuh.net>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        David Rheinsberg <david.rheinsberg@gmail.com>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        Johan Hedberg <johan.hedberg@gmail.com>,
+        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        netdev@vger.kernel.org,
+        Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.11.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1671685844; l=678;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=+TwYUhNEMciEbKy4LBuWCzsBr/FmeYPjRzvFbPwU3T0=;
+ b=ez9SDwFeWSSaEcM4FNhQ2nLrcWuyDgqqhikUkJqh92wXbyM7rYsccOS2kygfF76KfaUeMS6jE1Iz
+ ZglXQ5nOBeq8iiv0o2fqnHwdmsPPpSmbESbRSY99mMGlo0AQyMBT
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216822
+Don't open code existing functionality.
 
-Jacob Moroni (mail@jakemoroni.com) changed:
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/hid/hid-letsketch.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mail@jakemoroni.com
+diff --git a/drivers/hid/hid-letsketch.c b/drivers/hid/hid-letsketch.c
+index 74d17cf518ba..97f047f18136 100644
+--- a/drivers/hid/hid-letsketch.c
++++ b/drivers/hid/hid-letsketch.c
+@@ -238,7 +238,7 @@ static int letsketch_probe(struct hid_device *hdev, const struct hid_device_id *
+ 	char buf[256];
+ 	int i, ret;
+ 
+-	if (!hid_is_using_ll_driver(hdev, &usb_hid_driver))
++	if (!hid_is_usb(hdev))
+ 		return -ENODEV;
+ 
+ 	intf = to_usb_interface(hdev->dev.parent);
 
---- Comment #3 from Jacob Moroni (mail@jakemoroni.com) ---
-I see similar behavior with the Gigabyte GC-Maple Ridge add-in card, except=
- I
-can=E2=80=99t even get my USB devices to show up after setting power/contro=
-l to =E2=80=9Con=E2=80=9D.
-
-There are no kernel log messages printed at all when plugging/removing USBC
-devices on this card.
-
-True Thunderbolt devices seem to work though.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+2.39.0
