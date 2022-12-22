@@ -2,181 +2,129 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82340C001B2
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Dec 2022 10:03:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9172FC4167B
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Dec 2022 10:51:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235277AbiLVKDu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Dec 2022 05:03:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57518 "EHLO
+        id S235327AbiLVKvR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Dec 2022 05:51:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235142AbiLVKDs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Dec 2022 05:03:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 580732654A
-        for <linux-usb@vger.kernel.org>; Thu, 22 Dec 2022 02:02:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1671703334;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=o6jO/LCV2IF2UxvEuH5GPFWr6SJ3JZsJjPnFQmLY128=;
-        b=VPSAzvZsd0VOW0Pl30eVauKyaeyjrHeZyCKLjc73aCE0sDFNugWd332Tf8Gnf2vM6ktSsq
-        o4AXqF1IvloyT4WAPqILWIDn4nvNCDVbbf9ElBuTPa5ti0AU/YRO/UojBqvS08s5Y6pfM8
-        3mkvIzE4KULEPGaldccqosp5ef/3JS4=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-673-WHBz8tWrPGqn9H_Be1zT3g-1; Thu, 22 Dec 2022 05:02:11 -0500
-X-MC-Unique: WHBz8tWrPGqn9H_Be1zT3g-1
-Received: by mail-qk1-f199.google.com with SMTP id q20-20020a05620a0d9400b006fcaa1eac9bso884961qkl.23
-        for <linux-usb@vger.kernel.org>; Thu, 22 Dec 2022 02:02:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=o6jO/LCV2IF2UxvEuH5GPFWr6SJ3JZsJjPnFQmLY128=;
-        b=eFoMXucgcEd0ONQpa7MV0p5ZjHtyhJB7P1kg2DHBBM+PlLLpMBOVJ9zy0Ss7pzHlzE
-         zGxaFtNyBruOu79RL2Ks133cbuUrTbvHSPE+ooq1WdML18wCPx/J/dSohklCkxGUiqM5
-         YMvQfs/BK1WOeHUTtqjKgHKG98abQtdFIH0DpaMTlpSdSqBHL9eTE8mK6MIVfDZ3275u
-         FiZv2Rw6g/ZEFOaXfcxrbMK7cXahAyp4AFHRVUhQqoLdFUo5jXUhu+WGhy+/CQ30TDWq
-         CzkChDZxHXnZDMxLK20DEg967qGnLvlyrCvlzCCrmELt8BQTGih/mjWMGMNTE9/7ThbW
-         Cbug==
-X-Gm-Message-State: AFqh2kpGCdTnY87DB1wj/h1MW1Hzv32/BDK+816h3hehJ3DfsKW4QiD5
-        Vk3J25l1TRHm3W3pdI2uel5uBXlNhi0SgbEu2AD7ppeRatWwoHnTKaj81X/UJgOiKVv+wvi48OK
-        2tgtSr3ZImIh4KvdymwEn
-X-Received: by 2002:a0c:c508:0:b0:4e5:a127:382f with SMTP id x8-20020a0cc508000000b004e5a127382fmr6466227qvi.48.1671703331045;
-        Thu, 22 Dec 2022 02:02:11 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtZnBvcAi4VqZ0nAfseRa5ZZncJObkgh59kN1yODkWBS5WICo+kLsdO+KK5pqcbrrZqdW1DHQ==
-X-Received: by 2002:a0c:c508:0:b0:4e5:a127:382f with SMTP id x8-20020a0cc508000000b004e5a127382fmr6466171qvi.48.1671703330733;
-        Thu, 22 Dec 2022 02:02:10 -0800 (PST)
-Received: from gerbillo.redhat.com (146-241-101-173.dyn.eolo.it. [146.241.101.173])
-        by smtp.gmail.com with ESMTPSA id f1-20020a05620a408100b006cfc9846594sm4269qko.93.2022.12.22.02.02.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Dec 2022 02:02:10 -0800 (PST)
-Message-ID: <8d91ab13f56e88af0f6133130808f9623b3adb2e.camel@redhat.com>
-Subject: Re: [PATCH] treewide: Convert del_timer*() to timer_shutdown*()
-From:   Paolo Abeni <pabeni@redhat.com>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Julia Lawall <Julia.Lawall@inria.fr>, linux-sh@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        drbd-dev@lists.linbit.com, linux-bluetooth@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-media@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-scsi@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-ext4@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, bridge@lists.linux-foundation.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        lvs-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Date:   Thu, 22 Dec 2022 11:02:01 +0100
-In-Reply-To: <20221220134519.3dd1318b@gandalf.local.home>
-References: <20221220134519.3dd1318b@gandalf.local.home>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+        with ESMTP id S229907AbiLVKvP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Dec 2022 05:51:15 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C8F227932;
+        Thu, 22 Dec 2022 02:51:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1671706274; x=1703242274;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=CrZLdDeZWDVo8FK6+1dIOoyIZVEvLuy5zxZWQ9Y3KoI=;
+  b=fVeFRHl1Y40P5RAO+DEp8MfHRa36G1TdpLlFT5Z7gQale/ZQ/FGIbZtj
+   wqGQhGoZS4YVcqEef2VXt6QQHLzhTzsOpwOIpA7cdWJeM+Hvtg9TQu3PY
+   +9cEBYUOoOdALAArn7NVkjuPb4131KORDuY2JxVanYvpYOVlGSVsYhSTo
+   IHrKTJBKTROD3gUAAotoTcwSzmveAbCf0/5pedzKFVKzZbZwZxX5KdWFU
+   tUZwXvObEXsqDUzom+AgNOkJ/IuRWwxeC2e1Uc2kLdp9/6deyQ1Jyiees
+   pJj2Iwyc5Pm36UeSlZRn06ahjy0opNxym3vy85IvlqgfK2tY0IgdoLxob
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="384454541"
+X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; 
+   d="scan'208";a="384454541"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 02:51:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="601846989"
+X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; 
+   d="scan'208";a="601846989"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orsmga003.jf.intel.com with ESMTP; 22 Dec 2022 02:51:11 -0800
+Message-ID: <379b395f-b65c-96fe-7ecc-f18e3740b990@linux.intel.com>
+Date:   Thu, 22 Dec 2022 12:52:33 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.4.2
+Content-Language: en-US
+To:     Jimmy Hu <hhhuuu@google.com>, mathias.nyman@intel.com,
+        gregkh@linuxfoundation.org
+Cc:     badhri@google.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20221222072912.1843384-1-hhhuuu@google.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v2] usb: xhci: Check endpoint is valid before
+ dereferencing it
+In-Reply-To: <20221222072912.1843384-1-hhhuuu@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 2022-12-20 at 13:45 -0500, Steven Rostedt wrote:
-> [
->   Linus,
+On 22.12.2022 9.29, Jimmy Hu wrote:
+> When the host controller is not responding, all URBs queued to all
+> endpoints need to be killed. This can cause a kernel panic if we
+> dereference an invalid endpoint.
 > 
->     I ran the script against your latest master branch:
->     commit b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
+> Fix this by using xhci_get_virt_ep() helper to find the endpoint and
+> checking if the endpoint is valid before dereferencing it.
 > 
->     As the timer_shutdown*() code is now in your tree, I figured
->     we can start doing the conversions. At least add the trivial ones
->     now as Thomas suggested that this gets applied at the end of the
->     merge window, to avoid conflicts with linux-next during the
->     development cycle. I can wait to Friday to run it again, and
->     resubmit.
+> [233311.853271] xhci-hcd xhci-hcd.1.auto: xHCI host controller not responding, assume dead
+> [233311.853393] Unable to handle kernel NULL pointer dereference at virtual address 00000000000000e8
 > 
->     What is the best way to handle this?
-> ]
+> [233311.853964] pc : xhci_hc_died+0x10c/0x270
+> [233311.853971] lr : xhci_hc_died+0x1ac/0x270
 > 
-> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+> [233311.854077] Call trace:
+> [233311.854085]  xhci_hc_died+0x10c/0x270
+> [233311.854093]  xhci_stop_endpoint_command_watchdog+0x100/0x1a4
+> [233311.854105]  call_timer_fn+0x50/0x2d4
+> [233311.854112]  expire_timers+0xac/0x2e4
+> [233311.854118]  run_timer_softirq+0x300/0xabc
+> [233311.854127]  __do_softirq+0x148/0x528
+> [233311.854135]  irq_exit+0x194/0x1a8
+> [233311.854143]  __handle_domain_irq+0x164/0x1d0
+> [233311.854149]  gic_handle_irq.22273+0x10c/0x188
+> [233311.854156]  el1_irq+0xfc/0x1a8
+> [233311.854175]  lpm_cpuidle_enter+0x25c/0x418 [msm_pm]
+> [233311.854185]  cpuidle_enter_state+0x1f0/0x764
+> [233311.854194]  do_idle+0x594/0x6ac
+> [233311.854201]  cpu_startup_entry+0x7c/0x80
+> [233311.854209]  secondary_start_kernel+0x170/0x198
 > 
-> Due to several bugs caused by timers being re-armed after they are
-> shutdown and just before they are freed, a new state of timers was added
-> called "shutdown". After a timer is set to this state, then it can no
-> longer be re-armed.
+> Fixes: 50e8725e7c42 ("xhci: Refactor command watchdog and fix split string.")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jimmy Hu <hhhuuu@google.com>
+> ---
+>   drivers/usb/host/xhci-ring.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> The following script was run to find all the trivial locations where
-> del_timer() or del_timer_sync() is called in the same function that the
-> object holding the timer is freed. It also ignores any locations where the
-> timer->function is modified between the del_timer*() and the free(), as
-> that is not considered a "trivial" case.
-> 
-> This was created by using a coccinelle script and the following commands:
-> 
->  $ cat timer.cocci
-> @@
-> expression ptr, slab;
-> identifier timer, rfield;
-> @@
-> (
-> -       del_timer(&ptr->timer);
-> +       timer_shutdown(&ptr->timer);
-> > 
-> -       del_timer_sync(&ptr->timer);
-> +       timer_shutdown_sync(&ptr->timer);
-> )
->   ... when strict
->       when != ptr->timer
-> (
->         kfree_rcu(ptr, rfield);
-> > 
->         kmem_cache_free(slab, ptr);
-> > 
->         kfree(ptr);
-> )
-> 
->  $ spatch timer.cocci . > /tmp/t.patch
->  $ patch -p1 < /tmp/t.patch
-> 
-> Link: https://lore.kernel.org/lkml/20221123201306.823305113@linutronix.de/
-> 
-> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+> index ddc30037f9ce..f5b0e1ce22af 100644
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+> @@ -1169,7 +1169,10 @@ static void xhci_kill_endpoint_urbs(struct xhci_hcd *xhci,
+>   	struct xhci_virt_ep *ep;
+>   	struct xhci_ring *ring;
+>   
+> -	ep = &xhci->devs[slot_id]->eps[ep_index];
+> +	ep = xhci_get_virt_ep(xhci, slot_id, ep_index);
+> +	if (!ep)
+> +		return;
+> +
 
-For the networking bits:
 
->  drivers/net/ethernet/intel/i40e/i40e_main.c      |  6 +++---
->  drivers/net/ethernet/marvell/sky2.c              |  2 +-
->  drivers/net/ethernet/sun/sunvnet.c               |  2 +-
->  drivers/net/usb/sierra_net.c                     |  2 +-
->  net/802/garp.c                                   |  2 +-
->  net/802/mrp.c                                    |  4 ++--
->  net/bridge/br_multicast.c                        |  8 ++++----
->  net/bridge/br_multicast_eht.c                    |  4 ++--
->  net/core/gen_estimator.c                         |  2 +-
->  net/ipv4/ipmr.c                                  |  2 +-
->  net/ipv6/ip6mr.c                                 |  2 +-
->  net/mac80211/mesh_pathtbl.c                      |  2 +-
->  net/netfilter/ipset/ip_set_list_set.c            |  2 +-
->  net/netfilter/ipvs/ip_vs_lblc.c                  |  2 +-
->  net/netfilter/ipvs/ip_vs_lblcr.c                 |  2 +-
->  net/netfilter/xt_IDLETIMER.c                     |  4 ++--
->  net/netfilter/xt_LED.c                           |  2 +-
->  net/sched/cls_flow.c                             |  2 +-
->  net/sunrpc/svc.c                                 |  2 +-
->  net/tipc/discover.c                              |  2 +-
->  net/tipc/monitor.c                               |  2 +-
+This is a good generic change that should be added anyway, but but might not fix
+the rootcause. It will reduce the risk of the race drastically.
 
-Acked-by: Paolo Abeni <pabeni@redhat.com>
+We do check that xhci-devs[slot_id] exists once before calling xhci_kill_endpoint_urbs()
+for the endpoints of that virt_dev in xhci_hc_died().
+And xhci_hc_died() should always be calling with lock held (need to doublecheck this is true).
+
+Older kernels used release and re-aquire the lock while giving back urbs for an endpoint,
+so older kernels really need this change.
+
+But newer kernels don't release the lock anymore when giving back URBs.
+
+Looks like real issue is that we don't take the lock when we free the virt_dev.
+
+-Mathias
 
