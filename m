@@ -2,32 +2,32 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84195C4332F
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Dec 2022 05:11:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 838BDC10F1D
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Dec 2022 05:11:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232013AbiLVFLF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Dec 2022 00:11:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59902 "EHLO
+        id S234792AbiLVFKz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Dec 2022 00:10:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234942AbiLVFK4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Dec 2022 00:10:56 -0500
+        with ESMTP id S230417AbiLVFKw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Dec 2022 00:10:52 -0500
 Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8F22167EA;
-        Wed, 21 Dec 2022 21:10:54 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12268165B2;
+        Wed, 21 Dec 2022 21:10:50 -0800 (PST)
 From:   Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1671685851;
-        bh=KNDYF1vETUCv281B3wbscifz4EYdRKLnRT85P8QGRws=;
+        s=mail; t=1671685848;
+        bh=RIY1KZguWJeqHeg13Dbz3EKLW3n5Yawly4C6fJX/LRo=;
         h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=n5IDgDSgJ5Ft1nF8p7+fU1/gjFaYNms0ca7zuYALHWWAbIhrWhLcBASZkKCvQ0947
-         fYurq0cMzFzNMk96ev9jnrGRWWj4bd1BF26Ct/acvIpq0JAv+fYpVvGflq5o0vNbJR
-         rUlHKN6n/c2XGX6Smjaq1ugRhTBew55yFB8lHujg=
-Date:   Thu, 22 Dec 2022 05:10:49 +0000
-Subject: [PATCH 6/8] HID: Unexport struct hidp_hid_driver
+        b=B4KopxcGDKneLhdAvB+atbk/GeTqzo6ATdvLeucyapM3W/3YYRA4GH5o+Aa+jUqvr
+         DsyaescBu1lPdwZen5tz3kT2577Fh2cp5C3B75c5tTBQfFMdE6YSMkbudcV3v/42nf
+         0mRODCEI7Tom4lYQPSvqzdcZijSAf7VZXJ4NEWcs=
+Date:   Thu, 22 Dec 2022 05:10:47 +0000
+Subject: [PATCH 4/8] HID: Unexport struct usb_hid_driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221222-hid-v1-6-f4a6c35487a5@weissschuh.net>
+Message-Id: <20221222-hid-v1-4-f4a6c35487a5@weissschuh.net>
 References: <20221222-hid-v1-0-f4a6c35487a5@weissschuh.net>
 In-Reply-To: <20221222-hid-v1-0-f4a6c35487a5@weissschuh.net>
 To:     Hans de Goede <hdegoede@redhat.com>,
@@ -46,59 +46,59 @@ Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         netdev@vger.kernel.org,
         Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.11.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1671685845; l=1398;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1671685845; l=1454;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=KNDYF1vETUCv281B3wbscifz4EYdRKLnRT85P8QGRws=;
- b=/j3ygvhvFnOJULkdDMIiuq/c9IGI+in3/gju7WW3oMVJqQB8gWnhTYfiOIas7RwHuyv55bC8Ja/X
- MPkr7wWnAOo8Xb1xC5QrYW+9yzNGJOVrbkxXKNcJN6fTqBptKkmK
+ bh=RIY1KZguWJeqHeg13Dbz3EKLW3n5Yawly4C6fJX/LRo=;
+ b=Twlbh9MUsolPC82vCzevu0rgTC04hHdXtPIymvu1dlWN4lhliG2xZcHHYVBpMH7XO1SMuEjKKlp7
+ hpKtj9u4C3bfXOpPLVvR2NF9tVYHgzvL6IRNjQZRixgb8yX4EhSl
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-As there are no external users this implementation detail does not need
-to be exported.
+As no external users remain this implementation detail does not need to
+be exported anymore.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- include/linux/hid.h       | 1 -
- net/bluetooth/hidp/core.c | 3 +--
+ drivers/hid/usbhid/hid-core.c | 3 +--
+ include/linux/hid.h           | 1 -
  2 files changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+index 54b0280d0073..4143bab3380a 100644
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -1318,7 +1318,7 @@ static bool usbhid_may_wakeup(struct hid_device *hid)
+ 	return device_may_wakeup(&dev->dev);
+ }
+ 
+-struct hid_ll_driver usb_hid_driver = {
++static struct hid_ll_driver usb_hid_driver = {
+ 	.parse = usbhid_parse,
+ 	.start = usbhid_start,
+ 	.stop = usbhid_stop,
+@@ -1332,7 +1332,6 @@ struct hid_ll_driver usb_hid_driver = {
+ 	.idle = usbhid_idle,
+ 	.may_wakeup = usbhid_may_wakeup,
+ };
+-EXPORT_SYMBOL_GPL(usb_hid_driver);
+ 
+ bool hid_is_usb(const struct hid_device *hdev)
+ {
 diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 3fcc47a9d0e8..21017e1ddbdb 100644
+index 7c5fce6a189e..170cad696541 100644
 --- a/include/linux/hid.h
 +++ b/include/linux/hid.h
-@@ -854,7 +854,6 @@ struct hid_ll_driver {
- };
- 
+@@ -856,7 +856,6 @@ struct hid_ll_driver {
  extern struct hid_ll_driver i2c_hid_ll_driver;
--extern struct hid_ll_driver hidp_hid_driver;
+ extern struct hid_ll_driver hidp_hid_driver;
+ extern struct hid_ll_driver uhid_hid_driver;
+-extern struct hid_ll_driver usb_hid_driver;
  
  extern bool hid_is_usb(const struct hid_device *hdev);
  
-diff --git a/net/bluetooth/hidp/core.c b/net/bluetooth/hidp/core.c
-index cc20e706c639..c4a741f6ed5c 100644
---- a/net/bluetooth/hidp/core.c
-+++ b/net/bluetooth/hidp/core.c
-@@ -739,7 +739,7 @@ static void hidp_stop(struct hid_device *hid)
- 	hid->claimed = 0;
- }
- 
--struct hid_ll_driver hidp_hid_driver = {
-+static struct hid_ll_driver hidp_hid_driver = {
- 	.parse = hidp_parse,
- 	.start = hidp_start,
- 	.stop = hidp_stop,
-@@ -748,7 +748,6 @@ struct hid_ll_driver hidp_hid_driver = {
- 	.raw_request = hidp_raw_request,
- 	.output_report = hidp_output_report,
- };
--EXPORT_SYMBOL_GPL(hidp_hid_driver);
- 
- /* This function sets up the hid device. It does not add it
-    to the HID system. That is done in hidp_add_connection(). */
 
 -- 
 2.39.0
