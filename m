@@ -2,82 +2,111 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BA9BC5479D
-	for <linux-usb@archiver.kernel.org>; Fri, 23 Dec 2022 15:41:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D49B8C4332F
+	for <linux-usb@archiver.kernel.org>; Fri, 23 Dec 2022 20:54:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236572AbiLWPlf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 23 Dec 2022 10:41:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53234 "EHLO
+        id S231274AbiLWUwi convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 23 Dec 2022 15:52:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236522AbiLWPlV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Dec 2022 10:41:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3314A1148;
-        Fri, 23 Dec 2022 07:41:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A9E326158B;
-        Fri, 23 Dec 2022 15:41:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55F15C433D2;
-        Fri, 23 Dec 2022 15:41:15 +0000 (UTC)
-Date:   Fri, 23 Dec 2022 10:41:13 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Julia Lawall <Julia.Lawall@inria.fr>, linux-sh@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        drbd-dev@lists.linbit.com, linux-bluetooth@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-media@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-scsi@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-ext4@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, bridge@lists.linux-foundation.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        lvs-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Subject: Re: [PATCH] treewide: Convert del_timer*() to timer_shutdown*()
-Message-ID: <20221223104113.0bc8d37f@gandalf.local.home>
-In-Reply-To: <20221220134519.3dd1318b@gandalf.local.home>
-References: <20221220134519.3dd1318b@gandalf.local.home>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S229937AbiLWUwh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Dec 2022 15:52:37 -0500
+X-Greylist: delayed 28433 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 23 Dec 2022 12:52:36 PST
+Received: from fallback4.mail.ox.ac.uk (fallback4.mail.ox.ac.uk [129.67.1.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8705F1DF2D
+        for <linux-usb@vger.kernel.org>; Fri, 23 Dec 2022 12:52:36 -0800 (PST)
+Received: from relay19.mail.ox.ac.uk ([129.67.1.170])
+        by fallback4.mail.ox.ac.uk with esmtp (Exim 4.92)
+        (envelope-from <Dmitrii.Pasechnik@cs.ox.ac.uk>)
+        id 1p8hdM-0005UO-ID
+        for linux-usb@vger.kernel.org; Fri, 23 Dec 2022 12:58:44 +0000
+Received: from mail.cs.ox.ac.uk ([129.67.151.64])
+        by relay19.mail.ox.ac.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <Dmitrii.Pasechnik@cs.ox.ac.uk>)
+        id 1p8hdK-0004Ix-AS; Fri, 23 Dec 2022 12:58:42 +0000
+Received: from clpc177.cs.ox.ac.uk ([129.67.150.177]:51528)
+        by mail.cs.ox.ac.uk with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.92.3)
+        (envelope-from <Dmitrii.Pasechnik@cs.ox.ac.uk>)
+        id 1p8hdI-0007vS-5t; Fri, 23 Dec 2022 12:58:40 +0000
+Received: (from dimpase@localhost)
+        by clpc177.cs.ox.ac.uk (dcs5.1/8.16.1) id 2BNCwfNd512706;
+        Fri, 23 Dec 2022 12:58:41 GMT
+Date:   Fri, 23 Dec 2022 12:58:41 +0000
+From:   Dmitrii Pasechnik <dima.pasechnik@cs.ox.ac.uk>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+Subject: Re: usb 1-3: Product: BBC micro:bit CMSIS-DAP not recognised
+Message-ID: <Y6WmAXzpCd7Jj3rS@cs.ox.ac.uk>
+References: <Y6B8jd7dHsa85Wny@kroah.com>
+ <Y6CRbgwHzjr2KNxK@hilbert>
+ <Y6CpKxZ4KsiYttbL@hilbert>
+ <Y6Csfzqvy6GExhVB@kroah.com>
+ <Y6DjwFAp4M8I+T4P@hilbert>
+ <Y6Fc2Fz8w4KoX952@kroah.com>
+ <Y6HLqYpxwT+v3BgX@hilbert>
+ <Y6ITkWEb25Si4zts@rowland.harvard.edu>
+ <35B854FE-1F32-47FD-8ED1-CDE033327531@cs.ox.ac.uk>
+ <Y6TLJ94ubE4tOTev@rowland.harvard.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <Y6TLJ94ubE4tOTev@rowland.harvard.edu>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 20 Dec 2022 13:45:19 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
-
-> [
->   Linus,
+On Thu, Dec 22, 2022 at 04:24:55PM -0500, Alan Stern wrote:
+> A bit off to the side from the main point of this thread, but...
 > 
->     I ran the script against your latest master branch:
->     commit b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
+> On Thu, Dec 22, 2022 at 10:32:09AM +0000, Dima Pasechnik wrote:
+> > 
+> > 
+> > On 20 December 2022 19:57:05 WET, Alan Stern <stern@rowland.harvard.edu> wrote:
+> > >> USB Interfaces: MSD, CDC, HID, WebUSB
+> > >
+> > >Which agrees with the information on the web site.  I have no idea what 
+> > >WebUSB is supposed to be.
+> > 
+> > WebUSB is a JavaScript API, supported by Chromium -derived browsers (Firefox not there yet)
+> > 
+> > https://en.wikipedia.org/wiki/WebUSB
 > 
->     As the timer_shutdown*() code is now in your tree, I figured
->     we can start doing the conversions. At least add the trivial ones
->     now as Thomas suggested that this gets applied at the end of the
->     merge window, to avoid conflicts with linux-next during the
->     development cycle. I can wait to Friday to run it again, and
->     resubmit.
+> The Wikipedia article agrees with you that WebUSB is a JavaScript API.  
+> As such, it is used for communication between web browsers and 
+> JavaScript programs.
+
+No, it's used by browsers (which  run JavaScript code in them) to
+communicate with USB hardware. Or, if you like,
+standalone JavaScript programs to communicate with USB hardware. 
+Let me copy from the wiki here:
+
+---------------------------------
+A Universal Serial Bus, or a USB is an industry standard [...]
+WebUSB is a set of API calls that enable access to these hardware
+devices from web pages. WebUSB is developed by the World Wide Web
+Consortium(W3C).[1] The webUSB API provides a safe, and developer
+familiar means of communication to edges devices from web pages. The
+webUSB API integrates into existing USB libraries and shortens the
+development cycle for integrating new devices into the web environment
+by not needing to wait for browser support for these devices.
+
+Early versions of webUSB came out around as an alternative to Flash,
+Chrome Serial, and other custom approaches to connecting browsers to
+hardware. WebUSB aims to solve the four goals of any interface being;
+fast to make, cross platform, look good, accessibility.
+
+>  Not for communication between programs and USB 
+> devices.  So I don't understand why a USB device needs to be concerned 
+> about it.
+
+I hope the above explains.
+
+HTH
+Dmitrii
+
 > 
->     What is the best way to handle this?
-> ]
-
-Note, I just did a git remote update, checked out the latest, re-ran the
-script, and this patch hasn't changed.
-
--- Steve
+> Alan Stern
