@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2300C3DA79
-	for <linux-usb@archiver.kernel.org>; Sat, 24 Dec 2022 01:40:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54238C4332F
+	for <linux-usb@archiver.kernel.org>; Sat, 24 Dec 2022 01:40:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236841AbiLXBkf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 23 Dec 2022 20:40:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39090 "EHLO
+        id S236863AbiLXBkj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 23 Dec 2022 20:40:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236980AbiLXBjV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Dec 2022 20:39:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DFB4532DC;
-        Fri, 23 Dec 2022 17:33:04 -0800 (PST)
+        with ESMTP id S236664AbiLXBjn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Dec 2022 20:39:43 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 346C953EF0;
+        Fri, 23 Dec 2022 17:33:06 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F4FF61FAA;
-        Sat, 24 Dec 2022 01:33:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 297BBC433EF;
-        Sat, 24 Dec 2022 01:33:02 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 1E1FBCE1D05;
+        Sat, 24 Dec 2022 01:32:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10CE7C433D2;
+        Sat, 24 Dec 2022 01:32:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671845583;
-        bh=m7RYbdCtdTyobCvML/GmRq/7Oin1VziRpdb1dYoMzFQ=;
+        s=k20201202; t=1671845562;
+        bh=S5MPGFOs8CQGz7DP6f7RiUIyLU+Iohmst9KrpGtTkRI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=T4lV5j3D5S5Yqy7X1FiyHhkCXSUyCAw2VqYJVh2SfMVe2EdMrNPnEWVJ2JT1OvRUO
-         s+PUtwimxVzAIoU3ltt7GxFuKJ4BrMO5RZbs43oWcJBKEuRbfb8UC/F0vBIXQkx/uc
-         LujN9Wsza9ttMedyVkuWYw5EBexPItuyNsvYlZJQ0chYEPlXda0DCHDAeWZiDSVK6v
-         AKnStDm2mgDRjyB1uzyzFTMbedCPT3TSkiLhAfpYHgJ5vg44NZiS66xhN7zV+ay5Zw
-         uwnjN2z39ajkG94cfn2T9DcSkXYonnT76ta0r1ena3XnLbGlb25M9gE3gEVV7iUdsR
-         QYxV7P5BR8M7Q==
+        b=LE9KS6c6oV8iIwY70QKwernCa1bBsCFxm3lfcD3IsHldirtJFXpzpRLDOhxXCzz+L
+         l4jm4Xg3iS+quv1QiSMTcKwcJEDEW1XymyJL+L9RcrySS+tj6D6NDoEyb0eJNumHcF
+         DnEHo6IpnVVohTsj9RWcKjLIfrA1g5UnTawcUprlXRysY9XWg7Q9fLpYuxG8F97I+f
+         XSlxQvvP6/RSMXsSVaXCm6oy4UwkNu7vBkl8rm1FTOH0/+xUBwlfQUeHlv3SPyqi3U
+         X1DVjKt4f2lrDEtmhdMH/oF5uCUJxrDNrT/l18TS3zkyDYSb5SugdE5rNATDJsnObM
+         8uJcYvlZXOQbA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Henry Tian <tianxiaofeng@bytedance.com>,
@@ -41,12 +41,12 @@ Cc:     Henry Tian <tianxiaofeng@bytedance.com>,
         Sasha Levin <sashal@kernel.org>, joel@jms.id.au,
         jakobkoschel@gmail.com, linux-usb@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: [PATCH AUTOSEL 4.19 2/6] usb: gadget: aspeed: fix buffer overflow
-Date:   Fri, 23 Dec 2022 20:32:50 -0500
-Message-Id: <20221224013254.393646-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 2/7] usb: gadget: aspeed: fix buffer overflow
+Date:   Fri, 23 Dec 2022 20:32:28 -0500
+Message-Id: <20221224013233.393537-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221224013254.393646-1-sashal@kernel.org>
-References: <20221224013254.393646-1-sashal@kernel.org>
+In-Reply-To: <20221224013233.393537-1-sashal@kernel.org>
+References: <20221224013233.393537-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -98,7 +98,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 13 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-index 902e61be4d64..7ce4dc132da3 100644
+index c1bfbfd9491d..0812967e1d5a 100644
 --- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
 +++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
 @@ -42,7 +42,7 @@ void ast_vhub_done(struct ast_vhub_ep *ep, struct ast_vhub_req *req,
@@ -111,7 +111,7 @@ index 902e61be4d64..7ce4dc132da3 100644
  
  	if (req->req.dma) {
 diff --git a/drivers/usb/gadget/udc/aspeed-vhub/epn.c b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-index 931f540a747e..32c381b3ed40 100644
+index 2cd406e8dd99..90d1279eca64 100644
 --- a/drivers/usb/gadget/udc/aspeed-vhub/epn.c
 +++ b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
 @@ -89,6 +89,7 @@ static void ast_vhub_epn_handle_ack(struct ast_vhub_ep *ep)
