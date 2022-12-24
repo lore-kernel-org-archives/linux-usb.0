@@ -2,50 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A036AC3DA79
-	for <linux-usb@archiver.kernel.org>; Sat, 24 Dec 2022 01:32:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAD53C4167B
+	for <linux-usb@archiver.kernel.org>; Sat, 24 Dec 2022 01:33:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236551AbiLXBce (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 23 Dec 2022 20:32:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56684 "EHLO
+        id S236680AbiLXBd1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 23 Dec 2022 20:33:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236566AbiLXBbl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Dec 2022 20:31:41 -0500
+        with ESMTP id S236626AbiLXBc2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Dec 2022 20:32:28 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57AF1B3A;
-        Fri, 23 Dec 2022 17:30:43 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 131B4B870;
+        Fri, 23 Dec 2022 17:30:53 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 55CF261FAA;
-        Sat, 24 Dec 2022 01:30:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 795F2C433D2;
-        Sat, 24 Dec 2022 01:30:26 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BBE1261FAD;
+        Sat, 24 Dec 2022 01:30:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57441C433EF;
+        Sat, 24 Dec 2022 01:30:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671845427;
-        bh=4vG+/W/uFwo1EbehRw344z6Ae4IfvCK60GDYogsD2vM=;
+        s=k20201202; t=1671845452;
+        bh=Ur0Axn7Nd7A0DBrX+5qd4SeAYEYwdYo/EbiPefPXJXQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XTeOfYJX83Re6XdLdGuMPJh3aumXZYCwqzlAcPbzuP2cn7PG6M8iKvDqf956L7vTQ
-         UqVGG1/9k9Fi2l3aZnRfI0kj+2hYoGz/jQQ6NYIObVNetZkKwrvNjFiwpdTqwWE210
-         AP6pXl9bCcyob0P2RxYGHqCs/tdJZ+BWDWDEcmBRZp+vxkVMRynFqxc7gZQ/pGmMB9
-         XP0lrOSZe+z8HtyM9BUW6yU28p8RM8rkDJywRPtqM6THsTmhEVkWejLtSeLZAFWRBG
-         uoVE9HZE1ts5XC6Dyk+aXheXBxv4p6n09D5cn9Sa2ZmtnA9sNmx1CZkbT2jeDE7Lic
-         A0I2ub9ji4Kmw==
+        b=VX3Izahfs0qFHBhzrJX3r3IDXjFN7UVK4QsAb2k/aOjuPSvGYtbUqMU6K6WEQUldX
+         4RL6jbvI6F7tsyqVDeYc+ZbDcGkvsL5HeY4vCmYaf2rRsi7KIm6BEcOIMoTKm9ERDi
+         QG0Ei4QQ+K4lpNDhd8awoRbdFaCeGgAEB1Z5Xo0YqrypSvlytV0wULp1/JGN5hbiLS
+         Who4FwL9HIExHkAt9xaWjJpd13VbloST/GcC+8oeH0ks41yICSE+uhB0XoDkx9GjR+
+         dECO0lGzLk8s+NFE9CPvPNRwRzR2CKsC+5GIYjggtZOEgBmB1lm9pvJ3tbOGkLCemf
+         Sed6qs1+x8FWw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+Cc:     Ray Chi <raychi@google.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, mathias.nyman@intel.com,
-        evgreen@chromium.org, yj84.jang@samsung.com,
-        stern@rowland.harvard.edu, bhelgaas@google.com,
-        heikki.krogerus@linux.intel.com, christophe.leroy@csgroup.eu,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 21/26] xhci: disable U3 suspended ports in S4 hibernate poweroff_late stage
-Date:   Fri, 23 Dec 2022 20:29:25 -0500
-Message-Id: <20221224012930.392358-21-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>,
+        heikki.krogerus@linux.intel.com, rafael.j.wysocki@intel.com,
+        andriy.shevchenko@linux.intel.com, m.grzeschik@pengutronix.de,
+        mathias.nyman@linux.intel.com, dianders@chromium.org,
+        mailhol.vincent@wanadoo.fr, mka@chromium.org,
+        Bhuvanesh_Surachari@mentor.com, fmdefrancesco@gmail.com,
+        christophe.jaillet@wanadoo.fr, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.0 03/18] usb: core: stop USB enumeration if too many retries
+Date:   Fri, 23 Dec 2022 20:30:19 -0500
+Message-Id: <20221224013034.392810-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221224012930.392358-1-sashal@kernel.org>
-References: <20221224012930.392358-1-sashal@kernel.org>
+In-Reply-To: <20221224013034.392810-1-sashal@kernel.org>
+References: <20221224013034.392810-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -54,153 +57,219 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
+From: Ray Chi <raychi@google.com>
 
-[ Upstream commit c3bbacd61baace2f4fbab17012c3d149df2d50f1 ]
+[ Upstream commit 430d57f53eb1cdbf9ba9bbd397317912b3cd2de5 ]
 
-Disable U3 suspended ports in hibernate S4 poweroff_late for systems
-with XHCI_RESET_TO_DEFAULT quirk, if wakeup is not enabled.
+When a broken USB accessory connects to a USB host, usbcore might
+keep doing enumeration retries. If the host has a watchdog mechanism,
+the kernel panic will happen on the host.
 
-This reduces the number of self-powered usb devices from surviving in
-U3 suspended state into next reboot.
+This patch provides an attribute early_stop to limit the numbers of retries
+for each port of a hub. If a port was marked with early_stop attribute,
+unsuccessful connection attempts will fail quickly. In addition, if an
+early_stop port has failed to initialize, it will ignore all future
+connection events until early_stop attribute is clear.
 
-Bootloader/firmware on these systems can't handle usb ports in U3, and
-will timeout, causing extra delay during reboot/restore from S4.
-
-Add pci_poweroff_late() callback to struct usb_hcd to get this done at
-the correct stage in hibernate.
-
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-Link: https://lore.kernel.org/r/20221130091944.2171610-5-mathias.nyman@linux.intel.com
+Signed-off-by: Ray Chi <raychi@google.com>
+Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
+Link: https://lore.kernel.org/r/20221107072754.3336357-1-raychi@google.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/core/hcd-pci.c  | 13 ++++++++++
- drivers/usb/host/xhci-pci.c | 52 +++++++++++++++++++++++++++++++++++++
- include/linux/usb/hcd.h     |  3 +++
- 3 files changed, 68 insertions(+)
+ Documentation/ABI/testing/sysfs-bus-usb | 11 +++++
+ drivers/usb/core/hub.c                  | 60 +++++++++++++++++++++++++
+ drivers/usb/core/hub.h                  |  4 ++
+ drivers/usb/core/port.c                 | 27 +++++++++++
+ 4 files changed, 102 insertions(+)
 
-diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
-index 9b77f49b3560..ab2f3737764e 100644
---- a/drivers/usb/core/hcd-pci.c
-+++ b/drivers/usb/core/hcd-pci.c
-@@ -558,6 +558,17 @@ static int hcd_pci_suspend_noirq(struct device *dev)
- 	return retval;
+diff --git a/Documentation/ABI/testing/sysfs-bus-usb b/Documentation/ABI/testing/sysfs-bus-usb
+index 568103d3376e..545c2dd97ed0 100644
+--- a/Documentation/ABI/testing/sysfs-bus-usb
++++ b/Documentation/ABI/testing/sysfs-bus-usb
+@@ -264,6 +264,17 @@ Description:
+ 		attached to the port will not be detected, initialized,
+ 		or enumerated.
+ 
++What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/early_stop
++Date:		Sep 2022
++Contact:	Ray Chi <raychi@google.com>
++Description:
++		Some USB hosts have some watchdog mechanisms so that the device
++		may enter ramdump if it takes a long time during port initialization.
++		This attribute allows each port just has two attempts so that the
++		port initialization will be failed quickly. In addition, if a port
++		which is marked with early_stop has failed to initialize, it will ignore
++		all future connections until this attribute is clear.
++
+ What:		/sys/bus/usb/devices/.../power/usb2_lpm_l1_timeout
+ Date:		May 2013
+ Contact:	Mathias Nyman <mathias.nyman@linux.intel.com>
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index bbab424b0d55..77e73fc8d673 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -3081,6 +3081,48 @@ static int hub_port_reset(struct usb_hub *hub, int port1,
+ 	return status;
  }
  
-+static int hcd_pci_poweroff_late(struct device *dev)
++/*
++ * hub_port_stop_enumerate - stop USB enumeration or ignore port events
++ * @hub: target hub
++ * @port1: port num of the port
++ * @retries: port retries number of hub_port_init()
++ *
++ * Return:
++ *    true: ignore port actions/events or give up connection attempts.
++ *    false: keep original behavior.
++ *
++ * This function will be based on retries to check whether the port which is
++ * marked with early_stop attribute would stop enumeration or ignore events.
++ *
++ * Note:
++ * This function didn't change anything if early_stop is not set, and it will
++ * prevent all connection attempts when early_stop is set and the attempts of
++ * the port are more than 1.
++ */
++static bool hub_port_stop_enumerate(struct usb_hub *hub, int port1, int retries)
 +{
-+	struct pci_dev		*pci_dev = to_pci_dev(dev);
-+	struct usb_hcd		*hcd = pci_get_drvdata(pci_dev);
++	struct usb_port *port_dev = hub->ports[port1 - 1];
 +
-+	if (hcd->driver->pci_poweroff_late && !HCD_DEAD(hcd))
-+		return hcd->driver->pci_poweroff_late(hcd, device_may_wakeup(dev));
++	if (port_dev->early_stop) {
++		if (port_dev->ignore_event)
++			return true;
 +
-+	return 0;
++		/*
++		 * We want unsuccessful attempts to fail quickly.
++		 * Since some devices may need one failure during
++		 * port initialization, we allow two tries but no
++		 * more.
++		 */
++		if (retries < 2)
++			return false;
++
++		port_dev->ignore_event = 1;
++	} else
++		port_dev->ignore_event = 0;
++
++	return port_dev->ignore_event;
 +}
 +
- static int hcd_pci_resume_noirq(struct device *dev)
+ /* Check if a port is power on */
+ int usb_port_is_power_on(struct usb_hub *hub, unsigned int portstatus)
  {
- 	powermac_set_asic(to_pci_dev(dev), 1);
-@@ -578,6 +589,7 @@ static int hcd_pci_restore(struct device *dev)
+@@ -4796,6 +4838,11 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+ 	do_new_scheme = use_new_scheme(udev, retry_counter, port_dev);
  
- #define hcd_pci_suspend		NULL
- #define hcd_pci_suspend_noirq	NULL
-+#define hcd_pci_poweroff_late	NULL
- #define hcd_pci_resume_noirq	NULL
- #define hcd_pci_resume		NULL
- #define hcd_pci_restore		NULL
-@@ -615,6 +627,7 @@ const struct dev_pm_ops usb_hcd_pci_pm_ops = {
- 	.thaw_noirq	= NULL,
- 	.thaw		= hcd_pci_resume,
- 	.poweroff	= hcd_pci_suspend,
-+	.poweroff_late	= hcd_pci_poweroff_late,
- 	.poweroff_noirq	= hcd_pci_suspend_noirq,
- 	.restore_noirq	= hcd_pci_resume_noirq,
- 	.restore	= hcd_pci_restore,
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 7bccbe50bab1..f8100aa2f5d0 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -620,6 +620,57 @@ static int xhci_pci_resume(struct usb_hcd *hcd, bool hibernated)
- 	return retval;
- }
- 
-+static int xhci_pci_poweroff_late(struct usb_hcd *hcd, bool do_wakeup)
-+{
-+	struct xhci_hcd		*xhci = hcd_to_xhci(hcd);
-+	struct xhci_port	*port;
-+	struct usb_device	*udev;
-+	unsigned int		slot_id;
-+	u32			portsc;
-+	int			i;
-+
-+	/*
-+	 * Systems with XHCI_RESET_TO_DEFAULT quirk have boot firmware that
-+	 * cause significant boot delay if usb ports are in suspended U3 state
-+	 * during boot. Some USB devices survive in U3 state over S4 hibernate
-+	 *
-+	 * Disable ports that are in U3 if remote wake is not enabled for either
-+	 * host controller or connected device
-+	 */
-+
-+	if (!(xhci->quirks & XHCI_RESET_TO_DEFAULT))
-+		return 0;
-+
-+	for (i = 0; i < HCS_MAX_PORTS(xhci->hcs_params1); i++) {
-+		port = &xhci->hw_ports[i];
-+		portsc = readl(port->addr);
-+
-+		if ((portsc & PORT_PLS_MASK) != XDEV_U3)
-+			continue;
-+
-+		slot_id = xhci_find_slot_id_by_port(port->rhub->hcd, xhci,
-+						    port->hcd_portnum + 1);
-+		if (!slot_id || !xhci->devs[slot_id]) {
-+			xhci_err(xhci, "No dev for slot_id %d for port %d-%d in U3\n",
-+				 slot_id, port->rhub->hcd->self.busnum, port->hcd_portnum + 1);
-+			continue;
+ 	for (retries = 0; retries < GET_DESCRIPTOR_TRIES; (++retries, msleep(100))) {
++		if (hub_port_stop_enumerate(hub, port1, retries)) {
++			retval = -ENODEV;
++			break;
 +		}
 +
-+		udev = xhci->devs[slot_id]->udev;
+ 		if (do_new_scheme) {
+ 			struct usb_device_descriptor *buf;
+ 			int r = 0;
+@@ -5246,6 +5293,11 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
+ 	status = 0;
+ 
+ 	for (i = 0; i < PORT_INIT_TRIES; i++) {
++		if (hub_port_stop_enumerate(hub, port1, i)) {
++			status = -ENODEV;
++			break;
++		}
 +
-+		/* if wakeup is enabled then don't disable the port */
-+		if (udev->do_remote_wakeup && do_wakeup)
-+			continue;
+ 		usb_lock_port(port_dev);
+ 		mutex_lock(hcd->address0_mutex);
+ 		retry_locked = true;
+@@ -5614,6 +5666,10 @@ static void port_event(struct usb_hub *hub, int port1)
+ 	if (!pm_runtime_active(&port_dev->dev))
+ 		return;
+ 
++	/* skip port actions if ignore_event and early_stop are true */
++	if (port_dev->ignore_event && port_dev->early_stop)
++		return;
 +
-+		xhci_dbg(xhci, "port %d-%d in U3 without wakeup, disable it\n",
-+			 port->rhub->hcd->self.busnum, port->hcd_portnum + 1);
-+		portsc = xhci_port_state_to_neutral(portsc);
-+		writel(portsc | PORT_PE, port->addr);
-+	}
+ 	if (hub_handle_remote_wakeup(hub, port1, portstatus, portchange))
+ 		connect_change = 1;
+ 
+@@ -5927,6 +5983,10 @@ static int usb_reset_and_verify_device(struct usb_device *udev)
+ 	mutex_lock(hcd->address0_mutex);
+ 
+ 	for (i = 0; i < PORT_INIT_TRIES; ++i) {
++		if (hub_port_stop_enumerate(parent_hub, port1, i)) {
++			ret = -ENODEV;
++			break;
++		}
+ 
+ 		/* ep0 maxpacket size may change; let the HCD know about it.
+ 		 * Other endpoints will be handled by re-enumeration. */
+diff --git a/drivers/usb/core/hub.h b/drivers/usb/core/hub.h
+index b2925856b4cb..e23833562e4f 100644
+--- a/drivers/usb/core/hub.h
++++ b/drivers/usb/core/hub.h
+@@ -90,6 +90,8 @@ struct usb_hub {
+  * @is_superspeed cache super-speed status
+  * @usb3_lpm_u1_permit: whether USB3 U1 LPM is permitted.
+  * @usb3_lpm_u2_permit: whether USB3 U2 LPM is permitted.
++ * @early_stop: whether port initialization will be stopped earlier.
++ * @ignore_event: whether events of the port are ignored.
+  */
+ struct usb_port {
+ 	struct usb_device *child;
+@@ -103,6 +105,8 @@ struct usb_port {
+ 	u32 over_current_count;
+ 	u8 portnum;
+ 	u32 quirks;
++	unsigned int early_stop:1;
++	unsigned int ignore_event:1;
+ 	unsigned int is_superspeed:1;
+ 	unsigned int usb3_lpm_u1_permit:1;
+ 	unsigned int usb3_lpm_u2_permit:1;
+diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
+index 38c1a4f4fdea..126da9408359 100644
+--- a/drivers/usb/core/port.c
++++ b/drivers/usb/core/port.c
+@@ -17,6 +17,32 @@ static int usb_port_block_power_off;
+ 
+ static const struct attribute_group *port_dev_group[];
+ 
++static ssize_t early_stop_show(struct device *dev,
++			    struct device_attribute *attr, char *buf)
++{
++	struct usb_port *port_dev = to_usb_port(dev);
 +
-+	return 0;
++	return sysfs_emit(buf, "%s\n", port_dev->early_stop ? "yes" : "no");
 +}
 +
- static void xhci_pci_shutdown(struct usb_hcd *hcd)
- {
- 	struct xhci_hcd		*xhci = hcd_to_xhci(hcd);
-@@ -686,6 +737,7 @@ static int __init xhci_pci_init(void)
- #ifdef CONFIG_PM
- 	xhci_pci_hc_driver.pci_suspend = xhci_pci_suspend;
- 	xhci_pci_hc_driver.pci_resume = xhci_pci_resume;
-+	xhci_pci_hc_driver.pci_poweroff_late = xhci_pci_poweroff_late;
- 	xhci_pci_hc_driver.shutdown = xhci_pci_shutdown;
- #endif
- 	return pci_register_driver(&xhci_pci_driver);
-diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
-index 78cd566ee238..b51c07111729 100644
---- a/include/linux/usb/hcd.h
-+++ b/include/linux/usb/hcd.h
-@@ -269,6 +269,9 @@ struct hc_driver {
- 	/* called after entering D0 (etc), before resuming the hub */
- 	int	(*pci_resume)(struct usb_hcd *hcd, bool hibernated);
- 
-+	/* called just before hibernate final D3 state, allows host to poweroff parts */
-+	int	(*pci_poweroff_late)(struct usb_hcd *hcd, bool do_wakeup);
++static ssize_t early_stop_store(struct device *dev, struct device_attribute *attr,
++				const char *buf, size_t count)
++{
++	struct usb_port *port_dev = to_usb_port(dev);
++	bool value;
 +
- 	/* cleanly make HCD stop writing memory and doing I/O */
- 	void	(*stop) (struct usb_hcd *hcd);
++	if (kstrtobool(buf, &value))
++		return -EINVAL;
++
++	if (value)
++		port_dev->early_stop = 1;
++	else
++		port_dev->early_stop = 0;
++
++	return count;
++}
++static DEVICE_ATTR_RW(early_stop);
++
+ static ssize_t disable_show(struct device *dev,
+ 			      struct device_attribute *attr, char *buf)
+ {
+@@ -236,6 +262,7 @@ static struct attribute *port_dev_attrs[] = {
+ 	&dev_attr_quirks.attr,
+ 	&dev_attr_over_current_count.attr,
+ 	&dev_attr_disable.attr,
++	&dev_attr_early_stop.attr,
+ 	NULL,
+ };
  
 -- 
 2.35.1
