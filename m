@@ -2,49 +2,49 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3248DC4332F
-	for <linux-usb@archiver.kernel.org>; Sat, 24 Dec 2022 01:42:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACEB4C4332F
+	for <linux-usb@archiver.kernel.org>; Sat, 24 Dec 2022 01:42:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236680AbiLXBmr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 23 Dec 2022 20:42:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50604 "EHLO
+        id S236781AbiLXBmw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 23 Dec 2022 20:42:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236988AbiLXBl0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Dec 2022 20:41:26 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F6BC17409;
-        Fri, 23 Dec 2022 17:33:32 -0800 (PST)
+        with ESMTP id S237003AbiLXBl2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Dec 2022 20:41:28 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3471A1A3B3;
+        Fri, 23 Dec 2022 17:33:33 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B6049B8219D;
-        Sat, 24 Dec 2022 01:33:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E817C433D2;
-        Sat, 24 Dec 2022 01:33:06 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4F24D61FC1;
+        Sat, 24 Dec 2022 01:33:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD8EFC433EF;
+        Sat, 24 Dec 2022 01:33:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671845587;
-        bh=YlhgIuvHdPk4d7mnSLS5qFqeY9eZBnbh2zV/J3CDOWA=;
+        s=k20201202; t=1671845611;
+        bh=0WGDblyUo5izy0rAoYoXxsjzXp+j7+ssAcq3XUtfXXQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sPZZGbeY0k0EVEmRFXf6t/5z0Dq9Qxx9yfPY3RtDbTthWDttxrynTi4Jt/1hgWupv
-         gJVa70AhHm7/IuP2uXvz8hACpudu03WKxwFDBAyDGnMC5uql2XIr8uDaVTkwri8Ck6
-         fT96SQ2HFyzOTyWDGQSumpJxdSHrFFj9mt6e+GtaLYAgLKUhZ12USouMjrnS8Ij5GG
-         k8DVG/E5eUL4XRoAz3QgMRlT5aJCEe+5Ukp1eKozwAXvwwFPJNCJt7G1vusemX8NuG
-         GHJphjvDWKZNPlUJ/6Pqf5Bkqblz2Hcy2HMLO+7Cl5IXO0i0688yKPXHU0Fkp9Eefy
-         G6GgeLcB3RP0Q==
+        b=nA4mYkq5qjpmzc6HoWWUxwmwKhargOlA8e3LOx8EQVd481pW2zx2OuxOp2SzuM/2l
+         YDD3gDKmgBdgK8gk/W92cs9db+x9rYzkbhgrqcDPU/Ef1kTo8ZcB2KEm6EZyTsoxJp
+         6nUdOhG65l84GyUHjYDNO5flmZrmg5WOpNYTTC8QLJVb4CGfXmbJsh1BtoT6+BpD20
+         NyhFgibiPSXDkyzDEbsYY3y3HYNEPj1D4Ujfvd7ncjWGdRASJ2oX70J5owtLSVFB78
+         YnpPYa4Th/AMu9nsqLH95JpFJ/BfCru72moil+1cwIpbBSVqs70L0lTfmCiOK67w1V
+         wG9WGpCx5XH3Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Sascha Hauer <s.hauer@pengutronix.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>,
-        wsa+renesas@sang-engineering.com, posteuca@mutex.one,
-        yang.lee@linux.alibaba.com, skhan@linuxfoundation.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 3/6] usb: gadget: u_ether: Do not make UDC parent of the net device
-Date:   Fri, 23 Dec 2022 20:32:51 -0500
-Message-Id: <20221224013254.393646-3-sashal@kernel.org>
+        laurent.pinchart+renesas@ideasonboard.com,
+        wsa+renesas@sang-engineering.com, yang.lee@linux.alibaba.com,
+        posteuca@mutex.one, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.9 2/4] usb: gadget: u_ether: Do not make UDC parent of the net device
+Date:   Fri, 23 Dec 2022 20:33:23 -0500
+Message-Id: <20221224013325.393931-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221224013254.393646-1-sashal@kernel.org>
-References: <20221224013254.393646-1-sashal@kernel.org>
+In-Reply-To: <20221224013325.393931-1-sashal@kernel.org>
+References: <20221224013325.393931-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -111,26 +111,26 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 deletions(-)
 
 diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
-index 2fe91f120bb1..c4196c32c0be 100644
+index 5d72872310e7..3c8dab71ba47 100644
 --- a/drivers/usb/gadget/function/u_ether.c
 +++ b/drivers/usb/gadget/function/u_ether.c
-@@ -795,7 +795,6 @@ struct eth_dev *gether_setup_name(struct usb_gadget *g,
- 	net->max_mtu = GETHER_MAX_MTU_SIZE;
+@@ -796,7 +796,6 @@ struct eth_dev *gether_setup_name(struct usb_gadget *g,
+ 	net->ethtool_ops = &ops;
  
  	dev->gadget = g;
 -	SET_NETDEV_DEV(net, &g->dev);
  	SET_NETDEV_DEVTYPE(net, &gadget_type);
  
  	status = register_netdev(net);
-@@ -869,8 +868,6 @@ int gether_register_netdev(struct net_device *net)
- 	struct usb_gadget *g;
+@@ -864,8 +863,6 @@ int gether_register_netdev(struct net_device *net)
+ 	struct sockaddr sa;
  	int status;
  
 -	if (!net->dev.parent)
 -		return -EINVAL;
  	dev = netdev_priv(net);
  	g = dev->gadget;
- 
+ 	status = register_netdev(net);
 @@ -901,7 +898,6 @@ void gether_set_gadget(struct net_device *net, struct usb_gadget *g)
  
  	dev = netdev_priv(net);
