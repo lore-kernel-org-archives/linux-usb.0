@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBFB0C3DA79
-	for <linux-usb@archiver.kernel.org>; Sat, 24 Dec 2022 01:42:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C650C4708D
+	for <linux-usb@archiver.kernel.org>; Sat, 24 Dec 2022 01:43:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236880AbiLXBmx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 23 Dec 2022 20:42:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50162 "EHLO
+        id S236523AbiLXBm7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 23 Dec 2022 20:42:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236946AbiLXBlc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Dec 2022 20:41:32 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84A3336C64;
-        Fri, 23 Dec 2022 17:33:38 -0800 (PST)
+        with ESMTP id S236937AbiLXBlt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Dec 2022 20:41:49 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2099B56D6F;
+        Fri, 23 Dec 2022 17:33:44 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A32FDB821B7;
-        Sat, 24 Dec 2022 01:33:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73149C433F2;
-        Sat, 24 Dec 2022 01:33:12 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 7F5F2CE1D05;
+        Sat, 24 Dec 2022 01:33:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0599CC433D2;
+        Sat, 24 Dec 2022 01:33:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671845593;
-        bh=tTucTd7Gxw/J/qnEa03nlxkHUodTJGMUPAs8hTZ88Ec=;
+        s=k20201202; t=1671845603;
+        bh=a5WBbi6MJo+w2IIzowc3UGampdUoFPDmqlBd9eh11Vk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Es+B9jZakonnCirXdA7tsT64TQX3r6c5Brhee45qVTTE349+RT/IU1QE8Y+vqF2fu
-         fIMAGblI4wjp5UjwMd0LWGc0FA0ZbsbAnXKpMxEm+1oPq+7NiojVFAQSJ9cY7Og1Au
-         vZGr4rlnWPlg3+5eJcRNqdXYQa5EF37j/upddsUvV5gnCGbqoyJt9bXuXg6CdS0vbX
-         bzZhGI4yWDZx4gb55WDdS3nHjNwHsomVPQSStHQ9uEgPSUAgMnnrmyynpLu65pHF8W
-         kipGr9N5peAGw5usAF1sT/7REEFyTEe4z8UEh54hr75HlMKv7UH8etA2G6xlSC/gph
-         +1P4yTXrXsXKw==
+        b=EQuhmDJMPk+mXghORjh3oHeTws7WuBVqhICrZcjWIwZKyQBY13IoPi88sb0kNZAAI
+         xIOletv/Hgx1i/GJ9+b72U2tBEOtslqcAdPOagmUHSv7FySETtzOLKMkhX/Xr19Pju
+         gml8q/7bxjkye9McquTayR8jAE576YATaiVOirUyodnrT5hdIm6z826r9F5N6Q7wY7
+         ViHDkQma2F3Lx02HeuzhOZ6cBc52Jimco6cV6uqhcJCZdpxz7hWAhXXd+R+zHtfMC1
+         0gog+n+W72bkqqv5qm1hlT4n/pAb9WHw34H1bTZeoUeAGD18qSDCG+QuqFxipSGelq
+         Ozt2JkOXKa3GQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Shuah Khan <skhan@linuxfoundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, valentina.manea.m@gmail.com,
         shuah@kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 5/6] usb/usbip: Fix v_recv_cmd_submit() to use PIPE_BULK define
-Date:   Fri, 23 Dec 2022 20:32:53 -0500
-Message-Id: <20221224013254.393646-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 3/4] usb/usbip: Fix v_recv_cmd_submit() to use PIPE_BULK define
+Date:   Fri, 23 Dec 2022 20:33:14 -0500
+Message-Id: <20221224013315.393820-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221224013254.393646-1-sashal@kernel.org>
-References: <20221224013254.393646-1-sashal@kernel.org>
+In-Reply-To: <20221224013315.393820-1-sashal@kernel.org>
+References: <20221224013315.393820-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -75,10 +75,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/usbip/vudc_rx.c b/drivers/usb/usbip/vudc_rx.c
-index 1e8a23d92cb4..4ccff3efee4e 100644
+index d020e72b3122..7c5d09ee3ef8 100644
 --- a/drivers/usb/usbip/vudc_rx.c
 +++ b/drivers/usb/usbip/vudc_rx.c
-@@ -149,7 +149,9 @@ static int v_recv_cmd_submit(struct vudc *udc,
+@@ -161,7 +161,9 @@ static int v_recv_cmd_submit(struct vudc *udc,
  	urb_p->urb->status = -EINPROGRESS;
  
  	/* FIXME: more pipe setup to please usbip_common */
