@@ -2,48 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 086FDC3DA7C
-	for <linux-usb@archiver.kernel.org>; Sat, 24 Dec 2022 01:38:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2156C3DA7C
+	for <linux-usb@archiver.kernel.org>; Sat, 24 Dec 2022 01:38:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236937AbiLXBiC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 23 Dec 2022 20:38:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42860 "EHLO
+        id S236798AbiLXBiZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 23 Dec 2022 20:38:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237007AbiLXBhT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Dec 2022 20:37:19 -0500
+        with ESMTP id S236795AbiLXBhg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Dec 2022 20:37:36 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 763653B433;
-        Fri, 23 Dec 2022 17:32:26 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FC17532F1;
+        Fri, 23 Dec 2022 17:32:33 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 905C8B821B6;
-        Sat, 24 Dec 2022 01:32:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11021C433D2;
-        Sat, 24 Dec 2022 01:32:12 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C3DF8B821BB;
+        Sat, 24 Dec 2022 01:32:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD053C43392;
+        Sat, 24 Dec 2022 01:32:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671845534;
-        bh=LCnqaDhLRYuSm3SpDgSeOwsyVzE+9qlPqgOMK3H5XyU=;
+        s=k20201202; t=1671845544;
+        bh=tTucTd7Gxw/J/qnEa03nlxkHUodTJGMUPAs8hTZ88Ec=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nDSX7iA832BIEjJZK1/a+/dViFUCWW+zL7y/Oc5U/AvY4/K5jMjbuSDv4QJcoVNdf
-         5qzn0stlhx0oWAzveDnDe4F/lBPMBOuk1/uL7AcNRF0PYgnnxaQWq8lxV3Tkl1IPxW
-         8GNjsMEOiFkpAPlxI5SbQIPOMngPnQbTufXqjrBTNum7EkW7llJDFHnr6c9p2NE/4x
-         9SYFM4Yujbahb/oP8arZpKnNdCmvOEMEFT+AAMdnk9OcmtdbtfTcl6eO2T1bD39HPt
-         vLbq5PC/g4c3wCKO9xsPwarMUmUat6fgZGbjoFOSqUQSssk6PE/hlyNoyznKLjJvd1
-         XzzokKLVIOGAg==
+        b=rd0IiG/r6gq5+fQxFad9gcwCBfZY8UDKSCH6QA8pbDP4B/a8uLXZKOvaYj+XlQInH
+         opj6+wGdztT8emSqLbu9MHo2hrmnXp4PL1oQNiaOrSAgDkukuLLw6gWutMDpmUswDc
+         FFnccLmZ/xwhbRiL8BaJBYi5PCfswLIgFBC23Jsyhqsfa4ElAVjHqHBXBJpAnILKPd
+         eBrAjmzgtd5VOsdBF16QT2QahD35p9Wyt2eEvzSf68aVMmra4uJF0+YDJKLmhDUEQ8
+         pnTFVLUgKf3JhXQZ51m8Z8ZVsravbZw4el95vkunK9Et8Jq/AtWW9XfnPD24Rlvcze
+         pUuw99cQ0dJXA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Henry Tian <tianxiaofeng@bytedance.com>,
-        Lei YU <yulei.sh@bytedance.com>,
-        Neal Liu <neal_liu@aspeedtech.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, joel@jms.id.au,
-        jakobkoschel@gmail.com, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: [PATCH AUTOSEL 5.10 03/11] usb: gadget: aspeed: fix buffer overflow
-Date:   Fri, 23 Dec 2022 20:31:53 -0500
-Message-Id: <20221224013202.393372-3-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, valentina.manea.m@gmail.com,
+        shuah@kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 07/11] usb/usbip: Fix v_recv_cmd_submit() to use PIPE_BULK define
+Date:   Fri, 23 Dec 2022 20:31:57 -0500
+Message-Id: <20221224013202.393372-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221224013202.393372-1-sashal@kernel.org>
 References: <20221224013202.393372-1-sashal@kernel.org>
@@ -55,104 +51,44 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Henry Tian <tianxiaofeng@bytedance.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
 
-[ Upstream commit 83045e19feae937c425248824d1dc0fc95583842 ]
+[ Upstream commit dd65a243a915ca319ed5fee9161a168c836fa2f2 ]
 
-In ast_vhub_epn_handle_ack() when the received data length exceeds the
-buffer, it does not check the case and just copies to req.buf and cause
-a buffer overflow, kernel oops on this case.
+Fix v_recv_cmd_submit() to use PIPE_BULK define instead of hard coded
+values. This also fixes the following signed integer overflow error
+reported by cppcheck. This is not an issue since pipe is unsigned int.
+However, this change improves the code to use proper define.
 
-This issue could be reproduced on a BMC with an OS that enables the
-lan over USB:
-1. In OS, enable the usb eth dev, verify it pings the BMC OK;
-2. In OS, set the usb dev mtu to 2000. (Default is 1500);
-3. In OS, ping the BMC with `-s 2000` argument.
+drivers/usb/usbip/vudc_rx.c:152:26: error: Signed integer overflow for expression '3<<30'. [integerOverflow]
+ urb_p->urb->pipe &= ~(3 << 30);
 
-The BMC kernel will get oops with below logs:
+In addition, add a build time check for PIPE_BULK != 3 as the code path
+depends on PIPE_BULK = 3.
 
-    skbuff: skb_over_panic: text:8058e098 len:2048 put:2048 head:84c678a0 data:84c678c2 tail:0x84c680c2 end:0x84c67f00 dev:usb0
-    ------------[ cut here ]------------
-    kernel BUG at net/core/skbuff.c:113!
-    Internal error: Oops - BUG: 0 [#1] ARM
-    CPU: 0 PID: 0 Comm: swapper Not tainted 5.15.69-c9fb275-dirty-d1e579a #1
-    Hardware name: Generic DT based system
-    PC is at skb_panic+0x60/0x6c
-    LR is at irq_work_queue+0x6c/0x94
-
-Fix the issue by checking the length and set `-EOVERFLOW`.
-
-Tested: Verify the BMC kernel does not get oops in the above case, and
-the usb ethernet gets RX packets errors instead.
-
-Signed-off-by: Lei YU <yulei.sh@bytedance.com>
-Signed-off-by: Henry Tian <tianxiaofeng@bytedance.com>
-Reviewed-by: Neal Liu <neal_liu@aspeedtech.com>
-Acked-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Link: https://lore.kernel.org/r/20221024094853.2877441-1-yulei.sh@bytedance.com
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+Link: https://lore.kernel.org/r/20221110194738.38514-1-skhan@linuxfoundation.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/aspeed-vhub/core.c |  2 +-
- drivers/usb/gadget/udc/aspeed-vhub/epn.c  | 16 ++++++++++++----
- 2 files changed, 13 insertions(+), 5 deletions(-)
+ drivers/usb/usbip/vudc_rx.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-index d11d3d14313f..9cd5e792dbf7 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-@@ -42,7 +42,7 @@ void ast_vhub_done(struct ast_vhub_ep *ep, struct ast_vhub_req *req,
+diff --git a/drivers/usb/usbip/vudc_rx.c b/drivers/usb/usbip/vudc_rx.c
+index 1e8a23d92cb4..4ccff3efee4e 100644
+--- a/drivers/usb/usbip/vudc_rx.c
++++ b/drivers/usb/usbip/vudc_rx.c
+@@ -149,7 +149,9 @@ static int v_recv_cmd_submit(struct vudc *udc,
+ 	urb_p->urb->status = -EINPROGRESS;
  
- 	list_del_init(&req->queue);
- 
--	if (req->req.status == -EINPROGRESS)
-+	if ((req->req.status == -EINPROGRESS) ||  (status == -EOVERFLOW))
- 		req->req.status = status;
- 
- 	if (req->req.dma) {
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/epn.c b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-index cb164c615e6f..934fa026832b 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-@@ -89,6 +89,7 @@ static void ast_vhub_epn_handle_ack(struct ast_vhub_ep *ep)
- {
- 	struct ast_vhub_req *req;
- 	unsigned int len;
-+	int status = 0;
- 	u32 stat;
- 
- 	/* Read EP status */
-@@ -124,9 +125,15 @@ static void ast_vhub_epn_handle_ack(struct ast_vhub_ep *ep)
- 	len = VHUB_EP_DMA_TX_SIZE(stat);
- 
- 	/* If not using DMA, copy data out if needed */
--	if (!req->req.dma && !ep->epn.is_in && len)
--		memcpy(req->req.buf + req->req.actual, ep->buf, len);
--
-+	if (!req->req.dma && !ep->epn.is_in && len) {
-+		if (req->req.actual + len > req->req.length) {
-+			req->last_desc = 1;
-+			status = -EOVERFLOW;
-+			goto done;
-+		} else {
-+			memcpy(req->req.buf + req->req.actual, ep->buf, len);
-+		}
-+	}
- 	/* Adjust size */
- 	req->req.actual += len;
- 
-@@ -134,9 +141,10 @@ static void ast_vhub_epn_handle_ack(struct ast_vhub_ep *ep)
- 	if (len < ep->ep.maxpacket)
- 		req->last_desc = 1;
- 
-+done:
- 	/* That's it ? complete the request and pick a new one */
- 	if (req->last_desc >= 0) {
--		ast_vhub_done(ep, req, 0);
-+		ast_vhub_done(ep, req, status);
- 		req = list_first_entry_or_null(&ep->queue, struct ast_vhub_req,
- 					       queue);
- 
+ 	/* FIXME: more pipe setup to please usbip_common */
+-	urb_p->urb->pipe &= ~(3 << 30);
++	BUILD_BUG_ON_MSG(PIPE_BULK != 3, "PIPE_* doesn't range from 0 to 3");
++
++	urb_p->urb->pipe &= ~(PIPE_BULK << 30);
+ 	switch (urb_p->ep->type) {
+ 	case USB_ENDPOINT_XFER_BULK:
+ 		urb_p->urb->pipe |= (PIPE_BULK << 30);
 -- 
 2.35.1
 
