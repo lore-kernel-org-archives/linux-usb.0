@@ -2,342 +2,142 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79327C4708D
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Dec 2022 17:43:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB02BC54EBF
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Dec 2022 21:11:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229789AbiL0RnF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Dec 2022 12:43:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47140 "EHLO
+        id S232302AbiL0VKm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Dec 2022 16:10:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232136AbiL0Rmv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Dec 2022 12:42:51 -0500
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C1E2C750
-        for <linux-usb@vger.kernel.org>; Tue, 27 Dec 2022 09:42:49 -0800 (PST)
-Received: by mail-vs1-xe30.google.com with SMTP id c184so13274578vsc.3
-        for <linux-usb@vger.kernel.org>; Tue, 27 Dec 2022 09:42:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vlA4yo04qFmJXSXSGAagY9ukYh5f25KWdaiUbu1cI5A=;
-        b=E75waJvoop80bOOovEoSWJcaZjg9LEDBnf2Dznk6/piFF7d2Uau7E61fz4Mmzp5583
-         m2mGJ0vDRgRFKv3u9M5NE0JjfaiPmcCZr4PSVLFZ+HMjJB+en4ycQl6E3sKwtwoG+7VC
-         zWQP8TxVphT//Kgv5Ot23UKemnFiCfCMSYEOseBvn+i1QH+PkdJTzyBT34AmRR4zw2En
-         fJn1GQ/EWIww2R+9UviZ0Epz6dNuK2BvRVJdEx0Oy2kcU7r9PFlDEj+OOS6NJLnvMkoE
-         GklI8LJyEVA3JBMAIFY1EVcH19pPuw1hkFq5Xz7KJzks9SUYwecB8TM+2KNDMy2vlpyI
-         bXfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vlA4yo04qFmJXSXSGAagY9ukYh5f25KWdaiUbu1cI5A=;
-        b=S3NbwIEG44f8MEclTybYM5qbzIu1DXBA0dkrcrlKyEQBUJjWJZfUGOCugaRy60vC7j
-         G9Se0jFKWAm8o3+gFkGGkMfGhmZfchAv4dP4kxucDMiSACCjqUTL/M5I6K73Xd6jW6J0
-         93XHNRKntet6D9NPkDf3nE3z4aUJ+KMQ7f6VilfF931nCObkMqx2mwDJYBxzNrmd9EJa
-         OA8Co18LMBNqzEJkG63PDaIGXuNe6XUHMiosjgsAk0qMSORhZkx8gzh5U1elAMqVtqwC
-         0CmyqqTi+IfFVK6gFGenZ6Mz69ccWMqSynWwCouxNdux6ht21kgTJuq6quUIE6qHh9CI
-         7jpA==
-X-Gm-Message-State: AFqh2ko0/Ys7kxENrSoVO94WIOUt3AS3RTVl/Nl7xZhtwegb2WcB7SEp
-        5lwWYrnwhcKc5F6OnSZaV1G5dQ/mmMdCX1cMnx9JiA==
-X-Google-Smtp-Source: AMrXdXsQ73pyCf49p2T/knn92cEWlG/tRX2dRLS7zp0oCuNGMzKV48WHNaDERlhslwLKYFyonSvTgwL9j/rSxxBAFNE=
-X-Received: by 2002:a67:ea07:0:b0:3aa:4645:63d with SMTP id
- g7-20020a67ea07000000b003aa4645063dmr2182959vso.31.1672162968137; Tue, 27 Dec
- 2022 09:42:48 -0800 (PST)
+        with ESMTP id S232836AbiL0VJY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Dec 2022 16:09:24 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38DE622D;
+        Tue, 27 Dec 2022 13:07:56 -0800 (PST)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BRKrAxv005531;
+        Tue, 27 Dec 2022 21:07:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=33cI4kCZpU9jHyUxIKbVSh4H+8vw4e4ZvFaKA1z1Xl8=;
+ b=oDXqDyMhJMLOorTlS4H/ZcOeV2yQ0HVKovXmaijUwtIiBuvFbLzMq/X9mAN/caHPH84W
+ +tDHzBKEqHDvYkmgLdyok7lvek7uvTiwoOMFe6SdzDfE+pf5iSSAbxQdSTcXYq4XYf36
+ wrcAM6Jc/muicbC5jwL4UTztcQIvKx3+cuZA7VHzaPNLqMl71ttcEdAByIe4rOdf0/5W
+ Ec2qVcDVFxrsruvW0PWHuFhOtJzHdxqxp7Ue0pBDlqQWbRzinBoll97wHZwKW+TOtd4H
+ aK+L8up4jbYPLXyy0kGw6NQb1oH2M4v+Mmm98b4B+aizFHO12dA1Qx1Q+sQ8t3Ne26YL mQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mntqf5g97-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 27 Dec 2022 21:07:08 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BRL77v5028849
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 27 Dec 2022 21:07:07 GMT
+Received: from [10.110.31.102] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 27 Dec
+ 2022 13:07:06 -0800
+Message-ID: <730d8cbc-c391-6d77-2374-713f539d38b6@quicinc.com>
+Date:   Tue, 27 Dec 2022 13:07:05 -0800
 MIME-Version: 1.0
-References: <20221219204619.2205248-1-allenwebb@google.com>
- <20221219204619.2205248-3-allenwebb@google.com> <Y6FaUynXTrYD6OYT@kroah.com>
- <CAJzde04Hbd2+s-Bqog2V81dBEeZD7WWaFCf2BkesQS4yUAKiNA@mail.gmail.com>
- <Y6H6/U0w96Z4kpDn@bombadil.infradead.org> <CAJzde04igO0LJ46Hsbcm-hJBFtPdqJC6svaoMkb3WBG0e1fGBw@mail.gmail.com>
- <Y6IDOwxOxZpsdtiu@bombadil.infradead.org> <CAJzde06q3w7CHd8FSs-bwS3EeVv6xrBzCwerQVqps49V=_voQQ@mail.gmail.com>
- <Y6IVDE3NEE6teggy@bombadil.infradead.org> <CAJzde07U3Y9LZfVHUA-YevRUqA7tDmS=3sBDYpEZM8FSZUTCnA@mail.gmail.com>
- <Y6JAwxvptrMrK353@bombadil.infradead.org>
-In-Reply-To: <Y6JAwxvptrMrK353@bombadil.infradead.org>
-From:   Allen Webb <allenwebb@google.com>
-Date:   Tue, 27 Dec 2022 11:42:36 -0600
-Message-ID: <CAJzde04UfPMTxiUaGjSYZBVMfcpVz1S9fTiGWYnCB0_yM0MaQw@mail.gmail.com>
-Subject: Re: [PATCH v9 02/10] rockchip-mailbox: Fix typo
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Nick Alcock <nick.alcock@oracle.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, stable@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [RFC PATCH 04/14] sound: usb: card: Introduce USB SND vendor op
+ callbacks
+Content-Language: en-US
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <andersson@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <gregkh@linuxfoundation.org>, <Thinh.Nguyen@synopsys.com>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <agross@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <devicetree@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <quic_jackp@quicinc.com>, <quic_plai@quicinc.com>
+References: <20221223233200.26089-1-quic_wcheng@quicinc.com>
+ <20221223233200.26089-5-quic_wcheng@quicinc.com>
+ <CAA8EJprFD53zmECHJ44FpjztRjwsMym2QP_Gk-JWya-SL_ryHA@mail.gmail.com>
+From:   Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <CAA8EJprFD53zmECHJ44FpjztRjwsMym2QP_Gk-JWya-SL_ryHA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 7CZl33Ocf1ue6_djQegt5-iJFt_uzPMd
+X-Proofpoint-ORIG-GUID: 7CZl33Ocf1ue6_djQegt5-iJFt_uzPMd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-27_16,2022-12-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 adultscore=0 phishscore=0
+ lowpriorityscore=0 malwarescore=0 mlxlogscore=959 clxscore=1015 mlxscore=0
+ spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212270176
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Dec 20, 2022 at 5:09 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Tue, Dec 20, 2022 at 03:57:57PM -0600, Allen Webb wrote:
-> > On Tue, Dec 20, 2022 at 2:03 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> > >
-> > > On Tue, Dec 20, 2022 at 01:49:04PM -0600, Allen Webb wrote:
-> > > > I took another stab at clarifying (and also dropped the ifdev since
-> > > > the same macro works both for separate and built-in modules:
-> > > >
-> > > > /*
-> > > >  * Creates an alias so file2alias.c can find device table.
-> > > >  *
-> > > >  * Use this in cases where a device table is used to match devices because it
-> > > >  * surfaces match-id based module aliases to userspace for:
-> > > >  *   - Automatic module loading.
-> > > >  *   - Tools like USBGuard which allow or block devices based on policy such as
-> > > >  *     which modules match a device.
-> > > >  *
-> > > >  * The module name is included in the alias for two reasons:
-> > > >  *   - It avoids creating two aliases with the same name for built-in modules.
-> > > >  *     Historically MODULE_DEVICE_TABLE was a no-op for built-in modules, so
-> > > >  *     there was nothing to stop different modules from having the same device
-> > > >  *     table name and consequently the same alias when building as a module.
-> > > >  *   - The module name is needed by files2alias.c to associate a particular
-> > > >  *     device table with its associated module for built-in modules since
-> > > >  *     files2alias would otherwise see the module name as `vmlinuz.o`.
-> > > >  */
-> > >
-> > > This is still weak in light of the questions I had. It does not make it
-> > > easy for a driver developer who is going to support only built-in only
-> > > if they need to define this or not. And it seems we're still discussing
-> > > the merits of this, so I'd wait until this is fleshed out, but I think
-> > > we are on the right track finally.
-> > >
-> > > > The deciding factor in whether it makes sense to remove these vs fix
-> > > > them seems to be, "How complete do we want modules.builtin.alias to
-> > > > be?"
-> > > >
-> > > > Arguably we should just drop these in cases where there isn't an
-> > > > "authorized" sysfs attribute but following that logic there is not any
-> > > > reason to generate built-in aliases for anything except USB and
-> > > > thunderbolt.
-> > >
-> > > There we go, now we have a *real* use case for this for built-in stuff
-> > > to consider. Is USBGuard effective even for built-in stuff?
-> >
-> > Yes, just because a module is loaded doesn't mean a specific device
-> > has probed the driver yet.
-> >
-> > >
-> > > Given everything discussed so far I'd like to get clarification if it
-> > > even help for built-in USB / thunderbolt. Does it? If so how? What could
-> > > userspace do with this information if the driver is already built-in?
-> >
-> > We are not trying to stop the module from being loaded (which is
-> > always the case for built-in modules) and in fact it is possible to
-> > have devices already using the module and still not authorize (and by
-> > extension probe the module for) newly connected devices.
-> >
-> > For example someone might have an unattended computer downloading
-> > installation media to a USB drive. Presumably this computer would be
-> > locked to make it more difficult for a bad actor to access the
-> > computer. Since USB storage devices are not needed to interact with
-> > the lock screen, we can use the authorized_default sysfs attribute to
-> > not allow new USB devices to probe modules by default and have
-> > USBGuard vet the devices. Mice, keyboards, etc can be allowed so that
-> > the lock screen can still be used (this important in cases like
-> > suspend+resume or docks).
->
-> I see thanks!
->
-> > > > On the flip side, if we are going to the effort to make this a generic
-> > > > solution that covers everything, the built-in aliases are only as
-> > > > useful as they are complete, so we would want everything that defines
-> > > > a device table to call the macro correctly.
-> > >
-> > > It is the ambiguity which is terrible to add. If the only use case is
-> > > for USB and Thunderbolt then we can spell it out, then only those driver
-> > > developers would care to consider it if the driver is bool. And, a
-> > > respective tooling would scrape only those drivers to verify if the
-> > > table is missing for built-in too.
-> >
-> > I was aiming to write it so that it wouldn't easily become obsolete by
-> > later changes, so tying it to the authorized and authorized_default
-> > sysfs attributes is probably the ideal deciding factor and listing USB
-> > and thunderbolt as examples makes sense.
->
-> I think it would make sense then to be explicit about this for now, even
-> if it seems we can obsolete this. Right now the justification for having
-> this for built-in is *very* specific to this feature for USB, which
-> makes use of special USB sysfs attributes which as you explained, allows
-> to restrict probe of devices even though the respective driver is already
-> loaded.
+Hi Dmitry,
 
-The thing we might obsolete is limiting it to just the USB subsystem.
-I am fine with expanding the documentation and limiting the scope of
-the feature to USB/thunderbolt for now.
+On 12/24/2022 3:03 AM, Dmitry Baryshkov wrote:
+> Hi,
+> 
+> On Sat, 24 Dec 2022 at 01:33, Wesley Cheng <quic_wcheng@quicinc.com> wrote:
+>>
+>> Allow for different vendors to be notified on USB SND connect/disconnect
+>> seqeunces.  This allows for vendor USB SND modules to properly initialize
+>> and populate internal structures with references to the USB SND chip
+>> device.
+> 
+> The commit message definitely needs some improvement. We do not notify
+> vendors on SND connect/disconnect events.
+> 
+> 
+>>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> ---
+>>   sound/usb/card.c | 22 ++++++++++++++++++++++
+>>   sound/usb/card.h |  7 +++++++
+>>   2 files changed, 29 insertions(+)
+>>
+>> diff --git a/sound/usb/card.c b/sound/usb/card.c
+>> index 26268ffb8274..212f55a7683c 100644
+>> --- a/sound/usb/card.c
+>> +++ b/sound/usb/card.c
+>> @@ -117,6 +117,21 @@ MODULE_PARM_DESC(skip_validation, "Skip unit descriptor validation (default: no)
+>>   static DEFINE_MUTEX(register_mutex);
+>>   static struct snd_usb_audio *usb_chip[SNDRV_CARDS];
+>>   static struct usb_driver usb_audio_driver;
+>> +static struct snd_usb_vendor_ops *vendor_ops;
+>> +
+>> +int snd_usb_register_vendor_ops(struct snd_usb_vendor_ops *ops)
+> 
+> platform ops?
+> 
 
->
-> > There are sysfs attributes called  authorized and authorized_default
-> > that together can prevent devices from being fully enumerated and
-> > probed.
->
-> Although these attributes are USB specfic today it gets me wondering if
-> other subsystems may benefit from a similar feature.
+Will change it.
 
-The subsystems that would likely benefit the most are ones that are
-externally reachable. The external ports that come to mind are USB /
-thunderbolt, firewire, PCMCIA / expresscard, eSATA, serial and
-parallel ports. Supporting PCMCIA / expresscard seems like it would
-require adding the authorized sysfs attribute to pci. eSATA would be
-covered by ata.
+>> +{
+>> +       vendor_ops = ops;
+>> +       return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(snd_usb_register_vendor_ops);
+> 
+> What happens if several platforms try to register different ops? I saw
+> from the patch 09/14 that you register these ops unconditionally. If
+> other devices follow your approach there is an obvious conflict.
+> 
 
->
-> > authorized_default gets set to 0 for the hub and any devices
-> > connected after that will show in sysfs, but not fully enumerate or
-> > probe until the device's authorized attribute is set to 1. There are
-> > some edge cases like internal devices which have some extra
-> > complexity.
-> >
-> > As for documentation, I wasn't able to find much other than:
-> > https://github.com/torvalds/linux/blob/v6.1/drivers/usb/core/hcd.c#L370
-> > /* authorized_default behaviour:
-> > * -1 is authorized for all devices except wireless (old behaviour)
-> > * 0 is unauthorized for all devices
-> > * 1 is authorized for all devices
-> > * 2 is authorized for internal devices
-> > */
-> > ...
-> > and
-> > https://github.com/torvalds/linux/blob/v6.1/Documentation/admin-guide/kernel-parameters.txt#L6424
-> > usbcore.authorized_default=
-> >    [USB] Default USB device authorization:
-> >    (default -1 = authorized except for wireless USB,
-> >    0 = not authorized, 1 = authorized, 2 = authorized
-> >    if device connected to internal port)
-> > ...
-> > The feature looks like it was originally introduced for wireless USB in:
-> > https://www.mail-archive.com/linux-usb-devel@lists.sourceforge.net/msg54289.html
-> > and later adapted for use cases like USBGuard here:
-> > https://github.com/torvalds/linux/commit/c4fc2342cb611f945fa468e742759e25984005ad
->
-> Thanks for digging all this up. Can you extend the docs on
-> Documentation/driver-api/usb/ somewhere about this attribute as part of
-> your changes so its clear the motivation, *then* you make your changes.
-> The documentation for MODULE_DEVICE_TABLE() can just say:
->
-> The only use-case for built-in drivers today is enable userspace to
-> prevent / allow probe for devices on certain subsystems even if the
-> driver is already loaded. An example is the USB subsystem with its
-> authorized_default sysfs attribute. For more details refer to the
-> kernel's Documentation for USB about authorized_default.
->
-> That should be clear enough for both USB driver writers and others.
->
-> Please also extend the docs for MODULE_DEVICE_TABLE() on
-> Documentation/driver-api/usb/writing_usb_driver.rst or where you see
-> fit for your changes. That can go into depth about the USBGuard stuff.
->
->   Luis
+Thank you for the review.
 
-How do you feel about only having one version of the macro for both
-cases and merging the documentation so things are kept simple? Here is
-what I have locally for the macro without the ifdef and the updated
-documentation:
+That is true.  I don't think there is a proper need to have multiple 
+vendor ops being registered, so maybe just returning an error for if ops 
+are already registered is sufficient.
 
-/*
- * Creates an alias so file2alias.c can find device table.
- *
- * Use this in cases where a device table is used to match devices because it
- * surfaces match-id based module aliases to userspace for:
- *   - Automatic module loading through modules.alias.
- *   - Tools like USBGuard which allow or block devices based on policy such as
- *     which modules match a device.
- *
- * The only use-case for built-in drivers today is enable userspace to prevent /
- * allow probe for devices on certain subsystems even if the driver is already
- * loaded. An example is the USB subsystem with its authorized_default sysfs
- * attribute. For more details refer to the kernel's Documentation for USB about
- * authorized_default.
- *
- * The module name is included in the alias for two reasons:
- *   - It avoids creating two aliases with the same name for built-in modules.
- *     Historically MODULE_DEVICE_TABLE was a no-op for built-in modules, so
- *     there was nothing to stop different modules from having the same device
- *     table name and consequently the same alias when building as a module.
- *   - The module name is needed by files2alias.c to associate a particular
- *     device table with its associated module for built-in modules since
- *     files2alias would otherwise see the module name as `vmlinuz.o`.
- */
-#define MODULE_DEVICE_TABLE(type, name) \
-extern void *CONCATENATE( \
-CONCATENATE(__mod_##type##__##name##__, \
-__KBUILD_MODNAME), \
-_device_table) \
-__attribute__ ((unused, alias(__stringify(name))))
-
-
-Here is a draft version for an updated to
-Documentation/driver-api/usb/ (I will add the 80 char line breaks
-later) in case you have feedback:
-
-
-# Authorization
-
-Authorization provides userspace a way to allow or block configuring
-devices early during enumeration before any modules are probed for the
-device. While it is possible to block a device by not loading the
-required modules, this also prevents other devices from using the
-module as well. For example someone might have an unattended computer
-downloading installation media to a USB drive. Presumably this
-computer would be locked to make it more difficult for a bad actor to
-access the computer. Since USB storage devices are not needed to
-interact with the lock screen, the authorized_default sysfs attribute
-can be set to not authorize new USB devices by default. A userspace
-tool like USBGuard can then vet the devices. Mice, keyboards, etc can
-be allowed by writing to their authorized sysfs attribute so that the
-lock screen can still be used (this important in cases like
-suspend+resume or docks) while other devices can be blocked as long as
-the lock screen is shown.
-
-## Sysfs Attributes
-
-Userspace can control USB device authorization through the
-authorized_default and authorized sysfs attributes.
-
-### authorized_default
-
-.. kernel-doc:: drivers/usb/core/hcd.c
-   :export:
-
-The authorized_default sysfs attribute is only present for host
-controllers. It determines the initial state of the authorized sysfs
-attribute of USB devices newly connected to the corresponding host
-controller. It can take on the following values:
-
-+---------------------------------------------------+
-| Value | Behavior                                  |
-+=======+===========================================+
-|    -1 | Authorize all devices except wireless USB |
-+-------+-------------------------------------------+
-|     0 | Do not authorize new devices              |
-+-------+-------------------------------------------+
-|     1 | Authorize new devices                     |
-+-------+-------------------------------------------+
-|     2 | Authorize new internal devices only       |
-+---------------------------------------------------+
-
-Note that firmware platform code determines if a device is internal or
-not and this is reported as the connect_type sysfs attribute of the
-USB port. This is currently supported by ACPI, but device tree still
-needs an implementation. Authorizing new internal devices only can be
-useful to work around issues with devices that misbehave if there are
-delays in probing their module.
-
-### authorized
-
-.. kernel-doc:: drivers/usb/core/sysfs.c
-   :export:
-
-Every USB device has an authorized sysfs attribute which can take the
-values 0 and 1. When authorized is 0, the device still is present in
-sysfs, but none of its interfaces can be associated with drivers and
-modules will not be probed. When authorized is 1 (or set to one) a
-configuration is chosen for the device and its interfaces are
-registered allowing drivers to bind to them.
+Thanks
+Wesley Cheng
