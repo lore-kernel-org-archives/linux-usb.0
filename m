@@ -2,139 +2,402 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D388C4332F
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Dec 2022 08:47:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D0CC3DA79
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Dec 2022 10:14:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233097AbiL2IrM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Dec 2022 03:47:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51478 "EHLO
+        id S233257AbiL2KOe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Dec 2022 05:14:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233252AbiL2IrJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Dec 2022 03:47:09 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93100120AE;
-        Thu, 29 Dec 2022 00:47:07 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id c65-20020a1c3544000000b003cfffd00fc0so15928001wma.1;
-        Thu, 29 Dec 2022 00:47:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jRWUhYIq+SLDOvQiqrOVOP6g3Plcd0QA8Y2GhVoNHpY=;
-        b=PMmPvJZJK2r6qP2rG7yBPRIYRvx2BDiE43Zlzgw1gDG+sj56JGlhCmiz59Ads3rrFw
-         Rp1PFqxtnf+Dh/uSXrbNLt1WwQq/YFqM71Ew5SfdqyQSr2CvYMfrZeHYAa2lMorNalck
-         e/89+1riqt1mZnOVftBxiIjfKXy643kUZe4qj6DoGNzoF54gTTqAXX9VG57Up8jcNHwd
-         /LvbhlSfhGjSbHzO7Mm+z1bCdP01fyBE9Wr23jPWJG62klUveXG5eRAdjIPZrWAUYudh
-         kCLHtW8ZlIznRK3PiS5AkRDVB5TOfUo+n6bmdgR9AtpS+tyGOI4m+n2ryhjewrVq6B3o
-         8+cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jRWUhYIq+SLDOvQiqrOVOP6g3Plcd0QA8Y2GhVoNHpY=;
-        b=xC88OGtp9x1e+crwn+/DL/xj6PJiXmYC8sYjW1f6Czc0NfZbjDT0vUHVwlfZwBJMH/
-         w50hIjQNGRsg0rrF0A2sp2JuW6KJWJvU4qrbiKLQ7sXSPyCD5Q2mdpFRVhX4QNIs2eql
-         cwrPV8KfwlcMBwVmqN4gc2kg/947Rgf5JnbpSNEIwQSwxpyVtmH611peUaJZrebfYaIF
-         XIQRUaTdYtedLtYnGg5xBjvMXsxnOcjaXCFB/JvGF7vMUIn0eNYnA0qJrRXpftHjyiyd
-         fqmB0kH0lSiXaQCrpIkjDmLmm/xuT7vSrag78Xew2r2E5pYDUyeVY+x8EPzIcLJT2xQt
-         Na1w==
-X-Gm-Message-State: AFqh2krFd6zm03K211UpITF9sfHOzuZAcDeZDVw7HxzO32C66cRaGaG0
-        6hlNCKLztZoWYMA4isc3Ahw=
-X-Google-Smtp-Source: AMrXdXs15dm23+E5UFcIdXUAKnnmmfv0pPZ4hEra6qNEnJIQ5Mnj58LgrCWanrudgmPOTIz4vAuhng==
-X-Received: by 2002:a05:600c:54ef:b0:3d0:5254:8a43 with SMTP id jb15-20020a05600c54ef00b003d052548a43mr25267480wmb.38.1672303625992;
-        Thu, 29 Dec 2022 00:47:05 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n36-20020a05600c3ba400b003b49bd61b19sm29848934wms.15.2022.12.29.00.47.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 00:47:05 -0800 (PST)
-Date:   Thu, 29 Dec 2022 11:46:56 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     oe-kbuild@lists.linux.dev, Haotien Hsu <haotienh@nvidia.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-        Wayne Chang <waynec@nvidia.com>,
-        Sing-Han Chen <singhanc@nvidia.com>,
-        Sanket Goswami <Sanket.Goswami@amd.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Haotien Hsu <haotienh@nvidia.com>
-Subject: Re: [PATCH] ucsi_ccg: Refine the UCSI Interrupt handling
-Message-ID: <202212271237.LWXg8oOw-lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221221083812.3363045-1-haotienh@nvidia.com>
+        with ESMTP id S229625AbiL2KMb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Dec 2022 05:12:31 -0500
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A95313F65
+        for <linux-usb@vger.kernel.org>; Thu, 29 Dec 2022 02:04:18 -0800 (PST)
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20221229100415epoutp02afd404c478ffd48e70eb7236652330b7~1O3_PznSw0652506525epoutp02-
+        for <linux-usb@vger.kernel.org>; Thu, 29 Dec 2022 10:04:15 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20221229100415epoutp02afd404c478ffd48e70eb7236652330b7~1O3_PznSw0652506525epoutp02-
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1672308255;
+        bh=dplttHGWL97k9zkZU+DBVvNgaW6tStyWd3q2Kneia8E=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=oJbk5Btr99+hzonJmYOnPotSjCdz1x8E7iAmkTJP0qOpmPMKJCoIvyiEoLxCsKiE6
+         hqN060I2v9QCGQiqeuzVu+hyxwRvgIEQky/U7wxiNwup0uaSIgkuGWjebi58LKEhOR
+         wMgXpl7p1M4ANE426djCgL0WMzP2/9Hv89Y0OrvY=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+        epcas2p4.samsung.com (KnoxPortal) with ESMTP id
+        20221229100415epcas2p42a49b9e99c5f8b95a8e05175b2948466~1O39u7IvY1198811988epcas2p4O;
+        Thu, 29 Dec 2022 10:04:15 +0000 (GMT)
+Received: from epsmges2p1.samsung.com (unknown [182.195.36.91]) by
+        epsnrtp1.localdomain (Postfix) with ESMTP id 4NjPB64Gn5z4x9Ps; Thu, 29 Dec
+        2022 10:04:14 +0000 (GMT)
+Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
+        epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+        C2.EB.03803.E166DA36; Thu, 29 Dec 2022 19:04:14 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas2p3.samsung.com (KnoxPortal) with ESMTPA id
+        20221229100413epcas2p34c702faf8c96d207cf1659b1173f8858~1O38Xq-mM2202722027epcas2p39;
+        Thu, 29 Dec 2022 10:04:13 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20221229100413epsmtrp1f2ae4b5010939a31ae2db49becf99d82~1O38W2YLJ2828628286epsmtrp1B;
+        Thu, 29 Dec 2022 10:04:13 +0000 (GMT)
+X-AuditID: b6c32a45-f47ff70000020edb-92-63ad661e70ae
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        DF.CE.10542.D166DA36; Thu, 29 Dec 2022 19:04:13 +0900 (KST)
+Received: from ubuntu.dsn.sec.samsung.com (unknown [10.229.95.128]) by
+        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20221229100413epsmtip224864ad58e8955358c4f490b97eb7bae~1O38FbIaa1657916579epsmtip2w;
+        Thu, 29 Dec 2022 10:04:13 +0000 (GMT)
+From:   Daehwan Jung <dh10.jung@samsung.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     linux-usb@vger.kernel.org (open list:USB SUBSYSTEM),
+        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
+        DEVICE TREE BINDINGS), linux-kernel@vger.kernel.org (open list),
+        sc.suh@samsung.com, taehyun.cho@samsung.com,
+        jh0801.jung@samsung.com, eomji.oh@samsung.com,
+        Daehwan Jung <dh10.jung@samsung.com>
+Subject: [RFC PATCH v2 1/3] usb: support Samsung Exynos xHCI Controller
+Date:   Thu, 29 Dec 2022 18:57:44 +0900
+Message-Id: <1672307866-25839-2-git-send-email-dh10.jung@samsung.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1672307866-25839-1-git-send-email-dh10.jung@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgk+LIzCtJLcpLzFFi42LZdljTQlcubW2ywbV/shbH2p6wW8w/co7V
+        4s6CaUwWp5YvZLJoXryezeLuwx8sFn0vHjJbXN41h81i0bJWZovmTVNYLVr3HmG36Lp7g9Fi
+        0kFRi1ULDrA78Hks3vOSyWPTqk42jzvX9rB57J+7ht2jb8sqRo8t+z8zenzeJBfAHpVtk5Ga
+        mJJapJCal5yfkpmXbqvkHRzvHG9qZmCoa2hpYa6kkJeYm2qr5OIToOuWmQN0spJCWWJOKVAo
+        ILG4WEnfzqYov7QkVSEjv7jEVim1ICWnwLxArzgxt7g0L10vL7XEytDAwMgUqDAhO2Nh60vG
+        gk+uFT8urmFtYHxp2cXIySEhYCJx9Oh1ti5GLg4hgR2MEheO3GGEcD4xStze2Q7lfGaU6Nj5
+        kRmm5fDyrWwgtpDALkaJN+9FIIp+MEq833KFqYuRg4NNQEvi+0KwZhGBLiaJbXe+soA4zAJH
+        mCQ2zjjFCNItLOAucb6jC8xmEVCVuDLpNJjNK+Aq8Wb+ZjaIbXISN891gm3mFHCTaN/6A2yQ
+        hEAvh8Ttp9Ohilwkfn64CmULS7w6voUdwpaSeNnfBmVnS1z/1s0CYVdIrNgLYxtLzHoG8icH
+        0HWaEut36YOYEgLKEkdugVUwC/BJdBz+yw4R5pXoaBOCaFSWmH55AiuELSlx8PU5aPh4SGw/
+        9okFEiYzGSXmPprLPoFRbhbCggWMjKsYxVILinPTU4uNCgzhMZacn7uJEZwktVx3ME5++0Hv
+        ECMTB+MhRgkOZiURXo2zq5OFeFMSK6tSi/Lji0pzUosPMZoCw24is5Rocj4wTeeVxBuaWBqY
+        mJkZmhuZGpgrifMGbZ2fLCSQnliSmp2aWpBaBNPHxMEp1cB0+uyOW62sPAI15S83id/a2NFS
+        W6+388Cdv4dOfP31xjvR0bMv7/2hlIQ/IXlB/1MDlxx1nciwKv/lqszkT79bBL7fMV1xMfK4
+        7ffp+S8iauq5Nq302vF8TxhzqmvSyfLGuUkxqu2NB107LBee8Qx8MOXPDcdH6yaJH8wq4Kq4
+        7lPhxn3Uzf94QJmC+6qoC55TJ1tox1zSOfX7uo5VfaW2aPzWNZof4qrvisgWMukeeh/gKV2r
+        nvlxQtbXSb5xc5PNtfTat22wnsrQs13/wYLilBcFvq8Tfyot2t7zOcRRaGruB99357/MPHbw
+        2qT/1ay2BxW8tNyXpmxRll2xoVnfnWGy26Qpk9jyn4gvPKuhxFKckWioxVxUnAgAEgHunhsE
+        AAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrMLMWRmVeSWpSXmKPExsWy7bCSvK5s2tpkg30n5C2OtT1ht5h/5Byr
+        xZ0F05gsTi1fyGTRvHg9m8Xdhz9YLPpePGS2uLxrDpvFomWtzBbNm6awWrTuPcJu0XX3BqPF
+        pIOiFqsWHGB34PNYvOclk8emVZ1sHneu7WHz2D93DbtH35ZVjB5b9n9m9Pi8SS6APYrLJiU1
+        J7MstUjfLoErY2HrS8aCT64VPy6uYW1gfGnZxcjJISFgInF4+VY2EFtIYAejxM//pRBxSYml
+        c2+wQ9jCEvdbjrB2MXIB1XxjlFj35yuQw8HBJqAl8X0hI0hcRKCHSWLhFJBBXBzMAqeYJG4d
+        f8UE0i0s4C5xvqOLEcRmEVCVuDLpNJjNK+Aq8Wb+ZjaIDXISN891MoPYnAJuEu1bf7BAXOQq
+        caH7H9sERr4FjAyrGCVTC4pz03OLDQuM8lLL9YoTc4tL89L1kvNzNzGCw1lLawfjnlUf9A4x
+        MnEwHmKU4GBWEuHVOLs6WYg3JbGyKrUoP76oNCe1+BCjNAeLkjjvha6T8UIC6YklqdmpqQWp
+        RTBZJg5OqQamsufTcpMUJraUX+WPUe8uUJS9eCaournuuuk+9j2L1yZcPfLY/t+/Ct0HGVdY
+        lxyY0bv5/qXMY4/DfsQpa7wzOOO9XSjYXuiWfOvJ7EVuIdNPvAhIDtns6bRPP/X85OXqE57u
+        vKcp+4X1l419DfvZ49VTGFuy90+2kNe0MdWwiPk+1WtJV3yaxIKmJt1q6/XKtwKOe2Y4rXDX
+        jN/W9U/LIv+Y1dxin8tast6Vyy8fPPXSIu/Ikeq5U1Mcfc2Nbz1gjGD85Ms8ZVHO1+Yvhx+J
+        Nvneq3kS3uXy0JllR+rTK/x1N8///Sd/8PuVtPqlLv8ixKO2xl7RXzdnwpqGU/9KHvq73TXn
+        yemrXjrn5vbvSizFGYmGWsxFxYkAj39CQ9YCAAA=
+X-CMS-MailID: 20221229100413epcas2p34c702faf8c96d207cf1659b1173f8858
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20221229100413epcas2p34c702faf8c96d207cf1659b1173f8858
+References: <1672307866-25839-1-git-send-email-dh10.jung@samsung.com>
+        <CGME20221229100413epcas2p34c702faf8c96d207cf1659b1173f8858@epcas2p3.samsung.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Haotien,
+Currently, dwc3 invokes just xhci platform driver without any data.
+We add xhci node as child of dwc3 node in order to get data from
+device tree. It populates "xhci" child by name during initialization
+of host. This patch only effects if dwc3 node has a child named "xhci"
+not to disturb original path.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+We add "samsung,exynos-xhci" compatible in xhci platform driver
+to support Exynos SOCs. We introduce roothub wakeup, which uses roothub
+as system wakeup source. It needs xhci platform driver to override
+roothub ops.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haotien-Hsu/ucsi_ccg-Refine-the-UCSI-Interrupt-handling/20221221-163923
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20221221083812.3363045-1-haotienh%40nvidia.com
-patch subject: [PATCH] ucsi_ccg: Refine the UCSI Interrupt handling
-config: x86_64-randconfig-m001-20221226
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
+---
+ drivers/usb/dwc3/drd.c       |  7 +++++
+ drivers/usb/dwc3/host.c      | 33 ++++++++++++++++++--
+ drivers/usb/host/xhci-plat.c | 60 +++++++++++++++++++++++++++++++++++-
+ drivers/usb/host/xhci.c      |  4 +++
+ drivers/usb/host/xhci.h      |  5 +++
+ 5 files changed, 106 insertions(+), 3 deletions(-)
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-
-smatch warnings:
-drivers/usb/typec/ucsi/ucsi_ccg.c:708 ccg_irq_handler() error: uninitialized symbol 'cci'.
-
-vim +/cci +708 drivers/usb/typec/ucsi/ucsi_ccg.c
-
-247c554a14aa16 Ajay Gupta      2018-10-26  675  static irqreturn_t ccg_irq_handler(int irq, void *data)
-247c554a14aa16 Ajay Gupta      2018-10-26  676  {
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  677  	u16 reg = CCGX_RAB_UCSI_DATA_BLOCK(UCSI_CCI);
-247c554a14aa16 Ajay Gupta      2018-10-26  678  	struct ucsi_ccg *uc = data;
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  679  	u8 intr_reg;
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  680  	u32 cci;
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  681  	int ret;
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  682  
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  683  	ret = ccg_read(uc, CCGX_RAB_INTR_REG, &intr_reg, sizeof(intr_reg));
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  684  	if (ret)
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  685  		return ret;
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  686  
-e65232d7f1fccd Sing-Han Chen   2022-12-21  687  	if (!intr_reg)
-e65232d7f1fccd Sing-Han Chen   2022-12-21  688  		return IRQ_HANDLED;
-e65232d7f1fccd Sing-Han Chen   2022-12-21  689  	else if (!(intr_reg & UCSI_READ_INT))
-e65232d7f1fccd Sing-Han Chen   2022-12-21  690  		goto err_clear_irq;
-
-cci is uninitialized on this goto.
-
-e65232d7f1fccd Sing-Han Chen   2022-12-21  691  
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  692  	ret = ccg_read(uc, reg, (void *)&cci, sizeof(cci));
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  693  	if (ret)
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  694  		goto err_clear_irq;
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  695  
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  696  	if (UCSI_CCI_CONNECTOR(cci))
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  697  		ucsi_connector_change(uc->ucsi, UCSI_CCI_CONNECTOR(cci));
-247c554a14aa16 Ajay Gupta      2018-10-26  698  
-e65232d7f1fccd Sing-Han Chen   2022-12-21  699  	/* As per CCGx UCSI interface guide, copy CCI and MESSAGE_IN
-e65232d7f1fccd Sing-Han Chen   2022-12-21  700  	 * to the OpRegion before clear the UCSI interrupt
-e65232d7f1fccd Sing-Han Chen   2022-12-21  701  	 */
-e65232d7f1fccd Sing-Han Chen   2022-12-21  702  	ccg_op_region_update(uc, cci);
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  703  
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  704  err_clear_irq:
-e32fd989ac1c45 Heikki Krogerus 2019-11-04  705  	ccg_write(uc, CCGX_RAB_INTR_REG, &intr_reg, sizeof(intr_reg));
-247c554a14aa16 Ajay Gupta      2018-10-26  706  
-e65232d7f1fccd Sing-Han Chen   2022-12-21  707  	if (!ret && test_bit(DEV_CMD_PENDING, &uc->flags) &&
-e65232d7f1fccd Sing-Han Chen   2022-12-21 @708  	    cci & (UCSI_CCI_ACK_COMPLETE | UCSI_CCI_COMMAND_COMPLETE))
-e65232d7f1fccd Sing-Han Chen   2022-12-21  709  		complete(&uc->complete);
-e65232d7f1fccd Sing-Han Chen   2022-12-21  710  
-247c554a14aa16 Ajay Gupta      2018-10-26  711  	return IRQ_HANDLED;
-247c554a14aa16 Ajay Gupta      2018-10-26  712  }
-
+diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+index 039bf241769a..7263fd7bdf4f 100644
+--- a/drivers/usb/dwc3/drd.c
++++ b/drivers/usb/dwc3/drd.c
+@@ -496,6 +496,8 @@ static enum usb_role dwc3_usb_role_switch_get(struct usb_role_switch *sw)
+ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+ {
+ 	struct usb_role_switch_desc dwc3_role_switch = {NULL};
++	struct device_node *dwc3_np = dev_of_node(dwc->dev);
++	struct device_node *xhci_np;
+ 	u32 mode;
+ 
+ 	dwc->role_switch_default_mode = usb_get_role_switch_default_mode(dwc->dev);
+@@ -514,6 +516,10 @@ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+ 	if (IS_ERR(dwc->role_sw))
+ 		return PTR_ERR(dwc->role_sw);
+ 
++	xhci_np = of_get_child_by_name(dwc3_np, "xhci");
++	if (xhci_np)
++		goto populate_skip;
++
+ 	if (dwc->dev->of_node) {
+ 		/* populate connector entry */
+ 		int ret = devm_of_platform_populate(dwc->dev);
+@@ -526,6 +532,7 @@ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+ 		}
+ 	}
+ 
++populate_skip:
+ 	dwc3_set_mode(dwc, mode);
+ 	return 0;
+ }
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index f6f13e7f1ba1..8adfe45d9681 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -9,6 +9,7 @@
+ 
+ #include <linux/irq.h>
+ #include <linux/of.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ 
+ #include "core.h"
+@@ -68,9 +69,22 @@ int dwc3_host_init(struct dwc3 *dwc)
+ {
+ 	struct property_entry	props[4];
+ 	struct platform_device	*xhci;
++	struct device_node *dwc3_np = dev_of_node(dwc->dev);
++	struct device_node *xhci_np;
+ 	int			ret, irq;
+ 	int			prop_idx = 0;
+ 
++	xhci_np = of_get_child_by_name(dwc3_np, "xhci");
++	if (xhci_np) {
++		ret = of_platform_populate(dwc3_np, NULL, NULL, dwc->dev);
++		if (ret) {
++			dev_err(dwc->dev, "failed to register xhci - %d\n", ret);
++			goto err;
++		}
++		dwc->xhci = of_find_device_by_node(xhci_np);
++		goto populate_done;
++	}
++
+ 	irq = dwc3_host_get_irq(dwc);
+ 	if (irq < 0)
+ 		return irq;
+@@ -126,14 +140,29 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 		goto err;
+ 	}
+ 
++populate_done:
+ 	return 0;
++
+ err:
+-	platform_device_put(xhci);
++	if (xhci_np)
++		of_platform_depopulate(dwc->dev);
++	else
++		platform_device_put(xhci);
++
+ 	return ret;
+ }
+ 
+ void dwc3_host_exit(struct dwc3 *dwc)
+ {
+-	platform_device_unregister(dwc->xhci);
++	struct device_node *dwc3_np = dev_of_node(dwc->dev);
++	struct device_node *xhci_np;
++
++	xhci_np = of_get_child_by_name(dwc3_np, "xhci");
++
++	if (xhci_np)
++		of_platform_depopulate(dwc->dev);
++	else
++		platform_device_unregister(dwc->xhci);
++
+ 	dwc->xhci = NULL;
+ }
+diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+index 5fb55bf19493..0eeaf306076a 100644
+--- a/drivers/usb/host/xhci-plat.c
++++ b/drivers/usb/host/xhci-plat.c
+@@ -29,11 +29,15 @@ static struct hc_driver __read_mostly xhci_plat_hc_driver;
+ 
+ static int xhci_plat_setup(struct usb_hcd *hcd);
+ static int xhci_plat_start(struct usb_hcd *hcd);
++static int xhci_plat_bus_suspend(struct usb_hcd *hcd);
++static int xhci_plat_bus_resume(struct usb_hcd *hcd);
+ 
+ static const struct xhci_driver_overrides xhci_plat_overrides __initconst = {
+ 	.extra_priv_size = sizeof(struct xhci_plat_priv),
+ 	.reset = xhci_plat_setup,
+ 	.start = xhci_plat_start,
++	.bus_suspend = xhci_plat_bus_suspend,
++	.bus_resume = xhci_plat_bus_resume,
+ };
+ 
+ static void xhci_priv_plat_start(struct usb_hcd *hcd)
+@@ -86,6 +90,33 @@ static void xhci_plat_quirks(struct device *dev, struct xhci_hcd *xhci)
+ 	xhci->quirks |= XHCI_PLAT | priv->quirks;
+ }
+ 
++static int xhci_plat_bus_suspend(struct usb_hcd *hcd)
++{
++	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
++
++	if (xhci->quirks & XHCI_ROOTHUB_WAKEUP) {
++		if (hcd == xhci->main_hcd)
++			__pm_relax(xhci->main_wakelock);
++		else
++			__pm_relax(xhci->shared_wakelock);
++	}
++
++	return xhci_bus_suspend(hcd);
++}
++
++static int xhci_plat_bus_resume(struct usb_hcd *hcd)
++{
++	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
++
++	if (xhci->quirks & XHCI_ROOTHUB_WAKEUP) {
++		if (hcd == xhci->main_hcd)
++			__pm_stay_awake(xhci->main_wakelock);
++		else
++			__pm_stay_awake(xhci->shared_wakelock);
++	}
++	return xhci_bus_resume(hcd);
++}
++
+ /* called during probe() after chip reset completes */
+ static int xhci_plat_setup(struct usb_hcd *hcd)
+ {
+@@ -126,6 +157,10 @@ static const struct xhci_plat_priv xhci_plat_brcm = {
+ 	.quirks = XHCI_RESET_ON_RESUME | XHCI_SUSPEND_RESUME_CLKS,
+ };
+ 
++static const struct xhci_plat_priv xhci_plat_exynos = {
++	.quirks = XHCI_ROOTHUB_WAKEUP,
++};
++
+ static const struct of_device_id usb_xhci_of_match[] = {
+ 	{
+ 		.compatible = "generic-xhci",
+@@ -167,6 +202,9 @@ static const struct of_device_id usb_xhci_of_match[] = {
+ 	}, {
+ 		.compatible = "brcm,bcm7445-xhci",
+ 		.data = &xhci_plat_brcm,
++	}, {
++		.compatible = "samsung,exynos-xhci",
++		.data = &xhci_plat_exynos,
+ 	},
+ 	{},
+ };
+@@ -185,7 +223,6 @@ static int xhci_plat_probe(struct platform_device *pdev)
+ 	int			irq;
+ 	struct xhci_plat_priv	*priv = NULL;
+ 
+-
+ 	if (usb_disabled())
+ 		return -ENODEV;
+ 
+@@ -350,6 +387,21 @@ static int xhci_plat_probe(struct platform_device *pdev)
+ 			goto put_usb3_hcd;
+ 	}
+ 
++	if (xhci->quirks & XHCI_ROOTHUB_WAKEUP) {
++		/* Initialization wakelock for HCD */
++		xhci->main_wakelock = wakeup_source_register(&pdev->dev,
++							dev_name(&pdev->dev));
++		__pm_stay_awake(xhci->main_wakelock);
++		device_set_wakeup_enable(&xhci->main_hcd->self.root_hub->dev, true);
++
++		if (xhci->shared_hcd) {
++			xhci->shared_wakelock = wakeup_source_register(&pdev->dev,
++								dev_name(&pdev->dev));
++			__pm_stay_awake(xhci->shared_wakelock);
++			device_set_wakeup_enable(&xhci->shared_hcd->self.root_hub->dev, true);
++		}
++	}
++
+ 	device_enable_async_suspend(&pdev->dev);
+ 	pm_runtime_put_noidle(&pdev->dev);
+ 
+@@ -398,6 +450,12 @@ static int xhci_plat_remove(struct platform_device *dev)
+ 	pm_runtime_get_sync(&dev->dev);
+ 	xhci->xhc_state |= XHCI_STATE_REMOVING;
+ 
++	if (xhci->quirks & XHCI_ROOTHUB_WAKEUP) {
++		wakeup_source_unregister(xhci->main_wakelock);
++		if (xhci->shared_wakelock)
++			wakeup_source_unregister(xhci->shared_wakelock);
++	}
++
+ 	if (shared_hcd) {
+ 		usb_remove_hcd(shared_hcd);
+ 		xhci->shared_hcd = NULL;
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 79d7931c048a..693495054001 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -5502,6 +5502,10 @@ void xhci_init_driver(struct hc_driver *drv,
+ 			drv->check_bandwidth = over->check_bandwidth;
+ 		if (over->reset_bandwidth)
+ 			drv->reset_bandwidth = over->reset_bandwidth;
++		if (over->bus_suspend)
++			drv->bus_suspend = over->bus_suspend;
++		if (over->bus_resume)
++			drv->bus_resume = over->bus_resume;
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(xhci_init_driver);
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index c9f06c5e4e9d..cb9c54a6a22c 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1752,6 +1752,8 @@ struct xhci_hub {
+ struct xhci_hcd {
+ 	struct usb_hcd *main_hcd;
+ 	struct usb_hcd *shared_hcd;
++	struct wakeup_source *main_wakelock;
++	struct wakeup_source *shared_wakelock;
+ 	/* glue to PCI and HCD framework */
+ 	struct xhci_cap_regs __iomem *cap_regs;
+ 	struct xhci_op_regs __iomem *op_regs;
+@@ -1898,6 +1900,7 @@ struct xhci_hcd {
+ #define XHCI_EP_CTX_BROKEN_DCS	BIT_ULL(42)
+ #define XHCI_SUSPEND_RESUME_CLKS	BIT_ULL(43)
+ #define XHCI_RESET_TO_DEFAULT	BIT_ULL(44)
++#define XHCI_ROOTHUB_WAKEUP	BIT_ULL(45)
+ 
+ 	unsigned int		num_active_eps;
+ 	unsigned int		limit_active_eps;
+@@ -1943,6 +1946,8 @@ struct xhci_driver_overrides {
+ 			     struct usb_host_endpoint *ep);
+ 	int (*check_bandwidth)(struct usb_hcd *, struct usb_device *);
+ 	void (*reset_bandwidth)(struct usb_hcd *, struct usb_device *);
++	int (*bus_suspend)(struct usb_hcd *hcd);
++	int (*bus_resume)(struct usb_hcd *hcd);
+ };
+ 
+ #define	XHCI_CFC_DELAY		10
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.31.1
 
