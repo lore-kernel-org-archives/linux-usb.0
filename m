@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 430E6C3DA7D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EF09C10F1B
 	for <linux-usb@archiver.kernel.org>; Fri, 30 Dec 2022 20:36:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235542AbiL3UgB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Dec 2022 15:36:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55258 "EHLO
+        id S235532AbiL3Uf7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Dec 2022 15:35:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235445AbiL3Ufu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Dec 2022 15:35:50 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB4D4C45
-        for <linux-usb@vger.kernel.org>; Fri, 30 Dec 2022 12:35:48 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id i15so31777643edf.2
-        for <linux-usb@vger.kernel.org>; Fri, 30 Dec 2022 12:35:48 -0800 (PST)
+        with ESMTP id S235488AbiL3Ufw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Dec 2022 15:35:52 -0500
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD66A25E0
+        for <linux-usb@vger.kernel.org>; Fri, 30 Dec 2022 12:35:50 -0800 (PST)
+Received: by mail-ed1-x534.google.com with SMTP id g1so17511100edj.8
+        for <linux-usb@vger.kernel.org>; Fri, 30 Dec 2022 12:35:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=X/YvHElO1B1L96Q/ryL2GcQHBR6R6iwvqncvsZcjNEM=;
-        b=FwHXJj/0hE2ocjmVzKl7OsUdAR2wshEC1VxX6arYVk2fB5OTyw8SEuWRMuL0Ai4UXG
-         3eZHZp21/PLb0dKBmGNT/4bwC50RN/PGsX7R4AjHd0+gSq2dT12dtjQM5i9LtIuiznnp
-         VlspXQTNxugYOXAsV880Gwfu/OOAAXQkUfa+N/8RzJfr3JAzxPc0oXAa2BDFBERXgnYU
-         jYXbXzjguMQCRA+QpYhgVsx2uaA3u2A8q5hGFfUBMOBDKhpkc21VZ5uwPNuFEz8ndoOh
-         4QCDUgi6DyB/73CoILFHyiLPfDWwH0sfEWhI8KuQ5jdESdh7b7qR3ah4A3+adxgHxWFf
-         mMKw==
+        bh=eTC+mnxU3UPqgX3TH+U6o3Fz1LFcosQFNOD9ojOfvuw=;
+        b=dzrQrINRAEA1iL6hQox1UsuhQwvx5VXm1DLxLu6nxVGnmHWoEQ38IvLQKHvxoxyJjh
+         k21YpoZHUM/vRYxg30xnNgwyfDlHrZEU+DO5XgTqn9v7m0twdnNcFiTHwjnaIK9RyXY6
+         SQEZKup+vBcmZL3Zf1vmOk84h97xmcbkJRtV7zLQk6MtTpKvCf7ADz0RX0VHW3fb3kV3
+         1QS63JkjMzxj57TZRiVj3159BFnok5JarBWLkQR3KLXM5yrOXWgtQ2C4rO4RwbP2SrXB
+         HKN+fTxOheTV8G99PSiDSdLu8MM4afsmyTr/6gNobRydzs9AXScvoa8EvUVHjI94HB3X
+         AA0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=X/YvHElO1B1L96Q/ryL2GcQHBR6R6iwvqncvsZcjNEM=;
-        b=ipcAimCiqoHxghZm+nNeCzUUL4/lp10cTWhIe+myUZU7i+JIBqObairJZuffUEDDKW
-         yFMWbN4yYa12b2RSHpTNxgRRymQlOJf0wD1ylew2nHS6k5X7BT/YM+AVikOpwSgI2H+D
-         Kc1jRmx3Xi0+W8IOX12Q2Bek0Ce6HTtc4VgUPY028JINewELz76svXRKpdoYduPCU+ZL
-         8nydYqlstmaG8qo0VkhE4iF5V42MQ2AyeRH9n4xycfKLWoOVKN+PsVIB1rDEpIDTZRYr
-         nSc3x4HqCW8FB45XnwK1NFvTWnlPoVRBMl59h+QnnjuPb+NEkDdSabhmi++MYDGdVZPR
-         aKqQ==
-X-Gm-Message-State: AFqh2koaTbDy7OUmUJBzXkBEzxtuAahZLD2bspfGyYHJSRct7k5k0TJx
-        sZsaKgnwUl77Jj8a6UR25FMDZA==
-X-Google-Smtp-Source: AMrXdXudWOuZiaJ0H5ELIr6PxS7d0qIx/RI5pwX/fV3HsKlOYONQLc/EOZTfdZs2G0Ad/VBVktqgGA==
-X-Received: by 2002:aa7:c053:0:b0:482:e3b9:f46e with SMTP id k19-20020aa7c053000000b00482e3b9f46emr18963761edo.39.1672432547178;
-        Fri, 30 Dec 2022 12:35:47 -0800 (PST)
+        bh=eTC+mnxU3UPqgX3TH+U6o3Fz1LFcosQFNOD9ojOfvuw=;
+        b=KIbNBHVEieTcyMz1iQlwCgsKBQ9qwaj5oNzg6X1ohat5JVHgaH1JL85ypPS39KnFhl
+         YbQlwKIiMnvezcDcFP2PenHLIz3vmdoRd+NpikJduK0d+j1K+4FFVEQa2OOzN7g0cBuW
+         SXeQo1+n3N1nmvPGGFc4p3kM2HSNYcoCxDrnNWkrqQa58rZdt7fAU4vBWuedzwhjEGm3
+         oWAmYZC89WeLKOAZK6IwRfO7/zpMjdIq0kl14HPHpjfi1Z9kLSs0iZ6pWTx5yQyVYuWb
+         q/2wWLO8DfM6SQNGhNtq1815GYQJaF3/pHI89Of7d2eO+oxBDwHo8LR8EMYJ4MkDQdhl
+         EqOg==
+X-Gm-Message-State: AFqh2komF3AqPs3QqvNYxkixZPezFH5fqh/hRLVseYCd8HzH7QJgEdqI
+        /dail++uNOknfWGxdNiAtXfsxg==
+X-Google-Smtp-Source: AMrXdXtjDmF1wB9j57gnwYZGBZFX+OHIkRObKwybmocGs7kBhe3zUTVk6gjxv39naS5rTBDQJbghhg==
+X-Received: by 2002:a05:6402:cb4:b0:483:6d73:ad02 with SMTP id cn20-20020a0564020cb400b004836d73ad02mr24014953edb.35.1672432550269;
+        Fri, 30 Dec 2022 12:35:50 -0800 (PST)
 Received: from predatorhelios.fritz.box (dynamic-2a01-0c22-cd9d-4b00-ef17-3c78-1696-7315.c22.pool.telefonica.de. [2a01:c22:cd9d:4b00:ef17:3c78:1696:7315])
-        by smtp.gmail.com with ESMTPSA id c10-20020a056402158a00b00482c1f1a039sm8350500edv.30.2022.12.30.12.35.46
+        by smtp.gmail.com with ESMTPSA id c10-20020a056402158a00b00482c1f1a039sm8350500edv.30.2022.12.30.12.35.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Dec 2022 12:35:46 -0800 (PST)
+        Fri, 30 Dec 2022 12:35:49 -0800 (PST)
 From:   =?UTF-8?q?Bernhard=20Rosenkr=C3=A4nzer?= <bero@baylibre.com>
 To:     linux-mediatek@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
@@ -58,9 +58,9 @@ To:     linux-mediatek@lists.infradead.org,
         chunfeng.yun@mediatek.com, linus.walleij@linaro.org,
         lee@kernel.org, maz@kernel.org, tglx@linutronix.de,
         angelogioacchino.delregno@collabora.com
-Subject: [PATCH v6 4/7] dt-bindings: pinctrl: add bindings for Mediatek MT8365 SoC
-Date:   Fri, 30 Dec 2022 21:35:38 +0100
-Message-Id: <20221230203541.146807-5-bero@baylibre.com>
+Subject: [PATCH v6 7/7] arm64: dts: mediatek: Initial mt8365-evk support
+Date:   Fri, 30 Dec 2022 21:35:41 +0100
+Message-Id: <20221230203541.146807-8-bero@baylibre.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221230203541.146807-1-bero@baylibre.com>
 References: <20221230203541.146807-1-bero@baylibre.com>
@@ -71,217 +71,588 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add devicetree bindings for Mediatek MT8365 pinctrl driver.
+From: Fabien Parent <fparent@baylibre.com>
 
+This adds minimal support for the Mediatek 8365 SOC and the EVK reference
+board, allowing the board to boot to initramfs with serial port I/O.
+
+Signed-off-by: Fabien Parent <fparent@baylibre.com>
+[bero@baylibre.com: Removed parts depending on drivers that aren't upstream yet, cleanups, add CPU cache layout, add systimer]
 Signed-off-by: Bernhard Rosenkränzer <bero@baylibre.com>
+Tested-by: Kevin Hilman <khilman@baylibre.com>
 ---
- .../pinctrl/mediatek,mt8365-pinctrl.yaml      | 197 ++++++++++++++++++
- 1 file changed, 197 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/pinctrl/mediatek,mt8365-pinctrl.yaml
+ arch/arm64/boot/dts/mediatek/Makefile       |   1 +
+ arch/arm64/boot/dts/mediatek/mt8365-evk.dts | 169 +++++++++
+ arch/arm64/boot/dts/mediatek/mt8365.dtsi    | 374 ++++++++++++++++++++
+ 3 files changed, 544 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/mediatek/mt8365-evk.dts
+ create mode 100644 arch/arm64/boot/dts/mediatek/mt8365.dtsi
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/mediatek,mt8365-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/mediatek,mt8365-pinctrl.yaml
+diff --git a/arch/arm64/boot/dts/mediatek/Makefile b/arch/arm64/boot/dts/mediatek/Makefile
+index 813e735c5b96d..d78523c5a7dd6 100644
+--- a/arch/arm64/boot/dts/mediatek/Makefile
++++ b/arch/arm64/boot/dts/mediatek/Makefile
+@@ -47,4 +47,5 @@ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8195-cherry-tomato-r2.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8195-cherry-tomato-r3.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8195-demo.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8195-evb.dtb
++dtb-$(CONFIG_ARCH_MEDIATEK) += mt8365-evk.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8516-pumpkin.dtb
+diff --git a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
 new file mode 100644
-index 0000000000000..4b96884a1afc7
+index 0000000000000..275ea3a0e7085
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/pinctrl/mediatek,mt8365-pinctrl.yaml
-@@ -0,0 +1,197 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/pinctrl/mediatek,mt8365-pinctrl.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
+@@ -0,0 +1,169 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2021-2022 BayLibre, SAS.
++ * Authors:
++ * Fabien Parent <fparent@baylibre.com>
++ * Bernhard Rosenkränzer <bero@baylibre.com>
++ */
 +
-+title: Mediatek MT8365 Pin Controller
++/dts-v1/;
 +
-+maintainers:
-+  - Zhiyong Tao <zhiyong.tao@mediatek.com>
-+  - Bernhard Rosenkränzer <bero@baylibre.com>
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
++#include <dt-bindings/pinctrl/mt8365-pinfunc.h>
++#include "mt8365.dtsi"
 +
-+description: |
-+  The MediaTek's MT8365 Pin controller is used to control SoC pins.
++/ {
++	model = "MediaTek MT8365 Open Platform EVK";
++	compatible = "mediatek,mt8365-evk", "mediatek,mt8365";
 +
-+properties:
-+  compatible:
-+    const: mediatek,mt8365-pinctrl
++	aliases {
++		serial0 = &uart0;
++	};
 +
-+  reg:
-+    maxItems: 1
++	chosen {
++		stdout-path = "serial0:921600n8";
++	};
 +
-+  mediatek,pctl-regmap:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    items:
-+      maxItems: 1
-+    minItems: 1
-+    maxItems: 2
-+    description: |
-+      Should be phandles of the syscfg node.
++	firmware {
++		optee {
++			compatible = "linaro,optee-tz";
++			method = "smc";
++		};
++	};
 +
-+  gpio-controller: true
++	gpio-keys {
++		compatible = "gpio-keys";
++		input-name = "gpio-keys";
++		pinctrl-names = "default";
++		pinctrl-0 = <&gpio_keys>;
 +
-+  "#gpio-cells":
-+    const: 2
-+    description: |
-+      Number of cells in GPIO specifier. Since the generic GPIO
-+      binding is used, the amount of cells must be specified as 2. See the below
-+      mentioned gpio binding representation for description of particular cells.
++		key-volume-up {
++			gpios = <&pio 24 GPIO_ACTIVE_LOW>;
++			label = "volume_up";
++			linux,code = <KEY_VOLUMEUP>;
++			wakeup-source;
++			debounce-interval = <15>;
++		};
++	};
 +
-+  interrupt-controller: true
++	memory@40000000 {
++		device_type = "memory";
++		reg = <0 0x40000000 0 0xc0000000>;
++	};
 +
-+  interrupts:
-+    maxItems: 1
++	usb_otg_vbus: regulator-0 {
++		compatible = "regulator-fixed";
++		regulator-name = "otg_vbus";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		gpio = <&pio 16 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++	};
 +
-+  "#interrupt-cells":
-+    const: 2
++	reserved-memory {
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
 +
-+patternProperties:
-+  "-pins$":
-+    type: object
-+    additionalProperties: false
-+    patternProperties:
-+      "pins$":
-+        type: object
-+        additionalProperties: false
-+        description: |
-+          A pinctrl node should contain at least one subnode representing the
-+          pinctrl groups available on the machine. Each subnode will list the
-+          pins it needs, and how they should be configured, with regard to muxer
-+          configuration, pullups, drive strength, input enable/disable and input
-+          schmitt.
-+        $ref: /schemas/pinctrl/pincfg-node.yaml
++		/* 128 KiB reserved for ARM Trusted Firmware (BL31) */
++		bl31_secmon_reserved: secmon@43000000 {
++			no-map;
++			reg = <0 0x43000000 0 0x20000>;
++		};
 +
-+        properties:
-+          pinmux:
-+            description:
-+              integer array, represents gpio pin number and mux setting.
-+              Supported pin number and mux varies for different SoCs, and are
-+              defined as macros in <soc>-pinfunc.h directly.
++		/* 12 MiB reserved for OP-TEE (BL32)
++		 * +-----------------------+ 0x43e0_0000
++		 * |      SHMEM 2MiB       |
++		 * +-----------------------+ 0x43c0_0000
++		 * |        | TA_RAM  8MiB |
++		 * + TZDRAM +--------------+ 0x4340_0000
++		 * |        | TEE_RAM 2MiB |
++		 * +-----------------------+ 0x4320_0000
++		 */
++		optee_reserved: optee@43200000 {
++			no-map;
++			reg = <0 0x43200000 0 0x00c00000>;
++		};
++	};
++};
 +
-+          bias-disable: true
++&pio {
++	gpio_keys: gpio-keys-pins {
++		pins {
++			pinmux = <MT8365_PIN_24_KPCOL0__FUNC_KPCOL0>;
++			bias-pull-up;
++			input-enable;
++		};
++	};
 +
-+          bias-pull-up:
-+            description: |
-+              Besides generic pinconfig options, it can be used as the pull up
-+              settings for 2 pull resistors, R0 and R1. User can configure those
-+              special pins.
++	uart0_pins: uart0-pins {
++		pins {
++			pinmux = <MT8365_PIN_35_URXD0__FUNC_URXD0>,
++				 <MT8365_PIN_36_UTXD0__FUNC_UTXD0>;
++		};
++	};
 +
-+          bias-pull-down: true
++	uart1_pins: uart1-pins {
++		pins {
++			pinmux = <MT8365_PIN_37_URXD1__FUNC_URXD1>,
++				 <MT8365_PIN_38_UTXD1__FUNC_UTXD1>;
++		};
++	};
 +
-+          input-enable: true
++	uart2_pins: uart2-pins {
++		pins {
++			pinmux = <MT8365_PIN_39_URXD2__FUNC_URXD2>,
++				 <MT8365_PIN_40_UTXD2__FUNC_UTXD2>;
++		};
++	};
 +
-+          input-disable: true
++	usb_pins: usb-pins {
++		pins-id {
++			pinmux = <MT8365_PIN_17_GPIO17__FUNC_GPIO17>;
++			input-enable;
++			bias-pull-up;
++		};
 +
-+          output-low: true
++		pins-usb0-vbus {
++			pinmux = <MT8365_PIN_16_GPIO16__FUNC_USB_DRVVBUS>;
++			output-high;
++		};
 +
-+          output-high: true
++		pin-usb1-vbus {
++			pinmux = <MT8365_PIN_18_GPIO18__FUNC_GPIO18>;
++			output-high;
++		};
++	};
 +
-+          input-schmitt-enable: true
++	pwm_pins: pwm-pins {
++		pins {
++			pinmux = <MT8365_PIN_19_DISP_PWM__FUNC_PWM_A>,
++				 <MT8365_PIN_116_I2S_BCK__FUNC_PWM_C>;
++		};
++	};
++};
 +
-+          input-schmitt-disable: true
++&pwm {
++	pinctrl-0 = <&pwm_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
 +
-+          mediatek,drive-strength-adv:
-+            description: |
-+              Describe the specific driving setup property.
-+              For I2C pins, the existing generic driving setup can only support
-+              2/4/6/8/10/12/14/16mA driving. But in specific driving setup, they
-+              can support 0.125/0.25/0.5/1mA adjustment. If we enable specific
-+              driving setup, the existing generic setup will be disabled.
-+              The specific driving setup is controlled by E1E0EN.
-+              When E1=0/E0=0, the strength is 0.125mA.
-+              When E1=0/E0=1, the strength is 0.25mA.
-+              When E1=1/E0=0, the strength is 0.5mA.
-+              When E1=1/E0=1, the strength is 1mA.
-+              EN is used to enable or disable the specific driving setup.
-+              Valid arguments are described as below:
-+              0: (E1, E0, EN) = (0, 0, 0)
-+              1: (E1, E0, EN) = (0, 0, 1)
-+              2: (E1, E0, EN) = (0, 1, 0)
-+              3: (E1, E0, EN) = (0, 1, 1)
-+              4: (E1, E0, EN) = (1, 0, 0)
-+              5: (E1, E0, EN) = (1, 0, 1)
-+              6: (E1, E0, EN) = (1, 1, 0)
-+              7: (E1, E0, EN) = (1, 1, 1)
-+              So the valid arguments are from 0 to 7.
-+            $ref: /schemas/types.yaml#/definitions/uint32
-+            enum: [0, 1, 2, 3, 4, 5, 6, 7]
++&uart0 {
++	pinctrl-0 = <&uart0_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
 +
-+          mediatek,pull-up-adv:
-+            description: |
-+              Pull up setings for 2 pull resistors, R0 and R1. User can
-+              configure those special pins. Valid arguments are described as below:
-+              0: (R1, R0) = (0, 0) which means R1 disabled and R0 disabled.
-+              1: (R1, R0) = (0, 1) which means R1 disabled and R0 enabled.
-+              2: (R1, R0) = (1, 0) which means R1 enabled and R0 disabled.
-+              3: (R1, R0) = (1, 1) which means R1 enabled and R0 enabled.
-+            $ref: /schemas/types.yaml#/definitions/uint32
-+            enum: [0, 1, 2, 3]
++&uart1 {
++	pinctrl-0 = <&uart1_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
 +
-+          mediatek,pull-down-adv:
-+            description: |
-+              Pull down settings for 2 pull resistors, R0 and R1. User can
-+              configure those special pins. Valid arguments are described as below:
-+              0: (R1, R0) = (0, 0) which means R1 disabled and R0 disabled.
-+              1: (R1, R0) = (0, 1) which means R1 disabled and R0 enabled.
-+              2: (R1, R0) = (1, 0) which means R1 enabled and R0 disabled.
-+              3: (R1, R0) = (1, 1) which means R1 enabled and R0 enabled.
-+            $ref: /schemas/types.yaml#/definitions/uint32
-+            enum: [0, 1, 2, 3]
++&uart2 {
++	pinctrl-0 = <&uart2_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
+diff --git a/arch/arm64/boot/dts/mediatek/mt8365.dtsi b/arch/arm64/boot/dts/mediatek/mt8365.dtsi
+new file mode 100644
+index 0000000000000..60a211ba91dbd
+--- /dev/null
++++ b/arch/arm64/boot/dts/mediatek/mt8365.dtsi
+@@ -0,0 +1,374 @@
++// SPDX-License-Identifier: (GPL-2.0 OR MIT)
++/*
++ * (C) 2018 MediaTek Inc.
++ * Copyright (C) 2022 BayLibre SAS
++ * Fabien Parent <fparent@baylibre.com>
++ * Bernhard Rosenkränzer <bero@baylibre.com>
++ */
++#include <dt-bindings/clock/mediatek,mt8365-clk.h>
++#include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <dt-bindings/interrupt-controller/irq.h>
++#include <dt-bindings/phy/phy.h>
++#include <dt-bindings/thermal/thermal.h>
 +
-+          mediatek,tdsel:
-+            description: |
-+              An integer describing the steps for output level shifter duty
-+              cycle when asserted (high pulse width adjustment). Valid arguments
-+              are from 0 to 15.
-+            $ref: /schemas/types.yaml#/definitions/uint32
++/ {
++	compatible = "mediatek,mt8365";
++	interrupt-parent = <&sysirq>;
++	#address-cells = <2>;
++	#size-cells = <2>;
 +
-+          mediatek,rdsel:
-+            description: |
-+              An integer describing the steps for input level shifter duty cycle
-+              when asserted (high pulse width adjustment). Valid arguments are
-+              from 0 to 63.
-+            $ref: /schemas/types.yaml#/definitions/uint32
++	cpus {
++		#address-cells = <1>;
++		#size-cells = <0>;
 +
-+        required:
-+          - pinmux
++		cpu-map {
++			cluster0 {
++				core0 {
++					cpu = <&cpu0>;
++				};
++				core1 {
++					cpu = <&cpu1>;
++				};
++				core2 {
++					cpu = <&cpu2>;
++				};
++				core3 {
++					cpu = <&cpu3>;
++				};
++			};
++		};
 +
-+required:
-+  - compatible
-+  - reg
-+  - gpio-controller
-+  - "#gpio-cells"
++		cpu0: cpu@0 {
++			device_type = "cpu";
++			compatible = "arm,cortex-a53";
++			reg = <0x0>;
++			#cooling-cells = <2>;
++			enable-method = "psci";
++			i-cache-size = <0x8000>;
++			i-cache-line-size = <64>;
++			i-cache-sets = <256>;
++			d-cache-size = <0x8000>;
++			d-cache-line-size = <64>;
++			d-cache-sets = <256>;
++			next-level-cache = <&l2>;
++		};
 +
-+allOf:
-+  - $ref: pinctrl.yaml#
++		cpu1: cpu@1 {
++			device_type = "cpu";
++			compatible = "arm,cortex-a53";
++			reg = <0x1>;
++			#cooling-cells = <2>;
++			enable-method = "psci";
++			i-cache-size = <0x8000>;
++			i-cache-line-size = <64>;
++			i-cache-sets = <256>;
++			d-cache-size = <0x8000>;
++			d-cache-line-size = <64>;
++			d-cache-sets = <256>;
++			next-level-cache = <&l2>;
++		};
 +
-+additionalProperties: false
++		cpu2: cpu@2 {
++			device_type = "cpu";
++			compatible = "arm,cortex-a53";
++			reg = <0x2>;
++			#cooling-cells = <2>;
++			enable-method = "psci";
++			i-cache-size = <0x8000>;
++			i-cache-line-size = <64>;
++			i-cache-sets = <256>;
++			d-cache-size = <0x8000>;
++			d-cache-line-size = <64>;
++			d-cache-sets = <256>;
++			next-level-cache = <&l2>;
++		};
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/pinctrl/mt8365-pinfunc.h>
-+    soc {
-+      #address-cells = <2>;
-+      #size-cells = <2>;
++		cpu3: cpu@3 {
++			device_type = "cpu";
++			compatible = "arm,cortex-a53";
++			reg = <0x3>;
++			#cooling-cells = <2>;
++			enable-method = "psci";
++			i-cache-size = <0x8000>;
++			i-cache-line-size = <64>;
++			i-cache-sets = <256>;
++			d-cache-size = <0x8000>;
++			d-cache-line-size = <64>;
++			d-cache-sets = <256>;
++			next-level-cache = <&l2>;
++		};
 +
-+      pio: pinctrl@1000b000 {
-+        compatible = "mediatek,mt8365-pinctrl";
-+        reg = <0 0x1000b000 0 0x1000>;
-+        mediatek,pctl-regmap = <&syscfg_pctl>;
-+        gpio-controller;
-+        #gpio-cells = <2>;
-+        interrupt-controller;
-+        #interrupt-cells = <2>;
-+        interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>;
++		l2: l2-cache {
++			compatible = "cache";
++			cache-level = <2>;
++			cache-size = <0x80000>;
++			cache-line-size = <64>;
++			cache-sets = <512>;
++			cache-unified;
++		};
++	};
 +
-+        pio-pins {
-+          pins {
-+            pinmux = <MT8365_PIN_59_SDA1__FUNC_SDA1_0>, <MT8365_PIN_60_SCL1__FUNC_SCL1_0>;
-+            mediatek,pull-up-adv = <3>;
-+            mediatek,drive-strength-adv = <00>;
-+            bias-pull-up;
-+          };
-+        };
-+      };
-+    };
++	clk26m: oscillator {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <26000000>;
++		clock-output-names = "clk26m";
++	};
++
++	psci {
++		compatible = "arm,psci-1.0";
++		method = "smc";
++	};
++
++	soc {
++		#address-cells = <2>;
++		#size-cells = <2>;
++		compatible = "simple-bus";
++		ranges;
++
++		gic: interrupt-controller@c000000 {
++			compatible = "arm,gic-v3";
++			#interrupt-cells = <4>;
++			interrupt-parent = <&gic>;
++			interrupt-controller;
++			reg = <0 0x0c000000 0 0x80000>, <0 0x0c080000 0 0x80000>;
++
++			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH 0>;
++		};
++
++		topckgen: syscon@10000000 {
++			compatible = "mediatek,mt8365-topckgen", "syscon";
++			reg = <0 0x10000000 0 0x1000>;
++			#clock-cells = <1>;
++		};
++
++		infracfg: syscon@10001000 {
++			compatible = "mediatek,mt8365-infracfg", "syscon";
++			reg = <0 0x10001000 0 0x1000>;
++			#clock-cells = <1>;
++		};
++
++		pericfg: syscon@10003000 {
++			compatible = "mediatek,mt8365-pericfg", "syscon";
++			reg = <0 0x10003000 0 0x1000>;
++			#clock-cells = <1>;
++		};
++
++		syscfg_pctl: syscfg-pctl@10005000 {
++			compatible = "mediatek,mt8365-syscfg", "syscon";
++			reg = <0 0x10005000 0 0x1000>;
++		};
++
++		pio: pinctrl@1000b000 {
++			compatible = "mediatek,mt8365-pinctrl";
++			reg = <0 0x1000b000 0 0x1000>;
++			mediatek,pctl-regmap = <&syscfg_pctl>;
++			gpio-controller;
++			#gpio-cells = <2>;
++			interrupt-controller;
++			#interrupt-cells = <2>;
++			interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>;
++		};
++
++		apmixedsys: syscon@1000c000 {
++			compatible = "mediatek,mt8365-apmixedsys", "syscon";
++			reg = <0 0x1000c000 0 0x1000>;
++			#clock-cells = <1>;
++		};
++
++		keypad: keypad@10010000 {
++			compatible = "mediatek,mt6779-keypad";
++			reg = <0 0x10010000 0 0x1000>;
++			wakeup-source;
++			interrupts = <GIC_SPI 124 IRQ_TYPE_EDGE_FALLING>;
++			clocks = <&clk26m>;
++			clock-names = "kpd";
++			status = "disabled";
++		};
++
++		mcucfg: syscon@10200000 {
++			compatible = "mediatek,mt8365-mcucfg", "syscon";
++			reg = <0 0x10200000 0 0x2000>;
++			#clock-cells = <1>;
++		};
++
++		sysirq: interrupt-controller@10200a80 {
++			compatible = "mediatek,mt8365-sysirq", "mediatek,mt6577-sysirq";
++			interrupt-controller;
++			#interrupt-cells = <3>;
++			interrupt-parent = <&gic>;
++			reg = <0 0x10200a80 0 0x20>;
++		};
++
++		infracfg_nao: infracfg@1020e000 {
++			compatible = "mediatek,mt8365-infracfg", "syscon";
++			reg = <0 0x1020e000 0 0x1000>;
++		};
++
++		rng: rng@1020f000 {
++			compatible = "mediatek,mt8365-rng", "mediatek,mt7623-rng";
++			reg = <0 0x1020f000 0 0x100>;
++			clocks = <&infracfg CLK_IFR_TRNG>;
++			clock-names = "rng";
++		};
++
++		apdma: dma-controller@11000280 {
++			compatible = "mediatek,mt8365-uart-dma", "mediatek,mt6577-uart-dma";
++			reg = <0 0x11000280 0 0x80>,
++			      <0 0x11000300 0 0x80>,
++			      <0 0x11000380 0 0x80>,
++			      <0 0x11000400 0 0x80>,
++			      <0 0x11000580 0 0x80>,
++			      <0 0x11000600 0 0x80>;
++			interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_LOW>,
++				     <GIC_SPI 46 IRQ_TYPE_LEVEL_LOW>,
++				     <GIC_SPI 47 IRQ_TYPE_LEVEL_LOW>,
++				     <GIC_SPI 48 IRQ_TYPE_LEVEL_LOW>,
++				     <GIC_SPI 51 IRQ_TYPE_LEVEL_LOW>,
++				     <GIC_SPI 52 IRQ_TYPE_LEVEL_LOW>;
++			dma-requests = <6>;
++			clocks = <&infracfg CLK_IFR_AP_DMA>;
++			clock-names = "apdma";
++			#dma-cells = <1>;
++		};
++
++		uart0: serial@11002000 {
++			compatible = "mediatek,mt8365-uart", "mediatek,mt6577-uart";
++			reg = <0 0x11002000 0 0x1000>;
++			interrupts = <GIC_SPI 35 IRQ_TYPE_LEVEL_LOW>;
++			clocks = <&clk26m>, <&infracfg CLK_IFR_UART0>;
++			clock-names = "baud", "bus";
++			dmas = <&apdma 0>, <&apdma 1>;
++			dma-names = "tx", "rx";
++			status = "disabled";
++		};
++
++		uart1: serial@11003000 {
++			compatible = "mediatek,mt8365-uart", "mediatek,mt6577-uart";
++			reg = <0 0x11003000 0 0x1000>;
++			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_LOW>;
++			clocks = <&clk26m>, <&infracfg CLK_IFR_UART1>;
++			clock-names = "baud", "bus";
++			dmas = <&apdma 2>, <&apdma 3>;
++			dma-names = "tx", "rx";
++			status = "disabled";
++		};
++
++		uart2: serial@11004000 {
++			compatible = "mediatek,mt8365-uart", "mediatek,mt6577-uart";
++			reg = <0 0x11004000 0 0x1000>;
++			interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_LOW>;
++			clocks = <&clk26m>, <&infracfg CLK_IFR_UART2>;
++			clock-names = "baud", "bus";
++			dmas = <&apdma 4>, <&apdma 5>;
++			dma-names = "tx", "rx";
++			status = "disabled";
++		};
++
++		pwm: pwm@11006000 {
++			compatible = "mediatek,mt8365-pwm";
++			reg = <0 0x11006000 0 0x1000>;
++			#pwm-cells = <2>;
++			interrupts = <GIC_SPI 76 IRQ_TYPE_LEVEL_LOW>;
++			clocks = <&infracfg CLK_IFR_PWM_HCLK>,
++				 <&infracfg CLK_IFR_PWM>,
++				 <&infracfg CLK_IFR_PWM1>,
++				 <&infracfg CLK_IFR_PWM2>,
++				 <&infracfg CLK_IFR_PWM3>;
++			clock-names = "top", "main", "pwm1", "pwm2", "pwm3";
++		};
++
++		spi: spi@1100a000 {
++			compatible = "mediatek,mt8365-spi", "mediatek,mt7622-spi";
++			reg = <0 0x1100a000 0 0x100>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			interrupts = <GIC_SPI 62 IRQ_TYPE_LEVEL_LOW>;
++			clocks = <&topckgen CLK_TOP_UNIVPLL2_D4>,
++				 <&topckgen CLK_TOP_SPI_SEL>,
++				 <&infracfg CLK_IFR_SPI0>;
++			clock-names = "parent-clk", "sel-clk", "spi-clk";
++			status = "disabled";
++		};
++
++		ssusb: usb@11201000 {
++			compatible = "mediatek,mt8365-mtu3", "mediatek,mtu3";
++			reg = <0 0x11201000 0 0x2e00>, <0 0x11203e00 0 0x0100>;
++			reg-names = "mac", "ippc";
++			interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_LOW>;
++			phys = <&u2port0 PHY_TYPE_USB2>,
++			       <&u2port1 PHY_TYPE_USB2>;
++			clocks = <&topckgen CLK_TOP_SSUSB_TOP_CK_EN>,
++				 <&infracfg CLK_IFR_SSUSB_REF>,
++				 <&infracfg CLK_IFR_SSUSB_SYS>,
++				 <&infracfg CLK_IFR_ICUSB>;
++			clock-names = "sys_ck", "ref_ck", "mcu_ck", "dma_ck";
++			#address-cells = <2>;
++			#size-cells = <2>;
++			ranges;
++			status = "disabled";
++
++			usb_host: usb@11200000 {
++				compatible = "mediatek,mt8365-xhci", "mediatek,mtk-xhci";
++				reg = <0 0x11200000 0 0x1000>;
++				reg-names = "mac";
++				interrupts = <GIC_SPI 67 IRQ_TYPE_LEVEL_LOW>;
++				clocks = <&topckgen CLK_TOP_SSUSB_TOP_CK_EN>,
++					 <&infracfg CLK_IFR_SSUSB_REF>,
++					 <&infracfg CLK_IFR_SSUSB_SYS>,
++					 <&infracfg CLK_IFR_ICUSB>,
++					 <&infracfg CLK_IFR_SSUSB_XHCI>;
++				clock-names = "sys_ck", "ref_ck", "mcu_ck",
++					      "dma_ck", "xhci_ck";
++				status = "disabled";
++			};
++		};
++
++		u3phy: phy@11cc0000 {
++			compatible = "mediatek,mt8365-tphy", "mediatek,generic-tphy-v2";
++			#address-cells = <2>;
++			#size-cells = <2>;
++			#phy-cells = <1>;
++			ranges;
++
++			u2port0: usb-phy@11cc0000 {
++				reg = <0 0x11cc0000 0 0x400>;
++				clocks = <&topckgen CLK_TOP_SSUSB_PHY_CK_EN>,
++					 <&topckgen CLK_TOP_USB20_48M_EN>;
++				clock-names = "ref", "da_ref";
++				#phy-cells = <1>;
++			};
++
++			u2port1: usb-phy@11cc1000 {
++				reg = <0 0x11cc1000 0 0x400>;
++				clocks = <&topckgen CLK_TOP_SSUSB_PHY_CK_EN>,
++					 <&topckgen CLK_TOP_USB20_48M_EN>;
++				clock-names = "ref", "da_ref";
++				#phy-cells = <1>;
++			};
++		};
++	};
++
++	timer {
++		compatible = "arm,armv8-timer";
++		interrupt-parent = <&gic>;
++		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW 0>,
++			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW 0>,
++			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW 0>,
++			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW 0>;
++	};
++
++	system_clk: dummy13m {
++		compatible = "fixed-clock";
++		clock-frequency = <13000000>;
++		#clock-cells = <0>;
++	};
++
++	systimer: timer@10017000 {
++		compatible = "mediatek,mt6795-systimer";
++		reg = <0 0x10017000 0 0x10>;
++		interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_LOW>;
++		clocks = <&system_clk>;
++		clock-names = "clk13m";
++	};
++};
 -- 
 2.39.0
 
