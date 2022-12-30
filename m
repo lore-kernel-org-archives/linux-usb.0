@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21223C4332F
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Dec 2022 20:35:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 611FBC4332F
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Dec 2022 20:36:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235506AbiL3Ufz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Dec 2022 15:35:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55202 "EHLO
+        id S235513AbiL3Uf5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Dec 2022 15:35:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235475AbiL3Ufv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Dec 2022 15:35:51 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFEC1CED
-        for <linux-usb@vger.kernel.org>; Fri, 30 Dec 2022 12:35:49 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id u28so26873138edd.10
-        for <linux-usb@vger.kernel.org>; Fri, 30 Dec 2022 12:35:49 -0800 (PST)
+        with ESMTP id S229827AbiL3Uft (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Dec 2022 15:35:49 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF661161
+        for <linux-usb@vger.kernel.org>; Fri, 30 Dec 2022 12:35:47 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id r26so26508305edc.5
+        for <linux-usb@vger.kernel.org>; Fri, 30 Dec 2022 12:35:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nQFWSjnAmXGCxMB5DVpOmGczTzlI1ebWvjBAsrHPlS4=;
-        b=1nNFGNhve3KqK6RlreucmsxHteknOmdOaNO8JnlwNb9lHY07YiAC33PsEJ6zXeLFBb
-         dt3prhxRI8yPypDpacPQDKNYm9TIehRAzpLeaO1JFw2tWWF9W4tE1BXFkFJcJkEihdz7
-         wnXCmTavn5xqaF+Bdy08/LRhSZ0vxhR/5iRrILZW0iigMFRyd71lK+5rl+vMhid1zpl0
-         YjwbLrimNFd5xcm/3wYwRGhOTK/D1lxc4XBLq5OQ6KIEAGcDZDSx/29SRt0wAec6Cc5J
-         MRkh89LQz13Q8yrBvctjUr0GjMWh8qpTpQv2sLqRUENPWd29JaxIU9Dz6I/1pGwr5Ed3
-         MFJw==
+        bh=bGuxAnhfIj2x3uYPeVPB/2g8dAYaMTxAZOm/4EaT1sM=;
+        b=jrBQbD2ncyKY9+6Qw1UneYFTXPe9bnAJoL7gYDxrLNXLCtzTpb/kUUTbGCWUiQ9rHG
+         PMvLEn5wyw2OTj6qPDygZg5/1DyGqs2vlVRqhZb/rZlebfrmGXy86cvVQu6uf0lSfKEv
+         wbTan9Jt/DCzLGUgO0SVDnZsYyWtVtIsbGBARltYeTiaNnGdrxP0dNDdbgrPwhTJ4TvR
+         t1q2IbHbpfI930wG3qmWgOiSlRtOjAcHGD3nmkxfX5Jq1bZplVL2LgIm4nj4MZSiYCMk
+         oaoOQcAAs/gMfMW+jV9j7bUfBjN090Qb4BuynzYFTm29PdDj4dz0OAre253OtuvcPTmw
+         FVeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nQFWSjnAmXGCxMB5DVpOmGczTzlI1ebWvjBAsrHPlS4=;
-        b=Qb1+qQN7cV53cRrfiob2gNJgvK//9z04MWQx00uVe4vpHdejfzJCJdhT2OUkRahVhJ
-         NQdQ5gE3TBHshO7I4z2Ga1t2+L23FnOcPc2Ti9iHt0A9t9+A2RiMjQeNOZiaeaYxfhxV
-         jD6/BJvD/Pa5tVm856t/oEeaPBxQ86cQxQmyF614vBpcKsFcuLZZshh0+JkrJj3AGCyO
-         Uyu10Ykvz0qFqE5wjWnlX9FFpfWBT7mc7lx8m+kj3IPnYvJhzZEG1hHZH9DiLXeZYPYF
-         nU9kWmx84OuijL+tJXf6WR09GOrFKpFy2oRfQ1mgMB/9J4nLVtp8qc+I0DFM6iGvnAwy
-         vVog==
-X-Gm-Message-State: AFqh2kqrVkSO5GfEm7mRRZWbCDcUMymySj/xc8R2AkfXAsY6HntNq9l4
-        tL7fvlRFjjXRHKbCaht83+DqzQ==
-X-Google-Smtp-Source: AMrXdXvRRE7qV5S21eWJi/mZqwiBlRqXMqidqBxglTJ3pjDMqDyO+pFxWrpZ6hNS5jG3xuf3JUKRtA==
-X-Received: by 2002:aa7:db47:0:b0:46d:b89a:de1e with SMTP id n7-20020aa7db47000000b0046db89ade1emr25833171edt.1.1672432548199;
-        Fri, 30 Dec 2022 12:35:48 -0800 (PST)
+        bh=bGuxAnhfIj2x3uYPeVPB/2g8dAYaMTxAZOm/4EaT1sM=;
+        b=5VRfI1u7wB2m94fyTrJ3q2TpXCMU3Glp/vyN4/mu5A6mKc5uV11vygZsbF1xetaRXk
+         EIRjWaDOE/Q0A28XT3YixfsMwz+aYkYHceOoc61+NHOI/w79k0U8zE7cuIFxfhhXZm50
+         2HOezPJLPqREG9ZaR/QI6iVJkqiJn0wNAvOG6f3VuYrY58MzvxGckIAWXtUyPmiuy0Dh
+         VLgZlXXRXB5kEC5f16IearMQGO3ZVf7MzX+LlrPmLdhs198xsx3kSJ2Z8doZreGQku/p
+         2WSf63GPYmMeKwz8PgbczyoWdCRBNAotGtm6cxblgX3q0VNMR5XpWfaiAxjxysqSW0WA
+         ODZg==
+X-Gm-Message-State: AFqh2kqZb5Ji5TWYdoWS9sarYswzyhaGPYaPyrtS+hfmFrhEdvFglAH2
+        5GL6Ob1tCxw044j3Ih8+dnHleQ==
+X-Google-Smtp-Source: AMrXdXsCeCzqGEMDTH1R2aSWlkw2d+d2e8sOKhd3spzxOsnv3W/2UjG2cPl/NFmEv6DYDEsyL7ujGA==
+X-Received: by 2002:aa7:d585:0:b0:48a:aaa0:5176 with SMTP id r5-20020aa7d585000000b0048aaaa05176mr4613190edq.29.1672432546162;
+        Fri, 30 Dec 2022 12:35:46 -0800 (PST)
 Received: from predatorhelios.fritz.box (dynamic-2a01-0c22-cd9d-4b00-ef17-3c78-1696-7315.c22.pool.telefonica.de. [2a01:c22:cd9d:4b00:ef17:3c78:1696:7315])
-        by smtp.gmail.com with ESMTPSA id c10-20020a056402158a00b00482c1f1a039sm8350500edv.30.2022.12.30.12.35.47
+        by smtp.gmail.com with ESMTPSA id c10-20020a056402158a00b00482c1f1a039sm8350500edv.30.2022.12.30.12.35.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Dec 2022 12:35:47 -0800 (PST)
+        Fri, 30 Dec 2022 12:35:45 -0800 (PST)
 From:   =?UTF-8?q?Bernhard=20Rosenkr=C3=A4nzer?= <bero@baylibre.com>
 To:     linux-mediatek@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
@@ -58,9 +58,9 @@ To:     linux-mediatek@lists.infradead.org,
         chunfeng.yun@mediatek.com, linus.walleij@linaro.org,
         lee@kernel.org, maz@kernel.org, tglx@linutronix.de,
         angelogioacchino.delregno@collabora.com
-Subject: [PATCH v6 5/7] dt-bindings: usb: mediatek,mtu3: add MT8365 SoC bindings
-Date:   Fri, 30 Dec 2022 21:35:39 +0100
-Message-Id: <20221230203541.146807-6-bero@baylibre.com>
+Subject: [PATCH v6 3/7] dt-bindings: mfd: syscon: Add mt8365-syscfg
+Date:   Fri, 30 Dec 2022 21:35:37 +0100
+Message-Id: <20221230203541.146807-4-bero@baylibre.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221230203541.146807-1-bero@baylibre.com>
 References: <20221230203541.146807-1-bero@baylibre.com>
@@ -71,30 +71,27 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Fabien Parent <fparent@baylibre.com>
+Document Mediatek mt8365-syscfg
 
-Add binding documentation for the MT8365 SoC.
-
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Bernhard Rosenkränzer <bero@baylibre.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 ---
- Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml | 1 +
+ Documentation/devicetree/bindings/mfd/syscon.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-index 7168110e2f9de..d2655173e108c 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-@@ -28,6 +28,7 @@ properties:
-           - mediatek,mt8188-mtu3
-           - mediatek,mt8192-mtu3
-           - mediatek,mt8195-mtu3
-+          - mediatek,mt8365-mtu3
-       - const: mediatek,mtu3
- 
-   reg:
+diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
+index 1b01bd0104316..7beeb0abc4db0 100644
+--- a/Documentation/devicetree/bindings/mfd/syscon.yaml
++++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
+@@ -50,6 +50,7 @@ properties:
+               - marvell,armada-3700-usb2-host-misc
+               - mediatek,mt8135-pctl-a-syscfg
+               - mediatek,mt8135-pctl-b-syscfg
++              - mediatek,mt8365-syscfg
+               - microchip,lan966x-cpu-syscon
+               - microchip,sparx5-cpu-syscon
+               - mstar,msc313-pmsleep
 -- 
 2.39.0
 
