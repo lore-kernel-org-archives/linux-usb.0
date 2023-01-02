@@ -2,182 +2,99 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33E1BC46467
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Jan 2023 11:14:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8312C54EBE
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Jan 2023 11:47:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232151AbjABLOU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Jan 2023 06:14:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38898 "EHLO
+        id S232036AbjABLrN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 Jan 2023 06:47:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232263AbjABLOT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Jan 2023 06:14:19 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D409ABFF
-        for <linux-usb@vger.kernel.org>; Mon,  2 Jan 2023 03:14:17 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 200715BA;
-        Mon,  2 Jan 2023 12:14:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672658055;
-        bh=2bFOSamu7mp7HSK/Wxul2FQDHKnln/ACJyUGSFXSbb4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Jf7tNDmfUdh1lpfTINVkEznZGtNaTgYilYC3W7sjEO5ZicyoXqV1bziqJ5nr7JG9e
-         LNaKWZ5eH/pEVLfByA3Yw8mIlMqkwIGBv38OVhJggp2Fm9d0MLGcang8YDsA0D7X8i
-         U+TgvTlapHl3bVw1LaC/udrqq1guZ8q0mfWG5s3M=
-Date:   Mon, 2 Jan 2023 13:14:11 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dan Scally <dan.scally@ideasonboard.com>
-Cc:     linux-usb@vger.kernel.org, balbi@kernel.org,
-        gregkh@linuxfoundation.org, kieran.bingham@ideasonboard.com,
-        torleiv@huddly.com, mgr@pengutronix.de
-Subject: Re: [PATCH v2 1/9] usb: gadget: uvc: Make bSourceID read/write
-Message-ID: <Y7K8g7Zh7uwQRpig@pendragon.ideasonboard.com>
-References: <20221121092517.225242-1-dan.scally@ideasonboard.com>
- <20221121092517.225242-2-dan.scally@ideasonboard.com>
- <Y6zfiiCjcGTHeYd9@pendragon.ideasonboard.com>
- <Y6zfvXakE9stRqXw@pendragon.ideasonboard.com>
- <c9546d48-63de-16db-d3ea-65535103a49f@ideasonboard.com>
+        with ESMTP id S232419AbjABLqx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Jan 2023 06:46:53 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6EE4F18
+        for <linux-usb@vger.kernel.org>; Mon,  2 Jan 2023 03:46:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.at; s=s31663417;
+        t=1672660004; bh=H2YD6ihZiQ+pvJ/mpn1BGeavL7q8R8gjIMkcDQYUazQ=;
+        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=sB0v6Nb8AST6PaUsotQIE/iVjL9NDjbm7zu98YvMbTB/6TxKoHOn7zspLpSKprJzC
+         Ah23BlVDzU+V8I7KWrkLGKA4dKhEtti4YKu1k/MDOAcg5fzFPBH9S8Rt9xVC7LnTPO
+         8RrAmVG0a7AyGa9xmZqKHFUZtqClY8KQa0v9HgAs9T/uF/XSUhuxLL6u0Jupzvf1og
+         wtS73ioxbPOM3wa7tqZxWhFoX38GyrEfpD6BxjAQBIP5797nr+9H9jiizdHY8/uRdM
+         OLH5xp3/a/GtPEmPPMMH9Z1C9/kfKa51ziVg3EXDF1nl1jsn8mhb3hmQ/DKpMsflc8
+         OM2UoWvCnrWtQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.70] ([81.189.232.75]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mf0BG-1oaFm220Ve-00gVN3; Mon, 02
+ Jan 2023 12:46:44 +0100
+Message-ID: <011df027-5381-1e10-9c54-e0935ae549f9@gmx.at>
+Date:   Mon, 2 Jan 2023 12:45:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c9546d48-63de-16db-d3ea-65535103a49f@ideasonboard.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: Possible problem with thunderbolt 4
+Content-Language: en-US
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     linux-usb@vger.kernel.org,
+        "michael.simon@cpsd.at" <michael.simon@cpsd.at>
+References: <b556f5ed-5ee8-9990-9910-afd60db93310@gmx.at>
+ <Y6sBI+xrkQaWtQxo@black.fi.intel.com>
+ <588ed5c7-864f-46b5-d7d7-af6c32ca2c52@gmx.at>
+ <Y66vWYdLLAOG81+f@black.fi.intel.com>
+ <c334eb1f-1130-04d7-e7a6-cce9a90fd2e8@gmx.at>
+ <Y67RoYvbRC6OgfOq@black.fi.intel.com>
+ <272a5f28-5733-3aa1-ff3e-57febd3b217f@gmx.at>
+ <Y67X5JrnRxYN/pns@black.fi.intel.com>
+ <00dbeaf9-4d2c-3e3a-fa39-4c232b3a68e6@gmx.at>
+ <Y7K7zLoAQVyv0zD5@black.fi.intel.com>
+From:   =?UTF-8?Q?Christian_Schaubschl=c3=a4ger?= 
+        <christian.schaubschlaeger@gmx.at>
+In-Reply-To: <Y7K7zLoAQVyv0zD5@black.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:8y1LI9fGvdXiiOr8FI0BiRpyoUbEZHjVT1hhGw81nUPLJsBC7qS
+ HORC7qtuscnJqQ865WlVrCmAfXvJr8LHguEOH1SqLblWrU+we70a2spop/7M/Jq9EulA0md
+ CNeE2NpEpGi2z7ezCSLf8ntsDmcDteu4tn54Q5hpElUsv9CsxJl97wCNDYLzy8+tiMnrm6T
+ DzNQ0htOS31EvF+2WU6fQ==
+UI-OutboundReport: notjunk:1;M01:P0:ZESf9wNGcVk=;uy02u2+80w2sYa3AnFwZ3jBh3+P
+ fycdOEds+JxB61pWrL/ySegNCine6nQz4TNLfoKzffa94Kb9Qqk/8otFq6hTvwFAwF2tIy9xk
+ /soozfU4FFKjVGxjbWXNv1oT+dsT/dT5Ina+XI3H8R4/lQAST8bcsk4kVIhkj+EKr8kBpyTaX
+ lVqR2n/KJT5JurnHUnAP2e3biLWCPF8hRkCgzO62IwmobbFHBHzJ7Qh+Watg3G5yS9xVOt5qr
+ SPwg9W+k6ya6rrS4NARllYQtEC+ysMsHEbidxPUEVxyaaMANZ6QoKGnwqavI0skt7YbxcDdqX
+ kuhgmuCC6wKlo9mfGNCYj+57TS00nPt3/2IpeiEwpyYYNR0grS5Dj7DmiBq2iKcksYD/zIbcN
+ nmK2D7OFx7HaqHJjs6ZjFwxNqsjyEXw5q0VHtYxDmTJ25D1AOlKOtmJN6bpZWUqtAjn5wePfo
+ EH5/7EXxddBP1trjA9xKExvgMwiBy5mmv/I4zRpreIT5oP/whgXqQ8cbEuljNJsfRaYopR3fl
+ XaLWp7gKAezXpe9CWF4MPT5lfcgzPeqe42WWS/XfBm7hei1lui4eCLzwRAd29KQJeM8Um2h++
+ Nyt9z4srzqPPL87b42c/FbfllVOg8rvGGFH1IV9EG6Efl4/c2IwT0bK24+3uPzaQKZz2BZRMu
+ rDL0+DIWbSdtUUbM/CzhA5gC8vHBptLSIcfhHsggSIjOiXLNiByuQ2Z7l+7l9OegCWr6bbhPk
+ RN7TqKRuT5qtGb7xEGN7JKlTvpn9Dy9p75cwpXQ5RxlB96ODT73xxzqqM/Pgl/VnlOH8xqm9I
+ 3AmX2k7ACSQ1pMkXbEPiN/yYKt/9aqR6V1cWkNapGzvLf2zNmYBZ+CSowSDFowPa6I8ZUdOE5
+ wbqr1U31QFRl5XJmmrt7Kt6w6xoBXDNtL/Fy6wIr+P3Zzzd9AuaIJdkTSWr0GK9AKcov482tm
+ JlgiGQ==
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Dan,
+Hi,
 
-On Sun, Jan 01, 2023 at 09:18:13PM +0000, Dan Scally wrote:
-> On 29/12/2022 00:30, Laurent Pinchart wrote:
-> > On Thu, Dec 29, 2022 at 02:30:04AM +0200, Laurent Pinchart wrote:
-> >> On Mon, Nov 21, 2022 at 09:25:09AM +0000, Daniel Scally wrote:
-> >>> At the moment, the UVC function graph is hardcoded IT -> PU -> OT.
-> >>> To add XU support we need the ability to insert the XU descriptors
-> >>> into the chain. To facilitate that, make the output terminal's
-> >>> bSourceID attribute writeable so that we can configure its source.
-> >>>
-> >>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> >>> ---
-> >>> Changes in v2:
-> >>>
-> >>> 	- Updated the ABI Documentation to reflect the change.
-> >>>
-> >>>   .../ABI/testing/configfs-usb-gadget-uvc       |  2 +-
-> >>>   drivers/usb/gadget/function/uvc_configfs.c    | 57 ++++++++++++++++++-
-> >>>   2 files changed, 57 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-> >>> index 611b23e6488d..feb3f2cc0c16 100644
-> >>> --- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
-> >>> +++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-> >>> @@ -52,7 +52,7 @@ Date:		Dec 2014
-> >>>   KernelVersion:	4.0
-> >>>   Description:	Default output terminal descriptors
-> >>>   
-> >>> -		All attributes read only:
-> >>> +		All attributes read only except bSourceID:
-> >>>   
-> >>>   		==============	=============================================
-> >>>   		iTerminal	index of string descriptor
-> >>> diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-> >>> index 4303a3283ba0..af4258120f9a 100644
-> >>> --- a/drivers/usb/gadget/function/uvc_configfs.c
-> >>> +++ b/drivers/usb/gadget/function/uvc_configfs.c
-> >>> @@ -483,11 +483,66 @@ UVC_ATTR_RO(uvcg_default_output_, cname, aname)
-> >>>   UVCG_DEFAULT_OUTPUT_ATTR(b_terminal_id, bTerminalID, 8);
-> >>>   UVCG_DEFAULT_OUTPUT_ATTR(w_terminal_type, wTerminalType, 16);
-> >>>   UVCG_DEFAULT_OUTPUT_ATTR(b_assoc_terminal, bAssocTerminal, 8);
-> >>> -UVCG_DEFAULT_OUTPUT_ATTR(b_source_id, bSourceID, 8);
-> >>>   UVCG_DEFAULT_OUTPUT_ATTR(i_terminal, iTerminal, 8);
-> >>>   
-> >>>   #undef UVCG_DEFAULT_OUTPUT_ATTR
-> >>>   
-> >>> +static ssize_t uvcg_default_output_b_source_id_show(struct config_item *item,
-> >>> +						    char *page)
-> >>> +{
-> >>> +	struct config_group *group = to_config_group(item);
-> >>> +	struct f_uvc_opts *opts;
-> >>> +	struct config_item *opts_item;
-> >>> +	struct mutex *su_mutex = &group->cg_subsys->su_mutex;
-> >>> +	struct uvc_output_terminal_descriptor *cd;
-> >>> +	int result;
-> >>> +
-> >>> +	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
-> >>> +
-> >>> +	opts_item = group->cg_item.ci_parent->ci_parent->ci_parent->ci_parent;
-> >>> +	opts = to_f_uvc_opts(opts_item);
-> >>> +	cd = &opts->uvc_output_terminal;
-> >>> +
-> >>> +	mutex_lock(&opts->lock);
-> >>> +	result = sprintf(page, "%u\n", le8_to_cpu(cd->bSourceID));
-> >>> +	mutex_unlock(&opts->lock);
-> >>> +
-> >>> +	mutex_unlock(su_mutex);
-> >>> +
-> >>> +	return result;
-> >>> +}
-> >>> +
-> >>> +static ssize_t uvcg_default_output_b_source_id_store(struct config_item *item,
-> >>> +						     const char *page, size_t len)
-> >>> +{
-> >>> +	struct config_group *group = to_config_group(item);
-> >>> +	struct f_uvc_opts *opts;
-> >>> +	struct config_item *opts_item;
-> >>> +	struct mutex *su_mutex = &group->cg_subsys->su_mutex;
-> >>> +	struct uvc_output_terminal_descriptor *cd;
-> >>> +	int result;
-> >>> +	u8 num;
-> >>> +
-> >>> +	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
-> >>> +
-> >>> +	opts_item = group->cg_item.ci_parent->ci_parent->ci_parent->ci_parent;
-> >>> +	opts = to_f_uvc_opts(opts_item);
-> >>> +	cd = &opts->uvc_output_terminal;
-> >>> +
-> >>> +	result = kstrtou8(page, 0, &num);
-> >>> +	if (result)
-> >>> +		return result;
-> >>> +
-> >>> +	mutex_lock(&opts->lock);
-> >>> +	cd->bSourceID = num;
-> >>> +	mutex_unlock(&opts->lock);
-> >>> +
-> >>> +	mutex_unlock(su_mutex);
-> >>> +
-> >>> +	return len;
-> >>> +}
-> >>> +UVC_ATTR(uvcg_default_output_, b_source_id, bSourceID);
-> >>
-> >> Feel free to shoot this idea down if it's a bad one: given that the
-> >> bSourceID attributes serve to create a pipeline by linking entities,
-> >> would it make sense to model these links with symlinks ?
-> >
-> > I forgot to mention that this would handle the bSourceID attribute
-> > automatically, avoiding mistakes. But maybe we're over-engineering all
-> > this...
-> 
-> Hmmmm, maybe. I lean towards over-engineered, but not strongly so. 
-> Assuming the string descriptors stand as is, the .allow_link() for XUs 
-> would have to account for linking to both a string and another unit. The 
-> position of the Source ID field in the Unit Descriptors differs, and for 
-> the XUs is nested behind another struct...and properly supporting XUs as 
-> specified means we'd need to allow multiple links in to an XU, all of 
-> which might make it a bit more complicated than it is helpful. Happy to 
-> be convinced otherwise though; I'm on the fence about it.
+>> After echoing 0 to the 'authorized' file, the devices disappear in
+>> linux from the PCI bus, but unfortunately don't show up in the
+>> firmware after the reboot...
+> Okay it may be that the USB 3 tunnel that is still up makes the CM in
+> BIOS to think the hardware is in unexected state or so.
+>
+> This was Thunderbolt 4 dock, right? Do you happen to have Thunderbolt 3
+> device or Thunderbolt 3 active cable around? If yes then there is only
+> the PCIe tunnel so doing the above de-authorization should in theory
+> work. If no then one option is to add the ->shutdown() hook to tear down
+> the tunnels.
+I have a slightly older EliteBook with a TB3 controller. The TB4 Dock works flawlessly with this.
+And I have the predecessor of the TB4 Dock which also uses TB3. This works fine on the new EliteBook with the TB4 controller.
 
-So am I :-) I agree about the multiple links issue, and the fact that an
-XU can have multiple sources makes it more complicated. That's what made
-me think we may be over-engineering all this, it's all about passing a
-set of descriptors from userspace to the host, without a real need for
-the kernel to access that data. configfs really starts feeling like a
-bad solution for this, at least in its current form :-(
+Both docks have their thunderbolt cables 'built-in', so I cannot switch cables...
 
-> >>> +
-> >>>   static struct configfs_attribute *uvcg_default_output_attrs[] = {
-> >>>   	&uvcg_default_output_attr_b_terminal_id,
-> >>>   	&uvcg_default_output_attr_w_terminal_type,
+Any more tests I could make?
 
--- 
-Regards,
+Thanks and best regards,
+Christian
 
-Laurent Pinchart
