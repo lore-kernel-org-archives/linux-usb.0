@@ -2,60 +2,60 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F04A7C54EBC
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Jan 2023 23:35:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E01D4C54EBE
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Jan 2023 23:35:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233746AbjACXfc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 Jan 2023 18:35:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46304 "EHLO
+        id S238269AbjACXfe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 Jan 2023 18:35:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238143AbjACXf2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Jan 2023 18:35:28 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 494CC165A9
-        for <linux-usb@vger.kernel.org>; Tue,  3 Jan 2023 15:35:27 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id 1so47951560lfz.4
-        for <linux-usb@vger.kernel.org>; Tue, 03 Jan 2023 15:35:27 -0800 (PST)
+        with ESMTP id S238221AbjACXf3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Jan 2023 18:35:29 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 515911659E
+        for <linux-usb@vger.kernel.org>; Tue,  3 Jan 2023 15:35:28 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id bf43so47969911lfb.6
+        for <linux-usb@vger.kernel.org>; Tue, 03 Jan 2023 15:35:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Rq0s4onjSRUwhmApDnZ8KEVauR86LqfQw7i8WlycEFs=;
-        b=rJvaZkk57ZeoGjLTVPf6NQmvZfWeEFVlPJbGJ3wvMJ63Av0UjO5SAxDlXQPXVJjXHQ
-         m3PBikfjuV6CMWTaalBoqNhftpinKPz/nk7SexZAYeM09eTnxslPgQ1eiAOwVNJ/cicV
-         0fHLNOZyGxMGZu2z5HgpmKd8dqztH7gH0rO3zgZqD6MwhMmr4unT8nCedyeeOytgFzzU
-         Z1JKdzEqA3FL+H6BRqlwdth52gWQjWTAlM4Z46ZhAM20OuRzliT+0mlc0Yf39FlWvkVE
-         ZA9sLIbS6DjEZy0Lu42PSiILujdPeA8wx6/h/RgYfB877zh5jTCrT2YgSUzF4EnWUsGJ
-         xWvA==
+        bh=LfqK6qBFH8YFyjUi0V5Pk9BV6gkDIZNht4kUj3nmxsk=;
+        b=GsOXISdSRV97jTW19WaKqVcsFh59IOOCGNy41YNbhGo+zogwzgVgxTn2XYIFP5fy51
+         7OGzxjkJcgZ0iX9B24HlxuWH3BcnSk+RNZ7ss9XGYeF5GDkR0BxZaJcXAQ1Ty495VdZJ
+         nawju/K7S1pBGKMb472tZDFEUxVwuHZsypI24Fw+hvhNo18BYfgLC/861nJOupbDHt19
+         yHoOh9qBUeiEelUa00crBmI9VpIr2nlgE45Kr/mKET81/5Z5k3oyki3Gor2O8eZmQKWK
+         oAYvROqewlZPvxv02HMLdsLUp5p5zYIhbGt1dEVWoQ9ld7LmRFuKlka4IdT+QAFXchkR
+         JLfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Rq0s4onjSRUwhmApDnZ8KEVauR86LqfQw7i8WlycEFs=;
-        b=vNW24seMnZFyvvx6GGYtovsnSIh/xKv07zO7kH5/KbD0m6uGPU8Kftd1L0vxR1nOKu
-         O57hNgWc9a1dLn4uxWA8acMCppRDJItcCqCvR5mh7g5ZaZiF/3QvYzxXNqfxJ8IEJBAE
-         nY606tcBlBC8KRk8q1WZ0ihXSwRT+S6gXlALURRhgA/MtUhnf8hD2Eux0t+isJqTz319
-         5PfVHhRt8b4ZtpM7IpaOTPLcZNQCoKkkXpJlMS70STYc7EbizHShCPXmCtecQmtTXPs6
-         lAdLgIYSALalYEcq8bIeLesOVdmFi8qbX+saDfKfpMXf/hUuMyHYJwa1xgdlQ2skjrmA
-         HbyQ==
-X-Gm-Message-State: AFqh2kps9JL5y2k7lVL5gtv2KWI+HL7An9lLx2D55Zk9uMo17zwaBy/R
-        kcoHnDlMGb2QHyGdFEcZDHvFUw==
-X-Google-Smtp-Source: AMrXdXutAAOkOUBIuK6T1E9JkbuwrOliPzDnYqRmT25gu1gXcfAdrJsGfjDYEORwXECwxCTU2UBEJw==
-X-Received: by 2002:a05:6512:3b22:b0:4a4:68b9:19e1 with SMTP id f34-20020a0565123b2200b004a468b919e1mr14446708lfv.9.1672788925655;
-        Tue, 03 Jan 2023 15:35:25 -0800 (PST)
+        bh=LfqK6qBFH8YFyjUi0V5Pk9BV6gkDIZNht4kUj3nmxsk=;
+        b=jLNDPpTGK7NqUdM0vu3ZVBr1xf1akNaB1F/iN77NHJmTk2OyYO4c+dDe9JBxAsnrYi
+         vED7R4I8oJaNTh96MRisq5nbR6yWDfXlCXcRLU7Av5/j0HSq2WNyQk2enhGXmb1OL3+F
+         guNC9jpeR1ehSehx/tu/pgC32DfV+GEA4o7pJunm/+9dSSPrNI/fKqi0BlbOPE0iWEXI
+         PRnjKoefRmOSQOYBaa5Xhvzv7z/Y27+kK/FhnmtiWBti/txdHNWH/XzXxHP4onRIyUKO
+         zEM7pN0Gv3S4pFGJN5ssT2FqxI3lRt/A5Xcx40Plu6gIhD3Gihg1E86OUk27lPDnCxmE
+         dy2w==
+X-Gm-Message-State: AFqh2kpEF1acIEDz895PQjEKCjBd3U3vxe2x9pDU+IoUki06o1m1EDiG
+        MCKmQeI4eaLy/UQowfcxWpIb/Q==
+X-Google-Smtp-Source: AMrXdXvGQS/bswxpe0igHUGcViNfV0w61Poc5iqZnUfTxEjT7Iz2j6FvCTfduAeRyTbqU3inECNbNw==
+X-Received: by 2002:ac2:4bd3:0:b0:4b4:a460:c995 with SMTP id o19-20020ac24bd3000000b004b4a460c995mr18141753lfq.5.1672788927892;
+        Tue, 03 Jan 2023 15:35:27 -0800 (PST)
 Received: from Fecusia.local (c-05d8225c.014-348-6c756e10.bbcust.telenor.se. [92.34.216.5])
-        by smtp.gmail.com with ESMTPSA id b11-20020a056512070b00b004a45edc1de2sm4939801lfs.239.2023.01.03.15.35.24
+        by smtp.gmail.com with ESMTPSA id b11-20020a056512070b00b004a45edc1de2sm4939801lfs.239.2023.01.03.15.35.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jan 2023 15:35:25 -0800 (PST)
+        Tue, 03 Jan 2023 15:35:27 -0800 (PST)
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 04 Jan 2023 00:35:19 +0100
-Subject: [PATCH 3/7] usb: fotg210: Acquire memory resource in core
+Date:   Wed, 04 Jan 2023 00:35:21 +0100
+Subject: [PATCH 5/7] usb: fotg210: Check role register in core
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230103-gemini-fotg210-usb-v1-3-f2670cb4a492@linaro.org>
+Message-Id: <20230103-gemini-fotg210-usb-v1-5-f2670cb4a492@linaro.org>
 References: <20230103-gemini-fotg210-usb-v1-0-f2670cb4a492@linaro.org>
 In-Reply-To: <20230103-gemini-fotg210-usb-v1-0-f2670cb4a492@linaro.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -69,263 +69,57 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The subdrivers are obtaining and mapping the memory resource
-separately. Create a common state container for the shared
-resources and start populating this by acquiring the IO
-memory resource and remap it and pass this to the subdrivers
-for host and peripheral.
+Read the role register and check that we are in host/peripheral
+mode and issue warnings if we're not in the right role when
+probing respective driver.
 
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/usb/fotg210/fotg210-core.c | 29 ++++++++++++++++++++++-------
- drivers/usb/fotg210/fotg210-hcd.c  | 15 +++++----------
- drivers/usb/fotg210/fotg210-hcd.h  |  1 +
- drivers/usb/fotg210/fotg210-udc.c  | 16 +++-------------
- drivers/usb/fotg210/fotg210-udc.h  |  1 +
- drivers/usb/fotg210/fotg210.h      | 24 ++++++++++++++++++++----
- 6 files changed, 52 insertions(+), 34 deletions(-)
+ drivers/usb/fotg210/fotg210-core.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/fotg210/fotg210-core.c b/drivers/usb/fotg210/fotg210-core.c
-index cef12827e797..4593120c02de 100644
+index 58d84747fb30..013a1d0112fc 100644
 --- a/drivers/usb/fotg210/fotg210-core.c
 +++ b/drivers/usb/fotg210/fotg210-core.c
-@@ -33,9 +33,10 @@
- #define GEMINI_MISC_USB0_MINI_B		BIT(29)
- #define GEMINI_MISC_USB1_MINI_B		BIT(30)
+@@ -18,6 +18,11 @@
  
--static int fotg210_gemini_init(struct device *dev, struct resource *res,
-+static int fotg210_gemini_init(struct fotg210 *fotg, struct resource *res,
- 			       enum usb_dr_mode mode)
- {
-+	struct device *dev = fotg->dev;
- 	struct device_node *np = dev->of_node;
- 	struct regmap *map;
- 	bool wakeup;
-@@ -47,6 +48,7 @@ static int fotg210_gemini_init(struct device *dev, struct resource *res,
- 		dev_err(dev, "no syscon\n");
- 		return PTR_ERR(map);
- 	}
-+	fotg->map = map;
- 	wakeup = of_property_read_bool(np, "wakeup-source");
+ #include "fotg210.h"
  
- 	/*
-@@ -55,6 +57,7 @@ static int fotg210_gemini_init(struct device *dev, struct resource *res,
- 	 */
- 	mask = 0;
- 	if (res->start == 0x69000000) {
-+		fotg->port = GEMINI_PORT_1;
- 		mask = GEMINI_MISC_USB1_VBUS_ON | GEMINI_MISC_USB1_MINI_B |
- 			GEMINI_MISC_USB1_WAKEUP;
- 		if (mode == USB_DR_MODE_HOST)
-@@ -64,6 +67,7 @@ static int fotg210_gemini_init(struct device *dev, struct resource *res,
- 		if (wakeup)
- 			val |= GEMINI_MISC_USB1_WAKEUP;
- 	} else {
-+		fotg->port = GEMINI_PORT_0;
- 		mask = GEMINI_MISC_USB0_VBUS_ON | GEMINI_MISC_USB0_MINI_B |
- 			GEMINI_MISC_USB0_WAKEUP;
- 		if (mode == USB_DR_MODE_HOST)
-@@ -89,23 +93,34 @@ static int fotg210_probe(struct platform_device *pdev)
- {
++/* Role Register 0x80 */
++#define FOTG210_RR			0x80
++#define FOTG210_RR_ID			BIT(21) /* 1 = B-device, 0 = A-device */
++#define FOTG210_RR_CROLE		BIT(20) /* 1 = device, 0 = host */
++
+ /*
+  * Gemini-specific initialization function, only executed on the
+  * Gemini SoC using the global misc control register.
+@@ -95,6 +100,7 @@ static int fotg210_probe(struct platform_device *pdev)
  	struct device *dev = &pdev->dev;
  	enum usb_dr_mode mode;
-+	struct fotg210 *fotg;
+ 	struct fotg210 *fotg;
++	u32 val;
  	int ret;
  
-+	fotg = devm_kzalloc(dev, sizeof(*fotg), GFP_KERNEL);
-+	if (!fotg)
-+		return -ENOMEM;
-+	fotg->dev = dev;
-+
-+	fotg->res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!fotg->res)
-+		return -ENODEV;
-+
-+	fotg->base = devm_ioremap_resource(dev, fotg->res);
-+	if (!fotg->base)
-+		return -ENOMEM;
-+
- 	mode = usb_get_dr_mode(dev);
- 
- 	if (of_device_is_compatible(dev->of_node, "cortina,gemini-usb")) {
--		struct resource *res;
--
--		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--		ret = fotg210_gemini_init(dev, res, mode);
-+		ret = fotg210_gemini_init(fotg, fotg->res, mode);
- 		if (ret)
+ 	fotg = devm_kzalloc(dev, sizeof(*fotg), GFP_KERNEL);
+@@ -122,10 +128,16 @@ static int fotg210_probe(struct platform_device *pdev)
  			return ret;
  	}
  
- 	if (mode == USB_DR_MODE_PERIPHERAL)
--		ret = fotg210_udc_probe(pdev);
-+		ret = fotg210_udc_probe(pdev, fotg);
- 	else
--		ret = fotg210_hcd_probe(pdev);
-+		ret = fotg210_hcd_probe(pdev, fotg);
+-	if (mode == USB_DR_MODE_PERIPHERAL)
++	val = readl(fotg->base + FOTG210_RR);
++	if (mode == USB_DR_MODE_PERIPHERAL) {
++		if (!(val & FOTG210_RR_CROLE))
++			dev_err(dev, "block not in device role\n");
+ 		ret = fotg210_udc_probe(pdev, fotg);
+-	else
++	} else {
++		if (val & FOTG210_RR_CROLE)
++			dev_err(dev, "block not in host role\n");
+ 		ret = fotg210_hcd_probe(pdev, fotg);
++	}
  
  	return ret;
- }
-diff --git a/drivers/usb/fotg210/fotg210-hcd.c b/drivers/usb/fotg210/fotg210-hcd.c
-index 51ac93a2eb98..15ba5b1618e1 100644
---- a/drivers/usb/fotg210/fotg210-hcd.c
-+++ b/drivers/usb/fotg210/fotg210-hcd.c
-@@ -5557,11 +5557,10 @@ static void fotg210_init(struct fotg210_hcd *fotg210)
-  * then invokes the start() method for the HCD associated with it
-  * through the hotplug entry's driver_data.
-  */
--int fotg210_hcd_probe(struct platform_device *pdev)
-+int fotg210_hcd_probe(struct platform_device *pdev, struct fotg210 *fotg)
- {
- 	struct device *dev = &pdev->dev;
- 	struct usb_hcd *hcd;
--	struct resource *res;
- 	int irq;
- 	int retval;
- 	struct fotg210_hcd *fotg210;
-@@ -5585,18 +5584,14 @@ int fotg210_hcd_probe(struct platform_device *pdev)
- 
- 	hcd->has_tt = 1;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	hcd->regs = devm_ioremap_resource(&pdev->dev, res);
--	if (IS_ERR(hcd->regs)) {
--		retval = PTR_ERR(hcd->regs);
--		goto failed_put_hcd;
--	}
-+	hcd->regs = fotg->base;
- 
--	hcd->rsrc_start = res->start;
--	hcd->rsrc_len = resource_size(res);
-+	hcd->rsrc_start = fotg->res->start;
-+	hcd->rsrc_len = resource_size(fotg->res);
- 
- 	fotg210 = hcd_to_fotg210(hcd);
- 
-+	fotg210->fotg = fotg;
- 	fotg210->caps = hcd->regs;
- 
- 	/* It's OK not to supply this clock */
-diff --git a/drivers/usb/fotg210/fotg210-hcd.h b/drivers/usb/fotg210/fotg210-hcd.h
-index 0781442b7a24..13c9342982ee 100644
---- a/drivers/usb/fotg210/fotg210-hcd.h
-+++ b/drivers/usb/fotg210/fotg210-hcd.h
-@@ -182,6 +182,7 @@ struct fotg210_hcd {			/* one per controller */
- #	define INCR(x) do {} while (0)
- #endif
- 
-+	struct fotg210		*fotg;		/* Overarching FOTG210 device */
- 	/* silicon clock */
- 	struct clk		*pclk;
- };
-diff --git a/drivers/usb/fotg210/fotg210-udc.c b/drivers/usb/fotg210/fotg210-udc.c
-index 66e1b7ee3346..034193592a36 100644
---- a/drivers/usb/fotg210/fotg210-udc.c
-+++ b/drivers/usb/fotg210/fotg210-udc.c
-@@ -1142,21 +1142,14 @@ int fotg210_udc_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
--int fotg210_udc_probe(struct platform_device *pdev)
-+int fotg210_udc_probe(struct platform_device *pdev, struct fotg210 *fotg)
- {
--	struct resource *res;
- 	struct fotg210_udc *fotg210 = NULL;
- 	struct device *dev = &pdev->dev;
- 	int irq;
- 	int ret = 0;
- 	int i;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res) {
--		pr_err("platform_get_resource error.\n");
--		return -ENODEV;
--	}
--
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0) {
- 		pr_err("could not get irq\n");
-@@ -1169,6 +1162,7 @@ int fotg210_udc_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	fotg210->dev = dev;
-+	fotg210->fotg = fotg;
- 
- 	/* It's OK not to supply this clock */
- 	fotg210->pclk = devm_clk_get(dev, "PCLK");
-@@ -1207,11 +1201,7 @@ int fotg210_udc_probe(struct platform_device *pdev)
- 			goto err_alloc;
- 	}
- 
--	fotg210->reg = ioremap(res->start, resource_size(res));
--	if (fotg210->reg == NULL) {
--		dev_err(dev, "ioremap error\n");
--		goto err_alloc;
--	}
-+	fotg210->reg = fotg->base;
- 
- 	spin_lock_init(&fotg210->lock);
- 
-diff --git a/drivers/usb/fotg210/fotg210-udc.h b/drivers/usb/fotg210/fotg210-udc.h
-index fadb57ca8d78..20335a38a410 100644
---- a/drivers/usb/fotg210/fotg210-udc.h
-+++ b/drivers/usb/fotg210/fotg210-udc.h
-@@ -236,6 +236,7 @@ struct fotg210_udc {
- 	unsigned long		irq_trigger;
- 
- 	struct device			*dev;
-+	struct fotg210			*fotg;
- 	struct usb_phy			*phy;
- 	struct usb_gadget		gadget;
- 	struct usb_gadget_driver	*driver;
-diff --git a/drivers/usb/fotg210/fotg210.h b/drivers/usb/fotg210/fotg210.h
-index ef79d8323d89..50436cc16538 100644
---- a/drivers/usb/fotg210/fotg210.h
-+++ b/drivers/usb/fotg210/fotg210.h
-@@ -2,13 +2,28 @@
- #ifndef __FOTG210_H
- #define __FOTG210_H
- 
-+enum gemini_port {
-+	GEMINI_PORT_NONE = 0,
-+	GEMINI_PORT_0,
-+	GEMINI_PORT_1,
-+};
-+
-+struct fotg210 {
-+	struct device *dev;
-+	struct resource *res;
-+	void __iomem *base;
-+	struct regmap *map;
-+	enum gemini_port port;
-+};
-+
- #ifdef CONFIG_USB_FOTG210_HCD
--int fotg210_hcd_probe(struct platform_device *pdev);
-+int fotg210_hcd_probe(struct platform_device *pdev, struct fotg210 *fotg);
- int fotg210_hcd_remove(struct platform_device *pdev);
- int fotg210_hcd_init(void);
- void fotg210_hcd_cleanup(void);
- #else
--static inline int fotg210_hcd_probe(struct platform_device *pdev)
-+static inline int fotg210_hcd_probe(struct platform_device *pdev,
-+				    struct fotg210 *fotg)
- {
- 	return 0;
- }
-@@ -26,10 +41,11 @@ static inline void fotg210_hcd_cleanup(void)
- #endif
- 
- #ifdef CONFIG_USB_FOTG210_UDC
--int fotg210_udc_probe(struct platform_device *pdev);
-+int fotg210_udc_probe(struct platform_device *pdev, struct fotg210 *fotg);
- int fotg210_udc_remove(struct platform_device *pdev);
- #else
--static inline int fotg210_udc_probe(struct platform_device *pdev)
-+static inline int fotg210_udc_probe(struct platform_device *pdev,
-+				    struct fotg210 *fotg)
- {
- 	return 0;
  }
 
 -- 
