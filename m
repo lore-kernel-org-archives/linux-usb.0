@@ -2,134 +2,93 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C4C8C4708D
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Jan 2023 20:22:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3C74C46467
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Jan 2023 20:24:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235421AbjADUWn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 Jan 2023 15:22:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38022 "EHLO
+        id S234631AbjADUYH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 Jan 2023 15:24:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235460AbjADUW0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 Jan 2023 15:22:26 -0500
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AD8F33D45
-        for <linux-usb@vger.kernel.org>; Wed,  4 Jan 2023 12:22:24 -0800 (PST)
-Received: by mail-io1-xd2b.google.com with SMTP id p9so1796643iod.13
-        for <linux-usb@vger.kernel.org>; Wed, 04 Jan 2023 12:22:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9rZvl8+1gYwkdYRJIjwY/CuQIIJARDw0zn6scUesZko=;
-        b=Ab51jq4uLpXQ7JMNlgVg7xiThp4ID8vN8Rq+2aeRprZvCVs73I8rNbm0h5qQInJxIQ
-         HeKPTKAGgh6yFGUSBfCk6nCVI+zSYH+sJCAah7RhAk/WH7wyq/C/CBkRfAmyY6anrpoS
-         b2mmD0tS5DGeoG4JIRsjKPIlqjk5N0LCCrFms=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9rZvl8+1gYwkdYRJIjwY/CuQIIJARDw0zn6scUesZko=;
-        b=PXIUKNiDA3KobyrTPpAvFrlBxeXV41H4Hod21dDCqq8RpxFrNxRoTnuwwJdpNP6V98
-         CqJBe7p2vd9oCXwDpv1iJDEzlSGRHfUVqJfLi4Ewjpea9inIYJw1NLXOm+bDCbII4oSo
-         z9gnI61WUCkb7p3JPvhtErvZj0bs3ZTNAdy6wZZSy/o7uHXcLzismGkYKl0oFoj0FnS2
-         P66JP/AH7sGIuHMbSvNWHDAOgMgBupwMhyl9Mx1m/DgtaTixn3rKsAp5MCAyn4qYLfDN
-         G61eWXi1f8/qwa4w0Jc8ZZreMev6c1NaYjjnb3wgASBZY2i8L4LOxL+bf7whTgP3qlDT
-         TLCg==
-X-Gm-Message-State: AFqh2kqUgBcvOjxe8+qcXRk48rjmw3na4Bev3d0ja0DAJ4xqmBnHVn3h
-        W4Q2rMoTA2EoYZAbHA2hsi9iNA==
-X-Google-Smtp-Source: AMrXdXuahbSA9M5OOU+OtHMSnbd2z4FaE5Z/RhTKQ1tFJhNGArlFjZdRnIMUpivN633+JN8ouZ+mMg==
-X-Received: by 2002:a05:6602:21d4:b0:6e9:7156:3b7a with SMTP id c20-20020a05660221d400b006e971563b7amr40648314ioc.3.1672863743927;
-        Wed, 04 Jan 2023 12:22:23 -0800 (PST)
-Received: from localhost (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
-        by smtp.gmail.com with UTF8SMTPSA id az36-20020a05663841a400b0039db6cffcbasm9390843jab.71.2023.01.04.12.22.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Jan 2023 12:22:23 -0800 (PST)
-Date:   Wed, 4 Jan 2023 20:22:23 +0000
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Anand Moon <linux.amoon@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 10/11] usb: misc: onboard_usb_hub: add VIA LAB VL817Q7
- hub support
-Message-ID: <Y7Xf/92iCHD5WhpA@google.com>
-References: <20221228100321.15949-1-linux.amoon@gmail.com>
- <20221228100321.15949-11-linux.amoon@gmail.com>
+        with ESMTP id S230434AbjADUYE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 Jan 2023 15:24:04 -0500
+X-Greylist: delayed 900 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 04 Jan 2023 12:24:02 PST
+Received: from dilbert.mork.no (dilbert.mork.no [IPv6:2a01:4f9:c010:a439::d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB16133D43
+        for <linux-usb@vger.kernel.org>; Wed,  4 Jan 2023 12:24:02 -0800 (PST)
+Received: from canardo.dyn.mork.no ([IPv6:2a01:799:c9a:3200:0:0:0:1])
+        (authenticated bits=0)
+        by dilbert.mork.no (8.15.2/8.15.2) with ESMTPSA id 304Js5hg1256852
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+        Wed, 4 Jan 2023 19:54:06 GMT
+Received: from miraculix.mork.no ([IPv6:2a01:799:c9a:3202:549f:9f7a:c9d8:875b])
+        (authenticated bits=0)
+        by canardo.dyn.mork.no (8.15.2/8.15.2) with ESMTPSA id 304JrujY2557740
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+        Wed, 4 Jan 2023 20:53:59 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
+        t=1672862039; bh=2CtMqG13v5p77cQO1RxO322vAedWDfdLoNrhunqULYg=;
+        h=From:To:Cc:Subject:References:Date:Message-ID:From;
+        b=kl8YQQ44kH6UBNMae/Jto9P+uzFotqgg+q6FyWJzd1zrN+edp3p77cjXBbyQLQPTI
+         aKcochDtnmoD92/O5HHIFqki54mdEYtqwd9GckcBuUoMR3NEDQVZP9Kw4t9Egth9KC
+         Uss+f3SPLPRAGPlNBY2ryqtqmW1B8MzuBy3PznMA=
+Received: (nullmailer pid 11784 invoked by uid 1000);
+        Wed, 04 Jan 2023 19:53:56 -0000
+From:   =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
+To:     Matthew Garrett <mjg59@srcf.ucam.org>
+Cc:     johan@kernel.org, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, Matthew Garrett <mgarrett@aurora.tech>
+Subject: Re: [PATCH V2 2/3] net: usb: qmi_wwan: Add generic MDM9207
+ configuration
+Organization: m
+References: <20221226234751.444917-1-mjg59@srcf.ucam.org>
+        <20221226234751.444917-3-mjg59@srcf.ucam.org>
+Date:   Wed, 04 Jan 2023 20:53:56 +0100
+In-Reply-To: <20221226234751.444917-3-mjg59@srcf.ucam.org> (Matthew Garrett's
+        message of "Mon, 26 Dec 2022 15:47:50 -0800")
+Message-ID: <87y1qikre3.fsf@miraculix.mork.no>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221228100321.15949-11-linux.amoon@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+X-Virus-Scanned: clamav-milter 0.103.7 at canardo
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Andand,
+Matthew Garrett <mjg59@srcf.ucam.org> writes:
 
-On Wed, Dec 28, 2022 at 10:03:19AM +0000, Anand Moon wrote:
-> VIA LAB VL817Q7 is a 4-port USB 3.1 hub that has a reset pin to
-> toggle and a 5.0V core supply exported though an integrated LDO is
-> available for powering it.
-> 
-> Add the support for this hub, for controlling the reset pin and the core
-> power supply.
-> 
-> Signed-off-by: Anand Moon <linux.amoon@gmail.com>
+> The Orbic Speed RC400L presents as a generic MDM9207 device that supports
+> multiple configurations with different USB IDs. One exposes a QMI interfa=
+ce.
+> Add the ID for that.
+>
+> Signed-off-by: Matthew Garrett <mgarrett@aurora.tech>
 > ---
->  drivers/usb/misc/onboard_usb_hub.c | 2 ++
->  drivers/usb/misc/onboard_usb_hub.h | 5 +++++
->  2 files changed, 7 insertions(+)
-> 
-> diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
-> index 699050eb3f17..025572019d16 100644
-> --- a/drivers/usb/misc/onboard_usb_hub.c
-> +++ b/drivers/usb/misc/onboard_usb_hub.c
-> @@ -335,6 +335,7 @@ static struct platform_driver onboard_hub_driver = {
->  #define VENDOR_ID_MICROCHIP	0x0424
->  #define VENDOR_ID_REALTEK	0x0bda
->  #define VENDOR_ID_TI		0x0451
-> +#define VENDOR_ID_VIA		0x2109
->  
->  /*
->   * Returns the onboard_hub platform device that is associated with the USB
-> @@ -418,6 +419,7 @@ static const struct usb_device_id onboard_hub_id_table[] = {
->  	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x5414) }, /* RTS5414 USB 2.1 */
->  	{ USB_DEVICE(VENDOR_ID_TI, 0x8140) }, /* TI USB8041 3.0 */
->  	{ USB_DEVICE(VENDOR_ID_TI, 0x8142) }, /* TI USB8041 2.0 */
-> +	{ USB_DEVICE(VENDOR_ID_VIA, 0x0817) }, /* VIA VL817Q7 3.1 */
-
-The VL817Q7 is a single IC, however like the TI USB8041 or the RTS5414 it
-provides both a USB 3.1 and a USB 2.0 hub. You should also add an entry for
-the USB 2.0 hub here.
+>  drivers/net/usb/qmi_wwan.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+> index a808d718c012..bf05b7feacc0 100644
+> --- a/drivers/net/usb/qmi_wwan.c
+> +++ b/drivers/net/usb/qmi_wwan.c
+> @@ -1223,6 +1223,7 @@ static const struct usb_device_id products[] =3D {
+>  	{QMI_FIXED_INTF(0x05c6, 0x90b2, 3)},    /* ublox R410M */
+>  	{QMI_FIXED_INTF(0x05c6, 0x920d, 0)},
+>  	{QMI_FIXED_INTF(0x05c6, 0x920d, 5)},
+> +	{QMI_FIXED_INTF(0x05c6, 0xf601, 5)},
+>  	{QMI_QUIRK_SET_DTR(0x05c6, 0x9625, 4)},	/* YUGA CLM920-NC5 */
+>  	{QMI_FIXED_INTF(0x0846, 0x68a2, 8)},
+>  	{QMI_FIXED_INTF(0x0846, 0x68d3, 8)},	/* Netgear Aircard 779S */
 
 
->  	{}
->  };
->  MODULE_DEVICE_TABLE(usb, onboard_hub_id_table);
-> diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
-> index b32fad3a70f9..1fb3371ebdae 100644
-> --- a/drivers/usb/misc/onboard_usb_hub.h
-> +++ b/drivers/usb/misc/onboard_usb_hub.h
-> @@ -26,6 +26,10 @@ static const struct onboard_hub_pdata genesys_gl850g_data = {
->  	.reset_us = 3,
->  };
->  
-> +static const struct onboard_hub_pdata vialab_vl817q7_data = {
-> +	.reset_us = 3,
-> +};
-> +
->  static const struct of_device_id onboard_hub_match[] = {
->  	{ .compatible = "usb424,2514", .data = &microchip_usb424_data, },
->  	{ .compatible = "usb451,8140", .data = &ti_tusb8041_data, },
-> @@ -37,6 +41,7 @@ static const struct of_device_id onboard_hub_match[] = {
->  	{ .compatible = "usbbda,5411", .data = &realtek_rts5411_data, },
->  	{ .compatible = "usbbda,414", .data = &realtek_rts5411_data, },
->  	{ .compatible = "usbbda,5414", .data = &realtek_rts5411_data, },
-> +	{ .compatible = "vialab,usb2109", .data = &vialab_vl817q7_data, },
+Looks good to me, but checkpatch warns about
 
-ditto
+ WARNING: From:/Signed-off-by: email address mismatch: 'From: Matthew Garre=
+tt <mjg59@srcf.ucam.org>' !=3D 'Signed-off-by: Matthew Garrett <mgarrett@au=
+rora.tech>'
 
-Actually you added the device id entry for the 3.1 hub and a compatible string
-of the 2.0 hub (or vice versa). Above the device id is 0x0817, here it is
-0x2109. Please add both USB 3.1 and 2.0 and make sure the device id and the USB
-version in the comment for the device id table match.
+which you might want to consider, unless this was intentional for some
+reason?  In any case:
+
+Acked-by: Bj=C3=B8rn Mork <bjorn@mork.no>
