@@ -2,93 +2,109 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3C74C46467
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Jan 2023 20:24:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B4F2C4708D
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Jan 2023 20:29:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234631AbjADUYH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 Jan 2023 15:24:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39542 "EHLO
+        id S235279AbjADU2j (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 Jan 2023 15:28:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230434AbjADUYE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 Jan 2023 15:24:04 -0500
-X-Greylist: delayed 900 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 04 Jan 2023 12:24:02 PST
-Received: from dilbert.mork.no (dilbert.mork.no [IPv6:2a01:4f9:c010:a439::d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB16133D43
-        for <linux-usb@vger.kernel.org>; Wed,  4 Jan 2023 12:24:02 -0800 (PST)
-Received: from canardo.dyn.mork.no ([IPv6:2a01:799:c9a:3200:0:0:0:1])
-        (authenticated bits=0)
-        by dilbert.mork.no (8.15.2/8.15.2) with ESMTPSA id 304Js5hg1256852
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-        Wed, 4 Jan 2023 19:54:06 GMT
-Received: from miraculix.mork.no ([IPv6:2a01:799:c9a:3202:549f:9f7a:c9d8:875b])
-        (authenticated bits=0)
-        by canardo.dyn.mork.no (8.15.2/8.15.2) with ESMTPSA id 304JrujY2557740
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-        Wed, 4 Jan 2023 20:53:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
-        t=1672862039; bh=2CtMqG13v5p77cQO1RxO322vAedWDfdLoNrhunqULYg=;
-        h=From:To:Cc:Subject:References:Date:Message-ID:From;
-        b=kl8YQQ44kH6UBNMae/Jto9P+uzFotqgg+q6FyWJzd1zrN+edp3p77cjXBbyQLQPTI
-         aKcochDtnmoD92/O5HHIFqki54mdEYtqwd9GckcBuUoMR3NEDQVZP9Kw4t9Egth9KC
-         Uss+f3SPLPRAGPlNBY2ryqtqmW1B8MzuBy3PznMA=
-Received: (nullmailer pid 11784 invoked by uid 1000);
-        Wed, 04 Jan 2023 19:53:56 -0000
-From:   =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
-To:     Matthew Garrett <mjg59@srcf.ucam.org>
-Cc:     johan@kernel.org, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, Matthew Garrett <mgarrett@aurora.tech>
-Subject: Re: [PATCH V2 2/3] net: usb: qmi_wwan: Add generic MDM9207
- configuration
-Organization: m
-References: <20221226234751.444917-1-mjg59@srcf.ucam.org>
-        <20221226234751.444917-3-mjg59@srcf.ucam.org>
-Date:   Wed, 04 Jan 2023 20:53:56 +0100
-In-Reply-To: <20221226234751.444917-3-mjg59@srcf.ucam.org> (Matthew Garrett's
-        message of "Mon, 26 Dec 2022 15:47:50 -0800")
-Message-ID: <87y1qikre3.fsf@miraculix.mork.no>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        with ESMTP id S235172AbjADU2V (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 Jan 2023 15:28:21 -0500
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBC6918384
+        for <linux-usb@vger.kernel.org>; Wed,  4 Jan 2023 12:28:19 -0800 (PST)
+Received: by mail-il1-x136.google.com with SMTP id u8so12474092ilg.0
+        for <linux-usb@vger.kernel.org>; Wed, 04 Jan 2023 12:28:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=U09sCY05I0lgOik13tLPEAUzNpPuoB0bv6c/i5l03pM=;
+        b=FtLIMZ2EW8oJ3S+rWX0scL9X/78Tm7TdycCwBvBGRlnsJqnUaSRBn0eIp3wIrRSI8h
+         E7aAUbfR9QjPw9YJg2UFIgye2I7VqkXF9ls3FVX8iMlvoUlPU3GqRg/fyGLMotKdC4Tt
+         u0y//4/3H+AAEz7NWKB7zZ/42dWD0ugNzbNX8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U09sCY05I0lgOik13tLPEAUzNpPuoB0bv6c/i5l03pM=;
+        b=GLhn9CHp1mhie/qsFDmAKnNiBvK+q+pJ8/IIJCUPGZHa+s/7ZwffQuJyzDrgbFMS5p
+         RQRbXFNxxvrvbZ1kiGUKHYfCK5RzhQ1fLv5vqcK+8ZbLjCCzC/Fkru4oMFBAC3AYsaM6
+         3ZAdqj35t1pMkbQLnWy1BaxZln5W6m0NS3TIy9oObLNOoRTpEE847b98MYAdMB4l98CI
+         gWRTqbW/0SejgUOV8RQg6voHDw6GImdSa+tHQwtqDaPj7RMlW0jaLd3wPy1ndfMEEQgJ
+         cYHiPXdradNUmblQ+haTIBxnlv+yKyaDHoqTDhHwt4j1GXedFhUsrMuEIM7tpecpZneZ
+         vcYg==
+X-Gm-Message-State: AFqh2kpl31Xv9ErlDj0Ld1Bfu5cwd8LehSkRmaJx845PYGRYHUvGFDj8
+        ZS48JgRL+DGp+EOsDhsnJFnQMzN5Xz9FFzsE
+X-Google-Smtp-Source: AMrXdXuyuPSoDNQ0srwnO0clhF90LpLk0NmVj+xDseIlPnC9zy8tymPFa/yesZxHXlzMF/rOCESknw==
+X-Received: by 2002:a05:6e02:143:b0:30c:609b:340d with SMTP id j3-20020a056e02014300b0030c609b340dmr4844369ilr.0.1672864099303;
+        Wed, 04 Jan 2023 12:28:19 -0800 (PST)
+Received: from localhost (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
+        by smtp.gmail.com with UTF8SMTPSA id u24-20020a02b1d8000000b0038a5b48f3d4sm10950716jah.3.2023.01.04.12.28.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Jan 2023 12:28:18 -0800 (PST)
+Date:   Wed, 4 Jan 2023 20:28:18 +0000
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Anand Moon <linux.amoon@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 05/11] usb: misc: onboard_usb_hub: add Genesys Logic
+ GL852G-OHG hub support
+Message-ID: <Y7XhYm0nvBsSS8MN@google.com>
+References: <20221228100321.15949-1-linux.amoon@gmail.com>
+ <20221228100321.15949-6-linux.amoon@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Virus-Scanned: clamav-milter 0.103.7 at canardo
-X-Virus-Status: Clean
+Content-Disposition: inline
+In-Reply-To: <20221228100321.15949-6-linux.amoon@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Matthew Garrett <mjg59@srcf.ucam.org> writes:
-
-> The Orbic Speed RC400L presents as a generic MDM9207 device that supports
-> multiple configurations with different USB IDs. One exposes a QMI interfa=
-ce.
-> Add the ID for that.
->
-> Signed-off-by: Matthew Garrett <mgarrett@aurora.tech>
+On Wed, Dec 28, 2022 at 10:03:14AM +0000, Anand Moon wrote:
+> Genesys Logic GL852G-OHG is a 4-port USB 2.0 STT hub that has a reset pin to
+> toggle and a 5.0V core supply exported though an integrated LDO is
+> available for powering it.
+> 
+> Add the support for this hub, for controlling the reset pin and the core
+> power supply.
+> 
+> Signed-off-by: Anand Moon <linux.amoon@gmail.com>
 > ---
->  drivers/net/usb/qmi_wwan.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-> index a808d718c012..bf05b7feacc0 100644
-> --- a/drivers/net/usb/qmi_wwan.c
-> +++ b/drivers/net/usb/qmi_wwan.c
-> @@ -1223,6 +1223,7 @@ static const struct usb_device_id products[] =3D {
->  	{QMI_FIXED_INTF(0x05c6, 0x90b2, 3)},    /* ublox R410M */
->  	{QMI_FIXED_INTF(0x05c6, 0x920d, 0)},
->  	{QMI_FIXED_INTF(0x05c6, 0x920d, 5)},
-> +	{QMI_FIXED_INTF(0x05c6, 0xf601, 5)},
->  	{QMI_QUIRK_SET_DTR(0x05c6, 0x9625, 4)},	/* YUGA CLM920-NC5 */
->  	{QMI_FIXED_INTF(0x0846, 0x68a2, 8)},
->  	{QMI_FIXED_INTF(0x0846, 0x68d3, 8)},	/* Netgear Aircard 779S */
+>  drivers/usb/misc/onboard_usb_hub.c | 1 +
+>  drivers/usb/misc/onboard_usb_hub.h | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
+> index 94e7966e199d..c0e8e6f4ec0a 100644
+> --- a/drivers/usb/misc/onboard_usb_hub.c
+> +++ b/drivers/usb/misc/onboard_usb_hub.c
+> @@ -409,6 +409,7 @@ static void onboard_hub_usbdev_disconnect(struct usb_device *udev)
+>  
+>  static const struct usb_device_id onboard_hub_id_table[] = {
+>  	{ USB_DEVICE(VENDOR_ID_GENESYS, 0x0608) }, /* Genesys Logic GL850G USB 2.0 */
+> +	{ USB_DEVICE(VENDOR_ID_GENESYS, 0x0610) }, /* Genesys Logic GL852G-OHG USB 2.0 */
+>  	{ USB_DEVICE(VENDOR_ID_MICROCHIP, 0x2514) }, /* USB2514B USB 2.0 */
+>  	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x0411) }, /* RTS5411 USB 3.1 */
+>  	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x5411) }, /* RTS5411 USB 2.1 */
+> diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
+> index 62129a6a1ba5..2ee1b0032d23 100644
+> --- a/drivers/usb/misc/onboard_usb_hub.h
+> +++ b/drivers/usb/misc/onboard_usb_hub.h
+> @@ -31,6 +31,7 @@ static const struct of_device_id onboard_hub_match[] = {
+>  	{ .compatible = "usb451,8140", .data = &ti_tusb8041_data, },
+>  	{ .compatible = "usb451,8142", .data = &ti_tusb8041_data, },
+>  	{ .compatible = "usb5e3,608", .data = &genesys_gl850g_data, },
+> +	{ .compatible = "genesys,usb5e3,610", .data = &genesys_gl850g_data, },
 
+s/genesys,//
 
-Looks good to me, but checkpatch warns about
-
- WARNING: From:/Signed-off-by: email address mismatch: 'From: Matthew Garre=
-tt <mjg59@srcf.ucam.org>' !=3D 'Signed-off-by: Matthew Garrett <mgarrett@au=
-rora.tech>'
-
-which you might want to consider, unless this was intentional for some
-reason?  In any case:
-
-Acked-by: Bj=C3=B8rn Mork <bjorn@mork.no>
+>  	{ .compatible = "usbbda,411", .data = &realtek_rts5411_data, },
+>  	{ .compatible = "usbbda,5411", .data = &realtek_rts5411_data, },
+>  	{ .compatible = "usbbda,414", .data = &realtek_rts5411_data, },
+> -- 
+> 2.38.1
+> 
