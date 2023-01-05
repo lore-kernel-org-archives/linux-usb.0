@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFFBBC54EBD
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Jan 2023 11:35:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E642BC3DA7A
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Jan 2023 11:35:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232873AbjAELfs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Jan 2023 06:35:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35336 "EHLO
+        id S232933AbjAELfr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Jan 2023 06:35:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232170AbjAELfa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Jan 2023 06:35:30 -0500
+        with ESMTP id S232235AbjAELfb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Jan 2023 06:35:31 -0500
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4964658329
-        for <linux-usb@vger.kernel.org>; Thu,  5 Jan 2023 03:35:29 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32DB25833E
+        for <linux-usb@vger.kernel.org>; Thu,  5 Jan 2023 03:35:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672918529; x=1704454529;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=7CAOmRXKDg0GeVxR2X0gurjqvOzECHabA0IZeEi1y78=;
-  b=KikLCOtDWy7K9f4P8k0BqqZsCSrkeCxQJzbmvOp7CChUB15Q+OsCmmcy
-   tXBqc0MQz9YnLfeUT56uJiSmel4m9Oh08D2iwPaEcWIyH+W1EP4pbZ1Zd
-   HdU4LZqOhU1a6TY65Ni1aUZWE31xtZGIQ7qtuN8Jwg76psbuqecFOFxRJ
-   7SOGutReF9wlsYuheCmRxhxkJlenKs4+jEhDwKUZulWWvKkMMfmx09AFi
-   qldtwFttxi1TqFci04zoM7HNS1Dduorf+oNUU0HS97xT5EL0P4D6Oys2m
-   HyZJoVRC2wbVVJji5JaRfzogq0BCoHIQQej4kBhDFZZLa+q8l4RE4BMOp
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="319888857"
+  t=1672918530; x=1704454530;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=2WAy+1nJjVaxbEluB9kU5YTVIAGCFb8nK2Pg1MOv1Hs=;
+  b=DhxYSwGoO3kPaZn5eFGW33S9VIAkPOiluonb/QEC3UZhIqxEb33LAi8F
+   Q/+taw5i88qEvMipdiWaQD0GnrnPlWLp5x/zkojraJJR5l92hPUlHVTbK
+   i2UpYKdJA3Ic2zjXlyZbG/8qOsYn2utA2Ekh3wa2eznK7lhAUFgREat1O
+   XnZcivZnVXD4fvDQ9CmaRECTh+LcTQ4/PrSkQFMFOp4DUzJpZxb9VGL7R
+   aJzFYvzI8lwt+DICxatD7UHCFymdiijqMg1vwNWJrBaVcJlQkCaFuRtWt
+   RoJSUw9tzb5Ohqx/p9HOFtmvW1QFP0oE/yGKkElfimHKoSRCVTNJ0MKiK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="319888860"
 X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
-   d="scan'208";a="319888857"
+   d="scan'208";a="319888860"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 03:35:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="829527651"
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="829527653"
 X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
-   d="scan'208";a="829527651"
+   d="scan'208";a="829527653"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orsmga005.jf.intel.com with ESMTP; 05 Jan 2023 03:35:26 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 87382162; Thu,  5 Jan 2023 13:35:59 +0200 (EET)
+        id 9B6A019E; Thu,  5 Jan 2023 13:35:59 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -47,48 +47,50 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Lukas Wunner <lukas@wunner.de>,
         Andreas Noever <andreas.noever@gmail.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 0/8] thunderbolt: Add support for DisplayPort bandwidth allocation mode
-Date:   Thu,  5 Jan 2023 13:35:51 +0200
-Message-Id: <20230105113559.68531-1-mika.westerberg@linux.intel.com>
+Subject: [PATCH 2/8] thunderbolt: Log DP adapter type
+Date:   Thu,  5 Jan 2023 13:35:53 +0200
+Message-Id: <20230105113559.68531-3-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20230105113559.68531-1-mika.westerberg@linux.intel.com>
+References: <20230105113559.68531-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi all,
+This makes it easier to see from the debug logs what type of DisplayPort
+adapter is in use or available.
 
-This series implements an optional feature in USB4 spec called
-DisplayPort bandwidth allocation mode. This allows the graphics driver
-to negotiate with the Thunderbolt driver the bandwidth requirements
-dynamically through DP IN adapters of the host router (graphics driver
-uses DP AUX registers for this). This enables more "fine grained"
-bandwidth allocation.
+No functional changes.
 
-Mika Westerberg (8):
-  thunderbolt: Use decimal port number in control and tunnel logs too
-  thunderbolt: Log DP adapter type
-  thunderbolt: Improve debug logging in tb_available_bandwidth()
-  thunderbolt: Take CL states into account when waiting for link to come up
-  thunderbolt: Increase timeout of DP OUT adapter handshake
-  thunderbolt: Add functions to support DisplayPort bandwidth allocation mode
-  thunderbolt: Include the additional DP IN double word in debugfs dump
-  thunderbolt: Add support for DisplayPort bandwidth allocation mode
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/tb.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/thunderbolt/ctl.c     |  52 +++-
- drivers/thunderbolt/ctl.h     |   2 +
- drivers/thunderbolt/debugfs.c |   5 +-
- drivers/thunderbolt/switch.c  |  42 ++-
- drivers/thunderbolt/tb.c      | 504 ++++++++++++++++++++++++++++--
- drivers/thunderbolt/tb.h      |  37 +++
- drivers/thunderbolt/tb_msgs.h |  11 +-
- drivers/thunderbolt/tb_regs.h |  36 +++
- drivers/thunderbolt/tunnel.c  | 496 ++++++++++++++++++++++++++---
- drivers/thunderbolt/tunnel.h  |  18 ++
- drivers/thunderbolt/usb4.c    | 571 ++++++++++++++++++++++++++++++++++
- 11 files changed, 1689 insertions(+), 85 deletions(-)
-
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 3f1ab30c4fb1..db9dade7b4b0 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -892,7 +892,7 @@ static struct tb_port *tb_find_dp_out(struct tb *tb, struct tb_port *in)
+ 			continue;
+ 
+ 		if (tb_port_is_enabled(port)) {
+-			tb_port_dbg(port, "in use\n");
++			tb_port_dbg(port, "DP OUT in use\n");
+ 			continue;
+ 		}
+ 
+@@ -941,7 +941,7 @@ static void tb_tunnel_dp(struct tb *tb)
+ 			continue;
+ 
+ 		if (tb_port_is_enabled(port)) {
+-			tb_port_dbg(port, "in use\n");
++			tb_port_dbg(port, "DP IN in use\n");
+ 			continue;
+ 		}
+ 
 -- 
 2.35.1
 
