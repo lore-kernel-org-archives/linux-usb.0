@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0C56C3DA7A
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Jan 2023 11:35:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2281C3DA7D
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Jan 2023 11:36:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232214AbjAELf6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Jan 2023 06:35:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36010 "EHLO
+        id S233326AbjAELgB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Jan 2023 06:36:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232540AbjAELfc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Jan 2023 06:35:32 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D273058D09
-        for <linux-usb@vger.kernel.org>; Thu,  5 Jan 2023 03:35:31 -0800 (PST)
+        with ESMTP id S231147AbjAELfp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Jan 2023 06:35:45 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 131933E0E4
+        for <linux-usb@vger.kernel.org>; Thu,  5 Jan 2023 03:35:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672918531; x=1704454531;
+  t=1672918545; x=1704454545;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=gri5pJFQl2oXTg4jkiEbCHhui0Kgxbdg/Z6/h+IPNXU=;
-  b=YEACJ+hqFFQsJ/ZGT/tznRcM/T+Jv2McwDoF7CGhT7AfLdmGAum3C0Hx
-   Im8+20j7dbTSS2kDp8NgLr9O4D6aGKcgKuOd+vrqszMiXflV4v7hiqrXG
-   zopdGxEEYOmt823/+/v07NdnJyftz/dXQpnWQBbDCYqvPE2gQ1s8HxedZ
-   BE90e4BaOtmhB8cra5VZQnmcbpnK3k8PLnwGmPbagBLCn/65nG0HmFBHv
-   OFUqg410PVdJbFGLJqzoy2JnQ7YgjZsR9CcABrjdhLFYGxKc8AttcytiV
-   qYGzOt8AQAuvJ+sE121D8kzUwYjT4XTItNCzO0WdwW1k3ic5rVVI9QV+t
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="319888876"
+  bh=Bjh96GhDblTGAjzmY5AtdZd9tH8OuAmObS+AaNoa6hs=;
+  b=aKEyED5BZJf5jAl2VlOm+S8L8q425EeDnvth1wAh4BWrmkffGGubb/kU
+   ewYfVb4beiLeCxJ23WFyUHBP/Pan8UnRqS/UFfKlfe61FYB7qf0AQem+J
+   myz6ABpiBhTyhhtLDFRFC3eYIlkjdXx/vyXLgjCAXQu/uEfWWGcNeG0Ww
+   bPW/2MedqQaUZV1AGv996KxbzIrpL3g3czgXmvwaSczxOJCiLxOQ18lT1
+   Mjh3Ow8czTARbqEKHj6NaIC+VUOLZnf/q8qbLZw50jqnVVQPbPPHIIJLS
+   O1tFhEldmDz0g/lwOZa9YnSUgI2+AAD2NGVIdHmKceKMGK09nzDrxznOG
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="302551919"
 X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
-   d="scan'208";a="319888876"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 03:35:31 -0800
+   d="scan'208";a="302551919"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 03:35:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="829527669"
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="900903388"
 X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
-   d="scan'208";a="829527669"
+   d="scan'208";a="900903388"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga005.jf.intel.com with ESMTP; 05 Jan 2023 03:35:29 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 05 Jan 2023 03:35:29 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id B50EE220; Thu,  5 Jan 2023 13:35:59 +0200 (EET)
+        id C99322AD; Thu,  5 Jan 2023 13:35:59 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -47,9 +47,9 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Lukas Wunner <lukas@wunner.de>,
         Andreas Noever <andreas.noever@gmail.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 5/8] thunderbolt: Increase timeout of DP OUT adapter handshake
-Date:   Thu,  5 Jan 2023 13:35:56 +0200
-Message-Id: <20230105113559.68531-6-mika.westerberg@linux.intel.com>
+Subject: [PATCH 7/8] thunderbolt: Include the additional DP IN double word in debugfs dump
+Date:   Thu,  5 Jan 2023 13:35:58 +0200
+Message-Id: <20230105113559.68531-8-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20230105113559.68531-1-mika.westerberg@linux.intel.com>
 References: <20230105113559.68531-1-mika.westerberg@linux.intel.com>
@@ -59,51 +59,31 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Sometimes the current timeout is not enough so increase it to 1500 ms
-and while there make the loop use ktime instead.
+When DisplayPort bandwidth allocation mode is supported by the DP IN
+adapter it has an extra double word in the adapter config space. Include
+this in the debugfs register dump.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/tunnel.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/thunderbolt/debugfs.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-index de584d7e3991..e5a5a20e391f 100644
---- a/drivers/thunderbolt/tunnel.c
-+++ b/drivers/thunderbolt/tunnel.c
-@@ -339,9 +339,10 @@ static bool tb_dp_is_usb4(const struct tb_switch *sw)
- 	return tb_switch_is_usb4(sw) || tb_switch_is_titan_ridge(sw);
- }
- 
--static int tb_dp_cm_handshake(struct tb_port *in, struct tb_port *out)
-+static int tb_dp_cm_handshake(struct tb_port *in, struct tb_port *out,
-+			      int timeout_msec)
- {
--	int timeout = 10;
-+	ktime_t timeout = ktime_add_ms(ktime_get(), timeout_msec);
- 	u32 val;
- 	int ret;
- 
-@@ -368,8 +369,8 @@ static int tb_dp_cm_handshake(struct tb_port *in, struct tb_port *out)
- 			return ret;
- 		if (!(val & DP_STATUS_CTRL_CMHS))
- 			return 0;
--		usleep_range(10, 100);
--	} while (timeout--);
-+		usleep_range(100, 150);
-+	} while (ktime_before(ktime_get(), timeout));
- 
- 	return -ETIMEDOUT;
- }
-@@ -519,7 +520,7 @@ static int tb_dp_xchg_caps(struct tb_tunnel *tunnel)
- 	 * Perform connection manager handshake between IN and OUT ports
- 	 * before capabilities exchange can take place.
- 	 */
--	ret = tb_dp_cm_handshake(in, out);
-+	ret = tb_dp_cm_handshake(in, out, 1500);
- 	if (ret)
- 		return ret;
- 
+diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
+index 834bcad42e9f..4339e706cc3a 100644
+--- a/drivers/thunderbolt/debugfs.c
++++ b/drivers/thunderbolt/debugfs.c
+@@ -1159,7 +1159,10 @@ static void port_cap_show(struct tb_port *port, struct seq_file *s,
+ 		if (tb_port_is_pcie_down(port) || tb_port_is_pcie_up(port)) {
+ 			length = PORT_CAP_PCIE_LEN;
+ 		} else if (tb_port_is_dpin(port) || tb_port_is_dpout(port)) {
+-			length = PORT_CAP_DP_LEN;
++			if (usb4_dp_port_bw_mode_supported(port))
++				length = PORT_CAP_DP_LEN + 1;
++			else
++				length = PORT_CAP_DP_LEN;
+ 		} else if (tb_port_is_usb3_down(port) ||
+ 			   tb_port_is_usb3_up(port)) {
+ 			length = PORT_CAP_USB3_LEN;
 -- 
 2.35.1
 
