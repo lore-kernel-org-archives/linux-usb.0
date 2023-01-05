@@ -2,150 +2,202 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90224C53210
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Jan 2023 11:49:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87C14C61DB3
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Jan 2023 13:47:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232763AbjAELtP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Jan 2023 06:49:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41184 "EHLO
+        id S230100AbjAENrC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Jan 2023 08:47:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231797AbjAELtO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Jan 2023 06:49:14 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C40F3056F;
-        Thu,  5 Jan 2023 03:49:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672919353; x=1704455353;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AlB44ILVDfhAz3wCQTSWYJqtu5wh8dBHyGkGiHnpByQ=;
-  b=RP0UgnQCzzqCpOhWahFuswZWxCOufWra3xyvlKM2L6ieBSLL2e4USUIv
-   M0q7qx3Zz0HU9jfbS+5ks4g+Q8HidkrUpPEI/gkTT/4Vqdl7/1bRIxtuT
-   3/J+R0PfLSV2AFlu9/b5Jx2QLu90uM1k1iit793vyg3ted+2/JRMJcHp3
-   sQyYMeADDY9bir5t5xQNZQDMqLCFl3Nj5CB1pRTkhk7GnutXaevS2avtB
-   z/2Tj1AVWqz+PfhJDEVFYhXjfDTxB12CVtRUlmAQ4VnD8kBrOIquwovjZ
-   KvSUBXVboQvSTaScx9MZ7urhLq2oxWktWUe6LEUh8/CSy40FGB6aZvBSV
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="408435394"
-X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
-   d="scan'208";a="408435394"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 03:49:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="797901229"
-X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
-   d="scan'208";a="797901229"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 05 Jan 2023 03:49:09 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 05 Jan 2023 13:49:08 +0200
-Date:   Thu, 5 Jan 2023 13:49:08 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Jun Nie <jun.nie@linaro.org>
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
-        sven@svenpeter.dev, shawn.guo@linaro.org,
-        bryan.odonoghue@linaro.org
-Subject: Re: [PATCH 2/2] usb: typec: tipd: Support wakeup
-Message-ID: <Y7a5NFMAxhuD4qEr@kuha.fi.intel.com>
-References: <20230105075058.924680-1-jun.nie@linaro.org>
- <20230105075058.924680-2-jun.nie@linaro.org>
+        with ESMTP id S231449AbjAENqw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Jan 2023 08:46:52 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C05BB3D9D7;
+        Thu,  5 Jan 2023 05:46:51 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5BCE261A0C;
+        Thu,  5 Jan 2023 13:46:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEDC4C433EF;
+        Thu,  5 Jan 2023 13:46:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672926410;
+        bh=G8P7Dlh0jvFyjoAJiE2Nwh9lRK7Adhw9b5koXsAYWs0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ejFxyqZdkIyc8w2gV3P0BUGzVpl19r73AB20FYQLC0ugf4mc8+x3Ph8o1LPh6aGdu
+         8o0b7hOJKWIdFVFWkA1G4bdIVzVPNXoico9eYs2d3YfYvuXHeXfsbnn001lRTuvTKu
+         KkxvEcYXpypdiMFbQ6GJ9gYrbBAuS2xNAxbm9zzXMV42tO4Rq2o2ncLFwtkogBwYT/
+         p2ofra8UNIpATWuNA+8rmWAl7iQacvuJhH0LVN1jIJiQNpUvm/DKfMn6VtXFyWIjkR
+         nggYYNCvHDLv+at6TiRKnAf2ovry3ZgeGPUByPAz5GNFb0+P6g2ecDjlx7IS40WMch
+         JJes+Bb+ONo/Q==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Robert Jarzmik <robert.jarzmik@free.fr>
+Cc:     Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH 03/27] ARM: pxa: remove unused pxa3xx-ulpi
+Date:   Thu,  5 Jan 2023 14:45:58 +0100
+Message-Id: <20230105134622.254560-4-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230105134622.254560-1-arnd@kernel.org>
+References: <20230105134622.254560-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230105075058.924680-2-jun.nie@linaro.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jan 05, 2023 at 03:50:58PM +0800, Jun Nie wrote:
-> Enable wakeup when pluging or unpluging USB cable. It is up to other
-> components to hold system in active mode, such as display, so that
-> user can receive the notification.
-> 
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+From: Arnd Bergmann <arnd@arndb.de>
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+This was only used by the cm-x300 board, which is now gone.
 
-> ---
->  drivers/usb/typec/tipd/core.c | 38 +++++++++++++++++++++++++++++++++++
->  1 file changed, 38 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index 46a4d8b128f0..485b90c13078 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -95,6 +95,7 @@ struct tps6598x {
->  	struct power_supply_desc psy_desc;
->  	enum power_supply_usb_type usb_type;
->  
-> +	int wakeup;
->  	u16 pwr_status;
->  };
->  
-> @@ -846,6 +847,12 @@ static int tps6598x_probe(struct i2c_client *client)
->  	i2c_set_clientdata(client, tps);
->  	fwnode_handle_put(fwnode);
->  
-> +	tps->wakeup = device_property_read_bool(tps->dev, "wakeup-source");
-> +	if (tps->wakeup) {
-> +		device_init_wakeup(&client->dev, true);
-> +		enable_irq_wake(client->irq);
-> +	}
-> +
->  	return 0;
->  
->  err_disconnect:
-> @@ -870,6 +877,36 @@ static void tps6598x_remove(struct i2c_client *client)
->  	usb_role_switch_put(tps->role_sw);
->  }
->  
-> +static int __maybe_unused tps6598x_suspend(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct tps6598x *tps = i2c_get_clientdata(client);
-> +
-> +	if (tps->wakeup) {
-> +		disable_irq(client->irq);
-> +		enable_irq_wake(client->irq);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused tps6598x_resume(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct tps6598x *tps = i2c_get_clientdata(client);
-> +
-> +	if (tps->wakeup) {
-> +		disable_irq_wake(client->irq);
-> +		enable_irq(client->irq);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dev_pm_ops tps6598x_pm_ops = {
-> +	SET_SYSTEM_SLEEP_PM_OPS(tps6598x_suspend, tps6598x_resume)
-> +};
-> +
->  static const struct of_device_id tps6598x_of_match[] = {
->  	{ .compatible = "ti,tps6598x", },
->  	{ .compatible = "apple,cd321x", },
-> @@ -886,6 +923,7 @@ MODULE_DEVICE_TABLE(i2c, tps6598x_id);
->  static struct i2c_driver tps6598x_i2c_driver = {
->  	.driver = {
->  		.name = "tps6598x",
-> +		.pm = &tps6598x_pm_ops,
->  		.of_match_table = tps6598x_of_match,
->  	},
->  	.probe_new = tps6598x_probe,
-> -- 
-> 2.34.1
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ arch/arm/mach-pxa/Makefile                    |   2 +-
+ arch/arm/mach-pxa/devices.c                   |  28 --
+ arch/arm/mach-pxa/devices.h                   |   1 -
+ arch/arm/mach-pxa/pxa3xx-ulpi.c               | 385 ------------------
+ arch/arm/mach-pxa/regs-u2d.h                  | 199 ---------
+ drivers/usb/host/ohci-pxa27x.c                |   9 -
+ include/linux/platform_data/usb-pxa3xx-ulpi.h |  32 --
+ 7 files changed, 1 insertion(+), 655 deletions(-)
+ delete mode 100644 arch/arm/mach-pxa/pxa3xx-ulpi.c
+ delete mode 100644 arch/arm/mach-pxa/regs-u2d.h
+ delete mode 100644 include/linux/platform_data/usb-pxa3xx-ulpi.h
 
-thanks,
-
+diff --git a/arch/arm/mach-pxa/Makefile b/arch/arm/mach-pxa/Makefile
+index 4ca8cac2e60f..9624f90d9ef6 100644
+--- a/arch/arm/mach-pxa/Makefile
++++ b/arch/arm/mach-pxa/Makefile
+@@ -12,7 +12,7 @@ obj-$(CONFIG_PM)		+= pm.o sleep.o standby.o
+ # SoC-specific code
+ obj-$(CONFIG_PXA25x)		+= mfp-pxa2xx.o pxa2xx.o pxa25x.o
+ obj-$(CONFIG_PXA27x)		+= mfp-pxa2xx.o pxa2xx.o pxa27x.o
+-obj-$(CONFIG_PXA3xx)		+= mfp-pxa3xx.o pxa3xx.o smemc.o pxa3xx-ulpi.o
++obj-$(CONFIG_PXA3xx)		+= mfp-pxa3xx.o pxa3xx.o smemc.o
+ obj-$(CONFIG_CPU_PXA300)	+= pxa300.o
+ 
+ # NOTE: keep the order of boards in accordance to their order in Kconfig
+diff --git a/arch/arm/mach-pxa/devices.c b/arch/arm/mach-pxa/devices.c
+index 72adaac9f332..8e3bc56d2044 100644
+--- a/arch/arm/mach-pxa/devices.c
++++ b/arch/arm/mach-pxa/devices.c
+@@ -12,7 +12,6 @@
+ #include <linux/soc/pxa/cpu.h>
+ 
+ #include "udc.h"
+-#include <linux/platform_data/usb-pxa3xx-ulpi.h>
+ #include <linux/platform_data/video-pxafb.h>
+ #include <linux/platform_data/mmc-pxamci.h>
+ #include "irqs.h"
+@@ -130,33 +129,6 @@ struct platform_device pxa27x_device_udc = {
+ 	}
+ };
+ 
+-#ifdef CONFIG_PXA3xx
+-static struct resource pxa3xx_u2d_resources[] = {
+-	[0] = {
+-		.start	= 0x54100000,
+-		.end	= 0x54100fff,
+-		.flags	= IORESOURCE_MEM,
+-	},
+-	[1] = {
+-		.start	= IRQ_USB2,
+-		.end	= IRQ_USB2,
+-		.flags	= IORESOURCE_IRQ,
+-	},
+-};
+-
+-struct platform_device pxa3xx_device_u2d = {
+-	.name		= "pxa3xx-u2d",
+-	.id		= -1,
+-	.resource	= pxa3xx_u2d_resources,
+-	.num_resources	= ARRAY_SIZE(pxa3xx_u2d_resources),
+-};
+-
+-void __init pxa3xx_set_u2d_info(struct pxa3xx_u2d_platform_data *info)
+-{
+-	pxa_register_device(&pxa3xx_device_u2d, info);
+-}
+-#endif /* CONFIG_PXA3xx */
+-
+ static struct resource pxafb_resources[] = {
+ 	[0] = {
+ 		.start	= 0x44000000,
+diff --git a/arch/arm/mach-pxa/devices.h b/arch/arm/mach-pxa/devices.h
+index 2828bea76cd7..82c83939017a 100644
+--- a/arch/arm/mach-pxa/devices.h
++++ b/arch/arm/mach-pxa/devices.h
+@@ -9,7 +9,6 @@ extern struct platform_device pxa3xx_device_mci2;
+ extern struct platform_device pxa3xx_device_mci3;
+ extern struct platform_device pxa25x_device_udc;
+ extern struct platform_device pxa27x_device_udc;
+-extern struct platform_device pxa3xx_device_u2d;
+ extern struct platform_device pxa_device_fb;
+ extern struct platform_device pxa_device_ffuart;
+ extern struct platform_device pxa_device_btuart;
+diff --git a/arch/arm/mach-pxa/pxa3xx-ulpi.c b/arch/arm/mach-pxa/pxa3xx-ulpi.c
+deleted file mode 100644
+index c29a7f0fa1b0..000000000000
+diff --git a/arch/arm/mach-pxa/regs-u2d.h b/arch/arm/mach-pxa/regs-u2d.h
+deleted file mode 100644
+index ab517ba62c9a..000000000000
+diff --git a/drivers/usb/host/ohci-pxa27x.c b/drivers/usb/host/ohci-pxa27x.c
+index a1dad8745622..0bc7e96bcc93 100644
+--- a/drivers/usb/host/ohci-pxa27x.c
++++ b/drivers/usb/host/ohci-pxa27x.c
+@@ -29,7 +29,6 @@
+ #include <linux/of_platform.h>
+ #include <linux/of_gpio.h>
+ #include <linux/platform_data/usb-ohci-pxa27x.h>
+-#include <linux/platform_data/usb-pxa3xx-ulpi.h>
+ #include <linux/platform_device.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/signal.h>
+@@ -275,7 +274,6 @@ static int pxa27x_start_hc(struct pxa27x_ohci *pxa_ohci, struct device *dev)
+ 	int retval;
+ 	struct pxaohci_platform_data *inf;
+ 	uint32_t uhchr;
+-	struct usb_hcd *hcd = dev_get_drvdata(dev);
+ 
+ 	inf = dev_get_platdata(dev);
+ 
+@@ -301,9 +299,6 @@ static int pxa27x_start_hc(struct pxa27x_ohci *pxa_ohci, struct device *dev)
+ 		return retval;
+ 	}
+ 
+-	if (cpu_is_pxa3xx())
+-		pxa3xx_u2d_start_hc(&hcd->self);
+-
+ 	uhchr = __raw_readl(pxa_ohci->mmio_base + UHCHR) & ~UHCHR_SSE;
+ 	__raw_writel(uhchr, pxa_ohci->mmio_base + UHCHR);
+ 	__raw_writel(UHCHIE_UPRIE | UHCHIE_RWIE, pxa_ohci->mmio_base + UHCHIE);
+@@ -316,14 +311,10 @@ static int pxa27x_start_hc(struct pxa27x_ohci *pxa_ohci, struct device *dev)
+ static void pxa27x_stop_hc(struct pxa27x_ohci *pxa_ohci, struct device *dev)
+ {
+ 	struct pxaohci_platform_data *inf;
+-	struct usb_hcd *hcd = dev_get_drvdata(dev);
+ 	uint32_t uhccoms;
+ 
+ 	inf = dev_get_platdata(dev);
+ 
+-	if (cpu_is_pxa3xx())
+-		pxa3xx_u2d_stop_hc(&hcd->self);
+-
+ 	if (inf->exit)
+ 		inf->exit(dev);
+ 
+diff --git a/include/linux/platform_data/usb-pxa3xx-ulpi.h b/include/linux/platform_data/usb-pxa3xx-ulpi.h
+deleted file mode 100644
+index 4d31a5cbdeb1..000000000000
 -- 
-heikki
+2.39.0
+
