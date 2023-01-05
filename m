@@ -2,232 +2,162 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5399CC5479D
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Jan 2023 07:55:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3991C54EBC
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Jan 2023 08:51:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230475AbjAEHze (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Jan 2023 02:55:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46404 "EHLO
+        id S229631AbjAEIvW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Jan 2023 03:51:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbjAEHzc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Jan 2023 02:55:32 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A9DD37272;
-        Wed,  4 Jan 2023 23:55:30 -0800 (PST)
-Received: from [192.168.1.139] ([37.4.248.41]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N9M5y-1ohQa61a1k-015HyC; Thu, 05 Jan 2023 08:50:18 +0100
-Message-ID: <15ba4d43-89a2-2a3e-645e-f5f26c9b77f0@i2se.com>
-Date:   Thu, 5 Jan 2023 08:50:17 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 1/2] usb: misc: onboard_usb_hub: Don't create platform
- devices for DT nodes without 'vdd-supply'
-To:     Matthias Kaehlcke <mka@chromium.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Doug Anderson <dianders@chromium.org>,
+        with ESMTP id S231441AbjAEIvT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Jan 2023 03:51:19 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB4CCC4D;
+        Thu,  5 Jan 2023 00:51:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672908678; x=1704444678;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version:content-id;
+  bh=MdpIx0ME+Xfwg6tq/OLwhK9h6Pxxj28cKiqlNMlnOkE=;
+  b=NRba8lE6qjElCAhAfyd/l7wt1ZqsX7HXEKd87qcQMwbkZVjmPtrBzf0a
+   hlyhHwcmbZw2ncJdTUDmKF4OFHVs12Vp/YmOlSsHFWHzEfo3PEB1Eh3y7
+   13QG2HFyHA/O9x3sfXp4T0qb2b9JraZi0nXeHcOTx7TwN8BXNH2oO7z/v
+   c5KyTY5jqDQ1Jt9msM8K0kgMpQNlwUBuOtsOuHpd+rWm1k8zzh2h04lmz
+   P17q6WBT8GD7/oDZWNiD0ez1mI/hdZeTO38lsbabvoB2rcAAZgX9VdGww
+   tsxay9DN+6hASWEcdVBt8zCS9coCol3XhiCjAP//Womwz8cd1tzoWYq9s
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="319860922"
+X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
+   d="scan'208";a="319860922"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 00:51:18 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="655496263"
+X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
+   d="scan'208";a="655496263"
+Received: from khaunx-mobl1.ger.corp.intel.com ([10.252.35.181])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 00:51:12 -0800
+Date:   Thu, 5 Jan 2023 10:51:10 +0200 (EET)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Jiri Slaby <jirislaby@kernel.org>
+cc:     linux-serial <linux-serial@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        stable@vger.kernel.org,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        Icenowy Zheng <uwu@icenowy.me>
-References: <20221222022605.v2.1.If5e7ec83b1782e4dffa6ea759416a27326c8231d@changeid>
- <CAD=FV=XNxZ3iDYAAqKWqDVLihJ63Du4L7kDdKO55avR9nghc5A@mail.gmail.com>
- <Y7Rh+EkKKN5Gu8sz@google.com> <10807929.5MRjnR8RnV@steina-w>
- <Y7XVgfjLEDtWhMDB@google.com>
-Content-Language: en-US
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <Y7XVgfjLEDtWhMDB@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:BCGKh4j6MGeg3RhokWIDy9xiyUo//X9YveLbbQcC2HQm7xwtQY7
- hZq554g2hjpAZLLk2MCVUn3YKlE9DFSKiGC7tcqWrksZTyrB0bvGK9QXn4OP5bfP8ilbNVL
- LA3OD6ZefzlxI52EhVB5FY6oZ8SoHc1mvdX59BP2IrEL6xwkqZ9cfOdAB5QV/OFD0UV648s
- NIsa9GlzhlokurnK+XEYA==
-UI-OutboundReport: notjunk:1;M01:P0:N1+v9LpllM0=;b5Xfp7QmUkzWbsUtEi/9UPXBqEX
- LgH8nbuyE4Ly8Te0+dXUsl+AjiawMD/NMnSbc3NTYSN8riZxWRJb7Yzbn2AUs4gY1et0ll7hk
- YMS12/mGQQP3uOUW/g9OzY8L2ZRxSfyOsQVWmWGTebyS3Z1wlYPuy4khlURBw94epfmX9FjWs
- TJZdPp4v9DAhvjW+dVLIBUQRX8MK2LjxKsBX9vgLIUZ8ZgzaUFCP9kAyTt6Qmnohtg4qgIZo6
- /JG3Z+7pwye6CFSuI+Zo9AGI7+X8wepXcDLQ8CyVuL7oNRr4qLvXkrwRH+wHm62dJXtCX924m
- WrJpd5yrEdEhTVweOJOk6RJwA4iRim3Xgpot5caAto7iay7YsfUx+QpvVT8SLD5lPAejAt0yQ
- LBJIz/71Ru1qjMFjqTJ1F9CQ4Dbb+rNQV8ClhkdiJ7FH/yTFCyUXtYHzWqgav6cDqIRJTiw6z
- d6gV6MOVLhK1yL2W3GsZsskLL3RQQIDV4GEK8nTFHUSXXEdNYuP9XI9wrnmdqtk7O3ohEWZAX
- XVXfiuB5qnDSZuq6wVTvKDMjI70trhckf0DrGp21HxSYzd3Xkfn0dbS0aRaoGjwI25OAjxT8X
- SIaUZldneYVfeKBDmoNI2T9VC8BWi9KeaD8nh0QsNMtNIGGMt+dwmL9b8NQ3GEGv0nf2R41j7
- 6nj3+8VFfJWlNdQ2/gKOmcTa6VAkEWw4meTLz6DWeQ==
+        Arnd Bergmann <arnd@arndb.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        David Lin <dtwlin@gmail.com>, Johan Hovold <johan@kernel.org>,
+        Alex Elder <elder@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mmc@vger.kernel.org,
+        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 07/10] tty: Convert ->dtr_rts() to take bool argument
+In-Reply-To: <09043f30-c516-e173-3836-5e5dd5f5c472@kernel.org>
+Message-ID: <2cb9b67e-9bb-4fb2-e974-17050457d3@linux.intel.com>
+References: <20230104151531.73994-1-ilpo.jarvinen@linux.intel.com> <20230104151531.73994-8-ilpo.jarvinen@linux.intel.com> <09043f30-c516-e173-3836-5e5dd5f5c472@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; BOUNDARY="8323329-1066211675-1672908637=:1832"
+Content-ID: <4fbbebce-aab4-fa64-6a79-6d25c81fe3c@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Matthias,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Am 04.01.23 um 20:37 schrieb Matthias Kaehlcke:
-> On Wed, Jan 04, 2023 at 10:00:43AM +0100, Alexander Stein wrote:
->> Hi Matthias,
->>
->> Am Dienstag, 3. Januar 2023, 18:12:24 CET schrieb Matthias Kaehlcke:
->>> On Thu, Dec 22, 2022 at 11:26:26AM -0800, Doug Anderson wrote:
->>>> Hi,
->>>>
->>>> On Wed, Dec 21, 2022 at 6:26 PM Matthias Kaehlcke <mka@chromium.org>
->> wrote:
->>>>> The primary task of the onboard_usb_hub driver is to control the
->>>>> power of an onboard USB hub. The driver gets the regulator from the
->>>>> device tree property "vdd-supply" of the hub's DT node. Some boards
->>>>> have device tree nodes for USB hubs supported by this driver, but
->>>>> don't specify a "vdd-supply". This is not an error per se, it just
->>>>> means that the onboard hub driver can't be used for these hubs, so
->>>>> don't create platform devices for such nodes.
->>>>>
->>>>> This change doesn't completely fix the reported regression. It
->>>>> should fix it for the RPi 3 B Plus and boards with similar hub
->>>>> configurations (compatible DT nodes without "vdd-supply"), boards
->>>>> that actually use the onboard hub driver could still be impacted
->>>>> by the race conditions discussed in that thread. Not creating the
->>>>> platform devices for nodes without "vdd-supply" is the right
->>>>> thing to do, independently from the race condition, which will
->>>>> be fixed in future patch.
->>>>>
->>>>> Fixes: 8bc063641ceb ("usb: misc: Add onboard_usb_hub driver")
->>>>> Link:
->>>>> https://lore.kernel.org/r/d04bcc45-3471-4417-b30b-5cf9880d785d@i2se.com
->>>>> / Reported-by: Stefan Wahren <stefan.wahren@i2se.com>
->>>>> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
->>>>> ---
->>>>>
->>>>> Changes in v2:
->>>>> - don't create platform devices when "vdd-supply" is missing,
->>>>>
->>>>>    rather than returning an error from _find_onboard_hub()
->>>>>
->>>>> - check for "vdd-supply" not "vdd" (Johan)
->>>>> - updated subject and commit message
->>>>> - added 'Link' tag (regzbot)
->>>>>
->>>>>   drivers/usb/misc/onboard_usb_hub_pdevs.c | 13 +++++++++++++
->>>>>   1 file changed, 13 insertions(+)
->>>> I'm a tad bit skeptical.
->>>>
->>>> It somehow feels a bit too much like "inside knowledge" to add this
->>>> here. I guess the "onboard_usb_hub_pdevs.c" is already pretty
->>>> entangled with "onboard_usb_hub.c", but I'd rather the "pdevs" file
->>>> keep the absolute minimum amount of stuff in it and all of the details
->>>> be in the other file.
->>>>
->>>> If this was the only issue though, I'd be tempted to let it slide. As
->>>> it is, I'm kinda worried that your patch will break Alexander Stein,
->>>> who should have been CCed (I've CCed him now) or Icenowy Zheng (also
->>>> CCed now). I believe those folks are using the USB hub driver
->>>> primarily to drive a reset GPIO. Looking at the example in the
->>>> bindings for one of them (genesys,gl850g.yaml), I even see that the
->>>> reset-gpio is specified but not a vdd-supply. I think you'll break
->>>> that?
->>> Thanks for pointing that out. My assumption was that the regulator is
->>> needed for the driver to do anything useful, but you are right, the
->>> reset GPIO alone could be used in combination with an always-on regulator
->>> to 'switch the hub on and off'.
->>>
->>>> In general, it feels like it should actually be fine to create the USB
->>>> hub driver even if vdd isn't supplied. Sure, it won't do a lot, but it
->>>> shouldn't actively hurt anything. You'll just be turning off and on
->>>> bogus regulators and burning a few CPU cycles. I guess the problem is
->>>> some race condition that you talk about in the commit message. I'd
->>>> rather see that fixed...
->>> Yes, the race conditions needs to be fixed as well, I didn't have enough
->>> time to write and test a patch before taking a longer break for the
->>> holidays, so I only sent out this (supposed) partial mitigation.
->>>
->>>> That being said, if we want to be more efficient and not burn CPU cycles
->>>> and memory in Stefan Wahren's case, maybe the USB hub driver itself could
->>>> return a canonical error value from its probe when it detects that it has
->>>> no useful job and then "onboard_usb_hub_pdevs" could just silently bail
->>>> out?
->>> _probe() could return an error, however onboard_hub_create_pdevs() can't
->>> rely on that, since the actual onboard_hub driver might not have been
->>> loaded yet when the function is called.
->>>
->>> It would be nice not to instantiate the pdev and onboard_hub USB instances
->>> if the DT node has neither a 'vdd-supply' nor 'reset-gpios'. If we aren't
->>> ok with doing that in onboard_hub_create_pdevs() then at least the 'raw'
->>> platform device would be created. onboard_hub_probe() could still
->>> bail if both properties are absent, _find_onboard_hub() would have to
->>> check it again to avoid the deferred probing 'loop' for the USB instances.
->> I'm not really fond of checking for optional features like 'vdd-supply' and
->> 'reset-gpios'. This issue will pop up again if some new optional feature is
->> added again, e.g. power-domains.
-> It's not just any optional feature, it needs to be involved in controlling
-> power. I'm not super-exited about it either, but if we prefer not to
-> instantiate the drivers for certain DT nodes (TBD if that's a preference), we
-> need some sort of sentinel since the compatible string alone doesn't provide
-> enough information.
->
->>> Alternatively we could 'just' fix the race condition involving the 'attach
->>> work' and the onboard_hub driver is fully instantiated even on (certain)
->>> boards where it does nothing. It's relatively rare that USB hub nodes are
->>> specified in the DT (unless the intention is to use this driver) and
->>> CONFIG_USB_ONBOARD_HUB needs to be set for the instances to be created,
->>> so maybe creating the useless instances is not such a big deal.
->> IMHO creating a pdev shouldn't harm in any case. It's similar to having a DT
->> node without a corresponding driver enabled or even existing.
-> If we only want a 'raw' pdev (no instantiation of the onboard hub platform and
-> USB drivers) then a similar logic will be needed in the onboard hub driver(s).
->
-> So if we don't want any logic checking that at least one power related property
-> is defined then we have to accept that the onboard hub driver will be fully
-> instantiated even when it effectively does nothing.
->
-> If we add logic to the driver it needs to be checked in both the platform and
-> the USB driver (in the latter to avoid a deferred probe loop). It would be
-> simpler to just skip the creation of the 'raw' platform device in the first
-> place.
->
->> Also adding USB devices to DT is something which is to be expected.
->> usb-device.yaml exists since 2020 and the txt version since 2016.
-> Yes it it perfectly legal, so we need to handle this case somehow, and we
-> are currently discussing how to best do that :)
->
-> I still don't expect the combo of supported hub in the DT +
-> CONFIG_USB_ONBOARD_HUB=y/m to become super-popular, which could be an
-> argument for the option "just instantiate the drivers even if they do
-> nothing". Not my favorite option, but probably not that bad either.
+--8323329-1066211675-1672908637=:1832
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
+Content-ID: <207e8c25-d560-4d87-27a8-5f9cb52ce14@linux.intel.com>
 
-i disagree in this point. The driver becomes more and more popular [1] 
-and this breaks arm64 for RPi 3B+ too. So it's only a question of time 
-until distributions run into this problem.
+On Thu, 5 Jan 2023, Jiri Slaby wrote:
 
-I willing to help in debugging the real issue, but i need a little bit 
-guidance here.
+> On 04. 01. 23, 16:15, Ilpo Järvinen wrote:
+> > Convert the raise/on parameter in ->dtr_rts() to bool through the
+> > callchain. The parameter is used like bool. In USB serial, there
+> > remains a few implicit bool -> larger type conversions because some
+> > devices use u8 in their control messages.
+> 
+> Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+> 
+> > Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> > ---
+> ...
+> > --- a/drivers/char/pcmcia/synclink_cs.c
+> > +++ b/drivers/char/pcmcia/synclink_cs.c
+> > @@ -378,7 +378,7 @@ static void async_mode(MGSLPC_INFO *info);
+> >   static void tx_timeout(struct timer_list *t);
+> >     static bool carrier_raised(struct tty_port *port);
+> > -static void dtr_rts(struct tty_port *port, int onoff);
+> > +static void dtr_rts(struct tty_port *port, bool onoff);
+> 
+> Not anything for this patch, but having this dubbed "onoff" instead of "on"
+> makes it really confusing.
+> 
+> > --- a/drivers/mmc/core/sdio_uart.c
+> > +++ b/drivers/mmc/core/sdio_uart.c
+> > @@ -548,14 +548,14 @@ static bool uart_carrier_raised(struct tty_port
+> > *tport)
+> >    *	adjusted during an open, close and hangup.
+> >    */
+> >   -static void uart_dtr_rts(struct tty_port *tport, int onoff)
+> > +static void uart_dtr_rts(struct tty_port *tport, bool onoff)
+> >   {
+> >   	struct sdio_uart_port *port =
+> >   			container_of(tport, struct sdio_uart_port, port);
+> >   	int ret = sdio_uart_claim_func(port);
+> >   	if (ret)
+> >   		return;
+> > -	if (onoff == 0)
+> > +	if (!onoff)
+> >   		sdio_uart_clear_mctrl(port, TIOCM_DTR | TIOCM_RTS);
+> >   	else
+> >   		sdio_uart_set_mctrl(port, TIOCM_DTR | TIOCM_RTS);
+> 
+> Especially here. What does "!onoff" mean? If it were:
+> 
+> if (on)
+>   sdio_uart_set_mctrl(port, TIOCM_DTR | TIOCM_RTS);
+> else
+>   sdio_uart_clear_mctrl(port, TIOCM_DTR | TIOCM_RTS);
+> 
+> it would be a lot more clear.
+> 
+> > --- a/drivers/tty/amiserial.c
+> > +++ b/drivers/tty/amiserial.c
+> > @@ -1459,7 +1459,7 @@ static bool amiga_carrier_raised(struct tty_port
+> > *port)
+> >   	return !(ciab.pra & SER_DCD);
+> >   }
+> >   -static void amiga_dtr_rts(struct tty_port *port, int raise)
+> > +static void amiga_dtr_rts(struct tty_port *port, bool raise)
+> 
+> Or "raise". That makes sense too and we call it as such in
+> tty_port_operations:
+> 
+> > --- a/include/linux/tty_port.h
+> > +++ b/include/linux/tty_port.h
+> ...
+> > @@ -32,7 +32,7 @@ struct tty_struct;
+> >    */
+> >   struct tty_port_operations {
+> >   	bool (*carrier_raised)(struct tty_port *port);
+> > -	void (*dtr_rts)(struct tty_port *port, int raise);
+> > +	void (*dtr_rts)(struct tty_port *port, bool raise);
+> >   	void (*shutdown)(struct tty_port *port);
+> >   	int (*activate)(struct tty_port *port, struct tty_struct *tty);
+> >   	void (*destruct)(struct tty_port *port);
+> 
+> Care to fix that up too?
 
-[1] - 
-https://lore.kernel.org/linux-arm-kernel/2188024.ZfL8zNpBrT@steina-w/T/
+Sure. I noticed they were inconsistent but it didn't feel like changing 
+the name "while at it" would be good as this is long already. I think I'll 
+make another patch out of the name changes.
 
->
->> Unfortunately I'm not able to reproduce this issue on a different platform
->> where the same HUB but no reset-gpios is required. I also noticed that
->> onboard-usb-hub raises the error
->>> Failed to attach USB driver: -22
->> for each hub it is supposed to support.
-> Interesting
->
-> I also see the error with v6.2-rc1 but not a downstream v5.15 kernel which
-> runs most of the time on my boards. It turns out that with v6.2-rc1 the 'bus'
-> field of 'onboard_hub_usbdev_driver.drvwrap.driver' (passed to driver_attach())
-> is NULL, which causes driver_attach() / bus_for_each_dev() to return -EINVAL.
->
-> I did some testing (unbind/bind, unloading/reloading the driver) around the
-> 'attach work' independently from your report. I couldn't repro a situation
-> where the onboard_hub USB devices aren't probed by the driver, which is what
-> the 'attach work' is supposed to solve. At some point I observed issues with
-> that in the past, which is why driver_attach() is called. The driver_attach()
-> call was added to the onboard_hub series in early 2021, by that time I was
-> probably testing with a v5.4 kernel, it's not unconceivable that the issue I
-> saw back then is fixed in newer kernels.
->
-> With that I was already considering to remove the 'attach work', the error you
-> reported reinforces that, since the driver_attach() call from the onboard_hub
-> driver does nothing in more recent kernels due to 'bus' being NULL.
->
-> Thanks
->
-> Matthias
+-- 
+ i.
+--8323329-1066211675-1672908637=:1832--
