@@ -2,277 +2,119 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48F73C4708D
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Jan 2023 16:09:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53920C4708D
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Jan 2023 16:14:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234908AbjAFQJ1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Jan 2023 11:09:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37716 "EHLO
+        id S235233AbjAFQNo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Jan 2023 11:13:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235035AbjAFQIz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Jan 2023 11:08:55 -0500
-Received: from dilbert.mork.no (dilbert.mork.no [IPv6:2a01:4f9:c010:a439::d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47D1976236;
-        Fri,  6 Jan 2023 08:08:30 -0800 (PST)
-Received: from canardo.dyn.mork.no ([IPv6:2a01:799:c9a:3200:0:0:0:1])
-        (authenticated bits=0)
-        by dilbert.mork.no (8.15.2/8.15.2) with ESMTPSA id 306G86rB1390826
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-        Fri, 6 Jan 2023 16:08:08 GMT
-Received: from miraculix.mork.no ([IPv6:2a01:799:c9a:3202:549f:9f7a:c9d8:875b])
-        (authenticated bits=0)
-        by canardo.dyn.mork.no (8.15.2/8.15.2) with ESMTPSA id 306G81gH2910666
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-        Fri, 6 Jan 2023 17:08:01 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
-        t=1673021281; bh=IbzAfsJX6p1UR5ah8lPKhO6P5iUb3FesNxCigHYPheo=;
-        h=From:To:Cc:Subject:Date:Message-Id:References:From;
-        b=Rw612A+FNHGg5tXUsd07ltn8q+WRdyzxWzTBkABngiT5shiVZnRcICztHHQuvROrc
-         1WJL6tLKHzZFjchcRWdn3X5Mhf0hF+DzMWkQP3eyWMPPDjOy7aQ+k1m6efQ56/S1HD
-         sTpCz1/hvLDr1AHHzlIAZtIJkPrJaH/jSkk1Zrwc=
-Received: (nullmailer pid 100761 invoked by uid 1000);
-        Fri, 06 Jan 2023 16:07:58 -0000
-From:   =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
-To:     netdev@vger.kernel.org
-Cc:     Hayes Wang <hayeswang@realtek.com>, linux-usb@vger.kernel.org,
-        Oliver Neukum <oliver@neukum.org>,
-        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
-Subject: [PATCH 1/2] r8152: add USB device driver for config selection
-Date:   Fri,  6 Jan 2023 17:07:38 +0100
-Message-Id: <20230106160739.100708-2-bjorn@mork.no>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230106160739.100708-1-bjorn@mork.no>
-References: <20230106160739.100708-1-bjorn@mork.no>
+        with ESMTP id S235621AbjAFQNl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Jan 2023 11:13:41 -0500
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4208976212
+        for <linux-usb@vger.kernel.org>; Fri,  6 Jan 2023 08:13:40 -0800 (PST)
+Received: by mail-il1-x136.google.com with SMTP id d10so1174258ilc.12
+        for <linux-usb@vger.kernel.org>; Fri, 06 Jan 2023 08:13:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eXx0iBa6ViIHYuwColwZmoSS+/fQ6cQ84A5vNmlRsTI=;
+        b=nlcWyiDO7MGfoHvK4pgyUGDpHFFkPAczwmrqEeEsJRsTwZjdSWJtjVqYw9zLOC8C+u
+         cSf2j/RQPoaEOuRHj5KB6lNWm6TvnNI4UGY/QVggn8PGQjUgeafEWDIY7PoZo8+P1XcC
+         HDJpFarnU3SjaSCn4IA00U+BDwMax9Vnv5+a4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eXx0iBa6ViIHYuwColwZmoSS+/fQ6cQ84A5vNmlRsTI=;
+        b=SAKvpCX7Gdry8QNZVfYLwavHkldC7j5gHn1Ax1bJNUK4NE5HBDLk2SxMWvpdxEZLH4
+         d8/C8ozysVZEhV43AoWcYtA++U95C+8sP14Jyj+4cUNSplWpHtA8Uo1sSbEM21F03r5k
+         vf+Xa+uxHWkfEYelhk3HFuvW01Lqxr/1PWc7R6HDKP/abMi176PCnggg1lsldl9KgOnK
+         WSDX00QFY7viiNib0dxNX63EX3xglV/pK4eQjkKC/0M6XcN27A2luiWQ1XqKqiAsfwqh
+         9rGmqSx7brbq4r2rzF+PSiWfJYsRXCQqIZ5nzfKBKtk33bUlke8fFf6fgCgFYkUrIati
+         aL7w==
+X-Gm-Message-State: AFqh2kpayKOclM3fx9IBCBa3E942JTF8yB6zijajqXHfEe8hVQhGEijC
+        84PXN5xfT0uUq4D+0WmuqECbbA==
+X-Google-Smtp-Source: AMrXdXuj7LF9VtW5dlQvsWsu4WiPuQZugekoMZXaUNeIxPHYr71Ul0XbJbv9/eG4Ll/4PMjtHOunPg==
+X-Received: by 2002:a92:c151:0:b0:302:9dde:679d with SMTP id b17-20020a92c151000000b003029dde679dmr40362399ilh.17.1673021619603;
+        Fri, 06 Jan 2023 08:13:39 -0800 (PST)
+Received: from localhost (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
+        by smtp.gmail.com with UTF8SMTPSA id t17-20020a92c911000000b002fa9a1fc421sm478364ilp.45.2023.01.06.08.13.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Jan 2023 08:13:39 -0800 (PST)
+Date:   Fri, 6 Jan 2023 16:13:38 +0000
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Icenowy Zheng <uwu@icenowy.me>,
+        Douglas Anderson <dianders@chromium.org>,
+        stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>
+Subject: Re: [PATCH 1/2] usb: misc: onboard_hub: Invert driver registration
+ order
+Message-ID: <Y7hIsvAG3QWb/PmL@google.com>
+References: <20230105230119.1.I75494ebee7027a50235ce4b1e930fa73a578fbe2@changeid>
+ <Y7g/JA0KZukK+41g@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.7 at canardo
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y7g/JA0KZukK+41g@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Subclassing the generic USB device driver to override the
-default configuration selection regardless of matching interface
-drivers.
+On Fri, Jan 06, 2023 at 04:32:52PM +0100, Greg Kroah-Hartman wrote:
+> On Thu, Jan 05, 2023 at 11:03:28PM +0000, Matthias Kaehlcke wrote:
+> > The onboard_hub 'driver' consists of two drivers, a platform
+> > driver and a USB driver. Currently when the onboard hub driver
+> > is initialized it first registers the platform driver, then the
+> > USB driver. This results in a race condition when the 'attach'
+> > work is executed, which is scheduled when the platform device
+> > is probed. The purpose of fhe 'attach' work is to bind elegible
+> > USB hub devices to the onboard_hub USB driver. This fails if
+> > the work runs before the USB driver has been registered.
+> > 
+> > Register the USB driver first, then the platform driver. This
+> > increases the chances that the onboard_hub USB devices are probed
+> > before their corresponding platform device, which the USB driver
+> > tries to locate in _probe(). The driver already handles this
+> > situation and defers probing if the onboard hub platform device
+> > doesn't exist yet.
+> > 
+> > Cc: stable@vger.kernel.org
+> > Fixes: 8bc063641ceb ("usb: misc: Add onboard_usb_hub driver")
+> > Link: https://lore.kernel.org/lkml/Y6W00vQm3jfLflUJ@hovoldconsulting.com/T/#m0d64295f017942fd988f7c53425db302d61952b4
+> > Reported-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+> > ---
+> > 
+> >  drivers/usb/misc/onboard_usb_hub.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> Does this superseed this thread:
+> 	Link: https://lore.kernel.org/r/20221222022605.v2.1.If5e7ec83b1782e4dffa6ea759416a27326c8231d@changeid
 
-The r815x family devices expose a vendor specific function which
-the r8152 interface driver wants to handle.  This is the preferred
-device mode. Additionally one or more USB class functions are
-usually supported for hosts lacking a vendor specific driver. The
-choice is USB configuration based, with one alternate function per
-configuration.
+This series ("usb: misc: onboard_hub: Invert driver registration order"
+et al) fixes the race condition mentioned in the commit message
+of the other series ("usb: misc: onboard_usb_hub: Don't create platform
+devices for DT nodes without 'vdd-supply'" et al), plus another race
+that was reported later (this patch).
 
-Example device with both NCM and ECM alternate cfgs:
+> or is that also needed?
 
-T:  Bus=02 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  4 Spd=5000 MxCh= 0
-D:  Ver= 3.20 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  3
-P:  Vendor=0bda ProdID=8156 Rev=31.00
-S:  Manufacturer=Realtek
-S:  Product=USB 10/100/1G/2.5G LAN
-S:  SerialNumber=001000001
-C:* #Ifs= 1 Cfg#= 1 Atr=a0 MxPwr=256mA
-I:* If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=00 Driver=r8152
-E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=83(I) Atr=03(Int.) MxPS=   2 Ivl=128ms
-C:  #Ifs= 2 Cfg#= 2 Atr=a0 MxPwr=256mA
-I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=0d Prot=00 Driver=
-E:  Ad=83(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
-I:  If#= 1 Alt= 0 #EPs= 0 Cls=0a(data ) Sub=00 Prot=01 Driver=
-I:  If#= 1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=01 Driver=
-E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-C:  #Ifs= 2 Cfg#= 3 Atr=a0 MxPwr=256mA
-I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=06 Prot=00 Driver=
-E:  Ad=83(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
-I:  If#= 1 Alt= 0 #EPs= 0 Cls=0a(data ) Sub=00 Prot=00 Driver=
-I:  If#= 1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=
-E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+This series is (mostly) independent from the other one, it should
+fix the issue that was reported for the RPi 3 B+. It can be landed
+even if the other one is abandonded.
 
-A problem with this is that Linux will prefer class functions over
-vendor specific functions. Using the above example, Linux defaults
-to cfg #2, running the device in a sub-optimal NCM mode.
+With this series the other one doesn't fix or mitigate any actual
+issue (AFAIK), it would only be an optimization (don't instantiate
+the onboard_hub drivers if they'd do nothing).
 
-Previously we've attempted to work around the problem by
-blacklisting the devices in the ECM class driver "cdc_ether", and
-matching on the ECM class function in the vendor specific interface
-driver. The latter has been used to switch back to the vendor
-specific configuration when the driver is probed for a class
-function.
+> confused
 
-This workaround has several issues;
-- class driver blacklists is additional maintanence cruft in an
-  unrelated driver
-- class driver blacklists prevents users from optionally running
-  the devices in class mode
-- each device needs double match entries in the vendor driver
-- the initial probing as a class function slows down device
-  discovery
-
-Now these issues have become even worse with the introduction of
-firmware supporting both NCM and ECM, where NCM ends up as the
-default mode in Linux. To use the same workaround, we now have
-to blacklist the devices in to two different class drivers and
-add yet another match entry to the vendor specific driver.
-
-This patch implements an alternative workaround strategy -
-independent of the interface drivers.  It avoids adding a
-blacklist to the cdc_ncm driver and will let us remove the
-existing blacklist from the cdc_ether driver.
-
-As an additional bonus, removing the blacklists allow users to
-select one of the other device modes if wanted.
-
-Signed-off-by: Bjørn Mork <bjorn@mork.no>
----
- drivers/net/usb/r8152.c | 113 ++++++++++++++++++++++++++++------------
- 1 file changed, 81 insertions(+), 32 deletions(-)
-
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index a481a1d831e2..66e70b5f8417 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -9618,6 +9618,9 @@ static int rtl8152_probe(struct usb_interface *intf,
- 	if (version == RTL_VER_UNKNOWN)
- 		return -ENODEV;
- 
-+	if (intf->cur_altsetting->desc.bInterfaceClass != USB_CLASS_VENDOR_SPEC)
-+		return -ENODEV;
-+
- 	if (!rtl_vendor_mode(intf))
- 		return -ENODEV;
- 
-@@ -9814,42 +9817,34 @@ static void rtl8152_disconnect(struct usb_interface *intf)
- 	}
- }
- 
--#define REALTEK_USB_DEVICE(vend, prod)	{ \
--	USB_DEVICE_INTERFACE_CLASS(vend, prod, USB_CLASS_VENDOR_SPEC), \
--}, \
--{ \
--	USB_DEVICE_AND_INTERFACE_INFO(vend, prod, USB_CLASS_COMM, \
--			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE), \
--}
--
- /* table of devices that work with this driver */
- static const struct usb_device_id rtl8152_table[] = {
- 	/* Realtek */
--	REALTEK_USB_DEVICE(VENDOR_ID_REALTEK, 0x8050),
--	REALTEK_USB_DEVICE(VENDOR_ID_REALTEK, 0x8053),
--	REALTEK_USB_DEVICE(VENDOR_ID_REALTEK, 0x8152),
--	REALTEK_USB_DEVICE(VENDOR_ID_REALTEK, 0x8153),
--	REALTEK_USB_DEVICE(VENDOR_ID_REALTEK, 0x8155),
--	REALTEK_USB_DEVICE(VENDOR_ID_REALTEK, 0x8156),
-+	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x8050) },
-+	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x8053) },
-+	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x8152) },
-+	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x8153) },
-+	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x8155) },
-+	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x8156) },
- 
- 	/* Microsoft */
--	REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07ab),
--	REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07c6),
--	REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x0927),
--	REALTEK_USB_DEVICE(VENDOR_ID_SAMSUNG, 0xa101),
--	REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x304f),
--	REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x3054),
--	REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x3062),
--	REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x3069),
--	REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x3082),
--	REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x7205),
--	REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x720c),
--	REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x7214),
--	REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x721e),
--	REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0xa387),
--	REALTEK_USB_DEVICE(VENDOR_ID_LINKSYS, 0x0041),
--	REALTEK_USB_DEVICE(VENDOR_ID_NVIDIA,  0x09ff),
--	REALTEK_USB_DEVICE(VENDOR_ID_TPLINK,  0x0601),
-+	{ USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07ab) },
-+	{ USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07c6) },
-+	{ USB_DEVICE(VENDOR_ID_MICROSOFT, 0x0927) },
-+	{ USB_DEVICE(VENDOR_ID_SAMSUNG, 0xa101) },
-+	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x304f) },
-+	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x3054) },
-+	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x3062) },
-+	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x3069) },
-+	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x3082) },
-+	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x7205) },
-+	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x720c) },
-+	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x7214) },
-+	{ USB_DEVICE(VENDOR_ID_LENOVO,  0x721e) },
-+	{ USB_DEVICE(VENDOR_ID_LENOVO,  0xa387) },
-+	{ USB_DEVICE(VENDOR_ID_LINKSYS, 0x0041) },
-+	{ USB_DEVICE(VENDOR_ID_NVIDIA,  0x09ff) },
-+	{ USB_DEVICE(VENDOR_ID_TPLINK,  0x0601) },
- 	{}
- };
- 
-@@ -9869,7 +9864,61 @@ static struct usb_driver rtl8152_driver = {
- 	.disable_hub_initiated_lpm = 1,
- };
- 
--module_usb_driver(rtl8152_driver);
-+static int rtl8152_cfgselector_probe(struct usb_device *udev)
-+{
-+	struct usb_host_config *c;
-+	int i, num_configs;
-+
-+	/* The vendor mode is not always config #1, so to find it out. */
-+	c = udev->config;
-+	num_configs = udev->descriptor.bNumConfigurations;
-+	for (i = 0; i < num_configs; (i++, c++)) {
-+		struct usb_interface_descriptor	*desc = NULL;
-+
-+		if (!c->desc.bNumInterfaces)
-+			continue;
-+		desc = &c->intf_cache[0]->altsetting->desc;
-+		if (desc->bInterfaceClass == USB_CLASS_VENDOR_SPEC)
-+			break;
-+	}
-+
-+	if (i == num_configs)
-+		return -ENODEV;
-+
-+	if (usb_set_configuration(udev, c->desc.bConfigurationValue)) {
-+		dev_err(&udev->dev, "Failed to set configuration %d\n",
-+			c->desc.bConfigurationValue);
-+		return -ENODEV;
-+	}
-+
-+	return 0;
-+}
-+
-+static struct usb_device_driver rtl8152_cfgselector_driver = {
-+	.name =		MODULENAME "-cfgselector",
-+	.probe =	rtl8152_cfgselector_probe,
-+	.id_table =	rtl8152_table,
-+	.generic_subclass = 1,
-+};
-+
-+static int __init rtl8152_driver_init(void)
-+{
-+	int ret;
-+
-+	ret = usb_register_device_driver(&rtl8152_cfgselector_driver, THIS_MODULE);
-+	if (ret)
-+		return ret;
-+	return usb_register(&rtl8152_driver);
-+}
-+
-+static void __exit rtl8152_driver_exit(void)
-+{
-+	usb_deregister(&rtl8152_driver);
-+	usb_deregister_device_driver(&rtl8152_cfgselector_driver);
-+}
-+
-+module_init(rtl8152_driver_init);
-+module_exit(rtl8152_driver_exit);
- 
- MODULE_AUTHOR(DRIVER_AUTHOR);
- MODULE_DESCRIPTION(DRIVER_DESC);
--- 
-2.30.2
-
+Sorry, hope this clarifies things a bit.
