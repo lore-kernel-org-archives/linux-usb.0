@@ -2,54 +2,52 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2642CC677F1
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Jan 2023 23:18:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 670B5C677F1
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Jan 2023 23:18:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235066AbjAJXSI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Jan 2023 18:18:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42726 "EHLO
+        id S235583AbjAJXSf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Jan 2023 18:18:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235298AbjAJXR6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Jan 2023 18:17:58 -0500
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5513C209;
-        Tue, 10 Jan 2023 15:17:57 -0800 (PST)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-15b9c93848dso5525785fac.1;
-        Tue, 10 Jan 2023 15:17:57 -0800 (PST)
+        with ESMTP id S234719AbjAJXSC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Jan 2023 18:18:02 -0500
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D62DEE0AD;
+        Tue, 10 Jan 2023 15:18:01 -0800 (PST)
+Received: by mail-ot1-f46.google.com with SMTP id v15-20020a9d69cf000000b006709b5a534aso7893995oto.11;
+        Tue, 10 Jan 2023 15:18:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4lkFM/UpYCvsam9zyZ1K3XdTYML8CgB63Y9WsqByvPo=;
-        b=CMTBQgEFzMcPw9PUjwu0ZH1NcyagRpVuTDO+pFjEwtVlRcewzC1hd+8M/eJVauFdZr
-         eEn32ZOzyA2rrj3VOmPvJYVzOqlpGWZHOuKlnyVirXF1BkW9pBew/ESMk3GqqaG6j1O4
-         wsSHZ6m7kVXFwW3HbK28drLRl+rMIUNQpY97qoxK9LiubA2GX5BGl6zV7C8IN814x6vo
-         E0hMDtJ2nethxOWcpV+nlulJpKTL2aqfhtYq8sX1ktCLvg5GBcEGI6Q5JG34d+MbZZDN
-         BAb1xklAPLvcTuB5G225wUiQa6hTbdJ7RfbVLX8HDO9toDLdsiOd9GtF7xgDhPYS02Pi
-         Ml6g==
-X-Gm-Message-State: AFqh2kpFEOmUZNFICkJ29T6EP3Ni+ZSYWusaMFF7RoVk0AC19HYs2djs
-        7NKGfEHvdNObt4PPa5HMcA==
-X-Google-Smtp-Source: AMrXdXtGIZMyMSZw03e+bmOg9Y8Oj/r4cyRb0WnmOGtKu1/gqpAeEMcs5kC4BksNyAYUlDV9DBsVbQ==
-X-Received: by 2002:a05:6871:460f:b0:14f:a68c:7c6a with SMTP id nf15-20020a056871460f00b0014fa68c7c6amr308944oab.20.1673392676411;
-        Tue, 10 Jan 2023 15:17:56 -0800 (PST)
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0PipTcdGJi3JzFB6MCvSNks1FIzBieh7o/0BWQgxG5o=;
+        b=Fecor3PEJOafFxcb1/BnKvcwdyIYmBabmXCqrECSp+j7Hd5FY/bKJFRmrnbzpzJp5h
+         bI6MJ0XPkiw5nn6lIpBH4ddXFRAcHL0l0E0sawbVEotuRcbVYQmjUMYtvyLzWMG33fpd
+         TIeCeqAE5beNPRZfUr02vKEqpB1FJPUMei+NXXYZyZUluvYqthwApwONB9cbnbrgrpVt
+         XTvWq5AqAL5Zdt+TcKX9uH/C/MqO/me5lKOxdFIoybiVGfuf1cPw7ccgC277bD/cSXOm
+         OAx2udHfECpdyab6ISXY5yHg17Fq8Sox0wwlP0MLYxKzG11Of/g520t1Fq5zDUR6CD5z
+         tqdw==
+X-Gm-Message-State: AFqh2kr/b7unuFEGD4X6f8fjFLEhmMk3Gudmqe91Ykm93fkjMBGX1pu7
+        31AXXskWmtNcZeOLHZ0trWWRg0LorQ==
+X-Google-Smtp-Source: AMrXdXvTxhp8j2XHzYR8yhUyqDawXHa82JUo3VRja1xqQmky8ZknrJFW42XywhUnepnso8RXS9rv6A==
+X-Received: by 2002:a9d:480b:0:b0:670:9c6b:e684 with SMTP id c11-20020a9d480b000000b006709c6be684mr31539339otf.22.1673392681072;
+        Tue, 10 Jan 2023 15:18:01 -0800 (PST)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id y9-20020a056871010900b00143065d3e99sm6496042oab.5.2023.01.10.15.17.55
+        by smtp.gmail.com with ESMTPSA id 42-20020a9d012d000000b006619295af60sm2328250otu.70.2023.01.10.15.18.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jan 2023 15:17:56 -0800 (PST)
-Received: (nullmailer pid 3145655 invoked by uid 1000);
+        Tue, 10 Jan 2023 15:18:00 -0800 (PST)
+Received: (nullmailer pid 3145664 invoked by uid 1000);
         Tue, 10 Jan 2023 23:17:55 -0000
 From:   Rob Herring <robh@kernel.org>
-Subject: [PATCH 0/4] dt-bindings: usb: Convert some more simple OHCI/EHCI
- bindings
-Date:   Tue, 10 Jan 2023 17:17:44 -0600
-Message-Id: <20230110-dt-usb-v1-0-8e366e326513@kernel.org>
+Date:   Tue, 10 Jan 2023 17:17:47 -0600
+Subject: [PATCH 4/4] dt-bindings: usb: Convert Nuvoton EHCI to DT schema
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIABjyvWMC/x2MywqEMAwAf0VyNtAHruKviIe2xjUgVRoVQfz3D
- XucYZgHhAqTQF89UOhi4S0r2LqCtIT8JeRJGZxx3lhrcDrwlIg2fXzbNi50PoLGMQhhLCGnRfN
- 8rqvKvdDM9/8+jO/7AzcoPZdtAAAA
+Message-Id: <20230110-dt-usb-v1-4-8e366e326513@kernel.org>
+References: <20230110-dt-usb-v1-0-8e366e326513@kernel.org>
+In-Reply-To: <20230110-dt-usb-v1-0-8e366e326513@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Michael Ellerman <mpe@ellerman.id.au>,
@@ -69,35 +67,55 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The 'ohci-usb' compatible is another 'generic' compatible for OHCI, but 
-isn't documented with a schema. Let's add it to generic-ohci.yaml 
-schema. While looking at this, I found a few other USB host bindings 
-which are simple enough to use the 'generic' schemas.
+The Nuvoton EHCI binding is just some compatible strings, so add it to the
+generic-ehci.yaml schema.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
-Rob Herring (4):
-      dt-bindings: usb: Remove obsolete brcm,bcm3384-usb.txt
-      dt-bindings: usb: Convert multiple "usb-ohci" bindings to DT schema
-      dt-bindings: usb: Convert Marvell Orion EHCI to DT schema
-      dt-bindings: usb: Convert Nuvoton EHCI to DT schema
+ .../devicetree/bindings/usb/generic-ehci.yaml        |  2 ++
+ .../devicetree/bindings/usb/npcm7xx-usb.txt          | 20 --------------------
+ 2 files changed, 2 insertions(+), 20 deletions(-)
 
- .../devicetree/bindings/powerpc/nintendo/wii.txt   | 10 -------
- .../devicetree/bindings/usb/brcm,bcm3384-usb.txt   | 11 -------
- .../devicetree/bindings/usb/ehci-orion.txt         | 22 --------------
- .../devicetree/bindings/usb/generic-ehci.yaml      |  4 +++
- .../devicetree/bindings/usb/generic-ohci.yaml      | 31 ++++++++++++++++---
- .../devicetree/bindings/usb/npcm7xx-usb.txt        | 20 -------------
- Documentation/devicetree/bindings/usb/ohci-nxp.txt | 24 ---------------
- .../devicetree/bindings/usb/ohci-omap3.txt         | 15 ----------
- Documentation/devicetree/bindings/usb/pxa-usb.txt  |  2 +-
- .../devicetree/bindings/usb/spear-usb.txt          | 35 ----------------------
- 10 files changed, 32 insertions(+), 142 deletions(-)
----
-base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
-change-id: 20230110-dt-usb-1c637752a83b
+diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+index 85e41609b09b..1687c7e9302b 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+@@ -76,6 +76,8 @@ properties:
+           - generic-ehci
+           - marvell,armada-3700-ehci
+           - marvell,orion-ehci
++          - nuvoton,npcm750-ehci
++          - nuvoton,npcm845-ehci
+           - usb-ehci
+ 
+   reg:
+diff --git a/Documentation/devicetree/bindings/usb/npcm7xx-usb.txt b/Documentation/devicetree/bindings/usb/npcm7xx-usb.txt
+deleted file mode 100644
+index 352a0a1e2f76..000000000000
+--- a/Documentation/devicetree/bindings/usb/npcm7xx-usb.txt
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Nuvoton NPCM7XX SoC USB controllers:
+------------------------------
+-
+-EHCI:
+------
+-
+-Required properties:
+-- compatible: should be one of
+-    "nuvoton,npcm750-ehci"
+-    "nuvoton,npcm845-ehci"
+-- interrupts: Should contain the EHCI interrupt
+-- reg:        Physical address and length of the register set for the device
+-
+-Example:
+-
+-	ehci1: usb@f0806000 {
+-		compatible = "nuvoton,npcm750-ehci";
+-		reg = <0xf0806000 0x1000>;
+-		interrupts = <0 61 4>;
+-	};
 
-Best regards,
 -- 
-Rob Herring <robh@kernel.org>
+2.39.0
 
