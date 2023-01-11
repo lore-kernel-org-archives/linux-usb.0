@@ -2,221 +2,673 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8750C678D6
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Jan 2023 13:41:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CBF5C678D8
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Jan 2023 13:51:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237682AbjAKNlX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Jan 2023 08:41:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33054 "EHLO
+        id S236486AbjAKNuv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Jan 2023 08:50:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238397AbjAKNkv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Jan 2023 08:40:51 -0500
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2055.outbound.protection.outlook.com [40.107.241.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E50A51B1F6
-        for <linux-usb@vger.kernel.org>; Wed, 11 Jan 2023 05:39:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kGhMXyShzyHR8ky6QxDm0snDLyg33g9il9hUAdXvjwW6midLpLXTiOn5EkB25UPJH9Ykoci7FC3mGgXzqFglgCrWpGzmYoPmvLbl1fK+hlLZEd1NarPOD8+C/xiIm92C2W4TqbOKsrCjqYccRK6ov44NyYh3y0Cq2ApiJJZvhr07AqU9JK2PVxz1YFXEhH+or6wsO67EwJSx95YCv0hIXNICgtX8qM+2ZxPaR/rmPBeLo3hXaVeZQX1BYZbbQbSWPeMpsjEucaaplYP3nppFgYBt1oOLKsNTPtpGVNHHX+EEadVcbjBGRg/RJgwOaCXLA4BO4D/oKSCFjvbgeDOG4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BAjrSro0v1p6sc7zaJX/vBMrX3oHF6uwTWS2suTiooA=;
- b=gdLISoSVPieqrfKehU9glBD+e1g6GC0OjGF8U0gb3+gBvUovUe9gOeYnvb2nXEVA75Gx6qNNdHFyMAqZATRHHBT0lMMfrscojmWuHBNcqvbK9fjTZ+nTA3edj/nD85K/TYmxGLzWx8h/vTW+NyKL3nnQgAgbkkbNvnxSBbmlNuQvOBAPANeNEdUeMWxvtWUKaOJMToR35sU7+HeSWUg7wMY9y0Cw1MHx6eFKbPPfdCsjLtuIVO7OHI+HeZu0LopUKy54M7BZ65v5jTk+hH+7JHYWoyMpPWOecXPfTLHUr2pplY0csOzCsrR1EAx3cYQR/+dqa7t14IdK67T0Td6DVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BAjrSro0v1p6sc7zaJX/vBMrX3oHF6uwTWS2suTiooA=;
- b=ZvfKzyfJTyoc96Q1GFBn1evAXvFLFFQHQ3QchgUR5fM5mHRCm1eWGgz6K1KeNCyNantByODNQrVw2v5iZ1K0vkn7CugtvPwfJ75pLox2+0yx1lXD4cKiB/E4yb/AyrjT+WfpB5GeYVuUfBx6yqpgPHTRDtEdL4HC/I5WF/Vu0vE=
-Received: from DB7PR04MB4505.eurprd04.prod.outlook.com (2603:10a6:5:39::26) by
- AS8PR04MB8964.eurprd04.prod.outlook.com (2603:10a6:20b:42f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
- 2023 13:39:42 +0000
-Received: from DB7PR04MB4505.eurprd04.prod.outlook.com
- ([fe80::f874:ee07:56fb:cbe0]) by DB7PR04MB4505.eurprd04.prod.outlook.com
- ([fe80::f874:ee07:56fb:cbe0%6]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
- 13:39:42 +0000
-From:   Xu Yang <xu.yang_2@nxp.com>
-To:     Guenter Roeck <linux@roeck-us.net>,
-        "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>
-CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        dl-linux-imx <linux-imx@nxp.com>, Jun Li <jun.li@nxp.com>
-Subject: RE: [EXT] Re: [PATCH] usb: typec: tcpm: fix create duplicate
- source/sink-capabilities file
-Thread-Topic: [EXT] Re: [PATCH] usb: typec: tcpm: fix create duplicate
- source/sink-capabilities file
-Thread-Index: AQHZEP7hbKNmhhpCvEyFs9PZaT80zK5v+DIAgAAKJQCAJV9aMIAChUUAgAF0qtA=
-Date:   Wed, 11 Jan 2023 13:39:42 +0000
-Message-ID: <DB7PR04MB45054764DF733F1CA1EA99558CFC9@DB7PR04MB4505.eurprd04.prod.outlook.com>
-References: <20221216033150.2683718-1-xu.yang_2@nxp.com>
- <acf0485c-8061-ef12-83d9-c3b22dc235ad@roeck-us.net>
- <PA4PR04MB959190B619279B290630D8018CE69@PA4PR04MB9591.eurprd04.prod.outlook.com>
- <DB7PR04MB4505A0A29918EC71FDF5C8BC8CFE9@DB7PR04MB4505.eurprd04.prod.outlook.com>
- <c69a0f75-f8ca-4a91-f363-eb74bc961895@roeck-us.net>
-In-Reply-To: <c69a0f75-f8ca-4a91-f363-eb74bc961895@roeck-us.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB7PR04MB4505:EE_|AS8PR04MB8964:EE_
-x-ms-office365-filtering-correlation-id: c7b27c0b-7b81-4e03-c53d-08daf3d94b2d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6qebECrO2lSZo9YMrUfJZZnvv2LoBDvbvXq/8qcQ8VEmU5HT13+ykuEltHZbKLce/UkJEtJfD2mdTg2+cXAhPSXOAYCCy92IgwZRyVImweg4PfEhAZaX+oXofGkexD2bGw/bBCLirqXB7YAilNlcg3U3Sh8laMvxdZ6UfOK4Pp50RDZeAs6anFylX3zPxBTmKo7+ws4hQE9f7bZjRrPth8KK6dCeLAr0HCWcyB+AnxtEiOUPDRP3kjzfUnvNQ8laDPblblkGEFTeT5ZDFRysL1UlA8guKFa6SIwOzmdVjBd3pXA9ALioWZrsmgf4W+GzoZ8EpcoAFYCgqDsPJtRNvQ74m6Khs/9u2cf86xFNAYinJQtw2oARfx2r7sIPq01C2eOtf8sHWGUoOzwN5k7Q6pvOhqec1JkA4mK8KZamAlIK2T8ijsyrgHqndIYixLheUQNZt+iNL6p6678GQMH5NidL59duGU1P44733qlIKU/7+HrHLdiuYAr/3IFv3PUzSeqNtBozaGFIBZlOiYEe+gEzjRiA2CPzCLsBgtlMhKmkdMgPdET7NbpcUhk17HTcLcChJzyg+PjhoJ0w897c2t9tawuRdORnExmsQCfDheEtiyg8DpJcq9N+hiyJYSJsufbUx0v8aDR+KoJ+0XJhqUBLbzJEveNRjO9/eYPTHdTFQCH+/Br0rz++QFYAKWoRCGJpXBv9OkYE3FezlzgAAwGoV0CgtzYjVNYPQcqpB44=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR04MB4505.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(396003)(366004)(39860400002)(136003)(451199015)(2906002)(83380400001)(9686003)(66446008)(66556008)(66476007)(64756008)(66946007)(33656002)(55016003)(5660300002)(122000001)(52536014)(8936002)(53546011)(186003)(26005)(6506007)(7696005)(478600001)(38100700002)(76116006)(41300700001)(8676002)(54906003)(110136005)(86362001)(38070700005)(316002)(4326008)(71200400001)(8406004);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MTRqN3BucHNuZkw4Z1QvRUtBUXpmeDh3bUxzUm9nQ1E3TkFCbWk5Ni9KK1Q1?=
- =?utf-8?B?NDhBN3hSTUk5Ulk0WUFTZ3RUci81c2R2a2dKU0xxUWNqNktNZ1J3WElxRDJv?=
- =?utf-8?B?Rk5WQUh2aFU0dmhDcnJUY25IaUJFdThnRzdYMVNRWmFqMzhBaVBmV1RCZFMx?=
- =?utf-8?B?U1duRXd0cm55VjJlL0J3OUloMkY2RXRFbkJqQitkU3hmR0xYUGVLNnJsQWVM?=
- =?utf-8?B?YzZEUTdZdUdYTzRRWksrVkFLc0NJTmVZMHc3RU1uUTdVU0ZTdXd2Q0w1a3Zn?=
- =?utf-8?B?QTg2V0Y1QmZwTkI2QjZyd3pOQ3l3OEtUUk9CUm5seGJINVdiL29HakUyeFNN?=
- =?utf-8?B?dE5YaDdoaTJwZTljdDlqVDhrVWZ5RlVIUXptVWNlTjJJYTJ4MnRKVm5QdVBX?=
- =?utf-8?B?ZWRvMExmNGFTb2pvQ1luVDAyYUdDZkl1YWVLdnJpWTl6VlRDVjNmZzJ4cGMx?=
- =?utf-8?B?TFowRUVwSDA4ZlZoUldOdkJ6RitSVE5RcGx4NUsvaTFrVkxzNFVMSEFHaUVr?=
- =?utf-8?B?eXp0RHZwREFvaEUxSTNRbXVpWGlWMHdMVE1rNU0yTTdWekFjRGVXVEVhUFpj?=
- =?utf-8?B?ZnVLc1VEcC9tZUdiVklRcVFtTXRPbVI4b1IxUW03S2VOcDJJUTBwVWJCYzdT?=
- =?utf-8?B?WGI2YTVlRVNtYlNoU05BNUdWbkFCQi9JeTM5dFZQZlB3QzVUclVoNzJBUkVt?=
- =?utf-8?B?MkZma0M0Q1JZU0RZQStJcjlkL09PazFwWXR4R2xtRk9xczRhZ0pIQWhRdDh3?=
- =?utf-8?B?aCtvcmI4em8zYTEvNWZOYTVhYmtlTnNSZUlxMDRGT3EzMDhmR3ZGRlduUGsr?=
- =?utf-8?B?UU1pMmtHakkveEN6M2J4Y1ZLekZDeFNwMHdBNXlvdnpNd2VyM0J6SGRnQXcv?=
- =?utf-8?B?MnhkenUxN3lzLzFyOWFhTHBqSG1hajNoalV5SHd2eDE2ZTJsNlZ0NWRBdDl3?=
- =?utf-8?B?NkdTMUY4RTZlZnRhYytCRnUwTVg4R0I0djc4Q2k1T05scDBUbGo3OEo0WGd0?=
- =?utf-8?B?UFVuOUtRS0lwamQ4dFVmeU12NTZSZWJpeGtZWHEwdWYveW5YM25rTm90aDYv?=
- =?utf-8?B?cHBNMDBwaHdRdW50WEdSRUl6c21CMmdTS1MrTmtvU09RYmNOdWRPRkFjZzlu?=
- =?utf-8?B?MGttelowOGxwS1YyaTNndnJHSWlraDdjVlR2T203eWh1UDcrbGt6MUlKREtw?=
- =?utf-8?B?RjhGeXJsNEtZSnFoY3Jlc2t2VzY4RVBhOU1qR25OWVJNUWY3OWkyTTl5bEpK?=
- =?utf-8?B?dnZmZldPanNNZ20welNyNVl3b1dXK2VSYnZGZ2V6bjE2elBQQXJzWVA5WWxM?=
- =?utf-8?B?V0R1ak9vRi9hWVhlSHNYODNCVXFpNFpNUmpiWTA3bmxKRm5DVnExa1JUZzA5?=
- =?utf-8?B?emR4MG8rZ2lHR2k5Q2ZCVE1mTmF2YlA4VEtscjRvWDI5VmtJcU9FLzVHencx?=
- =?utf-8?B?WHlkd0puQWxGc0o4akN5aGwwd0tQWmsrZlA4cTEzd2swSFBlN2JiakcwSmw5?=
- =?utf-8?B?RTRMaWY1b21DZEY2SnFEQ1BjVlVaRkcveEZMSVZNczd5ai9QSmEzYjROOHRn?=
- =?utf-8?B?dkRiOG9IZGFGQWtid0wzVEllUU54dTF2Tm5NVjhFTUhIenZlV096VldpVE93?=
- =?utf-8?B?K2pMd1FhUjdOMUZtNUR6cFFPZHhNQUxpREdwRFlNUnV3MzVsQUREWEU0OE84?=
- =?utf-8?B?Qjljcno5SEE1aWZVdzhtYmdpaFlDd3BuUEpoVUNRMVlQV3NLM011MXNCMVA4?=
- =?utf-8?B?M20ra3I4ZDRWSFBqS0RYYXY3MVlTNzl2Q0E2cm12RWU4ditzK2JjUUpUbUlV?=
- =?utf-8?B?M3NaTXhzSjVGZ2lLWm5xZHJrYXg4THVTQ0x1STBkZjUvV3JFT0MwOENKcTU4?=
- =?utf-8?B?OWx2ZHNvdEJGYVlYK1VKR0JUWER1U2t2MWR3bE93b0lhNlUzaHA2dlhIZENv?=
- =?utf-8?B?SlBSaEp3ek10dXdzOVdjWkpyZnB3MXM5OW12UUFlbUJyb1FSNEg2OU94eTFY?=
- =?utf-8?B?VHpFZmVWdGF3K1JHaHpYVFVxVkg1T2llT1hBZW1SdnVLcmhMNHhIMENCNm1Y?=
- =?utf-8?B?WTV1UWp0UmdpMVpZYUVwSmtQSGFVQnRJRitxWDZlcUxjdDgvdDl3VU9NampJ?=
- =?utf-8?Q?7CyU=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S239134AbjAKNdg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Jan 2023 08:33:36 -0500
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05BA01B9F3;
+        Wed, 11 Jan 2023 05:32:42 -0800 (PST)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 740041BF20D;
+        Wed, 11 Jan 2023 13:32:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1673443961;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=fhJfy58Wim3I6Uy+3tQwAhlF/9yDhsCxzNqEc6EuAvA=;
+        b=jG7wlacqv9Y4oZQ7Dgp/NGAz9LLTYwSrgd8SsHXtcdljEJlU4npZXLFXbmV+i6GLjVTgzz
+        9dfk2zKK+XffX4XxYwrQI2zzDS+r8tgzF3HnGjyKO0sYe5NYR7URxyujI3YWeXo1po/2kf
+        e4RM4uDN8loTbKTsdVZ2kOp++9X1WSHir11VDASqZlzecnczCP3IBfbdNLcLkIZ4YgObpz
+        BHRcd8ji7zuNG/47lbkulphOSIE7DMqWSpWQbI5d+xZJlu5hKHsRH3TapnepGofg8mGHxs
+        NeEd6je9erlp8UL67B1ZZdlsNedS0Lms6h83S3Bu+feUWSCBAzGQda5Wza2/nA==
+Date:   Wed, 11 Jan 2023 14:32:35 +0100
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        Len Brown <lenb@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Wolfram Sang <wsa@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sean Young <sean@mess.org>, Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Ming Lei <ming.lei@redhat.com>,
+        Jilin Yuan <yuanjilin@cdjrlc.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 05/16] driver core: make struct device_type.uevent()
+ take a const *
+Message-ID: <Y766c6QyOaG8oQlu@mail.local>
+References: <20230111113018.459199-1-gregkh@linuxfoundation.org>
+ <20230111113018.459199-6-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR04MB4505.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7b27c0b-7b81-4e03-c53d-08daf3d94b2d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jan 2023 13:39:42.0777
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lF9e0QVoHPCvHGSMumtyujBy72+L5xqcfbJQpCiI5V0PTqetv2MudzRF+1yIhYBG9F0NwMfhlb3P61LfhGHRrA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8964
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230111113018.459199-6-gregkh@linuxfoundation.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBHdWVudGVyIFJvZWNrIDxncm9l
-Y2s3QGdtYWlsLmNvbT4gT24gQmVoYWxmIE9mIEd1ZW50ZXIgUm9lY2sNCj4gU2VudDogVHVlc2Rh
-eSwgSmFudWFyeSAxMCwgMjAyMyAxMTowMiBQTQ0KPiBUbzogWHUgWWFuZyA8eHUueWFuZ18yQG54
-cC5jb20+OyBoZWlra2kua3JvZ2VydXNAbGludXguaW50ZWwuY29tDQo+IENjOiBncmVna2hAbGlu
-dXhmb3VuZGF0aW9uLm9yZzsgbGludXgtdXNiQHZnZXIua2VybmVsLm9yZzsgZGwtbGludXgtaW14
-IDxsaW51eC1pbXhAbnhwLmNvbT47IEp1biBMaSA8anVuLmxpQG54cC5jb20+DQo+IFN1YmplY3Q6
-IFJlOiBbRVhUXSBSZTogW1BBVENIXSB1c2I6IHR5cGVjOiB0Y3BtOiBmaXggY3JlYXRlIGR1cGxp
-Y2F0ZSBzb3VyY2Uvc2luay1jYXBhYmlsaXRpZXMgZmlsZQ0KPiANCj4gQ2F1dGlvbjogRVhUIEVt
-YWlsDQo+IA0KPiBPbiAxLzgvMjMgMTY6MzUsIFh1IFlhbmcgd3JvdGU6DQo+ID4gSGksDQo+ID4N
-Cj4gPj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogWHUgWWFuZw0KPiA+
-PiBTZW50OiBGcmlkYXksIERlY2VtYmVyIDE2LCAyMDIyIDI6NDEgUE0NCj4gPj4gVG86IEd1ZW50
-ZXIgUm9lY2sgPGxpbnV4QHJvZWNrLXVzLm5ldD47IGhlaWtraS5rcm9nZXJ1c0BsaW51eC5pbnRl
-bC5jb20NCj4gPj4gQ2M6IGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnOyBsaW51eC11c2JAdmdl
-ci5rZXJuZWwub3JnOyBkbC1saW51eC1pbXggPGxpbnV4LWlteEBueHAuY29tPjsgSnVuIExpIDxq
-dW4ubGlAbnhwLmNvbT4NCj4gPj4gU3ViamVjdDogUkU6IFtFWFRdIFJlOiBbUEFUQ0hdIHVzYjog
-dHlwZWM6IHRjcG06IGZpeCBjcmVhdGUgZHVwbGljYXRlIHNvdXJjZS9zaW5rLWNhcGFiaWxpdGll
-cyBmaWxlDQo+ID4+DQo+ID4+IEhpIEd1ZW50ZXIsDQo+ID4+DQo+ID4+PiAtLS0tLU9yaWdpbmFs
-IE1lc3NhZ2UtLS0tLQ0KPiA+Pj4gRnJvbTogR3VlbnRlciBSb2VjayA8Z3JvZWNrN0BnbWFpbC5j
-b20+IE9uIEJlaGFsZiBPZiBHdWVudGVyIFJvZWNrDQo+ID4+PiBTZW50OiBGcmlkYXksIERlY2Vt
-YmVyIDE2LCAyMDIyIDE6MTMgUE0NCj4gPj4+IFRvOiBYdSBZYW5nIDx4dS55YW5nXzJAbnhwLmNv
-bT47IGhlaWtraS5rcm9nZXJ1c0BsaW51eC5pbnRlbC5jb20NCj4gPj4+IENjOiBncmVna2hAbGlu
-dXhmb3VuZGF0aW9uLm9yZzsgbGludXgtdXNiQHZnZXIua2VybmVsLm9yZzsgZGwtbGludXgtaW14
-IDxsaW51eC1pbXhAbnhwLmNvbT47IEp1biBMaSA8anVuLmxpQG54cC5jb20+DQo+ID4+PiBTdWJq
-ZWN0OiBbRVhUXSBSZTogW1BBVENIXSB1c2I6IHR5cGVjOiB0Y3BtOiBmaXggY3JlYXRlIGR1cGxp
-Y2F0ZSBzb3VyY2Uvc2luay1jYXBhYmlsaXRpZXMgZmlsZQ0KPiA+Pj4NCj4gPj4+IENhdXRpb246
-IEVYVCBFbWFpbA0KPiA+Pj4NCj4gPj4+IE9uIDEyLzE1LzIyIDE5OjMxLCBYdSBZYW5nIHdyb3Rl
-Og0KPiA+Pj4+IEFmdGVyIHNvZnQgcmVzZXQgaGFzIGNvbXBsZXRlZCwgYW4gRXhwbGljaXQgQ29u
-dHJhY3QgbmVnb3RpYXRpb24gb2NjdXJzLg0KPiA+Pj4+IFRoZSBzaW5rIGRldmljZSB3aWxsIHJl
-Y2VpdmUgc291cmNlIGNhcGFiaWxpdHlzIGFnYWluLiBUaGlzIHdpbGwgY2F1c2UNCj4gPj4+PiBh
-IGR1cGxpY2F0ZSBzb3VyY2UtY2FwYWJpbGl0aWVzIGZpbGUgYmUgY3JlYXRlZC4NCj4gPj4+Pg0K
-PiA+Pj4+IEFuZCB0aGUga2VybmVsIHdpbGwgZHVtcDoNCj4gPj4+PiBzeXNmczogY2Fubm90IGNy
-ZWF0ZSBkdXBsaWNhdGUgZmlsZW5hbWUgJy9kZXZpY2VzL3ZpcnR1YWwvdXNiX3Bvd2VyX2RlbGl2
-ZXJ5L3BkMS9zb3VyY2UtY2FwYWJpbGl0aWVzJw0KPiA+Pj4+DQo+ID4+Pj4gVGhpcyB3aWxsIHVu
-cmVnaXN0ZXIgZXhpc3RpbmcgY2FwYWJpbGl0aWVzIGJlZm9yZSByZWdpc3RlciBuZXcgb25lLg0K
-PiA+Pj4+DQo+ID4+Pj4gRml4ZXM6IDgyMDNkMjY5MDVlZSAoInVzYjogdHlwZWM6IHRjcG06IFJl
-Z2lzdGVyIFVTQiBQb3dlciBEZWxpdmVyeSBDYXBhYmlsaXRpZXMiKQ0KPiA+Pj4+IGNjOiA8c3Rh
-YmxlQHZnZXIua2VybmVsLm9yZz4NCj4gPj4+PiBTaWduZWQtb2ZmLWJ5OiBYdSBZYW5nIDx4dS55
-YW5nXzJAbnhwLmNvbT4NCj4gPj4+PiAtLS0NCj4gPj4+PiAgICBkcml2ZXJzL3VzYi90eXBlYy90
-Y3BtL3RjcG0uYyB8IDYgKysrKysrDQo+ID4+Pj4gICAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0
-aW9ucygrKQ0KPiA+Pj4+DQo+ID4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL3R5cGVjL3Rj
-cG0vdGNwbS5jIGIvZHJpdmVycy91c2IvdHlwZWMvdGNwbS90Y3BtLmMNCj4gPj4+PiBpbmRleCA5
-MDRjN2I0Y2UyZjAuLjAyZDhhNzA0ZGI5NSAxMDA2NDQNCj4gPj4+PiAtLS0gYS9kcml2ZXJzL3Vz
-Yi90eXBlYy90Y3BtL3RjcG0uYw0KPiA+Pj4+ICsrKyBiL2RyaXZlcnMvdXNiL3R5cGVjL3RjcG0v
-dGNwbS5jDQo+ID4+Pj4gQEAgLTIzNzEsNiArMjM3MSw5IEBAIHN0YXRpYyBpbnQgdGNwbV9yZWdp
-c3Rlcl9zb3VyY2VfY2FwcyhzdHJ1Y3QgdGNwbV9wb3J0ICpwb3J0KQ0KPiA+Pj4+ICAgICAgICBp
-ZiAoSVNfRVJSKHBvcnQtPnBhcnRuZXJfcGQpKQ0KPiA+Pj4+ICAgICAgICAgICAgICAgIHJldHVy
-biBQVFJfRVJSKHBvcnQtPnBhcnRuZXJfcGQpOw0KPiA+Pj4+DQo+ID4+Pj4gKyAgICAgLyogcmVt
-b3ZlIGV4aXN0aW5nIGNhcGFiaWxpdGllcyBzaW5jZSBnb3QgbmV3IG9uZSAqLw0KPiA+Pj4+ICsg
-ICAgIHVzYl9wb3dlcl9kZWxpdmVyeV91bnJlZ2lzdGVyX2NhcGFiaWxpdGllcyhwb3J0LT5wYXJ0
-bmVyX3NvdXJjZV9jYXBzKTsNCj4gPj4+PiArDQo+ID4+Pj4gICAgICAgIG1lbWNweShjYXBzLnBk
-bywgcG9ydC0+c291cmNlX2NhcHMsIHNpemVvZih1MzIpICogcG9ydC0+bnJfc291cmNlX2NhcHMp
-Ow0KPiA+Pj4+ICAgICAgICBjYXBzLnJvbGUgPSBUWVBFQ19TT1VSQ0U7DQo+ID4+Pj4NCj4gPj4+
-PiBAQCAtMjM5NCw2ICsyMzk3LDkgQEAgc3RhdGljIGludCB0Y3BtX3JlZ2lzdGVyX3NpbmtfY2Fw
-cyhzdHJ1Y3QgdGNwbV9wb3J0ICpwb3J0KQ0KPiA+Pj4+ICAgICAgICBpZiAoSVNfRVJSKHBvcnQt
-PnBhcnRuZXJfcGQpKQ0KPiA+Pj4+ICAgICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKHBvcnQt
-PnBhcnRuZXJfcGQpOw0KPiA+Pj4+DQo+ID4+Pj4gKyAgICAgLyogcmVtb3ZlIGV4aXN0aW5nIGNh
-cGFiaWxpdGllcyBzaW5jZSBnb3QgbmV3IG9uZSAqLw0KPiA+Pj4+ICsgICAgIHVzYl9wb3dlcl9k
-ZWxpdmVyeV91bnJlZ2lzdGVyX2NhcGFiaWxpdGllcyhwb3J0LT5wYXJ0bmVyX3NpbmtfY2Fwcyk7
-DQo+ID4+Pj4gKw0KPiA+Pj4+ICAgICAgICBtZW1jcHkoY2Fwcy5wZG8sIHBvcnQtPnNpbmtfY2Fw
-cywgc2l6ZW9mKHUzMikgKiBwb3J0LT5ucl9zaW5rX2NhcHMpOw0KPiA+Pj4+ICAgICAgICBjYXBz
-LnJvbGUgPSBUWVBFQ19TSU5LOw0KPiA+Pj4+DQo+ID4+Pg0KPiA+Pj4gU2hvdWxkbid0IHVzYl9w
-b3dlcl9kZWxpdmVyeV91bnJlZ2lzdGVyX2NhcGFiaWxpdGllcygpIGJlIGNhbGxlZCBmcm9tDQo+
-ID4+PiB0aGUgU09GVF9SRVNFVCBzdGF0ZSBoYW5kbGVyID8NCj4gPj4NCj4gPj4gQWx0aG91Z2gg
-dGhpcyBpc3N1ZSBpcyB0cmlnZ2VyZWQgYnkgc29mdCByZXNldCBldmVudCwgdGhlcmUgaXMgYWxz
-bw0KPiA+PiBvdGhlciBwb3NzaWJpbGl0aWVzIHdoaWNoIG1heSBwcm9kdWNlIHRoaXMgYmVoYXZp
-b3IuIFN1Y2ggYXMgcmVjZWl2ZWQNCj4gPj4gMnJkIHNvdXJjZSBjYXBhYmlsaXR5IG9yIHVzZSBH
-ZXRfU291cmNlX0NhcCBtZXNzYWdlLiBJdCdzIGEgZHluYW1pYw0KPiA+PiBwcm9jZXNzIGV2ZW4g
-YWZ0ZXIgc291cmNlL3NpbmsgaXMgcmVhZHkuIFNvIEkgdGhpbmsgaXQncyBiZXR0ZXIgdG8gaGFu
-ZGxlDQo+ID4+IGl0IGluIHRjcG1fcmVnaXN0ZXJfc291cmNlL3NpbmtfY2FwcygpLiBOb3Qgc3Vy
-ZSBpZiB0aGlzIGlzIHJlYXNvbmFibGUuDQo+ID4+DQo+ID4+IFRoYW5rcywNCj4gPj4gWHUgWWFu
-Zw0KPiA+DQo+ID4gRG8geW91IGhhdmUgYW55IG90aGVyIGNvbW1lbnRzIG9yIHN1Z2dlc3Rpb25z
-IHdpdGggdGhpcyBwYXRjaD8NCj4gPg0KPiANCj4gRmlyc3Qgb2YgYWxsLCB0aGUgY3VycmVudCBj
-b2RlIGlzIG9idmlvdXNseSB3cm9uZy4gSWYgc29mdCByZXNldCByZXN1bHRzIGluDQo+IHBkIGNh
-cGFiaWxpdGllcyB0byBiZSBpbnZhbGlkLCB0aGF0IHNob3VsZCBiZSBoYW5kbGVkIGluIHNvZnQg
-cmVzZXQsDQo+IGp1c3QgbGlrZSBpdCBpcyBoYW5kbGVkIGluIGhhcmQgcmVzZXQuIE90aGVyd2lz
-ZSB0aGVyZSB3b3VsZCBiZSBzdGFsZSBwZA0KPiBkZXZpY2VzIGFyb3VuZCB3aGljaCBhcmUgbm8g
-bG9uZ2VyIHZhbGlkLg0KPiANCj4gU2Vjb25kLCBpZiBpdCBjYW4gaW5kZWVkIGhhcHBlbiB0aGF0
-IG11bHRpcGxlIHNvdXJjZSBjYXBhYmlsaXRpZXMNCj4gbWVzc2FnZXMgYXJlIHJlY2VpdmVkLCB0
-aGlzIHNob3VsZCBiZSBoYW5kbGVkIGFzIGRlZmluZWQgYnkgdGhlIHByb3RvY29sLg0KPiBFaXRo
-ZXIgdGhlIHNlY29uZCBzZXQgb2YgbWVzc2FnZXMgaXMgZXhwZWN0ZWQgdG8gYmUgaWdub3JlZCwg
-b3IgaXQgaXMNCj4gZXhwZWN0ZWQgdG8gcmVwbGFjZSBleGlzdGluZyBjYXBhYmlsaXRpZXMuIEVp
-dGhlciBjYXNlLCB0aGF0IHNpdHVhdGlvbg0KPiBzaG91bGQgYmUgaGFuZGxlZCBjb25zY2lvdXNs
-eTogdW5yZWdpc3RlcmluZyBhbmQgcmUtcmVnaXN0ZXJpbmcNCj4gY2FwYWJpbGl0aWVzIHJlc3Vs
-dHMgaW4gcmVtb3ZhbCBhbmQgcmUtY3JlYXRpb24gb2YgZGV2aWNlcy4gSnVzdCBkb2luZw0KPiB0
-aGF0IHVuY29uZGl0aW9uYWxseSBldmVuIGlmIHVubmVjZXNzYXJ5IChpZiBjYXBhYmlsaXRpZXMg
-YXJlIHRoZSBzYW1lKQ0KPiBuZWVkcyBtb3JlIGRpc2N1c3Npb24sIGFuZCBzaG91bGQgbm90IGJl
-IGhpZGRlbiBpbiBhbm90aGVyIHBhdGNoIHdoaWNoDQo+IGlzIHN1cHBvc2VkIHRvIGFkZHJlc3Mg
-YSBkaWZmZXJlbnQgcHJvYmxlbS4NCg0KVGhhbmtzIGZvciB5b3VyIGNvbW1lbnRzLiBBY2NvcmRp
-bmcgdG8gdGhlIHByb3RvY29sICwgaXQncyBub3QgcG9zc2libGUNCmZvciB0aGUgc291cmNlIHRv
-IHNlbmQgbXVsdGlwbGUgY2FwYWJpbGl0aWVzLiBVbmxlc3MgdGhlIHNvdXJjZSBkb2Vzbid0DQpm
-b2xsb3cgdGhlIHJ1bGUuIFRoYXQgaXMgaW5kZWVkIGFub3RoZXIgcHJvYmxlbS4gSSBhZ3JlZSB3
-aXRoIHlvdSB0aGF0DQppdCBzaG91bGQgYmUgaGFuZGxlZCBpbiBzb2Z0IHJlc2V0IGhhbmRsZXIg
-aWYgc29mdCByZXNldCByZXN1bHRzIGluIHBkDQpjYXBhYmlsaXRpZXMgdG8gYmUgaW52YWlsZC4g
-SSB3aWxsIHByZXBhcmUgYSB2MiBmb3IgdGhpcyBjYXNlLg0KDQpUaGFua3MsDQpYdSBZYW5nDQoN
-Cj4gDQo+IEd1ZW50ZXINCg0K
+On 11/01/2023 12:30:07+0100, Greg Kroah-Hartman wrote:
+> The uevent() callback in struct device_type should not be modifying the
+> device that is passed into it, so mark it as a const * and propagate the
+> function signature changes out into all relevant subsystems that use
+> this callback.
+> 
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Len Brown <lenb@kernel.org>
+> Cc: Stefan Richter <stefanr@s5r6.in-berlin.de>
+> Cc: Wolfram Sang <wsa@kernel.org>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Sean Young <sean@mess.org>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Frank Rowand <frowand.list@gmail.com>
+> Cc: Maximilian Luz <luzmaximilian@gmail.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Cc: Mark Gross <markgross@kernel.org>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Cc: Sanyog Kale <sanyog.r.kale@intel.com>
+> Cc: Andreas Noever <andreas.noever@gmail.com>
+> Cc: Michael Jamet <michael.jamet@intel.com>
+> Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+> Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+> Cc: Chaitanya Kulkarni <kch@nvidia.com>
+> Cc: Ming Lei <ming.lei@redhat.com>
+> Cc: Jilin Yuan <yuanjilin@cdjrlc.com>
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Won Chung <wonchung@google.com>
+> Cc: alsa-devel@alsa-project.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-acpi@vger.kernel.org
+> Cc: linux-block@vger.kernel.org
+> Cc: linux-i2c@vger.kernel.org
+> Cc: linux-i3c@lists.infradead.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-serial@vger.kernel.org
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux1394-devel@lists.sourceforge.net
+> Cc: platform-driver-x86@vger.kernel.org
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com> # for Thunderbolt
+> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+
+> ---
+>  block/partitions/core.c                   |  4 ++--
+>  drivers/acpi/device_sysfs.c               |  8 ++++----
+>  drivers/acpi/internal.h                   |  2 +-
+>  drivers/firewire/core-device.c            |  8 ++++----
+>  drivers/gpu/drm/display/drm_dp_aux_bus.c  |  2 +-
+>  drivers/i2c/i2c-core-base.c               |  4 ++--
+>  drivers/i3c/device.c                      |  2 +-
+>  drivers/i3c/master.c                      |  4 ++--
+>  drivers/input/input.c                     | 16 ++++++++--------
+>  drivers/media/rc/rc-main.c                |  2 +-
+>  drivers/platform/surface/aggregator/bus.c |  4 ++--
+>  drivers/soundwire/bus_type.c              |  4 ++--
+>  drivers/thunderbolt/switch.c              |  4 ++--
+>  drivers/thunderbolt/tb.h                  |  2 +-
+>  drivers/thunderbolt/xdomain.c             |  6 +++---
+>  drivers/tty/serdev/core.c                 |  2 +-
+>  drivers/usb/core/message.c                |  8 ++++----
+>  drivers/usb/core/usb.c                    |  4 ++--
+>  drivers/usb/phy/phy.c                     |  6 +++---
+>  drivers/usb/roles/class.c                 |  3 +--
+>  drivers/usb/typec/class.c                 |  2 +-
+>  include/linux/acpi.h                      |  4 ++--
+>  include/linux/device.h                    |  2 +-
+>  include/linux/i3c/device.h                |  2 +-
+>  include/linux/soundwire/sdw_type.h        |  2 +-
+>  25 files changed, 53 insertions(+), 54 deletions(-)
+> 
+> diff --git a/block/partitions/core.c b/block/partitions/core.c
+> index b8112f52d388..7b8ef6296abd 100644
+> --- a/block/partitions/core.c
+> +++ b/block/partitions/core.c
+> @@ -254,9 +254,9 @@ static void part_release(struct device *dev)
+>  	iput(dev_to_bdev(dev)->bd_inode);
+>  }
+>  
+> -static int part_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int part_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -	struct block_device *part = dev_to_bdev(dev);
+> +	const struct block_device *part = dev_to_bdev(dev);
+>  
+>  	add_uevent_var(env, "PARTN=%u", part->bd_partno);
+>  	if (part->bd_meta_info && part->bd_meta_info->volname[0])
+> diff --git a/drivers/acpi/device_sysfs.c b/drivers/acpi/device_sysfs.c
+> index 120873dad2cc..daff2c0c5c52 100644
+> --- a/drivers/acpi/device_sysfs.c
+> +++ b/drivers/acpi/device_sysfs.c
+> @@ -133,7 +133,7 @@ static void acpi_hide_nondev_subnodes(struct acpi_device_data *data)
+>   *         -EINVAL: output error
+>   *         -ENOMEM: output is truncated
+>   */
+> -static int create_pnp_modalias(struct acpi_device *acpi_dev, char *modalias,
+> +static int create_pnp_modalias(const struct acpi_device *acpi_dev, char *modalias,
+>  			       int size)
+>  {
+>  	int len;
+> @@ -191,7 +191,7 @@ static int create_pnp_modalias(struct acpi_device *acpi_dev, char *modalias,
+>   * only be called for devices having ACPI_DT_NAMESPACE_HID in their list of
+>   * ACPI/PNP IDs.
+>   */
+> -static int create_of_modalias(struct acpi_device *acpi_dev, char *modalias,
+> +static int create_of_modalias(const struct acpi_device *acpi_dev, char *modalias,
+>  			      int size)
+>  {
+>  	struct acpi_buffer buf = { ACPI_ALLOCATE_BUFFER };
+> @@ -239,7 +239,7 @@ static int create_of_modalias(struct acpi_device *acpi_dev, char *modalias,
+>  	return len;
+>  }
+>  
+> -int __acpi_device_uevent_modalias(struct acpi_device *adev,
+> +int __acpi_device_uevent_modalias(const struct acpi_device *adev,
+>  				  struct kobj_uevent_env *env)
+>  {
+>  	int len;
+> @@ -277,7 +277,7 @@ int __acpi_device_uevent_modalias(struct acpi_device *adev,
+>   * Because other buses do not support ACPI HIDs & CIDs, e.g. for a device with
+>   * hid:IBM0001 and cid:ACPI0001 you get: "acpi:IBM0001:ACPI0001".
+>   */
+> -int acpi_device_uevent_modalias(struct device *dev, struct kobj_uevent_env *env)
+> +int acpi_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+>  	return __acpi_device_uevent_modalias(acpi_companion_match(dev), env);
+>  }
+> diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
+> index ec584442fb29..06ad497067ac 100644
+> --- a/drivers/acpi/internal.h
+> +++ b/drivers/acpi/internal.h
+> @@ -120,7 +120,7 @@ int acpi_bus_register_early_device(int type);
+>                       Device Matching and Notification
+>     -------------------------------------------------------------------------- */
+>  struct acpi_device *acpi_companion_match(const struct device *dev);
+> -int __acpi_device_uevent_modalias(struct acpi_device *adev,
+> +int __acpi_device_uevent_modalias(const struct acpi_device *adev,
+>  				  struct kobj_uevent_env *env);
+>  
+>  /* --------------------------------------------------------------------------
+> diff --git a/drivers/firewire/core-device.c b/drivers/firewire/core-device.c
+> index adddd8c45d0c..aa597cda0d88 100644
+> --- a/drivers/firewire/core-device.c
+> +++ b/drivers/firewire/core-device.c
+> @@ -133,7 +133,7 @@ static void get_ids(const u32 *directory, int *id)
+>  	}
+>  }
+>  
+> -static void get_modalias_ids(struct fw_unit *unit, int *id)
+> +static void get_modalias_ids(const struct fw_unit *unit, int *id)
+>  {
+>  	get_ids(&fw_parent_device(unit)->config_rom[5], id);
+>  	get_ids(unit->directory, id);
+> @@ -195,7 +195,7 @@ static void fw_unit_remove(struct device *dev)
+>  	driver->remove(fw_unit(dev));
+>  }
+>  
+> -static int get_modalias(struct fw_unit *unit, char *buffer, size_t buffer_size)
+> +static int get_modalias(const struct fw_unit *unit, char *buffer, size_t buffer_size)
+>  {
+>  	int id[] = {0, 0, 0, 0};
+>  
+> @@ -206,9 +206,9 @@ static int get_modalias(struct fw_unit *unit, char *buffer, size_t buffer_size)
+>  			id[0], id[1], id[2], id[3]);
+>  }
+>  
+> -static int fw_unit_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int fw_unit_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -	struct fw_unit *unit = fw_unit(dev);
+> +	const struct fw_unit *unit = fw_unit(dev);
+>  	char modalias[64];
+>  
+>  	get_modalias(unit, modalias, sizeof(modalias));
+> diff --git a/drivers/gpu/drm/display/drm_dp_aux_bus.c b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+> index e31a0261c53e..8a165be1a821 100644
+> --- a/drivers/gpu/drm/display/drm_dp_aux_bus.c
+> +++ b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+> @@ -161,7 +161,7 @@ static void dp_aux_ep_dev_release(struct device *dev)
+>  	kfree(aux_ep_with_data);
+>  }
+>  
+> -static int dp_aux_ep_dev_modalias(struct device *dev, struct kobj_uevent_env *env)
+> +static int dp_aux_ep_dev_modalias(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+>  	return of_device_uevent_modalias(dev, env);
+>  }
+> diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+> index 087e480b624c..51b78a52ab7f 100644
+> --- a/drivers/i2c/i2c-core-base.c
+> +++ b/drivers/i2c/i2c-core-base.c
+> @@ -136,9 +136,9 @@ static int i2c_device_match(struct device *dev, struct device_driver *drv)
+>  	return 0;
+>  }
+>  
+> -static int i2c_device_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int i2c_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -	struct i2c_client *client = to_i2c_client(dev);
+> +	const struct i2c_client *client = to_i2c_client(dev);
+>  	int rc;
+>  
+>  	rc = of_device_uevent_modalias(dev, env);
+> diff --git a/drivers/i3c/device.c b/drivers/i3c/device.c
+> index d111499061b2..1a6a8703dbc3 100644
+> --- a/drivers/i3c/device.c
+> +++ b/drivers/i3c/device.c
+> @@ -78,7 +78,7 @@ EXPORT_SYMBOL_GPL(i3c_device_do_setdasa);
+>   *
+>   * Retrieve I3C dev info.
+>   */
+> -void i3c_device_get_info(struct i3c_device *dev,
+> +void i3c_device_get_info(const struct i3c_device *dev,
+>  			 struct i3c_device_info *info)
+>  {
+>  	if (!info)
+> diff --git a/drivers/i3c/master.c b/drivers/i3c/master.c
+> index d7e6f6c99aea..7a60e1c5e587 100644
+> --- a/drivers/i3c/master.c
+> +++ b/drivers/i3c/master.c
+> @@ -273,9 +273,9 @@ static struct attribute *i3c_device_attrs[] = {
+>  };
+>  ATTRIBUTE_GROUPS(i3c_device);
+>  
+> -static int i3c_device_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int i3c_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -	struct i3c_device *i3cdev = dev_to_i3cdev(dev);
+> +	const struct i3c_device *i3cdev = dev_to_i3cdev(dev);
+>  	struct i3c_device_info devinfo;
+>  	u16 manuf, part, ext;
+>  
+> diff --git a/drivers/input/input.c b/drivers/input/input.c
+> index ca2e3dd7188b..0336e799d713 100644
+> --- a/drivers/input/input.c
+> +++ b/drivers/input/input.c
+> @@ -1372,7 +1372,7 @@ INPUT_DEV_STRING_ATTR_SHOW(phys);
+>  INPUT_DEV_STRING_ATTR_SHOW(uniq);
+>  
+>  static int input_print_modalias_bits(char *buf, int size,
+> -				     char name, unsigned long *bm,
+> +				     char name, const unsigned long *bm,
+>  				     unsigned int min_bit, unsigned int max_bit)
+>  {
+>  	int len = 0, i;
+> @@ -1384,7 +1384,7 @@ static int input_print_modalias_bits(char *buf, int size,
+>  	return len;
+>  }
+>  
+> -static int input_print_modalias(char *buf, int size, struct input_dev *id,
+> +static int input_print_modalias(char *buf, int size, const struct input_dev *id,
+>  				int add_cr)
+>  {
+>  	int len;
+> @@ -1432,7 +1432,7 @@ static ssize_t input_dev_show_modalias(struct device *dev,
+>  }
+>  static DEVICE_ATTR(modalias, S_IRUGO, input_dev_show_modalias, NULL);
+>  
+> -static int input_print_bitmap(char *buf, int buf_size, unsigned long *bitmap,
+> +static int input_print_bitmap(char *buf, int buf_size, const unsigned long *bitmap,
+>  			      int max, int add_cr);
+>  
+>  static ssize_t input_dev_show_properties(struct device *dev,
+> @@ -1524,7 +1524,7 @@ static const struct attribute_group input_dev_id_attr_group = {
+>  	.attrs	= input_dev_id_attrs,
+>  };
+>  
+> -static int input_print_bitmap(char *buf, int buf_size, unsigned long *bitmap,
+> +static int input_print_bitmap(char *buf, int buf_size, const unsigned long *bitmap,
+>  			      int max, int add_cr)
+>  {
+>  	int i;
+> @@ -1621,7 +1621,7 @@ static void input_dev_release(struct device *device)
+>   * device bitfields.
+>   */
+>  static int input_add_uevent_bm_var(struct kobj_uevent_env *env,
+> -				   const char *name, unsigned long *bitmap, int max)
+> +				   const char *name, const unsigned long *bitmap, int max)
+>  {
+>  	int len;
+>  
+> @@ -1639,7 +1639,7 @@ static int input_add_uevent_bm_var(struct kobj_uevent_env *env,
+>  }
+>  
+>  static int input_add_uevent_modalias_var(struct kobj_uevent_env *env,
+> -					 struct input_dev *dev)
+> +					 const struct input_dev *dev)
+>  {
+>  	int len;
+>  
+> @@ -1677,9 +1677,9 @@ static int input_add_uevent_modalias_var(struct kobj_uevent_env *env,
+>  			return err;					\
+>  	} while (0)
+>  
+> -static int input_dev_uevent(struct device *device, struct kobj_uevent_env *env)
+> +static int input_dev_uevent(const struct device *device, struct kobj_uevent_env *env)
+>  {
+> -	struct input_dev *dev = to_input_dev(device);
+> +	const struct input_dev *dev = to_input_dev(device);
+>  
+>  	INPUT_ADD_HOTPLUG_VAR("PRODUCT=%x/%x/%x/%x",
+>  				dev->id.bustype, dev->id.vendor,
+> diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
+> index 527d9324742b..6bdad6341844 100644
+> --- a/drivers/media/rc/rc-main.c
+> +++ b/drivers/media/rc/rc-main.c
+> @@ -1614,7 +1614,7 @@ static void rc_dev_release(struct device *device)
+>  	kfree(dev);
+>  }
+>  
+> -static int rc_dev_uevent(struct device *device, struct kobj_uevent_env *env)
+> +static int rc_dev_uevent(const struct device *device, struct kobj_uevent_env *env)
+>  {
+>  	struct rc_dev *dev = to_rc_dev(device);
+>  	int ret = 0;
+> diff --git a/drivers/platform/surface/aggregator/bus.c b/drivers/platform/surface/aggregator/bus.c
+> index de539938896e..407eb55050a6 100644
+> --- a/drivers/platform/surface/aggregator/bus.c
+> +++ b/drivers/platform/surface/aggregator/bus.c
+> @@ -35,9 +35,9 @@ static struct attribute *ssam_device_attrs[] = {
+>  };
+>  ATTRIBUTE_GROUPS(ssam_device);
+>  
+> -static int ssam_device_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int ssam_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -	struct ssam_device *sdev = to_ssam_device(dev);
+> +	const struct ssam_device *sdev = to_ssam_device(dev);
+>  
+>  	return add_uevent_var(env, "MODALIAS=ssam:d%02Xc%02Xt%02Xi%02Xf%02X",
+>  			      sdev->uid.domain, sdev->uid.category,
+> diff --git a/drivers/soundwire/bus_type.c b/drivers/soundwire/bus_type.c
+> index 04b3529f8929..26c9a0a85d49 100644
+> --- a/drivers/soundwire/bus_type.c
+> +++ b/drivers/soundwire/bus_type.c
+> @@ -58,9 +58,9 @@ int sdw_slave_modalias(const struct sdw_slave *slave, char *buf, size_t size)
+>  			slave->id.sdw_version, slave->id.class_id);
+>  }
+>  
+> -int sdw_slave_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +int sdw_slave_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -	struct sdw_slave *slave = dev_to_sdw_dev(dev);
+> +	const struct sdw_slave *slave = dev_to_sdw_dev(dev);
+>  	char modalias[32];
+>  
+>  	sdw_slave_modalias(slave, modalias, sizeof(modalias));
+> diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+> index 363d712aa364..cb6c304c445e 100644
+> --- a/drivers/thunderbolt/switch.c
+> +++ b/drivers/thunderbolt/switch.c
+> @@ -2176,9 +2176,9 @@ static void tb_switch_release(struct device *dev)
+>  	kfree(sw);
+>  }
+>  
+> -static int tb_switch_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int tb_switch_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -	struct tb_switch *sw = tb_to_switch(dev);
+> +	const struct tb_switch *sw = tb_to_switch(dev);
+>  	const char *type;
+>  
+>  	if (sw->config.thunderbolt_version == USB4_VERSION_1_0) {
+> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+> index f9786976f5ec..909da0a98134 100644
+> --- a/drivers/thunderbolt/tb.h
+> +++ b/drivers/thunderbolt/tb.h
+> @@ -815,7 +815,7 @@ static inline bool tb_is_switch(const struct device *dev)
+>  	return dev->type == &tb_switch_type;
+>  }
+>  
+> -static inline struct tb_switch *tb_to_switch(struct device *dev)
+> +static inline struct tb_switch *tb_to_switch(const struct device *dev)
+>  {
+>  	if (tb_is_switch(dev))
+>  		return container_of(dev, struct tb_switch, dev);
+> diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
+> index cfa83486c9da..7bf1e360b04c 100644
+> --- a/drivers/thunderbolt/xdomain.c
+> +++ b/drivers/thunderbolt/xdomain.c
+> @@ -881,7 +881,7 @@ static ssize_t key_show(struct device *dev, struct device_attribute *attr,
+>  }
+>  static DEVICE_ATTR_RO(key);
+>  
+> -static int get_modalias(struct tb_service *svc, char *buf, size_t size)
+> +static int get_modalias(const struct tb_service *svc, char *buf, size_t size)
+>  {
+>  	return snprintf(buf, size, "tbsvc:k%sp%08Xv%08Xr%08X", svc->key,
+>  			svc->prtcid, svc->prtcvers, svc->prtcrevs);
+> @@ -953,9 +953,9 @@ static const struct attribute_group *tb_service_attr_groups[] = {
+>  	NULL,
+>  };
+>  
+> -static int tb_service_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int tb_service_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -	struct tb_service *svc = container_of(dev, struct tb_service, dev);
+> +	const struct tb_service *svc = container_of_const(dev, struct tb_service, dev);
+>  	char modalias[64];
+>  
+>  	get_modalias(svc, modalias, sizeof(modalias));
+> diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
+> index 0180e1e4e75d..aa80de3a8194 100644
+> --- a/drivers/tty/serdev/core.c
+> +++ b/drivers/tty/serdev/core.c
+> @@ -42,7 +42,7 @@ static struct attribute *serdev_device_attrs[] = {
+>  };
+>  ATTRIBUTE_GROUPS(serdev_device);
+>  
+> -static int serdev_device_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int serdev_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+>  	int rc;
+>  
+> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+> index 127fac1af676..cc404bb7e8f7 100644
+> --- a/drivers/usb/core/message.c
+> +++ b/drivers/usb/core/message.c
+> @@ -1819,11 +1819,11 @@ void usb_authorize_interface(struct usb_interface *intf)
+>  	}
+>  }
+>  
+> -static int usb_if_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int usb_if_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -	struct usb_device *usb_dev;
+> -	struct usb_interface *intf;
+> -	struct usb_host_interface *alt;
+> +	const struct usb_device *usb_dev;
+> +	const struct usb_interface *intf;
+> +	const struct usb_host_interface *alt;
+>  
+>  	intf = to_usb_interface(dev);
+>  	usb_dev = interface_to_usbdev(intf);
+> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+> index 11b15d7b357a..8527c06b65e6 100644
+> --- a/drivers/usb/core/usb.c
+> +++ b/drivers/usb/core/usb.c
+> @@ -423,9 +423,9 @@ static void usb_release_dev(struct device *dev)
+>  	kfree(udev);
+>  }
+>  
+> -static int usb_dev_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int usb_dev_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -	struct usb_device *usb_dev;
+> +	const struct usb_device *usb_dev;
+>  
+>  	usb_dev = to_usb_device(dev);
+>  
+> diff --git a/drivers/usb/phy/phy.c b/drivers/usb/phy/phy.c
+> index 1b24492bb4e5..4b468bde19cf 100644
+> --- a/drivers/usb/phy/phy.c
+> +++ b/drivers/usb/phy/phy.c
+> @@ -80,7 +80,7 @@ static struct usb_phy *__of_usb_find_phy(struct device_node *node)
+>  	return ERR_PTR(-EPROBE_DEFER);
+>  }
+>  
+> -static struct usb_phy *__device_to_usb_phy(struct device *dev)
+> +static struct usb_phy *__device_to_usb_phy(const struct device *dev)
+>  {
+>  	struct usb_phy *usb_phy;
+>  
+> @@ -145,9 +145,9 @@ static void usb_phy_notify_charger_work(struct work_struct *work)
+>  	kobject_uevent(&usb_phy->dev->kobj, KOBJ_CHANGE);
+>  }
+>  
+> -static int usb_phy_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int usb_phy_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -	struct usb_phy *usb_phy;
+> +	const struct usb_phy *usb_phy;
+>  	char uchger_state[50] = { 0 };
+>  	char uchger_type[50] = { 0 };
+>  	unsigned long flags;
+> diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
+> index eacb46ec2ab3..56814ef80c24 100644
+> --- a/drivers/usb/roles/class.c
+> +++ b/drivers/usb/roles/class.c
+> @@ -274,8 +274,7 @@ static const struct attribute_group *usb_role_switch_groups[] = {
+>  	NULL,
+>  };
+>  
+> -static int
+> -usb_role_switch_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int usb_role_switch_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+>  	int ret;
+>  
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 5897905cb4f0..a89d8fd3f46c 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -1737,7 +1737,7 @@ static const struct attribute_group *typec_groups[] = {
+>  	NULL
+>  };
+>  
+> -static int typec_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int typec_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+>  	int ret;
+>  
+> diff --git a/include/linux/acpi.h b/include/linux/acpi.h
+> index 5e6a876e17ba..564b62f13bd0 100644
+> --- a/include/linux/acpi.h
+> +++ b/include/linux/acpi.h
+> @@ -723,7 +723,7 @@ const struct acpi_device_id *acpi_match_device(const struct acpi_device_id *ids,
+>  const void *acpi_device_get_match_data(const struct device *dev);
+>  extern bool acpi_driver_match_device(struct device *dev,
+>  				     const struct device_driver *drv);
+> -int acpi_device_uevent_modalias(struct device *, struct kobj_uevent_env *);
+> +int acpi_device_uevent_modalias(const struct device *, struct kobj_uevent_env *);
+>  int acpi_device_modalias(struct device *, char *, int);
+>  
+>  struct platform_device *acpi_create_platform_device(struct acpi_device *,
+> @@ -958,7 +958,7 @@ static inline union acpi_object *acpi_evaluate_dsm(acpi_handle handle,
+>  	return NULL;
+>  }
+>  
+> -static inline int acpi_device_uevent_modalias(struct device *dev,
+> +static inline int acpi_device_uevent_modalias(const struct device *dev,
+>  				struct kobj_uevent_env *env)
+>  {
+>  	return -ENODEV;
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index 44e3acae7b36..dad0614aad96 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -88,7 +88,7 @@ int subsys_virtual_register(struct bus_type *subsys,
+>  struct device_type {
+>  	const char *name;
+>  	const struct attribute_group **groups;
+> -	int (*uevent)(struct device *dev, struct kobj_uevent_env *env);
+> +	int (*uevent)(const struct device *dev, struct kobj_uevent_env *env);
+>  	char *(*devnode)(struct device *dev, umode_t *mode,
+>  			 kuid_t *uid, kgid_t *gid);
+>  	void (*release)(struct device *dev);
+> diff --git a/include/linux/i3c/device.h b/include/linux/i3c/device.h
+> index 68b558929aec..ce115ef08fec 100644
+> --- a/include/linux/i3c/device.h
+> +++ b/include/linux/i3c/device.h
+> @@ -303,7 +303,7 @@ int i3c_device_do_priv_xfers(struct i3c_device *dev,
+>  
+>  int i3c_device_do_setdasa(struct i3c_device *dev);
+>  
+> -void i3c_device_get_info(struct i3c_device *dev, struct i3c_device_info *info);
+> +void i3c_device_get_info(const struct i3c_device *dev, struct i3c_device_info *info);
+>  
+>  struct i3c_ibi_payload {
+>  	unsigned int len;
+> diff --git a/include/linux/soundwire/sdw_type.h b/include/linux/soundwire/sdw_type.h
+> index 52eb66cd11bc..d8c27f1e5559 100644
+> --- a/include/linux/soundwire/sdw_type.h
+> +++ b/include/linux/soundwire/sdw_type.h
+> @@ -21,7 +21,7 @@ static inline int is_sdw_slave(const struct device *dev)
+>  int __sdw_register_driver(struct sdw_driver *drv, struct module *owner);
+>  void sdw_unregister_driver(struct sdw_driver *drv);
+>  
+> -int sdw_slave_uevent(struct device *dev, struct kobj_uevent_env *env);
+> +int sdw_slave_uevent(const struct device *dev, struct kobj_uevent_env *env);
+>  
+>  /**
+>   * module_sdw_driver() - Helper macro for registering a Soundwire driver
+> -- 
+> 2.39.0
+> 
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
