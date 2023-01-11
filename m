@@ -2,113 +2,105 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C031C54EBE
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Jan 2023 10:27:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5FE1C46467
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Jan 2023 10:39:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236012AbjAKK1S (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Jan 2023 05:27:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51268 "EHLO
+        id S236837AbjAKKja (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Jan 2023 05:39:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236508AbjAKK1L (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Jan 2023 05:27:11 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53AB525D1;
-        Wed, 11 Jan 2023 02:27:06 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E0A3F61941;
-        Wed, 11 Jan 2023 10:27:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 501D1C43392;
-        Wed, 11 Jan 2023 10:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673432825;
-        bh=h8TxIxPqDFkhpYbcLfoV6BQoG0WhTrglcCMN9K0uJt8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=N6AM/R958N4u18XHrq8UNFqyP70G0+gFwMjnQ7yqMsG47nguqfl6pW+209xvjJbjo
-         rbyiV1w6ouyXKlZ7pR08EkBzODxgmNUTobWEUTrURUNmsiM/RuXCO9kxLqze0HyhcR
-         S6C/niQFotI+kRCFg/uXnEq6zKAWOBRw0nS0DWmyZjAkNvygext7RU932qc4NbjrQS
-         KV0HgZHWYoLzmXVOUeoidM1prvbzJLc7G6Y56qtqNpZx4XmtMUCyuFD3A2CAvUgequ
-         zGm3mij0lsMIAscKAhWH2v20gJAspQzMm0kSukOEDurAvSSWc71hsGMCkJQLn4kfXu
-         IsWN6cuZdIQww==
-Received: by mail-lf1-f42.google.com with SMTP id bt23so22774660lfb.5;
-        Wed, 11 Jan 2023 02:27:05 -0800 (PST)
-X-Gm-Message-State: AFqh2krQ8TFnT+Z/YleYZcefXtraDE3YjVmnsLc3pWlSuq4zzep5cC78
-        A1BxxR70hX9Bv4y1rCjJBVyBNhgrk+YYDgSS260=
-X-Google-Smtp-Source: AMrXdXsLArq0Wo9nCQp1TG2fDBNEKyKeOcVuKtJtKzZgvOKKPRl44qz6sy8RasrBp5p6S+z6L6lslWMdW/csV0WAiDQ=
-X-Received: by 2002:a05:6512:15a3:b0:4bc:bdf5:f163 with SMTP id
- bp35-20020a05651215a300b004bcbdf5f163mr3731265lfb.583.1673432823315; Wed, 11
- Jan 2023 02:27:03 -0800 (PST)
+        with ESMTP id S238563AbjAKKj1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Jan 2023 05:39:27 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5029E60C4
+        for <linux-usb@vger.kernel.org>; Wed, 11 Jan 2023 02:39:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.at; s=s31663417;
+        t=1673433558; bh=vmi3Y3jCmFRioYguExYp8IbvmRsnJY/5rx+xg6EE3LA=;
+        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=tTfqrFPsR2cAwc9v4OaldCM/c5HtJQFzOGs8fyqcO5BoyzEBegMuqInRwwOylt/iP
+         iBuKipd87/Gs1Hkms9LsfbtWBULrwa153RtY3/m61IFVcnn0kjRaDEXcoTHF8wR4/+
+         RLgcIxgxOkHR0Y251f+By/daWzTzYXEclUxboDwJrgqPD872aNfv7r2JumjS9SI749
+         ds04hBUTGl+0mpKSXHwT6/UoiX/gnlEeHue1y1Fh9AMNffvd59whiS2ySQpnDdAtcB
+         ECbNAmO0EmEjYIm9ZlFIdUl9Zqp9JWYrRijwjLMIx7JfyZYXsPgo/MJGo34qW9ymtD
+         OxI10apT0QSpA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.70] ([81.189.232.75]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N4zAy-1oo1iM1IZg-010wJu; Wed, 11
+ Jan 2023 11:39:18 +0100
+Message-ID: <3ccb150b-dbd9-c9d0-0e8c-8c169f0d8faf@gmx.at>
+Date:   Wed, 11 Jan 2023 11:38:02 +0100
 MIME-Version: 1.0
-References: <63bc16ce.IBWX7dhtPEB7dLIq%lkp@intel.com> <CAMj1kXGAf7ikEU5jLoik0xrOde0xBg0yJkOo5=PtEtNXoUxMXA@mail.gmail.com>
-In-Reply-To: <CAMj1kXGAf7ikEU5jLoik0xrOde0xBg0yJkOo5=PtEtNXoUxMXA@mail.gmail.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Wed, 11 Jan 2023 11:26:52 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXH1GHmhc=SZDRFV2GOpncnn1rmbr8AZhiS8iDc6u+1ATQ@mail.gmail.com>
-Message-ID: <CAMj1kXH1GHmhc=SZDRFV2GOpncnn1rmbr8AZhiS8iDc6u+1ATQ@mail.gmail.com>
-Subject: Re: [linux-next:master] BUILD REGRESSION 543b9b2fe10b2e12b8d773af65314d322f91e479
-To:     kernel test robot <lkp@intel.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        speakup@linux-speakup.org, linux-usb@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        dri-devel@lists.freedesktop.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: Possible problem with thunderbolt 4
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     linux-usb@vger.kernel.org,
+        "michael.simon@cpsd.at" <michael.simon@cpsd.at>
+References: <Y7ME7EwduIQE38+2@black.fi.intel.com>
+ <a324ff2a-d014-83d2-4f30-b865db7c352b@gmx.at>
+ <Y7QMlV82mtaApJwJ@black.fi.intel.com>
+ <a8c1dd4b-7227-5ba2-97a4-a2dc3d561ea3@gmx.at>
+ <Y7RSrLYfG1r8b+Zj@black.fi.intel.com>
+ <86a6b7ca-4302-00fe-97f6-d48ebb5e6171@gmx.at>
+ <Y7UzCY6ujQ2qtoq5@black.fi.intel.com>
+ <057da4af-9507-fdc6-9588-160a88210674@gmx.at>
+ <Y7wNnrlEWMOV4Cj/@black.fi.intel.com>
+ <0f862f75-9805-f5d0-ef89-0b77d0ae8778@gmx.at>
+ <Y72AbwKFd9snjZrJ@black.fi.intel.com>
+Content-Language: en-US
+From:   =?UTF-8?Q?Christian_Schaubschl=c3=a4ger?= 
+        <christian.schaubschlaeger@gmx.at>
+In-Reply-To: <Y72AbwKFd9snjZrJ@black.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:nYdb5x7eCqn2/ybqyDCf/YD5CHF1QytsF0u+gsWDnudBQ+cpmCz
+ EKwc9xZD1/3+sXIPwXUoeVk2LpHwz8zytqK17Uu8dCbdekGorfkP4fNBTIvaPwC1nDgw8eN
+ MXHrTf8vdUKZmYDxfnz0oWqGm1aCf0FPmO0i6o/7dO53gPxksYl5EYkaZlrEaI82CmbSaw1
+ bUz8YioceKsBgjX8EOqzw==
+UI-OutboundReport: notjunk:1;M01:P0:B+VQ+UUO8FE=;wbw3fcMeD0jKC7rs5qPVHH/liK0
+ KBUpMVapmHr70EZz0TiHMzPG3CDa2y0xSxF+M/nnFrz2XPkuBpitrgGqn07WHP7JbHoWMEZZ9
+ jhZ65Gg+I+vmjk0HQVrARzfEe/imux3hG2cp93KEb4ml/bkvnKDkhOlyAg2TwKH9kk1EVTV/P
+ lSY526cqlj9Q1ez5dG/yq0KVQZonGx3myKEodLUYVBOBok2eYkU+tBqSgmrey69X/L7ET+UOL
+ p+Ymy2V6LfVOnV25CylZQt0xAA30Uy0SKT1VNktL+V3zoIvPYjgr7b8S6oapXVRKKwZWQiRKY
+ dY4sLsAEBWfk3cLPovkYK1AGM32ve91x4MreJqZiiNbOt/OpY5v2hzJ6wrBLVOnw5pi5HrIWu
+ i6sg3fXa+dZACvC1dkr6bJ+OYvWD5r33ulhjfoFodo6tgNEu+1/asSi2H7yFZkV6qpe9ALv3A
+ V7AM7wRdmMVMGT5VViG0ELg5LWA/Mn7RcSPYVr+SR5UE79E/syiFPRaOfIeN+G8RnMnLRedRH
+ jea5IH7xO0gRms0VsZ+pxIcqtA8BsJxBUfrLJgxf690XPylx6+AvAtPzDhOSSj8siwK/0cKlq
+ DI5YwMxiCiAzrvEXyv3JoFq4hRQuYwAUiVhnHCEm3EXjZJPf1bqqxHB3wnEMWNxZOiJMwhIDv
+ BN6C6T2qq8EjL1wa3iEyW/fKtNtyvvCOTnoQ1JbmKHKe8R35uJz6r75DlJHfP9HjCu7C3XqXd
+ mJ6NvAkAsVqw+4fKQVAJDzVEg2NUdtFB0G3b5Nq6FInpYBexECcviPZYd3HZfhqdQNQpcDuT+
+ 7Ss27cYrMqXZoyVqkEZIZ0e5N8Cji0no+sVD0t2G5kjJAfdXPQcraYcIervURvWUCxt5mXyvK
+ MLqbJVxBxzdrBSHUs5d7Re/wnvGeBFS6IgbC5XWwvNEjPWsh2XKYNu4xMk/eMqOIOqtbmUsvN
+ s2Q83CD7mcQCuqsHHb8bcZE0QtU=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 9 Jan 2023 at 15:38, Ard Biesheuvel <ardb@kernel.org> wrote:
+Hi,
+> Okay thanks for checking. I'm discussing with our Windows folks if there
+> is something done differently in Windows side. They do similar reset in
+> certain flows but I'm not sure if it is exactly on "reboot" and it is
+> not clear whether Windows and Linux "reboot" in general is doing the
+> same thing either.
 >
-> On Mon, 9 Jan 2023 at 14:31, kernel test robot <lkp@intel.com> wrote:
-> >
-> > tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > branch HEAD: 543b9b2fe10b2e12b8d773af65314d322f91e479  Add linux-next specific files for 20230109
-> >
-> > Error/Warning: (recently discovered and may have been fixed)
-> >
-> > aarch64-linux-ld: ID map text too big or misaligned
+> In the meantime, did we try this already?
 >
-> This is caused by linker veneers ('stubs') that are emitted into the
-> ID map text section:
+> 0. Drop all kernel changes
+> 1. Boot the system up, nothing connected
+> 2. Plug in the dock
+> 3. Check that it works (lspci etc.)
+> 4. Unload the Thunderbolt driver
 >
->  *(.idmap.text)
->  .idmap.text    0xffffffc018c04000       0x38 arch/arm64/kernel/hyp-stub.o
->  .idmap.text    0xffffffc018c04038       0x28 arch/arm64/kernel/sleep.o
->                 0xffffffc018c04038                cpu_resume
->  .idmap.text    0xffffffc018c04060       0x38 arch/arm64/kernel/cpu-reset.o
->                 0xffffffc018c04060                cpu_soft_restart
->  .idmap.text    0xffffffc018c04098      0x468 arch/arm64/kernel/head.o
->                 0xffffffc018c04098                init_kernel_el
->                 0xffffffc018c04290                secondary_holding_pen
->                 0xffffffc018c042c8                secondary_entry
->                 0xffffffc018c043c4                __enable_mmu
->                 0xffffffc018c0440c                __cpu_secondary_check52bitva
->  .idmap.text    0xffffffc018c04500      0x3c4 arch/arm64/mm/proc.o
->                 0xffffffc018c04500                cpu_do_resume
->                 0xffffffc018c045a8                idmap_cpu_replace_ttbr1
->                 0xffffffc018c045d4                idmap_kpti_install_ng_mappings
->                 0xffffffc018c047bc                __cpu_setup
->  *fill*         0xffffffc018c048c4        0x4
->  .idmap.text.stub
->                 0xffffffc018c048c8     0xf7c8 linker stubs
->                 0xffffffc018c1c8c8                __idmap_text_end = .
+>   # rmmod thunderbolt
 >
-> It seems unlikely that the entire .idmap.text.stub section is
-> dedicated to veneers for code in .idmap.text, and the linker probably
-> dumps them here because the next output section is non-executable.
->
+> 5. Reboot the system
 
+I think we did not try this one so far. But I did now -> same result...
 
-I bisected this to
+What I _did_ find out is this: if I disable ACPI on the kernel command line (acpi=off), things work fine. I can even boot with the dock unplugged, then plug it when linux is up, and it works in linux, and also after the reboot in the firmware!
 
-commit 5e5ff73c2e5863f93fc5fd78d178cd8f2af12464
-Author: Sai Prakash Ranjan <quic_saipraka@quicinc.com>
-Date:   Mon Oct 17 20:04:50 2022 +0530
+Of course switching off ACPI is not a real option... but maybe this brings some light into the dark...
 
-    asm-generic/io: Add _RET_IP_ to MMIO trace for more accurate debug info
+Regards,
+Christian
 
-which seems entirely unrelated, but looks like it may be causing the
-number of direct calls (and therefore the number of trampolines) to
-increase, causing the ID map to blow up like it does.
