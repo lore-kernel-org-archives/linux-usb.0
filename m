@@ -2,66 +2,69 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13385C54EBC
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Jan 2023 13:34:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 467C8C5479D
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Jan 2023 13:41:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238700AbjAKNeD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Jan 2023 08:34:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54640 "EHLO
+        id S238911AbjAKNkv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Jan 2023 08:40:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239294AbjAKNdE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Jan 2023 08:33:04 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5074D1B9C5;
-        Wed, 11 Jan 2023 05:32:35 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88342FEC;
-        Wed, 11 Jan 2023 05:33:17 -0800 (PST)
-Received: from donnerap.cambridge.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 608883F71A;
-        Wed, 11 Jan 2023 05:32:34 -0800 (PST)
-From:   Andre Przywara <andre.przywara@arm.com>
-To:     "David S . Miller" <davem@davemloft.net>,
+        with ESMTP id S239317AbjAKNkH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Jan 2023 08:40:07 -0500
+Received: from a3.inai.de (a3.inai.de [IPv6:2a01:4f8:10b:45d8::f5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2F661BC9C;
+        Wed, 11 Jan 2023 05:38:05 -0800 (PST)
+Received: by a3.inai.de (Postfix, from userid 25121)
+        id 8F7A7586A6705; Wed, 11 Jan 2023 14:38:04 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+        by a3.inai.de (Postfix) with ESMTP id 8EAB9616497A1;
+        Wed, 11 Jan 2023 14:38:04 +0100 (CET)
+Date:   Wed, 11 Jan 2023 14:38:04 +0100 (CET)
+From:   Jan Engelhardt <jengelh@inai.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+cc:     linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH net-next] r8152: add vendor/device ID pair for Microsoft Devkit
-Date:   Wed, 11 Jan 2023 13:32:28 +0000
-Message-Id: <20230111133228.190801-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
+        Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        Ilja Van Sprundel <ivansprundel@ioactive.com>,
+        Joseph Tartaro <joseph.tartaro@ioactive.com>
+Subject: Re: [PATCH] USB: disable all RNDIS protocol drivers
+In-Reply-To: <20221123124620.1387499-1-gregkh@linuxfoundation.org>
+Message-ID: <n9108s34-9rn0-3n8q-r3s5-51r9647331ns@vanv.qr>
+References: <20221123124620.1387499-1-gregkh@linuxfoundation.org>
+User-Agent: Alpine 2.25 (LSU 592 2021-09-18)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Microsoft Devkit 2023 is a an ARM64 based machine featuring a
-Realtek 8153 USB3.0-to-GBit Ethernet adapter. As in their other
-machines, Microsoft uses a custom USB device ID.
 
-Add the respective ID values to the driver. This makes Ethernet work on
-the MS Devkit device. The chip has been visually confirmed to be a
-RTL8153.
+On Wednesday 2022-11-23 13:46, Greg Kroah-Hartman wrote:
+>
+>The Microsoft RNDIS protocol is, as designed, insecure and vulnerable on
+>any system that uses it with untrusted hosts or devices.  Because the
+>protocol is impossible to make secure, just disable all rndis drivers to
+>prevent anyone from using them again.
+>
+>Windows only needed this for XP and newer systems, Windows systems older
+>than that can use the normal USB class protocols instead, which do not
+>have these problems.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- drivers/net/usb/r8152.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index a481a1d831e2f..23da1d9dafd1f 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -9836,6 +9836,7 @@ static const struct usb_device_id rtl8152_table[] = {
- 	REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07ab),
- 	REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x07c6),
- 	REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x0927),
-+	REALTEK_USB_DEVICE(VENDOR_ID_MICROSOFT, 0x0c5e),
- 	REALTEK_USB_DEVICE(VENDOR_ID_SAMSUNG, 0xa101),
- 	REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x304f),
- 	REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x3054),
--- 
-2.25.1
+In other news, someone just proposed adding "RNDIS" things to UEFI, so 
+now the security problem is added right back into machines but at 
+another layer?!
 
+https://edk2.groups.io/g/devel/topic/patch_1_3/95531719
