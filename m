@@ -2,24 +2,24 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3802AC61DB3
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Jan 2023 01:54:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0078C46467
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Jan 2023 01:54:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234891AbjAKByC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Jan 2023 20:54:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38502 "EHLO
+        id S233087AbjAKByF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Jan 2023 20:54:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234584AbjAKBxy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Jan 2023 20:53:54 -0500
+        with ESMTP id S234892AbjAKBx7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Jan 2023 20:53:59 -0500
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B67E0CE19;
-        Tue, 10 Jan 2023 17:53:52 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9AB3411168;
+        Tue, 10 Jan 2023 17:53:58 -0800 (PST)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8DEBCFEC;
-        Tue, 10 Jan 2023 17:54:34 -0800 (PST)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 71CE9FEC;
+        Tue, 10 Jan 2023 17:54:40 -0800 (PST)
 Received: from donnerap.cambridge.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C226D3F67D;
-        Tue, 10 Jan 2023 17:53:50 -0800 (PST)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A73CF3F67D;
+        Tue, 10 Jan 2023 17:53:56 -0800 (PST)
 From:   Andre Przywara <andre.przywara@arm.com>
 To:     Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -31,9 +31,9 @@ Cc:     Icenowy Zheng <uwu@icenowy.me>,
         devicetree@vger.kernel.org, soc@kernel.org,
         linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-sunxi@lists.linux.dev
-Subject: [PATCH v5 07/11] dt-binding: arm: sunxi: add compatible strings for PopStick v1.1
-Date:   Wed, 11 Jan 2023 01:53:28 +0000
-Message-Id: <20230111015332.172021-8-andre.przywara@arm.com>
+Subject: [PATCH v5 10/11] dt-bindings: arm: sunxi: add compatible strings for Lctech Pi
+Date:   Wed, 11 Jan 2023 01:53:31 +0000
+Message-Id: <20230111015332.172021-11-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230111015332.172021-1-andre.przywara@arm.com>
 References: <20230111015332.172021-1-andre.przywara@arm.com>
@@ -43,38 +43,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Icenowy Zheng <uwu@icenowy.me>
+The Lctech Pi F1C200s is a small development board using the Allwinner
+F1C200s SoC.
 
-SourceParts PopStick is a F1C200s-based stick-shaped SBC.
+Add the compatible string list to the bindings documentation.
 
-Add a compatible string list for its v1.1 version (the first public
-one).
-
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- Documentation/devicetree/bindings/arm/sunxi.yaml | 7 +++++++
- 1 file changed, 7 insertions(+)
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index 3ad1cd50e3fe0..c6e0ad7f461dd 100644
+index c6e0ad7f461dd..cbdfc1c247a2b 100644
 --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
 +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -807,6 +807,13 @@ properties:
-           - const: sinlinx,sina33
-           - const: allwinner,sun8i-a33
+@@ -366,6 +366,12 @@ properties:
+           - const: lamobo,lamobo-r1
+           - const: allwinner,sun7i-a20
  
-+      - description: SourceParts PopStick v1.1
++      - description: Lctech Pi F1C200s
 +        items:
-+          - const: sourceparts,popstick-v1.1
-+          - const: sourceparts,popstick
++          - const: lctech,pi-f1c200s
 +          - const: allwinner,suniv-f1c200s
 +          - const: allwinner,suniv-f1c100s
 +
-       - description: SL631 Action Camera with IMX179
+       - description: Libre Computer Board ALL-H3-CC H2+
          items:
-           - const: allwinner,sl631-imx179
+           - const: libretech,all-h3-cc-h2-plus
 -- 
 2.25.1
 
