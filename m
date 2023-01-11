@@ -2,89 +2,83 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD22C46467
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Jan 2023 17:16:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E13DC677F1
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Jan 2023 17:29:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234092AbjAKRQw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Jan 2023 12:16:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47134 "EHLO
+        id S238487AbjAKR35 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Jan 2023 12:29:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234484AbjAKRQb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Jan 2023 12:16:31 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 040B0F4B;
-        Wed, 11 Jan 2023 09:15:55 -0800 (PST)
-Received: from [192.168.1.139] ([37.4.248.41]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1Mv2gw-1oxqlZ0vaa-00qz8j; Wed, 11 Jan 2023 18:15:41 +0100
-Message-ID: <9c242f84-367e-d857-24a6-8336d652257c@i2se.com>
-Date:   Wed, 11 Jan 2023 18:15:40 +0100
+        with ESMTP id S239865AbjAKR31 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Jan 2023 12:29:27 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88BCA395DF;
+        Wed, 11 Jan 2023 09:27:42 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id F1C02CE1B0D;
+        Wed, 11 Jan 2023 17:27:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2100DC433EF;
+        Wed, 11 Jan 2023 17:27:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673458059;
+        bh=/miXrqCOjiG0Qs8BlvyFBFYxjZFoCwZzpXeOHMETUtc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IqSpmuntV2Ie6MwaRXSZyBhgJd2+W2VU4+4PRmnt6xf0q7f27CkhVJ/nU80EI6XKA
+         KSeU1+/3ZlmMmyEaNIDyRU5qzxRjwL4cHv2eFBK2ZIuh83g3l5yaTTAppf8ad5GXlK
+         um4sPN8jlWoKgrxtru75myWH6z8HvqkJSvNK4ZnnClcQ4h3IoXd2wm2gUczs8g8Bgi
+         JZd0udB4prUz3FfEQQxQa5S7AmPTCgBAT5hI7ahJxthMrhu3cFKfHF1gG3PNGT/It5
+         j5vCVp+SQ+9igBlETn8PKZB5LvMKmb5p9v9vhEDcWyL30dm+Xad1Fygid/vZpK0ahF
+         vJNcSydSbXp4g==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1pFet5-00049L-Vs; Wed, 11 Jan 2023 18:27:44 +0100
+Date:   Wed, 11 Jan 2023 18:27:43 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
+Cc:     linux-serial@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Samuel Iglesias =?utf-8?Q?Gons=C3=A1lvez?= 
+        <siglesias@igalia.com>, Rodolfo Giometti <giometti@enneenne.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-kernel@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 08/13] tty/serial: Make
+ ->dcd_change()+uart_handle_dcd_change() status bool active
+Message-ID: <Y77xj6Lk06m27X8J@hovoldconsulting.com>
+References: <20230111142331.34518-1-ilpo.jarvinen@linux.intel.com>
+ <20230111142331.34518-9-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 1/2] usb: misc: onboard_hub: Invert driver registration
- order
-To:     Matthias Kaehlcke <mka@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Icenowy Zheng <uwu@icenowy.me>, stable@vger.kernel.org,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>
-References: <20230110172954.v2.1.I75494ebee7027a50235ce4b1e930fa73a578fbe2@changeid>
-Content-Language: en-US
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20230110172954.v2.1.I75494ebee7027a50235ce4b1e930fa73a578fbe2@changeid>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:mlSvIIHDHoTWUrYZbV13DXLwgb5LmiMbUGrfSyk6xy9dIvfjHs4
- SBkT6X1/UoAV0k2FJ+W1qxmXvyuMggPTpiWfIPLzMw2BPC4RX84zrIlxzz/WgUpwrSJi1+1
- xC12eF77e4cU2xbmro9AGAoHMCxPs/7xyfLfy3FJfkt76kSwfWifwmnLkylg/nEFTrpbP5D
- sccMSLqGhUlBxEeZ3ESow==
-UI-OutboundReport: notjunk:1;M01:P0:uBJw4yKVRVA=;ULD0lhkJDedWrQ4W1B5hTSUxABw
- T18a30pAbHMyMZR7XqwxqUJ4SNOYnmYtyEaO/2FrJAw2TKOpcRvROQz8Rg8JjwrTjwCilt6Ta
- iTf4fbv6LVCn5VDBmvc0Fc2e3oJDQo8ugWsOX9HTCDqKCoFDWM3J+jdXkrP5XXIIJvfMR0MrK
- 8QSx/OfBqFPIK1vasnzFVZTWlzn4anGWVYH9V18A79JJPOVh+lh2M2VAwo7ztspF7VttBXUGx
- 4+VL11D0lpiAf6/gCsNJLbvB1wja17F0aYAkRqe2veRASRQAccK8tam8D/0TeWqlig7u5Sxuz
- fzpCvWVlngCRmgFXotWyLvyUpdxqmbEhJpKm/xwoEVB6OBSC48ZRkSsUvZORo3kkYxl4gk5D+
- jbygHUWhE+uOJsgBAAebwFClZy7eTBf8ynTNaLrH2a8vlhnFfhCIis+pagOviNPfTMc6yK33j
- OxhjVcAacKI0wSiTFhuRVZHBCOFA/PEPu3taiLRzye3a4wjeEkaDuE+d1TU82nbo/yyeSTerX
- xN3vP1kLIgOy+4HRf28BuUlSHZngksudk2+4EhGT+He2byk+A7RigpbGqVXjF2eDDRKrXNfMh
- ZAap2AHn0NoeIOWnw4Qs0/aYgJW99hUChPM7ntuFg+DrW0uAN55zYqFiuwDBPahSEVslU9wyi
- DluFk5GmaaGXN9UwqNYa/S4UeIM1DTwiTDvUbcUngw==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230111142331.34518-9-ilpo.jarvinen@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Matthias,
+On Wed, Jan 11, 2023 at 04:23:26PM +0200, Ilpo Järvinen wrote:
+> Convert status parameter for ->dcd_change() and
+> uart_handle_dcd_change() to bool which matches to how the parameter is
+> used.
+> 
+> Rename status to active to better describe what the parameter means.
+> 
+> Acked-by: Rodolfo Giometti <giometti@enneenne.com>
+> Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+> Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> ---
+>  drivers/pps/clients/pps-ldisc.c  |  6 +++---
+>  drivers/tty/serial/serial_core.c |  8 ++++----
+>  drivers/tty/serial/sunhv.c       |  8 ++++----
+>  drivers/usb/serial/generic.c     | 10 +++++-----
+>  include/linux/serial_core.h      |  3 +--
+>  include/linux/tty_ldisc.h        |  4 ++--
+>  include/linux/usb/serial.h       |  2 +-
+>  7 files changed, 20 insertions(+), 21 deletions(-)
 
-Am 10.01.23 um 18:32 schrieb Matthias Kaehlcke:
-> The onboard_hub 'driver' consists of two drivers, a platform
-> driver and a USB driver. Currently when the onboard hub driver
-> is initialized it first registers the platform driver, then the
-> USB driver. This results in a race condition when the 'attach'
-> work is executed, which is scheduled when the platform device
-> is probed. The purpose of fhe 'attach' work is to bind elegible
-> USB hub devices to the onboard_hub USB driver. This fails if
-> the work runs before the USB driver has been registered.
->
-> Register the USB driver first, then the platform driver. This
-> increases the chances that the onboard_hub USB devices are probed
-> before their corresponding platform device, which the USB driver
-> tries to locate in _probe(). The driver already handles this
-> situation and defers probing if the onboard hub platform device
-> doesn't exist yet.
->
-> Cc: stable@vger.kernel.org
-> Fixes: 8bc063641ceb ("usb: misc: Add onboard_usb_hub driver")
-> Link: https://lore.kernel.org/lkml/Y6W00vQm3jfLflUJ@hovoldconsulting.com/T/#m0d64295f017942fd988f7c53425db302d61952b4
-> Reported-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+Same here, split out the USB serial changes in a separate series.
 
-the whole series is:
-
-Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
-
-Thanks \o/
-
+Johan
