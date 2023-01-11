@@ -2,673 +2,468 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CBF5C678D8
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Jan 2023 13:51:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 123E4C63797
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Jan 2023 14:19:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236486AbjAKNuv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Jan 2023 08:50:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54466 "EHLO
+        id S234223AbjAKOS6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Jan 2023 09:18:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239134AbjAKNdg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Jan 2023 08:33:36 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05BA01B9F3;
-        Wed, 11 Jan 2023 05:32:42 -0800 (PST)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 740041BF20D;
-        Wed, 11 Jan 2023 13:32:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1673443961;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fhJfy58Wim3I6Uy+3tQwAhlF/9yDhsCxzNqEc6EuAvA=;
-        b=jG7wlacqv9Y4oZQ7Dgp/NGAz9LLTYwSrgd8SsHXtcdljEJlU4npZXLFXbmV+i6GLjVTgzz
-        9dfk2zKK+XffX4XxYwrQI2zzDS+r8tgzF3HnGjyKO0sYe5NYR7URxyujI3YWeXo1po/2kf
-        e4RM4uDN8loTbKTsdVZ2kOp++9X1WSHir11VDASqZlzecnczCP3IBfbdNLcLkIZ4YgObpz
-        BHRcd8ji7zuNG/47lbkulphOSIE7DMqWSpWQbI5d+xZJlu5hKHsRH3TapnepGofg8mGHxs
-        NeEd6je9erlp8UL67B1ZZdlsNedS0Lms6h83S3Bu+feUWSCBAzGQda5Wza2/nA==
-Date:   Wed, 11 Jan 2023 14:32:35 +0100
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        Len Brown <lenb@kernel.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Wolfram Sang <wsa@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sean Young <sean@mess.org>, Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Ming Lei <ming.lei@redhat.com>,
-        Jilin Yuan <yuanjilin@cdjrlc.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 05/16] driver core: make struct device_type.uevent()
- take a const *
-Message-ID: <Y766c6QyOaG8oQlu@mail.local>
-References: <20230111113018.459199-1-gregkh@linuxfoundation.org>
- <20230111113018.459199-6-gregkh@linuxfoundation.org>
+        with ESMTP id S238950AbjAKOS3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Jan 2023 09:18:29 -0500
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2098.outbound.protection.outlook.com [40.107.114.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2A4BFAD6;
+        Wed, 11 Jan 2023 06:18:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eCK9aQETpPLQaa9fYGAzd5df/zGDIn+dqTaZ7Lii3uuXSRLXJ7H5NvD9OA5blooN9AXnHRuebrM/pmZiEqpBnDESRCsA+zLh75A5bBfU4Qyu5xP8SAQ6depE4EScoCXhB4Re+jx9Uopa+0sYuKqjLdyME4pOn+/8mBOBb5gfK4rdWjp1W2W+BnlRfB7qZTWI/eDPDQGxMWF+pnJrEj+Se6H6k3bYBSRs1E1y84XRQyJN7HUWwdBkHJ48yPE0wvRtN+V96heuYsNV+3pwhJrJr4i610sjSwtRuSVVyf33GP83aSkX3EYvj0/KmcS9vCPHr55r4S4SpPm3pYukybC5xA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IsnC9aJSAqfThPRpHjTe3T1Co84/t6fAY2l5loDar1U=;
+ b=d2WBHl6CB5/hDStZzJYgljPz/hqqR0VbUaeeqt3Stpzlajy6RCwGo7vsuyYaMDj2s4l5Ps6X/dJZmF/TrF5V3ebYqtTG7zmSkGfDlHykTd/CbqSlsDiNnhG0zWbu5LUck91Op2XyJHg/YKwsD68ZyuZAaFO8K/Su2B/cN1RMrPcqLN7kO6nAmj3F8Fy/RsfA/ltFnI59fpwVbbfnrSIg7trr0i3xhzntU1hPdi6kSxVEpYS8gWJJhrzv6u1PVKQg8tieAl+oy/CT9S0qftsvMEhNIsVzPAFeuZHEPeZSyBOEPJXD2VppZQESapnaOvzholIcqfsfRoIPYxfI/+WPmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IsnC9aJSAqfThPRpHjTe3T1Co84/t6fAY2l5loDar1U=;
+ b=kYu4vMhoa1vHF+qv+1U9NOy0vUe7feGPPVOaWymY5x/mCO6sE4Egj/UuxavoAciwqSpkB7cKYyUIZEoGM1Scs9s1iAUKb0+jLso0NTVJPPBldvZwUu8iOAuOrB2+t/+v3MxIlhn7I/7gLiKjDlKmtta6OZa2pynqMoo/iszr5Uw=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYCPR01MB8341.jpnprd01.prod.outlook.com (2603:1096:400:15c::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
+ 2023 14:18:21 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::343d:7339:78e5:a46e]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::343d:7339:78e5:a46e%3]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
+ 14:18:21 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 02/16] dt-bindings: usb: Add RZ/V2M USB3DRD binding
+Thread-Topic: [PATCH 02/16] dt-bindings: usb: Add RZ/V2M USB3DRD binding
+Thread-Index: AQHZDk8gBgnbtRuyh02a6fh4PZaBEq5r4faAgAADFWCAABTCgIAtb+2g
+Date:   Wed, 11 Jan 2023 14:18:21 +0000
+Message-ID: <OS0PR01MB59220583B9C8BC4E6E1EDEA186FC9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20221212172804.1277751-1-biju.das.jz@bp.renesas.com>
+ <20221212172804.1277751-3-biju.das.jz@bp.renesas.com>
+ <20221213142921.GA958810-robh@kernel.org>
+ <OS0PR01MB59224764F969310126DB202186E39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20221213155441.GA1483198-robh@kernel.org>
+In-Reply-To: <20221213155441.GA1483198-robh@kernel.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB8341:EE_
+x-ms-office365-filtering-correlation-id: c094b2af-21bc-4771-0cc1-08daf3deb172
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: zU+V2xYLy1y6MRKLHRymESfViQjZZYutvzeG21xpK208EEh9q4HaCToLzGMUfNpn6FxMPh18DKcQheMngqkm7N2QrpSVuVnJ52Tsfy3/yS3rfx8Yn54pP78uHMYMVL0zDZtLV3YBqFMigG43H43HsnaikN/rIZxvszct+6y0pfdZpo4p7D8nhaW+d/Yn6iskppFc4JNbONECtkDKZuf1UTUTW6WI4RTJxSqY9iodnOXqJsX0A4aNP5KRuEBUcJvbBvNwQ8XoghlzX4rUUQoK2oj9hru/+Pe7QBaJfdxJ9ivBVkOG2/i3dJnIfMkTUY8PD0JpaJ0NgSBwSSne6bD7UhzOYCBM9NHV4LHgRMJF2Fln442UYdTHE4chZm6FVL3Z9JSpuWGuOVHwW7qImwZYI40EaqmKM3lGcv/VC1Bo5EA6vEfzu5xBG2NgUKhjLaTizCMaLMQAGXvq2OyKkQhX49X6qTnwXSMnRg9NkB594rJZfFpePM94xkEhVo4PEbQ14igRAHa5KN9sDz20lSKVwZfHDW8OkU6xJQI5fZxW3bYqZpyu2+CysAMaSJwmsIEjpS1IBloLdryc3KOi9GvYjVQ4/yDwFqHlRofaFRygx5Hs88cn10575LvGGIuatT12pg8Q7kBJsNI4o/4Ck+PIjKE3YMHw+hFuGaPQwfi8F9RZAZ2RW/+YwOMv9mWNoL6GQNlN5IWi3xNR8yeQAuCSZsM4ln5pFF4Z3Kms3HRY3vc=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(346002)(39860400002)(366004)(376002)(396003)(451199015)(8676002)(52536014)(66946007)(41300700001)(2906002)(8936002)(5660300002)(6916009)(76116006)(66446008)(66476007)(64756008)(316002)(66556008)(7696005)(71200400001)(54906003)(478600001)(53546011)(6506007)(33656002)(4326008)(55016003)(9686003)(26005)(186003)(83380400001)(86362001)(38070700005)(38100700002)(122000001)(32563001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?8fchOKeYXbcwUNLaD69yhP8sv7e6lo1uBbRzMlJRKAMIKY0YDVGiwl4M/OUT?=
+ =?us-ascii?Q?b5X7LZJrd9tvKAvSALXrpy2lOyaA7+49hpKGQYmYAzrie2KDzq5TlYP5jyfR?=
+ =?us-ascii?Q?AGOicGXHdL27FEzgJ8nY88XYzdi839L4PQNOWRxYGXzB15nYUiBBr6UVDBde?=
+ =?us-ascii?Q?IC5SGzqnZqfYaXfaqEIAC7vEOZZwAJKgOfBAr1p9zo6MgnstZo10UJ0ey7Pl?=
+ =?us-ascii?Q?7TZLac9OMVw/0fTnfUBjk/8dnoBgZa8Ub2gzan1xpdwACobM9FtsQvEjI6rz?=
+ =?us-ascii?Q?DO23W3BhaYZI+BX67LODAOXywZvKUD7OfS8Pt+7qo+C08DwVwx0srHjwb+Bj?=
+ =?us-ascii?Q?fUGOx6LispE7oJELPo3hqfGYjMHzfzzfkkuGtvkDECKR7+DT8YUzjXri54Vl?=
+ =?us-ascii?Q?RPiUoGCC2dEOHb+HquDayqepRlkH7FdsiFM89atMgY6gVUVTNuV5Ts+vpzDu?=
+ =?us-ascii?Q?LDFttMGiuHu4EOx838TkpbIB8JDMZin5zDXrqWSwpyqo3L2bSqkZrfVtDq+P?=
+ =?us-ascii?Q?0QQvN6f+TXd/kH/1MEsQafrewe5vSF1DOOQGMzg46SzddNlRvQoWrPXancVk?=
+ =?us-ascii?Q?QHsUYWh/haiLdOAkUg157EKxdMviihbrWQ+lur1CeRrbf9207eDHygzQXbrC?=
+ =?us-ascii?Q?saIhEt2SAPa3c+HlDumpVj4azvKybIhRE/AOR2QM97Jg5V+/JWc3d8AEGRm6?=
+ =?us-ascii?Q?O2yQgwlkV2jI5LC6ll2Flrn3szfYrJPTeEndrZtzXCU2bCQVrXm2TuBA/4fm?=
+ =?us-ascii?Q?Da8O4e1gR+vTlQmTE3WdebqxowkGKqC2Ev1HNxldBXHDb9mhU08MfLOnU6Pd?=
+ =?us-ascii?Q?+0CpH6mohirP9tDexqxil3ZsKVu4cTRqzD+W0lOH8M0hVet3cOpGYkLuTE0o?=
+ =?us-ascii?Q?QDURD3bIIWoppP1iUaQEOOqyLS2CbCW/eq/2ij0AD8GlzQ8X6KidgDiqnVlU?=
+ =?us-ascii?Q?eDOslbOsmsCnH9MWPJEfOhgQG2x0K7NwA3IBv6CbFUT9avyFmLRHHLcB1ejf?=
+ =?us-ascii?Q?Nn9eEZ4aIQu3/k3rNO6RuldFn7AmJpATyqe2rLClwm28viXOqs4HMFg92CKT?=
+ =?us-ascii?Q?cMd5bioqWlybbKJLKOdNc3ZE2LgWuHZRVMPlPKXBL3c1X5W3LMZjMXLpUkIr?=
+ =?us-ascii?Q?tVS8PZ/AUhNfUgPTxNegEd1BSBjg3UYpCGGRZ+rm7l0CEJOVVrY+eBzjMNhx?=
+ =?us-ascii?Q?q0QD/JzBc4INV952srMGkambwH588KGDLfL3ii/RvYlY86nSe+7QbAnBrUKb?=
+ =?us-ascii?Q?XdgJAQswDBtmGKLdM3yvDFM+Z92udgPOw5BLXg2Nt7f2rmLFl5zVR8Hm+AUy?=
+ =?us-ascii?Q?CHi54vn2PeJm1f/YDp1/Kr9PA35PCgvJyPORlkQJf7KLLsEd6aoX3eT6LO7t?=
+ =?us-ascii?Q?E67sGhXThkF3Cj07FroiHFbkW+PHLC6Ig0ppG9Z7gfJUdXwzf7/IOO10Nfex?=
+ =?us-ascii?Q?aL5SFLYyWXNQ9QAiOvJlUN4iBOj8ccmFOnF6Jk8xwHrmaCC64YfZEauzniA0?=
+ =?us-ascii?Q?R4pK5DHOw83BGxi8sIsYIgkohG3ksx24zR6/M54KBPjOdCOxBLLaDXSl38he?=
+ =?us-ascii?Q?fCY3MmcdHI6fBEm5uLKaaFC42ogZEzP7Da2gKybT96UgBs2mbOndjyzwnLFQ?=
+ =?us-ascii?Q?Sw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230111113018.459199-6-gregkh@linuxfoundation.org>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c094b2af-21bc-4771-0cc1-08daf3deb172
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jan 2023 14:18:21.1364
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lmOMpX+UR62ovKgph36x56x/hOIgqGY1UPv7nTc7S+qNXExvgQXAzeFUWDz1stLCvjGL8PMwL63MtSgh0cwh1V6h6f0XyO3PzkGc49vil/A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8341
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 11/01/2023 12:30:07+0100, Greg Kroah-Hartman wrote:
-> The uevent() callback in struct device_type should not be modifying the
-> device that is passed into it, so mark it as a const * and propagate the
-> function signature changes out into all relevant subsystems that use
-> this callback.
-> 
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Len Brown <lenb@kernel.org>
-> Cc: Stefan Richter <stefanr@s5r6.in-berlin.de>
-> Cc: Wolfram Sang <wsa@kernel.org>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Sean Young <sean@mess.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Cc: Maximilian Luz <luzmaximilian@gmail.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: Mark Gross <markgross@kernel.org>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> Cc: Sanyog Kale <sanyog.r.kale@intel.com>
-> Cc: Andreas Noever <andreas.noever@gmail.com>
-> Cc: Michael Jamet <michael.jamet@intel.com>
-> Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
-> Cc: Jiri Slaby <jirislaby@kernel.org>
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-> Cc: Chaitanya Kulkarni <kch@nvidia.com>
-> Cc: Ming Lei <ming.lei@redhat.com>
-> Cc: Jilin Yuan <yuanjilin@cdjrlc.com>
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ira Weiny <ira.weiny@intel.com>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Won Chung <wonchung@google.com>
-> Cc: alsa-devel@alsa-project.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-acpi@vger.kernel.org
-> Cc: linux-block@vger.kernel.org
-> Cc: linux-i2c@vger.kernel.org
-> Cc: linux-i3c@lists.infradead.org
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-serial@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> Cc: linux1394-devel@lists.sourceforge.net
-> Cc: platform-driver-x86@vger.kernel.org
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com> # for Thunderbolt
-> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-> ---
->  block/partitions/core.c                   |  4 ++--
->  drivers/acpi/device_sysfs.c               |  8 ++++----
->  drivers/acpi/internal.h                   |  2 +-
->  drivers/firewire/core-device.c            |  8 ++++----
->  drivers/gpu/drm/display/drm_dp_aux_bus.c  |  2 +-
->  drivers/i2c/i2c-core-base.c               |  4 ++--
->  drivers/i3c/device.c                      |  2 +-
->  drivers/i3c/master.c                      |  4 ++--
->  drivers/input/input.c                     | 16 ++++++++--------
->  drivers/media/rc/rc-main.c                |  2 +-
->  drivers/platform/surface/aggregator/bus.c |  4 ++--
->  drivers/soundwire/bus_type.c              |  4 ++--
->  drivers/thunderbolt/switch.c              |  4 ++--
->  drivers/thunderbolt/tb.h                  |  2 +-
->  drivers/thunderbolt/xdomain.c             |  6 +++---
->  drivers/tty/serdev/core.c                 |  2 +-
->  drivers/usb/core/message.c                |  8 ++++----
->  drivers/usb/core/usb.c                    |  4 ++--
->  drivers/usb/phy/phy.c                     |  6 +++---
->  drivers/usb/roles/class.c                 |  3 +--
->  drivers/usb/typec/class.c                 |  2 +-
->  include/linux/acpi.h                      |  4 ++--
->  include/linux/device.h                    |  2 +-
->  include/linux/i3c/device.h                |  2 +-
->  include/linux/soundwire/sdw_type.h        |  2 +-
->  25 files changed, 53 insertions(+), 54 deletions(-)
-> 
-> diff --git a/block/partitions/core.c b/block/partitions/core.c
-> index b8112f52d388..7b8ef6296abd 100644
-> --- a/block/partitions/core.c
-> +++ b/block/partitions/core.c
-> @@ -254,9 +254,9 @@ static void part_release(struct device *dev)
->  	iput(dev_to_bdev(dev)->bd_inode);
->  }
->  
-> -static int part_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int part_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -	struct block_device *part = dev_to_bdev(dev);
-> +	const struct block_device *part = dev_to_bdev(dev);
->  
->  	add_uevent_var(env, "PARTN=%u", part->bd_partno);
->  	if (part->bd_meta_info && part->bd_meta_info->volname[0])
-> diff --git a/drivers/acpi/device_sysfs.c b/drivers/acpi/device_sysfs.c
-> index 120873dad2cc..daff2c0c5c52 100644
-> --- a/drivers/acpi/device_sysfs.c
-> +++ b/drivers/acpi/device_sysfs.c
-> @@ -133,7 +133,7 @@ static void acpi_hide_nondev_subnodes(struct acpi_device_data *data)
->   *         -EINVAL: output error
->   *         -ENOMEM: output is truncated
->   */
-> -static int create_pnp_modalias(struct acpi_device *acpi_dev, char *modalias,
-> +static int create_pnp_modalias(const struct acpi_device *acpi_dev, char *modalias,
->  			       int size)
->  {
->  	int len;
-> @@ -191,7 +191,7 @@ static int create_pnp_modalias(struct acpi_device *acpi_dev, char *modalias,
->   * only be called for devices having ACPI_DT_NAMESPACE_HID in their list of
->   * ACPI/PNP IDs.
->   */
-> -static int create_of_modalias(struct acpi_device *acpi_dev, char *modalias,
-> +static int create_of_modalias(const struct acpi_device *acpi_dev, char *modalias,
->  			      int size)
->  {
->  	struct acpi_buffer buf = { ACPI_ALLOCATE_BUFFER };
-> @@ -239,7 +239,7 @@ static int create_of_modalias(struct acpi_device *acpi_dev, char *modalias,
->  	return len;
->  }
->  
-> -int __acpi_device_uevent_modalias(struct acpi_device *adev,
-> +int __acpi_device_uevent_modalias(const struct acpi_device *adev,
->  				  struct kobj_uevent_env *env)
->  {
->  	int len;
-> @@ -277,7 +277,7 @@ int __acpi_device_uevent_modalias(struct acpi_device *adev,
->   * Because other buses do not support ACPI HIDs & CIDs, e.g. for a device with
->   * hid:IBM0001 and cid:ACPI0001 you get: "acpi:IBM0001:ACPI0001".
->   */
-> -int acpi_device_uevent_modalias(struct device *dev, struct kobj_uevent_env *env)
-> +int acpi_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *env)
->  {
->  	return __acpi_device_uevent_modalias(acpi_companion_match(dev), env);
->  }
-> diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
-> index ec584442fb29..06ad497067ac 100644
-> --- a/drivers/acpi/internal.h
-> +++ b/drivers/acpi/internal.h
-> @@ -120,7 +120,7 @@ int acpi_bus_register_early_device(int type);
->                       Device Matching and Notification
->     -------------------------------------------------------------------------- */
->  struct acpi_device *acpi_companion_match(const struct device *dev);
-> -int __acpi_device_uevent_modalias(struct acpi_device *adev,
-> +int __acpi_device_uevent_modalias(const struct acpi_device *adev,
->  				  struct kobj_uevent_env *env);
->  
->  /* --------------------------------------------------------------------------
-> diff --git a/drivers/firewire/core-device.c b/drivers/firewire/core-device.c
-> index adddd8c45d0c..aa597cda0d88 100644
-> --- a/drivers/firewire/core-device.c
-> +++ b/drivers/firewire/core-device.c
-> @@ -133,7 +133,7 @@ static void get_ids(const u32 *directory, int *id)
->  	}
->  }
->  
-> -static void get_modalias_ids(struct fw_unit *unit, int *id)
-> +static void get_modalias_ids(const struct fw_unit *unit, int *id)
->  {
->  	get_ids(&fw_parent_device(unit)->config_rom[5], id);
->  	get_ids(unit->directory, id);
-> @@ -195,7 +195,7 @@ static void fw_unit_remove(struct device *dev)
->  	driver->remove(fw_unit(dev));
->  }
->  
-> -static int get_modalias(struct fw_unit *unit, char *buffer, size_t buffer_size)
-> +static int get_modalias(const struct fw_unit *unit, char *buffer, size_t buffer_size)
->  {
->  	int id[] = {0, 0, 0, 0};
->  
-> @@ -206,9 +206,9 @@ static int get_modalias(struct fw_unit *unit, char *buffer, size_t buffer_size)
->  			id[0], id[1], id[2], id[3]);
->  }
->  
-> -static int fw_unit_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int fw_unit_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -	struct fw_unit *unit = fw_unit(dev);
-> +	const struct fw_unit *unit = fw_unit(dev);
->  	char modalias[64];
->  
->  	get_modalias(unit, modalias, sizeof(modalias));
-> diff --git a/drivers/gpu/drm/display/drm_dp_aux_bus.c b/drivers/gpu/drm/display/drm_dp_aux_bus.c
-> index e31a0261c53e..8a165be1a821 100644
-> --- a/drivers/gpu/drm/display/drm_dp_aux_bus.c
-> +++ b/drivers/gpu/drm/display/drm_dp_aux_bus.c
-> @@ -161,7 +161,7 @@ static void dp_aux_ep_dev_release(struct device *dev)
->  	kfree(aux_ep_with_data);
->  }
->  
-> -static int dp_aux_ep_dev_modalias(struct device *dev, struct kobj_uevent_env *env)
-> +static int dp_aux_ep_dev_modalias(const struct device *dev, struct kobj_uevent_env *env)
->  {
->  	return of_device_uevent_modalias(dev, env);
->  }
-> diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-> index 087e480b624c..51b78a52ab7f 100644
-> --- a/drivers/i2c/i2c-core-base.c
-> +++ b/drivers/i2c/i2c-core-base.c
-> @@ -136,9 +136,9 @@ static int i2c_device_match(struct device *dev, struct device_driver *drv)
->  	return 0;
->  }
->  
-> -static int i2c_device_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int i2c_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -	struct i2c_client *client = to_i2c_client(dev);
-> +	const struct i2c_client *client = to_i2c_client(dev);
->  	int rc;
->  
->  	rc = of_device_uevent_modalias(dev, env);
-> diff --git a/drivers/i3c/device.c b/drivers/i3c/device.c
-> index d111499061b2..1a6a8703dbc3 100644
-> --- a/drivers/i3c/device.c
-> +++ b/drivers/i3c/device.c
-> @@ -78,7 +78,7 @@ EXPORT_SYMBOL_GPL(i3c_device_do_setdasa);
->   *
->   * Retrieve I3C dev info.
->   */
-> -void i3c_device_get_info(struct i3c_device *dev,
-> +void i3c_device_get_info(const struct i3c_device *dev,
->  			 struct i3c_device_info *info)
->  {
->  	if (!info)
-> diff --git a/drivers/i3c/master.c b/drivers/i3c/master.c
-> index d7e6f6c99aea..7a60e1c5e587 100644
-> --- a/drivers/i3c/master.c
-> +++ b/drivers/i3c/master.c
-> @@ -273,9 +273,9 @@ static struct attribute *i3c_device_attrs[] = {
->  };
->  ATTRIBUTE_GROUPS(i3c_device);
->  
-> -static int i3c_device_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int i3c_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -	struct i3c_device *i3cdev = dev_to_i3cdev(dev);
-> +	const struct i3c_device *i3cdev = dev_to_i3cdev(dev);
->  	struct i3c_device_info devinfo;
->  	u16 manuf, part, ext;
->  
-> diff --git a/drivers/input/input.c b/drivers/input/input.c
-> index ca2e3dd7188b..0336e799d713 100644
-> --- a/drivers/input/input.c
-> +++ b/drivers/input/input.c
-> @@ -1372,7 +1372,7 @@ INPUT_DEV_STRING_ATTR_SHOW(phys);
->  INPUT_DEV_STRING_ATTR_SHOW(uniq);
->  
->  static int input_print_modalias_bits(char *buf, int size,
-> -				     char name, unsigned long *bm,
-> +				     char name, const unsigned long *bm,
->  				     unsigned int min_bit, unsigned int max_bit)
->  {
->  	int len = 0, i;
-> @@ -1384,7 +1384,7 @@ static int input_print_modalias_bits(char *buf, int size,
->  	return len;
->  }
->  
-> -static int input_print_modalias(char *buf, int size, struct input_dev *id,
-> +static int input_print_modalias(char *buf, int size, const struct input_dev *id,
->  				int add_cr)
->  {
->  	int len;
-> @@ -1432,7 +1432,7 @@ static ssize_t input_dev_show_modalias(struct device *dev,
->  }
->  static DEVICE_ATTR(modalias, S_IRUGO, input_dev_show_modalias, NULL);
->  
-> -static int input_print_bitmap(char *buf, int buf_size, unsigned long *bitmap,
-> +static int input_print_bitmap(char *buf, int buf_size, const unsigned long *bitmap,
->  			      int max, int add_cr);
->  
->  static ssize_t input_dev_show_properties(struct device *dev,
-> @@ -1524,7 +1524,7 @@ static const struct attribute_group input_dev_id_attr_group = {
->  	.attrs	= input_dev_id_attrs,
->  };
->  
-> -static int input_print_bitmap(char *buf, int buf_size, unsigned long *bitmap,
-> +static int input_print_bitmap(char *buf, int buf_size, const unsigned long *bitmap,
->  			      int max, int add_cr)
->  {
->  	int i;
-> @@ -1621,7 +1621,7 @@ static void input_dev_release(struct device *device)
->   * device bitfields.
->   */
->  static int input_add_uevent_bm_var(struct kobj_uevent_env *env,
-> -				   const char *name, unsigned long *bitmap, int max)
-> +				   const char *name, const unsigned long *bitmap, int max)
->  {
->  	int len;
->  
-> @@ -1639,7 +1639,7 @@ static int input_add_uevent_bm_var(struct kobj_uevent_env *env,
->  }
->  
->  static int input_add_uevent_modalias_var(struct kobj_uevent_env *env,
-> -					 struct input_dev *dev)
-> +					 const struct input_dev *dev)
->  {
->  	int len;
->  
-> @@ -1677,9 +1677,9 @@ static int input_add_uevent_modalias_var(struct kobj_uevent_env *env,
->  			return err;					\
->  	} while (0)
->  
-> -static int input_dev_uevent(struct device *device, struct kobj_uevent_env *env)
-> +static int input_dev_uevent(const struct device *device, struct kobj_uevent_env *env)
->  {
-> -	struct input_dev *dev = to_input_dev(device);
-> +	const struct input_dev *dev = to_input_dev(device);
->  
->  	INPUT_ADD_HOTPLUG_VAR("PRODUCT=%x/%x/%x/%x",
->  				dev->id.bustype, dev->id.vendor,
-> diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
-> index 527d9324742b..6bdad6341844 100644
-> --- a/drivers/media/rc/rc-main.c
-> +++ b/drivers/media/rc/rc-main.c
-> @@ -1614,7 +1614,7 @@ static void rc_dev_release(struct device *device)
->  	kfree(dev);
->  }
->  
-> -static int rc_dev_uevent(struct device *device, struct kobj_uevent_env *env)
-> +static int rc_dev_uevent(const struct device *device, struct kobj_uevent_env *env)
->  {
->  	struct rc_dev *dev = to_rc_dev(device);
->  	int ret = 0;
-> diff --git a/drivers/platform/surface/aggregator/bus.c b/drivers/platform/surface/aggregator/bus.c
-> index de539938896e..407eb55050a6 100644
-> --- a/drivers/platform/surface/aggregator/bus.c
-> +++ b/drivers/platform/surface/aggregator/bus.c
-> @@ -35,9 +35,9 @@ static struct attribute *ssam_device_attrs[] = {
->  };
->  ATTRIBUTE_GROUPS(ssam_device);
->  
-> -static int ssam_device_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int ssam_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -	struct ssam_device *sdev = to_ssam_device(dev);
-> +	const struct ssam_device *sdev = to_ssam_device(dev);
->  
->  	return add_uevent_var(env, "MODALIAS=ssam:d%02Xc%02Xt%02Xi%02Xf%02X",
->  			      sdev->uid.domain, sdev->uid.category,
-> diff --git a/drivers/soundwire/bus_type.c b/drivers/soundwire/bus_type.c
-> index 04b3529f8929..26c9a0a85d49 100644
-> --- a/drivers/soundwire/bus_type.c
-> +++ b/drivers/soundwire/bus_type.c
-> @@ -58,9 +58,9 @@ int sdw_slave_modalias(const struct sdw_slave *slave, char *buf, size_t size)
->  			slave->id.sdw_version, slave->id.class_id);
->  }
->  
-> -int sdw_slave_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +int sdw_slave_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -	struct sdw_slave *slave = dev_to_sdw_dev(dev);
-> +	const struct sdw_slave *slave = dev_to_sdw_dev(dev);
->  	char modalias[32];
->  
->  	sdw_slave_modalias(slave, modalias, sizeof(modalias));
-> diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-> index 363d712aa364..cb6c304c445e 100644
-> --- a/drivers/thunderbolt/switch.c
-> +++ b/drivers/thunderbolt/switch.c
-> @@ -2176,9 +2176,9 @@ static void tb_switch_release(struct device *dev)
->  	kfree(sw);
->  }
->  
-> -static int tb_switch_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int tb_switch_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -	struct tb_switch *sw = tb_to_switch(dev);
-> +	const struct tb_switch *sw = tb_to_switch(dev);
->  	const char *type;
->  
->  	if (sw->config.thunderbolt_version == USB4_VERSION_1_0) {
-> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-> index f9786976f5ec..909da0a98134 100644
-> --- a/drivers/thunderbolt/tb.h
-> +++ b/drivers/thunderbolt/tb.h
-> @@ -815,7 +815,7 @@ static inline bool tb_is_switch(const struct device *dev)
->  	return dev->type == &tb_switch_type;
->  }
->  
-> -static inline struct tb_switch *tb_to_switch(struct device *dev)
-> +static inline struct tb_switch *tb_to_switch(const struct device *dev)
->  {
->  	if (tb_is_switch(dev))
->  		return container_of(dev, struct tb_switch, dev);
-> diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-> index cfa83486c9da..7bf1e360b04c 100644
-> --- a/drivers/thunderbolt/xdomain.c
-> +++ b/drivers/thunderbolt/xdomain.c
-> @@ -881,7 +881,7 @@ static ssize_t key_show(struct device *dev, struct device_attribute *attr,
->  }
->  static DEVICE_ATTR_RO(key);
->  
-> -static int get_modalias(struct tb_service *svc, char *buf, size_t size)
-> +static int get_modalias(const struct tb_service *svc, char *buf, size_t size)
->  {
->  	return snprintf(buf, size, "tbsvc:k%sp%08Xv%08Xr%08X", svc->key,
->  			svc->prtcid, svc->prtcvers, svc->prtcrevs);
-> @@ -953,9 +953,9 @@ static const struct attribute_group *tb_service_attr_groups[] = {
->  	NULL,
->  };
->  
-> -static int tb_service_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int tb_service_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -	struct tb_service *svc = container_of(dev, struct tb_service, dev);
-> +	const struct tb_service *svc = container_of_const(dev, struct tb_service, dev);
->  	char modalias[64];
->  
->  	get_modalias(svc, modalias, sizeof(modalias));
-> diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
-> index 0180e1e4e75d..aa80de3a8194 100644
-> --- a/drivers/tty/serdev/core.c
-> +++ b/drivers/tty/serdev/core.c
-> @@ -42,7 +42,7 @@ static struct attribute *serdev_device_attrs[] = {
->  };
->  ATTRIBUTE_GROUPS(serdev_device);
->  
-> -static int serdev_device_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int serdev_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
->  	int rc;
->  
-> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-> index 127fac1af676..cc404bb7e8f7 100644
-> --- a/drivers/usb/core/message.c
-> +++ b/drivers/usb/core/message.c
-> @@ -1819,11 +1819,11 @@ void usb_authorize_interface(struct usb_interface *intf)
->  	}
->  }
->  
-> -static int usb_if_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int usb_if_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -	struct usb_device *usb_dev;
-> -	struct usb_interface *intf;
-> -	struct usb_host_interface *alt;
-> +	const struct usb_device *usb_dev;
-> +	const struct usb_interface *intf;
-> +	const struct usb_host_interface *alt;
->  
->  	intf = to_usb_interface(dev);
->  	usb_dev = interface_to_usbdev(intf);
-> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-> index 11b15d7b357a..8527c06b65e6 100644
-> --- a/drivers/usb/core/usb.c
-> +++ b/drivers/usb/core/usb.c
-> @@ -423,9 +423,9 @@ static void usb_release_dev(struct device *dev)
->  	kfree(udev);
->  }
->  
-> -static int usb_dev_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int usb_dev_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -	struct usb_device *usb_dev;
-> +	const struct usb_device *usb_dev;
->  
->  	usb_dev = to_usb_device(dev);
->  
-> diff --git a/drivers/usb/phy/phy.c b/drivers/usb/phy/phy.c
-> index 1b24492bb4e5..4b468bde19cf 100644
-> --- a/drivers/usb/phy/phy.c
-> +++ b/drivers/usb/phy/phy.c
-> @@ -80,7 +80,7 @@ static struct usb_phy *__of_usb_find_phy(struct device_node *node)
->  	return ERR_PTR(-EPROBE_DEFER);
->  }
->  
-> -static struct usb_phy *__device_to_usb_phy(struct device *dev)
-> +static struct usb_phy *__device_to_usb_phy(const struct device *dev)
->  {
->  	struct usb_phy *usb_phy;
->  
-> @@ -145,9 +145,9 @@ static void usb_phy_notify_charger_work(struct work_struct *work)
->  	kobject_uevent(&usb_phy->dev->kobj, KOBJ_CHANGE);
->  }
->  
-> -static int usb_phy_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int usb_phy_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -	struct usb_phy *usb_phy;
-> +	const struct usb_phy *usb_phy;
->  	char uchger_state[50] = { 0 };
->  	char uchger_type[50] = { 0 };
->  	unsigned long flags;
-> diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-> index eacb46ec2ab3..56814ef80c24 100644
-> --- a/drivers/usb/roles/class.c
-> +++ b/drivers/usb/roles/class.c
-> @@ -274,8 +274,7 @@ static const struct attribute_group *usb_role_switch_groups[] = {
->  	NULL,
->  };
->  
-> -static int
-> -usb_role_switch_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int usb_role_switch_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
->  	int ret;
->  
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index 5897905cb4f0..a89d8fd3f46c 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -1737,7 +1737,7 @@ static const struct attribute_group *typec_groups[] = {
->  	NULL
->  };
->  
-> -static int typec_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int typec_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
->  	int ret;
->  
-> diff --git a/include/linux/acpi.h b/include/linux/acpi.h
-> index 5e6a876e17ba..564b62f13bd0 100644
-> --- a/include/linux/acpi.h
-> +++ b/include/linux/acpi.h
-> @@ -723,7 +723,7 @@ const struct acpi_device_id *acpi_match_device(const struct acpi_device_id *ids,
->  const void *acpi_device_get_match_data(const struct device *dev);
->  extern bool acpi_driver_match_device(struct device *dev,
->  				     const struct device_driver *drv);
-> -int acpi_device_uevent_modalias(struct device *, struct kobj_uevent_env *);
-> +int acpi_device_uevent_modalias(const struct device *, struct kobj_uevent_env *);
->  int acpi_device_modalias(struct device *, char *, int);
->  
->  struct platform_device *acpi_create_platform_device(struct acpi_device *,
-> @@ -958,7 +958,7 @@ static inline union acpi_object *acpi_evaluate_dsm(acpi_handle handle,
->  	return NULL;
->  }
->  
-> -static inline int acpi_device_uevent_modalias(struct device *dev,
-> +static inline int acpi_device_uevent_modalias(const struct device *dev,
->  				struct kobj_uevent_env *env)
->  {
->  	return -ENODEV;
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index 44e3acae7b36..dad0614aad96 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -88,7 +88,7 @@ int subsys_virtual_register(struct bus_type *subsys,
->  struct device_type {
->  	const char *name;
->  	const struct attribute_group **groups;
-> -	int (*uevent)(struct device *dev, struct kobj_uevent_env *env);
-> +	int (*uevent)(const struct device *dev, struct kobj_uevent_env *env);
->  	char *(*devnode)(struct device *dev, umode_t *mode,
->  			 kuid_t *uid, kgid_t *gid);
->  	void (*release)(struct device *dev);
-> diff --git a/include/linux/i3c/device.h b/include/linux/i3c/device.h
-> index 68b558929aec..ce115ef08fec 100644
-> --- a/include/linux/i3c/device.h
-> +++ b/include/linux/i3c/device.h
-> @@ -303,7 +303,7 @@ int i3c_device_do_priv_xfers(struct i3c_device *dev,
->  
->  int i3c_device_do_setdasa(struct i3c_device *dev);
->  
-> -void i3c_device_get_info(struct i3c_device *dev, struct i3c_device_info *info);
-> +void i3c_device_get_info(const struct i3c_device *dev, struct i3c_device_info *info);
->  
->  struct i3c_ibi_payload {
->  	unsigned int len;
-> diff --git a/include/linux/soundwire/sdw_type.h b/include/linux/soundwire/sdw_type.h
-> index 52eb66cd11bc..d8c27f1e5559 100644
-> --- a/include/linux/soundwire/sdw_type.h
-> +++ b/include/linux/soundwire/sdw_type.h
-> @@ -21,7 +21,7 @@ static inline int is_sdw_slave(const struct device *dev)
->  int __sdw_register_driver(struct sdw_driver *drv, struct module *owner);
->  void sdw_unregister_driver(struct sdw_driver *drv);
->  
-> -int sdw_slave_uevent(struct device *dev, struct kobj_uevent_env *env);
-> +int sdw_slave_uevent(const struct device *dev, struct kobj_uevent_env *env);
->  
->  /**
->   * module_sdw_driver() - Helper macro for registering a Soundwire driver
-> -- 
-> 2.39.0
-> 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> -----Original Message-----
+> From: Rob Herring <robh@kernel.org>
+> Sent: 13 December 2022 15:55
+> To: Biju Das <biju.das.jz@bp.renesas.com>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Greg Kroah-
+> Hartman <gregkh@linuxfoundation.org>; linux-usb@vger.kernel.org;
+> devicetree@vger.kernel.org; Geert Uytterhoeven <geert+renesas@glider.be>;
+> Fabrizio Castro <fabrizio.castro.jz@renesas.com>; linux-renesas-
+> soc@vger.kernel.org
+> Subject: Re: [PATCH 02/16] dt-bindings: usb: Add RZ/V2M USB3DRD binding
+>=20
+> On Tue, Dec 13, 2022 at 03:01:34PM +0000, Biju Das wrote:
+> > Hi Rob,
+> >
+> > > Subject: Re: [PATCH 02/16] dt-bindings: usb: Add RZ/V2M USB3DRD
+> > > binding
+> > >
+> > > On Mon, Dec 12, 2022 at 05:27:50PM +0000, Biju Das wrote:
+> > > > Add device tree bindings for the RZ/V2{M, MA} USB3DRD module.
+> > > >
+> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > ---
+> > > >  .../bindings/usb/renesas,rzv2m-usb3drd.yaml   | 123
+> ++++++++++++++++++
+> > > >  1 file changed, 123 insertions(+)  create mode 100644
+> > > > Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+> > > >
+> > > > diff --git
+> > > > a/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+> > > > b/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..0c473c3398b3
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/usb/renesas,rzv2m-usb3drd.
+> > > > +++ yaml
+> > > > @@ -0,0 +1,123 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML
+> > > > +1.2
+> > > > +---
+> > > > +
+> > > > +title: Renesas RZ/V2M USB 3.1 DRD controller
+> > > > +
+> > > > +maintainers:
+> > > > +  - Biju Das <biju.das.jz@bp.renesas.com>
+> > > > +
+> > > > +description: |
+> > > > +  The RZ/V2{M, MA} USB3.1 DRD module supports the following
+> > > > +functions
+> > > > +  * Role swapping function by the ID pin of the Micro-AB
+> > > > +receptacle
+> > > > +  * Battery Charging Specification Revision 1.2
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    items:
+> > > > +      - enum:
+> > > > +          - renesas,r9a09g011-usb3drd  # RZ/V2M
+> > > > +          - renesas,r9a09g055-usb3drd  # RZ/V2MA
+> > > > +      - const: renesas,rzv2m-usb3drd
+> > > > +
+> > > > +  reg:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  clocks:
+> > > > +    items:
+> > > > +      - description: Peripheral AXI clock
+> > > > +      - description: APB clock
+> > > > +
+> > > > +  clock-names:
+> > > > +    items:
+> > > > +      - const: peri_axi
+> > > > +      - const: apb
+> > > > +
+> > > > +  power-domains:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  resets:
+> > > > +    items:
+> > > > +      - description: DRD reset
+> > > > +      - description: Peripheral reset
+> > > > +
+> > > > +  reset-names:
+> > > > +    items:
+> > > > +      - const: drd_reset
+> > > > +      - const: aresetn_p
+> > > > +
+> > > > +  ranges: true
+> > > > +
+> > > > +  '#address-cells':
+> > > > +    enum: [ 1, 2 ]
+> > > > +
+> > > > +  '#size-cells':
+> > > > +    enum: [ 1, 2 ]
+> > > > +
+> > > > +  usb3peri:
+> > > > +    $ref: /schemas/usb/renesas,usb3-peri.yaml
+> > > > +
+> > > > +patternProperties:
+> > > > +  "^usb@[0-9a-f]+$":
+> > > > +    type: object
+> > > > +    $ref: renesas,usb-xhci.yaml#
+> > > > +
+> > > > +required:
+> > > > +  - compatible
+> > > > +  - reg
+> > > > +  - clocks
+> > > > +  - clock-names
+> > > > +  - power-domains
+> > > > +  - resets
+> > > > +  - reset-names
+> > > > +
+> > > > +additionalProperties: false
+> > > > +
+> > > > +examples:
+> > > > +  - |
+> > > > +    #include <dt-bindings/clock/r9a09g011-cpg.h>
+> > > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > > +
+> > > > +    usb3drd: usb@85070000 {
+> > > > +        compatible =3D "renesas,r9a09g011-usb3drd", "renesas,rzv2m=
+-
+> > > usb3drd";
+> > > > +        reg =3D <0x85070000 0x1000>;
+> > > > +        clocks =3D <&cpg CPG_MOD R9A09G011_USB_ACLK_P>,
+> > > > +                 <&cpg CPG_MOD R9A09G011_USB_PCLK>;
+> > > > +        clock-names =3D "peri_axi", "apb";
+> > > > +        power-domains =3D <&cpg>;
+> > > > +        resets =3D <&cpg R9A09G011_USB_DRD_RESET>,
+> > > > +                 <&cpg R9A09G011_USB_ARESETN_P>;
+> > > > +        reset-names =3D "drd_reset", "aresetn_p";
+> > > > +        ranges;
+> > > > +        #address-cells =3D <1>;
+> > > > +        #size-cells =3D <1>;
+> > > > +
+> > > > +        usb3host: usb@85060000 {
+> > > > +           compatible =3D "renesas,r9a09g011-xhci",
+> > > > +                        "renesas,rzv2m-xhci";
+> > > > +           reg =3D <0x85060000 0x2000>;
+> > > > +           interrupts =3D <GIC_SPI 245 IRQ_TYPE_LEVEL_HIGH>;
+> > > > +           clocks =3D <&cpg CPG_MOD R9A09G011_USB_ACLK_H>,
+> > > > +                    <&cpg CPG_MOD R9A09G011_USB_PCLK>;
+> > > > +           clock-names =3D "host_axi", "reg";
+> > > > +           power-domains =3D <&cpg>;
+> > > > +           resets =3D <&cpg R9A09G011_USB_ARESETN_H>;
+> > > > +        };
+> > > > +
+> > > > +        usb3peri: usb3peri {
+> > > > +           compatible =3D "renesas,r9a09g011-usb3-peri",
+> > > > +                        "renesas,rzv2m-usb3-peri";
+> > > > +           interrupts =3D <GIC_SPI 246 IRQ_TYPE_LEVEL_HIGH>,
+> > > > +                        <GIC_SPI 242 IRQ_TYPE_LEVEL_HIGH>,
+> > > > +                        <GIC_SPI 243 IRQ_TYPE_LEVEL_HIGH>,
+> > > > +                        <GIC_SPI 244 IRQ_TYPE_LEVEL_HIGH>;
+> > > > +           interrupt-names =3D "all_p", "drd", "bc", "gpi";
+> > > > +           clocks =3D <&cpg CPG_MOD R9A09G011_USB_ACLK_P>,
+> > > > +                    <&cpg CPG_MOD R9A09G011_USB_PCLK>;
+> > > > +           clock-names =3D "aclk", "reg";
+> > > > +           power-domains =3D <&cpg>;
+> > > > +           resets =3D <&cpg R9A09G011_USB_ARESETN_P>;
+> > > > +        };
+> > >
+> > > The USB device ctrlr doesn't have registers? It looks to me like
+> > > you've created 3 nodes for instantiating drivers rather that because
+> > > you have 3 separate h/w blocks. Either you should split this to 2
+> > > independent nodes or move usb3peri resources to the parent node.
+> > > That would only be interrupts because everything else is already ther=
+e.
+> >
+> > Address map of USB device controller is 0x85070000-0x85070400 Address
+> > map of USB3 DRD is 0x85070400-0x850704FF
+>=20
+> Then your DT should reflect that with 'reg' in usb3peri.
+
+OK will add 'reg' in usb3peri.
+
+>=20
+> Why does the device ctrlr have a DRD interrupt?
+
+OK, Will move DRD related interrupts from device ctrlr to here.
+I have prototyped this as below [1]. Please correct me if you have differen=
+t opinion.
+
+>=20
+> > The advantage of the current split is that,
+> >
+> > 1) With this model, I can use USB3 storage device for booting and
+> > mounting rootFS as XHCI driver is built-in and USB3 device ctrlr is
+> usually module.
+>=20
+> Sounds like a Linux problem. What does that have to do with the binding?
+
+Ya, Both host and device operation depends upon DRD block. We need to do
+Host or device reset release + setting host or device operation in DRD bloc=
+k
+before accessing its registers.
+
+>=20
+> >
+> > 2) To reuse the usb device controller code as much as possible.
+> >
+> > If I create 2 independent nodes, then there will be more exported
+> > API's between USB3 peri and USB3 drd driver.
+>=20
+> Why if that's a common split, then doesn't Linux have a defined interface=
+?
+
+If I just create 2 independent nodes for host and device, then I get kernel=
+ crash
+The reason is , Without reset release and setting host operation in DRD blo=
+ck
+We are accessing host registers. The only way to avoid kernel crash is by d=
+oing
+a hack.
+ie, Io remap of that DRD register, configure for host operation and then ac=
+cess
+host registers.
+
+>=20
+> There is no reason you can spawn 2 drivers from 1 DT node if that's what =
+you
+> need. Describe h/w blocks, not nodes for drivers. Sometimes the h/w isn't
+> partitioned just like Linux would like. That's a Linux problem, not
+> something to 'fix' in DT.
+
+I will send next version based on [1], please correct me if you have other =
+suggestion.
+
+Cheers,
+Biju
+
+[1]
+properties:
+  compatible:
+    items:
+      - enum:
+          - renesas,r9a09g011-usb3drd  # RZ/V2M
+          - renesas,r9a09g055-usb3drd  # RZ/V2MA
+      - const: renesas,rzv2m-usb3drd
+
+  reg:
+    maxItems: 1
+
+  interrupts:
+    items:
+      - description: Dual Role Device (DRD)
+      - description: Battery Charging
+      - description: Global Purpose Input
+
+  interrupt-names:
+    items:
+      - const: drd
+      - const: bc
+      - const: gpi
+
+  clocks:
+    items:
+      - description: Peripheral AXI clock
+      - description: APB clock
+
+  clock-names:
+    items:
+      - const: axi
+      - const: reg
+
+  power-domains:
+    maxItems: 1
+
+  resets:
+    maxItems: 1
+
+  ranges: true
+
+  '#address-cells':
+    enum: [ 1, 2 ]
+
+  '#size-cells':
+    enum: [ 1, 2 ]
+
+patternProperties:
+  "^usb3peri@[0-9a-f]+$":
+    type: object
+    $ref: /schemas/usb/renesas,usb3-peri.yaml
+
+  "^usb@[0-9a-f]+$":
+    type: object
+    $ref: renesas,usb-xhci.yaml#
+
+required:
+  - compatible
+  - reg
+  - interrupts
+  - interrupt-names
+  - clocks
+  - clock-names
+  - power-domains
+  - resets
+
+additionalProperties: false
+
+examples:
+  - |
+    #include <dt-bindings/clock/r9a09g011-cpg.h>
+    #include <dt-bindings/interrupt-controller/arm-gic.h>
+
+    usb3drd: usb@85070400 {
+        compatible =3D "renesas,r9a09g011-usb3drd", "renesas,rzv2m-usb3drd"=
+;
+        reg =3D <0x85070400 0x100>;
+        interrupts =3D <GIC_SPI 242 IRQ_TYPE_LEVEL_HIGH>,
+                     <GIC_SPI 243 IRQ_TYPE_LEVEL_HIGH>,
+                     <GIC_SPI 244 IRQ_TYPE_LEVEL_HIGH>;
+        interrupt-names =3D "drd", "bc", "gpi";
+        clocks =3D <&cpg CPG_MOD R9A09G011_USB_ACLK_P>,
+                 <&cpg CPG_MOD R9A09G011_USB_PCLK>;
+        clock-names =3D "axi", "reg";
+        power-domains =3D <&cpg>;
+        resets =3D <&cpg R9A09G011_USB_DRD_RESET>;
+        ranges;
+        #address-cells =3D <1>;
+        #size-cells =3D <1>;
+
+        usb3host: usb@85060000 {
+           compatible =3D "renesas,r9a09g011-xhci",
+                        "renesas,rzv2m-xhci";
+           reg =3D <0x85060000 0x2000>;
+           interrupts =3D <GIC_SPI 245 IRQ_TYPE_LEVEL_HIGH>;
+           clocks =3D <&cpg CPG_MOD R9A09G011_USB_ACLK_H>,
+                    <&cpg CPG_MOD R9A09G011_USB_PCLK>;
+           clock-names =3D "axi", "reg";
+           power-domains =3D <&cpg>;
+           resets =3D <&cpg R9A09G011_USB_ARESETN_H>;
+        };
+
+        usb3peri: usb3peri@85070000 {
+           compatible =3D "renesas,r9a09g011-usb3-peri",
+                        "renesas,rzv2m-usb3-peri";
+           reg =3D <0x85070000 0x400>;
+           interrupts =3D <GIC_SPI 246 IRQ_TYPE_LEVEL_HIGH>;
+           clocks =3D <&cpg CPG_MOD R9A09G011_USB_ACLK_P>,
+                    <&cpg CPG_MOD R9A09G011_USB_PCLK>;
+           clock-names =3D "axi", "reg";
+           power-domains =3D <&cpg>;
+           resets =3D <&cpg R9A09G011_USB_ARESETN_P>;
+        };
+    };
