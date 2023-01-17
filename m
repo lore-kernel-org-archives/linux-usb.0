@@ -2,137 +2,130 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBCE4C3DA78
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Jan 2023 20:10:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26812C54E76
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Jan 2023 21:56:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232422AbjAQUKy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Jan 2023 15:10:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44026 "EHLO
+        id S229541AbjAQV4F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 17 Jan 2023 16:56:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234631AbjAQUHS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Jan 2023 15:07:18 -0500
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com [IPv6:2001:4860:4864:20::2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5349745216
-        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 11:01:24 -0800 (PST)
-Received: by mail-oa1-x2e.google.com with SMTP id 586e51a60fabf-142b72a728fso32972917fac.9
-        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 11:01:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=landley-net.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OgaymgAXi9Z6g6pYwBOzM02/P477EqWitgDVTE3LFbU=;
-        b=7UFMvbpKkJyjWVLlq6ctk0nXiLL3RrLgvGqk+/g8pD0wAzMEFNodkoMNXxSPAzvJye
-         T4nqVDpRCF5Pkw4fe0ROrd1BjE8DZbycDcUSRlgnihtqJaZkkqELJ7TzEZYyPHojRNxM
-         MBh6YZCgcmJgLXwboxe3bvrjmez4qHhfCRIxGuc2G0+QOOJ/eKT38XBZ7MfSSmNLVm7z
-         gDt6C3Ymsnj+eKLcMZ0dj5q2KFKnZutgcY/1C6+IgeLmT5DwAU4QsUhG6TCQdnlD6nEb
-         fYtWfawIuB6wYahQA/cq89ISwAR2GZXbrrCFpCVxRJqHc9Mn337ID3jg/QgfKjbyHIu6
-         BObQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OgaymgAXi9Z6g6pYwBOzM02/P477EqWitgDVTE3LFbU=;
-        b=qr3gz3AANDM+YpDfkgYC9yvG22osXxP24l+KHhACmHvbzCGtE0O/JEIHYV/fsgOR+H
-         qgnlYBiouXNDouhpR5YFKEo/E0E/qw3nHLOlFz2j3JH44QcMYowxkaxr0lzRa3rIJ6cc
-         /mzsRrXnwgx4wEENINDd9fn+8X9VFPHXeJyvATn6ql/dbFlMvEad1o0JbA0xqD4R+PMy
-         ADt42NU+slj4aUWxvyQBPurAvpU8uHb5Ie/3dA3uZcS2zh3d+DIZnRVo0UeZ0yPu4Jez
-         TMBebf8CPpJp5yGK1DwDqOUeOhRgGAVw8a9uh9VYo8HGQL59ZDVVmu3ueFDIOjXCBfU1
-         UJcw==
-X-Gm-Message-State: AFqh2kp3YG3Sq+B/j9CtBLrF/zkbO6v2Z1CRPLd9VbwEIcedQ6o1cDWE
-        BJIT8d3rLRWt2iVRwsLuLUdibA==
-X-Google-Smtp-Source: AMrXdXsgzCxMhqm+bb3il7EsJjEv0NbGPCzT1qf9VREFYRxVllxrk/YEzaFAyrBdtefAaDgGfnk/UQ==
-X-Received: by 2002:a05:6870:c190:b0:15e:cfca:b312 with SMTP id h16-20020a056870c19000b0015ecfcab312mr2807015oad.52.1673982083592;
-        Tue, 17 Jan 2023 11:01:23 -0800 (PST)
-Received: from [192.168.86.224] ([136.62.38.22])
-        by smtp.gmail.com with ESMTPSA id r18-20020a05687080d200b0012763819bcasm16664335oab.50.2023.01.17.11.01.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jan 2023 11:01:22 -0800 (PST)
-Message-ID: <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
-Date:   Tue, 17 Jan 2023 13:13:38 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: remove arch/sh
-Content-Language: en-US
-To:     Christoph Hellwig <hch@lst.de>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-sh@vger.kernel.org
-References: <20230113062339.1909087-1-hch@lst.de>
- <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <20230116071306.GA15848@lst.de>
-From:   Rob Landley <rob@landley.net>
-In-Reply-To: <20230116071306.GA15848@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229515AbjAQVzU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Jan 2023 16:55:20 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FA207495A;
+        Tue, 17 Jan 2023 13:55:16 -0800 (PST)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30HLseE5007346;
+        Tue, 17 Jan 2023 21:55:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=tghDuCbHMOsGrQiRVjE1T+P2G7XbZvB3V2ydei7z67k=;
+ b=O/G+XHaCevNE1WkrEE3paMwODi79XOroFR/1LsZzqsLwooNCgUlw8fmo3cd8jGQG8K7b
+ VES2ZD/rmbuJh2sPRa88YnDsMWJKtBES47taRH7syAGM+trJzTLUMBwmo467y6EVsV0p
+ zE4q1kB+JYm8wJ7hybRPm0MgWAbJ1KXd797aaYeheyPzdpt/EHLh3A9zsYBqSmrGnjJ9
+ CGQsDSGKQqk6JYR4DFLLnOpJAuY+jzEZJYnyUir3eKng40izMOeXvWblGuFmD3yY5O01
+ RoazoV9cACk5UIXRTH39oN0UTloolWxJlE6NmheSFZ+uVEzkXrMaYSJaGyKio99sloHu PA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n60bx0fcd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 17 Jan 2023 21:55:10 +0000
+Received: from pps.filterd (NALASPPMTA05.qualcomm.com [127.0.0.1])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 30HLt901010736;
+        Tue, 17 Jan 2023 21:55:09 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by NALASPPMTA05.qualcomm.com (PPS) with ESMTP id 3n3nfkd8fe-1;
+        Tue, 17 Jan 2023 21:55:09 +0000
+Received: from NALASPPMTA05.qualcomm.com (NALASPPMTA05.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30HLt9uP010723;
+        Tue, 17 Jan 2023 21:55:09 GMT
+Received: from hu-devc-lv-c.qualcomm.com (hu-eserrao-lv.qualcomm.com [10.47.235.164])
+        by NALASPPMTA05.qualcomm.com (PPS) with ESMTP id 30HLt9o1010710;
+        Tue, 17 Jan 2023 21:55:09 +0000
+Received: by hu-devc-lv-c.qualcomm.com (Postfix, from userid 464172)
+        id 06B6D20DF5; Tue, 17 Jan 2023 13:55:09 -0800 (PST)
+From:   Elson Roy Serrao <quic_eserrao@quicinc.com>
+To:     gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
+        balbi@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
+        Elson Roy Serrao <quic_eserrao@quicinc.com>
+Subject: [PATCH v2 0/5] Add function suspend/resume and remote wakeup support
+Date:   Tue, 17 Jan 2023 13:55:02 -0800
+Message-Id: <1673992507-7823-1-git-send-email-quic_eserrao@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 0iFFdjL_d1XYfULpiSkSGb4SUUQeNqgO
+X-Proofpoint-ORIG-GUID: 0iFFdjL_d1XYfULpiSkSGb4SUUQeNqgO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-17_10,2023-01-17_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
+ mlxscore=0 phishscore=0 malwarescore=0 mlxlogscore=525 impostorscore=0
+ clxscore=1015 priorityscore=1501 adultscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301170175
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 1/16/23 01:13, Christoph Hellwig wrote:
-> On Fri, Jan 13, 2023 at 09:09:52AM +0100, John Paul Adrian Glaubitz wrote:
->> I'm still maintaining and using this port in Debian.
->>
->> It's a bit disappointing that people keep hammering on it. It works fine for me.
-> 
-> What platforms do you (or your users) use it on?
+Changes in v2
+ - Added a flag to indicate whether the device is remote wakeup capable.
+ - Added an async parameter to _dwc3_gadget_wakeup() API and few cosmetic
+   changes.
+ - Added flags to reflect the state of  function suspend and function remote
+   wakeup to usb_function struct rather than function specific struct (f_ecm).
+ - Changed the dwc3_gadget_func__wakeup() API to run synchronously by first
+   checking the link state and then sending the device notification. Also
+   added debug log for DEVICE_NOTIFICATION generic cmd.
+ - Added changes to arm the device for remotewakeup/function remotewakeup
+   only if device is capable.
 
-3 j-core boards, two sh4 boards (the sh7760 one I patched the kernel of), and an
-sh4 emulator.
+An usb device can initate a remote wakeup and bring the link out of
+suspend as dictated by the DEVICE_REMOTE_WAKEUP feature selector.
+To achieve this an interface can invoke gadget_wakeup op and wait for the
+device to come out of LPM. But the current polling based implementation
+fails if the host takes a long time to drive the resume signaling specially
+in high speed capable devices. Switching to an interrupt based approach is
+more robust and efficient. This can be leveraged by enabling link status
+change events and triggering a gadget resume when the link comes to active
+state.
 
-I have multiple j-core systems (sh2 compatible with extensions, nommu, 3
-different kinds of boards running it here). There's an existing mmu version of
-j-core that's sh3 flavored but they want to redo it so it hasn't been publicly
-released yet, I have yet to get that to run Linux because the mmu code would
-need adapting, but the most recent customer projects were on the existing nommu
-SOC, as was last year's ASIC work via sky130.
+If the device is enhanced super-speed capable, individual interfaces can
+also be put into suspend state. An interface can be in function suspend
+state even when the device is not in suspend state. Function suspend state
+is retained throughout the device suspend entry and exit process.
+A function can be put to function suspend through FUNCTION_SUSPEND feature
+selector sent by the host. This setup packet also decides whether that
+function is capable of initiating a function remote wakeup. When the
+function sends a wakeup notification to the host the link must be first
+brought to a non-U0 state and then this notification is sent.
 
-My physical sh4 boards are a Johnson Controls N40 (sh7760 chipset) and the
-little blue one is... sh4a I think? (It can run the same userspace, I haven't
-replaced that board's kernel since I got it, I think it's the type Glaubitz is
-using? It's mostly in case he had an issue I couldn't reproduce on different
-hardware, or if I spill something on my N40.)
+This change adds the infrastructure needed to support the above
+functionalities.
 
-I also have a physical sh2 board on the shelf which I haven't touched in years
-(used to comparison test during j2 development, and then the j2 boards replaced it).
+Elson Roy Serrao (5):
+  usb: gadget: Add remote wakeup capable flag
+  usb: dwc3: Add remote wakeup handling
+  usb: gadget: Add function wakeup support
+  usb: dwc3: Add function suspend and function wakeup support
+  usb: gadget: f_ecm: Add suspend/resume and remote wakeup support
 
-I'm lazy and mostly test each new sh4 build under qemu -M r2d because it's
-really convenient: neither of my physical boards boot from SD card so replacing
-the kernel requires reflashing soldered in flash. (They'll net mount userspace
-but I haven't gotten either bootloader to net-boot a kernel.)
+ drivers/usb/dwc3/core.h               |  4 ++
+ drivers/usb/dwc3/debug.h              |  2 +
+ drivers/usb/dwc3/ep0.c                | 16 +++---
+ drivers/usb/dwc3/gadget.c             | 93 ++++++++++++++++++++++++++++++++---
+ drivers/usb/gadget/composite.c        | 29 +++++++++++
+ drivers/usb/gadget/function/f_ecm.c   | 69 ++++++++++++++++++++++++++
+ drivers/usb/gadget/function/u_ether.c | 63 ++++++++++++++++++++++++
+ drivers/usb/gadget/function/u_ether.h |  4 ++
+ drivers/usb/gadget/udc/core.c         | 19 +++++++
+ include/linux/usb/composite.h         |  6 +++
+ include/linux/usb/gadget.h            |  4 ++
+ 11 files changed, 294 insertions(+), 15 deletions(-)
 
-I include sh4 in the my mkroot builds each toybox release, I have a ~300 line
-bash script that builds bootable toybox systems for a dozen-ish architectures,
-including building a kernel configured to run under qemu:
+-- 
+2.7.4
 
-  https://github.com/landley/toybox/blob/master/scripts/mkroot.sh
-
-And I ship the resulting bootable system images, most recent release is at:
-
-  https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/
-
-As described at:
-
-  http://landley.net/toybox/faq.html#mkroot
-
-Various people in Japan have more hardware, but I haven't made it physically
-back there since 2020. (My residency card expired during the pandemic.)
-
-Rob
