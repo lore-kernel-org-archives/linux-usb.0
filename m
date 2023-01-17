@@ -2,71 +2,272 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D716C678D4
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Jan 2023 13:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FBFAC677F1
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Jan 2023 14:02:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229753AbjAQNtZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Jan 2023 08:49:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44610 "EHLO
+        id S230424AbjAQOCO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 17 Jan 2023 09:02:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231321AbjAQNtO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Jan 2023 08:49:14 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4185A360B9
-        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 05:49:13 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id fl11-20020a05600c0b8b00b003daf72fc844so4743673wmb.0
-        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 05:49:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:subject:to:from:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=vgjmjcKuXP3RoqqniCwReaFJ8sbKhLTf3w6njJyfS3U=;
-        b=ecY8MvSoQ8WaCJQVXClFyQcsZwg1Ij+M47VnehIjTzJM5Fyno8OXmBJFjn40Y+J4YR
-         B82e/l/mSewmDiPoO3pkK943pBc94P0kwfEcQv67xdHc3x5Nh/rGWITBoA7hBbJyE5B9
-         xBzNYVbh3e3kVM7q1jvnMC3XTsAwhgwXsQ4tfrzUVTcdH13XKVpQxn2pp3TYoisP4/1I
-         jp7dECxY3UAyKQ/kRZ8OlUe936VNNenpwIG1wYm5frQI95+K8oTNTJYY0o8LQHh9k24y
-         E3EqLBbu2L3rUua2WufaWxyV2Yll5fFEmLwp5Lhjh437XyeC/KkOR/R+pNN+4bbp8s1K
-         TAEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:subject:to:from:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vgjmjcKuXP3RoqqniCwReaFJ8sbKhLTf3w6njJyfS3U=;
-        b=k8O7UuIoGlffqqHExTDTvLaQjLweFUmIAdaXKGFKTWFSbczP0gdnesbT+MNcFwILU6
-         NRvKzL0rs2QA1BAuKPMniFSGnkWBg8VuoCPc6/xCyHvcxQE33jBeSYbTi3lYGIC378+r
-         unoTFt83KSU+Auvn1uaROOOyyDKFEPnJcp6DyB80r6tEIzC/yj8ajnRqMDnKTasyGa7r
-         s35U/39LwXSnR1pkrq6tu+tij7Q835KmqWURkp8QOLBY+BygSg20hkIhx0lnIY5kBUHx
-         7XVlFc5DzIDFTp6CT1QF3OQ2u3H7JSiFGW/KDo6duAVaJcijjIIvg0GYnGtw5a1Eo5tZ
-         Ka6A==
-X-Gm-Message-State: AFqh2krQl7Nsq/os8SRa0dTI/TC9deWKm02wSsmFyBu81Q5d//QAcpej
-        m6kDNsxsft5UX8NA/4cn3n9FsCWtAtc=
-X-Google-Smtp-Source: AMrXdXsNXyRVA0yADmlzeKRnTgMGPsOCbsnp8CcpytzIqQ99WfjQ+fJ6ulooOq3ym9w9Om2YJUJR0g==
-X-Received: by 2002:a1c:f40a:0:b0:3c6:e62e:2e74 with SMTP id z10-20020a1cf40a000000b003c6e62e2e74mr11917533wma.15.1673963351545;
-        Tue, 17 Jan 2023 05:49:11 -0800 (PST)
-Received: from DESKTOP-53HLT22 ([39.42.178.198])
-        by smtp.gmail.com with ESMTPSA id bh13-20020a05600c3d0d00b003d358beab9dsm36725563wmb.47.2023.01.17.05.49.10
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Tue, 17 Jan 2023 05:49:10 -0800 (PST)
-Message-ID: <63c6a756.050a0220.4febd.4ab6@mx.google.com>
-Date:   Tue, 17 Jan 2023 05:49:10 -0800 (PST)
-X-Google-Original-Date: 17 Jan 2023 08:50:46 -0500
+        with ESMTP id S229476AbjAQOCL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Jan 2023 09:02:11 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8CA038B7F;
+        Tue, 17 Jan 2023 06:02:09 -0800 (PST)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30HCQlBq010581;
+        Tue, 17 Jan 2023 14:01:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=VviILnZyVWkGxvkGB1/dVn87wzu/osCf11Yk7kCwkMo=;
+ b=dQN0MIYdrFJR+v6Xzi+4YSPticDFUQ93W+5IEbdr57zCFDOw5g5LjiZBNlEpcNER45IR
+ NPkDQ9Xl+dwMBYU4WsPir0WUwEZ7RaYquPu4L+Zq8SkgEGyDYtF9mr5Hl7od+W+ZvjMw
+ j412BGPnBbieGJ+Dk2XVRXqRUocj3U7SexMqNL9PKp5zdjO6OSXsKJcn1boPhtcDul6X
+ Fu/PtUMyYoUr7mmzQVS19qfQtPVrObP6dQ4eWmWS0NlOs1MmWIMVj+NrNdwZMg0t/sSs
+ SNUJZL2T8HN7HJVAq8Cx62ZZrkQzi7nFDXSZK3UJnmGwtW2IIWkF2RJwgOvxYPxL0tt/ /g== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n53172ktu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 17 Jan 2023 14:01:54 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30HE1rOx029557
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 17 Jan 2023 14:01:53 GMT
+Received: from [10.216.62.177] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 17 Jan
+ 2023 06:01:47 -0800
+Message-ID: <9671cade-1820-22e1-9db9-5c9836414908@quicinc.com>
+Date:   Tue, 17 Jan 2023 19:31:43 +0530
 MIME-Version: 1.0
-From:   archiefederico530@gmail.com
-To:     linux-usb@vger.kernel.org
-Subject: Any Drawings for Estimate?
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [RFC v4 1/5] dt-bindings: usb: Add bindings to support multiport
+ properties
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>
+CC:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Andy Gross" <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
+        <quic_ppratap@quicinc.com>, <quic_wcheng@quicinc.com>,
+        <quic_jackp@quicinc.com>, <quic_harshq@quicinc.com>
+References: <20230115114146.12628-1-quic_kriskura@quicinc.com>
+ <20230115114146.12628-2-quic_kriskura@quicinc.com>
+ <20230116163401.GA2371990-robh@kernel.org>
+ <4eb26a54-148b-942f-01c6-64e66541de8b@quicinc.com>
+ <ca729f62-672e-d3de-4069-e2205c97e7d8@linaro.org>
+From:   Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
+In-Reply-To: <ca729f62-672e-d3de-4069-e2205c97e7d8@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: DlY7iCIXBOyekOeOjf2G53_x7XDfiqtZ
+X-Proofpoint-ORIG-GUID: DlY7iCIXBOyekOeOjf2G53_x7XDfiqtZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-17_06,2023-01-17_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 adultscore=0
+ impostorscore=0 malwarescore=0 mlxscore=0 spamscore=0 priorityscore=1501
+ suspectscore=0 mlxlogscore=999 bulkscore=0 lowpriorityscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301170115
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-=0D=0AHi,=0D=0A=0D=0ADo you have any estimating projects for us=0D=0A=
-=0D=0AIf you are holding a project, please send over the plans in=
- PDF format for getting a firm quote on your project.=0D=0A=0D=0A=
-Let me know if you have any questions or if you would like to see=
- some samples.=0D=0A=0D=0AWe will be happy to answer any question=
-s you have. Thank you=0D=0A=0D=0ARegards,=0D=0AArchie Federico=0D=0A=
-Crossland Estimation, INC
+
+
+On 1/17/2023 4:32 PM, Krzysztof Kozlowski wrote:
+> On 17/01/2023 10:01, Krishna Kurapati PSSNV wrote:
+>>
+>>
+>> On 1/16/2023 10:04 PM, Rob Herring wrote:
+>>> On Sun, Jan 15, 2023 at 05:11:42PM +0530, Krishna Kurapati wrote:
+>>>> Add bindings to indicate properties required to support multiport
+>>>> on Snps Dwc3 controller.
+>>>>
+>>>> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+>>>> ---
+>>>>    .../devicetree/bindings/usb/snps,dwc3.yaml    | 53 ++++++++++++++++---
+>>>>    1 file changed, 47 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+>>>> index 6d78048c4613..3ea051beb2f8 100644
+>>>> --- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+>>>> +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+>>>> @@ -81,15 +81,26 @@ properties:
+>>>>    
+>>>>      phys:
+>>>>        minItems: 1
+>>>> -    maxItems: 2
+>>>> +    maxItems: 8
+>>>>    
+>>>>      phy-names:
+>>>>        minItems: 1
+>>>> -    maxItems: 2
+>>>> -    items:
+>>>> -      enum:
+>>>> -        - usb2-phy
+>>>> -        - usb3-phy
+>>>> +    maxItems: 8
+>>>> +    oneOf:
+>>>> +    - items:
+>>>> +        enum:
+>>>> +          - usb2-phy
+>>>> +          - usb3-phy
+>>>> +    - items:
+>>>> +        enum:
+>>>> +          - usb2-phy_port0
+>>>> +          - usb2-phy_port1
+>>>> +          - usb2-phy_port2
+>>>> +          - usb2-phy_port3
+>>>> +          - usb3-phy_port0
+>>>> +          - usb3-phy_port1
+>>>> +          - usb3-phy_port2
+>>>> +          - usb3-phy_port3
+>>>
+>>> usbN-portM
+>>>
+>>>>    
+>>>>      resets:
+>>>>        minItems: 1
+>>>> @@ -360,6 +371,22 @@ properties:
+>>>>        description:
+>>>>          Enable USB remote wakeup.
+>>>>    
+>>>> +  num-ports:
+>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>>> +    description:
+>>>> +      This property indicates the number of ports present on the target that
+>>>> +      are to be serviced by the DWC3 controller.
+>>>> +    minimum: 1
+>>>> +    maximum: 4
+>>>> +
+>>>> +  num-ss-ports:
+>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>>> +    description:
+>>>> +      This property indicates the number of SS capable ports present on the
+>>>> +      target that are to be serviced by the DWC3 controller.
+>>>> +    minimum: 1
+>>>> +    maximum: 4
+>>>
+>>> This information is redundant. 'phy-names' tells you how many ports of
+>>> each.
+>>>
+>> Hi Rob,
+>>
+>>    Thanks for the review. The reason I wanted to introduce two more
+>> variables is to get info on number of ports  and ss-capable ports
+>> present on hardware whether or not the user provides them in DTSI file.
+>>
+>> In the code there are two types of per port / per phy operations:
+>> a) Modifying GUSB2PFYCFG and GUSB3PIPECTL registers per phy.
+>> b) Generic Phy operations - per phy.
+>>
+>> In today's code, if someone doesn't mention the SSPHY in DTSI,
+>> dwc->usb3_generic_phy will be NULL and any call to phy operations will
+>> just bail out. And irrespective of whether we provide SS Phy in DTSI or
+>> not, we still configure GUSB3PIPECTL register.
+>>
+>> Consider the following cases:
+>>
+>> 1. There are 3 ports and 2 of them are SS capable and all phy's are
+>> mentioned in DTSI.
+>>
+>> phy-names= "usb2-port0", "usb3-port0", "usb2-port1", "usb3-port1",
+>> "usb2-port2"
+>>
+>> When we count them in the driver, we get num ports as 3 (presuming
+>> num-ports = num of hs ports) and num-ss-ports = 2.
+>>
+>> Since there is no ambiguity in which all ports to configure, we can
+>> modify GUSB2PHYCFG registers for all 3 HS Phy's and GUSB3PIPECTL for
+>> both SS Phy's.
+>> This is a proper scenario.
+>>
+>> 2. If the user skips providing SS Phy on Port-0, then:
+>>
+>> phy-names= "usb2-port0", "usb2-port1", "usb3-port1", "usb2-port2"
+>>
+>> If we count the phys, we end up getting num-ports=3 and num-ss-ports=1.
+>>
+>> Since in the driver code, we are not keeping track of which ports are SS
+>> capable and which ones are not, we end up configuring
+>> GUSB2PIPECTL(port-0) instead of port-1  as the num-ss-ports is "1" which
+>> is incorrect.
+>>
+>> 3. If the user skips providing one complete port, in this case port-1 is
+>> skipped, then:
+>>
+>> phy-names= "usb2-port0", "usb3-port0", "usb2-port2"
+>>
+>> If we count the phys, we end up getting num-ports=2 and num-ss-ports=1.
+>>
+>> Since in the driver code, we are not keeping track of which ports are SS
+>> capable and which ones are not, we end up configuring
+>> GUSB2PHYCFG(port-0) and GUSB2PHYCFG(port-1) instead of port-2 which is
+>> incorrect.
+> 
+> Why? You know you have port-2 from the phy name, so why would you ignore
+> this information?
+> 
+Hi Krzysztof,
+
+Thanks for the review,
+
+   The concern I had with that approach is that, we need to keep track 
+of per port supported speeds in some array /flags and check them 
+whenever we are modifying the dwc3-phy registers. This makes the code a 
+little unreadable.
+>>
+>> To avoid these scenarios, if we can get the exact number of SS Ports and
+>> Ports in total present on the HW, we can configure all the registers
+>> whether the phy's are provided in DTSI or not. (This is of no harm I
+>> believe as it still works in today's code)
+> 
+> Doesn't the driver know how many phys it has in such case through
+> respective compatible?
+> 
+The core driver has only one compatible currently "snps,dwc3".
+
+Are you suggesting to add new compatible to driver core in case any 
+multiport device is being used and get this info from there ?
+
+>>
+>> Incase the 2nd and 3rd scenarios are not allowed and user *MUST* declare
+>> all the phy's in the DTSI, then I can go ahead and remove these
+>> properties and count them in the driver code.
+> 
+> 
+> Why you cannot then configure all phys in the driver all ports as some
+> safe default and then customize it depending on the actual port used?
+> 
+To do this, we still need to get info on number of hs/ss phy's present 
+on hardware and currently there is no register I believe in DWC3 core 
+global address space that can give this info. I see that HCSPARAMS1 Reg 
+gives some info but that is not accessible from driver core.
+
+According to databook:
+
+"Number of Ports (MaxPorts)
+-> Number of ports implemented is defined by the parameter
+(`DWC_USB3_HOST_NUM_U2_ROOT_PORTS +
+`DWC_USB3_HOST_NUM_U3_ROOT_PORTS)
+-> Number of ports enabled is controlled by the core input signals
+host_num_u2_port[3:0]+host_num_u3_port[3:0]"
+Regards,
+Krishna,
 
