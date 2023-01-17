@@ -2,141 +2,304 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21AE2C678D4
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Jan 2023 22:01:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 234BCC3DA71
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Jan 2023 22:02:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229612AbjAQWBi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Jan 2023 17:01:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42434 "EHLO
+        id S229836AbjAQWC0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 17 Jan 2023 17:02:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229866AbjAQV7m (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Jan 2023 16:59:42 -0500
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2343C2A3;
-        Tue, 17 Jan 2023 12:26:42 -0800 (PST)
-Received: by mail-vs1-f49.google.com with SMTP id v127so29141213vsb.12;
-        Tue, 17 Jan 2023 12:26:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7rC0mNjXax5vqLz2OAo+EH0y+cJfjyIAm7sm9u5PvgQ=;
-        b=Yr9F31/7vLwBOZRKZ1DOhx7lv+07U9yCPU3kfK3htjNZou2RGjuLkdqwCn8yKk9eF3
-         GnyyMHiW3JgbPuw6+FCnbxXOm2pXbKR74ChWnRn/hHl+9by/VHS5XtgOFtV5OVc06ddw
-         LnzBWPfOsBT9fqwpqly0JUq8dnwIcMSuesyYy1KvIo27t7NfN87fYlhZwyNhgxs4TcFk
-         9BF4fB6bXw5YhS8+79SPrAO36Q1UAWE6lQ/eDxVYm9AGrYBuapnXFFs/g4Y/d3/65nEM
-         cNY+emfDCxLCn/w9cVLEEICPn6d8+Q4pdwHu1n/gCrT2Kr8MUafwGrFjLQWyaGQ2cHdv
-         bY8g==
-X-Gm-Message-State: AFqh2kqzy6dBVKRzPngOGJhrF0YAVXXu3mDkVZ//3HfOKs6E0G/PoFSo
-        ZhqezYlyMbvP27SJixa4hW2wxfnjUsABHg==
-X-Google-Smtp-Source: AMrXdXv8xG+OngFJXkL1EyBOzdj+k3Oc3D+zm5NnPdBiJa4B+CPjVzuCM17G+lAG+3CcyHApPWniCQ==
-X-Received: by 2002:a67:c116:0:b0:3b1:23bb:3087 with SMTP id d22-20020a67c116000000b003b123bb3087mr2147820vsj.26.1673987201149;
-        Tue, 17 Jan 2023 12:26:41 -0800 (PST)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id q22-20020a05620a2a5600b0070638ad5986sm7355016qkp.85.2023.01.17.12.26.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jan 2023 12:26:40 -0800 (PST)
-Received: by mail-yb1-f176.google.com with SMTP id o75so35606650yba.2;
-        Tue, 17 Jan 2023 12:26:39 -0800 (PST)
-X-Received: by 2002:a25:9012:0:b0:7b8:a0b8:f7ec with SMTP id
- s18-20020a259012000000b007b8a0b8f7ecmr707665ybl.36.1673987199250; Tue, 17 Jan
- 2023 12:26:39 -0800 (PST)
-MIME-Version: 1.0
-References: <20230113062339.1909087-1-hch@lst.de> <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <20230116071306.GA15848@lst.de> <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
-In-Reply-To: <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 17 Jan 2023 21:26:27 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUJm5QvzH8hvqwvn9O6qSbzNOapabjw5nh9DJd0F55Zdg@mail.gmail.com>
-Message-ID: <CAMuHMdUJm5QvzH8hvqwvn9O6qSbzNOapabjw5nh9DJd0F55Zdg@mail.gmail.com>
-Subject: Re: remove arch/sh
-To:     Rob Landley <rob@landley.net>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-sh@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S229967AbjAQWAV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Jan 2023 17:00:21 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 632093AB6;
+        Tue, 17 Jan 2023 13:55:21 -0800 (PST)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30HLPRpc002361;
+        Tue, 17 Jan 2023 21:55:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=7KAUENXr0NVzBXuz8Coj9ez72SESOdHndT3k7ZD+2Xw=;
+ b=NEi5iNEHH+4g6pTNLwsKBLQbYqxCp46GAwMO8tXPvDw89AOyQtlGGXbIc078TTMLhVKY
+ pkDiFZwqc6C5yFKrjEoUqt369Wvo+B2VxxLVDyzjio++r61yzGuzHDmmmQlei54Hxq6O
+ z8Rk8ZAf9ZgMZFgD6Nnaj+ybsbbhEA0vEzdN79XlJYONHGNVYQSeaGH106Si3K0yVuqn
+ mlfOab+6Y1llDGxSLGs4sZJb46/wrUhDcbaRv/SckfYouZlaLBHr6I6udxY8RveeWcXD
+ 9xvoA2atKPV03KwRzqlTYf6LZ/86xdsauXF+cYgqXO8HpwmFsJe53Xp6TxLNM6TWceeO AA== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n5ws6gvu0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 17 Jan 2023 21:55:10 +0000
+Received: from pps.filterd (NALASPPMTA02.qualcomm.com [127.0.0.1])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 30HLt95u031295;
+        Tue, 17 Jan 2023 21:55:09 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by NALASPPMTA02.qualcomm.com (PPS) with ESMTP id 3n3nfkd829-1;
+        Tue, 17 Jan 2023 21:55:09 +0000
+Received: from NALASPPMTA02.qualcomm.com (NALASPPMTA02.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30HLlTGi020169;
+        Tue, 17 Jan 2023 21:55:09 GMT
+Received: from hu-devc-lv-c.qualcomm.com (hu-eserrao-lv.qualcomm.com [10.47.235.164])
+        by NALASPPMTA02.qualcomm.com (PPS) with ESMTP id 30HLt9cJ031278;
+        Tue, 17 Jan 2023 21:55:09 +0000
+Received: by hu-devc-lv-c.qualcomm.com (Postfix, from userid 464172)
+        id 11BE020DFA; Tue, 17 Jan 2023 13:55:09 -0800 (PST)
+From:   Elson Roy Serrao <quic_eserrao@quicinc.com>
+To:     gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
+        balbi@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
+        Elson Roy Serrao <quic_eserrao@quicinc.com>
+Subject: [PATCH v2 5/5] usb: gadget: f_ecm: Add suspend/resume and remote wakeup support
+Date:   Tue, 17 Jan 2023 13:55:07 -0800
+Message-Id: <1673992507-7823-6-git-send-email-quic_eserrao@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1673992507-7823-1-git-send-email-quic_eserrao@quicinc.com>
+References: <1673992507-7823-1-git-send-email-quic_eserrao@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: TJgofx7IktNJheWX2lZIB-ub6zdPFlKB
+X-Proofpoint-ORIG-GUID: TJgofx7IktNJheWX2lZIB-ub6zdPFlKB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-17_10,2023-01-17_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ suspectscore=0 mlxlogscore=953 clxscore=1015 lowpriorityscore=0 mlxscore=0
+ adultscore=0 spamscore=0 malwarescore=0 bulkscore=0 impostorscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301170174
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Rob,
+When host sends a suspend notification to the device, handle
+the suspend callbacks in the function driver. Enhanced super
+speed devices can support function suspend feature to put the
+function in suspend state. Handle function suspend callback.
 
-On Tue, Jan 17, 2023 at 8:01 PM Rob Landley <rob@landley.net> wrote:
-> On 1/16/23 01:13, Christoph Hellwig wrote:
-> > On Fri, Jan 13, 2023 at 09:09:52AM +0100, John Paul Adrian Glaubitz wrote:
-> >> I'm still maintaining and using this port in Debian.
-> >>
-> >> It's a bit disappointing that people keep hammering on it. It works fine for me.
-> >
-> > What platforms do you (or your users) use it on?
->
-> 3 j-core boards, two sh4 boards (the sh7760 one I patched the kernel of), and an
-> sh4 emulator.
->
-> I have multiple j-core systems (sh2 compatible with extensions, nommu, 3
-> different kinds of boards running it here). There's an existing mmu version of
-> j-core that's sh3 flavored but they want to redo it so it hasn't been publicly
-> released yet, I have yet to get that to run Linux because the mmu code would
-> need adapting, but the most recent customer projects were on the existing nommu
-> SOC, as was last year's ASIC work via sky130.
+Depending on the remote wakeup capability the device can either
+trigger a remote wakeup or wait for the host initiated resume to
+start data transfer again.
 
-J4 still vaporware?
+Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
+---
+ drivers/usb/gadget/function/f_ecm.c   | 69 +++++++++++++++++++++++++++++++++++
+ drivers/usb/gadget/function/u_ether.c | 63 ++++++++++++++++++++++++++++++++
+ drivers/usb/gadget/function/u_ether.h |  4 ++
+ 3 files changed, 136 insertions(+)
 
-> My physical sh4 boards are a Johnson Controls N40 (sh7760 chipset) and the
-> little blue one is... sh4a I think? (It can run the same userspace, I haven't
-> replaced that board's kernel since I got it, I think it's the type Glaubitz is
-> using? It's mostly in case he had an issue I couldn't reproduce on different
-> hardware, or if I spill something on my N40.)
->
-> I also have a physical sh2 board on the shelf which I haven't touched in years
-> (used to comparison test during j2 development, and then the j2 boards replaced it).
->
-> I'm lazy and mostly test each new sh4 build under qemu -M r2d because it's
-> really convenient: neither of my physical boards boot from SD card so replacing
-> the kernel requires reflashing soldered in flash. (They'll net mount userspace
-> but I haven't gotten either bootloader to net-boot a kernel.)
+diff --git a/drivers/usb/gadget/function/f_ecm.c b/drivers/usb/gadget/function/f_ecm.c
+index a7ab30e..34fe091 100644
+--- a/drivers/usb/gadget/function/f_ecm.c
++++ b/drivers/usb/gadget/function/f_ecm.c
+@@ -633,6 +633,8 @@ static void ecm_disable(struct usb_function *f)
+ 
+ 	usb_ep_disable(ecm->notify);
+ 	ecm->notify->desc = NULL;
++	f->func_suspended = false;
++	f->func_rw_armed = false;
+ }
+ 
+ /*-------------------------------------------------------------------------*/
+@@ -885,6 +887,69 @@ static struct usb_function_instance *ecm_alloc_inst(void)
+ 	return &opts->func_inst;
+ }
+ 
++static void ecm_suspend(struct usb_function *f)
++{
++	struct f_ecm *ecm = func_to_ecm(f);
++	struct usb_composite_dev *cdev = ecm->port.func.config->cdev;
++
++	if (f->func_suspended) {
++		DBG(cdev, "Function already suspended\n");
++		return;
++	}
++
++	DBG(cdev, "ECM Suspend\n");
++
++	gether_suspend(&ecm->port);
++}
++
++static void ecm_resume(struct usb_function *f)
++{
++	struct f_ecm *ecm = func_to_ecm(f);
++	struct usb_composite_dev *cdev = ecm->port.func.config->cdev;
++
++	/*
++	 * If the function is in USB3 Function Suspend state, resume is
++	 * canceled. In this case resume is done by a Function Resume request.
++	 */
++	if (f->func_suspended)
++		return;
++
++	DBG(cdev, "ECM Resume\n");
++
++	gether_resume(&ecm->port);
++}
++
++static int ecm_get_status(struct usb_function *f)
++{
++	return (f->func_rw_armed ? USB_INTRF_STAT_FUNC_RW : 0) |
++		USB_INTRF_STAT_FUNC_RW_CAP;
++}
++
++static int ecm_func_suspend(struct usb_function *f, u8 options)
++{
++	struct f_ecm *ecm = func_to_ecm(f);
++	struct usb_composite_dev *cdev = ecm->port.func.config->cdev;
++
++	DBG(cdev, "func susp %u cmd\n", options);
++
++	if (cdev->gadget->rw_capable)
++		f->func_rw_armed = !!(options & (USB_INTRF_FUNC_SUSPEND_RW >> 8));
++
++	if (options & (USB_INTRF_FUNC_SUSPEND_LP >> 8)) {
++		if (!f->func_suspended) {
++			ecm_suspend(f);
++			f->func_suspended = true;
++		}
++	} else {
++		if (f->func_suspended) {
++			f->func_suspended = false;
++			ecm_resume(f);
++		}
++	}
++
++	return 0;
++}
++
+ static void ecm_free(struct usb_function *f)
+ {
+ 	struct f_ecm *ecm;
+@@ -952,6 +1017,10 @@ static struct usb_function *ecm_alloc(struct usb_function_instance *fi)
+ 	ecm->port.func.setup = ecm_setup;
+ 	ecm->port.func.disable = ecm_disable;
+ 	ecm->port.func.free_func = ecm_free;
++	ecm->port.func.suspend = ecm_suspend;
++	ecm->port.func.get_status = ecm_get_status;
++	ecm->port.func.func_suspend = ecm_func_suspend;
++	ecm->port.func.resume = ecm_resume;
+ 
+ 	return &ecm->port.func;
+ }
+diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+index 8f12f3f..4e54089 100644
+--- a/drivers/usb/gadget/function/u_ether.c
++++ b/drivers/usb/gadget/function/u_ether.c
+@@ -471,6 +471,20 @@ static inline int is_promisc(u16 cdc_filter)
+ 	return cdc_filter & USB_CDC_PACKET_TYPE_PROMISCUOUS;
+ }
+ 
++static int ether_wakeup_host(struct gether *port)
++{
++	int			ret;
++	struct usb_function	*func = &port->func;
++	struct usb_gadget	*gadget = func->config->cdev->gadget;
++
++	if (func->func_suspended)
++		ret = usb_func_wakeup(func);
++	else
++		ret = usb_gadget_wakeup(gadget);
++
++	return ret;
++}
++
+ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
+ 					struct net_device *net)
+ {
+@@ -490,6 +504,15 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
+ 		in = NULL;
+ 		cdc_filter = 0;
+ 	}
++
++	if (dev->port_usb->is_suspend) {
++		DBG(dev, "Port suspended. Triggering wakeup\n");
++		netif_stop_queue(net);
++		spin_unlock_irqrestore(&dev->lock, flags);
++		ether_wakeup_host(dev->port_usb);
++		return NETDEV_TX_BUSY;
++	}
++
+ 	spin_unlock_irqrestore(&dev->lock, flags);
+ 
+ 	if (!in) {
+@@ -1046,6 +1069,45 @@ int gether_set_ifname(struct net_device *net, const char *name, int len)
+ }
+ EXPORT_SYMBOL_GPL(gether_set_ifname);
+ 
++void gether_suspend(struct gether *link)
++{
++	struct eth_dev *dev = link->ioport;
++	unsigned long flags;
++
++	if (!dev)
++		return;
++
++	if (atomic_read(&dev->tx_qlen)) {
++		/*
++		 * There is a transfer in progress. So we trigger a remote
++		 * wakeup to inform the host.
++		 */
++		ether_wakeup_host(dev->port_usb);
++		return;
++	}
++	spin_lock_irqsave(&dev->lock, flags);
++	link->is_suspend = true;
++	spin_unlock_irqrestore(&dev->lock, flags);
++}
++EXPORT_SYMBOL_GPL(gether_suspend);
++
++void gether_resume(struct gether *link)
++{
++	struct eth_dev *dev = link->ioport;
++	unsigned long flags;
++
++	if (!dev)
++		return;
++
++	if (netif_queue_stopped(dev->net))
++		netif_start_queue(dev->net);
++
++	spin_lock_irqsave(&dev->lock, flags);
++	link->is_suspend = false;
++	spin_unlock_irqrestore(&dev->lock, flags);
++}
++EXPORT_SYMBOL_GPL(gether_resume);
++
+ /*
+  * gether_cleanup - remove Ethernet-over-USB device
+  * Context: may sleep
+@@ -1208,6 +1270,7 @@ void gether_disconnect(struct gether *link)
+ 
+ 	spin_lock(&dev->lock);
+ 	dev->port_usb = NULL;
++	link->is_suspend = false;
+ 	spin_unlock(&dev->lock);
+ }
+ EXPORT_SYMBOL_GPL(gether_disconnect);
+diff --git a/drivers/usb/gadget/function/u_ether.h b/drivers/usb/gadget/function/u_ether.h
+index 4014454..851ee10 100644
+--- a/drivers/usb/gadget/function/u_ether.h
++++ b/drivers/usb/gadget/function/u_ether.h
+@@ -79,6 +79,7 @@ struct gether {
+ 	/* called on network open/close */
+ 	void				(*open)(struct gether *);
+ 	void				(*close)(struct gether *);
++	bool				is_suspend;
+ };
+ 
+ #define	DEFAULT_FILTER	(USB_CDC_PACKET_TYPE_BROADCAST \
+@@ -258,6 +259,9 @@ int gether_set_ifname(struct net_device *net, const char *name, int len);
+ 
+ void gether_cleanup(struct eth_dev *dev);
+ 
++void gether_suspend(struct gether *link);
++void gether_resume(struct gether *link);
++
+ /* connect/disconnect is handled by individual functions */
+ struct net_device *gether_connect(struct gether *);
+ void gether_disconnect(struct gether *);
+-- 
+2.7.4
 
-On my landisk (with boots from CompactFLASH), I boot the original 2.6.22
-kernel, and use kexec to boot-test each and every renesas-drivers
-release.  Note that this requires both the original 2.6.22 kernel
-and matching kexec-tools.  Apparently both upstreamed kernel and
-kexec-tools support for SH are different, and incompatible with each
-other, so you cannot kexec from a contemporary kernel.
-I tried working my way up from 2.6.22, but gave up around 2.6.29.
-Probably I should do this with r2d and qemu instead ;-)
-
-Both r2d and landisk are SH7751.
-
-Probably SH7722/'23'24 (e.g. Migo-R and Ecovec boards) are also
-worth keeping.  Most on-SoC blocks have drivers with DT support,
-as they are shared with ARM.  So the hardest part is clock and
-interrupt-controller support.
-Unfortunately I no longer have access to the (remote) Migo-R.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
