@@ -2,136 +2,122 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFAA5C677F1
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 11:13:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEB45C32793
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 11:45:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229881AbjARLN2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Jan 2023 06:13:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60118 "EHLO
+        id S230108AbjARLpD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Jan 2023 06:45:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbjARLM4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 06:12:56 -0500
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [IPv6:2a02:1800:120:4::f00:10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50F3A4858E
-        for <linux-usb@vger.kernel.org>; Wed, 18 Jan 2023 02:22:16 -0800 (PST)
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by cantor.telenet-ops.be (Postfix) with ESMTPS id 4Nxhd808MZz4x333
-        for <linux-usb@vger.kernel.org>; Wed, 18 Jan 2023 11:21:48 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:4745:2e6d:e3a6:3327])
-        by xavier.telenet-ops.be with bizsmtp
-        id AAFN290092zf9gW01AFNxV; Wed, 18 Jan 2023 11:15:42 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pI5TQ-005aIh-PT;
-        Wed, 18 Jan 2023 11:15:22 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pI5TW-001JW3-3f;
-        Wed, 18 Jan 2023 11:15:22 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Madalin Bucur <madalin.bucur@nxp.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Siddharth Vadapalli <s-vadapalli@ti.com>,
-        Russell King <linux@armlinux.org.uk>
-Cc:     netdev@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 6/7] usb: host: ehci-exynos: Convert to devm_of_phy_optional_get()
-Date:   Wed, 18 Jan 2023 11:15:19 +0100
-Message-Id: <96fce347ffa2d6efaa3fd24bf2d91e2a0a91c371.1674036164.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1674036164.git.geert+renesas@glider.be>
-References: <cover.1674036164.git.geert+renesas@glider.be>
+        with ESMTP id S230116AbjARLnv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 06:43:51 -0500
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AD955D7E5
+        for <linux-usb@vger.kernel.org>; Wed, 18 Jan 2023 03:02:21 -0800 (PST)
+Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-15027746720so35049317fac.13
+        for <linux-usb@vger.kernel.org>; Wed, 18 Jan 2023 03:02:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=landley-net.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KuI0iwHsMdHgi9UUhJbv/FF6Zx1hDWv0kF6EEdUlD2I=;
+        b=5PCGooyhPIEuUA8LfHpgz2E1NSo9q7mSLwwd+kP7a2WQx5oIObawC1SZ8b3GjlhI6w
+         k+aUwf08xYT06HES1GVAUttTfmtlU/+2mUQ+E6nwI3mvpykPVqpS3CT4T1OK8Y7wh8Lh
+         OxdivEq+CnvHPuPDLKxMirSIFn7kanNvD0azdCBrxVrZC626tljgU09Q5NwDlRdCl5Pm
+         h30BKW+O6Gpe2j8vZBVS7nQX0CZx9F+vnTsIKQmfF0oeOZkgBCg3IFGxtjTVee8Llq3v
+         VTgrTzM1eGIkuy0knsusfqmXW3O1e3iUrjIXv4sd1h2zvdReBrfi+vZn6Ejf/45OptwH
+         w5QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KuI0iwHsMdHgi9UUhJbv/FF6Zx1hDWv0kF6EEdUlD2I=;
+        b=gn1/XFnmKBlVtyjID9Z2rF2Mc1TkLA0bZfmnZdrizDtIh0T2PE6hrN9BpUSPO6CyRa
+         /At7+7oeKY+ArhIub2Obxn3ZBviDu7b9JGhDwQWkL2PqSdJGv3/OTko9lZCnSHtAh9MT
+         rN7pe7pgtQKjLBY/1W3EFVdbkfEbnZ1j3HtnJv8yL1ZQBqxETlX2QC3zZVI+Ge9rGjbV
+         UARdzkQycL6HYDr2ELpFsCdRreCAc73wPO+9LjdgC03Ny7ZsqOYJ6SPwtM6cmhtH+GR/
+         LBXZ1EV9G9PnOu7zqyyOYm0SbGMfA1+XzMOieV1nq761Fqx/AUZz6nP4012N1QGlxT09
+         rKyQ==
+X-Gm-Message-State: AFqh2korFZwfntfYgVDM831M84J2BYXlbFhPTom+HBALvnLsH03qW3fR
+        MJMAzE/AHRWMBPNlSpEXQnGMDw==
+X-Google-Smtp-Source: AMrXdXvlrp1Ed3XBrrhA3zCnrQ6Rbb/wKmg6UrVk+wIslhGo+AMwXBPpNO4DwySZY2+3rtlEwlTN+A==
+X-Received: by 2002:a05:6870:c190:b0:15e:cc77:1e6d with SMTP id h16-20020a056870c19000b0015ecc771e6dmr4364085oad.13.1674039741194;
+        Wed, 18 Jan 2023 03:02:21 -0800 (PST)
+Received: from ?IPV6:2607:fb91:120e:1c84:8038:3fff:fe9f:cbb4? ([2607:fb91:120e:1c84:8038:3fff:fe9f:cbb4])
+        by smtp.gmail.com with ESMTPSA id e19-20020a056871045300b001442fada152sm18099522oag.46.2023.01.18.03.02.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Jan 2023 03:02:20 -0800 (PST)
+Message-ID: <efa6a8aa-466e-cfaa-0113-b85002af008e@landley.net>
+Date:   Wed, 18 Jan 2023 05:14:36 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: remove arch/sh
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+References: <20230113062339.1909087-1-hch@lst.de>
+ <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+ <20230116071306.GA15848@lst.de>
+ <9325a949-8d19-435a-50bd-9ebe0a432012@landley.net>
+ <CAMuHMdUJm5QvzH8hvqwvn9O6qSbzNOapabjw5nh9DJd0F55Zdg@mail.gmail.com>
+ <7329212f-b1a0-41eb-99b3-a56eb1d23138@landley.net>
+ <CAMuHMdXo3iR2C=CAaXO5tBRCncnQAAMR6BMPLOm_nBpFAeVhrA@mail.gmail.com>
+From:   Rob Landley <rob@landley.net>
+In-Reply-To: <CAMuHMdXo3iR2C=CAaXO5tBRCncnQAAMR6BMPLOm_nBpFAeVhrA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use the new devm_of_phy_optional_get() helper instead of open-coding the
-same operation.
+On 1/18/23 01:46, Geert Uytterhoeven wrote:
+> Again, I think you're talking about something different.
+> Does kexec work for you?
 
-This lets us drop several checks for IS_ERR(), as phy_power_{on,off}()
-handle NULL parameters fine.
+Sorry, got woken up several hours early by sirens and flashy lights this morning
+(duplex on the corner caught fire, Austin has a LOT of emergency vehicles), been
+a bit underclocked all day.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/usb/host/ehci-exynos.c | 24 +++++++-----------------
- 1 file changed, 7 insertions(+), 17 deletions(-)
+No, I haven't tried kexec on sh4. I'll add it to the todo heap.
 
-diff --git a/drivers/usb/host/ehci-exynos.c b/drivers/usb/host/ehci-exynos.c
-index a333231616f437b8..0f8d7df4937b2da4 100644
---- a/drivers/usb/host/ehci-exynos.c
-+++ b/drivers/usb/host/ehci-exynos.c
-@@ -80,19 +80,12 @@ static int exynos_ehci_get_phy(struct device *dev,
- 			return -EINVAL;
- 		}
- 
--		phy = devm_of_phy_get(dev, child, NULL);
-+		phy = devm_of_phy_optional_get(dev, child, NULL);
- 		exynos_ehci->phy[phy_number] = phy;
- 		if (IS_ERR(phy)) {
--			ret = PTR_ERR(phy);
--			if (ret == -EPROBE_DEFER) {
--				of_node_put(child);
--				return ret;
--			} else if (ret != -ENOSYS && ret != -ENODEV) {
--				dev_err(dev,
--					"Error retrieving usb2 phy: %d\n", ret);
--				of_node_put(child);
--				return ret;
--			}
-+			of_node_put(child);
-+			return dev_err_probe(dev, PTR_ERR(phy),
-+					     "Error retrieving usb2 phy\n");
- 		}
- 	}
- 
-@@ -108,12 +101,10 @@ static int exynos_ehci_phy_enable(struct device *dev)
- 	int ret = 0;
- 
- 	for (i = 0; ret == 0 && i < PHY_NUMBER; i++)
--		if (!IS_ERR(exynos_ehci->phy[i]))
--			ret = phy_power_on(exynos_ehci->phy[i]);
-+		ret = phy_power_on(exynos_ehci->phy[i]);
- 	if (ret)
- 		for (i--; i >= 0; i--)
--			if (!IS_ERR(exynos_ehci->phy[i]))
--				phy_power_off(exynos_ehci->phy[i]);
-+			phy_power_off(exynos_ehci->phy[i]);
- 
- 	return ret;
- }
-@@ -125,8 +116,7 @@ static void exynos_ehci_phy_disable(struct device *dev)
- 	int i;
- 
- 	for (i = 0; i < PHY_NUMBER; i++)
--		if (!IS_ERR(exynos_ehci->phy[i]))
--			phy_power_off(exynos_ehci->phy[i]);
-+		phy_power_off(exynos_ehci->phy[i]);
- }
- 
- static void exynos_setup_vbus_gpio(struct device *dev)
--- 
-2.34.1
+>> > I tried working my way up from 2.6.22, but gave up around 2.6.29.
+>> > Probably I should do this with r2d and qemu instead ;-)
+>>
+>> I have current running there. I've had current running there for years. Config
+>> attached...
+>>
+>> > Both r2d and landisk are SH7751.
+>>
+>> Cool. Shouldn't be hard to get landisk running current then.
+> 
+> Current kernels work fine on landisk with an old Debian userspace
+> on CF.  The 8139cp driver is a bit flaky: last time I tried nfsroot,
+> that didn't work well.
 
+I've never had luck with NFS, I was using NBD. Hadn't noticed the flake but
+haven't stress tested it too hard either?
+
+Mostly new userspace is what I'm testing...
+
+Rob
