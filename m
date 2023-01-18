@@ -2,62 +2,63 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0659C32793
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 07:45:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A353C004D4
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 07:46:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229912AbjARHpx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Jan 2023 02:45:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44104 "EHLO
+        id S229655AbjARHqE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Jan 2023 02:46:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230149AbjARHpJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 02:45:09 -0500
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E17063E3C
-        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 23:09:40 -0800 (PST)
-Received: by mail-ej1-x62d.google.com with SMTP id ud5so80983666ejc.4
-        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 23:09:40 -0800 (PST)
+        with ESMTP id S229794AbjARHon (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 02:44:43 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05E5D61D73
+        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 23:09:32 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id s3so10176655edd.4
+        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 23:09:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ERUzW2NTS0HSKxHZgJkhNmc/Fre4SMT/MoW1Mr8mzQ4=;
-        b=zQwd7J7HLRznjgSFM9pKJya0EuA8lZun8bi0lci+/+J+INOZCIV9Q3HPoKn/H2t7EZ
-         jGeRwvaXEEWwexTNs3th+4lE4e2mfsFiw/zpJ3Z2FAhlJ8oZ4NPzOPm3JmLPTx3MBNFa
-         w+ISOMSy7RMkJTr+lHArjUK0VmYFRNOdUPFojbNu8WS85Fhi/m+b4tZShv0heXwB4nZ+
-         OaD6sQhZ5YawH9Zq9fKNUcFXqrmF8AdLX7z3wvO56SfZWRMkcpGeS2cMRP2lbeOTxsxi
-         Riltb4cI1zp2s3bCg92Y1AWH58vCLH83S015+aG7gcRb/BeKW1MbD21VA3x+OJyB4tLM
-         uKuQ==
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2lgj4RneNZy7/eLi0Ndco/t/yWP4AgM0h1cCtHXHKe8=;
+        b=Hq+vZ0KeEBW1ot4+tWZFEBQnkR8mkQzKWjMTohbokG39jAlmjaSNfTM6tzO+9r6P0b
+         DPIGIxZEmTplzR55nn3r3GjT1RagIEJa2RL/pyZ7L+sxfEShf213uyWi5ZaVR8UBgi9g
+         b4KWpWPS4ky71N08jcZQEwlVTUKfiSHZNyXKq7XyQGgDfr7Fq9o8DO2opO9vcXulLkQj
+         wxO/KMN8420uLEXgce2LaQGM1kv+K5A+YorBPjRhUwnUdgt1AoYCACF9NBn/F1DTgdYX
+         TvYP4e07XwhwkKp7LCn6FgLWtjXCk5zyC1MmOT49XuEqmMNtLK+m7sJJ1kJ4n+wCl5Ng
+         +zjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ERUzW2NTS0HSKxHZgJkhNmc/Fre4SMT/MoW1Mr8mzQ4=;
-        b=ws1qeugiP6t5jq8fQlSwaFpM20N4om/Cz4LIU/GoxzVXnw4Ou6JxLbkPk08IdcBw05
-         ttm4SWBo9hMGtJAjJ1Hnk8VmpIqDCILBb9AK+EJLK4H30I0EoSNmSEq4uWIwTcJGtswF
-         jeuZE9QFiGS99g439LEU/27QV7JEa4xPUmMpA1yN8wYx5A5mFqf9IXT5yQLfO0F0LzQM
-         aMPm6pU5DkviRo3f8BljDDtZvgubQ9wjkU9Ls8zRJpMCjBUrjeOAt8RyahUqtOnuSdxT
-         pxyxaJFnrdLOCdrM4YLoLzZcK68Z43KqJl0PvQkdr8in+JpgQao5jwMxSCx9BZpbVm7V
-         QBJw==
-X-Gm-Message-State: AFqh2kpNz9Ybuw4GIXpua2pndyHZib9YEjWCPDjdkdbhRwDBUAZXRjzr
-        OE/Lex8VG+fjrVBt2Ut22rtjuA==
-X-Google-Smtp-Source: AMrXdXu9lF2KzIrGyO/dXleTYY7hoYpmKSAJsg5YK0OSjR507Yv6uTjCD3X7ZbwT73YIZ7fWv5YvoA==
-X-Received: by 2002:a17:907:b9da:b0:872:21b2:9a1f with SMTP id xa26-20020a170907b9da00b0087221b29a1fmr5931576ejc.58.1674025778843;
-        Tue, 17 Jan 2023 23:09:38 -0800 (PST)
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2lgj4RneNZy7/eLi0Ndco/t/yWP4AgM0h1cCtHXHKe8=;
+        b=6AiEHZ+qipnUOfIPGOG9lgI9VCIGPQYWcYrtslkxFIZdpNNEehg9bpAcWS279iuc/J
+         PORoRa5nGCVUaLEzT1BIQhoRFNWZFB60UK+h49p7BXntslLqKF1nmfHmSwv+LhL/MntI
+         xOsLcRRmXssKsvcro4cEhsQTQotS1JsIHwz3ahAIijPk68d2AyQux+ELUI2NsGkB19OF
+         D6Y6KoO74Aq5YlxARaPlT7pd5h54bIde48rrULPnx17LlIKZyboAEtWeeABGxrYywpc9
+         mcSHo5xdG9zgeyhH8SQ+eRZgWiK/bX5GFRzDFIJH2yoTfYTM9BzRENA7QdRhI8dykK0M
+         Qoxg==
+X-Gm-Message-State: AFqh2kqlMXBXI+gsFaFK1acKHEdlQkD9y/faD2EvbjNu58aAJcl23BfA
+        g4XS1iPxTa0YfE1tQ8yWYG4GhA==
+X-Google-Smtp-Source: AMrXdXt9vRns6mTotxEDnYQOe8Q6GbOwvNJETG/FOeGy84WVKfQ1s/djhCCg+VX0Otx57OBChRB2Cg==
+X-Received: by 2002:a05:6402:5d4:b0:469:ee22:d97a with SMTP id n20-20020a05640205d400b00469ee22d97amr7081517edx.32.1674025770563;
+        Tue, 17 Jan 2023 23:09:30 -0800 (PST)
 Received: from fedora.local (c-05d8225c.014-348-6c756e10.bbcust.telenor.se. [92.34.216.5])
-        by smtp.gmail.com with ESMTPSA id bt16-20020a0564020a5000b00482e0c55e2bsm13596984edb.93.2023.01.17.23.09.37
+        by smtp.gmail.com with ESMTPSA id bt16-20020a0564020a5000b00482e0c55e2bsm13596984edb.93.2023.01.17.23.09.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 23:09:38 -0800 (PST)
+        Tue, 17 Jan 2023 23:09:30 -0800 (PST)
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 18 Jan 2023 08:09:21 +0100
-Subject: [PATCH v2 7/7] usb: fotg210-udc: Implement VBUS session
+Subject: [PATCH v2 0/7] usb: fotg210: Various improvements
+Date:   Wed, 18 Jan 2023 08:09:15 +0100
+Message-Id: <20230103-gemini-fotg210-usb-v2-0-100388af9810@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230103-gemini-fotg210-usb-v2-7-100388af9810@linaro.org>
-References: <20230103-gemini-fotg210-usb-v2-0-100388af9810@linaro.org>
-In-Reply-To: <20230103-gemini-fotg210-usb-v2-0-100388af9810@linaro.org>
+X-B4-Tracking: v=1; b=H4sIABybx2MC/32NQQ6CMBBFr0K6dkwpSMWV9zAspjiUSbQ1UyQaw
+ t0tHMDl+z8vb1GJhCmpS7EooZkTx5DBHArVjxg8Ad8zK6NNpUtdgacnB4YhTt6UGt7JQXtC29j2
+ bHWDKosOE4ETDP24qU9ME8l2vIQG/uy1W5d55DRF+e7xudzWv525BA2DaazuXY11a64PDijxGMW
+ rbl3XH8bzRVPOAAAA
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
@@ -69,106 +70,66 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Implement VBUS session handling for FOTG210. This is
-mainly used by the UDC driver which needs to call down to
-the FOTG210 core and enable/disable VBUS, as this needs to be
-handled outside of the HCD and UDC drivers, by platform
-specific glue code.
+This is some gradual improvements to the FOTG210 dual-mode
+USB host/gadget driver.
 
-The Gemini has a special bit in a system register to turn
-VBUS on and off so we implement this in the FOTG210 core.
+- Create stricter device tree bindings fixing some mistakes.
+  We have at least FOTG200 and FOTG210 out there. A third
+  variant named FUSB220 is probably related but has a separate
+  driver in the vendor code trees.
 
+- Start to break out common code for remapping of memory and
+  clock handling to begin with, move this to the core file.
+
+- Check that the block is in the right role before
+  proceeding, don't abort registration but print a warning
+  if it's not.
+
+- Assing some default speed and the OF node when the UDC
+  starts. This is based on the similar pattern in the DW
+  controllers.
+
+- Implement a proper VBUS session handler calling down to
+  the hardware VBUS control handler in the Gemini variant.
+  This makes everything work on my hardware.
+
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: linux-usb@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Fabian Vogt <fabian@ritter-vogt.de>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+
 ---
- drivers/usb/fotg210/fotg210-core.c | 29 +++++++++++++++++++++++++++++
- drivers/usb/fotg210/fotg210-udc.c  | 17 +++++++++++++++++
- drivers/usb/fotg210/fotg210.h      |  2 ++
- 3 files changed, 48 insertions(+)
+Changes in v2:
+- Changed a single word in the description heading on
+  the DT bindings
+- Link to v1: https://lore.kernel.org/r/20230103-gemini-fotg210-usb-v1-0-f2670cb4a492@linaro.org
 
-diff --git a/drivers/usb/fotg210/fotg210-core.c b/drivers/usb/fotg210/fotg210-core.c
-index 013a1d0112fc..70d2ff5a2682 100644
---- a/drivers/usb/fotg210/fotg210-core.c
-+++ b/drivers/usb/fotg210/fotg210-core.c
-@@ -95,6 +95,35 @@ static int fotg210_gemini_init(struct fotg210 *fotg, struct resource *res,
- 	return 0;
- }
- 
-+/**
-+ * fotg210_vbus() - Called by gadget driver to enable/disable VBUS
-+ * @enable: true to enable VBUS, false to disable VBUS
-+ */
-+void fotg210_vbus(struct fotg210 *fotg, bool enable)
-+{
-+	u32 mask;
-+	u32 val;
-+	int ret;
-+
-+	switch (fotg->port) {
-+	case GEMINI_PORT_0:
-+		mask = GEMINI_MISC_USB0_VBUS_ON;
-+		val = enable ? GEMINI_MISC_USB0_VBUS_ON : 0;
-+		break;
-+	case GEMINI_PORT_1:
-+		mask = GEMINI_MISC_USB1_VBUS_ON;
-+		val = enable ? GEMINI_MISC_USB1_VBUS_ON : 0;
-+		break;
-+	default:
-+		return;
-+	}
-+	ret = regmap_update_bits(fotg->map, GEMINI_GLOBAL_MISC_CTRL, mask, val);
-+	if (ret)
-+		dev_err(fotg->dev, "failed to %s VBUS\n",
-+			enable ? "enable" : "disable");
-+	dev_info(fotg->dev, "%s: %s VBUS\n", __func__, enable ? "enable" : "disable");
-+}
-+
- static int fotg210_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-diff --git a/drivers/usb/fotg210/fotg210-udc.c b/drivers/usb/fotg210/fotg210-udc.c
-index 4099e7453112..754429553f61 100644
---- a/drivers/usb/fotg210/fotg210-udc.c
-+++ b/drivers/usb/fotg210/fotg210-udc.c
-@@ -1082,9 +1082,26 @@ static int fotg210_udc_stop(struct usb_gadget *g)
- 	return 0;
- }
- 
-+/**
-+ * fotg210_vbus_session - Called by external transceiver to enable/disable udc
-+ * @_gadget: usb gadget
-+ * @is_active: 0 if should disable UDC VBUS, 1 if should enable
-+ *
-+ * Returns 0
-+ */
-+static int fotg210_vbus_session(struct usb_gadget *g, int is_active)
-+{
-+	struct fotg210_udc *fotg210 = gadget_to_fotg210(g);
-+
-+	/* Call down to core integration layer to drive or disable VBUS */
-+	fotg210_vbus(fotg210->fotg, is_active);
-+	return 0;
-+}
-+
- static const struct usb_gadget_ops fotg210_gadget_ops = {
- 	.udc_start		= fotg210_udc_start,
- 	.udc_stop		= fotg210_udc_stop,
-+	.vbus_session		= fotg210_vbus_session,
- };
- 
- /**
-diff --git a/drivers/usb/fotg210/fotg210.h b/drivers/usb/fotg210/fotg210.h
-index 4d0d4ae1a957..c44c0afe2956 100644
---- a/drivers/usb/fotg210/fotg210.h
-+++ b/drivers/usb/fotg210/fotg210.h
-@@ -17,6 +17,8 @@ struct fotg210 {
- 	enum gemini_port port;
- };
- 
-+void fotg210_vbus(struct fotg210 *fotg, bool enable);
-+
- #ifdef CONFIG_USB_FOTG210_HCD
- int fotg210_hcd_probe(struct platform_device *pdev, struct fotg210 *fotg);
- int fotg210_hcd_remove(struct platform_device *pdev);
+---
+Linus Walleij (7):
+      dt-bindings: usb: Correct and extend FOTG210 schema
+      usb: fotg210: List different variants
+      usb: fotg210: Acquire memory resource in core
+      usb: fotg210: Move clock handling to core
+      usb: fotg210: Check role register in core
+      usb: fotg210-udc: Assign of_node and speed on start
+      usb: fotg210-udc: Implement VBUS session
 
+ .../devicetree/bindings/usb/faraday,fotg210.yaml   |  7 +-
+ drivers/usb/fotg210/fotg210-core.c                 | 81 +++++++++++++++++++---
+ drivers/usb/fotg210/fotg210-hcd.c                  | 48 ++-----------
+ drivers/usb/fotg210/fotg210-hcd.h                  |  1 +
+ drivers/usb/fotg210/fotg210-udc.c                  | 68 ++++++++----------
+ drivers/usb/fotg210/fotg210-udc.h                  |  2 +-
+ drivers/usb/fotg210/fotg210.h                      | 27 ++++++--
+ 7 files changed, 136 insertions(+), 98 deletions(-)
+---
+base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
+change-id: 20230103-gemini-fotg210-usb-95a76798706a
+
+Best regards,
 -- 
-2.39.0
+Linus Walleij <linus.walleij@linaro.org>
