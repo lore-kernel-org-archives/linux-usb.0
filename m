@@ -2,102 +2,167 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11011C38159
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 08:55:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DB2AC004D4
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 09:00:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229972AbjARIz1 convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Jan 2023 03:55:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54148 "EHLO
+        id S229665AbjARJAd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Jan 2023 04:00:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229971AbjARIwh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 03:52:37 -0500
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB0475DC12;
-        Wed, 18 Jan 2023 00:06:17 -0800 (PST)
-Received: by mail-qv1-f46.google.com with SMTP id d13so23302285qvj.8;
-        Wed, 18 Jan 2023 00:06:17 -0800 (PST)
+        with ESMTP id S229845AbjARI7m (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 03:59:42 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79F45611F0
+        for <linux-usb@vger.kernel.org>; Wed, 18 Jan 2023 00:19:28 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id b7so7081928wrt.3
+        for <linux-usb@vger.kernel.org>; Wed, 18 Jan 2023 00:19:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6JEKWwonctGpIYQyBgQI4ckxGQ2LgFs9BvZSmjtP02g=;
+        b=fpeFIu5SCiWtEqzPdjMpQQnizSO5gHn6+T9L7i5dI4vq1TwgPoyO+Mxc+G27U2jGEl
+         uV3+vDLrYYQ0pKO+ekeTkzFqUzbdFZUB6yGM718pxmjsW2V8dk8dv/0zM6lu4/vPfBdf
+         sWO/UtTk2hA0lONjcHhDSUK8R0CmJGti2Qw2LVjztthaM+/IVeiKjAu6J+zktnrqAwml
+         Tf7PPxd7YlGEuIYs0oGVAm+Uq1aZz0ZtsXTCd8mwh84w86bS3PzcDTn+A10dEbifl/+A
+         CLMwomuVhrhQ1jX+CMv6TcIBO/JF6dlANR9gkSunl8P2A+FALJ2D2//M6NwoCC9ninaS
+         +F6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9E5o9U7zZsXisx3q8SidZtLQ1FchE/lbQb7lV8SwSYQ=;
-        b=ZBE6EgDz2xx3kUUzYeyjwb1NjVPLGdkSsi5uBmtO71RveyeUMOJhqkASX568So1djX
-         Kjk0QPqq3mRF+GdCC7jzUypLalH+ogy155tWu/HqsnchZoEaKuhEybI/etN8caqEQdua
-         yEPUAYKCk+CcRZcoli3ajoUEkGOQuKqft07Azkg0XVx+Ust8yRaV6TTXUCOegEf8bFk6
-         tx3Gtm3wgzIXLJRhhPd9j9iPVOVqeVYkFiZvJvTcEqkEvW7sh5d28S429EwgBXo4qKZe
-         /yAHefMyrsL+BcKJqXV6Oho5S9fjAWEkviVfd8DT21SI5VZeMbEYcINhM7DMuTO0HZYR
-         qfaQ==
-X-Gm-Message-State: AFqh2kpU/GkWQzghGEpAnnW//Dy/ATw6StHbeNizicl6NQ1B1HF+WtT2
-        cHQ4rmFC7wWNXOZ5bRTuJ+bw1h6lmoWQsA==
-X-Google-Smtp-Source: AMrXdXuyW8gF8KjGH2qvrOAy4XRRXxiqKRnwCjpkVHLRWjxvbdHjxpXSFmvwp4D0px+PfHvDqJ0DNg==
-X-Received: by 2002:a0c:ed4c:0:b0:534:e0b9:9059 with SMTP id v12-20020a0ced4c000000b00534e0b99059mr8095948qvq.33.1674029176786;
-        Wed, 18 Jan 2023 00:06:16 -0800 (PST)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id q30-20020a37f71e000000b006ec62032d3dsm10280712qkj.30.2023.01.18.00.06.15
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6JEKWwonctGpIYQyBgQI4ckxGQ2LgFs9BvZSmjtP02g=;
+        b=QzAgjSWbDh7hpMbQYFjFe0SoH0Ay8ocPFMdJmNLG2PW3xAdprSVwfAsbB1/QXyUd2+
+         g3TnQLxpB1uQW8mbidot6dG9Ngn2/896hdqaVOhF3Y8Yk5xj+ZE1YJu4NnZReVf++ohd
+         dswDBCWVhGsvj56G13lmZnNKi/9Up8+HzCs9sAUKvUNUdeKjGqqBr7sUVhsUR2JnrWkt
+         wiHc+qxMR9kjnz8E7DiWIL200Ky8U4R/aSkoGDKbkh81k89cDHhly8NlKw0HSiJB3X4t
+         6gCWrh/CBmWiGRruQz0kBQFz2sC7MzjQ7Ht23OWBL7Axvd8NLU0kpPOuQSXtzTP8JWR1
+         6Lkg==
+X-Gm-Message-State: AFqh2kqteQ8sLDUgchYOh0u/GKZJOKwYWqLGt5cC6KtSlxC804ZTYaRK
+        OdxSlQWwhdGVN/71V7wwt5F+iaoAO/um9a1O
+X-Google-Smtp-Source: AMrXdXtxvx6Qk2yzHCCoZTw0Gh6jNnIwwmM6YD/JTJFYkSjAFXi/y1n5cO2P1+elzl5fykTlk+PbJQ==
+X-Received: by 2002:a5d:50c9:0:b0:2b4:790e:32f3 with SMTP id f9-20020a5d50c9000000b002b4790e32f3mr4986316wrt.68.1674029967087;
+        Wed, 18 Jan 2023 00:19:27 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id e7-20020a056000120700b00241dd5de644sm30685430wrx.97.2023.01.18.00.19.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jan 2023 00:06:15 -0800 (PST)
-Received: by mail-yb1-f180.google.com with SMTP id 203so37162694yby.10;
-        Wed, 18 Jan 2023 00:06:15 -0800 (PST)
-X-Received: by 2002:a25:9801:0:b0:7d5:b884:3617 with SMTP id
- a1-20020a259801000000b007d5b8843617mr602817ybo.380.1674029174829; Wed, 18 Jan
- 2023 00:06:14 -0800 (PST)
+        Wed, 18 Jan 2023 00:19:26 -0800 (PST)
+Message-ID: <2c17eaa5-ee93-58c5-a35a-8366eb4cfc36@linaro.org>
+Date:   Wed, 18 Jan 2023 09:19:24 +0100
 MIME-Version: 1.0
-References: <20230105152257.310642-1-herve.codina@bootlin.com>
-In-Reply-To: <20230105152257.310642-1-herve.codina@bootlin.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 18 Jan 2023 09:06:03 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWbzqvxoMxJ9MCRe4YqayB4YfP14jJ44-QJkSnQr230Ug@mail.gmail.com>
-Message-ID: <CAMuHMdWbzqvxoMxJ9MCRe4YqayB4YfP14jJ44-QJkSnQr230Ug@mail.gmail.com>
-Subject: Re: [PATCH v5 0/5] Add the Renesas USBF controller support
-To:     Herve Codina <herve.codina@bootlin.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 6/9] dt-bindings: usb: Add binding for Via lab VL817
+ hub controller
+Content-Language: en-US
+To:     Anand Moon <linux.amoon@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-amlogic@lists.infradead.org,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230118044418.875-1-linux.amoon@gmail.com>
+ <20230118044418.875-7-linux.amoon@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230118044418.875-7-linux.amoon@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Hervé,
+On 18/01/2023 05:44, Anand Moon wrote:
+> The VIA Lab VL817 is a USB 3.1 Gen 1 hub and USB 2.0 hub
+> controller that features 4 downstream ports and 1 otg, with
+> an internal 5V regulator and has external reset pin.
 
-On Thu, Jan 5, 2023 at 4:23 PM Herve Codina <herve.codina@bootlin.com> wrote:
-> This series add support for the Renesas USBF controller (USB Device
-> Controller) available in the Renesas RZ/N1 SoC.
+Subject: drop second/last, redundant "binding for". The "dt-bindings"
+prefix is already stating that these are bindings.
 
-As Greg seems to be happy with the USB patches (he took the whole
-(sigh) series through usb-next), I will queue
+> 
+> Add a device tree binding for its USB protocol part.
+> The internal LDO is not covered by this and can just be modelled
+> as a fixed regulator.
+> 
+> Add combo of USB 2.0 and USB 3.0 root hub using peer-hub.
+> 
+> Signed-off-by: Anand Moon <linux.amoon@gmail.com>
+> ---
+> v2 - fix the compatible string and fix the $id
+>    - update the commit message.
+>    - update the example for use peer-hub node because it
+>      combo of USB 2.0 and USB 3.0 hub.
+>    - rename the yaml file from vialab,vl817q7.yaml to vialab,vl817.yaml
+>      as q7 suffix is ued for USB 3.1 and q5 suffix is used for USB 2.0.
+> ---
+>  .../devicetree/bindings/usb/vialab,vl817.yaml | 69 +++++++++++++++++++
+>  1 file changed, 69 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+> new file mode 100644
+> index 000000000000..5f9771e22058
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+> @@ -0,0 +1,69 @@
+> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/vialab,vl817.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Via labs VL817 USB 3.1 hub controller
+> +
+> +maintainers:
+> +  - Anand Moon <linux.amoon@gmail.com>
+> +
+> +allOf:
+> +  - $ref: usb-device.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
 
-> Herve Codina (5):
->   dt-bindings: usb: add the Renesas RZ/N1 USBF controller
->   soc: renesas: r9a06g032-sysctrl: Handle h2mode setting based on USBF
->     presence
+Drop items
 
-... this "clk" patch in renesas-clk-for-v6.3...
+> +      - enum:
+> +          - usb2109,2817
+> +          - usb2109,817
+> +
+> +  reg: true
+> +
+> +  reset-gpios:
+> +    description: GPIO controlling the RESET# pin.
 
->   usb: gadget: udc: add Renesas RZ/N1 USBF controller support
->   ARM: dts: r9a06g032: Add the USBF controller node
+maxItems
 
-... and this DT patch in renesas-devel for v6.3.
+> +
+> +  vdd-supply:
+> +    description:
+> +      phandle to the regulator that provides power to the hub.
+> +
+> +  peer-hub:
+> +    $ref: '/schemas/types.yaml#/definitions/phandle'
 
-Gr{oetje,eeting}s,
+Drop quotes
 
-                        Geert
+> +    description:
+> +      phandle to the peer hub on the controller.
+> +
+> +required:
+> +  - peer-hub
+> +  - compatible
+> +  - reg
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Keep same order as in properties: part.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +
+
+Best regards,
+Krzysztof
+
