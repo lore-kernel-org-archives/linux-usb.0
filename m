@@ -2,65 +2,84 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED3A9C38159
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 07:48:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8E7DC32793
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 08:21:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229436AbjARHrs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Jan 2023 02:47:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44026 "EHLO
+        id S229566AbjARIVQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Jan 2023 03:21:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbjARHpW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 02:45:22 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E402470A5;
-        Tue, 17 Jan 2023 23:10:08 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 219BE61695;
-        Wed, 18 Jan 2023 07:10:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74B8DC433D2;
-        Wed, 18 Jan 2023 07:10:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1674025807;
-        bh=BCfaXPQmIG2sz8cafQRVmTDjDG1OMgz3v5RBgJB8s34=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xqwrTM9kz9E7Pk8xrunu7rlFhC8o9mfC96cFfWosakLwIVgB/NqgzmxVhtyFzOgGo
-         dVzUJXFeZJKinqsI2e1fS5QoAbw7OkyyROIcw4AFzp+CyaW/UgDWuC1Q3mCQgVB1B/
-         q3TpqRs5HEodaTKuMsIjTAE+Q3GYrT+90YrSIZqg=
-Date:   Wed, 18 Jan 2023 08:10:03 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
+        with ESMTP id S230014AbjARIU3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 03:20:29 -0500
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 331126F8B5
+        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 23:48:02 -0800 (PST)
+Received: by mail-yb1-xb30.google.com with SMTP id 203so37117450yby.10
+        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 23:48:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3lsVmwWpUbBcZLhC1PgXubVGuc7DZUQhVqbV9/Kjs9g=;
+        b=Xb1rOdJA8KqYKynuQGkZtv9Xa3vI+W9rpQTtbkR9Yp9J0GVcDZKjAi7aKombg3nAQo
+         kzPVXnCK6NE+R1DpzebUHvgQxqhqOqfK5lYu6/3h3rwKCeW7v7SimfoR7BgGCMz+RHLm
+         du4DpsiBKEdrpktvKTUDLPb6Z4FDOo5290XMPN8TXtQ2w08/+f34T1SZNJ1ypELbLYZ5
+         WnZfoMnIcFMP/LHTZ1/M3xEvSR6szPEW6Ua3GnIZY+W8nZywkq/etFzmai7llrbJheO2
+         CayT6L5ENJe+THXD6qlGUoxGHW/3vAcPdW9ezdRZ2wqAGxKa71yGp7guH5ZygmPjXknf
+         2iMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3lsVmwWpUbBcZLhC1PgXubVGuc7DZUQhVqbV9/Kjs9g=;
+        b=dJxqS7He9x1wqomfzsR2i+I5Hng27pTdAz7ig4NoTJaq5hzveQVLNOuasfTVV0eub+
+         Yu9qcnfno1eSZ0kSG0Os44Ki6Lcclizb6aoI1qXHW1yn7LGbLlQSfGPhu8P30NSvDdMT
+         nz/DVhdsFI4NwG9ii43l77Q/TlC8UOwK89eUInZvXXn+nGwnAiwasMryXcjYgSe43CYW
+         OU6iZIx2t4nyV8vdPm4lNBZpb8Bb8/KDeUvRLIro3VE4wgeHXiu3tPp74zd2+hPHae2m
+         WgssZ8L+APvw5SJm4l8+aTi4qxZ+HtMpqneYjTSMUHl+uYmDI8+rF5GhbGUYHGJ/aedd
+         0FZw==
+X-Gm-Message-State: AFqh2kqmBRRiSstMhiy0MbwVzw9Bgy2wafNP3MFtoXnJTorrCFp4PwhD
+        /4YDd4b3xi7I1QN12Xd25InkxiS7AZikzQSKmRoFzg==
+X-Google-Smtp-Source: AMrXdXsXwout0TrOcTOdN6y5F8uwNzphuPk9mcVCrUGLySs0iZEnk/drbasiu8yUy96SDbaiCFBajMK4mNLyshjjU64=
+X-Received: by 2002:a25:9d88:0:b0:7c0:acd2:6300 with SMTP id
+ v8-20020a259d88000000b007c0acd26300mr634228ybp.520.1674028081450; Tue, 17 Jan
+ 2023 23:48:01 -0800 (PST)
+MIME-Version: 1.0
+References: <20230103-gemini-fotg210-usb-v1-0-f2670cb4a492@linaro.org>
+ <CACRpkdaE+b_=6mecuWe4EUfYP9C3j5cXZXMO0s2t7Bf3eMtV_A@mail.gmail.com> <Y8ebS2lMvXs6LSZl@kroah.com>
+In-Reply-To: <Y8ebS2lMvXs6LSZl@kroah.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 18 Jan 2023 08:47:46 +0100
+Message-ID: <CACRpkdZxo7TWBanzfLTEqo9E5Ajk23Z4Y-R_qDaVG2crKfcKVA@mail.gmail.com>
+Subject: Re: [PATCH 0/7] usb: fotg210: Various improvements
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, Fabian Vogt <fabian@ritter-vogt.de>
-Subject: Re: [PATCH 0/7] usb: fotg210: Various improvements
-Message-ID: <Y8ebS2lMvXs6LSZl@kroah.com>
-References: <20230103-gemini-fotg210-usb-v1-0-f2670cb4a492@linaro.org>
- <CACRpkdaE+b_=6mecuWe4EUfYP9C3j5cXZXMO0s2t7Bf3eMtV_A@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdaE+b_=6mecuWe4EUfYP9C3j5cXZXMO0s2t7Bf3eMtV_A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jan 18, 2023 at 08:03:59AM +0100, Linus Walleij wrote:
-> On Wed, Jan 4, 2023 at 12:35 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> 
-> > This is some gradual improvements to the FOTG210 dual-mode
-> > USB host/gadget driver.
-> 
-> Been two weeks, something I should change or are these good to
-> go?
+On Wed, Jan 18, 2023 at 8:10 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> On Wed, Jan 18, 2023 at 08:03:59AM +0100, Linus Walleij wrote:
+> > On Wed, Jan 4, 2023 at 12:35 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> >
+> > > This is some gradual improvements to the FOTG210 dual-mode
+> > > USB host/gadget driver.
+> >
+> > Been two weeks, something I should change or are these good to
+> > go?
+>
+> I dropped the series from my review queue due to this comment:
+>         https://lore.kernel.org/r/9bbd5343-30bc-1146-3296-2c3a43b9a91b@linaro.org
+>
+> so I was expecting a new series, is that not the case?
 
-I dropped the series from my review queue due to this comment:
-	https://lore.kernel.org/r/9bbd5343-30bc-1146-3296-2c3a43b9a91b@linaro.org
+You're right, I've dropped a single word and resent!
 
-so I was expecting a new series, is that not the case?
-
-thanks,
-
-greg k-h
+Yours,
+Linus Walleij
