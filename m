@@ -2,77 +2,127 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B570C004D4
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 07:42:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3398C54EBE
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 07:45:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229503AbjARHml (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Jan 2023 02:42:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40734 "EHLO
+        id S229548AbjARHpV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Jan 2023 02:45:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230003AbjARHlN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 02:41:13 -0500
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06FF546096
-        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 23:05:02 -0800 (PST)
-Received: by mail-yb1-xb2e.google.com with SMTP id c124so37000119ybb.13
-        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 23:05:02 -0800 (PST)
+        with ESMTP id S229823AbjARHop (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 02:44:45 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44AB461D40
+        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 23:09:33 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id b4so28838905edf.0
+        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 23:09:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RWIUcIYgcQkK0f/sIUCOgX2DuZrEEVB1UO5r6QoL9lw=;
-        b=ENzpBFhPlcCihyjjyCNhOyBYcpNs4eQRy9VQCTJjqeAdPU+XuQD15jm8kNXaZs3mVO
-         Rs/RYvncah5joqCL8p/hpgG9c6S6W4cgLhbQIw+bEkschv0gt/4mbpWidS+e+KfWOuMs
-         nfeUYHCA1NOPmnhFy+BiJf0b495/McVrE0LawulUeUE+j7nE62L29ww5wn2xjpAEFixi
-         V2Ymc7Q5+t3vZBa4bOtMNl38atsWdO9ZZXws01LVfnRYGgEUzYiRT7qzi7lNTCmZNmk3
-         iQ0hdyp0sUNtFrl98h3gU8nxKzglZ1lmP87NzD/Le4yL911F2GmCtkfuFU0nydPCta6u
-         7NEA==
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tz/0Vx6eDg0DiBO/TaaOaa2oRiAZoQpqzz9GXBsd0QI=;
+        b=BOmgKM0ZDO1zyDLyzTQDcxlUBStdroCvk+RDaDQ/lnIrEIpNzUZ8LhHH497vVWux0C
+         lUInWZVL2l+49/noO6Kr/fJXPJ2QzISh2921HrIvaqfnHQUKxyvcNH7/MZy/ZTT3XLoL
+         YmDQcT8cVo1wWxud4qZolFXblmCWHxw6mxM5vjbXCetXdYipM1Uvl36Qxgyqrx1AD/2X
+         unfn9T8iEQ28UpQge+cj8q/+/59hV+ii7noq2IAYbnOBZICU1yxqd+K0V3E1KS7jq8Oo
+         aF3tDoDuQac/ObCPPrSE1Xlpu8AIq+rhFqOH39hdNXUZdwB7w09kXQcs5vT+OtAm+m2h
+         TwQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RWIUcIYgcQkK0f/sIUCOgX2DuZrEEVB1UO5r6QoL9lw=;
-        b=pa1ErNPjNiUCGfDgdnpNXR+j6LilSfTcku2FRjwtZRaUnOWp7hCe2De7DyDbTwsn+j
-         SD9k0OIhw6Px4dtUayx4Na6M6VoNynUvGe9dMnCr79TTtRGyBkmTQSCkgNYWnLlGDgVZ
-         AmBeNVVRnTSwNbPQ0kkNKpbaaBwa5Prhdy3Rn4bGV0Y/cTgT0JEQAYm6VomT34FaHV8O
-         /LkDIxxOpQH22s7YWl99LrB1x/dm6bQHlddYGVO4iA1o0W6CUfLuzo/rSsK9ID8ncDGc
-         kEOumbuKtGOi4GjNC2X5LDEONjwS4OrU7RiZTpSAOySx1AkIKxUebd9WToWjEzqeD9z3
-         GoPQ==
-X-Gm-Message-State: AFqh2kp/pW5+v3lNBPjocdixP+zk4vdn5xuFaYYblVb97s9mEaZY1Y4X
-        WBT9HICMw60YXZRzeCYvGFx3boaWAaq+lpYGlUfzcA==
-X-Google-Smtp-Source: AMrXdXu5Pbi5SOFwW0RWmqObqTSmr+IievVVthez/yxv4Os97jPuhnm0GaAa17j3AJPPgW1V0oaQ8oF8ZqwqXGb8cMY=
-X-Received: by 2002:a25:c092:0:b0:7d2:8687:aea5 with SMTP id
- c140-20020a25c092000000b007d28687aea5mr841276ybf.210.1674025501906; Tue, 17
- Jan 2023 23:05:01 -0800 (PST)
-MIME-Version: 1.0
-References: <20230103-gemini-fotg210-usb-v1-0-f2670cb4a492@linaro.org> <CACRpkdaE+b_=6mecuWe4EUfYP9C3j5cXZXMO0s2t7Bf3eMtV_A@mail.gmail.com>
-In-Reply-To: <CACRpkdaE+b_=6mecuWe4EUfYP9C3j5cXZXMO0s2t7Bf3eMtV_A@mail.gmail.com>
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tz/0Vx6eDg0DiBO/TaaOaa2oRiAZoQpqzz9GXBsd0QI=;
+        b=ELxtVB7O7SxJzQrxSUvRE57S3kvBx7loSjlQuPiipny79cMpfmPSHOZTkMYzS6QFgP
+         zdZ1hXDwll47455qn4X+Q1nk5+iMwNSpyB/K/RgVm08F2jiGid7ZGLIcM/VJn1R3eq8W
+         T/vNNmzShQZbfMIei0KOfGj2tg3BbDpQzwEw/+6TsFJuY2PzgM8hzl2Ce/qy3Qxyh0ZJ
+         angvu40MSZEXEmchf8vyS+0YM9UgxTuvWQMNQQCVs5dwqH0U2PGT8JYTqelpm+Rq4RFo
+         rgSqokkWSUcF+NcAYgLlnjHryrt5v5OLG09Sxw81hiNYTU9vf6hOXKmtNubH8LfJy5Un
+         IBGA==
+X-Gm-Message-State: AFqh2kozw3pp/2XewgnIUObbgs594KV+S1eRj8Jf3tM4oQ/ez/xBcsG8
+        JrH/IqExsa29PtTa1HbziNulow==
+X-Google-Smtp-Source: AMrXdXt4Udi3FAFMC87aqlBsx9ONEbBCJsUYVUhdK45xI3OBB1BGdOLJFxK/Wg0POwC86YiL+z+ZFg==
+X-Received: by 2002:aa7:d887:0:b0:499:1ed2:6461 with SMTP id u7-20020aa7d887000000b004991ed26461mr5812989edq.17.1674025771805;
+        Tue, 17 Jan 2023 23:09:31 -0800 (PST)
+Received: from fedora.local (c-05d8225c.014-348-6c756e10.bbcust.telenor.se. [92.34.216.5])
+        by smtp.gmail.com with ESMTPSA id bt16-20020a0564020a5000b00482e0c55e2bsm13596984edb.93.2023.01.17.23.09.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jan 2023 23:09:31 -0800 (PST)
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 18 Jan 2023 08:04:50 +0100
-Message-ID: <CACRpkdaCUL+met+qvsn6VbFiRgPiHpZs5DfDdjSQ=97HGcBSCw@mail.gmail.com>
-Subject: Re: [PATCH 0/7] usb: fotg210: Various improvements
+Date:   Wed, 18 Jan 2023 08:09:15 +0100
+Subject: [PATCH v2 1/7] dt-bindings: usb: Correct and extend FOTG210 schema
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230103-gemini-fotg210-usb-v2-1-100388af9810@linaro.org>
+References: <20230103-gemini-fotg210-usb-v2-0-100388af9810@linaro.org>
+In-Reply-To: <20230103-gemini-fotg210-usb-v2-0-100388af9810@linaro.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Fabian Vogt <fabian@ritter-vogt.de>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, Fabian Vogt <fabian@ritter-vogt.de>,
+        Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.11.1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jan 18, 2023 at 8:03 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Wed, Jan 4, 2023 at 12:35 AM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> > This is some gradual improvements to the FOTG210 dual-mode
-> > USB host/gadget driver.
->
-> Been two weeks, something I should change or are these good to
-> go?
+It turns out that this IP block exists in at least two
+incarnations: FOTG200 and FOTG210. The one in the Gemini
+is FOTG200, so add the variants and rectify the binding
+for Gemini.
 
-Ah no wait I see it, a small change needed on the DT binding.
-I'll respin.
+This affects things such as the placement of certain
+registers.
 
-Yours,
-Linus Walleij
+It remains to be seen how similar this block is to the
+third USB block from Faraday, FUSB220.
+
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v1->v2:
+- Drop stray word "bindings" in description
+---
+ Documentation/devicetree/bindings/usb/faraday,fotg210.yaml | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/faraday,fotg210.yaml b/Documentation/devicetree/bindings/usb/faraday,fotg210.yaml
+index 84b3b69256b1..3fe4d1564dfe 100644
+--- a/Documentation/devicetree/bindings/usb/faraday,fotg210.yaml
++++ b/Documentation/devicetree/bindings/usb/faraday,fotg210.yaml
+@@ -5,7 +5,7 @@
+ $id: http://devicetree.org/schemas/usb/faraday,fotg210.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+-title: Faraday Technology FOTG210 HS OTG USB 2.0 controller
++title: Faraday Technology FOTG200 series HS OTG USB 2.0 controller
+ 
+ maintainers:
+   - Linus Walleij <linus.walleij@linaro.org>
+@@ -17,10 +17,11 @@ allOf:
+ properties:
+   compatible:
+     oneOf:
++      - const: faraday,fotg200
+       - const: faraday,fotg210
+       - items:
+           - const: cortina,gemini-usb
+-          - const: faraday,fotg210
++          - const: faraday,fotg200
+ 
+   reg:
+     maxItems: 1
+@@ -66,7 +67,7 @@ examples:
+     #include <dt-bindings/clock/cortina,gemini-clock.h>
+     #include <dt-bindings/reset/cortina,gemini-reset.h>
+     usb0: usb@68000000 {
+-        compatible = "cortina,gemini-usb", "faraday,fotg210";
++        compatible = "cortina,gemini-usb", "faraday,fotg200";
+         reg = <0x68000000 0x1000>;
+         interrupts = <10 IRQ_TYPE_LEVEL_HIGH>;
+         resets = <&syscon GEMINI_RESET_USB0>;
+
+-- 
+2.39.0
