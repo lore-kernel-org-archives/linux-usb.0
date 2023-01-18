@@ -2,30 +2,34 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57F27C38147
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 11:09:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40E54C38159
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 11:13:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229740AbjARLJX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Jan 2023 06:09:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57400 "EHLO
+        id S229681AbjARLN1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Jan 2023 06:13:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230193AbjARLIu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 06:08:50 -0500
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1920E95751
-        for <linux-usb@vger.kernel.org>; Wed, 18 Jan 2023 02:15:48 -0800 (PST)
+        with ESMTP id S229540AbjARLM4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 06:12:56 -0500
+X-Greylist: delayed 388 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 18 Jan 2023 02:22:14 PST
+Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [IPv6:2a02:1800:120:4::f00:11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EB3F470B1
+        for <linux-usb@vger.kernel.org>; Wed, 18 Jan 2023 02:22:09 -0800 (PST)
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by gauss.telenet-ops.be (Postfix) with ESMTPS id 4Nxhd65xBNz4x0ZK
+        for <linux-usb@vger.kernel.org>; Wed, 18 Jan 2023 11:21:46 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:4745:2e6d:e3a6:3327])
-        by albert.telenet-ops.be with bizsmtp
-        id AAFN290052zf9gW06AFN2a; Wed, 18 Jan 2023 11:15:46 +0100
+        by xavier.telenet-ops.be with bizsmtp
+        id AAFN290042zf9gW01AFNxL; Wed, 18 Jan 2023 11:15:42 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pI5TQ-005aIZ-Ni;
+        id 1pI5TQ-005aIN-M1;
         Wed, 18 Jan 2023 11:15:22 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pI5TW-001JVv-27;
-        Wed, 18 Jan 2023 11:15:22 +0100
+        id 1pI5TV-001JVg-Uw;
+        Wed, 18 Jan 2023 11:15:21 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Madalin Bucur <madalin.bucur@nxp.com>,
         "David S . Miller" <davem@davemloft.net>,
@@ -53,45 +57,59 @@ Cc:     netdev@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 4/7] net: ethernet: ti: am65-cpsw: Convert to devm_of_phy_optional_get()
-Date:   Wed, 18 Jan 2023 11:15:17 +0100
-Message-Id: <63433d4641e4dd21b12232a6d72427cb62f3e987.1674036164.git.geert+renesas@glider.be>
+Subject: [PATCH treewide 0/7] phy: Add devm_of_phy_optional_get() helper
+Date:   Wed, 18 Jan 2023 11:15:13 +0100
+Message-Id: <cover.1674036164.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1674036164.git.geert+renesas@glider.be>
-References: <cover.1674036164.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use the new devm_of_phy_optional_get() helper instead of open-coding the
-same operation.
+	Hi all,
 
-While at it, fix handling of other error codes (e.g. -EPROBE_DEFER).
+While there exist several optional_get() PHY helper functions, there is
+no optional variant of devm_of_phy_get(), leading to several drivers
+implementing this theirselves, sometimes in buggy ways.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/net/ethernet/ti/am65-cpsw-nuss.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Hence this series introduces a devm_of_phy_optional_get() helper(), and
+converts existing users of devm_of_phy_get() where appropriate.
 
-diff --git a/drivers/net/ethernet/ti/am65-cpsw-nuss.c b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-index 5cac982841845369..794f228c8d632f7a 100644
---- a/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-+++ b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-@@ -1460,9 +1460,9 @@ static int am65_cpsw_init_serdes_phy(struct device *dev, struct device_node *por
- 	struct phy *phy;
- 	int ret;
- 
--	phy = devm_of_phy_get(dev, port_np, name);
--	if (PTR_ERR(phy) == -ENODEV)
--		return 0;
-+	phy = devm_of_phy_optional_get(dev, port_np, name);
-+	if (IS_ERR_OR_NULL(phy))
-+		return PTR_ERR_OR_ZERO(phy);
- 
- 	/* Serdes PHY exists. Store it. */
- 	port->slave.serdes_phy = phy;
+This series been compile-tested only, but the new helper itself has been
+tested with a new user I am about to submit.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (7):
+  phy: Add devm_of_phy_optional_get() helper
+  net: fman: memac: Convert to devm_of_phy_optional_get()
+  net: lan966x: Convert to devm_of_phy_optional_get()
+  net: ethernet: ti: am65-cpsw: Convert to devm_of_phy_optional_get()
+  PCI: tegra: Convert to devm_of_phy_optional_get()
+  usb: host: ehci-exynos: Convert to devm_of_phy_optional_get()
+  usb: host: ohci-exynos: Convert to devm_of_phy_optional_get()
+
+ .../net/ethernet/freescale/fman/fman_memac.c  |  8 +++---
+ .../ethernet/microchip/lan966x/lan966x_main.c |  5 ++--
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c      |  6 ++---
+ drivers/pci/controller/pci-tegra.c            |  5 +---
+ drivers/phy/phy-core.c                        | 26 +++++++++++++++++++
+ drivers/usb/host/ehci-exynos.c                | 24 +++++------------
+ drivers/usb/host/ohci-exynos.c                | 24 +++++------------
+ include/linux/phy/phy.h                       |  9 ++++++
+ 8 files changed, 59 insertions(+), 48 deletions(-)
+
 -- 
 2.34.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
