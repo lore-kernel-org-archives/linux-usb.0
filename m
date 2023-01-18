@@ -2,134 +2,65 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A353C004D4
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 07:46:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED3A9C38159
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 07:48:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbjARHqE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Jan 2023 02:46:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41138 "EHLO
+        id S229436AbjARHrs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Jan 2023 02:47:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229794AbjARHon (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 02:44:43 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05E5D61D73
-        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 23:09:32 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id s3so10176655edd.4
-        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 23:09:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2lgj4RneNZy7/eLi0Ndco/t/yWP4AgM0h1cCtHXHKe8=;
-        b=Hq+vZ0KeEBW1ot4+tWZFEBQnkR8mkQzKWjMTohbokG39jAlmjaSNfTM6tzO+9r6P0b
-         DPIGIxZEmTplzR55nn3r3GjT1RagIEJa2RL/pyZ7L+sxfEShf213uyWi5ZaVR8UBgi9g
-         b4KWpWPS4ky71N08jcZQEwlVTUKfiSHZNyXKq7XyQGgDfr7Fq9o8DO2opO9vcXulLkQj
-         wxO/KMN8420uLEXgce2LaQGM1kv+K5A+YorBPjRhUwnUdgt1AoYCACF9NBn/F1DTgdYX
-         TvYP4e07XwhwkKp7LCn6FgLWtjXCk5zyC1MmOT49XuEqmMNtLK+m7sJJ1kJ4n+wCl5Ng
-         +zjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2lgj4RneNZy7/eLi0Ndco/t/yWP4AgM0h1cCtHXHKe8=;
-        b=6AiEHZ+qipnUOfIPGOG9lgI9VCIGPQYWcYrtslkxFIZdpNNEehg9bpAcWS279iuc/J
-         PORoRa5nGCVUaLEzT1BIQhoRFNWZFB60UK+h49p7BXntslLqKF1nmfHmSwv+LhL/MntI
-         xOsLcRRmXssKsvcro4cEhsQTQotS1JsIHwz3ahAIijPk68d2AyQux+ELUI2NsGkB19OF
-         D6Y6KoO74Aq5YlxARaPlT7pd5h54bIde48rrULPnx17LlIKZyboAEtWeeABGxrYywpc9
-         mcSHo5xdG9zgeyhH8SQ+eRZgWiK/bX5GFRzDFIJH2yoTfYTM9BzRENA7QdRhI8dykK0M
-         Qoxg==
-X-Gm-Message-State: AFqh2kqlMXBXI+gsFaFK1acKHEdlQkD9y/faD2EvbjNu58aAJcl23BfA
-        g4XS1iPxTa0YfE1tQ8yWYG4GhA==
-X-Google-Smtp-Source: AMrXdXt9vRns6mTotxEDnYQOe8Q6GbOwvNJETG/FOeGy84WVKfQ1s/djhCCg+VX0Otx57OBChRB2Cg==
-X-Received: by 2002:a05:6402:5d4:b0:469:ee22:d97a with SMTP id n20-20020a05640205d400b00469ee22d97amr7081517edx.32.1674025770563;
-        Tue, 17 Jan 2023 23:09:30 -0800 (PST)
-Received: from fedora.local (c-05d8225c.014-348-6c756e10.bbcust.telenor.se. [92.34.216.5])
-        by smtp.gmail.com with ESMTPSA id bt16-20020a0564020a5000b00482e0c55e2bsm13596984edb.93.2023.01.17.23.09.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 23:09:30 -0800 (PST)
-From:   Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v2 0/7] usb: fotg210: Various improvements
-Date:   Wed, 18 Jan 2023 08:09:15 +0100
-Message-Id: <20230103-gemini-fotg210-usb-v2-0-100388af9810@linaro.org>
+        with ESMTP id S229803AbjARHpW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 02:45:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E402470A5;
+        Tue, 17 Jan 2023 23:10:08 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 219BE61695;
+        Wed, 18 Jan 2023 07:10:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74B8DC433D2;
+        Wed, 18 Jan 2023 07:10:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1674025807;
+        bh=BCfaXPQmIG2sz8cafQRVmTDjDG1OMgz3v5RBgJB8s34=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xqwrTM9kz9E7Pk8xrunu7rlFhC8o9mfC96cFfWosakLwIVgB/NqgzmxVhtyFzOgGo
+         dVzUJXFeZJKinqsI2e1fS5QoAbw7OkyyROIcw4AFzp+CyaW/UgDWuC1Q3mCQgVB1B/
+         q3TpqRs5HEodaTKuMsIjTAE+Q3GYrT+90YrSIZqg=
+Date:   Wed, 18 Jan 2023 08:10:03 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Fabian Vogt <fabian@ritter-vogt.de>
+Subject: Re: [PATCH 0/7] usb: fotg210: Various improvements
+Message-ID: <Y8ebS2lMvXs6LSZl@kroah.com>
+References: <20230103-gemini-fotg210-usb-v1-0-f2670cb4a492@linaro.org>
+ <CACRpkdaE+b_=6mecuWe4EUfYP9C3j5cXZXMO0s2t7Bf3eMtV_A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIABybx2MC/32NQQ6CMBBFr0K6dkwpSMWV9zAspjiUSbQ1UyQaw
- t0tHMDl+z8vb1GJhCmpS7EooZkTx5DBHArVjxg8Ad8zK6NNpUtdgacnB4YhTt6UGt7JQXtC29j2
- bHWDKosOE4ETDP24qU9ME8l2vIQG/uy1W5d55DRF+e7xudzWv525BA2DaazuXY11a64PDijxGMW
- rbl3XH8bzRVPOAAAA
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Fabian Vogt <fabian@ritter-vogt.de>,
-        Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.11.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACRpkdaE+b_=6mecuWe4EUfYP9C3j5cXZXMO0s2t7Bf3eMtV_A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is some gradual improvements to the FOTG210 dual-mode
-USB host/gadget driver.
+On Wed, Jan 18, 2023 at 08:03:59AM +0100, Linus Walleij wrote:
+> On Wed, Jan 4, 2023 at 12:35 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> 
+> > This is some gradual improvements to the FOTG210 dual-mode
+> > USB host/gadget driver.
+> 
+> Been two weeks, something I should change or are these good to
+> go?
 
-- Create stricter device tree bindings fixing some mistakes.
-  We have at least FOTG200 and FOTG210 out there. A third
-  variant named FUSB220 is probably related but has a separate
-  driver in the vendor code trees.
+I dropped the series from my review queue due to this comment:
+	https://lore.kernel.org/r/9bbd5343-30bc-1146-3296-2c3a43b9a91b@linaro.org
 
-- Start to break out common code for remapping of memory and
-  clock handling to begin with, move this to the core file.
+so I was expecting a new series, is that not the case?
 
-- Check that the block is in the right role before
-  proceeding, don't abort registration but print a warning
-  if it's not.
+thanks,
 
-- Assing some default speed and the OF node when the UDC
-  starts. This is based on the similar pattern in the DW
-  controllers.
-
-- Implement a proper VBUS session handler calling down to
-  the hardware VBUS control handler in the Gemini variant.
-  This makes everything work on my hardware.
-
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Rob Herring <robh+dt@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: linux-usb@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: Fabian Vogt <fabian@ritter-vogt.de>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-
----
-Changes in v2:
-- Changed a single word in the description heading on
-  the DT bindings
-- Link to v1: https://lore.kernel.org/r/20230103-gemini-fotg210-usb-v1-0-f2670cb4a492@linaro.org
-
----
-Linus Walleij (7):
-      dt-bindings: usb: Correct and extend FOTG210 schema
-      usb: fotg210: List different variants
-      usb: fotg210: Acquire memory resource in core
-      usb: fotg210: Move clock handling to core
-      usb: fotg210: Check role register in core
-      usb: fotg210-udc: Assign of_node and speed on start
-      usb: fotg210-udc: Implement VBUS session
-
- .../devicetree/bindings/usb/faraday,fotg210.yaml   |  7 +-
- drivers/usb/fotg210/fotg210-core.c                 | 81 +++++++++++++++++++---
- drivers/usb/fotg210/fotg210-hcd.c                  | 48 ++-----------
- drivers/usb/fotg210/fotg210-hcd.h                  |  1 +
- drivers/usb/fotg210/fotg210-udc.c                  | 68 ++++++++----------
- drivers/usb/fotg210/fotg210-udc.h                  |  2 +-
- drivers/usb/fotg210/fotg210.h                      | 27 ++++++--
- 7 files changed, 136 insertions(+), 98 deletions(-)
----
-base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
-change-id: 20230103-gemini-fotg210-usb-95a76798706a
-
-Best regards,
--- 
-Linus Walleij <linus.walleij@linaro.org>
+greg k-h
