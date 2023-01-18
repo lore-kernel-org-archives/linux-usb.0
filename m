@@ -2,201 +2,295 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E724C32793
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 04:53:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4602C32793
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 06:29:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229545AbjARExu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Jan 2023 23:53:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57716 "EHLO
+        id S229813AbjARG2f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Jan 2023 01:28:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjARExt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Jan 2023 23:53:49 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 699CA51C76
-        for <linux-usb@vger.kernel.org>; Tue, 17 Jan 2023 20:53:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674017628; x=1705553628;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=dJjh1F8S0qM3PgfeqKDRtVzUOLjjipyzxwyxt5dea8k=;
-  b=XdpboNySBItKplGNnwrsCZMzE1QRyNPW4byXTNSwSALy+0TF2nCuVE80
-   dVSCA4hglGXiggWewpzWOZq8Pi0OD5U8XKjZjrGZluEeKe2/C/XGmSc7P
-   uLmazhFcBRc3yulMdIJRA6a3S5CbrnyHC8omAV9p/W1JT7vOSy2c5py6u
-   yJBsxv+G7Wl+IlXP3VGq9oHSUCISnvToTw1EHjNKMXsBDpUF6DmTt3a9B
-   1eGvpVFcherX3p43col1NjedjKLTx9RxxMvXBLJEPnWOok3g92tnm9A/U
-   YyQfh9iuX93p85zK4liWVKnTOCg6hc0YJyYYLW8TRaTPhIQfaR2t2qRPs
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="305271279"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="305271279"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2023 20:53:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="637117747"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="637117747"
-Received: from lkp-server02.sh.intel.com (HELO f57cd993bc73) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 17 Jan 2023 20:53:45 -0800
-Received: from kbuild by f57cd993bc73 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pI0SF-0001ds-2y;
-        Wed, 18 Jan 2023 04:53:44 +0000
-Date:   Wed, 18 Jan 2023 12:53:37 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-linus] BUILD SUCCESS
- 7171b0e261b17de96490adf053b8bb4b00061bcf
-Message-ID: <63c77b51.ckXxAm+KhpfZcru9%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S229831AbjARG00 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 01:26:26 -0500
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2046.outbound.protection.outlook.com [40.107.94.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1616392BE;
+        Tue, 17 Jan 2023 22:16:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kko+xHrh28WVzwVRbe5pmzBaYaxDKxXof3Ugpk5ZnnPV8agmiV1lnWNIJrUhsG/yGEqANKVKhxEisU5+sme8zODZgL8jH+1nt1vqKq7SLhuf9BjPsWP9jfnlPNurMKwu1/sVoX5NAc8A42RrWgnlK1ucO06zrZAa+MllyVFbv5x57uUgmAWdNtqW9vPfqSTXoY4DqSsLWxy/4rcLEpknp1ori5irK5lJdaGiCtvgiVZEnaVplYxi7QlC9HJH0qk3223TDF8ARjAkUHeQpshzQrK6LfldqLPxEniL31dDWCl3LVXYkFSVqV9r3Z1BLSazLpW1ogqf4lG7ILd/+OmhjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LnOTzyaFmHKD1XejeQe9TaohrpLDNpYaKYSvJm6bGgE=;
+ b=e60fDHhOkl8C3UgRSf2NsOEzH2eB0NUMVGNLjHWqxPzGq+09cjNgqjCyEkqDhcZDL+SLE3IGvDJIExbpPUS4RFBQCU/4zILuvanMB8mphrnKKPgjqB+Xd0BWV/atNazM6Ik99pVDlN6O9WlTdRsVeM78wyakxFjwMyw54z86vLFwqR0G1h7T38ek/ZTrPP7AaCyy3otWdR9Yd7JGokQVRRQcIOXLkudWhixly5fR8W5STNg2GPXKkQ9RMihvK1MwSuq73U1G3LZlMbBwDAYpgajLw1BVu4hblBszh3qDufyDga1FlpgkgkYsOBvxfziZXTMF8o2rSMBrhBmFaWHDUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LnOTzyaFmHKD1XejeQe9TaohrpLDNpYaKYSvJm6bGgE=;
+ b=I6vJUkrzIjdc6mDTmJRpuTAB7PGoL3OCmQPQ9O+c+f4OKbDLWi2WHOGJQwQTtR4FEHfr38ZigF97PupRj1pH8RSpq5/Aw8RJL6VBd+hQPCjxaUv9JYv9yki9+Gz2S1wNN8MY761IB89gdQBsWu24VLarPoQAaOG5ZDSyty1dmFRd9GRDpWVmGKfF24JslX19ZjHGxiagHz6Srb/VCCU5RzkSOSMAN56ZJSXmMoji2M8V8zCLpo/bad0lj/+YOQyNvfEuCbIdqVg5evda7uFPFYaNJ5mGNauZ560G+yNRrz0HxaEnUUv+GDdXLjvGKE2t6xzuFZ/ehN/1LeBQFTcXUQ==
+Received: from SJ0PR03CA0358.namprd03.prod.outlook.com (2603:10b6:a03:39c::33)
+ by CY8PR12MB7514.namprd12.prod.outlook.com (2603:10b6:930:92::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Wed, 18 Jan
+ 2023 06:16:06 +0000
+Received: from CO1PEPF00001A62.namprd05.prod.outlook.com
+ (2603:10b6:a03:39c:cafe::44) by SJ0PR03CA0358.outlook.office365.com
+ (2603:10b6:a03:39c::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.19 via Frontend
+ Transport; Wed, 18 Jan 2023 06:16:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CO1PEPF00001A62.mail.protection.outlook.com (10.167.241.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6002.11 via Frontend Transport; Wed, 18 Jan 2023 06:16:04 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 17 Jan
+ 2023 22:15:43 -0800
+Received: from 74ef364-lcelt.nvidia.com (10.126.230.37) by
+ rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Tue, 17 Jan 2023 22:15:41 -0800
+From:   Haotien Hsu <haotienh@nvidia.com>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Sing-Han Chen <singhanc@nvidia.com>,
+        Sanket Goswami <Sanket.Goswami@amd.com>,
+        Wayne Chang <waynec@nvidia.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Haotien Hsu <haotienh@nvidia.com>
+Subject: [PATCH v4] ucsi_ccg: Refine the UCSI Interrupt handling
+Date:   Wed, 18 Jan 2023 14:15:23 +0800
+Message-ID: <20230118061523.1537992-1-haotienh@nvidia.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.37]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF00001A62:EE_|CY8PR12MB7514:EE_
+X-MS-Office365-Filtering-Correlation-Id: 13f621f5-801e-479e-90c8-08daf91b7af6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hcBSqYmZO5cGC18ps1MPpPdCs9aCTSZi/dIW4w1E8K57gDQbyrVFbMZ24V3GL8Jl20dcZZq33vL90nCLCxB4alCYVOHuoRD4VqitYqDu5oxbzyGslBeRn92kG8DHAMiqDh146s0nREC2102Zt4txxfPa4iJ2mc+TjYIfkLvw0cCMdeu9LDX9wEM/H6vPuitermPl5skYQQPZ3rLWlslkROIxvB2in4dsfjgLdpqEabfycnScsQd956G1NjgBd7sWQz6sAnax7BM1fkCcWSlZ+4jr43YAjwUeUjBOy/jlC+5KIOZ1ErAjvtixRXuRJIKulv7Z9PNAZivHljgrvqyUXZVqZ2y7XDA+8+RnQejk7IpeSeKZd2IRJ8EeCGvfZnSgpT/Nsmj6/hXQXsilzLjXXSK2KNoUINjacVReYC9Q0qpnHjUv1efQPDD72XOJ5pOCTSMHFDu8367e2xYSqZMaWXPYV5U+EVp/lPcBabVaPiBu8uOewtKi1A4fzef32DrcDFRT9gm2OOvy3pFm1XDrLrUZMnRujQLWFoQVWvaCxSZDTNKhG4eBszXcZKF8nY6ctdUXCMkK5NhvK0mlZCeUAAD50nudQc8bMlbCCff5BCx39sl3JjY6W+gIXeeP7L8ZywyUzh75+YQSv4WzfXADSNoNC6rAMmEEeXwIjlrK3ym43LeF4FMovEePoAtmPwSifzC6sACka7fnVgsHMZ6VmA==
+X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(39860400002)(136003)(396003)(451199015)(36840700001)(40470700004)(46966006)(83380400001)(8936002)(41300700001)(5660300002)(4326008)(8676002)(70586007)(47076005)(426003)(82310400005)(86362001)(2906002)(40460700003)(70206006)(36860700001)(36756003)(40480700001)(356005)(7636003)(82740400003)(6666004)(2616005)(7696005)(107886003)(478600001)(186003)(26005)(16526019)(110136005)(1076003)(316002)(54906003)(336012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2023 06:16:04.7195
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13f621f5-801e-479e-90c8-08daf91b7af6
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF00001A62.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7514
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-branch HEAD: 7171b0e261b17de96490adf053b8bb4b00061bcf  usb: core: hub: disable autosuspend for TI TUSB8041
+From: Sing-Han Chen <singhanc@nvidia.com>
 
-elapsed time: 726m
+For the CCGx, when the OPM field in the INTR_REG is cleared, then the
+CCI data in the PPM is reset.
 
-configs tested: 123
-configs skipped: 3
+To align with the CCGx UCSI interface guide, this patch updates the
+driver to copy CCI and MESSAGE_IN before clearing UCSI interrupt.
+When a new command is sent, the driver will clear the old CCI and
+MESSAGE_IN copy.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Finally, clear UCSI_READ_INT before calling complete() to ensure that
+the ucsi_ccg_sync_write() would wait for the interrupt handling to
+complete.
+It prevents the driver from resetting CCI prematurely.
 
-gcc tested configs:
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-mips                             allyesconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                            allnoconfig
-sh                               allmodconfig
-arc                                 defconfig
-x86_64                           rhel-8.3-syz
-s390                             allmodconfig
-x86_64                         rhel-8.3-kunit
-alpha                               defconfig
-x86_64                           rhel-8.3-kvm
-x86_64                           rhel-8.3-bpf
-s390                                defconfig
-s390                             allyesconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-alpha                            allyesconfig
-arc                              allyesconfig
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-ia64                             allmodconfig
-i386                             allyesconfig
-i386                                defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-i386                 randconfig-a013-20230116
-i386                 randconfig-a012-20230116
-i386                 randconfig-a016-20230116
-i386                 randconfig-a014-20230116
-i386                 randconfig-a011-20230116
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-riscv                randconfig-r042-20230116
-arm                  randconfig-r046-20230117
-s390                 randconfig-r044-20230116
-arc                  randconfig-r043-20230117
-arc                  randconfig-r043-20230116
-riscv                randconfig-r042-20230118
-s390                 randconfig-r044-20230118
-arc                  randconfig-r043-20230118
-i386                 randconfig-c001-20230116
-m68k                            q40_defconfig
-ia64                      gensparse_defconfig
-x86_64               randconfig-a011-20230116
-x86_64               randconfig-a016-20230116
-x86_64               randconfig-a014-20230116
-x86_64               randconfig-a013-20230116
-x86_64               randconfig-a015-20230116
-x86_64               randconfig-a012-20230116
-mips                  decstation_64_defconfig
-m68k                          multi_defconfig
-powerpc                    sam440ep_defconfig
-sh                         ap325rxa_defconfig
-riscv                            allyesconfig
-i386                 randconfig-a015-20230116
-i386                          randconfig-c001
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-nios2                            allyesconfig
-nios2                               defconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-arm                  randconfig-r046-20230115
-arc                  randconfig-r043-20230115
-loongarch                           defconfig
-loongarch                         allnoconfig
-loongarch                        allmodconfig
-m68k                          hp300_defconfig
-arm                            lart_defconfig
-i386                          debian-10.3-kvm
-i386                        debian-10.3-kunit
-i386                         debian-10.3-func
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20230117
-powerpc                      bamboo_defconfig
-arm                           imxrt_defconfig
-powerpc                      makalu_defconfig
-arm                        cerfcube_defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-ia64                        generic_defconfig
-sh                 kfr2r09-romimage_defconfig
-openrisc                         alldefconfig
+Signed-off-by: Sing-Han Chen <singhanc@nvidia.com>
+Signed-off-by: Haotien Hsu <haotienh@nvidia.com>
+---
+V1->V2
+- Fix uninitialized symbol 'cci'
+v2->v3
+- Remove misusing Reported-by tags
+v3->v4
+- Add comments for op_lock
+---
+ drivers/usb/typec/ucsi/ucsi_ccg.c | 90 ++++++++++++++++++++++++++++---
+ 1 file changed, 83 insertions(+), 7 deletions(-)
 
-clang tested configs:
-i386                 randconfig-a002-20230116
-i386                 randconfig-a004-20230116
-i386                 randconfig-a001-20230116
-i386                 randconfig-a003-20230116
-i386                 randconfig-a005-20230116
-i386                 randconfig-a006-20230116
-x86_64                        randconfig-k001
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-powerpc                      acadia_defconfig
-arm                        magician_defconfig
-riscv                             allnoconfig
-x86_64               randconfig-a003-20230116
-x86_64               randconfig-a004-20230116
-x86_64               randconfig-a006-20230116
-x86_64               randconfig-a005-20230116
-x86_64               randconfig-a001-20230116
-x86_64               randconfig-a002-20230116
-powerpc                     tqm8560_defconfig
-arm                  colibri_pxa270_defconfig
-powerpc                 xes_mpc85xx_defconfig
-powerpc                     kmeter1_defconfig
-arm                         hackkit_defconfig
-mips                          malta_defconfig
-mips                        qi_lb60_defconfig
-arm                          sp7021_defconfig
-powerpc                     ppa8548_defconfig
-x86_64                          rhel-8.3-rust
-arm                           sama7_defconfig
-riscv                          rv32_defconfig
-powerpc                    mvme5100_defconfig
-
+diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
+index eab3012e1b01..532813a32cc1 100644
+--- a/drivers/usb/typec/ucsi/ucsi_ccg.c
++++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
+@@ -192,6 +192,12 @@ struct ucsi_ccg_altmode {
+ 	bool checked;
+ } __packed;
+ 
++#define CCGX_MESSAGE_IN_MAX 4
++struct op_region {
++	u32 cci;
++	u32 message_in[CCGX_MESSAGE_IN_MAX];
++};
++
+ struct ucsi_ccg {
+ 	struct device *dev;
+ 	struct ucsi *ucsi;
+@@ -222,6 +228,13 @@ struct ucsi_ccg {
+ 	bool has_multiple_dp;
+ 	struct ucsi_ccg_altmode orig[UCSI_MAX_ALTMODES];
+ 	struct ucsi_ccg_altmode updated[UCSI_MAX_ALTMODES];
++
++	/*
++	 * This spinlock protects op_data which includes CCI and MESSAGE_IN that
++	 * will be updated in ISR
++	 */
++	spinlock_t op_lock;
++	struct op_region op_data;
+ };
+ 
+ static int ccg_read(struct ucsi_ccg *uc, u16 rab, u8 *data, u32 len)
+@@ -305,12 +318,57 @@ static int ccg_write(struct ucsi_ccg *uc, u16 rab, const u8 *data, u32 len)
+ 	return 0;
+ }
+ 
++static void ccg_op_region_read(struct ucsi_ccg *uc, unsigned int offset,
++		void *val, size_t val_len)
++{
++	struct op_region *data = &uc->op_data;
++
++	spin_lock(&uc->op_lock);
++	if (offset == UCSI_CCI)
++		memcpy(val, &data->cci, val_len);
++	else if (offset == UCSI_MESSAGE_IN)
++		memcpy(val, &data->message_in, val_len);
++	spin_unlock(&uc->op_lock);
++}
++
++static void ccg_op_region_update(struct ucsi_ccg *uc, u32 cci)
++{
++	u16 reg = CCGX_RAB_UCSI_DATA_BLOCK(UCSI_MESSAGE_IN);
++	struct op_region *data = &uc->op_data;
++	u32 message_in[CCGX_MESSAGE_IN_MAX];
++
++	if (UCSI_CCI_LENGTH(cci))
++		if (ccg_read(uc, reg, (void *)&message_in,
++					sizeof(message_in))) {
++			dev_err(uc->dev, "failed to read MESSAGE_IN\n");
++			return;
++		}
++
++	spin_lock(&uc->op_lock);
++	memcpy(&data->cci, &cci, sizeof(cci));
++	if (UCSI_CCI_LENGTH(cci))
++		memcpy(&data->message_in, &message_in, sizeof(message_in));
++	spin_unlock(&uc->op_lock);
++}
++
++static void ccg_op_region_clean(struct ucsi_ccg *uc)
++{
++	struct op_region *data = &uc->op_data;
++
++	spin_lock(&uc->op_lock);
++	memset(&data->cci, 0, sizeof(data->cci));
++	memset(&data->message_in, 0, sizeof(data->message_in));
++	spin_unlock(&uc->op_lock);
++}
++
+ static int ucsi_ccg_init(struct ucsi_ccg *uc)
+ {
+ 	unsigned int count = 10;
+ 	u8 data;
+ 	int status;
+ 
++	spin_lock_init(&uc->op_lock);
++
+ 	data = CCGX_RAB_UCSI_CONTROL_STOP;
+ 	status = ccg_write(uc, CCGX_RAB_UCSI_CONTROL, &data, sizeof(data));
+ 	if (status < 0)
+@@ -520,9 +578,13 @@ static int ucsi_ccg_read(struct ucsi *ucsi, unsigned int offset,
+ 	u16 reg = CCGX_RAB_UCSI_DATA_BLOCK(offset);
+ 	struct ucsi_capability *cap;
+ 	struct ucsi_altmode *alt;
+-	int ret;
++	int ret = 0;
++
++	if ((offset == UCSI_CCI) || (offset == UCSI_MESSAGE_IN))
++		ccg_op_region_read(uc, offset, val, val_len);
++	else
++		ret = ccg_read(uc, reg, val, val_len);
+ 
+-	ret = ccg_read(uc, reg, val, val_len);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -559,9 +621,13 @@ static int ucsi_ccg_read(struct ucsi *ucsi, unsigned int offset,
+ static int ucsi_ccg_async_write(struct ucsi *ucsi, unsigned int offset,
+ 				const void *val, size_t val_len)
+ {
++	struct ucsi_ccg *uc = ucsi_get_drvdata(ucsi);
+ 	u16 reg = CCGX_RAB_UCSI_DATA_BLOCK(offset);
+ 
+-	return ccg_write(ucsi_get_drvdata(ucsi), reg, val, val_len);
++	if (offset == UCSI_CONTROL)
++		ccg_op_region_clean(uc);
++
++	return ccg_write(uc, reg, val, val_len);
+ }
+ 
+ static int ucsi_ccg_sync_write(struct ucsi *ucsi, unsigned int offset,
+@@ -616,12 +682,17 @@ static irqreturn_t ccg_irq_handler(int irq, void *data)
+ 	struct ucsi_ccg *uc = data;
+ 	u8 intr_reg;
+ 	u32 cci;
+-	int ret;
++	int ret = 0;
+ 
+ 	ret = ccg_read(uc, CCGX_RAB_INTR_REG, &intr_reg, sizeof(intr_reg));
+ 	if (ret)
+ 		return ret;
+ 
++	if (!intr_reg)
++		return IRQ_HANDLED;
++	else if (!(intr_reg & UCSI_READ_INT))
++		goto err_clear_irq;
++
+ 	ret = ccg_read(uc, reg, (void *)&cci, sizeof(cci));
+ 	if (ret)
+ 		goto err_clear_irq;
+@@ -629,13 +700,18 @@ static irqreturn_t ccg_irq_handler(int irq, void *data)
+ 	if (UCSI_CCI_CONNECTOR(cci))
+ 		ucsi_connector_change(uc->ucsi, UCSI_CCI_CONNECTOR(cci));
+ 
+-	if (test_bit(DEV_CMD_PENDING, &uc->flags) &&
+-	    cci & (UCSI_CCI_ACK_COMPLETE | UCSI_CCI_COMMAND_COMPLETE))
+-		complete(&uc->complete);
++	/* As per CCGx UCSI interface guide, copy CCI and MESSAGE_IN
++	 * to the OpRegion before clear the UCSI interrupt
++	 */
++	ccg_op_region_update(uc, cci);
+ 
+ err_clear_irq:
+ 	ccg_write(uc, CCGX_RAB_INTR_REG, &intr_reg, sizeof(intr_reg));
+ 
++	if (!ret && test_bit(DEV_CMD_PENDING, &uc->flags) &&
++	    cci & (UCSI_CCI_ACK_COMPLETE | UCSI_CCI_COMMAND_COMPLETE))
++		complete(&uc->complete);
++
+ 	return IRQ_HANDLED;
+ }
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
