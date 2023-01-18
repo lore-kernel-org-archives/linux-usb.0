@@ -2,103 +2,142 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65627C32793
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 19:31:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D3CDC38159
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 19:49:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229630AbjARTbq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Jan 2023 14:31:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57396 "EHLO
+        id S229787AbjARTt3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Jan 2023 14:49:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230204AbjARTbL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 14:31:11 -0500
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E90EE5529B;
-        Wed, 18 Jan 2023 11:31:02 -0800 (PST)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-15eec491b40so14379fac.12;
-        Wed, 18 Jan 2023 11:31:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=L0sk6WSE6h2ySUyFVnUkIwye39tqP2uFGs/tVLLc9YM=;
-        b=GbUUEGHKYs7yUxTUj2T6CBo45/8GXSZiZEwaS2E8y3Otjfyap5m91qemhsyKvmKd/9
-         oGV9GVmm5S/k62QuR63NOkL7Tu5+XU7/I+bTfKwyJaU9d0eNIiB0SUdxAtZBPLbH3zbY
-         nyZKiEZlpQshAkJGD3LtUtqnhvFS7JA+epWquLd+U3WcZhVkuGJS7bjXZSIhDW37jZgA
-         6wKGyL75NaD2rFVr8DqdVnv0ZhI8NoB63Lkch7fJNScmwadATAA2uU/g0E9tl9V4rJML
-         gqBTnE5UA75Ym3ZCIrru9toaTYH8wt3C1NWMf4oqAEcGlILc9JDj8h0U3ghgg0Lppp57
-         l6mQ==
-X-Gm-Message-State: AFqh2krhcHgVxOQ9vulo7NvNqAOQzL6TqswcbnVaBPfuk3JNqkdKv8hv
-        IVRj/0OVDzGfQkRWG1JJDw==
-X-Google-Smtp-Source: AMrXdXsAOEkXzjlCDtKORZICvzXTbloceRTTyJ1tdkrIkJ1m0D2pIsRTPrNjsQbT6tvOlUoaFZrhPw==
-X-Received: by 2002:a05:6870:bf0d:b0:148:3440:cfde with SMTP id qh13-20020a056870bf0d00b001483440cfdemr4472842oab.28.1674070262146;
-        Wed, 18 Jan 2023 11:31:02 -0800 (PST)
-Received: from robh_at_kernel.org ([4.31.143.193])
-        by smtp.gmail.com with ESMTPSA id f18-20020a056871071200b0014f81d27ce3sm18948186oap.55.2023.01.18.11.31.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 11:31:01 -0800 (PST)
-Received: (nullmailer pid 673650 invoked by uid 1000);
-        Wed, 18 Jan 2023 19:31:01 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>
-Cc:     Johan Jonker <jbx6244@gmail.com>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] dt-bindings: usb: snps,dwc3: Allow power-domains property
-Date:   Wed, 18 Jan 2023 13:30:55 -0600
-Message-Id: <20230118193056.673514-1-robh@kernel.org>
-X-Mailer: git-send-email 2.39.0
+        with ESMTP id S229476AbjARTt2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 14:49:28 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE74B589BB;
+        Wed, 18 Jan 2023 11:49:26 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id ABD34B81EC4;
+        Wed, 18 Jan 2023 19:49:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B2EBC433D2;
+        Wed, 18 Jan 2023 19:49:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674071363;
+        bh=K9VHfqO8vnfOpGdnzgN383P6tlz0U6lpjZAgw4IA3to=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=kbOI3g4szAhkbjyPLWIrMcmWNNwFJ0g35IV5pexIYtnRQzmpc6XLoxO3dWPHZa4Zb
+         E48U15W3+cSWmi6hg+WMzMljLBW7pwCAM04xaJPDceliuUTfFeXfsH9kUAunhCoTr9
+         +bdAEvIjTYB5y73gnxe836ayYwyUeU0B9WLrC5DjWSOtRdEns4yK3vTsZsp21SF0fX
+         2iPX55g9IADXlVGJEdA7Nm5f9y2+aEySxxq6wHzFKSixbrz3GmCUld00KyFRtbxBoD
+         kJrh7tYKMgulqDnN16gxiBmgJ8CzlRWgSm2T9aZnl0F9TDvvA0gmph2XCY4gE57Ekc
+         oAjAYQ8ACtIwA==
+Received: by mail-vs1-f50.google.com with SMTP id v127so32559692vsb.12;
+        Wed, 18 Jan 2023 11:49:23 -0800 (PST)
+X-Gm-Message-State: AFqh2kpjgBNw8ErnbvvYa1+I7SvCa03undQ6MZqzl+88BYMV02iyCvYI
+        xAuTWGtVidgTyAVz8VzLuVOQtFRWjD+KwyfOkg==
+X-Google-Smtp-Source: AMrXdXuCIq0Ww65rdCS464DY9dHcawHDeCICiNnnkYP7sB4H6h1MeXyWffA52VxKBtwikHq5ZggppMVlMdvTHaeZRZE=
+X-Received: by 2002:a67:ef8a:0:b0:3d0:b955:e0af with SMTP id
+ r10-20020a67ef8a000000b003d0b955e0afmr1201488vsp.26.1674071362247; Wed, 18
+ Jan 2023 11:49:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1674036164.git.geert+renesas@glider.be> <cd685d8e4d6754c384acfc1796065d539a2c3ea8.1674036164.git.geert+renesas@glider.be>
+ <CAL_JsqJS2JTZ1BxMbG_2zgzu5xtxMFPqjxc_vUjuZp3k1xUmaQ@mail.gmail.com> <CAMuHMdXGsmNjYy-ofmuHLkr8yaDEzy+SGnhtbmc_2ezbEKAMjw@mail.gmail.com>
+In-Reply-To: <CAMuHMdXGsmNjYy-ofmuHLkr8yaDEzy+SGnhtbmc_2ezbEKAMjw@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 18 Jan 2023 13:49:10 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJWEzb_hxi0_sSj-5F0q4A9UcJEhwcSArWT6eAffpeqHA@mail.gmail.com>
+Message-ID: <CAL_JsqJWEzb_hxi0_sSj-5F0q4A9UcJEhwcSArWT6eAffpeqHA@mail.gmail.com>
+Subject: Re: [PATCH 7/7] usb: host: ohci-exynos: Convert to devm_of_phy_optional_get()
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Madalin Bucur <madalin.bucur@nxp.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Siddharth Vadapalli <s-vadapalli@ti.com>,
+        Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Rockchip RK3399 DWC3 node has 'power-domains' property which isn't
-allowed by the schema:
+On Wed, Jan 18, 2023 at 12:28 PM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Rob,
+>
+> On Wed, Jan 18, 2023 at 6:30 PM Rob Herring <robh@kernel.org> wrote:
+> > On Wed, Jan 18, 2023 at 4:15 AM Geert Uytterhoeven
+> > <geert+renesas@glider.be> wrote:
+> > > Use the new devm_of_phy_optional_get() helper instead of open-coding the
+> > > same operation.
+> > >
+> > > This lets us drop several checks for IS_ERR(), as phy_power_{on,off}()
+> > > handle NULL parameters fine.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > >  drivers/usb/host/ohci-exynos.c | 24 +++++++-----------------
+> > >  1 file changed, 7 insertions(+), 17 deletions(-)
+> > >
+> > > diff --git a/drivers/usb/host/ohci-exynos.c b/drivers/usb/host/ohci-exynos.c
+> > > index 8d7977fd5d3bd502..8dd9c3b2411c383f 100644
+> > > --- a/drivers/usb/host/ohci-exynos.c
+> > > +++ b/drivers/usb/host/ohci-exynos.c
+> > > @@ -69,19 +69,12 @@ static int exynos_ohci_get_phy(struct device *dev,
+> > >                         return -EINVAL;
+> > >                 }
+> > >
+> > > -               phy = devm_of_phy_get(dev, child, NULL);
+> > > +               phy = devm_of_phy_optional_get(dev, child, NULL);
+> > >                 exynos_ohci->phy[phy_number] = phy;
+> > >                 if (IS_ERR(phy)) {
+> > > -                       ret = PTR_ERR(phy);
+> > > -                       if (ret == -EPROBE_DEFER) {
+> > > -                               of_node_put(child);
+> > > -                               return ret;
+> > > -                       } else if (ret != -ENOSYS && ret != -ENODEV) {
+> > > -                               dev_err(dev,
+> > > -                                       "Error retrieving usb2 phy: %d\n", ret);
+> > > -                               of_node_put(child);
+> > > -                               return ret;
+> > > -                       }
+> > > +                       of_node_put(child);
+> > > +                       return dev_err_probe(dev, PTR_ERR(phy),
+> > > +                                            "Error retrieving usb2 phy\n");
+> >
+> > Optional is really the only reason for the caller to decide whether to
+> > print an error message or not. If we have both flavors of 'get', then
+> > really the 'get' functions should print an error message.
+>
+> In case of a real error, both should print an error message, right?
+>
+> Anyway, I understand that's a three step operation:
+>   1. Introduce and convert to the _optional variant,
+>   2. Add error printing to callees.
+>   3. Remove error printing from callers.
 
-usb@fe900000: Unevaluated properties are not allowed ('power-domains' was unexpected)
+I think you only need 2 out of 3 steps depending on the situation. In
+this case, you can add error printing in the _optional variant when
+you introduce it and then convert callers to it.
 
-Allow DWC3 nodes to have a power-domains entry. We could instead move
-the power-domains property to the parent wrapper node, but the could be
-an ABI break (Linux shouldn't care). Also, we don't want to encourage
-the pattern of wrapper nodes just to define resources such as clocks,
-resets, power-domains, etc. when not necessary.
+Where we already have an optional variant, then you need steps 2 and 3.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-v2:
- - Allow 2 power domains and explain what they are
----
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index 6d78048c4613..be36956af53b 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -91,6 +91,16 @@ properties:
-         - usb2-phy
-         - usb3-phy
- 
-+  power-domains:
-+    description:
-+      The DWC3 has 2 power-domains. The power management unit (PMU) and
-+      everything else. The PMU is typically always powered and may not have an
-+      entry.
-+    minItems: 1
-+    items:
-+      - description: Core
-+      - description: Power management unit
-+
-   resets:
-     minItems: 1
- 
--- 
-2.39.0
-
+Rob
