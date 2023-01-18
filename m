@@ -2,93 +2,116 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F03D5C32793
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 09:00:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07552C004D4
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Jan 2023 09:08:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229736AbjARJAf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Jan 2023 04:00:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57874 "EHLO
+        id S230061AbjARJIQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Jan 2023 04:08:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229787AbjARI7N (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 03:59:13 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1823F757
-        for <linux-usb@vger.kernel.org>; Wed, 18 Jan 2023 00:17:14 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id r2so33068557wrv.7
-        for <linux-usb@vger.kernel.org>; Wed, 18 Jan 2023 00:17:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Z5CDdoCUnCUysD4OwVm5x8AKmJcxld25F1lQaxRj+UE=;
-        b=EsaEmOoj/k5hWYVjzW4wymx3f62KDXfpdzhsx0vO65rwsFrA+poJW2jsK6zGT+xXoH
-         rbq/Yms8ZK0EGiUaZqM6luB0uS21dzPoPAkOVY9u9y9ezrG+9wCSnuQ5SQHLnhM3GgVN
-         B5w7wMLLDYaHUBH8SdHPka1xEFAgmgFAcaAzkVWDMEesOhVTFnosQ8eX6reNJf1igI4A
-         tFA4KJpQvkiM5GNLdqooZUWLarVAEqR9yOg0Mp+cMJqcLaxsFs61HCJqGE3fbfIPk1Ha
-         McC6WDlEKw1zN6WKcBI58mxObiE7nYHTjs8WGvpYgo0LU9iSXC4xsPAUdicr5BWW7o4n
-         MKEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z5CDdoCUnCUysD4OwVm5x8AKmJcxld25F1lQaxRj+UE=;
-        b=r8ukYG01NsP+R//RqAUkve7z8eHs4SuWJBIe+hWR/4yYF8K+DdrXR3E37QE1m2VcfP
-         OOm5qKeGc4YevPycD9JSKU54sTrZ+zYqOlrUUuAWRRbamF+u0DVueLyaPyyFwiHtAz5C
-         mSqZ9ub6EiCmECER8zEu0NqynaHmEXy0TxKMZk+VbPkJON78+3FlD+kr8mwgzVEKH7L4
-         ht0voLB4QddmQzQrRQvSFypY4BuLR1oPDnp10lnGazgNMkzEamGaP8aqvXup0Y4ljUwt
-         Lt2H2iQI/pFEuV2/cL48vFCB2t8zkLdzH8eKRNZD25DYtdorS0Sg7GVCUTkLkzG2DVHM
-         vu5g==
-X-Gm-Message-State: AFqh2kqljHFOcrTMYCmn88sS6X1u+N+69do4Bsz98HHU1TUZIUciGRxB
-        viTeUsRJPZ6u4WFySfHg2Yfk/A==
-X-Google-Smtp-Source: AMrXdXsrGhBFxvpmGjjvtTlnHTlkVNbgpbSMNOaiPhI0paRO2JgxMEJbIW6PDkO2ecInUF59pt+Kww==
-X-Received: by 2002:a05:6000:1f0f:b0:2b4:e5e:c0a3 with SMTP id bv15-20020a0560001f0f00b002b40e5ec0a3mr1566357wrb.21.1674029833248;
-        Wed, 18 Jan 2023 00:17:13 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id o7-20020a5d62c7000000b002bbeda3809csm24778523wrv.11.2023.01.18.00.17.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jan 2023 00:17:12 -0800 (PST)
-Message-ID: <5378f107-7676-d8c6-5bd4-d82fe12fdbe5@linaro.org>
-Date:   Wed, 18 Jan 2023 09:17:10 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 1/9] dt-bindings: usb: Add device id for Genesys Logic
- hub controller
-Content-Language: en-US
-To:     Anand Moon <linux.amoon@gmail.com>,
+        with ESMTP id S230070AbjARJHO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Jan 2023 04:07:14 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5171E46165;
+        Wed, 18 Jan 2023 00:27:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1F12C6170A;
+        Wed, 18 Jan 2023 08:27:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 051CAC433F2;
+        Wed, 18 Jan 2023 08:27:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674030471;
+        bh=WbTFsa9uUp/GVGY/40OGOerWX8P64wmwxJdpH4/nltI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=V7aUlMB1fk/MekJXOCCs0PVc7h7kscdLWolw8c0WI1wa+OsKN/p6yxqVXnzGJ8JHS
+         Uoycpu4Jp3BQQEZKAaEgSK/Q6UY+ktGlvOuFG/Szp1NpTdSQsyX7UCo4e7qfon2KGu
+         78vDDd0SXYGxCealFCqVG/uKwJf0pL+FpTSO1tqZQ4m6X3UdHE68ub0TuHWg1/BhIe
+         JLdfMCz5kuK9g70CWen7N6kMbwi0mH4D8+U2nH8hvx/MLye9I3kqaBjCd/zAjR1X2i
+         7lePDAf9uc90kD3v246r28DG1lKoxbDLWXL4366Xlgwya8yB2y3jL9aiJC1xKsT+GU
+         YvfU7u9dsED8A==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Icenowy Zheng <uwu@icenowy.me>
-Cc:     linux-amlogic@lists.infradead.org,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230118044418.875-1-linux.amoon@gmail.com>
- <20230118044418.875-2-linux.amoon@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230118044418.875-2-linux.amoon@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Kevin Hilman <khilman@baylibre.com>,
+        Arnd Bergmann <arnd@arndb.de>, Tony Lindgren <tony@atomide.com>
+Cc:     Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        linux-usb@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: ohci-omap: avoid unused-variable warning
+Date:   Wed, 18 Jan 2023 09:27:34 +0100
+Message-Id: <20230118082746.391542-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 18/01/2023 05:44, Anand Moon wrote:
-> Add usb hub device id for Genesys Logic, Inc. GL852G Hub USB 2.0
-> root hub.
-> 
-> Signed-off-by: Anand Moon <linux.amoon@gmail.com>
-> ---
-> v2: - drop the vendor name from compatible string.
->     - drop the -OTG and -QFN76 suffix from commit message.
->     - drop the GL3523 USB 3.1 root hub device id.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+The dead code removal has led to 'need_transceiver' not being
+used at all when OTG support is disabled:
 
-Best regards,
-Krzysztof
+drivers/usb/host/ohci-omap.c: In function 'ohci_omap_reset':
+drivers/usb/host/ohci-omap.c:99:33: error: unused variable 'need_transceiver' [-Werror=unused-variable]
+   99 |         int                     need_transceiver = (config->otg != 0);
+
+Change the #ifdef check into an IS_ENABLED() check to make the
+code more readable and let the compiler see where it is used.
+
+Fixes: 8825acd7cc8a ("ARM: omap1: remove dead code")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+The patch that caused the issue is in the boardfile-removal branch
+of the soc tree. I would just add the patch there.
+---
+ drivers/usb/host/ohci-omap.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/drivers/usb/host/ohci-omap.c b/drivers/usb/host/ohci-omap.c
+index 3d57b9454a27..78088cd46908 100644
+--- a/drivers/usb/host/ohci-omap.c
++++ b/drivers/usb/host/ohci-omap.c
+@@ -67,8 +67,6 @@ static void omap_ohci_clock_power(struct ohci_omap_priv *priv, int on)
+ 	}
+ }
+ 
+-#ifdef	CONFIG_USB_OTG
+-
+ static void start_hnp(struct ohci_hcd *ohci)
+ {
+ 	struct usb_hcd *hcd = ohci_to_hcd(ohci);
+@@ -87,8 +85,6 @@ static void start_hnp(struct ohci_hcd *ohci)
+ 	local_irq_restore(flags);
+ }
+ 
+-#endif
+-
+ /*-------------------------------------------------------------------------*/
+ 
+ static int ohci_omap_reset(struct usb_hcd *hcd)
+@@ -111,8 +107,7 @@ static int ohci_omap_reset(struct usb_hcd *hcd)
+ 	if (config->ocpi_enable)
+ 		config->ocpi_enable();
+ 
+-#ifdef	CONFIG_USB_OTG
+-	if (need_transceiver) {
++	if (IS_ENABLED(CONFIG_USB_OTG) && need_transceiver) {
+ 		hcd->usb_phy = usb_get_phy(USB_PHY_TYPE_USB2);
+ 		if (!IS_ERR_OR_NULL(hcd->usb_phy)) {
+ 			int	status = otg_set_host(hcd->usb_phy->otg,
+@@ -129,7 +124,6 @@ static int ohci_omap_reset(struct usb_hcd *hcd)
+ 		hcd->skip_phy_initialization = 1;
+ 		ohci->start_hnp = start_hnp;
+ 	}
+-#endif
+ 
+ 	omap_ohci_clock_power(priv, 1);
+ 
+-- 
+2.39.0
 
