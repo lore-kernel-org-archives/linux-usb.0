@@ -2,93 +2,89 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E08D5C38159
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Jan 2023 05:33:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94899C678D6
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Jan 2023 05:37:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231466AbjATFdu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Jan 2023 00:33:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42220 "EHLO
+        id S231189AbjATFhC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Jan 2023 00:37:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231492AbjATFdb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 00:33:31 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B685D2278A;
-        Thu, 19 Jan 2023 21:28:54 -0800 (PST)
+        with ESMTP id S231132AbjATFgi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 00:36:38 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05EAF6A321;
+        Thu, 19 Jan 2023 21:33:19 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D4837B822A1;
-        Thu, 19 Jan 2023 13:02:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CBA0C433EF;
-        Thu, 19 Jan 2023 13:02:30 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B9151B81FA3;
+        Thu, 19 Jan 2023 15:26:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17AAFC433EF;
+        Thu, 19 Jan 2023 15:26:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1674133350;
-        bh=+LYj8eIhDj+IxLNQjMky1L7O35org24tnkbbNfS3QG0=;
+        s=korg; t=1674142014;
+        bh=useU+uANukMgpidI0uVpvCQvU70XlFR37MZovPoK+Ig=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eTJKHHwCSMZDGPNqfuuJAy23LmAfwupt6qkywU1qOc//veMaKDKC9cs/tQhPEmeIs
-         csqRGnr3zG3dy3M50j2LbpOMqDm3avAnckJUFnLMitC7t3HTLfv/4iIUHBiLVdGpnI
-         LjxHQtdQBj30HRH+Muk17S05w8Jxjue0e6qACQOU=
-Date:   Thu, 19 Jan 2023 14:02:27 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Elson Roy Serrao <quic_eserrao@quicinc.com>
-Cc:     Thinh.Nguyen@synopsys.com, balbi@kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        quic_wcheng@quicinc.com, quic_jackp@quicinc.com
-Subject: Re: [PATCH v2 1/5] usb: gadget: Add remote wakeup capable flag
-Message-ID: <Y8k/Y4O/99pnKI2h@kroah.com>
-References: <1673992507-7823-1-git-send-email-quic_eserrao@quicinc.com>
- <1673992507-7823-2-git-send-email-quic_eserrao@quicinc.com>
+        b=R3GsC2omAofoWLQLlGR0sdipno0JMDjcRNwAIugS62ibq7Xb/46rxGtnDBVpQUCst
+         YkyUNd9sSM3a7j1EN7wA+EWIANWbQtaOO1XpwbCMnaw2OJGpWMnOZX3YoCche8bkKU
+         cPe9g73+HifAjk8p04a/nM2Ni+UmX8sEXHUbuQYs=
+Date:   Thu, 19 Jan 2023 16:26:51 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: Re: [PATCH V3 2/2] usb: gadget: u_ether: Don't warn in
+ gether_setup_name_default()
+Message-ID: <Y8lhOxIwz6dZlNnz@kroah.com>
+References: <20230119102547.26698-1-jonathanh@nvidia.com>
+ <20230119102547.26698-2-jonathanh@nvidia.com>
+ <Y8kfdm9juBi58bnj@kroah.com>
+ <e0e3fb48-1c7a-f012-5308-4897bab01dfc@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1673992507-7823-2-git-send-email-quic_eserrao@quicinc.com>
+In-Reply-To: <e0e3fb48-1c7a-f012-5308-4897bab01dfc@nvidia.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 01:55:03PM -0800, Elson Roy Serrao wrote:
-> Add a flag to indicate whether the gadget is capable
-> of sending remote wakeup to the host.
+On Thu, Jan 19, 2023 at 01:38:15PM +0000, Jon Hunter wrote:
 > 
-> Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
-> ---
->  drivers/usb/gadget/composite.c | 3 +++
->  include/linux/usb/gadget.h     | 2 ++
->  2 files changed, 5 insertions(+)
+> On 19/01/2023 10:46, Greg Kroah-Hartman wrote:
 > 
-> diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-> index 403563c..b83963a 100644
-> --- a/drivers/usb/gadget/composite.c
-> +++ b/drivers/usb/gadget/composite.c
-> @@ -965,6 +965,9 @@ static int set_config(struct usb_composite_dev *cdev,
->  	else
->  		usb_gadget_clear_selfpowered(gadget);
->  
-> +	if (USB_CONFIG_ATT_WAKEUP & c->bmAttributes)
-> +		gadget->rw_capable = 1;
-> +
->  	usb_gadget_vbus_draw(gadget, power);
->  	if (result >= 0 && cdev->delayed_status)
->  		result = USB_GADGET_DELAYED_STATUS;
-> diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-> index dc3092c..15785f8 100644
-> --- a/include/linux/usb/gadget.h
-> +++ b/include/linux/usb/gadget.h
-> @@ -385,6 +385,7 @@ struct usb_gadget_ops {
->   *	indicates that it supports LPM as per the LPM ECN & errata.
->   * @irq: the interrupt number for device controller.
->   * @id_number: a unique ID number for ensuring that gadget names are distinct
-> + * @rw_capable: True if the gadget is capable of sending remote wakeup.
->   *
->   * Gadgets have a mostly-portable "gadget driver" implementing device
->   * functions, handling all usb configurations and interfaces.  Gadget
-> @@ -446,6 +447,7 @@ struct usb_gadget {
->  	unsigned			lpm_capable:1;
->  	int				irq;
->  	int				id_number;
-> +	unsigned			rw_capable:1;
+> ...
+> 
+> > In looking at this further, you are right, the structures are not
+> > initialized properly yet.
+> > 
+> > So move these to a different function entirely, they should be in
+> > gether_register_netdev() instead, after the device is registered with
+> > the system.
+> 
+> 
+> I wonder if this is even necessary. Looking at gether_register_netdev() it
+> already has ...
+> 
+>  status = register_netdev(net);
+>  if (status < 0) {
+>          dev_dbg(&g->dev, "register_netdev failed, %d\n", status);
+>          return status;
+>  } else {
+>          INFO(dev, "HOST MAC %pM\n", dev->host_mac);
+>          INFO(dev, "MAC %pM\n", dev->dev_mac);
 
-Why not put this by the other bitfields in this structure?
+Those need to be moved to be dev_info() and then I'll stop complaining :)
+Or dev_dbg() if you want to make it debug only.
+
+>          ...
+>  }
+> 
+> 
+> Any objection to just removing completely from gether_setup_name_default()?
+
+Nope!
+
+Remove them and change the above lines and then all should be good.
 
 thanks,
 
