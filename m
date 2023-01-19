@@ -2,60 +2,75 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57785C46467
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Jan 2023 05:07:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A50C0C678D6
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Jan 2023 05:11:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230348AbjATFHG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Jan 2023 00:07:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34796 "EHLO
+        id S229810AbjATFLJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Jan 2023 00:11:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230285AbjATFGm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 00:06:42 -0500
+        with ESMTP id S229986AbjATFKv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 00:10:51 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF8268534A;
-        Thu, 19 Jan 2023 20:54:24 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED6D5A1036;
+        Thu, 19 Jan 2023 20:58:49 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A7764B826A1;
-        Thu, 19 Jan 2023 19:04:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA0E1C433D2;
-        Thu, 19 Jan 2023 19:04:01 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B6E9CB82338;
+        Thu, 19 Jan 2023 13:10:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2131C433D2;
+        Thu, 19 Jan 2023 13:10:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1674155042;
-        bh=V3Wdo7NIBdWlO7v3VnTSJL6nge2GTSXrtALvGgkL+To=;
+        s=korg; t=1674133803;
+        bh=E8WnlaXuMoIHoxLQkdjKRvzK/gOIXYE5uRmmWpBtzqQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=A8wBm8+tv8qMrQNE0E2JAzRjS4IDWsjvUwNa4cf7Q7qMQqyNMDGW++qNClwwIg9z5
-         RiH1ZP0bj+tkvkIjsktfnXiXR1u/AmwI0JCMCHt4b75OTYD7aQK2IRDYmGq68GJP01
-         oyiMKsr2nXlXJX3DXf3Vgxgm8jsgwiqU66WgdB+Q=
-Date:   Thu, 19 Jan 2023 20:03:52 +0100
+        b=x+vflYQaOjePpkJYvoCf3R8lo6M4R+ygaY/6avHYGCg0F9d/uPVVKyezu8CTpjnhK
+         lGV8wSAsIRXaGBye3xT/Rse+TL1pcbgbscXrvpB1NWBO8QJFssmrOP7ziwYHSZMDD/
+         pDGZrFbAH/HLVHY+h/YmFI/5kyL+hemCG4SrhrsY=
+Date:   Thu, 19 Jan 2023 14:10:00 +0100
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL] USB-serial fixes for 6.2-rc5
-Message-ID: <Y8mUGMOvnTEo2i4F@kroah.com>
-References: <Y8l42/yYoPZNiJa4@hovoldconsulting.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 00/12] ADD USB3.1 HOST, Peri and DRD support
+Message-ID: <Y8lBKKPjci7+goiV@kroah.com>
+References: <20230112215906.494394-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y8l42/yYoPZNiJa4@hovoldconsulting.com>
+In-Reply-To: <20230112215906.494394-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 06:07:39PM +0100, Johan Hovold wrote:
-> The following changes since commit b7bfaa761d760e72a969d116517eaa12e404c262:
+On Thu, Jan 12, 2023 at 09:58:54PM +0000, Biju Das wrote:
+> This patch series aims to add USB3.1 HOST, Peri and DRD support
+> on RZ/V2M EVK platform.
 > 
->   Linux 6.2-rc3 (2023-01-08 11:49:43 -0600)
+> The reset for both host and peri are located in USB3DRD block. The
+> USB3DRD registers are mapped in the AXI address space of the Peripheral
+> module.
 > 
-> are available in the Git repository at:
+> RZ/V2M XHCI is similar to R-Car XHCI but it doesn't require any
+> firmware.
 > 
->   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-6.2-rc5
-> 
-> for you to fetch changes up to 71dfd381a7c051f16a61f82fbd38a4cca563bdca:
-> 
->   USB: serial: option: add Quectel EM05CN modem (2023-01-16 08:47:47 +0100)
+> Host/device needs to do reset release and set the host/device function
+> on DRD module, before accessing any registers.
 
-Pulled and pushed out, thanks!
+After applying this series and building it on x86_64 I get the following
+build errors:
 
-greg k-h
+ERROR: modpost: "rzv2m_usb3drd_reset" [drivers/usb/host/xhci-plat-hcd.ko] undefined!
+ERROR: modpost: "rzv2m_usb3drd_reset" [drivers/usb/gadget/udc/renesas_usb3.ko] undefined!
+
+:(
+
