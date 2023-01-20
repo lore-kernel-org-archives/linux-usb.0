@@ -2,88 +2,88 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28C18C25B4E
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Jan 2023 15:44:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D239C27C7C
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Jan 2023 15:44:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229843AbjATPoJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Jan 2023 10:44:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46876 "EHLO
+        id S230050AbjATPoK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Jan 2023 10:44:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229683AbjATPoI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 10:44:08 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66D5559264;
+        with ESMTP id S229660AbjATPoJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 10:44:09 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0AAA6A30D;
         Fri, 20 Jan 2023 07:44:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1674229447; x=1705765447;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=oBVSJGdmqluJ+m0kpxYQdXUIQZYypRK6F57krHn+9Cs=;
-  b=LVhdOo43ck4HjZ8K7sa6VjjR/sf/qeAD5nK1IOTcOqW741LcPgsuztJP
-   4s7RuWtrC4gt9D5C4D+QfGhV6Ct42fCaQNIacOWYcfpEgwT/8jj4K7YGV
-   FNPpJVSACLKedwMxEFmzCXNbMUTtZGCPzxJGmneGha+Rz21qVqdwT3sF7
-   pSCb4m+m79DKHAb3PmuRvMerA6vuXIEAfyOD4aSppGXO6oWZVHfnGffeg
-   lo/tPDQgGjAALOroCFGb2i4gNLY+ApMoQK90vEHPC+bxTaRYiz03w7O02
-   mWt4OrJRmk1CcRajMzYfFd6+7LF/NFJ9Iw4nvxLs5tJ+cynfiFhsqTAHS
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="390114958"
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Zvmz1e8tNVkf9F2k6v9cQ9mCVyAkLICIV32C307I3+A=;
+  b=BbOlueFg5urU2fIRZkhnbjmOgZ8lI8vskiRtkaGnfGQWVfjdDzrG4qXw
+   xgbtZAmLM/hVmnBu/1QZXPRDJ9zh3z0a7H+BvDCWlw2DdbT6l1YUe1u3x
+   dv9uml+lx0dPdQWS9X2p9YF7rsZk4T17Eh6nYyG9SUtt6ZzP0ovK90GON
+   35HutaZ9blgcLU+9v3IMRomfagNFM5G0S4LGugNPbVgFI4SiiI4MgWCo7
+   s8OfDAWsFEbYALoJ3vHA/83CbcgubdmG2QtMr9D+wwg9BwBUxPIOIeXHb
+   tveEtqmgXFfIfOubGZEjrRqFuXQ2t2nmelrOz7/06wbkbdjqrubTyTrbB
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="309179502"
 X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="390114958"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 07:44:06 -0800
+   d="scan'208";a="309179502"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 07:44:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="989427700"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="610512127"
 X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="989427700"
+   d="scan'208";a="610512127"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga005.fm.intel.com with ESMTP; 20 Jan 2023 07:44:04 -0800
+  by orsmga003.jf.intel.com with ESMTP; 20 Jan 2023 07:44:05 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id E7A85368; Fri, 20 Jan 2023 17:44:39 +0200 (EET)
+        id 048EA36D; Fri, 20 Jan 2023 17:44:40 +0200 (EET)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/5] usb: fotg210-hcd: use sysfs_emit() to instead of scnprintf()
-Date:   Fri, 20 Jan 2023 17:44:33 +0200
-Message-Id: <20230120154437.22025-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 3/5] usb: fotg210-udc: remove redundant error logging
+Date:   Fri, 20 Jan 2023 17:44:35 +0200
+Message-Id: <20230120154437.22025-3-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230120154437.22025-1-andriy.shevchenko@linux.intel.com>
+References: <20230120154437.22025-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Follow the advice of the Documentation/filesystems/sysfs.rst and show()
-should only use sysfs_emit() or sysfs_emit_at() when formatting the
-value to be returned to user space.
+A call to platform_get_irq() already prints an error on failure within
+its own implementation. So printing another error based on its return
+value in the caller is redundant and should be removed. The clean up
+also makes if condition block braces unnecessary. Remove that as well.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/usb/fotg210/fotg210-hcd.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/usb/fotg210/fotg210-udc.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/fotg210/fotg210-hcd.c b/drivers/usb/fotg210/fotg210-hcd.c
-index 7bd1e8f3080d..46752a75c428 100644
---- a/drivers/usb/fotg210/fotg210-hcd.c
-+++ b/drivers/usb/fotg210/fotg210-hcd.c
-@@ -4686,14 +4686,11 @@ static ssize_t uframe_periodic_max_show(struct device *dev,
- 		struct device_attribute *attr, char *buf)
- {
- 	struct fotg210_hcd *fotg210;
--	int n;
+diff --git a/drivers/usb/fotg210/fotg210-udc.c b/drivers/usb/fotg210/fotg210-udc.c
+index 4334504fccc8..18d254125186 100644
+--- a/drivers/usb/fotg210/fotg210-udc.c
++++ b/drivers/usb/fotg210/fotg210-udc.c
+@@ -1169,10 +1169,8 @@ int fotg210_udc_probe(struct platform_device *pdev, struct fotg210 *fotg)
+ 	int i;
  
- 	fotg210 = hcd_to_fotg210(bus_to_hcd(dev_get_drvdata(dev)));
--	n = scnprintf(buf, PAGE_SIZE, "%d\n", fotg210->uframe_periodic_max);
--	return n;
-+	return sysfs_emit(buf, "%d\n", fotg210->uframe_periodic_max);
- }
+ 	irq = platform_get_irq(pdev, 0);
+-	if (irq < 0) {
+-		pr_err("could not get irq\n");
+-		return -ENODEV;
+-	}
++	if (irq < 0)
++		return irq;
  
--
- static ssize_t uframe_periodic_max_store(struct device *dev,
- 		struct device_attribute *attr, const char *buf, size_t count)
- {
+ 	/* initialize udc */
+ 	fotg210 = kzalloc(sizeof(struct fotg210_udc), GFP_KERNEL);
 -- 
 2.39.0
 
