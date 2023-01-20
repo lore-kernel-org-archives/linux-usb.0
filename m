@@ -2,52 +2,52 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D239C27C7C
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Jan 2023 15:44:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4A55C38141
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Jan 2023 15:44:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230050AbjATPoK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Jan 2023 10:44:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46888 "EHLO
+        id S230143AbjATPoM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Jan 2023 10:44:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229660AbjATPoJ (ORCPT
+        with ESMTP id S229814AbjATPoJ (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 10:44:09 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0AAA6A30D;
-        Fri, 20 Jan 2023 07:44:07 -0800 (PST)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F242F6A334;
+        Fri, 20 Jan 2023 07:44:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674229447; x=1705765447;
+  t=1674229448; x=1705765448;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Zvmz1e8tNVkf9F2k6v9cQ9mCVyAkLICIV32C307I3+A=;
-  b=BbOlueFg5urU2fIRZkhnbjmOgZ8lI8vskiRtkaGnfGQWVfjdDzrG4qXw
-   xgbtZAmLM/hVmnBu/1QZXPRDJ9zh3z0a7H+BvDCWlw2DdbT6l1YUe1u3x
-   dv9uml+lx0dPdQWS9X2p9YF7rsZk4T17Eh6nYyG9SUtt6ZzP0ovK90GON
-   35HutaZ9blgcLU+9v3IMRomfagNFM5G0S4LGugNPbVgFI4SiiI4MgWCo7
-   s8OfDAWsFEbYALoJ3vHA/83CbcgubdmG2QtMr9D+wwg9BwBUxPIOIeXHb
-   tveEtqmgXFfIfOubGZEjrRqFuXQ2t2nmelrOz7/06wbkbdjqrubTyTrbB
+  bh=6Qu9mgbn0uz4KQv860MeQD3YerquUjWp1+UWLUDD7Ng=;
+  b=U984D4Q3e7ck21HEAPhZ1bmUnnP5eDxIG6xd77HOO5N1KNkiCpfXkGdK
+   aeKf58fbjH1Q+KoFRRHahyqVgDk2viEBAW1I3d1WRwmLwPVYhGXnbSveR
+   gkZs/xEi6kNqEjThM5OCVK14NvJilhFgRrASehgqLP//uzCbn7TON+7ty
+   HxDIx0t9zqvSola27JcH0koJAiRZ11Ng6yO7bcW9fVUwa6r0IBYhoSrLP
+   FLhLIrTtvBEqxc78xCzSuCCwOZr7DYQEvWPCVWETGz8UVCFR9qUPnMil7
+   k7Fq0gQi07T9hF1DmjTI+heXeY2SahEOLhqlG0VN7UC6L2on5x8fwsR97
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="309179502"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="390114963"
 X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="309179502"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 07:44:07 -0800
+   d="scan'208";a="390114963"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 07:44:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="610512127"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="989427703"
 X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="610512127"
+   d="scan'208";a="989427703"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga003.jf.intel.com with ESMTP; 20 Jan 2023 07:44:05 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 20 Jan 2023 07:44:05 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 048EA36D; Fri, 20 Jan 2023 17:44:40 +0200 (EET)
+        id 18DC1373; Fri, 20 Jan 2023 17:44:40 +0200 (EET)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 3/5] usb: fotg210-udc: remove redundant error logging
-Date:   Fri, 20 Jan 2023 17:44:35 +0200
-Message-Id: <20230120154437.22025-3-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 5/5] usb: fotg210: use devm_platform_get_and_ioremap_resource()
+Date:   Fri, 20 Jan 2023 17:44:37 +0200
+Message-Id: <20230120154437.22025-5-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120154437.22025-1-andriy.shevchenko@linux.intel.com>
 References: <20230120154437.22025-1-andriy.shevchenko@linux.intel.com>
@@ -57,33 +57,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-A call to platform_get_irq() already prints an error on failure within
-its own implementation. So printing another error based on its return
-value in the caller is redundant and should be removed. The clean up
-also makes if condition block braces unnecessary. Remove that as well.
+Convert platform_get_resource(), devm_ioremap_resource() to a single
+call to devm_platform_get_and_ioremap_resource(), as this is exactly
+what this function does.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/usb/fotg210/fotg210-udc.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/usb/fotg210/fotg210-core.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/usb/fotg210/fotg210-udc.c b/drivers/usb/fotg210/fotg210-udc.c
-index 4334504fccc8..18d254125186 100644
---- a/drivers/usb/fotg210/fotg210-udc.c
-+++ b/drivers/usb/fotg210/fotg210-udc.c
-@@ -1169,10 +1169,8 @@ int fotg210_udc_probe(struct platform_device *pdev, struct fotg210 *fotg)
- 	int i;
+diff --git a/drivers/usb/fotg210/fotg210-core.c b/drivers/usb/fotg210/fotg210-core.c
+index ce00d9407ce5..202d80adca2c 100644
+--- a/drivers/usb/fotg210/fotg210-core.c
++++ b/drivers/usb/fotg210/fotg210-core.c
+@@ -135,11 +135,7 @@ static int fotg210_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 	fotg->dev = dev;
  
- 	irq = platform_get_irq(pdev, 0);
--	if (irq < 0) {
--		pr_err("could not get irq\n");
+-	fotg->res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	if (!fotg->res)
 -		return -ENODEV;
--	}
-+	if (irq < 0)
-+		return irq;
+-
+-	fotg->base = devm_ioremap_resource(dev, fotg->res);
++	fotg->base = devm_platform_get_and_ioremap_resource(pdev, 0, &fotg->res);
+ 	if (!fotg->base)
+ 		return -ENOMEM;
  
- 	/* initialize udc */
- 	fotg210 = kzalloc(sizeof(struct fotg210_udc), GFP_KERNEL);
 -- 
 2.39.0
 
