@@ -2,88 +2,68 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B24B3C27C7C
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Jan 2023 15:44:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CE2CC25B4E
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Jan 2023 16:36:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231176AbjATPoP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Jan 2023 10:44:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46898 "EHLO
+        id S230348AbjATQgX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Jan 2023 11:36:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230061AbjATPoK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 10:44:10 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F635518EC;
-        Fri, 20 Jan 2023 07:44:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674229449; x=1705765449;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=KclXtp6RTwwDl0Jov5zoQLZjJ3zoGzOqCU2QiwmBSBo=;
-  b=V5wPBcTaXOVkMHAiT9VCLqhFphYl+k6j7OClKUOxDSl2g3oFw8YnGZqt
-   fMrCxbg+e6YehfejNkyeqdvsI1qrugARDYKh0Jw4kN187uzT7SdFAE8M8
-   ok8ZesY/jDg+/cKwB48jkQVqkzPEbqQwymnS6mlxgfTagZTzJs3Iv7p+0
-   +sBxuS830oyDiFQs7hdIEIs7QWOC/OiY6d4qM8+XusxTBYk4Lo2XWOO/E
-   cj8tbkWswb5wPEI/GDpWr76IEXm7J6WuBdRw/5XtqT7XS5sfU8uRiyTMT
-   tZtg1Q6T9TFUKTtPx4bP9Ndf1J/sL6T42yseF8M+m7QbVXVGEEZO42Dqn
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="309179498"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="309179498"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 07:44:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="610512126"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="610512126"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga003.jf.intel.com with ESMTP; 20 Jan 2023 07:44:05 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id F301F14A; Fri, 20 Jan 2023 17:44:39 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 2/5] usb: fotg210-hcd: Don't shadow error codes in store()
-Date:   Fri, 20 Jan 2023 17:44:34 +0200
-Message-Id: <20230120154437.22025-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230120154437.22025-1-andriy.shevchenko@linux.intel.com>
-References: <20230120154437.22025-1-andriy.shevchenko@linux.intel.com>
+        with ESMTP id S230085AbjATQgX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 11:36:23 -0500
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 4C13A71BFD
+        for <linux-usb@vger.kernel.org>; Fri, 20 Jan 2023 08:35:55 -0800 (PST)
+Received: (qmail 38882 invoked by uid 1000); 20 Jan 2023 11:34:43 -0500
+Date:   Fri, 20 Jan 2023 11:34:43 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ramneek Mehresh <ramneek.mehresh@freescale.com>,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/1] usb: host: ehci-fsl: Fix module alias
+Message-ID: <Y8rCo8ggvjy3ScdV@rowland.harvard.edu>
+References: <20230120122714.3848784-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230120122714.3848784-1-alexander.stein@ew.tq-group.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-kstrtox() along with regmap API can return different error codes based on
-circumstances.
+On Fri, Jan 20, 2023 at 01:27:14PM +0100, Alexander Stein wrote:
+> Commit ca07e1c1e4a6 ("drivers:usb:fsl:Make fsl ehci drv an independent
+> driver module") changed DRV_NAME which was used for MODULE_ALIAS as well.
+> Starting from this the module alias didn't match the platform device
+> name created in fsl-mph-dr-of.c
+> Change DRV_NAME to match the driver name for host mode in fsl-mph-dr-of.
+> This is needed for module autoloading on ls1021a.
+> 
+> Fixes: ca07e1c1e4a6 ("drivers:usb:fsl:Make fsl ehci drv an independent driver module")
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
 
-Don't shadow them when returning to the caller.
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/usb/fotg210/fotg210-hcd.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Does this need to go in a -stable kernel?
 
-diff --git a/drivers/usb/fotg210/fotg210-hcd.c b/drivers/usb/fotg210/fotg210-hcd.c
-index 46752a75c428..5a934f5343a7 100644
---- a/drivers/usb/fotg210/fotg210-hcd.c
-+++ b/drivers/usb/fotg210/fotg210-hcd.c
-@@ -4702,8 +4702,10 @@ static ssize_t uframe_periodic_max_store(struct device *dev,
- 	ssize_t ret;
- 
- 	fotg210 = hcd_to_fotg210(bus_to_hcd(dev_get_drvdata(dev)));
--	if (kstrtouint(buf, 0, &uframe_periodic_max) < 0)
--		return -EINVAL;
-+
-+	ret = kstrtouint(buf, 0, &uframe_periodic_max);
-+	if (ret)
-+		return ret;
- 
- 	if (uframe_periodic_max < 100 || uframe_periodic_max >= 125) {
- 		fotg210_info(fotg210, "rejecting invalid request for uframe_periodic_max=%u\n",
--- 
-2.39.0
-
+>  drivers/usb/host/ehci-fsl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/host/ehci-fsl.c b/drivers/usb/host/ehci-fsl.c
+> index 3d21946e8822a..92ec655fd09b6 100644
+> --- a/drivers/usb/host/ehci-fsl.c
+> +++ b/drivers/usb/host/ehci-fsl.c
+> @@ -29,7 +29,7 @@
+>  #include "ehci-fsl.h"
+>  
+>  #define DRIVER_DESC "Freescale EHCI Host controller driver"
+> -#define DRV_NAME "ehci-fsl"
+> +#define DRV_NAME "fsl-ehci"
+>  
+>  static struct hc_driver __read_mostly fsl_ehci_hc_driver;
+>  
+> -- 
+> 2.34.1
+> 
