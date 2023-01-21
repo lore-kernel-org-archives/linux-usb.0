@@ -2,182 +2,163 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE5BEC05027
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Jan 2023 23:42:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A822BC05027
+	for <linux-usb@archiver.kernel.org>; Sat, 21 Jan 2023 00:06:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229812AbjATXmH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Jan 2023 18:42:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37832 "EHLO
+        id S229794AbjAUAGp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Jan 2023 19:06:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229656AbjATXmG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 18:42:06 -0500
-X-Greylist: delayed 90 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 20 Jan 2023 15:42:04 PST
-Received: from lithium.sammserver.com (lithium.sammserver.com [168.119.122.30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF7221E9C7
-        for <linux-usb@vger.kernel.org>; Fri, 20 Jan 2023 15:42:04 -0800 (PST)
-Received: from mail.sammserver.com (sammserver.wg [10.32.40.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by lithium.sammserver.com (Postfix) with ESMTPS id 9810A31181CC;
-        Sat, 21 Jan 2023 00:40:32 +0100 (CET)
-Received: from fastboi.localdomain (fastboi.wg [10.32.40.5])
-        by mail.sammserver.com (Postfix) with ESMTP id 3F4F4167D6;
-        Sat, 21 Jan 2023 00:40:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-        t=1674258032; bh=tAHRLgm6IhHni12DXtcuIH0/yjW4BrhLDM/lawo+0EA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=jqbsdKQ9qcr6kphxR0PRE4gPARTOCOtb1pNBcbGIxl+BQVC3GrMR/fG7L4HUlheYw
-         xGuOhX9xgnVCY0EwqhgbE+o1fM5yKLrPKfblcMqx7DpGpzxpV2wn5ijz1GfDFLWUJC
-         g1pomQ3gR+DHe+GrGgS5T2s4tIRIbcu7VDdiCe0E=
-Received: by fastboi.localdomain (Postfix, from userid 1000)
-        id 2C6DF14214F0; Sat, 21 Jan 2023 00:40:31 +0100 (CET)
-From:   =?UTF-8?q?Samuel=20=C4=8Cavoj?= <samuel@cavoj.net>
-To:     heikki.krogerus@linux.intel.com
-Cc:     linux-usb@vger.kernel.org, samuel@cavoj.net
-Subject: [PATCH] usb: typec: ucsi: introduce read_explicit operation
-Date:   Sat, 21 Jan 2023 00:39:21 +0100
-Message-Id: <20230120233920.752245-1-samuel@cavoj.net>
-X-Mailer: git-send-email 2.39.0
+        with ESMTP id S229622AbjAUAGo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 19:06:44 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDB772C2D;
+        Fri, 20 Jan 2023 16:06:43 -0800 (PST)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30KNx32w023904;
+        Sat, 21 Jan 2023 00:06:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=URJJNvMzIFG5OS0ainlfqJaPOphmY2mAIG3YZvWWKXI=;
+ b=c1jvNBtbSJa5Hg1v+arYQqFXD5zUBq8mEZvlGZJFY8sFtOt3n4LJENLdVTk6oNaR7lAa
+ 076ej9x6jyi5r/zpbyDH4S7urYijScWdYcb6lJvMRqoPv94ltcixULcd53wCbP/turDS
+ koVhh975dyigRVV3gU5qplzw5CBi64YSHWdcpZr3iIshm/rhor8XUotPUKBcbasfyDQD
+ l7RvnGd3VRMNcK2SHJq5pfmlhYv2RTwAqBmDhaUFzA4ogSRihR3yaoiSbeUrXlqlhN8L
+ XqOeVRpoJFlD9oPO5XcSyfFBphdOpOuXUKVL+MwFXioCtWjrQFs4Im0SwJsiaj95mY+V Rw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n7c28jut7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 21 Jan 2023 00:06:38 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30L06bgB002229
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 21 Jan 2023 00:06:37 GMT
+Received: from [10.110.55.52] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 20 Jan
+ 2023 16:06:36 -0800
+Message-ID: <045f9ac1-5d48-fad0-8e74-8d5144aa1431@quicinc.com>
+Date:   Fri, 20 Jan 2023 16:06:36 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 1/5] usb: gadget: Add remote wakeup capable flag
+Content-Language: en-US
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "balbi@kernel.org" <balbi@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "quic_wcheng@quicinc.com" <quic_wcheng@quicinc.com>,
+        "quic_jackp@quicinc.com" <quic_jackp@quicinc.com>
+References: <1673992507-7823-1-git-send-email-quic_eserrao@quicinc.com>
+ <1673992507-7823-2-git-send-email-quic_eserrao@quicinc.com>
+ <20230119014409.yiw6xlp5cwlmu25s@synopsys.com>
+ <f49c54d9-b9fe-e629-3f94-809cd79a2211@quicinc.com>
+ <20230120011513.ajwum224lfwwb6ws@synopsys.com>
+From:   Elson Serrao <quic_eserrao@quicinc.com>
+In-Reply-To: <20230120011513.ajwum224lfwwb6ws@synopsys.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: aWoYGC2SQq8OlrfFFU6saxsHB1Apbv4K
+X-Proofpoint-ORIG-GUID: aWoYGC2SQq8OlrfFFU6saxsHB1Apbv4K
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-20_12,2023-01-20_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 mlxlogscore=999
+ clxscore=1015 mlxscore=0 suspectscore=0 malwarescore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301200232
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On some ACPI platforms (namely the ASUS Zenbook UM325) the _DSM method must
-not be called after a notification is received but instead the mailbox
-should be read immediately from RAM. This is because the ACPI interrupt
-handler destroys the CCI in ERAM after copying to system memory, and when
-_DSM is later called to perform a second copy, it retrieves a garbage
-value.
 
-Instead, the _DSM(read) method should only be called when necessary, i.e.
-for polling the state after reset and for retrieving the version. Other
-reads should not call _DSM and only peek into the RAM region.
 
-For platforms other than ACPI, the read_explicit op uses the same
-implementation as read.
+On 1/19/2023 5:15 PM, Thinh Nguyen wrote:
+> On Thu, Jan 19, 2023, Elson Serrao wrote:
+>>
+>>
+>> On 1/18/2023 5:44 PM, Thinh Nguyen wrote:
+>>> On Tue, Jan 17, 2023, Elson Roy Serrao wrote:
+>>>> Add a flag to indicate whether the gadget is capable
+>>>> of sending remote wakeup to the host.
+>>>>
+>>>> Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
+>>>> ---
+>>>>    drivers/usb/gadget/composite.c | 3 +++
+>>>>    include/linux/usb/gadget.h     | 2 ++
+>>>>    2 files changed, 5 insertions(+)
+>>>>
+>>>> diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
+>>>> index 403563c..b83963a 100644
+>>>> --- a/drivers/usb/gadget/composite.c
+>>>> +++ b/drivers/usb/gadget/composite.c
+>>>> @@ -965,6 +965,9 @@ static int set_config(struct usb_composite_dev *cdev,
+>>>>    	else
+>>>>    		usb_gadget_clear_selfpowered(gadget);
+>>>> +	if (USB_CONFIG_ATT_WAKEUP & c->bmAttributes)
+>>>> +		gadget->rw_capable = 1;
+>>>
+>>> Some device may not support remote wakeup. gadget->rw_capable should be
+>>> set and reported by the UDC. May need a gadget ops to enable remote
+>>> wakeup here.
+>>>
+>>> Thanks,
+>>> Thinh
+>>>
+>> Not exactly clear on which parameter in UDC decides whether a device
+>> supports remote wakeup. Here I have this flag just to indicate whether the
+>> connected device is rw capable based on the bmAttributes populated in the
+>> config descriptor. If the UDC doesnt have a callback for remote wakeup we
+>> have that check when calling the gadget op in udc/core.c (have added a
+>> similar check in usb_func_wakeup() also ).
+> 
+> That flag describes the gadget's capability, not the device
+> configuration. However, it's being used as a configuration flag.
+> 
+> Thanks,
+> Thinh
+> 
 
-Link: https://lore.kernel.org/linux-usb/20210823180626.tb6m7h5tp6adhvt2@fastboi.localdomain/
-Signed-off-by: Samuel Čavoj <samuel@cavoj.net>
----
- drivers/usb/typec/ucsi/ucsi.c         |  9 +++++----
- drivers/usb/typec/ucsi/ucsi.h         |  3 +++
- drivers/usb/typec/ucsi/ucsi_acpi.c    | 11 +++++++++++
- drivers/usb/typec/ucsi/ucsi_ccg.c     |  1 +
- drivers/usb/typec/ucsi/ucsi_stm32g0.c |  1 +
- 5 files changed, 21 insertions(+), 4 deletions(-)
+Thank you for the clarification. Please let me know if below approach 
+where we consider both gadget's capability and device configuration fine?
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index eabe519013e7..39ee3b63d07d 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -883,7 +883,7 @@ static int ucsi_reset_ppm(struct ucsi *ucsi)
- 			goto out;
- 		}
- 
--		ret = ucsi->ops->read(ucsi, UCSI_CCI, &cci, sizeof(cci));
-+		ret = ucsi->ops->read_explicit(ucsi, UCSI_CCI, &cci, sizeof(cci));
- 		if (ret)
- 			goto out;
- 
-@@ -1347,7 +1347,8 @@ struct ucsi *ucsi_create(struct device *dev, const struct ucsi_operations *ops)
- {
- 	struct ucsi *ucsi;
- 
--	if (!ops || !ops->read || !ops->sync_write || !ops->async_write)
-+	if (!ops || !ops->read || !ops->read_explicit || !ops->sync_write ||
-+	    !ops->async_write)
- 		return ERR_PTR(-EINVAL);
- 
- 	ucsi = kzalloc(sizeof(*ucsi), GFP_KERNEL);
-@@ -1382,8 +1383,8 @@ int ucsi_register(struct ucsi *ucsi)
- {
- 	int ret;
- 
--	ret = ucsi->ops->read(ucsi, UCSI_VERSION, &ucsi->version,
--			      sizeof(ucsi->version));
-+	ret = ucsi->ops->read_explicit(ucsi, UCSI_VERSION, &ucsi->version,
-+				       sizeof(ucsi->version));
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index c968474ee547..8361e1cfc8eb 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -37,6 +37,7 @@ struct ucsi_altmode;
- /**
-  * struct ucsi_operations - UCSI I/O operations
-  * @read: Read operation
-+ * @read_explicit: Read operation with explicit poll if applicable
-  * @sync_write: Blocking write operation
-  * @async_write: Non-blocking write operation
-  * @update_altmodes: Squashes duplicate DP altmodes
-@@ -48,6 +49,8 @@ struct ucsi_altmode;
- struct ucsi_operations {
- 	int (*read)(struct ucsi *ucsi, unsigned int offset,
- 		    void *val, size_t val_len);
-+	int (*read_explicit)(struct ucsi *ucsi, unsigned int offset,
-+			     void *val, size_t val_len);
- 	int (*sync_write)(struct ucsi *ucsi, unsigned int offset,
- 			  const void *val, size_t val_len);
- 	int (*async_write)(struct ucsi *ucsi, unsigned int offset,
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index ce0c8ef80c04..6b3475ed4874 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -45,6 +45,16 @@ static int ucsi_acpi_read(struct ucsi *ucsi, unsigned int offset,
- 			  void *val, size_t val_len)
- {
- 	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
-+
-+	memcpy(val, ua->base + offset, val_len);
-+
-+	return 0;
-+}
-+
-+static int ucsi_acpi_read_explicit(struct ucsi *ucsi, unsigned int offset,
-+				   void *val, size_t val_len)
-+{
-+	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
- 	int ret;
- 
- 	ret = ucsi_acpi_dsm(ua, UCSI_DSM_FUNC_READ);
-@@ -89,6 +99,7 @@ static int ucsi_acpi_sync_write(struct ucsi *ucsi, unsigned int offset,
- 
- static const struct ucsi_operations ucsi_acpi_ops = {
- 	.read = ucsi_acpi_read,
-+	.read_explicit = ucsi_acpi_read_explicit,
- 	.sync_write = ucsi_acpi_sync_write,
- 	.async_write = ucsi_acpi_async_write
- };
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index 46441f1477f2..d00c262f334f 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -605,6 +605,7 @@ static int ucsi_ccg_sync_write(struct ucsi *ucsi, unsigned int offset,
- 
- static const struct ucsi_operations ucsi_ccg_ops = {
- 	.read = ucsi_ccg_read,
-+	.read_explicit = ucsi_ccg_read,
- 	.sync_write = ucsi_ccg_sync_write,
- 	.async_write = ucsi_ccg_async_write,
- 	.update_altmodes = ucsi_ccg_update_altmodes
-diff --git a/drivers/usb/typec/ucsi/ucsi_stm32g0.c b/drivers/usb/typec/ucsi/ucsi_stm32g0.c
-index 93fead0096b7..008fa7a3533c 100644
---- a/drivers/usb/typec/ucsi/ucsi_stm32g0.c
-+++ b/drivers/usb/typec/ucsi/ucsi_stm32g0.c
-@@ -437,6 +437,7 @@ static irqreturn_t ucsi_stm32g0_irq_handler(int irq, void *data)
- 
- static const struct ucsi_operations ucsi_stm32g0_ops = {
- 	.read = ucsi_stm32g0_read,
-+	.read_explicit = ucsi_stm32g0_read,
- 	.sync_write = ucsi_stm32g0_sync_write,
- 	.async_write = ucsi_stm32g0_async_write,
- };
--- 
-2.39.0
+if (gadget->ops->wakeup || gadget->ops->func_wakeup)
+    gadget->rw_capable = USB_CONFIG_ATT_WAKEUP & c->bmAttributes ? 1: 0;
 
+Thanks
+Elson
+>>
+>> int usb_gadget_wakeup(struct usb_gadget *gadget)
+>> {
+>> 	int ret = 0;
+>>
+>> 	if (!gadget->ops->wakeup) {
+>> 		ret = -EOPNOTSUPP;
+>> 		goto out;
+>>
+>> Thanks
+>> Elson
+>>
+>>>> +
+>>>>    	usb_gadget_vbus_draw(gadget, power);
+>>>>    	if (result >= 0 && cdev->delayed_status)
+>>>>    		result = USB_GADGET_DELAYED_STATUS;
+>>>> diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+>>>> index dc3092c..15785f8 100644
+>>>> --- a/include/linux/usb/gadget.h
+>>>> +++ b/include/linux/usb/gadget.h
+>>>> @@ -385,6 +385,7 @@ struct usb_gadget_ops {
+>>>>     *	indicates that it supports LPM as per the LPM ECN & errata.
+>>>>     * @irq: the interrupt number for device controller.
+>>>>     * @id_number: a unique ID number for ensuring that gadget names are distinct
+>>>> + * @rw_capable: True if the gadget is capable of sending remote wakeup.
+>>>>     *
