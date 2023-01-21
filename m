@@ -2,164 +2,79 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D666C38159
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Jan 2023 02:07:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A39CEC38141
+	for <linux-usb@archiver.kernel.org>; Sat, 21 Jan 2023 02:11:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229698AbjAUCHD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Jan 2023 21:07:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47318 "EHLO
+        id S229742AbjAUCLE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Jan 2023 21:11:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjAUCHC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 21:07:02 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61C675A82E;
-        Fri, 20 Jan 2023 18:06:55 -0800 (PST)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30L1slM5028513;
-        Sat, 21 Jan 2023 02:06:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=X5/qj9aii7OeALjg3q+L/kTUiIAW1sqOy66qJchPm0M=;
- b=D+0xI4VWff6ftzrf+wAZ/dSy9quFfimfIvgQc4nrEcQvmhbDcmGIWlYfnyRtvX2gQ3G0
- Q22oWK+BpbhsDHFLbFFRJh+XGt0UwQqt7qTEPR7RjkEVHPEd/lUTiZ/f4ujTkjfIfbdg
- lucYCGVQtNr1hEnbS8rrA0GxxM6Oz+0MGW0Fnl5lTLUtYvXEY6eMlMG3eL/j5QPzHIwH
- s3Rngm1piJsZ8OxAgTev8A7h29BcyWMMG37bslg4w/IUVY63lbl0PO3DYvMndw7b4saL
- LWFZLcFD3IaEnDezqL7QaDSHXo9aWrRErshaz17NaijeoFHDpYJ/jwpS/ZiBctWXzSuN mg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n7yc60qsd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 21 Jan 2023 02:06:44 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30L26h1E022970
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 21 Jan 2023 02:06:43 GMT
-Received: from [10.216.48.43] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 20 Jan
- 2023 18:06:37 -0800
-Message-ID: <d2f541bd-ced6-d7b9-a2c3-43e78c249643@quicinc.com>
-Date:   Sat, 21 Jan 2023 07:36:34 +0530
+        with ESMTP id S229661AbjAUCLD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 21:11:03 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1060073AF3;
+        Fri, 20 Jan 2023 18:10:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E4E1362169;
+        Sat, 21 Jan 2023 02:10:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 41688C433A7;
+        Sat, 21 Jan 2023 02:10:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674267019;
+        bh=GtPIB8yrRdBZzYyEE+4TRbULPhyQrDxKe1xyUkqJfr0=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=fRyp9mULisUnSxS+roMIKgn144Xa64pl0WlQitWYaWdOSWi63QEpvFwco/oDxclwO
+         mwshC4L+MI0Md0Kj/e7wEEcw5QR/yRnNO6EN8Si1zqTaMTFNooxgv6E/GkkzvOnqgo
+         8JEpNN1gqszKfKyOuKke9iFriJfxLGdtK6lTYd1hIGSEZzMHS9CTllxlT78vGEeSiM
+         D+K+vX5F/gzqYt2Yk6eJbK8Lae1QzLtpZJmnHDocyihmUXlMzjb9Iart77BPd4pF0T
+         O8FX7+Az+98zUXIaOiDyngUGebn3mCAn0oMAxEZPb5WLVXkn7YPKFFOZbRVywc4DiF
+         Ogm15/iYetOXg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2BFFEE54D2B;
+        Sat, 21 Jan 2023 02:10:19 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [RFC v4 2/5] usb: dwc3: core: Refactor PHY logic to support
- Multiport Controller
-Content-Language: en-US
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "quic_pkondeti@quicinc.com" <quic_pkondeti@quicinc.com>,
-        "quic_ppratap@quicinc.com" <quic_ppratap@quicinc.com>,
-        "quic_wcheng@quicinc.com" <quic_wcheng@quicinc.com>,
-        "quic_jackp@quicinc.com" <quic_jackp@quicinc.com>,
-        "quic_harshq@quicinc.com" <quic_harshq@quicinc.com>
-References: <20230115114146.12628-1-quic_kriskura@quicinc.com>
- <20230115114146.12628-3-quic_kriskura@quicinc.com>
- <20230119003619.ane3weigd4ebsta6@synopsys.com>
- <20230120225719.3xau7vwlzxrtbnad@synopsys.com>
-From:   Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-In-Reply-To: <20230120225719.3xau7vwlzxrtbnad@synopsys.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: PPRV6qp7lKYoe8JkKrsR5Vbctd8Exb5j
-X-Proofpoint-ORIG-GUID: PPRV6qp7lKYoe8JkKrsR5Vbctd8Exb5j
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-20_13,2023-01-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
- priorityscore=1501 spamscore=0 impostorscore=0 phishscore=0 clxscore=1015
- mlxlogscore=854 adultscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301210018
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 0/2] r8152: improve the code
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167426701917.27266.1166869033080131872.git-patchwork-notify@kernel.org>
+Date:   Sat, 21 Jan 2023 02:10:19 +0000
+References: <20230119074043.10021-397-nic_swsd@realtek.com>
+In-Reply-To: <20230119074043.10021-397-nic_swsd@realtek.com>
+To:     Hayes Wang <hayeswang@realtek.com>
+Cc:     kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org,
+        nic_swsd@realtek.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, edumazet@google.com, pabeni@redhat.com
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hello:
 
+This series was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-On 1/21/2023 4:27 AM, Thinh Nguyen wrote:
-> On Thu, Jan 19, 2023, Thinh Nguyen wrote:
->> Hi,
->>
->> On Sun, Jan 15, 2023, Krishna Kurapati wrote:
->>> Currently the DWC3 driver supports only single port controller
->>> which requires at most one HS and one SS PHY.
->>
->> Add note here that multi-port is for host mode for clarity.
->>
->>>
->>> But the DWC3 USB controller can be connected to multiple ports and
->>> each port can have their own PHYs. Each port of the multiport
->>> controller can either be HS+SS capable or HS only capable
->>> Proper quantification of them is required to modify GUSB2PHYCFG
->>> and GUSB3PIPECTL registers appropriately.
->>>
->>> Add support for detecting, obtaining and configuring phy's supported
->>> by a multiport controller and limit the max number of ports
->>> supported to 4.
->>>
->>> Signed-off-by: Harsh Agarwal <quic_harshq@quicinc.com>
->>> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
->>> ---
->>>   drivers/usb/dwc3/core.c | 304 +++++++++++++++++++++++++++++-----------
->>>   drivers/usb/dwc3/core.h |  15 +-
->>>   drivers/usb/dwc3/drd.c  |  14 +-
->>>   3 files changed, 244 insertions(+), 89 deletions(-)
->>>
->>> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
->>> index 476b63618511..7e0a9a598dfd 100644
->>> --- a/drivers/usb/dwc3/core.c
->>> +++ b/drivers/usb/dwc3/core.c
->>> @@ -120,7 +120,7 @@ static void __dwc3_set_mode(struct work_struct *work)
->>>   {
->>>   	struct dwc3 *dwc = work_to_dwc(work);
->>>   	unsigned long flags;
->>> -	int ret;
->>> +	int ret, i;
->>
->> Can we declare variables in separate lines here and other places.
->>
->>>   	u32 reg;
->>>   	u32 desired_dr_role;
->>>   
->>> @@ -200,8 +200,10 @@ static void __dwc3_set_mode(struct work_struct *work)
->>>   		} else {
->>>   			if (dwc->usb2_phy)
->>>   				otg_set_vbus(dwc->usb2_phy->otg, true);
->>> -			phy_set_mode(dwc->usb2_generic_phy, PHY_MODE_USB_HOST);
->>> -			phy_set_mode(dwc->usb3_generic_phy, PHY_MODE_USB_HOST);
->>> +			for (i = 0; i < dwc->num_ports; i++) {
+On Thu, 19 Jan 2023 15:40:41 +0800 you wrote:
+> These are some minor improvements depending on commit ec51fbd1b8a2 ("r8152:
+> add USB device driver for config selection").
 > 
-> BTW, is num_ports the total of usb2 + usb3 ports?
-Hi Thinh,
-
-   No, num_ports is just the total number of hw usb ports present 
-(presuming each port is hs capable, this is just the number of HS Phy's 
-available).
-
-Regards,
-KRishna,
+> Hayes Wang (2):
+>   r8152: remove rtl_vendor_mode function
+>   r8152: reduce the control transfer of rtl8152_get_version()
 > 
->>> +				phy_set_mode(dwc->usb2_generic_phy[i], PHY_MODE_USB_HOST);
->>> +				phy_set_mode(dwc->usb3_generic_phy[i], PHY_MODE_USB_HOST);
->>> +			}
->>>   			if (dwc->dis_split_quirk) {
-> 
-> Thanks,
-> Thinh
+> [...]
+
+Here is the summary with links:
+  - [net-next,1/2] r8152: remove rtl_vendor_mode function
+    https://git.kernel.org/netdev/net-next/c/95a4c1d617b9
+  - [net-next,2/2] r8152: reduce the control transfer of rtl8152_get_version()
+    https://git.kernel.org/netdev/net-next/c/02767440e1dd
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
