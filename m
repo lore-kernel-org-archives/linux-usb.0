@@ -2,264 +2,238 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FADBC38159
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Jan 2023 02:11:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B33A0C05027
+	for <linux-usb@archiver.kernel.org>; Sat, 21 Jan 2023 02:13:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229782AbjAUCLN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Jan 2023 21:11:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52026 "EHLO
+        id S229814AbjAUCNQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Jan 2023 21:13:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229661AbjAUCLM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 21:11:12 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36CD980B88;
-        Fri, 20 Jan 2023 18:10:31 -0800 (PST)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30L299pb006954;
-        Sat, 21 Jan 2023 02:09:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=kgJos9iogEWc/VFPfg3W3utQ9J56NhpO9TN6Qag49lg=;
- b=QxG/nHclMw/SY+ig4TV+P2+TwB+lQeUyAEev1IsHSgB+UCwokCb8vg1avDdZPHhOFhVx
- GQv84IqdvN8toaMOAeBsbClmUWqfBGZNUuN0qdvuCu8Usc9Hzmh6kofhHg8nMrygunFI
- Euc1KeRg1jbHh3AyooTiB5x+ErB9Z1ddjLR0pQ4coU199jgAyUUqx7YydTnsBIYa2f28
- 7H0Srl1knCfkEbAc8g2LjByYNjV/LLR7mzjtdRhQNisdJwqTaXcHKsxuWPDTeg4G/fgm
- dTeV31/m1cu5runpRa02vOKeloWmAHj16/RQIYAOVs6ajITSsXjvp4lquOP1DPUs1RIF ow== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n7q859nnp-1
+        with ESMTP id S229587AbjAUCNP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Jan 2023 21:13:15 -0500
+Received: from mx0a-00230701.pphosted.com (mx0a-00230701.pphosted.com [148.163.156.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00BBC70C6B;
+        Fri, 20 Jan 2023 18:12:52 -0800 (PST)
+Received: from pps.filterd (m0098571.ppops.net [127.0.0.1])
+        by mx0a-00230701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30L1hiY3031429;
+        Fri, 20 Jan 2023 18:12:39 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=pfptdkimsnps;
+ bh=idLDBPx2+GoAwfIljDE5+pNfFzTmJ2WENS1YNWyT9bs=;
+ b=qv1dAgBiYBu1fJe9DMxe6T+mGkw14+/N7fjvGmbvTNwnUcFlGlKXdo1NJJB69u99IDhm
+ ftlRJp9BGdNsY0NzWyix+Yxe8NjdWjk7LwqeEkJK5N+rvOyZaN3c0e1JEYRLNS6mhly4
+ THZvcQYnS7XeBkQm/pLcOQ/CnweHfdSF63yNJsNFi2YfoQqWCG4M4lDxPtmSWS4Qo6qB
+ JB/IudI9jksE/a3RT0bq9sXuTeaNG+9JJovBjIgd6I7gjUFBnXE1xvktkehquCMEc4Md
+ vqGgzyoNAy8Inwuba0ABBHmzPbxDEX4jPowCM56pzU9MeOXRAms7JolyuIrq4an1g8Sj dg== 
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
+        by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 3n3v9st3jn-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 21 Jan 2023 02:09:36 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30L29ZbK025361
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 21 Jan 2023 02:09:35 GMT
-Received: from [10.216.48.43] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 20 Jan
- 2023 18:09:29 -0800
-Message-ID: <67dea83a-7084-255e-a637-1932f95a9694@quicinc.com>
-Date:   Sat, 21 Jan 2023 07:39:26 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [RFC v4 2/5] usb: dwc3: core: Refactor PHY logic to support
- Multiport Controller
-Content-Language: en-US
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Fri, 20 Jan 2023 18:12:38 -0800
+Received: from mailhost.synopsys.com (badc-mailhost4.synopsys.com [10.192.0.82])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id E315AC098D;
+        Sat, 21 Jan 2023 02:12:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1674267158; bh=idLDBPx2+GoAwfIljDE5+pNfFzTmJ2WENS1YNWyT9bs=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=jaVu7gS8p7YUbUwrtu1guJfcq8wHp2n5l4m279f1EtJCv+qgYL4H5OiNUkOwNZCM1
+         J1biUiTNkZzDwFM0KMCfk/sTOQTBoRncBC0wbDrUrWlEWH1TFeQjaHZ7eaPpEooFaf
+         2ntp8VGVMQEKvm4CekbIbMgnkXMfjq8SUOk7gZWquUqfV43k8J+vgNAQc5r6j+NW/g
+         ElnY6bSv6Rh1NU0Jyd4ODKQFaDY33GC+Adyya+A2vdgGAL00BeJ/sfUWFNBM6jmZRt
+         1KKJII7bCEJBtYA3B3O0ktusFiv0uV5AS6Jy+ivoQLY7dUmejMORazuE1XOrbmPBYz
+         TR/ZazFptu7eQ==
+Received: from o365relay-in.synopsys.com (us03-o365relay3.synopsys.com [10.4.161.139])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
+        by mailhost.synopsys.com (Postfix) with ESMTPS id 3D4A4A0077;
+        Sat, 21 Jan 2023 02:12:37 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2044.outbound.protection.outlook.com [104.47.57.44])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
+        by o365relay-in.synopsys.com (Postfix) with ESMTPS id 69136800B5;
+        Sat, 21 Jan 2023 02:12:36 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=thinhn@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="otsVSDcM";
+        dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b5czqXJSm+iZSqWRqYny2uTgyvDR4dM/IoT2FwFGfhFwNnpG9qqDfsXGpCFNxraAqZPfxQ5uxX58yL6TV0qEgsBWGXcK/UYktDFug/7y5f3UaHDx3PbEx19Y1FH2OsPQQiExaI/HZKTw8IShdDN7v0BrCC72vFvnETIwRepkhtiv3bt/Mxoxg9GRVtXw4h1Oxgg/okjBV2vLXtzNTWlNcEygMoGunCrUYAlmZ/LKZ548X1g79pCmr42HbLK7wuirrJEN1sS48IcRfBDmJIE2CwHgQY6a66RiBB027ffCqy/NZG7ypf188GsclXFW2b+aRZjcn/u1AYsWgn4RYpPIbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=idLDBPx2+GoAwfIljDE5+pNfFzTmJ2WENS1YNWyT9bs=;
+ b=TyOnPsyNp+4D+aoeDm7OKEv0P1vWKRzfOp+UHAe5KoASJ9DRVvAuCLAdzHvwZgiV4DkeVtJkBwpEnjGs5uWuTd9EYygEjHPtMYSAvUGdAYt80Y0NGeKbUom83Gvulv2fe0rIZKzrOvd/fFV0jKdsLdubYigbyEw/V2JvOYaXXNlH5X0ZMqqZcgOTpPTiEMAG7ott/LSoqtTLeTALkQmNHKvqFZqB4XHm3thJ8ztsxdXCNxglI8Kv2AuKjAeBr9ImC0tzyRKI9K8SyDm0BdZvXjadpjOxykG9hZ2aF/B8asPIEWqbAykqZ9kjQgor4YVISe3qbuZ3U81vr+1+f3QBlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=idLDBPx2+GoAwfIljDE5+pNfFzTmJ2WENS1YNWyT9bs=;
+ b=otsVSDcMEbK2qkV82jPOxvycnB2bxE3iafh0ky+GOVC2u/1P2L22s0BJprc4QSpxy0sK59+ukt5z16jyram2Z6CShBURH8X7Ev29/8ONbXCAaPxDKp5DKQLKEGSrf5OTxFnkKLqvIYkpJvbqvE8MyGdllRMzfeSqWL393hJCj/E=
+Received: from BN8PR12MB4787.namprd12.prod.outlook.com (2603:10b6:408:a1::11)
+ by PH7PR12MB6538.namprd12.prod.outlook.com (2603:10b6:510:1f1::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Sat, 21 Jan
+ 2023 02:12:32 +0000
+Received: from BN8PR12MB4787.namprd12.prod.outlook.com
+ ([fe80::d065:4646:c9d2:9219]) by BN8PR12MB4787.namprd12.prod.outlook.com
+ ([fe80::d065:4646:c9d2:9219%7]) with mapi id 15.20.6002.026; Sat, 21 Jan 2023
+ 02:12:32 +0000
+X-SNPS-Relay: synopsys.com
+From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+CC:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Elson Serrao <quic_eserrao@quicinc.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "balbi@kernel.org" <balbi@kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "quic_pkondeti@quicinc.com" <quic_pkondeti@quicinc.com>,
-        "quic_ppratap@quicinc.com" <quic_ppratap@quicinc.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
         "quic_wcheng@quicinc.com" <quic_wcheng@quicinc.com>,
-        "quic_jackp@quicinc.com" <quic_jackp@quicinc.com>,
-        "quic_harshq@quicinc.com" <quic_harshq@quicinc.com>
-References: <20230115114146.12628-1-quic_kriskura@quicinc.com>
- <20230115114146.12628-3-quic_kriskura@quicinc.com>
- <20230119003619.ane3weigd4ebsta6@synopsys.com>
- <7fa2d7b0-509d-ae90-4208-6f0245f927f7@quicinc.com>
- <20230120010226.wjwtisj4id6frirl@synopsys.com>
- <91fa86d8-f443-db13-1544-73e2dd50d964@quicinc.com>
- <20230120224400.77t2j3qtcdfqwt5s@synopsys.com>
-From:   Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-In-Reply-To: <20230120224400.77t2j3qtcdfqwt5s@synopsys.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Qv0NQae6wk4J_jbouaG44zNqdOfZB4zR
-X-Proofpoint-GUID: Qv0NQae6wk4J_jbouaG44zNqdOfZB4zR
+        "quic_jackp@quicinc.com" <quic_jackp@quicinc.com>
+Subject: Re: [PATCH v2 1/5] usb: gadget: Add remote wakeup capable flag
+Thread-Topic: [PATCH v2 1/5] usb: gadget: Add remote wakeup capable flag
+Thread-Index: AQHZKr5r/qObzpub/UasYeFFzcErsq6k+Y6AgAF5HgCAABEigIABfykAgAAEBYCAABpUgIAAAgCAgAABMYCAAAGWgA==
+Date:   Sat, 21 Jan 2023 02:12:32 +0000
+Message-ID: <20230121021219.udgpwt7tv7dfr3jk@synopsys.com>
+References: <1673992507-7823-1-git-send-email-quic_eserrao@quicinc.com>
+ <1673992507-7823-2-git-send-email-quic_eserrao@quicinc.com>
+ <20230119014409.yiw6xlp5cwlmu25s@synopsys.com>
+ <f49c54d9-b9fe-e629-3f94-809cd79a2211@quicinc.com>
+ <20230120011513.ajwum224lfwwb6ws@synopsys.com>
+ <045f9ac1-5d48-fad0-8e74-8d5144aa1431@quicinc.com>
+ <20230121002059.mpiqavemelnntxd7@synopsys.com>
+ <Y8tGAXbKDtzmW8+E@rowland.harvard.edu>
+ <20230121020223.l2tyvyqifc7umqpy@synopsys.com>
+ <Y8tIrx+F/4X9YyFT@rowland.harvard.edu>
+In-Reply-To: <Y8tIrx+F/4X9YyFT@rowland.harvard.edu>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN8PR12MB4787:EE_|PH7PR12MB6538:EE_
+x-ms-office365-filtering-correlation-id: 0175d377-8fe0-49c0-81e8-08dafb54f4ae
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: G8PWJkm4DnTvppDzk8qFTxi2ISLd80eMmfZavH/8ElNb0uOkGVaBTT3FjcPZlVEGp0paFFd/t4Y1daoltrCthuv62op0AsMCXpByZuNUNOLQ/rNvlb6tImZsf2BHbYW00XSZKFuq4NUNiR4QyyVGxVHSdhD+VHHBEXOzmjVDzCR0wNdsXPD61qmC6T2fxc/m71yjRwI5esyS3du2OAoDcZ3hUyOCxgDQWk+s/VAQO1SJwKikiTGpxgnKEcBVKgLsh8oUUslvd37mDM0a6kFrFql9sH3JQfeRvPLspQLhFu15CssQTEYbyYCIswsA56ZREUmPfqZg5v74UMNskz2GzjgrpL73z/y43XrWGsWrmX41Ok/4SjHCj9RMUhDstOfSZnSbvO5jF2JNytWX5N6ZSirXua6c5o+nRA1oL1afq2xqFm5EdMo1o2up0uX2hyljm5kASpZjblM6UNOC9n3GJnFqLu8zakLk8RSsaT6eNXKZ8P3YYepPeTTJYbpmOaZz1eZypnE3Urzlru9+fI4X3XD+/OeI4jJLrfjmkWIep/su2dvgdPzUWDDIv6CGr9pe9ssmb0c5lOQdrsCVZN1vesqwdcbPRdeQe07ciL/+AGcqfRpkLuBfdXOsP37RnMbREEMoXYGWmrm2Z6i1blqjmCqsuw/QA3o0I5dSd/elBHLJRBtwaP2ZU11oSOINUE2KKJtkhYKZiTLZnzGwTZoiyw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB4787.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(376002)(366004)(346002)(396003)(39860400002)(451199015)(6916009)(6486002)(478600001)(8936002)(66899015)(5660300002)(38100700002)(66476007)(26005)(64756008)(36756003)(66556008)(76116006)(66946007)(8676002)(71200400001)(91956017)(66446008)(4326008)(41300700001)(2906002)(316002)(86362001)(54906003)(38070700005)(122000001)(6506007)(186003)(6512007)(83380400001)(1076003)(2616005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UFVBaXBxM3NwNmVHWXhxVVJnRTZydVVOOFhkdGR5OEw2VzRRT0NvSUZPZFJ6?=
+ =?utf-8?B?bjNZcEZJbVlEQ0s2K1pCbkJjWlUrREtPa0lycVozSVdtbURXWE5TVW5RbGpI?=
+ =?utf-8?B?Z3kxM04rbHB3OHlaUnJibE5nOFY4b0Rabk1zNDA4V3BSbnFJb0FnUW9sYStm?=
+ =?utf-8?B?Mzd1a21zTzkydVYzMWgyV0RrU2lFemhjTzY2K2d5NHpMYzNraW44NW9KOWZX?=
+ =?utf-8?B?ZVB5VHdueCtsN3pnMXhIcVJiY0daMGxpUzVnQjRwNk5ydGQrT1EzNDZaOUpQ?=
+ =?utf-8?B?ZGk1QWEvM0FyNVo0WnNWdFNIcXBPQkZBK1FjTE9ZdTN3MTJCUEcwR0FpMW1z?=
+ =?utf-8?B?UTlxaURockxXWlMrTFY4cDEzc240dFJ4S0R6L1FQUHJwL3E3QUZnT3l5RS9H?=
+ =?utf-8?B?SFRRcy93RkxCLytjVXJvMDJveU1sdjlTRSs5SUhpZEQxY1NobGJLbnJmNXl6?=
+ =?utf-8?B?eFBrcGlPMFFPY0Z3S3FYTnZyKzZUN1Q5VzBYcmoyWXRNazdNbWcwQzU2S3Ry?=
+ =?utf-8?B?TTR3Y3Ayd2NoK1B3VTVsWE5hbjJUNTBwc21qK21lQ0ZvS2lDSlZRSThTa3Nr?=
+ =?utf-8?B?VXpiaHVJVFMybVNmbWJkaE1OVE1nVHlXMDF2b0lCY002bVVZbVhSLzQ0eVFw?=
+ =?utf-8?B?Z0E0RkNKWU1wUXZGdXJSRXh3Um1XRld3MVp3OStDM05tN3d0U0V3bW5CQ2Z2?=
+ =?utf-8?B?L0RnSVdycStkQUdmaWJVYVA3N1BlZEhLSXJySXd2V1lJbkl0NGpyZncrVnNX?=
+ =?utf-8?B?b0kyRmVHSVd0Mm94ZzVZSWJFbHpYb2pwclpVTXdBMEovQ28xUWIybjlNWk9i?=
+ =?utf-8?B?QUd5SnNkZXc4TWx1K2lHS29ock0yTkpwR1NBRkFwZWJWbG1YeERpa2tQc0d1?=
+ =?utf-8?B?TEdRS242eldONWJsbTM5M2RsMFhBKzVBRWdkNjVlaCtaalZYRFdBbU9KNldH?=
+ =?utf-8?B?SkNuRUVmUzNlM1lZT2Rkcmd1ZzhKbENVOWZIRGdTRm5QUkxmV20yQkhiallx?=
+ =?utf-8?B?K1RENlQxd0RUOU1zNnJycFA2UHdhWHJUSUlMSXgrblY4emxXa2FOb0hDb3lF?=
+ =?utf-8?B?Nkp1NWxLTUF1OEljeFVhOFdEN2UyTEs1TVoyQVdTdFJnTEtOSmpUTTh0bnBI?=
+ =?utf-8?B?Y1BtQ1hJSTVDWnkrQURyQ3B5Sk5mcEJaV01qYU9HclRHaHRZNjlydjV0azlQ?=
+ =?utf-8?B?RURMTXI0YThzZkYweldER0ZlR2daTVpvdklCdVUyaVlUanJMMFZkTzU2NXIx?=
+ =?utf-8?B?MnFZNVlYcXBUVmlUY1A0bk9ETmtsKzVSWWdmTjhSbk1kYll4TmMrcWVnQ3p1?=
+ =?utf-8?B?a2d5SWQ4NzNvTHo0VGVhUm04cjdRZmhIbWtPSHZqK1IwSEVqellOb3B6VHA4?=
+ =?utf-8?B?VUpLSmxSbExrZ0QvK0NhM1VGK1FnOUgyODA3STNVUnVTWk1XTzlsYzB4VEJG?=
+ =?utf-8?B?VnVuNVd6Nmt0dXhxRnR1Z3d4cGUrUmpJTkhEMGJIQmQ0YWJ4b1hHZUNRTVNq?=
+ =?utf-8?B?Mkxma1lQNzliVEpTdDV6d2draU1MQk1yYm1jeXhjdHEwdXVQMkwydmhuRC82?=
+ =?utf-8?B?Rk0xOHorRmZvYkJzZDNEOHAvVEk1dVU5QmhpZm0yeUttaHgrYVFMOStMQ0VM?=
+ =?utf-8?B?Z0ZZNmFhdXBWK2Zpb3ZsSkdrLzNBUkxGdElhRktEL1YrVllvTUo0NlB4RWhv?=
+ =?utf-8?B?VGNiZU5YMXd3VWg3QVhZL1pqdzc1cXNqSVhMQ3BSOXNhaHZyM2VncnUwQkhp?=
+ =?utf-8?B?bWdiZERISW1MYVFZL2lQTXNYSWVwUjFVd2xoZkpvUE1EdVRZM0xGbnhFekJy?=
+ =?utf-8?B?ZW83czJmYVpVcEtseVgyY2xCZlI3aHpEWm56N2xyR1Yway9QUnRPQ1ZLaER4?=
+ =?utf-8?B?MDIrSjJrWG9aWHQ0WGx1S3hPSEhyV0JnZGZKUlFhVDAwdDQ0Q1BKTEZRQXg2?=
+ =?utf-8?B?dHBwcTFPblpuMzF2ckpteGRHbjNPc0hVeG9pd2NoZFBVN2JpcWd5eUdubzdu?=
+ =?utf-8?B?VzlpUDI3WEI1WmYzOFNBUzM4Q284bkt5WVlyNlVPMUVkVElhMUkwVnVwc0dH?=
+ =?utf-8?B?dGpDSHFnTzZVWFl1NG1IUmUxeEVKM3ZCaVdFNmpwcDByZ005YXdLZXd0ak9o?=
+ =?utf-8?B?ZXhGYThIUVBJZUxBQytQTG1STHJBamc0QUlUTmp0SmZMUENqY0V5K0lUYnVH?=
+ =?utf-8?B?bkE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4503EEF3D4CE8D47BB86588276E9D230@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?amRPTG9mMW9aN1FkdzRYUWgycm5TNXZlUnlKTUdwT3hYWWl4QnlSa0lkT3Vu?=
+ =?utf-8?B?aHlMK000REJVTjJySnlQK0lZczJZUWZPbGpiZEVWZHVLOEF3S0x5dHJoSUlN?=
+ =?utf-8?B?OFRJcVRNZUE4ZDJ3ZzV6Nm5iSXI4Z1RMNTBUSFVpSEVuZk9Pdm0zcU5Zb3ow?=
+ =?utf-8?B?cUhsYVIxK0ltNlEreXkxRlZxTHlvMis5aWZVMnMraERpMkE2UWU4aEp4K0lP?=
+ =?utf-8?B?ckVoUFBnY3lxYVNJWWNxU0dyekN3YVNJSVNERlgwMGNlN0pYN2pOVm10V2pZ?=
+ =?utf-8?B?RWN4cktTOEd2Z1JzUjZGeW1STVVIdzJTbVlhcEU4VldtdHRZWCtFYlIzbHNs?=
+ =?utf-8?B?Mm5Fb2RxZ3dIYmtMS2N4a2k5Rzd6R2h5bGVOY2w1WGlrUWtMWXNzSy9sTVFy?=
+ =?utf-8?B?QVkzdXRUU3lJOE02NEx2TzdwcmtuUEYvL2tnTjlScUJsb1A3M3I1b3RDcDBN?=
+ =?utf-8?B?NTVLaHVmanR4elZUV1VhbjUvN1ZpT0lQTi9zNmNsSXk1anZaWGtBUU5YVXNG?=
+ =?utf-8?B?b3RsQmR3QXhKNlFsOC9sMUFHeDBESk5VczVEejVLVENaTjZVTTdiZVV6R2R4?=
+ =?utf-8?B?V2FCWUduRmhlRXFxcU1oc1c3TmtMR3VkYTVHWE5uM0t2dGJsM3ladUtaWVRC?=
+ =?utf-8?B?UkpISUVERzhUbjJuNVk3M0RoZXVtc1RkbGlNaGlYcTNvZTg0K1RROEZWbVN3?=
+ =?utf-8?B?dWJ0RGJtWXBnWDZta1YwQmlMTmtkY0RsT1ZnTklyeExnU0JJbFp0RTJEcStX?=
+ =?utf-8?B?aUZaamtSRTB1Mk5ES1ZJdVdlNmtBSWJDTFZ1SEVwVDl2Q0VBSWJmeld5TE1s?=
+ =?utf-8?B?NHB3Ulo3aWlJQW9UZWlKMVNjZHpyUEFzMmFRTC9qWWJMVGFQYXlBTmp0YjJu?=
+ =?utf-8?B?QUMvQWZjNDFxNUNmMi8wZjJ3cTdxN2o0U2NoeVRYVlNta0RScDVjRXRFWm9k?=
+ =?utf-8?B?UTlMeTBvc1JoSG1IZ2FrTjQ0alNYOUNhN1F5R2RhWWFET3NTQTZTSFlMMThJ?=
+ =?utf-8?B?SzczcUNDL0dmLzVUQVlYRCtNMFgrL2YzUkYrZnVGN1lHU0pucFNVdTlrNHJu?=
+ =?utf-8?B?bm5ramhCWGVFVmFJYll3djExOU8vOUtXaTZXb2tNRklQV2RCVTFDNU1qZkZ4?=
+ =?utf-8?B?VTVMcVNvY1FRN3FBNUVEa09WeEd3ZTRpdGFIVFpKQTVoZVNFK1c3MDRoUFRa?=
+ =?utf-8?B?NnRoWGJKcEc1cDNIZ1J6d0hTOVRvQzJ6ZEdOSSs2dE5jdGVkVUo5RWI3LzZB?=
+ =?utf-8?B?akFxbEw3eXRlSG4rYzZlSm1sdE03SG96b1BsamZaL1M4Ui9Udz09?=
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB4787.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0175d377-8fe0-49c0-81e8-08dafb54f4ae
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jan 2023 02:12:32.6779
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qYsAaZaX39SND19ZVNx4qGE/MS72QKROc4EkKrEtv//9DpbzoI80ehcZS+bqtfF3X2PXGkKbRaYKiiikNnDgXg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6538
+X-Proofpoint-ORIG-GUID: 3yK_v3M47-gCzgJ6WX3S8m6Zu3jo8DpE
+X-Proofpoint-GUID: 3yK_v3M47-gCzgJ6WX3S8m6Zu3jo8DpE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-01-20_13,2023-01-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 spamscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
- adultscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301210019
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
+ phishscore=0 impostorscore=0 bulkscore=0 clxscore=1015 mlxlogscore=759
+ spamscore=0 adultscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
+ mlxscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2301210019
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
-
-On 1/21/2023 4:14 AM, Thinh Nguyen wrote:
-> On Fri, Jan 20, 2023, Krishna Kurapati PSSNV wrote:
->>
->>
->> On 1/20/2023 6:32 AM, Thinh Nguyen wrote:
->>> Hi,
->>>
->>> On Thu, Jan 19, 2023, Krishna Kurapati PSSNV wrote:
->>>>
->>>>
->>>> On 1/19/2023 6:06 AM, Thinh Nguyen wrote:
->>>>> Hi,
->>>>>
->>>>> On Sun, Jan 15, 2023, Krishna Kurapati wrote:
->>>>>> Currently the DWC3 driver supports only single port controller
->>>>>> which requires at most one HS and one SS PHY.
->>>>>
->>>>> Add note here that multi-port is for host mode for clarity.
->>>>>
->>>>>>
->>>>>> But the DWC3 USB controller can be connected to multiple ports and
->>>>>> each port can have their own PHYs. Each port of the multiport
->>>>>> controller can either be HS+SS capable or HS only capable
->>>>>> Proper quantification of them is required to modify GUSB2PHYCFG
->>>>>> and GUSB3PIPECTL registers appropriately.
->>>>>>
->>>>>> Add support for detecting, obtaining and configuring phy's supported
->>>>>> by a multiport controller and limit the max number of ports
->>>>>> supported to 4.
->>>>>>
->>>>>> Signed-off-by: Harsh Agarwal <quic_harshq@quicinc.com>
->>>>>> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
->>>>>> ---
->>>>>>     drivers/usb/dwc3/core.c | 304 +++++++++++++++++++++++++++++-----------
->>>>>>     drivers/usb/dwc3/core.h |  15 +-
->>>>>>     drivers/usb/dwc3/drd.c  |  14 +-
->>>>>>     3 files changed, 244 insertions(+), 89 deletions(-)
->>>>>>
->>>
->>> <snip>
->>>
->>>>>> @@ -1575,6 +1690,21 @@ static void dwc3_get_properties(struct dwc3 *dwc)
->>>>>>     	dwc->dis_split_quirk = device_property_read_bool(dev,
->>>>>>     				"snps,dis-split-quirk");
->>>>>> +
->>>>>> +	/*
->>>>>> +	 * If no mulitport properties are defined, default
->>>>>
->>>>> multi*
->>>>>
->>>>>> +	 * the port count to '1'.
->>>>>> +	 */
->>>>>
->>>>> Can we initialize num_ports and num_ss_ports to 1 instead of setting it
->>>>> on error (similar to how we handle other properties).
->>>>>
->>>> Hi Thinh,
->>>>
->>>>     Thanks for the review. On the bindings, Rob and Krzysztof have suggested
->>>> to get the num-ports and num-ss-ports by counting the Phy-names in DT.
->>>
->>> This may be a bit problematic for non-DT device. Currently pci devices
->>> pass fake DT properties to send these kinds of info. But that's fine,
->>> we can enhance dwc3 for non-DT devices later.
->>>
->>>>
->>>> Since there may be many cases where the user might skip giving any Phy's or
->>>> even skip different ports in the DT if he doesn't want to use them, can we
->>>> design/refactor the below logic as follows while mandating the fact that
->>>> user must give the SS Phy's if any starting from Port-0.:
->>>>
->>>> num-ss-ports = max_port_index (usb3-portX) + 1
->>>> num-ports = max (max_port_index(usb2-portX), num-ss-ports) + 1
->>>>
->>>> Ex: If there are 3 ports and only 1 is SS capable and user decides to skip
->>>> port-2 HS Phy.
->>>>
->>>> case-1: phy-names = "usb2-port0", "usb3-port0", "usb2-port-1"
->>>> case-2: phy-names = "usb2-port0", "usb2-port-1", "usb3-port1"
->>>>
->>>> In both cases, only one SS is present, just the order is changed. (Not sure
->>>> if last few ports can be made SS Capable instead of the first ports on any
->>>> HW) ?
->>>>
->>>> But according to the above formula:
->>>>
->>>> In case-1 : (num-ports = 2, num-ss-ports = 1) - This is correct
->>>> In case-2: (num-ports = 2, num-ss-ports = 2) - This is wrong
->>>>
->>>
->>> Can't we just walk through all the phy names to figure that out? Let's
->>> not require the user to specify Port-0 is SS capable if they can skip
->>> it.
->>>
->> Hi Thinh,
->>
->> Thanks for the review.
->>
->>    May be I wasn't able to convey my intention properly in my previous
->> thread. The above suggested method doesn't tell that user must not skip any
->> phy.
->>
->> Let us take the below case for 2 Port (HS+SS) capable controller.
->> If the user skips ss-phy 2, then:
->>
->> phy-names = "usb2-port0", "usb3-port0", "usb2-port-1"
->>
->> We don't need to configure GUSB3PIPECTL2 (for port-2) register ere. If we
->> parse phy-names and find it out, we see there are 2 hs-phy's and 1-ssphy and
->> num-ports = 2 and num-ss-ports = 1.
->>
->> If the user skips ss-phy-1, then phy-names would be something like the
->> below:
->>
->> phy-names = "usb2-port0", "usb2-port-1",  "usb3-port1";
->>
->> We need to handle two types of interpretations here while parsing the
->> phy-names:
->>
->> a) There are 2 SS Phy's and we just skipped the first one. In this scenario,
->> if we consider (num-ss-ports = 2) and (num-ports = 2) by using the above
->> formula as reference, we configure both GUSB3PIPECTL registers present in
->> the address map although we never use SS Phy-1 but nothing must break. All
->> ports would still work as the user intends with the exception of
->> GUSB3PIPECTL1 (for-port1) still being modified.
->>
->> b) The second interpretation is something like, port-1 is only HS capable
->> and only Port-2 is SS Capable, and so in the phy-names only port-2 has been
->> provided a SS Phy. Just by parsing through the phy-names, it would not be
->> possible to get that info. So if we consider num-ss-ports as 2 in this
->> scenario, we end up meddling with wrong registers (as there is only 1
->> GUSB3PIPECTL reg and we are assuing there are 2). I wanted to make sure that
->> this scenario was not possible.
->>
->> num-ss-ports = max_port_index (usb3-portX) + 1
->> num-ports = max (max_port_index(usb2-portX), max_port_index(usb2-portX)) + 1
->>
->> Taking case of a quad port controller with all ports SS Capable, if the user
->> wants to completely skip port-4. Then with above formula, we get (num-ports
->> = 3) and (num-ss-ports = 3) by parsing the phy-names and we will configure
->> exactly those dwc3-phy registers and not touch the port-4 registers which is
->> still fine.
->>
->> Please let me know if the above idea helps us in this scenario.
->>
-> 
-> This becomes rather more complicated because the user can skip certain
-> port in the DT. We have access to the host registers. Can we just
-> temporarily map and access HCSPARAMS1 to get the MAXPORTS and each port
-> capability before handing control over to the xHCI driver. We would be
-> able to get the num_ports and num_ss_ports then.
-> 
-> Similarly, the xhci driver doesn't care whether the user skips certain
-> port in the DT, it only checks and operates based on the capability
-> registers.
-> 
-> If we have the exact num_ports and num_ss_ports, we can be sure the
-> setting to GUSB3PIPECTLn and GUSB2PHYCFGn are valid.
-> 
-Hi Thinh,
-
-Thanks for the review.
-Sure, I can explore this option and get the port info. This must make 
-things easier.
-
-Regards,
-Krishna,
+T24gRnJpLCBKYW4gMjAsIDIwMjMsIEFsYW4gU3Rlcm4gd3JvdGU6DQo+IE9uIFNhdCwgSmFuIDIx
+LCAyMDIzIGF0IDAyOjAyOjM2QU0gKzAwMDAsIFRoaW5oIE5ndXllbiB3cm90ZToNCj4gPiBPbiBG
+cmksIEphbiAyMCwgMjAyMywgQWxhbiBTdGVybiB3cm90ZToNCj4gPiA+IEEgVURDIGRlc2lnbiBt
+aWdodCBoYXZlIG11bHRpcGxlIHZlcnNpb25zLCBzb21lIHN1cHBvcnRpbmcgcmVtb3RlIHdha2V1
+cCANCj4gPiA+IGFuZCBvdGhlcnMgbm90LiAgQnV0IGRyaXZlcnMgZ2VuZXJhbGx5IHVzZSBhIHNp
+bmdsZSBzdGF0aWMgDQo+ID4gPiB1c2JfZ2FkZ2V0X29wcyBzdHJ1Y3R1cmUsIGFuZCB0aGV5IGRv
+bid0IG1vZGlmeSBpdCBhdCBydW50aW1lIHRvIGFjY291bnQgDQo+ID4gPiBmb3IgaGFyZHdhcmUg
+ZGlmZmVyZW5jZXMuICBTbyBpZiBhIHNpbmdsZSBkcml2ZXIgY29udHJvbHMgdGhvc2UgbXVsdGlw
+bGUgDQo+ID4gPiB2ZXJzaW9ucywgeW91IGNhbid0IHJlbHkgb24gdGhlIHByZXNlbmNlIG9mIGdh
+ZGdldC0+b3BzLT53YWtldXAgdG8gDQo+ID4gPiBpbmRpY2F0ZSB3aGV0aGVyIHRoZXJlIGFjdHVh
+bGx5IGlzIGhhcmR3YXJlIHJlbW90ZSB3YWtldXAgc3VwcG9ydC4NCj4gPiA+IA0KPiA+ID4gSWRl
+YWxseSwgdGhlIHVzYl9nYWRnZXQgc3RydWN0dXJlIHNob3VsZCBoYXZlIGEgd2FrZXVwX2NhcGFi
+bGUgZmxhZyANCj4gPiA+IHdoaWNoIHRoZSBVREMgZHJpdmVyIHdvdWxkIHNldCBhcHByb3ByaWF0
+ZWx5IChwcm9iYWJseSBkdXJpbmcgaXRzIHByb2JlIA0KPiA+ID4gcm91dGluZSkuDQo+ID4gPiAN
+Cj4gPiANCj4gPiBJIHdhcyB0aGlua2luZyB0aGF0IGl0IGNhbiBiZSBoYW5kbGVkIGJ5IHRoZQ0K
+PiA+IHVzYl9nYWRnZXRfZW5hYmxlX3JlbW90ZV93YWtldXAoKSBzbyB3ZSBjYW4gZG8gYXdheSB3
+aXRoIHRoZQ0KPiA+IHdha2V1cF9jYXBhYmxlIGZsYWcuDQo+IA0KPiB1c2JfZ2FkZ2V0X2VuYWJs
+ZV9yZW1vdGVfd2FrZXVwKCkgZ2V0cyBjYWxsZWQgd2hlbiB0aGUgZ2FkZ2V0IG9yIA0KPiBmdW5j
+dGlvbiBpcyBzdXNwZW5kZWQsIHJpZ2h0PyAgQnV0IGEgZ2FkZ2V0IGRyaXZlciBtYXkgd2FudCB0
+byBrbm93IGxvbmcgDQo+IGJlZm9yZSB0aGF0IHdoZXRoZXIgdGhlIFVEQyBzdXBwb3J0cyByZW1v
+dGUgd2FrZXVwLCBpbiBvcmRlciB0byBzZXQgdXAgDQo+IGl0cyBjb25maWcgZGVzY3JpcHRvciBj
+b3JyZWN0bHkuDQo+IA0KDQpObywgdGhpcyBpcyB0byBiZSBjYWxsZWQgZHVyaW5nIHNldCBjb25m
+aWd1cmF0aW9uLiBJZiB0aGUgY29uZmlndXJhdGlvbg0KZG9lc24ndCBzdXBwb3J0IHJlbW90ZSB3
+YWtldXAsIHRoZSBkZXZpY2Ugc2hvdWxkIG5vdCBiZSBhYmxlIHRvIHNlbmQNCnJlbW90ZSB3YWtl
+dXAuDQoNCkJSLA0KVGhpbmg=
