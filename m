@@ -2,125 +2,102 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F820C38142
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Jan 2023 09:09:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FBA8C25B4E
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Jan 2023 09:12:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233119AbjAXJJI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Jan 2023 04:09:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44258 "EHLO
+        id S232517AbjAXJMU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Jan 2023 04:12:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232827AbjAXJJG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Jan 2023 04:09:06 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6FE33A85A
-        for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 01:09:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674551345; x=1706087345;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=LEHelsAi7XkgV18EkkVKHefJtHLvN2IdJSffJIEWRbk=;
-  b=ebEKDC8GjvxtXsPttcXBOQYJPepdJdANzIoR/pz/YKpWcM73KNo2E+Hz
-   BsN+6qxoeikG4/f3tihs5X2EbNM/4ZQQqJUM9GzS/jDxA8y/zVo3gPKsA
-   UyKrQHp6sty3qDfRbbhxLPOpzSXaEiD6xZSeaV/omHBL6ZL3YS+7TuS3M
-   o4DVLSAEhL3MB7KMYVISj01Y47VqtjqwZufwAnoDFfh9Dn+Snt1QM9iMN
-   aXya32k4VY+0kzwAmto4wfXv1Jt5pcKnaRWfVD9oVlDGSifrpsrnEXuWD
-   d2kz7qVaNHl/20wNqckWLM/8xMlMu/18SrjjK8aA4yJlpw8/nZpBYvMmW
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="327511725"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="327511725"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 01:09:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="639510354"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="639510354"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga006.jf.intel.com with ESMTP; 24 Jan 2023 01:09:03 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 44FE0154; Tue, 24 Jan 2023 11:09:39 +0200 (EET)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 1/2] thunderbolt: Handle bandwidth allocation mode enablement notification
-Date:   Tue, 24 Jan 2023 11:09:37 +0200
-Message-Id: <20230124090938.58825-1-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.39.0
+        with ESMTP id S229665AbjAXJMT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Jan 2023 04:12:19 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7D293A58C
+        for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 01:12:18 -0800 (PST)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30O8QPYe009574;
+        Tue, 24 Jan 2023 09:12:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=X34eg9PS3FZaVDzRtl3Htnoh2ygXcmFZnnC4luSEzP4=;
+ b=fCaOn0TdyGzB0W8ifnvftfhf6P2OL+DGKkib/Miq222DWNOgc53DGIR/cJKrv6YWMddg
+ 5GyflxUBIKxA/zx91FouYDqCHT/VEVl5SUOWXojqwKiB08I34vJwFHLIlX7Jqvb0kg1U
+ r6CCOwpG7B/TYd3NJDTCNRIACSaTc6pmTOk3nF+Rycf7LW/Rno6cYeoTJZs2DBaQLdRY
+ xWmKT8+lTcgsvzrme9J7+9h8vHTep2wwNTL6nuNzkAcixlTCI3gi5Ufo+yigdu85K557
+ 3er0daDFujalRUbuVbvud6SxGT5PXZOAjmxu/x35teTKwj5tC2uWkkGHwzZC15B/lB5+ RQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n89htvkn8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 24 Jan 2023 09:12:12 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30O9CBHP002373
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 24 Jan 2023 09:12:11 GMT
+Received: from hu-ugoswami-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Tue, 24 Jan 2023 01:12:09 -0800
+From:   Udipto Goswami <quic_ugoswami@quicinc.com>
+To:     John Keeping <john@metanate.com>,
+        Dan Carpenter <error27@gmail.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>
+CC:     Pratham Pratap <quic_ppratap@quicinc.com>,
+        Udipto Goswami <quic_ugoswami@quicinc.com>
+Subject: [PATCH] usb: gadget: f_fs: Fix unbalanced spinlock in  __ffs_ep0_queue_wait
+Date:   Tue, 24 Jan 2023 14:41:49 +0530
+Message-ID: <20230124091149.18647-1-quic_ugoswami@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: pVltGfigaBcz2NEMm2x3bmXS-4I6ZeXw
+X-Proofpoint-GUID: pVltGfigaBcz2NEMm2x3bmXS-4I6ZeXw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-23_12,2023-01-23_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 lowpriorityscore=0 mlxscore=0 malwarescore=0 bulkscore=0
+ impostorscore=0 mlxlogscore=616 suspectscore=0 clxscore=1011 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301240083
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When the graphics side enables bandwidth allocation mode the DP IN
-adapter sends notification to the connection manager about this.
-Currently the handler misses this and tries to allocate 0 Mb/s that then
-makes the graphics side to think the request failed.
+__ffs_ep0_queue_wait executes holding the spinlock of &ffs->ev.waitq.lock
+and unlocks it after the assignments to usb_request are done.
+However in the code if the request is already NULL we bail out returning
+-EINVAL but never unlocked the spinlock.
 
-Fix this by properly handling the enablement notification.
+Fix this by adding spin_unlock_irq &ffs->ev.waitq.lock before returning.
 
-Fixes: 6ce3563520be ("thunderbolt: Add support for DisplayPort bandwidth allocation mode")
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Fixes: 6a19da111057("usb: gadget: f_fs: Prevent race during ffs_ep0_queue_wait")
+Signed-off-by: Udipto Goswami <quic_ugoswami@quicinc.com>
 ---
- drivers/thunderbolt/tb.c   | 10 +++++++---
- drivers/thunderbolt/usb4.c |  7 ++++---
- 2 files changed, 11 insertions(+), 6 deletions(-)
+ drivers/usb/gadget/function/f_fs.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 0b891d749a96..7bfbc9ca9ba4 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -1756,11 +1756,15 @@ static void tb_handle_dp_bandwidth_request(struct work_struct *work)
- 		goto unlock;
- 	}
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 523a961b910b..8ad354741380 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -279,8 +279,10 @@ static int __ffs_ep0_queue_wait(struct ffs_data *ffs, char *data, size_t len)
+ 	struct usb_request *req = ffs->ep0req;
+ 	int ret;
  
--	requested_bw = usb4_dp_port_requested_bw(in);
--	if (requested_bw < 0) {
--		tb_port_dbg(in, "no bandwidth request active\n");
-+	ret = usb4_dp_port_requested_bw(in);
-+	if (ret < 0) {
-+		if (ret == -ENODATA)
-+			tb_port_dbg(in, "no bandwidth request active\n");
-+		else
-+			tb_port_warn(in, "failed to read requested bandwidth\n");
- 		goto unlock;
- 	}
-+	requested_bw = ret;
+-	if (!req)
++	if (!req) {
++		spin_unlock_irq(&ffs->ev.waitq.lock);
+ 		return -EINVAL;
++	}
  
- 	tb_port_dbg(in, "requested bandwidth %d Mb/s\n", requested_bw);
+ 	req->zero     = len < le16_to_cpu(ffs->ev.setup.wLength);
  
-diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
-index 2a9266fb5c0f..1e5e9c147a31 100644
---- a/drivers/thunderbolt/usb4.c
-+++ b/drivers/thunderbolt/usb4.c
-@@ -2732,7 +2732,8 @@ int usb4_dp_port_allocate_bw(struct tb_port *port, int bw)
-  * Reads the DPCD (graphics driver) requested bandwidth and returns it
-  * in Mb/s. Takes the programmed granularity into account. In case of
-  * error returns negative errno. Specifically returns %-EOPNOTSUPP if
-- * the adapter does not support bandwidth allocation mode.
-+ * the adapter does not support bandwidth allocation mode, and %ENODATA
-+ * if there is no active bandwidth request from the graphics driver.
-  */
- int usb4_dp_port_requested_bw(struct tb_port *port)
- {
-@@ -2750,10 +2751,10 @@ int usb4_dp_port_requested_bw(struct tb_port *port)
- 	ret = tb_port_read(port, &val, TB_CFG_PORT,
- 			   port->cap_adap + ADP_DP_CS_8, 1);
- 	if (ret)
--		return 0;
-+		return ret;
- 
- 	if (!(val & ADP_DP_CS_8_DR))
--		return 0;
-+		return -ENODATA;
- 
- 	return (val & ADP_DP_CS_8_REQUESTED_BW_MASK) * granularity;
- }
 -- 
-2.39.0
+2.17.1
 
