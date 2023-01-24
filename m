@@ -2,113 +2,106 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54A26C38142
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Jan 2023 08:31:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9A8CC25B4E
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Jan 2023 09:09:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232918AbjAXIb3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Jan 2023 03:31:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52778 "EHLO
+        id S233072AbjAXJJI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Jan 2023 04:09:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232375AbjAXIb2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Jan 2023 03:31:28 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D6FC2CFC4
-        for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 00:31:27 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id r2so13075087wrv.7
-        for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 00:31:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=f9Z9xi4UTxKaj+2qIiteZ1vsHGIiq2RmA3CHBGm/Ijc=;
-        b=cXk9zSCJehPS/3cLtcWSeyGTZPpC4fQPdptDYqWVuC0YeJRVKpmH/1Hplwr4KlYLh2
-         8ptX7fsA935CbY7CoQvFwI5Wu6ZJRCZzqkV5YG3aLStRFASzQLAR7+WlwcaM6Zc9c68U
-         eFvXpfVvIxFVNXGNI/p9Ceadqi0Vyl/pJvd5pzFhLJljoBOkt0S0o6r8UngOaKcg07G4
-         PAHbuvQUnBaX0zJUXTdRSw1hkmFb26Us0qNARCiebVeku8qeGjjd7rirkNxq2Q81q7aK
-         QWLjwCD4INLpjWKGG4KH1Qt00MpDOq+hNUyIu5hXRpxMN6gW7g7XrVposCLSh8amd47N
-         Mw1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f9Z9xi4UTxKaj+2qIiteZ1vsHGIiq2RmA3CHBGm/Ijc=;
-        b=f2nSP5PEUOLYik8TO+J8TSzx8mt/9LDSdkJ93KN3kIqKXRVoRPsRLnBnCCM8jat8Nj
-         iashIix/T7vLuMo5tHZ8d7f3mAE0cbNsC5HKHypukWt3qexfeN7tdfIdrMoY/gRqggqX
-         S8J1lndybdexqQhIucGbdRptpkfK/SrDrBEto0gr/93TwQaJXdt2fTK0K8gk3rtZ0AQ5
-         7a8Nnl4pZcaI6dzNx6+3QV8OCXlsVjsBur6gw75SLfmvr2fsU2Ka9z7TJ9NUMEyhsV0x
-         HGlrOLQMksOaYoVTgCIzK/JbLHUJq4N69IFB/toVO7aOq89xeMtJo2Ju6DxFNJ6lhVb5
-         bs8w==
-X-Gm-Message-State: AFqh2kpvDhP2Vc0VitlB8ysabgGzXbIxugbC8h8ajEGx/ZcwQvwjGQB0
-        YBS5JCkRgNQlCZAOHbsMprwsXw==
-X-Google-Smtp-Source: AMrXdXtQieMXAkBWAxi42JWZB4VtxtqkgdhtpdjC/SK4cZnolNIVwb2oQwvJEuXZAFXbNUrwJt7VjQ==
-X-Received: by 2002:a5d:6b07:0:b0:236:695b:82d4 with SMTP id v7-20020a5d6b07000000b00236695b82d4mr21887459wrw.30.1674549086005;
-        Tue, 24 Jan 2023 00:31:26 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id o2-20020a5d6842000000b002be5401ef5fsm1312291wrw.39.2023.01.24.00.31.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 00:31:25 -0800 (PST)
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Tue, 24 Jan 2023 09:31:21 +0100
-Subject: [PATCH v2] usb: dwc3: qcom: enable vbus override when in OTG
- dr-mode
+        with ESMTP id S229572AbjAXJJG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Jan 2023 04:09:06 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6F593A58C
+        for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 01:09:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674551345; x=1706087345;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=sR/UIsgyhorIod1gaBRPoonyQRpHm9pr3tdaMep3yjs=;
+  b=PZbQeCN55cu1tWjeVQXxLQWFDZDTzMKT3X/NjDmo3eC7pMnHGCgJDta7
+   s+4mS8LMTP1zYowRmIX3ggVYNuEKiq15sQjcbr2WObrRXuDBIqdZpkEbu
+   o8j4rGSA1SHVnRaNcoRVsWsSwYf6cyvIhLplHtA7v2wR9pjzrAGKsfnzY
+   fj/4xxreSeXYSHJYClphKlW65y6oehWCXCLNg0G3+yBs0vLInXJouuRdU
+   bSACnBN3CJzQPJKENtNwn9GfVzhHyOaLe1yXkyYmNTe7zvLG52/0M5IlG
+   3EjwKhslRuWK/D01Aa5ynsxwVLILYxyiQgsicU0NRVsV6nhZTVcp2c3An
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="306608118"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
+   d="scan'208";a="306608118"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 01:09:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="692521277"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
+   d="scan'208";a="692521277"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga008.jf.intel.com with ESMTP; 24 Jan 2023 01:09:03 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 4E6A5144; Tue, 24 Jan 2023 11:09:39 +0200 (EET)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 2/2] thunderbolt: Add missing kernel-doc comment to tb_tunnel_maximum_bandwidth()
+Date:   Tue, 24 Jan 2023 11:09:38 +0200
+Message-Id: <20230124090938.58825-2-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230124090938.58825-1-mika.westerberg@linux.intel.com>
+References: <20230124090938.58825-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230123-topic-sm8550-upstream-dwc3-qcom-otg-v2-1-2d400e598463@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAFiXz2MC/5WOQQ6CMBBFr2K6dgwtEKor72FYDGWAJtDitKCGc
- HcrN3D53uK/v4lAbCmI22kTTKsN1rsE6nwSZkDXE9g2sVCZyjOpcoh+tgbCpMsyg2UOkQknaF8
- mh6fxE/jYg5bVtSSUhW4bkZYaDAQNozND2nLLOCY5M3X2faQfdeLBhuj5czxZ5c/+F10lSCClK
- yykRiy7+2gdsr947kW97/sXSWw8WewAAAA=
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.12.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-With vbus override enabled when in OTG dr_mode, Host<->Peripheral
-switch now works on SM8550, otherwise the DWC3 seems to be stuck
-in Host mode only.
+These were missing from the original commit so add them now. No
+functional changes.
 
-Fixes: a4333c3a6ba9 ("usb: dwc3: Add Qualcomm DWC3 glue driver")
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
-Changes in v2:
-- Added Bryan's reviewed-by
-- Added Fixes tag
-- Link to v1: https://lore.kernel.org/r/20230123-topic-sm8550-upstream-dwc3-qcom-otg-v1-1-e287a418aa5f@linaro.org
----
- drivers/usb/dwc3/dwc3-qcom.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/thunderbolt/tunnel.c | 10 ++++++++++
+ drivers/thunderbolt/tunnel.h |  2 +-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index b0a0351d2d8b..959fc925ca7c 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -901,7 +901,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	qcom->mode = usb_get_dr_mode(&qcom->dwc3->dev);
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index c406675a8966..8af9397f272e 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -2081,6 +2081,16 @@ static bool tb_tunnel_is_active(const struct tb_tunnel *tunnel)
+ 	return true;
+ }
  
- 	/* enable vbus override for device mode */
--	if (qcom->mode == USB_DR_MODE_PERIPHERAL)
-+	if (qcom->mode != USB_DR_MODE_HOST)
- 		dwc3_qcom_vbus_override_enable(qcom, true);
- 
- 	/* register extcon to override sw_vbus on Vbus change later */
-
----
-base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
-change-id: 20230123-topic-sm8550-upstream-dwc3-qcom-otg-81795ea148db
-
-Best regards,
++/**
++ * tb_tunnel_maximum_bandwidth() - Return maximum possible bandwidth
++ * @tunnel: Tunnel to check
++ * @max_up: Maximum upstream bandwidth in Mb/s
++ * @max_down: Maximum upstream bandwidth in Mb/s
++ *
++ * Returns maximum possible bandwidth this tunnel can go if not limited
++ * by other bandwidth clients. If the tunnel does not support this
++ * returns %-EOPNOTSUPP.
++ */
+ int tb_tunnel_maximum_bandwidth(struct tb_tunnel *tunnel, int *max_up,
+ 				int *max_down)
+ {
+diff --git a/drivers/thunderbolt/tunnel.h b/drivers/thunderbolt/tunnel.h
+index d7bbdf8c8186..bf690f7beeee 100644
+--- a/drivers/thunderbolt/tunnel.h
++++ b/drivers/thunderbolt/tunnel.h
+@@ -29,7 +29,7 @@ enum tb_tunnel_type {
+  * @init: Optional tunnel specific initialization
+  * @deinit: Optional tunnel specific de-initialization
+  * @activate: Optional tunnel specific activation/deactivation
+- * @maximum_bandwidth:
++ * @maximum_bandwidth: Returns maximum possible bandwidth for this tunnel
+  * @allocated_bandwidth: Return how much bandwidth is allocated for the tunnel
+  * @alloc_bandwidth: Change tunnel bandwidth allocation
+  * @consumed_bandwidth: Return how much bandwidth the tunnel consumes
 -- 
-Neil Armstrong <neil.armstrong@linaro.org>
+2.39.0
 
