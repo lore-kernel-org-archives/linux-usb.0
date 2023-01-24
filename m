@@ -2,135 +2,105 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3840C25B4E
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Jan 2023 14:41:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C7AC25B4E
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Jan 2023 15:18:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234450AbjAXOlj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Jan 2023 09:41:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53590 "EHLO
+        id S233949AbjAXPSA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Jan 2023 10:18:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234693AbjAXOlg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Jan 2023 09:41:36 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EDAD49552;
-        Tue, 24 Jan 2023 06:41:33 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id z1-20020a17090a66c100b00226f05b9595so14249656pjl.0;
-        Tue, 24 Jan 2023 06:41:33 -0800 (PST)
+        with ESMTP id S234471AbjAXPR6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Jan 2023 10:17:58 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41A5865B1
+        for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 07:17:52 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id bk16so14196987wrb.11
+        for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 07:17:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Hq3YLnLVdkwJ+hnndTnVXYO2IvsFe7R/GdMhEuzT5j4=;
-        b=qMpHIwatJI7zt7K0Oj5YJJtNre1MxSkLAvexCvRqP0sIGGVEuxDWUkXxM2h8INC6++
-         400E9rHBOh8w+sa3EX4PJ5/lnt5rrnU0oBvBK9XrMdsKyVWF2Vtynj27X0kTQ6Ol3an5
-         Apgf/y9I8CySuRTNTIbgYusdiWQ1SWQjJSQqZus6cQ/uXXC2Xc7QXhbYGh5qKK2LnG5z
-         LiLsOzpxV8oS08MvJyE2hAUyORdtOkxskccUWUK/Wut7Y+oIn3xSZOD3Oq32wkNrjDxs
-         TSZ0KY/ESm4aoJw5iIihi5Nh1X4cb9UglvXj8WZYUnKZcnrSxMnAUwmZ2vMrcvcR07wc
-         FyVg==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P2VSIRQ0sM1vpHuf8rla2J/YgrIDXTW4aHVMtNxKuzs=;
+        b=E0vtUfGK8Xgmn95qAj3P+4mKS2op5T6PfCq/IoA3n3HfdQ143BRpsqzwpCdU1JDSoR
+         XdkZfIWTqv7xfBwmxEmitd7mqjwpIc3/onc81/cvxT8LyUYQkAq4pd1bq3Hoikqzw7t+
+         ZdzRdS3gBlWoTpM5jVLcydnUdC4DcYfpLrYD9zehs/8ZDjbq4ABgjs0NrtRCbg97z9aq
+         gY0UHZdcwvYYIpGgszUQVqNUDCD6wp0VGQxk81C/4RMEiTiynDbQ3yYd05FEWDASMrsM
+         CnntpL95bt90ccpOBbj8xwehvPTRoaTaA48VtgIzU8eisp1XvloCZJdB5uwP+D7xLXO0
+         fUug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Hq3YLnLVdkwJ+hnndTnVXYO2IvsFe7R/GdMhEuzT5j4=;
-        b=y3IWfR3WZWFfwALKRxmiZzmxD3AFe0HXYd9FsXZ5Agvz+eb4Y8ejE6Ni+iBHj5V+bG
-         eQTpAD4f6GrOj5k9eq3AssC2k7KZ1lNgxVD6AnqtrEhnGEIxpC16rpYg2oEwaCpIqPoQ
-         CKVz8KGDNSyNixD1Ik16viVDd2qBO4V39F3b9N60rHzsZbGJTyamZCHFjAwRt1geOLAP
-         Xyjo0h4B8zcJ33Vt8gMgypzQTXZI+niVJT3ioWN5rvqGfyMypKtESKIztw9MIBOs97qz
-         os/7mQBcht3SPZR2w8ssHhMRAe2FbFltSpgM3AEUy1s7lKMbJNteoIA9Ib86paBxHY8s
-         4T6A==
-X-Gm-Message-State: AFqh2kpalaY/pVfTWjeR8+rdispKg/WYNR/jm3xp7CCxppPnyXDvSHVC
-        xiwZOA2gv2NR15KzPO7iVCI=
-X-Google-Smtp-Source: AMrXdXvY1o7Qhxes1YcRkrxgd4lGAV6Hmi6k9DyO8x/ZrZHVk5g2zWtj7+yHvsP+tOAhpSj57x53Vg==
-X-Received: by 2002:a17:902:eccd:b0:194:dec8:9824 with SMTP id a13-20020a170902eccd00b00194dec89824mr23203736plh.26.1674571293053;
-        Tue, 24 Jan 2023 06:41:33 -0800 (PST)
-Received: from localhost.localdomain ([45.112.3.15])
-        by smtp.gmail.com with ESMTPSA id b21-20020a170902d31500b0019602dd914csm1747865plc.180.2023.01.24.06.41.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 06:41:32 -0800 (PST)
-From:   Anand Moon <linux.amoon@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P2VSIRQ0sM1vpHuf8rla2J/YgrIDXTW4aHVMtNxKuzs=;
+        b=uBglg6HU8C5bPMtIKMMtXP0juJkwClDH+AaYNQDbDCRFucKIkx7XgGgkYe1a41Tc2Y
+         ajpY3c0/dlcYdiNrHQ2k/23Z12Bc30zRjM+SQ1fv+UahJAg+FikQumhzKQfk3lwXvOsw
+         iZbnd54lHxetavoUvxtdULAP+TiOLueb00Fg/uVF3UNSI0YkZsHEFmqsdXyoLIyX3unO
+         TgoSvJMYQGaYtKC8gCG1ghBc8A4jid0HI3Yxi96TmSNgCFeMRCcKExvCDYyAvE/rxs7/
+         2pQ0pQDwzUVuVmIt5PQqbTTX5ig8Vtm4m+5j7itHRcUqbGDLYfmG5Vcv5UuWIZpBfBhY
+         Ra1w==
+X-Gm-Message-State: AFqh2kocU4HQqQ/Pd1zSDGzfphAxTukTkoMPXLJh5QLrMkQDIQdco/ag
+        5calrsinBYTX478e8XYUSBIz4g==
+X-Google-Smtp-Source: AMrXdXsf+Cciqhme9ccOuJdxb626GrgOW7aBLMFfulcKCQgwB+siVPDLksLuWgH9yLYS2T/mc64t4g==
+X-Received: by 2002:adf:c7cb:0:b0:2bc:48b3:f6de with SMTP id y11-20020adfc7cb000000b002bc48b3f6demr29408935wrg.0.1674573470736;
+        Tue, 24 Jan 2023 07:17:50 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id r1-20020a0560001b8100b002bfae16ee2fsm2024181wru.111.2023.01.24.07.17.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Jan 2023 07:17:50 -0800 (PST)
+Message-ID: <f14428c8-d059-2bd0-49f0-5b05cb5bc7f8@linaro.org>
+Date:   Tue, 24 Jan 2023 16:17:49 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH linux-next v4 4/4] dt-bindings: usb: Fix device tree
+ binding for VL817 hub controller
+Content-Language: en-US
+To:     Anand Moon <linux.amoon@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-amlogic@lists.infradead.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH linux-next v4 4/4] dt-bindings: usb: Fix device tree binding for VL817 hub controller
-Date:   Tue, 24 Jan 2023 14:40:53 +0000
-Message-Id: <20230124144054.13556-5-linux.amoon@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230124144054.13556-1-linux.amoon@gmail.com>
+Cc:     linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230124144054.13556-1-linux.amoon@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ <20230124144054.13556-5-linux.amoon@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230124144054.13556-5-linux.amoon@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Cleanup by removing unneeded quotes from refs and
-add maxItems to reset-gpios and fix the required list.
+On 24/01/2023 15:40, Anand Moon wrote:
+> Cleanup by removing unneeded quotes from refs and
+> add maxItems to reset-gpios and fix the required list.
+> 
+> Fixes: 31360c28dfdd ("dt-bindings: usb: Add binding for Via lab VL817 hub controller")
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Fixes: 31360c28dfdd ("dt-bindings: usb: Add binding for Via lab VL817 hub controller")
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Anand Moon <linux.amoon@gmail.com>
----
- .../devicetree/bindings/usb/vialab,vl817.yaml  | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+I think it's the first time I see this patch. Where did I review it?
 
-diff --git a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
-index 5f9771e22058..23a13e1d5c7a 100644
---- a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
-+++ b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
-@@ -14,29 +14,32 @@ allOf:
- 
- properties:
-   compatible:
--    items:
--      - enum:
--          - usb2109,2817
--          - usb2109,817
-+    enum:
-+      - usb2109,2817
-+      - usb2109,817
- 
-   reg: true
- 
-   reset-gpios:
--    description: GPIO controlling the RESET# pin.
-+    maxItems: 1
-+    description:
-+      GPIO controlling the RESET# pin.
- 
-   vdd-supply:
-     description:
-       phandle to the regulator that provides power to the hub.
- 
-   peer-hub:
--    $ref: '/schemas/types.yaml#/definitions/phandle'
-+    $ref: /schemas/types.yaml#/definitions/phandle
-     description:
-       phandle to the peer hub on the controller.
- 
- required:
--  - peer-hub
-   - compatible
-   - reg
-+  - reset-gpios
-+  - vdd-supply
-+  - peer-hub
- 
- additionalProperties: false
- 
-@@ -45,7 +48,6 @@ examples:
-     #include <dt-bindings/gpio/gpio.h>
- 
-     usb {
--        dr_mode = "host";
-         #address-cells = <1>;
-         #size-cells = <0>;
- 
--- 
-2.38.1
+Use subject prefixes matching the subsystem (which you can get for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching).
+
+Subject: drop second/last, redundant "device tree binding for". The
+"dt-bindings" prefix is already stating that these are bindings.
+
+
+> Signed-off-by: Anand Moon <linux.amoon@gmail.com>
+> ---
+>  .../devicetree/bindings/usb/vialab,vl817.yaml  | 18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+> index 5f9771e22058..23a13e1d5c7a 100644
+> --- a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+> +++ b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+
+
+Best regards,
+Krzysztof
 
