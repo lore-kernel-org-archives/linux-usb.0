@@ -2,115 +2,150 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E753C54EB4
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Jan 2023 18:45:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDE4BC54EED
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Jan 2023 22:36:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233813AbjAXSpF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Jan 2023 13:45:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50430 "EHLO
+        id S233907AbjAXWgY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Jan 2023 17:36:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234142AbjAXSox (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Jan 2023 13:44:53 -0500
-X-Greylist: delayed 391 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 24 Jan 2023 10:44:33 PST
-Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [IPv6:2a02:1800:110:4::f00:10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9313A45885
-        for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 10:44:33 -0800 (PST)
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by riemann.telenet-ops.be (Postfix) with ESMTPS id 4P1bLt3Qxgz4x0dL
-        for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 19:37:58 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:2f4a:8573:c294:b2ce])
-        by michel.telenet-ops.be with bizsmtp
-        id CidZ2900556uRqi06idZyA; Tue, 24 Jan 2023 19:37:58 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pKOAe-007HCY-JX;
-        Tue, 24 Jan 2023 19:37:33 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pKOAn-002n0l-3x;
-        Tue, 24 Jan 2023 19:37:33 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Siddharth Vadapalli <s-vadapalli@ti.com>,
-        Russell King <linux@armlinux.org.uk>
-Cc:     linux-phy@lists.infradead.org, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sean Anderson <sean.anderson@seco.com>
-Subject: [PATCH v2 4/9] net: fman: memac: Convert to devm_of_phy_optional_get()
-Date:   Tue, 24 Jan 2023 19:37:23 +0100
-Message-Id: <f2d801cd73cca36a7162819289480d7fc91fcc7e.1674584626.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1674584626.git.geert+renesas@glider.be>
-References: <cover.1674584626.git.geert+renesas@glider.be>
+        with ESMTP id S233407AbjAXWgV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Jan 2023 17:36:21 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46538518ED
+        for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 14:35:50 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1pKRsV-0008Uy-AJ; Tue, 24 Jan 2023 23:34:55 +0100
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1pKRsT-0002s3-UZ; Tue, 24 Jan 2023 23:34:53 +0100
+Date:   Tue, 24 Jan 2023 23:34:53 +0100
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
+        balbi@kernel.org, laurent.pinchart@ideasonboard.com,
+        kernel@pengutronix.de, stable <stable@kernel.org>
+Subject: Re: [PATCH v2 1/2] media: videobuf2-dma-sg: fix vmap and vunmap
+ callbacks
+Message-ID: <20230124223453.GB7611@pengutronix.de>
+References: <20221125153450.344392-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="R3G7APHDIzY6R/pk"
+Content-Disposition: inline
+In-Reply-To: <20221125153450.344392-1-m.grzeschik@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use the new devm_of_phy_optional_get() helper instead of open-coding the
-same operation.
 
-As devm_of_phy_optional_get() returns NULL if either the PHY cannot be
-found, or if support for the PHY framework is not enabled, it is no
-longer needed to check for -ENODEV or -ENOSYS.
+--R3G7APHDIzY6R/pk
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Sean Anderson <sean.anderson@seco.com>
----
-v2:
-  - Add Reviewed-by,
-  - Clarify removed checks for -ENODEV and -ENOSYS,
-  - Remove error printing in case of real failures.
----
- drivers/net/ethernet/freescale/fman/fman_memac.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+Gentle Ping!
 
-diff --git a/drivers/net/ethernet/freescale/fman/fman_memac.c b/drivers/net/ethernet/freescale/fman/fman_memac.c
-index 9349f841bd0645a0..ddd9d13f1166e120 100644
---- a/drivers/net/ethernet/freescale/fman/fman_memac.c
-+++ b/drivers/net/ethernet/freescale/fman/fman_memac.c
-@@ -1152,13 +1152,12 @@ int memac_initialization(struct mac_device *mac_dev,
- 	else
- 		memac->sgmii_pcs = pcs;
- 
--	memac->serdes = devm_of_phy_get(mac_dev->dev, mac_node, "serdes");
--	err = PTR_ERR(memac->serdes);
--	if (err == -ENODEV || err == -ENOSYS) {
-+	memac->serdes = devm_of_phy_optional_get(mac_dev->dev, mac_node,
-+						 "serdes");
-+	if (!memac->serdes) {
- 		dev_dbg(mac_dev->dev, "could not get (optional) serdes\n");
--		memac->serdes = NULL;
- 	} else if (IS_ERR(memac->serdes)) {
--		dev_err_probe(mac_dev->dev, err, "could not get serdes\n");
-+		err = PTR_ERR(memac->serdes);
- 		goto _return_fm_mac_free;
- 	}
- 
--- 
-2.34.1
+On Fri, Nov 25, 2022 at 04:34:49PM +0100, Michael Grzeschik wrote:
+>For dmabuf import users to be able to use the vaddr from another
+>videobuf2-dma-sg source, the exporter needs to set a proper vaddr on
+>vb2_dma_sg_dmabuf_ops_vmap callback.
+>
+>This patch adds vm_map_ram on map if buf->vaddr was not set, and also
+>adds the vb2_dma_sg_dmabuf_ops_vunmap function to remove the mapping
+>afterwards.
+>
+>Cc: stable <stable@kernel.org>
+>Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>
+>---
+>v1 -> v2: using vmap and vunmap instead of vm_map_ram and vm_unmap_ram
+>
+> .../media/common/videobuf2/videobuf2-dma-sg.c    | 16 ++++++++++++++++
+> 1 file changed, 16 insertions(+)
+>
+>diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/m=
+edia/common/videobuf2/videobuf2-dma-sg.c
+>index fa69158a65b1fd..dcb8de5ab3e84a 100644
+>--- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>+++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>@@ -496,11 +496,26 @@ static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf=
+ *dbuf,
+> {
+> 	struct vb2_dma_sg_buf *buf =3D dbuf->priv;
+>
+>+	if (!buf->vaddr)
+>+		buf->vaddr =3D vmap(buf->pages, buf->num_pages, VM_MAP,
+>+				  PAGE_KERNEL);
+>+
+> 	iosys_map_set_vaddr(map, buf->vaddr);
+>
+> 	return 0;
+> }
+>
+>+static void vb2_dma_sg_dmabuf_ops_vunmap(struct dma_buf *dbuf,
+>+				      struct iosys_map *map)
+>+{
+>+	struct vb2_dma_sg_buf *buf =3D dbuf->priv;
+>+
+>+	if (buf->vaddr)
+>+		vunmap(buf->vaddr);
+>+
+>+	buf->vaddr =3D NULL;
+>+}
+>+
+> static int vb2_dma_sg_dmabuf_ops_mmap(struct dma_buf *dbuf,
+> 	struct vm_area_struct *vma)
+> {
+>@@ -515,6 +530,7 @@ static const struct dma_buf_ops vb2_dma_sg_dmabuf_ops =
+=3D {
+> 	.begin_cpu_access =3D vb2_dma_sg_dmabuf_ops_begin_cpu_access,
+> 	.end_cpu_access =3D vb2_dma_sg_dmabuf_ops_end_cpu_access,
+> 	.vmap =3D vb2_dma_sg_dmabuf_ops_vmap,
+>+	.vunmap =3D vb2_dma_sg_dmabuf_ops_vunmap,
+> 	.mmap =3D vb2_dma_sg_dmabuf_ops_mmap,
+> 	.release =3D vb2_dma_sg_dmabuf_ops_release,
+> };
+>--=20
+>2.30.2
+>
 
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--R3G7APHDIzY6R/pk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmPQXQsACgkQC+njFXoe
+LGS69RAAibc0X4wb2SgUdW6gHJEIGjEQ+RmvNVXvFko0nYxmmwYbD2NGuMwLsPQx
+zmT98lQwxycwQ88/ftrMmJplJc8Hg1+166ex4CsWJtdEURpZu+3g5pTM6Ak2CrOM
+BIRzp8rfTWcOaHRuc4sz6txfEswkr3OwPQ9d+dcBA/wGMMsMb7IgdqvNPQa1LcXG
+D+Pxq8vDcHDMNNVopFNu4zDiPaHnP55ScXOR+8h3sWZfiOvpGpNlLpemOcdYDlul
+HaV0XNNHlkH8srpTNhdNpBhKxtvmx2QjYR+sPZU8XcLDIRRWzh/PoGt1uoiewxNg
+8ffZieowyaDBYcP3xpYFxzGXX/f8nweT3zMAgF8B8Qg7bUIRIxKU0xr4N1DcJ1v/
+8aswpncwfHSvSMVRBXU5biuxTNNTkYhJ1mZ2NTGja/HfxwfiySgFNQF3voIahVxt
+SG+NvuqAIYGIAFcfHYGdifBB7F4NC/J6XW8rwmZ7c1CeUN+rKO+0YeXx5BRtAgxd
++9K/dkDPA1uBvv95bUwnuzrBQWILywg571qTEj8+d3YVz9m3IjD4DFB4LiyaShhm
+SxMHag753uOLXDNh1phUT9wRYaD7Oq+FT7nH89vB/fqNQEf8Q8Xw7eBpgCeKbpTH
+2+fsdshacWy1KkWAP8WTnjld8EJqjKdITET0VIYVC9zCGbHAob8=
+=shkw
+-----END PGP SIGNATURE-----
+
+--R3G7APHDIzY6R/pk--
