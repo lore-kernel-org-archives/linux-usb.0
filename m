@@ -2,33 +2,33 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43E19C54EAA
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Jan 2023 18:45:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E753C54EB4
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Jan 2023 18:45:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234260AbjAXSpE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Jan 2023 13:45:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50324 "EHLO
+        id S233813AbjAXSpF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Jan 2023 13:45:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233959AbjAXSos (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Jan 2023 13:44:48 -0500
-X-Greylist: delayed 376 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 24 Jan 2023 10:44:16 PST
-Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98066252A9
-        for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 10:44:16 -0800 (PST)
+        with ESMTP id S234142AbjAXSox (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Jan 2023 13:44:53 -0500
+X-Greylist: delayed 391 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 24 Jan 2023 10:44:33 PST
+Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [IPv6:2a02:1800:110:4::f00:10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9313A45885
+        for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 10:44:33 -0800 (PST)
 Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4P1bLt49s7z4xMLx
+        by riemann.telenet-ops.be (Postfix) with ESMTPS id 4P1bLt3Qxgz4x0dL
         for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 19:37:58 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:2f4a:8573:c294:b2ce])
         by michel.telenet-ops.be with bizsmtp
-        id CidZ2900756uRqi06idZyB; Tue, 24 Jan 2023 19:37:58 +0100
+        id CidZ2900556uRqi06idZyA; Tue, 24 Jan 2023 19:37:58 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pKOAe-007HCd-KC;
+        id 1pKOAe-007HCY-JX;
         Tue, 24 Jan 2023 19:37:33 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pKOAn-002n0o-4q;
+        id 1pKOAn-002n0l-3x;
         Tue, 24 Jan 2023 19:37:33 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
@@ -58,10 +58,10 @@ Cc:     linux-phy@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>
-Subject: [PATCH v2 5/9] net: lan966x: Convert to devm_of_phy_optional_get()
-Date:   Tue, 24 Jan 2023 19:37:24 +0100
-Message-Id: <993b0f4ac5b84b2b72223011614d2e821f9e7302.1674584626.git.geert+renesas@glider.be>
+        Sean Anderson <sean.anderson@seco.com>
+Subject: [PATCH v2 4/9] net: fman: memac: Convert to devm_of_phy_optional_get()
+Date:   Tue, 24 Jan 2023 19:37:23 +0100
+Message-Id: <f2d801cd73cca36a7162819289480d7fc91fcc7e.1674584626.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1674584626.git.geert+renesas@glider.be>
 References: <cover.1674584626.git.geert+renesas@glider.be>
@@ -74,31 +74,43 @@ X-Mailing-List: linux-usb@vger.kernel.org
 Use the new devm_of_phy_optional_get() helper instead of open-coding the
 same operation.
 
+As devm_of_phy_optional_get() returns NULL if either the PHY cannot be
+found, or if support for the PHY framework is not enabled, it is no
+longer needed to check for -ENODEV or -ENOSYS.
+
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Steen Hegelund <Steen.Hegelund@microchip.com>
+Reviewed-by: Sean Anderson <sean.anderson@seco.com>
 ---
 v2:
-  - Add Reviewed-by.
+  - Add Reviewed-by,
+  - Clarify removed checks for -ENODEV and -ENOSYS,
+  - Remove error printing in case of real failures.
 ---
- drivers/net/ethernet/microchip/lan966x/lan966x_main.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/net/ethernet/freescale/fman/fman_memac.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/net/ethernet/microchip/lan966x/lan966x_main.c b/drivers/net/ethernet/microchip/lan966x/lan966x_main.c
-index 580c91d24a5284e7..f2670d6d84d7893a 100644
---- a/drivers/net/ethernet/microchip/lan966x/lan966x_main.c
-+++ b/drivers/net/ethernet/microchip/lan966x/lan966x_main.c
-@@ -1147,9 +1147,8 @@ static int lan966x_probe(struct platform_device *pdev)
- 		lan966x->ports[p]->config.portmode = phy_mode;
- 		lan966x->ports[p]->fwnode = fwnode_handle_get(portnp);
+diff --git a/drivers/net/ethernet/freescale/fman/fman_memac.c b/drivers/net/ethernet/freescale/fman/fman_memac.c
+index 9349f841bd0645a0..ddd9d13f1166e120 100644
+--- a/drivers/net/ethernet/freescale/fman/fman_memac.c
++++ b/drivers/net/ethernet/freescale/fman/fman_memac.c
+@@ -1152,13 +1152,12 @@ int memac_initialization(struct mac_device *mac_dev,
+ 	else
+ 		memac->sgmii_pcs = pcs;
  
--		serdes = devm_of_phy_get(lan966x->dev, to_of_node(portnp), NULL);
--		if (PTR_ERR(serdes) == -ENODEV)
--			serdes = NULL;
-+		serdes = devm_of_phy_optional_get(lan966x->dev,
-+						  to_of_node(portnp), NULL);
- 		if (IS_ERR(serdes)) {
- 			err = PTR_ERR(serdes);
- 			goto cleanup_ports;
+-	memac->serdes = devm_of_phy_get(mac_dev->dev, mac_node, "serdes");
+-	err = PTR_ERR(memac->serdes);
+-	if (err == -ENODEV || err == -ENOSYS) {
++	memac->serdes = devm_of_phy_optional_get(mac_dev->dev, mac_node,
++						 "serdes");
++	if (!memac->serdes) {
+ 		dev_dbg(mac_dev->dev, "could not get (optional) serdes\n");
+-		memac->serdes = NULL;
+ 	} else if (IS_ERR(memac->serdes)) {
+-		dev_err_probe(mac_dev->dev, err, "could not get serdes\n");
++		err = PTR_ERR(memac->serdes);
+ 		goto _return_fm_mac_free;
+ 	}
+ 
 -- 
 2.34.1
 
