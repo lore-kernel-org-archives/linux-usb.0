@@ -2,55 +2,71 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C966C25B4E
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Jan 2023 10:35:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7F23C54EED
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Jan 2023 10:49:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233847AbjAXKfb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Jan 2023 05:35:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39284 "EHLO
+        id S233322AbjAXKtT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Jan 2023 05:49:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233720AbjAXKfB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Jan 2023 05:35:01 -0500
-X-Greylist: delayed 502 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 24 Jan 2023 02:34:50 PST
-Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net [IPv6:2a01:37:3000::53df:4ef0:0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F5540BF6
-        for <linux-usb@vger.kernel.org>; Tue, 24 Jan 2023 02:34:50 -0800 (PST)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-         client-signature RSA-PSS (4096 bits) client-digest SHA256)
-        (Client CN "*.hostsharing.net", Issuer "RapidSSL Global TLS RSA4096 SHA256 2022 CA1" (verified OK))
-        by bmailout2.hostsharing.net (Postfix) with ESMTPS id F100228088D6F;
-        Tue, 24 Jan 2023 11:26:26 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id E5C76E483; Tue, 24 Jan 2023 11:26:26 +0100 (CET)
-Date:   Tue, 24 Jan 2023 11:26:26 +0100
-From:   Lukas Wunner <lukas@wunner.de>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     linux-usb@vger.kernel.org, Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>
-Subject: Re: [PATCH 2/2] thunderbolt: Add missing kernel-doc comment to
- tb_tunnel_maximum_bandwidth()
-Message-ID: <20230124102626.GA32238@wunner.de>
-References: <20230124090938.58825-1-mika.westerberg@linux.intel.com>
- <20230124090938.58825-2-mika.westerberg@linux.intel.com>
+        with ESMTP id S232771AbjAXKtK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Jan 2023 05:49:10 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BBB743933;
+        Tue, 24 Jan 2023 02:48:54 -0800 (PST)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9D27D6602E2A;
+        Tue, 24 Jan 2023 10:48:45 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1674557326;
+        bh=PWy/mEzY0rNRWO0R+jYtZffvemYuPS5FyuIJAM/aPmE=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=gBInqdT/EkDYIbquG+ZogkCItyYpL29Igf2pyntw/Nm9EUxi2vafnqP4x4eW0Mftg
+         5uOV4Didt65zhd5IVGhGIGSXGAHDd23uIn84Z3NYB+QOG09c3RdnR7dGrCnAKTkrGO
+         K65XlclnCWoxZnBLW+eHn7YMqbp4Tw03DYW4KKpCx4j1ZLAC4FBtS8q3RCjNGWS4Xb
+         wHrQ1tOgMADlaCVhIM6YD1Y9tkeikvhlL3SxK1CTUKJrK9JEOOiV3mvQT6SpOes7hJ
+         ybgR5a2TykPoTNhjkx3b3vT8VMNRp+dP9W7jDs/p9/ztJ/8PhxEuwwV9P2Rjf4uqaW
+         z3H9dnsDXqf1g==
+Message-ID: <c0c8fdad-a576-7ac5-f6c3-465a1b9392e6@collabora.com>
+Date:   Tue, 24 Jan 2023 11:48:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230124090938.58825-2-mika.westerberg@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v8 8/9] dt-bindings: serial: mediatek,uart: add MT8365 SoC
+ bindings
+To:     =?UTF-8?Q?Bernhard_Rosenkr=c3=a4nzer?= <bero@baylibre.com>,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, tglx@linutronix.de,
+        maz@kernel.org, lee@kernel.org, linus.walleij@linaro.org,
+        matthias.bgg@gmail.com, gregkh@linuxfoundation.org,
+        daniel.lezcano@linaro.org, chunfeng.yun@mediatek.com,
+        allen-kh.cheng@mediatek.com, nfraprado@collabora.com,
+        andrew@lunn.ch, gtk3@inbox.ru, sean.wang@mediatek.com,
+        zhiyong.tao@mediatek.com
+References: <20230123163833.1007181-1-bero@baylibre.com>
+ <20230123163833.1007181-9-bero@baylibre.com>
+Content-Language: en-US
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230123163833.1007181-9-bero@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 11:09:38AM +0200, Mika Westerberg wrote:
-> +/**
-> + * tb_tunnel_maximum_bandwidth() - Return maximum possible bandwidth
-> + * @tunnel: Tunnel to check
-> + * @max_up: Maximum upstream bandwidth in Mb/s
-> + * @max_down: Maximum upstream bandwidth in Mb/s
-                         ^^^^^^^^
-			 downstream?
+Il 23/01/23 17:38, Bernhard Rosenkränzer ha scritto:
+> Add binding description for mediatek,mt8365-uart
+> 
+> Signed-off-by: Bernhard Rosenkränzer <bero@baylibre.com>
 
-I'm sure you're just testing whether anyone is reading your patches ;)
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+
