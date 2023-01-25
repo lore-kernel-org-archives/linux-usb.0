@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F93EC27C76
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Jan 2023 14:36:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C894C61D97
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Jan 2023 14:36:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235911AbjAYOgn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Jan 2023 09:36:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37844 "EHLO
+        id S235836AbjAYOgp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 25 Jan 2023 09:36:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235771AbjAYOgH (ORCPT
+        with ESMTP id S235833AbjAYOgH (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Jan 2023 09:36:07 -0500
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 022C959761
-        for <linux-usb@vger.kernel.org>; Wed, 25 Jan 2023 06:35:39 -0800 (PST)
-Received: by mail-ej1-x632.google.com with SMTP id rl14so44837803ejb.2
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 068275998D
         for <linux-usb@vger.kernel.org>; Wed, 25 Jan 2023 06:35:38 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id os24so4423092ejb.8
+        for <linux-usb@vger.kernel.org>; Wed, 25 Jan 2023 06:35:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ffl5HfqVus00IOo7wgMujA9coL7RO1cV9lKXrzUWgAg=;
-        b=BmbFUdf9CwKT2kI6s8mGzqEAki+CP2qH/tUPAsy53AEXimitOvevkH9EK8c/rrSXcj
-         nl3UaK7FKTinaWKUi9XAbf5jYhHmv8lm1Tj38w5jfNyW5FWtmW3ejwJrnWp6f0GgnCJ2
-         fm8LdlYXdJe2FoBo+lJE+56zWDe8iMfI3Zi6LBmYVqJb31Zc1ctW9j5LUeEAeWbaeidF
-         WRQcZIH0OXuew9tQeEBMFWmHRfq7PIrS0LXyU7wYt5q0s7dB3/G/OK0WQIJgfWsFTmaT
-         DjMkf2+jvee8hn+4pPyHFY9zijxCUhtGtXEZrRMQYIQ5wvdbo8j9/VJ1AJB9m5VRUP1I
-         Dplg==
+        bh=B2giSoKpmUMBjrMl9HUkga8ekHANL68RCzLpYCFzHvs=;
+        b=kQ6L5xYgk2+18HedslxV9VP4htolCDeVl8W5FgmN6R2IIAyhioZtcO8nXaShcD/YWY
+         FANg3prPs2LeWtuHWif4TiHdjhnYzEZdBre23zbuwBJeEWvupV2VdCB/scDoW4Xb4XJ7
+         nKF5fFAmNdr+qdpvzRLL5JhqmyzLxdBWyB3RpdxnW6zSDbaYduRoR2h0ffFxe4z2THZs
+         nwc6eAOGrOO6a9Nh1Zejul1Wmzli4sM4uurgDn94D9auMiw4qQw8HJVfVjjH6aOE0pUF
+         cowXWQmv5I5KRiyq9W9TqdQiAu+EmXSbyBuKRbddoXSpViuqORK9tpSMNNi2miLlBoRG
+         gj0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ffl5HfqVus00IOo7wgMujA9coL7RO1cV9lKXrzUWgAg=;
-        b=D5IBR045hz+8e7zJhtd1BjibiCMc4P1zG/UtjKwWusSywk/6eqYEZgJeKc7PAh6aBm
-         zm4AxnSYqJwRFsZowOQKTp1u48ZrySVvWbpz5UXSAw0aXjvzmtRFf90bQprZqn5ttNsW
-         0fpJArHxh/A6rbQ5pfytN6UA/rURKZJpU9PoiSgz9aoy2PwVbJBLRUgFMka5IMb6d1tk
-         sGP9Ng5RnKtzzdVZ/a5SHXap6b4Nvbz1OfbkMVaqhz0wLyW5cHPKz9RP2QtwZ5Mn4nhW
-         Jb8vqp9GNO2hNgKzDmCNDkPEMQpuhlek5Ru3T1uf4cDB/pzLxLHFJ8kEdix/pxlo9RZt
-         znOA==
-X-Gm-Message-State: AFqh2kpm85KMQlXCLV/t9eKL57WwhqCmXGDN0DT+752kiMBVoElsrutz
-        oNf5l/hNWCZpsD9q7LFTLdRo6w==
-X-Google-Smtp-Source: AMrXdXut8oeAnia2W1mIY9PYEWFiUEG0BoWso+bqNF6URRYO0QLRv0+yUeszed1pDo9wzfdP0Y0ncA==
-X-Received: by 2002:a17:907:8e86:b0:84d:43c3:a897 with SMTP id tx6-20020a1709078e8600b0084d43c3a897mr50385026ejc.2.1674657315713;
-        Wed, 25 Jan 2023 06:35:15 -0800 (PST)
+        bh=B2giSoKpmUMBjrMl9HUkga8ekHANL68RCzLpYCFzHvs=;
+        b=0fQR0tMD53c4JYsVOl1zJ5t8mbZRuywMcQwamVbraQn+61j0yQIm8X6il/7LCxbmGQ
+         Eh9pO9S7N9v5fllJz2A2bRStVLYvBo093UCt5cI/Js29xdRvxLlbxb+n94YoYScnqsJw
+         Gl9Q5LNU4OzuwUCQc4GKMRQ/hHONDDsbkAOzKGZEACcY+dQBQjtv5/pDfTihiT0LdwEa
+         nN5m44jv8tCucCOwxEayeSKdvAIakPqiCauHc2QZ9rWTDaDrIN+tegjFiBeTREDXB6YI
+         0Kf7t81JJqS2pgcj+l5iZeSLag0+A+Fqk1Om5XSxmLtOFOlEsghjmZZ2dALHqa6auegn
+         jKKA==
+X-Gm-Message-State: AFqh2krGYpeqnUZec4zKb0gVHPrZTgMn8GXgzPo9aYyjnR8kOZTVXpsq
+        zkUs3PTCmN7cJViQ1Y0a0Jux+A==
+X-Google-Smtp-Source: AMrXdXtaIZrEnurCkz3yd2v2DJFwcX9KOokSAkiudb0bv0MpXe7Oawbn60EZB1shhY8H52QO+UJv9w==
+X-Received: by 2002:a17:906:eb8e:b0:871:6b9d:dbc with SMTP id mh14-20020a170906eb8e00b008716b9d0dbcmr33632150ejb.21.1674657314542;
+        Wed, 25 Jan 2023 06:35:14 -0800 (PST)
 Received: from c64.fritz.box ([81.221.122.240])
-        by smtp.gmail.com with ESMTPSA id gx2-20020a1709068a4200b0082000f8d871sm2437789ejc.152.2023.01.25.06.35.14
+        by smtp.gmail.com with ESMTPSA id gx2-20020a1709068a4200b0082000f8d871sm2437789ejc.152.2023.01.25.06.35.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 06:35:15 -0800 (PST)
+        Wed, 25 Jan 2023 06:35:14 -0800 (PST)
 From:   =?UTF-8?q?Bernhard=20Rosenkr=C3=A4nzer?= <bero@baylibre.com>
 To:     linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
@@ -61,9 +61,9 @@ To:     linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
         angelogioacchino.delregno@collabora.com, nfraprado@collabora.com,
         allen-kh.cheng@mediatek.com, sean.wang@mediatek.com,
         zhiyong.tao@mediatek.com
-Subject: [PATCH v9 8/9] dt-bindings: serial: mediatek,uart: add MT8365
-Date:   Wed, 25 Jan 2023 15:35:02 +0100
-Message-Id: <20230125143503.1015424-9-bero@baylibre.com>
+Subject: [PATCH v9 7/9] dt-bindings: timer: mediatek,mtk-timer: add MT8365
+Date:   Wed, 25 Jan 2023 15:35:01 +0100
+Message-Id: <20230125143503.1015424-8-bero@baylibre.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230125143503.1015424-1-bero@baylibre.com>
 References: <20230125143503.1015424-1-bero@baylibre.com>
@@ -74,27 +74,26 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add binding description for mediatek,mt8365-uart
+Add binding description for mediatek,mt8365-systimer
 
 Signed-off-by: Bernhard Rosenkränzer <bero@baylibre.com>
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- Documentation/devicetree/bindings/serial/mediatek,uart.yaml | 1 +
+ Documentation/devicetree/bindings/timer/mediatek,mtk-timer.txt | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/serial/mediatek,uart.yaml b/Documentation/devicetree/bindings/serial/mediatek,uart.yaml
-index fe098d98af6ee..303d02ca4e1ba 100644
---- a/Documentation/devicetree/bindings/serial/mediatek,uart.yaml
-+++ b/Documentation/devicetree/bindings/serial/mediatek,uart.yaml
-@@ -45,6 +45,7 @@ properties:
-               - mediatek,mt8188-uart
-               - mediatek,mt8192-uart
-               - mediatek,mt8195-uart
-+              - mediatek,mt8365-uart
-               - mediatek,mt8516-uart
-           - const: mediatek,mt6577-uart
+diff --git a/Documentation/devicetree/bindings/timer/mediatek,mtk-timer.txt b/Documentation/devicetree/bindings/timer/mediatek,mtk-timer.txt
+index 8bbb6e94508b2..b3e797e8aa313 100644
+--- a/Documentation/devicetree/bindings/timer/mediatek,mtk-timer.txt
++++ b/Documentation/devicetree/bindings/timer/mediatek,mtk-timer.txt
+@@ -33,6 +33,7 @@ Required properties:
  
+ 	For those SoCs that use CPUX
+ 	* "mediatek,mt6795-systimer" for MT6795 compatible timers (CPUX)
++	* "mediatek,mt8365-systimer" for MT8365 compatible timers (CPUX)
+ 
+ - reg: Should contain location and length for timer register.
+ - clocks: Should contain system clock.
 -- 
 2.39.1
 
