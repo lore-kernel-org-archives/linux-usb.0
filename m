@@ -2,104 +2,115 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDFC6C54E94
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Jan 2023 14:25:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06759C54E94
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Jan 2023 14:34:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235211AbjAYOZZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Jan 2023 09:25:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58712 "EHLO
+        id S235469AbjAYOeE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 25 Jan 2023 09:34:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235400AbjAYOZB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Jan 2023 09:25:01 -0500
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19803561B4;
-        Wed, 25 Jan 2023 06:24:52 -0800 (PST)
-Received: by mail-vs1-xe30.google.com with SMTP id n190so19899676vsc.11;
-        Wed, 25 Jan 2023 06:24:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MUqrk3GP/3DhSmWkuOs8ye3NG8xp7aQ+gekfrX4lQc0=;
-        b=ZdftSwjj1akDmWaqauSggV71jW2O+HXguAfnqr6NnF30jtnzzC1QbrFAJEAxUiPUC2
-         2EwQgfL9avUaF/FtKblPe7764ZyUIxLYHv0Ujvu8Reailrj99ot/mgUfGb4JG+v+cjR4
-         0SImZT+cU08V9+a3xPMyJcCz1utBX6387Ol+k6GkHKtU7qt2s1EUL5cyxY60aQxvl5PP
-         NTajtuHRDbtB+MutOWPhxu48bOLX/7lEAGsvYdGQG6IChaxsLzMCRDLMl6IfJwMZhk2k
-         X2oYHLmyalFzic/odZzxSnfPTqtwyXgzb5ywVXsjjqXFZIGwDRlVlf/79YqGj3LiA/01
-         nFng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MUqrk3GP/3DhSmWkuOs8ye3NG8xp7aQ+gekfrX4lQc0=;
-        b=26CmU8Bz0R0Dzk4J1iQHF3ipxJ75CZeDMwkngwl0pwvYBplikURH6JXeFO4GroUD/G
-         cVWMSD3X74Oukm9kQrSb+LQcs9/uGjEqNqI0fQ2G23GdeLMMnt7TeiF6oqJixIQ8XrZU
-         5jAroi8FZY0RJRqKbbg1UxyPeEZkyM2jaWhcsGMudmC2xCxjgV9K303FErkGa5Q79eUJ
-         6o4Pn5drQA3zKvdEIFZ7/fSw/fmvnz5njbDaburoChdGfEjMalae4/m6dAKpgWTPYmFe
-         3Em3ZxmunvctB80bRDvDriWjV0XbbF1ADfxR4pwmEzAoNxXo9M3vyD/LC7XP1a/YEKeF
-         I1Pw==
-X-Gm-Message-State: AFqh2ko6VXP1Lx74oyFRskDZjehz0q5SDjNYBEIZ3Mj34mD7Dm8VRjjh
-        pMuYCuwoUyZaygtOnF3NVLHJQiJDwNG2Wkd7Dp211+TL
-X-Google-Smtp-Source: AMrXdXtp+1+l0V7eBzDbpTKwsXlca8z4HTN//sBpr4Dtwdc6Xx/uxZgT00JsWeAYoFgKAlb6wawZbQI7lVXyFEiKCm4=
-X-Received: by 2002:a67:d097:0:b0:3d0:cb3d:ad47 with SMTP id
- s23-20020a67d097000000b003d0cb3dad47mr5095413vsi.76.1674656691211; Wed, 25
- Jan 2023 06:24:51 -0800 (PST)
+        with ESMTP id S235427AbjAYOeD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Jan 2023 09:34:03 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC0B92F791;
+        Wed, 25 Jan 2023 06:34:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674657242; x=1706193242;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3kpOMqrQuctFKDrDiGjBznoIROiBQ5QhwWS1ed7ePGE=;
+  b=eeZzmZZYBYFhSOLUPBMGTrUn290Gw7tjfzbXj7edVCgtPzflaliA9F7Z
+   JsPm9p6FG4ke+5D6UsqBZ9vhLYvkNKc/Dr7+yg7mY7qvH+0/eCjkzV7qg
+   znWlIyERyCYGz0MZWx8u0Y8vOfP/HpQC+k704ye+zYVAE6zfYCVhY7JUC
+   peHwuaanJas+O6f1vxpnbFZPXyEYM9DAXTyfTkfCw8gE453wn0FExv4H+
+   yuBAnHDskgyqaBetW4I5hpA+VoBoPDnMGdDTD3vICjIakqV/YoN30MxNm
+   88hsV9Qimm2UlmyBqoXMlgfVVtY82qRSsaEcb/DkbgIe3tjo73QFVjrlg
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="324268176"
+X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
+   d="scan'208";a="324268176"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 06:33:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="805017342"
+X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
+   d="scan'208";a="805017342"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 25 Jan 2023 06:33:57 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 37B9A165; Wed, 25 Jan 2023 16:34:33 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?q?J=C3=B3=20=C3=81gila=20Bitsch?= <jgilab@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 1/1] usb: gadget: Use correct APIs and data types for UUID handling
+Date:   Wed, 25 Jan 2023 16:34:25 +0200
+Message-Id: <20230125143425.85268-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230125072605.1121-1-linux.amoon@gmail.com> <20230125072605.1121-5-linux.amoon@gmail.com>
- <bd29cba9-fb1c-051e-e10e-cb3e73ec5ff9@linaro.org> <CANAwSgRWVPghhEwvQgzQicJHcjgAv_d5nYfE0Ni90butc5ouSQ@mail.gmail.com>
- <d2ce0dce-eaa0-12e9-e250-bf948d2ce9e1@linaro.org>
-In-Reply-To: <d2ce0dce-eaa0-12e9-e250-bf948d2ce9e1@linaro.org>
-From:   Anand Moon <linux.amoon@gmail.com>
-Date:   Wed, 25 Jan 2023 19:54:33 +0530
-Message-ID: <CANAwSgRDM87oHsVSkxieD6C-+eAV__TKL8e2P22ucQ+iJEooZQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND linux-next v4 4/4] dt-bindings: usb: Fix properties
- for VL817 hub controller
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Krzysztof,
+We have two types for UUIDs depending on the byte ordering.
+Instead of explaining how bytes should go over the wire,
+use dedicated APIs and data types. This removes a confusion
+over the byte ordering.
 
-On Wed, 25 Jan 2023 at 15:27, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 25/01/2023 10:43, Anand Moon wrote:
-> > Hi Krzysztof,
-> >
-> > On Wed, 25 Jan 2023 at 13:10, Krzysztof Kozlowski
-> > <krzysztof.kozlowski@linaro.org> wrote:
-> >>
-> >> On 25/01/2023 08:26, Anand Moon wrote:
-> >>> Cleanup by removing unneeded quotes from refs and
-> >>> add maxItems to reset-gpios and fix the required list.
-> >>>
-> >>> Fixes: 31360c28dfdd ("dt-bindings: usb: Add binding for Via lab VL817 hub controller")
-> >>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >>
-> >> NAK.
-> >>
-> >> You ignored my feedback. Please help me understand how my tag appeared here.
-> >>
-> > I have followed your feedback and modified the below patch
-> > I thought you review these changes see below.
-> >
-> > [0] https://lore.kernel.org/all/df1c8545-01d0-3821-0c19-07a369e40472@linaro.org/
->
-> This was entirely different patch. You cannot take reviews from
-> something else and apply to other patch.
->
-> Best regards,
-> Krzysztof
->
-ok, I will keep this in my mind.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/usb/gadget/composite.c | 4 ++--
+ include/linux/usb/webusb.h     | 9 +++------
+ 2 files changed, 5 insertions(+), 8 deletions(-)
 
- Thanks
--Anand
+diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
+index 8e2603688016..fa7dd6cf014d 100644
+--- a/drivers/usb/gadget/composite.c
++++ b/drivers/usb/gadget/composite.c
+@@ -829,7 +829,7 @@ static int bos_desc(struct usb_composite_dev *cdev)
+ 	if (cdev->use_webusb) {
+ 		struct usb_plat_dev_cap_descriptor *webusb_cap;
+ 		struct usb_webusb_cap_data *webusb_cap_data;
+-		uuid_t webusb_uuid = WEBUSB_UUID;
++		guid_t webusb_uuid = WEBUSB_UUID;
+ 
+ 		webusb_cap = cdev->req->buf + le16_to_cpu(bos->wTotalLength);
+ 		webusb_cap_data = (struct usb_webusb_cap_data *) webusb_cap->CapabilityData;
+@@ -841,7 +841,7 @@ static int bos_desc(struct usb_composite_dev *cdev)
+ 		webusb_cap->bDescriptorType = USB_DT_DEVICE_CAPABILITY;
+ 		webusb_cap->bDevCapabilityType = USB_PLAT_DEV_CAP_TYPE;
+ 		webusb_cap->bReserved = 0;
+-		export_uuid(webusb_cap->UUID, &webusb_uuid);
++		export_guid(webusb_cap->UUID, &webusb_uuid);
+ 
+ 		if (cdev->bcd_webusb_version != 0)
+ 			webusb_cap_data->bcdVersion = cpu_to_le16(cdev->bcd_webusb_version);
+diff --git a/include/linux/usb/webusb.h b/include/linux/usb/webusb.h
+index b430d84357f3..fe43020b4a48 100644
+--- a/include/linux/usb/webusb.h
++++ b/include/linux/usb/webusb.h
+@@ -11,15 +11,12 @@
+ #include "uapi/linux/usb/ch9.h"
+ 
+ /*
+- * little endian PlatformCapablityUUID for WebUSB
++ * Little Endian PlatformCapablityUUID for WebUSB
+  * 3408b638-09a9-47a0-8bfd-a0768815b665
+- * to identify Platform Device Capability descriptors as referring to WebUSB
+- *
+- * the UUID above MUST be sent over the wire as the byte sequence:
+- * {0x38, 0xB6, 0x08, 0x34, 0xA9, 0x09, 0xA0, 0x47, 0x8B, 0xFD, 0xA0, 0x76, 0x88, 0x15, 0xB6, 0x65}.
++ * to identify Platform Device Capability descriptors as referring to WebUSB.
+  */
+ #define WEBUSB_UUID \
+-	UUID_INIT(0x38b60834, 0xa909, 0xa047, 0x8b, 0xfd, 0xa0, 0x76, 0x88, 0x15, 0xb6, 0x65)
++	GUID_INIT(0x3408b638, 0x09a9, 0x47a0, 0x8b, 0xfd, 0xa0, 0x76, 0x88, 0x15, 0xb6, 0x65)
+ 
+ /*
+  * WebUSB Platform Capability data
+-- 
+2.39.0
+
