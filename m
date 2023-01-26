@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CC7AC61DA0
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Jan 2023 03:16:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEC74C61DA3
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Jan 2023 03:16:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236411AbjAZDQl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Jan 2023 22:16:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46572 "EHLO
+        id S236434AbjAZDQo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 25 Jan 2023 22:16:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236359AbjAZDQY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Jan 2023 22:16:24 -0500
+        with ESMTP id S236378AbjAZDQ3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Jan 2023 22:16:29 -0500
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0A1B65EEA;
-        Wed, 25 Jan 2023 19:15:49 -0800 (PST)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30Q2tBUR030435;
-        Thu, 26 Jan 2023 03:14:40 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 690CE65EFA;
+        Wed, 25 Jan 2023 19:15:54 -0800 (PST)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30Q2xRTJ030587;
+        Thu, 26 Jan 2023 03:14:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=urZbrvlW56jM3NnnnRu12cktuIJHGAwqR4fhPFfPs1k=;
- b=m4/evpnuewbvLg5/OxSHVgaYvOb74AxWJqPSFjnw6KRqAvA/ztOj/ZolC03viuo5swXm
- j6FcsQciXtwMx7LIGea5lbacHQrw8gp6K1nygpzr8bKNZov3oijnyY8eAN+su29m4/Lz
- A6/OCNLXSZgBpeAHc/qr+xCmZwt7o5/vvRCYHf4H8StiEjY1SwG7axSgFpKH1wa/9LTg
- vTHFfudfPGDGQG9rkETKymEv57+iPnqq66iiNq+Y2Hb2P3sjNqFd26viFFhbtNgxgaCE
- Nx23r/tNy0v9u3xgSCyuxFDI6+dFYNFvQMmmvA0q6m+nMGRGa+Xtyvvf7+NLfIY9MqKS iQ== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nb2nssqvu-1
+ bh=A/BKgbbHZpSa0qF5KMGg4PEhnJ5z9CMMjnv3GKZjGVs=;
+ b=Y2LihmmLFBF++Py8oWLnEjFitR70rZzI26FY9dPmTKtKgYaSibPseR5obnhWct1U/c0n
+ hDqyACf7LtKnTFm6gTv/EQ6Xi08ejGTr5F33qAQVfevNbutg6TEp2/KiEXV/JnGcHIwn
+ LV2zM54P0qAbwqBz4oQtfopu79Obk/e55o1J7VbEVw36+tb4Oza7YPbEndwmj/+3g2JF
+ juJsrzMezEDz3cR2Z5bHIqeUD6EqOMWCd5Da5y4XV8yrKD1HaIdMYfdYRLOns8ROkomU
+ IZynoOp6aoEzPUPhc1wlAJV6lbNOCVwWXYsvvjtqp6/ZBaQGFGO2OdDbwjDb10J8ypxD Eg== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nb0qrsx72-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Jan 2023 03:14:40 +0000
+        Thu, 26 Jan 2023 03:14:43 +0000
 Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30Q3Ecpx007834
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30Q3EhhH011777
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Jan 2023 03:14:39 GMT
+        Thu, 26 Jan 2023 03:14:43 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 25 Jan 2023 19:14:38 -0800
+ 15.2.986.36; Wed, 25 Jan 2023 19:14:42 -0800
 From:   Wesley Cheng <quic_wcheng@quicinc.com>
 To:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <lgirdwood@gmail.com>, <andersson@kernel.org>,
@@ -48,11 +48,10 @@ To:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
 CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <quic_jackp@quicinc.com>,
-        <quic_plai@quicinc.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [RFC PATCH v2 01/22] xhci: fix event ring segment table related masks and variables in header
-Date:   Wed, 25 Jan 2023 19:14:03 -0800
-Message-ID: <20230126031424.14582-2-quic_wcheng@quicinc.com>
+        <quic_plai@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [RFC PATCH v2 08/22] ASoC: dt-bindings: Add USB_RX port
+Date:   Wed, 25 Jan 2023 19:14:10 -0800
+Message-ID: <20230126031424.14582-9-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230126031424.14582-1-quic_wcheng@quicinc.com>
 References: <20230126031424.14582-1-quic_wcheng@quicinc.com>
@@ -63,71 +62,38 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nasanex01c.na.qualcomm.com (10.45.79.139)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Y6vvkQInwFXW-z4RFK3bYsLbLfALUWWl
-X-Proofpoint-GUID: Y6vvkQInwFXW-z4RFK3bYsLbLfALUWWl
+X-Proofpoint-GUID: XHGwBGVDQzkBlp1xS5NgCuesaQV-qD0R
+X-Proofpoint-ORIG-GUID: XHGwBGVDQzkBlp1xS5NgCuesaQV-qD0R
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-01-25_14,2023-01-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 mlxlogscore=999
- spamscore=0 malwarescore=0 impostorscore=0 suspectscore=0 bulkscore=0
- priorityscore=1501 mlxscore=0 adultscore=0 phishscore=0 lowpriorityscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 phishscore=0 mlxlogscore=637 malwarescore=0 mlxscore=0
+ priorityscore=1501 spamscore=0 suspectscore=0 clxscore=1015 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
  definitions=main-2301260028
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Q6DSP supports handling of USB playback audio data if USB audio offloading
+is enabled.  Add a new definition for the USB_RX AFE port, which is
+referenced when the AFE port is started.
 
-xHC controller can supports up to 1024 interrupters.
-To fit these change the max_interrupters varable from u8 to u16.
-
-Add a separate mask for the reserve and preserve bits [5:0] in the erst
-base register and use it instead of the ERST_PRT_MASK.
-ERSR_PTR_MASK [3:0] is intended for masking bits in the
-event ring dequeue pointer register.
-
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/host/xhci-mem.c | 4 ++--
- drivers/usb/host/xhci.h     | 5 ++++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 81ca2bc1f0be..679befa97c7a 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -2529,8 +2529,8 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- 			"// Set ERST base address for ir_set 0 = 0x%llx",
- 			(unsigned long long)xhci->erst.erst_dma_addr);
- 	val_64 = xhci_read_64(xhci, &xhci->ir_set->erst_base);
--	val_64 &= ERST_PTR_MASK;
--	val_64 |= (xhci->erst.erst_dma_addr & (u64) ~ERST_PTR_MASK);
-+	val_64 &= ERST_BASE_RSVDP;
-+	val_64 |= (xhci->erst.erst_dma_addr & (u64) ~ERST_BASE_RSVDP);
- 	xhci_write_64(xhci, val_64, &xhci->ir_set->erst_base);
+diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+index 9f7c5103bc82..746bc462bb2e 100644
+--- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
++++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+@@ -131,6 +131,7 @@
+ #define RX_CODEC_DMA_RX_7	126
+ #define QUINARY_MI2S_RX		127
+ #define QUINARY_MI2S_TX		128
++#define USB_RX				129
  
- 	/* Set the event ring dequeue address */
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index c9f06c5e4e9d..e1362e0c50e1 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -513,6 +513,9 @@ struct xhci_intr_reg {
- /* Preserve bits 16:31 of erst_size */
- #define	ERST_SIZE_MASK		(0xffff << 16)
- 
-+/* erst_base bitmasks */
-+#define ERST_BASE_RSVDP		(0x3f)
-+
- /* erst_dequeue bitmasks */
- /* Dequeue ERST Segment Index (DESI) - Segment number (or alias)
-  * where the current dequeue pointer lies.  This is an optional HW hint.
-@@ -1773,7 +1776,7 @@ struct xhci_hcd {
- 	u8		sbrn;
- 	u16		hci_version;
- 	u8		max_slots;
--	u8		max_interrupters;
-+	u16		max_interrupters;
- 	u8		max_ports;
- 	u8		isoc_threshold;
- 	/* imod_interval in ns (I * 250ns) */
+ #define LPASS_CLK_ID_PRI_MI2S_IBIT	1
+ #define LPASS_CLK_ID_PRI_MI2S_EBIT	2
