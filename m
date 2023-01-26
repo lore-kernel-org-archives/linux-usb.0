@@ -2,162 +2,209 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21058C54E94
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Jan 2023 16:26:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C8DC54E94
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Jan 2023 16:27:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232802AbjAZQ0j (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Jan 2023 11:26:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34202 "EHLO
+        id S232723AbjAZQ1H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Jan 2023 11:27:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230205AbjAZQ0G (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Jan 2023 11:26:06 -0500
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 043E1EC73
-        for <linux-usb@vger.kernel.org>; Thu, 26 Jan 2023 08:25:33 -0800 (PST)
-Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-4ff07dae50dso30294897b3.2
-        for <linux-usb@vger.kernel.org>; Thu, 26 Jan 2023 08:25:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rUFKXit/Slxp5jNkRtm2qJfbudUdkwg/5ym9L9/2xFg=;
-        b=BrNExWGHbV1NeR+vu2Js5zAqwDKTAmFhHgoWjYZ0a3qbH7rru8W3QViuclznskZkVo
-         6Q5eqrGX7jMOOdvE9K9lsVmJpHX9roidNQoqd4ah6qpZ3z5AR/LzfumpWsF7qxr+L/L7
-         2EeJAw9MATGkA5VBf2UwOc7KCg21F0CUspP8pGqPmL78PHbmYrJgHGcDXuiJf+tpyEq5
-         mYd3qiJmdB/mmqbT25mkgF6e/9yHOLIF4ZmJU2qiUjSg09+a1L9BOQF70sP/z/t1hEtG
-         N3QguNCw23qX8RL/9XVLJb/vAzwIwx19tcG6Myly1SJ+d6fdbBsCbrW+Wp9iSE9SLjFe
-         r7Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rUFKXit/Slxp5jNkRtm2qJfbudUdkwg/5ym9L9/2xFg=;
-        b=kxtcVwTzQQXBy96er/o7rHBVZXbJ5lLjc+L059ARpHZSkQndwcDWohEFh8i/aziuyp
-         BkXKQlY0kppbk+LeZamdu4WKFqW2loVJQ545U9fqlYrDjx9XI7bD6Dio26a3unH2bEYr
-         6CbkN436c8Ov7Pua2mqXQW9Kk+Dxv6Sw5zV8ujGpVfOU7htU9k4PU+U3ljoQPYjrogUS
-         AUkR8NPYHxC2UilxrFqiAQPTBJp8Jy/lqKtCFQ/1r+3pAhPtanH/Gflisihrw+TQAYuJ
-         AGWsTx7AlVKBY2diK79JTwVK0WbL1IoMwt7AraMPsUTZW/kVQvSFArUR/GPecdbc07b+
-         0xBw==
-X-Gm-Message-State: AFqh2kr/jFQYKr+aaYSZVD/DNVIPL9grJ6z4NjFzDUwDgYoMhp8NftWG
-        a5LX0lApeQQJIBoJem1OanHMDdO8hmF0soy2tkyTsg==
-X-Google-Smtp-Source: AMrXdXvRVLeaIi85wIrJBS5zRkOyr5/BQ66PCe0y1aLe9hmWIu7jqHBlhyy2SYPoXbE9x4WotKo1j1aRHLVU6Hd1LsI=
-X-Received: by 2002:a81:1b8b:0:b0:4ff:774b:7ffb with SMTP id
- b133-20020a811b8b000000b004ff774b7ffbmr3541685ywb.218.1674750315051; Thu, 26
- Jan 2023 08:25:15 -0800 (PST)
+        with ESMTP id S232782AbjAZQ0N (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Jan 2023 11:26:13 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AC86721CB;
+        Thu, 26 Jan 2023 08:25:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674750353; x=1706286353;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=tkQrGs3FSg5dTmlRU0hcgvbam/IWtDu8mWuckiRq01s=;
+  b=GPk182CpQsM/0tECI8Y1sf1yn/QuX6El8GxErrRSHumLZMHvqyGR4N0v
+   0lfems8LGQ9aZg7NjX9BWg7q/uIaobCIt38JWDzlTy4bKgXyYfW305m7Q
+   gr+0k8goffv0V3EY2UpM1QGUUXk+MOdijBU+2ahxgjiYJY/IciM6tMYkK
+   3kfP3R7mY2d9LzZF4He+VHbm85i1GZVh67fa4KsZRBEI6TKBacpoRRRpC
+   Wxh9oYadsj0LvgY1TZDvPT+bl2Q0blsk/wCf6+fYU0raPtuuuvZgA0e6T
+   WwTXb6lNtXn3+inAIhgpoeT6mz77dflG/PF/iprMcJ8ejaf8rrshnWVTE
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="354154717"
+X-IronPort-AV: E=Sophos;i="5.97,248,1669104000"; 
+   d="scan'208";a="354154717"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 08:24:43 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="612855093"
+X-IronPort-AV: E=Sophos;i="5.97,248,1669104000"; 
+   d="scan'208";a="612855093"
+Received: from nmani1-mobl2.amr.corp.intel.com (HELO [10.209.167.178]) ([10.209.167.178])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 08:24:41 -0800
+Message-ID: <557f8f76-38f5-5e07-905e-774e03120bd2@linux.intel.com>
+Date:   Thu, 26 Jan 2023 10:12:36 -0600
 MIME-Version: 1.0
-References: <20230125083851.27759-1-surenb@google.com> <20230125083851.27759-2-surenb@google.com>
- <Y9JFFYjfJf9uDijE@kernel.org> <Y9KTUw/04FmBVplw@kernel.org> <Y9KXjLaFFUvqqdd4@casper.infradead.org>
-In-Reply-To: <Y9KXjLaFFUvqqdd4@casper.infradead.org>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Thu, 26 Jan 2023 08:25:03 -0800
-Message-ID: <CAJuCfpHs4wvQpitiAYc+PQX3LnitF=wvm=zVX7CzMozzmnbcnw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Mike Rapoport <rppt@kernel.org>, akpm@linux-foundation.org,
-        michel@lespinasse.org, jglisse@google.com, mhocko@suse.com,
-        vbabka@suse.cz, hannes@cmpxchg.org, mgorman@techsingularity.net,
-        dave@stgolabs.net, liam.howlett@oracle.com, peterz@infradead.org,
-        ldufour@linux.ibm.com, paulmck@kernel.org, luto@kernel.org,
-        songliubraving@fb.com, peterx@redhat.com, david@redhat.com,
-        dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de,
-        kent.overstreet@linux.dev, punit.agrawal@bytedance.com,
-        lstoakes@gmail.com, peterjung1337@gmail.com, rientjes@google.com,
-        axelrasmussen@google.com, joelaf@google.com, minchan@google.com,
-        jannh@google.com, shakeelb@google.com, tatashin@google.com,
-        edumazet@google.com, gthelen@google.com, gurua@google.com,
-        arjunroy@google.com, soheil@google.com, hughlynch@google.com,
-        leewalsh@google.com, posk@google.com, will@kernel.org,
-        aneesh.kumar@linux.ibm.com, npiggin@gmail.com,
-        chenhuacai@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, richard@nod.at,
-        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-        qianweili@huawei.com, wangzhou1@hisilicon.com,
-        herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org,
-        airlied@gmail.com, daniel@ffwll.ch,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, l.stach@pengutronix.de,
-        krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com,
-        matthias.bgg@gmail.com, robdclark@gmail.com,
-        quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
-        tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
-        ray.huang@amd.com, kraxel@redhat.com, sre@kernel.org,
-        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        dimitri.sivanich@hpe.com, zhangfei.gao@linaro.org,
-        jejb@linux.ibm.com, martin.petersen@oracle.com,
-        dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com,
-        jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de,
-        jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net,
-        xiang@kernel.org, chao@kernel.org, tytso@mit.edu,
-        adilger.kernel@dilger.ca, miklos@szeredi.hu,
-        mike.kravetz@oracle.com, muchun.song@linux.dev, bhe@redhat.com,
-        andrii@kernel.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
-        kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, tiwai@suse.com,
-        haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
-        linux-kernel@vger.kernel.org, linux-graphics-maintainer@vmware.com,
-        linux-ia64@vger.kernel.org, linux-arch@vger.kernel.org,
-        loongarch@lists.linux.dev, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev,
-        dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        xen-devel@lists.xenproject.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-        devel@lists.orangefs.org, kexec@lists.infradead.org,
-        linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
-        selinux@vger.kernel.org, alsa-devel@alsa-project.org,
-        kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.4.2
+Subject: Re: [RFC PATCH v2 20/22] sound: usb: Prevent starting of audio stream
+ if in use
+Content-Language: en-US
+To:     Wesley Cheng <quic_wcheng@quicinc.com>,
+        srinivas.kandagatla@linaro.org, mathias.nyman@intel.com,
+        perex@perex.cz, lgirdwood@gmail.com, andersson@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+        Thinh.Nguyen@synopsys.com, broonie@kernel.org,
+        bgoswami@quicinc.com, tiwai@suse.com, robh+dt@kernel.org,
+        agross@kernel.org
+Cc:     devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_jackp@quicinc.com,
+        quic_plai@quicinc.com
+References: <20230126031424.14582-1-quic_wcheng@quicinc.com>
+ <20230126031424.14582-21-quic_wcheng@quicinc.com>
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20230126031424.14582-21-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jan 26, 2023 at 7:09 AM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Thu, Jan 26, 2023 at 04:50:59PM +0200, Mike Rapoport wrote:
-> > On Thu, Jan 26, 2023 at 11:17:09AM +0200, Mike Rapoport wrote:
-> > > On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
-> > > > +/* Use when VMA is not part of the VMA tree and needs no locking */
-> > > > +static inline void init_vm_flags(struct vm_area_struct *vma,
-> > > > +                          unsigned long flags)
-> > >
-> > > I'd suggest to make it vm_flags_init() etc.
-> >
-> > Thinking more about it, it will be even clearer to name these vma_flags_xyz()
->
-> Perhaps vma_VERB_flags()?
->
-> vma_init_flags()
-> vma_reset_flags()
-> vma_set_flags()
-> vma_clear_flags()
-> vma_mod_flags()
 
-Due to excessive email bouncing I posted the v3 of this patchset using
-the original per-VMA patchset's distribution list. That might have
-dropped Mike from the list. Sorry about that Mike, I'll add you to my
-usual list of suspects :)
-The v3 is here:
-https://lore.kernel.org/all/20230125233554.153109-1-surenb@google.com/
-and Andrew did suggest the same renames, so I'll be posting v4 with
-those changes later today.
-Thanks for the feedback!
 
->
+On 1/25/23 21:14, Wesley Cheng wrote:
+> With USB audio offloading, an audio session is started from the ASoC
+> platform sound card and PCM devices.  Likewise, the USB SND path is still
+> readily available for use, in case the non-offload path is desired.  In
+> order to prevent the two entities from attempting to use the USB bus,
+> introduce a flag that determines when either paths are in use.
+> 
+> If a PCM device is already in use, the check will return an error to
+> userspace notifying that the stream is currently busy.  This ensures that
+> only one path is using the USB substream.
+
+It's good to maintain mutual exclusion, but it's still very hard for an
+application to figure out which card can be used when.
+
+Returning -EBUSY is not super helpful. There should be something like a
+notification or connection status so that routing decisions can be made
+without trial-and-error.
+
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
+>  sound/usb/card.h                  |  1 +
+>  sound/usb/pcm.c                   | 19 +++++++++++++++++--
+>  sound/usb/qcom/qc_audio_offload.c | 15 ++++++++++++++-
+>  3 files changed, 32 insertions(+), 3 deletions(-)
+> 
+> diff --git a/sound/usb/card.h b/sound/usb/card.h
+> index 410a4ffad98e..ff6d4695e727 100644
+> --- a/sound/usb/card.h
+> +++ b/sound/usb/card.h
+> @@ -163,6 +163,7 @@ struct snd_usb_substream {
+>  	unsigned int pkt_offset_adj;	/* Bytes to drop from beginning of packets (for non-compliant devices) */
+>  	unsigned int stream_offset_adj;	/* Bytes to drop from beginning of stream (for non-compliant devices) */
+>  
+> +	unsigned int opened:1;		/* pcm device opened */
+>  	unsigned int running: 1;	/* running status */
+>  	unsigned int period_elapsed_pending;	/* delay period handling */
+>  
+> diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
+> index 0b01a5dfcb73..8946f8ddb892 100644
+> --- a/sound/usb/pcm.c
+> +++ b/sound/usb/pcm.c
+> @@ -1114,8 +1114,15 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
+>  	struct snd_usb_stream *as = snd_pcm_substream_chip(substream);
+>  	struct snd_pcm_runtime *runtime = substream->runtime;
+>  	struct snd_usb_substream *subs = &as->substream[direction];
+> +	struct snd_usb_audio *chip = subs->stream->chip;
+>  	int ret;
+>  
+> +	mutex_lock(&chip->mutex);
+> +	if (subs->opened) {
+> +		mutex_unlock(&chip->mutex);
+> +		return -EBUSY;
+> +	}
+> +
+>  	runtime->hw = snd_usb_hardware;
+>  	/* need an explicit sync to catch applptr update in low-latency mode */
+>  	if (direction == SNDRV_PCM_STREAM_PLAYBACK &&
+> @@ -1132,13 +1139,17 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
+>  
+>  	ret = setup_hw_info(runtime, subs);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto out;
+>  	ret = snd_usb_autoresume(subs->stream->chip);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto out;
+>  	ret = snd_media_stream_init(subs, as->pcm, direction);
+>  	if (ret < 0)
+>  		snd_usb_autosuspend(subs->stream->chip);
+> +	subs->opened = 1;
+> +out:
+> +	mutex_unlock(&chip->mutex);
+> +
+>  	return ret;
+>  }
+>  
+> @@ -1147,6 +1158,7 @@ static int snd_usb_pcm_close(struct snd_pcm_substream *substream)
+>  	int direction = substream->stream;
+>  	struct snd_usb_stream *as = snd_pcm_substream_chip(substream);
+>  	struct snd_usb_substream *subs = &as->substream[direction];
+> +	struct snd_usb_audio *chip = subs->stream->chip;
+>  	int ret;
+>  
+>  	snd_media_stop_pipeline(subs);
+> @@ -1160,6 +1172,9 @@ static int snd_usb_pcm_close(struct snd_pcm_substream *substream)
+>  
+>  	subs->pcm_substream = NULL;
+>  	snd_usb_autosuspend(subs->stream->chip);
+> +	mutex_lock(&chip->mutex);
+> +	subs->opened = 0;
+> +	mutex_unlock(&chip->mutex);
+>  
+>  	return 0;
+>  }
+> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+> index c1254d5f680d..9bd09282e70d 100644
+> --- a/sound/usb/qcom/qc_audio_offload.c
+> +++ b/sound/usb/qcom/qc_audio_offload.c
+> @@ -1365,12 +1365,17 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+>  		goto response;
+>  	}
+>  
+> +	mutex_lock(&chip->mutex);
+>  	if (req_msg->enable) {
+> -		if (info_idx < 0 || chip->system_suspend) {
+> +		if (info_idx < 0 || chip->system_suspend || subs->opened) {
+>  			ret = -EBUSY;
+> +			mutex_unlock(&chip->mutex);
+> +
+>  			goto response;
+>  		}
+> +		subs->opened = 1;
+>  	}
+> +	mutex_unlock(&chip->mutex);
+>  
+>  	if (req_msg->service_interval_valid) {
+>  		ret = get_data_interval_from_si(subs,
+> @@ -1392,6 +1397,11 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+>  		if (!ret)
+>  			ret = prepare_qmi_response(subs, req_msg, &resp,
+>  					info_idx);
+> +		if (ret < 0) {
+> +			mutex_lock(&chip->mutex);
+> +			subs->opened = 0;
+> +			mutex_unlock(&chip->mutex);
+> +		}
+>  	} else {
+>  		info = &uadev[pcm_card_num].info[info_idx];
+>  		if (info->data_ep_pipe) {
+> @@ -1413,6 +1423,9 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+>  		}
+>  
+>  		disable_audio_stream(subs);
+> +		mutex_lock(&chip->mutex);
+> +		subs->opened = 0;
+> +		mutex_unlock(&chip->mutex);
+>  	}
+>  
+>  response:
