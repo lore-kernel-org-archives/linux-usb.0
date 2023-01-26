@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB531C61DA2
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Jan 2023 03:16:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D88BC61D9D
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Jan 2023 03:16:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236226AbjAZDQK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Jan 2023 22:16:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46182 "EHLO
+        id S236307AbjAZDQP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 25 Jan 2023 22:16:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236227AbjAZDQF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Jan 2023 22:16:05 -0500
+        with ESMTP id S236266AbjAZDQL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Jan 2023 22:16:11 -0500
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5851065F16;
-        Wed, 25 Jan 2023 19:15:35 -0800 (PST)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30Q2rXli011227;
-        Thu, 26 Jan 2023 03:14:43 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E24365F0C;
+        Wed, 25 Jan 2023 19:15:42 -0800 (PST)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30Q3EmGS017428;
+        Thu, 26 Jan 2023 03:14:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=WFZq4UMSCH856PMLB3UVkAwA4Wl+MSgSWggJjWLXJ6A=;
- b=cWR2YZVaU3JWSUcega+o7RXn2iak4OHL+r2PG1aBCdNhByOW4hHu8N82AFsLp8MaPi0Q
- 0Ysg87YlD+aDPiGxSbXsjYSL3KFHuF+GR52odkKF5W5togVwE4SUfx75tZtXDz2CDlPF
- dKkPugWxag8QbDjReUEncaI+YpXVvoEMlEbAaGp20p5ZjVjw9Sh9oIDBdzO+8Iyok9sL
- 1ayuIHaDw+JSy4P7vgaPbipcZZGeM0MSQH5PZPCywDc0LdPCaJsdie6uo/mkqnv9XNqY
- xj3h84l/wL+rvPtWfvYcl+9rw2K18GtDscDwlNsKoSnd7Sxb+tNGY3A0/1GqVTDROWuR 0w== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nb6jc9brw-1
+ bh=X5M6sUavZ3fUTxE7UWPbNLuT6/8dgX69k0uiiidcChY=;
+ b=llnqE/Pu+nfIT9sEy0Y9PkamSTRCfgd7b2VpquznVHcSUgTjLG4LfVBhKUSf+zYgjzOb
+ dI25SPmMp4ArPx03qfNKoqT8Y4eqf6GqwkiEV9ZZJPVyzOSmKELc3klzi1XWGUd/KBo3
+ YawrZCb9IQ66oRnUq9ehUrRyLyzALWivXz27EtQStRxuYI59JhQ84+qLUJu+KVLgtYKr
+ 3lYnlwHmvSLMeZmeNhiklZ6GFrxoD04q/WEmSZfIu+6+oznMUPnLhXGedBiTYkYarNcF
+ JCpxWLB9kP5nL6ynwndmplR7nwm+/TTQlw7m5YOn0hL88W/tVppvDXKMkT5UVO1W/zD0 fw== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nb2nssqw1-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Jan 2023 03:14:42 +0000
+        Thu, 26 Jan 2023 03:14:47 +0000
 Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30Q3EfMI031142
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30Q3ElLH016126
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Jan 2023 03:14:41 GMT
+        Thu, 26 Jan 2023 03:14:47 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 25 Jan 2023 19:14:41 -0800
+ 15.2.986.36; Wed, 25 Jan 2023 19:14:46 -0800
 From:   Wesley Cheng <quic_wcheng@quicinc.com>
 To:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <lgirdwood@gmail.com>, <andersson@kernel.org>,
@@ -49,9 +49,9 @@ CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <quic_jackp@quicinc.com>,
         <quic_plai@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [RFC PATCH v2 06/22] usb: host: xhci-mem: Cleanup pending secondary event ring events
-Date:   Wed, 25 Jan 2023 19:14:08 -0800
-Message-ID: <20230126031424.14582-7-quic_wcheng@quicinc.com>
+Subject: [RFC PATCH v2 15/22] usb: dwc3: Add DT parameter to specify maximum number of interrupters
+Date:   Wed, 25 Jan 2023 19:14:17 -0800
+Message-ID: <20230126031424.14582-16-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230126031424.14582-1-quic_wcheng@quicinc.com>
 References: <20230126031424.14582-1-quic_wcheng@quicinc.com>
@@ -62,130 +62,116 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nasanex01c.na.qualcomm.com (10.45.79.139)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: kDhATwC0d0NyYk1o5n1L56LWOe4NiDHT
-X-Proofpoint-GUID: kDhATwC0d0NyYk1o5n1L56LWOe4NiDHT
+X-Proofpoint-ORIG-GUID: Iz1hvovHMkS4yg2EnzbrH7ZRdk2gOWvv
+X-Proofpoint-GUID: Iz1hvovHMkS4yg2EnzbrH7ZRdk2gOWvv
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-01-25_14,2023-01-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- phishscore=0 impostorscore=0 adultscore=0 priorityscore=1501 bulkscore=0
- suspectscore=0 clxscore=1015 mlxscore=0 spamscore=0 mlxlogscore=616
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301260028
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=621
+ spamscore=0 malwarescore=0 impostorscore=0 suspectscore=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 adultscore=0 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301260028
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-As part of xHCI bus suspend, the XHCI is halted.  However, if there are
-pending events in the secondary event ring, it is observed that the xHCI
-controller stops responding to further commands upon host or device
-initiated bus resume.  Iterate through all pending events and updating the
-dequeue pointer to the last pending event trb.
+Allow for the DWC3 host driver to pass along a XHCI property that defines
+how many interrupters to allocate.  This is in relation for the number of
+event rings that can be potentially used by other processors within the
+system.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/host/xhci-mem.c | 74 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 69 insertions(+), 5 deletions(-)
+ drivers/usb/dwc3/core.c | 12 ++++++++++++
+ drivers/usb/dwc3/core.h |  2 ++
+ drivers/usb/dwc3/host.c |  5 ++++-
+ 3 files changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 45ac77a5d8e4..5c5266c18910 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -1819,17 +1819,85 @@ int xhci_alloc_erst(struct xhci_hcd *xhci,
- 	return 0;
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 476b63618511..67d6f0ae81d2 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1446,6 +1446,7 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	u8			tx_thr_num_pkt_prd = 0;
+ 	u8			tx_max_burst_prd = 0;
+ 	u8			tx_fifo_resize_max_num;
++	u8			num_hc_interrupters;
+ 	const char		*usb_psy_name;
+ 	int			ret;
+ 
+@@ -1468,6 +1469,9 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	 */
+ 	tx_fifo_resize_max_num = 6;
+ 
++	/* default to a single XHCI interrupter */
++	num_hc_interrupters = 1;
++
+ 	dwc->maximum_speed = usb_get_maximum_speed(dev);
+ 	dwc->max_ssp_rate = usb_get_maximum_ssp_rate(dev);
+ 	dwc->dr_mode = usb_get_dr_mode(dev);
+@@ -1511,6 +1515,12 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 				&tx_thr_num_pkt_prd);
+ 	device_property_read_u8(dev, "snps,tx-max-burst-prd",
+ 				&tx_max_burst_prd);
++	device_property_read_u8(dev, "snps,num-hc-interrupters",
++				&num_hc_interrupters);
++	/* DWC3 core allowed to have a max of 8 interrupters */
++	if (num_hc_interrupters > 8)
++		num_hc_interrupters = 8;
++
+ 	dwc->do_fifo_resize = device_property_read_bool(dev,
+ 							"tx-fifo-resize");
+ 	if (dwc->do_fifo_resize)
+@@ -1589,6 +1599,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	dwc->imod_interval = 0;
+ 
+ 	dwc->tx_fifo_resize_max_num = tx_fifo_resize_max_num;
++
++	dwc->num_hc_interrupters = num_hc_interrupters;
  }
  
-+static void xhci_handle_sec_intr_events(struct xhci_hcd *xhci,
-+	struct xhci_ring *ring,	struct xhci_intr_reg __iomem *ir_set,
-+	struct xhci_erst *erst)
-+{
-+	union xhci_trb *erdp_trb, *current_trb;
-+	struct xhci_segment	*seg;
-+	u64 erdp_reg;
-+	u32 iman_reg;
-+	dma_addr_t deq;
-+	unsigned long segment_offset;
-+
-+	/* disable irq, ack pending interrupt and ack all pending events */
-+	iman_reg = readl_relaxed(&ir_set->irq_pending);
-+	iman_reg &= ~IMAN_IE;
-+	writel_relaxed(iman_reg, &ir_set->irq_pending);
-+	iman_reg = readl_relaxed(&ir_set->irq_pending);
-+	if (iman_reg & IMAN_IP)
-+		writel_relaxed(iman_reg, &ir_set->irq_pending);
-+
-+	/* last acked event trb is in erdp reg  */
-+	erdp_reg = xhci_read_64(xhci, &ir_set->erst_dequeue);
-+	deq = (dma_addr_t)(erdp_reg & ~ERST_PTR_MASK);
-+	if (!deq) {
-+		xhci_dbg(xhci, "event ring handling not required\n");
-+		return;
-+	}
-+
-+	seg = ring->first_seg;
-+	segment_offset = deq - seg->dma;
-+
-+	/* find out virtual address of the last acked event trb */
-+	erdp_trb = current_trb = &seg->trbs[0] +
-+				(segment_offset/sizeof(*current_trb));
-+
-+	/* read cycle state of the last acked trb to find out CCS */
-+	ring->cycle_state = le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE;
-+
-+	while (1) {
-+		/* last trb of the event ring: toggle cycle state */
-+		if (current_trb == &seg->trbs[TRBS_PER_SEGMENT - 1]) {
-+			ring->cycle_state ^= 1;
-+			current_trb = &seg->trbs[0];
-+		} else {
-+			current_trb++;
-+		}
-+
-+		/* cycle state transition */
-+		if ((le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE) !=
-+		    ring->cycle_state)
-+			break;
-+	}
-+
-+	if (erdp_trb != current_trb) {
-+		deq = xhci_trb_virt_to_dma(ring->deq_seg, current_trb);
-+		if (deq == 0)
-+			xhci_warn(xhci,
-+				"WARN invalid SW event ring dequeue ptr.\n");
-+		/* Update HC event ring dequeue pointer */
-+		erdp_reg &= ERST_PTR_MASK;
-+		erdp_reg |= ((u64) deq & (u64) ~ERST_PTR_MASK);
-+	}
-+
-+	/* Clear the event handler busy flag (RW1C); event ring is empty. */
-+	erdp_reg |= ERST_EHB;
-+	xhci_write_64(xhci, erdp_reg, &ir_set->erst_dequeue);
-+}
-+
- static void
- xhci_free_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
+ /* check whether the core supports IMOD */
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 8f9959ba9fd4..09037299da53 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1050,6 +1050,7 @@ struct dwc3_scratchpad_array {
+  * @tx_max_burst_prd: max periodic ESS transmit burst size
+  * @tx_fifo_resize_max_num: max number of fifos allocated during txfifo resize
+  * @clear_stall_protocol: endpoint number that requires a delayed status phase
++ * @num_hc_interrupters: number of host controller interrupters
+  * @hsphy_interface: "utmi" or "ulpi"
+  * @connected: true when we're connected to a host, false otherwise
+  * @softconnect: true when gadget connect is called, false when disconnect runs
+@@ -1275,6 +1276,7 @@ struct dwc3 {
+ 	u8			tx_max_burst_prd;
+ 	u8			tx_fifo_resize_max_num;
+ 	u8			clear_stall_protocol;
++	u8			num_hc_interrupters;
+ 
+ 	const char		*hsphy_interface;
+ 
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index f6f13e7f1ba1..52a284fdd704 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -66,7 +66,7 @@ static int dwc3_host_get_irq(struct dwc3 *dwc)
+ 
+ int dwc3_host_init(struct dwc3 *dwc)
  {
- 	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
- 	size_t erst_size;
--	u64 tmp64;
- 	u32 tmp;
+-	struct property_entry	props[4];
++	struct property_entry	props[5];
+ 	struct platform_device	*xhci;
+ 	int			ret, irq;
+ 	int			prop_idx = 0;
+@@ -112,6 +112,9 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 	if (DWC3_VER_IS_WITHIN(DWC3, ANY, 300A))
+ 		props[prop_idx++] = PROPERTY_ENTRY_BOOL("quirk-broken-port-ped");
  
- 	if (!ir)
- 		return;
- 
-+	xhci_handle_sec_intr_events(xhci, ir->event_ring, ir->ir_set, &ir->erst);
++	props[prop_idx++] = PROPERTY_ENTRY_U8("num-hc-interrupters",
++								dwc->num_hc_interrupters);
 +
- 	erst_size = sizeof(struct xhci_erst_entry) * (ir->erst.num_entries);
- 	if (ir->erst.entries)
- 		dma_free_coherent(dev, erst_size,
-@@ -1842,10 +1910,6 @@ xhci_free_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
- 	tmp &= ERST_SIZE_MASK;
- 	writel(tmp, &ir->ir_set->erst_size);
- 
--	tmp64 = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
--	tmp64 &= (u64) ERST_PTR_MASK;
--	xhci_write_64(xhci, tmp64, &ir->ir_set->erst_dequeue);
--
- 	/* free interrrupter event ring */
- 	if (ir->event_ring)
- 		xhci_ring_free(xhci, ir->event_ring);
+ 	if (prop_idx) {
+ 		ret = device_create_managed_software_node(&xhci->dev, props, NULL);
+ 		if (ret) {
