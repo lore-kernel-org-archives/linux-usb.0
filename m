@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 415D7C54E94
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Jan 2023 03:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F2E6C61DA0
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Jan 2023 03:14:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235895AbjAZDOq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Jan 2023 22:14:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43984 "EHLO
+        id S236020AbjAZDOx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 25 Jan 2023 22:14:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235786AbjAZDOo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Jan 2023 22:14:44 -0500
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A557A64DAB;
-        Wed, 25 Jan 2023 19:14:41 -0800 (PST)
+        with ESMTP id S235962AbjAZDOt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Jan 2023 22:14:49 -0500
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F41265F09;
+        Wed, 25 Jan 2023 19:14:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1674702881; x=1706238881;
+  t=1674702885; x=1706238885;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=4k5uKPBM4qarkB6xPeHo7pdL8DPp6w26sAa2PI2Q7bk=;
-  b=mVTvXmteBtwwcW02iH7/QetItY0n3Pc/7KJvv70yBeiuCI8ImJ5BYdQP
-   JoVJkuFSVnJv5ut2NJ5DX6tuwglKsNy1z7eYIv6gdAD360fIuRZVotZjj
-   OnJrgLGif0DLSx58u/0iIrFn+M9SOKYRk5Q0EeWtP/JmTr5gzEGMlYRbc
-   k=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 25 Jan 2023 19:14:40 -0800
+  bh=FHMen8BOj1wJyxQLpH56jMvwuqHzmMsYn9QZTPIZBcI=;
+  b=YkNnansAfGMcf29uscFHUV+OvP8SykYg6EgvjF5wGAJ5vHh3ePP6fwCb
+   uOs5QyijKK/VLZGCOGDT9Z5PTOpRQ7RiGvH/Di0oqQR3EZ8D2eEGsP7Z4
+   R2IZO51f4uM5q3oVH78YjM5cl3u2uEllRFW+HgaLMJMNOXx27eZyr5Ixi
+   Q=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 25 Jan 2023 19:14:43 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.45.79.139])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 19:14:40 -0800
+  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 19:14:43 -0800
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 25 Jan 2023 19:14:39 -0800
+ 15.2.986.36; Wed, 25 Jan 2023 19:14:42 -0800
 From:   Wesley Cheng <quic_wcheng@quicinc.com>
 To:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <lgirdwood@gmail.com>, <andersson@kernel.org>,
@@ -43,11 +43,10 @@ To:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
 CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <quic_jackp@quicinc.com>,
-        <quic_plai@quicinc.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [RFC PATCH v2 03/22] xhci: Refactor interrupter code for initial multi interrupter support.
-Date:   Wed, 25 Jan 2023 19:14:05 -0800
-Message-ID: <20230126031424.14582-4-quic_wcheng@quicinc.com>
+        <quic_plai@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [RFC PATCH v2 09/22] ASoC: qcom: qdsp6: Introduce USB AFE port to q6dsp
+Date:   Wed, 25 Jan 2023 19:14:11 -0800
+Message-ID: <20230126031424.14582-10-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230126031424.14582-1-quic_wcheng@quicinc.com>
 References: <20230126031424.14582-1-quic_wcheng@quicinc.com>
@@ -60,858 +59,530 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
+The QC ADSP is able to support USB playback endpoints, so that the main
+application processor can be placed into lower CPU power modes.  This adds
+the required AFE port configurations and port start command to start an
+audio session.
 
-xHC supports several interrupters, each with its own mmio register set,
-event ring and MSI/MSI-X vector. Transfers can be assigned different
-interrupters when queued. See xhci 4.17 for details.
-Current driver only supports one interrupter.
+Specifically, the QC ADSP can support all potential endpoints that are
+exposed by the audio data interface.  This includes, feedback endpoints
+(both implicit and explicit) as well as the isochronous (data) endpoints.
+The size of audio samples sent per USB frame (microframe) will be adjusted
+based on information received on the feedback endpoint.
 
-Create a xhci_interrupter structure containing an event ring, pointer to
-mmio registers for this interrupter, variables to store registers over s3
-suspend, erst, etc. Add functions to create and free an interrupter, and
-pass an interrupter pointner to functions that deal with events.
-
-Secondary interrupters are also useful without having a interrupt vector.
-One use case is the xHCI Audio offloading where a DSP unit can take
-care of specific audio endpoints, and all transfer events related to those
-endpoints can be mapped to its own interrupter event ring, these event
-at won't cause actual interrupts that wake the CPU.
-The DSP polls this separate interupter event ring for new events and
-handles all data on those audio endpoints.
-
-Only minor functional changes such as clearing interrupter registers
-when freeing the interupeter.
-Still use only one single interrupter, the primary interrupter.
-
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/host/xhci-debugfs.c |   2 +-
- drivers/usb/host/xhci-mem.c     | 164 +++++++++++++++++++++-----------
- drivers/usb/host/xhci-ring.c    |  68 +++++++------
- drivers/usb/host/xhci.c         |  54 +++++++----
- drivers/usb/host/xhci.h         |  76 +--------------
- include/linux/usb/xhci-intr.h   |  82 ++++++++++++++++
- 6 files changed, 263 insertions(+), 183 deletions(-)
- create mode 100644 include/linux/usb/xhci-intr.h
+ sound/soc/qcom/qdsp6/q6afe-dai.c         |  48 ++++++
+ sound/soc/qcom/qdsp6/q6afe.c             | 183 +++++++++++++++++++++++
+ sound/soc/qcom/qdsp6/q6afe.h             |  46 +++++-
+ sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
+ sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
+ sound/soc/qcom/qdsp6/q6routing.c         |   8 +
+ 6 files changed, 308 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
-index dc832ddf7033..0bc7fe11f749 100644
---- a/drivers/usb/host/xhci-debugfs.c
-+++ b/drivers/usb/host/xhci-debugfs.c
-@@ -692,7 +692,7 @@ void xhci_debugfs_init(struct xhci_hcd *xhci)
- 				     "command-ring",
- 				     xhci->debugfs_root);
- 
--	xhci_debugfs_create_ring_dir(xhci, &xhci->event_ring,
-+	xhci_debugfs_create_ring_dir(xhci, &xhci->interrupter->event_ring,
- 				     "event-ring",
- 				     xhci->debugfs_root);
- 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index bf9bb29f924b..2acd41a18190 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -1819,17 +1819,39 @@ int xhci_alloc_erst(struct xhci_hcd *xhci,
+diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6afe-dai.c
+index 8bb7452b8f18..0773a0882d9b 100644
+--- a/sound/soc/qcom/qdsp6/q6afe-dai.c
++++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
+@@ -111,6 +111,40 @@ static int q6hdmi_hw_params(struct snd_pcm_substream *substream,
  	return 0;
  }
  
--void xhci_free_erst(struct xhci_hcd *xhci, struct xhci_erst *erst)
-+static void
-+xhci_free_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
- {
--	size_t size;
- 	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
-+	size_t erst_size;
-+	u64 tmp64;
-+	u32 tmp;
- 
--	size = sizeof(struct xhci_erst_entry) * (erst->num_entries);
--	if (erst->entries)
--		dma_free_coherent(dev, size,
--				erst->entries,
--				erst->erst_dma_addr);
--	erst->entries = NULL;
-+	if (!ir)
-+		return;
-+
-+	erst_size = sizeof(struct xhci_erst_entry) * (ir->erst.num_entries);
-+	if (ir->erst.entries)
-+		dma_free_coherent(dev, erst_size,
-+				  ir->erst.entries,
-+				  ir->erst.erst_dma_addr);
-+	ir->erst.entries = NULL;
-+
-+	/* clean out interrupter registers */
-+	tmp = readl(&ir->ir_set->erst_size);
-+	tmp &= ERST_SIZE_MASK;
-+	writel(tmp, &ir->ir_set->erst_size);
-+
-+	tmp64 = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
-+	tmp64 &= (u64) ERST_PTR_MASK;
-+	xhci_write_64(xhci, tmp64, &ir->ir_set->erst_dequeue);
-+
-+	/* free interrrupter event ring */
-+	if (ir->event_ring)
-+		xhci_ring_free(xhci, ir->event_ring);
-+	ir->event_ring = NULL;
-+
-+	kfree(ir);
- }
- 
- void xhci_mem_cleanup(struct xhci_hcd *xhci)
-@@ -1839,12 +1861,9 @@ void xhci_mem_cleanup(struct xhci_hcd *xhci)
- 
- 	cancel_delayed_work_sync(&xhci->cmd_timer);
- 
--	xhci_free_erst(xhci, &xhci->erst);
--
--	if (xhci->event_ring)
--		xhci_ring_free(xhci, xhci->event_ring);
--	xhci->event_ring = NULL;
--	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed event ring");
-+	xhci_free_interrupter(xhci, xhci->interrupter);
-+	xhci->interrupter = NULL;
-+	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed primary event ring");
- 
- 	if (xhci->cmd_ring)
- 		xhci_ring_free(xhci, xhci->cmd_ring);
-@@ -1929,18 +1948,18 @@ void xhci_mem_cleanup(struct xhci_hcd *xhci)
- 	xhci->usb3_rhub.bus_state.bus_suspended = 0;
- }
- 
--static void xhci_set_hc_event_deq(struct xhci_hcd *xhci)
-+static void xhci_set_hc_event_deq(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
- {
- 	u64 temp;
- 	dma_addr_t deq;
- 
--	deq = xhci_trb_virt_to_dma(xhci->event_ring->deq_seg,
--			xhci->event_ring->dequeue);
-+	deq = xhci_trb_virt_to_dma(ir->event_ring->deq_seg,
-+			ir->event_ring->dequeue);
- 	if (!deq)
- 		xhci_warn(xhci, "WARN something wrong with SW event ring "
- 				"dequeue ptr.\n");
- 	/* Update HC event ring dequeue pointer */
--	temp = xhci_read_64(xhci, &xhci->ir_set->erst_dequeue);
-+	temp = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
- 	temp &= ERST_PTR_MASK;
- 	/* Don't clear the EHB bit (which is RW1C) because
- 	 * there might be more events to service.
-@@ -1950,7 +1969,7 @@ static void xhci_set_hc_event_deq(struct xhci_hcd *xhci)
- 			"// Write event ring dequeue pointer, "
- 			"preserving EHB bit");
- 	xhci_write_64(xhci, ((u64) deq & (u64) ~ERST_PTR_MASK) | temp,
--			&xhci->ir_set->erst_dequeue);
-+			&ir->ir_set->erst_dequeue);
- }
- 
- static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
-@@ -2217,6 +2236,68 @@ static int xhci_setup_port_arrays(struct xhci_hcd *xhci, gfp_t flags)
- 	return 0;
- }
- 
-+static struct xhci_interrupter *
-+xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int intr_num, gfp_t flags)
++static int q6usb_hw_params(struct snd_pcm_substream *substream,
++			   struct snd_pcm_hw_params *params,
++			   struct snd_soc_dai *dai)
 +{
-+	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
-+	struct xhci_interrupter *ir;
-+	u64 erst_base;
-+	u32 erst_size;
-+	int ret;
++	struct q6afe_dai_data *dai_data = dev_get_drvdata(dai->dev);
++	int channels = params_channels(params);
++	int rate = params_rate(params);
++	struct q6afe_usb_cfg *usb = &dai_data->port_config[dai->id].usb_audio;
 +
-+	if (intr_num > xhci->max_interrupters) {
-+		xhci_warn(xhci, "Can't allocate interrupter %d, max interrupters %d\n",
-+			  intr_num, xhci->max_interrupters);
-+		return NULL;
++	usb->sample_rate = rate;
++	usb->num_channels = channels;
++
++	switch (params_format(params)) {
++	case SNDRV_PCM_FORMAT_U16_LE:
++	case SNDRV_PCM_FORMAT_S16_LE:
++	case SNDRV_PCM_FORMAT_SPECIAL:
++		usb->bit_width = 16;
++		break;
++	case SNDRV_PCM_FORMAT_S24_LE:
++	case SNDRV_PCM_FORMAT_S24_3LE:
++		usb->bit_width = 24;
++		break;
++	case SNDRV_PCM_FORMAT_S32_LE:
++		usb->bit_width = 32;
++		break;
++	default:
++		dev_err(dai->dev, "%s: invalid format %d\n",
++			__func__, params_format(params));
++		return -EINVAL;
 +	}
 +
-+	if (xhci->interrupter) {
-+		xhci_warn(xhci, "Can't allocate already set up interrupter %d\n", intr_num);
-+		return NULL;
-+	}
-+
-+	ir = kzalloc_node(sizeof(*ir), flags, dev_to_node(dev));
-+	if (!ir)
-+		return NULL;
-+
-+	ir->ir_set = &xhci->run_regs->ir_set[intr_num];
-+	ir->event_ring = xhci_ring_alloc(xhci, ERST_NUM_SEGS, 1, TYPE_EVENT,
-+					0, flags);
-+	if (!ir->event_ring) {
-+		xhci_warn(xhci, "Failed to allocate interrupter %d event ring\n", intr_num);
-+		goto fail_ir;
-+	}
-+
-+	ret = xhci_alloc_erst(xhci, ir->event_ring, &ir->erst, flags);
-+	if (ret) {
-+		xhci_warn(xhci, "Failed to allocate interrupter %d erst\n", intr_num);
-+		goto fail_ev;
-+
-+	}
-+	/* set ERST count with the number of entries in the segment table */
-+	erst_size = readl(&ir->ir_set->erst_size);
-+	erst_size &= ERST_SIZE_MASK;
-+	erst_size |= ERST_NUM_SEGS;
-+	writel(erst_size, &ir->ir_set->erst_size);
-+
-+	erst_base = xhci_read_64(xhci, &ir->ir_set->erst_base);
-+	erst_base &= ERST_PTR_MASK;
-+	erst_base |= (ir->erst.erst_dma_addr & (u64) ~ERST_PTR_MASK);
-+	xhci_write_64(xhci, erst_base, &ir->ir_set->erst_base);
-+
-+	/* Set the event ring dequeue address of this interrupter */
-+	xhci_set_hc_event_deq(xhci, ir);
-+
-+	return ir;
-+
-+fail_ev:
-+	xhci_ring_free(xhci, ir->event_ring);
-+fail_ir:
-+	kfree(ir);
-+
-+	return NULL;
++	return 0;
 +}
 +
- int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- {
- 	dma_addr_t	dma;
-@@ -2224,7 +2305,7 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- 	unsigned int	val, val2;
- 	u64		val_64;
- 	u32		page_size, temp;
--	int		i, ret;
-+	int		i;
- 
- 	INIT_LIST_HEAD(&xhci->cmd_list);
- 
-@@ -2337,46 +2418,13 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- 			" from cap regs base addr", val);
- 	xhci->dba = (void __iomem *) xhci->cap_regs + val;
- 	/* Set ir_set to interrupt register set 0 */
--	xhci->ir_set = &xhci->run_regs->ir_set[0];
--
--	/*
--	 * Event ring setup: Allocate a normal ring, but also setup
--	 * the event ring segment table (ERST).  Section 4.9.3.
--	 */
--	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "// Allocating event ring");
--	xhci->event_ring = xhci_ring_alloc(xhci, ERST_NUM_SEGS, 1, TYPE_EVENT,
--					0, flags);
--	if (!xhci->event_ring)
--		goto fail;
--
--	ret = xhci_alloc_erst(xhci, xhci->event_ring, &xhci->erst, flags);
--	if (ret)
--		goto fail;
--
--	/* set ERST count with the number of entries in the segment table */
--	val = readl(&xhci->ir_set->erst_size);
--	val &= ERST_SIZE_MASK;
--	val |= ERST_NUM_SEGS;
--	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
--			"// Write ERST size = %i to ir_set 0 (some bits preserved)",
--			val);
--	writel(val, &xhci->ir_set->erst_size);
- 
-+	/* allocate and set up primary interrupter with an event ring. */
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
--			"// Set ERST entries to point to event ring.");
--	/* set the segment table base address */
--	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
--			"// Set ERST base address for ir_set 0 = 0x%llx",
--			(unsigned long long)xhci->erst.erst_dma_addr);
--	val_64 = xhci_read_64(xhci, &xhci->ir_set->erst_base);
--	val_64 &= ERST_BASE_RSVDP;
--	val_64 |= (xhci->erst.erst_dma_addr & (u64) ~ERST_BASE_RSVDP);
--	xhci_write_64(xhci, val_64, &xhci->ir_set->erst_base);
--
--	/* Set the event ring dequeue address */
--	xhci_set_hc_event_deq(xhci);
--	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
--			"Wrote ERST address to ir_set 0.");
-+		       "Allocating primary event ring");
-+	xhci->interrupter = xhci_alloc_interrupter(xhci, 0, flags);
-+	if (!xhci->interrupter)
-+		goto fail;
- 
- 	xhci->isoc_bei_interval = AVOID_BEI_INTERVAL_MAX;
- 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index ddc30037f9ce..993c2dc2cd1a 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -1830,7 +1830,8 @@ static void xhci_cavium_reset_phy_quirk(struct xhci_hcd *xhci)
- }
- 
- static void handle_port_status(struct xhci_hcd *xhci,
--		union xhci_trb *event)
-+			       struct xhci_interrupter *ir,
-+			       union xhci_trb *event)
- {
- 	struct usb_hcd *hcd;
- 	u32 port_id;
-@@ -1853,7 +1854,7 @@ static void handle_port_status(struct xhci_hcd *xhci,
- 	if ((port_id <= 0) || (port_id > max_ports)) {
- 		xhci_warn(xhci, "Port change event with invalid port ID %d\n",
- 			  port_id);
--		inc_deq(xhci, xhci->event_ring);
-+		inc_deq(xhci, ir->event_ring);
- 		return;
- 	}
- 
-@@ -1983,7 +1984,7 @@ static void handle_port_status(struct xhci_hcd *xhci,
- 
- cleanup:
- 	/* Update event ring dequeue pointer before dropping the lock */
--	inc_deq(xhci, xhci->event_ring);
-+	inc_deq(xhci, ir->event_ring);
- 
- 	/* Don't make the USB core poll the roothub if we got a bad port status
- 	 * change event.  Besides, at that point we can't tell which roothub
-@@ -2516,7 +2517,8 @@ static int process_bulk_intr_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
-  * At this point, the host controller is probably hosed and should be reset.
-  */
- static int handle_tx_event(struct xhci_hcd *xhci,
--		struct xhci_transfer_event *event)
-+			   struct xhci_interrupter *ir,
-+			   struct xhci_transfer_event *event)
- {
- 	struct xhci_virt_ep *ep;
- 	struct xhci_ring *ep_ring;
-@@ -2868,7 +2870,7 @@ static int handle_tx_event(struct xhci_hcd *xhci,
- 		 * processing missed tds.
- 		 */
- 		if (!handling_skipped_tds)
--			inc_deq(xhci, xhci->event_ring);
-+			inc_deq(xhci, ir->event_ring);
- 
- 	/*
- 	 * If ep->skip is set, it means there are missed tds on the
-@@ -2883,8 +2885,8 @@ static int handle_tx_event(struct xhci_hcd *xhci,
- err_out:
- 	xhci_err(xhci, "@%016llx %08x %08x %08x %08x\n",
- 		 (unsigned long long) xhci_trb_virt_to_dma(
--			 xhci->event_ring->deq_seg,
--			 xhci->event_ring->dequeue),
-+			 ir->event_ring->deq_seg,
-+			 ir->event_ring->dequeue),
- 		 lower_32_bits(le64_to_cpu(event->buffer)),
- 		 upper_32_bits(le64_to_cpu(event->buffer)),
- 		 le32_to_cpu(event->transfer_len),
-@@ -2898,7 +2900,7 @@ static int handle_tx_event(struct xhci_hcd *xhci,
-  * Returns >0 for "possibly more events to process" (caller should call again),
-  * otherwise 0 if done.  In future, <0 returns should indicate error code.
-  */
--static int xhci_handle_event(struct xhci_hcd *xhci)
-+static int xhci_handle_event(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
- {
- 	union xhci_trb *event;
- 	int update_ptrs = 1;
-@@ -2906,18 +2908,18 @@ static int xhci_handle_event(struct xhci_hcd *xhci)
- 	int ret;
- 
- 	/* Event ring hasn't been allocated yet. */
--	if (!xhci->event_ring || !xhci->event_ring->dequeue) {
--		xhci_err(xhci, "ERROR event ring not ready\n");
-+	if (!ir || !ir->event_ring || !ir->event_ring->dequeue) {
-+		xhci_err(xhci, "ERROR interrupter not ready\n");
- 		return -ENOMEM;
- 	}
- 
--	event = xhci->event_ring->dequeue;
-+	event = ir->event_ring->dequeue;
- 	/* Does the HC or OS own the TRB? */
- 	if ((le32_to_cpu(event->event_cmd.flags) & TRB_CYCLE) !=
--	    xhci->event_ring->cycle_state)
-+	    ir->event_ring->cycle_state)
- 		return 0;
- 
--	trace_xhci_handle_event(xhci->event_ring, &event->generic);
-+	trace_xhci_handle_event(ir->event_ring, &event->generic);
- 
- 	/*
- 	 * Barrier between reading the TRB_CYCLE (valid) flag above and any
-@@ -2932,11 +2934,11 @@ static int xhci_handle_event(struct xhci_hcd *xhci)
- 		handle_cmd_completion(xhci, &event->event_cmd);
+ static int q6i2s_hw_params(struct snd_pcm_substream *substream,
+ 			   struct snd_pcm_hw_params *params,
+ 			   struct snd_soc_dai *dai)
+@@ -411,6 +445,10 @@ static int q6afe_dai_prepare(struct snd_pcm_substream *substream,
+ 		q6afe_cdc_dma_port_prepare(dai_data->port[dai->id],
+ 					   &dai_data->port_config[dai->id].dma_cfg);
  		break;
- 	case TRB_PORT_STATUS:
--		handle_port_status(xhci, event);
-+		handle_port_status(xhci, ir, event);
- 		update_ptrs = 0;
- 		break;
- 	case TRB_TRANSFER:
--		ret = handle_tx_event(xhci, &event->trans_event);
-+		ret = handle_tx_event(xhci, ir, &event->trans_event);
- 		if (ret >= 0)
- 			update_ptrs = 0;
- 		break;
-@@ -2960,7 +2962,7 @@ static int xhci_handle_event(struct xhci_hcd *xhci)
- 
- 	if (update_ptrs)
- 		/* Update SW event ring dequeue pointer */
--		inc_deq(xhci, xhci->event_ring);
-+		inc_deq(xhci, ir->event_ring);
- 
- 	/* Are there more items on the event ring?  Caller will call us again to
- 	 * check.
-@@ -2974,16 +2976,17 @@ static int xhci_handle_event(struct xhci_hcd *xhci)
-  * - To avoid "Event Ring Full Error" condition
-  */
- static void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
--		union xhci_trb *event_ring_deq)
-+				     struct xhci_interrupter *ir,
-+				     union xhci_trb *event_ring_deq)
- {
- 	u64 temp_64;
- 	dma_addr_t deq;
- 
--	temp_64 = xhci_read_64(xhci, &xhci->ir_set->erst_dequeue);
-+	temp_64 = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
- 	/* If necessary, update the HW's version of the event ring deq ptr. */
--	if (event_ring_deq != xhci->event_ring->dequeue) {
--		deq = xhci_trb_virt_to_dma(xhci->event_ring->deq_seg,
--				xhci->event_ring->dequeue);
-+	if (event_ring_deq != ir->event_ring->dequeue) {
-+		deq = xhci_trb_virt_to_dma(ir->event_ring->deq_seg,
-+				ir->event_ring->dequeue);
- 		if (deq == 0)
- 			xhci_warn(xhci, "WARN something wrong with SW event ring dequeue ptr\n");
- 		/*
-@@ -3001,7 +3004,7 @@ static void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
- 
- 	/* Clear the event handler busy flag (RW1C) */
- 	temp_64 |= ERST_EHB;
--	xhci_write_64(xhci, temp_64, &xhci->ir_set->erst_dequeue);
-+	xhci_write_64(xhci, temp_64, &ir->ir_set->erst_dequeue);
++	case USB_RX:
++		q6afe_usb_port_prepare(dai_data->port[dai->id],
++					   &dai_data->port_config[dai->id].usb_audio);
++		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -495,6 +533,8 @@ static int q6afe_mi2s_set_sysclk(struct snd_soc_dai *dai,
  }
  
- /*
-@@ -3013,6 +3016,7 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
- {
- 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
- 	union xhci_trb *event_ring_deq;
-+	struct xhci_interrupter *ir;
- 	irqreturn_t ret = IRQ_NONE;
- 	u64 temp_64;
- 	u32 status;
-@@ -3050,11 +3054,13 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
- 	status |= STS_EINT;
- 	writel(status, &xhci->op_regs->status);
- 
-+	/* This is the handler of the primary interrupter */
-+	ir = xhci->interrupter;
- 	if (!hcd->msi_enabled) {
- 		u32 irq_pending;
--		irq_pending = readl(&xhci->ir_set->irq_pending);
-+		irq_pending = readl(&ir->ir_set->irq_pending);
- 		irq_pending |= IMAN_IP;
--		writel(irq_pending, &xhci->ir_set->irq_pending);
-+		writel(irq_pending, &ir->ir_set->irq_pending);
- 	}
- 
- 	if (xhci->xhc_state & XHCI_STATE_DYING ||
-@@ -3064,22 +3070,22 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
- 		/* Clear the event handler busy flag (RW1C);
- 		 * the event ring should be empty.
- 		 */
--		temp_64 = xhci_read_64(xhci, &xhci->ir_set->erst_dequeue);
-+		temp_64 = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
- 		xhci_write_64(xhci, temp_64 | ERST_EHB,
--				&xhci->ir_set->erst_dequeue);
-+				&ir->ir_set->erst_dequeue);
- 		ret = IRQ_HANDLED;
- 		goto out;
- 	}
- 
--	event_ring_deq = xhci->event_ring->dequeue;
-+	event_ring_deq = ir->event_ring->dequeue;
- 	/* FIXME this should be a delayed service routine
- 	 * that clears the EHB.
- 	 */
--	while (xhci_handle_event(xhci) > 0) {
-+	while (xhci_handle_event(xhci, ir) > 0) {
- 		if (event_loop++ < TRBS_PER_SEGMENT / 2)
- 			continue;
--		xhci_update_erst_dequeue(xhci, event_ring_deq);
--		event_ring_deq = xhci->event_ring->dequeue;
-+		xhci_update_erst_dequeue(xhci, ir, event_ring_deq);
-+		event_ring_deq = ir->event_ring->dequeue;
- 
- 		/* ring is half-full, force isoc trbs to interrupt more often */
- 		if (xhci->isoc_bei_interval > AVOID_BEI_INTERVAL_MIN)
-@@ -3088,7 +3094,7 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
- 		event_loop = 0;
- 	}
- 
--	xhci_update_erst_dequeue(xhci, event_ring_deq);
-+	xhci_update_erst_dequeue(xhci, ir, event_ring_deq);
- 	ret = IRQ_HANDLED;
- 
- out:
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 79d7931c048a..8b19c6ea3d16 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -613,6 +613,7 @@ static int xhci_init(struct usb_hcd *hcd)
- 
- static int xhci_run_finished(struct xhci_hcd *xhci)
- {
-+	struct xhci_interrupter *ir = xhci->interrupter;
- 	unsigned long	flags;
- 	u32		temp;
- 
-@@ -628,8 +629,8 @@ static int xhci_run_finished(struct xhci_hcd *xhci)
- 	writel(temp, &xhci->op_regs->command);
- 
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Enable primary interrupter");
--	temp = readl(&xhci->ir_set->irq_pending);
--	writel(ER_IRQ_ENABLE(temp), &xhci->ir_set->irq_pending);
-+	temp = readl(&ir->ir_set->irq_pending);
-+	writel(ER_IRQ_ENABLE(temp), &ir->ir_set->irq_pending);
- 
- 	if (xhci_start(xhci)) {
- 		xhci_halt(xhci);
-@@ -665,7 +666,7 @@ int xhci_run(struct usb_hcd *hcd)
- 	u64 temp_64;
- 	int ret;
- 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
--
-+	struct xhci_interrupter *ir = xhci->interrupter;
- 	/* Start the xHCI host controller running only after the USB 2.0 roothub
- 	 * is setup.
- 	 */
-@@ -680,17 +681,17 @@ int xhci_run(struct usb_hcd *hcd)
- 	if (ret)
- 		return ret;
- 
--	temp_64 = xhci_read_64(xhci, &xhci->ir_set->erst_dequeue);
-+	temp_64 = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
- 	temp_64 &= ~ERST_PTR_MASK;
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
- 			"ERST deq = 64'h%0lx", (long unsigned int) temp_64);
- 
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
- 			"// Set the interrupt modulation register");
--	temp = readl(&xhci->ir_set->irq_control);
-+	temp = readl(&ir->ir_set->irq_control);
- 	temp &= ~ER_IRQ_INTERVAL_MASK;
- 	temp |= (xhci->imod_interval / 250) & ER_IRQ_INTERVAL_MASK;
--	writel(temp, &xhci->ir_set->irq_control);
-+	writel(temp, &ir->ir_set->irq_control);
- 
- 	if (xhci->quirks & XHCI_NEC_HOST) {
- 		struct xhci_command *command;
-@@ -769,8 +770,8 @@ static void xhci_stop(struct usb_hcd *hcd)
- 			"// Disabling event ring interrupts");
- 	temp = readl(&xhci->op_regs->status);
- 	writel((temp & ~0x1fff) | STS_EINT, &xhci->op_regs->status);
--	temp = readl(&xhci->ir_set->irq_pending);
--	writel(ER_IRQ_DISABLE(temp), &xhci->ir_set->irq_pending);
-+	temp = readl(&xhci->interrupter->ir_set->irq_pending);
-+	writel(ER_IRQ_DISABLE(temp), &xhci->interrupter->ir_set->irq_pending);
- 
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "cleaning up memory");
- 	xhci_mem_cleanup(xhci);
-@@ -832,28 +833,36 @@ EXPORT_SYMBOL_GPL(xhci_shutdown);
- #ifdef CONFIG_PM
- static void xhci_save_registers(struct xhci_hcd *xhci)
- {
-+	struct xhci_interrupter *ir = xhci->interrupter;
-+
- 	xhci->s3.command = readl(&xhci->op_regs->command);
- 	xhci->s3.dev_nt = readl(&xhci->op_regs->dev_notification);
- 	xhci->s3.dcbaa_ptr = xhci_read_64(xhci, &xhci->op_regs->dcbaa_ptr);
- 	xhci->s3.config_reg = readl(&xhci->op_regs->config_reg);
--	xhci->s3.erst_size = readl(&xhci->ir_set->erst_size);
--	xhci->s3.erst_base = xhci_read_64(xhci, &xhci->ir_set->erst_base);
--	xhci->s3.erst_dequeue = xhci_read_64(xhci, &xhci->ir_set->erst_dequeue);
--	xhci->s3.irq_pending = readl(&xhci->ir_set->irq_pending);
--	xhci->s3.irq_control = readl(&xhci->ir_set->irq_control);
-+
-+	if (!ir)
-+		return;
-+
-+	ir->s3_erst_size = readl(&ir->ir_set->erst_size);
-+	ir->s3_erst_base = xhci_read_64(xhci, &ir->ir_set->erst_base);
-+	ir->s3_erst_dequeue = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
-+	ir->s3_irq_pending = readl(&ir->ir_set->irq_pending);
-+	ir->s3_irq_control = readl(&ir->ir_set->irq_control);
- }
- 
- static void xhci_restore_registers(struct xhci_hcd *xhci)
- {
-+	struct xhci_interrupter *ir = xhci->interrupter;
-+
- 	writel(xhci->s3.command, &xhci->op_regs->command);
- 	writel(xhci->s3.dev_nt, &xhci->op_regs->dev_notification);
- 	xhci_write_64(xhci, xhci->s3.dcbaa_ptr, &xhci->op_regs->dcbaa_ptr);
- 	writel(xhci->s3.config_reg, &xhci->op_regs->config_reg);
--	writel(xhci->s3.erst_size, &xhci->ir_set->erst_size);
--	xhci_write_64(xhci, xhci->s3.erst_base, &xhci->ir_set->erst_base);
--	xhci_write_64(xhci, xhci->s3.erst_dequeue, &xhci->ir_set->erst_dequeue);
--	writel(xhci->s3.irq_pending, &xhci->ir_set->irq_pending);
--	writel(xhci->s3.irq_control, &xhci->ir_set->irq_control);
-+	writel(ir->s3_erst_size, &ir->ir_set->erst_size);
-+	xhci_write_64(xhci, ir->s3_erst_base, &ir->ir_set->erst_base);
-+	xhci_write_64(xhci, ir->s3_erst_dequeue, &ir->ir_set->erst_dequeue);
-+	writel(ir->s3_irq_pending, &ir->ir_set->irq_pending);
-+	writel(ir->s3_irq_control, &ir->ir_set->irq_control);
- }
- 
- static void xhci_set_cmd_ring_deq(struct xhci_hcd *xhci)
-@@ -1218,8 +1227,8 @@ int xhci_resume(struct xhci_hcd *xhci, bool hibernated)
- 		xhci_dbg(xhci, "// Disabling event ring interrupts\n");
- 		temp = readl(&xhci->op_regs->status);
- 		writel((temp & ~0x1fff) | STS_EINT, &xhci->op_regs->status);
--		temp = readl(&xhci->ir_set->irq_pending);
--		writel(ER_IRQ_DISABLE(temp), &xhci->ir_set->irq_pending);
-+		temp = readl(&xhci->interrupter->ir_set->irq_pending);
-+		writel(ER_IRQ_DISABLE(temp), &xhci->interrupter->ir_set->irq_pending);
- 
- 		xhci_dbg(xhci, "cleaning up memory\n");
- 		xhci_mem_cleanup(xhci);
-@@ -5320,6 +5329,11 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
- 	if (xhci->hci_version > 0x100)
- 		xhci->hcc_params2 = readl(&xhci->cap_regs->hcc_params2);
- 
-+	/* xhci-plat or xhci-pci might have set max_interrupters already */
-+	if ((!xhci->max_interrupters) ||
-+	    xhci->max_interrupters > HCS_MAX_INTRS(xhci->hcs_params1))
-+		xhci->max_interrupters = HCS_MAX_INTRS(xhci->hcs_params1);
-+
- 	xhci->quirks |= quirks;
- 
- 	get_quirks(dev, xhci);
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index e1362e0c50e1..af356cc3b50b 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -16,6 +16,7 @@
- #include <linux/timer.h>
- #include <linux/kernel.h>
- #include <linux/usb/hcd.h>
-+#include <linux/usb/xhci-intr.h>
- #include <linux/io-64-nonatomic-lo-hi.h>
- 
- /* Code sharing between pci-quirks and xhci hcd */
-@@ -1541,18 +1542,6 @@ static inline const char *xhci_trb_type_string(u8 type)
- #define AVOID_BEI_INTERVAL_MIN	8
- #define AVOID_BEI_INTERVAL_MAX	32
- 
--struct xhci_segment {
--	union xhci_trb		*trbs;
--	/* private to HCD */
--	struct xhci_segment	*next;
--	dma_addr_t		dma;
--	/* Max packet sized bounce buffer for td-fragmant alignment */
--	dma_addr_t		bounce_dma;
--	void			*bounce_buf;
--	unsigned int		bounce_offs;
--	unsigned int		bounce_len;
--};
--
- enum xhci_cancelled_td_status {
- 	TD_DIRTY = 0,
- 	TD_HALTED,
-@@ -1585,16 +1574,6 @@ struct xhci_cd {
- 	union xhci_trb		*cmd_trb;
+ static const struct snd_soc_dapm_route q6afe_dapm_routes[] = {
++	/* USB playback AFE port receives data for playback, hence use the RX port */
++	{"USB Playback", NULL, "USB_RX"},
+ 	{"HDMI Playback", NULL, "HDMI_RX"},
+ 	{"Display Port Playback", NULL, "DISPLAY_PORT_RX"},
+ 	{"Slimbus Playback", NULL, "SLIMBUS_0_RX"},
+@@ -639,6 +679,12 @@ static const struct snd_soc_dapm_route q6afe_dapm_routes[] = {
+ 	{"RX_CODEC_DMA_RX_7 Playback", NULL, "RX_CODEC_DMA_RX_7"},
  };
  
--enum xhci_ring_type {
--	TYPE_CTRL = 0,
--	TYPE_ISOC,
--	TYPE_BULK,
--	TYPE_INTR,
--	TYPE_STREAM,
--	TYPE_COMMAND,
--	TYPE_EVENT,
--};
--
- static inline const char *xhci_ring_type_string(enum xhci_ring_type type)
- {
- 	switch (type) {
-@@ -1617,47 +1596,6 @@ static inline const char *xhci_ring_type_string(enum xhci_ring_type type)
- 	return "UNKNOWN";
++static const struct snd_soc_dai_ops q6usb_ops = {
++	.prepare	= q6afe_dai_prepare,
++	.hw_params	= q6usb_hw_params,
++	.shutdown	= q6afe_dai_shutdown,
++};
++
+ static const struct snd_soc_dai_ops q6hdmi_ops = {
+ 	.prepare	= q6afe_dai_prepare,
+ 	.hw_params	= q6hdmi_hw_params,
+@@ -703,6 +749,7 @@ static int msm_dai_q6_dai_remove(struct snd_soc_dai *dai)
  }
  
--struct xhci_ring {
--	struct xhci_segment	*first_seg;
--	struct xhci_segment	*last_seg;
--	union  xhci_trb		*enqueue;
--	struct xhci_segment	*enq_seg;
--	union  xhci_trb		*dequeue;
--	struct xhci_segment	*deq_seg;
--	struct list_head	td_list;
--	/*
--	 * Write the cycle state into the TRB cycle field to give ownership of
--	 * the TRB to the host controller (if we are the producer), or to check
--	 * if we own the TRB (if we are the consumer).  See section 4.9.1.
--	 */
--	u32			cycle_state;
--	unsigned int		stream_id;
--	unsigned int		num_segs;
--	unsigned int		num_trbs_free;
--	unsigned int		num_trbs_free_temp;
--	unsigned int		bounce_buf_len;
--	enum xhci_ring_type	type;
--	bool			last_td_was_short;
--	struct radix_tree_root	*trb_address_map;
--};
--
--struct xhci_erst_entry {
--	/* 64-bit event ring segment address */
--	__le64	seg_addr;
--	__le32	seg_size;
--	/* Set to zero */
--	__le32	rsvd;
--};
--
--struct xhci_erst {
--	struct xhci_erst_entry	*entries;
--	unsigned int		num_entries;
--	/* xhci->event_ring keeps track of segment dma addresses */
--	dma_addr_t		erst_dma_addr;
--	/* Num entries the ERST can contain */
--	unsigned int		erst_size;
--};
--
- struct xhci_scratchpad {
- 	u64 *sp_array;
- 	dma_addr_t sp_dma;
-@@ -1687,11 +1625,6 @@ struct s3_save {
- 	u32	dev_nt;
- 	u64	dcbaa_ptr;
- 	u32	config_reg;
--	u32	irq_pending;
--	u32	irq_control;
--	u32	erst_size;
--	u64	erst_base;
--	u64	erst_dequeue;
+ static const struct snd_soc_dapm_widget q6afe_dai_widgets[] = {
++	SND_SOC_DAPM_AIF_IN("USB_RX", NULL, 0, SND_SOC_NOPM, 0, 0),
+ 	SND_SOC_DAPM_AIF_IN("HDMI_RX", NULL, 0, SND_SOC_NOPM, 0, 0),
+ 	SND_SOC_DAPM_AIF_IN("SLIMBUS_0_RX", NULL, 0, SND_SOC_NOPM, 0, 0),
+ 	SND_SOC_DAPM_AIF_IN("SLIMBUS_1_RX", NULL, 0, SND_SOC_NOPM, 0, 0),
+@@ -1068,6 +1115,7 @@ static int q6afe_dai_dev_probe(struct platform_device *pdev)
+ 	cfg.q6i2s_ops = &q6i2s_ops;
+ 	cfg.q6tdm_ops = &q6tdm_ops;
+ 	cfg.q6dma_ops = &q6dma_ops;
++	cfg.q6usb_ops = &q6usb_ops;
+ 	dais = q6dsp_audio_ports_set_config(dev, &cfg, &num_dais);
+ 
+ 	return devm_snd_soc_register_component(dev, &q6afe_dai_component, dais, num_dais);
+diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
+index 919e326b9462..ca799fc3820e 100644
+--- a/sound/soc/qcom/qdsp6/q6afe.c
++++ b/sound/soc/qcom/qdsp6/q6afe.c
+@@ -34,6 +34,8 @@
+ #define AFE_MODULE_TDM			0x0001028A
+ 
+ #define AFE_PARAM_ID_CDC_SLIMBUS_SLAVE_CFG 0x00010235
++#define AFE_PARAM_ID_USB_AUDIO_DEV_PARAMS    0x000102A5
++#define AFE_PARAM_ID_USB_AUDIO_DEV_LPCM_FMT 0x000102AA
+ 
+ #define AFE_PARAM_ID_LPAIF_CLK_CONFIG	0x00010238
+ #define AFE_PARAM_ID_INT_DIGITAL_CDC_CLK_CONFIG	0x00010239
+@@ -43,6 +45,7 @@
+ #define AFE_PARAM_ID_TDM_CONFIG	0x0001029D
+ #define AFE_PARAM_ID_PORT_SLOT_MAPPING_CONFIG	0x00010297
+ #define AFE_PARAM_ID_CODEC_DMA_CONFIG	0x000102B8
++#define AFE_PARAM_ID_USB_AUDIO_CONFIG    0x000102A4
+ #define AFE_CMD_REMOTE_LPASS_CORE_HW_VOTE_REQUEST	0x000100f4
+ #define AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST   0x000100f5
+ #define AFE_CMD_REMOTE_LPASS_CORE_HW_DEVOTE_REQUEST	0x000100f6
+@@ -71,12 +74,16 @@
+ #define AFE_PORT_CONFIG_I2S_WS_SRC_INTERNAL	0x1
+ #define AFE_LINEAR_PCM_DATA				0x0
+ 
++#define AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG 0x1
+ 
+ /* Port IDs */
+ #define AFE_API_VERSION_HDMI_CONFIG	0x1
+ #define AFE_PORT_ID_MULTICHAN_HDMI_RX	0x100E
+ #define AFE_PORT_ID_HDMI_OVER_DP_RX	0x6020
+ 
++/* USB AFE port */
++#define AFE_PORT_ID_USB_RX                       0x7000
++
+ #define AFE_API_VERSION_SLIMBUS_CONFIG 0x1
+ /* Clock set API version */
+ #define AFE_API_VERSION_CLOCK_SET 1
+@@ -512,12 +519,109 @@ struct afe_param_id_cdc_dma_cfg {
+ 	u16	active_channels_mask;
+ } __packed;
+ 
++struct afe_param_id_usb_cfg {
++/* Minor version used for tracking USB audio device configuration.
++ * Supported values: AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG
++ */
++	u32                  cfg_minor_version;
++/* Sampling rate of the port.
++ * Supported values:
++ * - AFE_PORT_SAMPLE_RATE_8K
++ * - AFE_PORT_SAMPLE_RATE_11025
++ * - AFE_PORT_SAMPLE_RATE_12K
++ * - AFE_PORT_SAMPLE_RATE_16K
++ * - AFE_PORT_SAMPLE_RATE_22050
++ * - AFE_PORT_SAMPLE_RATE_24K
++ * - AFE_PORT_SAMPLE_RATE_32K
++ * - AFE_PORT_SAMPLE_RATE_44P1K
++ * - AFE_PORT_SAMPLE_RATE_48K
++ * - AFE_PORT_SAMPLE_RATE_96K
++ * - AFE_PORT_SAMPLE_RATE_192K
++ */
++	u32                  sample_rate;
++/* Bit width of the sample.
++ * Supported values: 16, 24
++ */
++	u16                  bit_width;
++/* Number of channels.
++ * Supported values: 1 and 2
++ */
++	u16                  num_channels;
++/* Data format supported by the USB. The supported value is
++ * 0 (#AFE_USB_AUDIO_DATA_FORMAT_LINEAR_PCM).
++ */
++	u16                  data_format;
++/* this field must be 0 */
++	u16                  reserved;
++/* device token of actual end USB aduio device */
++	u32                  dev_token;
++/* endianness of this interface */
++	u32                   endian;
++/* service interval */
++	u32                  service_interval;
++} __packed;
++
++/**
++ * struct afe_param_id_usb_audio_dev_params
++ * @cfg_minor_version: Minor version used for tracking USB audio device
++ * configuration.
++ * Supported values:
++ *     AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG
++ * @dev_token: device token of actual end USB aduio device
++ **/
++struct afe_param_id_usb_audio_dev_params {
++	u32	cfg_minor_version;
++	u32	dev_token;
++} __packed;
++
++/**
++ * struct afe_param_id_usb_audio_dev_lpcm_fmt
++ * @cfg_minor_version: Minor version used for tracking USB audio device
++ * configuration.
++ * Supported values:
++ *     AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG
++ * @endian: endianness of this interface
++ **/
++struct afe_param_id_usb_audio_dev_lpcm_fmt {
++	u32	cfg_minor_version;
++	u32	endian;
++} __packed;
++
++/**
++ * struct afe_param_id_usb_audio_dev_latency_mode
++ * @cfg_minor_version: Minor version used for tracking USB audio device
++ * configuration.
++ * Supported values:
++ *     AFE_API_MINOR_VERSION_USB_AUDIO_LATENCY_MODE
++ * @mode: latency mode for the USB audio device
++ **/
++struct afe_param_id_usb_audio_dev_latency_mode {
++	u32	minor_version;
++	u32	mode;
++} __packed;
++
++#define AFE_PARAM_ID_USB_AUDIO_SVC_INTERVAL     0x000102B7
++
++/**
++ * struct afe_param_id_usb_audio_svc_interval
++ * @cfg_minor_version: Minor version used for tracking USB audio device
++ * configuration.
++ * Supported values:
++ *     AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG
++ * @svc_interval: service interval
++ **/
++struct afe_param_id_usb_audio_svc_interval {
++	u32	cfg_minor_version;
++	u32	svc_interval;
++} __packed;
++
+ union afe_port_config {
+ 	struct afe_param_id_hdmi_multi_chan_audio_cfg hdmi_multi_ch;
+ 	struct afe_param_id_slimbus_cfg           slim_cfg;
+ 	struct afe_param_id_i2s_cfg	i2s_cfg;
+ 	struct afe_param_id_tdm_cfg	tdm_cfg;
+ 	struct afe_param_id_cdc_dma_cfg	dma_cfg;
++	struct afe_param_id_usb_cfg usb_cfg;
+ } __packed;
+ 
+ 
+@@ -577,6 +681,7 @@ struct afe_port_map {
+  */
+ 
+ static struct afe_port_map port_maps[AFE_PORT_MAX] = {
++	[USB_RX] = { AFE_PORT_ID_USB_RX, USB_RX, 1, 1},
+ 	[HDMI_RX] = { AFE_PORT_ID_MULTICHAN_HDMI_RX, HDMI_RX, 1, 1},
+ 	[SLIMBUS_0_RX] = { AFE_PORT_ID_SLIMBUS_MULTI_CHAN_0_RX,
+ 				SLIMBUS_0_RX, 1, 1},
+@@ -1289,6 +1394,82 @@ void q6afe_tdm_port_prepare(struct q6afe_port *port,
+ }
+ EXPORT_SYMBOL_GPL(q6afe_tdm_port_prepare);
+ 
++static int afe_port_send_usb_dev_param(struct q6afe_port *port, struct q6afe_usb_cfg *cfg)
++{
++	union afe_port_config *pcfg = &port->port_cfg;
++	struct afe_param_id_usb_audio_dev_params usb_dev;
++	struct afe_param_id_usb_audio_dev_lpcm_fmt lpcm_fmt;
++	struct afe_param_id_usb_audio_svc_interval svc_int;
++	int ret = 0;
++
++	if (!pcfg) {
++		dev_err(port->afe->dev, "%s: Error, no configuration data\n", __func__);
++		ret = -EINVAL;
++		goto exit;
++	}
++
++	memset(&usb_dev, 0, sizeof(usb_dev));
++	memset(&lpcm_fmt, 0, sizeof(lpcm_fmt));
++
++	usb_dev.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
++	q6afe_port_set_param_v2(port, &usb_dev,
++					AFE_PARAM_ID_USB_AUDIO_DEV_PARAMS,
++					AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(usb_dev));
++	if (ret) {
++		dev_err(port->afe->dev, "%s: AFE device param cmd failed %d\n",
++			__func__, ret);
++		goto exit;
++	}
++
++	lpcm_fmt.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
++	lpcm_fmt.endian = pcfg->usb_cfg.endian;
++	ret = q6afe_port_set_param_v2(port, &lpcm_fmt,
++					AFE_PARAM_ID_USB_AUDIO_DEV_LPCM_FMT,
++					AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(lpcm_fmt));
++	if (ret) {
++		dev_err(port->afe->dev, "%s: AFE device param cmd LPCM_FMT failed %d\n",
++			__func__, ret);
++		goto exit;
++	}
++
++	svc_int.cfg_minor_version =
++		AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
++	svc_int.svc_interval = pcfg->usb_cfg.service_interval;
++	ret = q6afe_port_set_param_v2(port, &svc_int,
++					AFE_PARAM_ID_USB_AUDIO_SVC_INTERVAL,
++					AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(svc_int));
++	if (ret) {
++		dev_err(port->afe->dev, "%s: AFE device param cmd svc_interval failed %d\n",
++			__func__, ret);
++		ret = -EINVAL;
++		goto exit;
++	}
++exit:
++	return ret;
++}
++
++/**
++ * q6afe_usb_port_prepare() - Prepare usb afe port.
++ *
++ * @port: Instance of afe port
++ * @cfg: USB configuration for the afe port
++ *
++ */
++void q6afe_usb_port_prepare(struct q6afe_port *port,
++			     struct q6afe_usb_cfg *cfg)
++{
++	union afe_port_config *pcfg = &port->port_cfg;
++
++	pcfg->usb_cfg.cfg_minor_version =
++					AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
++	pcfg->usb_cfg.sample_rate = cfg->sample_rate;
++	pcfg->usb_cfg.num_channels = cfg->num_channels;
++	pcfg->usb_cfg.bit_width = cfg->bit_width;
++
++	afe_port_send_usb_dev_param(port, cfg);
++}
++EXPORT_SYMBOL_GPL(q6afe_usb_port_prepare);
++
+ /**
+  * q6afe_hdmi_port_prepare() - Prepare hdmi afe port.
+  *
+@@ -1611,6 +1792,8 @@ struct q6afe_port *q6afe_port_get_from_id(struct device *dev, int id)
+ 		break;
+ 	case AFE_PORT_ID_WSA_CODEC_DMA_RX_0 ... AFE_PORT_ID_RX_CODEC_DMA_RX_7:
+ 		cfg_type = AFE_PARAM_ID_CODEC_DMA_CONFIG;
++	case AFE_PORT_ID_USB_RX:
++		cfg_type = AFE_PARAM_ID_USB_AUDIO_CONFIG;
+ 	break;
+ 	default:
+ 		dev_err(dev, "Invalid port id 0x%x\n", port_id);
+diff --git a/sound/soc/qcom/qdsp6/q6afe.h b/sound/soc/qcom/qdsp6/q6afe.h
+index 30fd77e2f458..88550a08e57d 100644
+--- a/sound/soc/qcom/qdsp6/q6afe.h
++++ b/sound/soc/qcom/qdsp6/q6afe.h
+@@ -5,7 +5,7 @@
+ 
+ #include <dt-bindings/sound/qcom,q6afe.h>
+ 
+-#define AFE_PORT_MAX		129
++#define AFE_PORT_MAX		130
+ 
+ #define MSM_AFE_PORT_TYPE_RX 0
+ #define MSM_AFE_PORT_TYPE_TX 1
+@@ -205,6 +205,47 @@ struct q6afe_cdc_dma_cfg {
+ 	u16	active_channels_mask;
  };
  
- /* Use for lpm */
-@@ -1718,7 +1651,6 @@ struct xhci_bus_state {
- 	struct completion	u3exit_done[USB_MAXCHILDREN];
++/**
++ * struct q6afe_usb_cfg
++ * @cfg_minor_version: Minor version used for tracking USB audio device
++ * configuration.
++ * Supported values:
++ *     AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG
++ * @sample_rate: Sampling rate of the port
++ *    Supported values:
++ *      AFE_PORT_SAMPLE_RATE_8K
++ *      AFE_PORT_SAMPLE_RATE_11025
++ *      AFE_PORT_SAMPLE_RATE_12K
++ *      AFE_PORT_SAMPLE_RATE_16K
++ *      AFE_PORT_SAMPLE_RATE_22050
++ *      AFE_PORT_SAMPLE_RATE_24K
++ *      AFE_PORT_SAMPLE_RATE_32K
++ *      AFE_PORT_SAMPLE_RATE_44P1K
++ *      AFE_PORT_SAMPLE_RATE_48K
++ *      AFE_PORT_SAMPLE_RATE_96K
++ *      AFE_PORT_SAMPLE_RATE_192K
++ * @bit_width: Bit width of the sample.
++ *    Supported values: 16, 24
++ * @num_channels: Number of channels
++ *    Supported values: 1, 2
++ * @data_format: Data format supported by the USB
++ *    Supported values: 0
++ * @reserved: this field must be 0
++ * @dev_token: device token of actual end USB aduio device
++ * @endian: endianness of this interface
++ * @service_interval: service interval
++ **/
++struct q6afe_usb_cfg {
++	u32	cfg_minor_version;
++	u32     sample_rate;
++	u16	bit_width;
++	u16	num_channels;
++	u16	data_format;
++	u16	reserved;
++	u32	dev_token;
++	u32	endian;
++	u32	service_interval;
++};
+ 
+ struct q6afe_port_config {
+ 	struct q6afe_hdmi_cfg hdmi;
+@@ -212,6 +253,7 @@ struct q6afe_port_config {
+ 	struct q6afe_i2s_cfg i2s_cfg;
+ 	struct q6afe_tdm_cfg tdm;
+ 	struct q6afe_cdc_dma_cfg dma_cfg;
++	struct q6afe_usb_cfg usb_audio;
  };
  
--
- /*
-  * It can take up to 20 ms to transition from RExit to U0 on the
-  * Intel Lynx Point LP xHCI host.
-@@ -1760,8 +1692,6 @@ struct xhci_hcd {
- 	struct xhci_op_regs __iomem *op_regs;
- 	struct xhci_run_regs __iomem *run_regs;
- 	struct xhci_doorbell_array __iomem *dba;
--	/* Our HCD's current interrupter register set */
--	struct	xhci_intr_reg __iomem *ir_set;
+ struct q6afe_port;
+@@ -221,6 +263,8 @@ int q6afe_port_start(struct q6afe_port *port);
+ int q6afe_port_stop(struct q6afe_port *port);
+ void q6afe_port_put(struct q6afe_port *port);
+ int q6afe_get_port_id(int index);
++void q6afe_usb_port_prepare(struct q6afe_port *port,
++			     struct q6afe_usb_cfg *cfg);
+ void q6afe_hdmi_port_prepare(struct q6afe_port *port,
+ 			    struct q6afe_hdmi_cfg *cfg);
+ void q6afe_slim_port_prepare(struct q6afe_port *port,
+diff --git a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
+index f67c16fd90b9..39719c3f1767 100644
+--- a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
++++ b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
+@@ -81,6 +81,26 @@
  
- 	/* Cached register copies of read-only HC data */
- 	__u32		hcs_params1;
-@@ -1796,6 +1726,7 @@ struct xhci_hcd {
- 	struct reset_control *reset;
- 	/* data structures */
- 	struct xhci_device_context_array *dcbaa;
-+	struct xhci_interrupter *interrupter;
- 	struct xhci_ring	*cmd_ring;
- 	unsigned int            cmd_ring_state;
- #define CMD_RING_STATE_RUNNING         (1 << 0)
-@@ -1806,8 +1737,7 @@ struct xhci_hcd {
- 	struct delayed_work	cmd_timer;
- 	struct completion	cmd_ring_stop_completion;
- 	struct xhci_command	*current_cmd;
--	struct xhci_ring	*event_ring;
--	struct xhci_erst	erst;
-+
- 	/* Scratchpad */
- 	struct xhci_scratchpad  *scratchpad;
  
-diff --git a/include/linux/usb/xhci-intr.h b/include/linux/usb/xhci-intr.h
-new file mode 100644
-index 000000000000..9b3fcc9a1842
---- /dev/null
-+++ b/include/linux/usb/xhci-intr.h
-@@ -0,0 +1,82 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __LINUX_XHCI_INTR_H
-+#define __LINUX_XHCI_INTR_H
+ static struct snd_soc_dai_driver q6dsp_audio_fe_dais[] = {
++	{
++		.playback = {
++			.stream_name = "USB Playback",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_11025 |
++					SNDRV_PCM_RATE_16000 | SNDRV_PCM_RATE_22050 |
++					SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 |
++					SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_96000 |
++					SNDRV_PCM_RATE_192000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S16_BE |
++					SNDRV_PCM_FMTBIT_U16_LE | SNDRV_PCM_FMTBIT_U16_BE |
++					SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S24_BE |
++					SNDRV_PCM_FMTBIT_U24_LE | SNDRV_PCM_FMTBIT_U24_BE,
++			.channels_min = 1,
++			.channels_max = 2,
++			.rate_min =	8000,
++			.rate_max = 192000,
++		},
++		.id = USB_RX,
++		.name = "USB_RX",
++	},
+ 	{
+ 		.playback = {
+ 			.stream_name = "HDMI Playback",
+@@ -616,6 +636,9 @@ struct snd_soc_dai_driver *q6dsp_audio_ports_set_config(struct device *dev,
+ 		case WSA_CODEC_DMA_RX_0 ... RX_CODEC_DMA_RX_7:
+ 			q6dsp_audio_fe_dais[i].ops = cfg->q6dma_ops;
+ 			break;
++		case USB_RX:
++			q6dsp_audio_fe_dais[i].ops = cfg->q6usb_ops;
++			break;
+ 		default:
+ 			break;
+ 		}
+diff --git a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h
+index 7f052c8a1257..d8dde6dd0aca 100644
+--- a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h
++++ b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h
+@@ -11,6 +11,7 @@ struct q6dsp_audio_port_dai_driver_config {
+ 	const struct snd_soc_dai_ops *q6i2s_ops;
+ 	const struct snd_soc_dai_ops *q6tdm_ops;
+ 	const struct snd_soc_dai_ops *q6dma_ops;
++	const struct snd_soc_dai_ops *q6usb_ops;
+ };
+ 
+ struct snd_soc_dai_driver *q6dsp_audio_ports_set_config(struct device *dev,
+diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
+index 928fd23e2c27..683ae2ae8e50 100644
+--- a/sound/soc/qcom/qdsp6/q6routing.c
++++ b/sound/soc/qcom/qdsp6/q6routing.c
+@@ -514,6 +514,9 @@ static int msm_routing_put_audio_mixer(struct snd_kcontrol *kcontrol,
+ 	return 1;
+ }
+ 
++static const struct snd_kcontrol_new usb_mixer_controls[] = {
++	Q6ROUTING_RX_MIXERS(USB_RX) };
 +
-+#include <linux/kernel.h>
+ static const struct snd_kcontrol_new hdmi_mixer_controls[] = {
+ 	Q6ROUTING_RX_MIXERS(HDMI_RX) };
+ 
+@@ -733,6 +736,10 @@ static const struct snd_kcontrol_new mmul8_mixer_controls[] = {
+ 
+ static const struct snd_soc_dapm_widget msm_qdsp6_widgets[] = {
+ 	/* Mixer definitions */
++	SND_SOC_DAPM_MIXER("USB Mixer", SND_SOC_NOPM, 0, 0,
++			   usb_mixer_controls,
++			   ARRAY_SIZE(usb_mixer_controls)),
 +
-+struct xhci_erst_entry {
-+	/* 64-bit event ring segment address */
-+	__le64	seg_addr;
-+	__le32	seg_size;
-+	/* Set to zero */
-+	__le32	rsvd;
-+};
-+
-+enum xhci_ring_type {
-+	TYPE_CTRL = 0,
-+	TYPE_ISOC,
-+	TYPE_BULK,
-+	TYPE_INTR,
-+	TYPE_STREAM,
-+	TYPE_COMMAND,
-+	TYPE_EVENT,
-+};
-+
-+struct xhci_erst {
-+	struct xhci_erst_entry	*entries;
-+	unsigned int		num_entries;
-+	/* xhci->event_ring keeps track of segment dma addresses */
-+	dma_addr_t		erst_dma_addr;
-+	/* Num entries the ERST can contain */
-+	unsigned int		erst_size;
-+};
-+
-+struct xhci_segment {
-+	union xhci_trb		*trbs;
-+	/* private to HCD */
-+	struct xhci_segment	*next;
-+	dma_addr_t		dma;
-+	/* Max packet sized bounce buffer for td-fragmant alignment */
-+	dma_addr_t		bounce_dma;
-+	void			*bounce_buf;
-+	unsigned int		bounce_offs;
-+	unsigned int		bounce_len;
-+};
-+
-+struct xhci_ring {
-+	struct xhci_segment	*first_seg;
-+	struct xhci_segment	*last_seg;
-+	union  xhci_trb		*enqueue;
-+	struct xhci_segment	*enq_seg;
-+	union  xhci_trb		*dequeue;
-+	struct xhci_segment	*deq_seg;
-+	struct list_head	td_list;
-+	/*
-+	 * Write the cycle state into the TRB cycle field to give ownership of
-+	 * the TRB to the host controller (if we are the producer), or to check
-+	 * if we own the TRB (if we are the consumer).  See section 4.9.1.
-+	 */
-+	u32			cycle_state;
-+	unsigned int		stream_id;
-+	unsigned int		num_segs;
-+	unsigned int		num_trbs_free;
-+	unsigned int		num_trbs_free_temp;
-+	unsigned int		bounce_buf_len;
-+	enum xhci_ring_type	type;
-+	bool			last_td_was_short;
-+	struct radix_tree_root	*trb_address_map;
-+};
-+
-+struct xhci_interrupter {
-+	struct xhci_ring	*event_ring;
-+	struct xhci_erst	erst;
-+	struct xhci_intr_reg __iomem *ir_set;
-+	unsigned int		intr_num;
-+	/* For interrupter registers save and restore over suspend/resume */
-+	u32	s3_irq_pending;
-+	u32	s3_irq_control;
-+	u32	s3_erst_size;
-+	u64	s3_erst_base;
-+	u64	s3_erst_dequeue;
-+};
-+#endif
+ 	SND_SOC_DAPM_MIXER("HDMI Mixer", SND_SOC_NOPM, 0, 0,
+ 			   hdmi_mixer_controls,
+ 			   ARRAY_SIZE(hdmi_mixer_controls)),
+@@ -952,6 +959,7 @@ static const struct snd_soc_dapm_widget msm_qdsp6_widgets[] = {
+ };
+ 
+ static const struct snd_soc_dapm_route intercon[] = {
++	Q6ROUTING_RX_DAPM_ROUTE("USB Mixer", "USB_RX"),
+ 	Q6ROUTING_RX_DAPM_ROUTE("HDMI Mixer", "HDMI_RX"),
+ 	Q6ROUTING_RX_DAPM_ROUTE("DISPLAY_PORT_RX Audio Mixer",
+ 				"DISPLAY_PORT_RX"),
