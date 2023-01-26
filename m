@@ -2,125 +2,159 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F7E1C61DA2
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Jan 2023 15:27:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81F10C05027
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Jan 2023 16:01:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231201AbjAZP07 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Jan 2023 10:26:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38988 "EHLO
+        id S232450AbjAZQBy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Jan 2023 11:01:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231475AbjAZP05 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Jan 2023 10:26:57 -0500
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56B7D6A58
-        for <linux-usb@vger.kernel.org>; Thu, 26 Jan 2023 07:26:39 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id d10so1230573pgm.13
-        for <linux-usb@vger.kernel.org>; Thu, 26 Jan 2023 07:26:39 -0800 (PST)
+        with ESMTP id S232437AbjAZQBw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Jan 2023 11:01:52 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BE2A5B58E
+        for <linux-usb@vger.kernel.org>; Thu, 26 Jan 2023 08:01:51 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id d30so3688260lfv.8
+        for <linux-usb@vger.kernel.org>; Thu, 26 Jan 2023 08:01:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=connectedcars.dk; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LoCCSwjV5JGT5vnEAKl4rfjVlRzbba59WLoTHaIVaFw=;
-        b=OVbbL56Q2+zDJ85KKeLZ9oXkLtSwphlyCCRyfY7FYObGCr/3IhAFj5SXL8iHBzhinX
-         zbJpqg7OSWKFiTgdkI5Npq8kvIeF4zcgHk5pUCRpBkZ59Z4i42a+VxOYv1gBcUgO12ws
-         J0LC3UmNCBndBnjm3ObZLppoDMIe0S2kvvlKs=
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Z5Ms9/N7/h+Q3K/7Kcf2QDN/nKdDnsv1ksmJeqEJ4s8=;
+        b=BUsa7nCQKL2wwrfAC+d6ATNxemzFJRPIToCfIKKNH3Aybg3LBuGXZcTveogBaeJwfZ
+         v9BWLB1Gc3ulWTpl/CbcHBpBShbk/dBoswFnuh8nWEM861BYi/muql6nwbqp3NUU9BnM
+         m99w7WloEb405olLaX4bQVlGkhyU5b62ZBA4LMtHawwWICGnzl2zXA1f21EhYjpYhAr8
+         UW29g5fMyhmHY76FpEcUWelG+/f8A7mTPhs7soOwgUJNx2z18wDHGBf7F1vschF6VFnY
+         OKITevXq83JgiEseptkms9J23mFehGp9VKNu3GiSeVlzWwWHN6b0jHiYNCqo7IGcCv2N
+         s38A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LoCCSwjV5JGT5vnEAKl4rfjVlRzbba59WLoTHaIVaFw=;
-        b=EeWRvt+9fFKOG50tNwbKOH1GCJ7qY1KpMOxvGxpwb+qCUUSXFoqFxfkZ2ahK6zn66C
-         PeBIhLB6KzUE5H8MD8ozPnEz9Eko/79fR9DtGs39xtQa1jVcW3jmIM2zQ7bF7z3j4udv
-         HyfElmzYtXqhpO+eTZ4YJOq1a2hR7f9uHWxMaYWoThLPPLtt9a2q+YpyJr7J7DEnzlSp
-         qDMd+uAkc/Bx9je1/Qjf3i2fn0IzXssodCInKq6TdwqS1JbDXaJoM3cVQGEJRqOYKTle
-         rFsaTn4Ff2RiKgAqM3efyfpVP4GXmYgUmzJYlEK1E11WJ9tMP/rAaiuXce+fXepvDsDo
-         m8Rg==
-X-Gm-Message-State: AFqh2kq5iSuqwS99sGBTyYdE3eYCMuldAPTy0iTGxUQrmZ/yn7y9r81x
-        HVTahxhPIQf7yIXnnnzDZFh5MOQeU6khQNyqci7BBwQJDAjkXWWOfk4=
-X-Google-Smtp-Source: AMrXdXvHISo+gofCIljd5z4s5qlvYNm9Xiim1fBueWwkYy5eriSsSxoTCebGqM+ArnXz+SOQJDEVu9WBD3m2jWNi/nk=
-X-Received: by 2002:a63:c052:0:b0:477:27f7:794a with SMTP id
- z18-20020a63c052000000b0047727f7794amr3640553pgi.58.1674746795603; Thu, 26
- Jan 2023 07:26:35 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z5Ms9/N7/h+Q3K/7Kcf2QDN/nKdDnsv1ksmJeqEJ4s8=;
+        b=bMVBzcVXvZOVDhJqYANRomGMP8lX6hgEyOrfo08tAItf03qKcE3nyElUQlmq/noUG8
+         0IQn1AyjJKx6j2i5vrZG5jm8LgWerJF69GmXFMzC7ubiclW+jb3UavdVtXY423tMW1Y9
+         5cQWWQg/oEYyLQK+WCwDWW8zulEl5TIoT0hF0DeaAFeBvmnLglWcuoyW4+qfiANkAUKm
+         C1Nn3/TJhBwzuYHyOiJ0QfDuYRZD68bqk6G/m+ctWxKaEzcrOS7nu7fQ9QMNbdkfNXUZ
+         z5433JQ1aqFjDC1FqRmP8wLxTgBkq3EyhudQSRLXyMfLtwVa+n9R0Ctf2EUB//FQs/IC
+         RuyQ==
+X-Gm-Message-State: AFqh2kqzSShdIhTEtNsCsLJ1YkwaC6tbn9F2Q4kAtRVLPu11mx0x4wSg
+        We5PN7QTnEP3uNJZS3VMzMyUhQ==
+X-Google-Smtp-Source: AMrXdXvkVKfZdcsjY2sUxC828zVsk7+QQCWicTlakTGR1QBfrqe0HQ31k4Fm+iuXbse2OEbGopoRVA==
+X-Received: by 2002:ac2:4f0c:0:b0:4cc:6ffd:9fe6 with SMTP id k12-20020ac24f0c000000b004cc6ffd9fe6mr9574037lfr.50.1674748909319;
+        Thu, 26 Jan 2023 08:01:49 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id y8-20020adfdf08000000b002bfb31bda06sm1700126wrl.76.2023.01.26.08.01.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Jan 2023 08:01:48 -0800 (PST)
+Message-ID: <d6af0436-6c73-8fe0-0627-af18120adca8@linaro.org>
+Date:   Thu, 26 Jan 2023 16:01:47 +0000
 MIME-Version: 1.0
-References: <CAHHqYPMHBuPZqG9Rd9i+hN9Mq89pRn6M_0PLsyWkcK_hZr3xAA@mail.gmail.com>
- <Y9Jwv1ColWNwH4+0@kroah.com> <CAHHqYPONhyKrqMWiw29TRETtiBatNaej8+62Z40fvuj3LX4RWQ@mail.gmail.com>
- <Y9J8VncWSJdVURgB@kroah.com> <CAHHqYPO_A=7V_8Z-qrGy0-eOkPEpyv+vU_8Jpz-ABGg60t244w@mail.gmail.com>
- <236997e1-d2db-ad2d-7161-c9e3845318f6@selasky.org>
-In-Reply-To: <236997e1-d2db-ad2d-7161-c9e3845318f6@selasky.org>
-From:   Troels Liebe Bentsen <troels@connectedcars.dk>
-Date:   Thu, 26 Jan 2023 16:26:24 +0100
-Message-ID: <CAHHqYPPh43XccGvA6Dt9Ofy7PoXJsJxQvZDVima671Kq1bOn1Q@mail.gmail.com>
-Subject: Re: All USB tools hang when one descriptor read fails and needs to timeout
-To:     Hans Petter Selasky <hps@selasky.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH v2 21/22] ASoC: dt-bindings: Add Q6USB backend
+ bindings
+Content-Language: en-US
+To:     Wesley Cheng <quic_wcheng@quicinc.com>, mathias.nyman@intel.com,
+        perex@perex.cz, lgirdwood@gmail.com, andersson@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+        Thinh.Nguyen@synopsys.com, broonie@kernel.org,
+        bgoswami@quicinc.com, tiwai@suse.com, robh+dt@kernel.org,
+        agross@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, quic_jackp@quicinc.com,
+        quic_plai@quicinc.com
+References: <20230126031424.14582-1-quic_wcheng@quicinc.com>
+ <20230126031424.14582-22-quic_wcheng@quicinc.com>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20230126031424.14582-22-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 26 Jan 2023 at 15:27, Hans Petter Selasky <hps@selasky.org> wrote:
->
-> On 1/26/23 14:59, Troels Liebe Bentsen wrote:
-> > On Thu, 26 Jan 2023 at 14:12, Greg KH <gregkh@linuxfoundation.org> wrote:
-> >>>
-> >>> I would like to change /sys/bus/usb/devices/usbX/descriptors so it never blocks.
-> >>
-> >> Patches gladly reviewed to do so :)
->
-> Be careful. Been there done that for FreeBSD. You can cache the
-> descriptor in memory - yes, but beware that the values inside the device
-> descriptor may change after re-enumerating the device via software, like
-> firmware upgrade, and that directly hits on the XHCI controller
-> programming, that you need to load and configure the new bMaxPacketSize
-> in there!
->
-> And the same goes for the other fields in there :-)
 
-It actually looks like a lot of the other files in sysfs are cached already, fx.
-/sys/bus/usb/devices/x-x.x/manufacturer
 
-We tried changing the manufacturer name after our hardware was booted and using
-the Linux usb gadget driver and only libusb seemed to be able to see the change.
+On 26/01/2023 03:14, Wesley Cheng wrote:
+> Add a dt-binding to describe the definition of enabling the Q6 USB backend
+> device for audio offloading.  The node carries information, which is passed
+> along to the QC USB SND class driver counterpart.  These parameters will be
+> utilized during QMI stream enable requests.
+> 
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
+>   .../bindings/sound/qcom,q6usb-dais.yaml       | 55 +++++++++++++++++++
+>   1 file changed, 55 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/sound/qcom,q6usb-dais.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,q6usb-dais.yaml b/Documentation/devicetree/bindings/sound/qcom,q6usb-dais.yaml
+> new file mode 100644
+> index 000000000000..e24b4d52fa7e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/qcom,q6usb-dais.yaml
+> @@ -0,0 +1,55 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/qcom,q6usb-dais.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm ASoC USB backend DAI
+> +
+> +maintainers:
+> +  - Wesley Cheng <quic_wcheng@quicinc.com>
+> +
+> +description:
+> +  The Q6USB backend is a supported AFE port on the Q6DSP. This backend
+> +  driver will communicate the required settings to the QC USB SND class
+> +  driver for properly enabling the audio stream.  Parameters defined
+> +  under this node will carry settings, which will be passed along during
+> +  the QMI stream enable request.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - qcom,q6usb-dais
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  "#sound-dai-cells":
+> +    const: 1
+> +
+> +  qcom,usb-audio-stream-id:
+> +    description:
+> +      SID for the Q6DSP processor for IOMMU mapping.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
 
-But that's another question, how do I get Linux to re-enumerating the
-device and update the sysfs files?
+We could derive this directly from iommus property as we do it like 
+q6asm-dai.c
 
->
-> >
-> > We will have a look and get back to you.
->
-> It's probably best to find the undocumented bits of your USB peripheral
-> controller first! With USB control transactions I've seen so much
-> craziness over the years you won't believe it. The only ones that get it
-> right, is the ones that lay out all USB control endpoint jobs in memory
-> via DMA descriptors. All the ones that simply use a few registers to
-> receive the SETUP packet, DATA and status ZLP, have undocumented races.
-> By races I mean, what happens if you get SETUP and DATA interrupt bits
-> at the same time, or maybe all three, what is the right order, or what
-> about STALL conditions and short control transfers and blah blah blah.
-> This thing can really blow your mind, but yeah, many device side
-> programmers simply use the example code they get from the vendor and
-> give a shit about anything that can later go wrong. That is my simple
-> impression so far in the USB world.
->
 
-It's an i.MX6 and built in microcode that runs the USB in flash mode, but
-we are quite sure it's a power sequencing issue that hangs the CPU in
-I.MX6. So bad hardware design and not NPX this time, we have had
-plenty of other issues, but this time it does not seem to be their fault.
-Also we have some other designs with i.MX6 and don't have
-the issue there.
-
-Regards Troels
-
-> --HPS
->
-> >
-> >>
-> >> thanks,
-> >>
-> >> greg k-h
-> >
-> > Regards Troels
->
+--srini
+> +
+> +  qcom,usb-audio-intr-num:
+> +    description:
+> +      Desired XHCI interrupter number to use.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +required:
+> +  - compatible
+> +  - '#sound-dai-cells'
+> +  - qcom,usb-audio-intr-num
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    usbdai: usbd {
+> +      compatible = "qcom,q6usb-dais";
+> +      #sound-dai-cells = <1>;
+> +      iommus = <&apps_smmu 0x180f 0x0>;
+> +      qcom,usb-audio-stream-id = <0xf>;
+> +      qcom,usb-audio-intr-num = <2>;
+> +    };
