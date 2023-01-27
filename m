@@ -2,124 +2,192 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED1DEC61D97
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Jan 2023 16:22:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB42BC64EC7
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Jan 2023 16:42:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234196AbjA0QW0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 27 Jan 2023 11:22:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50242 "EHLO
+        id S235037AbjA0QmO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 27 Jan 2023 11:42:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230257AbjA0QWZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 Jan 2023 11:22:25 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DDD2B44B;
-        Fri, 27 Jan 2023 08:22:24 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id ss4so15057641ejb.11;
-        Fri, 27 Jan 2023 08:22:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y4OTyOhq5ph49i2Sy9LKLfnqL2EM/Rj+cmCGMdBMlfw=;
-        b=gDkOvsj4AhTDhnfA/Kn+Keq9CFS5AmQp8SUXAJ8gb48RU0fjRQwfo+R08Yjx5rfp1u
-         A0+zAslnSpWmUaMoOsonoenmeLthUY3aJ85PiRMUJ3JikBfOfHSsg9h2OLphc5w5uW1G
-         smtHqMYI10XofhnqWSpYG4io9JpXpHwf/tJIGIp91dC2N7Roby/nC/lGjc/Uf1EzOZnv
-         2kBwYZjEoVF60meKfDKkqC3UofRq8moWDuKJODsTVVUEtuW/tIhvkhN7SnO6RR8LMzfb
-         hbdno94WAfN+nSO597u2TwnM1bLVaCczr/KSZpRefNZfHscCnTGfd4iVuB0T/meWU05x
-         lsLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y4OTyOhq5ph49i2Sy9LKLfnqL2EM/Rj+cmCGMdBMlfw=;
-        b=VpNiXw0Bxtvzsqub2J0cYZvNVhNYaUPhk+x9n06LkD5pW7RmT6bJmU1tOV8Ty+J21x
-         XNnf4V3P8q18Jxi5O12TwDOQnQ2k65tDhOBvHMP2w5CD1ScVcL6c8D3MwgFA/HeP5EPf
-         43QIjDLx1muPa906E+/A0wEjtMqSuRQ9sI+sUENPWVS7Bq18RJyn4sTIppgEqCGOtWzb
-         nnepxPNnIJLyTF0ImX9/k/18YTb4pabQ5hl0thqa1TvKaJaBXUR10lmrMmeI0iXwwgJo
-         MLwRMcxS6fIYgmtZiDpM0DF/x/6/pxiwp1aA9n6n+SzVx93HkQYlzNXGyQPrhHVspmcV
-         d5cQ==
-X-Gm-Message-State: AFqh2kon1La2xBwsKJbiqJQkYR2RCl0V5dtZyjTASG8EfObwwqfPc23q
-        17haSKAQjt1u6iAwBtLHJfQ=
-X-Google-Smtp-Source: AMrXdXt2OhjgoI53tjT3nvzAVMGrKi73ulioqKoNtQWBcgvgIEJFCLLgKNEfR5QSlEe4xYwFMFtj4g==
-X-Received: by 2002:a17:907:6c16:b0:86f:3dfa:4016 with SMTP id rl22-20020a1709076c1600b0086f3dfa4016mr47989890ejc.7.1674836542928;
-        Fri, 27 Jan 2023 08:22:22 -0800 (PST)
-Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ja23-20020a170907989700b00872c0bccab2sm2524552ejc.35.2023.01.27.08.22.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jan 2023 08:22:22 -0800 (PST)
-Date:   Fri, 27 Jan 2023 17:22:20 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-phy@lists.infradead.org, waynec@nvidia.com,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH V6 2/6] dt-bindings: phy: tegra-xusb: Add support for
- Tegra234
-Message-ID: <Y9P6PJ9xPVst/um2@orome>
-References: <20230111110450.24617-1-jonathanh@nvidia.com>
- <20230111110450.24617-3-jonathanh@nvidia.com>
+        with ESMTP id S235002AbjA0QmL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 Jan 2023 11:42:11 -0500
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8DA07D6C5;
+        Fri, 27 Jan 2023 08:42:08 -0800 (PST)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30RE39L1030097;
+        Fri, 27 Jan 2023 17:41:26 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=selector1;
+ bh=TLpvxr0JKnv3cRRKcVieryIlKR66YrKuRhrp30o42fc=;
+ b=MxmIr3mbTrQKU7ILOiIuUYNRfPKtQyFd7Q82hX+mmlhHMN4bP3xNEQdVP15X9z9cUimc
+ h3JRuy7bhkE8k1RNhXZJ4yG0YLhpRXfPrTH+kQEP/hiwusIopmxIWLGZigkeMWdNoSlx
+ g8gGdDIbdnSWOFuq8aD+YaIb2Cup+gEMn12nOYn27NjlcJW2+ONzHOAgb9q2v9YYr9Q1
+ 5SYYew66hvSv0sRAE1PioJiPs3nhd4mTusQH1mf2r+gi1vH4qwwWm83BUc2SMUR8cuSB
+ XFP+OeH2V4WMjxDY0T9NCDS809tSzNnQ65Z++mQF8XCRAymslG7od7RZgeW9p4va7Fy3 Ow== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3najx6xg2m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 27 Jan 2023 17:41:26 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4159A100034;
+        Fri, 27 Jan 2023 17:41:22 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3968721D3FA;
+        Fri, 27 Jan 2023 17:41:22 +0100 (CET)
+Received: from localhost (10.201.21.177) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.13; Fri, 27 Jan
+ 2023 17:41:21 +0100
+From:   Gatien Chevallier <gatien.chevallier@foss.st.com>
+To:     <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
+        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <alexandre.torgue@foss.st.com>, <vkoul@kernel.org>,
+        <jic23@kernel.org>, <olivier.moysan@foss.st.com>,
+        <arnaud.pouliquen@foss.st.com>, <mchehab@kernel.org>,
+        <fabrice.gasnier@foss.st.com>, <ulf.hansson@linaro.org>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>
+CC:     <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
+        <linux-mmc@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>, <linux-serial@vger.kernel.org>,
+        <linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        Oleksii Moisieiev <oleksii_moisieiev@epam.com>
+Subject: [PATCH v3 1/6] dt-bindings: Document common device controller bindings
+Date:   Fri, 27 Jan 2023 17:40:35 +0100
+Message-ID: <20230127164040.1047583-2-gatien.chevallier@foss.st.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230127164040.1047583-1-gatien.chevallier@foss.st.com>
+References: <20230127164040.1047583-1-gatien.chevallier@foss.st.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="b0gkupGM8zWoxRNZ"
-Content-Disposition: inline
-In-Reply-To: <20230111110450.24617-3-jonathanh@nvidia.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.201.21.177]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-27_10,2023-01-27_01,2022-06-22_01
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+From: Oleksii Moisieiev <Oleksii_Moisieiev@epam.com>
 
---b0gkupGM8zWoxRNZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Introducing of the common device controller bindings for the controller
+provider and consumer devices. Those bindings are intended to allow
+divided system on chip into muliple domains, that can be used to
+configure hardware permissions.
 
-On Wed, Jan 11, 2023 at 11:04:46AM +0000, Jon Hunter wrote:
-> Add the compatible string for the Tegra234 XUSB PHY.
->=20
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
-> V5 -> V6: Added Krzysztof's ACK=20
-> V3 -> V5: Fixed compatible string
-> V3 -> V4: Added patch
->=20
->  .../devicetree/bindings/phy/nvidia,tegra194-xusb-padctl.yaml  | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+Signed-off-by: Oleksii Moisieiev <oleksii_moisieiev@epam.com>
+---
 
-Hi Vinod,
+No change since V1. I'm letting this patch for dependency with bindings to
+avoid noise with dt/bindings checks. Therefore, it should be reviewed on the
+appropriate thread.
 
-can you pick this up into your tree? This applies on top of the
-conversion patch ("dt-bindings: phy: tegra-xusb: Convert to
-json-schema") that's aready in your next branch.
+Depends-on: https://lore.kernel.org/lkml/c869d2751125181a55bc8a88c96e3a892b42f37a.1668070216.git.oleksii_moisieiev@epam.com/
 
-Thanks,
-Thierry
+ .../feature-domain-controller.yaml            | 84 +++++++++++++++++++
+ 1 file changed, 84 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/feature-controllers/feature-domain-controller.yaml
 
---b0gkupGM8zWoxRNZ
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/Documentation/devicetree/bindings/feature-controllers/feature-domain-controller.yaml b/Documentation/devicetree/bindings/feature-controllers/feature-domain-controller.yaml
+new file mode 100644
+index 000000000000..90a7c38c833c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/feature-controllers/feature-domain-controller.yaml
+@@ -0,0 +1,84 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/feature-controllers/feature-domain-controller.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Generic Domain Controller bindings
++
++maintainers:
++  - Oleksii Moisieiev <oleksii_moisieiev@epam.com>
++
++description: |+
++  Common Feature Domains Controller bindings properties
++
++  Domain controllers allow to divided system on chip into multiple feature
++  domains that can be used to select by who hardware blocks could be accessed.
++  A feature domain could be a cluster of CPUs (or coprocessors), a range of
++  addresses or a group of hardware blocks.
++
++  This device tree bindings can be used to bind feature domain consumer devices
++  with their feature domains provided by feature-domains controllers.
++  Feature omain controller provider can be represened by any node in the
++  device tree and can provide one or more configuration parameters, needed to
++  control parameters of the consumer device. A consumer node can refer to the
++  provider by phandle and a set of phandle arguments, specified by
++  '#feature-domain-cells' property in the device controller provider node.
++
++  Device controllers are typically used to set the permissions of the hardware
++  block. The contents of the feature-domains configuration properties are
++  defined by the binding for the individual feature-domains controller device.
++
++  Each node can be a consumer for the several providers. The first
++  configuration of 'feature-domains' or the one named 'default' is applied
++  before probing the device itself.
++
++# always select the core schema
++select: true
++
++properties:
++  '#feature-domain-cells':
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Number of cells in a feature-domains controller specifier;
++      Can be any value as specified by device tree binding documentation
++      of a particular provider.
++
++  feature-domain-controller:
++    description:
++      Indicates that the node is feature-domain-controller provider.
++
++  feature-domain-names:
++    $ref: '/schemas/types.yaml#/definitions/string-array'
++    description:
++      A list of feature-domains names, sorted in the same order as
++      feature-domains entries. Consumer drivers will use feature-domain-names
++      to match with existing feature-domains entries.
++
++  feature-domains:
++    $ref: "/schemas/types.yaml#/definitions/phandle-array"
++    description:
++      A list of feature-domains controller specifiers, as defined by the
++      bindings of the feature-domain-controller provider.
++
++additionalProperties: true
++
++examples:
++  - |
++    ctrl0: ctrl@100 {
++        feature-domain-controller;
++        reg = <0x100 0x10>;
++        #feature-domain-cells = <2>;
++    };
++
++    ctrl1: ctrl@110 {
++        feature-domain-controller;
++        reg = <0x110 0x10>;
++        #feature-domain-cells = <3>;
++    };
++
++    foo@0 {
++        reg = <0x0 0x1>;
++        feature-domains = <&ctrl0 1 2>, <&ctrl1 3 4 5>;
++        feature-domain-names = "default", "unbind";
++    };
+-- 
+2.35.3
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmPT+jwACgkQ3SOs138+
-s6EmYA/9FJsPyQ6dWaqhDXMyzc1HR5Pr1gLqJZksMN7R4k/xvryrwbYCO19IfrD0
-gilOAeiniIpxcKV4CMr0dvMGI/o9UbrAOcxE85oP2sBiLiUhBQ0QEAFKAQskQOOl
-o8r422cr/CJYDC9OAW1xITSvuWwamJAec7n/lqyYvWr4urMlsT6mDZEpNlKCVfNQ
-lQSfQcN7mnGjzKwycbt5GMVpupDhPRvmNLSVUey6owxULZBdcrPC0b/K5hVElX6o
-rWAkcwh77s3nhwJuPOrREIhnyNBiK3K8x5FM6ncP6l9ndlTHQU4yFVyze0jFPH8c
-QQaFAPTn/axKu+mSZxjUK3OEsGy+ybAplBivH6pY3qEX6D2oYUJ4Ie6Jx1GqGPzh
-Nkv914gkdMfmB4HdaQOELyYseKrLaEmy6AmTNMOpumKv0/8ucV/19s+cqdLWNlOh
-ELjd4CLeOzvYxpA0u1OlOBLNEeBHeg3KY0C9ted8q1RJSOnxLzF4C1ujj+0kFp8U
-/zp6FoLkbchfc50rIxLszh9hfRcyoG25H3jXYDY1xenxhv4Iba5sAILts5/IvI9c
-ZyenKl3sU/pyQDrv8DhFJluIJotQ606moVk1PxJhRv0Yt34Eaa6+TNszezcPnPWU
-kkEf5UXWBofFCYl0f8XVqcFDGmo0tdYTfbi4pK6RSEehe100xVI=
-=wD/W
------END PGP SIGNATURE-----
-
---b0gkupGM8zWoxRNZ--
