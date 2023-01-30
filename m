@@ -2,141 +2,118 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70F34C636D3
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Jan 2023 23:33:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18464C636D6
+	for <linux-usb@archiver.kernel.org>; Tue, 31 Jan 2023 00:00:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229911AbjA3Xdg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 Jan 2023 18:33:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55646 "EHLO
+        id S231479AbjAaAAy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 Jan 2023 19:00:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjA3Xdf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Jan 2023 18:33:35 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22102125BF;
-        Mon, 30 Jan 2023 15:33:34 -0800 (PST)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30UMsALJ005548;
-        Mon, 30 Jan 2023 22:59:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=6fxjjo1nbreWFlb8E9g3odYg5fD2O61G5CQNJWWru+8=;
- b=ZWIQegOioxMwzuBpp935Mm6fMOEpoC1LB4XVedRKJey3epzCvtg8quQ2lhI0Nt00AwS/
- 2p6M0h1clCTkyWz2UGfpdNBb0IUKBc3Or4+P9UiZrobTXUj4r9kVYqNPip7jo/B+UDHm
- TNS8Yw5C7W/sJQWTWwUBQtt7CfZl9gQDSO3Sl6dMPzy2LplpyXBqS87kWP8zpFk5FQK2
- gcDmCcPi57TGxme6NDLAXgJDN/vc93l1Y8g9Go5t+9LKxroLuXYZu+A9PaI3CXEt8vUm
- hcEcDOE3GSfCQMrZGq6AbKB9EQ6vzothBZ/Yz4R6PFUxhb912pB2XvXVZpx2gN+n7PFn Yw== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ncua8w665-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 30 Jan 2023 22:59:41 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30UMxeRF003188
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 30 Jan 2023 22:59:40 GMT
-Received: from [10.110.113.14] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 30 Jan
- 2023 14:59:38 -0800
-Message-ID: <4a255518-6fbb-122a-ba97-1e995785c35f@quicinc.com>
-Date:   Mon, 30 Jan 2023 14:59:38 -0800
+        with ESMTP id S229791AbjAaAAv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Jan 2023 19:00:51 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A4B9241EB;
+        Mon, 30 Jan 2023 16:00:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675123219; x=1706659219;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=NxMa5bJdffBaqxCEjJ47Ei59YQ+ioElnc5bDUaZ3lyo=;
+  b=QL7vJMQLQIf0XXnhH1zojlO+tbUAc20VZhJZsEM4tlLnwORh1gtnInx6
+   o0OLk9B6MnqxYaeOABX4zBH4AAH1OjhKbsQ8XvP9naKXLvwLuglKJ+ZBE
+   hx9DwTmQ94et1dp3b1avRIuVewTPRXIykBLjgTWF+rH6ORMKjQC29pIyG
+   omtTgwV1cgLFM18Dz/SDg46p4GUh89upF6CV4rxw4mX0JSvx/6gjYuXwE
+   oSfzCG+AqMfXmvbaaPe7bQB8ajYgtb0H3YNhuiDqmlAI3jVBELCv1/HBL
+   jDzFHdEUwx5zxiuhF1BhBWxcIhk1eWzNpdo0QmFsqX3Z/M13+fL2EWTbg
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="327726698"
+X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
+   d="scan'208";a="327726698"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 16:00:17 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="614227900"
+X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
+   d="scan'208";a="614227900"
+Received: from inuber-mobl5.amr.corp.intel.com (HELO [10.212.58.60]) ([10.212.58.60])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 16:00:15 -0800
+Message-ID: <8f827e42-e5d8-1190-b5ae-2f99c71fbeee@linux.intel.com>
+Date:   Mon, 30 Jan 2023 17:50:23 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.4.2
 Subject: Re: [RFC PATCH v2 11/22] ASoC: qcom: Add USB backend ASoC driver for
  Q6
 Content-Language: en-US
-To:     Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <agross@kernel.org>
-CC:     <devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_jackp@quicinc.com>,
-        <quic_plai@quicinc.com>
+To:     Wesley Cheng <quic_wcheng@quicinc.com>,
+        srinivas.kandagatla@linaro.org, mathias.nyman@intel.com,
+        perex@perex.cz, lgirdwood@gmail.com, andersson@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+        Thinh.Nguyen@synopsys.com, broonie@kernel.org,
+        bgoswami@quicinc.com, tiwai@suse.com, robh+dt@kernel.org,
+        agross@kernel.org
+Cc:     devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_jackp@quicinc.com,
+        quic_plai@quicinc.com
 References: <20230126031424.14582-1-quic_wcheng@quicinc.com>
  <20230126031424.14582-12-quic_wcheng@quicinc.com>
  <7f471960-0909-4680-e192-261d1fdfe6d7@linux.intel.com>
-From:   Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <7f471960-0909-4680-e192-261d1fdfe6d7@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: yWxw15GvJRq-rxCkcrEaSdgqXMWsMmDp
-X-Proofpoint-ORIG-GUID: yWxw15GvJRq-rxCkcrEaSdgqXMWsMmDp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-30_17,2023-01-30_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1015
- lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0
- mlxlogscore=874 impostorscore=0 mlxscore=0 priorityscore=1501 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301300210
+ <4a255518-6fbb-122a-ba97-1e995785c35f@quicinc.com>
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <4a255518-6fbb-122a-ba97-1e995785c35f@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Pierre,
 
-On 1/26/2023 7:44 AM, Pierre-Louis Bossart wrote:
+>>> +static struct snd_soc_dai_driver q6usb_be_dais[] = {
+>>> +    {
+>>> +        .playback = {
+>>> +            .stream_name = "USB BE RX",
+>>> +            .rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_11025 |
+>>> +                SNDRV_PCM_RATE_16000 | SNDRV_PCM_RATE_22050 |
+>>> +                SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 |
+>>> +                SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_96000 |
+>>> +                SNDRV_PCM_RATE_192000,
+>>> +            .formats = SNDRV_PCM_FMTBIT_S16_LE |
+>>> SNDRV_PCM_FMTBIT_S16_BE |
+>>> +                SNDRV_PCM_FMTBIT_U16_LE | SNDRV_PCM_FMTBIT_U16_BE |
+>>> +                SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S24_BE |
+>>> +                SNDRV_PCM_FMTBIT_U24_LE | SNDRV_PCM_FMTBIT_U24_BE,
+>>> +            .channels_min = 1,
+>>> +            .channels_max = 2,
+>>> +            .rate_max =     192000,
+>>> +            .rate_min =    8000,
+>>> +        },
+>>> +        .id = USB_RX,
+>>> +        .name = "USB_RX_BE",
+>>> +        .ops = &q6usb_ops,
+>>> +    },
+>>> +};
+>>
+>> ... here I see a single DAI, so presumably ONE endpoint can be supported?
+>>
 > 
+> One USB audio device can be supported.
+> one AFE port = one USB audio device
 > 
-> On 1/25/23 21:14, Wesley Cheng wrote:
->> Create a USB BE component that will register a new USB port to the ASoC USB
->> framework.  This will handle determination on if the requested audio
->> profile is supported by the USB device currently selected.
+>> I didn't see in the rest of the code how a card with multiple endpoint
+>> would be rejected, nor how the capabilities are checked?
+>>
 > 
-> Can you clarify how? because ...
+> Need to take a look at this query a bit more.  Let me try to pass in a
+> format that can't be supported by the audio DSP, and see if the formats
+> specified in this structure will not allow userspace to start the session.
 > 
-> 
->> +static struct snd_soc_dai_driver q6usb_be_dais[] = {
->> +	{
->> +		.playback = {
->> +			.stream_name = "USB BE RX",
->> +			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_11025 |
->> +				SNDRV_PCM_RATE_16000 | SNDRV_PCM_RATE_22050 |
->> +				SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 |
->> +				SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_96000 |
->> +				SNDRV_PCM_RATE_192000,
->> +			.formats = SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S16_BE |
->> +				SNDRV_PCM_FMTBIT_U16_LE | SNDRV_PCM_FMTBIT_U16_BE |
->> +				SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S24_BE |
->> +				SNDRV_PCM_FMTBIT_U24_LE | SNDRV_PCM_FMTBIT_U24_BE,
->> +			.channels_min = 1,
->> +			.channels_max = 2,
->> +			.rate_max =     192000,
->> +			.rate_min =	8000,
->> +		},
->> +		.id = USB_RX,
->> +		.name = "USB_RX_BE",
->> +		.ops = &q6usb_ops,
->> +	},
->> +};
-> 
-> ... here I see a single DAI, so presumably ONE endpoint can be supported?
-> 
+> When you say a "card with multiple endpoints" are you referring to a USB
+> device that exposes multiple data (ISOC let's say) eps for its data
+> interface?  I haven't run into a device like that.
 
-One USB audio device can be supported.
-one AFE port = one USB audio device
-
-> I didn't see in the rest of the code how a card with multiple endpoint
-> would be rejected, nor how the capabilities are checked?
-> 
-
-Need to take a look at this query a bit more.  Let me try to pass in a 
-format that can't be supported by the audio DSP, and see if the formats 
-specified in this structure will not allow userspace to start the session.
-
-When you say a "card with multiple endpoints" are you referring to a USB 
-device that exposes multiple data (ISOC let's say) eps for its data 
-interface?  I haven't run into a device like that.
-
-Thanks
-Wesley Cheng
+A headset will typically only have two isoc endpoints for playback and
+capture respectively, but while that's a very large market USB audio is
+far from restricted to this configuration. It's not uncommon for the pro
+or prosumer market to see devices with multiple input/output
+capabilities and run-time mixing on the host.
