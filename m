@@ -2,127 +2,131 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65AD5C54EED
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Jan 2023 14:27:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52D57C54EED
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Jan 2023 14:28:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237664AbjA3O1A (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 Jan 2023 09:27:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41824 "EHLO
+        id S237666AbjA3O2h (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 Jan 2023 09:28:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237659AbjA3O0d (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Jan 2023 09:26:33 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2BA041B66
-        for <linux-usb@vger.kernel.org>; Mon, 30 Jan 2023 06:25:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675088713; x=1706624713;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6NdavVOwrEvk093APw6uR4iJhtN475OF/eVzCOmDNx0=;
-  b=D7zRHeb2pUuVEjzmMXfAWmhXdCUTkcjZYod78ZMX0Jnm0Qim3Sxs/qnq
-   D0ceFj5IbBQNQ3hy0nDj+QImqerIMTcOxt+rCiLwww6JIC+e9PCFq88OI
-   ad2/CVcZ/9KXpnzQsRxLfCl/hTgt7SPX0Me3s39u66iQARbLnFxikEty9
-   QdxZchCBa4PgSI8IY6sHCRG3xD+G5cXaUqhUcFeRh0ACV9PygI5TL3N5G
-   l4A9k5mwwVx+n+uznAbmX4tNhPJO4P9jD+DOsWLOV1HATEXZW0SIvsjj7
-   mQttFsK5t1kj3cL2IV6ro1FYublBkP/T9KVkyB8zf9Kr6fJjdpQjJ/6iA
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="392114738"
-X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
-   d="scan'208";a="392114738"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 06:25:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="992921712"
-X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
-   d="scan'208";a="992921712"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 30 Jan 2023 06:25:05 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pMV5k-0003gA-2m;
-        Mon, 30 Jan 2023 14:25:04 +0000
-Date:   Mon, 30 Jan 2023 22:24:47 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Daniel Scally <dan.scally@ideasonboard.com>,
-        linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
-        laurent.pinchart@ideasonboard.com
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        mgr@pengutronix.de, balbi@kernel.org,
+        with ESMTP id S237659AbjA3O2V (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Jan 2023 09:28:21 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 726CE4390A
+        for <linux-usb@vger.kernel.org>; Mon, 30 Jan 2023 06:26:56 -0800 (PST)
+Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F8088CC;
+        Mon, 30 Jan 2023 15:26:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1675088814;
+        bh=zBkGrwRDHWHywkJHoP6K+Hj7LmjV58MAq+PA/1BulJo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=K2vb27eLUZxGDsYELJyUAAf8GoY+WDeXDWCw5Y1yj/Ex05Dw31la8GiXML1mTa2gr
+         LilhKuQps0q5bTBYGiJoUuPKCMVV1cbda0BMdOEGxG7s19tTyE8g7wRrORAAEgAHSI
+         BOZNbormw8sQVFwEYj6+RLt71ljSiBkMdceaEzmI=
+From:   Daniel Scally <dan.scally@ideasonboard.com>
+To:     linux-usb@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, gregkh@linuxfoundation.org,
+        w36195@motorola.com, m.grzeschik@pengutronix.de,
         kieran.bingham@ideasonboard.com, torleiv@huddly.com,
-        stern@rowland.harvard.edu,
         Daniel Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH v3 06/11] usb: gadget: configfs: Support arbitrary string
- descriptors
-Message-ID: <202301302236.Ogdqs7GZ-lkp@intel.com>
-References: <20230130093443.25644-7-dan.scally@ideasonboard.com>
+Subject: [PATCH v3 1/7] usb: gadget: usb: Remove "default" from color matching attributes
+Date:   Mon, 30 Jan 2023 14:26:33 +0000
+Message-Id: <20230130142639.217885-2-dan.scally@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230130142639.217885-1-dan.scally@ideasonboard.com>
+References: <20230130142639.217885-1-dan.scally@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230130093443.25644-7-dan.scally@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Daniel,
+Color matching attributes in the configfs for UVC are named with the
+phrase "default". The implication of that is that they will only be
+used _with_ the default color matching descriptor, and that will
+shortly no longer be the case.
 
-I love your patch! Perhaps something to improve:
+Remove the "default" from the color matching descriptor attribute
+variables.
 
-[auto build test WARNING on usb/usb-linus]
-[also build test WARNING on westeri-thunderbolt/next linus/master v6.2-rc6 next-20230130]
-[cannot apply to usb/usb-testing usb/usb-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+---
+Changes in v3:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/usb-gadget-uvc-Make-bSourceID-read-write/20230130-174215
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-patch link:    https://lore.kernel.org/r/20230130093443.25644-7-dan.scally%40ideasonboard.com
-patch subject: [PATCH v3 06/11] usb: gadget: configfs: Support arbitrary string descriptors
-config: i386-randconfig-a013-20230130 (https://download.01.org/0day-ci/archive/20230130/202301302236.Ogdqs7GZ-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/452304e81fac1427f314a4b0beef8561ef4ebf17
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniel-Scally/usb-gadget-uvc-Make-bSourceID-read-write/20230130-174215
-        git checkout 452304e81fac1427f314a4b0beef8561ef4ebf17
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/usb/gadget/
+	- None
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Changes in v2:
 
-All warnings (new ones prefixed by >>):
+	- None
 
->> drivers/usb/gadget/configfs.c:811:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-           int ret;
-               ^
-   1 warning generated.
+ drivers/usb/gadget/function/uvc_configfs.c | 29 +++++++++++-----------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
-
-vim +/ret +811 drivers/usb/gadget/configfs.c
-
-   805	
-   806	static ssize_t gadget_string_s_store(struct config_item *item, const char *page,
-   807					     size_t len)
-   808	{
-   809		struct gadget_string *string = to_gadget_string(item);
-   810		int size = min(sizeof(string->string), len + 1);
- > 811		int ret;
-   812	
-   813		if (len > USB_MAX_STRING_LEN)
-   814			return -EINVAL;
-   815	
-   816		ret = strscpy(string->string, page, size);
-   817		return len;
-   818	}
-   819	CONFIGFS_ATTR(gadget_string_, s);
-   820	
-
+diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
+index 76cb60d13049..e28becd435bf 100644
+--- a/drivers/usb/gadget/function/uvc_configfs.c
++++ b/drivers/usb/gadget/function/uvc_configfs.c
+@@ -1783,8 +1783,8 @@ static const struct uvcg_config_group_type uvcg_mjpeg_grp_type = {
+  * streaming/color_matching/default
+  */
+ 
+-#define UVCG_DEFAULT_COLOR_MATCHING_ATTR(cname, aname, bits)		\
+-static ssize_t uvcg_default_color_matching_##cname##_show(		\
++#define UVCG_COLOR_MATCHING_ATTR(cname, aname, bits)			\
++static ssize_t uvcg_color_matching_##cname##_show(			\
+ 	struct config_item *item, char *page)				\
+ {									\
+ 	struct config_group *group = to_config_group(item);		\
+@@ -1808,26 +1808,25 @@ static ssize_t uvcg_default_color_matching_##cname##_show(		\
+ 	return result;							\
+ }									\
+ 									\
+-UVC_ATTR_RO(uvcg_default_color_matching_, cname, aname)
++UVC_ATTR_RO(uvcg_color_matching_, cname, aname)
+ 
+-UVCG_DEFAULT_COLOR_MATCHING_ATTR(b_color_primaries, bColorPrimaries, 8);
+-UVCG_DEFAULT_COLOR_MATCHING_ATTR(b_transfer_characteristics,
+-				 bTransferCharacteristics, 8);
+-UVCG_DEFAULT_COLOR_MATCHING_ATTR(b_matrix_coefficients, bMatrixCoefficients, 8);
++UVCG_COLOR_MATCHING_ATTR(b_color_primaries, bColorPrimaries, 8);
++UVCG_COLOR_MATCHING_ATTR(b_transfer_characteristics, bTransferCharacteristics, 8);
++UVCG_COLOR_MATCHING_ATTR(b_matrix_coefficients, bMatrixCoefficients, 8);
+ 
+-#undef UVCG_DEFAULT_COLOR_MATCHING_ATTR
++#undef UVCG_COLOR_MATCHING_ATTR
+ 
+-static struct configfs_attribute *uvcg_default_color_matching_attrs[] = {
+-	&uvcg_default_color_matching_attr_b_color_primaries,
+-	&uvcg_default_color_matching_attr_b_transfer_characteristics,
+-	&uvcg_default_color_matching_attr_b_matrix_coefficients,
++static struct configfs_attribute *uvcg_color_matching_attrs[] = {
++	&uvcg_color_matching_attr_b_color_primaries,
++	&uvcg_color_matching_attr_b_transfer_characteristics,
++	&uvcg_color_matching_attr_b_matrix_coefficients,
+ 	NULL,
+ };
+ 
+-static const struct uvcg_config_group_type uvcg_default_color_matching_type = {
++static const struct uvcg_config_group_type uvcg_color_matching_type = {
+ 	.type = {
+ 		.ct_item_ops	= &uvcg_config_item_ops,
+-		.ct_attrs	= uvcg_default_color_matching_attrs,
++		.ct_attrs	= uvcg_color_matching_attrs,
+ 		.ct_owner	= THIS_MODULE,
+ 	},
+ 	.name = "default",
+@@ -1844,7 +1843,7 @@ static const struct uvcg_config_group_type uvcg_color_matching_grp_type = {
+ 	},
+ 	.name = "color_matching",
+ 	.children = (const struct uvcg_config_group_type*[]) {
+-		&uvcg_default_color_matching_type,
++		&uvcg_color_matching_type,
+ 		NULL,
+ 	},
+ };
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.34.1
+
