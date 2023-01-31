@@ -2,94 +2,238 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5617CC38142
-	for <linux-usb@archiver.kernel.org>; Tue, 31 Jan 2023 09:17:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DCA3C636CC
+	for <linux-usb@archiver.kernel.org>; Tue, 31 Jan 2023 09:58:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232632AbjAaJRw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 31 Jan 2023 04:17:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46326 "EHLO
+        id S232060AbjAaJ6C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 31 Jan 2023 04:58:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232439AbjAaJRb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 Jan 2023 04:17:31 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DBFB4859F;
-        Tue, 31 Jan 2023 01:16:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0FF616146B;
-        Tue, 31 Jan 2023 09:16:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5D69C433EF;
-        Tue, 31 Jan 2023 09:16:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1675156580;
-        bh=Ih0PYVI/3v1QhepfBfxFY1m0AXsNHpDVO9Rf3HfzqBk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WT+v+xoSece8tMv4HjZWh8n8CBdtY0Uzh9ZzJlggooz8th19r9/9y8xpxkb8JSJw2
-         odAEqCizxdKCSiPmbsRaTYa/yv0O5XFAsGoTTWO+oPRoGWtRBSGAG/BbN5crUSbTod
-         nhqU8/jlcOOn9O9aVnFwJd9NBMiagbC1rU2Do4uE=
-Date:   Tue, 31 Jan 2023 10:16:17 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Neil Armstrong <neil.armstrong@linaro.org>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/7] usb: typec: ucsi: add PMIC Glink UCSI driver
-Message-ID: <Y9jcYdc30G026/fs@kroah.com>
-References: <20230130-topic-sm8450-upstream-pmic-glink-v1-0-0b0acfad301e@linaro.org>
- <20230130-topic-sm8450-upstream-pmic-glink-v1-1-0b0acfad301e@linaro.org>
+        with ESMTP id S231778AbjAaJ56 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 Jan 2023 04:57:58 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 224A1213B
+        for <linux-usb@vger.kernel.org>; Tue, 31 Jan 2023 01:57:54 -0800 (PST)
+Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B38FED6;
+        Tue, 31 Jan 2023 10:57:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1675159072;
+        bh=XAx5kiiJeX1IXIfBKVv4CSBWQctyzscAtz2ToSWyxRw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=a7iBGoTjGnZHHVoaArXmvGUWO9OwWSTZWh78Skcd03WSNEQoV4iOzAKecF/wiHED5
+         florA2DB8vPgZ3cT6e3An0KXxG8ylbHUZmk3e1WdvI7YwOjPwxpz54KIWnKgBvC78N
+         9PxK8WRizpmn/1ivd6Oe+lIPuaalatHbGhxSlIq0=
+From:   Daniel Scally <dan.scally@ideasonboard.com>
+To:     linux-usb@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        gregkh@linuxfoundation.org
+Cc:     kieran.bingham@ideasonboard.com, mgr@pengutronix.de,
+        torleiv@huddly.com, Daniel Scally <dan.scally@ideasonboard.com>
+Subject: [PATCH] usb: gadget: uvc: Make bmControls attr read/write
+Date:   Tue, 31 Jan 2023 09:57:38 +0000
+Message-Id: <20230131095738.429197-1-dan.scally@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230130-topic-sm8450-upstream-pmic-glink-v1-1-0b0acfad301e@linaro.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jan 30, 2023 at 10:54:32AM +0100, Neil Armstrong wrote:
-> Introduce the UCSI PMIC Glink aux driver that communicates
-> with the aDSP firmware with the UCSI protocol which handles
-> the USB-C Port(s) Power Delivery.
-> 
-> The UCSI messaging is necessary on newer Qualcomm SoCs to
-> provide USB role switch and altmode notifications.
-> 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  drivers/usb/typec/ucsi/Kconfig      |   7 +
->  drivers/usb/typec/ucsi/Makefile     |   1 +
->  drivers/usb/typec/ucsi/ucsi_glink.c | 321 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 329 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
-> index 8f9c4b9f31f7..dee6069e46a2 100644
-> --- a/drivers/usb/typec/ucsi/Kconfig
-> +++ b/drivers/usb/typec/ucsi/Kconfig
-> @@ -58,4 +58,11 @@ config UCSI_STM32G0
->  	  To compile the driver as a module, choose M here: the module will be
->  	  called ucsi_stm32g0.
->  
-> +config UCSI_PMIC_GLINK
-> +	tristate "UCSI Qualcomm PMIC GLINK Interface Driver"
-> +	depends on QCOM_PMIC_GLINK
+For the Processing Unit and Camera Terminal descriptors defined in
+the UVC Gadget we currently hard-code values into their bmControls
+fields, which enumerates the controls the gadget is able to
+support. This isn't appropriate since only the userspace companion
+program to the kernel driver will know which controls are supported.
+Make the configfs attributes that point to those fields read/write
+so userspace can set them to appropriate values.
 
-No way to test build this code without this option?
+Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+---
 
-> +	help
-> +	  This driver enables UCSI support on platforms that expose UCSI
-> +	  interface as PMIC GLINK device.
+This patch depends on "usb: gadget: uvc: Generalise helper functions for reuse"
+from my recent series:
 
-Module name when built?
+https://lore.kernel.org/linux-usb/20230130093443.25644-3-dan.scally@ideasonboard.com/T/#u
 
-A follow-on patch can be sent, this is minor.
+ .../ABI/testing/configfs-usb-gadget-uvc       |   4 +-
+ drivers/usb/gadget/function/uvc_configfs.c    | 121 +++++++++++++++++-
+ 2 files changed, 121 insertions(+), 4 deletions(-)
 
-thanks,
+diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
+index 31636695f2d0..ddd532f30323 100644
+--- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
++++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
+@@ -74,7 +74,7 @@ Date:		Dec 2014
+ KernelVersion:	4.0
+ Description:	Default camera terminal descriptors
+ 
+-		All attributes read only:
++		All attributes read only except bmControls:
+ 
+ 		========================  ====================================
+ 		bmControls		  bitmap specifying which controls are
+@@ -99,7 +99,7 @@ Date:		Dec 2014
+ KernelVersion:	4.0
+ Description:	Default processing unit descriptors
+ 
+-		All attributes read only:
++		All attributes read only except bmControls:
+ 
+ 		===============	========================================
+ 		iProcessing	index of string descriptor
+diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
+index ffa338643cc8..5e6848420728 100644
+--- a/drivers/usb/gadget/function/uvc_configfs.c
++++ b/drivers/usb/gadget/function/uvc_configfs.c
+@@ -333,6 +333,64 @@ UVCG_DEFAULT_PROCESSING_ATTR(i_processing, iProcessing, 8);
+ 
+ #undef UVCG_DEFAULT_PROCESSING_ATTR
+ 
++static ssize_t uvcg_default_processing_bm_controls_store(
++	struct config_item *item, const char *page, size_t len)
++{
++	struct config_group *group = to_config_group(item);
++	struct mutex *su_mutex = &group->cg_subsys->su_mutex;
++	struct uvc_processing_unit_descriptor *pd;
++	struct config_item *opts_item;
++	struct f_uvc_opts *opts;
++	u8 *bm_controls, *tmp;
++	unsigned int i;
++	int ret, n = 0;
++
++	mutex_lock(su_mutex);
++
++	opts_item = group->cg_item.ci_parent->ci_parent->ci_parent;
++	opts = to_f_uvc_opts(opts_item);
++	pd = &opts->uvc_processing;
++
++	mutex_lock(&opts->lock);
++	if (opts->refcnt) {
++		ret = -EBUSY;
++		goto unlock;
++	}
++
++	ret = __uvcg_iter_item_entries(page, len, __uvcg_count_item_entries, &n,
++				       sizeof(u8));
++	if (ret)
++		goto unlock;
++
++	if (n > pd->bControlSize) {
++		ret = -EINVAL;
++		goto unlock;
++	}
++
++	tmp = bm_controls = kcalloc(n, sizeof(u8), GFP_KERNEL);
++	if (!bm_controls) {
++		ret = -ENOMEM;
++		goto unlock;
++	}
++
++	ret = __uvcg_iter_item_entries(page, len, __uvcg_fill_item_entries, &tmp,
++				       sizeof(u8));
++	if (ret)
++		goto free_mem;
++
++	for (i = 0; i < n; i++)
++		pd->bmControls[i] = bm_controls[i];
++
++	ret = len;
++
++free_mem:
++	kfree(bm_controls);
++unlock:
++	mutex_unlock(&opts->lock);
++	mutex_unlock(su_mutex);
++	return ret;
++}
++
+ static ssize_t uvcg_default_processing_bm_controls_show(
+ 	struct config_item *item, char *page)
+ {
+@@ -362,7 +420,7 @@ static ssize_t uvcg_default_processing_bm_controls_show(
+ 	return result;
+ }
+ 
+-UVC_ATTR_RO(uvcg_default_processing_, bm_controls, bmControls);
++UVC_ATTR(uvcg_default_processing_, bm_controls, bmControls);
+ 
+ static struct configfs_attribute *uvcg_default_processing_attrs[] = {
+ 	&uvcg_default_processing_attr_b_unit_id,
+@@ -444,6 +502,65 @@ UVCG_DEFAULT_CAMERA_ATTR(w_ocular_focal_length, wOcularFocalLength,
+ 
+ #undef UVCG_DEFAULT_CAMERA_ATTR
+ 
++static ssize_t uvcg_default_camera_bm_controls_store(
++	struct config_item *item, const char *page, size_t len)
++{
++	struct config_group *group = to_config_group(item);
++	struct mutex *su_mutex = &group->cg_subsys->su_mutex;
++	struct uvc_camera_terminal_descriptor *cd;
++	struct config_item *opts_item;
++	struct f_uvc_opts *opts;
++	u8 *bm_controls, *tmp;
++	unsigned int i;
++	int ret, n = 0;
++
++	mutex_lock(su_mutex);
++
++	opts_item = group->cg_item.ci_parent->ci_parent->ci_parent->
++			ci_parent;
++	opts = to_f_uvc_opts(opts_item);
++	cd = &opts->uvc_camera_terminal;
++
++	mutex_lock(&opts->lock);
++	if (opts->refcnt) {
++		ret = -EBUSY;
++		goto unlock;
++	}
++
++	ret = __uvcg_iter_item_entries(page, len, __uvcg_count_item_entries, &n,
++				       sizeof(u8));
++	if (ret)
++		goto unlock;
++
++	if (n > cd->bControlSize) {
++		ret = -EINVAL;
++		goto unlock;
++	}
++
++	tmp = bm_controls = kcalloc(n, sizeof(u8), GFP_KERNEL);
++	if (!bm_controls) {
++		ret = -ENOMEM;
++		goto unlock;
++	}
++
++	ret = __uvcg_iter_item_entries(page, len, __uvcg_fill_item_entries, &tmp,
++				       sizeof(u8));
++	if (ret)
++		goto free_mem;
++
++	for (i = 0; i < n; i++)
++		cd->bmControls[i] = bm_controls[i];
++
++	ret = len;
++
++free_mem:
++	kfree(bm_controls);
++unlock:
++	mutex_unlock(&opts->lock);
++	mutex_unlock(su_mutex);
++	return ret;
++}
++
+ static ssize_t uvcg_default_camera_bm_controls_show(
+ 	struct config_item *item, char *page)
+ {
+@@ -473,7 +590,7 @@ static ssize_t uvcg_default_camera_bm_controls_show(
+ 	return result;
+ }
+ 
+-UVC_ATTR_RO(uvcg_default_camera_, bm_controls, bmControls);
++UVC_ATTR(uvcg_default_camera_, bm_controls, bmControls);
+ 
+ static struct configfs_attribute *uvcg_default_camera_attrs[] = {
+ 	&uvcg_default_camera_attr_b_terminal_id,
+-- 
+2.34.1
 
-greg k-h
