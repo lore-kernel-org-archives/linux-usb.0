@@ -2,109 +2,66 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA3FC636D4
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Feb 2023 20:42:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3400EC636D4
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Feb 2023 21:04:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229729AbjBAUmF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 1 Feb 2023 15:42:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51598 "EHLO
+        id S230246AbjBAVEt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 1 Feb 2023 16:04:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229940AbjBAUln (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Feb 2023 15:41:43 -0500
-X-Greylist: delayed 554 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 01 Feb 2023 12:41:34 PST
-Received: from correo.ikatu.com (correo.ikatu.com [190.0.137.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 483ED783E7
-        for <linux-usb@vger.kernel.org>; Wed,  1 Feb 2023 12:41:34 -0800 (PST)
-Received: from correo.ikatu.com (correo.ikatu.com [127.0.0.1])
-        by correo.ikatu.com (Postfix) with ESMTP id 4P6YW523WCzKmmJ
-        for <linux-usb@vger.kernel.org>; Wed,  1 Feb 2023 17:32:17 -0300 (-03)
-Authentication-Results: correo.ikatu.com (amavisd-new);
-        dkim=pass (1024-bit key) reason="pass (just generated, assumed good)"
-        header.d=ikatu.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ikatu.com; h=
-        message-id:user-agent:subject:subject:to:from:from:date:date
-        :content-transfer-encoding:content-type:content-type
-        :mime-version; s=dkim; t=1675283535; x=1677875536; bh=1RbS9hevEr
-        X2sEHRvh25j5cZXd4C431INEiJL/m2rKk=; b=aiv1g1bkpL702J3/0wiFJJD4cU
-        KoizA2Le8oZCMx/crYcLJ1VvxK4OVDmKmabozI+t9U9oImSm+HjVWjRMNOFSuqkB
-        b62s4OU3jdlHFs8W6EIzLce/WPmoumq1Z4YYthDJoD9A2o9v+qxIr4cQFXdSMRsI
-        A6YcYqejfCQtycmhc=
-X-Virus-Scanned: Debian amavisd-new at correo.ikatu.com
-Received: from correo.ikatu.com ([127.0.0.1])
-        by correo.ikatu.com (correo.ikatu.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id hRVclPV51q8L for <linux-usb@vger.kernel.org>;
-        Wed,  1 Feb 2023 17:32:15 -0300 (-03)
-Received: from localhost (correo.ikatu.com [127.0.0.1])
-        by correo.ikatu.com (Postfix) with ESMTPSA id 4P6YW31qJ7zKmkM;
-        Wed,  1 Feb 2023 17:32:15 -0300 (-03)
+        with ESMTP id S229481AbjBAVEs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Feb 2023 16:04:48 -0500
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 309356B9AF
+        for <linux-usb@vger.kernel.org>; Wed,  1 Feb 2023 13:04:47 -0800 (PST)
+Received: (qmail 503928 invoked by uid 1000); 1 Feb 2023 16:04:46 -0500
+Date:   Wed, 1 Feb 2023 16:04:46 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Aaro Koskinen <aaro.koskinen@iki.fi>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [BUG REPORT] USB UDC/gadget regression
+Message-ID: <Y9rT7irH/d9vd5MQ@rowland.harvard.edu>
+References: <20230201192022.GC2415@darkstar.musicnaut.iki.fi>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 01 Feb 2023 17:32:15 -0300
-From:   hector@ikatu.com
-To:     felipe.balbi@linux.intel.com
-Cc:     linux-usb@vger.kernel.org,
-        =?UTF-8?Q?Federico_Nu=C3=B1ez?= <fna@ikatu.com>
-Subject: [BUG REPORT] usb: dwc3: Bug while trying to use a RF ID Reader
- connected to USB port
-User-Agent: RoundCube Webmail
-Message-ID: <707b75a4895e3fd898b3e516e562d843@ikatu.com>
-X-Sender: hector@ikatu.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230201192022.GC2415@darkstar.musicnaut.iki.fi>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi!
+On Wed, Feb 01, 2023 at 09:20:22PM +0200, Aaro Koskinen wrote:
+> Hi,
+> 
+> After commit fc274c1e9973 ("USB: gadget: Add a new bus for gadgets"),
+> g_ether started to crash on modprobe when used with OMAP UDC.
+> 
+> It seems that because of drv->bus getting set to NULL in the middle of
+> bus_add_driver() things go wrong.
+> 
+> The below simple change seems to fix it, but I'm not sure if this is
+> the correct way? Many drivers seem to be doing the same in UDC start -
+> are they really all broken?
 
-thanks in advance if you read this!
+Gosh, yes... it's pretty surprising.  None of the UDC drivers should 
+change driver->driver.bus.  I don't know why they ever did this; you 
+would have expected that field to be NULL anyway before the fc274c1e9973 
+commit because it would never get set to anything.
 
-I'm having issues trying to use a RF ID Reader connected to USB port.
-The platform I'm using is based on rockchip rk3328. Linux version: 
-5.15.78-yocto-standard.
+> diff --git a/drivers/usb/gadget/udc/omap_udc.c b/drivers/usb/gadget/udc/omap_udc.c
+> index 6e9314e95be3..47d83bbb09e3 100644
+> --- a/drivers/usb/gadget/udc/omap_udc.c
+> +++ b/drivers/usb/gadget/udc/omap_udc.c
+> @@ -2062,7 +2062,6 @@ static int omap_udc_start(struct usb_gadget *g,
+>  	udc->softconnect = 1;
+>  
+>  	/* hook up the driver */
+> -	driver->driver.bus = NULL;
+>  	udc->driver = driver;
+>  	spin_unlock_irqrestore(&udc->lock, flags);
 
-When the RF ID Reader is connected to the USB port, the device is 
-recognized, but it doesn't work. After the ID Reader is disconnected the 
-XHCI does not respond anymore, and we need to reboot the system to use 
-the USB port again.
+If you would like to submit a patch fixing all the UDC drivers that do 
+this, it would be great.
 
-dmesg logs when the device is plugged:
-[   36.187404] usb 4-1: new full-speed USB device number 2 using 
-xhci-hcd
-[   36.307412] usb 4-1: New USB device found, idVendor=413d, 
-idProduct=2107
-[   36.314171] usb 4-1: New USB device strings: Mfr=0, Product=0, 
-SerialNumber=0
-[   36.322146] usb 4-1: ep 0x81 - rounding interval to 64 microframes, 
-ep desc says 80 microframes
-[   36.344498] input: HID 413d:2107 as 
-/devices/platform/usb@ff600000/ff600000.dwc3/xhci-hcd.5.auto/usb4/4-1/4-1:1.0/0003:413D:2107.0001/input/input2
-[   36.409716] hid-generic 0003:413D:2107.0001: input,hidraw0: USB HID 
-v1.11 Keyboard [HID 413d:2107] on usb-xhci-hcd.5.auto-1/input0
-
-dmesg logs some seconds after device is unplugged:
-[   66.634196] usb 4-1: USB disconnect, device number 2
-[   71.647386] xhci-hcd xhci-hcd.5.auto: xHCI host not responding to 
-stop endpoint command.
-[   71.655492] xhci-hcd xhci-hcd.5.auto: Assuming host is dying, halting 
-host.
-[   71.678498] xhci-hcd xhci-hcd.5.auto: Host not halted after 16000 
-microseconds.
-[   71.685832] xhci-hcd xhci-hcd.5.auto: Non-responsive xHCI host is not 
-halting.
-[   71.693073] xhci-hcd xhci-hcd.5.auto: Completing active URBs anyway.
-[   71.699496] xhci-hcd xhci-hcd.5.auto: HC died; cleaning up
-
-
-I found some people was having this issue because of USB autosuspend. 
-But disabling that functionality didn't help.
-
-https://we.tl/t-84bf0EE0Fs
-In that link you can download the files with regdump traces and dmesg.
-
-Any help to solve this is appreciated! Let me know if you need more 
-information.
-
-Best regards,
-Hector
-
+Alan Stern
