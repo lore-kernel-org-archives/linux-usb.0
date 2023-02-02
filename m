@@ -2,45 +2,45 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 963C9C64ED9
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Feb 2023 15:35:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 876EBC64EC3
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Feb 2023 15:36:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232363AbjBBPfd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 Feb 2023 10:35:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56236 "EHLO
+        id S232758AbjBBPgK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 Feb 2023 10:36:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232067AbjBBPf1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Feb 2023 10:35:27 -0500
+        with ESMTP id S233326AbjBBPfw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Feb 2023 10:35:52 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B26296E9B;
-        Thu,  2 Feb 2023 07:34:57 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF50B6950F;
+        Thu,  2 Feb 2023 07:35:24 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 53041B826B7;
-        Thu,  2 Feb 2023 15:33:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9486EC4339B;
-        Thu,  2 Feb 2023 15:33:02 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A48A9B82688;
+        Thu,  2 Feb 2023 15:33:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7BA6C433D2;
+        Thu,  2 Feb 2023 15:33:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1675351983;
-        bh=Qda/PQv4RqX7g5dgxLcjBeYi+1CYJvm2YonTqRTHp+g=;
+        s=korg; t=1675351991;
+        bh=Qxq2Azs1q6cerOsyDuVhXTx/eaL+5JdsQi0iF0CnjCM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KALluE7lJtGUkrnFm20tyBKum8/w3TbICvviZ/It3rBf/4T+x5MOQTu4Co3Mp7DRP
-         HVwrCAWzC0nkk6c7wLAlmtfCHRxkYrB9Zu1eqBYbJV2mOh6rHSXmQ0PVQNgnTV53rH
-         k9SebNJCICbs7COFDLc91CaG9GPBBBfAPuOD6y8A=
+        b=LplWbCoZniMJ+QI5Yk9OwYw25kggfG4Kskew/LZOkVpBv2XqHiLaXUiJt8EHrhDJQ
+         Jd1KAvKSR20MSpB5JVzUqudftE2JVSduqaZWvp2guQE/ZW28/r+hWSSW5X1prbK39f
+         BR1jx7GfUykBM6hurXFacQ3amAv0Y9juiql8p6Io=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 04/13] USB: sl811: fix memory leak with using debugfs_lookup()
-Date:   Thu,  2 Feb 2023 16:32:26 +0100
-Message-Id: <20230202153235.2412790-4-gregkh@linuxfoundation.org>
+Subject: [PATCH 07/13] USB: isp1362: fix memory leak with using debugfs_lookup()
+Date:   Thu,  2 Feb 2023 16:32:29 +0100
+Message-Id: <20230202153235.2412790-7-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230202153235.2412790-1-gregkh@linuxfoundation.org>
 References: <20230202153235.2412790-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1041; i=gregkh@linuxfoundation.org; h=from:subject; bh=Qda/PQv4RqX7g5dgxLcjBeYi+1CYJvm2YonTqRTHp+g=; b=owGbwMvMwCRo6H6F97bub03G02pJDMm3r08sePN5rmds879195Im6Tst7F/gf63qZGBjj+j9Q5tP tIh7d8SyMAgyMciKKbJ82cZzdH/FIUUvQ9vTMHNYmUCGMHBxCsBErKUZFjSoLnryeQODXe79UyKlxm 3nBRc4VjPMj3k5v+/JJDGv46VTpEQ/bGnWMgg3BAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1077; i=gregkh@linuxfoundation.org; h=from:subject; bh=Qxq2Azs1q6cerOsyDuVhXTx/eaL+5JdsQi0iF0CnjCM=; b=owGbwMvMwCRo6H6F97bub03G02pJDMm3r08KE39+eWe0WSJPkEaPwhUJz3v3i54F3NsX0a7PuqWx VretI5aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACZy5wzDgqYZc2tYd+bFZRWc5+TlaV jDYq8wkWFB84XEhLdilWmdtyWCv0Xu3+RRsWwDAA==
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -57,19 +57,19 @@ Cc: linux-usb@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/host/sl811-hcd.c | 2 +-
+ drivers/usb/host/isp1362-hcd.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/sl811-hcd.c b/drivers/usb/host/sl811-hcd.c
-index d206bd95c7bb..b8b90eec9107 100644
---- a/drivers/usb/host/sl811-hcd.c
-+++ b/drivers/usb/host/sl811-hcd.c
-@@ -1501,7 +1501,7 @@ static void create_debug_file(struct sl811 *sl811)
+diff --git a/drivers/usb/host/isp1362-hcd.c b/drivers/usb/host/isp1362-hcd.c
+index 0e14d1d07709..b0da143ef4be 100644
+--- a/drivers/usb/host/isp1362-hcd.c
++++ b/drivers/usb/host/isp1362-hcd.c
+@@ -2170,7 +2170,7 @@ static void create_debug_file(struct isp1362_hcd *isp1362_hcd)
  
- static void remove_debug_file(struct sl811 *sl811)
+ static void remove_debug_file(struct isp1362_hcd *isp1362_hcd)
  {
--	debugfs_remove(debugfs_lookup("sl811h", usb_debug_root));
-+	debugfs_lookup_and_remove("sl811h", usb_debug_root);
+-	debugfs_remove(debugfs_lookup("isp1362", usb_debug_root));
++	debugfs_lookup_and_remove("isp1362", usb_debug_root);
  }
  
  /*-------------------------------------------------------------------------*/
