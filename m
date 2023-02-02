@@ -2,45 +2,43 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 143EAC636D4
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Feb 2023 15:35:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 467BFC64EC7
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Feb 2023 15:35:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231707AbjBBPfY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 Feb 2023 10:35:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52582 "EHLO
+        id S232202AbjBBPfa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 Feb 2023 10:35:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233270AbjBBPez (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Feb 2023 10:34:55 -0500
+        with ESMTP id S229679AbjBBPej (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Feb 2023 10:34:39 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3807C7BBD0;
-        Thu,  2 Feb 2023 07:34:19 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEA047307C;
+        Thu,  2 Feb 2023 07:34:02 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8E94A61BEA;
-        Thu,  2 Feb 2023 15:33:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32748C433EF;
-        Thu,  2 Feb 2023 15:32:59 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E3A9C61BB5;
+        Thu,  2 Feb 2023 15:32:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA8F0C433D2;
+        Thu,  2 Feb 2023 15:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1675351980;
-        bh=iLS6jB8PnaUfJcgK7/7WcP/XfHedo1QulI0SnIMSF1c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=q/yRI6r3i9fZcOWPYmkZzMVeJHrtZNlU7+MVXcum1wpWDHq6RgX06A+rhaXN8SWxf
-         7TYjJE4yc0BhQ1AoLkky02whJ8PdfQeh/eI3JazJjNkRvzC6qz1GZMEsUWYa6DmnMT
-         kXZnCupwJ+CNrvqxxR70R0GEkZpq1zpHckb9Vbys=
+        s=korg; t=1675351966;
+        bh=zYUhwxvav6OX9dqGVpvSV+FIFto0//6GTil1TIfrs/Y=;
+        h=From:To:Cc:Subject:Date:From;
+        b=meqjabsZwYpZDMReGP2gDw4ZJoKDiN9uEJKp+XYVRkF1reNpR+HczMs6SQRzOLXy8
+         riMdCpBpWPGdct57+Q+wJ6Y70mayWLsWE4DoRJHVsoohROCWchkMFy30elskW3XENJ
+         W0TtDmzFZYrUCdCUG89GW1eGKqnfRyTvyZqZ3rw4=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
+        Peter Chen <peter.chen@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 03/13] USB: uhci: fix memory leak with using debugfs_lookup()
-Date:   Thu,  2 Feb 2023 16:32:25 +0100
-Message-Id: <20230202153235.2412790-3-gregkh@linuxfoundation.org>
+Subject: [PATCH 01/13] USB: chipidea: fix memory leak with using debugfs_lookup()
+Date:   Thu,  2 Feb 2023 16:32:23 +0100
+Message-Id: <20230202153235.2412790-1-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230202153235.2412790-1-gregkh@linuxfoundation.org>
-References: <20230202153235.2412790-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1405; i=gregkh@linuxfoundation.org; h=from:subject; bh=iLS6jB8PnaUfJcgK7/7WcP/XfHedo1QulI0SnIMSF1c=; b=owGbwMvMwCRo6H6F97bub03G02pJDMm3r09USimuWvPDbun5yTefmwb/6L5ly2bPxrH40QWnqYdP b/A17ohlYRBkYpAVU2T5so3n6P6KQ4pehranYeawMoEMYeDiFICJHHjNMN8nZjfrpZJXm9el6G5IkT rQzPxoXSrD/NKTO+q9Nm7y47zys+TkIdufbHVmbwE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=949; i=gregkh@linuxfoundation.org; h=from:subject; bh=zYUhwxvav6OX9dqGVpvSV+FIFto0//6GTil1TIfrs/Y=; b=owGbwMvMwCRo6H6F97bub03G02pJDMm3r09w/KwR4b9RY0diwv/MdwF+t6bNLfGRm/2h/8KX1LNL fgo4dMSyMAgyMciKKbJ82cZzdH/FIUUvQ9vTMHNYmUCGMHBxCsBENu1jmJ9W/tnLJT6KJXFbyTSxBw 9XsxvanWdYMHfJmeWh4kZ9vf9TT/Bs8nbbU5ExGwA=
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -52,37 +50,24 @@ otherwise the memory will leak over time.  To make things simpler, just
 call debugfs_lookup_and_remove() instead which handles all of the logic
 at once.
 
-Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Peter Chen <peter.chen@kernel.org>
 Cc: linux-usb@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/host/uhci-hcd.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/usb/chipidea/debug.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/uhci-hcd.c b/drivers/usb/host/uhci-hcd.c
-index c22b51af83fc..7cdc2fa7c28f 100644
---- a/drivers/usb/host/uhci-hcd.c
-+++ b/drivers/usb/host/uhci-hcd.c
-@@ -536,8 +536,8 @@ static void release_uhci(struct uhci_hcd *uhci)
- 	uhci->is_initialized = 0;
- 	spin_unlock_irq(&uhci->lock);
- 
--	debugfs_remove(debugfs_lookup(uhci_to_hcd(uhci)->self.bus_name,
--				      uhci_debugfs_root));
-+	debugfs_lookup_and_remove(uhci_to_hcd(uhci)->self.bus_name,
-+				  uhci_debugfs_root);
- 
- 	for (i = 0; i < UHCI_NUM_SKELQH; i++)
- 		uhci_free_qh(uhci, uhci->skelqh[i]);
-@@ -700,7 +700,7 @@ static int uhci_start(struct usb_hcd *hcd)
- 			uhci->frame, uhci->frame_dma_handle);
- 
- err_alloc_frame:
--	debugfs_remove(debugfs_lookup(hcd->self.bus_name, uhci_debugfs_root));
-+	debugfs_lookup_and_remove(hcd->self.bus_name, uhci_debugfs_root);
- 
- 	return retval;
+diff --git a/drivers/usb/chipidea/debug.c b/drivers/usb/chipidea/debug.c
+index faf6b078b6c4..bbc610e5bd69 100644
+--- a/drivers/usb/chipidea/debug.c
++++ b/drivers/usb/chipidea/debug.c
+@@ -364,5 +364,5 @@ void dbg_create_files(struct ci_hdrc *ci)
+  */
+ void dbg_remove_files(struct ci_hdrc *ci)
+ {
+-	debugfs_remove(debugfs_lookup(dev_name(ci->dev), usb_debug_root));
++	debugfs_lookup_and_remove(dev_name(ci->dev), usb_debug_root);
  }
 -- 
 2.39.1
