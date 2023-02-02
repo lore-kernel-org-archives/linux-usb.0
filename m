@@ -2,47 +2,45 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8992C61DA4
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Feb 2023 15:39:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39735C61DA4
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Feb 2023 15:40:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231705AbjBBPjk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 Feb 2023 10:39:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34972 "EHLO
+        id S232196AbjBBPk6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 Feb 2023 10:40:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232039AbjBBPj0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Feb 2023 10:39:26 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F51C728E2;
-        Thu,  2 Feb 2023 07:39:03 -0800 (PST)
+        with ESMTP id S232391AbjBBPky (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Feb 2023 10:40:54 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9037EBB9D;
+        Thu,  2 Feb 2023 07:40:30 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C1AFBB826B3;
-        Thu,  2 Feb 2023 15:32:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14C19C433EF;
-        Thu,  2 Feb 2023 15:32:52 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 74A2C61B8C;
+        Thu,  2 Feb 2023 15:33:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C54CC433EF;
+        Thu,  2 Feb 2023 15:33:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1675351973;
-        bh=/fC3SKgXnhxkXkgQHHlU+wUOPEms2EA6dwlfaZmQUFI=;
+        s=korg; t=1675351993;
+        bh=OCpQGd9y36W01Js+1AiolPPhc/FDiwwFSG64ouudZug=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ljXSTmo5e1AygfdcBvZlTUrri+5OrgrYA+B7M82PQBBUvhJOk0Uyr1dxqqrWOpSr6
-         3oAh5RQ79jcrFefSbvk6Ly114d308Mf99Xw5z0C9beUri33KwgBBoML0vc+SjRgYGT
-         X9brIiiRr/f178w3E+8sdpWQe7UT1qQSliFxgsQg=
+        b=KtEH7vhpb2gAmASrAaDeEBopioNdxclZKkTX7mUVj6INLSzh8G5eTL1+IguvHPu02
+         gfH+ZYc1bWES9rretKPDf19QyNUwUIzRAsyibdHI4jRQe1gYPCGQvzBQhf7e/IFy8W
+         TOGpzuL3ZlWBmB6LHJkjbj5mghGUkzObB+CNXp6c=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 12/13] USB: gadget: pxa27x_udc: fix memory leak with using debugfs_lookup()
-Date:   Thu,  2 Feb 2023 16:32:34 +0100
-Message-Id: <20230202153235.2412790-12-gregkh@linuxfoundation.org>
+        Jakob Koschel <jakobkoschel@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 08/13] USB: gadget: gr_udc: fix memory leak with using debugfs_lookup()
+Date:   Thu,  2 Feb 2023 16:32:30 +0100
+Message-Id: <20230202153235.2412790-8-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230202153235.2412790-1-gregkh@linuxfoundation.org>
 References: <20230202153235.2412790-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1140; i=gregkh@linuxfoundation.org; h=from:subject; bh=/fC3SKgXnhxkXkgQHHlU+wUOPEms2EA6dwlfaZmQUFI=; b=owGbwMvMwCRo6H6F97bub03G02pJDMm3r0/etLQ/unLpHTYdy6KS726bn5Tt2bf2cMaXxhk3Xh39 kK14siOWhUGQiUFWTJHlyzaeo/srDil6GdqehpnDygQyhIGLUwAmwm3LMD+uQXpG2tcFieaKy5Z/Za 047SBsP4dhDr/5t2o77oy4p/svO/5Nak0/8prdFQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1020; i=gregkh@linuxfoundation.org; h=from:subject; bh=OCpQGd9y36W01Js+1AiolPPhc/FDiwwFSG64ouudZug=; b=owGbwMvMwCRo6H6F97bub03G02pJDMm3r0+6Jjrf0IQv3T1LNdVebeNUmRsbr/fMWSLx8o5sYMfp en7rjlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZiIxWGG+TFX25p4vs5aIeC55XN9VO 7r+G07ZzPMj/CSbLzMalPfWxzscXd/XH+DtRA7AA==
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -54,30 +52,27 @@ otherwise the memory will leak over time.  To make things simpler, just
 call debugfs_lookup_and_remove() instead which handles all of the logic
 at once.
 
-Cc: Daniel Mack <daniel@zonque.org>
-Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
-Cc: Robert Jarzmik <robert.jarzmik@free.fr>
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Jakob Koschel <jakobkoschel@gmail.com>
 Cc: linux-usb@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/gadget/udc/pxa27x_udc.c | 2 +-
+ drivers/usb/gadget/udc/gr_udc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/udc/pxa27x_udc.c b/drivers/usb/gadget/udc/pxa27x_udc.c
-index ac980d6a4740..0ecdfd2ba9e9 100644
---- a/drivers/usb/gadget/udc/pxa27x_udc.c
-+++ b/drivers/usb/gadget/udc/pxa27x_udc.c
-@@ -215,7 +215,7 @@ static void pxa_init_debugfs(struct pxa_udc *udc)
+diff --git a/drivers/usb/gadget/udc/gr_udc.c b/drivers/usb/gadget/udc/gr_udc.c
+index 22096f8505de..52c12c96c275 100644
+--- a/drivers/usb/gadget/udc/gr_udc.c
++++ b/drivers/usb/gadget/udc/gr_udc.c
+@@ -215,7 +215,7 @@ static void gr_dfs_create(struct gr_udc *dev)
  
- static void pxa_cleanup_debugfs(struct pxa_udc *udc)
+ static void gr_dfs_delete(struct gr_udc *dev)
  {
--	debugfs_remove(debugfs_lookup(udc->gadget.name, usb_debug_root));
-+	debugfs_lookup_and_remove(udc->gadget.name, usb_debug_root);
+-	debugfs_remove(debugfs_lookup(dev_name(dev->dev), usb_debug_root));
++	debugfs_lookup_and_remove(dev_name(dev->dev), usb_debug_root);
  }
  
- #else
+ #else /* !CONFIG_USB_GADGET_DEBUG_FS */
 -- 
 2.39.1
 
