@@ -2,95 +2,75 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBE5DC05027
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Feb 2023 16:12:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7608C63797
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Feb 2023 16:12:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231716AbjBFQMF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Feb 2023 11:12:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49168 "EHLO
+        id S231727AbjBFQMf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Feb 2023 11:12:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231508AbjBFQMD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Feb 2023 11:12:03 -0500
+        with ESMTP id S231710AbjBFQMd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Feb 2023 11:12:33 -0500
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53E442ED49;
-        Mon,  6 Feb 2023 08:11:43 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E2A25296;
+        Mon,  6 Feb 2023 08:12:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675699903; x=1707235903;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6q1oqYzgNWSfxZgRT2J9mn+oyf7jlZ2Pq+SmMt+Wz70=;
-  b=LvHTGWOT+4lYvlS+qtojUqASyyoz5+tUmpXI6j9xKqHTIERzYK9ueRCE
-   Es+uN44OYiYLCV5FrINQjhqGYKZ0Z9+Ywr7jz9ZEUZX9RfSCYQXTWy24L
-   R+o2qtfQRb1fDZ5DpF5m86DYya9NduQQXF5G4FZnixHfNzLMAxknfcPs1
-   8jRGS0flZ8ijFk0MtP5xQXPBxRFQSaLSZU1RT6zx+B8PtODcGOhZfAKWE
-   ClDKcnQ5fKLgcpUBiUjpRR5a0YN6OugHIsT27fJ6tlmOCrQguhdhEuTRq
-   JwCbox1aQwKBftOt/7hDGvaBrgBNWYvCvocZHdWpQI8UiogcseUiyKuOt
+  t=1675699923; x=1707235923;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=JiRT2vt59/STO2t8EvThP9xKhXUEY2lUBvuzaf6cklY=;
+  b=BfErolaukxL0j6vtlIaSHtwPV5HIR92bQhReprzzMrDHIs1lsa8Z0t8J
+   a8hNVlLlOsfj7U9wqthALF29oWEWCM2cgG8wcpeLHGJhp+r5mVlbp74vm
+   5qbNCH/ac6uO+Ja1mQZvRhbmQ1/HNPl8vbRpDsTdYmUortB5WGOXWkKvk
+   HRQwAk4GTQZFkfzf3ZMlBcHb+pfdUuwZbRETSLdUOyqS3TQWBJbcpdsT0
+   8HQ7AdF+04i+aJGisJBVWQCkt4dfCTfPf4W49uvumTcGfmAx202WzCynz
+   AK7SNcPZ9Cs8yFfANJgdDfySDs3hKOQ0iKW+XQ6SU5TV24/inYG7pnPJP
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="308887658"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="308887662"
 X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="308887658"
+   d="scan'208";a="308887662"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 08:10:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="616485720"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="616485722"
 X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="616485720"
+   d="scan'208";a="616485722"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orsmga003.jf.intel.com with ESMTP; 06 Feb 2023 08:10:14 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 71DD934D; Mon,  6 Feb 2023 18:10:52 +0200 (EET)
+        id 3956E1EA; Mon,  6 Feb 2023 18:10:52 +0200 (EET)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 4/7] xhci: mem: Drop useless return:s
-Date:   Mon,  6 Feb 2023 18:10:46 +0200
-Message-Id: <20230206161049.13972-5-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 0/7] xhci: mem: Short cleanup series
+Date:   Mon,  6 Feb 2023 18:10:42 +0200
+Message-Id: <20230206161049.13972-1-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230206161049.13972-1-andriy.shevchenko@linux.intel.com>
-References: <20230206161049.13972-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When function returns void and we have if-else-if chain, there is
-no need to explicitly call return. Drop them and indent lines better.
+Clean up xhci-mem.c a bit using latest and greatest Linux kernel
+features.
 
-While at it, make if chain sorted from testing bigger values to smaller.
+Andy Shevchenko (7):
+  xhci: mem: Carefully calculate size for memory allocations
+  xhci: mem: Use __GFP_ZERO instead of explicit memset() call
+  xhci: mem: Get rid of redundant 'else'
+  xhci: mem: Drop useless return:s
+  xhci: mem: Use while (i--) pattern to clean up
+  xhci: mem: Replace explicit castings with appropriate specifiers
+  xhci: mem: Join string literals back
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/usb/host/xhci-mem.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/usb/host/xhci-mem.c | 85 +++++++++++++++----------------------
+ 1 file changed, 35 insertions(+), 50 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 34f5ba19471e..5c873e62c4d3 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -544,14 +544,11 @@ static void xhci_free_stream_ctx(struct xhci_hcd *xhci,
- 	size_t size = sizeof(struct xhci_stream_ctx) * num_stream_ctxs;
- 
- 	if (size > MEDIUM_STREAM_ARRAY_SIZE)
--		dma_free_coherent(dev, size,
--				stream_ctx, dma);
--	else if (size <= SMALL_STREAM_ARRAY_SIZE)
--		return dma_pool_free(xhci->small_streams_pool,
--				stream_ctx, dma);
-+		dma_free_coherent(dev, size, stream_ctx, dma);
-+	else if (size > SMALL_STREAM_ARRAY_SIZE)
-+		dma_pool_free(xhci->medium_streams_pool, stream_ctx, dma);
- 	else
--		return dma_pool_free(xhci->medium_streams_pool,
--				stream_ctx, dma);
-+		dma_pool_free(xhci->small_streams_pool, stream_ctx, dma);
- }
- 
- /*
 -- 
 2.39.1
 
