@@ -2,28 +2,28 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E80DEC636D3
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Feb 2023 16:20:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20591C636D3
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Feb 2023 16:20:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbjBFQUH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Feb 2023 11:20:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58368 "EHLO
+        id S230255AbjBFQUO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Feb 2023 11:20:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229890AbjBFQTj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Feb 2023 11:19:39 -0500
+        with ESMTP id S232064AbjBFQUD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Feb 2023 11:20:03 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CBB99767
-        for <linux-usb@vger.kernel.org>; Mon,  6 Feb 2023 08:19:12 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50B6A4EC9
+        for <linux-usb@vger.kernel.org>; Mon,  6 Feb 2023 08:19:41 -0800 (PST)
 Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B63C9CCE;
-        Mon,  6 Feb 2023 17:18:25 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1D949DFB;
+        Mon,  6 Feb 2023 17:18:27 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675700306;
-        bh=Rpaju6xaCS80YsaJRwsX5h+RE72vEiTQHEKHYMX1pp8=;
+        s=mail; t=1675700307;
+        bh=FuxxYKh/p+NU79xHEVj1J/PAJYI+HBaUNpMqh74eelU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pR7m9pbMYA5Msqs8M8FFPDKcWlisb6loX6V2UC4t6WaJ5CgAsxTVbuca5K/9Gc0uU
-         c8uQlU0HqoRiuBPTki5zkDApg27wtT1Mv9C6qUxEcW0j1ZmTtMymwWxtlbJztAFGqQ
-         SdoKzk4It1zbbyVrUam4wfvRxAOKDmIxX73Enxgs=
+        b=wo7ftGAjvp7gOmueOw8oMJQQ+4tNWUNikgSQ04XhwotAbyyw/+zKH92TP4UqMTvM9
+         Omt3FtgaMsg8l2QdrLAjzGjK2l0bzVoTY/LyCLOIKFwm+/9JZE8JlTZdAmWYBOhzUM
+         x9hXmxCLyjZmrh5jWnMjbpanpoKHB+VvcZOGDMDM=
 From:   Daniel Scally <dan.scally@ideasonboard.com>
 To:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
         laurent.pinchart@ideasonboard.com
@@ -31,9 +31,9 @@ Cc:     mgr@pengutronix.de, balbi@kernel.org,
         kieran.bingham@ideasonboard.com, torleiv@huddly.com,
         stern@rowland.harvard.edu,
         Daniel Scally <dan.scally@ideasonboard.com>
-Subject: [PATCH v5 04/11] usb: gadget: uvc: Copy XU descriptors during .bind()
-Date:   Mon,  6 Feb 2023 16:17:55 +0000
-Message-Id: <20230206161802.892954-5-dan.scally@ideasonboard.com>
+Subject: [PATCH v5 06/11] usb: gadget: configfs: Support arbitrary string descriptors
+Date:   Mon,  6 Feb 2023 16:17:57 +0000
+Message-Id: <20230206161802.892954-7-dan.scally@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230206161802.892954-1-dan.scally@ideasonboard.com>
 References: <20230206161802.892954-1-dan.scally@ideasonboard.com>
@@ -43,121 +43,273 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Now that extension unit support is available through configfs we need
-to copy the descriptors for the XUs during uvc_function_bind() so that
-they're exposed to the usb subsystem.
+Add a framework to allow users to define arbitrary string descriptors
+for a USB Gadget. This is modelled as a new type of config item rather
+than as hardcoded attributes so as to be as flexible as possible.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
 ---
-Laurent - I didn't add your tag because having switched it to a function I actually
-decided I preferred it this way and switched it back; too many pointers to
-pointers of things made it less easy to follow I think, but if you disagree let me
-know and I'll go ahead.
-
 Changes in v5:
 
 	- None
 
 Changes in v4:
 
-	- None
+	- Added some explanatory documentation (Alan)
 
 Changes in v3:
-	- Dropped a local variable.
+
+	- Moved this functionality from the UVC function to usb gadget core.
 
 Changes in v2:
 
-	- none
+	- New patch
 
- drivers/usb/gadget/function/f_uvc.c | 33 +++++++++++++++++++++++++++++
- drivers/usb/gadget/function/uvc.h   |  1 +
- 2 files changed, 34 insertions(+)
+ Documentation/usb/gadget_configfs.rst |  10 ++
+ drivers/usb/gadget/configfs.c         | 172 +++++++++++++++++++++++++-
+ include/linux/usb/gadget.h            |  11 ++
+ 3 files changed, 191 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 443333471b4d..f6fd5decdcb7 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -478,6 +478,25 @@ uvc_register_video(struct uvc_device *uvc)
- 		} \
- 	} while (0)
+diff --git a/Documentation/usb/gadget_configfs.rst b/Documentation/usb/gadget_configfs.rst
+index e4566ffb223f..868e118a2644 100644
+--- a/Documentation/usb/gadget_configfs.rst
++++ b/Documentation/usb/gadget_configfs.rst
+@@ -90,6 +90,16 @@ Then the strings can be specified::
+ 	$ echo <manufacturer> > strings/0x409/manufacturer
+ 	$ echo <product> > strings/0x409/product
  
-+#define UVC_COPY_XU_DESCRIPTOR(mem, dst, desc)					\
-+	do {									\
-+		*(dst)++ = mem;							\
-+		memcpy(mem, desc, 22); /* bLength to bNrInPins */		\
-+		mem += 22;							\
-+										\
-+		memcpy(mem, (desc)->baSourceID, (desc)->bNrInPins);		\
-+		mem += (desc)->bNrInPins;					\
-+										\
-+		memcpy(mem, &(desc)->bControlSize, 1);				\
-+		mem++;								\
-+										\
-+		memcpy(mem, (desc)->bmControls, (desc)->bControlSize);		\
-+		mem += (desc)->bControlSize;					\
-+										\
-+		memcpy(mem, &(desc)->iExtension, 1);				\
-+		mem++;								\
-+	} while (0)
++Further custom string descriptors can be created as directories within the
++language's directory, with the string text being written to the "s" attribute
++within the string's directory:
 +
- static struct usb_descriptor_header **
- uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
- {
-@@ -489,6 +508,7 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
- 	const struct usb_descriptor_header * const *src;
- 	struct usb_descriptor_header **dst;
- 	struct usb_descriptor_header **hdr;
-+	struct uvcg_extension *xu;
- 	unsigned int control_size;
- 	unsigned int streaming_size;
- 	unsigned int n_desc;
-@@ -556,6 +576,13 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
- 		bytes += (*src)->bLength;
- 		n_desc++;
- 	}
++	$ mkdir strings/0x409/xu.0
++	$ echo <string text> > strings/0x409/xu.0/s
 +
-+	list_for_each_entry(xu, uvc->desc.extension_units, list) {
-+		control_size += xu->desc.bLength;
-+		bytes += xu->desc.bLength;
-+		n_desc++;
++Where function drivers support it, functions may allow symlinks to these custom
++string descriptors to associate those strings with class descriptors.
++
+ 2. Creating the configurations
+ ------------------------------
+ 
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index 3beeafcf2e3b..ac275855eeb6 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -95,6 +95,8 @@ struct gadget_language {
+ 
+ 	struct config_group group;
+ 	struct list_head list;
++	struct list_head gadget_strings;
++	unsigned int nstrings;
+ };
+ 
+ struct gadget_config_name {
+@@ -791,8 +793,174 @@ static void gadget_language_attr_release(struct config_item *item)
+ 	kfree(gs);
+ }
+ 
+-USB_CONFIG_STRING_RW_OPS(gadget_language);
+-USB_CONFIG_STRINGS_LANG(gadget_language, gadget_info);
++static struct configfs_item_operations gadget_language_langid_item_ops = {
++	.release                = gadget_language_attr_release,
++};
++
++static ssize_t gadget_string_id_show(struct config_item *item, char *page)
++{
++	struct gadget_string *string = to_gadget_string(item);
++	int ret;
++
++	ret = sprintf(page, "%u\n", string->usb_string.id);
++	return ret;
++}
++CONFIGFS_ATTR_RO(gadget_string_, id);
++
++static ssize_t gadget_string_s_show(struct config_item *item, char *page)
++{
++	struct gadget_string *string = to_gadget_string(item);
++	int ret;
++
++	ret = snprintf(page, sizeof(string->string), "%s\n", string->string);
++	return ret;
++}
++
++static ssize_t gadget_string_s_store(struct config_item *item, const char *page,
++				     size_t len)
++{
++	struct gadget_string *string = to_gadget_string(item);
++	int size = min(sizeof(string->string), len + 1);
++	int ret;
++
++	if (len > USB_MAX_STRING_LEN)
++		return -EINVAL;
++
++	ret = strscpy(string->string, page, size);
++	return len;
++}
++CONFIGFS_ATTR(gadget_string_, s);
++
++static struct configfs_attribute *gadget_string_attrs[] = {
++	&gadget_string_attr_id,
++	&gadget_string_attr_s,
++	NULL,
++};
++
++static void gadget_string_release(struct config_item *item)
++{
++	struct gadget_string *string = to_gadget_string(item);
++
++	kfree(string);
++}
++
++static struct configfs_item_operations gadget_string_item_ops = {
++	.release	= gadget_string_release,
++};
++
++static const struct config_item_type gadget_string_type = {
++	.ct_item_ops	= &gadget_string_item_ops,
++	.ct_attrs	= gadget_string_attrs,
++	.ct_owner	= THIS_MODULE,
++};
++
++static struct config_item *gadget_language_string_make(struct config_group *group,
++						       const char *name)
++{
++	struct gadget_language *language;
++	struct gadget_string *string;
++
++	language = to_gadget_language(&group->cg_item);
++
++	string = kzalloc(sizeof(*string), GFP_KERNEL);
++	if (!string)
++		return ERR_PTR(-ENOMEM);
++
++	string->usb_string.id = language->nstrings++;
++	string->usb_string.s = string->string;
++	list_add_tail(&string->list, &language->gadget_strings);
++
++	config_item_init_type_name(&string->item, name, &gadget_string_type);
++
++	return &string->item;
++}
++
++static void gadget_language_string_drop(struct config_group *group,
++					struct config_item *item)
++{
++	struct gadget_language *language;
++	struct gadget_string *string;
++	unsigned int i = USB_GADGET_FIRST_AVAIL_IDX;
++
++	language = to_gadget_language(&group->cg_item);
++	string = to_gadget_string(item);
++
++	list_del(&string->list);
++	language->nstrings--;
++
++	/* Reset the ids for the language's strings to guarantee a continuous set */
++	list_for_each_entry(string, &language->gadget_strings, list)
++		string->usb_string.id = i++;
++}
++
++static struct configfs_group_operations gadget_language_langid_group_ops = {
++	.make_item		= gadget_language_string_make,
++	.drop_item		= gadget_language_string_drop,
++};
++
++static struct config_item_type gadget_language_type = {
++	.ct_item_ops	= &gadget_language_langid_item_ops,
++	.ct_group_ops	= &gadget_language_langid_group_ops,
++	.ct_attrs	= gadget_language_langid_attrs,
++	.ct_owner	= THIS_MODULE,
++};
++
++static struct config_group *gadget_language_make(struct config_group *group,
++						 const char *name)
++{
++	struct gadget_info *gi;
++	struct gadget_language *gs;
++	struct gadget_language *new;
++	int langs = 0;
++	int ret;
++
++	new = kzalloc(sizeof(*new), GFP_KERNEL);
++	if (!new)
++		return ERR_PTR(-ENOMEM);
++
++	ret = check_user_usb_string(name, &new->stringtab_dev);
++	if (ret)
++		goto err;
++	config_group_init_type_name(&new->group, name,
++				    &gadget_language_type);
++
++	gi = container_of(group, struct gadget_info, strings_group);
++	ret = -EEXIST;
++	list_for_each_entry(gs, &gi->string_list, list) {
++		if (gs->stringtab_dev.language == new->stringtab_dev.language)
++			goto err;
++		langs++;
 +	}
++	ret = -EOVERFLOW;
++	if (langs >= MAX_USB_STRING_LANGS)
++		goto err;
 +
- 	for (src = (const struct usb_descriptor_header **)uvc_streaming_cls;
- 	     *src; ++src) {
- 		streaming_size += (*src)->bLength;
-@@ -582,6 +609,10 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
- 	uvc_control_header = mem;
- 	UVC_COPY_DESCRIPTORS(mem, dst,
- 		(const struct usb_descriptor_header **)uvc_control_desc);
++	list_add_tail(&new->list, &gi->string_list);
++	INIT_LIST_HEAD(&new->gadget_strings);
 +
-+	list_for_each_entry(xu, uvc->desc.extension_units, list)
-+		UVC_COPY_XU_DESCRIPTOR(mem, dst, &xu->desc);
++	/* We have the default manufacturer, product and serialnumber strings */
++	new->nstrings = 3;
++	return &new->group;
++err:
++	kfree(new);
++	return ERR_PTR(ret);
++}
 +
- 	uvc_control_header->wTotalLength = cpu_to_le16(control_size);
- 	uvc_control_header->bInCollection = 1;
- 	uvc_control_header->baInterfaceNr[0] = uvc->streaming_intf;
-@@ -1025,6 +1056,8 @@ static struct usb_function *uvc_alloc(struct usb_function_instance *fi)
- 		return ERR_PTR(-EBUSY);
- 	}
++static void gadget_language_drop(struct config_group *group,
++				 struct config_item *item)
++{
++	config_item_put(item);
++}
++
++static struct configfs_group_operations gadget_language_group_ops = {
++	.make_group     = &gadget_language_make,
++	.drop_item      = &gadget_language_drop,
++};
++
++static struct config_item_type gadget_language_strings_type = {
++	.ct_group_ops   = &gadget_language_group_ops,
++	.ct_owner       = THIS_MODULE,
++};
  
-+	uvc->desc.extension_units = &opts->extension_units;
+ static inline struct gadget_info *webusb_item_to_gadget_info(
+ 		struct config_item *item)
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index dc3092cea99e..00750f7020f3 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -15,6 +15,7 @@
+ #ifndef __LINUX_USB_GADGET_H
+ #define __LINUX_USB_GADGET_H
+ 
++#include <linux/configfs.h>
+ #include <linux/device.h>
+ #include <linux/errno.h>
+ #include <linux/init.h>
+@@ -821,6 +822,16 @@ int usb_gadget_get_string(const struct usb_gadget_strings *table, int id, u8 *bu
+ /* check if the given language identifier is valid */
+ bool usb_validate_langid(u16 langid);
+ 
++struct gadget_string {
++	struct config_item item;
++	struct list_head list;
++	char string[USB_MAX_STRING_LEN];
++	struct usb_string usb_string;
++};
 +
- 	++opts->refcnt;
- 	mutex_unlock(&opts->lock);
++#define to_gadget_string(str_item)\
++container_of(str_item, struct gadget_string, item)
++
+ /*-------------------------------------------------------------------------*/
  
-diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index daf226610f49..100475b1363e 100644
---- a/drivers/usb/gadget/function/uvc.h
-+++ b/drivers/usb/gadget/function/uvc.h
-@@ -143,6 +143,7 @@ struct uvc_device {
- 		const struct uvc_descriptor_header * const *fs_streaming;
- 		const struct uvc_descriptor_header * const *hs_streaming;
- 		const struct uvc_descriptor_header * const *ss_streaming;
-+		struct list_head *extension_units;
- 	} desc;
- 
- 	unsigned int control_intf;
+ /* utility to simplify managing config descriptors */
 -- 
 2.34.1
 
