@@ -2,86 +2,161 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3821C636D3
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Feb 2023 16:12:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F448C636D4
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Feb 2023 16:19:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231734AbjBFQMg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Feb 2023 11:12:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49866 "EHLO
+        id S231920AbjBFQTP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Feb 2023 11:19:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231724AbjBFQMd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Feb 2023 11:12:33 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 283CC17CE9;
-        Mon,  6 Feb 2023 08:12:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675699924; x=1707235924;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=5JACWvw3uGfxpdVuryzlIEd+jJzEoO70sDh6Ir94Mzs=;
-  b=M1eNxiNTFebCLlyVmxcG3qD1dTCPlnRTeTxzD+JAnHGYzuzGZsnHzCGA
-   u5zjyl7JEEikl7PQnNh/0R8ArebkOrUABSs/nMA6FfR8Uuq2SB3b5cMPc
-   c7abhg7nXwtYWz664VOXb9BzdZ/0x8TMvINzRi6FMxBsxYe2CUoD2/gY7
-   5EzKRhgGNeVQvoEdYpWaj5coNNqIAeXCkJqug/iZ4xob4E5N1HMFNNuvZ
-   Ieyggb/w3iENU5myN6Ftec5AqWSyxq+K/Dfeagi7uO97nJYJwqAw6h2Y3
-   D9bFLv/oO5/AMETVSTrS+yiACV3vYXjnCp5OAsYTfuFUA64AGxdLsak5c
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="308887673"
-X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="308887673"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 08:10:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="698884073"
-X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
-   d="scan'208";a="698884073"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga001.jf.intel.com with ESMTP; 06 Feb 2023 08:10:17 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 77B8A303; Mon,  6 Feb 2023 18:10:52 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 5/7] xhci: mem: Use while (i--) pattern to clean up
-Date:   Mon,  6 Feb 2023 18:10:47 +0200
-Message-Id: <20230206161049.13972-6-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230206161049.13972-1-andriy.shevchenko@linux.intel.com>
-References: <20230206161049.13972-1-andriy.shevchenko@linux.intel.com>
+        with ESMTP id S231867AbjBFQTC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Feb 2023 11:19:02 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C45BA61A8
+        for <linux-usb@vger.kernel.org>; Mon,  6 Feb 2023 08:18:28 -0800 (PST)
+Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 75E547FE;
+        Mon,  6 Feb 2023 17:18:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1675700304;
+        bh=UHwQgvixXXSlSPnWqkL/gUx5EhD7uee3engTB3QcyvM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=mmEgYd1W7ELWOFnOfK6suaH16bBuY0ewRz36hAjTa+6ziQgVDf218zV0bIYS5cb8L
+         WLtusmzM1OWUoEXjcusdvcXMoXgrC1cwjgoybz6QhIhy/hoU92FBM9HApEcto3rWdi
+         E8lm5M/caE8JN0bBagL9LmdZNs2ZnSVJXSsfKw0E=
+From:   Daniel Scally <dan.scally@ideasonboard.com>
+To:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+        laurent.pinchart@ideasonboard.com
+Cc:     mgr@pengutronix.de, balbi@kernel.org,
+        kieran.bingham@ideasonboard.com, torleiv@huddly.com,
+        stern@rowland.harvard.edu,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Subject: [PATCH v5 01/11] usb: gadget: uvc: Make bSourceID read/write
+Date:   Mon,  6 Feb 2023 16:17:52 +0000
+Message-Id: <20230206161802.892954-2-dan.scally@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230206161802.892954-1-dan.scally@ideasonboard.com>
+References: <20230206161802.892954-1-dan.scally@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use more natural while (i--) patter to clean up allocated resources.
+At the moment, the UVC function graph is hardcoded IT -> PU -> OT.
+To add XU support we need the ability to insert the XU descriptors
+into the chain. To facilitate that, make the output terminal's
+bSourceID attribute writeable so that we can configure its source.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
 ---
- drivers/usb/host/xhci-mem.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Changes in v5:
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 5c873e62c4d3..a3351b11efa5 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -1681,11 +1681,10 @@ static int scratchpad_alloc(struct xhci_hcd *xhci, gfp_t flags)
- 	return 0;
+	- None
+
+Changes in v4:
+
+	- None
+
+Changes in v3:
+
+	- None 
+
+Changes in v2:
+
+	- Updated the ABI Documentation to reflect the change.
+
+ .../ABI/testing/configfs-usb-gadget-uvc       |  2 +-
+ drivers/usb/gadget/function/uvc_configfs.c    | 59 ++++++++++++++++++-
+ 2 files changed, 59 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
+index 9c716dd3ae6f..c2323f2b069b 100644
+--- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
++++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
+@@ -54,7 +54,7 @@ Date:		Dec 2014
+ KernelVersion:	4.0
+ Description:	Default output terminal descriptors
  
-  fail_sp4:
--	for (i = i - 1; i >= 0; i--) {
-+	while (i--)
- 		dma_free_coherent(dev, xhci->page_size,
- 				    xhci->scratchpad->sp_buffers[i],
- 				    xhci->scratchpad->sp_array[i]);
--	}
+-		All attributes read only:
++		All attributes read only except bSourceID:
  
- 	kfree(xhci->scratchpad->sp_buffers);
+ 		==============	=============================================
+ 		iTerminal	index of string descriptor
+diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
+index e2ffddb969fd..b52aae924d66 100644
+--- a/drivers/usb/gadget/function/uvc_configfs.c
++++ b/drivers/usb/gadget/function/uvc_configfs.c
+@@ -484,11 +484,68 @@ UVC_ATTR_RO(uvcg_default_output_, cname, aname)
+ UVCG_DEFAULT_OUTPUT_ATTR(b_terminal_id, bTerminalID, 8);
+ UVCG_DEFAULT_OUTPUT_ATTR(w_terminal_type, wTerminalType, 16);
+ UVCG_DEFAULT_OUTPUT_ATTR(b_assoc_terminal, bAssocTerminal, 8);
+-UVCG_DEFAULT_OUTPUT_ATTR(b_source_id, bSourceID, 8);
+ UVCG_DEFAULT_OUTPUT_ATTR(i_terminal, iTerminal, 8);
  
+ #undef UVCG_DEFAULT_OUTPUT_ATTR
+ 
++static ssize_t uvcg_default_output_b_source_id_show(struct config_item *item,
++						    char *page)
++{
++	struct config_group *group = to_config_group(item);
++	struct f_uvc_opts *opts;
++	struct config_item *opts_item;
++	struct mutex *su_mutex = &group->cg_subsys->su_mutex;
++	struct uvc_output_terminal_descriptor *cd;
++	int result;
++
++	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
++
++	opts_item = group->cg_item.ci_parent->ci_parent->
++			ci_parent->ci_parent;
++	opts = to_f_uvc_opts(opts_item);
++	cd = &opts->uvc_output_terminal;
++
++	mutex_lock(&opts->lock);
++	result = sprintf(page, "%u\n", le8_to_cpu(cd->bSourceID));
++	mutex_unlock(&opts->lock);
++
++	mutex_unlock(su_mutex);
++
++	return result;
++}
++
++static ssize_t uvcg_default_output_b_source_id_store(struct config_item *item,
++						     const char *page, size_t len)
++{
++	struct config_group *group = to_config_group(item);
++	struct f_uvc_opts *opts;
++	struct config_item *opts_item;
++	struct mutex *su_mutex = &group->cg_subsys->su_mutex;
++	struct uvc_output_terminal_descriptor *cd;
++	int result;
++	u8 num;
++
++	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
++
++	opts_item = group->cg_item.ci_parent->ci_parent->
++			ci_parent->ci_parent;
++	opts = to_f_uvc_opts(opts_item);
++	cd = &opts->uvc_output_terminal;
++
++	result = kstrtou8(page, 0, &num);
++	if (result)
++		return result;
++
++	mutex_lock(&opts->lock);
++	cd->bSourceID = num;
++	mutex_unlock(&opts->lock);
++
++	mutex_unlock(su_mutex);
++
++	return len;
++}
++UVC_ATTR(uvcg_default_output_, b_source_id, bSourceID);
++
+ static struct configfs_attribute *uvcg_default_output_attrs[] = {
+ 	&uvcg_default_output_attr_b_terminal_id,
+ 	&uvcg_default_output_attr_w_terminal_type,
 -- 
-2.39.1
+2.34.1
 
