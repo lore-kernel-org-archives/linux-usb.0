@@ -2,28 +2,28 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE06AC05027
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Feb 2023 16:20:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E80DEC636D3
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Feb 2023 16:20:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232072AbjBFQUF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Feb 2023 11:20:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58918 "EHLO
+        id S229797AbjBFQUH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Feb 2023 11:20:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230378AbjBFQTf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Feb 2023 11:19:35 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2C34219
-        for <linux-usb@vger.kernel.org>; Mon,  6 Feb 2023 08:19:06 -0800 (PST)
+        with ESMTP id S229890AbjBFQTj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Feb 2023 11:19:39 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CBB99767
+        for <linux-usb@vger.kernel.org>; Mon,  6 Feb 2023 08:19:12 -0800 (PST)
 Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 292A3891;
-        Mon,  6 Feb 2023 17:18:24 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B63C9CCE;
+        Mon,  6 Feb 2023 17:18:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675700304;
-        bh=cu3RvyO6FC79Mu4QOzvet0ZhzlON6Bvuec3Nmx3V3fE=;
+        s=mail; t=1675700306;
+        bh=Rpaju6xaCS80YsaJRwsX5h+RE72vEiTQHEKHYMX1pp8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=daf02BiAYO7MBDRSg3IQxSn5BMXxI8gKiqi9v+Vym/AGjlAISyR36w62aWASV44Xh
-         qoqG5Bp0qMC8OpntM2DT5MXX0EhwSVEICiSS+yskx5wgTcB8t+wvEXLeNFXnMl9eTC
-         Fp0vreHvC8jwp2JeLi3ioqVi5WublNJ7mVhsOHzI=
+        b=pR7m9pbMYA5Msqs8M8FFPDKcWlisb6loX6V2UC4t6WaJ5CgAsxTVbuca5K/9Gc0uU
+         c8uQlU0HqoRiuBPTki5zkDApg27wtT1Mv9C6qUxEcW0j1ZmTtMymwWxtlbJztAFGqQ
+         SdoKzk4It1zbbyVrUam4wfvRxAOKDmIxX73Enxgs=
 From:   Daniel Scally <dan.scally@ideasonboard.com>
 To:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
         laurent.pinchart@ideasonboard.com
@@ -31,9 +31,9 @@ Cc:     mgr@pengutronix.de, balbi@kernel.org,
         kieran.bingham@ideasonboard.com, torleiv@huddly.com,
         stern@rowland.harvard.edu,
         Daniel Scally <dan.scally@ideasonboard.com>
-Subject: [PATCH v5 02/11] usb: gadget: uvc: Generalise helper functions for reuse
-Date:   Mon,  6 Feb 2023 16:17:53 +0000
-Message-Id: <20230206161802.892954-3-dan.scally@ideasonboard.com>
+Subject: [PATCH v5 04/11] usb: gadget: uvc: Copy XU descriptors during .bind()
+Date:   Mon,  6 Feb 2023 16:17:55 +0000
+Message-Id: <20230206161802.892954-5-dan.scally@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230206161802.892954-1-dan.scally@ideasonboard.com>
 References: <20230206161802.892954-1-dan.scally@ideasonboard.com>
@@ -43,12 +43,18 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The __uvcg_*frm_intrv() helper functions can be helpful when adding
-support for similar attributes. Generalise the functions and
-move them higher in the file for better coverage.
+Now that extension unit support is available through configfs we need
+to copy the descriptors for the XUs during uvc_function_bind() so that
+they're exposed to the usb subsystem.
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
 ---
+Laurent - I didn't add your tag because having switched it to a function I actually
+decided I preferred it this way and switched it back; too many pointers to
+pointers of things made it less easy to follow I think, but if you disagree let me
+know and I'll go ahead.
+
 Changes in v5:
 
 	- None
@@ -57,172 +63,101 @@ Changes in v4:
 
 	- None
 
-Changes in v3 (Laurent):
+Changes in v3:
+	- Dropped a local variable.
 
-	- Spelling
-	- Renamed the "interv" variable to "values"
-	- Switched to functions taking a size argument rather than a macro that
-	duplicated the implementation.
-	
 Changes in v2:
 
 	- none
 
- drivers/usb/gadget/function/uvc_configfs.c | 120 ++++++++++++---------
- 1 file changed, 67 insertions(+), 53 deletions(-)
+ drivers/usb/gadget/function/f_uvc.c | 33 +++++++++++++++++++++++++++++
+ drivers/usb/gadget/function/uvc.h   |  1 +
+ 2 files changed, 34 insertions(+)
 
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index b52aae924d66..b32ecbdfd88d 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -47,6 +47,71 @@ static int uvcg_config_compare_u32(const void *l, const void *r)
- 	return li < ri ? -1 : li == ri ? 0 : 1;
- }
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index 443333471b4d..f6fd5decdcb7 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -478,6 +478,25 @@ uvc_register_video(struct uvc_device *uvc)
+ 		} \
+ 	} while (0)
  
-+static inline int __uvcg_count_item_entries(char *buf, void *priv, unsigned int size)
-+{
-+	++*((int *)priv);
-+	return 0;
-+}
++#define UVC_COPY_XU_DESCRIPTOR(mem, dst, desc)					\
++	do {									\
++		*(dst)++ = mem;							\
++		memcpy(mem, desc, 22); /* bLength to bNrInPins */		\
++		mem += 22;							\
++										\
++		memcpy(mem, (desc)->baSourceID, (desc)->bNrInPins);		\
++		mem += (desc)->bNrInPins;					\
++										\
++		memcpy(mem, &(desc)->bControlSize, 1);				\
++		mem++;								\
++										\
++		memcpy(mem, (desc)->bmControls, (desc)->bControlSize);		\
++		mem += (desc)->bControlSize;					\
++										\
++		memcpy(mem, &(desc)->iExtension, 1);				\
++		mem++;								\
++	} while (0)
 +
-+static inline int __uvcg_fill_item_entries(char *buf, void *priv, unsigned int size)
-+{
-+	unsigned int num;
-+	u8 **values;
-+	int ret;
+ static struct usb_descriptor_header **
+ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
+ {
+@@ -489,6 +508,7 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
+ 	const struct usb_descriptor_header * const *src;
+ 	struct usb_descriptor_header **dst;
+ 	struct usb_descriptor_header **hdr;
++	struct uvcg_extension *xu;
+ 	unsigned int control_size;
+ 	unsigned int streaming_size;
+ 	unsigned int n_desc;
+@@ -556,6 +576,13 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
+ 		bytes += (*src)->bLength;
+ 		n_desc++;
+ 	}
 +
-+	ret = kstrtouint(buf, 0, &num);
-+	if (ret)
-+		return ret;
-+
-+	if (num != (num & GENMASK((size * 8) - 1, 0)))
-+		return -ERANGE;
-+
-+	values = priv;
-+	memcpy(*values, &num, size);
-+	*values += size;
-+
-+	return 0;
-+}
-+
-+static int __uvcg_iter_item_entries(const char *page, size_t len,
-+				    int (*fun)(char *, void *, unsigned int),
-+				    void *priv, unsigned int size)
-+{
-+	/* sign, base 2 representation, newline, terminator */
-+	unsigned int bufsize = 1 + size * 8 + 1 + 1;
-+	const char *pg = page;
-+	int i, ret = 0;
-+	char *buf;
-+
-+	if (!fun)
-+		return -EINVAL;
-+
-+	buf = kzalloc(bufsize, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	while (pg - page < len) {
-+		i = 0;
-+		while (i < sizeof(buf) && (pg - page < len) &&
-+		       *pg != '\0' && *pg != '\n')
-+			buf[i++] = *pg++;
-+		if (i == sizeof(buf)) {
-+			ret = -EINVAL;
-+			goto out_free_buf;
-+		}
-+		while ((pg - page < len) && (*pg == '\0' || *pg == '\n'))
-+			++pg;
-+		buf[i] = '\0';
-+		ret = fun(buf, priv, size);
-+		if (ret)
-+			goto out_free_buf;
++	list_for_each_entry(xu, uvc->desc.extension_units, list) {
++		control_size += xu->desc.bLength;
++		bytes += xu->desc.bLength;
++		n_desc++;
 +	}
 +
-+out_free_buf:
-+	kfree(buf);
-+	return ret;
-+}
+ 	for (src = (const struct usb_descriptor_header **)uvc_streaming_cls;
+ 	     *src; ++src) {
+ 		streaming_size += (*src)->bLength;
+@@ -582,6 +609,10 @@ uvc_copy_descriptors(struct uvc_device *uvc, enum usb_device_speed speed)
+ 	uvc_control_header = mem;
+ 	UVC_COPY_DESCRIPTORS(mem, dst,
+ 		(const struct usb_descriptor_header **)uvc_control_desc);
 +
- struct uvcg_config_group_type {
- 	struct config_item_type type;
- 	const char *name;
-@@ -1336,57 +1401,6 @@ static ssize_t uvcg_frame_dw_frame_interval_show(struct config_item *item,
- 	return result;
- }
- 
--static inline int __uvcg_count_frm_intrv(char *buf, void *priv)
--{
--	++*((int *)priv);
--	return 0;
--}
--
--static inline int __uvcg_fill_frm_intrv(char *buf, void *priv)
--{
--	u32 num, **interv;
--	int ret;
--
--	ret = kstrtou32(buf, 0, &num);
--	if (ret)
--		return ret;
--
--	interv = priv;
--	**interv = num;
--	++*interv;
--
--	return 0;
--}
--
--static int __uvcg_iter_frm_intrv(const char *page, size_t len,
--				 int (*fun)(char *, void *), void *priv)
--{
--	/* sign, base 2 representation, newline, terminator */
--	char buf[1 + sizeof(u32) * 8 + 1 + 1];
--	const char *pg = page;
--	int i, ret;
--
--	if (!fun)
--		return -EINVAL;
--
--	while (pg - page < len) {
--		i = 0;
--		while (i < sizeof(buf) && (pg - page < len) &&
--				*pg != '\0' && *pg != '\n')
--			buf[i++] = *pg++;
--		if (i == sizeof(buf))
--			return -EINVAL;
--		while ((pg - page < len) && (*pg == '\0' || *pg == '\n'))
--			++pg;
--		buf[i] = '\0';
--		ret = fun(buf, priv);
--		if (ret)
--			return ret;
--	}
--
--	return 0;
--}
--
- static ssize_t uvcg_frame_dw_frame_interval_store(struct config_item *item,
- 						  const char *page, size_t len)
- {
-@@ -1410,7 +1424,7 @@ static ssize_t uvcg_frame_dw_frame_interval_store(struct config_item *item,
- 		goto end;
++	list_for_each_entry(xu, uvc->desc.extension_units, list)
++		UVC_COPY_XU_DESCRIPTOR(mem, dst, &xu->desc);
++
+ 	uvc_control_header->wTotalLength = cpu_to_le16(control_size);
+ 	uvc_control_header->bInCollection = 1;
+ 	uvc_control_header->baInterfaceNr[0] = uvc->streaming_intf;
+@@ -1025,6 +1056,8 @@ static struct usb_function *uvc_alloc(struct usb_function_instance *fi)
+ 		return ERR_PTR(-EBUSY);
  	}
  
--	ret = __uvcg_iter_frm_intrv(page, len, __uvcg_count_frm_intrv, &n);
-+	ret = __uvcg_iter_item_entries(page, len, __uvcg_count_item_entries, &n, sizeof(u32));
- 	if (ret)
- 		goto end;
++	uvc->desc.extension_units = &opts->extension_units;
++
+ 	++opts->refcnt;
+ 	mutex_unlock(&opts->lock);
  
-@@ -1420,7 +1434,7 @@ static ssize_t uvcg_frame_dw_frame_interval_store(struct config_item *item,
- 		goto end;
- 	}
+diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+index daf226610f49..100475b1363e 100644
+--- a/drivers/usb/gadget/function/uvc.h
++++ b/drivers/usb/gadget/function/uvc.h
+@@ -143,6 +143,7 @@ struct uvc_device {
+ 		const struct uvc_descriptor_header * const *fs_streaming;
+ 		const struct uvc_descriptor_header * const *hs_streaming;
+ 		const struct uvc_descriptor_header * const *ss_streaming;
++		struct list_head *extension_units;
+ 	} desc;
  
--	ret = __uvcg_iter_frm_intrv(page, len, __uvcg_fill_frm_intrv, &tmp);
-+	ret = __uvcg_iter_item_entries(page, len, __uvcg_fill_item_entries, &tmp, sizeof(u32));
- 	if (ret) {
- 		kfree(frm_intrv);
- 		goto end;
+ 	unsigned int control_intf;
 -- 
 2.34.1
 
