@@ -2,131 +2,103 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2090DC636CC
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Feb 2023 08:07:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5646BC636CD
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Feb 2023 08:26:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbjBGIH3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Feb 2023 03:07:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47594 "EHLO
+        id S229818AbjBGI0M (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Feb 2023 03:26:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229847AbjBGIH2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Feb 2023 03:07:28 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E53440FB
-        for <linux-usb@vger.kernel.org>; Tue,  7 Feb 2023 00:07:27 -0800 (PST)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3174owSw017881;
-        Tue, 7 Feb 2023 08:07:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=pObzctjs6sHh36fLH3VH50UNWqimVx6ZCeG+rI0Xtxk=;
- b=PvDhBb7EXwQMBSEdn/+JlPjGI62FJaFiLgpPZP6TBJYzEme6aA18nNvcW0px84oPUaxl
- Z53v9Z73X7eDr07CznSS+rjEmQU3+z5ON8RvSFN/KWzQxYNIkkNszWkfuwBtfd4T+2+0
- PFnpT9Nrc2/tBDRlfezrVBMlL+C2vSJhz6HiWgkrgf/LzADG57rhw5FZPVH5HOW3+jC/
- l6t41PykVcsF9As26OqRGwn0Q0Z1BHfIq8n9IaL25gm1I8EbiEQ9XzL3wkJh7SrutWcm
- aM3SKvqSKD1Qxd3I2HVokQ6/UebOeYpRXqj1QVprzhg2pbYXVFY/9XP5sVYcEzJxDJGY 9g== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nheche07k-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 07 Feb 2023 08:07:23 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31787LaY014910
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 7 Feb 2023 08:07:21 GMT
-Received: from [10.239.154.244] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 7 Feb 2023
- 00:07:20 -0800
-Message-ID: <3aa7756b-8967-8ea9-bba1-56811846b5ca@quicinc.com>
-Date:   Tue, 7 Feb 2023 16:07:17 +0800
+        with ESMTP id S229625AbjBGI0L (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Feb 2023 03:26:11 -0500
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6D9ACDDE
+        for <linux-usb@vger.kernel.org>; Tue,  7 Feb 2023 00:26:06 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id z1so14869493plg.6
+        for <linux-usb@vger.kernel.org>; Tue, 07 Feb 2023 00:26:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=connectedcars.dk; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VHx/corE80m1vOV+J8RS9hYh/FKd6muLfNLsIxNrChI=;
+        b=kCv1VfBSpRCfXi+YaPxtfDv2knEjfCTmEhBJoQJ4FGilN4xgzYlI503RpKpajMzk6w
+         1Szwzzljyjfyw6IrXuKaYOApGzwapd4sIpLONJM1hz6S15rCF3msY0tnPXcEoywDUdU3
+         3naLUDm54GQhr6mH7DjMeE3Vb4KDxGGtlthKY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VHx/corE80m1vOV+J8RS9hYh/FKd6muLfNLsIxNrChI=;
+        b=ChYKOJ7vhcon7PgWFArV4cn9+sLPe11H17ue4Ea7W5nDi470RMbDSnY2YwgcgcHBFG
+         lst8IzXp89wLgUuxNzlL+9qgpIEPSiya//kgJHKfFsUYJrJcfH+wSWnJU1qj6UMHucN3
+         cgAdsQdFmDA6Blfn7D9V1PdDqc6aHGWAuB3ckQif6e3o87KMOmr9SmEVjWHotj7fbCJ1
+         DouZ+RGYpNIG0/EwcrXZTqxAVt2QAJ7Cx7NKHo/XpIFtKgehfO2nFOyYRxBg+Yfvy1Ws
+         84QW+l43rRwg0ND/bC/WNp48mlPlgJ8nRnj0Fdc8Lu3VbPmeJzmzyXtKcc5lhHvDoXFH
+         vYyA==
+X-Gm-Message-State: AO0yUKUJMSUKYCm09sB4+0xqETbsoxlVLm/TnP45EhN6lxmf/uLnG0/I
+        bzxlrj0qY2Oc3TUJH171Eru1wYqtBq+91lDlkw0wFMZ0I4MhOTqF80A=
+X-Google-Smtp-Source: AK7set+Zuze669v/fYp4QaV/OiSXPsOYN0h+AgGW/HO9MyXKeXOtZw0/vPCpNlPp1KkYwYshrgBqIcEbmULfxRHCafI=
+X-Received: by 2002:a17:902:7fc1:b0:199:38a:aff4 with SMTP id
+ t1-20020a1709027fc100b00199038aaff4mr557746plb.4.1675758366316; Tue, 07 Feb
+ 2023 00:26:06 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] usb: typec: disable pm for typec class devices
-Content-Language: en-US
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>, Jack Pham <quic_jackp@quicinc.com>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        Pratham Pratap <quic_ppratap@quicinc.com>
-References: <1675752122-8147-1-git-send-email-quic_linyyuan@quicinc.com>
- <Y+H+8Nt/5bgTBv4Y@kuha.fi.intel.com>
-From:   Linyu Yuan <quic_linyyuan@quicinc.com>
-In-Reply-To: <Y+H+8Nt/5bgTBv4Y@kuha.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: HKPWNwz7Ar87J4mSUrYjglFMkzWhPmvf
-X-Proofpoint-ORIG-GUID: HKPWNwz7Ar87J4mSUrYjglFMkzWhPmvf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-07_01,2023-02-06_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- adultscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- mlxlogscore=629 priorityscore=1501 mlxscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302070073
+References: <CAHHqYPMHBuPZqG9Rd9i+hN9Mq89pRn6M_0PLsyWkcK_hZr3xAA@mail.gmail.com>
+ <Y9Jwv1ColWNwH4+0@kroah.com> <CAHHqYPONhyKrqMWiw29TRETtiBatNaej8+62Z40fvuj3LX4RWQ@mail.gmail.com>
+ <Y9J8VncWSJdVURgB@kroah.com> <CAHHqYPO_A=7V_8Z-qrGy0-eOkPEpyv+vU_8Jpz-ABGg60t244w@mail.gmail.com>
+ <Y9KnnH+5O6MtO6kz@rowland.harvard.edu> <CAHHqYPNtVkHoiX1LrxUDa32BgVsgymcPtKVODcVGxEh2f=tYRw@mail.gmail.com>
+ <Y9P2tvPkdwHrbPXd@rowland.harvard.edu> <CAHHqYPPWvxMvSU=HMS9C2aPk08j25MBKXS7XC6im5_oz_nXTuw@mail.gmail.com>
+ <Y9l85PAcc/i/tgnS@rowland.harvard.edu> <Y9mAYH7L/CcTTSw6@kroah.com>
+In-Reply-To: <Y9mAYH7L/CcTTSw6@kroah.com>
+From:   Troels Liebe Bentsen <troels@connectedcars.dk>
+Date:   Tue, 7 Feb 2023 09:25:55 +0100
+Message-ID: <CAHHqYPOkj3oJseEwD3=66zck1LGJGo3DD77cG0E8_GNp3EEDUw@mail.gmail.com>
+Subject: Re: All USB tools hang when one descriptor read fails and needs to timeout
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hi again,
 
-On 2/7/2023 3:34 PM, Heikki Krogerus wrote:
-> On Tue, Feb 07, 2023 at 02:42:02PM +0800, Linyu Yuan wrote:
->> as there is no pm operation, call device_set_pm_not_required() to disable
->> all typec class devices.
->>
->> Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
->> ---
->>   drivers/usb/typec/class.c   | 5 +++++
->>   drivers/usb/typec/mux.c     | 2 ++
->>   drivers/usb/typec/pd.c      | 3 +++
->>   drivers/usb/typec/retimer.c | 1 +
->>   4 files changed, 11 insertions(+)
-> Now this is just boilerplate.
+Did a bit more testing and found another lock that would be nice to remove,
+the /dev/bus/usb/$BUS/$DEV file for the hub is also locked:
+
+Bus 003 Device 016: ID 1a40:0201 Terminus Technology Inc. FE 2.1 7-port Hub
+
+strace lsusb -v
+...
+openat(AT_FDCWD, "/dev/bus/usb/003/016", O_RDWR|O_CLOEXEC...
+
+The openat can not be canceled from userspace and even kill -9 won't stop
+the process until the descriptor read times out.
+
+Regards Troels
+
+On Tue, 31 Jan 2023 at 21:56, Greg KH <gregkh@linuxfoundation.org> wrote:
 >
-> Why not propose this to be done in core for every new device that
-> doesn't have a bus, and that doesn't have the pm ops assigned in the
-> device type?
-
-
-thanks, will try.
-
-
+> On Tue, Jan 31, 2023 at 03:41:08PM -0500, Alan Stern wrote:
+> > On Tue, Jan 31, 2023 at 04:59:36PM +0100, Troels Liebe Bentsen wrote:
+> > > On Fri, 27 Jan 2023 at 17:07, Alan Stern <stern@rowland.harvard.edu> wrote:
+> > > > Now that I know the config descriptors won't get reallocated after all,
+> > > > I can remove the locking from the descriptors file entirely.  A patch to
+> > > > do this is below.  It ought to fix your problem.  Try it and see.
+> > >
+> > > Thank you very much, I built a new kernel with the patch and can confirm
+> > > that it fixes my issue.
+> > >
+> > > Will the patch make it into any of the LTS kernels as it could seem like a
+> > > bugfix depending on how you look at it or is it only destined mainline, fx. 6.2
+> > > or 6.3?
+> >
+> > I don't know.  I will submit it for the -stable kernels, but the
+> > decision on whether to accept it will be up to Greg KH.
 >
->> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
->> index ed3d070..b75ec6d 100644
->> --- a/drivers/usb/typec/class.c
->> +++ b/drivers/usb/typec/class.c
->> @@ -548,6 +548,7 @@ typec_register_altmode(struct device *parent,
->>   	alt->adev.dev.groups = alt->groups;
->>   	alt->adev.dev.type = &typec_altmode_dev_type;
->>   	dev_set_name(&alt->adev.dev, "%s.%u", dev_name(parent), id);
->> +	device_set_pm_not_required(&alt->adev.dev);
-> Note that for alt modes you can't do this. They can be bind to
-> drivers - there is a bus for them.
-
-
-but even in the bus, there is power management,
-
-struct bus_type typec_bus = {
-     .name = "typec",
-     .dev_groups = typec_groups,
-     .match = typec_match,
-     .uevent = typec_uevent,
-     .probe = typec_probe,
-     .remove = typec_remove,
-};
-
-
-we can disable it, right ?
-
-
+> I'll backport it, as it can help out with systems as Troels said.  But
+> will wait until 6.3-rc1 is out as this should get some testing.
 >
 > thanks,
 >
+> greg k-h
