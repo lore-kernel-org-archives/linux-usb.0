@@ -2,122 +2,98 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C17C636D3
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Feb 2023 19:35:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CA2BC636D3
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Feb 2023 21:58:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231262AbjBGTfw convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Feb 2023 14:35:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41710 "EHLO
+        id S229670AbjBGV6L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Feb 2023 16:58:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbjBGTfv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Feb 2023 14:35:51 -0500
-Received: from voltaic.bi-co.net (voltaic.bi-co.net [134.119.3.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8E963B655
-        for <linux-usb@vger.kernel.org>; Tue,  7 Feb 2023 11:35:47 -0800 (PST)
-Received: from [192.168.0.36] (ip-037-201-145-251.um10.pools.vodafone-ip.de [37.201.145.251])
-        by voltaic.bi-co.net (Postfix) with ESMTPSA id 01676210DB;
-        Tue,  7 Feb 2023 20:35:45 +0100 (CET)
-Message-ID: <9adb1e30b93d4e24b373b04eaf1d597daa1a1472.camel@bi-co.net>
-Subject: Re: Cypress CDC ACM serial port not working correctly with
- autosuspend
-From:   Michael =?ISO-8859-1?Q?La=DF?= <bevan@bi-co.net>
-To:     Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org
-Date:   Tue, 07 Feb 2023 20:35:45 +0100
-In-Reply-To: <bde43a1913cf55e580e77ac0e059fff3c26dc093.camel@bi-co.net>
-References: <8be9b56c6becd0981d1cd9c13742df6ba2975b56.camel@bi-co.net>
-         <0db2a0a4-6ed4-fe06-217a-cb564f1d4a8c@suse.com>
-         <bde43a1913cf55e580e77ac0e059fff3c26dc093.camel@bi-co.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.46.3 
+        with ESMTP id S229557AbjBGV6J (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Feb 2023 16:58:09 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18F403BDAB
+        for <linux-usb@vger.kernel.org>; Tue,  7 Feb 2023 13:58:09 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id n20-20020a17090aab9400b00229ca6a4636so237354pjq.0
+        for <linux-usb@vger.kernel.org>; Tue, 07 Feb 2023 13:58:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lODRrBo6/Srodf7L0kUDHgq6mUlBi1HnNAN+4XofQ4E=;
+        b=Q09Brw4H6JlF0wIiN3AM+1EhHp7Xp4UGfKJNsIA2yMojuRL4/61GqO/rcYaojljtXN
+         5uZnBd0S8/XYLDDH/ZP9L1oOkj4Wcx1GPrFao3tKRwuVEfcjM6cGRyosn8kRqdkIobhN
+         VfE/Q0vRFagO50PpvvuEOQWX8nOgZW8NJMj4Zeu9ww/Q9vEPQnXLklnkZ/VGeIiI9Pde
+         AH71HOzs5dmZ/ZpHd/tkMcqOVaE0WJDOPYh9pEk396C6GnJRvKiwyPJP9I5xsmDrWUK9
+         tKrUWOCaZ9F5WjRleW/5ANuYii8roPoFBQUom4nfuJE7JwplJA6VLXpA/qxjuViVkI65
+         0Zjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lODRrBo6/Srodf7L0kUDHgq6mUlBi1HnNAN+4XofQ4E=;
+        b=XtkJMrdZGLf4Q3aH6yOcb21E/vNkEUsS+dwFjBG5C7FnZ2U0684uTODbkpS7kd2OGb
+         uuIKinLHrd1hfZF75d4IoK+x6rL7YCzTM/Yg5NNau5zhrHZZBRL0Gc3Ib1aJItppA2rY
+         FS9zQ8zBY1X796tqJXIAmby5FqoVKrHfi+ZXZ5+TKV6+wZW/uI2bUwNAK2jmFHAz1iT7
+         fVw+wykBJPZYitkyMj8XLm2szqQOViqfOp7+Ls27IGcfOr6xhXqC9HemH98CqilfsFjS
+         tWf1cEhMoM2DRpbntCPVb9gcDiHfdx5qcBZ3yBrAaPyPxbOhRTsaWeZ2W6CTCX9lmISp
+         RKhg==
+X-Gm-Message-State: AO0yUKUXgZgq12WP7kc4eSqUFFfTegsWZjWzXmfVlQSAwjiOKnLnOR6N
+        M2PUjkubBCJdC/VRoGNY5dlp+w==
+X-Google-Smtp-Source: AK7set+g3PPm+9yC4yTnmCwUOncnbAEl2iKWhUfobBiiWLq+S4+EGWVD5kvc9EQefFLEVaPFbdEezg==
+X-Received: by 2002:a17:902:8604:b0:198:af50:e4df with SMTP id f4-20020a170902860400b00198af50e4dfmr48944plo.5.1675807088241;
+        Tue, 07 Feb 2023 13:58:08 -0800 (PST)
+Received: from google.com (30.202.168.34.bc.googleusercontent.com. [34.168.202.30])
+        by smtp.gmail.com with ESMTPSA id 7-20020aa79147000000b00592d9d468e6sm1739102pfi.20.2023.02.07.13.58.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Feb 2023 13:58:07 -0800 (PST)
+Date:   Tue, 7 Feb 2023 21:58:03 +0000
+From:   Xin Zhao <xnzhao@google.com>
+To:     John Keeping <john@metanate.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>, gregkh@linuxfoundation.org,
+        jakobkoschel@gmail.com, rdunlap@infradead.org, ira.weiny@intel.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: dummyhcd: Fix use-after-free in
+ dummy_free_request
+Message-ID: <Y+LJa8ZuBaD1DwlL@google.com>
+References: <20230206225258.2302954-1-xnzhao@google.com>
+ <Y+GcoFKiAkrCoAsv@rowland.harvard.edu>
+ <Y+I9HcPvrm1TzUCw@donbot>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y+I9HcPvrm1TzUCw@donbot>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
-
-did you have a chance to look at the trace? I can't really make sense
-of that raw output so I used Wireshark to sniff on usbmon6. I let the
-remote system, which is connected via the serial port, print something
-every three seconds. This is the behavior I see:
-
-[starting trace with power/control set to "auto"]
-[no communication whatsoever]
-[echo -n "on" | sudo tee /sys/bus/usb/devices/6-2*/power/control]
-735	23.506773	host	6.1.0	USBHUB	64	GET_STATUS Request     [Port 2]
-736	23.506786	6.1.0	host	USBHUB	68	GET_STATUS Response    [Port 2]
-737	23.506793	host	6.1.0	USBHUB	64	CLEAR_FEATURE Request  [Port 2: PORT_SUSPEND]
-740	23.555346	6.1.0	host	USBHUB	64	CLEAR_FEATURE Response [Port 2: PORT_SUSPEND]
-747	23.601999	host	6.1.0	USBHUB	64	GET_STATUS Request     [Port 2]
-748	23.602018	6.1.0	host	USBHUB	68	GET_STATUS Response    [Port 2]
-749	23.602027	host	6.1.0	USBHUB	64	CLEAR_FEATURE Request  [Port 2: C_PORT_SUSPEND]
-750	23.602033	6.1.0	host	USBHUB	64	CLEAR_FEATURE Response [Port 2: C_PORT_SUSPEND]
-756	23.622039	host	6.7.2	USB	64	URB_BULK in
-757	23.622041	host	6.7.2	USB	64	URB_BULK in
-758	23.622043	host	6.7.2	USB	64	URB_BULK in
-759	23.622045	host	6.7.2	USB	64	URB_BULK in
-760	23.622046	host	6.7.2	USB	64	URB_BULK in
-761	23.622048	host	6.7.2	USB	64	URB_BULK in
-762	23.622049	host	6.7.2	USB	64	URB_BULK in
-763	23.622051	host	6.7.2	USB	64	URB_BULK in
-764	23.622053	host	6.7.2	USB	64	URB_BULK in
-765	23.622055	host	6.7.2	USB	64	URB_BULK in
-766	23.622057	host	6.7.2	USB	64	URB_BULK in
-767	23.622058	host	6.7.2	USB	64	URB_BULK in
-768	23.622060	host	6.7.2	USB	64	URB_BULK in
-769	23.622061	host	6.1.0	USBHUB	64	GET_STATUS Request     [Port 2]
-770	23.622062	host	6.7.2	USB	64	URB_BULK in
-771	23.622064	host	6.7.2	USB	64	URB_BULK in
-772	23.622067	host	6.7.2	USB	64	URB_BULK in
-773	23.622074	6.1.0	host	USBHUB	68	GET_STATUS Response    [Port 2]
-818	25.411626	6.7.2	host	USB	65	URB_BULK in
-[that last line contains the very first character of the printed message]
-[leaving out the rest of the message and its repetitions here]
-[echo -n "auto" | sudo tee /sys/bus/usb/devices/6-2*/power/control]
-1219	36.891101	host	6.1.0	USBHUB	64	SET_FEATURE Request    [Port 2: PORT_SUSPEND]
-1220	36.908667	6.1.0	host	USBHUB	64	SET_FEATURE Response   [Port 2: PORT_SUSPEND]
-[no communication whatsoever]
-
-I hope I haven't missed anything important here as I used filters to
-get rid of the noise created by other devices on that bus.
-
-Best regards,
-Michael
-
-
-Am Montag, dem 30.01.2023 um 16:44 +0100 schrieb Michael Laß:
-> Hi. Thanks for looking into this.
-> 
-> Am Montag, dem 30.01.2023 um 14:08 +0100 schrieb Oliver Neukum:
+On Tue, Feb 07, 2023 at 11:59:25AM +0000, John Keeping wrote:
+> On Mon, Feb 06, 2023 at 07:34:40PM -0500, Alan Stern wrote:
+> > On Mon, Feb 06, 2023 at 10:52:58PM +0000, Xin Zhao wrote:
+> > > DummyHCD assume when dummy_free_request is called, the request
+> > > is already detached from request queues. It is correct in most
+> > > cases.
+> > > But when DummyHCD is detached from gadget configfs with pending
+> > > requests and some requests are still in pending queue,
+> > > dummy_free_request would free them directly.
+> > > Later on, dummy_udc_stop would iterate pending queue to release
+> > > the requests again.
+> > > 
+> > > Stacktrace for dummy_free_reqeust
+> > > ```
+> > > kfree(const void * x) (slub.c:4200)
+> > > dummy_free_request(struct usb_ep * _ep, struct usb_request * _req) (dummy_hcd.c:691)
+> > > usb_ep_free_request(struct usb_ep * ep, struct usb_request * req) (core.c:201)
+> > > functionfs_unbind(struct ffs_data * ffs) (f_fs.c:1894)
 > > 
-> > thinking about this further, it is possible that remote wakeup
-> > is not properly processed. Could you test autosuspend with another
-> > device, for example a mouse? It should wake up after an autosuspend
-> > if you press a mouse button.
+> > That's the bug right there.  The kerneldoc for usb_ep_free_request() 
+> > says "Caller guarantees the request is not queued".  So it looks like 
+> > the real solution is to fix functionfs_unbind().
 > 
-> I tested the behavior with a mouse connected to the same port and
-> power/control set to "auto". It behaved correctly: After 1-2 seconds
-> the LED of the mouse turned off and pressing a mouse button let it
-> wake
-> up again. This was repeatable.
+> This is commit ce405d561b02 ("usb: gadget: f_fs: Ensure ep0req is
+> dequeued before free_request") IIUC.
 > 
-> I also recorded a usbmon trace as you asked for in the previous mail.
-> It is attached to this mail. Unfortunately it is a bit noisy because
-> there is another device connected to that USB bus internally. The
-> Cypress device was connected to bus 6, port 2. I think it is device
-> number 18 in that trace.
-> 
-> What I did during the trace:
-> - Use the serial connection to launch
->      while true; do date; sleep 3; done
->   on the remote device.
-> - I received the output of the very first `date` but not the upcoming
->   ones.
-> - After 10 seconds or so I sent a couple of characters and afterwards
->   received another `date` output.
-> 
-> Best regards,
-> Michael
+> Xin, are you able to test a version with that commit?
 
+Yes John, the commit may fix the issue. Thanks for bring it up.
