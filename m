@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82A22C636D7
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Feb 2023 15:16:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D60D5C05027
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Feb 2023 15:16:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231777AbjBHPQD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Feb 2023 10:16:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45498 "EHLO
+        id S231791AbjBHPQE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Feb 2023 10:16:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230445AbjBHPQC (ORCPT
+        with ESMTP id S231744AbjBHPQC (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Feb 2023 10:16:02 -0500
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BF921B562;
-        Wed,  8 Feb 2023 07:16:01 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 304A73A599;
+        Wed,  8 Feb 2023 07:16:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675869361; x=1707405361;
+  t=1675869362; x=1707405362;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ucD+M51+UJA6YNazEMYHsIe2cYjXbeVwqV2yq8GaAVs=;
-  b=atHSKFm0NqPxuvz4hJ9VcM7c+9r6R2BZqt64XnpW+NE6yS+kb5FY3fAI
-   hSpodM8jP0SxZddTa/ekjuxmvXlTpKUFcvyfvS6ROTpZiiVqvIhL3oM4p
-   M6W7JbYMTqwRekYpgnXCHBDxDHYensyMmJ5xKaRJ5sCp7MkO12tqslJAK
-   NnRynUvSvf7rutmVMuOZIzFEGG+ARV1ajZXAw0T8G0fpS1gJqwHutwEPW
-   PCBVXpKX3xOIg1lf0KRBR/vJ9GUYKugAhdk65429/AftDxxMeTAPtepMr
-   oJcc1YVpXnYqoRS6U6flTZF7LQnkvUuwE0k4/F7+eDqM3EjFC2wKOQcpS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="317825130"
+  bh=7Sgb1zaNMokHswRtSrmPc/gbS71Ao7WxNEkQZZyyfeI=;
+  b=Sw+FwS4qZKtzSQGXhg1LP56n8Zwpug/UUZsZxXZy6oztrT6cqo9/nFdZ
+   t3GNfut5LczrCJBpi6kN/qR6epmN619WEraQ4gwEt6/1NytvXut050jfq
+   BFON5yFEwkW83idtXPEJSS8SF7UmcV67WA/BKlmI8kBen0Ls/El1Vbfpc
+   EpLJemM3Z9h/1r2o8uKOoZfeGzOUTMKbRsGvUw23v0mMAXs1D1HLxGf1P
+   H2RSpQCAPjB3wESMxNRnhU3w9th6vKMEwAAYXSe6y6/uHD/lCcqp+//Sr
+   7D5JaUKMhYFdqV57SvngDXzpqtUTfOBGDlr9TrhOPDxVtFRFIjtTYG2m2
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="317825120"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="317825130"
+   d="scan'208";a="317825120"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 07:10:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="776061118"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="776061112"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="776061118"
+   d="scan'208";a="776061112"
 Received: from black.fi.intel.com ([10.237.72.28])
   by fmsmga002.fm.intel.com with ESMTP; 08 Feb 2023 07:10:52 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id D6BC11A6; Wed,  8 Feb 2023 17:11:30 +0200 (EET)
+        id EA1C9210; Wed,  8 Feb 2023 17:11:30 +0200 (EET)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2 1/7] xhci: mem: Carefully calculate size for memory allocations
-Date:   Wed,  8 Feb 2023 17:11:23 +0200
-Message-Id: <20230208151129.28987-2-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 3/7] xhci: mem: Get rid of redundant 'else'
+Date:   Wed,  8 Feb 2023 17:11:25 +0200
+Message-Id: <20230208151129.28987-4-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230208151129.28987-1-andriy.shevchenko@linux.intel.com>
 References: <20230208151129.28987-1-andriy.shevchenko@linux.intel.com>
@@ -58,62 +58,56 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Carefully calculate size for memory allocations, i.e. with help
-of size_mul() macro from overflow.h.
+In the snippets like the following
+
+	if (...)
+		return / goto / break / continue ...;
+	else
+		...
+
+the 'else' is redundant. Get rid of it.
+
+While at it, make if-chain sorted from testing bigger values to smaller.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/usb/host/xhci-mem.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/usb/host/xhci-mem.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index d0a9467aa5fc..c385513ad00b 100644
+index 4ffa6495878d..357883256a5a 100644
 --- a/drivers/usb/host/xhci-mem.c
 +++ b/drivers/usb/host/xhci-mem.c
-@@ -9,6 +9,7 @@
-  */
- 
- #include <linux/usb.h>
-+#include <linux/overflow.h>
- #include <linux/pci.h>
- #include <linux/slab.h>
- #include <linux/dmapool.h>
-@@ -568,7 +569,7 @@ static struct xhci_stream_ctx *xhci_alloc_stream_ctx(struct xhci_hcd *xhci,
- 		gfp_t mem_flags)
- {
- 	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
--	size_t size = sizeof(struct xhci_stream_ctx) * num_stream_ctxs;
-+	size_t size = size_mul(sizeof(struct xhci_stream_ctx), num_stream_ctxs);
+@@ -572,14 +572,11 @@ static struct xhci_stream_ctx *xhci_alloc_stream_ctx(struct xhci_hcd *xhci,
+ 	size_t size = size_mul(sizeof(struct xhci_stream_ctx), num_stream_ctxs);
  
  	if (size > MEDIUM_STREAM_ARRAY_SIZE)
- 		return dma_alloc_coherent(dev, size,
-@@ -1660,7 +1661,7 @@ static int scratchpad_alloc(struct xhci_hcd *xhci, gfp_t flags)
- 		goto fail_sp;
+-		return dma_alloc_coherent(dev, size,
+-				dma, mem_flags);
+-	else if (size <= SMALL_STREAM_ARRAY_SIZE)
+-		return dma_pool_zalloc(xhci->small_streams_pool,
+-				mem_flags, dma);
++		return dma_alloc_coherent(dev, size, dma, mem_flags);
++	if (size > SMALL_STREAM_ARRAY_SIZE)
++		return dma_pool_zalloc(xhci->medium_streams_pool, mem_flags, dma);
+ 	else
+-		return dma_pool_zalloc(xhci->medium_streams_pool,
+-				mem_flags, dma);
++		return dma_pool_zalloc(xhci->small_streams_pool, mem_flags, dma);
+ }
  
- 	xhci->scratchpad->sp_array = dma_alloc_coherent(dev,
--				     num_sp * sizeof(u64),
-+				     size_mul(sizeof(u64), num_sp),
- 				     &xhci->scratchpad->sp_dma, flags);
- 	if (!xhci->scratchpad->sp_array)
- 		goto fail_sp2;
-@@ -1799,7 +1800,7 @@ int xhci_alloc_erst(struct xhci_hcd *xhci,
- 	struct xhci_segment *seg;
- 	struct xhci_erst_entry *entry;
+ struct xhci_ring *xhci_dma_to_transfer_ring(
+@@ -1399,8 +1396,9 @@ static u32 xhci_get_max_esit_payload(struct usb_device *udev,
+ 	if ((udev->speed >= USB_SPEED_SUPER_PLUS) &&
+ 	    USB_SS_SSP_ISOC_COMP(ep->ss_ep_comp.bmAttributes))
+ 		return le32_to_cpu(ep->ssp_isoc_ep_comp.dwBytesPerInterval);
++
+ 	/* SuperSpeed or SuperSpeedPlus Isoc ep with less than 48k per esit */
+-	else if (udev->speed >= USB_SPEED_SUPER)
++	if (udev->speed >= USB_SPEED_SUPER)
+ 		return le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval);
  
--	size = sizeof(struct xhci_erst_entry) * evt_ring->num_segs;
-+	size = size_mul(sizeof(struct xhci_erst_entry), evt_ring->num_segs);
- 	erst->entries = dma_alloc_coherent(xhci_to_hcd(xhci)->self.sysdev,
- 					   size, &erst->erst_dma_addr, flags);
- 	if (!erst->entries)
-@@ -1830,7 +1831,7 @@ xhci_free_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
- 	if (!ir)
- 		return;
- 
--	erst_size = sizeof(struct xhci_erst_entry) * (ir->erst.num_entries);
-+	erst_size = sizeof(struct xhci_erst_entry) * ir->erst.num_entries;
- 	if (ir->erst.entries)
- 		dma_free_coherent(dev, erst_size,
- 				  ir->erst.entries,
+ 	max_packet = usb_endpoint_maxp(&ep->desc);
 -- 
 2.39.1
 
