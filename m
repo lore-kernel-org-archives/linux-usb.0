@@ -2,120 +2,144 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7081C636D4
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Feb 2023 16:34:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A181DC05027
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Feb 2023 16:48:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231359AbjBHQeZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Feb 2023 11:34:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42222 "EHLO
+        id S231402AbjBHQsD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Feb 2023 11:48:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231354AbjBHQeY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Feb 2023 11:34:24 -0500
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A8D82B2B2;
-        Wed,  8 Feb 2023 08:34:23 -0800 (PST)
-Received: by mail-oo1-xc34.google.com with SMTP id x15-20020a4ab90f000000b004e64a0a967fso1780306ooo.2;
-        Wed, 08 Feb 2023 08:34:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3NLFPMpnZb+miJhy2+iFm0INrDfxWTo0LlkjNOUCi9o=;
-        b=PiGPC4/nea7pctVNxbi6ZvRwtz6qW2xC2KTattYqWNIARqnkmWfqXiNOzJwT/RZqwc
-         2E525oYGiLdVPQ7Yc7Gm/XD1z3CwZXnrvdVE3Kt9SBrIecT/DstQnSJgoTk+eWh1C8w3
-         Gtnw9ZW4FLlCqYAJeQ1N5LbEI8K9/8KMPGgxEVd4wvgxKtmOd/SCHEKwpR0CJXKt1cym
-         oseEs+zUnvsaF+78HHzW+8sS88nvwrrhBUc6UQAAp6Cvf63WaMxgHIYf6Kh9F+tYMQ5M
-         vJYXBKaY4Wghavls9eesmPvPPeISWUTyV8qioeia1yNzBWio3TBtf6W378ROV/arFlGf
-         /3Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3NLFPMpnZb+miJhy2+iFm0INrDfxWTo0LlkjNOUCi9o=;
-        b=3xHFoJc2tKNUDgp6pa0t/XqRUZFO91AEuaWQ0QLjs87AzP0djUFdQjOExZCK47a+cW
-         2+B9SUWywG28sdMcne+jyXBNgCRN6zBGJjIuPnmrrsQds+MGprG3viBlgiUpl1hHrGcA
-         F2FFfB7IqqAThxIUPCQccF9guW2sfTAukOCT/HuBHbU4ZJd86SqfuSqZNSbdjMX5q+Ny
-         bhxr4ARqjn6GvGCh4nkRWRfBu5inUGQIHGVKSA8MPDprbQ9nZGoxuu0LugoPad5KA3b4
-         spAqiXCIxcZObwq1TcOhtlyXAeADrSbk4SDU5KiKSjiPsepEuOBE84/geXKCSoXEAaar
-         ++vQ==
-X-Gm-Message-State: AO0yUKWt+8jtjIcE1NLFoEcpf+cP1VW/98AzxauBUenP/nBv17HKqccu
-        4oc/E3plHxUQPT3J17zosN7zEvs8ENw=
-X-Google-Smtp-Source: AK7set+Eo/3CGpyueJ8ifKatcamILHyEtR20MglqVLcSVWtl7ipuQoLMU7kPBNA2BWWi7lh3oufSVQ==
-X-Received: by 2002:a4a:b6c8:0:b0:517:3f56:d292 with SMTP id w8-20020a4ab6c8000000b005173f56d292mr2569784ooo.1.1675874062470;
-        Wed, 08 Feb 2023 08:34:22 -0800 (PST)
-Received: from jassi-Alienware-x17-R2.. (wnpgmb0311w-ds01-45-177-228.dynamic.bellmts.net. [206.45.177.228])
-        by smtp.gmail.com with ESMTPSA id g26-20020a4ab81a000000b0051a72e69e24sm5930214oop.37.2023.02.08.08.34.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Feb 2023 08:34:21 -0800 (PST)
-From:   jassisinghbrar@gmail.com
-To:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org, error27@gmail.com,
-        stern@rowland.harvard.edu, Jassi Brar <jaswinder.singh@linaro.org>
-Subject: [PATCH] usb: gadget: udc: max3420_udc: fix serialized access
-Date:   Wed,  8 Feb 2023 10:34:18 -0600
-Message-Id: <20230208163418.342210-1-jassisinghbrar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S230055AbjBHQsC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Feb 2023 11:48:02 -0500
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id B375038B54
+        for <linux-usb@vger.kernel.org>; Wed,  8 Feb 2023 08:48:01 -0800 (PST)
+Received: (qmail 739602 invoked by uid 1000); 8 Feb 2023 11:48:00 -0500
+Date:   Wed, 8 Feb 2023 11:48:00 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Troels Liebe Bentsen <troels@connectedcars.dk>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+Subject: Re: All USB tools hang when one descriptor read fails and needs to
+ timeout
+Message-ID: <Y+PSQIiE5nhCZfoy@rowland.harvard.edu>
+References: <Y9J8VncWSJdVURgB@kroah.com>
+ <CAHHqYPO_A=7V_8Z-qrGy0-eOkPEpyv+vU_8Jpz-ABGg60t244w@mail.gmail.com>
+ <Y9KnnH+5O6MtO6kz@rowland.harvard.edu>
+ <CAHHqYPNtVkHoiX1LrxUDa32BgVsgymcPtKVODcVGxEh2f=tYRw@mail.gmail.com>
+ <Y9P2tvPkdwHrbPXd@rowland.harvard.edu>
+ <CAHHqYPPWvxMvSU=HMS9C2aPk08j25MBKXS7XC6im5_oz_nXTuw@mail.gmail.com>
+ <Y9l85PAcc/i/tgnS@rowland.harvard.edu>
+ <Y9mAYH7L/CcTTSw6@kroah.com>
+ <CAHHqYPOkj3oJseEwD3=66zck1LGJGo3DD77cG0E8_GNp3EEDUw@mail.gmail.com>
+ <Y+KP0N73jE3PJVZ4@rowland.harvard.edu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y+KP0N73jE3PJVZ4@rowland.harvard.edu>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Jassi Brar <jaswinder.singh@linaro.org>
+On Tue, Feb 07, 2023 at 12:52:16PM -0500, Alan Stern wrote:
+> On Tue, Feb 07, 2023 at 09:25:55AM +0100, Troels Liebe Bentsen wrote:
+> > Hi again,
+> > 
+> > Did a bit more testing and found another lock that would be nice to remove,
+> > the /dev/bus/usb/$BUS/$DEV file for the hub is also locked:
+> > 
+> > Bus 003 Device 016: ID 1a40:0201 Terminus Technology Inc. FE 2.1 7-port Hub
+> > 
+> > strace lsusb -v
+> > ...
+> > openat(AT_FDCWD, "/dev/bus/usb/003/016", O_RDWR|O_CLOEXEC...
+> > 
+> > The openat can not be canceled from userspace and even kill -9 won't stop
+> > the process until the descriptor read times out.
+> 
+> Yes, that really should be an interruptible lock.  In fact, all the 
+> locks connected with usbfs should be interruptible.
+> 
+> However, it can't be eliminated entirely.  This is a case where two 
+> things end up being mutually exclusive with each other because they both 
+> need to be mutually exclusive with a third thing.  In other words, 
+> opening a hub's usbfs file and probing a hub's children both have to be 
+> mutually exclusive with disconnecting the hub.  The three pathways all 
+> use the device lock for this purpose, so they are all mutually exclusive 
+> with each other.
+> 
+> > Also managed to get "lsusb -v" to hang in an unkillable way even after
+> > I unplugged the device and hub:
+> >
+> > ) = 1 ([{fd=5, revents=POLLIN}])
+> > ioctl(8, USBDEVFS_DISCARDURB
+> 
+> Making these lock calls interruptible should fix this problem, right?
 
- The mutex 'spi_bus_mutex' should be used, instead of the spin-lock,
-while changing the state of the kernel-thread. Also changing the
-usb-gadget state need not be protected by a spin-lock.
- This should fix the Smatch static checker warning
-    warn: sleeping in atomic context
+Here's a patch.  It should fix most of these problems.
 
-Fixes: 48ba02b2e2b1 ("usb: gadget: add udc driver for max3420")
-Signed-off-by: Jassi Brar <jaswinder.singh@linaro.org>
----
- drivers/usb/gadget/udc/max3420_udc.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Alan Stern
 
-diff --git a/drivers/usb/gadget/udc/max3420_udc.c b/drivers/usb/gadget/udc/max3420_udc.c
-index ddf0ed3eb4f2..3666cc44f4e7 100644
---- a/drivers/usb/gadget/udc/max3420_udc.c
-+++ b/drivers/usb/gadget/udc/max3420_udc.c
-@@ -501,13 +501,16 @@ static irqreturn_t max3420_vbus_handler(int irq, void *dev_id)
- 	unsigned long flags;
- 
- 	spin_lock_irqsave(&udc->lock, flags);
-+
- 	/* its a vbus change interrupt */
- 	udc->vbus_active = !udc->vbus_active;
- 	udc->todo |= UDC_START;
-+
-+	spin_unlock_irqrestore(&udc->lock, flags);
-+
- 	usb_udc_vbus_handler(&udc->gadget, udc->vbus_active);
- 	usb_gadget_set_state(&udc->gadget, udc->vbus_active
- 			     ? USB_STATE_POWERED : USB_STATE_NOTATTACHED);
--	spin_unlock_irqrestore(&udc->lock, flags);
- 
- 	if (udc->thread_task)
- 		wake_up_process(udc->thread_task);
-@@ -1298,15 +1301,14 @@ static int max3420_probe(struct spi_device *spi)
- static void max3420_remove(struct spi_device *spi)
+
+
+Index: usb-devel/drivers/usb/core/devio.c
+===================================================================
+--- usb-devel.orig/drivers/usb/core/devio.c
++++ usb-devel/drivers/usb/core/devio.c
+@@ -303,13 +303,15 @@ static ssize_t usbdev_read(struct file *
  {
- 	struct max3420_udc *udc = spi_get_drvdata(spi);
--	unsigned long flags;
+ 	struct usb_dev_state *ps = file->private_data;
+ 	struct usb_device *dev = ps->dev;
+-	ssize_t ret = 0;
++	ssize_t ret;
+ 	unsigned len;
+ 	loff_t pos;
+ 	int i;
  
- 	usb_del_gadget_udc(&udc->gadget);
+ 	pos = *ppos;
+-	usb_lock_device(dev);
++	ret = usb_lock_device_interruptible(dev);
++	if (ret < 0)
++		return ret;
+ 	if (!connected(ps)) {
+ 		ret = -ENODEV;
+ 		goto err;
+@@ -1039,7 +1041,9 @@ static int usbdev_open(struct inode *ino
+ 	if (!dev)
+ 		goto out_free_ps;
  
--	spin_lock_irqsave(&udc->lock, flags);
-+	mutex_lock(&udc->spi_bus_mutex);
+-	usb_lock_device(dev);
++	ret = usb_lock_device_interruptible(dev);
++	if (ret < 0)
++		goto out_put_device;
+ 	if (dev->state == USB_STATE_NOTATTACHED)
+ 		goto out_unlock_device;
  
- 	kthread_stop(udc->thread_task);
+@@ -1071,6 +1075,7 @@ static int usbdev_open(struct inode *ino
  
--	spin_unlock_irqrestore(&udc->lock, flags);
-+	mutex_unlock(&udc->spi_bus_mutex);
- }
+  out_unlock_device:
+ 	usb_unlock_device(dev);
++ out_put_device:
+ 	usb_put_dev(dev);
+  out_free_ps:
+ 	kfree(ps);
+@@ -2591,14 +2596,17 @@ static long usbdev_do_ioctl(struct file
+ 	struct usb_dev_state *ps = file->private_data;
+ 	struct inode *inode = file_inode(file);
+ 	struct usb_device *dev = ps->dev;
+-	int ret = -ENOTTY;
++	int ret;
  
- static const struct of_device_id max3420_udc_of_match[] = {
--- 
-2.34.1
+ 	if (!(file->f_mode & FMODE_WRITE))
+ 		return -EPERM;
+ 
+-	usb_lock_device(dev);
++	ret = usb_lock_device_interruptible(dev);
++	if (ret < 0)
++		return ret;
+ 
+ 	/* Reap operations are allowed even after disconnection */
++	ret = -ENOTTY;
+ 	switch (cmd) {
+ 	case USBDEVFS_REAPURB:
+ 		snoop(&dev->dev, "%s: REAPURB\n", __func__);
 
