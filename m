@@ -2,60 +2,61 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C359C677F1
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Feb 2023 15:02:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36278C636D7
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Feb 2023 15:02:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232488AbjBJPC3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Feb 2023 10:02:29 -0500
+        id S231934AbjBJPCd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Feb 2023 10:02:33 -0500
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232351AbjBJPCY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Feb 2023 10:02:24 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B613B57765
-        for <linux-usb@vger.kernel.org>; Fri, 10 Feb 2023 07:02:11 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id j32-20020a05600c1c2000b003dc4fd6e61dso6483468wms.5
-        for <linux-usb@vger.kernel.org>; Fri, 10 Feb 2023 07:02:11 -0800 (PST)
+        with ESMTP id S232438AbjBJPC1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Feb 2023 10:02:27 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95A9570CE0
+        for <linux-usb@vger.kernel.org>; Fri, 10 Feb 2023 07:02:16 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id az4-20020a05600c600400b003dff767a1f1so4278635wmb.2
+        for <linux-usb@vger.kernel.org>; Fri, 10 Feb 2023 07:02:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Dqkw1lFnczMmYP7vS5zM3rMDMKhGSXqs2chEQ2nY1FA=;
-        b=nQF6GULB9+UcfVVsHbhon6Lxqi3qfh3eJzAmEWdOCzUg0Y81sXDcExpr/zz8ZQr+XB
-         JapGGr/9nsY+p6Y00L6sNii6SALEWRFtX3UwphJZYO5xzmcj34a/Yo7QrFis8+cj4Wqn
-         /TLFG46RwLBbOSz8Kagbn25YrgAl/RE3aZybM1YhkhNLJx0zCnh6niHSHZlPwv0IXDv8
-         iiwVHXBCCzbUHQC7E7MX8B3KcAzXk54+f8INdVcbuPikM5ngr2JaYNdE8g/SR/9tdyUI
-         XUUTVCO8jT9FSRiWIKKHu/xwvqL5nHkiWIIVMlYgKosoF4bMS5aYfiZkMR4Kx9Co5+Au
-         rM0w==
+        bh=Zvl8xTLdHdG45pgxCOz2gnmdslKfXq8P1Yli+TaHvT4=;
+        b=LUJ4HuZrhcJ1bw29gWQUvJVyEDtVdssEAG8Ib6ts3UBslux9ON/ZufgOhYsJrBbjCV
+         hlnviG1GNoRAiCWJ7fN5xC55SxvLL3DQEnCk9jHwuNOUhTbUq+EPA/6jJw1kHceLFVig
+         zyO5j9ROJaptpFmwlD6xObCIyMZTCGqXksJ6dFV/cRXE2pRyAljxpYr8lLeAulMtshyz
+         9hmJfsKnCWR2VgzcK2E94tvEYYMzuWrpz02W86iCbmeXAXAavsX0RJL4WYcsw+vxwbEn
+         rzFW8hDegSD62xCbItEhfE8b3VKVZIN06HyWSKwK/ixwQ3Th+jHXu82GyiEJohXAVoLx
+         bWdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Dqkw1lFnczMmYP7vS5zM3rMDMKhGSXqs2chEQ2nY1FA=;
-        b=GsjUmRMixLI2a7bniHmtlATnjel6vzCPsFlYcpO+JJJZJaacEipQn1e6va9+aWPOtL
-         b2W6dnGjmk1M6SGU+ozIBcX1UQJPC9brB1QWHEDYCX/fcOmfaCd/GVjWzsYZqGAKdL/F
-         93Ib85JqwYx6VQ99Px2kwtC7+5g9l8Xe5co5D0KSGLU1YJLctXN66MXcz9yIXwJsERIz
-         AjPuCPTAAiFPgFY2nSLiTSeRmd/IyqStGn81zn9SkHMXamE17OT8CDHcTaGUrljSqZsV
-         NtIRirYky4Kro722xeTujWPOqUxURkWMbI4eWsIF6RKstN9c7c+VlZCi7gkY8rHIJ8UD
-         rh5A==
-X-Gm-Message-State: AO0yUKWkZ6l2ZLMUTrn0ZxIEtn7EBJwFXwBZTl9udoBnLAipOcy0OW69
-        SZ5wsmixi8+Uq3BM/6JrFR90Ag==
-X-Google-Smtp-Source: AK7set8L9n5pErMPBq6++dt3D+WymR9Cgo1CyXx4DWYgfU5ICAZsfPBZuqqv4clnwVEbUSlh8VoqzQ==
-X-Received: by 2002:a05:600c:1604:b0:3d2:3be4:2d9a with SMTP id m4-20020a05600c160400b003d23be42d9amr13476745wmn.20.1676041330218;
-        Fri, 10 Feb 2023 07:02:10 -0800 (PST)
+        bh=Zvl8xTLdHdG45pgxCOz2gnmdslKfXq8P1Yli+TaHvT4=;
+        b=larC7RR4gn60OPwYD3xWdW3wR0ZCYMxJdra54w2gKu9obafkXJK6WtQGQSy/xnPuyU
+         nXV08UAfZA+QccbLJLpG/s4lmjy+nHsPgwROFlvQyjpQhV+3i4hAQ7dL/G2dcqW++vCO
+         Du39UGbdusfllSGFQOfdZ6fSKL8JNXuB4oCtW8nA6Z2QsArFbxgnm7U9w67kWVVJNnJ9
+         E0p0GNHQ5npL5zyBtFHRm1it5oJ9tA8P6lXZBF0PJ3SufjSjpo+akhWHlG2eE8Bg9/Y+
+         tZA8Q0w2oxsQav1JecMOhVX+eEjKCZwArUGsNh70LPXapiswXS1ZCaT8iGuh2pNSzbPE
+         RoOw==
+X-Gm-Message-State: AO0yUKU2ZrCKtI5ksGqzn2mdxnubDf4WsblE7zCpsZekD/qVW7xuPbfq
+        kJVcS+aafcRn9DgRlB6hA95n0g==
+X-Google-Smtp-Source: AK7set/gkn1FV54twbkFpChl0hRZ1mlXaJm5x6e+pKe1fePcWmH1KV5uzIPNMIMluyfEwbUFi2g16Q==
+X-Received: by 2002:a05:600c:810:b0:3de:25f2:3aee with SMTP id k16-20020a05600c081000b003de25f23aeemr14218837wmp.31.1676041335117;
+        Fri, 10 Feb 2023 07:02:15 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id w23-20020a1cf617000000b003db1d9553e7sm8282482wmc.32.2023.02.10.07.02.09
+        by smtp.gmail.com with ESMTPSA id w23-20020a1cf617000000b003db1d9553e7sm8282482wmc.32.2023.02.10.07.02.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 07:02:09 -0800 (PST)
+        Fri, 10 Feb 2023 07:02:14 -0800 (PST)
 From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Fri, 10 Feb 2023 16:02:04 +0100
-Subject: [PATCH v2 01/11] usb: typec: ucsi: add PMIC Glink UCSI driver
+Date:   Fri, 10 Feb 2023 16:02:08 +0100
+Subject: [PATCH v2 05/11] arm64: dts: qcom: sm8350: add port subnodes in
+ dwc3 node
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230130-topic-sm8450-upstream-pmic-glink-v2-1-71fea256474f@linaro.org>
+Message-Id: <20230130-topic-sm8450-upstream-pmic-glink-v2-5-71fea256474f@linaro.org>
 References: <20230130-topic-sm8450-upstream-pmic-glink-v2-0-71fea256474f@linaro.org>
 In-Reply-To: <20230130-topic-sm8450-upstream-pmic-glink-v2-0-71fea256474f@linaro.org>
 To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -76,374 +77,44 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Introduce the UCSI PMIC Glink aux driver that communicates
-with the aDSP firmware with the UCSI protocol which handles
-the USB-C Port(s) Power Delivery.
-
-The UCSI messaging is necessary on newer Qualcomm SoCs to
-provide USB role switch and altmode notifications.
+Add ports subnodes in dwc3 node to avoid repeating the
+same description in each board DT.
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- drivers/usb/typec/ucsi/Kconfig      |  10 ++
- drivers/usb/typec/ucsi/Makefile     |   1 +
- drivers/usb/typec/ucsi/ucsi_glink.c | 320 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 331 insertions(+)
+ arch/arm64/boot/dts/qcom/sm8350.dtsi | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
-index 8f9c4b9f31f7..b3bb0191987e 100644
---- a/drivers/usb/typec/ucsi/Kconfig
-+++ b/drivers/usb/typec/ucsi/Kconfig
-@@ -58,4 +58,14 @@ config UCSI_STM32G0
- 	  To compile the driver as a module, choose M here: the module will be
- 	  called ucsi_stm32g0.
+diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+index 0a422637b61f..3f4631e06187 100644
+--- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+@@ -2727,6 +2727,25 @@ usb_1_dwc3: usb@a600000 {
+ 				snps,dis_enblslpm_quirk;
+ 				phys = <&usb_1_hsphy>, <&usb_1_ssphy>;
+ 				phy-names = "usb2-phy", "usb3-phy";
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++
++						usb_1_dwc3_hs: endpoint {
++						};
++					};
++
++					port@1 {
++						reg = <1>;
++
++						usb_1_dwc3_ss: endpoint {
++						};
++					};
++				};
+ 			};
+ 		};
  
-+config UCSI_PMIC_GLINK
-+	tristate "UCSI Qualcomm PMIC GLINK Interface Driver"
-+	depends on QCOM_PMIC_GLINK
-+	help
-+	  This driver enables UCSI support on platforms that expose UCSI
-+	  interface as PMIC GLINK device.
-+
-+	  To compile the driver as a module, choose M here: the module will be
-+	  called ucsi_glink.
-+
- endif
-diff --git a/drivers/usb/typec/ucsi/Makefile b/drivers/usb/typec/ucsi/Makefile
-index 480d533d762f..77f09e136956 100644
---- a/drivers/usb/typec/ucsi/Makefile
-+++ b/drivers/usb/typec/ucsi/Makefile
-@@ -18,3 +18,4 @@ endif
- obj-$(CONFIG_UCSI_ACPI)			+= ucsi_acpi.o
- obj-$(CONFIG_UCSI_CCG)			+= ucsi_ccg.o
- obj-$(CONFIG_UCSI_STM32G0)		+= ucsi_stm32g0.o
-+obj-$(CONFIG_UCSI_PMIC_GLINK)		+= ucsi_glink.o
-diff --git a/drivers/usb/typec/ucsi/ucsi_glink.c b/drivers/usb/typec/ucsi/ucsi_glink.c
-new file mode 100644
-index 000000000000..9123f8a571e7
---- /dev/null
-+++ b/drivers/usb/typec/ucsi/ucsi_glink.c
-@@ -0,0 +1,320 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
-+ * Copyright (c) 2022-2023, Linaro Ltd
-+ */
-+#include <linux/auxiliary_bus.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/mutex.h>
-+#include <linux/property.h>
-+#include <linux/soc/qcom/pdr.h>
-+#include <linux/soc/qcom/pmic_glink.h>
-+#include "ucsi.h"
-+
-+#define UCSI_BUF_SIZE                   48
-+
-+#define MSG_TYPE_REQ_RESP               1
-+#define UCSI_BUF_SIZE                   48
-+
-+#define UC_NOTIFY_RECEIVER_UCSI         0x0
-+#define UC_UCSI_READ_BUF_REQ            0x11
-+#define UC_UCSI_WRITE_BUF_REQ           0x12
-+#define UC_UCSI_USBC_NOTIFY_IND         0x13
-+
-+struct ucsi_read_buf_req_msg {
-+	struct pmic_glink_hdr   hdr;
-+};
-+
-+struct ucsi_read_buf_resp_msg {
-+	struct pmic_glink_hdr   hdr;
-+	u8                      buf[UCSI_BUF_SIZE];
-+	u32                     ret_code;
-+};
-+
-+struct ucsi_write_buf_req_msg {
-+	struct pmic_glink_hdr   hdr;
-+	u8                      buf[UCSI_BUF_SIZE];
-+	u32                     reserved;
-+};
-+
-+struct ucsi_write_buf_resp_msg {
-+	struct pmic_glink_hdr   hdr;
-+	u32                     ret_code;
-+};
-+
-+struct ucsi_notify_ind_msg {
-+	struct pmic_glink_hdr   hdr;
-+	u32                     notification;
-+	u32                     receiver;
-+	u32                     reserved;
-+};
-+
-+struct pmic_glink_ucsi {
-+	struct device *dev;
-+
-+	struct pmic_glink_client *client;
-+
-+	struct ucsi *ucsi;
-+	struct completion read_ack;
-+	struct completion write_ack;
-+	struct completion sync_ack;
-+	bool sync_pending;
-+	struct mutex lock;	/* protects concurrent access to PMIC Glink interface */
-+
-+	int sync_val;
-+
-+	struct work_struct notify_work;
-+	struct work_struct register_work;
-+
-+	u8 read_buf[UCSI_BUF_SIZE];
-+};
-+
-+static int pmic_glink_ucsi_read(struct ucsi *__ucsi, unsigned int offset,
-+				void *val, size_t val_len)
-+{
-+	struct pmic_glink_ucsi *ucsi = ucsi_get_drvdata(__ucsi);
-+	struct ucsi_read_buf_req_msg req = {};
-+	unsigned long left;
-+	int ret;
-+
-+	req.hdr.owner = PMIC_GLINK_OWNER_USBC;
-+	req.hdr.type = MSG_TYPE_REQ_RESP;
-+	req.hdr.opcode = UC_UCSI_READ_BUF_REQ;
-+
-+	mutex_lock(&ucsi->lock);
-+	memset(ucsi->read_buf, 0, sizeof(ucsi->read_buf));
-+	reinit_completion(&ucsi->read_ack);
-+
-+	ret = pmic_glink_send(ucsi->client, &req, sizeof(req));
-+	if (ret < 0) {
-+		dev_err(ucsi->dev, "failed to send UCSI read request: %d\n", ret);
-+		goto out_unlock;
-+	}
-+
-+	left = wait_for_completion_timeout(&ucsi->read_ack, 5 * HZ);
-+	if (!left) {
-+		dev_err(ucsi->dev, "timeout waiting for UCSI read response\n");
-+		ret = -ETIMEDOUT;
-+		goto out_unlock;
-+	}
-+
-+	memcpy(val, &ucsi->read_buf[offset], val_len);
-+	ret = 0;
-+
-+out_unlock:
-+	mutex_unlock(&ucsi->lock);
-+
-+	return ret;
-+}
-+
-+static int pmic_glink_ucsi_locked_write(struct pmic_glink_ucsi *ucsi, unsigned int offset,
-+					const void *val, size_t val_len)
-+{
-+	struct ucsi_write_buf_req_msg req = {};
-+	unsigned long left;
-+	int ret;
-+
-+	req.hdr.owner = PMIC_GLINK_OWNER_USBC;
-+	req.hdr.type = MSG_TYPE_REQ_RESP;
-+	req.hdr.opcode = UC_UCSI_WRITE_BUF_REQ;
-+	memcpy(&req.buf[offset], val, val_len);
-+
-+	reinit_completion(&ucsi->write_ack);
-+
-+	ret = pmic_glink_send(ucsi->client, &req, sizeof(req));
-+	if (ret < 0) {
-+		dev_err(ucsi->dev, "failed to send UCSI write request: %d\n", ret);
-+		return ret;
-+	}
-+
-+	left = wait_for_completion_timeout(&ucsi->write_ack, 5 * HZ);
-+	if (!left) {
-+		dev_err(ucsi->dev, "timeout waiting for UCSI write response\n");
-+		return -ETIMEDOUT;
-+	}
-+
-+	return 0;
-+}
-+
-+static int pmic_glink_ucsi_async_write(struct ucsi *__ucsi, unsigned int offset,
-+				       const void *val, size_t val_len)
-+{
-+	struct pmic_glink_ucsi *ucsi = ucsi_get_drvdata(__ucsi);
-+	int ret;
-+
-+	mutex_lock(&ucsi->lock);
-+	ret = pmic_glink_ucsi_locked_write(ucsi, offset, val, val_len);
-+	mutex_unlock(&ucsi->lock);
-+
-+	return ret;
-+}
-+
-+static int pmic_glink_ucsi_sync_write(struct ucsi *__ucsi, unsigned int offset,
-+				      const void *val, size_t val_len)
-+{
-+	struct pmic_glink_ucsi *ucsi = ucsi_get_drvdata(__ucsi);
-+	unsigned long left;
-+	int ret;
-+
-+	/* TOFIX: Downstream forces recipient to CON when UCSI_GET_ALTERNATE_MODES command */
-+
-+	mutex_lock(&ucsi->lock);
-+	ucsi->sync_val = 0;
-+	reinit_completion(&ucsi->sync_ack);
-+	ucsi->sync_pending = true;
-+	ret = pmic_glink_ucsi_locked_write(ucsi, offset, val, val_len);
-+	mutex_unlock(&ucsi->lock);
-+
-+	left = wait_for_completion_timeout(&ucsi->sync_ack, 5 * HZ);
-+	if (!left) {
-+		dev_err(ucsi->dev, "timeout waiting for UCSI sync write response\n");
-+		ret = -ETIMEDOUT;
-+	} else if (ucsi->sync_val) {
-+		dev_err(ucsi->dev, "sync write returned: %d\n", ucsi->sync_val);
-+	}
-+
-+	ucsi->sync_pending = false;
-+
-+	return ret;
-+}
-+
-+static const struct ucsi_operations pmic_glink_ucsi_ops = {
-+	.read = pmic_glink_ucsi_read,
-+	.sync_write = pmic_glink_ucsi_sync_write,
-+	.async_write = pmic_glink_ucsi_async_write
-+};
-+
-+static void pmic_glink_ucsi_read_ack(struct pmic_glink_ucsi *ucsi, const void *data, int len)
-+{
-+	const struct ucsi_read_buf_resp_msg *resp = data;
-+
-+	if (resp->ret_code)
-+		return;
-+
-+	memcpy(ucsi->read_buf, resp->buf, UCSI_BUF_SIZE);
-+	complete(&ucsi->read_ack);
-+}
-+
-+static void pmic_glink_ucsi_write_ack(struct pmic_glink_ucsi *ucsi, const void *data, int len)
-+{
-+	const struct ucsi_write_buf_resp_msg *resp = data;
-+
-+	if (resp->ret_code)
-+		return;
-+
-+	ucsi->sync_val = resp->ret_code;
-+	complete(&ucsi->write_ack);
-+}
-+
-+static void pmic_glink_ucsi_notify(struct work_struct *work)
-+{
-+	struct pmic_glink_ucsi *ucsi = container_of(work, struct pmic_glink_ucsi, notify_work);
-+	unsigned int con_num;
-+	u32 cci;
-+	int ret;
-+
-+	ret = pmic_glink_ucsi_read(ucsi->ucsi, UCSI_CCI, &cci, sizeof(cci));
-+	if (ret) {
-+		dev_err(ucsi->dev, "failed to read CCI on notification\n");
-+		return;
-+	}
-+
-+	con_num = UCSI_CCI_CONNECTOR(cci);
-+	if (con_num)
-+		ucsi_connector_change(ucsi->ucsi, con_num);
-+
-+	if (ucsi->sync_pending && cci & UCSI_CCI_BUSY) {
-+		ucsi->sync_val = -EBUSY;
-+		complete(&ucsi->sync_ack);
-+	} else if (ucsi->sync_pending &&
-+		   (cci & (UCSI_CCI_ACK_COMPLETE | UCSI_CCI_COMMAND_COMPLETE))) {
-+		complete(&ucsi->sync_ack);
-+	}
-+}
-+
-+static void pmic_glink_ucsi_register(struct work_struct *work)
-+{
-+	struct pmic_glink_ucsi *ucsi = container_of(work, struct pmic_glink_ucsi, register_work);
-+
-+	ucsi_register(ucsi->ucsi);
-+}
-+
-+static void pmic_glink_ucsi_callback(const void *data, size_t len, void *priv)
-+{
-+	struct pmic_glink_ucsi *ucsi = priv;
-+	const struct pmic_glink_hdr *hdr = data;
-+
-+	switch (hdr->opcode) {
-+	case UC_UCSI_READ_BUF_REQ:
-+		pmic_glink_ucsi_read_ack(ucsi, data, len);
-+		break;
-+	case UC_UCSI_WRITE_BUF_REQ:
-+		pmic_glink_ucsi_write_ack(ucsi, data, len);
-+		break;
-+	case UC_UCSI_USBC_NOTIFY_IND:
-+		schedule_work(&ucsi->notify_work);
-+		break;
-+	};
-+}
-+
-+static void pmic_glink_ucsi_pdr_notify(void *priv, int state)
-+{
-+	struct pmic_glink_ucsi *ucsi = priv;
-+
-+	if (state == SERVREG_SERVICE_STATE_UP)
-+		schedule_work(&ucsi->register_work);
-+	else if (state == SERVREG_SERVICE_STATE_DOWN)
-+		ucsi_unregister(ucsi->ucsi);
-+}
-+
-+static int pmic_glink_ucsi_probe(struct auxiliary_device *adev,
-+				 const struct auxiliary_device_id *id)
-+{
-+	struct pmic_glink_ucsi *ucsi;
-+	struct device *dev = &adev->dev;
-+
-+	ucsi = devm_kzalloc(dev, sizeof(*ucsi), GFP_KERNEL);
-+	if (!ucsi)
-+		return -ENOMEM;
-+
-+	ucsi->dev = dev;
-+	dev_set_drvdata(dev, ucsi);
-+
-+	INIT_WORK(&ucsi->notify_work, pmic_glink_ucsi_notify);
-+	INIT_WORK(&ucsi->register_work, pmic_glink_ucsi_register);
-+	init_completion(&ucsi->read_ack);
-+	init_completion(&ucsi->write_ack);
-+	init_completion(&ucsi->sync_ack);
-+	mutex_init(&ucsi->lock);
-+
-+	ucsi->ucsi = ucsi_create(dev, &pmic_glink_ucsi_ops);
-+	if (IS_ERR(ucsi->ucsi))
-+		return PTR_ERR(ucsi->ucsi);
-+
-+	ucsi_set_drvdata(ucsi->ucsi, ucsi);
-+
-+	ucsi->client = devm_pmic_glink_register_client(dev,
-+						       PMIC_GLINK_OWNER_USBC,
-+						       pmic_glink_ucsi_callback,
-+						       pmic_glink_ucsi_pdr_notify,
-+						       ucsi);
-+	return PTR_ERR_OR_ZERO(ucsi->client);
-+}
-+
-+static const struct auxiliary_device_id pmic_glink_ucsi_id_table[] = {
-+	{ .name = "pmic_glink.ucsi", },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(auxiliary, pmic_glink_ucsi_id_table);
-+
-+static struct auxiliary_driver pmic_glink_ucsi_driver = {
-+	.name = "pmic_glink_ucsi",
-+	.probe = pmic_glink_ucsi_probe,
-+	.id_table = pmic_glink_ucsi_id_table,
-+};
-+
-+module_auxiliary_driver(pmic_glink_ucsi_driver);
-+
-+MODULE_DESCRIPTION("Qualcomm PMIC GLINK UCSI driver");
-+MODULE_LICENSE("GPL");
 
 -- 
 2.34.1
