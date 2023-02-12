@@ -2,96 +2,82 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09047C61DA4
-	for <linux-usb@archiver.kernel.org>; Sun, 12 Feb 2023 03:10:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3718C05027
+	for <linux-usb@archiver.kernel.org>; Sun, 12 Feb 2023 10:58:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbjBLDKb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 11 Feb 2023 22:10:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43704 "EHLO
+        id S229644AbjBLK6N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 12 Feb 2023 05:58:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbjBLDKa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 11 Feb 2023 22:10:30 -0500
-Received: from out-71.mta1.migadu.com (out-71.mta1.migadu.com [IPv6:2001:41d0:203:375::47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2510115545
-        for <linux-usb@vger.kernel.org>; Sat, 11 Feb 2023 19:10:29 -0800 (PST)
-Date:   Sat, 11 Feb 2023 22:10:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1676171427;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jf1H3d/In5/77lbYnmu+P0Ph1nV7stwLY9WuFch+4JA=;
-        b=xfPf/5bYKSccJHE8x9RrnX3GkjgbEsam3IwYmOxSSNgx9Htaqi60HYx0YggXCGTJe4Bm+Y
-        R9wM02p+U29iuRlH8UEDDEviYT+i+qP1B0SXoEK9nxQZmhYocLhdlvh99OJCYa2bsRw6Rh
-        DiayDhtxKt36HOxAKuZuR8/cTXHzb9I=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Kent Overstreet <kent.overstreet@linux.dev>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Kent Overstreet <kent.overstreet@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Coly Li <colyli@suse.de>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        syzkaller <syzkaller@googlegroups.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Hillf Danton <hdanton@sina.com>
-Subject: Re: [PATCH RFC] drivers/core: Replace lockdep_set_novalidate_class()
- with unique class keys
-Message-ID: <Y+hYn6uzIUBaxDdV@moria.home.lan>
-References: <f79e93ef-cfe8-1373-7c36-15d046c0e3c5@I-love.SAKURA.ne.jp>
- <Y+RZ2RKVo9FNMgSe@rowland.harvard.edu>
- <52c7d509-ba9e-a121-60c9-138d7ff3f667@I-love.SAKURA.ne.jp>
- <Y+gLd78vChQERZ6A@rowland.harvard.edu>
- <CAHk-=whXYzkOJZo0xpyYfrhWQg1M7j0OeCojTJ84CN4q9sqb2Q@mail.gmail.com>
- <109c3cc0-2c13-7452-4548-d0155c1aba10@gmail.com>
- <Y+gjuqJ5RFxwLmht@moria.home.lan>
- <Y+hRurRwm//1+IcK@rowland.harvard.edu>
- <Y+hTEtCKPuO0zGIt@moria.home.lan>
- <Y+hW74TAVzCpSv7c@rowland.harvard.edu>
+        with ESMTP id S229457AbjBLK6M (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 12 Feb 2023 05:58:12 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B6C130CE;
+        Sun, 12 Feb 2023 02:58:11 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 225C6B80C99;
+        Sun, 12 Feb 2023 10:58:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E188C433D2;
+        Sun, 12 Feb 2023 10:58:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1676199488;
+        bh=ihRlx+tYwmzXrATCPAflGyTAltQtRUqgsAbFDZbEIcA=;
+        h=Date:From:To:Cc:Subject:From;
+        b=0IDJQfZ5u8iy2Kt9PiPML0IyLKadjCdSAPpX4NH8RER9teLiAkz4cR0iCkF7MZf+K
+         7XCHnkS+QU+2tE5re5h/CGPcX3ivPRXWxjnJpAooc9M0QSOaUzMhGmkWPwXEgxGp6w
+         uaajgXeCvwwx7xUqjNnZEj1skCIJzTsGUPYR30AE=
+Date:   Sun, 12 Feb 2023 11:58:05 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB driver fixes for 6.2-rc8
+Message-ID: <Y+jGPeHQov5f+pXH@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y+hW74TAVzCpSv7c@rowland.harvard.edu>
-X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Feb 11, 2023 at 10:03:11PM -0500, Alan Stern wrote:
-> On Sat, Feb 11, 2023 at 09:46:42PM -0500, Kent Overstreet wrote:
-> > On Sat, Feb 11, 2023 at 09:40:58PM -0500, Alan Stern wrote:
-> > > Or maybe you're referring to what this patch does?  It does indeed 
-> > > create a bunch of dynamic classes -- one for each struct device.  The 
-> > > ordering rules derived by lockdep will be somewhat arbitrary, as you 
-> > > say.  But some of them certainly will be related to the structure of the 
-> > > source code.
-> > 
-> > I could be :) I haven't been able to find the patch in question - have a
-> > link?
-> 
-> It was earlier in this email thread.  Here's a link:
-> 
-> https://lore.kernel.org/r/Y+gLd78vChQERZ6A@rowland.harvard.edu/
-> 
-> > If you're talking about making lock_class_key dynamic, I think I stand
-> > by what I said though - OTOH, if all you're doing is lifting that to the
-> > caller of the device object init function, so it'll still be a static
-> > object in the driver, that would be totally fine.
-> 
-> The patch does the first, not the second.  Feel free to object some 
-> more...  :-)
+The following changes since commit 4ec5183ec48656cec489c49f989c508b68b518e3:
 
-So IMO the more correct way to do this would be to change
-device_initialize() to __device_initialize(), have it take a
-lock_class_key as a parameter, and then use __mutex_init() instead of
-mutex_init().
+  Linux 6.2-rc7 (2023-02-05 13:13:28 -0800)
 
-But let's think about this more. Will there ever be situations where
-lock ordering is dependent on what hardware is plugged into what, or
-what hardware is plugged in first?
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-6.2-rc8
+
+for you to fetch changes up to 303e724d7b1e1a0a93daf0b1ab5f7c4f53543b34:
+
+  usb: core: add quirk for Alcor Link AK9563 smartcard reader (2023-02-09 13:23:51 +0100)
+
+----------------------------------------------------------------
+USB fixes for 6.2-rc8
+
+Here are 2 small USB driver fixes that resolve some reported regressions
+and one new device quirk.  Specifically these are:
+  - new quirk for Alcor Link AK9563 smartcard reader
+  - revert of u_ether gadget change in 6.2-rc1 that caused problems
+  - typec pin probe fix
+
+All of these have been in linux-next with no reported problems.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Mark Pearson (1):
+      usb: core: add quirk for Alcor Link AK9563 smartcard reader
+
+Paul Cercueil (1):
+      Revert "usb: gadget: u_ether: Do not make UDC parent of the net device"
+
+Prashant Malani (1):
+      usb: typec: altmodes/displayport: Fix probe pin assign check
+
+ drivers/usb/core/quirks.c                | 3 +++
+ drivers/usb/gadget/function/u_ether.c    | 4 ++++
+ drivers/usb/typec/altmodes/displayport.c | 8 ++++----
+ 3 files changed, 11 insertions(+), 4 deletions(-)
