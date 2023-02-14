@@ -2,89 +2,138 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FB8AC61DA4
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Feb 2023 13:31:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC6EBC61DA4
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Feb 2023 15:19:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231411AbjBNNbB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Feb 2023 08:31:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39090 "EHLO
+        id S232783AbjBNPT7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Feb 2023 10:19:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbjBNNbB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Feb 2023 08:31:01 -0500
+        with ESMTP id S230172AbjBNPT6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Feb 2023 10:19:58 -0500
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AB132449E
-        for <linux-usb@vger.kernel.org>; Tue, 14 Feb 2023 05:31:00 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7127E279B7
+        for <linux-usb@vger.kernel.org>; Tue, 14 Feb 2023 07:19:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676381460; x=1707917460;
+  t=1676387997; x=1707923997;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=aTHjb128JXz1Ez9XCLLld2te+sMXdqP6IUSjgty5HRM=;
-  b=fM1qWT9jQQy42jbI+TMpOTjomdRajZ/CofV/b6O/GLzakHEY/ytNt0uN
-   w5CzLwbZry9XVMvuOmliCp+fKrQNSzfPUS+ln6jkB2gvDIdjRdPb/7Hqo
-   gsIhQwHZUvK2fOJIN21/MP52v2757jxKqFKjTNz8j/Yk5c7Q+mr7lazMZ
-   Na8xSzm5yQbYVq++kJj2cKK4k+V6Yk4iU+cf03VGtIKw4gLinBTInAm+T
-   UDNkjrtWwVeD4fSkmBjSw9Lb175g17veIMfjEfC8J9Dr37yUQQZNJryPN
-   TBJhV23U8gq6+2SUURqIWuJdbks7/qIpZIJqZXIunaUmZDcGZK0aardJv
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="395773411"
+  bh=r1FY3NELVfcfG1dIaPb6vBXhRxuHo1qn4hsPsgt6WNY=;
+  b=SQLyERyXvQdYJ+E2aSGw2d6QmkRwcG6uxE03e8kHqoXXFLaIHPXSy+63
+   A4SHv983d5QnT9xxTz4RRqENaiWS+B08jtJFjLdzkddZuXQlzNow4JB0p
+   7DEDQKIn/Sv1QMyvFYtPv9dBHo+f07JCPdvumMYuHGoBwKwZWjn5EXfzt
+   XcE39/nX5lC2fPLZmWJJVVUDljNj3dt42axq800dmuNRyTWcxohBVjocO
+   ZY8u1nmZuWNZhMrf5TXRMMjJ5uaqVIYLxrowxzw1jAwHeT/eJTK3+Lt5N
+   05fWhO1eUbtBbkBl+oTw9yZb5lp7/o7/38/ysG7lgku+eMHPBq0Jlsw/E
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="395797968"
 X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="395773411"
+   d="scan'208";a="395797968"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 05:30:59 -0800
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 07:19:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="812027056"
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="812071031"
 X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="812027056"
+   d="scan'208";a="812071031"
 Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 14 Feb 2023 05:30:57 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 14 Feb 2023 15:30:56 +0200
-Date:   Tue, 14 Feb 2023 15:30:56 +0200
+  by fmsmga001.fm.intel.com with SMTP; 14 Feb 2023 07:19:54 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 14 Feb 2023 17:19:53 +0200
+Date:   Tue, 14 Feb 2023 17:19:53 +0200
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Saranya Gopal <saranya.gopal@intel.com>
 Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
         rajaram.regupathy@intel.com
-Subject: Re: [PATCH v3 1/2] usb: typec: pd: Remove usb_suspend_supported
- sysfs from sink PDO
-Message-ID: <Y+uNEM7cUB6/yCWb@kuha.fi.intel.com>
+Subject: Re: [PATCH v3 2/2] usb: typec: pd: Add higher capability sysfs for
+ sink PDO
+Message-ID: <Y+ummeWDWzka55n1@kuha.fi.intel.com>
 References: <20230214114543.205103-1-saranya.gopal@intel.com>
+ <20230214114543.205103-2-saranya.gopal@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230214114543.205103-1-saranya.gopal@intel.com>
+In-Reply-To: <20230214114543.205103-2-saranya.gopal@intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Feb 14, 2023 at 05:15:42PM +0530, Saranya Gopal wrote:
-> As per USB PD specification, 28th bit of fixed supply sink PDO
-> represents "higher capability" attribute and not "usb suspend
-> supported" attribute. So, this patch removes the usb_suspend_supported
-> attribute from sink PDO.
+On Tue, Feb 14, 2023 at 05:15:43PM +0530, Saranya Gopal wrote:
+> 28th bit of fixed supply sink PDO represents higher capability.
+> When this bit is set, the sink device needs more than vsafe5V
+> (eg: 12 V) to provide full functionality. This patch adds
+> this higher capability sysfs interface for sink PDO.
+> 28th bit of fixed supply source PDO represents usb_suspend_supported
+> attribute. This usb_suspend_supported sysfs is already exposed for
+> source PDOs. This patch adds 'source-capabilities' in
+> usb_suspend_supported sysfs documentation for additional clarity.
 > 
-> Fixes: 662a60102c12 ("usb: typec: Separate USB Power Delivery from USB Type-C")
-> Reported-by: Rajaram Regupathy <rajaram.regupathy@intel.com>
 > Signed-off-by: Saranya Gopal <saranya.gopal@intel.com>
 
 Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 > ---
 > Changes from v2:
->  - Patch was split into 2
->  - This patch only removes usb_suspend_supported attribute for sink PDOs
+>  - Patch was split into 2 and this one adds new sysfs for sink PDO
+> Changes from v1:
+>  - Wrapped the description within 80 characters
+>  - Added valid values for the new sysfs
 > 
->  drivers/usb/typec/pd.c | 1 -
->  1 file changed, 1 deletion(-)
+>  .../ABI/testing/sysfs-class-usb_power_delivery        | 11 ++++++++++-
+>  drivers/usb/typec/pd.c                                |  8 ++++++++
+>  2 files changed, 18 insertions(+), 1 deletion(-)
 > 
+> diff --git a/Documentation/ABI/testing/sysfs-class-usb_power_delivery b/Documentation/ABI/testing/sysfs-class-usb_power_delivery
+> index ce2b1b563cb3..1bf9d1d7902c 100644
+> --- a/Documentation/ABI/testing/sysfs-class-usb_power_delivery
+> +++ b/Documentation/ABI/testing/sysfs-class-usb_power_delivery
+> @@ -69,7 +69,7 @@ Description:
+>  		This file contains boolean value that tells does the device
+>  		support both source and sink power roles.
+>  
+> -What:		/sys/class/usb_power_delivery/.../<capability>/1:fixed_supply/usb_suspend_supported
+> +What:		/sys/class/usb_power_delivery/.../source-capabilities/1:fixed_supply/usb_suspend_supported
+>  Date:		May 2022
+>  Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+>  Description:
+> @@ -78,6 +78,15 @@ Description:
+>  		will follow the USB 2.0 and USB 3.2 rules for suspend and
+>  		resume.
+>  
+> +What:		/sys/class/usb_power_delivery/.../sink-capabilities/1:fixed_supply/higher_capability
+> +Date:		February 2023
+> +Contact:	Saranya Gopal <saranya.gopal@linux.intel.com>
+> +Description:
+> +		This file shows the value of the Higher capability bit in
+> +		vsafe5V Fixed Supply Object. If the bit is set, then the sink
+> +		needs more than vsafe5V(eg. 12 V) to provide full functionality.
+> +		Valid values: 0, 1
+> +
+>  What:		/sys/class/usb_power_delivery/.../<capability>/1:fixed_supply/unconstrained_power
+>  Date:		May 2022
+>  Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
 > diff --git a/drivers/usb/typec/pd.c b/drivers/usb/typec/pd.c
-> index dc72005d68db..b5ab26422c34 100644
+> index b5ab26422c34..59c537a5e600 100644
 > --- a/drivers/usb/typec/pd.c
 > +++ b/drivers/usb/typec/pd.c
-> @@ -161,7 +161,6 @@ static struct device_type source_fixed_supply_type = {
+> @@ -48,6 +48,13 @@ usb_suspend_supported_show(struct device *dev, struct device_attribute *attr, ch
+>  }
+>  static DEVICE_ATTR_RO(usb_suspend_supported);
+>  
+> +static ssize_t
+> +higher_capability_show(struct device *dev, struct device_attribute *attr, char *buf)
+> +{
+> +	return sysfs_emit(buf, "%u\n", !!(to_pdo(dev)->pdo & PDO_FIXED_HIGHER_CAP));
+> +}
+> +static DEVICE_ATTR_RO(higher_capability);
+> +
+>  static ssize_t
+>  unconstrained_power_show(struct device *dev, struct device_attribute *attr, char *buf)
+>  {
+> @@ -161,6 +168,7 @@ static struct device_type source_fixed_supply_type = {
 >  
 >  static struct attribute *sink_fixed_supply_attrs[] = {
 >  	&dev_attr_dual_role_power.attr,
-> -	&dev_attr_usb_suspend_supported.attr,
+> +	&dev_attr_higher_capability.attr,
 >  	&dev_attr_unconstrained_power.attr,
 >  	&dev_attr_usb_communication_capable.attr,
 >  	&dev_attr_dual_role_data.attr,
