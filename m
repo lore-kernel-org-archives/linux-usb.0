@@ -2,120 +2,109 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDA1EC05027
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Feb 2023 15:47:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D11DC61DA4
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Feb 2023 15:47:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232900AbjBNPrO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Feb 2023 10:47:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33110 "EHLO
+        id S232957AbjBNPrP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Feb 2023 10:47:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229657AbjBNPrN (ORCPT
+        with ESMTP id S232576AbjBNPrN (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Feb 2023 10:47:13 -0500
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2054.outbound.protection.outlook.com [40.107.93.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFFB929431;
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D622629419;
         Tue, 14 Feb 2023 07:47:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I3EcrkX3jtI4d+7DQwmGFkNeSbDJWwsIp8zcrHxt3iwPkkgyZUTnyQof5eG34EqWGWfMZuRdqHorbXG9fa1+pxjz3SDs/weQ7N4SpNxoRdkD3Qyj1uLao+/wyFpPAkxl50UQ9//wfAxzD58MLx/TLhOoiTQ2x2m1A366GSqXTHDI+uxIA0EuG9xLy44qbhqbSPRIo4vpgtCAh8ZoLyRLj3LBf5+LNT5WbRLX3Pf8ktmyboWqDpuWAzTsR+cpDMY935tLZDoAQ4D9Vccy3sG6OhTHjOfFAbUUWKUG91DiX66eWVu55wZHMptXY8m8kYEEQtSEwWByIL7yW8TXt0706w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NxxUPTfyV3H0E5iB88ltNo4TGm9R40J7X7DdLHK/h2g=;
- b=Quc86zBS80+iVLluuiljt+hmbwjWCohzLvhOi03Bv3Ggpe3Q1FYak7CP5GMl1JqSDVdV76os0vFcqGl06xJ2b6dpHhg55rw375txXE3ngINM8sjhey/finpV+J2HcBjloh7eq64WZaLiB0nWbLjUvicwaChTi+A6qR2nyqCifB/Q1W9QTwMoT8KdU+Y7o+U7EDYR67qMQ3HHXL0G5gPIE0I9hrcKuvU5J/zCtfWsVPhDUQG5OrA3E1YRIwaYhJNm4xVNwowFjTI+P4pqKsQ6DexI7fXdcLQRnrFy1NjU/U1VuX5vpatafp3+NH8Zlyng0z6MfN7Cw7iSYw0iwLH2uQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NxxUPTfyV3H0E5iB88ltNo4TGm9R40J7X7DdLHK/h2g=;
- b=lvgIj8ojsb+FnMxbA68TwFFO+SyncWIjOLXCuME31EESeQ52tiSlpjxjEC6kz0tEJFFdA/yNppUQ5uAE/i7ySyNG8Oj6BRo2P4hVu1a6o9sYb9HM9WUjDYeNeIA8gJ1YPcuYnTAxZRFPnK41iQieGJcjCn1H6WSpfXm9iGO3Hhk=
-Received: from DM6PR02CA0119.namprd02.prod.outlook.com (2603:10b6:5:1b4::21)
- by CH0PR12MB5282.namprd12.prod.outlook.com (2603:10b6:610:d5::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Tue, 14 Feb
- 2023 15:47:10 +0000
-Received: from DM6NAM11FT037.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:1b4:cafe::75) by DM6PR02CA0119.outlook.office365.com
- (2603:10b6:5:1b4::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26 via Frontend
- Transport; Tue, 14 Feb 2023 15:47:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT037.mail.protection.outlook.com (10.13.172.122) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6086.24 via Frontend Transport; Tue, 14 Feb 2023 15:47:10 +0000
-Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 14 Feb
- 2023 09:47:09 -0600
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     <mika.westerberg@linux.intel.com>, <linux-usb@vger.kernel.org>
-CC:     <YehezkelShB@gmail.com>, <michael.jamet@intel.com>,
-        <andreas.noever@gmail.com>, <Sanju.Mehta@amd.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH 0/2] Fix problems fetching TBT3 DROM from AMD USB4 routers
-Date:   Tue, 14 Feb 2023 09:46:44 -0600
-Message-ID: <20230214154647.874-1-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.25.1
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=IIwKjaQ6wzECwusGlzN9Vokv8uY84Y+MqFGs6EmmL1s=; b=oeI7KY4LLKVkp+z0Bhx9S4kgCM
+        cKllOcbH3HvofGZxIWMF+eUK6moqW1KE0PNtm2sGLXLQZuwE9EUPQTqGObpDLMoTO0Epi0OKnHXyB
+        4VsDrjKMCNtB4onCRNNId25v4uBYvzjbNa3qm0OYFrh4vVjXgGTZpeuoaIr8/GjkCPX4o+2yO+wRm
+        u+E6RFv5L3nr10sn+3tglIxJgMhiRD5MRD/256pgRrK09cAcewW6D1fDFqz4Q7nCIXqjz2/btmi77
+        pspvARfOG5BSUoN1Bt4ki8KpONIyxtgyceKuSpOh+IFozMemAjWMvCmLW4MkXTVIEq4ybicFXkm3V
+        CLMJT5rw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pRxW7-006c3e-CX; Tue, 14 Feb 2023 15:46:52 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 87A2D3001CB;
+        Tue, 14 Feb 2023 11:48:07 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 6D3FC23BDB63F; Tue, 14 Feb 2023 11:48:07 +0100 (CET)
+Date:   Tue, 14 Feb 2023 11:48:07 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Kent Overstreet <kent.overstreet@linux.dev>,
+        Kent Overstreet <kent.overstreet@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Coly Li <colyli@suse.de>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        syzkaller <syzkaller@googlegroups.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Hillf Danton <hdanton@sina.com>
+Subject: Re: [PATCH RFC] drivers/core: Replace lockdep_set_novalidate_class()
+ with unique class keys
+Message-ID: <Y+tm59SmBEY1Ywq7@hirez.programming.kicks-ass.net>
+References: <Y+gjuqJ5RFxwLmht@moria.home.lan>
+ <Y+hRurRwm//1+IcK@rowland.harvard.edu>
+ <Y+hTEtCKPuO0zGIt@moria.home.lan>
+ <Y+hW74TAVzCpSv7c@rowland.harvard.edu>
+ <Y+hYn6uzIUBaxDdV@moria.home.lan>
+ <Y+kEgDLSRwdODRdD@rowland.harvard.edu>
+ <Y+oBveWO2z6xdTW/@hirez.programming.kicks-ass.net>
+ <Y+pWhyFJeE93nlWd@rowland.harvard.edu>
+ <Y+plfZnEqw6mG+XH@hirez.programming.kicks-ass.net>
+ <Y+rpD7QPheQQ8Lxj@boqun-archlinux>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT037:EE_|CH0PR12MB5282:EE_
-X-MS-Office365-Filtering-Correlation-Id: c676d7b2-f9ea-4c6c-2640-08db0ea2bc01
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YjXYAfsluWfFun5WcNMl6OpoBHoWZtxHtXWjyiIahQiQcqxCZlhAvFjb6eoPd8u9zYLeQVoyeREw4vHsmaf0SJhNZIc1rxUJX8E/Vmr34h/jlCV9+Nq1MyDK/aGe6iWw8yqbwCZcjeghLRp1FpK7Bfg3WJyPt1GOOqZZ+xtFgbiIwyMNw97YlqSI/CxczBQOPgJDHocWRg0I2WTKMS7zp3lzjVHaSJrm4qVx1/FT5SAoggP9Uk6wWHWlfB5gCFfUCorW9o4p5YxrcSc/iQOfu2VJZzFUyS0hVfyBCyzW0k91eXtpEv+ttWRsdjnql88lg6F6aLxr3YtHhxc/m+ounMCq4erdktcQBnkZNMpZ+iwMdSNcHyKkD5pkt96mCmAMWaJWY/SzXIfqnUOHFWBKTJXHPIaxpr/6aX0XuBUhOrkiyJFo0hY6TO+1NOtpnvGlDw/u2/GcQbetCuFwjc6v9+SRzuCAR8TQesmzUlaRCmAH8pMsvq6/uPp5zDFsBcVpQxmYuQgsdi/6INHOgg5JAV7ZJR2pTnhnqiMzAD+SvDLjud48ebrIms8nUBVzWDcB9A4rJSemE88o93+VX1Dqav4lhcw/ZENUeZ3cL/a0lUAnM0YOLAsHa552q/V9WuVe26mkcy6QJ1/OJuwoHr2fqk8cX/Be4CiD4YstwIBR4mej/BhY3zTkDgt5KyWhHp1pyqVUvutUmUJFcuGV2IuJwN4wd3KRTFNQvX7DNoYgt00=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(136003)(39860400002)(376002)(346002)(396003)(451199018)(46966006)(40470700004)(36840700001)(86362001)(36756003)(82310400005)(2906002)(8936002)(5660300002)(44832011)(41300700001)(36860700001)(81166007)(83380400001)(356005)(82740400003)(7696005)(478600001)(8676002)(16526019)(186003)(26005)(40480700001)(40460700003)(4326008)(110136005)(316002)(54906003)(70586007)(336012)(2616005)(426003)(1076003)(70206006)(47076005)(6666004)(66574015)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2023 15:47:10.3958
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c676d7b2-f9ea-4c6c-2640-08db0ea2bc01
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT037.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5282
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y+rpD7QPheQQ8Lxj@boqun-archlinux>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-TBT3 devices when connected to an AMD USB4 router occasionally fail to
-properly respond to requests for the DROM via bit banging.
+On Mon, Feb 13, 2023 at 05:51:11PM -0800, Boqun Feng wrote:
+> On Mon, Feb 13, 2023 at 05:29:49PM +0100, Peter Zijlstra wrote:
+> > On Mon, Feb 13, 2023 at 10:25:59AM -0500, Alan Stern wrote:
+> > > On Mon, Feb 13, 2023 at 10:24:13AM +0100, Peter Zijlstra wrote:
+> > > > On Sun, Feb 12, 2023 at 10:23:44AM -0500, Alan Stern wrote:
+> > > > > Provided it acquires the parent device's lock first, this is 
+> > > > > utterly safe no matter what order the children are locked in.  Try 
+> > > > > telling that to lockdep! 
+> > > > 
+> > > > mutex_lock_next_lock(child->lock, parent->lock) is there to express this
+> > > > exact pattern, it allows taking multiple child->lock class locks (in any
+> > > > order) provided parent->lock is held.
+> > > 
+> > > Ah, this is news to me.  Is this sort of thing documented somewhere?
+> 
+> Basically if you have two lock instances A and B with the same class,
+> and you know that locking ordering is always A -> B, then you can do
+> 
+> 	mutex_lock(A);
+> 	mutex_lock_nest_lock(B, A); // lock B.
+> 
 
-Depending upon which part of the request failed will impact the severity.
-A number of workarounds have been put in place to let the driver handle
-the failed requests:
+No, this isn't quite right, You need at least 3 locks and 2 classes.
 
-e87491a9fd4e3 ("thunderbolt: Retry DROM reads for more failure scenarios")
-a283de3ec646f ("thunderbolt: Do not resume routers if UID is not set")
-6915812bbd109 ("thunderbolt: Do not make DROM read success compulsory")
+P, C1, C2
 
-Still even with these changes the failures do make it through. In comparing
-other CM implementations, they all access the DROM directly from the NVM.
+Then:
 
-To avoid triggering this issue, try to get the DROM directly from the NVM
-in Linux as well before resorting to bitbanging.
+	mutex_lock(P)
+	mutex_lock_next_lock(C1, P)
+	mutex_lock_next_lock(C2, P)
 
-Mario Limonciello (2):
-  thunderbolt: Read DROM directly from NVM before trying bit banging
-  thunderbolt: use `tb_eeprom_get_drom_offset` to discover DROM offset
-
- drivers/thunderbolt/eeprom.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
--- 
-2.25.1
-
+And it will accept any order of Cn -- since it assumes that any
+multi-lock of Cn will always hold P, therefore the ordering fully given
+by P.
