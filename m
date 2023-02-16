@@ -2,74 +2,109 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB55DC636CC
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Feb 2023 14:02:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3355C61DA4
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Feb 2023 14:21:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229724AbjBPOCW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Feb 2023 09:02:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39138 "EHLO
+        id S229767AbjBPOV3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Feb 2023 09:21:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbjBPOCV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Feb 2023 09:02:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B2633CE0F;
-        Thu, 16 Feb 2023 06:02:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D8BE36102F;
-        Thu, 16 Feb 2023 14:02:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C35AC433D2;
-        Thu, 16 Feb 2023 14:02:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676556140;
-        bh=dHP7afTMssAraR/AP33Ri716VNh8iI75EwxUlYOCQrI=;
-        h=Date:From:To:Cc:Subject:From;
-        b=d5PDJhr0zNsMxp6BcH6VJudfNzUtf1a5jjEffQQGffIYg14IlMZw3mc6UsVk5n6y9
-         kaJzq3gNqUa1wfh9ikAhlQ2fGhnZXciP3DuWRVOCG7SuBRMQYwHEcWtjE3FZNMjT4f
-         bagMILzXO0reE0Q6hladfGj0vdobcZv5w1SCHnt0uLlE0/iMrbrsrASf2A6qEPMF8c
-         KEyBVse8xorTZNHVuulzZZ5MVcTDQAfBSJE1RATres+hbXuRBKpdKLpf8z9WksWKLB
-         6jGXdZY9m7hgurKnETM5lFPkyp7OoWn0/6zQuu6kjFffAAo7WlLAtStC2A/k327JrR
-         qGz3Yh3dWT3Yw==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1pSer1-0003r7-Rb; Thu, 16 Feb 2023 15:03:19 +0100
-Date:   Thu, 16 Feb 2023 15:03:19 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [GIT PULL] USB-serial updates for 6.3-rc1
-Message-ID: <Y+43p6kp0kJN/slK@hovoldconsulting.com>
+        with ESMTP id S229462AbjBPOV2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Feb 2023 09:21:28 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86D90CC0A;
+        Thu, 16 Feb 2023 06:21:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1676557287; x=1708093287;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version;
+  bh=X0+bIdYpTBO5RXlUx/jmxakO7fnyW2GuUVeSqP3IaL4=;
+  b=R5IIghMMhPxbg4fQA39I+lJnhkL7Hq1v23WGYBa3c71d+JbP4jSqlXGb
+   OqrpkSpngMvFtI/PKsiftrxijArZTBzOgeoyDEE7NyYB9JfqgWsJ3gHwg
+   gHhANVbXfG+/qBXn3LlsPbxYCgepCk+rHv0IIewchr7dQHFegui8yS+mO
+   cWxV417IWuiFmqct7VslDcHZx2ibmlG9nzfgkYw5nR6Mv3OUOrnxdoKoE
+   vs4gLWb+fZj/HSsrHVxmNTyesn5gP8HJYPVdK0Ht/w1HSzCDaadKDhEu+
+   3AxXhM2LDcYyyaBLZzdXZjsHt7b2WnoMyesIqntVbTMUcpqCQPua58AmE
+   g==;
+X-IronPort-AV: E=Sophos;i="5.97,302,1669100400"; 
+   d="scan'208";a="137572856"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 16 Feb 2023 07:21:26 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 16 Feb 2023 07:21:26 -0700
+Received: from chn-vm-ungapp01.mchp-main.com (10.10.115.15) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.2507.16 via Frontend Transport; Thu, 16 Feb 2023 07:21:26 -0700
+From:   Yuiko Oshino <yuiko.oshino@microchip.com>
+To:     <enguerrand.de-ribaucourt@savoirfairelinux.com>,
+        <woojung.huh@microchip.com>, <andrew@lunn.ch>
+CC:     <hkallweit1@gmail.com>, <netdev@vger.kernel.org>,
+        <pabeni@redhat.com>, <davem@davemloft.net>,
+        <UNGLinuxDriver@microchip.com>, <linux@armlinux.org.uk>,
+        <edumazet@google.com>, <linux-usb@vger.kernel.org>,
+        <kuba@kernel.org>
+Subject: [PATCH net 1/2] net:usb:lan78xx: fix accessing the LAN7800's internal phy specific registers from the MAC driver
+Date:   Thu, 16 Feb 2023 07:20:53 -0700
+Message-ID: <b317787e1e55f9c59c55a3cf5f9f02d477dd5a59.1676490952.git.yuiko.oshino@microchip.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1676490952.git.yuiko.oshino@microchip.com>
+References: <cover.1676490952.git.yuiko.oshino@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The following changes since commit 4ec5183ec48656cec489c49f989c508b68b518e3:
+Move the LAN7800 internal phy (phy ID  0x0007c132) specific register accesses to the phy driver (microchip.c).
 
-  Linux 6.2-rc7 (2023-02-05 13:13:28 -0800)
+Fixes: 14437e3fa284f465dbbc8611fd4331ca8d60e986 ("lan78xx: workaround of forced 100 Full/Half duplex mode error")
+Signed-off-by: Yuiko Oshino <yuiko.oshino@microchip.com>
+---
+ drivers/net/usb/lan78xx.c | 27 +--------------------------
+ 1 file changed, 1 insertion(+), 26 deletions(-)
 
-are available in the Git repository at:
+diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+index f18ab8e220db..068488890d57 100644
+--- a/drivers/net/usb/lan78xx.c
++++ b/drivers/net/usb/lan78xx.c
+@@ -2115,33 +2115,8 @@ static void lan78xx_remove_mdio(struct lan78xx_net *dev)
+ static void lan78xx_link_status_change(struct net_device *net)
+ {
+ 	struct phy_device *phydev = net->phydev;
+-	int temp;
+-
+-	/* At forced 100 F/H mode, chip may fail to set mode correctly
+-	 * when cable is switched between long(~50+m) and short one.
+-	 * As workaround, set to 10 before setting to 100
+-	 * at forced 100 F/H mode.
+-	 */
+-	if (!phydev->autoneg && (phydev->speed == 100)) {
+-		/* disable phy interrupt */
+-		temp = phy_read(phydev, LAN88XX_INT_MASK);
+-		temp &= ~LAN88XX_INT_MASK_MDINTPIN_EN_;
+-		phy_write(phydev, LAN88XX_INT_MASK, temp);
+ 
+-		temp = phy_read(phydev, MII_BMCR);
+-		temp &= ~(BMCR_SPEED100 | BMCR_SPEED1000);
+-		phy_write(phydev, MII_BMCR, temp); /* set to 10 first */
+-		temp |= BMCR_SPEED100;
+-		phy_write(phydev, MII_BMCR, temp); /* set to 100 later */
+-
+-		/* clear pending interrupt generated while workaround */
+-		temp = phy_read(phydev, LAN88XX_INT_STS);
+-
+-		/* enable phy interrupt back */
+-		temp = phy_read(phydev, LAN88XX_INT_MASK);
+-		temp |= LAN88XX_INT_MASK_MDINTPIN_EN_;
+-		phy_write(phydev, LAN88XX_INT_MASK, temp);
+-	}
++	phy_print_status(phydev);
+ }
+ 
+ static int irq_map(struct irq_domain *d, unsigned int irq,
+-- 
+2.17.1
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-6.3-rc1
-
-for you to fetch changes up to 617c331d91077f896111044628c096802551dc66:
-
-  USB: serial: option: add support for VW/Skoda "Carstick LTE" (2023-02-06 09:16:32 +0100)
-
-----------------------------------------------------------------
-USB-serial updates for 6.3-rc1
-
-Here are the USB-serial updates for 6.3-rc1; just a new modem device
-id this time.
-
-All have been in linux-next with no reported issues.
-
-----------------------------------------------------------------
-Florian Zumbiehl (1):
-      USB: serial: option: add support for VW/Skoda "Carstick LTE"
-
- drivers/usb/serial/option.c | 4 ++++
- 1 file changed, 4 insertions(+)
