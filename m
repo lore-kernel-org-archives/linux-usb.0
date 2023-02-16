@@ -2,42 +2,41 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D77F3C636CC
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Feb 2023 11:48:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 921E5C61DA4
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Feb 2023 11:53:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229723AbjBPLsM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Feb 2023 06:48:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38798 "EHLO
+        id S229813AbjBPLxN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Feb 2023 06:53:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229549AbjBPLsL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Feb 2023 06:48:11 -0500
-X-Greylist: delayed 1682 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 16 Feb 2023 03:48:10 PST
+        with ESMTP id S229507AbjBPLxM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Feb 2023 06:53:12 -0500
 Received: from mx0a-0014ca01.pphosted.com (mx0a-0014ca01.pphosted.com [208.84.65.235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82606303E1;
-        Thu, 16 Feb 2023 03:48:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40CD43865D;
+        Thu, 16 Feb 2023 03:53:11 -0800 (PST)
 Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
-        by mx0a-0014ca01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31G8uO49007096;
-        Thu, 16 Feb 2023 02:54:35 -0800
+        by mx0a-0014ca01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31G8uO4A007096;
+        Thu, 16 Feb 2023 02:54:36 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=proofpoint;
- bh=GnrNFDWiqsXCjNQzrbWvVG/p1Ipodq1Skkq/daHCbHo=;
- b=hhHQ4VvTJsF/VzSu48eez/kpl5OTDQ0gRQC2Lr1lpFYDE31mHXuIXDFiXJoskx+thrCI
- lJg4NoXn57yF3nWVODmZV1qJIv+eLvanWQzjX78ev9QthE3ydRu7Hvxv/Hg3iWWXj/3a
- tbscVKTXeyFNXD5yUgLGVqFEEK7BfgS6mjY31eUJ8NI2FJG6gwW1BAucPSzK2pXd0roD
- bGQElxBrf+cd1uQse4ks6QN+n53WgiJLPN4FxIOo96wWJyzDQ3oKpAAohhJcMTx8NyRN
- d6+tTgHwyboJw0z/y9s3Bnw37gmkyuiqHg/XWYwNJ8UkYHm9/wsc2tyfXADrOH/xlffP Ng== 
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2177.outbound.protection.outlook.com [104.47.73.177])
-        by mx0a-0014ca01.pphosted.com (PPS) with ESMTPS id 3np8f3a0wu-1
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=proofpoint;
+ bh=Nm2Qkb+fnrFs5aSXMYiuYqjHnHukzY5A7pyESRyHqfM=;
+ b=RwsJJrkqsVhW5UEdg6O1wysW/NqwChvPl0db/vp52qKsvKBODAgT0tH70vunsapArW6W
+ lriEyNXIcJY35iVtWkakTad7Br0hflSMvAvQhhYUqW3SU342pBiTcUxEr0iEATNPUdSz
+ Z/J77gGbLGZSoyJfC+ymgmwFMK5V9mjwTxsjNI9l1snIKmF56iTULsw7X2UhngBnVzpf
+ +RxGm1GQT1/KLmLTpjOz2h6ahhDzc83meMjPbj2LT5l0Bhe/MFGK0nkj4z3yYKz4b1/D
+ rtltNuuWtlAgusYT+v9ZMjUC6okSzs/8Ayb/FAhdnTWkP8A0Nqpj9p70ktnoh4NJ0HFt fQ== 
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2041.outbound.protection.outlook.com [104.47.73.41])
+        by mx0a-0014ca01.pphosted.com (PPS) with ESMTPS id 3np8f3a0wv-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 16 Feb 2023 02:54:34 -0800
+        Thu, 16 Feb 2023 02:54:35 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Pen8UfIWIZdi01yiiJiXMFkPl8ppaz68z2JP56eHUWJz4C8A33elI35pFM4aIPLyMIC2HukIaxdcmKA3im9MQAcuxtNrI8OaBAR8qzzhTY7H6361+pSvmwZpzOou9m80z9XPdCnZ8rPhtpNIgbsNJ6cTIrgUPQvged6nFDD0p5AT8fc2zCJ3Hn3NCCfR6Ak45BlJyS1x/uQwvRAkmD9YqOcwVCc3ULtebStEKp5zQIKtK6VQbIIbem7tu7uBHMrAGr9yrYL6q2/l9GETDOAb3yQLu2PnnautJthChuM1ZDcG12gqT/FA7hAA75L1TElDpp6+wJEkEk85q+ehAy8Sng==
+ b=hOc4PK6kzoS2CxLlT+wHKgqxCz/IkEVaftIPlCnsoXkMJqQauReEBmSTFD3gmr/SzSAsiQl0JHttDI2NHmIA2qz6fbL8NO4CL8eEL/ny3/numWUbO5YGL4/sN6iOsm5xe8HytV04zD2lY0i4O0Aq0ipMwJBiRi1hUe2xCgXwanfgnGu6WPsScLK3BDto+80oXCoRmDIG09Vt78W9u6YprFU2gBY4127Kkm0Z35mcGj2QbaKDS7mivZ2lhIeP22t5M6rmdBYMAkbIUJhLn5fNrguH+O4jx5cNWh4+8TZaeZB4P0PJJ6kd0V437+ffoESW3mOcgZNHU6NhOwilSgNSxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GnrNFDWiqsXCjNQzrbWvVG/p1Ipodq1Skkq/daHCbHo=;
- b=Ak3oVRkP/BVacEjvM+ujqo4yAJ5aRDzv9HF3pThAwiEh1Oh5HWFQXNy+vGagXYmlF+Ao/spf1n4MpRQaY9XAp/YGBOnZpynGL9W+/k8mte1VdfZmctqtJvsgjSokGHzemi43LRMav4OfmPkzwr9uOKlIfg4+rWRQpVU09NT9XROyrk9weMv0qMLaNOBuaZN3eJ+9oSzl05nDo3AjH89EusaDXKoe9wQb8Pxxkf0MZRDgowYVQi3DyeH5ZZPIB9h1xIrvr7yMB26sZlKzTzfbK/Xu2nNm5/lI/P9MMn/Gp8Ewlarw1BglHrTOVGmAe+ce7W2a2QiCR99if4FR0Uy58A==
+ bh=Nm2Qkb+fnrFs5aSXMYiuYqjHnHukzY5A7pyESRyHqfM=;
+ b=HcGlheXwvN8+uZKnIo9xzIUgNacKCLEKL+o/UHdyC/FKT7agrbOERIBCwk5LbV8db/G9qqnA0+HyxsOPHkn8SLx9N8DgMQ6VUG1F1/3PXC0mJeWZvVlulFstgAxvCy5/eTHOZaf9mBEF39U2pQ2cYQ7xX5ya+E5MUiD6xjt1iLikprMW0XiWDpeaQuD+eoiOQayR9ULox/iNLVxSWHApRIwz5FN2iB6LI+js8t16tE1qnn/FRkY/fbLvWaZObXGiWJ4L5VTmPsOXkvFqtn9vlR3T71mLBQSSKP0jdGv3EWUDtwoWFwfjFH10g6cCfOiq/KnFiVQVbr4qdP1oBgRVmQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  158.140.1.148) smtp.rcpttodomain=bootlin.com smtp.mailfrom=cadence.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
@@ -45,16 +44,16 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GnrNFDWiqsXCjNQzrbWvVG/p1Ipodq1Skkq/daHCbHo=;
- b=K0OW2BYQ34sH6ddkggIWFbW+bcO7Q8HIsEYO/Ye4xknOQXSjAujitmr0hzfk7/Q/gWourAhb7aSUTj903ysfI4LyslTf97r6d0OycMLBSIQLGv2x2y7RQypK78scauYPS21bryLzAbb9iPlTLThYt94Dhr5TU0tL09H0VU8eHX0=
-Received: from DM6PR06CA0019.namprd06.prod.outlook.com (2603:10b6:5:120::32)
- by DM6PR07MB5289.namprd07.prod.outlook.com (2603:10b6:5:41::23) with
+ bh=Nm2Qkb+fnrFs5aSXMYiuYqjHnHukzY5A7pyESRyHqfM=;
+ b=HLUs103ukL8UmSBo0XbfG9xPk+RvCHmdJSDwoAuPZ2MF7lznPbiXmFINSG0B4Ctn/LvVGlhs7DCWyhFUjhlMZKj8e1tg1hdpJHDEx24J2Jm3QDxwYL6+mhEHOBrV/GveD+KR5+2pAlF+JK8rSYS3onTJ6HmOCUAnfkf6+/K1aEc=
+Received: from BN9PR03CA0231.namprd03.prod.outlook.com (2603:10b6:408:f8::26)
+ by DM6PR07MB7049.namprd07.prod.outlook.com (2603:10b6:5:1e6::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Thu, 16 Feb
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Thu, 16 Feb
  2023 10:54:32 +0000
-Received: from DM6NAM12FT086.eop-nam12.prod.protection.outlook.com
- (2603:10b6:5:120:cafe::1e) by DM6PR06CA0019.outlook.office365.com
- (2603:10b6:5:120::32) with Microsoft SMTP Server (version=TLS1_2,
+Received: from BN8NAM12FT027.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:408:f8:cafe::4f) by BN9PR03CA0231.outlook.office365.com
+ (2603:10b6:408:f8::26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13 via Frontend
  Transport; Thu, 16 Feb 2023 10:54:32 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 158.140.1.148)
@@ -64,13 +63,13 @@ Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
  158.140.1.148 as permitted sender) receiver=protection.outlook.com;
  client-ip=158.140.1.148; helo=sjmaillnx2.cadence.com; pr=C
 Received: from sjmaillnx2.cadence.com (158.140.1.148) by
- DM6NAM12FT086.mail.protection.outlook.com (10.13.179.105) with Microsoft SMTP
+ BN8NAM12FT027.mail.protection.outlook.com (10.13.182.138) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6134.6 via Frontend Transport; Thu, 16 Feb 2023 10:54:32 +0000
+ 15.20.6134.6 via Frontend Transport; Thu, 16 Feb 2023 10:54:31 +0000
 Received: from maileu4.global.cadence.com (eudvw-maileu4.cadence.com [10.160.110.201])
-        by sjmaillnx2.cadence.com (8.14.4/8.14.4) with ESMTP id 31GAsRqg021870
+        by sjmaillnx2.cadence.com (8.14.4/8.14.4) with ESMTP id 31GAsRqi021870
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 16 Feb 2023 02:54:28 -0800
+        Thu, 16 Feb 2023 02:54:30 -0800
 Received: from maileu4.global.cadence.com (10.160.110.201) by
  maileu4.global.cadence.com (10.160.110.201) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -80,11 +79,11 @@ Received: from eu-cn02.cadence.com (10.160.89.185) by
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.7
  via Frontend Transport; Thu, 16 Feb 2023 11:54:26 +0100
 Received: from eu-cn02.cadence.com (localhost.localdomain [127.0.0.1])
-        by eu-cn02.cadence.com (8.14.7/8.14.7) with ESMTP id 31GAsQLn364441;
+        by eu-cn02.cadence.com (8.14.7/8.14.7) with ESMTP id 31GAsQxp364510;
         Thu, 16 Feb 2023 05:54:26 -0500
 Received: (from pawell@localhost)
-        by eu-cn02.cadence.com (8.14.7/8.14.7/Submit) id 31GAsISn364304;
-        Thu, 16 Feb 2023 05:54:18 -0500
+        by eu-cn02.cadence.com (8.14.7/8.14.7/Submit) id 31GAsQvM364509;
+        Thu, 16 Feb 2023 05:54:26 -0500
 From:   Pawel Laszczak <pawell@cadence.com>
 To:     <gregkh@linuxfoundation.org>
 CC:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
@@ -93,10 +92,12 @@ CC:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <neal_liu@aspeedtech.com>, <linus.walleij@linaro.org>,
         <egtvedt@samfundet.no>, <biju.das.jz@bp.renesas.com>,
         <herve.codina@bootlin.com>, Pawel Laszczak <pawell@cadence.com>
-Subject: [PATCH 0/4] Introduced new Cadence USBHS Driver
-Date:   Thu, 16 Feb 2023 05:54:07 -0500
-Message-ID: <20230216105411.364157-1-pawell@cadence.com>
+Subject: [PATCH 4/4] MAINTAINERS: add Cadence USBHS driver entry
+Date:   Thu, 16 Feb 2023 05:54:11 -0500
+Message-ID: <20230216105411.364157-5-pawell@cadence.com>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20230216105411.364157-1-pawell@cadence.com>
+References: <20230216105411.364157-1-pawell@cadence.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -104,81 +105,61 @@ X-CrossPremisesHeadersFilteredBySendConnector: maileu4.global.cadence.com
 X-OrganizationHeadersPreserved: maileu4.global.cadence.com
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM12FT086:EE_|DM6PR07MB5289:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1d39952-c004-49af-3c45-08db100c2f5a
+X-MS-TrafficTypeDiagnostic: BN8NAM12FT027:EE_|DM6PR07MB7049:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8dd0d5e3-c960-4f60-8090-08db100c2f1d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9GNmLDdSPGXbcrtYnhQDNl6RrbzgUxLx0zTqLW6aFVjnwPI4rerkp7xjwHUqdsG77Mzm7Hp4bXQhCVpkri5ulg2QkfVBz1Y0qc9ukLL5Z6PX8M0x50g4OBYsA/z5+OQ3iMbHqLOSLynu6Gk9jNKDuBejqkCZDqCuJGuiRLUJsbEy6/JOZ7JWI6gB/LbOJhxGkN+iNXTGEHcucOLEIPpl8OA5jBro8VkvRnk4gqWCdfOG+I/C8iGmoZ+lUVrB95GOLxRLMs1ZXivjG7p2lLhHvO/1Gsi17COfr6yo7YocVOCqVyA+bWb1m1UTxVTsFFqAytifbGOKs6ZO5RJJ81FpS6KPWIP68RvREQfoDiWPp1PPOg13ezdc5e3zSHt3GFMsjFUh7Qr+hlQD+N9FtQDdQsr3sMnqFrJXqz4TjzSzkJovDZeNmkoNqHrFUpBGDgw8B7KYM4PPuC/KTBFWGKzEkbtHhV/DTu4AU5ocmHQy3viZ4dLk5CyxIUCwmlyUIvqIgw8FVjcS/r7mh/+3V95QDrQIpiYiM3Xy0oChsKbJ7sG+95RDSiDERdSeFAnwf97+DCTHYO1a6gL4/auiwPk3wwODuGbU2E25p6sIn5AZ5hy3xWso6aHoJB5ao2NU6wWr8m9GGMYx2lLvEzJRzUyjidfJijOXm7Lqwrn4O53qN1GKY87KHmmtx8TlA5jrdXrToD+Jy246f3eTL4id18cGCg==
-X-Forefront-Antispam-Report: CIP:158.140.1.148;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sjmaillnx2.cadence.com;PTR:unknown.Cadence.COM;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(346002)(376002)(396003)(136003)(36092001)(451199018)(36840700001)(46966006)(40470700004)(356005)(40460700003)(8936002)(316002)(42186006)(1076003)(82310400005)(478600001)(6666004)(86362001)(36756003)(2906002)(4326008)(7416002)(8676002)(40480700001)(6916009)(5660300002)(107886003)(186003)(26005)(54906003)(426003)(47076005)(36860700001)(70586007)(70206006)(41300700001)(83380400001)(7636003)(2616005)(336012)(82740400003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: iHaaPLcz9ivsvUwRcwanZuEQ6C52Tf5lfHI6esv4QvIPrITdgoncEsn9CwNCWY07PcjD+NRVORpJ87/3NnN1FyXCAfcvmAB+azeVsRDngBmcFWxxgGPt9WgKtLoHCkz+0H37xy0SRi12O69M3xQ+E5aa4FsxKGCJcpYjghuClYrsxtr4A9P16UI2I1GnbPNnwVzkfK3kwz/cS8/olC7pqv9sMPN8vGgzEaRvsORhxejfsdMsShcKQdZW9XqPSGbq+GKIRSKV9GrlZYm1/43qyWrtsxkgMn3jSFF6saZxB9UH3FE+YFYdzwWPdmccKN5RyOEBp/GGG8moZHRDpJytIAx1ucksGdYybr6Sa49Z6zbvxdBBk5eUF5GNiljnoPBAesEUSpAEAhXIOFRbNoQ3E2Rlrx/7kClRYwFipb0GW7g6T5DNUcaZc92in4DiwZnY3x6Jz7Ynoi9Y8V620df06FwmnMuCYEMq1Dy64C7A4Bwynk3QYTkqRDD2cNgIl37YMVgeiB21+JnDUhpGvBLDIuB11TG6RS/J25DehjuSqu7gODfTEIzIF28UErbJSp5N9E7N/sjjeQyZNO+y93vBqtOkI/5npPPVJ3qxy3mhST+5eQhWB9swbQVm/E//K7/Z9CpXF4Y0GqfcaHzC+x0CBxidKM+8bnYbWiIGth6pnw085fBSmdMnLV963LDy6eldwva24aE4L928Lkav5e2Z0Q==
+X-Forefront-Antispam-Report: CIP:158.140.1.148;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sjmaillnx2.cadence.com;PTR:unknown.Cadence.COM;CAT:NONE;SFS:(13230025)(4636009)(376002)(39860400002)(396003)(346002)(136003)(36092001)(451199018)(46966006)(40470700004)(36840700001)(1076003)(6666004)(26005)(186003)(86362001)(82740400003)(356005)(426003)(47076005)(336012)(2616005)(107886003)(478600001)(41300700001)(4744005)(8676002)(4326008)(6916009)(5660300002)(7416002)(8936002)(36756003)(54906003)(316002)(42186006)(7636003)(36860700001)(2906002)(70206006)(70586007)(82310400005)(40480700001)(40460700003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 10:54:32.2214
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 10:54:31.7765
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1d39952-c004-49af-3c45-08db100c2f5a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8dd0d5e3-c960-4f60-8090-08db100c2f1d
 X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[158.140.1.148];Helo=[sjmaillnx2.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM12FT086.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM12FT027.eop-nam12.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR07MB5289
-X-Proofpoint-ORIG-GUID: p8mRslAbEeV6hLz3Ee2t1SQXhrXbvwG4
-X-Proofpoint-GUID: p8mRslAbEeV6hLz3Ee2t1SQXhrXbvwG4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR07MB7049
+X-Proofpoint-ORIG-GUID: xEf0dHsHS0bR-TQxzJuvOoU3NAgM5MF0
+X-Proofpoint-GUID: xEf0dHsHS0bR-TQxzJuvOoU3NAgM5MF0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
  definitions=2023-02-16_07,2023-02-16_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 bulkscore=0
  priorityscore=1501 phishscore=0 spamscore=0 lowpriorityscore=0
- clxscore=1011 mlxscore=0 suspectscore=0 impostorscore=0 mlxlogscore=288
+ clxscore=1015 mlxscore=0 suspectscore=0 impostorscore=0 mlxlogscore=750
  adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.12.0-2212070000 definitions=main-2302160092
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series introduce new Cadence USBHS peripheral driver to linux kernel.
+Patch adds entry for USBHS (CDNS2) driver into MAINTARNERS file
 
-The Cadence USBHS Controller is a highly configurable IP Core which
-can be instantiated as Peripheral which supports both full and high speed
-data transfer.
-
-The current driver has been validated with PCI based on FPGA platform.
-
-To simplyfiy reviewing the driver has been splited into 3 part:
-The patch 1: contains main header file.
-The patch 2: main part that implements whole driver functionality.
-The patch 3: adds to driver tracepoints.
-The patch 4: Adds USBSSP DRD IP driver entry to MAINTAINERS file.
+Signed-off-by: Pawel Laszczak <pawell@cadence.com>
 ---
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Pawel Laszczak (4):
-  usb: cdns2: Device side header file for CDNS2 driver
-  usb: cdns2: Add main part of Cadence USBHS driver
-  usb: cdns2: Add tracepoints for CDNS2 driver
-  MAINTAINERS: add Cadence USBHS driver entry
-
- MAINTAINERS                                 |    6 +
- drivers/usb/gadget/udc/Kconfig              |    2 +
- drivers/usb/gadget/udc/Makefile             |    1 +
- drivers/usb/gadget/udc/cdns2/Kconfig        |   11 +
- drivers/usb/gadget/udc/cdns2/Makefile       |    7 +
- drivers/usb/gadget/udc/cdns2/cdns2-debug.h  |  200 ++
- drivers/usb/gadget/udc/cdns2/cdns2-ep0.c    |  662 ++++++
- drivers/usb/gadget/udc/cdns2/cdns2-gadget.c | 2362 +++++++++++++++++++
- drivers/usb/gadget/udc/cdns2/cdns2-gadget.h |  670 ++++++
- drivers/usb/gadget/udc/cdns2/cdns2-pci.c    |  151 ++
- drivers/usb/gadget/udc/cdns2/cdns2-trace.c  |   11 +
- drivers/usb/gadget/udc/cdns2/cdns2-trace.h  |  609 +++++
- 12 files changed, 4692 insertions(+)
- create mode 100644 drivers/usb/gadget/udc/cdns2/Kconfig
- create mode 100644 drivers/usb/gadget/udc/cdns2/Makefile
- create mode 100644 drivers/usb/gadget/udc/cdns2/cdns2-debug.h
- create mode 100644 drivers/usb/gadget/udc/cdns2/cdns2-ep0.c
- create mode 100644 drivers/usb/gadget/udc/cdns2/cdns2-gadget.c
- create mode 100644 drivers/usb/gadget/udc/cdns2/cdns2-gadget.h
- create mode 100644 drivers/usb/gadget/udc/cdns2/cdns2-pci.c
- create mode 100644 drivers/usb/gadget/udc/cdns2/cdns2-trace.c
- create mode 100644 drivers/usb/gadget/udc/cdns2/cdns2-trace.h
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f76ca2808474..45ae3c375a2d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4502,6 +4502,12 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git
+ F:	drivers/usb/cdns3/
+ X:	drivers/usb/cdns3/cdns3*
+ 
++CADENCE USBHS DRIVER
++M:	Pawel Laszczak <pawell@cadence.com>
++L:	linux-usb@vger.kernel.org
++S:	Maintained
++F:	drivers/usb/gadget/udc/cdns2
++
+ CADET FM/AM RADIO RECEIVER DRIVER
+ M:	Hans Verkuil <hverkuil@xs4all.nl>
+ L:	linux-media@vger.kernel.org
 -- 
 2.25.1
 
