@@ -2,75 +2,97 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45F85C636D7
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Feb 2023 15:01:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A255C636D7
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Feb 2023 16:25:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234614AbjBUPBu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Feb 2023 10:01:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53000 "EHLO
+        id S233404AbjBUQZa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Feb 2023 11:25:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234604AbjBUPBo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Feb 2023 10:01:44 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B07E2B2BD
-        for <linux-usb@vger.kernel.org>; Tue, 21 Feb 2023 07:01:42 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id o4so4764812wrs.4
-        for <linux-usb@vger.kernel.org>; Tue, 21 Feb 2023 07:01:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:subject:to:from:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cdv8s9JUYzRc9Ts93pJpZXgCJYi7eEemnXjP/YIZMiM=;
-        b=ghgNJt/tqY7m/EqvwhSBN8tEuQ+i87zpDgW8251ZKFbbZ+Ot5KAikFRhCY9/6kwkqY
-         CSAYieNwA6YzhK0gUT8MNbyeimOMRhNZ5GnNepc0LEswXhFJcB30nQ5tIOCeDv9Wlhkl
-         z2tl1I2cmkG0t2zRJNE0MdYNSFRAp2h29JCKtKPbolVFEMQNvl8Zqd7bhQa0PzmnLIEQ
-         YcBOrqdiesbIfml3OB6LlqqgAhIif9IPtVyr+iWI3jDylIAKAonOW8zLhdOoQnTM6ANl
-         QNZr6aPoGM4BYOq4iCSYbVoiKHzVa15dTydT7spJCiq3MzBl1xu4lYrCGxM9M1mM33ql
-         az3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:subject:to:from:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Cdv8s9JUYzRc9Ts93pJpZXgCJYi7eEemnXjP/YIZMiM=;
-        b=ued1wSgBpRMMZfDZr4HR0M8a8YNeKRrXp5zmNxQB1n0N/rU1nEZcYUsBVOBPRMYYQ6
-         WHEz5V7iEbBYRzykc3/xciVAl8A+0kLyqQlvjxZxwiKGp7d7aDvkG7GZHMjqLLRMfzPi
-         P9+QLUDTgNHG1kTlqVLMvstjzBi/gB4LvhC9XikH6TZKME/+FrGj852jlLWl/LXMkuvO
-         s9naTrE4maVVVsdHfkgXdmfb9kH1yvtlYBzN/KjVdPe8dxELKqhQ4CLXmhE2mYPt8zIq
-         FI2tHvM/xe6Rh2KMaV+Yx0KuNcGLunGE4CkZL62fUePzsT+ZR7vR24ifeiQUmtyvTaMw
-         3iAA==
-X-Gm-Message-State: AO0yUKWE/fh+qebuz7tlLfmYPE+YNEdmsUiZ6sk889o4X1Jj3YaQkSJo
-        vBJfPhAN0354ZK/EK90OkAXjLVT48K4=
-X-Google-Smtp-Source: AK7set9HTYQ7EoEU0eWFCsoOg+8LGAUa5Yq6exMgkBfOif8l4U5NWioubIb3dSkQL85zb/oO4/hdnA==
-X-Received: by 2002:adf:f946:0:b0:2c5:617a:5023 with SMTP id q6-20020adff946000000b002c5617a5023mr4493461wrr.71.1676991701475;
-        Tue, 21 Feb 2023 07:01:41 -0800 (PST)
-Received: from DESKTOP-L1U6HLH ([39.42.138.70])
-        by smtp.gmail.com with ESMTPSA id n11-20020a5d51cb000000b002c5804b6afasm1676651wrv.67.2023.02.21.07.01.39
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Tue, 21 Feb 2023 07:01:40 -0800 (PST)
-Message-ID: <63f4dcd4.5d0a0220.34a63.50ce@mx.google.com>
-Date:   Tue, 21 Feb 2023 07:01:40 -0800 (PST)
-X-Google-Original-Date: 21 Feb 2023 10:01:41 -0500
+        with ESMTP id S229518AbjBUQZ2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Feb 2023 11:25:28 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9D83234CA
+        for <linux-usb@vger.kernel.org>; Tue, 21 Feb 2023 08:25:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676996727; x=1708532727;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=OfK8Yic/7rrDCeliaMqWojeK44Uzfdst2S0fe34f5nI=;
+  b=BUk7p55xxtfUMfvEss5ZMnBJwZ5DPbqL7kJvydG3S3Ngv80l5Q2EBi6C
+   uqMdJuxzxVEi0VdOPm6r3KSLzzwvnYtRVOJAdPy7k8q1VT/ssU2/QGTL6
+   nQ34dAjRtZVbitF0GXJ2F+hheKwXTtfIttnmn29gCP32o1A33BN5BxfNj
+   c9jMP2w+Nb7bNl0ZPZQcAAgPZjnf8ezAAEw5GgNBWpd2RLjjnXX3Y9JRB
+   E6FgQ/7/mhqWToU8wfmIG8GVpGPbTWMQhho1VAIHmLt7Z+hcOKuqSxObB
+   thdSxkpNR6juy1vVh370e6ZreaMlX4aXxHEgi3MGLhnNu5hx7vsnKBUee
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="334040403"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="334040403"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 08:25:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="1000662930"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="1000662930"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmsmga005.fm.intel.com with ESMTP; 21 Feb 2023 08:25:19 -0800
+Message-ID: <b13655bf-4a04-bece-71e4-698bfec83e2d@linux.intel.com>
+Date:   Tue, 21 Feb 2023 18:26:43 +0200
 MIME-Version: 1.0
-From:   trinii.dreamlandestimation@gmail.com
-To:     linux-usb@vger.kernel.org
-Subject: Building Estimates
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.7.1
+Content-Language: en-US
+To:     Seth Bollinger <seth.boll@gmail.com>, linux-usb@vger.kernel.org
+Cc:     sethb@digi.com
+References: <CA+JN8xMXu=sVQ2nyR9SgF25fquCZhH43wdsnuvfjDu+yGRv2yA@mail.gmail.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: HC died
+In-Reply-To: <CA+JN8xMXu=sVQ2nyR9SgF25fquCZhH43wdsnuvfjDu+yGRv2yA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,=0D=0A=0D=0AIn case you really want take-offs for a developmen=
-t project, we ought to be your consultancy of decision. Reach out=
- to us assuming that you have any undertakings for departure whic=
-h could utilize our administrations.=0D=0A=0D=0ASend over the pla=
-ns and notice the exact extent of work you need us to assess.=0D=0A=
-We will hit you up with a statement on our administration charges=
- and turnaround time.=0D=0AIn case you endorse that individual st=
-atement then we will continue further with the gauge.=0D=0A=0D=0A=
-For a superior comprehension of our work, go ahead and ask us que=
-stions .=0D=0A=0D=0AKind Regards=0D=0ATrinidad Pak	=0D=0ADreamlan=
-d Estimation, LLC
+On 17.2.2023 16.21, Seth Bollinger wrote:
+> Hello All,
+> 
+> We're experiencing a problem with our devices in the field where our
+> customers attach problematic USB devices that are causing the xhci
+> host controller to shut down with the "HC died; cleaning up" message.
+
+Is this seen only on some specific xHC host controller?
+
+> 
+> I've narrowed this down to a timeout of the address device TRB on the
+> command ring (currently 5 seconds).  It sometimes takes our hardware
+> 9.6 to complete this TRB.  When the driver is trying to stop the cmd
+> ring, the controller is busy for an additional 4.6 seconds.  This
+> results in the "HC died" message and shutdown of the host controller.
+> 
+> If I bump the command ring timeout beyond the max TRB completion time,
+> the host controller continues to be responsive and doesn't need to be
+> shut down.
+> 
+> My knowledge of how the usb protocol should handle this problem isn't
+> strong enough to know if there is a better solution than simply
+> increasing the command ring default timeout.
+
+Are these problematic devices USB 2 or USB 3 devices?
+
+You could try playing with the Address device command BSR (block set
+address request) flag and see if helps.
+Xhci has two ways to get a slot from the Enabled to the Addressed state.
+
+option 1: move slot from Enabled state to Addressed in one go:
+Enabled --(Addr dev cmd, BSR=0)--> Addressed
+
+option 2: move from Enabled state via Default state to Addressed state:
+Enabled --(Addr dev cmd, BSR=1)--> Default --(Addr dev cmd, BSR=0)--> Addressed
+
+I think the usb core "old_scheme_first" module parameter will end up doing this.
+
+-Mathias
 
