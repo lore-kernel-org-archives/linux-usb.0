@@ -2,43 +2,43 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB769C64ED8
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Feb 2023 21:08:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4A22C677F1
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Feb 2023 21:08:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbjBWVIM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Feb 2023 16:08:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48672 "EHLO
+        id S229663AbjBWVIP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Feb 2023 16:08:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229663AbjBWVIE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Feb 2023 16:08:04 -0500
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2073.outbound.protection.outlook.com [40.107.101.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24AD1158A2;
-        Thu, 23 Feb 2023 13:07:58 -0800 (PST)
+        with ESMTP id S229717AbjBWVIL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Feb 2023 16:08:11 -0500
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2061.outbound.protection.outlook.com [40.107.243.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E6415BBBF;
+        Thu, 23 Feb 2023 13:08:01 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nsQUnD82ril0vMdzpCBhLiupj0vOTdoGX95NSBEK7A/zcU+l7CD8+xvZwwEHbgoEYwMA3Enn+6QzNpxG92sjR4+rIAsxPMtj8r6WeJ3zi71UAUDTwdtOVt7SFE4IT1oJIoB1fmLlF8XNqJg8ZjVmtHi6oPyzOTCdm1CnSFvxDCVqV0EjalGRoeybFujQbzIOZl2MOWcGKSpBi/eDP43u2/rSI2LQsUeB0dBydR7FzD/jrfft8bWxHKLsSRHeR+q21XV/Y2CT4mClrJ6s842FCGcpBQvdGJGvWmjpcGV8vtHS3A8cdD2F8NsqhoPyi9NdbqlfueZwUUypFwk7WY8UuQ==
+ b=e+GrbWsoFg68oSTgjWI97qJ96PF/bJbjQ53YiTU948BCQQHNlC4Nrvtv8kGHiBPTm5UZ2WhIJPUTvp08A+TNhoHJjjMdXo9UGyEcW5K+5pG5TvSEDR+OLY0DZ1Fq+roCy+gw1EueLfTsu3pP3mcCdQg2D0t5Uf41GCsdAEx0FOfq+umqVye57rZAQ68iXzcRWXtD5obt/E1DqGdGCUlcNamV3qbUQiGvzs/sGiTBBAZkUbKthyihp2tna3ZhdJI50ilXXTqyaYFxeh0+LrBcrOZUqKmffj4b4oF3IzT54NasTNFkWVSowYzAv3thDzGEGxyK79zOFpk/qvcWKXm/rA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9You5mHFHJWIC9EAKj6Nmvq+xb9oPUCufVcykvBJ2h8=;
- b=VWztuVHwDsTx9HqSSv2sPZDn2+oeFUl8wla3imGJXtyORAzZstw+qKSs1NnVzJP0vp0ntILKbsXyIVhrsXdu6GgyLnZQrCum5FSCBBJgKvLH/o9AB/8kb6JQZyufbkamGTLWgMsgveQvIFnqQyC/dvLgypwbFqXad3l/M7yN/1o5ilSRSd1OdozG/Sc8ZMg08XoDYGlnCntAnWGJ0Qd1kpfzmOy5JRb8m/eT2qjzPv0MiRi/kFv5fyepOez/D+HjC5s+OUojGuVb81gxvpsI9TbsXSABO4iN0y3FlSwNtUfHogQI5BysbMifIF0wFf+mlFc8LkoiTdO9dLt35qdF8A==
+ bh=BOmldiO5IixD7ffouzN+S2oyW7fiGjGbVzWBGYRop18=;
+ b=LZrUcGIy6sp5UQeJnPVngK9BFdXbiWKIIv83g3sx6cRx9K2yIdUbtjyiKDztW1EtQYA3ck5oVR1M27kyNGU6n/eQYE+RO4GyETGu/EOdUIolN1WjVvBoZrmZFLgZ8dzIv0xLwH31HF6P7gh2Bz50gf0n3Lp5OfHDTvsDd5pQlnvZICZoS3u/DCwa9kMDmyc4fUa4TXlcfpIQm2EXqDGp88ROpT9kgQOgT/+L/f2Ibtp7EisgRgi2f3hQk+GY3U2T4Kel1jFo8NqqhU88lskXMyJPN6adUPim/djuwFlAKwVnl5vdnNYC+QYxZJ1Wsyq3UOsNM0UG118EeNkiiPN3Rw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9You5mHFHJWIC9EAKj6Nmvq+xb9oPUCufVcykvBJ2h8=;
- b=tuz8Hm4zta9/0gzBjEGWjcGtoyFjiF7jKN57sTXz++M8QAPUfL3hkCQiJmkHFE2mQtFojJDIsMFJPexJEw/KoMyVJxX2WyQM1RtGy2AGvsr54Jxm/V/2rj2Hu03OxT44ry/s6fePXLD8StBRwZC91DJ4nzc+FvaihGHMAkUUkhI=
-Received: from MW4PR04CA0110.namprd04.prod.outlook.com (2603:10b6:303:83::25)
- by SJ1PR12MB6290.namprd12.prod.outlook.com (2603:10b6:a03:457::22) with
+ bh=BOmldiO5IixD7ffouzN+S2oyW7fiGjGbVzWBGYRop18=;
+ b=gbGS+PnYwsO6ldMi6RLWtOcpR2mPLQ0W8McYF6fc3Fjxg/t0PXdTvA2/JR7eLFvoNjMZdmCYtwE2i8Gs9hJ9MIFcbcMQ+QBJkics4lgA686ZuhCC5RA8z42jk6SKiI5nhM0mprkcEqF4Dou8jA+zkY6K3F6B5ND9jhU5whDwgEQ=
+Received: from MW4PR04CA0159.namprd04.prod.outlook.com (2603:10b6:303:85::14)
+ by PH0PR12MB7791.namprd12.prod.outlook.com (2603:10b6:510:280::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.21; Thu, 23 Feb
- 2023 21:07:55 +0000
-Received: from CO1NAM11FT042.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:83:cafe::e) by MW4PR04CA0110.outlook.office365.com
- (2603:10b6:303:83::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.19; Thu, 23 Feb
+ 2023 21:07:59 +0000
+Received: from CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:85:cafe::d1) by MW4PR04CA0159.outlook.office365.com
+ (2603:10b6:303:85::14) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.21 via Frontend
- Transport; Thu, 23 Feb 2023 21:07:55 +0000
+ Transport; Thu, 23 Feb 2023 21:07:58 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,22 +46,27 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT042.mail.protection.outlook.com (10.13.174.250) with Microsoft SMTP
+ CO1NAM11FT059.mail.protection.outlook.com (10.13.174.160) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6134.24 via Frontend Transport; Thu, 23 Feb 2023 21:07:55 +0000
+ 15.20.6134.21 via Frontend Transport; Thu, 23 Feb 2023 21:07:58 +0000
 Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 23 Feb
- 2023 15:07:54 -0600
+ 2023 15:07:57 -0600
 From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     <mika.westerberg@linux.intel.com>, <linux-usb@vger.kernel.org>
+To:     <mika.westerberg@linux.intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        "Yehezkel Bernat" <YehezkelShB@gmail.com>
 CC:     <Sanju.Mehta@amd.com>,
         Mario Limonciello <mario.limonciello@amd.com>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 0/3] Fix problems fetching TBT3 DROM from AMD USB4 routers
-Date:   Thu, 23 Feb 2023 15:07:40 -0600
-Message-ID: <20230223210743.9819-1-mario.limonciello@amd.com>
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 3/3] thunderbolt: Refactor DROM reading
+Date:   Thu, 23 Feb 2023 15:07:43 -0600
+Message-ID: <20230223210743.9819-4-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230223210743.9819-1-mario.limonciello@amd.com>
+References: <20230223210743.9819-1-mario.limonciello@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -70,58 +75,333 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT042:EE_|SJ1PR12MB6290:EE_
-X-MS-Office365-Filtering-Correlation-Id: 117c3b92-18dc-4fde-cb50-08db15e2089e
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT059:EE_|PH0PR12MB7791:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5c694fce-e2fd-405c-8a8a-08db15e20aba
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: V8DrVc9XYB4OKlYbtl9urPUgfRtlJQfWWEbuZqrLY5AMthE8ETBnfjQaC5bgI/mYEifqGmEYTVLrKXEW17H9VVeRi0MopG1TGKIREqeeOldPduKNq6mu9x9TLhqPgPBtR9BxJvMjtN1oiThPg8upymlu+ssxm2XLBAu8+zVcioMt64jaIs+w79n7IvQwzxz+O139BUNeALkFkZBBefs0VSVlDFSrHScieLMcvOy/XFDGR1jMa/6BtIWGhoc0OayElJMBv6Ycp8tPYUpto4NEYJLgbUdffLQND+KuIUDfZfXk/+0dGOJ5XXMKJTx4MmE6a+H4bL6nL9a32xKOSJxbXGpxnLWW0i508fDGeyML8VpfEfRCmVuB7TOhzTvYy/mrPvWyW3uKgj0n1bcRU9+SCoiKl33YbqvvCcVTmV9YMAMEXa3hYIM4RQS2/5AmeH84H2FoBy4CTS8lEeR350Pp3w8Q5lPs0G7oQO52c+GXLMjWNd1QpbUP2cdbXBBP67w1JYsmLr107d7gnmvPP7XrdRCiF3qdn+oN+ZmM7vVn/xEZ+lrMCNzgPaCLpkVY4cmM9RzhkFjqbBWf7YDk4eC46gJEkx6zqQibfQPlRaRX0rGwaVo6hg/NCONQuLFKJXskHL7bBAPCz+j0MNsAmo33vgf06cRRC2fJSw/YfJrW/Phw+JYTxIhjBdB9T1dqJhqB/bPPu/3WfetBxdXgyPOeKgS+rNGlkDIJuAteH/83sp4=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(346002)(39860400002)(136003)(396003)(376002)(451199018)(40470700004)(46966006)(36840700001)(82740400003)(2906002)(186003)(1076003)(26005)(16526019)(6666004)(40480700001)(478600001)(86362001)(356005)(426003)(336012)(66574015)(2616005)(47076005)(110136005)(36860700001)(54906003)(82310400005)(7696005)(40460700003)(36756003)(81166007)(83380400001)(8936002)(316002)(5660300002)(4326008)(70206006)(70586007)(8676002)(41300700001)(44832011)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: BP7ouDPH5nJ5iQYSZ9FvP5bFKplqzvkDOEAc9NVVch8q851Jowmcildxgyw6ewTEVlpkh8ud2X+hRtfsmbB7GyoV+nQumPxYXo/9FjXtCBTVQjhi3sLHw9aaWrBV1liXKqSankawfiYbSKkt7c+PWNjoneiOkoFavaHJX9JbFWJSJDCXUIsRai5/1qIDcI5uiSoMYqY3IbAat7tlnSFQPCrQY9eH8SQDuEQujEJD6ef1GapxV4y3sWKr6vIlOmT3bMreHXEqXAJmhjXulXQ30MVfKgGFFQyGdZXe/nAT5TXtkSXispVt5KBswswhh4BNyoJC5kagY3qg47g653dABo88rfBNCMNyTzMQ7YRgFLZFDTvNW+g6+MJjH296aAxYA2rxTDbya2Uc+KI046JsW8XKwsHJTWP+qgLY1FAIAzzLuAXSD8bb26Z9qH8tECVSpYrlyx2YESYyr+yyDRK7yPHoJ9s07kP8tBRzqrUMwsLnyEOQSj8SpX6jg6MFRS+FZdAnYfsRjMIJtF8XfELPlbkmVRN5msTccG2P6OZcmkik+zYW133QXLdTuv+VV1qpJWZFeLEMgWNllkcxQQz0l9hG0DD4SJN99MtNJYwm8KrqRf3sFt1gAu6ENf+uHSqoKb9FbKvvNDXp5tfdUW9q0WDCbhhTPl4QCb293GTe0vvBjbdqWLQ1ciOWhFpmzwP3YjwJuIzbYeVBnvOV+ueM14YLEGapBiWiUUKBe3hILv8=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(376002)(39860400002)(136003)(346002)(396003)(451199018)(46966006)(36840700001)(40470700004)(186003)(26005)(16526019)(8676002)(8936002)(5660300002)(70206006)(40480700001)(4326008)(1076003)(83380400001)(70586007)(6666004)(2616005)(36756003)(7696005)(336012)(66574015)(47076005)(40460700003)(426003)(478600001)(316002)(356005)(110136005)(41300700001)(54906003)(86362001)(44832011)(82740400003)(81166007)(82310400005)(36860700001)(2906002)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 21:07:55.2911
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 21:07:58.8440
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 117c3b92-18dc-4fde-cb50-08db15e2089e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c694fce-e2fd-405c-8a8a-08db15e20aba
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT042.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6290
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7791
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-TBT3 devices when connected to an AMD USB4 router occasionally fail to
-properly respond to requests for the DROM via bit banging.
+The NVM reading code has a series of gotos that potentially introduce
+unexpected behaviors with retries if something unexpected has failed
+to parse.
 
-Depending upon which part of the request failed will impact the severity.
-A number of workarounds have been put in place to let the driver handle
-the failed requests:
+Additionally the retry logic introduced in commit f022ff7bf377
+("thunderbolt: Retry DROM read once if parsing fails") was added from
+failures in bit banging, which aren't expected to be present when the
+DROM is fetched directly from the NVM.
 
-commit e87491a9fd4e3 ("thunderbolt: Retry DROM reads for more failure scenarios")
-commit a283de3ec646f ("thunderbolt: Do not resume routers if UID is not set")
-commit 6915812bbd109 ("thunderbolt: Do not make DROM read success compulsory")
-commit f022ff7bf377 ("thunderbolt: Retry DROM read once if parsing fails")
+Refactor the code to remove the gotos and drop the retry logic.
 
-Still even with these changes the failures do make it through. In comparing
-other CM implementations utilized on AMD systems, they all access the
-DROM directly from the NVM.
-
-To avoid triggering this issue, try to get the DROM directly from the NVM
-in Linux as well when devices have an LC.
-
-v4:
- * Style fixups
- * Fixup for wrong path for USB4 devices
-
-Mario Limonciello (3):
-  thunderbolt: Adjust how NVM reading works
-  thunderbolt: use `tb_eeprom_get_drom_offset` to discover DROM offset
-  thunderbolt: Refactor DROM reading
-
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+v3->v4:
+ * style fixups
+ * rebase on earlier patch
+ * split out root switch case
+---
  drivers/thunderbolt/eeprom.c | 219 +++++++++++++++++++----------------
- 1 file changed, 122 insertions(+), 97 deletions(-)
+ 1 file changed, 120 insertions(+), 99 deletions(-)
 
+diff --git a/drivers/thunderbolt/eeprom.c b/drivers/thunderbolt/eeprom.c
+index 873fa4300507..1f7f2d8c453d 100644
+--- a/drivers/thunderbolt/eeprom.c
++++ b/drivers/thunderbolt/eeprom.c
+@@ -416,7 +416,7 @@ static int tb_drom_parse_entries(struct tb_switch *sw, size_t header_size)
+ 		if (pos + 1 == drom_size || pos + entry->len > drom_size
+ 				|| !entry->len) {
+ 			tb_sw_warn(sw, "DROM buffer overrun\n");
+-			return -EILSEQ;
++			return -EIO;
+ 		}
+ 
+ 		switch (entry->type) {
+@@ -512,7 +512,7 @@ static int tb_drom_copy_nvm(struct tb_switch *sw, u16 *size)
+ 	return ret;
+ }
+ 
+-static int usb4_copy_host_drom(struct tb_switch *sw, u16 *size)
++static int usb4_copy_drom(struct tb_switch *sw, u16 *size)
+ {
+ 	int ret;
+ 
+@@ -535,15 +535,40 @@ static int usb4_copy_host_drom(struct tb_switch *sw, u16 *size)
+ 	return ret;
+ }
+ 
+-static int tb_drom_read_n(struct tb_switch *sw, u16 offset, u8 *val,
+-			  size_t count)
++static int tb_drom_bit_bang(struct tb_switch *sw, u16 *size)
+ {
+-	if (tb_switch_is_usb4(sw))
+-		return usb4_switch_drom_read(sw, offset, val, count);
+-	return tb_eeprom_read_n(sw, offset, val, count);
++	int ret;
++
++	ret = tb_eeprom_read_n(sw, 14, (u8 *) size, 2);
++	if (ret)
++		return ret;
++
++	*size &= 0x3ff;
++	*size += TB_DROM_DATA_START;
++
++	tb_sw_dbg(sw, "reading DROM (length: %#x)\n", *size);
++	if (*size < sizeof(struct tb_drom_header)) {
++		tb_sw_warn(sw, "DROM too small, aborting\n");
++		return -EIO;
++	}
++
++	sw->drom = kzalloc(*size, GFP_KERNEL);
++	if (!sw->drom)
++		return -ENOMEM;
++
++	ret = tb_eeprom_read_n(sw, 0, sw->drom, *size);
++	if (ret)
++		goto err;
++
++	return 0;
++
++err:
++	kfree(sw->drom);
++	sw->drom = NULL;
++	return ret;
+ }
+ 
+-static int tb_drom_parse(struct tb_switch *sw)
++static int tb_drom_parse_v1(struct tb_switch *sw)
+ {
+ 	const struct tb_drom_header *header =
+ 		(const struct tb_drom_header *)sw->drom;
+@@ -554,7 +579,7 @@ static int tb_drom_parse(struct tb_switch *sw)
+ 		tb_sw_warn(sw,
+ 			"DROM UID CRC8 mismatch (expected: %#x, got: %#x)\n",
+ 			header->uid_crc8, crc);
+-		return -EILSEQ;
++		return -EIO;
+ 	}
+ 	if (!sw->uid)
+ 		sw->uid = header->uid;
+@@ -588,90 +613,14 @@ static int usb4_drom_parse(struct tb_switch *sw)
+ 	return tb_drom_parse_entries(sw, USB4_DROM_HEADER_SIZE);
+ }
+ 
+-/**
+- * tb_drom_read() - Copy DROM to sw->drom and parse it
+- * @sw: Router whose DROM to read and parse
+- *
+- * This function reads router DROM and if successful parses the entries and
+- * populates the fields in @sw accordingly. Can be called for any router
+- * generation.
+- *
+- * Returns %0 in case of success and negative errno otherwise.
+- */
+-int tb_drom_read(struct tb_switch *sw)
++static int tb_drom_parse(struct tb_switch *sw, u16 *size)
+ {
+-	u16 size;
+-	struct tb_drom_header *header;
+-	int res, retries = 1;
+-
+-	if (sw->drom)
+-		return 0;
+-
+-	if (tb_route(sw) == 0) {
+-		/*
+-		 * Apple's NHI EFI driver supplies a DROM for the root switch
+-		 * in a device property. Use it if available.
+-		 */
+-		if (tb_drom_copy_efi(sw, &size) == 0)
+-			goto parse;
+-
+-		/* Non-Apple hardware has the DROM as part of NVM */
+-		if (tb_drom_copy_nvm(sw, &size) == 0)
+-			goto parse;
+-
+-		/*
+-		 * USB4 hosts may support reading DROM through router
+-		 * operations.
+-		 */
+-		if (tb_switch_is_usb4(sw)) {
+-			usb4_switch_read_uid(sw, &sw->uid);
+-			if (!usb4_copy_host_drom(sw, &size))
+-				goto parse;
+-		} else {
+-			/*
+-			 * The root switch contains only a dummy drom
+-			 * (header only, no entries). Hardcode the
+-			 * configuration here.
+-			 */
+-			tb_drom_read_uid_only(sw, &sw->uid);
+-		}
+-
+-		return 0;
+-	}
+-
+-	/* We can use LC to get UUID later */
+-	if (sw->cap_lc && !tb_switch_is_usb4(sw) &&
+-	    tb_drom_copy_nvm(sw, &size) == 0)
+-		goto parse;
+-
+-	res = tb_drom_read_n(sw, 14, (u8 *) &size, 2);
+-	if (res)
+-		return res;
+-	size &= 0x3ff;
+-	size += TB_DROM_DATA_START;
+-	tb_sw_dbg(sw, "reading drom (length: %#x)\n", size);
+-	if (size < sizeof(*header)) {
+-		tb_sw_warn(sw, "drom too small, aborting\n");
+-		return -EIO;
+-	}
+-
+-	sw->drom = kzalloc(size, GFP_KERNEL);
+-	if (!sw->drom)
+-		return -ENOMEM;
+-read:
+-	res = tb_drom_read_n(sw, 0, sw->drom, size);
+-	if (res)
+-		goto err;
+-
+-parse:
+-	header = (void *) sw->drom;
++	struct tb_drom_header *header = (void *) sw->drom;
++	int ret;
+ 
+-	if (header->data_len + TB_DROM_DATA_START != size) {
++	if (header->data_len + TB_DROM_DATA_START != *size) {
+ 		tb_sw_warn(sw, "drom size mismatch\n");
+-		if (retries--) {
+-			msleep(100);
+-			goto read;
+-		}
++		ret = -EIO;
+ 		goto err;
+ 	}
+ 
+@@ -679,29 +628,101 @@ int tb_drom_read(struct tb_switch *sw)
+ 
+ 	switch (header->device_rom_revision) {
+ 	case 3:
+-		res = usb4_drom_parse(sw);
++		ret = usb4_drom_parse(sw);
+ 		break;
+ 	default:
+ 		tb_sw_warn(sw, "DROM device_rom_revision %#x unknown\n",
+ 			   header->device_rom_revision);
+ 		fallthrough;
+ 	case 1:
+-		res = tb_drom_parse(sw);
++		ret = tb_drom_parse_v1(sw);
+ 		break;
+ 	}
+ 
+-	/* If the DROM parsing fails, wait a moment and retry once */
+-	if (res == -EILSEQ && retries--) {
++	if (ret) {
+ 		tb_sw_warn(sw, "parsing DROM failed\n");
+-		msleep(100);
+-		goto read;
++		goto err;
+ 	}
+ 
+-	if (!res)
+-		return 0;
++	return 0;
+ 
+ err:
+ 	kfree(sw->drom);
+ 	sw->drom = NULL;
+-	return -EIO;
++
++	return ret;
++}
++
++/**
++ * tb_drom_handle_root() - Handle reading DROM from a root switch
++ * @sw: Router whose DROM to read and parse
++ *
++ * First determine if the switch is USB4.  If so, then use USB4
++ * router operations.
++ *
++ * If the switch is not USB4, first try to read from EFI, as Apple's
++ * NHI supplies a DROM for the root switch in a device property.
++ *
++ * If this doesn't work, then try to get it from the NVM directly
++ * without using any bit banging operations.
++ *
++ * If none of those pass, then read just the UID as the root
++ * switch contains a dummy DROM with a header but no entries.
++ *
++ * Returns %0 in case of success and negative errno otherwise.
++ */
++static int tb_drom_handle_root(struct tb_switch *sw)
++{
++	u16 size;
++
++	if (tb_switch_is_usb4(sw)) {
++		usb4_switch_read_uid(sw, &sw->uid);
++		if (usb4_copy_drom(sw, &size) == 0)
++			return tb_drom_parse(sw, &size);
++	} else {
++		if (tb_drom_copy_efi(sw, &size) == 0)
++			return tb_drom_parse(sw, &size);
++
++		if (tb_drom_copy_nvm(sw, &size) == 0)
++			return tb_drom_parse(sw, &size);
++
++		tb_drom_read_uid_only(sw, &sw->uid);
++	}
++
++	return 0;
++}
++
++/**
++ * tb_drom_read() - Copy DROM to sw->drom and parse it
++ * @sw: Router whose DROM to read and parse
++ *
++ * This function reads router DROM and if successful parses the entries and
++ * populates the fields in @sw accordingly. Can be called for any router
++ * generation.
++ *
++ * Returns %0 in case of success and negative errno otherwise.
++ */
++int tb_drom_read(struct tb_switch *sw)
++{
++	u16 size;
++	int ret;
++
++	if (sw->drom)
++		return 0;
++
++	if (tb_route(sw) == 0)
++		return tb_drom_handle_root(sw);
++
++	if (tb_switch_is_usb4(sw)) {
++		usb4_switch_read_uid(sw, &sw->uid);
++		ret = usb4_copy_drom(sw, &size);
++	} else if (sw->cap_lc) {
++		/* We can use LC to get UUID later */
++		ret = tb_drom_copy_nvm(sw, &size);
++	} else
++		ret = tb_drom_bit_bang(sw, &size);
++	if (ret)
++		return ret;
++
++	return tb_drom_parse(sw, &size);
+ }
 -- 
 2.34.1
 
