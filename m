@@ -2,110 +2,109 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47EE7C61DA3
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Feb 2023 13:13:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F667C61DA3
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Feb 2023 13:16:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230204AbjBXNNH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Feb 2023 08:13:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45542 "EHLO
+        id S229923AbjBXNQT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Feb 2023 08:16:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjBXNNG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Feb 2023 08:13:06 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A8F2199FA;
-        Fri, 24 Feb 2023 05:13:05 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2D993B81C6F;
-        Fri, 24 Feb 2023 13:13:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D922C433EF;
-        Fri, 24 Feb 2023 13:13:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1677244383;
-        bh=mG36bU4HRnZNnnvahSyDHn/Pw5W7wth7kX6CTTdC3n0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mGTT4X3eHCFP3FmBsxX2wattDg/ddNy78hLdjB3Nkwwe5vlf0JhB7DH/mSVsKDeu9
-         IlpNkwfUhPmLKYAdS+eA4stp+CQRV9R7U1Q3L8sjHeTDS0Ktot8gG6x+yQK53D901c
-         bfHttiiVGDEE65+HPznWbB/kLIxP3SmdsXxFwhnA=
-Date:   Fri, 24 Feb 2023 14:13:00 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     void0red <void0red@gmail.com>
-Cc:     mudongliangabcd@gmail.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, eriri <1527030098@qq.com>
-Subject: Re: [PATCH] usb: gadget: udc: replace kzalloc with devm_kzalloc in
- mv_udc_probe and add a check for this allocation.
-Message-ID: <Y/i33HL2e9UwUpd8@kroah.com>
-References: <CAD-N9QX5i5toj8cs7DxBjYWtRGf3ZRnfTAf809sFW6iX0Ktfmw@mail.gmail.com>
- <20230224130235.4028566-1-void0red@gmail.com>
+        with ESMTP id S229446AbjBXNQS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Feb 2023 08:16:18 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6806365305
+        for <linux-usb@vger.kernel.org>; Fri, 24 Feb 2023 05:16:17 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id x20-20020a17090a8a9400b00233ba727724so6218209pjn.1
+        for <linux-usb@vger.kernel.org>; Fri, 24 Feb 2023 05:16:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hCTMcjMsJ61jx/KrUj4nZMHZDl6gfTyHor+Zyf1EnCY=;
+        b=h2f0aCxg/HWG4Trq+slq77F4sATq/wu3atQSbBUBMo2GNbtTeQ1Tydhxo7i8pcwiIt
+         +kcSCrNTBv8V3R/1Yu8T+f0wyTXYBI+Dp2qHZtjAzkXJx+B4GePdwwRZAQzu8+B/tlQO
+         PILGTzNOPHCDlCjdcAuRwkSJBo9bK1kD7u1fMF96vA+cKfwaMeAn9nfZeN4OT71eDvvI
+         /5z7oI3wRE7E0H7c++Hox4lbQBflihFq0Dyci35juwFL3Dz9fUIAM6hqfPuo73y/nMhw
+         W7gZ5cqd2lisW+TQadoriE3b0sgSFgxqoHsGrEzj6rEZcLkDD3zEsaZuxFMArhpxMs94
+         XHXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hCTMcjMsJ61jx/KrUj4nZMHZDl6gfTyHor+Zyf1EnCY=;
+        b=JTAkg/wNxt+56d/kmWE5aMYLM4x20QEUVqOsuA7VIhYg/tBEK2KgTBGCCCFhCV86DN
+         uzKOav3sIGfrQCgYpNxQH7kM7QcJXKdWk3NDK/sW+HhypmB0P9hp5IKuAU4rwIuurPKP
+         y/K0rp78f/qVn7W2aFnknhAboVUbQcyZhFunlB/qGfhO7MT8WJONf4b/4w16fTd2rugL
+         3DZoypHMZssXJ7YABxl4Zwjc3+p9dT1i0mwfyh5sR5CBRfm7MA7I+ISMwA0ZBwUm5BC7
+         mBE/zJmDiXpXdcoS1953E/fKL/klYKIq1KIfxmHXWIlKF3ulENb+DKy3eUx65apiIPAT
+         ld1A==
+X-Gm-Message-State: AO0yUKXjDLxQxUYmJPBYEj93BaiqYyWm3a/d+qjVT/nG04adQAyj6aL8
+        r7jRcfbEzQjQZonmG+9Jqbrjwb5w9P5PQ66xi64HRtRopao=
+X-Google-Smtp-Source: AK7set8W/6KfrhnT+HDg18RfHYyFssGzOUEUUOJ/10vyeGZGQkgZ9ierBBLt5jCtdfNBrdlGpNnsrynRCHvuYzF+0PY=
+X-Received: by 2002:a17:903:4285:b0:199:1afc:16ad with SMTP id
+ ju5-20020a170903428500b001991afc16admr2887555plb.5.1677244576893; Fri, 24 Feb
+ 2023 05:16:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230224130235.4028566-1-void0red@gmail.com>
+References: <CA+JN8xMXu=sVQ2nyR9SgF25fquCZhH43wdsnuvfjDu+yGRv2yA@mail.gmail.com>
+ <b13655bf-4a04-bece-71e4-698bfec83e2d@linux.intel.com> <CA+JN8xOOyU8yLJrxnKPwAMhQFKE70rTi=aLa3Adt7Og4dfPRVg@mail.gmail.com>
+ <Y/eKwvQAihZYKUos@rowland.harvard.edu> <CA+JN8xOWzo8ugtzyrAeSB5wN7XSxXs1-69kTZyJ-ZSPLTvFx-A@mail.gmail.com>
+ <39df1d39-f1f9-ce69-64b8-981b19731d30@linux.intel.com>
+In-Reply-To: <39df1d39-f1f9-ce69-64b8-981b19731d30@linux.intel.com>
+From:   Seth Bollinger <seth.boll@gmail.com>
+Date:   Fri, 24 Feb 2023 07:16:05 -0600
+Message-ID: <CA+JN8xPjqCaHLvh5v9y3pFC0DxNWjBj-3jF0DJ=B1YSddvYGNg@mail.gmail.com>
+Subject: Re: HC died
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
+        sethb@digi.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Feb 24, 2023 at 09:02:35PM +0800, void0red wrote:
-> From: Kang Chen <void0red@gmail.com>
-> 
-> This driver uses the unified memory management api, so replace
-> kzalloc with devm_kzalloc to avoid a memory leak and add a check
-> for this allocation.
-> 
-> Reported-by: eriri <1527030098@qq.com>
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217081
-> 
-> Signed-off-by: Kang Chen <void0red@gmail.com>
-> ---
->  drivers/usb/gadget/udc/mv_udc_core.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/gadget/udc/mv_udc_core.c b/drivers/usb/gadget/udc/mv_udc_core.c
-> index b397f3a84..08474c08d 100644
-> --- a/drivers/usb/gadget/udc/mv_udc_core.c
-> +++ b/drivers/usb/gadget/udc/mv_udc_core.c
-> @@ -2229,7 +2229,11 @@ static int mv_udc_probe(struct platform_device *pdev)
->  	INIT_LIST_HEAD(&udc->status_req->queue);
->  
->  	/* allocate a small amount of memory to get valid address */
-> -	udc->status_req->req.buf = kzalloc(8, GFP_KERNEL);
-> +	udc->status_req->req.buf = devm_kzalloc(&pdev->dev, 8, GFP_KERNEL);
-> +	if (!udc->status_req->req.buf) {
-> +		retval = -ENOMEM;
-> +		goto err_destroy_dma;
-> +	}
->  	udc->status_req->req.dma = DMA_ADDR_INVALID;
->  
->  	udc->resume_state = USB_STATE_NOTATTACHED;
-> -- 
-> 2.34.1
-> 
+> xhci driver does exactly this, but fails to stop the command ring while
+> trying to abort the command TRB.
+>
+> Does increasing the timeout for stopping command ring help?
+>
+> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+> index f5b0e1ce22af..6cecbca34cca 100644
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+> @@ -397,7 +397,7 @@ static int xhci_abort_cmd_ring(struct xhci_hcd *xhci, unsigned long flags)
+>           * and try to recover a -ETIMEDOUT with a host controller reset.
+>           */
+>          ret = xhci_handshake(&xhci->op_regs->cmd_ring,
+> -                       CMD_RING_RUNNING, 0, 5 * 1000 * 1000);
+> +                       CMD_RING_RUNNING, 0, 10 * 1000 * 1000);
+>          if (ret < 0) {
+>                  xhci_err(xhci, "Abort failed to stop command ring: %d\n", ret);
+>                  xhci_halt(xhci);
 
-Hi,
+Well, for us it doesn't really help as it still ends the life of the
+HC, but it doesn't solve the issue either (you can see the 10 second
+timeout here).
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Feb 24 13:11:53 AW24-002133 kernel: usb 3-2.4: new full-speed USB
+device number 16 using xhci_hcd
+Feb 24 13:12:08 AW24-002133 kernel: xhci_hcd 0002:01:00.0: Abort
+failed to stop command ring: -110
+Feb 24 13:12:08 AW24-002133 kernel: xhci_hcd 0002:01:00.0: xHCI host
+controller not responding, assume dead
+Feb 24 13:12:08 AW24-002133 kernel: xhci_hcd 0002:01:00.0: HC died; cleaning up
+Feb 24 13:12:08 AW24-002133 kernel: xhci_hcd 0002:01:00.0: Timeout
+while waiting for setup device command
+Feb 24 13:12:08 AW24-002133 kernel: usb 3-1: USB disconnect, device number 2
+Feb 24 13:12:08 AW24-002133 kernel: usb 4-1: USB disconnect, device number 2
+Feb 24 13:12:08 AW24-002133 kernel: usb 4-2: USB disconnect, device number 3
+Feb 24 13:12:08 AW24-002133 kernel: usb 3-2: USB disconnect, device number 3
+Feb 24 13:12:09 AW24-002133 kernel: usb 3-2.4: device not accepting
+address 16, error -108
+Feb 24 13:12:09 AW24-002133 kernel: usb 3-2-port4: couldn't allocate usb_device
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Also 10 seconds with interrupts disabled causes its own problems (5
+seconds is an eternity with interrupts off in itself...).
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+> Thanks
+> -Mathias
