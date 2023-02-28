@@ -2,48 +2,51 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63293C7EE31
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Feb 2023 09:04:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 513E8C64ED6
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Feb 2023 09:04:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230193AbjB1JD7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 28 Feb 2023 04:03:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45324 "EHLO
+        id S230172AbjB1JEA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 28 Feb 2023 04:04:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbjB1JD6 (ORCPT
+        with ESMTP id S230164AbjB1JD6 (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Feb 2023 04:03:58 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF86D93D0
-        for <linux-usb@vger.kernel.org>; Tue, 28 Feb 2023 01:03:12 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87C1FA27E
+        for <linux-usb@vger.kernel.org>; Tue, 28 Feb 2023 01:03:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677574991;
+        s=mimecast20190719; t=1677574993;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=3lDVx5EyW8EHBxlsNXvmLaT5gVCmKjh9/OEv2HDjKPY=;
-        b=aQ8IpkXi03j0nS7Qn5KpNqlxn4aLl5bmRSTfd9t21RxU2RryBxEkcAHIk/WjphBRUL1BM1
-        Zk6VC+smhF6R1foVjfBVSpFgnkrJ+GxPpusuyQB0HAjt6OgiO3s/7/U30uQPpmSwek9oZ6
-        xIG2NEdJKtptvuCjWPnZg1JpDbstGj4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dugI5ah/rpmEloFzsd7SNav7KkzrRZ4JKHEJqiV00wk=;
+        b=WS07IS7leAMcN/9eE7s5aBf7qW4ICjZnN6kQNWyrOVkQSlSsMM3XwQ5SYDOH6/d7tAPHJn
+        r8fqcxnXVgpinmXlGJvlfS+lT9HO84qn48ZZlJA9uBUeKJC8Oh+CCOuj6f40x+4vuDAraw
+        GR8byTqV1G17TssuZvbKC7SmIPCUZ8s=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-rIhp-ksvMx6URfrbFAg2xw-1; Tue, 28 Feb 2023 04:03:07 -0500
-X-MC-Unique: rIhp-ksvMx6URfrbFAg2xw-1
+ us-mta-492-GWoRfH_vOgaRt3xM7_AtJA-1; Tue, 28 Feb 2023 04:03:09 -0500
+X-MC-Unique: GWoRfH_vOgaRt3xM7_AtJA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 674A385D063;
-        Tue, 28 Feb 2023 09:03:07 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6780E382888E;
+        Tue, 28 Feb 2023 09:03:09 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.194.124])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 79D90492B0E;
-        Tue, 28 Feb 2023 09:03:06 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A4726492B0E;
+        Tue, 28 Feb 2023 09:03:08 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org,
         stable@vger.kernel.org
-Subject: [PATCH 1/3] usb: ucsi: Fix NULL pointer deref in ucsi_connector_change()
-Date:   Tue, 28 Feb 2023 10:03:03 +0100
-Message-Id: <20230228090305.9335-1-hdegoede@redhat.com>
+Subject: [PATCH 3/3] usb: ucsi_acpi: Increase the command completion timeout
+Date:   Tue, 28 Feb 2023 10:03:05 +0100
+Message-Id: <20230228090305.9335-3-hdegoede@redhat.com>
+In-Reply-To: <20230228090305.9335-1-hdegoede@redhat.com>
+References: <20230228090305.9335-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
@@ -51,40 +54,47 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When ucsi_init() fails, ucsi->connector is NULL, yet in case of
-ucsi_acpi we may still get events which cause the ucs_acpi code to call
-ucsi_connector_change(), which then derefs the NULL ucsi->connector
-pointer.
+Commit 130a96d698d7 ("usb: typec: ucsi: acpi: Increase command
+completion timeout value") increased the timeout from 5 seconds
+to 60 seconds due to issues related to alternate mode discovery.
 
-Fix this by adding a check for ucsi->connector being NULL, as is
-already done in ucsi_resume() for similar reasons.
+After the alternate mode discovery switch to polled mode
+the timeout was reduced, but instead of being set back to
+5 seconds it was reduced to 1 second.
 
-Fixes: bdc62f2bae8f ("usb: typec: ucsi: Simplified registration and I/O API")
+This is causing problems when using a Lenovo ThinkPad X1 yoga gen7
+connected over Type-C to a LG 27UL850-W (charging DP over Type-C).
+
+When the monitor is already connected at boot the following error
+is logged: "PPM init failed (-110)", /sys/class/typec is empty and
+on unplugging the NULL pointer deref fixed earlier in this series
+happens.
+
+When the monitor is connected after boot the following error
+is logged instead: "GET_CONNECTOR_STATUS failed (-110)".
+
+Setting the timeout back to 5 seconds fixes both cases.
+
+Fixes: e08065069fc7 ("usb: typec: ucsi: acpi: Reduce the command completion timeout")
 Cc: stable@vger.kernel.org
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/usb/typec/ucsi/ucsi.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/usb/typec/ucsi/ucsi_acpi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 1cf8947c6d66..e762897cb25a 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -842,7 +842,13 @@ static void ucsi_handle_connector_change(struct work_struct *work)
-  */
- void ucsi_connector_change(struct ucsi *ucsi, u8 num)
- {
--	struct ucsi_connector *con = &ucsi->connector[num - 1];
-+	struct ucsi_connector *con;
-+
-+	/* Check for ucsi_init() failure */
-+	if (!ucsi->connector)
-+		return;
-+
-+	con = &ucsi->connector[num - 1];
+diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
+index ce0c8ef80c04..62206a6b8ea7 100644
+--- a/drivers/usb/typec/ucsi/ucsi_acpi.c
++++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
+@@ -78,7 +78,7 @@ static int ucsi_acpi_sync_write(struct ucsi *ucsi, unsigned int offset,
+ 	if (ret)
+ 		goto out_clear_bit;
  
- 	if (!(ucsi->ntfy & UCSI_ENABLE_NTFY_CONNECTOR_CHANGE)) {
- 		dev_dbg(ucsi->dev, "Bogus connector change event\n");
+-	if (!wait_for_completion_timeout(&ua->complete, HZ))
++	if (!wait_for_completion_timeout(&ua->complete, 5 * HZ))
+ 		ret = -ETIMEDOUT;
+ 
+ out_clear_bit:
 -- 
 2.39.1
 
