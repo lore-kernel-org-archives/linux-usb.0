@@ -2,94 +2,149 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BEA9C64ED6
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Feb 2023 08:56:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 515FDC64ED6
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Feb 2023 09:03:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229534AbjB1I4n (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 28 Feb 2023 03:56:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40510 "EHLO
+        id S229756AbjB1JDz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 28 Feb 2023 04:03:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbjB1I4m (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Feb 2023 03:56:42 -0500
-Received: from mail.lineo.co.jp (mail.lineo.co.jp [203.141.200.203])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D36AF769
-        for <linux-usb@vger.kernel.org>; Tue, 28 Feb 2023 00:56:40 -0800 (PST)
-Received: from [172.31.17.196] (vpn1.lineo.co.jp [203.141.200.204])
-        by mail.lineo.co.jp (Postfix) with ESMTPSA id 0AD61803DBD29;
-        Tue, 28 Feb 2023 17:56:38 +0900 (JST)
-Message-ID: <290f96db-1877-5137-373a-318e7b4f2dde@lineo.co.jp>
-Date:   Tue, 28 Feb 2023 17:56:37 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Content-Language: en-US
-From:   Yuta Hayama <hayama@lineo.co.jp>
-Subject: [PATCH v3] usb: gadget: f_fs: Fix incorrect version checking of OS
- descs
+        with ESMTP id S229644AbjB1JDy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Feb 2023 04:03:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD4D4A26D
+        for <linux-usb@vger.kernel.org>; Tue, 28 Feb 2023 01:03:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1677574993;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=sirfqygwoRQ697x8s2eJZOuvpqe/7SKCi+yX/4Aaiqw=;
+        b=fwAoKuhRk33Z2WpWolKJhgzQRi687X4N0mBmBBohyqJvs0tI835uNE0Na4Y2Y5bfpSzKMQ
+        A0C6CmSGLexi9QV3CCKyifEi4PZCK3Y3L343agHnUDEwjDEZ1oLkAzLeGkWv/dVu6AH8O+
+        Xwhaq0lVftpYoEje2k4/z+gqCaF0ZlA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-618-csfzjiK4M_KF7a-7dT3fgg-1; Tue, 28 Feb 2023 04:03:08 -0500
+X-MC-Unique: csfzjiK4M_KF7a-7dT3fgg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 70ECF857A94;
+        Tue, 28 Feb 2023 09:03:08 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.194.124])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9B901492B0F;
+        Tue, 28 Feb 2023 09:03:07 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-usb@vger.kernel.org
-Cc:     Yuta Hayama <hayama@lineo.co.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: [PATCH 2/3] usb: ucsi: Fix ucsi->connector race
+Date:   Tue, 28 Feb 2023 10:03:04 +0100
+Message-Id: <20230228090305.9335-2-hdegoede@redhat.com>
+In-Reply-To: <20230228090305.9335-1-hdegoede@redhat.com>
+References: <20230228090305.9335-1-hdegoede@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently, the USB gadget framework supports only version 1.0 of the MS OS
-descriptor. OS desc has a field bcdVersion indicating its version, with
-v1.0 represented by the value 0x100. However, __ffs_do_os_desc_header()
-was expecting the incorrect value 0x1, so allow the correct value 0x100.
+ucsi_init() which runs from a workqueue sets ucsi->connector and
+on an error will clear it again.
 
-The bcdVersion field of the descriptor that is actually sent to the host
-is set by composite_setup() (in composite.c) to the fixed value 0x100.
-Therefore, it can be understood that __ffs_do_os_desc_header() is only
-performing a format check of the OS desc passed to functionfs. If a value
-other than 0x100 is accepted, there is no effect on communication over
-the USB bus. Indeed, until now __ffs_do_os_desc_header() has only accepted
-the incorrect value 0x1, but there was no problem with the communication
-over the USB bus.
+ucsi->connector gets dereferenced by both ucsi_connector_change() and
+ucsi_resume(), both check for ucsi->connector being NULL in case
+ucsi_init() has not finished yet; or in case ucsi_init() has failed.
 
-However, this can be confusing for functionfs userspace drivers. Since
-bcdVersion=0x100 is used in actual communication, functionfs should accept
-the value 0x100.
+ucsi_init() setting ucsi->connector and then clearing it again on
+an error creates a race where the check in the consumers may pass,
+only to have ucsi->connector free-ed underneath them when ucsi_init()
+hits an error.
 
-Note that the correct value for bcdVersion in OS desc v1.0 is 0x100, but
-to avoid breaking old userspace drivers, the value 0x1 is also accepted as
-an exception. At this time, a message is output to notify the user to fix
-the userspace driver.
+Fix this race by making ucsi_init() store the connector array in
+a local variable and only assign it to ucsi->connector on success.
 
-Signed-off-by: Yuta Hayama <hayama@lineo.co.jp>
+Fixes: bdc62f2bae8f ("usb: typec: ucsi: Simplified registration and I/O API")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-Changelog
-v3:
-- modify wording of pr_warn() message (thanks to Andrzej),
-  and remove unnecessary format specifier.
+ drivers/usb/typec/ucsi/ucsi.c | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
-v2:
-- remove comma inserted incorrectly in pr_vdebug()
-- when bcd_version == 0x1, use pr_warn() instead of pr_vdebug()
-
- drivers/usb/gadget/function/f_fs.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 8ad354741380..34ddb1802c5f 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -2292,8 +2292,11 @@ static int __ffs_do_os_desc_header(enum ffs_os_desc_type *next_type,
- 	u16 bcd_version = le16_to_cpu(desc->bcdVersion);
- 	u16 w_index = le16_to_cpu(desc->wIndex);
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index e762897cb25a..796ae230c60b 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -1045,9 +1045,8 @@ static struct fwnode_handle *ucsi_find_fwnode(struct ucsi_connector *con)
+ 	return NULL;
+ }
  
--	if (bcd_version != 1) {
--		pr_vdebug("unsupported os descriptors version: %d",
-+	if (bcd_version == 0x1) {
-+		pr_warn("bcdVersion must be 0x0100, stored in Little Endian order. "
-+			"Userspace driver should be fixed, accepting 0x0001 for compatibility.\n");
-+	} else if (bcd_version != 0x100) {
-+		pr_vdebug("unsupported os descriptors version: 0x%x\n",
- 			  bcd_version);
- 		return -EINVAL;
+-static int ucsi_register_port(struct ucsi *ucsi, int index)
++static int ucsi_register_port(struct ucsi *ucsi, int index, struct ucsi_connector *con)
+ {
+-	struct ucsi_connector *con = &ucsi->connector[index];
+ 	struct typec_capability *cap = &con->typec_cap;
+ 	enum typec_accessory *accessory = cap->accessory;
+ 	enum usb_role u_role = USB_ROLE_NONE;
+@@ -1210,7 +1209,7 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+  */
+ static int ucsi_init(struct ucsi *ucsi)
+ {
+-	struct ucsi_connector *con;
++	struct ucsi_connector *con, *connector;
+ 	u64 command;
+ 	int ret;
+ 	int i;
+@@ -1241,16 +1240,15 @@ static int ucsi_init(struct ucsi *ucsi)
  	}
+ 
+ 	/* Allocate the connectors. Released in ucsi_unregister() */
+-	ucsi->connector = kcalloc(ucsi->cap.num_connectors + 1,
+-				  sizeof(*ucsi->connector), GFP_KERNEL);
+-	if (!ucsi->connector) {
++	connector = kcalloc(ucsi->cap.num_connectors + 1, sizeof(*connector), GFP_KERNEL);
++	if (!connector) {
+ 		ret = -ENOMEM;
+ 		goto err_reset;
+ 	}
+ 
+ 	/* Register all connectors */
+ 	for (i = 0; i < ucsi->cap.num_connectors; i++) {
+-		ret = ucsi_register_port(ucsi, i);
++		ret = ucsi_register_port(ucsi, i, &connector[i]);
+ 		if (ret)
+ 			goto err_unregister;
+ 	}
+@@ -1262,10 +1260,11 @@ static int ucsi_init(struct ucsi *ucsi)
+ 	if (ret < 0)
+ 		goto err_unregister;
+ 
++	ucsi->connector = connector;
+ 	return 0;
+ 
+ err_unregister:
+-	for (con = ucsi->connector; con->port; con++) {
++	for (con = connector; con->port; con++) {
+ 		ucsi_unregister_partner(con);
+ 		ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
+ 		ucsi_unregister_port_psy(con);
+@@ -1274,10 +1273,7 @@ static int ucsi_init(struct ucsi *ucsi)
+ 		typec_unregister_port(con->port);
+ 		con->port = NULL;
+ 	}
+-
+-	kfree(ucsi->connector);
+-	ucsi->connector = NULL;
+-
++	kfree(connector);
+ err_reset:
+ 	memset(&ucsi->cap, 0, sizeof(ucsi->cap));
+ 	ucsi_reset_ppm(ucsi);
 -- 
-2.25.1
+2.39.1
+
