@@ -2,56 +2,56 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01EE8C7EE23
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Mar 2023 21:50:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33265C678D4
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Mar 2023 21:50:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbjCAVuQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 1 Mar 2023 16:50:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42920 "EHLO
+        id S229686AbjCAVuP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 1 Mar 2023 16:50:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229607AbjCAVuJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Mar 2023 16:50:09 -0500
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B21A742BFF
-        for <linux-usb@vger.kernel.org>; Wed,  1 Mar 2023 13:50:01 -0800 (PST)
-Received: by mail-yb1-xb49.google.com with SMTP id w192-20020a25dfc9000000b009fe14931caaso1780435ybg.7
-        for <linux-usb@vger.kernel.org>; Wed, 01 Mar 2023 13:50:01 -0800 (PST)
+        with ESMTP id S229665AbjCAVuK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Mar 2023 16:50:10 -0500
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50F284AFFE
+        for <linux-usb@vger.kernel.org>; Wed,  1 Mar 2023 13:50:07 -0800 (PST)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-536bbaeceeaso292048287b3.11
+        for <linux-usb@vger.kernel.org>; Wed, 01 Mar 2023 13:50:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1677707401;
+        d=google.com; s=20210112; t=1677707406;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dxQv5waFu3xv0IisW1bjLsRrEXTjdfJSWFhFeoxtPOI=;
-        b=N0u2emcPqt+w7HnP6S48oXIFPSC90k8hPUi9FBqczZs2DLe8JGmBZf1tTzSI/9AJH9
-         R3FeC2qBR0N/gzkaEhSFWOlLBGf99HsTk0r1gK3GpRCXRnpK5SiC0Yx225WQheq0SlzC
-         gEYBGiYbZvVIaQntfs/IHBIlqcngYC0LYQFg5yIub0ACOUKSxh6/QjCCsPBWToMY8k2i
-         OJ6IoUK5EckhAroQDcpi60bjmLR6gu2GB7HtnbPBOScP7J08EmqazMAPZfvRnAnp3bjp
-         H0Bn3xnSH5bFiIwDSIR4cc5jzdqq4WJY3DUuQ7FpLxhP0MHcVbnjLTKsr9NYP2cE3X42
-         2Olw==
+        bh=Wpj5qaodj5ScmnNVI3rS9lV8D5wtu+qpU9VuY7cTTKw=;
+        b=NhNtT+6dGVHh00iSdAACqfRBFAA8gf6z22UVtLG48MBccW6lc47mdX6u4S3FN+9QmZ
+         mWWKZ5GQQ1LHaoHzaYhg7xIPc9gr9tlfVsFAFUMIlKhSaJEUxwWfZ/Ebk3+Wsu8Nf3hS
+         zafom0jKpVZTLmC/AdVJT01uxzJbu6KIYR0YLBrtu8ZHJ3NA9QefB4xo4T6PunQ5irJr
+         OQjaIKArceRovZJc10UY0aVk5gijhFDZoUVpQh2GwEbo8Bmrkte13+eq5rEb/Vv2hzn+
+         sYInPfBEeQLT2HBq/aAPIGTo82S94stYrqWyb+PqmSh930CFo13uC0ItSG3CpfNv87bV
+         Vttw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677707401;
+        d=1e100.net; s=20210112; t=1677707406;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dxQv5waFu3xv0IisW1bjLsRrEXTjdfJSWFhFeoxtPOI=;
-        b=2nDjI4/u9Pym/neSsqoXD+op6xPUqGmVDvzon0dKilwINrnUSYoGXasyrfdDp2LKO+
-         tP++CCCmO9G6OYxEbJLnUdc3FnGc3WYGlCAEQMmrTGJYc3lOg/B74TV/voG2EbXKkd4n
-         jFjyywDtdVKWtEVPDKwnph/fzPZ8jjIBF7QP8y/+5+WzkkA9qb00xRka4Uhn4zBDqeoq
-         OSBPSNIaXdqg/mZbIu908pGgkl9klaGqQJ28Eb9bK7esxz9coTkv8Ss/ro8AKKxmpCXR
-         OPffwG4OcDyvgl3lrQqAZ9p2nFu4o9WN3UVDRnBdNKYh8xrdngqIa29dD8qj652IE92c
-         hToA==
-X-Gm-Message-State: AO0yUKUymMq57+IzdTh8dbQicRpjbrhQLqTjYwDs7eShf3rE5V+zCghw
-        WSorqHgl3uhILUqSym4wyCOCBOdx78IrYew=
-X-Google-Smtp-Source: AK7set/xyvoFhdWMtePqqoxkiFKJ9A1bLedjGccifdYq3F7anLkOM2Yz4H0fTroMYl9LFY2P1BNgvnKva6FUsqQ=
+        bh=Wpj5qaodj5ScmnNVI3rS9lV8D5wtu+qpU9VuY7cTTKw=;
+        b=LR6Wqg4s5F4TU9ePzl/+L5lOQ5suneQdHiF8iXY8/s/wLzpXgKU6BeGAZmZ0llNfwh
+         UfXjwH3wZ2xCJrgZUwqp5rNISdVGlO/r1Eukf/baciGbCjs/iN5HvE1/bNrNpsVgzF9/
+         TeWKl3vsPxfCXZu3vG1LQw17OjsmTAuEvdh21d8BQM4Cr2K20PGJ+XuOxwhTy5Yo/n2x
+         vdAmEKmlDjFG/JnLhAL6J59/Ji+ZI/RhBXSw3I9k5r8YOHhnxX3qwpWttEqiNSnI2lE4
+         SBjNF8qUhcAoNKRBvyqGArkW3/rYajVjD6a4MSzYpOSbAJBnPekcasJO5BiDZ8PRYFgh
+         Avtg==
+X-Gm-Message-State: AO0yUKVjAhQijhfRPS++mbc/TGlYUJM9/IHg74vNZxsvxTDfMwg+mQOe
+        /HBddah0goPzTrT5QEVxKwqeTL+z5n0AFwA=
+X-Google-Smtp-Source: AK7set81Xd2tYA4JOiqSKDhL+z8UEtfehns/zS6Rq/x95FFMqWM3N6FEq8Q+gfDREO1ct62FNHlpEoore1o1Hvs=
 X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:debf:1aed:5c45:c92])
- (user=saravanak job=sendgmr) by 2002:a81:86c2:0:b0:536:e8b5:e7a5 with SMTP id
- w185-20020a8186c2000000b00536e8b5e7a5mr22ywf.239.1677707400820; Wed, 01 Mar
- 2023 13:50:00 -0800 (PST)
-Date:   Wed,  1 Mar 2023 13:49:49 -0800
+ (user=saravanak job=sendgmr) by 2002:a05:6902:1003:b0:9f5:af6b:6f69 with SMTP
+ id w3-20020a056902100300b009f5af6b6f69mr14719319ybt.5.1677707406553; Wed, 01
+ Mar 2023 13:50:06 -0800 (PST)
+Date:   Wed,  1 Mar 2023 13:49:51 -0800
 In-Reply-To: <20230301214952.2190757-1-saravanak@google.com>
-Message-Id: <20230301214952.2190757-3-saravanak@google.com>
+Message-Id: <20230301214952.2190757-5-saravanak@google.com>
 Mime-Version: 1.0
 References: <20230301214952.2190757-1-saravanak@google.com>
 X-Mailer: git-send-email 2.39.2.722.g9855ee24e9-goog
-Subject: [PATCH v1 2/4] usb: typec: tipd: Remove use of fw_devlink_purge_absent_suppliers()
+Subject: [PATCH v1 4/4] driver core: Delete fw_devlink_purge_absent_suppliers()
 From:   Saravana Kannan <saravanak@google.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
@@ -76,36 +76,55 @@ X-Mailing-List: linux-usb@vger.kernel.org
 After recent changes to fw_devlink that ended with commit 4a032827daa8
 ("of: property: Simplify of_link_to_phandle()"), fw_devlink no longer
 cares about the "compatible" property and figures out the correct struct
-device at runtime. So, we no longer need to call
-fw_devlink_purge_absent_suppliers().
+device at runtime.
+
+So, there's no need for any driver or framework to call
+fw_devlink_purge_absent_suppliers() anymore and we can delete it.
 
 Signed-off-by: Saravana Kannan <saravanak@google.com>
-Cc: Martin Kepplinger <martin.kepplinger@puri.sm>
 ---
- drivers/usb/typec/tipd/core.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/base/core.c    | 16 ----------------
+ include/linux/fwnode.h |  1 -
+ 2 files changed, 17 deletions(-)
 
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index 485b90c13078..92401622bc4e 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -764,16 +764,7 @@ static int tps6598x_probe(struct i2c_client *client)
- 	if (ret < 0)
- 		goto err_clear_mask;
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 6878dfcbf0d6..46364c4d1983 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -186,22 +186,6 @@ void fwnode_links_purge(struct fwnode_handle *fwnode)
+ 	fwnode_links_purge_consumers(fwnode);
+ }
  
--	/*
--	 * This fwnode has a "compatible" property, but is never populated as a
--	 * struct device. Instead we simply parse it to read the properties.
--	 * This breaks fw_devlink=on. To maintain backward compatibility
--	 * with existing DT files, we work around this by deleting any
--	 * fwnode_links to/from this fwnode.
--	 */
- 	fwnode = device_get_named_child_node(&client->dev, "connector");
--	if (fwnode)
--		fw_devlink_purge_absent_suppliers(fwnode);
+-void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode)
+-{
+-	struct fwnode_handle *child;
+-
+-	/* Don't purge consumer links of an added child */
+-	if (fwnode->dev)
+-		return;
+-
+-	fwnode->flags |= FWNODE_FLAG_NOT_DEVICE;
+-	fwnode_links_purge_consumers(fwnode);
+-
+-	fwnode_for_each_available_child_node(fwnode, child)
+-		fw_devlink_purge_absent_suppliers(child);
+-}
+-EXPORT_SYMBOL_GPL(fw_devlink_purge_absent_suppliers);
+-
+ /**
+  * __fwnode_links_move_consumers - Move consumer from @from to @to fwnode_handle
+  * @from: move consumers away from this fwnode
+diff --git a/include/linux/fwnode.h b/include/linux/fwnode.h
+index 5700451b300f..63972c863fcd 100644
+--- a/include/linux/fwnode.h
++++ b/include/linux/fwnode.h
+@@ -210,6 +210,5 @@ static inline void fwnode_dev_initialized(struct fwnode_handle *fwnode,
+ extern bool fw_devlink_is_strict(void);
+ int fwnode_link_add(struct fwnode_handle *con, struct fwnode_handle *sup);
+ void fwnode_links_purge(struct fwnode_handle *fwnode);
+-void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode);
  
- 	tps->role_sw = fwnode_usb_role_switch_get(fwnode);
- 	if (IS_ERR(tps->role_sw)) {
+ #endif
 -- 
 2.39.2.722.g9855ee24e9-goog
 
