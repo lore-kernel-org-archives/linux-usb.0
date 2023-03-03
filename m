@@ -2,45 +2,43 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0666DC64EC4
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 21:51:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DC81C64EC4
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 21:53:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232827AbjCCVvd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Mar 2023 16:51:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37130 "EHLO
+        id S233038AbjCCVxV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Mar 2023 16:53:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232492AbjCCVtl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 16:49:41 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88DC66C19D;
-        Fri,  3 Mar 2023 13:46:01 -0800 (PST)
+        with ESMTP id S232931AbjCCVvu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 16:51:50 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72E1A1BCF;
+        Fri,  3 Mar 2023 13:47:32 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id EF2B0B818A4;
-        Fri,  3 Mar 2023 21:45:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C71BEC4339C;
-        Fri,  3 Mar 2023 21:45:47 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 79614CE22A9;
+        Fri,  3 Mar 2023 21:46:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69E91C4339C;
+        Fri,  3 Mar 2023 21:46:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677879948;
-        bh=vWjZYVCyqOa7QEyu/N9kEW1AAi5cQG0o8QSHeR20/1I=;
+        s=k20201202; t=1677879978;
+        bh=ng/AWsp3f23QHE9jW9WRe+LRsRvjsziup0qvPOmGWlY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KGSWCei1wxt27eBuBpAh3SjuIdmr/PfxrhFLm0cvZIZzdtUao0lFQa9RyT4HhmL6Z
-         XLLC9uEk2ntwUBz5jM4v018vR9wWYoDV7zt+q9ZGO+4UfQLm4VhpdBG2LHkK//inpu
-         5Y5c7SxnRc+UQu2/DCGdxAP2rdRM56IqwjmkibxLZiPmW/JwD3rSWo2l/sk/CdINUQ
-         4WObhPDRJkkHUj+XkBPs9pJZ6M7BPQuHLLPchuPYIvJAK0PTzcEL9f2AYPD87brpBs
-         lM6vFlYajo/oRgpDLUN6NvlSqE7ZDJq54WhKTp7315lgeq/dJ3d405c7vdJjuzRAed
-         k8m+o+0UPIqtw==
+        b=Hr18dzjZQ/JQ95FObFzqxW6mGDmRBQTnc7ek/3WaBGA2FSSDtj0MPkBbPrTs8IWU6
+         AnBRPPF3PPDYlz/J/hR3ioLDVbkbcjKbM4h+uMZMbnT/dn7P0qr/BUgOXki0jQBNMZ
+         Zlx4hOABKhbfi43ogicqnc8HXWHlSR4myd/+0MZ0VlYvtBqGavTQzZA9VZY3JFGWi2
+         8orRaovgwFKXcC3dWxxVfbYD0CsoC3kLjq/tImWxMydbC+owpitWPQgUtzn0+VQAYb
+         XtGxPYtoqmxzefEUQ3XZ+MY1RxDLWRjgZBkP9arXUxBttiULNqY5O6oXZ1FCtsfG+3
+         4TMBxA38iwerg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Alan Stern <stern@rowland.harvard.edu>,
-        Jilin Yuan <yuanjilin@cdjrlc.com>,
-        Sasha Levin <sashal@kernel.org>, hdegoede@redhat.com,
-        vkoul@kernel.org, mchehab@kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 08/50] USB: fix memory leak with using debugfs_lookup()
-Date:   Fri,  3 Mar 2023 16:44:49 -0500
-Message-Id: <20230303214531.1450154-8-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 23/50] USB: uhci: fix memory leak with using debugfs_lookup()
+Date:   Fri,  3 Mar 2023 16:45:04 -0500
+Message-Id: <20230303214531.1450154-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303214531.1450154-1-sashal@kernel.org>
 References: <20230303214531.1450154-1-sashal@kernel.org>
@@ -54,35 +52,45 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-[ Upstream commit 30374434edab20e25776f8ecb4bc9d1e54309487 ]
+[ Upstream commit 0a3f82c79c86278e7f144564b1cb6cc5c3657144 ]
 
 When calling debugfs_lookup() the result must have dput() called on it,
 otherwise the memory will leak over time.  To make things simpler, just
-call debugfs_lookup_and_remove() instead which handles all of the logic at
-once.
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.
 
 Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Jilin Yuan <yuanjilin@cdjrlc.com>
-Link: https://lore.kernel.org/r/20230106152828.3790902-1-gregkh@linuxfoundation.org
+Link: https://lore.kernel.org/r/20230202153235.2412790-3-gregkh@linuxfoundation.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/core/usb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/host/uhci-hcd.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-index 62368c4ed37af..cc36f9f228148 100644
---- a/drivers/usb/core/usb.c
-+++ b/drivers/usb/core/usb.c
-@@ -1036,7 +1036,7 @@ static void usb_debugfs_init(void)
+diff --git a/drivers/usb/host/uhci-hcd.c b/drivers/usb/host/uhci-hcd.c
+index d90b869f5f409..d138f62ce84d7 100644
+--- a/drivers/usb/host/uhci-hcd.c
++++ b/drivers/usb/host/uhci-hcd.c
+@@ -536,8 +536,8 @@ static void release_uhci(struct uhci_hcd *uhci)
+ 	uhci->is_initialized = 0;
+ 	spin_unlock_irq(&uhci->lock);
  
- static void usb_debugfs_cleanup(void)
- {
--	debugfs_remove(debugfs_lookup("devices", usb_debug_root));
-+	debugfs_lookup_and_remove("devices", usb_debug_root);
+-	debugfs_remove(debugfs_lookup(uhci_to_hcd(uhci)->self.bus_name,
+-				      uhci_debugfs_root));
++	debugfs_lookup_and_remove(uhci_to_hcd(uhci)->self.bus_name,
++				  uhci_debugfs_root);
+ 
+ 	for (i = 0; i < UHCI_NUM_SKELQH; i++)
+ 		uhci_free_qh(uhci, uhci->skelqh[i]);
+@@ -700,7 +700,7 @@ static int uhci_start(struct usb_hcd *hcd)
+ 			uhci->frame, uhci->frame_dma_handle);
+ 
+ err_alloc_frame:
+-	debugfs_remove(debugfs_lookup(hcd->self.bus_name, uhci_debugfs_root));
++	debugfs_lookup_and_remove(hcd->self.bus_name, uhci_debugfs_root);
+ 
+ 	return retval;
  }
- 
- /*
 -- 
 2.39.2
 
