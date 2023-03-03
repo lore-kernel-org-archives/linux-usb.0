@@ -2,43 +2,46 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF4BDC64EC4
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 22:08:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA1EC61DA3
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 22:30:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233648AbjCCWIT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Mar 2023 17:08:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44562 "EHLO
+        id S231649AbjCCWaO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Mar 2023 17:30:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233630AbjCCWIF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 17:08:05 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C8096B5CA;
-        Fri,  3 Mar 2023 13:58:39 -0800 (PST)
+        with ESMTP id S232025AbjCCW3d (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 17:29:33 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C0F16A9E4;
+        Fri,  3 Mar 2023 14:23:44 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 020E8618EF;
-        Fri,  3 Mar 2023 21:46:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0F82C4339B;
-        Fri,  3 Mar 2023 21:46:21 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E08E0618CB;
+        Fri,  3 Mar 2023 21:46:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBA6DC433A0;
+        Fri,  3 Mar 2023 21:46:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677879982;
-        bh=XpyjYdKvWPBnU6vlnDaEnzH6dHN5Ax1fBwYFy3tqwnA=;
+        s=k20201202; t=1677880003;
+        bh=Jagds/6lQ7/HQgX4stxgiiZoEl48T9QG1XVSQgt4wCk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HIGaWxvtrOG1Jo0G/CXAnt1WCzEOhaFdtBAV8ZpFq1ZSUVWXvB5Iv7LMeNAWS9Atz
-         pWaLf2aJiGqvrqs0pe5v7+H9ZL2z1bM//bSogaWvw6zBkNjEXbsm+gzRYp8xU+Tbzz
-         TMLUirLbLcCxPRHSzFKggfBRNc85Yq670EAuiLZccnHb9CPLrSVS9Gb78ghdmI8dq2
-         PaW9T4jgeou4/f7l/cYbA2SU9zfj+kiGyIq9Es+xJ2BmmevbQu9b9jgiV+TRcFgsBj
-         nyojDtT6fY+R8bICO6Hkd+sK//TziZVnT9jNCY+sOVPWjZLKNRHH8D2jOQAz8X3Gon
-         hDFf9iYQPSMlw==
+        b=YgRdf4yq8paKtVYwalLAtWRCMcnlFH/7ksZK3ET5ab6WOJk7aevgnmz2iMqrM6hca
+         prj+X0Xg53q9yx2WtFCb2mvx1cW0f8MGkKxoenEKa9bbF/JSJ3N679tvR3tqgVRyBj
+         bXDXh2OazA9lwCAA9Y3DMleXOebF90wryllemrklSjJyDB9Ifh6SxheTYNgHCJ/x+p
+         nF1H7iXziCAf0pcDMBq32LrCftd7yrbBARlZ+DXebi9nYlY9SeHOXXwywkhuVvhhEa
+         YBZJoObCvTXz4gMg0Y8y/lPxGWt/wrDTRGzwkPeIwjikpd9siDIfiHLK7NwCQ68e/C
+         yUsbbC6qvjyQw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 24/50] USB: sl811: fix memory leak with using debugfs_lookup()
-Date:   Fri,  3 Mar 2023 16:45:05 -0500
-Message-Id: <20230303214531.1450154-24-sashal@kernel.org>
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Sasha Levin <sashal@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 31/50] USB: gadget: pxa25x_udc: fix memory leak with using debugfs_lookup()
+Date:   Fri,  3 Mar 2023 16:45:12 -0500
+Message-Id: <20230303214531.1450154-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303214531.1450154-1-sashal@kernel.org>
 References: <20230303214531.1450154-1-sashal@kernel.org>
@@ -52,34 +55,36 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-[ Upstream commit e1523c4dbc54e164638ff8729d511cf91e27be04 ]
+[ Upstream commit 7a038a681b7df78362d9fc7013e5395a694a9d3a ]
 
 When calling debugfs_lookup() the result must have dput() called on it,
 otherwise the memory will leak over time.  To make things simpler, just
 call debugfs_lookup_and_remove() instead which handles all of the logic
 at once.
 
-Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Link: https://lore.kernel.org/r/20230202153235.2412790-4-gregkh@linuxfoundation.org
+Cc: Daniel Mack <daniel@zonque.org>
+Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
+Cc: Robert Jarzmik <robert.jarzmik@free.fr>
+Link: https://lore.kernel.org/r/20230202153235.2412790-11-gregkh@linuxfoundation.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/sl811-hcd.c | 2 +-
+ drivers/usb/gadget/udc/pxa25x_udc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/sl811-hcd.c b/drivers/usb/host/sl811-hcd.c
-index 85623731a5162..825ff67273102 100644
---- a/drivers/usb/host/sl811-hcd.c
-+++ b/drivers/usb/host/sl811-hcd.c
-@@ -1501,7 +1501,7 @@ static void create_debug_file(struct sl811 *sl811)
+diff --git a/drivers/usb/gadget/udc/pxa25x_udc.c b/drivers/usb/gadget/udc/pxa25x_udc.c
+index a09ec1d826b21..e4d2ab5768ba2 100644
+--- a/drivers/usb/gadget/udc/pxa25x_udc.c
++++ b/drivers/usb/gadget/udc/pxa25x_udc.c
+@@ -1341,7 +1341,7 @@ DEFINE_SHOW_ATTRIBUTE(udc_debug);
+ 		debugfs_create_file(dev->gadget.name, \
+ 			S_IRUGO, NULL, dev, &udc_debug_fops); \
+ 	} while (0)
+-#define remove_debug_files(dev) debugfs_remove(debugfs_lookup(dev->gadget.name, NULL))
++#define remove_debug_files(dev) debugfs_lookup_and_remove(dev->gadget.name, NULL)
  
- static void remove_debug_file(struct sl811 *sl811)
- {
--	debugfs_remove(debugfs_lookup("sl811h", usb_debug_root));
-+	debugfs_lookup_and_remove("sl811h", usb_debug_root);
- }
+ #else	/* !CONFIG_USB_GADGET_DEBUG_FILES */
  
- /*-------------------------------------------------------------------------*/
 -- 
 2.39.2
 
