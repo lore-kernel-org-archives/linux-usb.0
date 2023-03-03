@@ -2,48 +2,49 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33AD3C64EC4
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 22:33:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8514C64EC4
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 22:36:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233272AbjCCWdw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Mar 2023 17:33:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35920 "EHLO
+        id S233173AbjCCWgP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Mar 2023 17:36:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232870AbjCCWdg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 17:33:36 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0B9513D5C;
-        Fri,  3 Mar 2023 14:29:30 -0800 (PST)
+        with ESMTP id S232342AbjCCWgB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 17:36:01 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAEE712583;
+        Fri,  3 Mar 2023 14:33:35 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id C3D11CE229D;
-        Fri,  3 Mar 2023 21:42:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53074C43446;
-        Fri,  3 Mar 2023 21:42:38 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0BFA361922;
+        Fri,  3 Mar 2023 21:46:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BAA7C4339C;
+        Fri,  3 Mar 2023 21:46:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677879759;
-        bh=TRw9amU/+JqhoI9/AQoHw150q/Jlc/dyANFOAetvZtM=;
+        s=k20201202; t=1677880002;
+        bh=WXPFuf2BUqghGATTpXNUiw35r1ss6M1T+j0ny9/nWz4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bdru84HmZW3EHPeuyRfmkQRfTketiSlsxp0RQzZK6ZweMtcQZXVSq6bTGgbd6M71V
-         PRSZVEet4ZFZ5J/nmzN16V4atmojvuhFBIwnRs7OsWlyIzMD0h7jt/CWEc+EynUGq8
-         WE0aXQekEBQqxB3bXNm3PKfgHiEUTVl0hhdGT0AhNhwksmug2t8Sznhxzf/dcN8xxA
-         ZYtBahgBsz1jb8jhFdCWpEsqIzx0Wrwnw0kh8sUpyvLD72ydUXnQ+ZTx0AU6xUFwH9
-         NcjwdqNA1a+yshxYE7vNEXHrmlhDUSyG0DFpG2u/5wIjbn5TJsWof5VEw+DRfkCM7l
-         u/A76vYEySOTA==
+        b=LpkK+hno2sDohmEaPdlva50l328M2fF+U0aqo1GW9CegMM+CuFzVvtdXiNeukXBBB
+         CzZmwuPnKmfUtSMxYbUo7oH8WA1YrivaAbNyth9xbJvXsVp1t3zbHpkOJNFE2sjE5P
+         nQgE7bfpgu3b94x1m+FqPWbVD/Bwev85zp2bKOdmunZQ8MTZIX9190mm7HqoPepFGP
+         Smc9bzXIPvSZUWjznEf7wWnM8ty/V++IV2JdBeML7rs6z98JbrZzxIgDpgrwMipjAO
+         DP8Rl7IgcjLaaFsk+GFBLcscrpOg36fuBl3kmoA+HWTPRd+UjtMmgKi4WJ677KqhBv
+         7sgpVqMcIjDFQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kees Cook <keescook@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jakob Koschel <jakobkoschel@gmail.com>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net
-Subject: [PATCH AUTOSEL 6.2 44/64] USB: ene_usb6250: Allocate enough memory for full object
-Date:   Fri,  3 Mar 2023 16:40:46 -0500
-Message-Id: <20230303214106.1446460-44-sashal@kernel.org>
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.15 30/50] USB: gadget: lpc32xx_udc: fix memory leak with using debugfs_lookup()
+Date:   Fri,  3 Mar 2023 16:45:11 -0500
+Message-Id: <20230303214531.1450154-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230303214106.1446460-1-sashal@kernel.org>
-References: <20230303214106.1446460-1-sashal@kernel.org>
+In-Reply-To: <20230303214531.1450154-1-sashal@kernel.org>
+References: <20230303214531.1450154-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,59 +53,38 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Kees Cook <keescook@chromium.org>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-[ Upstream commit ce33e64c1788912976b61314b56935abd4bc97ef ]
+[ Upstream commit e3965acaf3739fde9d74ad82979b46d37c6c208f ]
 
-The allocation of PageBuffer is 512 bytes in size, but the dereferencing
-of struct ms_bootblock_idi (also size 512) happens at a calculated offset
-within the allocation, which means the object could potentially extend
-beyond the end of the allocation. Avoid this case by just allocating
-enough space to catch any accesses beyond the end. Seen with GCC 13:
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.
 
-../drivers/usb/storage/ene_ub6250.c: In function 'ms_lib_process_bootblock':
-../drivers/usb/storage/ene_ub6250.c:1050:44: warning: array subscript 'struct ms_bootblock_idi[0]' is partly outside array bounds of 'unsigned char[512]' [-Warray-bounds=]
- 1050 |                         if (le16_to_cpu(idi->wIDIgeneralConfiguration) != MS_IDI_GENERAL_CONF)
-      |                                            ^~
-../include/uapi/linux/byteorder/little_endian.h:37:51: note: in definition of macro '__le16_to_cpu'
-   37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-      |                                                   ^
-../drivers/usb/storage/ene_ub6250.c:1050:29: note: in expansion of macro 'le16_to_cpu'
- 1050 |                         if (le16_to_cpu(idi->wIDIgeneralConfiguration) != MS_IDI_GENERAL_CONF)
-      |                             ^~~~~~~~~~~
-In file included from ../drivers/usb/storage/ene_ub6250.c:5:
-In function 'kmalloc',
-    inlined from 'ms_lib_process_bootblock' at ../drivers/usb/storage/ene_ub6250.c:942:15:
-../include/linux/slab.h:580:24: note: at offset [256, 512] into object of size 512 allocated by 'kmalloc_trace'
-  580 |                 return kmalloc_trace(
-      |                        ^~~~~~~~~~~~~~
-  581 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  582 |                                 flags, size);
-      |                                 ~~~~~~~~~~~~
-
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Link: https://lore.kernel.org/r/20230204183546.never.849-kees@kernel.org
+Cc: Jakob Koschel <jakobkoschel@gmail.com>
+Cc: Miaoqian Lin <linmq006@gmail.com>
+Acked-by: Vladimir Zapolskiy <vz@mleia.com>
+Link: https://lore.kernel.org/r/20230202153235.2412790-10-gregkh@linuxfoundation.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/storage/ene_ub6250.c | 2 +-
+ drivers/usb/gadget/udc/lpc32xx_udc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
-index 6012603f3630e..97c66c0d91f4d 100644
---- a/drivers/usb/storage/ene_ub6250.c
-+++ b/drivers/usb/storage/ene_ub6250.c
-@@ -939,7 +939,7 @@ static int ms_lib_process_bootblock(struct us_data *us, u16 PhyBlock, u8 *PageDa
- 	struct ms_lib_type_extdat ExtraData;
- 	struct ene_ub6250_info *info = (struct ene_ub6250_info *) us->extra;
+diff --git a/drivers/usb/gadget/udc/lpc32xx_udc.c b/drivers/usb/gadget/udc/lpc32xx_udc.c
+index 865de8db998a9..ec0d3d74d66e2 100644
+--- a/drivers/usb/gadget/udc/lpc32xx_udc.c
++++ b/drivers/usb/gadget/udc/lpc32xx_udc.c
+@@ -532,7 +532,7 @@ static void create_debug_file(struct lpc32xx_udc *udc)
  
--	PageBuffer = kmalloc(MS_BYTES_PER_PAGE, GFP_KERNEL);
-+	PageBuffer = kzalloc(MS_BYTES_PER_PAGE * 2, GFP_KERNEL);
- 	if (PageBuffer == NULL)
- 		return (u32)-1;
+ static void remove_debug_file(struct lpc32xx_udc *udc)
+ {
+-	debugfs_remove(debugfs_lookup(debug_filename, NULL));
++	debugfs_lookup_and_remove(debug_filename, NULL);
+ }
  
+ #else
 -- 
 2.39.2
 
