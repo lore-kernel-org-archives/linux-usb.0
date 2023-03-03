@@ -2,46 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31657C64EC4
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 21:48:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8639FC64EC4
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 21:49:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232677AbjCCVsJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Mar 2023 16:48:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37124 "EHLO
+        id S232739AbjCCVs6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Mar 2023 16:48:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232509AbjCCVrf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 16:47:35 -0500
+        with ESMTP id S232664AbjCCVsD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 16:48:03 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D72326546E;
-        Fri,  3 Mar 2023 13:45:02 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74BED69CE6;
+        Fri,  3 Mar 2023 13:45:19 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DEB49B81A0C;
-        Fri,  3 Mar 2023 21:43:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0617C4339B;
-        Fri,  3 Mar 2023 21:43:29 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1980FB819FF;
+        Fri,  3 Mar 2023 21:44:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 192CFC433A8;
+        Fri,  3 Mar 2023 21:44:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677879810;
-        bh=F3Q4jKopnnXfzlnJ8qnU5EeFLtFycAZFH7iwqJimz+U=;
+        s=k20201202; t=1677879880;
+        bh=AqOAN5MsuC+Txm4zaQVwJ1Yne8wHW7ioMDhthdxxXDY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gqeoD2XXN4gaV7ra2FafWdf3gi0uRaEc9qy08MnpoKhc85R8/Wk8VaNmdFcSIZfus
-         9Ihwnbztdv67v+Co54CoIkd5L9qOvON6xTuqwkbEa1wUWl+SfGvPpa8I1xhpl/y69Z
-         /+cME/Js2G0Wqwmdhp7WUlpK12sVeRU0TH0th/nTvCzifeRW+lTEDTvnWYAc0g9oPp
-         YuQm8Fd/GFS9LKIc/RDZZfoSHOhWUFahrNlE6BO/EZ8oqNs77HJWeO7kDkuyRv/xk4
-         /3NVEBaZZms2VSPLI08z3wPjlMspV1lwuUXAZqFXvxIHrqg411hgn2l8zE6YTcnVNY
-         5x9yQM2jP4tUg==
+        b=bWBhn6bQOYotNZ1X+zTUDmo15H/FUxcjf06a1f2fH8f8SDF7i4Ir6128xP+qItuOV
+         ZCxY5a242YAgdyvNMb/Alfihpbgzr6qIRyzkLDFkzb+IDqB+HDiG/17tVlrZRotGgF
+         CQM6ADJ2jWxHVXjvPUkOCHHOpYBeK9tOrL/3VmN+KxOfT31ojSliZz7zmrLrwmMrpJ
+         gDvRbICQvHkdYu9BDaZNkA625ia8i4WctheRYA5hF6DsTlLVc1n56HDpK1qZZuopjS
+         IW4w+CWG/8ugv4Nq446twXt7uHd+gRgTrfUOO2abi27CeWWR41AVnS+I6e0GKXLib1
+         MJBbyt0jyar0A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Jilin Yuan <yuanjilin@cdjrlc.com>,
-        Sasha Levin <sashal@kernel.org>, hdegoede@redhat.com,
-        mchehab@kernel.org, mika.westerberg@linux.intel.com,
-        alexandre.belloni@bootlin.com, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 09/60] USB: fix memory leak with using debugfs_lookup()
-Date:   Fri,  3 Mar 2023 16:42:23 -0500
-Message-Id: <20230303214315.1447666-9-sashal@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 39/60] usb: host: xhci: mvebu: Iterate over array indexes instead of using pointer math
+Date:   Fri,  3 Mar 2023 16:42:53 -0500
+Message-Id: <20230303214315.1447666-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303214315.1447666-1-sashal@kernel.org>
 References: <20230303214315.1447666-1-sashal@kernel.org>
@@ -53,37 +51,43 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Kees Cook <keescook@chromium.org>
 
-[ Upstream commit 30374434edab20e25776f8ecb4bc9d1e54309487 ]
+[ Upstream commit 0fbd2cda92cdb00f72080665554a586f88bca821 ]
 
-When calling debugfs_lookup() the result must have dput() called on it,
-otherwise the memory will leak over time.  To make things simpler, just
-call debugfs_lookup_and_remove() instead which handles all of the logic at
-once.
+Walking the dram->cs array was seen as accesses beyond the first array
+item by the compiler. Instead, use the array index directly. This allows
+for run-time bounds checking under CONFIG_UBSAN_BOUNDS as well. Seen
+with GCC 13 with -fstrict-flex-arrays:
 
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Jilin Yuan <yuanjilin@cdjrlc.com>
-Link: https://lore.kernel.org/r/20230106152828.3790902-1-gregkh@linuxfoundation.org
+In function 'xhci_mvebu_mbus_config',
+    inlined from 'xhci_mvebu_mbus_init_quirk' at ../drivers/usb/host/xhci-mvebu.c:66:2:
+../drivers/usb/host/xhci-mvebu.c:37:28: warning: array subscript 0 is outside array bounds of 'const struct mbus_dram_window[0]' [-Warray-bounds=]
+   37 |                 writel(((cs->size - 1) & 0xffff0000) | (cs->mbus_attr << 8) |
+      |                          ~~^~~~~~
+
+Cc: Mathias Nyman <mathias.nyman@intel.com>
+Signed-off-by: Kees Cook <keescook@chromium.org>
+Link: https://lore.kernel.org/r/20230204183651.never.663-kees@kernel.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/core/usb.c | 2 +-
+ drivers/usb/host/xhci-mvebu.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-index 11b15d7b357ad..a415206cab043 100644
---- a/drivers/usb/core/usb.c
-+++ b/drivers/usb/core/usb.c
-@@ -998,7 +998,7 @@ static void usb_debugfs_init(void)
+diff --git a/drivers/usb/host/xhci-mvebu.c b/drivers/usb/host/xhci-mvebu.c
+index 60651a50770f9..87f1597a0e5ab 100644
+--- a/drivers/usb/host/xhci-mvebu.c
++++ b/drivers/usb/host/xhci-mvebu.c
+@@ -32,7 +32,7 @@ static void xhci_mvebu_mbus_config(void __iomem *base,
  
- static void usb_debugfs_cleanup(void)
- {
--	debugfs_remove(debugfs_lookup("devices", usb_debug_root));
-+	debugfs_lookup_and_remove("devices", usb_debug_root);
- }
+ 	/* Program each DRAM CS in a seperate window */
+ 	for (win = 0; win < dram->num_cs; win++) {
+-		const struct mbus_dram_window *cs = dram->cs + win;
++		const struct mbus_dram_window *cs = &dram->cs[win];
  
- /*
+ 		writel(((cs->size - 1) & 0xffff0000) | (cs->mbus_attr << 8) |
+ 		       (dram->mbus_dram_target_id << 4) | 1,
 -- 
 2.39.2
 
