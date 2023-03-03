@@ -2,45 +2,43 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0AD1C7EE3A
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 21:49:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A21A0C7EE39
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 21:49:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232745AbjCCVtB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Mar 2023 16:49:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37754 "EHLO
+        id S232493AbjCCVtl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Mar 2023 16:49:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232493AbjCCVsE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 16:48:04 -0500
+        with ESMTP id S232750AbjCCVtE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 16:49:04 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1158969CEB;
-        Fri,  3 Mar 2023 13:45:20 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E33CB6B5C0;
+        Fri,  3 Mar 2023 13:45:44 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 50042B81A1D;
-        Fri,  3 Mar 2023 21:44:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43159C4339C;
-        Fri,  3 Mar 2023 21:44:41 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 567AFB819DC;
+        Fri,  3 Mar 2023 21:44:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F1BCC4339B;
+        Fri,  3 Mar 2023 21:44:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677879882;
-        bh=TRw9amU/+JqhoI9/AQoHw150q/Jlc/dyANFOAetvZtM=;
+        s=k20201202; t=1677879867;
+        bh=E9dtm9d4GQtF08b5rfr/y72R21hIOL/iumZCcyKmVjQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=irB0G8mBo+sQuPlAyX0sH8JgDjGflrOZfMJsjYtYwLrgf4EFrTwQl2Gy7hVdnw8R+
-         bfdtxUQLs65IXIBMJgx6cGZzIFvnguB9ykbO8YRrrbr9nkkJ3FrE7OIpWEgMyNqX+P
-         Am7EboK9CmiCjkoQ1EF0ZX5DEmx5zppWFnZ3BKkNEAdjbZie6nV91wCEtjk/MgEdNI
-         OAj06F5Zxm55WqEN5yLXsYCp4rJ8BTChmk7rbbgRHg4xCs0GrBWL79jWEXW42JQ+A3
-         5spZxnGl1nE2WYKMFXmGsT5ve3XyC8rOU3Th2v4pYZBRKBzSdqi0WFfB67TExPB65C
-         dId3ue13AvorQ==
+        b=o2dfRwSKK9wmweghRnsFbHfj9HIHt0oTkjZUtZgu/qQakZapGmPor9z/5sOyQ67Or
+         6s4L6U20UdQNcFvxvnvXOG3QtC4MdyplF5P4jmx/ZU5ZBxwXWoyuP9g4cr927Mwhm9
+         yyHTB9Ndq2EQLgbra5U2H5v4pd6U1TpGBxnqtvogmvgUE+T9S4KYK8ZU2q68jZUEs0
+         bdH4bPpqpcfciMkzZxlhTVs3ct5kcrztthJSBD0No3ja5Zghy0Zd3TCRw9z8/nsh48
+         4bf14VZIozPtHRIvQsanLP3SFovsUvNGYG8xHD3FcdV0KLQ1km6+IEJkNx1DOthK8o
+         f+CgH0kIO5j4A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kees Cook <keescook@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net
-Subject: [PATCH AUTOSEL 6.1 40/60] USB: ene_usb6250: Allocate enough memory for full object
-Date:   Fri,  3 Mar 2023 16:42:54 -0500
-Message-Id: <20230303214315.1447666-40-sashal@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 33/60] USB: isp1362: fix memory leak with using debugfs_lookup()
+Date:   Fri,  3 Mar 2023 16:42:47 -0500
+Message-Id: <20230303214315.1447666-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303214315.1447666-1-sashal@kernel.org>
 References: <20230303214315.1447666-1-sashal@kernel.org>
@@ -52,59 +50,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Kees Cook <keescook@chromium.org>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-[ Upstream commit ce33e64c1788912976b61314b56935abd4bc97ef ]
+[ Upstream commit c26e682afc14caa87d44beed271eec8991e93c65 ]
 
-The allocation of PageBuffer is 512 bytes in size, but the dereferencing
-of struct ms_bootblock_idi (also size 512) happens at a calculated offset
-within the allocation, which means the object could potentially extend
-beyond the end of the allocation. Avoid this case by just allocating
-enough space to catch any accesses beyond the end. Seen with GCC 13:
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.
 
-../drivers/usb/storage/ene_ub6250.c: In function 'ms_lib_process_bootblock':
-../drivers/usb/storage/ene_ub6250.c:1050:44: warning: array subscript 'struct ms_bootblock_idi[0]' is partly outside array bounds of 'unsigned char[512]' [-Warray-bounds=]
- 1050 |                         if (le16_to_cpu(idi->wIDIgeneralConfiguration) != MS_IDI_GENERAL_CONF)
-      |                                            ^~
-../include/uapi/linux/byteorder/little_endian.h:37:51: note: in definition of macro '__le16_to_cpu'
-   37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-      |                                                   ^
-../drivers/usb/storage/ene_ub6250.c:1050:29: note: in expansion of macro 'le16_to_cpu'
- 1050 |                         if (le16_to_cpu(idi->wIDIgeneralConfiguration) != MS_IDI_GENERAL_CONF)
-      |                             ^~~~~~~~~~~
-In file included from ../drivers/usb/storage/ene_ub6250.c:5:
-In function 'kmalloc',
-    inlined from 'ms_lib_process_bootblock' at ../drivers/usb/storage/ene_ub6250.c:942:15:
-../include/linux/slab.h:580:24: note: at offset [256, 512] into object of size 512 allocated by 'kmalloc_trace'
-  580 |                 return kmalloc_trace(
-      |                        ^~~~~~~~~~~~~~
-  581 |                                 kmalloc_caches[kmalloc_type(flags)][index],
-      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  582 |                                 flags, size);
-      |                                 ~~~~~~~~~~~~
-
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Link: https://lore.kernel.org/r/20230204183546.never.849-kees@kernel.org
+Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Link: https://lore.kernel.org/r/20230202153235.2412790-7-gregkh@linuxfoundation.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/storage/ene_ub6250.c | 2 +-
+ drivers/usb/host/isp1362-hcd.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
-index 6012603f3630e..97c66c0d91f4d 100644
---- a/drivers/usb/storage/ene_ub6250.c
-+++ b/drivers/usb/storage/ene_ub6250.c
-@@ -939,7 +939,7 @@ static int ms_lib_process_bootblock(struct us_data *us, u16 PhyBlock, u8 *PageDa
- 	struct ms_lib_type_extdat ExtraData;
- 	struct ene_ub6250_info *info = (struct ene_ub6250_info *) us->extra;
+diff --git a/drivers/usb/host/isp1362-hcd.c b/drivers/usb/host/isp1362-hcd.c
+index 0e14d1d07709d..b0da143ef4be9 100644
+--- a/drivers/usb/host/isp1362-hcd.c
++++ b/drivers/usb/host/isp1362-hcd.c
+@@ -2170,7 +2170,7 @@ static void create_debug_file(struct isp1362_hcd *isp1362_hcd)
  
--	PageBuffer = kmalloc(MS_BYTES_PER_PAGE, GFP_KERNEL);
-+	PageBuffer = kzalloc(MS_BYTES_PER_PAGE * 2, GFP_KERNEL);
- 	if (PageBuffer == NULL)
- 		return (u32)-1;
+ static void remove_debug_file(struct isp1362_hcd *isp1362_hcd)
+ {
+-	debugfs_remove(debugfs_lookup("isp1362", usb_debug_root));
++	debugfs_lookup_and_remove("isp1362", usb_debug_root);
+ }
  
+ /*-------------------------------------------------------------------------*/
 -- 
 2.39.2
 
