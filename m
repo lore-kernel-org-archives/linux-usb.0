@@ -2,118 +2,115 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED185C7EE2D
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 16:06:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C1BAC64EC4
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 19:36:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231300AbjCCQGC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Mar 2023 11:06:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47690 "EHLO
+        id S231230AbjCCTgC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Mar 2023 14:36:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbjCCQGB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 11:06:01 -0500
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 78AB518B09
-        for <linux-usb@vger.kernel.org>; Fri,  3 Mar 2023 08:06:00 -0800 (PST)
-Received: (qmail 300049 invoked by uid 1000); 3 Mar 2023 11:05:59 -0500
-Date:   Fri, 3 Mar 2023 11:05:59 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Linyu Yuan <quic_linyyuan@quicinc.com>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, Jack Pham <quic_jackp@quicinc.com>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        Pratham Pratap <quic_ppratap@quicinc.com>
-Subject: Re: [RFC PATCH 2/2] usb: core: hub: avoid reset hub during probe
-Message-ID: <72b4e199-4e23-487e-a9cd-8d41993d4944@rowland.harvard.edu>
-References: <1677835718-7405-1-git-send-email-quic_linyyuan@quicinc.com>
- <1677835718-7405-2-git-send-email-quic_linyyuan@quicinc.com>
+        with ESMTP id S229812AbjCCTgA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 14:36:00 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9586C2BF13;
+        Fri,  3 Mar 2023 11:35:59 -0800 (PST)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 323J1sQC023508;
+        Fri, 3 Mar 2023 19:35:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=GI5hE38Wh5pXzaZ45T9z12pC0vn9FRpTmeBegJGP+GI=;
+ b=G5XuCF2X7W/GDVdKoGB1Z+QLlAmffgftDEVSo4MEZRxmNzsH6Jn4riNGJjkrPLIz4VrZ
+ zo+JO+7R/3kgvLV+53upiOibjo2piMlTtJC0EH6Odc8Hh7ZZcibz/uA2lWLhBZjNXOta
+ R6Rut22x4szWbuWtpIQwOV6N4AjFQCl1PPu4QQD3VLNPlP4j5LNoL4niwLviCejsjOcv
+ 7XG4f0YWX/HZvEyo8tySJ1iwme5PZhIR4uftTgcO2YOn5GfPxn9Rvl+FpDmUxgj26SdM
+ SCu1anvPmywBLaT4ShY0hjilWMywsd08l4zEO+6ZCFSGCbm+4vy+IUDoBilOIDogt2We zw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p3801tr3k-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 03 Mar 2023 19:35:57 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 323JZupO029331
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 3 Mar 2023 19:35:56 GMT
+Received: from [10.110.79.137] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 3 Mar 2023
+ 11:35:56 -0800
+Message-ID: <e1fd0c4b-037e-6112-7698-dd46307246e4@quicinc.com>
+Date:   Fri, 3 Mar 2023 11:35:47 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1677835718-7405-2-git-send-email-quic_linyyuan@quicinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v4] usb: dwc3: gadget: Add 1ms delay after end transfer
+ command without IOC
+Content-Language: en-US
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "quic_jackp@quicinc.com" <quic_jackp@quicinc.com>
+References: <20230301033234.21024-1-quic_wcheng@quicinc.com>
+ <20230301224445.4gmkrhw467lopstg@synopsys.com>
+From:   Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <20230301224445.4gmkrhw467lopstg@synopsys.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: ZG7CQKFMje_EydBg5c2ndRQ5sdfZcg4b
+X-Proofpoint-GUID: ZG7CQKFMje_EydBg5c2ndRQ5sdfZcg4b
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-03_05,2023-03-03_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 priorityscore=1501 phishscore=0 adultscore=0
+ spamscore=0 bulkscore=0 mlxscore=0 suspectscore=0 clxscore=1015
+ mlxlogscore=609 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2303030166
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Mar 03, 2023 at 05:28:38PM +0800, Linyu Yuan wrote:
-> When start probe hub, during INIT, INTT2, INIT3 stage, when link state
-> change to inactive, currently it will reset the device, maybe it will
-> trigger warning in usb_submit_urb() due to urb->hcpriv is still active.
+Hi Thinh,
 
-You need to explain this in much greater detail.
-
-	What will reset the device?
-
-	What is the code path for this reset?
-
-	Why will urb->hcpriv still be active?
-
-> Add a flag name init_stage to avoid reset the device.
-
-Why do you want to avoid resetting the device?
-
-Doesn't the reset code already include a check for whether the device is 
-disconnected?
-
+On 3/1/2023 2:44 PM, Thinh Nguyen wrote:
+> On Tue, Feb 28, 2023, Wesley Cheng wrote:
+>> Previously, there was a 100uS delay inserted after issuing an end transfer
+>> command for specific controller revisions.  This was due to the fact that
+>> there was a GUCTL2 bit field which enabled synchronous completion of the
+>> end transfer command once the CMDACT bit was cleared in the DEPCMD
+>> register.  Since this bit does not exist for all controller revisions, add
 > 
-> Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
-> ---
->  drivers/usb/core/hub.c | 20 +++++++++++++++++++-
->  drivers/usb/core/hub.h |  1 +
->  2 files changed, 20 insertions(+), 1 deletion(-)
+> Can we also note here that we rely on End Transfer command completion
+> interrupt on newer versions.
 > 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 97a0f8f..3cb1137 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -1290,6 +1290,7 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
->  	if (type == HUB_INIT2 || type == HUB_INIT3) {
->  		/* Allow autosuspend if it was suppressed */
->   disconnected:
-> +		hub->init_stage = 0;
->  		usb_autopm_put_interface_async(to_usb_interface(hub->intfdev));
->  		device_unlock(&hdev->dev);
->  	}
-> @@ -1872,6 +1873,7 @@ static int hub_probe(struct usb_interface *intf, const struct usb_device_id *id)
->  	kref_init(&hub->kref);
->  	hub->intfdev = &intf->dev;
->  	hub->hdev = hdev;
-> +	hub->init_stage = 1;
->  	INIT_DELAYED_WORK(&hub->leds, led_work);
->  	INIT_DELAYED_WORK(&hub->init_work, NULL);
->  	INIT_WORK(&hub->events, hub_event);
-> @@ -5587,6 +5589,21 @@ static void port_over_current_notify(struct usb_port *port_dev)
->  	kfree(port_dev_path);
->  }
->  
-> +static bool port_child_avoid_reset(struct usb_device *udev)
-> +{
-> +	struct usb_hub *hub;
-> +
-> +	if (udev->descriptor.bDeviceClass == USB_CLASS_HUB &&
-> +	    udev->state == USB_STATE_CONFIGURED) {
-> +		hub = usb_get_intfdata(udev->actconfig->interface[0]);
-> +
-> +		if (hub && hub->init_stage)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->  static void port_event(struct usb_hub *hub, int port1)
->  		__must_hold(&port_dev->status_lock)
->  {
-> @@ -5699,7 +5716,8 @@ static void port_event(struct usb_hub *hub, int port1)
->  			dev_dbg(&port_dev->dev, "do warm reset, full device\n");
->  			usb_unlock_port(port_dev);
->  			usb_lock_device(udev);
-> -			usb_reset_device(udev);
-> +			if (!port_child_avoid_reset(udev))
-> +				usb_reset_device(udev);
->  			usb_unlock_device(udev);
+>> the delay back in, and increase the duration to 1ms for the controller to
+>> complete the command.
+>>
+>> An issue was seen where the USB request buffer was unmapped while the DWC3
+>> controller was still accessing the TRB.  However, it was confirmed that the
+>> end transfer command was successfully submitted. (no end transfer timeout)
+>> In situations, such as dwc3_gadget_soft_disconnect() and
+>> __dwc3_gadget_ep_disable(), the dwc3_remove_request() is utilized, which
+>> will issue the end transfer command, and follow up with
+>> dwc3_gadget_giveback().  At least for the USB ep disable path, it is
+>> required for any pending and started requests to be completed and returned
+>> to the function driver in the same context of the disable call.  Without
+>> the GUCTL2 bit, it is not ensured that the end transfer is completed before
+>> the buffers are unmapped.
+>>
+> 
+> I think this also needs a Fixes tag.
+> 
+> Everything else looks good to me.
+> 
 
-Doesn't usb_lock_device() already prevent this code from running during 
-the INIT, INIT2, and INIT3 stages of hub preparation?
+Thanks for the reviews, Thinh.  Will fix the above and resubmit.
 
-Alan Stern
+Thanks
+Wesley Cheng
