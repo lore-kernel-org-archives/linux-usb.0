@@ -2,43 +2,43 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BC5BC7EE39
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 21:44:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59DA9C64EC4
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 21:44:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232180AbjCCVoT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Mar 2023 16:44:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55538 "EHLO
+        id S232194AbjCCVo2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Mar 2023 16:44:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232179AbjCCVn5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 16:43:57 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6A141689D;
-        Fri,  3 Mar 2023 13:43:03 -0800 (PST)
+        with ESMTP id S232193AbjCCVoD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 16:44:03 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29C8362D9B;
+        Fri,  3 Mar 2023 13:43:11 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 2ED4FCE2292;
-        Fri,  3 Mar 2023 21:42:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7D4DC4339C;
-        Fri,  3 Mar 2023 21:42:16 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 00BF2B819F7;
+        Fri,  3 Mar 2023 21:42:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B36FC433D2;
+        Fri,  3 Mar 2023 21:42:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677879737;
-        bh=jBO+9yF13EmApSE0R4KjaJE9woEJGEqHfkyOh+W2jNs=;
+        s=k20201202; t=1677879746;
+        bh=E9dtm9d4GQtF08b5rfr/y72R21hIOL/iumZCcyKmVjQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=POWC7g/C0IeJMhfHWa2hm1ewWv/hQg5taZqFBK07jxwnoOsdlLi3vxqfN5JMFqcDo
-         79hu48jI8gD8YCJ9QPj/XgyW8We6N+V0FqzJVnod/AdfZU7hZ3Gn52UNCBT4WPom9M
-         8I6nMMFXSXLWhcj3oJnu0ciRU7lUwd2HPDfFHP+RyRNohYjJYsVNN2PQ4gcYpuM+/Z
-         2AGLuhwpE6IHQeTfXfzaW2tMR4YXBCl8tpoh3KS8uiB7WZC5Kj9mpSIrhX/yE02LJR
-         fDL6HUh99TOvU8d5xZalnDm27DQwZXwryov++o9v2jG23M2Jfd/OTxl6BtUV8SnmsK
-         5q6BskkZVJIpw==
+        b=jaNSQJT6U7pBJ7Wpzr1GQA+KPpG19h5bh6UMLUV0qECjmQWUiC1JkJkbAHuRLTeqZ
+         zDCbkSwSXdceVanP4gxYet7KK7bGEtL+pEI1gBZSYiAArpRh+/8oO2HaxeIGP5LfDD
+         tApItK1KRQ9VuucjITvO6ogqHvXNkItk1Z2F+ibJ4odQ55/lfL0+Fgpsd4z96h+m0Z
+         MT+yWkwo4GbvIMLEESyIHAgFSWS1F+1vUWpyptxAtzw8M3EjJ4sOkwfDttfGGjqfYg
+         AkZYsilRxYBgNSwzs3w2N7aNLPqPUT6qCd8KbT6QrPs4xDA1p9YXZtDnE7kCDqoeE9
+         Kgscdm/EWJo4g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 32/64] USB: ULPI: fix memory leak with using debugfs_lookup()
-Date:   Fri,  3 Mar 2023 16:40:34 -0500
-Message-Id: <20230303214106.1446460-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 37/64] USB: isp1362: fix memory leak with using debugfs_lookup()
+Date:   Fri,  3 Mar 2023 16:40:39 -0500
+Message-Id: <20230303214106.1446460-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303214106.1446460-1-sashal@kernel.org>
 References: <20230303214106.1446460-1-sashal@kernel.org>
@@ -52,77 +52,34 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-[ Upstream commit 8f4d25eba599c4bd4b5ea8ae8752cda480a9d563 ]
+[ Upstream commit c26e682afc14caa87d44beed271eec8991e93c65 ]
 
 When calling debugfs_lookup() the result must have dput() called on it,
 otherwise the memory will leak over time.  To make things simpler, just
 call debugfs_lookup_and_remove() instead which handles all of the logic
 at once.
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Link: https://lore.kernel.org/r/20230202153235.2412790-2-gregkh@linuxfoundation.org
+Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Link: https://lore.kernel.org/r/20230202153235.2412790-7-gregkh@linuxfoundation.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/common/ulpi.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ drivers/usb/host/isp1362-hcd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/common/ulpi.c b/drivers/usb/common/ulpi.c
-index d7c8461976ce0..38703781ee2d1 100644
---- a/drivers/usb/common/ulpi.c
-+++ b/drivers/usb/common/ulpi.c
-@@ -271,7 +271,7 @@ static int ulpi_regs_show(struct seq_file *seq, void *data)
- }
- DEFINE_SHOW_ATTRIBUTE(ulpi_regs);
+diff --git a/drivers/usb/host/isp1362-hcd.c b/drivers/usb/host/isp1362-hcd.c
+index 0e14d1d07709d..b0da143ef4be9 100644
+--- a/drivers/usb/host/isp1362-hcd.c
++++ b/drivers/usb/host/isp1362-hcd.c
+@@ -2170,7 +2170,7 @@ static void create_debug_file(struct isp1362_hcd *isp1362_hcd)
  
--#define ULPI_ROOT debugfs_lookup(KBUILD_MODNAME, NULL)
-+static struct dentry *ulpi_root;
- 
- static int ulpi_register(struct device *dev, struct ulpi *ulpi)
+ static void remove_debug_file(struct isp1362_hcd *isp1362_hcd)
  {
-@@ -301,7 +301,7 @@ static int ulpi_register(struct device *dev, struct ulpi *ulpi)
- 		return ret;
- 	}
- 
--	root = debugfs_create_dir(dev_name(dev), ULPI_ROOT);
-+	root = debugfs_create_dir(dev_name(dev), ulpi_root);
- 	debugfs_create_file("regs", 0444, root, ulpi, &ulpi_regs_fops);
- 
- 	dev_dbg(&ulpi->dev, "registered ULPI PHY: vendor %04x, product %04x\n",
-@@ -349,8 +349,7 @@ EXPORT_SYMBOL_GPL(ulpi_register_interface);
-  */
- void ulpi_unregister_interface(struct ulpi *ulpi)
- {
--	debugfs_remove_recursive(debugfs_lookup(dev_name(&ulpi->dev),
--						ULPI_ROOT));
-+	debugfs_lookup_and_remove(dev_name(&ulpi->dev), ulpi_root);
- 	device_unregister(&ulpi->dev);
+-	debugfs_remove(debugfs_lookup("isp1362", usb_debug_root));
++	debugfs_lookup_and_remove("isp1362", usb_debug_root);
  }
- EXPORT_SYMBOL_GPL(ulpi_unregister_interface);
-@@ -360,12 +359,11 @@ EXPORT_SYMBOL_GPL(ulpi_unregister_interface);
- static int __init ulpi_init(void)
- {
- 	int ret;
--	struct dentry *root;
  
--	root = debugfs_create_dir(KBUILD_MODNAME, NULL);
-+	ulpi_root = debugfs_create_dir(KBUILD_MODNAME, NULL);
- 	ret = bus_register(&ulpi_bus);
- 	if (ret)
--		debugfs_remove(root);
-+		debugfs_remove(ulpi_root);
- 	return ret;
- }
- subsys_initcall(ulpi_init);
-@@ -373,7 +371,7 @@ subsys_initcall(ulpi_init);
- static void __exit ulpi_exit(void)
- {
- 	bus_unregister(&ulpi_bus);
--	debugfs_remove_recursive(ULPI_ROOT);
-+	debugfs_remove(ulpi_root);
- }
- module_exit(ulpi_exit);
- 
+ /*-------------------------------------------------------------------------*/
 -- 
 2.39.2
 
