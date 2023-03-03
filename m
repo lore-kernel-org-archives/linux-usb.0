@@ -2,46 +2,46 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F71EC64EC4
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 21:46:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7041C7EE32
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 21:47:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232373AbjCCVqu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Mar 2023 16:46:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55602 "EHLO
+        id S232422AbjCCVrD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Mar 2023 16:47:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232130AbjCCVo0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 16:44:26 -0500
+        with ESMTP id S232421AbjCCVqU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 16:46:20 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55FB14B82E;
-        Fri,  3 Mar 2023 13:43:40 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A45E765C74;
+        Fri,  3 Mar 2023 13:44:25 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 99B9161923;
-        Fri,  3 Mar 2023 21:42:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A3CEC4331F;
-        Fri,  3 Mar 2023 21:42:30 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E3AED61948;
+        Fri,  3 Mar 2023 21:44:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7447C433A8;
+        Fri,  3 Mar 2023 21:44:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677879751;
-        bh=KRBEIVoE9JmHAOpRSWS3UjsvllJYFulQOA9LVXLoDQc=;
+        s=k20201202; t=1677879863;
+        bh=gpUSKB3kC9G6mWSenLq1kBUG6QCbvz++Xvx6mViL4wU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fTj+ZG9R3Gj4CEXx6gIRFHAD4qXDKMolaAIOQIxOsAVfIzi1+kIONkB160w9KEb8R
-         Pd7wE9I4/+JcexWgsPnwdb24QQdn05cjPz5H+Xm+twEfW6ZgOKcKLqpmJs/nM5hwLI
-         ykeJNqo0ZnzqkIen4glxw+Hcv4dQMOA4qWMCJe2RuP33C7IfRkwnOWomi+vQh39d1Y
-         hy6j4glx3wYu1aQV/h8Q//+wkV4/9dCc8gKByg+Xh5EXftRo9PGiKMAr2CyjRKoZ+6
-         mRAxkfhoV42dxW63rJVO4lu8zek1HudVYWVQ6Yyn2TNDosaZRUnc9xz2pqIsCStxoq
-         YYYcZfeE+WEUg==
+        b=LRhZTwHyK6VGZehx/ko4Xpb4+ETsOsk3QgGUdUs7tiKbAZ/HZH8ERa8LQo6Hl05pT
+         YltnQCZM8fScSdSx1XUbv6I+9XQd3yAXxquOEUQBMZQwqEHOmqpvTKNC3nnSloBGif
+         Jxf5qe5IjXvJkXvULaQHT8m1ZpEe+CQF+KDMxpZubtQ8vMU+vmK00ADqqyFYT4tH+w
+         V+4bKjkntdx//7u6IVxRZfHbaPFXzXctj1YYJWzNsVtaBs6F8ekODgzfuKsgUhoV0r
+         K3O87l6jRRTw2Ws+vw987Da4fLF7j+zNDaSD4ccin8cahJM3gn+VyA2qqSPYUrxQd1
+         vAIor4WBlyPsA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Cernekee <cernekee@gmail.com>,
+        Olav Kongas <ok@artecdesign.ee>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 39/64] USB: gadget: bcm63xx_udc: fix memory leak with using debugfs_lookup()
-Date:   Fri,  3 Mar 2023 16:40:41 -0500
-Message-Id: <20230303214106.1446460-39-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 32/60] USB: isp116x: fix memory leak with using debugfs_lookup()
+Date:   Fri,  3 Mar 2023 16:42:46 -0500
+Message-Id: <20230303214315.1447666-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230303214106.1446460-1-sashal@kernel.org>
-References: <20230303214106.1446460-1-sashal@kernel.org>
+In-Reply-To: <20230303214315.1447666-1-sashal@kernel.org>
+References: <20230303214315.1447666-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,34 +52,34 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-[ Upstream commit a91c99b1fe5c6f7e52fb932ad9e57ec7cfe913ec ]
+[ Upstream commit a95f62d5813facbec20ec087472eb313ee5fa8af ]
 
 When calling debugfs_lookup() the result must have dput() called on it,
 otherwise the memory will leak over time.  To make things simpler, just
 call debugfs_lookup_and_remove() instead which handles all of the logic
 at once.
 
-Cc: Kevin Cernekee <cernekee@gmail.com>
-Link: https://lore.kernel.org/r/20230202153235.2412790-9-gregkh@linuxfoundation.org
+Cc: Olav Kongas <ok@artecdesign.ee>
+Link: https://lore.kernel.org/r/20230202153235.2412790-6-gregkh@linuxfoundation.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/bcm63xx_udc.c | 2 +-
+ drivers/usb/host/isp116x-hcd.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/udc/bcm63xx_udc.c b/drivers/usb/gadget/udc/bcm63xx_udc.c
-index d04d72f5816e6..8d58928913007 100644
---- a/drivers/usb/gadget/udc/bcm63xx_udc.c
-+++ b/drivers/usb/gadget/udc/bcm63xx_udc.c
-@@ -2258,7 +2258,7 @@ static void bcm63xx_udc_init_debugfs(struct bcm63xx_udc *udc)
-  */
- static void bcm63xx_udc_cleanup_debugfs(struct bcm63xx_udc *udc)
+diff --git a/drivers/usb/host/isp116x-hcd.c b/drivers/usb/host/isp116x-hcd.c
+index 4f564d71bb0bc..49ae01487af4d 100644
+--- a/drivers/usb/host/isp116x-hcd.c
++++ b/drivers/usb/host/isp116x-hcd.c
+@@ -1205,7 +1205,7 @@ static void create_debug_file(struct isp116x *isp116x)
+ 
+ static void remove_debug_file(struct isp116x *isp116x)
  {
--	debugfs_remove(debugfs_lookup(udc->gadget.name, usb_debug_root));
-+	debugfs_lookup_and_remove(udc->gadget.name, usb_debug_root);
+-	debugfs_remove(debugfs_lookup(hcd_name, usb_debug_root));
++	debugfs_lookup_and_remove(hcd_name, usb_debug_root);
  }
  
- /***********************************************************************
+ #else
 -- 
 2.39.2
 
