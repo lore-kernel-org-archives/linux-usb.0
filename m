@@ -2,89 +2,265 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F254C64EC4
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 23:23:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6838C64EC4
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Mar 2023 23:47:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229559AbjCCXX2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Mar 2023 18:23:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57196 "EHLO
+        id S229753AbjCCXrj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Mar 2023 18:47:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbjCCXX1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 18:23:27 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FBE78A62;
-        Fri,  3 Mar 2023 15:23:26 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 2955ACE2296;
-        Fri,  3 Mar 2023 21:44:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84F54C4339B;
-        Fri,  3 Mar 2023 21:44:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677879878;
-        bh=qlL51E0/NZbjTW3c4TmV6aYGz5OpdvOQVh9xBbC5vGk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ISW1071Rn74aUF87uX7J+2xonSQ0Kcm/0MgtLCEigvWvnU83VfAwDQ6KpGbJcDSdc
-         G+PRno36i/Z7cfbDXpz4MDkKNXQ95fiujiTDi9djS8UGvNhgp7lQV7s9yvLG5nq8NS
-         +3eY9HvASvIa0fe6w9XbSoFcu8JQ4kY0YccjXpVV7Az63dKlaFZabSyG24KPCnG+8S
-         UGlqt3SU6FYMsSFGwtWFctMx066a1BFHDIVjzXb80FKhoJmms1CpTXVbzTzNblK8xJ
-         sIAAXfdsD25X0tXIjJPi1Cq45EMnfrhh7C31VuZfDDhq2vGC38OG0ALxKz/OQ5uj8l
-         AkwtLSAlBQQZg==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Sasha Levin <sashal@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 37/60] USB: gadget: pxa25x_udc: fix memory leak with using debugfs_lookup()
-Date:   Fri,  3 Mar 2023 16:42:51 -0500
-Message-Id: <20230303214315.1447666-37-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230303214315.1447666-1-sashal@kernel.org>
-References: <20230303214315.1447666-1-sashal@kernel.org>
+        with ESMTP id S229437AbjCCXri (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Mar 2023 18:47:38 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CEDD58B6D;
+        Fri,  3 Mar 2023 15:47:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677887251; x=1709423251;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=PU07nuQaWNZxtnMFSIXOXAP+ifOpD0/dT6yWLSPpnpo=;
+  b=FnPcbREe8Gjka6mFdWaR7jHn++ar6OMd0+GNXYZgJ+3zXd4iGYkqosO1
+   ycWOTwvVi/StxHt1Hyg8Lr1O93RMpJcjvi+f2aIbYMcXQviY+1KKk8zaL
+   sbXCiSbY/Utsh/ltdEDFH2MPLdKe+fA+pVatHQEbUdO2suCIJo59i1oe+
+   vmtBbSSUr+2WByyAtXdfPl2AFcIyr2vJm1MwHkT2Ucitf0N71HbvjKt+g
+   h14fln4Aax3gIf3G/mPgvbTSo+IAPQIU5ImOtzaxLg37fA/zBaajFfikg
+   CqJLeyV4NM+hjERRDF8klkPeTv6bprpk0GtD1KQ0K87qlYmCBkva96kUn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="314844231"
+X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
+   d="scan'208";a="314844231"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 15:47:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="739681028"
+X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
+   d="scan'208";a="739681028"
+Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 03 Mar 2023 15:47:29 -0800
+Received: from kbuild by 776573491cc5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pYF7Y-0001jg-1n;
+        Fri, 03 Mar 2023 23:47:28 +0000
+Date:   Sat, 04 Mar 2023 07:46:51 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-arch@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD SUCCESS WITH WARNING
+ 1acf39ef8f1425cd105f630dc2c7c1d8fff27ed1
+Message-ID: <640286eb.B5GGXMVRNOx+ogeQ%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 1acf39ef8f1425cd105f630dc2c7c1d8fff27ed1  Add linux-next specific files for 20230303
 
-[ Upstream commit 7a038a681b7df78362d9fc7013e5395a694a9d3a ]
+Warning reports:
 
-When calling debugfs_lookup() the result must have dput() called on it,
-otherwise the memory will leak over time.  To make things simpler, just
-call debugfs_lookup_and_remove() instead which handles all of the logic
-at once.
+https://lore.kernel.org/oe-kbuild-all/202302111601.jtY4lKrA-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302170355.Ljqlzucu-lkp@intel.com
 
-Cc: Daniel Mack <daniel@zonque.org>
-Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
-Cc: Robert Jarzmik <robert.jarzmik@free.fr>
-Link: https://lore.kernel.org/r/20230202153235.2412790-11-gregkh@linuxfoundation.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/gadget/udc/pxa25x_udc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Warning: (recently discovered and may have been fixed)
 
-diff --git a/drivers/usb/gadget/udc/pxa25x_udc.c b/drivers/usb/gadget/udc/pxa25x_udc.c
-index c593fc383481e..9e01ddf2b4170 100644
---- a/drivers/usb/gadget/udc/pxa25x_udc.c
-+++ b/drivers/usb/gadget/udc/pxa25x_udc.c
-@@ -1340,7 +1340,7 @@ DEFINE_SHOW_ATTRIBUTE(udc_debug);
- 		debugfs_create_file(dev->gadget.name, \
- 			S_IRUGO, NULL, dev, &udc_debug_fops); \
- 	} while (0)
--#define remove_debug_files(dev) debugfs_remove(debugfs_lookup(dev->gadget.name, NULL))
-+#define remove_debug_files(dev) debugfs_lookup_and_remove(dev->gadget.name, NULL)
- 
- #else	/* !CONFIG_USB_GADGET_DEBUG_FILES */
- 
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_optc.c:294:6: warning: no previous prototype for 'optc3_wait_drr_doublebuffer_pending_clear' [-Wmissing-prototypes]
+
+Unverified Warning (likely false positive, please contact us if interested):
+
+drivers/usb/gadget/composite.c:2082:33: sparse: sparse: restricted __le16 degrades to integer
+drivers/watchdog/imx2_wdt.c:442:22: sparse: sparse: symbol 'imx_wdt' was not declared. Should it be static?
+drivers/watchdog/imx2_wdt.c:446:22: sparse: sparse: symbol 'imx_wdt_legacy' was not declared. Should it be static?
+
+Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- arm64-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
+|-- csky-randconfig-s043-20230302
+|   |-- include-asm-generic-cmpxchg-local.h:sparse:sparse:cast-truncates-bits-from-constant-value-(-becomes-)
+|   `-- include-asm-generic-cmpxchg-local.h:sparse:sparse:cast-truncates-bits-from-constant-value-(aaa31337-becomes-)
+|-- i386-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
+|-- i386-randconfig-s001
+|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|-- i386-randconfig-s003
+|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|-- openrisc-randconfig-s032-20230302
+|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|-- powerpc-randconfig-s042-20230302
+|   |-- drivers-watchdog-imx2_wdt.c:sparse:sparse:symbol-imx_wdt-was-not-declared.-Should-it-be-static
+|   `-- drivers-watchdog-imx2_wdt.c:sparse:sparse:symbol-imx_wdt_legacy-was-not-declared.-Should-it-be-static
+|-- riscv-randconfig-s041-20230302
+|   |-- drivers-watchdog-imx2_wdt.c:sparse:sparse:symbol-imx_wdt-was-not-declared.-Should-it-be-static
+|   `-- drivers-watchdog-imx2_wdt.c:sparse:sparse:symbol-imx_wdt_legacy-was-not-declared.-Should-it-be-static
+|-- sparc-randconfig-s051-20230302
+|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|-- x86_64-allnoconfig
+|   `-- Warning:Documentation-devicetree-bindings-usb-rockchip-dwc3.yaml-references-a-file-that-doesn-t-exist:Documentation-devicetree-bindings-phy-phy-rockchip-inno-usb2.yaml
+|-- x86_64-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
+`-- x86_64-randconfig-s021
+    `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
+
+elapsed time: 1261m
+
+configs tested: 145
+configs skipped: 6
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r003-20230302   gcc  
+arc                  randconfig-r031-20230302   gcc  
+arc                  randconfig-r043-20230302   gcc  
+arc                        vdk_hs38_defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                       imx_v4_v5_defconfig   clang
+arm                           imxrt_defconfig   gcc  
+arm                      integrator_defconfig   gcc  
+arm                        neponset_defconfig   clang
+arm                  randconfig-c002-20230302   gcc  
+arm                  randconfig-r046-20230302   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             alldefconfig   gcc  
+csky         buildonly-randconfig-r002-20230302   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r016-20230302   gcc  
+hexagon              randconfig-r011-20230302   clang
+hexagon              randconfig-r033-20230302   clang
+hexagon              randconfig-r041-20230302   clang
+hexagon              randconfig-r045-20230302   clang
+i386                             allyesconfig   clang
+i386                             allyesconfig   gcc  
+i386                         debian-10.3-func   gcc  
+i386                   debian-10.3-kselftests   gcc  
+i386                        debian-10.3-kunit   gcc  
+i386                          debian-10.3-kvm   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                          randconfig-a001   gcc  
+i386                          randconfig-a002   clang
+i386                          randconfig-a003   gcc  
+i386                          randconfig-a004   clang
+i386                          randconfig-a005   gcc  
+i386                          randconfig-a006   clang
+i386                          randconfig-a011   clang
+i386                          randconfig-a012   gcc  
+i386                          randconfig-a013   clang
+i386                          randconfig-a014   gcc  
+i386                          randconfig-a015   clang
+i386                          randconfig-a016   gcc  
+i386                          randconfig-c001   gcc  
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r002-20230302   gcc  
+ia64                 randconfig-r023-20230302   gcc  
+ia64                          tiger_defconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k         buildonly-randconfig-r004-20230302   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r012-20230302   gcc  
+m68k                 randconfig-r022-20230302   gcc  
+m68k                 randconfig-r035-20230302   gcc  
+microblaze   buildonly-randconfig-r001-20230302   gcc  
+microblaze   buildonly-randconfig-r003-20230302   gcc  
+microblaze           randconfig-r005-20230302   gcc  
+microblaze           randconfig-r025-20230302   gcc  
+microblaze           randconfig-r026-20230302   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                     decstation_defconfig   gcc  
+mips                       lemote2f_defconfig   clang
+mips                      maltasmvp_defconfig   gcc  
+mips                        qi_lb60_defconfig   clang
+mips                 randconfig-c004-20230302   clang
+mips                           rs90_defconfig   clang
+nios2                               defconfig   gcc  
+nios2                randconfig-r006-20230302   gcc  
+nios2                randconfig-r014-20230302   gcc  
+openrisc             randconfig-r004-20230302   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r015-20230302   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                        fsp2_defconfig   clang
+powerpc                 mpc832x_mds_defconfig   clang
+powerpc                      ppc44x_defconfig   clang
+powerpc                       ppc64_defconfig   gcc  
+powerpc              randconfig-c003-20230302   clang
+powerpc              randconfig-r034-20230302   gcc  
+powerpc                     tqm5200_defconfig   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r013-20230302   clang
+riscv                randconfig-r024-20230302   clang
+riscv                randconfig-r036-20230302   gcc  
+riscv                randconfig-r042-20230302   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230302   clang
+sh                               allmodconfig   gcc  
+sh                                  defconfig   gcc  
+sh                ecovec24-romimage_defconfig   gcc  
+sh                             espt_defconfig   gcc  
+sh                   randconfig-r001-20230302   gcc  
+sh                   randconfig-r021-20230302   gcc  
+sh                          sdk7780_defconfig   gcc  
+sh                          sdk7786_defconfig   gcc  
+sh                   secureedge5410_defconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64                        randconfig-a001   clang
+x86_64                        randconfig-a002   gcc  
+x86_64                        randconfig-a003   clang
+x86_64                        randconfig-a004   gcc  
+x86_64                        randconfig-a005   clang
+x86_64                        randconfig-a006   gcc  
+x86_64                        randconfig-a011   gcc  
+x86_64                        randconfig-a012   clang
+x86_64                        randconfig-a013   gcc  
+x86_64                        randconfig-a014   clang
+x86_64                        randconfig-a015   gcc  
+x86_64                        randconfig-a016   clang
+x86_64                        randconfig-c001   gcc  
+x86_64                        randconfig-k001   clang
+x86_64                           rhel-8.3-bpf   gcc  
+x86_64                          rhel-8.3-func   gcc  
+x86_64                    rhel-8.3-kselftests   gcc  
+x86_64                         rhel-8.3-kunit   gcc  
+x86_64                           rhel-8.3-kvm   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                           rhel-8.3-syz   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa       buildonly-randconfig-r005-20230302   gcc  
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
