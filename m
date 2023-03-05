@@ -2,107 +2,99 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2EDFC678DB
-	for <linux-usb@archiver.kernel.org>; Sat,  4 Mar 2023 15:51:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72180C61DA4
+	for <linux-usb@archiver.kernel.org>; Sun,  5 Mar 2023 09:18:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbjCDPvr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 4 Mar 2023 10:51:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36940 "EHLO
+        id S229581AbjCEJSI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 5 Mar 2023 04:18:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjCDPvq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 4 Mar 2023 10:51:46 -0500
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 64D001E9F0
-        for <linux-usb@vger.kernel.org>; Sat,  4 Mar 2023 07:51:45 -0800 (PST)
-Received: (qmail 334178 invoked by uid 1000); 4 Mar 2023 10:51:44 -0500
-Date:   Sat, 4 Mar 2023 10:51:44 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Bart Van Assche <bvanassche@acm.org>
-Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org, Oliver Neukum <oneukum@suse.com>,
-        linux-usb@vger.kernel.org, Oliver Neukum <oliver@neukum.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 80/81] usb: uas: Declare two host templates and host
- template pointers const
-Message-ID: <4f80df61-98d4-4f27-a095-feea7f657d8f@rowland.harvard.edu>
-References: <20230304003103.2572793-1-bvanassche@acm.org>
- <20230304003103.2572793-81-bvanassche@acm.org>
+        with ESMTP id S229437AbjCEJSG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 Mar 2023 04:18:06 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C267FCA0C;
+        Sun,  5 Mar 2023 01:18:04 -0800 (PST)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pYkVF-0000ff-L8; Sun, 05 Mar 2023 10:18:01 +0100
+Message-ID: <72579321-2cc9-2de1-d28c-0c56562f3a28@leemhuis.info>
+Date:   Sun, 5 Mar 2023 10:18:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230304003103.2572793-81-bvanassche@acm.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US, de-DE
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+To:     Mathias Nyman <mathias.nyman@intel.com>
+Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: [regression] Bug 217122 - "Transfer event TRB DMA ptr not part of
+ current TD" messages since 6.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1678007884;5f164182;
+X-HE-SMSGID: 1pYkVF-0000ff-L8
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Mar 03, 2023 at 04:31:02PM -0800, Bart Van Assche wrote:
-> Improve source code documentation by constifying host templates that are
-> not modified.
+Hi, this is your Linux kernel regression tracker.
+
+I noticed a regression report in bugzilla.kernel.org. As many (most?)
+kernel developer don't keep an eye on it, I decided to forward it by
+mail. Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=217122 :
+
+>  Jürgen Herrmann 2023-03-03 19:53:55 UTC
 > 
-> Cc: Oliver Neukum <oneukum@suse.com>
-> Cc: linux-usb@vger.kernel.org
-> Signed-off-by: Bart Van Assche <bvanassche@acm.org>
-> ---
-
-For the usb-storage parts:
-
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-
->  drivers/usb/image/microtek.c | 2 +-
->  drivers/usb/storage/uas.c    | 2 +-
->  drivers/usb/storage/usb.c    | 2 +-
->  drivers/usb/storage/usb.h    | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
+> Created attachment 303837 [details]
+> collection of txt files with various hardware/software states
 > 
-> diff --git a/drivers/usb/image/microtek.c b/drivers/usb/image/microtek.c
-> index 874ea4b54ced..8c8fa71c69c4 100644
-> --- a/drivers/usb/image/microtek.c
-> +++ b/drivers/usb/image/microtek.c
-> @@ -620,7 +620,7 @@ static int mts_scsi_queuecommand_lck(struct scsi_cmnd *srb)
->  
->  static DEF_SCSI_QCMD(mts_scsi_queuecommand)
->  
-> -static struct scsi_host_template mts_scsi_host_template = {
-> +static const struct scsi_host_template mts_scsi_host_template = {
->  	.module			= THIS_MODULE,
->  	.name			= "microtekX6",
->  	.proc_name		= "microtekX6",
-> diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
-> index de3836412bf3..2583ee9815c5 100644
-> --- a/drivers/usb/storage/uas.c
-> +++ b/drivers/usb/storage/uas.c
-> @@ -894,7 +894,7 @@ static int uas_slave_configure(struct scsi_device *sdev)
->  	return 0;
->  }
->  
-> -static struct scsi_host_template uas_host_template = {
-> +static const struct scsi_host_template uas_host_template = {
->  	.module = THIS_MODULE,
->  	.name = "uas",
->  	.queuecommand = uas_queuecommand,
-> diff --git a/drivers/usb/storage/usb.c b/drivers/usb/storage/usb.c
-> index ed7c6ad96a74..7b36a3334fb3 100644
-> --- a/drivers/usb/storage/usb.c
-> +++ b/drivers/usb/storage/usb.c
-> @@ -937,7 +937,7 @@ int usb_stor_probe1(struct us_data **pus,
->  		struct usb_interface *intf,
->  		const struct usb_device_id *id,
->  		const struct us_unusual_dev *unusual_dev,
-> -		struct scsi_host_template *sht)
-> +		const struct scsi_host_template *sht)
->  {
->  	struct Scsi_Host *host;
->  	struct us_data *us;
-> diff --git a/drivers/usb/storage/usb.h b/drivers/usb/storage/usb.h
-> index 0451fac1adce..fd3f32670873 100644
-> --- a/drivers/usb/storage/usb.h
-> +++ b/drivers/usb/storage/usb.h
-> @@ -187,7 +187,7 @@ extern int usb_stor_probe1(struct us_data **pus,
->  		struct usb_interface *intf,
->  		const struct usb_device_id *id,
->  		const struct us_unusual_dev *unusual_dev,
-> -		struct scsi_host_template *sht);
-> +		const struct scsi_host_template *sht);
->  extern int usb_stor_probe2(struct us_data *us);
->  extern void usb_stor_disconnect(struct usb_interface *intf);
->  
+> Occasionally this error happens:
+> 
+> [94467.984745] xhci_hcd 0000:05:00.4: ERROR Transfer event TRB DMA ptr not part of current TD ep_index 3 comp_code 1
+> [94467.984751] xhci_hcd 0000:05:00.4: Looking for event-dma 000000010f10c730 trb-start 000000010f10c740 trb-end 000000010f10c740 seg-start 000000010f10
+> c000 seg-end 000000010f10cff0
+> 
+> the playback software (camilladsp then reports an error:
+> 
+> 2023-03-03 05:41:37.010408 WARN [src/alsadevice.rs:260] Capture device failed while waiting for available frames, error: ALSA function 'snd_pcm_wait' f
+> ailed with error 'EPIPE: Broken pipe'
+> 2023-03-03 05:41:37.013214 ERROR [src/bin.rs:364] Capture error: ALSA function 'snd_pcm_wait' failed with error 'EPIPE: Broken pipe'
+> 
+> This did not occur in any 6.0 version and was introduced in 6.1, still present in 6.2
+See the ticket for more details.
+
+
+[TLDR for the rest of this mail: I'm adding this report to the list of
+tracked Linux kernel regressions; the text you find below is based on a
+few templates paragraphs you might have encountered already in similar
+form.]
+
+BTW, let me use this mail to also add the report to the list of tracked
+regressions to ensure it's doesn't fall through the cracks:
+
+#regzbot introduced: v6.0..v6.1
+https://bugzilla.kernel.org/show_bug.cgi?id=217122
+#regzbot title: usb: xhci: suddenly errors msg like "Transfer event TRB
+DMA ptr not part of current TD"
+#regzbot ignore-activity
+
+This isn't a regression? This issue or a fix for it are already
+discussed somewhere else? It was fixed already? You want to clarify when
+the regression started to happen? Or point out I got the title or
+something else totally wrong? Then just reply and tell me -- ideally
+while also telling regzbot about it, as explained by the page listed in
+the footer of this mail.
+
+Developers: When fixing the issue, remember to add 'Link:' tags pointing
+to the report (e.g. the buzgzilla ticket and maybe this mail as well, if
+this thread sees some discussion). See page linked in footer for details.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
