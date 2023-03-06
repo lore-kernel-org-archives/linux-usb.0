@@ -2,99 +2,77 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72180C61DA4
-	for <linux-usb@archiver.kernel.org>; Sun,  5 Mar 2023 09:18:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1CEBC61DA4
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Mar 2023 01:26:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229581AbjCEJSI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 5 Mar 2023 04:18:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56272 "EHLO
+        id S229687AbjCFB0f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 5 Mar 2023 20:26:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjCEJSG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 Mar 2023 04:18:06 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C267FCA0C;
-        Sun,  5 Mar 2023 01:18:04 -0800 (PST)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pYkVF-0000ff-L8; Sun, 05 Mar 2023 10:18:01 +0100
-Message-ID: <72579321-2cc9-2de1-d28c-0c56562f3a28@leemhuis.info>
-Date:   Sun, 5 Mar 2023 10:18:01 +0100
+        with ESMTP id S229484AbjCFB0f (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 Mar 2023 20:26:35 -0500
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBEE8F97C;
+        Sun,  5 Mar 2023 17:26:33 -0800 (PST)
+Received: from dggpeml100012.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PVLTS4DTLz9tLG;
+        Mon,  6 Mar 2023 09:24:28 +0800 (CST)
+Received: from [10.67.110.218] (10.67.110.218) by
+ dggpeml100012.china.huawei.com (7.185.36.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 6 Mar 2023 09:26:31 +0800
+Message-ID: <acc08af9-fdb3-5451-5c53-44784982fe2a@huawei.com>
+Date:   Mon, 6 Mar 2023 09:26:31 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US, de-DE
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-To:     Mathias Nyman <mathias.nyman@intel.com>
-Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux kernel regressions list <regressions@lists.linux.dev>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Subject: [regression] Bug 217122 - "Transfer event TRB DMA ptr not part of
- current TD" messages since 6.1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1678007884;5f164182;
-X-HE-SMSGID: 1pYkVF-0000ff-L8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 5.15] usb: dwc3: dwc3-qcom: Add missing
+ platform_device_put() in dwc3_qcom_acpi_register_core
+Content-Language: en-US
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     <stable@vger.kernel.org>, <agross@kernel.org>,
+        <bjorn.andersson@linaro.org>, <balbi@kernel.org>,
+        <lee.jones@linaro.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20230303023439.774616-1-zhengyejian1@huawei.com>
+ <ZAIW9mkHpKKQyIK+@kroah.com>
+From:   Zheng Yejian <zhengyejian1@huawei.com>
+In-Reply-To: <ZAIW9mkHpKKQyIK+@kroah.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.110.218]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml100012.china.huawei.com (7.185.36.121)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi, this is your Linux kernel regression tracker.
-
-I noticed a regression report in bugzilla.kernel.org. As many (most?)
-kernel developer don't keep an eye on it, I decided to forward it by
-mail. Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=217122 :
-
->  Jürgen Herrmann 2023-03-03 19:53:55 UTC
+On 2023/3/3 23:49, Greg KH wrote:
+> On Fri, Mar 03, 2023 at 10:34:39AM +0800, Zheng Yejian wrote:
+>> From: Miaoqian Lin <linmq006@gmail.com>
+>>
+>> commit fa0ef93868a6062babe1144df2807a8b1d4924d2 upstream.
+>>
+>> Add the missing platform_device_put() before return from
+>> dwc3_qcom_acpi_register_core in the error handling case.
+>>
+>> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+>> Link: https://lore.kernel.org/r/20211231113641.31474-1-linmq006@gmail.com
+>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> CVE: CVE-2023-22995
 > 
-> Created attachment 303837 [details]
-> collection of txt files with various hardware/software states
+> That is a bogus CVE, please go revoke it.
+
+Agree. I see this CVE and its fixes information from NVD,
+so try to backport this patch to fix it:
+Link: https://nvd.nist.gov/vuln/detail/CVE-2023-22995
+
+Then should I just remove the "CVE: " field and send a v2 patch?
+Or you mean "revoke" the CVE from NVD? I actually don't know how
+to do that :(
+
 > 
-> Occasionally this error happens:
+> thanks,
 > 
-> [94467.984745] xhci_hcd 0000:05:00.4: ERROR Transfer event TRB DMA ptr not part of current TD ep_index 3 comp_code 1
-> [94467.984751] xhci_hcd 0000:05:00.4: Looking for event-dma 000000010f10c730 trb-start 000000010f10c740 trb-end 000000010f10c740 seg-start 000000010f10
-> c000 seg-end 000000010f10cff0
-> 
-> the playback software (camilladsp then reports an error:
-> 
-> 2023-03-03 05:41:37.010408 WARN [src/alsadevice.rs:260] Capture device failed while waiting for available frames, error: ALSA function 'snd_pcm_wait' f
-> ailed with error 'EPIPE: Broken pipe'
-> 2023-03-03 05:41:37.013214 ERROR [src/bin.rs:364] Capture error: ALSA function 'snd_pcm_wait' failed with error 'EPIPE: Broken pipe'
-> 
-> This did not occur in any 6.0 version and was introduced in 6.1, still present in 6.2
-See the ticket for more details.
-
-
-[TLDR for the rest of this mail: I'm adding this report to the list of
-tracked Linux kernel regressions; the text you find below is based on a
-few templates paragraphs you might have encountered already in similar
-form.]
-
-BTW, let me use this mail to also add the report to the list of tracked
-regressions to ensure it's doesn't fall through the cracks:
-
-#regzbot introduced: v6.0..v6.1
-https://bugzilla.kernel.org/show_bug.cgi?id=217122
-#regzbot title: usb: xhci: suddenly errors msg like "Transfer event TRB
-DMA ptr not part of current TD"
-#regzbot ignore-activity
-
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
-
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (e.g. the buzgzilla ticket and maybe this mail as well, if
-this thread sees some discussion). See page linked in footer for details.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+> greg k-h
