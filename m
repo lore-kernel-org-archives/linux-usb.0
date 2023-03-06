@@ -2,126 +2,76 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E305AC6FD19
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Mar 2023 10:24:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19FC9C61DA4
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Mar 2023 10:35:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229800AbjCFKYJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Mar 2023 05:24:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55202 "EHLO
+        id S231220AbjCFKfq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Mar 2023 05:35:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229621AbjCFKYH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Mar 2023 05:24:07 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FC3E11B;
-        Mon,  6 Mar 2023 02:23:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1678098237; x=1709634237;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fAROdIHL4rwOPVUkhhOPISkKYjWoQ2xKz6j6/njHS2w=;
-  b=Ji5gBBQTQc3BBhnSQNfI0i1KZQHrHtKZejzQrSYtHjweZaVdREDhq/H0
-   Gxifq5xd/B3YADIgfRfjjJQgLVqvimnW4BZl+cU8JzuIL5EOcd37h7Gfw
-   aJ6ut4EJhygDU63G+IjslG4zLSVovWQZ2kVp+cygaAReE0vFYG42xmxWX
-   W3RVoozUTI6PBZcchxEDMVyHAAXGfdo4UK0Km4zwYLN4WwSrC8OS93fJE
-   VpwMLpTARxVSnLDeqe8zqW61vHxVOPNYnc82XRwLOfqF1GRrXzDj3r2tU
-   DR7BqBsW4Y28q+j4S6LTJaxzkWZXIrqq6tOwyYVvvozkq0AaRyWdZK5XN
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.98,236,1673938800"; 
-   d="asc'?scan'208";a="203456799"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 06 Mar 2023 03:23:41 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 6 Mar 2023 03:23:41 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16 via Frontend
- Transport; Mon, 6 Mar 2023 03:23:38 -0700
-Date:   Mon, 6 Mar 2023 10:23:10 +0000
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Minda Chen <minda.chen@starfivetech.com>
-CC:     Emil Renner Berthing <kernel@esmil.dk>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Roger Quadros <rogerq@kernel.org>,
-        Aswath Govindraju <a-govindraju@ti.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Conor Dooley <conor@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <linux-usb@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>
-Subject: Re: [PATCH 0/3] Add JH7110 USB driver support
-Message-ID: <ZAW/DqprkKaop4bg@wendy>
-References: <20230306095212.25840-1-minda.chen@starfivetech.com>
+        with ESMTP id S231561AbjCFKfi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Mar 2023 05:35:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 806132054A
+        for <linux-usb@vger.kernel.org>; Mon,  6 Mar 2023 02:34:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1678098844;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=nk+qEMKLnGBNyiBoDHmr5Ko6eiOftzPruVRMgtr7R3Y=;
+        b=BbhsbfpUWn4RqdcwyjExP4y5sEwc9D1FLMXNhc2f0JuukK9iKNpWPPeABSIzh7zKqRYIzz
+        s2PYpcezXkhsl4z1of7EGjfKdr/agmmSyzyWogVWbFP/4CHpSzIc7l1/pEVzVa2rd3UbeV
+        ZgtcBWdCIcmy8ni1fPNLuJBa0xSIi1Q=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-15-WqefdaPgP4KQaH85UMUQ5A-1; Mon, 06 Mar 2023 05:34:02 -0500
+X-MC-Unique: WqefdaPgP4KQaH85UMUQ5A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90D9B38123C6;
+        Mon,  6 Mar 2023 10:34:01 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.195.139])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 492EE40C83B6;
+        Mon,  6 Mar 2023 10:34:00 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org
+Subject: [PATCH v2 0/3] usb: ucsi: 3 bug fixes
+Date:   Mon,  6 Mar 2023 11:33:56 +0100
+Message-Id: <20230306103359.6591-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="zMsznMw5/Z/x33K0"
-Content-Disposition: inline
-In-Reply-To: <20230306095212.25840-1-minda.chen@starfivetech.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---zMsznMw5/Z/x33K0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Heikki,
 
-Hey Minda!
+Here is v2 of my ucsi bugfix series.
 
-On Mon, Mar 06, 2023 at 05:52:12PM +0800, Minda Chen wrote:
-> This patchset adds USB driver for the StarFive JH7110 SoC.
-> USB work mode is peripheral and using USB 2.0 PHY in VisionFive 2 board.
-> The patch has been tested on the VisionFive 2 board.
->=20
-> This patchset should be applied after the patchset [1] and patch [2]:
-> [1] https://lore.kernel.org/all/20230221083323.302471-1-xingyu.wu@starfiv=
-etech.com/
-> [2] https://lore.kernel.org/all/20230215113249.47727-4-william.qiu@starfi=
-vetech.com/
->=20
-> patch 1 is usb phy dt-binding document.
-> patch 2 is the glue layer of Cadence USB3 and USB phy
-> setting. USB controller IP is Cadence USB3.=20
-> patch 3 is USB device tree configuration.
->=20
-> Minda Chen (3):
->   dt-bindings: phy: Add StarFive JH7110 USB dt-binding
->   usb: cdns3: add StarFive JH7110 USB glue layer
->   dts: usb: add StarFive JH7110 USB dts configuration.
+Changes in v2:
+-Delay setting ucsi->ntfy in ucsi_init() instead of adding a NULL pointer
+ check to ucsi_connector_change()
 
-Unfortunately, this patchset hasn't really landed correctly.
-Usually, in a series, patches are sent as replies to the cover letter.
-Git's send-email will do this for you if you pass it multiple patches
-and a cover letter (I do it by passing a directory, eg patches/foo/v1)
+Regards,
 
-It appears that you have sent each patch separately, and to different
-recipients, which makes this harder to review.
-Please re-submit this with proper threading (and as v2 ideally, so that
-Greg's bot doesn't complain).
+Hans
 
-Thanks,
-Conor.
 
---zMsznMw5/Z/x33K0
-Content-Type: application/pgp-signature; name="signature.asc"
+Hans de Goede (3):
+  usb: ucsi: Fix NULL pointer deref in ucsi_connector_change()
+  usb: ucsi: Fix ucsi->connector race
+  usb: ucsi_acpi: Increase the command completion timeout
 
------BEGIN PGP SIGNATURE-----
+ drivers/usb/typec/ucsi/ucsi.c      | 31 ++++++++++++++----------------
+ drivers/usb/typec/ucsi/ucsi_acpi.c |  2 +-
+ 2 files changed, 15 insertions(+), 18 deletions(-)
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZAW/DgAKCRB4tDGHoIJi
-0n+0AQD+Y8MI2RJ1ehfJEWSWYTvb547GcgP/f/R0S9BcWwWn8wEAynmRcm59mWRh
-Rz7uCk7KLQh077VMvMhoUxx305X21gU=
-=u/Bd
------END PGP SIGNATURE-----
+-- 
+2.39.1
 
---zMsznMw5/Z/x33K0--
