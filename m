@@ -2,153 +2,206 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14BE9C64EC4
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Mar 2023 20:06:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C2E0C61DA4
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Mar 2023 20:52:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230314AbjCFUGU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Mar 2023 15:06:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47556 "EHLO
+        id S229557AbjCFUwi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Mar 2023 15:52:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230301AbjCFUGS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Mar 2023 15:06:18 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 087FC74334;
-        Mon,  6 Mar 2023 12:06:12 -0800 (PST)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 326He8ZH002484;
-        Mon, 6 Mar 2023 20:06:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=9vJWmm8MxUmkFCvg8hWCRyR+rVKxw+Jb3hxc5UOhDdw=;
- b=A3LmlLbJ0ZYii83RfytQIVP4FdyEyLgi0OhTKFhvTuP6KBmBF97RZH7oCEiUb1nh/ABB
- gnDuuYNyUrf+Cv7sAp26FFHfQsuieEMhGqLJ4yunKOLqKykpCfccayfSWaTmjBtx0Oaz
- fJZHZX7FoMyNeS3EY9AIQyhH2N0Sshg4OOUf0dGtrfop77Er6C30cpih6Z5/gjjY7rka
- eVmKGr94aZsy7IdMwwcGfGM7VqX3zxDDdF7/GJTD8CPBxhMNp9BhezYeanOay0jYY6cb
- FZOlQ91qFdUiJVVjDh4RrBQKIVIkkArpeRj1KwLhSxUDibIt6jkk/JMQUCn2gc6sQ0+e cw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p415hwwdy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Mar 2023 20:06:10 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 326K69Va021723
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 6 Mar 2023 20:06:09 GMT
-Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Mon, 6 Mar 2023 12:06:09 -0800
-From:   Wesley Cheng <quic_wcheng@quicinc.com>
-To:     <gregkh@linuxfoundation.org>, <Thinh.Nguyen@synopsys.com>
-CC:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <quic_jackp@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v5] usb: dwc3: gadget: Add 1ms delay after end transfer command without IOC
-Date:   Mon, 6 Mar 2023 12:05:57 -0800
-Message-ID: <20230306200557.29387-1-quic_wcheng@quicinc.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S229483AbjCFUwh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Mar 2023 15:52:37 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95E777DA3
+        for <linux-usb@vger.kernel.org>; Mon,  6 Mar 2023 12:52:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678135956; x=1709671956;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Li/TBzFgBX00H9tLaphAit1VN/akSL+v/oQlY6HKDJI=;
+  b=MpCfC6awylQDJJcsIMXq6oYbem4vIGArvMRjfCo3NFim9Mp9p+2NgYYj
+   BZHXmzoYQgonhT5lEVOXuA1+2AivXEo0royyYrFkTHGuthmyqxsd97AVK
+   TI3h/6xSicfl7z5ftAC/xLUfff1Ns5evVF4EANGkrkC3JaVynXIHRksoS
+   SgPQ6zDMAPQqJpccYNJv/lkLyH45c9kEuluZ2LTiyIONGWcCUJi0wpP6x
+   GUDFcyHnJq6SIKEEcdVKDp0N9736xtNUERBa1XzyfqmD54gX7Kyr3xYRi
+   opbEMOGVX2RmBDTVpODIGhN/DMSekMls5lXG1vtlWig5n9FEKUGQXjTbC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="421946870"
+X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
+   d="scan'208";a="421946870"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 12:52:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="676309736"
+X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
+   d="scan'208";a="676309736"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 06 Mar 2023 12:52:34 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pZHow-0000cm-0S;
+        Mon, 06 Mar 2023 20:52:34 +0000
+Date:   Tue, 07 Mar 2023 04:51:47 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:rndis-removal] BUILD SUCCESS
+ d36e309bc0250fdf2acebdd1a1c2e95bef745223
+Message-ID: <64065263.EM3eo8up+T2Fm4OT%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: hwM4MS4WYmgYBGVl13_X816I1ASkOLEq
-X-Proofpoint-GUID: hwM4MS4WYmgYBGVl13_X816I1ASkOLEq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-06_13,2023-03-06_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- clxscore=1015 lowpriorityscore=0 priorityscore=1501 mlxscore=0
- adultscore=0 mlxlogscore=615 suspectscore=0 spamscore=0 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303060175
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Previously, there was a 100uS delay inserted after issuing an end transfer
-command for specific controller revisions.  This was due to the fact that
-there was a GUCTL2 bit field which enabled synchronous completion of the
-end transfer command once the CMDACT bit was cleared in the DEPCMD
-register.  Since this bit does not exist for all controller revisions and
-the current implementation heavily relies on utizling the EndTransfer
-command completion interrupt, add the delay back in for uses where the
-interrupt on completion bit is not set, and increase the duration to 1ms
-for the controller to complete the command.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git rndis-removal
+branch HEAD: d36e309bc0250fdf2acebdd1a1c2e95bef745223  USB: disable all RNDIS protocol drivers
 
-An issue was seen where the USB request buffer was unmapped while the DWC3
-controller was still accessing the TRB.  However, it was confirmed that the
-end transfer command was successfully submitted. (no end transfer timeout)
-In situations, such as dwc3_gadget_soft_disconnect() and
-__dwc3_gadget_ep_disable(), the dwc3_remove_request() is utilized, which
-will issue the end transfer command, and follow up with
-dwc3_gadget_giveback().  At least for the USB ep disable path, it is
-required for any pending and started requests to be completed and returned
-to the function driver in the same context of the disable call.  Without
-the GUCTL2 bit, it is not ensured that the end transfer is completed before
-the buffers are unmapped.
+elapsed time: 810m
 
-Fixes: cf2f8b63f7f1 ("usb: dwc3: gadget: Remove END_TRANSFER delay")
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
----
-Changes in v5:
-- Updated commit text with more details
-- Added fixes tag
+configs tested: 132
+configs skipped: 10
 
-Changes in v4:
-- Updated DWC3 revision check logic to look for !DWC3 based IP (ie DWC32 and
-DWC31 variants)
-- Fixed incorrect delay reference in comments
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Changes in v3:
-- Fixed subject title and modified commit text to reference the new 1ms
-delay
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r025-20230306   gcc  
+alpha                randconfig-r033-20230306   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r022-20230305   gcc  
+arc                  randconfig-r022-20230306   gcc  
+arc                  randconfig-r043-20230305   gcc  
+arc                  randconfig-r043-20230306   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm          buildonly-randconfig-r005-20230306   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r034-20230305   gcc  
+arm                  randconfig-r035-20230306   clang
+arm                  randconfig-r046-20230305   clang
+arm                  randconfig-r046-20230306   gcc  
+arm64                            allyesconfig   gcc  
+arm64        buildonly-randconfig-r004-20230306   gcc  
+arm64                               defconfig   gcc  
+csky         buildonly-randconfig-r001-20230305   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r002-20230305   gcc  
+csky                 randconfig-r015-20230306   gcc  
+csky                 randconfig-r024-20230305   gcc  
+hexagon              randconfig-r041-20230305   clang
+hexagon              randconfig-r041-20230306   clang
+hexagon              randconfig-r045-20230305   clang
+hexagon              randconfig-r045-20230306   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230306   gcc  
+i386                 randconfig-a002-20230306   gcc  
+i386                 randconfig-a003-20230306   gcc  
+i386                 randconfig-a004-20230306   gcc  
+i386                 randconfig-a005-20230306   gcc  
+i386                 randconfig-a006-20230306   gcc  
+i386                 randconfig-a011-20230306   clang
+i386                 randconfig-a012-20230306   clang
+i386                 randconfig-a013-20230306   clang
+i386                 randconfig-a014-20230306   clang
+i386                 randconfig-a015-20230306   clang
+i386                 randconfig-a016-20230306   clang
+i386                 randconfig-r002-20230306   gcc  
+i386                 randconfig-r012-20230306   clang
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch    buildonly-randconfig-r002-20230306   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r006-20230305   gcc  
+loongarch            randconfig-r021-20230306   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r011-20230306   gcc  
+microblaze   buildonly-randconfig-r001-20230306   gcc  
+microblaze           randconfig-r033-20230305   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r025-20230305   clang
+nios2                               defconfig   gcc  
+nios2                randconfig-r013-20230305   gcc  
+nios2                randconfig-r031-20230306   gcc  
+openrisc             randconfig-r011-20230305   gcc  
+openrisc             randconfig-r014-20230305   gcc  
+openrisc             randconfig-r024-20230306   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r016-20230305   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc              randconfig-r036-20230305   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r003-20230305   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r001-20230306   gcc  
+riscv                randconfig-r042-20230305   gcc  
+riscv                randconfig-r042-20230306   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r001-20230305   clang
+s390                 randconfig-r023-20230305   gcc  
+s390                 randconfig-r044-20230305   gcc  
+s390                 randconfig-r044-20230306   clang
+sh                               allmodconfig   gcc  
+sh                   randconfig-r026-20230306   gcc  
+sh                   randconfig-r031-20230305   gcc  
+sh                   randconfig-r034-20230306   gcc  
+sparc        buildonly-randconfig-r006-20230305   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r013-20230306   gcc  
+sparc                randconfig-r016-20230306   gcc  
+sparc                randconfig-r021-20230305   gcc  
+sparc                randconfig-r026-20230305   gcc  
+sparc                randconfig-r032-20230306   gcc  
+sparc                randconfig-r035-20230305   gcc  
+sparc64              randconfig-r003-20230305   gcc  
+sparc64              randconfig-r004-20230305   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230306   gcc  
+x86_64               randconfig-a002-20230306   gcc  
+x86_64               randconfig-a003-20230306   gcc  
+x86_64               randconfig-a004-20230306   gcc  
+x86_64               randconfig-a005-20230306   gcc  
+x86_64               randconfig-a006-20230306   gcc  
+x86_64               randconfig-a011-20230306   clang
+x86_64               randconfig-a012-20230306   clang
+x86_64               randconfig-a013-20230306   clang
+x86_64               randconfig-a014-20230306   clang
+x86_64               randconfig-a015-20230306   clang
+x86_64               randconfig-a016-20230306   clang
+x86_64               randconfig-r006-20230306   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa       buildonly-randconfig-r002-20230305   gcc  
+xtensa       buildonly-randconfig-r005-20230305   gcc  
+xtensa               randconfig-r012-20230305   gcc  
+xtensa               randconfig-r014-20230306   gcc  
+xtensa               randconfig-r015-20230305   gcc  
+xtensa               randconfig-r023-20230306   gcc  
+xtensa               randconfig-r032-20230305   gcc  
+xtensa               randconfig-r036-20230306   gcc  
 
-Changes in v2:
-- Increase delay value to 1ms
-- Make this applicable to DWC32 revisions as well
-
- drivers/usb/dwc3/gadget.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 3c63fa97a680..cf5b4f49c3ed 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -1699,6 +1699,7 @@ static int __dwc3_gadget_get_frame(struct dwc3 *dwc)
-  */
- static int __dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force, bool interrupt)
- {
-+	struct dwc3 *dwc = dep->dwc;
- 	struct dwc3_gadget_ep_cmd_params params;
- 	u32 cmd;
- 	int ret;
-@@ -1722,10 +1723,13 @@ static int __dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force, bool int
- 	WARN_ON_ONCE(ret);
- 	dep->resource_index = 0;
- 
--	if (!interrupt)
-+	if (!interrupt) {
-+		if (!DWC3_IP_IS(DWC3) || DWC3_VER_IS_PRIOR(DWC3, 310A))
-+			mdelay(1);
- 		dep->flags &= ~DWC3_EP_TRANSFER_STARTED;
--	else if (!ret)
-+	} else if (!ret) {
- 		dep->flags |= DWC3_EP_END_TRANSFER_PENDING;
-+	}
- 
- 	dep->flags &= ~DWC3_EP_DELAY_STOP;
- 	return ret;
-@@ -3774,7 +3778,11 @@ void dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force,
- 	 * enabled, the EndTransfer command will have completed upon
- 	 * returning from this function.
- 	 *
--	 * This mode is NOT available on the DWC_usb31 IP.
-+	 * This mode is NOT available on the DWC_usb31 IP.  In this
-+	 * case, if the IOC bit is not set, then delay by 1ms
-+	 * after issuing the EndTransfer command.  This allows for the
-+	 * controller to handle the command completely before DWC3
-+	 * remove requests attempts to unmap USB request buffers.
- 	 */
- 
- 	__dwc3_stop_active_transfer(dep, force, interrupt);
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
