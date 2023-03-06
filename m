@@ -2,224 +2,153 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CB47C6FD1A
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Mar 2023 18:33:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14BE9C64EC4
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Mar 2023 20:06:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230287AbjCFSds (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Mar 2023 13:33:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60870 "EHLO
+        id S230314AbjCFUGU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Mar 2023 15:06:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229940AbjCFSdl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Mar 2023 13:33:41 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4013446158;
-        Mon,  6 Mar 2023 10:33:06 -0800 (PST)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 326D5HjJ027557;
-        Mon, 6 Mar 2023 18:32:52 GMT
+        with ESMTP id S230301AbjCFUGS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Mar 2023 15:06:18 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 087FC74334;
+        Mon,  6 Mar 2023 12:06:12 -0800 (PST)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 326He8ZH002484;
+        Mon, 6 Mar 2023 20:06:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=tiA2gvI+uyGquoUjUmTcg2crn7ZEmUC+rk424fK0SxQ=;
- b=dGtNUWX6xwdOnWyQA11YxY1x+NjvIZN15Hg4XWfCpJyhbvRTdyC3kz8ztbRFH0Ul8pfa
- cjfooHSxuG/TV2Wp2gItXMvIBp0Vv0fjn5FHSv96EU567CO39Xam/6YdZXdAr8N6XMBb
- WlGkRj5JeuMh+5OtLPHXAQYc4iE4Oyilnn8yvVZuV0TcJzY9JiZLgZgKU38EcwFQ6E0H
- pTaHagqBXgVJktZhL9mBtj8nx8On5fggDUL9m9fTlPvtXUUEyxgmG7Tz0nD6icCRNOmU
- XGJp6qzlKR6ZLllN/35RH+S/+npgw0a+B2XS4Y9HWsAMoGqkLmeKX4kMdpf/AKIZq+xZ RA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p417d5n2m-1
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=9vJWmm8MxUmkFCvg8hWCRyR+rVKxw+Jb3hxc5UOhDdw=;
+ b=A3LmlLbJ0ZYii83RfytQIVP4FdyEyLgi0OhTKFhvTuP6KBmBF97RZH7oCEiUb1nh/ABB
+ gnDuuYNyUrf+Cv7sAp26FFHfQsuieEMhGqLJ4yunKOLqKykpCfccayfSWaTmjBtx0Oaz
+ fJZHZX7FoMyNeS3EY9AIQyhH2N0Sshg4OOUf0dGtrfop77Er6C30cpih6Z5/gjjY7rka
+ eVmKGr94aZsy7IdMwwcGfGM7VqX3zxDDdF7/GJTD8CPBxhMNp9BhezYeanOay0jYY6cb
+ FZOlQ91qFdUiJVVjDh4RrBQKIVIkkArpeRj1KwLhSxUDibIt6jkk/JMQUCn2gc6sQ0+e cw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p415hwwdy-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Mar 2023 18:32:52 +0000
-Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 326IWLK4032118;
-        Mon, 6 Mar 2023 18:32:51 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 3p4fjssm1g-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Mon, 06 Mar 2023 18:32:51 +0000
-Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 326IWonP032351;
-        Mon, 6 Mar 2023 18:32:51 GMT
-Received: from hu-devc-lv-c.qualcomm.com (hu-eserrao-lv.qualcomm.com [10.47.235.164])
-        by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 326IWoqJ032350;
-        Mon, 06 Mar 2023 18:32:50 +0000
-Received: by hu-devc-lv-c.qualcomm.com (Postfix, from userid 464172)
-        id BCAD820E7F; Mon,  6 Mar 2023 10:32:50 -0800 (PST)
-From:   Elson Roy Serrao <quic_eserrao@quicinc.com>
-To:     gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
-        balbi@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
-        Elson Roy Serrao <quic_eserrao@quicinc.com>
-Subject: [PATCH v6 4/5] usb: dwc3: Add function suspend and function wakeup support
-Date:   Mon,  6 Mar 2023 10:32:47 -0800
-Message-Id: <1678127568-10609-5-git-send-email-quic_eserrao@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1678127568-10609-1-git-send-email-quic_eserrao@quicinc.com>
-References: <1678127568-10609-1-git-send-email-quic_eserrao@quicinc.com>
-X-QCInternal: smtphost
+        Mon, 06 Mar 2023 20:06:10 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 326K69Va021723
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 6 Mar 2023 20:06:09 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Mon, 6 Mar 2023 12:06:09 -0800
+From:   Wesley Cheng <quic_wcheng@quicinc.com>
+To:     <gregkh@linuxfoundation.org>, <Thinh.Nguyen@synopsys.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <quic_jackp@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v5] usb: dwc3: gadget: Add 1ms delay after end transfer command without IOC
+Date:   Mon, 6 Mar 2023 12:05:57 -0800
+Message-ID: <20230306200557.29387-1-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: vubSzkY9sNp3Y4lbcarTodf-ewSqPvgR
-X-Proofpoint-ORIG-GUID: vubSzkY9sNp3Y4lbcarTodf-ewSqPvgR
+X-Proofpoint-ORIG-GUID: hwM4MS4WYmgYBGVl13_X816I1ASkOLEq
+X-Proofpoint-GUID: hwM4MS4WYmgYBGVl13_X816I1ASkOLEq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-06_12,2023-03-06_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- suspectscore=0 spamscore=0 malwarescore=0 bulkscore=0 mlxlogscore=936
- phishscore=0 clxscore=1015 adultscore=0 priorityscore=1501 mlxscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303060163
+ definitions=2023-03-06_13,2023-03-06_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ clxscore=1015 lowpriorityscore=0 priorityscore=1501 mlxscore=0
+ adultscore=0 mlxlogscore=615 suspectscore=0 spamscore=0 impostorscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303060175
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-USB host sends function suspend and function resume notifications to
-the interface through SET_FEATURE/CLEAR_FEATURE setup packets.
-Add support to handle these packets by delegating the requests to
-composite layer. Also add support to handle function wake notification
-requests to exit from function suspend state.
+Previously, there was a 100uS delay inserted after issuing an end transfer
+command for specific controller revisions.  This was due to the fact that
+there was a GUCTL2 bit field which enabled synchronous completion of the
+end transfer command once the CMDACT bit was cleared in the DEPCMD
+register.  Since this bit does not exist for all controller revisions and
+the current implementation heavily relies on utizling the EndTransfer
+command completion interrupt, add the delay back in for uses where the
+interrupt on completion bit is not set, and increase the duration to 1ms
+for the controller to complete the command.
 
-Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
+An issue was seen where the USB request buffer was unmapped while the DWC3
+controller was still accessing the TRB.  However, it was confirmed that the
+end transfer command was successfully submitted. (no end transfer timeout)
+In situations, such as dwc3_gadget_soft_disconnect() and
+__dwc3_gadget_ep_disable(), the dwc3_remove_request() is utilized, which
+will issue the end transfer command, and follow up with
+dwc3_gadget_giveback().  At least for the USB ep disable path, it is
+required for any pending and started requests to be completed and returned
+to the function driver in the same context of the disable call.  Without
+the GUCTL2 bit, it is not ensured that the end transfer is completed before
+the buffers are unmapped.
+
+Fixes: cf2f8b63f7f1 ("usb: dwc3: gadget: Remove END_TRANSFER delay")
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/dwc3/core.h   |  3 +++
- drivers/usb/dwc3/debug.h  |  2 ++
- drivers/usb/dwc3/ep0.c    | 12 ++++--------
- drivers/usb/dwc3/gadget.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 51 insertions(+), 8 deletions(-)
+Changes in v5:
+- Updated commit text with more details
+- Added fixes tag
 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index cc78236..1565b21 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -526,6 +526,7 @@
- #define DWC3_DGCMD_SET_ENDPOINT_NRDY	0x0c
- #define DWC3_DGCMD_SET_ENDPOINT_PRIME	0x0d
- #define DWC3_DGCMD_RUN_SOC_BUS_LOOPBACK	0x10
-+#define DWC3_DGCMD_DEV_NOTIFICATION	0x07
- 
- #define DWC3_DGCMD_STATUS(n)		(((n) >> 12) & 0x0F)
- #define DWC3_DGCMD_CMDACT		BIT(10)
-@@ -538,6 +539,8 @@
- #define DWC3_DGCMDPAR_TX_FIFO			BIT(5)
- #define DWC3_DGCMDPAR_LOOPBACK_DIS		(0 << 0)
- #define DWC3_DGCMDPAR_LOOPBACK_ENA		BIT(0)
-+#define DWC3_DGCMDPAR_DN_FUNC_WAKE		BIT(0)
-+#define DWC3_DGCMDPAR_INTF_SEL(n)		((n) << 4)
- 
- /* Device Endpoint Command Register */
- #define DWC3_DEPCMD_PARAM_SHIFT		16
-diff --git a/drivers/usb/dwc3/debug.h b/drivers/usb/dwc3/debug.h
-index 8bb2c9e..09d7038 100644
---- a/drivers/usb/dwc3/debug.h
-+++ b/drivers/usb/dwc3/debug.h
-@@ -72,6 +72,8 @@ dwc3_gadget_generic_cmd_string(u8 cmd)
- 		return "Set Endpoint Prime";
- 	case DWC3_DGCMD_RUN_SOC_BUS_LOOPBACK:
- 		return "Run SoC Bus Loopback Test";
-+	case DWC3_DGCMD_DEV_NOTIFICATION:
-+		return "Device Notification";
- 	default:
- 		return "UNKNOWN";
- 	}
-diff --git a/drivers/usb/dwc3/ep0.c b/drivers/usb/dwc3/ep0.c
-index f90fa55..1e7cc15 100644
---- a/drivers/usb/dwc3/ep0.c
-+++ b/drivers/usb/dwc3/ep0.c
-@@ -30,6 +30,8 @@
- static void __dwc3_ep0_do_control_status(struct dwc3 *dwc, struct dwc3_ep *dep);
- static void __dwc3_ep0_do_control_data(struct dwc3 *dwc,
- 		struct dwc3_ep *dep, struct dwc3_request *req);
-+static int dwc3_ep0_delegate_req(struct dwc3 *dwc,
-+				 struct usb_ctrlrequest *ctrl);
- 
- static void dwc3_ep0_prepare_one_trb(struct dwc3_ep *dep,
- 		dma_addr_t buf_dma, u32 len, u32 type, bool chain)
-@@ -368,7 +370,7 @@ static int dwc3_ep0_handle_status(struct dwc3 *dwc,
- 		 * Function Remote Wake Capable	D0
- 		 * Function Remote Wakeup	D1
- 		 */
--		break;
-+		return dwc3_ep0_delegate_req(dwc, ctrl);
- 
- 	case USB_RECIP_ENDPOINT:
- 		dep = dwc3_wIndex_to_dep(dwc, ctrl->wIndex);
-@@ -514,13 +516,7 @@ static int dwc3_ep0_handle_intf(struct dwc3 *dwc,
- 
- 	switch (wValue) {
- 	case USB_INTRF_FUNC_SUSPEND:
--		/*
--		 * REVISIT: Ideally we would enable some low power mode here,
--		 * however it's unclear what we should be doing here.
--		 *
--		 * For now, we're not doing anything, just making sure we return
--		 * 0 so USB Command Verifier tests pass without any errors.
--		 */
-+		ret = dwc3_ep0_delegate_req(dwc, ctrl);
- 		break;
- 	default:
- 		ret = -EINVAL;
+Changes in v4:
+- Updated DWC3 revision check logic to look for !DWC3 based IP (ie DWC32 and
+DWC31 variants)
+- Fixed incorrect delay reference in comments
+
+Changes in v3:
+- Fixed subject title and modified commit text to reference the new 1ms
+delay
+
+Changes in v2:
+- Increase delay value to 1ms
+- Make this applicable to DWC32 revisions as well
+
+ drivers/usb/dwc3/gadget.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
 diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 10003b7..9d6b753 100644
+index 3c63fa97a680..cf5b4f49c3ed 100644
 --- a/drivers/usb/dwc3/gadget.c
 +++ b/drivers/usb/dwc3/gadget.c
-@@ -2391,6 +2391,47 @@ static int dwc3_gadget_wakeup(struct usb_gadget *g)
- 	return ret;
- }
- 
-+static void dwc3_resume_gadget(struct dwc3 *dwc);
-+
-+static int dwc3_gadget_func_wakeup(struct usb_gadget *g, int intf_id)
-+{
-+	struct  dwc3		*dwc = gadget_to_dwc(g);
-+	unsigned long		flags;
-+	int			ret;
-+	int			link_state;
-+
-+	if (!dwc->wakeup_configured) {
-+		dev_err(dwc->dev, "remote wakeup not configured\n");
-+		return -EINVAL;
-+	}
-+
-+	spin_lock_irqsave(&dwc->lock, flags);
-+	/*
-+	 * If the link is in U3, signal for remote wakeup and wait for the
-+	 * link to transition to U0 before sending device notification.
-+	 */
-+	link_state = dwc3_gadget_get_link_state(dwc);
-+	if (link_state == DWC3_LINK_STATE_U3) {
-+		ret = __dwc3_gadget_wakeup(dwc, false);
-+		if (ret) {
-+			spin_unlock_irqrestore(&dwc->lock, flags);
-+			return -EINVAL;
-+		}
-+		dwc3_resume_gadget(dwc);
-+		dwc->link_state = DWC3_LINK_STATE_U0;
-+	}
-+
-+	ret = dwc3_send_gadget_generic_command(dwc, DWC3_DGCMD_DEV_NOTIFICATION,
-+					       DWC3_DGCMDPAR_DN_FUNC_WAKE |
-+					       DWC3_DGCMDPAR_INTF_SEL(intf_id));
-+	if (ret)
-+		dev_err(dwc->dev, "function remote wakeup failed, ret:%d\n", ret);
-+
-+	spin_unlock_irqrestore(&dwc->lock, flags);
-+
-+	return ret;
-+}
-+
- static int dwc3_gadget_set_remote_wakeup(struct usb_gadget *g, int set)
+@@ -1699,6 +1699,7 @@ static int __dwc3_gadget_get_frame(struct dwc3 *dwc)
+  */
+ static int __dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force, bool interrupt)
  {
- 	struct dwc3		*dwc = gadget_to_dwc(g);
-@@ -3028,6 +3069,7 @@ static void dwc3_gadget_async_callbacks(struct usb_gadget *g, bool enable)
- static const struct usb_gadget_ops dwc3_gadget_ops = {
- 	.get_frame		= dwc3_gadget_get_frame,
- 	.wakeup			= dwc3_gadget_wakeup,
-+	.func_wakeup		= dwc3_gadget_func_wakeup,
- 	.set_remote_wakeup	= dwc3_gadget_set_remote_wakeup,
- 	.set_selfpowered	= dwc3_gadget_set_selfpowered,
- 	.pullup			= dwc3_gadget_pullup,
--- 
-2.7.4
-
++	struct dwc3 *dwc = dep->dwc;
+ 	struct dwc3_gadget_ep_cmd_params params;
+ 	u32 cmd;
+ 	int ret;
+@@ -1722,10 +1723,13 @@ static int __dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force, bool int
+ 	WARN_ON_ONCE(ret);
+ 	dep->resource_index = 0;
+ 
+-	if (!interrupt)
++	if (!interrupt) {
++		if (!DWC3_IP_IS(DWC3) || DWC3_VER_IS_PRIOR(DWC3, 310A))
++			mdelay(1);
+ 		dep->flags &= ~DWC3_EP_TRANSFER_STARTED;
+-	else if (!ret)
++	} else if (!ret) {
+ 		dep->flags |= DWC3_EP_END_TRANSFER_PENDING;
++	}
+ 
+ 	dep->flags &= ~DWC3_EP_DELAY_STOP;
+ 	return ret;
+@@ -3774,7 +3778,11 @@ void dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force,
+ 	 * enabled, the EndTransfer command will have completed upon
+ 	 * returning from this function.
+ 	 *
+-	 * This mode is NOT available on the DWC_usb31 IP.
++	 * This mode is NOT available on the DWC_usb31 IP.  In this
++	 * case, if the IOC bit is not set, then delay by 1ms
++	 * after issuing the EndTransfer command.  This allows for the
++	 * controller to handle the command completely before DWC3
++	 * remove requests attempts to unmap USB request buffers.
+ 	 */
+ 
+ 	__dwc3_stop_active_transfer(dep, force, interrupt);
