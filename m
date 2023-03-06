@@ -2,150 +2,103 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67D9EC6FD19
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Mar 2023 10:36:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C994C6FD1A
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Mar 2023 10:36:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230453AbjCFKgB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Mar 2023 05:36:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43938 "EHLO
+        id S231274AbjCFKgD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Mar 2023 05:36:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231158AbjCFKft (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Mar 2023 05:35:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A68A293C8
-        for <linux-usb@vger.kernel.org>; Mon,  6 Mar 2023 02:34:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678098858;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=RiWJIbc0MQeeol/iFOaFiAXqtncGKy8naUAlWkhaSxY=;
-        b=NcSGY9tMme8z8gpCjGMiUd7aYa3zIyNXxTtJPfcnnOt4x+P0xmE/VO6BL/hKfwQGA+KF3q
-        en18NGuJftXQAZw/qnD+sL4MbF6jDh8NA624GbSHE/EU1a5U983UdoGfT7yxxrl0LoQFde
-        pvFWnKyDvYfSBjli2fBE9a7/myPSZ20=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-644-xEIaQFRFM9uBQK3wVV4ELg-1; Mon, 06 Mar 2023 05:34:04 -0500
-X-MC-Unique: xEIaQFRFM9uBQK3wVV4ELg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F26C485A5B1;
-        Mon,  6 Mar 2023 10:34:03 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.195.139])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 06F9640C83B6;
-        Mon,  6 Mar 2023 10:34:02 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: [PATCH v2 2/3] usb: ucsi: Fix ucsi->connector race
-Date:   Mon,  6 Mar 2023 11:33:58 +0100
-Message-Id: <20230306103359.6591-3-hdegoede@redhat.com>
-In-Reply-To: <20230306103359.6591-1-hdegoede@redhat.com>
-References: <20230306103359.6591-1-hdegoede@redhat.com>
+        with ESMTP id S231133AbjCFKfu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Mar 2023 05:35:50 -0500
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 846CB59E6;
+        Mon,  6 Mar 2023 02:35:46 -0800 (PST)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 449AB24E2E3;
+        Mon,  6 Mar 2023 18:35:45 +0800 (CST)
+Received: from EXMBX071.cuchost.com (172.16.6.81) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 6 Mar
+ 2023 18:35:45 +0800
+Received: from [192.168.125.108] (183.27.97.46) by EXMBX071.cuchost.com
+ (172.16.6.81) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 6 Mar
+ 2023 18:35:44 +0800
+Message-ID: <7c314cc7-0377-ac42-8925-79abc9dcb86f@starfivetech.com>
+Date:   Mon, 6 Mar 2023 18:35:43 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 0/3] Add JH7110 USB driver support
+Content-Language: en-US
+To:     Conor Dooley <conor.dooley@microchip.com>
+CC:     Emil Renner Berthing <kernel@esmil.dk>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Peter Chen" <peter.chen@kernel.org>,
+        Roger Quadros <rogerq@kernel.org>,
+        "Aswath Govindraju" <a-govindraju@ti.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Conor Dooley <conor@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>, <linux-usb@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>
+References: <20230306095212.25840-1-minda.chen@starfivetech.com>
+ <ZAW/DqprkKaop4bg@wendy>
+From:   Minda Chen <minda.chen@starfivetech.com>
+In-Reply-To: <ZAW/DqprkKaop4bg@wendy>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [183.27.97.46]
+X-ClientProxiedBy: EXCAS065.cuchost.com (172.16.6.25) To EXMBX071.cuchost.com
+ (172.16.6.81)
+X-YovoleRuleAgent: yovoleflag
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-ucsi_init() which runs from a workqueue sets ucsi->connector and
-on an error will clear it again.
 
-ucsi->connector gets dereferenced by ucsi_resume(), this checks for
-ucsi->connector being NULL in case ucsi_init() has not finished yet;
-or in case ucsi_init() has failed.
 
-ucsi_init() setting ucsi->connector and then clearing it again on
-an error creates a race where the check in ucsi_resume() may pass,
-only to have ucsi->connector free-ed underneath it when ucsi_init()
-hits an error.
-
-Fix this race by making ucsi_init() store the connector array in
-a local variable and only assign it to ucsi->connector on success.
-
-Fixes: bdc62f2bae8f ("usb: typec: ucsi: Simplified registration and I/O API")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/usb/typec/ucsi/ucsi.c | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 8cbbb002fefe..15a2c91581a8 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -1039,9 +1039,8 @@ static struct fwnode_handle *ucsi_find_fwnode(struct ucsi_connector *con)
- 	return NULL;
- }
- 
--static int ucsi_register_port(struct ucsi *ucsi, int index)
-+static int ucsi_register_port(struct ucsi *ucsi, int index, struct ucsi_connector *con)
- {
--	struct ucsi_connector *con = &ucsi->connector[index];
- 	struct typec_capability *cap = &con->typec_cap;
- 	enum typec_accessory *accessory = cap->accessory;
- 	enum usb_role u_role = USB_ROLE_NONE;
-@@ -1204,7 +1203,7 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
-  */
- static int ucsi_init(struct ucsi *ucsi)
- {
--	struct ucsi_connector *con;
-+	struct ucsi_connector *con, *connector;
- 	u64 command, ntfy;
- 	int ret;
- 	int i;
-@@ -1235,16 +1234,15 @@ static int ucsi_init(struct ucsi *ucsi)
- 	}
- 
- 	/* Allocate the connectors. Released in ucsi_unregister() */
--	ucsi->connector = kcalloc(ucsi->cap.num_connectors + 1,
--				  sizeof(*ucsi->connector), GFP_KERNEL);
--	if (!ucsi->connector) {
-+	connector = kcalloc(ucsi->cap.num_connectors + 1, sizeof(*connector), GFP_KERNEL);
-+	if (!connector) {
- 		ret = -ENOMEM;
- 		goto err_reset;
- 	}
- 
- 	/* Register all connectors */
- 	for (i = 0; i < ucsi->cap.num_connectors; i++) {
--		ret = ucsi_register_port(ucsi, i);
-+		ret = ucsi_register_port(ucsi, i, &connector[i]);
- 		if (ret)
- 			goto err_unregister;
- 	}
-@@ -1256,11 +1254,12 @@ static int ucsi_init(struct ucsi *ucsi)
- 	if (ret < 0)
- 		goto err_unregister;
- 
-+	ucsi->connector = connector;
- 	ucsi->ntfy = ntfy;
- 	return 0;
- 
- err_unregister:
--	for (con = ucsi->connector; con->port; con++) {
-+	for (con = connector; con->port; con++) {
- 		ucsi_unregister_partner(con);
- 		ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
- 		ucsi_unregister_port_psy(con);
-@@ -1269,10 +1268,7 @@ static int ucsi_init(struct ucsi *ucsi)
- 		typec_unregister_port(con->port);
- 		con->port = NULL;
- 	}
--
--	kfree(ucsi->connector);
--	ucsi->connector = NULL;
--
-+	kfree(connector);
- err_reset:
- 	memset(&ucsi->cap, 0, sizeof(ucsi->cap));
- 	ucsi_reset_ppm(ucsi);
--- 
-2.39.1
-
+On 2023/3/6 18:23, Conor Dooley wrote:
+> Hey Minda!
+> 
+> On Mon, Mar 06, 2023 at 05:52:12PM +0800, Minda Chen wrote:
+>> This patchset adds USB driver for the StarFive JH7110 SoC.
+>> USB work mode is peripheral and using USB 2.0 PHY in VisionFive 2 board.
+>> The patch has been tested on the VisionFive 2 board.
+>> 
+>> This patchset should be applied after the patchset [1] and patch [2]:
+>> [1] https://lore.kernel.org/all/20230221083323.302471-1-xingyu.wu@starfivetech.com/
+>> [2] https://lore.kernel.org/all/20230215113249.47727-4-william.qiu@starfivetech.com/
+>> 
+>> patch 1 is usb phy dt-binding document.
+>> patch 2 is the glue layer of Cadence USB3 and USB phy
+>> setting. USB controller IP is Cadence USB3. 
+>> patch 3 is USB device tree configuration.
+>> 
+>> Minda Chen (3):
+>>   dt-bindings: phy: Add StarFive JH7110 USB dt-binding
+>>   usb: cdns3: add StarFive JH7110 USB glue layer
+>>   dts: usb: add StarFive JH7110 USB dts configuration.
+> 
+> Unfortunately, this patchset hasn't really landed correctly.
+> Usually, in a series, patches are sent as replies to the cover letter.
+> Git's send-email will do this for you if you pass it multiple patches
+> and a cover letter (I do it by passing a directory, eg patches/foo/v1)
+> 
+> It appears that you have sent each patch separately, and to different
+> recipients, which makes this harder to review.
+> Please re-submit this with proper threading (and as v2 ideally, so that
+> Greg's bot doesn't complain).
+> 
+> Thanks,
+> Conor.
+I am sorry about this. I will re-summit this patchset as v2 patch.
