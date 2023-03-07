@@ -2,49 +2,49 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D95F6C6FD1B
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Mar 2023 10:35:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBB60C678D4
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Mar 2023 10:35:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbjCGKfl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Mar 2023 05:35:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48348 "EHLO
+        id S230109AbjCGKfp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Mar 2023 05:35:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbjCGKfk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Mar 2023 05:35:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 135363BDBF
-        for <linux-usb@vger.kernel.org>; Tue,  7 Mar 2023 02:34:30 -0800 (PST)
+        with ESMTP id S229759AbjCGKfn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Mar 2023 05:35:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F386338014
+        for <linux-usb@vger.kernel.org>; Tue,  7 Mar 2023 02:34:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678185270;
+        s=mimecast20190719; t=1678185268;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=RPVa/J5Cl7M2LIQutNWuK1JrUlzAeTjMVNLtf2BCpTE=;
-        b=TMVhhLdZApi1FYneG/CRLCPfUuWC79M1xJL6p7iCoQAsCVkQ8rYPNAMxZWushVKn4CEPGA
-        j21ggMNNY2YXW2m5SUlG9wl0XkVjDUMSymUiXpVtuCLTfp9nWEl1S79w9+sbzSgjvBw+hB
-        LcGa+awMWsQhxf1KRzr0vCGWueynvpc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=SNXR6SjiZlp6z6+ghSo4oDjqzh1XcRhvPWaR1Ti8Dlk=;
+        b=ZiZ/qt5t1IByV02gYCQ4p5NBYKIwNhR50Hrj97DssepBUVCOTbbjXQFS/Ipr0xxlKuWmOP
+        Jba+08YjHgfMEvJNEEQH1J9KU+WBalmiqeW6lyaksPjBKn9aN7XZ02z1A6zoWb/H34UcWR
+        /f3a+VB/WavdvAHLe6viKkHHCx5swi4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-320-OwhRvM_dPvyYOQtFJkNbAw-1; Tue, 07 Mar 2023 05:34:27 -0500
-X-MC-Unique: OwhRvM_dPvyYOQtFJkNbAw-1
+ us-mta-221-KAjR-xEtPGulTy-8gtC32A-1; Tue, 07 Mar 2023 05:34:24 -0500
+X-MC-Unique: KAjR-xEtPGulTy-8gtC32A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B95D9185A794;
-        Tue,  7 Mar 2023 10:34:26 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6EA303C14844;
+        Tue,  7 Mar 2023 10:34:24 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.195.222])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DC4DF401B290;
-        Tue,  7 Mar 2023 10:34:25 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8E45040CF8EE;
+        Tue,  7 Mar 2023 10:34:23 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org,
         stable@vger.kernel.org
-Subject: [PATCH v3 3/3] usb: ucsi_acpi: Increase the command completion timeout
-Date:   Tue,  7 Mar 2023 11:34:21 +0100
-Message-Id: <20230307103421.8686-4-hdegoede@redhat.com>
+Subject: [PATCH v3 1/3] usb: ucsi: Fix NULL pointer deref in ucsi_connector_change()
+Date:   Tue,  7 Mar 2023 11:34:19 +0100
+Message-Id: <20230307103421.8686-2-hdegoede@redhat.com>
 In-Reply-To: <20230307103421.8686-1-hdegoede@redhat.com>
 References: <20230307103421.8686-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -54,48 +54,71 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Commit 130a96d698d7 ("usb: typec: ucsi: acpi: Increase command
-completion timeout value") increased the timeout from 5 seconds
-to 60 seconds due to issues related to alternate mode discovery.
+When ucsi_init() fails, ucsi->connector is NULL, yet in case of
+ucsi_acpi we may still get events which cause the ucs_acpi code to call
+ucsi_connector_change(), which then derefs the NULL ucsi->connector
+pointer.
 
-After the alternate mode discovery switch to polled mode
-the timeout was reduced, but instead of being set back to
-5 seconds it was reduced to 1 second.
+Fix this by not setting ucsi->ntfy inside ucsi_init() until ucsi_init()
+has succeeded, so that ucsi_connector_change() ignores the events
+because UCSI_ENABLE_NTFY_CONNECTOR_CHANGE is not set in the ntfy mask.
 
-This is causing problems when using a Lenovo ThinkPad X1 yoga gen7
-connected over Type-C to a LG 27UL850-W (charging DP over Type-C).
-
-When the monitor is already connected at boot the following error
-is logged: "PPM init failed (-110)", /sys/class/typec is empty and
-on unplugging the NULL pointer deref fixed earlier in this series
-happens.
-
-When the monitor is connected after boot the following error
-is logged instead: "GET_CONNECTOR_STATUS failed (-110)".
-
-Setting the timeout back to 5 seconds fixes both cases.
-
-Fixes: e08065069fc7 ("usb: typec: ucsi: acpi: Reduce the command completion timeout")
+Fixes: bdc62f2bae8f ("usb: typec: ucsi: Simplified registration and I/O API")
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=217106
 Cc: stable@vger.kernel.org
 Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/usb/typec/ucsi/ucsi_acpi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+- Delay setting ucsi->ntfy in ucsi_init() instead of adding a NULL pointer
+  check to ucsi_connector_change()
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index ce0c8ef80c04..62206a6b8ea7 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -78,7 +78,7 @@ static int ucsi_acpi_sync_write(struct ucsi *ucsi, unsigned int offset,
- 	if (ret)
- 		goto out_clear_bit;
+Changes in v3:
+- Add Link tag to commitmsg
+---
+ drivers/usb/typec/ucsi/ucsi.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index 1cf8947c6d66..8cbbb002fefe 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -1205,7 +1205,7 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+ static int ucsi_init(struct ucsi *ucsi)
+ {
+ 	struct ucsi_connector *con;
+-	u64 command;
++	u64 command, ntfy;
+ 	int ret;
+ 	int i;
  
--	if (!wait_for_completion_timeout(&ua->complete, HZ))
-+	if (!wait_for_completion_timeout(&ua->complete, 5 * HZ))
- 		ret = -ETIMEDOUT;
+@@ -1217,8 +1217,8 @@ static int ucsi_init(struct ucsi *ucsi)
+ 	}
  
- out_clear_bit:
+ 	/* Enable basic notifications */
+-	ucsi->ntfy = UCSI_ENABLE_NTFY_CMD_COMPLETE | UCSI_ENABLE_NTFY_ERROR;
+-	command = UCSI_SET_NOTIFICATION_ENABLE | ucsi->ntfy;
++	ntfy = UCSI_ENABLE_NTFY_CMD_COMPLETE | UCSI_ENABLE_NTFY_ERROR;
++	command = UCSI_SET_NOTIFICATION_ENABLE | ntfy;
+ 	ret = ucsi_send_command(ucsi, command, NULL, 0);
+ 	if (ret < 0)
+ 		goto err_reset;
+@@ -1250,12 +1250,13 @@ static int ucsi_init(struct ucsi *ucsi)
+ 	}
+ 
+ 	/* Enable all notifications */
+-	ucsi->ntfy = UCSI_ENABLE_NTFY_ALL;
+-	command = UCSI_SET_NOTIFICATION_ENABLE | ucsi->ntfy;
++	ntfy = UCSI_ENABLE_NTFY_ALL;
++	command = UCSI_SET_NOTIFICATION_ENABLE | ntfy;
+ 	ret = ucsi_send_command(ucsi, command, NULL, 0);
+ 	if (ret < 0)
+ 		goto err_unregister;
+ 
++	ucsi->ntfy = ntfy;
+ 	return 0;
+ 
+ err_unregister:
 -- 
 2.39.1
 
