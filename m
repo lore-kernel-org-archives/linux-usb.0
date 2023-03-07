@@ -2,81 +2,129 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EF2EC678D4
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Mar 2023 10:35:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D378BC678D4
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Mar 2023 10:37:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229809AbjCGKfq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Mar 2023 05:35:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48192 "EHLO
+        id S229834AbjCGKhK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Mar 2023 05:37:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229831AbjCGKfn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Mar 2023 05:35:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D60223E0AC
-        for <linux-usb@vger.kernel.org>; Tue,  7 Mar 2023 02:34:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678185264;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=efqs5vRAQ8E0THZYkSV+wZ9+TRzdJSL2EJ2HQoLAGsI=;
-        b=NmikgS8mCWKt2Lo2s4OGvWWth/xPv7F1LDKxqdlnvEOB1Rv+Ht/6WuUsbaBjpPGPh9qX61
-        2G49/0tZvn71VFQDdV9eyJQJRSVrSoXQzoDIBhs1KMHuM2aPXoLoAiLOAfN6ubq22sALPD
-        B28Gr5JWBUUEmmGhtWnsnsluk5C3aCg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-RPCPSDTGM7aBxcjJpJp2Cg-1; Tue, 07 Mar 2023 05:34:23 -0500
-X-MC-Unique: RPCPSDTGM7aBxcjJpJp2Cg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S229685AbjCGKhI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Mar 2023 05:37:08 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8B5015566;
+        Tue,  7 Mar 2023 02:37:07 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5637585CCE1;
-        Tue,  7 Mar 2023 10:34:23 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.195.222])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 913B1400DFA1;
-        Tue,  7 Mar 2023 10:34:22 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org
-Subject: [PATCH v3 0/3] usb: ucsi: 3 bug fixes
-Date:   Tue,  7 Mar 2023 11:34:18 +0100
-Message-Id: <20230307103421.8686-1-hdegoede@redhat.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id B52D1B81733;
+        Tue,  7 Mar 2023 10:37:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAB02C433D2;
+        Tue,  7 Mar 2023 10:37:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678185424;
+        bh=oohYR7vZp6Kh1bYgg0CnLLGm6D0YntI+TcGGxWGNWz8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VQ0ffnA0REo6UWu2BQh+AsZtCPl/OxgWAO+7zO2FPqeNBSNq8xSJOYq1Dzf2a8u2a
+         ju2WkUKdBpur2M2FW7x5dfUF1vtHLFLO0dd2MpKw5wLpmF/Gz9eFYiJQS/Ny+GfTQ5
+         NP5SBXa0FJUQ/0YybLxuWoPrRpDCdpINvESxPgmf2lSRu3IbG5hBwHrpNM24XDen1m
+         8XqcTS18Oi5r0GBlewC4TD+q92aXaDNRH6lns02oBDYglM+kEROZoHR5cBDtlXwsTz
+         dE2+hw1vP2aVody9G+RN85MN24MMSW4QMD0o+AUUcTZ0OyCWEKrKPKIKTyczK+Ddfu
+         0YCvVFRcv05mg==
+Date:   Tue, 7 Mar 2023 10:36:59 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     Hyunwoo Kim <imv4bel@gmail.com>, mchehab@kernel.org,
+        kernel@tuxforce.de, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, cai.huoqing@linux.dev
+Subject: Re: [PATCH v3 0/4] Fix multiple race condition vulnerabilities in
+ dvb-core and device driver
+Message-ID: <20230307103659.GA347928@google.com>
+References: <20221117045925.14297-1-imv4bel@gmail.com>
+ <87lema8ocn.wl-tiwai@suse.de>
+ <Y/YXbNgBhhWhfjwS@google.com>
+ <Y/3mT9uSsuviT+sa@google.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+In-Reply-To: <Y/3mT9uSsuviT+sa@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg, Heikki,
+On Tue, 28 Feb 2023, Lee Jones wrote:
 
-Here is v3 of my ucsi bugfix series.
+> On Wed, 22 Feb 2023, Lee Jones wrote:
+>
+> > On Tue, 10 Jan 2023, Takashi Iwai wrote:
+> >
+> > > On Thu, 17 Nov 2022 05:59:21 +0100,
+> > > Hyunwoo Kim wrote:
+> > > >
+> > > > Dear,
+> > > >
+> > > > This patch set is a security patch for various race condition vulnerabilities that occur
+> > > > in 'dvb-core' and 'ttusb_dec', a dvb-based device driver.
+> > > >
+> > > >
+> > > > # 1. media: dvb-core: Fix use-after-free due to race condition occurring in dvb_frontend
+> > > > This is a security patch for a race condition that occurs in the dvb_frontend system of dvb-core.
+> > > >
+> > > > The race condition that occurs here will occur with _any_ device driver using dvb_frontend.
+> > > >
+> > > > The race conditions that occur in dvb_frontend are as follows
+> >
+> > [...]
+> >
+> > > > # 4. media: ttusb-dec: Fix memory leak in ttusb_dec_exit_dvb()
+> > > > This is a patch for a memory leak that occurs in the ttusb_dec_exit_dvb() function.
+> > > >
+> > > > Because ttusb_dec_exit_dvb() does not call dvb_frontend_detach(),
+> > > > several fe related structures are not kfree()d.
+> > > >
+> > > > Users can trigger a memory leak just by repeating connecting and disconnecting
+> > > > the ttusb_dec device.
+> > > >
+> > > >
+> > > > Finally, most of these patches are similar to this one, the security patch for
+> > > > CVE-2022-41218 that I reported:
+> > > > https://lore.kernel.org/linux-media/20221031100245.23702-1-tiwai@suse.de/
+> > > >
+> > > >
+> > > > Regards,
+> > > > Hyunwoo Kim
+> > >
+> > > Are those issues still seen with the latest 6.2-rc kernel?
+> > > I'm asking because there have been a few fixes in dvb-core to deal
+> > > with some UAFs.
+> > >
+> > > BTW, Mauro, the issues are tagged with several CVE's:
+> > > CVE-2022-45884, CVE-2022-45886, CVE-2022-45885, CVE-2022-45887.
+> >
+> > Was there an answer to this question?
+> >
+> > Rightly or wrongly this patch is still being touted as the fix for some
+> > reported CVEs [0].
+> >
+> > Is this patch still required or has it been superseded?  If the later,
+> > which patch superseded it?
+> >
+> > Thanks.
+> >
+> > [0] https://nvd.nist.gov/vuln/detail/CVE-2022-45886
+>
+> Have these issues been fixed already?
+>
+> If not, is this patch set due to be merged or reviewed?
 
-Changes in v3:
-- Assign connector[i].index before calling ucsi_register_port() instead of
-  passing i to ucsi_register_port()
-- Add Link and Reviewed-by tags to commitmsg
+Still nothing heard from the author or any maintainer.
 
-Changes in v2:
-- Delay setting ucsi->ntfy in ucsi_init() instead of adding a NULL pointer
-  check to ucsi_connector_change()
+I'd take this as a hint if I had any social skills!
 
-Regards,
+Please could someone provide me with a status report on these patches?
 
-Hans
+They appear to have CVEs associated with them.  Have they been fixed?
 
-
-Hans de Goede (3):
-  usb: ucsi: Fix NULL pointer deref in ucsi_connector_change()
-  usb: ucsi: Fix ucsi->connector race
-  usb: ucsi_acpi: Increase the command completion timeout
-
- drivers/usb/typec/ucsi/ucsi.c      | 33 ++++++++++++++----------------
- drivers/usb/typec/ucsi/ucsi_acpi.c |  2 +-
- 2 files changed, 16 insertions(+), 19 deletions(-)
-
--- 
-2.39.1
-
+--
+Lee Jones [李琼斯]
