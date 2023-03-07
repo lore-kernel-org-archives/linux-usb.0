@@ -2,51 +2,47 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB93FC678DB
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Mar 2023 10:35:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EF2EC678D4
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Mar 2023 10:35:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229759AbjCGKfp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Mar 2023 05:35:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48312 "EHLO
+        id S229809AbjCGKfq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Mar 2023 05:35:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229847AbjCGKfn (ORCPT
+        with ESMTP id S229831AbjCGKfn (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Mar 2023 05:35:43 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E871F3A874
-        for <linux-usb@vger.kernel.org>; Tue,  7 Mar 2023 02:34:29 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D60223E0AC
+        for <linux-usb@vger.kernel.org>; Tue,  7 Mar 2023 02:34:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678185269;
+        s=mimecast20190719; t=1678185264;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cHiGdsBOOQ6MUrtWpesUaRtI+oEXZ+0GTMiyiV99s28=;
-        b=IsDJcj1CbJPygaaUFPdxYF+ihp0WPYsK52A5jlDSxMzps2HQP1FVMfbX/HMaLnHvlk9c8f
-        px03UH6ygSiCY/46rj6TkkwwNb9BUE2d7j3Xi3mMrGe6NOEWSwlW+mgnjPQHcY8J3rgAcx
-        llhkhq0L4dMYqK/47UMW8Nbq/lC5rp8=
+         content-transfer-encoding:content-transfer-encoding;
+        bh=efqs5vRAQ8E0THZYkSV+wZ9+TRzdJSL2EJ2HQoLAGsI=;
+        b=NmikgS8mCWKt2Lo2s4OGvWWth/xPv7F1LDKxqdlnvEOB1Rv+Ht/6WuUsbaBjpPGPh9qX61
+        2G49/0tZvn71VFQDdV9eyJQJRSVrSoXQzoDIBhs1KMHuM2aPXoLoAiLOAfN6ubq22sALPD
+        B28Gr5JWBUUEmmGhtWnsnsluk5C3aCg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-RTI3jMKpNJGtt1pIdmX7DQ-1; Tue, 07 Mar 2023 05:34:26 -0500
-X-MC-Unique: RTI3jMKpNJGtt1pIdmX7DQ-1
+ us-mta-665-RPCPSDTGM7aBxcjJpJp2Cg-1; Tue, 07 Mar 2023 05:34:23 -0500
+X-MC-Unique: RPCPSDTGM7aBxcjJpJp2Cg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9E39585A5A3;
-        Tue,  7 Mar 2023 10:34:25 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5637585CCE1;
+        Tue,  7 Mar 2023 10:34:23 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.195.222])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A8A44400DFA1;
-        Tue,  7 Mar 2023 10:34:24 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 913B1400DFA1;
+        Tue,  7 Mar 2023 10:34:22 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: [PATCH v3 2/3] usb: ucsi: Fix ucsi->connector race
-Date:   Tue,  7 Mar 2023 11:34:20 +0100
-Message-Id: <20230307103421.8686-3-hdegoede@redhat.com>
-In-Reply-To: <20230307103421.8686-1-hdegoede@redhat.com>
-References: <20230307103421.8686-1-hdegoede@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org
+Subject: [PATCH v3 0/3] usb: ucsi: 3 bug fixes
+Date:   Tue,  7 Mar 2023 11:34:18 +0100
+Message-Id: <20230307103421.8686-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
@@ -54,111 +50,33 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-ucsi_init() which runs from a workqueue sets ucsi->connector and
-on an error will clear it again.
+Hi Greg, Heikki,
 
-ucsi->connector gets dereferenced by ucsi_resume(), this checks for
-ucsi->connector being NULL in case ucsi_init() has not finished yet;
-or in case ucsi_init() has failed.
+Here is v3 of my ucsi bugfix series.
 
-ucsi_init() setting ucsi->connector and then clearing it again on
-an error creates a race where the check in ucsi_resume() may pass,
-only to have ucsi->connector free-ed underneath it when ucsi_init()
-hits an error.
-
-Fix this race by making ucsi_init() store the connector array in
-a local variable and only assign it to ucsi->connector on success.
-
-Fixes: bdc62f2bae8f ("usb: typec: ucsi: Simplified registration and I/O API")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
 Changes in v3:
 - Assign connector[i].index before calling ucsi_register_port() instead of
   passing i to ucsi_register_port()
----
- drivers/usb/typec/ucsi/ucsi.c | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
+- Add Link and Reviewed-by tags to commitmsg
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 8cbbb002fefe..086b50968983 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -1039,9 +1039,8 @@ static struct fwnode_handle *ucsi_find_fwnode(struct ucsi_connector *con)
- 	return NULL;
- }
- 
--static int ucsi_register_port(struct ucsi *ucsi, int index)
-+static int ucsi_register_port(struct ucsi *ucsi, struct ucsi_connector *con)
- {
--	struct ucsi_connector *con = &ucsi->connector[index];
- 	struct typec_capability *cap = &con->typec_cap;
- 	enum typec_accessory *accessory = cap->accessory;
- 	enum usb_role u_role = USB_ROLE_NONE;
-@@ -1062,7 +1061,6 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
- 	init_completion(&con->complete);
- 	mutex_init(&con->lock);
- 	INIT_LIST_HEAD(&con->partner_tasks);
--	con->num = index + 1;
- 	con->ucsi = ucsi;
- 
- 	cap->fwnode = ucsi_find_fwnode(con);
-@@ -1204,7 +1202,7 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
-  */
- static int ucsi_init(struct ucsi *ucsi)
- {
--	struct ucsi_connector *con;
-+	struct ucsi_connector *con, *connector;
- 	u64 command, ntfy;
- 	int ret;
- 	int i;
-@@ -1235,16 +1233,16 @@ static int ucsi_init(struct ucsi *ucsi)
- 	}
- 
- 	/* Allocate the connectors. Released in ucsi_unregister() */
--	ucsi->connector = kcalloc(ucsi->cap.num_connectors + 1,
--				  sizeof(*ucsi->connector), GFP_KERNEL);
--	if (!ucsi->connector) {
-+	connector = kcalloc(ucsi->cap.num_connectors + 1, sizeof(*connector), GFP_KERNEL);
-+	if (!connector) {
- 		ret = -ENOMEM;
- 		goto err_reset;
- 	}
- 
- 	/* Register all connectors */
- 	for (i = 0; i < ucsi->cap.num_connectors; i++) {
--		ret = ucsi_register_port(ucsi, i);
-+		connector[i].num = i + 1;
-+		ret = ucsi_register_port(ucsi, &connector[i]);
- 		if (ret)
- 			goto err_unregister;
- 	}
-@@ -1256,11 +1254,12 @@ static int ucsi_init(struct ucsi *ucsi)
- 	if (ret < 0)
- 		goto err_unregister;
- 
-+	ucsi->connector = connector;
- 	ucsi->ntfy = ntfy;
- 	return 0;
- 
- err_unregister:
--	for (con = ucsi->connector; con->port; con++) {
-+	for (con = connector; con->port; con++) {
- 		ucsi_unregister_partner(con);
- 		ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
- 		ucsi_unregister_port_psy(con);
-@@ -1269,10 +1268,7 @@ static int ucsi_init(struct ucsi *ucsi)
- 		typec_unregister_port(con->port);
- 		con->port = NULL;
- 	}
--
--	kfree(ucsi->connector);
--	ucsi->connector = NULL;
--
-+	kfree(connector);
- err_reset:
- 	memset(&ucsi->cap, 0, sizeof(ucsi->cap));
- 	ucsi_reset_ppm(ucsi);
+Changes in v2:
+- Delay setting ucsi->ntfy in ucsi_init() instead of adding a NULL pointer
+  check to ucsi_connector_change()
+
+Regards,
+
+Hans
+
+
+Hans de Goede (3):
+  usb: ucsi: Fix NULL pointer deref in ucsi_connector_change()
+  usb: ucsi: Fix ucsi->connector race
+  usb: ucsi_acpi: Increase the command completion timeout
+
+ drivers/usb/typec/ucsi/ucsi.c      | 33 ++++++++++++++----------------
+ drivers/usb/typec/ucsi/ucsi_acpi.c |  2 +-
+ 2 files changed, 16 insertions(+), 19 deletions(-)
+
 -- 
 2.39.1
 
