@@ -2,39 +2,38 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45BE9C6FD1E
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Mar 2023 16:32:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B9C3C678D5
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Mar 2023 16:32:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230347AbjCGQcN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Mar 2023 11:32:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39620 "EHLO
+        id S230167AbjCGQcQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Mar 2023 11:32:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230210AbjCGQbf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Mar 2023 11:31:35 -0500
+        with ESMTP id S230323AbjCGQbh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Mar 2023 11:31:37 -0500
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A047985B2E
-        for <linux-usb@vger.kernel.org>; Tue,  7 Mar 2023 08:31:15 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0734898E5
+        for <linux-usb@vger.kernel.org>; Tue,  7 Mar 2023 08:31:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=tgR8Ib7gK0xta9
-        gDLehMBy5oVmognDSKS3+BEb2nqRg=; b=OtSAgJqkwCb6Mk0PQ1uS5dTxmbrriB
-        z12jHlsAq1QaKoaNz3LyOZvaAsGJNQLOxSB+vDtlbV++blTyISQXyUCNW180CXnG
-        LGv5vGJr+bfv0IklUrgYAUh0R4z/LAkOdX2gqKzJ6GGhMXLYSk86uRJHWUFhPfMh
-        /zVCxFrB7G4aA=
-Received: (qmail 752141 invoked from network); 7 Mar 2023 17:31:08 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Mar 2023 17:31:08 +0100
-X-UD-Smtp-Session: l3s3148p1@VDhQ8FH2hI0gAQnoAFQ+AGEn9EY5VOxJ
+        :mime-version:content-transfer-encoding; s=k1; bh=FoqjTA8Za4V7Be
+        7RYCx6I7pfuapKZ/gfbeqrJ+oZq7U=; b=lVTYO2h09AuGHmx0lS5IH2B2gRy/0H
+        EZD0zooyaK8UpeBrlro8t4Tzzbzcz4t9pOD+XRaWvoigrKiZgaGBHxlTPDr7IlC8
+        VzNsnewjdkjffMs9YN5AVi8287uiSh8D+GZn/VX/mx8ejokS/1pNbbDjHEUBQLKl
+        jwU1HcVVWmawE=
+Received: (qmail 752222 invoked from network); 7 Mar 2023 17:31:09 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Mar 2023 17:31:09 +0100
+X-UD-Smtp-Session: l3s3148p1@ggVo8FH2io0gAQnoAFQ+AGEn9EY5VOxJ
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/11] usb: host: xhci-rcar: remove leftover quirk handling
-Date:   Tue,  7 Mar 2023 17:30:37 +0100
-Message-Id: <20230307163041.3815-10-wsa+renesas@sang-engineering.com>
+Subject: [PATCH 11/11] usb: gadget: udc: renesas_usb3: remove R-Car H3 ES1.* handling
+Date:   Tue,  7 Mar 2023 17:30:39 +0100
+Message-Id: <20230307163041.3815-12-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20230307163041.3815-1-wsa+renesas@sang-engineering.com>
 References: <20230307163041.3815-1-wsa+renesas@sang-engineering.com>
@@ -44,41 +43,77 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Loading V3 firmware does not need a quirk anymore, remove the leftover
-code.
+R-Car H3 ES1.* was only available to an internal development group and
+needed a lot of quirks and workarounds. These become a maintenance
+burden now, so our development group decided to remove upstream support
+and disable booting for this SoC. Public users only have ES2 onwards.
 
-Fixes: ed8603e11124 ("usb: host: xhci-rcar: Simplify getting the firmware name for R-Car Gen3")
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
-Please apply individually per subsystem. This is in preparation for
-R-Car H3 ES1 removal. There are no dependencies.
+Please apply individually per subsystem. There are no dependencies and the SoC
+doesn't boot anymore since v6.3-rc1.
 
+ drivers/usb/gadget/udc/renesas_usb3.c | 23 +----------------------
+ 1 file changed, 1 insertion(+), 22 deletions(-)
 
- drivers/usb/host/xhci-rcar.c | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/drivers/usb/host/xhci-rcar.c b/drivers/usb/host/xhci-rcar.c
-index 7f18509a1d39..567b096a24e9 100644
---- a/drivers/usb/host/xhci-rcar.c
-+++ b/drivers/usb/host/xhci-rcar.c
-@@ -80,7 +80,6 @@ MODULE_FIRMWARE(XHCI_RCAR_FIRMWARE_NAME_V3);
+diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
+index bee6bceafc4f..f2ac6447b748 100644
+--- a/drivers/usb/gadget/udc/renesas_usb3.c
++++ b/drivers/usb/gadget/udc/renesas_usb3.c
+@@ -22,7 +22,6 @@
+ #include <linux/sizes.h>
+ #include <linux/slab.h>
+ #include <linux/string.h>
+-#include <linux/sys_soc.h>
+ #include <linux/uaccess.h>
+ #include <linux/usb/ch9.h>
+ #include <linux/usb/gadget.h>
+@@ -2781,13 +2780,6 @@ static void renesas_usb3_init_ram(struct renesas_usb3 *usb3, struct device *dev,
+ 	}
+ }
  
- /* For soc_device_attribute */
- #define RCAR_XHCI_FIRMWARE_V2   BIT(0) /* FIRMWARE V2 */
--#define RCAR_XHCI_FIRMWARE_V3   BIT(1) /* FIRMWARE V3 */
+-static const struct renesas_usb3_priv renesas_usb3_priv_r8a7795_es1 = {
+-	.ramsize_per_ramif = SZ_16K,
+-	.num_ramif = 2,
+-	.ramsize_per_pipe = SZ_4K,
+-	.workaround_for_vbus = true,
+-};
+-
+ static const struct renesas_usb3_priv renesas_usb3_priv_gen3 = {
+ 	.ramsize_per_ramif = SZ_16K,
+ 	.num_ramif = 4,
+@@ -2829,14 +2821,6 @@ static const struct of_device_id usb3_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, usb3_of_match);
  
- static const struct soc_device_attribute rcar_quirks_match[]  = {
- 	{
-@@ -152,8 +151,6 @@ static int xhci_rcar_download_firmware(struct usb_hcd *hcd)
+-static const struct soc_device_attribute renesas_usb3_quirks_match[] = {
+-	{
+-		.soc_id = "r8a7795", .revision = "ES1.*",
+-		.data = &renesas_usb3_priv_r8a7795_es1,
+-	},
+-	{ /* sentinel */ }
+-};
+-
+ static const unsigned int renesas_usb3_cable[] = {
+ 	EXTCON_USB,
+ 	EXTCON_USB_HOST,
+@@ -2854,13 +2838,8 @@ static int renesas_usb3_probe(struct platform_device *pdev)
+ 	struct renesas_usb3 *usb3;
+ 	int irq, ret;
+ 	const struct renesas_usb3_priv *priv;
+-	const struct soc_device_attribute *attr;
  
- 	if (quirks & RCAR_XHCI_FIRMWARE_V2)
- 		firmware_name = XHCI_RCAR_FIRMWARE_NAME_V2;
--	else if (quirks & RCAR_XHCI_FIRMWARE_V3)
--		firmware_name = XHCI_RCAR_FIRMWARE_NAME_V3;
- 	else
- 		firmware_name = priv->firmware_name;
+-	attr = soc_device_match(renesas_usb3_quirks_match);
+-	if (attr)
+-		priv = attr->data;
+-	else
+-		priv = of_device_get_match_data(&pdev->dev);
++	priv = of_device_get_match_data(&pdev->dev);
  
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0)
 -- 
 2.35.1
 
