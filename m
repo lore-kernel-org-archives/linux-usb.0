@@ -2,74 +2,143 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BBA4C742A7
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Mar 2023 22:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92FE7C678D5
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Mar 2023 23:58:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230129AbjCHWIV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Mar 2023 17:08:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47532 "EHLO
+        id S229636AbjCHX62 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Mar 2023 18:58:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229718AbjCHWIU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Mar 2023 17:08:20 -0500
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0222539CFC;
-        Wed,  8 Mar 2023 14:08:19 -0800 (PST)
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-176eae36feaso318935fac.6;
-        Wed, 08 Mar 2023 14:08:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678313298;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QEry6ytAZhl0tOKdRhcBysU8A9zZyr8Ag2HKP0YMd7o=;
-        b=2nxYD4q6npZ+1rb0lpc78cSVcnC47RYjd7ybB87ExYyaEEMink+qeIitdDe9hW6jOi
-         cZprQs2CvtMZJvkGllHcz5mk4V05ZC2CzlTtDO2xt4hWo8oEQcHJ5K26gPsrSaz1sC3l
-         gV099JgU9pi/SJPJspOHDRlpzBwK2Pf5ZqEL8QQQplGSoOnlE3CcdBkgglFmLn0bexF8
-         lTNJlG6A2vWrHaD99v/moQeyFf1ro9QynhzZu3d1Q0c5Dayxw42W+dPvt6S87qXEQep3
-         bKbIpSxYq5ldAYRZud+RQH+9deIA4/jbp/Re+Jh7vVfAgsO87NgrmtwfOuovPcpwak6E
-         ReHQ==
-X-Gm-Message-State: AO0yUKU4siISzpHgHF1OWRp6diVXLbF5ZTYtf6AriKY76MOTLrg6UeaO
-        z/W4BVe9E6mgjbTAjBF8wA==
-X-Google-Smtp-Source: AK7set8epuP2RlANSYFbZz59gbdFJrBwJ+lSGxVM6dmJyDaV13kdgQHHvC3FeH0GJMc6g5YhQqS5UA==
-X-Received: by 2002:a05:6870:593:b0:172:5de5:785 with SMTP id m19-20020a056870059300b001725de50785mr11533655oap.6.1678313298271;
-        Wed, 08 Mar 2023 14:08:18 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id zj40-20020a0568716ca800b001723a2e84b6sm4572405oab.6.2023.03.08.14.08.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 14:08:17 -0800 (PST)
-Received: (nullmailer pid 3932824 invoked by uid 1000);
-        Wed, 08 Mar 2023 22:08:17 -0000
-Date:   Wed, 8 Mar 2023 16:08:17 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: usb: snps,dwc3: document extcon property
-Message-ID: <167831329670.3932766.1517794698913796551.robh@kernel.org>
-References: <20230304130302.51497-1-krzysztof.kozlowski@linaro.org>
+        with ESMTP id S229462AbjCHX60 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Mar 2023 18:58:26 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524BC6783E;
+        Wed,  8 Mar 2023 15:58:25 -0800 (PST)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 328Fpwg0026009;
+        Wed, 8 Mar 2023 23:58:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=b7sUiJfuwO0a6LdlN97Kgcq5+PvvUW4h4PV5z06GmyY=;
+ b=naHJRup8RWDCEzIUqb0EN3ofJi97LoH/8SpfdzliAyeqO8Q9y1xhjqwuD8U1yPhv3b+c
+ C2h4HZ0bWxx9D3MoWhqWL/Pc38JFaMfXuD4WATlzLQI0dhOhFrupkmbp/orWAsNrH6e4
+ n1hkvQu5Vmm2U1k4g9KgwkqqIpCINX0WXIGnYt4VjpM74srQJoJLy/quZlJvNXBeTKrG
+ I7BrperuB9ooJEiipyiaY6CMInbj25tQL61maCLPrkGt1lMEdgeeLE1zAxn3rT0BernM
+ jalX0KPDiR/EO8VzC4Nmuzsw97QKLXBUVJs8lbd/jmxr0KjDz3wpW2VtlIE3aS0L+DlY eg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p6wcmh3e1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 08 Mar 2023 23:58:11 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 328NwBx4019928
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 8 Mar 2023 23:58:11 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Wed, 8 Mar 2023 15:58:10 -0800
+From:   Wesley Cheng <quic_wcheng@quicinc.com>
+To:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <krzysztof.kozlowski+dt@linaro.org>, <agross@kernel.org>,
+        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>,
+        <andersson@kernel.org>, <robh+dt@kernel.org>,
+        <gregkh@linuxfoundation.org>, <tiwai@suse.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <quic_jackp@quicinc.com>,
+        <quic_plai@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v3 20/28] ASoC: dt-bindings: Add Q6USB backend bindings
+Date:   Wed, 8 Mar 2023 15:57:43 -0800
+Message-ID: <20230308235751.495-21-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230308235751.495-1-quic_wcheng@quicinc.com>
+References: <20230308235751.495-1-quic_wcheng@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230304130302.51497-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: m2jT6w265aFGVFs2VHtuRfuuIS4_RFnx
+X-Proofpoint-ORIG-GUID: m2jT6w265aFGVFs2VHtuRfuuIS4_RFnx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-08_15,2023-03-08_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ spamscore=0 adultscore=0 bulkscore=0 mlxlogscore=963 clxscore=1015
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303080200
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Add a dt-binding to describe the definition of enabling the Q6 USB backend
+device for audio offloading.  The node carries information, which is passed
+along to the QC USB SND class driver counterpart.  These parameters will be
+utilized during QMI stream enable requests.
 
-On Sat, 04 Mar 2023 14:03:02 +0100, Krzysztof Kozlowski wrote:
-> The DWC3 USB Linux driver and several DTS use extcon property, so
-> document it, even though it is deprecated, to fix warnings like:
-> 
->   sm6125-sony-xperia-seine-pdx201.dtb: usb@4ef8800: usb@4e00000: Unevaluated properties are not allowed ('extcon' was unexpected)
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ .../bindings/sound/qcom,q6usb-dais.yaml       | 49 +++++++++++++++++++
+ 1 file changed, 49 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,q6usb-dais.yaml
 
-Acked-by: Rob Herring <robh@kernel.org>
-
+diff --git a/Documentation/devicetree/bindings/sound/qcom,q6usb-dais.yaml b/Documentation/devicetree/bindings/sound/qcom,q6usb-dais.yaml
+new file mode 100644
+index 000000000000..8477abc511dd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/qcom,q6usb-dais.yaml
+@@ -0,0 +1,49 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/qcom,q6usb-dais.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm ASoC USB backend DAI
++
++maintainers:
++  - Wesley Cheng <quic_wcheng@quicinc.com>
++
++description:
++  The Q6USB backend is a supported AFE port on the Q6DSP. This backend
++  driver will communicate the required settings to the QC USB SND class
++  driver for properly enabling the audio stream.  Parameters defined
++  under this node will carry settings, which will be passed along during
++  the QMI stream enable request.
++
++properties:
++  compatible:
++    enum:
++      - qcom,q6usb-dais
++
++  iommus:
++    maxItems: 1
++
++  "#sound-dai-cells":
++    const: 1
++
++  qcom,usb-audio-intr-num:
++    description:
++      Desired XHCI interrupter number to use.
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++required:
++  - compatible
++  - "#sound-dai-cells"
++  - qcom,usb-audio-intr-num
++
++additionalProperties: false
++
++examples:
++  - |
++    dais {
++      compatible = "qcom,q6usb-dais";
++      #sound-dai-cells = <1>;
++      iommus = <&apps_smmu 0x180f 0x0>;
++      qcom,usb-audio-intr-num = <2>;
++    };
