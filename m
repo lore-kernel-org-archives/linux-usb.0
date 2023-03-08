@@ -2,42 +2,41 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B517CC74A44
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Mar 2023 23:58:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C3CC64EC4
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Mar 2023 23:58:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230168AbjCHX6p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Mar 2023 18:58:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35834 "EHLO
+        id S230185AbjCHX6s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Mar 2023 18:58:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbjCHX6c (ORCPT
+        with ESMTP id S229852AbjCHX6c (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Mar 2023 18:58:32 -0500
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77DE47BA2C;
-        Wed,  8 Mar 2023 15:58:30 -0800 (PST)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 328JnHcS031594;
-        Wed, 8 Mar 2023 23:58:13 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B92DB78CB6;
+        Wed,  8 Mar 2023 15:58:29 -0800 (PST)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 328JngMA001661;
+        Wed, 8 Mar 2023 23:58:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=ekKa9TYUeoAxY2Zr4eJ5jk3LwrQiD85w586qCAoUxq0=;
- b=jjH1ocfRuxLE2siNXw7aNqKkt+LSnCBnQjrhX4ZwPvQKYzXqD8fLL3HQLJ6ya/P6aW/p
- bURSwE86J9KEp6YCqZCKBqCzSb6ZZtuiiuPhpQtIJt0OMTVGYf2MtBhom8xR0bm3NnN5
- Fh5VLtiugFiatRS1XocN2g7g+XZVP4iiJjcMyxMB0mjqqXzs0lfcZq3skyL3Y3PK1H9d
- EdSeJo5BdzTXlR1uOYWnC6ynVi0mZNc9DR2qmZEe7Lehe+kJaBoM8T+m/HFBn0H+R0P1
- 351Hf0x6VnDKgnzBdO0LkpqkvGiNfGrWHsGfm14ducKI7stH8VPCGlL9maAehQdnNwG1 wA== 
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=nTuiazLy3Z2pJ9PRSFM+dwiIjrSjbWYYAz3/lmpti7Q=;
+ b=lH3ALdYMIP9+PdfMcyR1FF5rWlduNNQoizE6xin9s41/X2SskEfCT3haBx4lzBrcFs0G
+ /eSZFyOUBueNzJzvp6isIhkL+EtqSD+dgMrKsfLU3LCaEdnNImwoZ+vmZIzSlDMHv5mR
+ Uz7p/alYCYDRz2epGJgnU3LAM/WbnJQ/2CBlPjnjjpD0q/rABwjJ5GS7hBhtTHHLKDd3
+ dSgZgAiVedQOFYnuMin5n/zCFLBmGOCjyJiJ9m29966GxxiUR038i5Ef5xWFr9VPjXmV
+ Mk9UhTEUgT4IKXkH7FpmgNKthn19MTEBLbcz4kx4TF50A6We8kl8kNEDlFZWM9usquCW Ag== 
 Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p6vnah88q-1
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p6wcmh3dm-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 08 Mar 2023 23:58:13 +0000
+        Wed, 08 Mar 2023 23:58:05 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 328NwCK0016305
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 328Nw5nF016225
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 8 Mar 2023 23:58:12 GMT
+        Wed, 8 Mar 2023 23:58:05 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Wed, 8 Mar 2023 15:58:11 -0800
+ 15.2.986.41; Wed, 8 Mar 2023 15:58:04 -0800
 From:   Wesley Cheng <quic_wcheng@quicinc.com>
 To:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
@@ -49,12 +48,10 @@ CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <quic_jackp@quicinc.com>,
         <quic_plai@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v3 24/28] sound: soc: qdsp6: Add SND kcontrol to select offload device
-Date:   Wed, 8 Mar 2023 15:57:47 -0800
-Message-ID: <20230308235751.495-25-quic_wcheng@quicinc.com>
+Subject: [PATCH v3 00/28] Introduce QC USB SND audio offloading support
+Date:   Wed, 8 Mar 2023 15:57:23 -0800
+Message-ID: <20230308235751.495-1-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230308235751.495-1-quic_wcheng@quicinc.com>
-References: <20230308235751.495-1-quic_wcheng@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.49.16.6]
@@ -62,232 +59,241 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: AIZ3BOmsVMlRJgjxtVRLQ5UuSwO9_f5H
-X-Proofpoint-ORIG-GUID: AIZ3BOmsVMlRJgjxtVRLQ5UuSwO9_f5H
+X-Proofpoint-GUID: 3kRs6hx913S2qqheIssUEvHTG9PQ8yT_
+X-Proofpoint-ORIG-GUID: 3kRs6hx913S2qqheIssUEvHTG9PQ8yT_
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-08_15,2023-03-08_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- spamscore=0 clxscore=1015 mlxlogscore=999 impostorscore=0 mlxscore=0
- phishscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ spamscore=0 adultscore=0 bulkscore=0 mlxlogscore=999 clxscore=1015
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2303080200
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Expose a kcontrol on the platform sound card, which will allow for
-userspace to determine which USB card number and PCM device to offload.
-This allows for userspace to potentially tag an alternate path for a
-specific USB SND card and PCM device.  Previously, control was absent, and
-the offload path would be enabled on the last USB SND device which was
-connected.  This logic will continue to be applicable if no mixer input is
-received for specific device selection.
+Changes in v3:
+- Changed prefix from RFC to PATCH
+- Rebased entire series to usb-next
+- Updated copyright years
 
-An example to configure the offload device using tinymix:
-tinymix -D 0 set 'Q6USB offload SND device select' 1 0
+XHCI:
+- Rebased changes on top of XHCI changes merged into usb-next, and only added
+changes that were still under discussion.
+- Added change to read in the "num-hc-interrupters" device property.
 
-The above will set the Q6AFE device token to choose offload on card#1 and
-pcm#0.  Device selection is made possible by setting the Q6AFE device
-token.  The audio DSP utilizes this parameter, and will pass this field
-back to the USB offload driver within the QMI stream requests.
+ASoC:
+- qusb6 USB backend
+  - Incorporated suggestions to fetch iommu information with existing APIs
+  - Added two new sound kcontrols to fetch offload status and offload device
+    selection.
+    - offload status - will return the card and pcm device in use
+        tinymix -D 0 get 1 --> 1, 0 (offload in progress on card#1 pcm#0)
 
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
----
- sound/soc/qcom/qdsp6/q6usb.c | 126 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 123 insertions(+), 3 deletions(-)
+    - device selection - set the card and pcm device to enable offload on. Ex.:
+        tinymix -D 0 set 1 2 0  --> sets offload on card#2 pcm#0
+                                    (this should be the USB card)
 
-diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
-index 0dadc92b583f..55f9bcd928f3 100644
---- a/sound/soc/qcom/qdsp6/q6usb.c
-+++ b/sound/soc/qcom/qdsp6/q6usb.c
-@@ -14,6 +14,7 @@
- #include <linux/dma-map-ops.h>
- 
- #include <sound/pcm.h>
-+#include <sound/control.h>
- #include <sound/soc.h>
- #include <sound/soc-usb.h>
- #include <sound/pcm_params.h>
-@@ -35,9 +36,12 @@ struct q6usb_port_data {
- 	struct q6afe_usb_cfg usb_cfg;
- 	struct snd_soc_usb *usb;
- 	struct q6usb_offload priv;
-+	struct mutex mutex;
- 	unsigned long available_card_slot;
- 	struct q6usb_status status[SNDRV_CARDS];
--	int active_idx;
-+	bool idx_valid;
-+	int sel_card_idx;
-+	int sel_pcm_idx;
- };
- 
- static const struct snd_soc_dapm_widget q6usb_dai_widgets[] = {
-@@ -53,10 +57,36 @@ static int q6usb_hw_params(struct snd_pcm_substream *substream,
- 			   struct snd_soc_dai *dai)
- {
- 	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
-+	struct snd_soc_pcm_runtime *rtd = substream->private_data;
-+	struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
-+	struct q6afe_port *q6usb_afe;
- 	int direction = substream->stream;
-+	int chip_idx;
-+	int ret;
-+
-+	mutex_lock(&data->mutex);
-+	chip_idx = data->status[data->sel_card_idx].chip_index;
-+
-+	ret = snd_soc_usb_find_format(chip_idx, params, direction);
-+	if (ret < 0)
-+		goto out;
-+
-+	q6usb_afe = q6afe_port_get_from_id(cpu_dai->dev, USB_RX);
-+	if (IS_ERR(q6usb_afe))
-+		goto out;
-+
-+	ret = afe_port_send_usb_dev_param(q6usb_afe, data->sel_card_idx,
-+						data->sel_pcm_idx);
-+	if (ret < 0)
-+		goto out;
-+
-+	data->status[data->sel_card_idx].pcm_index = data->sel_pcm_idx;
-+out:
-+	mutex_unlock(&data->mutex);
- 
--	return snd_soc_usb_find_format(data->active_idx, params, direction);
-+	return ret;
- }
-+
- static const struct snd_soc_dai_ops q6usb_ops = {
- 	.hw_params = q6usb_hw_params,
- };
-@@ -85,6 +115,89 @@ static struct snd_soc_dai_driver q6usb_be_dais[] = {
- 	},
- };
- 
-+static int q6usb_get_offload_dev(struct snd_kcontrol *kcontrol,
-+				   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct q6usb_port_data *data = dev_get_drvdata(component->dev);
-+	int pcm_idx;
-+	int card_idx;
-+
-+	mutex_lock(&data->mutex);
-+	if (!data->idx_valid) {
-+		card_idx = -1;
-+		pcm_idx = -1;
-+	} else {
-+		card_idx = data->sel_card_idx;
-+		pcm_idx = data->sel_pcm_idx;
-+	}
-+
-+	ucontrol->value.integer.value[0] = card_idx;
-+	ucontrol->value.integer.value[1] = pcm_idx;
-+	mutex_unlock(&data->mutex);
-+
-+	return 0;
-+}
-+
-+static int q6usb_put_offload_dev(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct q6usb_port_data *data = dev_get_drvdata(component->dev);
-+	int changed = 0;
-+	int pcmidx;
-+	int cardidx;
-+
-+	cardidx = ucontrol->value.integer.value[0];
-+	pcmidx = ucontrol->value.integer.value[1];
-+
-+	mutex_lock(&data->mutex);
-+	if ((cardidx >= 0 && test_bit(cardidx, &data->available_card_slot))) {
-+		data->sel_card_idx = cardidx;
-+		changed = 1;
-+	}
-+
-+	if ((pcmidx >= 0 && pcmidx < data->status[cardidx].num_pcm)) {
-+		data->sel_pcm_idx = pcmidx;
-+		data->idx_valid = true;
-+		changed = 1;
-+	}
-+	mutex_unlock(&data->mutex);
-+
-+	return changed;
-+}
-+
-+static int q6usb_offload_dev_info(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 2;
-+	uinfo->value.integer.min = -1;
-+	uinfo->value.integer.max = SNDRV_CARDS;
-+
-+	return 0;
-+}
-+
-+static const struct snd_kcontrol_new q6usb_offload_dev_ctrl = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
-+	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+	.name = "Q6USB offload SND device select",
-+	.info = q6usb_offload_dev_info,
-+	.get = q6usb_get_offload_dev,
-+	.put = q6usb_put_offload_dev,
-+};
-+
-+/* Build a mixer control for a UAC connector control (jack-detect) */
-+static void q6usb_connector_control_init(struct snd_soc_component *component)
-+{
-+	int ret;
-+
-+	ret = snd_ctl_add(component->card->snd_card,
-+				snd_ctl_new1(&q6usb_offload_dev_ctrl, component));
-+	if (ret < 0)
-+		return;
-+}
-+
- static int q6usb_audio_ports_of_xlate_dai_name(struct snd_soc_component *component,
- 					const struct of_phandle_args *args,
- 					const char **dai_name)
-@@ -113,10 +226,12 @@ static int q6usb_alsa_connection_cb(struct snd_soc_usb *usb, int card_idx,
- 	dapm = snd_soc_component_get_dapm(usb->component);
- 	data = dev_get_drvdata(usb->component->dev);
- 
-+	mutex_lock(&data->mutex);
- 	if (connected) {
- 		snd_soc_dapm_enable_pin(dapm, "USB_RX_BE");
- 		/* We only track the latest USB headset plugged in */
--		data->active_idx = card_idx;
-+		if (!data->idx_valid || data->sel_card_idx < 0)
-+			data->sel_card_idx = card_idx;
- 
- 		set_bit(card_idx, &data->available_card_slot);
- 		data->status[card_idx].num_pcm = num_pcm;
-@@ -129,6 +244,7 @@ static int q6usb_alsa_connection_cb(struct snd_soc_usb *usb, int card_idx,
- 			snd_soc_dapm_disable_pin(dapm, "USB_RX_BE");
- 	}
- 	snd_soc_dapm_sync(dapm);
-+	mutex_unlock(&data->mutex);
- 
- 	return 0;
- }
-@@ -141,6 +257,8 @@ static int q6usb_component_probe(struct snd_soc_component *component)
- 	snd_soc_dapm_disable_pin(dapm, "USB_RX_BE");
- 	snd_soc_dapm_sync(dapm);
- 
-+	q6usb_connector_control_init(component);
-+
- 	data->usb = snd_soc_usb_add_port(component->dev, &data->priv, q6usb_alsa_connection_cb);
- 	if (IS_ERR(data->usb)) {
- 		dev_err(component->dev, "failed to add usb port\n");
-@@ -189,6 +307,8 @@ static int q6usb_dai_dev_probe(struct platform_device *pdev)
- 
- 	data->priv.domain = iommu_get_domain_for_dev(&pdev->dev);
- 
-+	mutex_init(&data->mutex);
-+
- 	data->priv.dev = dev;
- 	dev_set_drvdata(dev, data);
- 
+USB SND:
+- Fixed up some locking related concerns for registering platform ops.
+   - Moved callbacks under the register_mutex, so that 
+- Modified APIs to properly pass more information about the USB SND device, so
+that the Q6USB backend can build a device list/map, in order to monitor offload
+status and device selection.
+
+Changes in v2:
+
+XHCI:
+- Replaced XHCI and HCD changes with Mathias' XHCI interrupter changes
+in his tree:
+https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=feature_interrupters
+
+Adjustments made to Mathias' changes:
+  - Created xhci-intr.h to export/expose interrupter APIs versus exposing xhci.h.
+    Moved dependent structures to this file as well. (so clients can parse out
+    information from "struct xhci_interrupter")
+  - Added some basic locking when requesting interrupters.
+  - Fixed up some sanity checks.
+  - Removed clearing of the ERSTBA during freeing of the interrupter. (pending
+    issue where SMMU fault occurs if DMA addr returned is 64b - TODO)
+
+- Clean up pending events in the XHCI secondary interrupter.  While testing USB
+bus suspend, it was seen that on bus resume, the xHCI HC would run into a command
+timeout.
+- Added offloading APIs to xHCI to fetch transfer and event ring information.
+
+ASoC:
+- Modified soc-usb to allow for multiple USB port additions.  For this to work,
+the USB offload driver has to have a reference to the USB backend by adding
+a "usb-soc-be" DT entry to the device saved into XHCI sysdev.
+- Created separate dt-bindings for defining USB_RX port.
+- Increased APR timeout to accommodate the situation where the AFE port start
+command could be delayed due to having to issue a USB bus resume while
+handling the QMI stream start command.
+
+USB SND:
+- Added a platform ops during usb_audio_suspend().  This allows for the USB
+offload driver to halt the audio stream when system enters PM suspend.  This
+ensures the audio DSP is not issuing transfers on the USB bus.
+- Do not override platform ops if they are already populated.
+- Introduce a shared status variable between the USB offload and USB SND layers,
+to ensure that only one path is active at a time.  If the USB bus is occupied,
+then userspace is notified that the path is busy.
+
+Several Qualcomm based chipsets can support USB audio offloading to a
+dedicated audio DSP, which can take over issuing transfers to the USB
+host controller.  The intention is to reduce the load on the main
+processors in the SoC, and allow them to be placed into lower power modes.
+There are several parts to this design:
+  1. Adding ASoC binding layer
+  2. Create a USB backend for Q6DSP
+  3. Introduce XHCI interrupter support
+  4. Create vendor ops for the USB SND driver
+
+Adding ASoC binding layer:
+soc-usb: Intention is to treat a USB port similar to a headphone jack.
+The port is always present on the device, but cable/pin status can be
+enabled/disabled.  Expose mechanisms for USB backend ASoC drivers to
+communicate with USB SND.
+
+Create a USB backend for Q6DSP:
+q6usb: Basic backend driver that will be responsible for maintaining the
+resources needed to initiate a playback stream using the Q6DSP.  Will
+be the entity that checks to make sure the connected USB audio device
+supports the requested PCM format.  If it does not, the PCM open call will
+fail, and userpsace ALSA can take action accordingly.
+
+Introduce XHCI interrupter support:
+XHCI HCD supports multiple interrupters, which allows for events to be routed
+to different event rings.  This is determined by "Interrupter Target" field
+specified in Section "6.4.1.1 Normal TRB" of the XHCI specification.
+
+Events in the offloading case will be routed to an event ring that is assigned
+to the audio DSP.
+
+Create vendor ops for the USB SND driver:
+qc_audio_offload: This particular driver has several components associated
+with it:
+- QMI stream request handler
+- XHCI interrupter and resource management
+- audio DSP memory management
+
+When the audio DSP wants to enable a playback stream, the request is first
+received by the ASoC platform sound card.  Depending on the selected route,
+ASoC will bring up the individual DAIs in the path.  The Q6USB backend DAI
+will send an AFE port start command (with enabling the USB playback path), and
+the audio DSP will handle the request accordingly.
+
+Part of the AFE USB port start handling will have an exchange of control
+messages using the QMI protocol.  The qc_audio_offload driver will populate the
+buffer information:
+- Event ring base address
+- EP transfer ring base address
+
+and pass it along to the audio DSP.  All endpoint management will now be handed
+over to the DSP, and the main processor is not involved in transfers.
+
+Overall, implementing this feature will still expose separate sound card and PCM
+devices for both the platorm card and USB audio device:
+ 0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
+                      SM8250-MTP-WCD9380-WSA8810-VA-DMIC
+ 1 [Audio          ]: USB-Audio - USB Audio
+                      Generic USB Audio at usb-xhci-hcd.1.auto-1.4, high speed
+
+This is to ensure that userspace ALSA entities can decide which route to take
+when executing the audio playback.  In the above, if card#1 is selected, then
+USB audio data will take the legacy path over the USB PCM drivers, etc...
+
+This feature was validated using:
+- tinymix: set/enable the multimedia path to route to USB backend
+- tinyplay: issue playback on platform card
+
+Mathias Nyman (1):
+  xhci: Add support to allocate several interrupters
+
+Wesley Cheng (27):
+  usb: xhci: Add XHCI APIs to support USB offloading
+  usb: host: xhci-mem: Cleanup pending secondary event ring events
+  ASoC: Add SOC USB APIs for adding an USB backend
+  ASoC: dt-bindings: qcom,q6dsp-lpass-ports: Add USB_RX port
+  ASoC: qcom: qdsp6: Introduce USB AFE port to q6dsp
+  ASoC: qdsp6: q6afe: Increase APR timeout
+  ASoC: qcom: Add USB backend ASoC driver for Q6
+  sound: usb: card: Introduce USB SND platform op callbacks
+  sound: usb: Export USB SND APIs for modules
+  dt-bindings: usb: dwc3: Add snps,num-hc-interrupters definition
+  usb: dwc3: Add DT parameter to specify maximum number of interrupters
+  usb: host: xhci-plat: Set XHCI max interrupters if property is present
+  sound: usb: pcm: Export fixed rate check USB SND API
+  sound: usb: Introduce QC USB SND offloading support
+  sound: usb: card: Check for support for requested audio format
+  sound: soc: soc-usb: Add PCM format check API for USB backend
+  sound: soc: qcom: qusb6: Ensure PCM format is supported by USB audio
+    device
+  sound: usb: Prevent starting of audio stream if in use
+  ASoC: dt-bindings: Add Q6USB backend bindings
+  ASoC: dt-bindings: Update example for enabling USB offload on SM8250
+  ASoC: qcom: qdsp6: q6afe: Split USB AFE dev_token param into separate
+    API
+  sound: Pass USB SND card and PCM information to SOC USB
+  sound: soc: qdsp6: Add SND kcontrol to select offload device
+  sound: soc: qdsp6: Add SND kcontrol for fetching offload status
+  sound: usb: qc_audio_offload: Use card and PCM index from QMI request
+  sound: usb: card: Allow for rediscovery of connected USB SND devices
+  sound: soc: soc-usb: Rediscover USB SND devices on USB port add
+
+ .../bindings/sound/qcom,q6usb-dais.yaml       |   49 +
+ .../bindings/sound/qcom,sm8250.yaml           |   15 +
+ .../devicetree/bindings/usb/snps,dwc3.yaml    |   13 +
+ drivers/usb/dwc3/core.c                       |   12 +
+ drivers/usb/dwc3/core.h                       |    2 +
+ drivers/usb/dwc3/host.c                       |    5 +-
+ drivers/usb/host/xhci-debugfs.c               |    2 +-
+ drivers/usb/host/xhci-mem.c                   |  171 +-
+ drivers/usb/host/xhci-plat.c                  |    2 +
+ drivers/usb/host/xhci-ring.c                  |    2 +-
+ drivers/usb/host/xhci.c                       |  181 +-
+ drivers/usb/host/xhci.h                       |    2 +-
+ .../sound/qcom,q6dsp-lpass-ports.h            |    1 +
+ include/linux/usb/xhci-intr.h                 |   94 +
+ include/sound/pcm_params.h                    |    4 +
+ include/sound/q6usboffload.h                  |   20 +
+ include/sound/soc-usb.h                       |   39 +
+ sound/core/oss/pcm_oss.c                      |   58 -
+ sound/core/pcm_lib.c                          |   65 +
+ sound/soc/Makefile                            |    2 +-
+ sound/soc/qcom/Kconfig                        |    4 +
+ sound/soc/qcom/qdsp6/Makefile                 |    1 +
+ sound/soc/qcom/qdsp6/q6afe-dai.c              |   50 +
+ sound/soc/qcom/qdsp6/q6afe.c                  |  208 +-
+ sound/soc/qcom/qdsp6/q6afe.h                  |   47 +-
+ sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c      |   23 +
+ sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h      |    1 +
+ sound/soc/qcom/qdsp6/q6routing.c              |    9 +
+ sound/soc/qcom/qdsp6/q6usb.c                  |  445 ++++
+ sound/soc/soc-usb.c                           |  197 ++
+ sound/usb/Kconfig                             |   14 +
+ sound/usb/Makefile                            |    2 +-
+ sound/usb/card.c                              |   85 +
+ sound/usb/card.h                              |   31 +
+ sound/usb/endpoint.c                          |    2 +
+ sound/usb/helper.c                            |    1 +
+ sound/usb/pcm.c                               |   29 +-
+ sound/usb/pcm.h                               |   12 +
+ sound/usb/qcom/Makefile                       |    2 +
+ sound/usb/qcom/qc_audio_offload.c             | 1790 +++++++++++++++++
+ sound/usb/qcom/usb_audio_qmi_v01.c            |  892 ++++++++
+ sound/usb/qcom/usb_audio_qmi_v01.h            |  162 ++
+ 42 files changed, 4646 insertions(+), 100 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,q6usb-dais.yaml
+ create mode 100644 include/linux/usb/xhci-intr.h
+ create mode 100644 include/sound/q6usboffload.h
+ create mode 100644 include/sound/soc-usb.h
+ create mode 100644 sound/soc/qcom/qdsp6/q6usb.c
+ create mode 100644 sound/soc/soc-usb.c
+ create mode 100644 sound/usb/qcom/Makefile
+ create mode 100644 sound/usb/qcom/qc_audio_offload.c
+ create mode 100644 sound/usb/qcom/usb_audio_qmi_v01.c
+ create mode 100644 sound/usb/qcom/usb_audio_qmi_v01.h
+
