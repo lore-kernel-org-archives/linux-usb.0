@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D481C74A44
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Mar 2023 23:58:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 660BAC74A5B
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Mar 2023 23:58:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbjCHX6u (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Mar 2023 18:58:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35930 "EHLO
+        id S230224AbjCHX6w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Mar 2023 18:58:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229876AbjCHX6c (ORCPT
+        with ESMTP id S229776AbjCHX6c (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Mar 2023 18:58:32 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5867C98EA1;
-        Wed,  8 Mar 2023 15:58:31 -0800 (PST)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 328MwMls019630;
-        Wed, 8 Mar 2023 23:58:07 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAA8885377;
+        Wed,  8 Mar 2023 15:58:30 -0800 (PST)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 328JJAma027605;
+        Wed, 8 Mar 2023 23:58:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=d8yVM4OXVevrsHiIh1PYXvRIB8AFI6kGQsHxt3Vz9F0=;
- b=EthMYHzxHEPNw01nTgQ/iaYYOk8kFy1D/KZt3ntJubzPGwvnVE1GjnFNd/saciSTkLD9
- eJI5bZ3PM2FWqrKA0oEO+VNsnjsMcAvaWvj3beZTZ0CE2vTtThaaZtWfaNLK6MroLgtY
- Un8FuHOGImpdGURjD+5xQfif66URavhSvuCTnRh4N1Yoflpl8MsoMtpVun6U86X1um0Z
- NpQdsQSMsFEBvb1Ee23Af6ZIsUEElSb8+i8cyN647ye45Nw03Smcu5xZeE6kHCti0bPg
- GJagBa5/3OPsmHKQ789Kkg7fN/eI6t7TGO8aud7DcburIyl4rnSfWSZv3bHC/CVu260V Rw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p6vrms8w7-1
+ bh=mH3cxz0vSi50A1zuyripsixnqQasru/MCDeZuPSh/Fk=;
+ b=ITSbkTxsMmQX8cEzl7g+lekYGlnBZXogGauCWZj4aFQMvKKQt7qrXdwI4GLcQtG+E0Mq
+ auzJVMxoEEq4s8QFIGFs2pKG62UnzVxGj8Cm1g2b50wusuJlY1n5EdJ287+e4MNkUxKl
+ G8whPRmJXAkVrgYt1aakvA2SVff2ckaKv6gMi6rRwvMvL48n3pHzj8P6jwAhbbZLQd7C
+ M2sqa2lvmnFxzxP8MwjqCi8ddyNFEfeQJKRZEoIKsdXvsJLUem/lDiQKBu62nMmsOxRX
+ gURSpZZ52en3HfQDytTQIq8BlAOM1G50c62R0igu0U/H7oZCUO0dFQjkCoQV/cYVRQs5 tQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p6v2dsav6-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 08 Mar 2023 23:58:07 +0000
+        Wed, 08 Mar 2023 23:58:13 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 328Nw6Ff016245
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 328NwCTA017176
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 8 Mar 2023 23:58:06 GMT
+        Wed, 8 Mar 2023 23:58:12 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Wed, 8 Mar 2023 15:58:06 -0800
+ 15.2.986.41; Wed, 8 Mar 2023 15:58:12 -0800
 From:   Wesley Cheng <quic_wcheng@quicinc.com>
 To:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
@@ -49,9 +49,9 @@ CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <quic_jackp@quicinc.com>,
         <quic_plai@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v3 05/28] ASoC: dt-bindings: qcom,q6dsp-lpass-ports: Add USB_RX port
-Date:   Wed, 8 Mar 2023 15:57:28 -0800
-Message-ID: <20230308235751.495-6-quic_wcheng@quicinc.com>
+Subject: [PATCH v3 26/28] sound: usb: qc_audio_offload: Use card and PCM index from QMI request
+Date:   Wed, 8 Mar 2023 15:57:49 -0800
+Message-ID: <20230308235751.495-27-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230308235751.495-1-quic_wcheng@quicinc.com>
 References: <20230308235751.495-1-quic_wcheng@quicinc.com>
@@ -62,39 +62,69 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: yCXQ0y4nHVP2HlDcR22lIjNOX4rbptLx
-X-Proofpoint-GUID: yCXQ0y4nHVP2HlDcR22lIjNOX4rbptLx
+X-Proofpoint-GUID: BAbqpL8ZfQfh_1nXJ8Fd_jNAytSKX_F6
+X-Proofpoint-ORIG-GUID: BAbqpL8ZfQfh_1nXJ8Fd_jNAytSKX_F6
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-08_15,2023-03-08_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
- mlxscore=0 malwarescore=0 suspectscore=0 adultscore=0 phishscore=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 impostorscore=0
- mlxlogscore=768 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303080200
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ malwarescore=0 phishscore=0 priorityscore=1501 impostorscore=0
+ adultscore=0 spamscore=0 mlxscore=0 suspectscore=0 bulkscore=0
+ clxscore=1015 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2303080200
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Q6DSP supports handling of USB playback audio data if USB audio offloading
-is enabled.  Add a new definition for the USB_RX AFE port, which is
-referenced when the AFE port is started.
+Utilize the card and PCM index coming from the USB QMI stream request.
+This field follows what is set by the ASoC USB backend, and could
+potentially carry information about a specific device selected through the
+ASoC USB backend.  The backend also has information about the last USB
+sound device plugged in, so it can choose to select the last device plugged
+in, accordingly.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h | 1 +
- 1 file changed, 1 insertion(+)
+ sound/usb/qcom/qc_audio_offload.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-index 9f7c5103bc82..746bc462bb2e 100644
---- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-+++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-@@ -131,6 +131,7 @@
- #define RX_CODEC_DMA_RX_7	126
- #define QUINARY_MI2S_RX		127
- #define QUINARY_MI2S_TX		128
-+#define USB_RX				129
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index 7d6e7f946a47..51241c4eafab 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -114,8 +114,6 @@ struct uaudio_qmi_dev {
+ 	bool er_mapped;
+ 	/* reference count to number of possible consumers */
+ 	atomic_t qdev_in_use;
+-	/* idx to last udev card number plugged in */
+-	unsigned int last_card_num;
+ };
  
- #define LPASS_CLK_ID_PRI_MI2S_IBIT	1
- #define LPASS_CLK_ID_PRI_MI2S_EBIT	2
+ struct uaudio_dev {
+@@ -990,7 +988,7 @@ static int prepare_qmi_response(struct snd_usb_substream *subs,
+ 	assoc = iface->intf_assoc;
+ 	pcm_dev_num = (req_msg->usb_token & SND_PCM_DEV_NUM_MASK) >> 8;
+ 	xfer_buf_len = req_msg->xfer_buff_size;
+-	card_num = uaudio_qdev->last_card_num;
++	card_num = (req_msg->usb_token & SND_PCM_CARD_NUM_MASK) >> 16;
+ 
+ 	alts = &iface->altsetting[subs->cur_audiofmt->altset_idx];
+ 	altsd = get_iface_desc(alts);
+@@ -1375,8 +1373,7 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+ 
+ 	direction = (req_msg->usb_token & SND_PCM_STREAM_DIRECTION);
+ 	pcm_dev_num = (req_msg->usb_token & SND_PCM_DEV_NUM_MASK) >> 8;
+-	pcm_card_num = req_msg->enable ? uaudio_qdev->last_card_num :
+-				ffs(uaudio_qdev->card_slot) - 1;
++	pcm_card_num = (req_msg->usb_token & SND_PCM_CARD_NUM_MASK) >> 16;
+ 	if (pcm_card_num >= SNDRV_CARDS) {
+ 		ret = -EINVAL;
+ 		goto response;
+@@ -1560,7 +1557,6 @@ static void qc_usb_audio_offload_probe(struct snd_usb_audio *chip)
+ 	mutex_unlock(&qdev_mutex);
+ 
+ 	uadev[chip->card->number].chip = chip;
+-	uaudio_qdev->last_card_num = chip->card->number;
+ 
+ 	snd_soc_usb_connect(usb_get_usb_backend(udev), chip->card->number,
+ 				chip->index, chip->pcm_devs);
