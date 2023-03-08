@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30B0DC6FD19
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Mar 2023 23:59:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 220A3C6FD19
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Mar 2023 23:59:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229966AbjCHX7A (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Mar 2023 18:59:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35930 "EHLO
+        id S230015AbjCHX7C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Mar 2023 18:59:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbjCHX6d (ORCPT
+        with ESMTP id S229951AbjCHX6d (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Mar 2023 18:58:33 -0500
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAA1B99C28;
-        Wed,  8 Mar 2023 15:58:31 -0800 (PST)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 328D89M3012562;
-        Wed, 8 Mar 2023 23:58:13 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54E2C9AFE4;
+        Wed,  8 Mar 2023 15:58:32 -0800 (PST)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 328Nu5fC021365;
+        Wed, 8 Mar 2023 23:58:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=huk+KaMEoKJXon78kCi9B0/eB6R2iMd3neoEP1lz1zk=;
- b=oUxvtSGkvMefo27+fSEzURtmOw1IRSAmdjKqNTNceDG34SMoaM3auoE30gKMx5pp8a3g
- GBT5qc2ZDT6s53tl1gJDAROJf1iqUu+/9zgu0a9y5lR4t13qko4lvjaeGjgW3Dmhf7Vl
- EXcufhyceV6p60dnReknIwRxnzgjB57ZbBwiolj+tOnC9+PdhQkUBSgCRc3BTVHpQd8E
- EhpbHTERv+MTVpMJcRLKlXYbgODUoh7yw8Xq1fGV+rrZakQZQQ86v3Zom/097N3z1Nke
- BS4zfQrpF7ElSis08EVTzrlpCLQ2p1QqGWr2tbm94JpoVt9xFB4ZUVyxTZhbbTOfDbWq jw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p6fgfu8pw-1
+ bh=f6/qdOtfQVlyOiZpX8BmuHeD3kEeuXSUXzhaZtLvKHg=;
+ b=H4AvSNldYgqTWEyo5JrmqtCPFhAps7rRVq1NoUzh7aqoSxTEMDFX1SA0biix90js7vQ2
+ gyASAm0hL8YHYmSLQCFbF5VkHaAlXi9BEi5cWVKgEJRolhpH9meldxfG50SFb5P3Iskv
+ nDcQguR1N5P1cg6CSZILNmkzEc4LWoao5T8TBLAUS0JCLxyJ9RK9U0S+cB7XikQvr9Sp
+ HnwwGQNfKK+lC1R14wbhsoc0GcMUy2vnWk0Hf2xxOLq8mqF9obnkTvfKn2GmTjRjrLgD
+ Y5O91dgcYJ+hvreUQX773jChyT9bvPbfwhZpEQN98OilqwDNV4oSDvrH8aK7sREfliLC rQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p6vrms8w9-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 08 Mar 2023 23:58:12 +0000
+        Wed, 08 Mar 2023 23:58:08 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 328NwBMS015030
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 328Nw74d011942
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 8 Mar 2023 23:58:11 GMT
+        Wed, 8 Mar 2023 23:58:08 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Wed, 8 Mar 2023 15:58:11 -0800
+ 15.2.986.41; Wed, 8 Mar 2023 15:58:07 -0800
 From:   Wesley Cheng <quic_wcheng@quicinc.com>
 To:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
@@ -49,9 +49,9 @@ CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <quic_jackp@quicinc.com>,
         <quic_plai@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v3 22/28] ASoC: qcom: qdsp6: q6afe: Split USB AFE dev_token param into separate API
-Date:   Wed, 8 Mar 2023 15:57:45 -0800
-Message-ID: <20230308235751.495-23-quic_wcheng@quicinc.com>
+Subject: [PATCH v3 10/28] sound: usb: Export USB SND APIs for modules
+Date:   Wed, 8 Mar 2023 15:57:33 -0800
+Message-ID: <20230308235751.495-11-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230308235751.495-1-quic_wcheng@quicinc.com>
 References: <20230308235751.495-1-quic_wcheng@quicinc.com>
@@ -62,122 +62,318 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: OIRnSBwxU824tdyky7og2RoWXtFOu7bS
-X-Proofpoint-ORIG-GUID: OIRnSBwxU824tdyky7og2RoWXtFOu7bS
+X-Proofpoint-ORIG-GUID: UZTbXoKlGzwfJz_vBsXLoo3YFbRnCnwO
+X-Proofpoint-GUID: UZTbXoKlGzwfJz_vBsXLoo3YFbRnCnwO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-08_15,2023-03-08_03,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
- impostorscore=0 mlxscore=0 phishscore=0 adultscore=0 lowpriorityscore=0
- suspectscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxscore=0 malwarescore=0 suspectscore=0 adultscore=0 phishscore=0
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 impostorscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2303080200
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Q6USB backend can carry information about the available USB SND cards
-and PCM devices discovered on the USB bus.  The dev_token field is used by
-the audio DSP to notify the USB offload driver of which card and PCM index
-to enable playback on.  Separate this into a dedicated API, so the USB
-backend can set the dev_token accordingly.  The audio DSP does not utilize
-this information until the AFE port start command is sent, which is done
-during the PCM prepare phase.
+Some vendor modules will utilize useful parsing and endpoint management
+APIs to start audio playback/capture.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/soc/qcom/qdsp6/q6afe.c | 49 +++++++++++++++++++++++++-----------
- sound/soc/qcom/qdsp6/q6afe.h |  1 +
- 2 files changed, 36 insertions(+), 14 deletions(-)
+ include/sound/pcm_params.h |  4 +++
+ sound/core/oss/pcm_oss.c   | 58 ----------------------------------
+ sound/core/pcm_lib.c       | 65 ++++++++++++++++++++++++++++++++++++++
+ sound/usb/card.c           |  2 ++
+ sound/usb/endpoint.c       |  2 ++
+ sound/usb/helper.c         |  1 +
+ sound/usb/pcm.c            |  9 ++++--
+ sound/usb/pcm.h            | 12 +++++++
+ 8 files changed, 92 insertions(+), 61 deletions(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
-index e9d5fa6b6b0d..505371c96987 100644
---- a/sound/soc/qcom/qdsp6/q6afe.c
-+++ b/sound/soc/qcom/qdsp6/q6afe.c
-@@ -1394,10 +1394,42 @@ void q6afe_tdm_port_prepare(struct q6afe_port *port,
+diff --git a/include/sound/pcm_params.h b/include/sound/pcm_params.h
+index ba184f49f7e1..407557b72700 100644
+--- a/include/sound/pcm_params.h
++++ b/include/sound/pcm_params.h
+@@ -17,6 +17,10 @@ int snd_pcm_hw_param_last(struct snd_pcm_substream *pcm,
+ 			  snd_pcm_hw_param_t var, int *dir);
+ int snd_pcm_hw_param_value(const struct snd_pcm_hw_params *params,
+ 			   snd_pcm_hw_param_t var, int *dir);
++int _snd_pcm_hw_param_set(struct snd_pcm_hw_params *params,
++				 snd_pcm_hw_param_t var, unsigned int val,
++				 int dir);
++int snd_interval_refine_set(struct snd_interval *i, unsigned int val);
+ 
+ #define SNDRV_MASK_BITS	64	/* we use so far 64bits only */
+ #define SNDRV_MASK_SIZE	(SNDRV_MASK_BITS / 32)
+diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
+index 728c211142d1..fc9ce709412d 100644
+--- a/sound/core/oss/pcm_oss.c
++++ b/sound/core/oss/pcm_oss.c
+@@ -103,16 +103,6 @@ static int snd_interval_refine_max(struct snd_interval *i, unsigned int max, int
+ 	return changed;
  }
- EXPORT_SYMBOL_GPL(q6afe_tdm_port_prepare);
  
--static int afe_port_send_usb_dev_param(struct q6afe_port *port, struct q6afe_usb_cfg *cfg)
-+/**
-+ * afe_port_send_usb_dev_param() - Send USB dev token
-+ *
-+ * @port: Instance of afe port
-+ * @cardidx: USB SND card index to reference
-+ * @pcmidx: USB SND PCM device index to reference
-+ *
-+ * The USB dev token carries information about which USB SND card instance and
-+ * PCM device to execute the offload on.  This information is carried through
-+ * to the stream enable QMI request, which is handled by the offload class
-+ * driver.  The information is parsed to determine which USB device to query
-+ * the required resources for.
-+ */
-+int afe_port_send_usb_dev_param(struct q6afe_port *port, int cardidx, int pcmidx)
- {
--	union afe_port_config *pcfg = &port->port_cfg;
- 	struct afe_param_id_usb_audio_dev_params usb_dev;
-+	int ret;
-+
-+	memset(&usb_dev, 0, sizeof(usb_dev));
-+
-+	usb_dev.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
-+	usb_dev.dev_token = (cardidx << 16) | (pcmidx << 8);
-+	ret = q6afe_port_set_param_v2(port, &usb_dev,
-+				AFE_PARAM_ID_USB_AUDIO_DEV_PARAMS,
-+				AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(usb_dev));
-+	if (ret)
-+		dev_err(port->afe->dev, "%s: AFE device param cmd failed %d\n",
-+			__func__, ret);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(afe_port_send_usb_dev_param);
-+
-+static int afe_port_send_usb_params(struct q6afe_port *port, struct q6afe_usb_cfg *cfg)
-+{
-+	union afe_port_config *pcfg = &port->port_cfg;
- 	struct afe_param_id_usb_audio_dev_lpcm_fmt lpcm_fmt;
- 	struct afe_param_id_usb_audio_svc_interval svc_int;
- 	int ret = 0;
-@@ -1408,20 +1440,9 @@ static int afe_port_send_usb_dev_param(struct q6afe_port *port, struct q6afe_usb
- 		goto exit;
- 	}
- 
--	memset(&usb_dev, 0, sizeof(usb_dev));
- 	memset(&lpcm_fmt, 0, sizeof(lpcm_fmt));
- 	memset(&svc_int, 0, sizeof(svc_int));
- 
--	usb_dev.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
--	q6afe_port_set_param_v2(port, &usb_dev,
--				AFE_PARAM_ID_USB_AUDIO_DEV_PARAMS,
--				AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(usb_dev));
--	if (ret) {
--		dev_err(port->afe->dev, "%s: AFE device param cmd failed %d\n",
--			__func__, ret);
--		goto exit;
--	}
+-static int snd_interval_refine_set(struct snd_interval *i, unsigned int val)
+-{
+-	struct snd_interval t;
+-	t.empty = 0;
+-	t.min = t.max = val;
+-	t.openmin = t.openmax = 0;
+-	t.integer = 1;
+-	return snd_interval_refine(i, &t);
+-}
 -
- 	lpcm_fmt.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
- 	lpcm_fmt.endian = pcfg->usb_cfg.endian;
- 	ret = q6afe_port_set_param_v2(port, &lpcm_fmt,
-@@ -1465,7 +1486,7 @@ void q6afe_usb_port_prepare(struct q6afe_port *port,
- 	pcfg->usb_cfg.num_channels = cfg->num_channels;
- 	pcfg->usb_cfg.bit_width = cfg->bit_width;
- 
--	afe_port_send_usb_dev_param(port, cfg);
-+	afe_port_send_usb_params(port, cfg);
+ /**
+  * snd_pcm_hw_param_value_min
+  * @params: the hw_params instance
+@@ -443,54 +433,6 @@ static int snd_pcm_hw_param_near(struct snd_pcm_substream *pcm,
+ 	return v;
  }
- EXPORT_SYMBOL_GPL(q6afe_usb_port_prepare);
  
-diff --git a/sound/soc/qcom/qdsp6/q6afe.h b/sound/soc/qcom/qdsp6/q6afe.h
-index e098a3e15135..7980416275e9 100644
---- a/sound/soc/qcom/qdsp6/q6afe.h
-+++ b/sound/soc/qcom/qdsp6/q6afe.h
-@@ -274,6 +274,7 @@ void q6afe_tdm_port_prepare(struct q6afe_port *port, struct q6afe_tdm_cfg *cfg);
- void q6afe_cdc_dma_port_prepare(struct q6afe_port *port,
- 				struct q6afe_cdc_dma_cfg *cfg);
+-static int _snd_pcm_hw_param_set(struct snd_pcm_hw_params *params,
+-				 snd_pcm_hw_param_t var, unsigned int val,
+-				 int dir)
+-{
+-	int changed;
+-	if (hw_is_mask(var)) {
+-		struct snd_mask *m = hw_param_mask(params, var);
+-		if (val == 0 && dir < 0) {
+-			changed = -EINVAL;
+-			snd_mask_none(m);
+-		} else {
+-			if (dir > 0)
+-				val++;
+-			else if (dir < 0)
+-				val--;
+-			changed = snd_mask_refine_set(hw_param_mask(params, var), val);
+-		}
+-	} else if (hw_is_interval(var)) {
+-		struct snd_interval *i = hw_param_interval(params, var);
+-		if (val == 0 && dir < 0) {
+-			changed = -EINVAL;
+-			snd_interval_none(i);
+-		} else if (dir == 0)
+-			changed = snd_interval_refine_set(i, val);
+-		else {
+-			struct snd_interval t;
+-			t.openmin = 1;
+-			t.openmax = 1;
+-			t.empty = 0;
+-			t.integer = 0;
+-			if (dir < 0) {
+-				t.min = val - 1;
+-				t.max = val;
+-			} else {
+-				t.min = val;
+-				t.max = val+1;
+-			}
+-			changed = snd_interval_refine(i, &t);
+-		}
+-	} else
+-		return -EINVAL;
+-	if (changed > 0) {
+-		params->cmask |= 1 << var;
+-		params->rmask |= 1 << var;
+-	}
+-	return changed;
+-}
+-
+ /**
+  * snd_pcm_hw_param_set
+  * @pcm: PCM instance
+diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
+index 8b6aeb8a78f7..8305fd0860ad 100644
+--- a/sound/core/pcm_lib.c
++++ b/sound/core/pcm_lib.c
+@@ -2532,3 +2532,68 @@ int snd_pcm_add_chmap_ctls(struct snd_pcm *pcm, int stream,
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(snd_pcm_add_chmap_ctls);
++
++int snd_interval_refine_set(struct snd_interval *i, unsigned int val)
++{
++	struct snd_interval t;
++
++	t.empty = 0;
++	t.min = t.max = val;
++	t.openmin = t.openmax = 0;
++	t.integer = 1;
++	return snd_interval_refine(i, &t);
++}
++EXPORT_SYMBOL_GPL(snd_interval_refine_set);
++
++int _snd_pcm_hw_param_set(struct snd_pcm_hw_params *params,
++				 snd_pcm_hw_param_t var, unsigned int val,
++				 int dir)
++{
++	int changed;
++
++	if (hw_is_mask(var)) {
++		struct snd_mask *m = hw_param_mask(params, var);
++
++		if (val == 0 && dir < 0) {
++			changed = -EINVAL;
++			snd_mask_none(m);
++		} else {
++			if (dir > 0)
++				val++;
++			else if (dir < 0)
++				val--;
++			changed = snd_mask_refine_set(hw_param_mask(params, var), val);
++		}
++	} else if (hw_is_interval(var)) {
++		struct snd_interval *i = hw_param_interval(params, var);
++
++		if (val == 0 && dir < 0) {
++			changed = -EINVAL;
++			snd_interval_none(i);
++		} else if (dir == 0)
++			changed = snd_interval_refine_set(i, val);
++		else {
++			struct snd_interval t;
++
++			t.openmin = 1;
++			t.openmax = 1;
++			t.empty = 0;
++			t.integer = 0;
++			if (dir < 0) {
++				t.min = val - 1;
++				t.max = val;
++			} else {
++				t.min = val;
++				t.max = val+1;
++			}
++			changed = snd_interval_refine(i, &t);
++		}
++	} else
++		return -EINVAL;
++	if (changed > 0) {
++		params->cmask |= 1 << var;
++		params->rmask |= 1 << var;
++	}
++	return changed;
++}
++EXPORT_SYMBOL_GPL(_snd_pcm_hw_param_set);
+diff --git a/sound/usb/card.c b/sound/usb/card.c
+index 9bcbaa0c0a55..e5d5c0f04c85 100644
+--- a/sound/usb/card.c
++++ b/sound/usb/card.c
+@@ -1077,6 +1077,7 @@ int snd_usb_autoresume(struct snd_usb_audio *chip)
+ 	}
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(snd_usb_autoresume);
  
-+int afe_port_send_usb_dev_param(struct q6afe_port *port, int cardidx, int pcmidx);
- int q6afe_port_set_sysclk(struct q6afe_port *port, int clk_id,
- 			  int clk_src, int clk_root,
- 			  unsigned int freq, int dir);
+ void snd_usb_autosuspend(struct snd_usb_audio *chip)
+ {
+@@ -1090,6 +1091,7 @@ void snd_usb_autosuspend(struct snd_usb_audio *chip)
+ 	for (i = 0; i < chip->num_interfaces; i++)
+ 		usb_autopm_put_interface(chip->intf[i]);
+ }
++EXPORT_SYMBOL_GPL(snd_usb_autosuspend);
+ 
+ static int usb_audio_suspend(struct usb_interface *intf, pm_message_t message)
+ {
+diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
+index 419302e2057e..207869dc95f0 100644
+--- a/sound/usb/endpoint.c
++++ b/sound/usb/endpoint.c
+@@ -860,6 +860,7 @@ snd_usb_endpoint_open(struct snd_usb_audio *chip,
+ 	mutex_unlock(&chip->mutex);
+ 	return ep;
+ }
++EXPORT_SYMBOL_GPL(snd_usb_endpoint_open);
+ 
+ /*
+  * snd_usb_endpoint_set_sync: Link data and sync endpoints
+@@ -1510,6 +1511,7 @@ int snd_usb_endpoint_prepare(struct snd_usb_audio *chip,
+ 	mutex_unlock(&chip->mutex);
+ 	return err;
+ }
++EXPORT_SYMBOL_GPL(snd_usb_endpoint_prepare);
+ 
+ /* get the current rate set to the given clock by any endpoint */
+ int snd_usb_endpoint_get_clock_rate(struct snd_usb_audio *chip, int clock)
+diff --git a/sound/usb/helper.c b/sound/usb/helper.c
+index a4410267bf70..b4ed9ef3eeb3 100644
+--- a/sound/usb/helper.c
++++ b/sound/usb/helper.c
+@@ -62,6 +62,7 @@ void *snd_usb_find_csint_desc(void *buffer, int buflen, void *after, u8 dsubtype
+ 	}
+ 	return NULL;
+ }
++EXPORT_SYMBOL_GPL(snd_usb_find_csint_desc);
+ 
+ /*
+  * Wrapper for usb_control_msg().
+diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
+index d959da7a1afb..4576a36dc9b2 100644
+--- a/sound/usb/pcm.c
++++ b/sound/usb/pcm.c
+@@ -87,7 +87,7 @@ static snd_pcm_uframes_t snd_usb_pcm_pointer(struct snd_pcm_substream *substream
+ /*
+  * find a matching audio format
+  */
+-static const struct audioformat *
++const struct audioformat *
+ find_format(struct list_head *fmt_list_head, snd_pcm_format_t format,
+ 	    unsigned int rate, unsigned int channels, bool strict_match,
+ 	    struct snd_usb_substream *subs)
+@@ -147,8 +147,9 @@ find_format(struct list_head *fmt_list_head, snd_pcm_format_t format,
+ 	}
+ 	return found;
+ }
++EXPORT_SYMBOL_GPL(find_format);
+ 
+-static const struct audioformat *
++const struct audioformat *
+ find_substream_format(struct snd_usb_substream *subs,
+ 		      const struct snd_pcm_hw_params *params)
+ {
+@@ -156,6 +157,7 @@ find_substream_format(struct snd_usb_substream *subs,
+ 			   params_rate(params), params_channels(params),
+ 			   true, subs);
+ }
++EXPORT_SYMBOL_GPL(find_substream_format);
+ 
+ bool snd_usb_pcm_has_fixed_rate(struct snd_usb_substream *subs)
+ {
+@@ -446,7 +448,7 @@ int snd_usb_pcm_resume(struct snd_usb_stream *as)
+ 	return 0;
+ }
+ 
+-static void close_endpoints(struct snd_usb_audio *chip,
++void close_endpoints(struct snd_usb_audio *chip,
+ 			    struct snd_usb_substream *subs)
+ {
+ 	if (subs->data_endpoint) {
+@@ -460,6 +462,7 @@ static void close_endpoints(struct snd_usb_audio *chip,
+ 		subs->sync_endpoint = NULL;
+ 	}
+ }
++EXPORT_SYMBOL(close_endpoints);
+ 
+ /*
+  * hw_params callback
+diff --git a/sound/usb/pcm.h b/sound/usb/pcm.h
+index 388fe2ba346d..b5216cb19e75 100644
+--- a/sound/usb/pcm.h
++++ b/sound/usb/pcm.h
+@@ -15,4 +15,16 @@ void snd_usb_preallocate_buffer(struct snd_usb_substream *subs);
+ int snd_usb_audioformat_set_sync_ep(struct snd_usb_audio *chip,
+ 				    struct audioformat *fmt);
+ 
++void close_endpoints(struct snd_usb_audio *chip,
++			    struct snd_usb_substream *subs);
++int configure_endpoints(struct snd_usb_audio *chip,
++			       struct snd_usb_substream *subs);
++
++const struct audioformat *
++find_format(struct list_head *fmt_list_head, snd_pcm_format_t format,
++	    unsigned int rate, unsigned int channels, bool strict_match,
++	    struct snd_usb_substream *subs);
++const struct audioformat *
++find_substream_format(struct snd_usb_substream *subs,
++		      const struct snd_pcm_hw_params *params);
+ #endif /* __USBAUDIO_PCM_H */
