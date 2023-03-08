@@ -2,38 +2,38 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2A8CC678D5
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Mar 2023 23:59:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDD6DC74A4B
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Mar 2023 23:59:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230288AbjCHX7F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Mar 2023 18:59:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35936 "EHLO
+        id S230301AbjCHX7G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Mar 2023 18:59:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229996AbjCHX6f (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Mar 2023 18:58:35 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C909867E0;
-        Wed,  8 Mar 2023 15:58:32 -0800 (PST)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 328M7F7m017173;
-        Wed, 8 Mar 2023 23:58:07 GMT
+        with ESMTP id S230027AbjCHX6g (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Mar 2023 18:58:36 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A38B99D42;
+        Wed,  8 Mar 2023 15:58:34 -0800 (PST)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 328NqAQQ025086;
+        Wed, 8 Mar 2023 23:58:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=9Q+Y78kK5Qy5Gbp3Ty+e2u/Dw+mM3/vT2FEkNPG3C6U=;
- b=b32q7W7vYcipZUinAGukl08hdK1dTquBOEZWX+OCaniwxjjiqIuhNciREyIjMbuA/CuW
- +eENY/Qr4Wmo/Lb67D+gz0ar2ox+75A0IkyJJhitLd7DVI8mUoUhMm20zshJEsfzYMaR
- N6b6bGmWYzln+QGRmlR3ALvEjrFJv5KH3PgA0RSu/BP5tJZ+49S6iJiemvBcTGyyFr5I
- XH/NSPncC5Rlm+YV3xWs78aOfR6GCN/dZXSn7swe5+IqZ18y1/p7aHuduobLtjdo0ZYH
- rbRuvFnkgEWHpwiQ8+NWNAk2HbTvee6CBvdM6Cci/2Zqv3zqPagalRzaLXq5Ox+vhtED Ug== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p6ycb8rbk-1
+ bh=E+pqPAwcnkHfZYzuNYYRihd/aAHdVqQj3NDabKlQIYQ=;
+ b=BfS1UIyGpvs7v0lSEV5SgOvDQcE3Y3y8ZyLE/lrzlj/F1vowMDFoH0mdIzaz7dg1Zfg2
+ KRq8j91FzpPt7kCcCBti/vdpIKyHkNY4lL5o8cCfWGWvboQ2R5tBz16A77dmfiriaZAQ
+ 6NmS5g1JeOIrK5CS+YtrWCX7jUsqtjDhNGWT4xFjLt9MDs/snZSaYefSXo4vWrnr47Vd
+ Gx/8A9wYC0J8SFHEMw8f0E6JA7vDy6w2auizPqPhHIVa2BQ3DqslcRknfB10f9odhr9o
+ aSxDira3anTlQ2c/FtSO6qQmzvlCRV/SDswATuqnXGDRbnFcV55WaVd3l1Hk4xobNYeU 6g== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p74drg06q-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
         Wed, 08 Mar 2023 23:58:06 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 328Nw6J4019869
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 328Nw53g016236
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 8 Mar 2023 23:58:06 GMT
+        Wed, 8 Mar 2023 23:58:05 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -49,9 +49,9 @@ CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <quic_jackp@quicinc.com>,
         <quic_plai@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v3 04/28] ASoC: Add SOC USB APIs for adding an USB backend
-Date:   Wed, 8 Mar 2023 15:57:27 -0800
-Message-ID: <20230308235751.495-5-quic_wcheng@quicinc.com>
+Subject: [PATCH v3 02/28] usb: xhci: Add XHCI APIs to support USB offloading
+Date:   Wed, 8 Mar 2023 15:57:25 -0800
+Message-ID: <20230308235751.495-3-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230308235751.495-1-quic_wcheng@quicinc.com>
 References: <20230308235751.495-1-quic_wcheng@quicinc.com>
@@ -62,270 +62,198 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 5TN5QtR88Vnn90021HwxULte-YxABXzL
-X-Proofpoint-ORIG-GUID: 5TN5QtR88Vnn90021HwxULte-YxABXzL
+X-Proofpoint-GUID: Fvyfax3S9J9PSlw7nTzQ9gyTQZrFuzh9
+X-Proofpoint-ORIG-GUID: Fvyfax3S9J9PSlw7nTzQ9gyTQZrFuzh9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-08_15,2023-03-08_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- bulkscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 spamscore=0
- clxscore=1015 mlxscore=0 adultscore=0 phishscore=0 lowpriorityscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 suspectscore=0
+ clxscore=1015 adultscore=0 phishscore=0 spamscore=0 mlxlogscore=972
+ bulkscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2303080200
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some platforms may have support for offloading USB audio devices to a
-dedicated audio DSP.  Introduce a set of APIs that allow for management of
-USB sound card and PCM devices enumerated by the USB SND class driver.
-This allows for the ASoC components to be aware of what USB devices are
-available for offloading.
+Some use cases, such as USB audio offloading, will allow for a DSP to take
+over issuing USB transfers to the host controller.  In order for the DSP to
+submit transfers for a particular endpoint, and to handle its events, the
+client driver will need to query for some parameters allocated by XHCI.
+
+- XHCI secondary interrupter event ring address
+- XHCI transfer ring address (for a particular EP)
+- Stop endpoint command API
+
+Once the resources are handed off to the DSP, the offload begins, and the
+main processor can enter idle.  When stopped, since there are no URBs
+submitted from the main processor, the client will just issue a stop
+endpoint command to halt any pending transfers.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- include/sound/soc-usb.h |  35 ++++++++
- sound/soc/Makefile      |   2 +-
- sound/soc/soc-usb.c     | 180 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 216 insertions(+), 1 deletion(-)
- create mode 100644 include/sound/soc-usb.h
- create mode 100644 sound/soc/soc-usb.c
+ drivers/usb/host/xhci.c       | 130 ++++++++++++++++++++++++++++++++++
+ include/linux/usb/xhci-intr.h |   8 +++
+ 2 files changed, 138 insertions(+)
 
-diff --git a/include/sound/soc-usb.h b/include/sound/soc-usb.h
-new file mode 100644
-index 000000000000..378992ea07bd
---- /dev/null
-+++ b/include/sound/soc-usb.h
-@@ -0,0 +1,35 @@
-+/* SPDX-License-Identifier: GPL-2.0
-+ *
-+ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#ifndef __LINUX_SND_SOC_USB_H
-+#define __LINUX_SND_SOC_USB_H
-+
-+/**
-+ * struct snd_soc_usb
-+ * @list - list head for SND SOC struct list
-+ * @dev - USB backend device reference
-+ * @component - reference to DAPM component
-+ * @connection_status_cb - callback to notify connection events
-+ * @priv_data - driver data
-+ **/
-+struct snd_soc_usb {
-+	struct list_head list;
-+	struct device *dev;
-+	struct snd_soc_component *component;
-+	int (*connection_status_cb)(struct snd_soc_usb *usb, int card_idx,
-+				int connected);
-+	void *priv_data;
-+};
-+
-+int snd_soc_usb_connect(struct device *usbdev, int card_idx);
-+int snd_soc_usb_disconnect(struct device *usbdev);
-+void snd_soc_usb_set_priv_data(struct device *dev, void *priv);
-+void *snd_soc_usb_get_priv_data(struct device *usbdev);
-+
-+struct snd_soc_usb *snd_soc_usb_add_port(struct device *dev, void *priv,
-+			int (*connection_cb)(struct snd_soc_usb *usb, int card_idx,
-+			int connected));
-+int snd_soc_usb_remove_port(struct device *dev);
-+#endif
-diff --git a/sound/soc/Makefile b/sound/soc/Makefile
-index 507eaed1d6a1..3305ceb59d84 100644
---- a/sound/soc/Makefile
-+++ b/sound/soc/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
--snd-soc-core-objs := soc-core.o soc-dapm.o soc-jack.o soc-utils.o soc-dai.o soc-component.o
-+snd-soc-core-objs := soc-core.o soc-dapm.o soc-jack.o soc-usb.o soc-utils.o soc-dai.o soc-component.o
- snd-soc-core-objs += soc-pcm.o soc-devres.o soc-ops.o soc-link.o soc-card.o
- snd-soc-core-$(CONFIG_SND_SOC_COMPRESS) += soc-compress.o
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 88435b9cd66e..5c6b3d8f834c 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1603,6 +1603,136 @@ static int xhci_check_args(struct usb_hcd *hcd, struct usb_device *udev,
+ 	return 1;
+ }
  
-diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
-new file mode 100644
-index 000000000000..4293451cdd49
---- /dev/null
-+++ b/sound/soc/soc-usb.c
-@@ -0,0 +1,180 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+#include <linux/of.h>
-+#include <linux/usb.h>
-+#include <sound/soc.h>
-+#include <sound/soc-usb.h>
-+#include "../usb/card.h"
-+
-+static DEFINE_MUTEX(ctx_mutex);
-+static LIST_HEAD(usb_ctx_list);
-+
-+static struct device_node *snd_soc_find_phandle(struct device *dev)
++int xhci_stop_endpoint(struct usb_device *udev,
++			struct usb_host_endpoint *ep)
 +{
-+	struct device_node *node;
++	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
++	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
++	unsigned int ep_index;
++	struct xhci_virt_device *virt_dev;
++	struct xhci_command *cmd;
++	unsigned long flags;
++	int ret = 0;
 +
-+	node = of_parse_phandle(dev->of_node, "usb-soc-be", 0);
-+	if (!node)
-+		return ERR_PTR(-ENODEV);
++	ret = xhci_check_args(hcd, udev, ep, 1, true, __func__);
++	if (ret <= 0)
++		return ret;
 +
-+	return node;
-+}
++	cmd = xhci_alloc_command(xhci, true, GFP_NOIO);
++	if (!cmd)
++		return -ENOMEM;
 +
-+static struct snd_soc_usb *snd_soc_find_usb_ctx(struct device *dev)
-+{
-+	struct device_node *node;
-+	struct snd_soc_usb *ctx = NULL;
-+
-+	node = snd_soc_find_phandle(dev);
-+	if (IS_ERR(node))
-+		return NULL;
-+
-+	mutex_lock(&ctx_mutex);
-+	list_for_each_entry(ctx, &usb_ctx_list, list) {
-+		if (ctx->dev->of_node == node) {
-+			of_node_put(node);
-+			mutex_unlock(&ctx_mutex);
-+			return ctx;
-+		}
++	spin_lock_irqsave(&xhci->lock, flags);
++	virt_dev = xhci->devs[udev->slot_id];
++	if (!virt_dev) {
++		ret = -ENODEV;
++		goto err;
 +	}
-+	of_node_put(node);
-+	mutex_unlock(&ctx_mutex);
 +
-+	return NULL;
-+}
++	ep_index = xhci_get_endpoint_index(&ep->desc);
++	if (virt_dev->eps[ep_index].ring &&
++			virt_dev->eps[ep_index].ring->dequeue) {
++		ret = xhci_queue_stop_endpoint(xhci, cmd, udev->slot_id,
++				ep_index, 0);
++		if (ret)
++			goto err;
 +
-+/**
-+ * snd_soc_usb_get_priv_data() - Retrieve private data stored
-+ * @dev: device reference
-+ *
-+ * Fetch the private data stored in the USB SND SOC structure.
-+ *
-+ */
-+void *snd_soc_usb_get_priv_data(struct device *dev)
-+{
-+	struct snd_soc_usb *ctx;
++		xhci_ring_cmd_db(xhci);
++		spin_unlock_irqrestore(&xhci->lock, flags);
 +
-+	ctx = snd_soc_find_usb_ctx(dev);
-+	if (!ctx) {
-+		/* Check if backend device */
-+		list_for_each_entry(ctx, &usb_ctx_list, list) {
-+			if (dev->of_node == ctx->dev->of_node)
-+				goto out;
-+		}
-+		ctx = NULL;
++		/* Wait for stop endpoint command to finish */
++		wait_for_completion(cmd->completion);
++
++		if (cmd->status == COMP_COMMAND_ABORTED ||
++				cmd->status == COMP_STOPPED) {
++			xhci_warn(xhci,
++				"stop endpoint command timeout for ep%d%s\n",
++				usb_endpoint_num(&ep->desc),
++				usb_endpoint_dir_in(&ep->desc) ? "in" : "out");
++			ret = -ETIME;
++				}
++		goto free_cmd;
 +	}
-+out:
-+	return ctx ? ctx->priv_data : NULL;
++
++err:
++	spin_unlock_irqrestore(&xhci->lock, flags);
++free_cmd:
++	xhci_free_command(xhci, cmd);
++
++	return ret;
 +}
-+EXPORT_SYMBOL_GPL(snd_soc_usb_get_priv_data);
++EXPORT_SYMBOL_GPL(xhci_stop_endpoint);
 +
-+/**
-+ * snd_soc_usb_add_port() - Add a USB backend port
-+ * @dev: USB backend device
-+ * @priv: private data
-+ * @connection_cb: connection status callback
-+ *
-+ * Register a USB backend device to the SND USB SOC framework.  Memory is
-+ * allocated as part of the USB backend device.
-+ *
-+ */
-+struct snd_soc_usb *snd_soc_usb_add_port(struct device *dev, void *priv,
-+			int (*connection_cb)(struct snd_soc_usb *usb, int card_idx,
-+			int connected))
++/* Retrieve the transfer ring base address for a specific endpoint. */
++phys_addr_t xhci_get_xfer_resource(struct usb_device *udev,
++					struct usb_host_endpoint *ep, dma_addr_t *dma)
 +{
-+	struct snd_soc_usb *usb;
++	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
++	struct device *dev = hcd->self.sysdev;
++	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
++	struct sg_table sgt;
++	phys_addr_t pa;
++	int ret;
++	unsigned int ep_index;
++	struct xhci_virt_device *virt_dev;
++	unsigned long flags;
 +
-+	usb = devm_kzalloc(dev, sizeof(*usb), GFP_KERNEL);
-+	if (!usb)
-+		return ERR_PTR(-ENOMEM);
++	if (!HCD_RH_RUNNING(hcd))
++		return 0;
 +
-+	usb->connection_status_cb = connection_cb;
-+	usb->dev = dev;
-+	usb->priv_data = priv;
-+
-+	mutex_lock(&ctx_mutex);
-+	list_add_tail(&usb->list, &usb_ctx_list);
-+	mutex_unlock(&ctx_mutex);
-+
-+	return usb;
-+}
-+EXPORT_SYMBOL_GPL(snd_soc_usb_add_port);
-+
-+/**
-+ * snd_soc_usb_remove_port() - Remove a USB backend port
-+ * @dev: USB backend device
-+ *
-+ * Remove a USB backend device from USB SND SOC.  Memory is freed when USB
-+ * backend is removed.
-+ *
-+ */
-+int snd_soc_usb_remove_port(struct device *dev)
-+{
-+	struct snd_soc_usb *ctx, *tmp;
-+
-+	mutex_lock(&ctx_mutex);
-+	list_for_each_entry_safe(ctx, tmp, &usb_ctx_list, list) {
-+		if (ctx->dev == dev) {
-+			list_del(&ctx->list);
-+			break;
-+		}
++	ret = xhci_check_args(hcd, udev, ep, 1, true, __func__);
++	if (ret <= 0) {
++		xhci_err(xhci, "%s: invalid args\n", __func__);
++		return 0;
 +	}
-+	mutex_unlock(&ctx_mutex);
++
++	spin_lock_irqsave(&xhci->lock, flags);
++
++	virt_dev = xhci->devs[udev->slot_id];
++	ep_index = xhci_get_endpoint_index(&ep->desc);
++
++	if (virt_dev->eps[ep_index].ring &&
++		virt_dev->eps[ep_index].ring->first_seg) {
++
++		dma_get_sgtable(dev, &sgt,
++			virt_dev->eps[ep_index].ring->first_seg->trbs,
++			virt_dev->eps[ep_index].ring->first_seg->dma,
++			TRB_SEGMENT_SIZE);
++
++		*dma = virt_dev->eps[ep_index].ring->first_seg->dma;
++
++		pa = page_to_phys(sg_page(sgt.sgl));
++		sg_free_table(&sgt);
++		spin_unlock_irqrestore(&xhci->lock, flags);
++
++		return pa;
++	}
++	spin_unlock_irqrestore(&xhci->lock, flags);
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL_GPL(snd_soc_usb_remove_port);
++EXPORT_SYMBOL_GPL(xhci_get_xfer_resource);
 +
-+/**
-+ * snd_soc_usb_connect() - Notification of USB device connection
-+ * @usbdev: USB bus device
-+ * @card_idx: USB SND card instance
-+ *
-+ * Notify of a new USB SND device connection.  The card_idx can be used to
-+ * handle how the USB backend selects, which device to enable offloading on.
-+ *
-+ */
-+int snd_soc_usb_connect(struct device *usbdev, int card_idx)
++phys_addr_t xhci_get_ir_resource(struct usb_device *udev, struct xhci_interrupter *ir)
 +{
-+	struct snd_soc_usb *ctx;
++	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
++	struct device *dev = hcd->self.sysdev;
++	struct sg_table sgt;
++	phys_addr_t pa;
 +
-+	if (!usbdev)
-+		return -ENODEV;
++	if (!ir)
++		return 0;
 +
-+	ctx = snd_soc_find_usb_ctx(usbdev);
-+	if (!ctx)
-+		return -ENODEV;
++	dma_get_sgtable(dev, &sgt, ir->event_ring->first_seg->trbs,
++		ir->event_ring->first_seg->dma, TRB_SEGMENT_SIZE);
 +
-+	if (ctx->connection_status_cb)
-+		ctx->connection_status_cb(ctx, card_idx, 1);
++	pa = page_to_phys(sg_page(sgt.sgl));
++	sg_free_table(&sgt);
 +
-+	return 0;
++	return pa;
 +}
-+EXPORT_SYMBOL_GPL(snd_soc_usb_connect);
++EXPORT_SYMBOL_GPL(xhci_get_ir_resource);
 +
-+/**
-+ * snd_soc_usb_disconnect() - Notification of USB device disconnection
-+ * @usbdev: USB bus device
-+ *
-+ * Notify of a new USB SND device disconnection to the USB backend.
-+ *
-+ */
-+int snd_soc_usb_disconnect(struct device *usbdev)
-+{
-+	struct snd_soc_usb *ctx;
+ static int xhci_configure_endpoint(struct xhci_hcd *xhci,
+ 		struct usb_device *udev, struct xhci_command *command,
+ 		bool ctx_change, bool must_succeed);
+diff --git a/include/linux/usb/xhci-intr.h b/include/linux/usb/xhci-intr.h
+index 738b0f0481a6..d42cc9a1e698 100644
+--- a/include/linux/usb/xhci-intr.h
++++ b/include/linux/usb/xhci-intr.h
+@@ -80,7 +80,15 @@ struct xhci_interrupter {
+ 	u64	s3_erst_dequeue;
+ };
+ 
++/* Secondary interrupter */
+ struct xhci_interrupter *
+ xhci_create_secondary_interrupter(struct usb_hcd *hcd, int intr_num);
+ void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct xhci_interrupter *ir);
 +
-+	if (!usbdev)
-+		return -ENODEV;
-+
-+	ctx = snd_soc_find_usb_ctx(usbdev);
-+	if (!ctx)
-+		return -ENODEV;
-+
-+	if (ctx->connection_status_cb)
-+		ctx->connection_status_cb(ctx, -1, 0);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(snd_soc_usb_disconnect);
++/* Offload */
++int xhci_stop_endpoint(struct usb_device *udev,
++			struct usb_host_endpoint *ep);
++phys_addr_t xhci_get_xfer_resource(struct usb_device *udev,
++					struct usb_host_endpoint *ep, dma_addr_t *dma);
++phys_addr_t xhci_get_ir_resource(struct usb_device *udev, struct xhci_interrupter *ir);
+ #endif
