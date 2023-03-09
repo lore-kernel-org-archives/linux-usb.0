@@ -2,257 +2,173 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C55DC61DA4
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Mar 2023 17:20:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF6D5C6FD19
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Mar 2023 17:31:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229922AbjCIRUN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Mar 2023 12:20:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60222 "EHLO
+        id S230252AbjCIRbD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Mar 2023 12:31:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229751AbjCIRT1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Mar 2023 12:19:27 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C57BEF8F;
-        Thu,  9 Mar 2023 09:18:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678382284; x=1709918284;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=DWw0YxBPSzac2AGMPFfLahNrg6JI7/BBQKqE56zAOwc=;
-  b=Eo1acTlZlS/olm+qXaxLoM0pK2w2JbxrttV4oFJRaB0P8vvpKJw6sxxa
-   AOfhwR2ayP3v6il8VZY4Ki7Q+SlCCQxZ1o8D4+O3p/7wqxS2//D8VXFnB
-   9I1GVnuY2que2SfBSs10LyrTq6gz1RfKfIx0vUARBjV2iCJcq0S4BK6w1
-   SebR7HPLP4ivCepQx+E3KhkD2cwHlhnF+HKABdpWk70mpHFJ20F3MAMqr
-   VhAErGmVshyGWZqfZxPd6ym/keFkK35tTofjOYLfEKQrQ8kHBmxUx1s2P
-   NJD2q3RQ/+YS7FgrIahvAKVXhnrtwWDiUIYkotbMUqtpEYNYZbZ5bxPLh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="364150245"
-X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="364150245"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 09:13:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="801241494"
-X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="801241494"
-Received: from hamannjo-mobl1.amr.corp.intel.com (HELO [10.255.34.234]) ([10.255.34.234])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 09:13:36 -0800
-Message-ID: <4f8a66c0-398f-5655-3aa7-a59bc9ba56cc@linux.intel.com>
-Date:   Thu, 9 Mar 2023 11:13:35 -0600
-MIME-Version: 1.0
+        with ESMTP id S230110AbjCIRbB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Mar 2023 12:31:01 -0500
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-ve1eur01on2080.outbound.protection.outlook.com [40.107.14.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFBD0F8F35;
+        Thu,  9 Mar 2023 09:30:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NiGMMiipFg6MaQieGmv+euQSBoLFM5e5Z5TkSroy2a2hMndz5l6kvfotrdryQx0eqdU5kNSCWe7K5WB2WTkAIDXGbLBnYls6usDNh339RzqblkCQZfoTzn98DmfvnEVCB38S5gF8xjweixljwr3Hx7O/evP1du6Rdj0g3l22zSSdVifZet0MIbhjc9kK/a5B79XfFQxIThAklZVcBYoUYcZI0El5O9S0AihbbQ1P+B2lgoS5l12veQxxZRvmBA22jziZgWMaNa4CDaCPA2NxETfxhPf7VaMgbORnRsMV1OOgGgyKt6/QQmskt4Le7FH9r63iYy2ixdMt306ovt9Smw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IWI6yxA3G0qUW1Oh6kbyHfjxL2wtcJRjpaihbjZk9fE=;
+ b=UttppMhsyn5pMdW/oijc9grHSR7X5eMdQ5LnFKCHEBPzaSNI5KjK8nTIgNglfe/dT+eDpAOX8oI5eIa05bFC2pzQWySeoUVaVYEzXs6vwSYp6K86RZfT7vV7VJcGfs90U1OO3nbdvZ8uok2N0nETwT6Ya07uBHNLZpGROPijrmL+KEzws3Vmwrk1xEOnpiVVp61c0rh6P2/qVzd+yjxKmXGAu5TCgI2a/K6RFBop6R6U+teFXcyF+50TOTP/ISLsaU8baYr3LukXmta/3u2WSnvOwpYXikp7iRxcLHklUhnD95/S0lA3lF1oeOgb2DDTn9nOvnCt9HQzbNXiDUYVGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IWI6yxA3G0qUW1Oh6kbyHfjxL2wtcJRjpaihbjZk9fE=;
+ b=RZ2O03nTfG+yn6Fl6g1ic4CnzZ4ymj4r+/HOr0RY4S01h3txGaMKsvoa+nwuhSI5zofEmND3WXIeoQGkS0YteNYVkcu8FSFrD2w/1hO001yx5+M+NBgR4ZfldhmB6QT2AOHBI3wmebWgLON41u9v73EA3A79DSEh/3suHZ/qZJLzEcz6H+0i5nagj+2gAI/8Mmp7NT0O941VY86LS+2eltcrHv0FN9vLtIXgJ07AgVak8lUSNXFBVQQvf5vSwCll0RMUYv+yy244d2axg2MSBNNz1YBsqlOhf4Zb6ey82PzpjrXGLTPyyeFvOUiZ4+OacL+z/LnNbINqLmBwB22utQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+Received: from VI1PR04MB7104.eurprd04.prod.outlook.com (2603:10a6:800:126::9)
+ by DBBPR04MB7993.eurprd04.prod.outlook.com (2603:10a6:10:1eb::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.19; Thu, 9 Mar
+ 2023 17:30:56 +0000
+Received: from VI1PR04MB7104.eurprd04.prod.outlook.com ([fe80::2ea:4a86:9ab7])
+ by VI1PR04MB7104.eurprd04.prod.outlook.com ([fe80::2ea:4a86:9ab7%3]) with
+ mapi id 15.20.6178.019; Thu, 9 Mar 2023 17:30:56 +0000
+Message-ID: <5b34408d-8589-d735-9a77-a651ea661e01@suse.com>
+Date:   Thu, 9 Mar 2023 18:30:53 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.7.1
-Subject: Re: [PATCH v3 00/28] Introduce QC USB SND audio offloading support
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v4 2/5] gpio: Add support for Intel LJCA USB GPIO driver
 Content-Language: en-US
-To:     Wesley Cheng <quic_wcheng@quicinc.com>,
-        srinivas.kandagatla@linaro.org, mathias.nyman@intel.com,
-        perex@perex.cz, broonie@kernel.org, lgirdwood@gmail.com,
-        krzysztof.kozlowski+dt@linaro.org, agross@kernel.org,
-        Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com,
-        andersson@kernel.org, robh+dt@kernel.org,
-        gregkh@linuxfoundation.org, tiwai@suse.com
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, quic_jackp@quicinc.com,
-        quic_plai@quicinc.com
-References: <20230308235751.495-1-quic_wcheng@quicinc.com>
-From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20230308235751.495-1-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Oliver Neukum <oneukum@suse.com>
+Cc:     Ye Xiang <xiang.ye@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Lee Jones <lee@kernel.org>, Wolfram Sang <wsa@kernel.org>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Mark Brown <broonie@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>, linux-usb@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
+        srinivas.pandruvada@intel.com, heikki.krogerus@linux.intel.com,
+        sakari.ailus@linux.intel.com, zhifeng.wang@intel.com,
+        wentong.wu@intel.com, lixu.zhang@intel.com
+References: <20230309071100.2856899-1-xiang.ye@intel.com>
+ <20230309071100.2856899-3-xiang.ye@intel.com>
+ <2865f3d0-428b-0df1-fc50-f6af3cb9dac3@suse.com>
+ <ZAnku01goVDCuNM+@smile.fi.intel.com>
+From:   Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <ZAnku01goVDCuNM+@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0129.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9e::16) To VI1PR04MB7104.eurprd04.prod.outlook.com
+ (2603:10a6:800:126::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR04MB7104:EE_|DBBPR04MB7993:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1ea57979-9092-4d7c-75f7-08db20c40a68
+X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: erNmKGom1EeWy+sCUCVG67Z+ZqpCrHuk790zLJKFfLGjlQGTph5/4Fez94uCTvVYSEFWzxIrFQK08djEapJ5WS1YAwTk0jm94jg5Cfy5Y/MTe3ty5UhWE1nCNbH51fj29WD3RnZ2IAqaeVCJ5EPVhXRX+KpnKUX4BRImppUmbJaN3xKw4f8yFPA5ftxsK1FIBLwNVeaUTmGm0SKeeXKSZUipej/0cyYe3ufHSbYfve/zu0YpRJNZAuiVAtlFz6V2tw2LgPn8/SfFXWxGSdQQgM/9RZCVTDv46FLcwtTHLfvsLjnilnnOd1CSktlOHylLUNcj9L393aIouh+a/nQFhlYYUBSQ8eLEmPM21HpXc0It6OmMM0ug/ciJT/KiU2giD/xXAN/P835OJBfDW7eG9eP7hI884bOMSmWxP2xMWoJQMQVpS6K8cP/0gsIUMfNpYWyRjknC1CSnaakkrvtkrge76bd6hoh9iHg6ay3HLW6C5sw6Z2xiMZVWQvG+w+qF1hXUkk6BIV1SZIv/CzHGszYFIQyokW9KIBl9kGjPE8QSZID71cwXxfkw7deGxp+SmyEB7TZkVFuXu7vNmdgqZnKZP7V3zrdvS2xh3cgBcrYISuxUzUoS0uZkuMBFgKyvc43/fI0i/0BLp2fPojxx1w2+dFdpHC8wTm+a3Vj7xbzZgVrygGpL2xDicEttxYhjHH1uNZ3hCHPBpg6y8YZpa40l9fB/fLfKiAm/kENQYFI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB7104.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(39860400002)(366004)(376002)(136003)(346002)(451199018)(36756003)(66476007)(8936002)(5660300002)(7416002)(6512007)(53546011)(6506007)(6666004)(38100700002)(83380400001)(186003)(2616005)(66556008)(316002)(86362001)(31696002)(66946007)(41300700001)(54906003)(8676002)(4326008)(110136005)(6486002)(478600001)(31686004)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z2pVVDc3cFMxcDVycUswTVBmNXMwTWJ5dlpUQlNzU0FaQUJiRkdUS3kxVW1y?=
+ =?utf-8?B?S3ViUVh0OWtwbWNJMTRUKzNUbElxd201cFg3azNHeVhQTUxlYUdKZFpiUWpF?=
+ =?utf-8?B?ejZzUXFabVpZWW41SmxwN2F2QjJDdW91TTArR3Z3blFBN0k1ZzM4N2VVcUsv?=
+ =?utf-8?B?OXkvcWRnS1ZDLzNvZzR1bW43UnEwRmJ3VWJodGdxbmZ5TDZ5Rk8rSnZzdGVy?=
+ =?utf-8?B?UGlib2NtQzdyeE40RG5IRSsyN3NPTjRZK0xTZnVhMjNWRWltWjlCL251RlRN?=
+ =?utf-8?B?M3NrSjdlK2diaUZ6eXpEaXl3dVhVSWpvcjF5cGFmd3VHQ005Yk93M01Ydzhw?=
+ =?utf-8?B?Q3FlV3JuczlOYjk4cHowOEdhQ1B2SkxKTk9mNEw0QjdEMWx4RWR5dHhLbW9l?=
+ =?utf-8?B?U3QzYU9vZlFNMmtLcE14QnB5dnR0RFd4SVYzcFZTbHVVU1BrSUNlbENjdU5I?=
+ =?utf-8?B?cy9WQ2VHT2tkTEpTSTE2dktleUFiY0M3am94NWdJYzZvYWpRUVhaWW1GRlNW?=
+ =?utf-8?B?RmxJMmJ5YjRZMmkrSnd2cXZZUWJxL1lMZzVJVnA1YWRjcjFpNjcrdmoyT29P?=
+ =?utf-8?B?SWxmbTREcWRPL3RqR1VUblEyRkl1bHFObFoyMFZrcENjNExicGVKa2hTbmZS?=
+ =?utf-8?B?bk9MR1F6aUtkQVJORnA3OHJrSy8vazYrSnBCNitqYlVzbGt0TUFmcnQzdGsx?=
+ =?utf-8?B?dFQvUkN3d1YrVXVjS05xd01ZTEJsd0dVcEVBaWtLVkhPUFVkQ09Obk9OWmho?=
+ =?utf-8?B?U0xTSlBpZzFRRmR4UDFENGpURk1Vb0pBendjWEszM2RHMlljS01TWHNuNjNU?=
+ =?utf-8?B?S2YzcTFZQkNQaVJ3U09JVGtCbHZXdnd6M0ZrcTlJMGJLNzJIMVVKN0RPeVFG?=
+ =?utf-8?B?dkVSYnFsa3dZS0Z2S0QvY0NsVmFYc2JmMzVHa1Zxb0NsdXpIUUdQOWRBTTNF?=
+ =?utf-8?B?UUNWQkE5UEttT1gzYWtONzZjblBXQVVHc0srUnVDWnRFUHQxbzBNemFkeklv?=
+ =?utf-8?B?eGNoTTQ5dHRXMWpkNFRkNG1yVGhEYVBxcytjenRMU2hPejBNOUl6MnRldmNP?=
+ =?utf-8?B?L0N6a3NlTjg0KzFtaVVVU0tWTXB2SSthK1dtazhvWU1xZ3gxN04yY3hwTWo2?=
+ =?utf-8?B?cmJIaUlsVjU2aUJoYmN3bkw5UHJtcWdrNDUrTjBlZHFWZXBXTzA4aGdGUGs4?=
+ =?utf-8?B?dy9YS3A1Sm56OXRhSmxiZjN6R2NETEJib1NDbXNBUXFhYVRCaDVya01SdGVL?=
+ =?utf-8?B?WFFaUS9UTk9IN2c5by9ENGxhM291cUhnNDFyU01UR3VxYXBEVk1mRFpKV2Q3?=
+ =?utf-8?B?MUk0ZWQ3VjJ1NUovaGJTTTl3SjdtcVBsWFNlTWM1b1hKSnRJZUZ2bU5ML2Za?=
+ =?utf-8?B?U0txc2s3VUZ4NGJJVEphWWVBYXQzOGJDdXpBSjRobHZIa3lTMHJ3V2pYc2gx?=
+ =?utf-8?B?bmh2aGZid1NmalFCWWYrTWw1aXpSQWFGaXRvdHoyNHNNR21sN0RuOG1pTHZP?=
+ =?utf-8?B?d0s2bllGV1dVRG93RTRMdlBSeWw4Y0RHdDBXWGZHY2VaRmF0YndCT1ByeTRq?=
+ =?utf-8?B?MTQwNmdjbi9Ma2R3UnRiWHZ1RWRuVnd0aThSSnpKQXl1T0VNaVdEVjZYTURD?=
+ =?utf-8?B?UCtQVTk5aVpBU0xzZzdWOWtzSWZwN25OZi9aYkROLzU0amdRTkM2WWIxZVpN?=
+ =?utf-8?B?U01UMnRuRGZNeDVKUENVTXk5Q1QvUCt5MGN6N1NGRmtPZjlKaE1vQnNNOEhY?=
+ =?utf-8?B?VlN5MTAxbCs5eEs2ZXpDVFhqQU9IS2hvdDFQUkUxVWxMNkh1Z2dmUStmTmN3?=
+ =?utf-8?B?RUZJSTkrZ24wY1VsK3l6RTJTMVlrSWI4a2p4OWJvWjFzSTlGb1o4Q09OV2FQ?=
+ =?utf-8?B?Si9ldWdkTEo0ZUJTSW1HVEt6c3BEVm4vNGlvS1cyS0hBeWs4eW12M2Z2ZkRY?=
+ =?utf-8?B?TnVkVHFYQ3NqY2JSV3RySUM3eHRlOVprMHI4ZkxsL2xHcmREZ2JhcVJnM2cy?=
+ =?utf-8?B?Zk9Bd09kUjBVR2ZkcFR3ZExnZnJNVHVwbjByOEorWXpIUjFJWkdoa3Nhdi9M?=
+ =?utf-8?B?ZjBkY2V5UTB1dEtnZDZEN3E3am9pblJrNFNIdU1UYWQ5UHBwdFJnZ1NpbjZv?=
+ =?utf-8?B?anQrRUFQZXI2STdQT2hzSzVmaWwyYndsdG1GWWJYQUU3b1RSa0tFMDZwL0No?=
+ =?utf-8?Q?kW/p9+wUy0r4GtV+gvauYKJTvA6l1ViSwY6Ykp2aVjvP?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ea57979-9092-4d7c-75f7-08db20c40a68
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB7104.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2023 17:30:56.6322
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Me18N8AWNBa5PmzHR+TeBKtoV3i5dpWSlVlwM9wECiA3TO6hyVLTACmdwJ4SRN6GAZoq83ZvqCbK8HVJeIJo4w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7993
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 
 
-On 3/8/23 17:57, Wesley Cheng wrote:
-> Changes in v3:
-> - Changed prefix from RFC to PATCH
-> - Rebased entire series to usb-next
-> - Updated copyright years
+On 09.03.23 14:52, Andy Shevchenko wrote:
+> On Thu, Mar 09, 2023 at 02:40:10PM +0100, Oliver Neukum wrote:
+>> On 09.03.23 08:10, Ye Xiang wrote:
 
-You may want to move the per-version changes after the description of
-this patchset.
-
-> XHCI:
-> - Rebased changes on top of XHCI changes merged into usb-next, and only added
-> changes that were still under discussion.
-> - Added change to read in the "num-hc-interrupters" device property.
+>>> +	u8 obuf[LJCA_GPIO_BUF_SIZE];
+>>> +	u8 ibuf[LJCA_GPIO_BUF_SIZE];
+>>
+>> And here we have a violation of DMA coherency rules.
+>> Basically you cannot embed buffers into other data structures
+>> if they can be subject to DMA.
 > 
-> ASoC:
-> - qusb6 USB backend
->   - Incorporated suggestions to fetch iommu information with existing APIs
->   - Added two new sound kcontrols to fetch offload status and offload device
->     selection.
->     - offload status - will return the card and pcm device in use
->         tinymix -D 0 get 1 --> 1, 0 (offload in progress on card#1 pcm#0)
+> Huh?!
 > 
->     - device selection - set the card and pcm device to enable offload on. Ex.:
->         tinymix -D 0 set 1 2 0  --> sets offload on card#2 pcm#0
->                                     (this should be the USB card)
-> 
-> USB SND:
-> - Fixed up some locking related concerns for registering platform ops.
->    - Moved callbacks under the register_mutex, so that 
-> - Modified APIs to properly pass more information about the USB SND device, so
-> that the Q6USB backend can build a device list/map, in order to monitor offload
-> status and device selection.
-> 
-> Changes in v2:
-> 
-> XHCI:
-> - Replaced XHCI and HCD changes with Mathias' XHCI interrupter changes
-> in his tree:
-> https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=feature_interrupters
-> 
-> Adjustments made to Mathias' changes:
->   - Created xhci-intr.h to export/expose interrupter APIs versus exposing xhci.h.
->     Moved dependent structures to this file as well. (so clients can parse out
->     information from "struct xhci_interrupter")
->   - Added some basic locking when requesting interrupters.
->   - Fixed up some sanity checks.
->   - Removed clearing of the ERSTBA during freeing of the interrupter. (pending
->     issue where SMMU fault occurs if DMA addr returned is 64b - TODO)
-> 
-> - Clean up pending events in the XHCI secondary interrupter.  While testing USB
-> bus suspend, it was seen that on bus resume, the xHCI HC would run into a command
-> timeout.
-> - Added offloading APIs to xHCI to fetch transfer and event ring information.
-> 
-> ASoC:
-> - Modified soc-usb to allow for multiple USB port additions.  For this to work,
-> the USB offload driver has to have a reference to the USB backend by adding
-> a "usb-soc-be" DT entry to the device saved into XHCI sysdev.
-> - Created separate dt-bindings for defining USB_RX port.
-> - Increased APR timeout to accommodate the situation where the AFE port start
-> command could be delayed due to having to issue a USB bus resume while
-> handling the QMI stream start command.
-> 
-> USB SND:
-> - Added a platform ops during usb_audio_suspend().  This allows for the USB
-> offload driver to halt the audio stream when system enters PM suspend.  This
-> ensures the audio DSP is not issuing transfers on the USB bus.
-> - Do not override platform ops if they are already populated.
-> - Introduce a shared status variable between the USB offload and USB SND layers,
-> to ensure that only one path is active at a time.  If the USB bus is occupied,
-> then userspace is notified that the path is busy.
+> The problem here is alignment. But other than that I can't see the issue with
+> embedding into structures the instances of which will be allocated on the heap.
 
 
----> start of the cover letter:
+Hi,
 
-> Several Qualcomm based chipsets can support USB audio offloading to a
-> dedicated audio DSP, which can take over issuing transfers to the USB
-> host controller.  The intention is to reduce the load on the main
-> processors in the SoC, and allow them to be placed into lower power modes.
-> There are several parts to this design:
->   1. Adding ASoC binding layer
->   2. Create a USB backend for Q6DSP
+These constraints are documented in dma-api-howto, but perhaps this
+is inconvenient to read through.
+  
+Let me explain for the input case. On certain CPUs DMA does not
+update CPU caches. Hence when you want to read data generated by DMA
+you must read from RAM. Hence you invalidate the cache line with dma_map_*
+operations.
+Those cache lines must stay invalidated. If you wish to guarantee that,
+you cannot access a data structure that shares a cache line with a buffer,
+until you are sure that DMA is finished.
 
-clarify what 'backend' means. I would guess you are referring to the
-ASoC DPCM concept of Back-End, which typically exposes an audio
-interface controlled by a DSP?
+On the affected architectures kmalloc() makes sure that no allocation straddles
+cache lines.
 
-If yes, the description should be
-
-"Create a Q6DSP ASoC DPCM BackEnd for USB audio playback/record".
-
->   3. Introduce XHCI interrupter support
->   4. Create vendor ops for the USB SND driver
-
-Add an introduction as to why this would be needed? which 'vendor' are
-we talking about, is this on the SOC side or the USB device side?
-
-> Adding ASoC binding layer:
-> soc-usb: Intention is to treat a USB port similar to a headphone jack.
-> The port is always present on the device, but cable/pin status can be
-> enabled/disabled.  Expose mechanisms for USB backend ASoC drivers to
-> communicate with USB SND.
-
-port == backend?
-
-Using different words for the same concept is a sure way to lose the
-reviewers, and not describing different concepts isn't much better.
-
-> Create a USB backend for Q6DSP:
-> q6usb: Basic backend driver that will be responsible for maintaining the
-
-What does this mean? Is this a module that registers a set of ASoC DAIs?
-
-It's not clear to me what a 'backend driver' means either in a USB or
-ASoC context.
-
-> resources needed to initiate a playback stream using the Q6DSP.  Will
-> be the entity that checks to make sure the connected USB audio device
-> supports the requested PCM format.  If it does not, the PCM open call will
-> fail, and userpsace ALSA can take action accordingly.
-
-If it's an ASoC backend, there is no PCM open call. You're probably
-referring to the hw_params, not the open/startup anyways.
-
-> 
-> Introduce XHCI interrupter support:
-> XHCI HCD supports multiple interrupters, which allows for events to be routed
-> to different event rings.  This is determined by "Interrupter Target" field
-> specified in Section "6.4.1.1 Normal TRB" of the XHCI specification.
-> 
-> Events in the offloading case will be routed to an event ring that is assigned
-> to the audio DSP.
-> 
-> Create vendor ops for the USB SND driver:
-> qc_audio_offload: This particular driver has several components associated
-> with it:
-> - QMI stream request handler
-> - XHCI interrupter and resource management
-> - audio DSP memory management
-
-so how does this 'qc_audio_offload' interface with 'q6usb' described
-above? how are the roles different or complementary?
-
-> When the audio DSP wants to enable a playback stream, the request is first
-> received by the ASoC platform sound card.  Depending on the selected route,
-> ASoC will bring up the individual DAIs in the path.  The Q6USB backend DAI
-> will send an AFE port start command (with enabling the USB playback path), and
-> the audio DSP will handle the request accordingly.
-> 
-> Part of the AFE USB port start handling will have an exchange of control
-> messages using the QMI protocol.  The qc_audio_offload driver will populate the
-> buffer information:
-> - Event ring base address
-> - EP transfer ring base address
-> 
-> and pass it along to the audio DSP.  All endpoint management will now be handed
-> over to the DSP, and the main processor is not involved in transfers.
-> 
-> Overall, implementing this feature will still expose separate sound card and PCM
-> devices for both the platorm card and USB audio device:
->  0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
->                       SM8250-MTP-WCD9380-WSA8810-VA-DMIC
->  1 [Audio          ]: USB-Audio - USB Audio
->                       Generic USB Audio at usb-xhci-hcd.1.auto-1.4, high speed
-> 
-> This is to ensure that userspace ALSA entities can decide which route to take
-> when executing the audio playback.  In the above, if card#1 is selected, then
-> USB audio data will take the legacy path over the USB PCM drivers, etc...
-
-I already voiced my concerns about exposing two cards, each with their
-own set of volume controls with the same device. It would be much better
-to have an additional offloaded PCM device for card0...
-
-But if the consensus is to have two cards, it's still not clear how the
-routing would be selected. In the case where there are two USB audio
-devices attached, the offloaded path would only support one of the two.
-How would userspace know which of the two is selected?
-
-And how would userspace know the difference anyways between two physical
-devices attached to the platform with no offload, and one physical
-device with one additional offload path? The names you selected can't be
-used to identify that card1 is the optimized version of card0.
-
-Before we review low-level kernel plumbing, it would be good to give a
-better overview of how userspace applications are supposed to interact
-with the cards and identify the offloaded path. Testing with
-tinyplay/tinymix is fine, but that's a developer-level or CI unit test.
-we've got to see the broader picture of how a sound server would use
-this USB offload capability.
+	Regards
+		Oliver
+  
