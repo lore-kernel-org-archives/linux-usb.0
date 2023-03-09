@@ -2,60 +2,60 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27CC6C64EC4
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Mar 2023 13:28:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD29C74A4B
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Mar 2023 13:28:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230140AbjCIN2x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Mar 2023 08:28:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53504 "EHLO
+        id S230427AbjCIN25 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Mar 2023 08:28:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231267AbjCIN2P (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Mar 2023 08:28:15 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71470497CF
-        for <linux-usb@vger.kernel.org>; Thu,  9 Mar 2023 05:28:10 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so3597597wms.2
-        for <linux-usb@vger.kernel.org>; Thu, 09 Mar 2023 05:28:10 -0800 (PST)
+        with ESMTP id S231336AbjCIN2Q (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Mar 2023 08:28:16 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C40EA5C9DD
+        for <linux-usb@vger.kernel.org>; Thu,  9 Mar 2023 05:28:13 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id d41-20020a05600c4c2900b003e9e066550fso1217385wmp.4
+        for <linux-usb@vger.kernel.org>; Thu, 09 Mar 2023 05:28:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678368490;
+        d=linaro.org; s=google; t=1678368492;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ReaB5rrl626TQ7XHSiG6p5ZQGCluXJKDnds+E5f0Tbc=;
-        b=Xzv7XXOWlFkB3kKPUs6OuKS3sUaS7dyHeB1WDXJly1IsBwZ9Q0fF4nXh/ngynrFm7t
-         kP6dgG2HUeA8CDfIBQeVisX0jeJVJ87Pkh/Px+LCEGtYPgL0EXjWIW53U9wIFLkdb2kP
-         Z1S/t8okKccZDBcJ3AiLQ07i3v9bTCeDaUykryD5MaEwLZVuZEG1vPuRDmXAxS15MDDW
-         o2MdFt9zUBieerqUBAW6DHr/zb7i8cwtW8sKqBO8RcLs4/oNiRLtepmXo0rKQMTcTOQ2
-         CFUyMjARzxuupvAu8HODdduPmTAEvrnM65qafvtO7UabpQhLXHzJxUCwSu3FBrLwCG6T
-         Aorg==
+        bh=4Tp9zLtCwVp7RxG9ro6QJ1uHwHoo+Kd5QBn3UiGJnHo=;
+        b=NCUBebvjDz+6NC5QufmIFkxawl1AuJIZ0HVIGF/Cscn8ErFIBKRgmCx1dvVMAwbaQn
+         0xtUL7KQOAxqIWd2n8HB6avFYO+bs6OpZQMdbLv8VmUj4Nz3wK0X4pPAsK3BdJJ/Ybbd
+         6SLXTo6KTNoYmQ2S8sAuwao8cuHh3blp0t7q1ejdigE9+jsJtv+/7DSj6fAAWX9tB7R+
+         FdOFNSRsbgeoqCFyhuRUHHSGNoTYAvCasxdgqDDLpyV05JDeicY396QvFgL1/uzM+/eA
+         umC2ekGeKIO+4oJmPNx7Vg4aRDXnktl0x18g01jfuXZ+TQhEILW7SU1q/RT2GC9Jxsqg
+         vHcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678368490;
+        d=1e100.net; s=20210112; t=1678368492;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ReaB5rrl626TQ7XHSiG6p5ZQGCluXJKDnds+E5f0Tbc=;
-        b=d6y8rk4fp1cEaYUjJq4pRTuTqgWr5JtcWFDFAeB7GQ1eK7RuB/HCg8bdpiD/QAlxJO
-         qhyvkua5/dlwVMO/aZY+FgTxzi5W5K8kN6jse/ojpgsa/gjgC4Qj7mTA07ysQV4Akc6j
-         iflArg6Dmx7i7FFwh+DYBAWP9rsqsE8psNAhNpJTo2kINDIfZxUG7hVvckNJhD6ZNoJf
-         GsJa2lDc16AasndPNWTbKnR+NBrXC5zN5niGHV45DQ2BzNNoiKava0tdB1Dj/WkIw0j8
-         7IR/QTnR93GjKRAp5E13CEv3j/4N0/p381hjHDQbWVRVT61+FOo99wid7+EaOKOxXYud
-         zdDg==
-X-Gm-Message-State: AO0yUKXd8rUs9aAUWgrIIJLHZ1vFMnyp8XHGkrrJKOCRudfrtT2JRESq
-        Aw77oNjVsYPpXeEgA7XbT95bqg==
-X-Google-Smtp-Source: AK7set9Ke2GYuzXZOHRyQ5gjDuq/mtkGU6o5Qw3F7UxAo87lUPDBB0M28TwkotZINF/9hkvQ7sZEbw==
-X-Received: by 2002:a05:600c:4fd4:b0:3eb:2b88:867e with SMTP id o20-20020a05600c4fd400b003eb2b88867emr19334386wmq.10.1678368489885;
-        Thu, 09 Mar 2023 05:28:09 -0800 (PST)
+        bh=4Tp9zLtCwVp7RxG9ro6QJ1uHwHoo+Kd5QBn3UiGJnHo=;
+        b=3P9UnRpF0GeG/8PenL2RlU/rD0XMSVQYvPLMeYI1xZfEEdytlHINjAhh0P8ec1Iyk/
+         7jVSEGy2ykXXwyevpROgLZbruBfRpQP3gjTTdgvS+W7LlWQVqu9s4Wd6quVq/MS/QXZL
+         Mo5+n4SS1ZnkKg+cD4JIjVxPtswp7shsfZioi5d598oc1xjkE0ww95pumXO+rvmajaVI
+         y+w58apI9uizQRQ07cKhUmmKgMMEBRD6Bn5op/x1daIqwsJMdyENkLqV6fOi58EB5IQq
+         jlqEfdyPOsLy17s6W6Obxf7nmAONy5JcTN/YUOfV7qvwKct1HCVC/APRV5AEH+oxSeBq
+         mq0Q==
+X-Gm-Message-State: AO0yUKXv623vZ7j63sl4wGnJv/Kyx+47ho1uw/sBCPiKqXGBI1LW7hxn
+        jAdioiFF/YKxmU/ayK4piCrhEA==
+X-Google-Smtp-Source: AK7set+yhUnRnE75Evc8i1auRgI7JJDA5jtzXR/IRNFnYhUJFTbzGmu5u5QjdxQ2xDs3HZ4IWiAPWA==
+X-Received: by 2002:a05:600c:3148:b0:3eb:3fea:a2ac with SMTP id h8-20020a05600c314800b003eb3feaa2acmr19973699wmo.22.1678368492706;
+        Thu, 09 Mar 2023 05:28:12 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id r7-20020a05600c458700b003eb966d39desm2926714wmo.2.2023.03.09.05.28.09
+        by smtp.gmail.com with ESMTPSA id r7-20020a05600c458700b003eb966d39desm2926714wmo.2.2023.03.09.05.28.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 05:28:09 -0800 (PST)
+        Thu, 09 Mar 2023 05:28:12 -0800 (PST)
 From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Thu, 09 Mar 2023 14:28:00 +0100
-Subject: [PATCH v3 09/12] arm64: dts: qcom: sm8350-hdk: add pmic glink node
+Date:   Thu, 09 Mar 2023 14:28:03 +0100
+Subject: [PATCH v3 12/12] arm64: defconfig: add PMIC GLINK modules
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230130-topic-sm8450-upstream-pmic-glink-v3-9-4c860d265d28@linaro.org>
+Message-Id: <20230130-topic-sm8450-upstream-pmic-glink-v3-12-4c860d265d28@linaro.org>
 References: <20230130-topic-sm8450-upstream-pmic-glink-v3-0-4c860d265d28@linaro.org>
 In-Reply-To: <20230130-topic-sm8450-upstream-pmic-glink-v3-0-4c860d265d28@linaro.org>
 To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -76,99 +76,31 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add the pmic glink node linked with the DWC3 USB controller
-switched to OTG mode and tagged with usb-role-switch.
+Enable the PMIC GLINK core, altmode, battery and UCSI
+aux drivers as module to enable USB Type-C management
+over the PMIC GLINK protocol on modern Qcom platforms.
 
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm8350-hdk.dts | 67 ++++++++++++++++++++++++++++++++-
- 1 file changed, 65 insertions(+), 2 deletions(-)
+ arch/arm64/configs/defconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8350-hdk.dts b/arch/arm64/boot/dts/qcom/sm8350-hdk.dts
-index 09baf6959c71..01affb16d039 100644
---- a/arch/arm64/boot/dts/qcom/sm8350-hdk.dts
-+++ b/arch/arm64/boot/dts/qcom/sm8350-hdk.dts
-@@ -31,6 +31,40 @@ hdmi_con: endpoint {
- 		};
- 	};
- 
-+	pmic-glink {
-+		compatible = "qcom,sm8350-pmic-glink", "qcom,pmic-glink";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		connector@0 {
-+			compatible = "usb-c-connector";
-+			reg = <0>;
-+			power-role = "dual";
-+			data-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					pmic_glink_hs_in: endpoint {
-+						remote-endpoint = <&usb_1_dwc3_hs>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+
-+					pmic_glink_ss_in: endpoint {
-+						remote-endpoint = <&usb_1_dwc3_ss>;
-+					};
-+				};
-+			};
-+		};
-+	};
-+
- 	vph_pwr: vph-pwr-regulator {
- 		compatible = "regulator-fixed";
- 		regulator-name = "vph_pwr";
-@@ -674,8 +708,37 @@ &usb_1 {
- };
- 
- &usb_1_dwc3 {
--	/* TODO: Define USB-C connector properly */
--	dr_mode = "peripheral";
-+	dr_mode = "otg";
-+	usb-role-switch;
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			usb_1_dwc3_hs: endpoint {
-+				remote-endpoint = <&pmic_glink_hs_in>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			usb_1_dwc3_ss: endpoint {
-+				remote-endpoint = <&pmic_glink_ss_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&usb_1_dwc3_hs {
-+	remote-endpoint = <&pmic_glink_hs_in>;
-+};
-+
-+&usb_1_dwc3_ss {
-+	remote-endpoint = <&pmic_glink_ss_in>;
- };
- 
- &usb_1_hsphy {
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 7790ee42c68a..a925c9dc7f19 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -273,6 +273,10 @@ CONFIG_VIRTIO_BLK=y
+ CONFIG_BLK_DEV_NVME=m
+ CONFIG_QCOM_COINCELL=m
+ CONFIG_QCOM_FASTRPC=m
++CONFIG_BATTERY_QCOM_BATTMGR=m
++CONFIG_QCOM_PMIC_GLINK=m
++CONFIG_TYPEC_UCSI=m
++CONFIG_UCSI_PMIC_GLINK=m
+ CONFIG_SRAM=y
+ CONFIG_PCI_ENDPOINT_TEST=m
+ CONFIG_EEPROM_AT24=m
 
 -- 
 2.34.1
