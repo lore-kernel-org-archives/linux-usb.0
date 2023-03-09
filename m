@@ -2,169 +2,187 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01FC4C61DA4
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Mar 2023 20:25:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31813C64EC4
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Mar 2023 20:25:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230375AbjCIUZI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S230404AbjCIUZI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Thu, 9 Mar 2023 15:25:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52158 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230108AbjCIUZH (ORCPT
+        with ESMTP id S229521AbjCIUZH (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Mar 2023 15:25:07 -0500
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22A04B7187;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BF40DBB73;
         Thu,  9 Mar 2023 12:25:06 -0800 (PST)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 329IXftY026300;
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 329IYkNG028961;
         Thu, 9 Mar 2023 20:25:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id; s=qcppdkim1;
- bh=4lKlWqiYZ7v1qAIU9YYUgr8f1ongIY3a7WWT9aUM+G8=;
- b=nK3WXt8gaDxHng1kqan58beoa2v0E4TtQsmNZ4ap+J5nhTzRcFpYu1dQW5MwxsaTmvYi
- 4FYpxxhxACjrCxATWEnkhtEBoHZxIBHTPIpPBg2r1TyQ5YpMHOh4p+hyZ23mx9pwEqh9
- saxgPzIbtdcf6Jk0IzOuxV1G0idh+dgfD7PgfaffW1jEhHc9o0Y1lKf92+stN7O3BR5l
- RcMqc+R1+cIRn8RJRaDE6JpHt9jX4S64nU7i+P4MkFwNftfyCfYOU+IkOO69NeMi91/X
- 19nwAmMBZouA252xeR/MwSg2YVkELgp6KworwaWqPrfewaP/TQ3bBdctdLQGHs+UC56r mw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p7egyhhk0-1
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=7thI068FQB8fnYsmyGn3WbsGkchpboF6YiDyxhiR0V8=;
+ b=BkZO4/RbVKJigZ9iC5rlJ5vtXWMQapiKWV8o/litedDa3WA6fleD+9RJ2L6PKzrFlK/a
+ 109xw18yR8PEzzDDwyop5UQ9vRGIJH2sVVH03vlSAJ9r6GP+spEKqNY7010zE1ECSd66
+ EI7qo+5KwIm3vZOP3Gs0olNmSqkQ7oFNGHOt5wYJagOfnUv0xjAoRdL9ICO3n3oW41dt
+ NK9z6Xji+Nxjp7IlBSWjiTEAY05a3uAeHACWrP59cmT/TF4RxwSxQP75ax+L7ZMbfikf
+ oViYJqc1b8VPbmvLqsPIpyTxpTqWVuG78KzsVS7uDcMV1A+Yq4HE17B3AGP+PmieGnZ2 qQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p7bvk20sa-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
         Thu, 09 Mar 2023 20:25:02 +0000
-Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 329KP1H1002777;
+Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 329KP1W3003624;
         Thu, 9 Mar 2023 20:25:01 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-        by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 3p4fewncpq-1
+        by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 3p4fjtdn86-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
         Thu, 09 Mar 2023 20:25:01 +0000
-Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 329KP0Ed002726;
-        Thu, 9 Mar 2023 20:25:00 GMT
+Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 329KP1Q4003596;
+        Thu, 9 Mar 2023 20:25:01 GMT
 Received: from hu-devc-lv-c.qualcomm.com (hu-eserrao-lv.qualcomm.com [10.47.235.164])
-        by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 329KP0hc002722;
-        Thu, 09 Mar 2023 20:25:00 +0000
+        by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 329KP0j2003592;
+        Thu, 09 Mar 2023 20:25:01 +0000
 Received: by hu-devc-lv-c.qualcomm.com (Postfix, from userid 464172)
-        id A7F5020E44; Thu,  9 Mar 2023 12:25:00 -0800 (PST)
+        id AE3DA20E4E; Thu,  9 Mar 2023 12:25:00 -0800 (PST)
 From:   Elson Roy Serrao <quic_eserrao@quicinc.com>
 To:     gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
         balbi@kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
         Elson Roy Serrao <quic_eserrao@quicinc.com>
-Subject: [PATCH v7 0/5] Add function suspend/resume and remote wakeup support
-Date:   Thu,  9 Mar 2023 12:24:54 -0800
-Message-Id: <1678393499-7366-1-git-send-email-quic_eserrao@quicinc.com>
+Subject: [PATCH v7 3/5] usb: gadget: Add function wakeup support
+Date:   Thu,  9 Mar 2023 12:24:57 -0800
+Message-Id: <1678393499-7366-4-git-send-email-quic_eserrao@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1678393499-7366-1-git-send-email-quic_eserrao@quicinc.com>
+References: <1678393499-7366-1-git-send-email-quic_eserrao@quicinc.com>
 X-QCInternal: smtphost
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: FzysObyAnuQRWmboiZgZKyLgmZPbr-hz
-X-Proofpoint-ORIG-GUID: FzysObyAnuQRWmboiZgZKyLgmZPbr-hz
+X-Proofpoint-GUID: HfNOWwR0mUB7uFZ7FzGqy8QUU30HbUA6
+X-Proofpoint-ORIG-GUID: HfNOWwR0mUB7uFZ7FzGqy8QUU30HbUA6
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-09_12,2023-03-09_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 spamscore=0 phishscore=0 impostorscore=0 suspectscore=0
- priorityscore=1501 malwarescore=0 mlxscore=0 clxscore=1015 mlxlogscore=776
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ definitions=2023-03-09_11,2023-03-09_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
+ malwarescore=0 phishscore=0 spamscore=0 clxscore=1015 adultscore=0
+ mlxlogscore=359 lowpriorityscore=0 mlxscore=0 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2303090164
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Changes in v7
- - Added a check to set device remote wakeup feature selector in ep0.c based on whether
-   the device is configured for remote wakeup.
- - Commit message and usb_func_wakeup documentation changes.
+USB3.2 spec section 9.2.5.4 quotes that a function may signal that
+it wants to exit from Function Suspend by sending a Function
+Wake Notification to the host if it is enabled for function
+remote wakeup. Add an api in composite layer that can be used
+by the function drivers to support this feature. Also expose
+a gadget op so that composite layer can trigger a wakeup request
+to the UDC driver.
 
-Changes in v6
- - Combined usb_gadget_func_wakeup API with usb_func_wakeup API in composite layer
-   so that there is only 1 API for triggering function remote wakeup for better error
-   handling. Since function suspend is something specific to usb functions, better to
-   keep the related APIs in composite layer and above. Also documented the usage and
-   applicability of the usb_func_wakeup API.
+Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
+---
+ drivers/usb/gadget/composite.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ include/linux/usb/composite.h  |  6 ++++++
+ include/linux/usb/gadget.h     |  1 +
+ 3 files changed, 47 insertions(+)
 
-Changes in v5
- - Add wakeup_armed check in patch2 in the link status change event handler
-   so that resume gets triggeed only in the remote wakeup context.
- - Costmetic changes in patch3 and patch4
-
-Changes in v4
- - Moved the wakeup bit check to bind function for warning the user at an early
-   stage itself.
- - Added the remote wakeup configured check to gadget_wakeup() and func_wakeup()
-   routines so that wakeup can be triggered only if user has configured it.
- - Cosmetic changes with respect to renaming the variables to reflect the operation
-   better.
-
-Changes in v3
- - Modified rw_capable flag to reflect the gadgets capability for wakeup
-   signalling.
- - Added a check to configure wakeup bit in bmAttributes only if gadget
-   is capable of triggering wakeup.
- - Implemented a gadget op for composite layer to inform UDC whether device
-   is configured for remote wakeup.
- - Added a check in __usb_gadget_wakeup() API to trigger wakeup only if the
-   device is configured for it.
- - Cosmetic changes in dwc3_gadget_func_wakeup() API.
-
-Changes in v2
- - Added a flag to indicate whether the device is remote wakeup capable.
- - Added an async parameter to _dwc3_gadget_wakeup() API and few cosmetic
-   changes.
- - Added flags to reflect the state of  function suspend and function remote
-   wakeup to usb_function struct rather than function specific struct (f_ecm).
- - Changed the dwc3_gadget_func__wakeup() API to run synchronously by first
-   checking the link state and then sending the device notification. Also
-   added debug log for DEVICE_NOTIFICATION generic cmd.
- - Added changes to arm the device for remotewakeup/function remotewakeup
-   only if device is capable.
-
-An usb device can initate a remote wakeup and bring the link out of
-suspend as dictated by the DEVICE_REMOTE_WAKEUP feature selector.
-To achieve this an interface can invoke gadget_wakeup op and wait for the
-device to come out of LPM. But the current polling based implementation
-fails if the host takes a long time to drive the resume signaling specially
-in high speed capable devices. Switching to an interrupt based approach is
-more robust and efficient. This can be leveraged by enabling link status
-change events and triggering a gadget resume when the link comes to active
-state.
-
-If the device is enhanced super-speed capable, individual interfaces can
-also be put into suspend state. An interface can be in function suspend
-state even when the device is not in suspend state. Function suspend state
-is retained throughout the device suspend entry and exit process.
-A function can be put to function suspend through FUNCTION_SUSPEND feature
-selector sent by the host. This setup packet also decides whether that
-function is capable of initiating a function remote wakeup. When the
-function sends a wakeup notification to the host the link must be first
-brought to a non-U0 state and then this notification is sent.
-
-This change adds the infrastructure needed to support the above
-functionalities.
-
-Elson Roy Serrao (5):
-  usb: gadget: Properly configure the device for remote wakeup
-  usb: dwc3: Add remote wakeup handling
-  usb: gadget: Add function wakeup support
-  usb: dwc3: Add function suspend and function wakeup support
-  usb: gadget: f_ecm: Add suspend/resume and remote wakeup support
-
- drivers/usb/dwc3/core.h               |   5 ++
- drivers/usb/dwc3/debug.h              |   2 +
- drivers/usb/dwc3/ep0.c                |  17 ++---
- drivers/usb/dwc3/gadget.c             | 118 ++++++++++++++++++++++++++++++++--
- drivers/usb/gadget/composite.c        |  58 +++++++++++++++++
- drivers/usb/gadget/configfs.c         |   3 +
- drivers/usb/gadget/function/f_ecm.c   |  68 ++++++++++++++++++++
- drivers/usb/gadget/function/u_ether.c |  63 ++++++++++++++++++
- drivers/usb/gadget/function/u_ether.h |   4 ++
- drivers/usb/gadget/udc/core.c         |  27 ++++++++
- drivers/usb/gadget/udc/trace.h        |   5 ++
- include/linux/usb/composite.h         |   8 +++
- include/linux/usb/gadget.h            |   9 +++
- 13 files changed, 373 insertions(+), 14 deletions(-)
-
+diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
+index c9c983e..2111732 100644
+--- a/drivers/usb/gadget/composite.c
++++ b/drivers/usb/gadget/composite.c
+@@ -492,6 +492,46 @@ int usb_interface_id(struct usb_configuration *config,
+ }
+ EXPORT_SYMBOL_GPL(usb_interface_id);
+ 
++/**
++ * usb_func_wakeup - sends function wake notification to the host.
++ * @func: function that sends the remote wakeup notification.
++ *
++ * Applicable to devices operating at enhanced superspeed when usb
++ * functions are put in function suspend state and armed for function
++ * remote wakeup. On completion, function wake notification is sent. If
++ * the device is in low power state it tries to bring the device to active
++ * state before sending the wake notification. Since it is a synchronous
++ * call, caller must take care of not calling it in interrupt context.
++ * For devices operating at lower speeds  returns negative errno.
++ *
++ * Returns zero on success, else negative errno.
++ */
++int usb_func_wakeup(struct usb_function *func)
++{
++	struct usb_gadget	*gadget = func->config->cdev->gadget;
++	int			id;
++
++	if (!gadget->ops->func_wakeup)
++		return -EOPNOTSUPP;
++
++	if (!func->func_wakeup_armed) {
++		ERROR(func->config->cdev, "not armed for func remote wakeup\n");
++		return -EINVAL;
++	}
++
++	for (id = 0; id < MAX_CONFIG_INTERFACES; id++)
++		if (func->config->interface[id] == func)
++			break;
++
++	if (id == MAX_CONFIG_INTERFACES) {
++		ERROR(func->config->cdev, "Invalid function\n");
++		return -EINVAL;
++	}
++
++	return gadget->ops->func_wakeup(gadget, id);
++}
++EXPORT_SYMBOL_GPL(usb_func_wakeup);
++
+ static u8 encode_bMaxPower(enum usb_device_speed speed,
+ 		struct usb_configuration *c)
+ {
+diff --git a/include/linux/usb/composite.h b/include/linux/usb/composite.h
+index d949e91..a2448e9 100644
+--- a/include/linux/usb/composite.h
++++ b/include/linux/usb/composite.h
+@@ -150,6 +150,9 @@ struct usb_os_desc_table {
+  *	GetStatus() request when the recipient is Interface.
+  * @func_suspend: callback to be called when
+  *	SetFeature(FUNCTION_SUSPEND) is reseived
++ * @func_suspended: Indicates whether the function is in function suspend state.
++ * @func_wakeup_armed: Indicates whether the function is armed by the host for
++ *	wakeup signaling.
+  *
+  * A single USB function uses one or more interfaces, and should in most
+  * cases support operation at both full and high speeds.  Each function is
+@@ -220,6 +223,8 @@ struct usb_function {
+ 	int			(*get_status)(struct usb_function *);
+ 	int			(*func_suspend)(struct usb_function *,
+ 						u8 suspend_opt);
++	bool			func_suspended;
++	bool			func_wakeup_armed;
+ 	/* private: */
+ 	/* internals */
+ 	struct list_head		list;
+@@ -241,6 +246,7 @@ int config_ep_by_speed_and_alt(struct usb_gadget *g, struct usb_function *f,
+ 
+ int config_ep_by_speed(struct usb_gadget *g, struct usb_function *f,
+ 			struct usb_ep *_ep);
++int usb_func_wakeup(struct usb_function *func);
+ 
+ #define	MAX_CONFIG_INTERFACES		16	/* arbitrary; max 255 */
+ 
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index 1d79612..75bda078 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -310,6 +310,7 @@ struct usb_udc;
+ struct usb_gadget_ops {
+ 	int	(*get_frame)(struct usb_gadget *);
+ 	int	(*wakeup)(struct usb_gadget *);
++	int	(*func_wakeup)(struct usb_gadget *gadget, int intf_id);
+ 	int	(*set_remote_wakeup)(struct usb_gadget *, int set);
+ 	int	(*set_selfpowered) (struct usb_gadget *, int is_selfpowered);
+ 	int	(*vbus_session) (struct usb_gadget *, int is_active);
 -- 
 2.7.4
 
