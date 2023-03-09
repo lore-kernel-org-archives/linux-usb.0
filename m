@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CE09C74A5B
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Mar 2023 20:45:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2367DC6FD19
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Mar 2023 20:46:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231240AbjCIUpd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Mar 2023 15:45:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55674 "EHLO
+        id S231320AbjCIUpo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Mar 2023 15:45:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231216AbjCIUpV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Mar 2023 15:45:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7F92FB254;
-        Thu,  9 Mar 2023 12:45:10 -0800 (PST)
+        with ESMTP id S231252AbjCIUpe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Mar 2023 15:45:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2249BFC7D9;
+        Thu,  9 Mar 2023 12:45:20 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4176B61CE3;
-        Thu,  9 Mar 2023 20:45:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36CABC4339B;
-        Thu,  9 Mar 2023 20:45:06 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BE128B82049;
+        Thu,  9 Mar 2023 20:45:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0991EC433EF;
+        Thu,  9 Mar 2023 20:45:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678394709;
-        bh=HsFTEd+4CiDfECqFQk8kXUcjRJImRoE7fMRjjaDmibM=;
+        s=k20201202; t=1678394717;
+        bh=EqM4N+uahcUA8b1+1yYauk84ymvGggxZFX8ZE/rCH9k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Fl44tUFNVaRpFEDDYTLSBygqDRH01I09ZWmPXKS164eBuZ89FlprKvhK1aF4hHiAQ
-         dZExTiSYIHWLwxmqy4lyDf8KP2hxKugYsIquGyPZ43Twu3E8m+HSLA1gqlmpMM9k1r
-         wgDeHmqc2vIHBcbvzSwzL5EMwzslvTbgPyocFflDWkiXBMo10L8NwXXHUGuhDS0Zmt
-         sUWMKCCIWY9LQr7mnRB1nCQ5+VR6y5eGUzpsJ8gAjK22Cju27w+N/zftYn61HgWLJj
-         y4D2TxEfptH0I7m4zzFY9/az0qQSErYKlKqgNF6Z+7wHyEB6NyoED8yeAoUeaZ7qYI
-         xa4QZSPfwNTUQ==
+        b=ZZn0fByttXZuee6z1n2ArTUuSQdH+WLLSyJwXGczq0hKTjc3X1wGoqyituiUK2E/V
+         uJmXSy3F2x+YJ7X3Yfrba42Jdfo1hcosI4VOKZCkPaFepzI/I1ANb3ZFVyIGExlonn
+         9xWGd7op2Q+r2XLY3Qg6YBuT4U4xBlqZwFen/ImEdobIsq87Y2HtjjGz5iPQ5gpzAa
+         eYuWJZDsMzcIlZybaYYf4gMEPu5TdnXvft8DaPDQJLVNpVTjNa0bvNq0vyn4QvFC/G
+         VOPGBvq5r/9l1It0qnRTYxVO0kmP5HteHGmRDCmrvSjzvJF1Z4Ju7NvyxDytYf4Bbh
+         XXNw8V0qJorwA==
 From:   Conor Dooley <conor@kernel.org>
 To:     linux-riscv@lists.infradead.org
 Cc:     conor@kernel.org, Conor Dooley <conor.dooley@microchip.com>,
@@ -46,14 +46,14 @@ Cc:     conor@kernel.org, Conor Dooley <conor.dooley@microchip.com>,
         linux-usb@vger.kernel.org, Wolfram Sang <wsa@kernel.org>,
         linux-i2c@vger.kernel.org,
         Daire McNamara <daire.mcnamara@microchip.com>
-Subject: [PATCH v1 2/5] i2c: microchip-core: convert SOC_MICROCHIP_POLARFIRE to ARCH_MICROCHIP_POLARFIRE
-Date:   Thu,  9 Mar 2023 20:44:49 +0000
-Message-Id: <20230309204452.969574-3-conor@kernel.org>
+Subject: [PATCH v1 4/5] rtc: mpfs: convert SOC_MICROCHIP_POLARFIRE to ARCH_MICROCHIP_POLARFIRE
+Date:   Thu,  9 Mar 2023 20:44:51 +0000
+Message-Id: <20230309204452.969574-5-conor@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230309204452.969574-1-conor@kernel.org>
 References: <20230309204452.969574-1-conor@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=838; i=conor.dooley@microchip.com; h=from:subject; bh=hwharPwRsHrvTL39HSSbppqDJfB2r7S5Li90f2LrzlI=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDClcrs46c8pFn0y2Ocp+7O5L00P3b1SFsRa19GlYv6w38 OQ8YKXTUcrCIMbBICumyJJ4u69Fav0flx3OPW9h5rAygQxh4OIUgIl86mdkOD93xeT0XO+Tx09k JhlOWLXRMyiMff5OvYylck7rTt//c4rhn3nVG12e59rqez/o/Dd436f1mOP8y9WnC9PrRG7O+h3 8gg8A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=791; i=conor.dooley@microchip.com; h=from:subject; bh=QXBAn8m/iPA0EANCEPLU1qNAdCRUvWn9mLls1w6rYNk=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDClcrs7e235f4PGXdW/Z8L7ZKPmu7eyDaRL60y6cLjTIy 2swePa6o5SFQYyDQVZMkSXxdl+L1Po/Ljuce97CzGFlAhnCwMUpABOJy2FkeHu0xS3vw5qd/785 HPre3zX/Y94xp7WuO55396j7n5r1+SXDH14Fu3X/9vinK6bXbaiwsr113Si8a7eOZeeZXIuDCpM EGQA=
 X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -64,26 +64,26 @@ From: Conor Dooley <conor.dooley@microchip.com>
 
 As part of converting RISC-V SOC_FOO symbols to ARCH_FOO to match the
 use of such symbols on other architectures, convert the Microchip FPGA
-i2c drivers to use the new symbol.
+RTC driver to use the new symbol.
 
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- drivers/i2c/busses/Kconfig | 2 +-
+ drivers/rtc/Kconfig | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-index 25eb4e8fd22f..9fa4a7bb5c8b 100644
---- a/drivers/i2c/busses/Kconfig
-+++ b/drivers/i2c/busses/Kconfig
-@@ -804,7 +804,7 @@ config I2C_MESON
+diff --git a/drivers/rtc/Kconfig b/drivers/rtc/Kconfig
+index 5a71579af0a1..753872408615 100644
+--- a/drivers/rtc/Kconfig
++++ b/drivers/rtc/Kconfig
+@@ -1970,7 +1970,7 @@ config RTC_DRV_MSC313
  
- config I2C_MICROCHIP_CORE
- 	tristate "Microchip FPGA I2C controller"
--	depends on SOC_MICROCHIP_POLARFIRE || COMPILE_TEST
-+	depends on ARCH_MICROCHIP_POLARFIRE || COMPILE_TEST
- 	depends on OF
+ config RTC_DRV_POLARFIRE_SOC
+ 	tristate "Microchip PolarFire SoC built-in RTC"
+-	depends on SOC_MICROCHIP_POLARFIRE
++	depends on ARCH_MICROCHIP_POLARFIRE
  	help
- 	  If you say yes to this option, support will be included for the
+ 	  If you say yes here you will get support for the
+ 	  built-in RTC on Polarfire SoC.
 -- 
 2.39.2
 
