@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04303C7618D
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Mar 2023 16:37:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C094C6FD1F
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Mar 2023 16:37:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230386AbjCJQhs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Mar 2023 11:37:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58810 "EHLO
+        id S231787AbjCJQht (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Mar 2023 11:37:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231459AbjCJQhR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Mar 2023 11:37:17 -0500
+        with ESMTP id S231592AbjCJQhS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Mar 2023 11:37:18 -0500
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AD494B826;
-        Fri, 10 Mar 2023 08:35:18 -0800 (PST)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32AFl3vZ027552;
-        Fri, 10 Mar 2023 16:34:56 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 407EA52F49;
+        Fri, 10 Mar 2023 08:35:19 -0800 (PST)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32AEUiRp014118;
+        Fri, 10 Mar 2023 16:35:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=9C4DYWplhgjPBnAXY668/L2h51S0yRoFzMkgqWjFhQQ=;
- b=DdHSb6ECMWDqCwuWQVnXfRpVapipHjn2nXvLcoBS5QskgA3ZrI3Jhg5gGW2P9ibYk1dA
- lu+dtAjIw6TVP9t3P0iM8jl5h5S3L8oWbocqw8vo0PHh3hT0Ua2IO4L1htrHq72Q9+CH
- DE8arcjH053AI1WqKby72kXNUkbAVeRZLqYYGCfw3XlZuHhSs+VgwaNzFsl8H5+zgP3h
- AY8Xrc1nKd9Xeklz5KXehASHQ7xd+cZ0ovgYO/4U0/DnheLruM01ZW95k8sOrtG7WJcn
- aJjr2SfriuGOHmL0EPJsbjVo66rnplce0W0lecEtZvT3y/vUYcJ3U5MSqvC45CFALHO/ Gw== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p7rqgt5r1-1
+ bh=B/V2/3C41K/6TbyT434sNen2dp+Wzka85oQzc3ly3PU=;
+ b=hPYymk4AYABRUm7udIoeMtLBLKq0RlbKhzsucjlvgRVKy66WI+cdRDsf8IEhhbH3WQF/
+ DN5ADmcM9y/L0qijy1cjG/0tnWa6Jstf6DpfTN5qBADy6T/0Vryu/yvVjUS8Y7dcGTRN
+ raghwLcLXJ6Q/M/iLCbH7FW3mnU/3IQzQjc7XV5uTjyP1r4d6hldrFs0LmrMT1xZM7wh
+ MoeTitt3Se/3UE5pjmO9X6TFJLH0rf4WFNeHadvNQbx7T0ACzOCXZrZbXec/u4lBRZhV
+ 3GMBQ8Cfuj+BW+2SUxq6N22s2aGRh90hs/Rf4LkaxfamUKo59qYRBnqYFkosIe9uBgei Mg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p85rhrca7-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 10 Mar 2023 16:34:56 +0000
+        Fri, 10 Mar 2023 16:35:08 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32AGYtnB032555
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32AGZ7WW030323
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 10 Mar 2023 16:34:55 GMT
+        Fri, 10 Mar 2023 16:35:08 GMT
 Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Fri, 10 Mar 2023 08:34:49 -0800
+ 15.2.986.41; Fri, 10 Mar 2023 08:35:01 -0800
 From:   Krishna Kurapati <quic_kriskura@quicinc.com>
 To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -55,9 +55,9 @@ CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <quic_harshq@quicinc.com>, <ahalaney@redhat.com>,
         <quic_shazhuss@quicinc.com>,
         Krishna Kurapati <quic_kriskura@quicinc.com>
-Subject: [PATCH 3/8] usb: dwc3: core: Skip setting event buffers for host only controllers
-Date:   Fri, 10 Mar 2023 22:04:15 +0530
-Message-ID: <20230310163420.7582-4-quic_kriskura@quicinc.com>
+Subject: [PATCH 5/8] usb: dwc3: qcom: Add multiport controller support for qcom wrapper
+Date:   Fri, 10 Mar 2023 22:04:17 +0530
+Message-ID: <20230310163420.7582-6-quic_kriskura@quicinc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230310163420.7582-1-quic_kriskura@quicinc.com>
 References: <20230310163420.7582-1-quic_kriskura@quicinc.com>
@@ -69,78 +69,100 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: nG66TYP_EWdY1M39YHfzlw7-LTM9SCcw
-X-Proofpoint-GUID: nG66TYP_EWdY1M39YHfzlw7-LTM9SCcw
+X-Proofpoint-GUID: ORvA0fPAJsut2mPMJG0MSUTyXPuyauAN
+X-Proofpoint-ORIG-GUID: ORvA0fPAJsut2mPMJG0MSUTyXPuyauAN
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-10_07,2023-03-10_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
- adultscore=0 mlxlogscore=831 spamscore=0 clxscore=1015 malwarescore=0
- priorityscore=1501 suspectscore=0 mlxscore=0 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 mlxscore=0 malwarescore=0 phishscore=0 mlxlogscore=961
+ bulkscore=0 spamscore=0 adultscore=0 suspectscore=0 impostorscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2303100130
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On some SoC's like SA8295P where the teritiary controller is host-only
-capable, GEVTADDRHI/LO, GEVTSIZ, GEVTCOUNT registers are not accessible.
-Trying to setup them up during core_init leads to a crash.
-
-For DRD/Peripheral supported controllers, event buffer setup is done
-again in gadget_pullup. Skip setup or cleanup of event buffers if
-controller is host-only capable.
+QCOM SoC SA8295P's teritiary quad port controller supports 2 HS+SS
+ports and 2 HS only ports. Add support for configuring PWR_EVENT_IRQ's
+for all the ports during suspend/resume.
 
 Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
 ---
- drivers/usb/dwc3/core.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ drivers/usb/dwc3/dwc3-qcom.c | 28 ++++++++++++++++++++++------
+ 1 file changed, 22 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 076c0f8a4441..1ca9fa40a66e 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -840,7 +840,11 @@ static void dwc3_clk_disable(struct dwc3 *dwc)
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 959fc925ca7c..0396f3e9bbe9 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -37,7 +37,10 @@
+ #define PIPE3_PHYSTATUS_SW			BIT(3)
+ #define PIPE_UTMI_CLK_DIS			BIT(8)
  
- static void dwc3_core_exit(struct dwc3 *dwc)
+-#define PWR_EVNT_IRQ_STAT_REG			0x58
++#define PWR_EVNT_IRQ1_STAT_REG			0x58
++#define PWR_EVNT_IRQ2_STAT_REG			0x1dc
++#define PWR_EVNT_IRQ3_STAT_REG			0x228
++#define PWR_EVNT_IRQ4_STAT_REG			0x238
+ #define PWR_EVNT_LPM_IN_L2_MASK			BIT(4)
+ #define PWR_EVNT_LPM_OUT_L2_MASK		BIT(5)
+ 
+@@ -93,6 +96,13 @@ struct dwc3_qcom {
+ 	struct icc_path		*icc_path_apps;
+ };
+ 
++static u32 pwr_evnt_irq_stat_reg_offset[4] = {
++			PWR_EVNT_IRQ1_STAT_REG,
++			PWR_EVNT_IRQ2_STAT_REG,
++			PWR_EVNT_IRQ3_STAT_REG,
++			PWR_EVNT_IRQ4_STAT_REG,
++};
++
+ static inline void dwc3_qcom_setbits(void __iomem *base, u32 offset, u32 val)
  {
--	dwc3_event_buffers_cleanup(dwc);
-+	unsigned int	hw_mode;
-+
-+	hw_mode = DWC3_GHWPARAMS0_MODE(dwc->hwparams.hwparams0);
-+	if (hw_mode != DWC3_GHWPARAMS0_MODE_HOST)
-+		dwc3_event_buffers_cleanup(dwc);
+ 	u32 reg;
+@@ -413,13 +423,16 @@ static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, bool wakeup)
+ {
+ 	u32 val;
+ 	int i, ret;
++	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
  
- 	usb_phy_set_suspend(dwc->usb2_phy, 1);
- 	usb_phy_set_suspend(dwc->usb3_phy, 1);
-@@ -1177,10 +1181,12 @@ static int dwc3_core_init(struct dwc3 *dwc)
- 	if (ret < 0)
- 		goto err3;
+ 	if (qcom->is_suspended)
+ 		return 0;
  
--	ret = dwc3_event_buffers_setup(dwc);
--	if (ret) {
--		dev_err(dwc->dev, "failed to setup event buffers\n");
--		goto err4;
-+	if (hw_mode != DWC3_GHWPARAMS0_MODE_HOST) {
-+		ret = dwc3_event_buffers_setup(dwc);
-+		if (ret) {
-+			dev_err(dwc->dev, "failed to setup event buffers\n");
-+			goto err4;
-+		}
- 	}
+-	val = readl(qcom->qscratch_base + PWR_EVNT_IRQ_STAT_REG);
+-	if (!(val & PWR_EVNT_LPM_IN_L2_MASK))
+-		dev_err(qcom->dev, "HS-PHY not in L2\n");
++	for (i = 0; i < dwc->num_ports; i++) {
++		val = readl(qcom->qscratch_base + pwr_evnt_irq_stat_reg_offset[i]);
++		if (!(val & PWR_EVNT_LPM_IN_L2_MASK))
++			dev_err(qcom->dev, "HS-PHY%d not in L2\n", i);
++	}
  
- 	/*
-@@ -2008,7 +2014,9 @@ static int dwc3_probe(struct platform_device *pdev)
+ 	for (i = qcom->num_clocks - 1; i >= 0; i--)
+ 		clk_disable_unprepare(qcom->clks[i]);
+@@ -446,6 +459,7 @@ static int dwc3_qcom_resume(struct dwc3_qcom *qcom, bool wakeup)
+ {
+ 	int ret;
+ 	int i;
++	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
  
- err5:
- 	dwc3_debugfs_exit(dwc);
--	dwc3_event_buffers_cleanup(dwc);
-+
-+	if (hw_mode != DWC3_GHWPARAMS0_MODE_HOST)
-+		dwc3_event_buffers_cleanup(dwc);
+ 	if (!qcom->is_suspended)
+ 		return 0;
+@@ -467,8 +481,10 @@ static int dwc3_qcom_resume(struct dwc3_qcom *qcom, bool wakeup)
+ 		dev_warn(qcom->dev, "failed to enable interconnect: %d\n", ret);
  
- 	usb_phy_set_suspend(dwc->usb2_phy, 1);
- 	usb_phy_set_suspend(dwc->usb3_phy, 1);
+ 	/* Clear existing events from PHY related to L2 in/out */
+-	dwc3_qcom_setbits(qcom->qscratch_base, PWR_EVNT_IRQ_STAT_REG,
+-			  PWR_EVNT_LPM_IN_L2_MASK | PWR_EVNT_LPM_OUT_L2_MASK);
++	for (i = 0; i < dwc->num_ports; i++)
++		dwc3_qcom_setbits(qcom->qscratch_base,
++			pwr_evnt_irq_stat_reg_offset[i],
++			PWR_EVNT_LPM_IN_L2_MASK | PWR_EVNT_LPM_OUT_L2_MASK);
+ 
+ 	qcom->is_suspended = false;
+ 
 -- 
 2.39.0
 
