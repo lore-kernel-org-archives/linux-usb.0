@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09BF3C6FA99
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Mar 2023 16:38:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 449E0C6FD1F
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Mar 2023 16:40:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231878AbjCJQiB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Mar 2023 11:38:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39372 "EHLO
+        id S230089AbjCJQkC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Mar 2023 11:40:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230089AbjCJQhX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Mar 2023 11:37:23 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87544B776;
-        Fri, 10 Mar 2023 08:35:36 -0800 (PST)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32ADccxF006002;
-        Fri, 10 Mar 2023 16:35:27 GMT
+        with ESMTP id S231290AbjCJQj1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Mar 2023 11:39:27 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F15E7A923;
+        Fri, 10 Mar 2023 08:36:31 -0800 (PST)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32ADLTC0005065;
+        Fri, 10 Mar 2023 16:35:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=X25k0ljmd07bmkdZ/R1kKNVU+KtTLV92UgIrOURq3sg=;
- b=Rq84zF6cbbGGwgbUx4bWiF7kpp87Dbcgt6rYABDVXFsAsj7FRy0E24/ynbd+jiMbM3vC
- XEtKBqxaG4tsBZOKysHeq22wjiYfV7zWYy65wJPY1dGrXAcXNKRFEwAmryh92Qk88ixh
- yHY57rF5bGS2pV+c+7wuIBo1Ev0GKdpERwqpHMikTY+UN3aEzMIk54QULfhoEOcDvIr7
- WxDxPjl+XPwwyZaCc+Oe+DZcEJ8eu3EndBioX9KamHEvJvp8wV1bSOTfN30LOEkheEkG
- CEuH2P636A7/Q2sLVvOx/X9/A1F27SHw1xxCUdKgU24KEQ2RYmedTl1HdtxZijmPITls hg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p7jutu3d9-1
+ bh=hGlx65AGSJ98cyRhsWAq50yyWSopTFu2T5L537yAqZA=;
+ b=M5YBVQmpbJIbqoSCrqSNzj/znMeTRnUQWttEedK0Ut4IwPRmxG2Fcj8BxdDNTH3Rgvut
+ +ROqYF2xyK3NMHfdztLKZ896X7Lua8BwiEC1jTwmkQVtG7OSa3KTKGVgig8iTgLLZoKC
+ pTkAZ+K88TyJarwOFBWbeTHo94DNgAlmB24BshiFByj9Xn7k5mHt/Do1MFXcy/VVjVBp
+ zboSi7K7j1kV1ezD/N9cV8DbUxMdy6FOkiJpTIvzPQ620bHPYQ//+bDCARzFhd5m2XzP
+ aLWif7FEUJ8YlJFkgFiA3ndMBEJaKRoBOkWdi4lLULmWW+426+oGvFrJkTxC4k6z9cP+ dQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p7nh2jnyc-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 10 Mar 2023 16:35:26 +0000
+        Fri, 10 Mar 2023 16:35:15 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32AGZQGr000810
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32AGZE0B028870
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 10 Mar 2023 16:35:26 GMT
+        Fri, 10 Mar 2023 16:35:14 GMT
 Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Fri, 10 Mar 2023 08:35:20 -0800
+ 15.2.986.41; Fri, 10 Mar 2023 08:35:07 -0800
 From:   Krishna Kurapati <quic_kriskura@quicinc.com>
 To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -55,9 +55,9 @@ CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <quic_harshq@quicinc.com>, <ahalaney@redhat.com>,
         <quic_shazhuss@quicinc.com>,
         Krishna Kurapati <quic_kriskura@quicinc.com>
-Subject: [PATCH 8/8] arm64: dts: qcom: sa8540-ride: Enable first port of teritiary usb controller
-Date:   Fri, 10 Mar 2023 22:04:20 +0530
-Message-ID: <20230310163420.7582-9-quic_kriskura@quicinc.com>
+Subject: [PATCH 6/8] arm64: dts: qcom: sc8280xp: Add multiport controller node for SC8280
+Date:   Fri, 10 Mar 2023 22:04:18 +0530
+Message-ID: <20230310163420.7582-7-quic_kriskura@quicinc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230310163420.7582-1-quic_kriskura@quicinc.com>
 References: <20230310163420.7582-1-quic_kriskura@quicinc.com>
@@ -69,65 +69,98 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: SS672G8MjsPXXfB0eExUSBmgSz8QjXEZ
-X-Proofpoint-ORIG-GUID: SS672G8MjsPXXfB0eExUSBmgSz8QjXEZ
+X-Proofpoint-ORIG-GUID: U4jI-yFODbRflvREQ8v35jzHxlTO2OqQ
+X-Proofpoint-GUID: U4jI-yFODbRflvREQ8v35jzHxlTO2OqQ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-10_08,2023-03-10_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 phishscore=0 suspectscore=0
- mlxscore=0 malwarescore=0 impostorscore=0 priorityscore=1501 clxscore=1015
- mlxlogscore=960 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303100131
+ definitions=2023-03-10_07,2023-03-10_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ priorityscore=1501 phishscore=0 malwarescore=0 clxscore=1015
+ impostorscore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0
+ mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303100129
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable first port of Quad port Teritiary USB controller for SA8540 Ride.
+Add USB and DWC3 node for teritiary port of SC8280 along with multiport
+IRQ's and phy's. This will be used as a base for SA8295P and SA8295-Ride
+platforms.
 
 Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
 ---
- arch/arm64/boot/dts/qcom/sa8540p-ride.dts | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 58 ++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sa8540p-ride.dts b/arch/arm64/boot/dts/qcom/sa8540p-ride.dts
-index 3ccb5ffdb3ca..46e9ca9c666e 100644
---- a/arch/arm64/boot/dts/qcom/sa8540p-ride.dts
-+++ b/arch/arm64/boot/dts/qcom/sa8540p-ride.dts
-@@ -309,6 +309,19 @@ &usb_2_qmpphy0 {
- 	status = "okay";
- };
- 
-+&usb_2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&usb2_en_state>;
-+
-+	status = "okay";
-+};
-+
-+&usb_2_dwc3 {
-+	dr_mode = "host";
-+	phy-names = "usb2-port0", "usb3-port0";
-+	phys = <&usb_2_hsphy0>, <&usb_2_qmpphy0>;
-+};
-+
- &xo_board_clk {
- 	clock-frequency = <38400000>;
- };
-@@ -401,4 +414,13 @@ wake-pins {
- 			bias-pull-up;
+diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+index 0d02599d8867..47e1f1da63a4 100644
+--- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+@@ -3108,6 +3108,64 @@ usb_1_role_switch: endpoint {
+ 			};
  		};
- 	};
+ 
++		usb_2: usb@a4f8800 {
++			compatible = "qcom,sc8280xp-dwc3", "qcom,dwc3";
++			reg = <0 0x0a4f8800 0 0x400>;
++			#address-cells = <2>;
++			#size-cells = <2>;
++			ranges;
 +
-+	usb2_en_state: usb2-en-state {
-+		/* TS3USB221A USB2.0 mux select */
-+		pins = "gpio24";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-disable;
-+		output-low;
-+	};
- };
++			clocks = <&gcc GCC_CFG_NOC_USB3_MP_AXI_CLK>,
++				 <&gcc GCC_USB30_MP_MASTER_CLK>,
++				 <&gcc GCC_AGGRE_USB3_MP_AXI_CLK>,
++				 <&gcc GCC_USB30_MP_SLEEP_CLK>,
++				 <&gcc GCC_USB30_MP_MOCK_UTMI_CLK>,
++				 <&gcc GCC_AGGRE_USB_NOC_AXI_CLK>,
++				 <&gcc GCC_AGGRE_USB_NOC_NORTH_AXI_CLK>,
++				 <&gcc GCC_AGGRE_USB_NOC_SOUTH_AXI_CLK>,
++				 <&gcc GCC_SYS_NOC_USB_AXI_CLK>;
++			clock-names = "cfg_noc", "core", "iface", "sleep", "mock_utmi",
++				      "noc_aggr", "noc_aggr_north", "noc_aggr_south", "noc_sys";
++
++			assigned-clocks = <&gcc GCC_USB30_MP_MOCK_UTMI_CLK>,
++					  <&gcc GCC_USB30_MP_MASTER_CLK>;
++			assigned-clock-rates = <19200000>, <200000000>;
++
++			interrupts-extended = <&pdc 127 IRQ_TYPE_EDGE_RISING>,
++						<&pdc 126 IRQ_TYPE_EDGE_RISING>,
++						<&pdc 16 IRQ_TYPE_LEVEL_HIGH>;
++
++			interrupt-names = "dp_hs_phy_irq", "dm_hs_phy_irq",
++						"ss_phy_irq";
++
++			power-domains = <&gcc USB30_MP_GDSC>;
++
++			resets = <&gcc GCC_USB30_MP_BCR>;
++
++			interconnects = <&aggre1_noc MASTER_USB3_1 0 &mc_virt SLAVE_EBI1 0>,
++					<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_USB3_1 0>;
++			interconnect-names = "usb-ddr", "apps-usb";
++
++			required-opps = <&rpmhpd_opp_nom>;
++
++			status = "disabled";
++
++			usb_2_dwc3: usb@a400000 {
++				compatible = "snps,dwc3";
++				reg = <0 0x0a400000 0 0xcd00>;
++				interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
++				iommus = <&apps_smmu 0x800 0x0>;
++				phys = <&usb_2_hsphy0>, <&usb_2_qmpphy0>,
++					<&usb_2_hsphy1>, <&usb_2_qmpphy1>,
++					<&usb_2_hsphy2>,
++					<&usb_2_hsphy3>;
++				phy-names = "usb2-port0", "usb3-port0",
++						"usb2-port1", "usb3-port1",
++						"usb2-port2",
++						"usb2-port3";
++			};
++		};
++
+ 		mdss0: display-subsystem@ae00000 {
+ 			compatible = "qcom,sc8280xp-mdss";
+ 			reg = <0 0x0ae00000 0 0x1000>;
 -- 
 2.39.0
 
