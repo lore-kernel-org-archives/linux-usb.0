@@ -2,220 +2,233 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 536FFC64EC4
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Mar 2023 17:21:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CA95C76188
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Mar 2023 17:42:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229845AbjCJRVW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Mar 2023 12:21:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48128 "EHLO
+        id S230186AbjCJRmq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Mar 2023 12:42:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231217AbjCJRVN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Mar 2023 12:21:13 -0500
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2069.outbound.protection.outlook.com [40.107.92.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EFAF111B33;
-        Fri, 10 Mar 2023 09:21:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NzmUPhsE8j/hOtyD3qgShLdKvlBQcv6kDGzCUyUsoS5ySkgr7bkxkiy+p+QJjBUS0yVwt4lldvrbiMJ3sChg4EReor9cesM8yDdL7GbkU+N1rB597TYHX4BopWrs/j2ZY7qaaISYjusgQrq+KM1Aqw8WlwN/nazKN3tBVsvRW4cAOSH8FGlyNvw/4VegyzZWQwMs9O9sIMxjkDGF3z3ASdPXnCYMhmJ9namC6Kew4gmC/8qqcxqmAKC3Mrm9F2L/ueOpgDmqeTiaDqQ5JrBabkK+3t7pf2oATviJZCELGqzhyj8wEC7tlQkwmCzUa2iRYVYskF7V0QCzyCebpyzMaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xYLh7oKEDEQpKZKPlsjawgYtuWLj/QonKCOfcm7t30M=;
- b=g8cYj9YQoC8OfkHH7C3WVB1360hZbwFpqwjkNnpDbYg8ZIQDxwBnICb1ExjtrT2VzCrRJ7YQn2EOSkfaX8XmJWj6g4Wge54T4ngvENrKmctGQgkRgjdol9Yx5DFwCyWliQPDw4AR7cylHJoJjivfNW3uG7ca+Z6rzbdrcl/gOCJJQSIGK1AF/kxRE2tfNeWNqxKnv2wWKpsacRXJixPd68rzUvK+4fXbDnVutzCJaqgMzDYzYVzMMTjw/xDZKMRB/glHbkuTXcyadDGJySytoYQ3uu3imNQFagDVsC82NY+fB4vV2wgV9h+50C3INRsK08IJ/dDvpPOGxK/abZ9d8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xYLh7oKEDEQpKZKPlsjawgYtuWLj/QonKCOfcm7t30M=;
- b=r6iOOzrIm623gtMmrU2qxBVRqdLGlDRp3Kv2oYy64ROjgLFE4WKanZHma4YxEuXCfGU7l+pfnulfvebkR1Ke3AdxmOHO4SqnOvjN1ofYGrmJM4eJwlJKqZE9RM9SOCpoGjYUq5PnCtHpudJmFo2RHwHdiZsGhZ+zRZoLLf8qqrc=
-Received: from DM6PR06CA0088.namprd06.prod.outlook.com (2603:10b6:5:336::21)
- by PH0PR12MB8125.namprd12.prod.outlook.com (2603:10b6:510:293::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.20; Fri, 10 Mar
- 2023 17:21:07 +0000
-Received: from DS1PEPF0000B079.namprd05.prod.outlook.com
- (2603:10b6:5:336:cafe::33) by DM6PR06CA0088.outlook.office365.com
- (2603:10b6:5:336::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.19 via Frontend
- Transport; Fri, 10 Mar 2023 17:21:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS1PEPF0000B079.mail.protection.outlook.com (10.167.17.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6178.12 via Frontend Transport; Fri, 10 Mar 2023 17:21:07 +0000
-Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 10 Mar
- 2023 11:21:03 -0600
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-        Sanjay R Mehta <sanju.mehta@amd.com>
-CC:     <anson.tsao@amd.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        "Sanju Mehta" <Sanju.Mehta@amd.com>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/2] thunderbolt: Disable interrupt auto clear for rings
-Date:   Fri, 10 Mar 2023 11:20:50 -0600
-Message-ID: <20230310172050.1394-3-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230310172050.1394-1-mario.limonciello@amd.com>
-References: <20230310172050.1394-1-mario.limonciello@amd.com>
+        with ESMTP id S231567AbjCJRmL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Mar 2023 12:42:11 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C24B12DDEA
+        for <linux-usb@vger.kernel.org>; Fri, 10 Mar 2023 09:41:25 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id nn12so6021230pjb.5
+        for <linux-usb@vger.kernel.org>; Fri, 10 Mar 2023 09:41:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1678470083;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9i01GHUbBCk3rnTRWnFMgPlkOeiOaiqgzdCZVZASJxs=;
+        b=IECSjKaVJTupiu7cziuQExZtGqDUR877vSWtG6NaFDHfm0fLdIWPGaGudpvpqieV2Q
+         2SwruSxTo/Dc+bCgJEx7kJQ0gTpUqbINF0apdm/2fxMGakqMEeu1FCLeiVpSmg/DlSXc
+         klxi3OHIww37WozkkjHY4EGDF86u06cxDbZLk9zMde+izrNUc0YxDn0SNGx+jGpIocA8
+         n7XnYaIh3WzfP7y0cHeP7iJCdgJqlgiF20sYwiQpU+OIlE42L2wUC69M157Zb66u4+jq
+         UVXaaUKgNgXbpdUP/7wvcyatiDUzkhw/KfyQxJMCXZSMLRPu3jWTlSOf/89cfVcKNTIk
+         dnJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678470083;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9i01GHUbBCk3rnTRWnFMgPlkOeiOaiqgzdCZVZASJxs=;
+        b=wKzWoBrFeJr4feC/X/ABdzwougPMcwo9soGg6ip8lJw9jSwMusv6mzApDKs7bBtyVU
+         5WMBkkmT+aChMNSpBxS1Rg3Qzco0/lQjyqoDZ3dpp8sAETgUMfm0QO5LEOoLMmJ5ektz
+         hUudgFz9cFv3vQSupCXs3THMQRGxDGbKbmRnOjxpDTlnUR0ild6szfzcYyyKCtWcJOTW
+         UVwHOYABrg5t9d0Lt6LcXbbx0jfKyGLcIl9TuRJVokBO2IRQq+I7H9nfTVhyXP4kBhO5
+         9LFDfjvmFKx39HqtOg2s8O7kQbphw0l/0L/VgI2i7L5nKbcg/eYBuK97ExMdamplbDiu
+         H/8Q==
+X-Gm-Message-State: AO0yUKVesvI6wDsoTBNBRA31p1W297vf9FZxv5Pk3rexCxZKgGXwJ/pt
+        aniAC/YRRMC599FEDIqoVUt8CHUATGmwTsZgLr7m5g==
+X-Google-Smtp-Source: AK7set+B943YKtR8tOTl36xpuw9/f7/8OomUcUBm+hMbC1PQDc3TJfFM/qdNItwupJpJWPycii8cIXVvL5+5QhY/SsU=
+X-Received: by 2002:a17:90a:c688:b0:22c:89b:8e97 with SMTP id
+ n8-20020a17090ac68800b0022c089b8e97mr1183720pjt.1.1678470082815; Fri, 10 Mar
+ 2023 09:41:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0000B079:EE_|PH0PR12MB8125:EE_
-X-MS-Office365-Filtering-Correlation-Id: f0a8bc00-e4c7-45a4-039b-08db218bd5a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tGa+9k+uzGeeIy7h+vPT9IUaiwNTQmGDchkGT6ydKpijMyj5LXD7TdG2qKpjfsDnEFMD/N2JVb0sgZjsiBNQK77i9V4JQTHgqvH6QJtqR9sbQM1d2J0MAZIeQwNUzM/d4/4YkbD/DcXxg/znXPjdWgV/gppdA5xHlQLqdMtHzaM2KUbUthHdHclimi+8enTabIv/lgbEoMdpcKLTJE0KGSvDqcdq+gyfJDM9XGykn/OpxndTmP8TDfFUkor9ZkmsoaNzJuas6dKx7zzZ6dZUDy/5hIscB7bo7npTZEwX1KI9/avuld/2Ch4+951vSTm9B0t4vqzYJcI4ZFIO1moFJ/2etIlrFXg/6xDq5ENgpeO9MjpYC3Xa+cf+P8GqWFG/gzd4vgWmyQztGS8YOLXKVaEG5+hFq+ISYIGrG2nJqS31bTj78cmgN/amElBbXW37pz2k46mkAmqXJw3epktEYEX9H3I4fVwdZTT88yxEJznmdvcle9iRf4xEOH40ugl1HMlIHwK6lGyYyc8N1j+W3kKz8P9B/1uXmEtNBwkh+dkKTAfFrXXCrRJ3n9p5m/Rayeb+aUPD2NAt9ZH1czbX+nv81yFrvMShuRR6vuWb4a+Na+WkkJ0QNUdhEz7+aB3cC3bZOtpsNIldSm8/l+0ddCAo3VeXxpBAmbaLZfYDc6EjfwA8Qqb9TOdPFFfsQh/iMMqNK1SHw7UXc7Uu2wUBKF/JglenkM0vYvAEpgI/ojA=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(136003)(376002)(396003)(39860400002)(346002)(451199018)(36840700001)(46966006)(40470700004)(8676002)(4326008)(70586007)(70206006)(54906003)(6636002)(316002)(7696005)(41300700001)(110136005)(44832011)(5660300002)(2906002)(6666004)(26005)(1076003)(2616005)(16526019)(186003)(47076005)(426003)(40480700001)(36860700001)(336012)(8936002)(478600001)(82310400005)(356005)(86362001)(36756003)(83380400001)(81166007)(82740400003)(40460700003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2023 17:21:07.0742
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0a8bc00-e4c7-45a4-039b-08db218bd5a4
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000B079.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8125
+References: <20230301214952.2190757-1-saravanak@google.com> <aca28784-c526-566b-dd7c-9cfda17e697a@foss.st.com>
+In-Reply-To: <aca28784-c526-566b-dd7c-9cfda17e697a@foss.st.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Fri, 10 Mar 2023 09:40:46 -0800
+Message-ID: <CAGETcx8K47t6X4biCYq+m8NcQFrUMyXvHknCRYUkuUbkw1_i6g@mail.gmail.com>
+Subject: Re: [PATCH v1 0/4] Remove use of fw_devlink_purge_absent_suppliers()
+To:     Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Len Brown <lenb@kernel.org>,
+        Yongqin Liu <yongqin.liu@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Amelie Delaunay <amelie.delaunay@foss.st.com>,
+        kernel-team@android.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-acpi@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        linux-stm32@st-md-mailman.stormreply.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When interrupt auto clear is programmed, any read to the interrupt
-status register will clear all interrupts.  If two interrupts have
-come in before one can be serviced then this will cause lost interrupts.
+On Fri, Mar 10, 2023 at 9:21=E2=80=AFAM Fabrice Gasnier
+<fabrice.gasnier@foss.st.com> wrote:
+>
+> On 3/1/23 22:49, Saravana Kannan wrote:
+> > Yongqin, Martin, Amelie,
+> >
+> > We recent refactor of fw_devlink that ends with commit fb42378dcc7f
+> > ("mtd: mtdpart: Don't create platform device that'll never probe"),
+> > fw_devlink is smarter and doesn't depend on compatible property. So, I
+> > don't think these calls are needed anymore. But I don't have these
+> > devices to test on and be sure and the hardware I use to test changes
+> > doesn't have this issue either.
+> >
+> > Can you please test these changes on the hardware where you hit the
+> > issue to make sure things work as expected?
+>
+>
+> Hi Saravana,
+>
+> Sorry for the late reply,
 
-On AMD USB4 routers this has manifested in odd problems particularly
-with long strings of control tranfers such as reading the DROM via bit
-banging.
+Thanks for testing!
 
-Instead of clearing interrupts automatically, clear the bit corresponding
-to the given ring's interrupt in the ISR.
+> On behalf of Amelie, I did some testing on STM32MP15 DK2 board, on top
+> of commit fb42378dcc7f, and also with your series applied.
+> For reference, it's based on: arch/arm/boot/dts/stm32mp15xx-dkx.dtsi
+>
+> I noticed some error messages on this board, since the 12 patch series,
+> around the I2C PMIC device links:
+>
+> [    3.585514] i2c 1-0033: Failed to create device link with 1-0033
+> [    3.590115] i2c 1-0033: Failed to create device link with 1-0033
+> [    3.596278] i2c 1-0033: Failed to create device link with 1-0033
+> [    3.602188] i2c 1-0033: Failed to create device link with 1-0033
+> [    3.608165] i2c 1-0033: Failed to create device link with 1-0033
+> [    3.614278] i2c 1-0033: Failed to create device link with 1-0033
+> [    3.620256] i2c 1-0033: Failed to create device link with 1-0033
+> [    3.626253] i2c 1-0033: Failed to create device link with 1-0033
+> [    3.632252] i2c 1-0033: Failed to create device link with 1-0033
+> [    3.639001] stpmic1 1-0033: PMIC Chip Version: 0x10
+> [    3.645398] platform 5c002000.i2c:stpmic@33:regulators: Fixed
+> dependency cycle(s) with /soc/i2c@5c00200
+> 0/stpmic@33/regulators/boost
+> [    3.655937] platform 5c002000.i2c:stpmic@33:regulators: Fixed
+> dependency cycle(s) with /soc/i2c@5c00200
+> 0/stpmic@33/regulators/buck2
+> [    3.667824] platform 5c002000.i2c:stpmic@33:regulators: Fixed
+> dependency cycle(s) with /soc/i2c@5c00200
+> 0/stpmic@33/regulators/buck4
+> [    3.719751] stpmic1-regulator 5c002000.i2c:stpmic@33:regulators:
+> Failed to create device link with 1-0033
+> [    3.728099] stpmic1-regulator 5c002000.i2c:stpmic@33:regulators:
+> Failed to create device link with 1-0033
+> [    3.737576] stpmic1-regulator 5c002000.i2c:stpmic@33:regulators:
+> Failed to create device link with 1-0033
+> [    3.747216] stpmic1-regulator 5c002000.i2c:stpmic@33:regulators:
+> Failed to create device link with 1-0033
+> [    3.756750] stpmic1-regulator 5c002000.i2c:stpmic@33:regulators:
+> Failed to create device link with 1-0033
+> [    3.766382] stpmic1-regulator 5c002000.i2c:stpmic@33:regulators:
+> Failed to create device link with 1-0033
+> [    3.775914] stpmic1-regulator 5c002000.i2c:stpmic@33:regulators:
+> Failed to create device link with 1-0033
+> [    3.785545] stpmic1-regulator 5c002000.i2c:stpmic@33:regulators:
+> Failed to create device link with 1-0033
 
-Fixes: 7a1808f82a37 ("thunderbolt: Handle ring interrupt by reading interrupt status register")
-Cc: Sanju Mehta <Sanju.Mehta@amd.com>
-Tested-by: Anson Tsao <anson.tsao@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/thunderbolt/nhi.c      | 40 +++++++++++++++++++++-------------
- drivers/thunderbolt/nhi_regs.h |  6 +++--
- 2 files changed, 29 insertions(+), 17 deletions(-)
+You can ignore all the "Failed to create device link" errors. They are
+just error logs for stuff that was being ignored silently before. So
+that's no functional regression AFAIK. I'll fix them separately if
+necessary. And I'm sure you'll see these messages even without my
+fw_devlink refactor series.
 
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index fdc0c3ba2ef01..318d20bd5b695 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -71,24 +71,31 @@ static void ring_interrupt_active(struct tb_ring *ring, bool active)
- 		u32 step, shift, ivr, misc;
- 		void __iomem *ivr_base;
- 		int index;
-+		int bit;
- 
- 		if (ring->is_tx)
- 			index = ring->hop;
- 		else
- 			index = ring->hop + ring->nhi->hop_count;
- 
--		if (ring->nhi->quirks & QUIRK_AUTO_CLEAR_INT) {
--			/*
--			 * Ask the hardware to clear interrupt status
--			 * bits automatically since we already know
--			 * which interrupt was triggered.
--			 */
--			misc = ioread32(ring->nhi->iobase + REG_DMA_MISC);
--			if (!(misc & REG_DMA_MISC_INT_AUTO_CLEAR)) {
--				misc |= REG_DMA_MISC_INT_AUTO_CLEAR;
--				iowrite32(misc, ring->nhi->iobase + REG_DMA_MISC);
--			}
--		}
-+		/*
-+		 * Intel routers support a bit that isn't part of
-+		 * the USB4 spec to ask the hardware to clear
-+		 * interrupt status bits automatically since
-+		 * we already know which interrupt was triggered.
-+		 *
-+		 * Other routers explicitly disable auto-clear
-+		 * to prevent conditions that may occur where two
-+		 * MSIX interrupts are simultaneously active and
-+		 * reading the register clears both of them.
-+		 */
-+		misc = ioread32(ring->nhi->iobase + REG_DMA_MISC);
-+		if (ring->nhi->quirks & QUIRK_AUTO_CLEAR_INT)
-+			bit = REG_DMA_MISC_INT_AUTO_CLEAR;
-+		else
-+			bit = REG_DMA_MISC_DISABLE_AUTO_CLEAR;
-+		if (!(misc & bit))
-+			iowrite32(misc | bit, ring->nhi->iobase + REG_DMA_MISC);
- 
- 		ivr_base = ring->nhi->iobase + REG_INT_VEC_ALLOC_BASE;
- 		step = index / REG_INT_VEC_ALLOC_REGS * REG_INT_VEC_ALLOC_BITS;
-@@ -393,14 +400,17 @@ EXPORT_SYMBOL_GPL(tb_ring_poll_complete);
- 
- static void ring_clear_msix(const struct tb_ring *ring)
- {
-+	int bit;
-+
- 	if (ring->nhi->quirks & QUIRK_AUTO_CLEAR_INT)
- 		return;
- 
-+	bit = ring_interrupt_index(ring) & 31;
- 	if (ring->is_tx)
--		ioread32(ring->nhi->iobase + REG_RING_NOTIFY_BASE);
-+		iowrite32(BIT(bit), ring->nhi->iobase + REG_RING_INT_CLEAR);
- 	else
--		ioread32(ring->nhi->iobase + REG_RING_NOTIFY_BASE +
--			 4 * (ring->nhi->hop_count / 32));
-+		iowrite32(BIT(bit), ring->nhi->iobase + REG_RING_INT_CLEAR +
-+			  4 * (ring->nhi->hop_count / 32));
- }
- 
- static irqreturn_t ring_msix(int irq, void *data)
-diff --git a/drivers/thunderbolt/nhi_regs.h b/drivers/thunderbolt/nhi_regs.h
-index 0d4970dcef842..faef165a919cc 100644
---- a/drivers/thunderbolt/nhi_regs.h
-+++ b/drivers/thunderbolt/nhi_regs.h
-@@ -77,12 +77,13 @@ struct ring_desc {
- 
- /*
-  * three bitfields: tx, rx, rx overflow
-- * Every bitfield contains one bit for every hop (REG_HOP_COUNT). Registers are
-- * cleared on read. New interrupts are fired only after ALL registers have been
-+ * Every bitfield contains one bit for every hop (REG_HOP_COUNT).
-+ * New interrupts are fired only after ALL registers have been
-  * read (even those containing only disabled rings).
-  */
- #define REG_RING_NOTIFY_BASE	0x37800
- #define RING_NOTIFY_REG_COUNT(nhi) ((31 + 3 * nhi->hop_count) / 32)
-+#define REG_RING_INT_CLEAR	0x37808
- 
- /*
-  * two bitfields: rx, tx
-@@ -105,6 +106,7 @@ struct ring_desc {
- 
- #define REG_DMA_MISC			0x39864
- #define REG_DMA_MISC_INT_AUTO_CLEAR     BIT(2)
-+#define REG_DMA_MISC_DISABLE_AUTO_CLEAR	BIT(17)
- 
- #define REG_INMAIL_DATA			0x39900
- 
--- 
-2.25.1
+> Strangely some of the regulators seems to have "Fixed dependency", but
+> not all.
 
+Yeah, that's fine too -- that's just fw_devlink being verbose about
+not enforcing probe ordering between devices in that cycle because it
+can't tell which one of the dependencies is not a probe requirement.
+Maybe I'll make it a dbg log if it's confusing people.
+
+> Regarding the typec stusb160x I noticed the message below. It seems
+> correct, right ?
+>
+> [   15.962771] typec port0: Fixed dependency cycle(s) with
+> /soc/usb-otg@49000000/port/endpoint
+
+I don't know if there is a cyclic dependency in your DT or not. But
+this message itself is not an issue.
+
+> But sometimes (lets say 1/5 times) during boot, when I have a cable
+> already plugged in, it looks like there's some race condition. The dwc2
+> driver reports some error logs in a loop, indefinitely, up to the
+> watchdog resets the platform :-(.
+
+Can you try this series (the one you are testing) without my
+fw_devlink refactor that ends with commit fb42378dcc7f? Trying to make
+sure we can reproduce the issue Amelie was fixing before I claim my
+refactor series fixes it.
+
+> [   16.288458] dwc2 49000000.usb-otg: Mode Mismatch Interrupt: currently
+> in Host mode
+> [   16.288490] dwc2 49000000.usb-otg: Mode Mismatch Interrupt: currently
+> in Host mode
+> [   16.310429] dwc2 49000000.usb-otg: Mode Mismatch Interrupt: currently
+> in Host mode
+>
+> It probably just points some already existing race condition here. Maybe
+> it isn't even linked to this patch. But I have no evidence at this
+> stage. I hope I can investigate further on this one, hopefully I can
+> free up some time for that.
+
+If you never pick up this series, are you not having any of these 1/5
+times boot issues? I wouldn't expect my changes to add any races, but
+I'll wait to see what you find here.
+
+Thanks,
+Saravana
+
+>
+> Best Regards,
+> Fabrice
+>
+> >
+> > Yongqin, If you didn't have the context, this affected hikey960.
+> >
+> > Greg,
+> >
+> > Let's wait for some tests before we land these.
+> >
+> > Thanks,
+> > Saravana
+> >
+> > Cc: Yongqin Liu <yongqin.liu@linaro.org>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > Cc: Amelie Delaunay <amelie.delaunay@foss.st.com>
+> >
+> > Saravana Kannan (4):
+> >   usb: typec: stusb160x: Remove use of
+> >     fw_devlink_purge_absent_suppliers()
+> >   usb: typec: tipd: Remove use of fw_devlink_purge_absent_suppliers()
+> >   usb: typec: tcpm: Remove use of fw_devlink_purge_absent_suppliers()
+> >   driver core: Delete fw_devlink_purge_absent_suppliers()
+> >
+> >  drivers/base/core.c           | 16 ----------------
+> >  drivers/usb/typec/stusb160x.c |  9 ---------
+> >  drivers/usb/typec/tcpm/tcpm.c |  9 ---------
+> >  drivers/usb/typec/tipd/core.c |  9 ---------
+> >  include/linux/fwnode.h        |  1 -
+> >  5 files changed, 44 deletions(-)
+> >
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kernel-team+unsubscribe@android.com.
+>
