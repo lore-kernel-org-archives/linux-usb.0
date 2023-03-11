@@ -2,62 +2,62 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CA18C74A4B
-	for <linux-usb@archiver.kernel.org>; Sat, 11 Mar 2023 17:38:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCDFEC6FD1C
+	for <linux-usb@archiver.kernel.org>; Sat, 11 Mar 2023 17:38:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230305AbjCKRiD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 11 Mar 2023 12:38:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39514 "EHLO
+        id S230350AbjCKRiE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 11 Mar 2023 12:38:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230162AbjCKRhz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 11 Mar 2023 12:37:55 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A3B1C8592
-        for <linux-usb@vger.kernel.org>; Sat, 11 Mar 2023 09:37:31 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id i34so33000391eda.7
-        for <linux-usb@vger.kernel.org>; Sat, 11 Mar 2023 09:37:31 -0800 (PST)
+        with ESMTP id S230187AbjCKRh4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 11 Mar 2023 12:37:56 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 296EEB32B1
+        for <linux-usb@vger.kernel.org>; Sat, 11 Mar 2023 09:37:35 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id k10so32951332edk.13
+        for <linux-usb@vger.kernel.org>; Sat, 11 Mar 2023 09:37:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678556196;
+        d=linaro.org; s=google; t=1678556191;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=51J7ma9iyDiEzHar+KOLvIqKc+iCxvx6uDovr0nOXMg=;
-        b=jgQY6/80LqgXtTIC1vgAyzfbe8AwY+LHUoUfe1K+cYgQgzaVPF6WvuR9nrzH7IoUs+
-         DaIBr9OuL2SMQfIiY096xCQbW3dAHoPoBuap7PVTUquW7qHWtzZNSaYzwlMecLRPaZl1
-         zARLQgo+5+PHYGAJb/J1XnWUgjNNJQujb8cPN0fdR1jpwaFM7wjYMkgPkOClKcZaYiuG
-         9Ixkx7jrnCIniVQe4gQRL2SWIX15beqFb9sQ2zPT1GS9LwKgCwDdkwI2tDJC+4LV99xi
-         4qoUA99NPSmA2B79tLl5MjnnIkFswjf7SYcNeZe57vQRaTNYp5kJD0A9UPWyMlVX31HH
-         9Bvg==
+        bh=qyv/Ot8W77P43I7crwiy1gRRQ+CJGNpQ8ExpT2cUljE=;
+        b=i2PRkfHTxKwOaApCmbdBDXXomfd/yMBu1xJfGVyWQ4GGTJZJeUm2SCV+wUW7/S788K
+         QlHeG6UH31x3KebDimUYOqGUIVG7jUrpDvuv0VMJ7fKpRhm/XwUr75QsrgAhXHk8k1Kd
+         rLWy9QWPVd8Mfw9jylDRI+49godbsHbW3IZSrSDzyqgiZTiAUJ52uChEuCT1MpfjL8+m
+         FTgeOilF7vVNwlA/ZwQIfQBdiRRNKtEWFUbdaW1aubJ11u5cbbWwMccDztU4Q6fxAxqm
+         lGYkfQCoPaszs/Bcde74oCib9k9mDiGTsDyu1MtvISRKMz+osby21mCFmXsmUUCC7X1M
+         UIcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678556196;
+        d=1e100.net; s=20210112; t=1678556191;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=51J7ma9iyDiEzHar+KOLvIqKc+iCxvx6uDovr0nOXMg=;
-        b=Fp7JQd30Ej2oC9gdVUCyonpDUb2gL5gQQ0w3Bfp8JEIZeeWxElobbQwqIviFo1zm8z
-         FHjnjTIBtOIA+DeTKmFZBgZ0kK4WPoFiP4Ki0AIGDKGPOtIVhfSq4vbRMS71si2vmDBN
-         vHdUmzbCpu22TjjZVJnh7QUQ7XR/EzHkwUnKZZSnuyZwxfoY2bef8BxKe+DzMDRL9+GD
-         4MzCcoTQw8wm6PQbWHOCkZsnyozmb9/a0QBqM6wyNyR867kM5mYYcHhMwTQ6PjwvJztL
-         fHgWQpk7irlvKtk5LyT4P0pczMyLk3B2JEcb4U+3KOF+C+NAQtpjMXD2BkbM4qoejYZJ
-         I/AQ==
-X-Gm-Message-State: AO0yUKVHShkr2wDFuy+MucIbzyC0mnJGcL6imHtRdCZdtnKVKjbwrVQ3
-        hkG7DRP2gW3dowUpC5MkQ+xgSw==
-X-Google-Smtp-Source: AK7set9r7turVfzVMRHL6C0LQnIOCXg9/qqvDM83ESDE0B20wvaErRVpq4LpT0V1m8cTOfa6X4NUzQ==
-X-Received: by 2002:a17:907:7da6:b0:888:b764:54e5 with SMTP id oz38-20020a1709077da600b00888b76454e5mr34727430ejc.71.1678556195869;
-        Sat, 11 Mar 2023 09:36:35 -0800 (PST)
+        bh=qyv/Ot8W77P43I7crwiy1gRRQ+CJGNpQ8ExpT2cUljE=;
+        b=Iyqmow77WCPzv2tEl8ZK3yUTlMAI0N8CFWUcusRmpuz9Xz+GVB2UTWS+9+rXUu5STG
+         1Mi7IPZeSrDPPesWTyyAZC0iVOb2YY30yIzZbVK+hO9QKi3BLLlxhiyE8YE2m8GVbwlw
+         aDD81HB/6R4Yo2f2PT2qvSzoopuYBzV3aOXe5/xj9Y2OGBG38NRbUQ0Ah6t64HgaFaTG
+         1xHLiMSGS+N5AIuQIkZYd+DJn14MAKaUVtsbOGvfnbqHYMOTf3+DDvG5BZVGBdCUVG02
+         FmBLCdfmq7+EIaOOvxpKlk0/YVZDfs43pttLG33NjiZoNbMpeeugBRnqZ6P9kUrZloId
+         kAmA==
+X-Gm-Message-State: AO0yUKX9gZNHUzLocRSLFCw+wXNfy5i/ST99sDvzdcnHl7aDtVA8Vgs8
+        mAcLjWXHBTgKzgSG0O8thq10mA==
+X-Google-Smtp-Source: AK7set8/ddWXTFvR83RNYypGa0WBBDqK9TW8JW4bID1syStw8CQae7CdIFT3RRXevMHmabYbISlaMQ==
+X-Received: by 2002:a17:906:4783:b0:8af:2107:6ce5 with SMTP id cw3-20020a170906478300b008af21076ce5mr40384100ejc.35.1678556191866;
+        Sat, 11 Mar 2023 09:36:31 -0800 (PST)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:6927:e94d:fc63:9d6e])
-        by smtp.gmail.com with ESMTPSA id jy2-20020a170907762200b008de729c8a03sm1315253ejc.38.2023.03.11.09.36.35
+        by smtp.gmail.com with ESMTPSA id jy2-20020a170907762200b008de729c8a03sm1315253ejc.38.2023.03.11.09.36.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 09:36:35 -0800 (PST)
+        Sat, 11 Mar 2023 09:36:31 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mathias Nyman <mathias.nyman@intel.com>,
         Richard Leitner <richard.leitner@skidata.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 6/7] usb: gadget: max3420_udc: drop of_match_ptr for ID table
-Date:   Sat, 11 Mar 2023 18:36:23 +0100
-Message-Id: <20230311173624.263189-6-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 2/7] usb: host: max3421-hcd: drop of_match_ptr for ID table
+Date:   Sat, 11 Mar 2023 18:36:19 +0100
+Message-Id: <20230311173624.263189-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230311173624.263189-1-krzysztof.kozlowski@linaro.org>
 References: <20230311173624.263189-1-krzysztof.kozlowski@linaro.org>
@@ -72,26 +72,26 @@ The driver can match only via the DT table so the table should be always
 used and the of_match_ptr does not have any sense (this also allows ACPI
 matching via PRP0001, even though it might not be relevant here).
 
-  drivers/usb/gadget/udc/max3420_udc.c:1312:34: error: ‘max3420_udc_of_match’ defined but not used [-Werror=unused-const-variable=]
+  drivers/usb/host/max3421-hcd.c:1943:34: error: ‘max3421_of_match_table’ defined but not used [-Werror=unused-const-variable=]
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/usb/gadget/udc/max3420_udc.c | 2 +-
+ drivers/usb/host/max3421-hcd.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/udc/max3420_udc.c b/drivers/usb/gadget/udc/max3420_udc.c
-index ddf0ed3eb4f2..12c519f32bf7 100644
---- a/drivers/usb/gadget/udc/max3420_udc.c
-+++ b/drivers/usb/gadget/udc/max3420_udc.c
-@@ -1319,7 +1319,7 @@ MODULE_DEVICE_TABLE(of, max3420_udc_of_match);
- static struct spi_driver max3420_driver = {
- 	.driver = {
- 		.name = "max3420-udc",
--		.of_match_table = of_match_ptr(max3420_udc_of_match),
-+		.of_match_table = max3420_udc_of_match,
+diff --git a/drivers/usb/host/max3421-hcd.c b/drivers/usb/host/max3421-hcd.c
+index 28d1524ee2fa..d152d72de126 100644
+--- a/drivers/usb/host/max3421-hcd.c
++++ b/drivers/usb/host/max3421-hcd.c
+@@ -1951,7 +1951,7 @@ static struct spi_driver max3421_driver = {
+ 	.remove		= max3421_remove,
+ 	.driver		= {
+ 		.name	= "max3421-hcd",
+-		.of_match_table = of_match_ptr(max3421_of_match_table),
++		.of_match_table = max3421_of_match_table,
  	},
- 	.probe = max3420_probe,
- 	.remove = max3420_remove,
+ };
+ 
 -- 
 2.34.1
 
