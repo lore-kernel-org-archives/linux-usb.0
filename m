@@ -2,62 +2,65 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA0B8C74A4B
-	for <linux-usb@archiver.kernel.org>; Sat, 11 Mar 2023 17:37:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C286FC61DA4
+	for <linux-usb@archiver.kernel.org>; Sat, 11 Mar 2023 17:38:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230180AbjCKRh4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 11 Mar 2023 12:37:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39568 "EHLO
+        id S230249AbjCKRiC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 11 Mar 2023 12:38:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230129AbjCKRhw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 11 Mar 2023 12:37:52 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E377AB1
-        for <linux-usb@vger.kernel.org>; Sat, 11 Mar 2023 09:37:25 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id i34so32999920eda.7
-        for <linux-usb@vger.kernel.org>; Sat, 11 Mar 2023 09:37:25 -0800 (PST)
+        with ESMTP id S230061AbjCKRhy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 11 Mar 2023 12:37:54 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A15D7A1007
+        for <linux-usb@vger.kernel.org>; Sat, 11 Mar 2023 09:37:29 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id x3so32969319edb.10
+        for <linux-usb@vger.kernel.org>; Sat, 11 Mar 2023 09:37:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678556191;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UVGV3sr4u5bJT2FrvZEHa5E7DGB0ljgtzzi50mDOOcE=;
-        b=DWBpsxFXI4UyjP3VzprfoyfTwOYRgeeCM86IYd+ShbMLHCi6yj4qU0ISdyaxPSfuw6
-         PK1VxWyRjWotSX5+JgcLq8W6Kgi7oaTe/yKMDSK64264SjcvHY+Z3iPiUSJn9EzDb42o
-         G8uKdMAqf1RzlK/xEqfyACWCQbYbVVMcRDN3tAWPO1BcPkfjDFLm97eexUzPJh4hPG8z
-         IGsTTmz4viyKOtMBEgdT7PJcOxTugSPaoUhAjQG3thR50CJ23gNsDGmIsoIJdvy2wGCs
-         8bJLCRG76cmjzJNHegksY8PDI7iaJri+E/GdaBxe2VDgkhSRLcwtbVSEX0x/IVWvf7g0
-         zQ3g==
+        d=linaro.org; s=google; t=1678556193;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0cBXwdVVf91SB8bAJyIJXNgZJKfax5M+P+jqXsh7j/k=;
+        b=i+uNehPbqsApAXzIkJ9FA4tcJqNI3ycHEhXKRsF61f9YF+Tr5lk9/MldBCiGnUsAiT
+         xRIa9WnXeDiFvMSS43XvEaFAVQps7Uqt9YTuZtKOR+05nPNB96ruq9IDiUHkJKj0hVjQ
+         9/PygBnLUFJkzsf2yErCA8Zvx/KDGHtD62ByE0DdMF0rGo0ZZ4A9WA4muudaLRpSVtL5
+         ldWhtpQNOfDyBina390f1OuSOijEA4uDzNcQUPb69QcUga0IGpBbqhR/HW1bvu2aD2BP
+         sPT0jEjX33l0/oFaZHSuB64xBweXyttA5WQlFd/kDDfRrRzXug9hNxG43BG8pOaNZjnf
+         TUAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678556191;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UVGV3sr4u5bJT2FrvZEHa5E7DGB0ljgtzzi50mDOOcE=;
-        b=5MgfT7p4Vxk1VZjDzfYb76qC1ZH9jo8e1rC7Lw3NB4bV28Tzd8LwLc4Lq4SUAqxwTe
-         JGjoPriDmg8MkdTKTlsF+mGNowqWt2kWmIewo6PnVef3W7Ky/fbMVdQY8AAZj8es/ohu
-         uzDq4moSXzXN2P+QyBo6ArkMykGiyX0yIQzfbnQ5h6kTWeficMWBaH5WSyo/xwYn/1Dz
-         Tg5pYqMxh8Ge0dnv9Ar6lxiaJPT5G6UGiVcMUlvraTZ69P44YSKouC0uM5IaNzm1uV+4
-         htZhdrcp7IRplk5fOI+dMEzlthxzKeH/+yS8c5l2mTZfvVLLodel+t3rveBqzbpBmhts
-         Legg==
-X-Gm-Message-State: AO0yUKW8yFI9gVHxZq+zqSKOZRSszB0zyy8/wQDHa0tkcZI4CYyccX/P
-        snAcYrV0OQkUlxQSIbFbGnxKPzjbMIxf4TEXV7Q=
-X-Google-Smtp-Source: AK7set8qJ2FcXrIvKnGT1fAfQe7qW7VdmTnCy8ONH3WuIJjRJQ06o+NwrYbpP4IJdjuk3ZITP70GVw==
-X-Received: by 2002:a17:907:1110:b0:91d:dd29:7e73 with SMTP id qu16-20020a170907111000b0091ddd297e73mr3963717ejb.49.1678556191019;
-        Sat, 11 Mar 2023 09:36:31 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678556193;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0cBXwdVVf91SB8bAJyIJXNgZJKfax5M+P+jqXsh7j/k=;
+        b=pL6acXm/bVTccAHZN2Kfu2IMlcENeeYtQuUes8bMdsFtBt5KaKsRAZr50m1ISVcQYL
+         r58tB3S+hdGmLmWMTXSfvc9uiZXHJlYEUfisBWvmpmk+/sNiYvMOeG9bU5Nlyjwo//su
+         iYH2NmKW4J0luUv4obL3s2CqGsgPurCqUDxCyBLvIvcVzK2stNXT7mk/vpG+2cluAnkX
+         /jwzz9VboMWp04VSuOD59t0iD81+MwBTTgYjrHmcAhziyFlP2UtrFO8AjUVFMMWUZFSt
+         db9MBtIhciPshYkFRsUu25aykxRLA7w/8GG3VYNBVzRSyKIYtYIKZ4yxYFGuVxTympGn
+         KIYA==
+X-Gm-Message-State: AO0yUKVkI7W/qX4XrEhHlIYdtcNjcZh990HcdzdVwjdPoJG1LdgRahTn
+        ZdeKn71DFQGzP1tCh1dyj4lcVA==
+X-Google-Smtp-Source: AK7set9sbE6kJKu4Fl/uJAED4UQyZQWXZEQlCNQzNbupCO/drQarzCuEYybYIW1lcoUnlQBycekXRw==
+X-Received: by 2002:a17:906:3e52:b0:91e:fcea:f25f with SMTP id t18-20020a1709063e5200b0091efceaf25fmr3617220eji.32.1678556192876;
+        Sat, 11 Mar 2023 09:36:32 -0800 (PST)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:6927:e94d:fc63:9d6e])
-        by smtp.gmail.com with ESMTPSA id jy2-20020a170907762200b008de729c8a03sm1315253ejc.38.2023.03.11.09.36.30
+        by smtp.gmail.com with ESMTPSA id jy2-20020a170907762200b008de729c8a03sm1315253ejc.38.2023.03.11.09.36.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 09:36:30 -0800 (PST)
+        Sat, 11 Mar 2023 09:36:32 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mathias Nyman <mathias.nyman@intel.com>,
         Richard Leitner <richard.leitner@skidata.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 1/7] usb: host: xhci-rcar: drop of_match_ptr for ID table
-Date:   Sat, 11 Mar 2023 18:36:18 +0100
-Message-Id: <20230311173624.263189-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 3/7] usb: renesas_usbhs: drop of_match_ptr for ID table
+Date:   Sat, 11 Mar 2023 18:36:20 +0100
+Message-Id: <20230311173624.263189-3-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230311173624.263189-1-krzysztof.kozlowski@linaro.org>
+References: <20230311173624.263189-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -69,26 +72,26 @@ The driver can match only via the DT table so the table should be always
 used and the of_match_ptr does not have any sense (this also allows ACPI
 matching via PRP0001, even though it might not be relevant here).
 
-  drivers/usb/host/xhci-rcar.c:269:34: error: ‘usb_xhci_of_match’ defined but not used [-Werror=unused-const-variable=]
+  drivers/usb/renesas_usbhs/common.c:535:34: error: ‘usbhs_of_match’ defined but not used [-Werror=unused-const-variable=]
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/usb/host/xhci-rcar.c | 2 +-
+ drivers/usb/renesas_usbhs/common.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci-rcar.c b/drivers/usb/host/xhci-rcar.c
-index 7f18509a1d39..b12c2c19d107 100644
---- a/drivers/usb/host/xhci-rcar.c
-+++ b/drivers/usb/host/xhci-rcar.c
-@@ -312,7 +312,7 @@ static struct platform_driver usb_xhci_renesas_driver = {
- 	.driver	= {
- 		.name = "xhci-renesas-hcd",
- 		.pm = &xhci_plat_pm_ops,
--		.of_match_table = of_match_ptr(usb_xhci_of_match),
-+		.of_match_table = usb_xhci_of_match,
+diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+index 96f3939a65e2..fa34efabcccf 100644
+--- a/drivers/usb/renesas_usbhs/common.c
++++ b/drivers/usb/renesas_usbhs/common.c
+@@ -823,7 +823,7 @@ static struct platform_driver renesas_usbhs_driver = {
+ 	.driver		= {
+ 		.name	= "renesas_usbhs",
+ 		.pm	= &usbhsc_pm_ops,
+-		.of_match_table = of_match_ptr(usbhs_of_match),
++		.of_match_table = usbhs_of_match,
  	},
- };
- module_platform_driver(usb_xhci_renesas_driver);
+ 	.probe		= usbhs_probe,
+ 	.remove		= usbhs_remove,
 -- 
 2.34.1
 
