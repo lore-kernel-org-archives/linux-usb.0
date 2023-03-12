@@ -2,120 +2,111 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66550C61DA4
-	for <linux-usb@archiver.kernel.org>; Sat, 11 Mar 2023 17:38:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12E01C61DA4
+	for <linux-usb@archiver.kernel.org>; Sun, 12 Mar 2023 00:03:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230470AbjCKRim (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 11 Mar 2023 12:38:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40018 "EHLO
+        id S229457AbjCLADZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 11 Mar 2023 19:03:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230325AbjCKRib (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 11 Mar 2023 12:38:31 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D70C47ECD
-        for <linux-usb@vger.kernel.org>; Sat, 11 Mar 2023 09:37:49 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id er25so4913216edb.5
-        for <linux-usb@vger.kernel.org>; Sat, 11 Mar 2023 09:37:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678556197;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rVsRHvp4v2BZsDFyVhp2lzWzUanEACS05jvKHMEi9Oc=;
-        b=tcexlUBsPwBVa0P2zR4E94lM2KxLiHbo5zOn6DBz7gZup6TVuvKaQ15pB5QxlYCMzq
-         ercJh40HVV3I8+BKPJU8THwCnmxiWWPNpVLer6OQtcxk24qS2yeAqCVeK91eQRq6xB0d
-         Ge25egWdeMznxKjF62VVua/KyHwWxKLn3sApSQSewMnUe1QKfltxt+7GKIlQQvu1ZPEx
-         B2+/J5BBrI37z/xPOqoJ9R/m13PlunBJlZ5L9mx3fl7HyxpRA7HFEoO+2EY1CRMk6hBq
-         UJ0lDg5llQr9ic0G/R7YgDI+AUg95Zse6lmhXUGrizUaiKyf0QyykKncGC3JkjeYf8sW
-         ioSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678556197;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rVsRHvp4v2BZsDFyVhp2lzWzUanEACS05jvKHMEi9Oc=;
-        b=53mQDlVpNq8fmaaH9mVxlK+v+a2CSjY1PGKe9ZQ+BS9g8WTrIKCEwwwNfOR3l50Px6
-         44PcpnWapjBFvaAwq0d6Dn7HPJfFSv0PlRINYwDcP3hz4G+Y+bQcPvN/SE0ODpzikSeB
-         BP9yG6aNcbLI87UmAdv3ZF0vlxldTitC6LJrOr8iQNzSoR8VRo5NQWsUqqxzwox8zcCa
-         5kzmvXKgG1aSwVr6ZRfvu7n5qd+w0QkltGPonVCtPJZaDy0Dy9DUPzUZBmGx/uxuz/3M
-         xqRDBRU9eajAhpEcrUQM7QlAzDkV5axUvNISH27pHqrjsyrseCPw+CNoi6eCXBEXDxGL
-         lrVA==
-X-Gm-Message-State: AO0yUKWl7YA9VDNzaK6wC7bwFMmvnvJ3Lu49BMtkq99aRsd92J03lUeb
-        IHlxFsnYIrAX6qE0Z4Zq4zyu1A==
-X-Google-Smtp-Source: AK7set8PKIRd72z9/UuyBVH8cin+ES99J/ZpkTTo9AKpqnbFqTCWzYzgZiDEH2cYJ9q5Jc0kJo82kQ==
-X-Received: by 2002:a17:906:fe4c:b0:906:4739:d73e with SMTP id wz12-20020a170906fe4c00b009064739d73emr5828323ejb.2.1678556197023;
-        Sat, 11 Mar 2023 09:36:37 -0800 (PST)
-Received: from krzk-bin.. ([2a02:810d:15c0:828:6927:e94d:fc63:9d6e])
-        by smtp.gmail.com with ESMTPSA id jy2-20020a170907762200b008de729c8a03sm1315253ejc.38.2023.03.11.09.36.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 09:36:36 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Richard Leitner <richard.leitner@skidata.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 7/7] usb: misc: usb251xb: drop of_match_ptr for ID table
-Date:   Sat, 11 Mar 2023 18:36:24 +0100
-Message-Id: <20230311173624.263189-7-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230311173624.263189-1-krzysztof.kozlowski@linaro.org>
-References: <20230311173624.263189-1-krzysztof.kozlowski@linaro.org>
+        with ESMTP id S229450AbjCLADY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 11 Mar 2023 19:03:24 -0500
+Received: from mx.fenrir.org.uk (host-92-27-96-141.static.as13285.net [92.27.96.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4AE71CBCC
+        for <linux-usb@vger.kernel.org>; Sat, 11 Mar 2023 16:03:20 -0800 (PST)
+Received: from [10.0.0.3] (helo=deangelis.fenrir.org.uk)
+        (TLS1.3:TLS_AES_256_GCM_SHA384:256)
+        by mx.fenrir.org.uk with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pb9BF-0003zR-0b;
+        Sun, 12 Mar 2023 00:03:17 +0000
+Date:   Sun, 12 Mar 2023 00:03:16 +0000
+From:   Brian Morrison <bdm@fenrir.org.uk>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     linux-usb@vger.kernel.org,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+Subject: Re: USB regression in kernel 6.2.2
+Message-ID: <20230312000316.2955d55a@deangelis.fenrir.org.uk>
+In-Reply-To: <20230309200415.118777d2@deangelis.fenrir.org.uk>
+References: <20230307132120.5897c5af@deangelis.fenrir.org.uk>
+        <db2e0984-6eb5-5987-44e1-a7143141469b@linux.intel.com>
+        <20230309200415.118777d2@deangelis.fenrir.org.uk>
+Organization: The Fool and Bladder Face-Jumping Team
+X-Mailer: Claws Mail 4.1.1git47 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Clacks-Overhead: GNU Terry Pratchett
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The driver will match mostly by DT table (even thought there is regular
-ID table) so there is little benefit in of_match_ptr (this also allows
-ACPI matching via PRP0001, even though it might not be relevant here).
+On Thu, 9 Mar 2023 20:04:15 +0000
+Brian Morrison <bdm@fenrir.org.uk> wrote:
 
-  drivers/usb/misc/usb251xb.c:223:35: error: ‘usb2517i_data’ defined but not used [-Werror=unused-const-variable=]
-  drivers/usb/misc/usb251xb.c:215:35: error: ‘usb2517_data’ defined but not used [-Werror=unused-const-variable=]
-  drivers/usb/misc/usb251xb.c:207:35: error: ‘usb2514bi_data’ defined but not used [-Werror=unused-const-variable=]
+> On Wed, 8 Mar 2023 17:16:01 +0200
+> Mathias Nyman <mathias.nyman@linux.intel.com> wrote:
+>  
+> > 
+> > Looks like that those devices initially enumerated fine, but
+> > suddenly disconnect about 19 seconds after boot.
+> > 
+> > [   19.155556] usb 2-1.1: USB disconnect, device number 4
+> > [   19.155685] cp210x ttyUSB0: cp210x converter now disconnected
+> > from ttyUSB0 [   19.159290] usb 2-1.4: USB disconnect, device
+> > number 6 [   19.242344] usb 2-1.4: 3:0: failed to get current value
+> > for ch 0 (-22) [   20.100761] usb 2-4.1: USB disconnect, device
+> > number 8 [   20.100894] cp210x ttyUSB1: cp210x converter now
+> > disconnected from ttyUSB1 [   20.100999] cp210x 2-4.1:1.0: device
+> > disconnected [   20.107188] usb 2-4.2: USB disconnect, device
+> > number 9 [   20.107253] cp210x ttyUSB2: cp210x converter now
+> > disconnected from ttyUSB2 [   20.107284] cp210x 2-4.2:1.0: device
+> > disconnected [   20.111938] usb 2-4.4: USB disconnect, device
+> > number 10 [   20.181363] usb 2-4.4: 3:0: failed to get current
+> > value for ch 0 (-22)
+> > 
+> > Interestingly those are all the devices behind external hubs.
+> > 
+> > Bisecting this to find the offending commit would be best, but a
+> > dmesg with xhci and usb core dynamic debug enabled could also show
+> > why those devices disconnect.
+> > 
+> > Adding "usbcore.dyndbg=+p xhci_hcd.dyndbg=+p" to your kernel cmdline
+> > should do this.  
+> 
+> In addition to the debug output I have been looking at the diff
+> between kernel-6.1 and kernel-6.2 in the /drivers/usb tree, in
+> particular under /drivers/usb/core/hub.h and /drivers/usb/core/hub.c
+> where the vendor for this device with VID 0451 is newly listed
+> although its PID is not:
+> 
+> Bus 003 Device 002: ID 0451:2046 Texas Instruments, Inc. TUSB2046 Hub
+> 
+> this device is missing from lsusb output in kernel 6.2.2 but is
+> present with kernel 6.1.*
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/usb/misc/usb251xb.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+I was wrong about this, it's the devices on the far side of the TI and
+SMSC hub devices that are missing, not the hubs themselves.
 
-diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
-index e3abe67a155d..c36e04aa5a82 100644
---- a/drivers/usb/misc/usb251xb.c
-+++ b/drivers/usb/misc/usb251xb.c
-@@ -377,7 +377,6 @@ static int usb251xb_connect(struct usb251xb *hub)
- 	return err;
- }
- 
--#ifdef CONFIG_OF
- static void usb251xb_get_ports_field(struct usb251xb *hub,
- 				    const char *prop_name, u8 port_cnt,
- 				    bool ds_only, u8 *fld)
-@@ -626,13 +625,6 @@ static const struct of_device_id usb251xb_of_match[] = {
- 	}
- };
- MODULE_DEVICE_TABLE(of, usb251xb_of_match);
--#else /* CONFIG_OF */
--static int usb251xb_get_ofdata(struct usb251xb *hub,
--			       const struct usb251xb_data *data)
--{
--	return 0;
--}
--#endif /* CONFIG_OF */
- 
- static void usb251xb_regulator_disable_action(void *data)
- {
-@@ -754,7 +746,7 @@ MODULE_DEVICE_TABLE(i2c, usb251xb_id);
- static struct i2c_driver usb251xb_i2c_driver = {
- 	.driver = {
- 		.name = DRIVER_NAME,
--		.of_match_table = of_match_ptr(usb251xb_of_match),
-+		.of_match_table = usb251xb_of_match,
- 		.pm = &usb251xb_pm_ops,
- 	},
- 	.probe_new = usb251xb_i2c_probe,
+> 
+> In my inexpert way I think it is all tied in to changes from a few
+> months ago (November 2022) that went into the 6.2rc kernels where the
+> early_stop capability was added to USB enumeration but I am certainly
+> not smart enough to identify exactly why the particular combination of
+> hardware I have is caught up in it. I can see from the extended dmesg
+> output that certain USB interfaces are unregistered for no obvious
+> reason and that once this happens they are invisible to the OS. The
+> altered USB core code would seem to be a prime suspect as the cause of
+> this regression.
+> 
+
+Further testing with kernels 6.1.18 and 6.2.5 is added to the bug entry
+here:
+
+https://bugzilla.redhat.com/show_bug.cgi?id=2175534#c12
+
+I don't know how to bisect this with the available Fedora kernels.
+
 -- 
-2.34.1
+
+Brian Morrison
 
