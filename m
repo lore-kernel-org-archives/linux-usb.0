@@ -2,156 +2,80 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EAEFC74A4B
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Mar 2023 09:43:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA175C61DA4
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Mar 2023 09:49:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230101AbjCMJnp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Mar 2023 05:43:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43234 "EHLO
+        id S229571AbjCMJtS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Mar 2023 05:49:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229837AbjCMJnf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Mar 2023 05:43:35 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1DF51B33B;
-        Mon, 13 Mar 2023 02:43:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678700612; x=1710236612;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f2jaxRyW4/AFQnjCX1PeRlWlFVAQ0ExRiYHZWktn/p0=;
-  b=S0Qh0J8S0tX1pkQB9TETuX8Ry3obFVctBY+3UjbxO7YqM32Vqi0csWEZ
-   KLldNionn4wq5MhqmAHFi1/lXd7cWhoAVC7CQIQzmVxFIsku7B9L3XmRT
-   uALwDDI21N389cugbSSoK82hvMX706B7lxpUnAe7U+vNw8jx6J8yBZNT9
-   qVMIasmxwY/xPhbgRRJ32keR36JwMFM6koUz2+ggIFMULfK7IcJnN5b1z
-   hrA3yLsnvpXrsk7MlaZBkZSkkP+6HmImSHcsPKsTS1FU4OWt5IzjGx8gA
-   VVUeIW6PYHdBRtw+Gzmk1Lb4dAb9hrt5miN7YyOYf7C6bQIqPtS/6AoDS
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="338654236"
-X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
-   d="scan'208";a="338654236"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 02:43:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="821884735"
-X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
-   d="scan'208";a="821884735"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 13 Mar 2023 02:43:26 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 13 Mar 2023 11:43:26 +0200
-Date:   Mon, 13 Mar 2023 11:43:26 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Neil Armstrong <neil.armstrong@linaro.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 01/12] usb: typec: ucsi: add PMIC Glink UCSI driver
-Message-ID: <ZA7wPtttsWlQRpAR@kuha.fi.intel.com>
-References: <20230130-topic-sm8450-upstream-pmic-glink-v3-0-4c860d265d28@linaro.org>
- <20230130-topic-sm8450-upstream-pmic-glink-v3-1-4c860d265d28@linaro.org>
+        with ESMTP id S231207AbjCMJtL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Mar 2023 05:49:11 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3C13126F5
+        for <linux-usb@vger.kernel.org>; Mon, 13 Mar 2023 02:49:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3864E61084
+        for <linux-usb@vger.kernel.org>; Mon, 13 Mar 2023 09:49:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48472C433EF;
+        Mon, 13 Mar 2023 09:49:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1678700946;
+        bh=+V5vKZ2MkDLO7oYb9+VYVEFaLBPe5csRiNOtQLr9YPI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=V2ncOUQnKfPhw8zL1jAxXBkCk22/f0dli3MnHczSNLaBAe0tMWUxmitOI4xW9j6az
+         s7KMyyNLlcmvnXPrgWzv1OUiMdJaGFCfaS65+M6KGjwrzfkON615/2z76NfRL+Hfy4
+         6hayq06rXsJKmyNRiK991WDAfG6rOnMr+vtFC2mo=
+Date:   Mon, 13 Mar 2023 10:49:04 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Udipto Goswami <quic_ugoswami@quicinc.com>
+Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Pratham Pratap <quic_ppratap@quicinc.com>,
+        Jack Pham <quic_jackp@quicinc.com>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: dwc3: debugfs: Prevent any register access when
+ devices is runtime suspended
+Message-ID: <ZA7xkLTJ0dE4DQFE@kroah.com>
+References: <20230313091837.19806-1-quic_ugoswami@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230130-topic-sm8450-upstream-pmic-glink-v3-1-4c860d265d28@linaro.org>
+In-Reply-To: <20230313091837.19806-1-quic_ugoswami@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+On Mon, Mar 13, 2023 at 02:48:37PM +0530, Udipto Goswami wrote:
+> When the dwc3 device is runtime suspended, various required clocks would
+> get disabled and it is not guaranteed that access to any registers would
+> work. Depending on the SoC glue, a register read could be as benign as
+> returning 0 or be fatal enough to hang the system.
+> 
+> In order to prevent such scenarios of fatal errors, bail out of debugfs
+> function is dwc3 is suspended.
+> 
+> Signed-off-by: Udipto Goswami <quic_ugoswami@quicinc.com>
+> ---
+>  drivers/usb/dwc3/debugfs.c | 50 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 50 insertions(+)
+> 
+> diff --git a/drivers/usb/dwc3/debugfs.c b/drivers/usb/dwc3/debugfs.c
+> index 850df0e6bcab..f921d4911ffc 100644
+> --- a/drivers/usb/dwc3/debugfs.c
+> +++ b/drivers/usb/dwc3/debugfs.c
+> @@ -544,6 +544,11 @@ static int dwc3_link_state_show(struct seq_file *s, void *unused)
+>  	u32			reg;
+>  	u8			speed;
+>  
+> +	if (pm_runtime_suspended(dwc->dev)) {
+> +		seq_puts(s, "Invalid operation, DWC3 suspended!");
+> +		return 0;
 
-On Thu, Mar 09, 2023 at 02:27:52PM +0100, Neil Armstrong wrote:
-> +static void pmic_glink_ucsi_register(struct work_struct *work)
-> +{
-> +	struct pmic_glink_ucsi *ucsi = container_of(work, struct pmic_glink_ucsi, register_work);
-> +
-> +	ucsi_register(ucsi->ucsi);
-> +}
-> +
-> +static void pmic_glink_ucsi_callback(const void *data, size_t len, void *priv)
-> +{
-> +	struct pmic_glink_ucsi *ucsi = priv;
-> +	const struct pmic_glink_hdr *hdr = data;
-> +
-> +	switch (hdr->opcode) {
-> +	case UC_UCSI_READ_BUF_REQ:
-> +		pmic_glink_ucsi_read_ack(ucsi, data, len);
-> +		break;
-> +	case UC_UCSI_WRITE_BUF_REQ:
-> +		pmic_glink_ucsi_write_ack(ucsi, data, len);
-> +		break;
-> +	case UC_UCSI_USBC_NOTIFY_IND:
-> +		schedule_work(&ucsi->notify_work);
-> +		break;
-> +	};
-> +}
-> +
-> +static void pmic_glink_ucsi_pdr_notify(void *priv, int state)
-> +{
-> +	struct pmic_glink_ucsi *ucsi = priv;
-> +
-> +	if (state == SERVREG_SERVICE_STATE_UP)
-> +		schedule_work(&ucsi->register_work);
-> +	else if (state == SERVREG_SERVICE_STATE_DOWN)
-> +		ucsi_unregister(ucsi->ucsi);
-> +}
-> +
-> +static int pmic_glink_ucsi_probe(struct auxiliary_device *adev,
-> +				 const struct auxiliary_device_id *id)
-> +{
-> +	struct pmic_glink_ucsi *ucsi;
-> +	struct device *dev = &adev->dev;
-> +
-> +	ucsi = devm_kzalloc(dev, sizeof(*ucsi), GFP_KERNEL);
-> +	if (!ucsi)
-> +		return -ENOMEM;
-> +
-> +	ucsi->dev = dev;
-> +	dev_set_drvdata(dev, ucsi);
-> +
-> +	INIT_WORK(&ucsi->notify_work, pmic_glink_ucsi_notify);
-> +	INIT_WORK(&ucsi->register_work, pmic_glink_ucsi_register);
-> +	init_completion(&ucsi->read_ack);
-> +	init_completion(&ucsi->write_ack);
-> +	init_completion(&ucsi->sync_ack);
-> +	mutex_init(&ucsi->lock);
-> +
-> +	ucsi->ucsi = ucsi_create(dev, &pmic_glink_ucsi_ops);
-> +	if (IS_ERR(ucsi->ucsi))
-> +		return PTR_ERR(ucsi->ucsi);
-> +
-> +	ucsi_set_drvdata(ucsi->ucsi, ucsi);
-> +
-> +	ucsi->client = devm_pmic_glink_register_client(dev,
-> +						       PMIC_GLINK_OWNER_USBC,
-> +						       pmic_glink_ucsi_callback,
-> +						       pmic_glink_ucsi_pdr_notify,
-> +						       ucsi);
-> +	return PTR_ERR_OR_ZERO(ucsi->client);
-> +}
-> +
-> +static const struct auxiliary_device_id pmic_glink_ucsi_id_table[] = {
-> +	{ .name = "pmic_glink.ucsi", },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(auxiliary, pmic_glink_ucsi_id_table);
-> +
-> +static struct auxiliary_driver pmic_glink_ucsi_driver = {
-> +	.name = "pmic_glink_ucsi",
-> +	.probe = pmic_glink_ucsi_probe,
-> +	.id_table = pmic_glink_ucsi_id_table,
-> +};
+Why are you returning success if an error happened?
 
-What happens if you remove the module - I think you need to implement
-the remove callback, no?
+Same thing for all other responses.
 
 thanks,
 
--- 
-heikki
+greg k-h
