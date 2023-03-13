@@ -2,100 +2,69 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1186C6FD19
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Mar 2023 15:08:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75C1AC6FD19
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Mar 2023 15:18:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230316AbjCMPIT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Mar 2023 11:08:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59350 "EHLO
+        id S229571AbjCMPSR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Mar 2023 11:18:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230254AbjCMPIQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Mar 2023 11:08:16 -0400
-X-Greylist: delayed 50576 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 13 Mar 2023 08:08:09 PDT
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FB97E05A;
-        Mon, 13 Mar 2023 08:08:08 -0700 (PDT)
-Received: from dungeon.fi (dungeon.fi [IPv6:2a00:d880:11::2cc])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kasper)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4Pb0QW02mGzyRf;
-        Mon, 13 Mar 2023 17:08:02 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1678720083;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZR0dDzmhfTt6svxrNpJJLMD649AI6rRZ9XzVQhKkocw=;
-        b=QwujIY3gcFI4h9/3VptGQg2jaHWQzm+CmufKm9Jb4Oni8YNP6NgwTOGImbBV7q9dWoj+bK
-        gM2/JY2K5FrxqeZ7M9d61RT7MmWoLW4nAhtDMoyIYxdeS6jHGEBX50S1YFVWSqNdDtM7U4
-        zFOcZ/TzLigFsxHlHY3pIR1CeyKN47A=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1678720083; a=rsa-sha256; cv=none;
-        b=dk0ML6qHDfCYl/YOd8iF9cv5C93xii3aaimYSO24kwLmrAg4UiQaTF98LSgr96SN/LF6DT
-        +53MHsJmbn4k8o1isF7epPL5MvGDwuc6/rl49nx2K1mVwKXK5rKFklg+D4/UOamCTX4h8k
-        yrFFeF3VpbR6AKKZaHrH7EH8o2/sdbI=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=kasper smtp.mailfrom=kasper@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1678720083;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZR0dDzmhfTt6svxrNpJJLMD649AI6rRZ9XzVQhKkocw=;
-        b=mRKY5pSN3ss41D+ma2SWXFF6v/MU/k1VUrlQZIbVoqVOXJoUn8CaGsoKKPkUuDRPrldyDD
-        UAAkZy1297nHiHbboSJ5EJpD9jJfGmSLpSdfO/KOAQyrR9DxdbiPNSK7MWzvIjWBFOoHJi
-        EOKTCA0lttSPQzPbDnDDUgRYJqIal8c=
-Received: from [IPV6:2001:14ba:440a:f000::3] (dktgsyyyyyyyyyyyyyybt-3.rev.dnainternet.fi [IPv6:2001:14ba:440a:f000::3])
-        by dungeon.fi (Postfix) with ESMTPSA id F1F613F270;
-        Mon, 13 Mar 2023 17:08:00 +0200 (EET)
-Message-ID: <71fd009b-8378-d5b0-5243-5279b2b880ee@iki.fi>
-Date:   Mon, 13 Mar 2023 17:07:59 +0200
+        with ESMTP id S229901AbjCMPSP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Mar 2023 11:18:15 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83E5F6580
+        for <linux-usb@vger.kernel.org>; Mon, 13 Mar 2023 08:18:13 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id r15so22944704edq.11
+        for <linux-usb@vger.kernel.org>; Mon, 13 Mar 2023 08:18:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678720692;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YvD4xgouKK3AKr074qCnN8V+sdQ+/9ElRRW9yNO8Sq8=;
+        b=ZxIAHmB8cLBhueNZ9tdfz0/OMdEhaA6dxqHeX5tcnH991gqWZw7k9rJUyUhPX/lAvO
+         8hwuXz+6zs8j3sE2uDfj0G3zB5boLRQLK6xTDdxqebCJ/2PMcS/WWf97hEYhvvf6exGo
+         zdXhV3K3UHT5Rp7AFNsWVWeDUvr6EfslVYCDDr/s00Wu5llB0TA8t+/m2P/zq31IFN3G
+         5BWXhg1WBQBWSg33k1MiseqI46mhprVKGaPXRhwYFFGtJvPVpfZHLxcYKolEcNqsphkk
+         tFnhKxz0mF7EzVSNOIsa6ubDK8pPoUL/MmxpOflKNyQ5dLhgZSIRSPXtNu2/kPpUuFwb
+         NWWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678720692;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YvD4xgouKK3AKr074qCnN8V+sdQ+/9ElRRW9yNO8Sq8=;
+        b=RwJlGUJ5H+X9qAtblbXHKbKuSMZdLkAFhJMw7T3PiaezA8Tq/ZPuUMKzmI2AxZ8qsh
+         7ltE9YC9wPEfEPNfZfrQvhTpw3cz5DxWGpqvMmefHyb0RAhEI239Jl72BUdZLs6VHbU8
+         Cveh9mUXCnRSn36yfsMCdIiL+fcGnBfAZ+Un6I3XsIHe6DHy18/F1yn9J8XguV8Bv2sb
+         nDRK9WRIl1fF2kCnE6EkEDEBElnk6zOpMDhzKG0rhQZ7O/uWsiXDEwUvcijS2947LUEm
+         cTjvmAI9dPoqTnA736ZsJySU2+5AnUwSG9mbN8GXgw7sz9zOprLYi7eKP4tHcz/XLGmd
+         vPSA==
+X-Gm-Message-State: AO0yUKW6aupx6IO7ypK7bsKnmltj5VkCMT+8+Bxv7khY3YG1G/nwfbuL
+        drX7BDiRtbOjBDVEyyIsSHGxR8C1+xouPUyV5/M=
+X-Google-Smtp-Source: AK7set81ZcU8xQIpkdR5VfGPYJYGajn3UfDpffIdg0AmRawn239FkeSgJP3PrcPLC2LdKR6c0+F+BYjQRPlUKH4b0SY=
+X-Received: by 2002:a17:906:f46:b0:87b:db53:2d7d with SMTP id
+ h6-20020a1709060f4600b0087bdb532d7dmr18187536ejj.1.1678720689237; Mon, 13 Mar
+ 2023 08:18:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] USB: serial: xr: Add TIOCGRS485 and TIOCSRS485 ioctls
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230313010416.845252-1-kasper@iki.fi>
- <ZA7KIs2jA/acpN9n@kroah.com> <a1ba59be-30aa-08e9-65e7-2c458cc164f9@iki.fi>
- <ZA7Wh2Z/DdKOsOYr@kroah.com>
-From:   Jarkko Sonninen <kasper@iki.fi>
-In-Reply-To: <ZA7Wh2Z/DdKOsOYr@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230306120741.198992-1-enrico.sau@gmail.com> <ZA88WZ51iBgpeuXn@hovoldconsulting.com>
+In-Reply-To: <ZA88WZ51iBgpeuXn@hovoldconsulting.com>
+From:   Enrico Sau <enrico.sau@gmail.com>
+Date:   Mon, 13 Mar 2023 16:17:42 +0100
+Message-ID: <CAH4ZQwtFxwphP2UGeLZYYUBKO=3pTDJa+7QF9WT7QBQLJLweyQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] USB: serial: option: add Telit FE990 compositions
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 3/13/23 09:53, Greg Kroah-Hartman wrote:
-> On Mon, Mar 13, 2023 at 09:49:26AM +0200, Jarkko Sonninen wrote:
->>>> +{
->>>> +	void __user *argp = (void __user *)arg;
->>>> +
->>>> +	switch (cmd) {
->>>> +	case TIOCGRS485:
->>>> +		return xr_get_rs485_config(tty, argp);
->>>> +	case TIOCSRS485:
->>>> +		return xr_set_rs485_config(tty, argp);
->>>> +	}
->>>> +	return -ENOIOCTLCMD;
->>> Wrong ioctl return value :(
->> What is the correct ioctl error return value ?
->> ENOIOCTLCMD was used in most places in usb serial as an error return.
-> ENOTTY is the correct one for when an ioctl is not handled by the ioctl
-> call.
+> This entry does not seem to match the usb-devices output above (e.g.
+> it looks like this should be NCTRL(0) | RSVD(1)).
 >
-> thanks,
->
-> greg k-h
+> Please double check this one and the others.
 
-Using ENOTTY breaks all other tty ioctls.
+Got it, sorry, I will fix.
 
-     - Jarkko
-
+Enrico
