@@ -2,119 +2,148 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97DBEC61DA4
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Mar 2023 10:47:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B915C6FD19
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Mar 2023 11:27:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229849AbjCMKrZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Mar 2023 06:47:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34520 "EHLO
+        id S229997AbjCML10 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Mar 2023 07:27:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbjCMKrY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Mar 2023 06:47:24 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E68E453D94;
-        Mon, 13 Mar 2023 03:47:22 -0700 (PDT)
-Received: from dungeon.fi (dungeon.fi [81.4.110.129])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kasper)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4PZtdh1jZbz4BKKw;
-        Mon, 13 Mar 2023 12:47:19 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1678704440;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=jSbOH91PTg5uCkO4mWLFoGuNxDrNUjmjn2W/WzqjsG4=;
-        b=s7+pqLETYqZKlqiSeUbRPR2Z13viDOkZRoMgVX7IYUif9IAScHhDof3Trx1M2ntqf6jbcB
-        hl+eQ1URyGewhsBj/cOVb5a+oGOE/YFbLJbuvsyiE7aCbE/k6zbjs1RuQp6hvzCpDHUsmA
-        qWOawX+tVkMvhHsmwwYOyajalOGwwsGEw5EQl9wYprxkxexBh1TV0UKd0GlRaVIKCq+iBk
-        7O34szF59M4UHAV77CxTx1LBZ1nm8xNFZM/ypmFwEfx+q2gpqPu96PyGWNA4HYdnDuewuw
-        bIDXRIjIzE7jxKthHNdrt5IeLIb09cUUsNHu0ulLNj8P1ajf/qvL0azaAGdFtQ==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1678704440; a=rsa-sha256;
-        cv=none;
-        b=ZoXgvzKxkEOS+CJ1t4pgE8FdBw/E0QfpLT3uaWEK/48t720uqqzed8qxh9WNu2uPZyyKf7
-        J90FPD0fBvtkCCL7GxHwqB7ntFAL4vTfntBLpq5kyV5sqe5kJ+5zMONS+zJOgr26kzlKKb
-        9LbKftJwK8SQm7EHxjCWqZLjhLvSVGQooJ23XjmoYL4dUB14MJDHtSbrIZAgg5sHeIE51n
-        Dmg0JUpef+HNXsF/C52qJSmm1zGDkl3HV0BIFa64s71dWSGarE9OJzlqS2CpumsjLpP1L4
-        /ouyqhZoPzUIZ2HgQIJPUd3aJk/TZj9dwtCCgJaNxZA5TUSoeRywMy81NMu8Gw==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=kasper smtp.mailfrom=kasper@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1678704440;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=jSbOH91PTg5uCkO4mWLFoGuNxDrNUjmjn2W/WzqjsG4=;
-        b=VIIFLRGvGi/L+TTexCdNMMv+LSD7dwPQ0ZhiP//OlTW3d+pEHfpf1zAWnGzQmASbB+689J
-        wKifsmoWRi2tcY1/m/S0P0P8JoAwQwoYpQF4irmjczavpv053S3GNI87GH1JIKwen/aHk7
-        OhI3dQRJHb+VwPlESkhYDzYsuZdR9cBwvxnhf9mQhRX0cZtXw+mksTdHrIlk4BQ+058fmt
-        +3B6Q4R8scP+KtVb/yKl6lKBO/k8utfwC5jyJButG79o6hHUuzQsNoIWYh1iNSS+hiDVyr
-        INfLcW34HiUD7jYv9xcX2fZ4q034LhtvQ7cD5tlgSMqpPAv7BxeTyF/TkSDOVg==
-Received: from [IPV6:2001:14ba:440a:f000:f999:2447:3c0c:d88e] (dktgsyyj5xfwfrsyp7cjy-3.rev.dnainternet.fi [IPv6:2001:14ba:440a:f000:f999:2447:3c0c:d88e])
-        by dungeon.fi (Postfix) with ESMTPSA id C6AE93F270;
-        Mon, 13 Mar 2023 12:47:18 +0200 (EET)
-Message-ID: <3c53eca1-ce62-e98d-ee52-269a09480658@iki.fi>
-Date:   Mon, 13 Mar 2023 12:47:17 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+        with ESMTP id S229776AbjCML1X (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Mar 2023 07:27:23 -0400
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com (mail-vi1eur03on2088.outbound.protection.outlook.com [40.107.103.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C6855A928;
+        Mon, 13 Mar 2023 04:27:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=izZ4BZlwJdoF2CqLopDhSF+wVX7PnIxCw4LaJZtfNSoMhSZLzQYinWG5Gt7NIVXjG8JHpirYjE37OYfdaW/CYtHolT8fanIFeN/y1Exy12w+3OCXhxiaEm3WDYRA97Fjs8Ha5S8MJOPfmetKYoUozrN2J9DQ7HZPJZZmcz6VrEj5WEI88qUSUMy+abf7c1WxzXJnQdinLdaqAcXODQegsYGYMNBTBCUBJpQ+gOyhmziwbzYz15gQFFVFm23a3ABb+GDRPTA13/qRtsaxF+RBDNf+s3WdU6FmNhKzbiSF+RkZ0+3nNJP0jkn4t8apRgU38iLi/yJs+y31yqPcD27Wlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+T0kwTzsZPxfUjbixtY99+gV75uvpsnvzU7wev6w7X0=;
+ b=Agc6shVCbxXJ+qSqiUV0vqHj/h9MfPgyvqtgkXW7WSwwQNzd61ZsMKXpWXMnwHXcXyy0JxKEOcFKqSaSlmaVsPFKQP0JVQ8z2qbf50M5nbV6mr11ZT4y0waxclLu40pKAwvzftsGNU4aku0/wze7uifnRHqjwFUUA5lRlxuzi54Zh/FKu1WYIvlWr10rjxOQoblZ8E4wuVVPaoWfoMqzgOw9lXr1X2fbbBQ1yYzuoTTpH9IPF4IM/Nqk2QLc2Pp9nLPBl8RfSfpq+PU3kb5zcGMCn/ExwU3yFQTpNuGPXJlYAu8Y31a1Ypn1Mu3jKDnEcPDJI5rQZNSLqApBW05hhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+T0kwTzsZPxfUjbixtY99+gV75uvpsnvzU7wev6w7X0=;
+ b=KyRpaje2C5RaxBVbL86bdz7oxQ5I/Gp8YDCchPz8dpaNm9NPv35edSbPvmkxoZ9xqwGpD7UuCeVnv9WWRRX5e07vdM+sZBjAQZztRB2E5DQELjfO8JMzUFXaMg6JZxABEx6C8bJ6dpjOSZutF+1CwZGZaGen6N4YX/460bePi6X+SsWOqtBxysRTACOqFx0/ANg0mH3gECHooJdvM1UmEVhMVNtEMp90XZmk/2sZxZDZAyRxYbBhE/fIXc3ME5qnljKhaIR8lFUtiem7gZzgMVKaPBFcNokm1qw8zwAWxqkbjEb3wYBugcwiacxD+wvIfshBDFA5tYBrNpDIglMP6A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+Received: from VI1PR04MB7104.eurprd04.prod.outlook.com (2603:10a6:800:126::9)
+ by PAXPR04MB8427.eurprd04.prod.outlook.com (2603:10a6:102:1cd::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Mon, 13 Mar
+ 2023 11:27:18 +0000
+Received: from VI1PR04MB7104.eurprd04.prod.outlook.com ([fe80::2ea:4a86:9ab7])
+ by VI1PR04MB7104.eurprd04.prod.outlook.com ([fe80::2ea:4a86:9ab7%4]) with
+ mapi id 15.20.6178.024; Mon, 13 Mar 2023 11:27:17 +0000
+Message-ID: <79c3cf69-8acd-e6de-c168-329954a14841@suse.com>
+Date:   Mon, 13 Mar 2023 12:27:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
 Subject: Re: [PATCH v2] USB: serial: xr: Add TIOCGRS485 and TIOCSRS485 ioctls
-To:     Oliver Neukum <oneukum@suse.com>
+Content-Language: en-US
+To:     Jarkko Sonninen <kasper@iki.fi>, Oliver Neukum <oneukum@suse.com>
 Cc:     Johan Hovold <johan@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <ZA7Wh2Z/DdKOsOYr@kroah.com>
  <20230313082734.886890-1-kasper@iki.fi>
  <e426ae4c-4e49-5773-e8da-919fa2e3dc33@suse.com>
-From:   Jarkko Sonninen <kasper@iki.fi>
-In-Reply-To: <e426ae4c-4e49-5773-e8da-919fa2e3dc33@suse.com>
+ <3c53eca1-ce62-e98d-ee52-269a09480658@iki.fi>
+From:   Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <3c53eca1-ce62-e98d-ee52-269a09480658@iki.fi>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0087.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9b::6) To VI1PR04MB7104.eurprd04.prod.outlook.com
+ (2603:10a6:800:126::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR04MB7104:EE_|PAXPR04MB8427:EE_
+X-MS-Office365-Filtering-Correlation-Id: 74fced05-bc14-4282-c2e3-08db23b5e6ee
+X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: f7zpF1dUKnbpPDrGgs3wUakJCl92M0tYR9dS8MNfjgsudH/Mi1dOtdjZuHZQ1qdt8VogGMgu79mC91J5iB4EeDWnZH/LO1Xak1P9uSjz3WuUma8YY3brIVSink84GAjoTqXgv5WnYbFEYpTkK0P5JH/04HUmr+e70ZP0oIpJzDr/bLtYLjq1AiqllrDSuUFN7+xNcWKyM3vgXf3H0wxBHp2emsI4mOlR3XW6rTBh2/v+D8Gh7z90TyGv0Anvnhwfhu8vDLf2k1slhveOM5dkgbaXvPPeZdxBzE2vWK9XO6Mrr3kJh7X/mhymUH2FUpGhV7gFS19uOc/3AdunlKhz3/cKbSP63+ULnJur3R2XohpfenVRSXJxT1LqljC5bfB33PuU2z9okoDYSAFxo+SzKOnmJyw5woWNC9a3Se2T8WUmbJwxSMk73a54+FFX62ybrRg1XxS19ob7lubmpKSmSOKcpUHYAoxT3rbjdEG4h1bnALbxXhvNgh8ELqiUQKgOUETgh5CcIchl5PE+UEuoWoBEeDjx7e8hh8qZQI8ZULBwbEPoy/mQBkIkadvJDS5xwbPQeVZGq4QuVSmfIEbz/PMwTwT6FomEfkDakzwUt4Z449NdOnzL/AssOAKcNnNFCVe4qNqo8fEYMi8Y56bxwZ4KiTEQWRLwbJgRN5qcwwfp9xc6mY2YgPP6uuQCOdcbH/uskKPijOIpB8/VS5bjb5AZDcLFjpjpj15cXZ0r6/c=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB7104.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(346002)(366004)(39860400002)(376002)(396003)(136003)(451199018)(31686004)(86362001)(41300700001)(5660300002)(8936002)(66556008)(4326008)(66476007)(66946007)(2906002)(4744005)(38100700002)(36756003)(31696002)(8676002)(6486002)(6512007)(54906003)(478600001)(316002)(6506007)(110136005)(83380400001)(2616005)(53546011)(186003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RFJDRGZZaVUzSm90b09qcStBOFA5YWNlRFlzNG9ZaytjUXF0WFRRRlF4NU1J?=
+ =?utf-8?B?RE9ZVERDQUl1N3lSc3pUWEQzUnNsb3BUZXRjWExLMEZwdExSeXQ4VmpXT1Av?=
+ =?utf-8?B?dStwQWNKM0FkS2E3TDhia1FmU3M2NDZBM21QYUQ2V1cxM1ZQdm45VzdYRTRN?=
+ =?utf-8?B?K3I1MmtENUJ0QlR6N2pkS0U2NGllKytxV0FYNkc5ZnVnSUV6VExGQjN2THM4?=
+ =?utf-8?B?Y3poSkpmTlBhQWhoK1E0QVlVdERudFFvbC82My8wQ2xVdFVZSVllRVZkSzZV?=
+ =?utf-8?B?aXpQaVh5Vmk3ZDBFSnB0dWNWYisySXFKYzdZenRtQlRTcmJ5UHo5WmFOaFF0?=
+ =?utf-8?B?aHhOL0kzcXNWTUhHZ0JGendjeWFZNlNteVlpbWhFTkQ3NFZaa1hybVNvY0lO?=
+ =?utf-8?B?S0Z0N2o3N25kVldxN2N3NlljcGZpZ2JxUzBjdDExazJIMjF1c1RTTmlVRHR2?=
+ =?utf-8?B?YXpXL2d2U291R0FoWEFJS1B0ZW16TlcrTWRSMkh2ZmFpdG9YN0tlcmJITWla?=
+ =?utf-8?B?aWlCaFExVlZ2a0t0VHl1aUNiNnVFVTlDb083MlAvWVhNZ2Joamc4RXdzVDRr?=
+ =?utf-8?B?TjlrZ1VtN01yMDZONEFBQk9RcGpHSExQRjF4cW01Q0ZRaUcyckdBVXAzMVJZ?=
+ =?utf-8?B?K204R0RpbjdTK1plcmFNdkZlUXJsZFJGM1krL2t3aDdRNWJVdDNWSkgzc3No?=
+ =?utf-8?B?emV1NmU2eVlUa21zT2hsMHl5UVl3VG5EQ2dPTUhHRGpWYlViQjNUYkFOcm1K?=
+ =?utf-8?B?T24zcmlzNkF3d0NHRTlLVEVTbVNPK0F6K01wRmNNS1ljQk5mV2JmTnFGZGpO?=
+ =?utf-8?B?Mi9RM2J5TXJUZTlhQS9xa0lCZDI2TWtGY0NraTk2Ylhoa2w0ZFN3Y1kvNzhN?=
+ =?utf-8?B?T3dmWjdrWmJzejVlRUxVQWo2b0s3NUFEc0k2NkljVE5PQnJwT29HWUlOUUtw?=
+ =?utf-8?B?M1NoRThSYkFzeG9sdTdabnpvM0N4UVEyS3o0a3lZSm5iWVFSMkQxTlFKUDEy?=
+ =?utf-8?B?VWVpaU1XaVRySERrUXRGV3JJQmJYTTBmalFmaURRTFNTaGVNa081YmlwR1hU?=
+ =?utf-8?B?ZkRkVzJ2V1JSV09xNlJKRUllNE9ucUk3QkxoMGlOQjNnOWVCTTh0V2FXbElo?=
+ =?utf-8?B?Mk1zL0I3QnZJenFkR0R2OGNYNXRRbmg4cm03WTNaRFArSkxUVEd0UWx5Y0Fi?=
+ =?utf-8?B?SHcwRkdCemtmR2lLM3NDVm9IemhQRW9PdHRYS3haemdsNStpSzdPRS9mbUVD?=
+ =?utf-8?B?SXN0UEttVnJNRjZyUVppdjRlQkQ5NzRMY2hJdkF3bU8zbmxHbjBTb1VwcjFS?=
+ =?utf-8?B?WG5IVGpwd21GRWhaNGFvYlRIcnlySTZTWjR6bGM4djNxT1B3ZGNZelZMbUdp?=
+ =?utf-8?B?cHpyS3dVNXBKd3VsVVduVFZiWXlCN2N5bzVjeUZrL3JvcllnZHJmMzdFbG5v?=
+ =?utf-8?B?b3FXQUE2V3ZjSUdIM3dwK1oyZXNLZVlDQzVkSTRaNlRiRllIVjhrdmNiSjVC?=
+ =?utf-8?B?ZzFWeFI3UkJqK2VMRTFKYTBMb0ljMzF2SGlXQWRweTVYdzRpQ0VMY0pUaWZZ?=
+ =?utf-8?B?ZnRxZVQvdmpKL2dtU0pXb1VmZ0lqa3dLcCtkTDFvVnhGRm1kUExhM0M3TGpS?=
+ =?utf-8?B?K0JFUExxd1BYamN6c1Mvbllxa0xSSFR6SXRFSDFZN3lXOEdQckJjZnFNS2pX?=
+ =?utf-8?B?aC93Skp4M2xMTGswZmRYb3VwZnpVVXJLUnZZWlBlbS9PeHAwaEN5T2hVNFUy?=
+ =?utf-8?B?d1pKdVJmbW9mY0kzellrdXFLWWU2eEEzcGJhVzVIY1k4c2FJL29hR0syc1dL?=
+ =?utf-8?B?UlNKTWJwdTl5MjRuOG9taG53QjhGNkYzZHlDdDUwalJ2M0NHaU5OV3BLOHoy?=
+ =?utf-8?B?LzNFRTFhSjlHT294eGU2anlKSUVUNWQ2bTBSYlhVNFZIMWVzd1F0cmhWb2Fy?=
+ =?utf-8?B?L0lBdC81TWZMYU1wZ1l5cWtwLzAvT1pXOHd2N2lNOEx3T284SmJlUnhYMEJI?=
+ =?utf-8?B?VjdQVGprWVdwQlJiVFFpbW5tVTJTUXg2bVA0NmU0UG5ZeDNQbm5TakNwNjZl?=
+ =?utf-8?B?V3l2R0MzeXRaMDI5YWt1NWdoN2FZUHVpSWYvZEpFWTFYSGpQanB6TEFnK0hj?=
+ =?utf-8?B?UFJCT1dqNndJT28xeHcxWFBubVMrMmNCcXhRZlVEbVdQNkpyOW0vNkp6WW9z?=
+ =?utf-8?Q?S2rXbx/KKSOiw3ZVXFFD9984ZtEooGfHfZkUnrPIHJUX?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74fced05-bc14-4282-c2e3-08db23b5e6ee
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB7104.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2023 11:27:17.6016
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U3FllfC43w4EkHCMD6UVMsIA/U/fLYc7kfCuGqAb71r3pnyS2NuFCeBATVBh+PltZDSBWfYQ1kCrl2xju9xV7A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8427
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-     Hello,
-
-It uses only one flag from the struct from user. Would it be better to 
-store only that to state ?
-
-Do I need locking at all in that case ?
-
-The whole struct is stored just in case, if someone would implement 
-other functionality later.
-
-     - Jarkko
 
 
-Oliver Neukum kirjoitti 13/03/2023 klo 11.54:
->
->
-> On 13.03.23 09:27, Jarkko Sonninen wrote:
->> Add support for RS-485 in Exar USB adapters.
->> RS-485 mode is controlled by TIOCGRS485 and TIOCSRS485 ioctls.
->> Gpio mode register is set to enable RS-485.
->>
->> Signed-off-by: Jarkko Sonninen <kasper@iki.fi>
->
->
-> Hi,
->
-> I am sorry, but locking is really broken here. All these contexts can 
-> sleep.
-> There is no need for a spinlock. As far as you need locking, just use 
-> a mutex.
->
-> Secondly, if xr_set_rs485_config() needs locking, so will 
-> xr_get_rs485_config()
-> or you can get the case that you return half a new and half an old 
-> state to user
-> space.
->
->     Regards
->         Oliver
+On 13.03.23 11:47, Jarkko Sonninen wrote:
+>      Hello,
+> 
+> It uses only one flag from the struct from user. Would it be better to store only that to state ?
+> 
+> Do I need locking at all in that case ?
+> 
+> The whole struct is stored just in case, if someone would implement other functionality later.
+
+Well,
+
+1. would you be happy if you were the one to implement additional
+features and found that you'd have to reinvent locking?
+
+2. That would mean discarding the values given for delay_rts_before_send
+and delay_rts_after_send. That wouldn't be nice.
+
+It seems to me that all our algorithmic complexity goes away
+if you just turn "lock" into a mutex and just take it.
+
+	Regards
+		Oliver
+
