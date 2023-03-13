@@ -2,158 +2,100 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F310C61DA4
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Mar 2023 15:07:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BD85C74A4B
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Mar 2023 15:08:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230126AbjCMPHU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Mar 2023 11:07:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57694 "EHLO
+        id S230169AbjCMPIL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Mar 2023 11:08:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbjCMPHP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Mar 2023 11:07:15 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F8FA5A926
-        for <linux-usb@vger.kernel.org>; Mon, 13 Mar 2023 08:07:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B5612B80E40
-        for <linux-usb@vger.kernel.org>; Mon, 13 Mar 2023 15:07:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 517CBC4339B;
-        Mon, 13 Mar 2023 15:07:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678720029;
-        bh=jU8Pp8YYAc++6msKRYXe1IG5qtHBunRhjzhoDDPZ+ww=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=G3BYMJurJn3aS8RDgQmync1m2cTYwm9mj5hsL9dfqsBbdkyGM/FZk2djdduNjNWV3
-         E0venP0nBwKZ80OKHxZ6okqEnVO1bWnWg8iV2nbm0/u9OKaza/3oq35o2WStHSVxL5
-         bj9uJcupzsdIVrKybniikx0/6G9L8GznDskDdVwQj241KQbgTgOokfY91jFiXe0zFe
-         k2UP//jHnmoyVT1kvWSbDAGdkQUiqyIggjej3d+bpqYYBi7z8DlE2e1IOaSMD+UzYM
-         OQ7B9xFbCtBJtWDiIM6DKfjbxbfCqnzuQ1CPpbxQGNDdWWFom22IHWGgk2gWLOn2zI
-         /UkEhiGZ9PYYw==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1pbjmT-0004Fj-Qq; Mon, 13 Mar 2023 16:08:09 +0100
-Date:   Mon, 13 Mar 2023 16:08:09 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Enrico Sau <enrico.sau@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/1] USB: serial: option: add Telit FE990 compositions
-Message-ID: <ZA88WZ51iBgpeuXn@hovoldconsulting.com>
-References: <20230306120741.198992-1-enrico.sau@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230306120741.198992-1-enrico.sau@gmail.com>
+        with ESMTP id S230045AbjCMPII (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Mar 2023 11:08:08 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BCC56C8BD
+        for <linux-usb@vger.kernel.org>; Mon, 13 Mar 2023 08:07:52 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id h14so11649828wru.4
+        for <linux-usb@vger.kernel.org>; Mon, 13 Mar 2023 08:07:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kjkoster-org.20210112.gappssmtp.com; s=20210112; t=1678720070;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6xqkhHpM0KwjGTqtNt1/rU7IXIVxn9+hwM9muuFZS5g=;
+        b=gzR7Xd3d/xv+mcM0TiWjAAZhJK6N8rgx+huTF36Hr9CtMJiyYEGw+0TqRWVfh1Bo2o
+         YoGT1iOgtQH0WXRE014OoBngClOokSQw7V2oMpoF07Hp8NcHEShi9Xy48dXZv5mpnbtl
+         MCYc6fqmqULXC/7W95ZCBYHctCK+HDuhyDKXGilhfxLGeCyQ9CWaBVq7APXpRdIncYsb
+         vRwf03GYtLJ2oUKEzGRx5+rJyydiF4PwPf5Jn6YQP9TpDjoUGmL4uQTAfXXeXBSocppU
+         Ku6MBXJ9zEnne1+eAqY4a28fmLYW5m+m1HNM1oZui77Ug41B/DKuQxjCb+s2iYeXs4f5
+         QGgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678720070;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6xqkhHpM0KwjGTqtNt1/rU7IXIVxn9+hwM9muuFZS5g=;
+        b=lwh3dvvMp/w+P+aaS/4SkCMndUnWlbgiluJi5SbI6p8cYmnkF49XOyq9NPizqVnjcm
+         d0OSd+10ATHyR6SXFrLY0B3PvFJ8sUHMHcAuMb2zowLFS6s4Q7PU54ymd+l/SSANAMjU
+         fT6Oh0rjwkoldHSPw17sC1R6FU4wdjeigX26GUra7LqYnWBb+6hBWrdejbpGoj3Gdeba
+         nJNtMbcW0UduMoA+GDBmwjOG3F7qo/ewt4qYOI5gKzXYiW6IC4obW+I2Tgwc/M/kxwuw
+         nc2j5g9TfQEvT6HEvcbwSoTCDc5IuOHuY1AvvyNwb7iW1skpWsjhhGNhS4xvknNjSnK/
+         bczg==
+X-Gm-Message-State: AO0yUKVByT7En9Yd4xmtbGLaevKFKCF2iYtjMpGC3HHPfu64LYI0EBpO
+        6RHV/Q1YQGsWOJKM4JpmG4A3B/kQf/DCK2DxrSg=
+X-Google-Smtp-Source: AK7set+b56sQCsMzgx5r6k48f8MAv72ch5fQN/2t6GNbAZeoxJMQgFN9dSWB0BSK2w33VUA0VsiOUw==
+X-Received: by 2002:a5d:4d92:0:b0:2ce:9c6b:4fd6 with SMTP id b18-20020a5d4d92000000b002ce9c6b4fd6mr5613870wru.70.1678720070659;
+        Mon, 13 Mar 2023 08:07:50 -0700 (PDT)
+Received: from smtpclient.apple (2a02-a470-ff9b-1-80b9-d992-a308-5ca2.fixed6.kpn.net. [2a02:a470:ff9b:1:80b9:d992:a308:5ca2])
+        by smtp.gmail.com with ESMTPSA id c14-20020adffb0e000000b002c8ed82c56csm8281997wrr.116.2023.03.13.08.07.49
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 13 Mar 2023 08:07:50 -0700 (PDT)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
+Subject: Re: [PATCH] USB: serial: cp210x: add Silicon Labs IFS-USB-DATACABLE
+ IDs
+From:   Kees Jan Koster <kjkoster@kjkoster.org>
+In-Reply-To: <ZA87jMR8qx6YfBVQ@hovoldconsulting.com>
+Date:   Mon, 13 Mar 2023 16:07:39 +0100
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CC93BACA-B0D3-4D52-91AD-926AF894D3B6@kjkoster.org>
+References: <20230218141830.5612-1-kjkoster@kjkoster.org>
+ <ZA87jMR8qx6YfBVQ@hovoldconsulting.com>
+To:     Johan Hovold <johan@kernel.org>
+X-Mailer: Apple Mail (2.3731.300.101.1.3)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Mar 06, 2023 at 01:07:41PM +0100, Enrico Sau wrote:
-> Add the following Telit FE990 compositions:
-> 
-> 0x1080: tty, adb, rmnet, tty, tty, tty, tty
-> 0x1081: tty, adb, mbim, tty, tty, tty, tty
-> 0x1082: rndis, tty, adb, tty, tty, tty, tty
-> 0x1083: tty, adb, ecm, tty, tty, tty, tty
-> 
-> Signed-off-by: Enrico Sau <enrico.sau@gmail.com>
-> ---
-> 
-> This is the usb-devices output for all compositions:
-> 
-> T:  Bus=01 Lev=01 Prnt=01 Port=04 Cnt=02 Dev#= 12 Spd=480 MxCh= 0
-> D:  Ver= 2.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-> P:  Vendor=1bc7 ProdID=1080 Rev=05.04
-> S:  Manufacturer=Telit Wireless Solutions
-> S:  Product=FE990
-> S:  SerialNumber=9455d1d2
-> C:  #Ifs= 7 Cfg#= 1 Atr=80 MxPwr=500mA
-> I:  If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-> I:  If#=0x1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-> I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
-> I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-> I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> I:  If#=0x5 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> I:  If#=0x6 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> 
-> T:  Bus=01 Lev=01 Prnt=01 Port=04 Cnt=02 Dev#= 13 Spd=480 MxCh= 0
-> D:  Ver= 2.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
-> P:  Vendor=1bc7 ProdID=1081 Rev=05.04
-> S:  Manufacturer=Telit Wireless Solutions
-> S:  Product=FE990
-> S:  SerialNumber=9455d1d2
-> C:  #Ifs= 8 Cfg#= 1 Atr=80 MxPwr=500mA
-> I:  If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-> I:  If#=0x1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-> I:  If#=0x2 Alt= 0 #EPs= 1 Cls=02(commc) Sub=0e Prot=00 Driver=cdc_mbim
-> I:  If#=0x3 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
-> I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-> I:  If#=0x5 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> I:  If#=0x6 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> I:  If#=0x7 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> 
-> T:  Bus=01 Lev=01 Prnt=01 Port=04 Cnt=02 Dev#= 11 Spd=480 MxCh= 0
-> D:  Ver= 2.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-> P:  Vendor=1bc7 ProdID=1082 Rev=05.04
-> S:  Manufacturer=Telit Wireless Solutions
-> S:  Product=FE990
-> S:  SerialNumber=9455d1d2
-> C:  #Ifs= 8 Cfg#= 1 Atr=80 MxPwr=500mA
-> I:  If#=0x0 Alt= 0 #EPs= 1 Cls=ef(misc ) Sub=04 Prot=01 Driver=rndis_host
-> I:  If#=0x1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=rndis_host
-> I:  If#=0x2 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-> I:  If#=0x3 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-> I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-> I:  If#=0x5 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> I:  If#=0x6 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> I:  If#=0x7 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> 
-> T:  Bus=01 Lev=01 Prnt=01 Port=04 Cnt=02 Dev#= 14 Spd=480 MxCh= 0
-> D:  Ver= 2.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-> P:  Vendor=1bc7 ProdID=1083 Rev=05.04
-> S:  Manufacturer=Telit Wireless Solutions
-> S:  Product=FE990
-> S:  SerialNumber=9455d1d2
-> C:  #Ifs= 8 Cfg#= 1 Atr=80 MxPwr=500mA
-> I:  If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-> I:  If#=0x1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-> I:  If#=0x2 Alt= 0 #EPs= 1 Cls=02(commc) Sub=06 Prot=00 Driver=cdc_ether
-> I:  If#=0x3 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=cdc_ether
-> I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-> I:  If#=0x5 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> I:  If#=0x6 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> I:  If#=0x7 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> 
-> ---
->  drivers/usb/serial/option.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-> index e6d8d9b35ad0..9520935bd502 100644
-> --- a/drivers/usb/serial/option.c
-> +++ b/drivers/usb/serial/option.c
-> @@ -1300,6 +1300,14 @@ static const struct usb_device_id option_ids[] = {
->  	  .driver_info = NCTRL(0) | RSVD(1) },
->  	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x1075, 0xff),	/* Telit FN990 (PCIe) */
->  	  .driver_info = RSVD(0) },
-> +	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x1080, 0xff),	/* Telit FE990 (rmnet) */
-> +	  .driver_info = NCTRL(0) | RSVD(1) | RSVD(2) },
-> +	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x1081, 0xff),	/* Telit FE990 (MBIM) */
-> +	  .driver_info = NCTRL(0) | RSVD(1) },
-> +	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x1082, 0xff),	/* Telit FE990 (RNDIS) */
-> +	  .driver_info = NCTRL(2) | RSVD(3) },
-> +	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x1083, 0xff),	/* Telit FE990 (ECM) */
-> +	  .driver_info = RSVD(0) },
+Dear Johan,
 
-This entry does not seem to match the usb-devices output above (e.g.
-it looks like this should be NCTRL(0) | RSVD(1)).
+Small celebration in my office. This was my first, official Linux Kernel =
+patch.
 
-Please double check this one and the others.
+Thank you for doing the work. :)
 
->  	{ USB_DEVICE(TELIT_VENDOR_ID, TELIT_PRODUCT_ME910),
->  	  .driver_info = NCTRL(0) | RSVD(1) | RSVD(3) },
->  	{ USB_DEVICE(TELIT_VENDOR_ID, TELIT_PRODUCT_ME910_DUAL_MODEM),
+--
+Kees Jan
 
-Johan
+kjkoster@kjkoster.org
++31651838192
+
+The secret of success lies in the stability of the goal.
+    -- Benjamin Disraeli
+
+> On 13 Mar 2023, at 16:04, Johan Hovold <johan@kernel.org> wrote:
+>=20
+> On Sat, Feb 18, 2023 at 03:18:30PM +0100, Kees Jan Koster wrote:
+>> The Silicon Labs IFS-USB-DATACABLE is used in conjunction with for =
+example
+>> the Quint UPSes. It is used to enable Modbus communication with the =
+UPS to
+>> query configuration, power and battery status.
+>>=20
+>> Signed-off-by: Kees Jan Koster <kjkoster@kjkoster.org>
+>=20
+> Now applied, thanks.
+>=20
+> Johan
+
