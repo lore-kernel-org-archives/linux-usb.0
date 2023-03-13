@@ -2,95 +2,66 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5623C6FD19
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Mar 2023 16:52:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53523C6FD19
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Mar 2023 16:56:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230230AbjCMQwq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Mar 2023 12:52:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43730 "EHLO
+        id S230318AbjCMQ4s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Mar 2023 12:56:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230072AbjCMQwk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Mar 2023 12:52:40 -0400
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 725267B9A7;
-        Mon, 13 Mar 2023 09:52:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=2yqG3
-        Kr7Cl9HIQ+InYzhFymxRJDXG2QuIzgYGnQnHiE=; b=Tyzw6sHWWKFwf2WW3wQ/j
-        zOuN/sMru+RtSc6vLr9gnUSgp+DonJU7/4WfRJGi+W3S+bYGT+R+gCD/sy7ydllW
-        FLyE/qOarNnCbQ2+GxhzGc/AdotVvs0HTpuQCBpHyj3vZV25Tq8sUWzj0diXkLvk
-        OWLv7oWjNvxLBIboXdpm0o=
-Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
-        by zwqz-smtp-mta-g3-2 (Coremail) with SMTP id _____wAHk4CSVA9kolEUAA--.15536S2;
-        Tue, 14 Mar 2023 00:51:30 +0800 (CST)
-From:   Zheng Wang <zyytlz.wz@163.com>
-To:     gregkh@linuxfoundation.org
-Cc:     p.zabel@pengutronix.de, biju.das.jz@bp.renesas.com,
-        phil.edworthy@renesas.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
-        1395428693sheep@gmail.com, alex000young@gmail.com,
-        yoshihiro.shimoda.uh@renesas.com, Zheng Wang <zyytlz.wz@163.com>
-Subject: [PATCH v3] usb: gadget: udc: renesas_usb3: Fix use after free bug in  renesas_usb3_remove due to race condition
-Date:   Tue, 14 Mar 2023 00:51:28 +0800
-Message-Id: <20230313165128.3763626-1-zyytlz.wz@163.com>
+        with ESMTP id S230320AbjCMQ4q (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Mar 2023 12:56:46 -0400
+X-Greylist: delayed 342 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 13 Mar 2023 09:56:29 PDT
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D0286F622;
+        Mon, 13 Mar 2023 09:56:28 -0700 (PDT)
+Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+        by mail11.truemail.it (Postfix) with ESMTPA id 7286821E1F;
+        Mon, 13 Mar 2023 17:50:44 +0100 (CET)
+From:   Francesco Dolcini <francesco@dolcini.it>
+To:     linux-usb@vger.kernel.org
+Cc:     Francesco Dolcini <francesco.dolcini@toradex.com>,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v1 0/3] usb: misc: usb3503: support usb3803 and bypass mode
+Date:   Mon, 13 Mar 2023 17:50:36 +0100
+Message-Id: <20230313165039.255579-1-francesco@dolcini.it>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wAHk4CSVA9kolEUAA--.15536S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tF1DGryfJr47ArWxZFyDAwb_yoW8WF1fpF
-        WDGFW5Ar4rGFWjq3y7GFykZFyrCF9rKry7ZFW7tw4xuF1rG3y0qryIqa1jkF1xJFZayr4F
-        q3WDu340qa47u37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziID73UUUUU=
-X-Originating-IP: [111.206.145.21]
-X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiGgMxU1aEEjd7pgACsT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In renesas_usb3_probe, &usb3->role_work is bound with
-renesas_usb3_role_work. renesas_usb3_start will be called
-to start the work.
+From: Francesco Dolcini <francesco.dolcini@toradex.com>
 
-If we remove the driver which will call usbhs_remove, there may be
-an unfinished work. The possible sequence is as follows:
+Add support for USB3803 and bypass mode.
 
-Fix it by canceling the work before cleanup in the renesas_usb3_remove
+While the usb3503 variant uses a HSIC connection to upstream, the usb3803 uses
+a regular USB connection and provides a bypass mode.
 
-CPU0                  CPU1
+In bypass mode the downstream port 3 is connected to the upstream port with low
+switch resistance R_on.
 
-                    |renesas_usb3_role_work
-renesas_usb3_remove |
-usb_role_switch_unregister  |
-device_unregister   |
-kfree(sw)  	     |
-free usb3->role_sw  |
-                    |   usb_role_switch_set_role
-                    |   //use usb3->role_sw
+Controlling mode of operations:
 
-Fixes: 39facfa01c9f ("usb: gadget: udc: renesas_usb3: Add register of usb role switch")
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
----
-v3:
-- modify the commit message to make it clearer suggested by Yoshihiro Shimoda
-v2:
-- fix typo, use clearer commit message and only cancel the UAF-related work suggested by Yoshihiro Shimoda
----
- drivers/usb/gadget/udc/renesas_usb3.c | 1 +
- 1 file changed, 1 insertion(+)
+| RESET_N | BYPASS_N | Mode    |
+--------------------------------
+|    0    |    0     | standby |
+|    1    |    0     | bypass  |
+|    1    |    1     | hub     |
 
-diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
-index bee6bceafc4f..a301af66bd91 100644
---- a/drivers/usb/gadget/udc/renesas_usb3.c
-+++ b/drivers/usb/gadget/udc/renesas_usb3.c
-@@ -2661,6 +2661,7 @@ static int renesas_usb3_remove(struct platform_device *pdev)
- 	debugfs_remove_recursive(usb3->dentry);
- 	device_remove_file(&pdev->dev, &dev_attr_role);
- 
-+	cancel_work_sync(&usb3->role_work);
- 	usb_role_switch_unregister(usb3->role_sw);
- 
- 	usb_del_gadget_udc(&usb3->gadget);
+
+Emanuele Ghidoli (3):
+  dt-bindings: usb: smsc,usb3503: Add usb3803
+  usb: misc: usb3503: refactor code to prepare for usb3803 addition
+  usb: misc: usb3503: support usb3803 and bypass mode
+
+ .../devicetree/bindings/usb/smsc,usb3503.yaml | 54 +++++++++++++++-
+ drivers/usb/misc/usb3503.c                    | 64 +++++++++++--------
+ include/linux/platform_data/usb3503.h         |  1 +
+ 3 files changed, 92 insertions(+), 27 deletions(-)
+
 -- 
 2.25.1
 
