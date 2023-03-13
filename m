@@ -2,148 +2,177 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73367C6FD1F
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Mar 2023 16:56:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE138C761A6
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Mar 2023 17:05:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231138AbjCMQ4s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Mar 2023 12:56:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51322 "EHLO
+        id S230223AbjCMRFZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Mar 2023 13:05:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230425AbjCMQ4r (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Mar 2023 12:56:47 -0400
-X-Greylist: delayed 341 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 13 Mar 2023 09:56:30 PDT
-Received: from mail11.truemail.it (mail11.truemail.it [IPv6:2001:4b7e:0:8::81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7BB47043D;
-        Mon, 13 Mar 2023 09:56:28 -0700 (PDT)
-Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-        by mail11.truemail.it (Postfix) with ESMTPA id 6FDAB21E2B;
-        Mon, 13 Mar 2023 17:50:45 +0100 (CET)
-From:   Francesco Dolcini <francesco@dolcini.it>
-To:     linux-usb@vger.kernel.org
-Cc:     Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Francesco Dolcini <francesco.dolcini@toradex.com>
-Subject: [PATCH v1 3/3] usb: misc: usb3503: support usb3803 and bypass mode
-Date:   Mon, 13 Mar 2023 17:50:39 +0100
-Message-Id: <20230313165039.255579-4-francesco@dolcini.it>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230313165039.255579-1-francesco@dolcini.it>
-References: <20230313165039.255579-1-francesco@dolcini.it>
+        with ESMTP id S229847AbjCMRFV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Mar 2023 13:05:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50DB83A875;
+        Mon, 13 Mar 2023 10:04:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CCC05613F1;
+        Mon, 13 Mar 2023 17:03:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CAFDC433D2;
+        Mon, 13 Mar 2023 17:03:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678727029;
+        bh=2fV05cI4GhiMYR3KLrK2+mj2n5gX/Sc5m5PDzzFmPmA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=D5yxDdV/g8lOgNvM0+Tf37WN30x0RU+VsxZfRNgo8qM5DQdy4gwHaZi/PfSg5P+Xc
+         67NSPT9po5fYmCQnF9jN3qFLI018d+WEhzX+U+ZzDBRbe0OIAz7XlF4mfmGp7QZCj3
+         QPf+2U0NuBf1D83uQpjaG8b10lfgx3lANZUlX8hwI8r1AAxEn+G8tEIo5sf9pPRA+N
+         p3aVsdpjCDBN9OrmURoICCgDdKmvL1ZeIlFhlNf7R+N2oI+2ouJEL4E5EgYdpXICJ5
+         8E0CJKfdya6IXQXFEhck1P0k5z9qsnZKf8LMaZiHqvmzEWsYG0knSq9l0g9DqtoHJY
+         5adQFRayEByKQ==
+Date:   Mon, 13 Mar 2023 17:03:41 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Ye Xiang <xiang.ye@intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Mark Brown <broonie@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>, linux-usb@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
+        srinivas.pandruvada@intel.com, heikki.krogerus@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, sakari.ailus@linux.intel.com,
+        zhifeng.wang@intel.com, wentong.wu@intel.com, lixu.zhang@intel.com
+Subject: Re: [PATCH v5 1/5] usb: Add support for Intel LJCA device
+Message-ID: <20230313170341.GV9667@google.com>
+References: <20230312190435.3568212-1-xiang.ye@intel.com>
+ <20230312190435.3568212-2-xiang.ye@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230312190435.3568212-2-xiang.ye@intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
+On Mon, 13 Mar 2023, Ye Xiang wrote:
 
-Add support for USB3803 and bypass mode, with this change
-is also possible to move the component out of bypass mode.
+> This patch implements the USB part of Intel USB-I2C/GPIO/SPI adapter
+> device named "La Jolla Cove Adapter" (LJCA).
+>
+> The communication between the various LJCA module drivers and the
+> hardware will be muxed/demuxed by this driver. The sub-module of
+> LJCA can use ljca_transfer() to issue a transfer between host
+> and hardware.
+>
+> Each sub-module of LJCA device is identified by type field within
+> the LJCA message header.
+>
+> The minimum code in ASL that covers this board is
+> Scope (\_SB.PCI0.DWC3.RHUB.HS01)
+>     {
+>         Device (GPIO)
+>         {
+>             Name (_ADR, Zero)
+>             Name (_STA, 0x0F)
+>         }
+>
+>         Device (I2C)
+>         {
+>             Name (_ADR, One)
+>             Name (_STA, 0x0F)
+>         }
+>
+>         Device (SPI)
+>         {
+>             Name (_ADR, 0x02)
+>             Name (_STA, 0x0F)
+>         }
+>     }
+>
+> Signed-off-by: Ye Xiang <xiang.ye@intel.com>
+> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/usb/misc/Kconfig  |  13 +
+>  drivers/usb/misc/Makefile |   1 +
+>  drivers/usb/misc/ljca.c   | 998 ++++++++++++++++++++++++++++++++++++++
+>  include/linux/usb/ljca.h  |  95 ++++
+>  4 files changed, 1107 insertions(+)
+>  create mode 100644 drivers/usb/misc/ljca.c
+>  create mode 100644 include/linux/usb/ljca.h
+>
+> diff --git a/drivers/usb/misc/Kconfig b/drivers/usb/misc/Kconfig
+> index a5f7652db7da..59ec120c26d4 100644
+> --- a/drivers/usb/misc/Kconfig
+> +++ b/drivers/usb/misc/Kconfig
+> @@ -273,6 +273,19 @@ config USB_LINK_LAYER_TEST
+>  	  Layer Test Device. Say Y only when you want to conduct USB Super Speed
+>  	  Link Layer Test for host controllers.
+>
+> +config USB_LJCA
+> +	tristate "Intel La Jolla Cove Adapter support"
+> +	select MFD_CORE
+> +	depends on USB
+> +	help
+> +	  This adds support for Intel La Jolla Cove USB-I2C/SPI/GPIO
+> +	  Master Adapter (LJCA). Additional drivers such as I2C_LJCA,
+> +	  GPIO_LJCA and SPI_LJCA must be enabled in order to use the
+> +	  functionality of the device.
+> +
+> +	  This driver can also be built as a module. If so, the module
+> +	  will be called ljca.
+> +
+>  config USB_CHAOSKEY
+>  	tristate "ChaosKey random number generator driver support"
+>  	depends on HW_RANDOM
+> diff --git a/drivers/usb/misc/Makefile b/drivers/usb/misc/Makefile
+> index 93581baec3a8..6f6adfbe17e0 100644
+> --- a/drivers/usb/misc/Makefile
+> +++ b/drivers/usb/misc/Makefile
+> @@ -29,6 +29,7 @@ obj-$(CONFIG_USB_HUB_USB251XB)		+= usb251xb.o
+>  obj-$(CONFIG_USB_HSIC_USB3503)		+= usb3503.o
+>  obj-$(CONFIG_USB_HSIC_USB4604)		+= usb4604.o
+>  obj-$(CONFIG_USB_CHAOSKEY)		+= chaoskey.o
+> +obj-$(CONFIG_USB_LJCA)			+= ljca.o
+>
+>  obj-$(CONFIG_USB_SISUSBVGA)		+= sisusbvga/
+>  obj-$(CONFIG_USB_LINK_LAYER_TEST)	+= lvstest.o
+> diff --git a/drivers/usb/misc/ljca.c b/drivers/usb/misc/ljca.c
+> new file mode 100644
+> index 000000000000..ab98deaf0074
+> --- /dev/null
+> +++ b/drivers/usb/misc/ljca.c
+> @@ -0,0 +1,998 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Intel La Jolla Cove Adapter USB driver
+> + *
+> + * Copyright (c) 2023, Intel Corporation.
+> + */
+> +
+> +#include <linux/dev_printk.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mfd/core.h>
 
-In bypass mode the downstream port 3 is connected to the
-upstream port with low switch resistance R_on.
+Please don't use the MFD API outside of drivers/mfd.
 
-Controlling mode of operations:
+If you wish to use the API, please do.
 
-| RESET_N | BYPASS_N | Mode    |
---------------------------------
-|    0    |    0     | standby |
-|    1    |    0     | bypass  |
-|    1    |    1     | hub     |
+Strip out (only) the MFD parts and move them into drivers/mfd.
 
-Datasheet: https://ww1.microchip.com/downloads/aemDocuments/documents/UNG/ProductDocuments/DataSheets/00001691D.pdf
-Signed-off-by: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
-Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
----
- drivers/usb/misc/usb3503.c            | 22 +++++++++++++++++++++-
- include/linux/platform_data/usb3503.h |  1 +
- 2 files changed, 22 insertions(+), 1 deletion(-)
+> +#include <linux/module.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/mutex.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/slab.h>
+> +#include <linux/types.h>
+> +#include <linux/usb.h>
+> +#include <linux/usb/ljca.h>
 
-diff --git a/drivers/usb/misc/usb3503.c b/drivers/usb/misc/usb3503.c
-index 3044db9fd8aa..c6cfd1edaf76 100644
---- a/drivers/usb/misc/usb3503.c
-+++ b/drivers/usb/misc/usb3503.c
-@@ -46,6 +46,7 @@ struct usb3503 {
- 	struct device		*dev;
- 	struct clk		*clk;
- 	u8	port_off_mask;
-+	struct gpio_desc	*bypass;
- 	struct gpio_desc	*intn;
- 	struct gpio_desc 	*reset;
- 	struct gpio_desc 	*connect;
-@@ -109,18 +110,25 @@ static int usb3503_connect(struct usb3503 *hub)
- static int usb3503_switch_mode(struct usb3503 *hub, enum usb3503_mode mode)
- {
- 	struct device *dev = hub->dev;
--	int rst, conn;
-+	int rst, bypass, conn;
- 
- 	switch (mode) {
- 	case USB3503_MODE_HUB:
- 		conn = 1;
- 		rst = 0;
-+		bypass = 0;
- 		break;
- 	case USB3503_MODE_STANDBY:
- 		conn = 0;
- 		rst = 1;
-+		bypass = 1;
- 		dev_info(dev, "switched to STANDBY mode\n");
- 		break;
-+	case USB3503_MODE_BYPASS:
-+		conn = 0;
-+		rst = 0;
-+		bypass = 1;
-+		break;
- 	default:
- 		dev_err(dev, "unknown mode is requested\n");
- 		return -EINVAL;
-@@ -132,6 +140,9 @@ static int usb3503_switch_mode(struct usb3503 *hub, enum usb3503_mode mode)
- 	if (hub->reset)
- 		gpiod_set_value_cansleep(hub->reset, rst);
- 
-+	if (hub->bypass)
-+		gpiod_set_value_cansleep(hub->bypass, bypass);
-+
- 	if (conn) {
- 		/* Wait T_HUBINIT == 4ms for hub logic to stabilize */
- 		usleep_range(4000, 10000);
-@@ -247,6 +258,14 @@ static int usb3503_probe(struct usb3503 *hub)
- 	if (hub->connect)
- 		gpiod_set_consumer_name(hub->connect, "usb3503 connect");
- 
-+	hub->bypass = devm_gpiod_get_optional(dev, "bypass", GPIOD_OUT_HIGH);
-+	if (IS_ERR(hub->bypass)) {
-+		err = PTR_ERR(hub->bypass);
-+		goto err_clk;
-+	}
-+	if (hub->bypass)
-+		gpiod_set_consumer_name(hub->bypass, "usb3503 bypass");
-+
- 	hub->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
- 	if (IS_ERR(hub->reset)) {
- 		err = PTR_ERR(hub->reset);
-@@ -382,6 +401,7 @@ MODULE_DEVICE_TABLE(i2c, usb3503_id);
- static const struct of_device_id usb3503_of_match[] = {
- 	{ .compatible = "smsc,usb3503", },
- 	{ .compatible = "smsc,usb3503a", },
-+	{ .compatible = "smsc,usb3803", },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, usb3503_of_match);
-diff --git a/include/linux/platform_data/usb3503.h b/include/linux/platform_data/usb3503.h
-index d01ef97ddf36..f3c942f396f8 100644
---- a/include/linux/platform_data/usb3503.h
-+++ b/include/linux/platform_data/usb3503.h
-@@ -12,6 +12,7 @@ enum usb3503_mode {
- 	USB3503_MODE_UNKNOWN,
- 	USB3503_MODE_HUB,
- 	USB3503_MODE_STANDBY,
-+	USB3503_MODE_BYPASS,
- };
- 
- struct usb3503_platform_data {
--- 
-2.25.1
-
+--
+Lee Jones [李琼斯]
