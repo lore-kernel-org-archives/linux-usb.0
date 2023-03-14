@@ -2,107 +2,104 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E1CC7618B
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Mar 2023 15:53:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DC1FC7618A
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Mar 2023 17:06:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231302AbjCNPxc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Mar 2023 11:53:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55206 "EHLO
+        id S230216AbjCNRGt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Mar 2023 13:06:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230287AbjCNPxb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Mar 2023 11:53:31 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39A467B109;
-        Tue, 14 Mar 2023 08:53:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678809183; x=1710345183;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TbG9kxbBuRazw+lkPlts7eEQOkz3o6LrN3ByWSVtvhQ=;
-  b=miw/jxYuxluW7GiX74csc9uOAUk2HoiS4H4JpzBmzivUKraRLgW0DU1l
-   dr7JV0G3b6fxpwZTadc8fh+4+yfbzucbopvl1y3jXZhHLOzjLDldlEqtU
-   pSyKBQ6/zYth7Rhc8/XsZHuiD1myfpBnaGzaybkOaXr36XyLuQR6siLGw
-   MvHnnlEWmk+CCSahkM1lu9JnXQun4fnS3S/ORX0V79QpD226GW8fxix5z
-   RSwT91ZmPDU4L+PVk73vIwhfje1GTFdFiNKWRDbPUAm1zzRCz2sFs2C0+
-   wZJnLFD2hJuQTVwgYe/ePC8Nd9gXyvhOS58wXI6t41+xiCS2vYLV86gYL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="400050736"
-X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
-   d="scan'208";a="400050736"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 08:53:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="672397601"
-X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
-   d="scan'208";a="672397601"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga007.jf.intel.com with ESMTP; 14 Mar 2023 08:52:55 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pc6xJ-003Iei-0i;
-        Tue, 14 Mar 2023 17:52:53 +0200
-Date:   Tue, 14 Mar 2023 17:52:52 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     "Ye, Xiang" <xiang.ye@intel.com>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Lee Jones <lee@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Tyrone Ting <kfting@nuvoton.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>, linux-usb@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
-        srinivas.pandruvada@intel.com, sakari.ailus@linux.intel.com,
-        zhifeng.wang@intel.com, wentong.wu@intel.com, lixu.zhang@intel.com
-Subject: Re: [PATCH v5 1/5] usb: Add support for Intel LJCA device
-Message-ID: <ZBCYVNmoo2EdDY90@smile.fi.intel.com>
-References: <20230312190435.3568212-1-xiang.ye@intel.com>
- <20230312190435.3568212-2-xiang.ye@intel.com>
- <20230313170341.GV9667@google.com>
- <ZBAqTqZEDz/vAwVC@ye-NUC7i7DNHE>
- <ZBAyKQwnQ8fxHRuU@kuha.fi.intel.com>
- <ZBCU5h/A2woJLtvT@ye-NUC7i7DNHE>
+        with ESMTP id S230029AbjCNRGs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Mar 2023 13:06:48 -0400
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 067096A04D;
+        Tue, 14 Mar 2023 10:06:44 -0700 (PDT)
+Received: from [192.168.1.103] (31.173.83.0) by msexch01.omp.ru (10.188.4.12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Tue, 14 Mar
+ 2023 20:06:34 +0300
+Subject: Re: [PATCH 5.10 1/1] usb: musb: core: drop redundant checks
+To:     Danila Chernetsov <listdansp@mail.ru>, <stable@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Bin Liu <b-liu@ti.com>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
+References: <20230314170113.11968-1-listdansp@mail.ru>
+ <20230314170113.11968-2-listdansp@mail.ru>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <04bbe1e9-8b6b-9b06-f00c-40ccda1b47ae@omp.ru>
+Date:   Tue, 14 Mar 2023 20:06:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZBCU5h/A2woJLtvT@ye-NUC7i7DNHE>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20230314170113.11968-2-listdansp@mail.ru>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [31.173.83.0]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 03/14/2023 16:49:10
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 176098 [Mar 14 2023]
+X-KSE-AntiSpam-Info: Version: 5.9.59.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 507 507 08d345461d9bcca7095738422a5279ab257bb65a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.83.0 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.83.0 in (user) dbl.spamhaus.org}
+X-KSE-AntiSpam-Info: d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;lore.kernel.org:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.83.0
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 03/14/2023 16:52:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 3/14/2023 3:31:00 PM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Mar 14, 2023 at 11:38:14PM +0800, Ye, Xiang wrote:
-> On Tue, Mar 14, 2023 at 10:36:57AM +0200, Heikki Krogerus wrote:
-> > On Tue, Mar 14, 2023 at 04:03:26PM +0800, Ye, Xiang wrote:
+On 3/14/23 8:01 PM, Danila Chernetsov wrote:
 
-...
-
-> > You don't really seem to get any benefit from MFD. Perhaps it would be
-> > more appropriate and clear if you just registered auxiliary devices in
-> > this driver. Check drivers/base/auxiliary.c.
-> Yes, it should be a work. I have a question.
-> MFD provides the ACPI binding for sub-devices through
-> struct mfd_cell_acpi_match. But I didn't see this in drivers/base/auxiliary.c.
-> If using auxiliary bus to implement the LJCA sub-devices, we need to do
-> the sub-devices acpi binding manually in ljca.c.
+> From: Sergey Shtylyov <s.shtylyov@omp.ru>
 > 
-> Something Like:
-> adr = LJCA_ACPI_MATCH_GPIO
-> adev = acpi_find_child_device(parent, adr, false);
-> ACPI_COMPANION_SET(&pdev->dev, adev ?: parent);
+> commit b0ec7e55fce65f125bd1d7f02e2dc4de62abee34 upstream. 
 > 
-> Is that acceptable?
+> In musb_{save|restore}_context() the expression '&musb->endpoints[i]' just
+> cannot be NULL, so the checks have no sense at all -- after dropping them,
+> the local variables 'hw_ep' are no longer necessary, so drop them as well.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with the SVACE static
+> analysis tool.
+> 
+> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> Link: https://lore.kernel.org/r/3f8f60d9-f1b5-6b2c-1222-39b156151a22@omp.ru
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Danila Chernetsov <listdansp@mail.ru>
+> ---
+>  drivers/usb/musb/musb_core.c | 16 ++--------------
+>  1 file changed, 2 insertions(+), 14 deletions(-)
 
-Maybe you can implement this on the level of auxiliary bus.
+   Hum... why do you need it it 5.10.y?
 
+[...]
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+MBR, Sergey
