@@ -2,62 +2,62 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDCF6C6FD1D
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Mar 2023 13:11:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FADCC7618A
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Mar 2023 13:14:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232253AbjCNNL0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Mar 2023 09:11:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40482 "EHLO
+        id S231156AbjCNNOk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Mar 2023 09:14:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231835AbjCNNK7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Mar 2023 09:10:59 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CB3AACE2C
-        for <linux-usb@vger.kernel.org>; Tue, 14 Mar 2023 06:07:43 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id eh3so5860821edb.11
-        for <linux-usb@vger.kernel.org>; Tue, 14 Mar 2023 06:07:43 -0700 (PDT)
+        with ESMTP id S231627AbjCNNOR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Mar 2023 09:14:17 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 683D648E35
+        for <linux-usb@vger.kernel.org>; Tue, 14 Mar 2023 06:10:56 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id j11so61818358edq.4
+        for <linux-usb@vger.kernel.org>; Tue, 14 Mar 2023 06:10:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678799254;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Oc/yTtxpfi/cx0O/ciOGYJj7wULj4xSmUjomTMHGaJ0=;
-        b=p31pF1ns4sWtaUTbv/C0UlhNDkvsh3talyRX1LTrzSfXABvN8jNrAGIGfp9aNrsnk9
-         G1Vt3uZhvDVLIH0TiXhrSKrdASC1l8nyLqbBD47HAeDydcQ/wJKYrk44oPyxaxgEZYBI
-         r8k4lMR6DJfFuILGaPeo2sCOhDHVmZ5XzvyxQ4HWZHBwiV9aNJZZBirjUMm222CU+lp3
-         /JrA0ERg1O5IpwhXmw/348WJqXymx4dWt3VZEEBQHvBCX0Cs6tog2jxQT7kpYtQxxLuf
-         k7Bjl29+Q2HqosR/IzmVyv8heCg2LatBoj2ri1A6q3h/fDu7pPPRS23rQsgwJ0TW3pVY
-         amqg==
+        d=linaro.org; s=google; t=1678799447;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8MiNq49jj5N76vOjmnLvIQjHj4KSRTiJUui/5+4fP1s=;
+        b=vHXdM1bJb6FjYM85zFewZt+M17CyOCux6P6E4GLJWr5mXVPtRaS9q7exqz0zOYl+FG
+         B0FCGtieYQJ34XZPTemsQPMe8h1v0AhJ/bpj8FEFlfXVLazeNb2I+U7vWnjByOQygKdE
+         zQTK64FH78+MjgJgD8Zrwt8WrAheIxvdIPcxkxjDn+BxYaiU8KwT15xffeweR+6nFOVt
+         6TdGX/rGoPGUkVgNyPsXOiTJGrqUewZdA8Z/xGeJhbKaR5r3ytIxi/wUQWWzuOOjTb+D
+         vc6OQdqv5Y5JhuZL/xiRGoyQZnmAyNnQYrJQzLkU3qLIVY0CXrdzs6thQ3lqQhTRvd6w
+         ASAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678799254;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Oc/yTtxpfi/cx0O/ciOGYJj7wULj4xSmUjomTMHGaJ0=;
-        b=So3KIEZHk5dRbAHx2+V5hAP3jcTR0217AQe0Vm6SRnVb/6Car+XbhXcwrJOhenqKL2
-         45wvNOrrx3Gio42sJfG+0uMLW4PqHtWyJ5o1sMedaObA1LjmEEgujmko5r9wMc9oCWjg
-         9POBTcCTOk2ZEvHgxTMQPA9xhgIQhGoVqY27n5/omlqfsADG26VSsYRDv18Y6xe9QTp9
-         XRJwAUPnbP0XXjL/7PfcXu/UwNSzdFMIvIxdHW0gO7FV5QJjftCo3ygdL/mB/+UMmKej
-         0wV/KCseI+dTRGT2Xa++H4kdecKiBo0iZdb0fQt9RJbRI1RYUo7WKQdLrgGDRGGatr9O
-         rn/g==
-X-Gm-Message-State: AO0yUKUgfWLOtEIpGfYD5brGiAfnXvT51u4lphCHv9gJqo3s9nuJJmeJ
-        1vyQNFXaz9f+3z6FqiWiNxc+jG7DsIYuPSnHz/s=
-X-Google-Smtp-Source: AK7set/cA5JzNq58dSwBAkLHZCu0RayEc27uAlLkeTiHXGkrsrtUKK6Xmh8rmkhOulNKQc/fzE5z3w==
-X-Received: by 2002:ac2:4c29:0:b0:4e8:49ff:8df8 with SMTP id u9-20020ac24c29000000b004e849ff8df8mr770470lfq.61.1678798393458;
-        Tue, 14 Mar 2023 05:53:13 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678799447;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8MiNq49jj5N76vOjmnLvIQjHj4KSRTiJUui/5+4fP1s=;
+        b=aL9es9DDHwFMRawDjKemrOZy4gskL2T7M2gzT3LeuOjKmVSE+PuE+Umwu+kZe59QRU
+         zGwqp1RR1ZUG6ljPH7y/HKSrgwa9Sq/8drSXHqibkageKF5O8Hv341B8dKpfmudkQRZ/
+         vQ9VdR/E/WxQc49huSPWog+ylHgFwmZFbw2ou+bq7ZzLIX8FLYx7p97FzFil1Ci+gXRK
+         2uYPXPoOkNPc84wBMXzrE++Xt6tcVtktf3XEnQ4rpmNLRurguNI3u83ZdUUdsOfVDbyS
+         s/eAS9bRN3BBRw1+FALSMM7Jv9mwXr0iwYwDz406cJVR3tJQjkpJS5NKPi7Ct6dIS4QB
+         tbuQ==
+X-Gm-Message-State: AO0yUKVPr/MPo6x6SvxfY6bOgLikykvI/ocvAXmDpAaYeXa9Ap3SV296
+        O8ZFc14Mr0MGQAjR1P6LsQ+wlpyTvaF9R5bpluU=
+X-Google-Smtp-Source: AK7set8VKJrgRZQmRB5O8ZRHtIgj6S97HoqVRdvQ+bdeVt0+Ot8plS+62FwVZz74fIgpHE6Yl4Y7XA==
+X-Received: by 2002:ac2:4354:0:b0:4cc:73ff:579a with SMTP id o20-20020ac24354000000b004cc73ff579amr609441lfl.38.1678798386805;
+        Tue, 14 Mar 2023 05:53:06 -0700 (PDT)
 Received: from [192.168.1.101] (abyj16.neoplus.adsl.tpnet.pl. [83.9.29.16])
-        by smtp.gmail.com with ESMTPSA id s9-20020a19ad49000000b004dda74eccafsm395374lfd.68.2023.03.14.05.53.11
+        by smtp.gmail.com with ESMTPSA id s9-20020a19ad49000000b004dda74eccafsm395374lfd.68.2023.03.14.05.53.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 05:53:13 -0700 (PDT)
+        Tue, 14 Mar 2023 05:53:06 -0700 (PDT)
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Tue, 14 Mar 2023 13:52:58 +0100
-Subject: [PATCH 3/6] dt-bindings: nvmem: Add compatible for QCM2290
+Subject: [PATCH 0/6] QCM2290 compatibles
+Date:   Tue, 14 Mar 2023 13:52:55 +0100
+Message-Id: <20230314-topic-2290_compats-v1-0-47e26c3c0365@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230314-topic-2290_compats-v1-3-47e26c3c0365@linaro.org>
-References: <20230314-topic-2290_compats-v1-0-47e26c3c0365@linaro.org>
-In-Reply-To: <20230314-topic-2290_compats-v1-0-47e26c3c0365@linaro.org>
+X-B4-Tracking: v=1; b=H4sIACduEGQC/x2N0QrCMAwAf2Xk2UDXqTB/RUTSmLnAbEszRRj7d
+ 4OPd3DcBiZNxeDSbdDko6YlO/SHDnim/BTUhzPEEIcw9EdcS1XGGMdw5/KqtBqekvB4pkkkBfA
+ wkQmmRplnT/N7WVzWJpN+/6frbd9/94JWunkAAAA=
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
@@ -82,37 +82,42 @@ Cc:     linux-arm-msm@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-pm@vger.kernel.org,
         Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1678798384; l=777;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1678798384; l=1135;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=hWgvEppu/A1SXLKMMX+IVEfzPX58BD27JWEng55RY7w=;
- b=Ef0WrVrVXlVDBJBByuHYfJlJ7lKiC4VKDD9vte3q6X/PFMC2o+9sSEcy8IVuH2VILi/qU5aK+BY5
- Ts3tc5KED8ipFSTE15LUOfkLBF7qH00cFE3ULYIfdjVnID+Jp6zW
+ bh=IVVr6i/KawvLqgguv8RbQtO5KAqHsyGmBYNRJ1zL87s=;
+ b=W0b4hLXBOA8niOLA8fKdilzR5RN4jcIicLpxxMuwCxGKwdtorkzQeCG0KRkBUbfGtPhGN+20WiF1
+ 9tOrl1oNDvSI33bPrrkLp5i9LoYhpz7RyDAT9iAeJDJncuAa08eM
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Docuemnt the QFPROM on QCM2290.
+Document a couple of compatibles for IPs found on the QCM2290 that don't
+require any specific driver changes
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Konrad Dybcio (6):
+      dt-bindings: watchdog: qcom-wdt: add QCM2290
+      dt-bindings: dmaengine: qcom: gpi: Add QCM2290 GPI DMA
+      dt-bindings: nvmem: Add compatible for QCM2290
+      dt-bindings: mmc: sdhci-msm: Document QCM2290 SDHCI
+      dt-bindings: usb: dwc3: Add QCM2290 compatible
+      dt-bindings: thermal: tsens: Add QCM2290
 
-diff --git a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
-index 2173fe82317d..1bd213f9eb38 100644
---- a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
-+++ b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
-@@ -25,6 +25,7 @@ properties:
-           - qcom,msm8976-qfprom
-           - qcom,msm8996-qfprom
-           - qcom,msm8998-qfprom
-+          - qcom,qcm2290-qfprom
-           - qcom,qcs404-qfprom
-           - qcom,sc7180-qfprom
-           - qcom,sc7280-qfprom
+ Documentation/devicetree/bindings/dma/qcom,gpi.yaml       | 1 +
+ Documentation/devicetree/bindings/mmc/sdhci-msm.yaml      | 1 +
+ Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml  | 1 +
+ Documentation/devicetree/bindings/thermal/qcom-tsens.yaml | 1 +
+ Documentation/devicetree/bindings/usb/qcom,dwc3.yaml      | 2 ++
+ Documentation/devicetree/bindings/watchdog/qcom-wdt.yaml  | 1 +
+ 6 files changed, 7 insertions(+)
+---
+base-commit: ec0fa9a0a6fac454745c930bdb8619d0a354bac9
+change-id: 20230314-topic-2290_compats-5bec96afeeb0
 
+Best regards,
 -- 
-2.39.2
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
