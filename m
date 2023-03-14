@@ -2,154 +2,117 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D721C6FD1F
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Mar 2023 07:37:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FCB9C6FD1C
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Mar 2023 08:00:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229769AbjCNHhj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Mar 2023 03:37:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52852 "EHLO
+        id S229813AbjCNIAg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Mar 2023 04:00:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbjCNHhi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Mar 2023 03:37:38 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A60898FE;
-        Tue, 14 Mar 2023 00:37:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229616AbjCNIAf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Mar 2023 04:00:35 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F89559F3;
+        Tue, 14 Mar 2023 01:00:34 -0700 (PDT)
+Received: from dungeon.fi (dungeon.fi [IPv6:2a00:d880:11::2cc])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 702A2B818A0;
-        Tue, 14 Mar 2023 07:37:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C8EBC433EF;
-        Tue, 14 Mar 2023 07:37:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1678779454;
-        bh=TjlGRsE1M6KA98s2hpAwK21M3/yIO8CR8yaiRC8Hb0I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=zls9ke29aj1DCCmOJrJdv4uEoLDDaGk9M1d1m1oeyi0mghfr8hu8LWWKV63182/pN
-         3LuxeFbKUFr5TPsWh+tz8mlklmZHwGJJ2ySIvyercn5FSkUd8Jsj3h0lIHWsFjRHw3
-         jUVadXbLVgBPiCZyte6lgF/0BrkRF6/eVX5Lajf0=
-Date:   Tue, 14 Mar 2023 08:37:30 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jarkko Sonninen <kasper@iki.fi>
+        (Authenticated sender: kasper)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4PbQtm1z9SzyQw;
+        Tue, 14 Mar 2023 10:00:32 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1678780832;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=MqqP8dAaTJxKYLVhrLNOji8cK4C0GYGHCgk2k9zgffk=;
+        b=e2strcF59Y3e10E9Ij7EiuTGMnKfQLZpWom41hz/11oSnP/wQSswIdw4QyKServQ3acJ6M
+        fOHPi5Och13eez6IECXx4BsF0txeBibGHihwqIfxTxkYdUGqiKaBfuYB3VbYUhW4XO0MkH
+        jmPF6/F0tY9aJQzFzKcIrD+TCFnWoZI=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1678780832; a=rsa-sha256; cv=none;
+        b=V4nMlofw/DyZBNt19aj/ZNt0YOeICwkTt8svCkUSf9ljdTEGnPxzVbor7TO5OayX76FEEV
+        U4I0LDx6FTHhMW6+2o8FNbAU7iKYrf93fbgr5GQLOJaho62MRsYPrnBhuYFhEz112iDbiQ
+        ibwW+1D/Fq/HPCwBHw+oejql7j53zWI=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=kasper smtp.mailfrom=kasper@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1678780832;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=MqqP8dAaTJxKYLVhrLNOji8cK4C0GYGHCgk2k9zgffk=;
+        b=or70kB9KhDrbfPj3RyAR1pR+ZNobzxKQumhcTcfwg4LT734J7/++6TlsKI6HlafaTrbbhv
+        /lmJD3PkWgKpkxbnYqpcw1G50YtMlcYyo0CbskpDWUu31oQijo8wUT2CQd2fBnaVoVzFol
+        VSnyLmwXnGcfnIC8oux4CBnX+ACmCnQ=
+Received: from [IPV6:2001:14ba:440a:f000::5] (dktgsyyyyyyyyyyyyyyct-3.rev.dnainternet.fi [IPv6:2001:14ba:440a:f000::5])
+        by dungeon.fi (Postfix) with ESMTPSA id BCAA53F371;
+        Tue, 14 Mar 2023 10:00:30 +0200 (EET)
+Message-ID: <f1e5eb1c-ed1f-96d7-ecf5-69b467ed8339@iki.fi>
+Date:   Tue, 14 Mar 2023 10:00:22 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v3] USB: serial: xr: Add TIOCGRS485 and TIOCSRS485 ioctls
+Content-Language: en-US
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] USB: serial: xr: Add TIOCGRS485 and TIOCSRS485 ioctls
-Message-ID: <ZBAkOr0epPPICLNP@kroah.com>
 References: <20230313010416.845252-1-kasper@iki.fi>
- <20230314070002.1008959-1-kasper@iki.fi>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230314070002.1008959-1-kasper@iki.fi>
+ <20230314070002.1008959-1-kasper@iki.fi> <ZBAkOr0epPPICLNP@kroah.com>
+From:   Jarkko Sonninen <kasper@iki.fi>
+In-Reply-To: <ZBAkOr0epPPICLNP@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Mar 14, 2023 at 09:00:01AM +0200, Jarkko Sonninen wrote:
-> Add support for RS-485 in Exar USB adapters.
-> RS-485 mode is controlled by TIOCGRS485 and TIOCSRS485 ioctls.
-> Gpio mode register is set to enable RS-485.
-> 
-> Signed-off-by: Jarkko Sonninen <kasper@iki.fi>
-> ---
-> 
-> In this version only rs485.flags are stored to state.
-> There is no locking as only one bit of the flags is used.
-> ioctl returns -ENOIOCTLCMD as the actual error handling is in tty code.
+On 3/14/23 09:37, Greg Kroah-Hartman wrote:
+> On Tue, Mar 14, 2023 at 09:00:01AM +0200, Jarkko Sonninen wrote:
+>> Add support for RS-485 in Exar USB adapters.
+>> RS-485 mode is controlled by TIOCGRS485 and TIOCSRS485 ioctls.
+>> Gpio mode register is set to enable RS-485.
+>>
+>> Signed-off-by: Jarkko Sonninen <kasper@iki.fi>
+>> ---
+>>
+>> In this version only rs485.flags are stored to state.
+>> There is no locking as only one bit of the flags is used.
+>> ioctl returns -ENOIOCTLCMD as the actual error handling is in tty code.
+> And the difference between previous versions?  Take a look at the
+> documentation for how to better describe version differences please.
 
-And the difference between previous versions?  Take a look at the
-documentation for how to better describe version differences please.
+I'll try to be more precise in the future.
 
-> 
->  drivers/usb/serial/xr_serial.c | 62 +++++++++++++++++++++++++++++++++-
->  1 file changed, 61 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-> index fdb0aae546c3..7b542ccb6596 100644
-> --- a/drivers/usb/serial/xr_serial.c
-> +++ b/drivers/usb/serial/xr_serial.c
-> @@ -93,6 +93,7 @@ struct xr_txrx_clk_mask {
->  #define XR_GPIO_MODE_SEL_DTR_DSR	0x2
->  #define XR_GPIO_MODE_SEL_RS485		0x3
->  #define XR_GPIO_MODE_SEL_RS485_ADDR	0x4
-> +#define XR_GPIO_MODE_RS485_TX_H		0x8
->  #define XR_GPIO_MODE_TX_TOGGLE		0x100
->  #define XR_GPIO_MODE_RX_TOGGLE		0x200
->  
-> @@ -237,6 +238,7 @@ static const struct xr_type xr_types[] = {
->  struct xr_data {
->  	const struct xr_type *type;
->  	u8 channel;			/* zero-based index or interface number */
-> +	u32 rs485_flags;
+>> +	memset(&rs485, 0, sizeof(rs485));
+> But you just copied this from userspace, why zero it out again?  Is that
+> to be expected (I really don't remember, sorry).
 
-Nit, you might want to move this up above channel as you now have a hole
-in this structure.  Not like it's that big of a deal so if you don't
-have to respin this no need to change.
 
->  };
->  
->  static int xr_set_reg(struct usb_serial_port *port, u8 channel, u16 reg, u16 val)
-> @@ -645,9 +647,13 @@ static void xr_set_flow_mode(struct tty_struct *tty,
->  	/* Set GPIO mode for controlling the pins manually by default. */
->  	gpio_mode &= ~XR_GPIO_MODE_SEL_MASK;
->  
-> +	if (data->rs485_flags & SER_RS485_ENABLED)
-> +		gpio_mode |= XR_GPIO_MODE_SEL_RS485 | XR_GPIO_MODE_RS485_TX_H;
-> +	else if (C_CRTSCTS(tty) && C_BAUD(tty) != B0)
-> +		gpio_mode |= XR_GPIO_MODE_SEL_RTS_CTS;
-> +
->  	if (C_CRTSCTS(tty) && C_BAUD(tty) != B0) {
->  		dev_dbg(&port->dev, "Enabling hardware flow ctrl\n");
-> -		gpio_mode |= XR_GPIO_MODE_SEL_RTS_CTS;
->  		flow = XR_UART_FLOW_MODE_HW;
->  	} else if (I_IXON(tty)) {
->  		u8 start_char = START_CHAR(tty);
-> @@ -827,6 +833,59 @@ static void xr_set_termios(struct tty_struct *tty,
->  	xr_set_flow_mode(tty, port, old_termios);
->  }
->  
-> +static int xr_get_rs485_config(struct tty_struct *tty,
-> +			 unsigned int __user *argp)
-> +{
-> +	struct usb_serial_port *port = tty->driver_data;
-> +	struct xr_data *data = usb_get_serial_port_data(port);
-> +	struct serial_rs485 rs485;
-> +
-> +	dev_dbg(tty->dev, "Flags %02x\n", data->rs485_flags);
-> +	memset(&rs485, 0, sizeof(rs485));
-> +	rs485.flags = data->rs485_flags;
-> +	if (copy_to_user(argp, &rs485, sizeof(rs485)))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +}
-> +
-> +static int xr_set_rs485_config(struct tty_struct *tty,
-> +			 unsigned long __user *argp)
-> +{
-> +	struct usb_serial_port *port = tty->driver_data;
-> +	struct xr_data *data = usb_get_serial_port_data(port);
-> +	struct serial_rs485 rs485;
-> +
-> +	if (copy_from_user(&rs485, argp, sizeof(rs485)))
-> +		return -EFAULT;
-> +
-> +	dev_dbg(tty->dev, "Flags %02x\n", rs485.flags);
-> +	data->rs485_flags = rs485.flags & SER_RS485_ENABLED;
-> +	xr_set_flow_mode(tty, port, (const struct ktermios *)0);
-> +
-> +	// Only the enable flag is implemented
+serial.h says
 
-All the other comments in this file use /* */ so you should be
-consistent.
+/*
+  * Serial interface for controlling RS485 settings on chips with suitable
+  * support. Set with TIOCSRS485 and get with TIOCGRS485 if supported by 
+your
+  * platform. The set function returns the new state, with any 
+unsupported bits
+  * reverted appropriately.
+  */
 
-> +	memset(&rs485, 0, sizeof(rs485));
+This may mean only the flags, but I decided to zero the other 
+unsupported fields as well.
 
-But you just copied this from userspace, why zero it out again?  Is that
-to be expected (I really don't remember, sorry).
 
-Anyway, just minor comments, I'll let others review it as well.
+> Anyway, just minor comments, I'll let others review it as well.
+>
+> thanks,
+>
+> greg k-h
 
-thanks,
+     - Jarkko
 
-greg k-h
