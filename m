@@ -2,39 +2,36 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 190ACC6FD1F
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Mar 2023 16:09:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 539B7C6FD1F
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Mar 2023 16:20:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbjCPQJ3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Mar 2023 12:09:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53264 "EHLO
+        id S229977AbjCPQUT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Mar 2023 12:20:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbjCPQJ1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Mar 2023 12:09:27 -0400
-X-Greylist: delayed 449 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 16 Mar 2023 09:09:26 PDT
-Received: from forward103o.mail.yandex.net (forward103o.mail.yandex.net [37.140.190.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90CB08A64;
-        Thu, 16 Mar 2023 09:09:26 -0700 (PDT)
-Received: from forward100q.mail.yandex.net (forward100q.mail.yandex.net [IPv6:2a02:6b8:c0e:4b:0:640:4012:bb97])
-        by forward103o.mail.yandex.net (Yandex) with ESMTP id 3BF0310AA90A;
-        Thu, 16 Mar 2023 18:55:46 +0300 (MSK)
-Received: from vla1-2f6a8787997a.qloud-c.yandex.net (vla1-2f6a8787997a.qloud-c.yandex.net [IPv6:2a02:6b8:c0d:35a1:0:640:2f6a:8787])
-        by forward100q.mail.yandex.net (Yandex) with ESMTP id 3762F6F40007;
-        Thu, 16 Mar 2023 18:55:46 +0300 (MSK)
-Received: by vla1-2f6a8787997a.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA id 8tmDo6Yck8c1-N43cg4iV;
-        Thu, 16 Mar 2023 18:55:45 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail; t=1678982145;
-        bh=BQReFTG2lcPA75b18D8vey98+5FpL4ag8kMta6cDrLc=;
-        h=Message-Id:Date:Cc:Subject:To:From;
-        b=EtPFiL6PpQMV+ji65NctGCy9xESd+yPzBu6Tdgj0JcTt5nT2pLC38luwMnLIpu3kp
-         2N9hKaF2o+tkeK2jFkADZtZIoq4eqoP/QwDSeu4E6lOPwIalzbB0EHSZjsPRiIaU2u
-         RzAuBJfL4zXWqlquxs41W3qMqcCO3sX/pxIynifE=
-Authentication-Results: vla1-2f6a8787997a.qloud-c.yandex.net; dkim=pass header.i=@yandex.ru
-From:   Valery Zabrovsky <valthebrewer@yandex.ru>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Valery Zabrovsky <valthebrewer@yandex.ru>,
-        Guo Zhengkui <guozhengkui@vivo.com>,
+        with ESMTP id S229940AbjCPQUS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Mar 2023 12:20:18 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A34AEE2510;
+        Thu, 16 Mar 2023 09:19:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3EF9EB8227B;
+        Thu, 16 Mar 2023 16:19:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94AE7C433EF;
+        Thu, 16 Mar 2023 16:19:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1678983577;
+        bh=dTsd/PL4Q3omoMF56pqe4IplV8a9A+s1oiMDQ7fMXyk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NHvg7MlOckeE95ZfYl5bedYflaBZ11UWbjxvIZmr5m4Mf9hklF//49FS6Flaww2QI
+         Y18gmcFB3RWC6thgGeOcBoDngVM8INOjmMAKFtqTtAvxMf6RzJhnT1O/Z2ejVyi3Zb
+         wNkDN7D3jLSYDaRMYXc4fsCMQPytXKQT0Zh2wQL8=
+Date:   Thu, 16 Mar 2023 17:19:35 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Valery Zabrovsky <valthebrewer@yandex.ru>
+Cc:     Guo Zhengkui <guozhengkui@vivo.com>,
         Aaro Koskinen <aaro.koskinen@iki.fi>,
         Alan Stern <stern@rowland.harvard.edu>,
         Mian Yousaf Kaukab <yousaf.kaukab@intel.com>,
@@ -42,43 +39,32 @@ Cc:     Valery Zabrovsky <valthebrewer@yandex.ru>,
         Alexey Khoroshilov <khoroshilov@ispras.ru>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         lvc-project@linuxtesting.org
-Subject: [PATCH] usb: gadget: net2280: fix NULL pointer dereference
-Date:   Thu, 16 Mar 2023 18:53:55 +0300
-Message-Id: <20230316155356.13391-1-valthebrewer@yandex.ru>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH] usb: gadget: net2280: fix NULL pointer dereference
+Message-ID: <ZBNBlwc9lt+pLFkd@kroah.com>
+References: <20230316155356.13391-1-valthebrewer@yandex.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230316155356.13391-1-valthebrewer@yandex.ru>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In net2280_free_request():
-If _ep is NULL, then ep is NULL and is dereferenced
-while trying to produce an error message.
-The patch replaces dev_err() with pr_err() which works fine.
+On Thu, Mar 16, 2023 at 06:53:55PM +0300, Valery Zabrovsky wrote:
+> In net2280_free_request():
+> If _ep is NULL, then ep is NULL and is dereferenced
+> while trying to produce an error message.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+How can that ever happen?  How did you test and hit this?
 
-Fixes: 9ceafcc2b3ad ("usb: gadget: net2280: print error in ep_ops error paths")
-Signed-off-by: Valery Zabrovsky <valthebrewer@yandex.ru>
----
- drivers/usb/gadget/udc/net2280.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+> The patch replaces dev_err() with pr_err() which works fine.
 
-diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/net2280.c
-index 1b929c519cd7..a027d1323993 100644
---- a/drivers/usb/gadget/udc/net2280.c
-+++ b/drivers/usb/gadget/udc/net2280.c
-@@ -584,8 +584,7 @@ static void net2280_free_request(struct usb_ep *_ep, struct usb_request *_req)
- 
- 	ep = container_of(_ep, struct net2280_ep, ep);
- 	if (!_ep || !_req) {
--		dev_err(&ep->dev->pdev->dev, "%s: Invalid ep=%p or req=%p\n",
--							__func__, _ep, _req);
-+		pr_err("%s: Invalid ep=%p or req=%p\n", __func__, _ep, _req);
- 		return;
- 	}
- 
--- 
-2.34.1
+That's not a good idea for driver code to use, sorry.
 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+
+As I have said before, your testing framework needs a lot more work.
+
+good luck!
+
+greg k-h
