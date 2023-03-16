@@ -2,115 +2,186 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DAFCC74A5B
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Mar 2023 23:09:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F04EC74A5B
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Mar 2023 23:38:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229624AbjCPXJz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Mar 2023 19:09:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54108 "EHLO
+        id S229769AbjCPXiT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Mar 2023 19:38:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230319AbjCPXJw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Mar 2023 19:09:52 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B5F82069C;
-        Thu, 16 Mar 2023 16:09:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679008190; x=1710544190;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UH68FltZn58LYhbziPJqYiYePEpTo7vpEi3kwULtdnI=;
-  b=BtsWUG1XRfc65DFGs/aK9+iFwTEmMh784ohtsvkCaxULYFl46oEK4i1R
-   23Roav25DUFOurvXGOJMt2X4ke4XIvgJw3K8wrbpJ7wmhqF7O7k5G0T18
-   +mBPW1r3jATtpUE3pHvVNsjcEhdvOxZ3lmrUaChsIGeqXwUx1VcN+uDPe
-   kVoSw0FcChYsPFn9z88XJZCjEQbWuOD+McGGRT5KXbFgCUmZvKsqjyW8m
-   a+aSFQOjsDIdVEc9lGQ5uR16Ytbp8HpF0dFelaHlbgqvlQ2+jC03W3DlZ
-   UeDRuYYIDgTwFjkodaziKl9yZ5yFjp4HjU4xlgdmpqYMErK1C2Xs2jhBH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="400717989"
-X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="400717989"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 16:09:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="925933479"
-X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; 
-   d="scan'208";a="925933479"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 16 Mar 2023 16:09:46 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pcwjB-0008sY-2t;
-        Thu, 16 Mar 2023 23:09:45 +0000
-Date:   Fri, 17 Mar 2023 07:08:50 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Zheng Wang <zyytlz.wz@163.com>, valentina.manea.m@gmail.com
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
-        1395428693sheep@gmail.com, alex000young@gmail.com,
-        skhan@linuxfoundation.org, Zheng Wang <zyytlz.wz@163.com>
-Subject: Re: [PATCH v2] usbip: vudc: Fix use after free bug in vudc_remove
- due to race condition
-Message-ID: <202303170604.MoMGMPvW-lkp@intel.com>
-References: <20230316180940.1601515-1-zyytlz.wz@163.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230316180940.1601515-1-zyytlz.wz@163.com>
+        with ESMTP id S229473AbjCPXiS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Mar 2023 19:38:18 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4355B69211;
+        Thu, 16 Mar 2023 16:38:16 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32GMU10v003257;
+        Thu, 16 Mar 2023 23:38:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=i0XJRS5q6hBPStYCsWrDNHvg1jTjLpcHlCzKYJqObk4=;
+ b=gT8vQTXZCraozXnGblQMfqk3SvbqSRM8D8YaWRqYfo+vQWzdcBNojiamOBHwfjKN9yir
+ G57lun6yRMazR8+gV7w58jobdokQSMbwjyvMtbThI0E+FYG2osmusUhHHfi8PWQAT1rO
+ YuxCEzPWuUdeX9yoZZyQhyaEw+PBv3wZ2Qp1a89KLlzWbRSZYvhV3t5onSzOuzIqFfII
+ SJGxsanfQnw7xqBnhygibYEKe9OwMYFV0iPyfP9r8w1C1eyHcCrUOTSKjru7zdBkvjH5
+ rNbCorPDOanWemZsdvUxtMoiU/sTJDAxyNbyBIN3L+qoEtstoo+BS9BgI2717Xa3D3JQ iQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pcbas86fg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 16 Mar 2023 23:38:14 +0000
+Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 32GNb0PW026529;
+        Thu, 16 Mar 2023 23:38:13 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 3pc0sy3ys6-1;
+        Thu, 16 Mar 2023 23:38:13 +0000
+Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32GNbX21027202;
+        Thu, 16 Mar 2023 23:38:12 GMT
+Received: from hu-devc-lv-c.qualcomm.com (hu-eserrao-lv.qualcomm.com [10.47.235.164])
+        by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 32GNcCS3027481;
+        Thu, 16 Mar 2023 23:38:12 +0000
+Received: by hu-devc-lv-c.qualcomm.com (Postfix, from userid 464172)
+        id A65D020E56; Thu, 16 Mar 2023 16:38:12 -0700 (PDT)
+From:   Elson Roy Serrao <quic_eserrao@quicinc.com>
+To:     gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
+        Elson Roy Serrao <quic_eserrao@quicinc.com>
+Subject: [PATCH v12 3/6] usb: gadget: Add function wakeup support
+Date:   Thu, 16 Mar 2023 16:38:05 -0700
+Message-Id: <1679009888-8239-4-git-send-email-quic_eserrao@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1679009888-8239-1-git-send-email-quic_eserrao@quicinc.com>
+References: <1679009888-8239-1-git-send-email-quic_eserrao@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: lB-mQKOz0PQK2WPDO9SfZ4zvRZbjuJHw
+X-Proofpoint-ORIG-GUID: lB-mQKOz0PQK2WPDO9SfZ4zvRZbjuJHw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-16_14,2023-03-16_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
+ mlxlogscore=488 mlxscore=0 malwarescore=0 bulkscore=0 phishscore=0
+ spamscore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303160176
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Zheng,
+USB3.2 spec section 9.2.5.4 quotes that a function may signal that
+it wants to exit from Function Suspend by sending a Function
+Wake Notification to the host if it is enabled for function
+remote wakeup. Add an api in composite layer that can be used
+by the function drivers to support this feature. Also expose
+a gadget op so that composite layer can trigger a wakeup request
+to the UDC driver.
 
-Thank you for the patch! Yet something to improve:
+Reviewed-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
+---
+ drivers/usb/gadget/composite.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ include/linux/usb/composite.h  |  6 ++++++
+ include/linux/usb/gadget.h     |  1 +
+ 3 files changed, 47 insertions(+)
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.3-rc2 next-20230316]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zheng-Wang/usbip-vudc-Fix-use-after-free-bug-in-vudc_remove-due-to-race-condition/20230317-021228
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230316180940.1601515-1-zyytlz.wz%40163.com
-patch subject: [PATCH v2] usbip: vudc: Fix use after free bug in vudc_remove due to race condition
-config: i386-randconfig-a015-20230313 (https://download.01.org/0day-ci/archive/20230317/202303170604.MoMGMPvW-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/46cc0947344ed93f7f1f4639209c5c6cce16fad3
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Zheng-Wang/usbip-vudc-Fix-use-after-free-bug-in-vudc_remove-due-to-race-condition/20230317-021228
-        git checkout 46cc0947344ed93f7f1f4639209c5c6cce16fad3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/usb/usbip/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303170604.MoMGMPvW-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/usb/usbip/vudc_dev.c:636:28: error: no member named 'timer' in 'struct vudc'
-           timer_shutdown_sync(&udc->timer);
-                                ~~~  ^
-   1 error generated.
-
-
-vim +636 drivers/usb/usbip/vudc_dev.c
-
-   631	
-   632	int vudc_remove(struct platform_device *pdev)
-   633	{
-   634		struct vudc *udc = platform_get_drvdata(pdev);
-   635	
- > 636		timer_shutdown_sync(&udc->timer);
-
+diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
+index c9c983e..2111732 100644
+--- a/drivers/usb/gadget/composite.c
++++ b/drivers/usb/gadget/composite.c
+@@ -492,6 +492,46 @@ int usb_interface_id(struct usb_configuration *config,
+ }
+ EXPORT_SYMBOL_GPL(usb_interface_id);
+ 
++/**
++ * usb_func_wakeup - sends function wake notification to the host.
++ * @func: function that sends the remote wakeup notification.
++ *
++ * Applicable to devices operating at enhanced superspeed when usb
++ * functions are put in function suspend state and armed for function
++ * remote wakeup. On completion, function wake notification is sent. If
++ * the device is in low power state it tries to bring the device to active
++ * state before sending the wake notification. Since it is a synchronous
++ * call, caller must take care of not calling it in interrupt context.
++ * For devices operating at lower speeds  returns negative errno.
++ *
++ * Returns zero on success, else negative errno.
++ */
++int usb_func_wakeup(struct usb_function *func)
++{
++	struct usb_gadget	*gadget = func->config->cdev->gadget;
++	int			id;
++
++	if (!gadget->ops->func_wakeup)
++		return -EOPNOTSUPP;
++
++	if (!func->func_wakeup_armed) {
++		ERROR(func->config->cdev, "not armed for func remote wakeup\n");
++		return -EINVAL;
++	}
++
++	for (id = 0; id < MAX_CONFIG_INTERFACES; id++)
++		if (func->config->interface[id] == func)
++			break;
++
++	if (id == MAX_CONFIG_INTERFACES) {
++		ERROR(func->config->cdev, "Invalid function\n");
++		return -EINVAL;
++	}
++
++	return gadget->ops->func_wakeup(gadget, id);
++}
++EXPORT_SYMBOL_GPL(usb_func_wakeup);
++
+ static u8 encode_bMaxPower(enum usb_device_speed speed,
+ 		struct usb_configuration *c)
+ {
+diff --git a/include/linux/usb/composite.h b/include/linux/usb/composite.h
+index d949e91..a2448e9 100644
+--- a/include/linux/usb/composite.h
++++ b/include/linux/usb/composite.h
+@@ -150,6 +150,9 @@ struct usb_os_desc_table {
+  *	GetStatus() request when the recipient is Interface.
+  * @func_suspend: callback to be called when
+  *	SetFeature(FUNCTION_SUSPEND) is reseived
++ * @func_suspended: Indicates whether the function is in function suspend state.
++ * @func_wakeup_armed: Indicates whether the function is armed by the host for
++ *	wakeup signaling.
+  *
+  * A single USB function uses one or more interfaces, and should in most
+  * cases support operation at both full and high speeds.  Each function is
+@@ -220,6 +223,8 @@ struct usb_function {
+ 	int			(*get_status)(struct usb_function *);
+ 	int			(*func_suspend)(struct usb_function *,
+ 						u8 suspend_opt);
++	bool			func_suspended;
++	bool			func_wakeup_armed;
+ 	/* private: */
+ 	/* internals */
+ 	struct list_head		list;
+@@ -241,6 +246,7 @@ int config_ep_by_speed_and_alt(struct usb_gadget *g, struct usb_function *f,
+ 
+ int config_ep_by_speed(struct usb_gadget *g, struct usb_function *f,
+ 			struct usb_ep *_ep);
++int usb_func_wakeup(struct usb_function *func);
+ 
+ #define	MAX_CONFIG_INTERFACES		16	/* arbitrary; max 255 */
+ 
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index 1d79612..75bda078 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -310,6 +310,7 @@ struct usb_udc;
+ struct usb_gadget_ops {
+ 	int	(*get_frame)(struct usb_gadget *);
+ 	int	(*wakeup)(struct usb_gadget *);
++	int	(*func_wakeup)(struct usb_gadget *gadget, int intf_id);
+ 	int	(*set_remote_wakeup)(struct usb_gadget *, int set);
+ 	int	(*set_selfpowered) (struct usb_gadget *, int is_selfpowered);
+ 	int	(*vbus_session) (struct usb_gadget *, int is_active);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.7.4
+
