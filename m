@@ -2,61 +2,60 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F2A7C77B60
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Mar 2023 15:05:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E51B2C7618E
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Mar 2023 15:05:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231578AbjCQPFJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Mar 2023 11:05:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49420 "EHLO
+        id S231593AbjCQPFL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Mar 2023 11:05:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229621AbjCQPEp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Mar 2023 11:04:45 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AACF145B6B
-        for <linux-usb@vger.kernel.org>; Fri, 17 Mar 2023 08:04:32 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id j2so4713968wrh.9
-        for <linux-usb@vger.kernel.org>; Fri, 17 Mar 2023 08:04:32 -0700 (PDT)
+        with ESMTP id S231469AbjCQPEy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Mar 2023 11:04:54 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEC3A145B66
+        for <linux-usb@vger.kernel.org>; Fri, 17 Mar 2023 08:04:37 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id v25so1258166wra.12
+        for <linux-usb@vger.kernel.org>; Fri, 17 Mar 2023 08:04:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679065471;
+        d=linaro.org; s=google; t=1679065476;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6rVvABTU02+Rtyy/Qih7T8rgJ/JIJYUn4nN2d26Tjag=;
-        b=rXPA2nnw9gsiBl04J6SMbdg31k9lyseZv/FGJM+nW6f7JvsFRTH4xG1kES4rt532II
-         jB9GIiye7fW9E/5OflCqoyu9Nq2ZYFbbkAuLJSeGppVivUq816lZhe0Djn/RpVkS8t1r
-         Rvf1+xSq5m3T7i2VY2JxyXUEkpbFnXwvElnOcLmJCvFefEvBFOWERR3Nm8x4Qg44ZS2m
-         1rId9ms9bSBW3oWL1ErbUZt5nwzA9Ro1jyqQ34lD/yin4I0iCXQYQwd6C18gwHdBEPED
-         dP7e6qoj/VZV/7JVFV1eOSgbIy6Qt5vLVKMxruCAQ1YwRfC6EU3ghrjNmoE4k1CUK3o1
-         U3pA==
+        bh=n0orW1CTnM6DAdshwwXX6e/Knv2tholAvEuPEyPRFIo=;
+        b=thOz4Bqxx3aTg5BS5u+gcrBNnxZbSpDBFAr6GQFvbn1o0Cw1G2+korkQq5PDU/bGbm
+         Cc1uy6fQDBocp9xAfnJSIcZtxGmgaoYWyzDJCfeXQO5LApq26Q5LbblslY0DNBliOQlp
+         H2p89gtcc1iu72YHH+C/yXj3al3bml83tOkWYzCiFKUh1qPG4oWjxmkZrBvztPtQj6Yc
+         yHbL15SZl50wfpidVG6U5cZz8d0vImB9kekXI1YLFQNU7NzbuZoMLOvA/wubJAWwcjzE
+         Ne8uKWTk+48RrV6M+oo6dSSeQW5JMoVfSjBvoE0q2mgna7BpTM4PJg9OWdZ8pXIhoqac
+         RkEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679065471;
+        d=1e100.net; s=20210112; t=1679065476;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6rVvABTU02+Rtyy/Qih7T8rgJ/JIJYUn4nN2d26Tjag=;
-        b=aIqJXSK1dX9296dtf2a8Oe1Cknq7tnIvXZmXXbdJK6hT5gVwy12F86ufzgJGQ0zo2U
-         mXkW9iBYgD60EW6IYeMWMuu/ZpdmNlA6uuDF8wE5vr9+5ONSyeKrCibgsgwzdhfzRE3i
-         8//YpH7PrP46RhLI8mlpwwn2wL+qd/z2WmvlA0DapSNLx4d2Otns9/RV5VxOtKHGPvY0
-         4DD1iz8dQnilH9kNpgsX7/bYjZXPEnJig7x7jqLiuvN0uifQkiCI684DYAcRQ9Os47AG
-         ffc7pviFXWEhIAxYRGRwkVt5Ly2B6b3jBfp5+Xu27oRI6L0BtwRf7+3NTf37oFOG5oX0
-         DMSw==
-X-Gm-Message-State: AO0yUKXeKX2b3Jx7UknLGRCPyccvITwYgScTvKbmgRsxtS45K4u2Dj3c
-        t0RNMLzz+XHaReVbWI1t0H4SUg==
-X-Google-Smtp-Source: AK7set/FOFk3wAIGeEm/ZEv4eZqOeXKF88Z4u+Cr9+TUKD1OFUCu5TtuXBCm2YwBsz+6azua2OgPUw==
-X-Received: by 2002:a5d:66ca:0:b0:2cf:e3d8:5df9 with SMTP id k10-20020a5d66ca000000b002cfe3d85df9mr7031464wrw.58.1679065471313;
-        Fri, 17 Mar 2023 08:04:31 -0700 (PDT)
+        bh=n0orW1CTnM6DAdshwwXX6e/Knv2tholAvEuPEyPRFIo=;
+        b=X00/kXD8uRW2xsEAyFmUFCA3bP58ouPFfr7NjVJP8B2WJbPGvlW4nbn1pQmkesDrMF
+         pr5+lcMkt8LLPcdAayhGptrtdFEiV6oM0Fni2YeOE7gFLdR9EvkEiB80ypZTDeg2ul6Z
+         9tYQ1tyNJ4Rar3tdqec3VJ8qA/DtZ21RvwfEsK0cfCg4WF655dai1k5PlSUi9y+vBcMe
+         PZzg4mPvXw8UKt2pL5u2F6G+vJC5rGpyJMm/9Qwec4PcH28qMoBZUnX9G1LwUTxHVxIs
+         utmG9Fb1HNLfR0uhn1OZNY74Dri3ZK6Vsw9frSDc6Rt3iIjnky2DlhxTJO5yvUzVLnF8
+         sBcw==
+X-Gm-Message-State: AO0yUKUQNapTlujaFGsTaBh3oUX7v0GfEecYjlh+rneY+kv5DBYXO900
+        3lEH8YDl/P8kcrXDhbhECvJfcQ==
+X-Google-Smtp-Source: AK7set/27QgRLlofrRbBq6ib9GCEdM3UBqceT1TuEhdddZ/nsuIbDQcnv0yskcG1IYIplUBj0Sw1pg==
+X-Received: by 2002:adf:fd50:0:b0:2c3:fb3e:ae85 with SMTP id h16-20020adffd50000000b002c3fb3eae85mr7995557wrs.44.1679065475843;
+        Fri, 17 Mar 2023 08:04:35 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id q14-20020a05600000ce00b002be505ab59asm2133773wrx.97.2023.03.17.08.04.30
+        by smtp.gmail.com with ESMTPSA id q14-20020a05600000ce00b002be505ab59asm2133773wrx.97.2023.03.17.08.04.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 08:04:31 -0700 (PDT)
+        Fri, 17 Mar 2023 08:04:35 -0700 (PDT)
 From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Fri, 17 Mar 2023 16:04:23 +0100
-Subject: [PATCH v4 07/12] arm64: dts: qcom: sm8450: add port subnodes in
- dwc3 node
+Date:   Fri, 17 Mar 2023 16:04:28 +0100
+Subject: [PATCH v4 12/12] arm64: defconfig: add PMIC GLINK modules
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230130-topic-sm8450-upstream-pmic-glink-v4-7-38bf0f5d07bd@linaro.org>
+Message-Id: <20230130-topic-sm8450-upstream-pmic-glink-v4-12-38bf0f5d07bd@linaro.org>
 References: <20230130-topic-sm8450-upstream-pmic-glink-v4-0-38bf0f5d07bd@linaro.org>
 In-Reply-To: <20230130-topic-sm8450-upstream-pmic-glink-v4-0-38bf0f5d07bd@linaro.org>
 To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -77,45 +76,31 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add ports subnodes in dwc3 node to avoid repeating the
-same description in each board DT.
+Enable the PMIC GLINK core, altmode, battery and UCSI
+aux drivers as module to enable USB Type-C management
+over the PMIC GLINK protocol on modern Qcom platforms.
 
 Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm8450.dtsi | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ arch/arm64/configs/defconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-index 69695eb83897..d92d49a1ca2c 100644
---- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-@@ -4170,6 +4170,25 @@ usb_1_dwc3: usb@a600000 {
- 				snps,dis_enblslpm_quirk;
- 				phys = <&usb_1_hsphy>, <&usb_1_ssphy>;
- 				phy-names = "usb2-phy", "usb3-phy";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+
-+						usb_1_dwc3_hs: endpoint {
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+
-+						usb_1_dwc3_ss: endpoint {
-+						};
-+					};
-+				};
- 			};
- 		};
- 
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 3a6d995384d9..d849fa2ca852 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -273,6 +273,10 @@ CONFIG_VIRTIO_BLK=y
+ CONFIG_BLK_DEV_NVME=m
+ CONFIG_QCOM_COINCELL=m
+ CONFIG_QCOM_FASTRPC=m
++CONFIG_BATTERY_QCOM_BATTMGR=m
++CONFIG_QCOM_PMIC_GLINK=m
++CONFIG_TYPEC_UCSI=m
++CONFIG_UCSI_PMIC_GLINK=m
+ CONFIG_SRAM=y
+ CONFIG_PCI_ENDPOINT_TEST=m
+ CONFIG_EEPROM_AT24=m
 
 -- 
 2.34.1
