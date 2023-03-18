@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E79C7618A
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Mar 2023 12:19:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19FD1C761A6
+	for <linux-usb@archiver.kernel.org>; Sat, 18 Mar 2023 12:19:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229948AbjCRMTF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 18 Mar 2023 08:19:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60872 "EHLO
+        id S229837AbjCRMTG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 18 Mar 2023 08:19:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229911AbjCRMSz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Mar 2023 08:18:55 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 167535588
-        for <linux-usb@vger.kernel.org>; Sat, 18 Mar 2023 05:18:49 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id w11so3726162wmo.2
-        for <linux-usb@vger.kernel.org>; Sat, 18 Mar 2023 05:18:48 -0700 (PDT)
+        with ESMTP id S229923AbjCRMS5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Mar 2023 08:18:57 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4768F3D905
+        for <linux-usb@vger.kernel.org>; Sat, 18 Mar 2023 05:18:50 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso4840494wmo.0
+        for <linux-usb@vger.kernel.org>; Sat, 18 Mar 2023 05:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679141928;
+        d=linaro.org; s=google; t=1679141930;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pFpDO4r3OSMpuybPq4CoNiCijlv8kXLH8jhHe8bIkk0=;
-        b=A/RQ+2P0oyCCezCrzeDcWLegc5yFmJGS4Vb5NT8ogFy2puCBN/lCbcA/6IhTA4L0jT
-         usiB35KSMJoI33DviJRO4AeVkcqSQTONJb6gTLGEC4nYKxluGzBIxnn6cIKPnBHY7sr0
-         LARYowsvNc4QGjaDn5O41VYiCAfeByoRQFtPexjFOnGU6QRwaaFUiMYK/Xy3gJ6RzqIN
-         5o7sQu/Z93InWfcfvWbB1vjAlkr7JtJGeqCtLP2hYGaaVpNpx2XSN/CdTJNUSvTYNG3c
-         yygyHUD7x3jJJFrdrMznWQ0TtquM35IeFjT1ulgu1q7RXSU0uiBx5SlP0QiN5FfyO87Z
-         xpyA==
+        bh=lmmSgVp+T5bjkIFsMi3maL1+5aq8aFIlfAImDxKbXx8=;
+        b=jBF3mPf638u6dQjyRXjV1gl7BuWJh9R4eNHIXH6gEO0TmG7FExVfyd88UJqQzMo5dZ
+         EUJJkBUy5n7UEXJTQJpE2ocEnOg3S4vNaXhkyjkIw4lipMOb9O0kIocQWzctEiQ6Yx5o
+         tkiAbR3bOmCmOQSJVWrYmYNywp6zFD/3gipFdcqzmkNBKzC+kuc8l40Nz/rk7ZvErhEU
+         uSS1d55Azhb6BmadEH83lKOoi3+3UPt01jeR/HBrt/b0wonl6t8Obl/X7WTPajqz/MKJ
+         Qq0fMbfGaLFanHfOZfaZCP0vB2v0kQ+fIUjXv8PcAfmDK64jt5M5ZzuwKPhS7luS/vh9
+         8Qtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679141928;
+        d=1e100.net; s=20210112; t=1679141930;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pFpDO4r3OSMpuybPq4CoNiCijlv8kXLH8jhHe8bIkk0=;
-        b=nRZPBV0P/TvFfN4UbmMKIEXDxBZ4RpiSNKsTERJ9gSBwK810bTXoHMKN4cxy9XvExj
-         WYp3t/XrBkhMNo8Zg6n+xXYnqoXViqCY3zKbt5dRveZrN+tCFWYFr5wgQoZZM50nJwMa
-         /Jru5wpp0PoMXz4b2E6oPJqLW7x5u/UyUmrz04pLx5uTSNkUtu96xMMk49jSNyFdsGrp
-         eihliWKNyiNkFmnF/9NRTbLJdEEzZ6bD02P1cam0wo/GSo9VREAk670rUMZ7RyjITT80
-         wZk+Sn5GCN0m/THj5d+0ABcJ8jWUFi78e7+osPvIznLzTIjxct9EtkgrkpW+lxWVD9In
-         H3Zw==
-X-Gm-Message-State: AO0yUKVehYV+/KCdfp38zlQ4bioV9W8b31HtoQqxyE9QkTGind9GEt2P
-        hStbAfoNrnPki1IcFuLfRQX8tQ==
-X-Google-Smtp-Source: AK7set/vEg5NTGF6xkL73JLWedkZT6fLFWoP9mq3DT5/EX1KwohNRK0bBlG7a5mkMp2sq5AL4tKpAw==
-X-Received: by 2002:a05:600c:1e02:b0:3ed:31f5:11e with SMTP id ay2-20020a05600c1e0200b003ed31f5011emr12350267wmb.5.1679141928336;
-        Sat, 18 Mar 2023 05:18:48 -0700 (PDT)
+        bh=lmmSgVp+T5bjkIFsMi3maL1+5aq8aFIlfAImDxKbXx8=;
+        b=FjnR7jZ4n++giTSgSMG2KVKk1KAwoZFytnlkEx5m1+yyVAJnjqkvQkMvMEsoWBh4uk
+         qY0YnsAkmGvwoG58taXR6Us9X7oT8g/aY6CS+rebqupXjP3rnAKREx3a+thVAWsbNxr3
+         FBjbMdYRcToeCihpb3iRRaLxh/CLJsn37miaOmoWfzlOweC7V7Fs+QWLshsM707kN9cd
+         8LD15PNDWcaUm7NBrgUpY0sDQqA0rYYWOycIEWcQo11H1v91bxzyRDStXNDkmduovRhM
+         f3/kOouKFYH1MY76CGTIkLo3tIZm2HoNbrRxU+9t8H4tVjsEWpGyM16OvUtecPmAFknn
+         TNNA==
+X-Gm-Message-State: AO0yUKUFmqGc6GE5rUbJjzoa+XSafzg8le6i8NIZEUDPI4npA1ROcbX3
+        6vUGytUcfhel0XY9BD+2eLNNhA==
+X-Google-Smtp-Source: AK7set9rrtWziKSBJYKllFgoT2rlmBSnnqp8pFppSQ6pJxHQ3UdbDlCPmHZ9RWj26VoXxguDvGFpJA==
+X-Received: by 2002:a05:600c:4452:b0:3e1:374:8b66 with SMTP id v18-20020a05600c445200b003e103748b66mr26723807wmn.40.1679141930580;
+        Sat, 18 Mar 2023 05:18:50 -0700 (PDT)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id az40-20020a05600c602800b003e2096da239sm10814997wmb.7.2023.03.18.05.18.47
+        by smtp.gmail.com with ESMTPSA id az40-20020a05600c602800b003e2096da239sm10814997wmb.7.2023.03.18.05.18.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Mar 2023 05:18:47 -0700 (PDT)
+        Sat, 18 Mar 2023 05:18:50 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
         gregkh@linuxfoundation.org, andersson@kernel.org,
@@ -57,11 +57,10 @@ To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
         devicetree@vger.kernel.org
 Cc:     wcheng@codeaurora.org, caleb.connolly@linaro.org,
         bryan.odonoghue@linaro.org, konrad.dybcio@linaro.org,
-        subbaram@quicinc.com, jackp@quicinc.com, robertom@qti.qualcomm.com,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v4 13/18] phy: qcom-qmp: Register as a typec switch for orientation detection
-Date:   Sat, 18 Mar 2023 12:18:23 +0000
-Message-Id: <20230318121828.739424-14-bryan.odonoghue@linaro.org>
+        subbaram@quicinc.com, jackp@quicinc.com, robertom@qti.qualcomm.com
+Subject: [PATCH v4 15/18] arm64: dts: qcom: qrb5165-rb5: Switch on Type-C VBUS boost
+Date:   Sat, 18 Mar 2023 12:18:25 +0000
+Message-Id: <20230318121828.739424-16-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230318121828.739424-1-bryan.odonoghue@linaro.org>
 References: <20230318121828.739424-1-bryan.odonoghue@linaro.org>
@@ -71,199 +70,28 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Switch on VBUS for the Type-C port. We need to support a higher amperage
+than the bootloader set 2 Amps.
 
-The lane select switch for USB typec orientation is within the USB QMP PHY.
-the current device.  It could be connected through an endpoint, to an
-independent device handling the typec detection, ie the QCOM SPMI typec
-driver.
-
-bod: Fixed the logic qcom_qmp_phy_typec_switch_set() to disable phy
- on disconnect if and only if we have initialized the PHY.
- Retained CC orientation logic in qcom_qmp_phy_com_init() to simplify
- patch.
-
-bod: Ported from earlier version of driver to phy-qcom-qmp-combo.c
-
-Co-developed-by: Wesley Cheng <wcheng@codeaurora.org>
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
-Co-developed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/phy/qualcomm/Kconfig              |  8 +++
- drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 80 +++++++++++++++++++++--
- 2 files changed, 84 insertions(+), 4 deletions(-)
+ arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/phy/qualcomm/Kconfig b/drivers/phy/qualcomm/Kconfig
-index 4850d48f31fa1..8240fffdbed4e 100644
---- a/drivers/phy/qualcomm/Kconfig
-+++ b/drivers/phy/qualcomm/Kconfig
-@@ -101,6 +101,14 @@ config PHY_QCOM_QMP_USB
- 
- endif # PHY_QCOM_QMP
- 
-+config PHY_QCOM_QMP_TYPEC
-+	def_bool PHY_QCOM_QMP=y && TYPEC=y || PHY_QCOM_QMP=m && TYPEC
-+	help
-+	  Register a type C switch from the QMP PHY driver for type C
-+	  orientation support.  This has dependencies with if the type C kernel
-+	  configuration is enabled or not.  This support will not be present if
-+	  USB type C is disabled.
-+
- config PHY_QCOM_QUSB2
- 	tristate "Qualcomm QUSB2 PHY Driver"
- 	depends on OF && (ARCH_QCOM || COMPILE_TEST)
-diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-index c1483e157af4a..afe708c63557d 100644
---- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-@@ -19,6 +19,7 @@
- #include <linux/regulator/consumer.h>
- #include <linux/reset.h>
- #include <linux/slab.h>
-+#include <linux/usb/typec_mux.h>
- 
- #include <dt-bindings/phy/phy-qcom-qmp.h>
- 
-@@ -63,6 +64,10 @@
- /* QPHY_V3_PCS_MISC_CLAMP_ENABLE register bits */
- #define CLAMP_EN				BIT(0) /* enables i/o clamp_n */
- 
-+/* QPHY_V3_DP_COM_TYPEC_CTRL register bits */
-+#define SW_PORTSELECT_VAL			BIT(0)
-+#define SW_PORTSELECT_MUX			BIT(1)
-+
- #define PHY_INIT_COMPLETE_TIMEOUT		10000
- 
- struct qmp_phy_init_tbl {
-@@ -1323,6 +1328,9 @@ struct qmp_combo {
- 	struct clk_fixed_rate pipe_clk_fixed;
- 	struct clk_hw dp_link_hw;
- 	struct clk_hw dp_pixel_hw;
-+
-+	struct typec_switch_dev *sw;
-+	enum typec_orientation orientation;
+diff --git a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
+index aa0a7bd7307ce..1ce88f0c31db2 100644
+--- a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
++++ b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
+@@ -1338,3 +1338,9 @@ &qup_spi0_data_clk {
+ 	drive-strength = <6>;
+ 	bias-disable;
  };
- 
- static void qmp_v3_dp_aux_init(struct qmp_combo *qmp);
-@@ -1970,7 +1978,8 @@ static void qmp_v3_configure_dp_tx(struct qmp_combo *qmp)
- static bool qmp_combo_configure_dp_mode(struct qmp_combo *qmp)
- {
- 	u32 val;
--	bool reverse = false;
-+	bool reverse = qmp->orientation == TYPEC_ORIENTATION_REVERSE;
-+	const struct phy_configure_opts_dp *dp_opts = &qmp->dp_opts;
- 
- 	val = DP_PHY_PD_CTL_PWRDN | DP_PHY_PD_CTL_AUX_PWRDN |
- 	      DP_PHY_PD_CTL_PLL_PWRDN | DP_PHY_PD_CTL_DP_CLAMP_EN;
-@@ -1989,10 +1998,18 @@ static bool qmp_combo_configure_dp_mode(struct qmp_combo *qmp)
- 	 * if (orientation == ORIENTATION_CC2)
- 	 *	writel(0x4c, qmp->dp_dp_phy + QSERDES_V3_DP_PHY_MODE);
- 	 */
-+	if (dp_opts->lanes == 4 || reverse)
-+		val |= DP_PHY_PD_CTL_LANE_0_1_PWRDN;
-+	if (dp_opts->lanes == 4 || !reverse)
-+		val |= DP_PHY_PD_CTL_LANE_2_3_PWRDN;
 +
- 	val |= DP_PHY_PD_CTL_LANE_2_3_PWRDN;
- 	writel(val, qmp->dp_dp_phy + QSERDES_DP_PHY_PD_CTL);
- 
--	writel(0x5c, qmp->dp_dp_phy + QSERDES_DP_PHY_MODE);
-+	if (reverse)
-+		writel(0x4c, qmp->pcs + QSERDES_DP_PHY_MODE);
-+	else
-+		writel(0x5c, qmp->pcs + QSERDES_DP_PHY_MODE);
- 
- 	return reverse;
- }
-@@ -2476,6 +2493,7 @@ static int qmp_combo_com_init(struct qmp_combo *qmp)
- {
- 	const struct qmp_phy_cfg *cfg = qmp->cfg;
- 	void __iomem *com = qmp->com;
-+	u32 val;
- 	int ret;
- 
- 	mutex_lock(&qmp->phy_mutex);
-@@ -2513,8 +2531,11 @@ static int qmp_combo_com_init(struct qmp_combo *qmp)
- 			SW_DPPHY_RESET_MUX | SW_DPPHY_RESET |
- 			SW_USB3PHY_RESET_MUX | SW_USB3PHY_RESET);
- 
--	/* Default type-c orientation, i.e CC1 */
--	qphy_setbits(com, QPHY_V3_DP_COM_TYPEC_CTRL, 0x02);
-+	/* Latch CC orientation based on reported state by TCPM */
-+	val = SW_PORTSELECT_MUX;
-+	if (qmp->orientation == TYPEC_ORIENTATION_REVERSE)
-+		val |= SW_PORTSELECT_VAL;
-+	qphy_setbits(com, QPHY_V3_DP_COM_TYPEC_CTRL, val);
- 
- 	qphy_setbits(com, QPHY_V3_DP_COM_PHY_MODE_CTRL, USB3_MODE | DP_MODE);
- 
-@@ -3353,6 +3374,53 @@ static struct phy *qmp_combo_phy_xlate(struct device *dev, struct of_phandle_arg
- 	return ERR_PTR(-EINVAL);
- }
- 
-+#if IS_ENABLED(CONFIG_PHY_QCOM_QMP_TYPEC)
-+static int qmp_combo_typec_switch_set(struct typec_switch_dev *sw,
-+				      enum typec_orientation orientation)
-+{
-+	struct qmp_combo *qmp = typec_switch_get_drvdata(sw);
-+	struct phy *dp_phy = qmp->dp_phy;
-+	int ret = 0;
-+
-+	dev_dbg(qmp->dev, "Toggling orientation current %d requested %d\n",
-+		qmp->orientation, orientation);
-+
-+	qmp->orientation = orientation;
-+
-+	if (orientation == TYPEC_ORIENTATION_NONE) {
-+		if (qmp->init_count)
-+			ret = qmp_combo_dp_power_off(dp_phy);
-+	} else {
-+		if (!qmp->init_count)
-+			ret = qmp_combo_dp_power_on(dp_phy);
-+	}
-+
-+	return 0;
-+}
-+
-+static int qmp_combo_typec_switch_register(struct qmp_combo *qmp)
-+{
-+	struct typec_switch_desc sw_desc;
-+	struct device *dev = qmp->dev;
-+
-+	sw_desc.drvdata = qmp;
-+	sw_desc.fwnode = dev->fwnode;
-+	sw_desc.set = qmp_combo_typec_switch_set;
-+	qmp->sw = typec_switch_register(dev, &sw_desc);
-+	if (IS_ERR(qmp->sw)) {
-+		dev_err(dev, "Error registering typec switch: %ld\n",
-+			PTR_ERR(qmp->sw));
-+	}
-+
-+	return 0;
-+}
-+#else
-+static int qmp_combo_typec_switch_register(struct qmp_combo *qmp)
-+{
-+	return 0;
-+}
-+#endif
-+
- static int qmp_combo_probe(struct platform_device *pdev)
- {
- 	struct qmp_combo *qmp;
-@@ -3443,6 +3511,10 @@ static int qmp_combo_probe(struct platform_device *pdev)
- 	else
- 		phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
- 
-+	ret = qmp_combo_typec_switch_register(qmp);
-+	if (ret)
-+		goto err_node_put;
-+
- 	of_node_put(usb_np);
- 	of_node_put(dp_np);
- 
++&pm8150b_vbus {
++	regulator-min-microamp = <500000>;
++	regulator-max-microamp = <3000000>;
++	status = "okay";
++};
 -- 
 2.39.2
 
