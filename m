@@ -2,149 +2,192 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8DAEC6FD1F
-	for <linux-usb@archiver.kernel.org>; Sun, 19 Mar 2023 11:53:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F3EC7618A
+	for <linux-usb@archiver.kernel.org>; Sun, 19 Mar 2023 11:54:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230318AbjCSLx0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 19 Mar 2023 07:53:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59794 "EHLO
+        id S230372AbjCSLyJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 19 Mar 2023 07:54:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230281AbjCSLxZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Mar 2023 07:53:25 -0400
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2081.outbound.protection.outlook.com [40.107.20.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C29B20D33;
-        Sun, 19 Mar 2023 04:52:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I6zKYgTkUbAIHYeZ8g1DA5Q+SVnaf/Gr0ZaySa8OPFIhSdHjBKaWZvhLyHCLoYn/W5HfiuFqZINKU7enJUHaPx5znAd9StGF1CsZzJ1k8giUvWEREt4woYhh6j9ulULUDlgu87AIkfBVa2bnLWYK/EmT8ZO7XCUxlupolA8SysBKmjt/8aSlxyjO8jk/4xvdTG8dHYc/YpsmVq5PBGplvM8pRhsvEnb4wMsaeFrdWtmlZRtOT4Cvn3Js+RJuUNeDdBcXh3/ZqFQq6G5XcOx4bFDclIUn+kO4U4EvMEPqpMmpoSJ/Vo/li5FsrhCl228yl/IrqK46n/wz+xAOWNG6Fw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5oIMJoaa1fZ7Qe9o//yuFaWYDpQrA/J7Hg5mCW8lIEE=;
- b=AB0nPZ7OX5RXf3lHHBgZWFOa4xmM4M2KKeNl+RCIpuSItEBmxZ4wf1teE8NevW87qJXvRXstr1zmYGJijueVI46NjUZDft9E1CrTSOszims3iG0PTLEWIit5pXEy9XLnbF+/PEhcv9vWMKv4+UBLzZNbaVOwwrFXJt4aBpnDkgLJme8ZOHt2YA/dn2H4+/fY8Vh02OReS/0zRlCZ+qdY/6qfHiiBgjnmQbaCKI4H3xtod1N/k04k1ixT7TxcnjKXqlRigLP/n6z3rd+4Eq8NZ2o9KU4bjuD17zkl3uxOEC6TcJZNNA94ksZOttPgiYPQMYTXmqJh+tdh/fLdiHnp+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector2-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5oIMJoaa1fZ7Qe9o//yuFaWYDpQrA/J7Hg5mCW8lIEE=;
- b=aLeDCsd5eVc5EfBzeoNcstO9yXDfIiejxm15et2ceKUyT/Jo1ZBmT7rdzBv7vbG/utsXlow4lwbeh6EUetqlhwMGiOTGnuVMcEM2jhJSY2SBnVi3Pc8uPghrw5D9PncgM5MyF7pPS/xtrVnc4e1Onz+UHMjmwj/TY2xbZfXY6uc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from DU0PR04MB9417.eurprd04.prod.outlook.com (2603:10a6:10:358::11)
- by AS8PR04MB7685.eurprd04.prod.outlook.com (2603:10a6:20b:29c::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Sun, 19 Mar
- 2023 11:50:31 +0000
-Received: from DU0PR04MB9417.eurprd04.prod.outlook.com
- ([fe80::f55a:cf12:da08:6d2a]) by DU0PR04MB9417.eurprd04.prod.outlook.com
- ([fe80::f55a:cf12:da08:6d2a%7]) with mapi id 15.20.6178.037; Sun, 19 Mar 2023
- 11:50:31 +0000
-From:   "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-To:     gregkh@linuxfoundation.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, xu.yang_2@nxp.com
-Cc:     kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        jun.li@nxp.com, Peng Fan <peng.fan@nxp.com>
-Subject: [PATCH V5 9/9] ARM64: dts: imx7ulp: update usb compatible
-Date:   Sun, 19 Mar 2023 19:54:56 +0800
-Message-Id: <20230319115456.716969-10-peng.fan@oss.nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20230319115456.716969-1-peng.fan@oss.nxp.com>
-References: <20230319115456.716969-1-peng.fan@oss.nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0003.apcprd02.prod.outlook.com
- (2603:1096:4:1f7::20) To DU0PR04MB9417.eurprd04.prod.outlook.com
- (2603:10a6:10:358::11)
+        with ESMTP id S230311AbjCSLyH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Mar 2023 07:54:07 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61D3E2006C
+        for <linux-usb@vger.kernel.org>; Sun, 19 Mar 2023 04:53:25 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id b20so3760299edd.1
+        for <linux-usb@vger.kernel.org>; Sun, 19 Mar 2023 04:53:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679226801;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eJ71UDInAz2+CNmE5eVPSJ2zDxiBEWELzNsS0i5CpL4=;
+        b=WBnHf0woIwzgC5KR7R/kbJMoc7SZfnsX0Ki+X/H6pdmWNCEzYb2n23kFpZIf/IT9k0
+         thhHBs1OmMidkKdyb7FrCb0R/dJc9o6GTCstsF+Au1CDpECPXySQTUJWhjqozR+Y5u0c
+         aUN59qhb3ILBeOa5REstedSGG8bMRtB4AhlblDCwBkoilBR27DrSwJ1ZCsWrS+xQ3d+q
+         SWyaCuvPor3iVfqyZuSkLoOcAwM144b/nyg1GS+SuNNwZXbs+xkUASUDzcc8po6A1Euj
+         yfJv4PRrZmLGj5Rbp1c3h7ZJZubNrjRN+CYk1fxqkqmhKGlJIq2SZ/TCvl24InWvPbHN
+         dhXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679226801;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eJ71UDInAz2+CNmE5eVPSJ2zDxiBEWELzNsS0i5CpL4=;
+        b=tpgC4cbmUNjCMfy3ORD34JPDOTMKDTF/xqkyOn7q/uiPB027MFkCJs0X9edyCy3kXw
+         Sfzn9K/W5M4IWHyacHSSBgRZZM6leSwQHe8vieXdT07etqWs2CcXj+OpDgW3401pDHzc
+         EIaZY8/VZye+VaUx2gTsTG1okFMAKcRAESF1CU33WQaogfRjyi262cRKh0qBdw9QQnMo
+         N0sm58OqHxzGs37zhVxQXf4/5TrvuuUpZHFWKni4jM42tkt/aM9mNwmmG6XTScmMj3ln
+         hCErWMiH4j8gn0WyimBCE47z3fxnwpHDhzWqfbC5WuKLZX3em6oRtJegDjkstyLXqINm
+         /6Xg==
+X-Gm-Message-State: AO0yUKU5Dv9GdE3HtjE5K9TjrtIPrWlcddVu30VOGF/7Uh7MSQGTfwKg
+        B8Qb3Ejbi6aqtA4zRu1CMW0V8A==
+X-Google-Smtp-Source: AK7set91lCPN0CRx6z0v5QqXthAALYQL5WdtyRFFsupOKS8YjFY6OYJd/GbTXejyBYE8XNdzAZHsBg==
+X-Received: by 2002:a17:907:7629:b0:8a9:f870:d259 with SMTP id jy9-20020a170907762900b008a9f870d259mr5169565ejc.48.1679226800986;
+        Sun, 19 Mar 2023 04:53:20 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:5b5f:f22b:a0b:559d? ([2a02:810d:15c0:828:5b5f:f22b:a0b:559d])
+        by smtp.gmail.com with ESMTPSA id g13-20020a170906198d00b008c16025b318sm3153143ejd.155.2023.03.19.04.53.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Mar 2023 04:53:20 -0700 (PDT)
+Message-ID: <7adffc56-cbce-b8a3-5265-1cc24931b1f5@linaro.org>
+Date:   Sun, 19 Mar 2023 12:53:19 +0100
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR04MB9417:EE_|AS8PR04MB7685:EE_
-X-MS-Office365-Filtering-Correlation-Id: 84bbf040-5b0e-4231-4a5d-08db2870240b
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BHbwdTr5gk8soRR3XipjQ14gE+z+J1X3qSYe78OaIJOJl056eFn0E39kCrx15ByVWh/AMkRTSJ2tiDkN6f8jZNJ+IfAbZUBe8qQUpiXIk6EPmaqdv7R4cPmXJnY+6ZZSWhqlFlCrmw1u1+yyVf9bXs0KUHFBQzloiV+bObOSVkOaecoW7+ZaCfKo8SHSsjk28ig88+FaWCRA/NgkHVChx6B46gRB0gDqwsnNXoo9pIOIPKrmr6a0JuLvT/Gp5WQ8wqQhfJ92KOmugeZvCwqQBfazKHyJz68HTwCjFs1EqCm628vy+PVK/1T0KzhPNwshp+UjVsGIIgk5fsTnrZixRpvSCQWLiaLhmZU+wXd70tcOG916XrXT6h93f0c5LFk+17u9/R7Ivs//FAIbpT79bHPXbC32aJmYTQzkbrv2CZXeiqMnCqNH/598mHBsdk4D2YMi7+3kTluyXntJF2jzt5E6QMQXdr2IGNHPo8IWq9ZRpk+FQNYE/xOfM0Q9kxitveJkkbPSdhR75GcIYV/KWurvKMq31H288K0eIBtwUgmoJX+5W7Gt/7m2f8HBKtxW5t5VHHsIhQ+i7QNusB4YhF7ZwttZxNPhjTEeEv+3bX1sQO8YbTFsSwcjsJpxL8a4Gqd7VXN2P9BlCGGXrUGZtrPtK1neD0bc485MOsNV7NnG7YyQv+R5px7biNbhP6fjA8keHYpA1qBAr9s2S2an2Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR04MB9417.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(366004)(376002)(396003)(39860400002)(136003)(451199018)(8936002)(5660300002)(7416002)(4744005)(41300700001)(86362001)(38100700002)(38350700002)(15650500001)(2906002)(4326008)(6486002)(83380400001)(478600001)(52116002)(2616005)(186003)(6666004)(6506007)(1076003)(26005)(6512007)(316002)(66476007)(8676002)(66946007)(66556008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2JoreK5XrBED8a30Dq0G2sdiRowuCS23gifj0f3V91DKAlr7mfY5wY2pXg05?=
- =?us-ascii?Q?xgqImKsWu3FihUfexueySpkQ6CiaRBdDK59XhKF55/dhjGjs6ZlqCB6K9KcX?=
- =?us-ascii?Q?WaOzzUhiacL4QEoUXu222518te3ux7++w34/fLU4Ar/2GCwNSjHV6dI+yRIK?=
- =?us-ascii?Q?ndzITUs3Vh93TQgDEjtx4NXP6svrBeleo5A2seNteGzJwxKuxDngkz3pJlsS?=
- =?us-ascii?Q?enyr7qmpJR3GZW78P+WjZWtv7afHlgzKG0XNqIepVsK5Ikcg6VGN7efGQ50r?=
- =?us-ascii?Q?IyLj3Gt9uZt91LQntwby4/bAywOuFa2fuAG7dztXut1EptOjmxbPQvm/zz3B?=
- =?us-ascii?Q?Lhfz8fgeRl/6S76IVtNK0L9LY9kHP+Mwi7496ZxVmMqyA6oGB869KxG1cv/z?=
- =?us-ascii?Q?NI893+hpSS9FLe3kzbcF/gOl7Ti89fuh1/l1cIAnDTXtdhtU8V97BX6oxB/z?=
- =?us-ascii?Q?e4jTI+UY9UlPofoY31q3Nl6AnfyjFG5rrJLoVeyKC2L2GhKTen6ukSsPh4rg?=
- =?us-ascii?Q?zjI4vMOeBlEOHo6UZomRucZlIwWIeRHrNRruGSnaJiggRbYkcGw3xJyxxzo2?=
- =?us-ascii?Q?egiMIOMBT5G4cp8RVY01YBpTqFVvA5wuMP8bGCTNeRc9hhyNpvUupAcchd61?=
- =?us-ascii?Q?EuJwvX1fhpn0KysmpiGLzB/vP7tiKlT7zhysY0rJZQo4Wf4uyL+vQ0kCp0zM?=
- =?us-ascii?Q?n4T83kocPjyqLqnCdQLueC2r4emj2McqZmXX1X3JBfJwaWddF+UFQhYhhoNl?=
- =?us-ascii?Q?m1gCikw5Fxpfif0aveU6YMZPD8TG9nnvErV76OKtZ/eYji4yhrJSusf+lbDz?=
- =?us-ascii?Q?rBH3QUvj5vgJTnQ+yr5jDiSCWVtNdSwWoMPTuOTKaWyOYP+DdMZ0ozSttwHw?=
- =?us-ascii?Q?LTe4zXJvFA0Kw+Y7ouOvq2mZ8ak+PdTia9lD8qaUGp/T0ymRZ/gG3vCRpxr9?=
- =?us-ascii?Q?4ynOn6eHzN51w6RACexPmTlYzh/mugI9tFsdA55wx7vA3UKXXjotD+2++BWT?=
- =?us-ascii?Q?2tEZLv9zJU+ISzZYn3Wc9CQkWU0ois9S1xQD20Ls1L5MzNEigXxmNGgT0L8J?=
- =?us-ascii?Q?ZwllfjkACuof8AUeC7xxH0hqeEDS5iBxX8XTEDqjXmcoFAqmEcLH6iYBu6pS?=
- =?us-ascii?Q?t7oBkwGx1Vg1z6KOL5ElrQKGRvTlC/c0Y9O02bA+MxtNG3Oa8xbnpHq4DMwS?=
- =?us-ascii?Q?zbu7U2lBHw/w2Ex6JTYE3n47AoJ2KayIgsAm2m7MAz0nqcRASaQRYcz+YojD?=
- =?us-ascii?Q?aElXDB3AkvCNpHQIXdmcW9jpl+UqBST4rfVtjZsIgWInsJJ35erc0YwvP78X?=
- =?us-ascii?Q?NJQjprklm689PxUyyylMeKg0ntY/eG5+9PpYZ0aMqipkPc4MCN2dFjY2VHFv?=
- =?us-ascii?Q?wyfxgiWu24WC/ZFxCEgUFIbbBSDV8TK8mLqgqwTik9CDUJX5WKZ5Zi+Lb7Wk?=
- =?us-ascii?Q?tl1EB1I5kPYuWxnd/a2tccOK35kRfuWIq3Xun1sIxJo5itGNOM8+mz2/xV0g?=
- =?us-ascii?Q?3dDmoJgk1QfPpig27cGT5fqw6Xew01OB9d03XS0wFsqOjFHObZ7EI7veu9vp?=
- =?us-ascii?Q?s28DYYbE/2A91KT4SzmY28Abt+BK+nGfNAJZkei0?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 84bbf040-5b0e-4231-4a5d-08db2870240b
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR04MB9417.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2023 11:50:31.2208
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mqvujV+BLZut0GtoHB7pfZNm0ercDGoqSA7ACi27Kmkc7IW4snX28E/tDM9rggSi3M6wS4uyKafeXMxVTlc6Rw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7685
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 06/18] dt-bindings: usb: Add Qualcomm PMIC Type-C
+ controller YAML schema
+Content-Language: en-US
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux@roeck-us.net,
+        heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
+        andersson@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-usb@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     wcheng@codeaurora.org, caleb.connolly@linaro.org,
+        konrad.dybcio@linaro.org, subbaram@quicinc.com, jackp@quicinc.com,
+        robertom@qti.qualcomm.com
+References: <20230318121828.739424-1-bryan.odonoghue@linaro.org>
+ <20230318121828.739424-7-bryan.odonoghue@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230318121828.739424-7-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Peng Fan <peng.fan@nxp.com>
+On 18/03/2023 13:18, Bryan O'Donoghue wrote:
+> Add a YAML binding for the Type-C silicon interface inside Qualcomm's
+> pm8150b hardware block.
+> 
+> The Type-C driver operates with a pdphy driver inside of a high level
+> single TCPM device.
+> 
+> Based on original work by Wesley.
+> 
+> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  .../bindings/usb/qcom,pmic-typec.yaml         | 88 +++++++++++++++++++
+>  1 file changed, 88 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+> new file mode 100644
+> index 0000000000000..d87bbab88d8be
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
+> @@ -0,0 +1,88 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/usb/qcom,pmic-typec.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 
-Per binding doc, update the compatible
+Drop quotes.
 
-Signed-off-by: Peng Fan <peng.fan@nxp.com>
----
- arch/arm/boot/dts/imx7ulp.dtsi | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+> +
+> +title: Qualcomm PMIC based USB type C Detection Driver
 
-diff --git a/arch/arm/boot/dts/imx7ulp.dtsi b/arch/arm/boot/dts/imx7ulp.dtsi
-index 7f7d2d5122fb..f91bf719d4e2 100644
---- a/arch/arm/boot/dts/imx7ulp.dtsi
-+++ b/arch/arm/boot/dts/imx7ulp.dtsi
-@@ -189,7 +189,7 @@ tpm5: tpm@40260000 {
- 		};
- 
- 		usbotg1: usb@40330000 {
--			compatible = "fsl,imx7ulp-usb", "fsl,imx6ul-usb";
-+			compatible = "fsl,imx7ulp-usb", "fsl,imx6ul-usb", "fsl,imx27-usb";
- 			reg = <0x40330000 0x200>;
- 			interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&pcc2 IMX7ULP_CLK_USB0>;
-@@ -202,7 +202,8 @@ usbotg1: usb@40330000 {
- 		};
- 
- 		usbmisc1: usbmisc@40330200 {
--			compatible = "fsl,imx7ulp-usbmisc", "fsl,imx7d-usbmisc";
-+			compatible = "fsl,imx7ulp-usbmisc", "fsl,imx7d-usbmisc",
-+				     "fsl,imx6q-usbmisc";
- 			#index-cells = <1>;
- 			reg = <0x40330200 0x200>;
- 		};
--- 
-2.37.1
+Drop "Driver"
+
+> +
+> +maintainers:
+> +  - Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> +
+> +description: |
+> +  Qualcomm PMIC Type C Detect
+
+Drop description - it is useless here - or make it something more, a
+proper description.
+
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - qcom,pm8150b-typec
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: Type C base address
+
+Drop description
+
+> +
+> +  interrupts:
+> +    items:
+> +      - description: Bitmask of CC attach, VBUS error, tCCDebounce done and more
+> +      - description: VCONN Powered Detection
+> +      - description: CC state change
+> +      - description: VCONN over-current condition
+> +      - description: VBUS state change
+> +      - description: Attach Deteach notification
+> +      - description: Legacy cable detect
+> +      - description: Try.Src Try.Snk state change
+
+These are the same as binding headers, thus it suggests header change is
+meaningless.
+
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: or-rid-detect-change
+> +      - const: vpd-detect
+> +      - const: cc-state-change
+> +      - const: vconn-oc
+> +      - const: vbus-change
+> +      - const: attach-detach
+> +      - const: legacy-cable-detect
+> +      - const: try-snk-src-detect
+> +
+> +  vdd-vbus-supply:
+> +    description: VBUS power supply.
+
+The name is usually vbus-supply.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - interrupt-names
+> +  - vdd-vbus-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/usb/typec/qcom,pmic-typec.h>
+> +    pm8150b {
+
+Node names should be generic, so pmic.
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+
+
+Best regards,
+Krzysztof
 
