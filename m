@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B8E0C7618E
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Mar 2023 01:00:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2BE4C7619A
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Mar 2023 01:01:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230374AbjCTBAz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 19 Mar 2023 21:00:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45228 "EHLO
+        id S231133AbjCTBBF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 19 Mar 2023 21:01:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231276AbjCTBAT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Mar 2023 21:00:19 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2811522A26;
-        Sun, 19 Mar 2023 17:56:37 -0700 (PDT)
+        with ESMTP id S231343AbjCTBA2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Mar 2023 21:00:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE1B22C99;
+        Sun, 19 Mar 2023 17:56:48 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AB5E8B80D54;
-        Mon, 20 Mar 2023 00:56:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C83C4339E;
-        Mon, 20 Mar 2023 00:56:28 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 747A561204;
+        Mon, 20 Mar 2023 00:55:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C65EFC4339C;
+        Mon, 20 Mar 2023 00:55:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679273789;
-        bh=rGOylEbBdtLBRqjtOZfHT8fiSLOclytQL9tB5qiDpNU=;
+        s=k20201202; t=1679273701;
+        bh=jgqAc7iZHAa0GR2DPbVeeL1gHqNdIY3gDSJ9wzC7zxU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OjhH9yeT1C7MQNMLOyyiVEA2vdYk9JiPoo0XAg59sFIEExyc1SGEgUt41KMAooZeO
-         RGC7r53DwO79b6TA5YWZycNbyGzL1n0bI68ELiT+OH32/kDf7wlTfCMlRlTKU/QuBt
-         C9IqGPI0AHxAuxjpGSrj0Tt2mCyuZJLHrds4wtuqqE1rx3SG20ajRvERvIRezWJmg7
-         HwKTRQov98XKLmSHGCkxZMm6/u+Csa0O3QkKKjrg9y70LFbezF/mMpEtNQ5k5pWRHu
-         4Gf6ZM/0OENEKbISFKtr8QglzDnMIZtRivGrhFX1YlRTkJ53MYWC1EpnNYEAEtynZd
-         ZAQWkPZwn5FKA==
+        b=Kk7f2wHLi4A1Qr2Qew/nxoVS+qxcXaubiYBwOeBXvqJ+kAdj3tOHLeN6XauJSBxJ7
+         eiEsn752TfSP/tJRAHAS33D1fK7mWlxVnHMZcXIIHT09k4Habd6ZP1lnmes1vElsNC
+         9GeS+NXRo/ahuKAdWOBwPLiCC6HWXyEGgXX0SSKC7IwwGe2hrX+8JMLCiFApSJXdf7
+         FkL7rot2sK+tlC22vlnZbjFrrPr8aQ0xWYLT55IHIvhQY6J+V7kOAGfqU7anpj8QoV
+         j1xZK66RcNqavjx0CYR1LxfTwXdPwgcUJumyaEh43WbVWxRfCxkfMeW07kbKCE1EhD
+         RTnXEDgvjBduw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Enrico Sau <enrico.sau@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
         Sasha Levin <sashal@kernel.org>, oliver@neukum.org,
         davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
         linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 13/15] net: usb: cdc_mbim: avoid altsetting toggling for Telit FE990
-Date:   Sun, 19 Mar 2023 20:55:57 -0400
-Message-Id: <20230320005559.1429040-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 24/29] net: usb: cdc_mbim: avoid altsetting toggling for Telit FE990
+Date:   Sun, 19 Mar 2023 20:54:06 -0400
+Message-Id: <20230320005413.1428452-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230320005559.1429040-1-sashal@kernel.org>
-References: <20230320005559.1429040-1-sashal@kernel.org>
+In-Reply-To: <20230320005413.1428452-1-sashal@kernel.org>
+References: <20230320005413.1428452-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -67,10 +67,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/net/usb/cdc_mbim.c b/drivers/net/usb/cdc_mbim.c
-index 414341c9cf5ae..6ad1fb00a35cd 100644
+index c89639381eca3..cd4083e0b3b9e 100644
 --- a/drivers/net/usb/cdc_mbim.c
 +++ b/drivers/net/usb/cdc_mbim.c
-@@ -663,6 +663,11 @@ static const struct usb_device_id mbim_devs[] = {
+@@ -665,6 +665,11 @@ static const struct usb_device_id mbim_devs[] = {
  	  .driver_info = (unsigned long)&cdc_mbim_info_avoid_altsetting_toggle,
  	},
  
