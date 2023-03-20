@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25589C7618E
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Mar 2023 00:59:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B2FC7619A
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Mar 2023 00:59:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230468AbjCTA7Q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 19 Mar 2023 20:59:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34482 "EHLO
+        id S230523AbjCTA7t (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 19 Mar 2023 20:59:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230369AbjCTA6X (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Mar 2023 20:58:23 -0400
+        with ESMTP id S230416AbjCTA6m (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Mar 2023 20:58:42 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2473514994;
-        Sun, 19 Mar 2023 17:55:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18B221CF42;
+        Sun, 19 Mar 2023 17:55:55 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DA889611F2;
-        Mon, 20 Mar 2023 00:55:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DA6DC4339B;
-        Mon, 20 Mar 2023 00:55:02 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EE63A611E1;
+        Mon, 20 Mar 2023 00:55:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BEFCC433EF;
+        Mon, 20 Mar 2023 00:55:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679273703;
-        bh=hJGxOy3tMjtDUMTcuAGCkYtKT1wPJLC0lJFhzzorNcM=;
+        s=k20201202; t=1679273754;
+        bh=fWOp+qfcKGT0zG0lCQzPz7I+V1II6rDlqNPaJsRZVz0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KAF7gD/n+tAePUVQokEJ9l97pOxiIwb/09sqEBqFK0ooJ5ajoD4K75Xg7WSONH1CP
-         9F9GT2h8KR6VaammDK+N6vQyod3SQeY3Gdn/V/pQofeuChprUzz6bSfDOVhCr33bFp
-         ihSqTFWUCPQ0h3eNkULb4cIee25/Bkvm0O60iObxcHyFkNuhMHJbCauDA1hkT+YvCa
-         vH3ZBIncXDsNT96VtIYBVAn5+CBsSvZXnVRjdSJUhJyzUO+IyaV6GuQezxsVTZgz4p
-         o0X8+dFL/gaR/XLGPcO2c688sO1NsdHXyd4EKJb7kGXKkqmyArfGVBAvfnEXArxI8Q
-         brUouw/P62uJA==
+        b=KMY7KJDyQhNBwE/nITlPDAZImdp5/DoNmppOsUwjF4zBj5tNVNfRtiDV6jwQMmLgf
+         bNJpqNeD7wxFMGWj9bi0nDXQuSdAmgxKT1S5tQlv3rBi2iw5F4N7xfrBTgk/sc+CFA
+         DVoEIKF+cSi7ZyTVP9NIkhsbCWlW00NSq0m6oaK9PqtCD45SK/edgs4e4sUzQCOVdH
+         N4qswj9y4FweG+5mnQh4Bvg25zJaMQ7P3+nYeNBfuwrRze1dTVQUqpk2NiSF78Plg6
+         Ny4Mq9yMAXYYCJxK1KSLF2nBLf+8pujMsojB7q6VTcZGRxkDFdDUeqQrQVq3iIpqxx
+         iJkG7D30znyhw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Enrico Sau <enrico.sau@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
         Sasha Levin <sashal@kernel.org>, bjorn@mork.no,
         davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
         netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 25/29] net: usb: qmi_wwan: add Telit 0x1080 composition
-Date:   Sun, 19 Mar 2023 20:54:07 -0400
-Message-Id: <20230320005413.1428452-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 16/17] net: usb: qmi_wwan: add Telit 0x1080 composition
+Date:   Sun, 19 Mar 2023 20:55:18 -0400
+Message-Id: <20230320005521.1428820-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230320005413.1428452-1-sashal@kernel.org>
-References: <20230320005413.1428452-1-sashal@kernel.org>
+In-Reply-To: <20230320005521.1428820-1-sashal@kernel.org>
+References: <20230320005521.1428820-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -68,11 +68,11 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 554d4e2a84a4e..2cc28af52ee25 100644
+index 7b358b896a6d7..8646c4d90361c 100644
 --- a/drivers/net/usb/qmi_wwan.c
 +++ b/drivers/net/usb/qmi_wwan.c
-@@ -1363,6 +1363,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1057, 2)},	/* Telit FN980 */
+@@ -1358,6 +1358,7 @@ static const struct usb_device_id products[] = {
+ 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1050, 2)},	/* Telit FN980 */
  	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1060, 2)},	/* Telit LN920 */
  	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1070, 2)},	/* Telit FN990 */
 +	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1080, 2)}, /* Telit FE990 */
