@@ -2,115 +2,91 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 509B9C6FD1D
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Mar 2023 10:03:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68976C6FD1D
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Mar 2023 10:08:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229756AbjCTKDJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Mar 2023 06:03:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59958 "EHLO
+        id S230174AbjCTKIc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Mar 2023 06:08:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229593AbjCTKDH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Mar 2023 06:03:07 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E67FDEF87;
-        Mon, 20 Mar 2023 03:02:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9E63EB80DB6;
-        Mon, 20 Mar 2023 10:02:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEDB5C4339E;
-        Mon, 20 Mar 2023 10:02:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1679306551;
-        bh=m+dT1Fldxa66anQiAD5chZaxSHfu7R3YXUoFLoVhDDc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=zf63xN9WAa4njasw9U//z79z4OPMwYhDas2HJ2C+xnMNEwv9SDncJMlRDc4OOdsvK
-         PD9B4qA9rlDO3XdgiBeiQBOTE2ZukuLPNAnKZLaaFokbuomAiMTMMYhPEdLuntktuI
-         ZtU2/TYp1KErZN4931crJCph8+GEUor5mFxQWxnA=
-Date:   Mon, 20 Mar 2023 11:02:28 +0100
-From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To:     Haotien Hsu <haotienh@nvidia.com>
-Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Wayne Chang <waynec@nvidia.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mathias.nyman@intel.com" <mathias.nyman@intel.com>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        Jui Chang Kuo <jckuo@nvidia.com>
-Subject: Re: [PATCH] usb: xhci: tegra: fix sleep in atomic call
-Message-ID: <ZBgvNEaRWK56gC3i@kroah.com>
-References: <20230320074028.186282-1-haotienh@nvidia.com>
- <ZBgU0GtLAVdaBQQ1@kroah.com>
- <1ba86b0d74344459188a85c46bdcfbcb8cb3e8f2.camel@nvidia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1ba86b0d74344459188a85c46bdcfbcb8cb3e8f2.camel@nvidia.com>
+        with ESMTP id S230120AbjCTKIO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Mar 2023 06:08:14 -0400
+Received: from mail-m11879.qiye.163.com (mail-m11879.qiye.163.com [115.236.118.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC3BC25280;
+        Mon, 20 Mar 2023 03:07:51 -0700 (PDT)
+Received: from localhost.localdomain (unknown [58.22.7.114])
+        by mail-m11879.qiye.163.com (Hmail) with ESMTPA id C8F326806C9;
+        Mon, 20 Mar 2023 18:07:14 +0800 (CST)
+From:   Frank Wang <frank.wang@rock-chips.com>
+To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
+        gregkh@linuxfoundation.org, heiko@sntech.de
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, huangtao@rock-chips.com,
+        william.wu@rock-chips.com, jianwei.zheng@rock-chips.com,
+        yubing.zhang@rock-chips.com, wmc@rock-chips.com,
+        Frank Wang <frank.wang@rock-chips.com>
+Subject: [RESEND PATCH v2 2/3] usb: typec: tcpm: fix multiple times discover svids error
+Date:   Mon, 20 Mar 2023 18:07:10 +0800
+Message-Id: <20230320100711.3708-3-frank.wang@rock-chips.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230320100711.3708-1-frank.wang@rock-chips.com>
+References: <20230320100711.3708-1-frank.wang@rock-chips.com>
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+        tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUlPTlZLH0xCGhkaTksYSh5VEwETFh
+        oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSkpLSEpMVUpLS1VLWQ
+        Y+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PFE6HDo6Kz0TExE2Mz1MHzxM
+        VhUaCjpVSlVKTUxCSEtNQ0hNT0JPVTMWGhIXVR0JGhUQVQwaFRw7CRQYEFYYExILCFUYFBZFWVdZ
+        EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFISEJNNwY+
+X-HM-Tid: 0a86fe7cc49d2eb5kusnc8f326806c9
+X-HM-MType: 1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Mar 20, 2023 at 09:54:28AM +0000, Haotien Hsu wrote:
-> On Mon, 2023-03-20 at 09:09 +0100, Greg Kroah-Hartman wrote:
-> > External email: Use caution opening links or attachments
-> > 
-> > 
-> > On Mon, Mar 20, 2023 at 03:40:28PM +0800, Haotien Hsu wrote:
-> > > From: Wayne Chang <waynec@nvidia.com>
-> > > 
-> > > When we set the OTG port to Host mode, we observed the following
-> > > splat:
-> > > [  167.057718] BUG: sleeping function called from invalid context
-> > > at
-> > > include/linux/sched/mm.h:229
-> > > [  167.057872] Workqueue: events tegra_xusb_usb_phy_work
-> > > [  167.057954] Call trace:
-> > > [  167.057962]  dump_backtrace+0x0/0x210
-> > > [  167.057996]  show_stack+0x30/0x50
-> > > [  167.058020]  dump_stack_lvl+0x64/0x84
-> > > [  167.058065]  dump_stack+0x14/0x34
-> > > [  167.058100]  __might_resched+0x144/0x180
-> > > [  167.058140]  __might_sleep+0x64/0xd0
-> > > [  167.058171]  slab_pre_alloc_hook.constprop.0+0xa8/0x110
-> > > [  167.058202]  __kmalloc_track_caller+0x74/0x2b0
-> > > [  167.058233]  kvasprintf+0xa4/0x190
-> > > [  167.058261]  kasprintf+0x58/0x90
-> > > [  167.058285]  tegra_xusb_find_port_node.isra.0+0x58/0xd0
-> > > [  167.058334]  tegra_xusb_find_port+0x38/0xa0
-> > > [  167.058380]  tegra_xusb_padctl_get_usb3_companion+0x38/0xd0
-> > > [  167.058430]  tegra_xhci_id_notify+0x8c/0x1e0
-> > > [  167.058473]  notifier_call_chain+0x88/0x100
-> > > [  167.058506]  atomic_notifier_call_chain+0x44/0x70
-> > > [  167.058537]  tegra_xusb_usb_phy_work+0x60/0xd0
-> > > [  167.058581]  process_one_work+0x1dc/0x4c0
-> > > [  167.058618]  worker_thread+0x54/0x410
-> > > [  167.058650]  kthread+0x188/0x1b0
-> > > [  167.058672]  ret_from_fork+0x10/0x20
-> > > 
-> > > The function tegra_xusb_padctl_get_usb3_companion eventually calls
-> > > tegra_xusb_find_port and this in turn calls kasprintf which might
-> > > sleep
-> > > and so cannot be called from an atomic context.
-> > > 
-> > > Fix this by moving the call to tegra_xusb_padctl_get_usb3_companion
-> > > to
-> > > the tegra_xhci_id_work function where it is really needed.
-> > > 
-> > > Signed-off-by: Wayne Chang <waynec@nvidia.com>
-> > > Signed-off-by: Haotien Hsu <haotienh@nvidia.com>
-> > 
-> > What commit id does this fix?  And does it need to be backported to
-> > older kernels?
-> > 
-> 
-> Sorry for missing "Fixes:" and "Cc: stable" lines.
+PD3.0 Spec 6.4.4.3.2 say that only Responder supports 12 or more SVIDs,
+the Discover SVIDs Command Shall be executed multiple times until a
+Discover SVIDs VDO is returned ending either with a SVID value of
+0x0000 in the last part of the last VDO or with a VDO containing two
+SVIDs with values of 0x0000.
 
-What should be listed for the Fixes line?  Please add it when you
-resubmit it.
+In the current implementation, if the last VDO does not find that the
+Discover SVIDs Command would be executed multiple times even if the
+Responder SVIDs are less than 12, and we found some odd dockers just
+meet this case. So fix it.
 
-thanks,
+Signed-off-by: Frank Wang <frank.wang@rock-chips.com>
+---
+ drivers/usb/typec/tcpm/tcpm.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 56782dd05e2ec..13830b5e2d09f 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -1515,7 +1515,21 @@ static bool svdm_consume_svids(struct tcpm_port *port, const u32 *p, int cnt)
+ 		pmdata->svids[pmdata->nsvids++] = svid;
+ 		tcpm_log(port, "SVID %d: 0x%x", pmdata->nsvids, svid);
+ 	}
+-	return true;
++
++	/*
++	 * PD3.0 Spec 6.4.4.3.2: The SVIDs are returned 2 per VDO (see Table
++	 * 6-43), and can be returned maximum 6 VDOs per response (see Figure
++	 * 6-19). If the Respondersupports 12 or more SVID then the Discover
++	 * SVIDs Command Shall be executed multiple times until a Discover
++	 * SVIDs VDO is returned ending either with a SVID value of 0x0000 in
++	 * the last part of the last VDO or with a VDO containing two SVIDs
++	 * with values of 0x0000.
++	 *
++	 * However, some odd dockers support SVIDs less than 12 but without
++	 * 0x0000 in the last VDO, so we need to break the Discover SVIDs
++	 * request and return false here.
++	 */
++	return cnt == 7;
+ abort:
+ 	tcpm_log(port, "SVID_DISCOVERY_MAX(%d) too low!", SVID_DISCOVERY_MAX);
+ 	return false;
+-- 
+2.17.1
+
