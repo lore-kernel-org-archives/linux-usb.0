@@ -2,72 +2,78 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE92FC7618D
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Mar 2023 10:08:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90574C6FD1D
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Mar 2023 10:20:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229841AbjCTKIt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Mar 2023 06:08:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40486 "EHLO
+        id S229782AbjCTKUX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Mar 2023 06:20:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbjCTKI0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Mar 2023 06:08:26 -0400
-Received: from mail-m11879.qiye.163.com (mail-m11879.qiye.163.com [115.236.118.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBD792470D;
-        Mon, 20 Mar 2023 03:07:57 -0700 (PDT)
-Received: from localhost.localdomain (unknown [58.22.7.114])
-        by mail-m11879.qiye.163.com (Hmail) with ESMTPA id E7AA06808CC;
-        Mon, 20 Mar 2023 18:07:13 +0800 (CST)
-From:   Frank Wang <frank.wang@rock-chips.com>
-To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
-        gregkh@linuxfoundation.org, heiko@sntech.de
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, huangtao@rock-chips.com,
-        william.wu@rock-chips.com, jianwei.zheng@rock-chips.com,
-        yubing.zhang@rock-chips.com, wmc@rock-chips.com,
-        Frank Wang <frank.wang@rock-chips.com>
-Subject: [PATCH v2 1/3] usb: typec: tcpm: fix cc role at port reset
-Date:   Mon, 20 Mar 2023 18:07:09 +0800
-Message-Id: <20230320100711.3708-2-frank.wang@rock-chips.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230320100711.3708-1-frank.wang@rock-chips.com>
-References: <20230320100711.3708-1-frank.wang@rock-chips.com>
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-        tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUIfT1YeHk5NHUwZS05JTE9VEwETFh
-        oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSkpLSEpDVUpLS1VLWQ
-        Y+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OUk6Sio*ED0LDxE2MzMTHzQu
-        ETkKCkhVSlVKTUxCSEtNQ0hPTExLVTMWGhIXVR0JGhUQVQwaFRw7CRQYEFYYExILCFUYFBZFWVdZ
-        EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJSExLNwY+
-X-HM-Tid: 0a86fe7cc1342eb5kusne7aa06808cc
-X-HM-MType: 1
+        with ESMTP id S230087AbjCTKUW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Mar 2023 06:20:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D028E126C0;
+        Mon, 20 Mar 2023 03:20:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6ED496133F;
+        Mon, 20 Mar 2023 10:20:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BAC0EC4339B;
+        Mon, 20 Mar 2023 10:20:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679307617;
+        bh=TOzZ4n152e17UuROK2BNa8fZDphjOM+ZX0EDrJXbk6c=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=Srbpnf5r6HWjh1ijeKZlcCG6365QTOHME+u13JwJzkPjSBtLSxChCUFyNK6WKlaMD
+         qp9WN/F1p2dt9yDIHn+99OCB6TaAAgN8vxrXyUHSShT9JchC/6OccluNzlvEQhYBuV
+         FT4dYmq1WHW5oV6PvqSjR2D/RetXWOFU8E+N8clGjmtu6eiicTFQSdUieleyfK5yuQ
+         I+LTjutmSCNU2KUp3OfXBUUnWtDWr1nuDg5iqc0dk7GINAEgiVI/T0waV233WXzNK7
+         /2FBCdFUhcCzuscxb/eagXZPIIl6uKde0OLB0sHW1B/oB1hdsZvZvjH+LsY3ZZyicL
+         dBN8V4rfCdtDQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A02D5E4F0D8;
+        Mon, 20 Mar 2023 10:20:17 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3] net: usb: lan78xx: Limit packet length to skb->len
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167930761765.15318.2929604643140284061.git-patchwork-notify@kernel.org>
+Date:   Mon, 20 Mar 2023 10:20:17 +0000
+References: <20230318092552.93145-1-szymon.heidrich@gmail.com>
+In-Reply-To: <20230318092552.93145-1-szymon.heidrich@gmail.com>
+To:     Szymon Heidrich <szymon.heidrich@gmail.com>
+Cc:     woojung.huh@microchip.com, UNGLinuxDriver@microchip.com,
+        kuba@kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In the current implementation, the tcpm set CC1/CC2 role to open when
-it do port reset would cause the VBUS removed by the Type-C partner.
+Hello:
 
-This sets CC1/CC2 according to the default state of port to fix it.
+This patch was applied to netdev/net.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-Signed-off-by: Frank Wang <frank.wang@rock-chips.com>
----
- drivers/usb/typec/tcpm/tcpm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Sat, 18 Mar 2023 10:25:52 +0100 you wrote:
+> Packet length retrieved from descriptor may be larger than
+> the actual socket buffer length. In such case the cloned
+> skb passed up the network stack will leak kernel memory contents.
+> 
+> Additionally prevent integer underflow when size is less than
+> ETH_FCS_LEN.
+> 
+> [...]
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index a0d943d785800..56782dd05e2ec 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -4851,7 +4851,8 @@ static void run_state_machine(struct tcpm_port *port)
- 		break;
- 	case PORT_RESET:
- 		tcpm_reset_port(port);
--		tcpm_set_cc(port, TYPEC_CC_OPEN);
-+		tcpm_set_cc(port, tcpm_default_state(port) == SNK_UNATTACHED ?
-+			    TYPEC_CC_RD : tcpm_rp_cc(port));
- 		tcpm_set_state(port, PORT_RESET_WAIT_OFF,
- 			       PD_T_ERROR_RECOVERY);
- 		break;
+Here is the summary with links:
+  - [v3] net: usb: lan78xx: Limit packet length to skb->len
+    https://git.kernel.org/netdev/net/c/7f247f5a2c18
+
+You are awesome, thank you!
 -- 
-2.17.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
