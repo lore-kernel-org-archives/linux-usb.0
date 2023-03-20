@@ -2,75 +2,83 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EBB5C7618A
-	for <linux-usb@archiver.kernel.org>; Sun, 19 Mar 2023 23:43:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB1EC6FD1F
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Mar 2023 00:56:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229527AbjCSXnR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 19 Mar 2023 19:43:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59412 "EHLO
+        id S230233AbjCTA4w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 19 Mar 2023 20:56:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjCSXnP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Mar 2023 19:43:15 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B94AD1A66D
-        for <linux-usb@vger.kernel.org>; Sun, 19 Mar 2023 16:43:14 -0700 (PDT)
+        with ESMTP id S229927AbjCTA4C (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Mar 2023 20:56:02 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1D2C1CBFB;
+        Sun, 19 Mar 2023 17:54:52 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 443A8B80CBE
-        for <linux-usb@vger.kernel.org>; Sun, 19 Mar 2023 23:43:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E9C5DC433EF
-        for <linux-usb@vger.kernel.org>; Sun, 19 Mar 2023 23:43:11 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 6340FCE1022;
+        Mon, 20 Mar 2023 00:53:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87E42C4339B;
+        Mon, 20 Mar 2023 00:53:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679269392;
-        bh=warv0vI1VIvIZU6rfLI8N7l9kyG4lLBCKtbD745m6yw=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=Xe4mElpovoxdFv1V3mIdih8MH09ofrrXC9/eQjsAqstgJnvIGmKicI9gMOitVrWiO
-         bZvAxUbf53opZi0BILrd/F2RFAVEcMwtDcvc29XATklOi/L+J89UeJBJrHdxeGVi9y
-         L36H3DXuhDhknUeTpJ8epsAYKRac6XLV1C9vFtESHk7LbNGIH/5Msvuji6XroBXx/4
-         XkU18ezrewqKNuzrTRQSTDIj63WZSiZpZLFbWRmb1OEGRNGHOwz285NkP+xLzK9I2v
-         WbtIBBz8oOOGadMKphhLtyNGepH1GsrGh97aRbHEgRwL1mHfBXbo7Yv3cL6D260TO3
-         X41aJthz18P7A==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id BF5F7C43141; Sun, 19 Mar 2023 23:43:11 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 217215] Oops removing usb drive
-Date:   Sun, 19 Mar 2023 23:43:11 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: edtoml@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217215-208809-OPOfkOf40c@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217215-208809@https.bugzilla.kernel.org/>
-References: <bug-217215-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        s=k20201202; t=1679273634;
+        bh=vOM2NQsScBkHCrqG7hZxY63fx9XNAHu1ZSRNC20OFt4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=CIBJg8yQt8E7BnT/Ms7VxT0rcqvM5Bskk3kyer7O49q2T5PqrkIcyV5xGxiXTXO7B
+         b37Nnn5ONcQ73qQqQx2A8FcX+RpxzyqwvCk759+ZTleTIrpyCN0nyRPmFuT/l2gWaD
+         sgCYkXXKzBPNM5WtWNSnHtqVvZtKqPcO+xVqt06Xi4q+di5bLMoG9/wZ4ZrpuwafSu
+         J+mt747Gg0cVNe5KHRG2gHil0uZJ+7cY8IVqHUhpc4HfbOkvU7mD8RWAdbmuLBl8+e
+         AzUMW/1LqYsdlO+ABBiOeqEOn8NnYY0hcyyCbQgNNHOXD6TKtZIe2FukvlsQHw9OGV
+         Qveo5UEDPu7sw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Enrico Sau <enrico.sau@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
+        Sasha Levin <sashal@kernel.org>, bjorn@mork.no,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        netdev@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.2 26/30] net: usb: qmi_wwan: add Telit 0x1080 composition
+Date:   Sun, 19 Mar 2023 20:52:51 -0400
+Message-Id: <20230320005258.1428043-26-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230320005258.1428043-1-sashal@kernel.org>
+References: <20230320005258.1428043-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217215
+From: Enrico Sau <enrico.sau@gmail.com>
 
---- Comment #2 from Ed Tomlinson (edtoml@gmail.com) ---
-Thanks for the feedback Alan,  I'll watch for the fix.
+[ Upstream commit 382e363d5bed0cec5807b35761d14e55955eee63 ]
 
---=20
-You may reply to this email to add a comment.
+Add the following Telit FE990 composition:
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+0x1080: tty, adb, rmnet, tty, tty, tty, tty
+
+Signed-off-by: Enrico Sau <enrico.sau@gmail.com>
+Link: https://lore.kernel.org/r/20230306120528.198842-1-enrico.sau@gmail.com
+Signed-off-by: Paolo Abeni <pabeni@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/usb/qmi_wwan.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index a808d718c0123..571e37e67f9ce 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -1364,6 +1364,7 @@ static const struct usb_device_id products[] = {
+ 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1057, 2)},	/* Telit FN980 */
+ 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1060, 2)},	/* Telit LN920 */
+ 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1070, 2)},	/* Telit FN990 */
++	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1080, 2)}, /* Telit FE990 */
+ 	{QMI_FIXED_INTF(0x1bc7, 0x1100, 3)},	/* Telit ME910 */
+ 	{QMI_FIXED_INTF(0x1bc7, 0x1101, 3)},	/* Telit ME910 dual modem */
+ 	{QMI_FIXED_INTF(0x1bc7, 0x1200, 5)},	/* Telit LE920 */
+-- 
+2.39.2
+
