@@ -2,95 +2,188 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F011CC6FD1D
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Mar 2023 09:26:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CFEC7618A
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Mar 2023 09:35:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230413AbjCTJ0U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Mar 2023 05:26:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57048 "EHLO
+        id S230380AbjCTJfG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Mar 2023 05:35:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231285AbjCTJZr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Mar 2023 05:25:47 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D300626AA;
-        Mon, 20 Mar 2023 02:25:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679304322; x=1710840322;
-  h=message-id:date:mime-version:to:cc:references:from:
-   subject:in-reply-to:content-transfer-encoding;
-  bh=1n1sqvKcWHzt2G9CtunMYx7nMZdFJxTREqFACQxM9Hg=;
-  b=B2m0YG9h9WnJq42k9rOqdlCsc7gc2Nglxz1wh+fjfCD/hnijiMEVdTdc
-   2G/ZAZAVVbZO526BHk9ATdrD9HqsPMc3g1p2NvR/H1+MH1agKQce1KBWZ
-   dqFKicH0TyTdZ6e1FKy5aHHGT5gt30pYf0u4gISo2DKyckVtaL45Yxcov
-   kSN/8W7BXkBMJ1D4jj0vgrZ7hACgf22yH8RaaqaRY6+gVAT9kvNMZ+sPp
-   bD+USiGzZ56hP52mApN8bEa3JAK0QwvcTF+qYANVkq47aBGGP/Lz/+Ftp
-   eZ2/IjUJDhY2MehTzxxBpDP/U0vLttgxWo1lilqkx1BhV77n2s+4OEwhU
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="340973914"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="340973914"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 02:25:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="824418925"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="824418925"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Mar 2023 02:25:20 -0700
-Message-ID: <d14a6e71-d7da-db8d-f901-52d6cdf1fa1d@linux.intel.com>
-Date:   Mon, 20 Mar 2023 11:26:39 +0200
+        with ESMTP id S231234AbjCTJfE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Mar 2023 05:35:04 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48A231B572;
+        Mon, 20 Mar 2023 02:35:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E781CB80D7D;
+        Mon, 20 Mar 2023 09:35:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75014C4339C;
+        Mon, 20 Mar 2023 09:34:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679304899;
+        bh=XAeKuwAyy3BpuGbVe2bkXu++daEbNc72qyzyGZsAOMQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=uMHzvJJSi/yTk8lRtxH05x1dx3ke8t6MxNW0cyJNywTCnCMdZt9UWvBVPDz02Enhx
+         yS8Z9KhUN1bo6gO3p45UqibeRvqik0gILQgUvcv9ScudqdoIlZ/X6sEbpWFU65fbny
+         MOCDlxjtvWt5fF3xmagkzUPJmz3Zn55jBX3ST3oLkYu6INdAillvEunV1Hya0pPDJM
+         P2Tx7dpxzpor6rKmDjAOUZui4hRNMCFDGe6CBXqiDRXnYpdwYHL7zGtUbu3KduMaJ7
+         MBGdn0kzhCoYzITq0ZGSurYBQQTlsEafcbKg6XrsLhLHd2rn+VOWjZXZFbCPYcyrTM
+         lVcaVlDzjnm8g==
+From:   Roger Quadros <rogerq@kernel.org>
+To:     Thinh.Nguyen@synopsys.com, stern@rowland.harvard.edu
+Cc:     gregkh@linuxfoundation.org, vigneshr@ti.com, srk@ti.com,
+        r-gunasekaran@ti.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Roger Quadros <rogerq@kernel.org>
+Subject: [RFC PATCH 2/2] usb: dwc3: Support 'snps,gadget-keep-connect-sys-sleep' feature
+Date:   Mon, 20 Mar 2023 11:34:47 +0200
+Message-Id: <20230320093447.32105-3-rogerq@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230320093447.32105-1-rogerq@kernel.org>
+References: <20230320093447.32105-1-rogerq@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.7.1
-To:     Erhard Furtner <erhard_f@mailbox.org>, linux-usb@vger.kernel.org
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        Chris Snook <chris.snook@gmail.com>, stable@vger.kernel.org
-References: <20230319013706.016d96b2@yea>
-Content-Language: en-US
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: When VIA VL805/806 xHCI USB 3.0 Controller is present Atheros
- E2400 (alx) ethernet does not work: NETDEV WATCHDOG: enp5s0 (alx): transmit
- queue 2 timed out
-In-Reply-To: <20230319013706.016d96b2@yea>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 19.3.2023 2.37, Erhard Furtner wrote:
-> Greetings!
-> 
-> On my GIGABYTE GA-970-Gaming board (AM3+ board + AMD FX8370 CPU) I got this very annoying problem that onboard ethernet Atheros E2400 (alx) ceases to work when the USB 3.0 controller (VIA VL805/806 chipset) is enabled in BIOS.
-> 
->   # lspci
-> 02:00.0 USB controller: ASMedia Technology Inc. ASM2142/ASM3142 USB 3.1 Host Controller
-> 06:00.0 USB controller: VIA Technologies, Inc. VL805/806 xHCI USB 3.0 Controller (rev 01)
+Implement 'snps,gadget-keep-connect-sys-sleep' property.
 
-dmesg shows usb bus numbers are not ordered, xhci driver registers two usb buses per host.
+Do not stop the gadget controller and disconnect if this
+property is present and we are connected to a USB Host.
 
-xhci_hcd 0000:06:00.0: new USB bus registered, assigned bus number 1
-xhci_hcd 0000:02:00.0: new USB bus registered, assigned bus number 2
-xhci_hcd 0000:02:00.0: new USB bus registered, assigned bus number 3
-xhci_hcd 0000:06:00.0: can't setup: -110
+Prevent System sleep if Gadget is not in USB suspend.
 
-> 
-> With the VIA VL805/806 USB-Controller disabled in BIOS I don't get this problem, everything works fine. But this way I loose front USB 3 ports... The other ASMedia USB 3.1 controller works fine without hampering the system.
-> 
-> Don't know whether this is a regression - the problem shows up on current kernel 6.2.x or 6.1.x TLS too. Kernel dmesg + .config attached.
-> 
-> Regards,
-> Erhard
+Signed-off-by: Roger Quadros <rogerq@kernel.org>
+---
+ drivers/usb/dwc3/core.c   | 25 +++++++++++++++++++------
+ drivers/usb/dwc3/core.h   |  2 ++
+ drivers/usb/dwc3/gadget.c | 25 +++++++++++++++++++++++--
+ 3 files changed, 44 insertions(+), 8 deletions(-)
 
-This could be related to another case with two xHC controllers, but different vendors.
-Bus numbers were interleaved there as well. Removing the asynch probe helped:
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 476b63618511..a47bbaa27302 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1575,6 +1575,9 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	dwc->dis_split_quirk = device_property_read_bool(dev,
+ 				"snps,dis-split-quirk");
+ 
++	dwc->gadget_keep_connect_sys_sleep = device_property_read_bool(dev,
++				"snps,gadget-keep-connect-sys-sleep");
++
+ 	dwc->lpm_nyet_threshold = lpm_nyet_threshold;
+ 	dwc->tx_de_emphasis = tx_de_emphasis;
+ 
+@@ -2027,14 +2030,20 @@ static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
+ {
+ 	unsigned long	flags;
+ 	u32 reg;
++	int ret;
+ 
+ 	switch (dwc->current_dr_role) {
+ 	case DWC3_GCTL_PRTCAP_DEVICE:
+ 		if (pm_runtime_suspended(dwc->dev))
+ 			break;
+-		dwc3_gadget_suspend(dwc);
++		ret = dwc3_gadget_suspend(dwc);
++		if (ret) {
++			dev_err(dwc->dev, "gadget not suspended: %d\n", ret);
++			return ret;
++		}
+ 		synchronize_irq(dwc->irq_gadget);
+-		dwc3_core_exit(dwc);
++		if(!dwc->gadget_keep_connect_sys_sleep)
++			dwc3_core_exit(dwc);
+ 		break;
+ 	case DWC3_GCTL_PRTCAP_HOST:
+ 		if (!PMSG_IS_AUTO(msg) && !device_may_wakeup(dwc->dev)) {
+@@ -2088,11 +2097,15 @@ static int dwc3_resume_common(struct dwc3 *dwc, pm_message_t msg)
+ 
+ 	switch (dwc->current_dr_role) {
+ 	case DWC3_GCTL_PRTCAP_DEVICE:
+-		ret = dwc3_core_init_for_resume(dwc);
+-		if (ret)
+-			return ret;
++		if (!dwc->gadget_keep_connect_sys_sleep)
++		{
++			ret = dwc3_core_init_for_resume(dwc);
++			if (ret)
++				return ret;
++
++			dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_DEVICE);
++		}
+ 
+-		dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_DEVICE);
+ 		dwc3_gadget_resume(dwc);
+ 		break;
+ 	case DWC3_GCTL_PRTCAP_HOST:
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 582ebd9cf9c2..f84bac815bed 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1328,6 +1328,8 @@ struct dwc3 {
+ 	unsigned		dis_split_quirk:1;
+ 	unsigned		async_callbacks:1;
+ 
++	unsigned		gadget_keep_connect_sys_sleep:1;
++
+ 	u16			imod_interval;
+ 
+ 	int			max_cfg_eps;
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 3c63fa97a680..8062e44f63f6 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -4572,12 +4572,23 @@ void dwc3_gadget_exit(struct dwc3 *dwc)
+ int dwc3_gadget_suspend(struct dwc3 *dwc)
+ {
+ 	unsigned long flags;
++	int link_state;
+ 
+ 	if (!dwc->gadget_driver)
+ 		return 0;
+ 
+-	dwc3_gadget_run_stop(dwc, false, false);
++	if (dwc->gadget_keep_connect_sys_sleep && dwc->connected) {
++		link_state = dwc3_gadget_get_link_state(dwc);
++		/* Prevent PM Sleep if not in U3/L2 */
++		if (link_state != DWC3_LINK_STATE_U3)
++			return -EBUSY;
++
++		/* don't stop/disconnect */
++		dwc3_gadget_disable_irq(dwc);
++		return 0;
++	}
+ 
++	dwc3_gadget_run_stop(dwc, false, false);
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 	dwc3_disconnect_gadget(dwc);
+ 	__dwc3_gadget_stop(dwc);
+@@ -4588,11 +4599,21 @@ int dwc3_gadget_suspend(struct dwc3 *dwc)
+ 
+ int dwc3_gadget_resume(struct dwc3 *dwc)
+ {
+-	int			ret;
++	int ret;
++	irqreturn_t irq_t;
+ 
+ 	if (!dwc->gadget_driver || !dwc->softconnect)
+ 		return 0;
+ 
++	if (dwc->gadget_keep_connect_sys_sleep && dwc->connected) {
++		dwc3_gadget_enable_irq(dwc);
++		/* check pending events */
++		irq_t = dwc3_check_event_buf(dwc->ev_buf);
++		if (irq_t == IRQ_WAKE_THREAD)
++			dwc3_process_event_buf(dwc->ev_buf);
++		return 0;
++	}
++
+ 	ret = __dwc3_gadget_start(dwc);
+ 	if (ret < 0)
+ 		goto err0;
+-- 
+2.34.1
 
-https://lore.kernel.org/linux-usb/d5ff9480-57bd-2c39-8b10-988ad0d14a7e@linux.intel.com/
-
-Does reverting:
-4c2604a9a689 usb: xhci-pci: Set PROBE_PREFER_ASYNCHRONOUS
-help for you?
-
-Thanks
-Mathias
