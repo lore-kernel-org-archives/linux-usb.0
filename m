@@ -2,400 +2,200 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5760BC761A6
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Mar 2023 23:46:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D085BC6FD1D
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Mar 2023 00:07:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230013AbjCTXqK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Mar 2023 19:46:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44246 "EHLO
+        id S229676AbjCUAHd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Mar 2023 20:07:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbjCTXqJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Mar 2023 19:46:09 -0400
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57E0640F0;
-        Mon, 20 Mar 2023 16:45:24 -0700 (PDT)
-Received: by mail-ot1-x336.google.com with SMTP id f17-20020a9d7b51000000b00697349ab7e7so7662528oto.9;
-        Mon, 20 Mar 2023 16:45:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679355549;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SjAapmrBoeJvk2vnlclkpzuXnRknVk/UGE5rPGWCZzo=;
-        b=qp7035o+O46QBK78NPwsQyn/unzLGzPjLE6MzZUl9zutpDTGp/uzGw8/Neo7tA9guP
-         R4r4BECcFAz0scl0CyC6jOvCTe/5kG4QzpHbJkasAKOB2s+KJE1dkpy5mJMqafKeut4I
-         R3j4Y9yGlLbEaj6MrRbZPzkZTZwnm8q0nnWIgTiy5wFYJx9lClFyZc2SliWR0rRSJuBx
-         uz63Oaq+RTs6VCwhx82pdZ+Q7O6WDK1mCLvxUK8Jhmt/B0gavb1ZSXmyr1EdguDXQwZ+
-         scgSIupVf1DKI0aX4gA+ni0iyHocV+RdJQglD4nQETQuJakCNY39xEl4GoTCmAxTDk1v
-         BRiA==
-X-Gm-Message-State: AO0yUKXH7JQKGyDBtj5Krlen+15JlOKQYWauaWHBlUCvprushOv17IbP
-        XatrhAz/ZBS8qzX/OTbaFOw3ShswFg==
-X-Google-Smtp-Source: AK7set+yH1biLxvRiR6yVgjcR8FkcuTOROnOYpZqzTSFeN8ZAsDNUX+MdLY949P50nSkRhKhjSe8WQ==
-X-Received: by 2002:a9d:6948:0:b0:69f:2dd6:7f00 with SMTP id p8-20020a9d6948000000b0069f2dd67f00mr238775oto.36.1679355549393;
-        Mon, 20 Mar 2023 16:39:09 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id j18-20020a9d7392000000b00690e42f0da8sm4520941otk.24.2023.03.20.16.39.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 16:39:09 -0700 (PDT)
-Received: (nullmailer pid 2920315 invoked by uid 1000);
-        Mon, 20 Mar 2023 23:39:08 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Justin Chen <justinpopo6@gmail.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
-Subject: [PATCH] dt-bindings: usb: Drop unneeded quotes
-Date:   Mon, 20 Mar 2023 18:39:02 -0500
-Message-Id: <20230320233904.2920197-1-robh@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S229666AbjCUAHc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Mar 2023 20:07:32 -0400
+X-Greylist: delayed 481 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 20 Mar 2023 17:07:29 PDT
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA0902CFDD
+        for <linux-usb@vger.kernel.org>; Mon, 20 Mar 2023 17:07:29 -0700 (PDT)
+Received: from hatter.bewilderbeest.net (174-21-172-149.tukw.qwest.net [174.21.172.149])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: zev)
+        by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 8B5A7428;
+        Mon, 20 Mar 2023 16:59:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+        s=thorn; t=1679356767;
+        bh=WKt4hYkmS97XIBCBpZpjSDhOPksTU12YysbXnAkD2gU=;
+        h=Date:From:To:Cc:Subject:From;
+        b=VbyYz2PR2YHacfmT9qE2NMCWOiZTBd1I+dsATOZERZ3S3NtpBj/dQNS0VnyCOKllH
+         P081yyZbsgh2ybm+cdSHMnyY1I6dAukireH77UeJSMoq/wl3gNo8vgZmPm8DHyW4eb
+         8l6Lkub1Wtw8YqYdbYxrUyeOr7FCaLROJ+lko+AI=
+Date:   Mon, 20 Mar 2023 16:59:26 -0700
+From:   Zev Weiss <zev@bewilderbeest.net>
+To:     openbmc@lists.ozlabs.org, linux-usb@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org
+Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Tao Ren <rentao.bupt@gmail.com>
+Subject: Host CPU busy-looping with aspeed-vhub on C621A
+Message-ID: <3e7273ac-7125-4e62-903a-ce9bdbdd565f@hatter.bewilderbeest.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-checking for this can be enabled in yamllint.
+Hello all,
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml         | 4 ++--
- .../devicetree/bindings/usb/brcm,bcm7445-ehci.yaml        | 2 +-
- Documentation/devicetree/bindings/usb/fcs,fsa4480.yaml    | 4 ++--
- Documentation/devicetree/bindings/usb/generic-ehci.yaml   | 2 +-
- Documentation/devicetree/bindings/usb/generic-xhci.yaml   | 2 +-
- Documentation/devicetree/bindings/usb/gpio-sbu-mux.yaml   | 4 ++--
- Documentation/devicetree/bindings/usb/maxim,max33359.yaml | 4 ++--
- .../devicetree/bindings/usb/mediatek,mt6360-tcpc.yaml     | 4 ++--
- .../devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml     | 4 ++--
- .../devicetree/bindings/usb/mediatek,mtk-xhci.yaml        | 2 +-
- Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml  | 8 ++++----
- Documentation/devicetree/bindings/usb/mediatek,musb.yaml  | 4 ++--
- .../devicetree/bindings/usb/nvidia,tegra-xudc.yaml        | 4 ++--
- .../devicetree/bindings/usb/realtek,rts5411.yaml          | 2 +-
- .../devicetree/bindings/usb/richtek,rt1711h.yaml          | 4 ++--
- Documentation/devicetree/bindings/usb/richtek,rt1719.yaml | 4 ++--
- Documentation/devicetree/bindings/usb/st,stusb160x.yaml   | 4 ++--
- Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml   | 4 ++--
- Documentation/devicetree/bindings/usb/ti,tps6598x.yaml    | 4 ++--
- Documentation/devicetree/bindings/usb/usb-xhci.yaml       | 2 +-
- 20 files changed, 36 insertions(+), 36 deletions(-)
+I'm seeing an odd USB (mis)behavior on an in-progress OpenBMC port I'm 
+working on.  The platform is the ASRock Rack SPC621D8HM3, which has an 
+Intel C621A chipset and an AST2500 BMC.
 
-diff --git a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
-index f38a2be07eda..da757c1155d4 100644
---- a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
-+++ b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
-@@ -2,8 +2,8 @@
- # Copyright 2019 BayLibre, SAS
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/usb/amlogic,meson-g12a-usb-ctrl.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/usb/amlogic,meson-g12a-usb-ctrl.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Amlogic Meson G12A DWC3 USB SoC Controller Glue
- 
-diff --git a/Documentation/devicetree/bindings/usb/brcm,bcm7445-ehci.yaml b/Documentation/devicetree/bindings/usb/brcm,bcm7445-ehci.yaml
-index ad075407d85e..1536cbec6334 100644
---- a/Documentation/devicetree/bindings/usb/brcm,bcm7445-ehci.yaml
-+++ b/Documentation/devicetree/bindings/usb/brcm,bcm7445-ehci.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Broadcom STB USB EHCI Controller
- 
- allOf:
--  - $ref: "usb-hcd.yaml"
-+  - $ref: usb-hcd.yaml
- 
- maintainers:
-   - Al Cooper <alcooperx@gmail.com>
-diff --git a/Documentation/devicetree/bindings/usb/fcs,fsa4480.yaml b/Documentation/devicetree/bindings/usb/fcs,fsa4480.yaml
-index 51120fe90322..f6e7a5c1ff0b 100644
---- a/Documentation/devicetree/bindings/usb/fcs,fsa4480.yaml
-+++ b/Documentation/devicetree/bindings/usb/fcs,fsa4480.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/usb/fcs,fsa4480.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/usb/fcs,fsa4480.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: ON Semiconductor Analog Audio Switch
- 
-diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-index 050cfd5acdaa..9445764bd8de 100644
---- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-@@ -10,7 +10,7 @@ maintainers:
-   - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
- 
- allOf:
--  - $ref: "usb-hcd.yaml"
-+  - $ref: usb-hcd.yaml
-   - if:
-       properties:
-         compatible:
-diff --git a/Documentation/devicetree/bindings/usb/generic-xhci.yaml b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
-index db841589fc33..594ebb3ee432 100644
---- a/Documentation/devicetree/bindings/usb/generic-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
-@@ -10,7 +10,7 @@ maintainers:
-   - Mathias Nyman <mathias.nyman@intel.com>
- 
- allOf:
--  - $ref: "usb-xhci.yaml#"
-+  - $ref: usb-xhci.yaml#
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/usb/gpio-sbu-mux.yaml b/Documentation/devicetree/bindings/usb/gpio-sbu-mux.yaml
-index bf4b1d016e1f..f196beb826d8 100644
---- a/Documentation/devicetree/bindings/usb/gpio-sbu-mux.yaml
-+++ b/Documentation/devicetree/bindings/usb/gpio-sbu-mux.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/usb/gpio-sbu-mux.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/usb/gpio-sbu-mux.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: GPIO-based SBU mux
- 
-diff --git a/Documentation/devicetree/bindings/usb/maxim,max33359.yaml b/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
-index 8e513a6af378..beccbd1d4d0e 100644
---- a/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
-+++ b/Documentation/devicetree/bindings/usb/maxim,max33359.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/usb/maxim,max33359.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/usb/maxim,max33359.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Maxim TCPCI Type-C PD controller
- 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mt6360-tcpc.yaml b/Documentation/devicetree/bindings/usb/mediatek,mt6360-tcpc.yaml
-index c72257c19220..4f6018aadc8c 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mt6360-tcpc.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mt6360-tcpc.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/usb/mediatek,mt6360-tcpc.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/usb/mediatek,mt6360-tcpc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Mediatek MT6360 Type-C Port Switch and Power Delivery controller
- 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml b/Documentation/devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml
-index 72f56cc88457..747d0f16d9b6 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/usb/mediatek,mt6370-tcpc.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/usb/mediatek,mt6370-tcpc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: MediatTek MT6370 Type-C Port Switch and Power Delivery controller
- 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-index c119caa9ad16..556bedb96165 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-@@ -11,7 +11,7 @@ maintainers:
-   - Chunfeng Yun <chunfeng.yun@mediatek.com>
- 
- allOf:
--  - $ref: "usb-xhci.yaml"
-+  - $ref: usb-xhci.yaml
- 
- description: |
-   There are two scenarios:
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-index d2655173e108..5b908c457e3d 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-@@ -11,7 +11,7 @@ maintainers:
-   - Chunfeng Yun <chunfeng.yun@mediatek.com>
- 
- allOf:
--  - $ref: "usb-drd.yaml"
-+  - $ref: usb-drd.yaml
- 
- description: |
-   The DRD controller has a glue layer IPPC (IP Port Control), and its host is
-@@ -204,9 +204,9 @@ patternProperties:
-       example if the host mode is enabled.
- 
- dependencies:
--  connector: [ 'usb-role-switch' ]
--  port: [ 'usb-role-switch' ]
--  role-switch-default-mode: [ 'usb-role-switch' ]
-+  connector: [ usb-role-switch ]
-+  port: [ usb-role-switch ]
-+  role-switch-default-mode: [ usb-role-switch ]
-   wakeup-source: [ 'mediatek,syscon-wakeup' ]
- 
- required:
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,musb.yaml b/Documentation/devicetree/bindings/usb/mediatek,musb.yaml
-index f16ab30a95d2..a39d38db7714 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,musb.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,musb.yaml
-@@ -68,8 +68,8 @@ properties:
-     type: object
- 
- dependencies:
--  usb-role-switch: [ 'connector' ]
--  connector: [ 'usb-role-switch' ]
-+  usb-role-switch: [ connector ]
-+  connector: [ usb-role-switch ]
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
-index e638f77658fc..e2270ce0c56b 100644
---- a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
-+++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/usb/nvidia,tegra-xudc.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/usb/nvidia,tegra-xudc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: NVIDIA Tegra XUSB device mode controller (XUDC)
- 
-diff --git a/Documentation/devicetree/bindings/usb/realtek,rts5411.yaml b/Documentation/devicetree/bindings/usb/realtek,rts5411.yaml
-index 623d04a88a81..9309f003cd07 100644
---- a/Documentation/devicetree/bindings/usb/realtek,rts5411.yaml
-+++ b/Documentation/devicetree/bindings/usb/realtek,rts5411.yaml
-@@ -26,7 +26,7 @@ properties:
-       phandle to the regulator that provides power to the hub.
- 
-   peer-hub:
--    $ref: '/schemas/types.yaml#/definitions/phandle'
-+    $ref: /schemas/types.yaml#/definitions/phandle
-     description:
-       phandle to the peer hub on the controller.
- 
-diff --git a/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml b/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml
-index 1999f614c89b..3bec824ec446 100644
---- a/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml
-+++ b/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/usb/richtek,rt1711h.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/usb/richtek,rt1711h.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Richtek RT1711H Type-C Port Switch and Power Delivery controller
- 
-diff --git a/Documentation/devicetree/bindings/usb/richtek,rt1719.yaml b/Documentation/devicetree/bindings/usb/richtek,rt1719.yaml
-index e3e87e4d3292..43562041b646 100644
---- a/Documentation/devicetree/bindings/usb/richtek,rt1719.yaml
-+++ b/Documentation/devicetree/bindings/usb/richtek,rt1719.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/usb/richtek,rt1719.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/usb/richtek,rt1719.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Richtek RT1719 sink-only Type-C PD controller
- 
-diff --git a/Documentation/devicetree/bindings/usb/st,stusb160x.yaml b/Documentation/devicetree/bindings/usb/st,stusb160x.yaml
-index ffcd9897ea38..edfebb813f77 100644
---- a/Documentation/devicetree/bindings/usb/st,stusb160x.yaml
-+++ b/Documentation/devicetree/bindings/usb/st,stusb160x.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/usb/st,stusb160x.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/usb/st,stusb160x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: STMicroelectronics STUSB160x Type-C controller
- 
-diff --git a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-index f81ba3e90297..fd36dd02fe74 100644
---- a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-+++ b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/usb/ti,j721e-usb.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/usb/ti,j721e-usb.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: TI wrapper module for the Cadence USBSS-DRD controller
- 
-diff --git a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-index 348a715d61f4..7d9c5e786e42 100644
---- a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-+++ b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/usb/ti,tps6598x.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/usb/ti,tps6598x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Texas Instruments 6598x Type-C Port Switch and Power Delivery controller
- 
-diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.yaml b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
-index f2139a9f35fb..180a261c3e8f 100644
---- a/Documentation/devicetree/bindings/usb/usb-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
-@@ -10,7 +10,7 @@ maintainers:
-   - Mathias Nyman <mathias.nyman@intel.com>
- 
- allOf:
--  - $ref: "usb-hcd.yaml#"
-+  - $ref: usb-hcd.yaml#
- 
- properties:
-   usb2-lpm-disable:
--- 
-2.39.2
+The USB devices present on the system are as follows:
+
+     # lsusb -t
+     /:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/10p, 5000M
+     /:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/16p, 480M
+         |__ Port 8: Dev 2, If 0, Class=Hub, Driver=hub/5p, 480M
+
+(The 5-port hub in the final line is the AST2500's aspeed-vhub device.)
+
+With the system otherwise idle, the host sits there with an entire CPU 
+core tied up busy-looping in what appears to be some USB 
+power-management code, with 'top' showing about 75% in a kworker thread 
+and the remaining 25% in ksoftirqd.
+
+Inspecting some workqueue events via ftrace, if I'm interpreting this 
+right it appears that hub_event() and pm_runtime_work() are recursively 
+triggering each other via queue_work():
+
+     kworker/18:1-453     [018] .....  6520.912866: workqueue_execute_start: work struct 00000000de5443e3: function hub_event [usbcore]
+     kworker/18:1-453     [018] d..2.  6520.912873: workqueue_queue_work: work struct=0000000077eccca1 function=pm_runtime_work workqueue=pm req_cpu=256 cpu=18
+     kworker/18:1-453     [018] d..2.  6520.912873: workqueue_activate_work: work struct 0000000077eccca1
+     kworker/18:1-453     [018] .....  6520.912873: workqueue_execute_end: work struct 00000000de5443e3: function hub_event [usbcore]
+     kworker/18:1-453     [018] .....  6520.912873: workqueue_execute_start: work struct 0000000077eccca1: function pm_runtime_work
+     kworker/18:1-453     [018] d..1.  6520.912910: workqueue_queue_work: work struct=00000000de5443e3 function=hub_event [usbcore] workqueue=usb_hub_wq req_cpu=256 cpu=18
+     kworker/18:1-453     [018] d..1.  6520.912910: workqueue_activate_work: work struct 00000000de5443e3
+     kworker/18:1-453     [018] .....  6520.912910: workqueue_execute_end: work struct 0000000077eccca1: function pm_runtime_work
+     kworker/18:1-453     [018] .....  6520.912910: workqueue_execute_start: work struct 00000000de5443e3: function hub_event [usbcore]
+     kworker/18:1-453     [018] d..2.  6520.912917: workqueue_queue_work: work struct=0000000077eccca1 function=pm_runtime_work workqueue=pm req_cpu=256 cpu=18
+     kworker/18:1-453     [018] d..2.  6520.912917: workqueue_activate_work: work struct 0000000077eccca1
+     kworker/18:1-453     [018] .....  6520.912918: workqueue_execute_end: work struct 00000000de5443e3: function hub_event [usbcore]
+     kworker/18:1-453     [018] .....  6520.912918: workqueue_execute_start: work struct 0000000077eccca1: function pm_runtime_work
+     kworker/18:1-453     [018] d..1.  6520.912954: workqueue_queue_work: work struct=00000000de5443e3 function=hub_event [usbcore] workqueue=usb_hub_wq req_cpu=256 cpu=18
+     kworker/18:1-453     [018] d..1.  6520.912954: workqueue_activate_work: work struct 00000000de5443e3
+     kworker/18:1-453     [018] .....  6520.912954: workqueue_execute_end: work struct 0000000077eccca1: function pm_runtime_work
+     kworker/18:1-453     [018] .....  6520.912954: workqueue_execute_start: work struct 00000000de5443e3: function hub_event [usbcore]
+     kworker/18:1-453     [018] d..2.  6520.912961: workqueue_queue_work: work struct=0000000077eccca1 function=pm_runtime_work workqueue=pm req_cpu=256 cpu=18
+     kworker/18:1-453     [018] d..2.  6520.912962: workqueue_activate_work: work struct 0000000077eccca1
+     kworker/18:1-453     [018] .....  6520.912962: workqueue_execute_end: work struct 00000000de5443e3: function hub_event [usbcore]
+
+Adding in xhci-hcd events, the event stream pattern becomes:
+
+     kworker/18:1-453     [018] .....  7086.376157: workqueue_execute_start: work struct 00000000de5443e3: function hub_event [usbcore]
+     kworker/18:1-453     [018] d..1.  7086.376158: xhci_get_port_status: port-8: Powered-off Not-connected Disabled Link:Disabled PortSpeed:0 OverCurrent Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376165: xhci_get_port_status: port-10: Powered-off Not-connected Disabled Link:Disabled PortSpeed:0 OverCurrent Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376168: xhci_get_port_status: port-12: Powered-off Not-connected Disabled Link:Disabled PortSpeed:0 OverCurrent Change: Wake: 
+     kworker/18:1-453     [018] d..2.  7086.376171: workqueue_queue_work: work struct=0000000077eccca1 function=pm_runtime_work workqueue=pm req_cpu=256 cpu=18
+     kworker/18:1-453     [018] d..2.  7086.376171: workqueue_activate_work: work struct 0000000077eccca1
+     kworker/18:1-453     [018] .....  7086.376172: workqueue_execute_end: work struct 00000000de5443e3: function hub_event [usbcore]
+     kworker/18:1-453     [018] .....  7086.376172: workqueue_execute_start: work struct 0000000077eccca1: function pm_runtime_work
+     kworker/18:1-453     [018] d..1.  7086.376178: xhci_get_port_status: port-0: Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376181: xhci_get_port_status: port-1: Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376184: xhci_get_port_status: port-2: Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376185: xhci_get_port_status: port-3: Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376189: xhci_get_port_status: port-4: Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376193: xhci_get_port_status: port-5: Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376195: xhci_get_port_status: port-6: Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376197: xhci_get_port_status: port-7: Powered Connected Enabled Link:U3 PortSpeed:3 Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376199: xhci_get_port_status: port-8: Powered-off Not-connected Disabled Link:Disabled PortSpeed:0 OverCurrent Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376202: xhci_get_port_status: port-9: Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376204: xhci_get_port_status: port-10: Powered-off Not-connected Disabled Link:Disabled PortSpeed:0 OverCurrent Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376209: xhci_get_port_status: port-11: Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376212: xhci_get_port_status: port-12: Powered-off Not-connected Disabled Link:Disabled PortSpeed:0 OverCurrent Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376214: xhci_get_port_status: port-13: Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376216: xhci_get_port_status: port-14: Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376219: xhci_get_port_status: port-15: Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake: 
+     kworker/18:1-453     [018] d..1.  7086.376221: workqueue_queue_work: work struct=00000000de5443e3 function=hub_event [usbcore] workqueue=usb_hub_wq req_cpu=256 cpu=18
+     kworker/18:1-453     [018] d..1.  7086.376221: workqueue_activate_work: work struct 00000000de5443e3
+     kworker/18:1-453     [018] .....  7086.376221: workqueue_execute_end: work struct 0000000077eccca1: function pm_runtime_work
+
+(Port 8 has the vhub on it, but I'm not sure what's "special" about 
+ports 10 and 12 that leads to hub_event apparently checking them but not 
+all the others.)
+
+Looking at usbmon's '0u' debugfs file I see a stream of events coming 
+from the top-level root_hub that the aspeed-vhub is attached to, which I 
+presume are the result of the xhci_get_port_status() calls above:
+
+     ffff9bb242a2d200 2648339575 S Ci:1:001:0 s a3 00 0000 0001 0004 4 <
+     ffff9bb242a2d200 2648339576 C Ci:1:001:0 0 4 = 00010000
+     ffff9bb242a2d200 2648339577 S Ci:1:001:0 s a3 00 0000 0002 0004 4 <
+     ffff9bb242a2d200 2648339578 C Ci:1:001:0 0 4 = 00010000
+     ffff9bb242a2d200 2648339579 S Ci:1:001:0 s a3 00 0000 0003 0004 4 <
+     ffff9bb242a2d200 2648339581 C Ci:1:001:0 0 4 = 00010000
+     ffff9bb242a2d200 2648339581 S Ci:1:001:0 s a3 00 0000 0004 0004 4 <
+     ffff9bb242a2d200 2648339583 C Ci:1:001:0 0 4 = 00010000
+     ffff9bb242a2d200 2648339583 S Ci:1:001:0 s a3 00 0000 0005 0004 4 <
+     ffff9bb242a2d200 2648339585 C Ci:1:001:0 0 4 = 00010000
+     ffff9bb242a2d200 2648339586 S Ci:1:001:0 s a3 00 0000 0006 0004 4 <
+     ffff9bb242a2d200 2648339587 C Ci:1:001:0 0 4 = 00010000
+     ffff9bb242a2d200 2648339588 S Ci:1:001:0 s a3 00 0000 0007 0004 4 <
+     ffff9bb242a2d200 2648339589 C Ci:1:001:0 0 4 = 00010000
+     ffff9bb242a2d200 2648339590 S Ci:1:001:0 s a3 00 0000 0008 0004 4 <
+     ffff9bb242a2d200 2648339592 C Ci:1:001:0 0 4 = 07050000
+     ffff9bb242a2d200 2648339592 S Ci:1:001:0 s a3 00 0000 0009 0004 4 <
+     ffff9bb242a2d200 2648339594 C Ci:1:001:0 0 4 = 08000000
+     ffff9bb242a2d200 2648339595 S Ci:1:001:0 s a3 00 0000 000a 0004 4 <
+     ffff9bb242a2d200 2648339597 C Ci:1:001:0 0 4 = 00010000
+     ffff9bb242a2d200 2648339597 S Ci:1:001:0 s a3 00 0000 000b 0004 4 <
+     ffff9bb242a2d200 2648339599 C Ci:1:001:0 0 4 = 08000000
+     ffff9bb242a2d200 2648339600 S Ci:1:001:0 s a3 00 0000 000c 0004 4 <
+     ffff9bb242a2d200 2648339602 C Ci:1:001:0 0 4 = 00010000
+     ffff9bb242a2d200 2648339603 S Ci:1:001:0 s a3 00 0000 000d 0004 4 <
+     ffff9bb242a2d200 2648339604 C Ci:1:001:0 0 4 = 08000000
+     ffff9bb242a2d200 2648339606 S Ci:1:001:0 s a3 00 0000 000e 0004 4 <
+     ffff9bb242a2d200 2648339607 C Ci:1:001:0 0 4 = 00010000
+     ffff9bb242a2d200 2648339608 S Ci:1:001:0 s a3 00 0000 000f 0004 4 <
+     ffff9bb242a2d200 2648339610 C Ci:1:001:0 0 4 = 00010000
+     ffff9bb242a2d200 2648339611 S Ci:1:001:0 s a3 00 0000 0010 0004 4 <
+     ffff9bb242a2d200 2648339613 C Ci:1:001:0 0 4 = 00010000
+     ffff9bb240225200 2648339614 S Ii:1:001:1 -115:2048 4 <
+     ffff9bb242a2d200 2648339615 S Ci:1:001:0 s a3 00 0000 0009 0004 4 <
+     ffff9bb242a2d200 2648339616 C Ci:1:001:0 0 4 = 08000000
+     ffff9bb242a2d200 2648339618 S Ci:1:001:0 s a3 00 0000 000b 0004 4 <
+     ffff9bb242a2d200 2648339620 C Ci:1:001:0 0 4 = 08000000
+     ffff9bb242a2d200 2648339622 S Ci:1:001:0 s a3 00 0000 000d 0004 4 <
+     ffff9bb242a2d200 2648339624 C Ci:1:001:0 0 4 = 08000000
+     ffff9bb240225200 2648339626 C Ii:1:001:1 -2:2048 0
+
+However, I do *not* see any activity (increasing numbers) in the 
+xhci_hcd line in /proc/interrupts, for what that's worth.
+
+ From everything I can see there's no software activity going on on the 
+BMC during this (no aspeed-vhub interrupts or code execution).
+
+Interestingly, the busy-looping stops and the host CPU goes 
+appropriately idle as soon as I add another USB device under the 
+top-level hub, whether directly (a thumb drive plugged into a 
+front-panel port) or indirectly under the vhub (the OpenBMC iKVM's 
+virtual keyboard/mouse).  However, once any other devices are removed 
+and the topology returns to that shown above (just the vhub under the 
+top-level hub) the busy-looping resumes.
+
+On another system with a similar topology but with a C246 chipset 
+(ASRock Rack E3C246D4I) I don't see this happen.
+
+It also doesn't happen with the factory (AMI) BMC firmware, so it seems 
+like it must be a result of something OpenBMC is doing differently with 
+the vhub.
+
+I'm not terribly familiar with either the kernel USB stack or the 
+aspeed-vhub hardware/driver, so any assistance with where to look next 
+on this would be much appreciated!
+
+
+Thanks,
+Zev
 
