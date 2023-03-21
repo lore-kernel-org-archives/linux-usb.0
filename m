@@ -2,60 +2,61 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DDE9C74A5B
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Mar 2023 13:22:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0431BC761A6
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Mar 2023 13:22:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230511AbjCUNWQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Mar 2023 09:22:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36840 "EHLO
+        id S231134AbjCUNWR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Mar 2023 09:22:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229804AbjCUNWI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Mar 2023 09:22:08 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8FC426586
-        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:48 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id v20-20020a05600c471400b003ed8826253aso751677wmo.0
-        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:48 -0700 (PDT)
+        with ESMTP id S230444AbjCUNWM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Mar 2023 09:22:12 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6C9228E44
+        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:50 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id m2so13664837wrh.6
+        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679404906;
+        d=linaro.org; s=google; t=1679404908;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JVCCrg+cX3A/ZZOueoMy5bBjL6UJS6dXroqCT+2ZBjw=;
-        b=wv5YlsFkbhuTRFObWvPFHkjKUsT/E9xt/WGJFtzRT5bjjww73q+Wt5Tn1EuZXPuI0W
-         2p3LdgZAz6knrXMCJZNeyrOONMEJMTXT6T1nN4xOavQH0TXSdaaF5riVfSp5w/x5u1f1
-         VgKt2OvoAnwrMxPNEutoRbV8cHW4Jv005r6tY4rsLBKBpmoGUSlayYtlhaPlQ3/JjNtg
-         txMztxtXPTFY1R9DXD7Zl1GZxU1NeS3Biy8vr42QMXnAL3H1XriyFthlfdZNTKcGyxuX
-         x7+ry5x9h2Qfxo0pB2mmg1au5XewywGwDEXPXYueNAakOmx9osPGvYXEdUN9ZfsyQ8aM
-         gx/A==
+        bh=EHtc9L9Ht2rX502qI85oDcXvz/j5G9+6+WvzQUk1Sso=;
+        b=aGEviax9cButx4OYxXzArxr0BP0GiAp5FrXFrOwEXmPPXDaQspsbfNerOBnCbEY+UN
+         SCmlE6m/mxEzmxE4jjYbeJaERSrPj5epZjLeoL5j+QrgPTgOzr2K4J4JX6tBy1DrrfWD
+         WB8iaVdOPydBW6YZfuFAkOwuhGOM39Vyuzg7rJHmYi1xPJ6nYXvsOkZtG2PK0I5nR8im
+         0JNeYHKtGpCLka5quReP3a4KPfkx+2f8U6+mCViJiAj6rBh2dcgM4XfQbY4FrZvxN89B
+         VlPwpYCC1UrOOI7xF5SfPbFVsV/iIW++/HA45TBSYp0AGIHHRl79Xn8M2itgecnOSsF2
+         3oFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679404906;
+        d=1e100.net; s=20210112; t=1679404908;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JVCCrg+cX3A/ZZOueoMy5bBjL6UJS6dXroqCT+2ZBjw=;
-        b=MGLHHWN0SNCeEjfP1MrbLCgwbu5TwtSWiqyPOR+2HUB69xKROH4DnRkY1vqtzcupa8
-         f0qNl7tY5GdiSJk9sbXLe+rojRYNIHQqtDhcdsfSSuPxY+NhdJOTeF01WA+3VDI2Ktb1
-         JESyi4k/0+Q4RS81TWDMpdeSxLKpj5HF+0v6ZI8qdzhRQl4r8fyZEjkm2/guc9UovdMK
-         uNrYQmtWd7d0UtXCJU6zVi79SBdS9qBiFcHc0Jeh6Qt/6KnvdeOXDuN2QNAvigyEDCsb
-         NbjRt7d8hnkrmgW7mn78KGoZ8eoL+y1AnyJN4jX5PEizlQFWLfySfWOZ5RR7v4YDwm8o
-         Nd2g==
-X-Gm-Message-State: AO0yUKVHWw6Qryxmchxso8fhRLx6uRUqLou7zR1AAbsZyOAg3Prv6vbl
-        5jbBBnbEv+s1o8wPETjPJG2TSw==
-X-Google-Smtp-Source: AK7set9XG36FDzM5ga4r3ydCatOch2H5MMqXJc7+5XfEp0MsUsY1ZV4N0NivhhEJZfw69K2nmSR+nQ==
-X-Received: by 2002:a1c:4b1a:0:b0:3ed:316d:668d with SMTP id y26-20020a1c4b1a000000b003ed316d668dmr2573327wma.5.1679404906385;
-        Tue, 21 Mar 2023 06:21:46 -0700 (PDT)
+        bh=EHtc9L9Ht2rX502qI85oDcXvz/j5G9+6+WvzQUk1Sso=;
+        b=JfGCeTBsc85WllgccjlgayN9bdAtunv2FTx9j+xQjcSuBDL09htuEfOCjqjff86WAq
+         11ijNo5lBoB7CiGDcCsTTfE6uFV86Rpi7E9bn6ho2oM78bmyX4UaftGp9+Lkv9S33RbZ
+         UmQpEhtFqZJQrMKMe0lo2s/i5RyriPI5kt7uFJ8eHsMTvYY8X7+024NzkmvVyTeVTP9w
+         6ilaTddX9kxpVVbrPg2s1oEDrCbsi3KtRlvyoBWITFZ3we++ewfZII4ho1sgqzxpcR42
+         pdDnqJ/KR2AcGdHQVoOW9Ul//fI2PcE9lxBB5GYE6Luhj1yxnRP0n7zeM2Aqw45vZezD
+         BEeA==
+X-Gm-Message-State: AO0yUKVx3UWYP5X2P1Sw3J16K0/cDRZQVYVDmUicGqi4+ZzidKEQpPcN
+        OUpzC1yg4JywXRH6w9XXnF807A==
+X-Google-Smtp-Source: AK7set/eRqsiH1IbdiN9YGqBgiclFTx3cG/w3JYeWlO9StPblmSjprbDvhNblDc1SFgt8Ko9RPv3CA==
+X-Received: by 2002:a05:6000:124a:b0:2bf:f4f7:be9c with SMTP id j10-20020a056000124a00b002bff4f7be9cmr2244375wrx.14.1679404908193;
+        Tue, 21 Mar 2023 06:21:48 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id v26-20020a05600c215a00b003eafc47eb09sm13393016wml.43.2023.03.21.06.21.45
+        by smtp.gmail.com with ESMTPSA id v26-20020a05600c215a00b003eafc47eb09sm13393016wml.43.2023.03.21.06.21.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 06:21:46 -0700 (PDT)
+        Tue, 21 Mar 2023 06:21:47 -0700 (PDT)
 From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Tue, 21 Mar 2023 14:21:44 +0100
-Subject: [PATCH v5 04/12] soc: qcom: pmic_glink: register ucsi aux device
+Date:   Tue, 21 Mar 2023 14:21:46 +0100
+Subject: [PATCH v5 06/12] arm64: dts: qcom: sm8350: add port subnodes in
+ dwc3 node
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230130-topic-sm8450-upstream-pmic-glink-v5-4-552f3b721f9e@linaro.org>
+Message-Id: <20230130-topic-sm8450-upstream-pmic-glink-v5-6-552f3b721f9e@linaro.org>
 References: <20230130-topic-sm8450-upstream-pmic-glink-v5-0-552f3b721f9e@linaro.org>
 In-Reply-To: <20230130-topic-sm8450-upstream-pmic-glink-v5-0-552f3b721f9e@linaro.org>
 To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -76,140 +77,45 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Only register UCSI on know working devices, like on the SM8450
-or SM8550 which requires UCSI to get USB mode switch events.
+Add ports subnodes in dwc3 node to avoid repeating the
+same description in each board DT.
 
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- drivers/soc/qcom/pmic_glink.c | 65 +++++++++++++++++++++++++++++++++++--------
- 1 file changed, 54 insertions(+), 11 deletions(-)
+ arch/arm64/boot/dts/qcom/sm8350.dtsi | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/soc/qcom/pmic_glink.c b/drivers/soc/qcom/pmic_glink.c
-index bb3fb57abcc6..8bf95df0a56a 100644
---- a/drivers/soc/qcom/pmic_glink.c
-+++ b/drivers/soc/qcom/pmic_glink.c
-@@ -4,6 +4,7 @@
-  * Copyright (c) 2022, Linaro Ltd
-  */
- #include <linux/auxiliary_bus.h>
-+#include <linux/of_device.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/rpmsg.h>
-@@ -11,12 +12,23 @@
- #include <linux/soc/qcom/pdr.h>
- #include <linux/soc/qcom/pmic_glink.h>
- 
-+enum {
-+	PMIC_GLINK_CLIENT_BATT = 0,
-+	PMIC_GLINK_CLIENT_ALTMODE,
-+	PMIC_GLINK_CLIENT_UCSI,
-+};
+diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+index 1afc4311796e..6c3a82c63585 100644
+--- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+@@ -2270,6 +2270,25 @@ usb_1_dwc3: usb@a600000 {
+ 				snps,dis_enblslpm_quirk;
+ 				phys = <&usb_1_hsphy>, <&usb_1_ssphy>;
+ 				phy-names = "usb2-phy", "usb3-phy";
 +
-+#define PMIC_GLINK_CLIENT_DEFAULT	(BIT(PMIC_GLINK_CLIENT_BATT) |	\
-+					 BIT(PMIC_GLINK_CLIENT_ALTMODE))
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
 +
- struct pmic_glink {
- 	struct device *dev;
- 	struct pdr_handle *pdr;
- 
- 	struct rpmsg_endpoint *ept;
- 
-+	unsigned long client_mask;
++					port@0 {
++						reg = <0>;
 +
- 	struct auxiliary_device altmode_aux;
- 	struct auxiliary_device ps_aux;
- 	struct auxiliary_device ucsi_aux;
-@@ -233,6 +245,7 @@ static struct rpmsg_driver pmic_glink_rpmsg_driver = {
- 
- static int pmic_glink_probe(struct platform_device *pdev)
- {
-+	const unsigned long *match_data;
- 	struct pdr_service *service;
- 	struct pmic_glink *pg;
- 	int ret;
-@@ -249,12 +262,27 @@ static int pmic_glink_probe(struct platform_device *pdev)
- 	mutex_init(&pg->client_lock);
- 	mutex_init(&pg->state_lock);
- 
--	ret = pmic_glink_add_aux_device(pg, &pg->altmode_aux, "altmode");
--	if (ret)
--		return ret;
--	ret = pmic_glink_add_aux_device(pg, &pg->ps_aux, "power-supply");
--	if (ret)
--		goto out_release_altmode_aux;
-+	match_data = (unsigned long *)of_device_get_match_data(&pdev->dev);
-+	if (match_data)
-+		pg->client_mask = *match_data;
-+	else
-+		pg->client_mask = PMIC_GLINK_CLIENT_DEFAULT;
++						usb_1_dwc3_hs: endpoint {
++						};
++					};
 +
-+	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_UCSI)) {
-+		ret = pmic_glink_add_aux_device(pg, &pg->ucsi_aux, "ucsi");
-+		if (ret)
-+			return ret;
-+	}
-+	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_ALTMODE)) {
-+		ret = pmic_glink_add_aux_device(pg, &pg->altmode_aux, "altmode");
-+		if (ret)
-+			goto out_release_ucsi_aux;
-+	}
-+	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_BATT)) {
-+		ret = pmic_glink_add_aux_device(pg, &pg->ps_aux, "power-supply");
-+		if (ret)
-+			goto out_release_altmode_aux;
-+	}
- 
- 	pg->pdr = pdr_handle_alloc(pmic_glink_pdr_callback, pg);
- 	if (IS_ERR(pg->pdr)) {
-@@ -278,9 +306,14 @@ static int pmic_glink_probe(struct platform_device *pdev)
- out_release_pdr_handle:
- 	pdr_handle_release(pg->pdr);
- out_release_aux_devices:
--	pmic_glink_del_aux_device(pg, &pg->ps_aux);
-+	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_BATT))
-+		pmic_glink_del_aux_device(pg, &pg->ps_aux);
- out_release_altmode_aux:
--	pmic_glink_del_aux_device(pg, &pg->altmode_aux);
-+	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_ALTMODE))
-+		pmic_glink_del_aux_device(pg, &pg->altmode_aux);
-+out_release_ucsi_aux:
-+	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_UCSI))
-+		pmic_glink_del_aux_device(pg, &pg->ucsi_aux);
- 
- 	return ret;
- }
-@@ -291,8 +324,12 @@ static int pmic_glink_remove(struct platform_device *pdev)
- 
- 	pdr_handle_release(pg->pdr);
- 
--	pmic_glink_del_aux_device(pg, &pg->ps_aux);
--	pmic_glink_del_aux_device(pg, &pg->altmode_aux);
-+	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_BATT))
-+		pmic_glink_del_aux_device(pg, &pg->ps_aux);
-+	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_ALTMODE))
-+		pmic_glink_del_aux_device(pg, &pg->altmode_aux);
-+	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_UCSI))
-+		pmic_glink_del_aux_device(pg, &pg->ucsi_aux);
- 
- 	mutex_lock(&__pmic_glink_lock);
- 	__pmic_glink = NULL;
-@@ -301,8 +338,14 @@ static int pmic_glink_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+/* Do not handle altmode for now on those platforms */
-+static const unsigned long pmic_glink_sm8450_client_mask = BIT(PMIC_GLINK_CLIENT_BATT) |
-+							   BIT(PMIC_GLINK_CLIENT_UCSI);
++					port@1 {
++						reg = <1>;
 +
- static const struct of_device_id pmic_glink_of_match[] = {
--	{ .compatible = "qcom,pmic-glink", },
-+	{ .compatible = "qcom,sm8450-pmic-glink", .data = &pmic_glink_sm8450_client_mask },
-+	{ .compatible = "qcom,sm8550-pmic-glink", .data = &pmic_glink_sm8450_client_mask },
-+	{ .compatible = "qcom,pmic-glink" },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, pmic_glink_of_match);
++						usb_1_dwc3_ss: endpoint {
++						};
++					};
++				};
+ 			};
+ 		};
+ 
 
 -- 
 2.34.1
