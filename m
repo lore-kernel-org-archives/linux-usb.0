@@ -2,91 +2,104 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4C00C6FD1D
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Mar 2023 12:43:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DB43C761A6
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Mar 2023 13:22:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230368AbjCUMnc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Mar 2023 08:43:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41942 "EHLO
+        id S230284AbjCUNWG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Mar 2023 09:22:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230321AbjCUMn2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Mar 2023 08:43:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7CA64D42E;
-        Tue, 21 Mar 2023 05:42:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A2D7361B80;
-        Tue, 21 Mar 2023 12:42:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 123B6C433AC;
-        Tue, 21 Mar 2023 12:42:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679402557;
-        bh=J20LlY5TbVnPM0z5FlTNCPp5ZAh4UVG6euTTWc5LkUw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=FdVixEWY/0QvALciIzaXMuyjtTuctDu5uQnZAkKUVwbR8UBXJtwUnyxQtT/p/30ic
-         zpl55Nm+hUpZq5XJiO53LWzTvqQltae2LMbqInH9aGehkHNAgTJ164pX4YQxll3KMy
-         TD2ug+AYx3+44yAUcXSFocaJgG/jig0Jy18j4H5xsbdoMjB9gU+8MwEJ0DkP5ks6eT
-         KCLNhOoO34XSRvOPyEnyvii8NdivuEDpea1bCdkez29ZJqdilkcKgnBSN/Qfu6vbBe
-         soG30ERWWcrojAZnMfrIwsqxFHO8VOzwjVm6uKlK0AbKWOD4M/k7pMnLwbWFhV/Dwd
-         V04BWarn/LWkw==
-Received: by mail-yb1-f176.google.com with SMTP id z83so16892638ybb.2;
-        Tue, 21 Mar 2023 05:42:37 -0700 (PDT)
-X-Gm-Message-State: AAQBX9eJgFzaDRWA/HkJoeYF2lRLHj0ex4B7hgaaPRfdZAOYUyvoqJes
-        kVYWAKeEJJrMj9fRTSB3udSDF1XTBsnP2A9ybw==
-X-Google-Smtp-Source: AKy350ZhCPEnnrwloI2VYkVonvOVRbKLguR0+fCqDHc7mDqtOx67pDwKgadHRUXyovXV1023X8BMqxVSAgSWqc8/Yn8=
-X-Received: by 2002:a05:6902:150c:b0:b6c:f26c:e5b0 with SMTP id
- q12-20020a056902150c00b00b6cf26ce5b0mr1453538ybu.1.1679402556021; Tue, 21 Mar
- 2023 05:42:36 -0700 (PDT)
+        with ESMTP id S230251AbjCUNWF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Mar 2023 09:22:05 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2367A28859
+        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:46 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso9458446wmo.0
+        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679404904;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N8+H5EEAbdvf52NcUpG/q5u48K7jDEZDyAtoMXnmBJw=;
+        b=dTBmzMi6N3du2dp0NBJiU86t/9WaKUpJPa7x+fwqLUDVNIbTHEQQBUs5UYWfFZy2ab
+         oYtzm+ku2nuiUa1wBKBDkZGf083UiDEixwIfshX4DKKcrVkw974SnnOWNOI6jXk5JQ34
+         7pywJyAqnet8P/FQYqiHxhf6FXNaMXfuxuzyY+NQ91DlHy1qhH7arFwsr567ILYvZCmz
+         Ijb39kXNKpkM+nNL0g9st47Mx++rQWvZMaqc8+Ff1Nalhuj1QxjXtCFbDuQWxAQBpLjo
+         BMmUqyMHOpBsLCi1wnpFzEcO8aEDXQm6feWCqXzcY/A27ALiBivmScKc4Wq4kpgd3c4l
+         uTFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679404904;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N8+H5EEAbdvf52NcUpG/q5u48K7jDEZDyAtoMXnmBJw=;
+        b=1osV/+LsXSsDr25g9gdN/mCOWzGHk+ok5i9VosuU+vzmObQ/Hl4N0PAGnMaR5QQ6TW
+         3u8rc5sWi7DJcdOm8BDWvgKU5vDDQkSI+3JX5C19/WzokHjGv82tpAzCUHHvochYe2gT
+         BcflV/rugwzYD1my9OjUzlefJK3t4S6JdNgWu8Tm31GbKaSbv5Cnk8YlvwjAG7+nJoV/
+         2g78vPk7fF9JaaShLGEJbWVrdZY9kT9JCrkrEr1vV8vX/OA3zcvCpry0VbHSFaOxg+Xd
+         a80KGbJ8N1BivTH2nn1My4xXsjO8PF6z4Irry0mKx4QqRG8752E7/Y2o7lwWrFSMXW9H
+         9T6w==
+X-Gm-Message-State: AO0yUKW4AsFylhmdkfbPOZS5fg1rfPqW4ZAt7kZe5ObNb1A9uoIuRK/z
+        G1Cv2n6o72MAoIc7tNNj9F4/VQ==
+X-Google-Smtp-Source: AK7set+AeZOHC3qQvR4a351WvupyUI6jJ9BaB6ah6WBGGUuaYlRnKtmLfTNiiKhzEUWF3DepnUOtww==
+X-Received: by 2002:a1c:7713:0:b0:3ed:5d41:f95c with SMTP id t19-20020a1c7713000000b003ed5d41f95cmr2426414wmi.11.1679404904564;
+        Tue, 21 Mar 2023 06:21:44 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id v26-20020a05600c215a00b003eafc47eb09sm13393016wml.43.2023.03.21.06.21.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 06:21:44 -0700 (PDT)
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Date:   Tue, 21 Mar 2023 14:21:42 +0100
+Subject: [PATCH v5 02/12] dt-bindings: soc: qcom: qcom,pmic-glink: document
+ SM8450 compatible
 MIME-Version: 1.0
-References: <20230320233904.2920197-1-robh@kernel.org> <ZBlTJbdAmh5H3PD0@kroah.com>
-In-Reply-To: <ZBlTJbdAmh5H3PD0@kroah.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 21 Mar 2023 07:42:24 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqL9LYOpk88RCBJcsX5DnroOUdvXXtpwDPoabt3A1S7SVQ@mail.gmail.com>
-Message-ID: <CAL_JsqL9LYOpk88RCBJcsX5DnroOUdvXXtpwDPoabt3A1S7SVQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: usb: Drop unneeded quotes
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Justin Chen <justinpopo6@gmail.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230130-topic-sm8450-upstream-pmic-glink-v5-2-552f3b721f9e@linaro.org>
+References: <20230130-topic-sm8450-upstream-pmic-glink-v5-0-552f3b721f9e@linaro.org>
+In-Reply-To: <20230130-topic-sm8450-upstream-pmic-glink-v5-0-552f3b721f9e@linaro.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Rob Herring <robh@kernel.org>
+X-Mailer: b4 0.12.1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Mar 21, 2023 at 1:48=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Mon, Mar 20, 2023 at 06:39:02PM -0500, Rob Herring wrote:
-> > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> > checking for this can be enabled in yamllint.
-> >
-> > Signed-off-by: Rob Herring <robh@kernel.org>
->
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->
-> Or do you want me to take this through the USB tree?  if so, just let me
-> know.
+Document the SM8450 compatible used to describe the pmic glink
+on this platform.
 
-You can take it.
+Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+ Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Rob
+diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
+index cf863683c21a..a85bc14de065 100644
+--- a/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
++++ b/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
+@@ -25,6 +25,7 @@ properties:
+           - qcom,sc8180x-pmic-glink
+           - qcom,sc8280xp-pmic-glink
+           - qcom,sm8350-pmic-glink
++          - qcom,sm8450-pmic-glink
+       - const: qcom,pmic-glink
+ 
+   '#address-cells':
+
+-- 
+2.34.1
+
