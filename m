@@ -2,63 +2,64 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DB43C761A6
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Mar 2023 13:22:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3862C74A5B
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Mar 2023 13:22:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230284AbjCUNWG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Mar 2023 09:22:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36632 "EHLO
+        id S230215AbjCUNWE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Mar 2023 09:22:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230251AbjCUNWF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Mar 2023 09:22:05 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2367A28859
-        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:46 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso9458446wmo.0
-        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:46 -0700 (PDT)
+        with ESMTP id S229754AbjCUNWD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Mar 2023 09:22:03 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDDFC27D7F
+        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:44 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id i5-20020a05600c354500b003edd24054e0so4315813wmq.4
+        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679404904;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N8+H5EEAbdvf52NcUpG/q5u48K7jDEZDyAtoMXnmBJw=;
-        b=dTBmzMi6N3du2dp0NBJiU86t/9WaKUpJPa7x+fwqLUDVNIbTHEQQBUs5UYWfFZy2ab
-         oYtzm+ku2nuiUa1wBKBDkZGf083UiDEixwIfshX4DKKcrVkw974SnnOWNOI6jXk5JQ34
-         7pywJyAqnet8P/FQYqiHxhf6FXNaMXfuxuzyY+NQ91DlHy1qhH7arFwsr567ILYvZCmz
-         Ijb39kXNKpkM+nNL0g9st47Mx++rQWvZMaqc8+Ff1Nalhuj1QxjXtCFbDuQWxAQBpLjo
-         BMmUqyMHOpBsLCi1wnpFzEcO8aEDXQm6feWCqXzcY/A27ALiBivmScKc4Wq4kpgd3c4l
-         uTFA==
+        d=linaro.org; s=google; t=1679404903;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=x7qEp4ijrbwAJaZu+DVD/1qkBYaBwVY033kbAkhbKBY=;
+        b=tSs6jwFUXQM60idPU7SVCBTnfUOzac3Lbf3ozVkv1AW/hhL3UZn6BJTea0xIjACEtg
+         zJQByD8nwd6l9n/sM5wjU1/DQStMgEXVuxmn+Jq8m4te/j4kHdd7b/VGSP5Hkuidj+Vi
+         T44rZOW3BK3qQWR0D/ujPWsIdnPakB9zNkHOQq3BUNROi7NNoWuhad7B+4fnSYQ8WjQB
+         kt/EsDJaJJ+lsT4ht23wpMMfjo/2aksNl9LVww/dRZ1992Uz6QQqiIZfTDzZajggqmDz
+         LJhl2UXVoYwpH7lFjG0qOBejNlYtRlvV8cZ1bKxEirGZM/00pxx6Oft7zuYOtmsufU6z
+         wOxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679404904;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N8+H5EEAbdvf52NcUpG/q5u48K7jDEZDyAtoMXnmBJw=;
-        b=1osV/+LsXSsDr25g9gdN/mCOWzGHk+ok5i9VosuU+vzmObQ/Hl4N0PAGnMaR5QQ6TW
-         3u8rc5sWi7DJcdOm8BDWvgKU5vDDQkSI+3JX5C19/WzokHjGv82tpAzCUHHvochYe2gT
-         BcflV/rugwzYD1my9OjUzlefJK3t4S6JdNgWu8Tm31GbKaSbv5Cnk8YlvwjAG7+nJoV/
-         2g78vPk7fF9JaaShLGEJbWVrdZY9kT9JCrkrEr1vV8vX/OA3zcvCpry0VbHSFaOxg+Xd
-         a80KGbJ8N1BivTH2nn1My4xXsjO8PF6z4Irry0mKx4QqRG8752E7/Y2o7lwWrFSMXW9H
-         9T6w==
-X-Gm-Message-State: AO0yUKW4AsFylhmdkfbPOZS5fg1rfPqW4ZAt7kZe5ObNb1A9uoIuRK/z
-        G1Cv2n6o72MAoIc7tNNj9F4/VQ==
-X-Google-Smtp-Source: AK7set+AeZOHC3qQvR4a351WvupyUI6jJ9BaB6ah6WBGGUuaYlRnKtmLfTNiiKhzEUWF3DepnUOtww==
-X-Received: by 2002:a1c:7713:0:b0:3ed:5d41:f95c with SMTP id t19-20020a1c7713000000b003ed5d41f95cmr2426414wmi.11.1679404904564;
-        Tue, 21 Mar 2023 06:21:44 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679404903;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x7qEp4ijrbwAJaZu+DVD/1qkBYaBwVY033kbAkhbKBY=;
+        b=c4thRnrtmY4BPnSGAL85C3wdFbxynCLY0jL7ys1CMXyUJY5GDCqmtZ7+7ilN/wmLEX
+         j7BKbXxGjsufnL5s2vEC7MDPSsNpyiOkNM3WzHg/gJud9m8lZJ4dEUlTONAJ+w8cYo/6
+         nCsyUn8y5vZwQFiBXIURBuQRQhfeJ8vp8GRmEDN2s/LJuQOIzwk1hNKgBqZc+3WVsfzj
+         lGOUowHrNju8KGXSJ5QDhlDLDwTb2aJI7tZo5iKSnYKutZ4kBKrkwbFKu8JqGR/nhNiZ
+         TFTXBOub72APV5x/ZmXG6A9ZYgwF0mj13ivyzcag+rzM89Mydbqf5Kv4ZO6XHVavIzVH
+         zCjQ==
+X-Gm-Message-State: AO0yUKUHT1YbPP7y9F7l0giBrC0CK7fG7vzgmSMWvUQ06ZOAbRPlvoN8
+        WC5e149SHLaKKxVmL5Wpmjq7lg==
+X-Google-Smtp-Source: AK7set+I4hdq2gUlIjlYISBAK6GqiK/l8EYqTCGWNLDEDwKzOgN3Z6OGVolWCzPurJlfw1ZgjS+q8Q==
+X-Received: by 2002:a7b:c841:0:b0:3ee:392:3a00 with SMTP id c1-20020a7bc841000000b003ee03923a00mr2584535wml.16.1679404902803;
+        Tue, 21 Mar 2023 06:21:42 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id v26-20020a05600c215a00b003eafc47eb09sm13393016wml.43.2023.03.21.06.21.43
+        by smtp.gmail.com with ESMTPSA id v26-20020a05600c215a00b003eafc47eb09sm13393016wml.43.2023.03.21.06.21.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 06:21:44 -0700 (PDT)
+        Tue, 21 Mar 2023 06:21:42 -0700 (PDT)
 From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Tue, 21 Mar 2023 14:21:42 +0100
-Subject: [PATCH v5 02/12] dt-bindings: soc: qcom: qcom,pmic-glink: document
- SM8450 compatible
+Subject: [PATCH v5 00/12] soc: qcom: add UCSI function to PMIC GLINK
+Date:   Tue, 21 Mar 2023 14:21:40 +0100
+Message-Id: <20230130-topic-sm8450-upstream-pmic-glink-v5-0-552f3b721f9e@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230130-topic-sm8450-upstream-pmic-glink-v5-2-552f3b721f9e@linaro.org>
-References: <20230130-topic-sm8450-upstream-pmic-glink-v5-0-552f3b721f9e@linaro.org>
-In-Reply-To: <20230130-topic-sm8450-upstream-pmic-glink-v5-0-552f3b721f9e@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAGSvGWQC/5XOS46DMBAE0KtEXk9HjT+AZpV7RFn4C1bARjZBM
+ 4q4+3SyG2XFskrqV/1k1ZfoK/s+PVnxW6wxJwrq68TsqNPgITrKjCMX2AiENS/RQp17qRAeS12
+ L1zMsM5XDFNMdhBEaTWesE4IRY3T1YIpOdiQoPaaJyqX4EH/eu9cb5THWNZff9xtb82oPLG4NI
+ KBBbYN2dOMvVOuSz7kM7KVv/KjISeya4DVXrexk+BDFUVGQKG3fouOtcrz/EOVRUZIoehMwKIe
+ dcf/Efd//AEsP6pzcAQAA
 To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andy Gross <agross@kernel.org>,
@@ -78,28 +79,83 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Document the SM8450 compatible used to describe the pmic glink
-on this platform.
+The PMIC GLINK interface offers an UCSI endpoint for newer
+SoCs, the UCSI exchange is necessary to configure the USB-C
+port USB role and altmode on the SM8450 HDK and SM8550 MTP
+boards.
+Since the DT description is the same, support for SM8350 HDK
+is also added.
 
-Acked-by: Rob Herring <robh@kernel.org>
+This patchset focuses on USB and disables altmode support
+on those 2 SoCs until DP altmode over the combo phy is
+supported.
+
+Depends on PMIC Glink patchset at [1].
+
+[1] https://lore.kernel.org/all/20230130042003.577063-1-quic_bjorande@quicinc.com/
+
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Changes in v5:
+- added review tag on patch 1
+- fixed patch 9, remove useless port nodes added in patch 6
+- Link to v4: https://lore.kernel.org/r/20230130-topic-sm8450-upstream-pmic-glink-v4-0-38bf0f5d07bd@linaro.org
 
-diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
-index cf863683c21a..a85bc14de065 100644
---- a/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
-+++ b/Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml
-@@ -25,6 +25,7 @@ properties:
-           - qcom,sc8180x-pmic-glink
-           - qcom,sc8280xp-pmic-glink
-           - qcom,sm8350-pmic-glink
-+          - qcom,sm8450-pmic-glink
-       - const: qcom,pmic-glink
- 
-   '#address-cells':
+Changes in v4:
+- Handle remove for UCSI driver
+- Fixup client mask match data handling
+- Added USB ports bindings review tag
+- Link to v3: https://lore.kernel.org/r/20230130-topic-sm8450-upstream-pmic-glink-v3-0-4c860d265d28@linaro.org
 
+Changes in v3:
+- Fixed patch 1 by moving mask to pmic_glink_of_match
+- Fixed patch 8 by adding back hsphy
+- Add bindings change to dwc3 to support separate HS & SS OF graph links
+- Link to v2: https://lore.kernel.org/r/20230130-topic-sm8450-upstream-pmic-glink-v2-0-71fea256474f@linaro.org
+
+Changes in v2:
+- Moved the dwc3 port subnodes to dtsi
+- Added SM8350 HDK support
+- Added help about ucsi module name
+- Added bindings acks
+- Fixed sm8550 pmic glink compatible
+- Added more description in config update patch
+- Link to v1: https://lore.kernel.org/r/20230130-topic-sm8450-upstream-pmic-glink-v1-0-0b0acfad301e@linaro.org
+
+---
+Neil Armstrong (12):
+      usb: typec: ucsi: add PMIC Glink UCSI driver
+      dt-bindings: soc: qcom: qcom,pmic-glink: document SM8450 compatible
+      dt-bindings: soc: qcom: qcom,pmic-glink: document SM8550 compatible
+      soc: qcom: pmic_glink: register ucsi aux device
+      dt-bindings: usb: snps,dwc3: document HS & SS OF graph ports
+      arm64: dts: qcom: sm8350: add port subnodes in dwc3 node
+      arm64: dts: qcom: sm8450: add port subnodes in dwc3 node
+      arm64: dts: qcom: sm8550: add port subnodes in dwc3 node
+      arm64: dts: qcom: sm8350-hdk: add pmic glink node
+      arm64: dts: qcom: sm8450-hdk: add pmic glink node
+      arm64: dts: qcom: sm8550-mtp: add pmic glink node
+      arm64: defconfig: add PMIC GLINK modules
+
+ .../bindings/soc/qcom/qcom,pmic-glink.yaml         |   2 +
+ .../devicetree/bindings/usb/snps,dwc3.yaml         |  16 +
+ arch/arm64/boot/dts/qcom/sm8350-hdk.dts            |  46 ++-
+ arch/arm64/boot/dts/qcom/sm8350.dtsi               |  19 ++
+ arch/arm64/boot/dts/qcom/sm8450-hdk.dts            |  45 ++-
+ arch/arm64/boot/dts/qcom/sm8450.dtsi               |  19 ++
+ arch/arm64/boot/dts/qcom/sm8550-mtp.dts            |  45 ++-
+ arch/arm64/boot/dts/qcom/sm8550.dtsi               |  19 ++
+ arch/arm64/configs/defconfig                       |   4 +
+ drivers/soc/qcom/pmic_glink.c                      |  65 +++-
+ drivers/usb/typec/ucsi/Kconfig                     |  10 +
+ drivers/usb/typec/ucsi/Makefile                    |   1 +
+ drivers/usb/typec/ucsi/ucsi_glink.c                | 345 +++++++++++++++++++++
+ 13 files changed, 621 insertions(+), 15 deletions(-)
+---
+base-commit: 6f72958a49f68553f2b6ff713e8c8e51a34c1e1e
+change-id: 20230130-topic-sm8450-upstream-pmic-glink-3b3a0b7bcd33
+
+Best regards,
 -- 
-2.34.1
+Neil Armstrong <neil.armstrong@linaro.org>
 
