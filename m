@@ -2,61 +2,61 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0431BC761A6
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Mar 2023 13:22:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32B49C77B60
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Mar 2023 13:22:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231134AbjCUNWR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Mar 2023 09:22:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37050 "EHLO
+        id S230387AbjCUNWS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Mar 2023 09:22:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230444AbjCUNWM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Mar 2023 09:22:12 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6C9228E44
-        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:50 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id m2so13664837wrh.6
-        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:49 -0700 (PDT)
+        with ESMTP id S230373AbjCUNWN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Mar 2023 09:22:13 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD4EE28E9E
+        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:52 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id o40-20020a05600c512800b003eddedc47aeso3992979wms.3
+        for <linux-usb@vger.kernel.org>; Tue, 21 Mar 2023 06:21:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679404908;
+        d=linaro.org; s=google; t=1679404910;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EHtc9L9Ht2rX502qI85oDcXvz/j5G9+6+WvzQUk1Sso=;
-        b=aGEviax9cButx4OYxXzArxr0BP0GiAp5FrXFrOwEXmPPXDaQspsbfNerOBnCbEY+UN
-         SCmlE6m/mxEzmxE4jjYbeJaERSrPj5epZjLeoL5j+QrgPTgOzr2K4J4JX6tBy1DrrfWD
-         WB8iaVdOPydBW6YZfuFAkOwuhGOM39Vyuzg7rJHmYi1xPJ6nYXvsOkZtG2PK0I5nR8im
-         0JNeYHKtGpCLka5quReP3a4KPfkx+2f8U6+mCViJiAj6rBh2dcgM4XfQbY4FrZvxN89B
-         VlPwpYCC1UrOOI7xF5SfPbFVsV/iIW++/HA45TBSYp0AGIHHRl79Xn8M2itgecnOSsF2
-         3oFg==
+        bh=81l551VcpX1M6mk9/O5MVJii8ShKhy56jAQgidl0DwY=;
+        b=u5wDvnU5hACTBtCn6dC2jd1UHQoxB55D3g1UTJkb2mQo85TrOLuN8+Y9MG9f8pzJ6n
+         ECeRasH6lSZbGr0Gh1oPH/LCqGHZvYzXKi6+MW3zyHC5xcBsus/Yujnund5Px0X86qZF
+         BBB/iWukaUm3XIFbvu37wjiqfJ03jZmVRdIJnMTIzqyL5V/Cft78vSO233UmABcgBMdu
+         kUYZLYy2tOv5VdgcRs7Pdz1AlMrd+VqF3BF/8Q7EBydukqBZ1tIcwhKsQbBNjSoSwoZ7
+         YEtDGjZQzH88Su+UWSVQ7KFLH0HEC8j9BXiZ+OzIj9PF/mCH+ncSr9wTDlDBHOw+LwYg
+         Y4Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679404908;
+        d=1e100.net; s=20210112; t=1679404910;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EHtc9L9Ht2rX502qI85oDcXvz/j5G9+6+WvzQUk1Sso=;
-        b=JfGCeTBsc85WllgccjlgayN9bdAtunv2FTx9j+xQjcSuBDL09htuEfOCjqjff86WAq
-         11ijNo5lBoB7CiGDcCsTTfE6uFV86Rpi7E9bn6ho2oM78bmyX4UaftGp9+Lkv9S33RbZ
-         UmQpEhtFqZJQrMKMe0lo2s/i5RyriPI5kt7uFJ8eHsMTvYY8X7+024NzkmvVyTeVTP9w
-         6ilaTddX9kxpVVbrPg2s1oEDrCbsi3KtRlvyoBWITFZ3we++ewfZII4ho1sgqzxpcR42
-         pdDnqJ/KR2AcGdHQVoOW9Ul//fI2PcE9lxBB5GYE6Luhj1yxnRP0n7zeM2Aqw45vZezD
-         BEeA==
-X-Gm-Message-State: AO0yUKVx3UWYP5X2P1Sw3J16K0/cDRZQVYVDmUicGqi4+ZzidKEQpPcN
-        OUpzC1yg4JywXRH6w9XXnF807A==
-X-Google-Smtp-Source: AK7set/eRqsiH1IbdiN9YGqBgiclFTx3cG/w3JYeWlO9StPblmSjprbDvhNblDc1SFgt8Ko9RPv3CA==
-X-Received: by 2002:a05:6000:124a:b0:2bf:f4f7:be9c with SMTP id j10-20020a056000124a00b002bff4f7be9cmr2244375wrx.14.1679404908193;
-        Tue, 21 Mar 2023 06:21:48 -0700 (PDT)
+        bh=81l551VcpX1M6mk9/O5MVJii8ShKhy56jAQgidl0DwY=;
+        b=ER3GtB4jXkPTtIUMy447YK/9VSnA+3xovILjbpLVGxNb4TVpoetWe1peXk7xv1NjWN
+         6vHFTFSgyM4/LGVSrMrIVm6IhfT+9abkEYEyKbtGmGPcr/yvd+eJknMP2BNMTCmuK8mH
+         UfGRusFDqKXmU1lKQcGO568z5wZJZnGEH/tcUug02Mdsfm4c6XW2WXZe/k9NUyVWD5xP
+         3XH74nm6Nn1JHnqhD3UGVdeu22nQBtfpvGTtix58IOPMYldJZNF0XCP797PhCpJkXo5k
+         2GaajVxGI5FATyAf5flMAxTMrDvEKY2SisQVGdQ5LrkugNI6cmI7RiGsBChmYin4lgND
+         vUNw==
+X-Gm-Message-State: AO0yUKWmC8zKPCcSsKF9yac6tfCQ/8J4SBj+pMp3kNLjaBJygp6x6CyH
+        GGpD9skyEtrq2SFsCSx6H4H+DA==
+X-Google-Smtp-Source: AK7set8fXSHZo1jW0ghJmwoQ9sG7rO22LtuTYhu9jFFbSKHxpMa32xCW0roGXPzhEi9NnV+HI39rDA==
+X-Received: by 2002:a7b:cb57:0:b0:3ee:2bed:222d with SMTP id v23-20020a7bcb57000000b003ee2bed222dmr1862432wmj.3.1679404909927;
+        Tue, 21 Mar 2023 06:21:49 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id v26-20020a05600c215a00b003eafc47eb09sm13393016wml.43.2023.03.21.06.21.47
+        by smtp.gmail.com with ESMTPSA id v26-20020a05600c215a00b003eafc47eb09sm13393016wml.43.2023.03.21.06.21.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 06:21:47 -0700 (PDT)
+        Tue, 21 Mar 2023 06:21:49 -0700 (PDT)
 From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Tue, 21 Mar 2023 14:21:46 +0100
-Subject: [PATCH v5 06/12] arm64: dts: qcom: sm8350: add port subnodes in
+Date:   Tue, 21 Mar 2023 14:21:48 +0100
+Subject: [PATCH v5 08/12] arm64: dts: qcom: sm8550: add port subnodes in
  dwc3 node
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230130-topic-sm8450-upstream-pmic-glink-v5-6-552f3b721f9e@linaro.org>
+Message-Id: <20230130-topic-sm8450-upstream-pmic-glink-v5-8-552f3b721f9e@linaro.org>
 References: <20230130-topic-sm8450-upstream-pmic-glink-v5-0-552f3b721f9e@linaro.org>
 In-Reply-To: <20230130-topic-sm8450-upstream-pmic-glink-v5-0-552f3b721f9e@linaro.org>
 To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -83,16 +83,16 @@ same description in each board DT.
 Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm8350.dtsi | 19 +++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sm8550.dtsi | 19 +++++++++++++++++++
  1 file changed, 19 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-index 1afc4311796e..6c3a82c63585 100644
---- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-@@ -2270,6 +2270,25 @@ usb_1_dwc3: usb@a600000 {
- 				snps,dis_enblslpm_quirk;
- 				phys = <&usb_1_hsphy>, <&usb_1_ssphy>;
+diff --git a/arch/arm64/boot/dts/qcom/sm8550.dtsi b/arch/arm64/boot/dts/qcom/sm8550.dtsi
+index 6af4079c9a35..da32f6bc34ab 100644
+--- a/arch/arm64/boot/dts/qcom/sm8550.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8550.dtsi
+@@ -2460,6 +2460,25 @@ usb_1_dwc3: usb@a600000 {
+ 				phys = <&usb_1_hsphy>,
+ 				       <&usb_dp_qmpphy QMP_USB43DP_USB3_PHY>;
  				phy-names = "usb2-phy", "usb3-phy";
 +
 +				ports {
