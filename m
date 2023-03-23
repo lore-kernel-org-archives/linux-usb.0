@@ -2,29 +2,29 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DB11C6FD1C
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Mar 2023 11:41:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F99CC7619A
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Mar 2023 11:41:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231526AbjCWLlh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Mar 2023 07:41:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35852 "EHLO
+        id S231527AbjCWLli (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Mar 2023 07:41:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231265AbjCWLle (ORCPT
+        with ESMTP id S231182AbjCWLle (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Mar 2023 07:41:34 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06302193F0
-        for <linux-usb@vger.kernel.org>; Thu, 23 Mar 2023 04:41:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 380911B2FA
+        for <linux-usb@vger.kernel.org>; Thu, 23 Mar 2023 04:41:33 -0700 (PDT)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <m.tretter@pengutronix.de>)
-        id 1pfJJz-0007OB-Bx; Thu, 23 Mar 2023 12:41:31 +0100
+        id 1pfJJy-0007OB-L7; Thu, 23 Mar 2023 12:41:30 +0100
 From:   Michael Tretter <m.tretter@pengutronix.de>
-Date:   Thu, 23 Mar 2023 12:41:11 +0100
-Subject: [PATCH 3/8] usb: gadget: uvc: implement s/g_output ioctl
+Date:   Thu, 23 Mar 2023 12:41:09 +0100
+Subject: [PATCH 1/8] usb: gadget: uvc: use fourcc printk helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230323-uvc-gadget-cleanup-v1-3-e41f0c5d9d8e@pengutronix.de>
+Message-Id: <20230323-uvc-gadget-cleanup-v1-1-e41f0c5d9d8e@pengutronix.de>
 References: <20230323-uvc-gadget-cleanup-v1-0-e41f0c5d9d8e@pengutronix.de>
 In-Reply-To: <20230323-uvc-gadget-cleanup-v1-0-e41f0c5d9d8e@pengutronix.de>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -42,64 +42,38 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-V4L2 OUTPUT devices should implement ENUM_OUTPUT, G_OUTPUT, and
-S_OUTPUT. The UVC gadget provides only a single output. Therefore, allow
-only a single output 0.
-
-According to the documentation, "_TYPE_ANALOG" is historical and should
-be read as "_TYPE_VIDEO".
+There is a format helper for printing fourcc codes. Use that one instead
+of manually formatting the pixelformat for printing.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
- drivers/usb/gadget/function/uvc_v4l2.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ drivers/usb/gadget/function/uvc_v4l2.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index 13c7ba06f994..4b8bf94e06fc 100644
+index 3f0a9795c0d4..13c7ba06f994 100644
 --- a/drivers/usb/gadget/function/uvc_v4l2.c
 +++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -377,6 +377,31 @@ uvc_v4l2_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
- 	return 0;
- }
+@@ -240,16 +240,13 @@ uvc_v4l2_try_format(struct file *file, void *fh, struct v4l2_format *fmt)
+ 	struct uvc_video *video = &uvc->video;
+ 	struct uvcg_format *uformat;
+ 	struct uvcg_frame *uframe;
+-	u8 *fcc;
  
-+static int
-+uvc_v4l2_enum_output(struct file *file, void *priv_fh, struct v4l2_output *out)
-+{
-+	if (out->index != 0)
-+		return -EINVAL;
-+
-+	out->type = V4L2_OUTPUT_TYPE_ANALOG;
-+	snprintf(out->name, sizeof(out->name), "UVC");
-+
-+	return 0;
-+}
-+
-+static int
-+uvc_v4l2_g_output(struct file *file, void *priv_fh, unsigned int *i)
-+{
-+	*i = 0;
-+	return 0;
-+}
-+
-+static int
-+uvc_v4l2_s_output(struct file *file, void *priv_fh, unsigned int i)
-+{
-+	return i ? -EINVAL : 0;
-+}
-+
- static int
- uvc_v4l2_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers *b)
- {
-@@ -547,6 +572,9 @@ const struct v4l2_ioctl_ops uvc_v4l2_ioctl_ops = {
- 	.vidioc_enum_frameintervals = uvc_v4l2_enum_frameintervals,
- 	.vidioc_enum_framesizes = uvc_v4l2_enum_framesizes,
- 	.vidioc_enum_fmt_vid_out = uvc_v4l2_enum_format,
-+	.vidioc_enum_output = uvc_v4l2_enum_output,
-+	.vidioc_g_output = uvc_v4l2_g_output,
-+	.vidioc_s_output = uvc_v4l2_s_output,
- 	.vidioc_reqbufs = uvc_v4l2_reqbufs,
- 	.vidioc_querybuf = uvc_v4l2_querybuf,
- 	.vidioc_qbuf = uvc_v4l2_qbuf,
+ 	if (fmt->type != video->queue.queue.type)
+ 		return -EINVAL;
+ 
+-	fcc = (u8 *)&fmt->fmt.pix.pixelformat;
+-	uvcg_dbg(&uvc->func, "Trying format 0x%08x (%c%c%c%c): %ux%u\n",
+-		fmt->fmt.pix.pixelformat,
+-		fcc[0], fcc[1], fcc[2], fcc[3],
+-		fmt->fmt.pix.width, fmt->fmt.pix.height);
++	uvcg_dbg(&uvc->func, "Trying format %p4cc: %ux%u\n",
++		 &fmt->fmt.pix.pixelformat,
++		 fmt->fmt.pix.width, fmt->fmt.pix.height);
+ 
+ 	uformat = find_format_by_pix(uvc, fmt->fmt.pix.pixelformat);
+ 	if (!uformat)
 
 -- 
 2.30.2
