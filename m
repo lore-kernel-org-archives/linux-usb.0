@@ -2,160 +2,134 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E809C6FD1D
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Mar 2023 10:55:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D803C6FD1C
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Mar 2023 11:00:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231140AbjCWKz4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Mar 2023 06:55:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40928 "EHLO
+        id S230004AbjCWLAI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Mar 2023 07:00:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230404AbjCWKzj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Mar 2023 06:55:39 -0400
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2075.outbound.protection.outlook.com [40.107.21.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14ED39019;
-        Thu, 23 Mar 2023 03:54:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZTwUDpBrWQCPHOH9isDaxFodTcR6DQ4jy6h7X6G1qeibRaeplH/VNxBupZWIhANb7itYLP9ajPPhl0gyA9S1DcWNnoFSIxJMjP4cW4n2Vaa4rw52K7sxGtM3WAGYygVorH9kkzTf+7VQ4thNE5DC9403o/yRYIiearyrN8TfX1JrJx4NBkJiwz7Dx4H8s4Ih0TzY6gJAyMT0qxXaZprONyuJpc/qmMurAT+8+LJaD0P+pAAin8WYQalaz59afndCGHX8QKCIIiib1/kNrbyhLytmEWPQcfaBWWkdQ89BO4idzfZ1M7K8fNPNnbaQbUQvJx/uMJeESvHnJ36ou520yQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gpgatUU/fLQgVhPhwitFb1QE64ujZDrOXuVilhVvkNg=;
- b=BGaFz5yAFjngLgtYp8J81FtOCnzU6ccZ82qGSd+LqVYe+dbLBpPn+bARrtE2F069hh5vdVHYV3BuE4KovqPNaAZRBoKKTCksenwdUN/CjR0KriHR2rSYY+YT/ndWSiqKBiMNxhiuNOilx227/mXwdIJF4bO4AR/bRbCOkza9xF6U69h+kDTtdAkLXPJ7pUllxcEGE3h4p2w6vvYiWbHDHIrDs7doNVR7ClO9KDaUC0miZtl+8J03Oy/BfJKmQLD3bbSqpPKUMO7O01olM8Hzr1K0f0aF8PNcO3XnaiMYb3oV+hhJuWGDx3DravgqJxDDz48MJA+DVxuDyn7KasuNuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gpgatUU/fLQgVhPhwitFb1QE64ujZDrOXuVilhVvkNg=;
- b=cSxQAyCnI8UyIjKN9Dzan3hRRmw2zKcziBVV0mZGprfrOTKDSWuycjpNjsJOWh7gW/QQUS6MDgPLTyMNxSjeLmQ9QVZtFQQso+l+MUMy7ux0GN35j8VB7tyoFKyHBRI0f+NAHFNPM9RT3Z6QRWaZf2vnkiFzgftrX6Ygkd8qo9hj02Q+RBgomQauXgPrd5KKMksiV27Ulyyv54K1S5HPiNz2/05YabeZfzKyKE3a5Aq8MgMYJlFTTeL+8i45tPdQ3OWXkQljxATyUpJP0Xg0Wp6usdpUhnVwec+9gLF+6Iuu1bnNkXVP/kyjMh3DzKB/1WaYNiInBCplKbyisqaATg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=suse.com;
-Received: from VI1PR04MB7104.eurprd04.prod.outlook.com (2603:10a6:800:126::9)
- by DBAPR04MB7432.eurprd04.prod.outlook.com (2603:10a6:10:1a9::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Thu, 23 Mar
- 2023 10:54:31 +0000
-Received: from VI1PR04MB7104.eurprd04.prod.outlook.com ([fe80::2ea:4a86:9ab7])
- by VI1PR04MB7104.eurprd04.prod.outlook.com ([fe80::2ea:4a86:9ab7%3]) with
- mapi id 15.20.6178.038; Thu, 23 Mar 2023 10:54:31 +0000
-Message-ID: <73fd29ce-3072-dfce-ebf0-3e197230fa94@suse.com>
-Date:   Thu, 23 Mar 2023 11:54:24 +0100
+        with ESMTP id S229775AbjCWLAH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Mar 2023 07:00:07 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4A2CEFBA;
+        Thu, 23 Mar 2023 04:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679569205; x=1711105205;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=IQ23RDY+VmSw1MtL0h2xoC5wvME5adjMReUDOyPb5ko=;
+  b=JSLoh4aLpdg14y1j4wtjRPnrzns2nBFuWINSaZrXSVCvSA3HpqHuwRU2
+   k/lU4JVmFv5JEd6InTF49YLg2sr6zxKrs2GTKjU1QyiDT8m0nFRugdm7F
+   2zhSVW3hzyX68awyhdk/0e+8GL15+aErq/PALnHlNZFrn8eb6rbQGxsdv
+   T96jCicsvwqEj1muKjk29LBiEP6uzhc5ouzBsGPMjNugKfmoTUuvl4nZv
+   LR1VCTs8H+zCAhUivsOi7tfHoYjMTcgyxnSLiDQu5NmXTcfwc09GBGEzz
+   T0CXcX07rV2f40/Ig6tSteFKbzGQ6zE21DF6caITH5Es9Mcm+ABMERFGz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="367193667"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
+   d="scan'208";a="367193667"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 04:00:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="712616605"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
+   d="scan'208";a="712616605"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orsmga008.jf.intel.com with ESMTP; 23 Mar 2023 03:59:59 -0700
+Message-ID: <b3d53ea7-b78f-3415-b0ed-7ddf292ec7fc@linux.intel.com>
+Date:   Thu, 23 Mar 2023 13:01:19 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2] usb: dwc3: host: remove dead code in
- dwc3_host_get_irq()
+ Firefox/102.0 Thunderbird/102.7.1
 Content-Language: en-US
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Mingxuan Xiang <mx_xiang@hust.edu.cn>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     hust-os-kernel-patches@googlegroups.com,
-        Dongliang Mu <dzm91@hust.edu.cn>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230323095311.1266655-1-mx_xiang@hust.edu.cn>
- <129aec21-4997-6b8d-5bd2-8e013f575208@gmail.com>
-From:   Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <129aec21-4997-6b8d-5bd2-8e013f575208@gmail.com>
+To:     Hongyu Xie <xiehongyu1@kylinos.cn>, mathias.nyman@intel.com,
+        gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sunke <sunke@kylinos.cn>
+References: <20230320042223.676505-1-xiehongyu1@kylinos.cn>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH -next] usb: xhci: do not free an empty cmd ring
+In-Reply-To: <20230320042223.676505-1-xiehongyu1@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0002.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1d::12) To VI1PR04MB7104.eurprd04.prod.outlook.com
- (2603:10a6:800:126::9)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR04MB7104:EE_|DBAPR04MB7432:EE_
-X-MS-Office365-Filtering-Correlation-Id: bda37d62-6732-432b-0632-08db2b8cfae3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cQ5vjWs+RWNcCmjSaSdY9XCWQkjcIeGBYROe9bPF9ftE3BHSGRlMOtjZbEVb/aFe6U/doIJAM1xAMYFK7gT2m0/Z0t4vr06Yr4KBF181TRJPFPGzye+z4Y9xVohAOMy0cgEyyevhug21NebdjsZlE7Wq0+nA2b0zC+N/XBJ8GhLuGeap3B1NXxJp+gZJRCOr4ztgXgoP8LONIutxlwjw8pAWDWyLYJ3CZAAIwRGEdqI1jXDL0aZpAxu1j8eQXZiKWB+QLEi5HhblI+oGaSIP2sPGxNKdIvLHb1RMQ1ZbKMdpScVCVfpRHARIEWWobVMnre5NDoRGM9gs8DyLubKM7RMR4Uiy388oo5Hixtb2uVViqocHNKGDm6r08deNdWWfz6pKw2h/wpF4JT2VDca0ipo1hly8Q7yUqVDqoQXCMg7p/N0ARr81JEyIL603FeG9N4GDNUQU1d6Cj7cn9WaQS2F4sAv6GiTfHgJgNsh0akxFXrhmAUrOYk8Xdb9unaaVeo0Z+33gzHnYcWg5ZsTcuNIBSzBKl1iQIuv/T8B+tZ/QzaMovQotYfVC1TwWHQuTWn87VId+SHW6a4KZzby7VuQrDvCB1vp/cnVCQhC1xe6U7rx2feeL6rAhUG9m8/pAB8D0Edttcc4zPXjb/lMamrh0mX51bZPMFv2AXkb+iY8/mAnj7sTvVcNiwUTZRKvlHLM9oBDztr9UTH8LKnlI04POGbaFIqzlp5MY2YHKtTo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB7104.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(136003)(396003)(39850400004)(346002)(376002)(366004)(451199018)(31686004)(38100700002)(2906002)(478600001)(83380400001)(6486002)(2616005)(186003)(36756003)(31696002)(86362001)(316002)(110136005)(4326008)(8676002)(66476007)(66556008)(66946007)(4744005)(6666004)(53546011)(6512007)(6506007)(8936002)(5660300002)(41300700001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bUF0NE8vY09Bd0IwUVpsVEI0U1VVSEcrQkpEMVA4RS9CZDV0MFdKeXpXOUV5?=
- =?utf-8?B?VkY3TEJQSHJJQVd1MHBGUXFtS0ZZcFFMSUxCK1NnSGlmSGhjR0tzZVNmQm1m?=
- =?utf-8?B?N2NlTkN5dG5FRUtCZFBzMWdGWUFJVjV4ZVRyRlR5bVRNY1d0UW1iU0llTmI0?=
- =?utf-8?B?aFd5MmJBcGNRbmRjeFhNMmxReWNpMlcvN1VBNmUvaXBkNm5QR1V6MVJGckRQ?=
- =?utf-8?B?Yzcway80ZVQxQ01OWjFaSm5md3d5NkJuRTNVbVdWWWt2TDV6b2pNWGZSQVp6?=
- =?utf-8?B?ZlFKY0RiSFBIa2VtTHpCdG9KQU54eUIrbFk4ZWNnVEsyeWwxVkFRVS9NRnR4?=
- =?utf-8?B?Mlg4aVo5eUhsVHp2WWlMM3RrMlRyUkVjM1I4bGNBRVB6NHhXOEc1UHRNZThL?=
- =?utf-8?B?S2prM2RPMW1SN2t4ZEMvWVlVVTJMVGxlcDc4b2tWL1ZEZDVrVlBtcGxFQzlF?=
- =?utf-8?B?TzEzN24yaDl2QWZvbWtPN09QNWhoSjNROVpHVHkrdndVTjR4SDlxd2dGZ2J6?=
- =?utf-8?B?dXJDdCtGbllmSGE3endPR3NiaWp4RlpUYk1pR2NQM25rN2YwM0k4UFJPWHZD?=
- =?utf-8?B?by81Tk42UHFqWE8xRUxyNzBTTEJIZnAyQ2hNeHRGQytOcytZSm9rbVlSOWkv?=
- =?utf-8?B?c28yQy9oS2ZpY21OWDJBODMrUld1bElnc0Y5WG53NWlJUWVXSnp4RmF6djBC?=
- =?utf-8?B?WXNocHNReEpybmFrK1B0RG1zUTkvbHpxM2Z2OC9IZHRoQk1hT1BQT1F1SUM0?=
- =?utf-8?B?cCt5a0l5RVJCM3VPQk90ODY5czl3Y0FWSVBxSmtnd1QxNmVscVh5SElXdUZm?=
- =?utf-8?B?aytWT21LUHhZZUJyNmRCMlNOUjlLdTZmQ0FzQ3praU1JWitYZHR3aGQvUm9D?=
- =?utf-8?B?UkxyWVdXOStHNHhjaDFBdVhTS05RL1JiMlhJWlZGWnpFeGd1OVErVy8vZk92?=
- =?utf-8?B?TTBQV3RGNnpNWmdJWXpnNGwvZVl2Kyt6T2o1ak9UbHRReFhqZVdUbHhIOHdU?=
- =?utf-8?B?dFRTckVEeGtvK2FlaHl6K0hXQUpXa0htQjByY1dwVTNDUEZJem8yRm9zMVlh?=
- =?utf-8?B?WXE0L1VhYlFXRGZranJ3NXBSbkF3LzE2YjQzd01GTHNha1BIZlhPZkQ3SVNT?=
- =?utf-8?B?YkV6ekJKRm4zSGNUaXQxL3dVQ1l2U2Y3RGczazgzVlVyRW1hdG80WGdXZlNt?=
- =?utf-8?B?aGU2WGI0aDgzR0JEQTVweENTaDdYVTRvOUFqWmhPZFJGREs1WDJDSVU0eWtT?=
- =?utf-8?B?SGhFWkh2MUc1KzRlVkZKUkNmUWFZMjYxUDNPWGpoZ1RIbEIzTU5Oc1F3WGt0?=
- =?utf-8?B?ZDV6TjArRXl0MVhuNXVlQllRQVZCSThaQ1BTVm5UcW1MVWpySTI3YVpGTjdC?=
- =?utf-8?B?NFVtU1B4UXBZTGs4YmpBdFVUWVNLaEtmaTNSVHZGTFVyVksva0VhQmdtdGlK?=
- =?utf-8?B?UU1UUUl1MTdmMGJabEpJMlFOTk1ta2VnUTRVbWNNeEVRbHdDaDdTK0RXVmZw?=
- =?utf-8?B?czhERWhnWXZ0ZXNiSnVZb3hUL3A2aHNuaUUxLzViT1AzbHFTdVFmdFUwVTJj?=
- =?utf-8?B?K3ZmcWMxL0RZVmxWRlhpWVd2bmFKMUdNR2VDMGpGRVFvVzdaWXVyc0ZyUWgz?=
- =?utf-8?B?VWxLbmYxYjRLcVd0SDFndzVWbnV0SksyM3RRT01wTS83Q3EvTXpIaGc2OWsx?=
- =?utf-8?B?bjJUOVpqbTRNQzFXNDd2NXV1cWcyeThXS2tLWnZPY1VwbmxMbWppcVUzZ0sr?=
- =?utf-8?B?R2h0VlZ4c2RsdUR5Y0o4OXZKUzdVc1pHYmFINGkxcDc5aEVGMmh2Q2U0TndI?=
- =?utf-8?B?alR0NWtvbXc5SjJFeXFOTnNZME96MFRRTjBzTS95dm9sUDNIMkJuVkRVbGM4?=
- =?utf-8?B?azU1T2J4ZEI4WmdnalZpdXFybXpIODNiQVF6SjZsZWNZdExQbmRiVW9DTlY5?=
- =?utf-8?B?K2F2ZExMT282MHZXaVpmaXo0emZyeVUranA0dGE5dFNMVkh6NE9iQXp4YjBp?=
- =?utf-8?B?TVV2bDJYSllzY1l0d1hnTmdGTjBJeWJ3OHRrbytNY3RKaE5lZ2ZxV3JGeUIz?=
- =?utf-8?B?SVN1cFpheWhsVVc1alNCekxvdkNEZXJ6WUU2NGxQT2FpSytuYUNhNnBjK0lV?=
- =?utf-8?B?SlJ5NG9pNVZneXhvY3ZnNjFCOEMydjhyVXdZb2F1L2xKOXhrY3dNSXBRZyta?=
- =?utf-8?Q?QHgGzwTfKkjI8I+sDnu+9midtz554M/DS9qaNFB/aJXV?=
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bda37d62-6732-432b-0632-08db2b8cfae3
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB7104.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2023 10:54:30.9373
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: g7TVlwAJy4aSfluXHLITvB+Lfo1N4fvNu1R6tRSTAmBo8OJTVXTliMxBUg/UdXO0BVRlgwNAq5Y9hhjtXUIhQw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7432
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
-
-On 23.03.23 11:29, Sergei Shtylyov wrote:
-> On 3/23/23 12:53 PM, Mingxuan Xiang wrote:
+On 20.3.2023 6.22, Hongyu Xie wrote:
+> It was first found on HUAWEI Kirin 9006C platform with a builtin xhci
+> controller during stress cycle test(stress-ng, glmark2, x11perf, S4...).
 > 
->> platform_get_irq() no longer returns 0, so there is no
->> need to check whether the return value is 0.
->>
->> Signed-off-by: Mingxuan Xiang <mx_xiang@hust.edu.cn>
->> ---
->> v1->v2: remove redundant goto
->>   drivers/usb/dwc3/host.c | 4 ----
->>   1 file changed, 4 deletions(-)
->>
->> diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
->> index f6f13e7f1ba1..ca1e8294e835 100644
->> --- a/drivers/usb/dwc3/host.c
->> +++ b/drivers/usb/dwc3/host.c
->> @@ -54,12 +54,8 @@ static int dwc3_host_get_irq(struct dwc3 *dwc)
->>   	irq = platform_get_irq(dwc3_pdev, 0);
->>   	if (irq > 0) {
->>   		dwc3_host_fill_xhci_irq_res(dwc, irq, NULL);
->> -		goto out;
->>   	}
+> phase one:
+> [26788.706878] PM: dpm_run_callback(): platform_pm_thaw+0x0/0x68 returns -12
+> [26788.706878] PM: Device xhci-hcd.1.auto failed to thaw async: error -12
+> ...
+> phase two:
+> [28650.583496] [2023:01:19 04:43:29]Unable to handle kernel NULL pointer dereference at virtual address 0000000000000028
+> ...
+> [28650.583526] user pgtable: 4k pages, 39-bit VAs, pgdp=000000027862a000
+> [28650.583557] [0000000000000028] pgd=0000000000000000
+> ...
+> [28650.583587] pc : xhci_suspend+0x154/0x5b0
+> [28650.583618] lr : xhci_suspend+0x148/0x5b0
+> [28650.583618] sp : ffffffc01c7ebbd0
+> [28650.583618] x29: ffffffc01c7ebbd0 x28: ffffffec834d0000
+> [28650.583618] x27: ffffffc0106a3cc8 x26: ffffffb2c540c848
+> [28650.583618] x25: 0000000000000000 x24: ffffffec82ee30b0
+> [28650.583618] x23: ffffffb43b31c2f8 x22: 0000000000000000
+> [28650.583618] x21: 0000000000000000 x20: ffffffb43b31c000
+> [28650.583648] x19: ffffffb43b31c2a8 x18: 0000000000000001
+> [28650.583648] x17: 0000000000000803 x16: 00000000fffffffe
+> [28650.583648] x15: 0000000000001000 x14: ffffffb150b67e00
+> [28650.583648] x13: 00000000f0000000 x12: 0000000000000001
+> [28650.583648] x11: 0000000000000000 x10: 0000000000000a80
+> [28650.583648] x9 : ffffffc01c7eba00 x8 : ffffffb43ad10ae0
+> [28650.583648] x7 : ffffffb84cd98dc0 x6 : 0000000cceb6a101
+> [28650.583679] x5 : 00ffffffffffffff x4 : 0000000000000001
+> [28650.583679] x3 : 0000000000000011 x2 : 0000000000e2cfa8
+> [28650.583679] x1 : 00000000823535e1 x0 : 0000000000000000
 > 
->     Now drop {} please. :-)
+> gdb:
+> (gdb) l *(xhci_suspend+0x154)
+> 0xffffffc010b6cd44 is in xhci_suspend (/.../drivers/usb/host/xhci.c:854).
+> 849	{
+> 850		struct xhci_ring *ring;
+> 851		struct xhci_segment *seg;
+> 852
+> 853		ring = xhci->cmd_ring;
+> 854		seg = ring->deq_seg;
+> (gdb) disassemble 0xffffffc010b6cd44
+> ...
+> 0xffffffc010b6cd40 <+336>:	ldr	x22, [x19, #160]
+> 0xffffffc010b6cd44 <+340>:	ldr	x20, [x22, #40]
+> 0xffffffc010b6cd48 <+344>:	mov	w1, #0x0                   	// #0
+> 
+> During phase one, platform_pm_thaw called xhci_plat_resume which called
+> xhci_resume. The rest possible calling routine might be
+> xhci_resume->xhci_init->xhci_mem_init, and xhci->cmd_ring was cleaned in
+> xhci_mem_cleanup before xhci_mem_init returned -ENOMEM.
+> 
 
-Well, no, please drop the whole patch.
-If platform_get_irq() returns -EPROBE_DEFER you now give that
-as a return value.
+Thanks for reporting this.
 
-This tiny bit of optimization is not worth changing semantics.
+xhci_mem_init() failing with -ENOMEM doesn't sound good.
 
-	Regards
-		Oliver
+Are we really running out of memory? does kmemleak say anything?
+
+Any chance you could look into where exactly xhci_mem_init() fails as
+xhci_mem_init() always returns -ENOMEM on failure?
+
+> During phase two, systemd was tring to hibernate again and called
+> xhci_suspend, then xhci_clear_command_ring dereferenced xhci->cmd_ring
+> which was already NULL.
+> 
+> So if xhci->cmd_ring is NULL, xhci_clear_command_ring just return.
+
+If xhci_mem_init() failed then xhci driver is completely unusable.
+it shouldn't be used at all after this.
+
+Thanks
+Mathias
 
