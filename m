@@ -2,91 +2,61 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 131A3C76196
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Mar 2023 09:35:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5246CC76196
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Mar 2023 09:38:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231491AbjCXJfv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Mar 2023 05:35:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44956 "EHLO
+        id S232114AbjCXJix (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Mar 2023 05:38:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230117AbjCXJft (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Mar 2023 05:35:49 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72AC213515;
-        Fri, 24 Mar 2023 02:35:46 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C534CA49;
-        Fri, 24 Mar 2023 10:35:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679650545;
-        bh=No/DO1GsaTRkETyIPQl/9du9l/hUExXsGUorSh15rRI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=beiLIsghgx23PtLimmTefPOAhoWUatWIFBF+t5wfAivHcBUbZOoyldVxUYdYs9qg+
-         zYmxQBryG0YyAqs1T4QG/0/ECMbqs6SvXVRvFSU+nahjIOBhrIf3JuukLJ2FV5T5qI
-         exJpYnXNjrcA3Vd8lak+9PqGW7s53iG45/8Yj2cY=
-Date:   Fri, 24 Mar 2023 11:35:51 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     Daniel Scally <dan.scally@ideasonboard.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 6/8] usb: gadget: uvc: try harder to find a valid format
-Message-ID: <20230324093551.GI18895@pendragon.ideasonboard.com>
-References: <20230323-uvc-gadget-cleanup-v1-0-e41f0c5d9d8e@pengutronix.de>
- <20230323-uvc-gadget-cleanup-v1-6-e41f0c5d9d8e@pengutronix.de>
+        with ESMTP id S231889AbjCXJi2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Mar 2023 05:38:28 -0400
+X-Greylist: delayed 491 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 24 Mar 2023 02:37:48 PDT
+Received: from mail.camargito.pl (mail.camargito.pl [217.61.23.209])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2B1412852
+        for <linux-usb@vger.kernel.org>; Fri, 24 Mar 2023 02:37:48 -0700 (PDT)
+Received: by mail.camargito.pl (Postfix, from userid 1002)
+        id B585C855A0; Fri, 24 Mar 2023 10:26:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=camargito.pl; s=mail;
+        t=1679650035; bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=;
+        h=Date:From:To:Subject:From;
+        b=Keq7VDKvI8GGvJBtcjFW4tCxk5iUyuKHSRJ0+uGhdorqpKEUoyQY/CW5ZiIlQLSP4
+         OKOhZSvRKAXR4SjOvPc1/Ilz3AVA12AzIBq+sYSTE9hMWAjyBOuiY5ZZGdzCXexV2h
+         hL/XNjtvu/HJK+SRutHVy8JyQq2gFfW/ndm3QBVtSWZuX1kVXG20acVEeUw56d3OJw
+         utNHOkX1twheQPd8V3WBN8nMZBjBa8hCVosw3KvaeD5zO7SNxAXhoYBssozY1MFwWh
+         1qi/1scePKDKP1sA95uxRjKB+KpUKC7diW6P9mLJuBwV+A25Ua78vS7dLENfy1PtM/
+         DFvzW1WV5Bjiw==
+Received: by mail.camargito.pl for <linux-usb@vger.kernel.org>; Fri, 24 Mar 2023 09:25:44 GMT
+Message-ID: <20230324084501-0.1.12.1g8a.0.a0n9cfo20c@camargito.pl>
+Date:   Fri, 24 Mar 2023 09:25:44 GMT
+From:   "Krystian Wieczorek" <krystian.wieczorek@camargito.pl>
+To:     <linux-usb@vger.kernel.org>
+Subject: W sprawie samochodu
+X-Mailer: mail.camargito.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230323-uvc-gadget-cleanup-v1-6-e41f0c5d9d8e@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Michael,
+Dzie=C5=84 dobry,
 
-Thank you for the patch.
+chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
+, je=C5=9Bli chodzi o system monitoringu GPS.
 
-On Thu, Mar 23, 2023 at 12:41:14PM +0100, Michael Tretter wrote:
-> The TRY_FMT call should try to avoid returning EINVAL. If the requested
-> pixelformat is not supported by the driver, the driver should fall back
-> to it's own default and only then fail the request.
+Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
+e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
+a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
 
-It should actually never fail.
+Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
+dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
+szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
+mne znaczenie.
 
-You may recall that I didn't like the TRY_FMT implementation, and I
-still stand by the arguments I provided by then. If you want to handle
-this properly, revert the commits that added format handling to the
-driver.
+Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
+b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
 
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> ---
->  drivers/usb/gadget/function/uvc_v4l2.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-> index 3f728f451ed5..c5983bb0a8d1 100644
-> --- a/drivers/usb/gadget/function/uvc_v4l2.c
-> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
-> @@ -317,11 +317,15 @@ uvc_v4l2_try_format(struct file *file, void *fh, struct v4l2_format *fmt)
->  		 fmt->fmt.pix.width, fmt->fmt.pix.height);
->  
->  	uformat = find_format_by_pix(uvc, fmt->fmt.pix.pixelformat);
-> +	if (!uformat)
-> +		uformat = get_default_format(uvc);
->  	if (!uformat)
->  		return -EINVAL;
->  
->  	uframe = find_closest_frame_by_size(uvc, uformat,
->  				fmt->fmt.pix.width, fmt->fmt.pix.height);
-> +	if (!uframe)
-> +		uframe = get_default_frame(uvc, uformat);
->  	if (!uframe)
->  		return -EINVAL;
->  
 
--- 
-Regards,
-
-Laurent Pinchart
+Pozdrawiam
+Krystian Wieczorek
