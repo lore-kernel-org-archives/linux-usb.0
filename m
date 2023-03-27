@@ -2,110 +2,105 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FFEDC7619A
-	for <linux-usb@archiver.kernel.org>; Mon, 27 Mar 2023 13:35:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ED63C76195
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Mar 2023 13:54:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232102AbjC0NfW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 27 Mar 2023 09:35:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57190 "EHLO
+        id S230107AbjC0Nym (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 27 Mar 2023 09:54:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229619AbjC0NfV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 27 Mar 2023 09:35:21 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A35A1BC6
-        for <linux-usb@vger.kernel.org>; Mon, 27 Mar 2023 06:35:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679924121; x=1711460121;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6b+JZbgMIdH+86rT3ucg7q7CshE9iTeKyV7ukqf9I+k=;
-  b=K2lnPpj3wBgqhs2EElXeNfVnOuaOKKu+lxZhB4QllXYpMX3LNahzAWJ8
-   LmSzcJ9Dogo0vdREiKYLVKM3hAfe7Xiaj8Zorq+eT5pxRwCbmT56dZNUh
-   NHJw1dPaJlcnZu9JRBmcZHHbzC8kBHnJKYQX8Dgx6IPpQw2Fo2jiwXUkz
-   XJFRLxxr5tM6fFfD28JipHpeIeWe0C0ixTOj003QLHKi98B2oGuy6U4Rk
-   nLAKgJ0OOWLfxhqZX8aJxkDfUBTSApoh+55p43OlvIHtzjq3hvC+hLTpS
-   9QTHBtr2kA7DEkykG69XzE8Qq2oG6ytxYB7tezQFXzJ7fDk2ASCGVadA2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="337764640"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="337764640"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 06:35:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="676969689"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="676969689"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
-  by orsmga007.jf.intel.com with ESMTP; 27 Mar 2023 06:35:18 -0700
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-To:     greg@kroah.com
-Cc:     <linux-usb@vger.kernel.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH] xhci: only define xhci_msix_sync_irqs() when CONFIG_PM is set
-Date:   Mon, 27 Mar 2023 16:36:34 +0300
-Message-Id: <20230327133634.1063940-1-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S232440AbjC0Nyk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 27 Mar 2023 09:54:40 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EEE840CB;
+        Mon, 27 Mar 2023 06:54:39 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id j18-20020a05600c1c1200b003ee5157346cso7443221wms.1;
+        Mon, 27 Mar 2023 06:54:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679925278;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0+PBefwwA/8SDowfJGLvUl2uQWAWydxb8mElV9hUD3w=;
+        b=bq2SoY9RGw78zJV4Vk+d+s7AF12STxfknIf73mFQb1ftDrifYYIPvgVe9EQrQaADZf
+         uOfV8lmRpSTbYhe8QYdMZkrgIZdw8ghjxobiMvQrojzOLsnMtUPh5z2y1ssDGlzg1JoD
+         dyq5p6v9KE6PKlX2aBHblirxLIvTZpzzkrQqqmjQ8UszV6+W0M1FmzsWBPjdhTrY89Z8
+         Nl0DUt2hurBv7/Wmb16t1TSxihKivXD7mMsflCfjLdMzssPdCFAj7PyVHIrRBEF+KE2p
+         1sPx6Lx2ovAfPprq1YAsNQDd1DnBRmb8IpL69BTsw1Cg3TCW7KDv6oDTdJ6Eksl1oz/F
+         37Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679925278;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0+PBefwwA/8SDowfJGLvUl2uQWAWydxb8mElV9hUD3w=;
+        b=PHMUgk0pEUVKcJpgjWwjOouBXnWga524tH1nJBBxdBVeFxwh0QkXURYHAL6f6rPpLY
+         +Kvq9VcZR0p61OaXYYNl/LW7cebmaKLQpvVq98zyvTUlKszX27WExi26FcrHYNf+HslB
+         uxSBst/exAREqB0JN8Y9KVpfl8fdnOWH9vlMXbMaAkjJSlpyyDJGWzn18O71T4X50uAM
+         CLbnx0w6+UWjE7OrqcTVQgfWKyJXfbeakxFyz0YK3kQ5syNh9Fh+SG8kYhMKrWFkRSyo
+         bia/LL8TfMR9XcNoHkLwIsKe9Rd5w99A5s+roCri1pCtUEmaXWeZt9Y8jxitTXlf7Wrc
+         HdMg==
+X-Gm-Message-State: AO0yUKXR3AClCxVJXgDjbDKjOg4NK6WFV3DamaAp2r1h7WMEzJJl/D9I
+        pTJCiOntqoowU9fktQGs8gI=
+X-Google-Smtp-Source: AK7set82w54kCKwi0rbXLRUzsG0cZqQY02Pr84jjvrie+fMfGLGh0OIDdv8NdWLsu+1A+3Lez41o5Q==
+X-Received: by 2002:a05:600c:378d:b0:3ea:f6c4:5f3d with SMTP id o13-20020a05600c378d00b003eaf6c45f3dmr9670402wmr.2.1679925277821;
+        Mon, 27 Mar 2023 06:54:37 -0700 (PDT)
+Received: from localhost.localdomain (212-59-15-122.static.zebra.lt. [212.59.15.122])
+        by smtp.gmail.com with ESMTPSA id u11-20020a05600c00cb00b003ef64affec7sm7371244wmm.22.2023.03.27.06.54.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Mar 2023 06:54:37 -0700 (PDT)
+From:   Yaroslav Furman <yaro330@gmail.com>
+X-Google-Original-From: Yaroslav Furman <Yaroslav.Furman@verifone.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     yaro330@gmail.com, Alan Stern <stern@rowland.harvard.edu>,
+        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3] uas: Add US_FL_NO_REPORT_OPCODES for JMicron JMS583Gen 2
+Date:   Mon, 27 Mar 2023 16:54:23 +0300
+Message-Id: <20230327135423.607033-2-Yaroslav.Furman@verifone.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230327135423.607033-1-Yaroslav.Furman@verifone.com>
+References: <ZA12pMgwA/8CguYd@kroah.com>
+ <20230327135423.607033-1-Yaroslav.Furman@verifone.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-xhci_msic_sync_irqs() function is only called during suspend, when
-CONFIG_PM is set, so don't define it unconditionally.
+From: Yaroslav Furman <yaro330@gmail.com>
 
-Fixes: 9abe15d55dcc ("xhci: Move xhci MSI sync function to to xhci-pci")
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Just like other JMicron JMS5xx enclosures, it chokes on report-opcodes,
+let's avoid them.
+
+Signed-off-by: Yaroslav Furman <yaro330@gmail.com>
+
 ---
- drivers/usb/host/xhci-pci.c | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index a53ecc8ff8c5..1e826a159b96 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -88,19 +88,6 @@ static const struct xhci_driver_overrides xhci_pci_overrides __initconst = {
- 	.update_hub_device = xhci_pci_update_hub_device,
- };
+V3: Moved the code in the appropriate place, after the 0x0578 device,
+as pointed out by Alan Stern
+---
+ drivers/usb/storage/unusual_uas.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/usb/storage/unusual_uas.h b/drivers/usb/storage/unusual_uas.h
+index c7b763d6d102..1f8c9b16a0fb 100644
+--- a/drivers/usb/storage/unusual_uas.h
++++ b/drivers/usb/storage/unusual_uas.h
+@@ -111,6 +111,13 @@ UNUSUAL_DEV(0x152d, 0x0578, 0x0000, 0x9999,
+ 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+ 		US_FL_BROKEN_FUA),
  
--static void xhci_msix_sync_irqs(struct xhci_hcd *xhci)
--{
--	struct usb_hcd *hcd = xhci_to_hcd(xhci);
--
--	if (hcd->msix_enabled) {
--		struct pci_dev *pdev = to_pci_dev(hcd->self.controller);
--		int i;
--
--		for (i = 0; i < xhci->msix_count; i++)
--			synchronize_irq(pci_irq_vector(pdev, i));
--	}
--}
--
- /* Free any IRQs and disable MSI-X */
- static void xhci_cleanup_msix(struct xhci_hcd *xhci)
- {
-@@ -729,6 +716,20 @@ static void xhci_pci_remove(struct pci_dev *dev)
- }
- 
- #ifdef CONFIG_PM
++/* Reported by: Yaroslav Furman <yaro330@gmail.com> */
++UNUSUAL_DEV(0x152d, 0x0583, 0x0000, 0x9999,
++		"JMicron",
++		"JMS583Gen 2",
++		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
++		US_FL_NO_REPORT_OPCODES),
 +
-+static void xhci_msix_sync_irqs(struct xhci_hcd *xhci)
-+{
-+	struct usb_hcd *hcd = xhci_to_hcd(xhci);
-+
-+	if (hcd->msix_enabled) {
-+		struct pci_dev *pdev = to_pci_dev(hcd->self.controller);
-+		int i;
-+
-+		for (i = 0; i < xhci->msix_count; i++)
-+			synchronize_irq(pci_irq_vector(pdev, i));
-+	}
-+}
-+
- /*
-  * In some Intel xHCI controllers, in order to get D3 working,
-  * through a vendor specific SSIC CONFIG register at offset 0x883c,
+ /* Reported-by: Thinh Nguyen <thinhn@synopsys.com> */
+ UNUSUAL_DEV(0x154b, 0xf00b, 0x0000, 0x9999,
+ 		"PNY",
 -- 
-2.25.1
+2.39.2
 
