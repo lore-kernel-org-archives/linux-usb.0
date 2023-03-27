@@ -2,159 +2,129 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F1E5C761A6
-	for <linux-usb@archiver.kernel.org>; Mon, 27 Mar 2023 10:11:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94424C7619A
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Mar 2023 10:12:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233414AbjC0KLF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 27 Mar 2023 06:11:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41974 "EHLO
+        id S233516AbjC0KMg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 27 Mar 2023 06:12:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233155AbjC0KLE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 27 Mar 2023 06:11:04 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFBCF49E2
-        for <linux-usb@vger.kernel.org>; Mon, 27 Mar 2023 03:11:02 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id lr16-20020a17090b4b9000b0023f187954acso8232639pjb.2
-        for <linux-usb@vger.kernel.org>; Mon, 27 Mar 2023 03:11:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679911862;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=l8oYrL5W+/K5DxpmHckDPIBZn4lzHyYfyjDe679hpgM=;
-        b=xvmjQvz4P6jtePcDP694gCbPdD0nO3H3FFHztNkdY2CpFoYBOOSjwqnV/mDNA6StY5
-         PXstQCL7Fv67NV4SfB1DlWxE3ADwW27o66CBLzH5HnqSeEJhkdyccfAYgHKo3Lo7k9pB
-         AX54IGm23XcT2B4zT0HjM6Nz8i2irupzgYfBYX7AeG28JWiEZQ6FHEpktRVR9WxFuIIM
-         8VL+hfgGP1vqjtzVygO3LfcCjmrZUIh0ehT9LpDkUX2fGXArpZm+Waig5aUZwy1vtTZm
-         l+Ss5LZMOgzJLC0eJCtJ1dkG7i9KC0/zotgINvDKvDQ/GXC6m9ebR+5bCd1Sc1ckcX7b
-         hFxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679911862;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=l8oYrL5W+/K5DxpmHckDPIBZn4lzHyYfyjDe679hpgM=;
-        b=k8+VWaNFYeM2jMtLSxh8rV3YPurEEa91KJVZ3vDIHGTr2IxACUv7C+DzMQdVe2z3Fq
-         EL6qJ143vgwS1B1aQKytnqfxeF38LdugQ4NiD/6TZu4W7u+C5iXFI/I/Qj+brENPjk79
-         Xm4R/qsdC09FsA/8jk0KcQ/bxhuegUydtMKhMkrha4Wlv4JtGA5l3NBAYL+rRZWqu5z/
-         b4SQWNCqtyh4UOdl9iKu3p7Qn4Wzi/WcP725F/IDobbQ9PKnB7liOT3PJtdMNG2Wmk3w
-         uaZox5XIeXZbz4gHXGRbK2VwkHES09jGbz9/sq0WoNfYizVGPJWYhqWyz3wFudXlTxyZ
-         14Ng==
-X-Gm-Message-State: AO0yUKUuKqT2KMhRKBLY5j1mjPPE88ZhOgEH5Y8jYFaKPMidiKztqRA/
-        bOomb1or0JX02m9eYzKL+2ed
-X-Google-Smtp-Source: AK7set97+krrpdWjDnF9Jbsy3E9BDASlZJZnso65m1y2AqUfpGy0f4aKkVVamPpKB2T9RF0OGP9YLg==
-X-Received: by 2002:a05:6a20:49a4:b0:db:7859:f78a with SMTP id fs36-20020a056a2049a400b000db7859f78amr9229194pzb.5.1679911862085;
-        Mon, 27 Mar 2023 03:11:02 -0700 (PDT)
-Received: from thinkpad ([117.193.215.38])
-        by smtp.gmail.com with ESMTPSA id r14-20020a62e40e000000b00627ee6dcb84sm15271694pfh.203.2023.03.27.03.10.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 03:11:01 -0700 (PDT)
-Date:   Mon, 27 Mar 2023 15:40:55 +0530
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc:     andersson@kernel.org, Thinh.Nguyen@synopsys.com,
-        gregkh@linuxfoundation.org, mathias.nyman@intel.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 0/5] usb: dwc3: qcom: Allow runtime PM
-Message-ID: <20230327101055.GA16424@thinkpad>
-References: <20230325165217.31069-1-manivannan.sadhasivam@linaro.org>
- <cc7392c1-0ea1-29b3-fab6-19c843413724@linaro.org>
- <20230327091733.GA14584@thinkpad>
- <506a7e48-2576-0fa6-d5e9-0157539bcebf@linaro.org>
+        with ESMTP id S233486AbjC0KMe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 27 Mar 2023 06:12:34 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09A574EEC
+        for <linux-usb@vger.kernel.org>; Mon, 27 Mar 2023 03:12:33 -0700 (PDT)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32R9dhLu017326;
+        Mon, 27 Mar 2023 10:12:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=4aMdKhkUYdQ6Vr3dPhi8fSTUNf7sq1PH+8lkCvMRCyU=;
+ b=J+c9hq8J9gtMngb5lyTawQJlqyntTCBnzj8YQhAAf/8KfsO9bfPDVvB47WrAbWYdWCMQ
+ vtjzJYrn9hZnjyeVuwgUSw6BKnK1cycRLHvGKVZQT5kP0dxt0JmjEp3lPMdEjQ7MvxdT
+ PuhKu5BjAPIjvl3PvXtp2j/aM5yQ3azKFn8hCI7C45T5wKZ9wJBXlBCJIP07/tRcI5UU
+ Eqp5KMCM27UcGnP5HY3gYeq7v6W2stXxV9qaAXs0pl+5NC34LgpdbJ164Sz5GPpVbLx3
+ zIS4/yrT2bHeoQ0Rdc2UYSElPtscHJQwp4Hfi246IRjgWeO2arsKpG3v0zGSyKpRZyK/ JQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pk8pvg2vs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 27 Mar 2023 10:12:32 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32RACW79007891
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 27 Mar 2023 10:12:32 GMT
+Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Mon, 27 Mar 2023 03:12:31 -0700
+From:   Linyu Yuan <quic_linyyuan@quicinc.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, Linyu Yuan <quic_linyyuan@quicinc.com>
+Subject: [PATCH v3 3/6] usb: gadget: f_fs: remove struct ffs_data *ffs from struct ffs_desc_helper
+Date:   Mon, 27 Mar 2023 18:12:17 +0800
+Message-ID: <1679911940-4727-3-git-send-email-quic_linyyuan@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1679911940-4727-1-git-send-email-quic_linyyuan@quicinc.com>
+References: <1679911940-4727-1-git-send-email-quic_linyyuan@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <506a7e48-2576-0fa6-d5e9-0157539bcebf@linaro.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: ZY65iq1eauCZQbXEyXLBtiQJG8pIOhn1
+X-Proofpoint-ORIG-GUID: ZY65iq1eauCZQbXEyXLBtiQJG8pIOhn1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ clxscore=1015 lowpriorityscore=0 suspectscore=0 mlxlogscore=671
+ spamscore=0 phishscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303270081
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Mar 27, 2023 at 11:24:58AM +0200, Konrad Dybcio wrote:
-> 
-> 
-> On 27.03.2023 11:17, Manivannan Sadhasivam wrote:
-> > On Mon, Mar 27, 2023 at 11:01:35AM +0200, Konrad Dybcio wrote:
-> >>
-> >>
-> >> On 25.03.2023 17:52, Manivannan Sadhasivam wrote:
-> >>> Hi,
-> >>>
-> >>> This series allows the dwc3-qcom driver to do runtime PM itself without
-> >>> userspace intervention. Still, userspace is required to enable runtime PM
-> >>> for dwc3 glue and xhci drivers as we cannot enable runtime PM for them.
-> >>> But this series avoids one more additional step.
-> >> What sort of 'userspace intervention' are we talking about?
-> >> echo mem > /sys/power/state?
-> >>
-> > 
-> > I forgot to add that bit:
-> > 
-> > echo auto > /sys/devices/platform/soc@0/a8f8800.usb/a800000.usb/xhci-hcd.1.auto/power/control
-> > echo auto > /sys/devices/platform/soc@0/a8f8800.usb/a800000.usb/power/control
-> > 
-> > You need to set "auto" for the runtime control for both xhci and dwc drivers.
-> > 
-> > Then if you don't connect a usb device, all 3 drivers (dwc3-qcom, dwc3, and
-> > xhci) will become runtime suspended after a delay of 5s (default delay).
-> > 
-> > This can be confirmed by:
-> > 
-> > cat /sys/devices/platform/soc@0/a8f8800.usb/power/runtime_status
-> > 
-> > After connecting a usb device, they will all become "active".
-> Thanks! And if I'm following correctly, we can't enable runtime PM
-> for the DWC3 glue and XHCI drivers, as that would cause havoc on
-> other, non-qc platforms. Is that correct?
-> 
+As struct ffs_desc_helper have one struct ffs_data *ffs member, but it
+related function already have struct ffs_data *ffs parameter, it is safe
+to remove the struct member.
 
-Kind of. Actually dwc3 glue is our qcom driver, other one is just dwc3 driver.
+Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
+---
+v3: new patch in this version
 
-The havoc would apply to xhci driver because, once it is suspended, one of its
-parent drivers has to resume it. And that requires runtime PM support for all
-the parent drivers which is currently not available.
+ drivers/usb/gadget/function/f_fs.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-But for dwc3 driver, I'm not sure about the consequence though. Maybe I should
-send it as a separate patch later on and see what other platforms folks think
-of it.
-
-Thanks,
-Mani
-
-> Konrad
-> > 
-> > Thanks,
-> > Mani
-> > 
-> >> Konrad
-> >>>
-> >>> While enabling runtime PM, I noticed that the xhci driver suspends before
-> >>> catching the xhci interrupts during resume. This ended up deferring the
-> >>> device enumeration for some time. So I included a patch adding autosuspend
-> >>> delay of 200ms to the xhci driver. With this delay, usb enumeration happens
-> >>> properly.
-> >>>
-> >>> This series has been tested on SC8280XP-CRD and RB5 devices.
-> >>>
-> >>> Thanks,
-> >>> Mani
-> >>>
-> >>> Manivannan Sadhasivam (5):
-> >>>   arm64: dts: qcom: sc8280xp: Add missing dwc3 quirks
-> >>>   xhci: host: Use 200ms autosuspend delay for runtime suspend
-> >>>   usb: dwc3: qcom: Fix null ptr access during runtime_suspend()
-> >>>   usb: dwc3: qcom: Clear pending interrupt before enabling wake
-> >>>     interrupt
-> >>>   usb: dwc3: qcom: Allow runtime PM
-> >>>
-> >>>  arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 14 ++++++++++++++
-> >>>  drivers/usb/dwc3/dwc3-qcom.c           | 13 +++++++++----
-> >>>  drivers/usb/host/xhci-plat.c           |  2 ++
-> >>>  3 files changed, 25 insertions(+), 4 deletions(-)
-> >>>
-> > 
-
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 32e66f01..a4051c8 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -231,7 +231,6 @@ struct ffs_io_data {
+ };
+ 
+ struct ffs_desc_helper {
+-	struct ffs_data *ffs;
+ 	unsigned interfaces_count;
+ 	unsigned eps_count;
+ };
+@@ -2196,8 +2195,8 @@ static int __ffs_data_do_entity(struct ffs_data *ffs, enum ffs_entity_type type,
+ 		 * Strings are indexed from 1 (0 is reserved
+ 		 * for languages list)
+ 		 */
+-		if (*valuep > helper->ffs->strings_count)
+-			helper->ffs->strings_count = *valuep;
++		if (*valuep > ffs->strings_count)
++			ffs->strings_count = *valuep;
+ 		break;
+ 
+ 	case FFS_ENDPOINT:
+@@ -2206,10 +2205,10 @@ static int __ffs_data_do_entity(struct ffs_data *ffs, enum ffs_entity_type type,
+ 		if (helper->eps_count >= FFS_MAX_EPS_COUNT)
+ 			return -EINVAL;
+ 		/* Check if descriptors for any speed were already parsed */
+-		if (!helper->ffs->eps_count && !helper->ffs->interfaces_count)
+-			helper->ffs->eps_addrmap[helper->eps_count] =
++		if (!ffs->eps_count && !ffs->interfaces_count)
++			ffs->eps_addrmap[helper->eps_count] =
+ 				d->bEndpointAddress;
+-		else if (helper->ffs->eps_addrmap[helper->eps_count] !=
++		else if (ffs->eps_addrmap[helper->eps_count] !=
+ 				d->bEndpointAddress)
+ 			return -EINVAL;
+ 		break;
+@@ -2485,7 +2484,6 @@ static int __ffs_data_got_descs(struct ffs_data *ffs,
+ 
+ 	/* Read descriptors */
+ 	raw_descs = data;
+-	helper.ffs = ffs;
+ 	for (i = 0; i < 3; ++i) {
+ 		if (!counts[i])
+ 			continue;
 -- 
-மணிவண்ணன் சதாசிவம்
+2.7.4
+
