@@ -2,115 +2,135 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6825BC6FD18
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Mar 2023 16:09:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1872C6FD18
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Mar 2023 17:13:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233109AbjC1QJN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 28 Mar 2023 12:09:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40852 "EHLO
+        id S229733AbjC1RNM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 28 Mar 2023 13:13:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232987AbjC1QJF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Mar 2023 12:09:05 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A49DFF3C;
-        Tue, 28 Mar 2023 09:08:53 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32SDUSdG029866;
-        Tue, 28 Mar 2023 16:08:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=QKhL0KzrR4b6znOdJrnhGJP/JXQIAdpm6o5hO8iT3zo=;
- b=f5exfEoamxF6isProRqyoHRbL59Rd/PXrWEdT87yK9DIhAqhAPwiv77VGg2pnJL0DZ4Y
- wPzr1KTObta1Lcvm7cbsomnALQ0dUrDaJvgjpvrIxvmEY+ffQGAS5CYl9wPYkR6LMC8l
- 9PScKFswyjWIByMMA15FMF4upFseRVTXso+7ch0lAjfyafonLSGx/MThZB4SNpQSCoxJ
- 9Edri0bRSPfbbukc/CHVIfFXcDfWdOdNXjzBXHVA2JMo723MB8kwPUKH8pgYHc5HB8IP
- wxW7Gye7VVl1iTPSduGs8/MX7vC0dvLdMO4tlK/d8d03dZUXiruhoPgrhlJ08vFLaBfl sQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pk5774nu2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 28 Mar 2023 16:08:15 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32SG8EJb012255
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 28 Mar 2023 16:08:14 GMT
-Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Tue, 28 Mar 2023 09:08:10 -0700
-From:   Krishna Kurapati <quic_kriskura@quicinc.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        Colin Ian King <colin.i.king@gmail.com>,
-        Jiantao Zhang <water.zhangjiantao@huawei.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>
-CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_ppratap@quicinc.com>, <quic_wcheng@quicinc.com>,
-        <quic_jackp@quicinc.com>, <quic_ugoswami@quicinc.com>,
-        Krishna Kurapati <quic_kriskura@quicinc.com>
-Subject: [PATCH v2 1/2] usb: dwc3: gadget: Bail out in pullup if soft reset timeout happens
-Date:   Tue, 28 Mar 2023 21:37:55 +0530
-Message-ID: <20230328160756.30520-2-quic_kriskura@quicinc.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230328160756.30520-1-quic_kriskura@quicinc.com>
-References: <20230328160756.30520-1-quic_kriskura@quicinc.com>
+        with ESMTP id S229539AbjC1RNK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Mar 2023 13:13:10 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E4998E
+        for <linux-usb@vger.kernel.org>; Tue, 28 Mar 2023 10:12:59 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id r11so12972977wrr.12
+        for <linux-usb@vger.kernel.org>; Tue, 28 Mar 2023 10:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1680023578;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QVZiv5jycZEvQGqqHDvQbF/JFYTQ3FOT6YJ9tE/AK78=;
+        b=TsJE6tA+xfouGdneoyPCqo4zs8rYlVFfuW0RnWwASUgESXXloS4EDB64/fYgjJNSji
+         hwdb1CSXwqia6y/x7UVYHwxP9l0TS26qbHzrvBwVLLrP9ie/wqveRKU96CMeWmig/Ejv
+         45FppuwgRQys5RM/S+BMqEgk+Q/bKule89MBYL7wnZl1GTk28sbgJivxARo9yLk4Qtr6
+         nz0HUZ4QxIWxY4ANFvJK7uITY6asKx8OA6/3G+yegmt75BjJkxpQb2XvD8zdfWFSZus9
+         IUkvzdb26HQRoJ8O4i+4qnIDRQcsI7CvEK5uYzvkeS1/icHrNtQPRxin0o+rpnigPZSZ
+         QQgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680023578;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QVZiv5jycZEvQGqqHDvQbF/JFYTQ3FOT6YJ9tE/AK78=;
+        b=ANLh8FZJB+VPRu0ccV4oLBpeYB+72ZHS+D0ZmxqahbgCJqFQWeERkP3mrDux6hvZ20
+         dMaY8z4O6y/wihS91Se49tRdwhqb9PUsxpBL5mYFv2GNehqZWYXXD9ARWTXLJ3zq9+lB
+         GcF++bm19+zvqi1/8hU1LEZsylQx7SKgVPiUKlXkZtcKwah2TsSW0ix5/jgCNHZsEjxE
+         4fZKzS1DnZwYbfr283/ml61N7Lv19OVxkGzAXj/udjH9QplB2KbhyJvDPSaYAFGPNVeX
+         J0fwIp+KnbfDQf+hWQzqJ9stdi+ifVM6Nfb49O+JLRRtOsExVWwgLKg3QP8Qr0H3jbOt
+         f69A==
+X-Gm-Message-State: AAQBX9ccK/Np/W97AXqOw8PZovhl0FCaAg1cjl1w9//Djph/tPiBjQ3L
+        EdHekgfvxF1LdQ5l1QXM6PgE9w==
+X-Google-Smtp-Source: AKy350aPdNxL0GbCuGHKVW9Sb9laN0Fvp4DG8QwyuvpBwZoDSS7RAOEpF1f4THMUr+Y+20cKTfy7zw==
+X-Received: by 2002:adf:e3cd:0:b0:2c6:e827:21c1 with SMTP id k13-20020adfe3cd000000b002c6e82721c1mr12052394wrm.50.1680023577932;
+        Tue, 28 Mar 2023 10:12:57 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id p5-20020adfce05000000b002d64fcb362dsm22839959wrn.111.2023.03.28.10.12.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Mar 2023 10:12:57 -0700 (PDT)
+Message-ID: <c6a2001d-ebc5-79c9-edbd-83a17b1c9f47@linaro.org>
+Date:   Tue, 28 Mar 2023 18:12:56 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: AoVszABDzWQTIz1CwF3bS0QWeQDBeEov
-X-Proofpoint-ORIG-GUID: AoVszABDzWQTIz1CwF3bS0QWeQDBeEov
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-28_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
- suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 adultscore=0
- mlxlogscore=999 phishscore=0 malwarescore=0 spamscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2303280126
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] usb: typec: tcpm: try to get role switch from tcpc fwnode
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Li Jun <jun.li@nxp.com>
+Cc:     linux@roeck-us.net, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, xu.yang_2@nxp.com
+References: <1679991784-25500-1-git-send-email-jun.li@nxp.com>
+ <ZCL1pULmTtMOpaKB@kuha.fi.intel.com>
+Content-Language: en-US
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <ZCL1pULmTtMOpaKB@kuha.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If the core soft reset timeout happens, avoid setting up event
-buffers and starting gadget as the writes to these registers
-may not reflect when in reset and setting the run stop bit
-can lead the controller to access wrong event buffer address
-resulting in a crash.
+On 28/03/2023 15:11, Heikki Krogerus wrote:
+> +Bryan
+> 
+> On Tue, Mar 28, 2023 at 04:23:04PM +0800, Li Jun wrote:
+>> Try to get usb role switch from tcpc fwnode if failed to
+>> get role switch from port dev, this is for case the port
+>> for role switch endpoint is located in connector node,
+>> as per connector binding doc, port@0 for HS is required.
+>>
+>> ptn5110: tcpc@50 {
+>> 	compatible = "nxp,ptn5110";
+>> 	...
+>> 	status = "okay";
+>>
+>> 	connector {
+>> 		compatible = "usb-c-connector";
+>> 		label = "USB-C";
+>> 		...
+>>
+>> 		ports {
+>> 			#address-cells = <1>;
+>> 			#size-cells = <0>;
+>>
+>> 			port@0 {
+>> 				reg = <0>;
+>>
+>> 				typec_conn: endpoint {
+>> 					remote-endpoint = <&usb2_controller>;
+>> 				};
+>> 			};
+>> 		};
+>> 	};
+>> };
+>>
+>> Signed-off-by: Li Jun <jun.li@nxp.com>
+>> ---
+>>   drivers/usb/typec/tcpm/tcpm.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+>> index a0d943d78580..f0534bdb4462 100644
+>> --- a/drivers/usb/typec/tcpm/tcpm.c
+>> +++ b/drivers/usb/typec/tcpm/tcpm.c
+>> @@ -6557,6 +6557,8 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
+>>   	port->port_type = port->typec_caps.type;
+>>   
+>>   	port->role_sw = usb_role_switch_get(port->dev);
+>> +	if (!port->role_sw)
+>> +		port->role_sw = fwnode_usb_role_switch_get(tcpc->fwnode);
+>>   	if (IS_ERR(port->role_sw)) {
+>>   		err = PTR_ERR(port->role_sw);
+>>   		goto out_destroy_wq;
+> 
+> This looks like exactly the same as the RFC from Bryan that I just
+> commented. I have not objections if this looks okay to you Brian. I
+> think we should still wait for comments also from Guenter.
+> 
+> thanks,
+> 
 
-Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+It does look exactly the same. I don't mind letting Li have the commit.
+
 ---
- drivers/usb/dwc3/gadget.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 3c63fa97a680..f0472801d9a5 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -2620,13 +2620,16 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
- 		 * device-initiated disconnect requires a core soft reset
- 		 * (DCTL.CSftRst) before enabling the run/stop bit.
- 		 */
--		dwc3_core_soft_reset(dwc);
-+		ret = dwc3_core_soft_reset(dwc);
-+		if (ret)
-+			goto done;
- 
- 		dwc3_event_buffers_setup(dwc);
- 		__dwc3_gadget_start(dwc);
- 		ret = dwc3_gadget_run_stop(dwc, true, false);
- 	}
- 
-+done:
- 	pm_runtime_put(dwc->dev);
- 
- 	return ret;
--- 
-2.40.0
-
+bod
