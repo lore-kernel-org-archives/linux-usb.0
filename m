@@ -2,101 +2,91 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F1AC761A6
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Mar 2023 07:56:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B69D2C77B61
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Mar 2023 08:44:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230199AbjC1H4M (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 28 Mar 2023 03:56:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47142 "EHLO
+        id S230424AbjC1IoD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 28 Mar 2023 04:44:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232572AbjC1H4J (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Mar 2023 03:56:09 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 011333C3D;
-        Tue, 28 Mar 2023 00:56:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679990168; x=1711526168;
-  h=message-id:date:mime-version:to:cc:references:from:
-   subject:in-reply-to:content-transfer-encoding;
-  bh=vAiH/S0RUQmNTQntq0xo+aCAtjnA1nAOevVXhchtR14=;
-  b=H5XOQB3lGvnwuJTs8tAaD5KkF6I1HE8gdVhw/LdVsOU34TzN6wgyEcHf
-   y13o35OPEjsuUwt+RjCuZ/ygVpcE9sLrQtWiqBWPpqjeZbljeJzELy7E+
-   zr0nJAGmC0jgiEkmytuasEOxWfw+jj4LA1DGY5bneGMlnoTnWZSXArYkk
-   LLKAiBTpXMsIlz02WW89A7N7qzuvXWt/c1vbrKn+qaEqSKWUOJ8oOyVvr
-   LiiccGy43xoFLdYBNn95rVGRxrv3PPae8Rw1HWKSiIRaoIQY+a3Ig1z1X
-   h9okSDYM4QF9aH074VH+M89ml2xbxzZ69eFYeo7N0L250rfx1TvMhVOlY
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="405435126"
-X-IronPort-AV: E=Sophos;i="5.98,296,1673942400"; 
-   d="scan'208";a="405435126"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 00:56:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="827381167"
-X-IronPort-AV: E=Sophos;i="5.98,296,1673942400"; 
-   d="scan'208";a="827381167"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmsmga001.fm.intel.com with ESMTP; 28 Mar 2023 00:56:04 -0700
-Message-ID: <46a9abc1-6121-032f-4416-261af73ac05c@linux.intel.com>
-Date:   Tue, 28 Mar 2023 10:57:25 +0300
+        with ESMTP id S230396AbjC1IoB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Mar 2023 04:44:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 307DF46B7;
+        Tue, 28 Mar 2023 01:44:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A31B4615E8;
+        Tue, 28 Mar 2023 08:43:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29C9DC433EF;
+        Tue, 28 Mar 2023 08:43:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679993039;
+        bh=AlNQBO+6ZRz6UYSPWubZy6WiSLJFBORuZaf7fG3oWe8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=X0qS0MrS+ITx2XHH32iBaoDei8A9+eMFKPZGdqi0fFCCJuOWLrSZZ0IK6rRJjDQR/
+         orqheWjd7YS2iqyK8C0JQzVUluWjsMSYh1KizoVRd2SgQxsHOH8jXd7SiFbFlUYGik
+         nLYEyUBtWuym9jtT7aH2X7wJVqomFKnYV72ZHTw41MggksME9N9Yx+dGHCMqPFIW83
+         wQ+FwP/1oM/wPSIxpnOeyPu4O+YqKqB3yCN1YMv4Q228/RB7zz0fKwC1fjGPVVh8D5
+         0EFob/EBKGbGevR6RJ2vddXeKV0Cpq9ewMztOFE2WEychAwppVTgo5ZHQbQBxrddF6
+         sFzQt9g92KPlg==
+Date:   Tue, 28 Mar 2023 14:13:54 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 04/12] dt-bindings: usb: qcom,dwc3: Add SC8180x binding
+Message-ID: <ZCKoysdcEZ2arUUS@matsya>
+References: <20230325122444.249507-1-vkoul@kernel.org>
+ <20230325122444.249507-5-vkoul@kernel.org>
+ <76b5c861-708f-c2ff-4eb8-9a868237b333@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.7.1
-Content-Language: en-US
-To:     Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org, ubuntu-devel-discuss@lists.ubuntu.com,
-        stern@rowland.harvard.edu, arnd@arndb.de, Stable@vger.kernel.org
-References: <b86fcdbd-f1c6-846f-838f-b7679ec4e2b4@linux.intel.com>
- <20230327095019.1017159-1-mathias.nyman@linux.intel.com>
- <d84fe574-e6cc-ad77-a44c-1eb8df3f2b6b@alu.unizg.hr>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH] xhci: Free the command allocated for setting LPM if we
- return early
-In-Reply-To: <d84fe574-e6cc-ad77-a44c-1eb8df3f2b6b@alu.unizg.hr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <76b5c861-708f-c2ff-4eb8-9a868237b333@linaro.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 28.3.2023 1.25, Mirsad Goran Todorovac wrote:
-> On 27. 03. 2023. 11:50, Mathias Nyman wrote:
->> The command allocated to set exit latency LPM values need to be freed in
->> case the command is never queued. This would be the case if there is no
->> change in exit latency values, or device is missing.
->>
->> Fixes: 5c2a380a5aa8 ("xhci: Allocate separate command structures for each LPM command")
->> Cc: <Stable@vger.kernel.org>
->> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
->> ---
->>   drivers/usb/host/xhci.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
->> index bdb6dd819a3b..6307bae9cddf 100644
->> --- a/drivers/usb/host/xhci.c
->> +++ b/drivers/usb/host/xhci.c
->> @@ -4442,6 +4442,7 @@ static int __maybe_unused xhci_change_max_exit_latency(struct xhci_hcd *xhci,
->>   
->>   	if (!virt_dev || max_exit_latency == virt_dev->current_mel) {
->>   		spin_unlock_irqrestore(&xhci->lock, flags);
->> +		xhci_free_command(xhci, command);
->>   		return 0;
->>   	}
->>   
+On 27-03-23, 09:55, Krzysztof Kozlowski wrote:
+> On 25/03/2023 13:24, Vinod Koul wrote:
+> > Document the USB dwc3 controller for SC8180x SoC
+> > 
+> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> > ---
+> >  Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+> > index 4875c5b7d5b5..54e24c3abd29 100644
+> > --- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+> > +++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+> > @@ -24,6 +24,7 @@ properties:
+> >            - qcom,qcs404-dwc3
+> >            - qcom,sc7180-dwc3
+> >            - qcom,sc7280-dwc3
+> > +          - qcom,sc8180x-dwc3
+> >            - qcom,sc8280xp-dwc3
+> >            - qcom,sdm660-dwc3
+> >            - qcom,sdm670-dwc3
+> > @@ -324,6 +325,7 @@ allOf:
+> >          compatible:
+> >            contains:
+> >              enum:
+> > +              - qcom,sc8180x-dwc3
+> >                - qcom,sm8350-dwc3
 > 
-> After more testing, I can confirm that your patch fixes the leak in the original
-> environment.
+> You need to update/add also block for interrupts.
 
-Thanks for testing.
-Can I add the tags below to the patch?
-  
-Reported-by: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
-Tested-by: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+Thanks for spotting that, updated now
 
-Thanks
-Mathias
-
-
+-- 
+~Vinod
