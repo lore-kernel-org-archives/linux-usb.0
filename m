@@ -2,125 +2,98 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA628C761A6
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Mar 2023 14:23:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA3D3C6FD1D
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Mar 2023 14:30:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232408AbjC3OXr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Mar 2023 10:23:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57688 "EHLO
+        id S232446AbjC3OaB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Mar 2023 10:30:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232396AbjC3OXq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Mar 2023 10:23:46 -0400
+        with ESMTP id S231862AbjC3OaA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Mar 2023 10:30:00 -0400
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA23AC15E;
-        Thu, 30 Mar 2023 07:23:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBB2710DD
+        for <linux-usb@vger.kernel.org>; Thu, 30 Mar 2023 07:29:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680186204; x=1711722204;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=FY8IX9SAO9iBATQiPxyU6DgWIpMVyTKKJh0RUHkpsWM=;
-  b=WhgQCXRYLbTUJZDSqUg9snjCL6hHVMUVy2hk0Tj6nZrjWYCAbAwBlNjq
-   2qEVJpuRmRbHe2qoRrALgm78RNQNtFq5EjjBuNyBz3kublCsfAsOOyW1t
-   KXRq2c5UvPIl8jgQ2AM/3oER3n6iZQdqIWrrPNzAUhZ4XzRMTx/ddZ+X5
-   NgHusZS4qlE2fVXEBrpReApcebwc/6ScIYK3Vr+9n2JjvPhkH3ppU2fc3
-   W6Jmjq5qTwRR/kBN/Tqgi+SJtEvlHy+plO3Pc1Qw5zkPx5r1V8f4f9LrD
-   9WTiHVLD2khO4SXUEVFZoHGgaONXrwWO38Q3PYSjk70wzxAnL8HJvJZiL
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="406169619"
+  t=1680186600; x=1711722600;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=oMmY+b1g2KGoiAZvCSckQgQ9KZLKSzt0B0nSDdMkzJ8=;
+  b=Zc01aqSvnOxfq6ecK/qecst65JF06XviZ21pL8+nw7fbhS9GTStVZqC4
+   ZkgEfIGyc7iYkRcLM1RA9C2IEBuUn9hGsPoOjFaLvuNgnG4sR9jak/hDV
+   4N/LcgIyaPv24AkIZDZxFLmoEYhIMT/o6rx1XVgnY3UHyqStvyQR8ifjQ
+   BuqNG35OvTN/Vqj+nK8wPoGGGDDwno0rTLctkYQpZgU3meGbsB5+iVyMP
+   wPNrBvNimDyqbmN7QTN/4hoAjvU+UqOkqi1c1dEqLP5IRsCNjMlh+XBjA
+   QI8HgQhcJUwHAW1ccU0VtEr86ei+G3+QNN/wXNP8be5pjnoVJN3T5V15x
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="406172536"
 X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="406169619"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 07:19:15 -0700
+   d="scan'208";a="406172536"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 07:29:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="634927548"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="774021094"
 X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="634927548"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga003.jf.intel.com with ESMTP; 30 Mar 2023 07:19:13 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 8C97213A; Thu, 30 Mar 2023 17:15:37 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Olliver Schinagl <oliver@schinagl.nl>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>
-Subject: [PATCH v1 1/2] iopoll: Introduce ioreadXX_poll_timeout() macros
-Date:   Thu, 30 Mar 2023 17:14:12 +0300
-Message-Id: <20230330141413.25569-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
+   d="scan'208";a="774021094"
+Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
+  by FMSMGA003.fm.intel.com with ESMTP; 30 Mar 2023 07:29:49 -0700
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+To:     <gregkh@linuxfoundation.org>
+Cc:     <linux-usb@vger.kernel.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH 2/3] Revert "usb: xhci-pci: Set PROBE_PREFER_ASYNCHRONOUS"
+Date:   Thu, 30 Mar 2023 17:30:55 +0300
+Message-Id: <20230330143056.1390020-3-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230330143056.1390020-1-mathias.nyman@linux.intel.com>
+References: <20230330143056.1390020-1-mathias.nyman@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Olliver Schinagl <oliver@schinagl.nl>
+This reverts commit 4c2604a9a6899bab195edbee35fc8d64ce1444aa.
 
-There are users in the Linux kernel that would benefit from using
-ioreadXX_poll_timeout() macros, such as ioread32_poll_timeout().
-Introduce those macros.
+Asynch probe caused regression in a setup with both Renesas and Intel xHC
+controllers. Devices connected to the Renesas disconnected shortly after
+boot. With Asynch probe the busnumbers got interleaved.
 
-Signed-off-by: Olliver Schinagl <oliver@schinagl.nl>
-Co-developed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+xhci_hcd 0000:00:14.0: new USB bus registered, assigned bus number 1
+xhci_hcd 0000:04:00.0: new USB bus registered, assigned bus number 2
+xhci_hcd 0000:00:14.0: new USB bus registered, assigned bus number 3
+xhci_hcd 0000:04:00.0: new USB bus registered, assigned bus number 4
+
+Reason why this commit causes regression is still unknown, but revert it
+while debugging the issue.
+
+Link: https://lore.kernel.org/linux-usb/20230307132120.5897c5af@deangelis.fenrir.org.uk
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- include/linux/iopoll.h | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ drivers/usb/host/xhci-pci.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/iopoll.h b/include/linux/iopoll.h
-index 2c8860e406bd..30ba609175a7 100644
---- a/include/linux/iopoll.h
-+++ b/include/linux/iopoll.h
-@@ -140,6 +140,7 @@
- #define readx_poll_timeout_atomic(op, addr, val, cond, delay_us, timeout_us) \
- 	read_poll_timeout_atomic(op, val, cond, delay_us, timeout_us, false, addr)
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index fb988e4ea924..6db07ca419c3 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -771,12 +771,11 @@ static struct pci_driver xhci_pci_driver = {
+ 	/* suspend and resume implemented later */
  
-+/* readX() */
- #define readb_poll_timeout(addr, val, cond, delay_us, timeout_us) \
- 	readx_poll_timeout(readb, addr, val, cond, delay_us, timeout_us)
+ 	.shutdown = 	usb_hcd_pci_shutdown,
+-	.driver = {
+ #ifdef CONFIG_PM
+-		.pm = &usb_hcd_pci_pm_ops,
+-#endif
+-		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
++	.driver = {
++		.pm = &usb_hcd_pci_pm_ops
+ 	},
++#endif
+ };
  
-@@ -164,6 +165,7 @@
- #define readq_poll_timeout_atomic(addr, val, cond, delay_us, timeout_us) \
- 	readx_poll_timeout_atomic(readq, addr, val, cond, delay_us, timeout_us)
- 
-+/* readX_relaxed() */
- #define readb_relaxed_poll_timeout(addr, val, cond, delay_us, timeout_us) \
- 	readx_poll_timeout(readb_relaxed, addr, val, cond, delay_us, timeout_us)
- 
-@@ -188,4 +190,29 @@
- #define readq_relaxed_poll_timeout_atomic(addr, val, cond, delay_us, timeout_us) \
- 	readx_poll_timeout_atomic(readq_relaxed, addr, val, cond, delay_us, timeout_us)
- 
-+/* ioreadXX() */
-+#define ioread8_poll_timeout(addr, val, cond, delay_us, timeout_us) \
-+	readx_poll_timeout(ioread8, addr, val, cond, delay_us, timeout_us)
-+
-+#define ioread8_poll_timeout_atomic(addr, val, cond, delay_us, timeout_us) \
-+	readx_poll_timeout_atomic(ioread8, addr, val, cond, delay_us, timeout_us)
-+
-+#define ioread16_poll_timeout(addr, val, cond, delay_us, timeout_us) \
-+	readx_poll_timeout(ioread16, addr, val, cond, delay_us, timeout_us)
-+
-+#define ioread16_poll_timeout_atomic(addr, val, cond, delay_us, timeout_us) \
-+	readx_poll_timeout_atomic(ioread16, addr, val, cond, delay_us, timeout_us)
-+
-+#define ioread32_poll_timeout(addr, val, cond, delay_us, timeout_us) \
-+	readx_poll_timeout(ioread32, addr, val, cond, delay_us, timeout_us)
-+
-+#define ioread32_poll_timeout_atomic(addr, val, cond, delay_us, timeout_us) \
-+	readx_poll_timeout_atomic(ioread32, addr, val, cond, delay_us, timeout_us)
-+
-+#define ioread64_poll_timeout(addr, val, cond, delay_us, timeout_us) \
-+	readx_poll_timeout(ioread64, addr, val, cond, delay_us, timeout_us)
-+
-+#define ioread64_poll_timeout_atomic(addr, val, cond, delay_us, timeout_us) \
-+	readx_poll_timeout_atomic(ioread64, addr, val, cond, delay_us, timeout_us)
-+
- #endif /* _LINUX_IOPOLL_H */
+ static int __init xhci_pci_init(void)
 -- 
-2.40.0.1.gaa8946217a0b
+2.25.1
 
