@@ -2,97 +2,195 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A581C76196
-	for <linux-usb@archiver.kernel.org>; Sat,  1 Apr 2023 22:17:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E5F0C7619A
+	for <linux-usb@archiver.kernel.org>; Sun,  2 Apr 2023 15:24:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229711AbjDAWRc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 1 Apr 2023 18:17:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43912 "EHLO
+        id S231286AbjDBPYe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 2 Apr 2023 11:24:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229719AbjDAWR3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 1 Apr 2023 18:17:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FBA6265A9
-        for <linux-usb@vger.kernel.org>; Sat,  1 Apr 2023 15:17:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S231249AbjDBPYd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 2 Apr 2023 11:24:33 -0400
+X-Greylist: delayed 310 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 02 Apr 2023 08:24:32 PDT
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE3BEEC45
+        for <linux-usb@vger.kernel.org>; Sun,  2 Apr 2023 08:24:32 -0700 (PDT)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C5B49B80DBB
-        for <linux-usb@vger.kernel.org>; Sat,  1 Apr 2023 22:17:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7605BC433D2
-        for <linux-usb@vger.kernel.org>; Sat,  1 Apr 2023 22:17:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680387445;
-        bh=8k8ETyhm4Nvzn0j1ToGuHbtLK7Dn5OuOhO/cq1q13Yg=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=DMcteTLMaohsFBoKNorJSf737I/cJrv40bxxGPJYJtKFYGX6XQSSbBAY9WsPAT3M1
-         SXOfcuvecATcBaVF3wuPuPP3yR5YzBXXL9FP4GeH01+ndW6RaA7G3a1AEBbiYY7olC
-         zZFYwLKfuw1XI0yhuAQKAhb0UW4MmU1oKik9fbJBe+l9n+Akv1qOC1RPzHfJLijD7j
-         aL+Acu521/by91XWoA5aIFzVM5Bl9GzgPKb8JBys2RHjSueL3/oQa/eWy9EPCT9liO
-         Ahg5NP+KlZAtI02HZdF5Z7I9wt24cV6BA6PmqY7JLnO+x0qKoyT+I6CYIcS5oqE01h
-         Kp8OouwAVxAdA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 56D78C43142; Sat,  1 Apr 2023 22:17:25 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 217242] CPU hard lockup related to xhci/dma
-Date:   Sat, 01 Apr 2023 22:17:25 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: austin.domino@hotmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217242-208809-LGiVP9fz4d@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217242-208809@https.bugzilla.kernel.org/>
-References: <bug-217242-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        by m-r1.th.seeweb.it (Postfix) with ESMTPSA id C9BA41F4D9;
+        Sun,  2 Apr 2023 17:19:17 +0200 (CEST)
+Date:   Sun, 2 Apr 2023 17:19:15 +0200
+From:   Marijn Suijten <marijn.suijten@somainline.org>
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Andy Gross <agross@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 4/4] arm64: dts: qcom: sm8350-nagara: Unify status
+ property placement
+Message-ID: <i5tsdvn45peivo7tegmg3q4mhsz2ly2kfs64kezeykn2bbosd5@ugfqrjqumljd>
+References: <20230321-topic-sagami_dp-v1-0-340c8bce4276@linaro.org>
+ <20230321-topic-sagami_dp-v1-4-340c8bce4276@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230321-topic-sagami_dp-v1-4-340c8bce4276@linaro.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217242
+On 2023-03-21 23:12:31, Konrad Dybcio wrote:
 
---- Comment #6 from Austin Domino (austin.domino@hotmail.com) ---
-(In reply to Austin Domino from comment #4)
-> The setup that created the output in the previous two attached log files =
-is
-> described in more detail in related posts on:
->=20
-> Ubuntu Forums -> https://ubuntuforums.org/showthread.php =E2=80=A6 st1413=
-6903
-> and
-> Ubuntu's Launchpad Bug Page -> https://bugs.launchpad.net/ubuntu/+sour =
-=E2=80=A6
-> ug/2013390
-Try 3 (I wish I could edit posts, but I should not have pressed "Save Chang=
-es"
-so quickly. Sorry about this comment and my incompetence):
+When you get to resending this, change sm8350-nagara in the title to
+sm8350-sagami :)
 
-Here are the actual links:
+- Marijn
 
-Ubuntu Forums ->
-https://ubuntuforums.org/showthread.php?t=3D2485480&p=3D14136903#post141369=
-03
-and
-Ubuntu's Launchpad Bug Page ->
-https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2013390
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> As we're heading towards getting the status property last everywhere,
+> take care of it for SM8350 SONY Sagami.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  .../boot/dts/qcom/sm8350-sony-xperia-sagami.dtsi   | 30 ++++++++++------------
+>  1 file changed, 14 insertions(+), 16 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sm8350-sony-xperia-sagami.dtsi b/arch/arm64/boot/dts/qcom/sm8350-sony-xperia-sagami.dtsi
+> index b2baa81baf5e..95b1ba4ce470 100644
+> --- a/arch/arm64/boot/dts/qcom/sm8350-sony-xperia-sagami.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sm8350-sony-xperia-sagami.dtsi
+> @@ -189,8 +189,8 @@ vph_pwr: vph-pwr-regulator {
+>  };
+>  
+>  &adsp {
+> -	status = "okay";
+>  	firmware-name = "qcom/sm8350/Sony/sagami/adsp.mbn";
+> +	status = "okay";
+>  };
+>  
+>  &apps_rsc {
+> @@ -542,27 +542,27 @@ pmr735a_l7: ldo7 {
+>  };
+>  
+>  &cdsp {
+> -	status = "okay";
+>  	firmware-name = "qcom/sm8350/Sony/sagami/cdsp.mbn";
+> +	status = "okay";
+>  };
+>  
+>  &i2c1 {
+> -	status = "okay";
+>  	clock-frequency = <1000000>;
+> +	status = "okay";
+>  
+>  	/* Some subset of SONY IMX663 camera sensor @ 38 */
+>  };
+>  
+>  &i2c4 {
+> -	status = "okay";
+>  	clock-frequency = <400000>;
+> +	status = "okay";
+>  
+>  	/* Samsung Touchscreen (needs I2C GPI DMA) @ 48 */
+>  };
+>  
+>  &i2c11 {
+> -	status = "okay";
+>  	clock-frequency = <1000000>;
+> +	status = "okay";
+>  
+>  	cs35l41_l: speaker-amp@40 {
+>  		compatible = "cirrus,cs35l41";
+> @@ -596,31 +596,31 @@ cs35l41_r: speaker-amp@41 {
+>  };
+>  
+>  &i2c12 {
+> -	status = "okay";
+>  	/* Clock frequency was not specified downstream, let's park it to 100 KHz */
+>  	clock-frequency = <100000>;
+> +	status = "okay";
+>  
+>  	/* AMS TCS3490 RGB+IR color sensor @ 72 */
+>  };
+>  
+>  &i2c13 {
+> -	status = "okay";
+>  	/* Clock frequency was not specified downstream, let's park it to 100 KHz */
+>  	clock-frequency = <100000>;
+> +	status = "okay";
+>  
+>  	/* Qualcomm PM8008i/PM8008j (?) @ 8, 9, c, d */
+>  };
+>  
+>  &i2c15 {
+> -	status = "okay";
+>  	clock-frequency = <400000>;
+> +	status = "okay";
+>  
+>  	/* NXP SN1X0 NFC @ 28 */
+>  };
+>  
+>  &i2c17 {
+> -	status = "okay";
+>  	clock-frequency = <1000000>;
+> +	status = "okay";
+>  
+>  	/* Cirrus Logic CS40L25A boosted haptics driver @ 40 */
+>  };
+> @@ -652,8 +652,8 @@ mdss_dp_altmode: endpoint {
+>  };
+>  
+>  &mpss {
+> -	status = "okay";
+>  	firmware-name = "qcom/sm8350/Sony/sagami/modem.mbn";
+> +	status = "okay";
+>  };
+>  
+>  &pm8350_gpios {
+> @@ -719,8 +719,8 @@ &pon_pwrkey {
+>  };
+>  
+>  &pon_resin {
+> -	status = "okay";
+>  	linux,code = <KEY_VOLUMEUP>;
+> +	status = "okay";
+>  };
+>  
+>  &qupv3_id_0 {
+> @@ -748,8 +748,8 @@ &sdhc_2 {
+>  };
+>  
+>  &slpi {
+> -	status = "okay";
+>  	firmware-name = "qcom/sm8350/Sony/sagami/slpi.mbn";
+> +	status = "okay";
+>  };
+>  
+>  &spi14 {
+> @@ -1038,16 +1038,14 @@ usb_1_dwc3_ss: endpoint {
+>  };
+>  
+>  &usb_1_hsphy {
+> -	status = "okay";
+> -
+>  	vdda-pll-supply = <&pm8350_l5>;
+>  	vdda18-supply = <&pm8350c_l1>;
+>  	vdda33-supply = <&pm8350_l2>;
+> +	status = "okay";
+>  };
+>  
+>  &usb_1_qmpphy {
+> -	status = "okay";
+> -
+>  	vdda-phy-supply = <&pm8350_l6>;
+>  	vdda-pll-supply = <&pm8350_l1>;
+> +	status = "okay";
+>  };
+> 
+> -- 
+> 2.40.0
+> 
