@@ -2,47 +2,43 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5B18C761AF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3BDFC77B6E
 	for <linux-usb@archiver.kernel.org>; Mon,  3 Apr 2023 02:52:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231159AbjDCCwy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 2 Apr 2023 22:52:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59284 "EHLO
+        id S231241AbjDCCwz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 2 Apr 2023 22:52:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230200AbjDCCwx (ORCPT
+        with ESMTP id S229498AbjDCCwx (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sun, 2 Apr 2023 22:52:53 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 796B1AF1B;
-        Sun,  2 Apr 2023 19:52:43 -0700 (PDT)
-X-UUID: 958afa04d1ca11edb6b9f13eb10bd0fe-20230403
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B95DBAD19;
+        Sun,  2 Apr 2023 19:52:42 -0700 (PDT)
+X-UUID: 9754aea2d1ca11eda9a90f0bb45854f4-20230403
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=F+XUat4FGUJ44EyDn8cjDOLMowlIQ5D+4o0UWiTADGU=;
-        b=bEDZ3X25Sy1eBtgo001yVJu+ioMtorBVD39UH7ZXY5tfnLBzpnChIe0Vyle0CbAJz9gNft7R3W9dmRhLQnV6ENhfPazUDHA1+HnW4O1HOgtIpyvfiCcy8NvnyDwPAyd2i/MH6/89Yvj5zxl3xLgUxATNeHinWRr3XEwv82G3y7k=;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=QXLfyDrrkNhCJOQV5hBAmnrRvZOodP5FXpETwFNnbxc=;
+        b=ncJK13/mEu2YD8O1GiKHtaf1mUTFse2MNiGCPICV/E3YIAg9flgTPEwNUaa/f9u/cD3+8gj9Jce2sIFGHLGIafDtptjdMPJJWGSh+yrUfP8tScOtRog+MPBFYBsDKffHixDlYQrJZKnDByvmTdJmF0owvUYDHhAsgyoxRlfnzFk=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22,REQID:cd89adb4-0c1a-426c-b8ce-853b4a6d0b22,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-        :release,TS:95
-X-CID-INFO: VERSION:1.1.22,REQID:cd89adb4-0c1a-426c-b8ce-853b4a6d0b22,IP:0,URL
-        :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
-        :quarantine,TS:95
-X-CID-META: VersionHash:120426c,CLOUDID:c26f3c2a-564d-42d9-9875-7c868ee415ec,B
-        ulkID:230403105235JSPR6VML,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
-        C:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,CO
-        L:0,OSI:0,OSA:0,AV:0
+X-CID-O-INFO: VERSION:1.1.22,REQID:56a5d589-75c2-4fa8-b629-41872ab4e693,IP:0,U
+        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:-5
+X-CID-META: VersionHash:120426c,CLOUDID:e64eabf7-ddba-41c3-91d9-10eeade8eac7,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
-X-UUID: 958afa04d1ca11edb6b9f13eb10bd0fe-20230403
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+X-UUID: 9754aea2d1ca11eda9a90f0bb45854f4-20230403
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 337470110; Mon, 03 Apr 2023 10:52:34 +0800
+        with ESMTP id 98836424; Mon, 03 Apr 2023 10:52:37 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Mon, 3 Apr 2023 10:52:32 +0800
+ 15.2.1118.25; Mon, 3 Apr 2023 10:52:35 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Mon, 3 Apr 2023 10:52:32 +0800
+ 15.2.1118.25 via Frontend Transport; Mon, 3 Apr 2023 10:52:35 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>
@@ -57,9 +53,9 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-kernel@vger.kernel.org>,
         Eddie Hung <eddie.hung@mediatek.com>,
         Tianping Fang <tianping.fang@mediatek.com>
-Subject: [PATCH 2/7] usb: mtu3: use boolean return value
-Date:   Mon, 3 Apr 2023 10:52:25 +0800
-Message-ID: <20230403025230.25035-2-chunfeng.yun@mediatek.com>
+Subject: [PATCH 6/7] dt-bindings: usb: mtu3: add two optional clocks
+Date:   Mon, 3 Apr 2023 10:52:29 +0800
+Message-ID: <20230403025230.25035-6-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230403025230.25035-1-chunfeng.yun@mediatek.com>
 References: <20230403025230.25035-1-chunfeng.yun@mediatek.com>
@@ -71,27 +67,44 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Prefer to use boolean value due to gpd_ring_empty() return true or false.
-See "16) Function return values and names" in coding-style.rst
+Add optional clock 'xhci_ck' and 'frmcnt_ck';
+Add optional property "assigned-clock" and "assigned-clock-parents";
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/mtu3/mtu3_qmu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../devicetree/bindings/usb/mediatek,mtu3.yaml       | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/usb/mtu3/mtu3_qmu.c b/drivers/usb/mtu3/mtu3_qmu.c
-index 7be4e4be1a6a..66639f602a9d 100644
---- a/drivers/usb/mtu3/mtu3_qmu.c
-+++ b/drivers/usb/mtu3/mtu3_qmu.c
-@@ -221,7 +221,7 @@ static struct qmu_gpd *advance_deq_gpd(struct mtu3_gpd_ring *ring)
- }
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+index d2655173e108..50c15f2ce14d 100644
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+@@ -66,6 +66,8 @@ properties:
+       - description: Reference clock used by low power mode etc
+       - description: Mcu bus clock for register access
+       - description: DMA bus clock for data transfer
++      - description: DRD controller clock
++      - description: Frame count clock
  
- /* check if a ring is emtpy */
--static int gpd_ring_empty(struct mtu3_gpd_ring *ring)
-+static bool gpd_ring_empty(struct mtu3_gpd_ring *ring)
- {
- 	struct qmu_gpd *enq = ring->enqueue;
- 	struct qmu_gpd *next;
+   clock-names:
+     minItems: 1
+@@ -74,6 +76,16 @@ properties:
+       - const: ref_ck
+       - const: mcu_ck
+       - const: dma_ck
++      - const: xhci_ck
++      - const: frmcnt_ck
++
++  assigned-clocks:
++    minItems: 1
++    maxItems: 6
++
++  assigned-clock-parents:
++    minItems: 1
++    maxItems: 6
+ 
+   phys:
+     description:
 -- 
 2.18.0
 
