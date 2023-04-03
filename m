@@ -2,43 +2,47 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B13C77B70
-	for <linux-usb@archiver.kernel.org>; Mon,  3 Apr 2023 02:52:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD33BC7619A
+	for <linux-usb@archiver.kernel.org>; Mon,  3 Apr 2023 02:53:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbjDCCw4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 2 Apr 2023 22:52:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59286 "EHLO
+        id S231315AbjDCCw7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 2 Apr 2023 22:52:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230332AbjDCCwx (ORCPT
+        with ESMTP id S230413AbjDCCwx (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sun, 2 Apr 2023 22:52:53 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CDD3AF2B;
-        Sun,  2 Apr 2023 19:52:43 -0700 (PDT)
-X-UUID: 96dd3c14d1ca11edb6b9f13eb10bd0fe-20230403
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0C1FAD18;
+        Sun,  2 Apr 2023 19:52:40 -0700 (PDT)
+X-UUID: 95f4d1e0d1ca11eda9a90f0bb45854f4-20230403
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=XQPvkby8Wlmd7ypzID5CR7DQzhydu1YPm77rqyaaOP0=;
-        b=oSv8B2fBpeR5FHiAI8T62Jh6fnIQ2gP1PoQAtbl9cjNnzQd6EoiqYueukHyjD/hxXa8QPVzYHvt1sr+UCohHq+XY7KU3dqRkbBmRrGIcAyhTwoTh0chRYQuKQ8w0ymgKW05/R/+SvotYkIRHjoLEO8ztuYnKFr6ugQSRg42gCdA=;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=XJGkgTRFlWvbPOn9hkUBqrXn/21qw2rzlQf9iREA0ho=;
+        b=V6EcRFEjapQncSMp+omsVjPUOvhZsXFPeHVryOLqwtPXw+UNLvlJTMjQWgORgUzseK9KEb38bxAxXNz08pOGssZfUBMy5sK3RPXoDNEgrvKwOC5G95vrYya5G5mf8RIDSw5iF1rU3OhUUAQab/aiUazA7LrY4rQgpfJkflGrVak=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22,REQID:19c23453-e13f-426f-9472-608df4a3abbb,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:120426c,CLOUDID:0a703c2a-564d-42d9-9875-7c868ee415ec,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-UUID: 96dd3c14d1ca11edb6b9f13eb10bd0fe-20230403
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
+X-CID-O-INFO: VERSION:1.1.22,REQID:274f3a99-4ece-422f-bdff-89829c77d133,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:1,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:96
+X-CID-INFO: VERSION:1.1.22,REQID:274f3a99-4ece-422f-bdff-89829c77d133,IP:0,URL
+        :0,TC:0,Content:0,EDM:0,RT:1,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+        :quarantine,TS:96
+X-CID-META: VersionHash:120426c,CLOUDID:bb8f1db5-beed-4dfc-bd9c-e1b22fa6ccc4,B
+        ulkID:230403105236RQ3NRNHT,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
+        C:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,CO
+        L:0,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-UUID: 95f4d1e0d1ca11eda9a90f0bb45854f4-20230403
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1019175522; Mon, 03 Apr 2023 10:52:36 +0800
+        with ESMTP id 624357530; Mon, 03 Apr 2023 10:52:34 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Mon, 3 Apr 2023 10:52:35 +0800
+ 15.2.1118.25; Mon, 3 Apr 2023 10:52:33 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Mon, 3 Apr 2023 10:52:34 +0800
+ 15.2.1118.25 via Frontend Transport; Mon, 3 Apr 2023 10:52:33 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>
@@ -53,9 +57,9 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-kernel@vger.kernel.org>,
         Eddie Hung <eddie.hung@mediatek.com>,
         Tianping Fang <tianping.fang@mediatek.com>
-Subject: [PATCH 5/7] usb: mtu3: expose role-switch control to userspace
-Date:   Mon, 3 Apr 2023 10:52:28 +0800
-Message-ID: <20230403025230.25035-5-chunfeng.yun@mediatek.com>
+Subject: [PATCH 3/7] usb: mtu3: fix KE at qmu transfer done irq handler
+Date:   Mon, 3 Apr 2023 10:52:26 +0800
+Message-ID: <20230403025230.25035-3-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230403025230.25035-1-chunfeng.yun@mediatek.com>
 References: <20230403025230.25035-1-chunfeng.yun@mediatek.com>
@@ -67,26 +71,63 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The allow_userspace_control flag enables manual role switch from userspace,
-turn this feature on like several other USB DRD controller drivers.
+When handle qmu transfer irq, it will unlock @mtu->lock before give back
+request, if another thread hanlde disconnect event at the same time, and
+try to disable ep, it may lock @mtu->lock and free qmu ring, then qmu
+irq hanlder may get a NULL gpd, avoid the KE by checking gpd's value before
+handling it.
+
+e.g.
+qmu done irq on cpu0                 thread running on cpu1
+
+qmu_done_tx()
+  handle gpd [0]
+    mtu3_requ_complete()        mtu3_gadget_ep_disable()
+      unlock @mtu->lock
+        give back request         lock @mtu->lock
+                                    mtu3_ep_disable()
+                                      mtu3_gpd_ring_free()
+                                   unlock @mtu->lock
+      lock @mtu->lock
+    get next gpd [1]
+
+[1]: goto [0] to handle next gpd, and next gpd may be NULL.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/mtu3/mtu3_dr.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/mtu3/mtu3_qmu.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/mtu3/mtu3_dr.c b/drivers/usb/mtu3/mtu3_dr.c
-index 9b8aded3d95e..8191b7ed3852 100644
---- a/drivers/usb/mtu3/mtu3_dr.c
-+++ b/drivers/usb/mtu3/mtu3_dr.c
-@@ -294,6 +294,7 @@ static int ssusb_role_sw_register(struct otg_switch_mtk *otg_sx)
- 	role_sx_desc.get = ssusb_role_sw_get;
- 	role_sx_desc.fwnode = dev_fwnode(dev);
- 	role_sx_desc.driver_data = ssusb;
-+	role_sx_desc.allow_userspace_control = true;
- 	otg_sx->role_sw = usb_role_switch_register(dev, &role_sx_desc);
- 	if (IS_ERR(otg_sx->role_sw))
- 		return PTR_ERR(otg_sx->role_sw);
+diff --git a/drivers/usb/mtu3/mtu3_qmu.c b/drivers/usb/mtu3/mtu3_qmu.c
+index 66639f602a9d..3146a112141f 100644
+--- a/drivers/usb/mtu3/mtu3_qmu.c
++++ b/drivers/usb/mtu3/mtu3_qmu.c
+@@ -210,6 +210,7 @@ static struct qmu_gpd *advance_enq_gpd(struct mtu3_gpd_ring *ring)
+ 	return ring->enqueue;
+ }
+ 
++/* @dequeue may be NULL if ring is unallocated or freed */
+ static struct qmu_gpd *advance_deq_gpd(struct mtu3_gpd_ring *ring)
+ {
+ 	if (ring->dequeue < ring->end)
+@@ -524,7 +525,7 @@ static void qmu_done_tx(struct mtu3 *mtu, u8 epnum)
+ 	dev_dbg(mtu->dev, "%s EP%d, last=%p, current=%p, enq=%p\n",
+ 		__func__, epnum, gpd, gpd_current, ring->enqueue);
+ 
+-	while (gpd != gpd_current && !GET_GPD_HWO(gpd)) {
++	while (gpd && gpd != gpd_current && !GET_GPD_HWO(gpd)) {
+ 
+ 		mreq = next_request(mep);
+ 
+@@ -563,7 +564,7 @@ static void qmu_done_rx(struct mtu3 *mtu, u8 epnum)
+ 	dev_dbg(mtu->dev, "%s EP%d, last=%p, current=%p, enq=%p\n",
+ 		__func__, epnum, gpd, gpd_current, ring->enqueue);
+ 
+-	while (gpd != gpd_current && !GET_GPD_HWO(gpd)) {
++	while (gpd && gpd != gpd_current && !GET_GPD_HWO(gpd)) {
+ 
+ 		mreq = next_request(mep);
+ 
 -- 
 2.18.0
 
