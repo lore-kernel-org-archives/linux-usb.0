@@ -2,134 +2,96 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E89C8C7619A
-	for <linux-usb@archiver.kernel.org>; Sun,  2 Apr 2023 20:01:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5B18C761AF
+	for <linux-usb@archiver.kernel.org>; Mon,  3 Apr 2023 02:52:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230174AbjDBUBe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 2 Apr 2023 16:01:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42554 "EHLO
+        id S231159AbjDCCwy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 2 Apr 2023 22:52:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230053AbjDBUBd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 2 Apr 2023 16:01:33 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C4945BBC
-        for <linux-usb@vger.kernel.org>; Sun,  2 Apr 2023 13:01:31 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1pj3tJ-0001eL-OY; Sun, 02 Apr 2023 22:01:29 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1pj3tI-008WMI-5w; Sun, 02 Apr 2023 22:01:28 +0200
-Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1pj3tH-00CFR0-HZ; Sun, 02 Apr 2023 22:01:27 +0200
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     laurent.pinchart@ideasonboard.com
-Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        balbi@kernel.org, paul.elder@ideasonboard.com,
-        kernel@pengutronix.de, nicolas@ndufresne.ca,
-        kieran.bingham@ideasonboard.com
-Subject: [RFC] usb: gadget: uvc: sane shutdown on soft streamoff
-Date:   Sun,  2 Apr 2023 22:01:22 +0200
-Message-Id: <20230402200122.2919202-1-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S230200AbjDCCwx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 2 Apr 2023 22:52:53 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 796B1AF1B;
+        Sun,  2 Apr 2023 19:52:43 -0700 (PDT)
+X-UUID: 958afa04d1ca11edb6b9f13eb10bd0fe-20230403
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=F+XUat4FGUJ44EyDn8cjDOLMowlIQ5D+4o0UWiTADGU=;
+        b=bEDZ3X25Sy1eBtgo001yVJu+ioMtorBVD39UH7ZXY5tfnLBzpnChIe0Vyle0CbAJz9gNft7R3W9dmRhLQnV6ENhfPazUDHA1+HnW4O1HOgtIpyvfiCcy8NvnyDwPAyd2i/MH6/89Yvj5zxl3xLgUxATNeHinWRr3XEwv82G3y7k=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22,REQID:cd89adb4-0c1a-426c-b8ce-853b4a6d0b22,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:95
+X-CID-INFO: VERSION:1.1.22,REQID:cd89adb4-0c1a-426c-b8ce-853b4a6d0b22,IP:0,URL
+        :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+        :quarantine,TS:95
+X-CID-META: VersionHash:120426c,CLOUDID:c26f3c2a-564d-42d9-9875-7c868ee415ec,B
+        ulkID:230403105235JSPR6VML,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
+        C:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,CO
+        L:0,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-UUID: 958afa04d1ca11edb6b9f13eb10bd0fe-20230403
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 337470110; Mon, 03 Apr 2023 10:52:34 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Mon, 3 Apr 2023 10:52:32 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.25 via Frontend Transport; Mon, 3 Apr 2023 10:52:32 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>
+CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Eddie Hung <eddie.hung@mediatek.com>,
+        Tianping Fang <tianping.fang@mediatek.com>
+Subject: [PATCH 2/7] usb: mtu3: use boolean return value
+Date:   Mon, 3 Apr 2023 10:52:25 +0800
+Message-ID: <20230403025230.25035-2-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230403025230.25035-1-chunfeng.yun@mediatek.com>
+References: <20230403025230.25035-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Pending requests in the gadget hardware get dequeued and returned with
-ECONNRESET when the available endpoint is not available anymore. This
-can be caused by an unplugged cable or the decision to shutdown the
-stream, e.g. by switching the alt setting.
+Prefer to use boolean value due to gpd_ring_empty() return true or false.
+See "16) Function return values and names" in coding-style.rst
 
-In both cases the returned completion handler is marking the gadget
-with UVC_QUEUE_DISCONNECTED by calling uvcg_queue_cancel.
-
-Since in userspace applications there might be two threads, one for the
-bufferqueueing and one to handle the uvc events. It is likely that the
-bufferqueueing thread did not receive the UVC_EVENT_STREAMOFF coming
-from the alt_setting change early enough and still tries to queue a
-buffer into the already disconnected marked device.
-
-This leads buf_prepare to return ENODEV, which usually makes the
-userspace application quit.
-
-To fix the soft-shutdown case this patch is marking the alt setting
-change before disabling the endpoint. This way the still completing
-requests on the disabled endpoint can call uvcg_queue_cancel without
-marking the device disconnected.
-
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-Hi Laurent!
+ drivers/usb/mtu3/mtu3_qmu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-We are running into this issue in gstreamer when the host is stopping
-the stream. In fact I am unsure if this is not also an issue when the
-real unplug will appear.
-
-Since the v4l2 device is available all the time, and the streamoff
-callback is cleaning up all the pending buffers in uvc_video_enable(0),
-also the ones that got queued in this short time window of:
-
- alt_setting(0) -> userspace event handling -> streamoff ioctl
-
-Would it not be also possible to just drop the whole
-UVC_QUEUE_DISCONNECTED mechanism?
-
-Thanks,
-Michael
-
- drivers/usb/gadget/function/f_uvc.c     | 3 ++-
- drivers/usb/gadget/function/uvc_video.c | 5 +++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 5e919fb6583301..01ab8c07d85be9 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -337,6 +337,8 @@ uvc_function_set_alt(struct usb_function *f, unsigned interface, unsigned alt)
- 		if (uvc->state != UVC_STATE_STREAMING)
- 			return 0;
+diff --git a/drivers/usb/mtu3/mtu3_qmu.c b/drivers/usb/mtu3/mtu3_qmu.c
+index 7be4e4be1a6a..66639f602a9d 100644
+--- a/drivers/usb/mtu3/mtu3_qmu.c
++++ b/drivers/usb/mtu3/mtu3_qmu.c
+@@ -221,7 +221,7 @@ static struct qmu_gpd *advance_deq_gpd(struct mtu3_gpd_ring *ring)
+ }
  
-+		uvc->state = UVC_STATE_CONNECTED;
-+
- 		if (uvc->video.ep)
- 			usb_ep_disable(uvc->video.ep);
- 
-@@ -344,7 +346,6 @@ uvc_function_set_alt(struct usb_function *f, unsigned interface, unsigned alt)
- 		v4l2_event.type = UVC_EVENT_STREAMOFF;
- 		v4l2_event_queue(&uvc->vdev, &v4l2_event);
- 
--		uvc->state = UVC_STATE_CONNECTED;
- 		return 0;
- 
- 	case 1:
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index dd1c6b2ca7c6f3..2f36fef3824f8e 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -265,9 +265,10 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
- 		queue->flags |= UVC_QUEUE_DROP_INCOMPLETE;
- 		break;
- 
--	case -ESHUTDOWN:	/* disconnect from host. */
-+	case -ESHUTDOWN:	/* disconnect from host or streamoff pending */
- 		uvcg_dbg(&video->uvc->func, "VS request cancelled.\n");
--		uvcg_queue_cancel(queue, 1);
-+		uvcg_queue_cancel(queue,
-+				  uvc->state != UVC_STATE_STREAMING ? 0 : 1);
- 		break;
- 
- 	default:
+ /* check if a ring is emtpy */
+-static int gpd_ring_empty(struct mtu3_gpd_ring *ring)
++static bool gpd_ring_empty(struct mtu3_gpd_ring *ring)
+ {
+ 	struct qmu_gpd *enq = ring->enqueue;
+ 	struct qmu_gpd *next;
 -- 
-2.39.2
+2.18.0
 
