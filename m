@@ -2,105 +2,109 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61CCCC761A6
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Apr 2023 14:44:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D2A2C77B6C
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Apr 2023 14:53:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231661AbjDDOoX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 4 Apr 2023 10:44:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48326 "EHLO
+        id S232329AbjDDOx6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 4 Apr 2023 10:53:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231655AbjDDOoW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 4 Apr 2023 10:44:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34D5E10FC
-        for <linux-usb@vger.kernel.org>; Tue,  4 Apr 2023 07:44:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S231132AbjDDOx4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 4 Apr 2023 10:53:56 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F519E58;
+        Tue,  4 Apr 2023 07:53:55 -0700 (PDT)
+Received: from jupiter.universe (dyndsl-091-248-190-097.ewe-ip-backbone.de [91.248.190.97])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AD00A63522
-        for <linux-usb@vger.kernel.org>; Tue,  4 Apr 2023 14:44:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CAD0C433EF;
-        Tue,  4 Apr 2023 14:44:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680619460;
-        bh=CEhP/gSzYivXLHUFZ0eNsr+7RcW5zKtQVIOnYRo/XNw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lJeQywBHAI4rLrSI7fDWyV1jFhfG1TnyVrMva02EAhOwgQSwhBUuWUM0nIQBozshs
-         UwNaBv0WBjcs4LHz1x+rdt+7UP93zACk1m5if8MUYbVzyrMl3PewYaHeWCFCaXwWjN
-         O/VVxENJ1p9eGFdPX2C1gK6CZBMAnaNkT2H+MSgyu9nw99YbKmAj47KPsfZrOrO9N8
-         inlT6jYzX/eeMHmD3koviF7dPJU7L315kcIT1yqyFATaOZnX4Ga647XuRl7znbDSN5
-         /XePhDgJuctXirV5DufJSatOMimqxlJDanxTR2oS83RoQ4eHKOPULK0qoy9s0gTG6b
-         RldiglEtZ/uhg==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1pjhtv-00011R-QX; Tue, 04 Apr 2023 16:44:47 +0200
-Date:   Tue, 4 Apr 2023 16:44:47 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Udipto Goswami <quic_ugoswami@quicinc.com>
-Cc:     Oliver Neukum <oneukum@suse.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Pratham Pratap <quic_ppratap@quicinc.com>,
-        Jack Pham <quic_jackp@quicinc.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v4] usb: dwc3: debugfs: Prevent any register access when
- devices
-Message-ID: <ZCw33woJ3C6roK93@hovoldconsulting.com>
-References: <20230404100055.28100-1-quic_ugoswami@quicinc.com>
- <ZCwEeFzSFVRmB/yI@hovoldconsulting.com>
- <9f8277ce-7888-46b7-fe82-90fe4b775762@suse.com>
- <ZCwNYU3kR1Lb2kt5@hovoldconsulting.com>
- <8a209f5f-8aa1-35b1-20ed-2f0b95f960a7@quicinc.com>
+        (Authenticated sender: sre)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id B1293660316A;
+        Tue,  4 Apr 2023 15:53:53 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1680620033;
+        bh=IZgsXXkUIeK+MqZv4Hy7oH9grr/jB03TfUzCnGkU6tI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ZFX5Z5MtuoVFp1ihqnPYgnJvFgAOTjQWXVieK/Fgma1T+WTM0T6VFJoZjIx2k442z
+         qNTBdZHzLeDihhnHvIoQceO8HCmRQ5oXzk/5jFS6bPkBw7jHeVa44EZgP8yqwQ9lmA
+         s1+tFZpfjF4sg1kTh4Qf+KhvhckGAJ6v2lvQ6DekPgznPIwmM9XdTfdRVOnDakfUvU
+         GC5F8khxJj05l38j4uJ6Yfdx641hQdWw8yJBdlXqG4cE5LeuO3vjWGAab3nFanLfUP
+         E20H7YS0+G3Yvt3ulwWisNBBIH6Gnhdzpiz23fSeaZgwpmp6ODTo61iP4qHpUyq2PP
+         f3w42dcYo0DWg==
+Received: by jupiter.universe (Postfix, from userid 1000)
+        id BAD2F4807E0; Tue,  4 Apr 2023 16:53:51 +0200 (CEST)
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        kernel@collabora.com
+Subject: [PATCHv1 1/3] dt-bindings: usb: Add RK3588 OHCI
+Date:   Tue,  4 Apr 2023 16:53:48 +0200
+Message-Id: <20230404145350.45388-2-sebastian.reichel@collabora.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230404145350.45388-1-sebastian.reichel@collabora.com>
+References: <20230404145350.45388-1-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8a209f5f-8aa1-35b1-20ed-2f0b95f960a7@quicinc.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Apr 04, 2023 at 05:46:13PM +0530, Udipto Goswami wrote:
-> On 4/4/23 5:13 PM, Johan Hovold wrote:
-> > On Tue, Apr 04, 2023 at 01:09:19PM +0200, Oliver Neukum wrote:
-> >> On 04.04.23 13:05, Johan Hovold wrote:
+Add compatible for RK3588 OHCI. As far as I know it's fully
+compatible with generic-ohci.
 
-> >>> This is backwards. If you need the device to be active to access these
-> >>> registers then you should resume it unconditionally instead of failing.
-> > 
-> >> usually you would be right. But this is debugfs. It is intended to observe
-> >> the system in the state it is actually in. If by the act of observation you
-> >> wake up the device, you change the experiment.
-> > 
-> > I admittedly didn't look to closely at what this particular debugfs
-> > interface is used for, but I generally do not agree with that reasoning.
-> > 
-> > The device is being used; by the driver and ultimately by a user telling
-> > the driver to do something on their behalf. The fact that the user is
-> > initiating an action through an interface which intended for debugging
-> > should not matter (and the user always has the option to check the
-> > runtime pm state before initiating the action if that matters at all)
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+ .../devicetree/bindings/usb/generic-ohci.yaml  | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-> for instance, lets say user is trying to dump the value of link_state 
-> register through dwc3_link_state_show, wouldn't a pm_runtime_get would 
-> change the link_state? or I'm assuming it wrong?
+diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+index a9ba7257b884..d84732a100ba 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+@@ -44,6 +44,7 @@ properties:
+               - hpe,gxp-ohci
+               - ibm,476gtr-ohci
+               - ingenic,jz4740-ohci
++              - rockchip,rk3588-ohci
+               - snps,hsdk-v1.0-ohci
+           - const: generic-ohci
+       - enum:
+@@ -68,8 +69,6 @@ properties:
+     maxItems: 2
+ 
+   clocks:
+-    minItems: 1
+-    maxItems: 3
+     description: |
+       In case the Renesas R-Car Gen3 SoCs:
+         - if a host only channel: first clock should be host.
+@@ -147,6 +146,21 @@ allOf:
+     then:
+       properties:
+         transceiver: false
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: rockchip,rk3588-ohci
++    then:
++      properties:
++        clocks:
++          minItems: 4
++          maxItems: 4
++    else:
++      properties:
++        clocks:
++          minItems: 1
++          maxItems: 3
+ 
+ additionalProperties: false
+ 
+-- 
+2.39.2
 
-There may be some specific debugfs interfaces (e.g. related to PM) where
-taking the runtime pm state into account makes sense, but then I don't
-think you should return an error if the device happens to be suspended.
-
-Looking at the dwc3 'link_state', it currently just returns "Not
-available\n" when not in peripheral mode, for example. Perhaps you can
-do something similar if you can neither infer or retrieve the actual
-link state.
-
-But after skimming the backstory for this patch, you yourself said that
-the motivation for this patch is simply to avoid crashing when accessing
-these interfaces if the device happens to be runtime suspended.
-
-For that you should just resume the device unconditionally before the
-register accesses as all other drivers do (and such a patch should
-be backported to stable).
-
-There's no need to take hypothetical PM debugging issues into account to
-address this.
-
-Johan
