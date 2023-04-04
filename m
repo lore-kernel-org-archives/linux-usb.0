@@ -2,46 +2,46 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C21B3C761A6
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Apr 2023 07:26:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3EA1C7618D
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Apr 2023 07:26:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233873AbjDDH0A (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 4 Apr 2023 03:26:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56680 "EHLO
+        id S233913AbjDDH0D (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 4 Apr 2023 03:26:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233659AbjDDHZz (ORCPT
+        with ESMTP id S233847AbjDDHZz (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 4 Apr 2023 03:25:55 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C26D1BC7;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BDE210FE;
         Tue,  4 Apr 2023 00:25:46 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8A61F62F74;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7418F62F72;
         Tue,  4 Apr 2023 07:25:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CACF2C433EF;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C784AC4339B;
         Tue,  4 Apr 2023 07:25:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1680593145;
-        bh=2q4LsyPxLReBjh6KT0A3DR3vy9HH+t9cFXIsPEwf+A4=;
+        bh=lK8/zWshDo/p7knHs3nqkqw3bfMNK0uEzzVwr0NkiBM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CnP/EPT0d9UWN/Cd+QbvP3VDR8IbAjxMxCfAhiXuzfzdaEROsKM6E8C6SXvl1hifi
-         vIdeV/B7UNyQdANdCqc6cszZZmquW0aeVPRvVuSd4GgMYckqoLPhjkTuoAnXpoOpA1
-         eSpjyfo4FTQN54WS1dM0Y3k2vusHO/86Qimkaevey7XlTezxncah56embdSqq678zE
-         fuegtjAGYp+J3M5KlN69LvRGkQ+X4+XGX2SIiIn+5kKjbpjJ9z7D9285krlmN4XJZj
-         4q5HGCF0J64wk7En+me/f/FpJacgapczyRA7k1ALH7ZoaQtFjsHKucD19hYimZNP9o
-         pTh8gM7tWA4bg==
+        b=rPB/wr+yDTad2yBTmSiQflkAFgNdshF0/8s1D+7WMhAEXlyxGLzXKjI+fX2KJTedO
+         T2X1LICzr3JP/70KZ7afRuH1oKy7rVlSyqpU6TOqA+Ln3WK3n3Stm7w6RCXRFTLPEx
+         u8Vk1oXaC66usCFJZutXngdhXN2v/UKSYFSZXlouBAJaxcAdigiJ0TM16pga72Chnb
+         mPjJTelslaHk7q9asCKMYhJ1TWHdKjeXstCH+Jf5OhLWIHF1GfckzaUWcE81c8BtVq
+         MB1HjQ5LTfaxq2SSKMYvw+ApAMncNmUUL+JSvL7y/4bscf1iKX0ZY3c1YEcgw15wYX
+         HedZovMnblWsQ==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan+linaro@kernel.org>)
-        id 1pjb3V-0004xi-6n; Tue, 04 Apr 2023 09:26:13 +0200
+        id 1pjb3U-0004xW-Tf; Tue, 04 Apr 2023 09:26:12 +0200
 From:   Johan Hovold <johan+linaro@kernel.org>
 To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH 07/11] USB: dwc3: clean up phy init error handling
-Date:   Tue,  4 Apr 2023 09:25:20 +0200
-Message-Id: <20230404072524.19014-8-johan+linaro@kernel.org>
+Subject: [PATCH 04/11] USB: dwc3: gadget: drop dead hibernation code
+Date:   Tue,  4 Apr 2023 09:25:17 +0200
+Message-Id: <20230404072524.19014-5-johan+linaro@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230404072524.19014-1-johan+linaro@kernel.org>
 References: <20230404072524.19014-1-johan+linaro@kernel.org>
@@ -51,61 +51,129 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-While there likely are no platforms out there that mix generic and
-legacy PHYs the driver should still be able to handle that, if only for
-consistency reasons.
+The hibernation code is broken and has never been enabled in mainline
+and should thus be dropped.
 
-Add the missing calls to shutdown any legacy PHYs if generic PHY
-initialisation fails.
-
-Note that we continue to happily ignore potential errors from the legacy
-PHY callbacks...
+Remove the hibernation bits from the gadget code, which effectively
+reverts commits e1dadd3b0f27 ("usb: dwc3: workaround: bogus hibernation
+events") and 7b2a0368bbc9 ("usb: dwc3: gadget: set KEEP_CONNECT in case
+of hibernation") except for the spurious interrupt warning.
 
 Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- drivers/usb/dwc3/core.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/usb/dwc3/gadget.c | 46 +++++----------------------------------
+ 1 file changed, 6 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index de84e057d28b..15405f1f7aef 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1031,15 +1031,14 @@ static int dwc3_core_init(struct dwc3 *dwc)
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index cf5b4f49c3ed..ef51399fd89e 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2478,7 +2478,7 @@ static void __dwc3_gadget_set_speed(struct dwc3 *dwc)
+ 	dwc3_writel(dwc->regs, DWC3_DCFG, reg);
+ }
  
- 	usb_phy_init(dwc->usb2_phy);
- 	usb_phy_init(dwc->usb3_phy);
-+
- 	ret = phy_init(dwc->usb2_generic_phy);
- 	if (ret < 0)
--		goto err0a;
-+		goto err_shutdown_usb3_phy;
+-static int dwc3_gadget_run_stop(struct dwc3 *dwc, int is_on, int suspend)
++static int dwc3_gadget_run_stop(struct dwc3 *dwc, int is_on)
+ {
+ 	u32			reg;
+ 	u32			timeout = 2000;
+@@ -2497,17 +2497,11 @@ static int dwc3_gadget_run_stop(struct dwc3 *dwc, int is_on, int suspend)
+ 			reg &= ~DWC3_DCTL_KEEP_CONNECT;
+ 		reg |= DWC3_DCTL_RUN_STOP;
  
- 	ret = phy_init(dwc->usb3_generic_phy);
--	if (ret < 0) {
--		phy_exit(dwc->usb2_generic_phy);
--		goto err0a;
--	}
-+	if (ret < 0)
-+		goto err_exit_usb2_phy;
- 
- 	ret = dwc3_core_soft_reset(dwc);
- 	if (ret)
-@@ -1215,11 +1214,12 @@ static int dwc3_core_init(struct dwc3 *dwc)
- 	usb_phy_set_suspend(dwc->usb3_phy, 1);
- 
- err1:
--	usb_phy_shutdown(dwc->usb2_phy);
--	usb_phy_shutdown(dwc->usb3_phy);
--	phy_exit(dwc->usb2_generic_phy);
- 	phy_exit(dwc->usb3_generic_phy);
+-		if (dwc->has_hibernation)
+-			reg |= DWC3_DCTL_KEEP_CONNECT;
 -
-+err_exit_usb2_phy:
-+	phy_exit(dwc->usb2_generic_phy);
-+err_shutdown_usb3_phy:
-+	usb_phy_shutdown(dwc->usb3_phy);
-+	usb_phy_shutdown(dwc->usb2_phy);
- err0a:
- 	dwc3_ulpi_exit(dwc);
+ 		__dwc3_gadget_set_speed(dwc);
+ 		dwc->pullups_connected = true;
+ 	} else {
+ 		reg &= ~DWC3_DCTL_RUN_STOP;
+ 
+-		if (dwc->has_hibernation && !suspend)
+-			reg &= ~DWC3_DCTL_KEEP_CONNECT;
+-
+ 		dwc->pullups_connected = false;
+ 	}
+ 
+@@ -2574,7 +2568,7 @@ static int dwc3_gadget_soft_disconnect(struct dwc3 *dwc)
+ 	 * remaining event generated by the controller while polling for
+ 	 * DSTS.DEVCTLHLT.
+ 	 */
+-	return dwc3_gadget_run_stop(dwc, false, false);
++	return dwc3_gadget_run_stop(dwc, false);
+ }
+ 
+ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
+@@ -2628,7 +2622,7 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
+ 
+ 		dwc3_event_buffers_setup(dwc);
+ 		__dwc3_gadget_start(dwc);
+-		ret = dwc3_gadget_run_stop(dwc, true, false);
++		ret = dwc3_gadget_run_stop(dwc, true);
+ 	}
+ 
+ 	pm_runtime_put(dwc->dev);
+@@ -4195,30 +4189,6 @@ static void dwc3_gadget_suspend_interrupt(struct dwc3 *dwc,
+ 	dwc->link_state = next;
+ }
+ 
+-static void dwc3_gadget_hibernation_interrupt(struct dwc3 *dwc,
+-		unsigned int evtinfo)
+-{
+-	unsigned int is_ss = evtinfo & BIT(4);
+-
+-	/*
+-	 * WORKAROUND: DWC3 revision 2.20a with hibernation support
+-	 * have a known issue which can cause USB CV TD.9.23 to fail
+-	 * randomly.
+-	 *
+-	 * Because of this issue, core could generate bogus hibernation
+-	 * events which SW needs to ignore.
+-	 *
+-	 * Refers to:
+-	 *
+-	 * STAR#9000546576: Device Mode Hibernation: Issue in USB 2.0
+-	 * Device Fallback from SuperSpeed
+-	 */
+-	if (is_ss ^ (dwc->speed == USB_SPEED_SUPER))
+-		return;
+-
+-	/* enter hibernation here */
+-}
+-
+ static void dwc3_gadget_interrupt(struct dwc3 *dwc,
+ 		const struct dwc3_event_devt *event)
+ {
+@@ -4236,11 +4206,7 @@ static void dwc3_gadget_interrupt(struct dwc3 *dwc,
+ 		dwc3_gadget_wakeup_interrupt(dwc);
+ 		break;
+ 	case DWC3_DEVICE_EVENT_HIBER_REQ:
+-		if (dev_WARN_ONCE(dwc->dev, !dwc->has_hibernation,
+-					"unexpected hibernation event\n"))
+-			break;
+-
+-		dwc3_gadget_hibernation_interrupt(dwc, event->event_info);
++		dev_WARN_ONCE(dwc->dev, true, "unexpected hibernation event\n");
+ 		break;
+ 	case DWC3_DEVICE_EVENT_LINK_STATUS_CHANGE:
+ 		dwc3_gadget_linksts_change_interrupt(dwc, event->event_info);
+@@ -4584,7 +4550,7 @@ int dwc3_gadget_suspend(struct dwc3 *dwc)
+ 	if (!dwc->gadget_driver)
+ 		return 0;
+ 
+-	dwc3_gadget_run_stop(dwc, false, false);
++	dwc3_gadget_run_stop(dwc, false);
+ 
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 	dwc3_disconnect_gadget(dwc);
+@@ -4605,7 +4571,7 @@ int dwc3_gadget_resume(struct dwc3 *dwc)
+ 	if (ret < 0)
+ 		goto err0;
+ 
+-	ret = dwc3_gadget_run_stop(dwc, true, false);
++	ret = dwc3_gadget_run_stop(dwc, true);
+ 	if (ret < 0)
+ 		goto err1;
  
 -- 
 2.39.2
