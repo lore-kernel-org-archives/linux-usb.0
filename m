@@ -2,92 +2,172 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ADA2C77B60
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Apr 2023 11:40:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86098C77B6C
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Apr 2023 11:42:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237871AbjDELka (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Apr 2023 07:40:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51244 "EHLO
+        id S237919AbjDELmK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Apr 2023 07:42:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237708AbjDELk2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Apr 2023 07:40:28 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5E6630FD;
-        Wed,  5 Apr 2023 04:40:27 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id y4so140344724edo.2;
-        Wed, 05 Apr 2023 04:40:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680694826;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3DxsPN6AZzv/X2o3ugirBHpwxkcBnWPEpRNGraURAvU=;
-        b=p8i1buOJzPtbXvWClWsIIpxze6tojT5FD7EXPlde+YHaRLg35bZORYCPfj6N+ZO41G
-         8Ete6tzczTVPT4H32Pu6GotmBef91IhssWyKSBIL0xOAq7i8DMdMb9oGsJdJqWe5UfHT
-         y3d7CFQJYvERtCW4PDJFDPIBnV4pTsakDCnztC16rd7p5kT+FXRknjLRkwuxlun3YGOH
-         XQnwcoyvUEiM63P+othLir65RWXht6bUXMlBD4ssG6mBADSDnqklfqiltujXnYyrSZ8+
-         s1woYsjyRFMfJagt7NIFwujR1Q9rmt2lOnJYbCq5fJvnYGien3L+bNvHQPB+b7o8XMBQ
-         RA0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680694826;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3DxsPN6AZzv/X2o3ugirBHpwxkcBnWPEpRNGraURAvU=;
-        b=yfzvu37udedrmixm0q6cyW2exLGUWOItrF0j472l8HnipMSa/QETuVhBvez27p3NPm
-         ssH2SydN+cm1Uq3MgDZ5whMaRFik09+9MmYv/aIkjSvcaXLPGVdXa2tHVKEO6Z0k0qWd
-         xO66mKInBJjaPquDqrZqwAzSoEe3xeqkg8vuipiBO8iDHppmTVyh+VHF62YdkbXSGndA
-         thuiEDZbIyansoZsOAjdJZnjrff2u2jR/4IMxv5xYDp+3C890Hmb09kqsH2KOxNBmgWW
-         4albvNneuz770lr3ejgR+xmf5idZkQFS5MU4KCWp/O/WaeUvUyZnWRbx/wuRo0DJ3dbL
-         HO1A==
-X-Gm-Message-State: AAQBX9dOHMS4wBOm1g5C9VscUxKG+aykvEFAqmdT7i0eqbgbaEnLSGUs
-        nOWk5iYKHJDQr8Iy0hsI7uU=
-X-Google-Smtp-Source: AKy350ZcxdQZCdOd9iXyVXN2Sznloq9VwpM0uZ7ZoCRO6zLRZWEV6cD9rzxKvFOuex42d5I7vx9KTg==
-X-Received: by 2002:a17:906:edc5:b0:7e0:eed0:8beb with SMTP id sb5-20020a170906edc500b007e0eed08bebmr2794741ejb.41.1680694825977;
-        Wed, 05 Apr 2023 04:40:25 -0700 (PDT)
-Received: from localhost (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id gx20-20020a1709068a5400b00931faf03db0sm7232069ejc.27.2023.04.05.04.40.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 04:40:25 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Wayne Chang <waynec@nvidia.com>, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: (subset) [PATCH V10 5/6] arm64: tegra: Populate USB Type-C Controller for Jetson AGX Orin
-Date:   Wed,  5 Apr 2023 13:40:22 +0200
-Message-Id: <168069480508.4035569.16318003285399611173.b4-ty@nvidia.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230131175748.256423-6-jonathanh@nvidia.com>
-References: <20230131175748.256423-1-jonathanh@nvidia.com> <20230131175748.256423-6-jonathanh@nvidia.com>
+        with ESMTP id S237576AbjDELmE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Apr 2023 07:42:04 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E9C030FD;
+        Wed,  5 Apr 2023 04:42:03 -0700 (PDT)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 335ApmmR004370;
+        Wed, 5 Apr 2023 11:41:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=MP8vY5b3c3LbYhyxq8wfVu3i4CjBKlxbpCsn4bvRI78=;
+ b=koBvBqDS0gRj49Jvog1xBD+qz2n6YwbnPGyVKrKMDcaIZjbrOB6C+r7EFHTY5kOBP7Wq
+ kgXUbI6/3L2xtv+4Xvd9Jr+gyXw4Bier/V8hc0v3cKmQCaG4tnTdkdqaPhCcLSSqvJy2
+ V9tUMyP4EpOG3DfUWDrle+jre0KfXdrhsMAqipHqc9524npoiju8KhUcFr53RgKrqn2t
+ aqGdTf1wgWrIxkrGvG6gHi+v6frlNnXS27S53kAb0lsqKw8VdJWtehdPXDRU1uvHssx+
+ /iBwWcJIWYhTHRRTcn107O4HqrflqA2zrodAE6cU4pEitMwFhLQFGYJVv+O7hbTo+UDP dg== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3prpg22ftn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 05 Apr 2023 11:41:53 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 335Bfrsf021910
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 5 Apr 2023 11:41:53 GMT
+Received: from varda-linux.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Wed, 5 Apr 2023 04:41:47 -0700
+From:   Varadarajan Narayanan <quic_varada@quicinc.com>
+To:     <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
+        <kishon@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <mturquette@baylibre.com>, <sboyd@kernel.org>,
+        <quic_wcheng@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>
+CC:     Varadarajan Narayanan <quic_varada@quicinc.com>
+Subject: [PATCH v8 2/8] dt-bindings: phy: qcom,qmp-usb: Add IPQ9574 USB3 PHY
+Date:   Wed, 5 Apr 2023 17:11:21 +0530
+Message-ID: <1efa9a64499767d939efadd0aef897ac4a6e54eb.1680693149.git.quic_varada@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1680693149.git.quic_varada@quicinc.com>
+References: <cover.1680693149.git.quic_varada@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: B6iaiRNoKuyA0cIResqyGA-h3aK3622A
+X-Proofpoint-ORIG-GUID: B6iaiRNoKuyA0cIResqyGA-h3aK3622A
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-05_07,2023-04-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ bulkscore=0 impostorscore=0 clxscore=1015 priorityscore=1501
+ suspectscore=0 mlxscore=0 spamscore=0 mlxlogscore=999 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304050106
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+Add dt-bindings for USB3 PHY found on Qualcomm IPQ9574
 
-On Tue, 31 Jan 2023 17:57:47 +0000, Jon Hunter wrote:
-> Add the USB Type-C controller that is present on the Jetson AGX Orin
-> board. The ports for the Type-C controller are not populated yet, but
-> will be added later once the USB host and device support for Jetson AGX
-> Orin is enabled.
-> 
-> This is based upon a patch from Wayne Chang <waynec@nvidia.com>.
-> 
-> [...]
+Signed-off-by: Varadarajan Narayanan <quic_varada@quicinc.com>
+---
+ Changes in v8:
+	- Update clock names for ipq9574
 
-Applied, thanks!
+ Changes in v6:
+	- Made power-domains optional
 
-[5/6] arm64: tegra: Populate USB Type-C Controller for Jetson AGX Orin
-      commit: 16744314ee57928c24aca95aa15f1381657edcfe
+Note: In the earlier patch sets, had used the (legacy)
+specification available in qcom,msm8996-qmp-usb3-phy.yaml. Moved
+to newer specification in qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+---
+ .../phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml        | 43 +++++++++++++++++++---
+ 1 file changed, 37 insertions(+), 6 deletions(-)
 
-Best regards,
+diff --git a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+index 16fce10..e902a0d 100644
+--- a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+@@ -16,6 +16,7 @@ description:
+ properties:
+   compatible:
+     enum:
++      - qcom,ipq9574-qmp-usb3-phy
+       - qcom,sc8280xp-qmp-usb3-uni-phy
+ 
+   reg:
+@@ -25,11 +26,7 @@ properties:
+     maxItems: 4
+ 
+   clock-names:
+-    items:
+-      - const: aux
+-      - const: ref
+-      - const: com_aux
+-      - const: pipe
++    maxItems: 4
+ 
+   power-domains:
+     maxItems: 1
+@@ -60,7 +57,6 @@ required:
+   - reg
+   - clocks
+   - clock-names
+-  - power-domains
+   - resets
+   - reset-names
+   - vdda-phy-supply
+@@ -71,6 +67,41 @@ required:
+ 
+ additionalProperties: false
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,ipq9574-qmp-usb3-phy
++    then:
++      properties:
++        clocks:
++          maxItems: 4
++        clock-names:
++          items:
++            - const: aux
++            - const: ref
++            - const: cfg_ahb
++            - const: pipe
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sc8280xp-qmp-usb3-uni-phy
++    then:
++      properties:
++        clocks:
++          maxItems: 4
++        clock-names:
++          items:
++            - const: aux
++            - const: ref
++            - const: com_aux
++            - const: pipe
++
+ examples:
+   - |
+     #include <dt-bindings/clock/qcom,gcc-sc8280xp.h>
 -- 
-Thierry Reding <treding@nvidia.com>
+2.7.4
+
