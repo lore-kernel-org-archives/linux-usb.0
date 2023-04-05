@@ -2,137 +2,94 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 992A8C77B6C
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Apr 2023 08:58:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8424CC7619A
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Apr 2023 08:59:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237651AbjDEI6a (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Apr 2023 04:58:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53212 "EHLO
+        id S237230AbjDEI7n (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Apr 2023 04:59:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237678AbjDEI6P (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Apr 2023 04:58:15 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 162244236;
-        Wed,  5 Apr 2023 01:57:53 -0700 (PDT)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33584SP8012966;
-        Wed, 5 Apr 2023 08:57:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=2u1bt7sISW7gYR56t/sEB8xayuIhGFjBWFB7FY5nIho=;
- b=Ju0gscvRW321TsS+vqVJyaIXIzmH6mfk2trWRiEthOxb10Fxur4LiNu7qyPFLmql8YSw
- 0U8wntDzyNIEn+JSxbbe8vUY756wRWOaq3mrCe4caSKQWa/K6R57TpOQRnjPnnICawbO
- I2kETf3Peiltiz3p1IkO7+F63IKtpQPLnQhOfVZsfT8OwSHt4k4X3IojQTKDz7tqRLbT
- 71cQDrv+AKrMTn93T9cO5u54/2qI209djai8dnZjYwSR55LoLzw3kb1WusPHOx4fc+fw
- JhLtCqMwSUIZIWwY4ETPosqzNJI1SLXot4xGMfmM46bmOcrdegHMg8U8tdTOxban5b/k pQ== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3prwc79191-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 05 Apr 2023 08:57:48 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3358vlfN019941
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 5 Apr 2023 08:57:47 GMT
-Received: from varda-linux.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Wed, 5 Apr 2023 01:57:41 -0700
-From:   Varadarajan Narayanan <quic_varada@quicinc.com>
-To:     <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
-        <kishon@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <mturquette@baylibre.com>, <sboyd@kernel.org>,
-        <quic_wcheng@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>
-CC:     Varadarajan Narayanan <quic_varada@quicinc.com>
-Subject: [PATCH v6 8/8] arm64: dts: qcom: ipq9574: Enable USB
-Date:   Wed, 5 Apr 2023 14:26:43 +0530
-Message-ID: <5496c227b2bdaa78fd041814e48ac29bbe6e89b3.1680682939.git.quic_varada@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1680682939.git.quic_varada@quicinc.com>
-References: <cover.1680682939.git.quic_varada@quicinc.com>
+        with ESMTP id S236486AbjDEI7l (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Apr 2023 04:59:41 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC42A55B4;
+        Wed,  5 Apr 2023 01:59:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680685149; x=1712221149;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u4O5ehGBLPBte6x414yZg/CsErbhx48+S52oonQLnw0=;
+  b=kQE+Hrn6ecz+Fet9ltcXJtkpkD9wKWWq5j4UL3JDZoWS3Fn0VZftn0e1
+   kAKB2t81sSejeWnOu7KkRjhLBHeQqoLc+f9Fj+u8Z+2ejSY9AvJjTGVJD
+   MCKOmB2vQn1I169YDqgb7brXk+Pwc7rT5EpM2XVUibjKMTPITtpreOcUz
+   3iRbY1pJVQBX81vD8pXAJI7/2UprTJmxxigUnI7qe6p+cn3N+kv2kXx0c
+   8mxXVN4cSq1yqhPjP52vLqnjh0cxtCcQzD+Ts07QGvRGfyVZWx0YW3T/3
+   s21h1OARvVdJzCoYRZVVdWqZCscfdPcQUfrRe/6nMeU8RD6nmt23DRZgs
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="344118169"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
+   d="scan'208";a="344118169"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 01:58:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="1016403555"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
+   d="scan'208";a="1016403555"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga005.fm.intel.com with ESMTP; 05 Apr 2023 01:58:17 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pjyy7-00Cl8Y-1a;
+        Wed, 05 Apr 2023 11:58:15 +0300
+Date:   Wed, 5 Apr 2023 11:58:15 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Olliver Schinagl <oliver@schinagl.nl>
+Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>
+Subject: Re: [PATCH v1 1/2] iopoll: Introduce ioreadXX_poll_timeout() macros
+Message-ID: <ZC04J30xQTVPJ1ho@smile.fi.intel.com>
+References: <20230330141413.25569-1-andriy.shevchenko@linux.intel.com>
+ <3a348abc-d1f3-364f-88de-a0012fbc0fde@schinagl.nl>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: CRAcnszgIseTf2s547c-1RJr10MJdflC
-X-Proofpoint-ORIG-GUID: CRAcnszgIseTf2s547c-1RJr10MJdflC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-05_05,2023-04-04_05,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
- malwarescore=0 phishscore=0 priorityscore=1501 bulkscore=0 mlxlogscore=668
- adultscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304050082
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3a348abc-d1f3-364f-88de-a0012fbc0fde@schinagl.nl>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Turn on USB related nodes
+On Fri, Mar 31, 2023 at 10:12:31AM +0200, Olliver Schinagl wrote:
+> On 30-03-2023 16:14, Andy Shevchenko wrote:
 
-Signed-off-by: Varadarajan Narayanan <quic_varada@quicinc.com>
----
- Changes in v5:
-	- Move "host" mode specification to board dts
-	- Due to dependency with earlier patches board dts
-	  filename changed ipq9574-al02-c7.dts -> ipq9574-rdp433.dts
+...
 
- Changes in v2:
-	- Fix node placement and coding style
-	- "ok" -> "okay"
----
- arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+> But I actually have a small addendum for this series, as it will break
+> `drivers/net/wwan/t7xx/t7xx_dpmaif.c` due to a redefinition (yeah I know).
+> 
+> So I have:
+> https://gitlab.com/olliver/linux/-/commit/c9e591f2dabb2dbaeceebee61fa70b70fdbffc2a
+> https://gitlab.com/olliver/linux/-/commit/41e0f8c08a1c55940813a240215910336ad7bec2
+> https://gitlab.com/olliver/linux/-/commit/f36562f09b0185d403415864ef7218b46a742cdc
+> https://gitlab.com/olliver/linux/-/commit/66237fd97bc42d272602b01dc0cca541c619b2be
+> 
+> Which actually replaces silly calls like readx_poll_timeout(ioread32, ... .
+> 
+> Do you want me to (re-?)post this as a series? I can put your thunderbolt
+> (and your changes here) and post as one big series (or you can do the same
+> obviously).
 
-diff --git a/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts b/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts
-index 859973b..92ff7ee 100644
---- a/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts
-+++ b/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts
-@@ -44,6 +44,10 @@
- 	};
- };
- 
-+&dwc_0 {
-+	dr_mode = "host";
-+};
-+
- &pcie1_phy {
- 	status = "okay";
- };
-@@ -107,6 +111,14 @@
- 	clock-frequency = <32000>;
- };
- 
-+&usb_0_qmpphy {
-+	status = "okay";
-+};
-+
-+&usb_0_qusbphy {
-+	status = "okay";
-+};
-+
- &tlmm {
- 
- 	pcie_1_pin: pcie-1-state {
-@@ -173,6 +185,10 @@
- 	};
- };
- 
-+&usb3 {
-+	status = "okay";
-+};
-+
- &xo_board_clk {
- 	clock-frequency = <24000000>;
- };
+I believe the best course of action is to collect this series and your fix
+in your hands and send it as a material for Linux WWAN subsystem with Mika's
+Ack (if he has no objections). That said, let's wait for Mika's answer
+on this.
+
 -- 
-2.7.4
+With Best Regards,
+Andy Shevchenko
+
 
