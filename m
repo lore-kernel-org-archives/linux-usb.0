@@ -2,332 +2,122 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1433C76188
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Apr 2023 08:56:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 909B7C77B78
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Apr 2023 08:57:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237312AbjDEI4y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Apr 2023 04:56:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52078 "EHLO
+        id S237389AbjDEI5l (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Apr 2023 04:57:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237156AbjDEI4x (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Apr 2023 04:56:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C8F619A3;
-        Wed,  5 Apr 2023 01:56:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 922FD624FF;
-        Wed,  5 Apr 2023 08:56:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6FA9C4339B;
-        Wed,  5 Apr 2023 08:56:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680685010;
-        bh=/KfvjCzvgYkaAu1HIMxMzJAKnYLwttbLrbgub4uLoT4=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=JOYvBlPCUoLJOaXfQC6YOMmxcvjqZ8e1CGw0+pJvUHaYSsqAuH0mfd5UPfJtQUCDe
-         F9CjnRzXOWNQqMphdzOkVk2A9bgc8gi9cdJfphiJmaV3gNvcUyN/Xz2o1EY1Rx3Jm9
-         YI9wzaj0tNEIk93VYHoEvNFehr15c9ZIQA6aGYnyT8ZiFIAzjDeeiILoKpKkxkiJRE
-         zC6M1xDdnRkXADnt9Ckuw2ATVEfXzlMoS71qMYwvggDKcUS2TzG1Z7HNDLVJ+6Jpe8
-         yaaDRULKRf29pB3Rvlxe06MralH7FR3cu80rv1XNUroReOzaFXWXDRZIhrTzIm+5ZL
-         O1/WjPHBjIc1Q==
-Message-ID: <8884129b-8c73-df1e-e342-01defce0d407@kernel.org>
-Date:   Wed, 5 Apr 2023 11:56:45 +0300
+        with ESMTP id S237402AbjDEI5i (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Apr 2023 04:57:38 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F224B2710;
+        Wed,  5 Apr 2023 01:57:36 -0700 (PDT)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3357esut016445;
+        Wed, 5 Apr 2023 08:57:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=Dgg+OESJLWskkpR8sqfieVAvWfxCQ2M4CDXzU2Hn/Ys=;
+ b=bViZe9j1lPXFGhad1kwBMi8QN5iYzeS9AgRtnA9HR8g44uqr/j9R4LfJO60OrAVAzARK
+ p0xkH0J76F2I8s1RETXoh25d6Nz4uS5z4F5ktREL8HcsuHsnVaOO0U4bKZIB4owR5hxl
+ w4wDj62/G+v2twOLO3VjMgSzfBpz8xr9L/fRAWcTvzNv7+GOwUDzWYTCSFYBWF+sCw+g
+ SKvL2aSSEnkgS7MAlukNKwcKQl7aS3wSqoq0YzRcYK47fJmL3MVnDRWelmJMshM8LVQv
+ /F11C9TYnNjMAzj2fpVu77KrPfDjytMoS2zJeCfVIKc4lUhE4a053peM1nhnIVuWawc9 RA== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3prgveu6mk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 05 Apr 2023 08:57:05 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3358v4o8012738
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 5 Apr 2023 08:57:04 GMT
+Received: from varda-linux.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Wed, 5 Apr 2023 01:56:58 -0700
+From:   Varadarajan Narayanan <quic_varada@quicinc.com>
+To:     <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
+        <kishon@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <mturquette@baylibre.com>, <sboyd@kernel.org>,
+        <quic_wcheng@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>
+CC:     Varadarajan Narayanan <quic_varada@quicinc.com>
+Subject: [PATCH v6 1/8] dt-bindings: phy: qcom,qusb2: Document IPQ9574 compatible
+Date:   Wed, 5 Apr 2023 14:26:36 +0530
+Message-ID: <e5bfd373d562401cd6f483ad5273d452b58ffa8c.1680682939.git.quic_varada@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1680682939.git.quic_varada@quicinc.com>
+References: <cover.1680682939.git.quic_varada@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH 2/2] usb: dwc3: Support
- 'snps,gadget-keep-connect-sys-sleep' feature
-Content-Language: en-US
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "vigneshr@ti.com" <vigneshr@ti.com>, "srk@ti.com" <srk@ti.com>,
-        "r-gunasekaran@ti.com" <r-gunasekaran@ti.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20230321184346.dxmqwq5rcsc2otrj@synopsys.com>
- <20230321190458.6uqlbtyfh3hc6ilg@synopsys.com>
- <7db7eb59-68fc-b7b2-5a29-00b698f68cbb@kernel.org>
- <20230322173150.nscqyzwcrecxjuaa@synopsys.com>
- <20230323021737.pv2nrb2md54a5pdg@synopsys.com>
- <624243b4-3fb5-6e60-e324-8df6b853205f@kernel.org>
- <20230323205139.4on6vx555ohdec7y@synopsys.com>
- <4d2f628e-6adc-5190-61b3-cc9d61f34a84@kernel.org>
- <20230403233652.2exkx2ikifuo4m6h@synopsys.com>
- <75db038b-ec7b-80e5-2652-8c5d2a9e317a@kernel.org>
- <20230404215317.44j2cl3uhzdk3aty@synopsys.com>
-From:   Roger Quadros <rogerq@kernel.org>
-In-Reply-To: <20230404215317.44j2cl3uhzdk3aty@synopsys.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 7KKBv1QRhsY02Ixc9MpBpAMbrq8EwGFv
+X-Proofpoint-GUID: 7KKBv1QRhsY02Ixc9MpBpAMbrq8EwGFv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-05_05,2023-04-04_05,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=859
+ clxscore=1015 impostorscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0
+ suspectscore=0 malwarescore=0 spamscore=0 priorityscore=1501 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304050082
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Document the compatible string used for the qusb2 phy in IPQ9574.
 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Varadarajan Narayanan <quic_varada@quicinc.com>
 
-On 05/04/2023 00:53, Thinh Nguyen wrote:
-> On Tue, Apr 04, 2023, Roger Quadros wrote:
->>
->>
->> On 04/04/2023 02:37, Thinh Nguyen wrote:
->>> On Fri, Mar 31, 2023, Roger Quadros wrote:
->>>> Hi,
->>>>
->>>> On 23/03/2023 22:51, Thinh Nguyen wrote:
->>>>> On Thu, Mar 23, 2023, Roger Quadros wrote:
->>>>>>
->>>>>>
->>>>>> On 23/03/2023 04:17, Thinh Nguyen wrote:
->>>>>>> On Wed, Mar 22, 2023, Thinh Nguyen wrote:
->>>>>>>> On Wed, Mar 22, 2023, Roger Quadros wrote:
->>>>>>>>> On 21/03/2023 21:05, Thinh Nguyen wrote:
->>>>>>>>>> On Tue, Mar 21, 2023, Thinh Nguyen wrote:
->>>>>>>>>>> On Tue, Mar 21, 2023, Roger Quadros wrote:
->>>>>>>>>>>> Hi Thinh,
->>>>>>>>>>>>
->>>>>>>>>>>> On 20/03/2023 20:52, Thinh Nguyen wrote:
->>>>>>>>>>>>> Hi,
->>>>>>>>>>>>>
->>>>>>>>>>>>> On Mon, Mar 20, 2023, Roger Quadros wrote:
->>>>>>>>>>>>>> Implement 'snps,gadget-keep-connect-sys-sleep' property.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Do not stop the gadget controller and disconnect if this
->>>>>>>>>>>>>> property is present and we are connected to a USB Host.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Prevent System sleep if Gadget is not in USB suspend.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Signed-off-by: Roger Quadros <rogerq@kernel.org>
->>>>>>>>>>>>>> ---
->>>>>>>>>>>>>>  drivers/usb/dwc3/core.c   | 25 +++++++++++++++++++------
->>>>>>>>>>>>>>  drivers/usb/dwc3/core.h   |  2 ++
->>>>>>>>>>>>>>  drivers/usb/dwc3/gadget.c | 25 +++++++++++++++++++++++--
->>>>>>>>>>>>>>  3 files changed, 44 insertions(+), 8 deletions(-)
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
->>>>>>>>>>>>>> index 476b63618511..a47bbaa27302 100644
->>>>>>>>>>>>>> --- a/drivers/usb/dwc3/core.c
->>>>>>>>>>>>>> +++ b/drivers/usb/dwc3/core.c
->>>>>>>>>>>>>> @@ -1575,6 +1575,9 @@ static void dwc3_get_properties(struct dwc3 *dwc)
->>>>>>>>>>>>>>  	dwc->dis_split_quirk = device_property_read_bool(dev,
->>>>>>>>>>>>>>  				"snps,dis-split-quirk");
->>>>>>>>>>>>>>  
->>>>>>>>>>>>>> +	dwc->gadget_keep_connect_sys_sleep = device_property_read_bool(dev,
->>>>>>>>>>>>>> +				"snps,gadget-keep-connect-sys-sleep");
->>>>>>>>>>>>>> +
->>>>>>>>>>>>>>  	dwc->lpm_nyet_threshold = lpm_nyet_threshold;
->>>>>>>>>>>>>>  	dwc->tx_de_emphasis = tx_de_emphasis;
->>>>>>>>>>>>>>  
->>>>>>>>>>>>>> @@ -2027,14 +2030,20 @@ static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
->>>>>>>>>>>>>>  {
->>>>>>>>>>>>>>  	unsigned long	flags;
->>>>>>>>>>>>>>  	u32 reg;
->>>>>>>>>>>>>> +	int ret;
->>>>>>>>>>>>>>  
->>>>>>>>>>>>>>  	switch (dwc->current_dr_role) {
->>>>>>>>>>>>>>  	case DWC3_GCTL_PRTCAP_DEVICE:
->>>>>>>>>>>>>>  		if (pm_runtime_suspended(dwc->dev))
->>>>>>>>>>>>>>  			break;
->>>>>>>>>>>>>> -		dwc3_gadget_suspend(dwc);
->>>>>>>>>>>>>> +		ret = dwc3_gadget_suspend(dwc);
->>>>>>>>>>>>>> +		if (ret) {
->>>>>>>>>>>>>> +			dev_err(dwc->dev, "gadget not suspended: %d\n", ret);
->>>>>>>>>>>>>> +			return ret;
->>>>>>>>>>>>>> +		}
->>>>>>>>>>>>>>  		synchronize_irq(dwc->irq_gadget);
->>>>>>>>>>>>>> -		dwc3_core_exit(dwc);
->>>>>>>>>>>>>> +		if(!dwc->gadget_keep_connect_sys_sleep)
->>>>>>>>>>>>>> +			dwc3_core_exit(dwc);
->>>>>>>>>>>>>>  		break;
->>>>>>>>>>>>>>  	case DWC3_GCTL_PRTCAP_HOST:
->>>>>>>>>>>>>>  		if (!PMSG_IS_AUTO(msg) && !device_may_wakeup(dwc->dev)) {
->>>>>>>>>>>>>> @@ -2088,11 +2097,15 @@ static int dwc3_resume_common(struct dwc3 *dwc, pm_message_t msg)
->>>>>>>>>>>>>>  
->>>>>>>>>>>>>>  	switch (dwc->current_dr_role) {
->>>>>>>>>>>>>>  	case DWC3_GCTL_PRTCAP_DEVICE:
->>>>>>>>>>>>>> -		ret = dwc3_core_init_for_resume(dwc);
->>>>>>>>>>>>>> -		if (ret)
->>>>>>>>>>>>>> -			return ret;
->>>>>>>>>>>>>> +		if (!dwc->gadget_keep_connect_sys_sleep)
->>>>>>>>>>>>>> +		{
->>>>>>>>>>>>>> +			ret = dwc3_core_init_for_resume(dwc);
->>>>>>>>>>>>>> +			if (ret)
->>>>>>>>>>>>>> +				return ret;
->>>>>>>>>>>>>> +
->>>>>>>>>>>>>> +			dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_DEVICE);
->>>>>>>>>>>>>> +		}
->>>>>>>>>>>>>>  
->>>>>>>>>>>>>> -		dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_DEVICE);
->>>>>>>>>>>>>>  		dwc3_gadget_resume(dwc);
->>>>>>>>>>>>>>  		break;
->>>>>>>>>>>>>>  	case DWC3_GCTL_PRTCAP_HOST:
->>>>>>>>>>>>>> diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
->>>>>>>>>>>>>> index 582ebd9cf9c2..f84bac815bed 100644
->>>>>>>>>>>>>> --- a/drivers/usb/dwc3/core.h
->>>>>>>>>>>>>> +++ b/drivers/usb/dwc3/core.h
->>>>>>>>>>>>>> @@ -1328,6 +1328,8 @@ struct dwc3 {
->>>>>>>>>>>>>>  	unsigned		dis_split_quirk:1;
->>>>>>>>>>>>>>  	unsigned		async_callbacks:1;
->>>>>>>>>>>>>>  
->>>>>>>>>>>>>> +	unsigned		gadget_keep_connect_sys_sleep:1;
->>>>>>>>>>>>>> +
->>>>>>>>>>>>>>  	u16			imod_interval;
->>>>>>>>>>>>>>  
->>>>>>>>>>>>>>  	int			max_cfg_eps;
->>>>>>>>>>>>>> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
->>>>>>>>>>>>>> index 3c63fa97a680..8062e44f63f6 100644
->>>>>>>>>>>>>> --- a/drivers/usb/dwc3/gadget.c
->>>>>>>>>>>>>> +++ b/drivers/usb/dwc3/gadget.c
->>>>>>>>>>>>>> @@ -4572,12 +4572,23 @@ void dwc3_gadget_exit(struct dwc3 *dwc)
->>>>>>>>>>>>>>  int dwc3_gadget_suspend(struct dwc3 *dwc)
->>>>>>>>>>>>>>  {
->>>>>>>>>>>>>>  	unsigned long flags;
->>>>>>>>>>>>>> +	int link_state;
->>>>>>>>>>>>>>  
->>>>>>>>>>>>>>  	if (!dwc->gadget_driver)
->>>>>>>>>>>>>>  		return 0;
->>>>>>>>>>>>>>  
->>>>>>>>>>>>>> -	dwc3_gadget_run_stop(dwc, false, false);
->>>>>>>>>>>>>> +	if (dwc->gadget_keep_connect_sys_sleep && dwc->connected) {
->>>>>>>>>>>>>> +		link_state = dwc3_gadget_get_link_state(dwc);
->>>>>>>>>>>>>> +		/* Prevent PM Sleep if not in U3/L2 */
->>>>>>>>>>>>>> +		if (link_state != DWC3_LINK_STATE_U3)
->>>>>>>>>>>>>> +			return -EBUSY;
->>>>>>>>>>>>>> +
->>>>>>>>>>>>>> +		/* don't stop/disconnect */
->>>>>>>>>>>>>> +		dwc3_gadget_disable_irq(dwc);
->>>>>>>>>>>>>
->>>>>>>>>>>>> We shouldn't disable event interrupt here. What will happen if the
->>>>>>>>>>>>
->>>>>>>>>>>> Due to some reason, if I don't disable the event interrupts here then
->>>>>>>>>>>> after USB resume the USB controller is malfunctioning.
->>>>>>>>>>>> It no longer responds to any requests from Host.
->>>>>>>>>>>
->>>>>>>>>>> You should look into this. These events are important as they can tell
->>>>>>>>>>> whether the host initiates resume.
->>>>>>>>>>>
->>>>>>>>>>>>
->>>>>>>>>>>>> device is disconnected and reconnect to the host while the device is
->>>>>>>>>>>>> still in system suspend? The host would not be able to communicate with
->>>>>>>>>>>>> the device then.
->>>>>>>>>>>>
->>>>>>>>>>>> In the TI platform, The system is woken up on any VBUS/linestate change
->>>>>>>>>>>> and in dwc3_gadget_resume we enable the events again and check for pending
->>>>>>>>>>>> events. Is it pointless to check for pending events there?
->>>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> It seems fragile for the implementation to be dependent on platform
->>>>>>>>>>> specific feature right?
->>>>>>>>>>>
->>>>>>>>>>> Also, what will happen in a typical case when the host puts the device
->>>>>>>>>>> in suspend and initiates resume while the device is in system suspend
->>>>>>>>>>> (and stay in suspend over a period of time)? There is no VBUS change.
->>>>>>>>>>> There will be problem if host detects no response from device in time.
->>>>>>>>>>>
->>>>>>>>>>> Don't we need these events to wakeup the device?
->>>>>>>>>
->>>>>>>>> That's why the TI implementation has line-state change detection to
->>>>>>>>> detect a USB resume. We are doing a out-of-band wake-up. The wake up
->>>>>>>>> events are configured in the wrapper driver (dwc3-am62.c).
->>>>>>>>>
->>>>>>>>> Do you know of any dwc3 implementation that uses in-band mechanism
->>>>>>>>> to wake up the System. i.e. it relies on events enabled in DEVTEN register?
->>>>>>>>>
->>>>>>>>
->>>>>>>> We rely on PME. The PME is generated from the PMU of the usb controller
->>>>>>>> when it detects a resume. If your platform supports hibernation and if
->>>>>>>> the resume signal is connected to the lower layer power manager of your
->>>>>>>> device, then you can wakeup the system one level at a time. For example,
->>>>>>>> if your device is a pci device, that wakeup signal would tie to the pci
->>>>>>>> power manager, waking up the pci layer before waking up the core of the
->>>>>>>> usb controller. That's how the host wakes up the host system (e.g. from
->>>>>>>> remote wakeup). For this to work, we expect something similar on the
->>>>>>>> device side.
->>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> We may not be able to suspend everything in system suspend for this
->>>>>>>>>> case. I'm thinking of treating these events as if they are PME to wakeup
->>>>>>>>>> the device, but they are not the same. It may not be simple to handle
->>>>>>>>>> this. The lower layers may need to stay awake for the dwc3 to handle
->>>>>>>>>> these events. Hm... it gets a bit complicated.
->>>>>>>>>
->>>>>>>>> As we are going into suspend, we are not really in a position to handle any
->>>>>>>>> (DEVTEN) events till we have fully resumed.
->>>>>>>>> So yes, we need to rely on platform specific implementation to wake
->>>>>>>>> the System on any USB event.
->>>>>>>>>
->>>>>>>>
->>>>>>>> You may be able to detect vbus change through the connector controller.
->>>>>>>> However, the usb controller is the one that detects host resume. What
->>>>>>>> platform specific implementation do you have outside of the usb
->>>>>>>> controller do you have to get around that?
->>>>>>>>
->>>>>>>> I'm not sure if your platform supports hibernation or if the PME signal
->>>>>>>> on your platform can wakeup the system, but currently dwc3 driver
->>>>>>>> doesn't handle hibernation (device side). If there's no hibernation,
->>>>>>>> there's no PME.
->>>>>>
->>>>>> No, in this TI SoC, hibernation feature is not supported in the dwc3 core.
->>>>>>
->>>>>>>>
->>>>>>>
->>>>>>> Actually, I think the dwc3 core is still on during system suspend for
->>>>>>> you right? Then I think we can use the wakeup event to wakeup system
->>>>>>> suspend on host resume? You can ignore about PME in this case. You may
->>>>>>> need to look into what needs stay awake to allow for handling of the
->>>>>>> dwc3 event.
->>>>>>
->>>>>> But in SoC deep-sleep state, all clocks to the dwc3 core are stopped.
->>>>>> So I'm not sure if dwc3 events will work.
->>>>>>
->>>>>
->>>>> Right, you need to keep those clocks running to detect host resume.
->>>>> There's still some power saving through the dwc3 controller's handling
->>>>> in suspend. You may have some limited power saving from other suspended
->>>>> devices on your setup. However, I don't think we can expect the platform
->>>>> to go into deep-sleep and also handle host resume.
->>>>
->>>> Why not? if the PHY can detect the host resume and wake up the SoC it will
->>>> work right?
->>>>
->>>
->>> Hm... I supposed it may be possible. But it may need some unconventional
->>> design? The dwc3 controller is currently registered to the phy. For that
->>> to work, your phy needs to be able to talk to both the dwc3 controller
->>> and some other controller (equivalent to dwc3 PMU) that manages
->>> power/interrupt. The dwc3 controller would need to relinquish control to
->>> this other phy controller on suspend. The phy driver would then be able
->>> to assert interrupt waking up the system on resume sigal detection,
->>> which in turn relinquish control to the dwc3 controller. All of this has
->>> to work while the phy signaling remains synchronized with the dwc3
->>> controller.
->>
->> My understanding is that all this is taken care by PHY integration design with
->> DWC3 core on the TI SoC.
->>
->>>
->>> From the patches you sent, I don't see the changes necesssary for this
->>> to work. If there is something that I'm missing, please also note it or
->>> add it here to the series.
->>
->> There is nothing more as the details are taken care by PHY logic and
->> necessary integration with DWC3.
->>
->> For the PHY wake-up programming details you have already checked this series [1].
->>
->> [1] - https://urldefense.com/v3/__https://lore.kernel.org/all/20230316131226.89540-1-rogerq@kernel.org/__;!!A4F2R9G_pg!ayqpaWwnWIO7SKktk4kI2EJLwDTIv2nYYCgBGHUlt56KTzeYkDEdq2Q5ZvZFsuCWIlcXGET230YY5J3y_sHV$ 
->>
-> 
-> I may have misunderstood your platform implementation. My understanding
-> is that it can only detect VBUS and that it can only resume on VBUS
-> valid.
-> 
-> Does the "LINESTATE" here gets asserted if say there's a LFPS detection?
+---
+ Changes in v5:
+	- Undo v4 changes
 
-Yes. The wake up logic on the SoC is snooping the UTMI lines from the PHY and on any
-change it can detect and wake up the SoC.
+ Changes in v4:
+	- Remove constraints not applicable to IPQ9574
 
-cheers,
--roger
+ Changes in v3:
+	- Maintain the proper sorted order
+
+ Changes in v2:
+	- Moved ipq6018 to the proper place and placed ipq9574
+	  next to it as suggested by Dmitry
+---
+ Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml
+index 543c1a2..95eecba 100644
+--- a/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml
+@@ -18,13 +18,14 @@ properties:
+     oneOf:
+       - items:
+           - enum:
++              - qcom,ipq6018-qusb2-phy
+               - qcom,ipq8074-qusb2-phy
++              - qcom,ipq9574-qusb2-phy
+               - qcom,msm8953-qusb2-phy
+               - qcom,msm8996-qusb2-phy
+               - qcom,msm8998-qusb2-phy
+               - qcom,qcm2290-qusb2-phy
+               - qcom,sdm660-qusb2-phy
+-              - qcom,ipq6018-qusb2-phy
+               - qcom,sm4250-qusb2-phy
+               - qcom,sm6115-qusb2-phy
+       - items:
+-- 
+2.7.4
+
