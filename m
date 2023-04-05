@@ -2,94 +2,95 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2B8EC761AF
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Apr 2023 09:28:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37E03C77B6C
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Apr 2023 09:32:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237656AbjDEJ24 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Apr 2023 05:28:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54522 "EHLO
+        id S237677AbjDEJcm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Apr 2023 05:32:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237518AbjDEJ2c (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Apr 2023 05:28:32 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53DE2E64;
-        Wed,  5 Apr 2023 02:28:04 -0700 (PDT)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5F040100015;
-        Wed,  5 Apr 2023 09:27:55 +0000 (UTC)
-From:   Bastien Nocera <hadess@hadess.net>
-To:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH v2] USB: core: Fix docs warning caused by wireless_status feature
-Date:   Wed,  5 Apr 2023 11:27:54 +0200
-Message-Id: <20230405092754.36579-1-hadess@hadess.net>
-X-Mailer: git-send-email 2.40.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S237790AbjDEJc1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Apr 2023 05:32:27 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB53761A5
+        for <linux-usb@vger.kernel.org>; Wed,  5 Apr 2023 02:31:51 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id e82-20020a25e755000000b00b8bc7958739so4044457ybh.22
+        for <linux-usb@vger.kernel.org>; Wed, 05 Apr 2023 02:31:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1680687098;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z/f7k2pCQfyKc9i/c1APoOdFbnqMktgzwaYI9MvzI7I=;
+        b=ekKxX2C34tJMVaSXEvswV0dn6KXZYLxQfRnib0ncGtIcCdhLZO6fp2nRbolxeyWGzA
+         AYVX07eNPDMYwUsG3dP9BPeP2e5BeikACMPWKsdDgc9PBzoPPBBUTk13ZhX6F2+JKfY6
+         0OD8NNIJRYP47IGm3P76WE55/EhcYUESreY4vB7hWrB4RXU2uyx6p/zbGqbRv9IrZT1o
+         3SX29/CnmHD0LUzKLULvlZPEIAsp9DmlVdWIbFIOTDAi41BBAkSO3R3dHc62ZaimoKx5
+         DMZ56/BJN9X5Vfs7MNZwyOpTZ1qU4u2jyV1QMMmjqflFOkckrT5g9iMG32sRJt8BUZ1F
+         xtPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680687098;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z/f7k2pCQfyKc9i/c1APoOdFbnqMktgzwaYI9MvzI7I=;
+        b=PHEIXq+KVAjYlRjW48AvEt9mRwSRFPVpRdljPFh5uQW2UWTvcbTvY8koAeSxzEjTJM
+         L+O5i+LkzBFomvIgOuujtUrJvG9DVIIkwdEKo58EgkAh33tNiRgdliuZXYSEEEwijTaF
+         Y8Uk4BU0rIe9OFijctMge9sXlMz4N2breDS/Jc6V94NX59gO7hbs6P3b8Rw6qaXKMpMF
+         wDpYk8vRMMjSk2TurtSuqKYEFWGApgXt629Jk/GTlwuuJjIRA9mQBT8jHcn9+s166+Tx
+         +eTaY4F0q8fKkpKxdxTdSGPI/QO4B4Y4UWpYLuc7q3ghBgsxA4twd0OPROcEHLgQJEz3
+         z4Sg==
+X-Gm-Message-State: AAQBX9flaHaMlOQloiUvPIaqH9xGi1+TdCFwogi3Bu/FPQVrUx3qyycv
+        7NWSRsl42js3ZP0Uw3vJE8cTg4vbQ7Y=
+X-Google-Smtp-Source: AKy350aKsyRuBxaFkts/Dkw/YAKF8fPlfRHIbx10T2+rN8xaLh+uXq86LvxxLKF39pNGTOckwR/zSyrRIDs=
+X-Received: from badhri.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:6442])
+ (user=badhri job=sendgmr) by 2002:a81:ad04:0:b0:544:5aa0:e212 with SMTP id
+ l4-20020a81ad04000000b005445aa0e212mr3163443ywh.6.1680687097844; Wed, 05 Apr
+ 2023 02:31:37 -0700 (PDT)
+Date:   Wed,  5 Apr 2023 09:31:33 +0000
+In-Reply-To: <20230405093133.1858140-1-badhri@google.com>
+Mime-Version: 1.0
+References: <20230405093133.1858140-1-badhri@google.com>
+X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
+Message-ID: <20230405093133.1858140-2-badhri@google.com>
+Subject: [PATCH v1 2/2] usb: gadget: udc: core: Prevent redundant calls to pullup
+From:   Badhri Jagan Sridharan <badhri@google.com>
+To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
+        colin.i.king@gmail.com, xuetao09@huawei.com,
+        quic_eserrao@quicinc.com, water.zhangjiantao@huawei.com,
+        peter.chen@freescale.com, balbi@ti.com
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, Badhri Jagan Sridharan <badhri@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix wrongly named 'dev' parameter in doc block, should have been iface:
-drivers/usb/core/message.c:1939: warning: Function parameter or member 'iface' not described in 'usb_set_wireless_status'
-drivers/usb/core/message.c:1939: warning: Excess function parameter 'dev' description in 'usb_set_wireless_status'
+usb_gadget_connect calls gadget->ops->pullup without
+checking whether gadget->connected was previously set.
+Make this symmetric to usb_gadget_disconnect by returning
+early if gadget->connected is already set.
 
-And fix missing struct member doc in kernel API, and reorder to
-match struct:
-include/linux/usb.h:270: warning: Function parameter or member 'wireless_status_work' not described in 'usb_interface'
+Cc: stable@vger.kernel.org
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Link: https://lore.kernel.org/linux-next/20230405114807.5a57bf46@canb.auug.org.au/T/#t
-Fixes: 0a4db185f078 ("USB: core: Add API to change the wireless_status")
-Signed-off-by: Bastien Nocera <hadess@hadess.net>
+Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+Fixes: 5a1da544e572 ("usb: gadget: core: do not try to disconnect gadget if it is not connected")
 ---
-Added missing link and sob, thanks to bentiss for the quick review
+ drivers/usb/gadget/udc/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
- drivers/usb/core/message.c | 2 +-
- include/linux/usb.h        | 6 ++++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index 7930dca84616..7c7f88ca4f62 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -1926,7 +1926,7 @@ static void __usb_wireless_status_intf(struct work_struct *ws)
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index 890f92cb6344..7eeaf7dbb350 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -708,6 +708,9 @@ int usb_gadget_connect(struct usb_gadget *gadget)
+ 		goto out;
+ 	}
  
- /**
-  * usb_set_wireless_status - sets the wireless_status struct member
-- * @dev: the device to modify
-+ * @iface: the interface to modify
-  * @status: the new wireless status
-  *
-  * Set the wireless_status struct member to the new value, and emit
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index a48eeec62a66..56f4758f3c31 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -203,14 +203,16 @@ enum usb_wireless_status {
-  *	following a reset or suspend operation it doesn't support.
-  * @authorized: This allows to (de)authorize individual interfaces instead
-  *	a whole device in contrast to the device authorization.
-+ * @wireless_status: if the USB device uses a receiver/emitter combo, whether
-+ *	the emitter is connected.
-+ * @wireless_status_work: Used for scheduling wireless status changes
-+ * 	from atomic context.
-  * @dev: driver model's view of this device
-  * @usb_dev: if an interface is bound to the USB major, this will point
-  *	to the sysfs representation for that device.
-  * @reset_ws: Used for scheduling resets from atomic context.
-  * @resetting_device: USB core reset the device, so use alt setting 0 as
-  *	current; needs bandwidth alloc after reset.
-- * @wireless_status: if the USB device uses a receiver/emitter combo, whether
-- *	the emitter is connected.
-  *
-  * USB device drivers attach to interfaces on a physical device.  Each
-  * interface encapsulates a single high level function, such as feeding
++	if (gadget->connected)
++		goto out;
++
+ 	if (gadget->deactivated) {
+ 		/*
+ 		 * If gadget is deactivated we only save new state.
 -- 
-2.40.0
+2.40.0.348.gf938b09366-goog
 
