@@ -2,94 +2,82 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8424CC7619A
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Apr 2023 08:59:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 897AFC761AF
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Apr 2023 09:03:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237230AbjDEI7n (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Apr 2023 04:59:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57504 "EHLO
+        id S237505AbjDEJDe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Apr 2023 05:03:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236486AbjDEI7l (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Apr 2023 04:59:41 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC42A55B4;
-        Wed,  5 Apr 2023 01:59:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680685149; x=1712221149;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u4O5ehGBLPBte6x414yZg/CsErbhx48+S52oonQLnw0=;
-  b=kQE+Hrn6ecz+Fet9ltcXJtkpkD9wKWWq5j4UL3JDZoWS3Fn0VZftn0e1
-   kAKB2t81sSejeWnOu7KkRjhLBHeQqoLc+f9Fj+u8Z+2ejSY9AvJjTGVJD
-   MCKOmB2vQn1I169YDqgb7brXk+Pwc7rT5EpM2XVUibjKMTPITtpreOcUz
-   3iRbY1pJVQBX81vD8pXAJI7/2UprTJmxxigUnI7qe6p+cn3N+kv2kXx0c
-   8mxXVN4cSq1yqhPjP52vLqnjh0cxtCcQzD+Ts07QGvRGfyVZWx0YW3T/3
-   s21h1OARvVdJzCoYRZVVdWqZCscfdPcQUfrRe/6nMeU8RD6nmt23DRZgs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="344118169"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="344118169"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 01:58:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="1016403555"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="1016403555"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga005.fm.intel.com with ESMTP; 05 Apr 2023 01:58:17 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pjyy7-00Cl8Y-1a;
-        Wed, 05 Apr 2023 11:58:15 +0300
-Date:   Wed, 5 Apr 2023 11:58:15 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Olliver Schinagl <oliver@schinagl.nl>
-Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
+        with ESMTP id S237156AbjDEJDd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Apr 2023 05:03:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21130E72;
+        Wed,  5 Apr 2023 02:03:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A86956232B;
+        Wed,  5 Apr 2023 09:03:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C66D2C433D2;
+        Wed,  5 Apr 2023 09:03:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680685411;
+        bh=AreqL9r3Yew0sS4T15gu7pKjtnVtIobuhUST+Klm1yw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HoiMD4ktg4vcT8DaHpg95N0uDYOIuwAtTu2tfk+coIc2mMWV6gChq++iSqy5GykFX
+         HsPr8Dfx6UHNDwBRT5AOUI1VEZr549y6Ej+TP7escZ2cXIw8oILL7x+eaOybITT5rl
+         xD50WscOk53x55uLD1MX3jI0CW6KoWP4hm/rbhn5pr52oA7Ar7lIAh0ME6Q9OIQRR2
+         2bWp4TYd8i3s17V7Mv4qpDVmINkt4yHhGLXaszEz6Z9HrWUZFqneAmiYmAkXVuvT/V
+         kJDAVELtV17iGrnfjzO+EvHHJsvDzmL+oMHSyBoXILjYpc88XGh7hqUoB6aPruoF7A
+         jC6d0+RFBprLg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan+linaro@kernel.org>)
+        id 1pjz3h-0001uw-Vn; Wed, 05 Apr 2023 11:04:02 +0200
+From:   Johan Hovold <johan+linaro@kernel.org>
+To:     Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Oliver Neukum <oneukum@suse.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Udipto Goswami <quic_ugoswami@quicinc.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>
-Subject: Re: [PATCH v1 1/2] iopoll: Introduce ioreadXX_poll_timeout() macros
-Message-ID: <ZC04J30xQTVPJ1ho@smile.fi.intel.com>
-References: <20230330141413.25569-1-andriy.shevchenko@linux.intel.com>
- <3a348abc-d1f3-364f-88de-a0012fbc0fde@schinagl.nl>
+        Johan Hovold <johan+linaro@kernel.org>, stable@vger.kernel.org
+Subject: [PATCH] xhci: fix debugfs register accesses while suspended
+Date:   Wed,  5 Apr 2023 11:03:42 +0200
+Message-Id: <20230405090342.7363-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3a348abc-d1f3-364f-88de-a0012fbc0fde@schinagl.nl>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Mar 31, 2023 at 10:12:31AM +0200, Olliver Schinagl wrote:
-> On 30-03-2023 16:14, Andy Shevchenko wrote:
+Wire up the debugfs regset device pointer so that the controller is
+resumed before accessing registers to avoid crashing or locking up if it
+happens to be runtime suspended.
 
-...
+Fixes: 02b6fdc2a153 ("usb: xhci: Add debugfs interface for xHCI driver")
+Cc: stable@vger.kernel.org # 4.15: 30332eeefec8: debugfs: regset32: Add Runtime PM support
+Cc: stable@vger.kernel.org # 4.15
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+---
+ drivers/usb/host/xhci-debugfs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> But I actually have a small addendum for this series, as it will break
-> `drivers/net/wwan/t7xx/t7xx_dpmaif.c` due to a redefinition (yeah I know).
-> 
-> So I have:
-> https://gitlab.com/olliver/linux/-/commit/c9e591f2dabb2dbaeceebee61fa70b70fdbffc2a
-> https://gitlab.com/olliver/linux/-/commit/41e0f8c08a1c55940813a240215910336ad7bec2
-> https://gitlab.com/olliver/linux/-/commit/f36562f09b0185d403415864ef7218b46a742cdc
-> https://gitlab.com/olliver/linux/-/commit/66237fd97bc42d272602b01dc0cca541c619b2be
-> 
-> Which actually replaces silly calls like readx_poll_timeout(ioread32, ... .
-> 
-> Do you want me to (re-?)post this as a series? I can put your thunderbolt
-> (and your changes here) and post as one big series (or you can do the same
-> obviously).
-
-I believe the best course of action is to collect this series and your fix
-in your hands and send it as a material for Linux WWAN subsystem with Mika's
-Ack (if he has no objections). That said, let's wait for Mika's answer
-on this.
-
+diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
+index 0bc7fe11f749..99baa60ef50f 100644
+--- a/drivers/usb/host/xhci-debugfs.c
++++ b/drivers/usb/host/xhci-debugfs.c
+@@ -133,6 +133,7 @@ static void xhci_debugfs_regset(struct xhci_hcd *xhci, u32 base,
+ 	regset->regs = regs;
+ 	regset->nregs = nregs;
+ 	regset->base = hcd->regs + base;
++	regset->dev = hcd->self.controller;
+ 
+ 	debugfs_create_regset32((const char *)rgs->name, 0444, parent, regset);
+ }
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.2
 
