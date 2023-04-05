@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 504DFC7619A
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Apr 2023 14:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5816C76188
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Apr 2023 14:11:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238145AbjDEOLN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Apr 2023 10:11:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50556 "EHLO
+        id S238534AbjDEOLP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Apr 2023 10:11:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232562AbjDEOKr (ORCPT
+        with ESMTP id S238160AbjDEOKr (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Apr 2023 10:10:47 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 758443595
-        for <linux-usb@vger.kernel.org>; Wed,  5 Apr 2023 07:10:19 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82F9959D0
+        for <linux-usb@vger.kernel.org>; Wed,  5 Apr 2023 07:10:20 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pk3q4-0003FD-W1; Wed, 05 Apr 2023 16:10:17 +0200
+        id 1pk3q5-0003G8-NJ; Wed, 05 Apr 2023 16:10:17 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pk3q3-009Abb-Ry; Wed, 05 Apr 2023 16:10:15 +0200
+        id 1pk3q5-009Abz-2C; Wed, 05 Apr 2023 16:10:17 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pk3q2-00AmTm-PP; Wed, 05 Apr 2023 16:10:14 +0200
+        id 1pk3q4-00AmUF-CU; Wed, 05 Apr 2023 16:10:16 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Bin Liu <b-liu@ti.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 01/10] usb: musb: da8xx: Convert to platform remove callback returning void
-Date:   Wed,  5 Apr 2023 16:10:00 +0200
-Message-Id: <20230405141009.3400693-2-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 09/10] usb: musb: tusb6010: Convert to platform remove callback returning void
+Date:   Wed,  5 Apr 2023 16:10:08 +0200
+Message-Id: <20230405141009.3400693-10-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230405141009.3400693-1-u.kleine-koenig@pengutronix.de>
 References: <20230405141009.3400693-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1589; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=9aNEuY5OUAI+bGd77FghSJhGtgSDG4h2uQbuqPjqi3A=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkLYEx2P9s6ehdU4JQPG6/dgqSVIXmMWp5C83xt LpcyQEBlOOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZC2BMQAKCRCPgPtYfRL+ TlG+B/0Sqts44CAEbUr+SeVXq/1yBCZut1rIkHkK+ZtjHSQYdgpCSLpyCAjg9t1h97UBkSRxPt7 ls5NdFMms+/OdYNnj27f6tQnwBOfTgAqn2QYTIQgB3wG9GGGu5SKa3xW3Rn5RZDK3Mln+hzsvH8 KC8gYwdRuLzoai5wGTrXIoNusg6p2mjUcPnOwasCLi7ET7lDzW17Wfyx7l5zL20QIiZXs4bvmlz af8C5EZificSCVlDaATMYXibMkk4+aa7IYEKd9cm9b/poR1OOhx3awW28KnzX1OXReo3CQcqa36 /gD1TFWHTNlgI/+DYZvlCyRsJ/4F+5b7Ffrx6yHGgW2AniDf
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1486; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=P2Rr3wxJ8RtCwrVv8C67f+927sxLjVnIvdqFJiIrgD4=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkLYE610yxluT1n7rHPvoOFhGLs/MFXP1T0Psym SUQvNoSZyKJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZC2BOgAKCRCPgPtYfRL+ TnZYB/982d1elPkzqHwjPiU9kIwZKVlJiw+XLG4iW+UUjLfnxWpBfVvhx9bchKHtgs3zzaqzlfV ZAvK+tgXpvAkd43nR63xSOs084uMdu2pWrfbMNEcYaoQzLQLSLZ83MPROYjqwhVpYSac4n1ULpv jX3J8oqNKLahAD2z5RVZGwyIUU4uJvVFjeY/YrFUYZqx1nojdTUU+32H0IwHX+1oOf2tHhcT9e6 XV48HLYKqT0IR6XiYtOVUS67JARXs+GiFnu2w0qA4/j0iH6P/ybxZAzbI7VSpKSLGfucDZ4egdA z0kebBwLY0JjHV/m1YPANT08fX27iRV2lwkADbdkp3+29Mun
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -63,38 +63,35 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/usb/musb/da8xx.c | 6 ++----
+ drivers/usb/musb/tusb6010.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/musb/da8xx.c b/drivers/usb/musb/da8xx.c
-index d47e5c94587b..912e32b78ac6 100644
---- a/drivers/usb/musb/da8xx.c
-+++ b/drivers/usb/musb/da8xx.c
-@@ -576,14 +576,12 @@ static int da8xx_probe(struct platform_device *pdev)
- 	return ret;
+diff --git a/drivers/usb/musb/tusb6010.c b/drivers/usb/musb/tusb6010.c
+index 5609b4e84d40..a1f29dbc62e6 100644
+--- a/drivers/usb/musb/tusb6010.c
++++ b/drivers/usb/musb/tusb6010.c
+@@ -1258,19 +1258,17 @@ static int tusb_probe(struct platform_device *pdev)
+ 	return 0;
  }
  
--static int da8xx_remove(struct platform_device *pdev)
-+static void da8xx_remove(struct platform_device *pdev)
+-static int tusb_remove(struct platform_device *pdev)
++static void tusb_remove(struct platform_device *pdev)
  {
- 	struct da8xx_glue		*glue = platform_get_drvdata(pdev);
+ 	struct tusb6010_glue		*glue = platform_get_drvdata(pdev);
  
  	platform_device_unregister(glue->musb);
- 	usb_phy_generic_unregister(glue->usb_phy);
+ 	usb_phy_generic_unregister(glue->phy);
 -
 -	return 0;
  }
  
- #ifdef CONFIG_PM_SLEEP
-@@ -626,7 +624,7 @@ MODULE_DEVICE_TABLE(of, da8xx_id_table);
- 
- static struct platform_driver da8xx_driver = {
- 	.probe		= da8xx_probe,
--	.remove		= da8xx_remove,
-+	.remove_new	= da8xx_remove,
+ static struct platform_driver tusb_driver = {
+ 	.probe		= tusb_probe,
+-	.remove		= tusb_remove,
++	.remove_new	= tusb_remove,
  	.driver		= {
- 		.name	= "musb-da8xx",
- 		.pm = &da8xx_pm_ops,
+ 		.name	= "musb-tusb",
+ 	},
 -- 
 2.39.2
 
