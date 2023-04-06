@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E01FC77B70
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Apr 2023 13:56:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C86EDC7618D
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Apr 2023 13:56:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238793AbjDFN4A (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Apr 2023 09:56:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33834 "EHLO
+        id S238656AbjDFNz7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Apr 2023 09:55:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237436AbjDFNz6 (ORCPT
+        with ESMTP id S236554AbjDFNz6 (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Apr 2023 09:55:58 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB4D7D9A;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FF4683CE;
         Thu,  6 Apr 2023 06:55:57 -0700 (PDT)
 Received: from jupiter.universe (dyndsl-091-248-189-216.ewe-ip-backbone.de [91.248.189.216])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: sre)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9F5E666031C4;
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id BF18C66031C7;
         Thu,  6 Apr 2023 14:55:55 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
         s=mail; t=1680789355;
-        bh=2/b7fnBYB9tfIRfdA8hbgFbYJXG7VEGgEbFn0/+ybOs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=AkWVVjJmnECaY3BGS0UO8rAGgvbEzSP7eV/1j3SPO7cPN/M34UV/c69hLpA5FcG3Z
-         QqErf6JAK8Y4Wq2OrzAHIMz2glqCVipeOIR2MSPoIxhYnpNChJQfCQqmlhx9F6PEvn
-         exAqHs0oFHDw5yeaVFCicg6C0+vLQ3nqaa3mgXqC1uw6XJRsLdz4ONXCfSSI2JdHlt
-         SKfYjybBgPNqMpoGTo4npdCZAb1XpnQfT+Tn8F7qNkomh64DtKBVUAZCTE12uroMPp
-         riigSEWEddT0XykmJAefRoxWLj3Uvm/9gWp98zRv7WQSw87GYb3GgxWb2TYwyrmkkq
-         hbHy+LxBl7//Q==
+        bh=2xzVk10bLnRIinh3EylqLxL0KlAjJyUAKhmLqVYA9wE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=DXd0xrj9CIppu2p/zkb3ClUVMn39n7QaID9rYSRVOMk7ei5c0Vw4xvzLNNzxI6zhg
+         +IuFkyi3VmMv/A2uY3dE8nad2U58//ORyHl+iQhc3SBTPliSNVAZciem6uoyLg6FRq
+         Q61OcO3C6Aeb+ivnIsXC4JpktXp2VsvK1JFfQT2CvAMiAWMVA0LpI4/fgJFPxzPjdi
+         5ILDaW/T122Q1/xykBgnpc+YOeIfmqeNSmZGuf57TFKqwCTLlUiSX1GB47Apq/wf6X
+         +fM0HfJzHpZ7hSetn1WLZ0Vc0nr3WPlN9TV07Fc30Z/gzlYqjZVBClyT3xPvSl0WIu
+         Dx0EymEFvw2Qg==
 Received: by jupiter.universe (Postfix, from userid 1000)
-        id E681A4807E1; Thu,  6 Apr 2023 15:55:52 +0200 (CEST)
+        id EA6974807E3; Thu,  6 Apr 2023 15:55:52 +0200 (CEST)
 From:   Sebastian Reichel <sebastian.reichel@collabora.com>
 To:     Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -41,46 +41,41 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Sebastian Reichel <sebastian.reichel@collabora.com>,
-        kernel@collabora.com
-Subject: [PATCHv1 0/3] generic-ohci/ehci: add RK3588 support
-Date:   Thu,  6 Apr 2023 15:55:49 +0200
-Message-Id: <20230406135552.23980-1-sebastian.reichel@collabora.com>
+        kernel@collabora.com,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCHv1 2/3] dt-bindings: usb: Add RK3588 EHCI
+Date:   Thu,  6 Apr 2023 15:55:51 +0200
+Message-Id: <20230406135552.23980-3-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230406135552.23980-1-sebastian.reichel@collabora.com>
+References: <20230406135552.23980-1-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Add compatible for RK3588 EHCI. As far as I know it's fully
+compatible with generic-ehci.
 
-This increases the max. allowed clocks for generic-ohci from 3 to 4.
-On RK3588 a total of 4 clocks is required to access the OHCI registers.
-EHCI already supports 4 clocks.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+ Documentation/devicetree/bindings/usb/generic-ehci.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Changes since PATCHv2:
- * https://lore.kernel.org/all/20230404145350.45388-1-sebastian.reichel@collabora.com/
- * Added Krzysztof's Ack to the EHCI binding update
- * Changed OHCI binding update according to Krzysztof's feedback
-
-Changes since PATCHv1:
- * https://lore.kernel.org/all/20230331163148.5863-1-sebastian.reichel@collabora.com/
- * changed cover-letter subject
- * Add Alan's Acked-by to the driver patch increasing the clock count
- * Update bindings, adding rockchip,rk3588-ohci and rockchip,rk3588-ehci compatibles
-
--- Sebastian
-
-Sebastian Reichel (3):
-  dt-bindings: usb: Add RK3588 OHCI
-  dt-bindings: usb: Add RK3588 EHCI
-  usb: host: ohci-platform: increase max clock number to 4
-
- .../devicetree/bindings/usb/generic-ehci.yaml  |  1 +
- .../devicetree/bindings/usb/generic-ohci.yaml  | 18 +++++++++++++++++-
- drivers/usb/host/ohci-platform.c               |  2 +-
- 3 files changed, 19 insertions(+), 2 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+index 050cfd5acdaa..01bfbc6ded5c 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+@@ -61,6 +61,7 @@ properties:
+               - ibm,476gtr-ehci
+               - nxp,lpc1850-ehci
+               - qca,ar7100-ehci
++              - rockchip,rk3588-ehci
+               - snps,hsdk-v1.0-ehci
+               - socionext,uniphier-ehci
+           - const: generic-ehci
 -- 
 2.39.2
 
