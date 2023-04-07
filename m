@@ -2,44 +2,43 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 705BAC6FD1D
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Apr 2023 08:30:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8D2FC77B76
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Apr 2023 08:30:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240107AbjDGIaD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 Apr 2023 04:30:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44256 "EHLO
+        id S240211AbjDGIaF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 Apr 2023 04:30:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239780AbjDGI3y (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Apr 2023 04:29:54 -0400
+        with ESMTP id S240103AbjDGI3z (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Apr 2023 04:29:55 -0400
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6532AF25;
-        Fri,  7 Apr 2023 01:29:49 -0700 (PDT)
-X-UUID: 576754fad51e11edb6b9f13eb10bd0fe-20230407
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C79F7AF16;
+        Fri,  7 Apr 2023 01:29:51 -0700 (PDT)
+X-UUID: 59331cd8d51e11edb6b9f13eb10bd0fe-20230407
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=N09cAwcaHlqM3x5RvXqAyDDVVPSor4fraHJ/xFed9PM=;
-        b=lHQvkWD0XDTZ49xx+7kgxHidQ+IE8LMRU6f9YRcVdTHm/fUAKUCvjQKlM7uVWaXScRtWRTXNSg9UXVYhtK3qNB8bYCyP1+Rai+A1CjmmCVLgk9qQtdbECtKxnBU39R3jAhjcDqaMQIQwsrYzNvmd1voxTn+0MaE984+0bZB7S9k=;
-X-CID-CACHE: Type:Local,Time:202304071629+08,HitQuantity:1
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=MXDZyqSe2ygGKCK9vMp4xkEXiEytY57YZV2sVuSYXpc=;
+        b=SY1NZcTgW2NyRWJrFZ23AKRAogJAg8HGWAkHSrq8FifHeaKFJh9/2mDvP4xJ8CQtQrhPcv+a9j+/CJZJO5lsCOd8oipkDmpsu+789tnXm+7OfufZVM2U/yaFG9853TmTNWsgaApBtIVlVCr9m8PB5C0nrr1TMPKYce3NVXKYXrk=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22,REQID:50995b94-cc9d-4da8-9986-d5bd4a7bd53d,IP:0,U
-        RL:0,TC:0,Content:-5,EDM:0,RT:1,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-        :release,TS:-4
-X-CID-META: VersionHash:120426c,CLOUDID:4734a02a-564d-42d9-9875-7c868ee415ec,B
+X-CID-O-INFO: VERSION:1.1.22,REQID:70724903-91e9-4194-b69d-77284ccd9a65,IP:0,U
+        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:-5
+X-CID-META: VersionHash:120426c,CLOUDID:2c180ff8-ddba-41c3-91d9-10eeade8eac7,B
         ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
         RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
-X-UUID: 576754fad51e11edb6b9f13eb10bd0fe-20230407
+X-UUID: 59331cd8d51e11edb6b9f13eb10bd0fe-20230407
 Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 440793704; Fri, 07 Apr 2023 16:29:41 +0800
+        with ESMTP id 1013184450; Fri, 07 Apr 2023 16:29:44 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Fri, 7 Apr 2023 16:29:40 +0800
+ 15.2.1118.25; Fri, 7 Apr 2023 16:29:42 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Fri, 7 Apr 2023 16:29:40 +0800
+ 15.2.1118.25 via Frontend Transport; Fri, 7 Apr 2023 16:29:42 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>
@@ -53,9 +52,9 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         Tianping Fang <tianping.fang@mediatek.com>
-Subject: [PATCH v2 3/7] usb: mtu3: fix kernel panic at qmu transfer done irq handler
-Date:   Fri, 7 Apr 2023 16:29:33 +0800
-Message-ID: <20230407082937.14558-3-chunfeng.yun@mediatek.com>
+Subject: [PATCH v2 6/7] dt-bindings: usb: mtu3: add two optional clocks
+Date:   Fri, 7 Apr 2023 16:29:36 +0800
+Message-ID: <20230407082937.14558-6-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230407082937.14558-1-chunfeng.yun@mediatek.com>
 References: <20230407082937.14558-1-chunfeng.yun@mediatek.com>
@@ -67,65 +66,38 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When handle qmu transfer irq, it will unlock @mtu->lock before give back
-request, if another thread handle disconnect event at the same time, and
-try to disable ep, it may lock @mtu->lock and free qmu ring, then qmu
-irq hanlder may get a NULL gpd, avoid the KE by checking gpd's value before
-handling it.
-
-e.g.
-qmu done irq on cpu0                 thread running on cpu1
-
-qmu_done_tx()
-  handle gpd [0]
-    mtu3_requ_complete()        mtu3_gadget_ep_disable()
-      unlock @mtu->lock
-        give back request         lock @mtu->lock
-                                    mtu3_ep_disable()
-                                      mtu3_gpd_ring_free()
-                                   unlock @mtu->lock
-      lock @mtu->lock
-    get next gpd [1]
-
-[1]: goto [0] to handle next gpd, and next gpd may be NULL.
+Add optional clock 'xhci_ck' and 'frmcnt_ck';
+Add optional property "assigned-clock" and "assigned-clock-parents";
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-v2: fix typo suggested by AngeloGioacchino
+v2: remove assigned-clocks* properties suggested by Rob
 ---
- drivers/usb/mtu3/mtu3_qmu.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/mtu3/mtu3_qmu.c b/drivers/usb/mtu3/mtu3_qmu.c
-index 6be4977a5db5..3d77408e3133 100644
---- a/drivers/usb/mtu3/mtu3_qmu.c
-+++ b/drivers/usb/mtu3/mtu3_qmu.c
-@@ -210,6 +210,7 @@ static struct qmu_gpd *advance_enq_gpd(struct mtu3_gpd_ring *ring)
- 	return ring->enqueue;
- }
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+index d2655173e108..3d403d944453 100644
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+@@ -66,6 +66,8 @@ properties:
+       - description: Reference clock used by low power mode etc
+       - description: Mcu bus clock for register access
+       - description: DMA bus clock for data transfer
++      - description: DRD controller clock
++      - description: Frame count clock
  
-+/* @dequeue may be NULL if ring is unallocated or freed */
- static struct qmu_gpd *advance_deq_gpd(struct mtu3_gpd_ring *ring)
- {
- 	if (ring->dequeue < ring->end)
-@@ -522,7 +523,7 @@ static void qmu_done_tx(struct mtu3 *mtu, u8 epnum)
- 	dev_dbg(mtu->dev, "%s EP%d, last=%p, current=%p, enq=%p\n",
- 		__func__, epnum, gpd, gpd_current, ring->enqueue);
+   clock-names:
+     minItems: 1
+@@ -74,6 +76,8 @@ properties:
+       - const: ref_ck
+       - const: mcu_ck
+       - const: dma_ck
++      - const: xhci_ck
++      - const: frmcnt_ck
  
--	while (gpd != gpd_current && !GET_GPD_HWO(gpd)) {
-+	while (gpd && gpd != gpd_current && !GET_GPD_HWO(gpd)) {
- 
- 		mreq = next_request(mep);
- 
-@@ -561,7 +562,7 @@ static void qmu_done_rx(struct mtu3 *mtu, u8 epnum)
- 	dev_dbg(mtu->dev, "%s EP%d, last=%p, current=%p, enq=%p\n",
- 		__func__, epnum, gpd, gpd_current, ring->enqueue);
- 
--	while (gpd != gpd_current && !GET_GPD_HWO(gpd)) {
-+	while (gpd && gpd != gpd_current && !GET_GPD_HWO(gpd)) {
- 
- 		mreq = next_request(mep);
- 
+   phys:
+     description:
 -- 
 2.18.0
 
