@@ -2,99 +2,116 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB4BAC77B72
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Apr 2023 06:24:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0DDCC6FD1D
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Apr 2023 06:26:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237881AbjDGGYR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 Apr 2023 02:24:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49580 "EHLO
+        id S238453AbjDGG0A convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 Apr 2023 02:26:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231508AbjDGGYP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Apr 2023 02:24:15 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEE8A93F9;
-        Thu,  6 Apr 2023 23:24:13 -0700 (PDT)
-X-UUID: ce3d5e24d50c11edb6b9f13eb10bd0fe-20230407
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=fFgSXku1gJ5kM0KbL7xUA6gFtwXSCJvnf202HNaLfRM=;
-        b=rnC1+BvGH7pi2poqB3Pa4F/tOnqYttCaqb3+7/xsvG36EWB9Kpsl0kWX6ro5b+0+2NhAr2fMnh7ENULsOU8sGJDyYSyuIPNJiuAamQFqo6G64I1eRPldPN0YTD9g93oQ812nOWqq0ZNBCH6hvnYrrtw6a9b3UCalQCK+DafOoGs=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22,REQID:368ec8b2-ed87-4880-89bd-ef0f10cf7ec2,IP:0,U
-        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-        :release,TS:-5
-X-CID-META: VersionHash:120426c,CLOUDID:39cd9b2a-564d-42d9-9875-7c868ee415ec,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-UUID: ce3d5e24d50c11edb6b9f13eb10bd0fe-20230407
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 449092663; Fri, 07 Apr 2023 14:24:09 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Fri, 7 Apr 2023 14:24:08 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Fri, 7 Apr 2023 14:24:08 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Tianping Fang <tianping.fang@mediatek.com>
-Subject: [PATCH v2 1/2] dt-bindings: usb: mtk-xhci: add an optional frame count clock
-Date:   Fri, 7 Apr 2023 14:24:05 +0800
-Message-ID: <20230407062406.12575-1-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S231508AbjDGGZ5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Apr 2023 02:25:57 -0400
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 018405B88;
+        Thu,  6 Apr 2023 23:25:56 -0700 (PDT)
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 3376OZFy8005152, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 3376OZFy8005152
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+        Fri, 7 Apr 2023 14:24:35 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Fri, 7 Apr 2023 14:24:20 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Fri, 7 Apr 2023 14:24:20 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02]) by
+ RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02%5]) with mapi id
+ 15.01.2375.007; Fri, 7 Apr 2023 14:24:20 +0800
+From:   Hayes Wang <hayeswang@realtek.com>
+To:     Douglas Anderson <dianders@chromium.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+CC:     =?iso-8859-1?Q?Andr=E9_Apitzsch?= <git@apitzsch.eu>,
+        =?iso-8859-1?Q?Bj=F8rn_Mork?= <bjorn@mork.no>,
+        David Ober <dober6023@gmail.com>,
+        Jean-Francois Le Fillatre <jflf_kernel@gmx.com>,
+        "Sven van Ashbrook" <svenva@chromium.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: RE: [PATCH] r8152: Add __GFP_NOWARN to big allocations
+Thread-Topic: [PATCH] r8152: Add __GFP_NOWARN to big allocations
+Thread-Index: AQHZaOX5MJJBdKWQZ0S+wy/WHuNvFK8fXNhg
+Date:   Fri, 7 Apr 2023 06:24:20 +0000
+Message-ID: <1922af354f7548f0878821b3f0692640@realtek.com>
+References: <20230406171411.1.I84dbef45786af440fd269b71e9436a96a8e7a152@changeid>
+In-Reply-To: <20230406171411.1.I84dbef45786af440fd269b71e9436a96a8e7a152@changeid>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.22.228.6]
+x-kse-serverinfo: RTEXMBS04.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add optional clock 'frmcnt_ck' used on 4nm or advanced process SoC
+> From: Douglas Anderson <dianders@chromium.org>
+[...]
+> When memory is a little tight on my system, it's pretty easy to see
+> warnings that look like this.
+> 
+>   ksoftirqd/0: page allocation failure: order:3,
+> mode:0x40a20(GFP_ATOMIC|__GFP_COMP),
+> nodemask=(null),cpuset=/,mems_allowed=0
+>   ...
+>   Call trace:
+>    dump_backtrace+0x0/0x1e8
+>    show_stack+0x20/0x2c
+>    dump_stack_lvl+0x60/0x78
+>    dump_stack+0x18/0x38
+>    warn_alloc+0x104/0x174
+>    __alloc_pages+0x588/0x67c
+>    alloc_rx_agg+0xa0/0x190 [r8152 ...]
+>    r8152_poll+0x270/0x760 [r8152 ...]
+>    __napi_poll+0x44/0x1ec
+>    net_rx_action+0x100/0x300
+>    __do_softirq+0xec/0x38c
+>    run_ksoftirqd+0x38/0xec
+>    smpboot_thread_fn+0xb8/0x248
+>    kthread+0x134/0x154
+>    ret_from_fork+0x10/0x20
+> 
+> On a fragmented system it's normal that order 3 allocations will
+> sometimes fail, especially atomic ones. The driver handles these
+> failures fine and the WARN just creates spam in the logs for this
+> case. The __GFP_NOWARN flag is exactly for this situation, so add it
+> to the allocation.
+> 
+> NOTE: my testing is on a 5.15 system, but there should be no reason
+> that this would be fundamentally different on a mainline kernel.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
-v2: based the patch:
-    https://patchwork.kernel.org/project/linux-mediatek/patch/20230403191850.374839-1-krzysztof.kozlowski@linaro.org/
----
- Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+Acked-by: Hayes Wang <hayeswang@realtek.com>
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-index 1b0dfaa6b3dd..f2f926cf4039 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-@@ -77,6 +77,7 @@ properties:
-       - description: Mcu bus clock for register access
-       - description: DMA bus clock for data transfer
-       - description: controller clock
-+      - description: frame count clock
- 
-   clock-names:
-     minItems: 1
-@@ -86,6 +87,7 @@ properties:
-       - const: mcu_ck
-       - const: dma_ck
-       - const: xhci_ck
-+      - const: frmcnt_ck
- 
-   phys:
-     description:
--- 
-2.18.0
+Best Regards,
+Hayes
 
