@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5045FC77B72
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Apr 2023 15:19:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A957C7619A
+	for <linux-usb@archiver.kernel.org>; Wed, 12 Apr 2023 15:19:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231229AbjDLPTN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Apr 2023 11:19:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46840 "EHLO
+        id S231317AbjDLPTO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Apr 2023 11:19:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231304AbjDLPTF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Apr 2023 11:19:05 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDCDA8691;
-        Wed, 12 Apr 2023 08:19:02 -0700 (PDT)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33CCb4GR001837;
-        Wed, 12 Apr 2023 17:18:50 +0200
+        with ESMTP id S230400AbjDLPTK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Apr 2023 11:19:10 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88CA1449A;
+        Wed, 12 Apr 2023 08:19:05 -0700 (PDT)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33CCXURZ006584;
+        Wed, 12 Apr 2023 17:18:41 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=selector1;
- bh=xDGfgH0IVACI86pTdLBxzPG3hW0K++wCSS+2PKwBPTo=;
- b=h6u8spqVjmwGay8hebt7FLtZsDSk2xF0HVV0tTZxVYrrAEhbGZc4tq7mZgOL//ke5/xc
- GzGRzL5dAp8UC0c7AUXWll0doR+97Ipb/X0+EMHvke8LKawuBJUvA4Gar0hwg+QP3+JT
- DK6JrEY35hMQLt1CjdmzzRS6UN2xLr9gkM7sD2zIqmkQdQuDEkSHcjRvU6NZftGUXFVv
- aZWjORsCn5Irj2wB1yKP65tDJqIZqE53aV4fleoAuxkPJaSqyTi90txPAolorPenDqOM
- 1S6TftQgTTmGeeS5tm3/ldYtNPsotQOq+Dgo7yLlFBrODs4NKQVP7gBNqrzl8BqUyug6 sg== 
+ bh=VLsqmzEcW60e3Qq/TEUQNWAZdxJYDpoFVOTmc1FYyKw=;
+ b=QIVAmpxfWRvABFYtajv+FPDqk+yGa8yzehiE5p2XpAAcXmo9tBZmo6TMpGwhEsFCV9WV
+ qRnA3ZClPp7OQitcX36qnaj6xkYvsTr7XuI6CbM2BUVotsXk0B1coQyry14v8VFV7Oyc
+ aVdYhi3YWlKu6JoRWbUdJ7W+3fAfTLzrcpOavmVXqJLvSYi4F5V6vjnyUXD2pcwEtS7M
+ dOnrk7kStowt3PqG2OGJXuwvqXSsZKk/TEkn5sE4uq07yUbuJKqizflA4yVrp3p+OrWo
+ 95gVCuQFQhFZ+S1hEUMkoXxZbfstPjWBFb1AhCeJLXxF5/HB11vrb3a15SWAIHxCuQYz XA== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3pw8b0qya5-1
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3pwsgpak2x-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 12 Apr 2023 17:18:50 +0200
+        Wed, 12 Apr 2023 17:18:41 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0F46410003A;
-        Wed, 12 Apr 2023 17:18:43 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D789C100034;
+        Wed, 12 Apr 2023 17:18:40 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 08335218611;
-        Wed, 12 Apr 2023 17:18:43 +0200 (CEST)
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D10DF218612;
+        Wed, 12 Apr 2023 17:18:40 +0200 (CEST)
 Received: from localhost (10.48.1.102) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Wed, 12 Apr
- 2023 17:18:42 +0200
+ 2023 17:18:39 +0200
 From:   Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 To:     <hminas@synopsys.com>, <gregkh@linuxfoundation.org>,
         <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
@@ -49,9 +49,9 @@ CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <amelie.delaunay@foss.st.com>, <fabrice.gasnier@foss.st.com>
-Subject: [PATCH 4/4] ARM: dts: stm32: add USB OTG UTMI clock on stm32mp151
-Date:   Wed, 12 Apr 2023 17:18:31 +0200
-Message-ID: <20230412151831.3069211-5-fabrice.gasnier@foss.st.com>
+Subject: [PATCH 2/4] dt-bindings: usb: dwc2: add utmi optional clock
+Date:   Wed, 12 Apr 2023 17:18:29 +0200
+Message-ID: <20230412151831.3069211-3-fabrice.gasnier@foss.st.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230412151831.3069211-1-fabrice.gasnier@foss.st.com>
 References: <20230412151831.3069211-1-fabrice.gasnier@foss.st.com>
@@ -63,53 +63,40 @@ X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
  (10.75.129.70)
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-12_06,2023-04-12_01,2023-02-09_01
+ definitions=2023-04-12_07,2023-04-12_01,2023-02-09_01
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-It's needed on STM32MP15, when using the integrated full-speed PHY. This
-clock is an output of USBPHYC, and the HS USBPHYC is not attached as PHY
-in this case (managed directly by dwc2 ggpio glue):
-
-    &usbotg_hs {
-    	compatible = "st,stm32mp15-fsotg", "snps,dwc2";
-    	pinctrl-names = "default";
-    	pinctrl-0 = <&usbotg_hs_pins_a &usbotg_fs_dp_dm_pins_a>;
-    	vbus-supply = <&vbus_otg>;
-    	status = "okay";
-    };
-
-USBPHYC clock output must be used, so it can be properly enabled as a
-clock provider.
-
-Without this, currently, when the dualport High-Speed USBPHYC isn't
-requested by either USBH or OTG, it remains uninitialized when probing
-OTG: OTG configured with full-speed PHY isn't properly clocked, resulting
-in error log like:
-[    2.383138] dwc2 49000000.usb-otg: dwc2_core_reset: HANG! Soft Reset
-timeout GRSTCTL_CSFTRST.
+utmi clock is typically provided by PHY output. Add this optional clock,
+as the core could use other clocks depending on the SoC where it's used.
+This is needed on stm32mp15, when using the integrated full-speed PHY.
 
 Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 ---
- arch/arm/boot/dts/stm32mp151.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/devicetree/bindings/usb/dwc2.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/stm32mp151.dtsi b/arch/arm/boot/dts/stm32mp151.dtsi
-index 4e437d3f2ed6..b71767125bf9 100644
---- a/arch/arm/boot/dts/stm32mp151.dtsi
-+++ b/arch/arm/boot/dts/stm32mp151.dtsi
-@@ -1130,8 +1130,8 @@ sdmmc3: mmc@48004000 {
- 		usbotg_hs: usb-otg@49000000 {
- 			compatible = "st,stm32mp15-hsotg", "snps,dwc2";
- 			reg = <0x49000000 0x10000>;
--			clocks = <&rcc USBO_K>;
--			clock-names = "otg";
-+			clocks = <&rcc USBO_K>, <&usbphyc>;
-+			clock-names = "otg", "utmi_clk";
- 			resets = <&rcc USBO_R>;
- 			reset-names = "dwc2";
- 			interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
+diff --git a/Documentation/devicetree/bindings/usb/dwc2.yaml b/Documentation/devicetree/bindings/usb/dwc2.yaml
+index 371ba93f3ce5..6f3c2d319b9b 100644
+--- a/Documentation/devicetree/bindings/usb/dwc2.yaml
++++ b/Documentation/devicetree/bindings/usb/dwc2.yaml
+@@ -75,11 +75,14 @@ properties:
+     maxItems: 1
+ 
+   clocks:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 2
+ 
+   clock-names:
+     items:
+       - const: otg
++      - const: utmi_clk
++    minItems: 1
+ 
+   disable-over-current:
+     type: boolean
 -- 
 2.25.1
 
