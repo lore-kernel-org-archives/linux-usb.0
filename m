@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A957C7619A
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Apr 2023 15:19:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00E1BC77B6E
+	for <linux-usb@archiver.kernel.org>; Wed, 12 Apr 2023 15:19:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231317AbjDLPTO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Apr 2023 11:19:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46438 "EHLO
+        id S230367AbjDLPTT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Apr 2023 11:19:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230400AbjDLPTK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Apr 2023 11:19:10 -0400
+        with ESMTP id S230495AbjDLPTL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Apr 2023 11:19:11 -0400
 Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88CA1449A;
-        Wed, 12 Apr 2023 08:19:05 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3492C4202;
+        Wed, 12 Apr 2023 08:19:06 -0700 (PDT)
 Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33CCXURZ006584;
-        Wed, 12 Apr 2023 17:18:41 +0200
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33CCPPG2006667;
+        Wed, 12 Apr 2023 17:18:40 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=selector1;
- bh=VLsqmzEcW60e3Qq/TEUQNWAZdxJYDpoFVOTmc1FYyKw=;
- b=QIVAmpxfWRvABFYtajv+FPDqk+yGa8yzehiE5p2XpAAcXmo9tBZmo6TMpGwhEsFCV9WV
- qRnA3ZClPp7OQitcX36qnaj6xkYvsTr7XuI6CbM2BUVotsXk0B1coQyry14v8VFV7Oyc
- aVdYhi3YWlKu6JoRWbUdJ7W+3fAfTLzrcpOavmVXqJLvSYi4F5V6vjnyUXD2pcwEtS7M
- dOnrk7kStowt3PqG2OGJXuwvqXSsZKk/TEkn5sE4uq07yUbuJKqizflA4yVrp3p+OrWo
- 95gVCuQFQhFZ+S1hEUMkoXxZbfstPjWBFb1AhCeJLXxF5/HB11vrb3a15SWAIHxCuQYz XA== 
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=selector1;
+ bh=PX57JNcwvp07eFhn2E9eab0nHyYZ1zoB73DVeo39Wco=;
+ b=6kI8daGNHE5u1uhKBja5dnhTUWFUkF+zO94YG4KZaPqIZNFTJq1hKHlF+ZHb3nwqfzge
+ n9wZ9LGbwMwx9K9fegjfhL2IeeVrGEeITlPaoZ+z0lY9FhqyfDassAx4YZGzCDgck9tz
+ 7MK4NWIbT66CAmS3kUHHUYKun42IjUKLaZ1C+fW9EffbA5yGsGHVQkJoUJACC+XJM19I
+ qBu724jm4MPst/c7/nxt08eZMQZbcAt9hLBeWL2F8Xt47uhKFSdD6lqG/8LjL7/ZGE3l
+ qIddrLOALxSPp2VQQE5DNzdwJYnKgymRQ+gcTRf57dr/jUFs9+CIVJfhfWgdksD6Qegb 7w== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3pwsgpak2x-1
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3pwsgpak2t-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 12 Apr 2023 17:18:41 +0200
+        Wed, 12 Apr 2023 17:18:40 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D789C100034;
-        Wed, 12 Apr 2023 17:18:40 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B8F03100034;
+        Wed, 12 Apr 2023 17:18:38 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D10DF218612;
-        Wed, 12 Apr 2023 17:18:40 +0200 (CEST)
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B1662218612;
+        Wed, 12 Apr 2023 17:18:37 +0200 (CEST)
 Received: from localhost (10.48.1.102) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Wed, 12 Apr
- 2023 17:18:39 +0200
+ 2023 17:18:37 +0200
 From:   Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 To:     <hminas@synopsys.com>, <gregkh@linuxfoundation.org>,
         <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
@@ -49,12 +49,10 @@ CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <amelie.delaunay@foss.st.com>, <fabrice.gasnier@foss.st.com>
-Subject: [PATCH 2/4] dt-bindings: usb: dwc2: add utmi optional clock
-Date:   Wed, 12 Apr 2023 17:18:29 +0200
-Message-ID: <20230412151831.3069211-3-fabrice.gasnier@foss.st.com>
+Subject: [PATCH 0/4] usb: dwc2: add optional clock used on stm32mp15
+Date:   Wed, 12 Apr 2023 17:18:27 +0200
+Message-ID: <20230412151831.3069211-1-fabrice.gasnier@foss.st.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230412151831.3069211-1-fabrice.gasnier@foss.st.com>
-References: <20230412151831.3069211-1-fabrice.gasnier@foss.st.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -68,35 +66,23 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-utmi clock is typically provided by PHY output. Add this optional clock,
-as the core could use other clocks depending on the SoC where it's used.
-This is needed on stm32mp15, when using the integrated full-speed PHY.
+This series introduces an optional utmi clock that is used on stm32mp15,
+in particular when using integrated full-speed PHY, managed by GGPIO
+register.
+A pre-cursor change improves error handling in the platform code.
 
-Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
----
- Documentation/devicetree/bindings/usb/dwc2.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Fabrice Gasnier (4):
+  usb: dwc2: improve error handling in __dwc2_lowlevel_hw_enable
+  dt-bindings: usb: dwc2: add utmi optional clock
+  usb: dwc2: platform: add support for utmi optional clock
+  ARM: dts: stm32: add USB OTG UTMI clock on stm32mp151
 
-diff --git a/Documentation/devicetree/bindings/usb/dwc2.yaml b/Documentation/devicetree/bindings/usb/dwc2.yaml
-index 371ba93f3ce5..6f3c2d319b9b 100644
---- a/Documentation/devicetree/bindings/usb/dwc2.yaml
-+++ b/Documentation/devicetree/bindings/usb/dwc2.yaml
-@@ -75,11 +75,14 @@ properties:
-     maxItems: 1
- 
-   clocks:
--    maxItems: 1
-+    minItems: 1
-+    maxItems: 2
- 
-   clock-names:
-     items:
-       - const: otg
-+      - const: utmi_clk
-+    minItems: 1
- 
-   disable-over-current:
-     type: boolean
+ .../devicetree/bindings/usb/dwc2.yaml         |  5 ++-
+ arch/arm/boot/dts/stm32mp151.dtsi             |  4 +-
+ drivers/usb/dwc2/core.h                       |  2 +
+ drivers/usb/dwc2/platform.c                   | 37 ++++++++++++++++++-
+ 4 files changed, 43 insertions(+), 5 deletions(-)
+
 -- 
 2.25.1
 
