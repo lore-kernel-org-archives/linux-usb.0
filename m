@@ -2,77 +2,170 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6304C7619A
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Apr 2023 15:08:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D368C77B6F
+	for <linux-usb@archiver.kernel.org>; Wed, 12 Apr 2023 15:19:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230363AbjDLPIt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Apr 2023 11:08:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37360 "EHLO
+        id S230414AbjDLPTK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Apr 2023 11:19:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229713AbjDLPIs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Apr 2023 11:08:48 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 904691BB
-        for <linux-usb@vger.kernel.org>; Wed, 12 Apr 2023 08:08:47 -0700 (PDT)
-Received: (qmail 215973 invoked by uid 1000); 12 Apr 2023 11:08:46 -0400
-Date:   Wed, 12 Apr 2023 11:08:46 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     Greg KH <greg@kroah.com>, Hans de Goede <hdegoede@redhat.com>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/3] USB: core: Add routines for endpoint checks in old
- drivers
-Message-ID: <847a4775-f900-44e7-871e-eddb850b0aab@rowland.harvard.edu>
-References: <00000000000096e4f905f81b2702@google.com>
- <e382763c-cf33-4871-a761-1ac85ae36f27@rowland.harvard.edu>
- <8896f261-9602-4663-aa87-1feb9bf3ec0f@redhat.com>
- <2023040148-aground-cornbread-84e2@gregkh>
- <f764a19d-858e-408c-a5f5-d6fe7306c4cb@rowland.harvard.edu>
- <2023040544-cuddly-glancing-f577@gregkh>
- <dd2c8e8c-2c87-44ea-ba17-c64b97e201c9@rowland.harvard.edu>
- <f45ab17e-d66a-f64b-5dfa-ec292d311f52@suse.com>
+        with ESMTP id S229714AbjDLPTD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Apr 2023 11:19:03 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04F837DBF;
+        Wed, 12 Apr 2023 08:18:55 -0700 (PDT)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33CCK5gs012362;
+        Wed, 12 Apr 2023 17:18:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=selector1;
+ bh=RNINIw4nntSoyMexop9tmtpb4ycNWDpQqAjG61if2P4=;
+ b=CIFzkUDSDs3dPgki0dsMzDA5oldL+kUaosOveK85Gbs1xxyGbnLrLNWFZTnLZjuCLnDO
+ mLr1FhUbgiE0FZqmH5Gq+jsnkuatHuXTNJq2l924ksS3sSHVNmbPj3/URucpC5RAob7r
+ Ny9PBikZUaO+VcOZAj4wfRkhCcbuUDpUqONUUGm5xOYRcc9u+iLWQ6cddbpMDWatyza7
+ Xm80Kw2QbQUYIowUF9BHJbweG5CGB8eqO9p+Ejj35Mjt9ZAM3wlYpVPD+hO2wNGSHYf+
+ gFAbEe/gEoScnMhDmSQWagsiYhcvLDGypGMWHKWeD3p2Vvw7mmOOO6GzlQuvBAkZiz3i Hg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3pw7wp04ua-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 12 Apr 2023 17:18:42 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 63E94100034;
+        Wed, 12 Apr 2023 17:18:42 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5BE8A218612;
+        Wed, 12 Apr 2023 17:18:42 +0200 (CEST)
+Received: from localhost (10.48.1.102) by SHFDAG1NODE2.st.com (10.75.129.70)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Wed, 12 Apr
+ 2023 17:18:41 +0200
+From:   Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+To:     <hminas@synopsys.com>, <gregkh@linuxfoundation.org>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <alexandre.torgue@foss.st.com>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <amelie.delaunay@foss.st.com>, <fabrice.gasnier@foss.st.com>
+Subject: [PATCH 3/4] usb: dwc2: platform: add support for utmi optional clock
+Date:   Wed, 12 Apr 2023 17:18:30 +0200
+Message-ID: <20230412151831.3069211-4-fabrice.gasnier@foss.st.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230412151831.3069211-1-fabrice.gasnier@foss.st.com>
+References: <20230412151831.3069211-1-fabrice.gasnier@foss.st.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f45ab17e-d66a-f64b-5dfa-ec292d311f52@suse.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.48.1.102]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-12_06,2023-04-12_01,2023-02-09_01
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Apr 12, 2023 at 01:54:12PM +0200, Oliver Neukum wrote:
-> On 10.04.23 21:37, Alan Stern wrote:
-> 
-> Hi,
-> > To make this checking as simple as possible, we now add a couple of
-> > utility routines to the USB core.  usb_check_bulk_endpoints() and
-> > usb_check_int_endpoints() take an interface pointer together with a
-> > list of endpoint addresses (numbers and directions).  They check that
-> > the interface's current alternate setting includes endpoints with
-> > those addresses and that each of these endpoints has the right type:
-> > bulk or interrupt, respectively.
-> > 
-> > Although we already have usb_find_common_endpoints() and related
-> > routines meant for a similar purpose, they are not well suited for
-> > this kind of checking.  Those routines find endpoints of various
-> > kinds, but only one (either the first or the last) of each kind, and
-> > they don't verify that the endpoints' addresses agree with what the
-> > caller expects.
-> 
-> these will do the job. Yet this strikes me as unelegant. That is
-> if you define a data structure to match against, why not
-> add a pointer to it to struct usb_device_id and use that?
+Add support for the utmi clock. It's needed on STM32MP15, when using
+the integrated full-speed PHY. This clock is an output of USBPHYC, but
+HS USBPHYC is not attached as PHY in this case: Full-Speed PHY is directly
+managed in dwc2 glue, through GGPIO register. Typical DT when using FS PHY
+&usbotg_hs {
+	compatible = "st,stm32mp15-fsotg", "snps,dwc2";
+	pinctrl-names = "default";
+	pinctrl-0 = <&usbotg_hs_pins_a &usbotg_fs_dp_dm_pins_a>;
+	vbus-supply = <&vbus_otg>;
+	status = "okay";
+};
 
-Struct usb_device_id doesn't seem like the right place.  Struct 
-usb_driver would be more appropriate.  The drivers that need this have 
-only one entry in their match table, which means that drivers with large 
-match tables (which would require a lot of extra space for the new 
-pointers) don't need it.
+In this configuration, USBPHYC clock output must be defined, so it can
+be properly enabled as a clock provider:
+	clocks = <&rcc USBO_K>, <&usbphyc>;
+	clock-names = "otg", "utmi_clk";
 
-> Basically the table of endpoints you are creating is a description of
-> a device. Why add code for checking it to each probe() method
-> that needs it?
+Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+---
+ drivers/usb/dwc2/core.h     |  2 ++
+ drivers/usb/dwc2/platform.c | 20 +++++++++++++++++++-
+ 2 files changed, 21 insertions(+), 1 deletion(-)
 
-True, the checks could be centralized in usb_probe_interface().  What do 
-you think about doing it that way?
+diff --git a/drivers/usb/dwc2/core.h b/drivers/usb/dwc2/core.h
+index 40cf2880d7e5..0bb4c0c845bf 100644
+--- a/drivers/usb/dwc2/core.h
++++ b/drivers/usb/dwc2/core.h
+@@ -1003,6 +1003,7 @@ struct dwc2_hregs_backup {
+  * @ctrl_out_desc:	EP0 OUT data phase desc chain pointer
+  * @irq:		Interrupt request line number
+  * @clk:		Pointer to otg clock
++ * @utmi_clk:		Pointer to utmi_clk clock
+  * @reset:		Pointer to dwc2 reset controller
+  * @reset_ecc:          Pointer to dwc2 optional reset controller in Stratix10.
+  * @regset:		A pointer to a struct debugfs_regset32, which contains
+@@ -1065,6 +1066,7 @@ struct dwc2_hsotg {
+ 	void *priv;
+ 	int     irq;
+ 	struct clk *clk;
++	struct clk *utmi_clk;
+ 	struct reset_control *reset;
+ 	struct reset_control *reset_ecc;
+ 
+diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
+index c431ce6c119f..c4d3d63ebdc3 100644
+--- a/drivers/usb/dwc2/platform.c
++++ b/drivers/usb/dwc2/platform.c
+@@ -101,10 +101,16 @@ static int __dwc2_lowlevel_hw_enable(struct dwc2_hsotg *hsotg)
+ 	if (ret)
+ 		return ret;
+ 
++	if (hsotg->utmi_clk) {
++		ret = clk_prepare_enable(hsotg->utmi_clk);
++		if (ret)
++			goto err_dis_reg;
++	}
++
+ 	if (hsotg->clk) {
+ 		ret = clk_prepare_enable(hsotg->clk);
+ 		if (ret)
+-			goto err_dis_reg;
++			goto err_dis_utmi_clk;
+ 	}
+ 
+ 	if (hsotg->uphy) {
+@@ -129,6 +135,10 @@ static int __dwc2_lowlevel_hw_enable(struct dwc2_hsotg *hsotg)
+ 	if (hsotg->clk)
+ 		clk_disable_unprepare(hsotg->clk);
+ 
++err_dis_utmi_clk:
++	if (hsotg->utmi_clk)
++		clk_disable_unprepare(hsotg->utmi_clk);
++
+ err_dis_reg:
+ 	regulator_bulk_disable(ARRAY_SIZE(hsotg->supplies), hsotg->supplies);
+ 
+@@ -171,6 +181,9 @@ static int __dwc2_lowlevel_hw_disable(struct dwc2_hsotg *hsotg)
+ 	if (hsotg->clk)
+ 		clk_disable_unprepare(hsotg->clk);
+ 
++	if (hsotg->utmi_clk)
++		clk_disable_unprepare(hsotg->utmi_clk);
++
+ 	return regulator_bulk_disable(ARRAY_SIZE(hsotg->supplies), hsotg->supplies);
+ }
+ 
+@@ -247,6 +260,11 @@ static int dwc2_lowlevel_hw_init(struct dwc2_hsotg *hsotg)
+ 	if (IS_ERR(hsotg->clk))
+ 		return dev_err_probe(hsotg->dev, PTR_ERR(hsotg->clk), "cannot get otg clock\n");
+ 
++	hsotg->utmi_clk = devm_clk_get_optional(hsotg->dev, "utmi_clk");
++	if (IS_ERR(hsotg->utmi_clk))
++		return dev_err_probe(hsotg->dev, PTR_ERR(hsotg->utmi_clk),
++				     "cannot get utmi clock\n");
++
+ 	/* Regulators */
+ 	for (i = 0; i < ARRAY_SIZE(hsotg->supplies); i++)
+ 		hsotg->supplies[i].supply = dwc2_hsotg_supply_names[i];
+-- 
+2.25.1
 
-Alan Stern
