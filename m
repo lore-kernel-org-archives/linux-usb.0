@@ -2,106 +2,87 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 709F2C77B61
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Apr 2023 06:22:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 435F4C77B61
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Apr 2023 07:32:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229893AbjDMGWW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Apr 2023 02:22:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39450 "EHLO
+        id S229874AbjDMHce (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Apr 2023 03:32:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbjDMGWV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Apr 2023 02:22:21 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D66B61A1;
-        Wed, 12 Apr 2023 23:22:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681366940; x=1712902940;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cZESwgIlk1I8vfBOGAvQXzooT82QEWSameprF1BTFBU=;
-  b=MhmFIszDQD0M34YSpH8O82a+wpBihnwM9u/GyoirSDpnh+N/ItlzGJTj
-   r0VOAntdGEElDj39/nrRmTbLPOtURU54ZrQwgMEYvpMxBuLq9dTzhJFdJ
-   r1XN4EwYYmGRmFPj7OaWqEV21jYNJUxqktMCcOrEBdZSkjuTOgS/oOWXj
-   TCiYHL1SUtfBAhI/1TDRttOaMO4fzeSgoZiM9tOrkPS67sa7YZbLIGRw8
-   H9VKqvv17IcVT7Y9GKgya2b2S70fT+bvuKfqe6lGtKfhgqpz7G89wM5D4
-   IQ6kDaf6FMfq+nkMnAX/NefXxClG+OitVfSJ25iECR3kWGKHPbFjFesW3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="406936203"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="406936203"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 23:22:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="832996332"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="832996332"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 12 Apr 2023 23:22:16 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 13 Apr 2023 09:22:15 +0300
-Date:   Thu, 13 Apr 2023 09:22:15 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH] usb: typec: ucsi: don't print PPM init deferred errors
-Message-ID: <ZDeflxzawVNxhsL7@kuha.fi.intel.com>
-References: <20230412161734.3425090-1-fabrice.gasnier@foss.st.com>
+        with ESMTP id S229720AbjDMHcd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Apr 2023 03:32:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1601959F4;
+        Thu, 13 Apr 2023 00:32:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A64F663BED;
+        Thu, 13 Apr 2023 07:32:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 307F0C433D2;
+        Thu, 13 Apr 2023 07:32:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681371152;
+        bh=XX40GqrlZHaC4lD7qKSv+E3ST8OVF3r4Nh25ofwUock=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Q526+mwbu5mrRjg6ohbcA+2uI8ypqmuQOmv9PzvduT1FkVkGOPohRIcaayzD7GNc7
+         VW1jNZwmBC/ve327Js+1acgWSC0l1oYoPNHh4dZAwyKLn54PKtYjsVVsqamd8gv7lR
+         PXqh/afzB/24sRDJXggMGwl+Lh3VI1t3KmYdQLBntjzJD5poytISE8Aq37b1415Itg
+         iFkvOykoOCXOcT2nZos7uwAWOBY6N2GxvsKnuUe/fP//jTaFJ0S+9EOF8rXpl5NVk0
+         DG+3owZEQOlOpflfXgk9JrG3eM8/2dsF+PKiUZyQBRPLaOrT64li6Jmg38JqAc2WmL
+         jW4VNG5gBOXQw==
+Message-ID: <167e4a8c-3ebd-92b7-1481-947f08901f97@kernel.org>
+Date:   Thu, 13 Apr 2023 09:32:27 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230412161734.3425090-1-fabrice.gasnier@foss.st.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2 2/2] dt-bindings: usb: snps,dwc3: Add
+ 'snps,global-regs-starting-offset' quirk
+To:     Stanley Chang <stanley_chang@realtek.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>
+References: <20230412033006.10859-2-stanley_chang@realtek.com>
+ <20230413042503.4047-1-stanley_chang@realtek.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20230413042503.4047-1-stanley_chang@realtek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Apr 12, 2023 at 06:17:34PM +0200, Fabrice Gasnier wrote:
-> ucsi_init() may be deferred as usb_role_sw may be deferred in
-> ucsi_register_port(). This results in several PPM init failed (-517)
-> messages maybe printed several times upon boot, like on stm32mp135f-dk
-> board, until the role_switch driver gets probed.
+On 13/04/2023 06:25, Stanley Chang wrote:
+> Add a new 'snps,global-regs-starting-offset' DT to dwc3 core to remap
+> the global register start address
 > 
-> [   19.880945] dwc2 49000000.usb: supply vusb_d not found, using dummy regulator
-> [   19.887136] dwc2 49000000.usb: supply vusb_a not found, using dummy regulator
-> [   19.975432] ucsi-stm32g0-i2c 0-0053: PPM init failed (-517)
-> [   20.155746] dwc2 49000000.usb: EPs: 9, dedicated fifos, 952 entries in SPRAM
-> [   20.175429] ucsi-stm32g0-i2c 0-0053: PPM init failed (-517)
-> [   20.184242] dwc2 49000000.usb: DWC OTG Controller
+> The RTK DHC SoCs were designed the global register address offset at
+> 0x8100. The default address is at DWC3_GLOBALS_REGS_START (0xc100).
+> Therefore, add the property of device-tree to adjust this start address.
 > 
-> Adopt dev_err_probe() instead of dev_err(), to only print other errors.
-> Also print an error in case the wait count has expired.
-> 
-> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
+> Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
 > ---
->  drivers/usb/typec/ucsi/ucsi.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index f632350f6dcb..4d809e0d7761 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -1447,11 +1447,13 @@ static void ucsi_init_work(struct work_struct *work)
->  
->  	ret = ucsi_init(ucsi);
->  	if (ret)
-> -		dev_err(ucsi->dev, "PPM init failed (%d)\n", ret);
-> +		dev_err_probe(ucsi->dev, ret, "PPM init failed\n");
->  
->  	if (ret == -EPROBE_DEFER) {
-> -		if (ucsi->work_count++ > UCSI_ROLE_SWITCH_WAIT_COUNT)
-> +		if (ucsi->work_count++ > UCSI_ROLE_SWITCH_WAIT_COUNT) {
-> +			dev_err(ucsi->dev, "PPM init failed, stop trying\n");
->  			return;
-> +		}
->  
->  		queue_delayed_work(system_long_wq, &ucsi->work,
->  				   UCSI_ROLE_SWITCH_INTERVAL);
-> -- 
-> 2.25.1
+>  v1 to v2 change:
+> 1. Change the name of the property "snps,global-regs-starting-offset".
+> ---
 
--- 
-heikki
+Didn't you got already comment for this patch? How did you implement it?
+
+Also, I asked you multiple times:
+
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC.  It might happen, that command when run on an older
+kernel, gives you outdated entries.  Therefore please be sure you base
+your patches on recent Linux kernel.
+
+I don't understand why you ignore this.
+
+NAK, patch is not correct.
+
+Best regards,
+Krzysztof
+
