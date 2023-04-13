@@ -2,140 +2,83 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47AB4C77B6C
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Apr 2023 10:11:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0EDAC77B61
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Apr 2023 10:16:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230363AbjDMKLr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Apr 2023 06:11:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59742 "EHLO
+        id S230251AbjDMKQr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Apr 2023 06:16:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230362AbjDMKL0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Apr 2023 06:11:26 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E2E09ED1;
-        Thu, 13 Apr 2023 03:10:50 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 33DA9qNaA019713, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 33DA9qNaA019713
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-        Thu, 13 Apr 2023 18:09:52 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Thu, 13 Apr 2023 18:09:15 +0800
-Received: from RTEXH36506.realtek.com.tw (172.21.6.27) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 13 Apr 2023 18:09:14 +0800
-Received: from localhost.localdomain (172.21.252.101) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server id
- 15.1.2507.17 via Frontend Transport; Thu, 13 Apr 2023 18:09:14 +0800
-From:   Stanley Chang <stanley_chang@realtek.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-CC:     Stanley Chang <stanley_chang@realtek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        with ESMTP id S230010AbjDMKQT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Apr 2023 06:16:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DAC4193;
+        Thu, 13 Apr 2023 03:16:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 70C8463D52;
+        Thu, 13 Apr 2023 10:16:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 587F4C433D2;
+        Thu, 13 Apr 2023 10:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1681380974;
+        bh=cXVnl5hOaV/x7gJrapC/qeYJvy+2MGnRu/FYRWzZsag=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hQ2hOjJwfwl5urUWZd0yPBvgYS+Mxzw8zjPulTyR0+K9FrOm06HaLi2sfh7uy4BAK
+         h7SD6nVkZ2Cqpsl6DubH4CI64U0r+hEI56fRRgeNH0caR3Iw6RTHvvHHT6ncxCBl9Q
+         ntvKAjotdXz6XuU2lL5WIwZa4bmnCadgvCfzXiLI=
+Date:   Thu, 13 Apr 2023 12:16:12 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Stanley =?utf-8?B?Q2hhbmdb5piM6IKy5b63XQ==?= 
+        <stanley_chang@realtek.com>
+Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 1/2] usb: dwc3: core: add support for disabling High-speed park mode
-Date:   Thu, 13 Apr 2023 18:09:13 +0800
-Message-ID: <20230413100914.7890-1-stanley_chang@realtek.com>
-X-Mailer: git-send-email 2.40.0
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 2/2] dt-bindings: usb: snps,dwc3: Add
+ 'snps,parkmode-disable-hs-quirk' quirk
+Message-ID: <2023041318-gnarly-unsubtle-e51f@gregkh>
+References: <20230413085351.26808-1-stanley_chang@realtek.com>
+ <2023041346-shamrock-sterilize-9165@gregkh>
+ <6c2dae45c7ca490d889ddc7a0dab027f@realtek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6c2dae45c7ca490d889ddc7a0dab027f@realtek.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Setting the PARKMODE_DISABLE_HS bit in the DWC3_USB3_GUCTL1.
-When this bit is set to '1' all HS bus instances in park mode are disabled
+On Thu, Apr 13, 2023 at 09:36:58AM +0000, Stanley Chang[昌育德] wrote:
+> > This is not properly threaded with patch 1/2 for some reason, so our tools can
+> > not pick up the whole thread at once.  Please fix up your sending script, or
+> > just use git send-email directly.
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> > 
+> 
+> I send the patch by git send-email.
+> 
+> git send-email --cc="Stanley Chang <stanley_chang@realtek.com>" --to="Thinh Nguyen <Thinh.Nguyen@synopsys.com>" --cc-cmd='./scripts/get_maintainer.pl -norolestats v3-0001-usb-dwc3-core-add-support-for-disabling-High-spee.patch' --annotate v3-0001-usb-dwc3-core-add-support-for-disabling-High-spee.patch
+> 
+> git send-email --cc="Stanley Chang <stanley_chang@realtek.com>" --to="Thinh Nguyen <Thinh.Nguyen@synopsys.com>" --cc-cmd='./scripts/get_maintainer.pl -norolesats v3-0002-dt-bindings-usb-snps-dwc3-Add-snps-parkmode-disab.patch' --annotate v3-0002-dt-bindings-usb-snps-dwc3-Add-snps-parkmode-disab.patch
+> 
+> I don't know why it can't thread with 2 patches?
 
-For some USB wifi devices, if enable this feature it will reduce the
-performance. Therefore, add an option for disabling HS park mode by
-device-tree.
+Because the second invocation of git send-email knows nothing about the
+first.  As Krzysztof said, send both patches on the same command line.
 
-In Synopsys's dwc3 data book:
-In a few high speed devices when an IN request is sent within 900ns of the
-ACK of the previous packet, these devices send a NAK. When connected to
-these devices, if required, the software can disable the park mode if you
-see performance drop in your system. When park mode is disabled,
-pipelining of multiple packet is disabled and instead one packet at a time
-is requested by the scheduler. This allows up to 12 NAKs in a micro-frame
-and improves performance of these slow devices.
+> Do I need to resend v4 patch?
 
-Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
----
-v2 to v3 change:
-1. Add the comment message.
-2. cc the right maintainers.
----
- drivers/usb/dwc3/core.c | 5 +++++
- drivers/usb/dwc3/core.h | 4 ++++
- 2 files changed, 9 insertions(+)
+Yes, I can not take these as-is for this reason.
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 476b63618511..8fbc92a5f2cb 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1233,6 +1233,9 @@ static int dwc3_core_init(struct dwc3 *dwc)
- 		if (dwc->parkmode_disable_ss_quirk)
- 			reg |= DWC3_GUCTL1_PARKMODE_DISABLE_SS;
- 
-+		if (dwc->parkmode_disable_hs_quirk)
-+			reg |= DWC3_GUCTL1_PARKMODE_DISABLE_HS;
-+
- 		if (DWC3_VER_IS_WITHIN(DWC3, 290A, ANY) &&
- 		    (dwc->maximum_speed == USB_SPEED_HIGH ||
- 		     dwc->maximum_speed == USB_SPEED_FULL))
-@@ -1555,6 +1558,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
- 				"snps,resume-hs-terminations");
- 	dwc->parkmode_disable_ss_quirk = device_property_read_bool(dev,
- 				"snps,parkmode-disable-ss-quirk");
-+	dwc->parkmode_disable_hs_quirk = device_property_read_bool(dev,
-+				"snps,parkmode-disable-hs-quirk");
- 	dwc->gfladj_refclk_lpm_sel = device_property_read_bool(dev,
- 				"snps,gfladj-refclk-lpm-sel-quirk");
- 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 4743e918dcaf..30907ffcb3ec 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -263,6 +263,7 @@
- #define DWC3_GUCTL1_DEV_FORCE_20_CLK_FOR_30_CLK	BIT(26)
- #define DWC3_GUCTL1_DEV_L1_EXIT_BY_HW		BIT(24)
- #define DWC3_GUCTL1_PARKMODE_DISABLE_SS		BIT(17)
-+#define DWC3_GUCTL1_PARKMODE_DISABLE_HS		BIT(16)
- #define DWC3_GUCTL1_RESUME_OPMODE_HS_HOST	BIT(10)
- 
- /* Global Status Register */
-@@ -1102,6 +1103,8 @@ struct dwc3_scratchpad_array {
-  *			generation after resume from suspend.
-  * @parkmode_disable_ss_quirk: set if we need to disable all SuperSpeed
-  *			instances in park mode.
-+ * @parkmode_disable_hs_quirk: set if we need to disable all HishSpeed
-+ *			instances in park mode.
-  * @tx_de_emphasis_quirk: set if we enable Tx de-emphasis quirk
-  * @tx_de_emphasis: Tx de-emphasis value
-  *	0	- -6dB de-emphasis
-@@ -1318,6 +1321,7 @@ struct dwc3 {
- 	unsigned		dis_tx_ipgap_linecheck_quirk:1;
- 	unsigned		resume_hs_terminations:1;
- 	unsigned		parkmode_disable_ss_quirk:1;
-+	unsigned		parkmode_disable_hs_quirk:1;
- 	unsigned		gfladj_refclk_lpm_sel:1;
- 
- 	unsigned		tx_de_emphasis_quirk:1;
--- 
-2.34.1
+thanks,
 
+greg k-h
