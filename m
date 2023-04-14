@@ -2,34 +2,34 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31442C77B72
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Apr 2023 15:24:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AD1EC77B76
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Apr 2023 15:24:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230328AbjDNPYi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S230395AbjDNPYi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Fri, 14 Apr 2023 11:24:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43530 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbjDNPYh (ORCPT
+        with ESMTP id S230136AbjDNPYh (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 14 Apr 2023 11:24:37 -0400
 Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43D90AD29;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B15AD37;
         Fri, 14 Apr 2023 08:24:35 -0700 (PDT)
 Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mx.sberdevices.ru (Postfix) with ESMTP id 1D0375FD24;
-        Fri, 14 Apr 2023 18:24:33 +0300 (MSK)
+        by mx.sberdevices.ru (Postfix) with ESMTP id 211AC5FD26;
+        Fri, 14 Apr 2023 18:24:34 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1681485873;
-        bh=tOUyWscI9lZ1BfORK8wKAfGeDsR5jeAkMWXUSzV4nOo=;
+        s=mail; t=1681485874;
+        bh=C6RAhM5A4BPHpRvqPC3ioWTgfct9Luzmkm/GQUTL3y8=;
         h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-        b=CFdpljegFDGexcztw33NhE658VcGlcFo5wn3igYeJFqCtORsOzU1iJZtNx5OimR/Y
-         yrWTJo1YWhhrl+k6uGaY0UtI+OpMNNpWiDZoxhjzFUJ/Q5PK+Ra57awx4f5TUZNIzv
-         1ouylhk4YsGKFNyAtBKR2dLW1xkSnUEP9FnyRkFofutwcV4uyDLEZIAAY1l3cWXehw
-         hd6oIkmEoGKt4L2uEmlsUdSK5/mVTzLdzekjD/fDlr7Dit+h1uDMHIYZEoZfb6LqtS
-         ZLcSfn2SSLUPzZ5jCA/DCJi9HoDnbTYfRaukxs5vN3AGDjRiYc7J0mF1jkLj8R2oFx
-         p2KNLorzVL5zQ==
+        b=CkyiC5UmgoUazTCGzdnnbsZ1pUZ0e/fl8OQhoq4l4f4JFm6e1MN3YKe81/0NaZycv
+         2yUexAzAxh4o0hqFRzrMT2NFjbqywU3XnzTfdqI5tqKfPVfwKp9dFuCJ8/jsRUE+eM
+         qnBVd+4Ddbkwp8StXJqDlSvl1LZHA7bpgU3cAmZ9Q3EJrbOwKknyKA7gHxSkiHHh/N
+         eNmROGlk0ILOQNtPQjvGBTq4OvL0C7+R7Rf8DVBBMR/QX1BuKdCIE+CaX06aZZEww6
+         xoIy35K14SXnltaFUikrxeX/WTpDaCGhfmTiMfo89BtMWR8+FFqkkdfgoIYYg2t62M
+         tDm104Yj+iB4w==
 Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
         by mx.sberdevices.ru (Postfix) with ESMTP;
-        Fri, 14 Apr 2023 18:24:33 +0300 (MSK)
+        Fri, 14 Apr 2023 18:24:34 +0300 (MSK)
 From:   Dmitry Rokosov <ddrokosov@sberdevices.ru>
 To:     <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
         <krzysztof.kozlowski+dt@linaro.org>, <neil.armstrong@linaro.org>,
@@ -45,9 +45,9 @@ CC:     <yue.wang@amlogic.com>, <hanjie.lin@amlogic.com>,
         <linux-amlogic@lists.infradead.org>,
         <linux-phy@lists.infradead.org>,
         Dmitry Rokosov <ddrokosov@sberdevices.ru>
-Subject: [PATCH v1 1/5] phy: amlogic: during USB PHY clkin obtaining, enable it
-Date:   Fri, 14 Apr 2023 18:24:19 +0300
-Message-ID: <20230414152423.19842-2-ddrokosov@sberdevices.ru>
+Subject: [PATCH v1 3/5] dt-bindings: usb: dwc2: add support for Amlogic A1 SoC USB peripheral
+Date:   Fri, 14 Apr 2023 18:24:21 +0300
+Message-ID: <20230414152423.19842-4-ddrokosov@sberdevices.ru>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20230414152423.19842-1-ddrokosov@sberdevices.ru>
 References: <20230414152423.19842-1-ddrokosov@sberdevices.ru>
@@ -68,30 +68,26 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Previously, all Amlogic boards used the XTAL clock as the USB PHY input
-clock, and it did not need to be enabled as it was the default board
-clock. However, in new Amlogic SoCs such as the A1 family, USB PHY uses
-a gated clock, so it is necessary to enable this gated clock during
-probing.
+Provide the appropriate compatible string for the DWC2 IP that is found
+inside the Amlogic A1 SoC and used in peripheral mode.
 
 Signed-off-by: Dmitry Rokosov <ddrokosov@sberdevices.ru>
 ---
- drivers/phy/amlogic/phy-meson-g12a-usb2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/devicetree/bindings/usb/dwc2.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/phy/amlogic/phy-meson-g12a-usb2.c b/drivers/phy/amlogic/phy-meson-g12a-usb2.c
-index 9d1efa0d9394..26b99fbe1026 100644
---- a/drivers/phy/amlogic/phy-meson-g12a-usb2.c
-+++ b/drivers/phy/amlogic/phy-meson-g12a-usb2.c
-@@ -315,7 +315,7 @@ static int phy_meson_g12a_usb2_probe(struct platform_device *pdev)
- 	if (IS_ERR(priv->regmap))
- 		return PTR_ERR(priv->regmap);
- 
--	priv->clk = devm_clk_get(dev, "xtal");
-+	priv->clk = devm_clk_get_enabled(dev, "xtal");
- 	if (IS_ERR(priv->clk))
- 		return PTR_ERR(priv->clk);
- 
+diff --git a/Documentation/devicetree/bindings/usb/dwc2.yaml b/Documentation/devicetree/bindings/usb/dwc2.yaml
+index 371ba93f3ce5..f70be397dac0 100644
+--- a/Documentation/devicetree/bindings/usb/dwc2.yaml
++++ b/Documentation/devicetree/bindings/usb/dwc2.yaml
+@@ -53,6 +53,7 @@ properties:
+               - amlogic,meson8b-usb
+               - amlogic,meson-gxbb-usb
+               - amlogic,meson-g12a-usb
++              - amlogic,meson-a1-usb
+               - intel,socfpga-agilex-hsotg
+           - const: snps,dwc2
+       - const: amcc,dwc-otg
 -- 
 2.36.0
 
