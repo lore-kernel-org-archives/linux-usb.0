@@ -2,157 +2,104 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C97C77B6E
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Apr 2023 08:19:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68EFDC77B6E
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Apr 2023 08:42:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230033AbjDNITp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 14 Apr 2023 04:19:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57546 "EHLO
+        id S229894AbjDNImb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 14 Apr 2023 04:42:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230025AbjDNITn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 Apr 2023 04:19:43 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E590330C4;
-        Fri, 14 Apr 2023 01:19:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681460382; x=1712996382;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Z135BJM0WTm/8JKwrFBhTuBcWJHalDnImuqqKXx6vwU=;
-  b=MjZXY82xsjru8rokraaQ3JdoSfQDTaQsIY5CsCpHyt90ewAc8hEyCc1J
-   ymBUYayfkX5ffBALzCdd1QIh/onvCYRIWnf/9AnJ5Msxi85eMvCUz6mSK
-   ekybyyXDL6+jUCcRmLrb5G1B1XLRhwfvorw5OtRaaswYwyuCyObOia3nO
-   r0dyIiSDX5Amw4nz1KX/+ALeNmG9wuy+CjJnhzeD3h3N45KZdd6rAdIfD
-   TdbD0Rr38OAfzMdGEfCw8hPULT76XJyP3z9uuxUIZriyo66lPHpAYvBAd
-   n/euGLaBTwvEAY41KWsxu/ZnSOmr+OJ4NS/prEdVWL4laxDCRfGyWbXKY
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="343171472"
-X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="343171472"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 01:19:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="754376594"
-X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="754376594"
-Received: from unknown (HELO rajath-NUC10i7FNH..) ([10.223.165.88])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 01:19:40 -0700
-From:   Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
-To:     heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
-Subject: [PATCH v2] usb: typec: intel_pmc_mux: Expose IOM port status to debugfs
-Date:   Fri, 14 Apr 2023 13:49:10 +0530
-Message-Id: <20230414081910.1336405-1-rajat.khandelwal@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229542AbjDNIma (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 Apr 2023 04:42:30 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEB0130EA;
+        Fri, 14 Apr 2023 01:42:28 -0700 (PDT)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33E7B4Zo006632;
+        Fri, 14 Apr 2023 10:42:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=selector1;
+ bh=3tM5CBmHFiR5eCT6DKTCXxOwFbmyRg1lHsMc+Jf6MPo=;
+ b=1WhypzSz3bZzqnuLZHnjwRL1y0pPOE2oIhVv6OWlCVL8Dqnp2vPyEX5ST+6NGHiriGUJ
+ 6qk//PrfAVdE1FjlqV3xgw7oim+NtjSzT6GtOihpyGnApxGnyOi4eOVMjxEyIKcIvtU8
+ biH6YeonX35/x83oLrN2LuArxPAGJ0ZsQ9wkhzzaRTACrv6v9HXm95YXBgSnnJUqOFf8
+ 0/EkEL60E0TZIx+REl/nMtlczMSbD4F1+0eOVH9gbCtDDLbj4/UJ6MqPdkAldlkxgB8h
+ wlNrK/1kZJy77iR6Sr6u8RVj162pYyDiGEvu5vuZtqy/HtR/fmqMgUWhkzh10NBRXa/w ng== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3pwsgpq3q0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Apr 2023 10:42:10 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 8FF56100034;
+        Fri, 14 Apr 2023 10:42:09 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4146B214D2C;
+        Fri, 14 Apr 2023 10:42:09 +0200 (CEST)
+Received: from localhost (10.252.1.127) by SHFDAG1NODE2.st.com (10.75.129.70)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 14 Apr
+ 2023 10:42:09 +0200
+From:   Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+To:     <hminas@synopsys.com>, <gregkh@linuxfoundation.org>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <alexandre.torgue@foss.st.com>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <amelie.delaunay@foss.st.com>, <fabrice.gasnier@foss.st.com>
+Subject: [PATCH v2 2/4] dt-bindings: usb: dwc2: add utmi optional clock
+Date:   Fri, 14 Apr 2023 10:41:35 +0200
+Message-ID: <20230414084137.1050487-3-fabrice.gasnier@foss.st.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230414084137.1050487-1-fabrice.gasnier@foss.st.com>
+References: <20230414084137.1050487-1-fabrice.gasnier@foss.st.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.252.1.127]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-14_03,2023-04-13_01,2023-02-09_01
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-IOM status has a crucial role during debugging to check the
-current state of the type-C port.
-There are ways to fetch the status, but all those require the
-IOM port status offset, which could change with platform.
+utmi clock is typically provided by PHY output. Add this optional clock,
+as the core could use other clocks depending on the SoC where it's used.
+This is needed on stm32mp15, when using the integrated full-speed PHY.
 
-Make a debugfs directory for intel_pmc_mux and expose the status
-under it per port basis.
-
-Signed-off-by: Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
+Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 ---
+Changes in v2:
+- "utmi_clk" renamed "utmi" as per Krzysztof comment
+---
+ Documentation/devicetree/bindings/usb/dwc2.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-v2:
-1. Remove static declaration of the debugfs root for 'intel_pmc_mux'
-2. Remove explicitly defined one-liner functions
-
- drivers/usb/typec/mux/intel_pmc_mux.c | 34 +++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
-
-diff --git a/drivers/usb/typec/mux/intel_pmc_mux.c b/drivers/usb/typec/mux/intel_pmc_mux.c
-index 34e4188a40ff..1d43b111781e 100644
---- a/drivers/usb/typec/mux/intel_pmc_mux.c
-+++ b/drivers/usb/typec/mux/intel_pmc_mux.c
-@@ -15,6 +15,7 @@
- #include <linux/usb/typec_mux.h>
- #include <linux/usb/typec_dp.h>
- #include <linux/usb/typec_tbt.h>
-+#include <linux/debugfs.h>
+diff --git a/Documentation/devicetree/bindings/usb/dwc2.yaml b/Documentation/devicetree/bindings/usb/dwc2.yaml
+index 371ba93f3ce5..d3506090f8b1 100644
+--- a/Documentation/devicetree/bindings/usb/dwc2.yaml
++++ b/Documentation/devicetree/bindings/usb/dwc2.yaml
+@@ -75,11 +75,14 @@ properties:
+     maxItems: 1
  
- #include <asm/intel_scu_ipc.h>
+   clocks:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 2
  
-@@ -639,9 +640,34 @@ static int pmc_usb_probe_iom(struct pmc_usb *pmc)
- 	return 0;
- }
+   clock-names:
+     items:
+       - const: otg
++      - const: utmi
++    minItems: 1
  
-+static int port_iom_status_show(struct seq_file *s, void *unused)
-+{
-+	struct pmc_usb_port *port = s->private;
-+
-+	update_port_status(port);
-+	seq_printf(s, "0x%08x\n", port->iom_status);
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(port_iom_status);
-+
-+static void pmc_mux_port_debugfs_init(struct pmc_usb_port *port,
-+				      struct dentry *pmc_mux_debugfs_root)
-+{
-+	struct dentry *debugfs_dir;
-+	char name[6];
-+
-+	snprintf(name, sizeof(name), "port%d", port->usb3_port - 1);
-+
-+	debugfs_dir = debugfs_create_dir(name, pmc_mux_debugfs_root);
-+	debugfs_create_file("iom_status", 0400, debugfs_dir, port,
-+			    &port_iom_status_fops);
-+}
-+
- static int pmc_usb_probe(struct platform_device *pdev)
- {
- 	struct fwnode_handle *fwnode = NULL;
-+	struct dentry *pmc_mux_debugfs_root;
- 	struct pmc_usb *pmc;
- 	int i = 0;
- 	int ret;
-@@ -674,6 +700,8 @@ static int pmc_usb_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	pmc_mux_debugfs_root = debugfs_create_dir("intel_pmc_mux", NULL);
-+
- 	/*
- 	 * For every physical USB connector (USB2 and USB3 combo) there is a
- 	 * child ACPI device node under the PMC mux ACPI device object.
-@@ -688,6 +716,8 @@ static int pmc_usb_probe(struct platform_device *pdev)
- 			fwnode_handle_put(fwnode);
- 			goto err_remove_ports;
- 		}
-+
-+		pmc_mux_port_debugfs_init(&pmc->port[i], pmc_mux_debugfs_root);
- 	}
- 
- 	platform_set_drvdata(pdev, pmc);
-@@ -703,6 +733,8 @@ static int pmc_usb_probe(struct platform_device *pdev)
- 
- 	acpi_dev_put(pmc->iom_adev);
- 
-+	debugfs_lookup_and_remove("intel_pmc_mux", NULL);
-+
- 	return ret;
- }
- 
-@@ -719,6 +751,8 @@ static int pmc_usb_remove(struct platform_device *pdev)
- 
- 	acpi_dev_put(pmc->iom_adev);
- 
-+	debugfs_lookup_and_remove("intel_pmc_mux", NULL);
-+
- 	return 0;
- }
- 
+   disable-over-current:
+     type: boolean
 -- 
-2.34.1
+2.25.1
 
