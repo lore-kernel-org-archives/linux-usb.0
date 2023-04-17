@@ -2,121 +2,122 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECA89C77B7A
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Apr 2023 16:06:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B62C77B72
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Apr 2023 19:50:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230127AbjDQQGU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Apr 2023 12:06:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33280 "EHLO
+        id S230168AbjDQTuq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Apr 2023 15:50:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229951AbjDQQGS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Apr 2023 12:06:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35C28185;
-        Mon, 17 Apr 2023 09:06:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C66EE621BA;
-        Mon, 17 Apr 2023 16:06:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C17EC433EF;
-        Mon, 17 Apr 2023 16:06:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681747574;
-        bh=B9ICfJOWuiW03DC9EdlC24TQo3MnHjUEAGRhe5FHECw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=d+oLoBMbp4bbdcvhI8hmIhWrWB1ycq0JYhh+yfAg93HMR2Jgn/IO9Unhj/qvGUCAX
-         yLBQBN4O1KFVJSjmPbCYfcyatNOopb8pcajtAOxdsRBpxHdceiRCMBLlMc1gN01qmW
-         2Ur0igjhg8PhOjrcim8AlQZoZNFRaVPQS0OnOLnxVzqDiSFetSK/kcsJTlh2UXqfPO
-         88+2tJdr/H+FpNlj3dLQLG2WpWmuDUGa2utcGPTnvuY6l0JQmy7/UqIVc+1khK3WGB
-         zKPs2PwFd5mI3lFtzQ6YugCwZpMRIXa3vBh8GTXMgIii4MWBoRNhgj75jMrQtS971b
-         dhzzfQieW983g==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1poRMz-0000g4-St; Mon, 17 Apr 2023 18:06:22 +0200
-Date:   Mon, 17 Apr 2023 18:06:21 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     arinc9.unal@gmail.com
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>,
-        me@1conan.com, erkin.bozoglu@xeront.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] USB: serial: option: add UNISOC vendor and TOZED
- LT70C product
-Message-ID: <ZD1ufX/oyif5LRY7@hovoldconsulting.com>
-References: <20230417152003.243248-1-arinc.unal@arinc9.com>
+        with ESMTP id S229842AbjDQTup (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Apr 2023 15:50:45 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BB974224;
+        Mon, 17 Apr 2023 12:50:43 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-4ec816d64afso7885497e87.1;
+        Mon, 17 Apr 2023 12:50:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681761042; x=1684353042;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xmTAefnrkJJwhbxgaXaqi9Y6GqFc0zYnwZAZbshHD/8=;
+        b=JFK28mWoki10heM23/ZLjso0gjyA2DOgOKQ0DSKwROwtAKBK3ZR+z1EGVEvub91jiL
+         +BPP35l18LlHRRGdNjw1hzvZm7eGrODuQ0wsZaZg0d8qtcSMx92Wwm7r2pr4BpwRP39K
+         88rskyfeG24N9Rs0cAN9nK3/adZ1THawlcsn0+xzBvBzsuIL+6YVlfNz+vkojbAduiIw
+         exGBVYS5/GmG9n1VEpw2pFs+cXwIREJ/LPbMHoZOz8VMfzY6W3pApu9asFdrn4we3hYd
+         cJ4HtMzZMuNu3Gv0Xu7aLRwu2vmzdn6LrsogELaqPhIM/yd9QHukDUl5pLbFnCh/Ezih
+         5F8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681761042; x=1684353042;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xmTAefnrkJJwhbxgaXaqi9Y6GqFc0zYnwZAZbshHD/8=;
+        b=Rgzh4L+EnIVtEGFrGaGACe96oTyU5SGig+BaLDeLPimEgNPiN0Erb4KN1zv4KThywD
+         /H4bz0gBA7cYutuzgSIc4fwpFbieQZFSyPW4bpgyLPclP0WZZnI8HVx5OYArTeIR7Q0y
+         91O/gR0Yz5xX1r4Mwdf9a8CSczotPBj4QsDm7Zt4DlXXJTEBlT0ehgRrumXc5QVgBpWv
+         3hTbFwysOHDR72SdKBATqHGm9O/CZV2WdkQnjVXA58gkpem3HKBNo5HYhctZk2daU1q5
+         OoDQJIDCbqijGxT1ouaXaBmj2q/HWbUl0nlzXH69tIDAmSwol/bmU4VoLu/YXl6UPt2D
+         vk0A==
+X-Gm-Message-State: AAQBX9dAjVDMyevj3/H5cBS9KAoyICWbLIuCiUQcA8j0DWTrdsB5PxXH
+        TQp0V5Rb5IFzX/6hlvO4y/M=
+X-Google-Smtp-Source: AKy350ZJZKuI6qvz2aeUHt+Tlj30SiXRPuVZtIwznLEmrM3i6Xip3k9wdJlSNGMWEcb6kAGplYMGqw==
+X-Received: by 2002:a05:6512:3d07:b0:4ed:b86b:9cc9 with SMTP id d7-20020a0565123d0700b004edb86b9cc9mr2219540lfv.28.1681761041646;
+        Mon, 17 Apr 2023 12:50:41 -0700 (PDT)
+Received: from mkor.. (89-109-50-74.dynamic.mts-nn.ru. [89.109.50.74])
+        by smtp.gmail.com with ESMTPSA id v6-20020a2e9246000000b0029ee7bc0114sm2248537ljg.64.2023.04.17.12.50.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Apr 2023 12:50:41 -0700 (PDT)
+From:   Maxim Korotkov <korotkov.maxim.s@gmail.com>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Maxim Korotkov <korotkov.maxim.s@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lvc-project@linuxtesting.org
+Subject: [PATCH] usb: typec: fix potential NULL dereference
+Date:   Mon, 17 Apr 2023 22:50:03 +0300
+Message-Id: <20230417195003.19504-1-korotkov.maxim.s@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230417152003.243248-1-arinc.unal@arinc9.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Apr 17, 2023 at 06:20:03PM +0300, arinc9.unal@gmail.com wrote:
-> From: Arınç ÜNAL <arinc.unal@arinc9.com>
-> 
-> Add UNISOC vendor ID and TOZED LT70-C modem which is based from UNISOC
-> SL8563. The modem supports the NCM mode. Interface 0 is used for running
-> the AT commands. Interface 12 is the ADB interface.
-> 
-> T:  Bus=01 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  6 Spd=480  MxCh= 0
-> D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-> P:  Vendor=1782 ProdID=4055 Rev=04.04
-> S:  Manufacturer=Unisoc Phone
-> S:  Product=Unisoc Phone
-> S:  SerialNumber=<redacted>
-> C:  #Ifs=14 Cfg#= 1 Atr=c0 MxPwr=500mA
-> I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(commc) Sub=0d Prot=00 Driver=cdc_ncm
-> E:  Ad=82(I) Atr=03(Int.) MxPS=  16 Ivl=32ms
-> I:  If#= 1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=01 Driver=cdc_ncm
-> E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:  If#=10 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> E:  Ad=07(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=8b(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:  If#=11 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> E:  Ad=08(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=8c(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:  If#=12 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=option
+The pointer 'adev' was being dereferenced before being checked for NULL
+in the 'type_alt mode_enter()' and 'type_alt mode_exit()' functions.
+Although this is a hypothetical issue, it's better to move the pointer
+assignment after the NULL check to avoid any potential problems.
 
-I changed this to:
+Found by Linux Verification Center with Svace static analyzer.
 
-I:  If#=12 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
+Fixes: 8a37d87d72f0 ("usb: typec: Bus type for alternate modes")
+Signed-off-by: Maxim Korotkov <korotkov.maxim.s@gmail.com>
+---
+ drivers/usb/typec/bus.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-> E:  Ad=09(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=8d(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:  If#=13 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> E:  Ad=0a(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=8e(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:  If#= 2 Alt= 0 #EPs= 1 Cls=02(commc) Sub=0d Prot=00 Driver=cdc_ncm
-> E:  Ad=84(I) Atr=03(Int.) MxPS=  16 Ivl=32ms
-> I:  If#= 3 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=01 Driver=cdc_ncm
-> E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:  If#= 4 Alt= 0 #EPs= 1 Cls=02(commc) Sub=0d Prot=00 Driver=cdc_ncm
-> E:  Ad=86(I) Atr=03(Int.) MxPS=  16 Ivl=32ms
-> I:  If#= 5 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=01 Driver=cdc_ncm
-> E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:  If#= 6 Alt= 0 #EPs= 1 Cls=02(commc) Sub=0d Prot=00 Driver=cdc_ncm
-> E:  Ad=88(I) Atr=03(Int.) MxPS=  16 Ivl=32ms
-> I:  If#= 7 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=01 Driver=cdc_ncm
-> E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:  If#= 8 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> E:  Ad=05(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=89(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:  If#= 9 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> E:  Ad=06(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=8a(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> 
-> Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
-> ---
+diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
+index 098f0efaa58d..ae0aca8f33db 100644
+--- a/drivers/usb/typec/bus.c
++++ b/drivers/usb/typec/bus.c
+@@ -125,13 +125,16 @@ EXPORT_SYMBOL_GPL(typec_altmode_notify);
+  */
+ int typec_altmode_enter(struct typec_altmode *adev, u32 *vdo)
+ {
+-	struct altmode *partner = to_altmode(adev)->partner;
+-	struct typec_altmode *pdev = &partner->adev;
++	struct altmode *partner;
++	struct typec_altmode *pdev;
+ 	int ret;
+ 
+ 	if (!adev || adev->active)
+ 		return 0;
+ 
++	partner = to_altmode(adev)->partner;
++	pdev = &partner->adev;
++
+ 	if (!pdev->ops || !pdev->ops->enter)
+ 		return -EOPNOTSUPP;
+ 
+@@ -156,13 +159,15 @@ EXPORT_SYMBOL_GPL(typec_altmode_enter);
+  */
+ int typec_altmode_exit(struct typec_altmode *adev)
+ {
+-	struct altmode *partner = to_altmode(adev)->partner;
+-	struct typec_altmode *pdev = &partner->adev;
++	struct altmode *partner;
++	struct typec_altmode *pdev;
+ 	int ret;
+ 
+ 	if (!adev || !adev->active)
+ 		return 0;
+ 
++	partner = to_altmode(adev)->partner;
++	pdev = &partner->adev;
+ 	if (!pdev->ops || !pdev->ops->exit)
+ 		return -EOPNOTSUPP;
+ 
+-- 
+2.37.2
 
-Next time, remember to include a brief changelog here when respinning.
-
-Now applied, thanks.
-
-Johan
