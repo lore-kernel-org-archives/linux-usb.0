@@ -2,43 +2,43 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DF20C77B79
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Apr 2023 02:52:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB4C6C77B7F
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Apr 2023 02:52:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229458AbjDQCwV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 16 Apr 2023 22:52:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54156 "EHLO
+        id S229674AbjDQCwX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 16 Apr 2023 22:52:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229849AbjDQCwR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 16 Apr 2023 22:52:17 -0400
+        with ESMTP id S229958AbjDQCwU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 16 Apr 2023 22:52:20 -0400
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 853391FFC;
-        Sun, 16 Apr 2023 19:52:15 -0700 (PDT)
-X-UUID: d74d9bbcdcca11edb6b9f13eb10bd0fe-20230417
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93C282718;
+        Sun, 16 Apr 2023 19:52:18 -0700 (PDT)
+X-UUID: d9eba7ecdcca11edb6b9f13eb10bd0fe-20230417
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=J0FGTmUrLx+j+AGEiyeNq3HtAlIDUKglYm4c41XRe4g=;
-        b=q1sI64MJYy+5vRMgq9Ddwr0SVDHFUMnFOEbrBiMVYgAUQshlBrWTfhcQrvSJHLLSl1X4FVCAjBKCrO2YQYuaY8+y1N2q14XSrp+lUYJQQq9CbT2EXeRoyf3emKYq0na+nN6ZGAnSlqY4fk07ACAN3rVxhnQAOEWwj0U4EdYUg28=;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=HFOJULAIHGPq12XJm5Jmua93Eyz9XsckyqBFWPq6Mto=;
+        b=gfCiOOD+B9+kvoHzDrcYT4GH/TGTJ+8BqL6WjGsl3XivL0yrInRqb7rIVnlaGrCT66WUZm/b/HZPFNDCRM4m0N1XqVObh9r6uJ0NUd8TwOXqPUBVYbrvNaXb6EFVKGMdvKWjfUNarlQW7UdDtV2+dfIFfXDcPwE7mdtekV9LIQ0=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22,REQID:c8eafc9d-040d-49eb-89f9-e99c14ebf179,IP:0,U
+X-CID-O-INFO: VERSION:1.1.22,REQID:c1048cdd-4b14-4cd6-b560-eecc7f31c219,IP:0,U
         RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
         release,TS:0
-X-CID-META: VersionHash:120426c,CLOUDID:171628eb-db6f-41fe-8b83-13fe7ed1ef52,B
+X-CID-META: VersionHash:120426c,CLOUDID:216486a1-8fcb-430b-954a-ba3f00fa94a5,B
         ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
         RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
-X-UUID: d74d9bbcdcca11edb6b9f13eb10bd0fe-20230417
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
+X-UUID: d9eba7ecdcca11edb6b9f13eb10bd0fe-20230417
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 639314019; Mon, 17 Apr 2023 10:52:07 +0800
+        with ESMTP id 1512352980; Mon, 17 Apr 2023 10:52:11 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Mon, 17 Apr 2023 10:52:06 +0800
+ 15.2.1118.25; Mon, 17 Apr 2023 10:52:10 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Mon, 17 Apr 2023 10:52:06 +0800
+ 15.2.1118.25 via Frontend Transport; Mon, 17 Apr 2023 10:52:09 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>
@@ -52,9 +52,9 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         Tianping Fang <tianping.fang@mediatek.com>
-Subject: [PATCH v3 2/7] usb: mtu3: use boolean return value
-Date:   Mon, 17 Apr 2023 10:51:58 +0800
-Message-ID: <20230417025203.18097-2-chunfeng.yun@mediatek.com>
+Subject: [PATCH v3 7/7] usb: mtu3: add optional clock xhci_ck and frmcnt_ck
+Date:   Mon, 17 Apr 2023 10:52:03 +0800
+Message-ID: <20230417025203.18097-7-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230417025203.18097-1-chunfeng.yun@mediatek.com>
 References: <20230417025203.18097-1-chunfeng.yun@mediatek.com>
@@ -66,31 +66,45 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Prefer to use boolean value due to gpd_ring_empty() return true or false.
-See "16) Function return values and names" in coding-style.rst
+Add optional clock 'xhci_ck' which is usually the same as sys_ck, but
+some SoC use two separated clocks when the controller supports dual
+role mode;
+Add optional clock 'frmcnt_ck' used on 4nm or advanced process SoC.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-v3: no changes
-v2: add Reviewed-by AngeloGioacchino
+v2~v3: no changes
 ---
- drivers/usb/mtu3/mtu3_qmu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/mtu3/mtu3.h      | 2 +-
+ drivers/usb/mtu3/mtu3_plat.c | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/mtu3/mtu3_qmu.c b/drivers/usb/mtu3/mtu3_qmu.c
-index a4da1af0b2c0..6be4977a5db5 100644
---- a/drivers/usb/mtu3/mtu3_qmu.c
-+++ b/drivers/usb/mtu3/mtu3_qmu.c
-@@ -221,7 +221,7 @@ static struct qmu_gpd *advance_deq_gpd(struct mtu3_gpd_ring *ring)
- }
+diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
+index 2d7b57e07eee..b4a7662dded5 100644
+--- a/drivers/usb/mtu3/mtu3.h
++++ b/drivers/usb/mtu3/mtu3.h
+@@ -90,7 +90,7 @@ struct mtu3_request;
+  */
+ #define EP0_RESPONSE_BUF  6
  
- /* check if a ring is emtpy */
--static int gpd_ring_empty(struct mtu3_gpd_ring *ring)
-+static bool gpd_ring_empty(struct mtu3_gpd_ring *ring)
- {
- 	struct qmu_gpd *enq = ring->enqueue;
- 	struct qmu_gpd *next;
+-#define BULK_CLKS_CNT	4
++#define BULK_CLKS_CNT	6
+ 
+ /* device operated link and speed got from DEVICE_CONF register */
+ enum mtu3_speed {
+diff --git a/drivers/usb/mtu3/mtu3_plat.c b/drivers/usb/mtu3/mtu3_plat.c
+index d78ae52b4e26..6f264b129243 100644
+--- a/drivers/usb/mtu3/mtu3_plat.c
++++ b/drivers/usb/mtu3/mtu3_plat.c
+@@ -234,6 +234,8 @@ static int get_ssusb_rscs(struct platform_device *pdev, struct ssusb_mtk *ssusb)
+ 	clks[1].id = "ref_ck";
+ 	clks[2].id = "mcu_ck";
+ 	clks[3].id = "dma_ck";
++	clks[4].id = "xhci_ck";
++	clks[5].id = "frmcnt_ck";
+ 	ret = devm_clk_bulk_get_optional(dev, BULK_CLKS_CNT, clks);
+ 	if (ret)
+ 		return ret;
 -- 
 2.18.0
 
