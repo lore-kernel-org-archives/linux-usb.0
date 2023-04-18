@@ -2,166 +2,133 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B01D8C77B76
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Apr 2023 11:32:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF67C77B75
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Apr 2023 11:42:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231325AbjDRLck (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Apr 2023 07:32:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43070 "EHLO
+        id S231438AbjDRLmb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Apr 2023 07:42:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231247AbjDRLcf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Apr 2023 07:32:35 -0400
-Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA10861AB;
-        Tue, 18 Apr 2023 04:32:33 -0700 (PDT)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mx.sberdevices.ru (Postfix) with ESMTP id 046FD5FD7C;
-        Tue, 18 Apr 2023 14:16:26 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1681816586;
-        bh=lYTwixrqbd9SStEuaH+MOse4j7UjK4ooo6t7FaqVmeA=;
-        h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-        b=Svh2dtABfLv0A4s8N8XedVQorPjq21MkbnzYzqGr0rE7B7n9umg+kH5gWc/yfHSxG
-         I6if+KKBejBAY8kxAT35VX8E6ePwaDSYCg9APOXYUTEcf+YTGq+sTMsW1m535JjJJZ
-         maO427TZfHXgh0eMipZMNELzwSsHvujFt9J6lbj8/lmYIsses3X6j8hyVgIzfEGY7w
-         KHroZFMv6imEBXB138tczGBWFym21BusY/Irq0Fl/7qA5FDUxrUYztnLs7qwN5pLfP
-         YAfl2lJeIKU0+N0tenqO5E9AidpMhA92sNKKaEeQ2alWPsyl02QvJSCU8DdA0PRhqw
-         Osjt1945IdDHA==
-Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
-        by mx.sberdevices.ru (Postfix) with ESMTP;
-        Tue, 18 Apr 2023 14:16:25 +0300 (MSK)
-From:   Dmitry Rokosov <ddrokosov@sberdevices.ru>
-To:     <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <neil.armstrong@linaro.org>,
-        <khilman@baylibre.com>, <jbrunet@baylibre.com>,
-        <martin.blumenstingl@googlemail.com>, <mturquette@baylibre.com>,
-        <vkoul@kernel.org>, <kishon@kernel.org>, <hminas@synopsys.com>,
-        <Thinh.Nguyen@synopsys.com>
-CC:     <yue.wang@amlogic.com>, <hanjie.lin@amlogic.com>,
-        <kernel@sberdevices.ru>, <rockosov@gmail.com>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>,
-        <linux-phy@lists.infradead.org>,
-        Dmitry Rokosov <ddrokosov@sberdevices.ru>
-Subject: [PATCH v2 5/5] arm64: dts: meson: a1: support USB controller in OTG mode
-Date:   Tue, 18 Apr 2023 14:16:12 +0300
-Message-ID: <20230418111612.19479-6-ddrokosov@sberdevices.ru>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20230418111612.19479-1-ddrokosov@sberdevices.ru>
-References: <20230418111612.19479-1-ddrokosov@sberdevices.ru>
+        with ESMTP id S229515AbjDRLma (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Apr 2023 07:42:30 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90E11F0
+        for <linux-usb@vger.kernel.org>; Tue, 18 Apr 2023 04:42:28 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f0a0c4e1ebso24162785e9.3
+        for <linux-usb@vger.kernel.org>; Tue, 18 Apr 2023 04:42:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681818147; x=1684410147;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=VJhrrZF5F7exwMqfs2F/DYr7C0jvoevmcUqXzH/feoc=;
+        b=jzOxsEqTJ/vE+PNHw+7MNs45SrWRcRdILs3o1jpljWGpevnUNsNzBP/Hne7QfimK1N
+         5DY3mrppe8X+jaKRQ/IbtfjvpPf0q1020JOjEX1gd+PJibeizTsiuvO1XMk66ZORWC5j
+         lktslAieZyrktZZaXs1VOo2OOCgxt87ehbK80gCy9qUt7TMKk/oMtNdCpNzsBRcHtUHv
+         pdIYAJyMglfkqtZfx3wGsJZhLPh/cD+9cMXyQcewLh2XXi8p4vxi1ohxB/1/S2ROicgZ
+         L0tbdVXl1JS4tDWSNKnrMrEgWR+inwerTf5sMqNXCyLiSgJyyWx9sNlODMPpzC76QPwC
+         a4zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681818147; x=1684410147;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:from:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VJhrrZF5F7exwMqfs2F/DYr7C0jvoevmcUqXzH/feoc=;
+        b=YAe4NuefHR12fdinaV8M1QiBjwbW3Hae1cNQ5K1QoOm1fcPtPGWownxnRpT855qtsX
+         vD0GQP6cna88owsXIRk1BAQmrhtXTYE5zLtuZrSRPjDZPJwPVr9I/QiEda9Gu8XC3IZO
+         INsYCW+CRd05QOlF2oWOLhfhJeteQvIyjsyQrV9VPxKgHhZiOdeJFHjaWgNYofU9n9F4
+         k8RYPEN6zLtib1dTZxG3ujvk1pgaIiPyH1R3/2EOAAOAuaEIHVjcyyW0Yv7cAUPdu9rC
+         R9A2fb2HnVc8TgNxM5NijaqRMXocVLm+Gd1mTg9vaJTbXTOv64WDC78bVP6R9JikmzhA
+         OFng==
+X-Gm-Message-State: AAQBX9eZGAkRYdLdgqn6E+G/ZoUhpPhSjsRb75E9PxLQfoxpQIWIXANW
+        zv5TYPlgLY+8D5pfS13gpfm3lg==
+X-Google-Smtp-Source: AKy350aDCnbeQs57GbmYsqxCTQZFjV3+gfLDfWNsHSqoL5o8sOpUjfnH5UipDVxMtKi6RxmnWS+aFA==
+X-Received: by 2002:a5d:698e:0:b0:2d2:f3e3:115d with SMTP id g14-20020a5d698e000000b002d2f3e3115dmr1702788wru.59.1681818146993;
+        Tue, 18 Apr 2023 04:42:26 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:7a02:f867:7c56:79a0? ([2a01:e0a:982:cbb0:7a02:f867:7c56:79a0])
+        by smtp.gmail.com with ESMTPSA id h12-20020adffa8c000000b002d322b9a7f5sm12934813wrr.88.2023.04.18.04.42.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Apr 2023 04:42:26 -0700 (PDT)
+Message-ID: <e4540877-5874-92a0-f15f-bdefc8dc5f8b@linaro.org>
+Date:   Tue, 18 Apr 2023 13:42:24 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.16.1.6]
-X-ClientProxiedBy: S-MS-EXCH01.sberdevices.ru (172.16.1.4) To
- S-MS-EXCH01.sberdevices.ru (172.16.1.4)
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/04/18 05:44:00 #21123121
-X-KSMG-AntiVirus-Status: Clean, skipped
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+From:   neil.armstrong@linaro.org
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2 2/5] usb: dwc2: support dwc2 IP for Amlogic A1 SoC
+ family
+Content-Language: en-US
+To:     Dmitry Rokosov <ddrokosov@sberdevices.ru>,
+        gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, khilman@baylibre.com,
+        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+        mturquette@baylibre.com, vkoul@kernel.org, kishon@kernel.org,
+        hminas@synopsys.com, Thinh.Nguyen@synopsys.com
+Cc:     yue.wang@amlogic.com, hanjie.lin@amlogic.com,
+        kernel@sberdevices.ru, rockosov@gmail.com,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-phy@lists.infradead.org
+References: <20230418111612.19479-1-ddrokosov@sberdevices.ru>
+ <20230418111612.19479-3-ddrokosov@sberdevices.ru>
+Organization: Linaro Developer Services
+In-Reply-To: <20230418111612.19479-3-ddrokosov@sberdevices.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Amlogic A1 SoC family has USB2.0 controller based on dwc2 and dwc3
-heads. It supports otg/host/peripheral modes.
+On 18/04/2023 13:16, Dmitry Rokosov wrote:
+> The Amlogic A1 uses dwc2 Synopsys IP as its USB peripheral (gadget)
+> endpoint, with different DWC2 parameters when compared to previous
+> Amlogic SoCs.
+> 
+> Signed-off-by: Dmitry Rokosov <ddrokosov@sberdevices.ru>
+> ---
+>   drivers/usb/dwc2/params.c | 21 +++++++++++++++++++++
+>   1 file changed, 21 insertions(+)
+> 
+> diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
+> index 9ed9fd956940..098fbfc774ab 100644
+> --- a/drivers/usb/dwc2/params.c
+> +++ b/drivers/usb/dwc2/params.c
+> @@ -161,6 +161,25 @@ static void dwc2_set_amlogic_g12a_params(struct dwc2_hsotg *hsotg)
+>   	p->hird_threshold_en = false;
+>   }
+>   
+> +static void dwc2_set_amlogic_a1_params(struct dwc2_hsotg *hsotg)
+> +{
+> +	struct dwc2_core_params *p = &hsotg->params;
+> +
+> +	p->otg_caps.hnp_support = false;
+> +	p->otg_caps.srp_support = false;
+> +	p->speed = DWC2_SPEED_PARAM_HIGH;
+> +	p->host_rx_fifo_size = 192;
+> +	p->host_nperio_tx_fifo_size = 128;
+> +	p->host_perio_tx_fifo_size = 128;
+> +	p->phy_type = DWC2_PHY_TYPE_PARAM_UTMI;
+> +	p->phy_utmi_width = 8;
+> +	p->ahbcfg = GAHBCFG_HBSTLEN_INCR8 << GAHBCFG_HBSTLEN_SHIFT;
+> +	p->lpm = false;
+> +	p->lpm_clock_gating = false;
+> +	p->besl = false;
+> +	p->hird_threshold_en = false;
+> +}
+> +
+>   static void dwc2_set_amcc_params(struct dwc2_hsotg *hsotg)
+>   {
+>   	struct dwc2_core_params *p = &hsotg->params;
+> @@ -258,6 +277,8 @@ const struct of_device_id dwc2_of_match_table[] = {
+>   	  .data = dwc2_set_amlogic_params },
+>   	{ .compatible = "amlogic,meson-g12a-usb",
+>   	  .data = dwc2_set_amlogic_g12a_params },
+> +	{ .compatible = "amlogic,meson-a1-usb",
+> +	  .data = dwc2_set_amlogic_a1_params },
+>   	{ .compatible = "amcc,dwc-otg", .data = dwc2_set_amcc_params },
+>   	{ .compatible = "apm,apm82181-dwc-otg", .data = dwc2_set_amcc_params },
+>   	{ .compatible = "st,stm32f4x9-fsotg",
 
-Signed-off-by: Yue Wang <yue.wang@amlogic.com>
-Signed-off-by: Hanjie Lin <hanjie.lin@amlogic.com>
-Signed-off-by: Dmitry Rokosov <ddrokosov@sberdevices.ru>
----
- arch/arm64/boot/dts/amlogic/meson-a1.dtsi | 59 +++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/amlogic/meson-a1.dtsi b/arch/arm64/boot/dts/amlogic/meson-a1.dtsi
-index ae7d39cff07a..02af0aac6780 100644
---- a/arch/arm64/boot/dts/amlogic/meson-a1.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-a1.dtsi
-@@ -8,6 +8,8 @@
- #include <dt-bindings/gpio/meson-a1-gpio.h>
- #include <dt-bindings/clock/amlogic,a1-pll-clkc.h>
- #include <dt-bindings/clock/amlogic,a1-clkc.h>
-+#include <dt-bindings/power/meson-a1-power.h>
-+#include <dt-bindings/reset/amlogic,meson-a1-reset.h>
- 
- / {
- 	compatible = "amlogic,a1";
-@@ -169,6 +171,17 @@ gpio_intc: interrupt-controller@0440 {
- 				amlogic,channel-interrupts =
- 					<49 50 51 52 53 54 55 56>;
- 			};
-+
-+			usb2_phy1: phy@4000 {
-+				compatible = "amlogic,a1-usb2-phy";
-+				clocks = <&clkc CLKID_USB_PHY_IN>;
-+				clock-names = "xtal";
-+				reg = <0x0 0x4000 0x0 0x60>;
-+				resets = <&reset RESET_USBPHY>;
-+				reset-names = "phy";
-+				#phy-cells = <0>;
-+				power-domains = <&pwrc PWRC_USB_ID>;
-+			};
- 		};
- 
- 		gic: interrupt-controller@ff901000 {
-@@ -192,6 +205,52 @@ spifc: spi@fd000400 {
- 			#size-cells = <0>;
- 			status = "disabled";
- 		};
-+
-+		usb: usb@fe004400 {
-+			status = "disabled";
-+			compatible = "amlogic,meson-a1-usb-ctrl";
-+			reg = <0x0 0xfe004400 0x0 0xa0>;
-+			interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>;
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			ranges;
-+
-+			clocks = <&clkc CLKID_USB_CTRL>,
-+				 <&clkc CLKID_USB_BUS>,
-+				 <&clkc CLKID_USB_CTRL_IN>;
-+			clock-names = "usb_ctrl", "usb_bus", "xtal_usb_ctrl";
-+			resets = <&reset RESET_USBCTRL>;
-+			reset-name = "usb_ctrl";
-+
-+			dr_mode = "otg";
-+
-+			phys = <&usb2_phy1>;
-+			phy-names = "usb2-phy1";
-+
-+			dwc2: usb@ff500000 {
-+				compatible = "amlogic,meson-a1-usb", "snps,dwc2";
-+				reg = <0x0 0xff500000 0x0 0x40000>;
-+				interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
-+				phys = <&usb2_phy1>;
-+				phy-names = "usb2_phy";
-+				clocks = <&clkc CLKID_USB_PHY>;
-+				clock-names = "otg";
-+				dr_mode = "peripheral";
-+				g-rx-fifo-size = <192>;
-+				g-np-tx-fifo-size = <128>;
-+				g-tx-fifo-size = <128 128 16 16 16>;
-+			};
-+
-+			dwc3: usb@ff400000 {
-+				compatible = "snps,dwc3";
-+				reg = <0x0 0xff400000 0x0 0x100000>;
-+				interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
-+				dr_mode = "host";
-+				snps,dis_u2_susphy_quirk;
-+				snps,quirk-frame-length-adjustment = <0x20>;
-+				snps,parkmode-disable-ss-quirk;
-+			};
-+		};
- 	};
- 
- 	timer {
--- 
-2.36.0
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
