@@ -2,116 +2,267 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D49A9C77B76
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Apr 2023 12:22:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03A51C77B7D
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Apr 2023 12:54:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230434AbjDRMWn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Apr 2023 08:22:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59000 "EHLO
+        id S232331AbjDRMyG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Apr 2023 08:54:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbjDRMWl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Apr 2023 08:22:41 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AA4A30F4
-        for <linux-usb@vger.kernel.org>; Tue, 18 Apr 2023 05:22:39 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id c9so33816382ejz.1
-        for <linux-usb@vger.kernel.org>; Tue, 18 Apr 2023 05:22:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681820558; x=1684412558;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9NCi64XGNvnIcRoPfYbsVQEhFpTLdIc0VlKvzW5v7qU=;
-        b=maFFAOMtTbJViPc8gHoncMZVt1U2Au3ypnEeegMeWLUYOz6jdNkKS7yJLBivFHX7J+
-         jeU/saqkWGkaad+b3a/AkjcMbAsLUZNS+KdH5D6U92eyJMJ/oeHuW9kyfBN4dYvlR6dg
-         tyJ0Xsiax7fTOTj2z5GhwpsK/PY8T5SvFWA0JIaKYVoVrj+hE2izgsjeVWS4sope6xdO
-         Vl9l3xhodT7SzE+rpu4QOMchQwMFpLLw+ZTXH8vUdwS5eMjzBTHwvmkTqKGMJR4hSYAF
-         /HCx5yMn6FXudnjiaHZz4m4/Kd4oEFC8yPXzZSW9tQgp6iBj79h0aGxj2ERsNK8TepBO
-         iy4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681820558; x=1684412558;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9NCi64XGNvnIcRoPfYbsVQEhFpTLdIc0VlKvzW5v7qU=;
-        b=iRNPXkm2yve6zwS4oBEfsf8AMEASQp6vVn6H4DjWQO//I5+15DqDXa4ueLFQxqX2dH
-         yiTgUM/BrifchaBPrb8i29B7+o3qfGII6t2ngp9IMEnUIxtmtwGAb0t1EDwQTrTzO1v3
-         1q45/+tfns2sAZuhf7gfx3SiHXmaaq896/dufYJoawlkyQNf9ehp9wcLp0tUwHQti34U
-         K1lIHRT5SgLQYObvoE3Y6ngp907URiXc+DgrGdQT8CHdfgRimwVt+4gIZvOiw/zTuXjU
-         /QWn11r0Og3Ijy9uw/jZYS55h1x7y2CQuNIPOGoTrezUkPyvIglH14WWlUfs+jAJsfrT
-         ox7A==
-X-Gm-Message-State: AAQBX9fBY4T2g/NDkc72BtEUUuYCri/BexBUFngIRnyV0B16r1NK61HK
-        ly6pI5QxW++PySPeKeAcE4UVfQ==
-X-Google-Smtp-Source: AKy350b1rlGbHV/ZqnW3dz26WRMbmKf54LQJWDdP80OW6WaojgFD3laTViuXV1OQzbIbItrUdqokLA==
-X-Received: by 2002:a17:906:82c5:b0:94b:88c6:9282 with SMTP id a5-20020a17090682c500b0094b88c69282mr12465494ejy.22.1681820558103;
-        Tue, 18 Apr 2023 05:22:38 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:a276:7d35:5226:1c77? ([2a02:810d:15c0:828:a276:7d35:5226:1c77])
-        by smtp.gmail.com with ESMTPSA id rx22-20020a1709068e1600b0094f968ecc97sm2278664ejc.13.2023.04.18.05.22.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Apr 2023 05:22:37 -0700 (PDT)
-Message-ID: <c79e7d05-0b62-40e6-0864-35b2821c69e7@linaro.org>
-Date:   Tue, 18 Apr 2023 14:22:36 +0200
+        with ESMTP id S232292AbjDRMxy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Apr 2023 08:53:54 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C31AD46B9;
+        Tue, 18 Apr 2023 05:53:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A216663470;
+        Tue, 18 Apr 2023 12:53:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC379C433EF;
+        Tue, 18 Apr 2023 12:53:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681822431;
+        bh=/SVereuW3kHicirGXU8Z6L+PlZ5/mBjZBq1MOGuhCgg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jWl2qDeSceJIXYoAXnOJLH/arUfw90Oi6biHvcdIa8HhDd8W9z2Axh/McJMUal67j
+         /qr+G4WIJDSMX6YmyQ3mTHObFluzOe2yF+Lof4go4deAA3dXzIGHYnD3mdpWo/zU6z
+         myHrnYlZhKRdOCNiN+RsiHLCTrg6BR/C+Fjv4VMmp7MDpH3JgAlubzEfd5i556vR48
+         xSuh8kv7LBxtJZWyLkLcTgdNSXeSUCznFwN0yaLiWVB+nH9PG9U1exvoGVSLZjxag3
+         o9l69mosRS27m0kZ+t1ogeM0N2mJUJ5xK6B2mqr3hq8cyTTZbQVKB+TcTE0e+rUs4a
+         u4AzbYZOgBhuQ==
+Date:   Tue, 18 Apr 2023 05:57:23 -0700
+From:   Bjorn Andersson <andersson@kernel.org>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
+        gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-usb@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        caleb.connolly@linaro.org, konrad.dybcio@linaro.org,
+        subbaram@quicinc.com, jackp@quicinc.com, robertom@qti.qualcomm.com,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Wesley Cheng <wcheng@codeaurora.org>
+Subject: Re: [PATCH v5 14/14] phy: qcom-qmp: Register as a typec switch for
+ orientation detection
+Message-ID: <20230418125723.r7fkxgrs2ncxbb7j@ripper>
+References: <20230413113438.1577658-1-bryan.odonoghue@linaro.org>
+ <20230413113438.1577658-15-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v4 0/7] Add JH7110 USB and USB PHY driver support
-To:     Minda Chen <minda.chen@starfivetech.com>,
-        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-        Conor Dooley <conor@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Roger Quadros <rogerq@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Mason Huo <mason.huo@starfivetech.com>
-References: <20230406015216.27034-1-minda.chen@starfivetech.com>
- <517670ca-ba2e-811e-3eb2-7f38011c9690@linaro.org>
- <985d0a57-1fc8-5725-4d3a-33dcc5d49d67@starfivetech.com>
- <5953bc83-9609-6d12-7e9b-ca5202151fb3@linaro.org>
- <a75ed45c-55c4-ff94-86f9-313ec79720ac@starfivetech.com>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <a75ed45c-55c4-ff94-86f9-313ec79720ac@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230413113438.1577658-15-bryan.odonoghue@linaro.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 18/04/2023 13:12, Minda Chen wrote:
->>>>>
->>>>>
->>>>> base-commit: 0ec57cfa721fbd36b4c4c0d9ccc5d78a78f7fa35
->>>>> prerequisite-patch-id: 24a6e3442ed1f5454ffb4a514cfd768436a87090
->>>>> prerequisite-patch-id: 55390537360f25c8b9cbfdc30b73ade004f436f7
->>>>
->>>> fatal: bad object 55390537360f25c8b9cbfdc30b73ade004f436f7
->>>>
->>>> What commits do you reference? How are they helpful?
->>>>
->>> I use "git format-patch --base=(commit) to generate patchset.
->>> Maybe I set the wrong base commit.
->>
->> How are they helpful if these are private commits?
->>> Best regards,
->> Krzysztof
->>
-> base-commit is not private commits. 
-> I should set base commit 197b6b60ae7bc51dd0814953c562833143b292aa. This is 6.3-rc4 commit.
-> But I set 0ec57cfa721fbd36b4c4c0d9ccc5d78a78f7fa35. This is 6.3-rc4's previous commit.
+On Thu, Apr 13, 2023 at 12:34:38PM +0100, Bryan O'Donoghue wrote:
+> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> The lane select switch for USB typec orientation is within the USB QMP PHY.
+> the current device.  It could be connected through an endpoint, to an
+> independent device handling the typec detection, ie the QCOM SPMI typec
+> driver.
+> 
+> bod: Fixed the logic qcom_qmp_phy_typec_switch_set() to disable phy
+>  on disconnect if and only if we have initialized the PHY.
+>  Retained CC orientation logic in qcom_qmp_phy_com_init() to simplify
+>  patch.
+> 
+> bod: Ported from earlier version of driver to phy-qcom-qmp-combo.c
+> 
+> Co-developed-by: Wesley Cheng <wcheng@codeaurora.org>
+> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+> Co-developed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-You missed the point. I am not talking about base commit. I am talking
-about your prerequisites, which are useless. What can we do with such SHA?
+Your s-o-b should be last here...
 
-Best regards,
-Krzysztof
+> ---
+>  drivers/phy/qualcomm/Kconfig              |  8 +++
+>  drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 80 +++++++++++++++++++++--
+>  2 files changed, 84 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/phy/qualcomm/Kconfig b/drivers/phy/qualcomm/Kconfig
+> index 4850d48f31fa1..8240fffdbed4e 100644
+> --- a/drivers/phy/qualcomm/Kconfig
+> +++ b/drivers/phy/qualcomm/Kconfig
+> @@ -101,6 +101,14 @@ config PHY_QCOM_QMP_USB
+>  
+>  endif # PHY_QCOM_QMP
+>  
+> +config PHY_QCOM_QMP_TYPEC
+> +	def_bool PHY_QCOM_QMP=y && TYPEC=y || PHY_QCOM_QMP=m && TYPEC
+> +	help
+> +	  Register a type C switch from the QMP PHY driver for type C
+> +	  orientation support.  This has dependencies with if the type C kernel
+> +	  configuration is enabled or not.  This support will not be present if
+> +	  USB type C is disabled.
+> +
+>  config PHY_QCOM_QUSB2
+>  	tristate "Qualcomm QUSB2 PHY Driver"
+>  	depends on OF && (ARCH_QCOM || COMPILE_TEST)
+> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+> index 6850e04c329b8..b9a30c087423d 100644
+> --- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+> +++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/reset.h>
+>  #include <linux/slab.h>
+> +#include <linux/usb/typec_mux.h>
+>  
+>  #include <dt-bindings/phy/phy-qcom-qmp.h>
+>  
+> @@ -63,6 +64,10 @@
+>  /* QPHY_V3_PCS_MISC_CLAMP_ENABLE register bits */
+>  #define CLAMP_EN				BIT(0) /* enables i/o clamp_n */
+>  
+> +/* QPHY_V3_DP_COM_TYPEC_CTRL register bits */
+> +#define SW_PORTSELECT_VAL			BIT(0)
+> +#define SW_PORTSELECT_MUX			BIT(1)
+> +
+>  #define PHY_INIT_COMPLETE_TIMEOUT		10000
+>  
+>  struct qmp_phy_init_tbl {
+> @@ -1323,6 +1328,9 @@ struct qmp_combo {
+>  	struct clk_fixed_rate pipe_clk_fixed;
+>  	struct clk_hw dp_link_hw;
+>  	struct clk_hw dp_pixel_hw;
+> +
+> +	struct typec_switch_dev *sw;
+> +	enum typec_orientation orientation;
+>  };
+>  
+>  static void qmp_v3_dp_aux_init(struct qmp_combo *qmp);
+> @@ -1955,7 +1963,8 @@ static void qmp_v3_configure_dp_tx(struct qmp_combo *qmp)
+>  static bool qmp_combo_configure_dp_mode(struct qmp_combo *qmp)
+>  {
+>  	u32 val;
+> -	bool reverse = false;
+> +	bool reverse = qmp->orientation == TYPEC_ORIENTATION_REVERSE;
+> +	const struct phy_configure_opts_dp *dp_opts = &qmp->dp_opts;
+>  
+>  	val = DP_PHY_PD_CTL_PWRDN | DP_PHY_PD_CTL_AUX_PWRDN |
+>  	      DP_PHY_PD_CTL_PLL_PWRDN | DP_PHY_PD_CTL_DP_CLAMP_EN;
+> @@ -1974,10 +1983,18 @@ static bool qmp_combo_configure_dp_mode(struct qmp_combo *qmp)
+>  	 * if (orientation == ORIENTATION_CC2)
+>  	 *	writel(0x4c, qmp->dp_dp_phy + QSERDES_V3_DP_PHY_MODE);
+>  	 */
+> +	if (dp_opts->lanes == 4 || reverse)
+> +		val |= DP_PHY_PD_CTL_LANE_0_1_PWRDN;
+> +	if (dp_opts->lanes == 4 || !reverse)
+> +		val |= DP_PHY_PD_CTL_LANE_2_3_PWRDN;
+> +
+>  	val |= DP_PHY_PD_CTL_LANE_2_3_PWRDN;
 
+When "reverse" this implies 4 lanes, I think it's an accidental left
+over from introducing the conditionals.
+
+>  	writel(val, qmp->dp_dp_phy + QSERDES_DP_PHY_PD_CTL);
+>  
+> -	writel(0x5c, qmp->dp_dp_phy + QSERDES_DP_PHY_MODE);
+> +	if (reverse)
+> +		writel(0x4c, qmp->pcs + QSERDES_DP_PHY_MODE);
+> +	else
+> +		writel(0x5c, qmp->pcs + QSERDES_DP_PHY_MODE);
+>  
+>  	return reverse;
+>  }
+> @@ -2461,6 +2478,7 @@ static int qmp_combo_com_init(struct qmp_combo *qmp)
+>  {
+>  	const struct qmp_phy_cfg *cfg = qmp->cfg;
+>  	void __iomem *com = qmp->com;
+> +	u32 val;
+>  	int ret;
+>  
+>  	mutex_lock(&qmp->phy_mutex);
+> @@ -2498,8 +2516,11 @@ static int qmp_combo_com_init(struct qmp_combo *qmp)
+>  			SW_DPPHY_RESET_MUX | SW_DPPHY_RESET |
+>  			SW_USB3PHY_RESET_MUX | SW_USB3PHY_RESET);
+>  
+> -	/* Default type-c orientation, i.e CC1 */
+> -	qphy_setbits(com, QPHY_V3_DP_COM_TYPEC_CTRL, 0x02);
+> +	/* Latch CC orientation based on reported state by TCPM */
+> +	val = SW_PORTSELECT_MUX;
+> +	if (qmp->orientation == TYPEC_ORIENTATION_REVERSE)
+> +		val |= SW_PORTSELECT_VAL;
+> +	qphy_setbits(com, QPHY_V3_DP_COM_TYPEC_CTRL, val);
+>  
+>  	qphy_setbits(com, QPHY_V3_DP_COM_PHY_MODE_CTRL, USB3_MODE | DP_MODE);
+>  
+> @@ -3338,6 +3359,53 @@ static struct phy *qmp_combo_phy_xlate(struct device *dev, struct of_phandle_arg
+>  	return ERR_PTR(-EINVAL);
+>  }
+>  
+> +#if IS_ENABLED(CONFIG_PHY_QCOM_QMP_TYPEC)
+> +static int qmp_combo_typec_switch_set(struct typec_switch_dev *sw,
+> +				      enum typec_orientation orientation)
+> +{
+> +	struct qmp_combo *qmp = typec_switch_get_drvdata(sw);
+> +	struct phy *dp_phy = qmp->dp_phy;
+> +	int ret = 0;
+> +
+> +	dev_dbg(qmp->dev, "Toggling orientation current %d requested %d\n",
+> +		qmp->orientation, orientation);
+> +
+> +	qmp->orientation = orientation;
+> +
+> +	if (orientation == TYPEC_ORIENTATION_NONE) {
+> +		if (qmp->init_count)
+> +			ret = qmp_combo_dp_power_off(dp_phy);
+> +	} else {
+> +		if (!qmp->init_count)
+> +			ret = qmp_combo_dp_power_on(dp_phy);
+> +	}
+
+This sequence is crashing my laptop, need some more time to debug the
+actual cause.
+
+Regards,
+Bjorn
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int qmp_combo_typec_switch_register(struct qmp_combo *qmp)
+> +{
+> +	struct typec_switch_desc sw_desc;
+> +	struct device *dev = qmp->dev;
+> +
+> +	sw_desc.drvdata = qmp;
+> +	sw_desc.fwnode = dev->fwnode;
+> +	sw_desc.set = qmp_combo_typec_switch_set;
+> +	qmp->sw = typec_switch_register(dev, &sw_desc);
+> +	if (IS_ERR(qmp->sw)) {
+> +		dev_err(dev, "Error registering typec switch: %ld\n",
+> +			PTR_ERR(qmp->sw));
+> +	}
+> +
+> +	return 0;
+> +}
+> +#else
+> +static int qmp_combo_typec_switch_register(struct qmp_combo *qmp)
+> +{
+> +	return 0;
+> +}
+> +#endif
+> +
+>  static int qmp_combo_probe(struct platform_device *pdev)
+>  {
+>  	struct qmp_combo *qmp;
+> @@ -3428,6 +3496,10 @@ static int qmp_combo_probe(struct platform_device *pdev)
+>  	else
+>  		phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+>  
+> +	ret = qmp_combo_typec_switch_register(qmp);
+> +	if (ret)
+> +		goto err_node_put;
+> +
+>  	of_node_put(usb_np);
+>  	of_node_put(dp_np);
+>  
+> -- 
+> 2.39.2
+> 
