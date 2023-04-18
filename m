@@ -2,102 +2,166 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22964C6FD18
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Apr 2023 11:26:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B01D8C77B76
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Apr 2023 11:32:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229598AbjDRL0U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Apr 2023 07:26:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38904 "EHLO
+        id S231325AbjDRLck (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Apr 2023 07:32:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbjDRL0T (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Apr 2023 07:26:19 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10DC11A4
-        for <linux-usb@vger.kernel.org>; Tue, 18 Apr 2023 04:26:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681817178; x=1713353178;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JPPAD0VSWJWkbNeWNnSf+XtCF61+Scc5aoXaxcvRWVE=;
-  b=MN8ZxczQQg4t8qNwKui1G+uc+gF5hNotsweqPYtO7F/sFjV6U30a1XpP
-   68mZWQDI23TAKqsT9nttOArT5t4AXfHo/y1tDz6anLE9jrIrfPJi8bgYh
-   dmK3fdFwMHrVDDHPumVJtZLW0RJ065DIWtowKmQVdCg+ZlS77yEW+P1lX
-   Egmafb2aPKahPPireTjSQDhTdvndQnz6wH26PYiVng9po0XyN8jchDNPy
-   bzn+yAbLNJw6mbNmdzMGfrUCKm/NKQqAxZDjU9aSlvDCEgiW9WZXZD5E3
-   YrgYt7wMdhfRl07rb1O+itFLlaNChf6f+seaDBBPoks8CDpDdjHO+TuuR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="408042095"
-X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="408042095"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 04:26:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="815173376"
-X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
-   d="scan'208";a="815173376"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga004.jf.intel.com with ESMTP; 18 Apr 2023 04:26:06 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 7E9CA1A8; Tue, 18 Apr 2023 14:26:11 +0300 (EEST)
-Date:   Tue, 18 Apr 2023 14:26:11 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-usb@vger.kernel.org
-Subject: [GIT PULL] Thunderbolt/USB4 changes for v6.4 merge window
-Message-ID: <20230418112611.GF66750@black.fi.intel.com>
+        with ESMTP id S231247AbjDRLcf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Apr 2023 07:32:35 -0400
+Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA10861AB;
+        Tue, 18 Apr 2023 04:32:33 -0700 (PDT)
+Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
+        by mx.sberdevices.ru (Postfix) with ESMTP id 046FD5FD7C;
+        Tue, 18 Apr 2023 14:16:26 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+        s=mail; t=1681816586;
+        bh=lYTwixrqbd9SStEuaH+MOse4j7UjK4ooo6t7FaqVmeA=;
+        h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+        b=Svh2dtABfLv0A4s8N8XedVQorPjq21MkbnzYzqGr0rE7B7n9umg+kH5gWc/yfHSxG
+         I6if+KKBejBAY8kxAT35VX8E6ePwaDSYCg9APOXYUTEcf+YTGq+sTMsW1m535JjJJZ
+         maO427TZfHXgh0eMipZMNELzwSsHvujFt9J6lbj8/lmYIsses3X6j8hyVgIzfEGY7w
+         KHroZFMv6imEBXB138tczGBWFym21BusY/Irq0Fl/7qA5FDUxrUYztnLs7qwN5pLfP
+         YAfl2lJeIKU0+N0tenqO5E9AidpMhA92sNKKaEeQ2alWPsyl02QvJSCU8DdA0PRhqw
+         Osjt1945IdDHA==
+Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
+        by mx.sberdevices.ru (Postfix) with ESMTP;
+        Tue, 18 Apr 2023 14:16:25 +0300 (MSK)
+From:   Dmitry Rokosov <ddrokosov@sberdevices.ru>
+To:     <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <neil.armstrong@linaro.org>,
+        <khilman@baylibre.com>, <jbrunet@baylibre.com>,
+        <martin.blumenstingl@googlemail.com>, <mturquette@baylibre.com>,
+        <vkoul@kernel.org>, <kishon@kernel.org>, <hminas@synopsys.com>,
+        <Thinh.Nguyen@synopsys.com>
+CC:     <yue.wang@amlogic.com>, <hanjie.lin@amlogic.com>,
+        <kernel@sberdevices.ru>, <rockosov@gmail.com>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-phy@lists.infradead.org>,
+        Dmitry Rokosov <ddrokosov@sberdevices.ru>
+Subject: [PATCH v2 5/5] arm64: dts: meson: a1: support USB controller in OTG mode
+Date:   Tue, 18 Apr 2023 14:16:12 +0300
+Message-ID: <20230418111612.19479-6-ddrokosov@sberdevices.ru>
+X-Mailer: git-send-email 2.36.0
+In-Reply-To: <20230418111612.19479-1-ddrokosov@sberdevices.ru>
+References: <20230418111612.19479-1-ddrokosov@sberdevices.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.16.1.6]
+X-ClientProxiedBy: S-MS-EXCH01.sberdevices.ru (172.16.1.4) To
+ S-MS-EXCH01.sberdevices.ru (172.16.1.4)
+X-KSMG-Rule-ID: 4
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/04/18 05:44:00 #21123121
+X-KSMG-AntiVirus-Status: Clean, skipped
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg,
+Amlogic A1 SoC family has USB2.0 controller based on dwc2 and dwc3
+heads. It supports otg/host/peripheral modes.
 
-The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
+Signed-off-by: Yue Wang <yue.wang@amlogic.com>
+Signed-off-by: Hanjie Lin <hanjie.lin@amlogic.com>
+Signed-off-by: Dmitry Rokosov <ddrokosov@sberdevices.ru>
+---
+ arch/arm64/boot/dts/amlogic/meson-a1.dtsi | 59 +++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
-  Linux 6.3-rc1 (2023-03-05 14:52:03 -0800)
+diff --git a/arch/arm64/boot/dts/amlogic/meson-a1.dtsi b/arch/arm64/boot/dts/amlogic/meson-a1.dtsi
+index ae7d39cff07a..02af0aac6780 100644
+--- a/arch/arm64/boot/dts/amlogic/meson-a1.dtsi
++++ b/arch/arm64/boot/dts/amlogic/meson-a1.dtsi
+@@ -8,6 +8,8 @@
+ #include <dt-bindings/gpio/meson-a1-gpio.h>
+ #include <dt-bindings/clock/amlogic,a1-pll-clkc.h>
+ #include <dt-bindings/clock/amlogic,a1-clkc.h>
++#include <dt-bindings/power/meson-a1-power.h>
++#include <dt-bindings/reset/amlogic,meson-a1-reset.h>
+ 
+ / {
+ 	compatible = "amlogic,a1";
+@@ -169,6 +171,17 @@ gpio_intc: interrupt-controller@0440 {
+ 				amlogic,channel-interrupts =
+ 					<49 50 51 52 53 54 55 56>;
+ 			};
++
++			usb2_phy1: phy@4000 {
++				compatible = "amlogic,a1-usb2-phy";
++				clocks = <&clkc CLKID_USB_PHY_IN>;
++				clock-names = "xtal";
++				reg = <0x0 0x4000 0x0 0x60>;
++				resets = <&reset RESET_USBPHY>;
++				reset-names = "phy";
++				#phy-cells = <0>;
++				power-domains = <&pwrc PWRC_USB_ID>;
++			};
+ 		};
+ 
+ 		gic: interrupt-controller@ff901000 {
+@@ -192,6 +205,52 @@ spifc: spi@fd000400 {
+ 			#size-cells = <0>;
+ 			status = "disabled";
+ 		};
++
++		usb: usb@fe004400 {
++			status = "disabled";
++			compatible = "amlogic,meson-a1-usb-ctrl";
++			reg = <0x0 0xfe004400 0x0 0xa0>;
++			interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>;
++			#address-cells = <2>;
++			#size-cells = <2>;
++			ranges;
++
++			clocks = <&clkc CLKID_USB_CTRL>,
++				 <&clkc CLKID_USB_BUS>,
++				 <&clkc CLKID_USB_CTRL_IN>;
++			clock-names = "usb_ctrl", "usb_bus", "xtal_usb_ctrl";
++			resets = <&reset RESET_USBCTRL>;
++			reset-name = "usb_ctrl";
++
++			dr_mode = "otg";
++
++			phys = <&usb2_phy1>;
++			phy-names = "usb2-phy1";
++
++			dwc2: usb@ff500000 {
++				compatible = "amlogic,meson-a1-usb", "snps,dwc2";
++				reg = <0x0 0xff500000 0x0 0x40000>;
++				interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
++				phys = <&usb2_phy1>;
++				phy-names = "usb2_phy";
++				clocks = <&clkc CLKID_USB_PHY>;
++				clock-names = "otg";
++				dr_mode = "peripheral";
++				g-rx-fifo-size = <192>;
++				g-np-tx-fifo-size = <128>;
++				g-tx-fifo-size = <128 128 16 16 16>;
++			};
++
++			dwc3: usb@ff400000 {
++				compatible = "snps,dwc3";
++				reg = <0x0 0xff400000 0x0 0x100000>;
++				interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
++				dr_mode = "host";
++				snps,dis_u2_susphy_quirk;
++				snps,quirk-frame-length-adjustment = <0x20>;
++				snps,parkmode-disable-ss-quirk;
++			};
++		};
+ 	};
+ 
+ 	timer {
+-- 
+2.36.0
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v6.4-rc1
-
-for you to fetch changes up to 1f15af76784cc902a1fe85e864c7ddf3d74b4130:
-
-  thunderbolt: Introduce usb4_port_sb_opcode_err_to_errno() helper (2023-04-03 08:37:18 +0300)
-
-----------------------------------------------------------------
-thunderbolt: Changes for v6.4 merge window
-
-This includes following Thunderbolt/USB4 changes for the v6.4 merge
-window:
-
-  - Refactoring of DROM read code paths
-  - Convert to use SI units from units.h
-  - A couple of cleanups
-
-All these have been in linux-next with no reported issues.
-
-----------------------------------------------------------------
-Andy Shevchenko (3):
-      thunderbolt: Get rid of redundant 'else'
-      thunderbolt: Make use of SI units from units.h
-      thunderbolt: Introduce usb4_port_sb_opcode_err_to_errno() helper
-
-Mario Limonciello (2):
-      thunderbolt: use `tb_eeprom_get_drom_offset` to discover DROM offset
-      thunderbolt: Refactor DROM reading
-
- drivers/thunderbolt/acpi.c    |   2 +-
- drivers/thunderbolt/ctl.c     |   2 +-
- drivers/thunderbolt/eeprom.c  | 204 ++++++++++++++++++++++--------------------
- drivers/thunderbolt/nhi.c     |   3 +-
- drivers/thunderbolt/switch.c  |   4 +-
- drivers/thunderbolt/usb4.c    |  52 +++++------
- drivers/thunderbolt/xdomain.c |  24 +++--
- 7 files changed, 149 insertions(+), 142 deletions(-)
