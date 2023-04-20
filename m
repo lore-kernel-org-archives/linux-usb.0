@@ -2,120 +2,89 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39177C77B73
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 09:21:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D111DC77B72
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 09:21:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232154AbjDTJVm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Apr 2023 05:21:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39762 "EHLO
+        id S234226AbjDTJVr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Apr 2023 05:21:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230123AbjDTJVj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 05:21:39 -0400
-Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E69DF269E
-        for <linux-usb@vger.kernel.org>; Thu, 20 Apr 2023 02:21:36 -0700 (PDT)
-X-ASG-Debug-ID: 1681982491-1eb14e63872da70004-YVMibp
-Received: from ZXSHMBX3.zhaoxin.com (ZXSHMBX3.zhaoxin.com [10.28.252.165]) by mx2.zhaoxin.com with ESMTP id 1sZ1achQoc17Nd7t (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Thu, 20 Apr 2023 17:21:33 +0800 (CST)
-X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.165
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX3.zhaoxin.com
- (10.28.252.165) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 20 Apr
- 2023 17:21:31 +0800
-Received: from L440.zhaoxin.com (10.29.8.21) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 20 Apr
- 2023 17:21:30 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.165
-From:   Weitao Wang <WeitaoWang-oc@zhaoxin.com>
-X-Barracuda-RBL-Trusted-Forwarder: 10.29.252.163
-To:     <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <tonywwang@zhaoxin.com>, <weitaowang@zhaoxin.com>
-Subject: [PATCH 3/3] xhci: Show zhaoxin xHCI root hub speed correctly
-Date:   Fri, 21 Apr 2023 01:21:30 +0800
-X-ASG-Orig-Subj: [PATCH 3/3] xhci: Show zhaoxin xHCI root hub speed correctly
-Message-ID: <20230420172130.375819-4-WeitaoWang-oc@zhaoxin.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20230420172130.375819-1-WeitaoWang-oc@zhaoxin.com>
-References: <20230420172130.375819-1-WeitaoWang-oc@zhaoxin.com>
+        with ESMTP id S234201AbjDTJVm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 05:21:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C139D270D;
+        Thu, 20 Apr 2023 02:21:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5DBE16467C;
+        Thu, 20 Apr 2023 09:21:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F4F3C433D2;
+        Thu, 20 Apr 2023 09:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1681982499;
+        bh=41zp8s6DCKF1QkFeef3TFkstg6ARPYXBn9weK4WnGrg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fEd72hLA74Www24YA1rQYRidBlnLEEmVWy2Lg7OnI3BHzsIttJPqtYSTbbjEKSWyR
+         cz813b79HxGJ3mKHWquMTrWpHD2D3ysOQER6DUDUVRne1v8Lq10B4fiXr1R/W75sFM
+         bxnjGLJavPhRBmTauowsUsrdmR1IFRYHdC2aANto=
+Date:   Thu, 20 Apr 2023 11:21:37 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Wesley Cheng <quic_wcheng@quicinc.com>
+Cc:     Thinh.Nguyen@synopsys.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v5 0/3] Avoid having pending end transfers on soft
+ disconnect
+Message-ID: <ZEEEIfqTKiM6CKAR@kroah.com>
+References: <20230413195742.11821-1-quic_wcheng@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.29.8.21]
-X-ClientProxiedBy: zxbjmbx1.zhaoxin.com (10.29.252.163) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-X-Barracuda-Connect: ZXSHMBX3.zhaoxin.com[10.28.252.165]
-X-Barracuda-Start-Time: 1681982492
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 1770
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0004 1.0000 -2.0185
-X-Barracuda-Spam-Score: 1.09
-X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.107672
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
-        3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230413195742.11821-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some zhaoxin xHCI controllers follow usb3.1 spec,
-but only support gen1 speed 5G. While in Linux kernel,
-if xHCI suspport usb3.1,root hub speed will show on 10G.
-To fix this issue of zhaoxin xHCI platforms, read usb speed ID
-supported by xHCI to determine root hub speed.
+On Thu, Apr 13, 2023 at 12:57:39PM -0700, Wesley Cheng wrote:
+> In case there is a host which takes time to complete a SETUP transaction,
+> during the soft disconnect sequence multiple DWC3 EPs will have their
+> DWC3_EP_DELAY_STOP flag set w/o issuing the end transfer command.  Once the
+> controller halt sequence occurs, the soft disconnect is successful, and
+> the subsequent soft connect will attempt to flush the pending end transfers.
+> 
+> Soft disconnect sequence:
+>   dwc3_gadget_ep_disable   name=ep8in flags=0x3009  direction=1
+>   dwc3_gadget_ep_disable   name=ep4in flags=1  direction=1
+>   dwc3_gadget_ep_disable   name=ep3out flags=1  direction=0
+>   usb_gadget_disconnect   deactivated=0  connected=0  ret=0
+> 
+> Soft connect bug:
+>   BUG: spinlock already unlocked on CPU
+>   spin_bug+0x0
+>   dwc3_remove_requests+0x278
+>   dwc3_ep0_out_start+0xb0
+>   __dwc3_gadget_start+0x25c
+> 
+> The bug occurs due to the flush of the pending end transfers, as the gadget
+> start routine is not held with a spinlock.  However, if the DWC3_EP_DELAY_STOP
+> is set, it will call the giveback API, which attempts to unlock the dwc->lock.
+> Ideally, the DWC3 gadget should not have pending end transfers on a soft
+> connect, so fix this by:
+> 
+>  1. Re-locating the SETUP phase check after stop active transfers, since
+>  that is where the DWC3_EP_DELAY_STOP is potentially set.  This also allows
+>  for handling of a host that may be unresponsive by using the completion
+>  timeout to trigger the stall and restart for EP0.
+> 
+>  2. Do not call gadget stop until the poll for controller halt is
+>  completed.  DEVTEN is cleared as part of gadget stop, so the intention to
+>  allow ep0 events to continue while waiting for controller halt is not
+>  happening.
 
-Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
----
- drivers/usb/host/xhci.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Only patch 1 applied, can you rebase the rest and resend with the acks
+applied?
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 730c0f68518d..60b17799aa88 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -5317,6 +5317,7 @@ static void xhci_hcd_init_usb2_data(struct xhci_hcd *xhci, struct usb_hcd *hcd)
- static void xhci_hcd_init_usb3_data(struct xhci_hcd *xhci, struct usb_hcd *hcd)
- {
- 	unsigned int minor_rev;
-+	unsigned int i, j;
- 
- 	/*
- 	 * Early xHCI 1.1 spec did not mention USB 3.1 capable hosts
-@@ -5346,6 +5347,27 @@ static void xhci_hcd_init_usb3_data(struct xhci_hcd *xhci, struct usb_hcd *hcd)
- 		hcd->self.root_hub->ssp_rate = USB_SSP_GEN_2x1;
- 		break;
- 	}
-+
-+	/* Usb3.1 has gen1 and gen2, Some zhaoxin's xHCI controller
-+	 * that follow usb3.1 spec but only support gen1.
-+	 */
-+	if (xhci->quirks & XHCI_ZHAOXIN_HOST) {
-+		minor_rev = 0;
-+		for (j = 0; j < xhci->num_port_caps; j++) {
-+			for (i = 0; i < xhci->port_caps[j].psi_count; i++) {
-+				if (XHCI_EXT_PORT_PSIV(xhci->port_caps[j].psi[i]) >= 5) {
-+					minor_rev = 1;
-+					break;
-+				}
-+			}
-+			if (minor_rev)
-+				break;
-+		}
-+		if (minor_rev != 1) {
-+			hcd->speed = HCD_USB3;
-+			hcd->self.root_hub->speed = USB_SPEED_SUPER;
-+		}
-+	}
- 	xhci_info(xhci, "Host supports USB 3.%x %sSuperSpeed\n",
- 		  minor_rev, minor_rev ? "Enhanced " : "");
- 
--- 
-2.32.0
+thanks,
+
+greg k-h
 
