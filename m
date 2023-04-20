@@ -2,117 +2,135 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EC9DC77B73
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 12:56:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B566C77B72
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 13:49:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229811AbjDTM41 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Apr 2023 08:56:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46222 "EHLO
+        id S230459AbjDTNtK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Apr 2023 09:49:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229660AbjDTM40 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 08:56:26 -0400
-Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F26C2108
-        for <linux-usb@vger.kernel.org>; Thu, 20 Apr 2023 05:56:23 -0700 (PDT)
-X-ASG-Debug-ID: 1681995379-1eb14e63862f150001-YVMibp
-Received: from ZXSHMBX2.zhaoxin.com (ZXSHMBX2.zhaoxin.com [10.28.252.164]) by mx2.zhaoxin.com with ESMTP id bUovl42uH9HcTUzy (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Thu, 20 Apr 2023 20:56:19 +0800 (CST)
-X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX2.zhaoxin.com
- (10.28.252.164) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 20 Apr
- 2023 20:56:19 +0800
-Received: from [10.29.8.21] (10.29.8.21) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 20 Apr
- 2023 20:56:18 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Message-ID: <14108824-1e8b-e494-bbc7-e99eafefa632@zhaoxin.com>
-X-Barracuda-RBL-Trusted-Forwarder: 10.29.8.21
-Date:   Fri, 21 Apr 2023 04:56:17 +0800
+        with ESMTP id S229980AbjDTNtI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 09:49:08 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B92E65245;
+        Thu, 20 Apr 2023 06:49:07 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-517c01edaaaso763408a12.3;
+        Thu, 20 Apr 2023 06:49:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681998547; x=1684590547;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=wnjUcH5y1Pb8R4/f3gZ/CX/Eqa1ZM5qT0lnDQJSddVI=;
+        b=ppBsWpCXOkPI9VqP8f0CZnLVdZL6ouH7XsmTPYI2heigN9JKfbVzxPgw5dA17iUhDA
+         8g1djWzw5GXkFikwzYddWzDRYS9hDRMhWXqly6PRWF4z3cfzFTmpUFUm9aeQ1pRKAX0H
+         JRH/zWEA0R9MPsBUCdF0fGRZe4uRkQG0AIdoD1TfB7x4ufQ/sM0+TplNeWvfCBLdkcPy
+         TEvJfY3x8aHbyB4VEdJaCGy5p5PDua+7O0Psq/TmbZxgd0cuJs9fV0Ev42zNLYlzwz0Y
+         OqlkUjGi6YmUq9ily1EzjFuYrHYxusN8+X732ZCMRpQP3xE1QoJGSqN87RzJrgeAUYqM
+         PBCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681998547; x=1684590547;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wnjUcH5y1Pb8R4/f3gZ/CX/Eqa1ZM5qT0lnDQJSddVI=;
+        b=B9acNGAC3OwyKHL0pUArS2bAfO3+nGqJ4C8aQ8o82f6d8fZOJ3OYBcf3GAN6QELiXT
+         vo44ZlONmZOQjwymiSLSqG/B4UX3jfnfbuh6XGtSLOilgKuCHtavlfZKQA3Wo3Nkc8Tn
+         fL9r1j4lIn9amvp0IuFJUi+AmY5omGQkoLhQgfE3z112lMFiqPmN7EWsc5boJM+rGwnR
+         m8hVV7rAGk8pEpnVsxVG0pF9Yves7w2ZCffOfhUV5XqN747RdnQlNYgZgWblnQWq4Bw0
+         Jul5d0BK/RbrjTum8r2WYdMc+AG9Z0pYfVXpNWIhJ6+ZM8k2cRZnbMnjTmeboXVYD4IY
+         W/4w==
+X-Gm-Message-State: AAQBX9e22gcIotmxZNKbqJqLtPnGyGZC+QVRPWV5/hczS2ALxGerygys
+        cMHMpUeue537FAQl75L96o10HT8l5vM=
+X-Google-Smtp-Source: AKy350b4gVTrT0jdEJyTAOLAle1O9HpAQ2FZJ2O2eMbVOAtJVpzK7840rFjgpPtYWntiYEt7eg6fFg==
+X-Received: by 2002:a17:90b:3904:b0:246:ee10:cb5d with SMTP id ob4-20020a17090b390400b00246ee10cb5dmr1795004pjb.14.1681998547069;
+        Thu, 20 Apr 2023 06:49:07 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id l5-20020a17090a598500b00247a2498075sm1188313pji.48.2023.04.20.06.49.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Apr 2023 06:49:06 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <dff23f7b-86a4-6984-5ce0-70aa6dbfad8e@roeck-us.net>
+Date:   Thu, 20 Apr 2023 06:49:03 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/3] Fix some issues of xHCI for zhaoxin
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2] usb: typec: tcpm: fix multiple times discover svids
+ error
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Frank Wang <frank.wang@rock-chips.com>, heiko@sntech.de,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, huangtao@rock-chips.com,
+        william.wu@rock-chips.com, jianwei.zheng@rock-chips.com,
+        yubing.zhang@rock-chips.com, wmc@rock-chips.com
+References: <20230316081149.24519-1-frank.wang@rock-chips.com>
+ <ZBROkdOFAP4GPPU6@kuha.fi.intel.com> <ZEDzGydXbbpekeaB@kroah.com>
 Content-Language: en-US
-X-ASG-Orig-Subj: Re: [PATCH 0/3] Fix some issues of xHCI for zhaoxin
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     <mathias.nyman@intel.com>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <tonywwang@zhaoxin.com>,
-        <weitaowang@zhaoxin.com>
-References: <20230420172130.375819-1-WeitaoWang-oc@zhaoxin.com>
- <ZEEF9E4Mmeg5hRWu@kroah.com>
- <b65291ea-acca-7cd4-b5f5-f5bb46e679b4@zhaoxin.com>
- <ZEEQoHY12zfLM7Yd@kroah.com>
-From:   "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
-In-Reply-To: <ZEEQoHY12zfLM7Yd@kroah.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <ZEDzGydXbbpekeaB@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.29.8.21]
-X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-X-Barracuda-Connect: ZXSHMBX2.zhaoxin.com[10.28.252.164]
-X-Barracuda-Start-Time: 1681995379
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 1579
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
-X-Barracuda-Spam-Score: 1.09
-X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.107678
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
-        3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2023/4/20 18:14, Greg KH wrote:
-> On Fri, Apr 21, 2023 at 02:08:14AM +0800, WeitaoWang-oc@zhaoxin.com wrote:
->> On 2023/4/20 17:29, Greg KH wrote:
->>> On Fri, Apr 21, 2023 at 01:21:27AM +0800, Weitao Wang wrote:
->>>> Fix some issues of xHCI for zhaoxin.
->>>>
->>>> Weitao Wang (3):
->>>>     xhci: Add a quirk for zhaoxin xhci to fix issues.
->>>>     xhci: Add zhaoxin xHCI U1/U2 feature support
->>>>     xhci: Show zhaoxin xHCI root hub speed correctly
->>>>
->>>>    drivers/usb/host/xhci-pci.c |  5 ++++
->>>>    drivers/usb/host/xhci.c     | 49 +++++++++++++++++++++++++++++++++++--
->>>>    drivers/usb/host/xhci.h     |  1 +
->>>>    3 files changed, 53 insertions(+), 2 deletions(-)
->>>>
->>>> -- 
->>>> 2.32.0
->>>>
+On 4/20/23 01:08, Greg KH wrote:
+> On Fri, Mar 17, 2023 at 01:27:13PM +0200, Heikki Krogerus wrote:
+>> On Thu, Mar 16, 2023 at 04:11:49PM +0800, Frank Wang wrote:
+>>> PD3.0 Spec 6.4.4.3.2 say that only Responder supports 12 or more SVIDs,
+>>> the Discover SVIDs Command Shall be executed multiple times until a
+>>> Discover SVIDs VDO is returned ending either with a SVID value of
+>>> 0x0000 in the last part of the last VDO or with a VDO containing two
+>>> SVIDs with values of 0x0000.
 >>>
->>> Do these replace:
->>> https://lore.kernel.org/r/20230420093603.3344-1-WeitaoWang-oc@zhaoxin.com
->>> or are they on top of them?
+>>> In the current implementation, if the last VDO does not find that the
+>>> Discover SVIDs Command would be executed multiple times even if the
+>>> Responder SVIDs are less than 12, and we found some odd dockers just
+>>> meet this case. So fix it.
 >>>
+>>> Signed-off-by: Frank Wang <frank.wang@rock-chips.com>
+>>> ---
+>>>   drivers/usb/typec/tcpm/tcpm.c | 16 +++++++++++++++-
+>>>   1 file changed, 15 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+>>> index 66de02a56f512..a3ae2c79f3540 100644
+>>> --- a/drivers/usb/typec/tcpm/tcpm.c
+>>> +++ b/drivers/usb/typec/tcpm/tcpm.c
+>>> @@ -1515,7 +1515,21 @@ static bool svdm_consume_svids(struct tcpm_port *port, const u32 *p, int cnt)
+>>>   		pmdata->svids[pmdata->nsvids++] = svid;
+>>>   		tcpm_log(port, "SVID %d: 0x%x", pmdata->nsvids, svid);
+>>>   	}
+>>> -	return true;
+>>> +
+>>> +	/*
+>>> +	 * PD3.0 Spec 6.4.4.3.2: The SVIDs are returned 2 per VDO (see Table
+>>> +	 * 6-43), and can be returned maximum 6 VDOs per response (see Figure
+>>> +	 * 6-19). If the Respondersupports 12 or more SVID then the Discover
+>>> +	 * SVIDs Command Shall be executed multiple times until a Discover
+>>> +	 * SVIDs VDO is returned ending either with a SVID value of 0x0000 in
+>>> +	 * the last part of the last VDO or with a VDO containing two SVIDs
+>>> +	 * with values of 0x0000.
+>>> +	 *
+>>> +	 * However, some odd dockers support SVIDs less than 12 but without
+>>> +	 * 0x0000 in the last VDO, so we need to break the Discover SVIDs
+>>> +	 * request and return false here.
+>>> +	 */
+>>> +	return cnt == 7;
+>>>   abort:
+>>>   	tcpm_log(port, "SVID_DISCOVERY_MAX(%d) too low!", SVID_DISCOVERY_MAX);
+>>>   	return false;
 >>
->> This [patch 2/3] and [patch 3/3] share a xhci quirk flag XHCI_ZHAOXIN_HOST,
->> So I put these independent functional patch in this set group.
->> Above url and below url are independent xHCI patch for zhaoxin.
->> Is it more suitable to put all the patch for zhaoxin xhci in one group?
->> I Hope to receive your guidance. Thanks!
->>
->> https://lore.kernel.org/all/20230420104826.4727-1-WeitaoWang-oc@zhaoxin.com/
+>> This is OK by men, but let's wait for Guenter.
 > 
-> Please resend them all as a patch series so we know what we are supposed
-> to be reviewing and accepting.  Otherwise it's quite confusing.
-
-Okay, I'll resend all patch for zhaoxin xHCI in a patch series.
-
-Best Regards,
-weitao
-
-> thanks,
+> What ever happened to this patch?
 > 
-> greg k-h
-> .
+
+It got lost in space.
+
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+
+Guenter
+
