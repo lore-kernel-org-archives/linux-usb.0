@@ -2,103 +2,105 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C330C77B78
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 08:09:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D62A6C77B72
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 08:11:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234339AbjDTIJQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Apr 2023 04:09:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44156 "EHLO
+        id S234348AbjDTILE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Apr 2023 04:11:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234337AbjDTIJN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 04:09:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1DF9FC;
-        Thu, 20 Apr 2023 01:09:08 -0700 (PDT)
+        with ESMTP id S231458AbjDTILD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 04:11:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2D2173A;
+        Thu, 20 Apr 2023 01:11:03 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2746C645AB;
-        Thu, 20 Apr 2023 08:09:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 911D1C433EF;
-        Thu, 20 Apr 2023 08:09:06 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 94573645CB;
+        Thu, 20 Apr 2023 08:11:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3371AC433D2;
+        Thu, 20 Apr 2023 08:11:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1681978147;
-        bh=ImzOYmQ4yUAimeoREYTG/Ic4X9E0mCDibkc7vPhya5g=;
+        s=korg; t=1681978262;
+        bh=cRkJJtkBCNc6QMnaPnruYpRLA9mN0/qvOe5piHP2PL0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Gm2KDvefKPiwYxUSqqIQl5ioJOzO0AcVRlCaKwSP1rY1ZyadRI8dF/Ce3WkKJQRSs
-         Sc5BXlTLKFHYQwrzFGZOKgV2aR12u/kZ4Dw9hUXt8WZ8IAZh+a33VypEYXIwETMJT4
-         RtiSofNBctrEcmE2qu2FroRvVRTLpqw8hK4BzQmQ=
-Date:   Thu, 20 Apr 2023 10:08:59 +0200
+        b=KwyuRbNTuY014OIygJWopqNWMjjzNCDieFS4GhXJ2NSLsERU+0C9VWL2CWYisnvjb
+         R0Djg8vlgNA6K+bSAsN1QAztj87ny2HdQkF3o14W2QbblQUdKKMV0sFP3AIACuKpOh
+         n1c8YZX7x9fW2TdV06CoYnVQo8Rr6CKHZjLrBx68=
+Date:   Thu, 20 Apr 2023 10:10:58 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Frank Wang <frank.wang@rock-chips.com>, linux@roeck-us.net,
-        heiko@sntech.de, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        huangtao@rock-chips.com, william.wu@rock-chips.com,
-        jianwei.zheng@rock-chips.com, yubing.zhang@rock-chips.com,
-        wmc@rock-chips.com
-Subject: Re: [PATCH v2] usb: typec: tcpm: fix multiple times discover svids
- error
-Message-ID: <ZEDzGydXbbpekeaB@kroah.com>
-References: <20230316081149.24519-1-frank.wang@rock-chips.com>
- <ZBROkdOFAP4GPPU6@kuha.fi.intel.com>
+To:     Shawn Guo <shawnguo@kernel.org>
+Cc:     Peng Fan <peng.fan@nxp.com>,
+        "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        Xu Yang <xu.yang_2@nxp.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>, Jun Li <jun.li@nxp.com>
+Subject: Re: [PATCH V7 10/10] ARM64: dts: imx7ulp: update usb compatible
+Message-ID: <ZEDzkhtUiUxQ0V4d@kroah.com>
+References: <20230322052504.2629429-1-peng.fan@oss.nxp.com>
+ <20230322052504.2629429-11-peng.fan@oss.nxp.com>
+ <20230405130649.GA11367@dragon>
+ <DU0PR04MB94178755C624BCBE25D8073C88919@DU0PR04MB9417.eurprd04.prod.outlook.com>
+ <20230406014013.GJ11367@dragon>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBROkdOFAP4GPPU6@kuha.fi.intel.com>
+In-Reply-To: <20230406014013.GJ11367@dragon>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Mar 17, 2023 at 01:27:13PM +0200, Heikki Krogerus wrote:
-> On Thu, Mar 16, 2023 at 04:11:49PM +0800, Frank Wang wrote:
-> > PD3.0 Spec 6.4.4.3.2 say that only Responder supports 12 or more SVIDs,
-> > the Discover SVIDs Command Shall be executed multiple times until a
-> > Discover SVIDs VDO is returned ending either with a SVID value of
-> > 0x0000 in the last part of the last VDO or with a VDO containing two
-> > SVIDs with values of 0x0000.
+On Thu, Apr 06, 2023 at 09:40:13AM +0800, Shawn Guo wrote:
+> On Thu, Apr 06, 2023 at 01:18:43AM +0000, Peng Fan wrote:
+> > Hi Shawn,
 > > 
-> > In the current implementation, if the last VDO does not find that the
-> > Discover SVIDs Command would be executed multiple times even if the
-> > Responder SVIDs are less than 12, and we found some odd dockers just
-> > meet this case. So fix it.
+> > > Subject: Re: [PATCH V7 10/10] ARM64: dts: imx7ulp: update usb compatible
+> > > 
+> > > On Wed, Mar 22, 2023 at 01:25:04PM +0800, Peng Fan (OSS) wrote:
+> > > > From: Peng Fan <peng.fan@nxp.com>
+> > > >
+> > > > Per binding doc, update the compatible
+> > > >
+> > > > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> > > 
+> > > ARM: dts: imx7ulp: ...
+> > > 
+> > > Fixed it up and applied all DTS patches.
+> > [Peng Fan] 
 > > 
-> > Signed-off-by: Frank Wang <frank.wang@rock-chips.com>
-> > ---
-> >  drivers/usb/typec/tcpm/tcpm.c | 16 +++++++++++++++-
-> >  1 file changed, 15 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> > index 66de02a56f512..a3ae2c79f3540 100644
-> > --- a/drivers/usb/typec/tcpm/tcpm.c
-> > +++ b/drivers/usb/typec/tcpm/tcpm.c
-> > @@ -1515,7 +1515,21 @@ static bool svdm_consume_svids(struct tcpm_port *port, const u32 *p, int cnt)
-> >  		pmdata->svids[pmdata->nsvids++] = svid;
-> >  		tcpm_log(port, "SVID %d: 0x%x", pmdata->nsvids, svid);
-> >  	}
-> > -	return true;
-> > +
-> > +	/*
-> > +	 * PD3.0 Spec 6.4.4.3.2: The SVIDs are returned 2 per VDO (see Table
-> > +	 * 6-43), and can be returned maximum 6 VDOs per response (see Figure
-> > +	 * 6-19). If the Respondersupports 12 or more SVID then the Discover
-> > +	 * SVIDs Command Shall be executed multiple times until a Discover
-> > +	 * SVIDs VDO is returned ending either with a SVID value of 0x0000 in
-> > +	 * the last part of the last VDO or with a VDO containing two SVIDs
-> > +	 * with values of 0x0000.
-> > +	 *
-> > +	 * However, some odd dockers support SVIDs less than 12 but without
-> > +	 * 0x0000 in the last VDO, so we need to break the Discover SVIDs
-> > +	 * request and return false here.
-> > +	 */
-> > +	return cnt == 7;
-> >  abort:
-> >  	tcpm_log(port, "SVID_DISCOVERY_MAX(%d) too low!", SVID_DISCOVERY_MAX);
-> >  	return false;
+> > Thanks for the fix. But I think Greg already applied the patchset.
 > 
-> This is OK by men, but let's wait for Guenter.
+> Okay, I will drop them from my tree, but ...
+> 
+> Greg,
+> 
+> May I suggest a couple of things on the future process?
+> 
+> - Could you leave i.MX DTS patches to me, so that we can avoid potential
+>   merge conflicts?
 
-What ever happened to this patch?
+How am I supposed to know this?  Our tools take the whole patch series,
+not individual ones.  If someone wants patches to go through different
+trees, then they need to submit them as different patch series,
+otherwise it makes no sense.
+
+> - Would you update your patch robot to reply the applying message to all
+>   recipients, so that everyone knows the status?
+
+Can't really do that, it only responds to those that are on the patch
+signed-off-by list itself, as the other cc: metadata is gone after the
+patch is applied.
 
 thanks,
 
