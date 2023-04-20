@@ -2,113 +2,117 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A0F2C77B7F
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 12:33:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EC9DC77B73
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 12:56:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234983AbjDTMdX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Apr 2023 08:33:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54318 "EHLO
+        id S229811AbjDTM41 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Apr 2023 08:56:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234936AbjDTMdQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 08:33:16 -0400
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732E83C30;
-        Thu, 20 Apr 2023 05:32:58 -0700 (PDT)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-18665c1776dso615787fac.2;
-        Thu, 20 Apr 2023 05:32:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681993977; x=1684585977;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=n7z0JmwHaex/uFH0ZYyDvToigtvE+3W/gbf5o0Is7Ho=;
-        b=OBkMo2LkzLoVM5h8kQpDEMcnrNY7rC2mn3o58ExbDs9bg55LcP6Pef7/HOnmjZ3AcD
-         BkbbQ62RF3hfEbaTI7iTo/rKh6rlRZDFZkWVBlx7ppw0Ar255LmUZO/JWC7rwmzH/zeF
-         9/qFWhNaixRJIQIM1NwZVicrTLR5R8wHn5MZMqMBfPr8AKWZiFfHUm3BtlcNYpnPCS/s
-         SYhyj66KETnJE9Powihy6xmsavVkx0FSOuJtyarZVYMLKB9bRDSRXw9sTQjhgO4hjI6J
-         FGuusluvyG54NbCOKNR9Ltov8RjYURSC5KKT6r/YoqOSqa92mfYUX8gTZ7fe30JKLzv9
-         hfhA==
-X-Gm-Message-State: AAQBX9cov7AAV7QllXKJFkO56Y2eDFUM/fzIeHwaNusuNPJnK5TtaT8W
-        8fg06uUe2bgGQzoazJITDziaWzfO5g==
-X-Google-Smtp-Source: AKy350Y107Wu1RAl2s+KH7dc+aZ13lz9F0Ey0F68DyRy1iyrsdRSN2Bux4WCxJa0ZbDCN1BlqkUgiw==
-X-Received: by 2002:a05:6871:707:b0:188:5:bc87 with SMTP id f7-20020a056871070700b001880005bc87mr1163265oap.6.1681993977566;
-        Thu, 20 Apr 2023 05:32:57 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id e21-20020a056830201500b0069f8ff38bcbsm662919otp.16.2023.04.20.05.32.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Apr 2023 05:32:57 -0700 (PDT)
-Received: (nullmailer pid 2632253 invoked by uid 1000);
-        Thu, 20 Apr 2023 12:32:54 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229660AbjDTM40 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 08:56:26 -0400
+Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F26C2108
+        for <linux-usb@vger.kernel.org>; Thu, 20 Apr 2023 05:56:23 -0700 (PDT)
+X-ASG-Debug-ID: 1681995379-1eb14e63862f150001-YVMibp
+Received: from ZXSHMBX2.zhaoxin.com (ZXSHMBX2.zhaoxin.com [10.28.252.164]) by mx2.zhaoxin.com with ESMTP id bUovl42uH9HcTUzy (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Thu, 20 Apr 2023 20:56:19 +0800 (CST)
+X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX2.zhaoxin.com
+ (10.28.252.164) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 20 Apr
+ 2023 20:56:19 +0800
+Received: from [10.29.8.21] (10.29.8.21) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 20 Apr
+ 2023 20:56:18 +0800
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
+Message-ID: <14108824-1e8b-e494-bbc7-e99eafefa632@zhaoxin.com>
+X-Barracuda-RBL-Trusted-Forwarder: 10.29.8.21
+Date:   Fri, 21 Apr 2023 04:56:17 +0800
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Minda Chen <minda.chen@starfivetech.com>
-Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Mason Huo <mason.huo@starfivetech.com>,
-        Roger Quadros <rogerq@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Albert Ou <aou@eecs.berkeley.edu>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-        Peter Chen <peter.chen@kernel.org>,
-        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-        Conor Dooley <conor@kernel.org>,
-        linux-riscv@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-In-Reply-To: <20230420110052.3182-6-minda.chen@starfivetech.com>
-References: <20230420110052.3182-1-minda.chen@starfivetech.com>
- <20230420110052.3182-6-minda.chen@starfivetech.com>
-Message-Id: <168199392033.2631023.325205203535545069.robh@kernel.org>
-Subject: Re: [PATCH v5 5/7] dt-bindings: usb: Add StarFive JH7110 USB
- controller
-Date:   Thu, 20 Apr 2023 07:32:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 0/3] Fix some issues of xHCI for zhaoxin
+Content-Language: en-US
+X-ASG-Orig-Subj: Re: [PATCH 0/3] Fix some issues of xHCI for zhaoxin
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     <mathias.nyman@intel.com>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <tonywwang@zhaoxin.com>,
+        <weitaowang@zhaoxin.com>
+References: <20230420172130.375819-1-WeitaoWang-oc@zhaoxin.com>
+ <ZEEF9E4Mmeg5hRWu@kroah.com>
+ <b65291ea-acca-7cd4-b5f5-f5bb46e679b4@zhaoxin.com>
+ <ZEEQoHY12zfLM7Yd@kroah.com>
+From:   "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
+In-Reply-To: <ZEEQoHY12zfLM7Yd@kroah.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.29.8.21]
+X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
+ zxbjmbx1.zhaoxin.com (10.29.252.163)
+X-Barracuda-Connect: ZXSHMBX2.zhaoxin.com[10.28.252.164]
+X-Barracuda-Start-Time: 1681995379
+X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
+X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at zhaoxin.com
+X-Barracuda-Scan-Msg-Size: 1579
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
+X-Barracuda-Spam-Score: 1.09
+X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.107678
+        Rule breakdown below
+         pts rule name              description
+        ---- ---------------------- --------------------------------------------------
+        0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
+        3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
-On Thu, 20 Apr 2023 19:00:50 +0800, Minda Chen wrote:
-> StarFive JH7110 platforms USB have a wrapper module around
-> the Cadence USBSS-DRD controller. Add binding information doc
-> for that.
+On 2023/4/20 18:14, Greg KH wrote:
+> On Fri, Apr 21, 2023 at 02:08:14AM +0800, WeitaoWang-oc@zhaoxin.com wrote:
+>> On 2023/4/20 17:29, Greg KH wrote:
+>>> On Fri, Apr 21, 2023 at 01:21:27AM +0800, Weitao Wang wrote:
+>>>> Fix some issues of xHCI for zhaoxin.
+>>>>
+>>>> Weitao Wang (3):
+>>>>     xhci: Add a quirk for zhaoxin xhci to fix issues.
+>>>>     xhci: Add zhaoxin xHCI U1/U2 feature support
+>>>>     xhci: Show zhaoxin xHCI root hub speed correctly
+>>>>
+>>>>    drivers/usb/host/xhci-pci.c |  5 ++++
+>>>>    drivers/usb/host/xhci.c     | 49 +++++++++++++++++++++++++++++++++++--
+>>>>    drivers/usb/host/xhci.h     |  1 +
+>>>>    3 files changed, 53 insertions(+), 2 deletions(-)
+>>>>
+>>>> -- 
+>>>> 2.32.0
+>>>>
+>>>
+>>> Do these replace:
+>>> https://lore.kernel.org/r/20230420093603.3344-1-WeitaoWang-oc@zhaoxin.com
+>>> or are they on top of them?
+>>>
+>>
+>> This [patch 2/3] and [patch 3/3] share a xhci quirk flag XHCI_ZHAOXIN_HOST,
+>> So I put these independent functional patch in this set group.
+>> Above url and below url are independent xHCI patch for zhaoxin.
+>> Is it more suitable to put all the patch for zhaoxin xhci in one group?
+>> I Hope to receive your guidance. Thanks!
+>>
+>> https://lore.kernel.org/all/20230420104826.4727-1-WeitaoWang-oc@zhaoxin.com/
 > 
-> Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
-> Reviewed-by: Peter Chen <peter.chen@kernel.org>
-> Reviewed-by: Hal Feng <hal.feng@starfivetech.com>
-> ---
->  .../bindings/usb/starfive,jh7110-usb.yaml     | 131 ++++++++++++++++++
->  1 file changed, 131 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/starfive,jh7110-usb.yaml
+> Please resend them all as a patch series so we know what we are supposed
+> to be reviewing and accepting.  Otherwise it's quite confusing.
+
+Okay, I'll resend all patch for zhaoxin xHCI in a patch series.
+
+Best Regards,
+weitao
+
+> thanks,
 > 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/usb/starfive,jh7110-usb.yaml:73:9: [warning] too many spaces after hyphen (hyphens)
-
-dtschema/dtc warnings/errors:
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230420110052.3182-6-minda.chen@starfivetech.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+> greg k-h
+> .
