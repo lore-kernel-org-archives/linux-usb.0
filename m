@@ -2,86 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8E3CC77B75
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 11:20:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77F87C77B75
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 11:22:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230074AbjDULUV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Apr 2023 07:20:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51810 "EHLO
+        id S229818AbjDULWN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Apr 2023 07:22:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjDULUU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Apr 2023 07:20:20 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CB18186;
-        Fri, 21 Apr 2023 04:20:18 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 33LBJeXmA015562, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 33LBJeXmA015562
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-        Fri, 21 Apr 2023 19:19:40 +0800
-Received: from RTEXDAG02.realtek.com.tw (172.21.6.101) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Fri, 21 Apr 2023 19:19:41 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXDAG02.realtek.com.tw (172.21.6.101) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 21 Apr 2023 19:19:40 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
- RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
- 15.01.2375.007; Fri, 21 Apr 2023 19:19:40 +0800
-From:   =?utf-8?B?U3RhbmxleSBDaGFuZ1vmmIzogrLlvrdd?= 
-        <stanley_chang@realtek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Alan Stern <stern@rowland.harvard.edu>,
-        Douglas Anderson <dianders@chromium.org>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        Bhuvanesh Surachari <Bhuvanesh_Surachari@mentor.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Flavio Suligoi <f.suligoi@asem.it>,
-        Ray Chi <raychi@google.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v1] usb: phy: add usb phy notify port status API
-Thread-Topic: [PATCH v1] usb: phy: add usb phy notify port status API
-Thread-Index: AQHZdCfF18CT8wCSd0W6JiweSZ5Lg6805bGAgACHUUD//6flgIAAhuoQ
-Date:   Fri, 21 Apr 2023 11:19:40 +0000
-Message-ID: <eecf54cdc06a4e3690e2cad62a8d4596@realtek.com>
-References: <20230421080333.18681-1-stanley_chang@realtek.com>
- <ZEJHLR27pVwVI3_J@kroah.com> <efd6e621210a407db9c153712f362366@realtek.com>
- <ZEJux2KTnGw-WE1A@kroah.com>
-In-Reply-To: <ZEJux2KTnGw-WE1A@kroah.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.190.159]
-x-kse-serverinfo: RTEXDAG02.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S229657AbjDULWL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Apr 2023 07:22:11 -0400
+X-Greylist: delayed 1496 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 21 Apr 2023 04:22:10 PDT
+Received: from ODEDI148698.home (odedi148698.mywhc.ca [144.217.254.35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4019133
+        for <linux-usb@vger.kernel.org>; Fri, 21 Apr 2023 04:22:10 -0700 (PDT)
+DKIM-Signature: v=1; c=relaxed/relaxed; h=content-type:mime-version:content-transfer-encoding:content-description:subject:to:from:date:reply-to:message-id;
+ d=a2ict.com; s=default; a=rsa-sha256;
+ bh=FQE3y/+3GQQzdAQHGLO+y57Gs24Zx9iAkvAV5kT0Bhk=;
+ b=Ti1ulOJ3Az4qsN7Ax7zpArZRID3KCPSZTDj8GelFhifKpsWJMhH+sEL3s94ckLFom
+ H2tXRGbpeOthRFUfPVsW0RzZIUoi8YZzB/iUp1SA4fCJJRl/b+qI+FDIM+g7ryF/MOC
+ mdhe++WZ9w5gavqb9fh4Z4mgQdhhxfiVxPRAk1E=;
+Received: from [51.89.94.142] ([51.89.94.142]) by home with
+ MailEnable ESMTPA; Thu, 20 Apr 2023 18:29:15 +0000
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: ich bin Edwin Castro
+To:     linux-usb@vger.kernel.org
+From:   "Mr. Edwin Castro" <admin@a2ict.com>
+Date:   Thu, 20 Apr 2023 11:29:14 -0700
+Reply-To: charityhome_edwin@yahoo.com
+Message-ID: <3197F742E16C438DBE7F277D3FADF77E.MAI@home>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-PiA+ID4gV2UgY2FuIG5vdCBhZGQgY2FsbGJhY2tzIGluIHRoZSBrZXJuZWwgdGhhdCBhcmUgbm90
-IGFjdHVhbGx5IHVzZWQsDQo+ID4gPiBvdGhlcndpc2UgdGhleSB3aWxsIGp1c3QgYmUgaW5zdGFu
-dGx5IHJlbW92ZWQuDQo+ID4gPg0KPiA+ID4gUGxlYXNlIHN1Ym1pdCBhbnkgZHJpdmVycyB0aGF0
-IG5lZWQgdGhpcyBjaGFuZ2UgYXQgdGhlIHNhbWUgdGltZSBzbw0KPiA+ID4gdGhhdCB3ZSBjYW4g
-dmVyaWZ5IHRoYXQgdGhlIGNhbGxiYWNrIGlzIGFjdHVhbGx5IGNvcnJlY3QgYW5kIG5lZWRlZCwN
-Cj4gPiA+IG90aGVyd2lzZSB3ZSBjYW4gbm90IHRha2UgdGhpcyBjaGFuZ2UuDQo+ID4gPg0KPiA+
-DQo+ID4gSW4gdGhpcyBzdGFnZSwgd2UgdXNiIHBoeSBkcml2ZXIgaXMgbm90IGF0IGxpbnV4IHVw
-c3RyZWFtLg0KPiANCj4gVGhlbiBvYnZpb3VzbHkgd2UgY2FuIG5vdCB0YWtlIHRoaXMgY2hhbmdl
-IChub3Igd291bGQgeW91IHdhbnQgdXMgdG8uKQ0KDQpJIHdpbGwgcHJlcGFyZSBhIGNvbXBsZXRl
-IGRyaXZlciBmb3IgcmV2aWV3Lg0KDQo+ID4gRm9yIHRoZSBhbmRyb2lkIEdLSSwgd2UgaGF2ZSB0
-byBhZGQgdGhpcyBjYWxsYmFjayB0byB1cHN0cmVhbSBvciB1c2UgdGhlDQo+IHZlbmRvciBob29r
-IG9mIGFuZHJvaWQuDQo+ID4gSSB3aWxsIHBsYW4gdG8gdXBzdHJlYW0gdGhlIHJlYWx0ZWsgdXNi
-IHBoeSBkcml2ZXIuDQo+IA0KPiBBcyB5b3UgYWxyZWFkeSBoYXZlIHRoaXMgZHJpdmVyLCB3aHkg
-bm90IHNlbmQgaXQgdG8gdXMgbm93Pw0KPiANCk5vdyB0aGUgZHJpdmVyIGRvZXNuJ3QgbWF0Y2gg
-dGhlIGNvZGluZyBzdHlsZS4NCkFmdGVyIEkgcmVmYWN0b3IgaXQsIEkgd2lsbCBzZW5kIHRoaXMg
-ZHJpdmVyIHVwc3RyZWFtLg0KDQpUaGFua3MsDQpTdGFubGV5DQo=
+Mein Name ist Edwin Castro, ich habe den Powerball-Jackpot gewonnen und ich=
+ spende die Summe von 2,8 Millionen Dollar an f=FCnf gl=FCckliche Menschen =
+auf der ganzen Welt...
+
+Kontaktieren Sie mich unter meiner E-Mail:charityhome_edwin@yahoo.com f=FCr=
+ weitere Einzelheiten.
