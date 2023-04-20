@@ -2,29 +2,29 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E496C7EE25
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 11:05:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEC5CC77B76
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 11:09:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234610AbjDTLFa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Apr 2023 07:05:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55154 "EHLO
+        id S235453AbjDTLI7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Apr 2023 07:08:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235358AbjDTLEx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 07:04:53 -0400
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D4501B4;
-        Thu, 20 Apr 2023 04:03:29 -0700 (PDT)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+        with ESMTP id S235451AbjDTLI2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 07:08:28 -0400
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0265D55B8;
+        Thu, 20 Apr 2023 04:04:37 -0700 (PDT)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
         (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-        by ex01.ufhost.com (Postfix) with ESMTP id E4AFE24E2AB;
-        Thu, 20 Apr 2023 19:01:00 +0800 (CST)
-Received: from EXMBX171.cuchost.com (172.16.6.91) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 20 Apr
- 2023 19:01:00 +0800
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 62D5924E12B;
+        Thu, 20 Apr 2023 19:00:56 +0800 (CST)
+Received: from EXMBX171.cuchost.com (172.16.6.91) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 20 Apr
+ 2023 19:00:56 +0800
 Received: from ubuntu.localdomain (113.72.144.253) by EXMBX171.cuchost.com
  (172.16.6.91) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 20 Apr
- 2023 19:00:59 +0800
+ 2023 19:00:55 +0800
 From:   Minda Chen <minda.chen@starfivetech.com>
 To:     Emil Renner Berthing <emil.renner.berthing@canonical.com>,
         Conor Dooley <conor@kernel.org>, Vinod Koul <vkoul@kernel.org>,
@@ -44,9 +44,9 @@ CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Albert Ou <aou@eecs.berkeley.edu>,
         "Minda Chen" <minda.chen@starfivetech.com>,
         Mason Huo <mason.huo@starfivetech.com>
-Subject: [PATCH v5 7/7] riscv: dts: starfive: Add USB dts configuration for JH7110
-Date:   Thu, 20 Apr 2023 19:00:52 +0800
-Message-ID: <20230420110052.3182-8-minda.chen@starfivetech.com>
+Subject: [PATCH v5 2/7] dt-bindings: phy: Add StarFive JH7110 PCIe PHY
+Date:   Thu, 20 Apr 2023 19:00:47 +0800
+Message-ID: <20230420110052.3182-3-minda.chen@starfivetech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230420110052.3182-1-minda.chen@starfivetech.com>
 References: <20230420110052.3182-1-minda.chen@starfivetech.com>
@@ -60,88 +60,80 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add USB wrapper layer and Cadence USB3 controller dts
-configuration for StarFive JH7110 SoC and VisionFive2
-Board.
-USB controller connect to PHY, The PHY dts configuration
-are also added.
+Add StarFive JH7110 SoC PCIe 2.0 PHY dt-binding.
+PCIe PHY0 (phy@10210000) can be used as USB 3.0 PHY.
 
 Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
+Reviewed-by: Hal Feng <hal.feng@starfivetech.com>
 ---
- .../jh7110-starfive-visionfive-2.dtsi         |  7 +++
- arch/riscv/boot/dts/starfive/jh7110.dtsi      | 44 +++++++++++++++++++
- 2 files changed, 51 insertions(+)
+ .../phy/starfive,jh7110-pcie-phy.yaml         | 58 +++++++++++++++++++
+ 1 file changed, 58 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/phy/starfive,jh7110-pcie-phy.yaml
 
-diff --git a/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi b/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-index 1155b97b593d..fa97ebfd93ad 100644
---- a/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-+++ b/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-@@ -221,3 +221,10 @@
- 	pinctrl-0 = <&uart0_pins>;
- 	status = "okay";
- };
+diff --git a/Documentation/devicetree/bindings/phy/starfive,jh7110-pcie-phy.yaml b/Documentation/devicetree/bindings/phy/starfive,jh7110-pcie-phy.yaml
+new file mode 100644
+index 000000000000..2e83a6164cd1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/starfive,jh7110-pcie-phy.yaml
+@@ -0,0 +1,58 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/starfive,jh7110-pcie-phy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+&usb0 {
-+	phys = <&usbphy0>;
-+	phy-names = "usb2";
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-diff --git a/arch/riscv/boot/dts/starfive/jh7110.dtsi b/arch/riscv/boot/dts/starfive/jh7110.dtsi
-index 29cd798b6732..eee395e19cdb 100644
---- a/arch/riscv/boot/dts/starfive/jh7110.dtsi
-+++ b/arch/riscv/boot/dts/starfive/jh7110.dtsi
-@@ -366,6 +366,50 @@
- 			status = "disabled";
- 		};
- 
-+		usb0: usb@10100000 {
-+			compatible = "starfive,jh7110-usb";
-+			reg = <0x0 0x10100000 0x0 0x10000>,
-+			      <0x0 0x10110000 0x0 0x10000>,
-+			      <0x0 0x10120000 0x0 0x10000>;
-+			reg-names = "otg", "xhci", "dev";
-+			interrupts = <100>, <108>, <110>;
-+			interrupt-names = "host", "peripheral", "otg";
-+			clocks = <&stgcrg JH7110_STGCLK_USB0_LPM>,
-+				 <&stgcrg JH7110_STGCLK_USB0_STB>,
-+				 <&stgcrg JH7110_STGCLK_USB0_APB>,
-+				 <&stgcrg JH7110_STGCLK_USB0_AXI>,
-+				 <&stgcrg JH7110_STGCLK_USB0_UTMI_APB>;
-+			clock-names = "lpm", "stb", "apb", "axi", "utmi_apb";
-+			resets = <&stgcrg JH7110_STGRST_USB0_PWRUP>,
-+				 <&stgcrg JH7110_STGRST_USB0_APB>,
-+				 <&stgcrg JH7110_STGRST_USB0_AXI>,
-+				 <&stgcrg JH7110_STGRST_USB0_UTMI_APB>;
-+			reset-names = "pwrup", "apb", "axi", "utmi_apb";
-+			starfive,stg-syscon = <&stg_syscon 0x4>;
-+			status = "disabled";
-+		};
++title: StarFive JH7110 PCIe 2.0 PHY
 +
-+		usbphy0: phy@10200000 {
-+			compatible = "starfive,jh7110-usb-phy";
-+			reg = <0x0 0x10200000 0x0 0x10000>;
-+			clocks = <&syscrg JH7110_SYSCLK_USB_125M>,
-+				 <&stgcrg JH7110_STGCLK_USB0_APP_125>;
-+			clock-names = "125m", "app_125m";
-+			#phy-cells = <0>;
-+		};
++maintainers:
++  - Minda Chen <minda.chen@starfivetech.com>
 +
-+		pciephy0: phy@10210000 {
-+			compatible = "starfive,jh7110-pcie-phy";
-+			reg = <0x0 0x10210000 0x0 0x10000>;
-+			#phy-cells = <0>;
-+		};
++properties:
++  compatible:
++    const: starfive,jh7110-pcie-phy
 +
-+		pciephy1: phy@10220000 {
-+			compatible = "starfive,jh7110-pcie-phy";
-+			reg = <0x0 0x10220000 0x0 0x10000>;
-+			#phy-cells = <0>;
-+		};
++  reg:
++    maxItems: 1
 +
- 		stgcrg: clock-controller@10230000 {
- 			compatible = "starfive,jh7110-stgcrg";
- 			reg = <0x0 0x10230000 0x0 0x10000>;
++  "#phy-cells":
++    const: 0
++
++  starfive,sys-syscon:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    items:
++      - items:
++          - description: phandle to System Register Controller sys_syscon node.
++          - description: PHY connect offset of SYS_SYSCONSAIF__SYSCFG register for USB PHY.
++    description:
++      The phandle to System Register Controller syscon node and the PHY connect offset
++      of SYS_SYSCONSAIF__SYSCFG register. Connect PHY to USB3 controller.
++
++  starfive,stg-syscon:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    items:
++      - items:
++          - description: phandle to System Register Controller stg_syscon node.
++          - description: PHY mode offset of STG_SYSCONSAIF__SYSCFG register.
++          - description: PHY enable for USB offset of STG_SYSCONSAIF__SYSCFG register.
++    description:
++      The phandle to System Register Controller syscon node and the offset
++      of STG_SYSCONSAIF__SYSCFG register for PCIe PHY. Total 2 regsisters offset.
++
++required:
++  - compatible
++  - reg
++  - "#phy-cells"
++
++additionalProperties: false
++
++examples:
++  - |
++    phy@10210000 {
++        compatible = "starfive,jh7110-pcie-phy";
++        reg = <0x10210000 0x10000>;
++        #phy-cells = <0>;
++        starfive,sys-syscon = <&sys_syscon 0x18>;
++        starfive,stg-syscon = <&stg_syscon 0x148 0x1f4>;
++    };
 -- 
 2.17.1
 
