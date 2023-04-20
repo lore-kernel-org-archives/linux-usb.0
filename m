@@ -2,29 +2,29 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A1CBC77B72
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 11:04:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6ABFC77B72
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 11:05:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235276AbjDTLEE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Apr 2023 07:04:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53828 "EHLO
+        id S234969AbjDTLFZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Apr 2023 07:05:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235301AbjDTLDe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 07:03:34 -0400
+        with ESMTP id S235388AbjDTLE5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 07:04:57 -0400
 Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7DE38A54;
-        Thu, 20 Apr 2023 04:02:23 -0700 (PDT)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47E924C00;
+        Thu, 20 Apr 2023 04:03:31 -0700 (PDT)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
         (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-        by ex01.ufhost.com (Postfix) with ESMTP id B16CE24E199;
-        Thu, 20 Apr 2023 19:00:54 +0800 (CST)
-Received: from EXMBX171.cuchost.com (172.16.6.91) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 20 Apr
- 2023 19:00:54 +0800
+        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+        by ex01.ufhost.com (Postfix) with ESMTP id 3752324E2A6;
+        Thu, 20 Apr 2023 19:00:57 +0800 (CST)
+Received: from EXMBX171.cuchost.com (172.16.6.91) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 20 Apr
+ 2023 19:00:57 +0800
 Received: from ubuntu.localdomain (113.72.144.253) by EXMBX171.cuchost.com
  (172.16.6.91) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 20 Apr
- 2023 19:00:53 +0800
+ 2023 19:00:56 +0800
 From:   Minda Chen <minda.chen@starfivetech.com>
 To:     Emil Renner Berthing <emil.renner.berthing@canonical.com>,
         Conor Dooley <conor@kernel.org>, Vinod Koul <vkoul@kernel.org>,
@@ -44,10 +44,12 @@ CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Albert Ou <aou@eecs.berkeley.edu>,
         "Minda Chen" <minda.chen@starfivetech.com>,
         Mason Huo <mason.huo@starfivetech.com>
-Subject: [PATCH v5 0/7] Add JH7110 USB and USB PHY driver support
-Date:   Thu, 20 Apr 2023 19:00:45 +0800
-Message-ID: <20230420110052.3182-1-minda.chen@starfivetech.com>
+Subject: [PATCH v5 3/7] phy: starfive: Add JH7110 USB 2.0 PHY driver
+Date:   Thu, 20 Apr 2023 19:00:48 +0800
+Message-ID: <20230420110052.3182-4-minda.chen@starfivetech.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230420110052.3182-1-minda.chen@starfivetech.com>
+References: <20230420110052.3182-1-minda.chen@starfivetech.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [113.72.144.253]
@@ -58,134 +60,230 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patchset adds USB driver and USB PHY for the StarFive JH7110 SoC.
-USB work mode is peripheral and using USB 2.0 PHY in VisionFive 2 board.
-The patch has been tested on the VisionFive 2 board.
+Add Starfive JH7110 SoC USB 2.0 PHY driver support.
+USB 2.0 PHY default connect to Cadence USB controller.
 
-This patchset should be applied after the patchset [1] and [2]:
-[1] https://patchwork.kernel.org/project/linux-riscv/cover/20230411135558.44282-1-xingyu.wu@starfivetech.com/
-[2] https://patchwork.kernel.org/project/linux-phy/cover/20230412084540.295411-1-changhuang.liang@starfivetech.com/
-
-This patchset is base on v6.3-rc4
-
-patch 1 is usb phy dt-binding document.
-patch 2 is Pcie PHY dt-binding document.
-patch 3 is USB 2.0 PHY driver.
-patch 4 is PCIe PHY driver.
-patch 5 is usb dt-binding document.
-patch 6 is the wrapper module driver of Cadence USB3. USB controller IP is Cadence USB3.
-patch 7 is USB device tree configuration.
-
-previous version
+Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
 ---
-version 1 patchset are split to different kernel organization. It is
-incorrect. But they were sent, and Emil sent comments. I think I should 
-reserve them in cover-letter. To read the change records and previous version, 
-please start with version 2. 
-
-v1: https://patchwork.kernel.org/project/linux-usb/cover/20230306095212.25840-1-minda.chen@starfivetech.com/
-v2: https://patchwork.kernel.org/project/linux-usb/cover/20230308082800.3008-1-minda.chen@starfivetech.com/
-v3: https://patchwork.kernel.org/project/linux-usb/cover/20230315104411.73614-1-minda.chen@starfivetech.com/
-v4: https://patchwork.kernel.org/project/linux-usb/cover/20230406015216.27034-1-minda.chen@starfivetech.com/
-
-changes
-v5:
-  1. (patch 1) set correct model name and commit title.
-  2. (patch 2) change to '-item' in syscon property. change commit title.
-  3. (patch 5)
-     - change to '-item' in syscon configure.
-     - change commit title and doc title.
-  4. (patch 6)
-     - add clk and phy deinit function
-     - add clk deinit function if phy init failed.
-     - coding style changes and other format changes. 
-
-v4:
-  1. (patch 1) split PCIe PHY dt-binding doc to patch 2.
-  2. (patch 2) PCIe PHY add stg and sys con configuration to dt-binding doc.
-  3. (patch 3)
-     - split PCIe PHY driver to patch 4.
-     - replace dr_mode to phy mode in jh7110_usb2_phy.
-  4. (patch 4) 
-     - Makefile and Kconfig sorted by alphabet sequence.
-     - Add PCIe PHY stg and syscon PHY connection configuration
-       for USB 3.0.
-  5. (patch 5)
-     - commit message changed.
-     - merge wrapper dts node and cdns3 node in example.
-     - Add interrupts, reg, phy and dr_mode in property.
-     - Add reset-name in property example.
-  6. (patch 6)
-     - For dts node is merged, Using platform_device_alloc and
-       platform_device_add to generate cadence sub device.
-     - IOMEM and IRQ resource are passed to Cadence sub device.
-     - Add PHY ops process for PHY dts setting can not be passed to
-       Cadence USB driver.
-     - remove the stg and sys USB 3.0 PHY configuration.
-     - Change the suspend clock reset and clock enable sequence.
-     - Get all reset and clock resources before enable them in 
-       cdns_clk_rst_init.
-     - commit message changed.
-  7. (patch 7)
-     - merge wrapper dts node and cdns3 node in usb dts.
-     - move the stg and sys USB 3.0 PHY confiuration to
-       PCIe PHY dts node.
-     - commit message changed.
-     - Add reset-names dts.
-
-v3:
-  1. Add patch 1 - 4. Add USB PHY driver and dt-binding doc. 
-     USB PHY codes are moved to patch 3 and patch 4.
-  2. (patch 5)
-     - USB wrapper module dts document is moved to usb directory.
-     - Remove the 'dr_mode' and 'starfive,usb2-only' setting.
-     - Some dts format changes. dts binding check pass.
-  3. (patch 6)
-     - Remove the PHY codes. 
-     - Search 'dr_mode' and phy setting from Cadence subnode.
-  4. (patch 7)
-     - Add USB PHY dts configurion. 
-     - 'dr_mode' is moved to Cadence controller submode.
-
-v2:
-  1. (patch 5) dt-binding changes. The document example is the same as dts config.
-  2. (patch 6) using dev_err_probe and syscon_regmap_lookup_by_phandle_args function. Some formats changes
-  3. (patch 7) dts nodes sorted by the address after @
-
-
-Minda Chen (7):
-  dt-bindings: phy: Add StarFive JH7110 USB PHY
-  dt-bindings: phy: Add StarFive JH7110 PCIe PHY
-  phy: starfive: Add JH7110 USB 2.0 PHY driver
-  phy: starfive: Add JH7110 PCIE 2.0 PHY driver
-  dt-bindings: usb: Add StarFive JH7110 USB controller
-  usb: cdns3: Add StarFive JH7110 USB driver
-  riscv: dts: starfive: Add USB dts configuration for JH7110
-
- .../phy/starfive,jh7110-pcie-phy.yaml         |  58 +++
- .../bindings/phy/starfive,jh7110-usb-phy.yaml |  50 +++
- .../bindings/usb/starfive,jh7110-usb.yaml     | 131 ++++++
- MAINTAINERS                                   |  14 +
- .../jh7110-starfive-visionfive-2.dtsi         |   7 +
- arch/riscv/boot/dts/starfive/jh7110.dtsi      |  44 ++
- drivers/phy/starfive/Kconfig                  |  22 +
- drivers/phy/starfive/Makefile                 |   2 +
- drivers/phy/starfive/phy-jh7110-pcie.c        | 202 +++++++++
- drivers/phy/starfive/phy-jh7110-usb.c         | 162 ++++++++
- drivers/usb/cdns3/Kconfig                     |  11 +
- drivers/usb/cdns3/Makefile                    |   1 +
- drivers/usb/cdns3/cdns3-starfive.c            | 390 ++++++++++++++++++
- drivers/usb/cdns3/core.h                      |   3 +
- 14 files changed, 1097 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/phy/starfive,jh7110-pcie-phy.yaml
- create mode 100644 Documentation/devicetree/bindings/phy/starfive,jh7110-usb-phy.yaml
- create mode 100644 Documentation/devicetree/bindings/usb/starfive,jh7110-usb.yaml
- create mode 100644 drivers/phy/starfive/phy-jh7110-pcie.c
+ MAINTAINERS                           |   6 +
+ drivers/phy/starfive/Kconfig          |  11 ++
+ drivers/phy/starfive/Makefile         |   1 +
+ drivers/phy/starfive/phy-jh7110-usb.c | 162 ++++++++++++++++++++++++++
+ 4 files changed, 180 insertions(+)
  create mode 100644 drivers/phy/starfive/phy-jh7110-usb.c
- create mode 100644 drivers/usb/cdns3/cdns3-starfive.c
 
-
-base-commit: 197b6b60ae7bc51dd0814953c562833143b292aa
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1aef5ba46d71..c09ea66dcd5a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19968,6 +19968,12 @@ M:	William Qiu <william.qiu@starfivetech.com>
+ S:	Supported
+ F:	Documentation/devicetree/bindings/soc/starfive/starfive,jh7110-syscon.yaml
+ 
++STARFIVE JH71X0 USB PHY DRIVER
++M:	Minda Chen <minda.chen@starfivetech.com>
++S:	Supported
++F:	Documentation/devicetree/bindings/phy/starfive,jh7110-usb-phy.yaml
++F:	drivers/phy/starfive/phy-jh7110-usb.c
++
+ STATIC BRANCH/CALL
+ M:	Peter Zijlstra <peterz@infradead.org>
+ M:	Josh Poimboeuf <jpoimboe@kernel.org>
+diff --git a/drivers/phy/starfive/Kconfig b/drivers/phy/starfive/Kconfig
+index f989b8ff8bcb..2c013c390dee 100644
+--- a/drivers/phy/starfive/Kconfig
++++ b/drivers/phy/starfive/Kconfig
+@@ -11,3 +11,14 @@ config PHY_STARFIVE_DPHY_RX
+ 	  Choose this option if you have a StarFive D-PHY in your
+ 	  system. If M is selected, the module will be called
+ 	  phy-starfive-dphy-rx.
++
++config PHY_STARFIVE_JH7110_USB
++	tristate "Starfive JH7110 USB 2.0 PHY support"
++	depends on USB_SUPPORT
++	select GENERIC_PHY
++	select USB_PHY
++	help
++	  Enable this to support the StarFive USB 2.0 PHY,
++	  used with the Cadence USB controller.
++	  If M is selected, the module will be called
++	  phy-jh7110-usb.ko.
+diff --git a/drivers/phy/starfive/Makefile b/drivers/phy/starfive/Makefile
+index 7ec576cb30ae..176443852f4d 100644
+--- a/drivers/phy/starfive/Makefile
++++ b/drivers/phy/starfive/Makefile
+@@ -1,2 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-$(CONFIG_PHY_STARFIVE_DPHY_RX)      += phy-starfive-dphy-rx.o
++obj-$(CONFIG_PHY_STARFIVE_JH7110_USB)	+= phy-jh7110-usb.o
+diff --git a/drivers/phy/starfive/phy-jh7110-usb.c b/drivers/phy/starfive/phy-jh7110-usb.c
+new file mode 100644
+index 000000000000..4a12df0692cd
+--- /dev/null
++++ b/drivers/phy/starfive/phy-jh7110-usb.c
+@@ -0,0 +1,162 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * StarFive JH7110 USB 2.0 PHY driver
++ *
++ * Copyright (C) 2023 StarFive Technology Co., Ltd.
++ * Author: Minda Chen <minda.chen@starfivetech.com>
++ */
++
++#include <linux/bits.h>
++#include <linux/clk.h>
++#include <linux/err.h>
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/phy/phy.h>
++#include <linux/platform_device.h>
++#include <linux/usb/of.h>
++
++#define USB_125M_CLK_RATE		125000000
++#define USB_LS_KEEPALIVE_OFF		0x4
++#define USB_LS_KEEPALIVE_ENABLE		BIT(4)
++
++struct jh7110_usb2_phy {
++	struct phy *phy;
++	void __iomem *regs;
++	struct clk *usb_125m_clk;
++	struct clk *app_125m;
++	enum phy_mode mode;
++};
++
++static void jh7110_usb2_mode_set(struct jh7110_usb2_phy *phy)
++{
++	unsigned int val;
++
++	if (phy->mode != PHY_MODE_USB_HOST) {
++		/* Enable the LS speed keep-alive signal */
++		val = readl(phy->regs + USB_LS_KEEPALIVE_OFF);
++		val |= USB_LS_KEEPALIVE_ENABLE;
++		writel(val, phy->regs + USB_LS_KEEPALIVE_OFF);
++	}
++}
++
++static int jh7110_usb2_phy_set_mode(struct phy *_phy,
++				    enum phy_mode mode, int submode)
++{
++	struct jh7110_usb2_phy *phy = phy_get_drvdata(_phy);
++
++	switch (mode) {
++	case PHY_MODE_USB_HOST:
++	case PHY_MODE_USB_DEVICE:
++	case PHY_MODE_USB_OTG:
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	if (mode != phy->mode) {
++		dev_info(&_phy->dev, "Changing phy to %d\n", mode);
++		phy->mode = mode;
++		jh7110_usb2_mode_set(phy);
++	}
++
++	return 0;
++}
++
++static int jh7110_usb2_phy_init(struct phy *_phy)
++{
++	struct jh7110_usb2_phy *phy = phy_get_drvdata(_phy);
++	int ret;
++
++	ret = clk_set_rate(phy->usb_125m_clk, USB_125M_CLK_RATE);
++	if (ret)
++		return ret;
++
++	ret = clk_prepare_enable(phy->app_125m);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++static int jh7110_usb2_phy_exit(struct phy *_phy)
++{
++	struct jh7110_usb2_phy *phy = phy_get_drvdata(_phy);
++
++	clk_disable_unprepare(phy->app_125m);
++
++	return 0;
++}
++
++static const struct phy_ops jh7110_usb2_phy_ops = {
++	.init		= jh7110_usb2_phy_init,
++	.exit		= jh7110_usb2_phy_exit,
++	.set_mode	= jh7110_usb2_phy_set_mode,
++	.owner		= THIS_MODULE,
++};
++
++static int jh7110_usb_phy_probe(struct platform_device *pdev)
++{
++	struct jh7110_usb2_phy *phy;
++	struct device *dev = &pdev->dev;
++	struct phy_provider *phy_provider;
++
++	phy = devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
++	if (!phy)
++		return -ENOMEM;
++
++	phy->usb_125m_clk = devm_clk_get(dev, "125m");
++	if (IS_ERR(phy->usb_125m_clk))
++		return dev_err_probe(dev, PTR_ERR(phy->usb_125m_clk),
++			"Failed to get 125m clock\n");
++
++	phy->app_125m = devm_clk_get(dev, "app_125m");
++	if (IS_ERR(phy->app_125m))
++		return dev_err_probe(dev, PTR_ERR(phy->app_125m),
++			"Failed to get app 125m clock\n");
++
++	phy->regs = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(phy->regs))
++		return dev_err_probe(dev, PTR_ERR(phy->regs),
++			"Failed to map phy base\n");
++
++	phy->phy = devm_phy_create(dev, NULL, &jh7110_usb2_phy_ops);
++	if (IS_ERR(phy->phy))
++		return dev_err_probe(dev, PTR_ERR(phy->phy),
++			"Failed to create phy\n");
++
++	platform_set_drvdata(pdev, phy);
++	phy_set_drvdata(phy->phy, phy);
++	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
++
++	return PTR_ERR_OR_ZERO(phy_provider);
++}
++
++static int jh7110_usb_phy_remove(struct platform_device *pdev)
++{
++	struct jh7110_usb2_phy *phy = platform_get_drvdata(pdev);
++
++	clk_disable_unprepare(phy->app_125m);
++	platform_set_drvdata(pdev, NULL);
++
++	return 0;
++}
++
++static const struct of_device_id jh7110_usb_phy_of_match[] = {
++	{ .compatible = "starfive,jh7110-usb-phy" },
++	{ /* sentinel */ },
++};
++MODULE_DEVICE_TABLE(of, jh7110_usb_phy_of_match);
++
++static struct platform_driver jh7110_usb_phy_driver = {
++	.probe	= jh7110_usb_phy_probe,
++	.remove	= jh7110_usb_phy_remove,
++	.driver = {
++		.of_match_table	= jh7110_usb_phy_of_match,
++		.name  = "jh7110-usb-phy",
++	}
++};
++module_platform_driver(jh7110_usb_phy_driver);
++
++MODULE_DESCRIPTION("StarFive JH7110 USB 2.0 PHY driver");
++MODULE_AUTHOR("Minda Chen <minda.chen@starfivetech.com>");
++MODULE_LICENSE("GPL");
 -- 
 2.17.1
 
