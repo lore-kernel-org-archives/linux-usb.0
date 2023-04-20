@@ -2,138 +2,131 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEC5CC77B76
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 11:09:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A73FC77B73
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Apr 2023 12:21:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235453AbjDTLI7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Apr 2023 07:08:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33190 "EHLO
+        id S234867AbjDTMVt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Apr 2023 08:21:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235451AbjDTLI2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 07:08:28 -0400
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0265D55B8;
-        Thu, 20 Apr 2023 04:04:37 -0700 (PDT)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 62D5924E12B;
-        Thu, 20 Apr 2023 19:00:56 +0800 (CST)
-Received: from EXMBX171.cuchost.com (172.16.6.91) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 20 Apr
- 2023 19:00:56 +0800
-Received: from ubuntu.localdomain (113.72.144.253) by EXMBX171.cuchost.com
- (172.16.6.91) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 20 Apr
- 2023 19:00:55 +0800
-From:   Minda Chen <minda.chen@starfivetech.com>
-To:     Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-        Conor Dooley <conor@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Roger Quadros <rogerq@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <linux-usb@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Minda Chen" <minda.chen@starfivetech.com>,
-        Mason Huo <mason.huo@starfivetech.com>
-Subject: [PATCH v5 2/7] dt-bindings: phy: Add StarFive JH7110 PCIe PHY
-Date:   Thu, 20 Apr 2023 19:00:47 +0800
-Message-ID: <20230420110052.3182-3-minda.chen@starfivetech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230420110052.3182-1-minda.chen@starfivetech.com>
-References: <20230420110052.3182-1-minda.chen@starfivetech.com>
+        with ESMTP id S234571AbjDTMVr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 08:21:47 -0400
+Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72CA05260
+        for <linux-usb@vger.kernel.org>; Thu, 20 Apr 2023 05:21:45 -0700 (PDT)
+X-ASG-Debug-ID: 1681993302-1eb14e63872ee80001-YVMibp
+Received: from ZXSHMBX3.zhaoxin.com (ZXSHMBX3.zhaoxin.com [10.28.252.165]) by mx2.zhaoxin.com with ESMTP id D4fzVGZ12vQXLpQS (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Thu, 20 Apr 2023 20:21:42 +0800 (CST)
+X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.165
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX3.zhaoxin.com
+ (10.28.252.165) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 20 Apr
+ 2023 20:21:42 +0800
+Received: from [10.29.8.21] (10.29.8.21) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 20 Apr
+ 2023 20:21:41 +0800
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.165
+Message-ID: <f0f0d62d-edde-547d-5d6e-a02e2f8e8648@zhaoxin.com>
+X-Barracuda-RBL-Trusted-Forwarder: 10.29.8.21
+Date:   Fri, 21 Apr 2023 04:21:40 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [113.72.144.253]
-X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX171.cuchost.com
- (172.16.6.91)
-X-YovoleRuleAgent: yovoleflag
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 2/3] xhci: Add zhaoxin xHCI U1/U2 feature support
+Content-Language: en-US
+X-ASG-Orig-Subj: Re: [PATCH 2/3] xhci: Add zhaoxin xHCI U1/U2 feature support
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <tonywwang@zhaoxin.com>, <weitaowang@zhaoxin.com>
+References: <20230420172130.375819-1-WeitaoWang-oc@zhaoxin.com>
+ <20230420172130.375819-3-WeitaoWang-oc@zhaoxin.com>
+ <c853436a-85c7-d0f8-0990-bc64977cbd47@gmail.com>
+From:   "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
+In-Reply-To: <c853436a-85c7-d0f8-0990-bc64977cbd47@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.29.8.21]
+X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
+ zxbjmbx1.zhaoxin.com (10.29.252.163)
+X-Barracuda-Connect: ZXSHMBX3.zhaoxin.com[10.28.252.165]
+X-Barracuda-Start-Time: 1681993302
+X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
+X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at zhaoxin.com
+X-Barracuda-Scan-Msg-Size: 1867
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
+X-Barracuda-Spam-Score: 1.09
+X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.107677
+        Rule breakdown below
+         pts rule name              description
+        ---- ---------------------- --------------------------------------------------
+        0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
+        3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add StarFive JH7110 SoC PCIe 2.0 PHY dt-binding.
-PCIe PHY0 (phy@10210000) can be used as USB 3.0 PHY.
+On 2023/4/20 17:39, Sergei Shtylyov wrote:
+> On 4/20/23 8:21 PM, Weitao Wang wrote:
+> 
+>> Add U1/U2 feature support of xHCI for zhaoxin.
+>>
+>> Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
+> [...]
+> 
+>> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+>> index 6307bae9cddf..730c0f68518d 100644
+>> --- a/drivers/usb/host/xhci.c
+>> +++ b/drivers/usb/host/xhci.c
+> [...]
+>> @@ -4938,6 +4938,27 @@ static int xhci_update_timeout_for_interface(struct xhci_hcd *xhci,
+>>   	return 0;
+>>   }
+>>   
+>> +static int xhci_check_zhaoxin_tier_policy(struct usb_device *udev,
+>> +		enum usb3_link_state state)
+>> +{
+>> +	struct usb_device *parent;
+>> +	unsigned int num_hubs;
+>> +
+>> +	/* Don't enable U1/U2 if the device is on an external hub. */
+>> +	for (parent = udev->parent, num_hubs = 0; parent->parent;
+>> +			parent = parent->parent)
+>> +		num_hubs++;
+>> +
+>> +	if (num_hubs < 1)
+>> +		return 0;
+>> +
+>> +	dev_dbg(&udev->dev, "Disabling U1/U2 link state for device"
+>> +			" below external hub.\n");
+>> +	dev_dbg(&udev->dev, "Plug device into root hub "
+>> +			"to decrease power consumption.\n");
+> 
+>     Please don't break up the message strings.
 
-Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
-Reviewed-by: Hal Feng <hal.feng@starfivetech.com>
----
- .../phy/starfive,jh7110-pcie-phy.yaml         | 58 +++++++++++++++++++
- 1 file changed, 58 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/phy/starfive,jh7110-pcie-phy.yaml
+Thanks for your advice, and I will merge this message in next patch version.
+> [...]
+>> @@ -4965,6 +4986,8 @@ static int xhci_check_tier_policy(struct xhci_hcd *xhci,
+>>   {
+>>   	if (xhci->quirks & XHCI_INTEL_HOST)
+>>   		return xhci_check_intel_tier_policy(udev, state);
+>> +	else if (xhci->quirks & XHCI_ZHAOXIN_HOST)
+> 
+>     *else* not needed after *return*.
+This function need a "int" type return value. If remove "else" branch,
+vendor other than intel and zhaoxin will not get a return value.
 
-diff --git a/Documentation/devicetree/bindings/phy/starfive,jh7110-pcie-phy.yaml b/Documentation/devicetree/bindings/phy/starfive,jh7110-pcie-phy.yaml
-new file mode 100644
-index 000000000000..2e83a6164cd1
---- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/starfive,jh7110-pcie-phy.yaml
-@@ -0,0 +1,58 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/phy/starfive,jh7110-pcie-phy.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: StarFive JH7110 PCIe 2.0 PHY
-+
-+maintainers:
-+  - Minda Chen <minda.chen@starfivetech.com>
-+
-+properties:
-+  compatible:
-+    const: starfive,jh7110-pcie-phy
-+
-+  reg:
-+    maxItems: 1
-+
-+  "#phy-cells":
-+    const: 0
-+
-+  starfive,sys-syscon:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    items:
-+      - items:
-+          - description: phandle to System Register Controller sys_syscon node.
-+          - description: PHY connect offset of SYS_SYSCONSAIF__SYSCFG register for USB PHY.
-+    description:
-+      The phandle to System Register Controller syscon node and the PHY connect offset
-+      of SYS_SYSCONSAIF__SYSCFG register. Connect PHY to USB3 controller.
-+
-+  starfive,stg-syscon:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    items:
-+      - items:
-+          - description: phandle to System Register Controller stg_syscon node.
-+          - description: PHY mode offset of STG_SYSCONSAIF__SYSCFG register.
-+          - description: PHY enable for USB offset of STG_SYSCONSAIF__SYSCFG register.
-+    description:
-+      The phandle to System Register Controller syscon node and the offset
-+      of STG_SYSCONSAIF__SYSCFG register for PCIe PHY. Total 2 regsisters offset.
-+
-+required:
-+  - compatible
-+  - reg
-+  - "#phy-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    phy@10210000 {
-+        compatible = "starfive,jh7110-pcie-phy";
-+        reg = <0x10210000 0x10000>;
-+        #phy-cells = <0>;
-+        starfive,sys-syscon = <&sys_syscon 0x18>;
-+        starfive,stg-syscon = <&stg_syscon 0x148 0x1f4>;
-+    };
--- 
-2.17.1
+Best Regards,
+Weitao
 
+>> +		return xhci_check_zhaoxin_tier_policy(udev, state);
+>>   	else
+>>   		return 0;
+>>   }
+> 
+> MBR, Sergey
+> .
