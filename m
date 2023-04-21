@@ -2,173 +2,88 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DB96C77B78
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 10:26:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95966C7618E
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 11:09:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231368AbjDUK0c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Apr 2023 06:26:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59332 "EHLO
+        id S229821AbjDULJK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Apr 2023 07:09:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230124AbjDUK0a (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Apr 2023 06:26:30 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55C7FE60
-        for <linux-usb@vger.kernel.org>; Fri, 21 Apr 2023 03:26:28 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-94f7a0818aeso194535866b.2
-        for <linux-usb@vger.kernel.org>; Fri, 21 Apr 2023 03:26:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1682072787; x=1684664787;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Iet7yaiulN1KsP/2/aLjRVmvZfhTeLjdC9dKF+QtX7U=;
-        b=Rn3FOi9y++YS9buU9tuOjKmGanEcbXsFTUNuJf4fpERfZx3g30UqZiLc+Wso6HFaiY
-         qprwVJRG1AC/bPirQrvm2TM5vl11j842uHuk67x7PpGD+y4NcNWi8ouBvb175uZFY679
-         fApgx3TzqpoW8DyHutIhEma0WX9fMFM59RQwSCAXA7lb7El346nR5RCBGsZk9o0j80OR
-         I/GxxVatc1+8LvjS/3Eqgjv4GNNY0XAySFJHyGOlFrXMTTfD5ahakjm4BoMMDptjRu+6
-         Y9Xg+ZCAxkh6+i9yBw98Xz/tN8PTtNfywf78ndQhlVIVY+sm7877M4oV2dghGk3KZrRK
-         xigA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682072787; x=1684664787;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Iet7yaiulN1KsP/2/aLjRVmvZfhTeLjdC9dKF+QtX7U=;
-        b=fvUknfXoua/MeToLIPQg7i/wmN1SA+sR4kP2W8MCJ7RcZGCpZAFdNeCOPhY9bcdS5m
-         cV6CowGLrifBE03ZtzzVJ2WTRUhWO5Xs/DQVSRl+y5swagJg9LRJv23TXG+HiRoIJleX
-         OkHMIf9Suga5iwTKDVx6bTNjlaTqoCYNWM7qMUxOPBrsYyP7sKfdpgYpy9iaNTU7qh/+
-         KMRX9juaYUt1yjHzMNKbL2Lf94zhhWvnWCGC9oY5bUX0MAiQTPQn3McIHKj0vY7ULoU6
-         txVxBGIqBesWfRMaTWIYPQDUJ9Z5atCokqLzCgIPzi5aJI/PMpQjuJ99fuUEq8inxsvq
-         W62g==
-X-Gm-Message-State: AAQBX9dEMilm3VZAdXzhjTuNAs6kyFuM9jxRVSUuj4OTbgQjCaFh2hfP
-        hKFdlihSH0l7A8MXa6SjjhX/5g==
-X-Google-Smtp-Source: AKy350YsMYot67V+M+M4Rk0yTffiTXWyediKG6DRN3K8T+AxlqX8zn/mMqi/cxL30F+7Ol19z9Aa+Q==
-X-Received: by 2002:a17:906:a18c:b0:928:796d:71e8 with SMTP id s12-20020a170906a18c00b00928796d71e8mr1664800ejy.3.1682072786738;
-        Fri, 21 Apr 2023 03:26:26 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id l7-20020a1709060e0700b0094ee21fe943sm1862553eji.116.2023.04.21.03.26.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Apr 2023 03:26:26 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Fri, 21 Apr 2023 12:26:25 +0200
-Message-Id: <CS2D1E4ZYKZ8.2CWDCP9VR0C11@otso>
-Cc:     <caleb.connolly@linaro.org>, <konrad.dybcio@linaro.org>,
-        <subbaram@quicinc.com>, <jackp@quicinc.com>,
-        <robertom@qti.qualcomm.com>
-Subject: Re: [PATCH v5 00/14] Add Qualcomm PMIC TPCM support
-From:   "Luca Weiss" <luca.weiss@fairphone.com>
-To:     "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-        <linux@roeck-us.net>, <heikki.krogerus@linux.intel.com>,
-        <gregkh@linuxfoundation.org>, <andersson@kernel.org>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-X-Mailer: aerc 0.14.0
-References: <20230413113438.1577658-1-bryan.odonoghue@linaro.org>
- <CRVOZOPMKBX4.2T7FOCWF0RKBJ@otso>
- <10551f5e-4516-c0cc-0b04-73aa38f80a2c@linaro.org>
- <CRWA2OP2T6KT.RCWAVWF5Q2T2@otso>
- <ccc9fa4c-ca52-d8f3-a8b3-45031bea673f@linaro.org>
- <CRYUWMIJDSB2.BJWEPJEA3Y1D@otso>
- <75d00efb-ff3c-b1f8-a141-3fa78a39557a@linaro.org>
-In-Reply-To: <75d00efb-ff3c-b1f8-a141-3fa78a39557a@linaro.org>
+        with ESMTP id S229575AbjDULJJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Apr 2023 07:09:09 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511369EC9;
+        Fri, 21 Apr 2023 04:09:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682075347; x=1713611347;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rZwTsejC2mJApJ3bCH/FR+Q5/YQX630MzFVYcEDFrCY=;
+  b=RIK6k8KrRp+QdMQlH0CPByFdlHp5QQm368vfg4vE2trhQXUjIx8RQP+H
+   wguY1pnzboHDbB+gvt4jWwCMV2CJ7/Aqar7GZxSKej8TqmXbjr7bXb4UO
+   fnVrrpgTPJPA0qGvWvDsngZAUmuJgQZaKmDfzd43bbVEH2xYO9E3+IdZd
+   eZ63oyABVWj5fUPT2UqULGCS3RV3fzrcvg9+pWo9JNz8HyBd4+KBHb50i
+   cxH0ygvAhpEA7GLJNdO43I5GNG4+fI2epT6azDXj1yoXWCWEw/Lg2rl/z
+   Tr9n6VX6yO/nm/n6esD4WOwvTCuWPMGjsoSMv6GJhzdmcMEugP7rSP6mC
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="347870256"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
+   d="scan'208";a="347870256"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 04:09:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="836146196"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
+   d="scan'208";a="836146196"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 21 Apr 2023 04:09:02 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 21 Apr 2023 14:09:01 +0300
+Date:   Fri, 21 Apr 2023 14:09:01 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Roger Quadros <rogerq@kernel.org>
+Cc:     gregkh@linuxfoundation.org, srk@ti.com, r-gunasekaran@ti.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: tps6598x: Fix fault at module removal
+Message-ID: <ZEJuzQSwSvP6p9gR@kuha.fi.intel.com>
+References: <20230421101720.34318-1-rogerq@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230421101720.34318-1-rogerq@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Bryan,
+On Fri, Apr 21, 2023 at 01:17:20PM +0300, Roger Quadros wrote:
+> We need to cancel the delayed workqueue if it is being used
+> else it will cause paging request fault during module removal.
+> 
+> Fixes: 0d6a119cecd7 ("usb: typec: tps6598x: Add support for polling interrupts status")
+> Signed-off-by: Roger Quadros <rogerq@kernel.org>
 
-On Mon Apr 17, 2023 at 12:04 PM CEST, Bryan O'Donoghue wrote:
-> On 17/04/2023 08:35, Luca Weiss wrote:
-> > Do you have an idea in which part of the code to start debugging this?
-> > Since orientation detection is working is it maybe in the phy code and
-> > not in the tcpm driver? Or does that also touch crucial stuff for USB
-> > apart from telling phy which direction to use?
->
-> PHY - I'd almost just do the following
->
-> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c=20
-> b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-> index edb788a71edeb..bbac82bd093f8 100644
-> --- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-> +++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-> @@ -3369,7 +3369,7 @@ static int qmp_combo_typec_switch_set(struct=20
-> typec_switch_dev *sw,
->
->          dev_dbg(qmp->dev, "Toggling orientation current %d requested %d\=
-n",
->                  qmp->orientation, orientation);
-> -
-> +return 0;
->
-> In that case the PHY should "just work" for host or device in one=20
-> orientation.
->
-> The other possibility is that the data role message is not hitting dwc3=
-=20
-> drd on your platform.
->
-> If you take the last commit on this branch - plus the updated PHY commit
->
-> Commit: 171d7f507511 ("usb: dwc3: drd: Enable user-space triggered=20
-> role-switching")
->
-> Commit: eb0daa19f3ad ("phy: qcom-qmp: Register as a typec switch for=20
-> orientation detection")
->
-> https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-04=
--17-pm8150b-tcpm-qcom-wrapper-typec-mux
->
-> cat /sys/class/usb_role/a600000.usb-role-switch/role
->
-> On SM8250 it looks like this
->
-> - Attach TypeC accessory with USB key plugged in [1]
->    Mount USB key, read/write some data
->    Unmount USB key
->
->    cat /sys/class/usb_role/a600000.usb-role-switch/role
->    host
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-It feels like I spent way too much time now trying to understand the
-current behavior across the different patch versions, it's a bit messy,
-but in short:
+> ---
+>  drivers/usb/typec/tipd/core.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index 8b075ca82ef6..438cc40660a1 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -886,6 +886,9 @@ static void tps6598x_remove(struct i2c_client *client)
+>  {
+>  	struct tps6598x *tps = i2c_get_clientdata(client);
+>  
+> +	if (!client->irq)
+> +		cancel_delayed_work_sync(&tps->wq_poll);
+> +
+>  	tps6598x_disconnect(tps, 0);
+>  	typec_unregister_port(tps->port);
+>  	usb_role_switch_put(tps->role_sw);
+> -- 
+> 2.34.1
 
-With the "user-space triggered role-switching" patch I can see that
-whatever scenario the USB-C port is in, the role is stuck on "device".=20
-
-Nothing =3D
-    Role: device, Orientation: unknown
-
-USB(-A) cable to laptop (either direction) =3D
-    Role: device, Orientation: unknown
-
-USB stick up =3D
-    Role: device, Orientation: reverse
-
-USB stick down =3D
-    Role: device, Orientation: normal
-
-Sometimes/mostly when the USB cable is attached during boot I get USB
-connection to the laptop until I unplug, then it won't reenable itself.
-
-Also the early return in qmp_combo_typec_switch_set doesn't seem to
-change much I believe? But for sure normally qmp_combo_dp_power_off/on
-does not get called so I wouldn't be suprised if this reinit breaks
-something in the phy.
-
-> <snip>
->
-> Yep its worth checking out that the data-role switch is working, we=20
-> might be looking at the wrong thing for you on the PHY.
->
-
-So this seems to be the case? If that's useful, I can also go back to
-the previous (v4?) TCPM revision where the switching mostly worked fine.
-
-(btw the subject has a typo, TPCM instead of TCPM :) )
-
-Regards
-Luca
+-- 
+heikki
