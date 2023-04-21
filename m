@@ -2,26 +2,26 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCB34C77B75
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 12:39:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB679C7EE2A
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 12:39:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232053AbjDUMjI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Apr 2023 08:39:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41174 "EHLO
+        id S232171AbjDUMjL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Apr 2023 08:39:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232017AbjDUMjE (ORCPT
+        with ESMTP id S232058AbjDUMjE (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Apr 2023 08:39:04 -0400
 Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3103CC0D
-        for <linux-usb@vger.kernel.org>; Fri, 21 Apr 2023 05:39:00 -0700 (PDT)
-X-ASG-Debug-ID: 1682080734-1eb14e6388386f0005-YVMibp
-Received: from ZXSHMBX1.zhaoxin.com (ZXSHMBX1.zhaoxin.com [10.28.252.163]) by mx2.zhaoxin.com with ESMTP id NYfORPVgddCDGJOK (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Fri, 21 Apr 2023 20:38:56 +0800 (CST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CBBCC163
+        for <linux-usb@vger.kernel.org>; Fri, 21 Apr 2023 05:38:57 -0700 (PDT)
+X-ASG-Debug-ID: 1682080734-1eb14e6388386f0002-YVMibp
+Received: from ZXSHMBX1.zhaoxin.com (ZXSHMBX1.zhaoxin.com [10.28.252.163]) by mx2.zhaoxin.com with ESMTP id 4mOIhBGDnUpGCazL (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Fri, 21 Apr 2023 20:38:55 +0800 (CST)
 X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
 X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.163
 Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX1.zhaoxin.com
  (10.28.252.163) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 21 Apr
- 2023 20:38:55 +0800
+ 2023 20:38:54 +0800
 Received: from L440.zhaoxin.com (10.29.8.21) by zxbjmbx1.zhaoxin.com
  (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 21 Apr
@@ -32,12 +32,11 @@ X-Barracuda-RBL-Trusted-Forwarder: 10.29.252.163
 To:     <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
         <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 CC:     <tonywwang@zhaoxin.com>, <weitaowang@zhaoxin.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
         <stable@vger.kernel.org>
-Subject: [PATCH v2 4/4] xhci: Add zhaoxin xHCI U1/U2 feature support
-Date:   Sat, 22 Apr 2023 04:38:53 +0800
-X-ASG-Orig-Subj: [PATCH v2 4/4] xhci: Add zhaoxin xHCI U1/U2 feature support
-Message-ID: <20230421203853.387210-5-WeitaoWang-oc@zhaoxin.com>
+Subject: [PATCH v2 1/4] xhci: Add some quirks for zhaoxin xhci to fix issues
+Date:   Sat, 22 Apr 2023 04:38:50 +0800
+X-ASG-Orig-Subj: [PATCH v2 1/4] xhci: Add some quirks for zhaoxin xhci to fix issues
+Message-ID: <20230421203853.387210-2-WeitaoWang-oc@zhaoxin.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20230421203853.387210-1-WeitaoWang-oc@zhaoxin.com>
 References: <20230421203853.387210-1-WeitaoWang-oc@zhaoxin.com>
@@ -48,11 +47,11 @@ X-Originating-IP: [10.29.8.21]
 X-ClientProxiedBy: zxbjmbx1.zhaoxin.com (10.29.252.163) To
  zxbjmbx1.zhaoxin.com (10.29.252.163)
 X-Barracuda-Connect: ZXSHMBX1.zhaoxin.com[10.28.252.163]
-X-Barracuda-Start-Time: 1682080736
+X-Barracuda-Start-Time: 1682080734
 X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
 X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
 X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 3160
+X-Barracuda-Scan-Msg-Size: 2170
 X-Barracuda-BRTS-Status: 1
 X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
 X-Barracuda-Spam-Score: 1.09
@@ -67,99 +66,64 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add U1/U2 feature support of xHCI for zhaoxin.
-Since both Intel and Zhaoxin need to check the tier where the device is
-located to determine whether to enabled U1/U2, remove the previous Intel
-U1/U2 tier policy and add common policy in xhci_check_tier_policy.
-If vendor has specific U1/U2 enable policy,quirks can be add to declare.
+Add a quirk XHCI_ZHAOXIN_HOST for zhaoxin xhci to fix issues,
+there are two cases will be used.
+- add u1/u2 support.
+- fix xHCI root hub speed show issue in zhaoxin platform.
 
-Suggested-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Add a quirk XHCI_ZHAOXIN_TRB_FETCH to fix TRB prefetch issue.
+
+On Zhaoxin ZX-100 project, xHCI can't work normally after resume
+from system Sx state. To fix this issue, when resume from system
+sx state, reinitialize xHCI instead of restore.
+So, Add XHCI_RESET_ON_RESUME quirk for zx-100 to fix issue of
+resuming from system sx state.
+
 Cc: stable@vger.kernel.org
 Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
 ---
- v1->v2
- - Modify the description.
- - Adjust U1/U2 tier enable policy.
+v1->v2
+ - Add more quirks of xhci for zhaoxin.
 
- drivers/usb/host/xhci.c | 43 +++++++++++++++++------------------------
- 1 file changed, 18 insertions(+), 25 deletions(-)
+ drivers/usb/host/xhci-pci.c | 11 +++++++++++
+ drivers/usb/host/xhci.h     |  2 ++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 31d6ace9cace..b81a69126188 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -4802,7 +4802,7 @@ static u16 xhci_calculate_u1_timeout(struct xhci_hcd *xhci,
- 		}
- 	}
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index 6db07ca419c3..53b7d8a1ed0a 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -334,6 +334,17 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+ 	     pdev->device == PCI_DEVICE_ID_AMD_PROMONTORYA_4))
+ 		xhci->quirks |= XHCI_NO_SOFT_RETRY;
  
--	if (xhci->quirks & XHCI_INTEL_HOST)
-+	if (xhci->quirks & (XHCI_INTEL_HOST | XHCI_ZHAOXIN_HOST))
- 		timeout_ns = xhci_calculate_intel_u1_timeout(udev, desc);
- 	else
- 		timeout_ns = udev->u1_params.sel;
-@@ -4866,7 +4866,7 @@ static u16 xhci_calculate_u2_timeout(struct xhci_hcd *xhci,
- 		}
- 	}
- 
--	if (xhci->quirks & XHCI_INTEL_HOST)
-+	if (xhci->quirks & (XHCI_INTEL_HOST | XHCI_ZHAOXIN_HOST))
- 		timeout_ns = xhci_calculate_intel_u2_timeout(udev, desc);
- 	else
- 		timeout_ns = udev->u2_params.sel;
-@@ -4938,37 +4938,30 @@ static int xhci_update_timeout_for_interface(struct xhci_hcd *xhci,
- 	return 0;
- }
- 
--static int xhci_check_intel_tier_policy(struct usb_device *udev,
-+static int xhci_check_tier_policy(struct xhci_hcd *xhci,
-+		struct usb_device *udev,
- 		enum usb3_link_state state)
- {
--	struct usb_device *parent;
--	unsigned int num_hubs;
-+	struct usb_device *parent = udev->parent;
-+	int tier = 1; /* roothub is tier1 */
- 
--	/* Don't enable U1 if the device is on a 2nd tier hub or lower. */
--	for (parent = udev->parent, num_hubs = 0; parent->parent;
--			parent = parent->parent)
--		num_hubs++;
-+	while (parent) {
-+		parent = parent->parent;
-+		tier++;
++	if (pdev->vendor == PCI_VENDOR_ID_ZHAOXIN) {
++		xhci->quirks |= XHCI_LPM_SUPPORT;
++		xhci->quirks |= XHCI_ZHAOXIN_HOST;
++		if (pdev->device == 0x9202) {
++			xhci->quirks |= XHCI_RESET_ON_RESUME;
++			xhci->quirks |= XHCI_ZHAOXIN_TRB_FETCH;
++		}
++		if (pdev->device == 0x9203)
++			xhci->quirks |= XHCI_ZHAOXIN_TRB_FETCH;
 +	}
++
+ 	/* xHC spec requires PCI devices to support D3hot and D3cold */
+ 	if (xhci->hci_version >= 0x120)
+ 		xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 786002bb35db..8f8f0e91b0dc 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1905,6 +1905,8 @@ struct xhci_hcd {
+ #define XHCI_EP_CTX_BROKEN_DCS	BIT_ULL(42)
+ #define XHCI_SUSPEND_RESUME_CLKS	BIT_ULL(43)
+ #define XHCI_RESET_TO_DEFAULT	BIT_ULL(44)
++#define XHCI_ZHAOXIN_HOST	BIT_ULL(45)
++#define XHCI_ZHAOXIN_TRB_FETCH	BIT_ULL(46)
  
--	if (num_hubs < 2)
--		return 0;
-+	if (xhci->quirks & XHCI_INTEL_HOST && tier > 3)
-+		goto fail;
-+	if (xhci->quirks & XHCI_ZHAOXIN_HOST && tier > 2)
-+		goto fail;
- 
--	dev_dbg(&udev->dev, "Disabling U1/U2 link state for device"
--			" below second-tier hub.\n");
--	dev_dbg(&udev->dev, "Plug device into first-tier hub "
--			"to decrease power consumption.\n");
-+	return 0;
-+fail:
-+	dev_dbg(&udev->dev, "Tier policy prevents U1/U2 LPM states for devices at tier %d\n",
-+			tier);
- 	return -E2BIG;
- }
- 
--static int xhci_check_tier_policy(struct xhci_hcd *xhci,
--		struct usb_device *udev,
--		enum usb3_link_state state)
--{
--	if (xhci->quirks & XHCI_INTEL_HOST)
--		return xhci_check_intel_tier_policy(udev, state);
--	else
--		return 0;
--}
--
- /* Returns the U1 or U2 timeout that should be enabled.
-  * If the tier check or timeout setting functions return with a non-zero exit
-  * code, that means the timeout value has been finalized and we shouldn't look
+ 	unsigned int		num_active_eps;
+ 	unsigned int		limit_active_eps;
 -- 
 2.32.0
 
