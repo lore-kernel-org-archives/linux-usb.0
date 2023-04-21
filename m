@@ -2,120 +2,110 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C178C77B75
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 12:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B594C7618E
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 13:04:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231452AbjDUMjU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Apr 2023 08:39:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41178 "EHLO
+        id S232323AbjDUNEi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Apr 2023 09:04:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232090AbjDUMjF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Apr 2023 08:39:05 -0400
-Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C3BCCC36
-        for <linux-usb@vger.kernel.org>; Fri, 21 Apr 2023 05:39:01 -0700 (PDT)
-X-ASG-Debug-ID: 1682080734-1eb14e6388386f0004-YVMibp
-Received: from ZXSHMBX1.zhaoxin.com (ZXSHMBX1.zhaoxin.com [10.28.252.163]) by mx2.zhaoxin.com with ESMTP id VSV32zGVYm9kDjkW (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Fri, 21 Apr 2023 20:38:56 +0800 (CST)
-X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.163
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX1.zhaoxin.com
- (10.28.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 21 Apr
- 2023 20:38:55 +0800
-Received: from L440.zhaoxin.com (10.29.8.21) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 21 Apr
- 2023 20:38:54 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.163
-From:   Weitao Wang <WeitaoWang-oc@zhaoxin.com>
-X-Barracuda-RBL-Trusted-Forwarder: 10.29.252.163
-To:     <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <tonywwang@zhaoxin.com>, <weitaowang@zhaoxin.com>
-Subject: [PATCH v2 3/4] xhci: Show zhaoxin xHCI root hub speed correctly
-Date:   Sat, 22 Apr 2023 04:38:52 +0800
-X-ASG-Orig-Subj: [PATCH v2 3/4] xhci: Show zhaoxin xHCI root hub speed correctly
-Message-ID: <20230421203853.387210-4-WeitaoWang-oc@zhaoxin.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20230421203853.387210-1-WeitaoWang-oc@zhaoxin.com>
-References: <20230421203853.387210-1-WeitaoWang-oc@zhaoxin.com>
+        with ESMTP id S232196AbjDUNEh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Apr 2023 09:04:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B262A1729;
+        Fri, 21 Apr 2023 06:04:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5B36460CF9;
+        Fri, 21 Apr 2023 13:04:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC919C4339E;
+        Fri, 21 Apr 2023 13:04:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682082275;
+        bh=CzmaRLEElV5r6OSmeQUesOnrWGmddrm3MWcaRGvePEM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ghOgmJGOAyVhJFKROPFV3qY7d6DVECvaXitDvgs33kQMAC8DBGMXDoUlAMnD/4+Hn
+         mbEnnTx7/kPd/IDVj1Uyv18886ds+J4uO6u8ipY535bvaefnBlxZTEDPBXyhGAqeVn
+         2b82xSYkZvKiG31Xw6fZZ562s7y/wER8SYc8LH2bArJAdZ0jrGJZXQO8HNgQJPVkZa
+         PpSvgAU0nWaRD0zat7Rm3SXhSAPBPbecY0MJ0lhjjSqaUnMip8fHEQCSzdTeB8uK3s
+         YTd5UcazVOuVBsu7fBkbDxQAeaJ/9ZV8jPreyzpZE20cq6lscLwAiyTe5jww7jQymT
+         vO7nkHZJ3Y1iA==
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-54f9b37c634so19301977b3.2;
+        Fri, 21 Apr 2023 06:04:35 -0700 (PDT)
+X-Gm-Message-State: AAQBX9chQNGyhbqiymLBqg6NNz3Ua6l8iISbiJcwqZxYGRT4UZGsnSxk
+        BIuZLHDXC9n6Fu5/yD6B1CgjPJmrDERlwavAKw==
+X-Google-Smtp-Source: AKy350bc7AmR4GYcjy993sL2twDCdV7QNPuyM3bwV+j16P/bRNdIp5IpqL6aZwSQaNgYKdH2ZrN2Kg5AbLVd3vRIs3o=
+X-Received: by 2002:a0d:d4c3:0:b0:544:9180:3104 with SMTP id
+ w186-20020a0dd4c3000000b0054491803104mr1770084ywd.34.1682082274752; Fri, 21
+ Apr 2023 06:04:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.29.8.21]
-X-ClientProxiedBy: zxbjmbx1.zhaoxin.com (10.29.252.163) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-X-Barracuda-Connect: ZXSHMBX1.zhaoxin.com[10.28.252.163]
-X-Barracuda-Start-Time: 1682080735
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 1770
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0004 1.0000 -2.0184
-X-Barracuda-Spam-Score: 1.09
-X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.107724
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
-        3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
+References: <20230421061825.2233-1-stanley_chang@realtek.com> <20230421061825.2233-2-stanley_chang@realtek.com>
+In-Reply-To: <20230421061825.2233-2-stanley_chang@realtek.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 21 Apr 2023 08:04:22 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJBDuxCAnZmHBnHuMkjTXTLet2d3o5kLRZQ_YuqVB9Pcw@mail.gmail.com>
+Message-ID: <CAL_JsqJBDuxCAnZmHBnHuMkjTXTLet2d3o5kLRZQ_YuqVB9Pcw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] dt-bindings: usb: snps,dwc3: Add
+ 'snps,global-regs-starting-offset' quirk
+To:     Stanley Chang <stanley_chang@realtek.com>
+Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some zhaoxin xHCI controllers follow usb3.1 spec,
-but only support gen1 speed 5G. While in Linux kernel,
-if xHCI suspport usb3.1,root hub speed will show on 10G.
-To fix this issue of zhaoxin xHCI platforms, read usb speed ID
-supported by xHCI to determine root hub speed.
+On Fri, Apr 21, 2023 at 1:18=E2=80=AFAM Stanley Chang <stanley_chang@realte=
+k.com> wrote:
+>
+> Add a new 'snps,global-regs-starting-offset' DT to dwc3 core to remap
+> the global register start address
+>
+> The RTK DHC SoCs were designed the global register address offset at
+> 0x8100. The default address offset is constant at DWC3_GLOBALS_REGS_START
+> (0xc100). Therefore, add the property of device-tree to adjust this
+> address offset.
+>
+> Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
+> ---
+>  v2 to v3 change:
+> 1.  Fix the dtschema validation error.
+>
+>  v1 to v2 change:
+> 1. Change the name of the property "snps,global-regs-starting-offset".
+> 2. Adjust the format of comment.
+> 3. Add initial value of the global_regs_starting_offset
+> 4. Remove the log of dev_info.
+> ---
+>  Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Docum=
+entation/devicetree/bindings/usb/snps,dwc3.yaml
+> index be36956af53b..4f83fa8cb6cb 100644
+> --- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+> +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+> @@ -359,6 +359,14 @@ properties:
+>      items:
+>        enum: [1, 4, 8, 16, 32, 64, 128, 256]
+>
+> +  snps,global-regs-starting-offset:
+> +    description:
+> +      value for remapping global register start address. For some dwc3
+> +      controller, the dwc3 global register start address is not at
+> +      default DWC3_GLOBALS_REGS_START (0xc100). This property is added t=
+o
+> +      adjust the address.
+> +    $ref: '/schemas/types.yaml#/definitions/uint32'
 
-Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
----
- drivers/usb/host/xhci.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Again, we're not going to keep adding properties for every DWC3
+variation. If it is board specific, then yes a property is
+appropriate. If it is SoC specific, then imply it from the compatible.
+Or in this case, you could possibly add another reg entry.
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 6307bae9cddf..31d6ace9cace 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -5294,6 +5294,7 @@ static void xhci_hcd_init_usb2_data(struct xhci_hcd *xhci, struct usb_hcd *hcd)
- static void xhci_hcd_init_usb3_data(struct xhci_hcd *xhci, struct usb_hcd *hcd)
- {
- 	unsigned int minor_rev;
-+	unsigned int i, j;
- 
- 	/*
- 	 * Early xHCI 1.1 spec did not mention USB 3.1 capable hosts
-@@ -5323,6 +5324,27 @@ static void xhci_hcd_init_usb3_data(struct xhci_hcd *xhci, struct usb_hcd *hcd)
- 		hcd->self.root_hub->ssp_rate = USB_SSP_GEN_2x1;
- 		break;
- 	}
-+
-+	/* Usb3.1 has gen1 and gen2, Some zhaoxin's xHCI controller
-+	 * that follow usb3.1 spec but only support gen1.
-+	 */
-+	if (xhci->quirks & XHCI_ZHAOXIN_HOST) {
-+		minor_rev = 0;
-+		for (j = 0; j < xhci->num_port_caps; j++) {
-+			for (i = 0; i < xhci->port_caps[j].psi_count; i++) {
-+				if (XHCI_EXT_PORT_PSIV(xhci->port_caps[j].psi[i]) >= 5) {
-+					minor_rev = 1;
-+					break;
-+				}
-+			}
-+			if (minor_rev)
-+				break;
-+		}
-+		if (minor_rev != 1) {
-+			hcd->speed = HCD_USB3;
-+			hcd->self.root_hub->speed = USB_SPEED_SUPER;
-+		}
-+	}
- 	xhci_info(xhci, "Host supports USB 3.%x %sSuperSpeed\n",
- 		  minor_rev, minor_rev ? "Enhanced " : "");
- 
--- 
-2.32.0
-
+Rob
