@@ -2,105 +2,135 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95601C77B78
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 09:41:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4A02C77B7F
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 09:59:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229521AbjDUJly (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Apr 2023 05:41:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49594 "EHLO
+        id S231658AbjDUJ7T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Apr 2023 05:59:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbjDUJlw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Apr 2023 05:41:52 -0400
-Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1E5DAD2D
-        for <linux-usb@vger.kernel.org>; Fri, 21 Apr 2023 02:41:46 -0700 (PDT)
-X-ASG-Debug-ID: 1682070104-1eb14e6387376d0001-YVMibp
-Received: from ZXSHMBX1.zhaoxin.com (ZXSHMBX1.zhaoxin.com [10.28.252.163]) by mx2.zhaoxin.com with ESMTP id sJ8LRkrTU6nIIko7 (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Fri, 21 Apr 2023 17:41:44 +0800 (CST)
-X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.163
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX1.zhaoxin.com
- (10.28.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 21 Apr
- 2023 17:41:43 +0800
-Received: from L440.zhaoxin.com (10.29.8.21) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 21 Apr
- 2023 17:41:43 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.163
-From:   Weitao Wang <WeitaoWang-oc@zhaoxin.com>
-X-Barracuda-RBL-Trusted-Forwarder: 10.29.252.163
-To:     <stern@rowland.harvard.edu>, <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <tonywwang@zhaoxin.com>, <weitaowang@zhaoxin.com>,
-        <stable@vger.kernel.org>
-Subject: [PATCH v2] UHCI:adjust zhaoxin UHCI controllers OverCurrent bit value
-Date:   Sat, 22 Apr 2023 01:41:42 +0800
-X-ASG-Orig-Subj: [PATCH v2] UHCI:adjust zhaoxin UHCI controllers OverCurrent bit value
-Message-ID: <20230421174142.382602-1-WeitaoWang-oc@zhaoxin.com>
-X-Mailer: git-send-email 2.32.0
+        with ESMTP id S231273AbjDUJ7R (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Apr 2023 05:59:17 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B51B8AF38;
+        Fri, 21 Apr 2023 02:59:15 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33L9Zl95013077;
+        Fri, 21 Apr 2023 09:58:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=mH1yRwdyfBGlx7ue1iz6rfx3JzGxQNBiTPZdXuAKA20=;
+ b=gnXAnoEu3DjamoQMVwxHSzwbt4OWXcBgneGzmScoe0XZubpD0XNvTGOFbBglCf9i4v3b
+ xt8qhwymRk432lsTO2Zdu5ueuCyXRTPqDdvP+zZPFVS19jb+/Ius3hdwWxUXSxEa9F6w
+ BxNpswsJzdOUu3sgpDcbSEWIjkRaEwfHLSkVktKAvP7B92CTVuGuHfVU//P76QOFiP3d
+ SgM+LFbVsHxfg6/SkP/hky3+t29L40GqU8gi1vYfEqNtjtA51OTnUrcsOtkTc9Ttx+4C
+ /eNOHxHBtfHVn26rJTHiiYWs/xnlUzrHpoZHSba4SYmCmEnIckseagv8OfJBJQ9uiYWl ZQ== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q3dcmh9cc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 21 Apr 2023 09:58:50 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33L9wnt1026221
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 21 Apr 2023 09:58:49 GMT
+Received: from varda-linux.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Fri, 21 Apr 2023 02:58:43 -0700
+Date:   Fri, 21 Apr 2023 15:28:39 +0530
+From:   Varadarajan Narayanan <quic_varada@quicinc.com>
+To:     Johan Hovold <johan@kernel.org>
+CC:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
+        <kishon@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <mturquette@baylibre.com>, <sboyd@kernel.org>,
+        <quic_wcheng@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v8 2/8] dt-bindings: phy: qcom,qmp-usb: Add IPQ9574 USB3
+ PHY
+Message-ID: <20230421095838.GA5813@varda-linux.qualcomm.com>
+References: <cover.1680693149.git.quic_varada@quicinc.com>
+ <1efa9a64499767d939efadd0aef897ac4a6e54eb.1680693149.git.quic_varada@quicinc.com>
+ <0a66e291-a86d-1ff9-e674-839b8cc8f1da@linaro.org>
+ <ZDz9t9TkBqZ1fcfn@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.29.8.21]
-X-ClientProxiedBy: zxbjmbx1.zhaoxin.com (10.29.252.163) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-X-Barracuda-Connect: ZXSHMBX1.zhaoxin.com[10.28.252.163]
-X-Barracuda-Start-Time: 1682070104
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 1596
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0002 1.0000 -2.0198
-X-Barracuda-Spam-Score: 1.09
-X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.107717
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
-        3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZDz9t9TkBqZ1fcfn@hovoldconsulting.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: HkjpSBWiKHcIpBqiN8ceaiazLMOuKFFz
+X-Proofpoint-GUID: HkjpSBWiKHcIpBqiN8ceaiazLMOuKFFz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-21_03,2023-04-20_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 adultscore=0 phishscore=0 spamscore=0 impostorscore=0
+ mlxlogscore=999 malwarescore=0 suspectscore=0 clxscore=1011 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304210085
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-OverCurrent condition is not standardized in the UHCI spec.
-Zhaoxin UHCI controllers report OverCurrent bit active off.
-In order to handle OverCurrent condition correctly, the uhci-hcd
-driver needs to be told to expect the active-off behavior.
+On Mon, Apr 17, 2023 at 10:05:11AM +0200, Johan Hovold wrote:
+> On Thu, Apr 06, 2023 at 09:41:49AM +0200, Krzysztof Kozlowski wrote:
+> > On 05/04/2023 13:41, Varadarajan Narayanan wrote:
+> > > Add dt-bindings for USB3 PHY found on Qualcomm IPQ9574
+> > >
+> > > Signed-off-by: Varadarajan Narayanan <quic_varada@quicinc.com>
+> > > ---
+> > >  Changes in v8:
+> > > 	- Update clock names for ipq9574
+> > >
+> > >  Changes in v6:
+> > > 	- Made power-domains optional
+> > >
+> > > Note: In the earlier patch sets, had used the (legacy)
+> > > specification available in qcom,msm8996-qmp-usb3-phy.yaml. Moved
+> > > to newer specification in qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+> > > ---
+> > >  .../phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml        | 43 +++++++++++++++++++---
+> > >  1 file changed, 37 insertions(+), 6 deletions(-)
+>
+> > > +        clock-names:
+> > > +          items:
+> > > +            - const: aux
+> > > +            - const: ref
+> > > +            - const: com_aux
+> >
+> > Can anyone explain me why do we name these (here and other Qualcomm
+> > bindings) based on clock name, not input? Just because different clock
+> > is fed to the block, does not necessarily mean the input should be named
+> > differently.
+>
+> I guess part of the answer is that this has just been copied from the
+> vendor dts and (almost) no one but Qualcomm has access to the
+> documentation. What would the input names be here?
+>
+> Also note that there are SoCs that enable both 'cfg_ahb' and 'com_aux'
+> (e.g. sc7180).
 
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Cc: stable@vger.kernel.org
-Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
----
-v1->v2
- - Modify the description of this patch.
- - Let Zhaoxin and VIA share a common oc_low flag
+The clock name definitions are auto-generated based on the clock
+tree definitions provided by the h/w team. We followed the naming
+pattern done in the previous SoCs.
 
- drivers/usb/host/uhci-pci.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Thanks
+Varada
 
-diff --git a/drivers/usb/host/uhci-pci.c b/drivers/usb/host/uhci-pci.c
-index 3592f757fe05..034586911bb5 100644
---- a/drivers/usb/host/uhci-pci.c
-+++ b/drivers/usb/host/uhci-pci.c
-@@ -119,11 +119,12 @@ static int uhci_pci_init(struct usb_hcd *hcd)
- 
- 	uhci->rh_numports = uhci_count_ports(hcd);
- 
--	/* Intel controllers report the OverCurrent bit active on.
--	 * VIA controllers report it active off, so we'll adjust the
--	 * bit value.  (It's not standardized in the UHCI spec.)
-+	/* Intel controllers report the OverCurrent bit active on.  VIA
-+	 * and ZHAOXIN controllers report it active off, so we'll adjust
-+	 * the bit value.  (It's not standardized in the UHCI spec.)
- 	 */
--	if (to_pci_dev(uhci_dev(uhci))->vendor == PCI_VENDOR_ID_VIA)
-+	if (to_pci_dev(uhci_dev(uhci))->vendor == PCI_VENDOR_ID_VIA ||
-+		to_pci_dev(uhci_dev(uhci))->vendor == PCI_VENDOR_ID_ZHAOXIN)
- 		uhci->oc_low = 1;
- 
- 	/* HP's server management chip requires a longer port reset delay. */
--- 
-2.32.0
-
+>
+> > > +            - const: pipe
+> > > +
+> > >  examples:
+> > >    - |
+> > >      #include <dt-bindings/clock/qcom,gcc-sc8280xp.h>
+>
+> Johan
