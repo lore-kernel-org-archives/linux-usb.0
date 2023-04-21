@@ -2,37 +2,39 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 928AEC7618E
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 11:09:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8E3CC77B75
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 11:20:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230260AbjDULJN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Apr 2023 07:09:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46982 "EHLO
+        id S230074AbjDULUV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Apr 2023 07:20:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbjDULJM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Apr 2023 07:09:12 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D43193F6;
-        Fri, 21 Apr 2023 04:09:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9D01061654;
-        Fri, 21 Apr 2023 11:09:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CF3FC433EF;
-        Fri, 21 Apr 2023 11:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1682075350;
-        bh=lmNia07ZER0CBxltSg2zLh3RRHlpope5dUs5elkjwww=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TJohQZI/1n5YgSB2/dKB/fsfDxMle61fpiSt9jLuEWEOTbBdZzVlsl5iMwsFNU0bj
-         9rHI6npDEXkTk+KznKGXkIP/l7QQGUH1TaIIj0wH02wAHI7yZDHZvBQQQ0xeOFmlPH
-         f7F9c4pqac8HEgPC6aHfMWe45hiItfdNJkjQXa8k=
-Date:   Fri, 21 Apr 2023 13:08:55 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Stanley =?utf-8?B?Q2hhbmdb5piM6IKy5b63XQ==?= 
+        with ESMTP id S229520AbjDULUU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Apr 2023 07:20:20 -0400
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CB18186;
+        Fri, 21 Apr 2023 04:20:18 -0700 (PDT)
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 33LBJeXmA015562, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 33LBJeXmA015562
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+        Fri, 21 Apr 2023 19:19:40 +0800
+Received: from RTEXDAG02.realtek.com.tw (172.21.6.101) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Fri, 21 Apr 2023 19:19:41 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXDAG02.realtek.com.tw (172.21.6.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Fri, 21 Apr 2023 19:19:40 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
+ RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
+ 15.01.2375.007; Fri, 21 Apr 2023 19:19:40 +0800
+From:   =?utf-8?B?U3RhbmxleSBDaGFuZ1vmmIzogrLlvrdd?= 
         <stanley_chang@realtek.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Alan Stern <stern@rowland.harvard.edu>,
         Douglas Anderson <dianders@chromium.org>,
         Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
         Bhuvanesh Surachari <Bhuvanesh_Surachari@mentor.com>,
@@ -42,50 +44,44 @@ Cc:     Alan Stern <stern@rowland.harvard.edu>,
         Michael Grzeschik <m.grzeschik@pengutronix.de>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] usb: phy: add usb phy notify port status API
-Message-ID: <ZEJux2KTnGw-WE1A@kroah.com>
+Subject: RE: [PATCH v1] usb: phy: add usb phy notify port status API
+Thread-Topic: [PATCH v1] usb: phy: add usb phy notify port status API
+Thread-Index: AQHZdCfF18CT8wCSd0W6JiweSZ5Lg6805bGAgACHUUD//6flgIAAhuoQ
+Date:   Fri, 21 Apr 2023 11:19:40 +0000
+Message-ID: <eecf54cdc06a4e3690e2cad62a8d4596@realtek.com>
 References: <20230421080333.18681-1-stanley_chang@realtek.com>
- <ZEJHLR27pVwVI3_J@kroah.com>
- <efd6e621210a407db9c153712f362366@realtek.com>
+ <ZEJHLR27pVwVI3_J@kroah.com> <efd6e621210a407db9c153712f362366@realtek.com>
+ <ZEJux2KTnGw-WE1A@kroah.com>
+In-Reply-To: <ZEJux2KTnGw-WE1A@kroah.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.190.159]
+x-kse-serverinfo: RTEXDAG02.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <efd6e621210a407db9c153712f362366@realtek.com>
+X-KSE-AntiSpam-Interceptor-Info: fallback
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Apr 21, 2023 at 08:32:19AM +0000, Stanley Chang[昌育德] wrote:
-> > 
-> > On Fri, Apr 21, 2023 at 04:03:31PM +0800, Stanley Chang wrote:
-> > > In Realtek SoC, the parameter of usb phy is designed to can dynamic
-> > > tuning base on port status. Therefore, add a notify callback of phy
-> > > driver when usb port status change.
-> > >
-> > > Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
-> > > ---
-> > >  drivers/usb/core/hub.c  | 13 +++++++++++++  include/linux/usb/phy.h |
-> > > 14 ++++++++++++++
-> > >  2 files changed, 27 insertions(+)
-> > 
-> > We can not add callbacks in the kernel that are not actually used, otherwise
-> > they will just be instantly removed.
-> > 
-> > Please submit any drivers that need this change at the same time so that we
-> > can verify that the callback is actually correct and needed, otherwise we can
-> > not take this change.
-> > 
-> 
-> In this stage, we usb phy driver is not at linux upstream. 
-
-Then obviously we can not take this change (nor would you want us to.)
-
-> For the android GKI, we have to add this callback to upstream or use the vendor hook of android.
-> I will plan to upstream the realtek usb phy driver.
-
-As you already have this driver, why not send it to us now?
-
-thanks,
-
-greg k-h
+PiA+ID4gV2UgY2FuIG5vdCBhZGQgY2FsbGJhY2tzIGluIHRoZSBrZXJuZWwgdGhhdCBhcmUgbm90
+IGFjdHVhbGx5IHVzZWQsDQo+ID4gPiBvdGhlcndpc2UgdGhleSB3aWxsIGp1c3QgYmUgaW5zdGFu
+dGx5IHJlbW92ZWQuDQo+ID4gPg0KPiA+ID4gUGxlYXNlIHN1Ym1pdCBhbnkgZHJpdmVycyB0aGF0
+IG5lZWQgdGhpcyBjaGFuZ2UgYXQgdGhlIHNhbWUgdGltZSBzbw0KPiA+ID4gdGhhdCB3ZSBjYW4g
+dmVyaWZ5IHRoYXQgdGhlIGNhbGxiYWNrIGlzIGFjdHVhbGx5IGNvcnJlY3QgYW5kIG5lZWRlZCwN
+Cj4gPiA+IG90aGVyd2lzZSB3ZSBjYW4gbm90IHRha2UgdGhpcyBjaGFuZ2UuDQo+ID4gPg0KPiA+
+DQo+ID4gSW4gdGhpcyBzdGFnZSwgd2UgdXNiIHBoeSBkcml2ZXIgaXMgbm90IGF0IGxpbnV4IHVw
+c3RyZWFtLg0KPiANCj4gVGhlbiBvYnZpb3VzbHkgd2UgY2FuIG5vdCB0YWtlIHRoaXMgY2hhbmdl
+IChub3Igd291bGQgeW91IHdhbnQgdXMgdG8uKQ0KDQpJIHdpbGwgcHJlcGFyZSBhIGNvbXBsZXRl
+IGRyaXZlciBmb3IgcmV2aWV3Lg0KDQo+ID4gRm9yIHRoZSBhbmRyb2lkIEdLSSwgd2UgaGF2ZSB0
+byBhZGQgdGhpcyBjYWxsYmFjayB0byB1cHN0cmVhbSBvciB1c2UgdGhlDQo+IHZlbmRvciBob29r
+IG9mIGFuZHJvaWQuDQo+ID4gSSB3aWxsIHBsYW4gdG8gdXBzdHJlYW0gdGhlIHJlYWx0ZWsgdXNi
+IHBoeSBkcml2ZXIuDQo+IA0KPiBBcyB5b3UgYWxyZWFkeSBoYXZlIHRoaXMgZHJpdmVyLCB3aHkg
+bm90IHNlbmQgaXQgdG8gdXMgbm93Pw0KPiANCk5vdyB0aGUgZHJpdmVyIGRvZXNuJ3QgbWF0Y2gg
+dGhlIGNvZGluZyBzdHlsZS4NCkFmdGVyIEkgcmVmYWN0b3IgaXQsIEkgd2lsbCBzZW5kIHRoaXMg
+ZHJpdmVyIHVwc3RyZWFtLg0KDQpUaGFua3MsDQpTdGFubGV5DQo=
