@@ -2,135 +2,301 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA8D4C77B73
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 03:11:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41510C7618E
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 03:58:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233498AbjDUDLI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Apr 2023 23:11:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60020 "EHLO
+        id S230273AbjDUD6L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Apr 2023 23:58:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233094AbjDUDK6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 23:10:58 -0400
-X-Greylist: delayed 1159 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 20 Apr 2023 20:10:52 PDT
-Received: from mx1.zhaoxin.com (MX1.ZHAOXIN.COM [210.0.225.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DF536EAB
-        for <linux-usb@vger.kernel.org>; Thu, 20 Apr 2023 20:10:52 -0700 (PDT)
-X-ASG-Debug-ID: 1682045488-086e237e5035540001-YVMibp
-Received: from ZXSHMBX2.zhaoxin.com (ZXSHMBX2.zhaoxin.com [10.28.252.164]) by mx1.zhaoxin.com with ESMTP id jHYewwdp8MwaxFTS (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Fri, 21 Apr 2023 10:51:28 +0800 (CST)
-X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX2.zhaoxin.com
- (10.28.252.164) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 21 Apr
- 2023 10:51:28 +0800
-Received: from [10.29.8.21] (10.29.8.21) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 21 Apr
- 2023 10:51:27 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Message-ID: <375a82ab-7628-4895-fcda-ad19e5958d4b@zhaoxin.com>
-X-Barracuda-RBL-Trusted-Forwarder: 10.29.8.21
-Date:   Fri, 21 Apr 2023 18:51:26 +0800
+        with ESMTP id S229660AbjDUD6J (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Apr 2023 23:58:09 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B29423AAC
+        for <linux-usb@vger.kernel.org>; Thu, 20 Apr 2023 20:58:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682049487; x=1713585487;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KVM7EX76dtOAb3frjuinoltOMhcYDGdgVf6m8c9+lPY=;
+  b=lB/r2bsFhI9XB4mij5Ng0xNSoVNLu/qufah7/2OB8VVVVm43E8eF7u5W
+   M83NUHnXGc/pbO4hAdO8gsy6njGIcG3CJkHJ6QtP0DGIh9/ca2A7N4pxZ
+   WFpdD0CvpD6eAFaVJLv5N0+tyiUJlQiNxAvak8qqYcqJXDvhslHXNYOZg
+   BmKFpm7gKQV3qyVIC7iKooxLBX7CKIZ3GpPuR51pbjj0MldPodikFPwwG
+   fS7kQomlyuitg6kIG4/G1ZgqhQfuIxG8tywajhzTjebU/W8lvMP8RfL0z
+   EU5EfGPW5OGNIhMUru5Dd+4F+Q1apMslrGlXoQgWOAWPA9hGD3Pz+UDKc
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="411174491"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
+   d="scan'208";a="411174491"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 20:58:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="1021789882"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
+   d="scan'208";a="1021789882"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 20 Apr 2023 20:58:02 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pphuM-000gIh-0O;
+        Fri, 21 Apr 2023 03:58:02 +0000
+Date:   Fri, 21 Apr 2023 11:57:18 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-next] BUILD SUCCESS
+ 9e6ca3e6ff4a463454d35c8747aa08198628f4d7
+Message-ID: <6442099e.dszN3J7PU7ATzUfp%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 2/3] xhci: Add zhaoxin xHCI U1/U2 feature support
-Content-Language: en-US
-X-ASG-Orig-Subj: Re: [PATCH 2/3] xhci: Add zhaoxin xHCI U1/U2 feature support
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <tonywwang@zhaoxin.com>, <weitaowang@zhaoxin.com>
-References: <20230420172130.375819-1-WeitaoWang-oc@zhaoxin.com>
- <20230420172130.375819-3-WeitaoWang-oc@zhaoxin.com>
- <c853436a-85c7-d0f8-0990-bc64977cbd47@gmail.com>
- <f0f0d62d-edde-547d-5d6e-a02e2f8e8648@zhaoxin.com>
- <54aa1618-63b7-965a-d303-5d35cb554c20@gmail.com>
-From:   "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
-In-Reply-To: <54aa1618-63b7-965a-d303-5d35cb554c20@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.29.8.21]
-X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-X-Barracuda-Connect: ZXSHMBX2.zhaoxin.com[10.28.252.164]
-X-Barracuda-Start-Time: 1682045488
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.35:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 2291
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
-X-Barracuda-Spam-Score: 1.09
-X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.107704
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
-        3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2023/4/20 22:22, Sergei Shtylyov wrote:
-> On 4/20/23 11:21 PM, WeitaoWang-oc@zhaoxin.com wrote:
-> 
->>>> Add U1/U2 feature support of xHCI for zhaoxin.
->>>>
->>>> Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
->>> [...]
->>>
->>>> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
->>>> index 6307bae9cddf..730c0f68518d 100644
->>>> --- a/drivers/usb/host/xhci.c
->>>> +++ b/drivers/usb/host/xhci.c
->>> [...]
->>>> @@ -4938,6 +4938,27 @@ static int xhci_update_timeout_for_interface(struct xhci_hcd *xhci,
->>>>        return 0;
->>>>    }
->>>>    +static int xhci_check_zhaoxin_tier_policy(struct usb_device *udev,
->>>> +        enum usb3_link_state state)
->>>> +{
->>>> +    struct usb_device *parent;
->>>> +    unsigned int num_hubs;
->>>> +
->>>> +    /* Don't enable U1/U2 if the device is on an external hub. */
->>>> +    for (parent = udev->parent, num_hubs = 0; parent->parent;
->>>> +            parent = parent->parent)
->>>> +        num_hubs++;
->>>> +
->>>> +    if (num_hubs < 1)
->>>> +        return 0;
->>>> +
->>>> +    dev_dbg(&udev->dev, "Disabling U1/U2 link state for device"
->>>> +            " below external hub.\n");
->>>> +    dev_dbg(&udev->dev, "Plug device into root hub "
->>>> +            "to decrease power consumption.\n");
->>>
->>>      Please don't break up the message strings.
->>
->> Thanks for your advice, and I will merge this message in next patch version.
->>> [...]
->>>> @@ -4965,6 +4986,8 @@ static int xhci_check_tier_policy(struct xhci_hcd *xhci,
->>>>    {
->>>>        if (xhci->quirks & XHCI_INTEL_HOST)
->>>>            return xhci_check_intel_tier_policy(udev, state);
->>>> +    else if (xhci->quirks & XHCI_ZHAOXIN_HOST)
->>>
->>>      *else* not needed after *return*.
->> This function need a "int" type return value. If remove "else" branch,
->> vendor other than intel and zhaoxin will not get a return value.
-> 
->     I didn't tell you to remove the whole branch, just the *else* keyword.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
+branch HEAD: 9e6ca3e6ff4a463454d35c8747aa08198628f4d7  Merge tag 'usb-serial-6.4-rc1' of https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-next
 
-I understand what you mean this time. Here's code needs more concise.
-I'll try to do more think and test.Thanks again!
+elapsed time: 1242m
 
-weitao
-> [...]
->> Best Regards,
->> Weitao
-> 
-> MBR, Sergey
-> .
+configs tested: 227
+configs skipped: 17
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r013-20230416   gcc  
+alpha                randconfig-r023-20230416   gcc  
+alpha                randconfig-r034-20230420   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r003-20230416   gcc  
+arc                  randconfig-r003-20230418   gcc  
+arc                  randconfig-r004-20230416   gcc  
+arc                  randconfig-r005-20230417   gcc  
+arc                  randconfig-r021-20230416   gcc  
+arc                  randconfig-r023-20230419   gcc  
+arc                  randconfig-r035-20230417   gcc  
+arc                  randconfig-r043-20230416   gcc  
+arc                  randconfig-r043-20230417   gcc  
+arc                  randconfig-r043-20230418   gcc  
+arc                  randconfig-r043-20230419   gcc  
+arc                  randconfig-r043-20230420   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r001-20230417   clang
+arm                  randconfig-r003-20230417   clang
+arm                  randconfig-r022-20230416   clang
+arm                  randconfig-r031-20230418   gcc  
+arm                  randconfig-r032-20230416   gcc  
+arm                  randconfig-r035-20230416   gcc  
+arm                  randconfig-r046-20230416   clang
+arm                  randconfig-r046-20230417   gcc  
+arm                  randconfig-r046-20230418   clang
+arm                  randconfig-r046-20230419   gcc  
+arm                  randconfig-r046-20230420   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r011-20230418   gcc  
+arm64                randconfig-r023-20230417   clang
+arm64                randconfig-r023-20230418   gcc  
+arm64                randconfig-r025-20230417   clang
+arm64                randconfig-r026-20230417   clang
+arm64                randconfig-r032-20230420   clang
+arm64                randconfig-r033-20230417   gcc  
+arm64                randconfig-r035-20230417   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r005-20230416   gcc  
+csky                 randconfig-r015-20230416   gcc  
+csky                 randconfig-r024-20230419   gcc  
+csky                 randconfig-r026-20230416   gcc  
+csky                 randconfig-r032-20230417   gcc  
+csky                 randconfig-r034-20230417   gcc  
+csky                 randconfig-r036-20230420   gcc  
+hexagon              randconfig-r001-20230419   clang
+hexagon              randconfig-r002-20230416   clang
+hexagon              randconfig-r005-20230419   clang
+hexagon              randconfig-r022-20230417   clang
+hexagon              randconfig-r024-20230417   clang
+hexagon              randconfig-r041-20230416   clang
+hexagon              randconfig-r041-20230417   clang
+hexagon              randconfig-r041-20230418   clang
+hexagon              randconfig-r041-20230419   clang
+hexagon              randconfig-r041-20230420   clang
+hexagon              randconfig-r045-20230416   clang
+hexagon              randconfig-r045-20230417   clang
+hexagon              randconfig-r045-20230418   clang
+hexagon              randconfig-r045-20230419   clang
+hexagon              randconfig-r045-20230420   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230417   gcc  
+i386                 randconfig-a002-20230417   gcc  
+i386                 randconfig-a003-20230417   gcc  
+i386                 randconfig-a004-20230417   gcc  
+i386                 randconfig-a005-20230417   gcc  
+i386                 randconfig-a006-20230417   gcc  
+i386                 randconfig-a011-20230417   clang
+i386                 randconfig-a012-20230417   clang
+i386                 randconfig-a013-20230417   clang
+i386                 randconfig-a014-20230417   clang
+i386                 randconfig-a015-20230417   clang
+i386                 randconfig-a016-20230417   clang
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r001-20230416   gcc  
+ia64                 randconfig-r002-20230418   gcc  
+ia64                 randconfig-r015-20230417   gcc  
+ia64                 randconfig-r036-20230418   gcc  
+ia64                            zx1_defconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r013-20230417   gcc  
+loongarch            randconfig-r023-20230417   gcc  
+loongarch            randconfig-r034-20230420   gcc  
+loongarch            randconfig-r036-20230416   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r004-20230418   gcc  
+m68k                 randconfig-r014-20230417   gcc  
+m68k                 randconfig-r016-20230418   gcc  
+m68k                 randconfig-r021-20230418   gcc  
+m68k                 randconfig-r022-20230417   gcc  
+m68k                 randconfig-r032-20230416   gcc  
+m68k                 randconfig-r033-20230416   gcc  
+m68k                 randconfig-r033-20230418   gcc  
+microblaze   buildonly-randconfig-r002-20230420   gcc  
+microblaze           randconfig-r003-20230419   gcc  
+microblaze           randconfig-r005-20230418   gcc  
+microblaze           randconfig-r006-20230418   gcc  
+microblaze           randconfig-r014-20230418   gcc  
+microblaze           randconfig-r016-20230416   gcc  
+microblaze           randconfig-r031-20230420   gcc  
+microblaze           randconfig-r034-20230418   gcc  
+microblaze           randconfig-r036-20230416   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips         buildonly-randconfig-r003-20230420   gcc  
+mips                malta_qemu_32r6_defconfig   clang
+mips                 randconfig-r004-20230419   clang
+mips                 randconfig-r021-20230419   gcc  
+mips                 randconfig-r024-20230418   clang
+mips                 randconfig-r025-20230417   gcc  
+mips                 randconfig-r026-20230416   clang
+mips                 randconfig-r031-20230417   clang
+mips                 randconfig-r033-20230416   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r022-20230419   gcc  
+nios2                randconfig-r025-20230418   gcc  
+openrisc             randconfig-r002-20230417   gcc  
+openrisc             randconfig-r012-20230417   gcc  
+openrisc             randconfig-r033-20230420   gcc  
+parisc       buildonly-randconfig-r004-20230420   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r001-20230416   gcc  
+parisc               randconfig-r006-20230417   gcc  
+parisc               randconfig-r026-20230419   gcc  
+parisc               randconfig-r031-20230416   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc      buildonly-randconfig-r001-20230420   gcc  
+powerpc                mpc7448_hpc2_defconfig   gcc  
+powerpc              randconfig-r012-20230418   gcc  
+powerpc              randconfig-r013-20230418   gcc  
+powerpc              randconfig-r015-20230418   gcc  
+powerpc              randconfig-r025-20230416   gcc  
+powerpc              randconfig-r031-20230416   clang
+powerpc              randconfig-r032-20230418   clang
+powerpc              randconfig-r034-20230416   clang
+powerpc                     taishan_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r006-20230416   clang
+riscv                randconfig-r006-20230419   gcc  
+riscv                randconfig-r033-20230420   clang
+riscv                randconfig-r036-20230420   clang
+riscv                randconfig-r042-20230416   gcc  
+riscv                randconfig-r042-20230417   clang
+riscv                randconfig-r042-20230418   gcc  
+riscv                randconfig-r042-20230419   clang
+riscv                randconfig-r042-20230420   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r002-20230419   gcc  
+s390                 randconfig-r004-20230417   gcc  
+s390                 randconfig-r005-20230417   gcc  
+s390                 randconfig-r006-20230416   clang
+s390                 randconfig-r012-20230416   gcc  
+s390                 randconfig-r024-20230416   gcc  
+s390                 randconfig-r024-20230417   clang
+s390                 randconfig-r034-20230417   gcc  
+s390                 randconfig-r044-20230416   gcc  
+s390                 randconfig-r044-20230417   clang
+s390                 randconfig-r044-20230418   gcc  
+s390                 randconfig-r044-20230419   clang
+s390                 randconfig-r044-20230420   gcc  
+sh                               allmodconfig   gcc  
+sh                   randconfig-r026-20230418   gcc  
+sh                   randconfig-r035-20230416   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r003-20230417   gcc  
+sparc                randconfig-r032-20230420   gcc  
+sparc64              randconfig-r002-20230417   gcc  
+sparc64              randconfig-r003-20230416   gcc  
+sparc64              randconfig-r025-20230416   gcc  
+sparc64              randconfig-r033-20230417   gcc  
+sparc64              randconfig-r035-20230420   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230417   gcc  
+x86_64               randconfig-a002-20230417   gcc  
+x86_64               randconfig-a003-20230417   gcc  
+x86_64               randconfig-a004-20230417   gcc  
+x86_64               randconfig-a005-20230417   gcc  
+x86_64               randconfig-a006-20230417   gcc  
+x86_64               randconfig-a011-20230417   clang
+x86_64                        randconfig-a011   gcc  
+x86_64               randconfig-a012-20230417   clang
+x86_64                        randconfig-a012   clang
+x86_64               randconfig-a013-20230417   clang
+x86_64                        randconfig-a013   gcc  
+x86_64               randconfig-a014-20230417   clang
+x86_64                        randconfig-a014   clang
+x86_64               randconfig-a015-20230417   clang
+x86_64                        randconfig-a015   gcc  
+x86_64               randconfig-a016-20230417   clang
+x86_64                        randconfig-a016   clang
+x86_64               randconfig-r021-20230417   clang
+x86_64               randconfig-r031-20230417   gcc  
+x86_64               randconfig-r032-20230417   gcc  
+x86_64               randconfig-r036-20230417   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r004-20230417   gcc  
+xtensa               randconfig-r011-20230416   gcc  
+xtensa               randconfig-r021-20230416   gcc  
+xtensa               randconfig-r023-20230416   gcc  
+xtensa               randconfig-r024-20230416   gcc  
+xtensa               randconfig-r034-20230416   gcc  
+xtensa               randconfig-r035-20230418   gcc  
+xtensa               randconfig-r036-20230417   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
