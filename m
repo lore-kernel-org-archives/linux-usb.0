@@ -2,89 +2,105 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1014C77B75
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 08:40:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95601C77B78
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Apr 2023 09:41:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229938AbjDUIkl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Apr 2023 04:40:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32982 "EHLO
+        id S229521AbjDUJly (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Apr 2023 05:41:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229624AbjDUIkj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Apr 2023 04:40:39 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E5B47DA8;
-        Fri, 21 Apr 2023 01:40:38 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 33L8e5glD015276, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 33L8e5glD015276
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-        Fri, 21 Apr 2023 16:40:05 +0800
-Received: from RTEXMBS02.realtek.com.tw (172.21.6.95) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Fri, 21 Apr 2023 16:40:06 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS02.realtek.com.tw (172.21.6.95) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 21 Apr 2023 16:40:05 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
- RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
- 15.01.2375.007; Fri, 21 Apr 2023 16:40:05 +0800
-From:   =?big5?B?U3RhbmxleSBDaGFuZ1up96h8vHdd?= <stanley_chang@realtek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Alan Stern <stern@rowland.harvard.edu>,
-        Douglas Anderson <dianders@chromium.org>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        Bhuvanesh Surachari <Bhuvanesh_Surachari@mentor.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Flavio Suligoi <f.suligoi@asem.it>,
-        Ray Chi <raychi@google.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v1] usb: phy: add usb phy notify port status API
-Thread-Topic: [PATCH v1] usb: phy: add usb phy notify port status API
-Thread-Index: AQHZdCfF18CT8wCSd0W6JiweSZ5Lg6805gYAgACG7aA=
-Date:   Fri, 21 Apr 2023 08:40:05 +0000
-Message-ID: <fdf65c4eca9b420bb1ed29edb66482fb@realtek.com>
-References: <20230421080333.18681-1-stanley_chang@realtek.com>
- <ZEJHdCpLZ7f0946B@kroah.com>
-In-Reply-To: <ZEJHdCpLZ7f0946B@kroah.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.190.159]
-x-kse-serverinfo: RTEXMBS02.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+        with ESMTP id S229632AbjDUJlw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Apr 2023 05:41:52 -0400
+Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1E5DAD2D
+        for <linux-usb@vger.kernel.org>; Fri, 21 Apr 2023 02:41:46 -0700 (PDT)
+X-ASG-Debug-ID: 1682070104-1eb14e6387376d0001-YVMibp
+Received: from ZXSHMBX1.zhaoxin.com (ZXSHMBX1.zhaoxin.com [10.28.252.163]) by mx2.zhaoxin.com with ESMTP id sJ8LRkrTU6nIIko7 (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Fri, 21 Apr 2023 17:41:44 +0800 (CST)
+X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.163
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX1.zhaoxin.com
+ (10.28.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 21 Apr
+ 2023 17:41:43 +0800
+Received: from L440.zhaoxin.com (10.29.8.21) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 21 Apr
+ 2023 17:41:43 +0800
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.163
+From:   Weitao Wang <WeitaoWang-oc@zhaoxin.com>
+X-Barracuda-RBL-Trusted-Forwarder: 10.29.252.163
+To:     <stern@rowland.harvard.edu>, <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <tonywwang@zhaoxin.com>, <weitaowang@zhaoxin.com>,
+        <stable@vger.kernel.org>
+Subject: [PATCH v2] UHCI:adjust zhaoxin UHCI controllers OverCurrent bit value
+Date:   Sat, 22 Apr 2023 01:41:42 +0800
+X-ASG-Orig-Subj: [PATCH v2] UHCI:adjust zhaoxin UHCI controllers OverCurrent bit value
+Message-ID: <20230421174142.382602-1-WeitaoWang-oc@zhaoxin.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.29.8.21]
+X-ClientProxiedBy: zxbjmbx1.zhaoxin.com (10.29.252.163) To
+ zxbjmbx1.zhaoxin.com (10.29.252.163)
+X-Barracuda-Connect: ZXSHMBX1.zhaoxin.com[10.28.252.163]
+X-Barracuda-Start-Time: 1682070104
+X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
+X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at zhaoxin.com
+X-Barracuda-Scan-Msg-Size: 1596
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.0002 1.0000 -2.0198
+X-Barracuda-Spam-Score: 1.09
+X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.107717
+        Rule breakdown below
+         pts rule name              description
+        ---- ---------------------- --------------------------------------------------
+        0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
+        3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2NvcmUvaHViLmMgYi9kcml2ZXJzL3VzYi9j
-b3JlL2h1Yi5jIGluZGV4DQo+ID4gOTdhMGY4ZmFlYTZlLi5iNGZiYmVhZTE5MjcgMTAwNjQ0DQo+
-ID4gLS0tIGEvZHJpdmVycy91c2IvY29yZS9odWIuYw0KPiA+ICsrKyBiL2RyaXZlcnMvdXNiL2Nv
-cmUvaHViLmMNCj4gPiBAQCAtNjE0LDYgKzYxNCwxOSBAQCBzdGF0aWMgaW50IGh1Yl9leHRfcG9y
-dF9zdGF0dXMoc3RydWN0IHVzYl9odWIgKmh1YiwNCj4gaW50IHBvcnQxLCBpbnQgdHlwZSwNCj4g
-PiAgICAgICAgICAgICAgIHJldCA9IDA7DQo+ID4gICAgICAgfQ0KPiA+ICAgICAgIG11dGV4X3Vu
-bG9jaygmaHViLT5zdGF0dXNfbXV0ZXgpOw0KPiA+ICsNCj4gPiArICAgICBpZiAoIXJldCkgew0K
-PiA+ICsgICAgICAgICAgICAgc3RydWN0IHVzYl9kZXZpY2UgKmhkZXYgPSBodWItPmhkZXY7DQo+
-ID4gKw0KPiA+ICsgICAgICAgICAgICAgaWYgKGhkZXYgJiYgIWhkZXYtPnBhcmVudCkgew0KPiAN
-Cj4gSG93IGNhbiB5b3UgaGF2ZSBhIGRldmljZSB3aXRob3V0IGEgcGFyZW50PyAgQW5kIHdoeSBk
-b2VzIGl0IG1hdHRlcj8NCg0KSWYgdGhlIGh1YiBpcyBhIHJvb3QgaHViLCB0aGUgcGFyZW50IG9m
-IGh1YiB3aWxsIGJlIE5VTEwuDQpBbmQgd2Ugb25seSBzZW5kIHRoZSBwb3J0IHN0YXR1cyB0byBw
-aHkgZHJpdmVyIGZvciByb290IGh1Yi4NCj4gDQo+IEFuZCBob3cgY291bGQgaGRldiBiZSBOVUxM
-PyAgQW5kIGlmIGl0IGNhbiBjaGFuZ2UgdG8gYmUgTlVMTCwgd2hhdCBwcmV2ZW50cw0KPiBpdCBm
-cm9tIGNoYW5naW5nIHJpZ2h0IGFmdGVyIHlvdSBjaGVja2VkIGZvciBpdD8NCj4gDQoNCkl0IGlz
-IHJpZ2h0LiBoZGV2IGlzIG5ldmVyIE5VTEwsIHRoaXMgaXMgYSByZWR1bmRhbnQgY2hlY2suDQoN
-ClRoYW5rcywNClN0YW5sZXkNCg==
+OverCurrent condition is not standardized in the UHCI spec.
+Zhaoxin UHCI controllers report OverCurrent bit active off.
+In order to handle OverCurrent condition correctly, the uhci-hcd
+driver needs to be told to expect the active-off behavior.
+
+Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+Cc: stable@vger.kernel.org
+Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
+---
+v1->v2
+ - Modify the description of this patch.
+ - Let Zhaoxin and VIA share a common oc_low flag
+
+ drivers/usb/host/uhci-pci.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/host/uhci-pci.c b/drivers/usb/host/uhci-pci.c
+index 3592f757fe05..034586911bb5 100644
+--- a/drivers/usb/host/uhci-pci.c
++++ b/drivers/usb/host/uhci-pci.c
+@@ -119,11 +119,12 @@ static int uhci_pci_init(struct usb_hcd *hcd)
+ 
+ 	uhci->rh_numports = uhci_count_ports(hcd);
+ 
+-	/* Intel controllers report the OverCurrent bit active on.
+-	 * VIA controllers report it active off, so we'll adjust the
+-	 * bit value.  (It's not standardized in the UHCI spec.)
++	/* Intel controllers report the OverCurrent bit active on.  VIA
++	 * and ZHAOXIN controllers report it active off, so we'll adjust
++	 * the bit value.  (It's not standardized in the UHCI spec.)
+ 	 */
+-	if (to_pci_dev(uhci_dev(uhci))->vendor == PCI_VENDOR_ID_VIA)
++	if (to_pci_dev(uhci_dev(uhci))->vendor == PCI_VENDOR_ID_VIA ||
++		to_pci_dev(uhci_dev(uhci))->vendor == PCI_VENDOR_ID_ZHAOXIN)
+ 		uhci->oc_low = 1;
+ 
+ 	/* HP's server management chip requires a longer port reset delay. */
+-- 
+2.32.0
+
