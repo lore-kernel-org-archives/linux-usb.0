@@ -2,135 +2,93 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32890C7618E
-	for <linux-usb@archiver.kernel.org>; Sat, 22 Apr 2023 15:12:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26616C77B76
+	for <linux-usb@archiver.kernel.org>; Sat, 22 Apr 2023 16:05:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229739AbjDVPMB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 22 Apr 2023 11:12:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34400 "EHLO
+        id S229692AbjDVQFi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 22 Apr 2023 12:05:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbjDVPL6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 22 Apr 2023 11:11:58 -0400
-Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E3C1BEF
-        for <linux-usb@vger.kernel.org>; Sat, 22 Apr 2023 08:11:55 -0700 (PDT)
-X-ASG-Debug-ID: 1682176311-1eb14e638841370001-YVMibp
-Received: from ZXSHMBX3.zhaoxin.com (ZXSHMBX3.zhaoxin.com [10.28.252.165]) by mx2.zhaoxin.com with ESMTP id ljftPdxn0Gr5sTUK (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Sat, 22 Apr 2023 23:11:51 +0800 (CST)
-X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.165
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX3.zhaoxin.com
- (10.28.252.165) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Sat, 22 Apr
- 2023 23:11:51 +0800
-Received: from [192.168.0.100] (115.171.114.112) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Sat, 22 Apr
- 2023 23:11:49 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.165
-Message-ID: <235c2ebc-ca9b-8765-0914-fcd839f1e45c@zhaoxin.com>
-X-Barracuda-RBL-Trusted-Forwarder: 192.168.0.100
-Date:   Sun, 23 Apr 2023 07:11:49 +0800
+        with ESMTP id S229556AbjDVQFh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 22 Apr 2023 12:05:37 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30E811736;
+        Sat, 22 Apr 2023 09:05:36 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-94a34d3812cso487568066b.2;
+        Sat, 22 Apr 2023 09:05:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682179534; x=1684771534;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:to:from:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GYcLnekjQPJfJ02gPVa4lLw0GXPBlTFUVleo72kNbmQ=;
+        b=Ex1DQNWtLbC8EIw3ECbYiwwQqtKMPAF9oiISSRsHGQHP5vP3kp8Xf2/Qz23x6h6/jV
+         dYj7ttGXlBTDsrLEKpJ+44XoKG3qQvb1pOHL15PklP+WAEdKVnBjTK1y5ARoohy3x5aA
+         pR+NOJTwlE+rP7JSDxpfqUdurh2U5xtJqMbsMxIKPpOj717JDqBiIYLvY5bDmls1HIri
+         0pKROrfVs112el3O9jeoKfHwCVpgVPRso+oc89qz3//MhaZk4yen4Ne1I1DDRHq2tGhQ
+         gssJyDlolluSayrC9rlP52tMjlkrl+RQyGLyqyWxfshMsQeMp3FTJ0lSemuk77kr9fRM
+         yPTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682179534; x=1684771534;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GYcLnekjQPJfJ02gPVa4lLw0GXPBlTFUVleo72kNbmQ=;
+        b=HGW9Js5FG0j3REOgqakFWW7DJXv7oR8UyC6SktGzrMH//D/do86Q7AK+a6UitD0t45
+         G43Q/l8Aptmqi0KWyOsr5R0iX86K52mUePc16vcb8HU1BqeipQW77OW7qkMQccSa/Nmh
+         WTUID9LE1Sm+JUAwO9+l7jR7UNZOFUp0t//5knKm80Be0IWOf2VQfhvlqZsNeX5akvxX
+         Ir9fPeqH2pP0sPXyPulnpCsSRFElbskXkH65JMoma3m/TixXAXc5PaM/PPN2v1r6xgc1
+         d3wJEshm9kLOv6uRw297ZW8bRw2w71OKOiaIob0PXQH7D+Wsqxar7UI3SU2nvfjAqGsZ
+         vSTQ==
+X-Gm-Message-State: AAQBX9dLLtRmVkx+TzmV5uKBKBKfrZiQplZb+ITLKX81pq/3upnN0VrY
+        xeiH8mAMbfUyaLIuc4vdyutKSUC9zs4=
+X-Google-Smtp-Source: AKy350bpK4Rxqbj+q8j3pPhMzYKge7G6gWFKtcpEtm9PtB4Aid8BhygHyj6iBdwLZ2e0kPeqqwWH3A==
+X-Received: by 2002:a17:906:ca2:b0:931:1e69:e1da with SMTP id k2-20020a1709060ca200b009311e69e1damr5476912ejh.7.1682179534117;
+        Sat, 22 Apr 2023 09:05:34 -0700 (PDT)
+Received: from jo-einhundert ([2a02:908:13d6:2180:1b01:a567:fcb4:e356])
+        by smtp.gmail.com with ESMTPSA id jo2-20020a170906f6c200b009538cc79241sm3428272ejb.56.2023.04.22.09.05.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Apr 2023 09:05:33 -0700 (PDT)
+Date:   Sat, 22 Apr 2023 18:05:32 +0200
+From:   =?iso-8859-1?Q?J=F3_=C1gila?= Bitsch <jgilab@gmail.com>
+To:     Randy Dunlap <rdunlap@infradead.org>, Greg KH <greg@kroah.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH] usb: gadget: drop superfluous ':' in doc string
+Message-ID: <ZEQFzMntIrwvZl4+@jo-einhundert>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2] UHCI:adjust zhaoxin UHCI controllers OverCurrent bit
- value
-Content-Language: en-US
-X-ASG-Orig-Subj: Re: [PATCH v2] UHCI:adjust zhaoxin UHCI controllers OverCurrent bit
- value
-To:     Alan Stern <stern@rowland.harvard.edu>
-CC:     <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <tonywwang@zhaoxin.com>,
-        <weitaowang@zhaoxin.com>, <stable@vger.kernel.org>
-References: <20230421174142.382602-1-WeitaoWang-oc@zhaoxin.com>
- <a55aa38d-0fbf-4a95-a2b2-40821815275f@rowland.harvard.edu>
-From:   "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
-In-Reply-To: <a55aa38d-0fbf-4a95-a2b2-40821815275f@rowland.harvard.edu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [115.171.114.112]
-X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-X-Barracuda-Connect: ZXSHMBX3.zhaoxin.com[10.28.252.165]
-X-Barracuda-Start-Time: 1682176311
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 2276
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
-X-Barracuda-Spam-Score: 1.09
-X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.107774
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
-        3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2023/4/21 22:59, Alan Stern wrote:
-> On Sat, Apr 22, 2023 at 01:41:42AM +0800, Weitao Wang wrote:
->> OverCurrent condition is not standardized in the UHCI spec.
->> Zhaoxin UHCI controllers report OverCurrent bit active off.
->> In order to handle OverCurrent condition correctly, the uhci-hcd
->> driver needs to be told to expect the active-off behavior.
->>
->> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
->> ---
->> v1->v2
->>   - Modify the description of this patch.
->>   - Let Zhaoxin and VIA share a common oc_low flag
->>
->>   drivers/usb/host/uhci-pci.c | 9 +++++----
->>   1 file changed, 5 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/usb/host/uhci-pci.c b/drivers/usb/host/uhci-pci.c
->> index 3592f757fe05..034586911bb5 100644
->> --- a/drivers/usb/host/uhci-pci.c
->> +++ b/drivers/usb/host/uhci-pci.c
->> @@ -119,11 +119,12 @@ static int uhci_pci_init(struct usb_hcd *hcd)
->>   
->>   	uhci->rh_numports = uhci_count_ports(hcd);
->>   
->> -	/* Intel controllers report the OverCurrent bit active on.
->> -	 * VIA controllers report it active off, so we'll adjust the
->> -	 * bit value.  (It's not standardized in the UHCI spec.)
->> +	/* Intel controllers report the OverCurrent bit active on.  VIA
->> +	 * and ZHAOXIN controllers report it active off, so we'll adjust
->> +	 * the bit value.  (It's not standardized in the UHCI spec.)
->>   	 */
-> 
-> The style we use now for multi-line comments is:
-> 
-> 	/*
-> 	 * Blah blah blah
-> 	 * blah blah blah
-> 	 */
-> 
->> -	if (to_pci_dev(uhci_dev(uhci))->vendor == PCI_VENDOR_ID_VIA)
->> +	if (to_pci_dev(uhci_dev(uhci))->vendor == PCI_VENDOR_ID_VIA ||
->> +		to_pci_dev(uhci_dev(uhci))->vendor == PCI_VENDOR_ID_ZHAOXIN)
-> 
-> The indentation level of the continuation line should be different from
-> the indentation of the statement below.  Otherwise it looks like the
-> continuation line is part of the conditional block.
-> 
-I see, Thanks for your careful examination. I'll change it later.
+There was one superfluous ':' that kernel-doc complained about.
 
-Best Regards,
-Weitao
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Closes: https://lore.kernel.org/all/c718a490-028d-2682-9ad7-8256d16504bf@infradead.org/
+Fixes: fb6211f1584a ("usb: gadget: add doc to struct usb_composite_dev")
+Signed-off-by: Jó Ágila Bitsch <jgilab@gmail.com>
+---
+ include/linux/usb/composite.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Alan Stern
-> 
->>   		uhci->oc_low = 1;
->>   
->>   	/* HP's server management chip requires a longer port reset delay. */
->> -- 
->> 2.32.0
->>
-> .
+diff --git a/include/linux/usb/composite.h b/include/linux/usb/composite.h
+index a2448e98854f..07531c4f4350 100644
+--- a/include/linux/usb/composite.h
++++ b/include/linux/usb/composite.h
+@@ -443,7 +443,7 @@ static inline struct usb_composite_driver *to_cdriver(
+  * @bcd_webusb_version: 0x0100 by default, WebUSB specification version
+  * @b_webusb_vendor_code: 0x0 by default, vendor code for WebUSB
+  * @landing_page: empty by default, landing page to announce in WebUSB
+- * @use_webusb:: false by default, interested gadgets set it
++ * @use_webusb: false by default, interested gadgets set it
+  * @os_desc_config: the configuration to be used with OS descriptors
+  * @setup_pending: true when setup request is queued but not completed
+  * @os_desc_pending: true when os_desc request is queued but not completed
+-- 
+2.39.2
+
