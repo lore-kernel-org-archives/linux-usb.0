@@ -2,74 +2,73 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24971C6FD18
-	for <linux-usb@archiver.kernel.org>; Sun, 23 Apr 2023 19:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 932D1C77B73
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Apr 2023 04:20:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbjDWTOn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 23 Apr 2023 15:14:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53370 "EHLO
+        id S230237AbjDXEUn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Apr 2023 00:20:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbjDWTOm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 23 Apr 2023 15:14:42 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 8AB2D10E9
-        for <linux-usb@vger.kernel.org>; Sun, 23 Apr 2023 12:14:40 -0700 (PDT)
-Received: (qmail 6389 invoked by uid 1000); 23 Apr 2023 14:14:38 -0400
-Date:   Sun, 23 Apr 2023 14:14:38 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Weitao Wang <WeitaoWang-oc@zhaoxin.com>
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tonywwang@zhaoxin.com,
-        weitaowang@zhaoxin.com, stable@vger.kernel.org
-Subject: Re: [PATCH v3] UHCI:adjust zhaoxin UHCI controllers OverCurrent bit
- value
-Message-ID: <75fa0424-d0e5-4d7d-a553-55f11218f960@rowland.harvard.edu>
-References: <20230423105952.4526-1-WeitaoWang-oc@zhaoxin.com>
+        with ESMTP id S229477AbjDXEUm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Apr 2023 00:20:42 -0400
+Received: from mail.nfschina.com (unknown [42.101.60.195])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 06BCC1726;
+        Sun, 23 Apr 2023 21:20:39 -0700 (PDT)
+Received: from localhost.localdomain (unknown [180.167.10.98])
+        by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPA id 620EC180120C7B;
+        Mon, 24 Apr 2023 12:20:30 +0800 (CST)
+X-MD-Sfrom: suhui@nfschina.com
+X-MD-SrcIP: 180.167.10.98
+From:   Suhui <suhui@nfschina.com>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, Suhui <suhui@nfschina.com>
+Subject: [PATCH] usb: typec: tcpm: remove unnecessary (void*) conversions
+Date:   Mon, 24 Apr 2023 12:19:40 +0800
+Message-Id: <20230424041940.132866-1-suhui@nfschina.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230423105952.4526-1-WeitaoWang-oc@zhaoxin.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Apr 23, 2023 at 06:59:52PM +0800, Weitao Wang wrote:
-> OverCurrent condition is not standardized in the UHCI spec.
-> Zhaoxin UHCI controllers report OverCurrent bit active off.
-> In order to handle OverCurrent condition correctly, the uhci-hcd
-> driver needs to be told to expect the active-off behavior.
-> 
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
-> ---
-> v2->v3
->  - Change patch code style.
-> 
->  drivers/usb/host/uhci-pci.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/usb/host/uhci-pci.c b/drivers/usb/host/uhci-pci.c
-> index 3592f757fe05..7bd2fddde770 100644
-> --- a/drivers/usb/host/uhci-pci.c
-> +++ b/drivers/usb/host/uhci-pci.c
-> @@ -119,11 +119,13 @@ static int uhci_pci_init(struct usb_hcd *hcd)
->  
->  	uhci->rh_numports = uhci_count_ports(hcd);
->  
-> -	/* Intel controllers report the OverCurrent bit active on.
-> -	 * VIA controllers report it active off, so we'll adjust the
-> -	 * bit value.  (It's not standardized in the UHCI spec.)
-> +	/*
-> +	 * Intel controllers report the OverCurrent bit active on.  VIA
-> +	 * and ZHAOXIN controllers report it active off, so we'll adjust
-> +	 * the bit value.  (It's not standardized in the UHCI spec.)
->  	 */
-> -	if (to_pci_dev(uhci_dev(uhci))->vendor == PCI_VENDOR_ID_VIA)
-> +	if (to_pci_dev(uhci_dev(uhci))->vendor == PCI_VENDOR_ID_VIA ||
-> +			to_pci_dev(uhci_dev(uhci))->vendor == PCI_VENDOR_ID_ZHAOXIN)
->  		uhci->oc_low = 1;
->  
->  	/* HP's server management chip requires a longer port reset delay. */
+No need cast (void*) to (struct fusb302_chip *) or (struct tcpm_port *).
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Suhui <suhui@nfschina.com>
+---
+ drivers/usb/typec/tcpm/fusb302.c | 2 +-
+ drivers/usb/typec/tcpm/tcpm.c    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+index 1ffce00d94b4..4b7b8f6af3ca 100644
+--- a/drivers/usb/typec/tcpm/fusb302.c
++++ b/drivers/usb/typec/tcpm/fusb302.c
+@@ -190,7 +190,7 @@ static void fusb302_log(struct fusb302_chip *chip, const char *fmt, ...)
+ 
+ static int fusb302_debug_show(struct seq_file *s, void *v)
+ {
+-	struct fusb302_chip *chip = (struct fusb302_chip *)s->private;
++	struct fusb302_chip *chip = s->private;
+ 	int tail;
+ 
+ 	mutex_lock(&chip->logbuffer_lock);
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 1ee774c263f0..ab3a54662ed9 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -737,7 +737,7 @@ static void tcpm_log_source_caps(struct tcpm_port *port)
+ 
+ static int tcpm_debug_show(struct seq_file *s, void *v)
+ {
+-	struct tcpm_port *port = (struct tcpm_port *)s->private;
++	struct tcpm_port *port = s->private;
+ 	int tail;
+ 
+ 	mutex_lock(&port->logbuffer_lock);
+-- 
+2.30.2
+
