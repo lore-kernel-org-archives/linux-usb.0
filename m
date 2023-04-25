@@ -2,91 +2,125 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39A78C6FD18
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Apr 2023 12:08:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D54B4C77B61
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Apr 2023 13:04:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233508AbjDYMIc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 Apr 2023 08:08:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37596 "EHLO
+        id S233454AbjDYNEj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 Apr 2023 09:04:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232881AbjDYMIb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Apr 2023 08:08:31 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 006E849CB
-        for <linux-usb@vger.kernel.org>; Tue, 25 Apr 2023 05:08:29 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4edcc885d8fso6264550e87.1
-        for <linux-usb@vger.kernel.org>; Tue, 25 Apr 2023 05:08:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682424508; x=1685016508;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t0zGAyfvuBOl901b9x32jl8b0vHTFEeezVTSqmkq6+Q=;
-        b=B9Glg16/Dtt+Um5cxZmlJGJ2b8nebW1rjbrMOb/OaudIdlz9cajOE22YheRps4ws+/
-         8pOV8hKsbb9Bzo0dBEPPV9HpxsiW4Gwbr6JGlia+SVm2pgDJaJ0ebaW28YM0UGSgdOfk
-         cs6+bnJUINrrOCu+f/FqYOYA9A0jRELiPMpj6EL/Bm0omSBKpYpRm8ziHfUh7JcqjIKk
-         sFK4643LmoddvAyZu1JTtltp55O/XE3SGprZ/9g5hswbNt+bPfqUTq1eSym0MtYUKxS5
-         z6KMb7YgMmFQnPh/iCaL+mjcmGEv49FehDgCQgGBORNqnF58dG/55NZ5FR7MNjVH1mS2
-         30sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682424508; x=1685016508;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t0zGAyfvuBOl901b9x32jl8b0vHTFEeezVTSqmkq6+Q=;
-        b=P+/QvJOM/g2UC0+iO1L5ewzcEzCdtl5I5MsY5LK30pW5xu5Klo7kF58kEn4wseMbvI
-         F0557TohP6y37qaq151p7I92Zzc5PHn+kMsSeg9zKJhw12aYyQrdXg3i4q5JjNVtuAjF
-         Cb9ziLj0UeYIxT+NLPjhufENMZjmwUbESAjMwxMN+Lk6v3bndBL+u7kw+ZMtDTVUzqJo
-         wmQkvPlPUrqWnEk0+VAb1kEBiSg4/0clz1wIcIsQxepFdyJe5Ih+fJHLwdDJ1p78dJkM
-         pTk0oCMYjNVqDMnxLZYypOV0WRkOVVJfnn3jPIPS4IcpOvcfFGiZrhl9xG+EpIRtnSug
-         7gbA==
-X-Gm-Message-State: AAQBX9dZPDOv4lHiYaEAEEWEULgc9HlNzwAmOVHE8o5kc6ZfWMYDOxzr
-        LkQYX1TbsTpcI/CnH5IkH4Q=
-X-Google-Smtp-Source: AKy350ZXfRW5tXr0wZu5jxSQwTulBpo0J4GzoZVFj5NAXeqhnP96GqOMkXvPZ36zd2cvwlaraV1X+A==
-X-Received: by 2002:a2e:9556:0:b0:2a8:c4d0:b135 with SMTP id t22-20020a2e9556000000b002a8c4d0b135mr3321976ljh.49.1682424508014;
-        Tue, 25 Apr 2023 05:08:28 -0700 (PDT)
-Received: from t630.example.org (45-11-61-13.ip4.greenlan.pl. [45.11.61.13])
-        by smtp.googlemail.com with ESMTPSA id f22-20020a2e9196000000b002a483f01d9csm2093548ljg.85.2023.04.25.05.08.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Apr 2023 05:08:27 -0700 (PDT)
-From:   Wlodzimierz Lipert <wlodzimierz.lipert@gmail.com>
-To:     gregkh@linuxfoundation.org, balbi@kernel.org
-Cc:     linux-usb@vger.kernel.org,
-        Wlodzimierz Lipert <wlodzimierz.lipert@gmail.com>
-Subject: [PATCH] usb: libcomposite: prevent duplicate bEndpointAddress by usb_ep_autoconfig_ss.
-Date:   Tue, 25 Apr 2023 14:08:10 +0200
-Message-Id: <20230425120810.5365-1-wlodzimierz.lipert@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S233896AbjDYNEg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Apr 2023 09:04:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36D2DBB9D
+        for <linux-usb@vger.kernel.org>; Tue, 25 Apr 2023 06:04:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C66BA6184B
+        for <linux-usb@vger.kernel.org>; Tue, 25 Apr 2023 13:04:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2954C433D2;
+        Tue, 25 Apr 2023 13:04:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1682427872;
+        bh=WflIEZ0tToKfhYMzvsdh1SIlg7Xvtd3NacJSsiTX/kU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Uy9z2VcsSjAU8UDu6jy3VrFAdYCOtctoToiOgt1ZwZTGqh76fhBSKpHK1qoo+/t/X
+         EeAftZx0ndbjrXB883aDeEBqnIzFfdhxJa4BefuL8Ey+T22KBZ+m6SEynWMrzj/LtP
+         dioOHq77ldH5ZU7dTttA+Q0eufYwC18fOklQMUMs=
+Date:   Tue, 25 Apr 2023 15:04:28 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Konrad =?iso-8859-1?Q?Gr=E4fe?= <k.graefe@gateware.de>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: u_ether: Fix host MAC address case
+Message-ID: <ZEfP3MLH_Xv8sWbe@kroah.com>
+References: <f147dabd-5c39-31c2-0ff0-f72745d7cd3f@gateware.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <f147dabd-5c39-31c2-0ff0-f72745d7cd3f@gateware.de>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-usb_ep_autoconfig_ss tries to use endpoint name or internal counters to generate
-bEndpointAddress - this leads to duplicate addresses. Fix is simple -
-use only internal counter and dont rely on ep naming scheme.
+On Tue, Apr 25, 2023 at 02:58:53PM +0200, Konrad Gräfe wrote:
+> 
+> As the CDC-ECM specification states the host MAC address must be sent to
+> the host as an uppercase hexadecimal string:
+>     The Unicode character is chosen from the set of values 30h through
+>     39h and 41h through 46h (0-9 and A-F).
+> 
+> However, snprintf(.., "%pm", ..) generates a lowercase MAC address
+> string. While most host drivers are tolerant to this, UsbNcm.sys on
+> Windows 10 is not. Instead it uses a different MAC address with all
+> bytes set to zero including and after the first byte containing a
+> lowercase letter. On Windows 11 Microsoft fixed it, but apparently they
+> did not backport the fix.
+> 
+> This change fixes the issue by upper-casing the MAC to comply with the
+> specification.
+> 
+> Signed-off-by: Konrad Gräfe <k.graefe@gateware.de>
+> ---
+>  drivers/usb/gadget/function/u_ether.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> 
 
-Signed-off-by: Wlodzimierz Lipert <wlodzimierz.lipert@gmail.com>
----
- drivers/usb/gadget/epautoconf.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+> diff --git drivers/usb/gadget/function/u_ether.c drivers/usb/gadget/function/u_ether.c
+> index 6956ad8ba8dd..49d29b04ef93 100644
+> --- drivers/usb/gadget/function/u_ether.c
+> +++ drivers/usb/gadget/function/u_ether.c
+> @@ -958,6 +958,7 @@ EXPORT_SYMBOL_GPL(gether_get_host_addr);
+>  int gether_get_host_addr_cdc(struct net_device *net, char *host_addr, int len)
+>  {
+>  	struct eth_dev *dev;
+> +	int i, slen;
+>  
+>  	if (len < 13)
+>  		return -EINVAL;
+> @@ -965,7 +966,14 @@ int gether_get_host_addr_cdc(struct net_device *net, char *host_addr, int len)
+>  	dev = netdev_priv(net);
+>  	snprintf(host_addr, len, "%pm", dev->host_mac);
+>  
+> -	return strlen(host_addr);
+> +
+> +	slen = strlen(host_addr);
+> +
+> +	for(i = 0; i < slen; i++) {
+> +		host_addr[i] = toupper(host_addr[i]);
+> +	}
+> +
+> +	return slen;
+>  }
+>  EXPORT_SYMBOL_GPL(gether_get_host_addr_cdc);
+>  
+> 
 
-diff --git a/drivers/usb/gadget/epautoconf.c b/drivers/usb/gadget/epautoconf.c
-index 1eb4fa2e623f..40adf09079ed 100644
---- a/drivers/usb/gadget/epautoconf.c
-+++ b/drivers/usb/gadget/epautoconf.c
-@@ -93,10 +93,7 @@ struct usb_ep *usb_ep_autoconfig_ss(
- 
- 	/* report address */
- 	desc->bEndpointAddress &= USB_DIR_IN;
--	if (isdigit(ep->name[2])) {
--		u8 num = simple_strtoul(&ep->name[2], NULL, 10);
--		desc->bEndpointAddress |= num;
--	} else if (desc->bEndpointAddress & USB_DIR_IN) {
-+	if (desc->bEndpointAddress & USB_DIR_IN) {
- 		if (++gadget->in_epnum > 15)
- 			return NULL;
- 		desc->bEndpointAddress = USB_DIR_IN | gadget->in_epnum;
--- 
-2.39.2
 
+
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch contains warnings and/or errors noticed by the
+  scripts/checkpatch.pl tool.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
