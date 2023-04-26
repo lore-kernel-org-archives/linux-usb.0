@@ -2,98 +2,123 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3B21C7618E
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Apr 2023 10:18:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 639C5C77B60
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Apr 2023 10:29:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231341AbjDZKSA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Apr 2023 06:18:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52436 "EHLO
+        id S240185AbjDZK3n (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Apr 2023 06:29:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbjDZKR6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Apr 2023 06:17:58 -0400
-Received: from www484.your-server.de (www484.your-server.de [78.47.237.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C99A35AD
-        for <linux-usb@vger.kernel.org>; Wed, 26 Apr 2023 03:17:56 -0700 (PDT)
-Received: from sslproxy04.your-server.de ([78.46.152.42])
-        by www484.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <k.graefe@gateware.de>)
-        id 1prcDh-0001QV-Lh; Wed, 26 Apr 2023 12:17:53 +0200
-Received: from [2003:ca:6730:e8f8:9f6:94bc:5149:da49]
-        by sslproxy04.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <k.graefe@gateware.de>)
-        id 1prcDh-000TAb-CI; Wed, 26 Apr 2023 12:17:53 +0200
-Content-Type: multipart/mixed; boundary="------------DC5h5dqW7X9JBXaH0H8pQaFG"
-Message-ID: <d62f5a2b-ec47-6cee-4cf1-0d1ea18dee56@gateware.de>
-Date:   Wed, 26 Apr 2023 12:17:53 +0200
+        with ESMTP id S239384AbjDZK3l (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Apr 2023 06:29:41 -0400
+Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C48CE49F4;
+        Wed, 26 Apr 2023 03:29:39 -0700 (PDT)
+Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
+        by mx.sberdevices.ru (Postfix) with ESMTP id 042DB5FD7C;
+        Wed, 26 Apr 2023 13:29:38 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+        s=mail; t=1682504978;
+        bh=eyzCCsK01f/afWykUeqT1z5S763OYcMrDYYa5HTJ5Mo=;
+        h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+        b=g9JZahJWGBQmrx8vhJ0nSwBEYhead3HRMZY0AoFLAOFacFXGCNm5+PpB/CszqPHwV
+         N2MFLEllnAcwuctLrLFN2/ubVoDK1cagkH4gZNMPPDc1G8ZUyAPOpuVXib+x4F6ZYC
+         oYsXJyRF9pxLxGOupUvKtVsQQHYBZeYYM8Ss7bOXg6YRlcKzxM87ESBuPESkjZlLFM
+         olW/fIRnLMR9DAT4gFCM8cbd78wPNrQJr7/QBPRAfvJKFZwD8AJKPH99W/TFRTOCcW
+         vP5I7Z7nVDL8QrlrCuWM2AU2OHSPDpfA+K7ObsDNzSkB2/w9rv65pysvk2TaUHBmR/
+         FzwUGTavhRVMw==
+Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
+        by mx.sberdevices.ru (Postfix) with ESMTP;
+        Wed, 26 Apr 2023 13:29:37 +0300 (MSK)
+From:   Dmitry Rokosov <ddrokosov@sberdevices.ru>
+To:     <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <neil.armstrong@linaro.org>,
+        <khilman@baylibre.com>, <jbrunet@baylibre.com>,
+        <martin.blumenstingl@googlemail.com>, <mturquette@baylibre.com>,
+        <vkoul@kernel.org>, <kishon@kernel.org>, <hminas@synopsys.com>,
+        <Thinh.Nguyen@synopsys.com>
+CC:     <yue.wang@amlogic.com>, <hanjie.lin@amlogic.com>,
+        <kernel@sberdevices.ru>, <rockosov@gmail.com>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-phy@lists.infradead.org>,
+        Dmitry Rokosov <ddrokosov@sberdevices.ru>,
+        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+Subject: [PATCH v3 2/5] usb: dwc2: support dwc2 IP for Amlogic A1 SoC family
+Date:   Wed, 26 Apr 2023 13:29:19 +0300
+Message-ID: <20230426102922.19705-3-ddrokosov@sberdevices.ru>
+X-Mailer: git-send-email 2.36.0
+In-Reply-To: <20230426102922.19705-1-ddrokosov@sberdevices.ru>
+References: <20230426102922.19705-1-ddrokosov@sberdevices.ru>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-From:   =?UTF-8?Q?Konrad_Gr=c3=a4fe?= <k.graefe@gateware.de>
-Subject: [PATCH] usb: gadget: u_ether: Fix host MAC address case
-To:     gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, quentin.schulz@theobroma-systems.com
-References: <2023042534-thing-shamrock-88c1@gregkh>
-Content-Language: en-US
-In-Reply-To: <2023042534-thing-shamrock-88c1@gregkh>
-X-Authenticated-Sender: k.graefe@gateware.de
-X-Virus-Scanned: Clear (ClamAV 0.103.8/26888/Wed Apr 26 09:32:41 2023)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.16.1.6]
+X-ClientProxiedBy: S-MS-EXCH02.sberdevices.ru (172.16.1.5) To
+ S-MS-EXCH01.sberdevices.ru (172.16.1.4)
+X-KSMG-Rule-ID: 4
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/04/26 04:45:00 #21166225
+X-KSMG-AntiVirus-Status: Clean, skipped
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------DC5h5dqW7X9JBXaH0H8pQaFG
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+The Amlogic A1 uses dwc2 Synopsys IP as its USB peripheral (gadget)
+endpoint, with different DWC2 parameters when compared to previous
+Amlogic SoCs.
 
-
-As the CDC-ECM specification states the host MAC address must be sent to
-the host as an uppercase hexadecimal string:
-     The Unicode character is chosen from the set of values 30h through
-     39h and 41h through 46h (0-9 and A-F).
-
-However, snprintf(.., "%pm", ..) generates a lowercase MAC address
-string. While most host drivers are tolerant to this, UsbNcm.sys on
-Windows 10 is not. Instead it uses a different MAC address with all
-bytes set to zero including and after the first byte containing a
-lowercase letter. On Windows 11 Microsoft fixed it, but apparently they
-did not backport the fix.
-
-This change fixes the issue by upper-casing the MAC to comply with the
-specification.
-
-Signed-off-by: Konrad Gräfe <k.graefe@gateware.de>
+Signed-off-by: Dmitry Rokosov <ddrokosov@sberdevices.ru>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Acked-by: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
 ---
-V1 -> V2: Fixed checkpatch.pl warnings
+ drivers/usb/dwc2/params.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-  drivers/usb/gadget/function/u_ether.c | 9 ++++++++-
-  1 file changed, 8 insertions(+), 1 deletion(-)
+diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
+index 9ed9fd956940..098fbfc774ab 100644
+--- a/drivers/usb/dwc2/params.c
++++ b/drivers/usb/dwc2/params.c
+@@ -161,6 +161,25 @@ static void dwc2_set_amlogic_g12a_params(struct dwc2_hsotg *hsotg)
+ 	p->hird_threshold_en = false;
+ }
+ 
++static void dwc2_set_amlogic_a1_params(struct dwc2_hsotg *hsotg)
++{
++	struct dwc2_core_params *p = &hsotg->params;
++
++	p->otg_caps.hnp_support = false;
++	p->otg_caps.srp_support = false;
++	p->speed = DWC2_SPEED_PARAM_HIGH;
++	p->host_rx_fifo_size = 192;
++	p->host_nperio_tx_fifo_size = 128;
++	p->host_perio_tx_fifo_size = 128;
++	p->phy_type = DWC2_PHY_TYPE_PARAM_UTMI;
++	p->phy_utmi_width = 8;
++	p->ahbcfg = GAHBCFG_HBSTLEN_INCR8 << GAHBCFG_HBSTLEN_SHIFT;
++	p->lpm = false;
++	p->lpm_clock_gating = false;
++	p->besl = false;
++	p->hird_threshold_en = false;
++}
++
+ static void dwc2_set_amcc_params(struct dwc2_hsotg *hsotg)
+ {
+ 	struct dwc2_core_params *p = &hsotg->params;
+@@ -258,6 +277,8 @@ const struct of_device_id dwc2_of_match_table[] = {
+ 	  .data = dwc2_set_amlogic_params },
+ 	{ .compatible = "amlogic,meson-g12a-usb",
+ 	  .data = dwc2_set_amlogic_g12a_params },
++	{ .compatible = "amlogic,meson-a1-usb",
++	  .data = dwc2_set_amlogic_a1_params },
+ 	{ .compatible = "amcc,dwc-otg", .data = dwc2_set_amcc_params },
+ 	{ .compatible = "apm,apm82181-dwc-otg", .data = dwc2_set_amcc_params },
+ 	{ .compatible = "st,stm32f4x9-fsotg",
+-- 
+2.36.0
 
-
---------------DC5h5dqW7X9JBXaH0H8pQaFG
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-usb-gadget-u_ether-Fix-host-MAC-address-case.patch"
-Content-Disposition: attachment;
- filename="0001-usb-gadget-u_ether-Fix-host-MAC-address-case.patch"
-Content-Transfer-Encoding: base64
-
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi91X2V0aGVyLmMgYi9k
-cml2ZXJzL3VzYi9nYWRnZXQvZnVuY3Rpb24vdV9ldGhlci5jCmluZGV4IDY5NTZhZDhiYThk
-ZC4uMjUwNzM0ZTA5MGZjIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9nYWRnZXQvZnVuY3Rp
-b24vdV9ldGhlci5jCisrKyBiL2RyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi91X2V0aGVy
-LmMKQEAgLTk1OCw2ICs5NTgsNyBAQCBFWFBPUlRfU1lNQk9MX0dQTChnZXRoZXJfZ2V0X2hv
-c3RfYWRkcik7CiBpbnQgZ2V0aGVyX2dldF9ob3N0X2FkZHJfY2RjKHN0cnVjdCBuZXRfZGV2
-aWNlICpuZXQsIGNoYXIgKmhvc3RfYWRkciwgaW50IGxlbikKIHsKIAlzdHJ1Y3QgZXRoX2Rl
-diAqZGV2OworCWludCBpLCBzbGVuOwogCiAJaWYgKGxlbiA8IDEzKQogCQlyZXR1cm4gLUVJ
-TlZBTDsKQEAgLTk2NSw3ICs5NjYsMTMgQEAgaW50IGdldGhlcl9nZXRfaG9zdF9hZGRyX2Nk
-YyhzdHJ1Y3QgbmV0X2RldmljZSAqbmV0LCBjaGFyICpob3N0X2FkZHIsIGludCBsZW4pCiAJ
-ZGV2ID0gbmV0ZGV2X3ByaXYobmV0KTsKIAlzbnByaW50Zihob3N0X2FkZHIsIGxlbiwgIiVw
-bSIsIGRldi0+aG9zdF9tYWMpOwogCi0JcmV0dXJuIHN0cmxlbihob3N0X2FkZHIpOworCisJ
-c2xlbiA9IHN0cmxlbihob3N0X2FkZHIpOworCisJZm9yIChpID0gMDsgaSA8IHNsZW47IGkr
-KykKKwkJaG9zdF9hZGRyW2ldID0gdG91cHBlcihob3N0X2FkZHJbaV0pOworCisJcmV0dXJu
-IHNsZW47CiB9CiBFWFBPUlRfU1lNQk9MX0dQTChnZXRoZXJfZ2V0X2hvc3RfYWRkcl9jZGMp
-OwogCgo=
-
---------------DC5h5dqW7X9JBXaH0H8pQaFG--
