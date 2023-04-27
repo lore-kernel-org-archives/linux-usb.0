@@ -2,22 +2,22 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 324DEC77B7C
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Apr 2023 12:12:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C096C77B61
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Apr 2023 12:12:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243799AbjD0MMo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Apr 2023 08:12:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58214 "EHLO
+        id S243825AbjD0MMq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Apr 2023 08:12:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243658AbjD0MMm (ORCPT
+        with ESMTP id S243640AbjD0MMm (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Apr 2023 08:12:42 -0400
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32AAA3AAA;
-        Thu, 27 Apr 2023 05:12:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA7554C03;
+        Thu, 27 Apr 2023 05:12:14 -0700 (PDT)
 Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 33RCBeIJ2030757, This message is accepted by code: ctloc85258
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 33RCBeuiE030764, This message is accepted by code: ctloc85258
 Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 33RCBeIJ2030757
+        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 33RCBeuiE030764
         (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
         Thu, 27 Apr 2023 20:11:40 +0800
 Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
@@ -33,9 +33,9 @@ To:     <kuba@kernel.org>, <davem@davemloft.net>
 CC:     <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
         <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         Hayes Wang <hayeswang@realtek.com>
-Subject: [PATCH net v2 1/3] r8152: fix flow control issue of RTL8156A
-Date:   Thu, 27 Apr 2023 20:10:55 +0800
-Message-ID: <20230427121057.29155-406-nic_swsd@realtek.com>
+Subject: [PATCH net v2 3/3] r8152: move setting r8153b_rx_agg_chg_indicate()
+Date:   Thu, 27 Apr 2023 20:10:57 +0800
+Message-ID: <20230427121057.29155-408-nic_swsd@realtek.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230427121057.29155-405-nic_swsd@realtek.com>
 References: <20230426122805.23301-400-nic_swsd@realtek.com>
@@ -54,121 +54,57 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The feature of flow control becomes abnormal, if the device sends a
-pause frame and the tx/rx is disabled before sending a release frame. It
-causes the lost of packets.
-
-Set PLA_RX_FIFO_FULL and PLA_RX_FIFO_EMPTY to zeros before disabling the
-tx/rx. And, toggle FC_PATCH_TASK before enabling tx/rx to reset the flow
-control patch and timer. Then, the hardware could clear the state and
-the flow control becomes normal after enabling tx/rx.
-
-Besides, remove inline for fc_pause_on_auto() and fc_pause_off_auto().
+Move setting r8153b_rx_agg_chg_indicate() for 2.5G devices. The
+r8153b_rx_agg_chg_indicate() has to be called after enabling tx/rx.
+Otherwise, the coalescing settings are useless.
 
 Fixes: 195aae321c82 ("r8152: support new chips")
 Signed-off-by: Hayes Wang <hayeswang@realtek.com>
 ---
- drivers/net/usb/r8152.c | 56 ++++++++++++++++++++++++++---------------
- 1 file changed, 36 insertions(+), 20 deletions(-)
+ drivers/net/usb/r8152.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 0fc4b959edc1..afd50e90d1fe 100644
+index 0846ceb72162..59498aec8f16 100644
 --- a/drivers/net/usb/r8152.c
 +++ b/drivers/net/usb/r8152.c
-@@ -5986,6 +5986,25 @@ static void rtl8153_disable(struct r8152 *tp)
- 	r8153_aldps_en(tp, true);
- }
+@@ -3027,12 +3027,16 @@ static int rtl_enable(struct r8152 *tp)
+ 	ocp_write_byte(tp, MCU_TYPE_PLA, PLA_CR, ocp_data);
  
-+static u32 fc_pause_on_auto(struct r8152 *tp)
-+{
-+	return (ALIGN(mtu_to_size(tp->netdev->mtu), 1024) + 6 * 1024);
-+}
-+
-+static u32 fc_pause_off_auto(struct r8152 *tp)
-+{
-+	return (ALIGN(mtu_to_size(tp->netdev->mtu), 1024) + 14 * 1024);
-+}
-+
-+static void r8156_fc_parameter(struct r8152 *tp)
-+{
-+	u32 pause_on = tp->fc_pause_on ? tp->fc_pause_on : fc_pause_on_auto(tp);
-+	u32 pause_off = tp->fc_pause_off ? tp->fc_pause_off : fc_pause_off_auto(tp);
-+
-+	ocp_write_word(tp, MCU_TYPE_PLA, PLA_RX_FIFO_FULL, pause_on / 16);
-+	ocp_write_word(tp, MCU_TYPE_PLA, PLA_RX_FIFO_EMPTY, pause_off / 16);
-+}
-+
- static int rtl8156_enable(struct r8152 *tp)
- {
- 	u32 ocp_data;
-@@ -5994,6 +6013,7 @@ static int rtl8156_enable(struct r8152 *tp)
- 	if (test_bit(RTL8152_UNPLUG, &tp->flags))
- 		return -ENODEV;
- 
-+	r8156_fc_parameter(tp);
- 	set_tx_qlen(tp);
- 	rtl_set_eee_plus(tp);
- 	r8153_set_rx_early_timeout(tp);
-@@ -6025,9 +6045,24 @@ static int rtl8156_enable(struct r8152 *tp)
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_L1_CTRL, ocp_data);
+ 	switch (tp->version) {
+-	case RTL_VER_08:
+-	case RTL_VER_09:
+-	case RTL_VER_14:
+-		r8153b_rx_agg_chg_indicate(tp);
++	case RTL_VER_01:
++	case RTL_VER_02:
++	case RTL_VER_03:
++	case RTL_VER_04:
++	case RTL_VER_05:
++	case RTL_VER_06:
++	case RTL_VER_07:
+ 		break;
+ 	default:
++		r8153b_rx_agg_chg_indicate(tp);
+ 		break;
  	}
  
-+	ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_FW_TASK);
-+	ocp_data &= ~FC_PATCH_TASK;
-+	ocp_write_word(tp, MCU_TYPE_USB, USB_FW_TASK, ocp_data);
-+	usleep_range(1000, 2000);
-+	ocp_data |= FC_PATCH_TASK;
-+	ocp_write_word(tp, MCU_TYPE_USB, USB_FW_TASK, ocp_data);
-+
- 	return rtl_enable(tp);
- }
+@@ -3086,7 +3090,6 @@ static void r8153_set_rx_early_timeout(struct r8152 *tp)
+ 			       640 / 8);
+ 		ocp_write_word(tp, MCU_TYPE_USB, USB_RX_EXTRA_AGGR_TMR,
+ 			       ocp_data);
+-		r8153b_rx_agg_chg_indicate(tp);
+ 		break;
  
-+static void rtl8156_disable(struct r8152 *tp)
-+{
-+	ocp_write_word(tp, MCU_TYPE_PLA, PLA_RX_FIFO_FULL, 0);
-+	ocp_write_word(tp, MCU_TYPE_PLA, PLA_RX_FIFO_EMPTY, 0);
-+
-+	rtl8153_disable(tp);
-+}
-+
- static int rtl8156b_enable(struct r8152 *tp)
- {
- 	u32 ocp_data;
-@@ -6429,25 +6464,6 @@ static void rtl8153c_up(struct r8152 *tp)
- 	r8153b_u1u2en(tp, true);
- }
- 
--static inline u32 fc_pause_on_auto(struct r8152 *tp)
--{
--	return (ALIGN(mtu_to_size(tp->netdev->mtu), 1024) + 6 * 1024);
--}
--
--static inline u32 fc_pause_off_auto(struct r8152 *tp)
--{
--	return (ALIGN(mtu_to_size(tp->netdev->mtu), 1024) + 14 * 1024);
--}
--
--static void r8156_fc_parameter(struct r8152 *tp)
--{
--	u32 pause_on = tp->fc_pause_on ? tp->fc_pause_on : fc_pause_on_auto(tp);
--	u32 pause_off = tp->fc_pause_off ? tp->fc_pause_off : fc_pause_off_auto(tp);
--
--	ocp_write_word(tp, MCU_TYPE_PLA, PLA_RX_FIFO_FULL, pause_on / 16);
--	ocp_write_word(tp, MCU_TYPE_PLA, PLA_RX_FIFO_EMPTY, pause_off / 16);
--}
--
- static void rtl8156_change_mtu(struct r8152 *tp)
- {
- 	u32 rx_max_size = mtu_to_size(tp->netdev->mtu);
-@@ -9340,7 +9356,7 @@ static int rtl_ops_init(struct r8152 *tp)
- 	case RTL_VER_10:
- 		ops->init		= r8156_init;
- 		ops->enable		= rtl8156_enable;
--		ops->disable		= rtl8153_disable;
-+		ops->disable		= rtl8156_disable;
- 		ops->up			= rtl8156_up;
- 		ops->down		= rtl8156_down;
- 		ops->unload		= rtl8153_unload;
+ 	default:
+@@ -3120,7 +3123,6 @@ static void r8153_set_rx_early_size(struct r8152 *tp)
+ 	case RTL_VER_15:
+ 		ocp_write_word(tp, MCU_TYPE_USB, USB_RX_EARLY_SIZE,
+ 			       ocp_data / 8);
+-		r8153b_rx_agg_chg_indicate(tp);
+ 		break;
+ 	default:
+ 		WARN_ON_ONCE(1);
 -- 
 2.40.0
 
