@@ -2,153 +2,181 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34500C77B7F
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Apr 2023 14:26:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E7BFC77B61
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Apr 2023 15:18:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243981AbjD0O0Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Apr 2023 10:26:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45366 "EHLO
+        id S243932AbjD0PSX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Apr 2023 11:18:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243662AbjD0O0X (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Apr 2023 10:26:23 -0400
-Received: from www484.your-server.de (www484.your-server.de [78.47.237.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 518BA83;
-        Thu, 27 Apr 2023 07:26:11 -0700 (PDT)
-Received: from sslproxy03.your-server.de ([88.198.220.132])
-        by www484.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <k.graefe@gateware.de>)
-        id 1ps2ZS-0008uX-8N; Thu, 27 Apr 2023 16:26:06 +0200
-Received: from [2003:ca:6730:e8f8:a2c4:4e1c:f83c:db4b]
-        by sslproxy03.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <k.graefe@gateware.de>)
-        id 1ps2ZR-0009eG-Hz; Thu, 27 Apr 2023 16:26:05 +0200
-Message-ID: <b8ca96d0-d1e3-4f2f-5541-a6c82489243a@gateware.de>
-Date:   Thu, 27 Apr 2023 16:26:05 +0200
+        with ESMTP id S243404AbjD0PSV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Apr 2023 11:18:21 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 23E3544A0
+        for <linux-usb@vger.kernel.org>; Thu, 27 Apr 2023 08:18:18 -0700 (PDT)
+Received: (qmail 165979 invoked by uid 1000); 27 Apr 2023 11:18:17 -0400
+Date:   Thu, 27 Apr 2023 11:18:17 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Wlodzimierz Lipert <wlodzimierz.lipert@gmail.com>
+Cc:     gregkh@linuxfoundation.org, balbi@kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2] usb: prevent duplicate bEndpointAddress by
+ usb_ep_autoconfig_ss (bitmap).
+Message-ID: <8b0684fc-c312-4315-ab01-d45ef7a87725@rowland.harvard.edu>
+References: <20230426114528.3996-1-wlodzimierz.lipert@gmail.com>
+ <99b09680-b362-431c-aa9f-a07722d0eba3@rowland.harvard.edu>
+ <CABygZEqTLfa3ydW_HAdGmBVCgr0nXyj9k0ZFeHGcy+tMDmgm_g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v3 1/2] vsprintf: Add %p[mM]U for uppercase MAC address
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Quentin Schulz <quentin.schulz@theobroma-systems.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Felipe Balbi <balbi@ti.com>
-Cc:     stable@vger.kernel.org
-References: <2023042625-rendition-distort-fe06@gregkh>
- <20230427115120.241954-1-k.graefe@gateware.de>
- <d1a14976-5f53-3373-0695-e10e6a9371de@rasmusvillemoes.dk>
-Content-Language: en-US
-From:   =?UTF-8?Q?Konrad_Gr=c3=a4fe?= <k.graefe@gateware.de>
-In-Reply-To: <d1a14976-5f53-3373-0695-e10e6a9371de@rasmusvillemoes.dk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: k.graefe@gateware.de
-X-Virus-Scanned: Clear (ClamAV 0.103.8/26889/Thu Apr 27 09:25:48 2023)
+In-Reply-To: <CABygZEqTLfa3ydW_HAdGmBVCgr0nXyj9k0ZFeHGcy+tMDmgm_g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On Thu, Apr 27, 2023 at 07:55:13AM +0200, Wlodzimierz Lipert wrote:
+> Hi Alan,
+> 
+> Thanks for the feedback, could you please see my comments below.
+> Mask logic is not clear straight away and I probably should be more
+> verbose in patch description.
+> Maybe you could reconsider the changes.
+> 
+> On Thu, Apr 27, 2023 at 3:08 AM Alan Stern <stern@rowland.harvard.edu> wrote:
+> >
+> > On Wed, Apr 26, 2023 at 01:45:28PM +0200, Wlodzimierz Lipert wrote:
+> > > usb_ep_autoconfig_ss tries to use endpoint name or internal counters to generate
+> > > bEndpointAddress - this leads to duplicate addresses. Fix changes the
+> > > way in/out_epnum is used, now as bitmap which represents unavailable ep numbers.
+> > >
+> > > Signed-off-by: Wlodzimierz Lipert <wlodzimierz.lipert@gmail.com>
+> > > ---
+> > >  drivers/usb/gadget/epautoconf.c | 35 ++++++++++++++++++++++-----------
+> > >  include/linux/usb/gadget.h      |  4 ++--
+> > >  2 files changed, 26 insertions(+), 13 deletions(-)
+> > >
+> > > diff --git a/drivers/usb/gadget/epautoconf.c b/drivers/usb/gadget/epautoconf.c
+> > > index 1eb4fa2e623f..50a2e8a90447 100644
+> > > --- a/drivers/usb/gadget/epautoconf.c
+> > > +++ b/drivers/usb/gadget/epautoconf.c
+> > > @@ -67,6 +67,11 @@ struct usb_ep *usb_ep_autoconfig_ss(
+> > >  )
+> > >  {
+> > >       struct usb_ep   *ep;
+> > > +     unsigned *epnum_map;
+> > > +     /* ep num 0 is reserved: not available for auto configuration */
+> > > +     u8 num = 1;
+> > > +     /* USB allows up to 16 IN and 16 OUT enpoints */
+> > > +     unsigned num_mask = 0xFFFFU;
+> >
+> > I think these initializers aren't needed.  They apply only in the case
+> > where the endpoint name doesn't encode a number.
+> 
+> initialization is needed to ensure we stay within 16 bits and we don't
+> try to use bit 0.
+> 
+> >
+> > >       if (gadget->ops->match_ep) {
+> > >               ep = gadget->ops->match_ep(gadget, desc, ep_comp);
+> > > @@ -94,18 +99,25 @@ struct usb_ep *usb_ep_autoconfig_ss(
+> > >       /* report address */
+> > >       desc->bEndpointAddress &= USB_DIR_IN;
+> > >       if (isdigit(ep->name[2])) {
+> > > -             u8 num = simple_strtoul(&ep->name[2], NULL, 10);
+> > > -             desc->bEndpointAddress |= num;
+> > > -     } else if (desc->bEndpointAddress & USB_DIR_IN) {
+> > > -             if (++gadget->in_epnum > 15)
+> > > +             num = simple_strtoul(&ep->name[2], NULL, 10);
+> > > +             if (num > 15)
+> > >                       return NULL;
+> >
+> > This check shouldn't be here, at least, not in this form.  If num > 15
+> > it's a bug in the UDC driver; we could report it that way.
+> >
+> 
+> the check is there to make logic below work,
+> its return value is consistent with the rest of the cases.
+> 
+> > > -             desc->bEndpointAddress = USB_DIR_IN | gadget->in_epnum;
+> > > -     } else {
+> > > -             if (++gadget->out_epnum > 15)
+> > > -                     return NULL;
+> > > -             desc->bEndpointAddress |= gadget->out_epnum;
+> > > +             num_mask = 1U << num;
+> > >       }
+> > >
+> > > +     epnum_map = desc->bEndpointAddress & USB_DIR_IN
+> > > +             ? &gadget->in_epnum : &gadget->out_epnum;
+> > > +
+> > > +     /* check if requested ep number (if name encodes it) or any is available */
+> > > +     if (num_mask == (*epnum_map & num_mask))
+> > > +             return NULL;
+> > > +
+> > > +     /* find first available ep number (if not encoded in ep name) */
+> > > +     while (*epnum_map & (1U << num))
+> > > +             ++num;
+> >
+> > This rearrangement of the code is kind of awkward.  It would be better
+> > to put the availability check for the encoded-number case into the "if"
+> > clause, and put the search inside an "else" section, rather than trying
+> > to combine two rather different computations into a single piece of
+> > code.  That way you wouldn't need num_mask at all.
+> >
+> > Also, your "while" loop doesn't enforce num <= 15.  For that matter, it
+> > might be more efficient to use a "find first bit" library routine rather
+> > than coding your own loop.
+> 
+> The code structure tries to make the amount of branches minimal,
+>  this why I introduced mask and epnum_map ptr.
+> num <= 15 is enforced by mask itself:
+>  " if (num_mask == (*epnum_map & num_mask))" will return NULL
+> in case "encoded" ep is already unavailable or all the ep are unavailable so
+> we wont go any further (avoiding inc. num above 15).
+> 
+> >
+> > > +
+> > > +     *epnum_map |= 1U << num;
+> > > +     desc->bEndpointAddress |= num;
+> > >       ep->address = desc->bEndpointAddress;
+> > >       ep->desc = NULL;
+> > >       ep->comp_desc = NULL;
 
-On 27.04.23 14:35, Rasmus Villemoes wrote:
-> On 27/04/2023 13.51, Konrad Gräfe wrote:
->> The CDC-ECM specification requires an USB gadget to send the host MAC
->> address as uppercase hex string. This change adds the appropriate
->> modifier.
->>
->> Cc: stable@vger.kernel.org
-> 
-> Why cc stable?
+Here's what I was thinking of.  Maybe when you see it written out, 
+you'll agree that this approach is simpler and easier to follow.
 
-I believe the second patch matches the criteria but it uses this one.
+	...
+	unsigned int	*epmap;
+	unsigned int	num;
 
-> 
->> Signed-off-by: Konrad Gräfe <k.graefe@gateware.de>
->> ---
->> Added in v3
->>
->>   lib/vsprintf.c | 18 +++++++++++++++---
->>   1 file changed, 15 insertions(+), 3 deletions(-)
-> 
-> The diffstat here, or for some other patch in the same series,
-> definitely ought to mention lib/test_printf.c.
-> 
->> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
->> index be71a03c936a..8aee1caabd9e 100644
->> --- a/lib/vsprintf.c
->> +++ b/lib/vsprintf.c
->> @@ -1269,9 +1269,10 @@ char *mac_address_string(char *buf, char *end, u8 *addr,
->>   {
->>   	char mac_addr[sizeof("xx:xx:xx:xx:xx:xx")];
->>   	char *p = mac_addr;
->> -	int i;
->> +	int i, pos;
->>   	char separator;
->>   	bool reversed = false;
->> +	bool uppercase = false;
->>   
->>   	if (check_pointer(&buf, end, addr, spec))
->>   		return buf;
->> @@ -1281,6 +1282,10 @@ char *mac_address_string(char *buf, char *end, u8 *addr,
->>   		separator = '-';
->>   		break;
->>   
->> +	case 'U':
->> +		uppercase = true;
->> +		break;
->> +
->>   	case 'R':
->>   		reversed = true;
->>   		fallthrough;
-> 
-> This seems broken, and I'm surprised the compiler doesn't warn about
-> separator possibly being uninitialized further down. I'm also surprised
-> your testing hasn't caught this. For reference, the full switch
-> statement is currently
-> 
->          switch (fmt[1]) {
->          case 'F':
->                  separator = '-';
->                  break;
-> 
->          case 'R':
->                  reversed = true;
->                  fallthrough;
-> 
->          default:
->                  separator = ':';
->                  break;
->          }
-> 
->> @@ -1292,9 +1297,14 @@ char *mac_address_string(char *buf, char *end, u8 *addr,
->>   
->>   	for (i = 0; i < 6; i++) {
->>   		if (reversed)
->> -			p = hex_byte_pack(p, addr[5 - i]);
->> +			pos = 5 - i;
->> +		else
->> +			pos = i;
->> +
->> +		if (uppercase)
->> +			p = hex_byte_pack_upper(p, addr[pos]);
->>   		else
->> -			p = hex_byte_pack(p, addr[i]);
->> +			p = hex_byte_pack(p, addr[pos]);
-> 
-> I think this becomes quite hard to follow. We have string_upper() in
-> linux/string_helpers.h, so I'd rather just leave this loop alone and do
-> 
->    if (uppercase)
->      string_upper(mac_addr, mac_addr);
-> 
-> after the nul-termination.
-> 
-> Rasmus
-> 
+	...
+	epmap = (usb_endpoint_dir_in(desc) ?
+			&gadget->in_epnum : &gadget->out_epnum);
+	if (isdigit(ep->name[2])) {		/* Number encoded in name */
+		num = simple_strtoul(&ep->name[2], NULL, 10);
+		if (*epmap & (1 << num))
+			return NULL;		/* Endpoint is unavailable */
+
+	} else {				/* Find first available */
+		num = ffz(*epnum_map) - 1;
+		if (num > 15)
+			return NULL;		/* No endpoints available */
+	}
+
+	*epmap |= 1 << num;
+	desc->bEndpointAddress |= num;
+	...
+
+And then of course the usb_ep_autoconfig_reset() routine would set 
+both gadget->in_epnum and gadget->out_epnum to 1, like in your patch.
+You could even change their names to in_epmap and out_epmap, which 
+better describes their new meaning.
+
+If you want, you could add
+
+		WARN_ON(num > 15);
+
+immediately after the simple_strtoul() line.  But since it's not there 
+now, I don't think it is needed.
+
+Alan Stern
