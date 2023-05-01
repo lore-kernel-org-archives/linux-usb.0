@@ -2,157 +2,122 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F87EC77B7F
-	for <linux-usb@archiver.kernel.org>; Mon,  1 May 2023 14:40:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6521AC77B61
+	for <linux-usb@archiver.kernel.org>; Mon,  1 May 2023 15:19:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232624AbjEAOkX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 May 2023 10:40:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51972 "EHLO
+        id S232643AbjEAPTd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 May 2023 11:19:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232649AbjEAOkT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 May 2023 10:40:19 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72D45E7C;
-        Mon,  1 May 2023 07:40:16 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 341Dm2VG023873;
-        Mon, 1 May 2023 14:35:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=SO2o2n33V/6ML1mXMcntAULEnoh70sDCEByz8TtJoro=;
- b=f355EohVR8tso76lD2TfLiICLFhNrSuT6IpyG6O8wDLMPK7Zm/z0xOi9CpZqm+mcY0Cg
- SWeHkKq7Qd/g3tchghK31RMgNHcJ192vRxNsZLuAKI2/p/rux+t6exAbY4IQY2+E6Pv7
- kaNAnOd3BwF1pMQqYr9VPtB/rJs2I2McIcsIveC7hziLFqXbpdu/sWAVdWZqLDNTinqE
- +Y/6qcYNZ67b8R9tDaeCvobliqjVoobpM3ARE+vLBHg7Ab527/ZaSGuPvo6Q2FFOoCCS
- vDsEZaeYVBYAFYrDg+y5eFe3ZW2W+MmU9mBS20IkHrRLbHCNVha++vqkRI1m7EGFAhNJ 9Q== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q8t8ubrse-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 01 May 2023 14:35:53 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 341EZqm3012575
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 1 May 2023 14:35:52 GMT
-Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Mon, 1 May 2023 07:35:46 -0700
-From:   Krishna Kurapati <quic_kriskura@quicinc.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "Andy Gross" <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>
-CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <quic_pkondeti@quicinc.com>, <quic_ppratap@quicinc.com>,
-        <quic_jackp@quicinc.com>, <quic_harshq@quicinc.com>,
-        <ahalaney@redhat.com>, <quic_shazhuss@quicinc.com>,
-        Krishna Kurapati <quic_kriskura@quicinc.com>
-Subject: [PATCH v7 8/9] arm64: dts: qcom: sa8295p: Enable tertiary controller and its 4 USB ports
-Date:   Mon, 1 May 2023 20:04:44 +0530
-Message-ID: <20230501143445.3851-9-quic_kriskura@quicinc.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230501143445.3851-1-quic_kriskura@quicinc.com>
-References: <20230501143445.3851-1-quic_kriskura@quicinc.com>
+        with ESMTP id S231249AbjEAPTc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 May 2023 11:19:32 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id C46F8186
+        for <linux-usb@vger.kernel.org>; Mon,  1 May 2023 08:19:29 -0700 (PDT)
+Received: (qmail 304556 invoked by uid 1000); 1 May 2023 11:19:29 -0400
+Date:   Mon, 1 May 2023 11:19:29 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     syzbot <syzbot+ce77725b89b7bd52425c@syzkaller.appspotmail.com>
+Cc:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [usb?] WARNING in usbtmc_ioctl/usb_submit_urb (2)
+Message-ID: <38c0a2fd-cd9c-43b3-99f0-4f9ed2fdc69f@rowland.harvard.edu>
+References: <000000000000716a3705f9adb8ee@google.com>
+ <00000000000082cdb705faa08ffb@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: U1Cx7HiJ3AchDMeLZuyHv_NMnkzLB6Q_
-X-Proofpoint-GUID: U1Cx7HiJ3AchDMeLZuyHv_NMnkzLB6Q_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-01_07,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
- adultscore=0 priorityscore=1501 phishscore=0 bulkscore=0 spamscore=0
- mlxscore=0 mlxlogscore=695 impostorscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305010115
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00000000000082cdb705faa08ffb@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable tertiary controller for SA8295P (based on SC8280XP).
-Add pinctrl support for usb ports to provide VBUS to connected peripherals.
+On Mon, May 01, 2023 at 04:59:52AM -0700, syzbot wrote:
+> syzbot has found a reproducer for the following issue on:
+> 
+> HEAD commit:    58390c8ce1bd Merge tag 'iommu-updates-v6.4' of git://git.k..
+> git tree:       upstream
+> console+strace: https://syzkaller.appspot.com/x/log.txt?x=17d08158280000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=d56ffc213bf6bf4a
+> dashboard link: https://syzkaller.appspot.com/bug?extid=ce77725b89b7bd52425c
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15027ef7c80000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16d7550c280000
+> 
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/51c43e265c8a/disk-58390c8c.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/7c64f4eeaf4d/vmlinux-58390c8c.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/e5d8f49c4804/bzImage-58390c8c.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+ce77725b89b7bd52425c@syzkaller.appspotmail.com
+> 
+> ------------[ cut here ]------------
+> usb 3-1: BOGUS control dir, pipe 80000b80 doesn't match bRequestType fd
+> WARNING: CPU: 0 PID: 5100 at drivers/usb/core/urb.c:411 usb_submit_urb+0x14a7/0x1880 drivers/usb/core/urb.c:411
+> Modules linked in:
+> CPU: 0 PID: 5100 Comm: syz-executor428 Not tainted 6.3.0-syzkaller-12049-g58390c8ce1bd #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/14/2023
+> RIP: 0010:usb_submit_urb+0x14a7/0x1880 drivers/usb/core/urb.c:411
+> Code: 7c 24 40 e8 1b 13 5c fb 48 8b 7c 24 40 e8 21 1d f0 fe 45 89 e8 44 89 f1 4c 89 e2 48 89 c6 48 c7 c7 e0 b5 fc 8a e8 19 c8 23 fb <0f> 0b e9 9f ee ff ff e8 ed 12 5c fb 0f b6 1d 12 8a 3c 08 31 ff 41
+> RSP: 0018:ffffc90003d2fb00 EFLAGS: 00010282
+> RAX: 0000000000000000 RBX: ffff8880789e9058 RCX: 0000000000000000
+> RDX: ffff888029593b80 RSI: ffffffff814c1447 RDI: 0000000000000001
+> RBP: ffff88801ea742f8 R08: 0000000000000001 R09: 0000000000000000
+> R10: 0000000000000001 R11: 0000000000000001 R12: ffff88802915e528
+> R13: 00000000000000fd R14: 0000000080000b80 R15: ffff8880222b3100
+> FS:  0000555556ca63c0(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007f9ef4d18150 CR3: 0000000073e5b000 CR4: 00000000003506f0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>  <TASK>
+>  usb_start_wait_urb+0x101/0x4b0 drivers/usb/core/message.c:58
+>  usb_internal_control_msg drivers/usb/core/message.c:102 [inline]
+>  usb_control_msg+0x320/0x4a0 drivers/usb/core/message.c:153
+>  usbtmc_ioctl_request drivers/usb/class/usbtmc.c:1954 [inline]
+>  usbtmc_ioctl+0x1b3d/0x2840 drivers/usb/class/usbtmc.c:2097
+>  vfs_ioctl fs/ioctl.c:51 [inline]
+>  __do_sys_ioctl fs/ioctl.c:870 [inline]
+>  __se_sys_ioctl fs/ioctl.c:856 [inline]
+>  __x64_sys_ioctl+0x197/0x210 fs/ioctl.c:856
+>  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>  do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+>  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> RIP: 0033:0x7f9ef4ca4e49
+> Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 41 15 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007fff8d0be0d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f9ef4ca4e49
+> RDX: 0000000020000040 RSI: 00000000c0105b08 RDI: 0000000000000004
+> RBP: 0000000000000000 R08: 000000000000000f R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000015f73
+> R13: 00007fff8d0be160 R14: 00007fff8d0be150 R15: 00007fff8d0be11c
+>  </TASK>
+> 
+> 
+> ---
+> If you want syzbot to run the reproducer, reply with:
+> #syz test: git://repo/address.git branch-or-commit-hash
+> If you attach or paste a git patch, syzbot will apply it before testing.
 
-Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
----
- arch/arm64/boot/dts/qcom/sa8295p-adp.dts | 47 ++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+usbtmc needs to check whether the user got the direction wrong for 
+0-length control transfers.
 
-diff --git a/arch/arm64/boot/dts/qcom/sa8295p-adp.dts b/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
-index fd253942e5e5..7e6061c43835 100644
---- a/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
-+++ b/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
-@@ -584,6 +584,19 @@ &usb_1_qmpphy {
- 	status = "okay";
- };
+Alan Stern
+
+#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/ 58390c8ce1bd
+
+Index: usb-devel/drivers/usb/class/usbtmc.c
+===================================================================
+--- usb-devel.orig/drivers/usb/class/usbtmc.c
++++ usb-devel/drivers/usb/class/usbtmc.c
+@@ -1928,6 +1928,8 @@ static int usbtmc_ioctl_request(struct u
  
-+&usb_2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&usb2_en_state>,
-+			<&usb3_en_state>,
-+			<&usb4_en_state>,
-+			<&usb5_en_state>;
-+	status = "okay";
-+};
-+
-+&usb_2_dwc3 {
-+	dr_mode = "host";
-+};
-+
- &usb_2_hsphy0 {
- 	vdda-pll-supply = <&vreg_l5a>;
- 	vdda18-supply = <&vreg_l7g>;
-@@ -729,3 +742,37 @@ wake-n-pins {
- 		};
- 	};
- };
-+
-+&pmm8540c_gpios {
-+	usb2_en_state: usb2-en-state {
-+		pins = "gpio9";
-+		function = "normal";
-+		output-high;
-+		power-source = <0>;
-+	};
-+};
-+
-+&pmm8540e_gpios {
-+	usb3_en_state: usb3-en-state {
-+		pins = "gpio5";
-+		function = "normal";
-+		output-high;
-+		power-source = <0>;
-+	};
-+};
-+
-+&pmm8540g_gpios {
-+	usb4_en_state: usb4-en-state {
-+		pins = "gpio5";
-+		function = "normal";
-+		output-high;
-+		power-source = <0>;
-+	};
-+
-+	usb5_en_state: usb5-en-state {
-+		pins = "gpio9";
-+		function = "normal";
-+		output-high;
-+		power-source = <0>;
-+	};
-+};
--- 
-2.40.0
-
+ 	if (request.req.wLength > USBTMC_BUFSIZE)
+ 		return -EMSGSIZE;
++	if (request.req.wLength == 0)	/* Length-0 requests are never IN */
++		request.req.bRequestType &= ~USB_DIR_IN;
+ 
+ 	is_in = request.req.bRequestType & USB_DIR_IN;
+ 
