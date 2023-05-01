@@ -2,116 +2,100 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BD57C7EE26
-	for <linux-usb@archiver.kernel.org>; Mon,  1 May 2023 12:01:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05084C7EE29
+	for <linux-usb@archiver.kernel.org>; Mon,  1 May 2023 12:11:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232440AbjEAL76 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 May 2023 07:59:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44386 "EHLO
+        id S232493AbjEAMLV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 May 2023 08:11:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjEAL7z (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 May 2023 07:59:55 -0400
-Received: from mail-io1-f77.google.com (mail-io1-f77.google.com [209.85.166.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C127E4A
-        for <linux-usb@vger.kernel.org>; Mon,  1 May 2023 04:59:53 -0700 (PDT)
-Received: by mail-io1-f77.google.com with SMTP id ca18e2360f4ac-763761822f0so350242039f.0
-        for <linux-usb@vger.kernel.org>; Mon, 01 May 2023 04:59:53 -0700 (PDT)
+        with ESMTP id S232469AbjEAMLS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 May 2023 08:11:18 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 724A2E4A
+        for <linux-usb@vger.kernel.org>; Mon,  1 May 2023 05:11:16 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3f19afc4fd8so13335715e9.2
+        for <linux-usb@vger.kernel.org>; Mon, 01 May 2023 05:11:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1682943075; x=1685535075;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gdPOb/kVKRm2CWLAaTiuZb0Yvx8fGBpCags1edg/orY=;
+        b=N8p+YFeajBoBPIuVuNaPO8zZVKM0DnysnGItaokQJ9BYrqiCY2YuwGc8BSZB2kxwSx
+         iTCaXam8Q3rg3GUlRrrNFXflyxGPJ88jplC+nJuyV0qyoPUUpnUb4MyIswfIV5m0FGwW
+         VQ7+II+5miYAbI+B062O2/ourqGdd3O2cBnq3Ebju+FT6mum1tihntwFEIuh8emWXtni
+         gMJNXpvaOQlt7rZfdB2pnfHDm95UjOP3osW2GdvYJOq2eP4EgRWsbDVc9YKrED+0o10D
+         6is+/SGjJMaKlHDOAfuLANrUM+YDLVvB6ZgF3IXj0MfHSQzVUj5Q+3T/xlndZjtuNbk6
+         9NSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682942393; x=1685534393;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3YX7rt7FHmGBSzibjRFSAD1tmmQxnbJAEajs/qTIELU=;
-        b=DvIsLSO0e8etUy5kmm1uT0MqvKp5G/F9/o66N/4XIw5M0xF6jffhxcDP8+KrVLeQkv
-         CGYQm3kjE7cacFPvMVEHzAIhuVhWJON8/5fPCbhm1hO0nH4C4OLdkSe2jaupa5jmAzf/
-         mSc/5nL7SmWGLbOepPwoPXeCjdI0IvB8CljzBOOavBiYfA2ViM1uwz7ADl73uHXZhj3N
-         LKvH8cBu7xQcUc50XYQmwd/Apq6GCC60OjOA7M8fLqru3dpQBOp0AVtKa3gUD8Pd0wqB
-         4QGz2mgDiqEIEOaCxFi8IOlmDN/MYV2mW+63T+uym8TeDYQS70f7jW2OP5JEl+/q6ggs
-         HtxA==
-X-Gm-Message-State: AC+VfDyE7WWJd9IK7RE30iXfHb7Dy91Ptl1pEZ37BOCcm6YkfDK81P6x
-        2cTLQv4JvAqmBnCkvMcEKk6+Ux6xcgrdBg8c49zz95l/P2NY
-X-Google-Smtp-Source: ACHHUZ6iY4KobvzdfiJCVti6rJKLevKOM2A4oEN9IDGKoGC5j0LMz/k1ZGazH/AEuQoHHbSZ66EZ8/M5D19cibm1pK/UkVUNOxYM
+        d=1e100.net; s=20221208; t=1682943075; x=1685535075;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gdPOb/kVKRm2CWLAaTiuZb0Yvx8fGBpCags1edg/orY=;
+        b=BjD1oyBV/Nyy7+OKZ4fTr5PYUilYSBp3Wo+BYrk9dZU5Sih0CY78Qsg2HeWnak9Q49
+         KYp3QaU6VhvPwi7V3JL1eqUt/HwMzt0aEE6VNT/at/PbTYJKm6raPosZXcr3VJA6ClyY
+         h/d/O4HZX//Yfd6m7gTzZl7kozruwYNrwrFnHcb92x+eSwNEj/O2qk88rMzQL7+8OslG
+         xswSgOTlRuZkmVtKoWnBOqiB7HwrI7YD945ES0dDYQouMl4DqOIpiCRrlMTHc7WYcYaG
+         y8Fr4ASVvtXB707BLsZGTNbgO/Zzgcp2EAfB3gbmuWOmy2siJ1wImLQN8iTU2qoumgZ7
+         e6Xw==
+X-Gm-Message-State: AC+VfDxp2+n2NnVQzC16NYJCQ+RrwX6RuGhM7jTPh66GKS+YLisJfR32
+        +RXKQLV7XTEs6GLHntxSH11X5A==
+X-Google-Smtp-Source: ACHHUZ5unDH0Cz1OdQ96Xami9iOM40tsQFdU5LlEnhGDCdElpicSQYfFjNd+tAlYil+9qAd5Y3pd4Q==
+X-Received: by 2002:a05:600c:214e:b0:3f1:7277:eaa with SMTP id v14-20020a05600c214e00b003f172770eaamr10092767wml.31.1682943074925;
+        Mon, 01 May 2023 05:11:14 -0700 (PDT)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id o10-20020a05600c510a00b003ee443bf0c7sm35856634wms.16.2023.05.01.05.11.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 May 2023 05:11:14 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
+        gregkh@linuxfoundation.org, andersson@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        luca.weiss@fairphone.com, linux-usb@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     caleb.connolly@linaro.org, bryan.odonoghue@linaro.org,
+        konrad.dybcio@linaro.org, subbaram@quicinc.com, jackp@quicinc.com,
+        robertom@qti.qualcomm.com,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v6 01/13] dt-bindings: regulator: qcom,usb-vbus-regulator: Mark reg as required
+Date:   Mon,  1 May 2023 13:10:59 +0100
+Message-Id: <20230501121111.1058190-2-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230501121111.1058190-1-bryan.odonoghue@linaro.org>
+References: <20230501121111.1058190-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-X-Received: by 2002:a6b:ee11:0:b0:763:5e6c:2a46 with SMTP id
- i17-20020a6bee11000000b007635e6c2a46mr6226135ioh.2.1682942392976; Mon, 01 May
- 2023 04:59:52 -0700 (PDT)
-Date:   Mon, 01 May 2023 04:59:52 -0700
-In-Reply-To: <000000000000716a3705f9adb8ee@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000082cdb705faa08ffb@google.com>
-Subject: Re: [syzbot] [usb?] WARNING in usbtmc_ioctl/usb_submit_urb (2)
-From:   syzbot <syzbot+ce77725b89b7bd52425c@syzkaller.appspotmail.com>
-To:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-syzbot has found a reproducer for the following issue on:
+The regulator code needs to know the location of the register to write to
+to switch on/off. Right now we have a driver that does this, a yaml that
+partially describes it and no dts that uses it.
 
-HEAD commit:    58390c8ce1bd Merge tag 'iommu-updates-v6.4' of git://git.k..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=17d08158280000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d56ffc213bf6bf4a
-dashboard link: https://syzkaller.appspot.com/bug?extid=ce77725b89b7bd52425c
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15027ef7c80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16d7550c280000
+Switching on the VBUS for sm8250 shows that we haven't documented reg as a
+required property, do so now.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/51c43e265c8a/disk-58390c8c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/7c64f4eeaf4d/vmlinux-58390c8c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/e5d8f49c4804/bzImage-58390c8c.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ce77725b89b7bd52425c@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-usb 3-1: BOGUS control dir, pipe 80000b80 doesn't match bRequestType fd
-WARNING: CPU: 0 PID: 5100 at drivers/usb/core/urb.c:411 usb_submit_urb+0x14a7/0x1880 drivers/usb/core/urb.c:411
-Modules linked in:
-CPU: 0 PID: 5100 Comm: syz-executor428 Not tainted 6.3.0-syzkaller-12049-g58390c8ce1bd #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/14/2023
-RIP: 0010:usb_submit_urb+0x14a7/0x1880 drivers/usb/core/urb.c:411
-Code: 7c 24 40 e8 1b 13 5c fb 48 8b 7c 24 40 e8 21 1d f0 fe 45 89 e8 44 89 f1 4c 89 e2 48 89 c6 48 c7 c7 e0 b5 fc 8a e8 19 c8 23 fb <0f> 0b e9 9f ee ff ff e8 ed 12 5c fb 0f b6 1d 12 8a 3c 08 31 ff 41
-RSP: 0018:ffffc90003d2fb00 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: ffff8880789e9058 RCX: 0000000000000000
-RDX: ffff888029593b80 RSI: ffffffff814c1447 RDI: 0000000000000001
-RBP: ffff88801ea742f8 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000001 R12: ffff88802915e528
-R13: 00000000000000fd R14: 0000000080000b80 R15: ffff8880222b3100
-FS:  0000555556ca63c0(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f9ef4d18150 CR3: 0000000073e5b000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- usb_start_wait_urb+0x101/0x4b0 drivers/usb/core/message.c:58
- usb_internal_control_msg drivers/usb/core/message.c:102 [inline]
- usb_control_msg+0x320/0x4a0 drivers/usb/core/message.c:153
- usbtmc_ioctl_request drivers/usb/class/usbtmc.c:1954 [inline]
- usbtmc_ioctl+0x1b3d/0x2840 drivers/usb/class/usbtmc.c:2097
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:870 [inline]
- __se_sys_ioctl fs/ioctl.c:856 [inline]
- __x64_sys_ioctl+0x197/0x210 fs/ioctl.c:856
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f9ef4ca4e49
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 41 15 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff8d0be0d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f9ef4ca4e49
-RDX: 0000000020000040 RSI: 00000000c0105b08 RDI: 0000000000000004
-RBP: 0000000000000000 R08: 000000000000000f R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000015f73
-R13: 00007fff8d0be160 R14: 00007fff8d0be150 R15: 00007fff8d0be11c
- </TASK>
-
-
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+ .../devicetree/bindings/regulator/qcom,usb-vbus-regulator.yaml   | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/regulator/qcom,usb-vbus-regulator.yaml b/Documentation/devicetree/bindings/regulator/qcom,usb-vbus-regulator.yaml
+index b1cff3adb21b5..7a3b59f836092 100644
+--- a/Documentation/devicetree/bindings/regulator/qcom,usb-vbus-regulator.yaml
++++ b/Documentation/devicetree/bindings/regulator/qcom,usb-vbus-regulator.yaml
+@@ -25,6 +25,7 @@ properties:
+ 
+ required:
+   - compatible
++  - reg
+ 
+ additionalProperties: false
+ 
+-- 
+2.39.2
+
