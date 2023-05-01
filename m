@@ -2,97 +2,152 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48953C77B73
-	for <linux-usb@archiver.kernel.org>; Mon,  1 May 2023 16:04:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1922C77B7C
+	for <linux-usb@archiver.kernel.org>; Mon,  1 May 2023 16:53:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232896AbjEAQEb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 May 2023 12:04:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44204 "EHLO
+        id S232447AbjEAQxz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 May 2023 12:53:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232498AbjEAQE3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 May 2023 12:04:29 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86E0E1988;
-        Mon,  1 May 2023 09:04:17 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1aaed87d8bdso10318975ad.3;
-        Mon, 01 May 2023 09:04:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682957057; x=1685549057;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7uTYXafNiRUe9TPnXbYp98lygSgSfsMMJbEyqdr1Xno=;
-        b=kMdA8F6uxpEuCADO5dAwyTBVRPGVlumJAkRN9PpgRH844bxq7nbTa4eD9ZTICkJ+t2
-         7nkW9abnRKwwTdaGLVM0/BvgMlShu4/SB33WYnkvsFUfpmuKMOP94kgjPcuF4/0tLKPO
-         oC9AgwSZhrpSpG3fY/tEi7qO2w0vidZdNx2sjUfZKrV58z3TfQSF2H69trHrxV3c39SD
-         lmIamXobgGPIMiXfrPOK4xVCg5kqL0L3q6UG+aq6oMmV4HaBamGl1TcKykKIuXUcEDuC
-         dQJarSKSqPKS9Qu75C15ebsji+e+wCr5etZKGYOIq/ee/1ocuWSmh2ThSf+Tf052pxjb
-         4+sg==
+        with ESMTP id S229928AbjEAQxy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 May 2023 12:53:54 -0400
+Received: from mail-io1-f77.google.com (mail-io1-f77.google.com [209.85.166.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAFCA1709
+        for <linux-usb@vger.kernel.org>; Mon,  1 May 2023 09:53:45 -0700 (PDT)
+Received: by mail-io1-f77.google.com with SMTP id ca18e2360f4ac-7638744ba8cso164659539f.0
+        for <linux-usb@vger.kernel.org>; Mon, 01 May 2023 09:53:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682957057; x=1685549057;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7uTYXafNiRUe9TPnXbYp98lygSgSfsMMJbEyqdr1Xno=;
-        b=CYGKQEz9naQYt5objHT22JZTMDou2Gi+zSMqQ7+ecV9Lus1GmSnquYEl1XEL4kwFPy
-         4Viat29UqAArlk5QSuBfN5hZIj7DxaJ/AWVx1I0m+g9Jrc6mreyLTSQKvVp15ywlZcXt
-         4v8IlU4HOHeyG8Mqvw6W0XOaBDvtWXRJbL8BYvQbz3k/+qeHAye2M9AAxdNP5YlenPSC
-         6G3OGnLuSJpc60Pg1PZN9SIFGnTfHPelQJ5ApsSadgVlNBckBj/eAvqz/9AMS/+kaoki
-         Rn2/ucxaZsb4dc3l4sIdV4v9I1DuJqb+FwLysYu0XakxobCKqiHIeCb0zFkmUUFu05Os
-         m/qQ==
-X-Gm-Message-State: AC+VfDxC7EZSvq/1BihHSmdKp58LY4oU096VHtj+C+O6gnPfFv1KShaU
-        nIDoZv5wgv1orRAtPLSDHxc=
-X-Google-Smtp-Source: ACHHUZ603YvB4O1DQMGWoADr2/MIOfEBVW8F8tMHGt9CtWVyxGTOvcK805kppfI9DBJiX3rh8Zz78Q==
-X-Received: by 2002:a17:903:1c4:b0:1a6:a7d4:7474 with SMTP id e4-20020a17090301c400b001a6a7d47474mr17574130plh.44.1682957056988;
-        Mon, 01 May 2023 09:04:16 -0700 (PDT)
-Received: from Gentoo (n220246252240.netvigator.com. [220.246.252.240])
-        by smtp.gmail.com with ESMTPSA id d13-20020a170902728d00b001a525705aa8sm14269553pll.136.2023.05.01.09.04.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 May 2023 09:04:16 -0700 (PDT)
-Date:   Tue, 2 May 2023 00:04:09 +0800
-From:   Jianhua Lu <lujianhua000@gmail.com>
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
-        gregkh@linuxfoundation.org, andersson@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        luca.weiss@fairphone.com, linux-usb@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        caleb.connolly@linaro.org, konrad.dybcio@linaro.org,
-        subbaram@quicinc.com, jackp@quicinc.com, robertom@qti.qualcomm.com
-Subject: Re: [PATCH v6 12/13] arm64: dts: qcom: qrb5165-rb5: Switch on TCPM
- usb-role-switching for usb_1
-Message-ID: <ZE_i-a33NO02xEEJ@Gentoo>
-References: <20230501121111.1058190-1-bryan.odonoghue@linaro.org>
- <20230501121111.1058190-13-bryan.odonoghue@linaro.org>
- <ZE_Y5BvxiimB9mu8@Gentoo>
- <bf5b4a43-192d-f1f7-253d-c60b884fe344@linaro.org>
+        d=1e100.net; s=20221208; t=1682960025; x=1685552025;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PVDSaAqcDVoccriZfuF9RqHckXIDHP12OaD+u5OhWos=;
+        b=M6IqX3ASlljggXw4eXxAK3QSYC+oIDBEznkEWrSpSc2Yt4tdv6HcpooLW+LyUAYnRO
+         uQ6Ms24+wRHnNwLOvSF9qR29YIO8oemEuH2z7Dqrshlq+7hDWGVz+Ixjo0MHifEJRE+t
+         zeDqGEQ8wQhwVJLg1HVW5+dI7vGAm1K3jS3i4NCgE/78g3E54tVulKX4lLtrhp/tOdF9
+         dmI53k4c6AMLK8d8dorN7HA7DM+5jc+l8EYOSvMWxqEkEjRdKZBzNrkqWNXyCEhINQIs
+         2IKZFwiEr6XDHTZI9pn27nZh3YQpZPBzf7cUfr1gGyqcTZl6LhU9wjXTqaSkcwIPb5RK
+         dFvw==
+X-Gm-Message-State: AC+VfDzdnzSPbkoGpMm+zvhzY5DZiS/aM77B9Cnqn7t9UDG/C/doyDOn
+        wkBiGe9w7jdlxcmYCdKI3Zb/G0eMwP0svH5TXCdqrO0N530c
+X-Google-Smtp-Source: ACHHUZ5zC9Ja6Vo7HutDa0uUBKfakvCBScmraMBG7EcjiKYDc9sH58azPF9GcxfEqUxAakVtfDY1IR2auAfJFAIKjDCujWWRV9U6
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bf5b4a43-192d-f1f7-253d-c60b884fe344@linaro.org>
+X-Received: by 2002:a5d:958c:0:b0:74f:d943:f1cf with SMTP id
+ a12-20020a5d958c000000b0074fd943f1cfmr6319037ioo.3.1682960025074; Mon, 01 May
+ 2023 09:53:45 -0700 (PDT)
+Date:   Mon, 01 May 2023 09:53:45 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000077472605faa4aad5@google.com>
+Subject: [syzbot] [usb?] memory leak in class_create
+From:   syzbot <syzbot+e7afd76ad060fa0d2605@syzkaller.appspotmail.com>
+To:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, rafael@kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, May 01, 2023 at 04:53:22PM +0100, Bryan O'Donoghue wrote:
-> On 01/05/2023 16:21, Jianhua Lu wrote:
-> > This port node should be moved out to the block of pm8150b_typec rather than
-> > usb-c-connector. Otherwise,
-> > 
-> > [   10.998897] OF: graph: no port node found in /soc@0/spmi@c440000/pmic@2/typec@1500
-> 
-uh.... This is runtime error, it doesn't matter bindings.
-I haven't much experience with typc-c, so I can't address code for this.
-> 
-> Ports/endpoints should go in the connector.
-> 
-> Documentation/devicetree/bindings/connector/usb-connector.yaml
-> 
-> grep usb-c-connector arch/arm* -r
-> 
-> This dtsi should be updated
-> 
-> arch/arm64/boot/dts/freescale/imx8mm-evk.dtsi != 
-> Documentation/devicetree/bindings/usb/nxp,ptn5110.yaml
-> 
-> ---
-> bod
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    22b8cc3e78f5 Merge tag 'x86_mm_for_6.4' of git://git.kerne..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=16fc7958280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5046ebeca744dd40
+dashboard link: https://syzkaller.appspot.com/bug?extid=e7afd76ad060fa0d2605
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1599a2b4280000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14eb395fc80000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/3ad2088c196b/disk-22b8cc3e.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/61919a5b89c6/vmlinux-22b8cc3e.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/a7adb5503ac8/bzImage-22b8cc3e.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e7afd76ad060fa0d2605@syzkaller.appspotmail.com
+
+BUG: memory leak
+unreferenced object 0xffff88810af67080 (size 96):
+  comm "kworker/0:2", pid 4402, jiffies 4294950769 (age 14.190s)
+  hex dump (first 32 bytes):
+    bf 03 9b 85 ff ff ff ff 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff81544e14>] kmalloc_trace+0x24/0x90 mm/slab_common.c:1057
+    [<ffffffff82b65445>] kmalloc include/linux/slab.h:559 [inline]
+    [<ffffffff82b65445>] kzalloc include/linux/slab.h:680 [inline]
+    [<ffffffff82b65445>] class_create+0x25/0x90 drivers/base/class.c:261
+    [<ffffffff831f7a80>] init_usb_class drivers/usb/core/file.c:91 [inline]
+    [<ffffffff831f7a80>] usb_register_dev+0x290/0x3d0 drivers/usb/core/file.c:179
+    [<ffffffff832cffc4>] usblp_probe+0x4e4/0x750 drivers/usb/class/usblp.c:1208
+    [<ffffffff831f39a9>] usb_probe_interface+0x179/0x3c0 drivers/usb/core/driver.c:396
+    [<ffffffff82b62d7d>] call_driver_probe drivers/base/dd.c:579 [inline]
+    [<ffffffff82b62d7d>] really_probe+0x12d/0x430 drivers/base/dd.c:658
+    [<ffffffff82b63141>] __driver_probe_device+0xc1/0x1a0 drivers/base/dd.c:800
+    [<ffffffff82b6324a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:830
+    [<ffffffff82b6343b>] __device_attach_driver+0xfb/0x150 drivers/base/dd.c:958
+    [<ffffffff82b60191>] bus_for_each_drv+0xc1/0x110 drivers/base/bus.c:457
+    [<ffffffff82b63962>] __device_attach+0x102/0x2a0 drivers/base/dd.c:1030
+    [<ffffffff82b618fa>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
+    [<ffffffff82b5def3>] device_add+0x993/0xc60 drivers/base/core.c:3625
+    [<ffffffff831f0a89>] usb_set_configuration+0x9a9/0xc90 drivers/usb/core/message.c:2211
+    [<ffffffff832033a1>] usb_generic_driver_probe+0xa1/0x100 drivers/usb/core/generic.c:238
+    [<ffffffff831f3080>] usb_probe_device+0x60/0x140 drivers/usb/core/driver.c:293
+
+BUG: memory leak
+unreferenced object 0xffff8881051f1a00 (size 512):
+  comm "kworker/0:2", pid 4402, jiffies 4294950769 (age 14.190s)
+  hex dump (first 32 bytes):
+    00 1a 1f 05 81 88 ff ff 00 1a 1f 05 81 88 ff ff  ................
+    00 00 00 00 00 00 00 00 bf 03 9b 85 ff ff ff ff  ................
+  backtrace:
+    [<ffffffff81544e14>] kmalloc_trace+0x24/0x90 mm/slab_common.c:1057
+    [<ffffffff82b65308>] kmalloc include/linux/slab.h:559 [inline]
+    [<ffffffff82b65308>] kzalloc include/linux/slab.h:680 [inline]
+    [<ffffffff82b65308>] class_register+0x28/0x140 drivers/base/class.c:186
+    [<ffffffff82b65467>] class_create+0x47/0x90 drivers/base/class.c:270
+    [<ffffffff831f7a80>] init_usb_class drivers/usb/core/file.c:91 [inline]
+    [<ffffffff831f7a80>] usb_register_dev+0x290/0x3d0 drivers/usb/core/file.c:179
+    [<ffffffff832cffc4>] usblp_probe+0x4e4/0x750 drivers/usb/class/usblp.c:1208
+    [<ffffffff831f39a9>] usb_probe_interface+0x179/0x3c0 drivers/usb/core/driver.c:396
+    [<ffffffff82b62d7d>] call_driver_probe drivers/base/dd.c:579 [inline]
+    [<ffffffff82b62d7d>] really_probe+0x12d/0x430 drivers/base/dd.c:658
+    [<ffffffff82b63141>] __driver_probe_device+0xc1/0x1a0 drivers/base/dd.c:800
+    [<ffffffff82b6324a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:830
+    [<ffffffff82b6343b>] __device_attach_driver+0xfb/0x150 drivers/base/dd.c:958
+    [<ffffffff82b60191>] bus_for_each_drv+0xc1/0x110 drivers/base/bus.c:457
+    [<ffffffff82b63962>] __device_attach+0x102/0x2a0 drivers/base/dd.c:1030
+    [<ffffffff82b618fa>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
+    [<ffffffff82b5def3>] device_add+0x993/0xc60 drivers/base/core.c:3625
+    [<ffffffff831f0a89>] usb_set_configuration+0x9a9/0xc90 drivers/usb/core/message.c:2211
+    [<ffffffff832033a1>] usb_generic_driver_probe+0xa1/0x100 drivers/usb/core/generic.c:238
+
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
