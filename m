@@ -2,163 +2,104 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E860DC7EE26
-	for <linux-usb@archiver.kernel.org>; Tue,  2 May 2023 05:05:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7012CC77B7E
+	for <linux-usb@archiver.kernel.org>; Tue,  2 May 2023 07:41:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233480AbjEBFFM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 May 2023 01:05:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49346 "EHLO
+        id S233554AbjEBHlB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 May 2023 03:41:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbjEBFFK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 May 2023 01:05:10 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1C6140D9;
-        Mon,  1 May 2023 22:05:07 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 34254n4Z2007203, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 34254n4Z2007203
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-        Tue, 2 May 2023 13:04:49 +0800
-Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Tue, 2 May 2023 13:04:53 +0800
-Received: from RTEXH36506.realtek.com.tw (172.21.6.27) by
- RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Tue, 2 May 2023 13:04:52 +0800
-Received: from localhost.localdomain (172.21.252.101) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server id
- 15.1.2507.17 via Frontend Transport; Tue, 2 May 2023 13:04:52 +0800
-From:   Stanley Chang <stanley_chang@realtek.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-CC:     Stanley Chang <stanley_chang@realtek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 1/2] usb: dwc3: core: add support for RTK SoC custom's global register start address
-Date:   Tue, 2 May 2023 13:04:46 +0800
-Message-ID: <20230502050452.27276-1-stanley_chang@realtek.com>
-X-Mailer: git-send-email 2.40.0
+        with ESMTP id S229722AbjEBHlA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 May 2023 03:41:00 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B0C7103
+        for <linux-usb@vger.kernel.org>; Tue,  2 May 2023 00:40:59 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-50bc0ced1d9so3963412a12.0
+        for <linux-usb@vger.kernel.org>; Tue, 02 May 2023 00:40:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683013258; x=1685605258;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SoUt7yH66Q/K8nPBWlvpIiBfL6kSg4OZf+O79INR/oE=;
+        b=XWEiELZLGQCzow2WaTnvNiIPRAbIgBLqAnIZGkA5bNP77nVgdFJ4KVp3SRCacPtc20
+         Jls4LyAH+FZEzPtqPBPzjZIRirbrkpEcNZw4aPC7dPBk+oqboqAy/OFK4E9N9+ElxtK3
+         AE4BpHsFpWuXdfzIqZPYI7V8Bppar1egeWNucTMpx6TF/A4/pnB7v+xHXBTi7Qk9XBtc
+         CpGZ95uhyypM8sgZ1Cvt1d2jGAov0ciPp+I4JdRs5cmUExy3pe/5xDFyQc855H9YFUFn
+         U5FKv5JMewoOkZPZVHhUlUKvrPX0Vv9xLH6ZfKxSowpVJ/caw23r/4FWroyy4bspmHIE
+         yKSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683013258; x=1685605258;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SoUt7yH66Q/K8nPBWlvpIiBfL6kSg4OZf+O79INR/oE=;
+        b=LzKi2c3ZZPi8dtoal6/IFTQ9ozRMcWZZwS1ifMowqoo6/rdNAlL2RREKyjXX9oaI7v
+         RsRwg61JOoU3Asbc9Ho250dq+aNCm3HW1kSYFLNllNWsFga7SdZw8aYn6LvogIoio1mt
+         E+7se1UCehTTKk7yevhmn63bymIQo6UOSZecK+vKnIbqfeRkX1GwY/9WxoAq6mAuBB/b
+         pvwn1ifNzrUnVo2ZMoK24aTSX21hRHvoA0Q9icIYZRKllR5cDMiNSHSRFR6+X2aQ04cF
+         D11xvXaDxA+k3vHM8Vn4yvRSYIUiaOp5pLv0M1jNHe+4fQedN7WXAYm09/HhDLmUHsyY
+         hdBg==
+X-Gm-Message-State: AC+VfDxXMOsfG7kUt//tvj5OIzMaS28r7dfjvwJro6vGMKO4+OYmVGEc
+        a6+CdjmlL/neemU60lmpk3zbcw==
+X-Google-Smtp-Source: ACHHUZ7j8lXUAx3NbLI5D7HhgS0GjRNrm01YgFj4KZS8wCP4vg8VUQ562+4HE9EN+NwcILShF1jz1Q==
+X-Received: by 2002:a17:907:ea9:b0:960:c5fe:a35a with SMTP id ho41-20020a1709070ea900b00960c5fea35amr12427402ejc.64.1683013257802;
+        Tue, 02 May 2023 00:40:57 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:bafd:1283:b136:5f6a? ([2a02:810d:15c0:828:bafd:1283:b136:5f6a])
+        by smtp.gmail.com with ESMTPSA id y10-20020a056402134a00b0050bc27a4967sm2589125edw.21.2023.05.02.00.40.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 May 2023 00:40:56 -0700 (PDT)
+Message-ID: <2653e0d1-6570-7469-51da-b539b5c14299@linaro.org>
+Date:   Tue, 2 May 2023 09:40:55 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-KSE-ServerInfo: RTEXMBS05.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v4 2/2] dt-bindings: usb: snps,dwc3: Add the compatible
+ name 'snps,dwc3-rtk-soc'
+Content-Language: en-US
+To:     Stanley Chang <stanley_chang@realtek.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230502050452.27276-1-stanley_chang@realtek.com>
+ <20230502050452.27276-2-stanley_chang@realtek.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230502050452.27276-2-stanley_chang@realtek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The RTK DHC SoCs were designed, the global register address offset at
-0x8100. The default address offset is constant at DWC3_GLOBALS_REGS_START
-(0xc100). Therefore, add the compatible name of device-tree to specify
-the SoC custom's global register start address.
+On 02/05/2023 07:04, Stanley Chang wrote:
+> Add a new compatible name 'snps,dwc3-rtk-soc' of DT for realtek dwc3
+> core to adjust the global register start address
+> 
+> The RTK DHC SoCs were designed, the global register address offset at
 
-Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
----
- v3 to v4 change:
-Use the compatible name to specify the global register address offset.
-If the compatible name is "snps,dwc3-rtk-soc", then the offset use 0x8100.
-Otherwise, the offset is default value 0xc100.
+What are: "RTK" and "DHC"? These are manufactured by Synopsys as you
+suggest in the patch?
 
- v2 to v3 change:
-1.  Fix the dtschema validation error.
 
- v1 to v2 change:
-1. Change the name of the property "snps,global-regs-starting-offset".
-2. Adjust the format of comment.
-3. Add initial value of the global_regs_starting_offset
-4. Remove the log of dev_info.
----
- drivers/usb/dwc3/core.c | 18 +++++++++++++++---
- drivers/usb/dwc3/core.h |  5 +++++
- 2 files changed, 20 insertions(+), 3 deletions(-)
+> 0x8100. The default address offset is constant at DWC3_GLOBALS_REGS_START
+> (0xc100). Therefore, add the compatible name of device-tree to specify
+> the SoC custom's global register start address.
+> 
+> Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 0beaab932e7d..4f69b26d7dab 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -23,6 +23,7 @@
- #include <linux/delay.h>
- #include <linux/dma-mapping.h>
- #include <linux/of.h>
-+#include <linux/of_device.h>
- #include <linux/of_graph.h>
- #include <linux/acpi.h>
- #include <linux/pinctrl/consumer.h>
-@@ -1793,12 +1794,17 @@ static int dwc3_probe(struct platform_device *pdev)
- 	dwc->xhci_resources[0].flags = res->flags;
- 	dwc->xhci_resources[0].name = res->name;
- 
-+	dwc->global_regs_starting_offset = (u32)(uintptr_t)
-+		    of_device_get_match_data(dev);
-+	if (!dwc->global_regs_starting_offset)
-+		dwc->global_regs_starting_offset = DWC3_GLOBALS_REGS_START;
-+
- 	/*
- 	 * Request memory region but exclude xHCI regs,
- 	 * since it will be requested by the xhci-plat driver.
- 	 */
- 	dwc_res = *res;
--	dwc_res.start += DWC3_GLOBALS_REGS_START;
-+	dwc_res.start += dwc->global_regs_starting_offset;
- 
- 	regs = devm_ioremap_resource(dev, &dwc_res);
- 	if (IS_ERR(regs))
-@@ -2224,10 +2230,16 @@ static const struct dev_pm_ops dwc3_dev_pm_ops = {
- #ifdef CONFIG_OF
- static const struct of_device_id of_dwc3_match[] = {
- 	{
--		.compatible = "snps,dwc3"
-+		.compatible = "snps,dwc3",
-+		.data = (void *)DWC3_GLOBALS_REGS_START,
-+	},
-+	{
-+		.compatible = "snps,dwc3-rtk-soc",
-+		.data = (void *)DWC3_GLOBALS_REGS_START_FOR_RTK,
- 	},
- 	{
--		.compatible = "synopsys,dwc3"
-+		.compatible = "synopsys,dwc3",
-+		.data = (void *)DWC3_GLOBALS_REGS_START,
- 	},
- 	{ },
- };
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index d56457c02996..46557cf52f4b 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -84,6 +84,8 @@
- #define DWC3_OTG_REGS_START		0xcc00
- #define DWC3_OTG_REGS_END		0xccff
- 
-+#define DWC3_GLOBALS_REGS_START_FOR_RTK 0x8100
-+
- /* Global Registers */
- #define DWC3_GSBUSCFG0		0xc100
- #define DWC3_GSBUSCFG1		0xc104
-@@ -1118,6 +1120,8 @@ struct dwc3_scratchpad_array {
-  * @wakeup_configured: set if the device is configured for remote wakeup.
-  * @imod_interval: set the interrupt moderation interval in 250ns
-  *			increments or 0 to disable.
-+ * @global_regs_starting_offset: set the dwc3 global register start address
-+ *	 and it is default at DWC3_GLOBALS_REGS_START (0xc100).
-  * @max_cfg_eps: current max number of IN eps used across all USB configs.
-  * @last_fifo_depth: last fifo depth used to determine next fifo ram start
-  *		     address.
-@@ -1334,6 +1338,7 @@ struct dwc3 {
- 	unsigned		wakeup_configured:1;
- 
- 	u16			imod_interval;
-+	u32			global_regs_starting_offset;
- 
- 	int			max_cfg_eps;
- 	int			last_fifo_depth;
--- 
-2.34.1
+Based on your email, rtk could mean Realtek, so the compatible is
+clearly wrong.
+
+> ---
+>  v3 to v4 change:
+> Use the compatible name to specify the global register address offset.
+> If the compatible name is "snps,dwc3-rtk-soc", then the offset use 0x8100.
+> Otherwise, the offset is default value 0xc100.
+> 
+
+Best regards,
+Krzysztof
 
