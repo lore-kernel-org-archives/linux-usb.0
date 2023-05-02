@@ -2,77 +2,70 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97445C77B7E
-	for <linux-usb@archiver.kernel.org>; Tue,  2 May 2023 12:31:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C323C77B73
+	for <linux-usb@archiver.kernel.org>; Tue,  2 May 2023 16:21:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233842AbjEBMbX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 May 2023 08:31:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53534 "EHLO
+        id S233926AbjEBQVn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 May 2023 12:21:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234170AbjEBMbW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 May 2023 08:31:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B80A21A1
-        for <linux-usb@vger.kernel.org>; Tue,  2 May 2023 05:31:21 -0700 (PDT)
+        with ESMTP id S233922AbjEBQVl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 May 2023 12:21:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0735D1B1;
+        Tue,  2 May 2023 09:21:41 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 549FB623CF
-        for <linux-usb@vger.kernel.org>; Tue,  2 May 2023 12:31:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B491CC4339C
-        for <linux-usb@vger.kernel.org>; Tue,  2 May 2023 12:31:20 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 936FE626A7;
+        Tue,  2 May 2023 16:21:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5890C4339B;
+        Tue,  2 May 2023 16:21:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683030680;
-        bh=/NpkSuefgWUi6ROmdzOtAAS5JtleiJ2XTF+UUFv0wtg=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=gpicc3xoY02WrH6xXtGXsGVPOwRggNKeBF0eH7G8Sc5AWfHxafrpbiWPh0tpKM/7W
-         in6yaLqqkBY80olkk7PexEn0E/B6EFBKpiB3Qm5ui3ZKNk2XZvy3v3INYiU1S3FMD/
-         INsxbv0k4I5J36h9BE5wphlOpvLT4pwJazLoA+7xQtadZRUdGxt5CfXz3D0u5IWwA2
-         rRGRHtmaMUfjW1HFTaBXzTpswk0Ygkx/nJbEaAo6x8SDQG6zZhE5mJU/bQB/B0SAHc
-         Kr4Cw6f44BWSfUZLQHXGhMsaRKyoJYDZxdgoA1rB8FcviN5JVOOTRelbuslh80e3IP
-         TV+mMdQPtBM/g==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 915B6C43144; Tue,  2 May 2023 12:31:20 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 216728] Thunderbolt USB Controller died after resume on Intel
- CometLake platform
-Date:   Tue, 02 May 2023 12:31:20 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: chris.chiu@canonical.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216728-208809-tdS3uRQVhK@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216728-208809@https.bugzilla.kernel.org/>
-References: <bug-216728-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        s=k20201202; t=1683044500;
+        bh=cFJ8a6f80qJJIon/6vWEsVZtcR6LqKDxeq8RA9J2dN0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=M/5NHz43vfQmeVan9T1m8BGENgz2iBJb2iu5TN26mU3NIkpn/G1AzYtJLO//F8ZTo
+         edyA/vW27mJYu1MDztvV8LNFgSfqjvafZI4YCkml4MeH2iOVDqt856ceujbNPuJYKZ
+         og1XAb//SujXKTc6rx40BnqKRbOc+Oh6l3Z66Qz0Mea7jBANo+UlAJdc6E6kWQmJo3
+         imCUHzYvGtwWR+yNUbafHE31vPFnhIgNd+1YxvgFQOcFEpfVa+TfzNkibIJ2fLdqPX
+         Ul0AhgLp8RloN776uf0VKVK0NFNnQ5VILHSG8aPQjmfnuAZBhth6OL7V1yH6/i7fLk
+         amVfxsNzOVvEg==
+From:   Roger Quadros <rogerq@kernel.org>
+To:     Thinh.Nguyen@synopsys.com
+Cc:     gregkh@linuxfoundation.org, r-gunasekaran@ti.com, srk@ti.com,
+        wcheng@codeaurora.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Roger Quadros <rogerq@kernel.org>
+Subject: [PATCH v2 0/2] usb: dwc3: gadget: Improve dwc3_gadget_suspend/resume
+Date:   Tue,  2 May 2023 19:21:31 +0300
+Message-Id: <20230502162133.148821-1-rogerq@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216728
+Hi,
 
---- Comment #30 from Chris Chiu (chris.chiu@canonical.com) ---
-https://www.spinics.net/lists/linux-pci/msg138650.html is the upstream patch
-and may land in v6.4. WIll backport it when it's in mainline kernel.
+This series improves suspend/resume handling
+- check for error condition .suspend
+- avoid Timeout error and delay in .suspend
 
---=20
-You may reply to this email to add a comment.
+Changelog:
+v2:
+- rebase on greg/usb-next
+- split into 2 patches. Add Fixes tag and cc stable.
+- do not check for !softconnect in error condition in dwc3_gadget_suspend()
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Roger Quadros (2):
+  usb: dwc3: gadget: Avoid controller stop in .suspend if !softconnect
+  usb: dwc3: gadget: Improve dwc3_gadget_suspend() and
+    dwc3_gadget_resume()
+
+ drivers/usb/dwc3/gadget.c | 68 +++++++++++++++++++--------------------
+ 1 file changed, 34 insertions(+), 34 deletions(-)
+
+-- 
+2.34.1
+
