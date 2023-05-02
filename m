@@ -2,52 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBBD5C77B73
-	for <linux-usb@archiver.kernel.org>; Tue,  2 May 2023 03:37:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83845C7EE23
+	for <linux-usb@archiver.kernel.org>; Tue,  2 May 2023 05:05:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233271AbjEBDhY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 May 2023 23:37:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33034 "EHLO
+        id S233460AbjEBFFL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 May 2023 01:05:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232790AbjEBDhX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 May 2023 23:37:23 -0400
+        with ESMTP id S229379AbjEBFFK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 May 2023 01:05:10 -0400
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D7C19BB;
-        Mon,  1 May 2023 20:37:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F13F03ABB;
+        Mon,  1 May 2023 22:05:07 -0700 (PDT)
 Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 3423b3PX1017557, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 3423b3PX1017557
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 34254n3G2007207, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 34254n3G2007207
         (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-        Tue, 2 May 2023 11:37:03 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+        Tue, 2 May 2023 13:04:50 +0800
+Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Tue, 2 May 2023 11:36:58 +0800
-Received: from fc34.localdomain (172.22.228.98) by RTEXMBS04.realtek.com.tw
- (172.21.6.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.7; Tue, 2 May 2023
- 11:36:57 +0800
-From:   Hayes Wang <hayeswang@realtek.com>
-To:     <kuba@kernel.org>, <davem@davemloft.net>
-CC:     <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        Hayes Wang <hayeswang@realtek.com>
-Subject: [PATCH net] r8152: fix the autosuspend doesn't work
-Date:   Tue, 2 May 2023 11:36:27 +0800
-Message-ID: <20230502033627.2795-413-nic_swsd@realtek.com>
+ 15.1.2507.17; Tue, 2 May 2023 13:04:53 +0800
+Received: from RTEXH36506.realtek.com.tw (172.21.6.27) by
+ RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 2 May 2023 13:04:53 +0800
+Received: from localhost.localdomain (172.21.252.101) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server id
+ 15.1.2507.17 via Frontend Transport; Tue, 2 May 2023 13:04:53 +0800
+From:   Stanley Chang <stanley_chang@realtek.com>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+CC:     Stanley Chang <stanley_chang@realtek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>, <linux-usb@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 2/2] dt-bindings: usb: snps,dwc3: Add the compatible name 'snps,dwc3-rtk-soc'
+Date:   Tue, 2 May 2023 13:04:47 +0800
+Message-ID: <20230502050452.27276-2-stanley_chang@realtek.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230502050452.27276-1-stanley_chang@realtek.com>
+References: <20230502050452.27276-1-stanley_chang@realtek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [172.22.228.98]
-X-ClientProxiedBy: RTEXH36505.realtek.com.tw (172.21.6.25) To
- RTEXMBS04.realtek.com.tw (172.21.6.97)
-X-KSE-ServerInfo: RTEXMBS04.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-ServerInfo: RTEXMBS03.realtek.com.tw, 9
 X-KSE-AntiSpam-Interceptor-Info: fallback
 X-KSE-Antivirus-Interceptor-Info: fallback
 X-KSE-AntiSpam-Interceptor-Info: fallback
@@ -55,26 +56,45 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Set supports_autosuspend = 1 for the rtl8152_cfgselector_driver.
+Add a new compatible name 'snps,dwc3-rtk-soc' of DT for realtek dwc3
+core to adjust the global register start address
 
-Fixes: ec51fbd1b8a2 ("r8152: add USB device driver for config selection")
-Signed-off-by: Hayes Wang <hayeswang@realtek.com>
+The RTK DHC SoCs were designed, the global register address offset at
+0x8100. The default address offset is constant at DWC3_GLOBALS_REGS_START
+(0xc100). Therefore, add the compatible name of device-tree to specify
+the SoC custom's global register start address.
+
+Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
 ---
- drivers/net/usb/r8152.c | 1 +
+ v3 to v4 change:
+Use the compatible name to specify the global register address offset.
+If the compatible name is "snps,dwc3-rtk-soc", then the offset use 0x8100.
+Otherwise, the offset is default value 0xc100.
+
+ v2 to v3 change:
+1.  Fix the dtschema validation error.
+
+ v1 to v2 change:
+1. Change the name of the property "snps,global-regs-starting-offset".
+2. Adjust the format of comment.
+3. Add initial value of the global_regs_starting_offset
+4. Remove the log of dev_info.
+---
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 755b0f72dd44..0999a58ca9d2 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -9910,6 +9910,7 @@ static struct usb_device_driver rtl8152_cfgselector_driver = {
- 	.probe =	rtl8152_cfgselector_probe,
- 	.id_table =	rtl8152_table,
- 	.generic_subclass = 1,
-+	.supports_autosuspend = 1,
- };
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index 50edc4da780e..40d9a461ed93 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -33,6 +33,7 @@ properties:
+     contains:
+       oneOf:
+         - const: snps,dwc3
++        - const: snps,dwc3-rtk-soc
+         - const: synopsys,dwc3
+           deprecated: true
  
- static int __init rtl8152_driver_init(void)
 -- 
-2.40.0
+2.34.1
 
