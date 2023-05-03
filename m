@@ -2,139 +2,72 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58BE5C7EE23
-	for <linux-usb@archiver.kernel.org>; Wed,  3 May 2023 14:40:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02876C77B78
+	for <linux-usb@archiver.kernel.org>; Wed,  3 May 2023 14:56:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230284AbjECOkO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 May 2023 10:40:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60390 "EHLO
+        id S230053AbjECO4P (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 May 2023 10:56:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230149AbjECOkN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 May 2023 10:40:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ADF64ED2;
-        Wed,  3 May 2023 07:40:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CA8FB62E29;
-        Wed,  3 May 2023 14:40:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 292FCC433EF;
-        Wed,  3 May 2023 14:40:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683124811;
-        bh=8pMKmLc4xhbl/d8v0jF7pIE0f0XSP8XV5WPvs8RNh94=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jGe8wc2wdPxW4IWW+RScbyG2F6z8C9e4TAO/38yubQjbLiAcr7sh7MHOqCQiau/85
-         OlZ+khbWrTVZxAnPxrJwPbneaWwJAqw2SOGDSePYSWlUan9TJ3rkWUpYCKJDsXJOEc
-         tx5z6oS7tSunK+9FjDmBPl0e+cHXC2udTP0EyAIczAGxAnR2ut1n66JsxAElEzm9zE
-         S2MYLY9877kzNZefayPoe4qagN+KfzCrbsVjM2QYHcScW50eIyvPawZUePQbqHdca7
-         +zm3rs6qFSv+W+TuQkyrOybbwCPnxLJLsLstviXxxuIZF1Flx07ZYO2DSwQEHC9+dP
-         1k7DkB8HqrxdQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1puDeS-0007WX-SA; Wed, 03 May 2023 16:40:16 +0200
-Date:   Wed, 3 May 2023 16:40:16 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Krishna Kurapati <quic_kriskura@quicinc.com>
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        quic_pkondeti@quicinc.com, quic_ppratap@quicinc.com,
-        quic_jackp@quicinc.com, quic_harshq@quicinc.com,
-        ahalaney@redhat.com, quic_shazhuss@quicinc.com
-Subject: Re: [PATCH v7 7/9] arm64: dts: qcom: sc8280xp: Add multiport
- controller node for SC8280
-Message-ID: <ZFJyUPqED2q9R8v8@hovoldconsulting.com>
-References: <20230501143445.3851-1-quic_kriskura@quicinc.com>
- <20230501143445.3851-8-quic_kriskura@quicinc.com>
+        with ESMTP id S229701AbjECO4N (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 May 2023 10:56:13 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 276FC420B
+        for <linux-usb@vger.kernel.org>; Wed,  3 May 2023 07:56:12 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4edcc885d8fso6238855e87.1
+        for <linux-usb@vger.kernel.org>; Wed, 03 May 2023 07:56:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683125770; x=1685717770;
+        h=content-transfer-encoding:subject:to:from:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=/IH0bXTd7xM4TJ8FNuoToZkbq/2hYCkpo6CUgnIw9FM=;
+        b=baL1ifuCHo6ugTjfVgfQDngXo/lnjgBpfO/85+GP9SKM8GCkPo9dTh3n6sOeBivoIG
+         xSSrRj55XBLelFhZi0ovB3P3VE7tixzJ6byIMijTMSRSuukx0zCmvxpMTlQFWD3SO6dQ
+         casRvcRTQS4M62H65glZ3ZJL6hjOK1Xpj72r52gSmHBsnh2O+ONA67iIklrCV0vsHhp6
+         koVESUphh7eAIw4dwaG0eBI47Y45QH7Gba6rJT92ie42lCWxLg0HmHFCCcHU/JtTutvP
+         iUdCcLmZD3l74hVAsUUObwgiRy5L70Jj13oXCMCY/osjR1zKu+SXmUf9OEroPEYm3Bhd
+         0Fcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683125770; x=1685717770;
+        h=content-transfer-encoding:subject:to:from:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/IH0bXTd7xM4TJ8FNuoToZkbq/2hYCkpo6CUgnIw9FM=;
+        b=LlUVOO3S2LCmLHMWAvHXMwncKoComFctK5bUVxEHbCoeeS6ox7fHreFgEZ/qIci6XI
+         +WgeQzzmJILtf+04QKDX6+weozLh20WPpuTBPxA3vB5EPwgPrYLVLowC69tDBpt5jK7Q
+         LJXgRiAaL05+NpvBb+AddextCBazhilPHdXUX8D1FSWXZj++oiQ6N/TQfhYXPnvJ3xP5
+         iYU2bV6eIRkoMPFwffDVFHNcMIE1Xmf/as/R/WU+8e4vAF6eWRHhgHTCyzQZBIE4/r5I
+         f1aYm/aK4SsUhJl0hSojxj2f/0sEJiy4S3J+phqbr+rO4+v8tA2Vf0/TlV0ugLQ77f0O
+         BQZw==
+X-Gm-Message-State: AC+VfDwbwvleEl+crMbIYgR7UQ0RWvHVeSEJnuxcJF+9mWpb1LJ8Bqu1
+        rWUWmItF8muJHVRR07S/EYBkOzQhxg==
+X-Google-Smtp-Source: ACHHUZ6pV0tQ4dUNO01A2o7RBmn1ZuaF5dCemLo79NFzfcouiKbGdhtN8sMMnT3+v/n0/p0+hdr5Tw==
+X-Received: by 2002:a19:7616:0:b0:4e9:813e:409c with SMTP id c22-20020a197616000000b004e9813e409cmr969791lff.28.1683125770061;
+        Wed, 03 May 2023 07:56:10 -0700 (PDT)
+Received: from DESKTOP-BKF2J9E ([203.109.40.79])
+        by smtp.gmail.com with ESMTPSA id x24-20020a19f618000000b004db3e7dfb8csm6072101lfe.189.2023.05.03.07.56.09
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Wed, 03 May 2023 07:56:09 -0700 (PDT)
+Message-ID: <64527609.190a0220.2dfc5.14d5@mx.google.com>
+Date:   Wed, 03 May 2023 07:56:09 -0700 (PDT)
+X-Google-Original-Date: 3 May 2023 19:56:09 +0500
 MIME-Version: 1.0
+From:   antonialiu5320@gmail.com
+To:     linux-usb@vger.kernel.org
+Subject: Cost Estimation
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230501143445.3851-8-quic_kriskura@quicinc.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, May 01, 2023 at 08:04:43PM +0530, Krishna Kurapati wrote:
-> Add USB and DWC3 node for tertiary port of SC8280 along with multiport
-> IRQ's and phy's. This will be used as a base for SA8295P and SA8295-Ride
-> platforms.
-> 
-> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-> ---
->  arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 64 ++++++++++++++++++++++++++
->  1 file changed, 64 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-> index 8fa9fbfe5d00..0e4fb286956b 100644
-> --- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-> @@ -3133,6 +3133,70 @@ usb_1_role_switch: endpoint {
->  			};
->  		};
->  
-> +		usb_2: usb@a4f8800 {
-> +			compatible = "qcom,sc8280xp-dwc3-mp", "qcom,dwc3";
-> +			reg = <0 0x0a4f8800 0 0x400>;
-> +			#address-cells = <2>;
-> +			#size-cells = <2>;
-> +			ranges;
-> +
-> +			clocks = <&gcc GCC_CFG_NOC_USB3_MP_AXI_CLK>,
-> +				 <&gcc GCC_USB30_MP_MASTER_CLK>,
-> +				 <&gcc GCC_AGGRE_USB3_MP_AXI_CLK>,
-> +				 <&gcc GCC_USB30_MP_SLEEP_CLK>,
-> +				 <&gcc GCC_USB30_MP_MOCK_UTMI_CLK>,
-> +				 <&gcc GCC_AGGRE_USB_NOC_AXI_CLK>,
-> +				 <&gcc GCC_AGGRE_USB_NOC_NORTH_AXI_CLK>,
-> +				 <&gcc GCC_AGGRE_USB_NOC_SOUTH_AXI_CLK>,
-> +				 <&gcc GCC_SYS_NOC_USB_AXI_CLK>;
-> +			clock-names = "cfg_noc", "core", "iface", "sleep", "mock_utmi",
-> +				      "noc_aggr", "noc_aggr_north", "noc_aggr_south", "noc_sys";
-> +
-> +			assigned-clocks = <&gcc GCC_USB30_MP_MOCK_UTMI_CLK>,
-> +					  <&gcc GCC_USB30_MP_MASTER_CLK>;
-> +			assigned-clock-rates = <19200000>, <200000000>;
-> +
-> +			interrupts-extended = <&pdc 127 IRQ_TYPE_EDGE_RISING>,
-> +						<&pdc 126 IRQ_TYPE_EDGE_RISING>,
-> +						<&pdc 16 IRQ_TYPE_LEVEL_HIGH>,
-> +						<GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-> +						<GIC_SPI 135 IRQ_TYPE_LEVEL_HIGH>,
-> +						<GIC_SPI 857 IRQ_TYPE_LEVEL_HIGH>,
-> +						<GIC_SPI 856 IRQ_TYPE_LEVEL_HIGH>;
+=0D=0AHi,=0D=0A=0D=0AIt's  from Crown Estimation, LLC=0D=0A=0D=0A=
+We are specializing in full cost estimates and all related biddin=
+g services for all construction projects in all 50 states. We pro=
+vide our services for general and sub-contractors as well as owne=
+rs/developers, architects and engineers.=0D=0A =0D=0AFeel free to=
+ contact me if you have any query or you want to see our sample w=
+ork.=0D=0A=0D=0ABest Regards!=0D=0AAntonia Liu=0D=0AMarketing Man=
+ager=0D=0ACrown Estimation, LLC
 
-This looks wrong. You're missing the &intc phandle for the last four
-entries:
-
-  DTC     arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb
-/home/johan/work/linaro/src/linux/arch/arm64/boot/dts/qcom/sc8280xp.dtsi:3372.4-3378.17: Warning (interrupts_extended_property): /soc@0/usb@a4f8800:interrupts-extended: cell 10 is not a phandle reference
-/home/johan/work/linaro/src/linux/arch/arm64/boot/dts/qcom/sc8280xp.dtsi:3349.22-3411.5: Warning (interrupts_extended_property): /soc@0/usb@a4f8800: Missing property '#interrupt-cells' in node /soc@0/display-subsystem@ae00000/displayport-controller@aea0000/opp-table or bad phandle (referred from interrupts-extended[10])
-  also defined at /home/johan/work/linaro/src/linux/arch/arm64/boot/dts/qcom/sa8540p-ride.dts:312.8-317.3
-/home/johan/work/linaro/src/linux/arch/arm64/boot/dts/qcom/sc8280xp.dtsi:3372.4-3378.17: Warning (interrupts_extended_property): /soc@0/usb@a4f8800:interrupts-extended: cell 10 is not a phandle reference
-/home/johan/work/linaro/src/linux/arch/arm64/boot/dts/qcom/sc8280xp.dtsi:3349.22-3411.5: Warning (interrupts_extended_property): /soc@0/usb@a4f8800: Missing property '#interrupt-cells' in node /soc@0/display-subsystem@ae00000/displayport-controller@ae9a000/ports/port@0/endpoint or bad phandle (referred from interrupts-extended[10])
-  also defined at /home/johan/work/linaro/src/linux/arch/arm64/boot/dts/qcom/sa8295p-adp.dts:587.8-594.3
-/home/johan/work/linaro/src/linux/arch/arm64/boot/dts/qcom/sc8280xp.dtsi:3372.4-3378.17: Warning (interrupts_extended_property): /soc@0/usb@a4f8800:interrupts-extended: cell 10 is not a phandle reference
-/home/johan/work/linaro/src/linux/arch/arm64/boot/dts/qcom/sc8280xp.dtsi:3349.22-3411.5: Warning (interrupts_extended_property): /soc@0/usb@a4f8800: Missing property '#interrupt-cells' in node /interconnect-mmss-noc or bad phandle (referred from interrupts-extended[10])
-/home/johan/work/linaro/src/linux/arch/arm64/boot/dts/qcom/sc8280xp.dtsi:3372.4-3378.17: Warning (interrupts_extended_property): /soc@0/usb@a4f8800:interrupts-extended: cell 10 is not a phandle reference
-/home/johan/work/linaro/src/linux/arch/arm64/boot/dts/qcom/sc8280xp.dtsi:3349.22-3411.5: Warning (interrupts_extended_property): /soc@0/usb@a4f8800: Missing property '#interrupt-cells' in node /soc@0/phy@88e7000 or bad phandle (referred from interrupts-extended[10])
-
-> +			interrupt-names = "dp_hs_phy_irq", "dm_hs_phy_irq",
-> +						"ss_phy_irq", "pwr_event_1",
-> +						"pwr_event_2", "pwr_event_3",
-> +						"pwr_event_4";
-
-Also the order does not match the binding where you had the pwr_event
-interrupts first.
-
-Johan
