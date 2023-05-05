@@ -2,150 +2,123 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5344DC77B7F
-	for <linux-usb@archiver.kernel.org>; Fri,  5 May 2023 17:57:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D335C77B75
+	for <linux-usb@archiver.kernel.org>; Fri,  5 May 2023 17:58:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232149AbjEER5r (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 May 2023 13:57:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57036 "EHLO
+        id S231623AbjEER6x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 May 2023 13:58:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233158AbjEER5l (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 May 2023 13:57:41 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E3BB1C0CB
-        for <linux-usb@vger.kernel.org>; Fri,  5 May 2023 10:57:38 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-50bcb4a81ceso3653190a12.2
-        for <linux-usb@vger.kernel.org>; Fri, 05 May 2023 10:57:37 -0700 (PDT)
+        with ESMTP id S231326AbjEER6w (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 May 2023 13:58:52 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF074ED
+        for <linux-usb@vger.kernel.org>; Fri,  5 May 2023 10:58:50 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4f13bfe257aso2374279e87.3
+        for <linux-usb@vger.kernel.org>; Fri, 05 May 2023 10:58:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683309456; x=1685901456;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aC6upq4hMnuQ8SDIGcpvAAUjMMnLUmqc58zEeP4t4Dg=;
-        b=VLIbAU0K5WFem2Y/yQX84tVRz/1uUf7LH5Y2T7SdXicBb5FPoP7R6jDWUVB/XER0/D
-         J75neyb1+Wz5P3WKSHX6sAkbH7OCxHXFu3rVanDupHSK04oRQ4Y7MDV8MwLJUet20sXP
-         MxnZHbt6eBokbce4N4nIPY3WZraaKMuJDthewUheDXuV1ZluwvJnXJzNZhLsbPweBJ4h
-         U1xMTDSZzdiVFMeDz/AmPAFz6Mu15VmY5uuw3saJVx0TWabJktQzAWkEwk5Ch8ozcS1e
-         eHjMkL15JKLM6NK0v6N9a2cH+hBEF1OLvrEk9GwvO/7RcB0zb0kNrPyWnlmqAsTn11VR
-         wP+g==
+        d=linaro.org; s=google; t=1683309529; x=1685901529;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=C8N9Yr+zLlSevy06onPb6pPa3VVo3y3jk+4XaNqiZBs=;
+        b=Ep4smO9t15h10cTBiNTowus3FNEFVdq8TQ5k5C4I9TBLRDvmCLgQcMSJKSK2VSVx2L
+         z6ycSu3yzMLvuBl1lJAGuNUlVsAzvS3LigR7xnGAl72euR414h9HNMqUKUR43prLO7d7
+         Of9UklOY/c9zTD/IH4loimwktA+5X34ygCTB1/X2ATsJx7yAIhFydj0uy+yWIq0y5GN4
+         N/BdwcuiFenaZKzlRfCJ5LQp4lFeDIvp5n3jj+G83wv+CtKfrkZQIqGyjMXOx29aZS1S
+         anzfg+ldY+q+LqWQTCAfAqS/nZIWvpBwoQbSBE+vjtA7vkapYkNHVAQQr7IbG5AVPKxz
+         cVUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683309456; x=1685901456;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1683309529; x=1685901529;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aC6upq4hMnuQ8SDIGcpvAAUjMMnLUmqc58zEeP4t4Dg=;
-        b=XhCrzyoI2kh3OpDt3tK+HR5mipq05B35M1PhU90zMo+SXr1XG//nJ6VIocrzw2rxha
-         L0nfnNPen7Mm8LdafuGIJRg5cbnZQEEU8wiP+F2/L8wkrPNdZQOLpiqQM6rOh5Cw2lGl
-         FtlNPOPZO+nLX2da5A1v0PHOYUnyLjSm8yM0UzjmGomA22tU9CB42ojnAa/6lXXazUho
-         l9oJmxgUDZCuDkQ4pa8JAFGlJhVouVzc+GkFWO0oz93R3ZpZ6Y+Ym7Nd1xdO5id2QfC/
-         vIqlCPycna2yhFAFBi7rrT/f2rZqRKLj8liO2Rp0vBkJ2Y/x8gXu1ZIb6neoPuHlFs4P
-         j4Cw==
-X-Gm-Message-State: AC+VfDyD5++pyGC5Q+ebnYfYGwmO+5CB7xdOswwNazl4dilerYmYc8Ch
-        FWJ5XWkUxLgM27dKg3pZltXQdA==
-X-Google-Smtp-Source: ACHHUZ4y13Pa+Discnufl5zTqukvbc2ENAxRhITb8VPA5/sIzeO3nCWwcl/w/z24ZPUR895/9Xh1QA==
-X-Received: by 2002:a50:e602:0:b0:50b:c56a:feec with SMTP id y2-20020a50e602000000b0050bc56afeecmr2053950edm.17.1683309456398;
-        Fri, 05 May 2023 10:57:36 -0700 (PDT)
+        bh=C8N9Yr+zLlSevy06onPb6pPa3VVo3y3jk+4XaNqiZBs=;
+        b=SS4THsVI9qQciwEoCABB+KG2WObsW0hRLFGPBMN2l6tN/NPVIrs67hzI6qzmntySol
+         mdPQt4bzT1wq7SlvOexiWNx36zSz3hgs0PPtYFH+qBCxIXS9QLEFpn/VoSqNr66sWclc
+         gLMzQpu1u/pCRRbB/ezfhjdbikfSA+dJWxFuuqUTQTc2vHh3dR1creCuJ9u90ecoB/UL
+         iyr7yO9PEawAKrqaj07ZQYUdkGQ8Eupw8iz3ILHZuhf9+I+7yaV88n/OT2ASR94ABw3J
+         TuJuI/mcWuzTJsrnRLB/q3wzCrk59KTlLPlG/Q8hRj/E2Wp5Pw3y6w7Olgf0kMSVbYiB
+         I1Tw==
+X-Gm-Message-State: AC+VfDzCfycEBZMe6k2DuNzeao9XpXlZCGdHKqw7q+iRWJhfoWLOPIe2
+        1perQmz8u8Cm0AojUrXteXpEp1dbl2RARGVumc2BXQ==
+X-Google-Smtp-Source: ACHHUZ5YVY8N0DzX6h9cm4JNuQQzxfsGQgQZKNrnF1+roP7Bz5pge3isOtPrJreeZ48Xm5hU0N/W/g==
+X-Received: by 2002:a05:6402:1343:b0:50b:caf9:4b85 with SMTP id y3-20020a056402134300b0050bcaf94b85mr2026314edw.18.1683308794939;
+        Fri, 05 May 2023 10:46:34 -0700 (PDT)
 Received: from ?IPV6:2a02:810d:15c0:828:52e:24ce:bbc1:127d? ([2a02:810d:15c0:828:52e:24ce:bbc1:127d])
-        by smtp.gmail.com with ESMTPSA id s16-20020aa7d790000000b0050a276e7ba8sm3106378edq.36.2023.05.05.10.57.35
+        by smtp.gmail.com with ESMTPSA id s3-20020a056402014300b0050d83a39e6fsm286383edu.4.2023.05.05.10.46.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 May 2023 10:57:35 -0700 (PDT)
-Message-ID: <6dc848f9-9955-5785-246e-53371d0a274d@linaro.org>
-Date:   Fri, 5 May 2023 19:57:34 +0200
+        Fri, 05 May 2023 10:46:33 -0700 (PDT)
+Message-ID: <ccee82e5-96d1-1275-8fe3-73ccc81db11a@linaro.org>
+Date:   Fri, 5 May 2023 19:46:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.1
-Subject: Re: [PATCH v4 2/5] dt-bindings: soc: qcom: eud: Add SM6115 / SM4250
- support
+Subject: Re: [PATCH v10 2/9] dt-bindings: phy: qcom,qmp-usb: Add IPQ9574 USB3
+ PHY
+To:     Varadarajan Narayanan <quic_varada@quicinc.com>, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org, vkoul@kernel.org,
+        kishon@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+        mturquette@baylibre.com, sboyd@kernel.org, quic_wcheng@quicinc.com,
+        linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-clk@vger.kernel.org
+References: <cover.1683183860.git.quic_varada@quicinc.com>
+ <10b8b06f133c72415a609e6bc6595424712e029e.1683183860.git.quic_varada@quicinc.com>
 Content-Language: en-US
-To:     Bhupesh Sharma <bhupesh.sharma@linaro.org>
-Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, linux-kernel@vger.kernel.org,
-        bhupesh.linux@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org
-References: <20230505064039.1630025-1-bhupesh.sharma@linaro.org>
- <20230505064039.1630025-3-bhupesh.sharma@linaro.org>
- <fe326d38-ee52-b0a4-21d8-f00f22449417@linaro.org>
- <CAH=2NtyqZVVwqk1FsCGrsGn25wxvzuhV-3z+q=5+JmpOoNm-vQ@mail.gmail.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAH=2NtyqZVVwqk1FsCGrsGn25wxvzuhV-3z+q=5+JmpOoNm-vQ@mail.gmail.com>
+In-Reply-To: <10b8b06f133c72415a609e6bc6595424712e029e.1683183860.git.quic_varada@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 05/05/2023 18:31, Bhupesh Sharma wrote:
-> HI Krzysztof,
+On 05/05/2023 09:35, Varadarajan Narayanan wrote:
+> * Add dt-bindings for USB3 PHY found on Qualcomm IPQ9574
 > 
-> On Fri, 5 May 2023 at 21:54, Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->>
->> On 05/05/2023 08:40, Bhupesh Sharma wrote:
->>> Add dt-bindings for EUD found on Qualcomm SM6115 / SM4250 SoC.
->>>
->>> On this SoC (and derivatives) the enable bit inside 'tcsr_check_reg'
->>> needs to be set first to 'enable' the eud module.
->>>
->>> So, update the dt-bindings to accommodate the third register
->>> property (TCSR Base) required by the driver on these SoCs.
->>>
->>> Also for these SoCs, introduce a new bool property
->>> 'qcom,secure-mode-enable', which indicates that the mode manager
->>> needs to be accessed only via the secure world.
->>>
->>> Signed-off-by: Bhupesh Sharma <bhupesh.sharma@linaro.org>
->>> ---
->>>  .../devicetree/bindings/soc/qcom/qcom,eud.yaml   | 16 ++++++++++++++++
->>>  1 file changed, 16 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
->>> index f2c5ec7e6437..3b92cdf4e306 100644
->>> --- a/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
->>> +++ b/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
->>> @@ -18,17 +18,33 @@ properties:
->>>      items:
->>>        - enum:
->>>            - qcom,sc7280-eud
->>> +          - qcom,sm6115-eud
->>>        - const: qcom,eud
->>>
->>>    reg:
->>> +    minItems: 2
->>>      items:
->>>        - description: EUD Base Register Region
->>>        - description: EUD Mode Manager Register
->>> +      - description: TCSR Base Register Region
->>> +
->>> +  reg-names:
->>> +    minItems: 2
->>> +    items:
->>> +      - const: eud-base
->>> +      - const: eud-mode-mgr
->>> +      - const: tcsr-base
->>>
->>>    interrupts:
->>>      description: EUD interrupt
->>>      maxItems: 1
->>>
->>> +  qcom,secure-mode-enable:
->>> +    type: boolean
->>> +    description:
->>> +      Indicates that the mode manager needs to be accessed only via the secure
->>> +      world (through 'scm' calls).
->>
->> I understood tcsr-base aplies only to SM6115, so this should be further
->> constrained in allOf:if:then:.
+> * Making power-domains as optional since IPQ9574 doesn't have GDSCs
 > 
-> Please refer to my reply to your query in another review.
-> I can see that secure access to mode_mgr register via TCSR will be
-> exposed by other Qualcomm SoCs as well (from the available EUD
-> documentation). So, maybe keeping it generic instead of limiting it to
-> sm6115 only would be more useful, for future changes.
 
-Your reply does not say that qcom,sc7280-eud uses it, so I don't
-understand. This is not valid to qcom,sc7280-eud, so allowing it there
-is not correct.
+
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,ipq9574-qmp-usb3-phy
+> +    then:
+> +      properties:
+> +        clock-names:
+> +          items:
+> +            - const: aux
+> +            - const: ref
+> +            - const: cfg_ahb
+> +            - const: pipe
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,sc8280xp-qmp-usb3-uni-phy
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 4
+> +        clock-names:
+> +          items:
+> +            - const: aux
+> +            - const: ref
+> +            - const: com_aux
+> +            - const: pipe
+
+required:
+  - power-domains
+
 
 Best regards,
 Krzysztof
