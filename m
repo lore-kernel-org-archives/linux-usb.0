@@ -2,219 +2,81 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4719FC77B75
-	for <linux-usb@archiver.kernel.org>; Sat,  6 May 2023 03:38:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 852E0C7EE21
+	for <linux-usb@archiver.kernel.org>; Sat,  6 May 2023 04:14:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229816AbjEFDix (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 May 2023 23:38:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41368 "EHLO
+        id S229693AbjEFEO6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 6 May 2023 00:14:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjEFDiv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 May 2023 23:38:51 -0400
-Received: from mx1.zhaoxin.com (MX1.ZHAOXIN.COM [210.0.225.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 836165BA5
-        for <linux-usb@vger.kernel.org>; Fri,  5 May 2023 20:38:48 -0700 (PDT)
-X-ASG-Debug-ID: 1683344322-086e237e53681e0001-YVMibp
-Received: from ZXSHMBX3.zhaoxin.com (ZXSHMBX3.zhaoxin.com [10.28.252.165]) by mx1.zhaoxin.com with ESMTP id fBt37mRKNQNNOLBX (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Sat, 06 May 2023 11:38:43 +0800 (CST)
-X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.165
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX3.zhaoxin.com
- (10.28.252.165) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Sat, 6 May
- 2023 11:38:42 +0800
-Received: from [10.29.8.21] (10.29.8.21) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Sat, 6 May
- 2023 11:38:41 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.165
-Message-ID: <6fc202dd-9dcf-187e-98dc-abd034874655@zhaoxin.com>
-X-Barracuda-RBL-Trusted-Forwarder: 10.29.8.21
-Date:   Sat, 6 May 2023 19:38:39 +0800
+        with ESMTP id S229446AbjEFEO5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 6 May 2023 00:14:57 -0400
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7356476A1;
+        Fri,  5 May 2023 21:14:54 -0700 (PDT)
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 3464Ee0oA002832, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 3464Ee0oA002832
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+        Sat, 6 May 2023 12:14:41 +0800
+Received: from RTEXMBS06.realtek.com.tw (172.21.6.99) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Sat, 6 May 2023 12:14:46 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Sat, 6 May 2023 12:14:45 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
+ RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
+ 15.01.2375.007; Sat, 6 May 2023 12:14:45 +0800
+From:   =?utf-8?B?U3RhbmxleSBDaGFuZ1vmmIzogrLlvrdd?= 
+        <stanley_chang@realtek.com>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v6] usb: dwc3: core: add support for realtek SoCs custom's global register start address
+Thread-Topic: [PATCH v6] usb: dwc3: core: add support for realtek SoCs
+ custom's global register start address
+Thread-Index: AQHZfvxzwn149jVs0EaS9yoI48utba9L8vMAgACxUKA=
+Date:   Sat, 6 May 2023 04:14:45 +0000
+Message-ID: <c2ddb17c182a42be9fc22afa85669695@realtek.com>
+References: <20230505025104.18321-1-stanley_chang@realtek.com>
+ <20230506013842.7iu4hq35uyamt6np@synopsys.com>
+In-Reply-To: <20230506013842.7iu4hq35uyamt6np@synopsys.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.190.159]
+x-kse-serverinfo: RTEXMBS06.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 3/4] xhci: Show zhaoxin xHCI root hub speed correctly
-Content-Language: en-US
-X-ASG-Orig-Subj: Re: [PATCH v2 3/4] xhci: Show zhaoxin xHCI root hub speed correctly
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <tonywwang@zhaoxin.com>, <weitaowang@zhaoxin.com>
-References: <20230421203853.387210-1-WeitaoWang-oc@zhaoxin.com>
- <20230421203853.387210-4-WeitaoWang-oc@zhaoxin.com>
- <f6689241-9749-28a2-6da4-842f3253c678@linux.intel.com>
-From:   "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
-In-Reply-To: <f6689241-9749-28a2-6da4-842f3253c678@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.29.8.21]
-X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-X-Barracuda-Connect: ZXSHMBX3.zhaoxin.com[10.28.252.165]
-X-Barracuda-Start-Time: 1683344322
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.35:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 7025
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
-X-Barracuda-Spam-Score: 1.09
-X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.108386
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
-        3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
+X-KSE-AntiSpam-Interceptor-Info: fallback
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2023/5/5 18:52, Mathias Nyman wrote:
-> On 21.4.2023 23.38, Weitao Wang wrote:
->> Some zhaoxin xHCI controllers follow usb3.1 spec,
->> but only support gen1 speed 5G. While in Linux kernel,
->> if xHCI suspport usb3.1,root hub speed will show on 10G.
->> To fix this issue of zhaoxin xHCI platforms, read usb speed ID
->> supported by xHCI to determine root hub speed.
->>
->> Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
->> ---
->>   drivers/usb/host/xhci.c | 22 ++++++++++++++++++++++
->>   1 file changed, 22 insertions(+)
->>
->> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
->> index 6307bae9cddf..31d6ace9cace 100644
->> --- a/drivers/usb/host/xhci.c
->> +++ b/drivers/usb/host/xhci.c
->> @@ -5294,6 +5294,7 @@ static void xhci_hcd_init_usb2_data(struct xhci_hcd *xhci, struct 
->> usb_hcd *hcd)
->>   static void xhci_hcd_init_usb3_data(struct xhci_hcd *xhci, struct usb_hcd *hcd)
->>   {
->>       unsigned int minor_rev;
->> +    unsigned int i, j;
->>       /*
->>        * Early xHCI 1.1 spec did not mention USB 3.1 capable hosts
->> @@ -5323,6 +5324,27 @@ static void xhci_hcd_init_usb3_data(struct xhci_hcd *xhci, struct 
->> usb_hcd *hcd)
->>           hcd->self.root_hub->ssp_rate = USB_SSP_GEN_2x1;
->>           break;
->>       }
->> +
->> +    /* Usb3.1 has gen1 and gen2, Some zhaoxin's xHCI controller
->> +     * that follow usb3.1 spec but only support gen1.
->> +     */
->> +    if (xhci->quirks & XHCI_ZHAOXIN_HOST) {
->> +        minor_rev = 0;
->> +        for (j = 0; j < xhci->num_port_caps; j++) {
->> +            for (i = 0; i < xhci->port_caps[j].psi_count; i++) {
->> +                if (XHCI_EXT_PORT_PSIV(xhci->port_caps[j].psi[i]) >= 5) {
->> +                    minor_rev = 1;
->> +                    break;
->> +                }
->> +            }
->> +            if (minor_rev)
->> +                break;
->> +        }
->> +        if (minor_rev != 1) {
->> +            hcd->speed = HCD_USB3;
->> +            hcd->self.root_hub->speed = USB_SPEED_SUPER;
->> +        }
->> +    }
->>       xhci_info(xhci, "Host supports USB 3.%x %sSuperSpeed\n",
->>             minor_rev, minor_rev ? "Enhanced " : "");
-> 
-> How about checking if port support over 5Gbps (psiv >= 5) when we parse the protocol speed ID
-> entries the first time? This way we could avoid looping through all the port_cap psiv values.
-> 
-> Something like:
-> 
-> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-> index c4170421bc9c..2e4c80eb4972 100644
-> --- a/drivers/usb/host/xhci-mem.c
-> +++ b/drivers/usb/host/xhci-mem.c
-> @@ -1961,7 +1961,7 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int 
-> num_ports,
->   {
->          u32 temp, port_offset, port_count;
->          int i;
-> -       u8 major_revision, minor_revision;
-> +       u8 major_revision, minor_revision, tmp_minor_revision;
->          struct xhci_hub *rhub;
->          struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
->          struct xhci_port_cap *port_cap;
-> @@ -1981,6 +1981,11 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int 
-> num_ports,
->                   */
->                  if (minor_revision > 0x00 && minor_revision < 0x10)
->                          minor_revision <<= 4;
-> +               if (xhci->quirks & XHCI_ZHAOXIN_HOST) {
-> +                       tmp_minor_revision = minor_revision;
-> +                       minor_revision = 0;
-> +               }
-> +
->          } else if (major_revision <= 0x02) {
->                  rhub = &xhci->usb2_rhub;
->          } else {
-> @@ -1989,10 +1994,6 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int 
-> num_ports,
->                  /* Ignoring port protocol we can't understand. FIXME */
->                  return;
->          }
-> -       rhub->maj_rev = XHCI_EXT_PORT_MAJOR(temp);
-> -
-> -       if (rhub->min_rev < minor_revision)
-> -               rhub->min_rev = minor_revision;
-> 
->          /* Port offset and count in the third dword, see section 7.2 */
->          temp = readl(addr + 2);
-> @@ -2010,8 +2011,6 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int 
-> num_ports,
->          if (xhci->num_port_caps > max_caps)
->                  return;
-> 
-> -       port_cap->maj_rev = major_revision;
-> -       port_cap->min_rev = minor_revision;
->          port_cap->psi_count = XHCI_EXT_PORT_PSIC(temp);
-> 
->          if (port_cap->psi_count) {
-> @@ -2032,6 +2031,10 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int 
-> num_ports,
->                                    XHCI_EXT_PORT_PSIV(port_cap->psi[i - 1])))
->                                  port_cap->psi_uid_count++;
-> 
-> +                       if (xhci->quirks & XHCI_ZHAOXIN_HOST &&
-> +                           XHCI_EXT_PORT_PSIV(port_cap->psi[i]) >= 5)
-> +                               minor_revision = tmp_minor_revision;
-> +
->                          xhci_dbg(xhci, "PSIV:%d PSIE:%d PLT:%d PFD:%d LP:%d PSIM:%d\n",
->                                    XHCI_EXT_PORT_PSIV(port_cap->psi[i]),
->                                    XHCI_EXT_PORT_PSIE(port_cap->psi[i]),
-> @@ -2041,6 +2044,15 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int 
-> num_ports,
->                                    XHCI_EXT_PORT_PSIM(port_cap->psi[i]));
->                  }
->          }
-> +
-> +       rhub->maj_rev = major_revision;
-> +
-> +       if (rhub->min_rev < minor_revision)
-> +               rhub->min_rev = minor_revision;
-> +
-> +       port_cap->maj_rev = major_revision;
-> +       port_cap->min_rev = minor_revision;
-> +
-
-This patch solution is effective and concise. Thanks for your suggestion.
-I'll adopt it in next patch version after other patches of this patch set
-are reviewed or suggested.
-
-Best Regards,
-Weitao
->          /* cache usb2 port capabilities */
->          if (major_revision < 0x03 && xhci->num_ext_caps < max_caps)
->                  xhci->ext_caps[xhci->num_ext_caps++] = temp;
-> 
-> Thanks
-> Mathias
-> .
+SGkgVGhpbmgsDQoNCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZHdjMy9jb3JlLmMgYi9k
+cml2ZXJzL3VzYi9kd2MzL2NvcmUuYyBpbmRleA0KPiA+IDBiZWFhYjkzMmU3ZC4uMjc4Y2QxYzMz
+ODQxIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvdXNiL2R3YzMvY29yZS5jDQo+ID4gKysrIGIv
+ZHJpdmVycy91c2IvZHdjMy9jb3JlLmMNCj4gPiBAQCAtMTgwMCw2ICsxODAwLDE3IEBAIHN0YXRp
+YyBpbnQgZHdjM19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlDQo+ICpwZGV2KQ0KPiA+ICAg
+ICAgIGR3Y19yZXMgPSAqcmVzOw0KPiA+ICAgICAgIGR3Y19yZXMuc3RhcnQgKz0gRFdDM19HTE9C
+QUxTX1JFR1NfU1RBUlQ7DQo+ID4NCj4gPiArICAgICBpZiAoZGV2LT5vZl9ub2RlKSB7DQo+ID4g
+KyAgICAgICAgICAgICBzdHJ1Y3QgZGV2aWNlX25vZGUgKnBhcmVudCA9DQo+ID4gKyBvZl9nZXRf
+cGFyZW50KGRldi0+b2Zfbm9kZSk7DQo+ID4gKw0KPiA+ICsgICAgICAgICAgICAgaWYgKG9mX2Rl
+dmljZV9pc19jb21wYXRpYmxlKHBhcmVudCwgInJlYWx0ZWsscnRkLWR3YzMiKSkNCj4gPiArIHsN
+Cj4gDQo+IElzIHlvdXIgcGxhdGZvcm0gYWxyZWFkeSByZWxlYXNlZCBvciBpcyBpdCBzdGlsbCB1
+bmRlciBkZXZlbG9wbWVudD8gSnVzdCBjdXJpb3VzDQo+IHNpbmNlIHRoZSBjb21wYXRpYmxlIHN0
+cmluZyBpc24ndCBmaXhlZC4gSXMgaXQgZ29pbmcgdG8gYmUgY2hhbmdlZCBpbiB0aGUgZnV0dXJl
+Pw0KDQpZZXMsIG91ciBwbGF0Zm9ybSBpcyByZWxlYXNlZC4NCkluIG91ciBkcml2ZXIgKHRoZSBw
+YXJlbnQgb2YgdGhlIGR3YzMgZHJpdmVyKSwgd2UgdXNlZCB0aGUgY29tcGF0aWJsZSBuYW1lICJS
+ZWFsdGVrLGR3YzMiLg0KVG8gc3VwcG9ydCB0aGlzIHBhdGNoLCBJIHdpbGwgYWRkIGFuIGFsdGVy
+bmF0aXZlIG5hbWUgIlJlYWx0ZWsscnRkLWR3YzMiIHRvIG91ciBkcml2ZXIuDQoNClRoYW5rcywN
+ClN0YW5sZXkNCg==
