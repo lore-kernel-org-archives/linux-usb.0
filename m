@@ -2,135 +2,81 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21F6DC77B7F
-	for <linux-usb@archiver.kernel.org>; Sat,  6 May 2023 11:33:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEA54C77B75
+	for <linux-usb@archiver.kernel.org>; Sat,  6 May 2023 12:15:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232208AbjEFLdb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 6 May 2023 07:33:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54870 "EHLO
+        id S231986AbjEFMPs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 6 May 2023 08:15:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232243AbjEFLd2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 6 May 2023 07:33:28 -0400
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E38BC76B3
-        for <linux-usb@vger.kernel.org>; Sat,  6 May 2023 04:33:22 -0700 (PDT)
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-55a83e80262so41470057b3.3
-        for <linux-usb@vger.kernel.org>; Sat, 06 May 2023 04:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683372802; x=1685964802;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MrqXLh+CItgFF8Zvf5m1YwKEXaRzb+PkDECyM11LKHc=;
-        b=MkpaBYkwpacXiQBX9wyxjvYYFhGVLUxRS4ZMAZXGcRR4Luhc/XHR5TCixlZ+4iPdcy
-         08I6/h04LJUx9ANZTDKYso31rEC8zHUN+eWh+w+zXvWsSdzKFKAU44kGggGZ3ExZA3Em
-         hPJvpUvN4N8e7S2oceXGmbgHY9t0KQ+c68+WTq6CDPrcNFWg4BSOETxEi1jkXITVOOlS
-         NkiUIK1GH5LidQIvdm85bwzlz4aDpBuInpuGoeFMEwpoeHcvvUAEaQpIK7srb9HUbuES
-         z+AxvQh6HxFy6TgIntSemLXYwPHU6pgBJtGyWoKpdgptPTpJ1WivKjv7FfWwJ9dMWhf2
-         W/4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683372802; x=1685964802;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MrqXLh+CItgFF8Zvf5m1YwKEXaRzb+PkDECyM11LKHc=;
-        b=dkv7jEn0RcSZqaXB5mdFHg/XeK3lu8LTUklzyu5IAeQ7mlFRR2igAEv7ineEbcBCtO
-         71X7cgNzIiZaLlk+RtNhFEMb7DQY99BJnmj4Mp78nT7jsnHl2Oc725BdnpD3JNqk3Ieq
-         HuWCXdVAhoiHmHgXrLf9ciB/vPyI9V3DtjbFj5EO5/30C2FS1USaelc7FXlElfRdqiel
-         T9NmhSnOZevv7m4yLuVcjNMrMmxLBoPAsmGq/xeuss7KtMsSUiFA356Zfw3xWOKSPUjo
-         yBP+/dsibiinuEZSDRHW35DrfJldGE7YU6GSMrWHijmJxUHq0XSNrXJSbhXjlXz3Xlpy
-         HrlA==
-X-Gm-Message-State: AC+VfDyLjgYCTYhV7rCojfEXQi7BLqHNMpzkb953akdLg9HEoJRfZuii
-        ZYtv4TG/ouWymEZ5UQ1yjMq/PJUeKTf21Ctzhgy6Cg==
-X-Google-Smtp-Source: ACHHUZ7fly9ZcKfeuDxgPgDWv+YnXLTE4ah466Q9irFBlHZd5XhcGu/UinZknE20fN8kbaJnxJSwuRR/WUWwRP2VVzc=
-X-Received: by 2002:a0d:d487:0:b0:55a:5dce:aa19 with SMTP id
- w129-20020a0dd487000000b0055a5dceaa19mr4648937ywd.51.1683372802023; Sat, 06
- May 2023 04:33:22 -0700 (PDT)
+        with ESMTP id S231738AbjEFMPq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 6 May 2023 08:15:46 -0400
+Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F63D1385B
+        for <linux-usb@vger.kernel.org>; Sat,  6 May 2023 05:15:43 -0700 (PDT)
+X-ASG-Debug-ID: 1683375338-1eb14e6386684a0001-YVMibp
+Received: from ZXSHMBX2.zhaoxin.com (ZXSHMBX2.zhaoxin.com [10.28.252.164]) by mx2.zhaoxin.com with ESMTP id 74sUtzsctUhxTJ9q (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Sat, 06 May 2023 20:15:38 +0800 (CST)
+X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX2.zhaoxin.com
+ (10.28.252.164) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Sat, 6 May
+ 2023 20:15:38 +0800
+Received: from L440.zhaoxin.com (10.29.8.21) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Sat, 6 May
+ 2023 20:15:37 +0800
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
+From:   Weitao Wang <WeitaoWang-oc@zhaoxin.com>
+X-Barracuda-RBL-Trusted-Forwarder: 10.29.252.163
+To:     <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <tonywwang@zhaoxin.com>, <weitaowang@zhaoxin.com>
+Subject: [PATCH v3 0/4] Fix some issues of xHCI for zhaoxin
+Date:   Sun, 7 May 2023 04:15:32 +0800
+X-ASG-Orig-Subj: [PATCH v3 0/4] Fix some issues of xHCI for zhaoxin
+Message-ID: <20230506201536.7362-1-WeitaoWang-oc@zhaoxin.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <cover.1683183860.git.quic_varada@quicinc.com> <8894bf2c44eaf4959c7a1966b66229e6cf5cda96.1683183860.git.quic_varada@quicinc.com>
- <CAA8EJppvj2nzqwdsC+Xct4cJg2-_yPpiGDELjHJG4HyAH3zGMA@mail.gmail.com> <20230506110918.GC10918@varda-linux.qualcomm.com>
-In-Reply-To: <20230506110918.GC10918@varda-linux.qualcomm.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Sat, 6 May 2023 14:33:11 +0300
-Message-ID: <CAA8EJpqg2htfa2QZ7q6SP58N5YAABa8knBn4c5eYqYOU6HQNiA@mail.gmail.com>
-Subject: Re: [PATCH v10 8/9] arm64: dts: qcom: ipq9574: Add LDO regulator node
-To:     Varadarajan Narayanan <quic_varada@quicinc.com>
-Cc:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        vkoul@kernel.org, kishon@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
-        mturquette@baylibre.com, sboyd@kernel.org, quic_wcheng@quicinc.com,
-        linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.29.8.21]
+X-ClientProxiedBy: zxbjmbx1.zhaoxin.com (10.29.252.163) To
+ zxbjmbx1.zhaoxin.com (10.29.252.163)
+X-Barracuda-Connect: ZXSHMBX2.zhaoxin.com[10.28.252.164]
+X-Barracuda-Start-Time: 1683375338
+X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
+X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at zhaoxin.com
+X-Barracuda-Scan-Msg-Size: 570
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.0804 1.0000 -1.5111
+X-Barracuda-Spam-Score: 1.60
+X-Barracuda-Spam-Status: No, SCORE=1.60 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.108401
+        Rule breakdown below
+         pts rule name              description
+        ---- ---------------------- --------------------------------------------------
+        0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
+        3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, 6 May 2023 at 14:09, Varadarajan Narayanan
-<quic_varada@quicinc.com> wrote:
->
-> On Fri, May 05, 2023 at 12:29:54PM +0300, Dmitry Baryshkov wrote:
-> > On Fri, 5 May 2023 at 11:23, Varadarajan Narayanan
-> > <quic_varada@quicinc.com> wrote:
-> > >
-> > > Add LDO regulator node
-> >
-> > As this LDO is provided by the PMIC, it would be nice to know why it
-> > is modelled as an always-on regulator instead of the proper PMIC
-> > regulator. Up to now we were doing this only for the outstanding power
-> > rails like CX/MX or EBI.
->
-> These are always ON because USB phy doesn't support power
-> collapse, and there is a chance that other IP blocks might be
-> sharing the rail.
+Fix some issues of xHCI for zhaoxin.
 
-You are describing the software side here. From the hardware point of
-view, it is an I2C regulator, which is probably also exported as an
-SMD_RPM regulator. Unless you have a good reason not to do so, there
-should be a node under rpm-requests, which describes mp5496 regulators
-exported via RPM. then USB should refer to those regulators.
+Weitao Wang (4):
+  xhci: Add some quirks for zhaoxin xhci to fix issues
+  xhci: fix issue of cross page boundary in TRB prefetch
+  xhci: Show zhaoxin xHCI root hub speed correctly
+  xhci: Add zhaoxin xHCI U1/U2 feature support
 
->
-> Thanks
-> Varada
->
-> > > Signed-off-by: Varadarajan Narayanan <quic_varada@quicinc.com>
-> > > ---
-> > >  Changes in v10:
-> > >         - Add LDO regulator node
-> > > ---
-> > >  arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > >
-> > > diff --git a/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts b/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts
-> > > index bdc1434..1f5d14f 100644
-> > > --- a/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts
-> > > +++ b/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts
-> > > @@ -60,6 +60,13 @@
-> > >                         regulator-min-microvolt = <725000>;
-> > >                         regulator-max-microvolt = <1075000>;
-> > >                 };
-> > > +
-> > > +               mp5496_l2: l2 {
-> > > +                       regulator-min-microvolt = <1800000>;
-> > > +                       regulator-max-microvolt = <1800000>;
-> > > +                       regulator-boot-on;
-> > > +                       regulator-always-on;
-> > > +               };
-> > >         };
-> > >  };
-> > >
-> > > --
-> > > 2.7.4
-> > >
-> >
-> >
-> > --
-> > With best wishes
-> > Dmitry
-
-
+ drivers/usb/host/xhci-mem.c | 38 ++++++++++++++++++++++++--------
+ drivers/usb/host/xhci-pci.c | 12 +++++++++++
+ drivers/usb/host/xhci.c     | 43 ++++++++++++++++---------------------
+ drivers/usb/host/xhci.h     |  2 ++
+ 4 files changed, 61 insertions(+), 34 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.32.0
+
