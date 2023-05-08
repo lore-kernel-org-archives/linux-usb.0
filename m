@@ -2,188 +2,132 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEE07C7EE22
-	for <linux-usb@archiver.kernel.org>; Mon,  8 May 2023 13:21:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A19C77B7F
+	for <linux-usb@archiver.kernel.org>; Mon,  8 May 2023 14:01:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234254AbjEHNVo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 May 2023 09:21:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39592 "EHLO
+        id S234367AbjEHOBW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 May 2023 10:01:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234259AbjEHNVd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 May 2023 09:21:33 -0400
-Received: from mx1.zhaoxin.com (MX1.ZHAOXIN.COM [210.0.225.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6CA835116
-        for <linux-usb@vger.kernel.org>; Mon,  8 May 2023 06:21:16 -0700 (PDT)
-X-ASG-Debug-ID: 1683552059-086e237e536e4c0004-YVMibp
-Received: from ZXSHMBX1.zhaoxin.com (ZXSHMBX1.zhaoxin.com [10.28.252.163]) by mx1.zhaoxin.com with ESMTP id EFJRcdrH2v7v4A03 (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Mon, 08 May 2023 21:21:01 +0800 (CST)
-X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.163
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX1.zhaoxin.com
- (10.28.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 8 May
- 2023 21:20:59 +0800
-Received: from L440.zhaoxin.com (10.29.8.21) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 8 May
- 2023 21:20:58 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.163
-From:   Weitao Wang <WeitaoWang-oc@zhaoxin.com>
-X-Barracuda-RBL-Trusted-Forwarder: 10.29.252.163
-To:     <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <WeitaoWang@zhaoxin.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        <stable@vger.kernel.org>
-Subject: [PATCH v4 3/4] xhci: Show ZHAOXIN xHCI root hub speed correctly
-Date:   Tue, 9 May 2023 05:20:57 +0800
-X-ASG-Orig-Subj: [PATCH v4 3/4] xhci: Show ZHAOXIN xHCI root hub speed correctly
-Message-ID: <20230508212058.6307-4-WeitaoWang-oc@zhaoxin.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20230508212058.6307-1-WeitaoWang-oc@zhaoxin.com>
-References: <20230508212058.6307-1-WeitaoWang-oc@zhaoxin.com>
+        with ESMTP id S233475AbjEHOBV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 May 2023 10:01:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E330C348B5;
+        Mon,  8 May 2023 07:01:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 78DF962D9B;
+        Mon,  8 May 2023 14:01:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BDCEC433EF;
+        Mon,  8 May 2023 14:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1683554475;
+        bh=O8tjsOi+oKea2wipKtbwhwqOEm7vtb389lfsVLc4ECo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ymgv1cowBjCfDf/5ikYFlNvu2+D2jnmp7vR8c95Fs+X+AO9Z9RAYUOf1OlPwVxept
+         XHDgQUFJxDL98IXbSNLc2U1JKnisBGWsYm51DJ4IHGYzDojlv1On+XTfmI4RPFvvN/
+         be00CmCOf7hXa1tkn7Ni0VP7Fa4OSn8dnJMw6SZQ=
+Date:   Mon, 8 May 2023 16:01:12 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mirsad Goran Todorovac <mirsad.goran.todorovac@alu.hr>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
+Subject: Re: [BUG] Kmemleak, possibly hiddev_connect(), in 6.3.0+ torvalds
+ tree commit gfc4354c6e5c2
+Message-ID: <2023050854-collage-dreamt-660c@gregkh>
+References: <f64b17fa-d509-ad30-6e8d-e4c979818047@alu.unizg.hr>
+ <2023050824-juiciness-catching-9290@gregkh>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.29.8.21]
-X-ClientProxiedBy: zxbjmbx1.zhaoxin.com (10.29.252.163) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-X-Barracuda-Connect: ZXSHMBX1.zhaoxin.com[10.28.252.163]
-X-Barracuda-Start-Time: 1683552060
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.35:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 4438
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
-X-Barracuda-Spam-Score: 1.09
-X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.108487
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
-        3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2023050824-juiciness-catching-9290@gregkh>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some ZHAOXIN xHCI controllers follow usb3.1 spec,
-but only support gen1 speed 5Gbps. While in Linux kernel,
-if xHCI suspport usb3.1, root hub speed will show on 10Gbps.
-To fix this issue of ZHAOXIN xHCI platforms, read usb speed ID
-supported by xHCI to determine root hub speed. And add a quirk
-XHCI_ZHAOXIN_HOST for this issue.
+On Mon, May 08, 2023 at 08:51:55AM +0200, Greg Kroah-Hartman wrote:
+> On Mon, May 08, 2023 at 08:30:07AM +0200, Mirsad Goran Todorovac wrote:
+> > Hi,
+> > 
+> > There seems to be a kernel memory leak in the USB keyboard driver.
+> > 
+> > The leaked memory allocs are 96 and 512 bytes.
+> > 
+> > The platform is Ubuntu 22.04 LTS on a assembled AMD Ryzen 9 with X670E PG
+> > Lightning mobo,
+> > and Genius SlimStar i220 GK-080012 keyboard.
+> > 
+> > (Logitech M100 HID mouse is not affected by the bug.)
+> > 
+> > BIOS is:
+> > 
+> >      *-firmware
+> >           description: BIOS
+> >           vendor: American Megatrends International, LLC.
+> >           physical id: 0
+> >           version: 1.21
+> >           date: 04/26/2023
+> >           size: 64KiB
+> > 
+> > The kernel is 6.3.0-torvalds-<id>-13466-gfc4354c6e5c2.
+> > 
+> > The keyboard is recognised as Chicony:
+> > 
+> >                  *-usb
+> >                       description: Keyboard
+> >                       product: CHICONY USB Keyboard
+> >                       vendor: CHICONY
+> >                       physical id: 2
+> >                       bus info: usb@5:2
+> >                       logical name: input35
+> >                       logical name: /dev/input/event4
+> >                       logical name: input35::capslock
+> >                       logical name: input35::numlock
+> >                       logical name: input35::scrolllock
+> >                       logical name: input36
+> >                       logical name: /dev/input/event5
+> >                       logical name: input37
+> >                       logical name: /dev/input/event6
+> >                       logical name: input38
+> >                       logical name: /dev/input/event8
+> >                       version: 2.30
+> >                       capabilities: usb-2.00 usb
+> >                       configuration: driver=usbhid maxpower=100mA
+> > speed=1Mbit/s
+> > 
+> > The bug is easily reproduced by unplugging the USB keyboard, waiting about a
+> > couple of seconds,
+> > and then reconnect and scan for memory leaks twice.
+> > 
+> > The kmemleak log is as follows [edited privacy info]:
+> > 
+> > root@hostname:/home/username# cat /sys/kernel/debug/kmemleak
+> > unreferenced object 0xffff8dd020037c00 (size 96):
+> >   comm "systemd-udevd", pid 435, jiffies 4294892550 (age 8909.356s)
+> >   hex dump (first 32 bytes):
+> >     5d 8e 4e b9 ff ff ff ff 00 00 00 00 00 00 00 00 ].N.............
+> >     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+> >   backtrace:
+> >     [<ffffffffb81a74be>] __kmem_cache_alloc_node+0x22e/0x2b0
+> >     [<ffffffffb8127b6e>] kmalloc_trace+0x2e/0xa0
+> >     [<ffffffffb87543d9>] class_create+0x29/0x80
+> >     [<ffffffffb8880d24>] usb_register_dev+0x1d4/0x2e0
+> 
+> As the call to class_create() in this path is now gone in 6.4-rc1, can
+> you retry that release to see if this is still there or not?
 
-Suggested-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
----
- drivers/usb/host/xhci-mem.c | 30 +++++++++++++++++++++++-------
- drivers/usb/host/xhci-pci.c |  2 ++
- drivers/usb/host/xhci.h     |  1 +
- 3 files changed, 26 insertions(+), 7 deletions(-)
+No, wait, it's still there, I was looking at a development branch of
+mine that isn't sent upstream yet.  And syzbot just reported the same
+thing:
+	https://lore.kernel.org/r/00000000000058d15f05fb264013@google.com
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 1532414c8c40..0634fba01ac8 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -1968,7 +1968,7 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
- {
- 	u32 temp, port_offset, port_count;
- 	int i;
--	u8 major_revision, minor_revision;
-+	u8 major_revision, minor_revision, tmp_minor_revision;
- 	struct xhci_hub *rhub;
- 	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
- 	struct xhci_port_cap *port_cap;
-@@ -1988,6 +1988,15 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
- 		 */
- 		if (minor_revision > 0x00 && minor_revision < 0x10)
- 			minor_revision <<= 4;
-+		/*
-+		 * Some zhaoxin's xHCI controller that follow usb3.1 spec
-+		 * but only support Gen1.
-+		 */
-+		if (xhci->quirks & XHCI_ZHAOXIN_HOST) {
-+			tmp_minor_revision = minor_revision;
-+			minor_revision = 0;
-+		}
-+
- 	} else if (major_revision <= 0x02) {
- 		rhub = &xhci->usb2_rhub;
- 	} else {
-@@ -1996,10 +2005,6 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
- 		/* Ignoring port protocol we can't understand. FIXME */
- 		return;
- 	}
--	rhub->maj_rev = XHCI_EXT_PORT_MAJOR(temp);
--
--	if (rhub->min_rev < minor_revision)
--		rhub->min_rev = minor_revision;
- 
- 	/* Port offset and count in the third dword, see section 7.2 */
- 	temp = readl(addr + 2);
-@@ -2017,8 +2022,6 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
- 	if (xhci->num_port_caps > max_caps)
- 		return;
- 
--	port_cap->maj_rev = major_revision;
--	port_cap->min_rev = minor_revision;
- 	port_cap->psi_count = XHCI_EXT_PORT_PSIC(temp);
- 
- 	if (port_cap->psi_count) {
-@@ -2039,6 +2042,10 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
- 				  XHCI_EXT_PORT_PSIV(port_cap->psi[i - 1])))
- 				port_cap->psi_uid_count++;
- 
-+			if (xhci->quirks & XHCI_ZHAOXIN_HOST &&
-+					XHCI_EXT_PORT_PSIV(port_cap->psi[i]) >= 5)
-+				minor_revision = tmp_minor_revision;
-+
- 			xhci_dbg(xhci, "PSIV:%d PSIE:%d PLT:%d PFD:%d LP:%d PSIM:%d\n",
- 				  XHCI_EXT_PORT_PSIV(port_cap->psi[i]),
- 				  XHCI_EXT_PORT_PSIE(port_cap->psi[i]),
-@@ -2048,6 +2055,15 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
- 				  XHCI_EXT_PORT_PSIM(port_cap->psi[i]));
- 		}
- 	}
-+
-+	rhub->maj_rev = major_revision;
-+
-+	if (rhub->min_rev < minor_revision)
-+		rhub->min_rev = minor_revision;
-+
-+	port_cap->maj_rev = major_revision;
-+	port_cap->min_rev = minor_revision;
-+
- 	/* cache usb2 port capabilities */
- 	if (major_revision < 0x03 && xhci->num_ext_caps < max_caps)
- 		xhci->ext_caps[xhci->num_ext_caps++] = temp;
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 3dfb3e0c910b..4a025ed50686 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -528,6 +528,8 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
- 		xhci->quirks |= XHCI_NO_SOFT_RETRY;
- 
- 	if (pdev->vendor == PCI_VENDOR_ID_ZHAOXIN) {
-+		xhci->quirks |= XHCI_ZHAOXIN_HOST;
-+
- 		if (pdev->device == 0x9202) {
- 			xhci->quirks |= XHCI_RESET_ON_RESUME;
- 			xhci->quirks |= XHCI_ZHAOXIN_TRB_FETCH;
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 41c38bfd7348..3737510b5981 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1906,6 +1906,7 @@ struct xhci_hcd {
- #define XHCI_SUSPEND_RESUME_CLKS	BIT_ULL(43)
- #define XHCI_RESET_TO_DEFAULT	BIT_ULL(44)
- #define XHCI_ZHAOXIN_TRB_FETCH	BIT_ULL(45)
-+#define XHCI_ZHAOXIN_HOST	BIT_ULL(46)
- 
- 	unsigned int		num_active_eps;
- 	unsigned int		limit_active_eps;
--- 
-2.32.0
+So something's wrong here, let me dig into it tomorrow when I get a
+chance...
 
+thanks,
+
+greg k-h
