@@ -2,52 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 694B1C7EE2C
-	for <linux-usb@archiver.kernel.org>; Mon,  8 May 2023 14:23:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 753DBC7EE31
+	for <linux-usb@archiver.kernel.org>; Mon,  8 May 2023 14:23:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234557AbjEHOX0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 May 2023 10:23:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59226 "EHLO
+        id S233987AbjEHOX2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 May 2023 10:23:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234548AbjEHOXZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 May 2023 10:23:25 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99A0F1BD8
-        for <linux-usb@vger.kernel.org>; Mon,  8 May 2023 07:23:19 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f19323259dso46760935e9.3
-        for <linux-usb@vger.kernel.org>; Mon, 08 May 2023 07:23:19 -0700 (PDT)
+        with ESMTP id S231641AbjEHOX0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 May 2023 10:23:26 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C81B2680
+        for <linux-usb@vger.kernel.org>; Mon,  8 May 2023 07:23:22 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-3062db220a3so2933043f8f.0
+        for <linux-usb@vger.kernel.org>; Mon, 08 May 2023 07:23:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683555798; x=1686147798;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9G1leSGGglMdHgO7DDdvTpSALWNAimDPzEUF6uwyp4I=;
-        b=k9OQsnGndg/I3ixOlbXuY4Ebpreh+Dqad/P+GTsOmi9voRIR57U1oisTqRWZvneoh+
-         jnSjPy4SD/rQbCnuqp3/aCVLk3aq3OGtjFsrkCOmI71HHC/SHcfOq19scCLXhs/zqSXi
-         1k7usU1eFGGkYU4kWseGy3XzRbpyzF0DEcX+a8YtMhnyPLZTb5WHlxFsbqj2PY8cY9bC
-         ntKb0yyetNe7YhTl7QqpysAkxIg+XTw7zv16p6U4ZYjn0K7eUmeynTGszubV43OoOYjt
-         ZEbPUyVY/TLxtlOpuqzFeCVcTVuxRSmF8FRfMtV19wd90lZk6eqaMkit/O8BsNjra3BQ
-         +VCw==
+        d=linaro.org; s=google; t=1683555800; x=1686147800;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mot1s4oJJqHfzgUo3NAC8eaCnGWNaTZ4CyGiPVoRb5c=;
+        b=jm6ITbZ1P+tdnQXhXBxuu3cR7MkjIt1YHJvm7713IBVspHyYrWsf3M7jF79RMdGxy9
+         GYgTm6y5wsFDXJ5AfhBJbvpv7o2F5st/VoKGcaT947tMNuQqaE8QFCweqXFEe/NjHQpr
+         hBq+nXsKCqn90itFmPoXILXLqj3Efv3A5kwRscOs64a7o1cSH7ttyMf+80LENwF28b/D
+         +Tv27kxQFG3/pNq6zHen63Tn7GC3vZejwLnQfbpLZqNhbl6e+zJRF84L0vXGXosJFmWq
+         FkXbl4Dfdal7G/a701vJjISDhX5IeGkp+zhjC60mjnsVCJrj2E+AEUu52UOj1/3f6Gsg
+         r/Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683555798; x=1686147798;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9G1leSGGglMdHgO7DDdvTpSALWNAimDPzEUF6uwyp4I=;
-        b=dmS09oG01mHpFqM5+gWUSsgciEw2f5F34AoMOvFqnwft+Lyks7sncTWONWXcDP9HX8
-         maRLRzuAiD2Zr/OQCuMZaeQaJ+Yq2f7orJsKOoaxOI7v+98Z3dv5Grtquz8xVVeR43mv
-         BCuszec51EyLiOQABFKxy9gmcQ85pJCBHyWdv65U/9T/TEPKaZKucuRZBOQjJfchZRIL
-         rJqJwpcY2GwbSTbuuERRNxoYDrV6lHd16DUTqq+Voq2/eL6kh6FFJ6qPTiLSes6jUTnt
-         SJK6HS8FUwToZS/WjGhhkWUX70aOJ7c1tzn41V/pesVqP4vdAyz0Tmu1bPGH2D2gdMjV
-         raBA==
-X-Gm-Message-State: AC+VfDxI2h0qnk3NvKyTXgTey3EIHpzApqeC5WVpqJ3SSjxg+pSs1WtX
-        6WbABDpFxu5q0XNdExwKSLdOXg==
-X-Google-Smtp-Source: ACHHUZ4mlUY3frch+nF2E8SH83KRPctG/UuNn7RmdCSl5YTrd7l2W99kCPoH6tjVi4VUqX4s5PlWxg==
-X-Received: by 2002:a05:600c:b4d:b0:3f4:253f:c3d9 with SMTP id k13-20020a05600c0b4d00b003f4253fc3d9mr2015425wmr.25.1683555797976;
-        Mon, 08 May 2023 07:23:17 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683555800; x=1686147800;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Mot1s4oJJqHfzgUo3NAC8eaCnGWNaTZ4CyGiPVoRb5c=;
+        b=F9r1iW6/mzDNHTw2+3fzFBMlIYc+uiUisw44II2EyxHLpUkWiGL0F/vkMC0DzRq95C
+         bDAh7Vc8kkSO+rF1lXyNEPrw6v63BAdMcPH5dmwdB3GM9zAUeWjcJduBrHK+Z8SBcO+9
+         ZIeTy8dtK99vF4XdxaDmSFVHJe9IniICuVzc/joA/zNaTp0YZznazagVxQEk4w8Wo28a
+         9COmsd2Z3udY3/whwIDjS2RnLjNqD0CY3l3TsY4pYMcgGHCwK98H2Zq/exGBUb5E5CC3
+         0ML9XF1sd97QGrHVMifX14dPiLGE/qqewPFBiruqIWkFaX61BnlkkAeIP/5liyaVB4qb
+         4rQg==
+X-Gm-Message-State: AC+VfDw2BGgbkoPX1NsxqpkBSYFCRy4KNYtI8Vc8mskiF4584wHF1A+9
+        /DQaxvkLbk0HMERgay/p++IlRQ==
+X-Google-Smtp-Source: ACHHUZ6GJqhDLxKzQJPL/eRzV7X1ET6w4rdL7vu0j+wOBIrmG1cT8RowQOlUc8VyyTvAr26BBCQ1BA==
+X-Received: by 2002:a5d:61ce:0:b0:306:30ea:a072 with SMTP id q14-20020a5d61ce000000b0030630eaa072mr7858965wrv.53.1683555800805;
+        Mon, 08 May 2023 07:23:20 -0700 (PDT)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id y25-20020a05600c365900b003f42456c490sm4081544wmq.33.2023.05.08.07.23.16
+        by smtp.gmail.com with ESMTPSA id y25-20020a05600c365900b003f42456c490sm4081544wmq.33.2023.05.08.07.23.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 07:23:17 -0700 (PDT)
+        Mon, 08 May 2023 07:23:20 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
         gregkh@linuxfoundation.org, andersson@kernel.org,
@@ -57,235 +58,69 @@ To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
         devicetree@vger.kernel.org
 Cc:     konrad.dybcio@linaro.org, caleb.connolly@linaro.org,
         bryan.odonoghue@linaro.org, subbaram@quicinc.com,
-        jackp@quicinc.com, robertom@qti.qualcomm.com
-Subject: [PATCH v7 00/13] Add Qualcomm PMIC TPCM support 
-Date:   Mon,  8 May 2023 15:22:55 +0100
-Message-Id: <20230508142308.1656410-1-bryan.odonoghue@linaro.org>
+        jackp@quicinc.com, robertom@qti.qualcomm.com,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v7 02/13] dt-bindings: regulator: qcom,usb-vbus-regulator: Mark regulator-*-microamp required
+Date:   Mon,  8 May 2023 15:22:57 +0100
+Message-Id: <20230508142308.1656410-3-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230508142308.1656410-1-bryan.odonoghue@linaro.org>
+References: <20230508142308.1656410-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-I'm dropping the previous V1-V6 log because the text is getting too long
-here's a link to the previous cover letter instead
-Link: https://lore.kernel.org/linux-arm-msm/20230501121111.1058190-1-bryan.odonoghue@linaro.org/
+The VBUS driver needs to know the regulator-min-microamp and
+regulator-max-microamp so they should both be marked as required.
 
-Bootable tree
-Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-05-07-pm8150b-tcpm-qcom-wrapper-typec-mux-bjorn
+regulator.yaml defines those two dependencies so include regulator.yaml.
 
-Please note patch#5 and patch#6 should be merged in tandem not separately.
+We need to change from additionalProperties: false to
+unevaluatedProperties: false.
 
-V7:
-- Adds R/B to "dt-bindings: phy: qcom,sc7180-qmp-usb3-dp-phy: Add input and output ports" - Krzysztof
-- Fixes indicated, adds R/B to "dt-bindings: usb: Add Qualcomm PMIC Type-C" - Krzysztof
-- Fixes indicated, adds R/B to "usb: typec: qcom: Add Qualcomm PMIC Type-C driver" - Guenter
-- Fixes indicated, adds R/B to "usb: typec: qcom: Add Qualcomm PMIC Type-C driver" - Caleb
-- Adds R/B to "arm64: dts: qcom: sm8250: Define ports for qmpphy orientation-switching" - Konrad
-- Adds R/B to "arm64: dts: qcom: qrb5165-rb5: Switch on Type-C VBUS boost" - Konrad
-- Fixes indicated, adds R/B to "arm64: dts: qcom: qrb5165-rb5: Switch on basic TCPM" - Jianhua, Konrad
-- Connector ports/endpoints left inside of connector
-  Documentation/devicetree/bindings/connector/usb-connector.yaml - Jianhua
-- dwc3_role_switch_in -> usb_1_dwc3_role_switch_in
-  qmpphy_typec_mux_in -> usb_1_qmpphy_typec_mux_in
-  Both ports/endpoints defined inside of pm8150b dtsi - Konrad
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+ .../bindings/regulator/qcom,usb-vbus-regulator.yaml      | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-  I modified the name of both so that the port/endpoint would be directly
-  adjacent to the containing node in the dtsi file for code locality/readbility - bod
-
-- Fixes newline indicated "arm64: dts: qcom: qrb5165-rb5: Switch on TCPM usb-role-switching for usb_1" - Jianhua, Konrad
-- Fixes newline indicated "arm64: dts: qcom: qrb5165-rb5: Switch on TCPM orientation-switch for usb_1_qmpphy" - Jianhua, Konrad
-
-- connector
-  I have left the connector defintion and its ports/endpoints in the platform dts
-
-  The reason for this
-  a) Prior art e.g. arch/arm64/boot/dts/qcom/sc8280xp*
-  b) The connector is really a non-SoC/PMIC component its something that is defined
-     for your platform.
-
-  I'm open to further debate on this topic:
-  Link: https://imgflip.com/i/7kw6ck
-
-- port@1 -> port@1 "arm64: dts: qcom: qrb5165-rb5: Switch on TCPM orientation-switch for usb_1_qmpphy" - Jianhua
-
-- OF: graph: no port node found in /soc@0/spmi@c440000/pmic@2/typec@1500
-
-  I left this as-is since the DT model we want is to connect the connector directly to
-  the PHY for orientation or controller for data-role switching
-
-  I similarly didn't put this hack in place to remove the warning but "it would work"
-  &pm8150b_typec {
-        status = "okay";
+diff --git a/Documentation/devicetree/bindings/regulator/qcom,usb-vbus-regulator.yaml b/Documentation/devicetree/bindings/regulator/qcom,usb-vbus-regulator.yaml
+index 7a3b59f836092..89c564dfa5db5 100644
+--- a/Documentation/devicetree/bindings/regulator/qcom,usb-vbus-regulator.yaml
++++ b/Documentation/devicetree/bindings/regulator/qcom,usb-vbus-regulator.yaml
+@@ -14,6 +14,9 @@ description: |
+   regulator will be enabled in situations where the device is required to
+   provide power to the connected peripheral.
  
-  +       ports {
-  +               port@0 {
-  +                       reg = <0>;
-  +               };
-  +        };
-  +
-
-- Fairphone4 / sm7225
-  pm7250b is a derivative of pm8150b I have the hardware but, haven't booted to test/debug on this hardware yet
-
-- RB3 / sdm845
-  Caleb has a WIP patchset based on this series which is our next likely upstream candidate
-
-Here's how I'm testing using an RB5/SM8250
-
-A) Confirm device mode works in both orientations
-
-- Boot to a Linux shell
-- Run usb-ecm-up.sh [1]
-- This provides usb0 on the device side @ 192.168.8.2
-- Attach Type-C cable to host PC
-- On host PC "sudo ifconfig usb0 192.168.8.1"
-- Ping 192.168.8.2 confirming ping works
-- Switch cable orientation
-- On the PC side re-assign the ip address "sudo ifconfig usb0 192.168.8.1"
-- Ping again confirming connectivity
-
-B) Test automatic host-mode transition, orientation and SuperSpeed
-- Remove cable from PC
-- Attach a Type-C USB key
-- Validate the orientation detection
-  cat /sys/class/typec/port0/orientation 
-  normal 
-- Confirm the RB5 sees the USB key as a SuperSpeed device
-- Remove USB key and physically invert it along the horizontal axis
-- Re-insert the key
-- Confirm the RB5 sees the USB key as a SuperSpeed device
-- Validate the orientation detection
-  cat /sys/class/typec/port0/orientation 
-  reverse
-
-C) Test Type-C accessory automatic host-mode transition, orientation and SuperSpeed
-- Remove USB key from RB5
-- Attach a Type-C USB accessory
-- Validate the orientation detection
-  cat /sys/class/typec/port0/orientation 
-  normal
-- Attach a SuperSpeed capable USB key to the Type-C accessory
-- Confirm the RB5 sees the USB key as a SuperSpeed device
-- Remove the USB key from the Type-C accessory
-- Remove the Type-C accessory from the RB5
-- Physically invert the Type-C accessory along the horizontal axis
-- Re-insert the Type-C accessory
-- Validate the orientation detection
-  cat /sys/class/typec/port0/orientation 
-  reverse
-- Re-insert the key
-- Confirm the RB5 sees the USB key as a SuperSpeed device
-
-D) Goto Test-A
-- Confirming that automatic switch to device mode happens
-- Repeat the above loop in ~ any order
-
-[1] usb-ecm-up.sh 
-#!/usr/bin/env bash
-
-# load libcomposite module
-modprobe libcomposite
-
-# ensure function is loaded
-modprobe usb_f_ecm
-modprobe usb_f_ncm
-
-mount -t configfs none /sys/kernel/config/
-
-# create a gadget
-mkdir /sys/kernel/config/usb_gadget/g0
-
-# cd to its configfs node
-cd /sys/kernel/config/usb_gadget/g0
-
-# configure it (vid/pid can be anything if USB Class is used for driver compat)
-echo 0x0525 > idVendor
-echo 0xa4a4 > idProduct
-
-# configure its serial/mfg/product
-mkdir strings/0x409
-
-echo 0xCAFEBABE > strings/0x409/serialnumber
-echo Linaro > strings/0x409/manufacturer
-echo qrb5165-rb5 > strings/0x409/product
-
-# create configs
-mkdir configs/c.1
-mkdir configs/c.1/strings/0x409
-
-# create the function (name must match a usb_f_<name> module such as 'acm')
-mkdir functions/ncm.0
-
-echo "CDC ECM" > configs/c.1/strings/0x409/configuration
-
-# associate function with config
-ln -s functions/ncm.0 configs/c.1
-
-# Set USB version 3.1
-echo 0x0310 > bcdUSB
-
-echo "super-speed-plus" > max_speed
-
-# enable gadget by binding it to a UDC from /sys/class/udc
-echo a600000.usb > UDC
-# to unbind it: echo "" > UDC; sleep 1; rm -rf /sys/kernel/config/usb_gadget/g0
-
-sleep 1
-
-ifconfig usb0 192.168.8.2
-
-Bryan O'Donoghue (13):
-  dt-bindings: regulator: qcom,usb-vbus-regulator: Mark reg as required
-  dt-bindings: regulator: qcom,usb-vbus-regulator: Mark
-    regulator-*-microamp required
-  dt-bindings: phy: qcom,sc7180-qmp-usb3-dp-phy: Add orientation-switch
-    as optional
-  dt-bindings: phy: qcom,sc7180-qmp-usb3-dp-phy: Add input and output
-    ports
-  dt-bindings: usb: Add Qualcomm PMIC Type-C
-  dt-bindings: mfd: qcom,spmi-pmic: Add typec to SPMI device types
-  usb: typec: qcom: Add Qualcomm PMIC Type-C driver
-  arm64: dts: qcom: sm8250: Define ports for qmpphy
-    orientation-switching
-  arm64: dts: qcom: pm8150b: Add a TCPM description
-  arm64: dts: qcom: qrb5165-rb5: Switch on Type-C VBUS boost
-  arm64: dts: qcom: qrb5165-rb5: Switch on basic TCPM
-  arm64: dts: qcom: qrb5165-rb5: Switch on TCPM usb-role-switching for
-    usb_1
-  arm64: dts: qcom: qrb5165-rb5: Switch on TCPM orientation-switch for
-    usb_1_qmpphy
-
- .../bindings/mfd/qcom,spmi-pmic.yaml          |   4 +
- .../phy/qcom,sc7180-qmp-usb3-dp-phy.yaml      |  44 ++
- .../regulator/qcom,usb-vbus-regulator.yaml    |  10 +-
- .../bindings/usb/qcom,pmic-typec.yaml         | 190 ++++++
- MAINTAINERS                                   |  10 +
- arch/arm64/boot/dts/qcom/pm8150b.dtsi         |  40 ++
- arch/arm64/boot/dts/qcom/qrb5165-rb5.dts      |  54 +-
- arch/arm64/boot/dts/qcom/sm8250.dtsi          |  18 +
- drivers/usb/typec/Kconfig                     |  13 -
- drivers/usb/typec/Makefile                    |   1 -
- drivers/usb/typec/qcom-pmic-typec.c           | 261 --------
- drivers/usb/typec/tcpm/Kconfig                |  11 +
- drivers/usb/typec/tcpm/Makefile               |   1 +
- drivers/usb/typec/tcpm/qcom/Makefile          |   6 +
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c | 346 +++++++++++
- .../typec/tcpm/qcom/qcom_pmic_typec_pdphy.c   | 528 +++++++++++++++++
- .../typec/tcpm/qcom/qcom_pmic_typec_pdphy.h   | 119 ++++
- .../typec/tcpm/qcom/qcom_pmic_typec_port.c    | 556 ++++++++++++++++++
- .../typec/tcpm/qcom/qcom_pmic_typec_port.h    | 195 ++++++
- 19 files changed, 2130 insertions(+), 277 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
- delete mode 100644 drivers/usb/typec/qcom-pmic-typec.c
- create mode 100644 drivers/usb/typec/tcpm/qcom/Makefile
- create mode 100644 drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
- create mode 100644 drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
- create mode 100644 drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.h
- create mode 100644 drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
- create mode 100644 drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.h
-
++allOf:
++  - $ref: regulator.yaml#
++
+ properties:
+   compatible:
+     enum:
+@@ -26,8 +29,10 @@ properties:
+ required:
+   - compatible
+   - reg
++  - regulator-min-microamp
++  - regulator-max-microamp
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+@@ -37,6 +42,8 @@ examples:
+         pm8150b_vbus: usb-vbus-regulator@1100 {
+             compatible = "qcom,pm8150b-vbus-reg";
+             reg = <0x1100>;
++            regulator-min-microamp = <500000>;
++            regulator-max-microamp = <3000000>;
+         };
+      };
+ ...
 -- 
 2.39.2
 
