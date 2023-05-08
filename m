@@ -2,94 +2,83 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B96B1C7EE22
-	for <linux-usb@archiver.kernel.org>; Mon,  8 May 2023 21:31:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF8EC7EE22
+	for <linux-usb@archiver.kernel.org>; Mon,  8 May 2023 21:38:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233450AbjEHVbN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 May 2023 17:31:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42642 "EHLO
+        id S234274AbjEHViC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 May 2023 17:38:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232643AbjEHVbK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 May 2023 17:31:10 -0400
-X-Greylist: delayed 530 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 08 May 2023 14:31:07 PDT
-Received: from out-3.mta0.migadu.com (out-3.mta0.migadu.com [91.218.175.3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A176CC
-        for <linux-usb@vger.kernel.org>; Mon,  8 May 2023 14:31:07 -0700 (PDT)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=galenguyer.com;
-        s=key1; t=1683580920;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=6NgXeQ+2yuj9B6ANPQaYqi7f1CbiuieB6vqqz2BhBk0=;
-        b=cOKrntNlqypDVlGpOvY+IRE0zQefcNZ4ALPkz+wC7w+J0zHf9uIvkFjBAIa0Xs2qkDswYv
-        F1kiPtAobOccNC8n6GxouLJ8xBfviNExL2WVRiUBEZni8iS9IXiHHWkQs9+fd844zZLXIL
-        8gBB/WJiryWcx23TD3AhXqtQuu1/V2QCN1ttzSuiekxYmXp0zTIcW8Cf+nW91ACsNJDvxS
-        PcO7BctOtntkVVqgFk5bzrW6ru+zbfdepijbfq5g3C8CS9WfPn9aRH80m9I77aaNef8AuV
-        Xsbd+2P5e1z3XRKQ8hfAmpFG5LjxGVCYrPSi2QJwNVRzZWg9QLakxkOSO+yiTA==
-From:   Galen Guyer <galen@galenguyer.com>
-To:     Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
-        linux-usb@vger.kernel.org
-Cc:     Galen Guyer <galen@galenguyer.com>
-Subject: [PATCH] usbip: give a more helpful error message if vhdi_hcd isn't loaded
-Date:   Mon,  8 May 2023 17:21:20 -0400
-Message-Id: <20230508212120.435329-1-galen@galenguyer.com>
+        with ESMTP id S233845AbjEHVhr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 May 2023 17:37:47 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FF371BF1;
+        Mon,  8 May 2023 14:37:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=sluKTgzIYnZt5qgmSic5hrYiEppZOIqLRDgvZHsGOvg=; b=J20RWy6/4iso/DH1JGHycdBG0r
+        Z5Tjbp+CA/ex5lfSnUnNGDfA3i6ZZuNLeko++UyfbmKyIZAYT79WhIXzqkndFhBrmrJ4RIoeGXlHV
+        ZxO9XFZEpzWDhmBJ2VmrDdTbzemFPmMjrA0N0DIho+cfVhw/UR+CAJ0s6JSQYbwk27vAB39yR/Q0W
+        tkvIdHZ0/PjcqlSeV6Lz2ghIxHpPFrDWZpJacfqaDv6jGmtIJU34dCW5kpz4tD3vZUot2+W0emthM
+        rThRBoBxnJoFzTuKfkuUZMonUDdPZWzEfNVoiFV63EkN5/cG9UltQxIyLIeAJQoKzgWVH784EiW/V
+        hv1yQzgA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pw8XE-00EWN6-P4; Mon, 08 May 2023 21:36:44 +0000
+Date:   Mon, 8 May 2023 22:36:44 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc:     Ruihan Li <lrh2000@pku.edu.cn>,
+        syzbot+fcf1a817ceb50935ce99@syzkaller.appspotmail.com,
+        akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: usbdev_mmap causes type confusion in page_table_check
+Message-ID: <ZFlrbDft1QfMyIDc@casper.infradead.org>
+References: <000000000000258e5e05fae79fc1@google.com>
+ <20230507135844.1231056-1-lrh2000@pku.edu.cn>
+ <CA+CK2bBe2YKYM3rUTCnZ0RF=NFUR9VqO-QYn3ygPsFJWLY1MUA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+CK2bBe2YKYM3rUTCnZ0RF=NFUR9VqO-QYn3ygPsFJWLY1MUA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Suggest loading vhdi_hcd if it's not loaded to make error message less opaque
+On Mon, May 08, 2023 at 05:27:10PM -0400, Pasha Tatashin wrote:
+> > static void page_table_check_set(struct mm_struct *mm, unsigned long addr,
+> >                                  unsigned long pfn, unsigned long pgcnt,
+> >                                  bool rw)
+> > {
+> >         // ...
+> >         anon = PageAnon(page);
+> >         for (i = 0; i < pgcnt; i++) {
+> >                 // ...
+> >                 if (anon) {
+> >                         BUG_ON(atomic_read(&ptc->file_map_count));
+> >                         BUG_ON(atomic_inc_return(&ptc->anon_map_count) > 1 && rw);
+> >                 } else {
+> >                         BUG_ON(atomic_read(&ptc->anon_map_count));
+> >                         BUG_ON(atomic_inc_return(&ptc->file_map_count) < 0);
+> >                 }
+> >                 // ...
+> >         }
+> >         // ...
+> > }
+> >
+> > This call to PageAnon is invalid for slab pages because slab reuses the bits
+> > in struct page/folio to store its internal states, and the anonymity bit only
+> > exists in struct page/folio. As a result, the counters are incorrectly updated
+> > and checked in page_table_check_set and page_table_check_clear, leading to the
+> > bug being raised.
+> 
+> We should change anon boolean to be:
+> 
+> anon = !PageSlab(page) && PageAnon(page);
 
-Signed-off-by: Galen Guyer <galen@galenguyer.com>
----
- tools/usb/usbip/src/usbip_attach.c | 2 +-
- tools/usb/usbip/src/usbip_detach.c | 2 +-
- tools/usb/usbip/src/usbip_port.c   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/tools/usb/usbip/src/usbip_attach.c b/tools/usb/usbip/src/usbip_attach.c
-index b4aeb9f1f493..531a415538f9 100644
---- a/tools/usb/usbip/src/usbip_attach.c
-+++ b/tools/usb/usbip/src/usbip_attach.c
-@@ -86,7 +86,7 @@ static int import_device(int sockfd, struct usbip_usb_device *udev)
- 
- 	rc = usbip_vhci_driver_open();
- 	if (rc < 0) {
--		err("open vhci_driver");
-+		err("open vhci_driver (is vhci_hcd loaded?)");
- 		goto err_out;
- 	}
- 
-diff --git a/tools/usb/usbip/src/usbip_detach.c b/tools/usb/usbip/src/usbip_detach.c
-index aec993159036..b29101986b5a 100644
---- a/tools/usb/usbip/src/usbip_detach.c
-+++ b/tools/usb/usbip/src/usbip_detach.c
-@@ -50,7 +50,7 @@ static int detach_port(char *port)
- 
- 	ret = usbip_vhci_driver_open();
- 	if (ret < 0) {
--		err("open vhci_driver");
-+		err("open vhci_driver (is vhci_hcd loaded?)");
- 		return -1;
- 	}
- 
-diff --git a/tools/usb/usbip/src/usbip_port.c b/tools/usb/usbip/src/usbip_port.c
-index 4d14387df13d..21a20e378419 100644
---- a/tools/usb/usbip/src/usbip_port.c
-+++ b/tools/usb/usbip/src/usbip_port.c
-@@ -18,7 +18,7 @@ static int list_imported_devices(void)
- 
- 	ret = usbip_vhci_driver_open();
- 	if (ret < 0) {
--		err("open vhci_driver");
-+		err("open vhci_driver (is vhci_hcd loaded?)");
- 		goto err_names_free;
- 	}
- 
--- 
-2.40.1
-
+No.  Slab pages are not elegible for mapping into userspace.  That's
+all.  There should be a BUG() for that.  And I do mean BUG(), not
+"return error to user".  Something has gone horribly wrong, and it's
+time to crash.
