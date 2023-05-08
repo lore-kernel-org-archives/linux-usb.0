@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50F5CC77B7F
-	for <linux-usb@archiver.kernel.org>; Mon,  8 May 2023 14:23:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A745AC77B7F
+	for <linux-usb@archiver.kernel.org>; Mon,  8 May 2023 14:23:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234548AbjEHOXe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 May 2023 10:23:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59446 "EHLO
+        id S234581AbjEHOXh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 May 2023 10:23:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234581AbjEHOXb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 May 2023 10:23:31 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E18F468C
-        for <linux-usb@vger.kernel.org>; Mon,  8 May 2023 07:23:27 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-3f4000ec74aso30684355e9.3
-        for <linux-usb@vger.kernel.org>; Mon, 08 May 2023 07:23:27 -0700 (PDT)
+        with ESMTP id S234568AbjEHOXf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 May 2023 10:23:35 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 667FE49CA
+        for <linux-usb@vger.kernel.org>; Mon,  8 May 2023 07:23:30 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-3f195b164c4so30213455e9.1
+        for <linux-usb@vger.kernel.org>; Mon, 08 May 2023 07:23:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683555805; x=1686147805;
+        d=linaro.org; s=google; t=1683555809; x=1686147809;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ic2PzyBJMTnrdn9lavuhttp1+67QyuBjwBrtru82DN8=;
-        b=KdolU75iBX+HJyXSiyTVFIPL62dkrW4l0mF9UhjnKy4sSCJAx8ejCrlLnpvIhdtbUq
-         kghXrrW5a+xyEMG4+ErbK/HP/dHy7H1vpKe6y4Srgq6JrH4ijyTxx9+h7fKqrHVQkBKV
-         TvaQrppv9Ro7E2377hacaz6ReTNVbzE9UEG0KzeRW+gmfzO56ML9vsvOyWvjZ+JFiG6b
-         mAlei7x/Bbgzq2xS+z8hTK1vGat3Ls0ILPFA5qWMwVb7cTXOVJ1AAb4zK3wq5bjTidPo
-         BaPd0BJ98NJ1TBOPF3VZCFp8BSm+JxPabRU3zu7rMiknQB5NMwDYaoqlVF0hQw9PgGvG
-         jo7A==
+        bh=nOwO+f9dgoCq7yiaazJXQ6WqCRqep8/4128RgQMh2rI=;
+        b=GMR4MQjkOK7jR3sEC5AxXVMsIAHSRRXlbC4hsfhmrqU7rgRbbZqp8K4JS2PzyoXkyz
+         eyPibNVAfTmJFgu7hbgGFtNOK4Vs7VrCosln4huhksuWC/0fdmEg1k4NsPIdcDPz/w5B
+         tMqHfg2ryERBC/4qobBXLj8vtvva53+TFGKrsxXGDiUNVi9UhTi4aWpiNAjoEqnWIpo/
+         CkPhO930PgCupmRiAppBht3ScLFDSfZe0hleii8wGa0/XzsxGnhO4NHLN3vusjg8BXVe
+         Lt1kgijyMUxLrVtQfQbu2XSP/KIa4YpmlSv2MYuuMSemzBikVD8l2mFRoGpyWdUi8wS0
+         YVsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683555806; x=1686147806;
+        d=1e100.net; s=20221208; t=1683555809; x=1686147809;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ic2PzyBJMTnrdn9lavuhttp1+67QyuBjwBrtru82DN8=;
-        b=a0gx1sFM7YGriBguVcEC/nX+ffhB57UJekD4MoHGsJjViefkxcQn+Xps1E+En3QSbG
-         FfNDrFj0rnl6LcEVecJ4WpH6HLZUZMHWauUwiRd2XHjRNRuQNJQ38zLCluxvYmMWospU
-         GuiBRNOlUPHjsE1P7dWs26yhFm5yIEUImdWONEXUSofP7yjSHhQ1xNU7u2R5n8HtUzsx
-         Q4jkn7cXoF4juHAgEov+vzxiXIJPwRXeCF/mAftK473phGA3qAuz7LdlqF0LhiwPnXDV
-         OtgUaJA6h8RDzyfCFlcRsxPR2M0qpOsyge0Xpabdj+ro4ZlgJ5RAkoC1/loi9I7VG/TQ
-         /hRw==
-X-Gm-Message-State: AC+VfDxx18T7Nflmq44E7sQVFtSCRKd980FlwAqqNpn69iZVFHIl6OVk
-        5XX5SRmAl/0a7sHj1Ww/wPHlbOrZRhIX8yTIHK3pbQ==
-X-Google-Smtp-Source: ACHHUZ5IEHoh3CWXzOnc67hEa8W4VbRsJza45A7WRJPyWdfPC2KmuU8kybjfOj6Wpw1uBVIhFvF62g==
-X-Received: by 2002:a7b:c318:0:b0:3f0:a08e:811b with SMTP id k24-20020a7bc318000000b003f0a08e811bmr7079089wmj.13.1683555805671;
-        Mon, 08 May 2023 07:23:25 -0700 (PDT)
+        bh=nOwO+f9dgoCq7yiaazJXQ6WqCRqep8/4128RgQMh2rI=;
+        b=d301a/LehB4l4tyooMv8vbAAwwOtSXGHV7nZQx/WQzwg9LqaHTnyUAUXKMn65k9MOQ
+         Z8bB0x6ny06HuZwUv/bS8FlvpUSwXIgnfzgFMjGEs7JlqhZ59UgYq6mr27TDlHSnNj2J
+         c1bQDvJVFJE07MsU+Ml0WMWHD5ZE/ABjArCiukFiIyuER3XTv6uCGj+ZKVrv0DqB+N8f
+         8+yj1V4KxbM35kNee/NULWIBL2InM1Fad5N/3frQ2wfLAlddvLn9gY2ivhJlxSan7jk/
+         FtRufydD5BdKT2kp+0XAeh3AzQ9m0xg4o2NiRTN+CeZLA4gDbB0JpH26dTiz4y/38F0B
+         FH0g==
+X-Gm-Message-State: AC+VfDzhEVxPPuBrpRqjHt93ic+wsgyFcqiYb8VbO786ywDkkfFAzUJM
+        ib0iS3LK49mL5d4xrnhNo76N1g==
+X-Google-Smtp-Source: ACHHUZ52nZBEIBxWuVVwYem0TqBeYXBoVhKITScVR5R3kZrvcWiCeorF7qp0rb+Nyo4RnpiNhCJJoQ==
+X-Received: by 2002:a7b:ca4c:0:b0:3f4:2819:7777 with SMTP id m12-20020a7bca4c000000b003f428197777mr1149158wml.38.1683555808809;
+        Mon, 08 May 2023 07:23:28 -0700 (PDT)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id y25-20020a05600c365900b003f42456c490sm4081544wmq.33.2023.05.08.07.23.24
+        by smtp.gmail.com with ESMTPSA id y25-20020a05600c365900b003f42456c490sm4081544wmq.33.2023.05.08.07.23.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 07:23:25 -0700 (PDT)
+        Mon, 08 May 2023 07:23:27 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
         gregkh@linuxfoundation.org, andersson@kernel.org,
@@ -58,11 +58,10 @@ To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
         devicetree@vger.kernel.org
 Cc:     konrad.dybcio@linaro.org, caleb.connolly@linaro.org,
         bryan.odonoghue@linaro.org, subbaram@quicinc.com,
-        jackp@quicinc.com, robertom@qti.qualcomm.com,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v7 06/13] dt-bindings: mfd: qcom,spmi-pmic: Add typec to SPMI device types
-Date:   Mon,  8 May 2023 15:23:01 +0100
-Message-Id: <20230508142308.1656410-7-bryan.odonoghue@linaro.org>
+        jackp@quicinc.com, robertom@qti.qualcomm.com
+Subject: [PATCH v7 08/13] arm64: dts: qcom: sm8250: Define ports for qmpphy orientation-switching
+Date:   Mon,  8 May 2023 15:23:03 +0100
+Message-Id: <20230508142308.1656410-9-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230508142308.1656410-1-bryan.odonoghue@linaro.org>
 References: <20230508142308.1656410-1-bryan.odonoghue@linaro.org>
@@ -72,29 +71,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add the PMIC Type-C port driver to the list of devices.
+ports for orientation switching input and output. The individual board dts
+files will instantiate port@0 and port@1 depending on the supported
+feature-set.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/arm64/boot/dts/qcom/sm8250.dtsi | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
-index 36de335a33aa8..6e6f562a915be 100644
---- a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
-+++ b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
-@@ -158,6 +158,10 @@ patternProperties:
-     type: object
-     $ref: /schemas/thermal/qcom,spmi-temp-alarm.yaml#
- 
-+  "^typec@[0-9a-f]+$":
-+    type: object
-+    $ref: /schemas/usb/qcom,pmic-typec.yaml#
+diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+index a91d1175255e8..af16d3ba76b8e 100644
+--- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+@@ -3581,6 +3581,19 @@ dp_phy: dp-phy@88ea200 {
+ 				#phy-cells = <0>;
+ 				#clock-cells = <1>;
+ 			};
 +
-   "^usb-detect@[0-9a-f]+$":
-     type: object
-     $ref: /schemas/extcon/qcom,pm8941-misc.yaml#
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++				};
++
++				port@1 {
++					reg = <1>;
++				};
++			};
+ 		};
+ 
+ 		usb_2_qmpphy: phy@88eb000 {
 -- 
 2.39.2
 
