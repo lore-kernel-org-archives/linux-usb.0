@@ -2,20 +2,20 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92301C77B75
-	for <linux-usb@archiver.kernel.org>; Mon,  8 May 2023 13:21:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78DEAC77B7F
+	for <linux-usb@archiver.kernel.org>; Mon,  8 May 2023 13:21:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234213AbjEHNVl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 May 2023 09:21:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40338 "EHLO
+        id S234067AbjEHNVm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 May 2023 09:21:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234239AbjEHNVb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 May 2023 09:21:31 -0400
+        with ESMTP id S234254AbjEHNVc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 May 2023 09:21:32 -0400
 Received: from mx1.zhaoxin.com (MX1.ZHAOXIN.COM [210.0.225.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6FD135544
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C72B735DAB
         for <linux-usb@vger.kernel.org>; Mon,  8 May 2023 06:21:16 -0700 (PDT)
-X-ASG-Debug-ID: 1683552059-086e237e536e4c0003-YVMibp
-Received: from ZXSHMBX1.zhaoxin.com (ZXSHMBX1.zhaoxin.com [10.28.252.163]) by mx1.zhaoxin.com with ESMTP id eIEAquarjLSwerll (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Mon, 08 May 2023 21:21:00 +0800 (CST)
+X-ASG-Debug-ID: 1683552059-086e237e536e4c0005-YVMibp
+Received: from ZXSHMBX1.zhaoxin.com (ZXSHMBX1.zhaoxin.com [10.28.252.163]) by mx1.zhaoxin.com with ESMTP id SFjC4LTWa9kppV52 (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Mon, 08 May 2023 21:21:01 +0800 (CST)
 X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
 X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.163
 Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX1.zhaoxin.com
@@ -31,11 +31,12 @@ From:   Weitao Wang <WeitaoWang-oc@zhaoxin.com>
 X-Barracuda-RBL-Trusted-Forwarder: 10.29.252.163
 To:     <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
         <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <WeitaoWang@zhaoxin.com>, <stable@vger.kernel.org>
-Subject: [PATCH v4 2/4] xhci: Fix TRB prefetch issue of ZHAOXIN hosts
-Date:   Tue, 9 May 2023 05:20:56 +0800
-X-ASG-Orig-Subj: [PATCH v4 2/4] xhci: Fix TRB prefetch issue of ZHAOXIN hosts
-Message-ID: <20230508212058.6307-3-WeitaoWang-oc@zhaoxin.com>
+CC:     <WeitaoWang@zhaoxin.com>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH v4 4/4] xhci: Add ZHAOXIN xHCI host U1/U2 feature support
+Date:   Tue, 9 May 2023 05:20:58 +0800
+X-ASG-Orig-Subj: [PATCH v4 4/4] xhci: Add ZHAOXIN xHCI host U1/U2 feature support
+Message-ID: <20230508212058.6307-5-WeitaoWang-oc@zhaoxin.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20230508212058.6307-1-WeitaoWang-oc@zhaoxin.com>
 References: <20230508212058.6307-1-WeitaoWang-oc@zhaoxin.com>
@@ -46,13 +47,13 @@ X-Originating-IP: [10.29.8.21]
 X-ClientProxiedBy: zxbjmbx1.zhaoxin.com (10.29.252.163) To
  zxbjmbx1.zhaoxin.com (10.29.252.163)
 X-Barracuda-Connect: ZXSHMBX1.zhaoxin.com[10.28.252.163]
-X-Barracuda-Start-Time: 1683552059
+X-Barracuda-Start-Time: 1683552061
 X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
 X-Barracuda-URL: https://10.28.252.35:4443/cgi-mod/mark.cgi
 X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 2762
+X-Barracuda-Scan-Msg-Size: 3577
 X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0008 1.0000 -2.0160
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
 X-Barracuda-Spam-Score: 1.09
 X-Barracuda-Spam-Status: No, SCORE=1.09 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2
 X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.108487
@@ -65,70 +66,107 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On some ZHAOXIN hosts, xHCI will prefetch TRB for performance
-improvement. However this TRB prefetch mechanism may cross page boundary,
-which may access memory not allocated by xHCI driver. In order to fix
-this issue, two pages was allocated for a segment and only the first
-page will be used. And add a quirk XHCI_ZHAOXIN_TRB_FETCH for this issue.
+Add U1/U2 feature support of xHCI for ZHAOXIN.
+Since both INTEL and ZHAOXIN need to check the tier where the device is
+located to determine whether to enabled U1/U2, remove the previous INTEL
+U1/U2 tier policy and add common policy in xhci_check_tier_policy.
+If vendor has specific U1/U2 enable policy,quirks can be add to declare.
 
-Cc: stable@vger.kernel.org
+Suggested-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
 ---
- drivers/usb/host/xhci-mem.c | 8 ++++++--
- drivers/usb/host/xhci-pci.c | 7 ++++++-
- drivers/usb/host/xhci.h     | 1 +
- 3 files changed, 13 insertions(+), 3 deletions(-)
+ drivers/usb/host/xhci-pci.c |  1 +
+ drivers/usb/host/xhci.c     | 43 ++++++++++++++++---------------------
+ 2 files changed, 19 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 7e106bd804ca..1532414c8c40 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -2352,8 +2352,12 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- 	 * and our use of dma addresses in the trb_address_map radix tree needs
- 	 * TRB_SEGMENT_SIZE alignment, so we pick the greater alignment need.
- 	 */
--	xhci->segment_pool = dma_pool_create("xHCI ring segments", dev,
--			TRB_SEGMENT_SIZE, TRB_SEGMENT_SIZE, xhci->page_size);
-+	if (xhci->quirks & XHCI_ZHAOXIN_TRB_FETCH)
-+		xhci->segment_pool = dma_pool_create("xHCI ring segments", dev,
-+				TRB_SEGMENT_SIZE * 2, TRB_SEGMENT_SIZE * 2, xhci->page_size * 2);
-+	else
-+		xhci->segment_pool = dma_pool_create("xHCI ring segments", dev,
-+				TRB_SEGMENT_SIZE, TRB_SEGMENT_SIZE, xhci->page_size);
- 
- 	/* See Table 46 and Note on Figure 55 */
- 	xhci->device_pool = dma_pool_create("xHCI input/output contexts", dev,
 diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 46d4d642c9bd..3dfb3e0c910b 100644
+index 4a025ed50686..31f354352e57 100644
 --- a/drivers/usb/host/xhci-pci.c
 +++ b/drivers/usb/host/xhci-pci.c
-@@ -528,8 +528,13 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
- 		xhci->quirks |= XHCI_NO_SOFT_RETRY;
+@@ -529,6 +529,7 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
  
  	if (pdev->vendor == PCI_VENDOR_ID_ZHAOXIN) {
--		if (pdev->device == 0x9202)
-+		if (pdev->device == 0x9202) {
+ 		xhci->quirks |= XHCI_ZHAOXIN_HOST;
++		xhci->quirks |= XHCI_LPM_SUPPORT;
+ 
+ 		if (pdev->device == 0x9202) {
  			xhci->quirks |= XHCI_RESET_ON_RESUME;
-+			xhci->quirks |= XHCI_ZHAOXIN_TRB_FETCH;
-+		}
-+
-+		if (pdev->device == 0x9203)
-+			xhci->quirks |= XHCI_ZHAOXIN_TRB_FETCH;
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 78790dc13c5f..cae57f0207a4 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -4604,7 +4604,7 @@ static u16 xhci_calculate_u1_timeout(struct xhci_hcd *xhci,
+ 		}
  	}
  
- 	/* xHC spec requires PCI devices to support D3hot and D3cold */
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 08d721921b7b..41c38bfd7348 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1905,6 +1905,7 @@ struct xhci_hcd {
- #define XHCI_EP_CTX_BROKEN_DCS	BIT_ULL(42)
- #define XHCI_SUSPEND_RESUME_CLKS	BIT_ULL(43)
- #define XHCI_RESET_TO_DEFAULT	BIT_ULL(44)
-+#define XHCI_ZHAOXIN_TRB_FETCH	BIT_ULL(45)
+-	if (xhci->quirks & XHCI_INTEL_HOST)
++	if (xhci->quirks & (XHCI_INTEL_HOST | XHCI_ZHAOXIN_HOST))
+ 		timeout_ns = xhci_calculate_intel_u1_timeout(udev, desc);
+ 	else
+ 		timeout_ns = udev->u1_params.sel;
+@@ -4668,7 +4668,7 @@ static u16 xhci_calculate_u2_timeout(struct xhci_hcd *xhci,
+ 		}
+ 	}
  
- 	unsigned int		num_active_eps;
- 	unsigned int		limit_active_eps;
+-	if (xhci->quirks & XHCI_INTEL_HOST)
++	if (xhci->quirks & (XHCI_INTEL_HOST | XHCI_ZHAOXIN_HOST))
+ 		timeout_ns = xhci_calculate_intel_u2_timeout(udev, desc);
+ 	else
+ 		timeout_ns = udev->u2_params.sel;
+@@ -4740,37 +4740,30 @@ static int xhci_update_timeout_for_interface(struct xhci_hcd *xhci,
+ 	return 0;
+ }
+ 
+-static int xhci_check_intel_tier_policy(struct usb_device *udev,
++static int xhci_check_tier_policy(struct xhci_hcd *xhci,
++		struct usb_device *udev,
+ 		enum usb3_link_state state)
+ {
+-	struct usb_device *parent;
+-	unsigned int num_hubs;
++	struct usb_device *parent = udev->parent;
++	int tier = 1; /* roothub is tier1 */
+ 
+-	/* Don't enable U1 if the device is on a 2nd tier hub or lower. */
+-	for (parent = udev->parent, num_hubs = 0; parent->parent;
+-			parent = parent->parent)
+-		num_hubs++;
++	while (parent) {
++		parent = parent->parent;
++		tier++;
++	}
+ 
+-	if (num_hubs < 2)
+-		return 0;
++	if (xhci->quirks & XHCI_INTEL_HOST && tier > 3)
++		goto fail;
++	if (xhci->quirks & XHCI_ZHAOXIN_HOST && tier > 2)
++		goto fail;
+ 
+-	dev_dbg(&udev->dev, "Disabling U1/U2 link state for device"
+-			" below second-tier hub.\n");
+-	dev_dbg(&udev->dev, "Plug device into first-tier hub "
+-			"to decrease power consumption.\n");
++	return 0;
++fail:
++	dev_dbg(&udev->dev, "Tier policy prevents U1/U2 LPM states for devices at tier %d\n",
++			tier);
+ 	return -E2BIG;
+ }
+ 
+-static int xhci_check_tier_policy(struct xhci_hcd *xhci,
+-		struct usb_device *udev,
+-		enum usb3_link_state state)
+-{
+-	if (xhci->quirks & XHCI_INTEL_HOST)
+-		return xhci_check_intel_tier_policy(udev, state);
+-	else
+-		return 0;
+-}
+-
+ /* Returns the U1 or U2 timeout that should be enabled.
+  * If the tier check or timeout setting functions return with a non-zero exit
+  * code, that means the timeout value has been finalized and we shouldn't look
 -- 
 2.32.0
 
