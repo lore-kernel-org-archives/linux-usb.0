@@ -2,204 +2,281 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9358FC77B7F
-	for <linux-usb@archiver.kernel.org>; Mon,  8 May 2023 17:26:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F140AC77B75
+	for <linux-usb@archiver.kernel.org>; Mon,  8 May 2023 21:27:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233394AbjEHR0Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 May 2023 13:26:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40014 "EHLO
+        id S233843AbjEHV17 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 May 2023 17:27:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229691AbjEHR0Y (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 May 2023 13:26:24 -0400
-Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 813E0526F;
-        Mon,  8 May 2023 10:26:21 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by domac.alu.hr (Postfix) with ESMTP id 5BEB660189;
-        Mon,  8 May 2023 19:26:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.hr; s=mail;
-        t=1683566779; bh=B2QfO25Gzot6S0sPndd2xgHlr+IbNt2ib75yKweDZz0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=I1apZMqK+Hs4XFwKv3koRqIO3QJbKq4Uy6YiwIwE8mpj9Sbhf+jNFtKyW0HsCQSOA
-         xWplRJMdL0eoWA+8UBdlYiawG6+zB9yYL12FwAONB9onHZkZJ3lUQpIkNoENLb67o5
-         5eW8E5JEtkNIsBHMEDqtfxrSUyDW/HkN560WXqs1EUarksrTBQok67AGb08k7NYbzm
-         xs3dT1hDK9VfwZoqjpiaJ/xd+qLrIsx5kxcGdHNHuEi4+JVv7kgS6vLtpF7OOHyn89
-         IfF9GMJqsPjhva4mg5Z24ynxVOVxOttmz/9gsJLINPiyUKnFntbSs0PykOFO/LFh3w
-         49WIvHMneYQzw==
-X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
-Received: from domac.alu.hr ([127.0.0.1])
-        by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id msNPEWbRQ8ua; Mon,  8 May 2023 19:26:16 +0200 (CEST)
-Received: from [192.168.1.6] (unknown [77.237.113.62])
-        by domac.alu.hr (Postfix) with ESMTPSA id E009E60187;
-        Mon,  8 May 2023 19:26:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-        t=1683566776; bh=B2QfO25Gzot6S0sPndd2xgHlr+IbNt2ib75yKweDZz0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=YRYGamMquQHitXJZK2ELXhGFTgujiT0WduQLRL6TLhcwjG6/xNb+MoAyJHHSYADto
-         C/cki6l5xzsM80gUZ5/u8zY8M/KPaTAtymHE0TG/f65cww9s86tPoETUJ4GIXQ/LRh
-         Ym4FjVE7Hb99LxT2BPijF4YOER/jvVV6bF07cj+8Cejpin1hkxMGhQ9k7S7ifLG9rU
-         NYE2Ange3yQvqIB/+/N9pXzAQee7HdlCIRMBr7m//Zwb3if/7IXbGvGamH12m3jYVI
-         JIbSCvNbJcUDKbZElSRIGEw/JEQKZMATvJJvef9tsiceg+s/asFqk07nnkfFU6+R4P
-         JS9Nt9yVcXpmg==
-Message-ID: <34d52b94-6fb2-10d1-575e-df4eeaf54ca7@alu.unizg.hr>
-Date:   Mon, 8 May 2023 19:26:10 +0200
+        with ESMTP id S233932AbjEHV1x (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 May 2023 17:27:53 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A932186B4
+        for <linux-usb@vger.kernel.org>; Mon,  8 May 2023 14:27:47 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id d75a77b69052e-3ef38864360so55664071cf.2
+        for <linux-usb@vger.kernel.org>; Mon, 08 May 2023 14:27:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1683581266; x=1686173266;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s/5gK8M/80HK8akrc9oY1kCgNbVpDxReudipYj/RHew=;
+        b=h9wTM9A3kRp296JOqWRdtFZsmFCLrV//rkDQ5mNp3/81MH/u/k3AbXvduaze1n0KOZ
+         Fmcls8qNSK65RyrERO17Ikvy7XDqm0F2xprpI2fZzZtOMdX90Iswwrf3DSlWQ5CGZC6q
+         q6l1CxpqXg7Fg8FednkfmBfslns/vSxKC5MdynBw9Vcb25CLiUaGxp8d4UPYHvSQk8mG
+         b3Q8x2noIidSFm/NJRACxqSkr/E6hLNNDwMWB3K41EZW/Ebk7Ls1iuCft6EXyK6skt8H
+         y0YD14ym9WKA8/Idt8TkJhi+uID38vPBPX6LLirbSdTgfF7n1Kk+KxzkNAZtIYcdV2Mk
+         iykA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683581266; x=1686173266;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s/5gK8M/80HK8akrc9oY1kCgNbVpDxReudipYj/RHew=;
+        b=McUL+/Mn9dViMiVw99sws9UOBEr5N2LRmrQkMLa4CD38b3k4RPrIFN+kvA6FLn4g7a
+         BR3CAQvK450/70rMJizWzT0NHMpclGfWP+vvoUym15tQQgOK/b6BNIUJMEOTQvLWJbow
+         +pxy24QIglFf2Wlz/CGiHqZKZXrE8+uyj3Q3X85n3eQI9tA3YuLF//+vp0cXqrWT4FOB
+         BjHfc7gv/RsVBCeW6CmaV8v/k0PC+KERVOyJds+BQnZHtJUDEoxqAHVNWQWKmyftwY3p
+         R1C4xiIAC6jDGRxBmFdv9ZF3+Crmc+jz/rzYd7dvH4J6y45nC7q6OzKicSXGnCGUPbnh
+         M2IA==
+X-Gm-Message-State: AC+VfDy9b5xFVmWMtrWwbjOMZ7gbluKTBzTd5m9Dy28IudAr1v3ONmxp
+        JQ/TvvJVreHaFbdkQ8d1McfA8oHKOjukPEX0EW/3kw==
+X-Google-Smtp-Source: ACHHUZ7eJmXTKgNxS7TlldFQiPMEyTLJrp5S1je99UhtwyLP0ced9iIZHSU/DouaWZf/D7YzYuHfH940tUMV2iTdnys=
+X-Received: by 2002:ac8:59c1:0:b0:3ec:490b:ce6e with SMTP id
+ f1-20020ac859c1000000b003ec490bce6emr18145645qtf.48.1683581266624; Mon, 08
+ May 2023 14:27:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [BUG] Kmemleak, possibly hiddev_connect(), in 6.3.0+ torvalds
- tree commit gfc4354c6e5c2
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mirsad Goran Todorovac <mirsad.goran.todorovac@alu.hr>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-References: <f64b17fa-d509-ad30-6e8d-e4c979818047@alu.unizg.hr>
- <2023050824-juiciness-catching-9290@gregkh>
- <2023050854-collage-dreamt-660c@gregkh>
-Content-Language: en-US
-From:   Mirsad Goran Todorovac <mirsad.goran.todorovac@alu.hr>
-In-Reply-To: <2023050854-collage-dreamt-660c@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <000000000000258e5e05fae79fc1@google.com> <20230507135844.1231056-1-lrh2000@pku.edu.cn>
+In-Reply-To: <20230507135844.1231056-1-lrh2000@pku.edu.cn>
+From:   Pasha Tatashin <pasha.tatashin@soleen.com>
+Date:   Mon, 8 May 2023 17:27:10 -0400
+Message-ID: <CA+CK2bBe2YKYM3rUTCnZ0RF=NFUR9VqO-QYn3ygPsFJWLY1MUA@mail.gmail.com>
+Subject: Re: usbdev_mmap causes type confusion in page_table_check
+To:     Ruihan Li <lrh2000@pku.edu.cn>
+Cc:     syzbot+fcf1a817ceb50935ce99@syzkaller.appspotmail.com,
+        akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 08. 05. 2023. 16:01, Greg Kroah-Hartman wrote:
-
-> On Mon, May 08, 2023 at 08:51:55AM +0200, Greg Kroah-Hartman wrote:
->> On Mon, May 08, 2023 at 08:30:07AM +0200, Mirsad Goran Todorovac wrote:
->>> Hi,
->>>
->>> There seems to be a kernel memory leak in the USB keyboard driver.
->>>
->>> The leaked memory allocs are 96 and 512 bytes.
->>>
->>> The platform is Ubuntu 22.04 LTS on a assembled AMD Ryzen 9 with X670E PG
->>> Lightning mobo,
->>> and Genius SlimStar i220 GK-080012 keyboard.
->>>
->>> (Logitech M100 HID mouse is not affected by the bug.)
->>>
->>> BIOS is:
->>>
->>>       *-firmware
->>>            description: BIOS
->>>            vendor: American Megatrends International, LLC.
->>>            physical id: 0
->>>            version: 1.21
->>>            date: 04/26/2023
->>>            size: 64KiB
->>>
->>> The kernel is 6.3.0-torvalds-<id>-13466-gfc4354c6e5c2.
->>>
->>> The keyboard is recognised as Chicony:
->>>
->>>                   *-usb
->>>                        description: Keyboard
->>>                        product: CHICONY USB Keyboard
->>>                        vendor: CHICONY
->>>                        physical id: 2
->>>                        bus info: usb@5:2
->>>                        logical name: input35
->>>                        logical name: /dev/input/event4
->>>                        logical name: input35::capslock
->>>                        logical name: input35::numlock
->>>                        logical name: input35::scrolllock
->>>                        logical name: input36
->>>                        logical name: /dev/input/event5
->>>                        logical name: input37
->>>                        logical name: /dev/input/event6
->>>                        logical name: input38
->>>                        logical name: /dev/input/event8
->>>                        version: 2.30
->>>                        capabilities: usb-2.00 usb
->>>                        configuration: driver=usbhid maxpower=100mA
->>> speed=1Mbit/s
->>>
->>> The bug is easily reproduced by unplugging the USB keyboard, waiting about a
->>> couple of seconds,
->>> and then reconnect and scan for memory leaks twice.
->>>
->>> The kmemleak log is as follows [edited privacy info]:
->>>
->>> root@hostname:/home/username# cat /sys/kernel/debug/kmemleak
->>> unreferenced object 0xffff8dd020037c00 (size 96):
->>>    comm "systemd-udevd", pid 435, jiffies 4294892550 (age 8909.356s)
->>>    hex dump (first 32 bytes):
->>>      5d 8e 4e b9 ff ff ff ff 00 00 00 00 00 00 00 00 ].N.............
->>>      00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
->>>    backtrace:
->>>      [<ffffffffb81a74be>] __kmem_cache_alloc_node+0x22e/0x2b0
->>>      [<ffffffffb8127b6e>] kmalloc_trace+0x2e/0xa0
->>>      [<ffffffffb87543d9>] class_create+0x29/0x80
->>>      [<ffffffffb8880d24>] usb_register_dev+0x1d4/0x2e0
->> As the call to class_create() in this path is now gone in 6.4-rc1, can
->> you retry that release to see if this is still there or not?
-> No, wait, it's still there, I was looking at a development branch of
-> mine that isn't sent upstream yet.  And syzbot just reported the same
-> thing:
-> 	https://lore.kernel.org/r/00000000000058d15f05fb264013@google.com
+On Sun, May 7, 2023 at 9:58=E2=80=AFAM Ruihan Li <lrh2000@pku.edu.cn> wrote=
+:
 >
-> So something's wrong here, let me dig into it tomorrow when I get a
-> chance...
+> Hi all,
 
-Hi,
+Hi Ruihan,
 
-I can confirm that the leak is still present in 6.4-rc1:
+Thank you for bisecting, and great analysis of the problem.
 
-root@host:/home/user# cat /sys/kernel/debug/kmemleak
-unreferenced object 0xffff9e6b57bd8ea0 (size 96):
-   comm "systemd-udevd", pid 322, jiffies 4294892584 (age 123.516s)
-   hex dump (first 32 bytes):
-     a4 90 ee b6 ff ff ff ff 00 00 00 00 00 00 00 00 ................
-     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
-   backtrace:
-     [<ffffffffb5ba74be>] __kmem_cache_alloc_node+0x22e/0x2b0
-     [<ffffffffb5b27b6e>] kmalloc_trace+0x2e/0xa0
-     [<ffffffffb6154959>] class_create+0x29/0x80
-     [<ffffffffb62812a4>] usb_register_dev+0x1d4/0x2e0
-     [<ffffffffc066ebab>] hiddev_connect+0x11b/0x1b0 [usbhid]
-     [<ffffffffc0629d4e>] hid_connect+0xde/0x580 [hid]
-     [<ffffffffc062a24c>] hid_hw_start+0x4c/0x70 [hid]
-     [<ffffffffc05e8092>] hid_generic_probe+0x32/0x40 [hid_generic]
-     [<ffffffffc062a450>] hid_device_probe+0x100/0x170 [hid]
-     [<ffffffffb6152602>] really_probe+0x1b2/0x420
-     [<ffffffffb61528fe>] __driver_probe_device+0x7e/0x170
-     [<ffffffffb6152a23>] driver_probe_device+0x23/0xa0
-     [<ffffffffb6152cc8>] __driver_attach+0xe8/0x1e0
-     [<ffffffffb614fe6e>] bus_for_each_dev+0x7e/0xd0
-     [<ffffffffb6151da2>] driver_attach+0x22/0x30
-     [<ffffffffb61513f0>] bus_add_driver+0x120/0x220
-unreferenced object 0xffff9e6b58d75800 (size 512):
-   comm "systemd-udevd", pid 322, jiffies 4294892584 (age 123.516s)
-   hex dump (first 32 bytes):
-     00 58 d7 58 6b 9e ff ff 00 58 d7 58 6b 9e ff ff .X.Xk....X.Xk...
-     00 00 00 00 00 00 00 00 a4 90 ee b6 ff ff ff ff ................
-   backtrace:
-     [<ffffffffb5ba74be>] __kmem_cache_alloc_node+0x22e/0x2b0
-     [<ffffffffb5b27b6e>] kmalloc_trace+0x2e/0xa0
-     [<ffffffffb6154812>] class_register+0x32/0x140
-     [<ffffffffb6154974>] class_create+0x44/0x80
-     [<ffffffffb62812a4>] usb_register_dev+0x1d4/0x2e0
-     [<ffffffffc066ebab>] hiddev_connect+0x11b/0x1b0 [usbhid]
-     [<ffffffffc0629d4e>] hid_connect+0xde/0x580 [hid]
-     [<ffffffffc062a24c>] hid_hw_start+0x4c/0x70 [hid]
-     [<ffffffffc05e8092>] hid_generic_probe+0x32/0x40 [hid_generic]
-     [<ffffffffc062a450>] hid_device_probe+0x100/0x170 [hid]
-     [<ffffffffb6152602>] really_probe+0x1b2/0x420
-     [<ffffffffb61528fe>] __driver_probe_device+0x7e/0x170
-     [<ffffffffb6152a23>] driver_probe_device+0x23/0xa0
-     [<ffffffffb6152cc8>] __driver_attach+0xe8/0x1e0
-     [<ffffffffb614fe6e>] bus_for_each_dev+0x7e/0xd0
-     [<ffffffffb6151da2>] driver_attach+0x22/0x30
-root@host:/home/user#
+> Recently, syzbot reported [1] ("kernel BUG in page_table_check_clear"). A=
+fter
+> some bisection, I found out that when usbdev_mmap calls remap_pfn_range o=
+n
+> kmalloc'ed memory, it causes type confusion between struct folio and slab=
+ in
+> page_table_check. As I will explain below, it seems that both usb-side an=
+d
+> mm-side need some fixes. So I have cc'd linux-usb and linux-mm here, as w=
+ell
+> as their maintainers, to see whether there are any comments on the propos=
+ed
+> way to fix.
+>
+>  [1] https://lore.kernel.org/all/000000000000258e5e05fae79fc1@google.com/
+>
+> To handle mmap requests for /dev/bus/usb/XXX/YYY, usbdev_mmap first alloc=
+ates
+> memory by calling usb_alloc_coherent and then maps it into the user space
+> using remap_pfn_range:
+>
+> static int usbdev_mmap(struct file *file, struct vm_area_struct *vma)
+> {
+>         // ...
+>         mem =3D usb_alloc_coherent(ps->dev, size, GFP_USER | __GFP_NOWARN=
+,
+>                         &dma_handle);
+>         // ...
+>         if (hcd->localmem_pool || !hcd_uses_dma(hcd)) {
+>                 if (remap_pfn_range(vma, vma->vm_start,
+>                                     virt_to_phys(usbm->mem) >> PAGE_SHIFT=
+,
+>                                     size, vma->vm_page_prot) < 0) {
+>                         // ...
+>                 }
+>         }
+>         // ...
+> }
+>
+> Note that in this case, we consider the DMA-unavailable scenario, which, =
+to be
+> honest, is rare in practice. However, syzbot emulates USB devices using a
+> module named dummy_hcd, and since these devices are emulated, DMA is not
+> available at all.
+>
+> Meanwhile, usb_alloc_coherent calls hcd_buffer_alloc, which uses kmalloc =
+for
+> memory allocation:
+>
+> void *hcd_buffer_alloc(
+>         struct usb_bus          *bus,
+>         size_t                  size,
+>         gfp_t                   mem_flags,
+>         dma_addr_t              *dma
+> )
+> {
+>         // ...
+>         if (!hcd_uses_dma(hcd)) {
+>                 *dma =3D ~(dma_addr_t) 0;
+>                 return kmalloc(size, mem_flags);
+>         }
+>         // ...
+> }
+>
+> However, during the update of the page table to map the kmalloc'd page in=
+to
+> the user space, page_table_check_set attempts to determine whether the pa=
+ge is
+> anonymous using PageAnon:
+>
+> static void page_table_check_set(struct mm_struct *mm, unsigned long addr=
+,
+>                                  unsigned long pfn, unsigned long pgcnt,
+>                                  bool rw)
+> {
+>         // ...
+>         anon =3D PageAnon(page);
+>         for (i =3D 0; i < pgcnt; i++) {
+>                 // ...
+>                 if (anon) {
+>                         BUG_ON(atomic_read(&ptc->file_map_count));
+>                         BUG_ON(atomic_inc_return(&ptc->anon_map_count) > =
+1 && rw);
+>                 } else {
+>                         BUG_ON(atomic_read(&ptc->anon_map_count));
+>                         BUG_ON(atomic_inc_return(&ptc->file_map_count) < =
+0);
+>                 }
+>                 // ...
+>         }
+>         // ...
+> }
+>
+> This call to PageAnon is invalid for slab pages because slab reuses the b=
+its
+> in struct page/folio to store its internal states, and the anonymity bit =
+only
+> exists in struct page/folio. As a result, the counters are incorrectly up=
+dated
+> and checked in page_table_check_set and page_table_check_clear, leading t=
+o the
+> bug being raised.
 
-Would you need a bisect on this one? Maybe it would help.
+We should change anon boolean to be:
 
-Best regards,
-Mirsad
+anon =3D !PageSlab(page) && PageAnon(page);
 
+This way, we will have a correct way to determine anon pages, and the
+rest will fall into file_map_count. The file (non-anon) PTEs are OK to
+be double mapped, so there won't be any problems from page_table_check
+point of view even if it is a slab page.
 
+> Intuitively, I don't think it's reasonable to call remap_pfn_range to map
+> kmalloc'd pages into the user space. In the past, kmalloc'd pages might h=
+ave
+> had alignment issues when certain memory debugging options were enabled.
+> Although this has been fixed in commit 59bb47985c1d ("mm, sl[aou]b: guara=
+ntee
+> natural alignment for kmalloc(power-of-two)"), it has been shown that
+> performing such mapping is still buggy, as demonstrated by the type confu=
+sion
+> in page_table_check. Therefore, I propose adding a new function,
+> hcd_buffer_alloc_pages, to guarantee the page requirements (i.e., no
+> intermediate allocators, such as slab/slub). Below is a diff as a quick
+> example:
+>
+> diff --git a/drivers/usb/core/buffer.c b/drivers/usb/core/buffer.c
+> index fbb087b72..514bdc949 100644
+> --- a/drivers/usb/core/buffer.c
+> +++ b/drivers/usb/core/buffer.c
+> @@ -112,7 +112,7 @@ void hcd_buffer_destroy(struct usb_hcd *hcd)
+>   * better sharing and to leverage mm/slab.c intelligence.
+>   */
+>
+> -void *hcd_buffer_alloc(
+> +void *hcd_buffer_alloc_pages(
+>         struct usb_bus          *bus,
+>         size_t                  size,
+>         gfp_t                   mem_flags,
+> @@ -126,12 +126,13 @@ void *hcd_buffer_alloc(
+>                 return NULL;
+>
+>         if (hcd->localmem_pool)
+> -               return gen_pool_dma_alloc(hcd->localmem_pool, size, dma);
+> +               return gen_pool_dma_alloc_align(hcd->localmem_pool, size,
+> +                                               dma, PAGE_SIZE);
+>
+>         /* some USB hosts just use PIO */
+>         if (!hcd_uses_dma(hcd)) {
+>                 *dma =3D ~(dma_addr_t) 0;
+> -               return kmalloc(size, mem_flags);
+> +               return (void *)__get_free_pages(mem_flags, get_order(size=
+));
+>         }
+>
+>         for (i =3D 0; i < HCD_BUFFER_POOLS; i++) {
+>
+> (There appears to be another issue. In cases where hcd->localmem_pool is
+> non-null, I suspect that remap_pfn_range should not be used. This is a DM=
+A
+> scenario, and the DMA handle is properly returned, so dma_mmap_coherent s=
+hould
+> be used instead. Am I correct?)
+>
+> This does not actually fix the type confusion bug in page_table_check_*. =
+It
+> should be noted that by leveraging /dev/mem, users can map arbitrary phys=
+ical
+> memory regions into the user space, which is also achieved through
+> remap_pfn_range. I'm not 100% certain whether a fix is necessary, as one =
+may
+> argue that using page table checks (a kernel hardening technique, which m=
+eans
+> security is important) and /dev/mem (clearly insecure and potentially
+
+Yes, /dev/mem device is a security problem, and would not work with a
+hardern kernel.
+
+> exploitable) together is completely unreasonable.
+>
+> If a fix is deemed necessary, I think taking the flag VM_PFNMAP into
+> consideration is a reasonable solution, that said, in page_table_check_*,
+>  * when the VM_PFNMAP flag is set, all operations and checks on
+>    file_map_count and anon_map_count counters should be bypassed;
+>  * when the VM_PFNMAP flag is not set, an additionally check to ensure
+>    folio_test_slab evaluates to false should be performed.
+>
+> The implementation should be straightforward. However, I noticed that the
+> page_table_check_* hooks are called in arch/* instead of mm/*, which not =
+only
+> limits its supported architectures (currently x86_64, arm64, and risc-v) =
+but
+> also makes it difficult to get the struct vm_area_struct as a parameter, =
+since
+> the struct vm_area_struct is not passed from mm/* to arch/* when mapping =
+or
+> unmapping pages. I have looked at d283d422c6c4 ("x86: mm: add x86_64 supp=
+ort
+> for page table check"), but I don't see a valid reason. Perhaps Pasha can
+> provide some explanation about this implementation choice?
+
+We specifically decided not to use VMA information in order to avoid
+relying on MM state (except for limited "struct page" info). The
+page_table_check is a separate from Linux-MM state machine that
+verifies that the user accessible pages are not falsely shared.
+
+Pasha
