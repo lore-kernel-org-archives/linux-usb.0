@@ -2,203 +2,165 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3FDEC7EE39
-	for <linux-usb@archiver.kernel.org>; Wed, 10 May 2023 16:25:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49505C77B7C
+	for <linux-usb@archiver.kernel.org>; Wed, 10 May 2023 16:35:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235704AbjEJQYm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 May 2023 12:24:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48308 "EHLO
+        id S235540AbjEJQfG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 May 2023 12:35:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235511AbjEJQYP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 May 2023 12:24:15 -0400
+        with ESMTP id S231175AbjEJQfF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 May 2023 12:35:05 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31BFB7D84
-        for <linux-usb@vger.kernel.org>; Wed, 10 May 2023 09:22:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69F777D99
+        for <linux-usb@vger.kernel.org>; Wed, 10 May 2023 09:34:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1683735766;
+        s=mimecast20190719; t=1683736459;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=MrfAzzTvSr4NM9cjx9eZc8ahJ2DJ06vyc3zvAB2kHlk=;
-        b=JZboZTaCRvY8SBk8vlsbOHHOfcueCPlyrDVR50+SnGBRcscst7phMa2P9M5xTKRw9CrDlY
-        FDz2R8UGPEc6vbK0pNjPvmtwVPE8bD9b1zNODX5rK1PUSPQ/yI0BHDQl1YtGetlMsY5Ev6
-        f/9PbZM7NLUVT/9a2WfVnZcuyPXc9LI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-358-XwFgT2OJMhOo4rseUA0DJw-1; Wed, 10 May 2023 12:22:43 -0400
-X-MC-Unique: XwFgT2OJMhOo4rseUA0DJw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27A46185A79C;
-        Wed, 10 May 2023 16:22:42 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.195.159])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 106334078906;
-        Wed, 10 May 2023 16:22:39 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Pavel Machek <pavel@ucw.cz>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-leds@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, Yauhen Kharuzhy <jekhor@gmail.com>
-Subject: [PATCH RESEND 2/4] leds: Fix set_brightness_delayed() race
-Date:   Wed, 10 May 2023 18:22:32 +0200
-Message-Id: <20230510162234.291439-3-hdegoede@redhat.com>
-In-Reply-To: <20230510162234.291439-1-hdegoede@redhat.com>
-References: <20230510162234.291439-1-hdegoede@redhat.com>
+        bh=c+QqxpiG1U+G+dOtpx1ITq0GjqRCMSQvjjIZjS6KV1Q=;
+        b=ZhQGX7YTvxONRGleDVgUwDybyz19V1jj/PZH7B788V72mCh1KDLhBWdabCP4nS9nvEe6Ww
+        uUCfCedtq6A7tgvc514JojPuMqiuPuwCqniWx9rpAGZZFuY4dp2/MPBX4Knu8yyggt7eLN
+        J8M8AmmCEyHvN0CCuRvi/a7PvB50Qug=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-202-ADYlMlx5O1S1knixM7uNXQ-1; Wed, 10 May 2023 12:34:18 -0400
+X-MC-Unique: ADYlMlx5O1S1knixM7uNXQ-1
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-24de504c5fcso7433217a91.2
+        for <linux-usb@vger.kernel.org>; Wed, 10 May 2023 09:34:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683736457; x=1686328457;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c+QqxpiG1U+G+dOtpx1ITq0GjqRCMSQvjjIZjS6KV1Q=;
+        b=AxmyEbDkapgwO2G8zeH/t6ebjrzsbR7i3NhNuU3YHtqIBl3yMbxBUCpZgIYv1WtPSn
+         xgc4X49mUT+6JBTUbMe3ZhqoUVzV533WAXd2bKsbkNk5aSiIZGxSqpp/J8kew63M+6hv
+         WjHjdTv58faFxy/Z4rQKi+ilwGhuo2oSNl1VwHz/dC5zp6+mRN9B+7EW8etgeJS4ZwCk
+         SJDAp/off57nE2lizQ+9fxpvm637cXPB8CoG9wRoNn5cnHj3ua9sLXQ7NmBj9+lQiLJd
+         8TZRyTrVoV7znYM1sVZJC2OxL7NRgWKP0ikElWSoCYlWrgLpWbJUWWm9F2/xqQA1Fq4k
+         7BiQ==
+X-Gm-Message-State: AC+VfDwu4aQ/5LbzYNnur4EHcopBCmQ06Ph2+Lmxoru8/KlXnjeYIGL8
+        HUTTulU01DvS7f6wAK4mSfxjYaYnEomG55kbbHP8cZ9Zxs8yjLZuLJWahLfKDHs5DWnzD9VNuh6
+        5B+TKtj69oCQqMATqFR4N
+X-Received: by 2002:a17:90b:314e:b0:252:75ed:eff5 with SMTP id ip14-20020a17090b314e00b0025275edeff5mr1245112pjb.30.1683736457238;
+        Wed, 10 May 2023 09:34:17 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7EdgNF0FnAHwSa6p1ZBdA+qjfDeebFN0AfPJYEoCiiN4duL77pDs94kbQ+vfFR/hWf3NeGtg==
+X-Received: by 2002:a17:90b:314e:b0:252:75ed:eff5 with SMTP id ip14-20020a17090b314e00b0025275edeff5mr1245083pjb.30.1683736456926;
+        Wed, 10 May 2023 09:34:16 -0700 (PDT)
+Received: from ?IPV6:2001:4958:15a0:30:5835:5bd3:f0c8:e5ef? ([2001:4958:15a0:30:5835:5bd3:f0c8:e5ef])
+        by smtp.gmail.com with ESMTPSA id gp24-20020a17090adf1800b0024e227828a9sm8880080pjb.24.2023.05.10.09.34.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 May 2023 09:34:16 -0700 (PDT)
+Message-ID: <48a47f2e-0506-ca0f-07d5-15918865cd19@redhat.com>
+Date:   Wed, 10 May 2023 18:34:15 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 2/4] usb: usbfs: Use consistent mmap functions
+Content-Language: en-US
+To:     Ruihan Li <lrh2000@pku.edu.cn>,
+        Alan Stern <stern@rowland.harvard.edu>
+Cc:     linux-mm@kvack.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Pasha Tatashin <pasha.tatashin@soleen.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org
+References: <20230510085527.57953-1-lrh2000@pku.edu.cn>
+ <20230510085527.57953-3-lrh2000@pku.edu.cn>
+ <e197f549-0ee7-446e-86af-ac173d047df5@rowland.harvard.edu>
+ <w6keszmqdkwsuw5k3dsyl67zgndorxsoeenysjyzlzf5v4p6bl@mvztdsgt7qjj>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <w6keszmqdkwsuw5k3dsyl67zgndorxsoeenysjyzlzf5v4p6bl@mvztdsgt7qjj>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When a trigger wants to switch from blinking to LED on it needs to call:
-	led_set_brightness(LED_OFF);
-	led_set_brightness(LED_FULL);
+On 10.05.23 17:41, Ruihan Li wrote:
+> Hi Alan,
+> 
+> On Wed, May 10, 2023 at 10:38:48AM -0400, Alan Stern wrote:
+>> On Wed, May 10, 2023 at 04:55:25PM +0800, Ruihan Li wrote:
+>>> When hcd->localmem_pool is non-null, it is used to allocate DMA memory.
+>>> In this case, the dma address will be properly returned (in dma_handle),
+>>> and dma_mmap_coherent should be used to map this memory into the user
+>>> space. However, the current implementation uses pfn_remap_range, which
+>>> is supposed to map normal pages (instead of DMA pages).
+>>>
+>>> Instead of repeating the logic in the memory allocation function, this
+>>> patch introduces a more robust solution. To address the previous issue,
+>>> this patch checks the type of allocated memory by testing whether
+>>> dma_handle is properly set. If dma_handle is properly returned, it means
+>>> some DMA pages are allocated and dma_mmap_coherent should be used to map
+>>> them. Otherwise, normal pages are allocated and pfn_remap_range should
+>>> be called. This ensures that the correct mmap functions are used
+>>> consistently, independently with logic details that determine which type
+>>> of memory gets allocated.
+>>>
+>>> Fixes: a0e710a7def4 ("USB: usbfs: fix mmap dma mismatch")
+>>> Cc: stable@vger.kernel.org
+>>> Signed-off-by: Ruihan Li <lrh2000@pku.edu.cn>
+>>> ---
+>>>   drivers/usb/core/devio.c | 10 ++++++++--
+>>>   1 file changed, 8 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+>>> index b4cf9e860..5067030b7 100644
+>>> --- a/drivers/usb/core/devio.c
+>>> +++ b/drivers/usb/core/devio.c
+>>> @@ -235,7 +235,7 @@ static int usbdev_mmap(struct file *file, struct vm_area_struct *vma)
+>>>   	size_t size = vma->vm_end - vma->vm_start;
+>>>   	void *mem;
+>>>   	unsigned long flags;
+>>> -	dma_addr_t dma_handle;
+>>> +	dma_addr_t dma_handle = DMA_MAPPING_ERROR;
+>>>   	int ret;
+>>>   
+>>>   	ret = usbfs_increase_memory_usage(size + sizeof(struct usb_memory));
+>>> @@ -265,7 +265,13 @@ static int usbdev_mmap(struct file *file, struct vm_area_struct *vma)
+>>>   	usbm->vma_use_count = 1;
+>>>   	INIT_LIST_HEAD(&usbm->memlist);
+>>>   
+>>> -	if (hcd->localmem_pool || !hcd_uses_dma(hcd)) {
+>>> +	/* In DMA-unavailable cases, hcd_buffer_alloc_pages allocates
+>>> +	 * normal pages and assigns DMA_MAPPING_ERROR to dma_handle. Check
+>>> +	 * whether we are in such cases, and then use remap_pfn_range (or
+>>> +	 * dma_mmap_coherent) to map normal (or DMA) pages into the user
+>>> +	 * space, respectively.
+>>> +	 */
+>>
+>> Another stylistic issue.  For multi-line comments, the format we use is:
+>>
+>> 	/*
+>> 	 * Blah, blah, blah
+>> 	 * Blah, blah, blah
+>> 	 */
+>>
+>> Alan Stern
+> 
+> Yeah, I am pretty sure it is another style difference with the net
+> subsystem. Again, in the next version, I'll follow the coding style that
+> you have pointed out.
 
-To first call disables blinking and the second then turns the LED on
-(the power-supply charging-blink-full-solid triggers do this).
+Documentation/process/coding-style.rst
 
-These calls happen immediately after each other, so it is possible
-that set_brightness_delayed() from the first call has not run yet
-when the led_set_brightness(LED_FULL) call finishes.
+spells out that net/ and drivers/net/ are "special".
 
-If this race hits then this is causing problems for both
-sw- and hw-blinking:
+Regarding breaking long lines, it's just an inconsistent, undocumented 
+mess IIRC ...
 
-For sw-blinking set_brightness_delayed() clears delayed_set_value
-when LED_BLINK_DISABLE is set causing the led_set_brightness(LED_FULL)
-call effects to get lost when hitting the race, resulting in the LED
-turning off instead of on.
-
-For hw-blinking if the race hits delayed_set_value has been
-set to LED_FULL by the time set_brightness_delayed() runs.
-So led_cdev->brightness_set_blocking() is never called with
-LED_OFF as argument and the hw-blinking is never disabled leaving
-the LED blinking instead of on.
-
-Fix both issues by adding LED_SET_BRIGHTNESS and LED_SET_BRIGHTNESS_OFF
-work_flags making this 2 separate actions to be run by
-set_brightness_delayed().
-
-Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Tested-by: Yauhen Kharuzhy <jekhor@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/leds/led-core.c | 57 +++++++++++++++++++++++++++++++----------
- include/linux/leds.h    |  3 +++
- 2 files changed, 47 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-index 4a97cb745788..e61acc785410 100644
---- a/drivers/leds/led-core.c
-+++ b/drivers/leds/led-core.c
-@@ -114,21 +114,14 @@ static void led_timer_function(struct timer_list *t)
- 	mod_timer(&led_cdev->blink_timer, jiffies + msecs_to_jiffies(delay));
- }
- 
--static void set_brightness_delayed(struct work_struct *ws)
-+static void set_brightness_delayed_set_brightness(struct led_classdev *led_cdev,
-+						  unsigned int value)
- {
--	struct led_classdev *led_cdev =
--		container_of(ws, struct led_classdev, set_brightness_work);
- 	int ret = 0;
- 
--	if (test_and_clear_bit(LED_BLINK_DISABLE, &led_cdev->work_flags)) {
--		led_cdev->delayed_set_value = LED_OFF;
--		led_stop_software_blink(led_cdev);
--	}
--
--	ret = __led_set_brightness(led_cdev, led_cdev->delayed_set_value);
-+	ret = __led_set_brightness(led_cdev, value);
- 	if (ret == -ENOTSUPP)
--		ret = __led_set_brightness_blocking(led_cdev,
--					led_cdev->delayed_set_value);
-+		ret = __led_set_brightness_blocking(led_cdev, value);
- 	if (ret < 0 &&
- 	    /* LED HW might have been unplugged, therefore don't warn */
- 	    !(ret == -ENODEV && (led_cdev->flags & LED_UNREGISTERING) &&
-@@ -137,6 +130,30 @@ static void set_brightness_delayed(struct work_struct *ws)
- 			"Setting an LED's brightness failed (%d)\n", ret);
- }
- 
-+static void set_brightness_delayed(struct work_struct *ws)
-+{
-+	struct led_classdev *led_cdev =
-+		container_of(ws, struct led_classdev, set_brightness_work);
-+
-+	if (test_and_clear_bit(LED_BLINK_DISABLE, &led_cdev->work_flags)) {
-+		led_stop_software_blink(led_cdev);
-+		set_bit(LED_SET_BRIGHTNESS_OFF, &led_cdev->work_flags);
-+	}
-+
-+	/*
-+	 * Triggers may call led_set_brightness(LED_OFF),
-+	 * led_set_brightness(LED_FULL) in quick succession to disable blinking
-+	 * and turn the LED on. Both actions may have been scheduled to run
-+	 * before this work item runs once. To make sure this works properly
-+	 * handle LED_SET_BRIGHTNESS_OFF first.
-+	 */
-+	if (test_and_clear_bit(LED_SET_BRIGHTNESS_OFF, &led_cdev->work_flags))
-+		set_brightness_delayed_set_brightness(led_cdev, LED_OFF);
-+
-+	if (test_and_clear_bit(LED_SET_BRIGHTNESS, &led_cdev->work_flags))
-+		set_brightness_delayed_set_brightness(led_cdev, led_cdev->delayed_set_value);
-+}
-+
- static void led_set_software_blink(struct led_classdev *led_cdev,
- 				   unsigned long delay_on,
- 				   unsigned long delay_off)
-@@ -271,8 +288,22 @@ void led_set_brightness_nopm(struct led_classdev *led_cdev, unsigned int value)
- 	if (!__led_set_brightness(led_cdev, value))
- 		return;
- 
--	/* If brightness setting can sleep, delegate it to a work queue task */
--	led_cdev->delayed_set_value = value;
-+	/*
-+	 * Brightness setting can sleep, delegate it to a work queue task.
-+	 * value 0 / LED_OFF is special, since it also disables hw-blinking
-+	 * (sw-blink disable is handled in led_set_brightness()).
-+	 * To avoid a hw-blink-disable getting lost when a second brightness
-+	 * change is done immediately afterwards (before the work runs),
-+	 * it uses a separate work_flag.
-+	 */
-+	if (value) {
-+		led_cdev->delayed_set_value = value;
-+		set_bit(LED_SET_BRIGHTNESS, &led_cdev->work_flags);
-+	} else {
-+		clear_bit(LED_SET_BRIGHTNESS, &led_cdev->work_flags);
-+		set_bit(LED_SET_BRIGHTNESS_OFF, &led_cdev->work_flags);
-+	}
-+
- 	schedule_work(&led_cdev->set_brightness_work);
- }
- EXPORT_SYMBOL_GPL(led_set_brightness_nopm);
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index c3dc22d184e2..de813fe96a20 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -124,6 +124,9 @@ struct led_classdev {
- #define LED_BLINK_INVERT		3
- #define LED_BLINK_BRIGHTNESS_CHANGE 	4
- #define LED_BLINK_DISABLE		5
-+	/* Brightness off also disables hw-blinking so it is a separate action */
-+#define LED_SET_BRIGHTNESS_OFF		6
-+#define LED_SET_BRIGHTNESS		7
- 
- 	/* Set LED brightness level
- 	 * Must not sleep. Use brightness_set_blocking for drivers
 -- 
-2.40.1
+Thanks,
+
+David / dhildenb
 
