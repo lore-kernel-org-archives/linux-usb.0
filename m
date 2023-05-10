@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9CFFC77B7C
-	for <linux-usb@archiver.kernel.org>; Wed, 10 May 2023 22:28:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE196C77B7D
+	for <linux-usb@archiver.kernel.org>; Wed, 10 May 2023 22:29:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236324AbjEJW25 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 May 2023 18:28:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42138 "EHLO
+        id S235456AbjEJW3M (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 May 2023 18:29:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236300AbjEJW2y (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 May 2023 18:28:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29CA130C1
-        for <linux-usb@vger.kernel.org>; Wed, 10 May 2023 15:28:53 -0700 (PDT)
+        with ESMTP id S236253AbjEJW3L (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 May 2023 18:29:11 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2935E53
+        for <linux-usb@vger.kernel.org>; Wed, 10 May 2023 15:29:08 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AC43363442
-        for <linux-usb@vger.kernel.org>; Wed, 10 May 2023 22:28:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1E05DC433D2
-        for <linux-usb@vger.kernel.org>; Wed, 10 May 2023 22:28:52 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3A6E163442
+        for <linux-usb@vger.kernel.org>; Wed, 10 May 2023 22:29:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9EADBC433EF
+        for <linux-usb@vger.kernel.org>; Wed, 10 May 2023 22:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683757732;
-        bh=a8sSYaqpLc7c5L7f8PCvfnqk6xUpJ9KSnbaRfkOpHWk=;
+        s=k20201202; t=1683757747;
+        bh=N8OuK1A3CEXXvRb0yHraNS2xUxVzX7VFUep3tJZvxSQ=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=LLf5pURJQBw1Ez6WFPkKYso16FybFS6UMDuvj0N5f8YZMJLpuurwQ4M8ZFf3sDfS4
-         +FWazJerJGomUxq2olD1AH1sD9VRFMoSQFfVFFryjmeUG26/JPG84xosuDGvx9kGFo
-         H2TahVZWlVzcklx4CKjH20gPW8pJb2aYOQMMpDA2uXQgHkuqyUbeVNlNOQU47vAvKS
-         SspbUJA7cfkKbTYt5okzT2dDHoU7sev68GGyqSdNiubRxhzxOSxyHNCHQWcV7FwQDO
-         V6HOEZmV4fguJF9asbb/s+rv9k1Vr8HjDykCDtqBR/GZD5cUa5GDDjedrv8+GhiniE
-         zY3Oa3aegiZew==
+        b=FiKezWMT8MLJi1QU7P1jtyANGA1zp2++NJ+Tn+omCrGfz+1V82R+GulQ/BfPjuKGd
+         Wy72HPgzK25jZ+0usG1fJULwAc2EPO3Vv6kNyetNyOLO0D4yS/Sm+rIyRTtV4eafKs
+         UAOLP7Cteo7RvzJBcdF1vlOenPxOzujin7GhJGCxmU6alz+32ANdJ6prh4wAmNDVQJ
+         WkcUAHxbUCmCMnDrMC1aKv0+tgpxnd6m1zVkYdUpVBQEWrZi3hQHrgUjF9uiJaCfjR
+         DtTKYY3w+mK5QpqeV5H82RghyRggXC88RGfxYaQyD/Lf76wfF72AuRRrxyE+ejzK4K
+         dWBsfLj0+kDEg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 08182C43142; Wed, 10 May 2023 22:28:52 +0000 (UTC)
+        id 8E11FC43142; Wed, 10 May 2023 22:29:07 +0000 (UTC)
 From:   bugzilla-daemon@kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 217122] Regression in xhci driver since 6.1 "Transfer event TRB
  DMA ptr not part of current TD"
-Date:   Wed, 10 May 2023 22:28:51 +0000
+Date:   Wed, 10 May 2023 22:29:07 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -53,7 +53,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217122-208809-i2oMj31XMI@https.bugzilla.kernel.org/>
+Message-ID: <bug-217122-208809-lSDPtsdFtt@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217122-208809@https.bugzilla.kernel.org/>
 References: <bug-217122-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -67,7 +67,7 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D217122
 
---- Comment #22 from J=C3=BCrgen Herrmann (t-5@t-5.eu) ---
+--- Comment #23 from J=C3=BCrgen Herrmann (t-5@t-5.eu) ---
 OK, I will do that an dreport back if that particular commit also fixes the
 issue with TPM re-enabled.
 
