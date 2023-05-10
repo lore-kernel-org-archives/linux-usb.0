@@ -2,95 +2,139 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9D55C7EE2A
-	for <linux-usb@archiver.kernel.org>; Wed, 10 May 2023 13:28:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A93BC7EE22
+	for <linux-usb@archiver.kernel.org>; Wed, 10 May 2023 14:11:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237096AbjEJN2d (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 May 2023 09:28:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35668 "EHLO
+        id S236989AbjEJOLi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 May 2023 10:11:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237082AbjEJN2c (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 May 2023 09:28:32 -0400
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0CB861B2;
-        Wed, 10 May 2023 06:28:22 -0700 (PDT)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-        by ex01.ufhost.com (Postfix) with ESMTP id D411D24E143;
-        Wed, 10 May 2023 21:28:18 +0800 (CST)
-Received: from EXMBX171.cuchost.com (172.16.6.91) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 10 May
- 2023 21:28:18 +0800
-Received: from ubuntu.localdomain (183.27.98.219) by EXMBX171.cuchost.com
- (172.16.6.91) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 10 May
- 2023 21:28:17 +0800
-From:   Minda Chen <minda.chen@starfivetech.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Roger Quadros <rogerq@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>,
-        Minda Chen <minda.chen@starfivetech.com>
-Subject: [PATCH v2 1/2] dt-bindings: cdns,usb3: Add clock and reset
-Date:   Wed, 10 May 2023 21:28:15 +0800
-Message-ID: <20230510132816.108820-2-minda.chen@starfivetech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230510132816.108820-1-minda.chen@starfivetech.com>
-References: <20230510132816.108820-1-minda.chen@starfivetech.com>
+        with ESMTP id S237201AbjEJOLh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 May 2023 10:11:37 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD820114
+        for <linux-usb@vger.kernel.org>; Wed, 10 May 2023 07:11:35 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id 3f1490d57ef6-b9a6f17f2b6so36037518276.1
+        for <linux-usb@vger.kernel.org>; Wed, 10 May 2023 07:11:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683727895; x=1686319895;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ABREL4RA4HQkooXBZ4vFWzYroT9eYO8/4h0/bu7hTPg=;
+        b=nJecOsJyqcRvaPT9m6MbM8DDYx5vc8NikACtgnGDBMlsZ7jEUJkdiuqpUXSwJ+VDLR
+         SV8mBBD/MDHq53G/wg7Y67l/cSYGGnu8Z5LWkidbHXZ8v0zSeOCnpwAO0nSQzFXbVY8z
+         fREaKLtEXgrcDSUNKwxcbxQRHq4YrFYpLHlc8TcY4xQEqEyzykC24djuJbI5K5v9Q775
+         05gR4e2Exo5gy8VpID15rkL7IZNqvJfmwHzeIixJ4NxhmP5fM1+neOLV9IfuD+TN6rBJ
+         VR1FKFpkYm6OLaVPBErbw+bW+/4vfdFxt3vDpMvbuBsqA0C41Te1XXj6Ah1IcqKn+/B7
+         46VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683727895; x=1686319895;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ABREL4RA4HQkooXBZ4vFWzYroT9eYO8/4h0/bu7hTPg=;
+        b=CPOS2/cuZdXi0wlqhIedCuRlp9+n3jaVAlHUJHip/e3JZLj3263fOR4EYfuc9N8FXL
+         5RvFZgwm89g0zQinE1sA2SG2rUiZuLPA+rZhJASg49k0sUYfomgVwn5g8CnM7Ft1Yhgq
+         P6WCDL3tBCH9yVI+cPV0xo2iKMEwcQpOXyl1YwqMMa4Rq9EkxW2vsxmAWiWXpS52hDAQ
+         q6ZtsRXI4bqnmbTwkTTNww1THcyZKGNjzg/R4vLHZtSUJHegt6X+FPC3ZyOrxwohSpy0
+         ORYXVcysy1VmR0TSxyvW4d3td1VNGgPF4F38a4w+G9DmYlju/ZuoZUqivbXXv0anygvn
+         Y/Ag==
+X-Gm-Message-State: AC+VfDyzXSrw9NBMhfm4/7RsN5+L0JzsWDtoIkPlst+Pt6HxVyPd5Agp
+        wTg+PXjc7/LQLqsL40UuWNIVFgwW0bQ3N8NiawgBV+dCHDTQIL2r
+X-Google-Smtp-Source: ACHHUZ6qSFZacUexcQkHcVAJ+XtxS7EGJ0Aso4chPxbPdm4XjwCwQpJtI34WDH2cWrBtoFXh8o5rCwC8gRl71XOUXuU=
+X-Received: by 2002:a25:a87:0:b0:b9e:772f:34bc with SMTP id
+ 129-20020a250a87000000b00b9e772f34bcmr21231831ybk.22.1683727894999; Wed, 10
+ May 2023 07:11:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [183.27.98.219]
-X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX171.cuchost.com
- (172.16.6.91)
-X-YovoleRuleAgent: yovoleflag
+References: <cover.1683630932.git.quic_varada@quicinc.com> <42bf6244582d6208f51db1a9299fe1c8afab4e14.1683630932.git.quic_varada@quicinc.com>
+ <CAA8EJpqkSNzx=73JS1Csw+ivVovhrFeM0R5j2tpruEfNqvT48Q@mail.gmail.com> <20230510102244.GA21530@varda-linux.qualcomm.com>
+In-Reply-To: <20230510102244.GA21530@varda-linux.qualcomm.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Wed, 10 May 2023 17:11:24 +0300
+Message-ID: <CAA8EJppgkHREJrBzhSDn9VT--RRcpcxMYvTWoYfkXkv4XFtK6Q@mail.gmail.com>
+Subject: Re: [PATCH v11 8/9] arm64: dts: qcom: ipq9574: Add LDO regulator node
+To:     Varadarajan Narayanan <quic_varada@quicinc.com>
+Cc:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        vkoul@kernel.org, kishon@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        gregkh@linuxfoundation.org, mturquette@baylibre.com,
+        sboyd@kernel.org, quic_wcheng@quicinc.com,
+        linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-To support generic clock and reset init in Cadence USBSS
-controller, add clock and reset dts configuration.
+On Wed, 10 May 2023 at 13:23, Varadarajan Narayanan
+<quic_varada@quicinc.com> wrote:
+>
+> On Tue, May 09, 2023 at 04:08:59PM +0300, Dmitry Baryshkov wrote:
+> > On Tue, 9 May 2023 at 14:56, Varadarajan Narayanan
+> > <quic_varada@quicinc.com> wrote:
+> > >
+> > > Add LDO regulator node
+> > >
+> > > Signed-off-by: Varadarajan Narayanan <quic_varada@quicinc.com>
+> > > ---
+> > >  Changes in v10:
+> > >         - Add LDO regulator node
+> > > ---
+> > >  arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> >
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >
+> > Minor question below:
+> >
+> > >
+> > > diff --git a/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts b/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts
+> > > index bdc1434..1f5d14f 100644
+> > > --- a/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts
+> > > +++ b/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts
+> > > @@ -60,6 +60,13 @@
+> > >                         regulator-min-microvolt = <725000>;
+> > >                         regulator-max-microvolt = <1075000>;
+> > >                 };
+> > > +
+> > > +               mp5496_l2: l2 {
+> > > +                       regulator-min-microvolt = <1800000>;
+> > > +                       regulator-max-microvolt = <1800000>;
+> > > +                       regulator-boot-on;
+> > > +                       regulator-always-on;
+> >
+> > This usually points out that there are other users which are not yet
+> > enabled/properly specified. What users are there for this supply which
+> > demand it to be always on?
+>
+> The 1.8v rail is used by PCIe PHY, PLL for Ethernet SerDes
+> interface and PLLs that generate SoC clocks. The voting for this
+> rail is managed by the RPM f/w.
 
-Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
----
- .../devicetree/bindings/usb/cdns,usb3.yaml         | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Then I'm looking forward to seeing the patch which declares all the
+actual users of the lane. Please do not declare power lanes as
+boot-on/always-on unless there is a strong reason for doing it.
 
-diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-index cae46c4982ad..623c6b34dee3 100644
---- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-+++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-@@ -42,6 +42,18 @@ properties:
-       - const: otg
-       - const: wakeup
- 
-+  clocks:
-+    minItems: 1
-+    maxItems: 8
-+    description:
-+      USB controller clocks.
-+
-+  resets:
-+    minItems: 1
-+    maxItems: 8
-+    description:
-+      USB controller generic resets.
-+
-   dr_mode:
-     enum: [host, otg, peripheral]
- 
-@@ -98,5 +110,7 @@ examples:
-             interrupt-names = "host", "peripheral", "otg";
-             maximum-speed = "super-speed";
-             dr_mode = "otg";
-+            clocks = <&clk 1>, <&clk 2>, <&clk 3>;
-+            resets = <&rst 1>, <&rst 2>, <&rst 3>;
-         };
-     };
+>
+> Thanks
+> Varada
+>
+> > > +               };
+> > >         };
+> > >  };
+> > >
+> > > --
+> > > 2.7.4
+> > >
+> >
+> >
+> > --
+> > With best wishes
+> > Dmitry
+
+
+
 -- 
-2.17.1
-
+With best wishes
+Dmitry
