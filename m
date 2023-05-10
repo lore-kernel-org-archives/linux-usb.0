@@ -2,28 +2,29 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E045C7EE22
-	for <linux-usb@archiver.kernel.org>; Wed, 10 May 2023 08:56:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A61BBC7EE22
+	for <linux-usb@archiver.kernel.org>; Wed, 10 May 2023 09:04:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236849AbjEJI4G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 May 2023 04:56:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46534 "EHLO
+        id S236942AbjEJJER (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 May 2023 05:04:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236813AbjEJI4E (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 May 2023 04:56:04 -0400
-Received: from pku.edu.cn (mx19.pku.edu.cn [162.105.129.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 27A9BE45;
-        Wed, 10 May 2023 01:55:56 -0700 (PDT)
+        with ESMTP id S236932AbjEJJEM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 May 2023 05:04:12 -0400
+X-Greylist: delayed 477 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 10 May 2023 02:03:54 PDT
+Received: from pku.edu.cn (mx18.pku.edu.cn [162.105.129.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B636CE4A;
+        Wed, 10 May 2023 02:03:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=pku.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-        Message-Id:MIME-Version:Content-Transfer-Encoding; bh=5fgX4Fhl0a
-        Sp9FXpCFf3QP/h9Q7cD/Xeogk7PFQTbxg=; b=YOYEJbkx3Q7PrqHtYF/iMqaE6I
-        nBpO1/Vlr1JQA3ZxAOsPmiY6ekTTBJpPkhIMeuDCyc/Bdep4JpBSnZPepdASfwmV
-        sJ9drPAkkk+QZQYyrEkOk0cxbZO6OHC32wmVK5S6jLBbyYSy70V0RUlL52ui0cSk
-        pEMKBV+HjoXkx+cgQ=
+        Message-Id:In-Reply-To:References:MIME-Version:
+        Content-Transfer-Encoding; bh=uc/joagnVnWX0pVL8sA/swhhcGx1a7P3dQ
+        TDyW7FP10=; b=ZmFL1Miz+iwxUAejxmnXZrzMvhWRO2gTDNymFiYKOFmOJx2Phg
+        n86fSt1XcCM1orEYX0LJ8T7Z57qLiHA5O81og7eaOHCblqDcOVLLfy3XPdMK7Mvo
+        aKEwhnHrpWzNksDyzH7/HBiexN+Atn1CCGgm+sIUKlxloB2ZQEE2gI3E8=
 Received: from localhost.localdomain (unknown [10.7.101.92])
-        by front01 (Coremail) with SMTP id 5oFpogBnb2cIXFtkW9d5Ag--.63159S2;
-        Wed, 10 May 2023 16:55:39 +0800 (CST)
+        by front01 (Coremail) with SMTP id 5oFpogBnb2cIXFtkW9d5Ag--.63159S4;
+        Wed, 10 May 2023 16:55:42 +0800 (CST)
 From:   Ruihan Li <lrh2000@pku.edu.cn>
 To:     linux-mm@kvack.org
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -33,18 +34,20 @@ Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
         Christoph Hellwig <hch@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ruihan Li <lrh2000@pku.edu.cn>
-Subject: [PATCH 0/4] Fix type confusion in page_table_check
-Date:   Wed, 10 May 2023 16:55:23 +0800
-Message-Id: <20230510085527.57953-1-lrh2000@pku.edu.cn>
+        Ruihan Li <lrh2000@pku.edu.cn>, stable@vger.kernel.org
+Subject: [PATCH 2/4] usb: usbfs: Use consistent mmap functions
+Date:   Wed, 10 May 2023 16:55:25 +0800
+Message-Id: <20230510085527.57953-3-lrh2000@pku.edu.cn>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230510085527.57953-1-lrh2000@pku.edu.cn>
+References: <20230510085527.57953-1-lrh2000@pku.edu.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: 5oFpogBnb2cIXFtkW9d5Ag--.63159S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Aw1fJw4ktrW7Jw4ftrWDJwb_yoW8XrW8p3
-        WUCr1YqF4rG3s3Jw1SkanYk34ruF4rG3y7CryIk3yY93s5Jr1IkFn3Wr13Za4kAryUGr15
-        KF4agry7Kr18Ja7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUBY1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+X-CM-TRANSID: 5oFpogBnb2cIXFtkW9d5Ag--.63159S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw45ZF1kZrWfCw4UCr17KFg_yoW8KFWDpF
+        W8K3yj9F40qFySvr1q9an5WFn5G3s5KFyUWrW2v3sxu3W3Jr1SkFWFya4YqF17tr18Xrna
+        qFWqyw13C3W5uFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBF1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
         w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
         IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW0oVCq3wA2z4x0Y4vEx4A2
         jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAac4AC62xK8xCEY4
@@ -54,47 +57,65 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7Aw1fJw4ktrW7Jw4ftrWDJwb_yoW8XrW8p3
         628vn2kIc2xKxwCY02Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8V
         WkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
         7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
-        C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF
+        C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
         04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
-        CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbHa0DUUUUU==
-X-CM-SenderInfo: yssqiiarrvmko6sn3hxhgxhubq/1tbiAgEEBVPy770DbwAVsI
+        CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQZ23UUUUU=
+X-CM-SenderInfo: yssqiiarrvmko6sn3hxhgxhubq/1tbiAgEEBVPy770DbwAZsE
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Recently, syzbot reported [1] ("kernel BUG in page_table_check_clear").
-The root cause is that usbdev_mmap calls remap_pfn_range on kmalloc'ed
-memory, which leads to type confusion between struct page and slab in
-page_table_check. This series of patches fixes the usb side by avoiding
-mapping slab pages into userspace, and fixes the mm side by enforcing
-that all user-accessible pages are not slab pages. A more detailed
-analysis and some discussion of how to fix the problem can also be found
-in [1].
+When hcd->localmem_pool is non-null, it is used to allocate DMA memory.
+In this case, the dma address will be properly returned (in dma_handle),
+and dma_mmap_coherent should be used to map this memory into the user
+space. However, the current implementation uses pfn_remap_range, which
+is supposed to map normal pages (instead of DMA pages).
 
- [1] https://lore.kernel.org/lkml/20230507135844.1231056-1-lrh2000@pku.edu.cn/T/
+Instead of repeating the logic in the memory allocation function, this
+patch introduces a more robust solution. To address the previous issue,
+this patch checks the type of allocated memory by testing whether
+dma_handle is properly set. If dma_handle is properly returned, it means
+some DMA pages are allocated and dma_mmap_coherent should be used to map
+them. Otherwise, normal pages are allocated and pfn_remap_range should
+be called. This ensures that the correct mmap functions are used
+consistently, independently with logic details that determine which type
+of memory gets allocated.
 
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Christoph Hellwig <hch@infradead.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Fixes: a0e710a7def4 ("USB: usbfs: fix mmap dma mismatch")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ruihan Li <lrh2000@pku.edu.cn>
+---
+ drivers/usb/core/devio.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-Ruihan Li (4):
-  usb: usbfs: Enforce page requirements for mmap
-  usb: usbfs: Use consistent mmap functions
-  mm: page_table_check: Make it dependent on !DEVMEM
-  mm: page_table_check: Ensure user pages are not slab pages
-
- Documentation/mm/page_table_check.rst | 18 ++++++++++++
- drivers/usb/core/buffer.c             | 41 +++++++++++++++++++++++++++
- drivers/usb/core/devio.c              | 15 +++++++---
- include/linux/page-flags.h            |  6 ++++
- include/linux/usb/hcd.h               |  5 ++++
- mm/Kconfig.debug                      |  2 +-
- mm/page_table_check.c                 |  6 ++++
- 7 files changed, 88 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+index b4cf9e860..5067030b7 100644
+--- a/drivers/usb/core/devio.c
++++ b/drivers/usb/core/devio.c
+@@ -235,7 +235,7 @@ static int usbdev_mmap(struct file *file, struct vm_area_struct *vma)
+ 	size_t size = vma->vm_end - vma->vm_start;
+ 	void *mem;
+ 	unsigned long flags;
+-	dma_addr_t dma_handle;
++	dma_addr_t dma_handle = DMA_MAPPING_ERROR;
+ 	int ret;
+ 
+ 	ret = usbfs_increase_memory_usage(size + sizeof(struct usb_memory));
+@@ -265,7 +265,13 @@ static int usbdev_mmap(struct file *file, struct vm_area_struct *vma)
+ 	usbm->vma_use_count = 1;
+ 	INIT_LIST_HEAD(&usbm->memlist);
+ 
+-	if (hcd->localmem_pool || !hcd_uses_dma(hcd)) {
++	/* In DMA-unavailable cases, hcd_buffer_alloc_pages allocates
++	 * normal pages and assigns DMA_MAPPING_ERROR to dma_handle. Check
++	 * whether we are in such cases, and then use remap_pfn_range (or
++	 * dma_mmap_coherent) to map normal (or DMA) pages into the user
++	 * space, respectively.
++	 */
++	if (dma_handle == DMA_MAPPING_ERROR) {
+ 		if (remap_pfn_range(vma, vma->vm_start,
+ 				    virt_to_phys(usbm->mem) >> PAGE_SHIFT,
+ 				    size, vma->vm_page_prot) < 0) {
 -- 
 2.40.1
 
