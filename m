@@ -2,123 +2,96 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC4D1C7EE31
-	for <linux-usb@archiver.kernel.org>; Thu, 11 May 2023 21:05:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E585C7EE22
+	for <linux-usb@archiver.kernel.org>; Thu, 11 May 2023 21:07:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238946AbjEKVFR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 May 2023 17:05:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52934 "EHLO
+        id S239085AbjEKVHz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 May 2023 17:07:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238768AbjEKVFM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 May 2023 17:05:12 -0400
-Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B357DA8;
-        Thu, 11 May 2023 14:05:10 -0700 (PDT)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mx.sberdevices.ru (Postfix) with ESMTP id 54D6B5FD11;
-        Fri, 12 May 2023 00:05:08 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1683839108;
-        bh=eyzCCsK01f/afWykUeqT1z5S763OYcMrDYYa5HTJ5Mo=;
-        h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-        b=oQIuj2vpkx5n8bqAHoIgF/CTBL5luo6qnvBo5k3pSedhKOsAONQzooa0OXPTqgxHq
-         dUUIa9RpShK9ZWLEn4u+c4L8LTBymyNEUFBALjW7Uz1UHbvYD0ohVp+Q0YDhrrJY/D
-         NTFC89R4NnnzAakQVwKRTC1NCB4u8bTt2Sy4LGuuw1S3lZA1edJgmhty+7aDZDPw/D
-         ZruVhOh5OMP7XhJcX59tOs5Q9Cry95TBr7lxmojPT6kJmRauNalrkZNJR7IDz9u+7Y
-         uHmbigz2hbQyr09xbEm4TJMp9V7cr70V2iyFfhv3TLOvU3ox3POnSKj9kPTE67TsuG
-         nbkDWyvynR3nA==
-Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
-        by mx.sberdevices.ru (Postfix) with ESMTP;
-        Fri, 12 May 2023 00:05:08 +0300 (MSK)
-From:   Dmitry Rokosov <ddrokosov@sberdevices.ru>
-To:     <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <neil.armstrong@linaro.org>,
-        <khilman@baylibre.com>, <jbrunet@baylibre.com>,
-        <martin.blumenstingl@googlemail.com>, <mturquette@baylibre.com>,
-        <vkoul@kernel.org>, <kishon@kernel.org>, <hminas@synopsys.com>,
-        <Thinh.Nguyen@synopsys.com>
-CC:     <yue.wang@amlogic.com>, <hanjie.lin@amlogic.com>,
-        <kernel@sberdevices.ru>, <rockosov@gmail.com>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>,
-        <linux-phy@lists.infradead.org>,
-        Dmitry Rokosov <ddrokosov@sberdevices.ru>,
-        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-Subject: [PATCH v4 1/3] usb: dwc2: support dwc2 IP for Amlogic A1 SoC family
-Date:   Fri, 12 May 2023 00:04:53 +0300
-Message-ID: <20230511210455.6634-2-ddrokosov@sberdevices.ru>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20230511210455.6634-1-ddrokosov@sberdevices.ru>
-References: <20230511210455.6634-1-ddrokosov@sberdevices.ru>
+        with ESMTP id S238084AbjEKVHw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 May 2023 17:07:52 -0400
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13286E9
+        for <linux-usb@vger.kernel.org>; Thu, 11 May 2023 14:07:51 -0700 (PDT)
+Received: by mail-yb1-xb32.google.com with SMTP id 3f1490d57ef6-b9a6d9dcbebso8108633276.2
+        for <linux-usb@vger.kernel.org>; Thu, 11 May 2023 14:07:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683839270; x=1686431270;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iMJSAuzmDEOyslGFpKNIuHv7WTx2jYS+xwESl4OR1aU=;
+        b=JrlILs/FJvcqjFimI5g8pLCwZ7MlikV+mp66z3cACXcbS1BbgdeUUlwPgpDYjOZ9N5
+         JEcC+QlYiJQB7bxuXZuug+8mQXYNE4D4eFkybnQ3pnEjFqw7zgqwVrvCGajgde2f4Mcq
+         GOUKw/vsgB0PLN2AoH0WRkZ4lkkCU1Ylf+McKd01DUUSqGOMKozMV1idVjXpuW+69+by
+         Kj65G4SKjtiP3DpPGJ+2mlrLS4FvsYr2x+HtVwQJjLnt6d5ua/w7ZXP2ofUBRz1ZgXiN
+         /CJPKvt6C3OTXYCaEW5EEqq6exRx+7x7Iohej2pGkTN+QRIalksSCq65PFEhO/EYZB0v
+         3aig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683839270; x=1686431270;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iMJSAuzmDEOyslGFpKNIuHv7WTx2jYS+xwESl4OR1aU=;
+        b=bWcrMmtd1yUmEa/dhr8XRp24UxWEaBNQzYcbHLcP43fNPzXoV/5oE5TqrZEeXzR8OZ
+         EhYUMCdC9popz0kpFDVjzzW7lE//jticSQx90wXB1lCCEbZd/JU/DQWed/GeDzSd6Znk
+         reLoJmi39ZFKLJ/sDvuQ3JFQkBfA8MLiGw2lcpXwNgj0p69D72RDJz/cewmvX4/TGJ7q
+         4unTuOJbrB7I0OqselfrBMqOdANVKBn6DLzokQpH0R/8D1i1DLqos1OpWoTqRNytGQRv
+         tGdIAS1x7p8BfIBf3hDa4m9vCq05/OSQsV02Jh0OB/p62/jJ44/KGdFfnv47/bYc1hOy
+         kgIA==
+X-Gm-Message-State: AC+VfDxllrf1tc6ecmnyqdbfuswESHCxeZyduU6gApdyhtxnIQ3qdIGZ
+        iEdqiQ55ELcCZJrO4EXM6puAKCcUoeOBrVMxicUc6w==
+X-Google-Smtp-Source: ACHHUZ5OKCRCzCdvnNSAXPYO3cSOrmnSrMrAUBIkganKJVWu8iiA56tmWT0d2y016WQRBVytrjHjwYEzMXjqLbOa8l0=
+X-Received: by 2002:a25:aa0c:0:b0:b9d:b5f0:3b33 with SMTP id
+ s12-20020a25aa0c000000b00b9db5f03b33mr20809376ybi.58.1683839270282; Thu, 11
+ May 2023 14:07:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.16.1.6]
-X-ClientProxiedBy: S-MS-EXCH02.sberdevices.ru (172.16.1.5) To
- S-MS-EXCH01.sberdevices.ru (172.16.1.4)
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/05/11 10:21:00 #21259776
-X-KSMG-AntiVirus-Status: Clean, skipped
+References: <20230511175844.185070-1-xiang.ye@intel.com> <20230511175844.185070-5-xiang.ye@intel.com>
+In-Reply-To: <20230511175844.185070-5-xiang.ye@intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 11 May 2023 23:07:38 +0200
+Message-ID: <CACRpkdZvn_cX=GNO2VYC6YfJif-cXST=avT2yoMpYVq5C87bMA@mail.gmail.com>
+Subject: Re: [PATCH v8 4/6] gpio: Add support for Intel LJCA USB GPIO driver
+To:     Ye Xiang <xiang.ye@intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Lee Jones <lee@kernel.org>, Wolfram Sang <wsa@kernel.org>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>, linux-usb@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
+        srinivas.pandruvada@intel.com, heikki.krogerus@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, sakari.ailus@linux.intel.com,
+        zhifeng.wang@intel.com, wentong.wu@intel.com, lixu.zhang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Amlogic A1 uses dwc2 Synopsys IP as its USB peripheral (gadget)
-endpoint, with different DWC2 parameters when compared to previous
-Amlogic SoCs.
+On Thu, May 11, 2023 at 8:01=E2=80=AFPM Ye Xiang <xiang.ye@intel.com> wrote=
+:
 
-Signed-off-by: Dmitry Rokosov <ddrokosov@sberdevices.ru>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Acked-by: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
----
- drivers/usb/dwc2/params.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+> Implements the GPIO function of Intel USB-I2C/GPIO/SPI adapter
+> device named "La Jolla Cove Adapter" (LJCA). It communicate with
+> LJCA GPIO module with specific protocol through interfaces exported
+> by LJCA USB driver.
+>
+> Signed-off-by: Ye Xiang <xiang.ye@intel.com>
 
-diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
-index 9ed9fd956940..098fbfc774ab 100644
---- a/drivers/usb/dwc2/params.c
-+++ b/drivers/usb/dwc2/params.c
-@@ -161,6 +161,25 @@ static void dwc2_set_amlogic_g12a_params(struct dwc2_hsotg *hsotg)
- 	p->hird_threshold_en = false;
- }
- 
-+static void dwc2_set_amlogic_a1_params(struct dwc2_hsotg *hsotg)
-+{
-+	struct dwc2_core_params *p = &hsotg->params;
-+
-+	p->otg_caps.hnp_support = false;
-+	p->otg_caps.srp_support = false;
-+	p->speed = DWC2_SPEED_PARAM_HIGH;
-+	p->host_rx_fifo_size = 192;
-+	p->host_nperio_tx_fifo_size = 128;
-+	p->host_perio_tx_fifo_size = 128;
-+	p->phy_type = DWC2_PHY_TYPE_PARAM_UTMI;
-+	p->phy_utmi_width = 8;
-+	p->ahbcfg = GAHBCFG_HBSTLEN_INCR8 << GAHBCFG_HBSTLEN_SHIFT;
-+	p->lpm = false;
-+	p->lpm_clock_gating = false;
-+	p->besl = false;
-+	p->hird_threshold_en = false;
-+}
-+
- static void dwc2_set_amcc_params(struct dwc2_hsotg *hsotg)
- {
- 	struct dwc2_core_params *p = &hsotg->params;
-@@ -258,6 +277,8 @@ const struct of_device_id dwc2_of_match_table[] = {
- 	  .data = dwc2_set_amlogic_params },
- 	{ .compatible = "amlogic,meson-g12a-usb",
- 	  .data = dwc2_set_amlogic_g12a_params },
-+	{ .compatible = "amlogic,meson-a1-usb",
-+	  .data = dwc2_set_amlogic_a1_params },
- 	{ .compatible = "amcc,dwc-otg", .data = dwc2_set_amcc_params },
- 	{ .compatible = "apm,apm82181-dwc-otg", .data = dwc2_set_amcc_params },
- 	{ .compatible = "st,stm32f4x9-fsotg",
--- 
-2.36.0
+Overall this looks very nice.
 
+> +static int gpio_config(struct ljca_gpio_dev *ljca_gpio, u8 gpio_id, u8 c=
+onfig)
+
+All other functions are prefixed ljca_* except this one, so I think you
+should do that on this one too.
+
+With that fixes:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
