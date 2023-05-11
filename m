@@ -2,34 +2,34 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E82A0C7EE22
-	for <linux-usb@archiver.kernel.org>; Thu, 11 May 2023 21:05:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 221E0C7EE25
+	for <linux-usb@archiver.kernel.org>; Thu, 11 May 2023 21:05:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238937AbjEKVFO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 May 2023 17:05:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52926 "EHLO
+        id S239038AbjEKVFP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 May 2023 17:05:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238051AbjEKVFM (ORCPT
+        with ESMTP id S232629AbjEKVFM (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 11 May 2023 17:05:12 -0400
 Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3969729E;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A07246A76;
         Thu, 11 May 2023 14:05:10 -0700 (PDT)
 Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mx.sberdevices.ru (Postfix) with ESMTP id 112885FD15;
-        Fri, 12 May 2023 00:05:09 +0300 (MSK)
+        by mx.sberdevices.ru (Postfix) with ESMTP id 240265FD0C;
+        Fri, 12 May 2023 00:05:08 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1683839109;
-        bh=d9FEepOf44U9WlSTkZRyE7W3kPgjD/3/5ttgBCiHj3U=;
+        s=mail; t=1683839108;
+        bh=09RPiS2Ui8qACl/yeM9LjmonOUAmQqp0kC6laBOrPqM=;
         h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-        b=NpXc+JAquzliIizVSYH5/0ly7V9axiK8/Gm/G6t0/wFlmUhTnHTxtryYcDN/D6M9g
-         E0t8BzNMcoF/Tg37/rku5F4YXqQwsHtpEUYpNFibhpklEaUjJgZMCkvpKBSsN5yuNA
-         vdpkTy00dJVFPWWVz3P0gtAB5dlF7foWw0i7g5Q68GMsJQsH9Jyu2QczqeXTSYLDHb
-         yiNjmtlTqMqjmGk6NreLJ1JWlsuk1phnbZatvExflF19te0P4bB+egN1nPPTqekhJD
-         vuQZeHaVbayjcRkbc2VybkPWuSCZsn5HWS/hFDjJt3Q1rgVl7QHB2fmUlL80DTnycf
-         o8HQZ4Sb8NagA==
+        b=sS0kJ+9englasC3dP9KjcEOfksuOL+iLoEmOpdiHHpwxC8CMaOqB4k13oNGHR+foT
+         PMU7n9+4Ged/DFPfD4oKDP4Zj+2wJyvLr8a0eAHCXp/7+TTGymfFPSfKQwbvMny4IG
+         WWKdmIEnwVlJ6KuCwfP1oKADmC6elStUhZe9/JKEvzSL7m0xTXih0pATo+4G3xT5/X
+         p0eaZufQXxRGVAjAkk8F06hT3SoSpNxDf3SQgtt1yAG7dxLs2lro4pkCr2AWjCa0mC
+         hIic69ivq+Vx3s3v6VmHtuSfl7LhGvHk6DnWyVXJ8aStOwY5a2g1AEJwZWx5ELzYH7
+         YZHCLZOOcJeXA==
 Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
         by mx.sberdevices.ru (Postfix) with ESMTP;
-        Fri, 12 May 2023 00:05:09 +0300 (MSK)
+        Fri, 12 May 2023 00:05:06 +0300 (MSK)
 From:   Dmitry Rokosov <ddrokosov@sberdevices.ru>
 To:     <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
         <krzysztof.kozlowski+dt@linaro.org>, <neil.armstrong@linaro.org>,
@@ -44,14 +44,11 @@ CC:     <yue.wang@amlogic.com>, <hanjie.lin@amlogic.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-amlogic@lists.infradead.org>,
         <linux-phy@lists.infradead.org>,
-        Dmitry Rokosov <ddrokosov@sberdevices.ru>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v4 2/3] dt-bindings: usb: dwc2: add support for Amlogic A1 SoC USB peripheral
-Date:   Fri, 12 May 2023 00:04:54 +0300
-Message-ID: <20230511210455.6634-3-ddrokosov@sberdevices.ru>
+        Dmitry Rokosov <ddrokosov@sberdevices.ru>
+Subject: [PATCH v4 0/3] arm64: meson: support Amlogic A1 USB OTG controller
+Date:   Fri, 12 May 2023 00:04:52 +0300
+Message-ID: <20230511210455.6634-1-ddrokosov@sberdevices.ru>
 X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20230511210455.6634-1-ddrokosov@sberdevices.ru>
-References: <20230511210455.6634-1-ddrokosov@sberdevices.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -69,28 +66,64 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Provide the appropriate compatible string for the DWC2 IP that is found
-inside the Amlogic A1 SoC and used in peripheral mode.
+This patch series introduces full support for the Amlogic A1 USB controller
+in OTG mode (peripheral and host modes switching).
 
-Signed-off-by: Dmitry Rokosov <ddrokosov@sberdevices.ru>
-Acked-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
----
- Documentation/devicetree/bindings/usb/dwc2.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Previously, Amlogic's patch series [1] was applied to the upstream tree,
+but it only had USB host mode support.
+Furthermore, the device tree patchset [2] wasn't merged due to a missing
+clk driver.
+Patchset [2] has been completely reworked:
+    - changed register base offsets to proper values
+    - introduced dwc2 in peripheral mode
+    - OTG mode support
+    - the SoB of Amlogic authors still remain
 
-diff --git a/Documentation/devicetree/bindings/usb/dwc2.yaml b/Documentation/devicetree/bindings/usb/dwc2.yaml
-index 371ba93f3ce5..f70be397dac0 100644
---- a/Documentation/devicetree/bindings/usb/dwc2.yaml
-+++ b/Documentation/devicetree/bindings/usb/dwc2.yaml
-@@ -53,6 +53,7 @@ properties:
-               - amlogic,meson8b-usb
-               - amlogic,meson-gxbb-usb
-               - amlogic,meson-g12a-usb
-+              - amlogic,meson-a1-usb
-               - intel,socfpga-agilex-hsotg
-           - const: snps,dwc2
-       - const: amcc,dwc-otg
+Testing:
+    - USB OTG role switching between gadget and host - OK
+    - Peripheral mode - OK (tested with adb shell/push/pop)
+    - Host mode - OK (tested only USB enumeration and detection)
+
+Changes v4 since v3 at [5]:
+    - remove the dtsi patchset from series because it is dependent on the
+      A1 clock bindings, which are not resolved yet; this is due to the
+      fact that the A1 clock drivers are currently under review
+    - remove the patchset for phy as it has already been applied by Vinod
+      to phy/next at [6]
+
+Changes v3 since v2 at [4]:
+    - if reset_control_reset() fails during phy_exit() callback
+      execution, do not disable clkin, instead, return an error
+      immediately
+    - provide proper 'phy-names' for the dwc2 device tree node as
+      'usb2-phy' instead of 'usb2_phy' (replace underscore with dash)
+
+Changes v2 since v1 at [3]:
+    - as Martin suggested in v1, this commit completely removes
+      the 'otg_switch_supported' parameter from dwc3_meson_g12a_drvdata;
+      this parameter is no longer necessary as all IP versions now
+      support OTG switching
+    - this commit moves the USB PHY clkin enable/disable calls to
+      the PHY init/exit routines
+
+Links:
+    [1] https://lore.kernel.org/all/1581990859-135234-1-git-send-email-hanjie.lin@amlogic.com/
+    [2] https://lore.kernel.org/all/1581990859-135234-4-git-send-email-hanjie.lin@amlogic.com/
+    [3] https://lore.kernel.org/all/20230414152423.19842-1-ddrokosov@sberdevices.ru/
+    [4] https://lore.kernel.org/all/20230418111612.19479-1-ddrokosov@sberdevices.ru/
+    [5] https://lore.kernel.org/all/20230426102922.19705-1-ddrokosov@sberdevices.ru/
+    [6] https://lore.kernel.org/all/ZFjAmCcc%2F35MhcuI@matsya/
+
+Dmitry Rokosov (3):
+  usb: dwc2: support dwc2 IP for Amlogic A1 SoC family
+  dt-bindings: usb: dwc2: add support for Amlogic A1 SoC USB peripheral
+  usb: dwc3-meson-g12a: support OTG switch for all IP versions
+
+ .../devicetree/bindings/usb/dwc2.yaml         |  1 +
+ drivers/usb/dwc2/params.c                     | 21 +++++++++++++++++++
+ drivers/usb/dwc3/dwc3-meson-g12a.c            | 16 +++-----------
+ 3 files changed, 25 insertions(+), 13 deletions(-)
+
 -- 
 2.36.0
 
