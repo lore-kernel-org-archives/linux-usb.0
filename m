@@ -2,126 +2,63 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B886C77B7F
-	for <linux-usb@archiver.kernel.org>; Fri, 12 May 2023 08:09:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E5A3C77B75
+	for <linux-usb@archiver.kernel.org>; Fri, 12 May 2023 09:07:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240314AbjELIJe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 May 2023 04:09:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36852 "EHLO
+        id S240371AbjELJH1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 May 2023 05:07:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240096AbjELIJA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 May 2023 04:09:00 -0400
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2053.outbound.protection.outlook.com [40.107.212.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40FA611B56;
-        Fri, 12 May 2023 01:07:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i45mtqPOH4AjiMl0DUHivWkxzAVxT3Tudq4S3ekyMXKfGAQTptpaYTPcOAUkBzYARGBUAlRRD0C8oRlV5epjEz2KYkCGPZA8bFsQD2en7nxG4zk1RiGAZqnwSd7fMifkE2cxC89Pi3x6d0IgR1UG5EFmqaVdp0c7OS7qqJqYjH7jHIrz2ClY7Pe3FCA/vcnhNNn68BNfwPTqViCe/sNUMCdKdA3osgC24NKWI+kuiu5Itlz/q8xvZpikuyhAd6SGT4xyRIXm6egCJN31k2PiAfgPU3m1gJ2regohfhENwi5DwqjFIiJFeyvKk68adcGytfmEGAy8oX4GWzFYE+eIYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4//we3IhoNGzyNeBkW96AV0EdeKGiIT7YrztSsfn8iM=;
- b=AVC+0HDGcf6nRBvVfvLNGdiGptpG9vRFbx7Lf2AS+l6rBqIu70ZqZ8oZsbF2umlhNI/qq8NYazTn9LXbQIDyF4fvz6bWBiQczbrLbIUWUfn/EpN73wqO3MVFWMCDu2Sb7P2U3WXJFaxVP/n1TBCCcSHszFxexPnTpgs/qC9oloXDDawdbiYNJ8xl+fIEkQ6A9wOOwRm/0G/8RZjWiHH+HppT0ekr15Qj1WMUH582z+FC1UE6QNslCLB+2B2djXVOkgmEQU/f8TNReprLEYooNvEB7XD6zofRAMH1GE3eWunbAU8a4iwsnVXli1O6aCIrb/CHCKuA+PyNeSNwb0EUmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=linuxfoundation.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4//we3IhoNGzyNeBkW96AV0EdeKGiIT7YrztSsfn8iM=;
- b=WJzm5ApHTAshr4UypF8c2/x0R9mdIrPlFYcLET0sUjkqsTqZoWD5A+PECoB8QG413xXcf8JazCFPed3EdoVkSljmCVRMoH1KMEMLycc5/WPlkyHUGzxP9IHyPRMjhGNbBY84D2FHLlrSJakvI8peFYWR6mQz87eXVQXaadshPQMaHOTJxA3IXnfZB6/N53MM/OORubZeyOhzPnD8gTaN5Hw+vPSz89T1vLi+8noVMAsP4un43rGIBNXXRLRcHjLhinYVl4ZrZeKENk9QRsFMugFFn4BoB79XK7Nga5KSkvMnh/uONavbaVco0STRo3g8FU2Z7ENQc/Rp0SWfGNuNAw==
-Received: from CY5PR15CA0140.namprd15.prod.outlook.com (2603:10b6:930:67::10)
- by PH7PR12MB6564.namprd12.prod.outlook.com (2603:10b6:510:210::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.22; Fri, 12 May
- 2023 08:05:39 +0000
-Received: from CY4PEPF0000C969.namprd02.prod.outlook.com
- (2603:10b6:930:67:cafe::23) by CY5PR15CA0140.outlook.office365.com
- (2603:10b6:930:67::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.24 via Frontend
- Transport; Fri, 12 May 2023 08:05:38 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CY4PEPF0000C969.mail.protection.outlook.com (10.167.241.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6387.21 via Frontend Transport; Fri, 12 May 2023 08:05:38 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Fri, 12 May 2023
- 01:05:27 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Fri, 12 May
- 2023 01:05:26 -0700
-Received: from jilin-desktop.nvidia.com (10.127.8.13) by mail.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server id 15.2.986.37 via Frontend
- Transport; Fri, 12 May 2023 01:05:25 -0700
-From:   Jim Lin <jilin@nvidia.com>
-To:     <gregkh@linuxfoundation.org>
-CC:     <mathias.nyman@intel.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <linux-usb@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Henry Lin <henryl@nvidia.com>, Jim Lin <jilin@nvidia.com>
-Subject: [PATCH] usb: xhci: tegra: enable stream protocol support
-Date:   Fri, 12 May 2023 16:04:23 +0800
-Message-ID: <20230512080423.27978-1-jilin@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
+        with ESMTP id S239976AbjELJH0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 May 2023 05:07:26 -0400
+Received: from mail11.truemail.it (mail11.truemail.it [IPv6:2001:4b7e:0:8::81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9D3CE4A;
+        Fri, 12 May 2023 02:07:18 -0700 (PDT)
+Received: from francesco-nb.int.toradex.com (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+        by mail11.truemail.it (Postfix) with ESMTPA id 0105F20684;
+        Fri, 12 May 2023 11:07:14 +0200 (CEST)
+Date:   Fri, 12 May 2023 11:07:10 +0200
+From:   Francesco Dolcini <francesco@dolcini.it>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, stable@vger.kernel.org
+Cc:     francesco.dolcini@toradex.com, liu.ming50@gmail.com,
+        Badhri Jagan Sridharan <badhri@google.com>
+Subject: USB gadget regression on v6.4-rc1 and v6.1.28
+Message-ID: <ZF4BvgsOyoKxdPFF@francesco-nb.int.toradex.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000C969:EE_|PH7PR12MB6564:EE_
-X-MS-Office365-Filtering-Correlation-Id: 23bc18fe-e3a5-4acb-ef5e-08db52bfac46
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BnoHcrprqzblLXOMlLVkOogsLLs4QLdNvHL8Hv4LYrIu/3BJd5t16DaCiVCw62PkJTiSW/NVWJ7ZlkkzomJiQ+mCIxjXeFxHr8IAy9WWangkuegRmCQCHKavdj/sf5PwEnd2eewednCFtkGrar+Vt3+T2DnXToasn/So7LPWQr2pNkKE3jOZpDuQ8P1oJuWW4fmXNII0RClTaeejr1iQh6dSlXnvZKPK2TOQm1sLN+O++tlQIPq0ihEb7Iiavr+GzhcVPhOV3oh44qi39aWRU1yN4KXbQXmNOfHKuEhrQI3i50JGfpLf3tBhxp9UGl01plbyibX3tPjzcfyXtMUwUq8Z5vxU4+PK8Fz63tmCfyZSouCYEYwa3HG4PvBx1fegAnb+ycPfjk4kZTVt9+UcyqeJcXTjL2ENmGsiMusjtoI8uy0pLXepBuW6H2Esfoo/iBNFYMkmUSUhuvRWPnMbkYiO8PnX3q4OygMuYJVDgcvgO+5BsfPBZKF4PpiPgVm6s8XpIG5mHVzZQ1dSr9V2OqecHf4amoIAFXzIpnsizwvcBwuwhLwpEUgHI5gK7dy4PWM5zDGF+xz7/KkmKFXSMUlje9zxSxEOziCu0w74mOZrsmEEYk4bJPY55VDyoZzzY7B+pofjbK/swCO9QUJk5XKiduOF5nBwZ2pq/rG1HY+YbSAZD8uuWeb+mdIuBwqEKnQ+RHcLLbcfDcv1YvrMk0xCPa/zTC1p5GwOI5PTqNOj3mCY2L9Pk+h7zaEkrOvh
-X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(136003)(396003)(346002)(376002)(451199021)(36840700001)(46966006)(40470700004)(86362001)(36756003)(54906003)(70586007)(70206006)(316002)(6916009)(4326008)(478600001)(7696005)(82310400005)(4744005)(40480700001)(5660300002)(8676002)(8936002)(2906002)(7636003)(41300700001)(356005)(82740400003)(2616005)(107886003)(26005)(1076003)(36860700001)(426003)(336012)(47076005)(186003)(40460700003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2023 08:05:38.4524
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23bc18fe-e3a5-4acb-ef5e-08db52bfac46
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C969.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6564
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Henry Lin <henryl@nvidia.com>
+Hello all,
+I recently did have a regression on v6.4rc1, and it seems that the same
+exact issue is now happening also on v6.1.28.
 
-This commit enables stream transfer protocol for Tegra XHCI.
+I was not able yet to bisect it (yet), but what is happening is that
+libusbgx[1] that we use to configure a USB NCM gadget interface[2][3] just
+hang completely at boot.
 
-Signed-off-by: Henry Lin <henryl@nvidia.com>
-Signed-off-by: Jim Lin <jilin@nvidia.com>
----
+This is happening with multiple ARM32 and ARM64 i.MX SOC (i.MX6, i.MX7,
+i.MX8MM).
 
- drivers/usb/host/xhci-tegra.c | 3 +++
- 1 file changed, 3 insertions(+)
+The logs is something like that
 
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index c75d93244143..ea55e401c70e 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -1828,6 +1828,9 @@ static int tegra_xusb_probe(struct platform_device *pdev)
- 		goto remove_usb2;
- 	}
- 
-+	if (HCC_MAX_PSA(xhci->hcc_params) >= 4)
-+		xhci->shared_hcd->can_do_streams = 1;
-+
- 	err = usb_add_hcd(xhci->shared_hcd, tegra->xhci_irq, IRQF_SHARED);
- 	if (err < 0) {
- 		dev_err(&pdev->dev, "failed to add shared HCD: %d\n", err);
--- 
-2.17.1
+```
+[*     �F] A start job is running for Load def…t schema g1.schema (6s / no limit)
+M[K[**    �F] A start job is running for Load def…t schema g1.schema (7s / no limit)
+M[K[***   �F] A start job is running for Load def…t schema g1.schema (8s / no limit)
+M[K[ ***  �F] A start job is running for Load def…t schema g1.schema (8s / no limit)
+```
 
+I will try to bisect this and provide more useful feedback ASAP, I
+decided to not wait for it and just send this email in case someone has
+some insight on what is going on.
+
+Francesco
+
+[1] https://github.com/linux-usb-gadgets/libusbgx 
+[2] https://git.toradex.com/cgit/meta-toradex-bsp-common.git/tree/recipes-support/libusbgx/files/g1.schema.in?h=kirkstone-6.x.y
+[3] https://git.toradex.com/cgit/meta-toradex-bsp-common.git/tree/recipes-support/libusbgx/files/g1.schema.in?h=kirkstone-6.x.y
