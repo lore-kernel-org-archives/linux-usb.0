@@ -2,131 +2,136 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08056C77B75
-	for <linux-usb@archiver.kernel.org>; Tue, 16 May 2023 11:43:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E5D0C7EE2C
+	for <linux-usb@archiver.kernel.org>; Tue, 16 May 2023 11:43:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232415AbjEPLn1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 May 2023 07:43:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38468 "EHLO
+        id S233041AbjEPLnr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 May 2023 07:43:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231567AbjEPLn0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 May 2023 07:43:26 -0400
-Received: from pku.edu.cn (mx18.pku.edu.cn [162.105.129.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E0BED26B5;
-        Tue, 16 May 2023 04:43:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pku.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
-        Message-ID:References:MIME-Version:Content-Type:
-        Content-Disposition:In-Reply-To; bh=H9he+rg+FJu/lva+YkA+P4NB891u
-        ftZsubcF7D6o6y8=; b=PkcE7eCJcZ7WB4DdVMs1pe86EZ4dwiixFnqMY9R5THaR
-        vzettkVHlC4UqhiNEwIN2aBFoD4KHmhtE26Q91BsWv1PvmUMVxUmZehwG0RnVWBJ
-        +tYzM017P5RwWFsf/f+TEBI8JktBn8sr+atwffRwrgC+4hXnisUaveIn9EGrIp4=
-Received: from localhost (unknown [10.7.98.243])
-        by front01 (Coremail) with SMTP id 5oFpogD3_JQ8bGNk3+hsAw--.2746S2;
-        Tue, 16 May 2023 19:42:56 +0800 (CST)
-Date:   Tue, 16 May 2023 19:42:51 +0800
-From:   Ruihan Li <lrh2000@pku.edu.cn>
-To:     David Laight <David.Laight@aculab.com>
-Cc:     "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>,
-        David Hildenbrand <david@redhat.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
+        with ESMTP id S232531AbjEPLnp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 May 2023 07:43:45 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 555624684;
+        Tue, 16 May 2023 04:43:40 -0700 (PDT)
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34GB4523006529;
+        Tue, 16 May 2023 11:10:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=q4mkOmayVIeelFMdSm+uqzqWI2RgGSp2vYNs6KYmdg4=;
+ b=Fx5/8qArhXRgvfZMlkuABLjya6CvHQ6hdJi12g/Ye7EMGxevOLv4ZiAViK91T38pJzIw
+ 2bqXYrnk560SqxoRZgvxuMyQQGm1bMZj+TJNe5pcbSAfFE5CIxkfooi9Kv9Hi5a6LLKB
+ RX9gA1Gb5182evv1ERHeBk4GYHx8AdPKbXLx2TpnFaryfAqkH1o71IlVY6TwI0a8AtyW
+ +Nw8XUP0UiHO4Vqj8dPRo2RFQdqON2zzDQgRtDIlKrDEsxXq0AOMXEIqKaW6eKVilmfa
+ 6Oszx0t9FnfLeTdzsmkUUSu+JEKU9SNGcvOahZpiDBI6BL7GqrpMWrCVUpzlSnIQsjgA WA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm8mrrj6c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 16 May 2023 11:10:55 +0000
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34GB54CD012832;
+        Tue, 16 May 2023 11:08:35 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm8mrr7qu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 16 May 2023 11:08:35 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+        by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34G9accn029810;
+        Tue, 16 May 2023 11:01:13 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+        by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3qj2651aq1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 16 May 2023 11:01:12 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+        by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34GB1A3g42467958
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 16 May 2023 11:01:10 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6808D2004B;
+        Tue, 16 May 2023 11:01:10 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1756020040;
+        Tue, 16 May 2023 11:01:10 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Tue, 16 May 2023 11:01:10 +0000 (GMT)
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        Ruihan Li <lrh2000@pku.edu.cn>
-Subject: Re: [PATCH v2 2/4] usb: usbfs: Use consistent mmap functions
-Message-ID: <uk5djnbfunnjn2lrtpsvdv3qh6acaunlp7l76ztrucwdmzvo5e@hmwqjrb2s2i5>
-References: <20230515130958.32471-1-lrh2000@pku.edu.cn>
- <20230515130958.32471-3-lrh2000@pku.edu.cn>
- <2b6cb73d2cd14a46b7e4553566030b22@AcuMS.aculab.com>
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH v4 34/41] usb: add HAS_IOPORT dependencies
+Date:   Tue, 16 May 2023 13:00:30 +0200
+Message-Id: <20230516110038.2413224-35-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230516110038.2413224-1-schnelle@linux.ibm.com>
+References: <20230516110038.2413224-1-schnelle@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2b6cb73d2cd14a46b7e4553566030b22@AcuMS.aculab.com>
-X-CM-TRANSID: 5oFpogD3_JQ8bGNk3+hsAw--.2746S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXF4UArW5Cw4UWrW5Jw43Jrb_yoW5Jw17pr
-        W7G34Ikw4jq34rWrnruan3XFZ8Kwn5KFsxGr1YvwnxZ39xXrn7CrySkFy2kFy7tr1DGa1j
-        qFWvvry8G3WDAaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUBY1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2vYz4IE04k24V
-        AvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
-        McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7
-        v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
-        8cxan2IY04v7MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26w
-        4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
-        r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
-        IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
-        w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
-        0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbHa0DUUUUU==
-X-CM-SenderInfo: yssqiiarrvmko6sn3hxhgxhubq/1tbiAgEMBVPy7743xAAUsd
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: kiC1D5uLyHUugFPS5KqMBMr2EmHGo7XZ
+X-Proofpoint-GUID: PuavF0Mvs3ztcJM53xtQvivITa5uRWdD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-16_04,2023-05-16_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 spamscore=0 impostorscore=0 mlxscore=0 mlxlogscore=782
+ lowpriorityscore=0 suspectscore=0 adultscore=0 phishscore=0 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305160094
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, May 15, 2023 at 04:07:01PM +0000, David Laight wrote:
-> 
-> From: Ruihan Li
-> > Sent: 15 May 2023 14:10
-> > 
-> > When hcd->localmem_pool is non-null, localmem_pool is used to allocate
-> > DMA memory. In this case, the dma address will be properly returned (in
-> > dma_handle), and dma_mmap_coherent should be used to map this memory
-> > into the user space. However, the current implementation uses
-> > pfn_remap_range, which is supposed to map normal pages.
-> 
-> I've an (out of tree) driver that does the same.
-> Am I right in thinking that this does still work?
+In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+not being declared. We thus need to add HAS_IOPORT as dependency for
+those drivers using them.
 
-Generally, it still works most of the time, but it can break sometimes.
-I am going to quote commit 2bef9aed6f0e ("usb: usbfs: correct
-kernel->user page attribute mismatch"), which introduces
-dma_mmap_coherent in usbdev_mmap, and says [1]:
+Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+Note: The HAS_IOPORT Kconfig option was added in v6.4-rc1 so
+      per-subsystem patches may be applied independently
 
-	On some architectures (e.g. arm64) requests for
-	IO coherent memory may use non-cachable attributes if
-	the relevant device isn't cache coherent. If these
-	pages are then remapped into userspace as cacheable,
-	they may not be coherent with the non-cacheable mappings.
+ drivers/usb/host/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- [1] https://lore.kernel.org/all/20200504201348.1183246-1-jeremy.linton@arm.com/
-
-I think it means that if your driver deals with devices that aren't
-cache-coherent on arm64, using pfn_remap_range directly may cause
-problems. Otherwise, you may need to check the arch-specific dma mmap
-operation and see if it performs additional things that pfn_remap_range
-does not (for the arm example, arm_iommu_mmap_attrs updates the
-vm_page_prot field to make the pages non-cacheable if the device is not
-cache-coherent [2]).
-
- [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/mm/dma-mapping.c?id=f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6#n1129
-
-> 
-> I can't change the driver to use dma_map_coherent() because it
-> doesn't let me mmap from a page offset within a 16k allocation.
-> 
-> In this case the memory area is an 8MB shared transfer area to an
-> FPGA PCIe target sparsely filled with 16kB allocation (max 512 allocs).
-> The discontinuous physical memory blocks appear as logically
-> contiguous to both the FPGA logic and when mapped to userspace.
-> (But not to driver code.)
-> 
-> I don't really want to expose the 16k allocation size to userspace.
-> If we need more than 8MB then the allocation size would need
-> changing.
-> 
-> 	David
-> 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
-
-Thanks,
-Ruihan Li
+diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+index c170672f847e..4448d0ab06f0 100644
+--- a/drivers/usb/host/Kconfig
++++ b/drivers/usb/host/Kconfig
+@@ -376,7 +376,7 @@ config USB_ISP116X_HCD
+ 
+ config USB_ISP1362_HCD
+ 	tristate "ISP1362 HCD support"
+-	depends on HAS_IOMEM
++	depends on HAS_IOPORT
+ 	depends on COMPILE_TEST # nothing uses this
+ 	help
+ 	  Supports the Philips ISP1362 chip as a host controller
+@@ -578,7 +578,7 @@ endif # USB_OHCI_HCD
+ 
+ config USB_UHCI_HCD
+ 	tristate "UHCI HCD (most Intel and VIA) support"
+-	depends on USB_PCI || USB_UHCI_SUPPORT_NON_PCI_HC
++	depends on (USB_PCI && HAS_IOPORT) || USB_UHCI_SUPPORT_NON_PCI_HC
+ 	help
+ 	  The Universal Host Controller Interface is a standard by Intel for
+ 	  accessing the USB hardware in the PC (which is also called the USB
+-- 
+2.39.2
 
