@@ -2,89 +2,155 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 211F9C77B7F
-	for <linux-usb@archiver.kernel.org>; Tue, 16 May 2023 20:21:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65CB7C77B7A
+	for <linux-usb@archiver.kernel.org>; Tue, 16 May 2023 20:41:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230191AbjEPUV2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 May 2023 16:21:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41138 "EHLO
+        id S229701AbjEPUlX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 May 2023 16:41:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230181AbjEPUV1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 May 2023 16:21:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97473171E;
-        Tue, 16 May 2023 13:21:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229502AbjEPUlV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 May 2023 16:41:21 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0DD62112;
+        Tue, 16 May 2023 13:41:18 -0700 (PDT)
+Received: from mercury (unknown [185.254.75.45])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3433063630;
-        Tue, 16 May 2023 20:21:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDB0DC433D2;
-        Tue, 16 May 2023 20:21:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684268470;
-        bh=n2VkfFrYD6ZvghT2rLwCZ8Tw+H30dUYKFB4kK3wrpLE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Egdq1JDtlfkHI3imIUtFlLPSk6qx9GFXiAbKi8sryfRJmytehbY4a0xOV+BSiGezZ
-         W7FDaUt61DKvSnIxjkpekm3I7kXTtkRUSUyWyvRFUPxCUjhJRRL+ndvJHaNzauFR20
-         I1PtN8K8k3bCQpJXuuRO7zyvmJIlFOUKBQlTSQuV8QLdh93ytSkE6wiK3YPGRcdAYN
-         vYKYNI/ZQtR4I8Qc+lMgpGH7OTJ4P3Ijxp7k5VtGbvhNZ3dHLTEt6BPnCnWGkToffn
-         dALxDGPc1Z7AIbxlHmmj9bRV7Ds025ncajsLb0fRcUudjoTy0gKm1sH/PqKZV/idWs
-         RbN1e/+fxQvvQ==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: hide unused usbfs_notify_suspend/resume functions
-Date:   Tue, 16 May 2023 22:17:42 +0200
-Message-Id: <20230516202103.558301-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        (Authenticated sender: sre)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5F2AB6605902;
+        Tue, 16 May 2023 21:41:17 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1684269677;
+        bh=C9zDqyuOb63WjaYQL4pSv774nnw1AN03fB2+IgNujDU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BSHGgGTAPtElpz2DMg1YB3AsFPEtc6bFiMHdgt47HXaPmi4QZa7POQMs/rj4nSTxZ
+         74uX30i7bu6xoAtdbOsVlZ3jvci8fqGBr7Vk7gPE/x9aZ/IDMYQX1K1+cyEPZ0HlXF
+         2APD2YiRmzvLea+cszomdYj6iXe7tOs6a0bp5os10rWXDwuAR3TUqzGpWOkEB7CaSc
+         uFNeb4GGd3eW4ed9acaX4zSBNveCGcy+z9fhjLiFDFVCTH4gIzMxsVoVaE8leJ1V3b
+         /O4DBw9oIfBmZxsx//BKJqB2LGVWLuV3BdpSd61N1dEddN8JTYD5kj7O+Tq9vTNQl3
+         egkRQa9hb0uuQ==
+Received: by mercury (Postfix, from userid 1000)
+        id 5C5B610623DF; Tue, 16 May 2023 22:41:14 +0200 (CEST)
+Date:   Tue, 16 May 2023 22:41:14 +0200
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Mario Limonciello <mario.limonciello@amd.com>
+Cc:     heikki.krogerus@linux.intel.com, rafael@kernel.org,
+        ajayg@nvidia.com, andriy.shevchenko@linux.intel.com,
+        linux-i2c@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Evan.Quan@amd.com, Lijo.Lazar@amd.com, Sanket.Goswami@amd.com
+Subject: Re: [PATCH 1/2] power: supply: Use the scope of power supplies to
+ tell if power is system supplied
+Message-ID: <20230516204114.vv5w2vmcyulmhmm4@mercury.elektranox.org>
+References: <20230516182541.5836-1-mario.limonciello@amd.com>
+ <20230516182541.5836-2-mario.limonciello@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="loy7qsitjthxsozd"
+Content-Disposition: inline
+In-Reply-To: <20230516182541.5836-2-mario.limonciello@amd.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
 
-The declaration is in an #ifdef, which causes warnings when building
-with 'make W=1' and without CONFIG_PM:
+--loy7qsitjthxsozd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-drivers/usb/core/devio.c:742:6: error: no previous prototype for 'usbfs_notify_suspend'
-drivers/usb/core/devio.c:747:6: error: no previous prototype for 'usbfs_notify_resume'
+Hi,
 
-Use the same #ifdef check around the function definitions to avoid
-the warnings and slightly shrink the USB core.
+On Tue, May 16, 2023 at 01:25:40PM -0500, Mario Limonciello wrote:
+> The logic used for power_supply_is_system_supplied() counts all power
+> supplies and:
+> * If no power supplies found assumes AC
+> * If non-battery power supplies found uses online to determine AC/DC.
+>   - If any are onlined, assumes AC
+>   - Othewise DC.
+>=20
+> This logic makes sense for desktop systems that don't export an ACPI
+> battery, but it fails once you include a dGPU that provides a UCSI
+> power supply on a desktop system without any other power supplies.
+>=20
+> The dGPU by default doesn't have anything plugged in so it's 'offline'.
+> This makes power_supply_is_system_supplied() return 0 with a count of
+> 1 meaning all drivers that use this get a wrong judgement.
+>=20
+> To fix this case adjust the logic to also examine the scope of the
+> power supply. If the power supply is deemed a device power supply,
+> then don't count it.
+>=20
+> Cc: Evan Quan <Evan.Quan@amd.com>
+> Suggested-by: Lijo Lazar <Lijo.Lazar@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
 
-Fixes: 7794f486ed0b ("usbfs: Add ioctls for runtime power management")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/usb/core/devio.c | 2 ++
- 1 file changed, 2 insertions(+)
+Good find; the current logic should also break with a desktop PC
+once a POWER_SUPPLY_SCOPE_DEVICE battery device is attached (e.g.
+a HID device), because it increases the counter.
 
-diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-index e501a03d6c70..1622ad35428d 100644
---- a/drivers/usb/core/devio.c
-+++ b/drivers/usb/core/devio.c
-@@ -738,6 +738,7 @@ static int driver_resume(struct usb_interface *intf)
- 	return 0;
- }
- 
-+#ifdef CONFIG_PM
- /* The following routines apply to the entire device, not interfaces */
- void usbfs_notify_suspend(struct usb_device *udev)
- {
-@@ -756,6 +757,7 @@ void usbfs_notify_resume(struct usb_device *udev)
- 	}
- 	mutex_unlock(&usbfs_mutex);
- }
-+#endif
- 
- struct usb_driver usbfs_driver = {
- 	.name =		"usbfs",
--- 
-2.39.2
+I suppose I can just apply this to my fixes branch since there is
+no compile time dependency to the second patch?
 
+-- Sebastian
+
+>  drivers/power/supply/power_supply_core.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/power/supply/power_supply_core.c b/drivers/power/sup=
+ply/power_supply_core.c
+> index ab986dbace16..d57f420ba8c3 100644
+> --- a/drivers/power/supply/power_supply_core.c
+> +++ b/drivers/power/supply/power_supply_core.c
+> @@ -348,6 +348,10 @@ static int __power_supply_is_system_supplied(struct =
+device *dev, void *data)
+>  	struct power_supply *psy =3D dev_get_drvdata(dev);
+>  	unsigned int *count =3D data;
+> =20
+> +	if (!psy->desc->get_property(psy, POWER_SUPPLY_PROP_SCOPE, &ret))
+> +		if (ret.intval =3D=3D POWER_SUPPLY_SCOPE_DEVICE)
+> +			return 0;
+> +
+>  	(*count)++;
+>  	if (psy->desc->type !=3D POWER_SUPPLY_TYPE_BATTERY)
+>  		if (!psy->desc->get_property(psy, POWER_SUPPLY_PROP_ONLINE,
+> @@ -366,8 +370,8 @@ int power_supply_is_system_supplied(void)
+>  				      __power_supply_is_system_supplied);
+> =20
+>  	/*
+> -	 * If no power class device was found at all, most probably we are
+> -	 * running on a desktop system, so assume we are on mains power.
+> +	 * If no system scope power class device was found at all, most probabl=
+y we
+> +	 * are running on a desktop system, so assume we are on mains power.
+>  	 */
+>  	if (count =3D=3D 0)
+>  		return 1;
+> --=20
+> 2.34.1
+>=20
+
+--loy7qsitjthxsozd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmRj6mYACgkQ2O7X88g7
++prYYw/+J1BuDhX+ZFGDR0/voAC5dCfIpZGidEQyTgvGCXkk3ZoQr/saqgv5SwPf
+ED/OgJSCJWV/gvj8QTbdtFoEkWia30zwyjEw4Ny1GiOHq9FidHhMo4mUaKPyCr79
+p4EBPSLcD8EQlD0iQT3Gz5rEDm4qb43GBa/HT4odWpkd/AM1H0V9hNeXTrWB7F95
+SgAI7tru7pP9nhHszkn2phhX0AION0IszUhI3Eq92VFPojyPk9akh/HVtTPF4UbZ
+5pXoDrzup1Y46xlxB3lP7l0Hvy5HpVPYtevp350hvPB44ymvgfQ2XRjoPCQO/a8a
+uOudiWg05SFb7/uyp3+4vTGJKoWtZ96DWIX2Ihw6b2f+3atPSBNZaHZ695rJrPT7
+v1QXz8k1HViUAKxqFMWo1LMuv7pT5B0Iphyujr1RD0WyWw/Ib9UMTkmu6ZGkcu3/
+1Looi7Fqnfmd6lXjkVZWbgXmPLyaaRlviObAa/5we/MLWPPxsFCIJSAW7dbULpcq
+NTHviGtf/fUIAIhiy/hphCKmXMMjINsEjleHOjD8+GrMXEp3zvbl+nocrJA/v6K6
+2d48jfZnEheRyJAGkY8L2NibU2q61ABianuuiPzFbokxwoWfvIXwXPVpUNrHyR1t
+/GbgS+V1RmgP0wYzbXgPNkEVz8zXNWH53QH/z+zAIPwJvDj7DlA=
+=GZta
+-----END PGP SIGNATURE-----
+
+--loy7qsitjthxsozd--
