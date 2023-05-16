@@ -2,256 +2,131 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35D1DC7EE2D
-	for <linux-usb@archiver.kernel.org>; Tue, 16 May 2023 11:23:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08056C77B75
+	for <linux-usb@archiver.kernel.org>; Tue, 16 May 2023 11:43:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232409AbjEPLXG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 May 2023 07:23:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52770 "EHLO
+        id S232415AbjEPLn1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 May 2023 07:43:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232797AbjEPLXE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 May 2023 07:23:04 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 540C6A9;
-        Tue, 16 May 2023 04:22:48 -0700 (PDT)
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34GB4U9k030858;
-        Tue, 16 May 2023 11:05:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=k1lr2gkx2EG7llhCOzfRkPYbbk1LM9LiZTc9+G/8hFg=;
- b=Gx0h2vG/4jUKpz7lJWROJQ2moEwGeFSPj/HZk0w0SLLRknImLl0ynhFGX4uDQafoehl6
- M0mKp5WfSwb7Nn5zD9RQg1sQnmpvUOBVk+7RLL8ohEzycUHCgkTIx7CUHs2yguW9x4K8
- jHKQUfEaC/7spLYmUf3zyclLlu+Pj7fTn8Y3mcMgnHA31wTtEPHNQrDuQLrPO6jxJagw
- at2xnIhBw8YlIPlArbTCRsjL0JkgJq+/C9tN4hB2I9le2YhP11j9dKc9VNZO37Qw9bzP
- pfBuVni9bBDzrF6g5uq0brfDxK3gVtSjMnhMw9LDpQShwMQxZg1kloj3D1QXFFRP4Kk+ gA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm82f0t88-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 16 May 2023 11:05:42 +0000
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34GB4xdW002085;
-        Tue, 16 May 2023 11:05:07 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm82f0pt9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 16 May 2023 11:05:06 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-        by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34G36MH5019561;
-        Tue, 16 May 2023 11:01:13 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-        by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3qj264sjvn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 16 May 2023 11:01:13 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-        by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34GB1BjH30146816
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 16 May 2023 11:01:11 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3FBA32004E;
-        Tue, 16 May 2023 11:01:11 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E332B2004D;
-        Tue, 16 May 2023 11:01:10 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Tue, 16 May 2023 11:01:10 +0000 (GMT)
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-To:     Arnd Bergmann <arnd@arndb.de>,
+        with ESMTP id S231567AbjEPLn0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 May 2023 07:43:26 -0400
+Received: from pku.edu.cn (mx18.pku.edu.cn [162.105.129.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E0BED26B5;
+        Tue, 16 May 2023 04:43:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pku.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
+        Message-ID:References:MIME-Version:Content-Type:
+        Content-Disposition:In-Reply-To; bh=H9he+rg+FJu/lva+YkA+P4NB891u
+        ftZsubcF7D6o6y8=; b=PkcE7eCJcZ7WB4DdVMs1pe86EZ4dwiixFnqMY9R5THaR
+        vzettkVHlC4UqhiNEwIN2aBFoD4KHmhtE26Q91BsWv1PvmUMVxUmZehwG0RnVWBJ
+        +tYzM017P5RwWFsf/f+TEBI8JktBn8sr+atwffRwrgC+4hXnisUaveIn9EGrIp4=
+Received: from localhost (unknown [10.7.98.243])
+        by front01 (Coremail) with SMTP id 5oFpogD3_JQ8bGNk3+hsAw--.2746S2;
+        Tue, 16 May 2023 19:42:56 +0800 (CST)
+Date:   Tue, 16 May 2023 19:42:51 +0800
+From:   Ruihan Li <lrh2000@pku.edu.cn>
+To:     David Laight <David.Laight@aculab.com>
+Cc:     "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Pasha Tatashin <pasha.tatashin@soleen.com>,
+        David Hildenbrand <david@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
         Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH v4 35/41] usb: uhci: handle HAS_IOPORT dependencies
-Date:   Tue, 16 May 2023 13:00:31 +0200
-Message-Id: <20230516110038.2413224-36-schnelle@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230516110038.2413224-1-schnelle@linux.ibm.com>
-References: <20230516110038.2413224-1-schnelle@linux.ibm.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Ruihan Li <lrh2000@pku.edu.cn>
+Subject: Re: [PATCH v2 2/4] usb: usbfs: Use consistent mmap functions
+Message-ID: <uk5djnbfunnjn2lrtpsvdv3qh6acaunlp7l76ztrucwdmzvo5e@hmwqjrb2s2i5>
+References: <20230515130958.32471-1-lrh2000@pku.edu.cn>
+ <20230515130958.32471-3-lrh2000@pku.edu.cn>
+ <2b6cb73d2cd14a46b7e4553566030b22@AcuMS.aculab.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: WJu3W9w7VBhxXeFU00kPI5t0x556P1nr
-X-Proofpoint-ORIG-GUID: DNZTFNG-K6-B0c13-rs-mTZTz4QU1LYq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-16_04,2023-05-16_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
- spamscore=0 suspectscore=0 mlxlogscore=610 impostorscore=0 malwarescore=0
- adultscore=0 phishscore=0 priorityscore=1501 clxscore=1011
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305160094
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2b6cb73d2cd14a46b7e4553566030b22@AcuMS.aculab.com>
+X-CM-TRANSID: 5oFpogD3_JQ8bGNk3+hsAw--.2746S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXF4UArW5Cw4UWrW5Jw43Jrb_yoW5Jw17pr
+        W7G34Ikw4jq34rWrnruan3XFZ8Kwn5KFsxGr1YvwnxZ39xXrn7CrySkFy2kFy7tr1DGa1j
+        qFWvvry8G3WDAaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBY1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2vYz4IE04k24V
+        AvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
+        McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7
+        v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
+        8cxan2IY04v7MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26w
+        4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+        r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
+        IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
+        w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
+        0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbHa0DUUUUU==
+X-CM-SenderInfo: yssqiiarrvmko6sn3hxhgxhubq/1tbiAgEMBVPy7743xAAUsd
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-not being declared. We thus need to guard sections of code calling them
-as alternative access methods with CONFIG_HAS_IOPORT checks. For
-uhci-hcd there are a lot of I/O port uses that do have MMIO alternatives
-all selected by uhci_has_pci_registers() so this can be handled by
-UHCI_IN/OUT macros and making uhci_has_pci_registers() constant 0 if
-CONFIG_HAS_IOPORT is unset.
+On Mon, May 15, 2023 at 04:07:01PM +0000, David Laight wrote:
+> 
+> From: Ruihan Li
+> > Sent: 15 May 2023 14:10
+> > 
+> > When hcd->localmem_pool is non-null, localmem_pool is used to allocate
+> > DMA memory. In this case, the dma address will be properly returned (in
+> > dma_handle), and dma_mmap_coherent should be used to map this memory
+> > into the user space. However, the current implementation uses
+> > pfn_remap_range, which is supposed to map normal pages.
+> 
+> I've an (out of tree) driver that does the same.
+> Am I right in thinking that this does still work?
 
-Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
-Note: The HAS_IOPORT Kconfig option was added in v6.4-rc1 so
-      per-subsystem patches may be applied independently
+Generally, it still works most of the time, but it can break sometimes.
+I am going to quote commit 2bef9aed6f0e ("usb: usbfs: correct
+kernel->user page attribute mismatch"), which introduces
+dma_mmap_coherent in usbdev_mmap, and says [1]:
 
- drivers/usb/host/uhci-hcd.c |  2 +-
- drivers/usb/host/uhci-hcd.h | 36 +++++++++++++++++++++++-------------
- 2 files changed, 24 insertions(+), 14 deletions(-)
+	On some architectures (e.g. arm64) requests for
+	IO coherent memory may use non-cachable attributes if
+	the relevant device isn't cache coherent. If these
+	pages are then remapped into userspace as cacheable,
+	they may not be coherent with the non-cacheable mappings.
 
-diff --git a/drivers/usb/host/uhci-hcd.c b/drivers/usb/host/uhci-hcd.c
-index 7cdc2fa7c28f..fd2408b553cf 100644
---- a/drivers/usb/host/uhci-hcd.c
-+++ b/drivers/usb/host/uhci-hcd.c
-@@ -841,7 +841,7 @@ static int uhci_count_ports(struct usb_hcd *hcd)
- 
- static const char hcd_name[] = "uhci_hcd";
- 
--#ifdef CONFIG_USB_PCI
-+#if defined(CONFIG_USB_PCI) && defined(CONFIG_HAS_IOPORT)
- #include "uhci-pci.c"
- #define	PCI_DRIVER		uhci_pci_driver
- #endif
-diff --git a/drivers/usb/host/uhci-hcd.h b/drivers/usb/host/uhci-hcd.h
-index 0688c3e5bfe2..c77705d03ed0 100644
---- a/drivers/usb/host/uhci-hcd.h
-+++ b/drivers/usb/host/uhci-hcd.h
-@@ -505,41 +505,49 @@ static inline bool uhci_is_aspeed(const struct uhci_hcd *uhci)
-  * we use memory mapped registers.
-  */
- 
-+#ifdef CONFIG_HAS_IOPORT
-+#define UHCI_IN(x)	x
-+#define UHCI_OUT(x)	x
-+#else
-+#define UHCI_IN(x)	0
-+#define UHCI_OUT(x)
-+#endif
-+
- #ifndef CONFIG_USB_UHCI_SUPPORT_NON_PCI_HC
- /* Support PCI only */
- static inline u32 uhci_readl(const struct uhci_hcd *uhci, int reg)
- {
--	return inl(uhci->io_addr + reg);
-+	return UHCI_IN(inl(uhci->io_addr + reg));
- }
- 
- static inline void uhci_writel(const struct uhci_hcd *uhci, u32 val, int reg)
- {
--	outl(val, uhci->io_addr + reg);
-+	UHCI_OUT(outl(val, uhci->io_addr + reg));
- }
- 
- static inline u16 uhci_readw(const struct uhci_hcd *uhci, int reg)
- {
--	return inw(uhci->io_addr + reg);
-+	return UHCI_IN(inw(uhci->io_addr + reg));
- }
- 
- static inline void uhci_writew(const struct uhci_hcd *uhci, u16 val, int reg)
- {
--	outw(val, uhci->io_addr + reg);
-+	UHCI_OUT(outw(val, uhci->io_addr + reg));
- }
- 
- static inline u8 uhci_readb(const struct uhci_hcd *uhci, int reg)
- {
--	return inb(uhci->io_addr + reg);
-+	return UHCI_IN(inb(uhci->io_addr + reg));
- }
- 
- static inline void uhci_writeb(const struct uhci_hcd *uhci, u8 val, int reg)
- {
--	outb(val, uhci->io_addr + reg);
-+	UHCI_OUT(outb(val, uhci->io_addr + reg));
- }
- 
- #else
- /* Support non-PCI host controllers */
--#ifdef CONFIG_USB_PCI
-+#if defined(CONFIG_USB_PCI) && defined(HAS_IOPORT)
- /* Support PCI and non-PCI host controllers */
- #define uhci_has_pci_registers(u)	((u)->io_addr != 0)
- #else
-@@ -587,7 +595,7 @@ static inline int uhci_aspeed_reg(unsigned int reg)
- static inline u32 uhci_readl(const struct uhci_hcd *uhci, int reg)
- {
- 	if (uhci_has_pci_registers(uhci))
--		return inl(uhci->io_addr + reg);
-+		return UHCI_IN(inl(uhci->io_addr + reg));
- 	else if (uhci_is_aspeed(uhci))
- 		return readl(uhci->regs + uhci_aspeed_reg(reg));
- #ifdef CONFIG_USB_UHCI_BIG_ENDIAN_MMIO
-@@ -601,7 +609,7 @@ static inline u32 uhci_readl(const struct uhci_hcd *uhci, int reg)
- static inline void uhci_writel(const struct uhci_hcd *uhci, u32 val, int reg)
- {
- 	if (uhci_has_pci_registers(uhci))
--		outl(val, uhci->io_addr + reg);
-+		UHCI_OUT(outl(val, uhci->io_addr + reg));
- 	else if (uhci_is_aspeed(uhci))
- 		writel(val, uhci->regs + uhci_aspeed_reg(reg));
- #ifdef CONFIG_USB_UHCI_BIG_ENDIAN_MMIO
-@@ -615,7 +623,7 @@ static inline void uhci_writel(const struct uhci_hcd *uhci, u32 val, int reg)
- static inline u16 uhci_readw(const struct uhci_hcd *uhci, int reg)
- {
- 	if (uhci_has_pci_registers(uhci))
--		return inw(uhci->io_addr + reg);
-+		return UHCI_IN(inw(uhci->io_addr + reg));
- 	else if (uhci_is_aspeed(uhci))
- 		return readl(uhci->regs + uhci_aspeed_reg(reg));
- #ifdef CONFIG_USB_UHCI_BIG_ENDIAN_MMIO
-@@ -629,7 +637,7 @@ static inline u16 uhci_readw(const struct uhci_hcd *uhci, int reg)
- static inline void uhci_writew(const struct uhci_hcd *uhci, u16 val, int reg)
- {
- 	if (uhci_has_pci_registers(uhci))
--		outw(val, uhci->io_addr + reg);
-+		UHCI_OUT(outw(val, uhci->io_addr + reg));
- 	else if (uhci_is_aspeed(uhci))
- 		writel(val, uhci->regs + uhci_aspeed_reg(reg));
- #ifdef CONFIG_USB_UHCI_BIG_ENDIAN_MMIO
-@@ -643,7 +651,7 @@ static inline void uhci_writew(const struct uhci_hcd *uhci, u16 val, int reg)
- static inline u8 uhci_readb(const struct uhci_hcd *uhci, int reg)
- {
- 	if (uhci_has_pci_registers(uhci))
--		return inb(uhci->io_addr + reg);
-+		return UHCI_IN(inb(uhci->io_addr + reg));
- 	else if (uhci_is_aspeed(uhci))
- 		return readl(uhci->regs + uhci_aspeed_reg(reg));
- #ifdef CONFIG_USB_UHCI_BIG_ENDIAN_MMIO
-@@ -657,7 +665,7 @@ static inline u8 uhci_readb(const struct uhci_hcd *uhci, int reg)
- static inline void uhci_writeb(const struct uhci_hcd *uhci, u8 val, int reg)
- {
- 	if (uhci_has_pci_registers(uhci))
--		outb(val, uhci->io_addr + reg);
-+		UHCI_OUT(outb(val, uhci->io_addr + reg));
- 	else if (uhci_is_aspeed(uhci))
- 		writel(val, uhci->regs + uhci_aspeed_reg(reg));
- #ifdef CONFIG_USB_UHCI_BIG_ENDIAN_MMIO
-@@ -668,6 +676,8 @@ static inline void uhci_writeb(const struct uhci_hcd *uhci, u8 val, int reg)
- 		writeb(val, uhci->regs + reg);
- }
- #endif /* CONFIG_USB_UHCI_SUPPORT_NON_PCI_HC */
-+#undef UHCI_IN
-+#undef UHCI_OUT
- 
- /*
-  * The GRLIB GRUSBHC controller can use big endian format for its descriptors.
--- 
-2.39.2
+ [1] https://lore.kernel.org/all/20200504201348.1183246-1-jeremy.linton@arm.com/
+
+I think it means that if your driver deals with devices that aren't
+cache-coherent on arm64, using pfn_remap_range directly may cause
+problems. Otherwise, you may need to check the arch-specific dma mmap
+operation and see if it performs additional things that pfn_remap_range
+does not (for the arm example, arm_iommu_mmap_attrs updates the
+vm_page_prot field to make the pages non-cacheable if the device is not
+cache-coherent [2]).
+
+ [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/mm/dma-mapping.c?id=f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6#n1129
+
+> 
+> I can't change the driver to use dma_map_coherent() because it
+> doesn't let me mmap from a page offset within a 16k allocation.
+> 
+> In this case the memory area is an 8MB shared transfer area to an
+> FPGA PCIe target sparsely filled with 16kB allocation (max 512 allocs).
+> The discontinuous physical memory blocks appear as logically
+> contiguous to both the FPGA logic and when mapped to userspace.
+> (But not to driver code.)
+> 
+> I don't really want to expose the 16k allocation size to userspace.
+> If we need more than 8MB then the allocation size would need
+> changing.
+> 
+> 	David
+> 
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+> Registration No: 1397386 (Wales)
+
+Thanks,
+Ruihan Li
 
