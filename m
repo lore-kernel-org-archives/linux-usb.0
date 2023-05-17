@@ -2,47 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D827BC7EE2A
-	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 23:03:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 865ADC7EE23
+	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 23:03:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbjEQXDG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S229793AbjEQXDG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 17 May 2023 19:03:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44604 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229742AbjEQXCz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 19:02:55 -0400
+        with ESMTP id S229714AbjEQXC4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 19:02:56 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4201E5276
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E40385B9A
         for <linux-usb@vger.kernel.org>; Wed, 17 May 2023 16:02:54 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAO-0007jM-VU; Thu, 18 May 2023 01:02:45 +0200
+        id 1pzQAV-0007xl-2R; Thu, 18 May 2023 01:02:51 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAN-000wnq-Nc; Thu, 18 May 2023 01:02:43 +0200
+        id 1pzQAT-000wpq-0J; Thu, 18 May 2023 01:02:49 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAM-005UVS-RB; Thu, 18 May 2023 01:02:42 +0200
+        id 1pzQAR-005UWw-FY; Thu, 18 May 2023 01:02:47 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Peter Chen <peter.chen@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
+To:     Kevin Cernekee <cernekee@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Roger Quadros <rogerq@kernel.org>,
-        Aswath Govindraju <a-govindraju@ti.com>,
-        linux-usb@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 04/97] usb: cdns3-ti: Convert to platform remove callback returning void
-Date:   Thu, 18 May 2023 01:01:06 +0200
-Message-Id: <20230517230239.187727-5-u.kleine-koenig@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH 27/97] usb: gadget/bcm63xx_udc: Convert to platform remove callback returning void
+Date:   Thu, 18 May 2023 01:01:29 +0200
+Message-Id: <20230517230239.187727-28-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 References: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1813; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=6cHGFuDRubMo/u0j3jZfx8+HrU/cy2x3P5NC9anFvQ4=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkZVvu+f00qSOpUuD3O7MJA56NyCrcwdHoSU6/x eYfla52PXmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZGVb7gAKCRCPgPtYfRL+ TgghCACH/QHPokUz83rM2cp9biyR31BM9NVl5LNivkeYmIQl406VzyHdFnscBtkP/OSv/YjStIu rvmp0yrSbzDZjsHJbuc3FgeCGVdM6IWmgcGNk2wf5i2HKCzYiTBP+iUCFeooJ1BscbE35KiGU1r 8CwMJyOG7KonKvavj24zFYbuUb+mgcE1Q93ywFKSlEZIDwu/xulQkxWcgEXF3ju/bfNJpezJ0OH JcEacKdOq2VbFRQ0XFl2ryFGCKZBKo9EQ+nJpzOVxU7zkWa94uarJzOuzG/R8bP7tRgqRh7sU9R akwgnNm/+uVJAXYYAg8pR6VvL3wlOCvLOFXP82DeMVLSnBHX
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1852; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=uZg+P/vsXzdQ4medcFXFVqpVQQI7tAU47FzEhKMmNYA=; b=owGbwMvMwMXY3/A7olbonx/jabUkhpTUGL6eSyw1+l82pjUvuGBcXpbibGKRyc/ht+Sr3F7+X 4eL36l1MhqzMDByMciKKbLYN67JtKqSi+xc++8yzCBWJpApDFycAjCRG9/Y/9lo/JUKcGJZ+Sja vN1/67xHnkaq0WvtX3D9KvNyE637Oy3bWmRnWM+DS6HdFUt4HaxyN/mmrepoj75VfvyZ7xJ9xQN FQbufMohu/9T9yOLljANzrCZXOCzPjv0uGznZwFQ2RvNd9WauyitqV9JOh0zwKN19IHvitgutEz ck9/gZp4aKbTvv8+PDMmG9mA8Mj9q2VP3hWTO388nNDFPzJNWD16YsXZv51j1+7vvK6/lX7Ms9J /fO3PHCQL++ydZhg8Y3Vz/9c+2zarSV4o0CPN+GLQh3Vi26IWV05lD08WILc/fq39W/OSK7Or7/ sPf2uHnpydmTRcaRZ2cIePgx6E18YdRk/MjX63F0+e6pAA==
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -67,40 +64,37 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/usb/cdns3/cdns3-ti.c | 6 ++----
+ drivers/usb/gadget/udc/bcm63xx_udc.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/cdns3/cdns3-ti.c b/drivers/usb/cdns3/cdns3-ti.c
-index 07c318770362..81b9132e3aaa 100644
---- a/drivers/usb/cdns3/cdns3-ti.c
-+++ b/drivers/usb/cdns3/cdns3-ti.c
-@@ -199,7 +199,7 @@ static int cdns_ti_remove_core(struct device *dev, void *c)
- 	return 0;
- }
- 
--static int cdns_ti_remove(struct platform_device *pdev)
-+static void cdns_ti_remove(struct platform_device *pdev)
+diff --git a/drivers/usb/gadget/udc/bcm63xx_udc.c b/drivers/usb/gadget/udc/bcm63xx_udc.c
+index a3055dd4acfb..da7011d906e0 100644
+--- a/drivers/usb/gadget/udc/bcm63xx_udc.c
++++ b/drivers/usb/gadget/udc/bcm63xx_udc.c
+@@ -2354,7 +2354,7 @@ static int bcm63xx_udc_probe(struct platform_device *pdev)
+  * bcm63xx_udc_remove - Remove the device from the system.
+  * @pdev: Platform device struct from the bcm63xx BSP code.
+  */
+-static int bcm63xx_udc_remove(struct platform_device *pdev)
++static void bcm63xx_udc_remove(struct platform_device *pdev)
  {
- 	struct device *dev = &pdev->dev;
+ 	struct bcm63xx_udc *udc = platform_get_drvdata(pdev);
  
-@@ -208,8 +208,6 @@ static int cdns_ti_remove(struct platform_device *pdev)
- 	pm_runtime_disable(dev);
+@@ -2363,13 +2363,11 @@ static int bcm63xx_udc_remove(struct platform_device *pdev)
+ 	BUG_ON(udc->driver);
  
- 	platform_set_drvdata(pdev, NULL);
+ 	bcm63xx_uninit_udc_hw(udc);
 -
 -	return 0;
  }
  
- static const struct of_device_id cdns_ti_of_match[] = {
-@@ -221,7 +219,7 @@ MODULE_DEVICE_TABLE(of, cdns_ti_of_match);
- 
- static struct platform_driver cdns_ti_driver = {
- 	.probe		= cdns_ti_probe,
--	.remove		= cdns_ti_remove,
-+	.remove_new	= cdns_ti_remove,
+ static struct platform_driver bcm63xx_udc_driver = {
+ 	.probe		= bcm63xx_udc_probe,
+-	.remove		= bcm63xx_udc_remove,
++	.remove_new	= bcm63xx_udc_remove,
  	.driver		= {
- 		.name	= "cdns3-ti",
- 		.of_match_table	= cdns_ti_of_match,
+ 		.name	= DRV_MODULE_NAME,
+ 	},
 -- 
 2.39.2
 
