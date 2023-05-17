@@ -2,106 +2,221 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2097C77B75
-	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 11:45:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DA62C7EE23
+	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 12:00:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231351AbjEQLpT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 May 2023 07:45:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60044 "EHLO
+        id S231487AbjEQMAa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 May 2023 08:00:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231332AbjEQLpR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 07:45:17 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59F7A421D;
-        Wed, 17 May 2023 04:45:15 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pzEq4-0005Ph-I3; Wed, 17 May 2023 12:57:00 +0200
-Message-ID: <53213ba8-be58-0f97-8a06-3c9380bdff53@leemhuis.info>
-Date:   Wed, 17 May 2023 12:56:59 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v4 1/2] usb: gadget: udc: core: Invoke usb_gadget_connect
- only when started
-Content-Language: en-US, de-DE
-To:     Francesco Dolcini <francesco@dolcini.it>,
-        Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Alistair <alistair@alistair23.me>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
+        with ESMTP id S231416AbjEQMA0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 08:00:26 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67D0A5B8E
+        for <linux-usb@vger.kernel.org>; Wed, 17 May 2023 05:00:08 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-556011695d1so9079457b3.1
+        for <linux-usb@vger.kernel.org>; Wed, 17 May 2023 05:00:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1684324807; x=1686916807;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=D/MAqz2kFbEJtuNrHyReKvnqpR0qHORuHaOkTgOMC34=;
+        b=x+eOcBsA8fYI8sl6n1Pnu2JjRKBDnkK0SI0ouTSHJoSQVXvO1OerMgxoROiHq9ilmt
+         ucZAGvmcVNB8cj1XrLD9pOx00YcxGx7JOhxVo6MlGdMc8oGyydzeH4zzQ6RmGCWTMvC/
+         42MRj1SKbmGCgBh+GhBUyq8ZSPmzaFjpb9M+/T/PB+TtqwP/p69aQaAAIlKUHDdt4MUF
+         ww7Cr3KNTnbnxfwrMUFu3dETJvu3vbsv9mvQHxoZNzmN611mN3NQC7hw2FsvxQPEg1WL
+         OGVbgd/rJx9GcPGKdUJiiNmcY+m5MguudOqFBLtCgEJ1zUy7nE0poo8I/TcDOoK4iJMm
+         ePAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684324807; x=1686916807;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=D/MAqz2kFbEJtuNrHyReKvnqpR0qHORuHaOkTgOMC34=;
+        b=IfWlUh/HULWk7Av8gawjkXoiFlHI9hBJTXaReZUjHVQ0p0qefmsWK+61fYGYLuf/GB
+         HkOEhe5KA9ErYUhhy1ETPB18FB3DkZY9Yz/jw4639qw2VII3uc2UURYERxush6bi9Iua
+         HIXrOLxRXnVJQ42YMH8qcByI0bAqh7XkMLXJaXVBEw25q3nTRpiSMaH5aD4qi06NcUF0
+         oQXFbBH25m4IN8wKQtW2wab5ZdYoFyOO3UlwwOKDFXJ8qCZmfhzqyBLY5agpGnmseDL0
+         k6sgTu8hp54mHl0RmKmx0FXll+w2RbyzxV0ZrZW09QOfhSRDtNP9cCOveAFSYVc72/FF
+         HiTQ==
+X-Gm-Message-State: AC+VfDzKDyAyvaCWAT89rgBVR/UG7FIvjgEobwxVfWqRKzEY+VWCFxVL
+        5Lqux16Dk4UQhVMqSVUF1hDwTHza9Zg=
+X-Google-Smtp-Source: ACHHUZ7qf7ZSuAveb/FnNTvY3Oya0BTMYouhwIyAX5UbATcBkjlYT2KD0bWSUgGAqZ4V4L92/qUIK6gLaiE=
+X-Received: from badhri.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:6442])
+ (user=badhri job=sendgmr) by 2002:a81:ad51:0:b0:561:c732:75b6 with SMTP id
+ l17-20020a81ad51000000b00561c73275b6mr901523ywk.10.1684324807546; Wed, 17 May
+ 2023 05:00:07 -0700 (PDT)
+Date:   Wed, 17 May 2023 11:59:55 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.1.606.ga4b1b128d6-goog
+Message-ID: <20230517115955.1078339-1-badhri@google.com>
+Subject: [PATCH v1] usb: gadget: udc: core: Offload usb_udc_vbus_handler processing
+From:   Badhri Jagan Sridharan <badhri@google.com>
+To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
         colin.i.king@gmail.com, xuetao09@huawei.com,
         quic_eserrao@quicinc.com, water.zhangjiantao@huawei.com,
-        peter.chen@freescale.com, balbi@ti.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20230407030741.3163220-1-badhri@google.com>
- <0cf8c588b701d7cf25ffe1a9217b81716e6a5c51.camel@alistair23.me>
- <1ac16f0a-3cca-40ca-c444-82719f85a24c@leemhuis.info>
- <ZGStr1oZvmJ0XzSu@francesco-nb.int.toradex.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <ZGStr1oZvmJ0XzSu@francesco-nb.int.toradex.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1684323915;0d7e538a;
-X-HE-SMSGID: 1pzEq4-0005Ph-I3
+        peter.chen@freescale.com, balbi@ti.com, francesco@dolcini.it,
+        alistair@alistair23.me, stephan@gerhold.net, bagasdotme@gmail.com,
+        luca@z3ntu.xyz
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, Badhri Jagan Sridharan <badhri@google.com>,
+        Francesco Dolcini <francesco.dolcini@toradex.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 17.05.23 12:35, Francesco Dolcini wrote:
-> On Wed, May 17, 2023 at 12:23:39PM +0200, Linux regression tracking (Thorsten Leemhuis) wrote:
->> [CCing Francesco Dolcini; and the regression list too, as it should be
->> in the loop for regressions:
->> https://docs.kernel.org/admin-guide/reporting-regressions.html]
->>
->> On 16.05.23 14:53, Alistair wrote:
->>> On Fri, 2023-04-07 at 03:07 +0000, Badhri Jagan Sridharan wrote:
->>>> usb_udc_connect_control does not check to see if the udc has already
->>>> been started. This causes gadget->ops->pullup to be called through
->>>> usb_gadget_connect when invoked from usb_udc_vbus_handler even before
->>>> usb_gadget_udc_start is called. Guard this by checking for udc-
->>>>> started
->>>> in usb_udc_connect_control before invoking usb_gadget_connect.
->>> [...]
->>>> Cc: stable@vger.kernel.org
->>>> Fixes: 628ef0d273a6 ("usb: udc: add usb_udc_vbus_handler")
->>>> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
->>>
->>> This patch causes a kernel hang when trying to boot with the
->>> usb/chipidea/udc.c driver.
->>>
->>> The call stack below causes the hang:
->>>
->>>  - gadget_bind_driver(struct device *dev)
->>>     - mutex_lock(&udc->connect_lock);
->>>     - usb_gadget_udc_start_locked(struct usb_udc *udc)
->>>         - udc->gadget->ops->udc_start(udc->gadget, udc->driver)
->>>
->>> At which point we are calling ci_udc_start(..), but with the
->>> connect_lock mutex locked.
->>>
->>> ci_udc_start() then calls usb_udc_vbus_handler() which tries to lock
->>> the connect_lock while it's already locked. Resulting in a kernel hang.
->>>
->>> Reverting this patch fixes the hang.
->>
->> Not my area of expertise, but I guess it might be the same error as this
->> one:
->>
->> https://lore.kernel.org/all/ZF4BvgsOyoKxdPFF@francesco-nb.int.toradex.com/
->>
->> Francesco sent a revert on Friday, but no reaction from Badhri Jagan
->> Sridharan or Greg yet afaics.
->>
->> https://lore.kernel.org/all/20230512131435.205464-1-francesco@dolcini.it/
-> 
-> Revert patches were applied and are in linux-next. I expect those to
-> land in Linus tree with the next pull request from Greg.
+chipidea udc calls usb_udc_vbus_handler from udc_start gadget
+ops causing a deadlock. Avoid this by offloading usb_udc_vbus_handler
+processing.
 
-Ha, sorry, I missed that, as I only looked at lore. Should have looked
-in my own regression tracking, there it's marked as "fix incoming", as
-regzbot noticed the fix in next...
+============================================
+WARNING: possible recursive locking detected
+640-rc1-000-devel-00005-gcda3c69ebc14 #1 Not tainted
+-------------------------------------------
 
-Ciao, Thorsten
+CPU0
+----
+lock(&udc->connect_lock);
+lock(&udc->connect_lock);
+
+ DEADLOCK
+
+stack backtrace:
+  CPU: 1 PID: 566 Comm: echo Not tainted 640-rc1-000-devel-00005-gcda3c69ebc14 #1
+  Hardware name: Freescale iMX7 Dual (Device Tree)
+  unwind_backtrace from show_stack+0x10/0x14
+  show_stack from dump_stack_lvl+0x70/0xb0
+  dump_stack_lvl from __lock_acquire+0x924/0x22c4
+  __lock_acquire from lock_acquire+0x100/0x370
+  lock_acquire from __mutex_lock+0xa8/0xfb4
+  __mutex_lock from mutex_lock_nested+0x1c/0x24
+  mutex_lock_nested from usb_udc_vbus_handler+0x1c/0x60
+  usb_udc_vbus_handler from ci_udc_start+0x74/0x9c
+  ci_udc_start from gadget_bind_driver+0x130/0x230
+  gadget_bind_driver from really_probe+0xd8/0x3fc
+  really_probe from __driver_probe_device+0x94/0x1f0
+  __driver_probe_device from driver_probe_device+0x2c/0xc4
+  driver_probe_device from __driver_attach+0x114/0x1cc
+  __driver_attach from bus_for_each_dev+0x7c/0xcc
+  bus_for_each_dev from bus_add_driver+0xd4/0x200
+  bus_add_driver from driver_register+0x7c/0x114
+  driver_register from usb_gadget_register_driver_owner+0x40/0xe0
+  usb_gadget_register_driver_owner from gadget_dev_desc_UDC_store+0xd4/0x110
+  gadget_dev_desc_UDC_store from configfs_write_iter+0xac/0x118
+  configfs_write_iter from vfs_write+0x1b4/0x40c
+  vfs_write from ksys_write+0x70/0xf8
+  ksys_write from ret_fast_syscall+0x0/0x1c
+
+Fixes: 0db213ea8eed ("usb: gadget: udc: core: Invoke usb_gadget_connect only when started")
+Cc: stable@vger.kernel.org
+Reported-by: Stephan Gerhold <stephan@gerhold.net>
+Closes: https://lore.kernel.org/all/ZF4bMptC3Lf2Hnee@gerhold.net/
+Reported-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+Closes: https://lore.kernel.org/all/ZF4BvgsOyoKxdPFF@francesco-nb.int.toradex.com/
+Reported-by: Alistair <alistair@alistair23.me>
+Closes: https://lore.kernel.org/lkml/0cf8c588b701d7cf25ffe1a9217b81716e6a5c51.camel@alistair23.me/
+Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+---
+ drivers/usb/gadget/udc/core.c | 55 +++++++++++++++++++++++++++++++----
+ 1 file changed, 49 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index 69041cca5d24..bbcfab50f657 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -41,6 +41,9 @@ static const struct bus_type gadget_bus_type;
+  * functions. usb_gadget_connect_locked, usb_gadget_disconnect_locked,
+  * usb_udc_connect_control_locked, usb_gadget_udc_start_locked, usb_gadget_udc_stop_locked are
+  * called with this lock held.
++ * @vbus_events: list head for processing vbus updates on usb_udc_vbus_handler.
++ * @vbus_events_lock: protects vbus_events list
++ * @vbus_work: work item that invokes usb_udc_connect_control_locked.
+  *
+  * This represents the internal data structure which is used by the UDC-class
+  * to hold information about udc driver and gadget together.
+@@ -53,6 +56,19 @@ struct usb_udc {
+ 	bool				vbus;
+ 	bool				started;
+ 	struct mutex			connect_lock;
++	struct list_head		vbus_events;
++	struct mutex			vbus_events_lock;
++	struct work_struct		vbus_work;
++};
++
++/**
++ * struct vbus_event - used to notify vbus updates posted through usb_udc_vbus_handler.
++ * @vbus_on: true when vbus is on. false other wise.
++ * @node: list node for maintaining a list of pending updates to be processed.
++ */
++struct vbus_event {
++	bool vbus_on;
++	struct list_head node;
+ };
+ 
+ static struct class *udc_class;
+@@ -1134,6 +1150,23 @@ static int usb_udc_connect_control_locked(struct usb_udc *udc) __must_hold(&udc-
+ 	return ret;
+ }
+ 
++static void vbus_event_work(struct work_struct *work)
++{
++	struct vbus_event *event, *n;
++	struct usb_udc *udc = container_of(work, struct usb_udc, vbus_work);
++
++	mutex_lock(&udc->vbus_events_lock);
++	list_for_each_entry_safe(event, n, &udc->vbus_events, node) {
++		mutex_lock(&udc->connect_lock);
++		udc->vbus = event->vbus_on;
++		usb_udc_connect_control_locked(udc);
++		list_del(&event->node);
++		kfree(event);
++		mutex_unlock(&udc->connect_lock);
++	}
++	mutex_unlock(&udc->vbus_events_lock);
++}
++
+ /**
+  * usb_udc_vbus_handler - updates the udc core vbus status, and try to
+  * connect or disconnect gadget
+@@ -1146,13 +1179,20 @@ static int usb_udc_connect_control_locked(struct usb_udc *udc) __must_hold(&udc-
+ void usb_udc_vbus_handler(struct usb_gadget *gadget, bool status)
+ {
+ 	struct usb_udc *udc = gadget->udc;
++	struct vbus_event *vbus_event;
+ 
+-	mutex_lock(&udc->connect_lock);
+-	if (udc) {
+-		udc->vbus = status;
+-		usb_udc_connect_control_locked(udc);
+-	}
+-	mutex_unlock(&udc->connect_lock);
++	if (!udc)
++		return;
++
++	vbus_event = kzalloc(sizeof(*vbus_event), GFP_KERNEL);
++	if (!vbus_event)
++		return;
++
++	mutex_lock(&udc->vbus_events_lock);
++	vbus_event->vbus_on = status;
++	list_add_tail(&vbus_event->node, &udc->vbus_events);
++	mutex_unlock(&udc->vbus_events_lock);
++	schedule_work(&udc->vbus_work);
+ }
+ EXPORT_SYMBOL_GPL(usb_udc_vbus_handler);
+ 
+@@ -1379,6 +1419,9 @@ int usb_add_gadget(struct usb_gadget *gadget)
+ 	udc->gadget = gadget;
+ 	gadget->udc = udc;
+ 	mutex_init(&udc->connect_lock);
++	INIT_LIST_HEAD(&udc->vbus_events);
++	mutex_init(&udc->vbus_events_lock);
++	INIT_WORK(&udc->vbus_work, vbus_event_work);
+ 
+ 	udc->started = false;
+ 
+
+base-commit: 6bae03b0484b54f699d69339fbec5658e885c224
+-- 
+2.40.1.606.ga4b1b128d6-goog
+
