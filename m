@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34FF0C7EE2E
-	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 23:02:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD05C77B75
+	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 23:02:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbjEQXCw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 May 2023 19:02:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44474 "EHLO
+        id S229724AbjEQXCy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 May 2023 19:02:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229705AbjEQXCu (ORCPT
+        with ESMTP id S229678AbjEQXCu (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 19:02:50 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71EF649C1
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB6745276
         for <linux-usb@vger.kernel.org>; Wed, 17 May 2023 16:02:48 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAQ-0007lu-6q; Thu, 18 May 2023 01:02:46 +0200
+        id 1pzQAQ-0007m5-7E; Thu, 18 May 2023 01:02:46 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAP-000woT-8T; Thu, 18 May 2023 01:02:45 +0200
+        id 1pzQAP-000woZ-Fq; Thu, 18 May 2023 01:02:45 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAO-005UW3-Lv; Thu, 18 May 2023 01:02:44 +0200
+        id 1pzQAO-005UVu-At; Thu, 18 May 2023 01:02:44 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+To:     Minas Harutyunyan <hminas@synopsys.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 13/97] usb: dwc3-am62: Convert to platform remove callback returning void
-Date:   Thu, 18 May 2023 01:01:15 +0200
-Message-Id: <20230517230239.187727-14-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 11/97] usb: dwc2/platform: Convert to platform remove callback returning void
+Date:   Thu, 18 May 2023 01:01:13 +0200
+Message-Id: <20230517230239.187727-12-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 References: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1812; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=9V9gRu8K0laR4ZMkL+6LJuFgAUBxGO0zZORttVpkS6g=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkZVv5yapp4u3/UeQZ49Ab5EWNlkQbTcJConG7M 71eO6b1u0KJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZGVb+QAKCRCPgPtYfRL+ Tub/B/sH3Gc9bRQQJSzS5kPSSK+jcdUb9oHCC8kbcWSp9L1EDoFKCTHapoCIUxG0mo/Arectpe4 bNqNdNYgFW4JxRZl0WUUouurfGhldMzBH80uytR3QqcEqZ2BUrtXK2om56hy0Q94TzsWOpZcvGI yzQY7j+IWfJyM/PWINPyB1um1l0J0Foh+tu+G7aJELwE/gYIPHWAYGHS/Tqx3/FY72rPrL+8Yrk H2+Y7oI0firf5a4Iper9obZmqydJuyWZqcZcQzGz2JF3zi1xSW1wDOJvfXNM0HIFfpIyVgYNhHV o4DYSEMvrXXByqVATNaoX+pyneTyZWFIq3Fsv/dvhP2ZpQbQ
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1875; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=OGgS/GQVc+n0DjeVx3kCPbw/xZNkDel9cy+Cog9KMuI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkZVv3ph7GbV3zffwh3MvjJIWxoBT2SclZfkpfV WpqX1XUjOOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZGVb9wAKCRCPgPtYfRL+ TsMpB/0fajK6xhDXQbSfqWl9vja+JuK6r6Lp9jtCttI5I/IVgDAXKcuCnhv0P0BqF5irsMGw1u4 rAa53fEvg0YSdJmBglx7wyigRdCn2d0d21izgsfY5S69ezA/bZOLSRGugV4qI1dB4bo04jm2w1C IIs0YhDyuiyZlH53sFUlLaVbC3sfmeabfi5fs3fbfZ+ockuNfX8GFqyfec+cr8/F4actyeHdRby NrSWILHxQb/Ty6D9y9k4kgD8E10d5WCU3C5LmU72Gr4LcaXGLrgz/2KYsZ60BFrwbskwFuYnICu 14p0hImaUpUZGuE0w3agA0MhsaFUWirHWqsJPoRfUooxesW7
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -64,39 +64,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/usb/dwc3/dwc3-am62.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/usb/dwc2/platform.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-am62.c b/drivers/usb/dwc3/dwc3-am62.c
-index cda9458c809b..1755f2f848c5 100644
---- a/drivers/usb/dwc3/dwc3-am62.c
-+++ b/drivers/usb/dwc3/dwc3-am62.c
-@@ -275,7 +275,7 @@ static int dwc3_ti_remove_core(struct device *dev, void *c)
- 	return 0;
- }
- 
--static int dwc3_ti_remove(struct platform_device *pdev)
-+static void dwc3_ti_remove(struct platform_device *pdev)
+diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
+index 5aee284018c0..3157db9f21bd 100644
+--- a/drivers/usb/dwc2/platform.c
++++ b/drivers/usb/dwc2/platform.c
+@@ -288,7 +288,7 @@ static int dwc2_lowlevel_hw_init(struct dwc2_hsotg *hsotg)
+  * stops device processing. Any resources used on behalf of this device are
+  * freed.
+  */
+-static int dwc2_driver_remove(struct platform_device *dev)
++static void dwc2_driver_remove(struct platform_device *dev)
  {
- 	struct device *dev = &pdev->dev;
- 	struct dwc3_data *data = platform_get_drvdata(pdev);
-@@ -294,7 +294,6 @@ static int dwc3_ti_remove(struct platform_device *pdev)
- 	pm_runtime_set_suspended(dev);
+ 	struct dwc2_hsotg *hsotg = platform_get_drvdata(dev);
+ 	struct dwc2_gregs_backup *gr;
+@@ -341,8 +341,6 @@ static int dwc2_driver_remove(struct platform_device *dev)
  
- 	platform_set_drvdata(pdev, NULL);
+ 	reset_control_assert(hsotg->reset);
+ 	reset_control_assert(hsotg->reset_ecc);
+-
 -	return 0;
  }
  
- #ifdef CONFIG_PM
-@@ -362,7 +361,7 @@ MODULE_DEVICE_TABLE(of, dwc3_ti_of_match);
+ /**
+@@ -746,7 +744,7 @@ static struct platform_driver dwc2_platform_driver = {
+ 		.pm = &dwc2_dev_pm_ops,
+ 	},
+ 	.probe = dwc2_driver_probe,
+-	.remove = dwc2_driver_remove,
++	.remove_new = dwc2_driver_remove,
+ 	.shutdown = dwc2_driver_shutdown,
+ };
  
- static struct platform_driver dwc3_ti_driver = {
- 	.probe		= dwc3_ti_probe,
--	.remove		= dwc3_ti_remove,
-+	.remove_new	= dwc3_ti_remove,
- 	.driver		= {
- 		.name	= "dwc3-am62",
- 		.pm	= DEV_PM_OPS,
 -- 
 2.39.2
 
