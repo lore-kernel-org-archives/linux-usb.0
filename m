@@ -2,45 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB267C7EE22
-	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 23:03:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08A45C7EE2A
+	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 23:03:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229892AbjEQXDZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 May 2023 19:03:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44970 "EHLO
+        id S229889AbjEQXD0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 May 2023 19:03:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229801AbjEQXDH (ORCPT
+        with ESMTP id S229805AbjEQXDH (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 19:03:07 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16BB35BA5
-        for <linux-usb@vger.kernel.org>; Wed, 17 May 2023 16:03:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C53761AF
+        for <linux-usb@vger.kernel.org>; Wed, 17 May 2023 16:03:01 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAa-0008Gd-Or; Thu, 18 May 2023 01:02:56 +0200
+        id 1pzQAb-0008I2-49; Thu, 18 May 2023 01:02:57 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAY-000ws5-QB; Thu, 18 May 2023 01:02:54 +0200
+        id 1pzQAZ-000wsG-Cb; Thu, 18 May 2023 01:02:55 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAW-005UYY-CY; Thu, 18 May 2023 01:02:52 +0200
+        id 1pzQAY-005UZ8-4e; Thu, 18 May 2023 01:02:54 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Alan Stern <stern@rowland.harvard.edu>,
+To:     Olav Kongas <ok@artecdesign.ee>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-omap@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH 52/97] usb: ehci-omap: Convert to platform remove callback returning void
-Date:   Thu, 18 May 2023 01:01:54 +0200
-Message-Id: <20230517230239.187727-53-u.kleine-koenig@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH 61/97] usb: isp116x-hcd: Convert to platform remove callback returning void
+Date:   Thu, 18 May 2023 01:02:03 +0200
+Message-Id: <20230517230239.187727-62-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 References: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2073; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=W/gd4eUOq8iDwcgRz4qMMy9zNeWFTEMhcBTNS6QXU7s=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkZVxTX9Ui4qRzisla9oZvKd0cyZNPzJL6XSRZN RIpIKXEzpmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZGVcUwAKCRCPgPtYfRL+ TtvRB/9KkeTK54/RCvPgLSi6Y8E7R7Y85JFQJxhAVrtQdYEfB9NGzXMuWslCIZqs7AH1TgjU8zv /1znq8ykatoOF1ujzTods8Y7Qx5nNhObDwRGvnX0g2NapKWFL/J4vD20LNDh6X3Gu6pBt80c+Xr pwsS83NT1RoEgOt8OtFKXMXaIpt0BeRyXXyrU8sMH3369d/J7mwHS+sjw/u45h7wZbDhUNSoyyM WCh+u6qhUj6BfmHDWc4M2cL7xN3mjZhOZ9G8V8HPm2/C7NjgujCjTIYtXRkPH769Hlhn8v4FGGa 3oeYjkneSsy6Nluvs3dIUVr1VU65pPcviD3txNrz1qdgRhpk
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2058; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=OnyJtVMfx7k9+s48D/pTsYAcJRBUL0Qv2mqShtgy5Fk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkZVxxQw0WpMmNWPv+7z+tAcmMnP6jt1Jt/wabn uIKg1tF3DeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZGVccQAKCRCPgPtYfRL+ Tpz+CACgSVxRH3PozdwbI4j5l79SGMncgHXf6mo3YOD/ty3cbg2d/66lfmyCP0aqmHcoZbxhVXl oZSHaa9O40ktXava3ASHZvILRzxXN15oyq318Lr5CjbdarxzeMNWvsKUi5/eqppv72vERIH28TH tEOlpNNX4qDlyQ86K60HgJFhX0bQZFDoQ4HFttIz88tRHFX2oipkk9h7irXEOt/YL1kRpE1UAkY mZxhdpn+Wh0pJL3WNxokfX0tCbwI78OtDYQ6LHVnSulRYuuYm6X6Xdf+ff4wwBn+pkgRi7GaRYk 2jWl2MNd4zU1hWJPl6FbY0xAmvuNsMJNVCn3SeIkXVCI7W4o
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -65,40 +64,47 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/usb/host/ehci-omap.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/usb/host/isp116x-hcd.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/host/ehci-omap.c b/drivers/usb/host/ehci-omap.c
-index 7dd984722a7f..cb6509a735ac 100644
---- a/drivers/usb/host/ehci-omap.c
-+++ b/drivers/usb/host/ehci-omap.c
-@@ -237,7 +237,7 @@ static int ehci_hcd_omap_probe(struct platform_device *pdev)
-  * the HCD's stop() method.  It is always called from a thread
-  * context, normally "rmmod", "apmd", or something similar.
-  */
--static int ehci_hcd_omap_remove(struct platform_device *pdev)
-+static void ehci_hcd_omap_remove(struct platform_device *pdev)
+diff --git a/drivers/usb/host/isp116x-hcd.c b/drivers/usb/host/isp116x-hcd.c
+index 49ae01487af4..a82d8926e922 100644
+--- a/drivers/usb/host/isp116x-hcd.c
++++ b/drivers/usb/host/isp116x-hcd.c
+@@ -1526,14 +1526,14 @@ static const struct hc_driver isp116x_hc_driver = {
+ 
+ /*----------------------------------------------------------------*/
+ 
+-static int isp116x_remove(struct platform_device *pdev)
++static void isp116x_remove(struct platform_device *pdev)
  {
- 	struct device *dev = &pdev->dev;
- 	struct usb_hcd *hcd = dev_get_drvdata(dev);
-@@ -254,8 +254,6 @@ static int ehci_hcd_omap_remove(struct platform_device *pdev)
+ 	struct usb_hcd *hcd = platform_get_drvdata(pdev);
+ 	struct isp116x *isp116x;
+ 	struct resource *res;
+ 
+ 	if (!hcd)
+-		return 0;
++		return;
+ 	isp116x = hcd_to_isp116x(hcd);
+ 	remove_debug_file(isp116x);
+ 	usb_remove_hcd(hcd);
+@@ -1548,7 +1548,6 @@ static int isp116x_remove(struct platform_device *pdev)
+ 		release_mem_region(res->start, 2);
+ 
  	usb_put_hcd(hcd);
- 	pm_runtime_put_sync(dev);
- 	pm_runtime_disable(dev);
--
 -	return 0;
  }
  
- static const struct of_device_id omap_ehci_dt_ids[] = {
-@@ -267,7 +265,7 @@ MODULE_DEVICE_TABLE(of, omap_ehci_dt_ids);
+ static int isp116x_probe(struct platform_device *pdev)
+@@ -1685,7 +1684,7 @@ MODULE_ALIAS("platform:isp116x-hcd");
  
- static struct platform_driver ehci_hcd_omap_driver = {
- 	.probe			= ehci_hcd_omap_probe,
--	.remove			= ehci_hcd_omap_remove,
-+	.remove_new		= ehci_hcd_omap_remove,
- 	.shutdown		= usb_hcd_platform_shutdown,
- 	/*.suspend		= ehci_hcd_omap_suspend, */
- 	/*.resume		= ehci_hcd_omap_resume, */
+ static struct platform_driver isp116x_driver = {
+ 	.probe = isp116x_probe,
+-	.remove = isp116x_remove,
++	.remove_new = isp116x_remove,
+ 	.suspend = isp116x_suspend,
+ 	.resume = isp116x_resume,
+ 	.driver = {
 -- 
 2.39.2
 
