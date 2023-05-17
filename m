@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08A45C7EE2A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB8E9C77B75
 	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 23:03:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229889AbjEQXD0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 May 2023 19:03:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44972 "EHLO
+        id S229894AbjEQXD2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 May 2023 19:03:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229805AbjEQXDH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 19:03:07 -0400
+        with ESMTP id S229745AbjEQXDI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 19:03:08 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C53761AF
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16FC761A9
         for <linux-usb@vger.kernel.org>; Wed, 17 May 2023 16:03:01 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAb-0008I2-49; Thu, 18 May 2023 01:02:57 +0200
+        id 1pzQAb-0008IQ-Hn; Thu, 18 May 2023 01:02:57 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAZ-000wsG-Cb; Thu, 18 May 2023 01:02:55 +0200
+        id 1pzQAZ-000wsP-My; Thu, 18 May 2023 01:02:55 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAY-005UZ8-4e; Thu, 18 May 2023 01:02:54 +0200
+        id 1pzQAY-005UZG-Iq; Thu, 18 May 2023 01:02:54 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Olav Kongas <ok@artecdesign.ee>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Artur Bujdoso <artur.bujdoso@gmail.com>
 Cc:     linux-usb@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 61/97] usb: isp116x-hcd: Convert to platform remove callback returning void
-Date:   Thu, 18 May 2023 01:02:03 +0200
-Message-Id: <20230517230239.187727-62-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 63/97] usb: octeon-hcd: Convert to platform remove callback returning void
+Date:   Thu, 18 May 2023 01:02:05 +0200
+Message-Id: <20230517230239.187727-64-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 References: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2058; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=OnyJtVMfx7k9+s48D/pTsYAcJRBUL0Qv2mqShtgy5Fk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkZVxxQw0WpMmNWPv+7z+tAcmMnP6jt1Jt/wabn uIKg1tF3DeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZGVccQAKCRCPgPtYfRL+ Tpz+CACgSVxRH3PozdwbI4j5l79SGMncgHXf6mo3YOD/ty3cbg2d/66lfmyCP0aqmHcoZbxhVXl oZSHaa9O40ktXava3ASHZvILRzxXN15oyq318Lr5CjbdarxzeMNWvsKUi5/eqppv72vERIH28TH tEOlpNNX4qDlyQ86K60HgJFhX0bQZFDoQ4HFttIz88tRHFX2oipkk9h7irXEOt/YL1kRpE1UAkY mZxhdpn+Wh0pJL3WNxokfX0tCbwI78OtDYQ6LHVnSulRYuuYm6X6Xdf+ff4wwBn+pkgRi7GaRYk 2jWl2MNd4zU1hWJPl6FbY0xAmvuNsMJNVCn3SeIkXVCI7W4o
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1852; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=us258rPKgcRldb8M3YpSySbmJcLMbXTXMqU6SIkk4/Q=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkZVx+MB45OTD5xhRqCAnxTdAUQ7XWpssFvQh1Z sCY4krDUKWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZGVcfgAKCRCPgPtYfRL+ TvX2B/40FKZd/Vz0FH2Lp0Bjp4XXQgwW0eOcmlB4FUnmonZEmvPwkf040m3cFG2Lwa4NpTqGBky otpovUhulUb/kSpdOSkRHwzdiTUPq1/hl7yyUjeRiBzSe/1gHiqi7UCtpfgV9pUtDx6M2m4ATMZ TQSkahNdt2sAyv/76ocqpWcZZMzMEbCA9N25HzseIa3jcN1pZa6Uj9dTvypNpGzORp+Ogdeuq0z TI7Wysgwg2heRADiiu7Ue0M7QnCq5nI84KDASCiV3ZjLCUg4OV72dY+xU8sgq94uLQ/xXslhIIM nlHTHDJXxDwB9tDj/iBvmDKEiv2Zcst+OLumZmH0p/q8b+hB
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -64,47 +64,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/usb/host/isp116x-hcd.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/usb/host/octeon-hcd.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/host/isp116x-hcd.c b/drivers/usb/host/isp116x-hcd.c
-index 49ae01487af4..a82d8926e922 100644
---- a/drivers/usb/host/isp116x-hcd.c
-+++ b/drivers/usb/host/isp116x-hcd.c
-@@ -1526,14 +1526,14 @@ static const struct hc_driver isp116x_hc_driver = {
+diff --git a/drivers/usb/host/octeon-hcd.c b/drivers/usb/host/octeon-hcd.c
+index a1cd81d4a114..19d5777f5db2 100644
+--- a/drivers/usb/host/octeon-hcd.c
++++ b/drivers/usb/host/octeon-hcd.c
+@@ -3680,7 +3680,7 @@ static int octeon_usb_probe(struct platform_device *pdev)
+ 	return 0;
+ }
  
- /*----------------------------------------------------------------*/
- 
--static int isp116x_remove(struct platform_device *pdev)
-+static void isp116x_remove(struct platform_device *pdev)
+-static int octeon_usb_remove(struct platform_device *pdev)
++static void octeon_usb_remove(struct platform_device *pdev)
  {
- 	struct usb_hcd *hcd = platform_get_drvdata(pdev);
- 	struct isp116x *isp116x;
- 	struct resource *res;
- 
- 	if (!hcd)
--		return 0;
-+		return;
- 	isp116x = hcd_to_isp116x(hcd);
- 	remove_debug_file(isp116x);
- 	usb_remove_hcd(hcd);
-@@ -1548,7 +1548,6 @@ static int isp116x_remove(struct platform_device *pdev)
- 		release_mem_region(res->start, 2);
+ 	int status;
+ 	struct device *dev = &pdev->dev;
+@@ -3696,8 +3696,6 @@ static int octeon_usb_remove(struct platform_device *pdev)
+ 		dev_dbg(dev, "USB shutdown failed with %d\n", status);
  
  	usb_put_hcd(hcd);
+-
 -	return 0;
  }
  
- static int isp116x_probe(struct platform_device *pdev)
-@@ -1685,7 +1684,7 @@ MODULE_ALIAS("platform:isp116x-hcd");
+ static const struct of_device_id octeon_usb_match[] = {
+@@ -3714,7 +3712,7 @@ static struct platform_driver octeon_usb_driver = {
+ 		.of_match_table = octeon_usb_match,
+ 	},
+ 	.probe      = octeon_usb_probe,
+-	.remove     = octeon_usb_remove,
++	.remove_new = octeon_usb_remove,
+ };
  
- static struct platform_driver isp116x_driver = {
- 	.probe = isp116x_probe,
--	.remove = isp116x_remove,
-+	.remove_new = isp116x_remove,
- 	.suspend = isp116x_suspend,
- 	.resume = isp116x_resume,
- 	.driver = {
+ static int __init octeon_usb_driver_init(void)
 -- 
 2.39.2
 
