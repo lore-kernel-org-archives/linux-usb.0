@@ -2,49 +2,46 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2919FC77B75
-	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 23:04:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED2EC7EE2C
+	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 23:04:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbjEQXEG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S229957AbjEQXEG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 17 May 2023 19:04:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46022 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229944AbjEQXED (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 19:04:03 -0400
+        with ESMTP id S229952AbjEQXEE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 19:04:04 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD3761A9
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79A6761AF
         for <linux-usb@vger.kernel.org>; Wed, 17 May 2023 16:03:32 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAc-0008LH-Sf; Thu, 18 May 2023 01:02:58 +0200
+        id 1pzQAa-0008G8-IH; Thu, 18 May 2023 01:02:56 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAa-000wsu-Uc; Thu, 18 May 2023 01:02:56 +0200
+        id 1pzQAY-000wrw-H4; Thu, 18 May 2023 01:02:54 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAY-005UZL-OV; Thu, 18 May 2023 01:02:54 +0200
+        id 1pzQAX-005UYx-Hb; Thu, 18 May 2023 01:02:53 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>
-Cc:     linux-usb@vger.kernel.org,
-        "moderated list:ARM/Microchip" <linux-arm-kernel@lists.infradead.org>,
+To:     Patrice Chotard <patrice.chotard@foss.st.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
         kernel@pengutronix.de
-Subject: [PATCH 64/97] usb: ohci-at91: Convert to platform remove callback returning void
-Date:   Thu, 18 May 2023 01:02:06 +0200
-Message-Id: <20230517230239.187727-65-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 58/97] usb: ehci-st: Convert to platform remove callback returning void
+Date:   Thu, 18 May 2023 01:02:00 +0200
+Message-Id: <20230517230239.187727-59-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 References: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1997; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=pQgq9pUQpD7LYIQdFFv6qN96jLnJk6T/5ZPZG1XwZlw=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkZVyESJOA8OHeVR46Xd+pF/tfVoVZD+GH01re6 QegbgbxP+CJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZGVchAAKCRCPgPtYfRL+ TnQkB/9/qROL2Kum4SAUk1GorGhA2yuCZ4D2wNA0jWQYzUNM78B0fEIWJvSicNEkkdAibHSao/o CyuFUUS2eybJnywFAG98wGlUI6EIiU5y02ZSIsEtGJK5K5Qph0njW1n8e5oGokbZuRplj/iLbN8 gI1iDUiWfCWnv9rVwciByn5GQAZHmsGv3NahTjT6MXlkt3GAXTGGzQq3xTBKdrm6HSUVJoO9fHQ sp+2FaQIXgGcICJY/dO7hNeenZ+yrbSi+RBGbUrZxT94j8h9ho0I69Q35WLPOTkJqW8i1lEya3J IV8j4mBHbWnHnEVXVsy7lUBwYIxJKOWEpX5+SFhfa3PcSmnR
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1915; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=ElCJMQt4cGChGckTd0HzKvzz4rhWCMP37gM23+PdldI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkZVxu+agG4dxmeWJfHC+8maBQZIxJw7alF2D+N 4qYcmFCSR2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZGVcbgAKCRCPgPtYfRL+ Tk9UB/9KrPatQVvww+nP/hDM6lGFkt0kh6+xJ0fsATqc65Vh7S//sGx0gg8EZ7+Kok44nc4Xhcr ZgDswmkd6fI5gwhfpoRqnQYjISnDHmaj5YRurFDcPMa1gCQ1jPfYTvT6UyzlMdFwev9Oh+1T7x7 PyeGok1sUM30WEG5B/Ek10lA/DwZ+AAhF4hM/rY2ixNrM9gSMCe86qs9/j7xbrynBHRXSklxdwY /aitToSvAnAML5iDPD6vVa+aAKGkZi/Q7ixIw5dov8PpxKHLgBvfwkmKTGxdRH5qLVYRvyBkg+6 DKEJVXh3jW7oAMhXvj/m0Q92QXUvZ8EBrbRRZ5FAV526sR2y
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -69,39 +66,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/usb/host/ohci-at91.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/usb/host/ehci-st.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/host/ohci-at91.c b/drivers/usb/host/ohci-at91.c
-index 533537ef3c21..b9ce8d80f20b 100644
---- a/drivers/usb/host/ohci-at91.c
-+++ b/drivers/usb/host/ohci-at91.c
-@@ -599,7 +599,7 @@ static int ohci_hcd_at91_drv_probe(struct platform_device *pdev)
- 	return usb_hcd_at91_probe(&ohci_at91_hc_driver, pdev);
+diff --git a/drivers/usb/host/ehci-st.c b/drivers/usb/host/ehci-st.c
+index f731dc98c533..ee0976b815b4 100644
+--- a/drivers/usb/host/ehci-st.c
++++ b/drivers/usb/host/ehci-st.c
+@@ -252,7 +252,7 @@ static int st_ehci_platform_probe(struct platform_device *dev)
+ 	return err;
  }
  
--static int ohci_hcd_at91_drv_remove(struct platform_device *pdev)
-+static void ohci_hcd_at91_drv_remove(struct platform_device *pdev)
+-static int st_ehci_platform_remove(struct platform_device *dev)
++static void st_ehci_platform_remove(struct platform_device *dev)
  {
- 	struct at91_usbh_data	*pdata = dev_get_platdata(&pdev->dev);
- 	int			i;
-@@ -611,7 +611,6 @@ static int ohci_hcd_at91_drv_remove(struct platform_device *pdev)
+ 	struct usb_hcd *hcd = platform_get_drvdata(dev);
+ 	struct usb_ehci_pdata *pdata = dev_get_platdata(&dev->dev);
+@@ -271,8 +271,6 @@ static int st_ehci_platform_remove(struct platform_device *dev)
  
- 	device_init_wakeup(&pdev->dev, 0);
- 	usb_hcd_at91_remove(platform_get_drvdata(pdev), pdev);
+ 	if (pdata == &ehci_platform_defaults)
+ 		dev->dev.platform_data = NULL;
+-
 -	return 0;
  }
  
- static int __maybe_unused
-@@ -683,7 +682,7 @@ static SIMPLE_DEV_PM_OPS(ohci_hcd_at91_pm_ops, ohci_hcd_at91_drv_suspend,
+ #ifdef CONFIG_PM_SLEEP
+@@ -328,7 +326,7 @@ MODULE_DEVICE_TABLE(of, st_ehci_ids);
  
- static struct platform_driver ohci_hcd_at91_driver = {
- 	.probe		= ohci_hcd_at91_drv_probe,
--	.remove		= ohci_hcd_at91_drv_remove,
-+	.remove_new	= ohci_hcd_at91_drv_remove,
+ static struct platform_driver ehci_platform_driver = {
+ 	.probe		= st_ehci_platform_probe,
+-	.remove		= st_ehci_platform_remove,
++	.remove_new	= st_ehci_platform_remove,
  	.shutdown	= usb_hcd_platform_shutdown,
  	.driver		= {
- 		.name	= "at91_ohci",
+ 		.name	= "st-ehci",
 -- 
 2.39.2
 
