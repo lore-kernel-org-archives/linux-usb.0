@@ -2,46 +2,50 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B6EC7EE22
-	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 23:03:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A02FAC77B75
+	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 23:03:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229934AbjEQXDy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 May 2023 19:03:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45860 "EHLO
+        id S229940AbjEQXDz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 May 2023 19:03:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbjEQXDw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 19:03:52 -0400
+        with ESMTP id S229933AbjEQXDx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 19:03:53 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFC286EA0
-        for <linux-usb@vger.kernel.org>; Wed, 17 May 2023 16:03:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 150F16EA2
+        for <linux-usb@vger.kernel.org>; Wed, 17 May 2023 16:03:25 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAX-0007zc-Iu; Thu, 18 May 2023 01:02:53 +0200
+        id 1pzQAZ-00084n-B6; Thu, 18 May 2023 01:02:55 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAT-000wq0-Ex; Thu, 18 May 2023 01:02:49 +0200
+        id 1pzQAU-000wqV-K8; Thu, 18 May 2023 01:02:50 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAS-005UXA-5e; Thu, 18 May 2023 01:02:48 +0200
+        id 1pzQAT-005UXi-Px; Thu, 18 May 2023 01:02:49 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gaosheng Cui <cuigaosheng1@huawei.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Zheng Wang <zyytlz.wz@163.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     linux-usb@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 31/97] usb: gadget/fusb300_udc: Convert to platform remove callback returning void
-Date:   Thu, 18 May 2023 01:01:33 +0200
-Message-Id: <20230517230239.187727-32-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 39/97] usb: gadget/renesas_usb3: Convert to platform remove callback returning void
+Date:   Thu, 18 May 2023 01:01:41 +0200
+Message-Id: <20230517230239.187727-40-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 References: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1878; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=R4tDeXyFW9SyhShxJC0E+iv5Shp+tVOz0vyHN3o0/XE=; b=owGbwMvMwMXY3/A7olbonx/jabUkhpTUGFl+wWDhs3uOixpWcDm8z0s6tO3InGy3R9bHVScs6 Z27UU6yk9GYhYGRi0FWTJHFvnFNplWVXGTn2n+XYQaxMoFMYeDiFICJXOniYNgQnZNz7YvGDT3l qM4elbV7TFO4Iox8bignyEQ/s/xR5HS/+KzFhTNrRfYfUjLdcMIhnvPDnpX6io88ytUu9YvFsof sPfo9drvXTfPdZl9/XlgjVZnTcMWGN09SyY5VhC/qRUqIybmGVdIPrL08v3NKT2IVmnXhfUcX/5 pDUxzXussGm4Sxyly2K346uYufbX+di9mdvdcfyl+wSdBV/G7ik1pyu/RE9eonc/cs3Wh/3aMkU 0xFUWv9Ki2jGVcWNsjmRGbPXX/k6fI1R269ihEPYGWWnaH1q+fo4kbO9gzeklCFcnOBLWwvlM/O v+zu9FBnY0a37uLXB698/qoi7tYr9H6iWbZQABPPCwlfAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2052; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=jQiPorhy6sNtZg2n3wvkp/teyD+YbG0swuuTx0hPAG0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkZVw1+egEb8vx2pZgEJczEhbNjlP2vUbJAdzF+ iqIDRRGs7KJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZGVcNQAKCRCPgPtYfRL+ TrefB/94n9QainGS7gVjWaf91wMRQfDpGRsWKld5YL1KQb6d/Oi4m6ihR5WdgER8ivIuNIYtse6 2GTK0fvjTyeV9KshlwwS9to0rflDYs1z5zsPphKEhFH30pALYtiND8JaPzQpXukyxYtPKy8vMJd P+9EULRlIZJRnNPq6pjAzFIUHLQ+CTGAhoR673pnhghLO2xDVjSqkP2QgtVtS6RE+xstuIixOy4 Y5ageGyWIDzsXqquX7G7sQE1LaV7Sa2v7r6FchTGylZOgtjFSUwFkSvazQPYUVld0hwFC4jpk2O k7+SrwC02eAoPhMlXaQSEKA+FhJqlKy+HZHJaa9kdn920SOr
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -66,40 +70,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/usb/gadget/udc/fusb300_udc.c | 6 ++----
+ drivers/usb/gadget/udc/renesas_usb3.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/fusb300_udc.c b/drivers/usb/gadget/udc/fusb300_udc.c
-index 08ba9c8c1e67..bd03d475f927 100644
---- a/drivers/usb/gadget/udc/fusb300_udc.c
-+++ b/drivers/usb/gadget/udc/fusb300_udc.c
-@@ -1338,7 +1338,7 @@ static const struct usb_gadget_ops fusb300_gadget_ops = {
- 	.udc_stop	= fusb300_udc_stop,
- };
+diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
+index aac8bc185afa..7443b60da5d2 100644
+--- a/drivers/usb/gadget/udc/renesas_usb3.c
++++ b/drivers/usb/gadget/udc/renesas_usb3.c
+@@ -2653,7 +2653,7 @@ static void renesas_usb3_debugfs_init(struct renesas_usb3 *usb3,
+ }
  
--static int fusb300_remove(struct platform_device *pdev)
-+static void fusb300_remove(struct platform_device *pdev)
+ /*------- platform_driver ------------------------------------------------*/
+-static int renesas_usb3_remove(struct platform_device *pdev)
++static void renesas_usb3_remove(struct platform_device *pdev)
  {
- 	struct fusb300 *fusb300 = platform_get_drvdata(pdev);
- 	int i;
-@@ -1352,8 +1352,6 @@ static int fusb300_remove(struct platform_device *pdev)
- 	for (i = 0; i < FUSB300_MAX_NUM_EP; i++)
- 		kfree(fusb300->ep[i]);
- 	kfree(fusb300);
+ 	struct renesas_usb3 *usb3 = platform_get_drvdata(pdev);
+ 
+@@ -2669,8 +2669,6 @@ static int renesas_usb3_remove(struct platform_device *pdev)
+ 
+ 	__renesas_usb3_ep_free_request(usb3->ep0_req);
+ 	pm_runtime_disable(&pdev->dev);
 -
 -	return 0;
  }
  
- static int fusb300_probe(struct platform_device *pdev)
-@@ -1508,7 +1506,7 @@ static int fusb300_probe(struct platform_device *pdev)
- }
+ static int renesas_usb3_init_ep(struct renesas_usb3 *usb3, struct device *dev,
+@@ -3015,7 +3013,7 @@ static SIMPLE_DEV_PM_OPS(renesas_usb3_pm_ops, renesas_usb3_suspend,
  
- static struct platform_driver fusb300_driver = {
--	.remove =	fusb300_remove,
-+	.remove_new =	fusb300_remove,
+ static struct platform_driver renesas_usb3_driver = {
+ 	.probe		= renesas_usb3_probe,
+-	.remove		= renesas_usb3_remove,
++	.remove_new	= renesas_usb3_remove,
  	.driver		= {
  		.name =	udc_name,
- 	},
+ 		.pm		= &renesas_usb3_pm_ops,
 -- 
 2.39.2
 
