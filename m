@@ -2,119 +2,106 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC26C77B75
-	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 11:44:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2097C77B75
+	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 11:45:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231132AbjEQLo2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 May 2023 07:44:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58996 "EHLO
+        id S231351AbjEQLpT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 May 2023 07:45:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230515AbjEQLo1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 07:44:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8332C40E1;
-        Wed, 17 May 2023 04:44:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 17E46638AE;
-        Wed, 17 May 2023 11:44:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72CE4C433EF;
-        Wed, 17 May 2023 11:44:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684323863;
-        bh=C02SHBQiu+tlh04YA0Fr1SR/mnCqkwhUZgY8QGG1bGo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=idk7gucnQ20R4EMJR0DI48jCP7YtxVUfVCY7hHsDY6XcM1LBIn4X+73TnIPr72uLE
-         xNQcvmX11a+FxV3TceCLELDeAJ3RxOaRAbY0Y0tEaxqIT/p1t8Cx7LY+jgfeEa0NNj
-         pj1o+UGYP5AQhbhoBGJR9SKL0n7gkjO/J/6KThTEoONpMy9uJrLAnagvdvXbgdl5Wk
-         mkd+Z9L537OeiW4rhiAm2fomIb3qwZ5QWbDPsZ/6mR9EtM+w/T63SZbcXaBIIXCx2k
-         FocN5iyLK9dlL6HoyoBdg6FRZthIc0AO/uNwlhLsD0YHWvlY2XE0Xu4tLwfqm1Ve7f
-         hZ6TLBs/ghGLQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1pzFZv-0004D3-Cj; Wed, 17 May 2023 13:44:24 +0200
-Date:   Wed, 17 May 2023 13:44:23 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, quic_pkondeti@quicinc.com,
-        quic_ppratap@quicinc.com, quic_wcheng@quicinc.com,
-        quic_jackp@quicinc.com, quic_harshq@quicinc.com,
-        ahalaney@redhat.com
-Subject: Re: [PATCH v8 1/9] dt-bindings: usb: qcom,dwc3: Add bindings for
- SC8280 Multiport
-Message-ID: <ZGS-FymhdA_zOQmj@hovoldconsulting.com>
-References: <20230514054917.21318-1-quic_kriskura@quicinc.com>
- <20230514054917.21318-2-quic_kriskura@quicinc.com>
- <ZGNiDVq1duvyZBUB@hovoldconsulting.com>
- <f2f8c7bf-6d1d-7890-a8b1-0e27969e63f6@quicinc.com>
+        with ESMTP id S231332AbjEQLpR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 07:45:17 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59F7A421D;
+        Wed, 17 May 2023 04:45:15 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pzEq4-0005Ph-I3; Wed, 17 May 2023 12:57:00 +0200
+Message-ID: <53213ba8-be58-0f97-8a06-3c9380bdff53@leemhuis.info>
+Date:   Wed, 17 May 2023 12:56:59 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f2f8c7bf-6d1d-7890-a8b1-0e27969e63f6@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4 1/2] usb: gadget: udc: core: Invoke usb_gadget_connect
+ only when started
+Content-Language: en-US, de-DE
+To:     Francesco Dolcini <francesco@dolcini.it>,
+        Linux regressions mailing list <regressions@lists.linux.dev>
+Cc:     Alistair <alistair@alistair23.me>,
+        Badhri Jagan Sridharan <badhri@google.com>,
+        gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
+        colin.i.king@gmail.com, xuetao09@huawei.com,
+        quic_eserrao@quicinc.com, water.zhangjiantao@huawei.com,
+        peter.chen@freescale.com, balbi@ti.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20230407030741.3163220-1-badhri@google.com>
+ <0cf8c588b701d7cf25ffe1a9217b81716e6a5c51.camel@alistair23.me>
+ <1ac16f0a-3cca-40ca-c444-82719f85a24c@leemhuis.info>
+ <ZGStr1oZvmJ0XzSu@francesco-nb.int.toradex.com>
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <ZGStr1oZvmJ0XzSu@francesco-nb.int.toradex.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1684323915;0d7e538a;
+X-HE-SMSGID: 1pzEq4-0005Ph-I3
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, May 17, 2023 at 04:40:11PM +0530, Krishna Kurapati PSSNV wrote:
-> On 5/16/2023 4:29 PM, Johan Hovold wrote:
-> > On Sun, May 14, 2023 at 11:19:09AM +0530, Krishna Kurapati wrote:
-
-> >> +        interrupts:
-> >> +          maxItems: 7
-> >> +        interrupt-names:
-> >> +          items:
-> >> +            - const: dp_hs_phy_irq
-> >> +            - const: dm_hs_phy_irq
-> >> +            - const: ss_phy_irq
-> > 
-> > I assume that these are only for the first port, and that you need to
-> > define these interrupts also for ports 2-4.
-
->   I wanted to add them when wakeup-source is enabled but since you 
-> mentioned that these must be added now and driver support can be added 
-> later, I will make a patch separately for this in v9.
-
->   Can I use the following notation for the new interrupts ?
+On 17.05.23 12:35, Francesco Dolcini wrote:
+> On Wed, May 17, 2023 at 12:23:39PM +0200, Linux regression tracking (Thorsten Leemhuis) wrote:
+>> [CCing Francesco Dolcini; and the regression list too, as it should be
+>> in the loop for regressions:
+>> https://docs.kernel.org/admin-guide/reporting-regressions.html]
+>>
+>> On 16.05.23 14:53, Alistair wrote:
+>>> On Fri, 2023-04-07 at 03:07 +0000, Badhri Jagan Sridharan wrote:
+>>>> usb_udc_connect_control does not check to see if the udc has already
+>>>> been started. This causes gadget->ops->pullup to be called through
+>>>> usb_gadget_connect when invoked from usb_udc_vbus_handler even before
+>>>> usb_gadget_udc_start is called. Guard this by checking for udc-
+>>>>> started
+>>>> in usb_udc_connect_control before invoking usb_gadget_connect.
+>>> [...]
+>>>> Cc: stable@vger.kernel.org
+>>>> Fixes: 628ef0d273a6 ("usb: udc: add usb_udc_vbus_handler")
+>>>> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+>>>
+>>> This patch causes a kernel hang when trying to boot with the
+>>> usb/chipidea/udc.c driver.
+>>>
+>>> The call stack below causes the hang:
+>>>
+>>>  - gadget_bind_driver(struct device *dev)
+>>>     - mutex_lock(&udc->connect_lock);
+>>>     - usb_gadget_udc_start_locked(struct usb_udc *udc)
+>>>         - udc->gadget->ops->udc_start(udc->gadget, udc->driver)
+>>>
+>>> At which point we are calling ci_udc_start(..), but with the
+>>> connect_lock mutex locked.
+>>>
+>>> ci_udc_start() then calls usb_udc_vbus_handler() which tries to lock
+>>> the connect_lock while it's already locked. Resulting in a kernel hang.
+>>>
+>>> Reverting this patch fixes the hang.
+>>
+>> Not my area of expertise, but I guess it might be the same error as this
+>> one:
+>>
+>> https://lore.kernel.org/all/ZF4BvgsOyoKxdPFF@francesco-nb.int.toradex.com/
+>>
+>> Francesco sent a revert on Friday, but no reaction from Badhri Jagan
+>> Sridharan or Greg yet afaics.
+>>
+>> https://lore.kernel.org/all/20230512131435.205464-1-francesco@dolcini.it/
 > 
-> dp_hs_port2_irq
-> dm_hs_port2_irq
-> dp_hs_port3_irq
-> dm_hs_port3_irq
-> dp_hs_port4_irq
-> dm_hs_port4_irq
-> 
-> 
-> That way the interrupt names for first port will be same as ones for 
-> single port.
+> Revert patches were applied and are in linux-next. I expect those to
+> land in Linus tree with the next pull request from Greg.
 
-For consistency, I'd say: use the same scheme also for port1. Perhaps
-"port" is unnecessary too.
+Ha, sorry, I missed that, as I only looked at lore. Should have looked
+in my own regression tracking, there it's marked as "fix incoming", as
+regzbot noticed the fix in next...
 
-And since these are getting new names, you can drop the redundant "_irq"
-suffix as you did for the power-event lines.
-
-For example:
-
-	pwr_event_1
-	dp_hs_phy_1
-	dm_hs_phy_1
-	ss_phy_1
-	...
-
-> Wanted to clarify this before I make a formal patch.
-
-Note that I have some more comments on the remaining patches in the
-series that you may want to wait for before posting v9.
-
-Johan
+Ciao, Thorsten
