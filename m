@@ -2,47 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 577DCC7EE2A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECA98C7EE22
 	for <linux-usb@archiver.kernel.org>; Wed, 17 May 2023 23:02:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229762AbjEQXC6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 May 2023 19:02:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44488 "EHLO
+        id S229756AbjEQXC7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 May 2023 19:02:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbjEQXCu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 19:02:50 -0400
+        with ESMTP id S229699AbjEQXCw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 May 2023 19:02:52 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9807644A8
-        for <linux-usb@vger.kernel.org>; Wed, 17 May 2023 16:02:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DCC649C1
+        for <linux-usb@vger.kernel.org>; Wed, 17 May 2023 16:02:51 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAO-0007jP-Uf; Thu, 18 May 2023 01:02:44 +0200
+        id 1pzQAS-0007pj-81; Thu, 18 May 2023 01:02:48 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAO-000wo2-6w; Thu, 18 May 2023 01:02:44 +0200
+        id 1pzQAR-000wpO-IW; Thu, 18 May 2023 01:02:47 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pzQAN-005UVe-FE; Thu, 18 May 2023 01:02:43 +0200
+        id 1pzQAQ-005UWg-Lw; Thu, 18 May 2023 01:02:46 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH 07/97] usb: chipidea/ci_hdrc_tegra: Convert to platform remove callback returning void
-Date:   Thu, 18 May 2023 01:01:09 +0200
-Message-Id: <20230517230239.187727-8-u.kleine-koenig@pengutronix.de>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH 23/97] usb: fotg210: Convert to platform remove callback returning void
+Date:   Thu, 18 May 2023 01:01:25 +0200
+Message-Id: <20230517230239.187727-24-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 References: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1873; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=63EJH4zRsCAjlTv4RDoaAYXCVSSuGmy2m/pYbXft39w=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkZVvyd0xAS4oiawnNnBIBolnhuu6gA/budC0kj mFUzAqAS+eJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZGVb8gAKCRCPgPtYfRL+ Tm2mB/9b+GjpuX9eU1nNGpdCu2vaONp+Sn2UlIT9vacUTcES09oPmfhxhYg2JhCK5BdLpKsGY4W UUo5Oo1eQkwRoSl1aYc5+uJi34x6f8R/OsTX9XoCJe6LDHZIZFwKPxWDgkMgAtWSOTG2f0CoWBJ AteK7LtmdqOEIGlSQVcf0utsI44ja4bPbvq3GwtBlIrpBNgjVHWLH5Z80lQQRo9cK6rvA4wbRJO 6AM/S/t9n+EbqLQy2NBwuF+vwbAbR1h2HjmeBMYMu+DwBlB2QVRKp9H7zv9uSuCsFFNtS9XImY5 2F+JElzNLaGCp6+PV3S4cb+BcWHG+7/0b7e/eHFmmHvy9Xlr
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1802; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=0EVPeeXYnFzs0REvfAsMPZGA7dNmwc9neKov2L8WQgI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkZVwFvnGZXBo4p3f3EQVZdLtjjRzrSyhTAZDYI Ze+8JfUGSiJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZGVcBQAKCRCPgPtYfRL+ Tnw/CACZz9d/liDEloXB7xtHkr3RVszLunK7unuQ9BHU4D9SAoI02dR7pJ4+9sc8kG2usARE8ec BfcUEcfmgoQszSxqdX93ptqYx52vFB+uhhQoeuMqTlyfxeW8Y8tYbbyBU1862kdEv1uc7m2HY8i c/MLDo+qUVjt6CMEhKzDeOS3wfeog6w7z7+tLDbq4gtzzhBoG7YL8FS9cjgTwcbwR9pc2eCOuqP HsrOEuaR+BqtnL0qIw0T2N+XqgSuFp2BBMHtQf2iv6L/K3ZsV35wU7HaDxqXuMSVrxyGT32SHeF lUv0y48vE62TTuetRr05R/OhUggBblG8owhnfrUqpnJnbqQN
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -67,40 +64,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/usb/chipidea/ci_hdrc_tegra.c | 6 ++----
+ drivers/usb/fotg210/fotg210-core.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/ci_hdrc_tegra.c
-index a72a9474afea..ca36d11a69ea 100644
---- a/drivers/usb/chipidea/ci_hdrc_tegra.c
-+++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
-@@ -362,7 +362,7 @@ static int tegra_usb_probe(struct platform_device *pdev)
- 	return err;
+diff --git a/drivers/usb/fotg210/fotg210-core.c b/drivers/usb/fotg210/fotg210-core.c
+index cb75464ab290..958fc40eae86 100644
+--- a/drivers/usb/fotg210/fotg210-core.c
++++ b/drivers/usb/fotg210/fotg210-core.c
+@@ -165,7 +165,7 @@ static int fotg210_probe(struct platform_device *pdev)
+ 	return ret;
  }
  
--static int tegra_usb_remove(struct platform_device *pdev)
-+static void tegra_usb_remove(struct platform_device *pdev)
+-static int fotg210_remove(struct platform_device *pdev)
++static void fotg210_remove(struct platform_device *pdev)
  {
- 	struct tegra_usb *usb = platform_get_drvdata(pdev);
- 
-@@ -371,8 +371,6 @@ static int tegra_usb_remove(struct platform_device *pdev)
- 
- 	pm_runtime_put_sync_suspend(&pdev->dev);
- 	pm_runtime_force_suspend(&pdev->dev);
+ 	struct device *dev = &pdev->dev;
+ 	enum usb_dr_mode mode;
+@@ -176,8 +176,6 @@ static int fotg210_remove(struct platform_device *pdev)
+ 		fotg210_udc_remove(pdev);
+ 	else
+ 		fotg210_hcd_remove(pdev);
 -
 -	return 0;
  }
  
- static int __maybe_unused tegra_usb_runtime_resume(struct device *dev)
-@@ -410,7 +408,7 @@ static struct platform_driver tegra_usb_driver = {
- 		.pm = &tegra_usb_pm,
+ #ifdef CONFIG_OF
+@@ -196,7 +194,7 @@ static struct platform_driver fotg210_driver = {
+ 		.of_match_table = of_match_ptr(fotg210_of_match),
  	},
- 	.probe = tegra_usb_probe,
--	.remove = tegra_usb_remove,
-+	.remove_new = tegra_usb_remove,
+ 	.probe  = fotg210_probe,
+-	.remove = fotg210_remove,
++	.remove_new = fotg210_remove,
  };
- module_platform_driver(tegra_usb_driver);
  
+ static int __init fotg210_init(void)
 -- 
 2.39.2
 
