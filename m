@@ -2,58 +2,96 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF07C77B7A
-	for <linux-usb@archiver.kernel.org>; Sat, 20 May 2023 09:09:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DD59C77B7A
+	for <linux-usb@archiver.kernel.org>; Sat, 20 May 2023 10:34:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230166AbjETJJt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 20 May 2023 05:09:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39234 "EHLO
+        id S230325AbjETKe6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 20 May 2023 06:34:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229663AbjETJJr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 20 May 2023 05:09:47 -0400
-X-Greylist: delayed 90168 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 20 May 2023 02:09:46 PDT
-Received: from mail.corrib.pl (mail.corrib.pl [185.58.226.145])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4ED91A5
-        for <linux-usb@vger.kernel.org>; Sat, 20 May 2023 02:09:46 -0700 (PDT)
-Received: by mail.corrib.pl (Postfix, from userid 1001)
-        id E2A4AA4241; Fri, 19 May 2023 09:06:17 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
-        t=1684483578; bh=85MOfYTjIHwki6Ys5IeFKzEzX5V7umZoL3TytLG0W/k=;
-        h=Date:From:To:Subject:From;
-        b=IaHrnOr1gSOtnv1eMgmjsaXVy+TQ6m3dViPGoXVauDvC9J2f6NgoLkpcL+9FNgBsL
-         RplQ+DogwYIp7lHCGlYSudLVPi5MYChO5SGhgDhue7dILCdnrR+9D/GeLPpzE1cUTm
-         ULiYb5QEHUbcmJDrl9KCWLyPJS7A9p/z6E/ruHjSi2MgddUnipn5dFBwOynMJi03LT
-         OQOmWYZ5HpEMSW9BzJ2mMZ2Oi9yl/tg5ur1fyMAZ8CJN6ovgucwdXFUPIhyckn5CZY
-         sWiTtpHTZS/OHT3LbpzEbMCsoxQpw1wMiH2s6fIQ6j3gZXbMz5e5+B3ZFMl19dpiRk
-         EYkkb0Y6uaUlw==
-Received: by mail.corrib.pl for <linux-usb@vger.kernel.org>; Fri, 19 May 2023 08:06:12 GMT
-Message-ID: <20230519074500-0.1.7b.of7g.0.bgdypc2t83@corrib.pl>
-Date:   Fri, 19 May 2023 08:06:12 GMT
-From:   "Szczepan Andryszczuk" <szczepan.andryszczuk@corrib.pl>
-To:     <linux-usb@vger.kernel.org>
-Subject: Faktoring
-X-Mailer: mail.corrib.pl
+        with ESMTP id S229568AbjETKe5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 20 May 2023 06:34:57 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C371198
+        for <linux-usb@vger.kernel.org>; Sat, 20 May 2023 03:34:56 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3095b1b6e02so614779f8f.2
+        for <linux-usb@vger.kernel.org>; Sat, 20 May 2023 03:34:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684578894; x=1687170894;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=av/T+jOYWv+vEFvnYffiiaRUKFLDEkBM81OSePg1FTk=;
+        b=N8BWzznLysRb2ORRLjogs4n10FXs8kDOLg9urSSU7ZZELU7Fr1XbFn+ZnJcygwwB+X
+         hNUz++n3ZYN/IYK5Q6rvnxkCtZ91D690JjXRr92hMfZHbKQ7CySV6RLx7TAo01xsBoDQ
+         Ro3eJUAr+E0BeQYQ7HviM8t6oL0bn9aXAnxzqTJy4UxzpZJr5gK11PVWpXC/rDUGU3SA
+         RhD8ukDFgNmlvEAJaVpMFmF4+uqSk9F+KU225JQXtIu10iR1shr2wwntgBIK/5ht/sNR
+         J45nstYXQjQub2HacfbLMwrHrfMsk1GbVCpWIap1AzdpCA4RnFC5pyzDkr7xHyVs2OI/
+         TD/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684578894; x=1687170894;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=av/T+jOYWv+vEFvnYffiiaRUKFLDEkBM81OSePg1FTk=;
+        b=ilKmorbweF54fI0hr9lcRSMIv3ZZdVta8FXaM0o8vAt+U7//YSVvxdNeoq1OjfNB5U
+         W64s5SQGJ43sm2KhwUcSMyAi8AFSAsyQ610nUW3W7uwkT7cmnQ2JD1JMP1Me2scubuhq
+         m/CUflHBWHHzAbvH2P0LlmezPBVqC8WRINz52iXTGY43g8TtGteVmye5iIQSvhQb554Q
+         1U1yN5Jp1+WBBHMX6xPkA+TH8m6uUv+gOfVT3gCJd3v+MtPJ6o86Y/RtS7z6EWij0oMA
+         G6osk61uGQ2DpMmvI+gKUew0mLwTCFolVWkieo1wzYXgSHip8VFmgqLVRN6Sz0QT8C7O
+         eAcA==
+X-Gm-Message-State: AC+VfDxcFqj9/BKuxE+NV+TCEmTxzi6QCVERfoprSMiysKkjeBfCjyZy
+        1zFjU4/b35rpnm/h+i5EQaMI2SMz0jBJ4eR0JeI=
+X-Google-Smtp-Source: ACHHUZ59qNMpRJ3vmc2o2cDCnC1ylgG87hsF/LKOH91hmC2zp7d9sv02oBZexKvpoEzqixE1Z4SZ3A==
+X-Received: by 2002:adf:fc44:0:b0:307:a075:2709 with SMTP id e4-20020adffc44000000b00307a0752709mr3069852wrs.68.1684578894696;
+        Sat, 20 May 2023 03:34:54 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id i10-20020adfe48a000000b002fed865c55esm1577553wrm.56.2023.05.20.03.34.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 May 2023 03:34:52 -0700 (PDT)
+Date:   Sat, 20 May 2023 13:34:43 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     stern@rowland.harvard.edu
+Cc:     linux-usb@vger.kernel.org
+Subject: [bug report] USB: gadget: Fix obscure lockdep violation for udc_mutex
+Message-ID: <683df726-4510-4a79-968a-b238e21c4346@kili.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hello Alan Stern,
 
-rozwa=C5=BCali Pa=C5=84stwo wyb=C3=B3r finansowania, kt=C3=B3re spe=C5=82=
-ni potrzeby firmy, zapewniaj=C4=85c natychmiastowy dost=C4=99p do got=C3=B3=
-wki, bez zb=C4=99dnych przestoj=C3=B3w?=20
+The patch 1016fc0c096c: "USB: gadget: Fix obscure lockdep violation
+for udc_mutex" from Aug 26, 2022, leads to the following Smatch
+static checker warning:
 
-Przygotowali=C5=9Bmy rozwi=C4=85zania faktoringowe dopasowane do Pa=C5=84=
-stwa bran=C5=BCy i wielko=C5=9Bci firmy, dzi=C4=99ki kt=C3=B3rym, nie mus=
-z=C4=85 Pa=C5=84stwo martwi=C4=87 si=C4=99 o niewyp=C5=82acalno=C5=9B=C4=87=
- kontrahent=C3=B3w, poniewa=C5=BC transakcje s=C4=85 zabezpieczone i posi=
-adaj=C4=85 gwarancj=C4=99 sp=C5=82aty.=20
+	drivers/usb/gadget/udc/core.c:767 usb_gadget_disconnect()
+	warn: sleeping in atomic context
 
-Chc=C4=85 Pa=C5=84stwo przeanalizowa=C4=87 dost=C4=99pne opcje?
+drivers/usb/gadget/udc/core.c
+    757                  * Gadget will stay disconnected after activation.
+    758                  */
+    759                 gadget->connected = false;
+    760                 goto out;
+    761         }
+    762 
+    763         ret = gadget->ops->pullup(gadget, 0);
+    764         if (!ret)
+    765                 gadget->connected = 0;
+    766 
+--> 767         mutex_lock(&udc_lock);
+    768         if (gadget->udc->driver)
+    769                 gadget->udc->driver->disconnect(gadget);
+    770         mutex_unlock(&udc_lock);
+    771 
 
+The call tree where we're holding a spinlock is:
 
-Pozdrawiam
-Szczepan Andryszczuk
+max3420_vbus_handler() <- disables preempt
+-> usb_udc_vbus_handler()
+   -> usb_udc_connect_control()
+      -> usb_gadget_disconnect()
+
+regards,
+dan carpenter
