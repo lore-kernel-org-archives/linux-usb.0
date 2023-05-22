@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24570C77B75
-	for <linux-usb@archiver.kernel.org>; Mon, 22 May 2023 19:33:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D722BC77B73
+	for <linux-usb@archiver.kernel.org>; Mon, 22 May 2023 19:51:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234879AbjEVTdz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 May 2023 15:33:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55206 "EHLO
+        id S235505AbjEVTvF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 May 2023 15:51:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234858AbjEVTdy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 May 2023 15:33:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 365DC18F;
-        Mon, 22 May 2023 12:33:26 -0700 (PDT)
+        with ESMTP id S235402AbjEVTu4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 May 2023 15:50:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 033DF18D;
+        Mon, 22 May 2023 12:50:50 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4BE0862934;
-        Mon, 22 May 2023 19:33:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B63DC433D2;
-        Mon, 22 May 2023 19:33:12 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D8B9C62B06;
+        Mon, 22 May 2023 19:50:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E854AC433D2;
+        Mon, 22 May 2023 19:50:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1684783992;
+        s=korg; t=1684785049;
         bh=8RFKb6BkAvCRoieuFxAhj7c6BUO42qkMC7DClxoX/l4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mV9un9coDNfBQ4+l7cMZzE4YgQSAXm/wlI9QILfY92fYIeJPl00D+8mU/0MRNuAT5
-         RYyy/3MTwb3MUtVUBY3UqHNykG3OecR2l0VGlbIlg3Jf+sGcfwy6YBisGFeECi3f8T
-         bU2iaxHns4tJavvjRB+TD5k3/I+tuIFG/j6lUMFY=
+        b=FQYx+YNDl362ye2bVXQdU2f8tJzZPGHLPU3PkBULHtQWHmly+lOqT4ogwos+g3E/W
+         bZyiNKG+z6i2DqVnRIJL5ie9hYotZPSX1YP2NUNwgo7/h/W+5AzzimsSFgy+qI4sbW
+         iyxwb/17JiWCcVgsFPLBjUlWiNxPXvf49sD5VVfU=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         patches@lists.linux.dev, Maxime Bizon <mbizon@freebox.fr>,
         linux-usb@vger.kernel.org, stable <stable@kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH 6.1 228/292] usb-storage: fix deadlock when a scsi command timeouts more than once
-Date:   Mon, 22 May 2023 20:09:45 +0100
-Message-Id: <20230522190411.652787945@linuxfoundation.org>
+Subject: [PATCH 6.3 291/364] usb-storage: fix deadlock when a scsi command timeouts more than once
+Date:   Mon, 22 May 2023 20:09:56 +0100
+Message-Id: <20230522190420.046123538@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230522190405.880733338@linuxfoundation.org>
-References: <20230522190405.880733338@linuxfoundation.org>
+In-Reply-To: <20230522190412.801391872@linuxfoundation.org>
+References: <20230522190412.801391872@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
