@@ -2,119 +2,79 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C05EC7EE23
-	for <linux-usb@archiver.kernel.org>; Mon, 22 May 2023 16:26:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BF6AC77B75
+	for <linux-usb@archiver.kernel.org>; Mon, 22 May 2023 16:30:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232364AbjEVQ0y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 May 2023 12:26:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37210 "EHLO
+        id S232791AbjEVQ3p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 May 2023 12:29:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232050AbjEVQ0w (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 May 2023 12:26:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3B1FFD;
-        Mon, 22 May 2023 09:26:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S231705AbjEVQ3n (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 May 2023 12:29:43 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93C87FD;
+        Mon, 22 May 2023 09:29:42 -0700 (PDT)
+Received: from jupiter.universe (dyndsl-091-248-208-162.ewe-ip-backbone.de [91.248.208.162])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3FC3F619D3;
-        Mon, 22 May 2023 16:26:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31C88C433EF;
-        Mon, 22 May 2023 16:26:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1684772807;
-        bh=+QBgGjkSmT8IRp213R2vBwO0H73ayKuAs2FpmTLOpZo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uxrHeBumrrNbQQx/qlTcvAWuJT/nue/NAARfPjVnh2vHGeozCHZeTDBc9D2fl3lba
-         fUqUbwyPSSUvAb0RgTdGN7itd6UpYdYhn2WgelZaDgksdoSjwfhBZpOk55DzSK36mQ
-         nS70+0/UHNHwsaEKttRM3eajXI7AtC9J8FXKBvJI=
-Date:   Mon, 22 May 2023 17:26:43 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
-Cc:     heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] usb: typec: intel_pmc_mux: Expose IOM port status to
- debugfs
-Message-ID: <2023052215-skilled-polygraph-33dd@gregkh>
-References: <20230522070343.3675581-1-rajat.khandelwal@linux.intel.com>
- <2023052216-railway-zipfile-680f@gregkh>
- <ab993b87-8475-7c71-f526-da9a0b5fa3a8@linux.intel.com>
+        (Authenticated sender: sre)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 19BB86606E69;
+        Mon, 22 May 2023 17:29:41 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1684772981;
+        bh=1HX2q50s8U1vNgOF8gk5ASQbFDGRk4cCN9NGA82a0vU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=oaPx0EhgcFiHTivfUTtRHXyJJAVDBWnJB5LLpwgonb20/EG1BrnvXhiJqb6wCQcKx
+         bWB22JIM4FIJoEI967zS2RMZA73/MGvlCEKbvKlpOwH+W2TD31amZSe2S45BYAx5MS
+         HtB7qHlXtKkdBTLWR7pYLkTu4ck0vCBC61oBxDWA67uSNYHLFy2Dr6O6YRh5+2Yp31
+         LehxydzsZZK35Lbd9UUGAIPRKOr18oy0OndoSsDUcijxBbS7MoD5q+GgWKD6dxFKCb
+         0mcV/LRqBAwRKA0nk8j7cS8fG4mWaWjjKugS+FT6lms+ijLLhuRWgpoQ2X03QGjK9k
+         yEdwbayadnlyw==
+Received: by jupiter.universe (Postfix, from userid 1000)
+        id 004304807E2; Mon, 22 May 2023 18:29:37 +0200 (CEST)
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        kernel@collabora.com
+Subject: [PATCH v5 3/3] usb: host: ohci-platform: increase max clock number to 4
+Date:   Mon, 22 May 2023 18:29:37 +0200
+Message-Id: <20230522162937.53190-4-sebastian.reichel@collabora.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230522162937.53190-1-sebastian.reichel@collabora.com>
+References: <20230522162937.53190-1-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ab993b87-8475-7c71-f526-da9a0b5fa3a8@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, May 22, 2023 at 03:24:13PM +0530, Rajat Khandelwal wrote:
-> Hi,
-> 
-> On 5/22/2023 1:07 PM, Greg KH wrote:
-> > On Mon, May 22, 2023 at 12:33:43PM +0530, Rajat Khandelwal wrote:
-> > > IOM status has a crucial role during debugging to check the
-> > > current state of the type-C port.
-> > > There are ways to fetch the status, but all those require the
-> > > IOM port status offset, which could change with platform.
-> > > 
-> > > Make a debugfs directory for intel_pmc_mux and expose the status
-> > > under it per port basis.
-> > > 
-> > > Signed-off-by: Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
-> > > Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > > ---
-> > > 
-> > > v4:
-> > > 1. Maintain a root directory for PMC module and incorporate devices
-> > > under it
-> > > 2. Add the debugfs module under '/sys/kernel/debug/usb'
-> > > 3. Use the platform device 'pmc->dev' to assign the device's name
-> > > 
-> > > v3: Allocate the debugfs directory name for the platform device with
-> > > its ACPI dev name included
-> > > 
-> > > v2:
-> > > 1. Remove static declaration of the debugfs root for 'intel_pmc_mux'
-> > > 2. Remove explicitly defined one-liner functions
-> > > 
-> > >   drivers/usb/typec/mux/intel_pmc_mux.c | 54 ++++++++++++++++++++++++++-
-> > >   1 file changed, 53 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/usb/typec/mux/intel_pmc_mux.c b/drivers/usb/typec/mux/intel_pmc_mux.c
-> > > index 34e4188a40ff..f400094c76f2 100644
-> > > --- a/drivers/usb/typec/mux/intel_pmc_mux.c
-> > > +++ b/drivers/usb/typec/mux/intel_pmc_mux.c
-> > > @@ -15,6 +15,8 @@
-> > >   #include <linux/usb/typec_mux.h>
-> > >   #include <linux/usb/typec_dp.h>
-> > >   #include <linux/usb/typec_tbt.h>
-> > > +#include <linux/debugfs.h>
-> > > +#include <linux/usb.h>
-> > >   #include <asm/intel_scu_ipc.h>
-> > > @@ -143,8 +145,14 @@ struct pmc_usb {
-> > >   	struct acpi_device *iom_adev;
-> > >   	void __iomem *iom_base;
-> > >   	u32 iom_port_status_offset;
-> > > +
-> > > +#ifdef CONFIG_DEBUG_FS
-> > > +	struct dentry *dentry;
-> > > +#endif
-> > No need for the #ifdef anymore, right?  In fact, I think it will break
-> > the build if you have it this way and CONFIG_DEBUG_FS is not enabled,
-> > right?
-> 
-> I guess you're right. Maybe it'd have been fine if the rest of the
-> debugfs stuff was also enclosed within the conditional macros.
+Rockchip RK3588 OHCI requires 4 clocks to be enabled.
 
-Which is not needed and not good kernel coding style, so it's right that
-they are not there.
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+ drivers/usb/host/ohci-platform.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Anyways, removing it seems appropriate now.
-> 
-> Also, is it OK to send you v5 on the public list directly?
+diff --git a/drivers/usb/host/ohci-platform.c b/drivers/usb/host/ohci-platform.c
+index a84305091c43..dec38a845cff 100644
+--- a/drivers/usb/host/ohci-platform.c
++++ b/drivers/usb/host/ohci-platform.c
+@@ -33,7 +33,7 @@
+ #include "ohci.h"
+ 
+ #define DRIVER_DESC "OHCI generic platform driver"
+-#define OHCI_MAX_CLKS 3
++#define OHCI_MAX_CLKS 4
+ #define hcd_to_ohci_priv(h) ((struct ohci_platform_priv *)hcd_to_ohci(h)->priv)
+ 
+ struct ohci_platform_priv {
+-- 
+2.39.2
 
-Where else would you send it?
-
-confused,
-
-greg k-h
