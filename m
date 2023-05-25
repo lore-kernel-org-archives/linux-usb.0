@@ -2,326 +2,124 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D94A1C77B7E
-	for <linux-usb@archiver.kernel.org>; Thu, 25 May 2023 20:47:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8358EC7EE29
+	for <linux-usb@archiver.kernel.org>; Thu, 25 May 2023 21:34:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241523AbjEYUrJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 May 2023 16:47:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48876 "EHLO
+        id S241440AbjEYVeU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 May 2023 17:34:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235948AbjEYUrI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 May 2023 16:47:08 -0400
-Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr [80.12.242.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6BB0B195
-        for <linux-usb@vger.kernel.org>; Thu, 25 May 2023 13:47:03 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id 2GKMq0dJafPgg2GKMqWAgb; Thu, 25 May 2023 21:08:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1685041734;
-        bh=3aimI6STBYAt/4Ogpc6VsM7BIeMI40FG7v2LxQxwQAI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=gX3SCaZQg5EPTYI31bq/oR3T1qvCOEQ0li4E60dFzmH/3gGs9KS/wCuubTKkk28mi
-         +hr2M7ZLBCNUu9J3bp9z/FG27zlp+xsEwdAwwb8aTlM96/1TEXvL5SJDpaitriHfGf
-         V4BbYzJpTkT8erO4pVjGlu6cWIxxp4G0/N44VXofnCiFV0kEDn7KTfqyZafiVw87m0
-         Xe/yN8xKuaAkqPfBh/3VpwaFfBXhuh6LuWGgteQAG0g+oTb+l2S2OtEjXMyr/FhT55
-         kdUbxnRt4qXZRpc8Ok8r5Dj8/PHEvvz9aqxis6Oa7gqEm6urhWXadRGZzOIN0J8y0L
-         PCYqOTJsnuFSA==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 25 May 2023 21:08:54 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <99737c85-625f-9067-f72c-ddc6822866e2@wanadoo.fr>
-Date:   Thu, 25 May 2023 21:08:46 +0200
+        with ESMTP id S229944AbjEYVeT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 May 2023 17:34:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3025099;
+        Thu, 25 May 2023 14:34:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B1ACB64B51;
+        Thu, 25 May 2023 21:34:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EBA4C433EF;
+        Thu, 25 May 2023 21:34:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685050457;
+        bh=zZK1RRwMzH2sbsee7VnC7rlgcun9B4/SN/dI3FKVvrg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sYy8VE1VD0cAgEQuQim7zpsjY9TurkTcJPM8V//GYjopKthjG7swTE5W5MfBkiymv
+         gptEA5LzE3IQ95cBxZ2YaS+ouWHeojSMRaBTKoUhsGIXRsxsxPjsX6TPztQfMhMldh
+         SuTIH5cGrlLwRkrvhRW0H4JvwkVdYq4GVx9hTsSWN0X+ERFX/OkNNQPf1/WVd/JLgX
+         /AFo9muWJpPvbUiV5Vkz+O+/FB7GMsA1yaEPll0FSZXSUItNyIjw43FnpK+hMSGlrj
+         gSxpoHHqT3QTPfco7ev8HFXnGS/mrM0GTn+0tO7TzsMQgFzKyLBSEnWqD1V1v0qzTR
+         X5t+2G3DdOoZw==
+Date:   Thu, 25 May 2023 22:34:10 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Minda Chen <minda.chen@starfivetech.com>
+Cc:     Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Chen <peter.chen@kernel.org>,
+        Roger Quadros <rogerq@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-riscv@lists.infradead.org,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Mason Huo <mason.huo@starfivetech.com>
+Subject: Re: [PATCH v6 5/7] dt-bindings: usb: Add StarFive JH7110 USB
+ controller
+Message-ID: <20230525-shopper-handbrake-27fc06aede32@spud>
+References: <20230518112750.57924-1-minda.chen@starfivetech.com>
+ <20230518112750.57924-6-minda.chen@starfivetech.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 2/4] usb: cdns2: Add main part of Cadence USBHS driver
-Content-Language: fr
-To:     pawell@cadence.com
-Cc:     Cliff.Holden@siriusxm.com, Daisy.Barrera@siriusxm.com,
-        biju.das.jz@bp.renesas.com, egtvedt@samfundet.no,
-        gregkh@linuxfoundation.org, herve.codina@bootlin.com,
-        jdelvare@suse.de, linus.walleij@linaro.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        neal_liu@aspeedtech.com, tony@atomide.com
-References: <20230525054916.243330-1-pawell@cadence.com>
- <20230525054916.243330-3-pawell@cadence.com>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20230525054916.243330-3-pawell@cadence.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="SLOnlnkMNKq6BWyy"
+Content-Disposition: inline
+In-Reply-To: <20230518112750.57924-6-minda.chen@starfivetech.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Le 25/05/2023 à 07:49, Pawel Laszczak a écrit :
-> This patch introduces the main part of Cadence USBHS driver
-> to Linux kernel.
-> To reduce the patch size a little bit, the header file gadget.h was
-> intentionally added as separate patch.
-> 
-> The Cadence USB 2.0 Controller is a highly configurable IP Core which
-> supports both full and high speed data transfer.
-> 
-> The current driver has been validated with FPGA platform. We have
-> support for PCIe bus, which is used on FPGA prototyping.
-> 
-> Signed-off-by: Pawel Laszczak <pawell-vna1KIf7WgpBDgjK7y7TUQ@public.gmane.org>
+
+--SLOnlnkMNKq6BWyy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, May 18, 2023 at 07:27:48PM +0800, Minda Chen wrote:
+> StarFive JH7110 platforms USB have a wrapper module around
+> the Cadence USBSS-DRD controller. Add binding information doc
+> for that.
+>=20
+> Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
+> Reviewed-by: Peter Chen <peter.chen@kernel.org>
+> Reviewed-by: Hal Feng <hal.feng@starfivetech.com>
 > ---
->   drivers/usb/gadget/udc/Kconfig              |    2 +
->   drivers/usb/gadget/udc/Makefile             |    1 +
->   drivers/usb/gadget/udc/cdns2/Kconfig        |   11 +
->   drivers/usb/gadget/udc/cdns2/Makefile       |    5 +
->   drivers/usb/gadget/udc/cdns2/cdns2-ep0.c    |  638 +++++
->   drivers/usb/gadget/udc/cdns2/cdns2-gadget.c | 2426 +++++++++++++++++++
->   drivers/usb/gadget/udc/cdns2/cdns2-pci.c    |  149 ++
->   7 files changed, 3232 insertions(+)
->   create mode 100644 drivers/usb/gadget/udc/cdns2/Kconfig
->   create mode 100644 drivers/usb/gadget/udc/cdns2/Makefile
->   create mode 100644 drivers/usb/gadget/udc/cdns2/cdns2-ep0.c
->   create mode 100644 drivers/usb/gadget/udc/cdns2/cdns2-gadget.c
->   create mode 100644 drivers/usb/gadget/udc/cdns2/cdns2-pci.c
-> 
-> diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
-> index 83cae6bb12eb..aae1787320d4 100644
-> --- a/drivers/usb/gadget/udc/Kconfig
-> +++ b/drivers/usb/gadget/udc/Kconfig
-> @@ -463,6 +463,8 @@ config USB_ASPEED_UDC
->   
->   source "drivers/usb/gadget/udc/aspeed-vhub/Kconfig"
->   
-> +source "drivers/usb/gadget/udc/cdns2/Kconfig"
-> +
->   #
->   # LAST -- dummy/emulated controller
->   #
-> diff --git a/drivers/usb/gadget/udc/Makefile b/drivers/usb/gadget/udc/Makefile
-> index ee569f63c74a..b52f93e9c61d 100644
-> --- a/drivers/usb/gadget/udc/Makefile
-> +++ b/drivers/usb/gadget/udc/Makefile
-> @@ -42,3 +42,4 @@ obj-$(CONFIG_USB_ASPEED_VHUB)	+= aspeed-vhub/
->   obj-$(CONFIG_USB_ASPEED_UDC)	+= aspeed_udc.o
->   obj-$(CONFIG_USB_BDC_UDC)	+= bdc/
->   obj-$(CONFIG_USB_MAX3420_UDC)	+= max3420_udc.o
-> +obj-$(CONFIG_USB_CDNS2_UDC)	+= cdns2/
-> diff --git a/drivers/usb/gadget/udc/cdns2/Kconfig b/drivers/usb/gadget/udc/cdns2/Kconfig
+>  .../bindings/usb/starfive,jh7110-usb.yaml     | 115 ++++++++++++++++++
+>  1 file changed, 115 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/starfive,jh7110=
+-usb.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/usb/starfive,jh7110-usb.ya=
+ml b/Documentation/devicetree/bindings/usb/starfive,jh7110-usb.yaml
 > new file mode 100644
-> index 000000000000..310db4788353
+> index 000000000000..24aa9c10d6ab
 > --- /dev/null
-> +++ b/drivers/usb/gadget/udc/cdns2/Kconfig
-> @@ -0,0 +1,11 @@
-> +config USB_CDNS2_UDC
-> +	tristate "Cadence USBHS Device Controller"
-> +	depends on USB_PCI && ACPI && HAS_DMA
-> +	help
-> +	  Cadence USBHS Device controller is a PCI based USB peripheral
-> +	  controller which supports both full and high speed USB 2.0
-> +	  data transfers.
+> +++ b/Documentation/devicetree/bindings/usb/starfive,jh7110-usb.yaml
+> @@ -0,0 +1,115 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/starfive,jh7110-usb.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	  Say "y" to link the driver statically, or "m" to build a
-> +	  dynamically linked module called "cdns2-pci.ko" and to
+> +title: StarFive JH7110 wrapper module for the Cadence USBSS-DRD controll=
+er
 
-I'm not expert in module naming, but isn't it cdns2-udc-pci?
+I think you told Krzysztof you'd rename this to "StarFive JH7110 Cadence
+USBSS-DRD SoC controller"?
 
-> +	  force all gadget drivers to also be dynamically linked.
+Otherwise, it looks like all the stuff from him and Rob have been sorted
+out, so other than $title this is
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-[...]
+Thanks,
+Conor..
 
-> +static void cdns2_ep_tx_isoc(struct cdns2_endpoint *pep,
-> +			     struct cdns2_request *preq,
-> +			     int num_trbs)
-> +{
-> +	struct scatterlist *sg = NULL;
-> +	u32 remaining_packet_size = 0;
-> +	struct cdns2_trb *trb;
-> +	bool first_trb = true;
-> +	dma_addr_t trb_dma;
-> +	u32 trb_buff_len;
-> +	u32 block_length;
-> +	int sg_iter = 0;
+--SLOnlnkMNKq6BWyy
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Not need to init.
+-----BEGIN PGP SIGNATURE-----
 
-> +	int sent_len;
-> +	int td_idx = 0;
-> +	int split_size;
-> +	u32 control;
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZG/UUgAKCRB4tDGHoIJi
+0v75AP9K+Svm5FyZzmMv+llB8XO317ghvBO5MrADfge2KP6pPwEAl0bZpPNFfw8m
+AK1S29TZeiBbhbcxD8KECfWuk1118AQ=
+=3/eV
+-----END PGP SIGNATURE-----
 
-[...]
-
-> +/* Prepare and start transfer for all not started requests. */
-> +static int cdns2_start_all_request(struct cdns2_device *pdev,
-> +				   struct cdns2_endpoint *pep)
-> +{
-> +	struct cdns2_request *preq;
-> +	int ret = 0;
-> +
-> +	while (!list_empty(&pep->deferred_list)) {
-> +		preq = cdns2_next_preq(&pep->deferred_list);
-> +
-> +		ret = cdns2_ep_run_transfer(pep, preq);
-> +		if (ret)
-> +			return ret;
-> +
-> +		list_move_tail(&preq->list, &pep->pending_list);
-> +	}
-> +
-> +	pep->ep_state &= ~EP_RING_FULL;
-> +
-> +	return ret;
-
-Maybe return 0; would be more explicit? (and would remove the "= 0" above)
-
-> +}
-
-[...]
-
-> diff --git a/drivers/usb/gadget/udc/cdns2/cdns2-pci.c b/drivers/usb/gadget/udc/cdns2/cdns2-pci.c
-> new file mode 100644
-> index 000000000000..ab2891c79b5c
-> --- /dev/null
-> +++ b/drivers/usb/gadget/udc/cdns2/cdns2-pci.c
-> @@ -0,0 +1,149 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Cadence USBHS-DEV controller - PCI Glue driver.
-> + *
-> + * Copyright (C) 2023 Cadence.
-> + *
-> + * Author: Pawel Laszczak <pawell-vna1KIf7WgpBDgjK7y7TUQ@public.gmane.org>
-> + *
-> + */
-> +
-> +#include <linux/pm_runtime.h>
-> +#include <linux/slab.h>
-> +#include <linux/pci.h>
-> +
-> +#include "cdns2-gadget.h"
-> +
-> +#define PCI_DRIVER_NAME		"cdns-pci-usbhs"
-> +#define CDNS_VENDOR_ID		0x17cd
-> +#define CDNS_DEVICE_ID		0x0120
-> +#define PCI_BAR_DEV		0
-> +#define PCI_DEV_FN_DEVICE	0
-> +
-> +static int cdns2_pci_probe(struct pci_dev *pdev,
-> +			   const struct pci_device_id *id)
-> +{
-> +	resource_size_t rsrc_start, rsrc_len;
-> +	struct device *dev = &pdev->dev;
-> +	struct cdns2_device *priv_dev;
-> +	struct resource *res;
-> +	int ret;
-> +
-> +	/* For GADGET PCI (devfn) function number is 0. */
-> +	if (!id || pdev->devfn != PCI_DEV_FN_DEVICE ||
-> +	    pdev->class != PCI_CLASS_SERIAL_USB_DEVICE)
-> +		return -EINVAL;
-> +
-> +	ret = pcim_enable_device(pdev);
-> +	if (ret)
-> +		dev_err(&pdev->dev, "Enabling PCI device has failed %d\n", ret);
-
-Should we bail out in this case?
-
-> +
-> +	pci_set_master(pdev);
-> +
-> +	priv_dev = kzalloc(sizeof(*priv_dev), GFP_KERNEL);
-> +	if (!priv_dev) {
-> +		ret = -ENOMEM;
-> +		goto disable_pci;
-
-Any reason, not to use devm_kzalloc() and manually hanfle kfree() in the 
-error handling path and in the removbe function ?
-
-> +	}
-> +
-> +	dev_dbg(dev, "Initialize resources\n");
-> +	rsrc_start = pci_resource_start(pdev, PCI_BAR_DEV);
-> +	rsrc_len = pci_resource_len(pdev, PCI_BAR_DEV);
-> +
-> +	res = devm_request_mem_region(dev, rsrc_start, rsrc_len, "dev");
-> +	if (!res) {
-> +		dev_dbg(dev, "controller already in use\n");
-> +		ret = -EBUSY;
-> +		goto free_priv_dev;
-> +	}
-> +
-> +	priv_dev->regs = devm_ioremap(dev, rsrc_start, rsrc_len);
-> +	if (!priv_dev->regs) {
-> +		dev_dbg(dev, "error mapping memory\n");
-> +		ret = -EFAULT;
-> +		goto free_priv_dev;
-> +	}
-> +
-> +	priv_dev->irq = pdev->irq;
-> +	dev_dbg(dev, "USBSS-DEV physical base addr: %pa\n",
-> +		&rsrc_start);
-> +
-> +	priv_dev->dev = dev;
-> +
-> +	priv_dev->eps_supported = 0x000f000f;
-> +	priv_dev->onchip_tx_buf = 16;
-> +	priv_dev->onchip_rx_buf = 16;
-> +
-> +	ret = cdns2_gadget_init(priv_dev);
-> +	if (ret)
-> +		goto free_priv_dev;
-> +
-> +	pci_set_drvdata(pdev, priv_dev);
-> +
-> +	device_wakeup_enable(&pdev->dev);
-> +	if (pci_dev_run_wake(pdev))
-> +		pm_runtime_put_noidle(&pdev->dev);
-> +
-> +	return 0;
-> +
-> +free_priv_dev:
-> +	kfree(priv_dev);
-> +
-> +disable_pci:
-> +	pci_disable_device(pdev);
-> +
-> +	return ret;
-> +}
-> +
-> +static void cdns2_pci_remove(struct pci_dev *pdev)
-> +{
-> +	struct cdns2_device *priv_dev = pci_get_drvdata(pdev);
-> +
-> +	if (pci_dev_run_wake(pdev))
-> +		pm_runtime_get_noresume(&pdev->dev);
-> +
-> +	cdns2_gadget_remove(priv_dev);
-> +	kfree(priv_dev);
-
-There is a pci_disable_device() in the error handling path of the probe, 
-but not in the remove function.
-
-Is it on purpose?
-Since pcim_enable_device() is used, is it needed above?
-
-CJ
-
-[...]
-
-> +static struct pci_driver cdns2_pci_driver = {
-> +	.name = "cdns2-pci",
-> +	.id_table = &cdns2_pci_ids[0],
-> +	.probe = cdns2_pci_probe,
-> +	.remove = cdns2_pci_remove,
-> +	.driver = {
-> +		.pm = pm_ptr(&cdns2_pci_pm_ops),
-> +	}
-> +};
-> +
-> +module_pci_driver(cdns2_pci_driver);
-> +MODULE_DEVICE_TABLE(pci, cdns2_pci_ids);
-> +
-> +MODULE_ALIAS("pci:cdns2");
-> +MODULE_AUTHOR("Pawel Laszczak <pawell-vna1KIf7WgpBDgjK7y7TUQ@public.gmane.org>");
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("Cadence CDNS2 PCI driver");
-
+--SLOnlnkMNKq6BWyy--
