@@ -2,55 +2,57 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89408C77B7E
-	for <linux-usb@archiver.kernel.org>; Thu, 25 May 2023 20:03:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7BACC77B7A
+	for <linux-usb@archiver.kernel.org>; Thu, 25 May 2023 20:32:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230396AbjEYUDb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 May 2023 16:03:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52340 "EHLO
+        id S241115AbjEYUcB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 May 2023 16:32:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235747AbjEYUD2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 May 2023 16:03:28 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EA22BC
-        for <linux-usb@vger.kernel.org>; Thu, 25 May 2023 13:03:27 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f6d01d390bso134595e9.2
-        for <linux-usb@vger.kernel.org>; Thu, 25 May 2023 13:03:27 -0700 (PDT)
+        with ESMTP id S234053AbjEYUb7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 May 2023 16:31:59 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84D79183
+        for <linux-usb@vger.kernel.org>; Thu, 25 May 2023 13:31:55 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-3f60dfc6028so445885e9.1
+        for <linux-usb@vger.kernel.org>; Thu, 25 May 2023 13:31:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1685045006; x=1687637006;
+        d=google.com; s=20221208; t=1685046714; x=1687638714;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=K4TyW3F7pnvio/+Mfhq8AWNdmZyUuT7pRHhynq/9Tkg=;
-        b=JYlYJe/h15cKKSnZe/2zRg1TKqaGUd/HDX4qUYmT8hNcxtWx0/w0UYhdBu7YlqpiX3
-         HrejTZsSxSNANNxYBGwT3F5c3JUkArhg62dDkE/gyrWdJSPSwFZPTVVFTXz/2+3uCGM3
-         S4MpQG1T+QpwGsRRZHXTJHO/ugw6YuYLLZCNSiOC5eQ03kHGQ481WETI6z+r09We2LzL
-         bro7xePty3xipRrhJ0zf8t4oafN0So0y6L952204Kg5aaul1LIBOLufh/bHFQmHvw3l4
-         z93UrqPWcwBaZ77/TZB1TwZvy5oglyzwzSyDDyCHiaP3892nXtL/rRg5RCgArQvFiscl
-         8C3g==
+        bh=V3+pGMFZpQsxevC8yghfGwAhu4MN/Iadq0vZk/E0FRg=;
+        b=Ov46G+slWuSsRlxpdnYSw2YCoS5HVXbfF30R43NXOzwF9gM4aKoXW65gjFDOm87Bsz
+         ErPbtBrjNkH19LKRdxHfmAbyTFORcmwB4Ry6XAcuS1K+ol0L+e04JuOXA90/e1rhY+fa
+         7NySshYKK9CvavxGGSuopDgDorBTvb6krfHrqqEIJGmKqB3S0u2FAntRgBXSnsUHBd51
+         Zcg99RCHynWb/MoEMU1XAsczAurcG69c2tyd2vjKcSHcTXDud53+hZTI8qwsztf0g0b/
+         kCie/O18zzxvzhQVlnMWUcC7A+9EIG9GJw6ZLCXeiGejtR+hN3lCQLv/2q9kJ+GW7/bd
+         sFuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685045006; x=1687637006;
+        d=1e100.net; s=20221208; t=1685046714; x=1687638714;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=K4TyW3F7pnvio/+Mfhq8AWNdmZyUuT7pRHhynq/9Tkg=;
-        b=LPJvNl8jK2Yho+AgSj2gsEOZBcs/EzsGD+/YS4iJLS0+re8apNTZicNXNaxLN/kJHE
-         +YQcdk7aKsCSHsuEqPe68wXHvf3sDJCnrXNtzVoD4UZYD+Or2ebocy7S5MZP19VkE725
-         bRKvirCNZrQWD8DJfPc9f2hMo0MGwjMcOJEfwtQe2EES4xSI2SDr20RYlhlvkw9LA03E
-         gsIm1pNmhF6aazjAx+OesUPQuNW6+Ecud7XSqaOFxGKdh6vaeRlrPP+enS3cW0F8Lxj2
-         XPsBd9YKZ7DBSDshtYWxSes7EK2idy9Y9xTBjv5dWSIhrJYnwvaGYDVesaIdOyC0s1if
-         9vlA==
-X-Gm-Message-State: AC+VfDws7kafgKoBfHcucCmX09Rd4zg2aFIkcwbX9QfNWhQbteikIPLy
-        6oXagYsB7BZGu2GZF5/gW89VoCsdQvqoQzgj5joOqXP/eu7uGJrrAkM=
-X-Google-Smtp-Source: ACHHUZ5GTqd7fBY2t/VsImNxtKg3wE/Gu9bWc5wXf9VM1FTSPsP6J5EhYxlCZpUDcOPoJNXaDlmmKkil1MiOvKm6f0g=
-X-Received: by 2002:a1c:7307:0:b0:3f6:3ad:16a with SMTP id d7-20020a1c7307000000b003f603ad016amr3007271wmb.31.1685040419721;
- Thu, 25 May 2023 11:46:59 -0700 (PDT)
+        bh=V3+pGMFZpQsxevC8yghfGwAhu4MN/Iadq0vZk/E0FRg=;
+        b=fxKCAI1oBLNC4RaoReM75wc+GCEjXB1onpqeW4atQd+1f0ZqdWQGDy1HTjlv28bzLF
+         qXZ56uIBMdjm7+VjzkyRAGXie9QjH5nglqavWH8tT9wFAQePR+CcVHV8Od+Zy++E0tWp
+         a4cIYa8/fRt+kAYfucQT8aNAqxyF7qw2TvHG83nJZgbWAZoDOScCLLa+d2NPsGAvDddt
+         B/lKBKt895Aeu9GLtWMvY6JGwDqLRMphAaPMFVHhMrKt/82RSAJuKUhFTjKiFBIG6GkH
+         USsunerxhxLiChV1/bBhJEYZtq5WjFbMtMTxXUHnoATsrwpbVw1IjWcAxa0jbDSs6c1L
+         1zLA==
+X-Gm-Message-State: AC+VfDzuugtinvVPBsY2trpnGdCf5+Pq0rehyk+hHf7ksuH8XQc/Op+6
+        YjQko57P0NtC61b2Zpa590c8AuQZXfBsNfmiQFaXRw==
+X-Google-Smtp-Source: ACHHUZ7HhxJG6JZ5es46Q+aDanXUKXYyTRInBg44ca1UFDA1uGFwzsYkswJ+wx8MpFn7XFOFOWoP+vV8Fq000NY5kkI=
+X-Received: by 2002:adf:f010:0:b0:309:49e3:efaa with SMTP id
+ j16-20020adff010000000b0030949e3efaamr3355602wro.29.1685046713806; Thu, 25
+ May 2023 13:31:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230525173818.219633-1-royluo@google.com> <408575c0-2967-4cdb-92c7-1b2845038d20@rowland.harvard.edu>
-In-Reply-To: <408575c0-2967-4cdb-92c7-1b2845038d20@rowland.harvard.edu>
+ <CA+zupgwz8Mbd8=7ep7t0OU-34bbwsc9fMK4dHip0rgqD7FSd2A@mail.gmail.com> <89cf2c61-a55e-4c35-93b2-35fa7ab0266b@rowland.harvard.edu>
+In-Reply-To: <89cf2c61-a55e-4c35-93b2-35fa7ab0266b@rowland.harvard.edu>
 From:   Roy Luo <royluo@google.com>
-Date:   Thu, 25 May 2023 11:46:23 -0700
-Message-ID: <CA+zupgwz8Mbd8=7ep7t0OU-34bbwsc9fMK4dHip0rgqD7FSd2A@mail.gmail.com>
+Date:   Thu, 25 May 2023 13:31:17 -0700
+Message-ID: <CA+zupgyErTsDEZYerfAeEyVF073x+aTW6HiWZRA+2Y=a7U4XVg@mail.gmail.com>
 Subject: Re: [RFC PATCH v1] usb: core: add sysfs entry for usb device state
 To:     Alan Stern <stern@rowland.harvard.edu>
 Cc:     raychi@google.com, badhri@google.com,
@@ -70,91 +72,85 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, May 25, 2023 at 11:02=E2=80=AFAM Alan Stern <stern@rowland.harvard.=
+On Thu, May 25, 2023 at 12:10=E2=80=AFPM Alan Stern <stern@rowland.harvard.=
 edu> wrote:
 >
-> On Thu, May 25, 2023 at 05:38:18PM +0000, Roy Luo wrote:
-> > Expose usb device state to userland as the information is useful in
-> > detecting non-compliant setups and diagnosing enumeration failures.
-> > For example:
-> > - End-to-end signal integrity issues: the device would fail port reset
-> >   repeatedly and thus be stuck in POWERED state.
-> > - Charge-only cables (missing D+/D- lines): the device would never ente=
-r
-> >   POWERED state as the HC would not see any pullup.
-> >
-> > What's the status quo?
-> > We do have error logs such as "Cannot enable. Maybe the USB cable is ba=
-d?"
-> > to flag potential setup issues, but there's no good way to expose them =
-to
-> > userspace.
-> >
-> > Why add a sysfs entry in struct usb_port instead of struct usb_device?
-> > The struct usb_device is not device_add() to the system until it's in
-> > ADDRESS state hence we would miss the first two states. The struct
-> > usb_port is a better place to keep the information because its life
-> > cycle is longer than the struct usb_device that is attached to the port=
-.
-> >
-> > Signed-off-by: Roy Luo <royluo@google.com>
-> > ---
+> On Thu, May 25, 2023 at 11:46:23AM -0700, Roy Luo wrote:
+> > On Thu, May 25, 2023 at 11:02=E2=80=AFAM Alan Stern <stern@rowland.harv=
+ard.edu> wrote:
+> > >
+> > > On Thu, May 25, 2023 at 05:38:18PM +0000, Roy Luo wrote:
+> > > > Expose usb device state to userland as the information is useful in
+> > > > detecting non-compliant setups and diagnosing enumeration failures.
+> > > > For example:
+> > > > - End-to-end signal integrity issues: the device would fail port re=
+set
+> > > >   repeatedly and thus be stuck in POWERED state.
+> > > > - Charge-only cables (missing D+/D- lines): the device would never =
+enter
+> > > >   POWERED state as the HC would not see any pullup.
+> > > >
+> > > > What's the status quo?
+> > > > We do have error logs such as "Cannot enable. Maybe the USB cable i=
+s bad?"
+> > > > to flag potential setup issues, but there's no good way to expose t=
+hem to
+> > > > userspace.
+> > > >
+> > > > Why add a sysfs entry in struct usb_port instead of struct usb_devi=
+ce?
+> > > > The struct usb_device is not device_add() to the system until it's =
+in
+> > > > ADDRESS state hence we would miss the first two states. The struct
+> > > > usb_port is a better place to keep the information because its life
+> > > > cycle is longer than the struct usb_device that is attached to the =
+port.
+> > > >
+> > > > Signed-off-by: Roy Luo <royluo@google.com>
+> > > > ---
+> > >
+> > > > diff --git a/drivers/usb/core/hub.h b/drivers/usb/core/hub.h
+> > > > index e23833562e4f..110143568c77 100644
+> > > > --- a/drivers/usb/core/hub.h
+> > > > +++ b/drivers/usb/core/hub.h
+> > > > @@ -84,8 +84,10 @@ struct usb_hub {
+> > > >   * @peer: related usb2 and usb3 ports (share the same connector)
+> > > >   * @req: default pm qos request for hubs without port power contro=
+l
+> > > >   * @connect_type: port's connect type
+> > > > + * @state: device state of the usb device attached to the port
+> > >
+> > > This member is essentially a duplicate of the .child member of the
+> > > usb_port structure.  That is, it points to the .state member of the
+> > > child device instead of to the child device itself, but this is prett=
+y
+> > > much the same thing.  You could replace *(port_dev->state) with
+> > > port_dev->child->state.
+> > >
+> > Alan, thanks for the quick response!
+> > Yes, port_dev->state is indeed the same as port_dev->child->state. Howe=
+ver,
+> > I still add port_dev->state because port_dev->child won't be assigned u=
+ntil
+> > the corresponding usb_device is in ADDRESS state.
+> > I wish I can assign get port_dev->child assigned earlier, but I think
+> > the current design - assign port_dev->child and device_add() after ADDR=
+ESS
+> > state - also makes sense because there are many ways that the enumerati=
+on
+> > could fail in the early stage. By adding port_dev->state, I can link
+> > usb_device->state to usb_port as soon as the usb_device is created to g=
+et
+> > around the limitation of port_dev->child.
+> > I would be very happy to hear other ideas.
 >
-> > diff --git a/drivers/usb/core/hub.h b/drivers/usb/core/hub.h
-> > index e23833562e4f..110143568c77 100644
-> > --- a/drivers/usb/core/hub.h
-> > +++ b/drivers/usb/core/hub.h
-> > @@ -84,8 +84,10 @@ struct usb_hub {
-> >   * @peer: related usb2 and usb3 ports (share the same connector)
-> >   * @req: default pm qos request for hubs without port power control
-> >   * @connect_type: port's connect type
-> > + * @state: device state of the usb device attached to the port
->
-> This member is essentially a duplicate of the .child member of the
-> usb_port structure.  That is, it points to the .state member of the
-> child device instead of to the child device itself, but this is pretty
-> much the same thing.  You could replace *(port_dev->state) with
-> port_dev->child->state.
->
-Alan, thanks for the quick response!
-Yes, port_dev->state is indeed the same as port_dev->child->state. However,
-I still add port_dev->state because port_dev->child won't be assigned until
-the corresponding usb_device is in ADDRESS state.
-I wish I can assign get port_dev->child assigned earlier, but I think
-the current design - assign port_dev->child and device_add() after ADDRESS
-state - also makes sense because there are many ways that the enumeration
-could fail in the early stage. By adding port_dev->state, I can link
-usb_device->state to usb_port as soon as the usb_device is created to get
-around the limitation of port_dev->child.
-I would be very happy to hear other ideas.
-
-
-> > diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-> > index 06a8f1f84f6f..7f3430170115 100644
-> > --- a/drivers/usb/core/port.c
-> > +++ b/drivers/usb/core/port.c
-> > @@ -160,6 +160,19 @@ static ssize_t connect_type_show(struct device *de=
-v,
-> >  }
-> >  static DEVICE_ATTR_RO(connect_type);
-> >
-> > +static ssize_t state_show(struct device *dev,
-> > +                       struct device_attribute *attr, char *buf)
-> > +{
-> > +     struct usb_port *port_dev =3D to_usb_port(dev);
-> > +     enum usb_device_state state =3D USB_STATE_NOTATTACHED;
-> > +
-> > +     if (port_dev->state)
-> > +             state =3D *port_dev->state;
-> > +
-> > +     return sprintf(buf, "%s\n",  usb_state_string(state));
->
-> This races with device addition and removal (and with device state
-> changes).  To prevent these races, you have to hold the
-> device_state_lock spinlock while accessing the child device and its
-> state.
->
-> Unfortunately that spinlock is private to hub.c, so you will have to
-> make it public before you can use it here.
+> Is there any real reason not to set port_dev->child as soon as the
+> usb_device structure is created?  If enumeration fails, the pointer can
+> be cleared.
 >
 > Alan Stern
+
+Currently the usb core assumes the usb_device that port_dev->child points
+to is enumerated and port_dev->child->dev is registered when
+port_dev->child is present. Setting port_dev->child early would break this
+fundamental assumption, hence I'm a bit reluctant to go this way.
