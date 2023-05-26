@@ -2,93 +2,263 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE06AC77B7C
-	for <linux-usb@archiver.kernel.org>; Fri, 26 May 2023 22:32:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47D47C77B73
+	for <linux-usb@archiver.kernel.org>; Fri, 26 May 2023 22:45:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230064AbjEZWcM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 May 2023 18:32:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45074 "EHLO
+        id S231407AbjEZWp5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 May 2023 18:45:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229716AbjEZWcK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 May 2023 18:32:10 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C15C6119
-        for <linux-usb@vger.kernel.org>; Fri, 26 May 2023 15:32:09 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-776f790de25so8449339f.0
-        for <linux-usb@vger.kernel.org>; Fri, 26 May 2023 15:32:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1685140329; x=1687732329;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9neysGGfncvfzLzl+KOCCQRQt1N0p92liqmG3pnjBa4=;
-        b=P7e6n+k3NWRNc3P9WXjZhTfG32xkAL9WI4I7i6hyhNKYuIguwhP8rV6zwWaozWWoOd
-         MIXcIausBnNDZNM8zUMKCMFibgbIV0tyfw5y5JLMBPjug8T2CgGDC+J7DFAjjCX1JAg/
-         EJ3MO3xawKEKbC7AUABAIDU8hMuG+quHH225I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685140329; x=1687732329;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9neysGGfncvfzLzl+KOCCQRQt1N0p92liqmG3pnjBa4=;
-        b=cqm3r+9xjPIIGpZZivTGA5qDwqvpUEENuDatZLuZkQIiNxV9XQ5PBqrVwx/EkBVW3l
-         hPF4uzq+4bAADeE9OzrhZLcxTWboo84CCKzziOxlCe3uQ051RqJ0mYD6z9n1BL1VcLkr
-         0CcuzvdXsYq3ltxUXBP9oN/+6jqcbaDiJ7yCm8H0o6yetmmPsciLesk2IOiuKQmBcwXU
-         JYaZCO3l3RUq5ivkP+qQ8gsrZX6U3tR+SACGAxYr1s9lZ6+5xhKbDzbrPkrgqROQLgDz
-         U3NTU7pWc3NXCR860CtMPj+vlMguAYyPfmSuYmCekSJw9iMXG8PIvjPhq6brC6TtU6AM
-         Sefg==
-X-Gm-Message-State: AC+VfDxe6A1GJspxNeg5HjhKS7tbWMuuwq9pLGVBfIqBRWOWd7Kg3nhQ
-        DNrxVQiYHTV4bZ8uytRC/a7WaQ==
-X-Google-Smtp-Source: ACHHUZ4s/IWNyhIuGK6qBNt7xgf2a2b4ySe1sVzWsejeAY/36Hiz9jxNIKUh55drt20mZ7MnNhlk7Q==
-X-Received: by 2002:a05:6e02:c6a:b0:331:30ac:f8fe with SMTP id f10-20020a056e020c6a00b0033130acf8femr1882723ilj.3.1685140329135;
-        Fri, 26 May 2023 15:32:09 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id w24-20020a029698000000b0041844cb2c2dsm1352674jai.115.2023.05.26.15.32.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 May 2023 15:32:08 -0700 (PDT)
-Message-ID: <90e7ff3c-aaab-8427-7610-2a6d9229af14@linuxfoundation.org>
-Date:   Fri, 26 May 2023 16:32:08 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [BUG] Potential race condition in usbip attach
-Content-Language: en-US
-To:     Alexander Timofeev <alex42timofeev@gmail.com>,
-        valentina.manea.m@gmail.com, shuah@kernel.org
-Cc:     linux-usb@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <CAM82uABnohNw1Rv8q7qJi-WT9wXCuHyYV5w3++A_EeaodZr46A@mail.gmail.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <CAM82uABnohNw1Rv8q7qJi-WT9wXCuHyYV5w3++A_EeaodZr46A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229964AbjEZWpz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 May 2023 18:45:55 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B7DCA4;
+        Fri, 26 May 2023 15:45:54 -0700 (PDT)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34QMgGXa017915;
+        Fri, 26 May 2023 22:45:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=2gLJXTA1XDT+hIurGpTWON7QJm4XVcTcFoJyJZ95iXA=;
+ b=i7ZM/NeCjXNpCJnk4GAUeKS3ZP6HPPHN7CpW7LO3n03f+yj7KhsMxT9NSA5vk9YsFo/z
+ 3HXA+jpQJru156DLPZbq5ivQQmmuPVPIK5FY1IXBQ4agTeG4B4UrtLhQ7l5aQ9U94Ax3
+ DX7bgD3LKTGXK8h3O9xGOTgK186ToeyBc4VGB/I1mm1n0GMiOdEurfGQonM1ZDgGiwb1
+ i+Qy98rBx8Exy9V44X2c3C5ZMY/bxtF93EXyF62cFYnuauRhoBLyZYB6kuZry5zlpHYG
+ 6V1vkGjhjXV1GLDvHBMDbyabI0dASTw+vv9cRozY2jVF7uSCnwJ9MVa1qvUm0N3K1ngU WA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qtvy29ahx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 26 May 2023 22:45:51 +0000
+Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 34QMjp3f016423;
+        Fri, 26 May 2023 22:45:51 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 3qpq9mg1c8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Fri, 26 May 2023 22:45:51 +0000
+Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34QMjoXK016417;
+        Fri, 26 May 2023 22:45:50 GMT
+Received: from hu-devc-lv-c.qualcomm.com (hu-eserrao-lv.qualcomm.com [10.47.235.164])
+        by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 34QMjowE016416;
+        Fri, 26 May 2023 22:45:50 +0000
+Received: by hu-devc-lv-c.qualcomm.com (Postfix, from userid 464172)
+        id 6EC5120E42; Fri, 26 May 2023 15:45:50 -0700 (PDT)
+From:   Elson Roy Serrao <quic_eserrao@quicinc.com>
+To:     gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
+        Elson Roy Serrao <quic_eserrao@quicinc.com>
+Subject: [PATCH v2 2/2] usb: dwc3: Modify runtime pm ops to handle bus suspend
+Date:   Fri, 26 May 2023 15:45:40 -0700
+Message-Id: <1685141140-26228-3-git-send-email-quic_eserrao@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1685141140-26228-1-git-send-email-quic_eserrao@quicinc.com>
+References: <1685141140-26228-1-git-send-email-quic_eserrao@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: -ULLHTKeZdnN1btkz_L-tORyY9SKSmsl
+X-Proofpoint-ORIG-GUID: -ULLHTKeZdnN1btkz_L-tORyY9SKSmsl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-26_12,2023-05-25_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
+ adultscore=0 priorityscore=1501 clxscore=1015 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=413 phishscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305260195
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 5/24/23 11:48, Alexander Timofeev wrote:
-> Hi!
-> 
-> Sorry if you have received this email twice. My first email contained
-> html and was not accepted by the mailing list.
-> 
-> I think I have found a race condition which can be triggered for
-> example when calling two usbip attach commands in parallel on the same
-> host.
-> 
-> In file linux/tools/usb/usbip/src /usbip_attach.c:
-> In function static int import_device(int sockfd, struct usbip_usb_device *udev):
-> 
-> At first two processes may call usbip_vhci_driver_open() before
-> entering the do-while loop.
-> Next they both call usbip_vhci_get_free_port() and get the same free port.
-> Finally, they pass the same port number to usbip_vhci_attach_device().
-> 
-> Current recommendation to end users: run usbip attach commands only
-> sequentially.
-> 
+For bus suspend scenario we should skip controller halt
+as we still have the usb cable connected. So modify the
+runtime pm ops to handle bus suspend scenario. Also invoke
+autosuspend when device receives U3 notification so that
+controller can enter runtime suspended state. Ensure that
+the controller is brought out of runtime suspend before
+triggering remote wakeup.
 
-Will you be able to share the reproducer?
+Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
+---
+ drivers/usb/dwc3/core.c   | 19 +++++++++++++++++++
+ drivers/usb/dwc3/gadget.c | 40 +++++++++++++++++++++++++++++++++-------
+ 2 files changed, 52 insertions(+), 7 deletions(-)
 
-thanks,
--- Shuah
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 278cd1c..7787805 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -2119,6 +2119,12 @@ static int dwc3_runtime_suspend(struct device *dev)
+ {
+ 	struct dwc3     *dwc = dev_get_drvdata(dev);
+ 	int		ret;
++	u32		reg;
++
++	reg = dwc3_readl(dwc->regs, DWC3_DSTS);
++	/* For bus suspend case do not halt the controller */
++	if (dwc->connected && (DWC3_DSTS_USBLNKST(reg) == DWC3_LINK_STATE_U3))
++		return 0;
+ 
+ 	if (dwc3_runtime_checks(dwc))
+ 		return -EBUSY;
+@@ -2135,6 +2141,12 @@ static int dwc3_runtime_resume(struct device *dev)
+ 	struct dwc3     *dwc = dev_get_drvdata(dev);
+ 	int		ret;
+ 
++	/* resume from bus suspend */
++	if (dwc->connected) {
++		dwc3_gadget_process_pending_events(dwc);
++		goto resume;
++	}
++
+ 	ret = dwc3_resume_common(dwc, PMSG_AUTO_RESUME);
+ 	if (ret)
+ 		return ret;
+@@ -2149,6 +2161,7 @@ static int dwc3_runtime_resume(struct device *dev)
+ 		break;
+ 	}
+ 
++resume:
+ 	pm_runtime_mark_last_busy(dev);
+ 
+ 	return 0;
+@@ -2157,9 +2170,14 @@ static int dwc3_runtime_resume(struct device *dev)
+ static int dwc3_runtime_idle(struct device *dev)
+ {
+ 	struct dwc3     *dwc = dev_get_drvdata(dev);
++	u32		reg;
+ 
+ 	switch (dwc->current_dr_role) {
+ 	case DWC3_GCTL_PRTCAP_DEVICE:
++		reg = dwc3_readl(dwc->regs, DWC3_DSTS);
++		/* for bus suspend case return success */
++		if (DWC3_DSTS_USBLNKST(reg) == DWC3_LINK_STATE_U3 && dwc->connected)
++			goto autosuspend;
+ 		if (dwc3_runtime_checks(dwc))
+ 			return -EBUSY;
+ 		break;
+@@ -2169,6 +2187,7 @@ static int dwc3_runtime_idle(struct device *dev)
+ 		break;
+ 	}
+ 
++autosuspend:
+ 	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_autosuspend(dev);
+ 
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 5965796..7587912 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2400,15 +2400,21 @@ static int dwc3_gadget_wakeup(struct usb_gadget *g)
+ 		return -EINVAL;
+ 	}
+ 
+-	spin_lock_irqsave(&dwc->lock, flags);
+ 	if (!dwc->gadget->wakeup_armed) {
+ 		dev_err(dwc->dev, "not armed for remote wakeup\n");
+-		spin_unlock_irqrestore(&dwc->lock, flags);
+ 		return -EINVAL;
+ 	}
+-	ret = __dwc3_gadget_wakeup(dwc, true);
+ 
++	ret = pm_runtime_resume_and_get(dwc->dev);
++	if (ret < 0) {
++		pm_runtime_set_suspended(dwc->dev);
++		return ret;
++	}
++
++	spin_lock_irqsave(&dwc->lock, flags);
++	ret = __dwc3_gadget_wakeup(dwc, true);
+ 	spin_unlock_irqrestore(&dwc->lock, flags);
++	pm_runtime_put_noidle(dwc->dev);
+ 
+ 	return ret;
+ }
+@@ -2427,6 +2433,12 @@ static int dwc3_gadget_func_wakeup(struct usb_gadget *g, int intf_id)
+ 		return -EINVAL;
+ 	}
+ 
++	ret = pm_runtime_resume_and_get(dwc->dev);
++	if (ret < 0) {
++		pm_runtime_set_suspended(dwc->dev);
++		return ret;
++	}
++
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 	/*
+ 	 * If the link is in U3, signal for remote wakeup and wait for the
+@@ -2437,6 +2449,7 @@ static int dwc3_gadget_func_wakeup(struct usb_gadget *g, int intf_id)
+ 		ret = __dwc3_gadget_wakeup(dwc, false);
+ 		if (ret) {
+ 			spin_unlock_irqrestore(&dwc->lock, flags);
++			pm_runtime_put_noidle(dwc->dev);
+ 			return -EINVAL;
+ 		}
+ 		dwc3_resume_gadget(dwc);
+@@ -2450,6 +2463,7 @@ static int dwc3_gadget_func_wakeup(struct usb_gadget *g, int intf_id)
+ 		dev_err(dwc->dev, "function remote wakeup failed, ret:%d\n", ret);
+ 
+ 	spin_unlock_irqrestore(&dwc->lock, flags);
++	pm_runtime_put_noidle(dwc->dev);
+ 
+ 	return ret;
+ }
+@@ -2711,21 +2725,23 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
+ 	/*
+ 	 * Avoid issuing a runtime resume if the device is already in the
+ 	 * suspended state during gadget disconnect.  DWC3 gadget was already
+-	 * halted/stopped during runtime suspend.
++	 * halted/stopped during runtime suspend except for bus suspend case
++	 * where we would have skipped the controller halt.
+ 	 */
+ 	if (!is_on) {
+ 		pm_runtime_barrier(dwc->dev);
+-		if (pm_runtime_suspended(dwc->dev))
++		if (pm_runtime_suspended(dwc->dev) && !dwc->connected)
+ 			return 0;
+ 	}
+ 
+ 	/*
+ 	 * Check the return value for successful resume, or error.  For a
+ 	 * successful resume, the DWC3 runtime PM resume routine will handle
+-	 * the run stop sequence, so avoid duplicate operations here.
++	 * the run stop sequence except for bus resume case, so avoid
++	 * duplicate operations here.
+ 	 */
+ 	ret = pm_runtime_get_sync(dwc->dev);
+-	if (!ret || ret < 0) {
++	if ((!ret && !dwc->connected) || ret < 0) {
+ 		pm_runtime_put(dwc->dev);
+ 		return 0;
+ 	}
+@@ -4313,6 +4329,8 @@ static void dwc3_gadget_suspend_interrupt(struct dwc3 *dwc,
+ 		dwc3_suspend_gadget(dwc);
+ 
+ 	dwc->link_state = next;
++	pm_runtime_mark_last_busy(dwc->dev);
++	pm_request_autosuspend(dwc->dev);
+ }
+ 
+ static void dwc3_gadget_interrupt(struct dwc3 *dwc,
+@@ -4703,7 +4721,15 @@ void dwc3_gadget_process_pending_events(struct dwc3 *dwc)
+ {
+ 	if (dwc->pending_events) {
+ 		dwc3_interrupt(dwc->irq_gadget, dwc->ev_buf);
++		pm_runtime_put(dwc->dev);
+ 		dwc->pending_events = false;
+ 		enable_irq(dwc->irq_gadget);
++		/*
++		 * We have only stored the pending events as part
++		 * of dwc3_interrupt() above, but those events are
++		 * not yet handled. So explicitly invoke the
++		 * interrupt handler for handling those events.
++		 */
++		dwc3_thread_interrupt(dwc->irq_gadget, dwc->ev_buf);
+ 	}
+ }
+-- 
+2.7.4
 
