@@ -2,119 +2,77 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EEB4C7EE2C
-	for <linux-usb@archiver.kernel.org>; Thu, 25 May 2023 21:36:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27A38C77B7A
+	for <linux-usb@archiver.kernel.org>; Fri, 26 May 2023 00:51:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241777AbjEYVgu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 May 2023 17:36:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42930 "EHLO
+        id S236289AbjEZAvB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 May 2023 20:51:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232481AbjEYVgs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 May 2023 17:36:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6DF0FB;
-        Thu, 25 May 2023 14:36:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3C03964B5F;
-        Thu, 25 May 2023 21:36:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDF05C433D2;
-        Thu, 25 May 2023 21:36:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685050604;
-        bh=fTgLUP/spX/1v/xhm+T8su551vODX+MVDzEHLjJVyC0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=m6HB27VGJXeCbOAxlYtTT4a/HviFAW5evDIB38A/SneV95u29fkdGgrymnoPTo9I+
-         N+1wGdd2laYimC/zV2VmgRYK0AxX7Z4cJFe5S6azRUhhQ0ikqPnaR0tVA+w31A/nld
-         3aoR4MKfsMFBp0nYThfSCYlSUOV/GTkQnfRDr+3Xhm9Q31tEqI1QwTYy/Ylw5sCGZr
-         iPhV8IKeaVW5UOlpgf+fDQ2HMupdEVzNe0dWTYF1Qfzn8ch9qm5j6gYjBMJumbt4bW
-         geZTTXszI+HNd1PJlJt0hTGxbH7aY4sE2RUSKE1MkUPLqKgDlsOjv0WHs1Ar1rEwqB
-         1sidF7owc0fWQ==
-Date:   Thu, 25 May 2023 22:36:38 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Minda Chen <minda.chen@starfivetech.com>
-Cc:     Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pawel Laszczak <pawell@cadence.com>,
+        with ESMTP id S235472AbjEZAu7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 May 2023 20:50:59 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 7096E1B3
+        for <linux-usb@vger.kernel.org>; Thu, 25 May 2023 17:50:54 -0700 (PDT)
+Received: (qmail 276368 invoked by uid 1000); 25 May 2023 20:50:53 -0400
+Date:   Thu, 25 May 2023 20:50:53 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Roy Luo <royluo@google.com>
+Cc:     raychi@google.com, badhri@google.com,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Roger Quadros <rogerq@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Mason Huo <mason.huo@starfivetech.com>
-Subject: Re: [PATCH v6 7/7] riscv: dts: starfive: Add USB dts configuration
- for JH7110
-Message-ID: <20230525-cross-daybreak-24dfed69e5d0@spud>
-References: <20230518112750.57924-1-minda.chen@starfivetech.com>
- <20230518112750.57924-8-minda.chen@starfivetech.com>
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Bastien Nocera <hadess@hadess.net>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Flavio Suligoi <f.suligoi@asem.it>,
+        Douglas Anderson <dianders@chromium.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [RFC PATCH v1] usb: core: add sysfs entry for usb device state
+Message-ID: <dfaa91d3-1169-4381-a2ef-83443ee3e4ce@rowland.harvard.edu>
+References: <20230525173818.219633-1-royluo@google.com>
+ <408575c0-2967-4cdb-92c7-1b2845038d20@rowland.harvard.edu>
+ <CA+zupgwz8Mbd8=7ep7t0OU-34bbwsc9fMK4dHip0rgqD7FSd2A@mail.gmail.com>
+ <89cf2c61-a55e-4c35-93b2-35fa7ab0266b@rowland.harvard.edu>
+ <CA+zupgyErTsDEZYerfAeEyVF073x+aTW6HiWZRA+2Y=a7U4XVg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Vw7uD/P9k0KbWgXU"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230518112750.57924-8-minda.chen@starfivetech.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+zupgyErTsDEZYerfAeEyVF073x+aTW6HiWZRA+2Y=a7U4XVg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On Thu, May 25, 2023 at 01:31:17PM -0700, Roy Luo wrote:
+> On Thu, May 25, 2023 at 12:10 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> >
+> > On Thu, May 25, 2023 at 11:46:23AM -0700, Roy Luo wrote:
+> > > Alan, thanks for the quick response!
+> > > Yes, port_dev->state is indeed the same as port_dev->child->state. However,
+> > > I still add port_dev->state because port_dev->child won't be assigned until
+> > > the corresponding usb_device is in ADDRESS state.
+> > > I wish I can assign get port_dev->child assigned earlier, but I think
+> > > the current design - assign port_dev->child and device_add() after ADDRESS
+> > > state - also makes sense because there are many ways that the enumeration
+> > > could fail in the early stage. By adding port_dev->state, I can link
+> > > usb_device->state to usb_port as soon as the usb_device is created to get
+> > > around the limitation of port_dev->child.
+> > > I would be very happy to hear other ideas.
+> >
+> > Is there any real reason not to set port_dev->child as soon as the
+> > usb_device structure is created?  If enumeration fails, the pointer can
+> > be cleared.
+> >
+> > Alan Stern
+> 
+> Currently the usb core assumes the usb_device that port_dev->child points
+> to is enumerated and port_dev->child->dev is registered when
+> port_dev->child is present. Setting port_dev->child early would break this
+> fundamental assumption, hence I'm a bit reluctant to go this way.
 
---Vw7uD/P9k0KbWgXU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Well, you could remove that assumption by adding a "child_is_registered" 
+flag and explicitly checking it.
 
-Greg,
-
-On Thu, May 18, 2023 at 07:27:50PM +0800, Minda Chen wrote:
-> Add USB wrapper layer and Cadence USB3 controller dts
-> configuration for StarFive JH7110 SoC and VisionFive2
-> Board.
-> USB controller connect to PHY, The PHY dts configuration
-> are also added.
->=20
-> Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
-
-> diff --git a/arch/riscv/boot/dts/starfive/jh7110.dtsi b/arch/riscv/boot/d=
-ts/starfive/jh7110.dtsi
-> index 71a8e9acbe55..b65f06c5b1b7 100644
-> --- a/arch/riscv/boot/dts/starfive/jh7110.dtsi
-> +++ b/arch/riscv/boot/dts/starfive/jh7110.dtsi
-> @@ -366,6 +366,59 @@
->  			status =3D "disabled";
->  		};
-> =20
-> +		usb0: usb@10100000 {
-> +			compatible =3D "starfive,jh7110-usb";
-> +			ranges =3D <0x0 0x0 0x10100000 0x100000>;
-> +			#address-cells =3D <1>;
-> +			#size-cells =3D <1>;
-> +			starfive,stg-syscon =3D <&stg_syscon 0x4>;
-> +			clocks =3D <&stgcrg JH7110_STGCLK_USB0_LPM>,
-
-Please don't pick this patch, if the rest of the series is applicable,
-as this will break building the dtb as stgcrg does not yet exist in any
-maintainer tree.
-
-Thanks,
-Conor.
-
---Vw7uD/P9k0KbWgXU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZG/U5gAKCRB4tDGHoIJi
-0kaRAP4zsAQYWPoPnIY4GaVky+W0yED4WO9LFF+YaELQTfg7DQEAzHPY2f/ioXn1
-ujSP13F9xiLniw+VP2XQjb6uPGHmOwc=
-=LWIh
------END PGP SIGNATURE-----
-
---Vw7uD/P9k0KbWgXU--
+Alan Stern
