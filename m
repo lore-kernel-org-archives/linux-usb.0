@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47F83C7EE2C
-	for <linux-usb@archiver.kernel.org>; Sun, 28 May 2023 19:25:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF78DC77B7E
+	for <linux-usb@archiver.kernel.org>; Sun, 28 May 2023 19:43:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230043AbjE1TZG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 28 May 2023 15:25:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41968 "EHLO
+        id S231224AbjE1Tnw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 28 May 2023 15:43:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230037AbjE1TZE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 28 May 2023 15:25:04 -0400
+        with ESMTP id S231230AbjE1Tnu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 28 May 2023 15:43:50 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82402B1;
-        Sun, 28 May 2023 12:25:03 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 724D2A3;
+        Sun, 28 May 2023 12:43:49 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0417661BE7;
-        Sun, 28 May 2023 19:25:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FB26C433D2;
-        Sun, 28 May 2023 19:25:01 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 073AC61F1D;
+        Sun, 28 May 2023 19:43:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2614DC433D2;
+        Sun, 28 May 2023 19:43:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1685301902;
+        s=korg; t=1685303028;
         bh=xZ455jMDhB0RdiKwxwnNu9wuMeZgXRP5pt6WSDU0Xao=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=C9hNBV5NJ1L+4EqqycyLAZZ1/bpFPGkUVLE3I94rZArG7ZxOnusIXpgI4f5xXlrKu
-         fH3QMYWmTMOqrKeKIDdNu6szo7+6bPALyBSK2iFisB1tTPRg3PlAu0UseKgiQzRcoM
-         v7TTRvSIo10JLVICk52JLun6e3b6NfglApx2Or9E=
+        b=UboNLSnKxq3Ub84Mp+0Kso5+UssTMQX9YhW2MF2TCnORmO+U8ljGuvkH+bAtYmjbA
+         KZBH9XnP+tBLSdwD3DMsAvZ/tHzXNby7YxQ4AYm21AjMXj1H5JiOfwHsldRPSPbwfB
+         8I06cTRtGKpRnd0jT23GJX84oXKfViyhlHtqHlYE=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         patches@lists.linux.dev, Maxime Bizon <mbizon@freebox.fr>,
         linux-usb@vger.kernel.org, stable <stable@kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH 5.4 082/161] usb-storage: fix deadlock when a scsi command timeouts more than once
-Date:   Sun, 28 May 2023 20:10:06 +0100
-Message-Id: <20230528190839.745816256@linuxfoundation.org>
+Subject: [PATCH 5.10 125/211] usb-storage: fix deadlock when a scsi command timeouts more than once
+Date:   Sun, 28 May 2023 20:10:46 +0100
+Message-Id: <20230528190846.653971329@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230528190837.051205996@linuxfoundation.org>
-References: <20230528190837.051205996@linuxfoundation.org>
+In-Reply-To: <20230528190843.514829708@linuxfoundation.org>
+References: <20230528190843.514829708@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
