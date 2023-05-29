@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9BD3C77B7E
-	for <linux-usb@archiver.kernel.org>; Mon, 29 May 2023 10:04:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46964C7EE2F
+	for <linux-usb@archiver.kernel.org>; Mon, 29 May 2023 10:04:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231933AbjE2KEi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 May 2023 06:04:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53898 "EHLO
+        id S231935AbjE2KEj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 May 2023 06:04:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231907AbjE2KEe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 May 2023 06:04:34 -0400
+        with ESMTP id S230165AbjE2KEf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 May 2023 06:04:35 -0400
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32AF3A7
-        for <linux-usb@vger.kernel.org>; Mon, 29 May 2023 03:04:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5DA6C7
+        for <linux-usb@vger.kernel.org>; Mon, 29 May 2023 03:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685354672; x=1716890672;
+  t=1685354674; x=1716890674;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=kQc6YG/qIED9NqHZEoGGAm9SFSpB+fTbJkyPb98gsZE=;
-  b=L3NZr7Y8+OC6XzzLIlByqkiUacOihSZke0WJzIW0XznT9WDyCbzqxY75
-   EFDvFgouOzzZkXIPJfvxPtbPQzAeQDexV7Tn9RglRXIcP1YYk1QYQQM0S
-   ZACylAGOJOxq5juYQywBaRyhEzty/n/WnhLwDJFmx6ynXkMbi3B/+zfcC
-   L2ynTmuVv7cE5oSZqr1ICSzdeqaRn0Skenxf75NrL+/f5m4yMdWZvXXSX
-   Bwup+xHkD/qjLsN9uhwmZFQ0XqAKRAIf0xNAasjwqThefsREnKkx5eidx
-   LW0jW+RrNk3eOwYOymhrpvWzQvw0NkS3UutDECub61gr2IOISFiVRmgqL
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="354684415"
+  bh=kQTOYUoMDmr5dcQi06Bmkoj6RO0YAh9/GuMM/UdkwFQ=;
+  b=ZkLarrB3T8LV4JIWVmVqV8ImZM5EG2ViGSl7q7cCbQpdpoujHIDrmy6E
+   SISqjvs6wujTgX9YCgpkYH93/HYVvdUaeJTIJnQLXftSSY2TBwnO2bpJT
+   1+sBVFWpxB3EcX9K7lHRtGIB8sKcuhHYuQ8wKGEG+Y486GG98aAOi5+DO
+   ArSrpF/oDXt/lx0wVxPbTwUbmoCNDSMyWswdxUbvNPYs1zzzghHTO2c+n
+   mCMG3yFk7flcP1cdLgnQNLePPUKQlEplxcLRxeLePE8X1yjdJgZ/6z3mA
+   VChrufdWuKF/XNe2tWEDXiqiTqNaWrqutzt/6q0JqVaxi6tF7083hLrBi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="354684429"
 X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="354684415"
+   d="scan'208";a="354684429"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 03:04:24 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 03:04:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="683518281"
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="683518454"
 X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="683518281"
+   d="scan'208";a="683518454"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga006.jf.intel.com with ESMTP; 29 May 2023 03:04:21 -0700
+  by orsmga006.jf.intel.com with ESMTP; 29 May 2023 03:04:24 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id DE15F3B9; Mon, 29 May 2023 13:04:25 +0300 (EEST)
+        id 03738589; Mon, 29 May 2023 13:04:26 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -48,9 +48,9 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Andreas Noever <andreas.noever@gmail.com>,
         Gil Fine <gil.fine@linux.intel.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 03/20] thunderbolt: Fix a couple of style issues in TMU code
-Date:   Mon, 29 May 2023 13:04:08 +0300
-Message-Id: <20230529100425.6125-4-mika.westerberg@linux.intel.com>
+Subject: [PATCH 05/20] thunderbolt: Rework Titan Ridge TMU objection disable function
+Date:   Mon, 29 May 2023 13:04:10 +0300
+Message-Id: <20230529100425.6125-6-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230529100425.6125-1-mika.westerberg@linux.intel.com>
 References: <20230529100425.6125-1-mika.westerberg@linux.intel.com>
@@ -60,111 +60,74 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Drop extra empty line and get rid of the '__' in function names. No
-functional changes.
+Now this is split into two with one having a misleading name
+(tb_switch_tmu_unidirectional_enable()).
+
+Make this easier to read, rename and consolidate the two functions into
+one with name that explains what it actually does. Use the two constants
+as well that were added but never used to make it clear which bits are
+being set.
+
+No functional changes.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/tmu.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ drivers/thunderbolt/tmu.c | 24 ++++++++++--------------
+ 1 file changed, 10 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/thunderbolt/tmu.c b/drivers/thunderbolt/tmu.c
-index a46203b33c5f..8614e154be5f 100644
+index 5d508ea8baa5..30f18806abb7 100644
 --- a/drivers/thunderbolt/tmu.c
 +++ b/drivers/thunderbolt/tmu.c
-@@ -395,7 +395,6 @@ int tb_switch_tmu_disable(struct tb_switch *sw)
- 	if (sw->tmu.rate == TB_SWITCH_TMU_RATE_OFF)
- 		return 0;
+@@ -503,8 +503,10 @@ static int tb_switch_tmu_enable_bidirectional(struct tb_switch *sw)
+ 	return ret;
+ }
  
+-static int tb_switch_tmu_objection_mask(struct tb_switch *sw)
++/* Only needed for Titan Ridge */
++static int tb_switch_tmu_disable_objections(struct tb_switch *sw)
+ {
++	struct tb_port *up = tb_upstream_port(sw);
+ 	u32 val;
+ 	int ret;
+ 
+@@ -515,17 +517,15 @@ static int tb_switch_tmu_objection_mask(struct tb_switch *sw)
+ 
+ 	val &= ~TB_TIME_VSEC_3_CS_9_TMU_OBJ_MASK;
+ 
+-	return tb_sw_write(sw, &val, TB_CFG_SWITCH,
+-			   sw->cap_vsec_tmu + TB_TIME_VSEC_3_CS_9, 1);
+-}
 -
- 	if (tb_route(sw)) {
- 		bool unidirectional = sw->tmu.unidirectional;
- 		struct tb_port *down, *up;
-@@ -439,7 +438,7 @@ int tb_switch_tmu_disable(struct tb_switch *sw)
- 	return 0;
+-static int tb_switch_tmu_unidirectional_enable(struct tb_switch *sw)
+-{
+-	struct tb_port *up = tb_upstream_port(sw);
++	ret = tb_sw_write(sw, &val, TB_CFG_SWITCH,
++			  sw->cap_vsec_tmu + TB_TIME_VSEC_3_CS_9, 1);
++	if (ret)
++		return ret;
+ 
+ 	return tb_port_tmu_write(up, TMU_ADP_CS_6,
+ 				 TMU_ADP_CS_6_DISABLE_TMU_OBJ_MASK,
+-				 TMU_ADP_CS_6_DISABLE_TMU_OBJ_MASK);
++				 TMU_ADP_CS_6_DISABLE_TMU_OBJ_CL1 |
++				 TMU_ADP_CS_6_DISABLE_TMU_OBJ_CL2);
  }
  
--static void __tb_switch_tmu_off(struct tb_switch *sw, bool unidirectional)
-+static void tb_switch_tmu_off(struct tb_switch *sw, bool unidirectional)
- {
- 	struct tb_port *down, *up;
+ /*
+@@ -670,11 +670,7 @@ int tb_switch_tmu_enable(struct tb_switch *sw)
+ 		if (!tb_switch_is_clx_enabled(sw, TB_CL1))
+ 			return -EOPNOTSUPP;
  
-@@ -469,7 +468,7 @@ static void __tb_switch_tmu_off(struct tb_switch *sw, bool unidirectional)
-  * This function is called when the previous TMU mode was
-  * TB_SWITCH_TMU_RATE_OFF.
-  */
--static int __tb_switch_tmu_enable_bidirectional(struct tb_switch *sw)
-+static int tb_switch_tmu_enable_bidirectional(struct tb_switch *sw)
- {
- 	struct tb_port *up, *down;
- 	int ret;
-@@ -500,7 +499,7 @@ static int __tb_switch_tmu_enable_bidirectional(struct tb_switch *sw)
- 	return 0;
- 
- out:
--	__tb_switch_tmu_off(sw, false);
-+	tb_switch_tmu_off(sw, false);
- 	return ret;
- }
- 
-@@ -533,7 +532,7 @@ static int tb_switch_tmu_unidirectional_enable(struct tb_switch *sw)
-  * This function is called when the previous TMU mode was
-  * TB_SWITCH_TMU_RATE_OFF.
-  */
--static int __tb_switch_tmu_enable_unidirectional(struct tb_switch *sw)
-+static int tb_switch_tmu_enable_unidirectional(struct tb_switch *sw)
- {
- 	struct tb_port *up, *down;
- 	int ret;
-@@ -568,11 +567,11 @@ static int __tb_switch_tmu_enable_unidirectional(struct tb_switch *sw)
- 	return 0;
- 
- out:
--	__tb_switch_tmu_off(sw, true);
-+	tb_switch_tmu_off(sw, true);
- 	return ret;
- }
- 
--static void __tb_switch_tmu_change_mode_prev(struct tb_switch *sw)
-+static void tb_switch_tmu_change_mode_prev(struct tb_switch *sw)
- {
- 	struct tb_port *down, *up;
- 
-@@ -594,7 +593,7 @@ static void __tb_switch_tmu_change_mode_prev(struct tb_switch *sw)
- 	tb_port_tmu_set_unidirectional(up, sw->tmu.unidirectional);
- }
- 
--static int __tb_switch_tmu_change_mode(struct tb_switch *sw)
-+static int tb_switch_tmu_change_mode(struct tb_switch *sw)
- {
- 	struct tb_port *up, *down;
- 	int ret;
-@@ -632,7 +631,7 @@ static int __tb_switch_tmu_change_mode(struct tb_switch *sw)
- 	return 0;
- 
- out:
--	__tb_switch_tmu_change_mode_prev(sw);
-+	tb_switch_tmu_change_mode_prev(sw);
- 	return ret;
- }
- 
-@@ -695,13 +694,13 @@ int tb_switch_tmu_enable(struct tb_switch *sw)
- 		 */
- 		if (sw->tmu.rate == TB_SWITCH_TMU_RATE_OFF) {
- 			if (unidirectional)
--				ret = __tb_switch_tmu_enable_unidirectional(sw);
-+				ret = tb_switch_tmu_enable_unidirectional(sw);
- 			else
--				ret = __tb_switch_tmu_enable_bidirectional(sw);
-+				ret = tb_switch_tmu_enable_bidirectional(sw);
- 			if (ret)
- 				return ret;
- 		} else if (sw->tmu.rate == TB_SWITCH_TMU_RATE_NORMAL) {
--			ret = __tb_switch_tmu_change_mode(sw);
-+			ret = tb_switch_tmu_change_mode(sw);
- 			if (ret)
- 				return ret;
- 		}
+-		ret = tb_switch_tmu_objection_mask(sw);
+-		if (ret)
+-			return ret;
+-
+-		ret = tb_switch_tmu_unidirectional_enable(sw);
++		ret = tb_switch_tmu_disable_objections(sw);
+ 		if (ret)
+ 			return ret;
+ 	}
 -- 
 2.39.2
 
