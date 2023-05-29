@@ -2,237 +2,147 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D301C7EE33
-	for <linux-usb@archiver.kernel.org>; Mon, 29 May 2023 10:04:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0113DC77B7A
+	for <linux-usb@archiver.kernel.org>; Mon, 29 May 2023 10:18:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231944AbjE2KEz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 May 2023 06:04:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54060 "EHLO
+        id S232009AbjE2KSd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 May 2023 06:18:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231955AbjE2KEm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 May 2023 06:04:42 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0C81DC
-        for <linux-usb@vger.kernel.org>; Mon, 29 May 2023 03:04:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685354680; x=1716890680;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=jg2dp+ihyvbHVduyz8Ezy3Sgn1CKDV3r6B3tpgCPtQU=;
-  b=WFt1Duq1lnJg1bSQAlP4qnQok5Z1sWiXC0LHSJvtN3BQO9L5FEWNPSM0
-   eL3citpkZ1gepTdbiYLEyP+Tg2b5AvsqFngjmujop/1mB5TQsBcpLVzcZ
-   rXFiSqq5Rcbux3mT4HF0SBKssz3Fi0Pd6i4oPYD03w7ntyxxlaBPNtYjz
-   BVH75MMMhTcdePP6g8pwdH7u8PtJ+xR9auRiJ4RZla9tU1N+/GHtZs8/v
-   T3U7YNbD70U0++H3vW7wFpjVUDFRaUvehfVXbywxUiDNwXezgpUqRtE9S
-   bdPq3vT3NLBbjuClLroI8OIm2KtGYRgaHMakcSZEbleApmjwQZxC9PsgL
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="354684483"
-X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="354684483"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 03:04:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="683518665"
-X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="683518665"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga006.jf.intel.com with ESMTP; 29 May 2023 03:04:28 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 7D1AD11A3; Mon, 29 May 2023 13:04:26 +0300 (EEST)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Gil Fine <gil.fine@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 18/20] thunderbolt: Initialize CL states from the hardware
-Date:   Mon, 29 May 2023 13:04:23 +0300
-Message-Id: <20230529100425.6125-19-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230529100425.6125-1-mika.westerberg@linux.intel.com>
-References: <20230529100425.6125-1-mika.westerberg@linux.intel.com>
+        with ESMTP id S229613AbjE2KSc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 May 2023 06:18:32 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A9F583;
+        Mon, 29 May 2023 03:18:30 -0700 (PDT)
+X-GND-Sasl: luca.ceresoli@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1685355509;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vUyuxrjpFgblrxgFyN4LMCGNQnaGs9nK3yiZjdqa8co=;
+        b=WYgn5Ck9kYUjG7GNjHvlrUTvNj4ZRLgl/6yS3N9FTeXdb84PzexkAoXW8IEqTub+6vL9Ex
+        yLUtkei6fEgTUbXslUME+CCT8bp0YgAdVw2hWZzWDft5/++89DAfHalIFUE+Wp/CDBe1UW
+        M6WxT/c9T4aARy1DodOaCxuFaHd0nq5gpg66/Dm0I+9TOyF8IDelS3bZ/gmBV5JY1Tdolk
+        IMmybcpc6d36NKGNu1h+IAmxPO4kuFYBawo/EvwbOiUnAAQyxmbKfVDJn/M+hhdshA28lb
+        zTBZiBm4WN8hmK+Qp6pfHmowgZ0jRc3HW0sHemZ7SBivWeLVjSfuay1YOPfqcA==
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 83341240005;
+        Mon, 29 May 2023 10:18:27 +0000 (UTC)
+Date:   Mon, 29 May 2023 12:18:25 +0200
+From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
+To:     Jun Li <jun.li@nxp.com>
+Cc:     Francesco Dolcini <francesco@dolcini.it>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Francesco Dolcini <francesco.dolcini@toradex.com>,
+        Xu Yang <xu.yang_2@nxp.com>
+Subject: Re: [PATCH v2 2/3] usb: chipidea: imx: support disabling runtime-pm
+Message-ID: <20230529121825.71e9b6d6@booty>
+In-Reply-To: <20230508151756.785ec07e@booty>
+References: <23672d66d229d3be4cc854ddf1462c3507f1c2fc.camel@toradex.com>
+        <20230504162312.1506763-1-luca.ceresoli@bootlin.com>
+        <ZFPiRvoF5l8uGzzZ@francesco-nb.int.toradex.com>
+        <PA4PR04MB96403377F5E37C12AD8C25B389729@PA4PR04MB9640.eurprd04.prod.outlook.com>
+        <20230505120618.2f4cf22c@booty>
+        <ZFThyn/D/dDK9nk3@francesco-nb.int.toradex.com>
+        <PA4PR04MB96405EE2468555EA900B340189739@PA4PR04MB9640.eurprd04.prod.outlook.com>
+        <ZFjaNzY32x8o2XG7@francesco-nb.int.toradex.com>
+        <20230508151756.785ec07e@booty>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In case the boot firmware enabled any of them, read the currently
-configured CL states and update the router structure accordingly.
+Hello Jun,
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/clx.c    | 100 +++++++++++++++++++++++++----------
- drivers/thunderbolt/switch.c |   4 ++
- drivers/thunderbolt/tb.h     |   1 +
- 3 files changed, 78 insertions(+), 27 deletions(-)
+On Mon, 8 May 2023 15:17:56 +0200
+Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
 
-diff --git a/drivers/thunderbolt/clx.c b/drivers/thunderbolt/clx.c
-index 5e745386c413..960409df4405 100644
---- a/drivers/thunderbolt/clx.c
-+++ b/drivers/thunderbolt/clx.c
-@@ -15,6 +15,21 @@ static bool clx_enabled = true;
- module_param_named(clx, clx_enabled, bool, 0444);
- MODULE_PARM_DESC(clx, "allow low power states on the high-speed lanes (default: true)");
- 
-+static const char *clx_name(unsigned int clx)
-+{
-+	if (!clx)
-+		return "disabled";
-+
-+	if (clx & TB_CL2)
-+		return "CL0s/CL1/CL2";
-+	if (clx & TB_CL1)
-+		return "CL0s/CL1";
-+	if (clx & TB_CL0S)
-+		return "CL0s";
-+
-+	return "unknown";
-+}
-+
- static int tb_port_pm_secondary_set(struct tb_port *port, bool secondary)
- {
- 	u32 phy;
-@@ -117,6 +132,29 @@ static int tb_port_clx_enable(struct tb_port *port, unsigned int clx)
- 	return tb_port_clx_set(port, clx, true);
- }
- 
-+static int tb_port_clx(struct tb_port *port)
-+{
-+	u32 val;
-+	int ret;
-+
-+	if (!tb_port_clx_supported(port, TB_CL0S | TB_CL1 | TB_CL2))
-+		return 0;
-+
-+	ret = tb_port_read(port, &val, TB_CFG_PORT,
-+			   port->cap_phy + LANE_ADP_CS_1, 1);
-+	if (ret)
-+		return ret;
-+
-+	if (val & LANE_ADP_CS_1_CL0S_ENABLE)
-+		ret |= TB_CL0S;
-+	if (val & LANE_ADP_CS_1_CL1_ENABLE)
-+		ret |= TB_CL1;
-+	if (val & LANE_ADP_CS_1_CL2_ENABLE)
-+		ret |= TB_CL2;
-+
-+	return ret;
-+}
-+
- /**
-  * tb_port_clx_is_enabled() - Is given CL state enabled
-  * @port: USB4 port to check
-@@ -126,25 +164,45 @@ static int tb_port_clx_enable(struct tb_port *port, unsigned int clx)
-  */
- bool tb_port_clx_is_enabled(struct tb_port *port, unsigned int clx)
- {
--	u32 val, mask = 0;
--	int ret;
-+	return !!(tb_port_clx(port) & clx);
-+}
- 
--	if (!tb_port_clx_supported(port, clx))
--		return false;
-+/**
-+ * tb_switch_clx_init() - Initialize router CL states
-+ * @sw: Router
-+ *
-+ * Can be called for any router. Initializes the current CL state by
-+ * reading it from the hardware.
-+ *
-+ * Returns %0 in case of success and negative errno in case of failure.
-+ */
-+int tb_switch_clx_init(struct tb_switch *sw)
-+{
-+	struct tb_port *up, *down;
-+	unsigned int clx, tmp;
- 
--	if (clx & TB_CL0S)
--		mask |= LANE_ADP_CS_1_CL0S_ENABLE;
--	if (clx & TB_CL1)
--		mask |= LANE_ADP_CS_1_CL1_ENABLE;
--	if (clx & TB_CL2)
--		mask |= LANE_ADP_CS_1_CL2_ENABLE;
-+	if (tb_switch_is_icm(sw))
-+		return 0;
- 
--	ret = tb_port_read(port, &val, TB_CFG_PORT,
--			   port->cap_phy + LANE_ADP_CS_1, 1);
--	if (ret)
--		return false;
-+	if (!tb_route(sw))
-+		return 0;
- 
--	return !!(val & mask);
-+	if (!tb_switch_clx_is_supported(sw))
-+		return 0;
-+
-+	up = tb_upstream_port(sw);
-+	down = tb_switch_downstream_port(sw);
-+
-+	clx = tb_port_clx(up);
-+	tmp = tb_port_clx(down);
-+	if (clx != tmp)
-+		tb_sw_warn(sw, "CLx: inconsistent configuration %#x != %#x\n",
-+			   clx, tmp);
-+
-+	tb_sw_dbg(sw, "CLx: current mode: %s\n", clx_name(clx));
-+
-+	sw->clx = clx;
-+	return 0;
- }
- 
- static int tb_switch_pm_secondary_resolve(struct tb_switch *sw)
-@@ -240,18 +298,6 @@ static bool validate_mask(unsigned int clx)
- 	return true;
- }
- 
--static const char *clx_name(unsigned int clx)
--{
--	if (clx & TB_CL2)
--		return "CL0s/CL1/CL2";
--	if (clx & TB_CL1)
--		return "CL0s/CL1";
--	if (clx & TB_CL0S)
--		return "CL0s";
--
--	return "unknown";
--}
--
- /**
-  * tb_switch_clx_enable() - Enable CLx on upstream port of specified router
-  * @sw: Router to enable CLx for
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index f33a09d92c9b..0c11caec7e8e 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -2859,6 +2859,10 @@ int tb_switch_add(struct tb_switch *sw)
- 		if (ret)
- 			return ret;
- 
-+		ret = tb_switch_clx_init(sw);
-+		if (ret)
-+			return ret;
-+
- 		ret = tb_switch_tmu_init(sw);
- 		if (ret)
- 			return ret;
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 72e245639eb8..58df106aaa5e 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -1002,6 +1002,7 @@ static inline bool tb_switch_tmu_is_enabled(const struct tb_switch *sw)
- 
- bool tb_port_clx_is_enabled(struct tb_port *port, unsigned int clx);
- 
-+int tb_switch_clx_init(struct tb_switch *sw);
- bool tb_switch_clx_is_supported(const struct tb_switch *sw);
- int tb_switch_clx_enable(struct tb_switch *sw, unsigned int clx);
- int tb_switch_clx_disable(struct tb_switch *sw);
+> Hello Jun, Francesco,
+> 
+> On Mon, 8 May 2023 13:17:11 +0200
+> Francesco Dolcini <francesco@dolcini.it> wrote:
+> 
+> > On Sat, May 06, 2023 at 09:02:39AM +0000, Jun Li wrote:  
+> > > > -----Original Message-----
+> > > > From: Francesco Dolcini <francesco@dolcini.it>
+> > > > Sent: Friday, May 5, 2023 7:00 PM
+> > > > To: Luca Ceresoli <luca.ceresoli@bootlin.com>; Jun Li <jun.li@nxp.com>
+> > > > Cc: Francesco Dolcini <francesco@dolcini.it>; devicetree@vger.kernel.org;
+> > > > festevam@gmail.com; gregkh@linuxfoundation.org; kernel@pengutronix.de;
+> > > > linux-arm-kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>;
+> > > > linux-kernel@vger.kernel.org; linux-usb@vger.kernel.org;
+> > > > peter.chen@nxp.com; robh+dt@kernel.org; s.hauer@pengutronix.de;
+> > > > shawnguo@kernel.org; Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>;
+> > > > Francesco Dolcini <francesco.dolcini@toradex.com>
+> > > > Subject: Re: [PATCH v2 2/3] usb: chipidea: imx: support disabling runtime-pm
+> > > > 
+> > > > On Fri, May 05, 2023 at 12:06:18PM +0200, Luca Ceresoli wrote:    
+> > > > > On Fri, 5 May 2023 09:49:16 +0000
+> > > > > Jun Li <jun.li@nxp.com> wrote:    
+> > > > > > Is your board design similar like Francesco's as below?    
+> > > > >
+> > > > > Possibly, but I'm afraid I can't say: I am using the Toradex Colibri
+> > > > > i.MX6ULL SoM, whose schematics are not public.    
+> > > > 
+> > > > I can confirm that it's the same.    
+> > > 
+> > > Thanks Francesco for the confirmation, had a check with design team,
+> > > there is no status bit which can be used to judge the VDD_USB_CAP is
+> > > powered or not, so we have to add a board level dts property to tell
+> > > this usb phy driver to bypass MXS_PHY_DISCONNECT_LINE_WITHOUT_VBUS.
+> > > 
+> > > Before send a formal patch, I want to confirm this should work for your
+> > > HW design, like below simple hack:    
+> > 
+> > Thanks Li Jun, I tested it with v6.3.1 kernel and it's all good.
+> > I would be happy to test the patch as soon as you send it.  
+> 
+> Thanks Jun, it works here as well, on 6.1.27!
+
+Have you managed to make progress on the patch after Francesco's and my
+tests?
+
+As I see it, a proper fix for mainline could be as simple as a new DT
+property to describe this specific hardware configuration and a patch
+to ignore the flag when the property is present. Is my understanding
+correct?
+
+Best regards,
+Luca
+
 -- 
-2.39.2
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
