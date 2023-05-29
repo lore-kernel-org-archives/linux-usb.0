@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28F5FC7EE2F
-	for <linux-usb@archiver.kernel.org>; Mon, 29 May 2023 10:04:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D301C7EE33
+	for <linux-usb@archiver.kernel.org>; Mon, 29 May 2023 10:04:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231987AbjE2KEv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 May 2023 06:04:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53996 "EHLO
+        id S231944AbjE2KEz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 May 2023 06:04:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231948AbjE2KEl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 May 2023 06:04:41 -0400
+        with ESMTP id S231955AbjE2KEm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 May 2023 06:04:42 -0400
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48CECD8
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0C81DC
         for <linux-usb@vger.kernel.org>; Mon, 29 May 2023 03:04:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1685354680; x=1716890680;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=irYC6Sj79QrXvnGR34ko/0r4dO3FcJ77FQfYDtxPzxg=;
-  b=XuoJVNiCQrDf0APOJ40PWEWzLBkV7IYplApDwjKbL/NWgHFmHiRKxFZm
-   vePgUeasi3WMEeoazk9J+Ji6Ay+zmnnvaXJsMFOeCebiaQJt2L95axb+l
-   btTfdGoGhYhF4XTeta6LD1A9eXIk1BlExWnl2n4UpbJ/EyZ3PedkM1jlm
-   l/z+GFcg/yuNCcV/nTLCY13Yvzn9WNBx6InlGelb7UTWsehBfmtztgT6v
-   8T9LKyGuRzb817wS1lLpNjxbI9wOmM8M06HNfbzFJbBHY2sI7d/y24gK7
-   ExoHc7oeB1QORn1ugJLJRRmhTgsifjuyfYDzr2y/e5tRQxPGaKuRM10zN
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="354684477"
+  bh=jg2dp+ihyvbHVduyz8Ezy3Sgn1CKDV3r6B3tpgCPtQU=;
+  b=WFt1Duq1lnJg1bSQAlP4qnQok5Z1sWiXC0LHSJvtN3BQO9L5FEWNPSM0
+   eL3citpkZ1gepTdbiYLEyP+Tg2b5AvsqFngjmujop/1mB5TQsBcpLVzcZ
+   rXFiSqq5Rcbux3mT4HF0SBKssz3Fi0Pd6i4oPYD03w7ntyxxlaBPNtYjz
+   BVH75MMMhTcdePP6g8pwdH7u8PtJ+xR9auRiJ4RZla9tU1N+/GHtZs8/v
+   T3U7YNbD70U0++H3vW7wFpjVUDFRaUvehfVXbywxUiDNwXezgpUqRtE9S
+   bdPq3vT3NLBbjuClLroI8OIm2KtGYRgaHMakcSZEbleApmjwQZxC9PsgL
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="354684483"
 X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="354684477"
+   d="scan'208";a="354684483"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 03:04:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="683518646"
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="683518665"
 X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="683518646"
+   d="scan'208";a="683518665"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orsmga006.jf.intel.com with ESMTP; 29 May 2023 03:04:28 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 8C7DF11DA; Mon, 29 May 2023 13:04:26 +0300 (EEST)
+        id 7D1AD11A3; Mon, 29 May 2023 13:04:26 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -48,9 +48,9 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Andreas Noever <andreas.noever@gmail.com>,
         Gil Fine <gil.fine@linux.intel.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 20/20] thunderbolt: Disable CL states when a DMA tunnel is established
-Date:   Mon, 29 May 2023 13:04:25 +0300
-Message-Id: <20230529100425.6125-21-mika.westerberg@linux.intel.com>
+Subject: [PATCH 18/20] thunderbolt: Initialize CL states from the hardware
+Date:   Mon, 29 May 2023 13:04:23 +0300
+Message-Id: <20230529100425.6125-19-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230529100425.6125-1-mika.westerberg@linux.intel.com>
 References: <20230529100425.6125-1-mika.westerberg@linux.intel.com>
@@ -60,156 +60,179 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Tunnels between hosts should not have CL states enabled because
-otherwise they might enter a low power state without the other end
-noticing which causes packets to be lost. For this reason disable all
-CL states upon first DMA tunnel creation. Once the last DMA tunnel is
-torn down we try to re-enable them.
+In case the boot firmware enabled any of them, read the currently
+configured CL states and update the router structure accordingly.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/clx.c |  2 +-
- drivers/thunderbolt/tb.c  | 62 +++++++++++++++++++++++++++++++++++----
- 2 files changed, 58 insertions(+), 6 deletions(-)
+ drivers/thunderbolt/clx.c    | 100 +++++++++++++++++++++++++----------
+ drivers/thunderbolt/switch.c |   4 ++
+ drivers/thunderbolt/tb.h     |   1 +
+ 3 files changed, 78 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/thunderbolt/clx.c b/drivers/thunderbolt/clx.c
-index 4f0cfbb24dd9..604cceb23659 100644
+index 5e745386c413..960409df4405 100644
 --- a/drivers/thunderbolt/clx.c
 +++ b/drivers/thunderbolt/clx.c
-@@ -317,7 +317,7 @@ int tb_switch_clx_enable(struct tb_switch *sw, unsigned int clx)
- 	struct tb_port *up, *down;
- 	int ret;
+@@ -15,6 +15,21 @@ static bool clx_enabled = true;
+ module_param_named(clx, clx_enabled, bool, 0444);
+ MODULE_PARM_DESC(clx, "allow low power states on the high-speed lanes (default: true)");
  
--	if (!clx)
-+	if (!clx || sw->clx == clx)
- 		return 0;
- 
- 	if (!validate_mask(clx))
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 1d056ff6d77f..aa6e11589c28 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -240,8 +240,11 @@ static void tb_discover_dp_resources(struct tb *tb)
- 	}
- }
- 
-+/* Enables CL states up to host router */
- static int tb_enable_clx(struct tb_switch *sw)
- {
-+	struct tb_cm *tcm = tb_priv(sw->tb);
-+	const struct tb_tunnel *tunnel;
- 	int ret;
- 
- 	/*
-@@ -251,9 +254,26 @@ static int tb_enable_clx(struct tb_switch *sw)
- 	 * this in the future to cover the whole topology if it turns
- 	 * out to be beneficial.
- 	 */
-+	while (sw && sw->config.depth > 1)
-+		sw = tb_switch_parent(sw);
-+
-+	if (!sw)
-+		return 0;
-+
- 	if (sw->config.depth != 1)
- 		return 0;
- 
-+	/*
-+	 * If we are re-enabling then check if there is an active DMA
-+	 * tunnel and in that case bail out.
-+	 */
-+	list_for_each_entry(tunnel, &tcm->tunnel_list, list) {
-+		if (tb_tunnel_is_dma(tunnel)) {
-+			if (tb_tunnel_port_on_path(tunnel, tb_upstream_port(sw)))
-+				return 0;
-+		}
-+	}
-+
- 	/*
- 	 * CL0s and CL1 are enabled and supported together.
- 	 * Silently ignore CLx enabling in case CLx is not supported.
-@@ -262,6 +282,16 @@ static int tb_enable_clx(struct tb_switch *sw)
- 	return ret == -EOPNOTSUPP ? 0 : ret;
- }
- 
-+/* Disables CL states up to the host router */
-+static void tb_disable_clx(struct tb_switch *sw)
++static const char *clx_name(unsigned int clx)
 +{
-+	do {
-+		if (tb_switch_clx_disable(sw) < 0)
-+			tb_sw_warn(sw, "failed to disable CL states\n");
-+		sw = tb_switch_parent(sw);
-+	} while (sw);
++	if (!clx)
++		return "disabled";
++
++	if (clx & TB_CL2)
++		return "CL0s/CL1/CL2";
++	if (clx & TB_CL1)
++		return "CL0s/CL1";
++	if (clx & TB_CL0S)
++		return "CL0s";
++
++	return "unknown";
 +}
 +
- static int tb_increase_switch_tmu_accuracy(struct device *dev, void *data)
+ static int tb_port_pm_secondary_set(struct tb_port *port, bool secondary)
  {
- 	struct tb_switch *sw;
-@@ -1470,30 +1500,45 @@ static int tb_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
- 	struct tb_port *nhi_port, *dst_port;
- 	struct tb_tunnel *tunnel;
- 	struct tb_switch *sw;
+ 	u32 phy;
+@@ -117,6 +132,29 @@ static int tb_port_clx_enable(struct tb_port *port, unsigned int clx)
+ 	return tb_port_clx_set(port, clx, true);
+ }
+ 
++static int tb_port_clx(struct tb_port *port)
++{
++	u32 val;
 +	int ret;
- 
- 	sw = tb_to_switch(xd->dev.parent);
- 	dst_port = tb_port_at(xd->route, sw);
- 	nhi_port = tb_switch_find_port(tb->root_switch, TB_TYPE_NHI);
- 
- 	mutex_lock(&tb->lock);
 +
-+	/*
-+	 * When tunneling DMA paths the link should not enter CL states
-+	 * so disable them now.
-+	 */
-+	tb_disable_clx(sw);
++	if (!tb_port_clx_supported(port, TB_CL0S | TB_CL1 | TB_CL2))
++		return 0;
 +
- 	tunnel = tb_tunnel_alloc_dma(tb, nhi_port, dst_port, transmit_path,
- 				     transmit_ring, receive_path, receive_ring);
- 	if (!tunnel) {
--		mutex_unlock(&tb->lock);
--		return -ENOMEM;
-+		ret = -ENOMEM;
-+		goto err_clx;
- 	}
- 
- 	if (tb_tunnel_activate(tunnel)) {
- 		tb_port_info(nhi_port,
- 			     "DMA tunnel activation failed, aborting\n");
--		tb_tunnel_free(tunnel);
--		mutex_unlock(&tb->lock);
--		return -EIO;
-+		ret = -EIO;
-+		goto err_free;
- 	}
- 
- 	list_add_tail(&tunnel->list, &tcm->tunnel_list);
- 	mutex_unlock(&tb->lock);
- 	return 0;
++	ret = tb_port_read(port, &val, TB_CFG_PORT,
++			   port->cap_phy + LANE_ADP_CS_1, 1);
++	if (ret)
++		return ret;
 +
-+err_free:
-+	tb_tunnel_free(tunnel);
-+err_clx:
-+	tb_enable_clx(sw);
-+	mutex_unlock(&tb->lock);
++	if (val & LANE_ADP_CS_1_CL0S_ENABLE)
++		ret |= TB_CL0S;
++	if (val & LANE_ADP_CS_1_CL1_ENABLE)
++		ret |= TB_CL1;
++	if (val & LANE_ADP_CS_1_CL2_ENABLE)
++		ret |= TB_CL2;
 +
 +	return ret;
- }
- 
- static void __tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
-@@ -1519,6 +1564,13 @@ static void __tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
- 					receive_path, receive_ring))
- 			tb_deactivate_and_free_tunnel(tunnel);
- 	}
++}
 +
-+	/*
-+	 * Try to re-enable CL states now, it is OK if this fails
-+	 * because we may still have another DMA tunnel active through
-+	 * the same host router USB4 downstream port.
-+	 */
-+	tb_enable_clx(sw);
+ /**
+  * tb_port_clx_is_enabled() - Is given CL state enabled
+  * @port: USB4 port to check
+@@ -126,25 +164,45 @@ static int tb_port_clx_enable(struct tb_port *port, unsigned int clx)
+  */
+ bool tb_port_clx_is_enabled(struct tb_port *port, unsigned int clx)
+ {
+-	u32 val, mask = 0;
+-	int ret;
++	return !!(tb_port_clx(port) & clx);
++}
+ 
+-	if (!tb_port_clx_supported(port, clx))
+-		return false;
++/**
++ * tb_switch_clx_init() - Initialize router CL states
++ * @sw: Router
++ *
++ * Can be called for any router. Initializes the current CL state by
++ * reading it from the hardware.
++ *
++ * Returns %0 in case of success and negative errno in case of failure.
++ */
++int tb_switch_clx_init(struct tb_switch *sw)
++{
++	struct tb_port *up, *down;
++	unsigned int clx, tmp;
+ 
+-	if (clx & TB_CL0S)
+-		mask |= LANE_ADP_CS_1_CL0S_ENABLE;
+-	if (clx & TB_CL1)
+-		mask |= LANE_ADP_CS_1_CL1_ENABLE;
+-	if (clx & TB_CL2)
+-		mask |= LANE_ADP_CS_1_CL2_ENABLE;
++	if (tb_switch_is_icm(sw))
++		return 0;
+ 
+-	ret = tb_port_read(port, &val, TB_CFG_PORT,
+-			   port->cap_phy + LANE_ADP_CS_1, 1);
+-	if (ret)
+-		return false;
++	if (!tb_route(sw))
++		return 0;
+ 
+-	return !!(val & mask);
++	if (!tb_switch_clx_is_supported(sw))
++		return 0;
++
++	up = tb_upstream_port(sw);
++	down = tb_switch_downstream_port(sw);
++
++	clx = tb_port_clx(up);
++	tmp = tb_port_clx(down);
++	if (clx != tmp)
++		tb_sw_warn(sw, "CLx: inconsistent configuration %#x != %#x\n",
++			   clx, tmp);
++
++	tb_sw_dbg(sw, "CLx: current mode: %s\n", clx_name(clx));
++
++	sw->clx = clx;
++	return 0;
  }
  
- static int tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ static int tb_switch_pm_secondary_resolve(struct tb_switch *sw)
+@@ -240,18 +298,6 @@ static bool validate_mask(unsigned int clx)
+ 	return true;
+ }
+ 
+-static const char *clx_name(unsigned int clx)
+-{
+-	if (clx & TB_CL2)
+-		return "CL0s/CL1/CL2";
+-	if (clx & TB_CL1)
+-		return "CL0s/CL1";
+-	if (clx & TB_CL0S)
+-		return "CL0s";
+-
+-	return "unknown";
+-}
+-
+ /**
+  * tb_switch_clx_enable() - Enable CLx on upstream port of specified router
+  * @sw: Router to enable CLx for
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index f33a09d92c9b..0c11caec7e8e 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -2859,6 +2859,10 @@ int tb_switch_add(struct tb_switch *sw)
+ 		if (ret)
+ 			return ret;
+ 
++		ret = tb_switch_clx_init(sw);
++		if (ret)
++			return ret;
++
+ 		ret = tb_switch_tmu_init(sw);
+ 		if (ret)
+ 			return ret;
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index 72e245639eb8..58df106aaa5e 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -1002,6 +1002,7 @@ static inline bool tb_switch_tmu_is_enabled(const struct tb_switch *sw)
+ 
+ bool tb_port_clx_is_enabled(struct tb_port *port, unsigned int clx);
+ 
++int tb_switch_clx_init(struct tb_switch *sw);
+ bool tb_switch_clx_is_supported(const struct tb_switch *sw);
+ int tb_switch_clx_enable(struct tb_switch *sw, unsigned int clx);
+ int tb_switch_clx_disable(struct tb_switch *sw);
 -- 
 2.39.2
 
