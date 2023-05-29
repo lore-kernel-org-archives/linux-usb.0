@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09AD3C77B7E
-	for <linux-usb@archiver.kernel.org>; Mon, 29 May 2023 10:04:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 889A6C7EE29
+	for <linux-usb@archiver.kernel.org>; Mon, 29 May 2023 10:04:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231915AbjE2KEc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 May 2023 06:04:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53864 "EHLO
+        id S231918AbjE2KEd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 May 2023 06:04:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231910AbjE2KEb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 May 2023 06:04:31 -0400
+        with ESMTP id S231913AbjE2KEc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 May 2023 06:04:32 -0400
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 489F2C4
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B360D8
         for <linux-usb@vger.kernel.org>; Mon, 29 May 2023 03:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1685354664; x=1716890664;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=fFQIsAbAHof1DVjlFcCnUIJZZzixzIrecCkfM8US1TI=;
-  b=UG1KHPGK61eVuxRxrd5h3QB/EK1C8ppSdlL1QgXVxmZ4TjI8w+e2/umI
-   1FgzksOfA/nePT+3c82XPrOmNjDltSl9dxC94ATBMppcmxawI9DnxE/5M
-   G3zf8TbBy1/W41gnqHfLf2GX5uPXE7ruWSk8XHLEI429NRNZAGGLspumf
-   UwytXX8T9PB/pqhgroLmxLmV9UG6p9StKhli9ozcRn0s1OjtuixRtK4lk
-   P9IsyRzUsm/VEbzhvWDePpWyTEppWY5fnz0AYY7hTUfLcn6DqYp+Ip41r
-   Y56tf/BdH99lvqnLZIEr6PHZ2xXoexvVyny2FaoZu6e+zRt12cGdoyLv8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="354684404"
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Mn6wpix0zC80VSEJEo+QauGVQmlo5JsGlzseY/0ncUM=;
+  b=CIiWqvgZJEoX/qBgh3Xaq2l4xKXXn1TZG2rIf9DiusHCEArmb/44CYhC
+   zhGy9rT+lxZPLsHOfHgkHdIwU40mPWJgHquiXuPmrnH+f4yS1nXSBq+WO
+   jv2Vy4y7s5h7g+kccz8oapLDmgAmlbuy0r0aBWYGKDYYmxXP31dpHO4rT
+   GVsPIBYRxJlQu91KKLgejp7WQX6Bexy9S/JbfTdj+DJlLV5tY7aVow32k
+   mLgQxfVisAPRgpUs15gFN6I61rh6vXXIsTlMxu5aoz+0Sl6V9FwhLzgIB
+   kXFcq93iuGY9iTX4k5EHhjBOcXKo2xlhT5lUvP4D8KkCYeL6W1YEBm4EJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="354684407"
 X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="354684404"
+   d="scan'208";a="354684407"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 03:04:23 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 03:04:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="683518267"
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="683518282"
 X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="683518267"
+   d="scan'208";a="683518282"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga006.jf.intel.com with ESMTP; 29 May 2023 03:04:20 -0700
+  by orsmga006.jf.intel.com with ESMTP; 29 May 2023 03:04:21 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id B35FA350; Mon, 29 May 2023 13:04:25 +0300 (EEST)
+        id F1F43597; Mon, 29 May 2023 13:04:25 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -48,62 +48,98 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Andreas Noever <andreas.noever@gmail.com>,
         Gil Fine <gil.fine@linux.intel.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 00/20] thunderbolt: Rework TMU and CLx support
-Date:   Mon, 29 May 2023 13:04:05 +0300
-Message-Id: <20230529100425.6125-1-mika.westerberg@linux.intel.com>
+Subject: [PATCH 04/20] thunderbolt: Drop useless 'unidirectional' parameter from tb_switch_tmu_is_enabled()
+Date:   Mon, 29 May 2023 13:04:09 +0300
+Message-Id: <20230529100425.6125-5-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230529100425.6125-1-mika.westerberg@linux.intel.com>
+References: <20230529100425.6125-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi all,
+There is no point passing it as we already have a field for that. While
+there clean up the kernel-doc of things that do not really belong to the
+API documentation (these can be figured out from the spec itself).
 
-This series reworks the TMU and CLx support code to match better what we
-do elsewhere in the driver and prepares for USB4v2 adaptive TMU support
-that we are going to add in the subsequent series (I'm sending that out
-later this week). I've split this part as separate from USB4v2 support
-hoping that it makes reviewing them easier.
+No functional changes.
 
-Gil Fine (1):
-  thunderbolt: Introduce tb_switch_downstream_port()
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/tb.c  |  2 +-
+ drivers/thunderbolt/tb.h  | 10 ++++------
+ drivers/thunderbolt/tmu.c | 11 ++++-------
+ 3 files changed, 9 insertions(+), 14 deletions(-)
 
-Mika Westerberg (19):
-  thunderbolt: Introduce tb_xdomain_downstream_port()
-  thunderbolt: Fix a couple of style issues in TMU code
-  thunderbolt: Drop useless 'unidirectional' parameter from tb_switch_tmu_is_enabled()
-  thunderbolt: Rework Titan Ridge TMU objection disable function
-  thunderbolt: Get rid of tb_switch_enable_tmu_1st_child()
-  thunderbolt: Move TMU configuration to tb_enable_tmu()
-  thunderbolt: Move tb_enable_tmu() close to other TMU functions
-  thunderbolt: Check valid TMU configuration in tb_switch_tmu_configure()
-  thunderbolt: Move CLx support functions into clx.c
-  thunderbolt: Get rid of __tb_switch_[en|dis]able_clx()
-  thunderbolt: Move CLx enabling into tb_enable_clx()
-  thunderbolt: Switch CL states from enum to a bitmask
-  thunderbolt: Check for first depth router in tb.c
-  thunderbolt: Do not call CLx functions from TMU code
-  thunderbolt: Prefix TMU post time log message with "TMU: "
-  thunderbolt: Prefix CL state related log messages with "CLx: "
-  thunderbolt: Initialize CL states from the hardware
-  thunderbolt: Make tb_switch_clx_disable() return CL states that were enabled
-  thunderbolt: Disable CL states when a DMA tunnel is established
-
- drivers/thunderbolt/Makefile  |   2 +-
- drivers/thunderbolt/acpi.c    |   5 +-
- drivers/thunderbolt/clx.c     | 416 ++++++++++++++++++++++++++++++++++
- drivers/thunderbolt/debugfs.c |  35 ++-
- drivers/thunderbolt/icm.c     |  24 +-
- drivers/thunderbolt/switch.c  | 378 +-----------------------------
- drivers/thunderbolt/tb.c      | 227 +++++++++++++------
- drivers/thunderbolt/tb.h      | 102 ++++-----
- drivers/thunderbolt/tmu.c     | 152 ++++---------
- drivers/thunderbolt/usb4.c    |   9 +-
- drivers/thunderbolt/xdomain.c |  16 +-
- 11 files changed, 719 insertions(+), 647 deletions(-)
- create mode 100644 drivers/thunderbolt/clx.c
-
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 1ab3aa114a17..72041e29e544 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -362,7 +362,7 @@ static int tb_enable_tmu(struct tb_switch *sw)
+ 	int ret;
+ 
+ 	/* If it is already enabled in correct mode, don't touch it */
+-	if (tb_switch_tmu_is_enabled(sw, sw->tmu.unidirectional_request))
++	if (tb_switch_tmu_is_enabled(sw))
+ 		return 0;
+ 
+ 	ret = tb_switch_tmu_disable(sw);
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index 797d8bb73bfa..0ac653bfd97e 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -995,16 +995,14 @@ void tb_switch_enable_tmu_1st_child(struct tb_switch *sw,
+ /**
+  * tb_switch_tmu_is_enabled() - Checks if the specified TMU mode is enabled
+  * @sw: Router whose TMU mode to check
+- * @unidirectional: If uni-directional (bi-directional otherwise)
+  *
+- * Return true if hardware TMU configuration matches the one passed in
+- * as parameter. That is HiFi/Normal and either uni-directional or bi-directional.
++ * Return true if hardware TMU configuration matches the requested
++ * configuration.
+  */
+-static inline bool tb_switch_tmu_is_enabled(const struct tb_switch *sw,
+-					    bool unidirectional)
++static inline bool tb_switch_tmu_is_enabled(const struct tb_switch *sw)
+ {
+ 	return sw->tmu.rate == sw->tmu.rate_request &&
+-	       sw->tmu.unidirectional == unidirectional;
++	       sw->tmu.unidirectional == sw->tmu.unidirectional_request;
+ }
+ 
+ static inline const char *tb_switch_clx_name(enum tb_clx clx)
+diff --git a/drivers/thunderbolt/tmu.c b/drivers/thunderbolt/tmu.c
+index 8614e154be5f..5d508ea8baa5 100644
+--- a/drivers/thunderbolt/tmu.c
++++ b/drivers/thunderbolt/tmu.c
+@@ -639,12 +639,9 @@ static int tb_switch_tmu_change_mode(struct tb_switch *sw)
+  * tb_switch_tmu_enable() - Enable TMU on a router
+  * @sw: Router whose TMU to enable
+  *
+- * Enables TMU of a router to be in uni-directional Normal/HiFi
+- * or bi-directional HiFi mode. Calling tb_switch_tmu_configure() is required
+- * before calling this function, to select the mode Normal/HiFi and
+- * directionality (uni-directional/bi-directional).
+- * In HiFi mode all tunneling should work. In Normal mode, DP tunneling can't
+- * work. Uni-directional mode is required for CLx (Link Low-Power) to work.
++ * Enables TMU of a router to be in uni-directional Normal/HiFi or
++ * bi-directional HiFi mode. Calling tb_switch_tmu_configure() is
++ * required before calling this function.
+  */
+ int tb_switch_tmu_enable(struct tb_switch *sw)
+ {
+@@ -662,7 +659,7 @@ int tb_switch_tmu_enable(struct tb_switch *sw)
+ 	if (!tb_switch_is_clx_supported(sw))
+ 		return 0;
+ 
+-	if (tb_switch_tmu_is_enabled(sw, sw->tmu.unidirectional_request))
++	if (tb_switch_tmu_is_enabled(sw))
+ 		return 0;
+ 
+ 	if (tb_switch_is_titan_ridge(sw) && unidirectional) {
 -- 
 2.39.2
 
