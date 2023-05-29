@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 889A6C7EE29
-	for <linux-usb@archiver.kernel.org>; Mon, 29 May 2023 10:04:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C172C7EE2E
+	for <linux-usb@archiver.kernel.org>; Mon, 29 May 2023 10:04:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231918AbjE2KEd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 May 2023 06:04:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53878 "EHLO
+        id S231919AbjE2KEf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 May 2023 06:04:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231913AbjE2KEc (ORCPT
+        with ESMTP id S231912AbjE2KEc (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Mon, 29 May 2023 06:04:32 -0400
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B360D8
-        for <linux-usb@vger.kernel.org>; Mon, 29 May 2023 03:04:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64F0AC7
+        for <linux-usb@vger.kernel.org>; Mon, 29 May 2023 03:04:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685354664; x=1716890664;
+  t=1685354665; x=1716890665;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Mn6wpix0zC80VSEJEo+QauGVQmlo5JsGlzseY/0ncUM=;
-  b=CIiWqvgZJEoX/qBgh3Xaq2l4xKXXn1TZG2rIf9DiusHCEArmb/44CYhC
-   zhGy9rT+lxZPLsHOfHgkHdIwU40mPWJgHquiXuPmrnH+f4yS1nXSBq+WO
-   jv2Vy4y7s5h7g+kccz8oapLDmgAmlbuy0r0aBWYGKDYYmxXP31dpHO4rT
-   GVsPIBYRxJlQu91KKLgejp7WQX6Bexy9S/JbfTdj+DJlLV5tY7aVow32k
-   mLgQxfVisAPRgpUs15gFN6I61rh6vXXIsTlMxu5aoz+0Sl6V9FwhLzgIB
-   kXFcq93iuGY9iTX4k5EHhjBOcXKo2xlhT5lUvP4D8KkCYeL6W1YEBm4EJ
+  bh=aeEjKOCY7V43+0gX+kNnDgo8aWHhA9v8g1czZssCKbM=;
+  b=RDRJXZ+bot52FH44J5RluulusDBcgHmSzmU4GT4HzezEDvwZTtNK6gts
+   NLK81KBcUFnN2fBRk/FkG14SODT0wy2UeJN2vC0Wg6uwinns3qfAj3e+u
+   34DD0gbfrH8VGppWdmd+TFAlUglsrOI8bGQRy9LIC3H8aMqDU6T81JKmY
+   IxkD6c8qWVOvsyNKH6ZVFWb4QCdQ9nMvGQJCJkJoHdNLLjvkxOhqJOiHI
+   MsymXt7LmjFgsRjiRV2EAVhRmE+e3RSSXLNhdj+MkkJ+4X/3+RUpid6Kl
+   cyK+OtwHdgwfzawdrdP6zngHfTH04uJsx+RU9yyNMjMhrHosGu6POMifV
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="354684407"
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="354684412"
 X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="354684407"
+   d="scan'208";a="354684412"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 03:04:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="683518282"
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="683518284"
 X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="683518282"
+   d="scan'208";a="683518284"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orsmga006.jf.intel.com with ESMTP; 29 May 2023 03:04:21 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id F1F43597; Mon, 29 May 2023 13:04:25 +0300 (EEST)
+        id D3FD753A; Mon, 29 May 2023 13:04:25 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -48,9 +48,9 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Andreas Noever <andreas.noever@gmail.com>,
         Gil Fine <gil.fine@linux.intel.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 04/20] thunderbolt: Drop useless 'unidirectional' parameter from tb_switch_tmu_is_enabled()
-Date:   Mon, 29 May 2023 13:04:09 +0300
-Message-Id: <20230529100425.6125-5-mika.westerberg@linux.intel.com>
+Subject: [PATCH 02/20] thunderbolt: Introduce tb_xdomain_downstream_port()
+Date:   Mon, 29 May 2023 13:04:07 +0300
+Message-Id: <20230529100425.6125-3-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230529100425.6125-1-mika.westerberg@linux.intel.com>
 References: <20230529100425.6125-1-mika.westerberg@linux.intel.com>
@@ -60,86 +60,107 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There is no point passing it as we already have a field for that. While
-there clean up the kernel-doc of things that do not really belong to the
-API documentation (these can be figured out from the spec itself).
-
-No functional changes.
+In the same way we did for the routers add a function that returns the
+parent routers downstream facing port for XDomain devices.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/tb.c  |  2 +-
- drivers/thunderbolt/tb.h  | 10 ++++------
- drivers/thunderbolt/tmu.c | 11 ++++-------
- 3 files changed, 9 insertions(+), 14 deletions(-)
+ drivers/thunderbolt/tb.h      | 11 +++++++++++
+ drivers/thunderbolt/xdomain.c | 16 +++++++---------
+ 2 files changed, 18 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 1ab3aa114a17..72041e29e544 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -362,7 +362,7 @@ static int tb_enable_tmu(struct tb_switch *sw)
- 	int ret;
- 
- 	/* If it is already enabled in correct mode, don't touch it */
--	if (tb_switch_tmu_is_enabled(sw, sw->tmu.unidirectional_request))
-+	if (tb_switch_tmu_is_enabled(sw))
- 		return 0;
- 
- 	ret = tb_switch_tmu_disable(sw);
 diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 797d8bb73bfa..0ac653bfd97e 100644
+index beaeea679e10..797d8bb73bfa 100644
 --- a/drivers/thunderbolt/tb.h
 +++ b/drivers/thunderbolt/tb.h
-@@ -995,16 +995,14 @@ void tb_switch_enable_tmu_1st_child(struct tb_switch *sw,
- /**
-  * tb_switch_tmu_is_enabled() - Checks if the specified TMU mode is enabled
-  * @sw: Router whose TMU mode to check
-- * @unidirectional: If uni-directional (bi-directional otherwise)
-  *
-- * Return true if hardware TMU configuration matches the one passed in
-- * as parameter. That is HiFi/Normal and either uni-directional or bi-directional.
-+ * Return true if hardware TMU configuration matches the requested
-+ * configuration.
-  */
--static inline bool tb_switch_tmu_is_enabled(const struct tb_switch *sw,
--					    bool unidirectional)
-+static inline bool tb_switch_tmu_is_enabled(const struct tb_switch *sw)
- {
- 	return sw->tmu.rate == sw->tmu.rate_request &&
--	       sw->tmu.unidirectional == unidirectional;
-+	       sw->tmu.unidirectional == sw->tmu.unidirectional_request;
+@@ -1197,6 +1197,17 @@ static inline struct tb_switch *tb_xdomain_parent(struct tb_xdomain *xd)
+ 	return tb_to_switch(xd->dev.parent);
  }
  
- static inline const char *tb_switch_clx_name(enum tb_clx clx)
-diff --git a/drivers/thunderbolt/tmu.c b/drivers/thunderbolt/tmu.c
-index 8614e154be5f..5d508ea8baa5 100644
---- a/drivers/thunderbolt/tmu.c
-+++ b/drivers/thunderbolt/tmu.c
-@@ -639,12 +639,9 @@ static int tb_switch_tmu_change_mode(struct tb_switch *sw)
-  * tb_switch_tmu_enable() - Enable TMU on a router
-  * @sw: Router whose TMU to enable
-  *
-- * Enables TMU of a router to be in uni-directional Normal/HiFi
-- * or bi-directional HiFi mode. Calling tb_switch_tmu_configure() is required
-- * before calling this function, to select the mode Normal/HiFi and
-- * directionality (uni-directional/bi-directional).
-- * In HiFi mode all tunneling should work. In Normal mode, DP tunneling can't
-- * work. Uni-directional mode is required for CLx (Link Low-Power) to work.
-+ * Enables TMU of a router to be in uni-directional Normal/HiFi or
-+ * bi-directional HiFi mode. Calling tb_switch_tmu_configure() is
-+ * required before calling this function.
-  */
- int tb_switch_tmu_enable(struct tb_switch *sw)
++/**
++ * tb_xdomain_downstream_port() - Return downstream facing port of parent router
++ * @xd: Xdomain pointer
++ *
++ * Returns the downstream port the XDomain is connected to.
++ */
++static inline struct tb_port *tb_xdomain_downstream_port(struct tb_xdomain *xd)
++{
++	return tb_port_at(xd->route, tb_xdomain_parent(xd));
++}
++
+ int tb_retimer_nvm_read(struct tb_retimer *rt, unsigned int address, void *buf,
+ 			size_t size);
+ int tb_retimer_scan(struct tb_port *port, bool add);
+diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
+index e2b54887d331..8389961b2d45 100644
+--- a/drivers/thunderbolt/xdomain.c
++++ b/drivers/thunderbolt/xdomain.c
+@@ -537,9 +537,8 @@ static int tb_xdp_link_state_status_request(struct tb_ctl *ctl, u64 route,
+ static int tb_xdp_link_state_status_response(struct tb *tb, struct tb_ctl *ctl,
+ 					     struct tb_xdomain *xd, u8 sequence)
  {
-@@ -662,7 +659,7 @@ int tb_switch_tmu_enable(struct tb_switch *sw)
- 	if (!tb_switch_is_clx_supported(sw))
- 		return 0;
+-	struct tb_switch *sw = tb_to_switch(xd->dev.parent);
+ 	struct tb_xdp_link_state_status_response res;
+-	struct tb_port *port = tb_port_at(xd->route, sw);
++	struct tb_port *port = tb_xdomain_downstream_port(xd);
+ 	u32 val[2];
+ 	int ret;
  
--	if (tb_switch_tmu_is_enabled(sw, sw->tmu.unidirectional_request))
-+	if (tb_switch_tmu_is_enabled(sw))
- 		return 0;
+@@ -1137,7 +1136,7 @@ static int tb_xdomain_update_link_attributes(struct tb_xdomain *xd)
+ 	struct tb_port *port;
+ 	int ret;
  
- 	if (tb_switch_is_titan_ridge(sw) && unidirectional) {
+-	port = tb_port_at(xd->route, tb_xdomain_parent(xd));
++	port = tb_xdomain_downstream_port(xd);
+ 
+ 	ret = tb_port_get_link_speed(port);
+ 	if (ret < 0)
+@@ -1251,8 +1250,7 @@ static int tb_xdomain_get_link_status(struct tb_xdomain *xd)
+ static int tb_xdomain_link_state_change(struct tb_xdomain *xd,
+ 					unsigned int width)
+ {
+-	struct tb_switch *sw = tb_to_switch(xd->dev.parent);
+-	struct tb_port *port = tb_port_at(xd->route, sw);
++	struct tb_port *port = tb_xdomain_downstream_port(xd);
+ 	struct tb *tb = xd->tb;
+ 	u8 tlw, tls;
+ 	u32 val;
+@@ -1309,7 +1307,7 @@ static int tb_xdomain_bond_lanes_uuid_high(struct tb_xdomain *xd)
+ 		return -ETIMEDOUT;
+ 	}
+ 
+-	port = tb_port_at(xd->route, tb_xdomain_parent(xd));
++	port = tb_xdomain_downstream_port(xd);
+ 
+ 	/*
+ 	 * We can't use tb_xdomain_lane_bonding_enable() here because it
+@@ -1425,7 +1423,7 @@ static int tb_xdomain_get_properties(struct tb_xdomain *xd)
+ 		if (xd->bonding_possible) {
+ 			struct tb_port *port;
+ 
+-			port = tb_port_at(xd->route, tb_xdomain_parent(xd));
++			port = tb_xdomain_downstream_port(xd);
+ 			if (!port->bonded)
+ 				tb_port_disable(port->dual_link_port);
+ 		}
+@@ -1979,7 +1977,7 @@ int tb_xdomain_lane_bonding_enable(struct tb_xdomain *xd)
+ 	struct tb_port *port;
+ 	int ret;
+ 
+-	port = tb_port_at(xd->route, tb_xdomain_parent(xd));
++	port = tb_xdomain_downstream_port(xd);
+ 	if (!port->dual_link_port)
+ 		return -ENODEV;
+ 
+@@ -2024,7 +2022,7 @@ void tb_xdomain_lane_bonding_disable(struct tb_xdomain *xd)
+ {
+ 	struct tb_port *port;
+ 
+-	port = tb_port_at(xd->route, tb_xdomain_parent(xd));
++	port = tb_xdomain_downstream_port(xd);
+ 	if (port->dual_link_port) {
+ 		tb_port_lane_bonding_disable(port);
+ 		if (tb_port_wait_for_link_width(port, 1, 100) == -ETIMEDOUT)
 -- 
 2.39.2
 
