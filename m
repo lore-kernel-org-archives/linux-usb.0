@@ -2,106 +2,143 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4734C7EE2F
-	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 17:19:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E32AC77B7A
+	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 19:28:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233202AbjE3RTK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 May 2023 13:19:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48608 "EHLO
+        id S231193AbjE3T2m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 May 2023 15:28:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233001AbjE3RTI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 13:19:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6391BD9;
-        Tue, 30 May 2023 10:19:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EE7B7630C8;
-        Tue, 30 May 2023 17:19:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA22EC433D2;
-        Tue, 30 May 2023 17:19:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685467146;
-        bh=PIBi+WICffiBvaB2Kw9KN3H9bNAFCDH01ZgbVaQGbpg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=E2Xa4JrAvvdRGyRf3zxeWBvkc5cuOtjqlw0qF7dZxyI06ngCrCEr+2VfwVIRMVVdd
-         V5zTylUXQRCf1KW4HPXzMIdv+9vrMt1yP+n7FUDa+t2FjNJ4LF5+BlKFZwjSqNBqRe
-         ZHB1IFdqYD9OcZl9/+Ecs/JcoSOvUOC9V09t4ZzWib5Tw6UHYj9RtfWvo7heP6Av47
-         dD3CVQoa6UM26DNqLEt2ojddXXiZcVQpH+lX3kslYjvfSLtg1sWzEWznuptvI921Y/
-         KH17pTxqsO/dGyBabW1mpfH4P2fEriexl3TKpaNOhSUcu+Vgyc5AIWsf3E+ZScPJZ6
-         l+0N0Pn0M1pBQ==
-From:   Bjorn Andersson <andersson@kernel.org>
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     Bart Van Assche <bvanassche@acm.org>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        linux-pci@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        linux-scsi@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
-        linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Avri Altman <avri.altman@wdc.com>,
-        Georgi Djakov <djakov@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: (subset) [PATCH v3 00/15] Introduce the SC8180x devices
-Date:   Tue, 30 May 2023 10:22:49 -0700
-Message-Id: <168546732606.2227271.7267063763992454803.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230530162454.51708-1-vkoul@kernel.org>
-References: <20230530162454.51708-1-vkoul@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S230219AbjE3T2l (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 15:28:41 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9C03BE
+        for <linux-usb@vger.kernel.org>; Tue, 30 May 2023 12:28:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685474920; x=1717010920;
+  h=date:from:to:cc:subject:message-id;
+  bh=kNTClOINZbuDp4bW11DbHGLrQ+nKnNCOE8E6R/m2oQo=;
+  b=CqfF6+LLzufi+5JUOEORhi6jUmKbUikd671AsZDn/qnZX5rw4lomrL2p
+   kKvYXyLNl78+SBLPoVwENc6EqcQlNGDjoi0kMYn0AsGBKIgroc4dZKi8R
+   b1EiOV++WPH+XHefI0Cf++K9kVZgJ+yn1qB92JVaTBmOxRAZqIvyiOyx1
+   oe334FVchMJEDkSswalMO0esr9lnAEaSzhEC0hJg8MF5L6gHtMgu7pNDd
+   98ce4cb5C1YXWHqykdI9VXDJFv7D9IOJoDZoTNQsNaJMYry9TlKXdd0hx
+   g+2e5AtNodIeHLWfjl8FY9Quv9/VM4DVChVdYbYYyVvas441Nat4UP1M4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="344528355"
+X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
+   d="scan'208";a="344528355"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 12:28:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="684101550"
+X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
+   d="scan'208";a="684101550"
+Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 30 May 2023 12:28:38 -0700
+Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q451J-0000l7-0u;
+        Tue, 30 May 2023 19:28:37 +0000
+Date:   Wed, 31 May 2023 03:28:04 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: [westeri-thunderbolt:next] BUILD SUCCESS
+ 033c2d8ab2835a7f13e1a9c6813b412935e77140
+Message-ID: <20230530192804.ZERnB%lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 30 May 2023 21:54:39 +0530, Vinod Koul wrote:
-> This introduces Qualcomm SC8180x SoC which features in Lenovo Flex 5G
-> laptop. This also adds support for Primus platform as well as Lenovo Flex 5G
-> laptop.
-> 
-> Changes in v3:
->  - Split DTS patch into smaller check
->  - checkpatch and dtbs check error fixes
->  - fix comments from Konrad/Krzysztof
-> 
-> [...]
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
+branch HEAD: 033c2d8ab2835a7f13e1a9c6813b412935e77140  thunderbolt: Log DisplayPort adapter rate and lanes on discovery
 
-Quite a few DT validation warnings left, but let's get it merged so that we can
-work on those together.
+elapsed time: 725m
 
-Applied, thanks!
+configs tested: 73
+configs skipped: 5
 
-[06/15] arm64: dts: qcom: Introduce the SC8180x platform
-        commit: 8575f197b077001591ef3ff709cdee48785daf0d
-[07/15] arm64: dts: qcom: sc8180x: Add interconnects and lmh
-        commit: f3be8a111d7eaf4e291b6c2d51dd0adb39934b32
-[08/15] arm64: dts: qcom: sc8180x: Add thermal zones
-        commit: d1d3ca03554e51be44546638f83169bb05b20ef8
-[09/15] arm64: dts: qcom: sc8180x: Add QUPs
-        commit: 0018761d1564f64d567e119fd9156c473b4592d7
-[10/15] arm64: dts: qcom: sc8180x: Add PCIe instances
-        commit: d20b6c84f56ae3a9823cc0fa5cfad330536ba0d1
-[11/15] arm64: dts: qcom: sc8180x: Add remoteprocs, wifi and usb nodes
-        commit: b080f53a8f44eeaa9db9628d8d339ab5a2afb5bd
-[12/15] arm64: dts: qcom: sc8180x: Add display and gpu nodes
-        commit: 494dec9b6f541451b2e82905b0eebd9a4ac9848b
-[13/15] arm64: dts: qcom: sc8180x: Add pmics
-        commit: d3302290f59e8533a56a8fa2455357f843d8dcf6
-[14/15] arm64: dts: qcom: sc8180x: Introduce Primus
-        commit: 2ce38cc1e8fea4e251e4563e436104369bf3b322
-[15/15] arm64: dts: qcom: sc8180x: Introduce Lenovo Flex 5G
-        commit: 20dea72a393c6d5572088b8ad01dbb9e9aca64ce
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Best regards,
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r002-20230530   gcc  
+alpha                               defconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r031-20230530   gcc  
+arc                  randconfig-r043-20230530   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r015-20230530   clang
+arm                  randconfig-r046-20230530   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r032-20230530   gcc  
+hexagon              randconfig-r041-20230530   clang
+hexagon              randconfig-r045-20230530   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i071-20230530   gcc  
+i386                 randconfig-i072-20230530   gcc  
+i386                 randconfig-i073-20230530   gcc  
+i386                 randconfig-i074-20230530   gcc  
+i386                 randconfig-i075-20230530   gcc  
+i386                 randconfig-i076-20230530   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch    buildonly-randconfig-r006-20230530   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r035-20230530   gcc  
+microblaze   buildonly-randconfig-r005-20230530   gcc  
+microblaze           randconfig-r012-20230530   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r011-20230530   gcc  
+openrisc             randconfig-r036-20230530   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc      buildonly-randconfig-r004-20230530   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r042-20230530   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r013-20230530   gcc  
+s390                 randconfig-r014-20230530   gcc  
+s390                 randconfig-r044-20230530   gcc  
+sh                               allmodconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r016-20230530   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r003-20230530   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-x071-20230530   clang
+x86_64               randconfig-x072-20230530   clang
+x86_64               randconfig-x073-20230530   clang
+x86_64               randconfig-x074-20230530   clang
+x86_64               randconfig-x075-20230530   clang
+x86_64               randconfig-x076-20230530   clang
+x86_64                               rhel-8.3   gcc  
+
 -- 
-Bjorn Andersson <andersson@kernel.org>
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
