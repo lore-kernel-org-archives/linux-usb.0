@@ -2,72 +2,137 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53AB0C77B73
-	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 07:10:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B063C7EE31
+	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 07:19:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230230AbjE3HKF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 May 2023 03:10:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46070 "EHLO
+        id S230027AbjE3HT1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 May 2023 03:19:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbjE3HKD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 03:10:03 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2960E9C;
-        Tue, 30 May 2023 00:10:01 -0700 (PDT)
-Received: from [IPV6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab] (unknown [IPv6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9BD4B66059A8;
-        Tue, 30 May 2023 08:09:59 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1685430599;
-        bh=gbkeXGoZObwdN2ipj3haLfblttLYhE6XU/0z3iE9Wkc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=aFxwnxPfuAk4Jm9ojPCyvi9YLIrh7MCjtu+w4j6SAfK0FdsUwkjVANz6sM/XBkOwX
-         1oYF/nvrOEVHn5/rb4Zv5fgMqy1Wdj/fWnu8QMICf0wbkK3OwXwBIDkcZbOhpPevqr
-         z7WjnVD1ALHlu0RjcSMm/UrXJvds7b0WczRQduMXFLiaKP9hxG7czljCC0ptvbN/gY
-         A/0okV3nBpsS3RyxUJv2+L4i9poi2pri0b/W7k2I2fMqDEA2vb5ba+0/kTZkp1zLrR
-         1S55V8wm0ne6tpUtyxbpR/OXEYIJAUmos0bY9eVZe71lJpJLAcTsgtM0g5Yxy5HAJY
-         9xjjdIh1UhlMA==
-Message-ID: <4f22b6fd-4801-33f3-e3fe-978c465d37dc@collabora.com>
-Date:   Tue, 30 May 2023 09:09:57 +0200
+        with ESMTP id S231129AbjE3HTZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 03:19:25 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9339DEA
+        for <linux-usb@vger.kernel.org>; Tue, 30 May 2023 00:19:23 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q3tdZ-0006US-9t; Tue, 30 May 2023 09:19:21 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q3tdY-003orM-Cf; Tue, 30 May 2023 09:19:20 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q3tdX-009OQt-Co; Tue, 30 May 2023 09:19:19 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH v2 4/6] usb: xhci-plat: Convert to platform remove callback returning void
+Date:   Tue, 30 May 2023 09:19:11 +0200
+Message-Id: <20230530071913.2192214-5-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230530071913.2192214-1-u.kleine-koenig@pengutronix.de>
+References: <20230530071913.2192214-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v6] usb: common: usb-conn-gpio: Set last role to unknown
- before initial detection
-To:     Prashanth K <quic_prashk@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1685421871-25391-1-git-send-email-quic_prashk@quicinc.com>
-Content-Language: en-US
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <1685421871-25391-1-git-send-email-quic_prashk@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3314; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=YYc694febUOSmPcBF9ut/bBjNN5AUTaNWOSw51GRHbk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkdaNslW7H6OYyDOVIF/bbx8UO3wm9DXLAhk0jo LoMaMJnOMuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZHWjbAAKCRCPgPtYfRL+ Tty/CACEUxJnhSekiONvj04ozkJ91q9iWgXaaJUNw7lmJ7Jl/fYx9lYG2784dj3ibhp8iUffqBa HOkIKxvSA2hZ6JHfmC3ITeoq7gLHKisGzyBXObj5kW6kjokSzmDrm2cT/GdOHQi/pz0ULQaK9KH MA4SHM3phvtlIouMtiLTfhS64TjVFB3cY0tHbtiISUQAxRaGg7SoyVzmD4j5LacT4eZMCJCk2QC 0O1UZMVMMd5m3kM94L/MqCQlpuAKK33aN+Wptu8VhTcGREJeDJC/p9d6Lx537afVMsO7ybJNkJk Qt9b30USgwAPGXbgFFQdcAEIx6i1mYA9fwhGIydv7+G8AsEp
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Il 30/05/23 06:44, Prashanth K ha scritto:
-> Currently if we bootup a device without cable connected, then
-> usb-conn-gpio won't call set_role() since last_role is same as
-> current role. This happens because during probe last_role gets
-> initialised to zero.
-> 
-> To avoid this, added a new constant in enum usb_role, last_role
-> is set to USB_ROLE_UNKNOWN before performing initial detection.
-> 
-> While at it, also handle default case for the usb_role switch
-> in cdns3 to avoid build warnings.
-> 
-> Fixes: 4602f3bff266 ("usb: common: add USB GPIO based connection detection driver")
-> Signed-off-by: Prashanth K <quic_prashk@quicinc.com>
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart from
+emitting a warning) and this typically results in resource leaks. To improve
+here there is a quest to make the remove callback return void. In the first
+step of this quest all drivers are converted to .remove_new() which already
+returns void. Eventually after all drivers are converted, .remove_new() is
+renamed to .remove().
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To convert the xhci-plat driver, change the prototype of
+xhci_plat_remove() to return void. As this function is exported and used
+by the xhci-rcar driver, convert this driver at the same time
+accordingly.
 
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/usb/host/xhci-plat.c | 6 ++----
+ drivers/usb/host/xhci-plat.h | 2 +-
+ drivers/usb/host/xhci-rcar.c | 6 +++---
+ 3 files changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+index a666b21c21bb..a52d73c2cd80 100644
+--- a/drivers/usb/host/xhci-plat.c
++++ b/drivers/usb/host/xhci-plat.c
+@@ -395,7 +395,7 @@ static int xhci_generic_plat_probe(struct platform_device *pdev)
+ 	return xhci_plat_probe(pdev, sysdev, priv_match);
+ }
+ 
+-int xhci_plat_remove(struct platform_device *dev)
++void xhci_plat_remove(struct platform_device *dev)
+ {
+ 	struct usb_hcd	*hcd = platform_get_drvdata(dev);
+ 	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
+@@ -426,8 +426,6 @@ int xhci_plat_remove(struct platform_device *dev)
+ 	pm_runtime_disable(&dev->dev);
+ 	pm_runtime_put_noidle(&dev->dev);
+ 	pm_runtime_set_suspended(&dev->dev);
+-
+-	return 0;
+ }
+ EXPORT_SYMBOL_GPL(xhci_plat_remove);
+ 
+@@ -526,7 +524,7 @@ MODULE_DEVICE_TABLE(acpi, usb_xhci_acpi_match);
+ 
+ static struct platform_driver usb_generic_xhci_driver = {
+ 	.probe	= xhci_generic_plat_probe,
+-	.remove	= xhci_plat_remove,
++	.remove_new = xhci_plat_remove,
+ 	.shutdown = usb_hcd_platform_shutdown,
+ 	.driver	= {
+ 		.name = "xhci-hcd",
+diff --git a/drivers/usb/host/xhci-plat.h b/drivers/usb/host/xhci-plat.h
+index 83b5b5aa9f8e..2d15386f2c50 100644
+--- a/drivers/usb/host/xhci-plat.h
++++ b/drivers/usb/host/xhci-plat.h
+@@ -25,7 +25,7 @@ struct xhci_plat_priv {
+ int xhci_plat_probe(struct platform_device *pdev, struct device *sysdev,
+ 		    const struct xhci_plat_priv *priv_match);
+ 
+-int xhci_plat_remove(struct platform_device *dev);
++void xhci_plat_remove(struct platform_device *dev);
+ extern const struct dev_pm_ops xhci_plat_pm_ops;
+ 
+ #endif	/* _XHCI_PLAT_H */
+diff --git a/drivers/usb/host/xhci-rcar.c b/drivers/usb/host/xhci-rcar.c
+index ad966b797b89..bf5261fed32c 100644
+--- a/drivers/usb/host/xhci-rcar.c
++++ b/drivers/usb/host/xhci-rcar.c
+@@ -276,10 +276,10 @@ static int xhci_renesas_probe(struct platform_device *pdev)
+ }
+ 
+ static struct platform_driver usb_xhci_renesas_driver = {
+-	.probe	= xhci_renesas_probe,
+-	.remove	= xhci_plat_remove,
++	.probe = xhci_renesas_probe,
++	.remove_new = xhci_plat_remove,
+ 	.shutdown = usb_hcd_platform_shutdown,
+-	.driver	= {
++	.driver = {
+ 		.name = "xhci-renesas-hcd",
+ 		.pm = &xhci_plat_pm_ops,
+ 		.of_match_table = usb_xhci_of_match,
+-- 
+2.39.2
 
