@@ -2,119 +2,59 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48080C77B73
-	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 07:20:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07BB6C7EE2E
+	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 07:26:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230458AbjE3HUv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 May 2023 03:20:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51128 "EHLO
+        id S231152AbjE3HZ6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 May 2023 03:25:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230428AbjE3HUg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 03:20:36 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD1BE59
-        for <linux-usb@vger.kernel.org>; Tue, 30 May 2023 00:19:59 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q3tda-0006UN-Vz; Tue, 30 May 2023 09:19:23 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q3tdX-003or8-As; Tue, 30 May 2023 09:19:19 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q3tdW-009OQh-H3; Tue, 30 May 2023 09:19:18 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Minas Harutyunyan <hminas@synopsys.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-arm-msm@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH v2 0/6] usb: Convert to platform remove callback returning void (remaining bits)
-Date:   Tue, 30 May 2023 09:19:07 +0200
-Message-Id: <20230530071913.2192214-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S231262AbjE3HZN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 03:25:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 899F411A;
+        Tue, 30 May 2023 00:24:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1FAC462B07;
+        Tue, 30 May 2023 07:24:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC977C4339B;
+        Tue, 30 May 2023 07:24:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1685431475;
+        bh=PZjsJQLUJqkPPuDe93upocRDEMF7iP+p3z9H1/BFpDM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=C5lBikm0bRWTlmqbruY9e7zAEhAuQVERl+wokcBa269qHr48uiq9i6D/XBeK4JSGv
+         M93oIobut633k2ciadB8x0B8p3TWR2Fz7nzjzeZ61A7HGOhlyDyHx42cAFyd/GaVkA
+         g4i6MYoQCot2wnUykkqKMqetLliGJZLEAUclpgTA=
+Date:   Tue, 30 May 2023 08:24:32 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Badhri Jagan Sridharan <badhri@google.com>
+Cc:     stern@rowland.harvard.edu, colin.i.king@gmail.com,
+        xuetao09@huawei.com, quic_eserrao@quicinc.com,
+        water.zhangjiantao@huawei.com, peter.chen@freescale.com,
+        balbi@ti.com, francesco@dolcini.it, alistair@alistair23.me,
+        stephan@gerhold.net, bagasdotme@gmail.com, luca@z3ntu.xyz,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] Revert "Revert "usb: gadget: udc: core: Invoke
+ usb_gadget_connect only when started""
+Message-ID: <2023053015-afoot-slug-5553@gregkh>
+References: <20230529234816.3720623-1-badhri@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2124; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=w8VLr5gg9MpKTC9YCycRET36XrXSH3CwM63P78lVMiE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkdaNn0SwQSjxYtJxfeHrEoXtLMeSFDUcwcASJz Q5sxk0JeI2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZHWjZwAKCRCPgPtYfRL+ TiwYB/902+th/wxDM1fEHoElL6MAPbVZDAHoWnj2tTAcukNFQj2wdNxOzuqXAw8X7XcPvUx+N5T NtZU3QvkNFmLka+QTh0+Ud++cxkvPglHW09q5aFkhqZ7otsgjkglp0pduorbBZmxIqNDX9cZ18h cVn12h3+FiKxsvu4MLWi0JS+HjgNm9+d/QE7Avej5dMFfzbZb8iS0m34n9IV5SgDs7CaTHvhu1m dDzocHYMdhF0FsHxa3v5H1WbxNKEOmCCVTFoyrtPIuAqntA/C89UQKIcALzx9v9DTResYLSy/dT h8Jol0qSLffUwoGpr8jF9D0V4Zh0EcPTdeXpXI/K08ATTuF5
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230529234816.3720623-1-badhri@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello Greg,
+On Mon, May 29, 2023 at 11:48:14PM +0000, Badhri Jagan Sridharan wrote:
+> This reverts commit f22e9b67f19ccc73de1ae04375d4b30684e261f8.
 
-Greg applied a big part of the v1 series (which had 97 patches). There
-was some fallout however and so this v2 only contains the remaining bits
-on top of Greg's tree that has most of v1 already.
+reverts of reverts aren't good.  Just submit the real fix please.
 
-I fscked up the xhci-plat patch. So Greg dropped all xhci patches. The
-xhci-plat patch included now is obviously a bit different, touching more
-files, but in return compiles fine.
+thanks,
 
-Also there were some conflicts with other pending changes in the usb
-tree:
-
- - The dwc2 patch conflicted with commit ada050c69108 ("usb: dwc2: Fix
-   some error handling paths"). My v1 submission got an Ack by Minas
-   Harutyunyan, I applied it to this serie's v2, too.
-
- - The xhci-mtk patch is unchanged but gained a Review by
-   AngeloGioacchino Del Regno.
-
- - The qcom-pmic-typec patch confliced with commit a4422ff22142 ("usb:
-   typec: qcom: Add Qualcomm PMIC Type-C driver"). I applied the
-   received acks/reviews by Konrad Dybcio, Bryan O'Donoghue, and Heikki
-   Krogerus anyhow.
-
-Thanks for all the feedback on v1.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (6):
-  usb: dwc2/platform: Convert to platform remove callback returning void
-  usb: xhci-histb: Convert to platform remove callback returning void
-  usb: xhci-mtk: Convert to platform remove callback returning void
-  usb: xhci-plat: Convert to platform remove callback returning void
-  usb: xhci-tegra: Convert to platform remove callback returning void
-  usb: typec: qcom-pmic-typec: Convert to platform remove callback
-    returning void
-
- drivers/usb/dwc2/platform.c                   | 6 ++----
- drivers/usb/host/xhci-histb.c                 | 6 ++----
- drivers/usb/host/xhci-mtk.c                   | 6 ++----
- drivers/usb/host/xhci-plat.c                  | 6 ++----
- drivers/usb/host/xhci-plat.h                  | 2 +-
- drivers/usb/host/xhci-rcar.c                  | 6 +++---
- drivers/usb/host/xhci-tegra.c                 | 6 ++----
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c | 6 ++----
- 8 files changed, 16 insertions(+), 28 deletions(-)
-
-base-commit: b4a4be8471846d96b0ac52a0e9e7d48005cc97e2
--- 
-2.39.2
-
+greg k-h
