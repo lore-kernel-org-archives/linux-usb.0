@@ -2,95 +2,105 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBC00C7EE23
-	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 07:40:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5996C77B7A
+	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 07:56:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231289AbjE3HkT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 May 2023 03:40:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35888 "EHLO
+        id S229633AbjE3H4L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 May 2023 03:56:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231267AbjE3HjZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 03:39:25 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34A16E61;
-        Tue, 30 May 2023 00:38:43 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 34U7bFpB5027626, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 34U7bFpB5027626
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-        Tue, 30 May 2023 15:37:15 +0800
-Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Tue, 30 May 2023 15:37:28 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 30 May 2023 15:37:28 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
- RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
- 15.01.2375.007; Tue, 30 May 2023 15:37:28 +0800
-From:   =?utf-8?B?U3RhbmxleSBDaGFuZ1vmmIzogrLlvrdd?= 
-        <stanley_chang@realtek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     kernel test robot <lkp@intel.com>, Vinod Koul <vkoul@kernel.org>,
-        "Kishon Vijay Abraham I" <kishon@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
+        with ESMTP id S229623AbjE3H4K (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 03:56:10 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8998FF1
+        for <linux-usb@vger.kernel.org>; Tue, 30 May 2023 00:55:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685433353; x=1716969353;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=kZElLRbz5wDonx5jo805gHYCRvxa9gUzPWvxobbMozI=;
+  b=UpIWbTwwc1mq+9XjQ0wraPCsZVE9/Vj9QRbUTTeVJqKENafz8N8aJp38
+   XrvT2nBLNDWRSCke4qe2ZdvMFOnMSI9/EdP62ZkruJLITthiDJNGvgEli
+   wGvJ4WGJunWF4UqHmk+AVtbS3Jdokz12+aFrjDycjZEroycI4FdXimSKz
+   U5Zhf76WA6xOXEndmS+ZnaMEPnbwNkairz5QknwYIMPCHae95k560RYOX
+   phiDnQpX97bIb8IGXEbHeivrgGSayb+dCZpOzw+S9ZouN8GTsmtDwGH2O
+   n3YPbP4/ZVbjb04SrCuy53Z7ToVpGyXfEQpUHERVQFW6gfUESgDEpDSzv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="418329453"
+X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; 
+   d="scan'208";a="418329453"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 00:55:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="683849260"
+X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; 
+   d="scan'208";a="683849260"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga006.jf.intel.com with ESMTP; 30 May 2023 00:55:50 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id B874253A; Tue, 30 May 2023 10:55:55 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        beld zhang <beldzhang@gmail.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Ray Chi <raychi@google.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Flavio Suligoi <f.suligoi@asem.it>,
-        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH v2 2/3] phy: realtek: usb: Add driver for the Realtek SoC USB 2.0/3.0 PHY
-Thread-Topic: [PATCH v2 2/3] phy: realtek: usb: Add driver for the Realtek SoC
- USB 2.0/3.0 PHY
-Thread-Index: AQHZjrBQ+6WcWUIIakaazG2RI9C3Xq9wz12AgAFERBD//9p/AIAAhrWA
-Date:   Tue, 30 May 2023 07:37:28 +0000
-Message-ID: <9b64905acd2a4d97ad0b4535d8b868b9@realtek.com>
-References: <20230525022617.30537-1-stanley_chang@realtek.com>
- <20230525022617.30537-2-stanley_chang@realtek.com>
- <2023052915-repurpose-partner-20a8@gregkh>
- <1dfa6d4026364fb99eeffa548cda0cfc@realtek.com>
- <2023053041-cane-jokester-d433@gregkh>
-In-Reply-To: <2023053041-cane-jokester-d433@gregkh>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.190.159]
-x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH] thunderbolt: Mask ring interrupt on Intel hardware as well
+Date:   Tue, 30 May 2023 10:55:55 +0300
+Message-Id: <20230530075555.35239-1-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGkgR3JlZywNCg0KPiA+ID4gPg0KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBTdGFubGV5IENoYW5n
-IDxzdGFubGV5X2NoYW5nQHJlYWx0ZWsuY29tPg0KPiA+ID4gPiBSZXBvcnRlZC1ieToga2VybmVs
-IHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+DQo+ID4gPg0KPiA+ID4gVGhlIGtlcm5lbCB0ZXN0
-IHJvYm90IGRpZCBub3QgcmVwb3J0IHRoYXQgYSBuZXcgZHJpdmVyIHdhcyBuZWVkZWQgOigNCj4g
-PiA+DQo+ID4NCj4gPiBUaGlzIHJlcG9ydCBpcyBiYXNlZCBvbiB2MSBwYXRjaC4NCj4gPiBodHRw
-czovL3BhdGNod29yay5rZXJuZWwub3JnL3Byb2plY3QvbGludXgtdXNiL3BhdGNoLzIwMjMwNTE5
-MDQ1ODI1LjI4DQo+ID4gMzY5LTItc3RhbmxleV9jaGFuZ0ByZWFsdGVrLmNvbS8NCj4gPg0KPiA+
-IFRoZSBvcmlnaW5hbCBkcml2ZXIgaXMgYXQgZHJpdmVycy91c2IvcGh5LyBJZiB0aGlzIHJlcG9y
-dCBpcyBub3QNCj4gPiBhcHByb3ByaWF0ZSwgSSB3aWxsIHJlbW92ZSBpdC4NCj4gDQo+IERvZXMg
-aXQgbWFrZSBzZW5zZSB0byBpbmNsdWRlIGl0Pw0KDQpJIGhhdmUgZml4ZWQgdGhlIHNhbWUgZXJy
-b3JzIGluIHYyIGFzIHYxLiBTbyBJIGFkZGVkIGl0Lg0KSSB3aWxsIHJlbW92ZSBpdCBhdCBuZXh0
-IHZlcnNpb24uDQoNClRoYW5rcywNClN0YW5sZXkNCg==
+When resuming from system sleep states the driver issues following
+warning on Intel hardware:
+
+  thunderbolt 0000:07:00.0: interrupt for TX ring 0 is already enabled
+
+The reason for this is that the commit in question did not mask the ring
+interrupt on Intel hardware leaving the interrupt active. Fix this by
+masking it also in Intel hardware.
+
+Reported-by: beld zhang <beldzhang@gmail.com>
+Closes: https://lore.kernel.org/linux-usb/ZHKW5NeabmfhgLbY@debian.me/
+Fixes: c4af8e3fecd0 ("thunderbolt: Clear registers properly when auto clear isn't in use")
+Cc: stable@vger.kernel.org
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/nhi.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+index 565892a2cdb9..a979f47109e3 100644
+--- a/drivers/thunderbolt/nhi.c
++++ b/drivers/thunderbolt/nhi.c
+@@ -56,9 +56,14 @@ static int ring_interrupt_index(const struct tb_ring *ring)
+ 
+ static void nhi_mask_interrupt(struct tb_nhi *nhi, int mask, int ring)
+ {
+-	if (nhi->quirks & QUIRK_AUTO_CLEAR_INT)
+-		return;
+-	iowrite32(mask, nhi->iobase + REG_RING_INTERRUPT_MASK_CLEAR_BASE + ring);
++	if (nhi->quirks & QUIRK_AUTO_CLEAR_INT) {
++		u32 val;
++
++		val = ioread32(nhi->iobase + REG_RING_INTERRUPT_BASE + ring);
++		iowrite32(val & ~mask, nhi->iobase + REG_RING_INTERRUPT_BASE + ring);
++	} else {
++		iowrite32(mask, nhi->iobase + REG_RING_INTERRUPT_MASK_CLEAR_BASE + ring);
++	}
+ }
+ 
+ static void nhi_clear_interrupt(struct tb_nhi *nhi, int ring)
+-- 
+2.39.2
+
