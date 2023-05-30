@@ -2,98 +2,90 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89C26C7EE2E
-	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 08:10:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD330C77B73
+	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 08:12:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229899AbjE3IKA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 May 2023 04:10:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59694 "EHLO
+        id S230070AbjE3IMZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 May 2023 04:12:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjE3IJ7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 04:09:59 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A37F09D;
-        Tue, 30 May 2023 01:09:55 -0700 (PDT)
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 34U7cjUaB028078, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 34U7cjUaB028078
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-        Tue, 30 May 2023 15:38:45 +0800
-Received: from RTEXMBS06.realtek.com.tw (172.21.6.99) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Tue, 30 May 2023 15:38:58 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Tue, 30 May 2023 15:38:58 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
- RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
- 15.01.2375.007; Tue, 30 May 2023 15:38:58 +0800
-From:   =?utf-8?B?U3RhbmxleSBDaGFuZ1vmmIzogrLlvrdd?= 
-        <stanley_chang@realtek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        "Flavio Suligoi" <f.suligoi@asem.it>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        "Mathias Nyman" <mathias.nyman@linux.intel.com>,
-        Ray Chi <raychi@google.com>,
-        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH v2 1/3] usb: phy: add usb phy notify port status API
-Thread-Topic: [PATCH v2 1/3] usb: phy: add usb phy notify port status API
-Thread-Index: AQHZjrBJqs57LUq3CEa1m1O4SeqC6K9wz9gAgAFFkID//9jvAIAAh3eg
-Date:   Tue, 30 May 2023 07:38:58 +0000
-Message-ID: <1014346aa8c24edd981e8b5e65524bd0@realtek.com>
-References: <20230525022617.30537-1-stanley_chang@realtek.com>
- <2023052905-maimed-studied-3563@gregkh>
- <647ded70ff024a3081cbf5c45f5da12c@realtek.com>
- <2023053014-reassure-footwork-f51c@gregkh>
-In-Reply-To: <2023053014-reassure-footwork-f51c@gregkh>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.190.159]
-x-kse-serverinfo: RTEXMBS06.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S229987AbjE3IMY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 04:12:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3055FA1
+        for <linux-usb@vger.kernel.org>; Tue, 30 May 2023 01:12:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B97E5622A8
+        for <linux-usb@vger.kernel.org>; Tue, 30 May 2023 08:12:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98299C433EF;
+        Tue, 30 May 2023 08:12:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1685434342;
+        bh=kS2mrF9PGWsWrlOTVBU5DsSqavsm9yK6eCyL/yUVQdA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hT8i55X18fceOYZKKWQnP6bPS7YnSx+o2E6LzcvnwydgAiBQmfW1kx0gae+wFbj1U
+         /4n0oqrSJ3a4xFIWYRt1NcoECQ5xwODuHqzuNcDDe4+N4g1srXOhB9kH9Z2rQsN5I1
+         IWLPsjZsPVkypfFxRIGogp/8IiZDrXQktr37ukL0=
+Date:   Tue, 30 May 2023 09:12:19 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     kernel test robot <lkp@intel.com>
+Cc:     Minda Chen <minda.chen@starfivetech.com>,
+        oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+        Roger Quadros <rogerq@kernel.org>
+Subject: Re: [usb:usb-testing 25/35] drivers/usb/cdns3/cdns3-starfive.c:23:
+ warning: expecting prototype for cdns3(). Prototype was for USB_STRAP_HOST()
+ instead
+Message-ID: <2023053053-browsing-palpitate-5f87@gregkh>
+References: <202305300608.8CuLyqAL-lkp@intel.com>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202305300608.8CuLyqAL-lkp@intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGkgR3JlZywNCg0KPiA+IFdoeSBjYW4ndCB0aGlzIGJlIHBhcnQgb2YgdGhlIHNhbWUgbm90aWZ5
-X2Nvbm5lY3QoKSBjYWxsYmFjaz8NCj4gPg0KPiA+IFRoZSBub3RpZnkgY29ubmVjdCBpcyBhdCBk
-ZXZpY2UgcmVhZHkuIEJ1dCBJIHdhbnQgbm90aWZ5IHBvcnQgc3RhdHVzIGNoYW5nZQ0KPiBiZWZv
-cmUgcG9ydCByZXNldC4NCj4gPg0KPiA+ID4gV2hhdCBtYWtlcyBpdCBkaWZmZXJlbnQgc29tZWhv
-dz8gIFBsZWFzZSBkb2N1bWVudCB0aGlzIG11Y2ggYmV0dGVyLg0KPiA+DQo+ID4gSW4gUmVhbHRl
-ayBwaHkgZHJpdmVyLCB3ZSBoYXZlIGRlc2lnbmVkIHRvIGR5bmFtaWNhbGx5IGFkanVzdCBkaXNj
-b25uZWN0aW9uDQo+IGxldmVsIGFuZCBjYWxpYnJhdGUgcGh5IHBhcmFtZXRlcnMuDQo+ID4gU28g
-d2UgZG8gdGhpcyB3aGVuIHRoZSBkZXZpY2UgY29ubmVjdGVkIGJpdCBjaGFuZ2VzIGFuZCB3aGVu
-IHRoZQ0KPiBkaXNjb25uZWN0ZWQgYml0IGNoYW5nZXMuDQo+ID4gUG9ydCBzdGF0dXMgY2hhbmdl
-IG5vdGlmaWNhdGlvbjoNCj4gPiAxLiBDaGVjayBpZiBwb3J0c3RhdHVzIGlzIFVTQl9QT1JUX1NU
-QVRfQ09OTkVDVElPTiBhbmQgcG9ydGNoYW5nZSBpcw0KPiBVU0JfUE9SVF9TVEFUX0NfQ09OTkVD
-VElPTi4NCj4gPiAgIFRoZSBkZXZpY2UgaXMgY29ubmVjdGVkLCB0aGUgZHJpdmVyIGxvd2VycyB0
-aGUgZGlzY29ubmVjdGlvbiBsZXZlbCBhbmQNCj4gY2FsaWJyYXRlcyB0aGUgcGh5IHBhcmFtZXRl
-cnMuDQo+ID4gMi4gVGhlIGRldmljZSBkaXNjb25uZWN0cywgdGhlIGRyaXZlciBpbmNyZWFzZXMg
-dGhlIGRpc2Nvbm5lY3QgbGV2ZWwgYW5kDQo+IGNhbGlicmF0ZXMgdGhlIHBoeSBwYXJhbWV0ZXJz
-Lg0KPiA+DQo+ID4gSWYgd2UgYWRqdXN0IHRoZSBkaXNjb25uZWN0aW9uIGxldmVsIGluIG5vdGlm
-eV9jb25uZWN0ICwgdGhlIGRpc2Nvbm5lY3QgbWF5DQo+IGhhdmUgYmVlbiB0cmlnZ2VyZWQgYXQg
-dGhpcyBzdGFnZS4NCj4gPiBTbyB3ZSBuZWVkIHRvIGNoYW5nZSB0aGF0IGFzIGVhcmx5IGFzIHBv
-c3NpYmxlLg0KPiANCj4gUGxlYXNlIHB1dCB0aGlzIHR5cGUgb2YgaW5mb3JtYXRpb24gaW4gdGhl
-IGNoYW5nZWxvZyBhbmQgaW4gdGhlIGNvbW1lbnRzIGZvcg0KPiB0aGUgY2FsbGJhY2sgd2hlbiB5
-b3UgcmVzdWJtaXQgaXQuDQoNCk9rYXksIEkgd2lsbCBhZGQgdGhpcyBpbmZvcm1hdGlvbiBhdCBu
-ZXh0IHZlcnNpb24uDQoNClRoYW5rcywNClN0YW5sZXkNCg==
+On Tue, May 30, 2023 at 06:14:21AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> head:   046895105d9666ab56e86ce8dd9786f8003125c6
+> commit: bfb46b424652a3396b92ca3c96c169ade9b45b8d [25/35] usb: cdns3: Add StarFive JH7110 USB driver
+> config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230530/202305300608.8CuLyqAL-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         mkdir -p ~/bin
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?id=bfb46b424652a3396b92ca3c96c169ade9b45b8d
+>         git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
+>         git fetch --no-tags usb usb-testing
+>         git checkout bfb46b424652a3396b92ca3c96c169ade9b45b8d
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202305300608.8CuLyqAL-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/usb/cdns3/cdns3-starfive.c:23: warning: expecting prototype for cdns3(). Prototype was for USB_STRAP_HOST() instead
+> 
+> 
+> vim +23 drivers/usb/cdns3/cdns3-starfive.c
+> 
+>     22	
+>   > 23	#define USB_STRAP_HOST			BIT(17)
+>     24	#define USB_STRAP_DEVICE		BIT(18)
+>     25	#define USB_STRAP_MASK			GENMASK(18, 16)
+>     26	
+
+I'm sorry, I don't understand this "warning" here.  There is no cdns3()
+function anywhere, so why should it be "expected"?
+
+thanks,
+
+greg k-h
