@@ -2,50 +2,50 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E064EC7EE2E
-	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 07:19:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB732C7EE2E
+	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 07:20:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230483AbjE3HTz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 May 2023 03:19:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50812 "EHLO
+        id S229977AbjE3HUQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 May 2023 03:20:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230494AbjE3HTr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 03:19:47 -0400
+        with ESMTP id S230514AbjE3HUA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 03:20:00 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FF46126
-        for <linux-usb@vger.kernel.org>; Tue, 30 May 2023 00:19:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B74D194
+        for <linux-usb@vger.kernel.org>; Tue, 30 May 2023 00:19:39 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1q3tda-0006UR-VG; Tue, 30 May 2023 09:19:23 +0200
+        id 1q3tda-0006UU-IX; Tue, 30 May 2023 09:19:22 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1q3tdY-003orL-BX; Tue, 30 May 2023 09:19:20 +0200
+        id 1q3tdY-003orU-JK; Tue, 30 May 2023 09:19:20 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1q3tdX-009OQq-6I; Tue, 30 May 2023 09:19:19 +0200
+        id 1q3tdX-009OR1-SR; Tue, 30 May 2023 09:19:19 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH v2 3/6] usb: xhci-mtk: Convert to platform remove callback returning void
-Date:   Tue, 30 May 2023 09:19:10 +0200
-Message-Id: <20230530071913.2192214-4-u.kleine-koenig@pengutronix.de>
+Cc:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH v2 6/6] usb: typec: qcom-pmic-typec: Convert to platform remove callback returning void
+Date:   Tue, 30 May 2023 09:19:13 +0200
+Message-Id: <20230530071913.2192214-7-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230530071913.2192214-1-u.kleine-koenig@pengutronix.de>
 References: <20230530071913.2192214-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1962; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=RinVfZYjAScwU7jEpi6Dz9/WO/ViUXjuFQrBaAhOb1w=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkdaNrHSUjvY7u/dQD2YJ/vxI2vJy7rtRQ7QLtD qNgRQmQVyKJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZHWjawAKCRCPgPtYfRL+ TnkrB/9LiRr878SVBC3p+kwbWsp4YeWJUwXVWtY6TnRl+gt29oeuPcTuXlXau7LXhDf5/NIQBi/ fVD2KW3vabRfI2tkjSDFTvNVW8yE27rdQenfmn0eI08GZpUygumXtVJlotokQqTlLSmbqco2Lh4 fWvhlob6tyk5cc+NzlMLa0qZFm09SDAhtPmCb7jTFsBYjUvTskWOU5aJebYvRGc35KNJURDMyvZ P9FCeVWVqT715HfyPLsSRZ7pvpwyUs2iTA0mhJRXz72LAD9H7B0bNXhAtTQrp3cSCb5irOJmuHj kJrXxHBq9I/U4DEpa5IdPl5dRx0vh2cHF9tzpSDa+IQbyWN5
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2217; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=jpdI0wKAzCKfSIdoytHtaArQhcpWcjWM7rMVkKxkEf8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkdaNuHZQHNrrYNxx7x6G8L2H4hx+Uadud3Tupk DLu1oU6p9qJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZHWjbgAKCRCPgPtYfRL+ Thh/CACxNzUceNfCaLmXLS91AoiU3oYlDx3kbimDWN849Bb81GFi0f0IPnZ0SZkflTYVYaZ8YOc PWheY7wGuat7niquEnZCtVziQm33cZ10UXgsxJgWfuVaRHsIxxVRdkmhEGG4Vmxs75xKOEwjy45 q2hzDx7jI9zIkkgZvMB8V6LzrovT728DXSgkQ4bXE9uLGxBUAdmPpd9I0J3+jOlhTSPFBys7vCB QDBhWG3gBZAxuRTGibWSsxqIG7GmsOomuR9stCwzUemKEQF1gaq7B0IXNHy9d1T2qAisdA5i0Qm +FCEz7vErMTeomPi/kvHx4pPG/8RRh/BzBGxlZQZrOBwWJjh
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -68,43 +68,45 @@ renamed to .remove().
 Trivially convert this driver from always returning zero in the remove
 callback to the void returning variant.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Acked-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/usb/host/xhci-mtk.c | 6 ++----
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
-index 90cf40d6d0c3..8d9a55b0281b 100644
---- a/drivers/usb/host/xhci-mtk.c
-+++ b/drivers/usb/host/xhci-mtk.c
-@@ -673,7 +673,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
+diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+index 191458ce4a06..f9e63ef35dca 100644
+--- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
++++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+@@ -236,7 +236,7 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
  	return ret;
  }
  
--static int xhci_mtk_remove(struct platform_device *pdev)
-+static void xhci_mtk_remove(struct platform_device *pdev)
+-static int qcom_pmic_typec_remove(struct platform_device *pdev)
++static void qcom_pmic_typec_remove(struct platform_device *pdev)
  {
- 	struct xhci_hcd_mtk *mtk = platform_get_drvdata(pdev);
- 	struct usb_hcd	*hcd = mtk->hcd;
-@@ -703,8 +703,6 @@ static int xhci_mtk_remove(struct platform_device *pdev)
- 	pm_runtime_disable(dev);
- 	pm_runtime_put_noidle(dev);
- 	pm_runtime_set_suspended(dev);
+ 	struct pmic_typec *tcpm = platform_get_drvdata(pdev);
+ 
+@@ -244,8 +244,6 @@ static int qcom_pmic_typec_remove(struct platform_device *pdev)
+ 	qcom_pmic_typec_port_stop(tcpm->pmic_typec_port);
+ 	tcpm_unregister_port(tcpm->tcpm_port);
+ 	fwnode_remove_software_node(tcpm->tcpc.fwnode);
 -
 -	return 0;
  }
  
- static int __maybe_unused xhci_mtk_suspend(struct device *dev)
-@@ -824,7 +822,7 @@ MODULE_DEVICE_TABLE(of, mtk_xhci_of_match);
+ static struct pmic_typec_pdphy_resources pm8150b_pdphy_res = {
+@@ -337,7 +335,7 @@ static struct platform_driver qcom_pmic_typec_driver = {
+ 		.of_match_table = qcom_pmic_typec_table,
+ 	},
+ 	.probe = qcom_pmic_typec_probe,
+-	.remove = qcom_pmic_typec_remove,
++	.remove_new = qcom_pmic_typec_remove,
+ };
  
- static struct platform_driver mtk_xhci_driver = {
- 	.probe	= xhci_mtk_probe,
--	.remove	= xhci_mtk_remove,
-+	.remove_new = xhci_mtk_remove,
- 	.driver	= {
- 		.name = "xhci-mtk",
- 		.pm = DEV_PM_OPS,
+ module_platform_driver(qcom_pmic_typec_driver);
 -- 
 2.39.2
 
