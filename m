@@ -2,123 +2,98 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 768B0C7EE2E
-	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 08:03:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89C26C7EE2E
+	for <linux-usb@archiver.kernel.org>; Tue, 30 May 2023 08:10:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229917AbjE3ID4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 May 2023 04:03:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55480 "EHLO
+        id S229899AbjE3IKA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 May 2023 04:10:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229916AbjE3IDy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 04:03:54 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41305F0;
-        Tue, 30 May 2023 01:03:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685433830; x=1716969830;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nT129KDi/UaqAt1IK05PNRCRhF4o7QGNyAqjx0oBA74=;
-  b=QuZSX8Pu3J4hctgDJwnASUSO+56di4Ze0S5nUomZp5eTZ3VoJrAds+xQ
-   5lgdJJ4C58k09smAc+tXarmG13t938Kzx/C91f+AvYuDcMQc8kGBSAlTG
-   97obsKOdJ8FeYlasKafw/C1ZAJotSyHc7VRLVon8/klIsrgkStJrEMX1d
-   rira/gBWdjuSuNNsw9gWJR+JkrUCWXOSLZ8MoquqiM31dRwydSA0qRBgr
-   b16hSqbwGI59cgEA377oHCouSkWw7r5XMmhuNmAaR7yjpEga9L3p5fRRm
-   p6X4Rg8OTxFFidkbv4esju+tE7mMTbi1miAIsuQT1YtspiiGbKfO7GhJA
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="335196221"
-X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; 
-   d="scan'208";a="335196221"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 01:03:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="706326247"
-X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; 
-   d="scan'208";a="706326247"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga002.jf.intel.com with ESMTP; 30 May 2023 01:03:23 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 748CD53A; Tue, 30 May 2023 11:03:28 +0300 (EEST)
-Date:   Tue, 30 May 2023 11:03:28 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Mario Limonciello <mario.limonciello@amd.com>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        beld zhang <beldzhang@gmail.com>, stable@vger.kernel.org,
-        Linux USB <linux-usb@vger.kernel.org>,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Takashi Iwai <tiwai@suse.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: 6.1.30: thunderbolt: Clear registers properly when auto clear
- isn't in use cause call trace after resume
-Message-ID: <20230530080328.GD45886@black.fi.intel.com>
-References: <CAG7aomXv2KV9es2RiGwguesRnUTda-XzmeE42m0=GdpJ2qMOcg@mail.gmail.com>
- <ZHKW5NeabmfhgLbY@debian.me>
- <261a70b7-a425-faed-8cd5-7fbf807bdef7@amd.com>
- <20230529113813.GZ45886@black.fi.intel.com>
- <e37b2f7f-d204-4204-ce72-e108975c2fe0@amd.com>
+        with ESMTP id S229446AbjE3IJ7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 May 2023 04:09:59 -0400
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A37F09D;
+        Tue, 30 May 2023 01:09:55 -0700 (PDT)
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 34U7cjUaB028078, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 34U7cjUaB028078
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+        Tue, 30 May 2023 15:38:45 +0800
+Received: from RTEXMBS06.realtek.com.tw (172.21.6.99) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Tue, 30 May 2023 15:38:58 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Tue, 30 May 2023 15:38:58 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
+ RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
+ 15.01.2375.007; Tue, 30 May 2023 15:38:58 +0800
+From:   =?utf-8?B?U3RhbmxleSBDaGFuZ1vmmIzogrLlvrdd?= 
+        <stanley_chang@realtek.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        "Flavio Suligoi" <f.suligoi@asem.it>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        "Mathias Nyman" <mathias.nyman@linux.intel.com>,
+        Ray Chi <raychi@google.com>,
+        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: [PATCH v2 1/3] usb: phy: add usb phy notify port status API
+Thread-Topic: [PATCH v2 1/3] usb: phy: add usb phy notify port status API
+Thread-Index: AQHZjrBJqs57LUq3CEa1m1O4SeqC6K9wz9gAgAFFkID//9jvAIAAh3eg
+Date:   Tue, 30 May 2023 07:38:58 +0000
+Message-ID: <1014346aa8c24edd981e8b5e65524bd0@realtek.com>
+References: <20230525022617.30537-1-stanley_chang@realtek.com>
+ <2023052905-maimed-studied-3563@gregkh>
+ <647ded70ff024a3081cbf5c45f5da12c@realtek.com>
+ <2023053014-reassure-footwork-f51c@gregkh>
+In-Reply-To: <2023053014-reassure-footwork-f51c@gregkh>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.190.159]
+x-kse-serverinfo: RTEXMBS06.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e37b2f7f-d204-4204-ce72-e108975c2fe0@amd.com>
+X-KSE-AntiSpam-Interceptor-Info: fallback
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, May 29, 2023 at 11:12:45PM -0500, Mario Limonciello wrote:
-> On 5/29/23 06:38, Mika Westerberg wrote:
-> > On Sun, May 28, 2023 at 07:55:39AM -0500, Mario Limonciello wrote:
-> > > On 5/27/23 18:48, Bagas Sanjaya wrote:
-> > > > On Sat, May 27, 2023 at 04:15:51PM -0400, beld zhang wrote:
-> > > > > Upgrade to 6.1.30, got crash message after resume, but looks still
-> > > > > running normally
-> > > 
-> > > This is specific resuming from s2idle, doesn't happen at boot?
-> > > 
-> > > Does it happen with hot-plugging or hot-unplugging a TBT3 or USB4 dock too?
-> > 
-> > Happens also when device is connected and do
-> > 
-> >    # rmmod thunderbolt
-> >    # modprobe thunderbolt
-> > 
-> > I think it is because nhi_mask_interrupt() does not mask interrupt on
-> > Intel now.
-> > 
-> > Can you try the patch below? I'm unable to try myself because my test
-> > system has some booting issues at the moment.
-> > 
-> > diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-> > index 4c9f2811d20d..a11650da40f9 100644
-> > --- a/drivers/thunderbolt/nhi.c
-> > +++ b/drivers/thunderbolt/nhi.c
-> > @@ -60,9 +60,12 @@ static int ring_interrupt_index(const struct tb_ring *ring)
-> >   static void nhi_mask_interrupt(struct tb_nhi *nhi, int mask, int ring)
-> >   {
-> > -	if (nhi->quirks & QUIRK_AUTO_CLEAR_INT)
-> > -		return;
-> > -	iowrite32(mask, nhi->iobase + REG_RING_INTERRUPT_MASK_CLEAR_BASE + ring);
-> > +	if (nhi->quirks & QUIRK_AUTO_CLEAR_INT) {
-> > +		u32 val = ioread32(nhi->iobase + REG_RING_INTERRUPT_BASE + ring);
-> > +		iowrite32(val & ~mask, nhi->iobase + REG_RING_INTERRUPT_BASE + ring);
-> > +	} else {
-> > +		iowrite32(mask, nhi->iobase + REG_RING_INTERRUPT_MASK_CLEAR_BASE + ring);
-> > +	}
-> >   }
-> >   static void nhi_clear_interrupt(struct tb_nhi *nhi, int ring)
-> 
-> Mika, that looks good for the issue, thanks!
-> 
-> You can add:
-> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-> 
-> When you submit it.
-
-Thanks, submitted formal patch now here:
-
-https://lore.kernel.org/linux-usb/20230530075555.35239-1-mika.westerberg@linux.intel.com/
-
-beld zhang, can you try it and see if it works on your system? It should
-apply on top of thunderbolt.git/fixes [1]. Thanks!
-
-[1] git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git
+SGkgR3JlZywNCg0KPiA+IFdoeSBjYW4ndCB0aGlzIGJlIHBhcnQgb2YgdGhlIHNhbWUgbm90aWZ5
+X2Nvbm5lY3QoKSBjYWxsYmFjaz8NCj4gPg0KPiA+IFRoZSBub3RpZnkgY29ubmVjdCBpcyBhdCBk
+ZXZpY2UgcmVhZHkuIEJ1dCBJIHdhbnQgbm90aWZ5IHBvcnQgc3RhdHVzIGNoYW5nZQ0KPiBiZWZv
+cmUgcG9ydCByZXNldC4NCj4gPg0KPiA+ID4gV2hhdCBtYWtlcyBpdCBkaWZmZXJlbnQgc29tZWhv
+dz8gIFBsZWFzZSBkb2N1bWVudCB0aGlzIG11Y2ggYmV0dGVyLg0KPiA+DQo+ID4gSW4gUmVhbHRl
+ayBwaHkgZHJpdmVyLCB3ZSBoYXZlIGRlc2lnbmVkIHRvIGR5bmFtaWNhbGx5IGFkanVzdCBkaXNj
+b25uZWN0aW9uDQo+IGxldmVsIGFuZCBjYWxpYnJhdGUgcGh5IHBhcmFtZXRlcnMuDQo+ID4gU28g
+d2UgZG8gdGhpcyB3aGVuIHRoZSBkZXZpY2UgY29ubmVjdGVkIGJpdCBjaGFuZ2VzIGFuZCB3aGVu
+IHRoZQ0KPiBkaXNjb25uZWN0ZWQgYml0IGNoYW5nZXMuDQo+ID4gUG9ydCBzdGF0dXMgY2hhbmdl
+IG5vdGlmaWNhdGlvbjoNCj4gPiAxLiBDaGVjayBpZiBwb3J0c3RhdHVzIGlzIFVTQl9QT1JUX1NU
+QVRfQ09OTkVDVElPTiBhbmQgcG9ydGNoYW5nZSBpcw0KPiBVU0JfUE9SVF9TVEFUX0NfQ09OTkVD
+VElPTi4NCj4gPiAgIFRoZSBkZXZpY2UgaXMgY29ubmVjdGVkLCB0aGUgZHJpdmVyIGxvd2VycyB0
+aGUgZGlzY29ubmVjdGlvbiBsZXZlbCBhbmQNCj4gY2FsaWJyYXRlcyB0aGUgcGh5IHBhcmFtZXRl
+cnMuDQo+ID4gMi4gVGhlIGRldmljZSBkaXNjb25uZWN0cywgdGhlIGRyaXZlciBpbmNyZWFzZXMg
+dGhlIGRpc2Nvbm5lY3QgbGV2ZWwgYW5kDQo+IGNhbGlicmF0ZXMgdGhlIHBoeSBwYXJhbWV0ZXJz
+Lg0KPiA+DQo+ID4gSWYgd2UgYWRqdXN0IHRoZSBkaXNjb25uZWN0aW9uIGxldmVsIGluIG5vdGlm
+eV9jb25uZWN0ICwgdGhlIGRpc2Nvbm5lY3QgbWF5DQo+IGhhdmUgYmVlbiB0cmlnZ2VyZWQgYXQg
+dGhpcyBzdGFnZS4NCj4gPiBTbyB3ZSBuZWVkIHRvIGNoYW5nZSB0aGF0IGFzIGVhcmx5IGFzIHBv
+c3NpYmxlLg0KPiANCj4gUGxlYXNlIHB1dCB0aGlzIHR5cGUgb2YgaW5mb3JtYXRpb24gaW4gdGhl
+IGNoYW5nZWxvZyBhbmQgaW4gdGhlIGNvbW1lbnRzIGZvcg0KPiB0aGUgY2FsbGJhY2sgd2hlbiB5
+b3UgcmVzdWJtaXQgaXQuDQoNCk9rYXksIEkgd2lsbCBhZGQgdGhpcyBpbmZvcm1hdGlvbiBhdCBu
+ZXh0IHZlcnNpb24uDQoNClRoYW5rcywNClN0YW5sZXkNCg==
