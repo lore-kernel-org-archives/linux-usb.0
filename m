@@ -2,98 +2,123 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDDC9C7EE29
-	for <linux-usb@archiver.kernel.org>; Wed, 31 May 2023 22:27:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60067C7EE23
+	for <linux-usb@archiver.kernel.org>; Wed, 31 May 2023 22:41:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbjEaW1j (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 31 May 2023 18:27:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44970 "EHLO
+        id S231193AbjEaWlJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 31 May 2023 18:41:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230460AbjEaW1h (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 May 2023 18:27:37 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6013121;
-        Wed, 31 May 2023 15:27:35 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34VL0Ser014433;
-        Wed, 31 May 2023 22:27:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=XYphsjpFQZ8qoW0HxD5fU0fwEGPiJV9LRkSsjbqnP9k=;
- b=R0psU+9YGwnkQkRzEIlFCJ6qEn+siZoo0qpfzhEMUtyED67e0mwZ1+icd68+5/VsR4Wq
- 0wGGR3l53CMY7xzGisB2bjygYLSZJIzSCfJ9Hh3ayY/EpQs1dLlc9tN9m6E54LeCLeTV
- oaTWH7Bl+QRHzRUDO857nMWaoKWWfce+i59lKVoDq2VuWdV9590UzCz50iKgEJ5MXvUP
- cOPP/4jozPF0kKjOdyMO5JbXRoCJXLcDBF0rgxnYXhxFedNnj+23HSGX/2jvqRCGUe9i
- 0/fu36fIbd4LOMrOUziWk+V+vTkSsyD5qOatHm6nSbFYudyOajIv/TPTw/1PnOYPridx OQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qxdr984wp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 31 May 2023 22:27:33 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34VMRWN0009728
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 31 May 2023 22:27:32 GMT
-Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Wed, 31 May 2023 15:27:31 -0700
-From:   Wesley Cheng <quic_wcheng@quicinc.com>
-To:     <mathias.nyman@intel.com>, <gregkh@linuxfoundation.org>
-CC:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v3 1/2] usb: host: xhci: Do not re-initialize the XHCI HC if being removed
-Date:   Wed, 31 May 2023 15:27:18 -0700
-Message-ID: <20230531222719.14143-2-quic_wcheng@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230531222719.14143-1-quic_wcheng@quicinc.com>
-References: <20230531222719.14143-1-quic_wcheng@quicinc.com>
+        with ESMTP id S230512AbjEaWlI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 May 2023 18:41:08 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A94CF9F
+        for <linux-usb@vger.kernel.org>; Wed, 31 May 2023 15:41:03 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-64d3491609fso188653b3a.3
+        for <linux-usb@vger.kernel.org>; Wed, 31 May 2023 15:41:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1685572863; x=1688164863;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mtSHrKf9FFhhMQ62tucQUCDkhjQ9Kszms7jWwtFDsZY=;
+        b=SQxesh06GdJOvXg5faM/LLzHy17vXsEvwVJlsmnZVmT3s4Qn7IjkyprEnp1Y+lBR5l
+         gsvYgnsqnpyyqbXSYMwIUWhYMUxBSVEiytjIk7R1MGQ6xdDUM0O7Kq7cXQ8AUFGqeTcR
+         C5R0FDs4kP1yCNsHMPwn6k5TmT9QGuMbALEXQOlfX83RGa/xu9pXCTcyYJWQd3FZtwmV
+         SMuKD4kf8YGXK02ZCZHUThPzxNNRUnH0bGAX9ED27eykw9Ih6/Db9Dyzkc5WMjRdK4SD
+         UFtY3GIFF5uckr7nIQmZNaEz7e/WlLgAzzxDTtdkqeI4CR5HW2FyVKLYoh8gmM7bEkxi
+         s7lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685572863; x=1688164863;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mtSHrKf9FFhhMQ62tucQUCDkhjQ9Kszms7jWwtFDsZY=;
+        b=IxHCVtxMpwM35Vcb3XIn9r+FKtbCMWvWSdC518ka/C4T4q5u9KpHIeZBeoAILCOJ8K
+         3DbUXr1kR6hFotphL6L6y1UdynFgTM2ZKKdlhWk1NW2aG+T/eOjRHzZPJKcB/Nm4YVOX
+         BT+Wh/WFRCu062/ZARp+saDqHsFmwr1X82XATiaMHbrKRJv+5jjtI93z4xKocIl6uaG8
+         HyftPWhxk1Zunub0UzNhdagq7XhE9poZlpXfLTURXi6lN2A0jvPtDh5BTLsPXwdwiYEm
+         veU2HJvTBC5O/RWOeG9oJ2eOWzHcOaf2++Sx2Xc1PCC2kwhwv8P3/C0n2bb4qGrkyyE2
+         lHfg==
+X-Gm-Message-State: AC+VfDzxVhtEkJ6RZIYotgF/kDcnK+RoY0/U8OokM0MgR+XP/eX+zZPs
+        J7xlvdLjdOtrYIRfnFFPiLx93snMAmNYpmee8kEW6Q==
+X-Google-Smtp-Source: ACHHUZ6CJrQvthDs2dN2bwOogDV+l8V98W69LSns2SQ2WXHyvmWNzKzjASdr3wWC99BuQWsOBcSmpU3pe5CW8sqEZPw=
+X-Received: by 2002:a05:6a21:100f:b0:10b:8024:d253 with SMTP id
+ nk15-20020a056a21100f00b0010b8024d253mr4758297pzb.26.1685572862969; Wed, 31
+ May 2023 15:41:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: usDMe0dUJbpodKc9F1h83bCyQxWrYyqg
-X-Proofpoint-GUID: usDMe0dUJbpodKc9F1h83bCyQxWrYyqg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-31_16,2023-05-31_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1015
- impostorscore=0 mlxlogscore=803 suspectscore=0 malwarescore=0 phishscore=0
- spamscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305310189
+References: <20230531040203.19295-1-badhri@google.com> <20230531040203.19295-2-badhri@google.com>
+ <618e4f17-2799-4838-a21c-184c9303bef6@rowland.harvard.edu>
+In-Reply-To: <618e4f17-2799-4838-a21c-184c9303bef6@rowland.harvard.edu>
+From:   Badhri Jagan Sridharan <badhri@google.com>
+Date:   Wed, 31 May 2023 15:40:26 -0700
+Message-ID: <CAPTae5KrTBa-=JuBDD8iVCx1+Hqd14yWOiCRkAg0+a75Q9QcXA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/3] usb: gadget: udc: core: Invoke usb_gadget_connect
+ only when started
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     gregkh@linuxfoundation.org, colin.i.king@gmail.com,
+        xuetao09@huawei.com, quic_eserrao@quicinc.com,
+        water.zhangjiantao@huawei.com, francesco@dolcini.it,
+        alistair@alistair23.me, stephan@gerhold.net, bagasdotme@gmail.com,
+        luca@z3ntu.xyz, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-During XHCI resume, if there was a host controller error detected the
-routine will attempt to re-initialize the XHCI HC, so that it can return
-back to an operational state.  If the XHCI host controller is being
-removed, this sequence would be already handled within the XHCI halt path,
-leading to a duplicate set of reg ops/calls.  In addition, since the XHCI
-bus is being removed, the overhead added in restarting the HCD is
-unnecessary.  Check for the XHC state before setting the reinit_xhc
-parameter, which is responsible for triggering the restart.
+On Wed, May 31, 2023 at 10:55=E2=80=AFAM Alan Stern <stern@rowland.harvard.=
+edu> wrote:
+>
+> On Wed, May 31, 2023 at 04:02:02AM +0000, Badhri Jagan Sridharan wrote:
+> > usb_udc_connect_control() does not check to see if the udc has already
+> > been started. This causes gadget->ops->pullup to be called through
+> > usb_gadget_connect() when invoked from usb_udc_vbus_handler() even
+> > before usb_gadget_udc_start() is called. Guard this by checking for
+> > udc->started in usb_udc_connect_control() before invoking
+> > usb_gadget_connect().
+>
+> After a merged version of patches 1/3 and 3/3 have been applied, it
+> seems like most of this will not be needed any more.  Maybe not any of
+> it.
 
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
----
- drivers/usb/host/xhci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Without the connect_lock introduced in this patch, wouldn't the
+usb_gadget_connect()/
+usb_gadget_disconnect() through soft_connect_store() race against
+usb_gadget_connect()/ usb_gadget_disconnect() through
+usb_udc_connect_control() ?
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index b81313ffeb76..02a30b883bde 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -1028,7 +1028,8 @@ int xhci_resume(struct xhci_hcd *xhci, pm_message_t msg)
- 	temp = readl(&xhci->op_regs->status);
- 
- 	/* re-initialize the HC on Restore Error, or Host Controller Error */
--	if (temp & (STS_SRE | STS_HCE)) {
-+	if ((temp & (STS_SRE | STS_HCE)) &&
-+	    !(xhci->xhc_state & XHCI_STATE_REMOVING)) {
- 		reinit_xhc = true;
- 		if (!xhci->broken_suspend)
- 			xhci_warn(xhci, "xHC error in resume, USBSTS 0x%x, Reinit\n", temp);
+On a side note, I am working on merging  patches 1/3 and 3/3.
+
+Thanks,
+Badhri
+
+>
+> usb_udc_connect_control() gets called from only two places.  One of them
+> is in gadget_bind_driver(), where we know that the UDC has been started
+> and connecting is allowed.  The other place is the vbus work routine
+> queued by usb_udc_vbus_handler().  If that place checks the new
+> allow_connect flag before calling usb_gadget_connect(), nothing more
+> will be needed.  You just have to make sure that the allow_connect flag
+> is set in gadget_bind_driver between the start and connect_control
+> calls, and it is cleared in gadget_unbind_driver before the
+> cancel_work_sync call.
+>
+> It's possible that a new mutex will be needed to synchronize accesses to
+> the allow_connect flag.  That's something you will have to study and
+> decide on.  But if you can avoid adding one, that would be best.
+>
+> > Guarding udc->vbus, udc->started, gadget->connect, gadget->deactivate
+> > related functions with connect_lock. usb_gadget_connect_locked(),
+> > usb_gadget_disconnect_locked(), usb_udc_connect_control_locked(),
+> > usb_gadget_udc_start_locked(), usb_gadget_udc_stop_locked() are called
+> > with this lock held as they can be simulataneously invoked from
+> > different code paths.
+>
+> It's a general principle of kernel programming that locks protect data,
+> not code.  So if this patch were to be accepted, you would have to
+> change this description to say that connect_lock guards various flags,
+> not various function calls.
+>
+> Alan Stern
