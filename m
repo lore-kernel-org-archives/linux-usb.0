@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 549BAC77B73
-	for <linux-usb@archiver.kernel.org>; Wed, 31 May 2023 09:07:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE1F4C7EE24
+	for <linux-usb@archiver.kernel.org>; Wed, 31 May 2023 09:07:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235371AbjEaJHb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 31 May 2023 05:07:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48600 "EHLO
+        id S235375AbjEaJHc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 31 May 2023 05:07:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235365AbjEaJHL (ORCPT
+        with ESMTP id S235368AbjEaJHL (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 31 May 2023 05:07:11 -0400
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E3C811F
-        for <linux-usb@vger.kernel.org>; Wed, 31 May 2023 02:06:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8275E126
+        for <linux-usb@vger.kernel.org>; Wed, 31 May 2023 02:06:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685524007; x=1717060007;
+  t=1685524011; x=1717060011;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=c/JuZQvsOgu6fNUXzZIxfUlMVnOZgbAEkfTDL2JUfo4=;
-  b=AXKkHG2iGCPntQfhpM4CJbBqp/fKhzpizTja+FgJapshomnKT6byy6G8
-   a698Fg1zhZwUfBAMgRPvYknrm3IZdhNutg8hHIsu4sP4r6ORx/tiwRNzm
-   SfrvLqBLP6laqHjE1bpinTBXwvDGBgIPqKSN5uzD9RZ+nmMbJnJvR65Uk
-   9vu7cpVm2ITpvzaQ9eWEpAUldmrxYyQo0N31fikvNXxxhLcQ9QWadU6Ia
-   0mH6vDTqTG2rEiNCHl+zOIzG77AXYvQjdgN/qSZevBIaIoOkQzIaIHq88
-   psx2k8n7Vnr7v6U27+2n+P7iOl4VIlktrFsqmBKMktloS0Y+4B6ca1dQV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="354027619"
+  bh=nvTw/GZuY+NyXCnGB2Z1yYs3/CsVd3QAeUEWzLQSEEQ=;
+  b=TW7kSxiqWWYhhaHEbj8EsGQVP2sE4JfCc9xcmWOr7Mw5c0ZzJNi3NbwA
+   QG+JxTtk7+BFYddC8tqhmS28roAMRhKNnu3sDYk3BAnyGyKznJ35W6WgS
+   NBMu4jJJFE8Hpq76gwohme1lFHDp8QnjAm+USPjq34fd1LOgxHHAXMsi1
+   9IafVy9pyQKxnjbv+XZdgp2IU/6hFKhkEB11Om8DdBhZ/nurWTY8TXHWi
+   MVXsgjDM2Z/V+fvDWE7nf/WZ6LfhebYfjY1WrGXg2pmy2yuiTJrQmDr0X
+   KYq3gDd5kfC/gHgA07gQ4B9p5l0fUIWbghCMGwLAsTIgekMbhPHz4s2w1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="354027624"
 X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="354027619"
+   d="scan'208";a="354027624"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 02:06:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="657247206"
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="657247210"
 X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="657247206"
+   d="scan'208";a="657247210"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orsmga003.jf.intel.com with ESMTP; 31 May 2023 02:06:40 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 11ACC5E2; Wed, 31 May 2023 12:06:46 +0300 (EEST)
+        id 01C13B9; Wed, 31 May 2023 12:06:45 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -49,9 +49,9 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Gil Fine <gil.fine@linux.intel.com>,
         Christian Kellner <ckellner@redhat.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 03/20] thunderbolt: Identify USB4 v2 routers
-Date:   Wed, 31 May 2023 12:06:28 +0300
-Message-Id: <20230531090645.5573-4-mika.westerberg@linux.intel.com>
+Subject: [PATCH 01/20] thunderbolt: Ignore data CRC mismatch for USB4 routers
+Date:   Wed, 31 May 2023 12:06:26 +0300
+Message-Id: <20230531090645.5573-2-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230531090645.5573-1-mika.westerberg@linux.intel.com>
 References: <20230531090645.5573-1-mika.westerberg@linux.intel.com>
@@ -61,84 +61,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Gil Fine <gil.fine@intel.com>
+This is also something not always updated after the DROM contents itself
+so issue warning but continue parsing it as we do for pre-USB4 DROMs
+too.
 
-Update tb_switch_is_usb4() to support version 2 routers and add a new
-function usb4_switch_version() that can be used to figure out the spec
-version of the router. Update the uevent accordingly.
-
-Signed-off-by: Gil Fine <gil.fine@intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/switch.c  |  5 +++--
- drivers/thunderbolt/tb.h      | 15 ++++++++++++++-
- drivers/thunderbolt/tb_regs.h |  4 ++--
- 3 files changed, 19 insertions(+), 5 deletions(-)
+ drivers/thunderbolt/eeprom.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index 47961afdcc73..3a1fc3e053f6 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -2056,8 +2056,9 @@ static int tb_switch_uevent(const struct device *dev, struct kobj_uevent_env *en
- 	const struct tb_switch *sw = tb_to_switch(dev);
- 	const char *type;
- 
--	if (sw->config.thunderbolt_version == USB4_VERSION_1_0) {
--		if (add_uevent_var(env, "USB4_VERSION=1.0"))
-+	if (tb_switch_is_usb4(sw)) {
-+		if (add_uevent_var(env, "USB4_VERSION=%u.0",
-+				   usb4_switch_version(sw)))
- 			return -ENOMEM;
+diff --git a/drivers/thunderbolt/eeprom.c b/drivers/thunderbolt/eeprom.c
+index 0f6099c18a94..eb241b270f79 100644
+--- a/drivers/thunderbolt/eeprom.c
++++ b/drivers/thunderbolt/eeprom.c
+@@ -605,9 +605,8 @@ static int usb4_drom_parse(struct tb_switch *sw)
+ 	crc = tb_crc32(sw->drom + TB_DROM_DATA_START, header->data_len);
+ 	if (crc != header->data_crc32) {
+ 		tb_sw_warn(sw,
+-			   "DROM data CRC32 mismatch (expected: %#x, got: %#x), aborting\n",
++			   "DROM data CRC32 mismatch (expected: %#x, got: %#x), continuing\n",
+ 			   header->data_crc32, crc);
+-		return -EINVAL;
  	}
  
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 2bda2816ff47..e27fcdf50581 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -955,7 +955,8 @@ static inline bool tb_switch_is_tiger_lake(const struct tb_switch *sw)
-  */
- static inline bool tb_switch_is_usb4(const struct tb_switch *sw)
- {
--	return sw->config.thunderbolt_version == USB4_VERSION_1_0;
-+	return FIELD_GET(USB4_VERSION_MAJOR_MASK,
-+			 sw->config.thunderbolt_version) > 0;
- }
- 
- /**
-@@ -1198,6 +1199,18 @@ static inline struct tb_retimer *tb_to_retimer(struct device *dev)
- 	return NULL;
- }
- 
-+/**
-+ * usb4_switch_version() - Returns USB4 version of the router
-+ * @sw: Router to check
-+ *
-+ * Returns major version of USB4 router (%1 for v1, %2 for v2 and so
-+ * on). Can be called to pre-USB4 router too and in that case returns %0.
-+ */
-+static inline unsigned int usb4_switch_version(const struct tb_switch *sw)
-+{
-+	return FIELD_GET(USB4_VERSION_MAJOR_MASK, sw->config.thunderbolt_version);
-+}
-+
- int usb4_switch_setup(struct tb_switch *sw);
- int usb4_switch_read_uid(struct tb_switch *sw, u64 *uid);
- int usb4_switch_drom_read(struct tb_switch *sw, unsigned int address, void *buf,
-diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
-index 2636423748cd..0716d6b7701a 100644
---- a/drivers/thunderbolt/tb_regs.h
-+++ b/drivers/thunderbolt/tb_regs.h
-@@ -190,8 +190,8 @@ struct tb_regs_switch_header {
- 	u32 thunderbolt_version:8;
- } __packed;
- 
--/* USB4 version 1.0 */
--#define USB4_VERSION_1_0			0x20
-+/* Used with the router thunderbolt_version */
-+#define USB4_VERSION_MAJOR_MASK			GENMASK(7, 5)
- 
- #define ROUTER_CS_1				0x01
- #define ROUTER_CS_4				0x04
+ 	return tb_drom_parse_entries(sw, USB4_DROM_HEADER_SIZE);
 -- 
 2.39.2
 
