@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B72CC7EE2F
-	for <linux-usb@archiver.kernel.org>; Wed, 31 May 2023 09:07:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61EFAC77B7C
+	for <linux-usb@archiver.kernel.org>; Wed, 31 May 2023 09:07:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235365AbjEaJHt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 31 May 2023 05:07:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48130 "EHLO
+        id S235379AbjEaJHv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 31 May 2023 05:07:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235405AbjEaJHa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 May 2023 05:07:30 -0400
+        with ESMTP id S235380AbjEaJHd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 May 2023 05:07:33 -0400
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91E8EE5A
-        for <linux-usb@vger.kernel.org>; Wed, 31 May 2023 02:07:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7786E51
+        for <linux-usb@vger.kernel.org>; Wed, 31 May 2023 02:07:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685524042; x=1717060042;
+  t=1685524045; x=1717060045;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=mdpNIpe3M7LORulbwwf0paeY7CFPssSM7JAbZWYPNts=;
-  b=FdZQN39HlDRNyApN1lLnGTERCM6qVx2ZDY4cCIV9fjAx6R7Tp55C0LJW
-   kenO4TIK27b4E+aBmnIua+2du2DYqeJLm8tuhv1w6AbJQMSkdbgnl7rev
-   c0rBD7NzXkvj8p6rgLKRdL13xJjjuQ1s2gnJ/h3RC//t7ii/LVwt+FdBN
-   96VnMj414FirAZxDHnIMDszQNjU0G0b8JRtNKf7WYvTyYNU2dkwQ33Y7C
-   etYHX4ZJjAZsY+0epjejzPygZd5kUQl16TXNipQoe/uJ42y0F39O6ZNGF
-   HnsvLbvlff5bIhh8tUKLFWZlaoGKgMCsAWEvIEQ4XQUkYKgQmXih7GUvU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="354027658"
+  bh=XOcR5/HkZsASAT2fR8RTSQnuONlrym90djJLiM3VzKg=;
+  b=W6KbFDMLKY77LpB6/TlihwEQvv2QRbRclGkFimUaI0P0CWfgG8SStf6i
+   VFzDrwHN+jpLkU7WE2k0/TUAlCy+lKRX+0f2R0WUjdDC9GrbWsNTv47ed
+   ikiREl28tatpZTZstIhKWSCmJ9avIXzoP3/QyxtapmZ1PhYbby5s90BCD
+   qQFIjNeuM+KGMIyv+PZCU+kMAml1qJ9fqvDcNfa22qXkGAcNsJyO9Bj+X
+   fqT+Es5oQvZDjXTawkhosVvYfYe+CdRszXKRsJfwcRqK51DM4UXxIW3fP
+   fJNLZZVuFlHoiht2hzSqtk5edDd6BEwtX/bSC54GtKVngY5G2bOeHgYv3
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="354027663"
 X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="354027658"
+   d="scan'208";a="354027663"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 02:06:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="657247249"
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="657247245"
 X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="657247249"
+   d="scan'208";a="657247245"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orsmga003.jf.intel.com with ESMTP; 31 May 2023 02:06:43 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 5E607C51; Wed, 31 May 2023 12:06:46 +0300 (EEST)
+        id 38F1F597; Wed, 31 May 2023 12:06:46 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -49,9 +49,9 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Gil Fine <gil.fine@linux.intel.com>,
         Christian Kellner <ckellner@redhat.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 12/20] thunderbolt: Add Intel Barlow Ridge PCI ID
-Date:   Wed, 31 May 2023 12:06:37 +0300
-Message-Id: <20230531090645.5573-13-mika.westerberg@linux.intel.com>
+Subject: [PATCH 09/20] thunderbolt: Add two additional double words for adapters TMU for USB4 v2 routers
+Date:   Wed, 31 May 2023 12:06:34 +0300
+Message-Id: <20230531090645.5573-10-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230531090645.5573-1-mika.westerberg@linux.intel.com>
 References: <20230531090645.5573-1-mika.westerberg@linux.intel.com>
@@ -61,46 +61,43 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Intel Barlow Ridge is the first USB4 v2 controller from Intel. The
-controller exposes standard USB4 PCI class ID in typical configurations,
-however there is a way to configure it so that it uses a special class
-ID to allow using s different driver than the Windows inbox one. For
-this reason add the Barlow Ridge PCI ID to the Linux driver too so that
-the driver can attach regardless of the class ID.
+From: Gil Fine <gil.fine@linux.intel.com>
 
-Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+For USB4 v2 routers, the adapters's TMU capability has two additional
+double words. Include them in the debugfs register dump.
+
+Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/nhi.c | 2 ++
- drivers/thunderbolt/nhi.h | 2 ++
- 2 files changed, 4 insertions(+)
+ drivers/thunderbolt/debugfs.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index 116016695a6a..4b7bec74e89f 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -1517,6 +1517,8 @@ static struct pci_device_id nhi_ids[] = {
- 	  .driver_data = (kernel_ulong_t)&icl_nhi_ops },
- 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_MTL_P_NHI1),
- 	  .driver_data = (kernel_ulong_t)&icl_nhi_ops },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HOST_80G_NHI) },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HOST_40G_NHI) },
+diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
+index 40b59e662ee3..48aaba17d1db 100644
+--- a/drivers/thunderbolt/debugfs.c
++++ b/drivers/thunderbolt/debugfs.c
+@@ -19,7 +19,8 @@
+ #define PORT_CAP_LANE_LEN	3
+ #define PORT_CAP_USB3_LEN	5
+ #define PORT_CAP_DP_LEN		8
+-#define PORT_CAP_TMU_LEN	8
++#define PORT_CAP_TMU_V1_LEN	8
++#define PORT_CAP_TMU_V2_LEN	10
+ #define PORT_CAP_BASIC_LEN	9
+ #define PORT_CAP_USB4_LEN	20
  
- 	/* Any USB4 compliant host */
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_SERIAL_USB_USB4, ~0) },
-diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
-index b0718020c6f5..c15a0c46c9cf 100644
---- a/drivers/thunderbolt/nhi.h
-+++ b/drivers/thunderbolt/nhi.h
-@@ -75,6 +75,8 @@ extern const struct tb_nhi_ops icl_nhi_ops;
- #define PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_BRIDGE	0x15ef
- #define PCI_DEVICE_ID_INTEL_ADL_NHI0			0x463e
- #define PCI_DEVICE_ID_INTEL_ADL_NHI1			0x466d
-+#define PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HOST_80G_NHI	0x5781
-+#define PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HOST_40G_NHI	0x5784
- #define PCI_DEVICE_ID_INTEL_MTL_M_NHI0			0x7eb2
- #define PCI_DEVICE_ID_INTEL_MTL_P_NHI0			0x7ec2
- #define PCI_DEVICE_ID_INTEL_MTL_P_NHI1			0x7ec3
+@@ -1161,7 +1162,10 @@ static void port_cap_show(struct tb_port *port, struct seq_file *s,
+ 		break;
+ 
+ 	case TB_PORT_CAP_TIME1:
+-		length = PORT_CAP_TMU_LEN;
++		if (usb4_switch_version(port->sw) < 2)
++			length = PORT_CAP_TMU_V1_LEN;
++		else
++			length = PORT_CAP_TMU_V2_LEN;
+ 		break;
+ 
+ 	case TB_PORT_CAP_POWER:
 -- 
 2.39.2
 
