@@ -2,163 +2,166 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D45F0C77B7A
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Jun 2023 10:50:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52DE4C7EE23
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Jun 2023 13:51:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233068AbjFAKuS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 1 Jun 2023 06:50:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49004 "EHLO
+        id S233353AbjFANvw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 1 Jun 2023 09:51:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231663AbjFAKuQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Jun 2023 06:50:16 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BE6BD7;
-        Thu,  1 Jun 2023 03:50:14 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 351Aml3M3003538, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 351Aml3M3003538
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-        Thu, 1 Jun 2023 18:48:47 +0800
-Received: from RTEXMBS02.realtek.com.tw (172.21.6.95) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Thu, 1 Jun 2023 18:49:01 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS02.realtek.com.tw (172.21.6.95) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 1 Jun 2023 18:49:00 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
- RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
- 15.01.2375.007; Thu, 1 Jun 2023 18:49:00 +0800
-From:   =?utf-8?B?U3RhbmxleSBDaGFuZ1vmmIzogrLlvrdd?= 
-        <stanley_chang@realtek.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Flavio Suligoi <f.suligoi@asem.it>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Ray Chi <raychi@google.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH v2 3/3] dt-bindings: phy: realtek: Add the doc about the Realtek SoC USB 2.0/3.0 PHY
-Thread-Topic: [PATCH v2 3/3] dt-bindings: phy: realtek: Add the doc about the
- Realtek SoC USB 2.0/3.0 PHY
-Thread-Index: AQHZjrBYcJlLsVj/HkuHUZRifSysgq90OEaAgAGJYxA=
-Date:   Thu, 1 Jun 2023 10:49:00 +0000
-Message-ID: <ee65a9d6d40d4099987db5ff1ad1753f@realtek.com>
-References: <20230525022617.30537-1-stanley_chang@realtek.com>
- <20230525022617.30537-3-stanley_chang@realtek.com>
- <0b2143ca-ead7-c8fa-2e80-a94222af51ca@linaro.org>
-In-Reply-To: <0b2143ca-ead7-c8fa-2e80-a94222af51ca@linaro.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.190.159]
-x-kse-serverinfo: RTEXMBS02.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S233357AbjFANvq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Jun 2023 09:51:46 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FDAF192
+        for <linux-usb@vger.kernel.org>; Thu,  1 Jun 2023 06:51:43 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-96f6e83e12fso118749066b.1
+        for <linux-usb@vger.kernel.org>; Thu, 01 Jun 2023 06:51:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1685627502; x=1688219502;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vVJTPL6ZF8NSM8+tIg6PCSL4IQNlSnliH+EHXpj1AeI=;
+        b=LfZwL0vJanrn5T/tPKzxBB9HGeVBD2tFqokk0cShsaOJs6RAKryt+yzcXH/OpoVibO
+         JT06DWXd+ftmoLPXsD9V0gKlsZxXNeOylQ+6npzjPCxyhvXxJmnwZXC7d0i7WkdTWaXJ
+         1o0jDjlmXV0mw/wlbFRYgfFOYyHPWrE7rAb7U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685627502; x=1688219502;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vVJTPL6ZF8NSM8+tIg6PCSL4IQNlSnliH+EHXpj1AeI=;
+        b=jrzsN7Ck8KAa11uWs0Wvix+fQRVoU5sz/Ag4xzlyHC8BEaU0v4H8HU7zkJQfGKEJXk
+         ZXATZxE2EGin7GMomcrOXg0e4HjpiAQvocoxof3TpcjkkW/hhkS+uHXv3G7KLApULVFt
+         lgqpdRcKvQG6yvfc3FFl1KMEu2kQ2HrZMY4quP1Vucvv7eAPl8tDPWdgWAqdSKTRsijL
+         KKespD7Mu+Nx6EN83g1+nlovBxoyykC1pUdERYETTMsURBbvzVZ6T2H0WLad8mogJ4XT
+         BiDYCXv9zp4Wa/p9OBgT51zakmTUV14UhSq8wxXxjCU7Gt3G8cDmisaveD1rhV5cTyVv
+         RbdA==
+X-Gm-Message-State: AC+VfDygpeQGkUpNFXk3UsskSIsppyJh69O244PWxr67W+JQMSVhEKrs
+        zZ50RZL2238otmdmZvE+IK2w4Q==
+X-Google-Smtp-Source: ACHHUZ6zSD+zjod6ePN4avGcolX6I1MjbMb4h5ISXrs0XfBu4df95UYKMPkiSvAw/zA/66OobrP2Iw==
+X-Received: by 2002:a17:907:3f97:b0:94f:6058:4983 with SMTP id hr23-20020a1709073f9700b0094f60584983mr8192612ejc.76.1685627502003;
+        Thu, 01 Jun 2023 06:51:42 -0700 (PDT)
+Received: from alco.roam.corp.google.com ([2620:0:1059:10:8745:5c87:abd8:3631])
+        by smtp.gmail.com with ESMTPSA id f7-20020a170906494700b0095807ab4b57sm10795556ejt.178.2023.06.01.06.51.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jun 2023 06:51:41 -0700 (PDT)
+From:   Ricardo Ribalda Delgado <ribalda@chromium.org>
+Date:   Thu, 01 Jun 2023 15:51:19 +0200
+Subject: [PATCH v2] xhci: Do not create endpoint debugfs while holding the
+ bandwidth mutex
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230531-xhci-deadlock-v2-1-5f5cf8ff5285@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAFaieGQC/3WNwQ6CMBBEf4Xs2Zq2SFBP/ofh0JZCN0JLtkIwh
+ H935e5t3iRvZoPsCX2Ge7EB+QUzpsigTwW4YGLvBbbMoKUuZVUqsQaHovWmHZJ7cdDGauVu0jp
+ gx5rshSUTXWArzsPA5US+w/U4eTbMAfM70ef4XNSv/Te/KKFEVddXabuuUvrycIHSiPN4TtRDs
+ +/7F1hojRnCAAAA
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Stephen Boyd <swboyd@chromium.org>,
+        Ricardo Ribalda Delgado <ribalda@chromium.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3114; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=kHas2cbddrKrdeEKJZphZ/TYxBnPicfD6owEY8RcqKA=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBkeKJlheKCvOSufBlOm/CAXom89gI67JO03eo3F
+ NAlQpmwKE6JAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCZHiiZQAKCRDRN9E+zzrE
+ iCYbD/9jhro1RvQjcAmFYKRMdFKXxm+fRYe7j56m4xpThqniiSk6izQhIGIgjSooxtmsi11fXSI
+ W41V4jM61+0oeTAGsKnvD5TS5dXF/71nVzv57KbngZ+HJ5w/ZKrVKQr7Yf1347QtQQJV3cOcEZy
+ II3a02j2knLU3E6z8BwvILe2L+Ip+x31wfDEkOfvsY8B1E4TgcBSPAF3v2xnnXP7UvcO7bzYCZb
+ riSbrXdMIpedEAXQswGdvpo/Sf+WrzmLgsY34dH54JbjD8EMhWgNdZBtRlHN1G6ICc0X8NG76gV
+ N0qPBeDb9KKuVq5FPMj/Q6fnu6XswCvcd8otIZDkqDkkjhEGTGQ/ctBWs0u/OKlz70XeBSfuykn
+ QHF3Yie35u9m79WT9fvhr1GVZb1tL5SYAf4nie6waRKfenGLEGY/psqlO0CYvzZpxNURPuXbinB
+ Tlh5Et6jgeM1OCr7gBs/YQSrt+ZCVjqOqcWfLDvvOeTVIzf69PqIKjsmmJ9FSfNTYgLMRU6M7H5
+ kDw4Q/2L75uGxivy0z2fLKfdrZcQ+F7fp4G08gOA+pt7D6MNk24ywoYD1L9v0n+2iYGGgVPUcDL
+ kGsoIz0lVel38YZhA+DhlavJjpdV5S+5CrUcB0i6Kr9mJfGXGH6zEA6rvpDna3fc9d+CR8YYeyz
+ 6NcnI7SGAuSL01Q==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGkgS3J6eXN6dG9mLA0KDQo+IFRoYW5rIHlvdSBmb3IgeW91ciBwYXRjaC4gVGhlcmUgaXMgc29t
-ZXRoaW5nIHRvIGRpc2N1c3MvaW1wcm92ZS4NCj4gDQo+IEFjdHVhbGx5IGEgbG90Li4uIFRoZSBi
-aW5kaW5ncyBhcmUgbm90IHN1aXRhYmxlIGZvciByZXZpZXcuDQoNClRoYW5rcyBmb3IgeW91ciBw
-YXRpZW5jZSBpbiByZXZpZXdpbmcgbXkgcGF0Y2hlcy4NCg0KTW9zdCBvZiB0aGUgcHJvcGVydGll
-cyBhcmUgYWJvdXQgdGhlIHBoeSBwYXJhbWV0ZXJzLg0KSXMgdGhlIHBoeSBwYXJhbWV0ZXIgZGF0
-YSBzdWl0YWJsZSB0byBiZSBwbGFjZWQgaW4gRFRTPw0KSSByZWZlcmVuY2VkIG90aGVyIHBoeSBk
-cml2ZXJzLiANClRoZXNlIHBhcmFtZXRlcnMgc2hvdWxkIG5vdCBiZSBkZWZpbmVkIGluIGR0cy4N
-Ckkgd291bGQgbW92ZSB0aGUgcGFyYW1ldGVycyB0byB0aGUgZHJpdmVyLg0KDQo+ID4gKyAgcmVh
-bHRlayx1c2I6DQo+ID4gKyAgICBkZXNjcmlwdGlvbjogVGhlIHBoYW5kbGVyIG9mIHJlYWx0ZWsg
-ZHdjMyBub2RlDQo+IA0KPiAicGhhbmRsZXIiPyBFeGNlcHQgb2J2aW91cyB0eXBvLCBkcm9wICJU
-aGUgcGhhbmRsZXIgb2YiIGFuZCBkZXNjcmliZSB3aGF0IGlzDQo+IGl0IGZvci4NCg0KcmVhbHRl
-ayx1c2IgaXMgYSBwaGFuZGxlIG9mIHN5c2NvbiB1c2VkIHRvIGNvbnRyb2wgcmVhbHRlayBkd2Mz
-IHJlZ2lzdGVyLg0KDQo+ID4gKyAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0
-aW9ucy9waGFuZGxlDQo+IA0KPiBBbnl3YXksIGl0IHNob3VsZG4ndCBiZSBoZXJlLiBObywgbm8u
-DQoNCkNhbiBJIHVzZSBpdCBmb3IgcGhhbmRsZSBvZiBzeXNjb24/DQoNCj4gPiArICByZWFsdGVr
-LHBvcnQtaW5kZXg6DQo+ID4gKyAgICBkZXNjcmlwdGlvbjogVGhlIGluZGV4IG9mIFVTQiAyLjAg
-UEhZDQo+ID4gKyAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50
-MzINCj4gDQo+IE5vLiBObyByZWFzb24gZm9yIHRoaXMuIFlvdSBoYXZlIHJlZy4NCg0KVGhpcyBp
-bmRleCBpcyB1c2VkIGZvciBwaHkgcGFyYW1ldGVycy4gSSB3aWxsIG1vdmUgaXQgdG8gcGh5IGRy
-aXZlci4NCg0KPiA+ICsNCj4gPiArICByZWFsdGVrLHBoeU46DQo+ID4gKyAgICBkZXNjcmlwdGlv
-bjogVGhlIHRvdGFsIGFtb3VudCBvZiBVU0IgMi4wIFBIWQ0KPiA+ICsgICAgJHJlZjogL3NjaGVt
-YXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyDQo+IA0KPiBOby4gQ29tcGF0aWJsZSBk
-ZWZpbmVzIGl0Lg0KDQpUaGlzIGFtb3VudCBpcyB1c2VkIGZvciBwaHkgcGFyYW1ldGVycy4gSSB3
-aWxsIG1vdmUgaXQgdG8gcGh5IGRyaXZlci4NCg0KDQo+ID4gKw0KPiA+ICsgIHBoeTA6DQo+ID4g
-KyAgICBkZXNjcmlwdGlvbjogVGhlIGNoaWxkIG5vZGUgb2YgUEhZIGZvciB0aGUgcGFyYW1ldGVy
-IHYxLg0KPiANCj4gPz8/IE9wZW4gb3RoZXIgcGh5IGJpbmRpbmdzIGFuZCB1c2UgdGhlbSBhcyBl
-eGFtcGxlLg0KDQpwaHkwIENoaWxkIG5vZGUgaXMgZGVmaW5lZCB0byBhc3NpZ24gdGhlIHBoeSBw
-YXJhbWV0ZXIuDQpJIHdpbGwgcmVtb3ZlIGl0Lg0KDQo+ID4gKyAgICB0eXBlOiBvYmplY3QNCj4g
-PiArICAgIHByb3BlcnRpZXM6DQo+ID4gKyAgICAgIHJlYWx0ZWsscGh5LWRhdGEtcGFnZTAtc2l6
-ZToNCj4gPiArICAgICAgICBkZXNjcmlwdGlvbjogUEhZIGRhdGEgcGFnZSAwIHNpemUNCj4gPiAr
-ICAgICAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzINCj4g
-PiArDQo+ID4gKyAgICAgIHJlYWx0ZWsscGh5LWRhdGEtcGFnZTAtYWRkcjoNCj4gPiArICAgICAg
-ICBkZXNjcmlwdGlvbjogUEhZIGRhdGEgcGFnZSAwIGFkZHJlc3MNCj4gPiArICAgICAgICAkcmVm
-OiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50OC1hcnJheQ0KPiA+ICsNCj4g
-PiArICAgICAgcmVhbHRlayxwaHktZGF0YS1wYWdlMC1BMDA6DQo+ID4gKyAgICAgICAgZGVzY3Jp
-cHRpb246IFBIWSBkYXRhIHBhZ2UgMCB2YWx1ZQ0KPiA+ICsgICAgICAgICRyZWY6IC9zY2hlbWFz
-L3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQ4LWFycmF5DQo+ID4gKw0KPiA+ICsgICAgICBy
-ZWFsdGVrLHBoeS1kYXRhLXBhZ2UxLXNpemU6DQo+ID4gKyAgICAgICAgZGVzY3JpcHRpb246IFBI
-WSBkYXRhIHBhZ2UgMSBzaXplDQo+ID4gKyAgICAgICAgJHJlZjogL3NjaGVtYXMvdHlwZXMueWFt
-bCMvZGVmaW5pdGlvbnMvdWludDMyDQo+ID4gKw0KPiA+ICsgICAgICByZWFsdGVrLHBoeS1kYXRh
-LXBhZ2UxLWFkZHI6DQo+ID4gKyAgICAgICAgZGVzY3JpcHRpb246IFBIWSBkYXRhIHBhZ2UgMSBh
-ZGRyZXNzDQo+ID4gKyAgICAgICAgJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlv
-bnMvdWludDgtYXJyYXkNCj4gPiArDQo+ID4gKyAgICAgIHJlYWx0ZWsscGh5LWRhdGEtcGFnZTEt
-QTAwOg0KPiA+ICsgICAgICAgIGRlc2NyaXB0aW9uOiBQSFkgZGF0YSBwYWdlIDEgdmFsdWUNCj4g
-PiArICAgICAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50OC1h
-cnJheQ0KPiA+ICsNCj4gPiArICAgICAgcmVhbHRlayxwaHktZGF0YS1wYWdlMi1zaXplOg0KPiA+
-ICsgICAgICAgIGRlc2NyaXB0aW9uOiBQSFkgZGF0YSBwYWdlIDIgc2l6ZQ0KPiA+ICsgICAgICAg
-ICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMg0KPiA+ICsNCj4g
-PiArICAgICAgcmVhbHRlayxwaHktZGF0YS1wYWdlMi1hZGRyOg0KPiA+ICsgICAgICAgIGRlc2Ny
-aXB0aW9uOiBQSFkgZGF0YSBwYWdlIDIgYWRkcmVzcw0KPiA+ICsgICAgICAgICRyZWY6IC9zY2hl
-bWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQ4LWFycmF5DQo+ID4gKw0KPiA+ICsgICAg
-ICByZWFsdGVrLHBoeS1kYXRhLXBhZ2UyLUEwMDoNCj4gPiArICAgICAgICBkZXNjcmlwdGlvbjog
-UEhZIGRhdGEgcGFnZSAyIHZhbHVlDQo+ID4gKyAgICAgICAgJHJlZjogL3NjaGVtYXMvdHlwZXMu
-eWFtbCMvZGVmaW5pdGlvbnMvdWludDgtYXJyYXkNCj4gPiArDQo+ID4gKyAgICAgIHJlYWx0ZWss
-ZG8tdG9nZ2xlOg0KPiA+ICsgICAgICAgIGRlc2NyaXB0aW9uOiBEbyBQSFkgcGFyYW1ldGVyIHRv
-Z2dsZSB3aGVuIHBvcnQgc3RhdHVzIGNoYW5nZQ0KPiA+ICsgICAgICAgIHR5cGU6IGJvb2xlYW4N
-Cj4gPiArDQo+ID4gKyAgICAgIHJlYWx0ZWssY2hlY2stZWZ1c2U6DQo+ID4gKyAgICAgICAgZGVz
-Y3JpcHRpb246IEVuYWJsZSB0byBmaXggUEhZIHBhcmFtZXRlciBmcm9tIHJlYWRpbmcgb3RwIHRh
-YmxlDQo+ID4gKyAgICAgICAgdHlwZTogYm9vbGVhbg0KPiA+ICsNCj4gPiArICAgICAgcmVhbHRl
-ayx1c2UtZGVmYXVsdC1wYXJhbWV0ZXI6DQo+ID4gKyAgICAgICAgZGVzY3JpcHRpb246IERvbid0
-IHNldCBwYXJhbWV0ZXIgYW5kIHVzZSBkZWZhdWx0IHZhbHVlDQo+ID4gKyAgICAgICAgdHlwZTog
-Ym9vbGVhbg0KPiA+ICsNCj4gPiArICAgICAgcmVhbHRlayxpcy1kb3VibGUtc2Vuc2l0aXZpdHkt
-bW9kZToNCj4gPiArICAgICAgICBkZXNjcmlwdGlvbjogRW5hYmxlIGRvdWJsZSBzZW5zaXRpdml0
-eSBtb2RlDQo+ID4gKyAgICAgICAgdHlwZTogYm9vbGVhbg0KPiA+ICsNCj4gPiArICAgICAgcmVh
-bHRlayxsZG8tcGFnZTAtZTQtY29tcGVuc2F0ZToNCj4gPiArICAgICAgICBkZXNjcmlwdGlvbjog
-QWRqdXN0IHRoZSBQSFkgcGFyYW1ldGVyIGZvciBwYWdlIDAgMHhFNCBmb3IgbGRvDQo+IG1vZGUN
-Cj4gPiArICAgICAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50
-MzINCj4gPiArDQo+ID4gKyAgICAgIHJlYWx0ZWsscGFnZTAtZTQtY29tcGVuc2F0ZToNCj4gPiAr
-ICAgICAgICBkZXNjcmlwdGlvbjogQWRqdXN0IHRoZSBQSFkgcGFyYW1ldGVyIGZvciBwYWdlIDAg
-MHhFNA0KPiA+ICsgICAgICAgICAgZm9yIGVmdXNlIHRhYmxlIHYyDQo+ID4gKyAgICAgICAgJHJl
-ZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyDQo+IA0KPiBJIGRvbid0
-IHVuZGVyc3RhbmQgd2hhdCdzIGFsbCB0aGlzIGZvci4gTW9zdCBvZiB0aGVzZSBkZXNjcmlwdGlv
-bnMgZG8gbm90IGV4cGxhaW4NCj4gYW55dGhpbmcgZXhjZXB0IGR1cGxpY2F0aW5nIG5hbWUgb2Yg
-cHJvcGVydHkuDQoNCkknbGwgc2ltcGxpZnkgdGhlc2UgcHJvcGVydGllcyBhbmQgcmVtb3ZlIHRo
-ZSBvbmUgYWJvdXQgdGhlIHBoeSBwYXJhbWV0ZXIuDQoNCj4gT25lIGh1Z2UgTkFLIGZvciB0aGVz
-ZSBiaW5kaW5ncy4gSXQgbG9va3MgbGlrZSBjb3B5LXBhc3RlIGZyb20gZG93bnN0cmVhbQ0KPiBz
-dHVmZiB3aGljaCBzaG91bGQgbmV2ZXIgYmUgc2VudCBhcyBpcyB0byB1cHN0cmVhbS4gSSBhbSBz
-b3JyeSBmb3IgYmVpbmcgaGFyc2gsDQo+IGJ1dCBhbW91bnQgb2YgcXVlc3Rpb25zLCBjb2Rpbmcg
-YW5kIG5hbWluZyBzdHlsZXMsIGluY29ycmVjdCBjaG9pY2VzIGlzIGp1c3QgdG9vDQo+IGJpZyB0
-byBoYW5kbGUgaW4gb25lIHJldmlldy4NCj4gDQoNCkkgd2lsbCByZWZhY3RvciB0aGlzIGR0cyBi
-YXNlZCBvbiB5b3VyIGNvbW1lbnRzLg0KDQpUaGFua3MsDQpTdGFubGV5DQo=
+xhci_debugfs_create_endpoint needs to take the mm->mmap_sem, which is
+not serialized with the hcd->bandwidth_mutex across the codebase.
+
+Without this patch a deadlock has been observed with the uvc driver at
+the functions v4l2_mmap() and usb_set_interface().
+
+Cc: Stephen Boyd <swboyd@chromium.org>
+Fixes: 167657a1bb5f ("xhci: don't create endpoint debugfs entry before ring buffer is set.")
+Signed-off-by: Ricardo Ribalda Delgado <ribalda@chromium.org>
+---
+Even though I do not have a proper reproducer for this, I do not see
+this deadlock happening after fuzzing locally my kernel.
+
+I am not used to this subsystem, so please take a careful look at
+this patch :).
+
+Thanks!
+---
+Changes in v2:
+- Fix Stepeh email. Thanks Greg!
+- Update cover to note that with this patch the deadlock does not
+  happen.
+- Link to v1: https://lore.kernel.org/r/20230531-xhci-deadlock-v1-1-57780bff5124@chromium.org
+---
+ drivers/usb/host/xhci-debugfs.c | 4 ++++
+ drivers/usb/host/xhci.c         | 4 ++--
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
+index 99baa60ef50f..2acce2af2ca9 100644
+--- a/drivers/usb/host/xhci-debugfs.c
++++ b/drivers/usb/host/xhci-debugfs.c
+@@ -238,6 +238,10 @@ static int xhci_ring_open(struct inode *inode, struct file *file)
+ 	int			i;
+ 	struct xhci_file_map	*f_map;
+ 	const char		*file_name = file_dentry(file)->d_iname;
++	struct xhci_ring	*ring = *(struct xhci_ring **)inode->i_private;
++
++	if (!ring)
++		return -EAGAIN;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(ring_files); i++) {
+ 		f_map = &ring_files[i];
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 78790dc13c5f..2715900b2540 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1930,6 +1930,8 @@ int xhci_add_endpoint(struct usb_hcd *hcd, struct usb_device *udev,
+ 	ep_ctx = xhci_get_ep_ctx(xhci, virt_dev->in_ctx, ep_index);
+ 	trace_xhci_add_endpoint(ep_ctx);
+ 
++	xhci_debugfs_create_endpoint(xhci, virt_dev, ep_index);
++
+ 	xhci_dbg(xhci, "add ep 0x%x, slot id %d, new drop flags = %#x, new add flags = %#x\n",
+ 			(unsigned int) ep->desc.bEndpointAddress,
+ 			udev->slot_id,
+@@ -2963,7 +2965,6 @@ int xhci_check_bandwidth(struct usb_hcd *hcd, struct usb_device *udev)
+ 		xhci_check_bw_drop_ep_streams(xhci, virt_dev, i);
+ 		virt_dev->eps[i].ring = virt_dev->eps[i].new_ring;
+ 		virt_dev->eps[i].new_ring = NULL;
+-		xhci_debugfs_create_endpoint(xhci, virt_dev, i);
+ 	}
+ command_cleanup:
+ 	kfree(command->completion);
+@@ -2989,7 +2990,6 @@ void xhci_reset_bandwidth(struct usb_hcd *hcd, struct usb_device *udev)
+ 	/* Free any rings allocated for added endpoints */
+ 	for (i = 0; i < 31; i++) {
+ 		if (virt_dev->eps[i].new_ring) {
+-			xhci_debugfs_remove_endpoint(xhci, virt_dev, i);
+ 			xhci_ring_free(xhci, virt_dev->eps[i].new_ring);
+ 			virt_dev->eps[i].new_ring = NULL;
+ 		}
+
+---
+base-commit: 48b1320a674e1ff5de2fad8606bee38f724594dc
+change-id: 20230531-xhci-deadlock-de2ab21c90bc
+
+Best regards,
+-- 
+Ricardo Ribalda Delgado <ribalda@chromium.org>
+
