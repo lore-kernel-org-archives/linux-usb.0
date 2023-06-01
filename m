@@ -2,61 +2,61 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAA79C7EE2E
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Jun 2023 14:07:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6030BC7EE31
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Jun 2023 14:07:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233809AbjFAOHh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 1 Jun 2023 10:07:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56698 "EHLO
+        id S233480AbjFAOHj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 1 Jun 2023 10:07:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233784AbjFAOH1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Jun 2023 10:07:27 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB1B3E4E
-        for <linux-usb@vger.kernel.org>; Thu,  1 Jun 2023 07:07:15 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-30ae95c4e75so944494f8f.2
-        for <linux-usb@vger.kernel.org>; Thu, 01 Jun 2023 07:07:15 -0700 (PDT)
+        with ESMTP id S233703AbjFAOHY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Jun 2023 10:07:24 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3DCA1A5
+        for <linux-usb@vger.kernel.org>; Thu,  1 Jun 2023 07:07:11 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-30af86a966eso829273f8f.2
+        for <linux-usb@vger.kernel.org>; Thu, 01 Jun 2023 07:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685628434; x=1688220434;
+        d=linaro.org; s=google; t=1685628430; x=1688220430;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4orPicnt68KcAk51goo/EZdt5c9EB1sU8JStjJm7IEc=;
-        b=ExQKvzEoBSwlAyG1Wemz5LrDsU4TsLGKzctvRbL0HH+OV8JgNX9UeJOFrfAnk0CbZm
-         fcECF86KhXQNoTLTTSomLr6QnRtIU/Rz7cwlfCtoHOFqm6ckfZv0RDlegMSNryt8Nd3j
-         O9pAeSJj/edIgYY2zA3VouMznMd6D+6paw1WWPrbrR0X9ruq+I4OEmjdiHg6FhIyH6xP
-         XxXH/E+Q9n3K4V6LNkhgceHemkuNPi5qk7ZDhEA8/NnCeD39RBgHhl7elEDlm7DBRoBG
-         CEYuPgesulwwy3A1Gs3rX7by4QZjohE2Gh6O/1bVJTCcOJjTURFsfyTlQqWEeLQSUH61
-         zH5w==
+        bh=V3z35kLjtVuNkh8LHdIFDlyQAvirx/CBbOVPwkvzphA=;
+        b=y5/oETRa03uuSXHwuLiyXWSVNCC9Qnzt7sq7Cb0qYu6SBkus46f5CLA5UxoSVa5vW4
+         64LS13I8FXyBoe1VP8sZ8owpBA91KvBi59IBoY3gI50hG2JELRBGNkP0tjORl/2/n/ho
+         ioTLw7HG8+2038f63E9yme8Pxim4GCruGImjeeGRBecCgyUaEhUtk2Tye5Dhh8yo5jzC
+         hGtoBLNheflJP/w4QkJYSSb5WiMGU99cCEnqP0hGET2BpqSXqgr/Yh8TnfhzSaV2UDvD
+         29JYf1PAoz4ZJfVJCNqnPkp1VGASNwS/4DlRU3U++PwQ5TZu+PK7u+PrIvgVExBBMSLf
+         V3OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685628434; x=1688220434;
+        d=1e100.net; s=20221208; t=1685628430; x=1688220430;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4orPicnt68KcAk51goo/EZdt5c9EB1sU8JStjJm7IEc=;
-        b=equ0nzTZyiO2xlq1twq6R+W2xGrzsymKf6G7cQXkcYm4r94u+xzcq5A+TJTJDq9hY5
-         Vn+Il0cq41/JzrCpV7bSZsUZ2/NdxNTMh5fJ/oVB8TDSsP/HWq7KU8mdfU/6o07SvGHB
-         amSPrfb2Bi1KMfZZ83ECUXvaNWpztmzMzApUEI4xF9s7lySraH4COzE4nDY169C5dFTq
-         qJZSsViJFlfUxWxHFj2cTiG6CbIR0+36Vs6niBu2sjhzmOyrouWgHNbmEBSvrRO+cHWl
-         QbQgOw4qYsdpxUJXXWXRCmDPs8UNx8Q71mLpVT0zL5BnKwrO+aXQtERfNX2empMrgP7P
-         gi+w==
-X-Gm-Message-State: AC+VfDxPlVFW7yjMeFfYrLplKwnqnTtxj1kdpbTtZkxZ7Qjf/Pc+wZZt
-        t4QaWQnMnS/dlTbC27NGT1LHdQzQN2Qk+GkMXG8YRQ==
-X-Google-Smtp-Source: ACHHUZ7rsW88N6lOxdJEgvlQNko6WAiNoPfRl9CKXdC3X0aZFPLtHge3mhbdR9rSridmzH5YyHBkIg==
-X-Received: by 2002:a5d:6889:0:b0:306:3204:3633 with SMTP id h9-20020a5d6889000000b0030632043633mr1967387wru.22.1685628433808;
-        Thu, 01 Jun 2023 07:07:13 -0700 (PDT)
+        bh=V3z35kLjtVuNkh8LHdIFDlyQAvirx/CBbOVPwkvzphA=;
+        b=SbjC4GTTie+Jumi62Gj8kXhfoXMqkHSWy1U0a0i04ShhgBL0i/E6gVHUBHqBiUIeg3
+         c92k50CmGRIdhuAuCKyF1mh7iTg5LTWWb2bU6hy42K8Os5gQ3tSJQd0rRQgalxvlDM3v
+         OgNt9yn6bfxDYzVhhnf3nkmkbwj2Fm6h1fzXMBwaen2i0Tl/8MjT6nZABpNZDkmjp0nA
+         vMyNPBPrZk+luJB3qZxKQMiEEbuFKlZCMbS1y4CwySo63IfConzYdF8rEtu5qEwbP0+w
+         1bkBnWL+dzqltD0uvRQl+w5X0vHac6DiHeQb/3qUAbh920WHjRGWxpb+1+wnJf/6gExi
+         2zWA==
+X-Gm-Message-State: AC+VfDwdfR4xeTRQTNUvOOp+a/k5orkAILnBdqW8aZJ378o+fr7jyf2/
+        Yppn82F7XX6s1AFENToNtE1mAQ==
+X-Google-Smtp-Source: ACHHUZ5CzLNx60c1NjSH+2PVivdCwFMDwJYuA3ptSoHHTHGRrdd+pilefHfzahocA+HHdcNzW0ffkw==
+X-Received: by 2002:adf:ee49:0:b0:306:3da7:f33c with SMTP id w9-20020adfee49000000b003063da7f33cmr2145483wro.63.1685628429947;
+        Thu, 01 Jun 2023 07:07:09 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id k11-20020adfe3cb000000b003078a3f3a24sm10504166wrm.114.2023.06.01.07.07.13
+        by smtp.gmail.com with ESMTPSA id k11-20020adfe3cb000000b003078a3f3a24sm10504166wrm.114.2023.06.01.07.07.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jun 2023 07:07:13 -0700 (PDT)
+        Thu, 01 Jun 2023 07:07:09 -0700 (PDT)
 From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Thu, 01 Jun 2023 16:07:07 +0200
-Subject: [PATCH RFC 7/7] arm64: dts: qcom: sm8550-qrd: add pmic glink
- port/endpoints
+Date:   Thu, 01 Jun 2023 16:07:03 +0200
+Subject: [PATCH RFC 3/7] usb: ucsi: glink: use the connector orientation
+ GPIO to provide switch events
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230601-topic-sm8550-upstream-type-c-v1-7-d4d97b4d8bab@linaro.org>
+Message-Id: <20230601-topic-sm8550-upstream-type-c-v1-3-d4d97b4d8bab@linaro.org>
 References: <20230601-topic-sm8550-upstream-type-c-v1-0-d4d97b4d8bab@linaro.org>
 In-Reply-To: <20230601-topic-sm8550-upstream-type-c-v1-0-d4d97b4d8bab@linaro.org>
 To:     Rob Herring <robh+dt@kernel.org>,
@@ -72,184 +72,135 @@ Cc:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
         linux-usb@vger.kernel.org,
         Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3104;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3571;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=2o8Mr95zHAAYTm7V2lzbLu+s4H+9UDeicqA1V3dHXNo=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBkeKYJmAFvc6BjEkKgpghb9tYE0YV5C2eXm9oGCQp7
- R/7e+iaJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZHimCQAKCRB33NvayMhJ0WooD/
- 9/xGvuH88qDBLtFtze9Ine8Ag3ZbydiMNbl2M8Bg8RIl10V68FmzQyCfpMOt33COaeYLHzqcegp/mA
- MJjJ9yX7GFTUbdUWgARFKbeRbDIAKuFnrNcQIt9Kdddfs0CJxwB5K6yo8PYnlInbwsz71P289GFCKn
- gKOoj5I0EJKyxtXfacHYzclDPSaHBc0YumgcuTc1cVsHQ2C+GGewSSAyUAb4h92Al9dNEJAgD6DKi1
- K2gC/jhyP4CrXeJnXfDlNE1iLMX5NZ7T6PjchqaeD6vcJv7bgt6IfY01jfXfWYV3IuJamTbdzH5OSz
- SidVT6thXS9IO5ui6BbNahXnJMnzAybJX8Ip14/WdzLKFWWCcujF3hp2TQ5ztxHq72nfrnqMuJ2ZOo
- IZRoZyzBXtXiPlfSPXo6eRTGml2TpeM/bUmtf/yqW4msaKikzuex2/2YBtHgzRCO7Cx9+bu7jFq9tH
- XzjTB3xoYrv9rWAT3UHCHjIgG0H1wb/tDhZvImtmDQ14Yn/rmskFbMQohuu0dHgCqUtl0R3Bg7QOYB
- osQyUKDdCZ71810TLxgPjca93sxca3T9vRqzPNg4eJnrHbd/v6DmfdVOEaMTkHbixeBt7hUIY+YLDA
- VmjY4Z/mpTr8vn4B49cj2p1g+iR8eF2L7Vt2zSKA1/PZROrIh6xjxkgouNbQ==
+ bh=nJzT9fSe7XhRaSGcBOCqWkQuuh2QqOFxCUaZKNz/46s=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBkeKYIcAjNdfLajEPadXGFRYAAiXnX1eiGjYcS0J1r
+ 3lfUSwOJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZHimCAAKCRB33NvayMhJ0UkID/
+ wK4HWOcabQ64d8G4yr346nWvW3b/N0rmtpPOOcx7H0jLxfL6rrDvs0fDdvei5eDdEVrEJPGhg9cZl2
+ XMcJan2rmkEsdTccIEwzO1rc+FKSaT8GmMfi2aTckhTLB4oa0Wu/lnibmisRqTo4Dp0GsZrMPR4G+b
+ yPdqkFgHbxd2F44bYT8YW2V5sChJY8qFhnHprkxTveAxSpmJgdfPTTSqXs2GKeUq60IDf21FRus7SJ
+ lLj6d3LtTmN6Mnc+qyfDF3F4cRV9BDGXZquNOsVFS7vc2sSiS76DSg/qN8qpLO9ZiLbR7oXdmBfwGi
+ fwtUYOnpR8aKnMXIOiXI6nHox7e65Cjnp5L+nCcE9Ny/OKYGH6onM06FRlabhuNccVmoN9nnqjdK1/
+ 5OszzVugczqk8TLN8IbsFGr7YMewNdihVFIzTRMd0dd3hHIzZl6hlgiP7rUk5wWKbhGXCie/anlM4h
+ 62VnNLq9RYqgvRsm3FZD+7KckM0C+EqqAsUeIs44W5C94DVa+gdENeJUldXsXpPxJUXQfhFUgHWJvw
+ i5Ejwql6VLXDLb0xRLyUXgbtSEb+Zd8w53ZY+ufO6QQ/ijeYSI7I82bScSRciFayIQLfaLjcp7gaE8
+ DwibO4KP4aKnI9PAvt8M3u5BP2wsaviTMeBxYKCeubkjvDdUuOsiRx/XyMmQ==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add nodes to support Type-C USB/DP functionality.
+On SM8550, the non-altmode orientation is not given anymore within
+altmode events, even with USB SVIDs events.
 
-On this platform, a Type-C redriver is added to the
-SuperSpeed graph.
+On the other side, the Type-C connector orientation is correctly
+reported by a signal from the PMIC.
+
+Take this gpio signal when we detect some Type-C port activity
+to notify any Type-C switches tied to the Type-C port connectors.
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm8550-qrd.dts | 99 ++++++++++++++++++++++++++++++++-
- 1 file changed, 97 insertions(+), 2 deletions(-)
+ drivers/usb/typec/ucsi/ucsi_glink.c | 52 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 51 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8550-qrd.dts b/arch/arm64/boot/dts/qcom/sm8550-qrd.dts
-index 8669d29144bb..edb31efa563a 100644
---- a/arch/arm64/boot/dts/qcom/sm8550-qrd.dts
-+++ b/arch/arm64/boot/dts/qcom/sm8550-qrd.dts
-@@ -64,6 +64,7 @@ connector@0 {
- 			reg = <0>;
- 			power-role = "dual";
- 			data-role = "dual";
-+			orientation-gpios = <&tlmm 11 GPIO_ACTIVE_HIGH>;
+diff --git a/drivers/usb/typec/ucsi/ucsi_glink.c b/drivers/usb/typec/ucsi/ucsi_glink.c
+index 1fe9cb5b6bd9..88491dbff7e3 100644
+--- a/drivers/usb/typec/ucsi/ucsi_glink.c
++++ b/drivers/usb/typec/ucsi/ucsi_glink.c
+@@ -9,9 +9,13 @@
+ #include <linux/mutex.h>
+ #include <linux/property.h>
+ #include <linux/soc/qcom/pdr.h>
++#include <linux/usb/typec_mux.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/soc/qcom/pmic_glink.h>
+ #include "ucsi.h"
  
- 			ports {
- 				#address-cells = <1>;
-@@ -81,7 +82,15 @@ port@1 {
- 					reg = <1>;
++#define PMIC_GLINK_MAX_PORTS	2
++
+ #define UCSI_BUF_SIZE                   48
  
- 					pmic_glink_ss_in: endpoint {
--						remote-endpoint = <&usb_1_dwc3_ss>;
-+						remote-endpoint = <&redriver_ss_out>;
-+					};
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+
-+					pmic_glink_sbu: endpoint {
-+						remote-endpoint = <&fsa4480_sbu_mux>;
- 					};
- 				};
- 			};
-@@ -420,6 +429,69 @@ vreg_l3g_1p2: ldo3 {
- 	};
- };
+ #define MSG_TYPE_REQ_RESP               1
+@@ -53,6 +57,9 @@ struct ucsi_notify_ind_msg {
+ struct pmic_glink_ucsi {
+ 	struct device *dev;
  
-+&i2c_master_hub_0 {
-+	status = "okay";
-+};
++	struct gpio_desc *port_orientation[PMIC_GLINK_MAX_PORTS];
++	struct typec_switch *port_switch[PMIC_GLINK_MAX_PORTS];
 +
-+&i2c_hub_2 {
-+	status = "okay";
-+
-+	typec-mux@1c {
-+		compatible = "onnn,nb7vpq904m";
-+		reg = <0x1c>;
-+
-+		vcc-supply = <&vreg_l15b_1p8>;
-+
-+		mode-switch;
-+		orientation-switch;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+
-+				redriver_ss_out: endpoint {
-+					remote-endpoint = <&pmic_glink_ss_in>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+
-+				redriver_ss_in: endpoint {
-+					data-lanes = <2 3 0 1>;
-+					remote-endpoint = <&usb_dp_qmpphy_out>;
-+				};
-+			};
-+		};
-+	};
-+
-+	fsa4480@42 {
-+		compatible = "fcs,fsa4480";
-+		reg = <0x42>;
-+
-+		vcc-supply = <&vreg_bob1>;
-+
-+		mode-switch;
-+		orientation-switch;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+
-+				fsa4480_sbu_mux: endpoint {
-+					remote-endpoint = <&pmic_glink_sbu>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &gcc {
- 	clocks = <&bi_tcxo_div2>, <&sleep_clk>,
- 		 <&pcie0_phy>,
-@@ -471,6 +543,15 @@ &mdss_dsi0_phy {
- 	status = "okay";
- };
+ 	struct pmic_glink_client *client;
  
-+&mdss_dp0 {
-+	status = "okay";
-+};
-+
-+&mdss_dp0_out {
-+	data-lanes = <0 1>;
-+	remote-endpoint = <&usb_dp_qmpphy_dp_in>;
-+};
-+
- &pcie_1_phy_aux_clk {
- 	status = "disabled";
- };
-@@ -650,7 +731,7 @@ &usb_1_dwc3_hs {
- };
+ 	struct ucsi *ucsi;
+@@ -221,8 +228,20 @@ static void pmic_glink_ucsi_notify(struct work_struct *work)
+ 	}
  
- &usb_1_dwc3_ss {
--	remote-endpoint = <&pmic_glink_ss_in>;
-+	remote-endpoint = <&usb_dp_qmpphy_usb_ss_in>;
- };
+ 	con_num = UCSI_CCI_CONNECTOR(cci);
+-	if (con_num)
++	if (con_num) {
++		if (con_num < PMIC_GLINK_MAX_PORTS &&
++		    ucsi->port_orientation[con_num - 1]) {
++			int orientation = gpiod_get_value(ucsi->port_orientation[con_num - 1]);
++
++			if (orientation >= 0) {
++				typec_switch_set(ucsi->port_switch[con_num - 1],
++						 orientation ? TYPEC_ORIENTATION_REVERSE
++							     : TYPEC_ORIENTATION_NORMAL);
++			}
++		}
++
+ 		ucsi_connector_change(ucsi->ucsi, con_num);
++	}
  
- &usb_1_hsphy {
-@@ -666,9 +747,23 @@ &usb_dp_qmpphy {
- 	vdda-phy-supply = <&vreg_l3e_1p2>;
- 	vdda-pll-supply = <&vreg_l3f_0p88>;
+ 	if (ucsi->sync_pending && cci & UCSI_CCI_BUSY) {
+ 		ucsi->sync_val = -EBUSY;
+@@ -283,6 +302,7 @@ static int pmic_glink_ucsi_probe(struct auxiliary_device *adev,
+ {
+ 	struct pmic_glink_ucsi *ucsi;
+ 	struct device *dev = &adev->dev;
++	struct fwnode_handle *fwnode;
+ 	int ret;
  
-+	orientation-switch;
-+
- 	status = "okay";
- };
+ 	ucsi = devm_kzalloc(dev, sizeof(*ucsi), GFP_KERNEL);
+@@ -310,6 +330,36 @@ static int pmic_glink_ucsi_probe(struct auxiliary_device *adev,
  
-+&usb_dp_qmpphy_dp_in {
-+	remote-endpoint = <&mdss_dp0_out>;
-+};
+ 	ucsi_set_drvdata(ucsi->ucsi, ucsi);
+ 
++	device_for_each_child_node(dev, fwnode) {
++		u32 port;
 +
-+&usb_dp_qmpphy_out {
-+	remote-endpoint = <&redriver_ss_in>;
-+};
++		ret = fwnode_property_read_u32(fwnode, "reg", &port);
++		if (ret < 0) {
++			dev_err(dev, "missing reg property of %pOFn\n", fwnode);
++			return ret;
++		}
 +
-+&usb_dp_qmpphy_usb_ss_in {
-+	remote-endpoint = <&usb_1_dwc3_ss>;
-+};
++		if (port >= PMIC_GLINK_MAX_PORTS) {
++			dev_warn(dev, "invalid connector number, ignoring\n");
++			continue;
++		}
 +
- &xo_board {
- 	clock-frequency = <76800000>;
- };
++		ucsi->port_orientation[port] = devm_fwnode_gpiod_get(&adev->dev, fwnode,
++								     "orientation",
++								     GPIOD_IN, NULL);
++		if (IS_ERR(ucsi->port_orientation[port]))
++			return dev_err_probe(dev, PTR_ERR(ucsi->port_orientation[port]),
++					     "unable to acquire orientation gpio\n");
++
++		if (!ucsi->port_orientation[port])
++			continue;
++
++		ucsi->port_switch[port] = fwnode_typec_switch_get(fwnode);
++		if (IS_ERR(ucsi->port_switch[port]))
++			return dev_err_probe(dev, PTR_ERR(ucsi->port_switch[port]),
++					"failed to acquire orientation-switch\n");
++	}
++
+ 	ucsi->client = devm_pmic_glink_register_client(dev,
+ 						       PMIC_GLINK_OWNER_USBC,
+ 						       pmic_glink_ucsi_callback,
 
 -- 
 2.34.1
