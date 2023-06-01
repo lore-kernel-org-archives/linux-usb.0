@@ -2,132 +2,252 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F362C77B7E
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Jun 2023 09:14:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6845BC77B7A
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Jun 2023 09:21:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232546AbjFAJO2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 1 Jun 2023 05:14:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38288 "EHLO
+        id S232735AbjFAJVg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 1 Jun 2023 05:21:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232558AbjFAJOY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Jun 2023 05:14:24 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF99136
-        for <linux-usb@vger.kernel.org>; Thu,  1 Jun 2023 02:14:21 -0700 (PDT)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57A56105;
-        Thu,  1 Jun 2023 11:13:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685610838;
-        bh=ZpZ4ao64bELY7E0fzyhyw35CO0oLGJSJXwkyZ8SPT+g=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=XlB0fSd3b+QIbsIP/6ShFyV35egVrpsqd5WbhCMTsnKn11Gd3qv4f1D55GgotM1eH
-         FyN7aBysNt6+RAW45aRGvpYYkjlkYACXIzx48H2Hku4M7E+0+IM1jeUa8Go5RlfjxK
-         Tv99m9pbW3oGSHSJvm1FRq4rFNKJyMPQkkXXC/+0=
-Message-ID: <78ae5641-0650-f380-feba-7e7093f8ee39@ideasonboard.com>
-Date:   Thu, 1 Jun 2023 10:14:17 +0100
+        with ESMTP id S232723AbjFAJVe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Jun 2023 05:21:34 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5CFE123
+        for <linux-usb@vger.kernel.org>; Thu,  1 Jun 2023 02:21:31 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2af1822b710so8464581fa.1
+        for <linux-usb@vger.kernel.org>; Thu, 01 Jun 2023 02:21:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685611290; x=1688203290;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZwGK0qoDjGX0JH8bcYXPEvdmm3zCPiYfNZofJMi9QKI=;
+        b=rAFWauAF17PGOXMAq/kd+bXYCQ1iwep6dFR8vGPz2mHFudp2idnj7HWqxSIhF9ksmc
+         qNkXWboTdiNuoJGNSipQbprbEHLZ5t6AHT5f8UqseLKTp92f33v4ovXk7Cqs3qZpC6MW
+         PV9NRNIn/7Ap0ZyWW9+RuJ9S0jsgnGZl8B5bwLfZUF6kceKOfkTT7/NjjezCKTHVJM6i
+         bSmwJg1ZebZxSLFmJBP8HSIg0Fv566triJH3OBccOERv6HVR5kwp84iDOyDJ46C3YLcC
+         K7mRT+L3x/Lf+7mIYwC7l4HlOOzPoHveIfJAwBudH+lWafvZiaBZYRz72MywxQLpnOEv
+         99mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685611290; x=1688203290;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZwGK0qoDjGX0JH8bcYXPEvdmm3zCPiYfNZofJMi9QKI=;
+        b=fol8bv1ID7GxrW6DtrbMoO8hrRTX75LlhAKAvdlRzLMN7Fa2C2VIgUJcmwJqiu1Ug6
+         5U5F0aeSkqBsNGKdNHrmeoimBu0Qtz58lR7U5pWM0u5TOKa12Bj28p55FtW9QHarsnCJ
+         wtDJSS+d7Wcsnb43VcImcZN5Lwfq0vsRb4vCOCEzyytSZweGGmt+yiavRf83IT9hT9cY
+         iApt84eV0eULxRoIpbNcNR4hDwWXessEfBEwl6RsxXE61DruwdyFCf0xLMNLXep0h4lg
+         CaPzMmbCQtgl8H5UyTJ2s8jXF7fpY2HGsESOIqs0oTWbsev9MEg3hlH0eDamEIMlUkcZ
+         7udg==
+X-Gm-Message-State: AC+VfDxz1XhwbX4pHhFN6DrEGa/44tCz7dQzvnTDZ1xKxHlhQFBD1k3L
+        Dp5tCSRlj/dH4xqA1NNLRIgKlQ==
+X-Google-Smtp-Source: ACHHUZ7qj2PQGJs0JEW5DzuvuFrnOFTDItB2hIL41o+/4K+ucT8qI4A7vPZz6M4HpA6nLqP9CpRlLw==
+X-Received: by 2002:a2e:8302:0:b0:2b0:4c72:98fe with SMTP id a2-20020a2e8302000000b002b04c7298femr4318556ljh.45.1685611290053;
+        Thu, 01 Jun 2023 02:21:30 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id a2-20020a1cf002000000b003f3157988f8sm1671572wmb.26.2023.06.01.02.21.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jun 2023 02:21:29 -0700 (PDT)
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Date:   Thu, 01 Jun 2023 11:21:12 +0200
+Subject: [PATCH 1/2] dt-bindings: usb: add ON Semiconductor nb7vpq904m
+ Type-C Linear Redriver bindings
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] usb: dwc3: gadget: Clear DWC3_EP_PENDING_REQUEST from
- non-0 endpoints
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "torleiv@huddly.com" <torleiv@huddly.com>
-References: <20230531085544.253363-1-dan.scally@ideasonboard.com>
- <69135fc1-5ebb-ff95-4c7b-17cf8e30c924@ideasonboard.com>
- <20230531182525.r2rf3mg3fhec2uo2@synopsys.com>
-Content-Language: en-US
-From:   Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20230531182525.r2rf3mg3fhec2uo2@synopsys.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20230601-topic-sm8x50-upstream-redriver-v1-1-6ad21094ff6f@linaro.org>
+References: <20230601-topic-sm8x50-upstream-redriver-v1-0-6ad21094ff6f@linaro.org>
+In-Reply-To: <20230601-topic-sm8x50-upstream-redriver-v1-0-6ad21094ff6f@linaro.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5069;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=WmTA18+aiJspbeMjHnTmU5gXepbbKxIUGkdpuOjC9jc=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBkeGMXJSmFhv9l6JaOu2SonWjyzGOh7sKyN2Jg3tyh
+ /yd5H3GJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZHhjFwAKCRB33NvayMhJ0erGD/
+ 4iXpJ4x0bImiPTaRl+EdzU6rRq3mtw9G/6AWwlgAZ4+EXR9SNLyubioL7mF2hmXzI59q4xAP6nDtPn
+ 2EjlQAXxCtdL0zT5IJVanrlmWGzDCj+e+1GFNPldn5b8dduhztrhxS3Usfn/fbZij1yu7XaHOk+8sm
+ H+Pq4jUMEOQm9ppVDJWQe5zCo+GnSq8oGLKG5NGREm0h+fbJo8JFewK5UxGrHQUbtAZPz6+oDKfoN0
+ Y1ZVxd0SFn7OTJDSZhGPH3a6myjiWuEHVshFeO+2hbGsLBhonZ4zPwV8bYB85Yx3m6Fd4UTfwq+PXl
+ r6jh5DGvr5kqeooVZ0zZWpd7mBjyPn5SvLOW1oIUDBIL5ibCggn9FOg60RcOy8TG29z6/J113XDv1Z
+ kQ0f/YgppqTNrYGanv8i5rdcWzfthaxFCmSjCnlP3pVbwO0kp6RX5ClYPGak+J4aRFNBRkB8y6r7M+
+ 38EajVxYN9Lo7A/5WKBTQWo68FBrUU0icRNkzmbXUsM6zT2REXzHSljPOpNgs3DNbFrLu8/NoOA6SZ
+ mzOcdRoOv2i8CmEaM/sslZ83GGxqMhG4DoAoSDLkpb4Zjs1pLcpcVlg2qafJmv2YyrpcbQ0lGsxxXW
+ v/pU/uOwUmboLB8TVh2iv/CcJgYXbSKeblkb3ooXVGFVwsFiQuwYc4OGVYaQ==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Thinh
+Document bindings for this ON Semiconductor Type-C USB SuperSpeed
+and DisplayPort ALT Mode Linear Redriver.
 
-On 31/05/2023 19:25, Thinh Nguyen wrote:
-> Hi Dan,
->
-> On Wed, May 31, 2023, Dan Scally wrote:
->> Hi Thinh
->>
->> On 31/05/2023 09:55, Daniel Scally wrote:
->>> The DWC3_EP_PENDING_REQUEST flag is set against an endpoint when
->>> there are no pending or started requests available. This flag is
->>> cleared on queuing to the endpoint for endpoint 0, but not for any
->>> other endpoints. This can exacerbate timing problems by allowing a
->>> queue to go ahead for an isochronous endpoint that should not be
->>> started, so clear the flag upon a successful dwc3_gadget_ep_queue().
->>>
->>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
->>> ---
->>
->> Just wanted to give some background on the timing issues that this is
->> helping to relieve; we spotted this issue as a result of a "No resource for
->> ep1in" error being thrown occasionally during repeated stream on/off tests
->> for the UVC gadget on a platform using the DWC3; following the error stream
->> won't restart unless you reboot. That error occurs when the gadget's
->> workqueue function runs usb_ep_queue() whilst usb_ep_disable() is running
->> during stream off. The DWC3 gadget code's locking plus the nulling of the
->> endpoint descriptor during __dwc3_gadget_ep_disable() [1] and the check for
->> that situation in __dwc3_gadget_ep_queue() [2] should make that harmless,
->> but what occasionally happens is the dwc3_gadget_ep_queue() call sometimes
->> manages to grab the lock when it's briefly unlocked during
->> dwc3_gadget_giveback() [3]. That happens after the Stop Transfer command has
->> been sent, so __dwc3_gadget_ep_queue() running through triggers a Start
->> Transfer command, the dwc3_gadget_ep_disable() then finishes and stream
->> shuts down, but when it's started back up again another Start Transfer
->> command is sent and triggers the error. This patch ameliorates the impact of
->> that race in my case, because clearing the flag prevents
->> __dwc3_gadget_ep_queue() from running either __dwc3_gadget_start_isoc() or
->> __dwc3_gadget_kick_transfer() for a non started isoc endpoint - but the race
->> is still there. I think the potential for races is probably unavoidable
->> given the unlock, but I thought it was worth explaining what lead to the
->> patch in case it raises some issue that I'm missing.
->>
->>
->> Thanks
->>
->> Dan
->>
->>
->> [1] https://urldefense.com/v3/__https://elixir.bootlin.com/linux/latest/source/drivers/usb/dwc3/gadget.c*L1044__;Iw!!A4F2R9G_pg!aqEKDZwHxzb0OYos1htFTiXTnPWcQbnNg8qezhCNJ7bVQP-Ewp4NDw2N_mijL02MRmoyOFj4dlO7vEg1NowmS4A3kjU6$
->> [2] https://urldefense.com/v3/__https://elixir.bootlin.com/linux/latest/source/drivers/usb/dwc3/gadget.c*L1923__;Iw!!A4F2R9G_pg!aqEKDZwHxzb0OYos1htFTiXTnPWcQbnNg8qezhCNJ7bVQP-Ewp4NDw2N_mijL02MRmoyOFj4dlO7vEg1NowmS7iHqZdg$
->> [3] https://urldefense.com/v3/__https://elixir.bootlin.com/linux/latest/source/drivers/usb/dwc3/gadget.c*L216__;Iw!!A4F2R9G_pg!aqEKDZwHxzb0OYos1htFTiXTnPWcQbnNg8qezhCNJ7bVQP-Ewp4NDw2N_mijL02MRmoyOFj4dlO7vEg1NowmS4WOrh98$
->>
->
-> Thanks for the detail background description. This helps a lot. The
-> DWC3_EP_PENDING_REQUEST flag is actually only meant for ep0 and isoc
-> endpoints. Regarding isoc endpoint, the gadget driver should prepare and
-> queue isoc requests prior to the host requesting for it. Should that's
-> not the case, this flag is set so that dwc3 can schedule transfer later
-> when the are isoc requests are queued.
->
-> The "No resource for ep1in" is expected in your case. The
-> usb_ep_disable() API is documented that no other task may be using the
-> endpoint when it's called.
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+ .../devicetree/bindings/usb/onnn,nb7vpq904m.yaml   | 141 +++++++++++++++++++++
+ 1 file changed, 141 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/usb/onnn,nb7vpq904m.yaml b/Documentation/devicetree/bindings/usb/onnn,nb7vpq904m.yaml
+new file mode 100644
+index 000000000000..c0989dc4d5bf
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/onnn,nb7vpq904m.yaml
+@@ -0,0 +1,141 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/onnn,nb7vpq904m.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ON Semiconductor Type-C DisplayPort ALT Mode Linear Redriver
++
++maintainers:
++  - Bjorn Andersson <bjorn.andersson@linaro.org>
++
++properties:
++  compatible:
++    enum:
++      - onnn,nb7vpq904m
++
++  reg:
++    maxItems: 1
++
++  vcc-supply:
++    description: power supply (1.8V)
++
++  enable-gpios: true
++
++  mode-switch:
++    description: Flag the port as possible handle of altmode switching
++    type: boolean
++
++  orientation-switch:
++    description: Flag the port as possible handler of orientation switching
++    type: boolean
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Super Speed (SS) Output endpoint to the Type-C connector
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        description: Super Speed (SS) Input endpoint from the Super-Speed PHY
++        unevaluatedProperties: false
++
++        properties:
++          endpoint:
++            $ref: /schemas/graph.yaml#/$defs/endpoint-base
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes:
++                $ref: /schemas/types.yaml#/definitions/uint32-array
++                description: |
++                  An array of physical data lane indexes. Position determines how
++                  lanes are connected to the redriver, It is assumed the same order
++                  is kept on the other side of the redriver.
++                  Lane number represents the following
++                  - 0 is RX2 lane
++                  - 1 is TX2 lane
++                  - 2 is TX1 lane
++                  - 3 is RX1 lane
++                  The position determines the physical port of the redriver, in the
++                  order A, B, C & D.
++                oneOf:
++                  - items:
++                      - const: 0
++                      - const: 1
++                      - const: 2
++                      - const: 3
++                    description: |
++                      This is the lanes default layout
++                      - Port A to RX2 lane
++                      - Port B to TX2 lane
++                      - Port C to TX1 lane
++                      - Port D to RX1 lane
++                  - items:
++                      - const: 2
++                      - const: 3
++                      - const: 0
++                      - const: 1
++                    description: |
++                      This is the USBRX2/USBTX2 and USBRX1/USBTX1 swapped lanes layout
++                      - Port A to RX1 lane
++                      - Port B to TX1 lane
++                      - Port C to TX2 lane
++                      - Port D to RX2 lane
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Sideband Use (SBU) AUX lines endpoint to the Type-C connector for the purpose of
++          handling altmode muxing and orientation switching.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c13 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        typec-mux@32 {
++            compatible = "onnn,nb7vpq904m";
++            reg = <0x32>;
++
++            vcc-supply = <&vreg_l15b_1p8>;
++
++            mode-switch;
++            orientation-switch;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    usb_con_ss: endpoint {
++                        remote-endpoint = <&typec_con_ss>;
++                    };
++                };
++                port@1 {
++                    reg = <1>;
++                    phy_con_ss: endpoint {
++                        remote-endpoint = <&usb_phy_ss>;
++                        data-lanes = <2 3 0 1>;
++                    };
++                };
++                port@2 {
++                    reg = <2>;
++                    usb_con_sbu: endpoint {
++                        remote-endpoint = <&typec_dp_aux>;
++                    };
++                };
++            };
++        };
++    };
++...
 
-Ah - I had missed that in the kerneldoc comment for usb_ep_disable(). OK.
+-- 
+2.34.1
 
-> The UVC gadget driver is breaking this usage
-> model when it tries to queue more request after calling
-> usb_ep_disable().
->
-> Your patch will not resolve the issue you're trying to solve. The fix
-> should be in the UVC gadget driver.
-
-
-I think in that case I'll patch the gadget to wind down the workqueue before usb_ep_disable() is 
-called and that should also fix it - thanks for the help.
-
-
-Dan
-
->
-> Thanks,
-> Thinh
