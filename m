@@ -2,113 +2,94 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6498C7EE2A
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Jun 2023 14:11:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE580C7EE2A
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Jun 2023 14:13:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233802AbjFAOLz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 1 Jun 2023 10:11:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32832 "EHLO
+        id S234022AbjFAONx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 1 Jun 2023 10:13:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233644AbjFAOLu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Jun 2023 10:11:50 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FC081A8
-        for <linux-usb@vger.kernel.org>; Thu,  1 Jun 2023 07:11:40 -0700 (PDT)
+        with ESMTP id S233955AbjFAONw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Jun 2023 10:13:52 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFF07180;
+        Thu,  1 Jun 2023 07:13:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685628700; x=1717164700;
+  t=1685628830; x=1717164830;
   h=message-id:date:mime-version:to:cc:references:from:
    subject:in-reply-to:content-transfer-encoding;
-  bh=fBzSVctiiv5IQG4PNDADxVHLPH30EpPwiyttQznok7Y=;
-  b=SSryRYsNwFrz6aJP+8TY4yGs4x3mqQ9R+DKvRRxO7kadoWlIMkvZnlim
-   iIt0ImKueKAF5cuG2RXNpsaCBcJygrIPvIE1XWuIyOn1jG1dp7x3sU3sC
-   K/WkOQddQbhyE/l+atBF2m8rpF8XWLMFo8BBNG9kQc5z4EnwyaIxhanQb
-   F/0cCrplEL/yTPhXMbnGwDXrb0L5rgqIY0C5rVgA43dS1AHERVaRJZVoE
-   We5iUup+JjONfgcl8angEOuR3dwUfVQnBXvmq6LC+iUw4L5b68U2U8a+t
-   ls6yjGRDgwRve7vBOfG6jqxzA16PQZz/C/NCE+vJLG7Prs+OwN/FTfWwY
+  bh=Nq286GKnh90xOwApeBUtq++zLOYj3gW5k7/CVSmWRB0=;
+  b=Vd7po3qG8HWyCVwhR1b3nmzO4reEH0g6jqPZVO3dcm5NCiGUqCFp3GzO
+   zdI8B5aNI9vlult+sDa4G1vSlRi+C1A8MiZ7y+lApZjtzpnyx7LOTJ5eB
+   ueAFJ7w4WuyZVmV7D19ngGikkPxb9i3+GalyIo3GTsQL4GgDHL2ihtzkn
+   uGykKFZBbAV38cWE1TSZry8wRu9txcRprqyTjZwPmJf6K6NgxBEBcuCLO
+   V9N3JbBDeMgt/rYxVszw6W+U9yqKpkLq+3USEDFFSXOerpsnlyPcaE6Qi
+   c+uUycxDDWiEs8kf2vCGlRakJGEuqvZP8zNEoB8I1vqBooC0QWYapt1GJ
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="345116846"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="421365624"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="345116846"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 06:53:21 -0700
+   d="scan'208";a="421365624"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 06:43:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="740368423"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="851698880"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="740368423"
+   d="scan'208";a="851698880"
 Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by orsmga001.jf.intel.com with ESMTP; 01 Jun 2023 06:53:20 -0700
-Message-ID: <dd62787f-a04c-01ce-6a16-6a116f0f9c3b@linux.intel.com>
-Date:   Thu, 1 Jun 2023 16:54:41 +0300
+  by fmsmga001.fm.intel.com with ESMTP; 01 Jun 2023 06:43:40 -0700
+Message-ID: <14d94fa1-1499-de1f-c924-9b823a606580@linux.intel.com>
+Date:   Thu, 1 Jun 2023 16:45:00 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Firefox/102.0 Thunderbird/102.10.0
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_Schaubschl=c3=a4ger?= 
-        <christian.schaubschlaeger@gmx.at>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     linux-usb@vger.kernel.org
-References: <a45b9989-c9da-bf4e-94c8-3e1341777b4d@gmx.at>
- <20230526123655.GW45886@black.fi.intel.com>
- <0bbb844d-3348-dc28-311a-d4111f8a7f81@linux.intel.com>
- <2d12af30-4a7c-5fb3-fab8-5759296c68ac@gmx.at>
- <20230530105039.GF45886@black.fi.intel.com>
- <d6e7e0d5-0b30-d66c-2ee8-4f0c0caef0b9@gmx.at>
- <20230530121756.GG45886@black.fi.intel.com>
- <a22f8874-c2b3-92a5-e858-b877872e5284@gmx.at>
- <894ba559-9233-4428-69e7-7c0bf5c7556e@gmx.at>
- <b45b5e8a-756e-fd76-64af-d3e376997a31@linux.intel.com>
- <618d9789-fc5a-10b3-6dc9-27be5bbff666@gmx.at>
+To:     Ricardo Ribalda Delgado <ribalda@chromium.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Stephen Boyd <swboyd@chromium.org>
+References: <20230531-xhci-deadlock-v1-1-57780bff5124@chromium.org>
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: USB issue on a TB4 controller?
-In-Reply-To: <618d9789-fc5a-10b3-6dc9-27be5bbff666@gmx.at>
+Subject: Re: [PATCH] xhci: Do not create endpoint debugfs while holding the
+ bandwidth mutex
+In-Reply-To: <20230531-xhci-deadlock-v1-1-57780bff5124@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 31.5.2023 14.56, Christian Schaubschläger wrote:
-> Hi,
+On 31.5.2023 15.40, Ricardo Ribalda Delgado wrote:
+> xhci_debugfs_create_endpoint needs to take the mm->mmap_sem, which is
+> not serialized with the hcd->bandwidth_mutex across the codebase.
 > 
->> Attached is a patch that adds more debugging, adds a minimum
->> "power on to power good" delay, (as hub reports 0ms), and checks port link
->> states during hub initialization.
->>
->> Does it help? Could you take logs with that patch applied.
->>
->> Only dmesg with xhci and usbcore dynamic debug are needed.
->> xhci traces won't help as issue seems to be between the hub inthe dock and the NIC
+> Without this patch a deadlock has been observed with the uvc driver at
+> the functions v4l2_mmap() and usb_set_interface().
 > 
-> patch applied, see logs in the attachment. The behaviour is unchanged.
+> Cc: Stephen Boyd <swboyd@chromium.org
+> Fixes: 167657a1bb5f ("xhci: don't create endpoint debugfs entry before ring buffer is set.")
+> Signed-off-by: Ricardo Ribalda Delgado <ribalda@chromium.org>
+> ---
+> I do not have a proper reproducer for this and I am not used to this
+> subsystem, so please take a careful look at this patch :).
 > 
-> Thanks,
-> Christian
+> Thanks!
 
-Thanks,
+Do you still have the lockdep output showing the deadlock?
 
-In the failed case the hub in the dock doesn't show any activity
-on port4 where the NIC is connected. No changes, link isn't in any
-error state. It looks just like any empty port.
+I'm not sure how calling xhci_debugfs_create_endpoint() from
+xhci_add_endpoint() instead of xhci_check_bandwidth() helps.
 
-I don't have any idea what's going on.
+Both are called with hcd->bandwidth_mutex held:
 
-I guess it's not possible to connect a protocol analyzer between the
-hub in the dock and the NIC?
-
-ok success case:
-
-[    1.712754] usb 6-2-port1: status 02a0 change 0000
-[    1.713070] usb 6-2-port2: status 02a0 change 0000
-[    1.713567] usb 6-2-port3: status 0203 change 0010  <- another hub
-[    1.714184] usb 6-2-port4: status 0203 change 0010  <- NIC
-
-nok failed case:
-
-[    1.716756] usb 6-2-port1: status 02a0 change 0000
-[    1.717036] usb 6-2-port2: status 02a0 change 0000
-[    1.717395] usb 6-2-port3: status 0203 change 0010  <- another hub
-[    1.717976] usb 6-2-port4: status 02a0 change 0000
+usb_set_interface()
+	mutex_lock(hcd->bandwidth_mutex);
+	usb_hcd_alloc_bandwidth()
+		hcd->driver->add_endpoint()    -> xhci_add_endpoint()
+		hcd->driver->check_bandwidth() -> xhci_check_bandwidth()
+	mutex_unlock(hcd->bandwidth_mutex);
 
 Thanks
 Mathias
+
