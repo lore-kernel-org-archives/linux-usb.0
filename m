@@ -2,101 +2,104 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F512C7EE2F
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Jun 2023 09:12:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03D02C7EE2E
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Jun 2023 09:13:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234885AbjFBJMu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 2 Jun 2023 05:12:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35510 "EHLO
+        id S234951AbjFBJNi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 2 Jun 2023 05:13:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234843AbjFBJMX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Jun 2023 05:12:23 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFC21E40
-        for <linux-usb@vger.kernel.org>; Fri,  2 Jun 2023 02:11:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685697060; x=1717233060;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=+Oc1Zb6KojX8fhfI7CsukUHq3VSTswZBs9dQ+qW3Zo4=;
-  b=kzeS2Vz15s54b2NQaedV61Ke9RBcqXHlVYdJ9uvgVm3XgWrhZuJWuTbp
-   mr6K194nU9Dzd7Fr5oa1FVI2bOJtHrfZh7RtR1yv4na1DbMNxprtj37kl
-   2pI+CfOUZa3ojyh2LQoCLwx68hauZMJ8CXFCm0soO61Bc+y0pewEXMyN/
-   1VWkgzMjYvsXtp2CBrbdap8eILT/JglEOicutbQk70gq2X4WEuZp0Ht0P
-   FaVP5EtNge9XBD93FVPDq3teuMv/mgiqcCiS9n1L+4k4alYYjW71y21Rg
-   LW+8dzebqV5wiQ/56s+VocGNFbKVVVtZoUotRAfyq6U7AQapqaft7ew00
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="353317766"
-X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
-   d="scan'208";a="353317766"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 02:10:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="852083458"
-X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
-   d="scan'208";a="852083458"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Jun 2023 02:10:50 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 3CB945E2; Fri,  2 Jun 2023 12:10:56 +0300 (EEST)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Utkarsh H Patel <utkarsh.h.patel@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 2/3] thunderbolt: Do not send UNSET_INBOUND_SBTX when retimer NVM authentication started
-Date:   Fri,  2 Jun 2023 12:10:54 +0300
-Message-Id: <20230602091055.65049-3-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230602091055.65049-1-mika.westerberg@linux.intel.com>
-References: <20230602091055.65049-1-mika.westerberg@linux.intel.com>
+        with ESMTP id S235122AbjFBJM4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Jun 2023 05:12:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86A76E5E
+        for <linux-usb@vger.kernel.org>; Fri,  2 Jun 2023 02:12:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1F87B60FAB
+        for <linux-usb@vger.kernel.org>; Fri,  2 Jun 2023 09:12:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81C29C433D2;
+        Fri,  2 Jun 2023 09:12:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685697129;
+        bh=tSF+4CoW1JQ+9QJovGm/fZx8kxUyon8MdeokvOJlz4A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tlUihbvVbzPqz8wI4f6XkXwmFlX8syMnxpWHdwXS84Bbkij1xpU14QcJcsDyqVp1D
+         ZAgtntWwN6mEjanWuVm+iVsqnCvar4l+i6CIaM1yBIliwqcITAGSeN/Loc7Z0mRHkD
+         amWWqnMnHI/1sfvBA2cOKctLbNHg/xyqdBBQjbndgdJ8tUrvugBD7VQaU1aLpI0s2w
+         intu5mgPGpOPGtS/al+0D4cZW1Yu4jIqlKNdFGMAcQtYCAtH6ioZEPa0rAyt0fLezi
+         8TWTd/aPUFbBManUFV6BeUQne5TpP4o9z/HF9DVMDfGqKjr5X/eJYtewI1YqMdZe9S
+         7DQ21xwdJAoRw==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1q50pW-0006Nc-7s; Fri, 02 Jun 2023 11:12:18 +0200
+Date:   Fri, 2 Jun 2023 11:12:18 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Jerry Meng <jerry-meng@foxmail.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2] USB: serial: option: add Quectel EM061KGL series
+Message-ID: <ZHmycsoGxSjRICg4@hovoldconsulting.com>
+References: <tencent_935361841584807CBAF9961AD0C83F2AC108@qq.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_935361841584807CBAF9961AD0C83F2AC108@qq.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Once retimer NVM authentication is started, sending UNSET_INBOUND_SBTX
-will fail so avoid doing that. Only send it when we are writing an image
-with not authentication or when the authentication failed early.
+On Wed, May 31, 2023 at 11:51:16AM +0800, Jerry Meng wrote:
+> add support for Quectel EM061KGL series which are based on Qualcomm SDX12 chip
+> 
+> EM061KGL_LTA(0x2c7c / 0x0123): MBIM + GNSS + DIAG + NMEA + AT + QDSS + DPL
+> EM061KGL_LMS(0x2c7c / 0x0124): MBIM + GNSS + DIAG + NMEA + AT + QDSS + DPL
+> EM061KGL_LWW(0x2c7c / 0x6008): MBIM + GNSS + DIAG + NMEA + AT + QDSS + DPL
+> EM061KGL_LCN(0x2c7c / 0x6009): MBIM + GNSS + DIAG + NMEA + AT + QDSS + DPL
+> 
+> Above products use the exact same interface layout and
+> option driver is for interfaces DIAG, NMEA and AT.
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/retimer.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+Thanks for clarifying that they all use the same layout.
 
-diff --git a/drivers/thunderbolt/retimer.c b/drivers/thunderbolt/retimer.c
-index fb8e113488db..a273fb02a02c 100644
---- a/drivers/thunderbolt/retimer.c
-+++ b/drivers/thunderbolt/retimer.c
-@@ -244,6 +244,13 @@ static ssize_t nvm_authenticate_store(struct device *dev,
- 	rt->auth_status = 0;
+> Signed-off-by: Jerry Meng <jerry-meng@foxmail.com>
+> ---
+
+Next time, try to remember to put a short changelog here after the '---'
+line when sending a new revision.
+
+>  drivers/usb/serial/option.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+> index 644a55447fd7..23d7b202590d 100644
+> --- a/drivers/usb/serial/option.c
+> +++ b/drivers/usb/serial/option.c
  
- 	if (val) {
-+		/*
-+		 * When NVM authentication starts the retimer is not
-+		 * accessible so calling tb_retimer_unset_inbound_sbtx()
-+		 * will fail and therefore we do not call it. Exception
-+		 * is when the validation fails or we only write the new
-+		 * NVM image without authentication.
-+		 */
- 		tb_retimer_set_inbound_sbtx(rt->port);
- 		if (val == AUTHENTICATE_ONLY) {
- 			ret = tb_retimer_nvm_authenticate(rt, true);
-@@ -264,7 +271,8 @@ static ssize_t nvm_authenticate_store(struct device *dev,
- 	}
- 
- exit_unlock:
--	tb_retimer_unset_inbound_sbtx(rt->port);
-+	if (ret || val == WRITE_ONLY)
-+		tb_retimer_unset_inbound_sbtx(rt->port);
- 	mutex_unlock(&rt->tb->lock);
- exit_rpm:
- 	pm_runtime_mark_last_busy(&rt->dev);
--- 
-2.39.2
+> @@ -1189,6 +1193,18 @@ static const struct usb_device_id option_ids[] = {
+>  	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM060K, 0xff, 0x00, 0x40) },
+>  	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM060K, 0xff, 0xff, 0x30) },
+>  	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM060K, 0xff, 0xff, 0x40) },
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM061K_LWW, 0xff, 0xff, 0x30) },
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM061K_LWW, 0xff, 0x00, 0x40) },
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM061K_LWW, 0xff, 0xff, 0x40) },
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM061K_LCN, 0xff, 0xff, 0x30) },
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM061K_LCN, 0xff, 0x00, 0x40) },
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM061K_LCN, 0xff, 0xff, 0x40) },
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM061K_LTA, 0xff, 0xff, 0x30) },
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM061K_LTA, 0xff, 0x00, 0x40) },
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM061K_LTA, 0xff, 0xff, 0x40) },
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM061K_LMS, 0xff, 0xff, 0x30) },
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM061K_LMS, 0xff, 0x00, 0x40) },
+> +	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM061K_LMS, 0xff, 0xff, 0x40) },
 
+I shuffled these around so that they are sorted alphabetically by the
+product name defines.
+
+>  	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM12, 0xff, 0xff, 0xff),
+>  	  .driver_info = RSVD(1) | RSVD(2) | RSVD(3) | RSVD(4) | NUMEP2 },
+>  	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM12, 0xff, 0, 0) },
+
+Now applied.
+
+Johan
