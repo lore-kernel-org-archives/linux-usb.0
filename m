@@ -2,162 +2,63 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86D52C7EE29
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Jun 2023 22:05:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B99C7EE32
+	for <linux-usb@archiver.kernel.org>; Sat,  3 Jun 2023 10:41:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236752AbjFBWFT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 2 Jun 2023 18:05:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56682 "EHLO
+        id S237001AbjFCKlD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 3 Jun 2023 06:41:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236680AbjFBWFS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Jun 2023 18:05:18 -0400
-Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEFA81BB
-        for <linux-usb@vger.kernel.org>; Fri,  2 Jun 2023 15:05:16 -0700 (PDT)
-Received: by mail-pl1-x64a.google.com with SMTP id d9443c01a7336-1b0116fefffso10715895ad.2
-        for <linux-usb@vger.kernel.org>; Fri, 02 Jun 2023 15:05:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1685743516; x=1688335516;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZYT9g7A1uxTfGjyFEugvL3AXvNQ8WAq4xs51FmroEpE=;
-        b=nK5w7yjJ2ZDaNLlhATxkXjSYyCzCpBlP7Li/vw+GEdE+1O8kttnNhGvAitz1dsxL2e
-         865HJ4Ofuj3avvkyWxHFU9N/3ukIPwdalbB6t9DtYbOJScO4boFzGOXCyP7z2N56xH2c
-         HzazY77/WnP7pB5qq8ZsrocG/jLpsWLuTRIGkMBfQzF8q/RjrsGXhCi9ug+NaxUcdKN3
-         EfDIz98qYmocoB2F+ulyBHSoa2eX9MYl4XmxH0HdzTvp+VbAWVu3A37GKUeuyOiUNc+B
-         rVL3asJXfPs6yE/VArZ/1K1jazWTHXlBK2jtshKyQEUKnedvcwVvypDkQ3MTFFjXhxqd
-         wTcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685743516; x=1688335516;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZYT9g7A1uxTfGjyFEugvL3AXvNQ8WAq4xs51FmroEpE=;
-        b=DsB2NK9HNHPRlWrALW3xSQOLKDfrZrY0tkR0ur1WxGC8kqFMstFCD6qjnNZV9VaWh6
-         qg+yx50Mh26uJE97TbKdepGQyVjs29ujH3tE6slASwNDD7UYHNPyLky0laN3TXqEz9Yp
-         v/Mgis+MJHaPIJL6wlk7HExArpDcxT4TXMgUD+/K1TdpbmE2and/NrTrgpmyx3Mg1Gf8
-         7+dXB7L85IixFtGBYCz+uYDd3F/X4V56g6fSvI8BXO9edz/yUTam9ele0daxB3YHw92q
-         07wrAfZgB+LVdUxe+moxx+eBhcpy5NjRtxK1qReOlbI71U0jcjXu4017feqccUM7LgEq
-         yGkg==
-X-Gm-Message-State: AC+VfDxxGuqi65tUESFgS86l/SLWco2LntT1hiWJolejkaHMQAa/LlZW
-        /deEuKmmpn53pbNsIQriFY77DWI2ZsXy
-X-Google-Smtp-Source: ACHHUZ7pEdWJ7NvgBXRWYlvDIkhcQsS0dYnnyQn3NYEOuxUBBGxCliENNbka3sB447MQvu4T/MSHiByJMH86
-X-Received: from hi-h2o-specialist.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:3cef])
- (user=arakesh job=sendgmr) by 2002:a17:902:da8d:b0:1b1:a4e2:a2e3 with SMTP id
- j13-20020a170902da8d00b001b1a4e2a2e3mr315044plx.5.1685743516273; Fri, 02 Jun
- 2023 15:05:16 -0700 (PDT)
-Date:   Fri,  2 Jun 2023 15:04:55 -0700
-In-Reply-To: <20230602211602.3b7rfa252wliiszp@synopsys.com>
-Mime-Version: 1.0
-References: <20230602211602.3b7rfa252wliiszp@synopsys.com>
-X-Mailer: git-send-email 2.41.0.rc0.172.g3f132b7071-goog
-Message-ID: <20230602220455.313801-1-arakesh@google.com>
-Subject: [PATCH v3] usb: gadget: uvc: clean up comments and styling in video_pump
-From:   Avichal Rakesh <arakesh@google.com>
-To:     dan.scally@ideasonboard.com, laurent.pinchart@ideasonboard.com
-Cc:     thinh.nguyen@synopsys.com, arakesh@google.com, etalvala@google.com,
-        gregkh@linuxfoundation.org, jchowdhary@google.com,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+        with ESMTP id S230041AbjFCKkz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 3 Jun 2023 06:40:55 -0400
+X-Greylist: delayed 4232 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 03:40:27 PDT
+Received: from mail.webtopbits.pl (mail.webtopbits.pl [195.231.64.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1AEF10E0
+        for <linux-usb@vger.kernel.org>; Sat,  3 Jun 2023 03:40:27 -0700 (PDT)
+Received: by mail.webtopbits.pl (Postfix, from userid 1001)
+        id 1A677A38A8; Fri,  2 Jun 2023 09:30:44 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=webtopbits.pl;
+        s=mail; t=1685694650;
+        bh=Eh8ECMiYd4baGAwPAzhz8mhJACXX7NSRkYjh+plaY18=;
+        h=Date:From:To:Subject:From;
+        b=ewsja7SQXwdn+I3sJDYUchDM0irf8aHljdtOoOjNLgkWeOEJjcjIswLiJu/kGvL7z
+         Qu4n1lOr94brlQGhBvcqZ6p8J7lnz/BFKN4/ogNQA9HtVhY523UFDqp6Jhhf01EFY3
+         ZmNhu0PeafSEf3W1BZyrIUoltyOB642zN/1qF/9sAG25evkWI1QESz6oeBTaYb28T3
+         lNSP8fEtuoAAE+h3Czy7IKjlU3Y+RY1UGWGOAnhWmiKDPbRX+bL4ZVmzBZOb8Pky6R
+         hd5mBnwMZ0+6PdenRM8acXJ7YKjqYR8BCeyDbkwkJ18uXqD0CBN9xEW/R7unLBDiHH
+         T6ofqV2JS5X6Q==
+Received: by mail.webtopbits.pl for <linux-usb@vger.kernel.org>; Fri,  2 Jun 2023 08:30:38 GMT
+Message-ID: <20230602085530-0.1.8w.5jve.0.g3bjhuem4u@webtopbits.pl>
+Date:   Fri,  2 Jun 2023 08:30:38 GMT
+From:   "Kamil Durjasz" <kamil.durjasz@webtopbits.pl>
+To:     <linux-usb@vger.kernel.org>
+Subject: =?UTF-8?Q?Wy=C5=BCsza_konwersja_w_e-sklepie_?=
+X-Mailer: mail.webtopbits.pl
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch elaborates on some of the edge cases handled by
-video_pump around setting no_interrupt flag, and brings the
-code style in line with rest of the file.
+Dzie=C5=84 dobry,
 
-Link: https://lore.kernel.org/20230602151916.GH26944@pendragon.ideasonboard.com/
-Signed-off-by: Avichal Rakesh <arakesh@google.com>
----
-Changelog:
-v2:
-  - Updated commit message to make it clear that userspace application is not
-    required to match the ISOC rate.
-  - Styling and comment revision based on review
-v3:
-  - Rebased on to Greg's usb-next where v1 had already merged
-  - Updated commit message to match the actual changes after rebase.
+w jaki spos=C3=B3b docieraj=C4=85 Pa=C5=84stwo do odbiorc=C3=B3w?
+
+Tworzymy pot=C4=99=C5=BCne narz=C4=99dzia sprzeda=C5=BCy, kt=C3=B3re pozw=
+alaj=C4=85 kompleksowo rozwi=C4=85za=C4=87 problemy potencjalnych klient=C3=
+=B3w i skutecznie wp=C5=82yn=C4=85=C4=87 na ich decyzje zakupowe.=20
+
+Skupiamy si=C4=99 na Pa=C5=84stwa potrzebach zwi=C4=85zanych z obs=C5=82u=
+g=C4=85 sklepu, oczekiwaniach i planach sprzeda=C5=BCowych. Szczeg=C3=B3=C5=
+=82owo dopasowujemy grafik=C4=99, funkcjonalno=C5=9Bci, struktur=C4=99 i =
+mikrointerakcje do Pa=C5=84stwa grupy docelowej, co przek=C5=82ada si=C4=99=
+ na oczekiwane rezultaty.
+
+Ch=C4=99tnie przedstawi=C4=99 dotychczasowe realizacje, aby mogli Pa=C5=84=
+stwo przekona=C4=87 si=C4=99 o naszych mo=C5=BCliwo=C5=9Bciach. Mog=C4=99=
+ si=C4=99 skontaktowa=C4=87?
 
 
- drivers/usb/gadget/function/uvc_video.c | 38 ++++++++++++++++---------
- 1 file changed, 25 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index e81865978299..91af3b1ef0d4 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -382,13 +382,13 @@ static void uvcg_video_pump(struct work_struct *work)
- {
- 	struct uvc_video *video = container_of(work, struct uvc_video, pump);
- 	struct uvc_video_queue *queue = &video->queue;
-+	/* video->max_payload_size is only set when using bulk transfer */
-+	bool is_bulk = video->max_payload_size;
- 	struct usb_request *req = NULL;
- 	struct uvc_buffer *buf;
- 	unsigned long flags;
-+	bool buf_done;
- 	int ret;
--	bool buf_int;
--	/* video->max_payload_size is only set when using bulk transfer */
--	bool is_bulk = video->max_payload_size;
-
- 	while (video->ep->enabled) {
- 		/*
-@@ -414,20 +414,19 @@ static void uvcg_video_pump(struct work_struct *work)
-
- 		if (buf != NULL) {
- 			video->encode(req, video, buf);
--			/* Always interrupt for the last request of a video buffer */
--			buf_int = buf->state == UVC_BUF_STATE_DONE;
-+			buf_done = buf->state == UVC_BUF_STATE_DONE;
- 		} else if (!(queue->flags & UVC_QUEUE_DISCONNECTED) && !is_bulk) {
- 			/*
- 			 * No video buffer available; the queue is still connected and
--			 * we're traferring over ISOC. Queue a 0 length request to
-+			 * we're transferring over ISOC. Queue a 0 length request to
- 			 * prevent missed ISOC transfers.
- 			 */
- 			req->length = 0;
--			buf_int = false;
-+			buf_done = false;
- 		} else {
- 			/*
--			 * Either queue has been disconnected or no video buffer
--			 * available to bulk transfer. Either way, stop processing
-+			 * Either the queue has been disconnected or no video buffer
-+			 * available for bulk transfer. Either way, stop processing
- 			 * further.
- 			 */
- 			spin_unlock_irqrestore(&queue->irqlock, flags);
-@@ -435,11 +434,24 @@ static void uvcg_video_pump(struct work_struct *work)
- 		}
-
- 		/*
--		 * With usb3 we have more requests. This will decrease the
--		 * interrupt load to a quarter but also catches the corner
--		 * cases, which needs to be handled.
-+		 * With USB3 handling more requests at a higher speed, we can't
-+		 * afford to generate an interrupt for every request. Decide to
-+		 * interrupt:
-+		 *
-+		 * - When no more requests are available in the free queue, as
-+		 *   this may be our last chance to refill the endpoint's
-+		 *   request queue.
-+		 *
-+		 * - When this is request is the last request for the video
-+		 *   buffer, as we want to start sending the next video buffer
-+		 *   ASAP in case it doesn't get started already in the next
-+		 *   iteration of this loop.
-+		 *
-+		 * - Four times over the length of the requests queue (as
-+		 *   indicated by video->uvc_num_requests), as a trade-off
-+		 *   between latency and interrupt load.
- 		 */
--		if (list_empty(&video->req_free) || buf_int ||
-+		if (list_empty(&video->req_free) || buf_done ||
- 		    !(video->req_int_count %
- 		       DIV_ROUND_UP(video->uvc_num_requests, 4))) {
- 			video->req_int_count = 0;
---
-2.41.0.rc0.172.g3f132b7071-goog
-
+Pozdrawiam
+Kamil Durjasz
