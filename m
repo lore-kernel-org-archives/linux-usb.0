@@ -2,82 +2,76 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73644C77B7A
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Jun 2023 08:18:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A4FEC7EE24
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Jun 2023 09:12:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233997AbjFBISF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 2 Jun 2023 04:18:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33250 "EHLO
+        id S235099AbjFBJMp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 2 Jun 2023 05:12:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233473AbjFBISE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Jun 2023 04:18:04 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14E2BEB
-        for <linux-usb@vger.kernel.org>; Fri,  2 Jun 2023 01:18:04 -0700 (PDT)
+        with ESMTP id S234728AbjFBJMU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Jun 2023 05:12:20 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE3091BE
+        for <linux-usb@vger.kernel.org>; Fri,  2 Jun 2023 02:10:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685693884; x=1717229884;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=AhzIP7Xp1OhQ0p8aXV53sBgLJ68c2Oh81CpDP66vHUs=;
-  b=COtGSQLpVl6PNrcX3CfmRBOeQ5EmLp6GOIhwDPPLgEawoD8LNFthxNBh
-   OOXIDcm6u3EJ8c65EAfawA+CCGQOvwudPTZtVxL4nukrRUaBdVnc8haZR
-   /NUAUL/cuZwesbKhvmHA+PElKMJzhZONaxqAXfp06Z6uA3sijrLAcFGyI
-   qlIxx5r1ln2k4vRTmOTJHrhG88L3DFu1mpJB+yDXdGcOdYx8WsoZq4cJo
-   e6v+HbzRgPqv12LPdACr5CJwDL5A9lBMfrp7CLPChwIMkJl9jb4IYwrqh
-   0vG/1azC+3Vx4n++W5Cz0jz44J1/jRj+sFOb6vSt9p3L44n6Ufgiac4F1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="419342178"
+  t=1685697052; x=1717233052;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wf2eZAu+s+joOTX+IWV7JA2fQkx2eEBQGOKkmlUQVk8=;
+  b=EvyF07SDEYTE/yWTtQ4p0pRytnTpSCIemrBN+caHkFUOQQknAZoKqrnP
+   DiQTG4M3g2tH/w5ZUG74ycW7U9uej+Ksi1Q/u8ZUckjUf+UEsk1ssC+XW
+   hYzgrn81HAUCOJLbBExCumYBjLDUOfZXVM3YrxgoIEs7kWQJ5lKMEEReJ
+   RCcXAT0G6pUxr/6lEHnQBvPecp6PsBI83jidDmPjG1GxfMpjhWQxqUHHh
+   i1E+pNewgghaRXuRi0KawYkP2TjPu/lUldz/NuU1TKkANl+0MJvhPkCv4
+   PjmULhg5MqnfeBpZfApc6Z1Zw4g6j6VCkSiypaUIOVH3QZ4OhdVakEmCg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="345402018"
 X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
-   d="scan'208";a="419342178"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 01:18:03 -0700
+   d="scan'208";a="345402018"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 02:10:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="772800730"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="820211856"
 X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
-   d="scan'208";a="772800730"
+   d="scan'208";a="820211856"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga008.fm.intel.com with ESMTP; 02 Jun 2023 01:18:01 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 02 Jun 2023 02:10:50 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 7467853A; Fri,  2 Jun 2023 11:18:07 +0300 (EEST)
-Date:   Fri, 2 Jun 2023 11:18:07 +0300
+        id 2204D589; Fri,  2 Jun 2023 12:10:55 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Yehezkel Bernat <yehezkelshb@gmail.com>
-Cc:     linux-usb@vger.kernel.org, Michael Jamet <michael.jamet@intel.com>,
+To:     linux-usb@vger.kernel.org
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
         Lukas Wunner <lukas@wunner.de>,
         Andreas Noever <andreas.noever@gmail.com>,
-        Gil Fine <gil.fine@linux.intel.com>
-Subject: Re: [PATCH 03/20] thunderbolt: Identify USB4 v2 routers
-Message-ID: <20230602081807.GN45886@black.fi.intel.com>
-References: <20230531090645.5573-1-mika.westerberg@linux.intel.com>
- <20230531090645.5573-4-mika.westerberg@linux.intel.com>
- <CA+CmpXsrqNUdF5Td7Caa4Vr3i9hui+eRULr+_XRuehmkQ95U=g@mail.gmail.com>
+        Utkarsh H Patel <utkarsh.h.patel@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 0/3] thunderbolt: Few improvements for retimer access
+Date:   Fri,  2 Jun 2023 12:10:52 +0300
+Message-Id: <20230602091055.65049-1-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+CmpXsrqNUdF5Td7Caa4Vr3i9hui+eRULr+_XRuehmkQ95U=g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, May 31, 2023 at 03:00:22PM +0300, Yehezkel Bernat wrote:
-> On Wed, May 31, 2023 at 12:06 PM Mika Westerberg
-> <mika.westerberg@linux.intel.com> wrote:
-> >
-> > diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-> > index 2bda2816ff47..e27fcdf50581 100644
-> > --- a/drivers/thunderbolt/tb.h
-> > +++ b/drivers/thunderbolt/tb.h
-> > @@ -955,7 +955,8 @@ static inline bool tb_switch_is_tiger_lake(const struct tb_switch *sw)
-> >   */
-> >  static inline bool tb_switch_is_usb4(const struct tb_switch *sw)
-> >  {
-> > -       return sw->config.thunderbolt_version == USB4_VERSION_1_0;
-> > +       return FIELD_GET(USB4_VERSION_MAJOR_MASK,
-> > +                        sw->config.thunderbolt_version) > 0;
-> 
-> Does it make sense to reuse the function below i.e. `return
-> usb4_switch_version(sw) > 0;`?
+Hi,
 
-Yes, I think it does. I'll change this.
+These 3 patches improve the way we access retimers over sideband in
+various situations, and make it more compliant with the USB4 spec.
+
+Mika Westerberg (3):
+  thunderbolt: Read retimer NVM authentication status prior tb_retimer_set_inbound_sbtx()
+  thunderbolt: Do not send UNSET_INBOUND_SBTX when retimer NVM authentication started
+  thunderbolt: Enable/disable sideband depending on USB4 port offline mode
+
+ drivers/thunderbolt/retimer.c | 58 +++++++++++++++++++++++++++++------
+ drivers/thunderbolt/tb.h      |  5 +++
+ 2 files changed, 54 insertions(+), 9 deletions(-)
+
+-- 
+2.39.2
+
