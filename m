@@ -2,77 +2,98 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6C18C77B7A
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Jun 2023 12:46:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37DE1C77B7A
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Jun 2023 12:46:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235665AbjFBMqw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 2 Jun 2023 08:46:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46444 "EHLO
+        id S235699AbjFBMqx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 2 Jun 2023 08:46:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235286AbjFBMqu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Jun 2023 08:46:50 -0400
+        with ESMTP id S235551AbjFBMqv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Jun 2023 08:46:51 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A0E913D;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CC25196;
         Fri,  2 Jun 2023 05:46:49 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D2B5D6500B;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E1F9465016;
         Fri,  2 Jun 2023 12:46:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42902C433D2;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AD9CC4339E;
         Fri,  2 Jun 2023 12:46:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1685710008;
-        bh=uSiepLtWjVhXcCAJfRm0oQIqf205bq5k7/+2TYyI62A=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=X//v7whp/oQm0/fBEgfGL161IJQ64IbHiJZwCgjVBOwKKkKBtiGEF1VMFICCG5k8A
-         GvitP1GR6to67KLwcXVFtno3OGIP8QGK8gZFgk7CoCZm2vmydovba0aXzVn0UnmvnB
-         d8wTGmSc00WeWPUBw1/gdCiqxjx+ksAG1DI/o188F03GnK/9aTtjLdhxqPaBLIUV0B
-         Cx6H+4VYDNwYivPa2JKfIlU+9mdEq2lf4FHwoUSLpc3AgeNcq2SMUYUAyLv919PpzK
-         H7w1NV8IdzG1WmNhGKKlf6tJZ6r74gWQTi88vD2kMm3d8f5U1H/UuCTvHD6P9TfmKg
-         HdfTme31HEG6w==
+        bh=TEZWtUaffZaTohv4z8ErYTZOW3hUlO5th1d7OQki8AY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=UL4aeSaqjL2wxem61uBQ8YL0bxdG6zfbEwL9/KN8lQpej5dpvznpaXc25I2n3T71N
+         19Rud0tAjMnOMmMeg15gm0lE17EEtvnPCHH7JXo+Dn34AHpBPnnB2Z5iODx5q+26Yz
+         m2E9Ar9x6Q0opfhyBtT+g925BMkMEm0E55xz6iUirPEjhmbRp/lVrapHukGbTYtUj4
+         zdLDPUEMxZsxB9uax8FKiSPDAe0kPTHaAdyfnpflq1Z+2rXluee7wVz48UcVUdllyi
+         XwhmtbJ398eqn9urJwMEq9FS5R0oXORhTD3PjPsbQZXskMZ2uQ+WEeWQmmMCZP9SDn
+         N/Zj/Gv6X80yg==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1q54BG-0004y3-5j; Fri, 02 Jun 2023 14:46:58 +0200
+        id 1q54BF-0004xx-6w; Fri, 02 Jun 2023 14:46:57 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Corey Minyard <minyard@acm.org>
-Subject: [PATCH 3/3] USB: serial: report unsupported break signalling
-Date:   Fri,  2 Jun 2023 14:46:42 +0200
-Message-Id: <20230602124642.19076-4-johan@kernel.org>
+Subject: [PATCH 0/3] USB: serial: return errors from break handling
+Date:   Fri,  2 Jun 2023 14:46:39 +0200
+Message-Id: <20230602124642.19076-1-johan@kernel.org>
 X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20230602124642.19076-1-johan@kernel.org>
-References: <20230602124642.19076-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Instead of returning success when a driver does not support break
-signalling, return an error to let user space know and to avoid waiting
-when break is not supported.
+This series starts returning errors from break handling and also uses
+that mechanism to report to user space when break signalling is not
+supported (e.g. when device or driver support is missing).
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/serial/usb-serial.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Note that the tty layer currently returns early but without reporting
+errors when a tty driver does not support break signalling. The intent
+expressed in commit 9e98966c7bb9 ("tty: rework break handling") from
+2008 appears to be to allow missing support to be reported to user
+space however.
 
-diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
-index 470634444af7..7b4805c1004d 100644
---- a/drivers/usb/serial/usb-serial.c
-+++ b/drivers/usb/serial/usb-serial.c
-@@ -541,7 +541,7 @@ static int serial_break(struct tty_struct *tty, int break_state)
- 	if (port->serial->type->break_ctl)
- 		return port->serial->type->break_ctl(tty, break_state);
- 
--	return 0;
-+	return -ENOTTY;
- }
- 
- static int serial_proc_show(struct seq_file *m, void *v)
+Johan
+
+
+Johan Hovold (3):
+  USB: serial: return errors from break handling
+  USB: serial: cp210x: disable break signalling on CP2105 SCI
+  USB: serial: report unsupported break signalling
+
+ drivers/usb/serial/ark3116.c          |  7 +++--
+ drivers/usb/serial/belkin_sa.c        | 12 ++++++---
+ drivers/usb/serial/ch341.c            | 37 +++++++++++++++++----------
+ drivers/usb/serial/cp210x.c           | 14 +++++++---
+ drivers/usb/serial/digi_acceleport.c  |  7 ++---
+ drivers/usb/serial/f81232.c           |  4 ++-
+ drivers/usb/serial/f81534.c           |  4 ++-
+ drivers/usb/serial/ftdi_sio.c         | 10 +++++---
+ drivers/usb/serial/io_edgeport.c      |  4 ++-
+ drivers/usb/serial/io_ti.c            |  9 +++++--
+ drivers/usb/serial/keyspan.c          |  5 +++-
+ drivers/usb/serial/keyspan_pda.c      |  8 ++++--
+ drivers/usb/serial/mct_u232.c         |  6 ++---
+ drivers/usb/serial/mos7720.c          |  9 ++++---
+ drivers/usb/serial/mos7840.c          |  7 ++---
+ drivers/usb/serial/mxuport.c          |  6 ++---
+ drivers/usb/serial/pl2303.c           | 14 ++++++----
+ drivers/usb/serial/quatech2.c         |  8 ++++--
+ drivers/usb/serial/ti_usb_3410_5052.c | 10 +++++---
+ drivers/usb/serial/upd78f0730.c       |  7 +++--
+ drivers/usb/serial/usb-serial.c       |  4 +--
+ drivers/usb/serial/usb_debug.c        | 13 +++++++---
+ drivers/usb/serial/whiteheat.c        |  7 ++---
+ drivers/usb/serial/xr_serial.c        |  4 +--
+ include/linux/usb/serial.h            |  2 +-
+ 25 files changed, 146 insertions(+), 72 deletions(-)
+
 -- 
 2.39.3
 
