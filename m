@@ -2,63 +2,90 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B99C7EE32
-	for <linux-usb@archiver.kernel.org>; Sat,  3 Jun 2023 10:41:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F46AC7EE2E
+	for <linux-usb@archiver.kernel.org>; Sat,  3 Jun 2023 18:46:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237001AbjFCKlD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 3 Jun 2023 06:41:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51696 "EHLO
+        id S229481AbjFCSqK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 3 Jun 2023 14:46:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230041AbjFCKkz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 3 Jun 2023 06:40:55 -0400
-X-Greylist: delayed 4232 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 03:40:27 PDT
-Received: from mail.webtopbits.pl (mail.webtopbits.pl [195.231.64.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1AEF10E0
-        for <linux-usb@vger.kernel.org>; Sat,  3 Jun 2023 03:40:27 -0700 (PDT)
-Received: by mail.webtopbits.pl (Postfix, from userid 1001)
-        id 1A677A38A8; Fri,  2 Jun 2023 09:30:44 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=webtopbits.pl;
-        s=mail; t=1685694650;
-        bh=Eh8ECMiYd4baGAwPAzhz8mhJACXX7NSRkYjh+plaY18=;
-        h=Date:From:To:Subject:From;
-        b=ewsja7SQXwdn+I3sJDYUchDM0irf8aHljdtOoOjNLgkWeOEJjcjIswLiJu/kGvL7z
-         Qu4n1lOr94brlQGhBvcqZ6p8J7lnz/BFKN4/ogNQA9HtVhY523UFDqp6Jhhf01EFY3
-         ZmNhu0PeafSEf3W1BZyrIUoltyOB642zN/1qF/9sAG25evkWI1QESz6oeBTaYb28T3
-         lNSP8fEtuoAAE+h3Czy7IKjlU3Y+RY1UGWGOAnhWmiKDPbRX+bL4ZVmzBZOb8Pky6R
-         hd5mBnwMZ0+6PdenRM8acXJ7YKjqYR8BCeyDbkwkJ18uXqD0CBN9xEW/R7unLBDiHH
-         T6ofqV2JS5X6Q==
-Received: by mail.webtopbits.pl for <linux-usb@vger.kernel.org>; Fri,  2 Jun 2023 08:30:38 GMT
-Message-ID: <20230602085530-0.1.8w.5jve.0.g3bjhuem4u@webtopbits.pl>
-Date:   Fri,  2 Jun 2023 08:30:38 GMT
-From:   "Kamil Durjasz" <kamil.durjasz@webtopbits.pl>
-To:     <linux-usb@vger.kernel.org>
-Subject: =?UTF-8?Q?Wy=C5=BCsza_konwersja_w_e-sklepie_?=
-X-Mailer: mail.webtopbits.pl
+        with ESMTP id S229548AbjFCSqJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 3 Jun 2023 14:46:09 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50D6D132
+        for <linux-usb@vger.kernel.org>; Sat,  3 Jun 2023 11:46:07 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-97000a039b2so507852666b.2
+        for <linux-usb@vger.kernel.org>; Sat, 03 Jun 2023 11:46:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685817966; x=1688409966;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ffGnCR1AWRVuPbEtVqod9VhAoeRndwMhCaIUDGcL49s=;
+        b=oB65jSg2cZ/+UIohZAO5DQQBSSbEkl7WMyUssM0+mCNxkrI7/Z4K/iAYiTTrGPNuFW
+         s1jFeQQlbIuJn5+cAULlRNcfH1ZJ56kvHCGYRYnlinClcdI1dOpNqAmKIsO21F9U4nQ2
+         97n3lDQWRz2LhnWSRggMH7LgQ0XnTBe+uT4p8rd+8738YqjQ8QeHvFEig/aoNmvKv5t/
+         Wtqsf8ru2HLeMMqyMulQ0hEPSmvHFDONVY0YAHQvaLIuDlQr5l8Zy8qUjr/GVg0L2sQb
+         h/Ti3S98QroZ8wB61PMH9WY5NNZf6UuBXZmABC0P9pTCWvqaSPcmW6vuSh0Ef/rTN3si
+         wePw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685817966; x=1688409966;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ffGnCR1AWRVuPbEtVqod9VhAoeRndwMhCaIUDGcL49s=;
+        b=EAio/3w0+UR4Mw0AnQd2KufNadmlrRXtEaa6yX/bN0ukdXNV+35N5Q5duGklJhMCIi
+         ykaKgjT4RbAbNyhamBOI7v81hjxinKunbInoIFAASigQ7Hs07xLXDgW/osNjLoMnFqDL
+         ELP9LLdyEwVo+pjZ2iBvTfcgfZd9FsS99Ujvk0RCk9NQ//JbCGDecNnXvuyVaM84Ttbw
+         dHi31zwTGcpOlKfnHQJnkrEvcUhkbLrS3lN4KqJbzIc/r34HZQlruPaw18dmKmBbMo26
+         Xc+ERXb/tha+ENRFYD7OEMjdaag5JHNxOlBi8scWq2XpkkRa/iKC5Qu5KuOq5zZ4LCp/
+         Y7vQ==
+X-Gm-Message-State: AC+VfDzeM5tGHa9+IAu0Qgd+/NP77Ipr0fCqmNphFBV064OS5PbmFIFA
+        SPq0eZ+PteSkiNJSIfzcGZaPig==
+X-Google-Smtp-Source: ACHHUZ5TeVnEF5E7EKTR0piomCgLM0TUkYQnJujj6vPOILoSM4N+GykILYjYN2EhtNp++/83scPe/A==
+X-Received: by 2002:a17:907:7f8c:b0:94e:116:8581 with SMTP id qk12-20020a1709077f8c00b0094e01168581mr2767917ejc.5.1685817965751;
+        Sat, 03 Jun 2023 11:46:05 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.199.204])
+        by smtp.gmail.com with ESMTPSA id a24-20020a170906245800b009745ecf5438sm2208699ejb.193.2023.06.03.11.46.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 03 Jun 2023 11:46:04 -0700 (PDT)
+Message-ID: <651f8f0d-bfba-18df-b266-e2f95e6f7c6e@linaro.org>
+Date:   Sat, 3 Jun 2023 20:46:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH RFC 1/7] dt-bindings: connector: usb-connector: add a gpio
+ used to determine the Type-C port plug orientation
+To:     Neil Armstrong <neil.armstrong@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-usb@vger.kernel.org
+References: <20230601-topic-sm8550-upstream-type-c-v1-0-d4d97b4d8bab@linaro.org>
+ <20230601-topic-sm8550-upstream-type-c-v1-1-d4d97b4d8bab@linaro.org>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230601-topic-sm8550-upstream-type-c-v1-1-d4d97b4d8bab@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Dzie=C5=84 dobry,
-
-w jaki spos=C3=B3b docieraj=C4=85 Pa=C5=84stwo do odbiorc=C3=B3w?
-
-Tworzymy pot=C4=99=C5=BCne narz=C4=99dzia sprzeda=C5=BCy, kt=C3=B3re pozw=
-alaj=C4=85 kompleksowo rozwi=C4=85za=C4=87 problemy potencjalnych klient=C3=
-=B3w i skutecznie wp=C5=82yn=C4=85=C4=87 na ich decyzje zakupowe.=20
-
-Skupiamy si=C4=99 na Pa=C5=84stwa potrzebach zwi=C4=85zanych z obs=C5=82u=
-g=C4=85 sklepu, oczekiwaniach i planach sprzeda=C5=BCowych. Szczeg=C3=B3=C5=
-=82owo dopasowujemy grafik=C4=99, funkcjonalno=C5=9Bci, struktur=C4=99 i =
-mikrointerakcje do Pa=C5=84stwa grupy docelowej, co przek=C5=82ada si=C4=99=
- na oczekiwane rezultaty.
-
-Ch=C4=99tnie przedstawi=C4=99 dotychczasowe realizacje, aby mogli Pa=C5=84=
-stwo przekona=C4=87 si=C4=99 o naszych mo=C5=BCliwo=C5=9Bciach. Mog=C4=99=
- si=C4=99 skontaktowa=C4=87?
+On 01/06/2023 16:07, Neil Armstrong wrote:
+> On some platforms, the Type-C plug orientation is given on a GPIO line.
+> 
 
 
-Pozdrawiam
-Kamil Durjasz
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
