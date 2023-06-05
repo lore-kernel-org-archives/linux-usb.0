@@ -2,137 +2,100 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC462C7EE2F
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Jun 2023 07:16:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 596A7C7EE23
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Jun 2023 07:19:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230274AbjFEHQY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Jun 2023 03:16:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48776 "EHLO
+        id S230508AbjFEHTW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Jun 2023 03:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231293AbjFEHQV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Jun 2023 03:16:21 -0400
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B124DCD;
-        Mon,  5 Jun 2023 00:15:56 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 6BE833200930;
-        Mon,  5 Jun 2023 03:05:10 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Mon, 05 Jun 2023 03:05:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1685948710; x=1686035110; bh=J0
-        4p8yU7rVE6vzX9z1prBkDXh2NOANidZ1xruSUmk4M=; b=xESH+28mSbNvewmM34
-        Up/hdlUILTueD97esgYzbscRd60ilVfcpfoDyon9PX/5I4eb9emZYZttRcap4w2v
-        SzbLICvFXf19RbxskQgXMXAgPfMrGgYywpaKgZqN/3FwsZDeNIQuQkHrKXQquX0J
-        zGBnY5yV0G05Ffm35nQoCj0l0N3TttlcRFzBZcp/uiSeLT523Q2wTBQuBKAGcFu9
-        zXqaQqUgh1+kFRBCsEkM4D9JT0Q9gY8jI80o09gxTbXUcVfR37L+7wFjLyX0cxNa
-        er3jk69qZJppf4si3Z/kzBt6POV6a0qbw4kr9VV7V8HwfaCaukUxYIJl+ZAmYlOa
-        q1+A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1685948710; x=1686035110; bh=J04p8yU7rVE6v
-        zX9z1prBkDXh2NOANidZ1xruSUmk4M=; b=dcek2dcj4hW59qVxhxiv+1GAwbfJo
-        3bI15R9XWreRXA5xZ9t+cgR17I65zcJ55OxOnlHtI7N2ThnLKNKE2eHALF8DygxK
-        BFMKCajAz/RWZFhfQVQQJJMB+DPCStWw3ZyKJ3MHQBtMMwbie/ct/9iuTtQU5aqh
-        SBqqjFuo6mbxfBnWH8qwfg5jNTPCNcW7THEY+Q/JuxancbNYQttD+fcDzGuu0fCr
-        A70MYoD4m7Tz6AYQ29qB16IhmZXjEWp/WJy+FSqdw7cLmZO2uhBL9WcFkIQGEVrx
-        oxAREy+RHVvXYbG45AZlJIR4GV21UUBElKxifAvknW5wRJ7J9Y46Gae+w==
-X-ME-Sender: <xms:JYl9ZDyzcJN2tZm3qfakgRiI1y5imTGnxR7-MuLB2tRDk5YY_Gxerg>
-    <xme:JYl9ZLRUSpN440X5x7P1Vtc0J7p_E8lBgS1af9_M1n9sJcoLS25CKxsoISa4hIME2
-    tjWCII_UMiJyaWTOjI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeelkedguddugecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:JYl9ZNUgEKSUTETrHb50fCTrTlhY_d0UoqghJoTERcOFESCArCNDTQ>
-    <xmx:JYl9ZNjEnJfnpsJ9xR98LZyWCSVMml4ov4bLpXCAPEQgtoT9E-uwhA>
-    <xmx:JYl9ZFCk_Wk0zlS-yalrBx05lJPokB0F_tRm4KlE81akeqzRimmbng>
-    <xmx:Jol9ZPlt20zysWbBHN_DIfEqM8K5Ksh8LY_FKGIz15n8QCzYtKlyFg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 5B29EB60086; Mon,  5 Jun 2023 03:05:09 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-447-ge2460e13b3-fm-20230525.001-ge2460e13
-Mime-Version: 1.0
-Message-Id: <d95d37f5-5bef-43a9-b319-0bbe0ac366b4@app.fastmail.com>
-In-Reply-To: <c72f45ec-c185-8676-b31c-ec48cd46278c@linaro.org>
-References: <20230603200243.243878-1-varshini.rajendran@microchip.com>
- <20230603200243.243878-2-varshini.rajendran@microchip.com>
- <c72f45ec-c185-8676-b31c-ec48cd46278c@linaro.org>
-Date:   Mon, 05 Jun 2023 09:04:49 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
-        "Varshini Rajendran" <varshini.rajendran@microchip.com>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Marc Zyngier" <maz@kernel.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        krzysztof.kozlowski+dt@linaro.org,
-        "Conor Dooley" <conor+dt@kernel.org>,
-        "Nicolas Ferre" <nicolas.ferre@microchip.com>,
-        "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
-        "Claudiu Beznea" <claudiu.beznea@microchip.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Eric Dumazet" <edumazet@google.com>,
-        "Jakub Kicinski" <kuba@kernel.org>,
-        "Paolo Abeni" <pabeni@redhat.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "Russell King" <linux@armlinux.org.uk>,
-        "Michael Turquette" <mturquette@baylibre.com>,
-        "Stephen Boyd" <sboyd@kernel.org>,
-        "Sebastian Reichel" <sre@kernel.org>,
-        "Mark Brown" <broonie@kernel.org>,
-        "Gregory Clement" <gregory.clement@bootlin.com>,
-        "Sudeep Holla" <sudeep.holla@arm.com>,
-        "Balamanikandan Gunasundar" <balamanikandan.gunasundar@microchip.com>,
-        "Mihai.Sain" <mihai.sain@microchip.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Netdev <netdev@vger.kernel.org>, linux-usb@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-pm@vger.kernel.org
-Cc:     Hari.PrasathGE@microchip.com, cristian.birsan@microchip.com,
-        durai.manickamkr@microchip.com, manikandan.m@microchip.com,
-        dharma.b@microchip.com, nayabbasha.sayed@microchip.com,
-        balakrishnan.s@microchip.com
-Subject: Re: [PATCH 01/21] dt-bindings: microchip: atmel,at91rm9200-tcb: add sam9x60
- compatible
-Content-Type: text/plain
+        with ESMTP id S229521AbjFEHTV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Jun 2023 03:19:21 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77F1898
+        for <linux-usb@vger.kernel.org>; Mon,  5 Jun 2023 00:19:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685949560; x=1717485560;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=f+z2Z3/d+mt4Pw9CPEiferzzoVNMdEUh2Fj8tNxKODs=;
+  b=W1r7iBCQVHcx6CwwKm9QcXeW/KJX9kDsWLG7U8kEoaWWOHzqthjdSgPI
+   C101o9u4XgRggfdYxo+cZIc4Edw+mtRg471zpWn8jESNBWjcQ8XOFHBSn
+   dEX4OK0axUpwtc4n4nfAYkj92VvHyTMBUY5mXXQ1NqxTkWlbzARQDYFPn
+   NRe13SAyovO024sEGG+IOja97uYnsEb/Es14gPL6KfTQ33/noCKXRGlkC
+   fB7VCDOmkUhLRUM5JeZ4P/nqzdfcbdmFRCuXcs8sdaguToMAGSXcB/37k
+   gxdFKj+/7JMRlPVstDKTkFOvFXlyncpfmQTwq2mpLxiHBT8TPdU3L/4YJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="353793913"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
+   d="scan'208";a="353793913"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 00:19:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="686018282"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
+   d="scan'208";a="686018282"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga006.jf.intel.com with ESMTP; 05 Jun 2023 00:19:17 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 13479204; Mon,  5 Jun 2023 10:19:23 +0300 (EEST)
+Date:   Mon, 5 Jun 2023 10:19:23 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-usb@vger.kernel.org
+Subject: [GIT PULL] Thunderbolt/USB4 fixes for v6.4-rc6
+Message-ID: <20230605071923.GS45886@black.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jun 5, 2023, at 08:35, Krzysztof Kozlowski wrote:
-> On 03/06/2023 22:02, Varshini Rajendran wrote:
->> Add sam9x60 compatible string support in the schema file
->> 
->> Signed-off-by: Varshini Rajendran <varshini.rajendran@microchip.com>
->> ---
->>  .../devicetree/bindings/soc/microchip/atmel,at91rm9200-tcb.yaml  | 1 +
->>  1 file changed, 1 insertion(+)
->> 
->> diff --git a/Documentation/devicetree/bindings/soc/microchip/atmel,at91rm9200-tcb.yaml b/Documentation/devicetree/bindings/soc/microchip/atmel,at91rm9200-tcb.yaml
->> index a46411149571..c70c77a5e8e5 100644
->> --- a/Documentation/devicetree/bindings/soc/microchip/atmel,at91rm9200-tcb.yaml
->> +++ b/Documentation/devicetree/bindings/soc/microchip/atmel,at91rm9200-tcb.yaml
->> @@ -20,6 +20,7 @@ properties:
->>            - atmel,at91rm9200-tcb
->>            - atmel,at91sam9x5-tcb
->>            - atmel,sama5d2-tcb
->> +          - microchip,sam9x60-tcb
->
-> No wildcards.
+Hi Greg,
 
-sam9x60 is the actual name of the chip, it's no wildcard. For sam9x70,
-sam9x72 and sam9x75, I think using sam9x7 as the compatible string
-is probably fine, as long as they are actually the same chip. Again,
-the 'x' in there is not a wildcard but part of the name.
+The following changes since commit 44c026a73be8038f03dbdeef028b642880cf1511:
 
-    Arnd
+  Linux 6.4-rc3 (2023-05-21 14:05:48 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v6.4-rc6
+
+for you to fetch changes up to 9f9666e65359d5047089aef97ac87c50f624ecb0:
+
+  thunderbolt: Mask ring interrupt on Intel hardware as well (2023-05-31 10:37:21 +0300)
+
+----------------------------------------------------------------
+thunderbolt: Fixes for v6.4-rc6
+
+This includes following fixes for v6.4-rc6:
+
+  - Fix DMA test driver to pass correct values when only RX or TX ring
+    is used
+  - Increase timeout when DisplayPort tunnel is established to cope with
+    a VGA/DVI dongle connected to a dock
+  - Do not enable CL states when BIOS connnection manager already
+    created the tunnels
+  - Correct the ring interrupt masking to work again in Intel hardware
+    on resume from system sleep states.
+
+All these have been in linux-next with no reported issues.
+
+----------------------------------------------------------------
+Mika Westerberg (4):
+      thunderbolt: dma_test: Use correct value for absent rings when creating paths
+      thunderbolt: Increase DisplayPort Connection Manager handshake timeout
+      thunderbolt: Do not touch CL state configuration during discovery
+      thunderbolt: Mask ring interrupt on Intel hardware as well
+
+ drivers/thunderbolt/dma_test.c |  8 ++++----
+ drivers/thunderbolt/nhi.c      | 11 ++++++++---
+ drivers/thunderbolt/tb.c       | 17 ++++++++++++-----
+ drivers/thunderbolt/tunnel.c   |  2 +-
+ 4 files changed, 25 insertions(+), 13 deletions(-)
