@@ -2,109 +2,96 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3AA0C7EE2C
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Jun 2023 06:43:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 959BBC7EE23
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Jun 2023 07:16:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230110AbjFEGnv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Jun 2023 02:43:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56766 "EHLO
+        id S230430AbjFEHQL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Jun 2023 03:16:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230099AbjFEGnu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Jun 2023 02:43:50 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDCB81A7
-        for <linux-usb@vger.kernel.org>; Sun,  4 Jun 2023 23:43:28 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-97000a039b2so712166466b.2
-        for <linux-usb@vger.kernel.org>; Sun, 04 Jun 2023 23:43:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685947405; x=1688539405;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uw934CvNepJzyaQQUV31TxbXFbtnqLugvutH4AccEcs=;
-        b=C7MPx2JRwVd1TLHaSaegjE/x0aHabVAcj4AfLdl1uPogVTjWmjrm5JgVDsmb8Jv6+G
-         lD4mgcLc9zSYKqw7y3QUkQOkeID0pomCw5pteniMt5ltImNIhbxfuK/jPDopO3jDPodr
-         4dIF4ysieJewoJkSMHGN++J4sRbE33hRvCsoQra/lezrXaovAdbix1NMwkodXTb95OV2
-         8WtdelzV0uZxVHChiPRNirjygvHToX1LRNHtj2yIhAJhSY7BllYpYb7ssOo9jhMachYN
-         Fk5lCTgbWvzlPCEJjhVkRBscV7Gds8MwE/NG6S6F8VU7J8o+ToleRn2Ae56GkZEy/oqR
-         Yanw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685947405; x=1688539405;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uw934CvNepJzyaQQUV31TxbXFbtnqLugvutH4AccEcs=;
-        b=jO1uo0LfoR1knyMhvs6yCnZl23VUqYVLzGzagHjAwzElm1oEFfHZuFh53kvQ8INhti
-         /Voxiqe9GP84X/kLjA1G19wzxt+U3Xd4RGaBk5xJVR0WVJuwAYpSuAQNeiGDfBe3PnBy
-         p0c3/XZc3pSqTMLPDKxfSAdzEpR1lO+3U7SfTXZLfp5+TJjycVCwuYPHEstS2UuXfHjO
-         M6HkBPSibJmkrxAv3gOd4WijXJv/+wsKuQQsi9NgUBSdBJMV6aFKy2f53oxKebC+xIhm
-         yoVo4NwlEwz5Fkan3vmLF2PoQbP9IM48tUvEWJVYy01eUIAru/kWcPK7rcrp2tbZX8MU
-         gujQ==
-X-Gm-Message-State: AC+VfDweVxjR+INbIKAHKeQdSaw9kGPjXxxGOhcFXvD1YAcm0YR/j/0L
-        gTeRYnFKts375xGqD7ZLjtLI2Q==
-X-Google-Smtp-Source: ACHHUZ6uVGxy9xFnG9Y9A3SHNYvD3NcLQFCgeDBBJmRjdb3lXsh4QvFCpVy68MhjoZMM0vV+dWuDgg==
-X-Received: by 2002:a17:906:9b88:b0:973:91f7:5092 with SMTP id dd8-20020a1709069b8800b0097391f75092mr7422310ejc.2.1685947405338;
-        Sun, 04 Jun 2023 23:43:25 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id o22-20020a1709061b1600b00977c50476f7sm2602597ejg.44.2023.06.04.23.43.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 04 Jun 2023 23:43:24 -0700 (PDT)
-Message-ID: <2a538004-351f-487a-361c-df723d186c27@linaro.org>
-Date:   Mon, 5 Jun 2023 08:43:18 +0200
+        with ESMTP id S230145AbjFEHQI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Jun 2023 03:16:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 555021BD;
+        Mon,  5 Jun 2023 00:15:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 211BA60F19;
+        Mon,  5 Jun 2023 07:15:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BC8CC433EF;
+        Mon,  5 Jun 2023 07:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685949312;
+        bh=RV1uSWYECRF6po/E+w6yWpCHTfpG9zLcmT+80L61Dp8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HtOtJiV5bbausUrO3yqE5B5ePbLaipOSV60pQ7DMAmGts71BW2BZnaNt2GDJZ3vMg
+         JqD39VkYSSH5Qypp/+nEjZxdf9IfW2aTFp/4L89ESCYjz0gw34ydjp6nSoZpNukv+s
+         Kx1gx1dqWbHW24bYOjS0t8JF/9eCcwbNUQpC0PP8DGp90nH9J6AaDnBIppPeM6H30C
+         koIYRScxM9U+YmgAFTMLfGpXGvij9UG0WZLohVN+612rV5TeM2IWGhgmj+krM52YDX
+         8Kt9rrZSrzqA30kmd08ZN97pobyijFWBHHfzBgzsm3RdLdYGd1zemVjV77+aKtzQwL
+         542Nw1ZqwNkkQ==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1q64R6-00077O-OC; Mon, 05 Jun 2023 09:15:29 +0200
+Date:   Mon, 5 Jun 2023 09:15:28 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Corey Minyard <minyard@acm.org>
+Cc:     Craig Shelley <craig@microtron.org.uk>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        linux-usb@vger.kernel.org
+Subject: Re: Break doesn't work on a CP2105
+Message-ID: <ZH2LkKE83kHrIRWH@hovoldconsulting.com>
+References: <ZEmDs0ASdnEAnpsL@minyard.net>
+ <ZGtZKCvo71woGf9T@hovoldconsulting.com>
+ <ZGtlnWGSc31Wdhxa@mail.minyard.net>
+ <ZHnmSwGyOaSMbPBB@hovoldconsulting.com>
+ <ZHodALMLTWk72Vvm@mail.minyard.net>
+ <ZHyAzHVAu3DVgJG_@hovoldconsulting.com>
+ <ZHzv/wbwtaLVpfaP@mail.minyard.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH 17/21] power: reset: at91-poweroff: lookup for proper pmc
- dt node for sam9x7
-Content-Language: en-US
-To:     Varshini Rajendran <varshini.rajendran@microchip.com>,
-        tglx@linutronix.de, maz@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-        claudiu.beznea@microchip.com, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        gregkh@linuxfoundation.org, linux@armlinux.org.uk,
-        mturquette@baylibre.com, sboyd@kernel.org, sre@kernel.org,
-        broonie@kernel.org, arnd@arndb.de, gregory.clement@bootlin.com,
-        sudeep.holla@arm.com, balamanikandan.gunasundar@microchip.com,
-        mihai.sain@microchip.com, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-pm@vger.kernel.org
-Cc:     Hari.PrasathGE@microchip.com, cristian.birsan@microchip.com,
-        durai.manickamkr@microchip.com, manikandan.m@microchip.com,
-        dharma.b@microchip.com, nayabbasha.sayed@microchip.com,
-        balakrishnan.s@microchip.com
-References: <20230603200243.243878-1-varshini.rajendran@microchip.com>
- <20230603200243.243878-18-varshini.rajendran@microchip.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230603200243.243878-18-varshini.rajendran@microchip.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZHzv/wbwtaLVpfaP@mail.minyard.net>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 03/06/2023 22:02, Varshini Rajendran wrote:
-> Use sam9x7 pmc's compatible to lookup for in the SHDWC driver
-> 
-> Signed-off-by: Varshini Rajendran <varshini.rajendran@microchip.com>
-> ---
->  drivers/power/reset/at91-sama5d2_shdwc.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/power/reset/at91-sama5d2_shdwc.c b/drivers/power/reset/at91-sama5d2_shdwc.c
-> index d8ecffe72f16..d0f29b99f25e 100644
-> --- a/drivers/power/reset/at91-sama5d2_shdwc.c
-> +++ b/drivers/power/reset/at91-sama5d2_shdwc.c
-> @@ -326,6 +326,7 @@ static const struct of_device_id at91_pmc_ids[] = {
->  	{ .compatible = "atmel,sama5d2-pmc" },
->  	{ .compatible = "microchip,sam9x60-pmc" },
->  	{ .compatible = "microchip,sama7g5-pmc" },
-> +	{ .compatible = "microchip,sam9x7-pmc" },
+On Sun, Jun 04, 2023 at 03:11:43PM -0500, Corey Minyard wrote:
+> On Sun, Jun 04, 2023 at 02:17:16PM +0200, Johan Hovold wrote:
 
-Why do you need new entry if these are compatible?
+> > I just verified break signalling on the first port of my CP2105 using a
+> > logic analyser and everything seems to work as expected.
+> > 
+> > There's also no mention of any issue with break in the errata.
+> > 
+> > Could you check which firmware revision you have by enabling debugging
+> > and reconnecting the device?
 
-Best regards,
-Krzysztof
+> [    4.253869] usb 2-1.2: new full-speed USB device number 3 using ehci-pci
+> [    4.342570] usb 2-1.2: New USB device found, idVendor=10c4, idProduct=ea70, bcdDevice= 1.00
+> [    4.350939] usb 2-1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=5
+> [    4.358259] usb 2-1.2: Product: CP2105 Dual USB to UART Bridge Controller
+> [    4.365052] usb 2-1.2: Manufacturer: Silicon Labs
+> [    4.369765] usb 2-1.2: SerialNumber: 01070456
+> [    4.374925] cp210x 2-1.2:1.0: cp210x converter detected
+> [    4.381086] cp210x 2-1.2:1.0: cp210x_get_fw_version - 1.18.1
+> [    4.386915] usb 2-1.2: cp210x converter now attached to ttyUSB0
+> [    4.393529] cp210x 2-1.2:1.1: cp210x converter detected
+> [    4.399835] cp210x 2-1.2:1.1: cp210x_get_fw_version - 1.18.1
+> [    4.405657] usb 2-1.2: cp210x converter now attached to ttyUSB1
 
+So we have the same firmware revision.
+ 
+> This is an embedded reference board, I guess there is some probability
+> that this is just broken on this board, though I'm not quite sure how.
+
+Is the port accessible somehow so that you could hook up a scope or
+logic analyser? Or is that what you did already when you mentioned
+seeing garbage sent after 2.5 seconds?
+
+That last bit seems to match the behaviour I see with the second, SCI
+port, where the last character sent is resent when trying to signal a
+break.
+
+Johan
