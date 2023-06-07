@@ -2,113 +2,176 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7972C8300C
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Jun 2023 11:17:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EABF0C77B7A
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Jun 2023 11:19:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240183AbjFGLRK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Jun 2023 07:17:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52128 "EHLO
+        id S240312AbjFGLTZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Jun 2023 07:19:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239049AbjFGLRG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Jun 2023 07:17:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C0D1BD;
-        Wed,  7 Jun 2023 04:17:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 36DF763DBA;
-        Wed,  7 Jun 2023 11:17:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 865BFC43444;
-        Wed,  7 Jun 2023 11:17:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686136623;
-        bh=SWgB+GJxunV8+GIcdNuLA2VAu98d93P4jlBSJxTcTc8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dCocfCn5G6R1dJgV4Mmgd6QmoqMqRFKA44H9gGa/fGqbDWMqfznlnu83eU4rX3cpv
-         2g3YmLmKhzdK4uBPsKEf5RRJy2gDbmp3VzLjfoipyHazynVJbqidDhMtYqzgdoEmdE
-         hAQSBAK6dLwMOUWcB4LV6Fn39BYBcLwNJUr9X4uiMCKDyZ3UG25cqpgZDhiYHCgV1N
-         qEiiv2znG3AMjklFQRR021NlKqKMNAhGwtv7xM71Bn2dkvgxHcTKYuNAmnD9NWk+8V
-         BX9bCPRAjwtMTs4eSxvQ2DD8l0t1+mWji/1z4wHfAqtoNNTCp0uxrnbgg+6xhe4Wan
-         ZW0mkD4+vxNXQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan+linaro@kernel.org>)
-        id 1q6rAM-0008LS-ET; Wed, 07 Jun 2023 13:17:26 +0200
-From:   Johan Hovold <johan+linaro@kernel.org>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Krishna Kurapati <quic_kriskura@quicinc.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Johan Hovold <johan+linaro@kernel.org>, stable@vger.kernel.org,
-        Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-Subject: [PATCH 1/2] USB: dwc3: qcom: fix NULL-deref on suspend
-Date:   Wed,  7 Jun 2023 12:05:39 +0200
-Message-Id: <20230607100540.31045-2-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20230607100540.31045-1-johan+linaro@kernel.org>
-References: <20230607100540.31045-1-johan+linaro@kernel.org>
+        with ESMTP id S240251AbjFGLTO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Jun 2023 07:19:14 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A0E51BF0
+        for <linux-usb@vger.kernel.org>; Wed,  7 Jun 2023 04:19:13 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2b1bdfe51f8so5880521fa.0
+        for <linux-usb@vger.kernel.org>; Wed, 07 Jun 2023 04:19:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686136751; x=1688728751;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fjko3QRj+cFplx9h7zbRwTk/CwypS2aJGQpsJdnJBcU=;
+        b=laRSDrsJNF9p2Ofs3Yfy7ka0nQNTWbKYMLIRRWEmQCnnCfuI+YpId+dWWU1TyPxBm5
+         6Cmq3E/iMw+YsFNd5yjGx3NZnByip7EmAV9SHAEjtlw9byALWWELgRy3SYJKPWKGBQoA
+         zd7Wx2S3Juto5ptbe+9OaIjOGSYJwY8qUnXwJ0mqTgROVxtyWUzZ4oFsGJL3roCX2sRO
+         Y9TGulY7Yqn6MCizksVHMlD+JKfiPgjQ1QLNlr3CUB3MxpTlgwcWNJXjkbSqFCSvOL13
+         QV332ueIJ64er8ta6wCXOPEjMGrVvRSizPJPSFBRJIB7bdpzGeMDVnBcH0iZ265hLEcE
+         w+SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686136751; x=1688728751;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fjko3QRj+cFplx9h7zbRwTk/CwypS2aJGQpsJdnJBcU=;
+        b=Npge6XgM8og4UEs+ipwhU/noPFKmsmjuMKHxmpa+mcBseVjGXIW7oIR4krci6P3gp2
+         an8/HO7keV7aBoSYd4AU5Q3wAxo29LAprf3LwZxIQFLNx3QCxYjqxQTkXiV+MAU3SyzF
+         IqwbQo2YP0PINHy96pX3hFaHlBHRoSqVwZaER5eqDblnxuOK8iH/pS1Z4SDfgy4zaBYZ
+         QU6Kg3+GDF7Tevld/zzvcvTcs7F6PLRZe1OnbK9TOx6/Ve9QFJKTNkr8T3f79xSEK6WC
+         GHfFomrHJqIudZn8GUZnBfMu6PNnu6/AAIS2nToB9+vqN+u50SYU2YPQTOZEI4/ill1T
+         K06A==
+X-Gm-Message-State: AC+VfDxoq6zRZbk8NmOJTd7OnkHq9ZWgkGy0WuTnlEoqmJiw0VcoxbVz
+        qcuO8cznEumPEU7H/aimklOfPg==
+X-Google-Smtp-Source: ACHHUZ5rgUIGYC9F4mfa/BwfD2kpufU+Xaf6Czj/chjjh9l/L1hLFCcM7s7tAr6X1R3s3BfQCW9tiA==
+X-Received: by 2002:a05:651c:2050:b0:2b0:2214:f808 with SMTP id t16-20020a05651c205000b002b02214f808mr4542941ljo.16.1686136751092;
+        Wed, 07 Jun 2023 04:19:11 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5? (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+        by smtp.gmail.com with ESMTPSA id x13-20020a2e7c0d000000b002ad90c2d0dasm2222771ljc.71.2023.06.07.04.19.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jun 2023 04:19:10 -0700 (PDT)
+Message-ID: <87810fde-c824-d494-17b3-b6ff34237bea@linaro.org>
+Date:   Wed, 7 Jun 2023 14:19:09 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 4/9] clk: qcom: ipq5332: Fix USB related clock defines
+Content-Language: en-GB
+To:     Varadarajan Narayanan <quic_varada@quicinc.com>, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org, vkoul@kernel.org,
+        kishon@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        gregkh@linuxfoundation.org, catalin.marinas@arm.com,
+        will@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
+        p.zabel@pengutronix.de, arnd@arndb.de, geert+renesas@glider.be,
+        neil.armstrong@linaro.org, nfraprado@collabora.com,
+        broonie@kernel.org, rafal@milecki.pl, quic_srichara@quicinc.com,
+        quic_varada@quicinc.org, quic_wcheng@quicinc.com,
+        linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-clk@vger.kernel.org
+References: <cover.1686126439.git.quic_varada@quicinc.com>
+ <3840e5b5795ef55ecbf25d0faa8c328f09c6d976.1686126439.git.quic_varada@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <3840e5b5795ef55ecbf25d0faa8c328f09c6d976.1686126439.git.quic_varada@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Qualcomm dwc3 glue driver is currently accessing the driver data of
-the child core device during suspend and on wakeup interrupts. This is
-clearly a bad idea as the child may not have probed yet or could have
-been unbound from its driver.
+On 07/06/2023 13:56, Varadarajan Narayanan wrote:
+> Fix the USB related clock defines and add details
+> referenced by them
+> 
+> Signed-off-by: Varadarajan Narayanan <quic_varada@quicinc.com>
+> ---
+>   drivers/clk/qcom/gcc-ipq5332.c | 34 +++++++++++++++++++++++-----------
+>   1 file changed, 23 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/clk/qcom/gcc-ipq5332.c b/drivers/clk/qcom/gcc-ipq5332.c
+> index a75ab88..2b58558 100644
+> --- a/drivers/clk/qcom/gcc-ipq5332.c
+> +++ b/drivers/clk/qcom/gcc-ipq5332.c
+> @@ -351,6 +351,16 @@ static const struct freq_tbl ftbl_gcc_adss_pwm_clk_src[] = {
+>   	{ }
+>   };
+>   
+> +static const struct clk_parent_data gcc_usb3phy_0_cc_pipe_clk_xo[] = {
+> +	{ .fw_name = "usb3phy_0_cc_pipe_clk" },
+> +	{ .fw_name = "xo" },
 
-The first such layering violation was part of the initial version of the
-driver, but this was later made worse when the hack that accesses the
-driver data of the grand child xhci device to configure the wakeup
-interrupts was added.
+gcc-ipq5332 uses DT indices, please don't mix that with .fw_name.
 
-Fixing this properly is not that easily done, so add a sanity check to
-make sure that the child driver data is non-NULL before dereferencing it
-for now.
+> +};
+> +
+> +static const struct parent_map gcc_usb3phy_0_cc_pipe_clk_xo_map[] = {
+> +	{ P_USB3PHY_0_PIPE, 0 },
+> +	{ P_XO, 2 },
+> +};
+> +
+>   static struct clk_rcg2 gcc_adss_pwm_clk_src = {
+>   	.cmd_rcgr = 0x1c004,
+>   	.mnd_width = 0,
+> @@ -1101,16 +1111,18 @@ static struct clk_rcg2 gcc_usb0_mock_utmi_clk_src = {
+>   	},
+>   };
+>   
+> -static struct clk_regmap_phy_mux gcc_usb0_pipe_clk_src = {
+> +static struct clk_regmap_mux usb0_pipe_clk_src = {
+>   	.reg = 0x2c074,
+> +	.shift = 8,
+> +	.width = 2,
+> +	.parent_map = gcc_usb3phy_0_cc_pipe_clk_xo_map,
+>   	.clkr = {
+> -		.hw.init = &(struct clk_init_data) {
+> -			.name = "gcc_usb0_pipe_clk_src",
+> -			.parent_data = &(const struct clk_parent_data) {
+> -				.index = DT_USB_PCIE_WRAPPER_PIPE_CLK,
+> -			},
+> -			.num_parents = 1,
+> -			.ops = &clk_regmap_phy_mux_ops,
+> +		.hw.init = &(const struct clk_init_data){
+> +			.name = "usb0phy_0_cc_pipe_clk_src",
+> +			.parent_data = gcc_usb3phy_0_cc_pipe_clk_xo,
+> +			.num_parents = 2,
+> +			.ops = &clk_regmap_mux_closest_ops,
+> +			.flags = CLK_SET_RATE_PARENT,
+>   		},
 
-Note that this relies on subtleties like the fact that driver core is
-making sure that the parent is not suspended while the child is probing.
+Soo... As you are reverting this. Is USB0 PIPE clock required to be 
+parked to the XO? I was going to write 'before turning USB0_GDSC' off, 
+but then I noticed that gcc-ipq5332 doesn't declare GDSCs. Does this 
+platform have GDSCs?
 
-Reported-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Link: https://lore.kernel.org/all/20230325165217.31069-4-manivannan.sadhasivam@linaro.org/
-Fixes: d9152161b4bf ("usb: dwc3: Add Qualcomm DWC3 glue layer driver")
-Fixes: 6895ea55c385 ("usb: dwc3: qcom: Configure wakeup interrupts during suspend")
-Cc: stable@vger.kernel.org	# 3.18: a872ab303d5d: "usb: dwc3: qcom: fix use-after-free on runtime-PM wakeup"
-Cc: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-Cc: Krishna Kurapati <quic_kriskura@quicinc.com>
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
- drivers/usb/dwc3/dwc3-qcom.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+>   	},
+>   };
+> @@ -3041,8 +3053,8 @@ static struct clk_branch gcc_usb0_pipe_clk = {
+>   		.enable_mask = BIT(0),
+>   		.hw.init = &(const struct clk_init_data) {
+>   			.name = "gcc_usb0_pipe_clk",
+> -			.parent_hws = (const struct clk_hw*[]) {
+> -				&gcc_usb0_pipe_clk_src.clkr.hw,
+> +			.parent_names = (const char *[]){
+> +				"usb0_pipe_clk_src"
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index 959fc925ca7c..79b22abf9727 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -308,7 +308,16 @@ static void dwc3_qcom_interconnect_exit(struct dwc3_qcom *qcom)
- /* Only usable in contexts where the role can not change. */
- static bool dwc3_qcom_is_host(struct dwc3_qcom *qcom)
- {
--	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
-+	struct dwc3 *dwc;
-+
-+	/*
-+	 * FIXME: Fix this layering violation.
-+	 */
-+	dwc = platform_get_drvdata(qcom->dwc3);
-+
-+	/* Core driver may not have probed yet. */
-+	if (!dwc)
-+		return false;
- 
- 	return dwc->xhci;
- }
+complete and definitive NAK. Do not use parent_names, we have just 
+stopped migrating from them.
+
+>   			},
+>   			.num_parents = 1,
+>   			.flags = CLK_SET_RATE_PARENT,
+> @@ -3580,7 +3592,7 @@ static struct clk_regmap *gcc_ipq5332_clocks[] = {
+>   	[GCC_PCIE3X2_PIPE_CLK_SRC] = &gcc_pcie3x2_pipe_clk_src.clkr,
+>   	[GCC_PCIE3X1_0_PIPE_CLK_SRC] = &gcc_pcie3x1_0_pipe_clk_src.clkr,
+>   	[GCC_PCIE3X1_1_PIPE_CLK_SRC] = &gcc_pcie3x1_1_pipe_clk_src.clkr,
+> -	[GCC_USB0_PIPE_CLK_SRC] = &gcc_usb0_pipe_clk_src.clkr,
+> +	[GCC_USB0_PIPE_CLK_SRC] = &usb0_pipe_clk_src.clkr,
+>   };
+>   
+>   static const struct qcom_reset_map gcc_ipq5332_resets[] = {
+
 -- 
-2.39.3
+With best wishes
+Dmitry
 
