@@ -2,101 +2,312 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD4C1C77B7A
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Jun 2023 22:34:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65C8CC7EE43
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Jun 2023 06:26:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239962AbjFFWeq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 6 Jun 2023 18:34:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60006 "EHLO
+        id S234970AbjFGG0b (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Jun 2023 02:26:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240014AbjFFWeN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Jun 2023 18:34:13 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 5C10A1730
-        for <linux-usb@vger.kernel.org>; Tue,  6 Jun 2023 15:33:24 -0700 (PDT)
-Received: (qmail 206158 invoked by uid 1000); 6 Jun 2023 18:33:22 -0400
-Date:   Tue, 6 Jun 2023 18:33:22 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     David Disseldorp <ddiss@suse.de>
-Cc:     linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] usb: gadget: f_mass_storage: remove unnecessary open
- check
-Message-ID: <cc56d8bf-a634-46bb-b874-5847bd4b3bf3@rowland.harvard.edu>
-References: <20230606221518.7054-1-ddiss@suse.de>
+        with ESMTP id S234352AbjFGG03 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Jun 2023 02:26:29 -0400
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 427641725;
+        Tue,  6 Jun 2023 23:26:25 -0700 (PDT)
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 3576PJQ20024705, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 3576PJQ20024705
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+        Wed, 7 Jun 2023 14:25:19 +0800
+Received: from RTEXMBS02.realtek.com.tw (172.21.6.95) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Wed, 7 Jun 2023 14:25:34 +0800
+Received: from RTEXH36505.realtek.com.tw (172.21.6.25) by
+ RTEXMBS02.realtek.com.tw (172.21.6.95) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 7 Jun 2023 14:25:33 +0800
+Received: from localhost.localdomain (172.21.252.101) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server id
+ 15.1.2375.32 via Frontend Transport; Wed, 7 Jun 2023 14:25:33 +0800
+From:   Stanley Chang <stanley_chang@realtek.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Stanley Chang <stanley_chang@realtek.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Ray Chi <raychi@google.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Flavio Suligoi <f.suligoi@asem.it>,
+        <linux-phy@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
+Subject: [PATCH v3 4/5] dt-bindings: phy: realtek: Add the doc about the Realtek SoC USB 2.0 PHY
+Date:   Wed, 7 Jun 2023 14:24:40 +0800
+Message-ID: <20230607062500.24669-4-stanley_chang@realtek.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230607062500.24669-1-stanley_chang@realtek.com>
+References: <20230607062500.24669-1-stanley_chang@realtek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230606221518.7054-1-ddiss@suse.de>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-KSE-ServerInfo: RTEXMBS02.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jun 07, 2023 at 12:15:18AM +0200, David Disseldorp wrote:
-> fsg_lun_is_open() will always and only be true after a successful
-> fsg_lun_open() call, so drop the unnecessary conditional.
+Add the documentation explain the property about Realtek USB PHY driver.
 
-I don't follow the reasoning.  The relevant code is:
+Realtek DHC (digital home center) RTD SoCs support DWC3 XHCI USB
+controller. Added the driver to drive the USB 2.0 PHY transceivers.
 
-	if (cfg->filename) {
-		rc = fsg_lun_open(lun, cfg->filename);
-		if (rc)
-			goto error_lun;
-	}
-	...
-	if (fsg_lun_is_open(lun)) {
+Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
+---
+v2 to v3 change:
+    1. Broken down into two patches, one for each of USB 2 & 3.
+    2. Add more description about Realtek RTD SoCs architecture.
+    3. Removed parameter v1 support for simplification.
+    4. Revised the compatible name for fallback compatible.
+    5. Remove some properties that can be set in the driver.
+v1 to v2 change:
+    Add phy-cells for generic phy driver
+---
+ .../bindings/phy/realtek,usb2phy.yaml         | 213 ++++++++++++++++++
+ 1 file changed, 213 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/phy/realtek,usb2phy.yaml
 
-So at this point, the fsg_lun_is_open() condition is true iff 
-cfg->filename was set upon entry.  What makes this test unnecessary?
+diff --git a/Documentation/devicetree/bindings/phy/realtek,usb2phy.yaml b/Documentation/devicetree/bindings/phy/realtek,usb2phy.yaml
+new file mode 100644
+index 000000000000..69911e20a561
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/realtek,usb2phy.yaml
+@@ -0,0 +1,213 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++# Copyright 2023 Realtek Semiconductor Corporation
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/realtek,usb2phy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Realtek DHC SoCs USB 2.0 PHY
++
++maintainers:
++  - Stanley Chang <stanley_chang@realtek.com>
++
++description:
++  Realtek USB 2.0 PHY support the digital home center (DHC) RTD series SoCs.
++  The USB 2.0 PHY driver is designed to support the XHCI controller. The SoCs
++  support multiple XHCI controllers. One PHY device node maps to one XHCI
++  controller.
++
++  RTD1295/RTD1619 SoCs USB
++  The USB architecture includes three XHCI controllers.
++  Each XHCI maps to one USB 2.0 PHY and map one USB 3.0 PHY on some
++  controllers.
++  XHCI controller#0 -- usb2phy -- phy#0
++                    |- usb3phy -- phy#0
++  XHCI controller#1 -- usb2phy -- phy#0
++  XHCI controller#2 -- usb2phy -- phy#0
++                    |- usb3phy -- phy#0
++
++  RTD1395 SoCs USB
++  The USB architecture includes two XHCI controllers.
++  The controller#0 has one USB 2.0 PHY. The controller#1 includes two USB 2.0
++  PHY.
++  XHCI controller#0 -- usb2phy -- phy#0
++  XHCI controller#1 -- usb2phy -- phy#0
++                               |- phy#1
++
++  RTD1319/RTD1619b SoCs USB
++  The USB architecture includes three XHCI controllers.
++  Each XHCI maps to one USB 2.0 PHY and map one USB 3.0 PHY on controllers#2.
++  XHCI controller#0 -- usb2phy -- phy#0
++  XHCI controller#1 -- usb2phy -- phy#0
++  XHCI controller#2 -- usb2phy -- phy#0
++                    |- usb3phy -- phy#0
++
++  RTD1319d SoCs USB
++  The USB architecture includes three XHCI controllers.
++  Each xhci maps to one USB 2.0 PHY and map one USB 3.0 PHY on controllers#0.
++  XHCI controller#0 -- usb2phy -- phy#0
++                    |- usb3phy -- phy#0
++  XHCI controller#1 -- usb2phy -- phy#0
++  XHCI controller#2 -- usb2phy -- phy#0
++
++  RTD1312c/RTD1315e SoCs USB
++  The USB architecture includes three XHCI controllers.
++  Each XHCI maps to one USB 2.0 PHY.
++  XHCI controller#0 -- usb2phy -- phy#0
++  XHCI controller#1 -- usb2phy -- phy#0
++  XHCI controller#2 -- usb2phy -- phy#0
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - realtek,rtd1295-usb2phy
++          - realtek,rtd1395-usb2phy
++          - realtek,rtd1619-usb2phy
++          - realtek,rtd1319-usb2phy
++          - realtek,rtd1619b-usb2phy
++          - realtek,rtd1312c-usb2phy
++          - realtek,rtd1319d-usb2phy
++          - realtek,rtd1315e-usb2phy
++      - const: realtek,usb2phy
++
++  reg:
++    items:
++      - description: PHY data registers
++      - description: PHY control registers
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++  "#phy-cells":
++    const: 0
++
++  realtek,usb-ctrl:
++    description: The phandle of syscon used to control USB PHY power domain.
++    $ref: /schemas/types.yaml#/definitions/phandle
++
++patternProperties:
++  "^phy@[0-3]+$":
++    type: object
++    description:
++      Each sub-node is a PHY device for one XHCI controller.
++      For most Relatek SoCs, one XHCI controller only support one the USB 2.0
++      phy. For RTD1395 SoC, the one XHCI controller has two USB 2.0 PHYs.
++    properties:
++      realtek,page0-param:
++        description: PHY parameter at page 0. The data are the pair of the
++          offset and value.
++        $ref: /schemas/types.yaml#/definitions/uint32-array
++
++      realtek,page1-param:
++        description: PHY parameter at page 1. The data are the pair of the
++          offset and value.
++        $ref: /schemas/types.yaml#/definitions/uint32-array
++
++      realtek,page2-param:
++        description: PHY parameter at page 2. The data are the pair of the
++          offset and value. If the PHY support the page 2 parameter.
++        $ref: /schemas/types.yaml#/definitions/uint32-array
++
++      realtek,support-page2-param:
++        description: Set this flag if PHY support page 2 parameter.
++        type: boolean
++
++      realtek,do-toggle:
++        description: Set this flag to enable PHY parameter toggle when port
++          status change.
++        type: boolean
++
++      realtek,do-toggle-driving:
++        description: Set this flag to enable PHY parameter toggle for adjust
++          the driving when port status change.
++        type: boolean
++
++      realtek,check-efuse:
++        description: Enable to update PHY parameter from reading otp table.
++        type: boolean
++
++      realtek,use-default-parameter:
++        description: Don't set parameter and use default value in hardware.
++        type: boolean
++
++      realtek,is-double-sensitivity-mode:
++        description: Set this flag to enable double sensitivity mode.
++        type: boolean
++
++      realtek,ldo-force-enable:
++        description: Set this flag to force enable ldo mode.
++        type: boolean
++
++      realtek,ldo-driving-compensate:
++        description: Set the value for adjust the PHY driving for ldo mode.
++        $ref: /schemas/types.yaml#/definitions/uint32
++
++      realtek,driving-compensate:
++        description: Set the value for adjust the PHY driving for efuse
++          table v2.
++        $ref: /schemas/types.yaml#/definitions/uint32
++
++required:
++  - compatible
++  - reg
++  - "#address-cells"
++  - "#size-cells"
++  - "#phy-cells"
++
++additionalProperties: false
++
++examples:
++  - |
++    usb_port0_usb2phy: usb-phy@13214 {
++        compatible = "realtek,rtd1319d-usb2phy", "realtek,usb2phy";
++        reg = <0x13214 0x4>, <0x28280 0x4>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++        #phy-cells = <0>;
++        realtek,usb-ctrl = <&usb_ctrl>;
++
++        phy@0 {
++            reg = <0>;
++            realtek,page0-param =
++                    <0xe0 0xa3>, <0xe4 0xb2>, <0xe5 0x4e>, <0xe6 0x42>;
++            realtek,page1-param = <0xe3 0x64>;
++            realtek,page2-param = <0xe7 0x45>;
++            realtek,support-page2-param;
++            realtek,do-toggle;
++            realtek.do-toggle-driving;
++            realtek,check-efuse;
++            realtek,is-double-sensitivity-mode;
++            realtek,ldo-force-enable;
++        };
++    };
++
++  - |
++    usb_port1_usb2phy: usb-phy@13c14 {
++        compatible = "realtek,rtd1395-usb2phy", "realtek,usb2phy";
++        reg = <0x132c4 0x4>, <0x31280 0x8>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++        #phy-cells = <0>;
++        realtek,usb-ctrl = <&usb_ctrl>;
++
++        phy@0 {
++            reg = <0>;
++            realtek,page0-param =
++                    <0xe0 0xa3>, <0xe4 0xb2>, <0xe5 0x4e>, <0xe6 0x42>;
++            realtek,page1-param = <0xe3 0x00>;
++            realtek,do-toggle;
++            realtek,check-efuse;
++        };
++        phy@1 {
++            reg = <1>;
++            realtek,page0-param =
++                    <0xe0 0xe0>, <0xe4 0xb2>, <0xe5 0x4e>, <0xe6 0x42>;
++            realtek,page1-param = <0xe3 0x00>;
++            realtek,do-toggle;
++            realtek,check-efuse;
++        };
++    };
+-- 
+2.34.1
 
->  Similarly,
-> the error_lun label will never be reached with an open lun (non-null
-> filp) so remove the unnecessary fsg_lun_close() call.
-
-That makes more sense.
-
-Alan Stern
-
-> Signed-off-by: David Disseldorp <ddiss@suse.de>
-> ---
->  drivers/usb/gadget/function/f_mass_storage.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
-> index 3a30feb47073f..da07e45ae6df5 100644
-> --- a/drivers/usb/gadget/function/f_mass_storage.c
-> +++ b/drivers/usb/gadget/function/f_mass_storage.c
-> @@ -2857,7 +2857,7 @@ int fsg_common_create_lun(struct fsg_common *common, struct fsg_lun_config *cfg,
->  			  const char **name_pfx)
->  {
->  	struct fsg_lun *lun;
-> -	char *pathbuf, *p;
-> +	char *pathbuf = NULL, *p = "(no medium)";
->  	int rc = -ENOMEM;
->  
->  	if (id >= ARRAY_SIZE(common->luns))
-> @@ -2907,12 +2907,9 @@ int fsg_common_create_lun(struct fsg_common *common, struct fsg_lun_config *cfg,
->  		rc = fsg_lun_open(lun, cfg->filename);
->  		if (rc)
->  			goto error_lun;
-> -	}
->  
-> -	pathbuf = kmalloc(PATH_MAX, GFP_KERNEL);
-> -	p = "(no medium)";
-> -	if (fsg_lun_is_open(lun)) {
->  		p = "(error)";
-> +		pathbuf = kmalloc(PATH_MAX, GFP_KERNEL);
->  		if (pathbuf) {
->  			p = file_path(lun->filp, pathbuf, PATH_MAX);
->  			if (IS_ERR(p))
-> @@ -2931,7 +2928,6 @@ int fsg_common_create_lun(struct fsg_common *common, struct fsg_lun_config *cfg,
->  error_lun:
->  	if (device_is_registered(&lun->dev))
->  		device_unregister(&lun->dev);
-> -	fsg_lun_close(lun);
->  	common->luns[id] = NULL;
->  error_sysfs:
->  	kfree(lun);
-> -- 
-> 2.35.3
-> 
