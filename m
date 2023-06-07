@@ -2,41 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44677C7EE2E
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Jun 2023 10:50:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 544EAC77B7A
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Jun 2023 10:50:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239709AbjFGKuT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Jun 2023 06:50:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59206 "EHLO
+        id S239795AbjFGKuV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Jun 2023 06:50:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239930AbjFGKuB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Jun 2023 06:50:01 -0400
+        with ESMTP id S240128AbjFGKuP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Jun 2023 06:50:15 -0400
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D60931BFE;
-        Wed,  7 Jun 2023 03:49:32 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3576Biv4016909;
-        Wed, 7 Jun 2023 10:48:55 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BDDB1FD8;
+        Wed,  7 Jun 2023 03:49:52 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 357AUgQi014594;
+        Wed, 7 Jun 2023 10:49:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=9sxarPHXLd8bx/rBkWXS4/QmMPTaQxp+IDTZk+ZE35E=;
- b=liKSYaEQKvoLkMIfYTKu/fAIce00BB341n8Q8O0C13P6JWnE801ewdrnog+hFS+Qu2fV
- zgoQKlWCclBq9yWGfzwYio13vkuaPL6UWn31AI0Sn5YQJ4LWcul25jOg6FITTNWUwKmY
- wx4dXHkmSK/z01eFrvcwyJtev1DSBnNS8/hj2tBIjjIBvMm0ECunELVxKnyT0dDrGc9Z
- N+q0te33Atl1hd65fzqNq7TgbXHyjpnkN9sYouepmQs1d2w+aZi/Sma4CwSduAlhhbzM
- +rFeJOILe6gXhRbBvrsvHCXYiNsQifSa+/UvpAqfHqOHHGiHpJRH2z9UVUYBSxv1Q9IY qA== 
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=1ShyFDKoXbdNkzSSe73Wy6tjhNc0umBnz8m4jRrUTS4=;
+ b=Bdbaor7zWfKVwUyxD2/cLcXqo8IaRtJrI4RVa5+W8s9sKg9cDJcFOR2H7C0AXLbeGTTC
+ yT1QZH2KRiCodlkBs/O1Ym12mwnP9+phGZjyqV+rE8FrwhVgf23hPV0nX2kX4qyNXd3J
+ 69ySM12n3F6z5Vhvii/FHSu3A2tizug8RVLSEVohH7pMfDhynf2HsKw2ylN6diZjL043
+ Qwroedd0Fha0tK/rXsH/XjHsFFXvsspMvtuBkgVKKyUa5PK3ww5WHGNunElzFFHkmmPO
+ l3YGdWg/HYoHl9h5aFwjwjR8KqbUoXWbTpQ/T9GY3a9+L9TYpsgcWb7IxPpgpKCt7RyR 0Q== 
 Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r2a9thk0b-1
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r2a7k1mba-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 07 Jun 2023 10:48:55 +0000
+        Wed, 07 Jun 2023 10:49:17 +0000
 Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 357Amsst007449
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 357AnGMb008149
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 7 Jun 2023 10:48:54 GMT
+        Wed, 7 Jun 2023 10:49:16 GMT
 Received: from varda-linux.qualcomm.com (10.80.80.8) by
  nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Wed, 7 Jun 2023 03:48:48 -0700
+ 15.2.986.42; Wed, 7 Jun 2023 03:49:11 -0700
 From:   Varadarajan Narayanan <quic_varada@quicinc.com>
 To:     <agross@kernel.org>, <andersson@kernel.org>,
         <konrad.dybcio@linaro.org>, <gregkh@linuxfoundation.org>,
@@ -47,10 +48,12 @@ To:     <agross@kernel.org>, <andersson@kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-clk@vger.kernel.org>
 CC:     Varadarajan Narayanan <quic_varada@quicinc.com>
-Subject: [PATCH v12 0/5] Enable IPQ9754 USB
-Date:   Wed, 7 Jun 2023 16:18:38 +0530
-Message-ID: <cover.1686045347.git.quic_varada@quicinc.com>
+Subject: [PATCH v12 4/5] arm64: dts: qcom: ipq9574: Add LDO regulator node
+Date:   Wed, 7 Jun 2023 16:18:42 +0530
+Message-ID: <1e795c18d6e19dbb5eebee357dddeb5022033825.1686045347.git.quic_varada@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1686045347.git.quic_varada@quicinc.com>
+References: <cover.1686045347.git.quic_varada@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
@@ -58,97 +61,49 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01a.na.qualcomm.com (10.52.223.231)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: DALom15sAkeWCqXrA-BJPipK-ej1GIbn
-X-Proofpoint-ORIG-GUID: DALom15sAkeWCqXrA-BJPipK-ej1GIbn
+X-Proofpoint-ORIG-GUID: y1vz80cxg2LVOyfzcQJz84oTRHJsntEU
+X-Proofpoint-GUID: y1vz80cxg2LVOyfzcQJz84oTRHJsntEU
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
  definitions=2023-06-07_06,2023-06-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 mlxlogscore=783 bulkscore=0 mlxscore=0 adultscore=0
- impostorscore=0 suspectscore=0 priorityscore=1501 clxscore=1011
- phishscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1015
+ impostorscore=0 spamscore=0 lowpriorityscore=0 phishscore=0
+ mlxlogscore=767 adultscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2305260000 definitions=main-2306070088
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch series adds the relevant phy and controller
-configurations for enabling USB on IPQ9754
+Add LDO regulator node
 
-Portions of the patchset have been merged. Please see
-	https://lore.kernel.org/lkml/ZGN9gchu7dRb6QwC@matsya/
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Varadarajan Narayanan <quic_varada@quicinc.com>
+---
+ Changes in v10:
+	- Add LDO regulator node
+---
+ arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-[v12]:
-	- In dtsi usb@8a00000 -> usb@8af8800
-
-[v11]:
-	- Rename dwc_0 -> usb_0_dwc3
-	- Minor change in qcom,sc8280xp-qmp-usb3-uni-phy.yaml to factor in
-	  latest updates to the file
-
-[v10]:
-	- Fix regulator definitions
-	- Address couple of other comments
-
-[v9]:
-	- Update bindings to make power-domains as optional since
-	  IPQ9574 doesn't have GDSCs
-
-[v8]:
-	- Update bindings for the clock name change
-[v7]:
-	- com_aux -> cfg_ahb in patch 7
-
-[v6]:
-        - Incorporated review comments
-	- Resolve make dtbs_check messages
-	- Fixed pcs_usb offset
-	- Board dts file name changed
-
-[v5]:
-        - Incorporated review comments
-	- 'make dtbs_check' giving the following messages since
-	  ipq9574 doesn't have power domains. Hope this is ok
-
-		/local/mnt/workspace/varada/varda-linux/arch/arm64/boot/dts/qcom/ipq9574-al02-c7.dtb: phy@7d000: 'power-domains' is a required property
-        	From schema: /local/mnt/workspace/varada/varda-linux/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
-		/local/mnt/workspace/varada/varda-linux/arch/arm64/boot/dts/qcom/ipq9574-al02-c7.dtb: usb@8a00000: 'power-domains' is a required property
-        	From schema: /local/mnt/workspace/varada/varda-linux/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-
-	- Move qmp phy DT node to newer specification
-
-[v4]:
-        - Incorporated review comments
-	- Address all 'make dtbs_check' errors
-
-[v3]:
-        - Incorporated review comments regarding coding style
-
-[v2]:
-        - Incorporated review comments regarding coding style,
-          maintaining sorted order of entries and unused phy register
-          offsets
-        - Removed NOC clock entries from DT node (will be implemented
-          later with interconnect support)
-        - Fixed 'make dtbs_check' errors/warnings
-
-[v1]:
-        https://lore.kernel.org/linux-arm-msm/5dac3aa4-8dc7-f9eb-5cf3-b361efdc9494@linaro.org/T/
-
-Varadarajan Narayanan (5):
-  dt-bindings: usb: dwc3: Add IPQ9574 compatible
-  clk: qcom: gcc-ipq9574: Add USB related clocks
-  arm64: dts: qcom: ipq9574: Add USB related nodes
-  arm64: dts: qcom: ipq9574: Add LDO regulator node
-  arm64: dts: qcom: ipq9574: Enable USB
-
- .../devicetree/bindings/usb/qcom,dwc3.yaml         |   3 +-
- arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts        |  30 ++++++
- arch/arm64/boot/dts/qcom/ipq9574.dtsi              | 104 +++++++++++++++++++++
- drivers/clk/qcom/gcc-ipq9574.c                     |  37 ++++++++
- include/dt-bindings/clock/qcom,ipq9574-gcc.h       |   2 +
- 5 files changed, 175 insertions(+), 1 deletion(-)
-
+diff --git a/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts b/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts
+index 2b3ed8d..42d45e1 100644
+--- a/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts
++++ b/arch/arm64/boot/dts/qcom/ipq9574-rdp433.dts
+@@ -45,6 +45,13 @@
+ 			regulator-min-microvolt = <725000>;
+ 			regulator-max-microvolt = <1075000>;
+ 		};
++
++		mp5496_l2: l2 {
++			regulator-min-microvolt = <1800000>;
++			regulator-max-microvolt = <1800000>;
++			regulator-boot-on;
++			regulator-always-on;
++		};
+ 	};
+ };
+ 
 -- 
 2.7.4
 
