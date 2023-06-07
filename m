@@ -2,112 +2,99 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92857C83005
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Jun 2023 11:11:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A68A0C7EE29
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Jun 2023 11:17:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240198AbjFGLL5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Jun 2023 07:11:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49856 "EHLO
+        id S239380AbjFGLRH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Jun 2023 07:17:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239312AbjFGLLy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Jun 2023 07:11:54 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C8BAE79;
-        Wed,  7 Jun 2023 04:11:51 -0700 (PDT)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 357AfiTl028657;
-        Wed, 7 Jun 2023 10:56:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=ppwtIPRiaridEX22kKaoo8ZqQTqMCoFPO7Tl3CkigXA=;
- b=X3Loy+pNjTdqmzkfQvEFc2HEDoTc45M9Wi2jdsSiQTvu1E/NuwvPo+aKdiIZAt1JmIIJ
- t2d3tis7AverFGA8ULtCRiArM68iCZPtE/7P7VUqrJPIODOdZcmIY+aIRs+gJeM3+clE
- dQmdwvfmxVGJ/zgF4rr7B8er+DclOMU5RGkury9BhxZWTCd3bnWSZCQnVBdRIR7EiPs7
- EESw/3SuxvUIFXW23xp0oNbckeT6TJA9p7yJrL188DFd21wNfAYzgbwSdJVm/HNjUpkG
- JHBIEp+KTX5YrNy5ufNIUastztnhzDtOu6uKzyqji+a0RlP6cRXIQfvrGpAYCEgjXccF KQ== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r2rbtg0u2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 07 Jun 2023 10:56:30 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 357AuTJg025287
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 7 Jun 2023 10:56:29 GMT
-Received: from varda-linux.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Wed, 7 Jun 2023 03:56:20 -0700
-From:   Varadarajan Narayanan <quic_varada@quicinc.com>
-To:     <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
-        <kishon@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <gregkh@linuxfoundation.org>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <mturquette@baylibre.com>, <sboyd@kernel.org>,
-        <p.zabel@pengutronix.de>, <arnd@arndb.de>,
-        <geert+renesas@glider.be>, <neil.armstrong@linaro.org>,
-        <nfraprado@collabora.com>, <broonie@kernel.org>,
-        <rafal@milecki.pl>, <quic_srichara@quicinc.com>,
-        <quic_varada@quicinc.org>, <quic_wcheng@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>
-CC:     Varadarajan Narayanan <quic_varada@quicinc.com>
-Subject: [PATCH 0/9] Enable IPQ5332 USB2
-Date:   Wed, 7 Jun 2023 16:26:04 +0530
-Message-ID: <cover.1686126439.git.quic_varada@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+        with ESMTP id S239471AbjFGLRF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Jun 2023 07:17:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A42641702;
+        Wed,  7 Jun 2023 04:17:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3FB5263DBD;
+        Wed,  7 Jun 2023 11:17:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90665C43442;
+        Wed,  7 Jun 2023 11:17:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686136623;
+        bh=PqT7b3LTt1IrPaGyiAZXtxPqgt4zXro8Gw7CXf+6hyg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=hcwjIfmEFTIUXuUtcgpBMJ4jzU5AmLI03k+n5e24wAmMp/W1YkBJLXXTTEK2axz/9
+         T5RVxoff/v2jBz79Uir+LB8uZkFWRyks6Q+F30CwBDcQJgIdEyNWW3cIDPa2R4P5RS
+         J6MUJGfI6Q5HqyfmcIrRIak5MNt6+Gi2BtNAXDLaMvzT52dS4jt9jvEjC1v37a5E9e
+         zTdlZJPWBugDtMCH7X3aNaLw8VUD97ukmGLTWHyKuF/02Zq/Zhyl2QX0IQrQjqcdpb
+         euJakyPqO/MwXQV5UurRMzyB6zDzRIo/gm81awExyAXteEMiR11fFc+lkCITXenblb
+         05+boh6s8h1Bg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan+linaro@kernel.org>)
+        id 1q6rAM-0008LU-Gz; Wed, 07 Jun 2023 13:17:26 +0200
+From:   Johan Hovold <johan+linaro@kernel.org>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Krishna Kurapati <quic_kriskura@quicinc.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Johan Hovold <johan+linaro@kernel.org>, stable@vger.kernel.org,
+        Li Jun <jun.li@nxp.com>,
+        Sandeep Maheswaram <quic_c_sanm@quicinc.com>
+Subject: [PATCH 2/2] USB: dwc3: fix use-after-free on core driver unbind
+Date:   Wed,  7 Jun 2023 12:05:40 +0200
+Message-Id: <20230607100540.31045-3-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.39.3
+In-Reply-To: <20230607100540.31045-1-johan+linaro@kernel.org>
+References: <20230607100540.31045-1-johan+linaro@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 8kHDuKT46JDbNroJKpYJwAP_zCYi0xy3
-X-Proofpoint-ORIG-GUID: 8kHDuKT46JDbNroJKpYJwAP_zCYi0xy3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-07_06,2023-06-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 malwarescore=0
- adultscore=0 mlxlogscore=272 spamscore=0 priorityscore=1501 phishscore=0
- impostorscore=0 mlxscore=0 clxscore=1011 lowpriorityscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2306070089
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch series adds the relevant phy and controller
-configurations for enabling USB2 on IPQ5332
+Some dwc3 glue drivers are currently accessing the driver data of the
+child core device directly, which is clearly a bad idea as the child may
+not have probed yet or may have been unbound from its driver.
 
-Depends On: https://lore.kernel.org/linux-arm-msm/cover.1686045347.git.quic_varada@quicinc.com/
+As a workaround until the glue drivers have been fixed, clear the driver
+data pointer before allowing the glue parent device to runtime suspend
+to prevent its driver from accessing data that has been freed during
+unbind.
 
-Varadarajan Narayanan (9):
-  dt-bindings: usb: dwc3: Add IPQ5332 compatible
-  dt-bindings: phy: qcom,m31: Document qcom,m31 USB phy
-  phy: qcom-m31: Introduce qcom,m31 USB phy driver
-  clk: qcom: ipq5332: Fix USB related clock defines
-  phy: qcom-m31: Introduce qcom,m31 USB phy
-  phy: qcom: Add qcom,m31 USB phy driver
-  arm64: dts: qcom: ipq5332: Add USB related nodes
-  arm64: dts: qcom: ipq5332: Enable USB
-  arm64: defconfig: Enable QCOM M31 USB phy driver
+Fixes: 6dd2565989b4 ("usb: dwc3: add imx8mp dwc3 glue layer driver")
+Fixes: 6895ea55c385 ("usb: dwc3: qcom: Configure wakeup interrupts during suspend")
+Cc: stable@vger.kernel.org      # 5.12
+Cc: Li Jun <jun.li@nxp.com>
+Cc: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
+Cc: Krishna Kurapati <quic_kriskura@quicinc.com>
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+---
+ drivers/usb/dwc3/core.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
- .../devicetree/bindings/phy/qcom,m31.yaml          |  69 ++++
- .../devicetree/bindings/usb/qcom,dwc3.yaml         |   2 +
- arch/arm64/boot/dts/qcom/ipq5332-rdp468.dts        |   8 +
- arch/arm64/boot/dts/qcom/ipq5332.dtsi              |  55 ++++
- arch/arm64/configs/defconfig                       |   1 +
- drivers/clk/qcom/gcc-ipq5332.c                     |  34 +-
- drivers/phy/qualcomm/Kconfig                       |  11 +
- drivers/phy/qualcomm/Makefile                      |   1 +
- drivers/phy/qualcomm/phy-qcom-m31.c                | 360 +++++++++++++++++++++
- 9 files changed, 530 insertions(+), 11 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/phy/qcom,m31.yaml
- create mode 100644 drivers/phy/qualcomm/phy-qcom-m31.c
-
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 7b2ce013cc5b..d68958e151a7 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1929,6 +1929,11 @@ static int dwc3_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ 	pm_runtime_dont_use_autosuspend(&pdev->dev);
+ 	pm_runtime_put_noidle(&pdev->dev);
++	/*
++	 * HACK: Clear the driver data, which is currently accessed by parent
++	 * glue drivers, before allowing the parent to suspend.
++	 */
++	platform_set_drvdata(pdev, NULL);
+ 	pm_runtime_set_suspended(&pdev->dev);
+ 
+ 	dwc3_free_event_buffers(dwc);
 -- 
-2.7.4
+2.39.3
 
