@@ -2,104 +2,149 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66ECEC7EE29
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Jun 2023 07:37:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 549E9C7EE43
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Jun 2023 07:52:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239220AbjFGHhd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Jun 2023 03:37:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33578 "EHLO
+        id S239418AbjFGHwE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Jun 2023 03:52:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239011AbjFGHg6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Jun 2023 03:36:58 -0400
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5511E198B;
-        Wed,  7 Jun 2023 00:36:11 -0700 (PDT)
-Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-33b1da9a8acso3054375ab.3;
-        Wed, 07 Jun 2023 00:36:11 -0700 (PDT)
+        with ESMTP id S239339AbjFGHv0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Jun 2023 03:51:26 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3B6C11D
+        for <linux-usb@vger.kernel.org>; Wed,  7 Jun 2023 00:51:17 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-3f7378a75c0so28649825e9.3
+        for <linux-usb@vger.kernel.org>; Wed, 07 Jun 2023 00:51:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686124276; x=1688716276;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EzplAM1LxKiU0eh2R6kgCo2O1jt9amS2AfC5rUF7aAM=;
+        b=U8Rt/BDYcpOw4r3UbZMmvvi6ebAkG1C5Qblgf9MJo2rFf5MA3s6V1bliiZg9xCPFB5
+         BwcvShBrsE20s1im5BdgLYd3YcKkRZHbziXAbw52KdqIbuRKlbdE/yX8xv51MI1w5ja3
+         vOe+U4nBo/hHmyEOkuYyEPDLmQDzULh3em//H3rcdgW3IqL1FS/HX4KjoCDVCnLKOCz1
+         TAZBGbz3fPNW+1Kmti8Y90NH3uRCp7HM4hNK3KZCpRobim7ifG/XC4bKs1UJ1IGBU6mV
+         vo9ykPI8J1tRtIL2HiSGjNi2BNQqGt0LVR1fvxESZL4LrVgT96IH+wFybdmRt/dmy6FU
+         iV8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686123370; x=1688715370;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=PorP53NZ9OBuH3aw2aFAkvF8If4ls06sS/1bEK/BCk8=;
-        b=G/9YOlcc0HFaLc176UEDFCv7U37YIeuH43wOjzp98i1fACSQ7Vq5cMFkFWsEuqxejT
-         wMm6IJPj+BeJeTvgY9uTy4gf6pyoDUKtZ5tQxqlx3vRed6kKIE02i4h/yt7JkqfZHedj
-         LcEG0iZO4uYQwHd0rG+iYgxxYGkjeud1jV2VtbB+GEtlM5UobsCWZonRVsPEEYBhheSw
-         qaWrdy00aaV6p6sUspgVHpvWgJSYU0noFu5enyDDRSxBY/XwQzx1wD7TVGaoty4F+b65
-         oQgQkY55fLh3itH+rtT7/w8gBRd5HjwkjkIXHY42CBxrHAd2GKAhyye//jf0ZnB965op
-         LXxg==
-X-Gm-Message-State: AC+VfDzIxkQGpobX5gLThF27bSg0DVaefNRKGeRnwCS3ffBkKhM6p7Be
-        uUfn9dEX+8gcN2bfKA3uvw==
-X-Google-Smtp-Source: ACHHUZ5L07NJXZ/BXxhducN3o7Nsm5Bbi5HRxiQ4fztSX9i+LlPH4FRjFfXbx+O/OYJW7A8eOyJ5+g==
-X-Received: by 2002:a6b:6502:0:b0:777:94ea:3658 with SMTP id z2-20020a6b6502000000b0077794ea3658mr6439914iob.5.1686123370448;
-        Wed, 07 Jun 2023 00:36:10 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id p10-20020a5d9c8a000000b00704608527d1sm1780699iop.37.2023.06.07.00.36.08
+        d=1e100.net; s=20221208; t=1686124276; x=1688716276;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EzplAM1LxKiU0eh2R6kgCo2O1jt9amS2AfC5rUF7aAM=;
+        b=D9B5zQgQPJTrtO+3+Gs29qA3lxu1w4flEhFLKaG6llq+mATTvMsDigGHtV+h9gB51c
+         JNMauDacDa+UOxWoeC2yLJ9my+NCiLjz6E3/Qum5pKZPAgM6eKaFsNFnAsI4G1b4hau+
+         cKN2rEaMiBuPV5jA6F9Bvyk18YExZqDsDhCPph9FFWYBu2LTqwAM7NPORNprkVhWawwU
+         huOxx6/jYt7raXPqMuM24de9AFdpblboNVAA3D/IOPdHA4jGPOJIHCcuncuQyUEfsh7D
+         vIX/J80rz4iQ9qwoVZ1O95Lg/U3EwNKh7PUyiu5sByxTBB1tsa/+IGFLUlEoRcrLes2i
+         Rpog==
+X-Gm-Message-State: AC+VfDzzd3iX+L2pq/IX4iTEA6VpjRNKBMSUElSjRjZ9Tnhq0W1Xrpu1
+        pfcdHMAoSJ00toNjhILo1P9zBQ==
+X-Google-Smtp-Source: ACHHUZ7pfC+dEFVYTyuW33fMWTlzQDsqFGTLXKH30kGPCgPGpSkNbHlL+DHOerEXTLCtWUjk0QoS+Q==
+X-Received: by 2002:a1c:7c05:0:b0:3f7:e34c:522c with SMTP id x5-20020a1c7c05000000b003f7e34c522cmr3991724wmc.2.1686124276297;
+        Wed, 07 Jun 2023 00:51:16 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id f9-20020a5d5689000000b0030ae93bd196sm14726343wrv.21.2023.06.07.00.51.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 00:36:09 -0700 (PDT)
-Received: (nullmailer pid 2153811 invoked by uid 1000);
-        Wed, 07 Jun 2023 07:36:05 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Wed, 07 Jun 2023 00:51:15 -0700 (PDT)
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v2 0/2] typec: add support for the ON Semiconductor
+ nb7vpq904m Type-C Linear Redriver
+Date:   Wed, 07 Jun 2023 09:51:07 +0200
+Message-Id: <20230601-topic-sm8x50-upstream-redriver-v2-0-dda89b22b1c0@linaro.org>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Piyush Mehta <piyush.mehta@amd.com>
-Cc:     git@amd.com, krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        nava.manne@xilinx.com, michal.simek@xilinx.com,
-        linux-kernel@vger.kernel.org, p.zabel@pengutronix.de,
-        siva.durga.prasad.paladugu@amd.com, michal.simek@amd.com,
-        conor+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org
-In-Reply-To: <20230607065121.2265076-3-piyush.mehta@amd.com>
-References: <20230607065121.2265076-1-piyush.mehta@amd.com>
- <20230607065121.2265076-3-piyush.mehta@amd.com>
-Message-Id: <168612336540.2153788.14132885081062462478.robh@kernel.org>
-Subject: Re: [PATCH 2/2] dt-bindings: firmware: add reset-controller
- property
-Date:   Wed, 07 Jun 2023 01:36:05 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOs2gGQC/42OQQ6CMBBFr0K6dkxboVFX3sOwKHSASaAlU2gwh
+ LtbOYHL9xb//V1EZMIonsUuGBNFCj6DvhSiHazvEchlFlrqmzRSwRJmaiFO962SsM5xYbQTMDq
+ mhAwGtVHoXNU2pcgjjY0IDVvfDnnGr+OY5czY0XZW33XmgeIS+HOeSOpn/+4lBRKMdVrJR9l1p
+ nuN5C2Ha+Be1MdxfAGeaM9A4gAAAA==
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2056;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=o5ap0QcyyEUW/eoYzVryzp1HwNxIAAjt0OBZ5vOmbME=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBkgDbyL/T5acuXcNu4eWe9A8Fnuax34OUwwmwg7Iwd
+ AP1Kz7SJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZIA28gAKCRB33NvayMhJ0fX1EA
+ DBed20NoyKhr91zlW45+MksTZSQdVK4p9r8PzgDhEK2wT20RKCEbPYchIFBNmF978Ye2AKFY4jstcy
+ YP4ZJtZAUenqhow++hj0uCYou3o4y1htFmFs2qklw8KIcvvFDSl4kQzThWZkRBV+RJro9z82gFO2uV
+ oZiLIYeW7UIFjsdOS5Bw1chdfA9EF9ohvqmKh0BkbsXcVN1MkP//+hdDWFGtQNbRBlo+4xaq7Abw6C
+ UqKYcgNBpLiom0fyJdOF5UZ1hRCpwftvLGFMfuLindzC7/QFD31AYpjrZf3V1d2XhACAXmOacgUNhb
+ Pzs08uuLPfLtDaeA08UYYBpISsSjxb32SzeoNtQ5hyeqexCXPSfm8U3ljOOZCm5FykHJi8VcalFMeO
+ D7XyB71pEOEB+/Bv5JEWu3lDGEaRkWLOWMydFwuISgfbIS6DuqLIoYLjEfNNEw83+RQmiA83n0bI1U
+ 8ACtlwZ5FkDGXfWwWN+tZMp1+7F8PvEhVuDZ0rpy/VSO7yt6D9tAelPrVtrcn1Kyt3ryeYYD5VPC2p
+ AWbKlgCtfoJeKsBElsUIj9MIiX1vbl7unesxr5CTwYSLR897igIoM+hWlBfGD1AUq15/eom6TP+Vr/
+ ejIu+tbFUERUKF3Pfs8SsFyfQ/zEyXbBauDrL2sUmrRsMw0mcxrF9mD0CHnA==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Add support for the ON Semiconductor NB7VPQ904M Type-C USB SuperSpeed
+and DisplayPort ALT Mode Linear Redriver chip found on some devices
+with a Type-C port.
 
-On Wed, 07 Jun 2023 12:21:21 +0530, Piyush Mehta wrote:
-> The reset controller is responsible for managing both device-level resets
-> and individual PMC (Power Management Controller) block resets.
-> 
-> To facilitate this functionality reset-controller property is added to the
-> firmware device tree binding.
-> 
-> Signed-off-by: Piyush Mehta <piyush.mehta@amd.com>
-> ---
->  .../firmware/xilinx/xlnx,zynqmp-firmware.yaml         | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
+The redriver compensates ultra High-Speeed DisplayPort and USB
+Super Speed signal integrity losses mainly due to PCB & transmission
+cables.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+The redriver doesn't support SuperSpeed lines swapping, but
+can support Type-C SBU lines swapping.
 
-yamllint warnings/errors:
+Support is designed as a Type-C Switch and Retimer, and can propagate
+orientation settings to the source endpoint, which is usually
+a Super Speed PHY which does the data lanes swapping.
 
-dtschema/dtc warnings/errors:
-./Documentation/devicetree/bindings/firmware/xilinx/xlnx,zynqmp-firmware.yaml: Unable to find schema file matching $id: http://devicetree.org/schemas/reset/xlnx,zynqmp-reset.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/firmware/xilinx/xlnx,zynqmp-firmware.example.dtb: versal-firmware: reset-controller: False schema does not allow {'compatible': ['xlnx,zynqmp-reset'], '#reset-cells': [[1]]}
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/firmware/xilinx/xlnx,zynqmp-firmware.yaml
-Documentation/devicetree/bindings/firmware/xilinx/xlnx,zynqmp-firmware.example.dtb: /example-0/versal-firmware/reset-controller: failed to match any schema with compatible: ['xlnx,zynqmp-reset']
+Bindings are added first and can handle the fact data lanes pairs
+can be swapped on the PCB.
 
-doc reference errors (make refcheckdocs):
+Compile-time dependencies:
+- svid removal at [1]
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230607065121.2265076-3-piyush.mehta@amd.com
+[1] https://lore.kernel.org/all/20230526131434.46920-1-heikki.krogerus@linux.intel.com/
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v2:
+- Switch to "retimer" infrastructure
+- Slight style fixups after switch to retimer
+- Bindings updates (did not keep Reviewed-by tag for those reasons)
+ - Update maintainer, was using Bjorn with invalid email
+ - Fixed swapped lanes mapping
+ - Switched to retimer-switch
+ - Fixed i2c top node in example
+- Link to v1: https://lore.kernel.org/r/20230601-topic-sm8x50-upstream-redriver-v1-0-6ad21094ff6f@linaro.org
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+---
+Dmitry Baryshkov (1):
+      usb: typec: add support for the nb7vpq904m Type-C Linear Redriver
 
-pip3 install dtschema --upgrade
+Neil Armstrong (1):
+      dt-bindings: usb: add ON Semiconductor nb7vpq904m Type-C Linear Redriver bindings
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+ .../devicetree/bindings/usb/onnn,nb7vpq904m.yaml   | 141 ++++++
+ drivers/usb/typec/mux/Kconfig                      |   8 +
+ drivers/usb/typec/mux/Makefile                     |   1 +
+ drivers/usb/typec/mux/nb7vpq904m.c                 | 529 +++++++++++++++++++++
+ 4 files changed, 679 insertions(+)
+---
+base-commit: ac9a78681b921877518763ba0e89202254349d1b
+change-id: 20230601-topic-sm8x50-upstream-redriver-6e261edd5cb4
+
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
 
