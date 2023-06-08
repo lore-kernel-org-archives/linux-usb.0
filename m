@@ -2,96 +2,171 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 063B0C83003
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Jun 2023 02:19:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8CEDC7EE25
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Jun 2023 02:20:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231234AbjFHCTy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Jun 2023 22:19:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38690 "EHLO
+        id S233272AbjFHCUi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Jun 2023 22:20:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233153AbjFHCTv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Jun 2023 22:19:51 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D28CD8E;
-        Wed,  7 Jun 2023 19:19:48 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 3582IB4p8029392, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 3582IB4p8029392
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-        Thu, 8 Jun 2023 10:18:11 +0800
-Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Thu, 8 Jun 2023 10:18:27 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXDAG01.realtek.com.tw (172.21.6.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 8 Jun 2023 10:18:26 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
- RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
- 15.01.2375.007; Thu, 8 Jun 2023 10:18:26 +0800
-From:   =?big5?B?U3RhbmxleSBDaGFuZ1up96h8vHdd?= <stanley_chang@realtek.com>
-To:     kernel test robot <lkp@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-        "Vinod Koul" <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "Conor Dooley" <conor+dt@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Ray Chi <raychi@google.com>,
-        "Flavio Suligoi" <f.suligoi@asem.it>,
-        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH v3 2/5] phy: realtek: usb: Add driver for the Realtek SoC USB 2.0 PHY
-Thread-Topic: [PATCH v3 2/5] phy: realtek: usb: Add driver for the Realtek SoC
- USB 2.0 PHY
-Thread-Index: AQHZmQjR4Z6nmQOlk0qvgFcnmBMR/a9/E4qAgAEY5bA=
-Date:   Thu, 8 Jun 2023 02:18:26 +0000
-Message-ID: <2444f4875f484cc4bf2ff9c52815fa0c@realtek.com>
-References: <20230607062500.24669-2-stanley_chang@realtek.com>
- <202306080128.Gh3c2H1O-lkp@intel.com>
-In-Reply-To: <202306080128.Gh3c2H1O-lkp@intel.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.190.159]
-x-kse-serverinfo: RTEXDAG01.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+        with ESMTP id S233257AbjFHCUf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Jun 2023 22:20:35 -0400
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1113526AF
+        for <linux-usb@vger.kernel.org>; Wed,  7 Jun 2023 19:20:34 -0700 (PDT)
+Received: by mail-qk1-x735.google.com with SMTP id af79cd13be357-75d44cb20a2so7030685a.3
+        for <linux-usb@vger.kernel.org>; Wed, 07 Jun 2023 19:20:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=draconx-ca.20221208.gappssmtp.com; s=20221208; t=1686190833; x=1688782833;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wgAKWYRphfE40AO6G5Ox5YqR+/zOjxjNsnTDKSarlqc=;
+        b=M8Dv0hu600i7YmJ/+yfxrIDNMx+FvIKheWRycoqzaPCH61QBb8+4jOS1DDZYmnNGqz
+         HmK61sD5P3DIp1mUGYTbYeXGxVLl4HCwj4WmUo9F3dKWlR5djfL6lVOJRajt1eHN00tD
+         V+mbu6TIgnq406ET2ZuTyePS42DCUj8Siy1dLS6dKC7wUTps2kAxkOCuol4LugK/E9zW
+         4VxFKMwU+UKsAngkVKpXRZZXPDNEGdq1K92AEnJJ4PBmSxNSx4vAyFoPON3vXqpNTvpT
+         jwibI2uLhWKohEmrM2OkRqvMdIVY9hTxWCgP1w0GmmGcbeZSNbD5hFf6gDKYlaP3BjB3
+         /BVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686190833; x=1688782833;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wgAKWYRphfE40AO6G5Ox5YqR+/zOjxjNsnTDKSarlqc=;
+        b=VnJoxN+El2mwVyLNnM3rMQkvkffU1xdKD+wERRJ094H5Zowexes2Ex6vFZNFiWDYYW
+         dSEMqWsIerxhxlS2PofqKbRDU26xQqp0+FNnmXV9qNrkUMs3IVKKQfKuFo/F/boZfeXD
+         qSxTyUxF1Yx9z9Kvs+dceJoTnHDxYLUvcE5sZ6S02dIAr4Hi6zFRK6sWco7JWpLNlX2u
+         fq5vhYZolDAhueV0Ge4QNcVIJZRF5E21PKgonxBwDWJSqBMauGNqSnJLjGbiMPhBRS5G
+         rEuSE5JdOahfi7emhxV6PW0qqCwv0B1HoKqIqs+urgWs+wrtbqxjaCeymWWoAdtQJps1
+         3EvQ==
+X-Gm-Message-State: AC+VfDxmCJ6trawHPEONFfQAY4wM2/HwAo2gTicQA0+cZud2Vn7i3HHi
+        a466vDTCvlk1ZOCnASBej9vzKOfFeWxxWnfJZyyx+wA/Sb/QPjmZ
+X-Google-Smtp-Source: ACHHUZ454YIZroJ0rU7Nb/ERr7hoNtv0f64Cg0/vJlKQt3UNvWQJmm6mhk1B7CsKw7TaV4US2tTU1i5aao96an+CEs4=
+X-Received: by 2002:a05:620a:4484:b0:75e:c23f:82ef with SMTP id
+ x4-20020a05620a448400b0075ec23f82efmr5006642qkp.67.1686190832685; Wed, 07 Jun
+ 2023 19:20:32 -0700 (PDT)
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Received: by 2002:a05:6a06:240c:b0:5b5:2ae6:3385 with HTTP; Wed, 7 Jun 2023
+ 19:20:31 -0700 (PDT)
+X-Originating-IP: [24.53.241.2]
+From:   Nick Bowler <nbowler@draconx.ca>
+Date:   Wed, 7 Jun 2023 22:20:31 -0400
+Message-ID: <CADyTPExB2kYOOwkO0JqGhKaYVDqO9uS9WCw0J=MCTdVhcGOogA@mail.gmail.com>
+Subject: PROBLEM: kernel NULL pointer dereference when yanking ftdi usb-serial
+ during BREAK
+To:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-PiBFUlJPUjogbW9kcG9zdDogImRldm1fdXNiX2dldF9waHlfYnlfcGhhbmRsZSINCj4gW2RyaXZl
-cnMvcG93ZXIvc3VwcGx5L3dtODMxeF9wb3dlci5rb10gdW5kZWZpbmVkIQ0KPiA+PiBFUlJPUjog
-bW9kcG9zdDogImRldm1fdXNiX2dldF9waHkiDQo+IFtkcml2ZXJzL3Bvd2VyL3N1cHBseS9kYTkx
-NTAtY2hhcmdlci5rb10gdW5kZWZpbmVkIQ0KPiANCj4gS2NvbmZpZyB3YXJuaW5nczogKGZvciBy
-ZWZlcmVuY2Ugb25seSkNCj4gICAgV0FSTklORzogdW5tZXQgZGlyZWN0IGRlcGVuZGVuY2llcyBk
-ZXRlY3RlZCBmb3IgVVNCX1BIWQ0KPiAgICBEZXBlbmRzIG9uIFtuXTogVVNCX1NVUFBPUlQgWz1u
-XQ0KPiAgICBTZWxlY3RlZCBieSBbeV06DQo+ICAgIC0gUEhZX1JUS19SVERfVVNCMlBIWSBbPXld
-DQo+IA0KDQpJIHdpbGwgYWRkIFVTQl9TVVVQUlQgZGVwZW5kZW5jeSB0byBLY29uZmlnLg0KDQpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9waHkvcmVhbHRlay9LY29uZmlnIGIvZHJpdmVycy9waHkvcmVh
-bHRlay9LY29uZmlnDQppbmRleCAyOGVlM2Q5YmU1NjguLmE1YTVhNzFlZGM5YyAxMDA2NDQNCi0t
-LSBhL2RyaXZlcnMvcGh5L3JlYWx0ZWsvS2NvbmZpZw0KKysrIGIvZHJpdmVycy9waHkvcmVhbHRl
-ay9LY29uZmlnDQpAQCAtNCw2ICs0LDcgQEANCiAjDQogY29uZmlnIFBIWV9SVEtfUlREX1VTQjJQ
-SFkNCiAgICAgICAgdHJpc3RhdGUgIlJlYWx0ZWsgUlREIFVTQjIgUEhZIFRyYW5zY2VpdmVyIERy
-aXZlciINCisgICAgICAgZGVwZW5kcyBvbiBVU0JfU1VQUE9SVA0KICAgICAgICBzZWxlY3QgR0VO
-RVJJQ19QSFkNCiAgICAgICAgc2VsZWN0IFVTQl9QSFkNCiAgICAgICAgaGVscA0KQEAgLTE0LDYg
-KzE1LDcgQEAgY29uZmlnIFBIWV9SVEtfUlREX1VTQjJQSFkNCg0KIGNvbmZpZyBQSFlfUlRLX1JU
-RF9VU0IzUEhZDQogICAgICAgIHRyaXN0YXRlICJSZWFsdGVrIFJURCBVU0IzIFBIWSBUcmFuc2Nl
-aXZlciBEcml2ZXIiDQorICAgICAgIGRlcGVuZHMgb24gVVNCX1NVUFBPUlQNCiAgICAgICAgc2Vs
-ZWN0IEdFTkVSSUNfUEhZDQogICAgICAgIHNlbGVjdCBVU0JfUEhZDQogICAgICAgIGhlbHANCg==
+Hi,
+
+I just hit an oops when unplugging my usb serial adapter.  So naturally,
+I tried it again, and found if I use minicom to send BREAK and then
+quickly yank the cable, I can reliably cause this oops every single
+time.
+
+Originally I noticed the problem on 6.1.7, but tried again on 6.4-rc5
+and the exact same problem occurs.
+
+Let me know if you need any more info!
+
+Thanks,
+  Nick
+
+[   41.834144] ftdi_sio 1-1:1.0: FTDI USB Serial Device converter detected
+[   41.834178] usb 1-1: Detected FT232R
+[   41.834307] usb 1-1: FTDI USB Serial Device converter now attached to ttyUSB0
+[   49.238361] usb 1-1: USB disconnect, device number 6
+[   49.238592] ftdi_sio ttyUSB0: error from flowcontrol urb
+[   49.238734] ftdi_sio ttyUSB0: FTDI USB Serial Device converter now
+disconnected from ttyUSB0
+[   49.238760] ftdi_sio 1-1:1.0: device disconnected
+[   49.274543] BUG: kernel NULL pointer dereference, address: 000000000000000c
+[   49.274550] #PF: supervisor read access in kernel mode
+[   49.274553] #PF: error_code(0x0000) - not-present page
+[   49.274555] PGD 0 P4D 0
+[   49.274560] Oops: 0000 [#1] PREEMPT SMP
+[   49.274564] CPU: 3 PID: 3247 Comm: minicom Not tainted 6.4.0-rc5 #20
+[   49.274568] Hardware name: LENOVO 20CMCTO1WW/20CMCTO1WW, BIOS
+N10ET42W (1.21 ) 02/26/2016
+[   49.274572] RIP: 0010:ftdi_break_ctl+0x14/0x7b [ftdi_sio]
+[   49.274584] Code: c0 e8 64 63 6a d3 ba 06 00 00 00 31 f6 48 89 df
+5b e9 5c fd ff ff 55 85 f6 89 f5 53 48 8b 9f 58 02 00 00 48 8b 83 48
+03 00 00 <44> 8b 40 0c 74 06 66 41 81 c8 00 40 48 8b 13 45 0f b7 c0 b9
+40 00
+[   49.274588] RSP: 0018:ffffb016009b3e28 EFLAGS: 00010246
+[   49.274591] RAX: 0000000000000000 RBX: ffffa3f944575800 RCX: 0000000000000000
+[   49.274593] RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffffa3f940d8c400
+[   49.274595] RBP: 0000000000000000 R08: ffffa3fa65d9b840 R09: 0000000000000001
+[   49.274597] R10: 0000000000000000 R11: 0000000000000000 R12: 00000000000000fa
+[   49.274599] R13: ffffa3f940d8c400 R14: 0000000000000000 R15: 0000000000000000
+[   49.274602] FS:  00007f0ffcedc740(0000) GS:ffffa3fa65d80000(0000)
+knlGS:0000000000000000
+[   49.274605] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   49.274607] CR2: 000000000000000c CR3: 000000010c981004 CR4: 00000000003706e0
+[   49.274610] Call Trace:
+[   49.274613]  <TASK>
+[   49.274614]  ? __die_body+0x15/0x53
+[   49.274620]  ? page_fault_oops+0x2e8/0x31c
+[   49.274625]  ? psi_group_change+0x237/0x298
+[   49.274631]  ? get_sd_balance_interval+0xf/0x39
+[   49.274637]  ? newidle_balance+0x25f/0x2c6
+[   49.274641]  ? exc_page_fault+0x14b/0x4b8
+[   49.274647]  ? asm_exc_page_fault+0x22/0x30
+[   49.274653]  ? ftdi_break_ctl+0x14/0x7b [ftdi_sio]
+[   49.274661]  serial_break+0x1c/0x1f [usbserial]
+[   49.274672]  send_break+0x7f/0xa6
+[   49.274678]  tty_ioctl+0x46e/0x6b3
+[   49.274683]  ? vfs_write+0x15d/0x188
+[   49.274688]  vfs_ioctl+0x16/0x23
+[   49.274692]  __do_sys_ioctl+0x52/0x74
+[   49.274698]  do_syscall_64+0x7f/0x9f
+[   49.274702]  entry_SYSCALL_64_after_hwframe+0x46/0xb0
+[   49.274708] RIP: 0033:0x7f0ffcfdec7b
+[   49.274711] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24
+10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00
+00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28
+00 00
+[   49.274713] RSP: 002b:00007ffc18ab3a00 EFLAGS: 00000246 ORIG_RAX:
+0000000000000010
+[   49.274717] RAX: ffffffffffffffda RBX: 00005562830d74bc RCX: 00007f0ffcfdec7b
+[   49.274719] RDX: 0000000000000000 RSI: 0000000000005409 RDI: 0000000000000003
+[   49.274721] RBP: 0000556284ef1d60 R08: 00007f0ffd076440 R09: 0000000000000064
+[   49.274723] R10: 00007f0ffcee7450 R11: 0000000000000246 R12: 00005562830e9130
+[   49.274726] R13: 00007ffc18ab3ad0 R14: 00005562830d6ee8 R15: 0000000000000004
+[   49.274728]  </TASK>
+[   49.274730] Modules linked in: ftdi_sio usbserial ccm nfs lockd
+grace bridge stp llc xt_state iptable_filter iptable_mangle
+xt_MASQUERADE xt_mark iptable_nat nf_nat nf_conntrack nf_defrag_ipv6
+nf_defrag_ipv4 ip_tables x_tables snd_hda_codec_hdmi squashfs loop
+nls_iso8859_1 nls_cp437 vfat fat ext4 crc16 mbcache jbd2 iwlmvm i915
+mac80211 snd_ctl_led libarc4 snd_hda_codec_realtek
+snd_hda_codec_generic i2c_algo_bit drm_buddy drm_display_helper
+uvcvideo iwlwifi drivetemp videobuf2_vmalloc drm_kms_helper
+snd_hda_intel coretemp videobuf2_memops uvc snd_intel_dspcfg
+videobuf2_v4l2 syscopyarea x86_pkg_temp_thermal sysfillrect
+snd_hda_codec thinkpad_acpi sysimgblt cec videodev nvram snd_hda_core
+cfg80211 kvm_intel ttm ledtrig_audio snd_pcm videobuf2_common
+platform_profile jc42 regmap_i2c kvm irqbypass mc rfkill hwmon thermal
+drm intel_gtt ac snd_timer agpgart battery snd video soundcore wmi
+evdev efivarfs rtsx_pci_sdmmc mmc_core sha512_ssse3 e1000e rtsx_pci
+ptp mfd_core pps_core ipv6 sunrpc
+[   49.274823] CR2: 000000000000000c
+[   49.274825] ---[ end trace 0000000000000000 ]---
+[   49.274827] RIP: 0010:ftdi_break_ctl+0x14/0x7b [ftdi_sio]
+[   49.274835] Code: c0 e8 64 63 6a d3 ba 06 00 00 00 31 f6 48 89 df
+5b e9 5c fd ff ff 55 85 f6 89 f5 53 48 8b 9f 58 02 00 00 48 8b 83 48
+03 00 00 <44> 8b 40 0c 74 06 66 41 81 c8 00 40 48 8b 13 45 0f b7 c0 b9
+40 00
+[   49.274838] RSP: 0018:ffffb016009b3e28 EFLAGS: 00010246
+[   49.274841] RAX: 0000000000000000 RBX: ffffa3f944575800 RCX: 0000000000000000
+[   49.274843] RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffffa3f940d8c400
+[   49.274845] RBP: 0000000000000000 R08: ffffa3fa65d9b840 R09: 0000000000000001
+[   49.274847] R10: 0000000000000000 R11: 0000000000000000 R12: 00000000000000fa
+[   49.274849] R13: ffffa3f940d8c400 R14: 0000000000000000 R15: 0000000000000000
+[   49.274851] FS:  00007f0ffcedc740(0000) GS:ffffa3fa65d80000(0000)
+knlGS:0000000000000000
+[   49.274853] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   49.274855] CR2: 000000000000000c CR3: 000000010c981004 CR4: 00000000003706e0
+[   49.274858] note: minicom[3247] exited with irqs disabled
