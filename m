@@ -2,69 +2,100 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7046DC7EE2E
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Jun 2023 11:10:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8FB2C87FE4
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Jun 2023 12:51:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239471AbjFILJv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Jun 2023 07:09:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54798 "EHLO
+        id S240783AbjFIMul (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Jun 2023 08:50:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239166AbjFILJX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Jun 2023 07:09:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1002C2737
-        for <linux-usb@vger.kernel.org>; Fri,  9 Jun 2023 04:09:23 -0700 (PDT)
+        with ESMTP id S237713AbjFIMud (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Jun 2023 08:50:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71815210A;
+        Fri,  9 Jun 2023 05:50:32 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A9B58656DE
-        for <linux-usb@vger.kernel.org>; Fri,  9 Jun 2023 11:09:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9307AC433EF;
-        Fri,  9 Jun 2023 11:09:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1686308962;
-        bh=UtE2ojfq4pTGAnMSeMjcwz21FgB8hzLm4sDSgC0mL/g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=i27069RQ6hDxiL+hM97+VFg3JTP2OqE8fBDTccIS9s0C6/FGfkYrhRkdNPlkr0LhV
-         T4LdK8B1KrotH05e15zDckSyEuhmSMSzu/bzb9OIKKhj2miL9xfBHQUDMcA5h68GPv
-         siaiD83SQTwMU8OcYrgFZUNbNhVRRqEc880q+2qs=
-Date:   Fri, 9 Jun 2023 13:09:19 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     George Valkov <gvalkov@gmail.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Foster Snowhill <forst@pen.gy>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        patchwork-bot+netdevbpf@kernel.org,
-        Simon Horman <simon.horman@corigine.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        linux-usb <linux-usb@vger.kernel.org>,
-        Linux Netdev List <netdev@vger.kernel.org>
-Subject: Re: [PATCH net-next v4 1/4] usbnet: ipheth: fix risk of NULL pointer
- deallocation
-Message-ID: <2023060907-matted-dorsal-af5e@gregkh>
-References: <20230607135702.32679-1-forst@pen.gy>
- <168630302068.8448.16788889957368567496.git-patchwork-notify@kernel.org>
- <07CBE5ED-2569-450D-975A-64B5670D6928@gmail.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 01BAC657CB;
+        Fri,  9 Jun 2023 12:50:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54684C4339B;
+        Fri,  9 Jun 2023 12:50:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686315031;
+        bh=hip9OBUVCq8AfrEVIdBD05U3CyPcXD5Vb4CyWwwRC3g=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=MQ2ViBoypaWzJIm06BN1Xtsc/qeOFaexGyEEzNtKJanH5XPHZxMVbuSDV1uAyIlU4
+         rbodYRn8EcF+Q2AmfEqxjK7GyHJZ2xmWDBv1YsyfbjumzmCz2ByL26u2fyUJCnJyod
+         ibAOulu974oShLTpyfIEQf8A+54+tiXxg6MGRxQ9DNbTpaIyAjs8D6Y/W/bkDdNGRT
+         7joDEb/mbY7zrdmS5a0kILBHqLOieXmoNm+OsvaoWwBM+YMYKzDsdQU6+0cmvS+0Nt
+         VEyOYqKAm0U6WIgIpUsgZP+1Y5vqalcMonrvL1MjdTosq1Ge33JXn61E1c8Ah6Ha2S
+         pCTPEiryNspJw==
+From:   Jeff Layton <jlayton@kernel.org>
+To:     Christian Brauner <brauner@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Brad Warrum <bwarrum@linux.ibm.com>,
+        Ritu Agarwal <rituagar@linux.ibm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ian Kent <raven@themaw.net>,
+        "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+        Jeremy Kerr <jk@ozlabs.org>, Ard Biesheuvel <ardb@kernel.org>,
+        Namjae Jeon <linkinjeon@kernel.org>,
+        Sungjong Seo <sj1557.seo@samsung.com>,
+        Bob Peterson <rpeterso@redhat.com>,
+        Andreas Gruenbacher <agruenba@redhat.com>,
+        Steve French <sfrench@samba.org>,
+        Paulo Alcantara <pc@manguebit.com>,
+        Ronnie Sahlberg <lsahlber@redhat.com>,
+        Shyam Prasad N <sprasad@microsoft.com>,
+        Tom Talpey <tom@talpey.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Paul Moore <paul@paul-moore.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Ruihan Li <lrh2000@pku.edu.cn>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        autofs@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, cluster-devel@redhat.com,
+        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+        apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org
+Subject: [PATCH 1/9] ibmvmc: update ctime in conjunction with mtime on write
+Date:   Fri,  9 Jun 2023 08:50:15 -0400
+Message-Id: <20230609125023.399942-2-jlayton@kernel.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230609125023.399942-1-jlayton@kernel.org>
+References: <20230609125023.399942-1-jlayton@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <07CBE5ED-2569-450D-975A-64B5670D6928@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jun 09, 2023 at 01:42:09PM +0300, George Valkov wrote:
-> Thank you David!
-> 
-> Can you please also backport the patch-series to Linux kernel 5.15, which is in use by the OpenWRT project! The patches apply cleanly.
+When updating the mtime for a write, you must always update the ctime as
+well.
 
-<formletter>
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+ drivers/misc/ibmvmc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This is not the correct way to submit patches for inclusion in the
-stable kernel tree.  Please read:
-    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-for how to do this properly.
+diff --git a/drivers/misc/ibmvmc.c b/drivers/misc/ibmvmc.c
+index cbaf6d35e854..d7c7f0305257 100644
+--- a/drivers/misc/ibmvmc.c
++++ b/drivers/misc/ibmvmc.c
+@@ -1124,7 +1124,7 @@ static ssize_t ibmvmc_write(struct file *file, const char *buffer,
+ 		goto out;
+ 
+ 	inode = file_inode(file);
+-	inode->i_mtime = current_time(inode);
++	inode->i_mtime = inode->i_ctime = current_time(inode);
+ 	mark_inode_dirty(inode);
+ 
+ 	dev_dbg(adapter->dev, "write: file = 0x%lx, count = 0x%lx\n",
+-- 
+2.40.1
 
-</formletter>
