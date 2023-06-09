@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A1EBC88CB9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64BD7C88CBA
 	for <linux-usb@archiver.kernel.org>; Fri,  9 Jun 2023 12:51:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240944AbjFIMv2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Jun 2023 08:51:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52440 "EHLO
+        id S240928AbjFIMv1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Jun 2023 08:51:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240830AbjFIMun (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Jun 2023 08:50:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59FC92D4A;
-        Fri,  9 Jun 2023 05:50:42 -0700 (PDT)
+        with ESMTP id S240930AbjFIMu4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Jun 2023 08:50:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A41CBDD;
+        Fri,  9 Jun 2023 05:50:55 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E28E0657CE;
-        Fri,  9 Jun 2023 12:50:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C7A3C4339C;
-        Fri,  9 Jun 2023 12:50:38 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3C293657CE;
+        Fri,  9 Jun 2023 12:50:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95034C433D2;
+        Fri,  9 Jun 2023 12:50:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686315041;
-        bh=lJalVbz8bKklhHChaahTE7cD559bFtAruDPThJBYQS8=;
+        s=k20201202; t=1686315054;
+        bh=sciXKJTuFnUY9nWrxAAZ1qAJ1Cp4ErdvEEiDAODqg/U=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=sP5cRxejUSzSOBXjAn5IzjLHxWRkzZPOLcpPeyWo+SN3Ti6mf0TF8QaxvnIGW03Ho
-         HuXw4nPcjPhlCMC1ovBBKAjxRYqgoRJ1GLwmXnaPDU95jQIw+BVrmehNbj5gEc8/gR
-         WPWmcL0Je/F3S43/lJpbrACd0SHYWBXDkgXFxgi9GC9GsaeMooWJV2xQh9n2ogwoaB
-         6YQtCk8PpctEoA1s2Jb8OKuYqjS70QI+YoB0fS0YzuPNTYGoKJfELHjS5ceiVl6JBo
-         dceTY/uftWeTosvv/+myjcA438STQDu42pRqtKIxHzjjYydQ4GjiFeo8ICXFhdgv7R
-         e4YfJfdoIrfqg==
+        b=upjyEocqQzinZ+OVD6Khhwt5MbyOvuFlp/sJ6q2j6RvVpNlRvipHKI/hIrIMqgYBh
+         l0EIrvQ8CVdV7O7ucm8ag0cZDr4zw8NGa2wTrjrkUxskKo/cb+oqW8dI3ZvsQ++u5z
+         hqGm/E6z5CoM1hJrIgICg4S7HJvHENSxp9LYAfwLva2tkkBqJjgQ+eRfpH7K76TpjX
+         fkancV079fcU3zROG4KRpBxdmlFg8fJdHC+A8HJdEXMylLCuj+qceg9W78aFJ5KfAL
+         wJc5U12Ra6wom5m6Zq4maYyF2JafYOD8LtC23iIBSL+R6yE7LtMCyziYVObahi/C63
+         rjGOk8B2rKEwg==
 From:   Jeff Layton <jlayton@kernel.org>
 To:     Christian Brauner <brauner@kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
@@ -63,9 +63,9 @@ To:     Christian Brauner <brauner@kernel.org>,
         linux-fsdevel@vger.kernel.org, cluster-devel@redhat.com,
         linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
         apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org
-Subject: [PATCH 4/9] bfs: update ctime in addition to mtime when adding entries
-Date:   Fri,  9 Jun 2023 08:50:18 -0400
-Message-Id: <20230609125023.399942-5-jlayton@kernel.org>
+Subject: [PATCH 8/9] apparmor: update ctime whenever the mtime changes on an inode
+Date:   Fri,  9 Jun 2023 08:50:22 -0400
+Message-Id: <20230609125023.399942-9-jlayton@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230609125023.399942-1-jlayton@kernel.org>
 References: <20230609125023.399942-1-jlayton@kernel.org>
@@ -77,22 +77,50 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
- fs/bfs/dir.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ security/apparmor/apparmorfs.c    |  7 +++++--
+ security/apparmor/policy_unpack.c | 11 +++++++----
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/fs/bfs/dir.c b/fs/bfs/dir.c
-index 040d5140e426..d2e8a2a56b05 100644
---- a/fs/bfs/dir.c
-+++ b/fs/bfs/dir.c
-@@ -294,7 +294,7 @@ static int bfs_add_entry(struct inode *dir, const struct qstr *child, int ino)
- 					dir->i_size += BFS_DIRENT_SIZE;
- 					dir->i_ctime = current_time(dir);
- 				}
--				dir->i_mtime = current_time(dir);
-+				dir->i_mtime = dir->i_ctime = current_time(dir);
- 				mark_inode_dirty(dir);
- 				de->ino = cpu_to_le16((u16)ino);
- 				for (i = 0; i < BFS_NAMELEN; i++)
+diff --git a/security/apparmor/apparmorfs.c b/security/apparmor/apparmorfs.c
+index db7a51acf9db..c06053718836 100644
+--- a/security/apparmor/apparmorfs.c
++++ b/security/apparmor/apparmorfs.c
+@@ -1554,8 +1554,11 @@ void __aafs_profile_migrate_dents(struct aa_profile *old,
+ 
+ 	for (i = 0; i < AAFS_PROF_SIZEOF; i++) {
+ 		new->dents[i] = old->dents[i];
+-		if (new->dents[i])
+-			new->dents[i]->d_inode->i_mtime = current_time(new->dents[i]->d_inode);
++		if (new->dents[i]) {
++			struct inode *inode = d_inode(new->dents[i]);
++
++			inode->i_mtime = inode->i_ctime = current_time(inode);
++		}
+ 		old->dents[i] = NULL;
+ 	}
+ }
+diff --git a/security/apparmor/policy_unpack.c b/security/apparmor/policy_unpack.c
+index cf2ceec40b28..48a97c1800b9 100644
+--- a/security/apparmor/policy_unpack.c
++++ b/security/apparmor/policy_unpack.c
+@@ -86,10 +86,13 @@ void __aa_loaddata_update(struct aa_loaddata *data, long revision)
+ 
+ 	data->revision = revision;
+ 	if ((data->dents[AAFS_LOADDATA_REVISION])) {
+-		d_inode(data->dents[AAFS_LOADDATA_DIR])->i_mtime =
+-			current_time(d_inode(data->dents[AAFS_LOADDATA_DIR]));
+-		d_inode(data->dents[AAFS_LOADDATA_REVISION])->i_mtime =
+-			current_time(d_inode(data->dents[AAFS_LOADDATA_REVISION]));
++		struct inode *inode;
++
++		inode = d_inode(data->dents[AAFS_LOADDATA_DIR]);
++		inode->i_mtime = inode->i_ctime = current_time(inode);
++
++		inode = d_inode(data->dents[AAFS_LOADDATA_REVISION]);
++		inode->i_mtime = inode->i_ctime = current_time(inode);
+ 	}
+ }
+ 
 -- 
 2.40.1
 
