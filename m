@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B754DC7EE23
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Jun 2023 08:53:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B60BC7EE43
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Jun 2023 08:53:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234097AbjFLIxd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Jun 2023 04:53:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52232 "EHLO
+        id S231779AbjFLIxf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Jun 2023 04:53:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233668AbjFLIxB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Jun 2023 04:53:01 -0400
+        with ESMTP id S233896AbjFLIxC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Jun 2023 04:53:02 -0400
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D8AE1FE9
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6924F2106
         for <linux-usb@vger.kernel.org>; Mon, 12 Jun 2023 01:52:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1686559943; x=1718095943;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=uK14nIFmHfp4OUokX9zi3VVxUWRvaclzLgvYv5QixDU=;
-  b=iC2o4/Q86qBo+y3zXl72oLlJH8ktR7SSluPJ68OqoikWWXrrrNNXDjlz
-   EI/xA8LFq3sEUr+NWfxaFPOLuP4Hb4+v7osSQTA6ymhFXxP4bhr89gBI+
-   wltcnirUylIs7jPM/Okm9Y9o6UfQAr8T5piLifnzCkU9avFJRVDawlHnk
-   2QRttwSaJv8ImwNPCbxD9XUzAnVou2Q+vXRaEsZf0Ioyh/7Rq+2K7Yi75
-   vGrCDmVljUm2sVF1G4jcNisZtjUq7nk6pekSvNqkIbjTlYLsbx8KGSDb1
-   eeI6Y0imoGrvG0Ty+pJUPXNvPIX6NBK8BkVC6myMmhj6gasLTjpnBwDST
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="347627267"
+  bh=mdpNIpe3M7LORulbwwf0paeY7CFPssSM7JAbZWYPNts=;
+  b=FDTciUPolHNcjfbpw0+zteGIZWWS+YmtwmkZFZFQLF2HzejpIX+7gXbc
+   s851CGt1/w3r+aeqaBXbopp580w55AgxHndhUXtGqC5HpdpsyQ+1zpoKV
+   MGb12wah2z5kL1reYqlcBy4Gn9Ze3F9h7turOLF9hSR5Lzy4yGK5lFcbv
+   49LMDAAJyYeUVHV2bCkmmkThfhrt8H4rCKeXT3iwU3QjB+Lj8T22a84t3
+   Zdy3LAn55mdGySN+GU0I21C+sskGIzmxzlEVx96QFv0CKMR0g8mRBhJ27
+   QP1VEBovYBEXfiojCHCJ9oMQPQMcb1SHUSLO9RGcr+ZnSILU22oy2ltpK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="347627273"
 X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="347627267"
+   d="scan'208";a="347627273"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 01:21:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="744247745"
+X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="744247752"
 X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="744247745"
+   d="scan'208";a="744247752"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orsmga001.jf.intel.com with ESMTP; 12 Jun 2023 01:21:40 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 881E5690; Mon, 12 Jun 2023 11:21:45 +0300 (EEST)
+        id CB60A929; Mon, 12 Jun 2023 11:21:45 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Gil Fine <gil.fine@linux.intel.com>,
@@ -48,9 +48,9 @@ Cc:     Gil Fine <gil.fine@linux.intel.com>,
         Lukas Wunner <lukas@wunner.de>,
         Andreas Noever <andreas.noever@gmail.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH v2 06/20] thunderbolt: Reset USB4 v2 host router
-Date:   Mon, 12 Jun 2023 11:21:31 +0300
-Message-Id: <20230612082145.62218-7-mika.westerberg@linux.intel.com>
+Subject: [PATCH v2 12/20] thunderbolt: Add Intel Barlow Ridge PCI ID
+Date:   Mon, 12 Jun 2023 11:21:37 +0300
+Message-Id: <20230612082145.62218-13-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230612082145.62218-1-mika.westerberg@linux.intel.com>
 References: <20230612082145.62218-1-mika.westerberg@linux.intel.com>
@@ -60,169 +60,46 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-USB4 v2 added a bit that can be used to reset the host router so we use
-this to trigger reset when the driver probes. This will reset the
-already connected topology as well but doing this simplifies things a
-lot if for instance the link is already set to asymmetric. We also add
-a module parameter to prevent this in case of problems.
+Intel Barlow Ridge is the first USB4 v2 controller from Intel. The
+controller exposes standard USB4 PCI class ID in typical configurations,
+however there is a way to configure it so that it uses a special class
+ID to allow using s different driver than the Windows inbox one. For
+this reason add the Barlow Ridge PCI ID to the Linux driver too so that
+the driver can attach regardless of the class ID.
 
-While there rename the REG_HOP_COUNT to REG_CAPS to match the USB4 spec
-naming better.
-
+Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/nhi.c      | 39 +++++++++++++++++++++++++++++++++-
- drivers/thunderbolt/nhi_regs.h | 19 +++++++++++------
- 2 files changed, 50 insertions(+), 8 deletions(-)
+ drivers/thunderbolt/nhi.c | 2 ++
+ drivers/thunderbolt/nhi.h | 2 ++
+ 2 files changed, 4 insertions(+)
 
 diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index a979f47109e3..116016695a6a 100644
+index 116016695a6a..4b7bec74e89f 100644
 --- a/drivers/thunderbolt/nhi.c
 +++ b/drivers/thunderbolt/nhi.c
-@@ -46,6 +46,10 @@
- #define QUIRK_AUTO_CLEAR_INT	BIT(0)
- #define QUIRK_E2E		BIT(1)
+@@ -1517,6 +1517,8 @@ static struct pci_device_id nhi_ids[] = {
+ 	  .driver_data = (kernel_ulong_t)&icl_nhi_ops },
+ 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_MTL_P_NHI1),
+ 	  .driver_data = (kernel_ulong_t)&icl_nhi_ops },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HOST_80G_NHI) },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HOST_40G_NHI) },
  
-+static bool host_reset = true;
-+module_param(host_reset, bool, 0444);
-+MODULE_PARM_DESC(host_reset, "reset USBv2 host router (default: true)");
-+
- static int ring_interrupt_index(const struct tb_ring *ring)
- {
- 	int bit = ring->hop;
-@@ -1217,6 +1221,37 @@ static void nhi_check_iommu(struct tb_nhi *nhi)
- 		str_enabled_disabled(port_ok));
- }
- 
-+static void nhi_reset(struct tb_nhi *nhi)
-+{
-+	ktime_t timeout;
-+	u32 val;
-+
-+	val = ioread32(nhi->iobase + REG_CAPS);
-+	/* Reset only v2 and later routers */
-+	if (FIELD_GET(REG_CAPS_VERSION_MASK, val) < REG_CAPS_VERSION_2)
-+		return;
-+
-+	if (!host_reset) {
-+		dev_dbg(&nhi->pdev->dev, "skipping host router reset\n");
-+		return;
-+	}
-+
-+	iowrite32(REG_RESET_HRR, nhi->iobase + REG_RESET);
-+	msleep(100);
-+
-+	timeout = ktime_add_ms(ktime_get(), 500);
-+	do {
-+		val = ioread32(nhi->iobase + REG_RESET);
-+		if (!(val & REG_RESET_HRR)) {
-+			dev_warn(&nhi->pdev->dev, "host router reset successful\n");
-+			return;
-+		}
-+		usleep_range(10, 20);
-+	} while (ktime_before(ktime_get(), timeout));
-+
-+	dev_warn(&nhi->pdev->dev, "timeout resetting host router\n");
-+}
-+
- static int nhi_init_msi(struct tb_nhi *nhi)
- {
- 	struct pci_dev *pdev = nhi->pdev;
-@@ -1317,7 +1352,7 @@ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	nhi->ops = (const struct tb_nhi_ops *)id->driver_data;
- 	/* cannot fail - table is allocated in pcim_iomap_regions */
- 	nhi->iobase = pcim_iomap_table(pdev)[0];
--	nhi->hop_count = ioread32(nhi->iobase + REG_HOP_COUNT) & 0x3ff;
-+	nhi->hop_count = ioread32(nhi->iobase + REG_CAPS) & 0x3ff;
- 	dev_dbg(dev, "total paths: %d\n", nhi->hop_count);
- 
- 	nhi->tx_rings = devm_kcalloc(&pdev->dev, nhi->hop_count,
-@@ -1330,6 +1365,8 @@ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	nhi_check_quirks(nhi);
- 	nhi_check_iommu(nhi);
- 
-+	nhi_reset(nhi);
-+
- 	res = nhi_init_msi(nhi);
- 	if (res)
- 		return dev_err_probe(dev, res, "cannot enable MSI, aborting\n");
-diff --git a/drivers/thunderbolt/nhi_regs.h b/drivers/thunderbolt/nhi_regs.h
-index 6ba295815477..297a3e440648 100644
---- a/drivers/thunderbolt/nhi_regs.h
-+++ b/drivers/thunderbolt/nhi_regs.h
-@@ -37,7 +37,7 @@ struct ring_desc {
- /* NHI registers in bar 0 */
- 
- /*
-- * 16 bytes per entry, one entry for every hop (REG_HOP_COUNT)
-+ * 16 bytes per entry, one entry for every hop (REG_CAPS)
-  * 00: physical pointer to an array of struct ring_desc
-  * 08: ring tail (set by NHI)
-  * 10: ring head (index of first non posted descriptor)
-@@ -46,7 +46,7 @@ struct ring_desc {
- #define REG_TX_RING_BASE	0x00000
- 
- /*
-- * 16 bytes per entry, one entry for every hop (REG_HOP_COUNT)
-+ * 16 bytes per entry, one entry for every hop (REG_CAPS)
-  * 00: physical pointer to an array of struct ring_desc
-  * 08: ring head (index of first not posted descriptor)
-  * 10: ring tail (set by NHI)
-@@ -56,7 +56,7 @@ struct ring_desc {
- #define REG_RX_RING_BASE	0x08000
- 
- /*
-- * 32 bytes per entry, one entry for every hop (REG_HOP_COUNT)
-+ * 32 bytes per entry, one entry for every hop (REG_CAPS)
-  * 00: enum_ring_flags
-  * 04: isoch time stamp ?? (write 0)
-  * ..: unknown
-@@ -64,7 +64,7 @@ struct ring_desc {
- #define REG_TX_OPTIONS_BASE	0x19800
- 
- /*
-- * 32 bytes per entry, one entry for every hop (REG_HOP_COUNT)
-+ * 32 bytes per entry, one entry for every hop (REG_CAPS)
-  * 00: enum ring_flags
-  *     If RING_FLAG_E2E_FLOW_CONTROL is set then bits 13-23 must be set to
-  *     the corresponding TX hop id.
-@@ -77,7 +77,7 @@ struct ring_desc {
- 
- /*
-  * three bitfields: tx, rx, rx overflow
-- * Every bitfield contains one bit for every hop (REG_HOP_COUNT).
-+ * Every bitfield contains one bit for every hop (REG_CAPS).
-  * New interrupts are fired only after ALL registers have been
-  * read (even those containing only disabled rings).
-  */
-@@ -87,7 +87,7 @@ struct ring_desc {
- 
- /*
-  * two bitfields: rx, tx
-- * Both bitfields contains one bit for every hop (REG_HOP_COUNT). To
-+ * Both bitfields contains one bit for every hop (REG_CAPS). To
-  * enable/disable interrupts set/clear the corresponding bits.
-  */
- #define REG_RING_INTERRUPT_BASE	0x38200
-@@ -104,12 +104,17 @@ struct ring_desc {
- #define REG_INT_VEC_ALLOC_REGS	(32 / REG_INT_VEC_ALLOC_BITS)
- 
- /* The last 11 bits contain the number of hops supported by the NHI port. */
--#define REG_HOP_COUNT		0x39640
-+#define REG_CAPS			0x39640
-+#define REG_CAPS_VERSION_MASK		GENMASK(23, 16)
-+#define REG_CAPS_VERSION_2		0x40
- 
- #define REG_DMA_MISC			0x39864
- #define REG_DMA_MISC_INT_AUTO_CLEAR     BIT(2)
- #define REG_DMA_MISC_DISABLE_AUTO_CLEAR	BIT(17)
- 
-+#define REG_RESET			0x39898
-+#define REG_RESET_HRR			BIT(0)
-+
- #define REG_INMAIL_DATA			0x39900
- 
- #define REG_INMAIL_CMD			0x39904
+ 	/* Any USB4 compliant host */
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_SERIAL_USB_USB4, ~0) },
+diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
+index b0718020c6f5..c15a0c46c9cf 100644
+--- a/drivers/thunderbolt/nhi.h
++++ b/drivers/thunderbolt/nhi.h
+@@ -75,6 +75,8 @@ extern const struct tb_nhi_ops icl_nhi_ops;
+ #define PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_BRIDGE	0x15ef
+ #define PCI_DEVICE_ID_INTEL_ADL_NHI0			0x463e
+ #define PCI_DEVICE_ID_INTEL_ADL_NHI1			0x466d
++#define PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HOST_80G_NHI	0x5781
++#define PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HOST_40G_NHI	0x5784
+ #define PCI_DEVICE_ID_INTEL_MTL_M_NHI0			0x7eb2
+ #define PCI_DEVICE_ID_INTEL_MTL_P_NHI0			0x7ec2
+ #define PCI_DEVICE_ID_INTEL_MTL_P_NHI1			0x7ec3
 -- 
 2.39.2
 
