@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B60BC7EE43
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Jun 2023 08:53:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C698AC7EE23
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Jun 2023 08:53:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231779AbjFLIxf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Jun 2023 04:53:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51564 "EHLO
+        id S233555AbjFLIxi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Jun 2023 04:53:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233896AbjFLIxC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Jun 2023 04:53:02 -0400
+        with ESMTP id S233927AbjFLIxE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Jun 2023 04:53:04 -0400
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6924F2106
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05447210C
         for <linux-usb@vger.kernel.org>; Mon, 12 Jun 2023 01:52:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1686559943; x=1718095943;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=mdpNIpe3M7LORulbwwf0paeY7CFPssSM7JAbZWYPNts=;
-  b=FDTciUPolHNcjfbpw0+zteGIZWWS+YmtwmkZFZFQLF2HzejpIX+7gXbc
-   s851CGt1/w3r+aeqaBXbopp580w55AgxHndhUXtGqC5HpdpsyQ+1zpoKV
-   MGb12wah2z5kL1reYqlcBy4Gn9Ze3F9h7turOLF9hSR5Lzy4yGK5lFcbv
-   49LMDAAJyYeUVHV2bCkmmkThfhrt8H4rCKeXT3iwU3QjB+Lj8T22a84t3
-   Zdy3LAn55mdGySN+GU0I21C+sskGIzmxzlEVx96QFv0CKMR0g8mRBhJ27
-   QP1VEBovYBEXfiojCHCJ9oMQPQMcb1SHUSLO9RGcr+ZnSILU22oy2ltpK
+  bh=Y2YobN/E4kGk5ZU1Uth/c4ac3L1l0yCi9BZbTpt+t18=;
+  b=LvJ5cxDaIXK6pfcWzU3qZP2F4Qa0z2UZp6fLOKgNKUgNLaQeDXvOoZkT
+   KEmd0E1MBRBCA/XLY5dET+qtbX+qLTJZjpny/yQCEsKkEHMLTVJa8xVPI
+   DDOt7lsUjuwuJRp8Dt+K6E34BRMX03TqvefFEoR97x/55m2VlWV0sDk1i
+   flCggSBUozoDr2w2qjsS5q53XjKVq7r5EARjfXcLecqQekbCFYgbuoftK
+   n05JfreMYqi2t+vruJxanC48I3ytkHM/xbDzJWAIg3b5KIfEGf5sA6U3t
+   HqV+UEr643/Nk+n1BFFOroNX3f2A+VFK6+GEKfBtfpysSgYCOCtH20FzH
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="347627273"
+X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="347627270"
 X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="347627273"
+   d="scan'208";a="347627270"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 01:21:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="744247752"
+X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="744247748"
 X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="744247752"
+   d="scan'208";a="744247748"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orsmga001.jf.intel.com with ESMTP; 12 Jun 2023 01:21:40 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id CB60A929; Mon, 12 Jun 2023 11:21:45 +0300 (EEST)
+        id A504F765; Mon, 12 Jun 2023 11:21:45 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Gil Fine <gil.fine@linux.intel.com>,
@@ -48,9 +48,9 @@ Cc:     Gil Fine <gil.fine@linux.intel.com>,
         Lukas Wunner <lukas@wunner.de>,
         Andreas Noever <andreas.noever@gmail.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH v2 12/20] thunderbolt: Add Intel Barlow Ridge PCI ID
-Date:   Mon, 12 Jun 2023 11:21:37 +0300
-Message-Id: <20230612082145.62218-13-mika.westerberg@linux.intel.com>
+Subject: [PATCH v2 08/20] thunderbolt: Enable USB4 v2 PCIe TLP/DLLP extended encapsulation
+Date:   Mon, 12 Jun 2023 11:21:33 +0300
+Message-Id: <20230612082145.62218-9-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230612082145.62218-1-mika.westerberg@linux.intel.com>
 References: <20230612082145.62218-1-mika.westerberg@linux.intel.com>
@@ -60,46 +60,146 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Intel Barlow Ridge is the first USB4 v2 controller from Intel. The
-controller exposes standard USB4 PCI class ID in typical configurations,
-however there is a way to configure it so that it uses a special class
-ID to allow using s different driver than the Windows inbox one. For
-this reason add the Barlow Ridge PCI ID to the Linux driver too so that
-the driver can attach regardless of the class ID.
+From: Gil Fine <gil.fine@intel.com>
 
-Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+USB4 v2 spec introduces modified encapsulation of PCIe TLP and DLLP
+packets. This improves the PCIe tunneled traffic usage by reducing
+overhead. Enable this if both sides of the link support it.
+
+Signed-off-by: Gil Fine <gil.fine@intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/nhi.c | 2 ++
- drivers/thunderbolt/nhi.h | 2 ++
- 2 files changed, 4 insertions(+)
+ drivers/thunderbolt/tb.h      |  2 ++
+ drivers/thunderbolt/tb_regs.h |  2 ++
+ drivers/thunderbolt/tunnel.c  | 37 ++++++++++++++++++++++++++++++++---
+ drivers/thunderbolt/usb4.c    | 34 ++++++++++++++++++++++++++++++++
+ 4 files changed, 72 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index 116016695a6a..4b7bec74e89f 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -1517,6 +1517,8 @@ static struct pci_device_id nhi_ids[] = {
- 	  .driver_data = (kernel_ulong_t)&icl_nhi_ops },
- 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_MTL_P_NHI1),
- 	  .driver_data = (kernel_ulong_t)&icl_nhi_ops },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HOST_80G_NHI) },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HOST_40G_NHI) },
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index 845e851012e5..002e0426a82c 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -1301,6 +1301,8 @@ int usb4_dp_port_allocated_bw(struct tb_port *port);
+ int usb4_dp_port_allocate_bw(struct tb_port *port, int bw);
+ int usb4_dp_port_requested_bw(struct tb_port *port);
  
- 	/* Any USB4 compliant host */
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_SERIAL_USB_USB4, ~0) },
-diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
-index b0718020c6f5..c15a0c46c9cf 100644
---- a/drivers/thunderbolt/nhi.h
-+++ b/drivers/thunderbolt/nhi.h
-@@ -75,6 +75,8 @@ extern const struct tb_nhi_ops icl_nhi_ops;
- #define PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_BRIDGE	0x15ef
- #define PCI_DEVICE_ID_INTEL_ADL_NHI0			0x463e
- #define PCI_DEVICE_ID_INTEL_ADL_NHI1			0x466d
-+#define PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HOST_80G_NHI	0x5781
-+#define PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HOST_40G_NHI	0x5784
- #define PCI_DEVICE_ID_INTEL_MTL_M_NHI0			0x7eb2
- #define PCI_DEVICE_ID_INTEL_MTL_P_NHI0			0x7ec2
- #define PCI_DEVICE_ID_INTEL_MTL_P_NHI1			0x7ec3
++int usb4_pci_port_set_ext_encapsulation(struct tb_port *port, bool enable);
++
+ static inline bool tb_is_usb4_port_device(const struct device *dev)
+ {
+ 	return dev->type == &usb4_port_device_type;
+diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
+index c8e40ef09903..549cc79c7313 100644
+--- a/drivers/thunderbolt/tb_regs.h
++++ b/drivers/thunderbolt/tb_regs.h
+@@ -451,6 +451,8 @@ struct tb_regs_port_header {
+ /* PCIe adapter registers */
+ #define ADP_PCIE_CS_0				0x00
+ #define ADP_PCIE_CS_0_PE			BIT(31)
++#define ADP_PCIE_CS_1				0x01
++#define ADP_PCIE_CS_1_EE			BIT(0)
+ 
+ /* USB adapter registers */
+ #define ADP_USB3_CS_0				0x00
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 7df5f90e21d4..f1d0ab2b39a2 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -153,18 +153,49 @@ static struct tb_tunnel *tb_tunnel_alloc(struct tb *tb, size_t npaths,
+ 	return tunnel;
+ }
+ 
++static int tb_pci_set_ext_encapsulation(struct tb_tunnel *tunnel, bool enable)
++{
++	int ret;
++
++	/* Only supported of both routers are at least USB4 v2 */
++	if (usb4_switch_version(tunnel->src_port->sw) < 2 ||
++	    usb4_switch_version(tunnel->dst_port->sw) < 2)
++		return 0;
++
++	ret = usb4_pci_port_set_ext_encapsulation(tunnel->src_port, enable);
++	if (ret)
++		return ret;
++
++	ret = usb4_pci_port_set_ext_encapsulation(tunnel->dst_port, enable);
++	if (ret)
++		return ret;
++
++	tb_tunnel_dbg(tunnel, "extended encapsulation %sabled\n",
++		      enable ? "en" : "dis");
++	return 0;
++}
++
+ static int tb_pci_activate(struct tb_tunnel *tunnel, bool activate)
+ {
+ 	int res;
+ 
++	if (activate) {
++		res = tb_pci_set_ext_encapsulation(tunnel, activate);
++		if (res)
++			return res;
++	}
++
+ 	res = tb_pci_port_enable(tunnel->src_port, activate);
+ 	if (res)
+ 		return res;
+ 
+-	if (tb_port_is_pcie_up(tunnel->dst_port))
+-		return tb_pci_port_enable(tunnel->dst_port, activate);
++	if (tb_port_is_pcie_up(tunnel->dst_port)) {
++		res = tb_pci_port_enable(tunnel->dst_port, activate);
++		if (res)
++			return res;
++	}
+ 
+-	return 0;
++	return activate ? 0 : tb_pci_set_ext_encapsulation(tunnel, activate);
+ }
+ 
+ static int tb_pci_init_credits(struct tb_path_hop *hop)
+diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
+index 9f5a98347bee..b80972cb5b9d 100644
+--- a/drivers/thunderbolt/usb4.c
++++ b/drivers/thunderbolt/usb4.c
+@@ -2796,3 +2796,37 @@ int usb4_dp_port_requested_bw(struct tb_port *port)
+ 
+ 	return (val & ADP_DP_CS_8_REQUESTED_BW_MASK) * granularity;
+ }
++
++/**
++ * usb4_pci_port_set_ext_encapsulation() - Enable/disable extended encapsulation
++ * @port: PCIe adapter
++ * @enable: Enable/disable extended encapsulation
++ *
++ * Can be called to any adapter. Enables or disables extended
++ * encapsulation used in PCIe tunneling. Returns %0 on success and
++ * negative errno otherwise.
++ */
++int usb4_pci_port_set_ext_encapsulation(struct tb_port *port, bool enable)
++{
++	u32 val;
++	int ret;
++
++	if (!tb_port_is_pcie_up(port) && !tb_port_is_pcie_down(port))
++		return 0;
++
++	if (usb4_switch_version(port->sw) < 2)
++		return 0;
++
++	ret = tb_port_read(port, &val, TB_CFG_PORT,
++			   port->cap_adap + ADP_PCIE_CS_1, 1);
++	if (ret)
++		return ret;
++
++	if (enable)
++		val |= ADP_PCIE_CS_1_EE;
++	else
++		val &= ~ADP_PCIE_CS_1_EE;
++
++	return tb_port_write(port, &val, TB_CFG_PORT,
++			     port->cap_adap + ADP_PCIE_CS_1, 1);
++}
 -- 
 2.39.2
 
