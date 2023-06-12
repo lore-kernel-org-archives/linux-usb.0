@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3FC7C7EE45
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Jun 2023 10:57:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2317C87FDE
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Jun 2023 10:58:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237213AbjFLK55 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Jun 2023 06:57:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60312 "EHLO
+        id S237088AbjFLK57 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Jun 2023 06:57:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236857AbjFLK5d (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Jun 2023 06:57:33 -0400
+        with ESMTP id S237094AbjFLK5h (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Jun 2023 06:57:37 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C3676E8F;
-        Mon, 12 Jun 2023 03:45:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40316E576;
+        Mon, 12 Jun 2023 03:45:39 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C57762440;
-        Mon, 12 Jun 2023 10:45:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C95ECC433D2;
-        Mon, 12 Jun 2023 10:45:25 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C90E9615CB;
+        Mon, 12 Jun 2023 10:45:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53A4BC433A8;
+        Mon, 12 Jun 2023 10:45:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686566728;
-        bh=gJ8OBMKp8a//Ju9x8kyPOKR1y9jleYMRtZlvKB2haqY=;
-        h=From:To:Subject:Date:From;
-        b=ajv43haiuJi4XPe/D7BlbV0d5Dfbz9Cvp3DS2g5UhWuVJbeHzWPJbD2tBEmIQv46y
-         95VJd3njR2OYSMyYgff7Fg9K4B3yGgm0b3QUT6CPhPinqffou45tgfMkNvnlcGdctq
-         IjMSVM3qFyKJF/wsJnqRzQpZzf4uPYT59IsXnYcVxT2sjEHkRs/Y5k7oya095he0P9
-         wkpoSwiJHvhclSQFCxkLrYjL6/DW5YSIVuOqcblvOkrHlUFDDobgLRsjCb6BCiNuJK
-         /wqfEqxBnDnbW8JjK/MATIKrKrqFTxQ415+OSVHUhZ9GfW508KlcGXnS52pAQbnxlV
-         oLPD9erhPDPMA==
+        s=k20201202; t=1686566738;
+        bh=8dWgF0uA6APXTiliajrD56DAKjnBaeRdxdQyPjiYPP0=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=VNA1yc1YyUY8iRFte4FmbUVtUf3xLJi9hXnJ6eWRWnAhBF+pd7YKghWhRecMCbgZ7
+         yr57R+PZlxmUOpKdY6vogdgf5Gr4klr4agBTonta+PtTNZoD86j0g27zvORW3eK9OK
+         ckKAln6kq/vdGBqDPxe0AphUUeibkpmZMvXEy35ssAkNPNlLtCWCucxt0cbrWCXW9/
+         a+Glo0O8+HA/jny1S2QTYqeGAXtduUlAp2ea5Gda6IIdGCnuOB1R0PcM6OVZvKiBvR
+         LUcA7rvDLDnW/kSTwRPVhk1jLDA13CgKbUj/bA6NF07G9p+lglD/zt4af6w3SGbIYA
+         guYVuHpahZfuw==
 From:   Jeff Layton <jlayton@kernel.org>
 To:     Christian Brauner <brauner@kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
@@ -62,59 +62,57 @@ To:     Christian Brauner <brauner@kernel.org>,
         linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org,
         samba-technical@lists.samba.org, apparmor@lists.ubuntu.com,
         linux-security-module@vger.kernel.org
-Subject: [PATCH v2 0/8] fs: add some missing ctime updates
-Date:   Mon, 12 Jun 2023 06:45:16 -0400
-Message-Id: <20230612104524.17058-1-jlayton@kernel.org>
+Subject: [PATCH v2 3/8] autofs: set ctime as well when mtime changes on a dir
+Date:   Mon, 12 Jun 2023 06:45:19 -0400
+Message-Id: <20230612104524.17058-4-jlayton@kernel.org>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230612104524.17058-1-jlayton@kernel.org>
+References: <20230612104524.17058-1-jlayton@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-v2:
-- drop gfs2 patch as it involved (hidden) quota inode
-- clarify patch descriptions to satisfy checkpatch.pl
+When adding entries to a directory, POSIX generally requires that the
+ctime also be updated alongside the mtime.
 
-While working on a patch series to change how we handle the ctime, I
-found a number of places that update the mtime without a corresponding
-ctime update.
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+ fs/autofs/root.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-While it's not spelled out explicitly in the POSIX spec, all of the
-operations that update the mtime must also update the ctime. I've not
-been able to find any counterexamples, in any case. Some of these
-patches involve operations not covered by POSIX, but it's still a good
-idea to update the ctime when updating the mtime.
-
-Note that these are largely untested other than for compilation, so
-please review carefully. These are a preliminary set for the upcoming
-rework of how we handle the ctime.
-
-None of these seem to be very crucial, but it would be nice if various
-maintainers could pick these up for v6.5. Please let me know if you do,
-or would rather I shepherd the patch upstream.
-
-Jeff Layton (8):
-  ibmvmc: update ctime in conjunction with mtime on write
-  usb: update the ctime as well when updating mtime after an ioctl
-  autofs: set ctime as well when mtime changes on a dir
-  bfs: update ctime in addition to mtime when adding entries
-  efivarfs: update ctime when mtime changes on a write
-  exfat: ensure that ctime is updated whenever the mtime is
-  apparmor: update ctime whenever the mtime changes on an inode
-  cifs: update the ctime on a partial page write
-
- drivers/misc/ibmvmc.c             |  2 +-
- drivers/usb/core/devio.c          | 16 ++++++++--------
- fs/autofs/root.c                  |  6 +++---
- fs/bfs/dir.c                      |  2 +-
- fs/efivarfs/file.c                |  2 +-
- fs/exfat/namei.c                  |  8 ++++----
- fs/smb/client/file.c              |  2 +-
- security/apparmor/apparmorfs.c    |  7 +++++--
- security/apparmor/policy_unpack.c | 11 +++++++----
- 9 files changed, 31 insertions(+), 25 deletions(-)
-
+diff --git a/fs/autofs/root.c b/fs/autofs/root.c
+index 6baf90b08e0e..93046c9dc461 100644
+--- a/fs/autofs/root.c
++++ b/fs/autofs/root.c
+@@ -600,7 +600,7 @@ static int autofs_dir_symlink(struct mnt_idmap *idmap,
+ 	p_ino = autofs_dentry_ino(dentry->d_parent);
+ 	p_ino->count++;
+ 
+-	dir->i_mtime = current_time(dir);
++	dir->i_mtime = dir->i_ctime = current_time(dir);
+ 
+ 	return 0;
+ }
+@@ -633,7 +633,7 @@ static int autofs_dir_unlink(struct inode *dir, struct dentry *dentry)
+ 	d_inode(dentry)->i_size = 0;
+ 	clear_nlink(d_inode(dentry));
+ 
+-	dir->i_mtime = current_time(dir);
++	dir->i_mtime = dir->i_ctime = current_time(dir);
+ 
+ 	spin_lock(&sbi->lookup_lock);
+ 	__autofs_add_expiring(dentry);
+@@ -749,7 +749,7 @@ static int autofs_dir_mkdir(struct mnt_idmap *idmap,
+ 	p_ino = autofs_dentry_ino(dentry->d_parent);
+ 	p_ino->count++;
+ 	inc_nlink(dir);
+-	dir->i_mtime = current_time(dir);
++	dir->i_mtime = dir->i_ctime = current_time(dir);
+ 
+ 	return 0;
+ }
 -- 
 2.40.1
 
