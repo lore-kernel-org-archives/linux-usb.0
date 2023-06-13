@@ -2,86 +2,104 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71038C7EE2E
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Jun 2023 20:25:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E788FC88CB2
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Jun 2023 00:43:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235542AbjFLUZV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Jun 2023 16:25:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50480 "EHLO
+        id S235962AbjFMAns (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Jun 2023 20:43:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237261AbjFLUZB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Jun 2023 16:25:01 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C23D19B;
-        Mon, 12 Jun 2023 13:25:00 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-977c89c47bdso861230366b.2;
-        Mon, 12 Jun 2023 13:25:00 -0700 (PDT)
+        with ESMTP id S238367AbjFMAnp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Jun 2023 20:43:45 -0400
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C48E1E7A;
+        Mon, 12 Jun 2023 17:43:44 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id ca18e2360f4ac-77acb944bdfso313120239f.0;
+        Mon, 12 Jun 2023 17:43:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20221208; t=1686601498; x=1689193498;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P5rGJiRfcY9q4io21i6v5+UGLN2TIvQIc+ZeIBoHNMI=;
-        b=rsq5aBp+h543P3f1o3uOlrJ8+ZkTet7FJQe0k6hVEjPCXqE28A45C5qoCMSyUA6G5n
-         OqpttFi85EOTuvmrZ+ZfUgEtFjNl15FF1rsJknRqFK6XivcOL9BEdGsUZtp5j41IdKES
-         P1g5rhE3yY3mhyU+DeojvzCdFMoKrbu0n86CfXvZj5yWxGkNH2nRgHQjErj9oNsu8T+J
-         FFnA7Rlbg8DBc6b6I3qcwaWrSTwmMbG7JkxxecO9Xwe3TMs4QOEAIjTvvI72DmTqHGGS
-         /edOsT5igvHJ2n+Y7nzLroR1k5ywT5n+yfUwRVda0Kbx/fJVZZQiYD58mEMRbL9Iph1u
-         ZHLw==
+        d=gmail.com; s=20221208; t=1686617024; x=1689209024;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SUjTXpZGWUl8aPCIqnXmDVJiFmEW7gMN7vp18gmwoYo=;
+        b=IXpe7Emrl6ko4LD7DQoZAwv8z0/KdLITExfmWAAXsA+D25C04eyN8asLgKPw0QqTfy
+         sbei46gpq/X8JWoloCKU7vFBGj5+IoPn9Rz3Z8R/0fdIHlSLqXNik/g+VPAmrEu+5AbB
+         6gJaFwKYe4TiOcbpftpt7Ypd9DtTxGTZAHDLEqUY7Mv67eCMoLIVBy9pjfWgifdggQgf
+         t/vUE67hyFRErw1hAc0o7OU3DPWaNlwfdvH3cy/m95/Po20ZkyrDTbJkcrbyA4KZjsQy
+         /M9vU9XR4ArJegue/6zVWkk7mdyKDsbCdlRbMzzEw67/PSfwCN43R09lMxj0LCIrbAF1
+         RD8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686601498; x=1689193498;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P5rGJiRfcY9q4io21i6v5+UGLN2TIvQIc+ZeIBoHNMI=;
-        b=Z5v85VKCQwZMJPC1jvZz9UULMlN1iu5jlBYDhvyS0pRJg9dvYwTk/xU1/eaOCKrPsk
-         7Szs0h07ATZ9eRqhKBliZDt4h0h+nNhdl32HwjuYERMb0lmdrdE7DLWXG2ocux71gj6u
-         nefZJ2QercfMrUu5urErXwIqMuOH3sNVXzyTIPT2PUsSOzNQJpJPe9DQ7/NTCqh3wP/d
-         ZCfYKnRqG2NmRf3CI0cbeVT/p1t5yDoVDEnqRmUeJ0in7ITuwUGtxRIE2lqtwL/x1en2
-         LEREoCI5IvISqzVWk9SYCS4SGA80Xkg8787e2Ow/pbHsgPUKEEPn4aAdsx2TBO9lBi8r
-         AqbA==
-X-Gm-Message-State: AC+VfDw7Ef0ol74mq0a6CT71Weou7iQObAHNtiymv1QRWVfBuTRciTmP
-        yh9oFIzm0XmjU5M8v/mYAnKNqSRDUyeLvoefzf4=
-X-Google-Smtp-Source: ACHHUZ4E0TWnsoyvUR7I33Kr/9TqSPqf+D2KoUdwkY2FAuQN2/ySPcvpG1fooy3zg7oLEm0Lwr/W0Iinb3bBwvZut0o=
-X-Received: by 2002:a17:907:60cd:b0:982:26c4:e4b0 with SMTP id
- hv13-20020a17090760cd00b0098226c4e4b0mr1806618ejc.6.1686601498264; Mon, 12
- Jun 2023 13:24:58 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686617024; x=1689209024;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SUjTXpZGWUl8aPCIqnXmDVJiFmEW7gMN7vp18gmwoYo=;
+        b=gs4TyjkBxVn6UJ68GkD9DzG61MlWHajcAcI4i41c0lz46q3ZiCh1UPwTTLx3fwiNiR
+         uA4NRmmWiaxTT0s7fo7ZLD0K9W2Og+ePl8f8Cukd2NE3yRiolBaxQWUNp8Dnhb6U0EjY
+         OD+OsWOtlJvzf62u2JfRrtpm2aKiBLgk6AjSt1LAuY6/eWTMHZmIrcqYx9PkxJzXlNmZ
+         0ghz6NQxjZ8UNrc60AauG0R0GVV0BVTU7VAGjDMcGfkGmBmvrHktZW/SkKxn7tw5pETN
+         92kys7sYsehCrCY7hJNNH8zEzTlZX2IBAL3szoDpPYYFdu/J3G97NDGjwOrWXPWm4lgj
+         9JCQ==
+X-Gm-Message-State: AC+VfDyQXW9TckVFeC7Cbs2c9AbQR0l6J/PgLvxyi8SIKL5gArLq6zU8
+        5cOfB2nLRD6LNef80XgmDDs=
+X-Google-Smtp-Source: ACHHUZ7i6GSt2jdKr3j5yG/4NXkXwOGZEJuQD6eDvRYDUL6sL1IEo1hSDkdoL5M6ydeOg6lrivBmyQ==
+X-Received: by 2002:a5e:c64d:0:b0:777:b464:6ff9 with SMTP id s13-20020a5ec64d000000b00777b4646ff9mr8880457ioo.21.1686617024076;
+        Mon, 12 Jun 2023 17:43:44 -0700 (PDT)
+Received: from azeems-kspp.c.googlers.com.com (54.70.188.35.bc.googleusercontent.com. [35.188.70.54])
+        by smtp.gmail.com with ESMTPSA id o11-20020a056638124b00b0041643b78cbesm3118861jas.120.2023.06.12.17.43.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jun 2023 17:43:43 -0700 (PDT)
+From:   Azeem Shaikh <azeemshaikh38@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-hardening@vger.kernel.org,
+        Azeem Shaikh <azeemshaikh38@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Albert Briscoe <albertsbriscoe@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: [PATCH] usb: gadget: function: printer: Replace strlcpy with strscpy
+Date:   Tue, 13 Jun 2023 00:43:41 +0000
+Message-ID: <20230613004341.3540325-1-azeemshaikh38@gmail.com>
+X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
 MIME-Version: 1.0
-References: <9d28466de1808ccc756b4cc25fc72c482d133d13.1686403934.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <9d28466de1808ccc756b4cc25fc72c482d133d13.1686403934.git.christophe.jaillet@wanadoo.fr>
-From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date:   Mon, 12 Jun 2023 22:24:47 +0200
-Message-ID: <CAFBinCBC3Cg_1UaYTxqq21-1pQ+cnT6VfL7kmQn0+v+26hiv_w@mail.gmail.com>
-Subject: Re: [PATCH] usb: dwc3-meson-g12a: Fix an error handling path in dwc3_meson_g12a_probe()
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Yue Wang <yue.wang@amlogic.com>,
-        Hanjie Lin <hanjie.lin@amlogic.com>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Jun 10, 2023 at 3:32=E2=80=AFPM Christophe JAILLET
-<christophe.jaillet@wanadoo.fr> wrote:
->
-> If dwc3_meson_g12a_otg_init() fails, resources allocated by the previous
-> of_platform_populate() call should be released, as already done in the
-> error handling path.
->
-> Fixes: 1e355f21d3fb ("usb: dwc3: Add Amlogic A1 DWC3 glue")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+strlcpy() reads the entire source buffer first.
+This read may exceed the destination size limit.
+This is both inefficient and can lead to linear read
+overflows if a source string is not NUL-terminated [1].
+In an effort to remove strlcpy() completely [2], replace
+strlcpy() here with strscpy().
 
-We should move to devm_of_platform_populate() mid term.
-That said, this fix is good for now because it's simple and can be backport=
-ed.
+Direct replacement is safe here since return value of -E2BIG
+is used to check for truncation instead of sizeof(dest).
+
+[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
+[2] https://github.com/KSPP/linux/issues/89
+
+Signed-off-by: Azeem Shaikh <azeemshaikh38@gmail.com>
+---
+ drivers/usb/gadget/function/f_printer.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
+index 28db3e336e7d..10dc7c55c25f 100644
+--- a/drivers/usb/gadget/function/f_printer.c
++++ b/drivers/usb/gadget/function/f_printer.c
+@@ -1211,8 +1211,8 @@ static ssize_t f_printer_opts_pnp_string_show(struct config_item *item,
+ 	if (!opts->pnp_string)
+ 		goto unlock;
+ 
+-	result = strlcpy(page, opts->pnp_string, PAGE_SIZE);
+-	if (result >= PAGE_SIZE) {
++	result = strscpy(page, opts->pnp_string, PAGE_SIZE);
++	if (result == -E2BIG) {
+ 		result = PAGE_SIZE;
+ 	} else if (page[result - 1] != '\n' && result + 1 < PAGE_SIZE) {
+ 		page[result++] = '\n';
+-- 
+2.41.0.162.gfafddb0af9-goog
+
+
