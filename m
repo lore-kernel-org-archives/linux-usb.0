@@ -2,107 +2,245 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35CFDEB64D9
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Jun 2023 09:14:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E644EB64DB
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Jun 2023 09:30:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243114AbjFNJOQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Jun 2023 05:14:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55142 "EHLO
+        id S244077AbjFNJag (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Jun 2023 05:30:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242689AbjFNJOO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Jun 2023 05:14:14 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E9FD19A;
-        Wed, 14 Jun 2023 02:14:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686734053; x=1718270053;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vWNmYjv0AVEHtHoQ50oVHbX2PauCeZ/QhwOzxPZqGhw=;
-  b=KjPNSHbFvTEcSKJnbOuN6NwUmL56xjWWKyMsCsHpWOftQvEHnnOPbnCD
-   rCFkdCRlCoLYhBlaHfqZNgL6tI28NNBYcqR8U8F6K5cZDHGOAl3eA6kjK
-   eyhGcNM2g+pVrWdsVooofEMkPW3IT+ewaRrBsNbBDX9Mjn+B5GSg0BA/u
-   cjiFtrEYmH2ZBcd9tNQ1+2hZwMXiJy8VzVRgJeVlKVvQzALhnWzXwCzGg
-   9mVBnVA6B/KQ2AWiOAa0lTMcw4+vNu8F+0JdpBzNkQounqPqyTWLIaIvr
-   MfhZyjkYusoBlmKMJh19bwn2V5hPgvF7Iv2D3q0tWsICz7iG7Gyjp2pOL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="422165960"
-X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="422165960"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 02:14:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="856440693"
-X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="856440693"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 14 Jun 2023 02:14:09 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 14 Jun 2023 12:14:08 +0300
-Date:   Wed, 14 Jun 2023 12:14:08 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Prashanth K <quic_prashk@quicinc.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7] usb: common: usb-conn-gpio: Set last role to unknown
- before initial detection
-Message-ID: <ZImE4L3YgABnCIsP@kuha.fi.intel.com>
-References: <1685544074-17337-1-git-send-email-quic_prashk@quicinc.com>
+        with ESMTP id S244156AbjFNJ35 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Jun 2023 05:29:57 -0400
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 698BC1BC5;
+        Wed, 14 Jun 2023 02:29:56 -0700 (PDT)
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 35E9T6M70025701, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 35E9T6M70025701
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+        Wed, 14 Jun 2023 17:29:06 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Wed, 14 Jun 2023 17:29:24 +0800
+Received: from RTEXH36506.realtek.com.tw (172.21.6.27) by
+ RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 14 Jun 2023 17:29:23 +0800
+Received: from localhost.localdomain (172.21.252.101) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server id
+ 15.1.2507.17 via Frontend Transport; Wed, 14 Jun 2023 17:29:23 +0800
+From:   Stanley Chang <stanley_chang@realtek.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Stanley Chang <stanley_chang@realtek.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "Matthias Kaehlcke" <mka@chromium.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        "Ray Chi" <raychi@google.com>, Flavio Suligoi <f.suligoi@asem.it>,
+        <linux-phy@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
+Subject: [PATCH v4 4/5] dt-bindings: phy: realtek: Add the doc about the Realtek SoC USB 2.0 PHY
+Date:   Wed, 14 Jun 2023 17:28:34 +0800
+Message-ID: <20230614092850.21460-4-stanley_chang@realtek.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230614092850.21460-1-stanley_chang@realtek.com>
+References: <20230614092850.21460-1-stanley_chang@realtek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1685544074-17337-1-git-send-email-quic_prashk@quicinc.com>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, May 31, 2023 at 08:11:14PM +0530, Prashanth K wrote:
-> Currently if we bootup a device without cable connected, then
-> usb-conn-gpio won't call set_role() since last_role is same as
-> current role. This happens because during probe last_role gets
-> initialised to zero.
-> 
-> To avoid this, added a new constant in enum usb_role, last_role
-> is set to USB_ROLE_UNKNOWN before performing initial detection.
-> 
-> While at it, also handle default case for the usb_role switch
-> in cdns3, intel-xhci-usb-role-switch & musb/jz4740 to avoid
-> build warnings.
-> 
-> Fixes: 4602f3bff266 ("usb: common: add USB GPIO based connection detection driver")
-> Signed-off-by: Prashanth K <quic_prashk@quicinc.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
-> v7: Added default case in musb/jz4740.c & intel-xhci-usb-role-switch.c to
->     avoid build warnings.
-> v6: Moved USB_ROLE_UNKNOWN towards the end of enum usb_role.
-> v5: Update commit text to mention the changes made in cdns3 driver.
-> v4: Added Reviewed-by tag.
-> v3: Added a default case in drivers/usb/cdns3/core.c as pointed out by
->     the test robot.
-> v2: Added USB_ROLE_UNKNWON to enum usb_role.
-> 
->  drivers/usb/cdns3/core.c                       | 2 ++
->  drivers/usb/common/usb-conn-gpio.c             | 3 +++
->  drivers/usb/musb/jz4740.c                      | 2 ++
->  drivers/usb/roles/intel-xhci-usb-role-switch.c | 2 ++
->  include/linux/usb/role.h                       | 1 +
->  5 files changed, 10 insertions(+)
+Add the documentation explain the property about Realtek USB PHY driver.
 
-Just to be clear to everybody, that USB_ROLE_UNKNOWN is not handled in
-drivers/usb/roles/class.c, so this patch is broken.
+Realtek DHC (digital home center) RTD SoCs support DWC3 XHCI USB
+controller. Added the driver to drive the USB 2.0 PHY transceivers.
 
-But the whole approach is wrong. That USB_ROLE_UNKNOWN is clearly a
-flag where the other values in enum usb_role are actual switch states.
-So it does not belong there.
+Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
+---
+v3 to v4 change:
+    1. Remove the parameter and non hardware properties from dts.
+    2. Using the compatible data included the config and parameter
+       in driver.
+v2 to v3 change:
+    1. Broken down into two patches, one for each of USB 2 & 3.
+    2. Add more description about Realtek RTD SoCs architecture.
+    3. Removed parameter v1 support for simplification.
+    4. Revised the compatible name for fallback compatible.
+    5. Remove some properties that can be set in the driver.
+v1 to v2 change:
+    Add phy-cells for generic phy driver
+---
+ .../bindings/phy/realtek,usb2phy.yaml         | 145 ++++++++++++++++++
+ 1 file changed, 145 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/phy/realtek,usb2phy.yaml
 
-In general, adding globals states like that just in order to work
-around issues in single drivers is never a good idea IMO.
-
-thanks,
-
+diff --git a/Documentation/devicetree/bindings/phy/realtek,usb2phy.yaml b/Documentation/devicetree/bindings/phy/realtek,usb2phy.yaml
+new file mode 100644
+index 000000000000..cfd77143475c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/realtek,usb2phy.yaml
+@@ -0,0 +1,145 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++# Copyright 2023 Realtek Semiconductor Corporation
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/realtek,usb2phy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Realtek DHC SoCs USB 2.0 PHY
++
++maintainers:
++  - Stanley Chang <stanley_chang@realtek.com>
++
++description:
++  Realtek USB 2.0 PHY support the digital home center (DHC) RTD series SoCs.
++  The USB 2.0 PHY driver is designed to support the XHCI controller. The SoCs
++  support multiple XHCI controllers. One PHY device node maps to one XHCI
++  controller.
++
++  RTD1295/RTD1619 SoCs USB
++  The USB architecture includes three XHCI controllers.
++  Each XHCI maps to one USB 2.0 PHY and map one USB 3.0 PHY on some
++  controllers.
++  XHCI controller#0 -- usb2phy -- phy#0
++                    |- usb3phy -- phy#0
++  XHCI controller#1 -- usb2phy -- phy#0
++  XHCI controller#2 -- usb2phy -- phy#0
++                    |- usb3phy -- phy#0
++
++  RTD1395 SoCs USB
++  The USB architecture includes two XHCI controllers.
++  The controller#0 has one USB 2.0 PHY. The controller#1 includes two USB 2.0
++  PHY.
++  XHCI controller#0 -- usb2phy -- phy#0
++  XHCI controller#1 -- usb2phy -- phy#0
++                               |- phy#1
++
++  RTD1319/RTD1619b SoCs USB
++  The USB architecture includes three XHCI controllers.
++  Each XHCI maps to one USB 2.0 PHY and map one USB 3.0 PHY on controllers#2.
++  XHCI controller#0 -- usb2phy -- phy#0
++  XHCI controller#1 -- usb2phy -- phy#0
++  XHCI controller#2 -- usb2phy -- phy#0
++                    |- usb3phy -- phy#0
++
++  RTD1319d SoCs USB
++  The USB architecture includes three XHCI controllers.
++  Each xhci maps to one USB 2.0 PHY and map one USB 3.0 PHY on controllers#0.
++  XHCI controller#0 -- usb2phy -- phy#0
++                    |- usb3phy -- phy#0
++  XHCI controller#1 -- usb2phy -- phy#0
++  XHCI controller#2 -- usb2phy -- phy#0
++
++  RTD1312c/RTD1315e SoCs USB
++  The USB architecture includes three XHCI controllers.
++  Each XHCI maps to one USB 2.0 PHY.
++  XHCI controller#0 -- usb2phy -- phy#0
++  XHCI controller#1 -- usb2phy -- phy#0
++  XHCI controller#2 -- usb2phy -- phy#0
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - realtek,rtd1295-usb2phy
++          - realtek,rtd1312c-usb2phy
++          - realtek,rtd1315e-usb2phy
++          - realtek,rtd1319-usb2phy
++          - realtek,rtd1319d-usb2phy
++          - realtek,rtd1395-usb2phy
++          - realtek,rtd1395-usb2phy-2port
++          - realtek,rtd1619-usb2phy
++          - realtek,rtd1619b-usb2phy
++      - const: realtek,usb2phy
++
++  reg:
++    items:
++      - description: PHY data registers
++      - description: PHY control registers
++
++  "#phy-cells":
++    const: 0
++
++  nvmem-cells:
++    maxItems: 2
++    description:
++      Phandles to nvmem cell that contains the trimming data.
++      If unspecified, default value is used.
++
++  nvmem-cell-names:
++    items:
++      - const: usb-dc-cal
++      - const: usb-dc-dis
++    description:
++      The following names, which correspond to each nvmem-cells.
++      usb-dc-cal is the driving level for each phy specified via efuse.
++      usb-dc-dis is the disconnection level for each phy specified via efuse.
++
++  realtek,inverse-hstx-sync-clock:
++    description:
++      For one of the phys of RTD1619b SoC, the synchronous clock of the
++      high-speed tx must be inverted. So this property is used to set the
++      inverted clock.
++    type: boolean
++
++  realtek,driving-level:
++    description:
++      Each board or port may have a different driving capability. This
++      will adjust the driving level value if the value is not the default.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 31
++
++  realtek,driving-compensate:
++    description:
++      For RTD1315e SoC, the driving level can be adjusted by reading the
++      efuse table. Therefore, this property provides drive compensation for
++      different boards with different drive capabilities.
++    $ref: /schemas/types.yaml#/definitions/int32
++    minimum: -8
++    maximum: 8
++
++  realtek,disconnection-compensate:
++    description:
++      This adjusts the disconnection level compensation for the different
++      boards with different disconnection level.
++    $ref: /schemas/types.yaml#/definitions/int32
++    minimum: -8
++    maximum: 8
++
++required:
++  - compatible
++  - reg
++  - "#phy-cells"
++
++additionalProperties: false
++
++examples:
++  - |
++    usb_port0_usb2phy: usb-phy@13214 {
++        compatible = "realtek,rtd1319d-usb2phy", "realtek,usb2phy";
++        reg = <0x13214 0x4>, <0x28280 0x4>;
++        #phy-cells = <0>;
++
++        realtek,driving-level = <0xe>;
++    };
 -- 
-heikki
+2.34.1
+
