@@ -2,215 +2,218 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CCE9EB64D7
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Jun 2023 08:36:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AA15EB64D8
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Jun 2023 08:59:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231951AbjFTIgO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Jun 2023 04:36:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46538 "EHLO
+        id S231764AbjFTI7z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Jun 2023 04:59:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230102AbjFTIgN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Jun 2023 04:36:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6464DB
-        for <linux-usb@vger.kernel.org>; Tue, 20 Jun 2023 01:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687250132;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=11eS57AQ9fcBiVcbzOhPDQJ5y2r0wA8/LNxfWgVjh8Y=;
-        b=UGcrRSzmj+k6abUz9YJyp22MfQUltjb1NQmQrVYQhZ8i2cqwF5P8kdAxivBRUulFzmKBZH
-        ezlsfaxy7kYerlj1AubmcNyLFI0KLOoryZhihkMAXaea62RrGItHl2LlUPzykRMhYVEbDR
-        7MXzMriYSYucPJrsUeUHGXs6xLcFNUI=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-577-6buuY5-XMXWOO6cfmmEgdg-1; Tue, 20 Jun 2023 04:35:30 -0400
-X-MC-Unique: 6buuY5-XMXWOO6cfmmEgdg-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-987ffac39e3so195515166b.0
-        for <linux-usb@vger.kernel.org>; Tue, 20 Jun 2023 01:35:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687250129; x=1689842129;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=11eS57AQ9fcBiVcbzOhPDQJ5y2r0wA8/LNxfWgVjh8Y=;
-        b=QoM1NRrA9rjRO5LbMCs3MjKzfpZwhzpldodH+9EhbsI0wlOgIcKldM7adke4XiDEwZ
-         OMB1linKhKzfc2usF1vIMS2E7RXB3VTomU8xfXMYNu7ike/9dJChvlFJthqzdTO9wBzb
-         amuI7YsYlddt2IKCBW+nMzMcFFyoy7WjsKO/VDtoLl50Lcl46NtJfyaWEZXDfYc6dbj8
-         vR/r2ShmvQGwi3yw3diEtlIDOKPWydr/DMlDlSZKBjN0PuMCjD1W7oFbeJSoaBapISrA
-         alpR4xxKA8nwibxHl+RqHQrGbPZofCJFFwBwrU03wnZRsd/zGJmrJ19HYmMJlvtHSmn1
-         fdfw==
-X-Gm-Message-State: AC+VfDxlu1UfViUV0KXPHYGcViV82i/sPmj7a79vhfF8lwS0iLkp+NIf
-        MObQczynng5qFAlevZ5l8kGafdvhjEe2uq/3crGt27gqAKmJjc3WdW0ocdnZZb3JZ3ybB2q6BHR
-        1bGswQCa7dd20u5VFOXNQ
-X-Received: by 2002:a17:906:6a04:b0:988:a837:327a with SMTP id qw4-20020a1709066a0400b00988a837327amr3981298ejc.44.1687250129353;
-        Tue, 20 Jun 2023 01:35:29 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4354xb2gPMFjpvypZEuqbjQb11KQs5C1z49lxG8ze9dDtAWxSRfX70X8+MEx7qtEYxIIaLmg==
-X-Received: by 2002:a17:906:6a04:b0:988:a837:327a with SMTP id qw4-20020a1709066a0400b00988a837327amr3981286ejc.44.1687250129062;
-        Tue, 20 Jun 2023 01:35:29 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id l15-20020a170906230f00b0098807b33996sm930356eja.107.2023.06.20.01.35.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jun 2023 01:35:28 -0700 (PDT)
-Message-ID: <555f01f6-c349-42bb-83da-aead1ef1511d@redhat.com>
-Date:   Tue, 20 Jun 2023 10:35:27 +0200
+        with ESMTP id S231803AbjFTI7r (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Jun 2023 04:59:47 -0400
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC65FCA;
+        Tue, 20 Jun 2023 01:59:45 -0700 (PDT)
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 35K8waSX3031059, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 35K8waSX3031059
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+        Tue, 20 Jun 2023 16:58:36 +0800
+Received: from RTEXMBS06.realtek.com.tw (172.21.6.99) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Tue, 20 Jun 2023 16:58:57 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Tue, 20 Jun 2023 16:58:56 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
+ RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
+ 15.01.2375.007; Tue, 20 Jun 2023 16:58:56 +0800
+From:   =?utf-8?B?U3RhbmxleSBDaGFuZ1vmmIzogrLlvrdd?= 
+        <stanley_chang@realtek.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Flavio Suligoi <f.suligoi@asem.it>,
+        Douglas Anderson <dianders@chromium.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Ray Chi <raychi@google.com>,
+        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: [PATCH v4 2/5] phy: realtek: usb: Add driver for the Realtek SoC USB 2.0 PHY
+Thread-Topic: [PATCH v4 2/5] phy: realtek: usb: Add driver for the Realtek SoC
+ USB 2.0 PHY
+Thread-Index: AQHZnqKoBa3usKZ+0E2g2HmbuLXZDa+OKbsAgAUz95A=
+Date:   Tue, 20 Jun 2023 08:58:56 +0000
+Message-ID: <c5c93284116d4fe4800778dd49aac0ec@realtek.com>
+References: <20230614092850.21460-1-stanley_chang@realtek.com>
+ <20230614092850.21460-2-stanley_chang@realtek.com>
+ <3cce7711-3e31-2f9b-8be7-36be6ee8a19c@linaro.org>
+In-Reply-To: <3cce7711-3e31-2f9b-8be7-36be6ee8a19c@linaro.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.190.159]
+x-kse-serverinfo: RTEXMBS06.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [EXT] Re: [PATCH] usb: typec: tcpci: allow drp toggling for
- non-drp port
-Content-Language: en-US, nl
-To:     Xu Yang <xu.yang_2@nxp.com>, Guenter Roeck <linux@roeck-us.net>,
-        "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>
-Cc:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Jun Li <jun.li@nxp.com>, Zhipeng Wang <zhipeng.wang_1@nxp.com>,
-        Faqiang Zhu <faqiang.zhu@nxp.com>
-References: <20230608112858.4405-1-xu.yang_2@nxp.com>
- <0330ffea-d258-8fb8-ff89-5ebb0388f1ff@roeck-us.net>
- <DB7PR04MB450545D417BC401B92335F7C8C51A@DB7PR04MB4505.eurprd04.prod.outlook.com>
- <DB7PR04MB45059A20E2474FDCED4C89128C5CA@DB7PR04MB4505.eurprd04.prod.outlook.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <DB7PR04MB45059A20E2474FDCED4C89128C5CA@DB7PR04MB4505.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-KSE-AntiSpam-Interceptor-Info: fallback
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi all,
-
-On 6/20/23 05:10, Xu Yang wrote:
-> ++ Hans de Goede
-> 
->> -----Original Message-----
->> From: Xu Yang
->> Sent: Friday, June 9, 2023 10:15 AM
->> To: Guenter Roeck <linux@roeck-us.net>; heikki.krogerus@linux.intel.com
->> Cc: gregkh@linuxfoundation.org; dl-linux-imx <linux-imx@nxp.com>; linux-usb@vger.kernel.org; Jun Li <jun.li@nxp.com>;
->> Zhipeng Wang <zhipeng.wang_1@nxp.com>; Faqiang Zhu <faqiang.zhu@nxp.com>
->> Subject: RE: [EXT] Re: [PATCH] usb: typec: tcpci: allow drp toggling for non-drp port
->>
->> Hi Guenter,
->>
->>> -----Original Message-----
->>> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
->>> Sent: Thursday, June 8, 2023 9:24 PM
->>> To: Xu Yang <xu.yang_2@nxp.com>; heikki.krogerus@linux.intel.com
->>> Cc: gregkh@linuxfoundation.org; dl-linux-imx <linux-imx@nxp.com>; linux-usb@vger.kernel.org; Jun Li
->> <jun.li@nxp.com>;
->>> Zhipeng Wang <zhipeng.wang_1@nxp.com>; Faqiang Zhu <faqiang.zhu@nxp.com>
->>> Subject: [EXT] Re: [PATCH] usb: typec: tcpci: allow drp toggling for non-drp port
->>>
->>> Caution: This is an external email. Please take care when clicking links or opening attachments. When in doubt, report the
->>> message using the 'Report this email' button
->>>
->>>
->>> On 6/8/23 04:28, Xu Yang wrote:
->>>> Some single power role Type-C port with dual data role, this kind of
->>>> port connects non Type-C port for usb data will need tcpm to work to
->>>> get polarity for orientation change and let Type-C port keep at fake
->>>> power role to provide another non-default data role, so remove the drp
->>>> port condition for now.
->>>>
->>>> Has anyone encountered this use case? How do you handle this limitation
->>>> in current tcpm with a better way? Please kindly share your thoughts.
->>>>
->>>
->>> Have you ? This is an odd comment to make in the patch description.
->>
->> Sorry for this. It's not a formal patch.
->>
->>>
->>> Either case, I don't understand why one would need to enable toggling
->>> under any circumstances if the port is not DRP. The description does
->>> not explain how "need tcpm to work" correlates to enabling toggling on
->>> non-DRP ports.
->>
->> My case is a source-only PD capable port with dual data role, connect to
->> legacy PC host via A-to-C to work as USB device mode. Under current tcpm
->> mechanism, the PC will not recognize the source-only PD capable port and
->> the usb controller has no chance to work as device mode.
->>
->> However, if I enable CC toggling, the PD port can re-work as sink role and
->> the USB controller can function as device mode too. Since it's USB3 port,
->> it can work only after the SS link has correctly established. Thus, we also
->> need tcpm to set correct orientation.
->>
->> So, it seems a limitation to let single power role Type-C port with dual
->> data role to work as non-default data role when connected to non Type-C
->> port.
-> 
-> I do see below patches from Hans to fix the same issue as ours.
-> 
-> 48242e30532b ("usb: typec: fusb302: Revert "Resolve fixed power role contract setup"")
-> 6258db14d78c ("usb: typec: fusb302: Implement start_toggling for all port-types")
-> 7893f9e1c26d ("usb: typec: tcpm: Notify the tcpc to start connection-detection for SRPs")
-> 
-> So I thinks it's really a limitation for SRP to work correctly with tcpci driver.
-> Maybe an improvement is needed for tcpci driver.
-
-Thank you for Cc-ing me. This situation is a bit different from the one fixed by the above patches.
-
-The above patches where for pure single-role ports.
-
-Where as what we seem to have here is a dual-data-role, single-power-role port.
-
-I assume that for this port at least the 5v boost output can be turned on/off. But I guess that it cannot be used to charge the device ?
-
-To me it sounds like that to make this work, even with dumb (just a resistor on 1 Cc line) USB-C - USB-A cables, the port should simply be declared as a dual-role port, because that is wat it actually is (it actually is dual-role).
-
-And then when configured as sink, it can operate in the default device-mode sink data role and just not consume the provided 5V.
-
-Note if the 5V boost output can not be disabled that that would be a problem but that would really be out of spec, you cannot just unconditionally output 5V from a Type-C port.
-
-Regards,
-
-Hans
-
-
-
->>>> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
->>>> Signed-off-by: Li Jun <jun.li@nxp.com>
->>>> ---
->>>>   drivers/usb/typec/tcpm/tcpci.c | 3 ---
->>>>   drivers/usb/typec/tcpm/tcpm.c  | 6 +++++-
->>>>   2 files changed, 5 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
->>>> index fc708c289a73..88559e749120 100644
->>>> --- a/drivers/usb/typec/tcpm/tcpci.c
->>>> +++ b/drivers/usb/typec/tcpm/tcpci.c
->>>> @@ -175,9 +175,6 @@ static int tcpci_start_toggling(struct tcpc_dev *tcpc,
->>>>       struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
->>>>       unsigned int reg = TCPC_ROLE_CTRL_DRP;
->>>>
->>>> -     if (port_type != TYPEC_PORT_DRP)
->>>> -             return -EOPNOTSUPP;
->>>> -
->>>>       /* Handle vendor drp toggling */
->>>>       if (tcpci->data->start_drp_toggling) {
->>>>               ret = tcpci->data->start_drp_toggling(tcpci, tcpci->data, cc);
->>>> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
->>>> index 3c6b0c8e2d3a..6aa62132e69a 100644
->>>> --- a/drivers/usb/typec/tcpm/tcpm.c
->>>> +++ b/drivers/usb/typec/tcpm/tcpm.c
->>>> @@ -4274,7 +4274,11 @@ static void run_state_machine(struct tcpm_port *port)
->>>>               ret = tcpm_snk_attach(port);
->>>>               if (ret < 0)
->>>>                       tcpm_set_state(port, SNK_UNATTACHED, 0);
->>>> -             else
->>>> +             else if (port->port_type == TYPEC_PORT_SRC &&
->>>> +                      port->typec_caps.data == TYPEC_PORT_DRD) {
->>>> +                     tcpm_typec_connect(port);
->>>> +                     tcpm_log(port, "Keep at SNK_ATTACHED for USB data.");
->>>> +             } else
->>>>                       tcpm_set_state(port, SNK_STARTUP, 0);
->>>>               break;
->>>>       case SNK_STARTUP:
-> 
-
+SGkgS3J6eXN6dG9mLA0KDQo+ID4gKyAgICAgYWRkciA9IHBoeV9kYXRhLT5hZGRyOw0KPiA+ICsg
+ICAgIGRhdGEgPSBwaHlfZGF0YS0+ZGF0YTsNCj4gPiArICAgICBkY19kaXNjb25uZWN0X21hc2sg
+PSBwaHlfY2ZnLT5kY19kaXNjb25uZWN0X21hc2s7DQo+ID4gKw0KPiA+ICsgICAgIGlmICh1cGRh
+dGUpDQo+ID4gKyAgICAgICAgICAgICBkYXRhID0NCj4gX191cGRhdGVkX2RjX2Rpc2Nvbm5lY3Rf
+bGV2ZWxfcGFnZTBfMHhlNChwaHlfY2ZnLCBwaHlfcGFyYW1ldGVyLCBkYXRhKTsNCj4gPiArICAg
+ICBlbHNlDQo+ID4gKyAgICAgICAgICAgICBkYXRhID0gKGRhdGEgJiB+KGRjX2Rpc2Nvbm5lY3Rf
+bWFzayA8PCBvZmZzZXQpKSB8DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgIChERUZBVUxUX0RD
+X0RJU0NPTk5FQ1RJT05fVkFMVUUgPDwNCj4gb2Zmc2V0KTsNCj4gPiArDQo+ID4gKyAgICAgaWYg
+KHJ0a19waHlfd3JpdGUocGh5X3JlZywgYWRkciwgZGF0YSkpDQo+ID4gKyAgICAgICAgICAgICBk
+ZXZfZXJyKHJ0a19waHktPmRldiwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgIlslczolZF0g
+RXJyb3IgcGFnZTEgYWRkcj0weCV4IHZhbHVlPTB4JXhcbiIsDQo+ID4gKyAgICAgICAgICAgICAg
+ICAgICAgIF9fZnVuY19fLCBfX0xJTkVfXywNCj4gPiArICAgICAgICAgICAgICAgICAgICAgYWRk
+ciwgZGF0YSk7DQo+IA0KPiBJcyBhZGRyIGEga2VybmVsIGFkZHJlc3Mgb3IgYW55IG1lbW9yeSAo
+bm90IFNGUikgYWRkcmVzcz8gSWYgc28sIHlvdSBjYW5ub3QNCj4gcHJpbnQgaXQuDQoNCkl0IGlz
+IG5vdCBtZW1vcnkgYWRkcmVzcy4NCg0KPiA+ICsNCj4gPiArICAgICBpZiAocnRrX3BoeV93cml0
+ZShwaHlfcmVnLCBhZGRyLCBkYXRhKSkNCj4gPiArICAgICAgICAgICAgIGRldl9lcnIocnRrX3Bo
+eS0+ZGV2LA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAiWyVzOiVkXSBFcnJvciBwYWdlMSBh
+ZGRyPTB4JXggdmFsdWU9MHgleFxuIiwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgX19mdW5j
+X18sIF9fTElORV9fLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICBhZGRyLCBkYXRhKTsNCj4g
+DQo+IERpdHRvIGFuZCBpbiBhbGwgb3RoZXIgcGxhY2VzLg0KDQpJdCBpcyBub3QgbWVtb3J5IGFk
+ZHJlc3MuDQoNCj4gPiArc3RhdGljIHU4IF9fdXBkYXRlX2RjX2RyaXZpbmdfcGFnZTBfMHhlNChz
+dHJ1Y3QgcGh5X2NmZyAqcGh5X2NmZywNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBzdHJ1Y3QgcGh5X3BhcmFtZXRlcg0KPiA+ICsqcGh5X3BhcmFtZXRlciwgdTgg
+ZGF0YSkgew0KPiA+ICsgICAgIHMzMiBkcml2aW5nX2NvbXBlbnNhdGUgPSBwaHlfcGFyYW1ldGVy
+LT5kcml2aW5nX2NvbXBlbnNhdGU7DQo+ID4gKyAgICAgczMyIGRjX2RyaXZpbmdfbWFzayA9IHBo
+eV9jZmctPmRjX2RyaXZpbmdfbWFzazsNCj4gPiArICAgICBzMzIgX192YWw7DQo+ID4gKyAgICAg
+dTggdmFsOw0KPiANCj4gVHdvIHZhcmlhYmxlcyB3aXRoIHRoZSBzYW1lIG5hbWUuIE5vLCBpdCBp
+cyBub3QgcmVhZGFibGUgY29kZS4NCg0KT2theS4gSSB3aWxsIHJldmlzZSBpdC4NCg0KPiA+ICtz
+dGF0aWMgdm9pZCBydGtfcGh5X3RvZ2dsZShzdHJ1Y3QgdXNiX3BoeSAqdXNiMl9waHksIGJvb2wg
+Y29ubmVjdCwNCj4gPiAraW50IHBvcnQpIHsNCj4gPiArICAgICBpbnQgaW5kZXggPSBwb3J0Ow0K
+PiA+ICsgICAgIHN0cnVjdCBydGtfcGh5ICpydGtfcGh5ID0gTlVMTDsNCj4gPiArDQo+ID4gKyAg
+ICAgcnRrX3BoeSA9IGRldl9nZXRfZHJ2ZGF0YSh1c2IyX3BoeS0+ZGV2KTsNCj4gPiArDQo+ID4g
+KyAgICAgaWYgKGluZGV4ID4gcnRrX3BoeS0+bnVtX3BoeSkgew0KPiA+ICsgICAgICAgICAgICAg
+cHJfZXJyKCIlcyAlZCBFUlJPUiEgcG9ydD0lZCA+IG51bV9waHk9JWRcbiIsDQo+IA0KPiBkZXZf
+ZXJyDQoNCkkgcmV2aXNlZCBpdC4NCg0KPiA+ICsgICAgICAgICAgICAgICAgICAgIF9fZnVuY19f
+LCBfX0xJTkVfXywgaW5kZXgsIHJ0a19waHktPm51bV9waHkpOw0KPiANCj4gYWxsIHRoZXNlIGZ1
+bmMgYW5kIExJTkUgcG9pbnQgdG8gcG9vciBjb2RlIHF1YWxpdHkgYW5kIHBvb3IgZGVidWdnaW5n
+DQo+IHByYWN0aWNlcy4gVGhlc2UgYXJlIGFkZGVkIGR1Z2luIGRldmVsb3BtZW50LCBub3QgZm9y
+IHByb2R1Y3Rpb24gY29kZSwNCj4gYmVjYXVzZSBlcnJvciBtZXNzYWdlIHNob3VsZCBiZSBvYnZp
+b3VzLiBZb3VyIHVzYWdlIG9mIHByX2VyciwgZnVuYywgTElORSBhbmQNCj4gc29tZSB1bnByZWNp
+c2UgbWVzc2FnZXMgc3VnZ2VzdHMgdGhpcyBpcyBub3QgcmVhZHkuDQo+IA0KPiBGaXggYWxsIHlv
+dXIgZXJyb3IgbWVzc2FnZXMgdG8gYmUgbWVhbmluZ2Z1bC4NCg0KSSB3aWxsIHJldmlldyBhbGwg
+ZXJyb3IgbWVzc2FnZXMuDQpUaGFua3MuDQoNCj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBmaWxl
+X29wZXJhdGlvbnMgcnRrX3VzYjJfc2V0X3BhcmFtZXRlcl9mb3BzID0gew0KPiA+ICsgICAgIC5v
+cGVuICAgICAgICAgICAgICAgICAgID0gcnRrX3VzYjJfc2V0X3BhcmFtZXRlcl9vcGVuLA0KPiA+
+ICsgICAgIC53cml0ZSAgICAgICAgICAgICAgICAgID0gcnRrX3VzYjJfc2V0X3BhcmFtZXRlcl93
+cml0ZSwNCj4gDQo+IE5BSy4gWW91IGp1c3QgY3JlYXRlZCB1c2VyIGludGVyZmFjZSB2aWEgZGVi
+dWdmcy4gWW91IGNhbm5vdC4gUmVhZGluZyBmb3Igc29tZQ0KPiBkZWJ1ZyBpcyBva2F5LCBidXQg
+Y29uZmlndXJpbmcgZGV2aWNlIHZpYSB1bmRvY3VtZW50ZWQgZGVidWdmcyBpcyBhIHNvdXJjZSBv
+Zg0KPiB0cm91Ymxlcy4NCj4gDQo+IERyb3AgYWxsIHdyaXRlcyB0byBkZWJ1Z2ZzLg0KDQpJIHdp
+bGwgcmVtb3ZlIHRoaXMuDQoNCj4gDQo+ID4gKw0KPiA+ICtzdGF0aWMgaW50IHBhcnNlX3BoeV9k
+YXRhKHN0cnVjdCBydGtfcGh5ICpydGtfcGh5KSB7DQo+ID4gKyAgICAgc3RydWN0IGRldmljZSAq
+ZGV2ID0gcnRrX3BoeS0+ZGV2Ow0KPiA+ICsgICAgIHN0cnVjdCBkZXZpY2Vfbm9kZSAqbm9kZTsN
+Cj4gDQo+IEJ5IGNvbnZlbnRpb246DQo+IHMvbm9kZS9ucC8NCg0KT2theS4NCg0KPiA+ICsgICAg
+IHN0cnVjdCBwaHlfY2ZnICpwaHlfY2ZnOw0KPiA+ICsgICAgIHN0cnVjdCBwaHlfcGFyYW1ldGVy
+ICpwaHlfcGFyYW1ldGVyOw0KPiA+ICsgICAgIGludCByZXQgPSAwOw0KPiA+ICsgICAgIGludCBp
+bmRleDsNCj4gPiArDQo+ID4gKyAgICAgbm9kZSA9IGRldi0+b2Zfbm9kZTsNCj4gDQo+IEtlZXAg
+aXQgaW4gdmFyaWFibGUgZGVmaW5pdGlvbi4NCg0KT2theS4NCg0KPiA+ICsNCj4gPiArc3RhdGlj
+IGludCBydGtfdXNiMnBoeV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KSB7DQo+
+ID4gKyAgICAgc3RydWN0IHJ0a19waHkgKnJ0a19waHk7DQo+ID4gKyAgICAgc3RydWN0IGRldmlj
+ZSAqZGV2ID0gJnBkZXYtPmRldjsNCj4gPiArICAgICBzdHJ1Y3QgZGV2aWNlX25vZGUgKm5vZGU7
+DQo+ID4gKyAgICAgc3RydWN0IHBoeSAqZ2VuZXJpY19waHk7DQo+ID4gKyAgICAgc3RydWN0IHBo
+eV9wcm92aWRlciAqcGh5X3Byb3ZpZGVyOw0KPiA+ICsgICAgIGNvbnN0IHN0cnVjdCBwaHlfY2Zn
+ICpwaHlfY2ZnOw0KPiA+ICsgICAgIGludCByZXQgPSAwOw0KPiA+ICsNCj4gPiArICAgICBwaHlf
+Y2ZnID0gb2ZfZGV2aWNlX2dldF9tYXRjaF9kYXRhKGRldik7DQo+ID4gKyAgICAgaWYgKCFwaHlf
+Y2ZnKSB7DQo+ID4gKyAgICAgICAgICAgICBkZXZfZXJyKGRldiwgInBoeSBjb25maWcgYXJlIG5v
+dCBhc3NpZ25lZCFcbiIpOw0KPiA+ICsgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7DQo+ID4g
+KyAgICAgfQ0KPiA+ICsNCj4gPiArICAgICBydGtfcGh5ID0gZGV2bV9remFsbG9jKGRldiwgc2l6
+ZW9mKCpydGtfcGh5KSwgR0ZQX0tFUk5FTCk7DQo+ID4gKyAgICAgaWYgKCFydGtfcGh5KQ0KPiA+
+ICsgICAgICAgICAgICAgcmV0dXJuIC1FTk9NRU07DQo+ID4gKw0KPiA+ICsgICAgIHJ0a19waHkt
+PmRldiAgICAgICAgICAgICAgICAgICAgPSAmcGRldi0+ZGV2Ow0KPiA+ICsgICAgIHJ0a19waHkt
+PnBoeS5kZXYgICAgICAgICAgICAgICAgPSBydGtfcGh5LT5kZXY7DQo+ID4gKyAgICAgcnRrX3Bo
+eS0+cGh5LmxhYmVsICAgICAgICAgICAgICA9ICJydGstdXNiMnBoeSI7DQo+ID4gKyAgICAgcnRr
+X3BoeS0+cGh5Lm5vdGlmeV9wb3J0X3N0YXR1cyA9IHJ0a19waHlfbm90aWZ5X3BvcnRfc3RhdHVz
+Ow0KPiA+ICsNCj4gPiArICAgICBydGtfcGh5LT5waHlfY2ZnID0gZGV2bV9remFsbG9jKGRldiwg
+c2l6ZW9mKCpwaHlfY2ZnKSwNCj4gPiArIEdGUF9LRVJORUwpOw0KPiA+ICsNCj4gPiArICAgICBt
+ZW1jcHkocnRrX3BoeS0+cGh5X2NmZywgcGh5X2NmZywgc2l6ZW9mKCpwaHlfY2ZnKSk7DQo+ID4g
+Kw0KPiA+ICsgICAgIG5vZGUgPSBkZXYtPm9mX25vZGU7DQo+IA0KPiBEcm9wIGl0LiBVc2VsZXNz
+IGFzc2lnbm1lbnQuDQoNCk9rYXkuDQoNCj4gPiArDQo+ID4gKyAgICAgaWYgKG9mX2RldmljZV9p
+c19jb21wYXRpYmxlKG5vZGUsDQo+ID4gKyAicmVhbHRlayxydGQxMzk1LXVzYjJwaHktMnBvcnQi
+KSkNCj4gDQo+IE5vLCBjdXN0b21pemUgdmFyaWFudCB3aXRoIGRyaXZlcl9kYXRhLiBEb24ndCBl
+bWJlZCBjb21wYXRpYmxlcyBpbiB0aGUgY29kZS4NCg0KSSB3aWxsIHVzZSB0aGUgY29tcGF0aWJs
+ZSBkYXRhIHRvIG1hdGNoIHRoaXMgY2FzZS4NCg0KPiANCj4gPiArICAgICAgICAgICAgIHJ0a19w
+aHktPm51bV9waHkgPSAyOw0KPiA+ICsgICAgIGVsc2UNCj4gPiArICAgICAgICAgICAgIHJ0a19w
+aHktPm51bV9waHkgPSAxOw0KPiA+ICsNCj4gPiArICAgICByZXQgPSBwYXJzZV9waHlfZGF0YShy
+dGtfcGh5KTsNCj4gPiArICAgICBpZiAocmV0KQ0KPiA+ICsgICAgICAgICAgICAgZ290byBlcnI7
+DQo+ID4gKw0KPiA+ICsgICAgIHBsYXRmb3JtX3NldF9kcnZkYXRhKHBkZXYsIHJ0a19waHkpOw0K
+PiA+ICsNCj4gPiArICAgICBnZW5lcmljX3BoeSA9IGRldm1fcGh5X2NyZWF0ZShydGtfcGh5LT5k
+ZXYsIE5VTEwsICZvcHMpOw0KPiA+ICsgICAgIGlmIChJU19FUlIoZ2VuZXJpY19waHkpKQ0KPiA+
+ICsgICAgICAgICAgICAgcmV0dXJuIFBUUl9FUlIoZ2VuZXJpY19waHkpOw0KPiA+ICsNCj4gPiAr
+ICAgICBwaHlfc2V0X2RydmRhdGEoZ2VuZXJpY19waHksIHJ0a19waHkpOw0KPiA+ICsNCj4gPiAr
+ICAgICBwaHlfcHJvdmlkZXIgPSBkZXZtX29mX3BoeV9wcm92aWRlcl9yZWdpc3RlcihydGtfcGh5
+LT5kZXYsDQo+ID4gKw0KPiBvZl9waHlfc2ltcGxlX3hsYXRlKTsNCj4gPiArICAgICBpZiAoSVNf
+RVJSKHBoeV9wcm92aWRlcikpDQo+ID4gKyAgICAgICAgICAgICByZXR1cm4gUFRSX0VSUihwaHlf
+cHJvdmlkZXIpOw0KPiA+ICsNCj4gPiArICAgICByZXQgPSB1c2JfYWRkX3BoeV9kZXYoJnJ0a19w
+aHktPnBoeSk7DQo+ID4gKyAgICAgaWYgKHJldCkNCj4gPiArICAgICAgICAgICAgIGdvdG8gZXJy
+Ow0KPiA+ICsNCj4gPiArICAgICBjcmVhdGVfZGVidWdfZmlsZXMocnRrX3BoeSk7DQo+ID4gKw0K
+PiA+ICtlcnI6DQo+ID4gKyAgICAgZGV2X2RiZyhkZXYsICJQcm9iZSBSVEsgVVNCIDIuMCBQSFkg
+KHJldD0lZClcbiIsIHJldCk7DQo+IA0KPiBOQUsuIEkgbWFkZSBpdCBwcmV0dHkgY2xlYXIgbGFz
+dCB0aW1lLg0KPiANCj4gDQo+IFRoaXMgaXMgYSBmcmllbmRseSByZW1pbmRlciBkdXJpbmcgdGhl
+IHJldmlldyBwcm9jZXNzLg0KPiANCj4gSXQgc2VlbXMgbXkgcHJldmlvdXMgY29tbWVudHMgd2Vy
+ZSBub3QgZnVsbHkgYWRkcmVzc2VkLiBNYXliZSBteSBmZWVkYmFjaw0KPiBnb3QgbG9zdCBiZXR3
+ZWVuIHRoZSBxdW90ZXMsIG1heWJlIHlvdSBqdXN0IGZvcmdvdCB0byBhcHBseSBpdC4NCj4gUGxl
+YXNlIGdvIGJhY2sgdG8gdGhlIHByZXZpb3VzIGRpc2N1c3Npb24gYW5kIGVpdGhlciBpbXBsZW1l
+bnQgYWxsIHJlcXVlc3RlZA0KPiBjaGFuZ2VzIG9yIGtlZXAgZGlzY3Vzc2luZyB0aGVtLg0KPiAN
+Cj4gVGhhbmsgeW91Lg0KDQpTb3JyeS4gSSBsZWZ0IG91dCB0aGlzIHByaW50LCBJIHdpbGwgZGVs
+ZXRlIGl0Lg0KVGhhbmsgeW91Lg0KDQo+ID4gKw0KPiA+ICsgICAgIHJldHVybiByZXQ7DQo+ID4g
+K30NCj4gPiArDQo+ID4gK3N0YXRpYyB2b2lkIHJ0a191c2IycGh5X3JlbW92ZShzdHJ1Y3QgcGxh
+dGZvcm1fZGV2aWNlICpwZGV2KSB7DQo+ID4gKyAgICAgc3RydWN0IHJ0a19waHkgKnJ0a19waHkg
+PSBwbGF0Zm9ybV9nZXRfZHJ2ZGF0YShwZGV2KTsNCj4gPiArDQo+ID4gKyAgICAgcmVtb3ZlX2Rl
+YnVnX2ZpbGVzKHJ0a19waHkpOw0KPiA+ICsNCj4gPiArICAgICB1c2JfcmVtb3ZlX3BoeSgmcnRr
+X3BoeS0+cGh5KTsNCj4gPiArfQ0KPiANCj4gLi4uDQo+IA0KPiA+ICsNCj4gPiArc3RhdGljIGNv
+bnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgdXNicGh5X3J0a19kdF9tYXRjaFtdID0gew0KPiA+ICsg
+ICAgIHsgLmNvbXBhdGlibGUgPSAicmVhbHRlayxydGQxMjk1LXVzYjJwaHkiLCAuZGF0YSA9DQo+
+ICZydGQxMjk1X3BoeV9jZmcgfSwNCj4gPiArICAgICB7IC5jb21wYXRpYmxlID0gInJlYWx0ZWss
+cnRkMTMxMmMtdXNiMnBoeSIsIC5kYXRhID0NCj4gJnJ0ZDEzMTJjX3BoeV9jZmcgfSwNCj4gPiAr
+ICAgICB7IC5jb21wYXRpYmxlID0gInJlYWx0ZWsscnRkMTMxNWUtdXNiMnBoeSIsIC5kYXRhID0N
+Cj4gJnJ0ZDEzMTVlX3BoeV9jZmcgfSwNCj4gPiArICAgICB7IC5jb21wYXRpYmxlID0gInJlYWx0
+ZWsscnRkMTMxOS11c2IycGh5IiwgLmRhdGEgPQ0KPiAmcnRkMTMxOV9waHlfY2ZnIH0sDQo+ID4g
+KyAgICAgeyAuY29tcGF0aWJsZSA9ICJyZWFsdGVrLHJ0ZDEzMTlkLXVzYjJwaHkiLCAuZGF0YSA9
+DQo+ICZydGQxMzE5ZF9waHlfY2ZnIH0sDQo+ID4gKyAgICAgeyAuY29tcGF0aWJsZSA9ICJyZWFs
+dGVrLHJ0ZDEzOTUtdXNiMnBoeSIsIC5kYXRhID0NCj4gJnJ0ZDEzOTVfcGh5X2NmZyB9LA0KPiA+
+ICsgICAgIHsgLmNvbXBhdGlibGUgPSAicmVhbHRlayxydGQxMzk1LXVzYjJwaHktMnBvcnQiLCAu
+ZGF0YSA9DQo+ICZydGQxMzk1X3BoeV9jZmcgfSwNCj4gPiArICAgICB7IC5jb21wYXRpYmxlID0g
+InJlYWx0ZWsscnRkMTYxOS11c2IycGh5IiwgLmRhdGEgPQ0KPiAmcnRkMTYxOV9waHlfY2ZnIH0s
+DQo+ID4gKyAgICAgeyAuY29tcGF0aWJsZSA9ICJyZWFsdGVrLHJ0ZDE2MTliLXVzYjJwaHkiLCAu
+ZGF0YSA9DQo+ICZydGQxNjE5Yl9waHlfY2ZnIH0sDQo+ID4gKyAgICAgeyAuY29tcGF0aWJsZSA9
+ICJyZWFsdGVrLHVzYjJwaHkiLCAuZGF0YSA9ICZydGtfcGh5X2NmZyB9LA0KPiANCj4gVGhpcyBp
+cyBub3cgZXZlbiBtb3JlIHN1cHJpc2luZy4gRHJvcCAicmVhbHRlayx1c2IycGh5Ig0KDQpJIHdp
+bGwgcmVtb3ZlIGl0Lg0KPiA+ICsgICAgIHt9LA0KPiA+ICt9Ow0KPiA+ICtNT0RVTEVfREVWSUNF
+X1RBQkxFKG9mLCB1c2JwaHlfcnRrX2R0X21hdGNoKTsNCj4gPiArDQo+ID4gK3N0YXRpYyBzdHJ1
+Y3QgcGxhdGZvcm1fZHJpdmVyIHJ0a191c2IycGh5X2RyaXZlciA9IHsNCj4gPiArICAgICAucHJv
+YmUgICAgICAgICAgPSBydGtfdXNiMnBoeV9wcm9iZSwNCj4gPiArICAgICAucmVtb3ZlX25ldyAg
+ICAgPSBydGtfdXNiMnBoeV9yZW1vdmUsDQo+ID4gKyAgICAgLmRyaXZlciAgICAgICAgID0gew0K
+PiA+ICsgICAgICAgICAgICAgLm5hbWUgICA9ICJydGstdXNiMnBoeSIsDQo+ID4gKyAgICAgICAg
+ICAgICAub3duZXIgID0gVEhJU19NT0RVTEUsDQo+IA0KPiA/Pz8gRGlkbid0IHlvdSBiYXNlIHlv
+dXIgZHJpdmVyIG9uIHNvbWUgcmVhbGx5LCByZWFsbHkgYW5jaWVudCBjb2RlIChsaWtlIDUgeWVh
+cnMNCj4gb2xkKT8gSWYgc28sIHBsZWFzZSBkb24ndC4NCg0KDQpUaGFuayB5b3UuDQpJIHdpbGwg
+cmVtb3ZlIGl0Lg0KDQo+IFJ1biBjb2NjaWNlbmVsbGUvY29jY2ljaGVjaywgc21hdGNoIGFuZCBz
+cGFyc2UsIHRvIGF2b2lkIGNvbW1vbiBtaXN0YWtlcy4NCj4gDQpJIHdpbGwgcnVuIHRoZXNlIHRv
+b2xzLg0KDQpUaGFua3MsDQpTdGFubGV5DQo=
