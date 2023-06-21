@@ -2,275 +2,112 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BAE2EB64D8
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Jun 2023 10:12:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34A44EB64DC
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Jun 2023 10:14:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232170AbjFUKMO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Jun 2023 06:12:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32890 "EHLO
+        id S232438AbjFUKOB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Jun 2023 06:14:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231150AbjFUKLr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Jun 2023 06:11:47 -0400
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30D651FD9
-        for <linux-usb@vger.kernel.org>; Wed, 21 Jun 2023 03:11:02 -0700 (PDT)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4f86dbce369so4826560e87.0
-        for <linux-usb@vger.kernel.org>; Wed, 21 Jun 2023 03:11:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687341957; x=1689933957;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pksCYSKSrUw959LX6eQrI6QTHRyxobqR3+3tR4T6QsY=;
-        b=HxtKccS8RJbfFltppK+lao89MD5mbUlOnGUB3wU94Lbk12nijhYFO8yzyRD0gFMXKc
-         47ZVNkQuTdJTwRBXXfX4EWbKf/p67W5lu0qaS4rUpPt4XepdOnBDx64bPb3Hc2UnNSSK
-         jY0c9t66KDde3h7uicuu26TUo7Xret5V6rms1HY6u1OakmTevNL+A1ZDhwDT7TXpypg5
-         WDuTqHvIxN2YavpPb7K+VDs8hPpYpYeQKJgsjs1NOIpyMknTFG0rLLNZ3rTmKUe/H2nI
-         n4d+vC54Cx+iqu9Wc7kqd+6BT3DgAkw1+b3RnUrR7+YhovyjIfa5EC/+obPHf/TJCRQc
-         eMUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687341957; x=1689933957;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pksCYSKSrUw959LX6eQrI6QTHRyxobqR3+3tR4T6QsY=;
-        b=Qsm/68Jp5qG738yq0iPIoh5ScmEUg1L3ap+hV9LwSxq2njQWeOmGmqCrvF8vdFoBDJ
-         aaWxAsKHmL2Pc2b8+oU9UE5a405pBdJqRGp5dLnec7m+tno8H+nUoDDrEeRIWFPw0RFV
-         aaibWelySKf0LcXP/93M1fQz01p0JlhMpCOkJP/LtPPGtehpHFEwJMGx0q+nScdHyRMr
-         HB467zYPqT562ZWS6ysCp6F3NMTzzonDnhkudTB1s07R79ucE7AG1qcRATYSC7HeMrJD
-         q7lF7UIRD7x4eGndhMcTZ42rgb40FLE7Ppr3R200cPQ2i02NuZAPBtKW0GWd1NZiJ1P4
-         VgXQ==
-X-Gm-Message-State: AC+VfDwy4c680bPI2aDj6bU8e54u5ePVF1CgBMAnvpgXIc80F87N/GGD
-        xoI6Hl9CdOXZNPdV3oRKaoGQug==
-X-Google-Smtp-Source: ACHHUZ5QiiQtUk4JbcmnjEQdDbclg/kzrtbPZxS/pLfnjRuPS/9CAQscff3Ta9mnLU0++IilXDxIIw==
-X-Received: by 2002:a19:6555:0:b0:4f8:5f32:b1da with SMTP id c21-20020a196555000000b004f85f32b1damr6833037lfj.24.1687341957210;
-        Wed, 21 Jun 2023 03:05:57 -0700 (PDT)
-Received: from [192.168.1.101] (abxj193.neoplus.adsl.tpnet.pl. [83.9.3.193])
-        by smtp.gmail.com with ESMTPSA id l11-20020ac24a8b000000b004f87487db79sm718117lfp.222.2023.06.21.03.05.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Jun 2023 03:05:56 -0700 (PDT)
-Message-ID: <03371bd0-12a5-3109-ebf7-33feeef31bac@linaro.org>
-Date:   Wed, 21 Jun 2023 12:05:54 +0200
+        with ESMTP id S232224AbjFUKNn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Jun 2023 06:13:43 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 181AC170C;
+        Wed, 21 Jun 2023 03:13:08 -0700 (PDT)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35L99KPH029693;
+        Wed, 21 Jun 2023 10:12:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=gUmj21gH3bLd729QgzUszORR2zfcQYaMTPFMTdZi6aQ=;
+ b=BTlTY3NqB9Z3X3tICIjVVlyJk0Tq8Uv5R/1XvxKpT+Ssv4yUMboTERpl5uoHVs0dgU9I
+ qqO3ZSLN6vj/fYopLDTXAsWsN2Y7voKRI8YXfl4zsdxtEP1O+dNmOJHcKe7uDZJwEBV+
+ ro1KOkl8deHF5YvtkGKNvC8vCmJJ91HguyJR1Ez3yU15N6r7n/in8S2TbJm9ROQciDbV
+ Zhjt+l3G3BmLNQe+IIXRQTI7uyqnr3kJDfcZaX+pHEORgyUHvDwew0ruKmYcx6EMlhl2
+ g3Z6WEtvieQadmxyXGXIbyOTtWePXpugfy8jUDMT8gxFzq8JXVRiUw72kIvNo8Ewo8bV ew== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rb7suu7px-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 21 Jun 2023 10:12:29 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35LACS89011080
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 21 Jun 2023 10:12:28 GMT
+Received: from varda-linux.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Wed, 21 Jun 2023 03:12:19 -0700
+Date:   Wed, 21 Jun 2023 15:42:15 +0530
+From:   Varadarajan Narayanan <quic_varada@quicinc.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+CC:     <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
+        <kishon@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <gregkh@linuxfoundation.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <mturquette@baylibre.com>, <sboyd@kernel.org>,
+        <p.zabel@pengutronix.de>, <arnd@arndb.de>,
+        <geert+renesas@glider.be>, <neil.armstrong@linaro.org>,
+        <nfraprado@collabora.com>, <broonie@kernel.org>,
+        <rafal@milecki.pl>, <quic_srichara@quicinc.com>,
+        <quic_varada@quicinc.org>, <quic_wcheng@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH 2/9] dt-bindings: phy: qcom,m31: Document qcom,m31 USB phy
+Message-ID: <20230621101214.GB3533@varda-linux.qualcomm.com>
+References: <cover.1686126439.git.quic_varada@quicinc.com>
+ <14f60578e2935c0844537eab162af3afa52ffe39.1686126439.git.quic_varada@quicinc.com>
+ <98960024-7dbc-91a3-75de-90b529637916@linaro.org>
+ <20230615052746.GB22186@varda-linux.qualcomm.com>
+ <aca54f67-cc09-ff4f-93ca-6973d153db2c@linaro.org>
+ <20230620093225.GA9966@varda-linux.qualcomm.com>
+ <dd78b449-8ff8-108d-cc49-fbddbb660c76@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v9 06/10] usb: dwc3: qcom: Add support to read IRQ's
- related to multiport
-Content-Language: en-US
-To:     Krishna Kurapati <quic_kriskura@quicinc.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        quic_pkondeti@quicinc.com, quic_ppratap@quicinc.com,
-        quic_jackp@quicinc.com, quic_harshq@quicinc.com,
-        ahalaney@redhat.com, quic_shazhuss@quicinc.com
-References: <20230621043628.21485-1-quic_kriskura@quicinc.com>
- <20230621043628.21485-7-quic_kriskura@quicinc.com>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230621043628.21485-7-quic_kriskura@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <dd78b449-8ff8-108d-cc49-fbddbb660c76@linaro.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Tzr6RSq6epP8dYrnQHwcDmS_aots0hgE
+X-Proofpoint-ORIG-GUID: Tzr6RSq6epP8dYrnQHwcDmS_aots0hgE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-21_07,2023-06-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ impostorscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ mlxlogscore=737 suspectscore=0 spamscore=0 mlxscore=0 adultscore=0
+ clxscore=1015 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2305260000 definitions=main-2306210086
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 21.06.2023 06:36, Krishna Kurapati wrote:
-> Add support to read Multiport IRQ's related to quad port controller
-> of SA8295 Device.
-> 
-> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-> ---
->  drivers/usb/dwc3/dwc3-qcom.c | 108 +++++++++++++++++++++++++++++------
->  1 file changed, 91 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-> index 3de43df6bbe8..3ab48a6925fe 100644
-> --- a/drivers/usb/dwc3/dwc3-qcom.c
-> +++ b/drivers/usb/dwc3/dwc3-qcom.c
-> @@ -74,9 +74,9 @@ struct dwc3_qcom {
->  	struct reset_control	*resets;
->  
->  	int			hs_phy_irq;
-> -	int			dp_hs_phy_irq;
-> -	int			dm_hs_phy_irq;
-> -	int			ss_phy_irq;
-> +	int			dp_hs_phy_irq[4];
-> +	int			dm_hs_phy_irq[4];
-> +	int			ss_phy_irq[2];
-Not sure if that's been raised previously, but having raw numbers here
-is not very descriptive.. MAX_NUM_MP_HSPHY or something would be helpful
-for readability..
+On Wed, Jun 21, 2023 at 10:43:38AM +0200, Krzysztof Kozlowski wrote:
+> On 20/06/2023 11:32, Varadarajan Narayanan wrote:
+>
+> >
+> >> And then we have... existing bindings qcom,usb-hs-phy.yaml. Don't create
+> >> something similar with difference in the hyphen. Just use device
+> >> specific compatible thus device specific filename.
+> >
+> > qcom,usb-hs-phy.yaml seems to be for ULPI mode phy and the
+> > driver we are introducing is for UTMI. We would have to
+> > modify phy-qcom-usb-hs.c to accomodate M31. Will that be
+> > acceptable to phy-qcom-usb-hs.c owners/maintainers?
+>
+> We don't talk about drivers here but bindings. Why would you need to
+> modify the driver when introducing new binding for different device?
 
-Konrad
->  	enum usb_device_speed	usb2_speed;
->  
->  	struct extcon_dev	*edev;
-> @@ -375,16 +375,16 @@ static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
->  	dwc3_qcom_disable_wakeup_irq(qcom->hs_phy_irq);
->  
->  	if (qcom->usb2_speed == USB_SPEED_LOW) {
-> -		dwc3_qcom_disable_wakeup_irq(qcom->dm_hs_phy_irq);
-> +		dwc3_qcom_disable_wakeup_irq(qcom->dm_hs_phy_irq[0]);
->  	} else if ((qcom->usb2_speed == USB_SPEED_HIGH) ||
->  			(qcom->usb2_speed == USB_SPEED_FULL)) {
-> -		dwc3_qcom_disable_wakeup_irq(qcom->dp_hs_phy_irq);
-> +		dwc3_qcom_disable_wakeup_irq(qcom->dp_hs_phy_irq[0]);
->  	} else {
-> -		dwc3_qcom_disable_wakeup_irq(qcom->dp_hs_phy_irq);
-> -		dwc3_qcom_disable_wakeup_irq(qcom->dm_hs_phy_irq);
-> +		dwc3_qcom_disable_wakeup_irq(qcom->dp_hs_phy_irq[0]);
-> +		dwc3_qcom_disable_wakeup_irq(qcom->dm_hs_phy_irq[0]);
->  	}
->  
-> -	dwc3_qcom_disable_wakeup_irq(qcom->ss_phy_irq);
-> +	dwc3_qcom_disable_wakeup_irq(qcom->ss_phy_irq[0]);
->  }
->  
->  static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
-> @@ -401,20 +401,20 @@ static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
->  	 */
->  
->  	if (qcom->usb2_speed == USB_SPEED_LOW) {
-> -		dwc3_qcom_enable_wakeup_irq(qcom->dm_hs_phy_irq,
-> +		dwc3_qcom_enable_wakeup_irq(qcom->dm_hs_phy_irq[0],
->  						IRQ_TYPE_EDGE_FALLING);
->  	} else if ((qcom->usb2_speed == USB_SPEED_HIGH) ||
->  			(qcom->usb2_speed == USB_SPEED_FULL)) {
-> -		dwc3_qcom_enable_wakeup_irq(qcom->dp_hs_phy_irq,
-> +		dwc3_qcom_enable_wakeup_irq(qcom->dp_hs_phy_irq[0],
->  						IRQ_TYPE_EDGE_FALLING);
->  	} else {
-> -		dwc3_qcom_enable_wakeup_irq(qcom->dp_hs_phy_irq,
-> +		dwc3_qcom_enable_wakeup_irq(qcom->dp_hs_phy_irq[0],
->  						IRQ_TYPE_EDGE_RISING);
-> -		dwc3_qcom_enable_wakeup_irq(qcom->dm_hs_phy_irq,
-> +		dwc3_qcom_enable_wakeup_irq(qcom->dm_hs_phy_irq[0],
->  						IRQ_TYPE_EDGE_RISING);
->  	}
->  
-> -	dwc3_qcom_enable_wakeup_irq(qcom->ss_phy_irq, 0);
-> +	dwc3_qcom_enable_wakeup_irq(qcom->ss_phy_irq[0], 0);
->  }
->  
->  static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, bool wakeup)
-> @@ -535,6 +535,80 @@ static int dwc3_qcom_get_irq(struct platform_device *pdev,
->  	return ret;
->  }
->  
-> +static int dwc3_qcom_setup_mp_irq(struct platform_device *pdev)
-> +{
-> +	struct dwc3_qcom *qcom = platform_get_drvdata(pdev);
-> +	char irq_name[15];
-> +	int irq;
-> +	int ret;
-> +	int i;
-> +
-> +	for (i = 0; i < 4; i++) {
-> +		if (qcom->dp_hs_phy_irq[i])
-> +			continue;
-> +
-> +		sprintf(irq_name, "dp%d_hs_phy_irq", i+1);
-> +		irq = dwc3_qcom_get_irq(pdev, irq_name, -1);
-> +		if (irq > 0) {
-> +			irq_set_status_flags(irq, IRQ_NOAUTOEN);
-> +			ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
-> +					qcom_dwc3_resume_irq,
-> +					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-> +					irq_name, qcom);
-> +			if (ret) {
-> +				dev_err(qcom->dev, "%s failed: %d\n", irq_name, ret);
-> +				return ret;
-> +			}
-> +		}
-> +
-> +		qcom->dp_hs_phy_irq[i] = irq;
-> +	}
-> +
-> +	for (i = 0; i < 4; i++) {
-> +		if (qcom->dm_hs_phy_irq[i])
-> +			continue;
-> +
-> +		sprintf(irq_name, "dm%d_hs_phy_irq", i+1);
-> +		irq = dwc3_qcom_get_irq(pdev, irq_name, -1);
-> +		if (irq > 0) {
-> +			irq_set_status_flags(irq, IRQ_NOAUTOEN);
-> +			ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
-> +					qcom_dwc3_resume_irq,
-> +					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-> +					irq_name, qcom);
-> +			if (ret) {
-> +				dev_err(qcom->dev, "%s failed: %d\n", irq_name, ret);
-> +				return ret;
-> +			}
-> +		}
-> +
-> +		qcom->dm_hs_phy_irq[i] = irq;
-> +	}
-> +
-> +	for (i = 0; i < 2; i++) {
-> +		if (qcom->ss_phy_irq[i])
-> +			continue;
-> +
-> +		sprintf(irq_name, "ss%d_phy_irq", i+1);
-> +		irq = dwc3_qcom_get_irq(pdev, irq_name, -1);
-> +		if (irq > 0) {
-> +			irq_set_status_flags(irq, IRQ_NOAUTOEN);
-> +			ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
-> +					qcom_dwc3_resume_irq,
-> +					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-> +					irq_name, qcom);
-> +			if (ret) {
-> +				dev_err(qcom->dev, "%s failed: %d\n", irq_name, ret);
-> +				return ret;
-> +			}
-> +		}
-> +
-> +		qcom->ss_phy_irq[i] = irq;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int dwc3_qcom_setup_irq(struct platform_device *pdev)
->  {
->  	struct dwc3_qcom *qcom = platform_get_drvdata(pdev);
-> @@ -570,7 +644,7 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
->  			dev_err(qcom->dev, "dp_hs_phy_irq failed: %d\n", ret);
->  			return ret;
->  		}
-> -		qcom->dp_hs_phy_irq = irq;
-> +		qcom->dp_hs_phy_irq[0] = irq;
->  	}
->  
->  	irq = dwc3_qcom_get_irq(pdev, "dm_hs_phy_irq",
-> @@ -585,7 +659,7 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
->  			dev_err(qcom->dev, "dm_hs_phy_irq failed: %d\n", ret);
->  			return ret;
->  		}
-> -		qcom->dm_hs_phy_irq = irq;
-> +		qcom->dm_hs_phy_irq[0] = irq;
->  	}
->  
->  	irq = dwc3_qcom_get_irq(pdev, "ss_phy_irq",
-> @@ -600,10 +674,10 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
->  			dev_err(qcom->dev, "ss_phy_irq failed: %d\n", ret);
->  			return ret;
->  		}
-> -		qcom->ss_phy_irq = irq;
-> +		qcom->ss_phy_irq[0] = irq;
->  	}
->  
-> -	return 0;
-> +	return dwc3_qcom_setup_mp_irq(pdev);;
->  }
->  
->  static int dwc3_qcom_clk_init(struct dwc3_qcom *qcom, int count)
+Sorry. I misunderstood your feedback as "use the existing bindings".
+
+Will name the bindings file as qcom,ipq5332-usb-hsphy.yaml and post
+the next version.
+
+Thanks
+Varada
