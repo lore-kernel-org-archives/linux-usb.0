@@ -2,204 +2,261 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB855EB64D8
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Jun 2023 15:10:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26352EB64D7
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Jun 2023 15:13:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231517AbjFUPKq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Jun 2023 11:10:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50328 "EHLO
+        id S233278AbjFUPNi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Jun 2023 11:13:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230393AbjFUPKY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Jun 2023 11:10:24 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A8F9524E
-        for <linux-usb@vger.kernel.org>; Wed, 21 Jun 2023 08:05:46 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id d75a77b69052e-3ff274778feso24524341cf.1
-        for <linux-usb@vger.kernel.org>; Wed, 21 Jun 2023 08:05:46 -0700 (PDT)
+        with ESMTP id S231970AbjFUPNU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Jun 2023 11:13:20 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F989295F
+        for <linux-usb@vger.kernel.org>; Wed, 21 Jun 2023 08:09:12 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3f80cbc37c5so14669325e9.1
+        for <linux-usb@vger.kernel.org>; Wed, 21 Jun 2023 08:09:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1687359917; x=1689951917;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=71z8LhgGLO2daEYFxMvnjOv3P6R9bwnVjy2+4M+RqPE=;
-        b=YrJPFxYbeIiQW4juyAoSpfptYFz00gEUQzujZ4APcJa+4dLWr2LkeUw/Sc15Yht6Ls
-         K+SIFcnGrBCay4NY/vJ98qnO4qlAWZuKhXjbQZObOmMaSSdt+MYjyame00PwWJa4hQwv
-         PLUG9PbmZroIeRIgjzmtAHDb/FnT5fzDJgPiE=
+        d=gmail.com; s=20221208; t=1687360146; x=1689952146;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=O2JDlX858n5/TPt42+1UzLcA+8rPXAhbLpzrpxaQMC4=;
+        b=L+MxmuSquq7TAJEJr05d+0qJqOYQZ/XJ7hJmjzlKmXGn+yr1ZBo/MiXmtoU+wNzmry
+         k0u9/rejQ5ElomtONjIGUbuMBFESrQX2UsCWeaHFIHaCb63kHfd0FnVFhZUMpxT53OPw
+         iIAaoaes2f4j3m6PB6jMDlHYo3u4DvlVRFTVtpNRRnkRUDvGb/3oq8aoEh4N3ZICVIfe
+         sVdNBV954FgFNFvioVirHt+ACOsgqNN/NB+Ieh4Zy6MMSWiMOlYhp3ukuupHKGwAwoq1
+         jo3+Z2p4xZOahLZyufa8OhHwghf+s/nROCoCklTuqi+JBgyvTUPMpeylmq3WnVbmH8rH
+         8aSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687359917; x=1689951917;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=71z8LhgGLO2daEYFxMvnjOv3P6R9bwnVjy2+4M+RqPE=;
-        b=EozpZkVzDgjYhViMcjPkhYMLwIKNazUlxWzwjpLXElYUUwNogyeNcBfPvTTOCjhu5t
-         Bj131XrKtXj2Zet894mv6oS+BEQwpeLKMJ66j0LWZ3MSgdZhkU2VE5XOSjSl0mZT9zP6
-         x6nrPaS9qaDOptOEEdJWeydUUfIuIqK6yrq03Wwd1e4++/RW5k6hVWRzZ8mSciTCaeiG
-         BEA4GlkdZKYRVzv7HH0J2RPy2Nowdp/x5zGFxvc+d1XUMHE4C21l81VqEXeO/byc26S3
-         kifHd3Saxppo69MbtglehxFlLFzfgPlJVr5+4xQZaeuY8XQz7QpVAMLg42x3rtWn0RG5
-         Ap/A==
-X-Gm-Message-State: AC+VfDwtpAV6vsqQPZpN1yRJ5hmK17pJteO5tGmfB7/C/AsJW7pSX8kn
-        8/apBI6e/Nn0bSLSR8g6V6COIOiCj5vo9JIFoR4=
-X-Google-Smtp-Source: ACHHUZ40pm00cx+5QtNSdK+p1nl1iGTlL8sdLUPf0anon/otCr2jk9289Avlf7F6IwoMeQOYIoCJzQ==
-X-Received: by 2002:a05:6602:91:b0:780:c787:637b with SMTP id h17-20020a056602009100b00780c787637bmr56097iob.0.1687359425648;
-        Wed, 21 Jun 2023 07:57:05 -0700 (PDT)
-Received: from localhost (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
-        by smtp.gmail.com with UTF8SMTPSA id p7-20020a0566380e8700b0042674500f87sm308659jas.123.2023.06.21.07.57.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Jun 2023 07:57:04 -0700 (PDT)
-Date:   Wed, 21 Jun 2023 14:57:03 +0000
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Benjamin Bara <bbara93@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Benjamin Bara <benjamin.bara@skidata.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] usb: misc: onboard-hub: support multiple power
- supplies
-Message-ID: <ZJMPv6Fm3On0ITFi@google.com>
-References: <20230620-hx3-v2-0-76a53434c713@skidata.com>
- <20230620-hx3-v2-1-76a53434c713@skidata.com>
+        d=1e100.net; s=20221208; t=1687360146; x=1689952146;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O2JDlX858n5/TPt42+1UzLcA+8rPXAhbLpzrpxaQMC4=;
+        b=CChnJO+E61BImAElkEIRd86d9m7bD4JB/FlvvC4slEsJiFrzU3LEnckwbxSKS20B91
+         WKY/LM0KGB93rSUQoBEd5utSTKvxbZ2QPSHgxnq5kx8qhTodrKn3rPHhlF73NG/9x3LL
+         +qaI5uD7+FlS+hPMccupJz8FuIfr4GJFnP+DjUvHqw7rjm8+bA/Ey3X1BBMeN3gXeDfi
+         T/B0hAu2KmIc7ck80JHSI8qingjX8I/J9xEiT1x/G9nwlkiNFFJiHlg3Nr05VQe/TZ8k
+         djQy8WzFk6g6+THFLL+4zBTlIJNaIHIH0dXcRcZHJsrnUxhxD76cHTTIDdPNJX65cYO7
+         eNsQ==
+X-Gm-Message-State: AC+VfDwirEAOcAfC9grXs9t+2I9Gcd2jYS38x+KPnNtsDeUfjfJK2FmC
+        GsgHveOoojBw+PoSvnB+v/EtzxjCIXjAfLeE
+X-Google-Smtp-Source: ACHHUZ6kWRYdQ8uhJVEJnfQfTNgnrVpDpqw2x2yaj2oTosEt9sIe7O97jHkBvsk1SjFzb09W4EnkNg==
+X-Received: by 2002:a05:600c:4e10:b0:3f9:9a6:eb68 with SMTP id b16-20020a05600c4e1000b003f909a6eb68mr9190687wmq.3.1687360146073;
+        Wed, 21 Jun 2023 08:09:06 -0700 (PDT)
+Received: from ivan-B550MH.. ([141.136.95.75])
+        by smtp.gmail.com with ESMTPSA id z5-20020a1c4c05000000b003f7cb42fa20sm5297415wmf.42.2023.06.21.08.09.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jun 2023 08:09:05 -0700 (PDT)
+From:   Ivan Orlov <ivan.orlov0322@gmail.com>
+To:     gregkh@linuxfoundation.org
+Cc:     Ivan Orlov <ivan.orlov0322@gmail.com>, linux-usb@vger.kernel.org
+Subject: [PATCH v2] USB: make usb class a const structure
+Date:   Wed, 21 Jun 2023 19:09:03 +0400
+Message-Id: <20230621150903.1219439-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230620-hx3-v2-1-76a53434c713@skidata.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Now that the driver core allows for struct class to be in read-only
+memory, remove the usb_class structure and create the usbmisc_class
+const class structure declared at build time which places it into
+read-only memory, instead of having it to be dynamically allocated
+at load time.
 
-On Wed, Jun 21, 2023 at 04:26:27PM +0200, Benjamin Bara wrote:
-> From: Benjamin Bara <benjamin.bara@skidata.com>
->
-> As some of the onboard hubs require multiple power supplies, provide the
-> environment to support them.
-> 
-> Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+Additionally, now we register usb class at startup and unregister it
+when shutting down, so we don't have to count uses of the class.
+Therefore we don't need the 'usb_class' structure anymore. Due to this
+fact, remove all static functions related to class initialization and
+deinitialization. We can't use them in 'usb.c' since they are static
+and we don't really need them anymore.
 
-Overall this looks good to me, a few nits inside.
+Since we have to register the class in usb_init function in 'usb.c'
+and use it in 'file.c' as well, declare the usbmisc_class structure
+as 'export' in the 'usb.h' file.
 
-> ---
-> v2:
-> - replace (err != 0) with (err)
-> ---
->  drivers/usb/misc/onboard_usb_hub.c | 36 ++++++++++++++++++++++++++++--------
->  drivers/usb/misc/onboard_usb_hub.h |  1 +
->  2 files changed, 29 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
-> index 12fc6eb67c3b..3de30356a684 100644
-> --- a/drivers/usb/misc/onboard_usb_hub.c
-> +++ b/drivers/usb/misc/onboard_usb_hub.c
-> @@ -27,6 +27,12 @@
->  
->  #include "onboard_usb_hub.h"
->  
-> +#define SUPPLIES_NUM_MAX 2
+Debatable moment: the class registration and unregistration functions
+could be extracted to the 'file.c'. I think we don't want to do this
+since it would be one-line functions. They would make the code paths
+more confusing and add calling overhead.
 
-MAX_SUPPLIES?
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+---
+V1 -> V2:
+- Remove kref field of usb_class structure
+- Remove usb_class structure
+- Remove class initialization and cleaning functions
+- Add usbmisc_class declaration to usb.h file
+- Move class registration to usb init function
+- Move class unregistration to usb exit function
 
-add empty line
+ drivers/usb/core/file.c | 63 ++++-------------------------------------
+ drivers/usb/core/usb.c  |  6 ++++
+ drivers/usb/core/usb.h  |  1 +
+ 3 files changed, 13 insertions(+), 57 deletions(-)
 
-> +static const char * const supply_names[] = {
-> +	"vdd",
-> +	"vdd2",
-> +};
-> +
->  static void onboard_hub_attach_usb_driver(struct work_struct *work);
->  
->  static struct usb_device_driver onboard_hub_usbdev_driver;
-> @@ -40,7 +46,8 @@ struct usbdev_node {
->  };
->  
->  struct onboard_hub {
-> -	struct regulator *vdd;
-> +	struct regulator_bulk_data supplies[SUPPLIES_NUM_MAX];
-> +	unsigned int supplies_num;
+diff --git a/drivers/usb/core/file.c b/drivers/usb/core/file.c
+index c4ed3310e069..dea3c15d2634 100644
+--- a/drivers/usb/core/file.c
++++ b/drivers/usb/core/file.c
+@@ -29,7 +29,6 @@
+ #define MAX_USB_MINORS	256
+ static const struct file_operations *usb_minors[MAX_USB_MINORS];
+ static DECLARE_RWSEM(minor_rwsem);
+-static DEFINE_MUTEX(init_usb_class_mutex);
+ 
+ static int usb_open(struct inode *inode, struct file *file)
+ {
+@@ -57,11 +56,6 @@ static const struct file_operations usb_fops = {
+ 	.llseek =	noop_llseek,
+ };
+ 
+-static struct usb_class {
+-	struct kref kref;
+-	struct class *class;
+-} *usb_class;
+-
+ static char *usb_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	struct usb_class_driver *drv;
+@@ -72,50 +66,10 @@ static char *usb_devnode(const struct device *dev, umode_t *mode)
+ 	return drv->devnode(dev, mode);
+ }
+ 
+-static int init_usb_class(void)
+-{
+-	int result = 0;
+-
+-	if (usb_class != NULL) {
+-		kref_get(&usb_class->kref);
+-		goto exit;
+-	}
+-
+-	usb_class = kmalloc(sizeof(*usb_class), GFP_KERNEL);
+-	if (!usb_class) {
+-		result = -ENOMEM;
+-		goto exit;
+-	}
+-
+-	kref_init(&usb_class->kref);
+-	usb_class->class = class_create("usbmisc");
+-	if (IS_ERR(usb_class->class)) {
+-		result = PTR_ERR(usb_class->class);
+-		printk(KERN_ERR "class_create failed for usb devices\n");
+-		kfree(usb_class);
+-		usb_class = NULL;
+-		goto exit;
+-	}
+-	usb_class->class->devnode = usb_devnode;
+-
+-exit:
+-	return result;
+-}
+-
+-static void release_usb_class(struct kref *kref)
+-{
+-	/* Ok, we cheat as we know we only have one usb_class */
+-	class_destroy(usb_class->class);
+-	kfree(usb_class);
+-	usb_class = NULL;
+-}
+-
+-static void destroy_usb_class(void)
+-{
+-	mutex_lock(&init_usb_class_mutex);
+-	kref_put(&usb_class->kref, release_usb_class);
+-	mutex_unlock(&init_usb_class_mutex);
+-}
++const struct class usbmisc_class = {
++	.name		= "usbmisc",
++	.devnode	= usb_devnode,
++};
+ 
+ int usb_major_init(void)
+ {
+@@ -175,10 +129,6 @@ int usb_register_dev(struct usb_interface *intf,
+ 	if (intf->minor >= 0)
+ 		return -EADDRINUSE;
+ 
+-	mutex_lock(&init_usb_class_mutex);
+-	retval = init_usb_class();
+-	mutex_unlock(&init_usb_class_mutex);
+-
+ 	if (retval)
+ 		return retval;
+ 
+@@ -200,7 +150,7 @@ int usb_register_dev(struct usb_interface *intf,
+ 
+ 	/* create a usb class device for this usb interface */
+ 	snprintf(name, sizeof(name), class_driver->name, minor - minor_base);
+-	intf->usb_dev = device_create(usb_class->class, &intf->dev,
++	intf->usb_dev = device_create(&usbmisc_class, &intf->dev,
+ 				      MKDEV(USB_MAJOR, minor), class_driver,
+ 				      "%s", kbasename(name));
+ 	if (IS_ERR(intf->usb_dev)) {
+@@ -234,7 +184,7 @@ void usb_deregister_dev(struct usb_interface *intf,
+ 		return;
+ 
+ 	dev_dbg(&intf->dev, "removing %d minor\n", intf->minor);
+-	device_destroy(usb_class->class, MKDEV(USB_MAJOR, intf->minor));
++	device_destroy(&usbmisc_class, MKDEV(USB_MAJOR, intf->minor));
+ 
+ 	down_write(&minor_rwsem);
+ 	usb_minors[intf->minor] = NULL;
+@@ -242,6 +192,5 @@ void usb_deregister_dev(struct usb_interface *intf,
+ 
+ 	intf->usb_dev = NULL;
+ 	intf->minor = -1;
+-	destroy_usb_class();
+ }
+ EXPORT_SYMBOL_GPL(usb_deregister_dev);
+diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+index 901ec732321c..39bdf9589b06 100644
+--- a/drivers/usb/core/usb.c
++++ b/drivers/usb/core/usb.c
+@@ -1101,6 +1101,9 @@ static int __init usb_init(void)
+ 	retval = usb_major_init();
+ 	if (retval)
+ 		goto major_init_failed;
++	retval = class_register(&usbmisc_class);
++	if (retval)
++		goto class_register_failed;
+ 	retval = usb_register(&usbfs_driver);
+ 	if (retval)
+ 		goto driver_register_failed;
+@@ -1120,6 +1123,8 @@ static int __init usb_init(void)
+ usb_devio_init_failed:
+ 	usb_deregister(&usbfs_driver);
+ driver_register_failed:
++	class_unregister(&usbmisc_class);
++class_register_failed:
+ 	usb_major_cleanup();
+ major_init_failed:
+ 	bus_unregister_notifier(&usb_bus_type, &usb_bus_nb);
+@@ -1147,6 +1152,7 @@ static void __exit usb_exit(void)
+ 	usb_deregister(&usbfs_driver);
+ 	usb_devio_cleanup();
+ 	usb_hub_cleanup();
++	class_unregister(&usbmisc_class);
+ 	bus_unregister_notifier(&usb_bus_type, &usb_bus_nb);
+ 	bus_unregister(&usb_bus_type);
+ 	usb_acpi_unregister();
+diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
+index ffe3f6818e9c..69ca59841083 100644
+--- a/drivers/usb/core/usb.h
++++ b/drivers/usb/core/usb.h
+@@ -141,6 +141,7 @@ static inline int usb_disable_usb2_hardware_lpm(struct usb_device *udev)
+ 
+ #endif
+ 
++extern const struct class usbmisc_class;
+ extern const struct bus_type usb_bus_type;
+ extern struct mutex usb_port_peer_mutex;
+ extern struct device_type usb_device_type;
+-- 
+2.34.1
 
-num_supplies?
-
->  	struct device *dev;
->  	const struct onboard_hub_pdata *pdata;
->  	struct gpio_desc *reset_gpio;
-> @@ -55,9 +62,9 @@ static int onboard_hub_power_on(struct onboard_hub *hub)
->  {
->  	int err;
->  
-> -	err = regulator_enable(hub->vdd);
-> +	err = regulator_bulk_enable(hub->supplies_num, hub->supplies);
->  	if (err) {
-> -		dev_err(hub->dev, "failed to enable regulator: %d\n", err);
-> +		dev_err(hub->dev, "failed to enable supplies: %d\n", err);
->  		return err;
->  	}
->  
-> @@ -75,9 +82,9 @@ static int onboard_hub_power_off(struct onboard_hub *hub)
->  
->  	gpiod_set_value_cansleep(hub->reset_gpio, 1);
->  
-> -	err = regulator_disable(hub->vdd);
-> +	err = regulator_bulk_disable(hub->supplies_num, hub->supplies);
->  	if (err) {
-> -		dev_err(hub->dev, "failed to disable regulator: %d\n", err);
-> +		dev_err(hub->dev, "failed to disable supplies: %d\n", err);
->  		return err;
->  	}
->  
-> @@ -232,6 +239,7 @@ static int onboard_hub_probe(struct platform_device *pdev)
->  	const struct of_device_id *of_id;
->  	struct device *dev = &pdev->dev;
->  	struct onboard_hub *hub;
-> +	unsigned int i;
->  	int err;
->  
->  	hub = devm_kzalloc(dev, sizeof(*hub), GFP_KERNEL);
-> @@ -246,9 +254,21 @@ static int onboard_hub_probe(struct platform_device *pdev)
->  	if (!hub->pdata)
->  		return -EINVAL;
->  
-> -	hub->vdd = devm_regulator_get(dev, "vdd");
-> -	if (IS_ERR(hub->vdd))
-> -		return PTR_ERR(hub->vdd);
-> +	if (hub->pdata->supplies_num > SUPPLIES_NUM_MAX)
-> +		return dev_err_probe(dev, -EINVAL, "max %d supplies supported!\n",
-> +				     SUPPLIES_NUM_MAX);
-> +	hub->supplies_num = 1;
-> +	if (hub->pdata->supplies_num > 1)
-> +		hub->supplies_num = hub->pdata->supplies_num;
-
-Please change the above to:
-
-	if (hub->pdata->supplies_num != 0)
-		hub->supplies_num = hub->pdata->supplies_num;
-	else
-		hub->supplies_num = 1;
-
-> +
-> +	for (i = 0; i < SUPPLIES_NUM_MAX; i++)
-> +		hub->supplies[i].supply = supply_names[i];
-> +
-> +	err = devm_regulator_bulk_get(dev, hub->supplies_num, hub->supplies);
-> +	if (err) {
-> +		dev_err(dev, "Failed to get regulator supplies: %d\n", err);
-> +		return err;
-> +	}
->  
->  	hub->reset_gpio = devm_gpiod_get_optional(dev, "reset",
->  						  GPIOD_OUT_HIGH);
-> diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
-> index aca5f50eb0da..657190bf1799 100644
-> --- a/drivers/usb/misc/onboard_usb_hub.h
-> +++ b/drivers/usb/misc/onboard_usb_hub.h
-> @@ -8,6 +8,7 @@
->  
->  struct onboard_hub_pdata {
->  	unsigned long reset_us;		/* reset pulse width in us */
-> +	unsigned int supplies_num;	/* num of supplies: 0 considered as 1 */
-
-num_supplies?
-
-s/num of/number of/
-
->  };
