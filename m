@@ -2,101 +2,96 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6A4AC001DD
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Jun 2023 15:05:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E880EB64D8
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Jun 2023 15:32:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232284AbjFVPFk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Jun 2023 11:05:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42058 "EHLO
+        id S231740AbjFVPcL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Jun 2023 11:32:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232267AbjFVPEx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Jun 2023 11:04:53 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FD03199D
-        for <linux-usb@vger.kernel.org>; Thu, 22 Jun 2023 08:04:47 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-573a92296c7so24765527b3.1
-        for <linux-usb@vger.kernel.org>; Thu, 22 Jun 2023 08:04:47 -0700 (PDT)
+        with ESMTP id S231650AbjFVPbx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Jun 2023 11:31:53 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2DBC2D62
+        for <linux-usb@vger.kernel.org>; Thu, 22 Jun 2023 08:30:38 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id ca18e2360f4ac-7747cc8bea0so66934239f.1
+        for <linux-usb@vger.kernel.org>; Thu, 22 Jun 2023 08:30:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687446287; x=1690038287;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6msxjfGSl7/M9KTU2PiCryY5ju9+3DU82TDMWlxq2Cw=;
-        b=u81k2ossffJeZlh2McBdWUMdmw5bSOOZ9+IZJXixIWqXinaFFtEvowwVnYqexAoXBk
-         FKSwthoF4lqXQhJRcE64mXqPCsSfEoloq1p1ijm5if8G9ZnZaMusJzj7ZUX70vpiCBvR
-         aaWr+3CjEpVy9JX88po4lTxc1QERRtodUS0jbPkfOfOv4agfTfCY86oMhxjCxZligekm
-         a54R+an15LBK9YA1IQyYvZclaXk2HDro/gsGvRKfpjVClBdYSJVyZEOs21cFoK9zzuqU
-         ZPHedBZgEBxmh6sT0+4z3YgTW5br1ZoGph3VNpo1KUejbQyzKDejqDJSmFZDlvoffBgL
-         QAQg==
+        d=linuxfoundation.org; s=google; t=1687447834; x=1690039834;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=it9RfQZoHvlt4i7NjPP7j9e/je2l7GBneNbO1SZ/LaE=;
+        b=U5QSUgYjwQQ92kt5FvG2tHnBkSv+41vonZTo2+NgsxvSzPMREYwFv0DYVpKWYIpaL8
+         hQ/HAFNBnaXvk6X/CyCoiUHw5gjsRRxY50FmAlTKZ/emXYrpEVf7uLYBROR566vmxy+A
+         QgidH1OlYIsWAkj+9lIjD34UBJASmPJGNLLwE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687446287; x=1690038287;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6msxjfGSl7/M9KTU2PiCryY5ju9+3DU82TDMWlxq2Cw=;
-        b=GsArx+b+OtYfY9CNGBt3tE5G6kS+8Hwx6/kIBeWoZtQjuTdNj0JNJiCp+UlGEb4yPi
-         5f1illacpfh899KD0w8lgvkofqgdNg92l05jW+wgE3HxR4bGzrmxAHkQYA+BEVolWlWO
-         jTdTItmXlOrEZoUJZlndkbB2XWsJZ8mv9nnum7hBi9P+g680Tzta5CfbQXgjJM723MAw
-         JBo43J7ZB2wwbxBOHHa6QlQmV84RUHpwIjz5L8bLlYCfreP27LKJRMbXT0gol5wR942B
-         eXJgHCksVwYZFKaUKgoejERjtGw+qd+LFgiCUR3tRVAgi4sa5vq2VBflcZ2bIAoGKVgL
-         AKrg==
-X-Gm-Message-State: AC+VfDwFQ8qfe8eCL6YsGVzZOnX2oHtJa5F3uVUO0m/cLSuwOp6TU9vi
-        GM65vr/PtNjJO5qXWZU25dMNn4XyPiwn
-X-Google-Smtp-Source: ACHHUZ7Xn8kcYYlAhb46y9g1ZnLqOGI6n5PbyVRrSXY2TCNhq9gefZuSqICs3dtSotmutG2sKqA5u5vFj3/l
-X-Received: from kyletso-p620lin01.ntc.corp.google.com ([2401:fa00:fc:202:b1ba:4098:b043:5e54])
- (user=kyletso job=sendgmr) by 2002:a81:e24a:0:b0:56d:2abf:f0c with SMTP id
- z10-20020a81e24a000000b0056d2abf0f0cmr7755784ywl.10.1687446286806; Thu, 22
- Jun 2023 08:04:46 -0700 (PDT)
-Date:   Thu, 22 Jun 2023 23:04:21 +0800
-In-Reply-To: <20230622150423.3726894-1-kyletso@google.com>
-Mime-Version: 1.0
-References: <20230622150423.3726894-1-kyletso@google.com>
-X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
-Message-ID: <20230622150423.3726894-2-kyletso@google.com>
-Subject: [PATCH 1/3] usb: typec: Set port->pd before adding device for typec_port
-From:   Kyle Tso <kyletso@google.com>
-To:     heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org
-Cc:     badhri@google.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kyle Tso <kyletso@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        d=1e100.net; s=20221208; t=1687447834; x=1690039834;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=it9RfQZoHvlt4i7NjPP7j9e/je2l7GBneNbO1SZ/LaE=;
+        b=c/aZfEZtnHBp4efSeOLkNkcw3YEwnXvx1YSBRS1mcV6GnQFbp8Slhyq7Q3Lxj5Tf3w
+         pg7n5RTGmhPEWPGGDPQB0SDFMBqY73Ssi2PhCZIvKUccBXX/V0lR4jnHVdYgqu3gM0DD
+         LCtGcKdYYsaxvpHvqDa8VNtxQHSx4RDQNgJGnvAeITCFGC+R+6Tgn/05hxaZ9+t+8ajY
+         f8uFseJqwKWLTUlEGLaaQeDEp9uXtJ8V2z5GBv1qagJk2U+rcGqF3f6uuRtrdNjHlltO
+         oLoDZ7TF6GmTp/c0W8+39Qn4aFVbiBCRVqJpJDXmByMYwfqiCXE5MatqbgRbWRM4eaMF
+         BX5g==
+X-Gm-Message-State: AC+VfDwXW46yGAyFDnqAj2uFEWwdNp+jsvKJSSiotVFaGMRKk6z11YGe
+        W20NwUpKh0oWJ6JKd65vAr9taQ==
+X-Google-Smtp-Source: ACHHUZ6WQHNu9IShb1qUDx2kQeEQ8/k/YbNklzp5Wi6heL7ES6u5LaL8TuaW9FctaeBl1FnOkIDpvA==
+X-Received: by 2002:a05:6602:3f04:b0:780:d557:1984 with SMTP id em4-20020a0566023f0400b00780d5571984mr655337iob.2.1687447834010;
+        Thu, 22 Jun 2023 08:30:34 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id x4-20020a02ac84000000b0042690648930sm1746926jan.106.2023.06.22.08.30.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Jun 2023 08:30:33 -0700 (PDT)
+Message-ID: <d206311e-4fe6-54b6-f591-e2c11194aed2@linuxfoundation.org>
+Date:   Thu, 22 Jun 2023 09:30:33 -0600
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3] usbip: usbip_host: Replace strlcpy with strscpy
+Content-Language: en-US
+To:     Kees Cook <keescook@chromium.org>,
+        Azeem Shaikh <azeemshaikh38@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>, linux-hardening@vger.kernel.org,
+        Hongren Zheng <i@zenithal.me>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20230615180504.401169-1-azeemshaikh38@gmail.com>
+ <202306212010.E6CBCE23E@keescook>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <202306212010.E6CBCE23E@keescook>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When calling device_add in the registration of typec_port, it will do
-the NULL check on usb_power_delivery handle in typec_port for the
-visibility of the device attributes. It is always NULL because port->pd
-is set in typec_port_set_usb_power_delivery which is later than the
-device_add call.
+On 6/21/23 21:10, Kees Cook wrote:
+> On Thu, Jun 15, 2023 at 06:05:04PM +0000, Azeem Shaikh wrote:
+>> strlcpy() reads the entire source buffer first.
+>> This read may exceed the destination size limit.
+>> This is both inefficient and can lead to linear read
+>> overflows if a source string is not NUL-terminated [1].
+>> In an effort to remove strlcpy() completely [2], replace
+>> strlcpy() here with strscpy().
+>>
+>> Direct replacement is safe here since return value of -errno
+>> is used to check for truncation instead of sizeof(dest).
+>>
+>> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
+>> [2] https://github.com/KSPP/linux/issues/89
+>>
+>> Signed-off-by: Azeem Shaikh <azeemshaikh38@gmail.com>
+> 
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> 
 
-Set port->pd before device_add and only link the device after that.
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
 
-Fixes: a7cff92f0635 ("usb: typec: USB Power Delivery helpers for ports and partners")
-Signed-off-by: Kyle Tso <kyletso@google.com>
----
- drivers/usb/typec/class.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index faa184ae3dac..3b30948bf4b0 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -2288,6 +2288,8 @@ struct typec_port *typec_register_port(struct device *parent,
- 		return ERR_PTR(ret);
- 	}
- 
-+	port->pd = cap->pd;
-+
- 	ret = device_add(&port->dev);
- 	if (ret) {
- 		dev_err(parent, "failed to register port (%d)\n", ret);
-@@ -2295,7 +2297,7 @@ struct typec_port *typec_register_port(struct device *parent,
- 		return ERR_PTR(ret);
- 	}
- 
--	ret = typec_port_set_usb_power_delivery(port, cap->pd);
-+	ret = usb_power_delivery_link_device(port->pd, &port->dev);
- 	if (ret) {
- 		dev_err(&port->dev, "failed to link pd\n");
- 		device_unregister(&port->dev);
--- 
-2.41.0.162.gfafddb0af9-goog
-
+thanks,
+-- Shuah
