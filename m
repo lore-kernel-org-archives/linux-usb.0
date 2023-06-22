@@ -2,54 +2,56 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DA03EB64D8
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Jun 2023 15:05:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D397AEB64DB
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Jun 2023 15:05:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232228AbjFVPEu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Jun 2023 11:04:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41896 "EHLO
+        id S232237AbjFVPFg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Jun 2023 11:05:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232199AbjFVPEt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Jun 2023 11:04:49 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D50D41BD3
-        for <linux-usb@vger.kernel.org>; Thu, 22 Jun 2023 08:04:43 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5704e551e8bso88211867b3.3
-        for <linux-usb@vger.kernel.org>; Thu, 22 Jun 2023 08:04:43 -0700 (PDT)
+        with ESMTP id S232376AbjFVPFC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Jun 2023 11:05:02 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1602AE7E
+        for <linux-usb@vger.kernel.org>; Thu, 22 Jun 2023 08:04:55 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-565a33c35b1so88477287b3.0
+        for <linux-usb@vger.kernel.org>; Thu, 22 Jun 2023 08:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687446283; x=1690038283;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=w+6uYkThe/W8HPuyx8xxQFAX2gbyzykRpFiwJl6HZOs=;
-        b=bM+pB7s/Qfzjy79n6ApAUHi+jfEUXjw1OLK62sCKhwsx/9116MIsOgi0TbJGw+Tr3c
-         ut97MuyoJ2+bhuP2Rq3LoVXj+nGeuMg+WNnuhXzKqEPPOpV9I4H5XZ190RQ92NZnr++N
-         omxyD5ynIDIAIp7X9tOELRrk3fk/+VwJ7jctUqvVxQUg81LUW3cyeMKg9e5zDHUS1R1V
-         /xrrI1wh8XCCdfNYDoY20RZbIn8sxrw7b1L++GKrOC+O+GJlPyAniSBrICp93FN6CWXn
-         hySq7Z4tEwHlehAcIZS6A97KgY/pGsSa7rZ/rG1EC8WdVjw77VP7xBS3TbkN0u58E95i
-         EEkw==
+        d=google.com; s=20221208; t=1687446294; x=1690038294;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6HP4+YvUJVAPeSikWLLN9lmrDsE6bkUx0eYDaGV1KtY=;
+        b=KVoocYmnlhWTcw1lpk8n+2IXXtKbUtQpLc1W6m42G16fgk/46hQ24ls0r0EQJLHur8
+         yi/2LxA0+duj7u/xyHLD2V+A9au+OpYQ5X5LOBaK7Eus9D3VJSr++d3qxu5VPTKcnYLd
+         KsVUSfEZTrtYiWxSoHnHUbjM+rBdnkc/8HdJ7hYuGnau5poq/Xk/4LUpIXMeDp/4/5f4
+         P3lmmusCUD0TDns0/jFuTafZF1gDDAsvnosK9q/2mMD4M0M11llif0owUxVojq9vx+kX
+         5kmYk5e+yeRWtOKTvav3QYIHC3ZzjYLPL7f+yvmDTFP621TuKCGjiYHqAqskSEgoK9D7
+         4KAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687446283; x=1690038283;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=w+6uYkThe/W8HPuyx8xxQFAX2gbyzykRpFiwJl6HZOs=;
-        b=JgBIBgxYHQfpQSoZSxuN3hYq9yFnIKs+kVjIQFxWmpRyzZyIxfY0UpjCO3nOqarydq
-         9xrnYmAiCyCzUjgyzOka1YtABacjEcnC58rvpokFJdkeX5U+It7JqJbNAro+gmlABfnC
-         o+spseu/b0ASCra3kUeadBTW7m6WZX8OEVyYjt6vSnvHAzN7R4djLa1S4aRq6IAz1g0H
-         6DdFy9UdYMeCi6f4TcdnuPfnSLBtGjzjw3TPZ8BknZpCG8ubqk4HwMxxWFaC7/VkzQ+E
-         1PWzZTWrC7790AIkjLAhpedX4x5IOtOCdDS34ynQkgYe26/vOnwNYvVu+iVHR3zb4CTt
-         tAfg==
-X-Gm-Message-State: AC+VfDyYdDZTfnYSsYiYZSsqtBCe0/7X/fJeP643wrLZn/eulGthEQlb
-        EdQ+S6wFCX1wTO+lNfevHfoPWMpPGh0x
-X-Google-Smtp-Source: ACHHUZ4Dbh55Qlwoo7KyNgECwZgM5ueBnsnP5U3yrU4JI8BL4wET8+kX/90WUwIrhVyKAYKrAMV9hEUAJ5sV
+        d=1e100.net; s=20221208; t=1687446294; x=1690038294;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6HP4+YvUJVAPeSikWLLN9lmrDsE6bkUx0eYDaGV1KtY=;
+        b=DN7Km4yBBHPd2Hcgidty8em1eSdUU68RE38uhEcwjMtm8JAJq61H3VH7aBsZVhpOKV
+         2idlKG8GfFIlVk96nkmQT+TExIdAiHbhcCwJNcxY87+P1C3svuKpQgZfQfa4UQGd9Y2a
+         xdgpX9LAiI5qeg2NX00zH5beOtqIxS/fEdl92UTiVl8ZtX084wpTc0Q9Cv7LJ55zj8FW
+         cIR6BBoxyXfKYuVSgCB/T/28x1LcCj28RBsKS+rizO+rDBpwVQ/6z5rNcbIAyo5CypyE
+         u/VWlx0ZFqfoP9SZWYmtLM3VSjsi7TfKnGu3l6dv+/RHIvgnCqYxjROjwzpE7lpF5K1P
+         beYA==
+X-Gm-Message-State: AC+VfDy9wCJwO5KXgqqmxFovnlxktIJlE8DvxyNhqOLqUZ/DdmywGVfF
+        0+c5wewdDfi4e5PrIVSKOuw6crYguEL3
+X-Google-Smtp-Source: ACHHUZ496dL12nzIYLBFIu7BX5QCmCLSyZn7xI5fg8prNXpCnYIZvjhBPUphoZKuZ//HYYoKQleHSuToMCWm
 X-Received: from kyletso-p620lin01.ntc.corp.google.com ([2401:fa00:fc:202:b1ba:4098:b043:5e54])
- (user=kyletso job=sendgmr) by 2002:a05:6902:15c4:b0:be4:d646:48d8 with SMTP
- id l4-20020a05690215c400b00be4d64648d8mr2348639ybu.8.1687446282975; Thu, 22
- Jun 2023 08:04:42 -0700 (PDT)
-Date:   Thu, 22 Jun 2023 23:04:20 +0800
+ (user=kyletso job=sendgmr) by 2002:a81:4318:0:b0:565:9bee:22e0 with SMTP id
+ q24-20020a814318000000b005659bee22e0mr7091813ywa.0.1687446294377; Thu, 22 Jun
+ 2023 08:04:54 -0700 (PDT)
+Date:   Thu, 22 Jun 2023 23:04:23 +0800
+In-Reply-To: <20230622150423.3726894-1-kyletso@google.com>
 Mime-Version: 1.0
+References: <20230622150423.3726894-1-kyletso@google.com>
 X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
-Message-ID: <20230622150423.3726894-1-kyletso@google.com>
-Subject: [PATCH 0/3] Some fixes for select_usb_power_delivery
+Message-ID: <20230622150423.3726894-4-kyletso@google.com>
+Subject: [PATCH 3/3] usb: typec: Use sysfs_emit_at when concatenating the string
 From:   Kyle Tso <kyletso@google.com>
 To:     heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org
 Cc:     badhri@google.com, linux-usb@vger.kernel.org,
@@ -59,41 +61,31 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi, here are some fixes about the attribute "select_usb_power_delivery"
-in typec/class.c
+The buffer address used in sysfs_emit should be aligned to PAGE_SIZE.
+Use sysfs_emit_at instead to offset the buffer.
 
-===
+Fixes: a7cff92f0635 ("usb: typec: USB Power Delivery helpers for ports and partners")
+Signed-off-by: Kyle Tso <kyletso@google.com>
+---
+ drivers/usb/typec/class.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-usb: typec: Set port->pd before adding device for typec_port
-
-This one is about the visibility of the attribute. port->pd should be
-set before device_add otherwise the visibility will be false because
-port->pd is NULL.
-
-===
-
-usb: typec: Iterate pds array when showing the pd list
-
-This patch fixes a problem about the incorrect fetching of the pointers
-to each usb_power_delivery handle.
-
-===
-
-usb: typec: Use sysfs_emit_at when concatenating the string
-
-This patch changes the use of the API from sysfs_emit to sysfs_emit_at
-because the buffer address is not aligned to PAGE_SIZE.
-
-===
-
-Kyle Tso (3):
-  usb: typec: Set port->pd before adding device for typec_port
-  usb: typec: Iterate pds array when showing the pd list
-  usb: typec: Use sysfs_emit_at when concatenating the string
-
- drivers/usb/typec/class.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
-
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index e7312295f8c9..9c1dbf3c00e0 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -1288,9 +1288,9 @@ static ssize_t select_usb_power_delivery_show(struct device *dev,
+ 
+ 	for (i = 0; pds[i]; i++) {
+ 		if (pds[i] == port->pd)
+-			ret += sysfs_emit(buf + ret, "[%s] ", dev_name(&pds[i]->dev));
++			ret += sysfs_emit_at(buf, ret, "[%s] ", dev_name(&pds[i]->dev));
+ 		else
+-			ret += sysfs_emit(buf + ret, "%s ", dev_name(&pds[i]->dev));
++			ret += sysfs_emit_at(buf, ret, "%s ", dev_name(&pds[i]->dev));
+ 	}
+ 
+ 	buf[ret - 1] = '\n';
 -- 
 2.41.0.162.gfafddb0af9-goog
 
