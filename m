@@ -2,78 +2,66 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 523D2EB64DB
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Jun 2023 13:13:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7883EB64D8
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Jun 2023 14:30:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231571AbjFVNNh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Jun 2023 09:13:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60920 "EHLO
+        id S230047AbjFVOae (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Jun 2023 10:30:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjFVNNf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Jun 2023 09:13:35 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D3841BD2
-        for <linux-usb@vger.kernel.org>; Thu, 22 Jun 2023 06:13:34 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-4f7677a94d1so9894900e87.0
-        for <linux-usb@vger.kernel.org>; Thu, 22 Jun 2023 06:13:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687439612; x=1690031612;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RI/5ffYKsEHHHxNTGooqFSd7XsY9L1LTHRzS037PzHU=;
-        b=q3uQmeJsnm6V0zgh+dPRNTZ7qMWDkhamkWJNn00ViD84+HKuhjiuVOIGErm+xIB9F+
-         +62WQ0ke7ebdgpnnZLN348Cdt2S8Y2Bm/MtUnOha5dpk7xQkdRFLi0vomNinrnTD4abC
-         hDXYT+HfoXMMXHZ2v/JcPo20x+QYFF8vvlN8H9HgB4RF4zIwY35gTvvq/GB/M7VGDWoa
-         JazbdMimzr048rvdEZBbpFkXRyuJWfyKjIMwDfr1fxdPNoOmW43cZcpnbfakYwyWpB5N
-         GXzobQWCTBJ9vlqF3QP38UVKtPVHZUJ4x5sYFOsNwE9pUHXaOC59zHTrU3wqncjv23ek
-         3d9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687439612; x=1690031612;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RI/5ffYKsEHHHxNTGooqFSd7XsY9L1LTHRzS037PzHU=;
-        b=VdYVB6DWWBbkSrFSSniFFduX+l3deCRg6HovxwRweQxH6xyQAAVPB54I7rMMNk9Sib
-         CmRNcCDehPVx6wuFy508ATv9bm7fkuxt3s6X2nS9s2GpgEfRHY0nUfU2lmQHbhKPaFi+
-         clR06PW3yZiCzrAWT8t5mwl40tJIemqmlOcsYUqxMtpuzWBrgOOHKKk++zoVfdsT1iIJ
-         RoMS1qG2dwkEM58QOXQgm8goZUaOHFUWak3gOYZGgIsyzL5qiVvOevOq0T36paJ1lznZ
-         OU6Yyo9nLotLfzExtYt2ZBxx9eWpnaaUMcOXzI6DFQya5xRqubrBmjH7mY58YnQi8Jg2
-         pOcA==
-X-Gm-Message-State: AC+VfDx1FzAJljKqyaETIwjc+kRlnB3BmoeOHdzFJWBJLehQd5S51Itl
-        GsQN44NR+5/SRXLPWKBEwCw=
-X-Google-Smtp-Source: ACHHUZ5SjMi1/jCleFQn5FjPL+u52LQ9XopB61csnVamhVM2nUpgQAg6SH7ipbLFRlR1kRwk4mPHgQ==
-X-Received: by 2002:a19:e050:0:b0:4f8:453d:e56 with SMTP id g16-20020a19e050000000b004f8453d0e56mr10184309lfj.5.1687439611877;
-        Thu, 22 Jun 2023 06:13:31 -0700 (PDT)
-Received: from testvm.ubxad.u-blox.com (mob-5-90-138-76.net.vodafone.it. [5.90.138.76])
-        by smtp.googlemail.com with ESMTPSA id f1-20020adfdb41000000b0030ae499da59sm7031440wrj.111.2023.06.22.06.13.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 06:13:31 -0700 (PDT)
-From:   Davide Tronchin <davide.tronchin.94@gmail.com>
-To:     johan@kernel.org
-Cc:     davide.tronchin.94@gmail.com, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, marco.demarco@posteo.net
-Subject: Re: [PATCH v2] Add LARA-R6 01B PIDs for three different USB compositions.
-Date:   Thu, 22 Jun 2023 15:13:20 +0200
-Message-Id: <20230622131320.15083-1-davide.tronchin.94@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <ZJQ10DKDic-FEKM6@hovoldconsulting.com>
-References: <ZJQ10DKDic-FEKM6@hovoldconsulting.com>
+        with ESMTP id S229828AbjFVOad (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Jun 2023 10:30:33 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id D23DD2100
+        for <linux-usb@vger.kernel.org>; Thu, 22 Jun 2023 07:29:51 -0700 (PDT)
+Received: (qmail 717012 invoked by uid 1000); 22 Jun 2023 10:29:43 -0400
+Date:   Thu, 22 Jun 2023 10:29:43 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Guiting Shen <aarongt.shen@gmail.com>
+Cc:     gregkh@linuxfoundation.org, nicolas.ferre@microchip.com,
+        alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: ohci-at91: Fix the unhandle interrupt when resume
+Message-ID: <4cf867a9-3c78-403a-aaeb-91f6cf099a3d@rowland.harvard.edu>
+References: <20230622025739.13934-1-aarongt.shen@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230622025739.13934-1-aarongt.shen@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-> You forgot the commit summary prefix so I added that and shortened the
-> summary to make it more succinct:
->
->	USB: serial: option: add LARA-R6 01B PIDs
->
-> I also reduced the indentation of the product comments which appeared
-> excessive for the first two entries.
+On Thu, Jun 22, 2023 at 10:57:39AM +0800, Guiting Shen wrote:
+> The ohci_hcd_at91_drv_suspend() sets ohci->rh_state to OHCI_RH_HALTED when
+> suspend which will let the ohci_irq() skip the interrupt after resume. And
+> nobody to handle this interrupt.
+> 
+> Set the ohci->rh_state to OHCI_RH_SUSPEND instead of OHCI_RH_HALTED when
+> suspend to fix it.
+> 
+> Signed-off-by: Guiting Shen <aarongt.shen@gmail.com>
+> ---
+>  drivers/usb/host/ohci-at91.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/host/ohci-at91.c b/drivers/usb/host/ohci-at91.c
+> index b9ce8d80f20b..7a970e573668 100644
+> --- a/drivers/usb/host/ohci-at91.c
+> +++ b/drivers/usb/host/ohci-at91.c
+> @@ -645,7 +645,7 @@ ohci_hcd_at91_drv_suspend(struct device *dev)
+>  	 * REVISIT: some boards will be able to turn VBUS off...
+>  	 */
+>  	if (!ohci_at91->wakeup) {
+> -		ohci->rh_state = OHCI_RH_HALTED;
+> +		ohci->rh_state = OHCI_RH_SUSPENDED;
 
-Thanks a lot!
-Best regards,
+It looks like this change ignores the comment immediately above it 
+(just before the start of this hunk).
 
-Davide
+If you want to find a way to handle IRQs better after the controller 
+resumes, maybe you should change the resume routine instead of the 
+suspend routine.
+
+Alan Stern
