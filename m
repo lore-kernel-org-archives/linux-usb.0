@@ -2,22 +2,22 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5CF7C001B0
-	for <linux-usb@archiver.kernel.org>; Fri, 23 Jun 2023 14:22:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A565C001B3
+	for <linux-usb@archiver.kernel.org>; Fri, 23 Jun 2023 14:22:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230042AbjFWOWr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 23 Jun 2023 10:22:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53514 "EHLO
+        id S231330AbjFWOWs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 23 Jun 2023 10:22:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbjFWOWr (ORCPT
+        with ESMTP id S229744AbjFWOWr (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Jun 2023 10:22:47 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1AADBC
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1BDE10C
         for <linux-usb@vger.kernel.org>; Fri, 23 Jun 2023 07:22:45 -0700 (PDT)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <m.felsch@pengutronix.de>)
-        id 1qChgI-0002TJ-Bu; Fri, 23 Jun 2023 16:22:34 +0200
+        id 1qChgH-0002TJ-NL; Fri, 23 Jun 2023 16:22:33 +0200
 From:   Marco Felsch <m.felsch@pengutronix.de>
 To:     gregkh@linuxfoundation.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
@@ -26,12 +26,10 @@ To:     gregkh@linuxfoundation.org, robh+dt@kernel.org,
         uwu@icenowy.me, fabrice.gasnier@foss.st.com
 Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 2/2] usb: misc: onboard_usb_hub: add Genesys Logic GL3523 hub support
-Date:   Fri, 23 Jun 2023 16:22:28 +0200
-Message-Id: <20230623142228.4069084-2-m.felsch@pengutronix.de>
+Subject: [PATCH 1/2] dt-bindings: usb: Add binding for Genesys Logic GL3523 hub
+Date:   Fri, 23 Jun 2023 16:22:27 +0200
+Message-Id: <20230623142228.4069084-1-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230623142228.4069084-1-m.felsch@pengutronix.de>
-References: <20230623142228.4069084-1-m.felsch@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
@@ -42,47 +40,25 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Anand Moon <linux.amoon@gmail.com>
+Add the binding for the USB3.1 Genesys Logic GL3523 hub.
 
-Genesys Logic GL3523 is a 4-port USB 3.1 hub that has a reset pin to
-toggle and a 5.0V core supply exported though an integrated LDO is
-available for powering it.
-
-Add the support for this hub, for controlling the reset pin and the core
-power supply.
-
-Signed-off-by: Anand Moon <linux.amoon@gmail.com>
-[m.felsch@pengutronix.de: include review feedback & port to 6.4]
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
- drivers/usb/misc/onboard_usb_hub.c | 1 +
- drivers/usb/misc/onboard_usb_hub.h | 1 +
- 2 files changed, 2 insertions(+)
+ Documentation/devicetree/bindings/usb/genesys,gl850g.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
-index 12fc6eb67c3bf..7aab04de9d847 100644
---- a/drivers/usb/misc/onboard_usb_hub.c
-+++ b/drivers/usb/misc/onboard_usb_hub.c
-@@ -409,6 +409,7 @@ static void onboard_hub_usbdev_disconnect(struct usb_device *udev)
- static const struct usb_device_id onboard_hub_id_table[] = {
- 	{ USB_DEVICE(VENDOR_ID_GENESYS, 0x0608) }, /* Genesys Logic GL850G USB 2.0 */
- 	{ USB_DEVICE(VENDOR_ID_GENESYS, 0x0610) }, /* Genesys Logic GL852G USB 2.0 */
-+	{ USB_DEVICE(VENDOR_ID_GENESYS, 0x0620) }, /* Genesys Logic GL3523 USB 3.1 */
- 	{ USB_DEVICE(VENDOR_ID_MICROCHIP, 0x2514) }, /* USB2514B USB 2.0 */
- 	{ USB_DEVICE(VENDOR_ID_MICROCHIP, 0x2517) }, /* USB2517 USB 2.0 */
- 	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x0411) }, /* RTS5411 USB 3.1 */
-diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
-index aca5f50eb0da7..0134af1f9e42d 100644
---- a/drivers/usb/misc/onboard_usb_hub.h
-+++ b/drivers/usb/misc/onboard_usb_hub.h
-@@ -41,6 +41,7 @@ static const struct of_device_id onboard_hub_match[] = {
- 	{ .compatible = "usb451,8142", .data = &ti_tusb8041_data, },
- 	{ .compatible = "usb5e3,608", .data = &genesys_gl850g_data, },
- 	{ .compatible = "usb5e3,610", .data = &genesys_gl852g_data, },
-+	{ .compatible = "usb5e3,620", .data = &genesys_gl852g_data, },
- 	{ .compatible = "usbbda,411", .data = &realtek_rts5411_data, },
- 	{ .compatible = "usbbda,5411", .data = &realtek_rts5411_data, },
- 	{ .compatible = "usbbda,414", .data = &realtek_rts5411_data, },
+diff --git a/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml b/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
+index cc4cf92b70d18..383625c2ef008 100644
+--- a/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
++++ b/Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
+@@ -17,6 +17,7 @@ properties:
+     enum:
+       - usb5e3,608
+       - usb5e3,610
++      - usb5e3,620
+ 
+   reg: true
+ 
 -- 
 2.39.2
 
