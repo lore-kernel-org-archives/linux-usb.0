@@ -2,123 +2,93 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00185C04E69
-	for <linux-usb@archiver.kernel.org>; Fri, 23 Jun 2023 20:43:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA9DC001DC
+	for <linux-usb@archiver.kernel.org>; Fri, 23 Jun 2023 20:43:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232394AbjFWUnE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 23 Jun 2023 16:43:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55794 "EHLO
+        id S232512AbjFWUnY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 23 Jun 2023 16:43:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232503AbjFWUmr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Jun 2023 16:42:47 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FFF02112;
-        Fri, 23 Jun 2023 13:42:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1687552925; x=1719088925;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=4yoh5RmFPpDPEd8+mS0XJxngkCLNjReCGr1KTZz03Y0=;
-  b=Ydzav/UbOBRqEQjtQW7ipC+Gyc660DYpM5p2LAIv2Iiz5hEt0vMMxw/t
-   XNvOnKfX1er9m4ic28tCKKgtXD3fXFeKFtax+QavcH8yFqp9+tx5zMDQT
-   rR37cIUgu/2xiIJxvGT70FYIktKV1pR5yvuNJrV6plbB606O37MBziFY2
-   cvTDtI96im/pQPL76lVF001u6mIB9W9FDzG2yCS5Ygx0HTFQiHK4Y85h9
-   G09rlSS/Jbq6f+LFeQ9mOuEBIXmXJzkuTE1hPIOJKhowaGI7DpUHX4/1L
-   CwZgCIlFR8HimU7c8xUj4YJ9zTLtQsiHmalm1nCXu7uk3u1jB9Gr5tH5w
-   Q==;
-X-IronPort-AV: E=Sophos;i="6.01,153,1684825200"; 
-   d="scan'208";a="217419077"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 23 Jun 2023 13:40:55 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 23 Jun 2023 13:40:14 -0700
-Received: from che-lt-i67070.amer.actel.com (10.10.115.15) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2507.21 via Frontend Transport; Fri, 23 Jun 2023 13:39:46 -0700
-From:   Varshini Rajendran <varshini.rajendran@microchip.com>
-To:     <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <nicolas.ferre@microchip.com>,
-        <alexandre.belloni@bootlin.com>, <claudiu.beznea@microchip.com>,
-        <mturquette@baylibre.com>, <sboyd@kernel.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <vkoul@kernel.org>, <tglx@linutronix.de>, <maz@kernel.org>,
-        <lee@kernel.org>, <ulf.hansson@linaro.org>,
-        <tudor.ambarus@linaro.org>, <miquel.raynal@bootlin.com>,
-        <richard@nod.at>, <vigneshr@ti.com>, <edumazet@google.com>,
-        <kuba@kernel.org>, <pabeni@redhat.com>, <linus.walleij@linaro.org>,
-        <p.zabel@pengutronix.de>, <olivia@selenic.com>,
-        <a.zummo@towertech.it>, <radu_nicolae.pirea@upb.ro>,
-        <richard.genoud@gmail.com>, <gregkh@linuxfoundation.org>,
-        <lgirdwood@gmail.com>, <broonie@kernel.org>,
-        <wim@linux-watchdog.org>, <linux@roeck-us.net>, <arnd@arndb.de>,
-        <olof@lixom.net>, <soc@kernel.org>, <linux@armlinux.org.uk>,
-        <sre@kernel.org>, <jerry.ray@microchip.com>,
-        <horatiu.vultur@microchip.com>, <durai.manickamkr@microchip.com>,
-        <varshini.rajendran@microchip.com>, <andrew@lunn.ch>,
-        <alain.volmat@foss.st.com>, <neil.armstrong@linaro.org>,
-        <mihai.sain@microchip.com>, <eugen.hristev@collabora.com>,
-        <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-crypto@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
-        <linux-mtd@lists.infradead.org>, <netdev@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-serial@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-usb@vger.kernel.org>,
-        <linux-watchdog@vger.kernel.org>, <linux-pm@vger.kernel.org>
-CC:     <Hari.PrasathGE@microchip.com>, <cristian.birsan@microchip.com>,
-        <balamanikandan.gunasundar@microchip.com>,
-        <manikandan.m@microchip.com>, <dharma.b@microchip.com>,
-        <nayabbasha.sayed@microchip.com>, <balakrishnan.s@microchip.com>
-Subject: [PATCH v2 18/45] dt-bindings: i2c: at91: Add SAM9X7 compatible string
-Date:   Sat, 24 Jun 2023 02:00:29 +0530
-Message-ID: <20230623203056.689705-19-varshini.rajendran@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230623203056.689705-1-varshini.rajendran@microchip.com>
-References: <20230623203056.689705-1-varshini.rajendran@microchip.com>
+        with ESMTP id S232369AbjFWUm5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Jun 2023 16:42:57 -0400
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5584B30D8;
+        Fri, 23 Jun 2023 13:42:16 -0700 (PDT)
+Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-78333585d28so27860739f.1;
+        Fri, 23 Jun 2023 13:42:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687552873; x=1690144873;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kg94xVxU+KBk6JV80YmvR4uIRCIi8Yio8OJz8y0ssbk=;
+        b=J1XjXY1MEHAwAXZnoWli13HnNOgJyV+YHTDPE1gmC/2XzFMYFe/jAkyK86jmu8WfkN
+         wWOTXXj8F6f+1qsqFqAYVPLQBSIbB2bN5GI7mwZLtkjuz1RfwStmOHqLk9XnsplN/LHh
+         em7JQbSjUQMhCGuwPUBHP8VGzyAuix94hQCLlZGV96a+TqjSbHUFK6H70IiGGXwYbpjd
+         4cHSzpLJkhlJ04SGO+Wk9xLeBslzT/zo/4UUIT4oqA6FZEzkebV6zhwRgkUPLn1mkwaC
+         wslITwOEMdZM4UY4lIesG8coF4JILNyrMHPL6Gh1/gvEmkmDMUGv5sRpo/w4Ki7jLpA9
+         OjlA==
+X-Gm-Message-State: AC+VfDwhkCVbBhb5Etxr66kGuvMcfpwxgeupCeqK5IEMzFeUh53PNFhJ
+        MGY302EOHbiImG5jXpxIrg==
+X-Google-Smtp-Source: ACHHUZ4LUHt4NfXfv/satE+F1gFdH3T1avoQDVlD2XXbG2ZJJT/R6HUWYFMBKKHGXAU0Cl+v8ZbCqg==
+X-Received: by 2002:a05:6602:2995:b0:760:f795:ccdf with SMTP id o21-20020a056602299500b00760f795ccdfmr20481712ior.8.1687552873011;
+        Fri, 23 Jun 2023 13:41:13 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id a15-20020a056602208f00b0077e3acd5ea1sm38156ioa.53.2023.06.23.13.41.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jun 2023 13:41:11 -0700 (PDT)
+Received: (nullmailer pid 1083781 invoked by uid 1000);
+        Fri, 23 Jun 2023 20:41:09 -0000
+Date:   Fri, 23 Jun 2023 14:41:09 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Krishna Kurapati <quic_kriskura@quicinc.com>
+Cc:     Felipe Balbi <balbi@kernel.org>, ahalaney@redhat.com,
+        Andy Gross <agross@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        quic_ppratap@quicinc.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        quic_harshq@quicinc.com, linux-usb@vger.kernel.org,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        devicetree@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
+        quic_shazhuss@quicinc.com, Johan Hovold <johan@kernel.org>,
+        quic_jackp@quicinc.com, linux-kernel@vger.kernel.org,
+        quic_pkondeti@quicinc.com, linux-arm-msm@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [PATCH v9 01/10] dt-bindings: usb: qcom,dwc3: Add bindings for
+ SC8280 Multiport
+Message-ID: <168755286916.1083702.6661052967683571256.robh@kernel.org>
+References: <20230621043628.21485-1-quic_kriskura@quicinc.com>
+ <20230621043628.21485-2-quic_kriskura@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230621043628.21485-2-quic_kriskura@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add compatible string for sam9x7.
 
-Signed-off-by: Varshini Rajendran <varshini.rajendran@microchip.com>
----
- Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+On Wed, 21 Jun 2023 10:06:19 +0530, Krishna Kurapati wrote:
+> Add the compatible string for SC8280 Multiport USB controller from
+> Qualcomm.
+> 
+> There are 4 power event irq interrupts supported by this controller
+> (one for each port of multiport). Added all the 4 as non-optional
+> interrupts for SC8280XP-MP
+> 
+> Also each port of multiport has one DP and oen DM IRQ. Add all DP/DM
+> IRQ's related to 4 ports of SC8280XP Teritiary controller.
+> 
+> Also added ss phy irq for both SS Ports.
+> 
+> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+> ---
+>  .../devicetree/bindings/usb/qcom,dwc3.yaml    | 29 +++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
 
-diff --git a/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml b/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml
-index 6adedd3ec399..440f890e209f 100644
---- a/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml
-+++ b/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml
-@@ -24,9 +24,11 @@ properties:
-               - atmel,sama5d4-i2c
-               - atmel,sama5d2-i2c
-               - microchip,sam9x60-i2c
-+              - microchip,sam9x7-i2c
-       - items:
-           - const: microchip,sama7g5-i2c
-           - const: microchip,sam9x60-i2c
-+          - const: microchip,sam9x7-i2c
- 
-   reg:
-     maxItems: 1
-@@ -84,6 +86,7 @@ allOf:
-               - atmel,sama5d4-i2c
-               - atmel,sama5d2-i2c
-               - microchip,sam9x60-i2c
-+              - microchip,sam9x7-i2c
-               - microchip,sama7g5-i2c
-     then:
-       properties:
--- 
-2.25.1
+Reviewed-by: Rob Herring <robh@kernel.org>
 
