@@ -2,121 +2,132 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23045EB64DC
-	for <linux-usb@archiver.kernel.org>; Sat, 24 Jun 2023 09:20:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E755EEB64DA
+	for <linux-usb@archiver.kernel.org>; Sat, 24 Jun 2023 13:04:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232987AbjFXJUB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 24 Jun 2023 05:20:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50462 "EHLO
+        id S229820AbjFXNE0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 24 Jun 2023 09:04:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232831AbjFXJT7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 24 Jun 2023 05:19:59 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33AA21BC2
-        for <linux-usb@vger.kernel.org>; Sat, 24 Jun 2023 02:19:58 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-51a2de3385fso1810676a12.0
-        for <linux-usb@vger.kernel.org>; Sat, 24 Jun 2023 02:19:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687598396; x=1690190396;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KfAcGT4J8pUoMJBGxBaLszgHGiS6c9l8JOpUoHeAAOA=;
-        b=yQVzjTKSXVmVV9dLLVhjlfW4hSkCHaHSkFp8XKDuppCzQpGHvyVttjnWT3sZWadL6G
-         Aptg8K8aHU9euO2VsKWw8w5GNb7iZUmQN6s980dsKNw8bDt/Gg0mjyG+1qbTOWHueIrY
-         /Q6bxSUkrx10KI9Bk3ImA6gPyy5RwRLI1IVUQjGo73WdFwY+k9WU2qYNImsGMRH4LVBY
-         NGoLGDAz09o/yosqduTlRt/bCpwDw40AnKJvyTtb5EsV6kYLtwXhkQO6myiWdEiHilCp
-         eezk0kHCVcUBB/e4mc1VfkMXxJnPCuve2SWX/BdtYwhjQIOCgvko85iNcFXLb/8ecU/N
-         rm6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687598396; x=1690190396;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KfAcGT4J8pUoMJBGxBaLszgHGiS6c9l8JOpUoHeAAOA=;
-        b=WLkind25CBIHiF2neMRuDrBSJrfBrD9iThnTjy4p5Li6tB2EBzlPgt6jT3Ss42hrDR
-         j+yBP8bOjiN8oO9Xm9/h9OLmoqGw0ggUK+i4Wp3p0+lrgiKHeA3p6tXg0VQ2A0ArEks9
-         SpZimldcrBmrZvF3zHhJo/kjFCd9J+9fuqlopfV7NuiumK5ns0uqQh8zDWq7UMdMZGSd
-         l5thY7Eh/ZSKarUW8XB9QpH2rzBBgacVKykEQSBXwtve/aPOPwVUs5OVZZbkZYx/ZH81
-         qBGQQiEOAW6jIEolcaQpiKgcWncghKDY8J7r7nUEyLex6RhtywFrzYesnjefG0Q70vdm
-         IGFg==
-X-Gm-Message-State: AC+VfDzhaKhqoglEr9E8ed6A4D0JW5HWTInLOgN3Uv/JVgZhiKFZMKiq
-        Tad6/WoNrTGuHMyIqkEKl9Zmng==
-X-Google-Smtp-Source: ACHHUZ5fG8f481PX14S7vktzFZQMA1l6HoKP1yysFPHfBvGgcLJOb2TMBp2polua7/w5jYwHHssrXQ==
-X-Received: by 2002:a17:907:987:b0:987:6372:c31f with SMTP id bf7-20020a170907098700b009876372c31fmr16230436ejc.37.1687598396633;
-        Sat, 24 Jun 2023 02:19:56 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id p13-20020a1709060e8d00b00989065149d0sm663324ejf.86.2023.06.24.02.19.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 24 Jun 2023 02:19:55 -0700 (PDT)
-Message-ID: <ca3b6a75-2811-6013-28cc-9f6a7854b469@linaro.org>
-Date:   Sat, 24 Jun 2023 11:19:49 +0200
+        with ESMTP id S229659AbjFXNEY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 24 Jun 2023 09:04:24 -0400
+Received: from h1.cmg2.smtp.forpsi.com (h1.cmg2.smtp.forpsi.com [81.2.195.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 015AC10D8
+        for <linux-usb@vger.kernel.org>; Sat, 24 Jun 2023 06:04:20 -0700 (PDT)
+Received: from lenoch ([91.218.190.200])
+        by cmgsmtp with ESMTPSA
+        id D2w4qsQhCv5uID2w6quZLq; Sat, 24 Jun 2023 15:04:18 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
+        t=1687611858; bh=A8Qf65Rob09U35oGENSWDKjvcQjFxw6Jr7EPtXZ0RBs=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+        b=ddhgenzM9l5OX3VPJHJHnjXam1iTTPHItMmcnb1nzdS49b+PiY9FUzxmQ7qqSsPRv
+         8twLuDnQgujybwJQ7j9EmTNgm71tIg1O7K+voRaNLx4pkPGHcnUnyFbPZtomGLI4R4
+         7GB0lDmrln18PC2Ql7RZ+RzzramRbjxDStmf85zhsrSJDtRba/wV1tmeUerLMovaly
+         WaHEkao40VDR9pymw/FKcNiGX7+v47uHh2UpAliOjdtTC9F/IiMyO8kFwM5C3PcuWY
+         a3AXXSzfuiKRRfxvzJXEDVf8gvIleG6gJy4m41s1sm8qY9khc9+KUDc147ez8/b5Gq
+         WVwc9aPoiE3Og==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
+        t=1687611858; bh=A8Qf65Rob09U35oGENSWDKjvcQjFxw6Jr7EPtXZ0RBs=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+        b=ddhgenzM9l5OX3VPJHJHnjXam1iTTPHItMmcnb1nzdS49b+PiY9FUzxmQ7qqSsPRv
+         8twLuDnQgujybwJQ7j9EmTNgm71tIg1O7K+voRaNLx4pkPGHcnUnyFbPZtomGLI4R4
+         7GB0lDmrln18PC2Ql7RZ+RzzramRbjxDStmf85zhsrSJDtRba/wV1tmeUerLMovaly
+         WaHEkao40VDR9pymw/FKcNiGX7+v47uHh2UpAliOjdtTC9F/IiMyO8kFwM5C3PcuWY
+         a3AXXSzfuiKRRfxvzJXEDVf8gvIleG6gJy4m41s1sm8qY9khc9+KUDc147ez8/b5Gq
+         WVwc9aPoiE3Og==
+Date:   Sat, 24 Jun 2023 15:04:16 +0200
+From:   Ladislav Michl <oss-lists@triops.cz>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>
+Subject: Re: [PATCH 00/11] Cleanup Octeon DWC3 glue code
+Message-ID: <ZJbp0P5fYkvTLN5g@lenoch>
+References: <ZJC165p0Mj4jHcBh@lenoch>
+ <20230622230149.4wpvtlpsu7473txr@synopsys.com>
+ <ZJVQUzVW+NzCgH7i@lenoch>
+ <20230623232420.vfvkqkcee5jrrkmo@synopsys.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 01/45] dt-bindings: microchip: atmel,at91rm9200-tcb:
- add sam9x60, sam9x7 compatible
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Varshini Rajendran <varshini.rajendran@microchip.com>,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, nicolas.ferre@microchip.com,
-        alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
-        mturquette@baylibre.com, sboyd@kernel.org,
-        herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org,
-        tglx@linutronix.de, maz@kernel.org, lee@kernel.org,
-        ulf.hansson@linaro.org, tudor.ambarus@linaro.org,
-        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        linus.walleij@linaro.org, p.zabel@pengutronix.de,
-        olivia@selenic.com, a.zummo@towertech.it,
-        radu_nicolae.pirea@upb.ro, richard.genoud@gmail.com,
-        gregkh@linuxfoundation.org, lgirdwood@gmail.com,
-        broonie@kernel.org, wim@linux-watchdog.org, linux@roeck-us.net,
-        arnd@arndb.de, olof@lixom.net, soc@kernel.org,
-        linux@armlinux.org.uk, sre@kernel.org, jerry.ray@microchip.com,
-        horatiu.vultur@microchip.com, durai.manickamkr@microchip.com,
-        andrew@lunn.ch, alain.volmat@foss.st.com,
-        neil.armstrong@linaro.org, mihai.sain@microchip.com,
-        eugen.hristev@collabora.com, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org,
-        dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Cc:     Hari.PrasathGE@microchip.com, cristian.birsan@microchip.com,
-        balamanikandan.gunasundar@microchip.com,
-        manikandan.m@microchip.com, dharma.b@microchip.com,
-        nayabbasha.sayed@microchip.com, balakrishnan.s@microchip.com
-References: <20230623203056.689705-1-varshini.rajendran@microchip.com>
- <20230623203056.689705-2-varshini.rajendran@microchip.com>
- <074048a2-5153-e013-3562-b5cad2ba0954@linaro.org>
-In-Reply-To: <074048a2-5153-e013-3562-b5cad2ba0954@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230623232420.vfvkqkcee5jrrkmo@synopsys.com>
+X-CMAE-Envelope: MS4wfOY9Vg2wt24jzn69gegLtgwCyOhJpUAcjTsDrgSrenZBywKfuBRP9r8Citz+FhztjMyh2WYzeSQAyaOLWN2TpFn7nY6DtpnIp+tGw84MGRlGvGWxS5qp
+ gi2i8ALgyVzdiDxeKt8vVl1Cpb/Sl1s4BENivLS7x9YmL7U200Etyj+Z7YtU4T/VcQwq07SjLEHFECx0g9fHObTfO0mQuMAII7tTNvJuRnaNVffJAwc8lVmQ
+ lJk/SAOIXs3qocBd/etP0w==
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 24/06/2023 09:53, Krzysztof Kozlowski wrote:
-> On 23/06/2023 22:30, Varshini Rajendran wrote:
->> Add sam9x60, sam9x7 compatible string support in the schema file.
->>
->> Signed-off-by: Varshini Rajendran <varshini.rajendran@microchip.com>
->> ---
->>  .../devicetree/bindings/soc/microchip/atmel,at91rm9200-tcb.yaml | 
+Hi,
+
+On Fri, Jun 23, 2023 at 11:24:24PM +0000, Thinh Nguyen wrote:
+> On Fri, Jun 23, 2023, Ladislav Michl wrote:
+> > Hi,
+> > 
+> > On Thu, Jun 22, 2023 at 11:01:54PM +0000, Thinh Nguyen wrote:
+> > > Hi,
+> > [snip]
+> > > Please use get_maintainer.pl to get all the proper maintainers to review
+> > > the changes.
+> > 
+> > That's what I did. Thomas, MIPS maintainer is reading linux-mips list,
+> > Greg is reading linux-usb list, you were the one who receives changes,
+> > hence all patcheset was sent to you in a hope you provide some comments
+> > about actual code changes.
 > 
+> I can take a look at the changes. However, the patches were sent
+> directly To: me for patches related MIPS and no one else except the
+> linux-usb linux-mips (without Thomas), which doesn't look right.
 > 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> I'm not familiar with the MIPS subsystem, but typically for the USB
+> mailing list, we capture all the emails generated from get_maintainer.pl
+> and include them To: and Cc: should they need attention to the changes.
+> Often we filter our emails based on whether it's directed toward us, at
+> least I do that. Also, we can't be sure if everyone still subscribes to
+> the corresponding mailing list.
 
-Un-acked. Actually NAK.
+Did you run get_maintainer.pl yourself? Because here (for v6.3) I get:
+$ ./scripts/get_maintainer.pl -f arch/mips/cavium-octeon/octeon-usb.c 
+Thomas Bogendoerfer <tsbogend@alpha.franken.de> (maintainer:MIPS,commit_signer:1/1=100%)
+Ladislav Michl <ladis@linux-mips.org> (commit_signer:1/1=100%,authored:1/1=100%,added_lines:20/20=100%,removed_lines:22/22=100%)
+linux-mips@vger.kernel.org (open list:MIPS)
+linux-kernel@vger.kernel.org (open list)
+$ ./scripts/get_maintainer.pl -f drivers/usb/dwc3
+Thinh Nguyen <Thinh.Nguyen@synopsys.com> (maintainer:DESIGNWARE USB3 DRD IP DRIVER)
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> (supporter:USB SUBSYSTEM)
+linux-usb@vger.kernel.org (open list:DESIGNWARE USB3 DRD IP DRIVER)
+linux-kernel@vger.kernel.org (open list)
 
-This does not match your DTS. Please test your patches before sending.
+So I have no clue who else should I add to Cc list...
 
-Best regards,
-Krzysztof
+> > 
+> > > Since this is a large change involving different subsystems, if
+> > > possible, please split the changes related to MIPS and try to upstream
+> > > those first as they will affect how dwc3 glue driver will look.
+> > 
+> > That's pretty straightforward as patchset is arranged exactly this way,
+> > so MIPS maintainer is free to apply patches till driver move.
+> > However, any actual feedback would be still usefull. In case it gets
+> > some acks I'll add them and rebase patches to the latest -next.
+> > 
+> 
+> Then that's good. If the MIPS maintainer approves all the MIPS related
+> changes and already pick them up, there should be no problem.
 
+Well, remaining question is how to make it comfortable for you to take
+changes. Patches 1-7 are in mips-next already, so I propose to wait until
+they propagate upstream then I rebase remaining patches to whatever is
+in linux-next.
+
+Please note I added glue driver into Makefile and Kconfig at random
+locations as I failed to find any logic here. If you have any preference
+or want to sort those files alphabetically first for example, just let
+me know and I'll add some cleanup patches before sending v2.
+
+Also coleagues of mine meanwhile found that PLL indeed ocassionally
+fails to lock, so workaround attached to cover letter is really needed.
+Naturally it cannot sneak in as it is, so unless you have better idea
+I'll just port it to recent driver state and we can start discussion
+from there in a separate thread.
+
+Thank you,
+	ladis
