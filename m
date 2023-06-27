@@ -2,61 +2,61 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D412EB64D9
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jun 2023 16:26:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB2BBC001B1
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jun 2023 16:26:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232107AbjF0QYv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Jun 2023 12:24:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46062 "EHLO
+        id S230301AbjF0Q0v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Jun 2023 12:26:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231974AbjF0QYq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jun 2023 12:24:46 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70B3926A9
-        for <linux-usb@vger.kernel.org>; Tue, 27 Jun 2023 09:24:44 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-4f875b267d9so6780951e87.1
-        for <linux-usb@vger.kernel.org>; Tue, 27 Jun 2023 09:24:44 -0700 (PDT)
+        with ESMTP id S232062AbjF0QYu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jun 2023 12:24:50 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 391581FF0
+        for <linux-usb@vger.kernel.org>; Tue, 27 Jun 2023 09:24:49 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4f95bf5c493so6339637e87.3
+        for <linux-usb@vger.kernel.org>; Tue, 27 Jun 2023 09:24:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687883082; x=1690475082;
+        d=linaro.org; s=google; t=1687883087; x=1690475087;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TYGwW56BAscqG/0XM30LcNKT0W+nOLB99DFPYLoa8h4=;
-        b=sibabZov11lA3Xz8hfW0CnXHL9Af+u9rZK5RCzkJFaCiw551/f9xZ8opO7gjVBdEuH
-         4SIMesrNMaC72EWkZteivG5Mie8GpKa4ThW5V7hjw+/vbcF9jf3VlvaT+8jm5ehZHwMH
-         jFEqhqLxglmtYkjRwWp0OxkupmtoUhVTMcGNMHbmDKaJ5WAQ5QC2SQuX4nowPy80xWS9
-         8wRjmPXVOvdpRotfLb1w7oPL3+nDltxYij9cog3TMkkUlnFeOempPVVcUI4MxTNn3tLv
-         OV3FN3H2RA/C8m4TNL1jQMauQWyhBuwzdh2hd+IV6khyZR4+hVIvIv8TC/K8oBljMk82
-         f1Cw==
+        bh=kCywy6cYyFYFI8kb//sHM+EK5WqBRRu8/iqRaDkQ84M=;
+        b=XyWyHIoH2Ze407Yj6nB28IeDN1CDtgfv8AZnJhnbW2U++0ntJoYl3/QVHOKlr0ugmN
+         o6vqww24W07lweLE9ksjl1AFLoMK4ShQBmEr1zNIq0EoyAnN9vej5YV2E951JkQg/mj6
+         f2be8GMogkEAs23/fSmFJvgtXz/EWJRnx72oJgzg7t4GlH7aGGXtbYQyLDT7IEdCqSqo
+         DVYVJAMNjin1r7Ia2V7ZXhY5pJcfcejnwajh9n3V0xWXb6BLAr6EsO0FSIo+81Lam1J+
+         dX9zLDenkoPZH6PhWyeFQ7e6lwaX3pCRTuLZDTvb0GJrasYd9Ow7d4TVrxni4hfHa5GJ
+         x6/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687883082; x=1690475082;
+        d=1e100.net; s=20221208; t=1687883087; x=1690475087;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TYGwW56BAscqG/0XM30LcNKT0W+nOLB99DFPYLoa8h4=;
-        b=iboSJTGv216YLRWjMmj5WyTvyubeVE2QvkkhORdBJFAJwjNqDrqu/wNq3O2qKxzkiF
-         /7v5keT+d6hqDU7mvayTso84rQz8QZbjsjlpO5sXNL4MqVUuEahjYRY+Qo3PqHWZyB3w
-         wSKWKrfMZXLSrhB2R/85MpgHyzOsIEnfUvMf0k71n7+NGar63tEHiw3LwFpjHfXgoT6F
-         P9Mv36k07mnQ5zIlt9NNsLxX0FmHakK7C6Tf312LeW3DWPFqCRukbeEMTOB+vV2Dd8ZW
-         gn8P0/N7mo1krkPLija8kNXNj5jmiOdiPcspfTfOwQbDJlHNvBwhIV7XV/fg+H+ai25k
-         5UNw==
-X-Gm-Message-State: AC+VfDwOXbtG/aKq62h1AexjM88aKOCt22wn62Lw/Ipk/ELRax1O5AD3
-        QeLx26gQXmOsoio8mvGkV28HBw==
-X-Google-Smtp-Source: ACHHUZ6lX9HpYxBjrECJJ0g2VIDJjeuZFhbfBiepWtS3n4v5ytBlMzMZaWyOH3hpcvldbLNDqBOUIw==
-X-Received: by 2002:a19:4f46:0:b0:4f8:767d:9b98 with SMTP id a6-20020a194f46000000b004f8767d9b98mr13266735lfk.37.1687883082651;
-        Tue, 27 Jun 2023 09:24:42 -0700 (PDT)
+        bh=kCywy6cYyFYFI8kb//sHM+EK5WqBRRu8/iqRaDkQ84M=;
+        b=HWzgAIUjbP4V1X1JIGH1Wp2S6quMLht5Q3MWbeoxl8GxWuFoTpp1APXSgZIaz0n8Zj
+         35gc7EoE028zfpUVA9ct//WdcT1CIBtUeSf/4kvZT5xXQEXKFhq5nmRVc09SBVbHDHhw
+         dDBYM5rxDTuTtda4E079ktUCuVwibhOyeyo2JfkkgT5342/VaLbR/2wts+fMYHaQocXw
+         Vv9xkgtQJCLRFPWLaDKXRxoyagIjfhjjrHEwdGBC/7vJOo2CQ7/m7B2M3+hBqZ3rsD2T
+         3FA53KxvYOolPIN+s473zpgBGpZjw8lL3kqLvK/0ErXHEG59rTVk0KDxGQRsuhH920Xd
+         ESAw==
+X-Gm-Message-State: AC+VfDxvLMFEEPL0nKAwJDztYppIBnGvtSzLJ2CtGI2lQ9nHaFIxt70T
+        DFt1unrKr2BCjK5nY3HmU8jfWA==
+X-Google-Smtp-Source: ACHHUZ6LwrqrxKXfB30IuTt/FkjnhAznIHKgmo2XPru91QszdrHpLXOaCrfYFLxXQmjHKGnPvCbFNA==
+X-Received: by 2002:a19:4f52:0:b0:4f8:66e1:14e3 with SMTP id a18-20020a194f52000000b004f866e114e3mr15836081lfk.17.1687883087477;
+        Tue, 27 Jun 2023 09:24:47 -0700 (PDT)
 Received: from [192.168.1.101] (abxj103.neoplus.adsl.tpnet.pl. [83.9.3.103])
-        by smtp.gmail.com with ESMTPSA id g7-20020a19ac07000000b004fb259a5589sm1190508lfc.104.2023.06.27.09.24.40
+        by smtp.gmail.com with ESMTPSA id g7-20020a19ac07000000b004fb259a5589sm1190508lfc.104.2023.06.27.09.24.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jun 2023 09:24:42 -0700 (PDT)
+        Tue, 27 Jun 2023 09:24:47 -0700 (PDT)
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Tue, 27 Jun 2023 18:24:18 +0200
-Subject: [PATCH 02/11] arm64: dts: qcom: msm8939: Drop
- "qcom,idle-state-spc" compatible
+Date:   Tue, 27 Jun 2023 18:24:20 +0200
+Subject: [PATCH 04/11] arm64: dts: qcom: apq8039-t2: Drop inexistent
+ property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230627-topic-more_bindings-v1-2-6b4b6cd081e5@linaro.org>
+Message-Id: <20230627-topic-more_bindings-v1-4-6b4b6cd081e5@linaro.org>
 References: <20230627-topic-more_bindings-v1-0-6b4b6cd081e5@linaro.org>
 In-Reply-To: <20230627-topic-more_bindings-v1-0-6b4b6cd081e5@linaro.org>
 To:     cros-qcom-dts-watchers@chromium.org,
@@ -98,51 +98,37 @@ Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
         Andy Gross <andy.gross@linaro.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1687883074; l=1417;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1687883074; l=689;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=KPBhSzTOaGsAxteWT+99n4sapq26eBljMzOXJq+YN8U=;
- b=7EVfTk09owESIRFxaijnEfMskf7M1hyXNYPlsteOAdqP/jSMvA3awlLrUye0s9uVnU2WKwmNh
- nJELXr7ZA9QCRbfxrzR6dCs4sjLsMeuIeTO+P3N6fWRU3Zb/sUlBmU4
+ bh=apph7LSM6ElNjbIp4Sa6AEpFAvPu59qNl9eL4vnUenE=;
+ b=LRBHRbniws8u4a1P+s6dSMgJ58xXojZSxnIPFilY8FRHxj7kwk+9c9/vrMndrQrYkMe6HLBA1
+ qsSb3Hqz11BDWo/hVkufLbnuhTmhrQ/zLN4kTfHuIj/Obe2lz0rA+wR
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-As of today, the only cool and legal way to get ARM64 SMP going is
-via PSCI (or spin tables). Sadly, not all chip and device vendors were
-considerate of this in the early days of arm64. Qualcomm, for example
-reused their tried-and-true spin-up method from MSM8974 and their Krait/
-arm32 Cortex designs.
+'pin-switch-delay-us' is not used anywhere in the mainline kernel.
+Drop it.
 
-MSM8916 supports SMP with its arm32 dt overlay, as probably could 8939.
-But the arm64 DT should not define non-PSCI SMP or CPUidle stuff.
-
-Drop the qcom,idle-state-spc compatible (associated with Qualcomm-specific
-CPUIdle) to make the dt checker happy:
-
-apq8039-t2.dtb: idle-states: cpu-sleep-0:compatible:
-['qcom,idle-state-spc', 'arm,idle-state'] is too long
-
-Fixes: 61550c6c156c ("arm64: dts: qcom: Add msm8939 SoC")
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/msm8939.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/qcom/apq8039-t2.dts | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8939.dtsi b/arch/arm64/boot/dts/qcom/msm8939.dtsi
-index 05d8abbbc840..38fc22e66bda 100644
---- a/arch/arm64/boot/dts/qcom/msm8939.dtsi
-+++ b/arch/arm64/boot/dts/qcom/msm8939.dtsi
-@@ -155,7 +155,7 @@ CPU7: cpu@3 {
+diff --git a/arch/arm64/boot/dts/qcom/apq8039-t2.dts b/arch/arm64/boot/dts/qcom/apq8039-t2.dts
+index 43686bbd87f4..027d1da7e81d 100644
+--- a/arch/arm64/boot/dts/qcom/apq8039-t2.dts
++++ b/arch/arm64/boot/dts/qcom/apq8039-t2.dts
+@@ -374,7 +374,6 @@ &usb {
+ 	pinctrl-0 = <&pinctrl_otg_default>;
+ 	pinctrl-1 = <&pinctrl_otg_host>;
+ 	pinctrl-2 = <&pinctrl_otg_device>;
+-	pin-switch-delay-us = <100000>;
+ 	usb-role-switch;
+ 	status = "okay";
  
- 		idle-states {
- 			CPU_SLEEP_0: cpu-sleep-0 {
--				compatible ="qcom,idle-state-spc", "arm,idle-state";
-+				compatible = "arm,idle-state";
- 				entry-latency-us = <130>;
- 				exit-latency-us = <150>;
- 				min-residency-us = <2000>;
 
 -- 
 2.41.0
