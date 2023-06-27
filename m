@@ -2,40 +2,40 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BCDBC0015E
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jun 2023 11:21:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B64D1C001B1
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jun 2023 11:24:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231289AbjF0LVE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Jun 2023 07:21:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39150 "EHLO
+        id S231482AbjF0LYg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Jun 2023 07:24:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbjF0LVE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jun 2023 07:21:04 -0400
+        with ESMTP id S229884AbjF0LYd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jun 2023 07:24:33 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 410C91FD7;
-        Tue, 27 Jun 2023 04:21:03 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80FA1296A;
+        Tue, 27 Jun 2023 04:24:06 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BF6D761188;
-        Tue, 27 Jun 2023 11:21:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E159C433C8;
-        Tue, 27 Jun 2023 11:21:02 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1512B61117;
+        Tue, 27 Jun 2023 11:24:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DEE4C433C8;
+        Tue, 27 Jun 2023 11:24:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687864862;
-        bh=Q9qnwakktKMhnQJqDOunw6TVMRHO8YvXRuMsSjDX96s=;
+        s=k20201202; t=1687865045;
+        bh=Prlun11rJOIMAzsv1OBlBmCoq1zgUp9+r/ZIMTOKY4c=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gaf/ykpL4xgmxRKzzDQ3SMuUoPYBQFOEVeUv6TIK+gwmNj3zSRn+7ZEK85f8iQZps
-         ub1AJvE818mcmwYKw1ukMEbBDE1zxo7a9dp1MehIeCnrXuqMZ3evBvAzV/3XY+758y
-         K7pQv25jGrAVc7ISu5nTXU2a3ISwpGnOAwYpNm8hpKuRxfVknPdm463i5xhC9uNtG0
-         dGbytmEgGCkfGzgK8nhDkZ5MrG2+/l7IaLND240//8T/oLCk+KaXmUxFaP3gFJRUf/
-         AvPTcJHwTDNHQ8sbPMTM9i8e5tU3geu14BjsqcfszzP5DszA2q5ORTBmwWm25cFJn6
-         PswZlSndxDVjg==
+        b=V45ksJpqjZewQHVmCGcAUd+vhJY5qFsxz6FWOLQ8AmUJpquRUzn0ccql3n6PMLIhI
+         XuH1VLXZMa6IPbUtcmNrwpSQybIwYNIf9l87lDhvU7EqRvrHK3VRedAiS6VktOk+iu
+         VEBJ4sRnvkM7asOtjvG0Z59KApOjkZmJQitohIWrmklKn8djgPojZAeYduZf0unrCR
+         FRmC4bsADE80C2A6f0eGESOu3/fqFXubynE2L7S+TakEpKbRZzXorqO3+0urtRUiK4
+         R+HigFSjV4ZbFtjuTzwIIgYi5nEegre5kqxMTXBfW/Hs1pykA2jzrd6mRSoN2IA71e
+         Au/tVfiIuengQ==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1qE6kl-0002D9-2n; Tue, 27 Jun 2023 13:20:59 +0200
-Date:   Tue, 27 Jun 2023 13:20:59 +0200
+        id 1qE6ni-0002EP-OU; Tue, 27 Jun 2023 13:24:02 +0200
+Date:   Tue, 27 Jun 2023 13:24:02 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Krishna Kurapati <quic_kriskura@quicinc.com>
 Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
@@ -52,100 +52,26 @@ Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         quic_pkondeti@quicinc.com, quic_ppratap@quicinc.com,
         quic_jackp@quicinc.com, quic_harshq@quicinc.com,
-        ahalaney@redhat.com, quic_shazhuss@quicinc.com
-Subject: Re: [PATCH v9 01/10] dt-bindings: usb: qcom,dwc3: Add bindings for
- SC8280 Multiport
-Message-ID: <ZJrGG6FXWLacRLbg@hovoldconsulting.com>
+        ahalaney@redhat.com, quic_shazhuss@quicinc.com,
+        Bjorn Andersson <quic_bjorande@quicinc.com>
+Subject: Re: [PATCH v9 02/10] dt-bindings: usb: Add bindings for multiport
+ properties on DWC3 controller
+Message-ID: <ZJrG0kScA3sHw4l9@hovoldconsulting.com>
 References: <20230621043628.21485-1-quic_kriskura@quicinc.com>
- <20230621043628.21485-2-quic_kriskura@quicinc.com>
+ <20230621043628.21485-3-quic_kriskura@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230621043628.21485-2-quic_kriskura@quicinc.com>
+In-Reply-To: <20230621043628.21485-3-quic_kriskura@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 10:06:19AM +0530, Krishna Kurapati wrote:
-> Add the compatible string for SC8280 Multiport USB controller from
-> Qualcomm.
-> 
-> There are 4 power event irq interrupts supported by this controller
-> (one for each port of multiport). Added all the 4 as non-optional
-> interrupts for SC8280XP-MP
-> 
-> Also each port of multiport has one DP and oen DM IRQ. Add all DP/DM
-> IRQ's related to 4 ports of SC8280XP Teritiary controller.
-> 
-> Also added ss phy irq for both SS Ports.
-> 
-> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
- 
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - qcom,sc8280xp-dwc3-mp
-> +    then:
-> +      properties:
-> +        interrupts:
+On Wed, Jun 21, 2023 at 10:06:20AM +0530, Krishna Kurapati wrote:
+> Add bindings to indicate properties required to support multiport
+> on Snps Dwc3 controller.
 
-You also need minItems 14 here.
-
-> +          maxItems: 14
-> +        interrupt-names:
-
-And here, I think.
-
-> +          items:
-> +            - const: dp1_hs_phy_irq
-> +            - const: dm1_hs_phy_irq
-> +            - const: dp2_hs_phy_irq
-> +            - const: dm2_hs_phy_irq
-> +            - const: dp3_hs_phy_irq
-> +            - const: dm4_hs_phy_irq
-> +            - const: dp4_hs_phy_irq
-> +            - const: dm4_hs_phy_irq
-> +            - const: ss1_phy_irq
-> +            - const: ss2_phy_irq
-> +            - const: pwr_event_1
-> +            - const: pwr_event_2
-> +            - const: pwr_event_3
-> +            - const: pwr_event_4
-
-The naming here is inconsistent and interrupts should not have "_irq"
-suffixes (even if some of the current ones do for historical reasons).
-
-I believe these should be named
-
-	pwr_event_1
-	dp_hs_phy_1
-	dm_hs_phy_1
-	ss_phy_1
-
-	pwr_event_2
-	dp_hs_phy_2
-	dm_hs_phy_2
-	ss_phy_2
-
-	pwr_event_3
-	dp_hs_phy_3
-	dm_hs_phy_3
-
-	pwr_event_4
-	dp_hs_phy_4
-	dm_hs_phy_4
-
-or similar and be grouped by port while using the the
-qcom,sc8280xp-dwc ordering for the individual lines.
-
-Side note: Please note how the above interrupt properties can also be
-used to infer the number of HS and SS ports.
-
-> +
->  additionalProperties: false
->  
->  examples:
+Please spell out "Synopsis" and use consistent capitalisation for dwc3
+(i.e. "dwc3" or "DWC3").
 
 Johan
