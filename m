@@ -2,144 +2,169 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F14C2EB64D9
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jun 2023 11:00:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 433D0EB64D9
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jun 2023 11:18:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230189AbjF0LAg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Jun 2023 07:00:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59120 "EHLO
+        id S230283AbjF0LSp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Jun 2023 07:18:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjF0LAe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jun 2023 07:00:34 -0400
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2048.outbound.protection.outlook.com [40.107.22.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ACC21BE7
-        for <linux-usb@vger.kernel.org>; Tue, 27 Jun 2023 04:00:33 -0700 (PDT)
+        with ESMTP id S231562AbjF0LS3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jun 2023 07:18:29 -0400
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2048.outbound.protection.outlook.com [40.107.20.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FF852950;
+        Tue, 27 Jun 2023 04:18:24 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KY7E56gb31xjVnbPV1YA9U5APi6nF5woVQ+nM+OFZp9kLJyXm997ZkYAdTt9nqgNuazdi+DRu7Yk2tvB4R3JUY54uB/RdtneIZ66ujDY45vPxrGTQ/n+8p1i8aoqHH3EUuXjZ1VXT/QARO9r0H10qrt7jRcr6FN2s3HxKrLdeqXGDF8jCt7+hkHTRSstNFQgFjNSdwYFXB+OhwAZyFkryUpsFbG0PhqF9l5hvzF/7gflvYKLtd+Ia/n2RvYC8fD8gmUbg3dQH1eUcpdXweYtdtVf9iOU8eBxb06uAW1G1HNoDJX5YGeTLPZfz66Dret6Mlqx7tFsYpgbqE4Zx9zAtg==
+ b=E/d62S2R1uS2aTJiCAp0sb+Y0vGBxpF0vZuUCV7/qfL2ud8QKruu4r7IbYvsSQDVFP4fCv75c+HhEAy3wWh/4gdJleyoGG1IodVuA21KfkaOQKYuAqzpdNB3r/CCBQHuZb67ZfHxc8emWGA06v+wHQ4Wu/FiVQm3itTruGkPRMIBmFYyBvq3UjLbCkZ5XtCneL7RdOhVy9ABOy/A9Z+P5BWrt/XxaApdpec6yaZdKwSbueeARJVeNjFyV9uP4iL9xG965sczr8yCJityLIByCpLZX3WP5/wvSly22PioHBhMZRymIlhQBMAKapywH0n6pO9RBtfB0em2GJ5md1lAXw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pwtTg9lUeUL0GzdtrGKTRgC1V6L7j/8aRaZuAWgty88=;
- b=oKHifpML5TcbQrU925roBrNQpe9fYZaQBofI++D0UeGv7z5nZ8u2EqaNf2zGHOlb+arCuNnBmZ/7NgE5z4lOQAwrHo/5fBbPoWx8Zkdp1hceV+dC86/9vYQWbZS5od3ZQ4CcT2FwqJqeIvfCj+yDlFPgTv+3LsZ8VobTNUIl7Mb8xGTqE16dXZCGrtSxWZDjxjZYpa6Ffmu8eEcwRaqZDzd76Ep2G/j2szquDLlIQLY3s6toVXwjqeqelzbBOMR7sktEFoVRdTPw1iUlgQ3xdpJ+kj6WeHXwqj1HAmBlhJDevtfdfT4YyeY6lHvwmA8sKj4QM8FArZivLSLLS0t+YQ==
+ bh=wxGd8OUN+ZqgX6qyvp+GP1PUjDByFVShYObY321Krnw=;
+ b=Ul7pyWa7M2+6v5C6O1LdJtUxWcHEZjTTTtoEVfZ0Oq/Iffpgfxcq0RD4X3dlKrtWQgbBpZG9WidqoS6KlnVx02dQScGjQdtF6BCY5/mRdmj5JuFecBGygbxwIhaeLQHIK5Yw+gnoZu8F0s5nmrXpOpDYuZiWEGL4o5BlLA5W7Yy0OBMM/BF3/5Z6w6K7PVnWzhLVoyNYhyzxtRNI/FbK3SHQmvm15fiNaJHycPWOxlQvwj9shOFxG+G/6ekGHdZ2b+X9ENCQT5PNXX2G1rDUz9VAKGWzMC20IVJKbRspg4rPy1Vo8AkZPbEv8YwlT7UjAcG19S2c3lOckVA4wP2/DQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pwtTg9lUeUL0GzdtrGKTRgC1V6L7j/8aRaZuAWgty88=;
- b=iarUTZdzjnZXcgxDANTTD8DbmfDsZDOwx2SVcTxgTMxlEU++WneKlE9xg0L8/H5WrWEFuFt0Rm/xrj9lEqdKxviBLHBAQUD0IEpq6kV8YxL74GCD4k6jQaB2N9Mqe2F/Sc/fCI3Fep4XyS+WxUS4c2pBGrEBcE7iCWdvfJ5rZTs=
+ bh=wxGd8OUN+ZqgX6qyvp+GP1PUjDByFVShYObY321Krnw=;
+ b=oZ96VNeFk/Pw0kI/Zyzre/pPmhqKkvdn7SXPR2bRS8KLiLBryGLZgatEzzm7d4lk1x4j8kbaoOlcHEm8oxxgdoU0UbJyvnBdjbxJMAqtV/sDljwv2ozI+U+189KP16C2fU0VEG1iH/a82BZLBTTb5zKu2EbDfn1LPUwvXjHfh5o=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from DB7PR04MB4505.eurprd04.prod.outlook.com (2603:10a6:5:39::26) by
- AM9PR04MB8114.eurprd04.prod.outlook.com (2603:10a6:20b:3b7::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Tue, 27 Jun
- 2023 11:00:31 +0000
+ DB9PR04MB9332.eurprd04.prod.outlook.com (2603:10a6:10:36c::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6521.26; Tue, 27 Jun 2023 11:18:22 +0000
 Received: from DB7PR04MB4505.eurprd04.prod.outlook.com
  ([fe80::f9b0:8c34:e57:92a4]) by DB7PR04MB4505.eurprd04.prod.outlook.com
  ([fe80::f9b0:8c34:e57:92a4%7]) with mapi id 15.20.6521.024; Tue, 27 Jun 2023
- 11:00:31 +0000
+ 11:18:22 +0000
 From:   Xu Yang <xu.yang_2@nxp.com>
-To:     peter.chen@kernel.org, gregkh@linuxfoundation.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de
-Cc:     kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        balbi@ti.com, linux-usb@vger.kernel.org, jun.li@nxp.com,
-        xu.yang_2@nxp.com
-Subject: [PATCH 3/3] usb: phy: mxs: disconnect line when USB charger is attached
-Date:   Tue, 27 Jun 2023 19:03:53 +0800
-Message-Id: <20230627110353.1879477-3-xu.yang_2@nxp.com>
+To:     peter.chen@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org
+Cc:     conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        linux-imx@nxp.com, peng.fan@nxp.com, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, jun.li@nxp.com, xu.yang_2@nxp.com
+Subject: [PATCH v2 1/3] usb: chipidea: imx: improve logic if samsung,picophy-* parameter is 0
+Date:   Tue, 27 Jun 2023 19:21:24 +0800
+Message-Id: <20230627112126.1882666-1-xu.yang_2@nxp.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230627110353.1879477-1-xu.yang_2@nxp.com>
-References: <20230627110353.1879477-1-xu.yang_2@nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0042.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::17) To DB7PR04MB4505.eurprd04.prod.outlook.com
+X-ClientProxiedBy: SI2PR02CA0002.apcprd02.prod.outlook.com
+ (2603:1096:4:194::22) To DB7PR04MB4505.eurprd04.prod.outlook.com
  (2603:10a6:5:39::26)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB7PR04MB4505:EE_|AM9PR04MB8114:EE_
-X-MS-Office365-Filtering-Correlation-Id: f5a90d7b-240d-4c36-f6f6-08db76fdb928
+X-MS-TrafficTypeDiagnostic: DB7PR04MB4505:EE_|DB9PR04MB9332:EE_
+X-MS-Office365-Filtering-Correlation-Id: 05a5f38f-8505-4eaf-fac1-08db77003781
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DgKGNnyUvJANVhUyQmdbvytJxt2jPHMCtKRN8gXniYxMHC7QpmVn5V9PxD1BWvD1KLJICqHtmh7CPPib5SDnEx6bhXHgRzc9Pmq7btW1Zv/zJti0ws5r0I7HJ17snnc5AfpIaYaJypzhYZMRGHxLwzuc4WrJ1aFCIhTJTj1hcarx25hTa4r5Tup43SmkAxjwzv31eLBo62x36bnLr5NLejno67t+tYAVBT8mhmseGoonImfKLgpHzKQJdinNC55yFHzghV2nRyfbBzL/6+kouV3Rf24/NVl7b0c0gakAwWXURJ/TYFZaeHjmUT2pdZJypX9Rir5iKphm+kE1XnCIg9Gv3hBuXQoFdY9IGrB0yF8WZmVrLszAg/LyVDzv9M6MkUsgNPnbMamxbMQH2u7kbSHOTHw8Va1iBa2vxxnJVd/HdSACpkwPBHyFXLTD/yLRG805m5TTMkgxkNY1n0t2b5/QVmJTmNHgX33PmQdXfj9GobzGpwloyDdTccVxRXqbywXZA/IBqRAAnLjvDKlNecWhiBx0o/wNEnug9RM9l/gKV2hJyEUnXLyAbX+OYBFTa+sepNaA8HyUm9imt0J+Wvlei+RNRr4/5wFnCR0NzuoSzB5iqbYtOLFeAu6HUhA9
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR04MB4505.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(376002)(136003)(39860400002)(366004)(451199021)(6506007)(36756003)(6486002)(478600001)(52116002)(2616005)(6666004)(83380400001)(2906002)(26005)(6512007)(186003)(1076003)(5660300002)(316002)(86362001)(66476007)(38100700002)(66946007)(38350700002)(41300700001)(8936002)(4326008)(8676002)(66556008);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 9Ee0g56X3GPJJjN8ifdMfyn+B2vc6t51x1jeiO0SVWVGyix3exhqdgUmhOEdNOE9eBjAUBaebd7HsVzV8wu/lo/OZwccVI+UtrGI6TkZ2cU/Vr1rIxwf0WU3FZEAS0XbL9AP3nOTuTEjM2RRjShbcAojVHKOL5AzPgP566BWoT8V4c/2vcUqomgRm/yLnLE9cDKxvJBibBezAFHnH+fVbEGVUxUemT4Krc9O0lI7COsOtYj7hTtjQzyW3ZDMzAHoau+ClW+ZGa3Y6OQUh6xRnpGEi4B747XlyBF9ZErKrQmcMtCQsqXViEkxCRHrjtcaz448LClYHfSkUCYurZj+W3JLTmwFBvU4vVFttFnqRFhoTVLk34WvEhe+uHLP10gs6SMpGO2ZbYI1HqnPIcLM2/eLrh7yPgBN/kv89/EQa/FRBWBHYWxx6EEWNQuEBNUusO4wWyODlkalaxrmDMwTuUnOVTH5NnDBIq8PmrvQOa/sOJU44gsONVRKoaOJxhdacJcd3IPLuQ+dD3Kl7hH46BSk8z/p0iyRWHTESzilv0ZPQbfbNORZHXkpsTUY16bNBNQxz3PRNTIWLVJ2LsbXTuqM8E7bX850g4EgmMi7jD1lpiJEKEURxqRPI+EJURgY
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR04MB4505.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(366004)(376002)(396003)(346002)(39860400002)(451199021)(2906002)(186003)(38350700002)(52116002)(6486002)(38100700002)(2616005)(83380400001)(6506007)(6512007)(26005)(1076003)(41300700001)(86362001)(316002)(478600001)(36756003)(66556008)(4326008)(66946007)(66476007)(5660300002)(8676002)(8936002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?E4sHUjXFe3LReTY8jiuuhRnz9yoXPMsCWHv/K1i69TScjfw0+KiuIYW226Ei?=
- =?us-ascii?Q?yZytMB+lGlqz8itmlWmyL6OstDKfJ6hufCGVrw+6op3M+azcMybXJdWU7TpM?=
- =?us-ascii?Q?zBBD2YdrLOeAWieVaTNPopwL9SoJhDcVoC+ay0wzFAxuPSdPyfnNAHv3iAba?=
- =?us-ascii?Q?buaTJhiGY9LNJni7EsxkSYvB4nzy8OdYKeC5OCgk1P2d65glXKV936M3pDMm?=
- =?us-ascii?Q?0yleFc91JThzeIHwAFPhfr+9MMExgwkewRD+AjmzMi4EjSOXmnJZokiJO3s4?=
- =?us-ascii?Q?NBAbXM1XZTxC9gf6PKhbQXV+HlzNePbUS4UO1VAC/kG57/aMYCJLQ81K5B49?=
- =?us-ascii?Q?bclPkGjnV5OL/cJmjvBwpGPx4BRjLOS0QeyiAZbVj5o6fVjKIiOi9Xu7q0NV?=
- =?us-ascii?Q?8yhtL5EINTA+923ic0Ik2fuxkrnXjOCGtiK0Rm1941BkzNmF1SbHIYlNMyN8?=
- =?us-ascii?Q?xjTTwxDM82434NGFAbFq/1EFi3eOTfclGMJ1+oWyM8OBydCtSJU/jqSU93Sz?=
- =?us-ascii?Q?la3hqbK+Jw+0Xv9bSu1IOtLk8F8mL7IbnCzHWtO3P0mRL1ZSc+IAab8gF8oc?=
- =?us-ascii?Q?ukRYcR0jINHjuZ6E58AODjrwpn2eU6mbQffc0Pg1oRckvnZhVV4gI18f7ELL?=
- =?us-ascii?Q?h7vEHdqfdGVXhpWNXDS6uZKmT996jEMXB6imPh3pnM2jfG6gJTX95zdxEXo4?=
- =?us-ascii?Q?lvaWSF395+iEYnjygYJgv1l6YFbu7wcBCc0G/POTd0XoRaf4Rb/dCfFztuNz?=
- =?us-ascii?Q?XmQ7p7weFQvc1uBt2LYAJ3IgiFKZV0kK/kHYp3RaQ5oRN7T6R0UlZiJp2vTj?=
- =?us-ascii?Q?hLBhjNffGSzHSyTqcNaFD4MpTqlEd0ZsVKG0Lt9cn31BepFj9xVbqFC42yiE?=
- =?us-ascii?Q?TVMmQ6ra7eQkmM9XbciVjVO1xRFLIcfKFe43mVaqHcNxQ+gj18m7TqMdtbN9?=
- =?us-ascii?Q?sEXFPqs6Eg1JnlcVddhFJuoPnzVLQZCzSUw5+x+GXP4KumCErAlT0jKsbZz2?=
- =?us-ascii?Q?Im8HjVfk0M+qomsG6+3jcJJAc4e45U74M1YOaR3soBugWmcgnkjukATFz/Hf?=
- =?us-ascii?Q?XAdxz2T3y4TtHchyjJDKXgPcDTRXe77/3JthAuGfBh0DEi8D00oCpwAdOJJY?=
- =?us-ascii?Q?Zq1zS22ouN+MwyZZcCB2TzNWl/JJHu9zhSjnVd/Q7sOMc1Sco4xY3PAW6aFv?=
- =?us-ascii?Q?ySqhnNQarfcW7KqkaepNPenumR+9xXaXs/p7MMWGMkoFZTyGzJbfvz0Cd6LN?=
- =?us-ascii?Q?yo8XfDvIz45BltIrQPZM3UzXtCTSen6HYL8NqyvwcvuUS+/Ulk7MPcG3xtW/?=
- =?us-ascii?Q?q8xVb+UkCAMDD76/Diy+a715FexjGYCYi10NhcSBB8yWBODLjIrL517U8SMx?=
- =?us-ascii?Q?dW4f/uuuBXm9uudWDT837na9Q2T5HFB1sW2Tg3ucEjjDuxLXoIripTq8IfFz?=
- =?us-ascii?Q?ICa5OnacMiGum6AtkYh9XMPFJT7UKueEvaMD5YBuHIcw8UcSxPVZPnFDI5E9?=
- =?us-ascii?Q?dPTCImavUAQ7RktXqXRGqunp6R9WaT/xggODaY/38ken7v2st3kRaYhYs2P1?=
- =?us-ascii?Q?/VF7Y060iAKYIjzw5OubFQE164QYyPyIN5Gb8HzW?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?X2/jTHs675XU0rVULdVSUCkW78rvx4Vpy7VJJp1Nlq4Krna/23hxxqdNFaW5?=
+ =?us-ascii?Q?KYiJjJ7zT4NtuLZ5xe9xFN4XnVJhmSo5KUbryqgt7cuFColnzZs+1sXhZcqV?=
+ =?us-ascii?Q?HGciN70F4msdLPOLE2ewu1dJETUOW6bGL547YvcQDrEmkVrRnC42/Zkz35yg?=
+ =?us-ascii?Q?igW8qNT7j3Oj9JXUmGj8RDO0XjFxfB+soRB6LtdID1F0bzZyE0gRcng7AfBH?=
+ =?us-ascii?Q?ZnyMxeZzaxryauqIa1Ydj6WY1yT54yRk52QDKdgpKVIFesugUXi1TT1eOTB2?=
+ =?us-ascii?Q?EAARc2ohAnskmA0MURqOs3Qa+A7DOW/lI+3qAkCUEnU+iYtDgzgJ/U8I+zor?=
+ =?us-ascii?Q?p31O4X9iKCO287jj8CtXX095Ut8vQ/2juDyCqYCdNTQwXWe7dvq3sZ2p0cwI?=
+ =?us-ascii?Q?fumH0fWNkX7R/bvOI3fb1A91wxvpYDH+U2XtTVgOaqxEEvrNh8MF3gaZHQBQ?=
+ =?us-ascii?Q?WPopVlUtLuS2uRIWON3MtKdmysFjqJHBEMUGOFw5JkQ+GQF4mKTk5CzIAmon?=
+ =?us-ascii?Q?9ocS0zZ6+BberDIS3A/ifMwrJOu7pLHhzNyu+lyNyc/neA5lTg3kgjmOLuQ2?=
+ =?us-ascii?Q?l60MKopGgjnw3rLivJEI5GSq3PGQwv9h8PNMa4t1l2F+VBCeioRd+yoC8zy7?=
+ =?us-ascii?Q?yYIWBfcGQ/zZP0f+kKrjHdwTG+FX5D9krWj9MN2hq1b/fwWg7qN17UhtVvz6?=
+ =?us-ascii?Q?L5Jqh9YOHXTUF82UsGQ9R3omc2skV5Kk8dkZUEqStwuOV9bmvRks+XkqVD/s?=
+ =?us-ascii?Q?1XbHInIqI5NGdTPVok7fmWzthuq/h4pYwV5tLjpb2HXy6v6z3LE33i4j4b8U?=
+ =?us-ascii?Q?ZtTwwRuCy4m83b1ACuYj1Pa6qfuUcDPmxMhxj0ljO5TAQMyf4tEiuxCBXX9F?=
+ =?us-ascii?Q?ZlNr7dJ0zTht+nwPMQqgsGNJmONUXddCTFmqcaAcIf3RC+tFXk1Lv33AbwAc?=
+ =?us-ascii?Q?K4pBUMpnMoxzC5JMpqhRAmYEcDFj7wT1m37M0MmknmmhP/GqdjZJruHhR5+a?=
+ =?us-ascii?Q?FMPTs/io3K3HMF5JX4fzalrS+7MY1Dps3eruVvBJbq8wAoyF1fUPvZOWHhIL?=
+ =?us-ascii?Q?7O70DF8Q0pd4Ydn6OWrhaZjfsuJG3iLpNJLe7VPF3GJblC67J3HmmLQwjvMW?=
+ =?us-ascii?Q?3fd7msYPkuwLiJIK+VfBiATQRHwHm58rB1cFj06s6t/9BKjWQAvkhvmBauUx?=
+ =?us-ascii?Q?IPre4lUIbLPN0EHYTgFVQ5m4/dp79LqWJbIrMtBRi9cqviHN4iL3501N9uCE?=
+ =?us-ascii?Q?AcsYutC8LgdZItpY3uv0wiWyFYAXEV3gseB8YLL7PbxB8pfMTBixqxhnUMbC?=
+ =?us-ascii?Q?LRhuO6vlTPv32T5MScMBpndAlq+CnWIOb32qu97C3D0EO5bNpzq17aBvBqv6?=
+ =?us-ascii?Q?x/Sncv10MODhfKzMbKph7lc6st+e4GkueJr8P/sWT0DXIbBHyOifp3WnYPSv?=
+ =?us-ascii?Q?kafECf9ZVYajJMRYBrh70TJdV338iTe6xqhXXUVKP4gDghYzMpX1kVG+5F1T?=
+ =?us-ascii?Q?AdfHQDqSsf1tMRg2yzlYlmEuRH+pOoZoWNoeEWDmqJJi2cpVgkxOZLh1gBnt?=
+ =?us-ascii?Q?+GzhAMbs1zZJvXzx8kPaAXw3lhkIotLzcZr7j7w/?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5a90d7b-240d-4c36-f6f6-08db76fdb928
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05a5f38f-8505-4eaf-fac1-08db77003781
 X-MS-Exchange-CrossTenant-AuthSource: DB7PR04MB4505.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2023 11:00:31.0336
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2023 11:18:22.0614
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5PRYGIYMIQdFiGSrAR011qiEYoNNzSwY6bL6eIIEQAaFmv3mbTO1IYocfRvBciGZgi9JCS2xlAkDMnp4Qn3TMg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8114
+X-MS-Exchange-CrossTenant-UserPrincipalName: ks64lWdk3XdDMUt7SotVZUIEs3cd4zAOCoz1R3rhYsJ8xwO0S8KavHHcQRzrCvkhH4Vd4ndDkKj961Qb8BKe9Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9332
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For mxs PHY, if there is a vbus but the bus is not enumerated, we need
-to force the dp/dm as SE0 from the controller side. If not, there is
-possible USB wakeup due to unstable dp/dm, since there is possible no
-pull on dp/dm, such as there is a USB charger on the port.
+In current driver, the value of tuning parameter will not take effect
+if samsung,picophy-* is assigned as 0. Because 0 is also a valid value
+acccording to the description of USB_PHY_CFG1 register, this will improve
+the logic to let it work.
 
+Fixes: 58a3cefb3840 ("usb: chipidea: imx: add two samsung picophy parameters tuning implementation")
+cc: <stable@vger.kernel.org>
 Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
----
- drivers/usb/phy/phy-mxs-usb.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/phy/phy-mxs-usb.c b/drivers/usb/phy/phy-mxs-usb.c
-index f484c79efa6c..619411aab86c 100644
---- a/drivers/usb/phy/phy-mxs-usb.c
-+++ b/drivers/usb/phy/phy-mxs-usb.c
-@@ -395,6 +395,7 @@ static bool mxs_phy_is_otg_host(struct mxs_phy *mxs_phy)
- static void mxs_phy_disconnect_line(struct mxs_phy *mxs_phy, bool on)
- {
- 	bool vbus_is_on = false;
-+	enum usb_phy_events last_event = mxs_phy->phy.last_event;
+---
+Changes in v2:
+ - no change
+---
+ drivers/usb/chipidea/ci_hdrc_imx.c | 10 ++++++----
+ drivers/usb/chipidea/usbmisc_imx.c |  6 ++++--
+ 2 files changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
+index 336ef6dd8e7d..873539f9a2c0 100644
+--- a/drivers/usb/chipidea/ci_hdrc_imx.c
++++ b/drivers/usb/chipidea/ci_hdrc_imx.c
+@@ -175,10 +175,12 @@ static struct imx_usbmisc_data *usbmisc_get_init_data(struct device *dev)
+ 	if (of_usb_get_phy_mode(np) == USBPHY_INTERFACE_MODE_ULPI)
+ 		data->ulpi = 1;
  
- 	/* If the SoCs don't need to disconnect line without vbus, quit */
- 	if (!(mxs_phy->data->flags & MXS_PHY_DISCONNECT_LINE_WITHOUT_VBUS))
-@@ -406,7 +407,8 @@ static void mxs_phy_disconnect_line(struct mxs_phy *mxs_phy, bool on)
+-	of_property_read_u32(np, "samsung,picophy-pre-emp-curr-control",
+-			&data->emp_curr_control);
+-	of_property_read_u32(np, "samsung,picophy-dc-vol-level-adjust",
+-			&data->dc_vol_level_adjust);
++	if (of_property_read_u32(np, "samsung,picophy-pre-emp-curr-control",
++			&data->emp_curr_control))
++		data->emp_curr_control = -1;
++	if (of_property_read_u32(np, "samsung,picophy-dc-vol-level-adjust",
++			&data->dc_vol_level_adjust))
++		data->dc_vol_level_adjust = -1;
  
- 	vbus_is_on = mxs_phy_get_vbus_status(mxs_phy);
+ 	return data;
+ }
+diff --git a/drivers/usb/chipidea/usbmisc_imx.c b/drivers/usb/chipidea/usbmisc_imx.c
+index 9ee9621e2ccc..1c7932f22218 100644
+--- a/drivers/usb/chipidea/usbmisc_imx.c
++++ b/drivers/usb/chipidea/usbmisc_imx.c
+@@ -659,13 +659,15 @@ static int usbmisc_imx7d_init(struct imx_usbmisc_data *data)
+ 			usbmisc->base + MX7D_USBNC_USB_CTRL2);
+ 		/* PHY tuning for signal quality */
+ 		reg = readl(usbmisc->base + MX7D_USB_OTG_PHY_CFG1);
+-		if (data->emp_curr_control && data->emp_curr_control <=
++		if (data->emp_curr_control >= 0 &&
++			data->emp_curr_control <=
+ 			(TXPREEMPAMPTUNE0_MASK >> TXPREEMPAMPTUNE0_BIT)) {
+ 			reg &= ~TXPREEMPAMPTUNE0_MASK;
+ 			reg |= (data->emp_curr_control << TXPREEMPAMPTUNE0_BIT);
+ 		}
  
--	if (on && !vbus_is_on && !mxs_phy_is_otg_host(mxs_phy))
-+	if (on && ((!vbus_is_on && !mxs_phy_is_otg_host(mxs_phy))
-+		|| (last_event == USB_EVENT_VBUS)))
- 		__mxs_phy_disconnect_line(mxs_phy, true);
- 	else
- 		__mxs_phy_disconnect_line(mxs_phy, false);
+-		if (data->dc_vol_level_adjust && data->dc_vol_level_adjust <=
++		if (data->dc_vol_level_adjust >= 0 &&
++			data->dc_vol_level_adjust <=
+ 			(TXVREFTUNE0_MASK >> TXVREFTUNE0_BIT)) {
+ 			reg &= ~TXVREFTUNE0_MASK;
+ 			reg |= (data->dc_vol_level_adjust << TXVREFTUNE0_BIT);
 -- 
 2.34.1
 
