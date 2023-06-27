@@ -2,113 +2,150 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B4E4C001B0
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jun 2023 15:43:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44E0DC001B1
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jun 2023 16:24:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231376AbjF0Pnl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Jun 2023 11:43:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53384 "EHLO
+        id S231996AbjF0QYq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Jun 2023 12:24:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231395AbjF0Pnk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jun 2023 11:43:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF1B31708;
-        Tue, 27 Jun 2023 08:43:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5A2F7611D8;
-        Tue, 27 Jun 2023 15:43:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A87BFC433C0;
-        Tue, 27 Jun 2023 15:43:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687880616;
-        bh=0fBukbKw42+OuKPjJbx21dnFmVOG7Y0lihmjoL0ewuA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bTl8QjErWT1K1J87W8py6flm8zjHzWbeY1vmREGIGAr2nWVtmBRg7ZpIWDYiVeJAo
-         /5X8XyvwK/Rakh9oQScdaPOLiFXFVQYAhNygfLGDIgJRe53GaBaddWG7sQmKwS+Y+p
-         7brm146EPtVCmAerDaWHdq69W/62GmsGSTppb8xzWpz29KXXzXQ7gluAx9rsjtYCvj
-         JV33Y8zwaZ1vNDo5G2a82hL1HzbHS77Ctq0EeLeQFzk4ZCuwT56gURx+W2prK6ZoKn
-         3rcPazOkVo3e2Nczgtyk4qiEzka9CkIDjDI59YCX38ey/UwUr945E6aTbvvLFc/so5
-         NkSrXOzmOSkKA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1qEAqs-0004FT-CZ; Tue, 27 Jun 2023 17:43:34 +0200
-Date:   Tue, 27 Jun 2023 17:43:34 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Krishna Kurapati <quic_kriskura@quicinc.com>
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        with ESMTP id S231794AbjF0QYm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jun 2023 12:24:42 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A1530D6
+        for <linux-usb@vger.kernel.org>; Tue, 27 Jun 2023 09:24:39 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-4f95bf5c493so6339299e87.3
+        for <linux-usb@vger.kernel.org>; Tue, 27 Jun 2023 09:24:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687883077; x=1690475077;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ac2fuZLDI+VOF7E3/wybHllWXsSf0j6UFdnadbBE/Po=;
+        b=RagTrNyfCbqKFmL5/COzlmp2OV4BoDQDduoZOX9okcl5Q6cBhBFfBfNVCnU9gvf6k0
+         aum35/GWH4ip3QzYIXcbfZ3zXtbTybIVjeUFlvZFhYbKh71CkvQV9yCddFb3pULnWhGL
+         aUgETYo8Li6iXCbvP2a8uxrReTvKq/Le1NCwaY36Gut3lFl8aIYdm1gjhiomOl982HpR
+         zk9mFb+a7eRawfBAycN3XpIKhCaMvOfSy3yxRueqVIkXq4p45pcmp1qijgi/0D8AG74e
+         x45eXaLbjS9mXuz/b//aVUuh0epuXyffqQSl4RMMNyz1lEsRJRiPvjJ6Zc+V+laEMnYQ
+         vYpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687883077; x=1690475077;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ac2fuZLDI+VOF7E3/wybHllWXsSf0j6UFdnadbBE/Po=;
+        b=l3OlsA2P9cGSf+x20G2UIR33ymReV58Wn4hEUY3JsIN5QRLAAQRC+860jLhIY9ewtC
+         JdOI0vGaq+kvfpxl3AswohgZKCXbvD0TcXTg/1luGKJQq7sGkLv3e2kmGnerRrUHLR32
+         CP7/1I9g3izPFfy4s3V7oVKN3LiW6K4X09OxkyUYor9wY2PP214NLqy+wX1M1UWV4Urx
+         V+9+li0IwnwCXAZEPMj1IEjdF9dsRyXpzRpRBb/SA6I4mZpI6eeIbcYIxI+nzin5TORi
+         MkTp0Ym193UvWGGxXs04AsXPsq95ORcP81r4eHdXTgBsNuHTJu3frb+HObrCoe70dn7+
+         RI+w==
+X-Gm-Message-State: AC+VfDzsC+gNXuEnLlsSwyShDsEIq3DTeDr32KHm4IMO0vZXzqVXWvIX
+        P8yX5V0TjMeYBYRgENNtMdJ3Vi4wjb0dQiDwsiM=
+X-Google-Smtp-Source: ACHHUZ5baiFsfppjJDY53hll/tc+5IzTD3GkXavKN4mNfeJ57OBwbIYN7GBvUlJAhzE4yJ5U8QW4Ng==
+X-Received: by 2002:a19:6547:0:b0:4f8:7807:a612 with SMTP id c7-20020a196547000000b004f87807a612mr13687312lfj.61.1687883077539;
+        Tue, 27 Jun 2023 09:24:37 -0700 (PDT)
+Received: from [192.168.1.101] (abxj103.neoplus.adsl.tpnet.pl. [83.9.3.103])
+        by smtp.gmail.com with ESMTPSA id g7-20020a19ac07000000b004fb259a5589sm1190508lfc.104.2023.06.27.09.24.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jun 2023 09:24:36 -0700 (PDT)
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: [PATCH 00/11] Even more msm bindings fixes
+Date:   Tue, 27 Jun 2023 18:24:16 +0200
+Message-Id: <20230627-topic-more_bindings-v1-0-6b4b6cd081e5@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADENm2QC/x2N0QrCMAwAf2Xk2cBsdUN/RUTaLtsCMx2JijD27
+ wYf7+C4DYyUyeDabKD0YeMqDsdDA2VOMhHy4AyhDbHtQo+vunLBZ1V6ZJaBZTKM4Zy68ZQvMfX
+ gZU5GmDVJmb2V97K4XJVG/v5Xt/u+/wA/heKHegAAAA==
+To:     cros-qcom-dts-watchers@chromium.org,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, quic_pkondeti@quicinc.com,
-        quic_ppratap@quicinc.com, quic_wcheng@quicinc.com,
-        quic_jackp@quicinc.com, quic_harshq@quicinc.com,
-        ahalaney@redhat.com
-Subject: Re: [PATCH v8 6/9] usb: dwc3: qcom: Add multiport controller support
- for qcom wrapper
-Message-ID: <ZJsDpqttBYtbQ0yg@hovoldconsulting.com>
-References: <20230514054917.21318-1-quic_kriskura@quicinc.com>
- <20230514054917.21318-7-quic_kriskura@quicinc.com>
- <ZIB1JEmLCw41v_4e@hovoldconsulting.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZIB1JEmLCw41v_4e@hovoldconsulting.com>
+        Conor Dooley <conor+dt@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Benjamin Li <benl@squareup.com>,
+        James Willcox <jwillcox@squareup.com>,
+        Joseph Gates <jgates@squareup.com>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Zac Crosby <zac@squareup.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Banajit Goswami <bgoswami@quicinc.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Lee Jones <lee@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Jun Nie <jun.nie@linaro.org>, Max Chen <mchen@squareup.com>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Vivek Gautam <vivek.gautam@codeaurora.org>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vincent Knecht <vincent.knecht@mailoo.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        alsa-devel@alsa-project.org, iommu@lists.linux.dev,
+        linux-usb@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>, Rob Herring <robh@kernel.org>,
+        Andy Gross <andy.gross@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1687883074; l=2019;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=XgjesLWlgNJr8TJLOwUfxTcLo95CipHAWt2i0JYkBTw=;
+ b=JgfdI6xjrD2WKNtw/etlo3/STHiMGyItJWlD9PYkIxilS+OIFCuH5x4i+sgN1GaISA5RuuyLR
+ 6/YSU2UHL2kBNk+1Vcu7Tb9gKf1yw31fLLm+tyXqKOc/tyAK5iYQtZz
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Krishna,
+This series contains couple more random dt schema warning fixes, centered
+around linux-msm.
 
-On Wed, Jun 07, 2023 at 02:16:37PM +0200, Johan Hovold wrote:
-> On Sun, May 14, 2023 at 11:19:14AM +0530, Krishna Kurapati wrote:
+All of the patches (except) the last two are pretty much independent.
+Patch 1 is not only a bindings fix, but also a functional one.
 
-> >  static inline void dwc3_qcom_setbits(void __iomem *base, u32 offset, u32 val)
-> >  {
-> >  	u32 reg;
-> > @@ -413,13 +423,16 @@ static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, bool wakeup)
-> >  {
-> >  	u32 val;
-> >  	int i, ret;
-> > +	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
-> >  
-> >  	if (qcom->is_suspended)
-> >  		return 0;
-> >  
-> > -	val = readl(qcom->qscratch_base + PWR_EVNT_IRQ_STAT_REG);
-> > -	if (!(val & PWR_EVNT_LPM_IN_L2_MASK))
-> > -		dev_err(qcom->dev, "HS-PHY not in L2\n");
-> > +	for (i = 0; i < dwc->num_usb2_ports; i++) {
-> > +		val = readl(qcom->qscratch_base + pwr_evnt_irq_stat_reg_offset[i]);
-> > +		if (!(val & PWR_EVNT_LPM_IN_L2_MASK))
-> > +			dev_err(qcom->dev, "HS-PHY%d not in L2\n", i);
-> > +	}
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+Konrad Dybcio (11):
+      arm64: dts: qcom: sc7180: Fix DSI0_PHY reg-names
+      arm64: dts: qcom: msm8939: Drop "qcom,idle-state-spc" compatible
+      arm64: dts: qcom: msm8939: Add missing 'cache-unified' to L2
+      arm64: dts: qcom: apq8039-t2: Drop inexistent property
+      dt-bindings: sound: Convert pm8916-wcd-analog-codec to YAML
+      dt-bindings: mfd: qcom,spmi-pmic: Reference pm8916 wcd analog codec schema
+      dt-bindings: iommu: qcom_iommu: Allow 'tbu' clock
+      dt-bindings: usb: ci-hdrc-usb2: Fix handling pinctrl properties
+      dt-bindings: arm: msm: kpss-acc: Make the optional reg truly optional
+      dt-bindings: usb: dwc3: Allow just 1 interrupt for MSM8996
+      arm64: dts: qcom: msm8996: Add missing interrupt to the USB2 controller
 
-> When testing this on the X13s I get:
-> 
-> 	dwc3-qcom a4f8800.usb: HS-PHY2 not in L2
-> 
-> for the third port, whose status registers always seems to return zero
-> (e.g. as if we're checking the wrong register?):
-> 
-> dwc3-qcom a4f8800.usb: dwc3_qcom_suspend - phy 0, pwr_event_stat = 38103c
-> dwc3-qcom a4f8800.usb: dwc3_qcom_suspend - phy 1, pwr_event_stat = 38103c
-> dwc3-qcom a4f8800.usb: dwc3_qcom_suspend - phy 2, pwr_event_stat = 00
-> dwc3-qcom a4f8800.usb: dwc3_qcom_suspend - phy 3, pwr_event_stat = 140030
-> 
-> I verified that everything appears to work as expected on sa8295p-adp.
-> 
-> Do you have any idea of what may be causing this?
+ .../devicetree/bindings/arm/msm/qcom,kpss-acc.yaml |   1 +
+ .../devicetree/bindings/iommu/qcom,iommu.yaml      |   4 +
+ .../devicetree/bindings/mfd/qcom,spmi-pmic.yaml    |   2 +-
+ .../bindings/sound/qcom,msm8916-wcd-analog.txt     | 101 -------------
+ .../sound/qcom,pm8916-wcd-analog-codec.yaml        | 160 +++++++++++++++++++++
+ .../devicetree/bindings/usb/ci-hdrc-usb2.yaml      |  27 +---
+ .../devicetree/bindings/usb/qcom,dwc3.yaml         |   2 +-
+ arch/arm64/boot/dts/qcom/apq8039-t2.dts            |   1 -
+ arch/arm64/boot/dts/qcom/msm8939.dtsi              |   4 +-
+ arch/arm64/boot/dts/qcom/msm8996.dtsi              |   3 +
+ arch/arm64/boot/dts/qcom/sc7180.dtsi               |   4 +-
+ 11 files changed, 182 insertions(+), 127 deletions(-)
+---
+base-commit: 3eedd211ad93c322fb360b83a3d76a2c6cd622dc
+change-id: 20230627-topic-more_bindings-325a6f4b93a7
 
-You never replied to this; do you have any idea why the status register
-for the second port seemingly always read back as 0 on the X13s?
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
-Johan
