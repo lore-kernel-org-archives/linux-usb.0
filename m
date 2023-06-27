@@ -2,61 +2,60 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4F7FC0015E
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jun 2023 16:25:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B41FEB64DC
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jun 2023 16:25:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232333AbjF0QZZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Jun 2023 12:25:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46318 "EHLO
+        id S232396AbjF0QZ0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Jun 2023 12:25:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231865AbjF0QYs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jun 2023 12:24:48 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEC1030F1
-        for <linux-usb@vger.kernel.org>; Tue, 27 Jun 2023 09:24:46 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4fb8574a3a1so1366615e87.1
-        for <linux-usb@vger.kernel.org>; Tue, 27 Jun 2023 09:24:46 -0700 (PDT)
+        with ESMTP id S232281AbjF0QY6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jun 2023 12:24:58 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4BAA30FF
+        for <linux-usb@vger.kernel.org>; Tue, 27 Jun 2023 09:24:56 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4f122ff663eso6559696e87.2
+        for <linux-usb@vger.kernel.org>; Tue, 27 Jun 2023 09:24:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687883085; x=1690475085;
+        d=linaro.org; s=google; t=1687883095; x=1690475095;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FYaFF944CBPpPI3xTGK+ozEDUtWhjiR1kLsCUSq/tTw=;
-        b=LWoWb4vsMHyG2qkazpfTdhW+UQTZZaP+KpW9Fxat/1VZee4W/NKGQEWMqYGZ9NuW/D
-         m4BE+3+7lpPfy7kORXnMMu1bSeSKlt7jNRaY8TrFsqHaqL0z4walAIeqcpnYaKEdplVD
-         zVKYjMwT9B0tBR/Yd8IcB2nEJlj+n1AoGd3HfdLlKut5f+FuYu/F/MQmAtY2E/ouKsOE
-         PUJXqfkz1gHFvCGlVLAU71YT9nrR83dOoYgMvVHd7rBfptkSLO6f5JfCr1/rAq3A0XyZ
-         QdODVO8drrPTl7R2Ewo+g5Mm4pgMbt4oi10DHPO9L4FxaqOWf3jd0jHw3mWBZFRgiT4A
-         WlWw==
+        bh=xPNg5vny77tvK7IJAfh5JkOu6WowF9wjESyOAY+a1Tg=;
+        b=wT4UzEMp3D2z+CEciSOj2hOqJZY5IsO6ESwlLi6JpPKPVleeLPbEYQowD4j6ugDDWT
+         Xsekoq3dAMFIe2qSha7QD5qXwQK7uvTB6BiLhhzYloSKH2DUuxfYiK6ynHQf2ri1d2c1
+         Yia2iEKdlcVgPDQx2b9Z8S09tPtYnMMz4koijj0kOEogFOMnrkkPJthflCOJDrz34rZ5
+         VwnYMEmbL3YNE8ElBGdgiBCOyXavqYtRbS4Z6W3D5oGCPCTo//ykefDkMq0NfHPVL3Zs
+         /WmtNQzYvKoXfJ6zYDHEJ1lCyAJ49i1gWKSv1N2fqbVfHVreFhWFLTVqIFYR6dTTqWOv
+         B+hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687883085; x=1690475085;
+        d=1e100.net; s=20221208; t=1687883095; x=1690475095;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FYaFF944CBPpPI3xTGK+ozEDUtWhjiR1kLsCUSq/tTw=;
-        b=LAOVz4oJ5Z2gfgvQIIpXKLvj4JtbJghF/rYtwZbbVpT9buK+RnXb0cdsSSPv7tInCO
-         QqmW9ioM5sGveKBvQU0QDPCAsSk9CcqmY1RoMhZ/STwZsXHBchIe/9LKyEB0Ht2jPA3C
-         QNqQhRp/Lca9Ycm6ylsWDoJxu1xytBsr+kpvphcbE4RqTdw08Vlbj13LpYpiqTwGfPbT
-         /w/MWNFLsNUjorLOCqTjm4deNeKoAVpt1kxcVAHpsJFfGqDcaO1DRCcSzASwmleV33TU
-         mWs55ilPSn+hVCkHZh0uOIbK7H8w0fEU0mQ7LV+J/RX8HjC95HbFvCRW8twa68ZBDzuE
-         ol1w==
-X-Gm-Message-State: AC+VfDzY+iOHwWr1OPezrSrOsYnbNjiPKmuHDsKq3ao6TjaCwiXmrLvR
-        dmOmyv4Va/ujbIB142FQNiurUQ==
-X-Google-Smtp-Source: ACHHUZ4ythlTwuN1ng1WKH85xShFqna5kY+HIIDyB4fmlolvggLWrCYvWnSmKrP/dkJwFLHJqDS+fA==
-X-Received: by 2002:a19:3807:0:b0:4f6:6b:a43b with SMTP id f7-20020a193807000000b004f6006ba43bmr18574040lfa.52.1687883085080;
-        Tue, 27 Jun 2023 09:24:45 -0700 (PDT)
+        bh=xPNg5vny77tvK7IJAfh5JkOu6WowF9wjESyOAY+a1Tg=;
+        b=JrhjxFtsnCtrryx0TunJ9zjkyeJ/VfDC/0q4EWIMnOj87PuzgVkewbaAKUcyu9En4k
+         BrdTqrOYBpXNxSk7KEoosxq/PKY8301sjZlYH0zRbCJJ0pu1LNWAChOpfXWmPsuXc5Lx
+         V7NDR5p6/BoANzakh3sHsc96qEJ44N+QrHX6x7lp829kgI/Kybb47k5rBRHQzeeWtHQq
+         nLsWkHCYKxc2dsxDray0O94wDOXXMwSpi0iEqpJpv+WrU+hK9hufx22DrcHMlkn4ZVVd
+         sPK4ksEMS9HfKsqR8KSuoF9V0u443R4/lOstbCFUpdj95AH5uPlFZW1r//4A0WLDlAc1
+         8sQA==
+X-Gm-Message-State: AC+VfDxTLAWzAhlkvRLFnoHiCRriJi4AfqHvl2OIy0Ujbystx3Sica5k
+        tsvP+fTgKBDk2oNwsZQ+gvVo/g==
+X-Google-Smtp-Source: ACHHUZ5//rTUoalDl1QqK0Ki39B5TbO1+DYtkIbMhpfMKaAAAhwU2SHZDezjmb3zz2NxqSeNX+6TzQ==
+X-Received: by 2002:a05:6512:2824:b0:4fb:7888:7e6d with SMTP id cf36-20020a056512282400b004fb78887e6dmr4544050lfb.46.1687883095019;
+        Tue, 27 Jun 2023 09:24:55 -0700 (PDT)
 Received: from [192.168.1.101] (abxj103.neoplus.adsl.tpnet.pl. [83.9.3.103])
-        by smtp.gmail.com with ESMTPSA id g7-20020a19ac07000000b004fb259a5589sm1190508lfc.104.2023.06.27.09.24.42
+        by smtp.gmail.com with ESMTPSA id g7-20020a19ac07000000b004fb259a5589sm1190508lfc.104.2023.06.27.09.24.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jun 2023 09:24:44 -0700 (PDT)
+        Tue, 27 Jun 2023 09:24:54 -0700 (PDT)
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Tue, 27 Jun 2023 18:24:19 +0200
-Subject: [PATCH 03/11] arm64: dts: qcom: msm8939: Add missing
- 'cache-unified' to L2
+Date:   Tue, 27 Jun 2023 18:24:23 +0200
+Subject: [PATCH 07/11] dt-bindings: iommu: qcom_iommu: Allow 'tbu' clock
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230627-topic-more_bindings-v1-3-6b4b6cd081e5@linaro.org>
+Message-Id: <20230627-topic-more_bindings-v1-7-6b4b6cd081e5@linaro.org>
 References: <20230627-topic-more_bindings-v1-0-6b4b6cd081e5@linaro.org>
 In-Reply-To: <20230627-topic-more_bindings-v1-0-6b4b6cd081e5@linaro.org>
 To:     cros-qcom-dts-watchers@chromium.org,
@@ -98,47 +97,49 @@ Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
         Andy Gross <andy.gross@linaro.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1687883074; l=872;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1687883074; l=1161;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=y9aAPQNrTt4WUn0fdGxJxPfCCX9Hk5OUZHkmKm33hlo=;
- b=w488Qve8orkSmgHUwwh9oyM25h1xdVtgnB4Ys0LYV1nlQjCqgKtAhax7MUl7l8I5KTts0L1Ss
- gOcd0DAg1r7Algsiwe2DbhrC3vv080aTNk+DR8kKIxjAULvaSd4hkI+
+ bh=dxmGowAABZGGJvN38BvE9OivxrhsE/2mFCf47Qi+lvI=;
+ b=wzz2xUcbFtxUiSi4ThrPFbDIaElQBro5YtXx/lBo+PD1GGVfkejB8EYDpam4TZsF1HGcnDTRP
+ unvzC8nqkCDCKapltiz8/h5Mv3Va5gUnt0oPVF9FgChKOoZXy8L9VnG
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add the missing property to fix the dt checker warning:
+Some IOMMUs on some platforms (there doesn't seem to be a good denominator
+for this) require the presence of a third clock, specifically for
+accessing the IOMMU's Translation Buffer Unit (TBU). Allow it.
 
-qcom/apq8039-t2.dtb: l2-cache: 'cache-unified' is a required property
-
-Fixes: 61550c6c156c ("arm64: dts: qcom: Add msm8939 SoC")
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/msm8939.dtsi | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/iommu/qcom,iommu.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8939.dtsi b/arch/arm64/boot/dts/qcom/msm8939.dtsi
-index 38fc22e66bda..664ae303afae 100644
---- a/arch/arm64/boot/dts/qcom/msm8939.dtsi
-+++ b/arch/arm64/boot/dts/qcom/msm8939.dtsi
-@@ -55,6 +55,7 @@ CPU0: cpu@100 {
- 			L2_1: l2-cache {
- 				compatible = "cache";
- 				cache-level = <2>;
-+				cache-unified;
- 			};
- 		};
+diff --git a/Documentation/devicetree/bindings/iommu/qcom,iommu.yaml b/Documentation/devicetree/bindings/iommu/qcom,iommu.yaml
+index d9fabdf930d9..3b7acb459f8e 100644
+--- a/Documentation/devicetree/bindings/iommu/qcom,iommu.yaml
++++ b/Documentation/devicetree/bindings/iommu/qcom,iommu.yaml
+@@ -24,14 +24,18 @@ properties:
+       - const: qcom,msm-iommu-v1
  
-@@ -111,6 +112,7 @@ CPU4: cpu@0 {
- 			L2_0: l2-cache {
- 				compatible = "cache";
- 				cache-level = <2>;
-+				cache-unified;
- 			};
- 		};
+   clocks:
++    minItems: 2
+     items:
+       - description: Clock required for IOMMU register group access
+       - description: Clock required for underlying bus access
++      - description: Clock required for Translation Buffer Unit access
  
+   clock-names:
++    minItems: 2
+     items:
+       - const: iface
+       - const: bus
++      - const: tbu
+ 
+   power-domains:
+     maxItems: 1
 
 -- 
 2.41.0
