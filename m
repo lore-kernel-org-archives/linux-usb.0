@@ -2,86 +2,114 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA074EB64D7
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Jun 2023 10:49:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA3AFEB64D7
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Jun 2023 13:38:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229651AbjF1KtA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Jun 2023 06:49:00 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:49052 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230422AbjF1Kso (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Jun 2023 06:48:44 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7A79B612A3
-        for <linux-usb@vger.kernel.org>; Wed, 28 Jun 2023 10:48:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FFDEC433C8;
-        Wed, 28 Jun 2023 10:48:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1687949323;
-        bh=1ZYkjEWL6ESDHaqNq88bcsVLlbwNauwHhSw1jdqhUmE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qTKAQ2kf8Y2OPOtKQvgQNJ/mQnrIYUwdizGiZCuV3+quqoPdBLlqUGyPCRSHflez/
-         97s0NkeqmeAI1egYMcZ3yqkfCrsqzl4PZybIciffGUdqk8Y/5pSAmLOevGdILeVpYH
-         up6/47COEb0hSbO3daZqXs/F+uTXuoT+ujDUHgRQ=
-Date:   Wed, 28 Jun 2023 12:48:38 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jerry Meng <jerry-meng@foxmail.com>
-Cc:     johan@kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH]     USB: serial: option: support Quectel EM060K_128
-Message-ID: <2023062821-scarcity-calculate-6f35@gregkh>
-References: <tencent_05185A450C60A1EE8A651E34CC0F60304506@qq.com>
+        id S232018AbjF1Niq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Jun 2023 09:38:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48522 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229993AbjF1Nil (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Jun 2023 09:38:41 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33852E4B
+        for <linux-usb@vger.kernel.org>; Wed, 28 Jun 2023 06:38:40 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3fb4146e8ceso30500775e9.0
+        for <linux-usb@vger.kernel.org>; Wed, 28 Jun 2023 06:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1687959518; x=1690551518;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BD6UVrDj44rW0iJhXXnbinIwh1j5tk1DZT8e7Z3NaOY=;
+        b=WWeVCCFbIZYErL2dpy976B3XVZvdzxcSOLDIklpFS4QKRgwH1WVfQ9hdJfQU2Oj8kt
+         59hY7CvgZDiQ23mxOd4qQbzgRVCEMXayqCNT6lb14UlOh+86lDuEuW/zAfWMM7Hgqfig
+         2zJ1A4rfpFzuqAed6ZUOl65Zf3gBcUAWSGgVpTaqq3LhZr4CBd2zu3uFu2gdjvHNS2x9
+         auKS8QERrTRDWhPdE9u/Ex/qEGt2GqHNFFo6+me2Mvcbx+ZmJ+LsYv4wR8huegNmSF71
+         dBz0l5eJ+Xfjo44TJXOiUZGY0XgcBgeOnJL3Hndpk5dgbD9tN0MyNaZwV4tUAs6K1LDr
+         qU7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687959518; x=1690551518;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BD6UVrDj44rW0iJhXXnbinIwh1j5tk1DZT8e7Z3NaOY=;
+        b=Y/9XP6K0f2KRilivGtXydlSVQ5uBVjelKk4wjjrQ08I/1O3l/2R9MryAhaiuAEa1WS
+         B6ufvV3JM2FbWOON8xnOTOpXNvRxF7Cr5s7BxvV8tIgmZJht7aRz5UBwZcOrQsvH8wkc
+         BR1N1Ul3xsuaK45JydZFP+y3KU/t/YkxT0NoOURkzmvXGS4aK16YhyP2UMSPVwwTjThj
+         CoBs5HPxYWSuY1+nMDV5rmkVtmmRRjFj4jjJV80jRo+qKtShAHqBS+UJLpIhDpGzlSpM
+         uA0gICMhEE1a0Ko3Mg1Dg/fVFnU1OpZbaJaV7V2S5DSEIPtvo2AQdCgy9cs+ZGQC6BGj
+         hoVw==
+X-Gm-Message-State: AC+VfDyp8A/TDH7oEX9I5mHDhoHFHVZ3vLD3FBTWA1CfOIdp6aDUm0sD
+        YQl+qPi9gL32eyhfHgSOgKr3Sw==
+X-Google-Smtp-Source: ACHHUZ4smNZjAC+Ejv0ENEyNEdlvmH41eqPq/7xhCc98BSyBZS5jwVv/KMif0Uft9u5CQGBQuBe34A==
+X-Received: by 2002:a1c:f603:0:b0:3f8:f80e:7b45 with SMTP id w3-20020a1cf603000000b003f8f80e7b45mr26822235wmc.7.1687959518616;
+        Wed, 28 Jun 2023 06:38:38 -0700 (PDT)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.googlemail.com with ESMTPSA id o23-20020a05600c379700b003fae92e7a8dsm7657539wmr.27.2023.06.28.06.38.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jun 2023 06:38:37 -0700 (PDT)
+From:   Corentin Labbe <clabbe@baylibre.com>
+To:     gregkh@linuxfoundation.org, johan@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        david@ixit.cz, Corentin Labbe <clabbe@baylibre.com>
+Subject: [PATCH v6 0/2] usb: serial: add support for CH348
+Date:   Wed, 28 Jun 2023 13:38:32 +0000
+Message-Id: <20230628133834.1527941-1-clabbe@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_05185A450C60A1EE8A651E34CC0F60304506@qq.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jun 28, 2023 at 05:55:02PM +0800, Jerry Meng wrote:
->     EM060K_128 is EM060K's sub-model, having the same nmae "EM060K-GL"
-> 
->     MBIM + GNSS + DIAG + NMEA + AT + QDSS + DPL
-> 
->     T:  Bus=03 Lev=01 Prnt=01 Port=01 Cnt=02 Dev#=  8 Spd=480  MxCh= 0
->     D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
->     P:  Vendor=2c7c ProdID=0128 Rev= 5.04
->     S:  Manufacturer=Quectel
->     S:  Product=Quectel EM060K-GL
->     S:  SerialNumber=f6fa08b6
->     C:* #Ifs= 8 Cfg#= 1 Atr=a0 MxPwr=500mA
->     A:  FirstIf#= 0 IfCount= 2 Cls=02(comm.) Sub=0e Prot=00
->     I:* If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=0e Prot=00 Driver=cdc_mbim
->     E:  Ad=81(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
->     I:  If#= 1 Alt= 0 #EPs= 0 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
->     I:* If#= 1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
->     E:  Ad=8e(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
->     E:  Ad=0f(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
->     I:* If#= 2 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
->     E:  Ad=82(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
->     I:* If#= 3 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
->     E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
->     E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
->     I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=40 Driver=option
->     E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
->     E:  Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
->     E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
->     I:* If#= 5 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
->     E:  Ad=87(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
->     E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
->     E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
->     I:* If#= 6 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=70 Driver=(none)
->     E:  Ad=88(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
->     I:* If#= 7 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=80 Driver=(none)
->     E:  Ad=8f(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+Hello
 
-Why is this, and the subject line, indented?
+The CH348 is an octo serial to USB adapter.
+The following patch adds a driver for supporting it.
+Since there is no public datasheet, unfortunatly it remains some magic values.
 
-No need for that, right?
+It was tested with a large range of baud from 1200 to 1500000 and used with
+success in one of our kernel CI testlab.
 
-thanks,
+Regards
 
-greg k-h
+Changes since v1:
+- use a data structure for encoding/decoding messages.
+- check if needed endpoints exists
+- fix URB leak in ch348_allocate_status_read error case
+- test for maximum baud rate as stated by datasheet
+
+Changes since v2:
+- specify ch348_rxbuf data length
+- Use correct speed_t dwDTERate instead of __le32
+- test for maximum baud rate supported according to datasheet
+- Use a define for CH348_TX_HDRSIZE
+
+Changes since v3
+- Fixed all reported problem from https://lore.kernel.org/lkml/Y5NDwEakGJbmB6+b@Red/T/#mb6234d0427cfdabf412190565e215995a41482dd
+  Mostly reworked the endpoint mux to be the same than mx_uport
+
+Changes since v4:
+- The V4 was sent against stable and next have ch348_set_termios ktermios
+  parameter const that I forgot to change
+
+Changes since v5:
+- Fixed all reported problem from https://lore.kernel.org/lkml/20230106135338.643951-1-clabbe@baylibre.com/T/#m044aab24dfb652ea34aa06f8ef704da9d6a2e036
+- Major change is dropping of all status handling which was unused.
+  It will be probably necessary to bring it back when using GPIO.
+  This will be done when I will finish my next devboard.
+
+Corentin Labbe (2):
+  usb: serial: add support for CH348
+  usb: serial: add myself as maintainer of CH348
+
+ MAINTAINERS                 |   5 +
+ drivers/usb/serial/Kconfig  |   9 +
+ drivers/usb/serial/Makefile |   1 +
+ drivers/usb/serial/ch348.c  | 491 ++++++++++++++++++++++++++++++++++++
+ 4 files changed, 506 insertions(+)
+ create mode 100644 drivers/usb/serial/ch348.c
+
+-- 
+2.39.3
+
