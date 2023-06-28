@@ -2,79 +2,67 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75626EB64D9
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jun 2023 21:34:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C65F7EB64DA
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Jun 2023 08:22:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230271AbjF0VeG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Jun 2023 17:34:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38344 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230257AbjF0VeE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jun 2023 17:34:04 -0400
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A644210D
-        for <linux-usb@vger.kernel.org>; Tue, 27 Jun 2023 14:34:03 -0700 (PDT)
-Received: by mail-il1-x136.google.com with SMTP id e9e14a558f8ab-3422d37d316so21347395ab.3
-        for <linux-usb@vger.kernel.org>; Tue, 27 Jun 2023 14:34:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1687901642; x=1690493642;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NZqYumP33fV5BVUZmpS7A28a1sWnVNycuG2BlU8AmM8=;
-        b=IpkCBsUmZFPGJXzJ1xZcAyhntxXHhDd/LJrQddo689e29JvNh+T8rCjTy7OE937xh8
-         VEEiIMNUIle8GoiLJw9as4dQXIf/KH7BrTRBZqPKwBpOVPrjrKvBvFvpeTMlXWPIf1KN
-         QlNbuFsRWM1QaulTv8eWXnRrJ5sH6ZBOg2SaM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687901642; x=1690493642;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NZqYumP33fV5BVUZmpS7A28a1sWnVNycuG2BlU8AmM8=;
-        b=FAPLA317V7InIR8G9qYLtPqEY+1IYom+iLIHVzqF6LKWm83xi2LW9ZwSHwR/jmkLiY
-         zrwmPPGqNv460OXsM1oS9Zex+3JJs0g52jZpL396vIU0mBR/05TMJh5h1qhkomZ3mbl4
-         uJ7eod0gYl+iUlyvmtY1xpfzYX0r4vZDdEFEP7zTBABusxIBpBuBv7RFBUrQhZpgCJ5n
-         TASNWQwTuxx717ZZxOHbbZEWISI2rJ1E157BxJIzAFNRplr8Pw54+RkEEFKRz5+B4t6w
-         tvBMkDwrcoPOljKsawSD+dlMVArXcLe7tyR4s/EI7f7XgkPW2j6NudzSEHYWO6umZoho
-         R/VQ==
-X-Gm-Message-State: AC+VfDxqV2CosrlAcQ8PClqwC2r/feLwdunmc74vv9MFFoPM1tsy33rl
-        aRK+gRA1Z+EMas6X4/smwRCxxw==
-X-Google-Smtp-Source: ACHHUZ7ItMgqKAmuFElauXWeEhfMACuB7n5OgXQznjB8sLC8WMB+/S8XZtmBgtnccaxreLuSg38DKQ==
-X-Received: by 2002:a92:cd06:0:b0:345:bc24:7c75 with SMTP id z6-20020a92cd06000000b00345bc247c75mr2301923iln.9.1687901642456;
-        Tue, 27 Jun 2023 14:34:02 -0700 (PDT)
-Received: from localhost (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
-        by smtp.gmail.com with UTF8SMTPSA id d8-20020a92d788000000b0034233fd80d3sm2907859iln.22.2023.06.27.14.34.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Jun 2023 14:34:01 -0700 (PDT)
-Date:   Tue, 27 Jun 2023 21:33:54 +0000
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Benjamin Bara <bbara93@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Benjamin Bara <benjamin.bara@skidata.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v7 1/3] usb: misc: onboard-hub: support multiple power
- supplies
-Message-ID: <ZJtVwqJaXmSPY3TK@google.com>
-References: <20230620-hx3-v7-0-f79b4b22a1bf@skidata.com>
- <20230620-hx3-v7-1-f79b4b22a1bf@skidata.com>
+        id S234367AbjF1IWl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Jun 2023 04:22:41 -0400
+Received: from m12.mail.163.com ([220.181.12.215]:38052 "EHLO m12.mail.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234326AbjF1IPs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 28 Jun 2023 04:15:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=TZ63D
+        hoeDCYyBIbyvSorhwvX2zStbpYvqashuoDCgeQ=; b=PCaFIRrNDL2QDhpv5cWAJ
+        by/lH8bxQpMCrCbUpNXBwCr66VEGPn4PoHvA3G+XOaQgpfjFDNIbzieBYPibZpl8
+        lMA+28ZcPCOvGFe7jhar7j3n+5KuMn5hHimQH3AkHCzIIUFtprEbKXprSphB5GR3
+        eMbYipNr3P8JlL2jNnUhqk=
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+        by zwqz-smtp-mta-g3-2 (Coremail) with SMTP id _____wCntAEV7JtkwE1oBA--.64150S4;
+        Wed, 28 Jun 2023 16:15:27 +0800 (CST)
+From:   Ma Ke <make_ruc2021@163.com>
+To:     leoyang.li@nxp.com
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        Ma Ke <make_ruc2021@163.com>
+Subject: [PATCH] usb: gadget: fsl_qe_udc: validate endpoint index for ch9 udc
+Date:   Wed, 28 Jun 2023 16:15:11 +0800
+Message-Id: <20230628081511.186850-1-make_ruc2021@163.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230620-hx3-v7-1-f79b4b22a1bf@skidata.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wCntAEV7JtkwE1oBA--.64150S4
+X-Coremail-Antispam: 1Uf129KBjvdXoWrur1rtFyrCw43Kw4DGryUKFg_yoWfJrb_u3
+        WUWrs7Wr17Ww129r17Za1Svr9293WkZ3Wkua4vqr9rAa45G3WfJryDXFs5Ca17uF43WFn5
+        A3yDJ3sIkw1SqjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU822MUUUUUU==
+X-Originating-IP: [183.174.60.14]
+X-CM-SenderInfo: 5pdnvshuxfjiisr6il2tof0z/xtbBFR+cC2B9nNSTkQAAsK
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jun 23, 2023 at 09:28:12AM +0200, Benjamin Bara wrote:
-> From: Benjamin Bara <benjamin.bara@skidata.com>
-> 
-> As some of the onboard hubs require multiple power supplies, provide the
-> environment to support them.
-> 
-> Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+We should verify the bound of the array to assure that host
+may not manipulate the index to point past endpoint array.
 
-Acked-by: Matthias Kaehlcke <mka@chromium.org>
+Signed-off-by: Ma Ke <make_ruc2021@163.com>
+---
+ drivers/usb/gadget/udc/fsl_qe_udc.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/usb/gadget/udc/fsl_qe_udc.c b/drivers/usb/gadget/udc/fsl_qe_udc.c
+index 3b1cc8fa30c8..f4e5cbd193b7 100644
+--- a/drivers/usb/gadget/udc/fsl_qe_udc.c
++++ b/drivers/usb/gadget/udc/fsl_qe_udc.c
+@@ -1959,6 +1959,8 @@ static void ch9getstatus(struct qe_udc *udc, u8 request_type, u16 value,
+ 	} else if ((request_type & USB_RECIP_MASK) == USB_RECIP_ENDPOINT) {
+ 		/* Get endpoint status */
+ 		int pipe = index & USB_ENDPOINT_NUMBER_MASK;
++		if (pipe >= USB_MAX_ENDPOINTS)
++			goto stall;
+ 		struct qe_ep *target_ep = &udc->eps[pipe];
+ 		u16 usep;
+ 
+-- 
+2.37.2
+
