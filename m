@@ -2,148 +2,257 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA713EB64D7
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Jun 2023 17:37:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C47DC001DB
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Jun 2023 17:55:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231926AbjF1RhW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Jun 2023 13:37:22 -0400
-Received: from mga18.intel.com ([134.134.136.126]:11724 "EHLO mga18.intel.com"
+        id S231956AbjF1RzW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Jun 2023 13:55:22 -0400
+Received: from mga03.intel.com ([134.134.136.65]:4942 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231691AbjF1RhI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Jun 2023 13:37:08 -0400
+        id S232004AbjF1Ryh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 28 Jun 2023 13:54:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687973828; x=1719509828;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=unQ9Ida9BK58eirKqqPGe4rswfOrgisjIAOxxzN5qHw=;
-  b=MIkdC0bPqX6Qdda6i5vFl3+HucV8wNe2pQbdAwYWMPvOUp78oPAjtNpn
-   BvaJPUYO8yx+SNGK6TnNdvVj2WlH1M1YGZRYwSf1A/38fxlLyXBzmuEkZ
-   JASPEKr4y+9ZlvIVU/MoF6hEDKaf9ogOTI/ZC6NvWnHFkvlU3Nh1jkFlB
-   3zYv/9SXOnvu3App1/u+MyKH2uoc0Ot4TAke5EwPCVa+HU6juxa4iUPm0
-   VzFuNg4hByMcrpu1NcUZLjSONzNW8YJHh51nWJ5o8EHdgc8k6UX1rUj6G
-   wA/xUXgeUnH2wFqO4VhBXmQW4xf6ec8mJDF3vB9vW8k3g9dHZD16DH9O1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="346679451"
+  t=1687974877; x=1719510877;
+  h=date:from:to:cc:subject:message-id;
+  bh=5Vi+/zsNdj8p8GVTmuWerYDMmLgMZ43T5DkH07S0uSI=;
+  b=F9Fuujm5V6v1klEqtpERdShlduE1LBIGKX5WVTNA/0IiDfS/SnDAx9s8
+   52aJO1fTgkSGvaeSp1tLuE+Kvqbo1RkshVj6wE9prMdw1zvkbsZYXaCbo
+   LcRUa4fkHwseORdY0n8x2BlFj8sHzF1wtRnFghWXwSmovONoqjrRnYgPF
+   u/llqlF1pohL0aLaiEg9CqRHbzSd2MNUWQkhR/WOlfvMLR8us9U7Cw7XV
+   xgxAkl4uagNXA0VzlBwMa4Qne2wSFeXieXb+aOaOcYt+UVM/wOHDQQkT+
+   vxkpvJWBFYd27HkUleWmkKw0ArggAyKiGP/lGxJc+/ew0Y9+2ymcyIECB
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="365378435"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="346679451"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 10:37:03 -0700
+   d="scan'208";a="365378435"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 10:53:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="1047499363"
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="891125865"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="1047499363"
-Received: from uhpatel-desk4.jf.intel.com ([10.23.15.157])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Jun 2023 10:37:01 -0700
-From:   Utkarsh Patel <utkarsh.h.patel@intel.com>
-To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        heikki.krogerus@linux.intel.com, pmalani@chromium.org,
-        bleung@chromium.org
-Cc:     Utkarsh Patel <utkarsh.h.patel@intel.com>
-Subject: [PATCH v2 1/2] platform/chrome: cros_ec_typec: Configure Retimer cable type
-Date:   Wed, 28 Jun 2023 10:37:26 -0700
-Message-Id: <20230628173727.701140-2-utkarsh.h.patel@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230628173727.701140-1-utkarsh.h.patel@intel.com>
-References: <20230628173727.701140-1-utkarsh.h.patel@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+   d="scan'208";a="891125865"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 28 Jun 2023 10:53:50 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qEZMT-000DPd-16;
+        Wed, 28 Jun 2023 17:53:49 +0000
+Date:   Thu, 29 Jun 2023 01:53:20 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Linux Memory Management List <linux-mm@kvack.org>,
+        kunit-dev@googlegroups.com, linux-btrfs@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org
+Subject: [linux-next:master] BUILD REGRESSION
+ 5c875096d59010cee4e00da1f9c7bdb07a025dc2
+Message-ID: <202306290106.wrQJ0Px6-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Connector class driver only configure cable type active or passive.
-With this change it will also configure if the cable type is retimer or
-redriver if required by AP. This detail will be provided as a part of
-cable discover mode VDO.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 5c875096d59010cee4e00da1f9c7bdb07a025dc2  Add linux-next specific files for 20230628
 
-Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
+Error/Warning reports:
 
----
-Changes in v2:
- - Implemented use of cable discover mode vdo.
- - Removed adittional changes to host command. 
----
+https://lore.kernel.org/oe-kbuild-all/202306122223.HHER4zOo-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202306282012.sPQAuAN7-lkp@intel.com
 
----
- drivers/platform/chrome/cros_ec_typec.c | 33 ++++++++++++++++++++++++-
- 1 file changed, 32 insertions(+), 1 deletion(-)
+Error/Warning: (recently discovered and may have been fixed)
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 25f9767c28e8..557f396d1c00 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -406,6 +406,25 @@ static int cros_typec_usb_safe_state(struct cros_typec_port *port)
- 	return ret;
- }
- 
-+static int cros_typec_get_cable_vdo(struct cros_typec_data *typec, int port_num,
-+				    uint16_t svid)
-+{
-+	struct cros_typec_port *port = typec->ports[port_num];
-+	struct list_head *head = &port->plug_mode_list;
-+	struct cros_typec_altmode_node *node;
-+
-+	list_for_each_entry(node, head, list) {
-+		if (node->amode->svid == svid)
-+			break;
-+	}
-+
-+	if (node->amode->svid != svid)
-+		return 0;
-+
-+	return node->amode->vdo;
-+}
-+
-+
- /*
-  * Spoof the VDOs that were likely communicated by the partner for TBT alt
-  * mode.
-@@ -416,6 +435,7 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
- {
- 	struct cros_typec_port *port = typec->ports[port_num];
- 	struct typec_thunderbolt_data data;
-+	uint32_t cable_vdo;
- 	int ret;
- 
- 	if (typec->pd_ctrl_ver < 2) {
-@@ -442,6 +462,11 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
- 
- 	data.cable_mode |= TBT_SET_CABLE_ROUNDED(pd_ctrl->cable_gen);
- 
-+	cable_vdo = cros_typec_get_cable_vdo(typec, port_num, USB_TYPEC_TBT_SID);
-+
-+	if (cable_vdo & TBT_CABLE_RETIMER)
-+		data.cable_mode |= TBT_CABLE_RETIMER;
-+
- 	/* Enter Mode VDO */
- 	data.enter_vdo = TBT_SET_CABLE_SPEED(pd_ctrl->cable_speed);
- 
-@@ -513,17 +538,23 @@ static int cros_typec_enable_usb4(struct cros_typec_data *typec,
- {
- 	struct cros_typec_port *port = typec->ports[port_num];
- 	struct enter_usb_data data;
-+	uint32_t cable_vdo;
- 
- 	data.eudo = EUDO_USB_MODE_USB4 << EUDO_USB_MODE_SHIFT;
- 
-+	cable_vdo = cros_typec_get_cable_vdo(typec, port_num, USB_TYPEC_TBT_SID);
-+
- 	/* Cable Speed */
- 	data.eudo |= pd_ctrl->cable_speed << EUDO_CABLE_SPEED_SHIFT;
- 
- 	/* Cable Type */
- 	if (pd_ctrl->control_flags & USB_PD_CTRL_OPTICAL_CABLE)
- 		data.eudo |= EUDO_CABLE_TYPE_OPTICAL << EUDO_CABLE_TYPE_SHIFT;
--	else if (pd_ctrl->control_flags & USB_PD_CTRL_ACTIVE_CABLE)
-+	else if (cable_vdo & TBT_CABLE_RETIMER)
- 		data.eudo |= EUDO_CABLE_TYPE_RE_TIMER << EUDO_CABLE_TYPE_SHIFT;
-+	else if (!(cable_vdo & TBT_CABLE_RETIMER) &&
-+		 (pd_ctrl->control_flags & USB_PD_CTRL_ACTIVE_CABLE))
-+		data.eudo |= EUDO_CABLE_TYPE_RE_DRIVER << EUDO_CABLE_TYPE_SHIFT;
- 
- 	data.active_link_training = !!(pd_ctrl->control_flags &
- 				       USB_PD_CTRL_ACTIVE_LINK_UNIDIR);
+ERROR: modpost: "clk_register_fixed_rate" [drivers/regulator/raa215300.ko] undefined!
+ERROR: modpost: "clk_unregister_fixed_rate" [drivers/regulator/raa215300.ko] undefined!
+arch/parisc/kernel/pdt.c:66:6: warning: no previous prototype for 'arch_report_meminfo' [-Wmissing-prototypes]
+drivers/char/mem.c:164:25: error: implicit declaration of function 'unxlate_dev_mem_ptr'; did you mean 'xlate_dev_mem_ptr'? [-Werror=implicit-function-declaration]
+lib/kunit/executor_test.c:138:4: warning: cast from 'void (*)(const void *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+lib/kunit/test.c:775:38: warning: cast from 'void (*)(const void *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+drivers/usb/cdns3/cdns3-starfive.c:23: warning: expecting prototype for cdns3(). Prototype was for USB_STRAP_HOST() instead
+fs/btrfs/volumes.c:6407 btrfs_map_block() error: we previously assumed 'mirror_num_ret' could be null (see line 6244)
+net/wireless/scan.c:373 cfg80211_gen_new_ie() warn: potential spectre issue 'sub->data' [r]
+net/wireless/scan.c:397 cfg80211_gen_new_ie() warn: possible spectre second half.  'ext_id'
+{standard input}: Error: local label `"2" (instance number 9 of a fb label)' is not defined
+{standard input}:1097: Error: pcrel too far
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- i386-randconfig-m021-20230628
+|   `-- fs-btrfs-volumes.c-btrfs_map_block()-error:we-previously-assumed-mirror_num_ret-could-be-null-(see-line-)
+|-- m68k-randconfig-r054-20230628
+|   |-- ERROR:clk_register_fixed_rate-drivers-regulator-raa215300.ko-undefined
+|   `-- ERROR:clk_unregister_fixed_rate-drivers-regulator-raa215300.ko-undefined
+|-- parisc-allyesconfig
+|   `-- arch-parisc-kernel-pdt.c:warning:no-previous-prototype-for-arch_report_meminfo
+|-- parisc-defconfig
+|   `-- arch-parisc-kernel-pdt.c:warning:no-previous-prototype-for-arch_report_meminfo
+|-- parisc-randconfig-r026-20230628
+|   `-- arch-parisc-kernel-pdt.c:warning:no-previous-prototype-for-arch_report_meminfo
+|-- parisc64-defconfig
+|   `-- arch-parisc-kernel-pdt.c:warning:no-previous-prototype-for-arch_report_meminfo
+|-- riscv-allmodconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- riscv-allyesconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- sh-allmodconfig
+|   |-- drivers-char-mem.c:error:implicit-declaration-of-function-unxlate_dev_mem_ptr
+|   |-- standard-input:Error:local-label-(instance-number-of-a-fb-label)-is-not-defined
+|   `-- standard-input:Error:pcrel-too-far
+|-- sh-randconfig-r025-20230628
+|   `-- drivers-char-mem.c:error:implicit-declaration-of-function-unxlate_dev_mem_ptr
+|-- sh-rsk7203_defconfig
+|   `-- drivers-char-mem.c:error:implicit-declaration-of-function-unxlate_dev_mem_ptr
+`-- x86_64-randconfig-m001-20230628
+    |-- net-wireless-scan.c-cfg80211_gen_new_ie()-warn:possible-spectre-second-half.-ext_id
+    `-- net-wireless-scan.c-cfg80211_gen_new_ie()-warn:potential-spectre-issue-sub-data-r
+clang_recent_errors
+|-- arm-randconfig-r012-20230628
+|   `-- lib-kunit-test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
+|-- hexagon-randconfig-r045-20230628
+|   |-- lib-kunit-executor_test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
+|   `-- lib-kunit-test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
+|-- s390-randconfig-r001-20230628
+|   `-- lib-kunit-test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
+`-- s390-randconfig-r003-20230628
+    |-- lib-kunit-executor_test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
+    `-- lib-kunit-test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
+
+elapsed time: 731m
+
+configs tested: 124
+configs skipped: 3
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r014-20230628   gcc  
+alpha                randconfig-r023-20230628   gcc  
+alpha                randconfig-r035-20230628   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                        nsimosci_defconfig   gcc  
+arc                  randconfig-r034-20230628   gcc  
+arc                  randconfig-r043-20230628   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                       imx_v4_v5_defconfig   clang
+arm                        neponset_defconfig   clang
+arm                  randconfig-r004-20230628   gcc  
+arm                  randconfig-r005-20230628   gcc  
+arm                  randconfig-r006-20230628   gcc  
+arm                  randconfig-r012-20230628   clang
+arm                  randconfig-r046-20230628   clang
+arm                       versatile_defconfig   clang
+arm                         vf610m4_defconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                                defconfig   gcc  
+hexagon              randconfig-r041-20230628   clang
+hexagon              randconfig-r045-20230628   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230628   clang
+i386         buildonly-randconfig-r005-20230628   clang
+i386         buildonly-randconfig-r006-20230628   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230628   clang
+i386                 randconfig-i002-20230628   clang
+i386                 randconfig-i003-20230628   clang
+i386                 randconfig-i004-20230628   clang
+i386                 randconfig-i005-20230628   clang
+i386                 randconfig-i006-20230628   clang
+i386                 randconfig-i011-20230628   gcc  
+i386                 randconfig-i012-20230628   gcc  
+i386                 randconfig-i013-20230628   gcc  
+i386                 randconfig-i014-20230628   gcc  
+i386                 randconfig-i015-20230628   gcc  
+i386                 randconfig-i016-20230628   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        m5407c3_defconfig   gcc  
+microblaze           randconfig-r002-20230628   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                           gcw0_defconfig   gcc  
+mips                           xway_defconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r031-20230628   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r026-20230628   gcc  
+parisc64                            defconfig   gcc  
+powerpc                    adder875_defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                      bamboo_defconfig   gcc  
+powerpc                   currituck_defconfig   gcc  
+powerpc                    gamecube_defconfig   clang
+powerpc                     mpc512x_defconfig   clang
+powerpc              randconfig-r024-20230628   gcc  
+powerpc                      tqm8xx_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r042-20230628   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r001-20230628   clang
+s390                 randconfig-r003-20230628   clang
+s390                 randconfig-r021-20230628   gcc  
+s390                 randconfig-r044-20230628   gcc  
+sh                               allmodconfig   gcc  
+sh                   randconfig-r025-20230628   gcc  
+sh                          rsk7203_defconfig   gcc  
+sh                        sh7757lcr_defconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r011-20230628   gcc  
+sparc                randconfig-r032-20230628   gcc  
+sparc64              randconfig-r033-20230628   gcc  
+sparc64              randconfig-r036-20230628   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230628   clang
+x86_64       buildonly-randconfig-r002-20230628   clang
+x86_64       buildonly-randconfig-r003-20230628   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-r015-20230628   gcc  
+x86_64               randconfig-x001-20230628   gcc  
+x86_64               randconfig-x002-20230628   gcc  
+x86_64               randconfig-x003-20230628   gcc  
+x86_64               randconfig-x004-20230628   gcc  
+x86_64               randconfig-x005-20230628   gcc  
+x86_64               randconfig-x006-20230628   gcc  
+x86_64               randconfig-x011-20230628   clang
+x86_64               randconfig-x012-20230628   clang
+x86_64               randconfig-x013-20230628   clang
+x86_64               randconfig-x014-20230628   clang
+x86_64               randconfig-x015-20230628   clang
+x86_64               randconfig-x016-20230628   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r016-20230628   gcc  
+xtensa               randconfig-r022-20230628   gcc  
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
