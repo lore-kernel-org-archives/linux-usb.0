@@ -2,1502 +2,177 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEF3BEB64DC
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Jun 2023 05:46:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA6A0EB64D9
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Jun 2023 05:56:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231709AbjF2Fqt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Jun 2023 01:46:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33332 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231508AbjF2Fql (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Jun 2023 01:46:41 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AE01E273B;
-        Wed, 28 Jun 2023 22:46:35 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 35T5jXN51016253, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 35T5jXN51016253
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
-        Thu, 29 Jun 2023 13:45:33 +0800
-Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Thu, 29 Jun 2023 13:45:34 +0800
-Received: from RTEXH36506.realtek.com.tw (172.21.6.27) by
- RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Thu, 29 Jun 2023 13:45:34 +0800
-Received: from localhost.localdomain (172.21.252.101) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server id
- 15.1.2507.17 via Frontend Transport; Thu, 29 Jun 2023 13:45:34 +0800
-From:   Stanley Chang <stanley_chang@realtek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Stanley Chang <stanley_chang@realtek.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Douglas Anderson" <dianders@chromium.org>,
-        Flavio Suligoi <f.suligoi@asem.it>,
-        "Bagas Sanjaya" <bagasdotme@gmail.com>,
-        Ray Chi <raychi@google.com>,
-        "Matthias Kaehlcke" <mka@chromium.org>,
-        <linux-phy@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
-Subject: [PATCH v6 2/5] phy: realtek: usb: Add driver for the Realtek SoC USB 2.0 PHY
-Date:   Thu, 29 Jun 2023 13:45:10 +0800
-Message-ID: <20230629054523.7519-2-stanley_chang@realtek.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230629054523.7519-1-stanley_chang@realtek.com>
-References: <20230629054523.7519-1-stanley_chang@realtek.com>
+        id S231653AbjF2F4f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Jun 2023 01:56:35 -0400
+Received: from mail-mr2fra01on2044.outbound.protection.outlook.com ([40.107.9.44]:48160
+        "EHLO FRA01-MR2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231508AbjF2F4d (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 29 Jun 2023 01:56:33 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DtizVpcADhGDxOaqNln/IRSaCkJrDBUEaHKBXnL+/IpRxQBgKxyJg7dhdb7WGGXITd8FMIJtYmgyr442L2hMj3ZS0XCV9o4LEphIlq0KAyKFhPX0xURCt8WFN/Euy124FKJ67cSY+3ZzlGUkfE86b9QiFrjD4uaRlJNtxQTYYCKbuppc1kuo+PCJubCHk8CIBkkP2p0B6RfolRUKVu6FlmIrhm5oXyWmcmSCbVzCSu0VTsD/P/WrGOoQRLdP1vsiiQVl5oXmS4zeOsOeM5N084lZcaOyCosH0zQSgQfSkcFbEux7u0tjriqbrVcMLm1m7p4MMN8m+OK7u1+4osiSyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UlAe+p2ISUlHkjV0vd1/Hoz+MUJXB2eT1HGleWj8+cc=;
+ b=GSifEBxmarEGIcBno0Oyyi876uJGu9udiRdvJwA8Q5k9JsgC4ACR0QSViq1DWLs3kVfF+e8wBgp2yrN7Q5PiM8PjeDEp4NZ8nwfpiXYl7Ew/deU+FMxnGwkx0IxKhDI8Wto2L2Vjxk8YL3FW7euHTuH3MFZFzIBpdA0txKemNYlHwsGE9vJTqQiVVFbOXLnfrSajC7LRCZK77xm4N4T1YxfdQDUSMpRCM+J2JjZI8q2XtTDlffRIN6FrZgDcoZRqodb2M9SXO16Yiusk5tlbYHsLo3ev9KS3HKnE4xE7Kmi9u/3RPpKzlPRcFn53u1+dftLVqi8t/BTXcu/B2gjpNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=csgroup.eu; dmarc=pass action=none header.from=csgroup.eu;
+ dkim=pass header.d=csgroup.eu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=csgroup.eu;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UlAe+p2ISUlHkjV0vd1/Hoz+MUJXB2eT1HGleWj8+cc=;
+ b=OurHZQ8VyNLJv7yRx8cpWipnZBHUyRD/yqu4DCPV6cTUbGZg6Gyv+gon/fhGn+CMfKwNzlM/F97JH48lBIt8SbgJN9OVEIg/H0v0vYi8nvXXsLrTpZMWEjlLqO+jupyX7t7J/ch8CmztxUdEykI/PYtteGFtCsyhasWbZgfjdcncFXgh8h0h9qjwUM48hEQTvQ8EOWz2zuZhJDQpiDVzl99a6BlM4h6xpCKpUmsf1uH0Ii1IqkT0he5VRFY8zt/MoCS6JkmArYHUuWIJji2jQoE7jJeLPNjasoVi0U3sQgWXED168JrmJVLbudChl/UZY4wxGJpD7xA2K7JOyamUGQ==
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:31::15)
+ by MR1P264MB1729.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:5::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Thu, 29 Jun
+ 2023 05:56:31 +0000
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::802b:33:561c:4217]) by MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::802b:33:561c:4217%4]) with mapi id 15.20.6521.026; Thu, 29 Jun 2023
+ 05:56:30 +0000
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+To:     Leo Li <leoyang.li@nxp.com>, Ma Ke <make_ruc2021@163.com>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb: gadget: fsl_qe_udc: validate endpoint index for ch9
+ udc
+Thread-Topic: [PATCH] usb: gadget: fsl_qe_udc: validate endpoint index for ch9
+ udc
+Thread-Index: AQHZqbkQaP4TFYaOrEeUc/nFP4wqCq+gcZ4AgAArl4CAABkmgIAAkxkA
+Date:   Thu, 29 Jun 2023 05:56:30 +0000
+Message-ID: <7975b5bf-c8e0-237e-d6f4-98e641d39959@csgroup.eu>
+References: <20230628081511.186850-1-make_ruc2021@163.com>
+ <AM0PR04MB62893E77D085030A6E2C37B28F24A@AM0PR04MB6289.eurprd04.prod.outlook.com>
+ <f321287d-8156-b805-26fd-58acfa26e324@csgroup.eu>
+ <AM0PR04MB628929736762F5DF46C55D708F24A@AM0PR04MB6289.eurprd04.prod.outlook.com>
+In-Reply-To: <AM0PR04MB628929736762F5DF46C55D708F24A@AM0PR04MB6289.eurprd04.prod.outlook.com>
+Accept-Language: fr-FR, en-US
+Content-Language: fr-FR
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=csgroup.eu;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MRZP264MB2988:EE_|MR1P264MB1729:EE_
+x-ms-office365-filtering-correlation-id: 3582451e-c0c0-4232-d0ab-08db78659628
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: XEgE/RtZ+mkn0KjxIQR55Jp+v0A8O9Re/nAJP5d5so3UiRrmbxzPjehl922pYEuQXOxMVSRuPGAFGy82e13EHQUpdWKi/a2OMAwjNuyc1vpOaYaWxfDefoMUH+9PXYGkvF4KCesZNx+1alIheuwoDc4pVpjw/7g3R4YwJZMsrMd4GrvmYvXNBK4+lRPO0tDxJl3X2Jd5kbFdXW44KhDpScpCicY8I+5cHsKp2zCSJUskxJktTwW216uwH9Ar6yvKc7e4XTHyfPJv0UI3OGyfeG5Ur0H0GzzZw0EH291S8ILedTkp+4UMkO0vARbTVP7EVPFyN092FA6KsCc4lDjFg5JIEteNA+7gDBqfDr/5Hb22qfeCT6Bi5dI4rqRqUzSmJYzdyWrHa06odZ0tI10jbh4vU20bJgODkywyovGTaF/q5EvEWxUmsWfgKbsWOnio7Pi5jOnzFjaYXegt1SKvL6cWrx0UVHH/xZXDe19NutlpqMo0sZYFP8IcqruywH8e3+LmDIqgltK90orKpctfF/T8hUVHLBkQRpaTXti8IjkAIxPQjCpG/B/N/i733zlIKdiB/kIIbZLiFLGNRib5Ow6AWlAtpl2j03mGRE2ddVHrRV7SKk7DMZX/ozFnTUTXkHBsktZ5dDl3wKY0DAMQ3pjoZIIYPq03HAddKQ3li+2yFTQsoVu8Iv+G7bkF6OjQ
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(376002)(136003)(346002)(39850400004)(451199021)(6506007)(110136005)(6486002)(2616005)(83380400001)(122000001)(38100700002)(66574015)(186003)(71200400001)(53546011)(26005)(31696002)(41300700001)(86362001)(54906003)(2906002)(316002)(4326008)(8936002)(64756008)(66556008)(66946007)(66446008)(76116006)(66476007)(91956017)(36756003)(6512007)(5660300002)(31686004)(8676002)(44832011)(478600001)(38070700005)(15650500001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RzRxT0QyVSt1bTdKZFU1eTJpcU1mSUdWMFhkNnVGM1FEYUZZNktrUUlqanUx?=
+ =?utf-8?B?UFNma0ZLaFllTHBOL3phWEZOSWpHOEVQbVAxelJVZnV4MWFUTy9LbFp4S3JF?=
+ =?utf-8?B?WmJpOUJKS2pmMUYxSldFc3czaERxdWtYaUh1TzJNSFZ1bml1anpFQkFTNHpN?=
+ =?utf-8?B?QUQvOVE1OCtlRHJRYVBGN1VIMk1oRkg5Q2YyQlAwR1UxZzRtamRSaC9aUE8y?=
+ =?utf-8?B?c1kybkdpRGpTZzFVa2FHa1NaclV3Z0N2bmkycVl3cDFRRC93N2tOTzZHaE54?=
+ =?utf-8?B?eDNIVkhDVDQvUlJkQ3N1dEQzck54NjVzM3RPRFNTeUg2emZvNzRFYlhnNmFV?=
+ =?utf-8?B?M0xmZUlhUDZPSlM1RWsvVnUwUU5JMldRaWFZdldsZFhWM1VLMzNNVnJsQWYz?=
+ =?utf-8?B?RGxXYjRtSFNIeU0vRi9NOFFaNmZsa09tb0JIcVlTR2l6TnV1SkErM3QzTGI2?=
+ =?utf-8?B?bVc2R0NNNzVpUlZvQ1E3RFpnSTk3VGEzNUIyK2UxNEpaOHhTREZ0dFlLMHpp?=
+ =?utf-8?B?OEVtWlZ4djFWcnZCM1dmRDZxcUZiVGFMYmF0V2JFRjJzTUhmd0FIVVFLdjN2?=
+ =?utf-8?B?bmhGMkIybWtFVXJoYzRUNmQvaUFCTCtSc3BXZERTYWlPRmJCSWRDU1FhN3hF?=
+ =?utf-8?B?ci9uK090dDRsQmJJU2dpVnVUR25iZ0U3dm9vTTkrTkZlRjRxV2lXUFZhazhD?=
+ =?utf-8?B?Vkd1QWRhTkFFaGNwMXRkSkt0d2RPZHBvM21CMjNwNTk3QkZUSnc5UGhJeE1Z?=
+ =?utf-8?B?NDRkSkRiZmdiSzZvUE50VnR5RWNzazhZVzNkTkJWOFp5NDk0N1FBenlRRlBq?=
+ =?utf-8?B?eWpNQlE1d0ZtSGwzTFVhWGlvTzBFU2luL2kzT0dJUjRuRWZwR1lYSmJsbCsy?=
+ =?utf-8?B?b1VVT05TUytJQkUvbDk0K3JlMzA4cGlUemtnbk0zZDI0SG1iU0hxNGFkNU5D?=
+ =?utf-8?B?cXlaS2tldm5GbFhuVzVVQVlXYlZRQmhDRWRnK2FBc3ErSlcxSGlzazhNMi96?=
+ =?utf-8?B?M2hhTFZtcklXRTBSWm5iYktIOTlNdHFkV3ZLenNvQnNLMDdydVRya0VzMjV6?=
+ =?utf-8?B?eGV1REJqNm9PcGlHNmdXdHpxQkpTcXZyRU5NRVhDMk0xQytaaXNoYUsyT0Na?=
+ =?utf-8?B?TGdDWXZLclhsc2N4bGhOa0swUjhZeFpEbkRZZGFaQ0ZNdExWZGxNUzluWTR1?=
+ =?utf-8?B?OFRSaFBmeC9GcGRYR255ajJoWkhKcXV3OXE0ME4vTVhJekNRUVdhV084UTgx?=
+ =?utf-8?B?dGhsUnVFNzZDOGJjVDRIRzVqNlVmMW9IUEFvZkJlZVVkNXlnOTFzVWlJWUJn?=
+ =?utf-8?B?NjMvd0FGS3pXb3I1MTZBZm9BeGltQWE2d2diaW5XK3dtYVR5aHVPd2lOV2VL?=
+ =?utf-8?B?Y3drUUx0Y09veGprYVg1U3lBSXNIbXhLOFptZzNZM24xNTdPMTg5ZmdiMkta?=
+ =?utf-8?B?OXFLcjgwcTRaYnZLR1Fvd1AvaXgzREpyekd0MFhQTE1qTm5RUGJHUkoxZFVN?=
+ =?utf-8?B?d3hDc2JQN2t1R3lXc1NSZE1xYTJ3bEtYSEd0VVlFY21NZHB0aVQzUjFtZGMv?=
+ =?utf-8?B?SEQxREFnOXZMV2N0UnRCcWM0NDIvQkxjcUVlaVhHcVhJb3ZsZUhNOXNrM0xN?=
+ =?utf-8?B?VjJTWnh0VFNrSk9SQWNXQ2ZtUzl5N0xLRFkrNmJJbENiK1lNVGNBQ096Rm5Z?=
+ =?utf-8?B?R2drVGszaUxWY0FsQUwxaEJzNXpOU3RlcnkrTjZINEdpSzZqNkFSR2k2Z1RH?=
+ =?utf-8?B?T0Z1THNkblc4cWVQdDRJWmxaSkVaL3dFN083emIzcmphTkl2OUczQ0Y3b0dn?=
+ =?utf-8?B?K0hNcFVzZkpFR2Z5SkVBQ0cwZFd1ZTZYL0FSQmFIUWtsNFcrQTc5cnZ4bllZ?=
+ =?utf-8?B?SWFHRThHeDErVDduSlBjMWdmNVhMOVY1Sk0xZnpsa0tKK2RSK0pkZTFPaHli?=
+ =?utf-8?B?YnhBdktzVjIrWFVtd2s1bzZMTEUrUzRKWmt5d2JiaTA0Y1BYdnh2WkRTRmd3?=
+ =?utf-8?B?UE0xSmJKZ0pCdTVwYjVOTVByVm5FbmdnY2xHSGh0ajBMZE96SlI5QUtvL1NW?=
+ =?utf-8?B?NzMwYUdmRE5QUHZHN1VwQ3hobkFmUnZvcWl1R2Nyc0dSRkNVWFNzRzMyd0pp?=
+ =?utf-8?Q?oNMlW+v0jt/Zl+2KVCHj1bLvQ?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B6FC47F3014D7D48B85B7709312A371C@FRAP264.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-KSE-ServerInfo: RTEXMBS05.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+X-OriginatorOrg: csgroup.eu
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3582451e-c0c0-4232-d0ab-08db78659628
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2023 05:56:30.8817
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 9914def7-b676-4fda-8815-5d49fb3b45c8
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 90w/A23P5Umsi4rcOPsRPOp4IxpgK0cbgteIL2tU/wXUJXqPzTgMg3T8jkGIjKQL2uk/TX6QhKgVYfmVp3ZPgoHz9y4JnAHGxHomBI8gJ40=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR1P264MB1729
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Realtek DHC (digital home center) RTD SoCs support DWC3 XHCI USB
-controller. Added the driver to drive the USB 2.0 PHY transceivers.
-
-Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
----
-v5 to v6 change:
-    No change
-v4 to v5 change:
-    1. Remove the compatible realtek,usb2phy.
-    2. Add the compatible data for realtek,rtd1395-usb2phy-2port
-    3. Remove the set_parameter in debugfs.
-    4. Revise the error and debug log.
-    5. Modify the coding style based Krzysztof comments.
-v3 to v4 change:
-    1. Remove the parameter and non hardware properties from dts.
-       Add the compatible data included the config and parameter.
-    2. Fix the warning for checkpatch with strict.
-    3. Remove useless debug messages.
-    4. Fix the incorrect or useless "if() return" which pointer check.
-    5. Remove the phy power domain control due to we control on other
-       driver.
-v2 to v3 change:
-    1. Broken down into two patches, one for each of USB 2 & 3 PHY.
-    2. Removed parameter v1 support for simplification.
-    3. Use remove_new for driver remove callback.
-v1 to v2 change:
-    1. Move the drivers to drivers/phy/ for generic phy driver
-    2. Use the generic phy driver api to initialize phy
-    3. Use readl/writel to instead phy_read/phy_write directly.
-    4. Use read_poll_timeout() in function utmi_wait_register.
-    5. Revised some coding styles.
-    6. fix the compiler warning for kernel test robot.
----
- drivers/phy/Kconfig                |    1 +
- drivers/phy/Makefile               |    1 +
- drivers/phy/realtek/Kconfig        |   14 +
- drivers/phy/realtek/Makefile       |    2 +
- drivers/phy/realtek/phy-rtk-usb2.c | 1329 ++++++++++++++++++++++++++++
- 5 files changed, 1347 insertions(+)
- create mode 100644 drivers/phy/realtek/Kconfig
- create mode 100644 drivers/phy/realtek/Makefile
- create mode 100644 drivers/phy/realtek/phy-rtk-usb2.c
-
-diff --git a/drivers/phy/Kconfig b/drivers/phy/Kconfig
-index f46e3148d286..6d04a0029c6c 100644
---- a/drivers/phy/Kconfig
-+++ b/drivers/phy/Kconfig
-@@ -86,6 +86,7 @@ source "drivers/phy/motorola/Kconfig"
- source "drivers/phy/mscc/Kconfig"
- source "drivers/phy/qualcomm/Kconfig"
- source "drivers/phy/ralink/Kconfig"
-+source "drivers/phy/realtek/Kconfig"
- source "drivers/phy/renesas/Kconfig"
- source "drivers/phy/rockchip/Kconfig"
- source "drivers/phy/samsung/Kconfig"
-diff --git a/drivers/phy/Makefile b/drivers/phy/Makefile
-index 54f312c10a40..ba7c100b14fc 100644
---- a/drivers/phy/Makefile
-+++ b/drivers/phy/Makefile
-@@ -26,6 +26,7 @@ obj-y					+= allwinner/	\
- 					   mscc/	\
- 					   qualcomm/	\
- 					   ralink/	\
-+					   realtek/	\
- 					   renesas/	\
- 					   rockchip/	\
- 					   samsung/	\
-diff --git a/drivers/phy/realtek/Kconfig b/drivers/phy/realtek/Kconfig
-new file mode 100644
-index 000000000000..2f2f453729d5
---- /dev/null
-+++ b/drivers/phy/realtek/Kconfig
-@@ -0,0 +1,14 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Phy drivers for Realtek platforms
-+#
-+config PHY_RTK_RTD_USB2PHY
-+	tristate "Realtek RTD USB2 PHY Transceiver Driver"
-+	depends on USB_SUPPORT
-+	select GENERIC_PHY
-+	select USB_PHY
-+	help
-+	  Enable this to support Realtek SoC USB2 phy transceiver.
-+	  The DHC (digital home center) RTD series SoCs used the Synopsys
-+	  DWC3 USB IP. This driver will do the PHY initialization
-+	  of the parameters.
-diff --git a/drivers/phy/realtek/Makefile b/drivers/phy/realtek/Makefile
-new file mode 100644
-index 000000000000..cf5d440841a2
---- /dev/null
-+++ b/drivers/phy/realtek/Makefile
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_PHY_RTK_RTD_USB2PHY)	+= phy-rtk-usb2.o
-diff --git a/drivers/phy/realtek/phy-rtk-usb2.c b/drivers/phy/realtek/phy-rtk-usb2.c
-new file mode 100644
-index 000000000000..43665e60c5d4
---- /dev/null
-+++ b/drivers/phy/realtek/phy-rtk-usb2.c
-@@ -0,0 +1,1329 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ *  phy-rtk-usb2.c RTK usb2.0 PHY driver
-+ *
-+ * Copyright (C) 2023 Realtek Semiconductor Corporation
-+ *
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/of_address.h>
-+#include <linux/uaccess.h>
-+#include <linux/debugfs.h>
-+#include <linux/nvmem-consumer.h>
-+#include <linux/regmap.h>
-+#include <linux/sys_soc.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/phy/phy.h>
-+#include <linux/usb.h>
-+#include <linux/usb/phy.h>
-+#include <linux/usb/hcd.h>
-+
-+/* GUSB2PHYACCn register */
-+#define PHY_NEW_REG_REQ BIT(25)
-+#define PHY_VSTS_BUSY   BIT(23)
-+#define PHY_VCTRL_SHIFT 8
-+#define PHY_REG_DATA_MASK 0xff
-+
-+#define GET_LOW_NIBBLE(addr) ((addr) & 0x0f)
-+#define GET_HIGH_NIBBLE(addr) (((addr) & 0xf0) >> 4)
-+
-+#define EFUS_USB_DC_CAL_RATE 2
-+#define EFUS_USB_DC_CAL_MAX 7
-+
-+#define EFUS_USB_DC_DIS_RATE 1
-+#define EFUS_USB_DC_DIS_MAX 7
-+
-+#define MAX_PHY_DATA_SIZE 20
-+#define OFFEST_PHY_READ 0x20
-+
-+#define MAX_USB_PHY_NUM 4
-+#define MAX_USB_PHY_PAGE0_DATA_SIZE 16
-+#define MAX_USB_PHY_PAGE1_DATA_SIZE 16
-+#define MAX_USB_PHY_PAGE2_DATA_SIZE 8
-+
-+#define SET_PAGE_OFFSET 0xf4
-+#define SET_PAGE_0 0x9b
-+#define SET_PAGE_1 0xbb
-+#define SET_PAGE_2 0xdb
-+
-+#define PAGE_START 0xe0
-+#define PAGE0_0XE4 0xe4
-+#define PAGE0_0XE6 0xe6
-+#define PAGE0_0XE7 0xe7
-+#define PAGE1_0XE0 0xe0
-+#define PAGE1_0XE2 0xe2
-+
-+#define SENSITIVITY_CTRL (BIT(4) | BIT(5) | BIT(6))
-+#define ENABLE_AUTO_SENSITIVITY_CALIBRATION BIT(2)
-+#define DEFAULT_DC_DRIVING_VALUE (0x8)
-+#define DEFAULT_DC_DISCONNECTION_VALUE (0x6)
-+#define HS_CLK_SELECT BIT(6)
-+
-+struct phy_reg {
-+	void __iomem *reg_wrap_vstatus;
-+	void __iomem *reg_gusb2phyacc0;
-+	int vstatus_index;
-+};
-+
-+struct phy_data {
-+	u8 addr;
-+	u8 data;
-+};
-+
-+struct phy_cfg {
-+	int page0_size;
-+	struct phy_data page0[MAX_USB_PHY_PAGE0_DATA_SIZE];
-+	int page1_size;
-+	struct phy_data page1[MAX_USB_PHY_PAGE1_DATA_SIZE];
-+	int page2_size;
-+	struct phy_data page2[MAX_USB_PHY_PAGE2_DATA_SIZE];
-+
-+	int num_phy;
-+
-+	bool check_efuse;
-+	int check_efuse_version;
-+#define CHECK_EFUSE_V1 1
-+#define CHECK_EFUSE_V2 2
-+	int efuse_dc_driving_rate;
-+	int efuse_dc_disconnect_rate;
-+	int dc_driving_mask;
-+	int dc_disconnect_mask;
-+	bool usb_dc_disconnect_at_page0;
-+	int driving_updated_for_dev_dis;
-+
-+	bool do_toggle;
-+	bool do_toggle_driving;
-+	bool use_default_parameter;
-+	bool is_double_sensitivity_mode;
-+};
-+
-+struct phy_parameter {
-+	struct phy_reg phy_reg;
-+
-+	/* Get from efuse */
-+	s8 efuse_usb_dc_cal;
-+	s8 efuse_usb_dc_dis;
-+
-+	/* Get from dts */
-+	bool inverse_hstx_sync_clock;
-+	u32 driving_level;
-+	s32 driving_compensate;
-+	s32 disconnection_compensate;
-+};
-+
-+struct rtk_phy {
-+	struct usb_phy phy;
-+	struct device *dev;
-+
-+	struct phy_cfg *phy_cfg;
-+	int num_phy;
-+	struct phy_parameter *phy_parameter;
-+
-+	struct dentry *debug_dir;
-+};
-+
-+/* mapping 0xE0 to 0 ... 0xE7 to 7, 0xF0 to 8 ,,, 0xF7 to 15 */
-+static inline int page_addr_to_array_index(u8 addr)
-+{
-+	return (int)((((addr) - PAGE_START) & 0x7) +
-+		((((addr) - PAGE_START) & 0x10) >> 1));
-+}
-+
-+static inline u8 array_index_to_page_addr(int index)
-+{
-+	return ((((index) + PAGE_START) & 0x7) +
-+		((((index) & 0x8) << 1) + PAGE_START));
-+}
-+
-+#define PHY_IO_TIMEOUT_USEC		(50000)
-+#define PHY_IO_DELAY_US			(100)
-+
-+static inline int utmi_wait_register(void __iomem *reg, u32 mask, u32 result)
-+{
-+	int ret;
-+	unsigned int val;
-+
-+	ret = read_poll_timeout(readl, val, ((val & mask) == result),
-+				PHY_IO_DELAY_US, PHY_IO_TIMEOUT_USEC, false, reg);
-+	if (ret) {
-+		pr_err("%s can't program USB phy\n", __func__);
-+		return -ETIMEDOUT;
-+	}
-+
-+	return 0;
-+}
-+
-+static char rtk_phy_read(struct phy_reg *phy_reg, char addr)
-+{
-+	void __iomem *reg_gusb2phyacc0 = phy_reg->reg_gusb2phyacc0;
-+	unsigned int val;
-+	int ret = 0;
-+
-+	addr -= OFFEST_PHY_READ;
-+
-+	/* polling until VBusy == 0 */
-+	ret = utmi_wait_register(reg_gusb2phyacc0, PHY_VSTS_BUSY, 0);
-+	if (ret)
-+		return (char)ret;
-+
-+	/* VCtrl = low nibble of addr, and set PHY_NEW_REG_REQ */
-+	val = PHY_NEW_REG_REQ | (GET_LOW_NIBBLE(addr) << PHY_VCTRL_SHIFT);
-+	writel(val, reg_gusb2phyacc0);
-+	ret = utmi_wait_register(reg_gusb2phyacc0, PHY_VSTS_BUSY, 0);
-+	if (ret)
-+		return (char)ret;
-+
-+	/* VCtrl = high nibble of addr, and set PHY_NEW_REG_REQ */
-+	val = PHY_NEW_REG_REQ | (GET_HIGH_NIBBLE(addr) << PHY_VCTRL_SHIFT);
-+	writel(val, reg_gusb2phyacc0);
-+	ret = utmi_wait_register(reg_gusb2phyacc0, PHY_VSTS_BUSY, 0);
-+	if (ret)
-+		return (char)ret;
-+
-+	val = readl(reg_gusb2phyacc0);
-+
-+	return (char)(val & PHY_REG_DATA_MASK);
-+}
-+
-+static int rtk_phy_write(struct phy_reg *phy_reg, char addr, char data)
-+{
-+	unsigned int val;
-+	void __iomem *reg_wrap_vstatus = phy_reg->reg_wrap_vstatus;
-+	void __iomem *reg_gusb2phyacc0 = phy_reg->reg_gusb2phyacc0;
-+	int shift_bits = phy_reg->vstatus_index * 8;
-+	int ret = 0;
-+
-+	/* write data to VStatusOut2 (data output to phy) */
-+	writel((u32)data << shift_bits, reg_wrap_vstatus);
-+
-+	ret = utmi_wait_register(reg_gusb2phyacc0, PHY_VSTS_BUSY, 0);
-+	if (ret)
-+		return ret;
-+
-+	/* VCtrl = low nibble of addr, set PHY_NEW_REG_REQ */
-+	val = PHY_NEW_REG_REQ | (GET_LOW_NIBBLE(addr) << PHY_VCTRL_SHIFT);
-+
-+	writel(val, reg_gusb2phyacc0);
-+	ret = utmi_wait_register(reg_gusb2phyacc0, PHY_VSTS_BUSY, 0);
-+	if (ret)
-+		return ret;
-+
-+	/* VCtrl = high nibble of addr, set PHY_NEW_REG_REQ */
-+	val = PHY_NEW_REG_REQ | (GET_HIGH_NIBBLE(addr) << PHY_VCTRL_SHIFT);
-+
-+	writel(val, reg_gusb2phyacc0);
-+	ret = utmi_wait_register(reg_gusb2phyacc0, PHY_VSTS_BUSY, 0);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int rtk_phy_set_page(struct phy_reg *phy_reg, int page)
-+{
-+	switch (page) {
-+	case 0:
-+		return rtk_phy_write(phy_reg, SET_PAGE_OFFSET, SET_PAGE_0);
-+	case 1:
-+		return rtk_phy_write(phy_reg, SET_PAGE_OFFSET, SET_PAGE_1);
-+	case 2:
-+		return rtk_phy_write(phy_reg, SET_PAGE_OFFSET, SET_PAGE_2);
-+	default:
-+		pr_err("%s error page=%d\n", __func__, page);
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static u8 __updated_dc_disconnect_level_page0_0xe4(struct phy_cfg *phy_cfg,
-+						   struct phy_parameter *phy_parameter, u8 data)
-+{
-+	u8 ret;
-+	s32 val;
-+	s32 dc_disconnect_mask = phy_cfg->dc_disconnect_mask;
-+	int offset = 4;
-+
-+	val = (s32)((data >> offset) & dc_disconnect_mask)
-+		     + phy_parameter->efuse_usb_dc_dis
-+		     + phy_parameter->disconnection_compensate;
-+
-+	if (val > dc_disconnect_mask)
-+		val = dc_disconnect_mask;
-+	else if (val < 0)
-+		val = 0;
-+
-+	ret = (data & (~(dc_disconnect_mask << offset))) |
-+		    (val & dc_disconnect_mask) << offset;
-+
-+	return ret;
-+}
-+
-+/* updated disconnect level at page0 */
-+static void update_dc_disconnect_level_at_page0(struct rtk_phy *rtk_phy,
-+						struct phy_parameter *phy_parameter, bool update)
-+{
-+	struct phy_cfg *phy_cfg;
-+	struct phy_reg *phy_reg;
-+	struct phy_data *phy_data_page;
-+	struct phy_data *phy_data;
-+	u8 addr, data;
-+	int offset = 4;
-+	s32 dc_disconnect_mask;
-+	int i;
-+
-+	phy_cfg = rtk_phy->phy_cfg;
-+	phy_reg = &phy_parameter->phy_reg;
-+
-+	/* Set page 0 */
-+	phy_data_page = phy_cfg->page0;
-+	rtk_phy_set_page(phy_reg, 0);
-+
-+	i = page_addr_to_array_index(PAGE0_0XE4);
-+	phy_data = phy_data_page + i;
-+	if (!phy_data->addr) {
-+		phy_data->addr = PAGE0_0XE4;
-+		phy_data->data = rtk_phy_read(phy_reg, PAGE0_0XE4);
-+	}
-+
-+	addr = phy_data->addr;
-+	data = phy_data->data;
-+	dc_disconnect_mask = phy_cfg->dc_disconnect_mask;
-+
-+	if (update)
-+		data = __updated_dc_disconnect_level_page0_0xe4(phy_cfg, phy_parameter, data);
-+	else
-+		data = (data & ~(dc_disconnect_mask << offset)) |
-+			(DEFAULT_DC_DISCONNECTION_VALUE << offset);
-+
-+	if (rtk_phy_write(phy_reg, addr, data))
-+		dev_err(rtk_phy->dev,
-+			"%s: Error to set page1 parameter addr=0x%x value=0x%x\n",
-+			__func__, addr, data);
-+}
-+
-+static u8 __updated_dc_disconnect_level_page1_0xe2(struct phy_cfg *phy_cfg,
-+						   struct phy_parameter *phy_parameter, u8 data)
-+{
-+	u8 ret;
-+	s32 val;
-+	s32 dc_disconnect_mask = phy_cfg->dc_disconnect_mask;
-+
-+	if (phy_cfg->check_efuse_version == CHECK_EFUSE_V1) {
-+		val = (s32)(data & dc_disconnect_mask)
-+			    + phy_parameter->efuse_usb_dc_dis
-+			    + phy_parameter->disconnection_compensate;
-+	} else { /* for CHECK_EFUSE_V2 or no efuse */
-+		if (phy_parameter->efuse_usb_dc_dis)
-+			val = (s32)(phy_parameter->efuse_usb_dc_dis +
-+				    phy_parameter->disconnection_compensate);
-+		else
-+			val = (s32)((data & dc_disconnect_mask) +
-+				    phy_parameter->disconnection_compensate);
-+	}
-+
-+	if (val > dc_disconnect_mask)
-+		val = dc_disconnect_mask;
-+	else if (val < 0)
-+		val = 0;
-+
-+	ret = (data & (~dc_disconnect_mask)) | (val & dc_disconnect_mask);
-+
-+	return ret;
-+}
-+
-+/* updated disconnect level at page1 */
-+static void update_dc_disconnect_level_at_page1(struct rtk_phy *rtk_phy,
-+						struct phy_parameter *phy_parameter, bool update)
-+{
-+	struct phy_cfg *phy_cfg;
-+	struct phy_data *phy_data_page;
-+	struct phy_data *phy_data;
-+	struct phy_reg *phy_reg;
-+	u8 addr, data;
-+	s32 dc_disconnect_mask;
-+	int i;
-+
-+	phy_cfg = rtk_phy->phy_cfg;
-+	phy_reg = &phy_parameter->phy_reg;
-+
-+	/* Set page 1 */
-+	phy_data_page = phy_cfg->page1;
-+	rtk_phy_set_page(phy_reg, 1);
-+
-+	i = page_addr_to_array_index(PAGE1_0XE2);
-+	phy_data = phy_data_page + i;
-+	if (!phy_data->addr) {
-+		phy_data->addr = PAGE1_0XE2;
-+		phy_data->data = rtk_phy_read(phy_reg, PAGE1_0XE2);
-+	}
-+
-+	addr = phy_data->addr;
-+	data = phy_data->data;
-+	dc_disconnect_mask = phy_cfg->dc_disconnect_mask;
-+
-+	if (update)
-+		data = __updated_dc_disconnect_level_page1_0xe2(phy_cfg, phy_parameter, data);
-+	else
-+		data = (data & ~dc_disconnect_mask) | DEFAULT_DC_DISCONNECTION_VALUE;
-+
-+	if (rtk_phy_write(phy_reg, addr, data))
-+		dev_err(rtk_phy->dev,
-+			"%s: Error to set page1 parameter addr=0x%x value=0x%x\n",
-+			__func__, addr, data);
-+}
-+
-+static void update_dc_disconnect_level(struct rtk_phy *rtk_phy,
-+				       struct phy_parameter *phy_parameter, bool update)
-+{
-+	struct phy_cfg *phy_cfg = rtk_phy->phy_cfg;
-+
-+	if (phy_cfg->usb_dc_disconnect_at_page0)
-+		update_dc_disconnect_level_at_page0(rtk_phy, phy_parameter, update);
-+	else
-+		update_dc_disconnect_level_at_page1(rtk_phy, phy_parameter, update);
-+}
-+
-+static u8 __update_dc_driving_page0_0xe4(struct phy_cfg *phy_cfg,
-+					 struct phy_parameter *phy_parameter, u8 data)
-+{
-+	s32 driving_compensate = phy_parameter->driving_compensate;
-+	s32 dc_driving_mask = phy_cfg->dc_driving_mask;
-+	s32 val;
-+	u8 ret;
-+
-+	if (phy_cfg->check_efuse_version == CHECK_EFUSE_V1) {
-+		val = (s32)(data & dc_driving_mask) + driving_compensate
-+			    + phy_parameter->efuse_usb_dc_cal;
-+	} else { /* for CHECK_EFUSE_V2 or no efuse */
-+		if (phy_parameter->efuse_usb_dc_cal)
-+			val = (s32)((phy_parameter->efuse_usb_dc_cal & dc_driving_mask)
-+				    + driving_compensate);
-+		else
-+			val = (s32)(data & dc_driving_mask);
-+	}
-+
-+	if (val > dc_driving_mask)
-+		val = dc_driving_mask;
-+	else if (val < 0)
-+		val = 0;
-+
-+	ret = (data & (~dc_driving_mask)) | (val & dc_driving_mask);
-+
-+	return ret;
-+}
-+
-+static void update_dc_driving_level(struct rtk_phy *rtk_phy,
-+				    struct phy_parameter *phy_parameter)
-+{
-+	struct phy_cfg *phy_cfg;
-+	struct phy_reg *phy_reg;
-+
-+	phy_reg = &phy_parameter->phy_reg;
-+	phy_cfg = rtk_phy->phy_cfg;
-+	if (!phy_cfg->page0[4].addr) {
-+		rtk_phy_set_page(phy_reg, 0);
-+		phy_cfg->page0[4].addr = PAGE0_0XE4;
-+		phy_cfg->page0[4].data = rtk_phy_read(phy_reg, PAGE0_0XE4);
-+	}
-+
-+	if (phy_parameter->driving_level != DEFAULT_DC_DRIVING_VALUE) {
-+		u32 dc_driving_mask;
-+		u8 driving_level;
-+		u8 data;
-+
-+		data = phy_cfg->page0[4].data;
-+		dc_driving_mask = phy_cfg->dc_driving_mask;
-+		driving_level = data & dc_driving_mask;
-+
-+		dev_dbg(rtk_phy->dev, "%s driving_level=%d => dts driving_level=%d\n",
-+			__func__, driving_level, phy_parameter->driving_level);
-+
-+		phy_cfg->page0[4].data = (data & (~dc_driving_mask)) |
-+			    (phy_parameter->driving_level & dc_driving_mask);
-+	}
-+
-+	phy_cfg->page0[4].data = __update_dc_driving_page0_0xe4(phy_cfg,
-+								phy_parameter,
-+								phy_cfg->page0[4].data);
-+}
-+
-+static void update_hs_clk_select(struct rtk_phy *rtk_phy,
-+				 struct phy_parameter *phy_parameter)
-+{
-+	struct phy_cfg *phy_cfg;
-+	struct phy_reg *phy_reg;
-+
-+	phy_cfg = rtk_phy->phy_cfg;
-+	phy_reg = &phy_parameter->phy_reg;
-+
-+	if (phy_parameter->inverse_hstx_sync_clock) {
-+		if (!phy_cfg->page0[6].addr) {
-+			rtk_phy_set_page(phy_reg, 0);
-+			phy_cfg->page0[6].addr = PAGE0_0XE6;
-+			phy_cfg->page0[6].data = rtk_phy_read(phy_reg, PAGE0_0XE6);
-+		}
-+
-+		phy_cfg->page0[6].data = phy_cfg->page0[6].data | HS_CLK_SELECT;
-+	}
-+}
-+
-+static void do_rtk_phy_toggle(struct rtk_phy *rtk_phy,
-+			      int index, bool connect)
-+{
-+	struct phy_parameter *phy_parameter;
-+	struct phy_cfg *phy_cfg;
-+	struct phy_reg *phy_reg;
-+	struct phy_data *phy_data_page;
-+	u8 addr, data;
-+	int i;
-+
-+	phy_cfg = rtk_phy->phy_cfg;
-+	phy_parameter = &((struct phy_parameter *)rtk_phy->phy_parameter)[index];
-+	phy_reg = &phy_parameter->phy_reg;
-+
-+	if (!phy_cfg->do_toggle)
-+		goto out;
-+
-+	if (phy_cfg->is_double_sensitivity_mode)
-+		goto do_toggle_driving;
-+
-+	/* Set page 0 */
-+	rtk_phy_set_page(phy_reg, 0);
-+
-+	addr = PAGE0_0XE7;
-+	data = rtk_phy_read(phy_reg, addr);
-+
-+	if (connect)
-+		rtk_phy_write(phy_reg, addr, data & (~SENSITIVITY_CTRL));
-+	else
-+		rtk_phy_write(phy_reg, addr, data | (SENSITIVITY_CTRL));
-+
-+do_toggle_driving:
-+
-+	if (!phy_cfg->do_toggle_driving)
-+		goto do_toggle;
-+
-+	/* Page 0 addr 0xE4 driving capability */
-+
-+	/* Set page 0 */
-+	phy_data_page = phy_cfg->page0;
-+	rtk_phy_set_page(phy_reg, 0);
-+
-+	i = page_addr_to_array_index(PAGE0_0XE4);
-+	addr = phy_data_page[i].addr;
-+	data = phy_data_page[i].data;
-+
-+	if (connect) {
-+		rtk_phy_write(phy_reg, addr, data);
-+	} else {
-+		u8 value;
-+		s32 tmp;
-+		s32 driving_updated =
-+			    phy_cfg->driving_updated_for_dev_dis;
-+		s32 dc_driving_mask = phy_cfg->dc_driving_mask;
-+
-+		tmp = (s32)(data & dc_driving_mask) + driving_updated;
-+
-+		if (tmp > dc_driving_mask)
-+			tmp = dc_driving_mask;
-+		else if (tmp < 0)
-+			tmp = 0;
-+
-+		value = (data & (~dc_driving_mask)) | (tmp & dc_driving_mask);
-+
-+		rtk_phy_write(phy_reg, addr, value);
-+	}
-+
-+do_toggle:
-+	/* restore dc disconnect level before toggle */
-+	update_dc_disconnect_level(rtk_phy, phy_parameter, false);
-+
-+	/* Set page 1 */
-+	rtk_phy_set_page(phy_reg, 1);
-+
-+	addr = PAGE1_0XE0;
-+	data = rtk_phy_read(phy_reg, addr);
-+
-+	rtk_phy_write(phy_reg, addr, data &
-+		      (~ENABLE_AUTO_SENSITIVITY_CALIBRATION));
-+	mdelay(1);
-+	rtk_phy_write(phy_reg, addr, data |
-+		      (ENABLE_AUTO_SENSITIVITY_CALIBRATION));
-+
-+	/* update dc disconnect level after toggle */
-+	update_dc_disconnect_level(rtk_phy, phy_parameter, true);
-+
-+out:
-+	return;
-+}
-+
-+static int do_rtk_phy_init(struct rtk_phy *rtk_phy, int index)
-+{
-+	struct phy_parameter *phy_parameter;
-+	struct phy_cfg *phy_cfg;
-+	struct phy_data *phy_data_page;
-+	struct phy_reg *phy_reg;
-+	int i;
-+
-+	phy_cfg = rtk_phy->phy_cfg;
-+	phy_parameter = &((struct phy_parameter *)rtk_phy->phy_parameter)[index];
-+	phy_reg = &phy_parameter->phy_reg;
-+
-+	if (phy_cfg->use_default_parameter) {
-+		dev_dbg(rtk_phy->dev, "%s phy#%d use default parameter\n",
-+			__func__, index);
-+		goto do_toggle;
-+	}
-+
-+	/* Set page 0 */
-+	phy_data_page = phy_cfg->page0;
-+	rtk_phy_set_page(phy_reg, 0);
-+
-+	for (i = 0; i < phy_cfg->page0_size; i++) {
-+		struct phy_data *phy_data = phy_data_page + i;
-+		u8 addr = phy_data->addr;
-+		u8 data = phy_data->data;
-+
-+		if (!addr)
-+			continue;
-+
-+		if (rtk_phy_write(phy_reg, addr, data)) {
-+			dev_err(rtk_phy->dev,
-+				"%s: Error to set page0 parameter addr=0x%x value=0x%x\n",
-+				__func__, addr, data);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	/* Set page 1 */
-+	phy_data_page = phy_cfg->page1;
-+	rtk_phy_set_page(phy_reg, 1);
-+
-+	for (i = 0; i < phy_cfg->page1_size; i++) {
-+		struct phy_data *phy_data = phy_data_page + i;
-+		u8 addr = phy_data->addr;
-+		u8 data = phy_data->data;
-+
-+		if (!addr)
-+			continue;
-+
-+		if (rtk_phy_write(phy_reg, addr, data)) {
-+			dev_err(rtk_phy->dev,
-+				"%s: Error to set page1 parameter addr=0x%x value=0x%x\n",
-+				__func__, addr, data);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	if (phy_cfg->page2_size == 0)
-+		goto do_toggle;
-+
-+	/* Set page 2 */
-+	phy_data_page = phy_cfg->page2;
-+	rtk_phy_set_page(phy_reg, 2);
-+
-+	for (i = 0; i < phy_cfg->page2_size; i++) {
-+		struct phy_data *phy_data = phy_data_page + i;
-+		u8 addr = phy_data->addr;
-+		u8 data = phy_data->data;
-+
-+		if (!addr)
-+			continue;
-+
-+		if (rtk_phy_write(phy_reg, addr, data)) {
-+			dev_err(rtk_phy->dev,
-+				"%s: Error to set page2 parameter addr=0x%x value=0x%x\n",
-+				__func__, addr, data);
-+			return -EINVAL;
-+		}
-+	}
-+
-+do_toggle:
-+	do_rtk_phy_toggle(rtk_phy, index, false);
-+
-+	return 0;
-+}
-+
-+static int rtk_phy_init(struct phy *phy)
-+{
-+	struct rtk_phy *rtk_phy = phy_get_drvdata(phy);
-+	unsigned long phy_init_time = jiffies;
-+	int i, ret = 0;
-+
-+	if (!rtk_phy)
-+		return -EINVAL;
-+
-+	for (i = 0; i < rtk_phy->num_phy; i++)
-+		ret = do_rtk_phy_init(rtk_phy, i);
-+
-+	dev_dbg(rtk_phy->dev, "Initialized RTK USB 2.0 PHY (take %dms)\n",
-+		jiffies_to_msecs(jiffies - phy_init_time));
-+	return ret;
-+}
-+
-+static int rtk_phy_exit(struct phy *phy)
-+{
-+	return 0;
-+}
-+
-+static const struct phy_ops ops = {
-+	.init		= rtk_phy_init,
-+	.exit		= rtk_phy_exit,
-+	.owner		= THIS_MODULE,
-+};
-+
-+static void rtk_phy_toggle(struct usb_phy *usb2_phy, bool connect, int port)
-+{
-+	int index = port;
-+	struct rtk_phy *rtk_phy = NULL;
-+
-+	rtk_phy = dev_get_drvdata(usb2_phy->dev);
-+
-+	if (index > rtk_phy->num_phy) {
-+		dev_err(rtk_phy->dev, "%s: The port=%d is not in usb phy (num_phy=%d)\n",
-+			__func__, index, rtk_phy->num_phy);
-+		return;
-+	}
-+
-+	do_rtk_phy_toggle(rtk_phy, index, connect);
-+}
-+
-+static int rtk_phy_notify_port_status(struct usb_phy *x, int port,
-+				      u16 portstatus, u16 portchange)
-+{
-+	bool connect = false;
-+
-+	pr_debug("%s port=%d portstatus=0x%x portchange=0x%x\n",
-+		 __func__, port, (int)portstatus, (int)portchange);
-+	if (portstatus & USB_PORT_STAT_CONNECTION)
-+		connect = true;
-+
-+	if (portchange & USB_PORT_STAT_C_CONNECTION)
-+		rtk_phy_toggle(x, connect, port);
-+
-+	return 0;
-+}
-+
-+#ifdef CONFIG_DEBUG_FS
-+static struct dentry *create_phy_debug_root(void)
-+{
-+	struct dentry *phy_debug_root;
-+
-+	phy_debug_root = debugfs_lookup("phy", usb_debug_root);
-+	if (!phy_debug_root)
-+		phy_debug_root = debugfs_create_dir("phy", usb_debug_root);
-+
-+	return phy_debug_root;
-+}
-+
-+static int rtk_usb2_parameter_show(struct seq_file *s, void *unused)
-+{
-+	struct rtk_phy *rtk_phy = s->private;
-+	struct phy_cfg *phy_cfg;
-+	int i, index;
-+
-+	phy_cfg = rtk_phy->phy_cfg;
-+
-+	seq_puts(s, "Property:\n");
-+	seq_printf(s, "  check_efuse: %s\n",
-+		   phy_cfg->check_efuse ? "Enable" : "Disable");
-+	seq_printf(s, "  check_efuse_version: %d\n",
-+		   phy_cfg->check_efuse_version);
-+	seq_printf(s, "  efuse_dc_driving_rate: %d\n",
-+		   phy_cfg->efuse_dc_driving_rate);
-+	seq_printf(s, "  dc_driving_mask: 0x%x\n",
-+		   phy_cfg->dc_driving_mask);
-+	seq_printf(s, "  efuse_dc_disconnect_rate: %d\n",
-+		   phy_cfg->efuse_dc_disconnect_rate);
-+	seq_printf(s, "  dc_disconnect_mask: 0x%x\n",
-+		   phy_cfg->dc_disconnect_mask);
-+	seq_printf(s, "  usb_dc_disconnect_at_page0: %s\n",
-+		   phy_cfg->usb_dc_disconnect_at_page0 ? "true" : "false");
-+	seq_printf(s, "  do_toggle: %s\n",
-+		   phy_cfg->do_toggle ? "Enable" : "Disable");
-+	seq_printf(s, "  do_toggle_driving: %s\n",
-+		   phy_cfg->do_toggle_driving ? "Enable" : "Disable");
-+	seq_printf(s, "  driving_updated_for_dev_dis: 0x%x\n",
-+		   phy_cfg->driving_updated_for_dev_dis);
-+	seq_printf(s, "  use_default_parameter: %s\n",
-+		   phy_cfg->use_default_parameter ? "Enable" : "Disable");
-+	seq_printf(s, "  is_double_sensitivity_mode: %s\n",
-+		   phy_cfg->is_double_sensitivity_mode ? "Enable" : "Disable");
-+
-+	for (index = 0; index < rtk_phy->num_phy; index++) {
-+		struct phy_parameter *phy_parameter;
-+		struct phy_reg *phy_reg;
-+		struct phy_data *phy_data_page;
-+
-+		phy_parameter =  &((struct phy_parameter *)rtk_phy->phy_parameter)[index];
-+		phy_reg = &phy_parameter->phy_reg;
-+
-+		seq_printf(s, "PHY %d:\n", index);
-+
-+		seq_puts(s, "Page 0:\n");
-+		/* Set page 0 */
-+		phy_data_page = phy_cfg->page0;
-+		rtk_phy_set_page(phy_reg, 0);
-+
-+		for (i = 0; i < phy_cfg->page0_size; i++) {
-+			struct phy_data *phy_data = phy_data_page + i;
-+			u8 addr = array_index_to_page_addr(i);
-+			u8 data = phy_data->data;
-+			u8 value = rtk_phy_read(phy_reg, addr);
-+
-+			if (phy_data->addr)
-+				seq_printf(s, "  Page 0: addr=0x%x data=0x%02x ==> read value=0x%02x\n",
-+					   addr, data, value);
-+			else
-+				seq_printf(s, "  Page 0: addr=0x%x data=none ==> read value=0x%02x\n",
-+					   addr, value);
-+		}
-+
-+		seq_puts(s, "Page 1:\n");
-+		/* Set page 1 */
-+		phy_data_page = phy_cfg->page1;
-+		rtk_phy_set_page(phy_reg, 1);
-+
-+		for (i = 0; i < phy_cfg->page1_size; i++) {
-+			struct phy_data *phy_data = phy_data_page + i;
-+			u8 addr = array_index_to_page_addr(i);
-+			u8 data = phy_data->data;
-+			u8 value = rtk_phy_read(phy_reg, addr);
-+
-+			if (phy_data->addr)
-+				seq_printf(s, "  Page 1: addr=0x%x data=0x%02x ==> read value=0x%02x\n",
-+					   addr, data, value);
-+			else
-+				seq_printf(s, "  Page 1: addr=0x%x data=none ==> read value=0x%02x\n",
-+					   addr, value);
-+		}
-+
-+		if (phy_cfg->page2_size == 0)
-+			goto out;
-+
-+		seq_puts(s, "Page 2:\n");
-+		/* Set page 2 */
-+		phy_data_page = phy_cfg->page2;
-+		rtk_phy_set_page(phy_reg, 2);
-+
-+		for (i = 0; i < phy_cfg->page2_size; i++) {
-+			struct phy_data *phy_data = phy_data_page + i;
-+			u8 addr = array_index_to_page_addr(i);
-+			u8 data = phy_data->data;
-+			u8 value = rtk_phy_read(phy_reg, addr);
-+
-+			if (phy_data->addr)
-+				seq_printf(s, "  Page 2: addr=0x%x data=0x%02x ==> read value=0x%02x\n",
-+					   addr, data, value);
-+			else
-+				seq_printf(s, "  Page 2: addr=0x%x data=none ==> read value=0x%02x\n",
-+					   addr, value);
-+		}
-+
-+out:
-+		seq_puts(s, "PHY Property:\n");
-+		seq_printf(s, "  efuse_usb_dc_cal: %d\n",
-+			   (int)phy_parameter->efuse_usb_dc_cal);
-+		seq_printf(s, "  efuse_usb_dc_dis: %d\n",
-+			   (int)phy_parameter->efuse_usb_dc_dis);
-+		seq_printf(s, "  inverse_hstx_sync_clock: %s\n",
-+			   phy_parameter->inverse_hstx_sync_clock ? "Enable" : "Disable");
-+		seq_printf(s, "  driving_level: %d\n",
-+			   phy_parameter->driving_level);
-+		seq_printf(s, "  driving_compensate: %d\n",
-+			   phy_parameter->driving_compensate);
-+		seq_printf(s, "  disconnection_compensate: %d\n",
-+			   phy_parameter->disconnection_compensate);
-+	}
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(rtk_usb2_parameter);
-+
-+static inline void create_debug_files(struct rtk_phy *rtk_phy)
-+{
-+	struct dentry *phy_debug_root = NULL;
-+
-+	phy_debug_root = create_phy_debug_root();
-+	if (!phy_debug_root)
-+		return;
-+
-+	rtk_phy->debug_dir = debugfs_create_dir(dev_name(rtk_phy->dev),
-+						phy_debug_root);
-+	if (!rtk_phy->debug_dir)
-+		return;
-+
-+	if (!debugfs_create_file("parameter", 0444, rtk_phy->debug_dir, rtk_phy,
-+				 &rtk_usb2_parameter_fops))
-+		goto file_error;
-+
-+	return;
-+
-+file_error:
-+	debugfs_remove_recursive(rtk_phy->debug_dir);
-+}
-+
-+static inline void remove_debug_files(struct rtk_phy *rtk_phy)
-+{
-+	debugfs_remove_recursive(rtk_phy->debug_dir);
-+}
-+#else
-+static inline void create_debug_files(struct rtk_phy *rtk_phy) { }
-+static inline void remove_debug_files(struct rtk_phy *rtk_phy) { }
-+#endif /* CONFIG_DEBUG_FS */
-+
-+static int get_phy_data_by_efuse(struct rtk_phy *rtk_phy,
-+				 struct phy_parameter *phy_parameter, int index)
-+{
-+	struct phy_cfg *phy_cfg = rtk_phy->phy_cfg;
-+	u8 value = 0;
-+	struct nvmem_cell *cell;
-+	struct soc_device_attribute rtk_soc_groot[] = {
-+		    { .family = "Realtek Groot",},
-+		    { /* empty */ } };
-+
-+	if (!phy_cfg->check_efuse)
-+		goto out;
-+
-+	/* Read efuse for usb dc cal */
-+	cell = nvmem_cell_get(rtk_phy->dev, "usb-dc-cal");
-+	if (IS_ERR(cell)) {
-+		dev_dbg(rtk_phy->dev, "%s no usb-dc-cal: %ld\n",
-+			__func__, PTR_ERR(cell));
-+	} else {
-+		unsigned char *buf;
-+		size_t buf_size;
-+
-+		buf = nvmem_cell_read(cell, &buf_size);
-+		value = buf[0] & phy_cfg->dc_driving_mask;
-+
-+		kfree(buf);
-+		nvmem_cell_put(cell);
-+	}
-+
-+	if (phy_cfg->check_efuse_version == CHECK_EFUSE_V1) {
-+		int rate = phy_cfg->efuse_dc_driving_rate;
-+
-+		if (value <= EFUS_USB_DC_CAL_MAX)
-+			phy_parameter->efuse_usb_dc_cal = (int8_t)(value * rate);
-+		else
-+			phy_parameter->efuse_usb_dc_cal = -(int8_t)
-+				    ((EFUS_USB_DC_CAL_MAX & value) * rate);
-+
-+		if (soc_device_match(rtk_soc_groot)) {
-+			dev_dbg(rtk_phy->dev, "For groot IC we need a workaround to adjust efuse_usb_dc_cal\n");
-+
-+			/* We don't multiple dc_cal_rate=2 for positive dc cal compensate */
-+			if (value <= EFUS_USB_DC_CAL_MAX)
-+				phy_parameter->efuse_usb_dc_cal = (int8_t)(value);
-+
-+			/* We set max dc cal compensate is 0x8 if otp is 0x7 */
-+			if (value == 0x7)
-+				phy_parameter->efuse_usb_dc_cal = (int8_t)(value + 1);
-+		}
-+	} else { /* for CHECK_EFUSE_V2 */
-+		phy_parameter->efuse_usb_dc_cal = value & phy_cfg->dc_driving_mask;
-+	}
-+
-+	/* Read efuse for usb dc disconnect level */
-+	value = 0;
-+	cell = nvmem_cell_get(rtk_phy->dev, "usb-dc-dis");
-+	if (IS_ERR(cell)) {
-+		dev_dbg(rtk_phy->dev, "%s no usb-dc-dis: %ld\n",
-+			__func__, PTR_ERR(cell));
-+	} else {
-+		unsigned char *buf;
-+		size_t buf_size;
-+
-+		buf = nvmem_cell_read(cell, &buf_size);
-+		value = buf[0] & phy_cfg->dc_disconnect_mask;
-+
-+		kfree(buf);
-+		nvmem_cell_put(cell);
-+	}
-+
-+	if (phy_cfg->check_efuse_version == CHECK_EFUSE_V1) {
-+		int rate = phy_cfg->efuse_dc_disconnect_rate;
-+
-+		if (value <= EFUS_USB_DC_DIS_MAX)
-+			phy_parameter->efuse_usb_dc_dis = (int8_t)(value * rate);
-+		else
-+			phy_parameter->efuse_usb_dc_dis = -(int8_t)
-+				    ((EFUS_USB_DC_DIS_MAX & value) * rate);
-+	} else { /* for CHECK_EFUSE_V2 */
-+		phy_parameter->efuse_usb_dc_dis = value & phy_cfg->dc_disconnect_mask;
-+	}
-+
-+out:
-+	return 0;
-+}
-+
-+static int parse_phy_data(struct rtk_phy *rtk_phy)
-+{
-+	struct device *dev = rtk_phy->dev;
-+	struct device_node *np = dev->of_node;
-+	struct phy_parameter *phy_parameter;
-+	int ret = 0;
-+	int index;
-+
-+	rtk_phy->phy_parameter = devm_kzalloc(dev, sizeof(struct phy_parameter) *
-+						rtk_phy->num_phy, GFP_KERNEL);
-+	if (!rtk_phy->phy_parameter)
-+		return -ENOMEM;
-+
-+	for (index = 0; index < rtk_phy->num_phy; index++) {
-+		phy_parameter = &((struct phy_parameter *)rtk_phy->phy_parameter)[index];
-+
-+		phy_parameter->phy_reg.reg_wrap_vstatus = of_iomap(np, 0);
-+		phy_parameter->phy_reg.reg_gusb2phyacc0 = of_iomap(np, 1) + index;
-+		phy_parameter->phy_reg.vstatus_index = index;
-+
-+		if (of_property_read_bool(np, "realtek,inverse-hstx-sync-clock"))
-+			phy_parameter->inverse_hstx_sync_clock = true;
-+		else
-+			phy_parameter->inverse_hstx_sync_clock = false;
-+
-+		if (of_property_read_u32_index(np, "realtek,driving-level",
-+					       index, &phy_parameter->driving_level))
-+			phy_parameter->driving_level = DEFAULT_DC_DRIVING_VALUE;
-+
-+		if (of_property_read_u32_index(np, "realtek,driving-compensate",
-+					       index, &phy_parameter->driving_compensate))
-+			phy_parameter->driving_compensate = 0;
-+
-+		if (of_property_read_u32_index(np, "realtek,disconnection-compensate",
-+					       index, &phy_parameter->disconnection_compensate))
-+			phy_parameter->disconnection_compensate = 0;
-+
-+		get_phy_data_by_efuse(rtk_phy, phy_parameter, index);
-+
-+		update_dc_driving_level(rtk_phy, phy_parameter);
-+
-+		update_hs_clk_select(rtk_phy, phy_parameter);
-+	}
-+
-+	return ret;
-+}
-+
-+static int rtk_usb2phy_probe(struct platform_device *pdev)
-+{
-+	struct rtk_phy *rtk_phy;
-+	struct device *dev = &pdev->dev;
-+	struct phy *generic_phy;
-+	struct phy_provider *phy_provider;
-+	const struct phy_cfg *phy_cfg;
-+	int ret = 0;
-+
-+	phy_cfg = of_device_get_match_data(dev);
-+	if (!phy_cfg) {
-+		dev_err(dev, "phy config are not assigned!\n");
-+		return -EINVAL;
-+	}
-+
-+	rtk_phy = devm_kzalloc(dev, sizeof(*rtk_phy), GFP_KERNEL);
-+	if (!rtk_phy)
-+		return -ENOMEM;
-+
-+	rtk_phy->dev			= &pdev->dev;
-+	rtk_phy->phy.dev		= rtk_phy->dev;
-+	rtk_phy->phy.label		= "rtk-usb2phy";
-+	rtk_phy->phy.notify_port_status = rtk_phy_notify_port_status;
-+
-+	rtk_phy->phy_cfg = devm_kzalloc(dev, sizeof(*phy_cfg), GFP_KERNEL);
-+
-+	memcpy(rtk_phy->phy_cfg, phy_cfg, sizeof(*phy_cfg));
-+
-+	rtk_phy->num_phy = phy_cfg->num_phy;
-+
-+	ret = parse_phy_data(rtk_phy);
-+	if (ret)
-+		goto err;
-+
-+	platform_set_drvdata(pdev, rtk_phy);
-+
-+	generic_phy = devm_phy_create(rtk_phy->dev, NULL, &ops);
-+	if (IS_ERR(generic_phy))
-+		return PTR_ERR(generic_phy);
-+
-+	phy_set_drvdata(generic_phy, rtk_phy);
-+
-+	phy_provider = devm_of_phy_provider_register(rtk_phy->dev,
-+						     of_phy_simple_xlate);
-+	if (IS_ERR(phy_provider))
-+		return PTR_ERR(phy_provider);
-+
-+	ret = usb_add_phy_dev(&rtk_phy->phy);
-+	if (ret)
-+		goto err;
-+
-+	create_debug_files(rtk_phy);
-+
-+err:
-+	return ret;
-+}
-+
-+static void rtk_usb2phy_remove(struct platform_device *pdev)
-+{
-+	struct rtk_phy *rtk_phy = platform_get_drvdata(pdev);
-+
-+	remove_debug_files(rtk_phy);
-+
-+	usb_remove_phy(&rtk_phy->phy);
-+}
-+
-+static const struct phy_cfg rtd1295_phy_cfg = {
-+	.page0_size = MAX_USB_PHY_PAGE0_DATA_SIZE,
-+	.page0 = { [0] = {0xe0, 0x90},
-+		   [3] = {0xe3, 0x3a},
-+		   [4] = {0xe4, 0x68},
-+		   [6] = {0xe6, 0x91},
-+		  [13] = {0xf5, 0x81},
-+		  [15] = {0xf7, 0x02}, },
-+	.page1_size = 8,
-+	.page1 = { /* default parameter */ },
-+	.page2_size = 0,
-+	.page2 = { /* no parameter */ },
-+	.num_phy = 1,
-+	.check_efuse = false,
-+	.check_efuse_version = CHECK_EFUSE_V1,
-+	.efuse_dc_driving_rate = 1,
-+	.dc_driving_mask = 0xf,
-+	.efuse_dc_disconnect_rate = EFUS_USB_DC_DIS_RATE,
-+	.dc_disconnect_mask = 0xf,
-+	.usb_dc_disconnect_at_page0 = true,
-+	.do_toggle = true,
-+	.do_toggle_driving = false,
-+	.driving_updated_for_dev_dis = 0xf,
-+	.use_default_parameter = false,
-+	.is_double_sensitivity_mode = false,
-+};
-+
-+static const struct phy_cfg rtd1395_phy_cfg = {
-+	.page0_size = MAX_USB_PHY_PAGE0_DATA_SIZE,
-+	.page0 = { [4] = {0xe4, 0xac},
-+		  [13] = {0xf5, 0x00},
-+		  [15] = {0xf7, 0x02}, },
-+	.page1_size = 8,
-+	.page1 = { /* default parameter */ },
-+	.page2_size = 0,
-+	.page2 = { /* no parameter */ },
-+	.num_phy = 1,
-+	.check_efuse = false,
-+	.check_efuse_version = CHECK_EFUSE_V1,
-+	.efuse_dc_driving_rate = 1,
-+	.dc_driving_mask = 0xf,
-+	.efuse_dc_disconnect_rate = EFUS_USB_DC_DIS_RATE,
-+	.dc_disconnect_mask = 0xf,
-+	.usb_dc_disconnect_at_page0 = true,
-+	.do_toggle = true,
-+	.do_toggle_driving = false,
-+	.driving_updated_for_dev_dis = 0xf,
-+	.use_default_parameter = false,
-+	.is_double_sensitivity_mode = false,
-+};
-+
-+static const struct phy_cfg rtd1395_phy_cfg_2port = {
-+	.page0_size = MAX_USB_PHY_PAGE0_DATA_SIZE,
-+	.page0 = { [4] = {0xe4, 0xac},
-+		  [13] = {0xf5, 0x00},
-+		  [15] = {0xf7, 0x02}, },
-+	.page1_size = 8,
-+	.page1 = { /* default parameter */ },
-+	.page2_size = 0,
-+	.page2 = { /* no parameter */ },
-+	.num_phy = 2,
-+	.check_efuse = false,
-+	.check_efuse_version = CHECK_EFUSE_V1,
-+	.efuse_dc_driving_rate = 1,
-+	.dc_driving_mask = 0xf,
-+	.efuse_dc_disconnect_rate = EFUS_USB_DC_DIS_RATE,
-+	.dc_disconnect_mask = 0xf,
-+	.usb_dc_disconnect_at_page0 = true,
-+	.do_toggle = true,
-+	.do_toggle_driving = false,
-+	.driving_updated_for_dev_dis = 0xf,
-+	.use_default_parameter = false,
-+	.is_double_sensitivity_mode = false,
-+};
-+
-+static const struct phy_cfg rtd1619_phy_cfg = {
-+	.page0_size = MAX_USB_PHY_PAGE0_DATA_SIZE,
-+	.page0 = { [4] = {0xe4, 0x68}, },
-+	.page1_size = 8,
-+	.page1 = { /* default parameter */ },
-+	.page2_size = 0,
-+	.page2 = { /* no parameter */ },
-+	.num_phy = 1,
-+	.check_efuse = true,
-+	.check_efuse_version = CHECK_EFUSE_V1,
-+	.efuse_dc_driving_rate = 1,
-+	.dc_driving_mask = 0xf,
-+	.efuse_dc_disconnect_rate = EFUS_USB_DC_DIS_RATE,
-+	.dc_disconnect_mask = 0xf,
-+	.usb_dc_disconnect_at_page0 = true,
-+	.do_toggle = true,
-+	.do_toggle_driving = false,
-+	.driving_updated_for_dev_dis = 0xf,
-+	.use_default_parameter = false,
-+	.is_double_sensitivity_mode = false,
-+};
-+
-+static const struct phy_cfg rtd1319_phy_cfg = {
-+	.page0_size = MAX_USB_PHY_PAGE0_DATA_SIZE,
-+	.page0 = { [0] = {0xe0, 0x18},
-+		   [4] = {0xe4, 0x6a},
-+		   [7] = {0xe7, 0x71},
-+		  [13] = {0xf5, 0x15},
-+		  [15] = {0xf7, 0x32}, },
-+	.page1_size = 8,
-+	.page1 = { [3] = {0xe3, 0x44}, },
-+	.page2_size = MAX_USB_PHY_PAGE2_DATA_SIZE,
-+	.page2 = { [0] = {0xe0, 0x01}, },
-+	.num_phy = 1,
-+	.check_efuse = true,
-+	.check_efuse_version = CHECK_EFUSE_V1,
-+	.efuse_dc_driving_rate = 1,
-+	.dc_driving_mask = 0xf,
-+	.efuse_dc_disconnect_rate = EFUS_USB_DC_DIS_RATE,
-+	.dc_disconnect_mask = 0xf,
-+	.usb_dc_disconnect_at_page0 = true,
-+	.do_toggle = true,
-+	.do_toggle_driving = true,
-+	.driving_updated_for_dev_dis = 0xf,
-+	.use_default_parameter = false,
-+	.is_double_sensitivity_mode = true,
-+};
-+
-+static const struct phy_cfg rtd1312c_phy_cfg = {
-+	.page0_size = MAX_USB_PHY_PAGE0_DATA_SIZE,
-+	.page0 = { [0] = {0xe0, 0x14},
-+		   [4] = {0xe4, 0x67},
-+		   [5] = {0xe5, 0x55}, },
-+	.page1_size = 8,
-+	.page1 = { [3] = {0xe3, 0x23},
-+		   [6] = {0xe6, 0x58}, },
-+	.page2_size = MAX_USB_PHY_PAGE2_DATA_SIZE,
-+	.page2 = { /* default parameter */ },
-+	.num_phy = 1,
-+	.check_efuse = true,
-+	.check_efuse_version = CHECK_EFUSE_V1,
-+	.efuse_dc_driving_rate = 1,
-+	.dc_driving_mask = 0xf,
-+	.efuse_dc_disconnect_rate = EFUS_USB_DC_DIS_RATE,
-+	.dc_disconnect_mask = 0xf,
-+	.usb_dc_disconnect_at_page0 = true,
-+	.do_toggle = true,
-+	.do_toggle_driving = true,
-+	.driving_updated_for_dev_dis = 0xf,
-+	.use_default_parameter = false,
-+	.is_double_sensitivity_mode = true,
-+};
-+
-+static const struct phy_cfg rtd1619b_phy_cfg = {
-+	.page0_size = MAX_USB_PHY_PAGE0_DATA_SIZE,
-+	.page0 = { [0] = {0xe0, 0xa3},
-+		   [4] = {0xe4, 0x88},
-+		   [5] = {0xe5, 0x4f},
-+		   [6] = {0xe6, 0x02}, },
-+	.page1_size = 8,
-+	.page1 = { [3] = {0xe3, 0x64}, },
-+	.page2_size = MAX_USB_PHY_PAGE2_DATA_SIZE,
-+	.page2 = { [7] = {0xe7, 0x45}, },
-+	.num_phy = 1,
-+	.check_efuse = true,
-+	.check_efuse_version = CHECK_EFUSE_V1,
-+	.efuse_dc_driving_rate = EFUS_USB_DC_CAL_RATE,
-+	.dc_driving_mask = 0x1f,
-+	.efuse_dc_disconnect_rate = EFUS_USB_DC_DIS_RATE,
-+	.dc_disconnect_mask = 0xf,
-+	.usb_dc_disconnect_at_page0 = false,
-+	.do_toggle = true,
-+	.do_toggle_driving = true,
-+	.driving_updated_for_dev_dis = 0x8,
-+	.use_default_parameter = false,
-+	.is_double_sensitivity_mode = true,
-+};
-+
-+static const struct phy_cfg rtd1319d_phy_cfg = {
-+	.page0_size = MAX_USB_PHY_PAGE0_DATA_SIZE,
-+	.page0 = { [0] = {0xe0, 0xa3},
-+		   [4] = {0xe4, 0x8e},
-+		   [5] = {0xe5, 0x4f},
-+		   [6] = {0xe6, 0x02}, },
-+	.page1_size = MAX_USB_PHY_PAGE1_DATA_SIZE,
-+	.page1 = { [14] = {0xf5, 0x1}, },
-+	.page2_size = MAX_USB_PHY_PAGE2_DATA_SIZE,
-+	.page2 = { [7] = {0xe7, 0x44}, },
-+	.check_efuse = true,
-+	.num_phy = 1,
-+	.check_efuse_version = CHECK_EFUSE_V1,
-+	.efuse_dc_driving_rate = EFUS_USB_DC_CAL_RATE,
-+	.dc_driving_mask = 0x1f,
-+	.efuse_dc_disconnect_rate = EFUS_USB_DC_DIS_RATE,
-+	.dc_disconnect_mask = 0xf,
-+	.usb_dc_disconnect_at_page0 = false,
-+	.do_toggle = true,
-+	.do_toggle_driving = false,
-+	.driving_updated_for_dev_dis = 0x8,
-+	.use_default_parameter = false,
-+	.is_double_sensitivity_mode = true,
-+};
-+
-+static const struct phy_cfg rtd1315e_phy_cfg = {
-+	.page0_size = MAX_USB_PHY_PAGE0_DATA_SIZE,
-+	.page0 = { [0] = {0xe0, 0xa3},
-+		   [4] = {0xe4, 0x8c},
-+		   [5] = {0xe5, 0x4f},
-+		   [6] = {0xe6, 0x02}, },
-+	.page1_size = MAX_USB_PHY_PAGE1_DATA_SIZE,
-+	.page1 = { [3] = {0xe3, 0x7f},
-+		  [14] = {0xf5, 0x01}, },
-+	.page2_size = MAX_USB_PHY_PAGE2_DATA_SIZE,
-+	.page2 = { [7] = {0xe7, 0x44}, },
-+	.num_phy = 1,
-+	.check_efuse = true,
-+	.check_efuse_version = CHECK_EFUSE_V2,
-+	.efuse_dc_driving_rate = EFUS_USB_DC_CAL_RATE,
-+	.dc_driving_mask = 0x1f,
-+	.efuse_dc_disconnect_rate = EFUS_USB_DC_DIS_RATE,
-+	.dc_disconnect_mask = 0xf,
-+	.usb_dc_disconnect_at_page0 = false,
-+	.do_toggle = true,
-+	.do_toggle_driving = false,
-+	.driving_updated_for_dev_dis = 0x8,
-+	.use_default_parameter = false,
-+	.is_double_sensitivity_mode = true,
-+};
-+
-+static const struct of_device_id usbphy_rtk_dt_match[] = {
-+	{ .compatible = "realtek,rtd1295-usb2phy", .data = &rtd1295_phy_cfg },
-+	{ .compatible = "realtek,rtd1312c-usb2phy", .data = &rtd1312c_phy_cfg },
-+	{ .compatible = "realtek,rtd1315e-usb2phy", .data = &rtd1315e_phy_cfg },
-+	{ .compatible = "realtek,rtd1319-usb2phy", .data = &rtd1319_phy_cfg },
-+	{ .compatible = "realtek,rtd1319d-usb2phy", .data = &rtd1319d_phy_cfg },
-+	{ .compatible = "realtek,rtd1395-usb2phy", .data = &rtd1395_phy_cfg },
-+	{ .compatible = "realtek,rtd1395-usb2phy-2port", .data = &rtd1395_phy_cfg_2port },
-+	{ .compatible = "realtek,rtd1619-usb2phy", .data = &rtd1619_phy_cfg },
-+	{ .compatible = "realtek,rtd1619b-usb2phy", .data = &rtd1619b_phy_cfg },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, usbphy_rtk_dt_match);
-+
-+static struct platform_driver rtk_usb2phy_driver = {
-+	.probe		= rtk_usb2phy_probe,
-+	.remove_new	= rtk_usb2phy_remove,
-+	.driver		= {
-+		.name	= "rtk-usb2phy",
-+		.of_match_table = usbphy_rtk_dt_match,
-+	},
-+};
-+
-+module_platform_driver(rtk_usb2phy_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform: rtk-usb2phy");
-+MODULE_AUTHOR("Stanley Chang <stanley_chang@realtek.com>");
-+MODULE_DESCRIPTION("Realtek usb 2.0 phy driver");
--- 
-2.34.1
-
+DQoNCkxlIDI4LzA2LzIwMjMgw6AgMjM6MTAsIExlbyBMaSBhIMOpY3JpdMKgOg0KPiANCj4gDQo+
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPj4gRnJvbTogQ2hyaXN0b3BoZSBMZXJveSA8
+Y2hyaXN0b3BoZS5sZXJveUBjc2dyb3VwLmV1Pg0KPj4gU2VudDogV2VkbmVzZGF5LCBKdW5lIDI4
+LCAyMDIzIDI6NDAgUE0NCj4+IFRvOiBMZW8gTGkgPGxlb3lhbmcubGlAbnhwLmNvbT47IE1hIEtl
+IDxtYWtlX3J1YzIwMjFAMTYzLmNvbT4NCj4+IENjOiBncmVna2hAbGludXhmb3VuZGF0aW9uLm9y
+ZzsgbGludXgtdXNiQHZnZXIua2VybmVsLm9yZzsgbGludXhwcGMtDQo+PiBkZXZAbGlzdHMub3ps
+YWJzLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZw0KPj4gU3ViamVjdDogUmU6IFtQ
+QVRDSF0gdXNiOiBnYWRnZXQ6IGZzbF9xZV91ZGM6IHZhbGlkYXRlIGVuZHBvaW50IGluZGV4IGZv
+cg0KPj4gY2g5IHVkYw0KPj4NCj4+DQo+Pg0KPj4gTGUgMjgvMDYvMjAyMyDDoCAxOTowNCwgTGVv
+IExpIGEgw6ljcml0wqA6DQo+Pj4NCj4+Pg0KPj4+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0t
+LQ0KPj4+PiBGcm9tOiBNYSBLZSA8bWFrZV9ydWMyMDIxQDE2My5jb20+DQo+Pj4+IFNlbnQ6IFdl
+ZG5lc2RheSwgSnVuZSAyOCwgMjAyMyAzOjE1IEFNDQo+Pj4+IFRvOiBMZW8gTGkgPGxlb3lhbmcu
+bGlAbnhwLmNvbT4NCj4+Pj4gQ2M6IGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnOyBsaW51eC11
+c2JAdmdlci5rZXJuZWwub3JnOyBsaW51eHBwYy0NCj4+Pj4gZGV2QGxpc3RzLm96bGFicy5vcmc7
+IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IE1hIEtlDQo+Pj4+IDxtYWtlX3J1YzIwMjFA
+MTYzLmNvbT4NCj4+Pj4gU3ViamVjdDogW1BBVENIXSB1c2I6IGdhZGdldDogZnNsX3FlX3VkYzog
+dmFsaWRhdGUgZW5kcG9pbnQgaW5kZXggZm9yDQo+Pj4+IGNoOSB1ZGMNCj4+Pj4NCj4+Pj4gV2Ug
+c2hvdWxkIHZlcmlmeSB0aGUgYm91bmQgb2YgdGhlIGFycmF5IHRvIGFzc3VyZSB0aGF0IGhvc3Qg
+bWF5IG5vdA0KPj4+PiBtYW5pcHVsYXRlIHRoZSBpbmRleCB0byBwb2ludCBwYXN0IGVuZHBvaW50
+IGFycmF5Lg0KPj4+Pg0KPj4+PiBTaWduZWQtb2ZmLWJ5OiBNYSBLZSA8bWFrZV9ydWMyMDIxQDE2
+My5jb20+DQo+Pj4+IC0tLQ0KPj4+PiAgICBkcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2ZzbF9xZV91
+ZGMuYyB8IDIgKysNCj4+Pj4gICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQ0KPj4+
+Pg0KPj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9mc2xfcWVfdWRjLmMN
+Cj4+Pj4gYi9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2ZzbF9xZV91ZGMuYw0KPj4+PiBpbmRleCAz
+YjFjYzhmYTMwYzguLmY0ZTVjYmQxOTNiNyAxMDA2NDQNCj4+Pj4gLS0tIGEvZHJpdmVycy91c2Iv
+Z2FkZ2V0L3VkYy9mc2xfcWVfdWRjLmMNCj4+Pj4gKysrIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3Vk
+Yy9mc2xfcWVfdWRjLmMNCj4+Pj4gQEAgLTE5NTksNiArMTk1OSw4IEBAIHN0YXRpYyB2b2lkIGNo
+OWdldHN0YXR1cyhzdHJ1Y3QgcWVfdWRjICp1ZGMsIHU4DQo+Pj4+IHJlcXVlc3RfdHlwZSwgdTE2
+IHZhbHVlLA0KPj4+PiAgICAJfSBlbHNlIGlmICgocmVxdWVzdF90eXBlICYgVVNCX1JFQ0lQX01B
+U0spID09DQo+Pj4+IFVTQl9SRUNJUF9FTkRQT0lOVCkgew0KPj4+PiAgICAJCS8qIEdldCBlbmRw
+b2ludCBzdGF0dXMgKi8NCj4+Pj4gICAgCQlpbnQgcGlwZSA9IGluZGV4ICYgVVNCX0VORFBPSU5U
+X05VTUJFUl9NQVNLOw0KPj4+PiArCQlpZiAocGlwZSA+PSBVU0JfTUFYX0VORFBPSU5UUykNCj4+
+Pj4gKwkJCWdvdG8gc3RhbGw7DQo+Pj4NCj4+PiBUaGFua3MuICBUaGlzIHNlZW1zIHRvIGJlIHRo
+ZSByaWdodCB0aGluZyB0byBkby4gIEJ1dCBub3JtYWxseSB3ZSBkb24ndCBtaXgNCj4+IGRlY2xh
+cmF0aW9ucyB3aXRoIGNvZGUgd2l0aGluIGEgY29kZSBibG9jay4gIENvdWxkIHdlIHJlLWFycmFu
+Z2UgdGhlIGNvZGUgYQ0KPj4gbGl0dGxlIGJpdCBzbyBkZWNsYXJhdGlvbnMgc3RheSBvbiB0b3A/
+DQo+Pg0KPj4gQnV0IHdlIGFyZSBhdCB0aGUgc3RhcnQgb2YgYSBjb2RlIGJsb2NrIGFyZW4ndCB3
+ZSA/DQo+IA0KPiBCdXQgdGhleSB3ZXJlIGF0IHRoZSBiZWdpbm5pbmcgb2YgYSB7IH0gYmxvY2sg
+d2hpY2ggaXMgY29tcGxpYW50IHdpdGggdGhlIEM4OSBzdGFuZGFyZC4gIEkga25vdyBnY2MgaXMg
+bW9yZSByZWxheGVkIGZyb20gdGhpcy4gIEJ1dCBpdCBpcyBwcm9iYWJseSBzdGlsbCBnb29kIHRv
+IHN0aWNrIHRvIHRoZSBzdGFuZGFyZD8NCg0KU29ycnkgSSBtaXNyZWFkIHRoZSBwYXRjaCBhbmQg
+ZmFpbGVkIHRvIHNlZSB0aGF0IHRoZSBkZWNsYXJhdGlvbiBibG9jayANCndhcyBjb250aW51aW5n
+IGFmdGVyIHRoZSBjaGFuZ2UuDQoNClNvIHllcyBkb24ndCBpbnRlcmxlYXZlIGNvZGUgd2l0aCBk
+ZWNsYXJhdGlvbnMuIExlYXZlIGRlY2xhcmF0aW9uIGF0IHRoZSANCnRvcCBvZiBhIGJsb2NrIHdp
+dGggYSBibGFuayBsaW5lIGJldHdlZW4gZGVjbGFyYXRpb25zIGFuZCBjb2RlLg0KDQo+IA0KPj4N
+Cj4+IFRoZSBvbmx5IG1pc3NpbmcgdGhpbmcgaXMgdGhlIGJsYW5rIGxpbmUgYmV0d2VlbiB0aGUg
+ZGVjbGFyYXRpb25zIGFuZCB0aGUNCj4+IGNvZGUsIHNvIHRoYXQgd2UgY2xlYXJseSBzZWUgd2hl
+cmUgZGVjbGFyYXRpb25zIGVuZCBhbmQgd2hlcmUgY29kZSBzdGFydC4NCj4+DQo+Pj4NCj4+Pj4g
+ICAgCQlzdHJ1Y3QgcWVfZXAgKnRhcmdldF9lcCA9ICZ1ZGMtPmVwc1twaXBlXTsNCj4+Pj4gICAg
+CQl1MTYgdXNlcDsNCj4+Pj4NCj4+Pj4gLS0NCj4+Pj4gMi4zNy4yDQo+Pj4NCg==
