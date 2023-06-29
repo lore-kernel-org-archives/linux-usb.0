@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAA00C001B1
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Jun 2023 05:46:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 965DAC001DE
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Jun 2023 05:46:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231787AbjF2Fqm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Jun 2023 01:46:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33326 "EHLO
+        id S231831AbjF2Fqo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Jun 2023 01:46:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231332AbjF2Fqj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Jun 2023 01:46:39 -0400
+        with ESMTP id S230119AbjF2Fqi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Jun 2023 01:46:38 -0400
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AE73B294E;
-        Wed, 28 Jun 2023 22:46:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C4EDB1FFA;
+        Wed, 28 Jun 2023 22:46:33 -0700 (PDT)
 Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 35T5k3Ey9016346, This message is accepted by code: ctloc85258
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 35T5jNc95016165, This message is accepted by code: ctloc85258
 Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 35T5k3Ey9016346
+        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 35T5jNc95016165
         (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
-        Thu, 29 Jun 2023 13:46:03 +0800
-Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
+        Thu, 29 Jun 2023 13:45:23 +0800
+Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
  RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Thu, 29 Jun 2023 13:46:04 +0800
+ 15.1.2507.17; Thu, 29 Jun 2023 13:45:24 +0800
 Received: from RTEXH36506.realtek.com.tw (172.21.6.27) by
- RTEXDAG01.realtek.com.tw (172.21.6.100) with Microsoft SMTP Server
+ RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 29 Jun 2023 13:46:04 +0800
+ 15.1.2375.34; Thu, 29 Jun 2023 13:45:23 +0800
 Received: from localhost.localdomain (172.21.252.101) by
  RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server id
- 15.1.2507.17 via Frontend Transport; Thu, 29 Jun 2023 13:46:04 +0800
+ 15.1.2507.17 via Frontend Transport; Thu, 29 Jun 2023 13:45:23 +0800
 From:   Stanley Chang <stanley_chang@realtek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     Stanley Chang <stanley_chang@realtek.com>,
@@ -40,22 +40,20 @@ CC:     Stanley Chang <stanley_chang@realtek.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
-        "Douglas Anderson" <dianders@chromium.org>,
-        Ray Chi <raychi@google.com>,
-        "Flavio Suligoi" <f.suligoi@asem.it>,
+        Flavio Suligoi <f.suligoi@asem.it>,
         Matthias Kaehlcke <mka@chromium.org>,
-        <linux-phy@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
-Subject: [PATCH v6 5/5] dt-bindings: phy: realtek: Add the doc about the Realtek SoC USB 3.0 PHY
-Date:   Thu, 29 Jun 2023 13:45:13 +0800
-Message-ID: <20230629054523.7519-5-stanley_chang@realtek.com>
+        Douglas Anderson <dianders@chromium.org>,
+        Ray Chi <raychi@google.com>, <linux-phy@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+Subject: [PATCH v6 1/5] usb: phy: add usb phy notify port status API
+Date:   Thu, 29 Jun 2023 13:45:09 +0800
+Message-ID: <20230629054523.7519-1-stanley_chang@realtek.com>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230629054523.7519-1-stanley_chang@realtek.com>
-References: <20230629054523.7519-1-stanley_chang@realtek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
-X-KSE-ServerInfo: RTEXDAG01.realtek.com.tw, 9
+X-KSE-ServerInfo: RTEXMBS05.realtek.com.tw, 9
 X-KSE-AntiSpam-Interceptor-Info: fallback
 X-KSE-Antivirus-Interceptor-Info: fallback
 X-KSE-AntiSpam-Interceptor-Info: fallback
@@ -63,148 +61,98 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add the documentation explain the property about Realtek USB PHY driver.
+In Realtek SoC, the parameter of usb phy is designed to can dynamic
+tuning base on port status. Therefore, add a notify callback of phy
+driver when usb port status change.
 
-Realtek DHC (digital home center) RTD SoCs support DWC3 XHCI USB
-controller. Added the driver to drive the  USB 3.0 PHY transceivers.
+The Realtek phy driver is designed to dynamically adjust disconnection
+level and calibrate phy parameters. When the device connected bit changes
+and when the disconnected bit changes, do port status change notification:
+
+Check if portstatus is USB_PORT_STAT_CONNECTION and portchange is
+USB_PORT_STAT_C_CONNECTION.
+1. The device is connected, the driver lowers the disconnection level and
+   calibrates the phy parameters.
+2. The device disconnects, the driver increases the disconnect level and
+   calibrates the phy parameters.
+
+When controller to notify connect that device is already ready. If we
+adjust the disconnection level in notify_connect, the disconnect may have
+been triggered at this stage. So we need to change that as early as
+possible. Therefore, we add an api to notify phy the port status changes.
 
 Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
 ---
 v5 to v6 change:
-    Drop the labels of example.
+    No change
 v4 to v5 change:
-    1. Remove the compatible realtek,usb3phy.
-    2. Add the default of the property.
+    No change
 v3 to v4 change:
-    1. Remove the parameter and non hardware properties from dts.
-    2. Using the compatible data included the config and parameter
-       in driver.
+    Fix the warning for checkpatch with strict.
 v2 to v3 change:
-    1. Broken down into two patches, one for each of USB 2 & 3.
-    2. Add more description about Realtek RTD SoCs architecture.
-    3. Removed parameter v1 support for simplification.
-    4. Revised the compatible name for fallback compatible.
-    5. Remove some properties that can be set in the driver.
+    Add more comments about the reason for adding this api
 v1 to v2 change:
-    Add phy-cells for generic phy driver
+    No change
 ---
- .../bindings/phy/realtek,usb3phy.yaml         | 107 ++++++++++++++++++
- 1 file changed, 107 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/phy/realtek,usb3phy.yaml
+ drivers/usb/core/hub.c  | 13 +++++++++++++
+ include/linux/usb/phy.h | 13 +++++++++++++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/phy/realtek,usb3phy.yaml b/Documentation/devicetree/bindings/phy/realtek,usb3phy.yaml
-new file mode 100644
-index 000000000000..1a6cdc1ee073
---- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/realtek,usb3phy.yaml
-@@ -0,0 +1,107 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+# Copyright 2023 Realtek Semiconductor Corporation
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/phy/realtek,usb3phy.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 97a0f8faea6e..10f3364c3fc2 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -614,6 +614,19 @@ static int hub_ext_port_status(struct usb_hub *hub, int port1, int type,
+ 		ret = 0;
+ 	}
+ 	mutex_unlock(&hub->status_mutex);
 +
-+title: Realtek DHC SoCs USB 3.0 PHY
++	if (!ret) {
++		struct usb_device *hdev = hub->hdev;
 +
-+maintainers:
-+  - Stanley Chang <stanley_chang@realtek.com>
++		if (hdev && !hdev->parent) {
++			struct usb_hcd *hcd = bus_to_hcd(hdev->bus);
 +
-+description:
-+  Realtek USB 3.0 PHY support the digital home center (DHC) RTD series SoCs.
-+  The USB 3.0 PHY driver is designed to support the XHCI controller. The SoCs
-+  support multiple XHCI controllers. One PHY device node maps to one XHCI
-+  controller.
++			if (hcd->usb_phy)
++				usb_phy_notify_port_status(hcd->usb_phy,
++							   port1 - 1, *status, *change);
++		}
++	}
 +
-+  RTD1295/RTD1619 SoCs USB
-+  The USB architecture includes three XHCI controllers.
-+  Each XHCI maps to one USB 2.0 PHY and map one USB 3.0 PHY on some
-+  controllers.
-+  XHCI controller#0 -- usb2phy -- phy#0
-+                    |- usb3phy -- phy#0
-+  XHCI controller#1 -- usb2phy -- phy#0
-+  XHCI controller#2 -- usb2phy -- phy#0
-+                    |- usb3phy -- phy#0
+ 	return ret;
+ }
+ 
+diff --git a/include/linux/usb/phy.h b/include/linux/usb/phy.h
+index e4de6bc1f69b..b513749582d7 100644
+--- a/include/linux/usb/phy.h
++++ b/include/linux/usb/phy.h
+@@ -144,6 +144,10 @@ struct usb_phy {
+ 	 */
+ 	int	(*set_wakeup)(struct usb_phy *x, bool enabled);
+ 
++	/* notify phy port status change */
++	int	(*notify_port_status)(struct usb_phy *x, int port,
++				      u16 portstatus, u16 portchange);
 +
-+  RTD1319/RTD1619b SoCs USB
-+  The USB architecture includes three XHCI controllers.
-+  Each XHCI maps to one USB 2.0 PHY and map one USB 3.0 PHY on controllers#2.
-+  XHCI controller#0 -- usb2phy -- phy#0
-+  XHCI controller#1 -- usb2phy -- phy#0
-+  XHCI controller#2 -- usb2phy -- phy#0
-+                    |- usb3phy -- phy#0
+ 	/* notify phy connect status change */
+ 	int	(*notify_connect)(struct usb_phy *x,
+ 			enum usb_device_speed speed);
+@@ -316,6 +320,15 @@ usb_phy_set_wakeup(struct usb_phy *x, bool enabled)
+ 		return 0;
+ }
+ 
++static inline int
++usb_phy_notify_port_status(struct usb_phy *x, int port, u16 portstatus, u16 portchange)
++{
++	if (x && x->notify_port_status)
++		return x->notify_port_status(x, port, portstatus, portchange);
++	else
++		return 0;
++}
 +
-+  RTD1319d SoCs USB
-+  The USB architecture includes three XHCI controllers.
-+  Each xhci maps to one USB 2.0 PHY and map one USB 3.0 PHY on controllers#0.
-+  XHCI controller#0 -- usb2phy -- phy#0
-+                    |- usb3phy -- phy#0
-+  XHCI controller#1 -- usb2phy -- phy#0
-+  XHCI controller#2 -- usb2phy -- phy#0
-+
-+properties:
-+  compatible:
-+    enum:
-+      - realtek,rtd1295-usb3phy
-+      - realtek,rtd1319-usb3phy
-+      - realtek,rtd1319d-usb3phy
-+      - realtek,rtd1619-usb3phy
-+      - realtek,rtd1619b-usb3phy
-+
-+  reg:
-+    maxItems: 1
-+
-+  "#phy-cells":
-+    const: 0
-+
-+  nvmem-cells:
-+    maxItems: 1
-+    description: A phandle to the tx lfps swing trim data provided by
-+      a nvmem device, if unspecified, default values shall be used.
-+
-+  nvmem-cell-names:
-+    items:
-+      - const: usb_u3_tx_lfps_swing_trim
-+
-+  realtek,amplitude-control-coarse-tuning:
-+    description:
-+      This adjusts the signal amplitude for normal operation and beacon LFPS.
-+      This value is a parameter for coarse tuning.
-+      For different boards, if the default value is inappropriate, this
-+      property can be assigned to adjust.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    default: 255
-+    minimum: 0
-+    maximum: 255
-+
-+  realtek,amplitude-control-fine-tuning:
-+    description:
-+      This adjusts the signal amplitude for normal operation and beacon LFPS.
-+      This value is used for fine-tuning parameters.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    default: 65535
-+    minimum: 0
-+    maximum: 65535
-+
-+required:
-+  - compatible
-+  - reg
-+  - "#phy-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    usb-phy@13e10 {
-+        compatible = "realtek,rtd1319d-usb3phy";
-+        reg = <0x13e10 0x4>;
-+        #phy-cells = <0>;
-+
-+        nvmem-cells = <&otp_usb_u3_tx_lfps_swing_trim>;
-+        nvmem-cell-names = "usb_u3_tx_lfps_swing_trim";
-+
-+        realtek,amplitude-control-coarse-tuning = <0x77>;
-+    };
+ static inline int
+ usb_phy_notify_connect(struct usb_phy *x, enum usb_device_speed speed)
+ {
 -- 
 2.34.1
 
