@@ -2,45 +2,45 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD230EB64D9
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Jun 2023 01:38:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46CEBEB64D9
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Jun 2023 01:48:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229910AbjF3BiO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Jun 2023 21:38:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44346 "EHLO
+        id S231499AbjF3Bsj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Jun 2023 21:48:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229850AbjF3BiK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Jun 2023 21:38:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD69F2D52
-        for <linux-usb@vger.kernel.org>; Thu, 29 Jun 2023 18:38:09 -0700 (PDT)
+        with ESMTP id S230012AbjF3Bsh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Jun 2023 21:48:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 633BE2D52
+        for <linux-usb@vger.kernel.org>; Thu, 29 Jun 2023 18:48:36 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 44F3A6159B
-        for <linux-usb@vger.kernel.org>; Fri, 30 Jun 2023 01:38:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9EBF1C433C9
-        for <linux-usb@vger.kernel.org>; Fri, 30 Jun 2023 01:38:08 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 00EE161644
+        for <linux-usb@vger.kernel.org>; Fri, 30 Jun 2023 01:48:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5DD0EC433C8
+        for <linux-usb@vger.kernel.org>; Fri, 30 Jun 2023 01:48:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688089088;
-        bh=2aeFI+ssKF1ZeLU3JzDEHY3pQ32AOs8I0rpzEC9s8HM=;
-        h=From:To:Subject:Date:From;
-        b=Px1wYRB/FAnuTWzGtilZLArN52VnRpfMerk4JUJGDJ2kniqL81T3mVQnmUXG5XRAo
-         JBtd1jRm+TN30w9i0PxmOHgl7lsGdHHe7ivlJK9BDBHixak3UdvO4yv+elqz9415IM
-         /btp31lCgN/ArbAA6fWaT2REnCc8FVAdkrhq0X1/S4vaXRZm0FhYhcJuQhko5i4cUx
-         7uOqwpE3d4yVkrg5ZPUn72wQa/6Mk7uUzr/YhV8qRFh50nwXI9B33ZRK92y29cIH1k
-         PzyaBm/IgtEIk7bFMNCFewGB0NLfLuDQhVaxlZpu/h8JC8JuJaVBc2cklW6/0+Cbgi
-         BEAyDYFupHLbQ==
+        s=k20201202; t=1688089715;
+        bh=1ercjega+N8EW4ObmMzVRLFRbCK5rMZHRMMi2djWRMM=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=MGBru96fyNLlNQpSzYiBPDwAzxgOzjG5u1KvgafbtmuhYb/GDodww969vd9tdI1uc
+         7EL98OnCJhrzTyu7wQjLNZb9sShcz8waMUSBACLYT2W0362B1Te8VgtVEmQQf5TZxm
+         /y//oP+rnEzzNK0v3oebqyHkX9GoleX9o1iTvgGPKP3/jR69dohweoUxr6Bl3FTj2I
+         jXjTh449h85vi/4hgm6CKjlydduFWgM5KLrZc19+hs4YX//0lX6wB7aHT1NL95O4AY
+         5E7Pe+hU7KyX69sRjIqBi86egCfKLqm6douz8HWPbVgdVgmWGTCPfchIvzeQna7fQE
+         TF8DZUiqye2Ww==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 7A772C4332E; Fri, 30 Jun 2023 01:38:08 +0000 (UTC)
+        id 4204BC4332E; Fri, 30 Jun 2023 01:48:35 +0000 (UTC)
 From:   bugzilla-daemon@kernel.org
 To:     linux-usb@vger.kernel.org
-Subject: [Bug 217614] New: [BUG] [media] dvb-usb: possible data-inconsistency
- due to data races in dib0700_rc_query_old_firmware()
-Date:   Fri, 30 Jun 2023 01:38:08 +0000
+Subject: [Bug 217613] [BUG] [media] dvb-usb: possible data-inconsistency due
+ to data races in dib0700_rc_query_old_firmware()
+Date:   Fri, 30 Jun 2023 01:48:35 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: USB
@@ -48,15 +48,15 @@ X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: islituo@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: DUPLICATE
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-217614-208809@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-217613-208809-Cg6CFBWo3S@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217613-208809@https.bugzilla.kernel.org/>
+References: <bug-217613-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -66,54 +66,19 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217614
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217613
 
-            Bug ID: 217614
-           Summary: [BUG] [media] dvb-usb: possible data-inconsistency due
-                    to data races in dib0700_rc_query_old_firmware()
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: USB
-          Assignee: drivers_usb@kernel-bugs.kernel.org
-          Reporter: islituo@gmail.com
-        Regression: No
+Tuo Li (islituo@gmail.com) changed:
 
-Our static analysis tool finds some possible data races in the
-DVB USB driver in Linux 6.4.0.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |DUPLICATE
 
-The variable d->priv->buf is often accessed with holding the
-lock d->usb_mutex, here is an example:
+--- Comment #1 from Tuo Li (islituo@gmail.com) ---
 
-  dib0700_change_protocol()  --> Line 638 in dib0700_core.c
-    st =3D d->priv;  --> Line 641 in dib0700_core.c (Alias)
-    mutex_lock_interruptible(&d->usb_mutex)
-               --> Line 644 in dib0700_core.c (Lock d->usb_mutex)
-    st->buf[0] =3D REQUEST_SET_RC;
-               --> Line 649 in dib0700_core.c (Access d->priv->buf)
 
-However, in the function dib0700_rc_query_old_firmware(), the
-variable d->priv->buf is accessed without holding the lock
-d->usb_mutex:
-
-  dib0700_rc_query_old_firmware()  --> Line 516 in dib0700_devices.c
-    st =3D d->priv;  --> Line 522 in dib0700_devices.c (Alias)
-    st->buf[0] =3D REQUEST_POLL_RC;
-               --> Line 532 in dib0700_devices.c (Access st->buf)
-
-And thus harmful data races can occur because they can make
-data in st-buf inconsistent.
-
-I am not quite sure whether these possible data races are real and
-how to fix them if they are real.
-
-Any feedback would be appreciated, thanks!
-
-Reported-by: BassCheck <bass@buaa.edu.cn>
+*** This bug has been marked as a duplicate of bug 217614 ***
 
 --=20
 You may reply to this email to add a comment.
