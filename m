@@ -2,116 +2,160 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E1E4EB64DD
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jul 2023 19:40:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38941C0015E
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jul 2023 20:26:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234338AbjGETkB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Jul 2023 15:40:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46668 "EHLO
+        id S233746AbjGEU0x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Jul 2023 16:26:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234279AbjGETjx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Jul 2023 15:39:53 -0400
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29740199E;
-        Wed,  5 Jul 2023 12:39:49 -0700 (PDT)
-Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-78666f06691so164440839f.0;
-        Wed, 05 Jul 2023 12:39:48 -0700 (PDT)
+        with ESMTP id S233721AbjGEU0w (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Jul 2023 16:26:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B81EB198D
+        for <linux-usb@vger.kernel.org>; Wed,  5 Jul 2023 13:26:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1688588765;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=t45r9A2YvfoSJv2GZo8UC8AtO/lxGa/2A2TsFaxOzFQ=;
+        b=emWGxfyrkx50WcIpqLScygToO5DkWvh+JUB/5h5F7AOqQu8xOLYxxUHhshrQ6cltN3TYpK
+        csrse0jVgdtDKhzp7PafgjCce61eL+KeIrAi+gjvzbg2uqBUFILYLrWXJTM5uVlzKS5u9b
+        mxIE3+FDDbTQvHNSrPOSRXyde7skQsQ=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-556--BVnwIp_MQm56sFFytgcGA-1; Wed, 05 Jul 2023 16:26:04 -0400
+X-MC-Unique: -BVnwIp_MQm56sFFytgcGA-1
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-262e7132c74so111824a91.0
+        for <linux-usb@vger.kernel.org>; Wed, 05 Jul 2023 13:26:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688585988; x=1691177988;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=EmigWppDMAwntmLPkpHMViFD3zfbB0BalUBHyRmY93I=;
-        b=O0Hx0DJjaXwYP+yvm0yoGbkrJfx9adX747Wx8eccbhjCijufql33tPIigemLgwYP07
-         WmdleyqbK2jthxf4WIbHBCB/D45wsSToLzMHer0D4wQ3OM1rYd8vrW8Ejea/XkxYgVlD
-         RdIFih6oJUvcTOUP3n/POr5sMXlTGRF7TtW1Tkl8Ut7J7TVlZ4vP/mLY/hcZ/Xn4MScL
-         ZZK7qu35f7CDOzEvY96oyGpv64sHtOlR9wGOmjmad/61EXZCEU7QZDfsG60G5zj9dc8N
-         KUgZujUdI+o3GqdLwoddvC7B+1M0qnJ2Ew7YJ8Uo2Ql45DJM4Yzke7qJ4wLnY+VHA4FV
-         G9jg==
-X-Gm-Message-State: ABy/qLZFlIKvxvKGqXQZTz0o/LFFOCdFQkrKPqlxpFh6gP4Gif3nQnv6
-        4sC4xEaxllPtYm8C2qF7FA==
-X-Google-Smtp-Source: APBJJlE1T+SG//kQOjsdrxPqC6WYFy+jVqYd/9wV9AIbQOA/LFJUSpnFw6o7MHDprdjfMYp8ihzVDA==
-X-Received: by 2002:a6b:3c02:0:b0:786:45f7:fb7e with SMTP id k2-20020a6b3c02000000b0078645f7fb7emr58527iob.13.1688585988126;
-        Wed, 05 Jul 2023 12:39:48 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id d21-20020a02a495000000b0042ad887f705sm6314042jam.143.2023.07.05.12.39.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jul 2023 12:39:47 -0700 (PDT)
-Received: (nullmailer pid 1714652 invoked by uid 1000);
-        Wed, 05 Jul 2023 19:39:32 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20221208; t=1688588764; x=1691180764;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t45r9A2YvfoSJv2GZo8UC8AtO/lxGa/2A2TsFaxOzFQ=;
+        b=hixdpyUIMuYXqibU0mjQT4peetBD6L0b9eKFsIogp90nQb03fTewyRlG14fH0EW39H
+         wHOrZRzqvaojgVqWPwuEXVc/3TWAvZqMeH24Zf/NZwubaXck0C0gGf67NwGZXsbguYJr
+         F/dmLHi1Vuz1Xb9aTCvso681drqwjQfK13DmeS14hmAdJMw6OSYpUaoia3Na/pKbr/CA
+         8bA6YMfHzr/XBcOhLHUoXqE44tyifUGAP79ZjJas8n1oqCiQBHVjFG36MeNCx6f4siyM
+         o/pejxmrfORn5MKReauhL+70vPW0Ci78vH6y3RT3Rd2/nMY8hwP1s3r31SYTdjGQySfZ
+         +kPA==
+X-Gm-Message-State: AC+VfDwIFUr/+cZbC4cjaihA1Ze0XomhgcNLORh1aDLYhfUACNuZgiRj
+        du4M+PVtQEg2MUwh7M+RsDfF4xgxXaQzwl36u9bEq0G2Qmtt1DIMiZUqISs6FC1ftHDqDK8rc4+
+        BYi3gMeRJBNZuGBZPjmawGtTTUsjNiVIi+LWT
+X-Received: by 2002:a05:6a21:6d88:b0:122:e4f:25c7 with SMTP id wl8-20020a056a216d8800b001220e4f25c7mr15659574pzb.31.1688588763769;
+        Wed, 05 Jul 2023 13:26:03 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6ds4xvbUG+ZYaDvJ2apGx91OQ4qB0akGNWWFL3LaWKhMz96IxFpmQ2sEuPoCI3p2ih7fuYhkf9fNjQ5oeaAq0=
+X-Received: by 2002:a05:6a21:6d88:b0:122:e4f:25c7 with SMTP id
+ wl8-20020a056a216d8800b001220e4f25c7mr15659535pzb.31.1688588763446; Wed, 05
+ Jul 2023 13:26:03 -0700 (PDT)
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Gatien Chevallier <gatien.chevallier@foss.st.com>
-Cc:     fabrice.gasnier@foss.st.com, jic23@kernel.org, conor+dt@kernel.org,
-        hugues.fruchet@foss.st.com, richardcochran@gmail.com,
-        will@kernel.org, davem@davemloft.net, vkoul@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-phy@lists.infradead.org,
-        arnd@kernel.org, gregkh@linuxfoundation.org,
-        linux-i2c@vger.kernel.org, linux-usb@vger.kernel.org,
-        arnaud.pouliquen@foss.st.com, mchehab@kernel.org,
-        olivier.moysan@foss.st.com, andi.shyti@kernel.org,
-        alexandre.torgue@foss.st.com, kuba@kernel.org,
-        linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-serial@vger.kernel.org,
-        alsa-devel@alsa-project.org, pabeni@redhat.com,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Oleksii_Moisieiev@epam.com, lee@kernel.org,
-        devicetree@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com, netdev@vger.kernel.org,
-        robh+dt@kernel.org, ulf.hansson@linaro.org,
-        catalin.marinas@arm.com, edumazet@google.com,
-        linux-spi@vger.kernel.org, herbert@gondor.apana.org.au,
-        linux-iio@vger.kernel.org, linux-crypto@vger.kernel.org
-In-Reply-To: <20230705172759.1610753-4-gatien.chevallier@foss.st.com>
-References: <20230705172759.1610753-1-gatien.chevallier@foss.st.com>
- <20230705172759.1610753-4-gatien.chevallier@foss.st.com>
-Message-Id: <168858597253.1714602.9996873148476929300.robh@kernel.org>
-Subject: Re: [PATCH 03/10] dt-bindings: bus: add device tree bindings for
- ETZPC
-Date:   Wed, 05 Jul 2023 13:39:32 -0600
+References: <20230609125023.399942-1-jlayton@kernel.org> <20230609125023.399942-8-jlayton@kernel.org>
+ <CAHc6FU4wyfQT7T75j2Sd9WNp=ag7hpDZGYkR=m73h2nOaH+AqQ@mail.gmail.com> <a1f7a725186082d933aff702d1d50c6456da6f20.camel@kernel.org>
+In-Reply-To: <a1f7a725186082d933aff702d1d50c6456da6f20.camel@kernel.org>
+From:   Andreas Gruenbacher <agruenba@redhat.com>
+Date:   Wed, 5 Jul 2023 22:25:51 +0200
+Message-ID: <CAHc6FU54Gh+5hovqXZZSADqym=VCMis-EH9sKhAjgjXD6MUtqw@mail.gmail.com>
+Subject: Re: [PATCH 7/9] gfs2: update ctime when quota is updated
+To:     Jeff Layton <jlayton@kernel.org>
+Cc:     Christian Brauner <brauner@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Brad Warrum <bwarrum@linux.ibm.com>,
+        Ritu Agarwal <rituagar@linux.ibm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ian Kent <raven@themaw.net>,
+        "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+        Jeremy Kerr <jk@ozlabs.org>, Ard Biesheuvel <ardb@kernel.org>,
+        Namjae Jeon <linkinjeon@kernel.org>,
+        Sungjong Seo <sj1557.seo@samsung.com>,
+        Bob Peterson <rpeterso@redhat.com>,
+        Steve French <sfrench@samba.org>,
+        Paulo Alcantara <pc@manguebit.com>,
+        Ronnie Sahlberg <lsahlber@redhat.com>,
+        Shyam Prasad N <sprasad@microsoft.com>,
+        Tom Talpey <tom@talpey.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Paul Moore <paul@paul-moore.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Ruihan Li <lrh2000@pku.edu.cn>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        autofs@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, cluster-devel@redhat.com,
+        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+        apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On Mon, Jun 12, 2023 at 12:36=E2=80=AFPM Jeff Layton <jlayton@kernel.org> w=
+rote:
+> On Fri, 2023-06-09 at 18:44 +0200, Andreas Gruenbacher wrote:
+> > Jeff,
+> >
+> > On Fri, Jun 9, 2023 at 2:50=E2=80=AFPM Jeff Layton <jlayton@kernel.org>=
+ wrote:
+> > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > > ---
+> > >  fs/gfs2/quota.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/fs/gfs2/quota.c b/fs/gfs2/quota.c
+> > > index 1ed17226d9ed..6d283e071b90 100644
+> > > --- a/fs/gfs2/quota.c
+> > > +++ b/fs/gfs2/quota.c
+> > > @@ -869,7 +869,7 @@ static int gfs2_adjust_quota(struct gfs2_inode *i=
+p, loff_t loc,
+> > >                 size =3D loc + sizeof(struct gfs2_quota);
+> > >                 if (size > inode->i_size)
+> > >                         i_size_write(inode, size);
+> > > -               inode->i_mtime =3D inode->i_atime =3D current_time(in=
+ode);
+> > > +               inode->i_mtime =3D inode->i_atime =3D inode->i_ctime =
+=3D current_time(inode);
+> >
+> > I don't think we need to worry about the ctime of the quota inode as
+> > that inode is internal to the filesystem only.
+> >
+>
+> Thanks Andreas.  I'll plan to drop this patch from the series for now.
+>
+> Does updating the mtime and atime here serve any purpose, or should
+> those also be removed? If you plan to keep the a/mtime updates then I'd
+> still suggest updating the ctime for consistency's sake. It shouldn't
+> cost anything extra to do so since you're dirtying the inode below
+> anyway.
 
-On Wed, 05 Jul 2023 19:27:52 +0200, Gatien Chevallier wrote:
-> Document ETZPC (Extended TrustZone protection controller). ETZPC is a
-> firewall controller.
-> 
-> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
-> ---
->  .../bindings/bus/st,stm32-etzpc.yaml          | 90 +++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml
-> 
+Yes, good point actually, we should keep things consistent for simplicity.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Would you add this back in if you do another posting?
 
-yamllint warnings/errors:
+Thanks,
+Andreas
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml: title: 'STM32 Extended TrustZone protection controller bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-	hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-Documentation/devicetree/bindings/bus/st,stm32-etzpc.example.dtb: /example-0/etzpc@5c007000: failed to match any schema with compatible: ['st,stm32mp13-sys-bus']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230705172759.1610753-4-gatien.chevallier@foss.st.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+> Thanks!
+>
+> > >                 mark_inode_dirty(inode);
+> > >                 set_bit(QDF_REFRESH, &qd->qd_flags);
+> > >         }
+> > > --
+> > > 2.40.1
+> > >
+> >
+> > Thanks,
+> > Andreas
+> >
+>
+> --
+> Jeff Layton <jlayton@kernel.org>
+>
 
