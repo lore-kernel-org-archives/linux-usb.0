@@ -2,99 +2,82 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E25D9C04A6A
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jul 2023 15:54:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04DBAEB64DA
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jul 2023 16:28:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232846AbjGEPyB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Jul 2023 11:54:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34206 "EHLO
+        id S232767AbjGEQ2e (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Jul 2023 12:28:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232113AbjGEPyA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Jul 2023 11:54:00 -0400
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30BAE12A;
-        Wed,  5 Jul 2023 08:53:59 -0700 (PDT)
-Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-7836164a08aso333897239f.1;
-        Wed, 05 Jul 2023 08:53:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688572438; x=1691164438;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3RLbkYBSMtZSZWsdqOipQPRF1AXaIm7IXw5H9F31xDg=;
-        b=YOqBHMuBehhI/6uka/fZOxhJyax+4qIFzKd0buYsQuhqnnScQyhVdSkC7Ns2BzAsAX
-         2fmBfR9utC9mjai0aTY3EkUE37XQriezfYOPQMpzYk1wn63E7oS0ICNvHGkT8cA9d57G
-         AFpc1RKl+FSvTHDZnnK3ePskWfK0y/sac06IfVczJjk5Tm4DbC9MfjBCp1j2+t6uu9p3
-         S8a5i6J+TlxwDXF5i2CohEOBhzseFE9847xH569wijaIninvh9VkapHsXLHD6gwQEKWS
-         ZEc55j1BAEYyxJ9FdSVc1BXUVNTMMj2UepKO4KfIx9YO8sLtwQE6wn2UWs/gRmeB2Vpn
-         vRkQ==
-X-Gm-Message-State: AC+VfDx0wiFQ35lCD5kTnt/OdJ9vRUKVoS93ym466XbHpyA+iBbRj2zA
-        21SOrvPeiRShKnXXatsB+w==
-X-Google-Smtp-Source: ACHHUZ73QtYKyynoI9ylI1XEWC2lq+A/sJ6q02lzFpAinNpUOyDvzNhBset5FBiQu0bFE/MLWXDyOg==
-X-Received: by 2002:a5e:8811:0:b0:785:ca70:46a2 with SMTP id l17-20020a5e8811000000b00785ca7046a2mr18137083ioj.4.1688572438444;
-        Wed, 05 Jul 2023 08:53:58 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id q15-20020a02c8cf000000b0042ad6abe0bbsm6425382jao.20.2023.07.05.08.53.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jul 2023 08:53:57 -0700 (PDT)
-Received: (nullmailer pid 691642 invoked by uid 1000);
-        Wed, 05 Jul 2023 15:53:55 -0000
-Date:   Wed, 5 Jul 2023 09:53:55 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Leo Yan <leo.yan@linaro.org>, linux-arm-kernel@lists.infradead.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-mtd@lists.infradead.org,
-        freedreno@lists.freedesktop.org, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-phy@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-amlogic@lists.infradead.org
-Subject: Re: [PATCH] dt-bindings: cleanup DTS example whitespaces
-Message-ID: <168857243311.691536.13322875472425620659.robh@kernel.org>
-References: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
+        with ESMTP id S231862AbjGEQ2e (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Jul 2023 12:28:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A3BB10EA
+        for <linux-usb@vger.kernel.org>; Wed,  5 Jul 2023 09:28:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D3E6361607
+        for <linux-usb@vger.kernel.org>; Wed,  5 Jul 2023 16:28:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAA53C433C7;
+        Wed,  5 Jul 2023 16:28:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1688574512;
+        bh=UekY+KrohU7z0srghdzHFLTFVOai6keIVhcjckbSOpo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=0rQGb6Ky6pOoGc4JQul6COr8/PotzL4Vw/HM7O2+gxHc23/YxhXe3wSgeepzlOX7O
+         kL/X9ijaP7qhNF70H5EJd7oGIy7R6o5sMItTUgtIyj9yUrdiiLVnMyLJR4y4gToAFZ
+         k75OSBvcXdv6TCp1UalcBouZqQmN8Y9uwVfNAXAA=
+Date:   Wed, 5 Jul 2023 17:28:29 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Li Jun <jun.li@nxp.com>
+Cc:     mathias.nyman@intel.com, linux-usb@vger.kernel.org,
+        aisheng.dong@nxp.com
+Subject: Re: [PATCH] usb: host: xhci: fix coverity checker
+ CONSTANT_EXPRESSION_RESULT warning
+Message-ID: <2023070525-underpass-brought-11be@gregkh>
+References: <20230705105743.553052-1-jun.li@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230705105743.553052-1-jun.li@nxp.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On Wed, Jul 05, 2023 at 06:57:43PM +0800, Li Jun wrote:
+> CID 28889612: Operands don't affect result (CONSTANT_EXPRESSION_RESULT)
+> result_independent_of_operands: urb->transfer_dma >> 16 >> 16 is 0
+> regardless of the values of its operands. This occurs as an argument
+> to a function call.
 
-On Sun, 02 Jul 2023 20:23:08 +0200, Krzysztof Kozlowski wrote:
-> The DTS code coding style expects spaces around '=' sign.
+What does "CID BIGNUMBER" mean?
+
+> So convert the dma address to be u64 when extract its upper 32 bits.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
+> Signed-off-by: Li Jun <jun.li@nxp.com>
+
+What commit id does this fix?
+
+
 > ---
+>  drivers/usb/host/xhci-ring.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> Rob,
-> 
-> Maybe this could go via your tree? Rebased on your for-next:
-> v6.4-rc2-45-gf0ac35049606
-> ---
->  .../bindings/arm/arm,coresight-cti.yaml        | 18 +++++++++---------
->  .../bindings/arm/keystone/ti,sci.yaml          |  8 ++++----
->  .../devicetree/bindings/display/msm/gmu.yaml   |  2 +-
->  .../display/panel/samsung,s6e8aa0.yaml         |  2 +-
->  .../display/rockchip/rockchip-vop.yaml         |  4 ++--
->  .../bindings/iio/adc/ti,adc108s102.yaml        |  2 +-
->  .../bindings/media/renesas,rzg2l-cru.yaml      |  4 ++--
->  .../devicetree/bindings/media/renesas,vin.yaml |  4 ++--
->  .../devicetree/bindings/mtd/mtd-physmap.yaml   |  2 +-
->  .../bindings/net/mediatek-dwmac.yaml           |  2 +-
->  .../bindings/perf/amlogic,g12-ddr-pmu.yaml     |  4 ++--
->  .../bindings/phy/mediatek,dsi-phy.yaml         |  2 +-
->  .../remoteproc/amlogic,meson-mx-ao-arc.yaml    |  2 +-
->  .../devicetree/bindings/usb/mediatek,mtu3.yaml |  2 +-
->  .../devicetree/bindings/usb/ti,am62-usb.yaml   |  2 +-
->  15 files changed, 30 insertions(+), 30 deletions(-)
-> 
+> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+> index 646ff125def5..847a1eadd17a 100644
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+> @@ -747,7 +747,7 @@ static int xhci_move_dequeue_past_td(struct xhci_hcd *xhci,
+>  		trb_sct = SCT_FOR_TRB(SCT_PRI_TR);
+>  	ret = queue_command(xhci, cmd,
+>  		lower_32_bits(addr) | trb_sct | new_cycle,
+> -		upper_32_bits(addr),
+> +		upper_32_bits((u64) addr),
 
-Applied, thanks!
+Is this really actually changing anything?
 
+thanks,
+
+greg k-h
