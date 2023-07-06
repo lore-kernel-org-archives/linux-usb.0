@@ -2,1515 +2,245 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2934EB64D9
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Jul 2023 22:04:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 438E8EB64DD
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Jul 2023 22:34:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231905AbjGFWEM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Jul 2023 18:04:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38262 "EHLO
+        id S231609AbjGFWeb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Jul 2023 18:34:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231149AbjGFWEK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Jul 2023 18:04:10 -0400
-Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com [148.163.143.35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B1341BFC;
-        Thu,  6 Jul 2023 15:04:04 -0700 (PDT)
-Received: from pps.filterd (m0150244.ppops.net [127.0.0.1])
-        by mx0b-002e3701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 366M1vCT014356;
-        Thu, 6 Jul 2023 22:03:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : subject :
- date : message-id : in-reply-to : references; s=pps0720;
- bh=0Lf+LlQFSBz4ePsXlZoprbsQeLwVREwVVSc8F6fvxBs=;
- b=ag9bAT3NaCsNDphfzH7JgU8WfSoiJ+uhRlTKbzuPlvPMp4WSQI0bWf0vIxVplnFtPDmX
- fMSorUa1aoIM2/3TPrSUtxbYK1b2iGZRdtNQ1byWbyU6Qu6P/cMKnVH5jtQxENCvokI7
- DXJBUJQXMnJuSWZzXThXBkgE39zSTr1FPtDguVj0qlSWuhYCMjgrQ4K8Cwf/AntmDIc5
- aWLzoF7oTWLpmUfFwvlbj5vrvlcLCMQ5iulp4YvrNx24oApCSaSj5DzFFQPfBtEP+1H5
- xozDmKTcsPEu4Atxy4M/DRxLIuLv0CP+Btm8/Q9oRj52307GE3Kdm3G5QPEDJLU0TJ6F SA== 
-Received: from p1lg14881.it.hpe.com (p1lg14881.it.hpe.com [16.230.97.202])
-        by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3rnr18pw18-1
+        with ESMTP id S231245AbjGFWea (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Jul 2023 18:34:30 -0400
+Received: from mx0a-00230701.pphosted.com (mx0a-00230701.pphosted.com [148.163.156.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A9D91FC3;
+        Thu,  6 Jul 2023 15:34:25 -0700 (PDT)
+Received: from pps.filterd (m0098571.ppops.net [127.0.0.1])
+        by mx0a-00230701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 366HIjCi009998;
+        Thu, 6 Jul 2023 15:34:21 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=pfptdkimsnps;
+ bh=MsGLhbOIZF5qZoAicBk8AvaAAS/IWkzH3cEf3Rg/HK0=;
+ b=Gu+5NVwqNZSM52DAKt2AUehcu7bFPXHsV6Ah0YFhkXEhj+WHTXpTFj5jEMc/xD3gkmEB
+ uGmkBxynB7DaJYNB+hs3VOjOVGdHbkDeGID0yTE1P2/wxi6CWXVXhmTwykac/sFok33g
+ 0ORlNMf9vs16Iv68cGhhdcMpAkvakZtr4h5iyOLcIWDPo4WZLHXhpvHn7UZm6EO+9b6Q
+ vxs0BaVQYt3OyWDJq7h8RuFXbwJE0erjBX91hmSpNPivDdNZZVcjRbE3sb5NfUEAU6jy
+ uZ/COSVYZQkgkFLnEOnylo2+6IF8t+77AnVIz2QgA4vSRUC/PkLz8WsIWi5UKFZTwzzu Gw== 
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.73.133])
+        by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 3rjk5mdnaf-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 06 Jul 2023 22:03:52 +0000
-Received: from p1lg14885.dc01.its.hpecorp.net (unknown [10.119.18.236])
+        Thu, 06 Jul 2023 15:34:21 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1688682861; bh=MsGLhbOIZF5qZoAicBk8AvaAAS/IWkzH3cEf3Rg/HK0=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=SE0z7rLG306qu9lxVYOKFUyUvlszVMkwLFxxPDBQqi9ZS7CsYjGO59TffnMd88dcV
+         4VgLhs6FOnmzGPh1oXAfLC3jFsSwsIc0Y+SFpYP1yJlMLbd/CTqlQsuMcdy2kmYNt2
+         XjcVt296HA9sXRYEg1nM4a7kTwYBXFRKXlNyJppqPLddjhqckSkbJrHXXicRBomBZM
+         t14ZWzoPwJwJCIbWml4Zk21OucC+5EPIaF87NZnpTq4T4ZE3X+4M2+AZJrnZb9iRwv
+         30jFmyJTCvpgDKOX62LaiSMtqB78iFpdBGLMSwHWOJvbgsRLVqtI7o4D5GP1XQZY+6
+         lMTiplNZ4c17w==
+Received: from mailhost.synopsys.com (badc-mailhost4.synopsys.com [10.192.0.82])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by p1lg14881.it.hpe.com (Postfix) with ESMTPS id 57FC6804DE4;
-        Thu,  6 Jul 2023 22:03:50 +0000 (UTC)
-Received: from hpe.com (unknown [16.231.227.36])
-        by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTP id D60BA806B4B;
-        Thu,  6 Jul 2023 22:03:49 +0000 (UTC)
-From:   richard.yu@hpe.com
-To:     verdun@hpe.com, nick.hawkins@hpe.com, gregkh@linuxfoundation.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, richard.yu@hpe.com, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 2/3] usb: gadget: udc: gxp-udc: add HPE GXP USB support
-Date:   Thu,  6 Jul 2023 16:59:09 -0500
-Message-Id: <20230706215910.78772-3-richard.yu@hpe.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230706215910.78772-1-richard.yu@hpe.com>
-References: <20230706215910.78772-1-richard.yu@hpe.com>
-X-Proofpoint-GUID: zENeCkNsw9XAYTrkqS4-InwIZJvs3aIc
-X-Proofpoint-ORIG-GUID: zENeCkNsw9XAYTrkqS4-InwIZJvs3aIc
-X-HPE-SCL: -1
+         key-exchange X25519 server-signature RSA-PSS (2048 bits)
+         client-signature RSA-PSS (2048 bits))
+        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 2C91140682;
+        Thu,  6 Jul 2023 22:34:20 +0000 (UTC)
+Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com [10.4.161.137])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
+        by mailhost.synopsys.com (Postfix) with ESMTPS id 7B854A005E;
+        Thu,  6 Jul 2023 22:34:20 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=CZcDlyJJ;
+        dkim-atps=neutral
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
+        by o365relay-in.synopsys.com (Postfix) with ESMTPS id 58F26401CB;
+        Thu,  6 Jul 2023 22:34:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MWETvfAUKDpgiEQTLpRzxMCL+sXkItq3RAYgmEbrMgWLbkQEPUffr362C1FF6N19Br1dqH+bU+bX3I68818KXQQhpWfTOHqG4gtr3Pu8kqB019kgHjPv69bMOeYB1z7721gcGXjm3eC2UjSzlvl0aoxA3kc/sfOsK5nu1NfoHFkHpUlEvz2n7dJ7Gnguo+4N6Oym9syDxKuMT6rUYl//6zbJVJCoXFglfqCYDWBPLZIFTIlNx285Ezmypij7B/vhfIN21+oRTZA6AcsrGQgIH3YDPEyXCiDvcrnvjvheyeTG9YdPizKrhWgQZfJuYTyG404VmSP2qeSZsaijK5bwYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MsGLhbOIZF5qZoAicBk8AvaAAS/IWkzH3cEf3Rg/HK0=;
+ b=DjFY15D04CFF6iy4gQIrqHUEJRHc9Pep5O/HwagAAPT4HPaQwDV/8E/OlzMc9ImmU21h0thOiPWLQnyIAj6sZDluv1sfT10oKmkxHdfnVJ0KVYtEzZHtVIKebNxjDMzbxf5yz+o/Pwq4/5vNkwyOkeTZ1VNUloYKFKe6YNjzhI4HwWtWIarkkRD5noj40NbGL6riZh2rUwibeWek1WIxxfm4XAUMBYTMxxctyXj9c8YSX9OgZoa5KCX0FHAEGmTvE+WgAxdffS38qIk/bjJepklMIUr61Pymswc0zsKhE5KdoOmehZNIzsKrdpnZmd+IV7Yy61437iEY4uAyr/ol1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MsGLhbOIZF5qZoAicBk8AvaAAS/IWkzH3cEf3Rg/HK0=;
+ b=CZcDlyJJBjGV90W0fxjQVAAq34zCp5+LhjTYB7+c9QngFGIDkMV1hSbo2CRuKWucczMAvjj37BTdozIruYxOJ1KE4brxSVMVDJcle3y7zYGCyXbNygGrmebkHdEMXGv4FHwnIMCInfuDBHpPdZ7vJIsvZVhn08QwuRGezQW6tEI=
+Received: from BYAPR12MB4791.namprd12.prod.outlook.com (2603:10b6:a03:10a::12)
+ by PH7PR12MB8826.namprd12.prod.outlook.com (2603:10b6:510:26a::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Thu, 6 Jul
+ 2023 22:34:16 +0000
+Received: from BYAPR12MB4791.namprd12.prod.outlook.com
+ ([fe80::b1a4:d803:b2ff:cc6b]) by BYAPR12MB4791.namprd12.prod.outlook.com
+ ([fe80::b1a4:d803:b2ff:cc6b%3]) with mapi id 15.20.6565.019; Thu, 6 Jul 2023
+ 22:34:16 +0000
+X-SNPS-Relay: synopsys.com
+From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+To:     Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
+CC:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "quic_ppratap@quicinc.com" <quic_ppratap@quicinc.com>,
+        "quic_wcheng@quicinc.com" <quic_wcheng@quicinc.com>,
+        "quic_jackp@quicinc.com" <quic_jackp@quicinc.com>,
+        "quic_ugoswami@quicinc.com" <quic_ugoswami@quicinc.com>
+Subject: Re: [PATCH v2] usb: dwc3: core: set force_gen1 bit in USB31 devices
+ if max speed is SS
+Thread-Topic: [PATCH v2] usb: dwc3: core: set force_gen1 bit in USB31 devices
+ if max speed is SS
+Thread-Index: AQHZhnOYGWoDiciaPkad/64K3wvwX69dmz2AgE95D4CAAJLEgA==
+Date:   Thu, 6 Jul 2023 22:34:16 +0000
+Message-ID: <20230706223411.mlalnochoabofcmj@synopsys.com>
+References: <20230514145118.20973-1-quic_kriskura@quicinc.com>
+ <20230517001105.v74dyo6asqtcrpii@synopsys.com>
+ <fb973659-c645-a4f2-e0fe-a40536e8b9fc@quicinc.com>
+In-Reply-To: <fb973659-c645-a4f2-e0fe-a40536e8b9fc@quicinc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BYAPR12MB4791:EE_|PH7PR12MB8826:EE_
+x-ms-office365-filtering-correlation-id: a1f05fe8-d355-44ee-3767-08db7e7121dd
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 0b9I7L7vrtZivDV5qXkeTD90hQwP0X0vuX+ELd2LManem2nYN1E45Jt0qLol/0/nd9TzU/CBizX2+h9P+eN7f4MoqLF8mAfYk2D8lKdoBoJUlwB+Z0UVWWIgELR7s7VDQu6ULZo55FYXZfpAfuk3Dt02oTFtg0qwHiLrfXg032W0Byc1dg+21GDEYBdmM7myY2euhZPAsFPzDyPH3zDqeDdmNPmTwdYO/8zeHCE5La/r12SNqNv28TPbDL9Yaq+O0r9CSEhhZmisiLgrVw5exNIT6nUDgeXSUpSHD4i2Qt1DZPYXXaG+7H+j9nidXSphDsPbygYJ0gLB7HhGXxUH65DMfC/8oto/mCXRxTgWS/GKr7XaeNodrV6Qu6K2l8zMNCJT/DjFs0f1ZRIBz/XhgEEygxxg62TyRsz9WahXxijU+8pA2xotf3CXeSJ3HuzIbgU3GeCqocBnfEIez9A0ucuMrgqBZEv2UGSFsyZJwenpvQtCkmwjI46ADlRL3C6LxL1pqI16pBDayFaYtjNB5pnQ2tMVKisZSPDygEfEiuoG5SsPZIQm+jrnWulUm17YQDiYMzcSoDNUNB4sMKFAdvlRxFiIC6dZHGMQmqxbK8Wd5TT7X6/CuJN4IEFsw0y/KcPCVbNqWkFt4PR91dV3Mg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB4791.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(39860400002)(396003)(376002)(136003)(346002)(451199021)(66476007)(41300700001)(38070700005)(6512007)(966005)(478600001)(54906003)(86362001)(38100700002)(122000001)(71200400001)(6486002)(316002)(66946007)(3716004)(66556008)(4326008)(64756008)(83380400001)(6916009)(91956017)(36756003)(8676002)(2906002)(8936002)(2616005)(5660300002)(66446008)(1076003)(186003)(6506007)(53546011)(26005)(76116006);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bHl2eGFqSWRyM29hMXMzM2l5cFUrRFdzN3pOdGM0ZjF4QkUydUxHclpzbUlr?=
+ =?utf-8?B?Rm1qTVhLSXRJUVpxdUZTSFJIaXhpcVV2OUc3NjlWNlY2MkNIT2psNUNVbWYv?=
+ =?utf-8?B?cllLWFVIbWxKdUdMMW1OdVdmS2YxZitoaEFtdXhLWTgzY2NmblRsd2UzNmYy?=
+ =?utf-8?B?bzBEQTU1UHZqWVN1bTZhOHlLWDFHZEVpTmx5YU5SQ29aTFlabFFFaXBpUlY5?=
+ =?utf-8?B?L2VDQkJhZVpwRFdENXNTTVc2QnlqMHBEOG1IWXQ3TXVkTmVod1NUQzg5M0NS?=
+ =?utf-8?B?WlB2Tk8wa0wvL3Z1d3hUcE50ckRpOWxUUlM1MmFYSjlxSlMwSFlvWTBKRWtS?=
+ =?utf-8?B?WXl1RzdjTmMxSVFvUm55YzQwaXBwS3NYRGx1MlVJNk5ZWlFBczVjSG9LTGk4?=
+ =?utf-8?B?ZkVmaDFQbzk0Qi9aeDd0Vnp0ZzFHYUdoeHAzajFNVXM1eXNXa21BT0pzbTVF?=
+ =?utf-8?B?eGRjdTdjbHdMY1U0UW9MY2JWNGtUbWdZSEo1cmlJTTBkZFhnVHU0eUdPSDh0?=
+ =?utf-8?B?ZGpoR1kyQ29MNjdJamFqdzhjMTEyQU5PL09kQzJtRWdmNlFYK05OUDFQY3RB?=
+ =?utf-8?B?NldhWFdNTllucTgzYWFZVzFDUHB4Q243eHEyNko2U1FBMlBXZXdpWW1iTXZF?=
+ =?utf-8?B?ZnJIbXZ1aXp1NDdSYWt4cFZCY09pVHlxd2gzZForQW5XT0xxRVllSUJSRCs2?=
+ =?utf-8?B?ejd0K1FmeHRCcmFGODNLMlZHU24xVUJNZHJQRU5sanhMd1ZXY1hWdHVsUnVn?=
+ =?utf-8?B?eTVSc1NiV1ZiR0JLNDB5SVlNZDJjbUM4SHdJS0JoNDlJZDRZcUE2bEFCLy9t?=
+ =?utf-8?B?MTBZZFpNb0hGLy9mMkFrcXNTb3JNcjhsOUhCd0tQbitnWkJyRGd6MU5pYVM5?=
+ =?utf-8?B?NHJ3VVJCR2M0S0YrWVExVkJyNC9tNU51YXNUb3h3ZTl5eXpzZnBYdlU5M2w3?=
+ =?utf-8?B?dTRtbnRocW15ZUhpWUFtc28rNnZuQ3B5Y01Edyt4WWYxOWZmc0tvL0M1UmR6?=
+ =?utf-8?B?VnBYNW5DaDN5bzkyUzl3SWZtbkErUHdHaThCRUU0Z2pTK05mMUphK3RMWm9t?=
+ =?utf-8?B?bTVqc2ZRK2gyTkxrM010MGcrVWQxOHNGU0Z5UHd0YjFrcG1uRUxhTDY3SXd3?=
+ =?utf-8?B?WWN5ZWcwNndRMGJxL1Vqa3l5WC92citnbndkNHc2OTllSnVqQ1lIYk9RU01u?=
+ =?utf-8?B?cXpoOStUNXlBazQxdkNKSk91M0c1QUIvcXN5Syt4MitwelhtRUJFNlJXL1hZ?=
+ =?utf-8?B?L0k4UFkxQUNWYXhVOWpFNDNqZlpEamlqK1YyV3NjU01lMm8vQmdDUUQvOCtZ?=
+ =?utf-8?B?aHhRQXpHV0FoL2hzUEh2M3pXalFXNk1jaFNjQkJHQU10TVJmd3JQbXZ2dUJK?=
+ =?utf-8?B?eWhCa1BNdDRTelB2VERJaXhzMEowOEMyRTJ4VEVMOEh0dVpCdVRxcExFaUdU?=
+ =?utf-8?B?aVBkRTV0cUNFT3RvekNDTjU5QW56RmlhcWR3REpWdzJOTmU1blBxMVVpOHl5?=
+ =?utf-8?B?emQ0STZlRnQ0RUxZM3BFeFoyZzZJLzlYUjFueFhabDRPb0ozOTM4WjhNbzF0?=
+ =?utf-8?B?ZjNibDhyVEVFS242aHY2dHBIQk1PMzQyeHJrNGYvMjdsU2hlRktucjZzVHRR?=
+ =?utf-8?B?VHNtRGIwQXQrR2JKeXhoOE9ZU0JKN0ZIM3FPSU1Od0pHeVBaMTR4WHVHeXRx?=
+ =?utf-8?B?T2cxRlY3SHEvVUFBdkViUStXTVNqZi90V3lDSDF2NGkrbjRMM2JUOCtrcUV3?=
+ =?utf-8?B?Ym5nbk1jNWkyejdDMlBFZGY4RHAveTRGWjgwNHRuT0RsSnYxUnJiekl0Zjhz?=
+ =?utf-8?B?N3lsUTdXVDVmcjB6blh4WFk2ckNRbjhKSkNZVlpkU21ibFBWOTBVb2pRdUFF?=
+ =?utf-8?B?U1FDdUhhRkw4VnJrVElSQ2VSMlJUcjB4eXRPcnRDQmtoWFFDMlFEc21iNHFs?=
+ =?utf-8?B?Mm9pWCtiOTR1blczSXB6aEZmem9rV0dDUGxGWHYvR2R2cUhEWkFWRVQ3V215?=
+ =?utf-8?B?T2ZtTzNwQVlaREJqY3BDKzVvM1ROKzcxNWJyN1dvN3hEUWJIV2RsR3YzZXZu?=
+ =?utf-8?B?MThSamdXeUQ2N05KQWcxZnJZZnlFTmJhSlFMcXZLSkpqamMwSEFtaDgrbDJN?=
+ =?utf-8?Q?Y6BNFnfjERXRfP7nC02z2q6fG?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <ED88A2500B97CC46BB7D8345CB094BBA@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: w5gcXYbpCUR3qbNbkYuA6gjx3/sGX9G4ZADdAgoSnmOXC+VTF7M+l9WDJEIR052dEK+cr1IVGF8+ccJurQMNX8+iR8XG94qURWXiXELZnokTzTdCgwF/ccQmyosbKvaG+HjJWg3bhgIzEePtlwUaBWHuz0K585eLJS+P4kO7UWNqKSGGud1NeZnIV5zEnjCa4DLBmqYEcuFdcibzvOuvfGuXPTSSS0WnFxFx22KTFUsQaRKj8lGEBbNvLtiAEXgtc4rqDtTLyHzN4OBDib3Jb4I4Xre37sul0QvIbf2sOdIZQoKTVWbpoU7fnEB+8G/EdlsmCuQXKs+xvbrlMsOQGI1l7og7guiDmm1H0kWcNldAMZJwh75WSuEPcwDCjkDGXPY0a2g+J7DkeAbu3xWNSEGHXdBy/nR+QC1nTzfLsPIiFf8AcW8KpXK0SHemukcBHdBIAMun2yiIQ3aw21MKmtcbttSWRWP1yDfgzPYfXn+cj6okQ8ixmCa5VNtP9ncYl7u1U8LdfDtrdccaWynBZ3tQn8Z5WdanD22HGegpLQBxjQUKyzeiE0Hvgsa/dps/jHxEJrsMoE47E4ylF87BLSkxFNZDiwPin8R11xeX/fv3yBQD2mDM6L9qpTmT/7NvaszFd6w/0+S+d75ArQhGJf4pti1kAlePdGYKHvvaMiTgpQOVQ2zDlBBI0GF5HTQkcMJvJHYDS/L4izlGQoF+PffMGKjd9OEUr+UfWyD9xdoJrkmyMsbBQpG2FdB5cQHlG+RP6X7bT51Xr9OFWtSM79X0tck56a1mT6GD1J2PjC4bBEpKPKT/hddbHezlvzxQKD7i1EV1XC7Zy7yNhGYRE1ShfEWUuauTGHQidVXgUSJY/9GJaUlhpjEZrEWu3/CBiP3Bifi8ackA6+g2fzQE8A==
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4791.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1f05fe8-d355-44ee-3767-08db7e7121dd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jul 2023 22:34:16.7053
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: IeZGeBbRk5wX1pII56mcEe47eEzvUn+KogjiOthXmjNutt4a7tH4hHR1jVorVrgJoCJ51dTsNnxZpB1bIV61rg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8826
+X-Proofpoint-GUID: ck3YFoXDaNIh9_sDtuaEFdQeqXsqC2qT
+X-Proofpoint-ORIG-GUID: ck3YFoXDaNIh9_sDtuaEFdQeqXsqC2qT
 X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
  definitions=2023-07-06_15,2023-07-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=790
- spamscore=0 lowpriorityscore=0 phishscore=0 mlxscore=0 malwarescore=0
- priorityscore=1501 adultscore=0 clxscore=1015 impostorscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307060193
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
+ mlxscore=0 bulkscore=0 mlxlogscore=999 adultscore=0 phishscore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 malwarescore=0
+ suspectscore=0 lowpriorityscore=0 clxscore=1015 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2307060197
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Richard Yu <richard.yu@hpe.com>
-
-The HPE GXP vEHCI controller presents a four port EHCI compatible PCI
-function to host software. Each vEHCI port is logically connected to a
-corresponding set of virtual device registers.
-
-Signed-off-by: Richard Yu <richard.yu@hpe.com>
----
- drivers/usb/gadget/udc/Kconfig   |    6 +
- drivers/usb/gadget/udc/Makefile  |    1 +
- drivers/usb/gadget/udc/gxp-udc.c | 1401 ++++++++++++++++++++++++++++++
- 3 files changed, 1408 insertions(+)
- create mode 100644 drivers/usb/gadget/udc/gxp-udc.c
-
-diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
-index 83cae6bb12eb..c01eb2a2c7db 100644
---- a/drivers/usb/gadget/udc/Kconfig
-+++ b/drivers/usb/gadget/udc/Kconfig
-@@ -461,6 +461,12 @@ config USB_ASPEED_UDC
- 	  dynamically linked module called "aspeed_udc" and force all
- 	  gadget drivers to also be dynamically linked.
- 
-+config USB_GXP_UDC
-+        bool "GXP UDC Driver"
-+        depends on ARCH_HPE_GXP || COMPILE_TEST
-+        help
-+          Say "y" to add support for GXP UDC driver
-+
- source "drivers/usb/gadget/udc/aspeed-vhub/Kconfig"
- 
- #
-diff --git a/drivers/usb/gadget/udc/Makefile b/drivers/usb/gadget/udc/Makefile
-index ee569f63c74a..63fa262f31c5 100644
---- a/drivers/usb/gadget/udc/Makefile
-+++ b/drivers/usb/gadget/udc/Makefile
-@@ -42,3 +42,4 @@ obj-$(CONFIG_USB_ASPEED_VHUB)	+= aspeed-vhub/
- obj-$(CONFIG_USB_ASPEED_UDC)	+= aspeed_udc.o
- obj-$(CONFIG_USB_BDC_UDC)	+= bdc/
- obj-$(CONFIG_USB_MAX3420_UDC)	+= max3420_udc.o
-+obj-$(CONFIG_USB_GXP_UDC)	+= gxp-udc.o
-diff --git a/drivers/usb/gadget/udc/gxp-udc.c b/drivers/usb/gadget/udc/gxp-udc.c
-new file mode 100644
-index 000000000000..97d198128c06
---- /dev/null
-+++ b/drivers/usb/gadget/udc/gxp-udc.c
-@@ -0,0 +1,1401 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* Copyright (C) 2023 Hewlett-Packard Enterprise Development Company, L.P. */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/spinlock.h>
-+#include <linux/interrupt.h>
-+#include <linux/platform_device.h>
-+#include <linux/of_platform.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/delay.h>
-+#include <linux/io.h>
-+#include <linux/slab.h>
-+#include <linux/clk.h>
-+#include <linux/err.h>
-+#include <linux/usb/ch9.h>
-+#include <linux/usb/gadget.h>
-+#include <linux/usb/otg.h>
-+#include <linux/prefetch.h>
-+#include <linux/regmap.h>
-+#include <linux/mfd/syscon.h>
-+
-+#define VUHCBASE	0x80400000
-+#define FRINDEX		0x0000002c
-+
-+#define EVGBASE		0x0800
-+#define EVGISTAT	0x0000
-+#define EVGIEN		0x0004
-+#define EVDBG		0x0008
-+#define EVFEMAP		0x0010
-+#define EVFEMAP_VDEVNUM_MASK	0x07
-+#define EVFEMAP_VDEVNUM(val)	val
-+#define EVFEMAP_EPNUM_MASK	0x70
-+#define EVFEMAP_EPNUM(val)	((val) << 4)
-+
-+#define EVDBASE		0x1000
-+#define EVDISTAT	0x0000
-+#define EVDISTAT_ALL_EP_INT	0x000000ff
-+#define EVDISTAT_EP0_INT	0x00000001
-+#define EVDISTAT_EP1_INT	0x00000002
-+#define EVDISTAT_EP2_INT	0x00000004
-+#define EVDISTAT_EP3_INT	0x00000008
-+#define EVDISTAT_EP4_INT	0x00000010
-+#define EVDISTAT_EP5_INT	0x00000020
-+#define EVDISTAT_EP6_INT	0x00000040
-+#define EVDISTAT_EP7_INT	0x00000080
-+#define EVDISTAT_SETUP_DAT_RCV	0x00010000
-+#define EVDISTAT_PORTEN_CHANGE	0x00100000
-+#define EVDISTAT_PORTRST	0x80000000
-+
-+#define EVDIEN 0x0004
-+
-+#define EVDISTAT_MASK (EVDISTAT_SETUP_DAT_RCV | EVDISTAT_PORTEN_CHANGE | \
-+					   EVDISTAT_PORTRST | EVDISTAT_ALL_EP_INT)
-+#define EVDIEN_MASK (EVDISTAT_SETUP_DAT_RCV | EVDISTAT_PORTEN_CHANGE | \
-+					 EVDISTAT_PORTRST | EVDISTAT_EP0_INT)
-+
-+#define EVDCS			0x0008
-+#define EVDCS_CONNECT		0x00000001
-+#define EVDCS_PORTENABLESTS	0x01000000
-+
-+#define EVDADDR			0x000c
-+#define EVDSETUPL		0x0010
-+#define EVDSETUPH		0x0014
-+
-+#define EVDEPCC			0x0000
-+#define EVDEPCC_EPENABLE	0x00000001
-+#define EVDEPCC_CFGINOUT	0x00000002
-+#define EVDEPCC_DT_RESET	0x00000004
-+#define EVDEPCC_DISARMCMD	0x00000020
-+#define EVDEPCC_STALL		0x00000080
-+#define EVDEPCC_TXN_PER_UFRAME_MASK	0x00030000
-+#define EVDEPCC_TXN_PER_UFRAME(val)	((val) << 16)
-+#define EVDEPCC_EP_TYPE_MASK		0x000C0000
-+#define EVDEPCC_EP_TYPE(val)		((val) << 18)
-+#define EVDEPCC_EP_SIZE_MASK		0x00700000
-+#define EVDEPCC_EP_SIZE(val)		((val) << 20)
-+
-+#define EP_TYPE_CONTROL		0x00
-+#define EP_TYPE_BULK		0x01
-+#define EP_TYPE_INT		0x02
-+#define EP_TYPE_ISOC		0x03
-+
-+#define EP_IN			0x01
-+#define EP_OUT			0x00
-+
-+#define EVDEPSTS		0x0004
-+#define EVDEPSTS_DONE		0x00000001
-+#define EVDEPSTS_SHORT		0x00000002
-+#define EVDEPSTS_STALLDET	0x00000004
-+#define EVDEPSTS_BUFARMED	0x00010000
-+
-+#define EVDEPEVTEN		0x0008
-+#define EVDEPEVTEN_DONE		0x00000001
-+#define EVDEPEVTEN_SHORT	0x00000002
-+#define EVDEPEVTEN_STALLDET	0x00000004
-+#define EVDEPADDR		0x000c
-+#define EVDEPLEN		0x0010
-+#define EVDEPNTX		0x0014
-+
-+#define GXP_UDC_MAX_NUM_EP	8
-+#define GXP_UDC_MAX_NUM_FLEX_EP	16
-+#define GXP_UDC_MAX_NUM_VDEVICE	8
-+#define GXP_UDC_MAX_NUM_FLEX_EP_PER_VDEV	7
-+
-+static bool udcg_init_done;
-+
-+static const char * const gxp_udc_name[] = {
-+	"gxp-udc0", "gxp-udc1", "gxp-udc2", "gxp-udc3",
-+	"gxp-udc4", "gxp-udc5", "gxp-udc6", "gxp-udc7"};
-+
-+static const char * const gxp_udc_ep_name[] = {
-+	"ep0", "ep1", "ep2", "ep3", "ep4", "ep5", "ep6", "ep7"};
-+
-+struct gxp_udc_req {
-+	struct usb_request req;
-+	struct list_head queue;
-+};
-+
-+struct gxp_udc_ep {
-+	void __iomem *base;
-+	struct gxp_udc_drvdata *drvdata;
-+
-+	struct usb_ep ep;
-+	struct list_head queue;
-+	unsigned char epnum;
-+	unsigned char type;
-+	bool stall;
-+	bool wedged;
-+	int is_in;
-+};
-+
-+struct gxp_udc_drvdata {
-+	void __iomem *base;
-+	struct platform_device *pdev;
-+	struct regmap *udcg_map;
-+	struct gxp_udc_ep ep[GXP_UDC_MAX_NUM_EP];
-+
-+	int irq;
-+
-+	/* sysfs enclosure for the gadget gunk */
-+	struct device *port_dev;
-+
-+	struct usb_gadget gadget;
-+	struct usb_gadget_driver *driver;
-+
-+	u32 vdevnum;
-+	u32 fepnum;
-+	u32 devaddr;
-+
-+	__le16	ep0_data;
-+	struct usb_request *ep0_req;
-+	bool deffer_set_address;
-+
-+	/* this lock is used to protect the drvdata structure access */
-+	spinlock_t lock;
-+};
-+
-+struct gxp_udcg_drvdata {
-+	void __iomem *base;
-+	struct platform_device *pdev;
-+	void __iomem *udcg_base;
-+	struct regmap *udcg_map;
-+	struct gxp_udc_ep ep[GXP_UDC_MAX_NUM_EP];
-+
-+	int irq;
-+
-+	u32 max_vdevnum;
-+	u32 max_fepnum;
-+	u32 devaddr;
-+	struct gxp_udc_drvdata *udc_drvdata[GXP_UDC_MAX_NUM_VDEVICE];
-+
-+	/* this lock is used to protect the udcg drvdata structure access */
-+	spinlock_t lock;
-+};
-+
-+struct regmap_config regmap_cfg = {
-+	.reg_bits = 32,
-+	.reg_stride = 4,
-+	.val_bits = 32,
-+};
-+
-+static void gxp_udc_out_0byte_status(struct gxp_udc_ep *ep);
-+static void gxp_udc_in_0byte_status(struct gxp_udc_ep *ep);
-+
-+static unsigned char gxp_udc_femap_read(struct gxp_udc_drvdata *drvdata,
-+					int fep)
-+{
-+	unsigned int value;
-+	int i = fep & 0x03;
-+
-+	regmap_read(drvdata->udcg_map, EVFEMAP + (fep & ~0x03), &value);
-+	value = (value >> (8 * i)) & 0xff;
-+
-+	return  (unsigned char)value;
-+}
-+
-+static void gxp_udc_femap_write(struct gxp_udc_drvdata *drvdata, int fep,
-+				unsigned char value)
-+{
-+	unsigned int reg;
-+	unsigned int tmp = value;
-+	int i = fep & 0x03;
-+
-+	regmap_read(drvdata->udcg_map, EVFEMAP + (fep & ~0x03), &reg);
-+	tmp = tmp << (8 * i);
-+	reg &= ~(0xff << (8 * i));
-+	reg |= tmp;
-+	regmap_write(drvdata->udcg_map, EVFEMAP + (fep & ~0x03), reg);
-+}
-+
-+static int gxp_udc_start_dma(struct gxp_udc_ep *ep, struct gxp_udc_req *req)
-+{
-+	writel(req->req.dma, ep->base + EVDEPADDR);
-+	writel(req->req.length, ep->base + EVDEPLEN);
-+
-+	return 0;
-+}
-+
-+static int gxp_udc_done_dma(struct gxp_udc_ep *ep, struct gxp_udc_req *req)
-+{
-+	u32 len;
-+
-+	len = readl(ep->base + EVDEPLEN);
-+	req->req.actual = req->req.length - len;
-+
-+	if (len && ep->is_in) {
-+		/* remaining data to send, rearm again */
-+		writel(len, ep->base + EVDEPLEN);
-+		return 0;
-+	}
-+	return 1;
-+}
-+
-+static u32 evdepcc_ep_type(int value)
-+{
-+	switch (value) {
-+	case USB_ENDPOINT_XFER_CONTROL:
-+		/* control */
-+		return EP_TYPE_CONTROL;
-+
-+	case USB_ENDPOINT_XFER_ISOC:
-+		/* isochronous */
-+		return EP_TYPE_ISOC;
-+
-+	case USB_ENDPOINT_XFER_BULK:
-+		/* bulk */
-+		return EP_TYPE_BULK;
-+
-+	case USB_ENDPOINT_XFER_INT:
-+		/* interrupt */
-+		return EP_TYPE_INT;
-+
-+	default:
-+		return 0;
-+	}
-+}
-+
-+static u32 evdepcc_ep_size(int value)
-+{
-+	switch (value) {
-+	case 8:
-+		return 0x00;
-+	case 16:
-+		return 0x01;
-+	case 32:
-+		return 0x02;
-+	case 64:
-+		return 0x03;
-+	case 128:
-+		return 0x04;
-+	case 256:
-+		return 0x05;
-+	case 512:
-+		return 0x06;
-+	case 1024:
-+	default:
-+		return 0x07;
-+	}
-+}
-+
-+static int gxp_udc_ep_init(struct gxp_udc_ep *ep, int type, int dir_in,
-+			   int size)
-+{
-+	u32 val;
-+	u32 tmp;
-+
-+	ep->is_in = dir_in;
-+	ep->type = type;
-+	ep->ep.maxpacket = size;
-+
-+	val = readl(ep->base + EVDEPCC);
-+	if (dir_in) {
-+		/* to host */
-+		val |= EVDEPCC_CFGINOUT;
-+	} else {
-+		/* to device */
-+		val &= ~EVDEPCC_CFGINOUT;
-+	}
-+
-+	tmp = evdepcc_ep_type(type);
-+	val &= ~EVDEPCC_EP_TYPE_MASK;
-+	val |= EVDEPCC_EP_TYPE(tmp);
-+
-+	tmp = evdepcc_ep_size(size);
-+	val &= ~EVDEPCC_EP_SIZE_MASK;
-+	val |= EVDEPCC_EP_SIZE(tmp);
-+
-+	val &= ~EVDEPCC_TXN_PER_UFRAME_MASK;
-+	if (type == USB_ENDPOINT_XFER_INT ||
-+	    type == USB_ENDPOINT_XFER_ISOC) {
-+		val |= EVDEPCC_TXN_PER_UFRAME(1);
-+	}
-+
-+	val |= EVDEPCC_EPENABLE;
-+	writel(val, ep->base + EVDEPCC);
-+
-+	val = readl(ep->base + EVDEPSTS);
-+	val &= ~(EVDEPSTS_DONE | EVDEPSTS_SHORT | EVDEPSTS_STALLDET);
-+	writel(val, ep->base + EVDEPSTS);
-+
-+	val = readl(ep->base + EVDEPEVTEN);
-+	val |= EVDEPEVTEN_DONE;
-+	val |= EVDEPEVTEN_SHORT;
-+	val |= EVDEPEVTEN_STALLDET;
-+	writel(val, ep->base + EVDEPEVTEN);
-+
-+	return 0;
-+}
-+
-+static struct usb_request *gxp_udc_ep_alloc_request(struct usb_ep *_ep,
-+						    gfp_t gfp_flags)
-+{
-+	struct gxp_udc_req *req;
-+	struct gxp_udc_ep *ep;
-+
-+	req = kzalloc(sizeof(*req), gfp_flags);
-+	if (!req)
-+		return NULL;
-+
-+	ep = container_of(_ep, struct gxp_udc_ep, ep);
-+	pr_debug("%s: ep%d\n", __func__, ep->epnum);
-+
-+	INIT_LIST_HEAD(&req->queue);
-+
-+	return &req->req;
-+}
-+
-+static void gxp_udc_ep_free_request(struct usb_ep *_ep,
-+				    struct usb_request *_req)
-+{
-+	struct gxp_udc_req *req;
-+	struct gxp_udc_ep *ep;
-+
-+	if (!_req)
-+		return;
-+
-+	ep = container_of(_ep, struct gxp_udc_ep, ep);
-+
-+	req = container_of(_req, struct gxp_udc_req, req);
-+	WARN_ON(!list_empty(&req->queue));
-+	kfree(req);
-+}
-+
-+static int gxp_udc_ep_queue(struct usb_ep *_ep, struct usb_request *_req,
-+			    gfp_t gfp_flags)
-+{
-+	struct gxp_udc_req *req;
-+	struct gxp_udc_ep *ep;
-+	unsigned long flags;
-+	u32 val;
-+	int ret;
-+
-+	if (!_req || !_ep)
-+		return -EINVAL;
-+
-+	ep = container_of(_ep, struct gxp_udc_ep, ep);
-+	req = container_of(_req, struct gxp_udc_req, req);
-+
-+	if (!ep->drvdata->driver ||
-+	    ep->drvdata->gadget.speed == USB_SPEED_UNKNOWN)
-+		return -ESHUTDOWN;
-+
-+	spin_lock_irqsave(&ep->drvdata->lock, flags);
-+
-+	if (ep->epnum == 0) {
-+		val = readl(ep->base + EVDEPCC);
-+		ep->is_in = (val & EVDEPCC_CFGINOUT) ? 1 : 0;
-+
-+		if (!_req->length) {
-+			/* ep0 control write transaction no data stage. */
-+			_req->status = 0;
-+
-+			if (_req->complete) {
-+				spin_unlock(&ep->drvdata->lock);
-+				usb_gadget_giveback_request(_ep, _req);
-+				spin_lock(&ep->drvdata->lock);
-+			}
-+
-+			gxp_udc_in_0byte_status(ep);
-+			return 0;
-+		}
-+	}
-+
-+	ret = usb_gadget_map_request(&ep->drvdata->gadget,
-+				     &req->req, ep->is_in);
-+	if (ret) {
-+		dev_dbg(&ep->drvdata->pdev->dev,
-+			"usb_gadget_map_request failed ep%d\n", ep->epnum);
-+		spin_unlock_irqrestore(&ep->drvdata->lock, flags);
-+		return ret;
-+	}
-+
-+	req->req.actual = 0;
-+	req->req.status = -EINPROGRESS;
-+
-+	if (list_empty(&ep->queue)) {
-+		list_add_tail(&req->queue, &ep->queue);
-+		gxp_udc_start_dma(ep, req);
-+	} else {
-+		list_add_tail(&req->queue, &ep->queue);
-+	}
-+
-+	spin_unlock_irqrestore(&ep->drvdata->lock, flags);
-+
-+	return 0;
-+}
-+
-+static int gxp_udc_ep_dequeue(struct usb_ep *_ep, struct usb_request *_req)
-+{
-+	struct gxp_udc_req *req;
-+	struct gxp_udc_ep *ep;
-+	unsigned long flags;
-+
-+	if (!_ep || !_req)
-+		return -EINVAL;
-+
-+	ep = container_of(_ep, struct gxp_udc_ep, ep);
-+	req = container_of(_req, struct gxp_udc_req, req);
-+
-+	pr_debug("%s: vdev%d ep%d\n",
-+		 __func__, ep->drvdata->vdevnum, ep->epnum);
-+
-+	spin_lock_irqsave(&ep->drvdata->lock, flags);
-+
-+	/* ensure the req is still queued on this ep */
-+	list_for_each_entry(req, &ep->queue, queue) {
-+		if (&req->req == _req)
-+			break;
-+	}
-+	if (&req->req != _req) {
-+		pr_debug("%s: vdev%d ep%d _req is not queued in this ep\n",
-+			 __func__, ep->drvdata->vdevnum, ep->epnum);
-+		spin_unlock_irqrestore(&ep->drvdata->lock, flags);
-+		return -EINVAL;
-+	}
-+
-+	if (ep->drvdata->gadget.speed == USB_SPEED_UNKNOWN)
-+		_req->status = -ESHUTDOWN;
-+	else
-+		_req->status = -ECONNRESET;
-+
-+	/* remove req from queue */
-+	list_del_init(&req->queue);
-+	usb_gadget_unmap_request(&ep->drvdata->gadget, &req->req, ep->is_in);
-+	if (req->req.complete) {
-+		spin_unlock(&ep->drvdata->lock);
-+		usb_gadget_giveback_request(_ep, _req);
-+		spin_lock(&ep->drvdata->lock);
-+	}
-+
-+	spin_unlock_irqrestore(&ep->drvdata->lock, flags);
-+
-+	return 0;
-+}
-+
-+static int gxp_udc_ep_enable(struct usb_ep *_ep,
-+			     const struct usb_endpoint_descriptor *desc)
-+{
-+	struct gxp_udc_ep *ep;
-+	struct gxp_udc_drvdata *drvdata;
-+	u32 val;
-+
-+	if (!_ep)
-+		return -EINVAL;
-+
-+	ep = container_of(_ep, struct gxp_udc_ep, ep);
-+	drvdata = ep->drvdata;
-+
-+	pr_debug("%s vdev%d ep%d\n", __func__, drvdata->vdevnum, ep->epnum);
-+
-+	if (!drvdata->driver || drvdata->gadget.speed == USB_SPEED_UNKNOWN) {
-+		dev_err(&drvdata->pdev->dev,
-+			"vdev%d ep enable failed no driver or speed unknown\n",
-+			drvdata->vdevnum);
-+		return -ESHUTDOWN;
-+	}
-+
-+	if (usb_endpoint_num(desc) > GXP_UDC_MAX_NUM_EP) {
-+		dev_err(&drvdata->pdev->dev,
-+			"vdev%d ep enable failed ep%d is out of range(%d)\n",
-+			drvdata->vdevnum, usb_endpoint_num(desc),
-+			GXP_UDC_MAX_NUM_EP);
-+		return -EINVAL;
-+	}
-+
-+	ep->ep.desc = desc;
-+
-+	ep->stall = false;
-+	ep->wedged = false;
-+
-+	/* setup ep according to the setting of desc */
-+	gxp_udc_ep_init(ep, usb_endpoint_type(desc), usb_endpoint_dir_in(desc),
-+			usb_endpoint_maxp(desc));
-+
-+	/* enable ep interrupt */
-+	val = readl(drvdata->base + EVDIEN);
-+	val |= 1 << ep->epnum;
-+	writel(val, drvdata->base + EVDIEN);
-+
-+	return 0;
-+}
-+
-+static int gxp_udc_ep_disable(struct usb_ep *_ep)
-+{
-+	struct gxp_udc_ep *ep;
-+	struct gxp_udc_req *req;
-+	unsigned long flags;
-+	u32 val;
-+
-+	if (!_ep)
-+		return -EINVAL;
-+
-+	if (!_ep->desc)
-+		return -EINVAL;
-+
-+	_ep->desc = NULL;
-+
-+	ep = container_of(_ep, struct gxp_udc_ep, ep);
-+	ep->stall = false;
-+	ep->wedged = false;
-+
-+	pr_debug("%s vdev%d ep%d\n",
-+		 __func__, ep->drvdata->vdevnum, ep->epnum);
-+	spin_lock_irqsave(&ep->drvdata->lock, flags);
-+
-+	/* clean queue */
-+	while (!list_empty(&ep->queue)) {
-+		req = list_entry(ep->queue.next, struct gxp_udc_req, queue);
-+		gxp_udc_ep_dequeue(&ep->ep, &req->req);
-+	}
-+
-+	/* disable ep */
-+	val = readl(ep->base + EVDEPCC);
-+	val &= ~EVDEPCC_EPENABLE;
-+	writel(val, ep->base + EVDEPCC);
-+
-+	/* disable interrupt */
-+	val = readl(ep->drvdata->base + EVDIEN);
-+	val &= ~(1 << ep->epnum);
-+	writel(val, ep->drvdata->base + EVDIEN);
-+
-+	spin_unlock_irqrestore(&ep->drvdata->lock, flags);
-+
-+	return 0;
-+}
-+
-+static int gxp_udc_ep_set_halt_and_wedge(struct usb_ep *_ep,
-+					 int value, int wedge)
-+{
-+	struct gxp_udc_ep *ep;
-+	struct gxp_udc_req *req;
-+	u32 val;
-+
-+	if (!_ep)
-+		return -EINVAL;
-+
-+	ep = container_of(_ep, struct gxp_udc_ep, ep);
-+
-+	pr_debug("vdev%d ep%d gxp_udc_ep_set_halt(%d)\n",
-+		 ep->drvdata->vdevnum, ep->epnum, value);
-+
-+	val = readl(ep->base + EVDEPCC);
-+
-+	/* value = 1, halt on endpoint. 0, clear halt */
-+	if (value) {
-+		ep->stall = true;
-+		if (wedge)
-+			ep->wedged = true;
-+
-+		val |= EVDEPCC_STALL;
-+		writel(val, ep->base + EVDEPCC);
-+	} else {
-+		ep->stall = false;
-+		ep->wedged = false;
-+
-+		val &= ~EVDEPCC_STALL;
-+		val |= EVDEPCC_DT_RESET;
-+		writel(val, ep->base + EVDEPCC);
-+
-+		/*
-+		 * resume dma if it is in endpoint and there is
-+		 * request in queue when clear halt
-+		 */
-+		if (ep->is_in && !list_empty(&ep->queue) && !value) {
-+			req = list_entry(ep->queue.next,
-+					 struct gxp_udc_req, queue);
-+			if (req)
-+				gxp_udc_start_dma(ep, req);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int gxp_udc_ep_set_halt(struct usb_ep *_ep, int value)
-+{
-+	struct gxp_udc_ep *ep;
-+
-+	ep = container_of(_ep, struct gxp_udc_ep, ep);
-+
-+	pr_debug("%s: vdev%d ep%d value:%d\n",
-+		 __func__, ep->drvdata->vdevnum, ep->epnum, value);
-+	return gxp_udc_ep_set_halt_and_wedge(_ep, value, 0);
-+}
-+
-+static int gxp_udc_ep_set_wedge(struct usb_ep *_ep)
-+{
-+	struct gxp_udc_ep *ep;
-+
-+	ep = container_of(_ep, struct gxp_udc_ep, ep);
-+
-+	pr_debug("%s: vdev%d ep%d\n",
-+		 __func__, ep->drvdata->vdevnum, ep->epnum);
-+	return gxp_udc_ep_set_halt_and_wedge(_ep, 1, 1);
-+}
-+
-+static const struct usb_ep_ops gxp_udc_ep_ops = {
-+	.enable = gxp_udc_ep_enable,
-+	.disable = gxp_udc_ep_disable,
-+
-+	.alloc_request = gxp_udc_ep_alloc_request,
-+	.free_request = gxp_udc_ep_free_request,
-+
-+	.queue = gxp_udc_ep_queue,
-+	.dequeue = gxp_udc_ep_dequeue,
-+
-+	.set_halt = gxp_udc_ep_set_halt,
-+	.set_wedge	= gxp_udc_ep_set_wedge,
-+};
-+
-+static int gxp_udc_connect(struct gxp_udc_drvdata *drvdata)
-+{
-+	unsigned int val;
-+	unsigned char femap;
-+	int i;
-+	int j;
-+
-+	/* clear event before enable int */
-+	val = readl(drvdata->base + EVDISTAT);
-+	val |= EVDISTAT_MASK;
-+	val |= (EVDISTAT_SETUP_DAT_RCV | EVDISTAT_PORTEN_CHANGE | EVDISTAT_PORTRST);
-+	writel(val, drvdata->base + EVDISTAT);
-+
-+	/* ep0 init */
-+	gxp_udc_ep_init(&drvdata->ep[0], USB_ENDPOINT_XFER_CONTROL, EP_IN, 64);
-+
-+	/* enable interrupt */
-+	val = readl(drvdata->base + EVDIEN);
-+	val |= EVDIEN_MASK;
-+	writel(val, drvdata->base + EVDIEN);
-+
-+	/* enable vdevice interrupt */
-+	regmap_update_bits(drvdata->udcg_map, EVGIEN, BIT(drvdata->vdevnum),
-+			   BIT(drvdata->vdevnum));
-+
-+	/* initial flex ep */
-+	for (j = 1; j < drvdata->fepnum + 1; j++) {
-+		for (i = 0; i < GXP_UDC_MAX_NUM_FLEX_EP; i++) {
-+			femap = gxp_udc_femap_read(drvdata, i);
-+			/* if the flex ep is free (ep==0) */
-+			if (!(femap & EVFEMAP_EPNUM_MASK)) {
-+				femap &= ~EVFEMAP_EPNUM_MASK;
-+				femap |= EVFEMAP_EPNUM(j);
-+				femap &= ~EVFEMAP_VDEVNUM_MASK;
-+				femap |= EVFEMAP_VDEVNUM(drvdata->vdevnum);
-+				gxp_udc_femap_write(drvdata, i, femap);
-+				break;
-+			}
-+		}
-+		if (i == GXP_UDC_MAX_NUM_FLEX_EP) {
-+			dev_err(&drvdata->pdev->dev,
-+				"vdev%d cannot find a free flex ep\n",
-+				drvdata->vdevnum);
-+			return -ENODEV;
-+		}
-+	}
-+
-+	/* set connect bit, EVDCS */
-+	val = readl(drvdata->base + EVDCS);
-+
-+	val |= EVDCS_CONNECT;
-+	writel(val, drvdata->base + EVDCS);
-+
-+	return 0;
-+}
-+
-+static int gxp_udc_disconnect(struct gxp_udc_drvdata *drvdata)
-+{
-+	unsigned int val;
-+	unsigned char femap;
-+	int i;
-+
-+	/* disable interrupt */
-+	val = readl(drvdata->base + EVDIEN);
-+	val &= ~EVDIEN_MASK;
-+	writel(val, drvdata->base + EVDIEN);
-+
-+	/* disable vdevice interrupt */
-+	regmap_update_bits(drvdata->udcg_map, EVGIEN, BIT(drvdata->vdevnum), 0);
-+
-+	/* clear connect bit, EVDCS */
-+	val = readl(drvdata->base + EVDCS);
-+	val &= ~EVDCS_CONNECT;
-+	writel(val, drvdata->base + EVDCS);
-+
-+	/* free flex ep */
-+	for (i = 0; i < GXP_UDC_MAX_NUM_FLEX_EP; i++) {
-+		femap = gxp_udc_femap_read(drvdata, i);
-+		if (EVFEMAP_VDEVNUM(drvdata->vdevnum) ==
-+				(femap & EVFEMAP_VDEVNUM_MASK)) {
-+			gxp_udc_femap_write(drvdata, i, 0);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int gxp_udc_start(struct usb_gadget *gadget,
-+			 struct usb_gadget_driver *driver)
-+{
-+	struct gxp_udc_drvdata *drvdata;
-+
-+	if (!gadget)
-+		return -ENODEV;
-+
-+	drvdata = container_of(gadget, struct gxp_udc_drvdata, gadget);
-+	spin_lock(&drvdata->lock);
-+
-+	if (drvdata->driver) {
-+		dev_err(&drvdata->pdev->dev,
-+			"vdev%d start failed driver!=NULL\n", drvdata->vdevnum);
-+
-+		spin_unlock(&drvdata->lock);
-+		return -EBUSY;
-+	}
-+
-+	drvdata->deffer_set_address = false;
-+
-+	/* hook up the driver */
-+	driver->driver.bus = NULL;
-+	drvdata->driver = driver;
-+
-+	gxp_udc_connect(drvdata);
-+
-+	spin_unlock(&drvdata->lock);
-+	return 0;
-+}
-+
-+static int gxp_udc_stop(struct usb_gadget *gadget)
-+{
-+	struct gxp_udc_drvdata *drvdata;
-+
-+	if (!gadget)
-+		return -ENODEV;
-+
-+	drvdata = container_of(gadget, struct gxp_udc_drvdata, gadget);
-+	spin_lock(&drvdata->lock);
-+
-+	gxp_udc_disconnect(drvdata);
-+	drvdata->gadget.speed = USB_SPEED_UNKNOWN;
-+	drvdata->driver = NULL;
-+
-+	spin_unlock(&drvdata->lock);
-+	return 0;
-+}
-+
-+static const struct usb_gadget_ops gxp_udc_gadget_ops = {
-+	.udc_start	= gxp_udc_start,
-+	.udc_stop	= gxp_udc_stop,
-+};
-+
-+static void gxp_udc_out_0byte_status(struct gxp_udc_ep *ep)
-+{
-+	u32 evdepcc;
-+
-+	/* out */
-+	evdepcc = readl(ep->base + EVDEPCC);
-+	evdepcc &= ~EVDEPCC_CFGINOUT;
-+	writel(evdepcc, ep->base + EVDEPCC);
-+
-+	/* 0 len */
-+	writel(0, ep->base + EVDEPLEN);
-+}
-+
-+static void gxp_udc_in_0byte_status(struct gxp_udc_ep *ep)
-+{
-+	u32 evdepcc;
-+
-+	/* in */
-+	evdepcc = readl(ep->base + EVDEPCC);
-+	evdepcc |= EVDEPCC_CFGINOUT;
-+	writel(evdepcc, ep->base + EVDEPCC);
-+
-+	/* 0 len */
-+	writel(0, ep->base + EVDEPLEN);
-+}
-+
-+static int gxp_udc_ep_nuke(struct gxp_udc_ep *ep)
-+{
-+	u32 evdepcc;
-+	struct gxp_udc_req *req;
-+
-+	if (!ep)
-+		return -EINVAL;
-+
-+	/* disarm dma */
-+	evdepcc = readl(ep->base + EVDEPCC);
-+	evdepcc |= EVDEPCC_DISARMCMD;
-+	writel(evdepcc, ep->base + EVDEPCC);
-+
-+	while (!list_empty(&ep->queue)) {
-+		req = list_first_entry(&ep->queue, struct gxp_udc_req, queue);
-+		gxp_udc_ep_dequeue(&ep->ep, &req->req);
-+	}
-+
-+	return 0;
-+}
-+
-+static int gxp_udc_set_feature(struct gxp_udc_drvdata *drvdata,
-+			       struct usb_ctrlrequest *ctrl)
-+{
-+	struct gxp_udc_ep *ep;
-+
-+	if (ctrl->bRequestType == USB_RECIP_ENDPOINT) {
-+		ep = &drvdata->ep[ctrl->wIndex & USB_ENDPOINT_NUMBER_MASK];
-+		if (le16_to_cpu(ctrl->wValue) == USB_ENDPOINT_HALT) {
-+			gxp_udc_ep_set_halt(&ep->ep, 1);
-+			return 1;
-+		}
-+	}
-+	return 0;
-+}
-+
-+static int gxp_udc_clear_feature(struct gxp_udc_drvdata *drvdata,
-+				 struct usb_ctrlrequest *ctrl)
-+{
-+	struct gxp_udc_ep *ep;
-+
-+	if (ctrl->bRequestType == USB_RECIP_ENDPOINT) {
-+		ep = &drvdata->ep[ctrl->wIndex & USB_ENDPOINT_NUMBER_MASK];
-+		if (le16_to_cpu(ctrl->wValue) == USB_ENDPOINT_HALT) {
-+			if (ep->wedged)
-+				gxp_udc_ep_set_halt(&ep->ep, 0);
-+			return 1;
-+		}
-+	}
-+	return 0;
-+}
-+
-+static int gxp_udc_get_status(struct gxp_udc_drvdata *drvdata,
-+			      struct usb_ctrlrequest *ctrl)
-+{
-+	int ret;
-+	u32 evdepcc;
-+
-+	switch (ctrl->bRequestType & USB_RECIP_MASK) {
-+	case USB_RECIP_DEVICE:
-+		/* fill the req to send */
-+		drvdata->ep0_data = 1;
-+		drvdata->ep0_req->length = 2;
-+		drvdata->ep0_req->buf = &drvdata->ep0_data;
-+		gxp_udc_ep_queue(&drvdata->ep[0].ep, drvdata->ep0_req,
-+				 GFP_KERNEL);
-+		ret = 1;
-+		break;
-+
-+	case USB_RECIP_ENDPOINT:
-+		evdepcc = readl(drvdata->ep[ctrl->wIndex &
-+			USB_ENDPOINT_NUMBER_MASK].base + EVDEPCC);
-+		/* fill the req to send */
-+		if (evdepcc & EVDEPCC_STALL)
-+			drvdata->ep0_data = 1;
-+		else
-+			drvdata->ep0_data = 0;
-+		drvdata->ep0_req->length = 2;
-+		drvdata->ep0_req->buf = &drvdata->ep0_data;
-+		gxp_udc_ep_queue(&drvdata->ep[0].ep, drvdata->ep0_req,
-+				 GFP_KERNEL);
-+		ret = 1;
-+		break;
-+
-+	default:
-+		ret = 0;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static void gxp_udc_handle_ep0_int(struct gxp_udc_ep *ep)
-+{
-+	struct gxp_udc_drvdata *drvdata = ep->drvdata;
-+	struct gxp_udc_req *req;
-+	u32 evdepsts;
-+	u32 evdepcc;
-+
-+	evdepcc = readl(ep->base + EVDEPCC);
-+	evdepsts  = readl(ep->base + EVDEPSTS);
-+	writel(evdepsts, ep->base + EVDEPSTS); /* write 1 to clear status */
-+
-+	if (evdepsts & EVDEPSTS_STALLDET) {
-+		pr_debug("ep%d get stalldet int\n", ep->epnum);
-+		evdepcc &= ~EVDEPCC_STALL;
-+		evdepcc |= EVDEPCC_DT_RESET;
-+		writel(evdepcc, ep->base + EVDEPCC);
-+	}
-+
-+	if (evdepsts & EVDEPSTS_DONE || evdepsts & EVDEPSTS_SHORT) {
-+		if (drvdata->deffer_set_address) {
-+			writel(drvdata->devaddr, drvdata->base + EVDADDR);
-+			drvdata->deffer_set_address = false;
-+		} else if (!list_empty(&ep->queue)) {
-+			req = list_entry(ep->queue.next,
-+					 struct gxp_udc_req, queue);
-+			if (gxp_udc_done_dma(ep, req)) {
-+				/* req is done */
-+				list_del_init(&req->queue);
-+				usb_gadget_unmap_request(&ep->drvdata->gadget,
-+							 &req->req, ep->is_in);
-+				if (req->req.complete) {
-+					req->req.status = 0;
-+					usb_gadget_giveback_request(&ep->ep,
-+								    &req->req);
-+				}
-+
-+				if (!list_empty(&ep->queue)) {
-+					/* process next req in queue */
-+					req = list_entry(ep->queue.next,
-+							 struct gxp_udc_req,
-+							 queue);
-+					gxp_udc_start_dma(ep, req);
-+					pr_debug("ep0 queue is not empty after done a req!!\n");
-+				} else {
-+					/* last req completed -> status stage */
-+					if (evdepcc & EVDEPCC_CFGINOUT) {
-+						/* data in -> out status */
-+						gxp_udc_out_0byte_status(ep);
-+					} else {
-+						/* data out ->in status */
-+						gxp_udc_in_0byte_status(ep);
-+					}
-+				}
-+			}
-+		}
-+	}
-+}
-+
-+static void gxp_udc_handle_ep_int(struct gxp_udc_ep *ep)
-+{
-+	struct gxp_udc_req *req;
-+	u32 evdepsts;
-+	u32 evdepcc;
-+
-+	evdepsts  = readl(ep->base + EVDEPSTS);
-+	writel(evdepsts, ep->base + EVDEPSTS); /* write 1 to clear status */
-+
-+	if (evdepsts & EVDEPSTS_STALLDET) {
-+		pr_debug("ep%d get stalldet int\n", ep->epnum);
-+		evdepcc = readl(ep->base + EVDEPCC);
-+		evdepcc &= ~EVDEPCC_STALL;
-+		evdepcc |= EVDEPCC_DT_RESET;
-+		writel(evdepcc, ep->base + EVDEPCC);
-+	}
-+
-+	if (evdepsts & EVDEPSTS_DONE || evdepsts & EVDEPSTS_SHORT) {
-+		if (evdepsts & EVDEPSTS_SHORT)
-+			pr_debug("ep%d get short int\n", ep->epnum);
-+		if (evdepsts & EVDEPSTS_DONE)
-+			pr_debug("ep%d get done int\n", ep->epnum);
-+
-+		if (!list_empty(&ep->queue)) {
-+			req = list_entry(ep->queue.next,
-+					 struct gxp_udc_req, queue);
-+			if (gxp_udc_done_dma(ep, req)) {
-+				/* req is done */
-+				list_del_init(&req->queue);
-+				usb_gadget_unmap_request(&ep->drvdata->gadget,
-+							 &req->req, ep->is_in);
-+				if (req->req.complete) {
-+					req->req.status = 0;
-+					usb_gadget_giveback_request(&ep->ep,
-+								    &req->req);
-+				}
-+
-+				if (!list_empty(&ep->queue)) {
-+					/* process next req in queue */
-+					req = list_entry(ep->queue.next,
-+							 struct gxp_udc_req,
-+							 queue);
-+					gxp_udc_start_dma(ep, req);
-+				}
-+			}
-+		}
-+	}
-+}
-+
-+static void gxp_udc_handle_setup_data_rcv(struct gxp_udc_drvdata *drvdata)
-+{
-+	struct usb_ctrlrequest ctrl = {0};
-+	u32 *ptr;
-+	u32 val;
-+	int handled = 0;
-+	int ret;
-+
-+	ptr = (u32 *)&ctrl;
-+
-+	ptr[0] = readl(drvdata->base + EVDSETUPL);
-+	ptr[1] = readl(drvdata->base + EVDSETUPH);
-+
-+	if ((ctrl.bRequestType & USB_TYPE_MASK) == USB_TYPE_STANDARD) {
-+		switch (ctrl.bRequest) {
-+		case USB_REQ_SET_ADDRESS:
-+			/*
-+			 * this request is unique in that the device does
-+			 * not set its address until after the completion
-+			 * of the status stage.(ref: usb nutshell)
-+			 */
-+			drvdata->devaddr = ctrl.wValue & 0x7f;
-+			drvdata->deffer_set_address = true;
-+			gxp_udc_in_0byte_status(&drvdata->ep[0]);
-+			handled = 1;
-+			break;
-+
-+		case USB_REQ_SET_FEATURE:
-+			handled = gxp_udc_set_feature(drvdata, &ctrl);
-+			break;
-+
-+		case USB_REQ_CLEAR_FEATURE:
-+			handled = gxp_udc_clear_feature(drvdata, &ctrl);
-+			break;
-+
-+		case USB_REQ_GET_STATUS:
-+			handled = gxp_udc_get_status(drvdata, &ctrl);
-+			break;
-+
-+		default:
-+			handled = 0;
-+			break;
-+		}
-+	}
-+
-+	/*
-+	 * pass the request to upper layer driver code(composite.c)
-+	 * if it is not handled by the code above.
-+	 */
-+	if (drvdata->driver && !handled) {
-+		ret = drvdata->driver->setup(&drvdata->gadget, &ctrl);
-+		if (ret < 0) {
-+			dev_err(&drvdata->pdev->dev,
-+				"setup failed, return %d\n", ret);
-+			/* set ep0 to stall */
-+			val = readl(drvdata->ep[0].base + EVDEPCC);
-+			val |= EVDEPCC_STALL;
-+			writel(val, drvdata->ep[0].base + EVDEPCC);
-+			return;
-+		}
-+	}
-+}
-+
-+static irqreturn_t gxp_udc_irq(int irq, void *_drvdata)
-+{
-+	struct gxp_udc_drvdata *drvdata = _drvdata;
-+
-+	u32 evgistat;
-+	u32 evdistat;
-+	u32 evdcs;
-+	u32 i;
-+
-+	regmap_read(drvdata->udcg_map, EVGISTAT, &evgistat);
-+	if (evgistat & (1 << drvdata->vdevnum)) {
-+		evdistat = readl(drvdata->base + EVDISTAT);
-+		while (evdistat & EVDISTAT_MASK) {
-+			pr_debug("vdev%d get int = 0x%08x\n",
-+				 drvdata->vdevnum, evdistat);
-+
-+			if (evdistat & EVDISTAT_PORTEN_CHANGE) {
-+				evdcs = readl(drvdata->base + EVDCS);
-+				drvdata->gadget.speed =
-+					(evdcs & EVDCS_PORTENABLESTS) ?
-+					USB_SPEED_HIGH : USB_SPEED_UNKNOWN;
-+
-+				pr_debug("vdev%d get port enable change int speed = %d\n",
-+					 drvdata->vdevnum,
-+					 drvdata->gadget.speed);
-+
-+				/*  write 1 to clear */
-+				writel(EVDISTAT_PORTEN_CHANGE,
-+				       drvdata->base + EVDISTAT);
-+			}
-+
-+			if (evdistat & EVDISTAT_PORTRST) {
-+				pr_debug("vdev%d get port rst int\n",
-+					 drvdata->vdevnum);
-+				writel(0, drvdata->base + EVDADDR);
-+
-+				for (i = 0; i < drvdata->fepnum + 1; i++)
-+					gxp_udc_ep_nuke(&drvdata->ep[i]);
-+
-+				usb_gadget_udc_reset(&drvdata->gadget,
-+						     drvdata->driver);
-+
-+				/* write 1 to clear */
-+				writel(EVDISTAT_PORTRST,
-+				       drvdata->base + EVDISTAT);
-+			}
-+
-+			if (evdistat & EVDISTAT_SETUP_DAT_RCV) {
-+				pr_debug("vdev%d get setup data rcv int\n",
-+					 drvdata->vdevnum);
-+					gxp_udc_handle_setup_data_rcv(drvdata);
-+					/* write 1 to clear */
-+					writel(EVDISTAT_SETUP_DAT_RCV,
-+					       drvdata->base + EVDISTAT);
-+			}
-+			if (evdistat & 0x01)
-+				gxp_udc_handle_ep0_int(&drvdata->ep[0]);
-+
-+			for (i = 1; i < GXP_UDC_MAX_NUM_EP; i++)
-+				if (evdistat & (1 << i))
-+					gxp_udc_handle_ep_int(&drvdata->ep[i]);
-+
-+			evdistat = readl(drvdata->base + EVDISTAT);
-+		}
-+		return IRQ_HANDLED;
-+	}
-+	return IRQ_NONE;
-+}
-+
-+static int gxp_udc_init(struct gxp_udc_drvdata *drvdata)
-+{
-+	int i;
-+	struct gxp_udc_ep *ep;
-+
-+	/* Disable device interrupt */
-+	writel(0, drvdata->base + EVDIEN);
-+
-+	drvdata->gadget.max_speed = USB_SPEED_HIGH;
-+	drvdata->gadget.speed = USB_SPEED_UNKNOWN;
-+	drvdata->gadget.ops = &gxp_udc_gadget_ops;
-+	drvdata->gadget.name = gxp_udc_name[drvdata->vdevnum];
-+	drvdata->gadget.is_otg = 0;
-+	drvdata->gadget.is_a_peripheral = 0;
-+
-+	drvdata->gadget.ep0 = &drvdata->ep[0].ep;
-+	drvdata->ep0_req = gxp_udc_ep_alloc_request(&drvdata->ep[0].ep,
-+						    GFP_KERNEL);
-+
-+	INIT_LIST_HEAD(&drvdata->gadget.ep_list);
-+
-+	for (i = 0; i < drvdata->fepnum + 1; i++) {
-+		ep = &drvdata->ep[i];
-+
-+		ep->drvdata = drvdata;
-+
-+		INIT_LIST_HEAD(&ep->queue);
-+		INIT_LIST_HEAD(&ep->ep.ep_list);
-+		if (i > 0)
-+			list_add_tail(&ep->ep.ep_list,
-+				      &drvdata->gadget.ep_list);
-+
-+		usb_ep_set_maxpacket_limit(&ep->ep, (i > 0) ? 512 : 64);
-+		ep->epnum = i;
-+		ep->ep.name = gxp_udc_ep_name[i];
-+		ep->ep.ops = &gxp_udc_ep_ops;
-+		ep->base = drvdata->base + 0x20 * (i + 1);
-+		if (i == 0) {
-+			ep->ep.caps.type_control = true;
-+		} else {
-+			ep->ep.caps.type_iso = true;
-+			ep->ep.caps.type_bulk = true;
-+			ep->ep.caps.type_int = true;
-+		}
-+
-+		ep->ep.caps.dir_in = true;
-+		ep->ep.caps.dir_out = true;
-+	}
-+
-+	return 0;
-+}
-+
-+static void gxp_udcg_init(struct gxp_udcg_drvdata *drvdata)
-+{
-+	int i;
-+
-+	if (!udcg_init_done)	{
-+		/* disable interrupt */
-+		regmap_write(drvdata->udcg_map, EVGIEN, 0);
-+		writel(0, drvdata->base + EVGIEN);
-+
-+		/* disable all flex ep map */
-+		for (i = 0; i < GXP_UDC_MAX_NUM_FLEX_EP; i += 4)
-+			regmap_write(drvdata->udcg_map, EVFEMAP + i, 0);
-+
-+		udcg_init_done = true;
-+	}
-+}
-+
-+static void gxp_udc_dev_release(struct device *dev)
-+{
-+	kfree(dev);
-+}
-+
-+int gxp_udc_init_dev(struct gxp_udcg_drvdata *udcg, unsigned int idx)
-+{
-+	struct gxp_udc_drvdata *drvdata;
-+	struct device *parent = &udcg->pdev->dev;
-+	int rc;
-+
-+	drvdata = devm_kzalloc(parent, sizeof(struct gxp_udc_drvdata),
-+			       GFP_KERNEL);
-+	if (!drvdata)
-+		return -ENOMEM;
-+
-+	udcg->udc_drvdata[idx] = drvdata;
-+	drvdata->pdev = udcg->pdev;
-+	drvdata->vdevnum = idx;
-+	drvdata->base = udcg->base + 0x1000 * idx;
-+	drvdata->udcg_map = udcg->udcg_map;
-+	drvdata->irq = udcg->irq;
-+
-+	/*
-+	 * we setup USB device can have up to 4 endpoints besides control
-+	 * endpoint 0.
-+	 */
-+	drvdata->fepnum = min_t(u32, udcg->max_fepnum, 4);
-+
-+	drvdata->vdevnum = idx;
-+
-+	/*
-+	 * The UDC core really needs us to have separate and uniquely
-+	 * named "parent" devices for each port so we create a sub device
-+	 * here for that purpose
-+	 */
-+	drvdata->port_dev = kzalloc(sizeof(*drvdata->port_dev), GFP_KERNEL);
-+	if (!drvdata->port_dev) {
-+		rc = -ENOMEM;
-+		goto fail_alloc;
-+	}
-+	device_initialize(drvdata->port_dev);
-+	drvdata->port_dev->release = gxp_udc_dev_release;
-+	drvdata->port_dev->parent = parent;
-+	dev_set_name(drvdata->port_dev, "%s:p%d", dev_name(parent), idx + 1);
-+
-+	/* DMA setting */
-+	drvdata->port_dev->dma_mask = parent->dma_mask;
-+	drvdata->port_dev->coherent_dma_mask = parent->coherent_dma_mask;
-+	drvdata->port_dev->bus_dma_limit = parent->bus_dma_limit;
-+	drvdata->port_dev->dma_range_map = parent->dma_range_map;
-+	drvdata->port_dev->dma_parms = parent->dma_parms;
-+	drvdata->port_dev->dma_pools = parent->dma_pools;
-+
-+	rc = device_add(drvdata->port_dev);
-+	if (rc)
-+		goto fail_add;
-+
-+	/* Populate gadget */
-+	gxp_udc_init(drvdata);
-+
-+	rc = usb_add_gadget_udc(drvdata->port_dev, &drvdata->gadget);
-+	if (rc != 0) {
-+		dev_err(drvdata->port_dev, "add gadget failed\n");
-+		goto fail_udc;
-+	}
-+	rc = devm_request_irq(drvdata->port_dev,
-+			      drvdata->irq,
-+			      gxp_udc_irq,
-+			      IRQF_SHARED,
-+			      gxp_udc_name[drvdata->vdevnum],
-+			      drvdata);
-+
-+	if (rc < 0) {
-+		dev_err(drvdata->port_dev, "irq request failed\n");
-+		goto fail_udc;
-+	}
-+
-+	return 0;
-+
-+fail_udc:
-+	device_del(drvdata->port_dev);
-+fail_add:
-+	put_device(drvdata->port_dev);
-+fail_alloc:
-+	kfree(drvdata);
-+
-+	return rc;
-+}
-+
-+static int gxp_udcg_probe(struct platform_device *pdev)
-+{
-+	struct resource *res;
-+	struct gxp_udcg_drvdata *drvdata;
-+	int ret, rc, err;
-+	u32 vdevnum;
-+	u32 fepnum, i;
-+
-+	drvdata = devm_kzalloc(&pdev->dev, sizeof(struct gxp_udcg_drvdata),
-+			       GFP_KERNEL);
-+	platform_set_drvdata(pdev, drvdata);
-+	drvdata->pdev = pdev;
-+
-+	spin_lock_init(&drvdata->lock);
-+
-+	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "udcg");
-+	drvdata->udcg_base = devm_ioremap_resource(&pdev->dev, res);
-+	if (IS_ERR(drvdata->udcg_base)) {
-+		err = PTR_ERR(drvdata->udcg_base);
-+		return dev_err_probe(&pdev->dev, err, "failed to get udcg resource\n");
-+	}
-+
-+	drvdata->udcg_map = devm_regmap_init_mmio(&pdev->dev, drvdata->udcg_base, &regmap_cfg);
-+
-+	if (IS_ERR(drvdata->udcg_map)) {
-+		dev_err(&pdev->dev, "failed to map udcg regs");
-+		return -ENODEV;
-+	}
-+
-+	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "udc");
-+	drvdata->base = devm_ioremap_resource(&pdev->dev, res);
-+	if (IS_ERR(drvdata->base)) {
-+		err = PTR_ERR(drvdata->base);
-+		return dev_err_probe(&pdev->dev, err, "failed to get udc resource\n");
-+	}
-+
-+	ret = platform_get_irq(pdev, 0);
-+	if (ret < 0) {
-+		dev_err(&pdev->dev, "unable to obtain IRQ number\n");
-+		return ret;
-+	}
-+	drvdata->irq = ret;
-+
-+	if (of_property_read_u32(pdev->dev.of_node, "hpe,vehci-downstream-ports", &vdevnum)) {
-+		dev_err(&pdev->dev, "property ports number is undefined\n");
-+		return -EINVAL;
-+	}
-+
-+	if (vdevnum > GXP_UDC_MAX_NUM_VDEVICE) {
-+		dev_err(&pdev->dev, "property max port number(%d) is invalid\n", vdevnum);
-+		return -EINVAL;
-+	}
-+	drvdata->max_vdevnum = vdevnum;
-+
-+	if (of_property_read_u32(pdev->dev.of_node, "hpe,vehci-generic-endpoints", &fepnum)) {
-+		dev_err(&pdev->dev, "property generic endpoints is undefined\n");
-+		return -EINVAL;
-+	}
-+
-+	if (fepnum > GXP_UDC_MAX_NUM_FLEX_EP) {
-+		dev_err(&pdev->dev, "property fepnum(%d) is invalid\n", fepnum);
-+		return -EINVAL;
-+	}
-+	drvdata->max_fepnum = fepnum;
-+
-+	gxp_udcg_init(drvdata);
-+
-+	/* Init child devices */
-+	rc = 0;
-+	for (i = 0; i < drvdata->max_vdevnum && rc == 0; i++)
-+		rc = gxp_udc_init_dev(drvdata, i);
-+
-+	return rc;
-+}
-+
-+static const struct of_device_id gxp_udc_of_match[] = {
-+	{ .compatible = "hpe,gxp-udcg" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, gxp_udc_of_match);
-+
-+static struct platform_driver gxp_udc_driver = {
-+	.driver = {
-+		.name = "gxp-udc",
-+		.of_match_table = of_match_ptr(gxp_udc_of_match),
-+	},
-+	.probe = gxp_udcg_probe,
-+};
-+module_platform_driver(gxp_udc_driver);
-+
-+MODULE_AUTHOR("Richard Yu <richard.yu@hpe.com>");
-+MODULE_DESCRIPTION("HPE GXP vEHCI UDC Driver");
-+MODULE_LICENSE("GPL");
--- 
-2.17.1
-
+T24gVGh1LCBKdWwgMDYsIDIwMjMsIEtyaXNobmEgS3VyYXBhdGkgUFNTTlYgd3JvdGU6DQo+IA0K
+PiANCj4gT24gNS8xNy8yMDIzIDU6NDEgQU0sIFRoaW5oIE5ndXllbiB3cm90ZToNCj4gPiBPbiBT
+dW4sIE1heSAxNCwgMjAyMywgS3Jpc2huYSBLdXJhcGF0aSB3cm90ZToNCj4gPiA+IEN1cnJlbnRs
+eSBmb3IgZHdjM191c2IzMSBjb250cm9sbGVyLCBpZiBtYXhpbXVtX3NwZWVkIGlzIGxpbWl0ZWQg
+dG8NCj4gPiA+IHN1cGVyLXNwZWVkIGluIERULCB0aGVuIGRldmljZSBtb2RlIGlzIGxpbWl0ZWQg
+dG8gU1MsIGJ1dCBob3N0IG1vZGUNCj4gPiA+IHN0aWxsIHdvcmtzIGluIFNTUC4NCj4gPiA+IA0K
+PiA+ID4gVGhlIGRvY3VtZW50YXRpb24gZm9yIG1heC1zcGVlZCBwcm9wZXJ0eSBpcyBhcyBmb2xs
+b3dzOg0KPiA+ID4gDQo+ID4gPiAiVGVsbHMgVVNCIGNvbnRyb2xsZXJzIHdlIHdhbnQgdG8gd29y
+ayB1cCB0byBhIGNlcnRhaW4gc3BlZWQuDQo+ID4gPiBJbmNhc2UgIHRoaXMgaXNuJ3QgcGFzc2Vk
+IHZpYSBEVCwgVVNCIGNvbnRyb2xsZXJzIHNob3VsZCBkZWZhdWx0IHRvDQo+ID4gPiB0aGVpciBt
+YXhpbXVtIEhXIGNhcGFiaWxpdHkuIg0KPiA+ID4gDQo+ID4gPiBJdCBkb2Vzbid0IHNwZWNpZnkg
+dGhhdCB0aGUgcHJvcGVydHkgaXMgb25seSBmb3IgZGV2aWNlIG1vZGUuDQo+ID4gPiBUaGVyZSBh
+cmUgY2FzZXMgd2hlcmUgd2UgbmVlZCB0byBsaW1pdCB0aGUgaG9zdCdzIG1heGltdW0gc3BlZWQg
+dG8NCj4gPiA+IFN1cGVyU3BlZWQgb25seS4gVXNlIHRoaXMgcHJvcGVydHkgZm9yIGhvc3QgbW9k
+ZSB0byBjb250cmFpbiBob3N0J3MNCj4gPiA+IHNwZWVkIHRvIFN1cGVyU3BlZWQuDQo+ID4gPiAN
+Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IEtyaXNobmEgS3VyYXBhdGkgPHF1aWNfa3Jpc2t1cmFAcXVp
+Y2luYy5jb20+DQo+ID4gPiAtLS0NCj4gPiA+IExpbmsgdG8gdjE6IGh0dHBzOi8vdXJsZGVmZW5z
+ZS5jb20vdjMvX19odHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyMzA1MTIxNzAxMDcuMTg4
+MjEtMS1xdWljX2tyaXNrdXJhQHF1aWNpbmMuY29tL19fOyEhQTRGMlI5R19wZyFkQ2dfM1dLMm9O
+WE5iNmQwYV9WdXlqa2VlWkpUVTFhWTRkaWs2ZzM1WEI3bXRHN0VKZVIxdVBNZnhGamE0OU9mWHA3
+WWhzZzF5cWpueWxDWVlFZzdZQ0FocWZBWjBRJA0KPiA+ID4gDQo+ID4gPiBEaXNjdXNzaW9uIHJl
+Z2FyZGluZyB0aGUgc2FtZSBhdDoNCj4gPiA+IGh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19o
+dHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvZTQ2NWM2OWMtM2E5ZC1jYmRiLWQ0NGUtOTZiOTlj
+ZmExYTkyQHF1aWNpbmMuY29tL19fOyEhQTRGMlI5R19wZyFkQ2dfM1dLMm9OWE5iNmQwYV9WdXlq
+a2VlWkpUVTFhWTRkaWs2ZzM1WEI3bXRHN0VKZVIxdVBNZnhGamE0OU9mWHA3WWhzZzF5cWpueWxD
+WVlFZzdZQ0RSTFVySldnJA0KPiA+ID4gDQo+ID4gPiAgIGRyaXZlcnMvdXNiL2R3YzMvY29yZS5j
+IHwgOCArKysrKysrKw0KPiA+ID4gICBkcml2ZXJzL3VzYi9kd2MzL2NvcmUuaCB8IDUgKysrKysN
+Cj4gPiA+ICAgMiBmaWxlcyBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspDQo+ID4gPiANCj4gPiA+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9kd2MzL2NvcmUuYyBiL2RyaXZlcnMvdXNiL2R3YzMv
+Y29yZS5jDQo+ID4gPiBpbmRleCAyNzhjZDFjMzM4NDEuLjMzYmM3MjU5NWU3NCAxMDA2NDQNCj4g
+PiA+IC0tLSBhL2RyaXZlcnMvdXNiL2R3YzMvY29yZS5jDQo+ID4gPiArKysgYi9kcml2ZXJzL3Vz
+Yi9kd2MzL2NvcmUuYw0KPiA+ID4gQEAgLTEyNjIsNiArMTI2MiwxNCBAQCBzdGF0aWMgaW50IGR3
+YzNfY29yZV9pbml0KHN0cnVjdCBkd2MzICpkd2MpDQo+ID4gPiAgIAkJfQ0KPiA+ID4gICAJfQ0K
+PiA+ID4gKwlpZiAoKGh3X21vZGUgIT0gRFdDM19HSFdQQVJBTVMwX01PREVfR0FER0VUKSAmJg0K
+PiA+ID4gKwkgICAgKERXQzNfSVBfSVMoRFdDMzEpKSAmJg0KPiA+ID4gKwkgICAgKGR3Yy0+bWF4
+aW11bV9zcGVlZCA9PSBVU0JfU1BFRURfU1VQRVIpKSB7DQo+ID4gPiArCQlyZWcgPSBkd2MzX3Jl
+YWRsKGR3Yy0+cmVncywgRFdDM19MTFVDVEwpOw0KPiA+ID4gKwkJcmVnIHw9IERXQzNfTExVQ1RM
+X0ZPUkNFX0dFTjE7DQo+ID4gPiArCQlkd2MzX3dyaXRlbChkd2MtPnJlZ3MsIERXQzNfTExVQ1RM
+LCByZWcpOw0KPiA+ID4gKwl9DQo+ID4gPiArDQo+ID4gDQo+ID4gUGVyaGFwcyB0aGlzIHNob3Vs
+ZCBiZSBkb25lIGZvciBldmVyeSB1c2IzIHBvcnQgcmF0aGVyIHRoYW4ganVzdCB0aGUNCj4gPiBw
+b3J0XzAuIFRoaXMgcGF0Y2ggY2FuIGdvIGFmdGVyIHlvdXIgbXVsdGktcG9ydCBzZXJpZXMgaXMg
+YWRkZWQgdG8NCj4gPiBHcmVnJ3MgYnJhbmNoIHdoZXJlIHlvdSBjYW4gY2hlY2sgZm9yIG51bWJl
+ciBvZiB1c2IzIHBvcnRzLg0KPiA+IA0KPiA+IFRoYW5rcywNCj4gPiBUaGluaA0KPiA+IA0KPiAN
+Cj4gSGkgVGhpbmgsDQo+IA0KPiAgIFNlZW1zIGxpa2UgbXVsdGlwb3J0IHdvdWxkIHRha2UgbGl0
+dGxlIG1vcmUgdGltZSBhbmQgSSBuZWVkIHRoaXMgcGF0Y2ggdG8NCj4gYmUgcG9ydGVkIHRvIEFD
+SyBmb3IgZml4aW5nIGN1c3RvbWVyIGlzc3VlLiBXb3VsZCBpdCBiZSBwb3NzaWJsZSB0byB0YWtl
+DQo+IHRoaXMgcGF0Y2ggYXMgaXMgPyBPbmNlIG11bHRpcG9ydCBpcyBkb25lLCBJIHdpbGwgc2Vu
+ZCBhbm90aGVyIHBhdGNoIHRvDQo+IGluY2x1ZGUgdGhlIGNoYW5nZXMgZm9yIG11dGxpcG9ydCBh
+cyB3ZWxsLg0KPiANCg0KVGhpcyBpcyBub3QgYSBmaXggcGF0Y2guIEl0IHdpbGwgbm90IGJlIHVw
+c3RyZWFtZWQgdW50aWwgdGhlIG5leHQNCnJlbGVhc2UgZXZlbiBpZiBJIEFjayBpdCBub3cuIERv
+IHlvdSB0aGluayB3ZSBjYW4gZ2V0IHlvdXIgbXVsdGktcG9ydA0Kc2VyaWVzIGluIGZvciB0aGUg
+bmV4dCByZWxlYXNlIGFsb25nIHdpdGggdGhpcz8gSWYgbm90LCB0aGVuIHdlIGNhbiBBY2sNCnRo
+aXMgdmVyc2lvbiBmaXJzdCAod2l0aCBhIG5vdGUgdG8gdXBkYXRlIGZvciBtdWx0aS1wb3J0IGxh
+dGVyKS4NCg0KSSB0aGluayBpdCBtYWtlcyBtb3JlIHNlbnNlIHdhaXQgYW5kIHNlZSBpZiB3ZSBj
+YW4gZ2V0IHlvdXIgbXVsdGktcG9ydA0Kc2VyaWVzIGZvciB0aGUgbmV4dCByZWxlYXNlIGZpcnN0
+LiBXaGF0IGRvIHlvdSB0aGluaz8NCg0KVGhhbmtzLA0KVGhpbmg=
