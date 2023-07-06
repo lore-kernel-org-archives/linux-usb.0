@@ -2,87 +2,145 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 289E0EB64D9
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Jul 2023 17:44:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D6DEB64DC
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Jul 2023 18:31:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232437AbjGFRoe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Jul 2023 13:44:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43410 "EHLO
+        id S231935AbjGFSb5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Jul 2023 14:31:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232213AbjGFRod (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Jul 2023 13:44:33 -0400
-X-Greylist: delayed 1799 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Jul 2023 10:44:32 PDT
-Received: from scorn.kernelslacker.org (scorn.kernelslacker.org [IPv6:2600:3c03:e000:2fb::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D18A510EA;
-        Thu,  6 Jul 2023 10:44:32 -0700 (PDT)
-Received: from [2601:196:4600:6634:ae9e:17ff:feb7:72ca] (helo=wopr.kernelslacker.org)
-        by scorn.kernelslacker.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <davej@codemonkey.org.uk>)
-        id 1qHS2U-006KW9-Jc; Thu, 06 Jul 2023 12:41:06 -0400
-Received: by wopr.kernelslacker.org (Postfix, from userid 1026)
-        id A53C756016B; Thu,  6 Jul 2023 12:41:05 -0400 (EDT)
-Date:   Thu, 6 Jul 2023 12:41:05 -0400
-From:   Dave Jones <davej@codemonkey.org.uk>
-To:     Thorsten Leemhuis <regressions@leemhuis.info>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Ross Maynard <bids.7405@bigpond.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Linux Networking <netdev@vger.kernel.org>,
-        Linux USB <linux-usb@vger.kernel.org>,
-        Oliver Neukum <oneukum@suse.com>
-Subject: Re: Fwd: 3 more broken Zaurii - SL-5600, A300, C700
-Message-ID: <ZKbuoRBi50i8OZ9d@codemonkey.org.uk>
-Mail-Followup-To: Dave Jones <davej@codemonkey.org.uk>,
-        Thorsten Leemhuis <regressions@leemhuis.info>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Ross Maynard <bids.7405@bigpond.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Linux Networking <netdev@vger.kernel.org>,
-        Linux USB <linux-usb@vger.kernel.org>,
-        Oliver Neukum <oneukum@suse.com>
-References: <7ea9abd8-c35d-d329-f0d4-c8bd220cf691@gmail.com>
- <50f4c10d-260c-cb98-e7d2-124f5519fa68@gmail.com>
- <e1fdc435-089c-8ce7-d536-ce3780a4ba95@leemhuis.info>
+        with ESMTP id S229802AbjGFSb4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Jul 2023 14:31:56 -0400
+X-Greylist: delayed 84 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Jul 2023 11:31:02 PDT
+Received: from us-smtp-delivery-162.mimecast.com (us-smtp-delivery-162.mimecast.com [170.10.129.162])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 662891BF8
+        for <linux-usb@vger.kernel.org>; Thu,  6 Jul 2023 11:31:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com; s=mimecast20180716;
+        t=1688668261;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=i6byuPgD0BdV+edMY+7xoBI+stlHVgHroGrstvZaliE=;
+        b=NYNIXWBKf74CNt9iQqkDQygusfeSVV6ed3w9/9TJQQU32OvJ6Oxa77utJQD8LTNDTbe1uK
+        bgnRq4q4OloFLYdGWbV9Wv3iggYnh9JsWkSW3VZbPcRpyLg1Dw33OvcGSDD2CqDST5oizA
+        kcZF5WOwsQu8WtP9RJd4rlDphYLYhqY=
+Received: from g1t6220.austin.hp.com (g1t6220.austin.hp.com [15.73.96.84])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-543-YG3C5vQoPEWLGQiUhrdSxA-1; Thu, 06 Jul 2023 14:29:35 -0400
+X-MC-Unique: YG3C5vQoPEWLGQiUhrdSxA-1
+Received: from g1t6217.austin.hpicorp.net (g1t6217.austin.hpicorp.net [15.67.1.144])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by g1t6220.austin.hp.com (Postfix) with ESMTPS id C072C23B;
+        Thu,  6 Jul 2023 18:29:33 +0000 (UTC)
+Received: from jam-buntu.lan (unknown [15.74.50.248])
+        by g1t6217.austin.hpicorp.net (Postfix) with ESMTP id 516B189;
+        Thu,  6 Jul 2023 18:29:32 +0000 (UTC)
+From:   Alexandru Gagniuc <alexandru.gagniuc@hp.com>
+To:     linux-usb@vger.kernel.org, netdev@vger.kernel.org
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, hayeswang@realtek.com, jflf_kernel@gmx.com,
+        bjorn@mork.no, svenva@chromium.org, linux-kernel@vger.kernel.org,
+        eniac-xw.zhang@hp.com,
+        Alexandru Gagniuc <alexandru.gagniuc@hp.com>,
+        stable@vger.kernel.org
+Subject: [PATCH] r8152: Suspend USB device before shutdown when WoL is enabled
+Date:   Thu,  6 Jul 2023 18:28:58 +0000
+Message-Id: <20230706182858.761311-1-alexandru.gagniuc@hp.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e1fdc435-089c-8ce7-d536-ce3780a4ba95@leemhuis.info>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: hp.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jul 06, 2023 at 01:45:57PM +0200, Thorsten Leemhuis wrote:
- > On 06.07.23 05:08, Bagas Sanjaya wrote:
- > >>
- > >> I notice a regression report on Bugzilla [1]. Quoting from it:
- > >>
- > >>> The following patch broke support of 3 more Zaurus models: SL-5600, A300 and C700
- > >>>
- > >>> [16adf5d07987d93675945f3cecf0e33706566005] usbnet: Remove over-broad module alias from zaurus
- > 
- > ...
- > He sometimes shows up on Linux kernel lists, but I doubt he cares about
- > that change after all these years. And I would not blame him at all.
+For Wake-on-LAN to work from S5 (shutdown), the USB link must be put
+in U3 state. If it is not, and the host "disappears", the chip will
+no longer respond to WoL triggers.
 
-That's about the size of it.  This is pretty near the bottom of my ever-shrinking
-list of kernel drivers I care about.
+To resolve this, add a notifier block and register it as a reboot
+notifier. When WoL is enabled, work through the usb_device struct to
+get to the suspend function. Calling this function puts the link in
+the correct state for WoL to function.
 
- > Yes, we have the "no regressions" rule, but contributing a change to the
- > kernel OTOH should not mean that you are responsible for all regressions
- > it causes for your whole life. :-)
+Cc: stable@vger.kernel.org
+Signed-off-by: Alexandru Gagniuc <alexandru.gagniuc@hp.com>
+---
+ drivers/net/usb/r8152.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-That said, 12 years later, 16adf5d07987d93675945f3cecf0e33706566005
-is still the right thing to do. Adding actual matches for the devices
-rather than matching by class will prevent this getting loaded where it
-doesn't need to be.
-
-If someone actually cares to get this working, cargo-culting Oliver's
-change to add the extra id is likely the way forward.
-
-	Dave
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 0999a58ca9d2..5623ca5c9142 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -20,6 +20,7 @@
+ #include <net/ip6_checksum.h>
+ #include <uapi/linux/mdio.h>
+ #include <linux/mdio.h>
++#include <linux/reboot.h>
+ #include <linux/usb/cdc.h>
+ #include <linux/suspend.h>
+ #include <linux/atomic.h>
+@@ -875,6 +876,7 @@ struct r8152 {
+ =09struct delayed_work schedule, hw_phy_work;
+ =09struct mii_if_info mii;
+ =09struct mutex control;=09/* use for hw setting */
++=09struct notifier_block reboot_notifier;
+ #ifdef CONFIG_PM_SLEEP
+ =09struct notifier_block pm_notifier;
+ #endif
+@@ -9609,6 +9611,25 @@ static bool rtl8152_supports_lenovo_macpassthru(stru=
+ct usb_device *udev)
+ =09return 0;
+ }
+=20
++/* Suspend realtek chip before system shutdown
++ *
++ * For Wake-on-LAN to work from S5, the USB link must be put in U3 state. =
+If
++ * the host otherwise "disappears", the chip will not respond to WoL trigg=
+ers.
++ */
++static int rtl8152_notify(struct notifier_block *nb, unsigned long code,
++=09=09=09  void *unused)
++{
++=09struct r8152 *tp =3D container_of(nb, struct r8152, reboot_notifier);
++=09struct device *dev =3D &tp->udev->dev;
++
++=09if (code =3D=3D SYS_POWER_OFF) {
++=09=09if (tp->saved_wolopts && dev->type->pm->suspend)
++=09=09=09dev->type->pm->suspend(dev);
++=09}
++
++=09return NOTIFY_DONE;
++}
++
+ static int rtl8152_probe(struct usb_interface *intf,
+ =09=09=09 const struct usb_device_id *id)
+ {
+@@ -9791,6 +9812,9 @@ static int rtl8152_probe(struct usb_interface *intf,
+ =09else
+ =09=09device_set_wakeup_enable(&udev->dev, false);
+=20
++=09tp->reboot_notifier.notifier_call =3D rtl8152_notify;
++=09register_reboot_notifier(&tp->reboot_notifier);
++
+ =09netif_info(tp, probe, netdev, "%s\n", DRIVER_VERSION);
+=20
+ =09return 0;
+@@ -9811,6 +9835,7 @@ static void rtl8152_disconnect(struct usb_interface *=
+intf)
+ =09if (tp) {
+ =09=09rtl_set_unplug(tp);
+=20
++=09=09unregister_reboot_notifier(&tp->reboot_notifier);
+ =09=09unregister_netdev(tp->netdev);
+ =09=09tasklet_kill(&tp->tx_tl);
+ =09=09cancel_delayed_work_sync(&tp->hw_phy_work);
+--=20
+2.39.1
 
