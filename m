@@ -2,188 +2,76 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F3BBEB64DC
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Jul 2023 19:06:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0035FEB64DD
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Jul 2023 19:18:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232347AbjGFTGT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Jul 2023 15:06:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39668 "EHLO
+        id S232022AbjGFTSc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Jul 2023 15:18:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231213AbjGFTGO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Jul 2023 15:06:14 -0400
-X-Greylist: delayed 5284 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Jul 2023 12:06:12 PDT
-Received: from out02.mta.xmission.com (out02.mta.xmission.com [166.70.13.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69E491BDB;
-        Thu,  6 Jul 2023 12:06:12 -0700 (PDT)
-Received: from in01.mta.xmission.com ([166.70.13.51]:40568)
-        by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1qHQio-00FMgf-7e; Thu, 06 Jul 2023 09:16:42 -0600
-Received: from ip68-110-29-46.om.om.cox.net ([68.110.29.46]:55228 helo=email.froward.int.ebiederm.org.xmission.com)
-        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1qHQim-00AsXt-Fk; Thu, 06 Jul 2023 09:16:41 -0600
-From:   "Eric W. Biederman" <ebiederm@xmission.com>
-To:     Jeff Layton <jlayton@kernel.org>
-Cc:     jk@ozlabs.org, arnd@arndb.de, mpe@ellerman.id.au,
-        npiggin@gmail.com, christophe.leroy@csgroup.eu, hca@linux.ibm.com,
-        gor@linux.ibm.com, agordeev@linux.ibm.com,
-        borntraeger@linux.ibm.com, svens@linux.ibm.com,
-        gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
-        maco@android.com, joel@joelfernandes.org, brauner@kernel.org,
-        cmllamas@google.com, surenb@google.com,
-        dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca,
-        leon@kernel.org, bwarrum@linux.ibm.com, rituagar@linux.ibm.com,
-        ericvh@kernel.org, lucho@ionkov.net, asmadeus@codewreck.org,
-        linux_oss@crudebyte.com, dsterba@suse.com, dhowells@redhat.com,
-        marc.dionne@auristor.com, viro@zeniv.linux.org.uk,
-        raven@themaw.net, luisbg@kernel.org, salah.triki@gmail.com,
-        aivazian.tigran@gmail.com, keescook@chromium.org, clm@fb.com,
-        josef@toxicpanda.com, xiubli@redhat.com, idryomov@gmail.com,
-        jaharkes@cs.cmu.edu, coda@cs.cmu.edu, jlbec@evilplan.org,
-        hch@lst.de, nico@fluxnic.net, rafael@kernel.org, code@tyhicks.com,
-        ardb@kernel.org, xiang@kernel.org, chao@kernel.org,
-        huyue2@coolpad.com, jefflexu@linux.alibaba.com,
-        linkinjeon@kernel.org, sj1557.seo@samsung.com, jack@suse.com,
-        tytso@mit.edu, adilger.kernel@dilger.ca, jaegeuk@kernel.org,
-        hirofumi@mail.parknet.co.jp, miklos@szeredi.hu,
-        rpeterso@redhat.com, agruenba@redhat.com, richard@nod.at,
-        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-        mikulas@artax.karlin.mff.cuni.cz, mike.kravetz@oracle.com,
-        muchun.song@linux.dev, dwmw2@infradead.org, shaggy@kernel.org,
-        tj@kernel.org, trond.myklebust@hammerspace.com, anna@kernel.org,
-        chuck.lever@oracle.com, neilb@suse.de, kolga@netapp.com,
-        Dai.Ngo@oracle.com, tom@talpey.com, konishi.ryusuke@gmail.com,
-        anton@tuxera.com, almaz.alexandrovich@paragon-software.com,
-        mark@fasheh.com, joseph.qi@linux.alibaba.com, me@bobcopeland.com,
-        hubcap@omnibond.com, martin@omnibond.com, amir73il@gmail.com,
-        mcgrof@kernel.org, yzaikin@google.com, tony.luck@intel.com,
-        gpiccoli@igalia.com, al@alarsen.net, sfrench@samba.org,
-        pc@manguebit.com, lsahlber@redhat.com, sprasad@microsoft.com,
-        senozhatsky@chromium.org, phillip@squashfs.org.uk,
-        rostedt@goodmis.org, mhiramat@kernel.org, dushistov@mail.ru,
-        hdegoede@redhat.com, djwong@kernel.org, dlemoal@kernel.org,
-        naohiro.aota@wdc.com, jth@kernel.org, ast@kernel.org,
-        daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
-        song@kernel.org, yhs@fb.com, john.fastabend@gmail.com,
-        kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
-        jolsa@kernel.org, hughd@google.com, akpm@linux-foundation.org,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, john.johansen@canonical.com,
-        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-        stephen.smalley.work@gmail.com, eparis@parisplace.org,
-        jgross@suse.com, stern@rowland.harvard.edu, lrh2000@pku.edu.cn,
-        sebastian.reichel@collabora.com, wsa+renesas@sang-engineering.com,
-        quic_ugoswami@quicinc.com, quic_linyyuan@quicinc.com,
-        john@keeping.me.uk, error27@gmail.com, quic_uaggarwa@quicinc.com,
-        hayama@lineo.co.jp, jomajm@gmail.com, axboe@kernel.dk,
-        dhavale@google.com, dchinner@redhat.com, hannes@cmpxchg.org,
-        zhangpeng362@huawei.com, slava@dubeyko.com, gargaditya08@live.com,
-        penguin-kernel@I-love.SAKURA.ne.jp, yifeliu@cs.stonybrook.edu,
-        madkar@cs.stonybrook.edu, ezk@cs.stonybrook.edu,
-        yuzhe@nfschina.com, willy@infradead.org, okanatov@gmail.com,
-        jeffxu@chromium.org, linux@treblig.org, mirimmad17@gmail.com,
-        yijiangshan@kylinos.cn, yang.yang29@zte.com.cn,
-        xu.xin16@zte.com.cn, chengzhihao1@huawei.com, shr@devkernel.io,
-        Liam.Howlett@Oracle.com, adobriyan@gmail.com,
-        chi.minghao@zte.com.cn, roberto.sassu@huawei.com,
-        linuszeng@tencent.com, bvanassche@acm.org, zohar@linux.ibm.com,
-        yi.zhang@huawei.com, trix@redhat.com, fmdefrancesco@gmail.com,
-        ebiggers@google.com, princekumarmaurya06@gmail.com,
-        chenzhongjin@huawei.com, riel@surriel.com,
-        shaozhengchao@huawei.com, jingyuwang_vip@163.com,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-usb@vger.kernel.org, v9fs@lists.linux.dev,
-        linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org,
-        autofs@vger.kernel.org, linux-mm@kvack.org,
-        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-        codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        cluster-devel@redhat.com, linux-um@lists.infradead.org,
-        linux-mtd@lists.infradead.org,
-        jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
-        ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
-        linux-karma-devel@lists.sourceforge.net, devel@lists.orangefs.org,
-        linux-unionfs@vger.kernel.org, linux-hardening@vger.kernel.org,
-        reiserfs-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org,
-        linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-        bpf@vger.kernel.org, netdev@vger.kernel.org,
-        apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
-        selinux@vger.kernel.org
-References: <20230705185812.579118-1-jlayton@kernel.org>
-        <a4e6cfec345487fc9ac8ab814a817c79a61b123a.camel@kernel.org>
-Date:   Thu, 06 Jul 2023 10:16:19 -0500
-In-Reply-To: <a4e6cfec345487fc9ac8ab814a817c79a61b123a.camel@kernel.org> (Jeff
-        Layton's message of "Wed, 05 Jul 2023 17:57:46 -0400")
-Message-ID: <87ilaxgjek.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        with ESMTP id S229802AbjGFTSb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Jul 2023 15:18:31 -0400
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D471B1FC6;
+        Thu,  6 Jul 2023 12:18:28 -0700 (PDT)
+Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-785ccf19489so38183339f.3;
+        Thu, 06 Jul 2023 12:18:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688671108; x=1691263108;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=faxYBbkQkNObmdMc/UQbbUm/hK3wFyofz1gvqfG1ZAI=;
+        b=bnvp8zghDroiu7Zhx8wtj3jO926IoH43utxYHD4CtVtavupTyH/thCan9LM1zjFChK
+         q1lpo8Ch3d7jg8plrBY+3SwarTEYjGSh5IWsHPyzCySLwOepXXQseZ97uQ202dKABZgV
+         J+xOiVYNPLl/dxVHkAcIvzOMjGQejRv0I/P4mREiA+NWNmsnMXx6yVR+C07sf6DNgpWb
+         f6SaYthSFMm4wVAEGilkhRwqAt7pVEocswECxr3RsNmzn/KZCHb5Xrw+91ts0Fu90nwK
+         dvdiX4mcNuHdR7+eupYNZWdUNvCP89biVfQezlwS7dKjeYbypaPj2wnAw/2KUzr2+adU
+         ulDw==
+X-Gm-Message-State: ABy/qLYidU4dyJbM5Mm2IZXp4DBM2UEI80RAovcAOaExtnon8+xO8w2d
+        D5PdsIjprYLoTjr7sXs3hg==
+X-Google-Smtp-Source: APBJJlHhDQu+XP5X/+eyrY1BNM6jiIubxCPBwZi3080/0+VQd6I0eOXPQnvqJbl0iykgztx+ippEaA==
+X-Received: by 2002:a6b:760f:0:b0:785:d28f:1526 with SMTP id g15-20020a6b760f000000b00785d28f1526mr2960814iom.3.1688671108093;
+        Thu, 06 Jul 2023 12:18:28 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id i13-20020a02ca4d000000b004267abdb240sm692774jal.38.2023.07.06.12.18.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jul 2023 12:18:27 -0700 (PDT)
+Received: (nullmailer pid 177010 invoked by uid 1000);
+        Thu, 06 Jul 2023 19:18:25 -0000
+Date:   Thu, 6 Jul 2023 13:18:25 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/1] dt-bindings: usb: ci-hdrc-usb2: Fix number of clocks
+Message-ID: <20230706191825.GA170669-robh@kernel.org>
+References: <20230706093928.3580544-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1qHQim-00AsXt-Fk;;;mid=<87ilaxgjek.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.110.29.46;;;frm=ebiederm@xmission.com;;;spf=pass
-X-XM-AID: U2FsdGVkX19hfnilZzLMqG1RlF+DuMto1+nqSkCNAbk=
-X-SA-Exim-Connect-IP: 68.110.29.46
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [PATCH v2 00/89] fs: new accessors for inode->i_ctime
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230706093928.3580544-1-alexander.stein@ew.tq-group.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Jeff Layton <jlayton@kernel.org> writes:
+On Thu, Jul 06, 2023 at 11:39:28AM +0200, Alexander Stein wrote:
+> Some (older) IP cores require 3 clocks, named 'ipg', 'ahb' and 'per' while
+> more recent IP cores just require one. Fix the number and explicitly
+> state the clock-names.
+> 
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+> >From I can tell, is that imx25, imx27, imx35 have specified 3 clocks in
+> their DT.
+> IMHO minItems for 'clock-names' can be removed as I presume that this
+> property is not set when only one clock is used.
 
-> On Wed, 2023-07-05 at 14:58 -0400, Jeff Layton wrote:
->> v2:
->> - prepend patches to add missing ctime updates
->> - add simple_rename_timestamp helper function
->> - rename ctime accessor functions as inode_get_ctime/inode_set_ctime_*
->> - drop individual inode_ctime_set_{sec,nsec} helpers
->> 
->> I've been working on a patchset to change how the inode->i_ctime is
->> accessed in order to give us conditional, high-res timestamps for the
->> ctime and mtime. struct timespec64 has unused bits in it that we can use
->> to implement this. In order to do that however, we need to wrap all
->> accesses of inode->i_ctime to ensure that bits used as flags are
->> appropriately handled.
->> 
->> The patchset starts with reposts of some missing ctime updates that I
->> spotted in the tree. It then adds a new helper function for updating the
->> timestamp after a successful rename, and new ctime accessor
->> infrastructure.
->> 
->> The bulk of the patchset is individual conversions of different
->> subsysteme to use the new infrastructure. Finally, the patchset renames
->> the i_ctime field to __i_ctime to help ensure that I didn't miss
->> anything.
->> 
->> This should apply cleanly to linux-next as of this morning.
->> 
->> Most of this conversion was done via 5 different coccinelle scripts, run
->> in succession, with a large swath of by-hand conversions to clean up the
->> remainder.
->> 
->
-> A couple of other things I should note:
->
-> If you sent me an Acked-by or Reviewed-by in the previous set, then I
-> tried to keep it on the patch here, since the respun patches are mostly
-> just renaming stuff from v1. Let me know if I've missed any.
->
-> I've also pushed the pile to my tree as this tag:
->
->     https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git/tag/?h=ctime.20230705
->
-> In case that's easier to work with.
+Rather than presume, did you test that? Well, I did[1] and can confirm.
 
-Are there any preliminary patches showing what you want your introduced
-accessors to turn into?  It is hard to judge the sanity of the
-introduction of wrappers without seeing what the wrappers are ultimately
-going to do.
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Eric
+[1] https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230706093928.3580544-1-alexander.stein@ew.tq-group.com/
