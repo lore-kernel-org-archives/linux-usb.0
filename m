@@ -2,100 +2,123 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36405C001E0
-	for <linux-usb@archiver.kernel.org>; Sun,  9 Jul 2023 20:13:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84597EB64DD
+	for <linux-usb@archiver.kernel.org>; Sun,  9 Jul 2023 20:25:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229656AbjGIUNP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 9 Jul 2023 16:13:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53388 "EHLO
+        id S230120AbjGIUZX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 9 Jul 2023 16:25:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230004AbjGIUNO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 9 Jul 2023 16:13:14 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADF6912E
-        for <linux-usb@vger.kernel.org>; Sun,  9 Jul 2023 13:13:12 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2b5c231c23aso59119801fa.0
-        for <linux-usb@vger.kernel.org>; Sun, 09 Jul 2023 13:13:12 -0700 (PDT)
+        with ESMTP id S230118AbjGIUZW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 9 Jul 2023 16:25:22 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 085881B0
+        for <linux-usb@vger.kernel.org>; Sun,  9 Jul 2023 13:25:14 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2b703c900e3so57167841fa.1
+        for <linux-usb@vger.kernel.org>; Sun, 09 Jul 2023 13:25:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688933591; x=1691525591;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c7lSjPQNhr0BWjor5LdaN815hU/chfe4hoYUxqnTCAI=;
-        b=T5GzhtTyJjxGyLP24p+UvR8XLrB4NVRE7/XTXnHdYuT77xZjInL1SKJoXJXffjIa3e
-         hUxY+aw8lZWYqavxNLsCk072IIDUzC27HS4WGJjZhXR6GsfqE10BM1LBkwHterRl5vYD
-         ZZpRxt9ZEOzVu8OD6ELJrTwnL7hAce86y6Zu3nEHY41nQRqGO4d2lL6oczaA5sMUXdGZ
-         tTI72OzMVuaNd9VhQlcEkzCJSz3O24Yxw8ShDUL5aJ40jVI19BKcsNB816PUuO2Xrh+A
-         p5v5DPBxmn7jF+kjqdLcVz+cBYXAEdUdI6eg8XjNXCEM+dl+kHMyU/d/B8Rk+6zwPitS
-         WvVw==
+        d=linaro.org; s=google; t=1688934313; x=1691526313;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7cndd2/vN8mxQVPz3p9JPigBgvvmJD7oR5tvQT/hZpo=;
+        b=BZNmcrjwoY671k6LUCulctqznIPimA0aujVzqGE1z/1Y3G7VxTKtqrOI3kN4P3bOb8
+         hCOdFh5OWC31rF8U5PmhKpVT92ITjCM/uyCc7KFXzffTpe75BpkeFPa3Be/Sv9OB8s+M
+         8RcK3f2K8N/zlbsWwX4kBYEr2ldozCPQBX2UESN+/OLASYbhv5dwpcTWR1IGTSFAsgsQ
+         qCFcGDWBPbl0GQnRp1eqrDkHS2gGDQLg8pce6gYnx/sAY+6Mhr98X2cMO+unY1aFH0Es
+         cLC7kdLYd74Ac2xik06kVe6EOFPyfNCtcllzyIDNJniVLjjY/kSwS68X9y5oDMmIacQs
+         eeww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688933591; x=1691525591;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=c7lSjPQNhr0BWjor5LdaN815hU/chfe4hoYUxqnTCAI=;
-        b=LSM2pq+jwDrqK6GRRD3oDE4HB1ntwaAlFo0B9+SCPJlHUrbgzXiV3wS/t0L6JkFHPx
-         aoRYpMXn8l2klCngh58kOV09+ItamNaB/85qca8G7P+2w0VmhT7VQa8Oe/tHshFJGs9z
-         rVreUnVhb6jzPBgALgFRN+Uuyw8Vnrq0ZGXdNo5l9OEWoOrW3bBxZ1PGKOFkslvT3McJ
-         sAcfErgfM5Zszc6cu+Re8Lz0E4SDiXO7qrfSqy87NebGjE+aKVAyTxu5uSO4ToBcOmNH
-         bYhhl/gCmfA6nUkPT56uh//umA58KMrQjOMtMXdB27+E6vt5VxHtnl7gphjM4JzTLqXI
-         FJVA==
-X-Gm-Message-State: ABy/qLbVdGj11uWaBELi5qNAUXJwr8hi0F8UmpazUuOLmk4hSCw9g/5Q
-        a26VzwkTWUZyV3KvZijO0jB60g==
-X-Google-Smtp-Source: APBJJlFZuEiOyJs+Wxo5yotGxmFY/kIczdsa1ko9Q5u26MRMkHnsWnGRIo9a62sNAbznJh5fjeHpqw==
-X-Received: by 2002:a05:6512:3295:b0:4f8:770f:1b0b with SMTP id p21-20020a056512329500b004f8770f1b0bmr7078397lfe.33.1688933591071;
-        Sun, 09 Jul 2023 13:13:11 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688934313; x=1691526313;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7cndd2/vN8mxQVPz3p9JPigBgvvmJD7oR5tvQT/hZpo=;
+        b=VGpBe7kdnjFZi2tM4uzTAiOFocK4Bi/TLASwzYxBBCyZtgnoK/RXmrgog9yUzduLPz
+         YOFsL5clzxL9SY5WA4EQcdgfK6lX34QpcoLIDCWa/XugLYrRY8f7Lqec5zjAEBeVpfIe
+         QhXz4adjZihBE2taoEZFU+67NvrsTdEfRYPhb85LcpB5Pk3037xdh3qDivGvfZESbTyl
+         8PsnaL9ng9MPybHG/ZvF9qdCDkhPCBXyoIfB5YWIbpTymIWbwJjZmFu95SOBJHkL2Jva
+         LmK4WBecxDfgVCf57L4MfO2+Lt/693uG+dBPGnnzoKSIy63hT/1M2tCSujkCyJH8K/sZ
+         6meg==
+X-Gm-Message-State: ABy/qLasb+9gPT7pEixZebiXjGJeNgoAI/c7E1Z3463wEzqoErbtAsbQ
+        SEJ/yn/vIzfjcins0QySMxKC4Q==
+X-Google-Smtp-Source: APBJJlGTqVrebBJDYVqNBkWa/EbTHWNbbJL+SjsdAlmpBYlGziNNTppbAc5A3pBDgoXxeQfkedRxvQ==
+X-Received: by 2002:a05:6512:6c7:b0:4fb:8eec:ce47 with SMTP id u7-20020a05651206c700b004fb8eecce47mr8568506lff.58.1688934313030;
+        Sun, 09 Jul 2023 13:25:13 -0700 (PDT)
 Received: from lothlorien.lan (dzdqv0yyyyyyyyyyybm5y-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::ab2])
-        by smtp.gmail.com with ESMTPSA id c12-20020ac2530c000000b004fb77d6cab3sm1420378lfh.261.2023.07.09.13.13.10
+        by smtp.gmail.com with ESMTPSA id 8-20020ac24828000000b004fb771a5b2dsm1428774lft.1.2023.07.09.13.25.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jul 2023 13:13:10 -0700 (PDT)
+        Sun, 09 Jul 2023 13:25:12 -0700 (PDT)
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Andy Gross <agross@kernel.org>,
+        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
+        <ville.syrjala@linux.intel.com>
+Cc:     Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
         Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2 1/2] usb: typec: altmodes/displayport: add support for embedded DP cases
-Date:   Sun,  9 Jul 2023 23:13:08 +0300
-Message-Id: <20230709201309.274306-2-dmitry.baryshkov@linaro.org>
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org
+Subject: [PATCH v6 0/3] drm/bridge_connector: implement OOB HPD handling
+Date:   Sun,  9 Jul 2023 23:25:08 +0300
+Message-Id: <20230709202511.287794-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230709201309.274306-1-dmitry.baryshkov@linaro.org>
-References: <20230709201309.274306-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In the embedded cases, the DisplayPort connector is handled by the TCPM
-itself. Fallback to the controller fwnode for HPD notifications to
-support such usecases without requiring additional DT properties.
+Note, numbering for this series starts from v5, since there were several
+revisions for this patchset under a different series title ([1]).
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/usb/typec/altmodes/displayport.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+USB altmodes code would send OOB notifications to the drm_connector
+specified in the device tree. However as the MSM DP driver uses
+drm_bridge_connector, there is no way to receive these event directly.
+Implement a bridge between oob_hotplug_event and drm_bridge's
+hpd_notify.
 
-diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-index 4e5aa17ce4c8..699438c7755e 100644
---- a/drivers/usb/typec/altmodes/displayport.c
-+++ b/drivers/usb/typec/altmodes/displayport.c
-@@ -578,7 +578,10 @@ int dp_altmode_probe(struct typec_altmode *alt)
- 	alt->ops = &dp_altmode_ops;
- 
- 	fwnode = dev_fwnode(alt->dev.parent->parent); /* typec_port fwnode */
--	dp->connector_fwnode = fwnode_find_reference(fwnode, "displayport", 0);
-+	if (fwnode_property_present(fwnode, "displayport"))
-+		dp->connector_fwnode = fwnode_find_reference(fwnode, "displayport", 0);
-+	else
-+		dp->connector_fwnode = fwnode_handle_get(fwnode); /* embedded DP */
- 	if (IS_ERR(dp->connector_fwnode))
- 		dp->connector_fwnode = NULL;
- 
+Merge strategy: since this series touches i915 code, it might make sense
+to merge it through drm-intel.
+
+[1] https://patchwork.freedesktop.org/series/103449/
+
+Changes since v5:
+- Fixed checkpatch warning in the first patch (noted by intel-gfx CI).
+
+Changes since v4:
+- Picked up the patchset
+- Dropped msm-specific patches
+- Changed drm_bridge_connector_oob_hotplug_event to call connector's HPD
+  callback directly, rather than going through the last bridge's
+  hpd_notify
+- Added proper fwnode for the drm_bridge_connector
+
+Bjorn Andersson (1):
+  drm: Add HPD state to drm_connector_oob_hotplug_event()
+
+Dmitry Baryshkov (2):
+  drm/bridge_connector: stop filtering events in
+    drm_bridge_connector_hpd_cb()
+  drm/bridge_connector: implement oob_hotplug_event
+
+ drivers/gpu/drm/drm_bridge_connector.c        | 34 ++++++++++++++-----
+ drivers/gpu/drm/drm_connector.c               |  6 ++--
+ .../gpu/drm/i915/display/intel_display_core.h |  3 ++
+ drivers/gpu/drm/i915/display/intel_dp.c       | 17 ++++++++--
+ drivers/usb/typec/altmodes/displayport.c      | 14 ++++----
+ include/drm/drm_connector.h                   |  6 ++--
+ 6 files changed, 58 insertions(+), 22 deletions(-)
+
 -- 
 2.39.2
 
