@@ -2,461 +2,115 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EEA2C001DD
-	for <linux-usb@archiver.kernel.org>; Sun,  9 Jul 2023 11:26:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 274C1EB64DD
+	for <linux-usb@archiver.kernel.org>; Sun,  9 Jul 2023 16:34:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232391AbjGIL0p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 9 Jul 2023 07:26:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37324 "EHLO
+        id S230313AbjGIQeJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 9 Jul 2023 12:34:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232384AbjGIL0o (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 9 Jul 2023 07:26:44 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D6B9186;
-        Sun,  9 Jul 2023 04:26:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EC9E260B7F;
-        Sun,  9 Jul 2023 11:26:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02BD6C433C7;
-        Sun,  9 Jul 2023 11:26:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1688902001;
-        bh=L7eJ3eDlUW/3BPXDvOEA2UOHGKJnWCcTNNKC4ZH77vg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=p8hY7/XF1zlJGE57J4v+RfdD59PT4Tj9aoHcSYsmABgV0tHUP7hNv9p7C01rWQiyd
-         LUKrw0lUoyUj2UKzkHq3qt13Mzj+/FsGkNp9RUliNcyYLNQn86nl3fOD01POScWIK2
-         SPGMpxCBVNZBXhB9KZTqAINOH6yby9B63VSJRoR8=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     stable@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        patches@lists.linux.dev, Bin Liu <b-liu@ti.com>,
-        linux-usb@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.3 221/431] ARM/musb: omap2: Remove global GPIO numbers from TUSB6010
-Date:   Sun,  9 Jul 2023 13:12:49 +0200
-Message-ID: <20230709111456.342861636@linuxfoundation.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230709111451.101012554@linuxfoundation.org>
-References: <20230709111451.101012554@linuxfoundation.org>
-User-Agent: quilt/0.67
+        with ESMTP id S229534AbjGIQeI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 9 Jul 2023 12:34:08 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FE61D1
+        for <linux-usb@vger.kernel.org>; Sun,  9 Jul 2023 09:34:06 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qIXM7-0001sl-4H; Sun, 09 Jul 2023 18:33:51 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qIXM4-00DE3K-KZ; Sun, 09 Jul 2023 18:33:48 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qIXM3-003ZSr-J6; Sun, 09 Jul 2023 18:33:47 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        kernel@pengutronix.de
+Subject: [PATCH] usb: mtu3: Convert to platform remove callback returning void
+Date:   Sun,  9 Jul 2023 18:33:35 +0200
+Message-Id: <20230709163335.3458886-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2295; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=/T81r6WMwxUmMRasfxa3EFZ+33Itiuk1lnEmTTIiUEE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkquFeaWYzHB0WPRXpdx3gj8S2IYC/Tb6hepJB1 5si0hE78zyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZKrhXgAKCRCPgPtYfRL+ TtB3CACqUHCt0leatj03pGWzZcvTc7K7duu3YsJl9lvMXFRPBFSuX/URjSb0jT7nr0FfXYKh3/g seOqPRKvDqfdgDZUAZqKBG/O4G/3wwvl0+drPI8zXz9aNs7jF8Wqk0jbB+koZsUyq9rQqA1bE5j ILN/9NZW58jpKMvwRervrT1nttwDo0DIJyBCu92iMLwrovFFF0uQk3kMulHihpY0Ob9K11fpR3V IsdWmfQjOdBSDczX+GdspxQzpy5KViD7JcbIDtKA2yDsgoJPALhuTqIT91UmDHqqcEyevyCTOp5 W6tXo5XsL1Tp8COTPAccBbscIH/oefZlDOube+CCXlr/7lkd
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Linus Walleij <linus.walleij@linaro.org>
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
-[ Upstream commit 8e0285ab95a9baf374f2c13eb152221c8ecb3f28 ]
+The function mtu3_remove() can only return a non-zero value if
+ssusb->dr_mode is neiter USB_DR_MODE_PERIPHERAL nor USB_DR_MODE_HOST nor
+USB_DR_MODE_OTG. In this case however the probe callback doesn't succeed
+and so the remove callback isn't called at all. So the code branch
+resulting in this error path can just be dropped and then mtu3_remove()
+be converted to return void trivially.
 
-The TUSB6010 (MUSB) device is picking up some GPIO lines
-hardcoded by number and passing on to the TUSB6010 device
-when registering it.
-
-Instead of nasty workarounds, provide a GPIO descriptor
-table and then make the TUSB6010 MUSB glue driver pick up
-the GPIO lines directly, convert it to an IRQ and pass down
-to the MUSB driver. OMAP2 is the only system using the
-TUSB6010.
-
-Stash the GPIO descriptors in the glue layer and use
-then to power up and down the TUSB6010 on-demand, instead
-of using boardfile callbacks.
-
-Since the OMAP2 boards are the only boards using the
-.set_power() and .board_set_power() callbacks, we can
-just delete them as the power is now handled directly
-in the TUSB6010 glue code.
-
-Cc: Bin Liu <b-liu@ti.com>
-Cc: linux-usb@vger.kernel.org
-Fixes: 92bf78b33b0b ("gpio: omap: use dynamic allocation of base")
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- arch/arm/mach-omap2/board-n8x0.c   | 71 ++++++++----------------------
- arch/arm/mach-omap2/usb-tusb6010.c | 20 ++-------
- arch/arm/mach-omap2/usb-tusb6010.h | 12 +++++
- drivers/usb/musb/musb_core.c       |  1 -
- drivers/usb/musb/musb_core.h       |  2 -
- drivers/usb/musb/tusb6010.c        | 53 ++++++++++++++++------
- include/linux/usb/musb.h           | 13 ------
- 7 files changed, 73 insertions(+), 99 deletions(-)
- create mode 100644 arch/arm/mach-omap2/usb-tusb6010.h
+ drivers/usb/mtu3/mtu3_plat.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm/mach-omap2/board-n8x0.c b/arch/arm/mach-omap2/board-n8x0.c
-index 50b88eb23f9f8..564bf80a26212 100644
---- a/arch/arm/mach-omap2/board-n8x0.c
-+++ b/arch/arm/mach-omap2/board-n8x0.c
-@@ -10,8 +10,8 @@
- 
- #include <linux/clk.h>
- #include <linux/delay.h>
--#include <linux/gpio.h>
- #include <linux/gpio/machine.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/init.h>
- #include <linux/io.h>
- #include <linux/irq.h>
-@@ -29,13 +29,12 @@
- 
- #include "common.h"
- #include "mmc.h"
-+#include "usb-tusb6010.h"
- #include "soc.h"
- #include "common-board-devices.h"
- 
- #define TUSB6010_ASYNC_CS	1
- #define TUSB6010_SYNC_CS	4
--#define TUSB6010_GPIO_INT	58
--#define TUSB6010_GPIO_ENABLE	0
- #define TUSB6010_DMACHAN	0x3f
- 
- #define NOKIA_N810_WIMAX	(1 << 2)
-@@ -62,37 +61,6 @@ static void board_check_revision(void)
+diff --git a/drivers/usb/mtu3/mtu3_plat.c b/drivers/usb/mtu3/mtu3_plat.c
+index 6f264b129243..cc53bfa25b23 100644
+--- a/drivers/usb/mtu3/mtu3_plat.c
++++ b/drivers/usb/mtu3/mtu3_plat.c
+@@ -451,7 +451,7 @@ static int mtu3_probe(struct platform_device *pdev)
+ 	return ret;
  }
  
- #if IS_ENABLED(CONFIG_USB_MUSB_TUSB6010)
--/*
-- * Enable or disable power to TUSB6010. When enabling, turn on 3.3 V and
-- * 1.5 V voltage regulators of PM companion chip. Companion chip will then
-- * provide then PGOOD signal to TUSB6010 which will release it from reset.
-- */
--static int tusb_set_power(int state)
--{
--	int i, retval = 0;
--
--	if (state) {
--		gpio_set_value(TUSB6010_GPIO_ENABLE, 1);
--		msleep(1);
--
--		/* Wait until TUSB6010 pulls INT pin down */
--		i = 100;
--		while (i && gpio_get_value(TUSB6010_GPIO_INT)) {
--			msleep(1);
--			i--;
--		}
--
--		if (!i) {
--			printk(KERN_ERR "tusb: powerup failed\n");
--			retval = -ENODEV;
--		}
--	} else {
--		gpio_set_value(TUSB6010_GPIO_ENABLE, 0);
--		msleep(10);
--	}
--
--	return retval;
--}
- 
- static struct musb_hdrc_config musb_config = {
- 	.multipoint	= 1,
-@@ -103,39 +71,36 @@ static struct musb_hdrc_config musb_config = {
- 
- static struct musb_hdrc_platform_data tusb_data = {
- 	.mode		= MUSB_OTG,
--	.set_power	= tusb_set_power,
- 	.min_power	= 25,	/* x2 = 50 mA drawn from VBUS as peripheral */
- 	.power		= 100,	/* Max 100 mA VBUS for host mode */
- 	.config		= &musb_config,
- };
- 
-+static struct gpiod_lookup_table tusb_gpio_table = {
-+	.dev_id = "musb-tusb",
-+	.table = {
-+		GPIO_LOOKUP("gpio-0-15", 0, "enable",
-+			    GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("gpio-48-63", 10, "int",
-+			    GPIO_ACTIVE_HIGH),
-+		{ }
-+	},
-+};
-+
- static void __init n8x0_usb_init(void)
+-static int mtu3_remove(struct platform_device *pdev)
++static void mtu3_remove(struct platform_device *pdev)
  {
- 	int ret = 0;
--	static const char announce[] __initconst = KERN_INFO "TUSB 6010\n";
--
--	/* PM companion chip power control pin */
--	ret = gpio_request_one(TUSB6010_GPIO_ENABLE, GPIOF_OUT_INIT_LOW,
--			       "TUSB6010 enable");
--	if (ret != 0) {
--		printk(KERN_ERR "Could not get TUSB power GPIO%i\n",
--		       TUSB6010_GPIO_ENABLE);
--		return;
--	}
--	tusb_set_power(0);
+ 	struct ssusb_mtk *ssusb = platform_get_drvdata(pdev);
  
-+	gpiod_add_lookup_table(&tusb_gpio_table);
- 	ret = tusb6010_setup_interface(&tusb_data, TUSB6010_REFCLK_19, 2,
--					TUSB6010_ASYNC_CS, TUSB6010_SYNC_CS,
--					TUSB6010_GPIO_INT, TUSB6010_DMACHAN);
-+				       TUSB6010_ASYNC_CS, TUSB6010_SYNC_CS,
-+				       TUSB6010_DMACHAN);
- 	if (ret != 0)
--		goto err;
-+		return;
- 
--	printk(announce);
-+	pr_info("TUSB 6010\n");
- 
- 	return;
--
--err:
--	gpio_free(TUSB6010_GPIO_ENABLE);
- }
- #else
- 
-diff --git a/arch/arm/mach-omap2/usb-tusb6010.c b/arch/arm/mach-omap2/usb-tusb6010.c
-index 18fa52f828dc7..b46c254c2bc41 100644
---- a/arch/arm/mach-omap2/usb-tusb6010.c
-+++ b/arch/arm/mach-omap2/usb-tusb6010.c
-@@ -11,12 +11,12 @@
- #include <linux/errno.h>
- #include <linux/delay.h>
- #include <linux/platform_device.h>
--#include <linux/gpio.h>
- #include <linux/export.h>
- #include <linux/platform_data/usb-omap.h>
- 
- #include <linux/usb/musb.h>
- 
-+#include "usb-tusb6010.h"
- #include "gpmc.h"
- 
- static u8		async_cs, sync_cs;
-@@ -132,10 +132,6 @@ static struct resource tusb_resources[] = {
- 	{ /* Synchronous access */
- 		.flags	= IORESOURCE_MEM,
- 	},
--	{ /* IRQ */
--		.name	= "mc",
--		.flags	= IORESOURCE_IRQ,
--	},
- };
- 
- static u64 tusb_dmamask = ~(u32)0;
-@@ -154,9 +150,9 @@ static struct platform_device tusb_device = {
- 
- /* this may be called only from board-*.c setup code */
- int __init tusb6010_setup_interface(struct musb_hdrc_platform_data *data,
--		unsigned ps_refclk, unsigned waitpin,
--		unsigned async, unsigned sync,
--		unsigned irq, unsigned dmachan)
-+		unsigned int ps_refclk, unsigned int waitpin,
-+		unsigned int async, unsigned int sync,
-+		unsigned int dmachan)
- {
- 	int		status;
- 	static char	error[] __initdata =
-@@ -192,14 +188,6 @@ int __init tusb6010_setup_interface(struct musb_hdrc_platform_data *data,
- 	if (status < 0)
- 		return status;
- 
--	/* IRQ */
--	status = gpio_request_one(irq, GPIOF_IN, "TUSB6010 irq");
--	if (status < 0) {
--		printk(error, 3, status);
--		return status;
--	}
--	tusb_resources[2].start = gpio_to_irq(irq);
--
- 	/* set up memory timings ... can speed them up later */
- 	if (!ps_refclk) {
- 		printk(error, 4, status);
-diff --git a/arch/arm/mach-omap2/usb-tusb6010.h b/arch/arm/mach-omap2/usb-tusb6010.h
-new file mode 100644
-index 0000000000000..d210ff6238c26
---- /dev/null
-+++ b/arch/arm/mach-omap2/usb-tusb6010.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __USB_TUSB6010_H
-+#define __USB_TUSB6010_H
-+
-+extern int __init tusb6010_setup_interface(
-+		struct musb_hdrc_platform_data *data,
-+		unsigned int ps_refclk, unsigned int waitpin,
-+		unsigned int async_cs, unsigned int sync_cs,
-+		unsigned int dmachan);
-+
-+#endif /* __USB_TUSB6010_H */
-diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
-index 648bb6021c5ef..dc773f4f6df2d 100644
---- a/drivers/usb/musb/musb_core.c
-+++ b/drivers/usb/musb/musb_core.c
-@@ -2330,7 +2330,6 @@ musb_init_controller(struct device *dev, int nIrq, void __iomem *ctrl)
- 
- 	spin_lock_init(&musb->lock);
- 	spin_lock_init(&musb->list_lock);
--	musb->board_set_power = plat->set_power;
- 	musb->min_power = plat->min_power;
- 	musb->ops = plat->platform_ops;
- 	musb->port_mode = plat->mode;
-diff --git a/drivers/usb/musb/musb_core.h b/drivers/usb/musb/musb_core.h
-index b7588d11cfc59..91b5b6b66f963 100644
---- a/drivers/usb/musb/musb_core.h
-+++ b/drivers/usb/musb/musb_core.h
-@@ -352,8 +352,6 @@ struct musb {
- 	u16 epmask;
- 	u8 nr_endpoints;
- 
--	int			(*board_set_power)(int state);
--
- 	u8			min_power;	/* vbus for periph, in mA/2 */
- 
- 	enum musb_mode		port_mode;
-diff --git a/drivers/usb/musb/tusb6010.c b/drivers/usb/musb/tusb6010.c
-index 5609b4e84d40a..b5ba713d08592 100644
---- a/drivers/usb/musb/tusb6010.c
-+++ b/drivers/usb/musb/tusb6010.c
-@@ -11,6 +11,8 @@
-  *   interface.
-  */
- 
-+#include <linux/gpio/consumer.h>
-+#include <linux/delay.h>
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/errno.h>
-@@ -30,6 +32,8 @@ struct tusb6010_glue {
- 	struct device		*dev;
- 	struct platform_device	*musb;
- 	struct platform_device	*phy;
-+	struct gpio_desc	*enable;
-+	struct gpio_desc	*intpin;
- };
- 
- static void tusb_musb_set_vbus(struct musb *musb, int is_on);
-@@ -1021,16 +1025,29 @@ static void tusb_setup_cpu_interface(struct musb *musb)
- 
- static int tusb_musb_start(struct musb *musb)
- {
-+	struct tusb6010_glue *glue = dev_get_drvdata(musb->controller->parent);
- 	void __iomem	*tbase = musb->ctrl_base;
--	int		ret = 0;
- 	unsigned long	flags;
- 	u32		reg;
-+	int		i;
- 
--	if (musb->board_set_power)
--		ret = musb->board_set_power(1);
--	if (ret != 0) {
--		printk(KERN_ERR "tusb: Cannot enable TUSB6010\n");
--		return ret;
-+	/*
-+	 * Enable or disable power to TUSB6010. When enabling, turn on 3.3 V and
-+	 * 1.5 V voltage regulators of PM companion chip. Companion chip will then
-+	 * provide then PGOOD signal to TUSB6010 which will release it from reset.
-+	 */
-+	gpiod_set_value(glue->enable, 1);
-+	msleep(1);
-+
-+	/* Wait for 100ms until TUSB6010 pulls INT pin down */
-+	i = 100;
-+	while (i && gpiod_get_value(glue->intpin)) {
-+		msleep(1);
-+		i--;
-+	}
-+	if (!i) {
-+		pr_err("tusb: Powerup respones failed\n");
-+		return -ENODEV;
+@@ -469,8 +469,6 @@ static int mtu3_remove(struct platform_device *pdev)
+ 		ssusb_gadget_exit(ssusb);
+ 		ssusb_host_exit(ssusb);
+ 		break;
+-	default:
+-		return -EINVAL;
  	}
  
- 	spin_lock_irqsave(&musb->lock, flags);
-@@ -1083,8 +1100,8 @@ static int tusb_musb_start(struct musb *musb)
- err:
- 	spin_unlock_irqrestore(&musb->lock, flags);
- 
--	if (musb->board_set_power)
--		musb->board_set_power(0);
-+	gpiod_set_value(glue->enable, 0);
-+	msleep(10);
- 
- 	return -ENODEV;
+ 	ssusb_rscs_exit(ssusb);
+@@ -478,8 +476,6 @@ static int mtu3_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ 	pm_runtime_put_noidle(&pdev->dev);
+ 	pm_runtime_set_suspended(&pdev->dev);
+-
+-	return 0;
  }
-@@ -1158,11 +1175,13 @@ static int tusb_musb_init(struct musb *musb)
  
- static int tusb_musb_exit(struct musb *musb)
- {
-+	struct tusb6010_glue *glue = dev_get_drvdata(musb->controller->parent);
-+
- 	del_timer_sync(&musb->dev_timer);
- 	the_musb = NULL;
+ static int resume_ip_and_ports(struct ssusb_mtk *ssusb, pm_message_t msg)
+@@ -615,7 +611,7 @@ MODULE_DEVICE_TABLE(of, mtu3_of_match);
  
--	if (musb->board_set_power)
--		musb->board_set_power(0);
-+	gpiod_set_value(glue->enable, 0);
-+	msleep(10);
- 
- 	iounmap(musb->sync_va);
- 
-@@ -1218,6 +1237,15 @@ static int tusb_probe(struct platform_device *pdev)
- 
- 	glue->dev			= &pdev->dev;
- 
-+	glue->enable = devm_gpiod_get(glue->dev, "enable", GPIOD_OUT_LOW);
-+	if (IS_ERR(glue->enable))
-+		return dev_err_probe(glue->dev, PTR_ERR(glue->enable),
-+				     "could not obtain power on/off GPIO\n");
-+	glue->intpin = devm_gpiod_get(glue->dev, "int", GPIOD_IN);
-+	if (IS_ERR(glue->intpin))
-+		return dev_err_probe(glue->dev, PTR_ERR(glue->intpin),
-+				     "could not obtain INT GPIO\n");
-+
- 	pdata->platform_ops		= &tusb_ops;
- 
- 	usb_phy_generic_register();
-@@ -1236,10 +1264,7 @@ static int tusb_probe(struct platform_device *pdev)
- 	musb_resources[1].end = pdev->resource[1].end;
- 	musb_resources[1].flags = pdev->resource[1].flags;
- 
--	musb_resources[2].name = pdev->resource[2].name;
--	musb_resources[2].start = pdev->resource[2].start;
--	musb_resources[2].end = pdev->resource[2].end;
--	musb_resources[2].flags = pdev->resource[2].flags;
-+	musb_resources[2] = DEFINE_RES_IRQ_NAMED(gpiod_to_irq(glue->intpin), "mc");
- 
- 	pinfo = tusb_dev_info;
- 	pinfo.parent = &pdev->dev;
-diff --git a/include/linux/usb/musb.h b/include/linux/usb/musb.h
-index e4a3ad3c800f5..3963e55e88a31 100644
---- a/include/linux/usb/musb.h
-+++ b/include/linux/usb/musb.h
-@@ -99,9 +99,6 @@ struct musb_hdrc_platform_data {
- 	/* (HOST or OTG) program PHY for external Vbus */
- 	unsigned	extvbus:1;
- 
--	/* Power the device on or off */
--	int		(*set_power)(int state);
--
- 	/* MUSB configuration-specific details */
- 	const struct musb_hdrc_config *config;
- 
-@@ -135,14 +132,4 @@ static inline int musb_mailbox(enum musb_vbus_id_status status)
- #define	TUSB6010_REFCLK_24	41667	/* psec/clk @ 24.0 MHz XI */
- #define	TUSB6010_REFCLK_19	52083	/* psec/clk @ 19.2 MHz CLKIN */
- 
--#ifdef	CONFIG_ARCH_OMAP2
--
--extern int __init tusb6010_setup_interface(
--		struct musb_hdrc_platform_data *data,
--		unsigned ps_refclk, unsigned waitpin,
--		unsigned async_cs, unsigned sync_cs,
--		unsigned irq, unsigned dmachan);
--
--#endif	/* OMAP2 */
--
- #endif /* __LINUX_USB_MUSB_H */
+ static struct platform_driver mtu3_driver = {
+ 	.probe = mtu3_probe,
+-	.remove = mtu3_remove,
++	.remove_new = mtu3_remove,
+ 	.driver = {
+ 		.name = MTU3_DRIVER_NAME,
+ 		.pm = DEV_PM_OPS,
+
+base-commit: 1c7873e3364570ec89343ff4877e0f27a7b21a61
 -- 
 2.39.2
-
-
 
