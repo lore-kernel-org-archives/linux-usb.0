@@ -2,56 +2,56 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08217C0015E
-	for <linux-usb@archiver.kernel.org>; Tue, 11 Jul 2023 17:43:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE801EB64DD
+	for <linux-usb@archiver.kernel.org>; Tue, 11 Jul 2023 17:43:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231569AbjGKRnu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 11 Jul 2023 13:43:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46054 "EHLO
+        id S231898AbjGKRnw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 11 Jul 2023 13:43:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230325AbjGKRnr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 11 Jul 2023 13:43:47 -0400
+        with ESMTP id S231349AbjGKRns (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 11 Jul 2023 13:43:48 -0400
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDD33170B;
-        Tue, 11 Jul 2023 10:43:40 -0700 (PDT)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36BGmjaM004791;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6591310D2;
+        Tue, 11 Jul 2023 10:43:41 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36BH4PTv016631;
         Tue, 11 Jul 2023 17:43:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=jVbe2XeCWv7UaQVqT4HDHH912Y0qguYXXF0TNt6HQeI=;
- b=IEeck2fvu+V/pI9VAC947bXs+1J7tBXFoL+obe5B58U/h5Pcfej8RA6uCo11H/90jEQ+
- efRCpCpSoOCZxhswHfUMPImzfBy7oKlA5idEmZCrj6nJgde/g+0oYTvaWdB/8jVcvFPZ
- iAN3/d4exopnHT2KjR5MMQj8CtaXez0uaVTNYkMrMQHynYiJ8QUZ+veRFZZOipjaSQbV
- 8qJsCQ0M5PDGBD80/5yShk7gbXI5hTK583nHjTw2CGQGASoffAtpyxCfY4/DdIsNZbbl
- 0VrFgiYFgVLjJFCdtGohiJUo9H1mRZRV2iJI9ZK+XcEcnxbvL5EEH2qeIAvm+EchAkWj HA== 
+ bh=Mf64q8swhXaaPugaGRN90qUABU8CMFiAYMOmMC3iF6s=;
+ b=Db+cUySEnxL3nUevRTtM7tdY9rhbKQy72Frd9PM0YcfJ3vos1mVk1yiVHu6bZyeO/Fgl
+ DloN5RzlsjUOnfx/OsSik6OQYUKe36L3NawB7310kiUDbek0h7GlAQBwfCoft1o7OD7S
+ KMaqJAQVpUl4H+UWlZ6mtjAle1VOStBYqkoABOepcGzEHFODxy1N4M1pcax9aL3M0T4h
+ OtH1Bgc+sdmPcPfLBZU2rTEsZ1cLkySv6WpB9wUsfZNqrF9qlFt5+gu5v7hxk0NKiN4S
+ FMYwu7zWNW+QkAqr7rHyykz/4IlQlhu/Qjy1oq6S4yuv22jtSLdQTwdVoSBqprYVW0ou fA== 
 Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rsax484d9-1
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rsb5n02rb-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Jul 2023 17:43:24 +0000
+        Tue, 11 Jul 2023 17:43:25 +0000
 Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 36BHhN8C008068;
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 36BHhNun008069;
         Tue, 11 Jul 2023 17:43:23 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-        by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 3rrpxwktxb-1;
+        by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 3rrpxwktxc-1;
         Tue, 11 Jul 2023 17:43:23 +0000
 Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36BHhNw8008051;
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36BHhNDt008053;
         Tue, 11 Jul 2023 17:43:23 GMT
 Received: from hu-devc-lv-u18-c.qualcomm.com (hu-eserrao-lv.qualcomm.com [10.47.235.27])
-        by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 36BHhNvl008046;
+        by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 36BHhNk9008047;
         Tue, 11 Jul 2023 17:43:23 +0000
 Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 464172)
-        id 4C9EB50058D; Tue, 11 Jul 2023 10:43:23 -0700 (PDT)
+        id 51CB15005AB; Tue, 11 Jul 2023 10:43:23 -0700 (PDT)
 From:   Elson Roy Serrao <quic_eserrao@quicinc.com>
 To:     Thinh.Nguyen@synopsys.com, stern@rowland.harvard.edu
 Cc:     gregkh@linuxfoundation.org, rogerq@kernel.org,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
         Elson Roy Serrao <quic_eserrao@quicinc.com>
-Subject: [PATCH v3 1/3] usb: function: u_ether: Handle rx requests during suspend/resume
-Date:   Tue, 11 Jul 2023 10:43:18 -0700
-Message-Id: <20230711174320.24058-2-quic_eserrao@quicinc.com>
+Subject: [PATCH v3 3/3] usb: dwc3: Modify runtime pm ops to handle bus suspend
+Date:   Tue, 11 Jul 2023 10:43:20 -0700
+Message-Id: <20230711174320.24058-4-quic_eserrao@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230711174320.24058-1-quic_eserrao@quicinc.com>
 References: <20230711174320.24058-1-quic_eserrao@quicinc.com>
@@ -59,195 +59,248 @@ X-QCInternal: smtphost
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: HL05zExSIE16aEfV9WnG6GW7A6T6V7Y6
-X-Proofpoint-GUID: HL05zExSIE16aEfV9WnG6GW7A6T6V7Y6
+X-Proofpoint-GUID: -KJFtHv2D7xAjEu7FjsbEEChv-NPPHIx
+X-Proofpoint-ORIG-GUID: -KJFtHv2D7xAjEu7FjsbEEChv-NPPHIx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
  definitions=2023-07-11_10,2023-07-11_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- bulkscore=0 priorityscore=1501 impostorscore=0 mlxlogscore=909 spamscore=0
- lowpriorityscore=0 adultscore=0 clxscore=1011 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2307110159
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 impostorscore=0
+ clxscore=1015 mlxscore=0 bulkscore=0 mlxlogscore=645 spamscore=0
+ adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307110159
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some UDCs might have a vote against runtime suspend if there is any
-request queued by the function driver. This would block the UDC driver
-to enter runtime suspend state when the host sends bus suspend
-notification. While tx requests get dequeued after completion, rx
-requests always remain queued for the next OUT data to be handled. Since
-during bus suspend scenario there are no active OUT transfers we can
-dequeue these requests when the function driver suspend callback gets
-called and queue them back during resume callback. Implement this
-mechanism by adding a new list for queued requests.
-
-Also move the gether_wakeup_host API to work queue context to better
-align with the remote wakeup op's synchronous operation.
+The current implementation blocks the runtime pm operations when cable
+is connected. This would block platforms from entering system wide suspend
+during bus suspend scenario. Modify the runtime pm ops to handle bus
+suspend case for such platforms where the controller low power mode
+entry/exit is handled by the glue driver. This enablement is controlled
+through a dt property and platforms capable of detecting bus resume can
+benefit from this feature. Also modify the remote wakeup operations to
+trigger runtime resume before sending wakeup signal.
 
 Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
 ---
- drivers/usb/gadget/function/u_ether.c | 47 ++++++++++++++++++++++-----
- 1 file changed, 38 insertions(+), 9 deletions(-)
+ drivers/usb/dwc3/core.c   | 26 ++++++++++++++++++++++---
+ drivers/usb/dwc3/core.h   |  3 +++
+ drivers/usb/dwc3/gadget.c | 40 ++++++++++++++++++++++++++++++++-------
+ 3 files changed, 59 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
-index a366abb45623..107677b7656f 100644
---- a/drivers/usb/gadget/function/u_ether.c
-+++ b/drivers/usb/gadget/function/u_ether.c
-@@ -62,7 +62,7 @@ struct eth_dev {
- 	struct usb_gadget	*gadget;
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index f6689b731718..898c0f68e190 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1534,6 +1534,9 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	dwc->dis_split_quirk = device_property_read_bool(dev,
+ 				"snps,dis-split-quirk");
  
- 	spinlock_t		req_lock;	/* guard {rx,tx}_reqs */
--	struct list_head	tx_reqs, rx_reqs;
-+	struct list_head	tx_reqs, rx_reqs, rx_queued_reqs;
- 	atomic_t		tx_qlen;
++	dwc->allow_rtsusp_on_u3 = device_property_read_bool(dev,
++				"snps,allow-rtsusp-on-u3");
++
+ 	dwc->lpm_nyet_threshold = lpm_nyet_threshold;
+ 	dwc->tx_de_emphasis = tx_de_emphasis;
  
- 	struct sk_buff_head	rx_frames;
-@@ -75,7 +75,7 @@ struct eth_dev {
- 						struct sk_buff *skb,
- 						struct sk_buff_head *list);
+@@ -1984,11 +1987,21 @@ static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
+ {
+ 	unsigned long	flags;
+ 	u32 reg;
++	int link_state;
  
--	struct work_struct	work;
-+	struct work_struct	work, wakeup_work;
+ 	switch (dwc->current_dr_role) {
+ 	case DWC3_GCTL_PRTCAP_DEVICE:
+ 		if (pm_runtime_suspended(dwc->dev))
+ 			break;
++
++		if (dwc->connected) {
++			link_state = dwc3_gadget_get_link_state(dwc);
++			/* bus suspend case */
++			if (dwc->allow_rtsusp_on_u3 &&
++			    link_state == DWC3_LINK_STATE_U3)
++				break;
++			return -EBUSY;
++		}
+ 		dwc3_gadget_suspend(dwc);
+ 		synchronize_irq(dwc->irq_gadget);
+ 		dwc3_core_exit(dwc);
+@@ -2045,6 +2058,9 @@ static int dwc3_resume_common(struct dwc3 *dwc, pm_message_t msg)
  
- 	unsigned long		todo;
- #define	WORK_RX_MEMORY		0
-@@ -213,7 +213,7 @@ rx_submit(struct eth_dev *dev, struct usb_request *req, gfp_t gfp_flags)
- 		if (skb)
- 			dev_kfree_skb_any(skb);
- 		spin_lock_irqsave(&dev->req_lock, flags);
--		list_add(&req->list, &dev->rx_reqs);
-+		list_move_tail(&req->list, &dev->rx_reqs);
- 		spin_unlock_irqrestore(&dev->req_lock, flags);
+ 	switch (dwc->current_dr_role) {
+ 	case DWC3_GCTL_PRTCAP_DEVICE:
++		/* bus resume case */
++		if (dwc->connected)
++			break;
+ 		ret = dwc3_core_init_for_resume(dwc);
+ 		if (ret)
+ 			return ret;
+@@ -2123,9 +2139,6 @@ static int dwc3_runtime_suspend(struct device *dev)
+ 	struct dwc3     *dwc = dev_get_drvdata(dev);
+ 	int		ret;
+ 
+-	if (dwc3_runtime_checks(dwc))
+-		return -EBUSY;
+-
+ 	ret = dwc3_suspend_common(dwc, PMSG_AUTO_SUSPEND);
+ 	if (ret)
+ 		return ret;
+@@ -2160,9 +2173,15 @@ static int dwc3_runtime_resume(struct device *dev)
+ static int dwc3_runtime_idle(struct device *dev)
+ {
+ 	struct dwc3     *dwc = dev_get_drvdata(dev);
++	int		link_state;
+ 
+ 	switch (dwc->current_dr_role) {
+ 	case DWC3_GCTL_PRTCAP_DEVICE:
++		link_state = dwc3_gadget_get_link_state(dwc);
++		/* for bus suspend case return success */
++		if (dwc->allow_rtsusp_on_u3 && dwc->connected &&
++		    link_state == DWC3_LINK_STATE_U3)
++			goto autosuspend;
+ 		if (dwc3_runtime_checks(dwc))
+ 			return -EBUSY;
+ 		break;
+@@ -2172,6 +2191,7 @@ static int dwc3_runtime_idle(struct device *dev)
+ 		break;
  	}
- 	return retval;
-@@ -303,7 +303,7 @@ static void rx_complete(struct usb_ep *ep, struct usb_request *req)
- 	if (!netif_running(dev->net)) {
- clean:
- 		spin_lock(&dev->req_lock);
--		list_add(&req->list, &dev->rx_reqs);
-+		list_move_tail(&req->list, &dev->rx_reqs);
- 		spin_unlock(&dev->req_lock);
- 		req = NULL;
- 	}
-@@ -378,7 +378,7 @@ static void rx_fill(struct eth_dev *dev, gfp_t gfp_flags)
- 	spin_lock_irqsave(&dev->req_lock, flags);
- 	while (!list_empty(&dev->rx_reqs)) {
- 		req = list_first_entry(&dev->rx_reqs, struct usb_request, list);
--		list_del_init(&req->list);
-+		list_move_tail(&req->list, &dev->rx_queued_reqs);
- 		spin_unlock_irqrestore(&dev->req_lock, flags);
  
- 		if (rx_submit(dev, req, gfp_flags) < 0) {
-@@ -438,9 +438,11 @@ static inline int is_promisc(u16 cdc_filter)
- 	return cdc_filter & USB_CDC_PACKET_TYPE_PROMISCUOUS;
++autosuspend:
+ 	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_autosuspend(dev);
+ 
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 8b1295e4dcdd..33b2ccbbd963 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1127,6 +1127,8 @@ struct dwc3_scratchpad_array {
+  * @num_ep_resized: carries the current number endpoints which have had its tx
+  *		    fifo resized.
+  * @debug_root: root debugfs directory for this device to put its files in.
++ * @allow_rtsusp_on_u3: true if dwc3 runtime suspend is allowed during bus
++ *			suspend scenario.
+  */
+ struct dwc3 {
+ 	struct work_struct	drd_work;
+@@ -1343,6 +1345,7 @@ struct dwc3 {
+ 	int			last_fifo_depth;
+ 	int			num_ep_resized;
+ 	struct dentry		*debug_root;
++	bool			allow_rtsusp_on_u3;
+ };
+ 
+ #define INCRX_BURST_MODE 0
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 5fd067151fbf..0797cffa2d48 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2401,15 +2401,21 @@ static int dwc3_gadget_wakeup(struct usb_gadget *g)
+ 		return -EINVAL;
+ 	}
+ 
+-	spin_lock_irqsave(&dwc->lock, flags);
+ 	if (!dwc->gadget->wakeup_armed) {
+ 		dev_err(dwc->dev, "not armed for remote wakeup\n");
+-		spin_unlock_irqrestore(&dwc->lock, flags);
+ 		return -EINVAL;
+ 	}
+-	ret = __dwc3_gadget_wakeup(dwc, true);
+ 
++	ret = pm_runtime_resume_and_get(dwc->dev);
++	if (ret < 0) {
++		pm_runtime_set_suspended(dwc->dev);
++		return ret;
++	}
++
++	spin_lock_irqsave(&dwc->lock, flags);
++	ret = __dwc3_gadget_wakeup(dwc, true);
+ 	spin_unlock_irqrestore(&dwc->lock, flags);
++	pm_runtime_put_noidle(dwc->dev);
+ 
+ 	return ret;
+ }
+@@ -2428,6 +2434,12 @@ static int dwc3_gadget_func_wakeup(struct usb_gadget *g, int intf_id)
+ 		return -EINVAL;
+ 	}
+ 
++	ret = pm_runtime_resume_and_get(dwc->dev);
++	if (ret < 0) {
++		pm_runtime_set_suspended(dwc->dev);
++		return ret;
++	}
++
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 	/*
+ 	 * If the link is in U3, signal for remote wakeup and wait for the
+@@ -2438,6 +2450,7 @@ static int dwc3_gadget_func_wakeup(struct usb_gadget *g, int intf_id)
+ 		ret = __dwc3_gadget_wakeup(dwc, false);
+ 		if (ret) {
+ 			spin_unlock_irqrestore(&dwc->lock, flags);
++			pm_runtime_put_noidle(dwc->dev);
+ 			return -EINVAL;
+ 		}
+ 		dwc3_resume_gadget(dwc);
+@@ -2452,6 +2465,7 @@ static int dwc3_gadget_func_wakeup(struct usb_gadget *g, int intf_id)
+ 		dev_err(dwc->dev, "function remote wakeup failed, ret:%d\n", ret);
+ 
+ 	spin_unlock_irqrestore(&dwc->lock, flags);
++	pm_runtime_put_noidle(dwc->dev);
+ 
+ 	return ret;
+ }
+@@ -2732,21 +2746,23 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
+ 	/*
+ 	 * Avoid issuing a runtime resume if the device is already in the
+ 	 * suspended state during gadget disconnect.  DWC3 gadget was already
+-	 * halted/stopped during runtime suspend.
++	 * halted/stopped during runtime suspend except for bus suspend case
++	 * where we would have skipped the controller halt.
+ 	 */
+ 	if (!is_on) {
+ 		pm_runtime_barrier(dwc->dev);
+-		if (pm_runtime_suspended(dwc->dev))
++		if (pm_runtime_suspended(dwc->dev) && !dwc->connected)
+ 			return 0;
+ 	}
+ 
+ 	/*
+ 	 * Check the return value for successful resume, or error.  For a
+ 	 * successful resume, the DWC3 runtime PM resume routine will handle
+-	 * the run stop sequence, so avoid duplicate operations here.
++	 * the run stop sequence except for bus resume case, so avoid
++	 * duplicate operations here.
+ 	 */
+ 	ret = pm_runtime_get_sync(dwc->dev);
+-	if (!ret || ret < 0) {
++	if ((!ret && !dwc->connected) || ret < 0) {
+ 		pm_runtime_put(dwc->dev);
+ 		if (ret < 0)
+ 			pm_runtime_set_suspended(dwc->dev);
+@@ -4331,6 +4347,8 @@ static void dwc3_gadget_suspend_interrupt(struct dwc3 *dwc,
+ 	}
+ 
+ 	dwc->link_state = next;
++	pm_runtime_mark_last_busy(dwc->dev);
++	pm_request_autosuspend(dwc->dev);
  }
  
--static int ether_wakeup_host(struct gether *port)
-+static void ether_wakeup_work(struct work_struct *w)
+ static void dwc3_gadget_interrupt(struct dwc3 *dwc,
+@@ -4718,7 +4736,15 @@ void dwc3_gadget_process_pending_events(struct dwc3 *dwc)
  {
- 	int			ret;
-+	struct eth_dev		*dev = container_of(w, struct eth_dev, wakeup_work);
-+	struct gether		*port = dev->port_usb;
- 	struct usb_function	*func = &port->func;
- 	struct usb_gadget	*gadget = func->config->cdev->gadget;
- 
-@@ -449,7 +451,8 @@ static int ether_wakeup_host(struct gether *port)
- 	else
- 		ret = usb_gadget_wakeup(gadget);
- 
--	return ret;
-+	if (ret)
-+		DBG(dev, "failed to trigger wakeup:%d\n", ret);
+ 	if (dwc->pending_events) {
+ 		dwc3_interrupt(dwc->irq_gadget, dwc->ev_buf);
++		pm_runtime_put(dwc->dev);
+ 		dwc->pending_events = false;
+ 		enable_irq(dwc->irq_gadget);
++		/*
++		 * We have only stored the pending events as part
++		 * of dwc3_interrupt() above, but those events are
++		 * not yet handled. So explicitly invoke the
++		 * interrupt handler for handling those events.
++		 */
++		dwc3_thread_interrupt(dwc->irq_gadget, dwc->ev_buf);
+ 	}
  }
- 
- static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
-@@ -476,7 +479,7 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
- 		DBG(dev, "Port suspended. Triggering wakeup\n");
- 		netif_stop_queue(net);
- 		spin_unlock_irqrestore(&dev->lock, flags);
--		ether_wakeup_host(dev->port_usb);
-+		schedule_work(&dev->wakeup_work);
- 		return NETDEV_TX_BUSY;
- 	}
- 
-@@ -754,8 +757,10 @@ struct eth_dev *gether_setup_name(struct usb_gadget *g,
- 	spin_lock_init(&dev->lock);
- 	spin_lock_init(&dev->req_lock);
- 	INIT_WORK(&dev->work, eth_work);
-+	INIT_WORK(&dev->wakeup_work, ether_wakeup_work);
- 	INIT_LIST_HEAD(&dev->tx_reqs);
- 	INIT_LIST_HEAD(&dev->rx_reqs);
-+	INIT_LIST_HEAD(&dev->rx_queued_reqs);
- 
- 	skb_queue_head_init(&dev->rx_frames);
- 
-@@ -825,8 +830,10 @@ struct net_device *gether_setup_name_default(const char *netname)
- 	spin_lock_init(&dev->lock);
- 	spin_lock_init(&dev->req_lock);
- 	INIT_WORK(&dev->work, eth_work);
-+	INIT_WORK(&dev->wakeup_work, ether_wakeup_work);
- 	INIT_LIST_HEAD(&dev->tx_reqs);
- 	INIT_LIST_HEAD(&dev->rx_reqs);
-+	INIT_LIST_HEAD(&dev->rx_queued_reqs);
- 
- 	skb_queue_head_init(&dev->rx_frames);
- 
-@@ -1043,6 +1050,7 @@ EXPORT_SYMBOL_GPL(gether_set_ifname);
- void gether_suspend(struct gether *link)
- {
- 	struct eth_dev *dev = link->ioport;
-+	struct usb_request *req;
- 	unsigned long flags;
- 
- 	if (!dev)
-@@ -1053,9 +1061,20 @@ void gether_suspend(struct gether *link)
- 		 * There is a transfer in progress. So we trigger a remote
- 		 * wakeup to inform the host.
- 		 */
--		ether_wakeup_host(dev->port_usb);
-+		schedule_work(&dev->wakeup_work);
- 		return;
- 	}
-+	/* Dequeue the submitted requests. */
-+	spin_lock(&dev->req_lock);
-+	while (!list_empty(&dev->rx_queued_reqs)) {
-+		req = list_last_entry(&dev->rx_queued_reqs, struct usb_request, list);
-+		list_move_tail(&req->list, &dev->rx_reqs);
-+		spin_unlock(&dev->req_lock);
-+		usb_ep_dequeue(dev->port_usb->out_ep, req);
-+		spin_lock(&dev->req_lock);
-+	}
-+	spin_unlock(&dev->req_lock);
-+
- 	spin_lock_irqsave(&dev->lock, flags);
- 	link->is_suspend = true;
- 	spin_unlock_irqrestore(&dev->lock, flags);
-@@ -1070,6 +1089,7 @@ void gether_resume(struct gether *link)
- 	if (!dev)
- 		return;
- 
-+	defer_kevent(dev, WORK_RX_MEMORY);
- 	if (netif_queue_stopped(dev->net))
- 		netif_start_queue(dev->net);
- 
-@@ -1231,6 +1251,15 @@ void gether_disconnect(struct gether *link)
- 		usb_ep_free_request(link->out_ep, req);
- 		spin_lock(&dev->req_lock);
- 	}
-+
-+	while (!list_empty(&dev->rx_queued_reqs)) {
-+		req = list_first_entry(&dev->rx_queued_reqs, struct usb_request, list);
-+		list_del(&req->list);
-+
-+		spin_unlock(&dev->req_lock);
-+		usb_ep_free_request(link->out_ep, req);
-+		spin_lock(&dev->req_lock);
-+	}
- 	spin_unlock(&dev->req_lock);
- 	link->out_ep->desc = NULL;
- 
 -- 
 2.17.1
 
