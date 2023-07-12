@@ -2,176 +2,102 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85760EB64DA
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Jul 2023 15:05:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14D52C001DE
+	for <linux-usb@archiver.kernel.org>; Wed, 12 Jul 2023 16:39:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233043AbjGLPFL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Jul 2023 11:05:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53572 "EHLO
+        id S232062AbjGLQj1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Jul 2023 12:39:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232584AbjGLPFJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Jul 2023 11:05:09 -0400
-Received: from mail-oa1-f77.google.com (mail-oa1-f77.google.com [209.85.160.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 290B21BDF
-        for <linux-usb@vger.kernel.org>; Wed, 12 Jul 2023 08:05:05 -0700 (PDT)
-Received: by mail-oa1-f77.google.com with SMTP id 586e51a60fabf-1b0812d43a0so1538928fac.0
-        for <linux-usb@vger.kernel.org>; Wed, 12 Jul 2023 08:05:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689174304; x=1691766304;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=m94uNVGmc3E0yBEqPvT1uJfZAtrvKe9dapVrNuSbByc=;
-        b=TD1Zf/R1kvEnvsR7nyZM3Xo6eFkUSkh6CJDAk7lMg9us2gunh1tuIjwYodz7wBQg8W
-         YAeYNJRc+dAkDKHtmFelqoB4Snw/IjDdtfshJNujOx2spfU9igY3SJIwHum+W/2wSCyF
-         /OadXnAhkFICMjBMxEF8MCbExn1O+L1XAFURkW6F38G14SNSJuZVsfLxb89SL8xHiYOQ
-         29nJRsBgrO0Zj9LMjkecDyXCi+XAsWj8fC1HxAhfrNIPLS27AZwh7E7GFDigYI8Ezvou
-         iRJYd7Ou5M5/lLK9IaXs/z3gP6dQ27mN29+V83iMLLXxEaZZgBOMa2c8v24FNTrZiVv7
-         dyzA==
-X-Gm-Message-State: ABy/qLaqld+5hpUWkdzPWWsL6rJ2zNelEpQYTYjLaG8C8Sl0lLdAeLoP
-        3AdhKTWwMv5wWtAAYWaHHS06zKhBXVYFuCfoD52KASFnE0fB
-X-Google-Smtp-Source: APBJJlE6T4mKAFfXv9J5kh533uZw7yg1Mbm6bvYZirhGaKSi+0a2yNsJa1xutVhKpvYIqxMqZPLHddPeicgsgBG5OrRP2aA+x8U5
+        with ESMTP id S230233AbjGLQj0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Jul 2023 12:39:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F03A4106;
+        Wed, 12 Jul 2023 09:39:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8DF7D6182F;
+        Wed, 12 Jul 2023 16:39:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 717BEC433C9;
+        Wed, 12 Jul 2023 16:39:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1689179965;
+        bh=k8GGEKyGtTizvlzKcz2cYIOJibPG0QzEDyGItCmD5oA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IqVy6+MBRaLQ+CT6RhF906zPEzT8zIKMMLX/+a9OvH90uVauwYkj+cLy4okFWihWG
+         fSrphTswhdn1M5Q3GYr38bF0CjKCeKjqDs4mwsDtFG+bPbdVwVFGh6p1KgvFxqRf7u
+         6eudH1Atx5XQEDROI32UWKIrCV4dA7JTEhxk+6T4=
+Date:   Wed, 12 Jul 2023 18:39:22 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Johannes Berg <johannes@sipsolutions.net>
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        Enrico Mioso <mrkiko.rs@gmail.com>,
+        Jan Engelhardt <jengelh@inai.de>, linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        Ilja Van Sprundel <ivansprundel@ioactive.com>,
+        Joseph Tartaro <joseph.tartaro@ioactive.com>
+Subject: Re: [PATCH] USB: disable all RNDIS protocol drivers
+Message-ID: <2023071222-asleep-vacancy-4cfa@gregkh>
+References: <20221123124620.1387499-1-gregkh@linuxfoundation.org>
+ <n9108s34-9rn0-3n8q-r3s5-51r9647331ns@vanv.qr>
+ <ZKM5nbDnKnFZLOlY@rivendell>
+ <2023070430-fragment-remember-2fdd@gregkh>
+ <e5a92f9c-2d56-00fc-5e01-56e7df8dc1c1@suse.com>
+ <6a4a8980912380085ea628049b5e19e38bcd8e1d.camel@sipsolutions.net>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6870:ee16:b0:1b0:4e46:7f13 with SMTP id
- ga22-20020a056870ee1600b001b04e467f13mr3474579oab.2.1689174304068; Wed, 12
- Jul 2023 08:05:04 -0700 (PDT)
-Date:   Wed, 12 Jul 2023 08:05:04 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000005b9d6e06004b8aa0@google.com>
-Subject: [syzbot] [staging?] [usb?] memory leak in _r8712_init_xmit_priv
-From:   syzbot <syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com>
-To:     Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6a4a8980912380085ea628049b5e19e38bcd8e1d.camel@sipsolutions.net>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+On Wed, Jul 12, 2023 at 03:00:55PM +0200, Johannes Berg wrote:
+> On Wed, 2023-07-12 at 11:22 +0200, Oliver Neukum wrote:
+> > 
+> > On 04.07.23 08:47, Greg Kroah-Hartman wrote:
+> > > On Mon, Jul 03, 2023 at 11:11:57PM +0200, Enrico Mioso wrote:
+> > > > Hi all!!
+> > > > 
+> > > > I think the rndis_host USB driver might emit a warning in the dmesg, but disabling the driver wouldn't be a good idea.
+> > > > The TP-Link MR6400 V1 LTE modem and also some ZTE modems integrated in routers do use this protocol.
+> > > > 
+> > > > We may also distinguish between these cases and devices you might plug in - as they pose different risk levels.
+> > > 
+> > > Again, you have to fully trust the other side of an RNDIS connection,
+> > > any hints on how to have the kernel determine that?
+> 
+> > it is a network protocol. So this statement is kind of odd.
+> > Are you saying that there are RNDIS messages that cannot be verified
+> > for some reason, that still cannot be disclosed?
+> 
+> Agree, it's also just a USB device, so no special trickery with DMA,
+> shared buffers, etc.
+> 
+> I mean, yeah, the RNDIS code is really old and almost certainly has a
+> severe lack of input validation, but that still doesn't mean it's
+> fundamentally impossible.
 
-syzbot found the following issue on:
+You all are going to make me have to write some exploits aren't you...
 
-HEAD commit:    8689f4f2ea56 Merge tag 'mmc-v6.5-2' of git://git.kernel.or..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11ac3fa0a80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=832b404e095b70c0
-dashboard link: https://syzkaller.appspot.com/bug?extid=cf71097ffb6755df8251
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16f26d02a80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14482e54a80000
+Ok, I'll put it on my todo list and do it before submitting this patch
+again.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/31f0c2383fbf/disk-8689f4f2.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/98c44efd609e/vmlinux-8689f4f2.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/bbd75026af9a/bzImage-8689f4f2.xz
+thanks,
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com
-
-executing program
-BUG: memory leak
-unreferenced object 0xffff88810a4db000 (size 4096):
-  comm "kworker/0:3", pid 4752, jiffies 4294941496 (age 19.480s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff8154bfa4>] kmalloc_trace+0x24/0x90 mm/slab_common.c:1076
-    [<ffffffff83c3bf41>] kmalloc include/linux/slab.h:582 [inline]
-    [<ffffffff83c3bf41>] _r8712_init_xmit_priv+0x2b1/0x660 drivers/staging/rtl8712/rtl871x_xmit.c:131
-    [<ffffffff83c36b86>] r8712_init_drv_sw+0xc6/0x260 drivers/staging/rtl8712/os_intfs.c:311
-    [<ffffffff83c35766>] r871xu_drv_init+0x1f6/0x9d0 drivers/staging/rtl8712/usb_intf.c:386
-    [<ffffffff83237329>] usb_probe_interface+0x179/0x3c0 drivers/usb/core/driver.c:396
-    [<ffffffff82ba039d>] call_driver_probe drivers/base/dd.c:579 [inline]
-    [<ffffffff82ba039d>] really_probe+0x12d/0x430 drivers/base/dd.c:658
-    [<ffffffff82ba0761>] __driver_probe_device+0xc1/0x1a0 drivers/base/dd.c:798
-    [<ffffffff82ba086a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:828
-    [<ffffffff82ba0a5b>] __device_attach_driver+0xfb/0x150 drivers/base/dd.c:956
-    [<ffffffff82b9d7b1>] bus_for_each_drv+0xc1/0x110 drivers/base/bus.c:457
-    [<ffffffff82ba0f82>] __device_attach+0x102/0x2a0 drivers/base/dd.c:1028
-    [<ffffffff82b9ef1a>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
-    [<ffffffff82b9b513>] device_add+0x993/0xc60 drivers/base/core.c:3625
-    [<ffffffff83234409>] usb_set_configuration+0x9a9/0xc90 drivers/usb/core/message.c:2211
-    [<ffffffff83246ed1>] usb_generic_driver_probe+0xa1/0x100 drivers/usb/core/generic.c:238
-    [<ffffffff83236a00>] usb_probe_device+0x60/0x140 drivers/usb/core/driver.c:293
-
-BUG: memory leak
-unreferenced object 0xffff88810a4de000 (size 4096):
-  comm "kworker/0:3", pid 4752, jiffies 4294941496 (age 19.480s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff8154bfa4>] kmalloc_trace+0x24/0x90 mm/slab_common.c:1076
-    [<ffffffff83c3bf41>] kmalloc include/linux/slab.h:582 [inline]
-    [<ffffffff83c3bf41>] _r8712_init_xmit_priv+0x2b1/0x660 drivers/staging/rtl8712/rtl871x_xmit.c:131
-    [<ffffffff83c36b86>] r8712_init_drv_sw+0xc6/0x260 drivers/staging/rtl8712/os_intfs.c:311
-    [<ffffffff83c35766>] r871xu_drv_init+0x1f6/0x9d0 drivers/staging/rtl8712/usb_intf.c:386
-    [<ffffffff83237329>] usb_probe_interface+0x179/0x3c0 drivers/usb/core/driver.c:396
-    [<ffffffff82ba039d>] call_driver_probe drivers/base/dd.c:579 [inline]
-    [<ffffffff82ba039d>] really_probe+0x12d/0x430 drivers/base/dd.c:658
-    [<ffffffff82ba0761>] __driver_probe_device+0xc1/0x1a0 drivers/base/dd.c:798
-    [<ffffffff82ba086a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:828
-    [<ffffffff82ba0a5b>] __device_attach_driver+0xfb/0x150 drivers/base/dd.c:956
-    [<ffffffff82b9d7b1>] bus_for_each_drv+0xc1/0x110 drivers/base/bus.c:457
-    [<ffffffff82ba0f82>] __device_attach+0x102/0x2a0 drivers/base/dd.c:1028
-    [<ffffffff82b9ef1a>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
-    [<ffffffff82b9b513>] device_add+0x993/0xc60 drivers/base/core.c:3625
-    [<ffffffff83234409>] usb_set_configuration+0x9a9/0xc90 drivers/usb/core/message.c:2211
-    [<ffffffff83246ed1>] usb_generic_driver_probe+0xa1/0x100 drivers/usb/core/generic.c:238
-    [<ffffffff83236a00>] usb_probe_device+0x60/0x140 drivers/usb/core/driver.c:293
-
-BUG: memory leak
-unreferenced object 0xffff88810a4d9000 (size 4096):
-  comm "kworker/0:3", pid 4752, jiffies 4294941496 (age 19.480s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff8154bfa4>] kmalloc_trace+0x24/0x90 mm/slab_common.c:1076
-    [<ffffffff83c3bf41>] kmalloc include/linux/slab.h:582 [inline]
-    [<ffffffff83c3bf41>] _r8712_init_xmit_priv+0x2b1/0x660 drivers/staging/rtl8712/rtl871x_xmit.c:131
-    [<ffffffff83c36b86>] r8712_init_drv_sw+0xc6/0x260 drivers/staging/rtl8712/os_intfs.c:311
-    [<ffffffff83c35766>] r871xu_drv_init+0x1f6/0x9d0 drivers/staging/rtl8712/usb_intf.c:386
-    [<ffffffff83237329>] usb_probe_interface+0x179/0x3c0 drivers/usb/core/driver.c:396
-    [<ffffffff82ba039d>] call_driver_probe drivers/base/dd.c:579 [inline]
-    [<ffffffff82ba039d>] really_probe+0x12d/0x430 drivers/base/dd.c:658
-    [<ffffffff82ba0761>] __driver_probe_device+0xc1/0x1a0 drivers/base/dd.c:798
-    [<ffffffff82ba086a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:828
-    [<ffffffff82ba0a5b>] __device_attach_driver+0xfb/0x150 drivers/base/dd.c:956
-    [<ffffffff82b9d7b1>] bus_for_each_drv+0xc1/0x110 drivers/base/bus.c:457
-    [<ffffffff82ba0f82>] __device_attach+0x102/0x2a0 drivers/base/dd.c:1028
-    [<ffffffff82b9ef1a>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
-    [<ffffffff82b9b513>] device_add+0x993/0xc60 drivers/base/core.c:3625
-    [<ffffffff83234409>] usb_set_configuration+0x9a9/0xc90 drivers/usb/core/message.c:2211
-    [<ffffffff83246ed1>] usb_generic_driver_probe+0xa1/0x100 drivers/usb/core/generic.c:238
-    [<ffffffff83236a00>] usb_probe_device+0x60/0x140 drivers/usb/core/driver.c:293
-
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to change bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+greg k-h
