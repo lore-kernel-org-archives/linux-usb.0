@@ -2,165 +2,121 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D00DEB64DA
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Jul 2023 11:40:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C22EC001DD
+	for <linux-usb@archiver.kernel.org>; Wed, 12 Jul 2023 11:47:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232890AbjGLLkZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Jul 2023 07:40:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59530 "EHLO
+        id S233039AbjGLLrX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Jul 2023 07:47:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230381AbjGLLkS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Jul 2023 07:40:18 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F371F19A6;
-        Wed, 12 Jul 2023 04:40:09 -0700 (PDT)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36CBZVtC032077;
-        Wed, 12 Jul 2023 11:39:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=S8kgrjTTL4lWCAvjC5av2SNwL0eEAEeHJCs6sq7OfSg=;
- b=YS5bP+xBXCaF5Qvyxxipdy0bOMrKssnDihHtn0qPdnsCAKb0Rrmwpd7opmSJ0J/8sxY3
- FhAxjPAbGf+1qDHZQLVwSQ9Ay/Rtpt8aFvYjO4sUHmWBwEZIvW5F8Z+c7eDFOnfH48uk
- BhGQNsgULV0rG/5uVutEgyWJEpMwxUhq7jtFkAcWQO7OLW1591E1b11sURlvBUxo68A5
- f/xeNTDPXVMhYsbvmxnMEeys9olnM9ROnN554XAyTUer61UdS3rf2a/aMaUw+Gq9Vjwy
- Zv9ZjZMhb+w/P3fPDW4AiZv1MBxMCMj0/fIP27krvckgIVn1FsZEJi7rH2EdYTd7qZUP 8A== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rsgd395s5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 12 Jul 2023 11:39:42 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36CBd7H1031810
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 12 Jul 2023 11:39:07 GMT
-Received: from varda-linux.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Wed, 12 Jul 2023 04:38:59 -0700
-From:   Varadarajan Narayanan <quic_varada@quicinc.com>
-To:     <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
-        <kishon@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <gregkh@linuxfoundation.org>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <p.zabel@pengutronix.de>, <arnd@arndb.de>,
-        <geert+renesas@glider.be>, <neil.armstrong@linaro.org>,
-        <nfraprado@collabora.com>, <rafal@milecki.pl>,
-        <quic_srichara@quicinc.com>, <quic_varada@quicinc.org>,
-        <quic_wcheng@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-CC:     Varadarajan Narayanan <quic_varada@quicinc.com>
-Subject: [PATCH v4 2/6] dt-bindings: phy: qcom,m31: Document qcom,m31 USB phy
-Date:   Wed, 12 Jul 2023 17:08:19 +0530
-Message-ID: <e3a6e5cf68d67637fa541f6dc690dbcabd5e3fec.1689160067.git.quic_varada@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1689160067.git.quic_varada@quicinc.com>
-References: <cover.1689160067.git.quic_varada@quicinc.com>
+        with ESMTP id S232824AbjGLLrR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Jul 2023 07:47:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FCDB1FC1;
+        Wed, 12 Jul 2023 04:47:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8C52B617A0;
+        Wed, 12 Jul 2023 11:47:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14254C433C8;
+        Wed, 12 Jul 2023 11:46:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689162422;
+        bh=QhVaK0LsU7eehMipwwCOTnQKn7A7QZ/0f5Q1VZIwGuA=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=GUdoi12+nwBnrPTbxYZ2a9geyEqe0U28by0VFwg6tqYv117M3vJeo7W/c3Pf+4e79
+         r2F0W5C/3UO3uWWhtMs/W70+WVAtPg6XXuuAqOhcLxR9qj9zDMgABk3t4NgHH+Dk/B
+         BxY/P+ZUcLNmE5YBLA+Dtu+huFUqYJwg75B5MHnv4mR/QPOc8U81qsaUeEj81gMPvu
+         /Bu9qNp5H337C4v2CNQhCHMPKOlb4szHXTtmmNdzjicIAk24uoczmt7db7QUR/dBbG
+         p9wmn7CIh20RMyzN0MbM2MyCNcUQhjq/s5IV+/jEfsnU0L2X0zrAXnrgbGzuiRNMiy
+         wFPmrWQk+3Plg==
+From:   Mark Brown <broonie@kernel.org>
+To:     cros-qcom-dts-watchers@chromium.org,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Benjamin Li <benl@squareup.com>,
+        James Willcox <jwillcox@squareup.com>,
+        Joseph Gates <jgates@squareup.com>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Zac Crosby <zac@squareup.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Banajit Goswami <bgoswami@quicinc.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Lee Jones <lee@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Jun Nie <jun.nie@linaro.org>, Max Chen <mchen@squareup.com>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vincent Knecht <vincent.knecht@mailoo.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        alsa-devel@alsa-project.org, iommu@lists.linux.dev,
+        linux-usb@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>, Rob Herring <robh@kernel.org>,
+        Andy Gross <andy.gross@linaro.org>
+In-Reply-To: <20230627-topic-more_bindings-v1-0-6b4b6cd081e5@linaro.org>
+References: <20230627-topic-more_bindings-v1-0-6b4b6cd081e5@linaro.org>
+Subject: Re: (subset) [PATCH 00/11] Even more msm bindings fixes
+Message-Id: <168916241380.46574.15546639128394124503.b4-ty@kernel.org>
+Date:   Wed, 12 Jul 2023 12:46:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: DZE6hadq6oNMuukelwv86zcRU40Fl7Sw
-X-Proofpoint-GUID: DZE6hadq6oNMuukelwv86zcRU40Fl7Sw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-12_06,2023-07-11_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- clxscore=1015 adultscore=0 mlxlogscore=999 priorityscore=1501
- impostorscore=0 bulkscore=0 phishscore=0 malwarescore=0 mlxscore=0
- suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307120104
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-099c9
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Document the M31 USB2 phy present in IPQ5332.
+On Tue, 27 Jun 2023 18:24:16 +0200, Konrad Dybcio wrote:
+> This series contains couple more random dt schema warning fixes, centered
+> around linux-msm.
+> 
+> All of the patches (except) the last two are pretty much independent.
+> Patch 1 is not only a bindings fix, but also a functional one.
+> 
+> 
+> [...]
 
-Signed-off-by: Sricharan Ramabadhran <quic_srichara@quicinc.com>
-Signed-off-by: Varadarajan Narayanan <quic_varada@quicinc.com>
----
-v4:
-	Move M31 URL to description
-	Remove maxItems and relevant content from clock-names
-	Change node name to generic name
-	'make dt_binding_check DT_SCHEMA_FILES=qcom' passed
-v3:
-	Incorporate review comments. Will bring in ipq5018 compatible
-	string while posting ipq5018 usb patchset.
+Applied to
 
-v1:
-	Rename qcom,m31.yaml -> qcom,ipq5332-usb-hsphy.yaml
-	Drop default binding "m31,usb-hsphy"
-	Add clock
-	Remove 'oneOf' from compatible
-	Remove 'qscratch' region from register space as it is not needed
-	Remove reset-names
-	Fix the example definition
----
- .../bindings/phy/qcom,ipq5332-usb-hsphy.yaml       | 48 ++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/phy/qcom,ipq5332-usb-hsphy.yaml
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom,ipq5332-usb-hsphy.yaml b/Documentation/devicetree/bindings/phy/qcom,ipq5332-usb-hsphy.yaml
-new file mode 100644
-index 0000000..eea90ff
---- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/qcom,ipq5332-usb-hsphy.yaml
-@@ -0,0 +1,48 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/phy/qcom,ipq5332-usb-hsphy.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: M31 USB PHY
-+
-+maintainers:
-+  - Sricharan Ramabadhran <quic_srichara@quicinc.com>
-+  - Varadarajan Narayanan <quic_varada@quicinc.org>
-+
-+description:
-+  USB M31 PHY (https://www.m31tech.com) found in Qualcomm
-+  IPQ5018, IPQ5332 SoCs.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - qcom,ipq5332-usb-hsphy
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    items:
-+      - const: cfg_ahb
-+
-+  resets:
-+    maxItems: 1
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/qcom,ipq5332-gcc.h>
-+    usbphy0: usb-phy@7b000 {
-+        compatible = "qcom,ipq5332-usb-hsphy";
-+        reg = <0x0007b000 0x12c>;
-+
-+        clocks = <&gcc GCC_USB0_PHY_CFG_AHB_CLK>;
-+        clock-names = "cfg_ahb";
-+
-+        resets = <&gcc GCC_QUSB2_0_PHY_BCR>;
-+    };
--- 
-2.7.4
+Thanks!
+
+[05/11] dt-bindings: sound: Convert pm8916-wcd-analog-codec to YAML
+        commit: e125891c2ed6f6d3f59375caf04d76802c86efae
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
