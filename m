@@ -2,70 +2,97 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33008EB64D9
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Jul 2023 12:29:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B977EB64DD
+	for <linux-usb@archiver.kernel.org>; Wed, 12 Jul 2023 13:01:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233624AbjGLM3A (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Jul 2023 08:29:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47826 "EHLO
+        id S232985AbjGLNBY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Jul 2023 09:01:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233602AbjGLM2x (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Jul 2023 08:28:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4848410F7
-        for <linux-usb@vger.kernel.org>; Wed, 12 Jul 2023 05:28:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D1C69617A8
-        for <linux-usb@vger.kernel.org>; Wed, 12 Jul 2023 12:28:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B0D6C433D9;
-        Wed, 12 Jul 2023 12:28:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689164930;
-        bh=iIHbrwtqHvWqoKRj3jTkxwje3tYZEVMW0If744G8QVM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=hZhhUZFRbC8W6L4kYwNF2hXg2A9mKYZ5s4JcYXOJOR9yMaifXBPW4khXEAuhE1k8K
-         YNFbxWTXMlTDtagtS3lxbGtz3tK6x4By/bwRNu3tYPGVI1MhSy54+CT9QyIF6peQvC
-         qEyfyeo8KX7/ozLYNjc5ZxIT9Cx+gCcZckx4kQYukRToWKzGWUS7lCf8N7zyqsxwsc
-         kq+5RnzQRhIZQI2HZt7MkWp55D3wlS1IWFVV//dTU0pH+wO++ECNIS7Ych3lxl1qK8
-         rIYLwdYuxwey+kyv0E8G1N6Be7SZIi0iItqEKFjZm80XYdu2uSM6sJiBzb0RTSqxWg
-         ZRaoqvrMMloXA==
-From:   Roger Quadros <rogerq@kernel.org>
-To:     peter.chen@kernel.org
-Cc:     pawell@cadence.com, srk@ti.com, vigneshr@ti.com,
-        linux-usb@vger.kernel.org, Roger Quadros <rogerq@kernel.org>
-Subject: [PATCH] MAINTAINERS: drop invalid usb/cdns3 Reviewer e-mail
-Date:   Wed, 12 Jul 2023 15:28:28 +0300
-Message-Id: <20230712122828.17793-1-rogerq@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S232140AbjGLNBW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Jul 2023 09:01:22 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32E11736;
+        Wed, 12 Jul 2023 06:01:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=7Mwy7Es+QCyPK8S0J7Ou3RSKVlLA8cMmzE6C5fqkOHA=;
+        t=1689166881; x=1690376481; b=lTJQKVJQ0RPkEhlLeGsUvjhJ8cZTUvPvlbyrvRA0ca2shVP
+        4qzyOZsbdOT9RQqGOduZI6pNscXb4ICTxR3URWwCGE3B0oKUDI//r1Zx4jgw2rsQley5ejlfZ6ZDH
+        Dm6kQEuXVK4xv3px1jMCbPi14z5EmyCyHHQguVbRj9kFh4FTns7MON+UZeG2VK8/ATQyS7RAYlWp3
+        0jthUan8usKKksdYCPnJjjSmmzMgmbxvo1NmjFGmIl9wPl9fZ9nJour2V6Lf/4Jypzx4Qu+7WPdT1
+        qafw8pHYLW1dWz5l+hDGgijp2miEyceMK6mogTvKFGak0joMLqZ62vX/QvVnfIWA==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1qJZSk-00GfuA-1M;
+        Wed, 12 Jul 2023 15:00:58 +0200
+Message-ID: <6a4a8980912380085ea628049b5e19e38bcd8e1d.camel@sipsolutions.net>
+Subject: Re: [PATCH] USB: disable all RNDIS protocol drivers
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Oliver Neukum <oneukum@suse.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Enrico Mioso <mrkiko.rs@gmail.com>
+Cc:     Jan Engelhardt <jengelh@inai.de>, linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Maciej =?UTF-8?Q?=C5=BBenczykowski?= <maze@google.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        Ilja Van Sprundel <ivansprundel@ioactive.com>,
+        Joseph Tartaro <joseph.tartaro@ioactive.com>
+Date:   Wed, 12 Jul 2023 15:00:55 +0200
+In-Reply-To: <e5a92f9c-2d56-00fc-5e01-56e7df8dc1c1@suse.com>
+References: <20221123124620.1387499-1-gregkh@linuxfoundation.org>
+         <n9108s34-9rn0-3n8q-r3s5-51r9647331ns@vanv.qr> <ZKM5nbDnKnFZLOlY@rivendell>
+         <2023070430-fragment-remember-2fdd@gregkh>
+         <e5a92f9c-2d56-00fc-5e01-56e7df8dc1c1@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Alternate working e-mail of this Reviewer not available
-so drop it do prevent unnecessary bounce backs.
+On Wed, 2023-07-12 at 11:22 +0200, Oliver Neukum wrote:
+>=20
+> On 04.07.23 08:47, Greg Kroah-Hartman wrote:
+> > On Mon, Jul 03, 2023 at 11:11:57PM +0200, Enrico Mioso wrote:
+> > > Hi all!!
+> > >=20
+> > > I think the rndis_host USB driver might emit a warning in the dmesg, =
+but disabling the driver wouldn't be a good idea.
+> > > The TP-Link MR6400 V1 LTE modem and also some ZTE modems integrated i=
+n routers do use this protocol.
+> > >=20
+> > > We may also distinguish between these cases and devices you might plu=
+g in - as they pose different risk levels.
+> >=20
+> > Again, you have to fully trust the other side of an RNDIS connection,
+> > any hints on how to have the kernel determine that?
 
-Signed-off-by: Roger Quadros <rogerq@kernel.org>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+> it is a network protocol. So this statement is kind of odd.
+> Are you saying that there are RNDIS messages that cannot be verified
+> for some reason, that still cannot be disclosed?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7e0b87d5aa2e..126e01ec3559 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4530,7 +4530,6 @@ CADENCE USB3 DRD IP DRIVER
- M:	Peter Chen <peter.chen@kernel.org>
- M:	Pawel Laszczak <pawell@cadence.com>
- R:	Roger Quadros <rogerq@kernel.org>
--R:	Aswath Govindraju <a-govindraju@ti.com>
- L:	linux-usb@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git
--- 
-2.34.1
+Agree, it's also just a USB device, so no special trickery with DMA,
+shared buffers, etc.
 
+I mean, yeah, the RNDIS code is really old and almost certainly has a
+severe lack of input validation, but that still doesn't mean it's
+fundamentally impossible.
+
+johannes
