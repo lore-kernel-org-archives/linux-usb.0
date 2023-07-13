@@ -2,85 +2,114 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4817DEB64DA
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Jul 2023 01:09:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB3FFEB64DD
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Jul 2023 01:42:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231758AbjGMBJV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Jul 2023 21:09:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55254 "EHLO
+        id S233130AbjGMBmR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Jul 2023 21:42:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229755AbjGMBJU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Jul 2023 21:09:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F72B127
-        for <linux-usb@vger.kernel.org>; Wed, 12 Jul 2023 18:09:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AE046618A6
-        for <linux-usb@vger.kernel.org>; Thu, 13 Jul 2023 01:09:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0FC31C433C9
-        for <linux-usb@vger.kernel.org>; Thu, 13 Jul 2023 01:09:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689210559;
-        bh=JXwzsVN7wufAq7R9EoXJgvyrBHcFwdAWHhevXNSGbl0=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=ZfaMevqhMdfjMATCNyIIJMyuQAGZPMKKcDEHZCMetV4p6WbTj37q6LegMSPZ8a7HY
-         Nae0d4YvNB7dpt2ZrUe6jytZOm3phijf2wFECqP/quQUBDwGW3mZ2GY+MyObp1jYs5
-         DLoBfUVxCs8oa+s2y22mRvdC6ykGQ3TeU9Hauhgq/yehafun1lew9fM+GlT8Szd1Ug
-         bjdp9i8QPiqU7T4SH+gADR91ypn/5aOv6qLQjfDpWm3TcCsk8opP+gaP4fZFoliaH5
-         sTewIMkoqkwJJ4DCViWxCyZ7hSGO8CH0+Klb9YvS36u6gI7Wm0Id01dQOuX6OOK+39
-         QMNhrkpDi6fMg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id DBAB3C4332E; Thu, 13 Jul 2023 01:09:18 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 217632] 3 more broken Zaurii - SL-5600, A300, C700
-Date:   Thu, 13 Jul 2023 01:09:18 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: bids.7405@bigpond.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-217632-208809-7DSgqNkQgp@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217632-208809@https.bugzilla.kernel.org/>
-References: <bug-217632-208809@https.bugzilla.kernel.org/>
+        with ESMTP id S233205AbjGMBmP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Jul 2023 21:42:15 -0400
+X-Greylist: delayed 1801 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 12 Jul 2023 18:42:13 PDT
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:242:246e::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 152991FEE;
+        Wed, 12 Jul 2023 18:42:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=m3po4FiRsuRaodVf3w1lKGRDQNG5T/ke8/cTCsTCpi0=;
+        t=1689212533; x=1690422133; b=EzF0nwhmzXPInb/EC4kTZO9WQzs1BCBZclq9VKpD7u+Oi+C
+        ZvH7ocEqCvxafHLwgapM6jHGE1C7/X5b+LkEWP9ZEFpBucgRD1dLJP41VsOlEiHJOwK6VKKn/5/8o
+        8U+/Rtyogf2TTB4a1mCM7f7mbL9RT09bfqfliyYl2nQksZm39QY1vrzTknEhcRjGOiSqx5dYISHZF
+        lyns2lU0Asay7cKxhO90vz+Q3WMLZ2r+Ru/ujvw6155gNXNvoW9wpUXLlv7DkQ/Sg0F+rL9oJ2LSu
+        exCiHKSyFXPbRY8W9EzEIMtE4llRHlP/5jTecbZT6D0h3Xkq12sQKvnLS+T3MLCg==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1qJkC3-0004Hv-1i;
+        Thu, 13 Jul 2023 02:28:27 +0200
+Message-ID: <2d26c0028590a80e7aa80487cbeffd5ca6e6a5ea.camel@sipsolutions.net>
+Subject: Re: [PATCH] USB: disable all RNDIS protocol drivers
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        Enrico Mioso <mrkiko.rs@gmail.com>,
+        Jan Engelhardt <jengelh@inai.de>, linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Maciej =?UTF-8?Q?=C5=BBenczykowski?= <maze@google.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        Ilja Van Sprundel <ivansprundel@ioactive.com>,
+        Joseph Tartaro <joseph.tartaro@ioactive.com>
+Date:   Thu, 13 Jul 2023 02:28:26 +0200
+In-Reply-To: <2023071222-asleep-vacancy-4cfa@gregkh>
+References: <20221123124620.1387499-1-gregkh@linuxfoundation.org>
+         <n9108s34-9rn0-3n8q-r3s5-51r9647331ns@vanv.qr> <ZKM5nbDnKnFZLOlY@rivendell>
+         <2023070430-fragment-remember-2fdd@gregkh>
+         <e5a92f9c-2d56-00fc-5e01-56e7df8dc1c1@suse.com>
+         <6a4a8980912380085ea628049b5e19e38bcd8e1d.camel@sipsolutions.net>
+         <2023071222-asleep-vacancy-4cfa@gregkh>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217632
+On Wed, 2023-07-12 at 18:39 +0200, Greg Kroah-Hartman wrote:
+> On Wed, Jul 12, 2023 at 03:00:55PM +0200, Johannes Berg wrote:
+> > On Wed, 2023-07-12 at 11:22 +0200, Oliver Neukum wrote:
+> > >=20
+> > > On 04.07.23 08:47, Greg Kroah-Hartman wrote:
+> > > > On Mon, Jul 03, 2023 at 11:11:57PM +0200, Enrico Mioso wrote:
+> > > > > Hi all!!
+> > > > >=20
+> > > > > I think the rndis_host USB driver might emit a warning in the dme=
+sg, but disabling the driver wouldn't be a good idea.
+> > > > > The TP-Link MR6400 V1 LTE modem and also some ZTE modems integrat=
+ed in routers do use this protocol.
+> > > > >=20
+> > > > > We may also distinguish between these cases and devices you might=
+ plug in - as they pose different risk levels.
+> > > >=20
+> > > > Again, you have to fully trust the other side of an RNDIS connectio=
+n,
+> > > > any hints on how to have the kernel determine that?
+> >=20
+> > > it is a network protocol. So this statement is kind of odd.
+> > > Are you saying that there are RNDIS messages that cannot be verified
+> > > for some reason, that still cannot be disclosed?
+> >=20
+> > Agree, it's also just a USB device, so no special trickery with DMA,
+> > shared buffers, etc.
+> >=20
+> > I mean, yeah, the RNDIS code is really old and almost certainly has a
+> > severe lack of input validation, but that still doesn't mean it's
+> > fundamentally impossible.
+>=20
+> You all are going to make me have to write some exploits aren't you...
 
-Ross Maynard (bids.7405@bigpond.com) changed:
+This is getting a bit childish. Nobody ever said that wasn't possible,
+in fact I did say exactly above that I'm sure since it's old and all it
+lacks input validation. So yeah, I full well believe that you can write
+exploits for it.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #304621|0                           |1
-        is obsolete|                            |
+All we said is that your statement of "RNDIS is fundamentally unfixable"
+doesn't make a lot of sense. If this were the case, all USB drivers
+would have to "trust the other side" as well, right?
 
---- Comment #6 from Ross Maynard (bids.7405@bigpond.com) ---
-Created attachment 304622
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304622&action=3Dedit
-Patch for 3 broken zaurus devices
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+johannes
