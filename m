@@ -2,76 +2,85 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02A2DEB64DD
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Jul 2023 23:59:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 670AEEB64DA
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Jul 2023 01:00:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233306AbjGLX7M (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Jul 2023 19:59:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58696 "EHLO
+        id S232263AbjGMBAi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Jul 2023 21:00:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233281AbjGLX7K (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Jul 2023 19:59:10 -0400
-Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15EDB1FF0;
-        Wed, 12 Jul 2023 16:59:09 -0700 (PDT)
-Received: from newone.lan (unknown [10.0.0.1])
+        with ESMTP id S231836AbjGMBAg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Jul 2023 21:00:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D599E
+        for <linux-usb@vger.kernel.org>; Wed, 12 Jul 2023 18:00:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by ixit.cz (Postfix) with ESMTPSA id 57387160644;
-        Thu, 13 Jul 2023 01:59:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-        t=1689206347;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=HEQ/nBdhcKoJpT1GT432SOJlqlqCZC/w182rCJFbRqc=;
-        b=Jwvxbfb3n3k/qzamA4faHig41Co4uy8auPUWzDCoCKLDwcs6jjZvZMFKGTxkBpInosjJV+
-        1zkUfOK6Fn4KF/Z1/CqUMfZJOAB39YKOYLaZ8drwrh5VLWybY1bbkvPFrDxriWOslBaq5u
-        3QTkMhuPCWR0OMOo2QzYKUdS1YiWQ2M=
-From:   David Heidelberg <david@ixit.cz>
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>
-Cc:     David Heidelberg <david@ixit.cz>, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: usb: qcom,dwc3: document extcon property
-Date:   Thu, 13 Jul 2023 01:59:02 +0200
-Message-Id: <20230712235902.98557-1-david@ixit.cz>
-X-Mailer: git-send-email 2.40.1
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B48C6618CF
+        for <linux-usb@vger.kernel.org>; Thu, 13 Jul 2023 01:00:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 14117C433C7
+        for <linux-usb@vger.kernel.org>; Thu, 13 Jul 2023 01:00:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689210034;
+        bh=56pkEqYGDVIyRU4efXMSBoVUmkn948dRdtpD7GV+4kk=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=OYDK1SGeelktWdwPJDqIgtlQVCD61zfAa0y8+PFKBo0OzPghmMNg6o1HPbGEP7DxB
+         yK/HZxPF8Q1NPaWXFIg7Ssj3rmP7d9Axg88IO+M78yb2JDv1raS/CNANtg3q03UXvE
+         ULpe6eI16HsFxu78ZaIibiOTon+CYpb/DU/+g8IphkzzFEdszH2xoJto7CIHC3KlBc
+         25FjpUGDvkOuPEuEYo9BQDh1OqhpV/U7kXrhLhPUXnZ+u44XZaVR8mZ0MNfnfPDoOu
+         S4/SqznBTmQuaMoNb9wzoeIN9v7Z4peNS7zAQ1E3+jioB+81Xc12OgbtDNS1xa/Mn5
+         3l87flJvjxGGQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id ED4B6C4332E; Thu, 13 Jul 2023 01:00:33 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 217632] 3 more broken Zaurii - SL-5600, A300, C700
+Date:   Thu, 13 Jul 2023 01:00:33 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: bids.7405@bigpond.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-217632-208809-jiyzPlpFH4@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217632-208809@https.bugzilla.kernel.org/>
+References: <bug-217632-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The driver has support for it already. Only missing bit is dt-binding entry.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217632
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+Ross Maynard (bids.7405@bigpond.com) changed:
 
-diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-index 4875c5b7d5b5..7099b583d21c 100644
---- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-@@ -107,6 +107,10 @@ properties:
-     minItems: 1
-     maxItems: 4
- 
-+  extcon:
-+    description:
-+      Phandle to the extcon device providing the cable state.
-+
-   qcom,select-utmi-as-pipe-clk:
-     description:
-       If present, disable USB3 pipe_clk requirement.
--- 
-2.40.1
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #304609|0                           |1
+        is obsolete|                            |
 
+--- Comment #5 from Ross Maynard (bids.7405@bigpond.com) ---
+Created attachment 304621
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304621&action=3Dedit
+Patch for 3 broken zaurus devices
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
