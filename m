@@ -2,162 +2,138 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E9ABC001DC
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Jul 2023 09:43:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86BF0C001B0
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Jul 2023 09:49:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234504AbjGMJnn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Jul 2023 05:43:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59126 "EHLO
+        id S233254AbjGMJtq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Jul 2023 05:49:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234681AbjGMJnH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Jul 2023 05:43:07 -0400
-X-Greylist: delayed 1466 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 13 Jul 2023 02:41:44 PDT
-Received: from mx0a-0014ca01.pphosted.com (mx0b-0014ca01.pphosted.com [208.86.201.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE90F2D43;
-        Thu, 13 Jul 2023 02:41:44 -0700 (PDT)
-Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
-        by mx0b-0014ca01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36D4Z12r016903;
-        Thu, 13 Jul 2023 01:14:41 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=proofpoint;
- bh=UyfXsStPg3cp6IuL0Tabo3tg2yOR47bjz2DMdutvSBw=;
- b=VOt6nMbJuGIDmZq/lOW5erecpSmZOj5xIJ1Os/43I0E5c2Fp+ajtQ2zkHDPNv1RyOEN8
- xnkHFBVifwVuEaPs0IcBjJxSLFnexeDGHadieyFhPqzgxGNUQhNAJz26YI3aIx/tqo74
- Eq44LIY9mNP46Ec7TfSfHYih4lgUOBDObO68Y65duDZHEcLr9sSWi8784HSszGxoUmRf
- wKLlgBslWUvkiLdnwTLl/xN46HlaHuiknB5xR2kc5m76zuXSnvJXTDb3c9Ya/86w1FCT
- K+572ssElLFr3OndLWi1UwwLe0ZL+EtEmGLYnUX+QtZwwnkPEEEO2gtb+0zX84GPggIS GA== 
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2105.outbound.protection.outlook.com [104.47.70.105])
-        by mx0b-0014ca01.pphosted.com (PPS) with ESMTPS id 3rt6c1sbah-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 13 Jul 2023 01:14:41 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ku8OtkgF8aJNdVAgiWB5QYWg/GR1Dfta/dxamz9TgEgh0MkqiDCDNLPiZ51gcpowp22eUWYI1HUqgp21KORO2e1xneSzdWtAg2DpDKt8u+Dnen5UIjgNP2JMCo2ixtfK/w+c2gwbZFVnOAmTFNc8DK2FantZcr0twSkXbPNorXN6R41Y3kTCJNdvY0VDp1RFpU6Z1VdOBvlysVoZ5FH23a9KJV6/dz5GQgM+2p0aXebkDZxj+L6e/FBMswhUwqU5MYAi+RfHnZaAzKyhrQfIBvqSP6wkPNj+GtplJG5v19un7n69KeTY7VEucfIbRS6wkTo8INfSMx2j8BJOVdAyQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UyfXsStPg3cp6IuL0Tabo3tg2yOR47bjz2DMdutvSBw=;
- b=IuQsFvHnFhDn6zhL17IGQ+9nRHWTG9M9xUPzUedcMB+jTEt+H5Uk89BQsKbdNNs1kwqkLZfUIMHGWzN/RGD9/dXyPudqhrYdLYJW+uPDRw6ttFocJEH8ed/yXlQPtp65dGm0r4EHd//SRXiLEP7iX/XnCkO4wGSg5L8xWCxGAS/VDIfIchx4AIDU+WAjFuUdWao3uj0y+QoS2puMD6AxoBdYAw1mrtqd1rtEwWQbBmWr6qqB6NB6Fokzl99MuiBwpWugo3T8eZH5LTuKXpOTdF+1UXvvVOfByMLva34j+NV+VJIN0N2Jk8WLKVGZZ6Bwf0lAiHEc+x3ySBaM9pa1aw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 64.207.220.244) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=cadence.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UyfXsStPg3cp6IuL0Tabo3tg2yOR47bjz2DMdutvSBw=;
- b=ZGuIxXk3yT7GjrxtgZaR+cny4wHOjCmRKydFH0mCpKKhqy9FBKUXMHkRIuPx3LuNe8yniwG7G4lqHlGynOPV7dSg5ixfStq2FyOVHWiLXSsgJXlGgVra79AW6SEQav0xhRFCapPu8gTkn4fVJ4NzosrFq8ywVWpRGA8B5DNdv6w=
-Received: from DS7PR03CA0275.namprd03.prod.outlook.com (2603:10b6:5:3ad::10)
- by MN2PR07MB7135.namprd07.prod.outlook.com (2603:10b6:208:1a7::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.24; Thu, 13 Jul
- 2023 08:14:39 +0000
-Received: from DM6NAM12FT044.eop-nam12.prod.protection.outlook.com
- (2603:10b6:5:3ad:cafe::43) by DS7PR03CA0275.outlook.office365.com
- (2603:10b6:5:3ad::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.24 via Frontend
- Transport; Thu, 13 Jul 2023 08:14:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 64.207.220.244)
- smtp.mailfrom=cadence.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=cadence.com;
-Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
- 64.207.220.244 as permitted sender) receiver=protection.outlook.com;
- client-ip=64.207.220.244; helo=wcmailrelayl01.cadence.com; pr=C
-Received: from wcmailrelayl01.cadence.com (64.207.220.244) by
- DM6NAM12FT044.mail.protection.outlook.com (10.13.178.204) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6609.9 via Frontend Transport; Thu, 13 Jul 2023 08:14:37 +0000
-Received: from maileu5.global.cadence.com (eudvw-maileu5.cadence.com [10.160.110.202])
-        by wcmailrelayl01.cadence.com (8.14.7/8.14.4) with ESMTP id 36D8EY5m138529
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-        Thu, 13 Jul 2023 01:14:35 -0700
-Received: from maileu5.global.cadence.com (10.160.110.202) by
- maileu5.global.cadence.com (10.160.110.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 13 Jul 2023 10:14:33 +0200
-Received: from eu-cn02.cadence.com (10.160.89.185) by
- maileu5.global.cadence.com (10.160.110.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24 via Frontend Transport; Thu, 13 Jul 2023 10:14:33 +0200
-Received: from eu-cn02.cadence.com (localhost.localdomain [127.0.0.1])
-        by eu-cn02.cadence.com (8.14.7/8.14.7) with ESMTP id 36D8EXhP326761;
-        Thu, 13 Jul 2023 04:14:33 -0400
-Received: (from pawell@localhost)
-        by eu-cn02.cadence.com (8.14.7/8.14.7/Submit) id 36D8EWiq326741;
-        Thu, 13 Jul 2023 04:14:32 -0400
-From:   Pawel Laszczak <pawell@cadence.com>
-To:     <peter.chen@kernel.org>
-CC:     <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>, <stable@vger.kernel.org>
-Subject: [PATCH] usb: cdnsp: Fixes issue with dequeuing not queued requests
-Date:   Thu, 13 Jul 2023 04:14:29 -0400
-Message-ID: <20230713081429.326660-1-pawell@cadence.com>
-X-Mailer: git-send-email 2.30.0
+        with ESMTP id S232283AbjGMJtp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Jul 2023 05:49:45 -0400
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64D34212B
+        for <linux-usb@vger.kernel.org>; Thu, 13 Jul 2023 02:49:43 -0700 (PDT)
+Received: by mail-qt1-x835.google.com with SMTP id d75a77b69052e-40371070eb7so201831cf.1
+        for <linux-usb@vger.kernel.org>; Thu, 13 Jul 2023 02:49:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1689241782; x=1691833782;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ryqyAP9tKPKotwL6vu1Y1mHjFaSNUus4rsld5nnYfgw=;
+        b=N8rSQAjlrQXU12Xu6CXnyjqbGWrJsRbPMdvfW5lexfRs8KSdvhxCMMV37SYjqmOxq6
+         cAz6C8dWisIxCw0/HL0AjpmvQeEBgIDV3S++YV2Qd5odLidGHOg5ZcFNsxpH6/sG5yx+
+         EXD4y92NBKX6LTAOFRlEznn7fDkENIYw+GLO4k0nh5lg3BYkhFIKQjrP2Th4PuXIrZeA
+         IUUlGtDsF+BlxIyYQUXwUR3sNe+f1x31iGPx2I2b4uOyUL3jnjSF8auy+fI2I1QJFyzn
+         I5EzGiK0UHfKgum7NtMhDMkLWnH2KSQLNhCY0T8mtWvubETEcisTjjZz0Y460cNV/1mF
+         aZUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689241782; x=1691833782;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ryqyAP9tKPKotwL6vu1Y1mHjFaSNUus4rsld5nnYfgw=;
+        b=AvD1pIMD/rnA/XZ0hJ6SjVCUCmgJo7NLoqbkE2XXv/nYTwOWLABj8+sO7boVidc5YP
+         ca4Vq6yWhSn2gMOqfYxEqZVy9msQL32iaEXYdBdWYcVqBvvBSwyh+bUVjUh6/e/yyurN
+         Dh2lS8QRerob6rRCrvTUe+o1CEUxF2siVNLWoyMphnHUt/WWcdv/luDqgMIYe1lyNahI
+         qeFj828drGr8hDxjzvABvZO0LNzMOAG+RWk4loNbltdMMr7hFJqC2mwtySB1DNjSYUnH
+         Mbs8yR8n93F9HmAD6OG+CEojf3oEwkmyCuwc1MMmcZiuyjtkB9aSLhcsYDmk4+3IuZvJ
+         k8LA==
+X-Gm-Message-State: ABy/qLa5STqTV5svzFVFfG2kxgixxMbuQ9U0iUT2WI40+IIFwWngD0wD
+        ESSP+FRBhiX0AbNM0wKHmRwWOgI2V/JO3SpD7fHG1g==
+X-Google-Smtp-Source: APBJJlEh5CQdsxkwnfLLUE3rHjVYMfQs0H3kiM5Ssy3VD4hCu+ThNpm+zcgvoGeS28sH3cHiUeMFAvwHAveXX24A0/8=
+X-Received: by 2002:a05:622a:58d:b0:403:59cb:66c4 with SMTP id
+ c13-20020a05622a058d00b0040359cb66c4mr423533qtb.23.1689241782406; Thu, 13 Jul
+ 2023 02:49:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-CrossPremisesHeadersFilteredBySendConnector: maileu5.global.cadence.com
-X-OrganizationHeadersPreserved: maileu5.global.cadence.com
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM12FT044:EE_|MN2PR07MB7135:EE_
-X-MS-Office365-Filtering-Correlation-Id: a88dae3f-8f90-4f74-c925-08db8379333f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MtSyH8605DOjSWhczPYgE4jmMnTqCQzXgx/85PFsI2W1W/vdwvssd7bHu8TMP0JogwXiNf5ilwx4JYRS9GqKRnRIvjcfLA+iE4/x09ynU7HLLAWgKgGZEA78EblRlRybL2vas30Cf16Ug+QCgcuqDQ+xFZyEomGS7mK6B1Cl7RbgA81b73Me2XLT4v9xt56dvLGWjcEBRBpDMksJ+waOOx6yvi2qqO1KZ+jOk5DT7yW0WGEr43z/BpiOW+iHSNTceFXpKsFCVFIqtaocAVt6jnu7EBWQwg3g4zVczCAVC53/feo4Txe/RMougAHjP5TlpCktOm6PWTfQuGpg0Q+aUys73pWIOYB+e4C1qy9ef//Zaw3w8nxC6T6kOEuy1+D4e90WbvP9FrO85YJaf4nWjxncMZl2Nrju3yVhFGAU+qYUIli2Wau/K7k9D03ZFFoc2nJ03247UpEP1qCKAW5g9kYs6GbH7ikmRzzNAwOv0aZ/DAaTTqgUbdXGk95Ne6OeOksnWZBp+ezqPUyIYUSkgQLNV/yMgIflXjnhIdaDMh8OC7oTGmuJpbCfXBtvUiOAmRXaeV6GpGeMRPwXsOnYk+iqHWPfi2aKEVfe8ieqCeA/HkwY6yXmH7BX2JRD4VMLm1j/HhRDbdQORwPyGCUECc5JJg5B+iBCv0BTYQ0DMZOjeXJFqMjxx3fPbnpSmlghYL01oNYT/YeSFJfB7B8408hoTpG6ooUCSWpjBVMtn87K4PH8QJbanRnUE8ONSfqrrliHusbpGavhd+PtEmm00A==
-X-Forefront-Antispam-Report: CIP:64.207.220.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:wcmailrelayl01.cadence.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(376002)(136003)(396003)(346002)(36092001)(451199021)(46966006)(40470700004)(36840700001)(4744005)(2906002)(36860700001)(83380400001)(40460700003)(2616005)(426003)(47076005)(356005)(82740400003)(86362001)(36756003)(82310400005)(81166007)(40480700001)(316002)(6916009)(4326008)(42186006)(70586007)(70206006)(41300700001)(1076003)(336012)(26005)(54906003)(478600001)(186003)(6666004)(8676002)(8936002)(5660300002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2023 08:14:37.5438
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a88dae3f-8f90-4f74-c925-08db8379333f
-X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[64.207.220.244];Helo=[wcmailrelayl01.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM12FT044.eop-nam12.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR07MB7135
-X-Proofpoint-GUID: fyZHq2o2dkmlfPSdd6X4ns4Wo0d66-4P
-X-Proofpoint-ORIG-GUID: fyZHq2o2dkmlfPSdd6X4ns4Wo0d66-4P
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-13_04,2023-07-11_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 mlxscore=0
- phishscore=0 malwarescore=0 spamscore=0 clxscore=1011 suspectscore=0
- mlxlogscore=483 priorityscore=1501 adultscore=0 lowpriorityscore=0
- impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2305260000 definitions=main-2307130071
+References: <20221123124620.1387499-1-gregkh@linuxfoundation.org>
+ <n9108s34-9rn0-3n8q-r3s5-51r9647331ns@vanv.qr> <ZKM5nbDnKnFZLOlY@rivendell>
+ <2023070430-fragment-remember-2fdd@gregkh> <e5a92f9c-2d56-00fc-5e01-56e7df8dc1c1@suse.com>
+ <6a4a8980912380085ea628049b5e19e38bcd8e1d.camel@sipsolutions.net>
+ <2023071222-asleep-vacancy-4cfa@gregkh> <2d26c0028590a80e7aa80487cbeffd5ca6e6a5ea.camel@sipsolutions.net>
+ <2023071333-wildly-playroom-878b@gregkh> <de77578f-a783-a241-3ef5-e74f49029bb5@suse.com>
+In-Reply-To: <de77578f-a783-a241-3ef5-e74f49029bb5@suse.com>
+From:   =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>
+Date:   Thu, 13 Jul 2023 11:49:31 +0200
+Message-ID: <CANP3RGeiQgcJ6zj3OHvoLy=f+spB7Xmv9gKuGoBwajwMFR08Jg@mail.gmail.com>
+Subject: Re: [PATCH] USB: disable all RNDIS protocol drivers
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Enrico Mioso <mrkiko.rs@gmail.com>,
+        Jan Engelhardt <jengelh@inai.de>, linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        Ilja Van Sprundel <ivansprundel@ioactive.com>,
+        Joseph Tartaro <joseph.tartaro@ioactive.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Gadget ACM while unloading module try to dequeue not queued usb
-request which causes the kernel to crash.
-Patch adds extra condition to check whether usb request is processed
-by CDNSP driver.
+I know the NCM protocol a *lot* better than I do RNDIS, but...
 
-cc: <stable@vger.kernel.org>
-Fixes: 3d82904559f4 ("usb: cdnsp: cdns3 Add main part of Cadence USBSSP DRD Driver")
-Signed-off-by: Pawel Laszczak <pawell@cadence.com>
----
- drivers/usb/cdns3/cdnsp-gadget.c | 3 +++
- 1 file changed, 3 insertions(+)
+RNDIS is just passing around chunks of memory (packets with some
+metadata) over a usb channel.
+*Any and all* exploits can be fixed - this isn't a complex DMA level
+HW problem like pcie or firewire.
+The trouble is finding the problems (ie. the places where input
+validation is missing or wrong).
+Indeed if you can write an exploit, it means you understand the
+problem well enough to fix it,
+and indeed fixing it is going to be *much* easier than writing the exploit.
+(the hard part is finding the problems)
 
-diff --git a/drivers/usb/cdns3/cdnsp-gadget.c b/drivers/usb/cdns3/cdnsp-gadget.c
-index fff9ec9c391f..3a30c2af0c00 100644
---- a/drivers/usb/cdns3/cdnsp-gadget.c
-+++ b/drivers/usb/cdns3/cdnsp-gadget.c
-@@ -1125,6 +1125,9 @@ static int cdnsp_gadget_ep_dequeue(struct usb_ep *ep,
- 	unsigned long flags;
- 	int ret;
+The (rndis host) code could probably be audited - the protocol is not
+(afaik) that complex,
+nor is the driver all that large.
 
-+	if (request->status != -EINPROGRESS)
-+		return 0;
-+
- 	if (!pep->endpoint.desc) {
- 		dev_err(pdev->dev,
- 			"%s: can't dequeue to disabled endpoint\n",
--- 
-2.37.2
+I no longer have the email reporting the problems (deleted in a mass
+inbox zero purge by mistake), but from what I recall
+at least a few of them should have been fixable by making types
+unsigned instead of signed and the like.
+(ie. adding basic checks for whether values are in range)
 
+As for things we can do:
+
+- I think we can outright delete Linux' RNDIS gadget side code - that
+should be half the problem.
+Why? Because Linux/Mac support better protocols (CDC NCM) and Windows
+10+ NCM support exists too.
+(though the windows driver is afaik a little bit buggier than I'd like...)
+Android devices (phones, etc) that support RNDIS gadget side don't
+(AFAIK) use the upstream rndis gadget code anyway,
+they use out-of-tree versions with offload support (at least afaik
+that's the case for qualcomm chipsets).
+Devices without hw reasons (offload) to use RNDIS can just switch to NCM.
+Deleting it in Linux 6.~5+ doesn't affect older Linux versions anyway,
+so it doesn't affect any older devices...
+
+(Though deleting the code does mean we lose the ability to test linux
+host side with linux gadget side...
+I guess you can always just use an old kernel (or even just an old
+phone) on the gadget side to test that combo...)
+
+- I think we could change the RNDIS host side driver to be default
+disabled (or even experimental)
+However, be aware people (Linux users wanting to usb tether their
+laptops off of most Android phones out there) will complain if we do
+this and distros will end up enabling them anyway.
+
+What we should really do is just start finding/fixing the bugs in the
+rndis_host side.
+It *cannot* be that hard.
+
+If someone re-forwards me the kernel-security report, I promise to
+send back at least a few fixes...
