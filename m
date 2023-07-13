@@ -2,84 +2,107 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36776C0015E
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Jul 2023 06:38:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4901C001DF
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Jul 2023 08:35:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230358AbjGMGiB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Jul 2023 02:38:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50074 "EHLO
+        id S234087AbjGMIfB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Jul 2023 04:35:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232920AbjGMGiA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Jul 2023 02:38:00 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5765A1BFA
-        for <linux-usb@vger.kernel.org>; Wed, 12 Jul 2023 23:37:59 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-9928abc11deso58346866b.1
-        for <linux-usb@vger.kernel.org>; Wed, 12 Jul 2023 23:37:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689230278; x=1691822278;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5HZ3KiatBE0zEmzQws3XEcIxxLMYWe1RVYqM7D6xg+8=;
-        b=amfQ0vR/Ka6BkP8S9fk/PBznA9FhrkIyoo2FtY49acDTDKTXcoxytRDiBel0Ydrldx
-         M7FLZw8SSWsUPwc9rh7ciWNp3chEqPD614QD7+m/IPH6EnqtAaP3aZGaNsRICGVc188D
-         HakoAWfiVFlv0ihYpL+VQBgo7urziJSQEm816WGzSPBdb7mStql2rcaw01Aoc1zj1H04
-         s+eOHyqYFu9W9GkDBTSaT+e+llFG4niDKpWY82NarL8gdTBZcE/3c1NZ7g1l40iugTeR
-         iB0aUwIU/cYQzsN4mMTmczXS7XFSgA3PFhjgXkJgIMcCZrAM+ckdQ33fQjAV532/2bll
-         RuvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689230278; x=1691822278;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5HZ3KiatBE0zEmzQws3XEcIxxLMYWe1RVYqM7D6xg+8=;
-        b=QIN5dd5BK35962dsH/Bi7hSngGnroBHyWQ4XfiIxfjmvU8z5s12SGKNuLZKd6tZze4
-         mG9bJwYVHO0tQfp80Iycn+bzxwJ3xkJW+OYlDJBZBFqAjX49OozqkuZ7kgPKUT7Cbv3L
-         DZ3e8kwYcgQkRWbqf2f7yS7pWCGJcZprJEdGLUVHqNBUkLrMizb7xPLsAC+XUw6hMWEv
-         lthyFBTAilLnuXoC2qWwS7paK0SxnpAwWgJLqgbElwP+3ek9Ly3uGrA90/8YPg7nDFVs
-         JPt4I4XEpA6z4A+NKH+wsExf4ecSW5HlZYUAycr4060y/4s93EIlFgX5YHd2xfG67GXf
-         LhVA==
-X-Gm-Message-State: ABy/qLaQr95iI9PE5Ex+EJuT67DC+96Tvtzqeen+9dv1LOir2bK3aQkZ
-        VWpr2N+PyUyETa0vakwVbErYqg==
-X-Google-Smtp-Source: APBJJlEVvsOpjUa1F/Ke4X5LIYhjqeziKi2BhIY0V1omn41PuOqlrsF+WlAG3fgdEuXbYtfPvvl5PA==
-X-Received: by 2002:a17:906:39d2:b0:989:3e0d:89fb with SMTP id i18-20020a17090639d200b009893e0d89fbmr446878eje.45.1689230277887;
-        Wed, 12 Jul 2023 23:37:57 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id t9-20020a1709064f0900b00992a8a54f32sm3544028eju.139.2023.07.12.23.37.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jul 2023 23:37:57 -0700 (PDT)
-Message-ID: <84d88d8b-25a1-9b0f-d779-325d048909b7@linaro.org>
-Date:   Thu, 13 Jul 2023 08:37:55 +0200
+        with ESMTP id S234589AbjGMIei (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Jul 2023 04:34:38 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE71C271F;
+        Thu, 13 Jul 2023 01:26:28 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36D4o2NW020738;
+        Thu, 13 Jul 2023 08:26:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=7AQMTGyO2zsOJbvEzDinA3ALL0BmMkla/fnN7kpiqQA=;
+ b=Y66XgLu6JgPUL1x5FX3jJlM9bEjBj4x71i802S6tDlg81OF9ZYiujRsLiAIZXT0AM3Fg
+ gXALC5j09244bP8On5MmrTkB/tQykqnpNtYOGzmNsCa9/odlWNelAB89MIVP0g9Q9Lpt
+ NfZHHeUxMWcDDY+7DvddTsKVTsq+7zufYTJ6TJQ6gzhWYDrqMbRM9IeLGo/QEnQ1+xBz
+ GupjjVaxgxHauTHiM7YGYmTHIzbsItkFiWceSDAxUA35W2vJVdOCF0uvU6Kbror3YHvK
+ OLfAOXyDmAuHfWciwKnW08SRS2i7zZjeDSu+FeUK0Ir5GBPKQTGEfDwxkZXjb4bjDDjv Fg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rsgarbe1w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 13 Jul 2023 08:26:15 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36D8QEvD023680
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 13 Jul 2023 08:26:14 GMT
+Received: from [10.50.29.227] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Thu, 13 Jul
+ 2023 01:25:51 -0700
+Message-ID: <d8987058-ee49-cdbd-0fc1-ed80829473b5@quicinc.com>
+Date:   Thu, 13 Jul 2023 13:55:34 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] dt-bindings: usb: qcom,dwc3: document extcon property
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH V1 0/3] Add notifier call chain to Embedded USB Debug(EUD)
+ driver
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Sibi Sankar <quic_sibis@quicinc.com>,
+        Rajendra Nayak <quic_rjendra@quicinc.com>
+References: <cover.1689148711.git.quic_schowdhu@quicinc.com>
+ <2023071218-woven-oversleep-444f@gregkh>
 Content-Language: en-US
-To:     David Heidelberg <david@ixit.cz>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>
-Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230712235902.98557-1-david@ixit.cz>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230712235902.98557-1-david@ixit.cz>
-Content-Type: text/plain; charset=UTF-8
+From:   Souradeep Chowdhury <quic_schowdhu@quicinc.com>
+In-Reply-To: <2023071218-woven-oversleep-444f@gregkh>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 6RRIxD0o7JU_AbIR57FemM4CBhxE00Nk
+X-Proofpoint-ORIG-GUID: 6RRIxD0o7JU_AbIR57FemM4CBhxE00Nk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-13_04,2023-07-11_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ mlxlogscore=360 spamscore=0 priorityscore=1501 impostorscore=0
+ phishscore=0 clxscore=1015 adultscore=0 malwarescore=0 lowpriorityscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307130072
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 13/07/2023 01:59, David Heidelberg wrote:
-> The driver has support for it already. Only missing bit is dt-binding entry.
 
-No, because the child node already has it. We do not need to extcons for
-one USB. Also another reason is that it should be deprecated.
 
-Best regards,
-Krzysztof
+On 7/12/2023 10:10 PM, Greg KH wrote:
+> On Wed, Jul 12, 2023 at 01:52:37PM +0530, Souradeep Chowdhury wrote:
+>> This patch series adds the notifier chain to the Embedded USB Debug(EUD) driver.
+>> The notifier chain is used to check the role switch status of EUD. Since EUD can
+>> function only in device mode, other modules trying to do role-switch on the same
+>> port have to first check the EUD status by calling this notifier chain and based
+>> on the status proceed or block their role-switching step. The modules can call
+>> the notifier through the call eud_notifier_call_chain and pass their own
+>> role switch state as the argument. This chain will also be able to handle the
+>> scenario of multiple modules switching roles on the same port since this can
+>> create a priority and ordering among them for conflict resolution.
+> 
+> You are adding a new api that no one is actually using, so why would we
+> accept this at all?
+> 
+> And how can we actually review it without any real users?
 
+Ack. The next version of this will be posted along with the usage
+of these apis for ordering the role-switch.
+
+> 
+> thanks,
+> 
+> greg k-h
