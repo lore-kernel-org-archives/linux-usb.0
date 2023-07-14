@@ -2,112 +2,68 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02959EB64DA
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Jul 2023 09:06:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74E79EB64DA
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Jul 2023 09:39:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235312AbjGNJGe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 14 Jul 2023 05:06:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40146 "EHLO
+        id S235139AbjGNJjZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 14 Jul 2023 05:39:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234562AbjGNJGc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 Jul 2023 05:06:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1D330E9;
-        Fri, 14 Jul 2023 02:06:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 301E961CBD;
-        Fri, 14 Jul 2023 09:05:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 849BBC433C7;
-        Fri, 14 Jul 2023 09:05:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689325543;
-        bh=WvoBK4BO8pPPux6zd3qw6bxteYzOyTTKLiAplHoONqg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oYQOx+Bf0l+WC841uAxl+EmnmXnIWq6H+9fTX5BHU8AjkSu6g7L7b+35oANMDJ728
-         nF07kgeXFpmztoS8zKDGp2Mz27GCeCt7JKD3hff8XA2o0mBZk4Nge8EXeaoSA0qqDd
-         qNhuCMiEmA07Rm3MnKJy4sU6OriXo4GOhrwjDy9Ec9Pc5KjCTBevCk0VOxFNM3CYsD
-         ptVnuN5pjFgKZDeLU1O5hmNDvs7hmiq9gVknilZkJs2L9wKbYIskaGlSsxtuIOsPB1
-         F2Cf3t/QymtdnWVbbWqiqcXn3WoABZ99gxrxT+xscG187m1AvLnsv/Pm4NX2dphzmo
-         xUI0zL6JveEkw==
-Received: from johan by xi.lan with local (Exim 4.96)
-        (envelope-from <johan@kernel.org>)
-        id 1qKEkC-0006bZ-0a;
-        Fri, 14 Jul 2023 11:05:44 +0200
-Date:   Fri, 14 Jul 2023 11:05:44 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-Cc:     Bjorn Andersson <andersson@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andy Gross <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        quic_pkondeti@quicinc.com, quic_ppratap@quicinc.com,
-        quic_jackp@quicinc.com, quic_harshq@quicinc.com,
-        ahalaney@redhat.com, quic_shazhuss@quicinc.com
-Subject: Re: [PATCH v9 06/10] usb: dwc3: qcom: Add support to read IRQ's
- related to multiport
-Message-ID: <ZLEP6Ekh3unSTiCL@hovoldconsulting.com>
-References: <20230621043628.21485-1-quic_kriskura@quicinc.com>
- <20230621043628.21485-7-quic_kriskura@quicinc.com>
- <ZK6YrLMn9r39zEeB@hovoldconsulting.com>
- <ef29e520-7b9c-f581-e70a-250df80d3821@quicinc.com>
+        with ESMTP id S230177AbjGNJjX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 Jul 2023 05:39:23 -0400
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72AE812D
+        for <linux-usb@vger.kernel.org>; Fri, 14 Jul 2023 02:39:22 -0700 (PDT)
+Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-563668b61e5so2451904eaf.3
+        for <linux-usb@vger.kernel.org>; Fri, 14 Jul 2023 02:39:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689327562; x=1691919562;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4KHHzU7x7Uj0oUhbg7yvB3g2/zOBU5hseuF/BXLOMt0=;
+        b=dEGkGgcoW7YniYVsRgqOMLZekP8rr/V2+KVBQrbDSO8aJLkWh8psCkyOt+gpyx1yg6
+         G4Mtr9heOZeMSZ3Ih6ztMDYtLprA3S9wF2d69n4X26GClCtUCUY10ovnSPUHTCQ6dHrn
+         fNUCYlS2A08RToCMUVNOUGclG5xXh67IcMXlIFs+2t6DeqUFW5LI/PWWtbMh6vtTwg7e
+         zAqDu2ah4OJzpJpRw9n/4FheecBHWinKONQHGk1xtWxGtbV4T/L63ZppJX1jAJZ1pWkb
+         pm8X+0fgZX3mXbZ76ma2nK+sOms1z0ntwCoKiZOsap3IZ9UQtyZ7ng0FHUxf/pzLn/z+
+         NF3A==
+X-Gm-Message-State: ABy/qLbfOMgWkUgNkQ0X7zOW2fawNjpiQaSCuVibBhHZDOzkNK9zslQK
+        hX5VWEBsMW2aaLsd+luHlRABOiQbHVZbacaH/GJ9hxc9+ugY
+X-Google-Smtp-Source: APBJJlECE/T73Vf3y+9L5a/sFYEvp9yWUZCY5KubJr49qX1T/Yq21R4eLmkgdx54Nu3PRiX6hQF471EOVA43hTqQHT9AITWgBoP6
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ef29e520-7b9c-f581-e70a-250df80d3821@quicinc.com>
+X-Received: by 2002:a05:6870:70a:b0:1b0:77e0:3cdc with SMTP id
+ ea10-20020a056870070a00b001b077e03cdcmr4072235oab.4.1689327561878; Fri, 14
+ Jul 2023 02:39:21 -0700 (PDT)
+Date:   Fri, 14 Jul 2023 02:39:21 -0700
+In-Reply-To: <CALm+0cXi-YsnJBdBt38v4gEoR7oEeaoj3wXjEw3m=25RSLEs8g@mail.gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000003c330106006f39b9@google.com>
+Subject: Re: [syzbot] [usb?] memory leak in raw_open
+From:   syzbot <syzbot+feb045d335c1fdde5bf7@syzkaller.appspotmail.com>
+To:     andreyknvl@gmail.com, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        qiang.zhang1211@gmail.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jul 12, 2023 at 11:56:33PM +0530, Krishna Kurapati PSSNV wrote:
-> On 7/12/2023 5:42 PM, Johan Hovold wrote:
-> > On Wed, Jun 21, 2023 at 10:06:24AM +0530, Krishna Kurapati wrote:
-> >> Add support to read Multiport IRQ's related to quad port controller
-> >> of SA8295 Device.
-> >>
-> >> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-> >> ---
-> >>   drivers/usb/dwc3/dwc3-qcom.c | 108 +++++++++++++++++++++++++++++------
-> >>   1 file changed, 91 insertions(+), 17 deletions(-)
-> > 
-> >> +static int dwc3_qcom_setup_mp_irq(struct platform_device *pdev)
-> >> +{
-> >> +	struct dwc3_qcom *qcom = platform_get_drvdata(pdev);
-> >> +	char irq_name[15];
-> > 
-> > The interrupt device-name string can not be allocated on the stack or
-> > reused as it is stored directly in each irqaction structure.
-> > 
-> > This can otherwise lead to random crashes when accessing
-> > /proc/interrupts:
-> > 
-> > 	https://lore.kernel.org/lkml/ZK6IV_jJPICX5r53@hovoldconsulting.com/
+Hello,
 
->    Sure, will create a static array of names if possible in global 
-> section of file and use it to read interrupts.
+syzbot tried to test the proposed patch but the build/boot failed:
 
-Or just use devm_kasprintf(), which should allow for a cleaner
-implementation.
+failed to apply patch:
+checking file drivers/usb/gadget/legacy/raw_gadget.c
+patch: **** unexpected end of file in patch
 
-I've fixed it up like this for my X13s wip branches:
 
-	https://github.com/jhovold/linux/commit/0898b54456bc2f4bd4d420480db98e6758771ace
- 
->    Are you fine with seperating out setup_irq and setup_mp_irq functions 
-> ? Can you please review comments and suggestion on [1].
 
-I haven't had time to look at your latest replies yet, but as I already
-said when reviewing v9, it seems you should be using a common helper for
-non-mp and mp.
+Tested on:
 
-Johan
+commit:         7c2878be Add linux-next specific files for 20230714
+git tree:       linux-next
+dashboard link: https://syzkaller.appspot.com/bug?extid=feb045d335c1fdde5bf7
+compiler:       
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=1310af86a80000
+
