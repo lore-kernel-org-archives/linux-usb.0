@@ -2,62 +2,126 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 396EEC001DE
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Jul 2023 15:33:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2D9AC001DC
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jul 2023 18:04:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233689AbjGLPdC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Jul 2023 11:33:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48898 "EHLO
+        id S231490AbjGQSEk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jul 2023 14:04:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232884AbjGLPc6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Jul 2023 11:32:58 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70720C2;
-        Wed, 12 Jul 2023 08:32:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=689SEK0ciFY8KgDlRHFBreHHAC2z+cvH0wQ011Q2aMI=; b=df/VKiT91ZqRa0x7ofoJaXGlph
-        PM7CRP4KkwoXZKNJlvYdkig+/LLrQ9LVGVf40H6Qaywx20JwTqHlizlUxF15FF/hdi7QMcfJ88rOM
-        Tk9o3z44pMTcermnTCrLWAF39fzqRsD0ms+1lMmZtzToJzTD0SUcPG6eXBFgIigvbDeEBrSIYXiW/
-        GnykGmmqxl8DWPpBQb6tfrtLGgdO7lnddHDuy7SXW0bC9E1PhpCLadB/V3QSWJPX+bNFvOifeRdsy
-        3Vg5gSGOgGr74Cyg+9z9dxsezgnvq5bViTggfgF6K6g7cj7jT1ssxpJXUEt4gBcr4IJbEN74vqTce
-        EZsIkLBg==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qJboy-000MRl-20;
-        Wed, 12 Jul 2023 15:32:04 +0000
-Message-ID: <03e153ce-328b-f279-2a40-4074bea2bc8f@infradead.org>
-Date:   Wed, 12 Jul 2023 08:31:55 -0700
+        with ESMTP id S229825AbjGQSEX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jul 2023 14:04:23 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 519F5172D
+        for <linux-usb@vger.kernel.org>; Mon, 17 Jul 2023 11:03:55 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-3142970df44so4618415f8f.3
+        for <linux-usb@vger.kernel.org>; Mon, 17 Jul 2023 11:03:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689617031; x=1692209031;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vzbsDx8AKByFFeQb4eON82BRtlQ7HwpTGTuo1yVO7vg=;
+        b=gaCzn541IrqgxWEmbQvUqnmSv/6zhTi7DIeAZ801aYQokAv9u745TXLpdbu29zWWjS
+         eGPR0ZohCwWiqOrQHbElpCG7Z8u8an0h40TWu+JGU/JDhLzSliCKVzWv9ryKzaCqhgiy
+         aw5bqjnV7g0CP0CLRbFZ2WRQKzXI6G2hsU1DWiUBrN63F3zZmMALWCkhcT35E4TpSjAD
+         lQ7XGqc3R2pVs6Zip0klr8Ltu1KcdZRmi6It8aYT3mAvThALqzdHXrloL7EHxSr08FMU
+         OuaFWgzGJBgdGfi7EsaGQXA2I8zluEYs6p2DjoZvKjDTbPeVoIMamF3OFl/BiKEBKbEP
+         Zlmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689617031; x=1692209031;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vzbsDx8AKByFFeQb4eON82BRtlQ7HwpTGTuo1yVO7vg=;
+        b=fxc+3pj8quphSLU6JT+eljAkCYMM92a5KWRGBAbtbMufdmimY1IESwIrhN1RH1TVI6
+         VCT9lPUNnjEw5jQz0apgEE9qH/xUUSZpOlZGXtSUaUMm4B1A8oLhimTXQlC+3cwPKC3N
+         OHTxpzze2rgB+N9GSMuzgDGvUCxMyJ24yjauDeQ7d98xEiWzpcls7I5LoqQhK/hrdOUG
+         cYOngT+KiKyzXa2+S0c4QbVNA8luKTkLRuwkX+emHRfd2h4iakFWOwnhvj96C6JYMl9c
+         Hi5Y5Q9VFDxe/ShkIIFpBEzHhRZwCKX+0igZV7UscDRABv6/8XsHVWsZB5tQEu0spOMJ
+         jcyg==
+X-Gm-Message-State: ABy/qLYaFp6Wxi6YYbenY8Zy77ttJbgC6xnILfy/J/Gu+Isawc/+iDFk
+        emY1ovTCGPT7geEYhe1VuHQayLbhvFO7f1srySq4sw==
+X-Google-Smtp-Source: APBJJlH6iyWjTr3ij3IbpJL7CfATiUf6oE6XdwvX293fZ2AUUPmBjFwI19R/zwUR+0huN6WD2uVCrjxCJgWpPuxK4FY=
+X-Received: by 2002:adf:fa47:0:b0:316:f3f3:a1db with SMTP id
+ y7-20020adffa47000000b00316f3f3a1dbmr6221218wrr.32.1689617031529; Mon, 17 Jul
+ 2023 11:03:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 01/79] fs: add ctime accessors infrastructure
-Content-Language: en-US
-To:     Jeff Layton <jlayton@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        linux-um <linux-um@lists.infradead.org>
-References: <20230621144507.55591-1-jlayton@kernel.org>
- <20230621144507.55591-2-jlayton@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230621144507.55591-2-jlayton@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230717103236.1246771-1-bhupesh.sharma@linaro.org>
+ <20230717103236.1246771-4-bhupesh.sharma@linaro.org> <ZLUbyocjNT2bGvVt@gerhold.net>
+In-Reply-To: <ZLUbyocjNT2bGvVt@gerhold.net>
+From:   Bhupesh Sharma <bhupesh.sharma@linaro.org>
+Date:   Mon, 17 Jul 2023 23:33:40 +0530
+Message-ID: <CAH=2NtzM=jaVtjeHHO0rY0_wHu9==Jpdz4zx5nCK3gBh2kpL=A@mail.gmail.com>
+Subject: Re: [PATCH v8 3/4] arm64: dts: qcom: sm6115: Add EUD dt node and dwc3 connector
+To:     Stephan Gerhold <stephan@gerhold.net>
+Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, linux-kernel@vger.kernel.org,
+        bhupesh.linux@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, krzysztof.kozlowski@linaro.org,
+        quic_schowdhu@quicinc.com, gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Jeff,
+On Mon, 17 Jul 2023 at 16:15, Stephan Gerhold <stephan@gerhold.net> wrote:
+>
+> On Mon, Jul 17, 2023 at 04:02:35PM +0530, Bhupesh Sharma wrote:
+> > Add the Embedded USB Debugger(EUD) device tree node for
+> > SM6115 / SM4250 SoC.
+> >
+> > The node contains EUD base register region, EUD mode manager
+> > register region and TCSR Base register region along with the
+> > interrupt entry.
+> >
+> > [...]
+> >
+> > Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> > Signed-off-by: Bhupesh Sharma <bhupesh.sharma@linaro.org>
+> > ---
+> >  arch/arm64/boot/dts/qcom/sm6115.dtsi | 50 ++++++++++++++++++++++++++++
+> >  1 file changed, 50 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/qcom/sm6115.dtsi b/arch/arm64/boot/dts/qcom/sm6115.dtsi
+> > index 839c603512403..db45337c1082c 100644
+> > --- a/arch/arm64/boot/dts/qcom/sm6115.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/sm6115.dtsi
+> > [...]
+> > @@ -789,6 +801,37 @@ gcc: clock-controller@1400000 {
+> >                       #power-domain-cells = <1>;
+> >               };
+> >
+> > +             eud: eud@1610000 {
+> > +                     compatible = "qcom,sm6115-eud", "qcom,eud";
+> > +                     reg = <0x0 0x01610000 0x0 0x2000>,
+> > +                           <0x0 0x01612000 0x0 0x1000>,
+> > +                           <0x0 0x003c0000 0x0 0x40000>;
+> > +                     reg-names = "eud-base", "eud-mode-mgr", "tcsr-base";
+>
+> TCSR is a separate hardware block unrelated to the EUD. IMHO it
+> shouldn't be listed as "reg" here.
+>
+> Typically we describe it as syscon and then reference it from other
+> nodes. See e.g. sm8450.dtsi "tcsr: syscon@1fc0000" referenced in &scm
+> "qcom,dload-mode = <&tcsr 0x13000>". This is pretty much exactly the
+> same use case as you have. It also uses this to write something with
+> qcom_scm_io_writel() at the end.
 
-On arch/um/, (subarch i386 or x86_64), hostfs build fails with:
+That was discussed a bit during v1 patchset review. Basically, if we
+use a tcsr syscon approach here, we will need to define a 'qcom,xx'
+vendor specific dt-property and use something like this in the eud
+node:
 
-../fs/hostfs/hostfs_kern.c:520:36: error: incompatible type for arg
-ument 2 of 'inode_set_ctime_to_ts'
-../include/linux/fs.h:1499:73: note: expected 'struct timespec64' b
-ut argument is of type 'const struct hostfs_timespec *'
+qcom,eud-sec-reg = <&tcsr_reg yyyy>
 
+which would be then used by the eud driver (via
+syscon_regmap_lookup_by_phandle()).
 
--- 
-~Randy
+But for sm6115 / qcm2290 this would be an over complicated solution as
+normally the eud driver (say sc7280) doesn't need tcsr based secure
+mode manager access. So defining a new soc / vendor specific
+dt-property might be an overkill.
+
+Thanks,
+Bhupesh
