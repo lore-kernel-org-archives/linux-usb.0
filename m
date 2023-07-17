@@ -2,129 +2,187 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8971DEB64DC
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Jul 2023 10:49:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CFDBEB64DC
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jul 2023 12:02:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229827AbjGQKtA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jul 2023 06:49:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53638 "EHLO
+        id S230015AbjGQMCq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jul 2023 08:02:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230354AbjGQKs4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jul 2023 06:48:56 -0400
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.166])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DA9BE43
-        for <linux-usb@vger.kernel.org>; Mon, 17 Jul 2023 03:48:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1689590738; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=tvmM4VTRmIDU8CsvrGGiEdIRdU26jXPiOGp1wbOYSIMTmvvsmI2RXV12cxHxcZAWYN
-    owymoqGxeJz536rK/smx9EqD/gA/+3HowHIX1sIHZdqjWQvMKgBU5uo9Q14R2QAc+HTh
-    5XcPd3rZVF+Jq+bUtBV/Q2TMCsbxY/NIylwMElxObGvMgInFOB6IbdRNv63g3VyBWQR8
-    PyKe+xgnL/FVhJPfIT6fqdAddsHSRS7y8aJSU4PLMDq+Cc3z+St0vw4ewRYXnhQQ7mzs
-    y2pBvIkNZ79Dm1zekSFQ10DPG6REhOhAxly/fDHUNxw9ZismVRQlH1SoXbPQXnRMIHSY
-    dAiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1689590738;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=76E7kv/rz3wVZ9AmXO1y062UWjx+pg+DHG1to8xcAk4=;
-    b=QZjTrOhnqvmLUVejlMsbxju9o8w9S6uymBpFWgQFRePJw4FTKW5PmpCrORBEj4vzGd
-    IDxGPFbPOdxwtwk3ykvSjyin9mD+uOn808tatpTsrzaq1tj7hIAs4mZWy0ZsRfW3mxPV
-    8U00Ldx//3wn5vsg5Y+xWKJQ3s/7pd4qP8+6sLzG5cHD4tTB6KYK+Z37t2cOT8La4+Bt
-    5EpELOsRMDq6a3ZCiRKJ+gUpPM02MOZyHqZPowhxk5oR6XtEI/64IhZu+E3QWhu34kpO
-    ZpOSp66G5v7wlt/GtC1I1JHkHnxwUQ9jAtWTM/vkMP60gFoCvKohLpETsCsXR9PjFLGl
-    BtuQ==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1689590738;
-    s=strato-dkim-0002; d=gerhold.net;
-    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=76E7kv/rz3wVZ9AmXO1y062UWjx+pg+DHG1to8xcAk4=;
-    b=dtIKLUHQyzgPi2SZawEvkiW93YwAD/o2TnEeBj2jRqBXEEOw2ljDSLKssLsTVBCn6K
-    +GdRRcUaMtWS3vNNZrvliMR2k4Sz0l2X4ImMuqIVublCALNc8arAeVkLg+CR2L75DoCU
-    8FYeUoV0xSBydC6w0tp5+feB84iftygj7OxubIezejWqjblaQoIx4kCD7psRNUUoV1Yo
-    NOfqPgu9INZSANe5Zg0LK/hXMWx8WsKzFoTQ1dT3FSAULrcW/0dwcxYD5ZhQnrsKdTOW
-    z8axbIARZz+UVzqlymVlj/qQFb/aLdogA+8+s0oHfE/5TEbZhQQF8sD5ZK6Yb8KKvQ0b
-    p/ag==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1689590738;
-    s=strato-dkim-0003; d=gerhold.net;
-    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=76E7kv/rz3wVZ9AmXO1y062UWjx+pg+DHG1to8xcAk4=;
-    b=5643LMIpI8lLvb6zwAZK4uT+/Zt+G8FsZ+mwgYx24eEt1xGmrzbHFpYne4364F7TZI
-    jvu+U2rfYrwXtmQk5mCQ==
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u261EJF5OxJD4paA8Z2L1A=="
-Received: from gerhold.net
-    by smtp.strato.de (RZmta 49.6.0 DYNA|AUTH)
-    with ESMTPSA id D0d0a8z6HAjbXqF
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Mon, 17 Jul 2023 12:45:37 +0200 (CEST)
-Date:   Mon, 17 Jul 2023 12:45:30 +0200
-From:   Stephan Gerhold <stephan@gerhold.net>
-To:     Bhupesh Sharma <bhupesh.sharma@linaro.org>
-Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, linux-kernel@vger.kernel.org,
-        bhupesh.linux@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, krzysztof.kozlowski@linaro.org,
-        quic_schowdhu@quicinc.com, gregkh@linuxfoundation.org
-Subject: Re: [PATCH v8 3/4] arm64: dts: qcom: sm6115: Add EUD dt node and
- dwc3 connector
-Message-ID: <ZLUbyocjNT2bGvVt@gerhold.net>
-References: <20230717103236.1246771-1-bhupesh.sharma@linaro.org>
- <20230717103236.1246771-4-bhupesh.sharma@linaro.org>
+        with ESMTP id S229621AbjGQMCp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jul 2023 08:02:45 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DFD78F
+        for <linux-usb@vger.kernel.org>; Mon, 17 Jul 2023 05:02:44 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-9924ac01f98so623034466b.1
+        for <linux-usb@vger.kernel.org>; Mon, 17 Jul 2023 05:02:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689595362; x=1692187362;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lRFjTGIuTQBbKcSIQn8byEVfc3e2ikK3CXB/ejmFCFA=;
+        b=ydU4CX/8SVEai1MTilT8mOjNohD1OBoFm/18vOFFl3jG+sqQ2Q5UvAgkHfwu7Bq9Z9
+         +q+a0AFTgVkeT7jiHfpZWSvqecTIdkokG3izhDDxvuUyMY6v5TmCIGiTlKOcj24K7crp
+         6U6mPFf5b7BOEF+c9Ztv7efBRrx+YxhzNams8iDzSQC5KdGvguCV8fOwqQOTR3ZpunOq
+         phiiRICQj46zmUez6XvPj/0xG316MZFxllPGPkdXulwT47InydIb2YZGtfMGyFeyGL+X
+         efadqVmH7gXuwMmBAdL99dGaKxkA2X5EhqZ5blhLyzNNn+S5nS9fDfGmyf21eBPwiGVK
+         rqcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689595362; x=1692187362;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lRFjTGIuTQBbKcSIQn8byEVfc3e2ikK3CXB/ejmFCFA=;
+        b=RgO1ruj3j4Lqh8mlFaEHt+W02EMcUqxrvchcf5OpKiPzifmB1cKRMiKDW5RuQx3Omh
+         9+pO1iydrsp6AYUFGbwwPBqiqx43pYx0lJ4AVIkfhZ5O0WD6DgMTtlZ4caA34KFfhknf
+         RYaDMNr0LFuqxkjEa5qME1PRMxy0dkCY/2NUNGCzxoiSqoCuAIRFigU+hhwjftMA08p9
+         VhuwnXu4hzwcpS2We9u0hRxjsDPZv1u2uxOLlXNLrB7iPswUiWUO8JMYmwzqiVHnVT+0
+         EscXN/likLf4mZV7aMqtSopn49QbcJufSA+5mROV22Q2scGThQqMkibIyw0kJrGbskSo
+         rEPA==
+X-Gm-Message-State: ABy/qLaIWSrk9vSFQXmMx+N0urbbCO2tRslnyrOpokkEifR+aW1smGaa
+        K15s50v1+hsgUXuy2OdQz3+hjqzvfByD5Lj/Coqfeg==
+X-Google-Smtp-Source: APBJJlH5grcbHbGAa4eOIaUofJ1AqLDmGg/hsJthhlRzPFpAwiFBB/N+fD4nsO1NJDB5l/IvGB3bww==
+X-Received: by 2002:a17:906:58:b0:994:1fd2:cf96 with SMTP id 24-20020a170906005800b009941fd2cf96mr11662668ejg.0.1689595362522;
+        Mon, 17 Jul 2023 05:02:42 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id mj6-20020a170906af8600b00988781076e2sm9140186ejb.78.2023.07.17.05.02.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jul 2023 05:02:41 -0700 (PDT)
+Message-ID: <e7c3bb1d-3694-7aa6-901f-47aadda18a20@linaro.org>
+Date:   Mon, 17 Jul 2023 14:02:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230717103236.1246771-4-bhupesh.sharma@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] usb: dwc2: combine platform specific data for Intel
+ Agilex and Stratix10
+To:     "Li, Meng" <Meng.Li@windriver.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "dinguyen@kernel.org" <dinguyen@kernel.org>,
+        "hminas@synopsys.com" <hminas@synopsys.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20230717085053.1075077-1-Meng.Li@windriver.com>
+ <9a3dc092-7278-cda1-cd4e-c157e0e2c431@linaro.org>
+ <PH0PR11MB5191AA947AAE954FF2169FCCF13BA@PH0PR11MB5191.namprd11.prod.outlook.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <PH0PR11MB5191AA947AAE954FF2169FCCF13BA@PH0PR11MB5191.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jul 17, 2023 at 04:02:35PM +0530, Bhupesh Sharma wrote:
-> Add the Embedded USB Debugger(EUD) device tree node for
-> SM6115 / SM4250 SoC.
+On 17/07/2023 12:13, Li, Meng wrote:
+>>> diff --git a/Documentation/devicetree/bindings/usb/dwc2.yaml
+>>> b/Documentation/devicetree/bindings/usb/dwc2.yaml
+>>> index dc4988c0009c..c98ca98d5033 100644
+>>> --- a/Documentation/devicetree/bindings/usb/dwc2.yaml
+>>> +++ b/Documentation/devicetree/bindings/usb/dwc2.yaml
+>>> @@ -51,6 +51,7 @@ properties:
+>>>                - amlogic,meson-gxbb-usb
+>>>                - amlogic,meson-g12a-usb
+>>>                - intel,socfpga-agilex-hsotg
+>>> +              - intel,socfpga-hsotg
+>>
+>> Where is SoC specific compatible?
+>>
 > 
-> The node contains EUD base register region, EUD mode manager
-> register region and TCSR Base register region along with the
-> interrupt entry.
+> The socfpga is a SoC family, it includes Agilex ad Stratix10 SoCs.
+> In fact, we only need the compatible " intel,socfpga-hsotg " is enough.
+
+You now confuse driver and bindings compatibles...
+
+
+https://elixir.bootlin.com/linux/v6.1-rc1/source/Documentation/devicetree/bindings/writing-bindings.rst#L42
+
+> But in order to avoid breaking the old device tree for agilex platform, I reserve the old compatible.
+> So, I think we don't need the Stratix10 compatible like "intel,socfpga-stratix10-hsotg "
+
+You need. See above link.
+
 > 
-> [...]
->
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> Signed-off-by: Bhupesh Sharma <bhupesh.sharma@linaro.org>
-> ---
->  arch/arm64/boot/dts/qcom/sm6115.dtsi | 50 ++++++++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
+>>>            - const: snps,dwc2
+>>>        - const: amcc,dwc-otg
+>>>        - const: apm,apm82181-dwc-otg
+>>> @@ -64,6 +65,7 @@ properties:
+>>>            - const: snps,dwc2
+>>>        - const: samsung,s3c6400-hsotg
+>>>        - const: intel,socfpga-agilex-hsotg
+>>> +      - const: intel,socfpga-hsotg
+>>>
+>>>    reg:
+>>>      maxItems: 1
+>>> diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi
+>>> b/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi
+>>> index ea788a920eab..c5a51636f657 100644
+>>> --- a/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi
+>>> +++ b/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi
+>>
+>> ...
+>>
+>>> diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
+>>> index 8eab5f38b110..6bb27a24e9e1 100644
+>>> --- a/drivers/usb/dwc2/params.c
+>>> +++ b/drivers/usb/dwc2/params.c
+>>> @@ -93,7 +93,7 @@ static void dwc2_set_s3c6400_params(struct
+>> dwc2_hsotg *hsotg)
+>>>       p->phy_utmi_width = 8;
+>>>  }
+>>>
+>>> -static void dwc2_set_socfpga_agilex_params(struct dwc2_hsotg *hsotg)
+>>> +static void dwc2_set_socfpga_params(struct dwc2_hsotg *hsotg)
+>>
+>> Why? Old name was ok...
+>>
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sm6115.dtsi b/arch/arm64/boot/dts/qcom/sm6115.dtsi
-> index 839c603512403..db45337c1082c 100644
-> --- a/arch/arm64/boot/dts/qcom/sm6115.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm6115.dtsi
-> [...]
-> @@ -789,6 +801,37 @@ gcc: clock-controller@1400000 {
->  			#power-domain-cells = <1>;
->  		};
->  
-> +		eud: eud@1610000 {
-> +			compatible = "qcom,sm6115-eud", "qcom,eud";
-> +			reg = <0x0 0x01610000 0x0 0x2000>,
-> +			      <0x0 0x01612000 0x0 0x1000>,
-> +			      <0x0 0x003c0000 0x0 0x40000>;
-> +			reg-names = "eud-base", "eud-mode-mgr", "tcsr-base";
+> Old name includes string "agilex" that represents only agilex SoC.
 
-TCSR is a separate hardware block unrelated to the EUD. IMHO it
-shouldn't be listed as "reg" here.
+No, old name was representing the first compatibility chip.
 
-Typically we describe it as syscon and then reference it from other
-nodes. See e.g. sm8450.dtsi "tcsr: syscon@1fc0000" referenced in &scm
-"qcom,dload-mode = <&tcsr 0x13000>". This is pretty much exactly the
-same use case as you have. It also uses this to write something with
-qcom_scm_io_writel() at the end.
+> This patch is used to combine platform specific data for Intel Agilex and Stratix10, so create a common function name for socfpga family.
 
-Thanks,
-Stephan
+And what is wrong with using the previous one? No, don't do this. It
+brings no benefits.
+
+> 
+>>>  {
+>>>       struct dwc2_core_params *p = &hsotg->params;
+>>>
+>>> @@ -266,7 +266,9 @@ const struct of_device_id dwc2_of_match_table[] = {
+>>>       { .compatible = "st,stm32mp15-hsotg",
+>>>         .data = dwc2_set_stm32mp15_hsotg_params },
+>>>       { .compatible = "intel,socfpga-agilex-hsotg",
+>>> -       .data = dwc2_set_socfpga_agilex_params },
+>>> +       .data = dwc2_set_socfpga_params },
+>>> +     { .compatible = "intel,socfpga-hsotg",
+>>> +       .data = dwc2_set_socfpga_params },
+>>
+>> Aren't they compatible? Why do you need new entry for compatible devices?
+>>
+> 
+> In fact, the usb IP in Agilex and Sratix10 are the same. 
+
+So you do not need new entry. Don't add it.
+
+> But it is not reasonable to use agilex compatible string "intel,socfpga-agilex-hsotg" in Stratix10 dts files.
+
+Why? Why you impose some rule which is different than all other SoCs in
+upstream? Why do I have to repeat it every now and then.... ehhh :(
+
+https://elixir.bootlin.com/linux/v6.1-rc1/source/Documentation/devicetree/bindings/writing-bindings.rst#L42
+
+
+> So, I create a common function name and compatible string for socfpga family that includes Agilex and Stratix10 SoCs.
+
+Nope, sorry.
+
+Best regards,
+Krzysztof
+
