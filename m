@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDB8AC04A94
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Jul 2023 10:33:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33C51C001E0
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jul 2023 10:33:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230477AbjGQKdc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jul 2023 06:33:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42788 "EHLO
+        id S231318AbjGQKdu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jul 2023 06:33:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230333AbjGQKdb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jul 2023 06:33:31 -0400
+        with ESMTP id S230406AbjGQKde (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jul 2023 06:33:34 -0400
 Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B75019AD
-        for <linux-usb@vger.kernel.org>; Mon, 17 Jul 2023 03:33:09 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1b8bd586086so34864385ad.2
-        for <linux-usb@vger.kernel.org>; Mon, 17 Jul 2023 03:33:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C15D61BD4
+        for <linux-usb@vger.kernel.org>; Mon, 17 Jul 2023 03:33:14 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1b9c5e07c1bso34223975ad.2
+        for <linux-usb@vger.kernel.org>; Mon, 17 Jul 2023 03:33:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689589983; x=1692181983;
+        d=linaro.org; s=google; t=1689589992; x=1692181992;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ATTO38/iOwVxNwj2oDkWC8K05sDZoQ4wq1YyEPI7+d8=;
-        b=MyOhzNAQ9J1iPOmPtoVjZ4DgBGmtH/yypeJvaYJuXuHKJWwG3hmX1TR6Htx4j6Tde8
-         J1wj0/3c7wtqzGEFhVGk8UeNk43zxTSKQDASwRZeVLrigBUrmKKgGy6/C0YS3j+IiELZ
-         jESzbOjERN6CT+e7sri3mg0D//U4ofZZRc2eh1rU2+aObRLTSOlpTrndBN04QgHsOA5r
-         m3je/+qdgFfY2qVbwGPUCpvkbtoBEWVIbAtHmrzTZ+cOqAPCQWcR/PzqBkMndlVHYhOD
-         p8ZOep23FpvRle3w/tnzVxtSDiZiTrTs98vx54qWjhLcQE84EpAnnld2qQiCefx5ha+j
-         fU1g==
+        bh=aoaxiWdRTQIjlpKBPFLmbhlJ2o+zAdh4av4kyochmEo=;
+        b=g519a+G7tOuP5AGM99e4AMmxik1Mq8hK7gBhqN7FfI+fi/u8RiwEdZteCyakYGYPp6
+         LSJRF5Km6sXgyIAlc90wqM1qSPKCKc+H3LTr9jpdfZwmbJEbEka5ynRujS7NNNEB1CoS
+         WHVeD8s+JTtarzKaGi2LDeJU8uJKCpuRSm9DJp142XsIcjzRrRByl9XNuIlqcYjHLsSI
+         w8EoI4s1yeYtJRXOsfuf3TyVwtvx8DNZhLTifve1u6pdFo+iv8eD02apBZJqGs4Bedkk
+         OGkhqV1yml1BoYdBsrB8DRKy9k7pjQH+j+nacouB8lEz7suiSGB2L70kIZ1ouOXOgALy
+         ITPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689589983; x=1692181983;
+        d=1e100.net; s=20221208; t=1689589992; x=1692181992;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ATTO38/iOwVxNwj2oDkWC8K05sDZoQ4wq1YyEPI7+d8=;
-        b=Q/zwsoDAvtEXvGUFVkt48l+cfH7PhRZHqFKw6PYb5LR8wBv5GLssU/7q77UCbzsl/J
-         UAW7AMp/ZvZixdlA+riDt0ZypMN2Lu3hXN8WvAqo6SpuH8kTRqSO2FBBUxMzrLIb5WVC
-         lokIHW4cqndVO9IcS+DKWFkg2AA/g72stdCLRwEKU5Gz52nkLNp8i34irFC6GOLOVhd7
-         rzhRuHVtdlS5ozdcGTlf0cz0Rzas/s+bIZ86RbwBUgApGO1wrUm+HcpRRq+o91AggaK/
-         cGNWWkpLncJy1Nie1FqvXiSqulrWhkn1qEPtlqb4Th6RfHZbpRXu0RxqhddPkcM/+gRU
-         Z9EQ==
-X-Gm-Message-State: ABy/qLYNz78ONusr/v+TbcadCs7Eea5Q5ni+eM+8RHzG0eaiLhrJlulX
-        cjat+sLk6T599PVVTxz4InB5XQ==
-X-Google-Smtp-Source: APBJJlFeyZDPDWURFC6I/5UxqTtOXcwxmB92C9PgveQcu/vBRWYlKgTJnm6kdl0bBnm/qdhLmlHGEA==
-X-Received: by 2002:a17:902:efc3:b0:1b8:b461:595e with SMTP id ja3-20020a170902efc300b001b8b461595emr12182599plb.48.1689589982808;
-        Mon, 17 Jul 2023 03:33:02 -0700 (PDT)
+        bh=aoaxiWdRTQIjlpKBPFLmbhlJ2o+zAdh4av4kyochmEo=;
+        b=KScOGJD0+SVkN3sEa6jtCQFbmPtUI35CeoschD4Pwe+8i/upeMUq20ME7Kp8er6zeq
+         X8A/c/g/EHxHEXwGoWOo7lJJcaPXzpzfrP5/PXFlhU+vIKcPX1ga0YyJWmlfQAfQTxVv
+         iV45b/w+6n1XcnLNbpWJY9vxrOY8Ps1WGkMCdzYXairMOP61e/ecJulFXIj+0aipZGa5
+         Ru6CwdkL1tVG91BUs4BD7PtJnu9QDURlkBb/P5Pouyuc+JdNYzBQQNxFxIiT7QtxIRum
+         WjAlsnJAAbqWx4q1GIN4iCxwrxQZPf16BNxE6W21pa+T8W5qNYAepj8bdHOOO8Eb+nGG
+         ROeA==
+X-Gm-Message-State: ABy/qLY5wCf9T5Ysyh2hOSjQ7EYrU2qnVMJXQSFPv4St+BO/h5u/27SD
+        WfWTjG1V813pfDLJJAWZDmy2Tw==
+X-Google-Smtp-Source: APBJJlGxjHTy27oHzebTb158x0c33RIuQvSDpQ/GYL/rSpU/c05I0WJAE/sHlYsRZQIMLM7KbWO+Tg==
+X-Received: by 2002:a17:902:9347:b0:1b8:a12e:d655 with SMTP id g7-20020a170902934700b001b8a12ed655mr1968934plp.11.1689589991826;
+        Mon, 17 Jul 2023 03:33:11 -0700 (PDT)
 Received: from localhost.localdomain ([223.233.68.54])
-        by smtp.gmail.com with ESMTPSA id ij9-20020a170902ab4900b001b9de67285dsm12633616plb.156.2023.07.17.03.32.58
+        by smtp.gmail.com with ESMTPSA id ij9-20020a170902ab4900b001b9de67285dsm12633616plb.156.2023.07.17.03.33.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jul 2023 03:33:02 -0700 (PDT)
+        Mon, 17 Jul 2023 03:33:11 -0700 (PDT)
 From:   Bhupesh Sharma <bhupesh.sharma@linaro.org>
 To:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-usb@vger.kernel.org
@@ -57,9 +57,9 @@ Cc:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
         bhupesh.sharma@linaro.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, krzysztof.kozlowski@linaro.org,
         quic_schowdhu@quicinc.com, gregkh@linuxfoundation.org
-Subject: [PATCH v8 2/4] usb: misc: eud: Add driver support for SM6115 / SM4250
-Date:   Mon, 17 Jul 2023 16:02:34 +0530
-Message-Id: <20230717103236.1246771-3-bhupesh.sharma@linaro.org>
+Subject: [PATCH v8 4/4] arm64: dts: qcom: qrb4210-rb2: Enable EUD debug peripheral
+Date:   Mon, 17 Jul 2023 16:02:36 +0530
+Message-Id: <20230717103236.1246771-5-bhupesh.sharma@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230717103236.1246771-1-bhupesh.sharma@linaro.org>
 References: <20230717103236.1246771-1-bhupesh.sharma@linaro.org>
@@ -69,163 +69,66 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add SM6115 / SM4250 SoC EUD support in qcom_eud driver.
+Since the USB-C type port on the Qualcomm QRB4210-RB2 board
+can be set primarily in a 'device' configuration (with the default
+DIP switch settings), it makes sense to enable the EUD debug
+peripheral on the board by default by setting the USB 'dr_mode' property
+as 'otg'.
 
-On some SoCs (like the SM6115 / SM4250 SoC), the mode manager
-needs to be accessed only via the secure world (through 'scm'
-calls).
+Now, the EUD debug peripheral can be enabled by executing:
+ $ echo 1 > /sys/bus/platform/drivers/qcom_eud/1610000.eud/enable
 
-Also, the enable bit inside 'tcsr_check_reg' needs to be set
-first to set the eud in 'enable' mode on these SoCs.
-
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Bhupesh Sharma <bhupesh.sharma@linaro.org>
 ---
- drivers/usb/misc/Kconfig    |  2 +-
- drivers/usb/misc/qcom_eud.c | 62 ++++++++++++++++++++++++++++++++++---
- 2 files changed, 58 insertions(+), 6 deletions(-)
+ arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 27 +++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/misc/Kconfig b/drivers/usb/misc/Kconfig
-index 99b15b77dfd57..51eb5140caa14 100644
---- a/drivers/usb/misc/Kconfig
-+++ b/drivers/usb/misc/Kconfig
-@@ -146,7 +146,7 @@ config USB_APPLEDISPLAY
- 
- config USB_QCOM_EUD
- 	tristate "QCOM Embedded USB Debugger(EUD) Driver"
--	depends on ARCH_QCOM || COMPILE_TEST
-+	depends on (ARCH_QCOM && QCOM_SCM) || COMPILE_TEST
- 	select USB_ROLE_SWITCH
- 	help
- 	  This module enables support for Qualcomm Technologies, Inc.
-diff --git a/drivers/usb/misc/qcom_eud.c b/drivers/usb/misc/qcom_eud.c
-index 7f371ea1248c3..136cac90228a0 100644
---- a/drivers/usb/misc/qcom_eud.c
-+++ b/drivers/usb/misc/qcom_eud.c
-@@ -11,9 +11,11 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/sysfs.h>
-+#include <linux/firmware/qcom/qcom_scm.h>
- #include <linux/usb/role.h>
- 
- #define EUD_REG_INT1_EN_MASK	0x0024
-@@ -30,15 +32,25 @@
- #define EUD_INT_SAFE_MODE	BIT(4)
- #define EUD_INT_ALL		(EUD_INT_VBUS | EUD_INT_SAFE_MODE)
- 
-+#define EUD_EN2_EN		BIT(0)
-+#define EUD_EN2_DISABLE		(0)
-+#define TCSR_CHECK_EN		BIT(0)
-+
-+struct eud_soc_cfg {
-+	u32 tcsr_check_offset;
-+};
-+
- struct eud_chip {
- 	struct device			*dev;
- 	struct usb_role_switch		*role_sw;
-+	const struct eud_soc_cfg	*eud_cfg;
- 	void __iomem			*base;
- 	void __iomem			*mode_mgr;
- 	unsigned int			int_status;
- 	int				irq;
- 	bool				enabled;
- 	bool				usb_attached;
-+	phys_addr_t			secure_mode_mgr;
+diff --git a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+index a7278a9472ed9..640668960deb0 100644
+--- a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
++++ b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+@@ -264,6 +264,10 @@ &pon_resin {
+ 	status = "okay";
  };
  
- static int enable_eud(struct eud_chip *priv)
-@@ -46,7 +58,11 @@ static int enable_eud(struct eud_chip *priv)
- 	writel(EUD_ENABLE, priv->base + EUD_REG_CSR_EUD_EN);
- 	writel(EUD_INT_VBUS | EUD_INT_SAFE_MODE,
- 			priv->base + EUD_REG_INT1_EN_MASK);
--	writel(1, priv->mode_mgr + EUD_REG_EUD_EN2);
++&eud {
++	status = "okay";
++};
 +
-+	if (priv->secure_mode_mgr)
-+		qcom_scm_io_writel(priv->secure_mode_mgr + EUD_REG_EUD_EN2, EUD_EN2_EN);
-+	else
-+		writel(EUD_EN2_EN, priv->mode_mgr + EUD_REG_EUD_EN2);
+ &qupv3_id_0 {
+ 	status = "okay";
+ };
+@@ -518,7 +522,28 @@ &usb {
  
- 	return usb_role_switch_set_role(priv->role_sw, USB_ROLE_DEVICE);
- }
-@@ -54,7 +70,11 @@ static int enable_eud(struct eud_chip *priv)
- static void disable_eud(struct eud_chip *priv)
- {
- 	writel(0, priv->base + EUD_REG_CSR_EUD_EN);
--	writel(0, priv->mode_mgr + EUD_REG_EUD_EN2);
+ &usb_dwc3 {
+ 	maximum-speed = "super-speed";
+-	dr_mode = "peripheral";
 +
-+	if (priv->secure_mode_mgr)
-+		qcom_scm_io_writel(priv->secure_mode_mgr + EUD_REG_EUD_EN2, EUD_EN2_DISABLE);
-+	else
-+		writel(EUD_EN2_DISABLE, priv->mode_mgr + EUD_REG_EUD_EN2);
- }
- 
- static ssize_t enable_show(struct device *dev,
-@@ -178,6 +198,8 @@ static void eud_role_switch_release(void *data)
- static int eud_probe(struct platform_device *pdev)
- {
- 	struct eud_chip *chip;
-+	struct resource *res;
-+	phys_addr_t tcsr_check;
- 	int ret;
- 
- 	chip = devm_kzalloc(&pdev->dev, sizeof(*chip), GFP_KERNEL);
-@@ -200,9 +222,34 @@ static int eud_probe(struct platform_device *pdev)
- 	if (IS_ERR(chip->base))
- 		return PTR_ERR(chip->base);
- 
--	chip->mode_mgr = devm_platform_ioremap_resource(pdev, 1);
--	if (IS_ERR(chip->mode_mgr))
--		return PTR_ERR(chip->mode_mgr);
 +	/*
-+	 * EUD block on a few Qualcomm SoCs needs secure register access.
-+	 * Check for the same via SoC specific config data.
++	 * There is only one USB DWC3 controller on QRB4210 board and it is connected
++	 * via a DIP Switch:
++	 * - to either an USB - C type connector or an USB - A type connector
++	 *   (via a GL3590-S hub), and
++	 * - to either an USB - A type connector (via a GL3590-S hub) or a connector
++	 *   for further connection with a mezzanine board.
++	 *
++	 * All of the above hardware muxes would allow us to hook things up in
++	 * different ways to some potential benefit for static configurations (for e.g.
++	 * on one hand we can have two USB - A type connectors and a USB - Ethernet
++	 * connection available and on the other we can use the USB - C type in
++	 * peripheral mode).
++	 *
++	 * Note that since the USB - C type can be used only in peripehral mode,
++	 * so hardcoding the mode to 'peripheral' here makes sense.
++	 *
++	 * However since we want to use the EUD debug device, we set the mode as
++	 * 'otg' here.
 +	 */
-+	chip->eud_cfg = of_device_get_match_data(&pdev->dev);
-+	if (chip->eud_cfg) {
-+		res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-+		if (!res)
-+			return dev_err_probe(chip->dev, -ENODEV,
-+					     "failed to get secure_mode_mgr reg base\n");
-+
-+		chip->secure_mode_mgr = res->start;
-+
-+		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tcsr-base");
-+		if (!res)
-+			return dev_err_probe(chip->dev, -ENODEV,
-+					     "failed to get tcsr reg base\n");
-+
-+		tcsr_check = res->start + chip->eud_cfg->tcsr_check_offset;
-+
-+		ret = qcom_scm_io_writel(tcsr_check, TCSR_CHECK_EN);
-+		if (ret)
-+			return dev_err_probe(chip->dev, ret, "failed to write tcsr check reg\n");
-+	} else {
-+		chip->mode_mgr = devm_platform_ioremap_resource(pdev, 1);
-+		if (IS_ERR(chip->mode_mgr))
-+			return PTR_ERR(chip->mode_mgr);
-+	}
- 
- 	chip->irq = platform_get_irq(pdev, 0);
- 	ret = devm_request_threaded_irq(&pdev->dev, chip->irq, handle_eud_irq,
-@@ -228,8 +275,13 @@ static void eud_remove(struct platform_device *pdev)
- 	disable_irq_wake(chip->irq);
- }
- 
-+static const struct eud_soc_cfg sm6115_eud_cfg = {
-+	.tcsr_check_offset = 0x25018,
-+};
-+
- static const struct of_device_id eud_dt_match[] = {
- 	{ .compatible = "qcom,sc7280-eud" },
-+	{ .compatible = "qcom,sm6115-eud", .data = &sm6115_eud_cfg },
- 	{ }
++	dr_mode = "otg";
  };
- MODULE_DEVICE_TABLE(of, eud_dt_match);
+ 
+ &usb_hsphy {
 -- 
 2.38.1
 
