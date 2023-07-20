@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C8C8C0015E
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Jul 2023 17:36:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DE72C04A94
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Jul 2023 17:36:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231407AbjGTRgu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Jul 2023 13:36:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36390 "EHLO
+        id S231646AbjGTRgv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Jul 2023 13:36:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230027AbjGTRgt (ORCPT
+        with ESMTP id S229451AbjGTRgt (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Jul 2023 13:36:49 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B50CC;
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B294E52;
         Thu, 20 Jul 2023 10:36:48 -0700 (PDT)
 Received: from jupiter.universe (dyndsl-091-248-215-153.ewe-ip-backbone.de [91.248.215.153])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sre)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id E7C15660708E;
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id D9EA56607089;
         Thu, 20 Jul 2023 18:36:46 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
         s=mail; t=1689874607;
-        bh=KtE+VH2GvDS0wFF4IFtRN+7uUhhHqa10Cgj/e8W59WE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jdYamSEaPa7Z88gsS9NgCrPI1gdY3B/n7vQxSE48/g3mbw0FfLz7br9o3jfIu0Ucp
-         xcz0GpNLOICRtnFte2QEoUnIrIP7+1fBrOq/LcHuJaBCDRq7rZkFbPAgkmEW5sLlgO
-         f+VN2u77eoaC4gIiGFxuZLdHJRPj98re6pWBw2QLngAl0g3Xg1+OOaCYAUymTCDXIe
-         6Hu/UBMwF6vjirxwVrzEc500DCKhjzlAr+4IwAC7Cu82/ZcmDTkT8ubx/V/dL1RhIl
-         VGydnUf38MIvTt6o80bNOzoe3m+6L6LFmJddxnXE+I+FTBRzhDL82WqWYl2l4R8X/e
-         t/t3yv+tX3Xrg==
+        bh=PYnYFsjDgSWv1EwJcbzjMpywQhwMfYgpRkS0GFAn/0Y=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MAgE9R+MY8Ybrr//WKrqO3ktijxYYYw6ulVQMFSqIhQc7ncs0b4Z3HYL9xBCM8K44
+         imZUvIQSoy5WeqCmNBUQPmyKupE1JmrCanZYpO2C7I6hdrBLWewxPel1UUoVAbd40J
+         u6cHDF9QkhNcHXYcZ3LaoXx250PhcPtlxNrDhIiOEgewg58OaYbpNtpUd09GnJM1JM
+         Rs8yFqlPawCMX3+oevwnvrh3m5dY2CnzlzicdtEiB9wcr2y/F/mtk1nxE9AgUzDRJK
+         2FzgChdy54VLkQGTngzQg7KwD7REVSpGI0cFPoiIoxeLF3dVJRif9Rc8bsL1dqDJh8
+         O4NHYdk7xFeGQ==
 Received: by jupiter.universe (Postfix, from userid 1000)
-        id E9037480E66; Thu, 20 Jul 2023 19:36:44 +0200 (CEST)
+        id E3E18480E63; Thu, 20 Jul 2023 19:36:44 +0200 (CEST)
 From:   Sebastian Reichel <sebastian.reichel@collabora.com>
 To:     Heiko Stuebner <heiko@sntech.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -45,61 +45,54 @@ Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         linux-arm-kernel@lists.infradead.org,
         Sebastian Reichel <sebastian.reichel@collabora.com>,
         kernel@collabora.com
-Subject: [PATCH v2 3/3] arm64: dts: rockchip: rk3588s: Add USB3 host controller
-Date:   Thu, 20 Jul 2023 19:36:43 +0200
-Message-Id: <20230720173643.69553-4-sebastian.reichel@collabora.com>
+Subject: [PATCH v2 0/3] RK3588 USB3 host controller support
+Date:   Thu, 20 Jul 2023 19:36:40 +0200
+Message-Id: <20230720173643.69553-1-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230720173643.69553-1-sebastian.reichel@collabora.com>
-References: <20230720173643.69553-1-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-RK3588 has three USB3 controllers. This adds the host-only controller,
-which is using the naneng-combphy shared with PCIe and SATA.
+Hi,
 
-The other two are dual-role and using a different PHY that is not yet
-supported upstream.
+This adds RK3588 USB3 host controller support. The same DT binding
+will be used for the two dual-role controllers, which are also DWC3
+based, but using a different PHY and don't need the extra UTMI/PIPE
+clocks.
 
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
- arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+The series has been tested with Radxa Rock 5B, which uses the controller
+for the upper USB3 port. The patch enabling &combphy2_psu and &usbhost3_0
+for this board will be send separately once this series has been merged.
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-index b9b509257aaa..5cda58ea52e2 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-@@ -443,6 +443,27 @@ usb_host1_ohci: usb@fc8c0000 {
- 		status = "disabled";
- 	};
- 
-+	usb_host2_xhci: usb@fcd00000 {
-+		compatible = "rockchip,rk3588-dwc3", "snps,dwc3";
-+		reg = <0x0 0xfcd00000 0x0 0x400000>;
-+		interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_HIGH 0>;
-+		clocks = <&cru REF_CLK_USB3OTG2>, <&cru SUSPEND_CLK_USB3OTG2>,
-+			 <&cru ACLK_USB3OTG2>, <&cru CLK_UTMI_OTG2>,
-+			 <&cru CLK_PIPEPHY2_PIPE_U3_G>;
-+		clock-names = "ref_clk", "suspend_clk", "bus_clk", "utmi", "pipe";
-+		dr_mode = "host";
-+		phys = <&combphy2_psu PHY_TYPE_USB3>;
-+		phy-names = "usb3-phy";
-+		phy_type = "utmi_wide";
-+		resets = <&cru SRST_A_USB3OTG2>;
-+		snps,dis_enblslpm_quirk;
-+		snps,dis-u2-freeclk-exists-quirk;
-+		snps,dis-del-phy-power-chg-quirk;
-+		snps,dis-tx-ipgap-linecheck-quirk;
-+		snps,dis_rxdet_inp3_quirk;
-+		status = "disabled";
-+	};
-+
- 	sys_grf: syscon@fd58c000 {
- 		compatible = "rockchip,rk3588-sys-grf", "syscon";
- 		reg = <0x0 0xfd58c000 0x0 0x1000>;
+Changes since PATCHv1:
+ * https://lore.kernel.org/all/20230719174015.68153-1-sebastian.reichel@collabora.com/
+ * use same compatible for USB3 host and drd controllers (Krzysztof Kozlowski)
+ * do not update reset-names (Krzysztof Kozlowski)
+   - note: I dropped reset-names property, since there is only one reset line
+     anyways. Binding could stay the same, since the reset-names property is
+     optional
+ * use "ref_clk", "suspend_clk" and "bus_clk" instead of "ref", "suspend" and "bus",
+   so that they are the same as in RK3568 (Krzysztof Kozlowski)
+ * rename handle name to "usb_host2_xhci" (Michael Riesch)
+ * use RK356x style DWC3 binding instead of DWC3399 style
+   - required adding an extra patch, so that the DWC3 core supports enabling
+     the UTMI/PIPE clocks
+
+-- Sebastian
+
+Sebastian Reichel (3):
+  dt-bindings: usb: add rk3588 compatible to rockchip,dwc3
+  usb: dwc3: add optional PHY interface clocks
+  arm64: dts: rockchip: rk3588s: Add USB3 host controller
+
+ .../bindings/usb/rockchip,dwc3.yaml           | 11 ++++++--
+ arch/arm64/boot/dts/rockchip/rk3588s.dtsi     | 21 +++++++++++++++
+ drivers/usb/dwc3/core.c                       | 26 +++++++++++++++++++
+ drivers/usb/dwc3/core.h                       |  4 +++
+ 4 files changed, 60 insertions(+), 2 deletions(-)
+
 -- 
 2.40.1
 
