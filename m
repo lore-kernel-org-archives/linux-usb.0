@@ -2,96 +2,77 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADCECEB64DC
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Jul 2023 09:59:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 950B1EB64DD
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Jul 2023 10:02:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230508AbjGUJ7j (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Jul 2023 05:59:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41808 "EHLO
+        id S230193AbjGUKCV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Jul 2023 06:02:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231158AbjGUJ7i (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Jul 2023 05:59:38 -0400
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1133B30D4;
-        Fri, 21 Jul 2023 02:59:28 -0700 (PDT)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-        by ex01.ufhost.com (Postfix) with ESMTP id 80D8924E28E;
-        Fri, 21 Jul 2023 17:59:26 +0800 (CST)
-Received: from EXMBX171.cuchost.com (172.16.6.91) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 21 Jul
- 2023 17:59:26 +0800
-Received: from ubuntu.localdomain (113.72.147.86) by EXMBX171.cuchost.com
- (172.16.6.91) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 21 Jul
- 2023 17:59:25 +0800
-From:   Minda Chen <minda.chen@starfivetech.com>
-To:     Pawel Laszczak <pawell@cadence.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        "Roger Quadros" <rogerq@kernel.org>
-CC:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        Minda Chen <minda.chen@starfivetech.com>
-Subject: [PATCH v1] usb: cdns3: Add PHY mode switch to usb2 PHY
-Date:   Fri, 21 Jul 2023 17:59:23 +0800
-Message-ID: <20230721095923.20445-1-minda.chen@starfivetech.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S229899AbjGUKCT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Jul 2023 06:02:19 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F1E0B7;
+        Fri, 21 Jul 2023 03:02:18 -0700 (PDT)
+Received: from kwepemm600005.china.huawei.com (unknown [172.30.72.54])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4R6lQn60gdzHqZp;
+        Fri, 21 Jul 2023 17:59:45 +0800 (CST)
+Received: from huawei.com (10.50.163.32) by kwepemm600005.china.huawei.com
+ (7.193.23.191) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 21 Jul
+ 2023 18:02:15 +0800
+From:   liulongfang <liulongfang@huawei.com>
+To:     <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] USB:bugfix a controller halt error
+Date:   Fri, 21 Jul 2023 18:00:15 +0800
+Message-ID: <20230721100015.27124-1-liulongfang@huawei.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [113.72.147.86]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX171.cuchost.com
- (172.16.6.91)
-X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.50.163.32]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemm600005.china.huawei.com (7.193.23.191)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-cdns3 just set PHY mode switch for USB3.0 PHY.
-If USB 2.0 PHY contains PHY mode switch setting,
-USB 2.0 PHY mode function can't be called.
-So add PHY mode switch function for USB 2.0 PHY.
+On systems that use ECC memory. The ECC error of the memory will
+cause the USB controller to halt. It causes the usb_control_msg()
+operation to fail.
+At this point, the returned buffer data is an abnormal value, and
+continuing to use it will lead to incorrect results.
 
-Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
+Therefore, it is necessary to judge the return value and exit.
+
+Signed-off-by: liulongfang <liulongfang@huawei.com>
 ---
- drivers/usb/cdns3/drd.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/core/hub.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/usb/cdns3/drd.c b/drivers/usb/cdns3/drd.c
-index d00ff98dffab..04b6d12f2b9a 100644
---- a/drivers/usb/cdns3/drd.c
-+++ b/drivers/usb/cdns3/drd.c
-@@ -196,6 +196,7 @@ int cdns_drd_host_on(struct cdns *cdns)
- 	if (ret)
- 		dev_err(cdns->dev, "timeout waiting for xhci_ready\n");
- 
-+	phy_set_mode(cdns->usb2_phy, PHY_MODE_USB_HOST);
- 	phy_set_mode(cdns->usb3_phy, PHY_MODE_USB_HOST);
- 	return ret;
- }
-@@ -216,6 +217,7 @@ void cdns_drd_host_off(struct cdns *cdns)
- 	readl_poll_timeout_atomic(&cdns->otg_regs->state, val,
- 				  !(val & OTGSTATE_HOST_STATE_MASK),
- 				  1, 2000000);
-+	phy_set_mode(cdns->usb2_phy, PHY_MODE_INVALID);
- 	phy_set_mode(cdns->usb3_phy, PHY_MODE_INVALID);
- }
- 
-@@ -248,6 +250,7 @@ int cdns_drd_gadget_on(struct cdns *cdns)
- 		return ret;
- 	}
- 
-+	phy_set_mode(cdns->usb2_phy, PHY_MODE_USB_DEVICE);
- 	phy_set_mode(cdns->usb3_phy, PHY_MODE_USB_DEVICE);
- 	return 0;
- }
-@@ -273,6 +276,7 @@ void cdns_drd_gadget_off(struct cdns *cdns)
- 	readl_poll_timeout_atomic(&cdns->otg_regs->state, val,
- 				  !(val & OTGSTATE_DEV_STATE_MASK),
- 				  1, 2000000);
-+	phy_set_mode(cdns->usb2_phy, PHY_MODE_INVALID);
- 	phy_set_mode(cdns->usb3_phy, PHY_MODE_INVALID);
- }
- EXPORT_SYMBOL_GPL(cdns_drd_gadget_off);
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index a739403a9e45..6a43198be263 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -4891,6 +4891,16 @@ hub_port_init(struct usb_hub *hub, struct usb_device *udev, int port1,
+ 					USB_DT_DEVICE << 8, 0,
+ 					buf, GET_DESCRIPTOR_BUFSIZE,
+ 					initial_descriptor_timeout);
++				/* On systems that use ECC memory, ECC errors can
++				 * cause the USB controller to halt.
++				 * It causes this operation to fail. At this time,
++				 * the buf data is an abnormal value and needs to be exited.
++				 */
++				if (r < 0) {
++					kfree(buf);
++					goto fail;
++				}
++
+ 				switch (buf->bMaxPacketSize0) {
+ 				case 8: case 16: case 32: case 64: case 255:
+ 					if (buf->bDescriptorType ==
 -- 
-2.17.1
+2.24.0
 
