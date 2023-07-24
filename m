@@ -2,46 +2,45 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10134C001E0
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jul 2023 01:37:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6E22C001B0
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jul 2023 01:38:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231995AbjGXBhs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 23 Jul 2023 21:37:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37512 "EHLO
+        id S230326AbjGXBit (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 23 Jul 2023 21:38:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231774AbjGXBhT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 23 Jul 2023 21:37:19 -0400
+        with ESMTP id S232157AbjGXBiM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 23 Jul 2023 21:38:12 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC316270F;
-        Sun, 23 Jul 2023 18:33:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BCAD30D3;
+        Sun, 23 Jul 2023 18:34:16 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F018A60F09;
-        Mon, 24 Jul 2023 01:32:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FE44C433CB;
-        Mon, 24 Jul 2023 01:32:00 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A927760EF9;
+        Mon, 24 Jul 2023 01:31:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61BA5C433CA;
+        Mon, 24 Jul 2023 01:31:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690162321;
-        bh=MxqqNQi9WAisEXWK9LbSE8+keYmWkzhU2zBktdwdOMI=;
+        s=k20201202; t=1690162314;
+        bh=X/kRmcNGJ1d670NJAA2QlucT4XVIeOz5VIdZCa1CxwA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JkXcjfqbfVRi6x/HOg+LBIo8/BtxDKscUlEiKj74t7n9tbzZNKBBB3qYiAePRaHqz
-         CQk95U8oB/UdXxTE4NeEn9+W+TccO7kHtF4dKi37d8oVGSSwgqZYOZIfVfY3ZAQOeZ
-         x8Jg2+DkdGVsSUoq8tgOQJZmyN/mQMGpz2U9vd2/wmgAIJDAlIqKinESjy+pVwLcyk
-         LAtRTT25gw94pui3UgFbi/57bzKwn5UGDTmQFAF+6ljH8w8pSAzpYYEMMchsQxishx
-         Ge8yH6MahnJSd3plpB8kOtJJh7fhyALWyIfQaAZ68RV7lDjXDT4VG9/Rb6M54NTH6s
-         oONsmyjKIRXkQ==
+        b=soQA5WAGVL3YaTCYIwdhybxdCQgAyoczc3zg2XUFHOABuqXR2fe5OxQzT0O2ljbKK
+         38GP9giW+DVyUnKQB2bZAcvQ+rYKKtTurrPnx3F0XErDalfLTkX6rWcPDbWTQmwTBS
+         Vww+j4LRHb028q97o088dPc9fp2sldOWbiQcd1rE4d800Lp7CaRoH9QwsXCkvBgsHU
+         1nxWDfhGSJAEXmWXRBZxz/43GDjlZFJSxzoEH0iOe9wF/N7kDAR1+hGBeJa696BMRi
+         LK2bQbmWRiE3mboc5INmlr+neXvT/PiMIfPqXFE3SVXtju+WSnlCfA9Tv57/J/0fIZ
+         4Ixe3LyOLoKUA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Xu Yang <xu.yang_2@nxp.com>, Li Jun <jun.li@nxp.com>,
-        Peter Chen <peter.chen@kernel.org>,
+Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, Peter.Chen@nxp.com,
+        Sasha Levin <sashal@kernel.org>, mathias.nyman@intel.com,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.4 14/40] usb: chipidea: imx: add missing USB PHY DPDM wakeup setting
-Date:   Sun, 23 Jul 2023 21:31:14 -0400
-Message-Id: <20230724013140.2327815-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.4 09/40] xhci: Don't require a valid get_quirks() function pointer during xhci setup
+Date:   Sun, 23 Jul 2023 21:31:09 -0400
+Message-Id: <20230724013140.2327815-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230724013140.2327815-1-sashal@kernel.org>
 References: <20230724013140.2327815-1-sashal@kernel.org>
@@ -54,39 +53,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Xu Yang <xu.yang_2@nxp.com>
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-[ Upstream commit 53d061c19dc4cb68409df6dc11c40389c8c42a75 ]
+[ Upstream commit 9b907c91aa94522ae14bf155ce7b9ccb10a0903c ]
 
-USB PHY DPDM wakeup bit is enabled by default, when USB wakeup
-is not required(/sys/.../wakeup is disabled), this bit should be
-disabled, otherwise we will have unexpected wakeup if do USB device
-connect/disconnect while system sleep.
-This bit can be enabled for both host and device mode.
+Not all platforms drivers need to set up custom quirks during the xhci
+generic setup. Allow them to pass NULL as the function pointer when
+calling xhci_gen_setup()
 
-Signed-off-by: Li Jun <jun.li@nxp.com>
-Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
-Acked-by: Peter Chen <peter.chen@kernel.org>
-Message-ID: <20230517081907.3410465-3-xu.yang_2@nxp.com>
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <20230602144009.1225632-4-mathias.nyman@linux.intel.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/chipidea/usbmisc_imx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/host/xhci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/chipidea/usbmisc_imx.c b/drivers/usb/chipidea/usbmisc_imx.c
-index 0938e274ba3a8..681c2ddc83fa5 100644
---- a/drivers/usb/chipidea/usbmisc_imx.c
-+++ b/drivers/usb/chipidea/usbmisc_imx.c
-@@ -135,7 +135,7 @@
- #define TXVREFTUNE0_MASK		(0xf << 20)
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 78790dc13c5f1..a1e5f3bd883cc 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -5180,7 +5180,8 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
  
- #define MX6_USB_OTG_WAKEUP_BITS (MX6_BM_WAKEUP_ENABLE | MX6_BM_VBUS_WAKEUP | \
--				 MX6_BM_ID_WAKEUP)
-+				 MX6_BM_ID_WAKEUP | MX6SX_BM_DPDM_WAKEUP_EN)
+ 	xhci->quirks |= quirks;
  
- struct usbmisc_ops {
- 	/* It's called once when probe a usb device */
+-	get_quirks(dev, xhci);
++	if (get_quirks)
++		get_quirks(dev, xhci);
+ 
+ 	/* In xhci controllers which follow xhci 1.0 spec gives a spurious
+ 	 * success event after a short transfer. This quirk will ignore such
 -- 
 2.39.2
 
