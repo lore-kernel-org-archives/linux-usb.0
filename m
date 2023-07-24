@@ -2,36 +2,36 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA24AC001E0
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jul 2023 01:41:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1CACC001DC
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jul 2023 01:41:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230048AbjGXBlP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 23 Jul 2023 21:41:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41058 "EHLO
+        id S232020AbjGXBlS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 23 Jul 2023 21:41:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232119AbjGXBkk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 23 Jul 2023 21:40:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1665469F;
-        Sun, 23 Jul 2023 18:36:07 -0700 (PDT)
+        with ESMTP id S232101AbjGXBko (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 23 Jul 2023 21:40:44 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 828C046AC;
+        Sun, 23 Jul 2023 18:36:11 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A77660FD3;
-        Mon, 24 Jul 2023 01:32:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E32ADC433CB;
-        Mon, 24 Jul 2023 01:32:51 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 74C0360FD2;
+        Mon, 24 Jul 2023 01:32:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07D6AC433CA;
+        Mon, 24 Jul 2023 01:32:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690162372;
-        bh=0tdMqsleSHHgOmpWXcLd8SyRl+ZCfh3g7igQtHStbNg=;
+        s=k20201202; t=1690162375;
+        bh=uGYXHYMmOR9x2PokzqhPPrYJHj9EyT3jcAB2LDclP98=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bDnp0/El6pzuJhij1ng/t1rIxjrIT3ev5I38s8M41wsm8TUColH9fFQG14xGLKkDA
-         rR98eGJtDbO95lCCzoew7nsdh8mDMCYFH+t1FOyNqh/PSgdi01+filHypg3WDTs1Zx
-         GpFOzqtytwAEz28JTtoErwlHnoPH8KNfGG3RydpXrEjM5WU70T/qkplPL0gv38E3DH
-         cHzzZLOq4PefEDtZ8DH/WqlN4kdWg9nSiWbTRXj3ANks20nlRZXGYHlcCL3vpQAHtU
-         bMxowyJbxZdJD297KKmI6znQTuUK+f2yFL4I2Qt/BNXMYZQKk9GnlZZ4FVgZbVxDe8
-         D0aFjQDUSWoVw==
+        b=hAE2Jt0ELynwtgkDPMqO3K0DEDzM/JCPHn4wzLvvdlzDvHyLBI7fXPjZmN27Q5Uel
+         TXhvqpAn0wCa87dXrsovn/tiAtymxvMjrZx6sXJlFjQSejGJERFJx96F51ma1xexYc
+         wNTKUcjB+1E0rXUtoFwhpIrMhAi1FgkqKJ3ZR99H6aShGEGrYDgGTd4AihL3UUHuHw
+         utKU0Td1XwAyXzLO6METmwY663ZwriWFbprnk25VV6y7ACD1H43PZt8Ljkv8fCnZw3
+         KLmfEKxhGLBR4NYEug+L+A2wyxmUi7HyJzkVpKuTamk9URfM7qc/qDPpOWbe9deFQh
+         q4FMY8/yVMBnw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Xu Yang <xu.yang_2@nxp.com>, Li Jun <jun.li@nxp.com>,
@@ -39,9 +39,9 @@ Cc:     Xu Yang <xu.yang_2@nxp.com>, Li Jun <jun.li@nxp.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, Peter.Chen@nxp.com,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 10/34] usb: chipidea: imx: don't request QoS for imx8ulp
-Date:   Sun, 23 Jul 2023 21:32:13 -0400
-Message-Id: <20230724013238.2329166-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 12/34] usb: chipidea: imx: add missing USB PHY DPDM wakeup setting
+Date:   Sun, 23 Jul 2023 21:32:15 -0400
+Message-Id: <20230724013238.2329166-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230724013238.2329166-1-sashal@kernel.org>
 References: <20230724013238.2329166-1-sashal@kernel.org>
@@ -56,45 +56,37 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Xu Yang <xu.yang_2@nxp.com>
 
-[ Upstream commit 9a070e8e208995a9d638b538ed7abf28bd6ea6f0 ]
+[ Upstream commit 53d061c19dc4cb68409df6dc11c40389c8c42a75 ]
 
-Use dedicated imx8ulp usb compatible to remove QoS request
-since imx8ulp has no such limitation of imx7ulp: DMA will
-not work if system enters idle.
+USB PHY DPDM wakeup bit is enabled by default, when USB wakeup
+is not required(/sys/.../wakeup is disabled), this bit should be
+disabled, otherwise we will have unexpected wakeup if do USB device
+connect/disconnect while system sleep.
+This bit can be enabled for both host and device mode.
 
-Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
 Signed-off-by: Li Jun <jun.li@nxp.com>
+Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
 Acked-by: Peter Chen <peter.chen@kernel.org>
-Message-ID: <20230530104007.1294702-2-xu.yang_2@nxp.com>
+Message-ID: <20230517081907.3410465-3-xu.yang_2@nxp.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/chipidea/ci_hdrc_imx.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/usb/chipidea/usbmisc_imx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
-index 9ffcecd3058c1..60b4de0a4f76d 100644
---- a/drivers/usb/chipidea/ci_hdrc_imx.c
-+++ b/drivers/usb/chipidea/ci_hdrc_imx.c
-@@ -70,6 +70,10 @@ static const struct ci_hdrc_imx_platform_flag imx7ulp_usb_data = {
- 		CI_HDRC_PMQOS,
- };
+diff --git a/drivers/usb/chipidea/usbmisc_imx.c b/drivers/usb/chipidea/usbmisc_imx.c
+index bac0f5458cab9..2318c7906acdb 100644
+--- a/drivers/usb/chipidea/usbmisc_imx.c
++++ b/drivers/usb/chipidea/usbmisc_imx.c
+@@ -135,7 +135,7 @@
+ #define TXVREFTUNE0_MASK		(0xf << 20)
  
-+static const struct ci_hdrc_imx_platform_flag imx8ulp_usb_data = {
-+	.flags = CI_HDRC_SUPPORTS_RUNTIME_PM,
-+};
-+
- static const struct of_device_id ci_hdrc_imx_dt_ids[] = {
- 	{ .compatible = "fsl,imx23-usb", .data = &imx23_usb_data},
- 	{ .compatible = "fsl,imx28-usb", .data = &imx28_usb_data},
-@@ -80,6 +84,7 @@ static const struct of_device_id ci_hdrc_imx_dt_ids[] = {
- 	{ .compatible = "fsl,imx6ul-usb", .data = &imx6ul_usb_data},
- 	{ .compatible = "fsl,imx7d-usb", .data = &imx7d_usb_data},
- 	{ .compatible = "fsl,imx7ulp-usb", .data = &imx7ulp_usb_data},
-+	{ .compatible = "fsl,imx8ulp-usb", .data = &imx8ulp_usb_data},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, ci_hdrc_imx_dt_ids);
+ #define MX6_USB_OTG_WAKEUP_BITS (MX6_BM_WAKEUP_ENABLE | MX6_BM_VBUS_WAKEUP | \
+-				 MX6_BM_ID_WAKEUP)
++				 MX6_BM_ID_WAKEUP | MX6SX_BM_DPDM_WAKEUP_EN)
+ 
+ struct usbmisc_ops {
+ 	/* It's called once when probe a usb device */
 -- 
 2.39.2
 
