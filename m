@@ -2,52 +2,52 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB9F8C41513
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jul 2023 01:49:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C882C001E0
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jul 2023 01:50:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232828AbjGXBtk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 23 Jul 2023 21:49:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47928 "EHLO
+        id S232730AbjGXBue (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 23 Jul 2023 21:50:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232748AbjGXBrh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 23 Jul 2023 21:47:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4EA7448E;
-        Sun, 23 Jul 2023 18:40:04 -0700 (PDT)
+        with ESMTP id S232717AbjGXBt3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 23 Jul 2023 21:49:29 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87FCA7688;
+        Sun, 23 Jul 2023 18:41:37 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8224060F10;
-        Mon, 24 Jul 2023 01:34:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D6E4C433CB;
-        Mon, 24 Jul 2023 01:34:50 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9A11F60FAA;
+        Mon, 24 Jul 2023 01:36:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56307C433C7;
+        Mon, 24 Jul 2023 01:36:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690162491;
-        bh=tBHGm54ZyIPVZC3VLzrsblhVrWKkia+qMOfmEYKzDlE=;
+        s=k20201202; t=1690162562;
+        bh=QX2F22rWVgDJ9+K9IXIDEd2W8NQ4zBENPl8i5OKt4y0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=K8gCrcALFz9lfbeAsS/fcGvT0cos/QpP1xsvjj1omoo1FsrVBsMgQWQqhftlfa/QD
-         HvYC6GY/AEOWl0beGK6YzrKfzkHq5FByyLDADtkNyCzxUdGYEps2S7c/ZO4z13e2tJ
-         1TZXczzuGNiVwrbmQGmmnFktyNY+/lxhlbKKPr++1fBqIcva1B5g9jTfUs29cD6xuu
-         oh37N94fuqYf75hSczq1XlmmyALtILn5vN0rxQefO/+9hV4sT4cxhHDstuQvriWxPs
-         qbUFKeOYpYPNKj1cgZ+EvPL+kaxgaP47CImIlvnKz5GwCb+DmCnZwsll3CjbK+6y03
-         DJmUjPMDFNZFw==
+        b=Hz8hfcHSHoXAos9vlsXoYBvex/E2tW0dq1UU7VRinQqcwJuYmCyx0kg5xgMuUV/0L
+         LMAzQRgavTGJ/cdSlI5rsXVs8mN4Vq3555j1+3/finlO3HKstLwEEr9GBxaZvPQEy9
+         Sfi85gMwigQUPA1t7NeKdfQD0z8SRRCBmlSmN9OO8Pkp+sIuDNKRn1fXnGGcJA0fVG
+         KmeJpDyQmRfxUme+WhLqE5EqMY1+L9y786yqbd07fcVMQtIC6HR3QEG75zDnfrKagM
+         SJ0/L76fcw6bBazPANwgqjeTeU/vQpI2Hs/IDbtnFIuV1Q+qtMwRdFqWcyf+heJikN
+         f0ZtgzJKwXGZQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, mathias.nyman@intel.com,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 3/9] xhci: Don't require a valid get_quirks() function pointer during xhci setup
-Date:   Sun, 23 Jul 2023 21:34:39 -0400
-Message-Id: <20230724013445.2334326-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 3/9] xhci: Don't require a valid get_quirks() function pointer during xhci setup
+Date:   Sun, 23 Jul 2023 21:35:45 -0400
+Message-Id: <20230724013554.2334965-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230724013445.2334326-1-sashal@kernel.org>
-References: <20230724013445.2334326-1-sashal@kernel.org>
+In-Reply-To: <20230724013554.2334965-1-sashal@kernel.org>
+References: <20230724013554.2334965-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.288
+X-stable-base: Linux 4.14.320
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
@@ -70,10 +70,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 13c10ebde296e..7d890c8d89a2b 100644
+index 0f2b67f38d2ea..3feee0419fdd9 100644
 --- a/drivers/usb/host/xhci.c
 +++ b/drivers/usb/host/xhci.c
-@@ -5197,7 +5197,8 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
+@@ -4975,7 +4975,8 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
  
  	xhci->quirks |= quirks;
  
