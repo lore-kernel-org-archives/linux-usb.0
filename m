@@ -2,388 +2,222 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE486C001DE
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Jul 2023 18:32:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BC71EB64DD
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Jul 2023 18:46:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230309AbjGYScQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 Jul 2023 14:32:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39840 "EHLO
+        id S230413AbjGYSqA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 Jul 2023 14:46:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbjGYScO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Jul 2023 14:32:14 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91EC81FC2;
-        Tue, 25 Jul 2023 11:32:12 -0700 (PDT)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36PDXDrm010531;
-        Tue, 25 Jul 2023 18:43:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=selector1;
- bh=dECUc/cqDS7ebrC8U4uHLwf9IY1Ih7H8zrWV7V70V2M=;
- b=SWcicFFys5G0y1FM0n+jss92uUfrdvGSU8tHouokAoO8avvq9Blc8BiNcBaWWVpIa5kZ
- FhzEq2twDcnk+pmohkvrpl3gnVub8I8cKQ+2gZqILkpAnfTAXpjDEKAdK5Bj8hYVxHLB
- lUf6Kfw790KvmqCCNqxSt5YuUSQgbcOgiqYFfAdkDTgxoMYbkLaNiVKA7RNBRVc5FUFZ
- CYxd347/o5vqNO6/cNPqMOaTXPPt03ceIhCKBu61KtqIcabH5ZxxTgGCQNsk6VmCMDcr
- DgfpZeDTUYoG7QMQRU3Avs3zU8lHx97mcb0+fMk4gIACPtSiqSkG9fi9HTNun5+yG4tR 7g== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3s2bkbjqra-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 25 Jul 2023 18:43:55 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 690CB10004D;
-        Tue, 25 Jul 2023 18:43:55 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5C17127FAB5;
-        Tue, 25 Jul 2023 18:43:55 +0200 (CEST)
-Received: from localhost (10.201.21.121) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 25 Jul
- 2023 18:43:55 +0200
-From:   Gatien Chevallier <gatien.chevallier@foss.st.com>
-To:     <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <alexandre.torgue@foss.st.com>,
-        <vkoul@kernel.org>, <jic23@kernel.org>,
-        <olivier.moysan@foss.st.com>, <arnaud.pouliquen@foss.st.com>,
-        <mchehab@kernel.org>, <fabrice.gasnier@foss.st.com>,
-        <andi.shyti@kernel.org>, <ulf.hansson@linaro.org>,
-        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <hugues.fruchet@foss.st.com>, <lee@kernel.org>, <will@kernel.org>,
-        <catalin.marinas@arm.com>, <arnd@kernel.org>,
-        <richardcochran@gmail.com>, Frank Rowand <frowand.list@gmail.com>
-CC:     <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <linux-serial@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        Gatien Chevallier <gatien.chevallier@foss.st.com>
-Subject: [PATCH v2 07/11] bus: rifsc: introduce RIFSC firewall controller driver
-Date:   Tue, 25 Jul 2023 18:41:00 +0200
-Message-ID: <20230725164104.273965-8-gatien.chevallier@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230725164104.273965-1-gatien.chevallier@foss.st.com>
-References: <20230725164104.273965-1-gatien.chevallier@foss.st.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.201.21.121]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-25_08,2023-07-25_01,2023-05-22_02
+        with ESMTP id S229562AbjGYSp7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Jul 2023 14:45:59 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5658B19A4
+        for <linux-usb@vger.kernel.org>; Tue, 25 Jul 2023 11:45:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690310758; x=1721846758;
+  h=date:from:to:cc:subject:message-id;
+  bh=jT5ucU0UmuUKJsCWVNxVXqT+ukCroDtdr5UJ4p5V3jo=;
+  b=SEYbVmGieZRxUmxhvEE4YxHSvU8P3EG0aa5ewdUsBkH2hY/uXoqmtmqM
+   e9O/IFp/zeDFhMs9q+Gj1rE64S6pJIzMCrSGF5x6uUQufD+X6lGJXXAWB
+   FNsFGuOnKEUjoJPU5sk49HfZv2+ma7BNOyk936NyTsiXpYGIjqpyJYw9Q
+   Cdl8QyzPvDZ3QFzD3FQWbvOaGhhWotD423LsNTggLYFfaHHREhois3Y7O
+   cd13A0z8VbsS0mkkYydLcrCMR32c+zmu9ezw7iqcJNiltitrVu0LMTo1V
+   ep7U+NuPuS/OlLowEDROcIbAvfyhLLXWtsQ8LMPPgQxtugWzzIQrp+APx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="431625749"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
+   d="scan'208";a="431625749"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 11:45:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="755871482"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
+   d="scan'208";a="755871482"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 25 Jul 2023 11:45:55 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qON2f-0000ED-2p;
+        Tue, 25 Jul 2023 18:45:53 +0000
+Date:   Wed, 26 Jul 2023 02:45:34 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:rndis-removal] BUILD SUCCESS
+ 352305048a56a19c772dc4cdb69831c11bfbbb65
+Message-ID: <202307260232.WmVJh5AI-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-RIFSC is a peripheral firewall controller that filter accesses based on
-Arm TrustZone secure state, Arm CPU privilege execution level and
-Compartment IDentification of the STM32 SoC subsystems.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git rndis-removal
+branch HEAD: 352305048a56a19c772dc4cdb69831c11bfbbb65  USB: disable all RNDIS protocol drivers
 
-Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
----
+elapsed time: 721m
 
-Changes in V2:
-	- Add controller name
-	- Driver is now a module_platform_driver
-	- Use error code returned by stm32_firewall_populate_bus()
-	- Fix license
+configs tested: 152
+configs skipped: 13
 
- MAINTAINERS               |   1 +
- drivers/bus/Makefile      |   2 +-
- drivers/bus/stm32_rifsc.c | 252 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 254 insertions(+), 1 deletion(-)
- create mode 100644 drivers/bus/stm32_rifsc.c
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 17559ed17a11..9dcf69a9e30c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20141,6 +20141,7 @@ ST STM32 FIREWALL
- M:	Gatien Chevallier <gatien.chevallier@foss.st.com>
- S:	Maintained
- F:	drivers/bus/stm32_firewall.c
-+F:	drivers/bus/stm32_rifsc.c
- 
- ST STM32 I2C/SMBUS DRIVER
- M:	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>
-diff --git a/drivers/bus/Makefile b/drivers/bus/Makefile
-index fc0511450ec2..e50d18e1d141 100644
---- a/drivers/bus/Makefile
-+++ b/drivers/bus/Makefile
-@@ -26,7 +26,7 @@ obj-$(CONFIG_OMAP_INTERCONNECT)	+= omap_l3_smx.o omap_l3_noc.o
- obj-$(CONFIG_OMAP_OCP2SCP)	+= omap-ocp2scp.o
- obj-$(CONFIG_QCOM_EBI2)		+= qcom-ebi2.o
- obj-$(CONFIG_QCOM_SSC_BLOCK_BUS)	+= qcom-ssc-block-bus.o
--obj-$(CONFIG_STM32_FIREWALL)	+= stm32_firewall.o
-+obj-$(CONFIG_STM32_FIREWALL)	+= stm32_firewall.o stm32_rifsc.o
- obj-$(CONFIG_SUN50I_DE2_BUS)	+= sun50i-de2.o
- obj-$(CONFIG_SUNXI_RSB)		+= sunxi-rsb.o
- obj-$(CONFIG_OF)		+= simple-pm-bus.o
-diff --git a/drivers/bus/stm32_rifsc.c b/drivers/bus/stm32_rifsc.c
-new file mode 100644
-index 000000000000..e3f67cf317de
---- /dev/null
-+++ b/drivers/bus/stm32_rifsc.c
-@@ -0,0 +1,252 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2023, STMicroelectronics - All Rights Reserved
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/device.h>
-+#include <linux/err.h>
-+#include <linux/init.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_platform.h>
-+#include <linux/platform_device.h>
-+#include <linux/types.h>
-+
-+#include "stm32_firewall.h"
-+
-+/*
-+ * RIFSC offset register
-+ */
-+#define RIFSC_RISC_SECCFGR0		0x10
-+#define RIFSC_RISC_PRIVCFGR0		0x30
-+#define RIFSC_RISC_PER0_CIDCFGR		0x100
-+#define RIFSC_RISC_PER0_SEMCR		0x104
-+#define RIFSC_RISC_HWCFGR2		0xFEC
-+
-+/*
-+ * SEMCR register
-+ */
-+#define SEMCR_MUTEX			BIT(0)
-+
-+/*
-+ * HWCFGR2 register
-+ */
-+#define HWCFGR2_CONF1_MASK		GENMASK(15, 0)
-+#define HWCFGR2_CONF2_MASK		GENMASK(23, 16)
-+#define HWCFGR2_CONF3_MASK		GENMASK(31, 24)
-+
-+/*
-+ * RIFSC miscellaneous
-+ */
-+#define RIFSC_RISC_CFEN_MASK		BIT(0)
-+#define RIFSC_RISC_SEM_EN_MASK		BIT(1)
-+#define RIFSC_RISC_SCID_MASK		GENMASK(6, 4)
-+#define RIFSC_RISC_SEML_SHIFT		16
-+#define RIFSC_RISC_SEMWL_MASK		GENMASK(23, 16)
-+#define RIFSC_RISC_PER_ID_MASK		GENMASK(31, 24)
-+
-+#define RIFSC_RISC_PERx_CID_MASK	(RIFSC_RISC_CFEN_MASK | \
-+					 RIFSC_RISC_SEM_EN_MASK | \
-+					 RIFSC_RISC_SCID_MASK | \
-+					 RIFSC_RISC_SEMWL_MASK)
-+
-+#define IDS_PER_RISC_SEC_PRIV_REGS	32
-+
-+/* RIF miscellaneous */
-+/*
-+ * CIDCFGR register fields
-+ */
-+#define CIDCFGR_CFEN			BIT(0)
-+#define CIDCFGR_SEMEN			BIT(1)
-+#define CIDCFGR_SEMWL(x)		BIT(RIFSC_RISC_SEML_SHIFT + (x))
-+
-+#define SEMWL_SHIFT			16
-+
-+/* Compartiment IDs */
-+#define RIF_CID0			0x0
-+#define RIF_CID1			0x1
-+
-+static bool stm32_rifsc_is_semaphore_available(void __iomem *addr)
-+{
-+	return !(readl(addr) & SEMCR_MUTEX);
-+}
-+
-+static int stm32_rif_acquire_semaphore(struct stm32_firewall_controller *stm32_firewall_controller,
-+				       int id)
-+{
-+	void __iomem *addr = stm32_firewall_controller->mmio + RIFSC_RISC_PER0_SEMCR + 0x8 * id;
-+
-+	__set_bit(SEMCR_MUTEX, addr);
-+
-+	/* Check that CID1 has the semaphore */
-+	if (stm32_rifsc_is_semaphore_available(addr) ||
-+	    FIELD_GET(RIFSC_RISC_SCID_MASK, readl(addr)) != RIF_CID1)
-+		return -EACCES;
-+
-+	return 0;
-+}
-+
-+static void stm32_rif_release_semaphore(struct stm32_firewall_controller *stm32_firewall_controller,
-+					int id)
-+{
-+	void __iomem *addr = stm32_firewall_controller->mmio + RIFSC_RISC_PER0_SEMCR + 0x8 * id;
-+
-+	if (stm32_rifsc_is_semaphore_available(addr))
-+		return;
-+
-+	writel(SEMCR_MUTEX, addr);
-+
-+	/* Ok if another compartment takes the semaphore before the check */
-+	WARN_ON(!stm32_rifsc_is_semaphore_available(addr) &&
-+		FIELD_GET(RIFSC_RISC_SCID_MASK, readl(addr)) == RIF_CID1);
-+}
-+
-+static int stm32_rifsc_grant_access(struct stm32_firewall_controller *ctrl, u32 firewall_id)
-+{
-+	struct stm32_firewall_controller *rifsc_controller = ctrl;
-+	u32 reg_offset, reg_id, sec_reg_value, cid_reg_value;
-+	int rc;
-+
-+	if (firewall_id >= rifsc_controller->max_entries) {
-+		dev_err(rifsc_controller->dev, "Invalid sys bus ID %u", firewall_id);
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * RIFSC_RISC_PRIVCFGRx and RIFSC_RISC_SECCFGRx both handle configuration access for
-+	 * 32 peripherals. On the other hand, there is one _RIFSC_RISC_PERx_CIDCFGR register
-+	 * per peripheral
-+	 */
-+	reg_id = firewall_id / IDS_PER_RISC_SEC_PRIV_REGS;
-+	reg_offset = firewall_id % IDS_PER_RISC_SEC_PRIV_REGS;
-+	sec_reg_value = readl(rifsc_controller->mmio + RIFSC_RISC_SECCFGR0 + 0x4 * reg_id);
-+	cid_reg_value = readl(rifsc_controller->mmio + RIFSC_RISC_PER0_CIDCFGR + 0x8 * firewall_id);
-+
-+	/* First check conditions for semaphore mode, which doesn't take into account static CID. */
-+	if ((cid_reg_value & CIDCFGR_SEMEN) && (cid_reg_value & CIDCFGR_CFEN)) {
-+		if (cid_reg_value & BIT(RIF_CID1 + SEMWL_SHIFT)) {
-+			/* Static CID is irrelevant if semaphore mode */
-+			goto skip_cid_check;
-+		} else {
-+			dev_dbg(rifsc_controller->dev,
-+				"Invalid bus semaphore configuration: index %d\n", firewall_id);
-+			return -EACCES;
-+		}
-+	}
-+
-+	/*
-+	 * Skip CID check if CID filtering isn't enabled or filtering is enabled on CID0, which
-+	 * corresponds to whatever CID.
-+	 */
-+	if (!(cid_reg_value & CIDCFGR_CFEN) ||
-+	    FIELD_GET(RIFSC_RISC_SCID_MASK, cid_reg_value) == RIF_CID0)
-+		goto skip_cid_check;
-+
-+	/* Coherency check with the CID configuration */
-+	if (FIELD_GET(RIFSC_RISC_SCID_MASK, cid_reg_value) != RIF_CID1) {
-+		dev_dbg(rifsc_controller->dev, "Invalid CID configuration for peripheral: %d\n",
-+			firewall_id);
-+		return -EACCES;
-+	}
-+
-+skip_cid_check:
-+	/* Check security configuration */
-+	if (sec_reg_value & BIT(reg_offset)) {
-+		dev_dbg(rifsc_controller->dev,
-+			"Invalid security configuration for peripheral: %d\n", firewall_id);
-+		return -EACCES;
-+	}
-+
-+	/*
-+	 * If the peripheral is in semaphore mode, take the semaphore so that
-+	 * the CID1 has the ownership.
-+	 */
-+	if ((cid_reg_value & CIDCFGR_SEMEN) && (cid_reg_value & CIDCFGR_CFEN)) {
-+		rc = stm32_rif_acquire_semaphore(rifsc_controller, firewall_id);
-+		if (rc) {
-+			dev_err(rifsc_controller->dev,
-+				"Couldn't acquire semaphore for peripheral: %d\n", firewall_id);
-+			return rc;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void stm32_rifsc_release_access(struct stm32_firewall_controller *ctrl, u32 firewall_id)
-+{
-+	stm32_rif_release_semaphore(ctrl, firewall_id);
-+}
-+
-+static int stm32_rifsc_probe(struct platform_device *pdev)
-+{
-+	struct stm32_firewall_controller *rifsc_controller;
-+	struct device_node *np = pdev->dev.of_node;
-+	u32 nb_risup, nb_rimu, nb_risal;
-+	struct resource *res;
-+	void __iomem *mmio;
-+	int rc;
-+
-+	rifsc_controller = devm_kzalloc(&pdev->dev, sizeof(*rifsc_controller), GFP_KERNEL);
-+	if (!rifsc_controller)
-+		return -ENOMEM;
-+
-+	mmio = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-+	if (IS_ERR(mmio))
-+		return PTR_ERR(mmio);
-+
-+	rifsc_controller->dev = &pdev->dev;
-+	rifsc_controller->mmio = mmio;
-+	rifsc_controller->name = dev_driver_string(rifsc_controller->dev);
-+	rifsc_controller->type = STM32_PERIPHERAL_FIREWALL | STM32_MEMORY_FIREWALL;
-+	rifsc_controller->grant_access = stm32_rifsc_grant_access;
-+	rifsc_controller->release_access = stm32_rifsc_release_access;
-+
-+	/* Get number of RIFSC entries*/
-+	nb_risup = readl(rifsc_controller->mmio + RIFSC_RISC_HWCFGR2) & HWCFGR2_CONF1_MASK;
-+	nb_rimu = readl(rifsc_controller->mmio + RIFSC_RISC_HWCFGR2) & HWCFGR2_CONF2_MASK;
-+	nb_risal = readl(rifsc_controller->mmio + RIFSC_RISC_HWCFGR2) & HWCFGR2_CONF3_MASK;
-+	rifsc_controller->max_entries = nb_risup + nb_rimu + nb_risal;
-+
-+	platform_set_drvdata(pdev, rifsc_controller);
-+
-+	rc = stm32_firewall_controller_register(rifsc_controller);
-+	if (rc) {
-+		dev_err(rifsc_controller->dev, "Couldn't register as a firewall controller: %d",
-+			rc);
-+		return rc;
-+	}
-+
-+	rc = stm32_firewall_populate_bus(rifsc_controller);
-+	if (rc) {
-+		dev_err(rifsc_controller->dev, "Couldn't populate RIFSC bus: %d",
-+			rc);
-+		return rc;
-+	}
-+
-+	/* Populate all allowed nodes */
-+	return of_platform_populate(np, NULL, NULL, &pdev->dev);
-+}
-+
-+static const struct of_device_id stm32_rifsc_of_match[] = {
-+	{ .compatible = "st,stm32mp25-rifsc" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, stm32_rifsc_of_match);
-+
-+static struct platform_driver stm32_rifsc_driver = {
-+	.probe  = stm32_rifsc_probe,
-+	.driver = {
-+		.name = "stm32-rifsc",
-+		.of_match_table = stm32_rifsc_of_match,
-+	},
-+};
-+module_platform_driver(stm32_rifsc_driver);
-+
-+MODULE_AUTHOR("Gatien Chevallier <gatien.chevallier@foss.st.com>");
-+MODULE_DESCRIPTION("STMicroelectronics RIFSC driver");
-+MODULE_LICENSE("GPL");
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r012-20230725   gcc  
+alpha                randconfig-r034-20230725   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r001-20230725   gcc  
+arc                  randconfig-r013-20230725   gcc  
+arc                  randconfig-r023-20230725   gcc  
+arc                  randconfig-r024-20230725   gcc  
+arc                  randconfig-r033-20230725   gcc  
+arc                  randconfig-r035-20230725   gcc  
+arc                  randconfig-r036-20230725   gcc  
+arc                  randconfig-r043-20230725   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                            mmp2_defconfig   clang
+arm                       multi_v4t_defconfig   gcc  
+arm                  randconfig-r002-20230725   gcc  
+arm                  randconfig-r003-20230725   gcc  
+arm                  randconfig-r005-20230725   gcc  
+arm                  randconfig-r031-20230725   gcc  
+arm                  randconfig-r046-20230725   clang
+arm                         wpcm450_defconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r012-20230725   gcc  
+arm64                randconfig-r026-20230725   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r011-20230725   gcc  
+csky                 randconfig-r014-20230725   gcc  
+csky                 randconfig-r016-20230725   gcc  
+csky                 randconfig-r031-20230725   gcc  
+csky                 randconfig-r033-20230725   gcc  
+csky                 randconfig-r036-20230725   gcc  
+hexagon              randconfig-r023-20230725   clang
+hexagon              randconfig-r041-20230725   clang
+hexagon              randconfig-r045-20230725   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230725   clang
+i386         buildonly-randconfig-r005-20230725   clang
+i386         buildonly-randconfig-r006-20230725   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230725   clang
+i386                 randconfig-i002-20230725   clang
+i386                 randconfig-i003-20230725   clang
+i386                 randconfig-i004-20230725   clang
+i386                 randconfig-i005-20230725   clang
+i386                 randconfig-i006-20230725   clang
+i386                 randconfig-i011-20230725   gcc  
+i386                 randconfig-i012-20230725   gcc  
+i386                 randconfig-i013-20230725   gcc  
+i386                 randconfig-i014-20230725   gcc  
+i386                 randconfig-i015-20230725   gcc  
+i386                 randconfig-i016-20230725   gcc  
+i386                 randconfig-r022-20230725   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r015-20230725   gcc  
+loongarch            randconfig-r022-20230725   gcc  
+loongarch            randconfig-r023-20230725   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r002-20230725   gcc  
+m68k                 randconfig-r025-20230725   gcc  
+m68k                 randconfig-r031-20230725   gcc  
+m68k                 randconfig-r035-20230725   gcc  
+microblaze           randconfig-r015-20230725   gcc  
+microblaze           randconfig-r021-20230725   gcc  
+microblaze           randconfig-r024-20230725   gcc  
+microblaze           randconfig-r025-20230725   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                     decstation_defconfig   gcc  
+mips                      malta_kvm_defconfig   clang
+mips                 randconfig-r001-20230725   gcc  
+mips                 randconfig-r032-20230725   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r025-20230725   gcc  
+openrisc             randconfig-r005-20230725   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r016-20230725   gcc  
+parisc               randconfig-r024-20230725   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc              randconfig-r022-20230725   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r024-20230725   gcc  
+riscv                randconfig-r036-20230725   clang
+riscv                randconfig-r042-20230725   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r034-20230725   clang
+s390                 randconfig-r044-20230725   gcc  
+sh                               allmodconfig   gcc  
+sh                   randconfig-r015-20230725   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r021-20230725   gcc  
+sparc                randconfig-r031-20230725   gcc  
+sparc64              randconfig-r013-20230725   gcc  
+sparc64              randconfig-r014-20230725   gcc  
+sparc64              randconfig-r023-20230725   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r004-20230725   gcc  
+um                   randconfig-r016-20230725   clang
+um                   randconfig-r032-20230725   gcc  
+um                   randconfig-r033-20230725   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230725   clang
+x86_64       buildonly-randconfig-r002-20230725   clang
+x86_64       buildonly-randconfig-r003-20230725   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-r015-20230725   gcc  
+x86_64               randconfig-r016-20230725   gcc  
+x86_64               randconfig-r035-20230725   clang
+x86_64               randconfig-x001-20230725   gcc  
+x86_64               randconfig-x002-20230725   gcc  
+x86_64               randconfig-x003-20230725   gcc  
+x86_64               randconfig-x004-20230725   gcc  
+x86_64               randconfig-x005-20230725   gcc  
+x86_64               randconfig-x006-20230725   gcc  
+x86_64               randconfig-x011-20230725   clang
+x86_64               randconfig-x012-20230725   clang
+x86_64               randconfig-x013-20230725   clang
+x86_64               randconfig-x014-20230725   clang
+x86_64               randconfig-x015-20230725   clang
+x86_64               randconfig-x016-20230725   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r006-20230725   gcc  
+xtensa               randconfig-r012-20230725   gcc  
+xtensa               randconfig-r022-20230725   gcc  
+xtensa               randconfig-r026-20230725   gcc  
+xtensa                         virt_defconfig   gcc  
+
 -- 
-2.35.3
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
