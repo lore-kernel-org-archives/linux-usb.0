@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E7BC04FDF
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Jul 2023 02:35:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87C30EB64DD
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Jul 2023 02:35:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230448AbjGYCfX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Jul 2023 22:35:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35166 "EHLO
+        id S229829AbjGYCfZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Jul 2023 22:35:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230339AbjGYCfN (ORCPT
+        with ESMTP id S230353AbjGYCfN (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Jul 2023 22:35:13 -0400
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D7291737;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D93C173F;
         Mon, 24 Jul 2023 19:35:07 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36P1VAVn011602;
-        Tue, 25 Jul 2023 02:34:38 GMT
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36P1pTUI030598;
+        Tue, 25 Jul 2023 02:34:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=FjY82JzU0n/q9JbCeJO4JnY3PdzsO5csmqYFNBEIyfg=;
- b=iQL2kyCbtf/cL9Bm5o/dd+Y7GXGZ42w06mVdwsbUHiduwmR5x9be7qQpJQdnYcs/uc77
- E8qr9DsyOE4Hvmghzaj9anIX637twiPoeCeLgFwExIEll/7rGZerneVOzPw5XvMWl/8o
- GIkukyAzu2lKmn+2kj2Ejx4GfyPPaqFGczesoXJoX9j2OgIZpXCBMQUlFLe6Q8zZS0Ms
- Jjl91hF1Y1jUfirB3I/obqEoN/+z3N1Lzp+R1gf6JVr8UU9PEbdvi/cliciSsWrtm0Qx
- V/03PuWOV4FmbiBJRwzfojCSE+Afk9E0tLOkyQXp4KW0BkPHseWiG+y2gsLESd16eJP3 Gw== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s1qa3sub0-1
+ bh=RCeIcSqyKaggy7EYwYOEQ3HsuZDqGMVzojLxjyHZ7bo=;
+ b=XYgcsqDNJ3vQW3LK6XgbWX2nFIyR8evUZjDpuWjwJctejX4g9QLDmRtXYwnrpXybSBHC
+ RuoIk7qDiKUy7KyvtwAPLci9nY/a+lVcf0d99JjsWLRHBXBPVec+bK0xUJsOD8I+PlAk
+ SySxJkjbHzlVWmV0jv461s+YOrfvebpgvlC3xT6bAw2+q5uxadGmvOHs+ciUVdB2m/WD
+ VuOqi2ryrOI9C8p671suG7VZhECWLoZY82HMaiVWI+t/jcnQd9/07O6ldA7L0GX5BBGN
+ KLQg45N7QmyYJBB7EiONJVmZIJvHqo4Bkv6mPJgX60F6PCny2E8grfQxYcII1IjBll/8 sw== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s1qcysvw8-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 25 Jul 2023 02:34:38 +0000
+        Tue, 25 Jul 2023 02:34:40 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36P2YbqN012470
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36P2YdmP012390
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 25 Jul 2023 02:34:37 GMT
+        Tue, 25 Jul 2023 02:34:39 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Mon, 24 Jul 2023 19:34:36 -0700
+ 15.2.1118.30; Mon, 24 Jul 2023 19:34:38 -0700
 From:   Wesley Cheng <quic_wcheng@quicinc.com>
 To:     <agross@kernel.org>, <andersson@kernel.org>, <robh+dt@kernel.org>,
         <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
@@ -53,9 +53,9 @@ CC:     <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <quic_jackp@quicinc.com>, <pierre-louis.bossart@linux.intel.com>,
         <oneukum@suse.com>, <albertccwang@google.com>,
         <o-takashi@sakamocchi.jp>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v4 11/32] sound: usb: card: Introduce USB SND platform op callbacks
-Date:   Mon, 24 Jul 2023 19:33:55 -0700
-Message-ID: <20230725023416.11205-12-quic_wcheng@quicinc.com>
+Subject: [PATCH v4 14/32] usb: dwc3: Add DT parameter to specify maximum number of interrupters
+Date:   Mon, 24 Jul 2023 19:33:58 -0700
+Message-ID: <20230725023416.11205-15-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230725023416.11205-1-quic_wcheng@quicinc.com>
 References: <20230725023416.11205-1-quic_wcheng@quicinc.com>
@@ -66,126 +66,116 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: HNv_1sM8K399V2SGSo9-ppZkK1Nn6QcH
-X-Proofpoint-GUID: HNv_1sM8K399V2SGSo9-ppZkK1Nn6QcH
+X-Proofpoint-ORIG-GUID: 4xd1o0NXcYBbvGGE4Ybk96wyKz1h87O8
+X-Proofpoint-GUID: 4xd1o0NXcYBbvGGE4Ybk96wyKz1h87O8
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
  definitions=2023-07-24_18,2023-07-24_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- malwarescore=0 suspectscore=0 clxscore=1015 mlxlogscore=904
- priorityscore=1501 mlxscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ malwarescore=0 adultscore=0 spamscore=0 suspectscore=0 phishscore=0
+ priorityscore=1501 mlxlogscore=736 clxscore=1015 mlxscore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2306200000 definitions=main-2307250020
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Allow for different platforms to be notified on USB SND connect/disconnect
-seqeunces.  This allows for platform USB SND modules to properly initialize
-and populate internal structures with references to the USB SND chip
-device.
+Allow for the DWC3 host driver to pass along a XHCI property that defines
+how many interrupters to allocate.  This is in relation for the number of
+event rings that can be potentially used by other processors within the
+system.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/usb/card.c | 36 ++++++++++++++++++++++++++++++++++++
- sound/usb/card.h | 20 ++++++++++++++++++++
- 2 files changed, 56 insertions(+)
+ drivers/usb/dwc3/core.c | 12 ++++++++++++
+ drivers/usb/dwc3/core.h |  2 ++
+ drivers/usb/dwc3/host.c |  5 ++++-
+ 3 files changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index f6e99ced8068..9365d1e17836 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -117,6 +117,30 @@ MODULE_PARM_DESC(skip_validation, "Skip unit descriptor validation (default: no)
- static DEFINE_MUTEX(register_mutex);
- static struct snd_usb_audio *usb_chip[SNDRV_CARDS];
- static struct usb_driver usb_audio_driver;
-+static struct snd_usb_platform_ops *platform_ops;
-+
-+int snd_usb_register_platform_ops(struct snd_usb_platform_ops *ops)
-+{
-+	if (platform_ops)
-+		return -EEXIST;
-+
-+	mutex_lock(&register_mutex);
-+	platform_ops = ops;
-+	mutex_unlock(&register_mutex);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(snd_usb_register_platform_ops);
-+
-+int snd_usb_unregister_platform_ops(void)
-+{
-+	mutex_lock(&register_mutex);
-+	platform_ops = NULL;
-+	mutex_unlock(&register_mutex);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(snd_usb_unregister_platform_ops);
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 63b18d38777a..b30cda303cc4 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1401,6 +1401,7 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	u8			tx_thr_num_pkt_prd = 0;
+ 	u8			tx_max_burst_prd = 0;
+ 	u8			tx_fifo_resize_max_num;
++	u16			num_hc_interrupters;
+ 	const char		*usb_psy_name;
+ 	int			ret;
  
- /*
-  * disconnect streams
-@@ -908,7 +932,11 @@ static int usb_audio_probe(struct usb_interface *intf,
- 	chip->num_interfaces++;
- 	usb_set_intfdata(intf, chip);
- 	atomic_dec(&chip->active);
-+
-+	if (platform_ops && platform_ops->connect_cb)
-+		platform_ops->connect_cb(chip);
- 	mutex_unlock(&register_mutex);
-+
- 	return 0;
+@@ -1423,6 +1424,9 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	 */
+ 	tx_fifo_resize_max_num = 6;
  
-  __error:
-@@ -945,6 +973,9 @@ static void usb_audio_disconnect(struct usb_interface *intf)
- 	card = chip->card;
- 
- 	mutex_lock(&register_mutex);
-+	if (platform_ops && platform_ops->disconnect_cb)
-+		platform_ops->disconnect_cb(chip);
++	/* default to a single XHCI interrupter */
++	num_hc_interrupters = 1;
 +
- 	if (atomic_inc_return(&chip->shutdown) == 1) {
- 		struct snd_usb_stream *as;
- 		struct snd_usb_endpoint *ep;
-@@ -1086,6 +1117,11 @@ static int usb_audio_suspend(struct usb_interface *intf, pm_message_t message)
- 		chip->system_suspend = chip->num_suspended_intf;
- 	}
- 
-+	mutex_lock(&register_mutex);
-+	if (platform_ops && platform_ops->suspend_cb)
-+		platform_ops->suspend_cb(intf, message);
-+	mutex_unlock(&register_mutex);
+ 	dwc->maximum_speed = usb_get_maximum_speed(dev);
+ 	dwc->max_ssp_rate = usb_get_maximum_ssp_rate(dev);
+ 	dwc->dr_mode = usb_get_dr_mode(dev);
+@@ -1466,6 +1470,12 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 				&tx_thr_num_pkt_prd);
+ 	device_property_read_u8(dev, "snps,tx-max-burst-prd",
+ 				&tx_max_burst_prd);
++	device_property_read_u16(dev, "snps,num-hc-interrupters",
++				&num_hc_interrupters);
++	/* DWC3 core allowed to have a max of 8 interrupters */
++	if (num_hc_interrupters > 8)
++		num_hc_interrupters = 8;
 +
- 	return 0;
+ 	dwc->do_fifo_resize = device_property_read_bool(dev,
+ 							"tx-fifo-resize");
+ 	if (dwc->do_fifo_resize)
+@@ -1548,6 +1558,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	dwc->imod_interval = 0;
+ 
+ 	dwc->tx_fifo_resize_max_num = tx_fifo_resize_max_num;
++
++	dwc->num_hc_interrupters = num_hc_interrupters;
  }
  
-diff --git a/sound/usb/card.h b/sound/usb/card.h
-index 6ec95b2edf86..c48744724f7d 100644
---- a/sound/usb/card.h
-+++ b/sound/usb/card.h
-@@ -207,4 +207,24 @@ struct snd_usb_stream {
- 	struct list_head list;
- };
+ /* check whether the core supports IMOD */
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 8b1295e4dcdd..6e4ed5e2d3f2 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1054,6 +1054,7 @@ struct dwc3_scratchpad_array {
+  * @tx_max_burst_prd: max periodic ESS transmit burst size
+  * @tx_fifo_resize_max_num: max number of fifos allocated during txfifo resize
+  * @clear_stall_protocol: endpoint number that requires a delayed status phase
++ * @num_hc_interrupters: number of host controller interrupters
+  * @hsphy_interface: "utmi" or "ulpi"
+  * @connected: true when we're connected to a host, false otherwise
+  * @softconnect: true when gadget connect is called, false when disconnect runs
+@@ -1282,6 +1283,7 @@ struct dwc3 {
+ 	u8			tx_max_burst_prd;
+ 	u8			tx_fifo_resize_max_num;
+ 	u8			clear_stall_protocol;
++	u16			num_hc_interrupters;
  
-+struct snd_usb_platform_ops {
-+	void (*connect_cb)(struct snd_usb_audio *chip);
-+	void (*disconnect_cb)(struct snd_usb_audio *chip);
-+	void (*suspend_cb)(struct usb_interface *intf, pm_message_t message);
-+};
+ 	const char		*hsphy_interface;
+ 
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index 61f57fe5bb78..79ce359c342a 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -61,7 +61,7 @@ static int dwc3_host_get_irq(struct dwc3 *dwc)
+ 
+ int dwc3_host_init(struct dwc3 *dwc)
+ {
+-	struct property_entry	props[4];
++	struct property_entry	props[5];
+ 	struct platform_device	*xhci;
+ 	int			ret, irq;
+ 	int			prop_idx = 0;
+@@ -107,6 +107,9 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 	if (DWC3_VER_IS_WITHIN(DWC3, ANY, 300A))
+ 		props[prop_idx++] = PROPERTY_ENTRY_BOOL("quirk-broken-port-ped");
+ 
++	props[prop_idx++] = PROPERTY_ENTRY_U16("num-hc-interrupters",
++						dwc->num_hc_interrupters);
 +
-+#if IS_ENABLED(CONFIG_SND_USB_AUDIO)
-+int snd_usb_register_platform_ops(struct snd_usb_platform_ops *ops);
-+int snd_usb_unregister_platform_ops(void);
-+#else
-+static int snd_usb_register_platform_ops(struct snd_usb_platform_ops *ops)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static int snd_usb_unregister_platform_ops(void)
-+{
-+	return -EOPNOTSUPP;
-+}
-+#endif /* IS_ENABLED(CONFIG_SND_USB_AUDIO) */
- #endif /* __USBAUDIO_CARD_H */
+ 	if (prop_idx) {
+ 		ret = device_create_managed_software_node(&xhci->dev, props, NULL);
+ 		if (ret) {
