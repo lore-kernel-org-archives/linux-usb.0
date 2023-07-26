@@ -2,136 +2,116 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2E32C001DC
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jul 2023 11:42:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA1BC001B0
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jul 2023 12:13:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234391AbjGZLmj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Jul 2023 07:42:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39048 "EHLO
+        id S233755AbjGZMNK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Jul 2023 08:13:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234321AbjGZLm0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Jul 2023 07:42:26 -0400
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2125.outbound.protection.outlook.com [40.107.255.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFFB22D63;
-        Wed, 26 Jul 2023 04:41:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Us6OPZIYqSXfaduTgjGpk0KgUXcWkmrvnKz45HxiCGYFRmO+PxbVNyThCOKS2WzcAGEeTAiKTQqIA+S59O1qug3Fm02zEJG1RIBY6YY8CYc8KN5FPNM7RbWMp56uE5mGK5tjkfng6wgOxlRXVD/vq9S0yDC/Wpvd9eK9r3ikH1p1cFUyDr6LgvNcJDsRJ9eDmaaWgjgYEO94J6lRJqZM8owgWYk8RJhDTHL2ZgoofFIqB3HoEoS8b71XLvFM2K93/mE9VAXdu6rFCBG1LlDqN9Q0PXtlWMXYCrRKQEcAYD2BEDoT4AXlyEUreauASKG1IXFOmx10vtL3aKmnW+Kf1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oHaq5Y6J4d2EPi8H/aWjaEASSHYIEugpZzwedGsCR5U=;
- b=lw7uM7RK0xXoWOHZT76hUpteBmVC+kd23+zGGaW050ZYrsKzlpCllmjzbidDL9CXKAzlIamKIYxO/bKiA+78VEs/WkHeLPfgoqLHfduvqS+ZCors8lg7My9VOqJz7WmAHJHxGovBBYjo7As57QIWstMAM6uN/wjWyzOg44mt29VoGbhjbbag9BWaPXTIGcPDF51MDCswSLitD5S1dsOCzCCXFC9lZkAwNl5Lvo379J26tMmcpT6WnrV/0gCMtMrLtG2w3jhuikem0kxg8VkB5uQQHmjZQnONF6EHQwst5eKmf5W03Ob4yF+Tp4iL0xjvJxNbc/gb+5ukGA5QEwSwYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oHaq5Y6J4d2EPi8H/aWjaEASSHYIEugpZzwedGsCR5U=;
- b=VO+V52MKzIbodJa3u8O+TM6kt/74Eg3tIybSf1sJssLdABNnfBcuU+8s2X6ApjOiLwInosVxOiqKHsZO2dykQ+LmFyLzWykwYndBIv0N1tGMfQR8rQ38Xc6G8/g4CIkE8jrR8z1Eax7P2zyKuqIoc6dai9Sbr00HoExux9N48P60UGb9/4VHsvYqfLVXxup5RIAc+c8JoqIGL7Nhb/ySi4yMFBwrqI85t5vQny1LkCIzRSiiwPU2oW2HEyl/7+cNsW+zJWFzxPh1AMKcOByrkSvfdHp6fispejcdAKG4/YHcnTH22W6ws6l8YAVktR+Icg7JX7/2so8pqW9FOJ+dQA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by SI2PR06MB4203.apcprd06.prod.outlook.com (2603:1096:4:e8::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6609.31; Wed, 26 Jul 2023 11:38:52 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::732f:ea1d:45a1:1e0b]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::732f:ea1d:45a1:1e0b%3]) with mapi id 15.20.6631.026; Wed, 26 Jul 2023
- 11:38:52 +0000
-From:   Yangtao Li <frank.li@vivo.com>
-To:     Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>
-Cc:     Yangtao Li <frank.li@vivo.com>, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 17/30] usb: ohci-exynos: Use devm_platform_get_and_ioremap_resource()
-Date:   Wed, 26 Jul 2023 19:38:03 +0800
-Message-Id: <20230726113816.888-17-frank.li@vivo.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230726113816.888-1-frank.li@vivo.com>
-References: <20230726113816.888-1-frank.li@vivo.com>
+        with ESMTP id S233804AbjGZMNA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Jul 2023 08:13:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3B0D1739;
+        Wed, 26 Jul 2023 05:12:59 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2CC1A61ACC;
+        Wed, 26 Jul 2023 12:12:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73356C433C8;
+        Wed, 26 Jul 2023 12:12:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690373578;
+        bh=Ke8AONnAOWupVgvu9a1rrtccA5xWjVMePJQxM8Ht3Kc=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=gYrqFr8wvj2MJmmwmwf8M6I8rekTV9+bxmW2rqLD55Qm7Z/X+3fqo2oPfopkxdlCi
+         n241AQBCMxM7eFrih3i3Sbv5AKj0bq28ozziIAExFd7E/RXMMNS1aKn+yJARtnBmU4
+         FfN14X79faCpLGre6x+vnvwoxjIsG/L/ooLw+V13rcjVx7tIPmq/1O2zG9aawBpzTf
+         uhcvPI4MEqZ0fNFaHRBAISQWggi8tN88wV4MzFoUqwVN0pOsQ3BgyiTak4/MrtL+0t
+         6GpQd+/9rUTZVGi45edSMIe9j4qSBoulHPW7gK71wysfs2CSJoMHtELswVidt7IBP2
+         x+DypAIC/tqTg==
+Received: (nullmailer pid 1182938 invoked by uid 1000);
+        Wed, 26 Jul 2023 12:12:54 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2P153CA0033.APCP153.PROD.OUTLOOK.COM
- (2603:1096:4:190::21) To SEZPR06MB5269.apcprd06.prod.outlook.com
- (2603:1096:101:78::6)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|SI2PR06MB4203:EE_
-X-MS-Office365-Filtering-Correlation-Id: 40d80bdc-55b9-45b8-bca4-08db8dcce2df
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uKbsr7/y0ChOi0kZ3iTzrhfktCEl6lQzvkTWSPKFh2M/25E4zIdnO8E1oAqzThjMXkz1spXXWi0hXipps3aKHefit+Lzji727IqmMEfJ3a+XVqPL0ZXq5MjIeVtXpD4tSzwWMHaWJCOpT89czNBmDItuX52RYyGmiTu1dpjnXiRPX72OsH3TUGR8MHKiJ2RILlLitJslO2LQZo9zfC0n7yTuL34YynGtbdqHkNOsvLFWmi5QpiWbtujWsg3R6TOfW5SYc0VA6X4q5CkOIlAmBy3GaZnZbN7Bj7PMzWvY44pSmq9rnmsSgfYxE5pDqd6hkjheX3Xf/blE7cYuM8bE/wzjuMHa8n47qDeRsSrRVnk0jp6L6I+7VWTCU/aIfOmGZL6jiiuSxuY3PiwG4WRyB3EiRQOmVuzx1ljVDVDz2kqnFuKTCCzMQz5v1bnWb2AFbfHSzoFtDlVZfzbtT80Q2hkBlf+vwLlUEQd5ehzzgX0LvntGkn+h9xstik255NWTBKA/omIybVaXHedZmSAn9niLT/P2ih4BpCs6nzCdduGr1kpWgoyC0HwNRTveo8HvbCyzAblQw37ttq15U6KfDXXZkXE7uBtukCsD49wN9SRgjGQsuw6E+1WLSzCy35FB
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(396003)(346002)(376002)(136003)(451199021)(86362001)(38100700002)(38350700002)(66556008)(478600001)(4326008)(316002)(110136005)(6512007)(8936002)(5660300002)(8676002)(6666004)(6486002)(2906002)(1076003)(186003)(52116002)(4744005)(26005)(6506007)(83380400001)(66946007)(41300700001)(36756003)(66476007)(2616005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3UYhuI6jvpT4A8GWYmVhEXUSEQ2TYXsW/9obrMWVkLvn9wuDUk98MbOeGWM/?=
- =?us-ascii?Q?R3sJGLzz7w81CokJzFzMPBeSnt8j+YIWF/yNA3cgrzj1PLqPMs4D308gf7Rg?=
- =?us-ascii?Q?lTITn3BqeQKHG69RzT9ay/ziGq9rXAKK2MEpVZUz+h53H8O3KZq9/XxO91pX?=
- =?us-ascii?Q?p0J1A0QhRgp0/oSFl9gI2YJfpcPAGSjemJEAcY7Y60kAc80lUTlMhjiUaRhm?=
- =?us-ascii?Q?840CStm6TLXqe8lZs1c9NcuaFccZGqmhzJ3PXz+EYi9woaqEFMIR3ew9lf3v?=
- =?us-ascii?Q?rcOBUiv/Zsp4SAo6inOvMTc6JImAoa9Z6Q72Kr+Jk1MV/OWvAIsSSfjFZmHE?=
- =?us-ascii?Q?LjbnBoLqDViSaBvbhCilMHjpFUKLtRbGltHb9pvjUIEL20E94bF8yWyMq7zO?=
- =?us-ascii?Q?wu0UyTeH1cVm8kNWKyUIzgQfkqfyuckfJm3BG9aduSBVI5I1cWg+CzFW3dGd?=
- =?us-ascii?Q?qchOvzuHtTX9LthMWKCXuitEsmGF6BW+68udx1VZppDggenIWqEGt6EHX1lg?=
- =?us-ascii?Q?v+pB9RTjEMhhLLYAzF+Q1EGbRCM4Re9nCcq1NAT1ezWWbVhuIGhFxKaLsV0J?=
- =?us-ascii?Q?L4He+3D1NiWil/2PjlVfRybBpQaFe96iUZuEue3tRqq94jvdlbCuWeN2q+qu?=
- =?us-ascii?Q?hA3bbK8wfksaqdZhUF0M8SdtdaovLTq/Sp4KcQu4ugzpRd45Z+gNvMgGvAfk?=
- =?us-ascii?Q?mcozM45uB+BGbDEx7hlcNwtWNlkK1s/hj2gbc32/8t1hrJJbGNDlIc+Ff3KY?=
- =?us-ascii?Q?BxhqsEEuvif1FBfduU90qm1Fd93SIRKyXi4UowjqE1peFZCkjZMR6/wgltO/?=
- =?us-ascii?Q?+PxBg7lJW71pWAXb+rf7k8ihSvUp4sNHx2tsJeOvgTDaylI2sToRTOsHG6ke?=
- =?us-ascii?Q?3A36LjNiNr6O8xSLSoPwyCYdfid60p9Psb1RumTa6ILnpnfAT8clBB/vgiLl?=
- =?us-ascii?Q?7Ki6whRlh7BlRQhPYckZ1tvhCCJX+4xmx23Fv0UlKE0PCfFHenCv9L2BGkbl?=
- =?us-ascii?Q?/WXWFzHx5OPNUwqo4lbTHFFTTRGy42AJVNb8KJIZkse2nDer1fIeYp2GXZch?=
- =?us-ascii?Q?BK1Mblf8kTFHYdyaDai9KVuvkEYmkGkksjDWld9JMd3ihfuqIoRfjXjACZQq?=
- =?us-ascii?Q?stMsgWX3ssNUUtphlNdEW4WSSB0uaYEQqakJGuuA8WEqf44T6rtqmbR85RSP?=
- =?us-ascii?Q?qQka9SGgbzMBfALruOfQVjRr4LCNEdx8f9MAOaEtdv2LVifvyFI5RBrZv2CL?=
- =?us-ascii?Q?h+zCL/DhE1e3ceLKLyMVEuICru9mt09JS3MLY098SMNtvV7lcSo/dV/RX6QW?=
- =?us-ascii?Q?5Kbokg2qj5gXphMnO71sLeiIowrDm/cH1QVvmG09DC+g8pAKTWusiX7zdtIN?=
- =?us-ascii?Q?5VCWDnNZuYU3jXcEYA3fkxSiROFP5ARpZr7oEc/jMTXHV/ZMqV58qath+1g0?=
- =?us-ascii?Q?NZFafAMtZpLyI3C1HXeMjDXf0TXsOT+i+pGKmnrxwztmTfJK8AP+yogAjBOm?=
- =?us-ascii?Q?9kIckIYHy0lSTruHqW1yjnW7q7VQvYxD0M5wteVS6E0kOzUSps0jMR1ErL4x?=
- =?us-ascii?Q?1I/6LR23Fno4kKhY95nRfPoAfhZDO7Ej/lZW+5+g?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40d80bdc-55b9-45b8-bca4-08db8dcce2df
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2023 11:38:52.4170
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bRNWanw7798jXNXNMmkjhQf83PRUFjlRxatiK0/Eto4S5JCst08G6iCFM51303O3fWYlzdv0UyqH6szN0QfPAQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB4203
+From:   Rob Herring <robh@kernel.org>
+To:     Gatien Chevallier <gatien.chevallier@foss.st.com>
+Cc:     linux-mmc@vger.kernel.org, gregkh@linuxfoundation.org,
+        lee@kernel.org, catalin.marinas@arm.com, jic23@kernel.org,
+        hugues.fruchet@foss.st.com, richardcochran@gmail.com,
+        will@kernel.org, arnd@kernel.org, davem@davemloft.net,
+        Oleksii Moisieiev <oleksii_moisieiev@epam.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Oleksii_Moisieiev@epam.com, linux-phy@lists.infradead.org,
+        linux-crypto@vger.kernel.org, kuba@kernel.org,
+        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
+        vkoul@kernel.org, linux-arm-kernel@lists.infradead.org,
+        edumazet@google.com, devicetree@vger.kernel.org,
+        linux-iio@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        herbert@gondor.apana.org.au, linux-i2c@vger.kernel.org,
+        alexandre.torgue@foss.st.com, mchehab@kernel.org,
+        robh+dt@kernel.org, linux-kernel@vger.kernel.org,
+        ulf.hansson@linaro.org, netdev@vger.kernel.org,
+        andi.shyti@kernel.org, olivier.moysan@foss.st.com,
+        linux-serial@vger.kernel.org, pabeni@redhat.com,
+        arnaud.pouliquen@foss.st.com, dmaengine@vger.kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-media@vger.kernel.org,
+        conor+dt@kernel.org, fabrice.gasnier@foss.st.com
+In-Reply-To: <20230726083810.232100-2-gatien.chevallier@foss.st.com>
+References: <20230726083810.232100-1-gatien.chevallier@foss.st.com>
+ <20230726083810.232100-2-gatien.chevallier@foss.st.com>
+Message-Id: <169037357425.1182922.8121576517266921442.robh@kernel.org>
+Subject: Re: [IGNORE][PATCH v3 01/11] dt-bindings: Document common device
+ controller bindings
+Date:   Wed, 26 Jul 2023 06:12:54 -0600
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Convert platform_get_resource(), devm_ioremap_resource() to a single
-call to devm_platform_get_and_ioremap_resource(), as this is exactly
-what this function does.
 
-Signed-off-by: Yangtao Li <frank.li@vivo.com>
----
- drivers/usb/host/ohci-exynos.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On Wed, 26 Jul 2023 10:38:00 +0200, Gatien Chevallier wrote:
+> From: Oleksii Moisieiev <Oleksii_Moisieiev@epam.com>
+> 
+> Introducing of the common device controller bindings for the controller
+> provider and consumer devices. Those bindings are intended to allow
+> divided system on chip into muliple domains, that can be used to
+> configure hardware permissions.
+> 
+> Signed-off-by: Oleksii Moisieiev <oleksii_moisieiev@epam.com>
+> ---
+>  .../feature-domain-controller.yaml            | 84 +++++++++++++++++++
+>  1 file changed, 84 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/feature-controllers/feature-domain-controller.yaml
+> 
 
-diff --git a/drivers/usb/host/ohci-exynos.c b/drivers/usb/host/ohci-exynos.c
-index ab31c459b32d..20e26a474591 100644
---- a/drivers/usb/host/ohci-exynos.c
-+++ b/drivers/usb/host/ohci-exynos.c
-@@ -149,8 +149,7 @@ static int exynos_ohci_probe(struct platform_device *pdev)
- 	if (err)
- 		goto fail_clk;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	hcd->regs = devm_ioremap_resource(&pdev->dev, res);
-+	hcd->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(hcd->regs)) {
- 		err = PTR_ERR(hcd->regs);
- 		goto fail_io;
--- 
-2.39.0
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/feature-controllers/feature-domain-controller.yaml: title: 'Generic Domain Controller bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+	hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230726083810.232100-2-gatien.chevallier@foss.st.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
