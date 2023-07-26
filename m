@@ -2,120 +2,137 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF5A6C001E0
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jul 2023 11:33:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E74DAC001DC
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jul 2023 11:38:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233824AbjGZLcu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Jul 2023 07:32:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33538 "EHLO
+        id S234097AbjGZLik (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Jul 2023 07:38:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233656AbjGZLcr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Jul 2023 07:32:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D10E6BF;
-        Wed, 26 Jul 2023 04:32:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A3EB61A8D;
-        Wed, 26 Jul 2023 11:32:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA78AC433C8;
-        Wed, 26 Jul 2023 11:32:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690371165;
-        bh=wq+kGX1o6azl/+AxJe/umF5svvBwne/PrZi7iuI++k0=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=e1hankn3CHxOhV5V7dL9xTWosq9z/AofiRirVkpOjA5iGzdOg2AqeCG/lPXcfSVuf
-         NLnHQ8xPlaS3pRI4KBAejMqJ/9BDmbpTNDdG4GGoJApzH9gUqgXlIXbAJMEuxctoIS
-         6TH+ublhNs4PXHTBz9tII/L0d5YdsiwqMQhhqqyOL6xfDC/m1t8m7XHlDAvW7/JeUA
-         Y7CJxKafOQrVbAqZyxMgeC6wgPtZF0Yp2f6Jx/Gi404YrKPKekJc1fm+VKNqhl8zF4
-         44iwHUskx7tCXskhYbfbD94aM0do3HAm8eFIcjFR2ae6oW991MwijW+S7cmTHLlyov
-         Y/YMdbOcLz5Dg==
-Received: (nullmailer pid 1021823 invoked by uid 1000);
-        Wed, 26 Jul 2023 11:32:41 -0000
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S234084AbjGZLii (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Jul 2023 07:38:38 -0400
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2126.outbound.protection.outlook.com [40.107.215.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 488C92696;
+        Wed, 26 Jul 2023 04:38:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ch3F4osD06J6rEJNS5pCLGvI3e9c6SvjFtDpGEB4u0wyoIoUvE2lGpNbj8tlYKhxHMK3vFM7eSBSUCMr11TrvM6y4zepd9XwBbdaq86juN+DCQXWuKhIzHj5MbellaTdiiWTbHXlEP/5Qka7/hw/UmpLNqxXYPJKuBzVJy3N69Mn4hgKRtReu45zO5dpWIeN06s4jOg5RBTdlQ257Z2NRZZMLMWroADn/xFZ6In9ovT1ktkIYwR1jP/X/ZPjGOn7xGHietDCYVxyBmRgrJma/D+XhE30lyTH8iuxv3ChVP75JFGquE3Th8UHjWUB2Tb/T1QJHQM3toPHIIiALfbhsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1Orvuye3fNLN++r+IzvNufcdklaAXxOuN9aUI9dPsr4=;
+ b=coDZZWKxauMGEuB3vWACjHA6gA9Cm/MWV7aiVygUBNLq1pvxOx0sQFQW3axQnTSUOKwuHcKbmA4Q7c+///oIp5sOyeuThxZBEcLioo8CKvq7dFOltB3yTdMZvHi4M3+G2k1uyP5yDsgvvd+jn9exNu8pWCXQFKZ3p9OpMYKp/3GdiYrFBDjtB9X0GS628BAf/dzeSuB0SxrZbe6+3DYR90j7Nk71z58OGa9tFp1sOo9Cn03ATxTN5rJw4NN/l/yKW3/mFwMlJT0zsHuaOqN9DCX12TCZtpjUkYrLHp6OYOobgj6HGGoh8cyVHmUKbBHIBCRx3Qk+vgaNH/y7Tqwt0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1Orvuye3fNLN++r+IzvNufcdklaAXxOuN9aUI9dPsr4=;
+ b=Yr5b6/SJKgVvEzTGYN/C8fg3vt50S2OmX/J2sbR0/SkIf8cvyGSfIL0rTIHsgDvJUUnPvXU9JEIf6Idf7NcGB+APy0jhCqn6tYMwXC5j2/WQE+9klAqnQkdV1Kq2ivkZQhXTG+WrS2PAliUgcmFxEthuet+GfzduLWD2Uno1BFfUqM30IJlZhncTlT9gr6yW5OY0jJxFPWcv5qG8oE3UqWtzR2qkzBaGMMnzE/3gqGAwXAcTcLnAQJK3RxlbettLW7YGH6TVAcXaJrh+TDArUFCj98SDjNaW+GrTnvvzBB0aRboQDnpqxbcME0G/QJ7Kqw5qPhmivc7da0F0zYhYQQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
+ by KL1PR06MB6210.apcprd06.prod.outlook.com (2603:1096:820:d9::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.31; Wed, 26 Jul
+ 2023 11:38:30 +0000
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::732f:ea1d:45a1:1e0b]) by SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::732f:ea1d:45a1:1e0b%3]) with mapi id 15.20.6631.026; Wed, 26 Jul 2023
+ 11:38:30 +0000
+From:   Yangtao Li <frank.li@vivo.com>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc:     Yangtao Li <frank.li@vivo.com>, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 03/30] usb: ohci-at91: Use devm_platform_get_and_ioremap_resource()
+Date:   Wed, 26 Jul 2023 19:37:49 +0800
+Message-Id: <20230726113816.888-3-frank.li@vivo.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230726113816.888-1-frank.li@vivo.com>
+References: <20230726113816.888-1-frank.li@vivo.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2P153CA0033.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:190::21) To SEZPR06MB5269.apcprd06.prod.outlook.com
+ (2603:1096:101:78::6)
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Gatien Chevallier <gatien.chevallier@foss.st.com>
-Cc:     olivier.moysan@foss.st.com, lee@kernel.org, netdev@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-iio@vger.kernel.org,
-        will@kernel.org, Frank Rowand <frowand.list@gmail.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        andi.shyti@kernel.org, vkoul@kernel.org,
-        linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-        ulf.hansson@linaro.org, richardcochran@gmail.com,
-        catalin.marinas@arm.com, conor+dt@kernel.org, edumazet@google.com,
-        gregkh@linuxfoundation.org, alsa-devel@alsa-project.org,
-        fabrice.gasnier@foss.st.com, linux-spi@vger.kernel.org,
-        davem@davemloft.net, mchehab@kernel.org, pabeni@redhat.com,
-        herbert@gondor.apana.org.au, devicetree@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com, robh+dt@kernel.org,
-        alexandre.torgue@foss.st.com, hugues.fruchet@foss.st.com,
-        krzysztof.kozlowski+dt@linaro.org, jic23@kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        Oleksii_Moisieiev@epam.com, linux-i2c@vger.kernel.org,
-        kuba@kernel.org, linux-phy@lists.infradead.org,
-        dmaengine@vger.kernel.org, arnaud.pouliquen@foss.st.com,
-        arnd@kernel.org
-In-Reply-To: <20230726090129.233316-1-gatien.chevallier@foss.st.com>
-References: <20230726083810.232100-1-gatien.chevallier@foss.st.com>
- <20230726090129.233316-1-gatien.chevallier@foss.st.com>
-Message-Id: <169037116156.1021724.12937477325696165938.robh@kernel.org>
-Subject: Re: [PATCH v3 04/11] dt-bindings: bus: document ETZPC
-Date:   Wed, 26 Jul 2023 05:32:41 -0600
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|KL1PR06MB6210:EE_
+X-MS-Office365-Filtering-Correlation-Id: 17e465bc-0bc1-4d3d-74fb-08db8dccd5a4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: guJvk17ZqDEBRQdTTrx/LsvAfjJkjiJrSD7sGpr1hvwmkZCpHroEtHWlaQUgRJf5BSrbVbysDxksW3+3/2JR3xadrFybOl7y6XhZ3F75eEAQNRLa1yIg/ZPgyRxxydmUTMpP2ipMSbzLdyjgKQkYPf/aqBSBx1ht3FZ0JbcP4BEmcrlHmNlpDZmBEofS714HCfcOcZAivL7mxJ8rbLny6rHMARAH3P0yQV4S5wsU93nGKYKEiwFaHP1jxyiNX2rF/KyXfzhrAulZ0J6kOGR5A5pCR8oY3TZRU+BSpjK72ZR7gdRADnqTxnVjSK9Uthb5wcotW0XP63knaWtYj3S2LLmKfXqPyTWOusSmJ1fO6EIIc1ElJBkcgr4u6rmO06S6TIbeYwf01YrwALvdejvgDTtZJ5cs9NwF2kH1G+hdccZQcU0vFBJqf7rSNYg0OzT/cdXjhlKr6m2hEl20A0s2steG6pnuLAFKDcDGH2jf30TJLKj+y2GB0O/hsz0FKvFzrDAtXla0WINvSu0VO6BCrbqzLhDmRZb1qw9F7rynsTnxha2qAorstIePziQB6e3UsdK55vco+JM5Hhc90KyTjEArUHp58kuT1OweW6gMvMl/2mZ+ioWBAykAWgelRr+6
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(346002)(366004)(376002)(136003)(39860400002)(451199021)(6506007)(8676002)(5660300002)(8936002)(41300700001)(316002)(4744005)(478600001)(52116002)(110136005)(2906002)(6666004)(6486002)(186003)(1076003)(6512007)(26005)(2616005)(66556008)(4326008)(66476007)(66946007)(38100700002)(83380400001)(38350700002)(36756003)(86362001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uSPKvkntmg0hZaKl5rJYWP/cizpUdfrKGplXWZl0Es5i+z/bxS8c+OQTpkXB?=
+ =?us-ascii?Q?lMP10IcsVuKaOAILWOI8yFXr6ltG2b7ua/mRqljdoMzXjqcxBIG6gLc0Xypz?=
+ =?us-ascii?Q?RoaqDTTtqoVZHyDdVKZwhQKOnMnAls70xjfD3HZ8ecjYzJ/RYmXde08j18ZQ?=
+ =?us-ascii?Q?lttVSYgv3jg3OVzi0neSgUWu2fA/+K2oibm6ga5GToDnP9ZhRrxBNAoLQHdl?=
+ =?us-ascii?Q?nN5QLjVYmlfTwCF7HwLgspQeYd2TEAiDPhB/z03NsHto3XMxxPmOklv0v+1t?=
+ =?us-ascii?Q?G8bXoAF3hEHzFS3LwnMmad1MmSfejZReWdAqyg7xejvYK/eGbWo+kFzmFsUb?=
+ =?us-ascii?Q?ueJuM/z4LswN4LT4voKw/5irVwbFdVzDLOY4k34s4Gb3ydtQOjfarAtA727r?=
+ =?us-ascii?Q?4WUXRW+Z+Yku8qQBQKLo93QQpkfyEBCYd0WqvG9IrGg1rxfCSwLznpEe2YPZ?=
+ =?us-ascii?Q?KAFnMZxfzxQ/HMC7rUjbW3I7lO2Husk73SusTMEZylkxX2IYWbI++EvUkrMs?=
+ =?us-ascii?Q?kZdMsDI+/v7bY+h991QZn3UU1tObnLq8Y4/YPK56J+w6IeS9FwJCP01nrEz0?=
+ =?us-ascii?Q?W1wdF/jXSoZ8WjpkFtXDb1HiilR6C5/ATv/SdXrTfJFgXfgjoidGsE7Ab4Xe?=
+ =?us-ascii?Q?IxDAYt9rzrnhnbm5hmGHK9oouxR5VaT+fpp1zinoE68L5oIedCnbTN2gbWGq?=
+ =?us-ascii?Q?OSo4XRGq4JdSDHCxgyfFR2lhPrQLvItW057rZEq1t8JQsfv3lkKAqxW5Tjfz?=
+ =?us-ascii?Q?KA50EK8WAu67NpuHN7AdnHm8+R2Vs7aruGfQg6HHpiLF/aP2QspZ+1B+sfm0?=
+ =?us-ascii?Q?QWx9l13CVS3McyNmXC8RAfLVMP5oTa9gpptZiNQH+sn1I6QSRolxklEmAoh6?=
+ =?us-ascii?Q?iLqMpj2CQ3BMiB4frTVKT5DJDvvey4VJHfbcO1tY6qUfnApEkDdQtXky5K1d?=
+ =?us-ascii?Q?/XAFMNFp6/jlwUsfD4aU2t0KGJ2iGs2pu/qnVG3WFivzh6q3XMg3w3jTIU/v?=
+ =?us-ascii?Q?cCG5MiVqhYx+OAdmt2R54rTfOZNz+G9SGYgOJXDSjYVG0ABdXLFpd1lGn/x/?=
+ =?us-ascii?Q?d6o7Oy3BzlwOM1HQalp4sb1W11JW62noAYi4bAxSj4B/iqgHyR5rj/L7ZKDD?=
+ =?us-ascii?Q?sttyinAD6ZsEPmGbA7OfpQumQeIrG0SnnGCmeNepVPrlwVWN4KPdV5L9spXt?=
+ =?us-ascii?Q?H2ydDG8R4wmM4ZfhUoxcx4ins6g7xsocOVUzh8AH5qtgXG9ehIZ3/RxwoxCe?=
+ =?us-ascii?Q?RiZl5FLT18p1BY+ZuPyVkenf8LipnYblxbPUUNX/mT8M0zV3lA++M/XLThD0?=
+ =?us-ascii?Q?BhpD5WecEs5z1fxH9qBkOH5Mi1UPw9n1bb7eeucqV++JAesFMDfh3Ylsm0rn?=
+ =?us-ascii?Q?cQiQhCWHFO8efKdRFwmfxFbTvp8SN7ydhc/8Trli6Kzwuf+gPE3sYNIgjQA4?=
+ =?us-ascii?Q?xSooxm589nrviiTIvHQ3h+MXdKUqRNDzMhC5CRBfV7/CnAPKdUoLqPPMVLwi?=
+ =?us-ascii?Q?TsdJXnceWkgxw5OY6CETiKvuxbYauV+UmZwNFE9eCFB7Q8C+3AmpUr/YImLi?=
+ =?us-ascii?Q?qwHnvAi0UcBqRIhdJ5xnxuwkXbbIIvW+U72vlaof?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17e465bc-0bc1-4d3d-74fb-08db8dccd5a4
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2023 11:38:30.2499
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m49CUPI6334We62C+kOOIcxa0Kke6sjVeAB5MTWYXnaeg9SpHWNbXuHKzvz8VYm9JdiV5aZKyBcHHe8VpKv+MA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6210
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Convert platform_get_resource(), devm_ioremap_resource() to a single
+call to devm_platform_get_and_ioremap_resource(), as this is exactly
+what this function does.
 
-On Wed, 26 Jul 2023 11:01:22 +0200, Gatien Chevallier wrote:
-> Document ETZPC (Extended TrustZone protection controller). ETZPC is a
-> firewall controller.
-> 
-> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
-> ---
-> 
-> Changes in V2:
-> 	- Corrected errors highlighted by Rob's robot
-> 	- No longer define the maxItems for the "feature-domains"
-> 	  property
-> 	- Fix example (node name, status)
-> 	- Declare "feature-domain-names" as an optional
-> 	  property for child nodes
-> 	- Fix description of "feature-domains" property
-> 	- Reorder the properties so it matches RIFSC
-> 	- Add missing "feature-domain-controller" property
-> 
->  .../bindings/bus/st,stm32-etzpc.yaml          | 96 +++++++++++++++++++
->  1 file changed, 96 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml
-> 
+Signed-off-by: Yangtao Li <frank.li@vivo.com>
+---
+ drivers/usb/host/ohci-at91.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/bus/st,stm32-etzpc.example.dtb: serial@4c001000: Unevaluated properties are not allowed ('feature-domains' was unexpected)
-	from schema $id: http://devicetree.org/schemas/serial/st,stm32-uart.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230726090129.233316-1-gatien.chevallier@foss.st.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/drivers/usb/host/ohci-at91.c b/drivers/usb/host/ohci-at91.c
+index b9ce8d80f20b..f957d008f360 100644
+--- a/drivers/usb/host/ohci-at91.c
++++ b/drivers/usb/host/ohci-at91.c
+@@ -200,8 +200,7 @@ static int usb_hcd_at91_probe(const struct hc_driver *driver,
+ 		return -ENOMEM;
+ 	ohci_at91 = hcd_to_ohci_at91_priv(hcd);
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	hcd->regs = devm_ioremap_resource(dev, res);
++	hcd->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+ 	if (IS_ERR(hcd->regs)) {
+ 		retval = PTR_ERR(hcd->regs);
+ 		goto err;
+-- 
+2.39.0
 
