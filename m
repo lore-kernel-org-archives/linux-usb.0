@@ -2,147 +2,91 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 962F7C001B0
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jul 2023 09:57:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ABE4C001B0
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jul 2023 10:11:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231805AbjGZJ5H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Jul 2023 05:57:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39550 "EHLO
+        id S232105AbjGZKLH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Jul 2023 06:11:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232593AbjGZJ4m (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Jul 2023 05:56:42 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60E6C1724;
-        Wed, 26 Jul 2023 02:55:42 -0700 (PDT)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36Q69iHS020307;
-        Wed, 26 Jul 2023 09:55:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=kzoRlk5carqDtnNugenB7ivRrMCCf/zpBHHPfUp3Oj4=;
- b=TMj/B3aR8u2F9lVF8q3b6K36G6EL5G6jLmiP5l1bwdxrxcze8qX/cJdh1qjTAIZQiwmM
- rMGUv6MrtVfC1tThbXa7dLaPCtODBFKQm2EYt3JkncUV1oTHZooG33IQlWdNuJe7aD23
- A2eYo47t0vSCsdgxbScnWzmNXK83eMCbUBzoP7iABFlT4H3znxgwoYmFtmmAFkeifqPW
- U5RCYR6RG7kBMymBOMYn8ZctxC2DyCCe1M2zPhMn184JThevO8XU4q1GfxE31XrKrdix
- 6h01rXRJMQMHbgkeDYFN/0ShJAD9PS/GXpRujHla5U3scNx3r2hC6VIo1AnP4xnJU5Ij TA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s2draakfw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 26 Jul 2023 09:55:36 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36Q9taq6019132
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 26 Jul 2023 09:55:36 GMT
-Received: from [10.217.219.52] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 26 Jul
- 2023 02:55:06 -0700
-Message-ID: <3f4ebebb-b1cb-27da-053f-146c8699c16e@quicinc.com>
-Date:   Wed, 26 Jul 2023 15:25:03 +0530
+        with ESMTP id S230398AbjGZKLG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Jul 2023 06:11:06 -0400
+Received: from m13148.mail.163.com (m13148.mail.163.com [220.181.13.148])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4C592DB;
+        Wed, 26 Jul 2023 03:11:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+        Message-ID; bh=kEzGDktM/+2dFVyyjFPbzcIhb2/BgMV5dxaADC7RoBc=; b=G
+        GXnMYaqo/NQHEFimQiMRBKbu4ttbjVqI1u3GeodzQ6xsbta5PcuKTfDcC/m+Dqrv
+        ZPEi1SOfWZTZP6LQgE0gijV6RT12xK5j7JaF6+V1Dombzx5D5IhXhWRbEaLrZK5o
+        9iCjjjbLc9jXL5N1tK0ZhrOHPiRnctNJfOX44ku8Ts=
+Received: from 18500469033$163.com ( [43.243.14.10] ) by
+ ajax-webmail-wmsvr148 (Coremail) ; Wed, 26 Jul 2023 18:10:30 +0800 (CST)
+X-Originating-IP: [43.243.14.10]
+Date:   Wed, 26 Jul 2023 18:10:30 +0800 (CST)
+From:   "Dingyan Li" <18500469033@163.com>
+To:     "Oliver Neukum" <oneukum@suse.com>
+Cc:     "Greg KH" <gregkh@linuxfoundation.org>, stern@rowland.harvard.edu,
+        sebastian.reichel@collabora.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re:Re: [PATCH] USB: add usbfs ioctl to get specific superspeedplus
+ rates
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2023 www.mailtech.cn 163com
+In-Reply-To: <7d6a6443-b463-b26e-4bb3-3100e6874683@suse.com>
+References: <20230721084039.9728-1-18500469033@163.com>
+ <2023072105-lethargic-saddling-ad97@gregkh>
+ <130b453c.5c8f.1897872ce54.Coremail.18500469033@163.com>
+ <2023072159-carol-underfeed-43eb@gregkh>
+ <781b3f95-96e7-af83-e089-887ec7f2d255@suse.com>
+ <2023072546-denture-half-5ceb@gregkh>
+ <4edabcb3.7e65.1898d54679e.Coremail.18500469033@163.com>
+ <ca4ad735-5605-3fd4-c903-fe5b039cf6a8@suse.com>
+ <3018cd33.7ee4.1898d7e4798.Coremail.18500469033@163.com>
+ <2023072526-reissue-uplifting-5674@gregkh>
+ <6be59e4e.8166.1898dd22d84.Coremail.18500469033@163.com>
+ <37ae1c44-fe7e-3f0f-0eea-0c684fe04d50@suse.com>
+ <3a822c60.6ae8.189918ebd0a.Coremail.18500469033@163.com>
+ <7d6a6443-b463-b26e-4bb3-3100e6874683@suse.com>
+X-NTES-SC: AL_QuySAv+duUoo5iSRYOkXkkYVgew6WsC4vf4k3IReOps0pyzO4CY6YUZkLXv76+WNNRqIiSG0TQNH7vtdXZBZR4ZFtLyg/rNM2vliTBoA+dCA
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: usb: common: usb-conn-gpio: Prevent bailing out if initial role
- is none
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1688638258-23806-1-git-send-email-quic_prashk@quicinc.com>
- <2023072517-revocable-squiggly-de1c@gregkh>
-From:   Prashanth K <quic_prashk@quicinc.com>
-In-Reply-To: <2023072517-revocable-squiggly-de1c@gregkh>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: cd4gVA2QL_lvy8E-sUR62OOQGKXsn8UP
-X-Proofpoint-ORIG-GUID: cd4gVA2QL_lvy8E-sUR62OOQGKXsn8UP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-26_04,2023-07-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- malwarescore=0 priorityscore=1501 clxscore=1011 suspectscore=0
- phishscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2306200000 definitions=main-2307260088
+Message-ID: <46fe0641.6f30.18991adbfe3.Coremail.18500469033@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: lMGowACXWDMX8cBk_hkKAA--.14881W
+X-CM-SenderInfo: jprykiiquwmiitt6il2tof0z/1S2mDhe4y2SAXDvUnQAAsg
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
-
-On 25-07-23 09:04 pm, Greg Kroah-Hartman wrote:
-> On Thu, Jul 06, 2023 at 03:40:58PM +0530, Prashanth K wrote:
->> Currently if we bootup a device without cable connected, then
->> usb-conn-gpio won't call set_role() since last_role is same as
->> current role. This happens because during probe last_role gets
->> initialised to zero.
->>
->> To avoid this, add a new flag initial_det in usb_conn_info,
->> which is used to prevent bailing out during init detection.
->>
->> Fixes: 4602f3bff266 ("usb: common: add USB GPIO based connection detection driver")
->> Signed-off-by: Prashanth K <quic_prashk@quicinc.com>
->> ---
->>   drivers/usb/common/usb-conn-gpio.c | 6 +++++-
->>   1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
->> index 766005d..46290ff 100644
->> --- a/drivers/usb/common/usb-conn-gpio.c
->> +++ b/drivers/usb/common/usb-conn-gpio.c
->> @@ -42,6 +42,7 @@ struct usb_conn_info {
->>   
->>   	struct power_supply_desc desc;
->>   	struct power_supply *charger;
->> +	bool initial_det;
-> 
-> What does "initial_det" mean?  Please document this better.
-> 
-Yea sure, will update that. It was supposed to mean initial_detection.
->>   };
->>   
->>   /*
->> @@ -86,11 +87,13 @@ static void usb_conn_detect_cable(struct work_struct *work)
->>   	dev_dbg(info->dev, "role %s -> %s, gpios: id %d, vbus %d\n",
->>   		usb_role_string(info->last_role), usb_role_string(role), id, vbus);
->>   
->> -	if (info->last_role == role) {
->> +	if (!info->initial_det && info->last_role == role) {
->>   		dev_warn(info->dev, "repeated role: %s\n", usb_role_string(role));
->>   		return;
->>   	}
->>   
->> +	info->initial_det = false;
->> +
->>   	if (info->last_role == USB_ROLE_HOST && info->vbus)
->>   		regulator_disable(info->vbus);
->>   
->> @@ -258,6 +261,7 @@ static int usb_conn_probe(struct platform_device *pdev)
->>   	device_set_wakeup_capable(&pdev->dev, true);
->>   
->>   	/* Perform initial detection */
->> +	info->initial_det = true;
-> 
-> What is protecting this from changing right after you test for it?
-> 
-> thanks,
-> 
-> greg k-h
-
-Hi Greg, this variable is only used/changed by usb_conn_detect_cable() 
-which is called in next line. So the chance of it changing is none.
-Basically this initial_det flag points if its initial detection or not.
-If yes, then prevent bailing out in usb_conn_detect_cable(). Please let 
-me know if your comment was regarding something else.
-
-Regards,
-Prashanth K
+QXQgMjAyMy0wNy0yNiAxNzo0OToyNiwgIk9saXZlciBOZXVrdW0iIDxvbmV1a3VtQHN1c2UuY29t
+PiB3cm90ZToKPgo+Cj5PbiAyNi4wNy4yMyAxMTozNiwgRGluZ3lhbiBMaSB3cm90ZToKPj4gQXQg
+MjAyMy0wNy0yNiAxNjozMzoyMiwgIk9saXZlciBOZXVrdW0iIDxvbmV1a3VtQHN1c2UuY29tPiB3
+cm90ZToKPj4+IE9uIDI1LjA3LjIzIDE4OjExLCBEaW5neWFuIExpIHdyb3RlOgo+Pj4gICAKPj4+
+PiBJbiBwcm9jX2Nvbm5pbmZvX2V4KCksIHRoZSBudW1iZXIgb2YgcmV0dXJuZWQgYnl0ZXMgaXMg
+ZGV0ZXJtaW5lZCBieQo+Pj4+IHRoZSBzbWFsbGVyIG51bWJlciBiZXR3ZWVuIHNpemVvZihzdHJ1
+Y3QgdXNiZGV2ZnNfY29ubmluZm9fZXgpIGFuZCBhCj4+Pj4gdXNlciBzcGVjaWZpZWQgc2l6ZS4g
+U28gaWYgd2Ugb25seSBhcHBlbmQgbmV3IG1lbWJlcnMgdG8gdGhlIGVuZCBvZgo+Pj4+IHN0cnVj
+dCB1c2JkZXZmc19jb25uaW5mb19leCwgaXQgd29uJ3QgaW1wYWN0IHRoZSBieXRlcyBpbiB0aGUg
+YmVnaW5uaW5nLgo+Pj4KPj4+IFlvdSBoYXZlIGp1c3QgY2F1c2VkIG1lbW9yeSBjb3JydXB0aW9u
+IGluIHVzZXIgc3BhY2UgYnkgb3ZlcndyaXRpbmcgd2hhdAo+Pj4gd2FzIHJpZ2h0IGJlaGluZCB0
+aGUgYnVmZmVyIG9mIHRoZSBhZ3JlZWQgdXBvbiBzaXplLiBPciwgbm90IG11Y2ggYmV0dGVyLAo+
+Pj4gY2F1c2VkIGEgc2VnbWVudGF0aW9uIGZhdWx0Lgo+Pj4KPj4+IAlSZWdhcmRzCj4+PiAJCU9s
+aXZlcgo+PiAKPj4gSG93IGNvbWU/Cj4KPlNvcnJ5LCBJIG1pc3JlYWQgdGhlIGNoZWNrIGF0IHRo
+ZSBzdGFydC4KPgo+PiBUaGUgYWN0dWFsIHJldHVybmVkIGJ5dGVzIG11c3QgYmUgc21hbGxlciB0
+aGFuIG9yIGVxdWFsIHRvIHVzZXIgc3BlY2lmaWVkIHNpemUuCj4+IFlvdSBjYW4gY2hlY2sgaHR0
+cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjYuNS1yYzMvc291cmNlL2RyaXZlcnMvdXNi
+L2NvcmUvZGV2aW8uYyNMMTQ5Mwo+Cj5ZZXMsIHdlIGNhbiBhZGQuIEJ1dCB3aGVyZSBpcyB0aGUg
+cG9pbnQ/Cj5Vc2VyIHNwYWNlIGhhcyB0byBiZSBjaGFuZ2VkIHRvIHVzZSBuZXcgc2l6ZXMuCj4K
+Ck5vdCBuZWNlc3NhcmlseSwgYnkgdGhpcyB3YXkgYXQgbGVhc3Qgb2xkIHVzZXIgc3BhY2UgY29k
+ZSBoYXMgYSBjaGFuY2UgdG8gc3RheQpwdXQgc2luY2UgaXQgY2FuIHN0aWxsIGdldCBiYXNpY2Fs
+bHkgdGhlIHNhbWUgYnl0ZXMgbGlrZSBiZWZvcmUsIGp1c3Qgbm90IGluY2x1ZGUKdGhlIG5ld2x5
+IGFwcGVuZGVkIGZpZWxkcy4gT2YgY291cnNlLCBpZiBhbnlvbmUgd2FudCB0byBhY2Nlc3MgdGhl
+IG5ldyBmaWVsZHMsCnRoZXkgaGF2ZSB0byB1c2UgdGhlIG5ldyBzaXplLgoKPlRoZSBwcm9ibGVt
+IGlzIG5vdCB5b3VyIHBhdGNoLiBBZGQgZG9jdW1lbnRhdGlvbiB0byBpdCBhbmQgaXQgaXMgZmlu
+ZS4KPldlIGhhdmUgYSBiYXNpYyBpc3N1ZSBoZXJlLiBEbyB3ZSByZXF1aXJlIGxpYnVzYiB0byB1
+c2Ugc3lzZnMgb3Igbm90Pwo+CgpZZWFoLCBhZ3JlZSB3aXRoIHRoaXMuCgpSZWdhcmRzLApEaW5n
+eWFuCg==
