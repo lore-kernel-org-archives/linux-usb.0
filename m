@@ -2,168 +2,145 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5151C001B0
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jul 2023 11:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EB13C001DC
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jul 2023 11:20:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232115AbjGZLQj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Jul 2023 07:16:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49760 "EHLO
+        id S232272AbjGZLUk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Jul 2023 07:20:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbjGZLQh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Jul 2023 07:16:37 -0400
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2061.outbound.protection.outlook.com [40.107.241.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E072B97;
-        Wed, 26 Jul 2023 04:16:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cHcKg5cY+k5a/7LZ9i50Mgt92eSD1R3Rl+HUYRv21JqvQlRfHAWogiYl3Hv4Gkq9GK1mLhRzZSCLcN6VaXL5V5AGVniRTPvvoUSM75f8Yv1hahhZEbWK1yiK7rk6APFc8Nj3sgVFhkYh2SRWZc2mQ13nuCcX2TxWM7KixDNJoLCsqjx/Wbqs7fbirwnB1k4sMSnpZZ/XRUsWmEv7RimEMiwEQ6XOynh/XU9u9lsMvbmD2yAplEuPgq4j0pVG8ejmBKOj/EgvH0I5XTfVuZR+GuFSSrZWoH66j8gs7GJndb8N4TB8uQ1YkeGt8iSgjw3pzeLOYgkMssYcG9SabwiVgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PEgprJuVjDohKkWBEuNJQl5+WvMhKT8zZI5UXrXsnEs=;
- b=Y7+g6J0Pr2qY2GCKZdVPc7F0pJJmwWNnNkgWBtrSd7oY65nFqioyPkMPYlHOnPscm8Yfvwk6tPxIod6kNR5IRtRGYfMvMkp8RAALnMcSzcWaa3VoKTwvo6/fjGKf9c6O+tdzclQR8dNAjWcpR+FnaGeQselyNjvi5gyk9anAV+YfFNWt++EqPmUmWdZx6aCq7d7y0at6zUE2Y6pfkCndH4JZEobaU8g/r+QVmfUAwn0BiEbJs6xTYcD15JkWK+2MhNEf6MH0yz62+OHq8mB+9V3+z0Hw8SQvSyoVJ6wx8AJLRGl+xJBlsQq7KmPY6HqTJk1gd6plSsE7RfNVxnaDIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PEgprJuVjDohKkWBEuNJQl5+WvMhKT8zZI5UXrXsnEs=;
- b=lZ0Z6a0PiezIf8CPJaF/EX8osWMZji5JUMnKVqMGxFL78cA0epPFUqUBd3G8p3qX4rbrv4r6Lr/ttvti9vTufQku8vCu4WSC+TPbixNKRdg90JRuhERynoNYsEgFPUwM+5hcuXpbl5KqNZUulU0FZDDkAxpnjwVu21ZcedTIVGFkKT8uxxmE6phy1xvna2y5sno5l24btT1+vl+8HSDwjSW9rFMNbE9DA7S33cgX3L0HG8wU8UHO1sw/p4ndDE9SqevXo98J4aiqJHhr4GJmXscl+XNUVk76pJEbJDYTjzniKYOLitXpwBv6r6E7W2o8RdyICJQQJiqTOZTYyPzgiw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=suse.com;
-Received: from VI1PR04MB7104.eurprd04.prod.outlook.com (2603:10a6:800:126::9)
- by AS5PR04MB9771.eurprd04.prod.outlook.com (2603:10a6:20b:650::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Wed, 26 Jul
- 2023 11:16:30 +0000
-Received: from VI1PR04MB7104.eurprd04.prod.outlook.com
- ([fe80::7ef4:97ef:66d5:f5b3]) by VI1PR04MB7104.eurprd04.prod.outlook.com
- ([fe80::7ef4:97ef:66d5:f5b3%2]) with mapi id 15.20.6609.032; Wed, 26 Jul 2023
- 11:16:30 +0000
-Message-ID: <05f0dc06-5a16-fba7-a256-b1d9dea989de@suse.com>
-Date:   Wed, 26 Jul 2023 13:16:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] USB:bugfix a controller halt error
-Content-Language: en-US
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        liulongfang <liulongfang@huawei.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230721100015.27124-1-liulongfang@huawei.com>
- <2023072153-module-wannabe-5637@gregkh>
- <bc2cd818-c7ad-9061-29ce-f5390d44d8ab@huawei.com>
- <2023072629-unblended-perky-4732@gregkh>
-From:   Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <2023072629-unblended-perky-4732@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0135.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9e::19) To VI1PR04MB7104.eurprd04.prod.outlook.com
- (2603:10a6:800:126::9)
+        with ESMTP id S230229AbjGZLUj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Jul 2023 07:20:39 -0400
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F8497;
+        Wed, 26 Jul 2023 04:20:38 -0700 (PDT)
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-57a6df91b1eso80172237b3.1;
+        Wed, 26 Jul 2023 04:20:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690370438; x=1690975238;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tsAEkrwSsyixiucawioU2bMgKGgn2qVLnt0XW8Bonqs=;
+        b=go0Y/ietCm9U8JTrEhiSLCt6rwA/3zBE6/Kvsi0eVKMH3CgZTSACxqrKqvn6WruQv3
+         s4R9Zl8Fofj4hJnPDC6OBEbUhaIvjfxAYrjQZfFPMtX3xbecO8EcLj6gqMJ+YSZdQ+hS
+         yhZmYrK09lZBpLA6eadN71VhbMqhYYd8KOKuMJNcGfQ+9gHxrQIS+pwl6dG6DmpbIbWI
+         k55swCKCy1MzCkgNGoWG2o573Kmy3USC04LLpCN5ae8qTEy1Y+AZhmGSbVIVUylYl8c5
+         3ODcUEyQhoXTqkClHJ+f12xl8ID1iNMKrm0OtC7tFeliEp//Ukt0RBSpr1fjGl5du8io
+         cO/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690370438; x=1690975238;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tsAEkrwSsyixiucawioU2bMgKGgn2qVLnt0XW8Bonqs=;
+        b=TQv8PrReibcMfo1C+a9wTnm+uMLwH1JfYk9EzNFJgi413HpTL0LJ8u6m/nozHe4WrC
+         hl0OwShUDAQUoh1iW8SXJmEOMPgtVBIYKHbdWO3nVUmvBlY+twbz0+0HnRI/ZUFFZF/U
+         /NGPSFZKP6x9omWLm4R74oyXAbGKBThW5SeZq5375rzkfyASA/ir4VDC5snQFwkRW8Li
+         yoFzKIWfUGNSfvdux1eiYv0CE4N6y44aXmVWWlgELOLEnNI/UVYT3UEqDZ7xGHrq+98z
+         fik3MLopSSSjcnuxPWDRehXoqbcRZQvuyAEMGltPJQCUEt0O5CqEAc4HrGJM6esB1CRC
+         dPFA==
+X-Gm-Message-State: ABy/qLY0R78XrHtQByDXt5qo/+IYkvYFnnB40ZqP5uOR3N26jOUoggkS
+        xxvFOptckHANBDGT2AOsJbOPeRCTRjK10bS2uoQ=
+X-Google-Smtp-Source: APBJJlEvQUG5gVitWrDCrwkW9CiW8jzQCtEPY9H5aZ8B+OH9kG23rLlGfSGfsE14kDaI2QofW7mbLBV5+Z8HYH2rgIw=
+X-Received: by 2002:a81:9c11:0:b0:55a:6430:e8fb with SMTP id
+ m17-20020a819c11000000b0055a6430e8fbmr2112293ywa.8.1690370437860; Wed, 26 Jul
+ 2023 04:20:37 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR04MB7104:EE_|AS5PR04MB9771:EE_
-X-MS-Office365-Filtering-Correlation-Id: 79375aed-77bf-4caa-9561-08db8dc9c329
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /G2uArO+Yfro1FNxjRIlizYd8lqimfs22G2SHJ+8lvrTs/Tm6Revyq431niJRxiT/6N1KRY4M5Pah0efa3yLpAoNPmprOqy+dI1E8oPPquYbpAmfQf4d8OgJVo6qqxKg8CzvZUQ6ohXthP9xGN4w2DBsLVQPmSGUIpDK3A3P9INSx3XRukLY1fozALQEmWx4JFzu8M9YhORtKkwjzt3NzNyg0d5koFpKEMkeAoWaHK2ZR8f2OVp3YMyYkIXf22grRBagpRafcEUvXctmD8WFA4f1BrTd3xi1IBxEdlDR1QNIqSF7iCYM1GQSe35JA96Ja3XkZfi0P7plcx4N7bxTwqvXXhpomaD1olk+YEqghl86qwKex147LojqDNy8zCtV1eN7oEIXWNPDsXcZNzPSX5xeng42McTmgSb+HiNA5G/iilyTNvYItiZaV867DNFL51uak8Y2rY1rGQO08DOfWMpX++Qrmockh8kSEPslGCtSZvObPPO3F5puWFfoBzj6/kXtUGmNPnmIaohPQuiDZTN8zIj1PVY/RI6Sz5px6qPNikATffFPvMXQeKKSuoC/RP17I4+VIq8mR8It7etBzUbrlNmrHXisdpZxe3OazpaBWeXvEVoplsm1/xLGtlL5kb05R5TEAM+VJgxOUC3r1g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB7104.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(366004)(136003)(346002)(396003)(39860400002)(451199021)(36756003)(31696002)(86362001)(2906002)(31686004)(83380400001)(186003)(53546011)(6506007)(6512007)(6486002)(38100700002)(478600001)(110136005)(4326008)(316002)(8936002)(8676002)(66946007)(66476007)(66556008)(2616005)(41300700001)(5660300002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MXNpR1BqWkdxUmFacG9POXNPUlZTVWtIZWtXK1pjS0xOQVVlWHJoTTlnUGlF?=
- =?utf-8?B?Vy9xWnQzUUFaMnlRNk9TRVM0bDlrRUZreTJ6NjlXMmJRUlhtRDBiT1FXMkNh?=
- =?utf-8?B?RldhU3p1dWNVNGJxK2RlaTBLZ1VMM01QSWxHNXhqUXpNNC92WktGNTc4SWM1?=
- =?utf-8?B?SHVwZUJuTzIwKy8yRm1jekZTZEliZDVMZGRBVHkxWFNiQ1M1L3QyRGpOYzJM?=
- =?utf-8?B?aEN6ZXpKWWtmREhRSnovZGEzTkVoNC9CNzFRZ3dyS2h3NVY4Qno3T1V6Ym1l?=
- =?utf-8?B?WHE4am5aOXV2TDhLa0pmQzN6MWZYcVI1RFFCcjhUOGV5a2djKzgvcHY2NnJn?=
- =?utf-8?B?V1Y3MWNDeFpPRVMrdUdqZ3M2OWNabWlVUUxKMkhuY3g3M1JZNVYxRjVaaXlT?=
- =?utf-8?B?N3IyS0k3TTZVcHFDTXZsM3hCdGl6NmRXcWVrWnk4OGZ2Y2kxcTEzU2NCTWVO?=
- =?utf-8?B?MFd6OFoxZm5oenZuWUZ5WXUyTEt1dURlRStIeUV3QVdsajdUN2xOT1JtTnJJ?=
- =?utf-8?B?VDZIZ3hBVW1sVnJkbDNINDNLM1VLcE1MWlduM29VSGRTMWpVRVhWM3NTb3Az?=
- =?utf-8?B?a3pTTjFqZUJESm15MFJlMHg2SnNCNUlkalZvZjBJK2hZTi9XZGsvaytzTUZZ?=
- =?utf-8?B?eUdLZmQvbGJPMUdHcExoWEFVWmx1T3d1cUplYXZtamlnM2Nmd3gwRzFYZXR2?=
- =?utf-8?B?T3dIWXlFN0xkWFZPY2ROZVVIOXJabzZUR2xtaGlRN1VaSGs0UTRHMmVGRFp0?=
- =?utf-8?B?a2pxSVRUYjRsNmlrb1gzRm1tcDhVQXdWSXRvcUhjT3VjR3RNRGUyOVI4YUt1?=
- =?utf-8?B?MlJUUmxuKzBFZ2N6VGpySWwxTEJwU2lTbXRsUW9SRGZ3NUdGOC9FOHhMdjFV?=
- =?utf-8?B?M1pkZ3VOdUtreHZpWGdodE1uMnF2dkFmcGdpS3AzTTZWS0JiOENtcmRETVE0?=
- =?utf-8?B?ZklpanNHZzZ0K2E2VlNCSmpLYjdwVEc2SU96TUs3ZlZCYUJ0aWFWMDNHM0Z0?=
- =?utf-8?B?bzlVTjBXMFZoa0tTb25ucnQ1U0tvamNKT29STnFsaUFBTm92ZEJWU0FxTk55?=
- =?utf-8?B?dUVVYkRZVjArVHpCbnUxWDZuSUVjTGluKzJqUitLRDRHSmY4L2h0NVoyRVRT?=
- =?utf-8?B?U3VTbVNQQnE1WVlNSW1DcDZtYlhFRzczTlR2V3JmWEVnOHJuUjJrSkZBK1dQ?=
- =?utf-8?B?cllVbGZ2TjdoOVhoTmlyZjFkUEV4a2FvREVtdHlVczhsRGpFUWNZbkcyMjBl?=
- =?utf-8?B?OUhtVUJZdXBEZVBvMDVjcW1KMExjTHVzdG8rYmU2YzNMd25BbEw3Y3ZkNjV3?=
- =?utf-8?B?SmcrMlFpM3U3bGUxcG1WcGFyL0dudHpSU3gzNlBidW9GanlpWnltNENYQnRX?=
- =?utf-8?B?bzVFbTdObG9hUEgzV1JCb1BPZ3RwY2J5MEJnRGhYTUQ0U0lnQTRaN2s4ZTFt?=
- =?utf-8?B?YnFyMVpKVUZLWHF5VFROZ2pNcWZ3WXMvbFFpanZremNpL3E0SlR4cVd6aTJp?=
- =?utf-8?B?bklCLytKN0tFOG1LSVd2THgyQ2EyZThuRTA3OGZuMWFaZnhsM1hHRzlUTnlk?=
- =?utf-8?B?QmNwM0h6eXFFd2J5M3R2ZmR0TUVaSTdVd3VQNjh5WHQzMGpsaWwrakVDT3FU?=
- =?utf-8?B?c09uVmQzYjRPOTNzdnl5NmZqRk80MG1SV29hWjNPeHRSZi9scXZqZEZxNEJ6?=
- =?utf-8?B?aUM3WVdRWlRFTXlJRTZBZjNHbW5mdU1WNzdTRTgyYnJtR1hxSEVEZThyTzZW?=
- =?utf-8?B?ZTNENFI2Vk54MmNFWVJWNHdNRVFLanBUQmd6Tkg3MERDSTE5Tlk1L0QrbXhu?=
- =?utf-8?B?OHBHSEE3VHhaVkdmaDdoWUZrTkplMTRjd3h2S05wTG85M0lDeUg3VEJaZzdU?=
- =?utf-8?B?S29VaWQwSFhuanFaQmw3TmswNC94Q2pJeGFxUW1jYkd0NnRwUEI4TGttK1hS?=
- =?utf-8?B?Mk0vbEl4cThRdDROZFM0dUJ6cEIrYXJZSTJmUmZYVGJBR2FlSjlhdnJMeG5J?=
- =?utf-8?B?Qmx3ZUhINkZyWlVNYmpWSExEem5tRVJzMllSQjBTaWViZ3BZV1lvem02Tk10?=
- =?utf-8?B?ODRaOHZzOGxZUjMrMnlFSVQ4Y3RHTThyeUVla3JBM3ZjOVZtR3hBRGxzSlBo?=
- =?utf-8?B?Ulc5bVJmc0x5dDNTOG5sc093SW52dit0TlcrVktuS0EyQlNMVEF4RzNTT0Nu?=
- =?utf-8?Q?mxAWj7Mxv/zh9HIFiujZ8di4G8khyqAJdHN9BhXKbaEK?=
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79375aed-77bf-4caa-9561-08db8dc9c329
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB7104.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2023 11:16:30.7131
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8R4ZOywV0GG1Q1A0kdlEWf2RLj+LNgLwaiodJaA7NDsAtkSsPvUDL3s4Sr4mIzb4JwLGwNZDwmstGLsHLPNdyw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR04MB9771
+References: <20230721084039.9728-1-18500469033@163.com> <2023072105-lethargic-saddling-ad97@gregkh>
+ <130b453c.5c8f.1897872ce54.Coremail.18500469033@163.com> <2023072159-carol-underfeed-43eb@gregkh>
+ <781b3f95-96e7-af83-e089-887ec7f2d255@suse.com> <2023072546-denture-half-5ceb@gregkh>
+ <CAGjSPUCQ892adFdYm7zCuMpWujwzwoQtYimvp3xXrnnCCyN47w@mail.gmail.com> <da536c80-7398-dae0-a22c-16e521be697a@suse.com>
+In-Reply-To: <da536c80-7398-dae0-a22c-16e521be697a@suse.com>
+From:   Xiaofan Chen <xiaofanc@gmail.com>
+Date:   Wed, 26 Jul 2023 11:20:24 +0800
+Message-ID: <CAGjSPUDtn-YMqmNrmku+hkyXCKys4XRue4wdzQwr+yGxe2cJSQ@mail.gmail.com>
+Subject: Re: [PATCH] USB: add usbfs ioctl to get specific superspeedplus rates
+To:     Oliver Neukum <oneukum@suse.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Tormod Volden <lists.tormod@gmail.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Dingyan Li <18500469033@163.com>, stern@rowland.harvard.edu,
+        sebastian.reichel@collabora.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 26.07.23 09:18, Greg KH wrote:
-> On Wed, Jul 26, 2023 at 02:44:01PM +0800, liulongfang wrote:
+On Wed, Jul 26, 2023 at 5:38=E2=80=AFPM Oliver Neukum <oneukum@suse.com> wr=
+ote:
+>
+> On 26.07.23 03:37, Xiaofan Chen wrote:
+> > On Tue, Jul 25, 2023 at 10:23=E2=80=AFPM Greg KH <gregkh@linuxfoundatio=
+n.org> wrote:
+>
+> Hi,
+>
+> >> So unless there is some actual need from userspace tools like libusb (=
+or
+> >> anything else?) that requires this new ioctl, let's not add it otherwi=
+se
+> >> we are signing ourselves up to support it for forever.
+> >
+> > Interestingly there is PR in libusb now, which uses sysfs for 20Gbps.
+>
+> True. Now would you write a patch for libusb?
+> This looks to be turning into a chicken and egg problem.
+>
+> > Maybe this new usbfs IOCTL is indeed good to have if we can not extend
+>
+> Looking at the code of libusb you can see that libusb has two modes
+> of operation. Either it finds sysfs, then it uses it, if not it
+> goes for the ioctl.
+>
+> Now, how well shall it work without sysfs? That is a design decision
+> and we should not be having this discussion again and again.
+>
+> BTW, that is not aimed at anybody personally, we are just trying to
+> avoid a basic decision and it will come back.
+>
+> > the existing IOCTL USBDEVFS_GET_SPEED (but why not?).
+>
+> It does not include the lane count.
+> And sort of fudging this into speed is a bad idea in the long
+> run because we are likely to have collisions in the future.
+>
+> We have a basic issue here. Do we require libusb to use sysfs or not?
 
->> This is a test conducted under a special test scenario.
->> ECC memory errors are caused by some test tools.
+Adding Hans de Goede and Tormod Volder (libusb admins) here in the discussi=
+ons
+as I am more into the testing and support side of libusb and not a
+real developer.
 
-So we are looking at a corner case here.
+libusb does work with or without sysfs and there are multiple commits relat=
+ed
+to sysfs vs usbfs.
 
-I think we need to step back, get an overview. And I would
-like to apologize for not being entirely helpful.
+An example commit from Hans in Sept 202 which is related to this discussion=
+.
+https://github.com/libusb/libusb/commit/f6068e83c4f5e5fba16b23b6a87f1f6d7ab=
+7200a
+++++++++++++++++
+linux: Fix libusb_get_device_speed() not working on wrapped devices
 
-I see a theoretical possibility here of what is going wrong
-and an extremely theoretical bug, but it would be very good
-if you could describe your test setup.
+We don't have a sysfs_dir for wrapped devices, so we cannot read the speed
+from sysfs.
 
-So. You are inducing simulated memory errors.
-For this scenario to make any sense your failure must be
+The Linux kernel has supported a new ioctl to get the speed directly from
+the fd for a while now, use that when we don't have sysfs access.
 
-1. temporary - that is you have detected memory corruption but the RAM cell is not broken
-2. unrecoverable - that is we have lost data
-3. locateable - that is you know it hit the buffer of this operation and only it
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1871818
+Reported-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
++++++++++++++++++
 
-Am I correct so far?
+To Hans and Tormod:
+Discussion thread for reference:
+https://lore.kernel.org/linux-usb/da536c80-7398-dae0-a22c-16e521be697a@suse=
+.com/T/#t
 
-Furthermore your system reports the error to the HC, so that in last
-consequence the transfer fails. Right?
 
-> What memory is failing, and why does just this single check matter in
-> the whole kernel?
-
-The difference here is that we are deliberately ignoring errors.
-  
-> If hardware is broken, and failing, it's not the job of the kernel to
-> protect against that, is it?  Shouldn't the ECC memory controller have
-> properly notified the kernel of the fault
-
-Definitely it should. But this whole discussion makes only sense
-if exactly that happens.
-
-> and reset the machine because
-> it is now in an undetermined state?
-
-No. It is not in an undetermined state if your detection logic is good enough.
-
-	Regards
-		Oliver
+--=20
+Xiaofan
