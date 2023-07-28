@@ -2,98 +2,87 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8150C0015E
-	for <linux-usb@archiver.kernel.org>; Fri, 28 Jul 2023 19:20:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F392AC001E0
+	for <linux-usb@archiver.kernel.org>; Fri, 28 Jul 2023 19:23:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233321AbjG1TUz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 28 Jul 2023 15:20:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43856 "EHLO
+        id S233639AbjG1TXE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 28 Jul 2023 15:23:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbjG1TUt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 28 Jul 2023 15:20:49 -0400
-X-Greylist: delayed 1500 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 28 Jul 2023 12:20:48 PDT
-Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E74901FFA;
-        Fri, 28 Jul 2023 12:20:47 -0700 (PDT)
-Received: by soltyk.jannau.net (Postfix, from userid 1000)
-        id EBA2B2701FE; Fri, 28 Jul 2023 20:31:35 +0200 (CEST)
-Date:   Fri, 28 Jul 2023 20:31:35 +0200
-From:   Janne Grunau <j@jannau.net>
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ville =?iso-8859-1?Q?Syrj=E4l=E4?= 
-        <ville.syrjala@linux.intel.com>, freedreno@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        linux-usb@vger.kernel.org,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
-        intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v6 2/3] drm/bridge_connector: stop filtering events in
- drm_bridge_connector_hpd_cb()
-Message-ID: <ZMQJh6BIM2mQ9fCo@jannau.net>
-References: <20230709202511.287794-1-dmitry.baryshkov@linaro.org>
- <20230709202511.287794-3-dmitry.baryshkov@linaro.org>
+        with ESMTP id S229622AbjG1TXD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 28 Jul 2023 15:23:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561EC11B;
+        Fri, 28 Jul 2023 12:23:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DE52F621D2;
+        Fri, 28 Jul 2023 19:23:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ECB7C433C8;
+        Fri, 28 Jul 2023 19:23:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690572181;
+        bh=bpqmvFe1tBhOBmXbLXPISbiAb+pX9YpEUC+7p3McqTA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QRHDQYe/a5s6LPy4yxR4fRYhyw0pfaCgRNW+brnvs2gUHBg2DaouOF79k9+AOLEJP
+         2E1Zr/jKibWAED9g3HemurePVU35CxA1MCn82DgRbp8dObtLXFbz7hGLIXfKbkezHC
+         aUb52JfUHDu96Aocn23T8uRf8e6CuOTGJNZbBlD4ZvhvyVqzPCfgqpieul2yy7gTEa
+         hmEbt3OooIzM6DobGUyp2A3q7SWzchp/p3lQihsWCFhaVDy05uCn6EVDT51iWEI6vo
+         mWKMM9K7iBIL+n5JQO5yPvoQhTRUCoUshi42AMLkGs9KgwM4OlMwbAZ5uLrUOUVdXQ
+         M0Z6uPDCWzRNw==
+Received: (nullmailer pid 1168530 invoked by uid 1000);
+        Fri, 28 Jul 2023 19:22:59 -0000
+Date:   Fri, 28 Jul 2023 13:22:59 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Varshini Rajendran <varshini.rajendran@microchip.com>,
+        gregkh@linuxfoundation.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 33/50] dt-bindings: usb: add sam9x7
+Message-ID: <20230728192259.GA1164895-robh@kernel.org>
+References: <20230728102843.266967-1-varshini.rajendran@microchip.com>
+ <c03f4364-3d97-531a-8acc-aae68de39562@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230709202511.287794-3-dmitry.baryshkov@linaro.org>
+In-Reply-To: <c03f4364-3d97-531a-8acc-aae68de39562@linaro.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2023-07-09 23:25:10 +0300, Dmitry Baryshkov wrote:
-> In some cases the bridge drivers would like to receive hotplug events
-> even in the case new status is equal to the old status. In the DP case
-> this is used to deliver "attention" messages to the DP host. Stop
-> filtering the events in the drm_bridge_connector_hpd_cb() and let
-> drivers decide whether they would like to receive the event or not.
-
-Worth mentioning in the commit message that all current bridges which 
-set .hpd_notify appear to be safe w.r.t multiple calls with the same 
-status. meson_encoder_hdmi.c will do unnecessary work when called 
-repeatedly with status connected. Not sure if it is worth adressing 
-since I don't expect multiple calls with connector_status_connected to 
-occur for this particular bridge.
-
-Reviewed-By: Janne Grunau <j@jannau.net>
-
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/drm_bridge_connector.c | 5 -----
->  1 file changed, 5 deletions(-)
+On Fri, Jul 28, 2023 at 01:48:01PM +0200, Krzysztof Kozlowski wrote:
+> On 28/07/2023 12:28, Varshini Rajendran wrote:
+> > Document sam9x7 compatible for usb ohci.
+> > 
+> > Signed-off-by: Varshini Rajendran <varshini.rajendran@microchip.com>
+> > ---
+> >  Documentation/devicetree/bindings/usb/generic-ohci.yaml | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+> > index be268e23ca79..a2490759f694 100644
+> > --- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+> > +++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+> > @@ -57,6 +57,12 @@ properties:
+> >                - nxp,ohci-nxp
+> >                - st,spear600-ohci
+> >            - const: usb-ohci
+> > +      - items:
+> > +          - enum:
+> > +              - microchip,sam9x7-ohci
+> > +          - enum:
 > 
-> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
-> index 19ae4a177ac3..84d8d310ef04 100644
-> --- a/drivers/gpu/drm/drm_bridge_connector.c
-> +++ b/drivers/gpu/drm/drm_bridge_connector.c
-> @@ -113,16 +113,11 @@ static void drm_bridge_connector_hpd_cb(void *cb_data,
->  	struct drm_bridge_connector *drm_bridge_connector = cb_data;
->  	struct drm_connector *connector = &drm_bridge_connector->base;
->  	struct drm_device *dev = connector->dev;
-> -	enum drm_connector_status old_status;
->  
->  	mutex_lock(&dev->mode_config.mutex);
-> -	old_status = connector->status;
->  	connector->status = status;
->  	mutex_unlock(&dev->mode_config.mutex);
->  
-> -	if (old_status == status)
-> -		return;
-> -
->  	drm_bridge_connector_hpd_notify(connector, status);
->  
->  	drm_kms_helper_hotplug_event(dev);
-> -- 
-> 2.39.2
+> That's not an enum. You cannot have here different compatibles.
 > 
+> > +              - atmel,at91rm9200-ohci
+> > +          - const: usb-ohci
+
+As mentioned elsewhere, you aren't really compatible having custom 
+properties. If you are adding this here, then stuff should be removed 
+from the .txt binding. You need to sort out this mess and the existing 
+warnings with 'usb-ohci' in Atmel dts files before adding on to it.
+
+Rob
