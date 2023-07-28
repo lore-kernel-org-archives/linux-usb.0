@@ -2,125 +2,80 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DB1FC0015E
-	for <linux-usb@archiver.kernel.org>; Fri, 28 Jul 2023 10:19:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03F40C0015E
+	for <linux-usb@archiver.kernel.org>; Fri, 28 Jul 2023 10:24:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235773AbjG1KT5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 28 Jul 2023 06:19:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48686 "EHLO
+        id S235818AbjG1KYA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 28 Jul 2023 06:24:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233497AbjG1KT4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 28 Jul 2023 06:19:56 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B95A23A96
-        for <linux-usb@vger.kernel.org>; Fri, 28 Jul 2023 03:19:47 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-d124309864dso1727721276.3
-        for <linux-usb@vger.kernel.org>; Fri, 28 Jul 2023 03:19:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690539587; x=1691144387;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qCnkLOusAvdrrWTSqkIH6Bmp+W/nX54guZfAcZWLujE=;
-        b=kWhHjCVcQp/OuWXbafYRHpht91G3RCQl9Iq7XIX/NdqEv997TOIHH1xIiL1P1aEYWa
-         QG+23PNU+nYooBkbvWRRRTxPD7gbGHdWo7X+2QAXcZJ7VRkcBpZoft6sWVih8L4+djce
-         CPL20EjiEKiKmJJSe+8VZFqxaZ8vbEj/oAajnwXodK5VBPLClZ6GAeLgrNlYlZV/1tot
-         99+EiJXC0gZWOSVXtX2saNFiIba3Xc0jUyjuhKqIzePWYfN3R2FQW6YVQvSudZaTcSrx
-         6V5qJGryJlONPSQnQWeClWeNy3UD9VyrkKezDpImBJH8XJE104HPChjqxHjFMjKZSvBT
-         S0ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690539587; x=1691144387;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qCnkLOusAvdrrWTSqkIH6Bmp+W/nX54guZfAcZWLujE=;
-        b=Jr0si/gSTIIP1kurwq0hFAOYp/S/HwdjrApdG63NxdOmTwB6tE6WloQm+fx+1aa+/R
-         cIThK5ez3FbsZx6Ej+wmFQAGNf3gMUbcauFQMdy0Ai3wH1PwqjzZ7uYP4mn6mKk6zIXk
-         CJ56eIBAlCHksdop+e2tltg9f4ENv0P3jk+YCl7Z5WRQ0pwjr+9rwxwRbsFD9KVhjmad
-         03hwEiZio+U6X902ZIo8PXKd1Pan3pR8PljKSpuJxeU1+pHUvUHnp4eQYYBdOhj0SOHM
-         IEpd4KpEZt70xwrb5RTlUrPZPoALP5A/O060YurNAKWZp9KrJRWZPkCiPblvv85ulSwa
-         qVBg==
-X-Gm-Message-State: ABy/qLbTAKzeKaJnvuVvcyEgVN3LTgwjWloe4ZCmUqdz9xRXLzJcCZB/
-        HKZH66/dm/WorBOulTpqGKVHwEmj9ijIe7lvKOPJbQ==
-X-Google-Smtp-Source: APBJJlForyLt7cNQ7qy3St40y3d0ASTk8IUe6IWJ9Su0XmN9wUU0pUVoHZ1Du58/u5n3xRN+wa69OnPzN+idqcLYWTs=
-X-Received: by 2002:a25:ae68:0:b0:d10:904a:cdf7 with SMTP id
- g40-20020a25ae68000000b00d10904acdf7mr1383429ybe.31.1690539586833; Fri, 28
- Jul 2023 03:19:46 -0700 (PDT)
+        with ESMTP id S235836AbjG1KXw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 28 Jul 2023 06:23:52 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF246421D;
+        Fri, 28 Jul 2023 03:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1690539819; x=1722075819;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8Jf6mTT0NG93rr1p7HYLhKRrI65Z3mrLqeiz6Xw3TYg=;
+  b=e7OODQby1qQ16al9a3lz4h0JqEboRVpz7ghj3aqI4FfNpuyj5f4ojFdB
+   rinNljzZ8OQiYzaxzbB7Cqj2E/Q/GZxpqGPQcLLJkSG9XAFKb0KgqBrSn
+   H4kvhGMOe0BBG4x+900fbIkSvEVVgV5kg4yusIKSFwd6pYVuigYCqupQD
+   SfQpVZwm2jxuLyBOe+0snHD/zclyBSfmW8MvVu3WrgrsJFUhik8VLjhUn
+   moH+2mrkvRviD7DpGsy9+rmfWJkWwQJ9HONttHTcX7NKHPYoHYfZeey+/
+   OPqod5kRqd41Ka5C4cf/5pgm9GhB888O36nraDRDK4W/3EUUhSopaP8xE
+   A==;
+X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; 
+   d="scan'208";a="227046886"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 28 Jul 2023 03:23:38 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 28 Jul 2023 03:23:27 -0700
+Received: from che-lt-i67070.amer.actel.com (10.10.115.15) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.2507.21 via Frontend Transport; Fri, 28 Jul 2023 03:23:23 -0700
+From:   Varshini Rajendran <varshini.rajendran@microchip.com>
+To:     <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <varshini.rajendran@microchip.com>, Rob Herring <robh@kernel.org>
+Subject: [PATCH v3 02/50] dt-bindings: usb: ehci: Add atmel at91sam9g45-ehci compatible
+Date:   Fri, 28 Jul 2023 15:53:18 +0530
+Message-ID: <20230728102318.265360-1-varshini.rajendran@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230728100857.471984-1-dmitry.baryshkov@linaro.org> <e4de7d39-978a-0996-1b03-8e7a6712b477@roeck-us.net>
-In-Reply-To: <e4de7d39-978a-0996-1b03-8e7a6712b477@roeck-us.net>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Fri, 28 Jul 2023 13:19:36 +0300
-Message-ID: <CAA8EJproo0yv7Zo6T6fVNfvDVy7JrtMCmixHH73iaWbssehZbg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] usb: typec: qcom-pmic-typec: enable DP support
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, 28 Jul 2023 at 13:14, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On 7/28/23 03:08, Dmitry Baryshkov wrote:
-> > To enable DisplayPort on the platforms supported by qcom-pmic-typec
-> > driver, we need to register a corresponding drm_bridge for this device
-> > to be able to receive the OOB hotplug event sent to the corresponding
-> > DRM connector.
-> >
-> > Reception of the hotplug event is implemented by [1], but there is no
-> > direct dependency on that patchset. This series implements the remaining
-> > parts: registration of the drm_bridge and setting of the proper
-> > destination for the OOB hotplug event.
-> >
-> > [1] https://patchwork.freedesktop.org/series/120393/
-> >
-> > Changes since v2:
-> > - Reworded commit message for the first patch to explicitly mention that
-> >    the "displayport" OF property was rejected (Bjorn)
-> > - Removed several #ifdefs from the qcom-pmic-typec patch (Bryan, Konrad,
-> >    Greg K-H)
-> >
-> > Changes since v1:
-> > - Properly handle CONFIG_DRM dependency. Disallow building DRM as a
-> >    module if qcom-pmic-typec driver is built-in (Bryan).
->
->   config TYPEC_QCOM_PMIC
->         tristate "Qualcomm PMIC USB Type-C Port Controller Manager driver"
->         depends on ARCH_QCOM || COMPILE_TEST
-> +       depends on DRM || DRM=n
->
-> This disallows building TYPEC_QCOM_PMIC into the kernel if DRM is built
-> as module, which is pretty much the opposite of what is claimed above.
-> It does not affect DRM at all.
->
-> Not that it matters much, but I find it confusing if the change log
-> claims to do the opposite of what the code is doing.
+Document at91sam9g45-ehci compatible for usb-ehci.
 
-Ack. If there is a v4 I'll fix the changelog to invert the condition.
+Signed-off-by: Varshini Rajendran <varshini.rajendran@microchip.com>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/usb/generic-ehci.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
->
-> Guenter
->
-> >
-> > Dmitry Baryshkov (2):
-> >    usb: typec: altmodes/displayport: add support for embedded DP cases
-> >    usb: typec: qcom-pmic-typec: register drm_bridge
-> >
-> >   drivers/usb/typec/altmodes/displayport.c      |  5 ++-
-> >   drivers/usb/typec/tcpm/Kconfig                |  1 +
-> >   drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c | 35 +++++++++++++++++++
-> >   3 files changed, 40 insertions(+), 1 deletion(-)
-> >
->
-
-
+diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+index b956bb5fada7..e5c8f4e085de 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+@@ -67,6 +67,7 @@ properties:
+           - const: generic-ehci
+       - items:
+           - enum:
++              - atmel,at91sam9g45-ehci
+               - cavium,octeon-6335-ehci
+               - ibm,usb-ehci-440epx
+               - ibm,usb-ehci-460ex
 -- 
-With best wishes
-Dmitry
+2.25.1
+
