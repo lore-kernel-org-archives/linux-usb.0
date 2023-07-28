@@ -2,84 +2,61 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48CF8C001DE
-	for <linux-usb@archiver.kernel.org>; Fri, 28 Jul 2023 10:30:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7F6CC0015E
+	for <linux-usb@archiver.kernel.org>; Fri, 28 Jul 2023 10:46:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234302AbjG1Kax (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 28 Jul 2023 06:30:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59282 "EHLO
+        id S234629AbjG1KqG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 28 Jul 2023 06:46:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235834AbjG1Kab (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 28 Jul 2023 06:30:31 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3FF059C9;
-        Fri, 28 Jul 2023 03:28:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1690540133; x=1722076133;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=MRaQpZ0O+GmIjSSPmtCqS1RhB+CH/HoJ5cNyVqtoWsM=;
-  b=ZoecFRhzSBWUpzK+ahVPhg7Yd2xyujs3qvG4HUWDlqk6InTcD+Qlhfsj
-   UrNV4rrOlYW2ANYMkmgUmg9+Qydab3m4jTipj3hlm48zUJkTNJ7titFyZ
-   HvkXDqWnmVKJrEfa2jamWeTU8d2DS4FAUs/064yJZbSbajb1lUwh9BX9/
-   Tc8mxdXiK6UoU07eWJru+HqawmkmVm5O9CeJifah02YOo5BVuBfxHvLwM
-   QCsteCWRQHekgHlZKA8m+f6J/G/OQGxyX+K1UbSpz2Gjg7VnqLPN09X4K
-   +h4R5Mxqm9bKpfXnqbv5+jXmaWmTuNeHMZ6h0dOAMrLyq1s3RS19OCTPg
-   A==;
-X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; 
-   d="scan'208";a="227047467"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 28 Jul 2023 03:28:50 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 28 Jul 2023 03:28:42 -0700
-Received: from che-lt-i67070.amer.actel.com (10.10.115.15) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.21 via Frontend Transport; Fri, 28 Jul 2023 03:28:39 -0700
-From:   Varshini Rajendran <varshini.rajendran@microchip.com>
-To:     <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <varshini.rajendran@microchip.com>
-Subject: [PATCH v3 32/50] dt-bindings: usb: ehci: Add sam9x7
-Date:   Fri, 28 Jul 2023 15:58:36 +0530
-Message-ID: <20230728102836.266918-1-varshini.rajendran@microchip.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S233660AbjG1KqE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 28 Jul 2023 06:46:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A1B1A0;
+        Fri, 28 Jul 2023 03:46:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EA3F6620D9;
+        Fri, 28 Jul 2023 10:46:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E91ADC433C7;
+        Fri, 28 Jul 2023 10:46:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1690541162;
+        bh=Aw9zQDUwmF8mcqYjQGFVNqVy+2g4jvxNOf80m5uLU30=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TafXzI+Aat/LZKgWiGZ9YJDetnYPd/hpYKMBSWEpGQln02GXg+GYn0rFEpP1r4tBF
+         cRhbWEeytqWEQAKmXzdQ9PduXxkEUPg8JDIGSIXMuERr26N76IEZqZ1qF6vufkM6LI
+         /mJ0vjJQCF6Mu1cHKvWHLxzWMuyWtMX7mUPabP4I=
+Date:   Fri, 28 Jul 2023 12:45:59 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Surong Pang <surong.pang@unisoc.com>
+Cc:     Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Orson.Zhai@unisoc.com,
+        Zhiyong.liu@unisoc.com, Surong.Pang@gmail.com
+Subject: Re: [PATCH] usb: dwc3: gadget: let pm runtime get/put paired
+Message-ID: <2023072844-ceremony-lushness-c229@gregkh>
+References: <20230728073919.6473-1-surong.pang@unisoc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230728073919.6473-1-surong.pang@unisoc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Document sam9x7 compatible for usb-ehci.
+On Fri, Jul 28, 2023 at 03:39:19PM +0800, Surong Pang wrote:
+> Pm_runtime_get is called when setting pending_events to true.
+> Pm_runtime_put is needed for pairing with pm_runtime_get.
+> 
+> Signed-off-by: Surong Pang <surong.pang@unisoc.com>
+> ---
+>  drivers/usb/dwc3/gadget.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Signed-off-by: Varshini Rajendran <varshini.rajendran@microchip.com>
----
- Documentation/devicetree/bindings/usb/generic-ehci.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+What commit id does this fix?
 
-diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-index e5c8f4e085de..afc4da89dde5 100644
---- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-@@ -82,6 +82,12 @@ properties:
-           - nuvoton,npcm845-ehci
-           - ti,ehci-omap
-           - usb-ehci
-+      - items:
-+          - enum:
-+              - microchip,sam9x7-ehci
-+          - enum:
-+              - atmel,at91sam9g45-ehci
-+          - const: usb-ehci
- 
-   reg:
-     minItems: 1
--- 
-2.25.1
+thanks,
 
+greg k-h
