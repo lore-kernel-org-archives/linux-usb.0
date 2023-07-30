@@ -2,84 +2,69 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7E9BC001DC
-	for <linux-usb@archiver.kernel.org>; Sun, 30 Jul 2023 18:34:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C37F7C04A94
+	for <linux-usb@archiver.kernel.org>; Sun, 30 Jul 2023 19:43:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229582AbjG3Sed (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 30 Jul 2023 14:34:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60824 "EHLO
+        id S230083AbjG3Tnd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 30 Jul 2023 15:43:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjG3Sed (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 30 Jul 2023 14:34:33 -0400
+        with ESMTP id S230133AbjG3Tn3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 30 Jul 2023 15:43:29 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D28B10DF
-        for <linux-usb@vger.kernel.org>; Sun, 30 Jul 2023 11:34:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8146CE44;
+        Sun, 30 Jul 2023 12:43:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8B73660C98
-        for <linux-usb@vger.kernel.org>; Sun, 30 Jul 2023 18:34:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DCE56C433C7
-        for <linux-usb@vger.kernel.org>; Sun, 30 Jul 2023 18:34:30 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 714FD60D37;
+        Sun, 30 Jul 2023 19:43:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AF236C43395;
+        Sun, 30 Jul 2023 19:43:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690742070;
-        bh=2voImRoBji7YZrxm8fO2gCgAbkpBW7fLlfcjA47XAZM=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=l6AyWAqk4p+PzzXadKzUI9Wi+GsnuTqyPVjMOh+fx0x6sdr+WZNILdCTWVNPkDb9F
-         YUDQoXPXJ9DLpKSIKqXDHA4VbB5J7qJE8qPMEU/E4HYM8aotHkq9HpBMJdBLWn3Dol
-         xllbHTeFhqD2sDNcEPQmRLJifBtZzzn27bGvyCTH08gF6VszdMgGt+QS28eoTWBcxG
-         SAow7jMCMmXnkVoPgPINRkIO7ie+43Ak6+rjs1cDxQygF8FVh6TWT9wHhV76XWwC2e
-         mq0hKAcyad05dgQQBxFmGe7j3ZyDeBwea1Wm2m2fccuu+1FrMc98rztOhKLbHirBXl
-         a3uaRGz3qJEBw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id C4A0CC4332E; Sun, 30 Jul 2023 18:34:30 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 217715] USB from Thunderbolt 2 dock disconnects (xHCI host not
- responding)
-Date:   Sun, 30 Jul 2023 18:34:30 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: youp1one1@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217715-208809-TDRIVxiAb7@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217715-208809@https.bugzilla.kernel.org/>
-References: <bug-217715-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+        s=k20201202; t=1690746206;
+        bh=oNkkLwA2dNWTA88gl2+U89c8ZkRTX6JkHxpGiOGwd9E=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=ooTngQwxHKlMgbVqUbIvLqrj0JtlAdoA6b4kRQeu3ivdC2quJIt0z+t49mTyX7fZA
+         xyOQ5ODLDPir23lVrUqSUnzY4LXHUL7O7xLFwR8Ngz4lHB+3oO4kSk+GUQVU00InPe
+         j5+v0R15LK+rsrldwelYmCjabYAjbGM8zDw2IrKFJzYXFcXODql71VNUnozIGBzoxF
+         4HNpffmZhICI4NpkYTlAnxsxMvx5Kgryte34peLtoqbserG/BiyzmbYVd1XxTQTrcg
+         LzgrEWsyW7s6/g2mhWZ2P/mREb6uBSGPFO+GPkLtNsnIXK7rZx8RZvJnATT0JG7Phu
+         IhB+vyN1/BwQw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9C89AC595D0;
+        Sun, 30 Jul 2023 19:43:26 +0000 (UTC)
+Subject: Re: [GIT PULL] USB driver fixes for 6.5-rc4
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <ZMZEoJr2cPzC-Pss@kroah.com>
+References: <ZMZEoJr2cPzC-Pss@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <ZMZEoJr2cPzC-Pss@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-6.5-rc4
+X-PR-Tracked-Commit-Id: 7f2327666a9080e428166964e37548b0168cd5e9
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 88f66f13ea51029280d3f91feafb6d66296c95d0
+Message-Id: <169074620663.25913.6025370919549229764.pr-tracker-bot@kernel.org>
+Date:   Sun, 30 Jul 2023 19:43:26 +0000
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217715
+The pull request you sent on Sun, 30 Jul 2023 13:08:16 +0200:
 
---- Comment #5 from youp1one1@gmail.com ---
-I've been testing with v6.5-rc3 and it has been promising, with no
-disconnections during several hours.
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-6.5-rc4
 
-For the time being, I had to revert to the distro's current kernel for other
-reasons (some third party modules not being compiled for 6.5) but I will be
-able to definitely tell is v6.5 fixes this issue when Tumbleweed is updated=
- to
-it, I suppose in a few weeks.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/88f66f13ea51029280d3f91feafb6d66296c95d0
 
---=20
-You may reply to this email to add a comment.
+Thank you!
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
