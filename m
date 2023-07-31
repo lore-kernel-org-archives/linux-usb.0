@@ -2,129 +2,62 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1AD5C41513
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Aug 2023 09:19:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5873DC04A94
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Aug 2023 09:27:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232696AbjHAJTs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Aug 2023 05:19:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47650 "EHLO
+        id S229839AbjHAJ1Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Aug 2023 05:27:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232842AbjHAJTP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Aug 2023 05:19:15 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1ABA198C;
-        Tue,  1 Aug 2023 02:17:30 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37189ds0009279;
-        Tue, 1 Aug 2023 09:04:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=KHfLUQGL6faL0F/nqq7dox/0afIBoQuFJvhxwvUo7Oo=;
- b=diTWugTb2yTf4hkW+pNfpS9azQ74t3yZV0fCwa3NekRR9yV+aas5eXl5iYZrkTSioqc4
- t0EKxl/+b82tSbd9zy3q6RwXp0BaVDQwMzIGf0VCiwozB79wKmta5cUZaW6PFLco2eCV
- p67zCtn4LeG+DDrAgnOax/7Y6+EQQpc0uX9SuJo3yXQr+IQeCCzoTZG0QlJPROz6uHDG
- /4a1HMTwEfG/aK0rAECPAZ9G3H9EuscWk48Hx0XIKoD0+0DBGc+Zfj908sKZZ6pNuRD/
- tqC4GfIUdt4rLb+R+OrpgvKbLOLQ+lfNss7uCsgfrfdRlAEz3LHyQD245Yu7ImMJfqai cg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s6ckfjr6u-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 01 Aug 2023 09:04:11 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3719400G019389
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 1 Aug 2023 09:04:00 GMT
-Received: from hu-prashk-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Tue, 1 Aug 2023 02:03:57 -0700
-From:   Prashanth K <quic_prashk@quicinc.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Prashanth K <quic_prashk@quicinc.com>,
-        "# 5 . 4" <stable@vger.kernel.org>
-Subject: [PATCH v3] usb: common: usb-conn-gpio: Prevent bailing out if initial role is none
-Date:   Tue, 1 Aug 2023 14:33:52 +0530
-Message-ID: <1690880632-12588-1-git-send-email-quic_prashk@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+        with ESMTP id S232883AbjHAJ07 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Aug 2023 05:26:59 -0400
+X-Greylist: delayed 86700 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 01 Aug 2023 02:25:58 PDT
+Received: from mail.cothiafon.pl (mail.cothiafon.pl [217.61.106.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9404FE48
+        for <linux-usb@vger.kernel.org>; Tue,  1 Aug 2023 02:25:58 -0700 (PDT)
+Received: by mail.cothiafon.pl (Postfix, from userid 1002)
+        id DC6F7837CD; Mon, 31 Jul 2023 10:36:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cothiafon.pl; s=mail;
+        t=1690792633; bh=dwoca0X6C9VXklO/zRgFQCPapTk5LFz4tKaENdvy6Po=;
+        h=Date:From:To:Subject:From;
+        b=ODR91VASoK8twvddcDG0VTucQOlwW5HqRc0qiCVWi4+6V5jjvx9vRtZL6+Y6+Fb8/
+         mTb4R3/jR+ThUeMEypwmJUi8wdn240ijkaN4wvc4EvvXE86X5qbvuBUhkHF5McbpLn
+         KWVO2itJ1XIkacn4FOEDAPmAYgDWXbZhlCAfsWJNFqNjdOoj41ukIB+xG+d5QBDz3L
+         Jh+qZBnqj4qk7UZaSq+NoKuSqIjdvlq8KeQu13FBVCpfUW+RNtmZHV2iHYop34M5C8
+         nyD6XHglQOqM2JQfbRqL4FQQM5waVQTq0oHC+y/jeUyp9rjqJwYd/aDeA8NPKOyJrf
+         mkey3Z01t4qGw==
+Received: by mail.cothiafon.pl for <linux-usb@vger.kernel.org>; Mon, 31 Jul 2023 08:35:48 GMT
+Message-ID: <20230731095940-0.1.28.onhr.0.ef2mb8ps3h@cothiafon.pl>
+Date:   Mon, 31 Jul 2023 08:35:48 GMT
+From:   =?UTF-8?Q? "Rados=C5=82aw_Grabowski" ?= 
+        <radoslaw.grabowski@cothiafon.pl>
+To:     <linux-usb@vger.kernel.org>
+Subject: W sprawie samochodu
+X-Mailer: mail.cothiafon.pl
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: WOAdOjPmQ1559TjJLMp9b0ORUc9TQPci
-X-Proofpoint-ORIG-GUID: WOAdOjPmQ1559TjJLMp9b0ORUc9TQPci
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-01_03,2023-07-31_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
- lowpriorityscore=0 priorityscore=1501 impostorscore=0 adultscore=0
- bulkscore=0 mlxlogscore=843 spamscore=0 clxscore=1011 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308010082
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently if we bootup a device without cable connected, then
-usb-conn-gpio won't call set_role() because last_role is same
-as current role. This happens since last_role gets initialised
-to zero during the probe.
+Dzie=C5=84 dobry,
 
-To avoid this, add a new flag initial_detection into struct
-usb_conn_info, which prevents bailing out during initial
-detection.
+chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
+, je=C5=9Bli chodzi o system monitoringu GPS.
 
-Cc: <stable@vger.kernel.org> # 5.4
-Fixes: 4602f3bff266 ("usb: common: add USB GPIO based connection detection driver")
-Signed-off-by: Prashanth K <quic_prashk@quicinc.com>
----
-v3: Added cc tag as suggested by the patch-bot.
-v2: Updated the bool name to initial_detection.
+Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
+e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
+a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
 
- drivers/usb/common/usb-conn-gpio.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
+dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
+szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
+mne znaczenie.
 
-diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
-index 766005d..501e8bc9 100644
---- a/drivers/usb/common/usb-conn-gpio.c
-+++ b/drivers/usb/common/usb-conn-gpio.c
-@@ -42,6 +42,7 @@ struct usb_conn_info {
- 
- 	struct power_supply_desc desc;
- 	struct power_supply *charger;
-+	bool initial_detection;
- };
- 
- /*
-@@ -86,11 +87,13 @@ static void usb_conn_detect_cable(struct work_struct *work)
- 	dev_dbg(info->dev, "role %s -> %s, gpios: id %d, vbus %d\n",
- 		usb_role_string(info->last_role), usb_role_string(role), id, vbus);
- 
--	if (info->last_role == role) {
-+	if (!info->initial_detection && info->last_role == role) {
- 		dev_warn(info->dev, "repeated role: %s\n", usb_role_string(role));
- 		return;
- 	}
- 
-+	info->initial_detection = false;
-+
- 	if (info->last_role == USB_ROLE_HOST && info->vbus)
- 		regulator_disable(info->vbus);
- 
-@@ -258,6 +261,7 @@ static int usb_conn_probe(struct platform_device *pdev)
- 	device_set_wakeup_capable(&pdev->dev, true);
- 
- 	/* Perform initial detection */
-+	info->initial_detection = true;
- 	usb_conn_queue_dwork(info, 0);
- 
- 	return 0;
--- 
-2.7.4
+Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
+b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
 
+
+Pozdrawiam
+Rados=C5=82aw Grabowski
