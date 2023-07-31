@@ -2,68 +2,166 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7941CC001DC
-	for <linux-usb@archiver.kernel.org>; Mon, 31 Jul 2023 11:18:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9469C001E0
+	for <linux-usb@archiver.kernel.org>; Mon, 31 Jul 2023 11:21:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232502AbjGaLSQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 31 Jul 2023 07:18:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60742 "EHLO
+        id S231417AbjGaLV3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 31 Jul 2023 07:21:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231162AbjGaLSM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 31 Jul 2023 07:18:12 -0400
-Received: from mgamail.intel.com (unknown [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28764E52;
-        Mon, 31 Jul 2023 04:18:12 -0700 (PDT)
+        with ESMTP id S229777AbjGaLVT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 31 Jul 2023 07:21:19 -0400
+Received: from mgamail.intel.com (unknown [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68A311725;
+        Mon, 31 Jul 2023 04:21:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690802292; x=1722338292;
+  t=1690802472; x=1722338472;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=87FJUSPLcNXOCb7lHfymEPJKHULKnzHi3EOabZ1gBGw=;
-  b=PbRZrZDQV18A7KoxfUbO5ap13+ZUmfrFfuKSsI49ovs7gRLi12MFngVg
-   dHkQwpWhpi7xCvAFdwv3D4sUlfGu/vPHQ5Ih6gaVTwmU+CghrTtbccO4l
-   DUeQUBbAt1N/7pOUYo1ozrK83xRO4IcbZkugVROJwkO+A+dvdSTe7zQPR
-   JnJD0FUEB7EiM6k7bg5xb2xI8D2md6MT+oIhfp3vCXk0tYDYq4I2RjNDv
-   zMzrPLk9UCxJSCFmF/IKkwKvPilHWVA7t/U2sqLShcbS+JGPKCIjJIL9N
-   DkJMSOrQCn/evYnay0pFmQfl/xkvIJQFXCqBorqXiOIp3/SFa9ynv9Him
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="399939020"
+  bh=F383v6e7PZXrXOhnmeDdxH0xkRInOWuQNTUB1QVjx2g=;
+  b=lAColInEjFEl99nnulzmqTT//Zb/S8ep8yvbyhZL1YEAXeWk2OQz5a/n
+   EzwvyQ4UYWe4RpQrHt9IQ/NVt6heeY2mkoyzt/fbi0vx8+g0Ws+CGrXhX
+   6TeTJSjYylDw5/gAu0hRZDnCqhhLYqu+H6xGfi2+dV3lE1e/dKtgR0BoE
+   vLEIGB6ADT3347h2TvMsMssfW7jwWWzhY571dLqMStqtrQdbykLB4VFFm
+   iEOo4H2EycXSzavox0sYJFHAxqfJrahQ2VSzGMTfmSVmdBU1WM0+m6iIE
+   R/uo8BRKtPVd3ADoW7dNpksP6BuXIV5iLxCponSOpfYmBmL14pI7L0YAQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="455364791"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="399939020"
+   d="scan'208";a="455364791"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 04:14:07 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 04:16:26 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="871645957"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2023 04:14:07 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id A981B1E8; Mon, 31 Jul 2023 14:14:15 +0300 (EEST)
-Date:   Mon, 31 Jul 2023 14:14:15 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Tom Rix <trix@redhat.com>
-Cc:     andreas.noever@gmail.com, michael.jamet@intel.com,
-        YehezkelShB@gmail.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] thunderbolt: set variable tmu_params storage class
- specifier to static
-Message-ID: <20230731111415.GH14638@black.fi.intel.com>
-References: <20230702190608.3441704-1-trix@redhat.com>
+   d="scan'208";a="871646173"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 31 Jul 2023 04:16:25 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 31 Jul 2023 14:16:22 +0300
+Date:   Mon, 31 Jul 2023 14:16:22 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     RD Babiera <rdbabiera@google.com>
+Cc:     linux@roeck-us.net, gregkh@linuxfoundation.org, kyletso@google.com,
+        badhri@google.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v1] usb: typec: tcpm: set initial svdm version based on
+ pd revision
+Message-ID: <ZMeYBvD+I1U8HNfF@kuha.fi.intel.com>
+References: <20230726020810.1408299-1-rdbabiera@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230702190608.3441704-1-trix@redhat.com>
+In-Reply-To: <20230726020810.1408299-1-rdbabiera@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Jul 02, 2023 at 03:06:08PM -0400, Tom Rix wrote:
-> smatch reports
-> drivers/thunderbolt/tmu.c:30:3: warning: symbol
->   'tmu_params' was not declared. Should it be static?
-> 
-> This variable is only used in its defining file so should be static.
-> 
-> Signed-off-by: Tom Rix <trix@redhat.com>
+Hi,
 
-Applied, thanks!
+I'm sorry to keep you waiting.
+
+On Wed, Jul 26, 2023 at 02:08:07AM +0000, RD Babiera wrote:
+> When sending Discover Identity messages to a Port Partner that uses Power
+> Delivery v2 and SVDM v1, we currently send PD v2 messages with SVDM v2.0,
+> expecting the port partner to respond with its highest supported SVDM
+> version as stated in Section 6.4.4.2.3 in the Power Delivery v3
+> specification. However, sending SVDM v2 to some Power Delivery v2 port
+> partners results in a NAK whereas sending SVDM v1 does not.
+> 
+> NAK messages can be handled by the initiator (PD v3 section 6.4.4.2.5.1),
+> and one solution could be to resend Discover Identity on a lower SVDM
+> version if possible. But, Section 6.4.4.3 of PD v2 states that "A NAK
+> response Should be taken as an indication not to retry that particular
+> Command."
+> 
+> Instead, we can set the SVDM version to the maximum one supported by the
+> negotiated PD revision. When operating in PD v2, this obeys Section
+> 6.4.4.2.3, which states the SVDM field "Shall be set to zero to indicate
+> Version 1.0." In PD v3, the SVDM field "Shall be set to 01b to indicate
+> Version 2.0."
+
+This makes sense to me, but couple of nitpicks below.
+
+> Fixes: c34e85fa69b9 ("usb: typec: tcpm: Send DISCOVER_IDENTITY from dedicated work")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: RD Babiera <rdbabiera@google.com>
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 35 +++++++++++++++++++++++++++++++----
+>  1 file changed, 31 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index 829d75ebab42..5b0a428fcf5d 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -3928,6 +3928,31 @@ static enum typec_cc_status tcpm_pwr_opmode_to_rp(enum typec_pwr_opmode opmode)
+>  	}
+>  }
+>  
+> +static void tcpm_set_initial_svdm_version(struct tcpm_port *port)
+> +{
+> +	switch (port->negotiated_rev) {
+> +	case PD_REV30:
+> +		break;
+> +	/*
+> +	 * 6.4.4.2.3 Structured VDM Version
+> +	 * 2.0 states "At this time, there is only one version (1.0) defined.
+> +	 * This field Shall be set to zero to indicate Version 1.0."
+> +	 * 3.0 states "This field Shall be set to 01b to indicate Version 2.0."
+> +	 * To ensure that we follow the Power Delivery revision we are currently
+> +	 * operating on, downgrade the SVDM version to the highest one supported
+> +	 * by the Power Delivery revision.
+> +	 */
+> +	case PD_REV20:
+> +		typec_partner_set_svdm_version(port->partner,
+> +					       SVDM_VER_1_0);
+
+One line is enough.
+
+> +		break;
+> +	default:
+> +		typec_partner_set_svdm_version(port->partner,
+> +					       SVDM_VER_1_0);
+
+Ditto.
+
+> +		break;
+> +	}
+> +}
+> +
+>  static void run_state_machine(struct tcpm_port *port)
+>  {
+>  	int ret;
+> @@ -4165,9 +4190,10 @@ static void run_state_machine(struct tcpm_port *port)
+>  		 * For now, this driver only supports SOP for DISCOVER_IDENTITY, thus using
+>  		 * port->explicit_contract to decide whether to send the command.
+>  		 */
+> -		if (port->explicit_contract)
+> +		if (port->explicit_contract) {
+> +			tcpm_set_initial_svdm_version(port);
+>  			mod_send_discover_delayed_work(port, 0);
+> -		else
+> +		} else
+>  			port->send_discover = false;
+
+The else statement needs to be wrapped in curly brackets in this case
+since the if statement had them.
+
+>  		/*
+> @@ -4455,9 +4481,10 @@ static void run_state_machine(struct tcpm_port *port)
+>  		 * For now, this driver only supports SOP for DISCOVER_IDENTITY, thus using
+>  		 * port->explicit_contract.
+>  		 */
+> -		if (port->explicit_contract)
+> +		if (port->explicit_contract) {
+> +			tcpm_set_initial_svdm_version(port);
+>  			mod_send_discover_delayed_work(port, 0);
+> -		else
+> +		} else
+>  			port->send_discover = false;
+
+Ditto.
+
+thanks,
+
+-- 
+heikki
