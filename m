@@ -2,79 +2,65 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 235B4C0015E
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Aug 2023 10:29:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05395C001E0
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Aug 2023 10:40:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231961AbjHAK3p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Aug 2023 06:29:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49232 "EHLO
+        id S231946AbjHAKkk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Aug 2023 06:40:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230294AbjHAK3o (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Aug 2023 06:29:44 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44F3EDB
-        for <linux-usb@vger.kernel.org>; Tue,  1 Aug 2023 03:29:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        with ESMTP id S231133AbjHAKki (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Aug 2023 06:40:38 -0400
+X-Greylist: delayed 487 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 01 Aug 2023 03:40:36 PDT
+Received: from iam.tj (yes.iam.tj [109.74.197.121])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EBB9A1
+        for <linux-usb@vger.kernel.org>; Tue,  1 Aug 2023 03:40:36 -0700 (PDT)
+Received: from [IPV6:2a01:7e00:e001:ee80:145d:5eff:feb1:1df1] (unknown [IPv6:2a01:7e00:e001:ee80:145d:5eff:feb1:1df1])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BFC7861529
-        for <linux-usb@vger.kernel.org>; Tue,  1 Aug 2023 10:29:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2DFE9C433C8
-        for <linux-usb@vger.kernel.org>; Tue,  1 Aug 2023 10:29:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690885782;
-        bh=6vr5dDdeilL3GcaoYBqTl0b/3gP6Ukr7lfhO+DrgocY=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=Dro/TGrGYibre3zy67NTRDF97rdPEEXIJwMeKubeTOLATecEoY86miYN+zTMDZeMC
-         a5bxYpCsOg5C7Xa7sc/DvSSqBS0V//z/zPIKwcNmLGm6AsixD3Bziqz4Nj6qCBz9QL
-         HQzsNb90QzT6VQc+fNigEFfZZoedg7HOZG4B4vnDU9XsKuIJpnObmME0P8neKXiGbE
-         jGzBWzW+geRXKeA9feul3uFTveLZESUp38pNSsrr8TS9IVVRZx3FyFpvxExu7hID9V
-         soez5nkg9DOSBbK7XFRzhGlRZoFmeF1gvgel92DxuBAZTl5STcICllKHy67aIDnNkQ
-         h4mcIZjheyV1g==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 1D4AEC53BD0; Tue,  1 Aug 2023 10:29:42 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 217744] "usb usb2-port3: Cannot enable. Maybe the USB cable is
- bad?" Tiger Lake-LP Thunderbolt 4 [8086:9a13]
-Date:   Tue, 01 Aug 2023 10:29:41 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: linux@iam.tj
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-217744-208809-bObhbA0RP7@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217744-208809@https.bugzilla.kernel.org/>
-References: <bug-217744-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        by iam.tj (Postfix) with ESMTPSA id 05DAE347BA
+        for <linux-usb@vger.kernel.org>; Tue,  1 Aug 2023 11:32:27 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=iam.tj; s=2019;
+        t=1690885948; bh=L9FoNLvG9+s4JWl7AjEN3gf9R647YZ5TzCXBusV9RGo=;
+        h=Date:To:From:Subject:From;
+        b=FV2z+zzbjjnfHMwSuVRUJeMwg4UHLAEvSZiWXbcq10+m1jG791+6xc3NGCI1Qo8NR
+         eqA8cEHmSFwvd7vUINu7Ldo04kLVDSrS3VSofClZKX9ckztHZGrJG3hlqnpyZb07sV
+         PhNOqAKeWMsvsdhwBpaBxUQ83LhLFNQHZx2F9+8jaZ2HlKSc3j6XozvcmHLYeKTuTf
+         B55wM/qoAUGU6ONfi72R4fpkdBcdDhtaluD0U/Zu+Xq45nzIsgdpO+z9rn/KK2T7dw
+         LLJFQkXGQ4FwxbkjEK107RCBumdNXmoT8vdzeLDPsh/NEHuvW0lcPx0zusUuQzrRZW
+         tNT/SJvNEz9+Q==
+Message-ID: <61dd0e13-3483-8b16-7f8c-0b419b9e1812@iam.tj>
+Date:   Tue, 1 Aug 2023 11:32:26 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Content-Language: en-GB
+To:     linux-usb@vger.kernel.org
+From:   Tj <linux@iam.tj>
+Subject: Resume: "usb usb2-port3: Cannot enable. Maybe the USB cable is bad?"
+ Tiger Lake-LP Thunderbolt 4 [8086:9a13]
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217744
+See https://bugzilla.kernel.org/show_bug.cgi?id=217744 for kernel log etc.
 
---- Comment #2 from TJ (linux@iam.tj) ---
-Created attachment 304748
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304748&action=3Dedit
-lsusb -vt
+On resume from suspend, since at least v6.1 and including v6.5-rc4 - an 
+external USB Ethernet device fails to resume due to:
 
---=20
-You may reply to this email to add a comment.
+usb usb2-port3: Cannot enable. Maybe the USB cable is bad?
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Linux version 6.5.0-rc4+debian+tj (root@linux-builder) (gcc (Debian 
+12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40) #67 SMP 
+PREEMPT_DYNAMIC Mon Jul 31 22:25:03 BST 2023
+
+DMI: LENOVO 20W6001WUS/20W6001WUS, BIOS N34ET53W (1.53 ) 08/31/2022
+
+The affected owner (nickname 'Chosen_') and myself worked in Matrix 
+Linux room to narrow down the cause by building and testing v6.5-rc4 
+when the Debian distro v6.1 showed the problem. There is no difference 
+in the symptoms or the kernel messages between the versions.
+
+Owner is prepared to work with developers to investigate and resolve this.
