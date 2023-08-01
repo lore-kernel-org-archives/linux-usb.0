@@ -2,93 +2,194 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A420EB64DD
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Aug 2023 08:00:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4FA2C0015E
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Aug 2023 08:34:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231363AbjHAIA0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Aug 2023 04:00:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56534 "EHLO
+        id S232297AbjHAIe2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Aug 2023 04:34:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231354AbjHAIAY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Aug 2023 04:00:24 -0400
-Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F45E1729;
-        Tue,  1 Aug 2023 01:00:22 -0700 (PDT)
-Received: by mail-vs1-xe36.google.com with SMTP id ada2fe7eead31-4475df91bb1so1930666137.3;
-        Tue, 01 Aug 2023 01:00:22 -0700 (PDT)
+        with ESMTP id S232014AbjHAIe0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Aug 2023 04:34:26 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B31371FCB;
+        Tue,  1 Aug 2023 01:34:21 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-68336d06620so5287545b3a.1;
+        Tue, 01 Aug 2023 01:34:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690876821; x=1691481621;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8T0bBwSwzl77NsnJjiK4EPnZtnK97qsCDrwsNw5L9Ek=;
-        b=So57Ysfo0+B4yZGE1xPSR1ytBJV/m+B6Hdqc7jy/xC5nuZV+8lzvOk8b9jfFXxdCJp
-         fr8q1DlFItBzb/XVi95/uWKmuVr7Q2cQx1k5Y2NGqHwAxhpO2ZifZlz9sbqEpYWAGEMR
-         /1UcwBTfKtFkiqRtxJ6F0oclrR14BKZncqDZMUAZ1JbOCeRqwY8FkV4vFDFdbUgT0rMl
-         LAhBGBKGz3ARYag93wXVP2czG5OZ7Vyi05BUvNNrM2oz0VX7E4VWbAsoLN7CIYtBJ9Cb
-         l9nq812Li5cSa03iAEgozBxplnMMfnG4Bgz+Gh9VaP27F9jkFUW2hTm96i6SREzkQsbe
-         ULow==
+        d=gmail.com; s=20221208; t=1690878861; x=1691483661;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=x7EH+V+tQH2G6HOrO62Pgevtf4uxnesUjbds2vmU5vM=;
+        b=qd80RwmV5h9XSzApxlJS8sOIfTEZiUTmN1kEg5tVqPeuQp25abpILPVAnpxA87gOVJ
+         zLgdAA80O/Prp4RmTtpn4D7lNZASxEklP495wcYyxacCr8eJAIQB9zU++x8ZOkYSrZbG
+         O+/h3cduVxbWJflnpEKyPGBQcN2aOxsvn/7w40DpQeWJdqsMpJlnkD+nrm4FYuffVY4w
+         95NhB+4M8b/CCpNuEHIMUH/edxFrJnCd75/YalYsyg14Avc+QpQpCsDAE+61F0eXvvbw
+         2JNDb/RGI7kj3sP9dnbQLdpjCkunTufKqXQM26znjIAJcYrA7zJL+2N25thVyraqzHof
+         ogGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690876821; x=1691481621;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8T0bBwSwzl77NsnJjiK4EPnZtnK97qsCDrwsNw5L9Ek=;
-        b=ZWRnoJmV8BtcCs/0z77qyzgi8CvGtGhXT8Cm6CEd71hkj69U3FWQvwaul31CBThI7m
-         Lkxp9DkKEhVt85Hlv+uG54v5pPxmN4lppm9udyvYpItHhFLgI35oSoW5HK35ur70qUtg
-         lrJfDzP7C+sfuU4+lnpk29jv0rC5p9p+cTYS1yPi2aWlVE9IOE9lz19ORNNYzd4ZZl+5
-         HsLSu5HXXeiFEQi4lMAEL++WK376SP9q8AdNYlqng2+kjlWu//uA44BhZuf42CcfM123
-         /+4BEBR701FDAw1ZuLfN2yklWuAQNfwK4iIYOrCou0u7pQWfYg6zycyyn3mTvhuI/zHv
-         KgSA==
-X-Gm-Message-State: ABy/qLYmgRihkK50jHuSIR+59pBLSs3EBksgP6uI4GyqkMzs9eOvZeJQ
-        ipY8J7G6J8L6D2oVwEMzqVrjXBtCSGnI7N5t8SQ=
-X-Google-Smtp-Source: APBJJlEBdZqyzPz77IcelXFdLi4zFdjb3TawRjT2D9GPIgie+mf0ofORD5SvncI5Rf2yv4iFKnuiu2DMfzj7mGDHAN8=
-X-Received: by 2002:a05:6102:3a57:b0:443:7935:6eb5 with SMTP id
- c23-20020a0561023a5700b0044379356eb5mr1765346vsu.15.1690876821525; Tue, 01
- Aug 2023 01:00:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230801045449.156348-1-zhouscd@gmail.com> <2023080159-uncorrupt-chamber-7de0@gregkh>
- <CAN4mUXNNM-25oCx1jjVqqoPpX1P8Z4zkjh84Azprz52O4_AMNw@mail.gmail.com>
- <2023080108-resilient-citation-9a34@gregkh> <CAN4mUXNZomVDfve1p_2D6G38MXd=gWLdg3=eSUMnFcWhcyb2EA@mail.gmail.com>
- <2023080152-bakeshop-shanty-2033@gregkh>
-In-Reply-To: <2023080152-bakeshop-shanty-2033@gregkh>
+        d=1e100.net; s=20221208; t=1690878861; x=1691483661;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x7EH+V+tQH2G6HOrO62Pgevtf4uxnesUjbds2vmU5vM=;
+        b=FPwIrRBKOILeKlnrVB0vIdD+kenNP5noaKgAiE9Cf1Kv6KE80yrvkuFpK10BbRKt38
+         m+mYdwwcZ5FW6TPwZSTPSLAfjUah647exCj1fwOHpGh+8Ipdfx1u9yntIrQSVoZW/V6d
+         zu8fo5nCZURPioH46yhNY8hNyqKG3TPHxLoZcMoMnwzNAFBhIn2TxL1LAzUoburL1BT6
+         YOht/KGVp7Fd5351sRO8Zx3x/W8nHqeYKkfA6oq6xt7/mKfABJKuR1b3S8mIMLhTB5ql
+         I4KKYSTYrK7PWMQoOy8ZeklWSh57JsUwqCntXrC6lrJiBvAIUNX5YneGaZO0QqXHbXmB
+         wwOg==
+X-Gm-Message-State: ABy/qLaaVTjZL6lmu4eBSiEkK0F5aRHIWWnIWo+INJWEApPoxrSY0TGM
+        oCavrI5/wff/WzydZ+hjqFY=
+X-Google-Smtp-Source: APBJJlFOF+n8t3P2+gD7E1PdJe6Jigkn1YP6gXyl0ZTAe0wHJRkckB/zUP+6w29Wmq4xK/4h11++nw==
+X-Received: by 2002:a05:6a20:9150:b0:138:64d4:b040 with SMTP id x16-20020a056a20915000b0013864d4b040mr15377097pzc.54.1690878860665;
+        Tue, 01 Aug 2023 01:34:20 -0700 (PDT)
+Received: from localhost.localdomain (199.180.119.18.16clouds.com. [199.180.119.18])
+        by smtp.gmail.com with ESMTPSA id c13-20020aa7880d000000b00640f51801e6sm7409612pfo.159.2023.08.01.01.34.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Aug 2023 01:34:20 -0700 (PDT)
 From:   chengdong zhou <zhouscd@gmail.com>
-Date:   Tue, 1 Aug 2023 16:00:10 +0800
-Message-ID: <CAN4mUXP0NtrH_JUhL8NLgk7wgyMwVrdcmv_roZMkjk0DHFpjjw@mail.gmail.com>
-Subject: Re: [PATCH] USB: gadget: Fix the function name error in sourcesink/loopback.
-To:     Greg KH <gregkh@linuxfoundation.org>
+To:     gregkh@linuxfoundation.org
 Cc:     dan.scally@ideasonboard.com, laurent.pinchart@ideasonboard.com,
         m.grzeschik@pengutronix.de, john@keeping.me.uk,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        chengdong zhou <zhouscd@gmail.com>
+Subject: [PATCH v2] USB: gadget: Fix the function name error in sourcesink/loopback.
+Date:   Tue,  1 Aug 2023 01:32:45 -0700
+Message-Id: <20230801083244.165392-1-zhouscd@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Aug 1, 2023 at 3:35=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
- wrote:
->
->
-> > > But you changed the name:
-> > >
-> > > > > > -     ss->function.name =3D "source/sink";
-> > > > > > +     ss->function.name =3D "sourcesink";
-> > >
-> > > isn't that visable to userspace?
-> >
-> > Yes, I removed the "/". Because the macro definition
-> > DECLARE_USB_FUNCTION_INIT does not support "/".
-> > Should I stick with the original "SourceSink"? I think using the
-> > Linux-style "sourcesink" is better. By the way, due to the current
-> > bug, no one should be able to use "source/sink" in userspace.
->
-> But doesn't the '/' mean that you have a subdirectory here?  What did
-> userspace look like before this, and what does it look like now?
->
+Change function name from "source/sink" to "sourcesink".
+Keep the usb_function_driver.name consistent with usb_function.name
+for sourcesink and loopback.
+Cleaned up some code to decouple the sourcesink and loopback.
 
- Because usb_function.name and usb_function_driver.name are not the
-same, this function could not be exported to userspace through the USB
-config fs before. Previously, the source/sink was used by g_zero
-legacy, so I will make adjustments in the next patch version by
-changing the function name to "sourcesink". Do you think this is okay?
+If usb_function.name and usb_function_driver.name are not the same,
+it will cause the function to be unable to be exported to userspace
+by the USB config file system.
+
+Signed-off-by: chengdong zhou <zhouscd@gmail.com>
+---
+ drivers/usb/gadget/function/f_loopback.c   | 13 +----------
+ drivers/usb/gadget/function/f_sourcesink.c | 25 ++--------------------
+ drivers/usb/gadget/function/g_zero.h       |  3 ---
+ drivers/usb/gadget/legacy/zero.c           |  6 +++---
+ 4 files changed, 6 insertions(+), 41 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/f_loopback.c b/drivers/usb/gadget/function/f_loopback.c
+index ae41f556eb75..45f542b5ff55 100644
+--- a/drivers/usb/gadget/function/f_loopback.c
++++ b/drivers/usb/gadget/function/f_loopback.c
+@@ -583,16 +583,5 @@ static struct usb_function_instance *loopback_alloc_instance(void)
+ 
+ 	return  &lb_opts->func_inst;
+ }
+-DECLARE_USB_FUNCTION(Loopback, loopback_alloc_instance, loopback_alloc);
+-
+-int __init lb_modinit(void)
+-{
+-	return usb_function_register(&Loopbackusb_func);
+-}
+-
+-void __exit lb_modexit(void)
+-{
+-	usb_function_unregister(&Loopbackusb_func);
+-}
+-
++DECLARE_USB_FUNCTION_INIT(loopback, loopback_alloc_instance, loopback_alloc);
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/usb/gadget/function/f_sourcesink.c b/drivers/usb/gadget/function/f_sourcesink.c
+index 6803cd60cc6d..f6d1c095aa2c 100644
+--- a/drivers/usb/gadget/function/f_sourcesink.c
++++ b/drivers/usb/gadget/function/f_sourcesink.c
+@@ -858,7 +858,7 @@ static struct usb_function *source_sink_alloc_func(
+ 	ss->bulk_qlen = ss_opts->bulk_qlen;
+ 	ss->iso_qlen = ss_opts->iso_qlen;
+ 
+-	ss->function.name = "source/sink";
++	ss->function.name = "sourcesink";
+ 	ss->function.bind = sourcesink_bind;
+ 	ss->function.set_alt = sourcesink_set_alt;
+ 	ss->function.get_alt = sourcesink_get_alt;
+@@ -1263,27 +1263,6 @@ static struct usb_function_instance *source_sink_alloc_inst(void)
+ 
+ 	return &ss_opts->func_inst;
+ }
+-DECLARE_USB_FUNCTION(SourceSink, source_sink_alloc_inst,
++DECLARE_USB_FUNCTION_INIT(sourcesink, source_sink_alloc_inst,
+ 		source_sink_alloc_func);
+-
+-static int __init sslb_modinit(void)
+-{
+-	int ret;
+-
+-	ret = usb_function_register(&SourceSinkusb_func);
+-	if (ret)
+-		return ret;
+-	ret = lb_modinit();
+-	if (ret)
+-		usb_function_unregister(&SourceSinkusb_func);
+-	return ret;
+-}
+-static void __exit sslb_modexit(void)
+-{
+-	usb_function_unregister(&SourceSinkusb_func);
+-	lb_modexit();
+-}
+-module_init(sslb_modinit);
+-module_exit(sslb_modexit);
+-
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/usb/gadget/function/g_zero.h b/drivers/usb/gadget/function/g_zero.h
+index 98b8462ad538..c1ea28526c73 100644
+--- a/drivers/usb/gadget/function/g_zero.h
++++ b/drivers/usb/gadget/function/g_zero.h
+@@ -62,9 +62,6 @@ struct f_lb_opts {
+ 	int				refcnt;
+ };
+ 
+-void lb_modexit(void);
+-int lb_modinit(void);
+-
+ /* common utilities */
+ void disable_endpoints(struct usb_composite_dev *cdev,
+ 		struct usb_ep *in, struct usb_ep *out,
+diff --git a/drivers/usb/gadget/legacy/zero.c b/drivers/usb/gadget/legacy/zero.c
+index 23312a07efb4..0cddd20e54ff 100644
+--- a/drivers/usb/gadget/legacy/zero.c
++++ b/drivers/usb/gadget/legacy/zero.c
+@@ -222,7 +222,7 @@ static int ss_config_setup(struct usb_configuration *c,
+ }
+ 
+ static struct usb_configuration sourcesink_driver = {
+-	.label                  = "source/sink",
++	.label                  = "sourcesink",
+ 	.setup                  = ss_config_setup,
+ 	.bConfigurationValue    = 3,
+ 	.bmAttributes           = USB_CONFIG_ATT_SELFPOWER,
+@@ -282,7 +282,7 @@ static int zero_bind(struct usb_composite_dev *cdev)
+ 	autoresume_cdev = cdev;
+ 	timer_setup(&autoresume_timer, zero_autoresume, 0);
+ 
+-	func_inst_ss = usb_get_function_instance("SourceSink");
++	func_inst_ss = usb_get_function_instance("sourcesink");
+ 	if (IS_ERR(func_inst_ss))
+ 		return PTR_ERR(func_inst_ss);
+ 
+@@ -302,7 +302,7 @@ static int zero_bind(struct usb_composite_dev *cdev)
+ 		goto err_put_func_inst_ss;
+ 	}
+ 
+-	func_inst_lb = usb_get_function_instance("Loopback");
++	func_inst_lb = usb_get_function_instance("loopback");
+ 	if (IS_ERR(func_inst_lb)) {
+ 		status = PTR_ERR(func_inst_lb);
+ 		goto err_put_func_ss;
+-- 
+2.25.1
+
