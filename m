@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B4FDC001E0
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Aug 2023 01:18:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CC90C0015E
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Aug 2023 01:18:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230288AbjHBBSy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Aug 2023 21:18:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34570 "EHLO
+        id S229827AbjHBBS5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Aug 2023 21:18:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbjHBBSv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Aug 2023 21:18:51 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC4DB1FD6
-        for <linux-usb@vger.kernel.org>; Tue,  1 Aug 2023 18:18:49 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4fe11652b64so10470278e87.0
-        for <linux-usb@vger.kernel.org>; Tue, 01 Aug 2023 18:18:49 -0700 (PDT)
+        with ESMTP id S229948AbjHBBSw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Aug 2023 21:18:52 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6526F2706
+        for <linux-usb@vger.kernel.org>; Tue,  1 Aug 2023 18:18:51 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2b9bf52cd08so98025611fa.2
+        for <linux-usb@vger.kernel.org>; Tue, 01 Aug 2023 18:18:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690939128; x=1691543928;
+        d=linaro.org; s=google; t=1690939129; x=1691543929;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=prG8zaTCxCmOYhLMj8L/mJstXroO5EIKvx4tl+wA6H4=;
-        b=QTL8kacDrJN2dKkgS9qL0ela9TkebQqioHm00mmaY8X1HJxQQZDhTQVWVNK0PdZ/Tr
-         i3/fYbxeSfqhekTGaRaexWBRL224W50eh9FTPoO71tBa7cDaLbTXfFKFHFigfISFZ3t9
-         cQkLzAsTK70GZOLhb9UdiE95Ik9jJ0iMxEmue/UaK0sCrGZMHCv/0G+VWcSYzBH3Gh/O
-         VBIAZ1D2uZ6SILR5i0Ao2CDINk9BLhU7gXMK1T6t4tjub4VB/6ykGAGUG8Hi0kMlSz/K
-         jan5lC46ETDmA73PkpMekHOkm7NAR0QkXO56kLzkOBzCSk7IYuUKx1M6tEwbsQLMm9Ei
-         0L1Q==
+        bh=aArr+Z0OOAMh7dLqu6+G5gaqEsgGaXff5br4Ze76jN4=;
+        b=GHbhHHg/4LhqZi0zrU9RoqtSZK8ZxAXQlxUPd7LYsEclWuu185qefZ1aXwmnY4+eJF
+         lzaalg+BsHe+pmhN7SBABwvDDwFiA2ibLXZXJjOd0/dOnXaexYT7EZIL3ESRiTQiAEhf
+         q9zQtLY6T+RfEDG4NrKZhLY5MEXuO6ALpn/XkBxHpxDQbglmt8qnBhBVABxzMCkXTO3q
+         bCRWL0e9T9Ey/33q+tZsJj2cu17pj/yla2X13+dRgsIpP55ZlFw4PlCx5v2XcebIRUEO
+         R89hmUs8oosLFd3gtk8GJYw+evsJIgl1WpUKgALfN8UoqPkms36VcSCDhr/YUsU5XOiX
+         Nnew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690939128; x=1691543928;
+        d=1e100.net; s=20221208; t=1690939129; x=1691543929;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=prG8zaTCxCmOYhLMj8L/mJstXroO5EIKvx4tl+wA6H4=;
-        b=eQFJsN9cpv7alWFaru2N9cP3ObedFoA73ZItTTpCy9aIEoZfOT8Y2kCWH5i8rmWA7s
-         sjsH9Dq+Tn+9T7dtuZpjzHHDCaw8gawkMuWOq6lnq0B75k2NHAmKSAaHNWdKncixPT7/
-         k44pblPJZtohtcfI/ukOaKSVwhfytMcoCG3qdlayTbU5aUFVCIr60Ioedymh8+BU7sAj
-         cX45te22tGQhKrqfSUkpdIi6E6eN/cluHGwzwMGt49Cbz+/Rjthrb87dVf+hmHVHhXzR
-         EOjYQuKK3GC0lFpTw7uXgs9nB/dmFSu6ubwd62SwON304ZW75ZUgeav3SVqUk6V3rGLJ
-         xYug==
-X-Gm-Message-State: ABy/qLZs+LE32b4ONHJDkEoCX3v6EUAPSpHmHJNpQ0Vf+wnDgt7mhSK7
-        Pz2GXl4mfNXAX2cdskzB7Gix2w==
-X-Google-Smtp-Source: APBJJlG7bj9ZR1MQqNhlwB2//hMQIp56VcR1vZUL0RLpRmo9O3tRdpQJ2BDpr/B+acT2X7asSFIeCw==
-X-Received: by 2002:a19:9111:0:b0:4fb:8a92:4fba with SMTP id t17-20020a199111000000b004fb8a924fbamr3175637lfd.25.1690939127790;
-        Tue, 01 Aug 2023 18:18:47 -0700 (PDT)
+        bh=aArr+Z0OOAMh7dLqu6+G5gaqEsgGaXff5br4Ze76jN4=;
+        b=GwigAJzkQY8gZRSMtY7lfzJN0KTReB8hxpIWypJNAi3Olxb4cCal7xFqtEpnFJyHkX
+         /7Ui0PqcJ0etWAgbygPxw0mgR4j77MvmcXok5t82KiF4nHRnDV8FWBldgbFRkfp6TDqf
+         sh5I4lADu8QGvL0tYugEGUuhBqVivgRmxnxxuQHhrS9UpH4ZmXYvaj+61lqBtjune/gf
+         MYYvlb3ogMKG0AX9KwQvzST0WyuxN5J4K/7iyM4vdcEPRJFutqEiVJl21UMFYpqmJ2Ob
+         IDw8eeOKOEnimTxwfqx5UNFZeay/41eRSyxh9zI4btL4rti2L1KqRZ82MJAiqsRkgcoy
+         9sLw==
+X-Gm-Message-State: ABy/qLbJpKTaA9kMnK9A2vB3HxNwjg1WNKlk/OwyLdJAfvX06DvTEqcS
+        Nraups0fBHvIbZvuEu0vM0J/XA==
+X-Google-Smtp-Source: APBJJlGF9VjtHiIJj7mtUiT79ggwGdmUojsfRzX3NmzReExgfLqeNoCRsP3Yuwa1QarhnNkvDHtOYQ==
+X-Received: by 2002:a19:430f:0:b0:4fb:889c:c53d with SMTP id q15-20020a19430f000000b004fb889cc53dmr3312081lfa.10.1690939129505;
+        Tue, 01 Aug 2023 18:18:49 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id n14-20020a056512388e00b004faeedbb29dsm2775842lft.64.2023.08.01.18.18.46
+        by smtp.gmail.com with ESMTPSA id n14-20020a056512388e00b004faeedbb29dsm2775842lft.64.2023.08.01.18.18.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Aug 2023 18:18:47 -0700 (PDT)
+        Tue, 01 Aug 2023 18:18:48 -0700 (PDT)
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Andy Gross <agross@kernel.org>,
@@ -62,9 +62,9 @@ To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
 Cc:     dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
         linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
         freedreno@lists.freedesktop.org
-Subject: [PATCH v3 1/3] drm/display: add transparent bridge helper
-Date:   Wed,  2 Aug 2023 04:18:43 +0300
-Message-Id: <20230802011845.4176631-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 3/3] usb: typec: nb7vpq904m: switch to DRM_SIMPLE_BRIDGE
+Date:   Wed,  2 Aug 2023 04:18:45 +0300
+Message-Id: <20230802011845.4176631-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230802011845.4176631-1-dmitry.baryshkov@linaro.org>
 References: <20230802011845.4176631-1-dmitry.baryshkov@linaro.org>
@@ -74,207 +74,105 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Define a helper for creating simple transparent bridges which serve the
-only purpose of linking devices into the bridge chain up to the last
-bridge representing the connector. This is especially useful for
-DP/USB-C bridge chains, which can span across several devices, but do
-not require any additional functionality from the intermediate bridges.
+Switch to using the new DRM_SIMPLE_BRIDGE helper to create the
+transparent DRM bridge device instead of handcoding corresponding
+functionality.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/display/Kconfig             |   9 ++
- drivers/gpu/drm/display/Makefile            |   2 +
- drivers/gpu/drm/display/drm_simple_bridge.c | 127 ++++++++++++++++++++
- include/drm/display/drm_simple_bridge.h     |  19 +++
- 4 files changed, 157 insertions(+)
- create mode 100644 drivers/gpu/drm/display/drm_simple_bridge.c
- create mode 100644 include/drm/display/drm_simple_bridge.h
+ drivers/usb/typec/mux/Kconfig      |  2 +-
+ drivers/usb/typec/mux/nb7vpq904m.c | 44 ++----------------------------
+ 2 files changed, 3 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
-index 09712b88a5b8..a6132984b9e3 100644
---- a/drivers/gpu/drm/display/Kconfig
-+++ b/drivers/gpu/drm/display/Kconfig
-@@ -49,3 +49,12 @@ config DRM_DP_CEC
- 
- 	  Note: not all adapters support this feature, and even for those
- 	  that do support this they often do not hook up the CEC pin.
-+
-+config DRM_SIMPLE_BRIDGE
-+	tristate
-+	depends on DRM
-+	select AUXILIARY_BUS
-+	select DRM_PANEL_BRIDGE
-+	help
-+	  Simple transparent bridge that is used by several drivers to build
-+	  bridges chain.
-diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
-index 17ac4a1006a8..6e2b0d7f24b3 100644
---- a/drivers/gpu/drm/display/Makefile
-+++ b/drivers/gpu/drm/display/Makefile
-@@ -16,3 +16,5 @@ drm_display_helper-$(CONFIG_DRM_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
- drm_display_helper-$(CONFIG_DRM_DP_CEC) += drm_dp_cec.o
- 
- obj-$(CONFIG_DRM_DISPLAY_HELPER) += drm_display_helper.o
-+
-+obj-$(CONFIG_DRM_SIMPLE_BRIDGE) += drm_simple_bridge.o
-diff --git a/drivers/gpu/drm/display/drm_simple_bridge.c b/drivers/gpu/drm/display/drm_simple_bridge.c
-new file mode 100644
-index 000000000000..9e80efe67b93
---- /dev/null
-+++ b/drivers/gpu/drm/display/drm_simple_bridge.c
-@@ -0,0 +1,127 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2023 Linaro Ltd.
-+ *
-+ * Author: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+ */
-+#include <linux/auxiliary_bus.h>
-+#include <linux/module.h>
-+
-+#include <drm/drm_bridge.h>
+diff --git a/drivers/usb/typec/mux/Kconfig b/drivers/usb/typec/mux/Kconfig
+index 784b9d8107e9..350a7ffce67e 100644
+--- a/drivers/usb/typec/mux/Kconfig
++++ b/drivers/usb/typec/mux/Kconfig
+@@ -39,7 +39,7 @@ config TYPEC_MUX_NB7VPQ904M
+ 	tristate "On Semiconductor NB7VPQ904M Type-C redriver driver"
+ 	depends on I2C
+ 	depends on DRM || DRM=n
+-	select DRM_PANEL_BRIDGE if DRM
++	select DRM_SIMPLE_BRIDGE if DRM
+ 	select REGMAP_I2C
+ 	help
+ 	  Say Y or M if your system has a On Semiconductor NB7VPQ904M Type-C
+diff --git a/drivers/usb/typec/mux/nb7vpq904m.c b/drivers/usb/typec/mux/nb7vpq904m.c
+index 9360b65e8b06..c89a956412ea 100644
+--- a/drivers/usb/typec/mux/nb7vpq904m.c
++++ b/drivers/usb/typec/mux/nb7vpq904m.c
+@@ -11,7 +11,7 @@
+ #include <linux/regmap.h>
+ #include <linux/bitfield.h>
+ #include <linux/of_graph.h>
+-#include <drm/drm_bridge.h>
 +#include <drm/display/drm_simple_bridge.h>
-+
-+static DEFINE_IDA(simple_bridge_ida);
-+
-+static void drm_simple_bridge_release(struct device *dev)
-+{
-+	struct auxiliary_device *adev = to_auxiliary_dev(dev);
-+
-+	kfree(adev);
-+}
-+
-+static void drm_simple_bridge_unregister_adev(void *_adev)
-+{
-+	struct auxiliary_device *adev = _adev;
-+
-+	auxiliary_device_delete(adev);
-+	auxiliary_device_uninit(adev);
-+}
-+
-+int drm_simple_bridge_register(struct device *parent)
-+{
-+	struct auxiliary_device *adev;
-+	int ret;
-+
-+	adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-+	if (!adev)
-+		return -ENOMEM;
-+
-+	ret = ida_alloc(&simple_bridge_ida, GFP_KERNEL);
-+	if (ret < 0)
-+		return ret;
-+
-+	adev->id = ret;
-+	adev->name = "simple_bridge";
-+	adev->dev.parent = parent;
-+	adev->dev.of_node = parent->of_node;
-+	adev->dev.release = drm_simple_bridge_release;
-+
-+	ret = auxiliary_device_init(adev);
-+	if (ret) {
-+		kfree(adev);
-+		return ret;
-+	}
-+
-+	ret = auxiliary_device_add(adev);
-+	if (ret) {
-+		auxiliary_device_uninit(adev);
-+		return ret;
-+	}
-+
-+	return devm_add_action_or_reset(parent, drm_simple_bridge_unregister_adev, adev);
-+}
-+EXPORT_SYMBOL_GPL(drm_simple_bridge_register);
-+
-+struct drm_simple_bridge_data {
-+	struct drm_bridge bridge;
-+	struct drm_bridge *next_bridge;
-+	struct device *dev;
-+};
-+
-+static int drm_simple_bridge_attach(struct drm_bridge *bridge,
-+				    enum drm_bridge_attach_flags flags)
-+{
-+	struct drm_simple_bridge_data *data;
-+
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-+		return -EINVAL;
-+
-+	data = container_of(bridge, struct drm_simple_bridge_data, bridge);
-+
-+	return drm_bridge_attach(bridge->encoder, data->next_bridge, bridge,
-+				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+}
-+
-+static const struct drm_bridge_funcs drm_simple_bridge_funcs = {
-+	.attach	= drm_simple_bridge_attach,
-+};
-+
-+static int drm_simple_bridge_probe(struct auxiliary_device *auxdev,
-+				   const struct auxiliary_device_id *id)
-+{
-+	struct drm_simple_bridge_data *data;
-+
-+	data = devm_kzalloc(&auxdev->dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->dev = &auxdev->dev;
-+	data->next_bridge = devm_drm_of_get_bridge(&auxdev->dev, auxdev->dev.of_node, 0, 0);
-+	if (IS_ERR(data->next_bridge))
-+		return dev_err_probe(&auxdev->dev, PTR_ERR(data->next_bridge),
-+				     "failed to acquire drm_bridge\n");
-+
-+	data->bridge.funcs = &drm_simple_bridge_funcs;
-+#ifdef CONFIG_OF
-+	data->bridge.of_node = data->dev->of_node;
-+#endif
-+
-+	return devm_drm_bridge_add(data->dev, &data->bridge);
-+}
-+
-+static const struct auxiliary_device_id drm_simple_bridge_table[] = {
-+	{ .name = KBUILD_MODNAME ".simple_bridge" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(auxiliary, drm_simple_bridge_table);
-+
-+struct auxiliary_driver drm_simple_bridge_drv = {
-+	.name = "simple_bridge",
-+	.id_table = drm_simple_bridge_table,
-+	.probe = drm_simple_bridge_probe,
-+};
-+module_auxiliary_driver(drm_simple_bridge_drv);
-+
-+MODULE_AUTHOR("Dmitry Baryshkov <dmitry.baryshkov@linaro.org>");
-+MODULE_DESCRIPTION("DRM simple bridge helper");
-+MODULE_LICENSE("GPL");
-diff --git a/include/drm/display/drm_simple_bridge.h b/include/drm/display/drm_simple_bridge.h
-new file mode 100644
-index 000000000000..3da8e1fb1137
---- /dev/null
-+++ b/include/drm/display/drm_simple_bridge.h
-@@ -0,0 +1,19 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2023 Linaro Ltd.
-+ *
-+ * Author: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+ */
-+#ifndef DRM_SIMPLE_BRIDGE_H
-+#define DRM_SIMPLE_BRIDGE_H
-+
-+#if IS_ENABLED(CONFIG_DRM_SIMPLE_BRIDGE)
-+int drm_simple_bridge_register(struct device *parent);
-+#else
-+static inline int drm_simple_bridge_register(struct device *parent)
-+{
-+	return 0;
-+}
-+#endif
-+
-+#endif
+ #include <linux/usb/typec_dp.h>
+ #include <linux/usb/typec_mux.h>
+ #include <linux/usb/typec_retimer.h>
+@@ -70,8 +70,6 @@ struct nb7vpq904m {
+ 	bool swap_data_lanes;
+ 	struct typec_switch *typec_switch;
+ 
+-	struct drm_bridge bridge;
+-
+ 	struct mutex lock; /* protect non-concurrent retimer & switch */
+ 
+ 	enum typec_orientation orientation;
+@@ -297,44 +295,6 @@ static int nb7vpq904m_retimer_set(struct typec_retimer *retimer, struct typec_re
+ 	return ret;
+ }
+ 
+-#if IS_ENABLED(CONFIG_OF) && IS_ENABLED(CONFIG_DRM_PANEL_BRIDGE)
+-static int nb7vpq904m_bridge_attach(struct drm_bridge *bridge,
+-				    enum drm_bridge_attach_flags flags)
+-{
+-	struct nb7vpq904m *nb7 = container_of(bridge, struct nb7vpq904m, bridge);
+-	struct drm_bridge *next_bridge;
+-
+-	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
+-		return -EINVAL;
+-
+-	next_bridge = devm_drm_of_get_bridge(&nb7->client->dev, nb7->client->dev.of_node, 0, 0);
+-	if (IS_ERR(next_bridge)) {
+-		dev_err(&nb7->client->dev, "failed to acquire drm_bridge: %pe\n", next_bridge);
+-		return PTR_ERR(next_bridge);
+-	}
+-
+-	return drm_bridge_attach(bridge->encoder, next_bridge, bridge,
+-				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+-}
+-
+-static const struct drm_bridge_funcs nb7vpq904m_bridge_funcs = {
+-	.attach	= nb7vpq904m_bridge_attach,
+-};
+-
+-static int nb7vpq904m_register_bridge(struct nb7vpq904m *nb7)
+-{
+-	nb7->bridge.funcs = &nb7vpq904m_bridge_funcs;
+-	nb7->bridge.of_node = nb7->client->dev.of_node;
+-
+-	return devm_drm_bridge_add(&nb7->client->dev, &nb7->bridge);
+-}
+-#else
+-static int nb7vpq904m_register_bridge(struct nb7vpq904m *nb7)
+-{
+-	return 0;
+-}
+-#endif
+-
+ static const struct regmap_config nb7_regmap = {
+ 	.max_register = 0x1f,
+ 	.reg_bits = 8,
+@@ -461,7 +421,7 @@ static int nb7vpq904m_probe(struct i2c_client *client)
+ 
+ 	gpiod_set_value(nb7->enable_gpio, 1);
+ 
+-	ret = nb7vpq904m_register_bridge(nb7);
++	ret = drm_simple_bridge_register(dev);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.39.2
 
