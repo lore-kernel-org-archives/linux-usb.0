@@ -2,177 +2,80 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B96DEB64DD
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Aug 2023 01:19:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 558C1EB64DD
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Aug 2023 01:37:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230113AbjHBBS7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Aug 2023 21:18:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34584 "EHLO
+        id S230470AbjHBBhM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Aug 2023 21:37:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230060AbjHBBSw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Aug 2023 21:18:52 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF5572704
-        for <linux-usb@vger.kernel.org>; Tue,  1 Aug 2023 18:18:50 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-4fe3678010eso4552205e87.3
-        for <linux-usb@vger.kernel.org>; Tue, 01 Aug 2023 18:18:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690939128; x=1691543928;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tPDyf9F6oxuLJnO7P0WewXMQuxcYf+gVC6ZTzYByK+E=;
-        b=IU6NP0WgZSXz1sRbVhG5dBG1YNHoBoNwWr70pPMsJsXg17Jp1Am/wWay+h5nzZkYL+
-         1mwfaJ4DUSyEujrJTaxRu9t/5OChj1H3ILUja8T2dFUGUvYB6Dz5+iGG9XgvCajMNblC
-         Pz3TKv3NKth7BW6vEG8jIpTMp5T4xcQ67fHavgCrmnJPxg3XVI5j2ZpeKeGlgXWG26AI
-         LagT2gTft8Ap0mKXzfFIdjduL8rZjsBkaj2siP2vS0AeMqptxTXi8T21BBuwcJyO+FlY
-         5r4uuEGta3p42oUgY+pRzPWXqXlvbSNklie9ZuStHcKfPKLKJaevdeO3I4z3Ox0LJvZU
-         f7iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690939128; x=1691543928;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tPDyf9F6oxuLJnO7P0WewXMQuxcYf+gVC6ZTzYByK+E=;
-        b=X4ElTpnG6Wuz4RddBco7+b7mz4iF/NLgaK+wZv3mzMgoODGHWHBM8fKS2Nk7uqdxDy
-         l4wbyCzmYNJT06ukWwMCfXma8Vc/RkrPu0UWgwL0RSASLvFJgw0/B9bp+KPuFr84aMJ0
-         pvCCAu6QDUk9O0jk63Ne1zyp/d4NpTGkODrRpBwPGHssXtFRlSpQw3xhjNjjekOTYErd
-         PsVl9lw6+zHfK1lyFLES6duVkguWxJBmk0Il47iWJ/FlSMjN/xNrTbPMl4OVIkqdoaVO
-         4U+UmzHmOURvqGTfCIu4vy1SoVmDTefNqct+WB7xXRK2OnXBspGVS8/x/n1TFXn6iv2w
-         hNUw==
-X-Gm-Message-State: ABy/qLa8Bof0hgabsy95k1jO3gCa6LzL11NNcUS2b2ufSlY9dPCjTZC2
-        e/n/WgrHIVxXZc6OlfKNHUvo0A==
-X-Google-Smtp-Source: APBJJlEUQJ/AnZzyL3KdBQ7o7SJXRQXwvk7qtSvFOG23+VtHx8zobSUfRfaVwMlnWzrAGh0GG+bIKw==
-X-Received: by 2002:a19:6910:0:b0:4fb:8a90:396c with SMTP id e16-20020a196910000000b004fb8a90396cmr3202416lfc.38.1690939128584;
-        Tue, 01 Aug 2023 18:18:48 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id n14-20020a056512388e00b004faeedbb29dsm2775842lft.64.2023.08.01.18.18.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Aug 2023 18:18:48 -0700 (PDT)
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
-        freedreno@lists.freedesktop.org
-Subject: [PATCH v3 2/3] phy: qcom: qmp-combo: switch to DRM_SIMPLE_BRIDGE
-Date:   Wed,  2 Aug 2023 04:18:44 +0300
-Message-Id: <20230802011845.4176631-3-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230802011845.4176631-1-dmitry.baryshkov@linaro.org>
-References: <20230802011845.4176631-1-dmitry.baryshkov@linaro.org>
+        with ESMTP id S229535AbjHBBhL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Aug 2023 21:37:11 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95BB21B7
+        for <linux-usb@vger.kernel.org>; Tue,  1 Aug 2023 18:37:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1387861783
+        for <linux-usb@vger.kernel.org>; Wed,  2 Aug 2023 01:37:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 74474C433C7
+        for <linux-usb@vger.kernel.org>; Wed,  2 Aug 2023 01:37:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690940229;
+        bh=QRFQI+pzM/65TYgLsPcc3mGbFuFf1Ai/FCnBHONvevA=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=g4+6Z9vW8Wds3zIldCgS/nwsvvjdBtmgHP3MHEfTfPbpXo1AfUACslQfqXwq58Gn1
+         x4lkPVS93CHNStzvqzp7lGTXQ3kqcxXeMZSWRGflXQ9p83p87W+lbv4UiTBMnJORNi
+         HV6eIpYlr0Pp6Tz110haFrZ4FQfuLkoTN3U3bLg4JbE5ioTqu2xCB5+qB3yMrB9NIj
+         2k6x5VNdZK5Ukrs/Y/n3qTqjrQtsGLq1msQ1/Ui7ViHv5xcP8qtdpCVEcLZwxo3les
+         gFFnSxVvZ3QJVgJ1PPHN8InCHyJY1wuSUjonGqR7UjvoudlM/CbL1vK4oyKreG9ygV
+         1vfVCAz/ZtW5g==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 5708CC4332E; Wed,  2 Aug 2023 01:37:09 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 217632] 3 more broken Zaurii - SL-5600, A300, C700
+Date:   Wed, 02 Aug 2023 01:37:09 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: bids.7405@bigpond.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-217632-208809-OcZgj87nz4@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217632-208809@https.bugzilla.kernel.org/>
+References: <bug-217632-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Switch to using the new DRM_SIMPLE_BRIDGE helper to create the
-transparent DRM bridge device instead of handcoding corresponding
-functionality.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217632
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/phy/qualcomm/Kconfig              |  2 +-
- drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 44 ++---------------------
- 2 files changed, 3 insertions(+), 43 deletions(-)
+Ross Maynard (bids.7405@bigpond.com) changed:
 
-diff --git a/drivers/phy/qualcomm/Kconfig b/drivers/phy/qualcomm/Kconfig
-index ced603806375..fb03e3b3f637 100644
---- a/drivers/phy/qualcomm/Kconfig
-+++ b/drivers/phy/qualcomm/Kconfig
-@@ -63,7 +63,7 @@ config PHY_QCOM_QMP_COMBO
- 	depends on DRM || DRM=n
- 	select GENERIC_PHY
- 	select MFD_SYSCON
--	select DRM_PANEL_BRIDGE if DRM
-+	select DRM_SIMPLE_BRIDGE if DRM
- 	help
- 	  Enable this to support the QMP Combo PHY transceiver that is used
- 	  with USB3 and DisplayPort controllers on Qualcomm chips.
-diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-index 9c3de41ecedb..5c7615edb161 100644
---- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-@@ -21,7 +21,7 @@
- #include <linux/usb/typec.h>
- #include <linux/usb/typec_mux.h>
- 
--#include <drm/drm_bridge.h>
-+#include <drm/display/drm_simple_bridge.h>
- 
- #include <dt-bindings/phy/phy-qcom-qmp.h>
- 
-@@ -1419,8 +1419,6 @@ struct qmp_combo {
- 	struct clk_hw dp_link_hw;
- 	struct clk_hw dp_pixel_hw;
- 
--	struct drm_bridge bridge;
--
- 	struct typec_switch_dev *sw;
- 	enum typec_orientation orientation;
- };
-@@ -3193,44 +3191,6 @@ static int qmp_combo_typec_switch_register(struct qmp_combo *qmp)
- }
- #endif
- 
--#if IS_ENABLED(CONFIG_DRM)
--static int qmp_combo_bridge_attach(struct drm_bridge *bridge,
--				   enum drm_bridge_attach_flags flags)
--{
--	struct qmp_combo *qmp = container_of(bridge, struct qmp_combo, bridge);
--	struct drm_bridge *next_bridge;
--
--	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
--		return -EINVAL;
--
--	next_bridge = devm_drm_of_get_bridge(qmp->dev, qmp->dev->of_node, 0, 0);
--	if (IS_ERR(next_bridge)) {
--		dev_err(qmp->dev, "failed to acquire drm_bridge: %pe\n", next_bridge);
--		return PTR_ERR(next_bridge);
--	}
--
--	return drm_bridge_attach(bridge->encoder, next_bridge, bridge,
--				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
--}
--
--static const struct drm_bridge_funcs qmp_combo_bridge_funcs = {
--	.attach	= qmp_combo_bridge_attach,
--};
--
--static int qmp_combo_dp_register_bridge(struct qmp_combo *qmp)
--{
--	qmp->bridge.funcs = &qmp_combo_bridge_funcs;
--	qmp->bridge.of_node = qmp->dev->of_node;
--
--	return devm_drm_bridge_add(qmp->dev, &qmp->bridge);
--}
--#else
--static int qmp_combo_dp_register_bridge(struct qmp_combo *qmp)
--{
--	return 0;
--}
--#endif
--
- static int qmp_combo_parse_dt_lecacy_dp(struct qmp_combo *qmp, struct device_node *np)
- {
- 	struct device *dev = qmp->dev;
-@@ -3436,7 +3396,7 @@ static int qmp_combo_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	ret = qmp_combo_dp_register_bridge(qmp);
-+	ret = drm_simple_bridge_register(dev);
- 	if (ret)
- 		return ret;
- 
--- 
-2.39.2
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
