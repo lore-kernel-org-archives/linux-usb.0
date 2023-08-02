@@ -2,43 +2,43 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9962FC001E0
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Aug 2023 16:41:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33E66C001E0
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Aug 2023 16:47:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232589AbjHBQlM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Aug 2023 12:41:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43540 "EHLO
+        id S229642AbjHBQrD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Aug 2023 12:47:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231851AbjHBQlL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Aug 2023 12:41:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC1F32685
-        for <linux-usb@vger.kernel.org>; Wed,  2 Aug 2023 09:41:10 -0700 (PDT)
+        with ESMTP id S231266AbjHBQrA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Aug 2023 12:47:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF6572710
+        for <linux-usb@vger.kernel.org>; Wed,  2 Aug 2023 09:46:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 57E18619D7
-        for <linux-usb@vger.kernel.org>; Wed,  2 Aug 2023 16:41:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C04F6C433C7
-        for <linux-usb@vger.kernel.org>; Wed,  2 Aug 2023 16:41:09 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5166F615C2
+        for <linux-usb@vger.kernel.org>; Wed,  2 Aug 2023 16:46:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ACD77C433C9
+        for <linux-usb@vger.kernel.org>; Wed,  2 Aug 2023 16:46:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690994469;
-        bh=HPbXTxoe1ML8UoUOWVkXiGbLma2elLYHvvkYGrDdDJQ=;
+        s=k20201202; t=1690994815;
+        bh=nR5b22Vd4ATtg5y+KwKGLBlAUpgDuSy/R7Ajtq+e/9w=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=jnAggCLGukGsE32iWU0mAMDpxktUxU3vYgUEKzBtPoGYVyCmNyLLe4QbQ95Y+LzjT
-         7xyrRq6YzWq7KYNX+AQpCQ4gqvjxN+AATL0TroaU9oxmrIsJyWE8Qm9o2DqEjiBmKu
-         JW5D5TD/OUTLkxRjk6ExVVDS3y6xg26Gg/gy2XFjsW0oG8v3p/ZuGvRg2+9bhMZnKE
-         JKJPBRHK9P+36j273tK1cNW9HIS31mCwPU6znQP8lLpUfJiNP53nvAwTCDZk41ys/0
-         UH4iCTaaShx+8m4tIjYXoTWFgIySQZVqSusrorfd0hKtJRq2RBgrfRLYJ8w/X0QgMy
-         4pF2ahGEPsB0g==
+        b=k+Z72RSgfwC8+1v5RBS9jr8DkrnBnPctr+/DuIygH9ypiHaKCbv+00Wpjan6bW0h2
+         CiNhvHhnuHZf0nwkaw2n2Y93Zd6gQeBgeVchJbBx5S6vyNaTnJECFhXCZPfVH6fDAA
+         nPExvkQsgEeUUzHBgUSa4XQMv3DSSAoJ+bkNFvL+NT3nUHkOmFe0kTA84DztqR1wf6
+         UrVc81YI1U2z330uENafP/Lfw4RX4fJ4WqjJ5DNmFC+Yy+v/j7Sx51ktuCn7D5Ozzv
+         NyETc+NM+LQO1PcpICLgF6/UX/U/hUEyl5a9GTg2Itv9RSF+elGZThUHllsMC7bcO1
+         POEgjFZaZR/ww==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 956F4C4332E; Wed,  2 Aug 2023 16:41:09 +0000 (UTC)
+        id 8EC4FC4332E; Wed,  2 Aug 2023 16:46:55 +0000 (UTC)
 From:   bugzilla-daemon@kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 217122] Regression in xhci driver since 6.1 "Transfer event TRB
  DMA ptr not part of current TD"
-Date:   Wed, 02 Aug 2023 16:41:09 +0000
+Date:   Wed, 02 Aug 2023 16:46:55 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -47,14 +47,14 @@ X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mario.limonciello@amd.com
+X-Bugzilla-Who: ZeroBeat@gmx.de
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: DUPLICATE
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217122-208809-iiQee20d5Z@https.bugzilla.kernel.org/>
+Message-ID: <bug-217122-208809-E9KRW5r6PX@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217122-208809@https.bugzilla.kernel.org/>
 References: <bug-217122-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -68,11 +68,8 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D217122
 
---- Comment #29 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
-Try this patch.
-
-https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/comm=
-it/?h=3Dnext&id=3D2353032d292e97005bebf346939841c6c008df7a
+--- Comment #30 from Michael (ZeroBeat@gmx.de) ---
+Thanks for the fast response and the patch.
 
 --=20
 You may reply to this email to add a comment.
