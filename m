@@ -2,48 +2,48 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F9EC04A6A
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Aug 2023 05:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDC43C41513
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Aug 2023 05:19:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232346AbjHCFS4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Aug 2023 01:18:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50370 "EHLO
+        id S232394AbjHCFTB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Aug 2023 01:19:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232321AbjHCFSx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Aug 2023 01:18:53 -0400
+        with ESMTP id S231909AbjHCFS4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Aug 2023 01:18:56 -0400
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8248E43
-        for <linux-usb@vger.kernel.org>; Wed,  2 Aug 2023 22:18:52 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3731oILv000778;
-        Thu, 3 Aug 2023 05:18:51 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B661B4
+        for <linux-usb@vger.kernel.org>; Wed,  2 Aug 2023 22:18:55 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3733qsLC015505;
+        Thu, 3 Aug 2023 05:18:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=MHKC2O5Ca6zwOFezTeDj0xpV/G/veq0lBWgAS7sp7fc=;
- b=NnEF+HzEFwHy0odA+tpd9q+epApnrA1CRaZRchSp9+XxBfRtN7FXR4L9GqjMwcazoaLr
- z4b7eBhcCRDBZ0y0OuWkbQ6jPYvU2pMi5yCcU6mbt/LUvAlIX7YJrguRD9k0Ilt70NqK
- RbFY6lmzrHr44A3uiUfCGk8Ve46MMpl07Fsdv9tqAjYx620Z7Ooqj/T5mqdX5D76GttN
- fk2zLJuuwT6POKwveHPLlcq25J5viKByORNXD1C8LR27QX8z4VAYqjFQpKu/ynecX+sI
- XRvyrC0kZaMpBfDFBJ4qzFR1q5RQlXkfaQLl89+bNWf4PLRlcuQSVtu/vd4M0nQG3SHJ bg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s82wx892b-1
+ bh=RhYsP5sxHehKatYLFPs9z+3WxMJnATus3xr70JAT1Kg=;
+ b=TH1mqgF2ZkGae3l8f2D6VrqsKiMYjI5DMaFkwyXTeIknp0FWY7xaJ08b0jyRXCrQKd2n
+ CxjfmJ6T1WIlooBbaFMERt8IgtMcnmjXfDKdvJr1HkB74X64J1XXAhp9XJdkdyB3KEOY
+ kw1smb60QPx4LuH1+/Ya3vKSkpPlCQPJxnxRocfaiZbaJvh2VViAAN4m2GvinPDQGXuE
+ LmXz0LmJE36j9rcbNvlR0Mn+3SGesLpq5Rl54Ib0qNkyh8RvaD0RuxrUa3wxUEy/CLwd
+ hrxDmsjShVAq0ybC0a0/vP+wf9Nt7iDNH7AH9ceLg6Dp8paI4GEn7hcx1jWSnI0uIGPS MQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s7fre33pm-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 03 Aug 2023 05:18:51 +0000
+        Thu, 03 Aug 2023 05:18:54 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3735Io5q025555
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3735IqMK006266
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 3 Aug 2023 05:18:50 GMT
+        Thu, 3 Aug 2023 05:18:52 GMT
 Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Wed, 2 Aug 2023 22:18:48 -0700
+ 15.2.1118.30; Wed, 2 Aug 2023 22:18:51 -0700
 From:   Linyu Yuan <quic_linyyuan@quicinc.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Linyu Yuan <quic_linyyuan@quicinc.com>
-Subject: [PATCH 1/7] usb: gadget: f_ecm: fix ecm_bitrate() for SuperSpeed and above
-Date:   Thu, 3 Aug 2023 13:18:04 +0800
-Message-ID: <20230803051810.2974-2-quic_linyyuan@quicinc.com>
+Subject: [PATCH 3/7] usb: gadget: f_uvc: change endpoint allocation in uvc_function_bind()
+Date:   Thu, 3 Aug 2023 13:18:06 +0800
+Message-ID: <20230803051810.2974-4-quic_linyyuan@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230803051810.2974-1-quic_linyyuan@quicinc.com>
 References: <20230803051810.2974-1-quic_linyyuan@quicinc.com>
@@ -55,48 +55,56 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: yRAjCyJ3I_iLjlifRn1ul0-yKRbaWCwy
-X-Proofpoint-GUID: yRAjCyJ3I_iLjlifRn1ul0-yKRbaWCwy
+X-Proofpoint-GUID: NLGVcD_mtX2XfTOuNisiZCYkg-aMJG6P
+X-Proofpoint-ORIG-GUID: NLGVcD_mtX2XfTOuNisiZCYkg-aMJG6P
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
  definitions=2023-08-03_02,2023-08-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
- lowpriorityscore=0 impostorscore=0 adultscore=0 mlxscore=0 bulkscore=0
- priorityscore=1501 mlxlogscore=613 phishscore=0 clxscore=1015
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308030048
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 clxscore=1015
+ mlxlogscore=283 bulkscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0
+ suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2306200000 definitions=main-2308030048
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In function ecm_bitrate(), it is not good to report same speed as
-super speed when gadget work at super speed plus.
-
-Change report speed same as commit 986499b1569a ("usb: gadget: f_ncm:
-fix ncm_bitrate for SuperSpeed and above.").
+when call uvc_function_bind(), gadget still have no connection speed,
+just follow other gadget function, use fs endpoint descriptor to allocate
+a video endpoint, remove gadget_is_{super|dual}speed() API call.
 
 Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
 ---
- drivers/usb/gadget/function/f_ecm.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/usb/gadget/function/f_uvc.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_ecm.c b/drivers/usb/gadget/function/f_ecm.c
-index c6e63ad77a40..8da7d314602c 100644
---- a/drivers/usb/gadget/function/f_ecm.c
-+++ b/drivers/usb/gadget/function/f_ecm.c
-@@ -68,8 +68,10 @@ static inline struct f_ecm *func_to_ecm(struct usb_function *f)
- /* peak (theoretical) bulk transfer rate in bits-per-second */
- static inline unsigned ecm_bitrate(struct usb_gadget *g)
- {
--	if (gadget_is_superspeed(g) && g->speed == USB_SPEED_SUPER)
--		return 13 * 1024 * 8 * 1000 * 8;
-+	if (gadget_is_superspeed(g) && g->speed >= USB_SPEED_SUPER_PLUS)
-+		return 4250000000U;
-+	else if (gadget_is_superspeed(g) && g->speed == USB_SPEED_SUPER)
-+		return 3750000000U;
- 	else if (gadget_is_dualspeed(g) && g->speed == USB_SPEED_HIGH)
- 		return 13 * 512 * 8 * 1000 * 8;
- 	else
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index 5e919fb65833..c8e149f8315f 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -719,21 +719,13 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
+ 	}
+ 	uvc->enable_interrupt_ep = opts->enable_interrupt_ep;
+ 
+-	if (gadget_is_superspeed(c->cdev->gadget))
+-		ep = usb_ep_autoconfig_ss(cdev->gadget, &uvc_ss_streaming_ep,
+-					  &uvc_ss_streaming_comp);
+-	else if (gadget_is_dualspeed(cdev->gadget))
+-		ep = usb_ep_autoconfig(cdev->gadget, &uvc_hs_streaming_ep);
+-	else
+-		ep = usb_ep_autoconfig(cdev->gadget, &uvc_fs_streaming_ep);
+-
++	ep = usb_ep_autoconfig(cdev->gadget, &uvc_fs_streaming_ep);
+ 	if (!ep) {
+ 		uvcg_info(f, "Unable to allocate streaming EP\n");
+ 		goto error;
+ 	}
+ 	uvc->video.ep = ep;
+ 
+-	uvc_fs_streaming_ep.bEndpointAddress = uvc->video.ep->address;
+ 	uvc_hs_streaming_ep.bEndpointAddress = uvc->video.ep->address;
+ 	uvc_ss_streaming_ep.bEndpointAddress = uvc->video.ep->address;
+ 
 -- 
 2.17.1
 
