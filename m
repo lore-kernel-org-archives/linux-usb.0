@@ -2,48 +2,48 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E0D4C001DF
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Aug 2023 05:19:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52082EB64DD
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Aug 2023 05:19:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232665AbjHCFT1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Aug 2023 01:19:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50698 "EHLO
+        id S232769AbjHCFTu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Aug 2023 01:19:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232418AbjHCFTQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Aug 2023 01:19:16 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B921B3A8D
-        for <linux-usb@vger.kernel.org>; Wed,  2 Aug 2023 22:19:02 -0700 (PDT)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3733PcCO022218;
-        Thu, 3 Aug 2023 05:19:00 GMT
+        with ESMTP id S232400AbjHCFTZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Aug 2023 01:19:25 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32083C3C
+        for <linux-usb@vger.kernel.org>; Wed,  2 Aug 2023 22:19:06 -0700 (PDT)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37357uaW009998;
+        Thu, 3 Aug 2023 05:19:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=aXD+C7rsOZOpQUtRLtjBxOQGRNNvzmKnuHC3UxPYmGE=;
- b=Q2O/lj/BO9MUTMaQGRAyFk38uFpVqQNtLt5Cmbnpjk7Xt3yKyd0hq8patDUwceJiuDyc
- nsV4mF0uRdQgha/sC/kMJQlBNdFWXHT/u56wwvBdizb4bPNn7PzSUv1tGli8oHhjSoP7
- Gq4Ra/yPud2+x0NJypIy3JsB40C5Qb5rTcaZpyrVw2S0f5rBl1MqcjyeIs6j4+UJkxYz
- myduOo/a8CFnVBSVRmFgHqw76RjYSmLxT5zgoLKI5p49v5YUKJkkdMVWYt5vRaMoWQ5+
- LskNRW+nwHc+c4fv6ifhml9PNCvgwYxvxZ9QLMRNJLx7yFxAGrskJQr5EwqqBb6mFcrz fw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s75dgc6ab-1
+ bh=nI+KfOofYlPleGJYyUj9T95++Dj9KvSzi1rHi0s7t2Q=;
+ b=N0pIWWtc0tdDGPXghKp7xTCoUvNMI+RRtYZnrjnNz/fzbRmGR1O65+sJnCD5Xj+Y+Cso
+ 3LppI4dWuetYEFo7Lji9xv3gMH3YjUWJHV4bGB+WA5E8VkIS9esbVk/pzPIPOBr0elKz
+ mxS2AE5qhQ9myD1rV1Pj/ZLsGscmuJD9p4oqJLY04ZqSRnHD0FsxxXGv0WNrhvpXv1ch
+ 9yxJZS3xS/zPwPAwnWXedbiQ1VJanrgu8FqcXWD5IdFAsiwWxa/eOcx3o9vb1cvJ3WY3
+ mVc2CKq3u8lYh4l3C37r0FXRpuK7qnEE0sE+s9AkBFyjb1QB5Lwtnrn+IVG/dFve2wNA 3Q== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s7vxsruxn-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 03 Aug 2023 05:19:00 +0000
+        Thu, 03 Aug 2023 05:19:04 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3735Isfa006287
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3735IwwJ025637
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 3 Aug 2023 05:18:55 GMT
+        Thu, 3 Aug 2023 05:18:58 GMT
 Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Wed, 2 Aug 2023 22:18:52 -0700
+ 15.2.1118.30; Wed, 2 Aug 2023 22:18:57 -0700
 From:   Linyu Yuan <quic_linyyuan@quicinc.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Linyu Yuan <quic_linyyuan@quicinc.com>
-Subject: [PATCH 4/7] usb: gadget: unconditionally allocate hs/ss descriptor in bind operation
-Date:   Thu, 3 Aug 2023 13:18:07 +0800
-Message-ID: <20230803051810.2974-5-quic_linyyuan@quicinc.com>
+Subject: [PATCH 7/7] usb: gadget: remove max support speed info in bind operation
+Date:   Thu, 3 Aug 2023 13:18:10 +0800
+Message-ID: <20230803051810.2974-8-quic_linyyuan@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230803051810.2974-1-quic_linyyuan@quicinc.com>
 References: <20230803051810.2974-1-quic_linyyuan@quicinc.com>
@@ -55,213 +55,193 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: jxiUjK2VlBEcc_hNe-eRNDtZRQZHA9MY
-X-Proofpoint-ORIG-GUID: jxiUjK2VlBEcc_hNe-eRNDtZRQZHA9MY
+X-Proofpoint-ORIG-GUID: 7FhWclbkQeP0lBlnWWaGWhD8fKVRtYOe
+X-Proofpoint-GUID: 7FhWclbkQeP0lBlnWWaGWhD8fKVRtYOe
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
  definitions=2023-08-03_02,2023-08-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- phishscore=0 priorityscore=1501 clxscore=1015 malwarescore=0
- suspectscore=0 bulkscore=0 adultscore=0 impostorscore=0 spamscore=0
- mlxlogscore=271 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308030048
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 adultscore=0 priorityscore=1501 clxscore=1015
+ malwarescore=0 bulkscore=0 mlxlogscore=712 phishscore=0 spamscore=0
+ mlxscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2306200000 definitions=main-2308030048
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Take f_midi_bind() for example,  when composite layer call it, it will
-allocate hs descriptor by calling gadget_is_dualspeed() API to check
-gadget max support speed capability, but most other gadget function didn't
-do like this.
+Take ecm_bind() for example, it call gadget_is_{*}speed() API to show
+gadget max support speed, it is not much help, remove the API usage here
+is safe.
 
-To follow other function drivers, it is safe to remove the check which
-mean support all possible link speed by default in function driver.
-
-Similar change apply to midi2 and uvc.
-
-Also in midi and midi2, as there is no descriptor difference between
-super speed and super speed plus, follow other gadget function drivers,
-do not allocate descriptor for super speed plus, composite layer will
-handle it properly.
+Similar change apply to acm,eem,loopback,ncm,obex,rndis,serial,
+sourcesink,subset functions.
 
 Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
 ---
- drivers/usb/gadget/function/f_midi.c  | 56 +++++++++++----------------
- drivers/usb/gadget/function/f_midi2.c | 44 ++++++++-------------
- drivers/usb/gadget/function/f_uvc.c   | 26 ++++++-------
- 3 files changed, 51 insertions(+), 75 deletions(-)
+ drivers/usb/gadget/function/f_acm.c        | 4 +---
+ drivers/usb/gadget/function/f_ecm.c        | 4 +---
+ drivers/usb/gadget/function/f_eem.c        | 4 +---
+ drivers/usb/gadget/function/f_loopback.c   | 4 +---
+ drivers/usb/gadget/function/f_ncm.c        | 4 +---
+ drivers/usb/gadget/function/f_obex.c       | 3 +--
+ drivers/usb/gadget/function/f_rndis.c      | 4 +---
+ drivers/usb/gadget/function/f_serial.c     | 4 +---
+ drivers/usb/gadget/function/f_sourcesink.c | 4 +---
+ drivers/usb/gadget/function/f_subset.c     | 4 +---
+ 10 files changed, 10 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
-index fddf539008a9..2d02f25f9597 100644
---- a/drivers/usb/gadget/function/f_midi.c
-+++ b/drivers/usb/gadget/function/f_midi.c
-@@ -1023,40 +1023,30 @@ static int f_midi_bind(struct usb_configuration *c, struct usb_function *f)
- 	if (!f->fs_descriptors)
- 		goto fail_f_midi;
+diff --git a/drivers/usb/gadget/function/f_acm.c b/drivers/usb/gadget/function/f_acm.c
+index cb523f118f04..f616059c5e1e 100644
+--- a/drivers/usb/gadget/function/f_acm.c
++++ b/drivers/usb/gadget/function/f_acm.c
+@@ -691,10 +691,8 @@ acm_bind(struct usb_configuration *c, struct usb_function *f)
+ 		goto fail;
  
--	if (gadget_is_dualspeed(c->cdev->gadget)) {
--		bulk_in_desc.wMaxPacketSize = cpu_to_le16(512);
--		bulk_out_desc.wMaxPacketSize = cpu_to_le16(512);
--		f->hs_descriptors = usb_copy_descriptors(midi_function);
--		if (!f->hs_descriptors)
--			goto fail_f_midi;
--	}
-+	bulk_in_desc.wMaxPacketSize = cpu_to_le16(512);
-+	bulk_out_desc.wMaxPacketSize = cpu_to_le16(512);
-+	f->hs_descriptors = usb_copy_descriptors(midi_function);
-+	if (!f->hs_descriptors)
-+		goto fail_f_midi;
- 
--	if (gadget_is_superspeed(c->cdev->gadget)) {
--		bulk_in_desc.wMaxPacketSize = cpu_to_le16(1024);
--		bulk_out_desc.wMaxPacketSize = cpu_to_le16(1024);
--		i = endpoint_descriptor_index;
--		midi_function[i++] = (struct usb_descriptor_header *)
--				     &bulk_out_desc;
--		midi_function[i++] = (struct usb_descriptor_header *)
--				     &bulk_out_ss_comp_desc;
--		midi_function[i++] = (struct usb_descriptor_header *)
--				     &ms_out_desc;
--		midi_function[i++] = (struct usb_descriptor_header *)
--				     &bulk_in_desc;
--		midi_function[i++] = (struct usb_descriptor_header *)
--				     &bulk_in_ss_comp_desc;
--		midi_function[i++] = (struct usb_descriptor_header *)
--				     &ms_in_desc;
--		f->ss_descriptors = usb_copy_descriptors(midi_function);
--		if (!f->ss_descriptors)
--			goto fail_f_midi;
--
--		if (gadget_is_superspeed_plus(c->cdev->gadget)) {
--			f->ssp_descriptors = usb_copy_descriptors(midi_function);
--			if (!f->ssp_descriptors)
--				goto fail_f_midi;
--		}
--	}
-+	bulk_in_desc.wMaxPacketSize = cpu_to_le16(1024);
-+	bulk_out_desc.wMaxPacketSize = cpu_to_le16(1024);
-+	i = endpoint_descriptor_index;
-+	midi_function[i++] = (struct usb_descriptor_header *)
-+			     &bulk_out_desc;
-+	midi_function[i++] = (struct usb_descriptor_header *)
-+			     &bulk_out_ss_comp_desc;
-+	midi_function[i++] = (struct usb_descriptor_header *)
-+			     &ms_out_desc;
-+	midi_function[i++] = (struct usb_descriptor_header *)
-+			     &bulk_in_desc;
-+	midi_function[i++] = (struct usb_descriptor_header *)
-+			     &bulk_in_ss_comp_desc;
-+	midi_function[i++] = (struct usb_descriptor_header *)
-+			     &ms_in_desc;
-+	f->ss_descriptors = usb_copy_descriptors(midi_function);
-+	if (!f->ss_descriptors)
-+		goto fail_f_midi;
- 
- 	kfree(midi_function);
- 
-diff --git a/drivers/usb/gadget/function/f_midi2.c b/drivers/usb/gadget/function/f_midi2.c
-index 5a971ba600fe..ec8cd7c7bbfc 100644
---- a/drivers/usb/gadget/function/f_midi2.c
-+++ b/drivers/usb/gadget/function/f_midi2.c
-@@ -1731,7 +1731,6 @@ static int f_midi2_create_usb_configs(struct f_midi2 *midi2,
- 		midi1_out_eps = midi2_midi1_ep_out_descs;
- 		break;
- 	case USB_SPEED_SUPER:
--	case USB_SPEED_SUPER_PLUS:
- 		midi2_midi1_ep_out_desc.wMaxPacketSize = cpu_to_le16(1024);
- 		midi2_midi1_ep_in_desc.wMaxPacketSize = cpu_to_le16(1024);
- 		for (i = 0; i < midi2->num_eps; i++)
-@@ -2001,36 +2000,25 @@ static int f_midi2_bind(struct usb_configuration *c, struct usb_function *f)
- 	}
- 	f_midi2_free_usb_configs(&config);
- 
--	if (gadget_is_dualspeed(midi2->gadget)) {
--		status = f_midi2_create_usb_configs(midi2, &config, USB_SPEED_HIGH);
--		if (status < 0)
--			goto fail;
--		f->hs_descriptors = usb_copy_descriptors(config.list);
--		if (!f->hs_descriptors) {
--			status = -ENOMEM;
--			goto fail;
--		}
--		f_midi2_free_usb_configs(&config);
-+	status = f_midi2_create_usb_configs(midi2, &config, USB_SPEED_HIGH);
-+	if (status < 0)
-+		goto fail;
-+	f->hs_descriptors = usb_copy_descriptors(config.list);
-+	if (!f->hs_descriptors) {
-+		status = -ENOMEM;
-+		goto fail;
- 	}
-+	f_midi2_free_usb_configs(&config);
- 
--	if (gadget_is_superspeed(midi2->gadget)) {
--		status = f_midi2_create_usb_configs(midi2, &config, USB_SPEED_SUPER);
--		if (status < 0)
--			goto fail;
--		f->ss_descriptors = usb_copy_descriptors(config.list);
--		if (!f->ss_descriptors) {
--			status = -ENOMEM;
--			goto fail;
--		}
--		if (gadget_is_superspeed_plus(midi2->gadget)) {
--			f->ssp_descriptors = usb_copy_descriptors(config.list);
--			if (!f->ssp_descriptors) {
--				status = -ENOMEM;
--				goto fail;
--			}
--		}
--		f_midi2_free_usb_configs(&config);
-+	status = f_midi2_create_usb_configs(midi2, &config, USB_SPEED_SUPER);
-+	if (status < 0)
-+		goto fail;
-+	f->ss_descriptors = usb_copy_descriptors(config.list);
-+	if (!f->ss_descriptors) {
-+		status = -ENOMEM;
-+		goto fail;
- 	}
-+	f_midi2_free_usb_configs(&config);
- 
- 	mutex_unlock(&f_midi2_desc_mutex);
+ 	dev_dbg(&cdev->gadget->dev,
+-		"acm ttyGS%d: %s speed IN/%s OUT/%s NOTIFY/%s\n",
++		"acm ttyGS%d: IN/%s OUT/%s NOTIFY/%s\n",
+ 		acm->port_num,
+-		gadget_is_superspeed(c->cdev->gadget) ? "super" :
+-		gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full",
+ 		acm->port.in->name, acm->port.out->name,
+ 		acm->notify->name);
  	return 0;
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index c8e149f8315f..faa398109431 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -780,21 +780,19 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 		f->fs_descriptors = NULL;
- 		goto error;
- 	}
--	if (gadget_is_dualspeed(cdev->gadget)) {
--		f->hs_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_HIGH);
--		if (IS_ERR(f->hs_descriptors)) {
--			ret = PTR_ERR(f->hs_descriptors);
--			f->hs_descriptors = NULL;
--			goto error;
--		}
-+
-+	f->hs_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_HIGH);
-+	if (IS_ERR(f->hs_descriptors)) {
-+		ret = PTR_ERR(f->hs_descriptors);
-+		f->hs_descriptors = NULL;
-+		goto error;
- 	}
--	if (gadget_is_superspeed(c->cdev->gadget)) {
--		f->ss_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_SUPER);
--		if (IS_ERR(f->ss_descriptors)) {
--			ret = PTR_ERR(f->ss_descriptors);
--			f->ss_descriptors = NULL;
--			goto error;
--		}
-+
-+	f->ss_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_SUPER);
-+	if (IS_ERR(f->ss_descriptors)) {
-+		ret = PTR_ERR(f->ss_descriptors);
-+		f->ss_descriptors = NULL;
-+		goto error;
- 	}
+diff --git a/drivers/usb/gadget/function/f_ecm.c b/drivers/usb/gadget/function/f_ecm.c
+index b1cb944559d4..28ee1029a212 100644
+--- a/drivers/usb/gadget/function/f_ecm.c
++++ b/drivers/usb/gadget/function/f_ecm.c
+@@ -801,9 +801,7 @@ ecm_bind(struct usb_configuration *c, struct usb_function *f)
+ 	ecm->port.open = ecm_open;
+ 	ecm->port.close = ecm_close;
  
- 	/* Preallocate control endpoint request. */
+-	DBG(cdev, "CDC Ethernet: %s speed IN/%s OUT/%s NOTIFY/%s\n",
+-			gadget_is_superspeed(c->cdev->gadget) ? "super" :
+-			gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full",
++	DBG(cdev, "CDC Ethernet: IN/%s OUT/%s NOTIFY/%s\n",
+ 			ecm->port.in_ep->name, ecm->port.out_ep->name,
+ 			ecm->notify->name);
+ 	return 0;
+diff --git a/drivers/usb/gadget/function/f_eem.c b/drivers/usb/gadget/function/f_eem.c
+index 5d38f29bda72..3b445bd88498 100644
+--- a/drivers/usb/gadget/function/f_eem.c
++++ b/drivers/usb/gadget/function/f_eem.c
+@@ -311,9 +311,7 @@ static int eem_bind(struct usb_configuration *c, struct usb_function *f)
+ 	if (status)
+ 		goto fail;
+ 
+-	DBG(cdev, "CDC Ethernet (EEM): %s speed IN/%s OUT/%s\n",
+-			gadget_is_superspeed(c->cdev->gadget) ? "super" :
+-			gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full",
++	DBG(cdev, "CDC Ethernet (EEM): IN/%s OUT/%s\n",
+ 			eem->port.in_ep->name, eem->port.out_ep->name);
+ 	return 0;
+ 
+diff --git a/drivers/usb/gadget/function/f_loopback.c b/drivers/usb/gadget/function/f_loopback.c
+index ae41f556eb75..17ac6ace0cff 100644
+--- a/drivers/usb/gadget/function/f_loopback.c
++++ b/drivers/usb/gadget/function/f_loopback.c
+@@ -211,9 +211,7 @@ static int loopback_bind(struct usb_configuration *c, struct usb_function *f)
+ 	if (ret)
+ 		return ret;
+ 
+-	DBG(cdev, "%s speed %s: IN/%s, OUT/%s\n",
+-	    (gadget_is_superspeed(c->cdev->gadget) ? "super" :
+-	     (gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full")),
++	DBG(cdev, "%s: IN/%s, OUT/%s\n",
+ 			f->name, loop->in_ep->name, loop->out_ep->name);
+ 	return 0;
+ }
+diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/function/f_ncm.c
+index e6dac5510540..433d278e40ff 100644
+--- a/drivers/usb/gadget/function/f_ncm.c
++++ b/drivers/usb/gadget/function/f_ncm.c
+@@ -1544,9 +1544,7 @@ static int ncm_bind(struct usb_configuration *c, struct usb_function *f)
+ 	hrtimer_init(&ncm->task_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_SOFT);
+ 	ncm->task_timer.function = ncm_tx_timeout;
+ 
+-	DBG(cdev, "CDC Network: %s speed IN/%s OUT/%s NOTIFY/%s\n",
+-			gadget_is_superspeed(c->cdev->gadget) ? "super" :
+-			gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full",
++	DBG(cdev, "CDC Network: IN/%s OUT/%s NOTIFY/%s\n",
+ 			ncm->port.in_ep->name, ncm->port.out_ep->name,
+ 			ncm->notify->name);
+ 	return 0;
+diff --git a/drivers/usb/gadget/function/f_obex.c b/drivers/usb/gadget/function/f_obex.c
+index ab26d84ed95e..dcb093210305 100644
+--- a/drivers/usb/gadget/function/f_obex.c
++++ b/drivers/usb/gadget/function/f_obex.c
+@@ -365,9 +365,8 @@ static int obex_bind(struct usb_configuration *c, struct usb_function *f)
+ 	if (status)
+ 		goto fail;
+ 
+-	dev_dbg(&cdev->gadget->dev, "obex ttyGS%d: %s speed IN/%s OUT/%s\n",
++	dev_dbg(&cdev->gadget->dev, "obex ttyGS%d: IN/%s OUT/%s\n",
+ 		obex->port_num,
+-		gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full",
+ 		obex->port.in->name, obex->port.out->name);
+ 
+ 	return 0;
+diff --git a/drivers/usb/gadget/function/f_rndis.c b/drivers/usb/gadget/function/f_rndis.c
+index eff5d7cbce00..f0fa332e679a 100644
+--- a/drivers/usb/gadget/function/f_rndis.c
++++ b/drivers/usb/gadget/function/f_rndis.c
+@@ -811,9 +811,7 @@ rndis_bind(struct usb_configuration *c, struct usb_function *f)
+ 	 * until we're activated via set_alt().
+ 	 */
+ 
+-	DBG(cdev, "RNDIS: %s speed IN/%s OUT/%s NOTIFY/%s\n",
+-			gadget_is_superspeed(c->cdev->gadget) ? "super" :
+-			gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full",
++	DBG(cdev, "RNDIS: IN/%s OUT/%s NOTIFY/%s\n",
+ 			rndis->port.in_ep->name, rndis->port.out_ep->name,
+ 			rndis->notify->name);
+ 	return 0;
+diff --git a/drivers/usb/gadget/function/f_serial.c b/drivers/usb/gadget/function/f_serial.c
+index a9480b9e312e..65c50092aea2 100644
+--- a/drivers/usb/gadget/function/f_serial.c
++++ b/drivers/usb/gadget/function/f_serial.c
+@@ -236,10 +236,8 @@ static int gser_bind(struct usb_configuration *c, struct usb_function *f)
+ 			gser_ss_function, gser_ss_function);
+ 	if (status)
+ 		goto fail;
+-	dev_dbg(&cdev->gadget->dev, "generic ttyGS%d: %s speed IN/%s OUT/%s\n",
++	dev_dbg(&cdev->gadget->dev, "generic ttyGS%d: IN/%s OUT/%s\n",
+ 		gser->port_num,
+-		gadget_is_superspeed(c->cdev->gadget) ? "super" :
+-		gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full",
+ 		gser->port.in->name, gser->port.out->name);
+ 	return 0;
+ 
+diff --git a/drivers/usb/gadget/function/f_sourcesink.c b/drivers/usb/gadget/function/f_sourcesink.c
+index 6803cd60cc6d..2edbd9b510d6 100644
+--- a/drivers/usb/gadget/function/f_sourcesink.c
++++ b/drivers/usb/gadget/function/f_sourcesink.c
+@@ -436,9 +436,7 @@ sourcesink_bind(struct usb_configuration *c, struct usb_function *f)
+ 	if (ret)
+ 		return ret;
+ 
+-	DBG(cdev, "%s speed %s: IN/%s, OUT/%s, ISO-IN/%s, ISO-OUT/%s\n",
+-	    (gadget_is_superspeed(c->cdev->gadget) ? "super" :
+-	     (gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full")),
++	DBG(cdev, "%s: IN/%s, OUT/%s, ISO-IN/%s, ISO-OUT/%s\n",
+ 			f->name, ss->in_ep->name, ss->out_ep->name,
+ 			ss->iso_in_ep ? ss->iso_in_ep->name : "<none>",
+ 			ss->iso_out_ep ? ss->iso_out_ep->name : "<none>");
+diff --git a/drivers/usb/gadget/function/f_subset.c b/drivers/usb/gadget/function/f_subset.c
+index 51c1cae162d9..8ae9689ef2a0 100644
+--- a/drivers/usb/gadget/function/f_subset.c
++++ b/drivers/usb/gadget/function/f_subset.c
+@@ -367,9 +367,7 @@ geth_bind(struct usb_configuration *c, struct usb_function *f)
+ 	 * until we're activated via set_alt().
+ 	 */
+ 
+-	DBG(cdev, "CDC Subset: %s speed IN/%s OUT/%s\n",
+-			gadget_is_superspeed(c->cdev->gadget) ? "super" :
+-			gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full",
++	DBG(cdev, "CDC Subset: IN/%s OUT/%s\n",
+ 			geth->port.in_ep->name, geth->port.out_ep->name);
+ 	return 0;
+ 
 -- 
 2.17.1
 
