@@ -2,132 +2,95 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02095C001DF
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Aug 2023 13:12:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F39E4EB64DD
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Aug 2023 15:10:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236156AbjHCNMp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Aug 2023 09:12:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59630 "EHLO
+        id S236867AbjHCPKG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Aug 2023 11:10:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236154AbjHCNMW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Aug 2023 09:12:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCD0C559D;
-        Thu,  3 Aug 2023 06:10:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EB99461D7E;
-        Thu,  3 Aug 2023 13:05:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28DEEC433C7;
-        Thu,  3 Aug 2023 13:05:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691067903;
-        bh=0WoDKe7zUZUStwEH9Jh8mZt5aRCCX4ebJmFK3f9FaQQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=UAq6RZrrFkFtkU6Fw+I8teMqGT+4QhnpHRf/qb6J2RMQi6WMCj12rwWYZfwaNd5EV
-         Qa2Un50tfO727jgXkV3QgPob0JZ6Mqq60EbQf2rPczhVdYStQIDmeQvPOGx9OwBG9/
-         zGmO6eHGJjzIc35A5R7jgC14V5sP0GGXYzm1JyLHGzFj4t7u/l7+74ElBbzeTs3+ZV
-         czIDzVnbFC1h7dRTmgvJx4MAJYTMQc3FfIPiZn3IszgwtK/xrN52j5DqRtsuaBjbjW
-         SPZXt2cjJA/A9/XbM1VBkmFMRGtGYh2XGF1rc1udghrelATBp+NRbWdxV6ym4PI+NP
-         +zt9Zb4n6SOTA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        syzbot+63ee658b9a100ffadbe2@syzkaller.appspotmail.com,
+        with ESMTP id S236862AbjHCPKF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Aug 2023 11:10:05 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 79C9EE77
+        for <linux-usb@vger.kernel.org>; Thu,  3 Aug 2023 08:10:02 -0700 (PDT)
+Received: (qmail 246372 invoked by uid 1000); 3 Aug 2023 11:10:01 -0400
+Date:   Thu, 3 Aug 2023 11:10:01 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Dingyan Li <18500469033@163.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Xiaofan Chen <xiaofanc@gmail.com>,
         Oliver Neukum <oneukum@suse.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, davem@davemloft.net,
-        edumazet@google.com, pabeni@redhat.com, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19] net: usbnet: Fix WARNING in usbnet_start_xmit/usb_submit_urb
-Date:   Thu,  3 Aug 2023 09:05:00 -0400
-Message-Id: <20230803130500.642133-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.40.1
+        Tormod Volden <lists.tormod@gmail.com>,
+        sebastian.reichel@collabora.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH] USB: add usbfs ioctl to get specific superspeedplus
+ rates
+Message-ID: <51926ee6-ee81-4543-a1f7-338e65a26670@rowland.harvard.edu>
+References: <2023072105-lethargic-saddling-ad97@gregkh>
+ <130b453c.5c8f.1897872ce54.Coremail.18500469033@163.com>
+ <2023072159-carol-underfeed-43eb@gregkh>
+ <781b3f95-96e7-af83-e089-887ec7f2d255@suse.com>
+ <2023072546-denture-half-5ceb@gregkh>
+ <CAGjSPUCQ892adFdYm7zCuMpWujwzwoQtYimvp3xXrnnCCyN47w@mail.gmail.com>
+ <da536c80-7398-dae0-a22c-16e521be697a@suse.com>
+ <CAGjSPUDtn-YMqmNrmku+hkyXCKys4XRue4wdzQwr+yGxe2cJSQ@mail.gmail.com>
+ <2a82ba01-38dd-fad9-98b9-ac8591107921@redhat.com>
+ <151a5748.3e99.189ba07b110.Coremail.18500469033@163.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.289
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <151a5748.3e99.189ba07b110.Coremail.18500469033@163.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Alan Stern <stern@rowland.harvard.edu>
+On Thu, Aug 03, 2023 at 02:13:33PM +0800, Dingyan Li wrote:
+> 
+> At 2023-07-26 22:39:32, "Hans de Goede" <hdegoede@redhat.com> wrote:
 
-[ Upstream commit 5e1627cb43ddf1b24b92eb26f8d958a3f5676ccb ]
+> >Right, so the reason why IOCTL USBDEVFS_GET_SPEED was added is so 
+> >that a confined qemu process which gets just a fd for a /dev/bus/usb/ 
+> >device passed by a more privileged process can still get the speed 
+> >despite it not having sysfs access. This is necessary for correct 
+> >pass-through of USB devices.
+> >
+> >Since USBDEVFS_GET_SPEED now no longer tells the full story I believe 
+> >that the proposed USBDEVFS_GET_SSP_RATE ioctl makes sense.
+> >
+> >The current patch however misses moving the enum usb_ssp_rate 
+> >declaration from include/linux/usb/ch9.h to 
+> >include/uapi/linux/usb/ch9.h so that needs to be fixed in a version 
+> >2. Assuming that with the above explanation of why this is necessary 
+> >Greg and Alan are ok with adding the ioctl.
+> >
+> >Regards,
+> >
+> >Hans
+> >
+> 
+> Hi Greg and Alan,
+> 
+> Could you please share your opinions about Hans' justification?
 
-The syzbot fuzzer identified a problem in the usbnet driver:
+Instead of adding a new ioctl or modifying an existing one, how about 
+increasing the set of constants in enum usb_device_speed?  Then the 
+existing ioctls could return the newly defined values when appropriate, 
+with no other changes necessary.
 
-usb 1-1: BOGUS urb xfer, pipe 3 != type 1
-WARNING: CPU: 0 PID: 754 at drivers/usb/core/urb.c:504 usb_submit_urb+0xed6/0x1880 drivers/usb/core/urb.c:504
-Modules linked in:
-CPU: 0 PID: 754 Comm: kworker/0:2 Not tainted 6.4.0-rc7-syzkaller-00014-g692b7dc87ca6 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/27/2023
-Workqueue: mld mld_ifc_work
-RIP: 0010:usb_submit_urb+0xed6/0x1880 drivers/usb/core/urb.c:504
-Code: 7c 24 18 e8 2c b4 5b fb 48 8b 7c 24 18 e8 42 07 f0 fe 41 89 d8 44 89 e1 4c 89 ea 48 89 c6 48 c7 c7 a0 c9 fc 8a e8 5a 6f 23 fb <0f> 0b e9 58 f8 ff ff e8 fe b3 5b fb 48 81 c5 c0 05 00 00 e9 84 f7
-RSP: 0018:ffffc9000463f568 EFLAGS: 00010086
-RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000
-RDX: ffff88801eb28000 RSI: ffffffff814c03b7 RDI: 0000000000000001
-RBP: ffff8881443b7190 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000003
-R13: ffff88802a77cb18 R14: 0000000000000003 R15: ffff888018262500
-FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000556a99c15a18 CR3: 0000000028c71000 CR4: 0000000000350ef0
-Call Trace:
- <TASK>
- usbnet_start_xmit+0xfe5/0x2190 drivers/net/usb/usbnet.c:1453
- __netdev_start_xmit include/linux/netdevice.h:4918 [inline]
- netdev_start_xmit include/linux/netdevice.h:4932 [inline]
- xmit_one net/core/dev.c:3578 [inline]
- dev_hard_start_xmit+0x187/0x700 net/core/dev.c:3594
-...
+(This doesn't mean just moving the definition of usb_ssp_rate from one 
+header file to the other.  The usb_device_speed enumeration should be 
+extended with the new members.  Perhaps omitting USB_SSP_GEN_UNKNOWN 
+since we already have USB_SPEED_SUPER_PLUS, or setting the first equal 
+to the second.)
 
-This bug is caused by the fact that usbnet trusts the bulk endpoint
-addresses its probe routine receives in the driver_info structure, and
-it does not check to see that these endpoints actually exist and have
-the expected type and directions.
+I don't think there was ever a requirement in the API that the set of 
+values in usb_device_speed could never increase (and in fact it has 
+increased in the past).  Such a requirement wouldn't make any sense, 
+given how the USB-IF keeps defining newer and faster USB bus 
+implementations.
 
-The fix is simply to add such a check.
+Hans, would that play well with libusb?
 
-Reported-and-tested-by: syzbot+63ee658b9a100ffadbe2@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/linux-usb/000000000000a56e9105d0cec021@google.com/
-Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-CC: Oliver Neukum <oneukum@suse.com>
-Link: https://lore.kernel.org/r/ea152b6d-44df-4f8a-95c6-4db51143dcc1@rowland.harvard.edu
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/usb/usbnet.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-index 2263a66f6314e..f7f037b399a75 100644
---- a/drivers/net/usb/usbnet.c
-+++ b/drivers/net/usb/usbnet.c
-@@ -1767,6 +1767,10 @@ usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
- 	} else if (!info->in || !info->out)
- 		status = usbnet_get_endpoints (dev, udev);
- 	else {
-+		u8 ep_addrs[3] = {
-+			info->in + USB_DIR_IN, info->out + USB_DIR_OUT, 0
-+		};
-+
- 		dev->in = usb_rcvbulkpipe (xdev, info->in);
- 		dev->out = usb_sndbulkpipe (xdev, info->out);
- 		if (!(info->flags & FLAG_NO_SETINT))
-@@ -1776,6 +1780,8 @@ usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
- 		else
- 			status = 0;
- 
-+		if (status == 0 && !usb_check_bulk_endpoints(udev, ep_addrs))
-+			status = -EINVAL;
- 	}
- 	if (status >= 0 && dev->status)
- 		status = init_status (dev, udev);
--- 
-2.40.1
-
+Alan Stern
