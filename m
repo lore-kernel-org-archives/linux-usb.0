@@ -2,84 +2,82 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DF3AC001DB
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Aug 2023 16:44:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7BBDC41513
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Aug 2023 17:02:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233332AbjHHQn7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Aug 2023 12:43:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58644 "EHLO
+        id S233262AbjHHRCZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Aug 2023 13:02:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231904AbjHHQnE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Aug 2023 12:43:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72F861657F
-        for <linux-usb@vger.kernel.org>; Tue,  8 Aug 2023 08:55:32 -0700 (PDT)
+        with ESMTP id S232927AbjHHRBb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Aug 2023 13:01:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87F6DAAF2;
+        Tue,  8 Aug 2023 09:01:03 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D3A5B62447
-        for <linux-usb@vger.kernel.org>; Tue,  8 Aug 2023 08:47:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E212DC433C8;
-        Tue,  8 Aug 2023 08:47:39 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C132762484;
+        Tue,  8 Aug 2023 10:45:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D497AC433C7;
+        Tue,  8 Aug 2023 10:45:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1691484460;
-        bh=MOEfvfWX3cfAt+qCDDbDLYBWQsRGL5EpdJ+k94xf2Ys=;
+        s=korg; t=1691491509;
+        bh=6c+LvhZKfn4xLs8pROMMCTZCY+xcMxiFe16JPuh9KJc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QfHLWOQF0UJqcYVNFqhxpAz8PIidPWNFb7O9PwKD3QfqL1Xe52UrWTQEFX7kbyiiz
-         xY6JWdwxbmQ6gVJPqw0Akc+5I2d7B7aQDw6RE9aBd7l8Xq4sjX+mlL/g8fIV49eTIn
-         PV2x0LXe9irhaWKaHi4i2U5cSqRxJWH4qKoLGNjY=
-Date:   Tue, 8 Aug 2023 10:47:37 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Khazhy Kumykov <khazhy@google.com>,
-        USB mailing list <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 0/3] USB: core: Don't overwrite device descriptor during
- reinitialization
-Message-ID: <2023080828-frill-bullhorn-c646@gregkh>
-References: <6eadec91-990a-4fbd-8883-8366c4a4d8e4@rowland.harvard.edu>
+        b=OK4b3vk/YmQJP6JOaVzTCBwnZS8Ryqqh48V/vOGs5TDSQxCvHiENiPgxWIWgbLXY7
+         ZQkyP+FNx4P5U5oSTg0k9JyEX6XtXcoBKgdI4hd9H2jJ2DlFe/bmwfzMFp06BBh6I4
+         XG+ZJvLgxv7etWHULcMzKpFegKGZJtUW2E22K98w=
+Date:   Tue, 8 Aug 2023 12:45:06 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Ladislav Michl <oss-lists@triops.cz>
+Cc:     Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+        lkft-triage@lists.linaro.org, Thinh.Nguyen@synopsys.com,
+        Arnd Bergmann <arnd@arndb.de>,
+        Anders Roxell <anders.roxell@linaro.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: Re: [PATCH] usb: dwc3: dwc3-octeon: Verify clock divider
+Message-ID: <2023080840-visible-chess-ab8b@gregkh>
+References: <ZNIM7tlBNdHFzXZG@lenoch>
+ <2023080830-wincing-goldmine-def9@gregkh>
+ <ZNIbNj4Orr7PEqY9@lenoch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6eadec91-990a-4fbd-8883-8366c4a4d8e4@rowland.harvard.edu>
+In-Reply-To: <ZNIbNj4Orr7PEqY9@lenoch>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Aug 04, 2023 at 03:09:04PM -0400, Alan Stern wrote:
-> An outstanding syzbot bug report has been traced to a race between the
-> routine that reads in the device descriptor for a device being
-> reinitialized and the routine that writes the descriptors to a sysfs
-> attribute file.  The problem is that reinitializing a device, like
-> initializing it for the first time, stores the device descriptor
-> directly in the usb_device structure, where it may be accessed
-> concurrently as part of sending the descriptors to the sysfs reader.
+On Tue, Aug 08, 2023 at 12:38:46PM +0200, Ladislav Michl wrote:
+> On Tue, Aug 08, 2023 at 12:00:42PM +0200, Greg Kroah-Hartman wrote:
+> > On Tue, Aug 08, 2023 at 11:37:50AM +0200, Ladislav Michl wrote:
+> > > From: Ladislav Michl <ladis@linux-mips.org>
+> > > 
+> > > Although valid USB clock divider will be calculated for all valid
+> > > Octeon core frequencies, make code formally correct limiting
+> > > divider not to be greater that 7 so it fits into H_CLKDIV_SEL
+> > > field.
+> > > 
+> > > Signed-off-by: Ladislav Michl <ladis@linux-mips.org>
+> > > Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> > > Closes: https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20230808/testrun/18882876/suite/build/test/gcc-8-cavium_octeon_defconfig/log
+> > > ---
+> > >  Greg, if you want to resent whole serie, just drop me a note.
+> > >  Otherwise, this patch is meant to be applied on to of it.
+> > 
+> > On top of what series?
 > 
-> This three-part series fixes the problem:
-> 
-> 	The first patch unites the code paths responsible for first
-> 	reading the device descriptor in hub.c's old scheme and new
-> 	scheme, so that neither of them will call
-> 	usb_get_device_descriptor().
-> 
-> 	The second patch changes usb_get_device_descriptor(), making
-> 	it return the descriptor in a dynamically allocated buffer
-> 	rather than storing it directly in the device structure.
-> 
-> 	The third patch changes hub_port_init(), adding a new argument
-> 	that specifies a buffer in which to store the device
-> 	descriptor for devices being reinitialized.
-> 
-> As a result of these changes, the copy of the device descriptor stored
-> in the usb_device structure will never be overwritten once it has been
-> initialized.  This eliminates the data race causing the bug identified
-> by syzbot.
-> 
-> It would be nice at some point to make a similar change to the code
-> that reads the device's BOS descriptor; reinitialization should not
-> overwrite its existing data either.  This series doesn't attempt to do
-> that, but it would be a good thing to do.
+> I'm sorry, "[PATCH v5 0/7] Cleanup Octeon DWC3 glue code".
+> In your usb-next, last patch of serie is:
+> d9216d3ef538 ("usb: dwc3: dwc3-octeon: Add SPDX header and copyright")
 
-Thanks for cleaning this up, all now applied.
+I already took that series, so this is fine, I don't want to revert that
+and have to add it all back :)
+
+thanks,
 
 greg k-h
