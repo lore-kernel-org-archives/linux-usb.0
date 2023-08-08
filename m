@@ -2,81 +2,164 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1229C001B0
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Aug 2023 20:48:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B413C001DB
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Aug 2023 20:49:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234970AbjHHUsX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Aug 2023 16:48:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44260 "EHLO
+        id S233273AbjHHUtU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Aug 2023 16:49:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234976AbjHHUsK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Aug 2023 16:48:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67640157A4
-        for <linux-usb@vger.kernel.org>; Tue,  8 Aug 2023 09:40:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 038846241A
-        for <linux-usb@vger.kernel.org>; Tue,  8 Aug 2023 08:22:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB7C3C433C9;
-        Tue,  8 Aug 2023 08:22:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1691482937;
-        bh=MP7+JLF4kUnXC3IV6QHYeU5TzicDI3udQET1phMOPVU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=l2M78I3NYxX+6hwj1tqHHDFdFC92yxK1gdk6Pwe/CaYTaftEdrR1QZaSkbly7NMlN
-         dOqYAbtF7fg6fVegnUMAPt7PKDTxLSSExEHlY4J6WbsK/yWNl2ZbLQsQT9Pgsz56q3
-         iqIq1YkGyl796eB7IweDShTnO+RLJpYYgVhUl5HM=
-Date:   Tue, 8 Aug 2023 10:22:14 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Ruan Jinjie <ruanjinjie@huawei.com>
-Cc:     hadess@hadess.net, benjamin.tissoires@redhat.com,
-        herve.codina@bootlin.com, robh@kernel.org,
-        mailhol.vincent@wanadoo.fr, linux-usb@vger.kernel.org
-Subject: Re: [PATCH -next] USB: core: Switch to use kmemdup_nul() helper
-Message-ID: <2023080822-embark-quaking-074e@gregkh>
-References: <20230807124610.2283583-1-ruanjinjie@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230807124610.2283583-1-ruanjinjie@huawei.com>
+        with ESMTP id S235181AbjHHUtD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Aug 2023 16:49:03 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EAA78C0E
+        for <linux-usb@vger.kernel.org>; Tue,  8 Aug 2023 13:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691526621; x=1723062621;
+  h=date:from:to:cc:subject:message-id;
+  bh=wktrGlL2nkOe69tNWjnKjbhjobsIPfQGPE9otMBGSbM=;
+  b=fx8fSxEvsl4/t7rVaMc7Cza2okcTilL9VV/Vz42iRW8Dd9KQuFiBeZBP
+   jDFEKyGM8J1m7DyA58R7XzBv7tjqHFpHxrFsRYMuF99u7aG+azg61gSGo
+   1ln9DglODTOcWXdBnDaEfTxUHuLVQSA+Wm4Yry4d8YPhmGQRKfMv3mls0
+   a7ntYTQdn+Qmy34B2U5BYhr9ax9GsI+Bt6Ob8Q0Gf+0nlzQDqfy45fvzO
+   Xe5bU0iLXUrrSaiFH8g/cD7MadTWTB3CXvzTZEXhtQdr57svKYzv9mIck
+   bvqiy83L/L+MhqvtVZG3KsuqhISuy+IxEsDDXgENz1Wzj2MJ4p8cdnReV
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="401908999"
+X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; 
+   d="scan'208";a="401908999"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 13:30:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="796861875"
+X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; 
+   d="scan'208";a="796861875"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 08 Aug 2023 13:30:13 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qTTLI-0005bE-02;
+        Tue, 08 Aug 2023 20:30:12 +0000
+Date:   Wed, 09 Aug 2023 04:29:48 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-linus] BUILD SUCCESS
+ f48585c468f51ac038c2cfaafcd4437bc3746bce
+Message-ID: <202308090445.QmobDaXf-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 07, 2023 at 08:46:10PM +0800, Ruan Jinjie wrote:
-> Use kmemdup_nul() helper instead of open-coding it to simplify the code.
-> 
-> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
-> ---
->  drivers/usb/core/message.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-> index 0d2bfc909019..5762fd04f0d5 100644
-> --- a/drivers/usb/core/message.c
-> +++ b/drivers/usb/core/message.c
-> @@ -1029,10 +1029,9 @@ char *usb_cache_string(struct usb_device *udev, int index)
->  	if (buf) {
->  		len = usb_string(udev, index, buf, MAX_USB_STRING_SIZE);
->  		if (len > 0) {
-> -			smallbuf = kmalloc(++len, GFP_NOIO);
-> +			smallbuf = kmemdup_nul(buf, len, GFP_NOIO);
->  			if (!smallbuf)
->  				return buf;
-> -			memcpy(smallbuf, buf, len);
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+branch HEAD: f48585c468f51ac038c2cfaafcd4437bc3746bce  Merge tag 'thunderbolt-for-v6.5-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt into usb-linus
 
-But you changed the logic here, you now added an extra \0 where the
-existing code did not.  Are you sure you mean to do this?  If so, why,
-and it needs to be documented in the changelog text.
+elapsed time: 722m
 
-What this could be is a call to kmemdup() if you really want it, but be
-careful about the ++len usage...
+configs tested: 94
+configs skipped: 4
 
-Also, does this need to be changed at all?  How was it tested?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-thanks,
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r003-20230808   gcc  
+alpha                randconfig-r035-20230808   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r043-20230808   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r023-20230808   clang
+arm                  randconfig-r046-20230808   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r025-20230808   gcc  
+arm64                randconfig-r031-20230808   clang
+csky                                defconfig   gcc  
+hexagon              randconfig-r016-20230808   clang
+hexagon              randconfig-r024-20230808   clang
+hexagon              randconfig-r041-20230808   clang
+hexagon              randconfig-r045-20230808   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230808   clang
+i386         buildonly-randconfig-r005-20230808   clang
+i386         buildonly-randconfig-r006-20230808   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230808   clang
+i386                 randconfig-i002-20230808   clang
+i386                 randconfig-i003-20230808   clang
+i386                 randconfig-i004-20230808   clang
+i386                 randconfig-i016-20230808   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r013-20230808   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r026-20230808   gcc  
+nios2                randconfig-r033-20230808   gcc  
+openrisc             randconfig-r015-20230808   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r032-20230808   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc              randconfig-r034-20230808   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r004-20230808   clang
+riscv                randconfig-r036-20230808   clang
+riscv                randconfig-r042-20230808   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230808   gcc  
+sh                               allmodconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r001-20230808   gcc  
+sparc                randconfig-r002-20230808   gcc  
+sparc                randconfig-r014-20230808   gcc  
+sparc                randconfig-r022-20230808   gcc  
+sparc64              randconfig-r011-20230808   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230808   clang
+x86_64       buildonly-randconfig-r002-20230808   clang
+x86_64       buildonly-randconfig-r003-20230808   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-x001-20230808   gcc  
+x86_64               randconfig-x002-20230808   gcc  
+x86_64               randconfig-x003-20230808   gcc  
+x86_64               randconfig-x004-20230808   gcc  
+x86_64               randconfig-x005-20230808   gcc  
+x86_64               randconfig-x006-20230808   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r005-20230808   gcc  
+xtensa               randconfig-r021-20230808   gcc  
 
-greg k-h
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
