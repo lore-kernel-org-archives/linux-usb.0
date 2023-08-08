@@ -2,87 +2,91 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9038C04A6A
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Aug 2023 17:15:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 064F4C001B0
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Aug 2023 17:16:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234108AbjHHRPp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Aug 2023 13:15:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34240 "EHLO
+        id S234288AbjHHRQz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Aug 2023 13:16:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234196AbjHHRPK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Aug 2023 13:15:10 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8417C6BD15
-        for <linux-usb@vger.kernel.org>; Tue,  8 Aug 2023 09:06:15 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-3fe426b86a8so48655775e9.3
-        for <linux-usb@vger.kernel.org>; Tue, 08 Aug 2023 09:06:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691510774; x=1692115574;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Go6XT9Xkscl41fZ/aEq4wJ8QEtBrmQLK5ZjjJvK6FoU=;
-        b=p9b5+hGE2/AbeSYNBjrMGMxHswW5vX2S9elo/jVQnzvMadroKhj6i0Gx9GjxvwPBZm
-         zlP1fU5QEx7kO2oyfW+2dF3ZD0/P31YRnV9K2X2zbBPaLYDvoTPHmV8uLucYGNGbkoSY
-         lApHg8PkbE9Jk2ClXAXGPLcABCg/4Ir6Hz8E9+WiLRBFOg9DCIOIcGG+y5WRbrAgbhQp
-         EnnDdmf5YbvIbYWNgvw1qPPiOUSsM+Im5mA6SAR9obAo0wUvD4TzpPoiHu3j8+qiWtHA
-         47CdCvv4NW+m81dBaFrW/w7TDZLb3UlfvEcR7P106IwKr0zM5AWF3euwDo7oX5xKvlox
-         0OSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691510774; x=1692115574;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Go6XT9Xkscl41fZ/aEq4wJ8QEtBrmQLK5ZjjJvK6FoU=;
-        b=SQnsPV1qdASv9My1CBdBokZLqEWjrkgqtNCR8z8mVIacUAOZ2M1BjhnUnGjIXRegbY
-         456wXkt9Wm1YuEFU4yTfak1SikGZvpqPiyOwduFchjfYwk43qAOzGVtAL23ZzKbP+i21
-         JNzRQT8ONxYODlDL0MvAh73LP6VG3oKuOA/ZrI2niKpPx2oO++N0GWWJBZgb/ozU2dCQ
-         J3kMdRz/FwmfiMMpgT83m0Ap10HVmk3QDSDkqHNmwt2h2NyC2/2vmoa4InzZouB9/1w6
-         Mu+2AOG5FwDmNZVYSCJAmGXhV5BsUxytB/n4MOpcWkJAY3WqUKd86PbigTlGv+3nhE16
-         m78Q==
-X-Gm-Message-State: AOJu0YzyFxWEFVu1Fd/oWPG+etY2Q+oVVtgRSkmNflOaVA6xA4xMf3uY
-        hcQSDzqtuNN9vS7IJK/V/Q/H1ZGwsuYvdklI3f8=
-X-Google-Smtp-Source: AGHT+IHyamondwf86gYopYCiGXf9C3pe+fwNo5AweauN2G6KAu88O/9463pYl6fAJQL0APVu83+16A==
-X-Received: by 2002:a7b:c5cc:0:b0:3fe:785:abf9 with SMTP id n12-20020a7bc5cc000000b003fe0785abf9mr9253537wmk.2.1691489859599;
-        Tue, 08 Aug 2023 03:17:39 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.113])
-        by smtp.gmail.com with ESMTPSA id v3-20020a05600c214300b003fe407ca05bsm14651226wml.37.2023.08.08.03.17.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Aug 2023 03:17:39 -0700 (PDT)
-Message-ID: <258045bb-b84e-3811-65a3-20ede71118d3@linaro.org>
-Date:   Tue, 8 Aug 2023 12:17:37 +0200
+        with ESMTP id S234101AbjHHRQY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Aug 2023 13:16:24 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD21CB2A2
+        for <linux-usb@vger.kernel.org>; Tue,  8 Aug 2023 09:06:40 -0700 (PDT)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RKn9F5Hr1zrSN0;
+        Tue,  8 Aug 2023 16:56:17 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ kwepemi500008.china.huawei.com (7.221.188.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 8 Aug 2023 16:57:27 +0800
+Message-ID: <1bdb47f2-5ff1-db23-9672-fa2cac7dfe1f@huawei.com>
+Date:   Tue, 8 Aug 2023 16:57:22 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH 1/2] dt-bindings: usb: add device for Genesys Logic hub
- gl3510
-To:     Jerome Brunet <jbrunet@baylibre.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     Da Xue <da@libre.computer>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230808100746.391365-1-jbrunet@baylibre.com>
- <20230808100746.391365-2-jbrunet@baylibre.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH -next] USB: core: Switch to use kmemdup_nul() helper
 Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230808100746.391365-2-jbrunet@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     <hadess@hadess.net>, <benjamin.tissoires@redhat.com>,
+        <herve.codina@bootlin.com>, <robh@kernel.org>,
+        <mailhol.vincent@wanadoo.fr>, <linux-usb@vger.kernel.org>
+References: <20230807124610.2283583-1-ruanjinjie@huawei.com>
+ <2023080822-embark-quaking-074e@gregkh>
+From:   Ruan Jinjie <ruanjinjie@huawei.com>
+In-Reply-To: <2023080822-embark-quaking-074e@gregkh>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.109.254]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemi500008.china.huawei.com (7.221.188.139)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 08/08/2023 12:07, Jerome Brunet wrote:
-> Add gl3510 USB 3 root hub device id
+
+
+On 2023/8/8 16:22, Greg KH wrote:
+> On Mon, Aug 07, 2023 at 08:46:10PM +0800, Ruan Jinjie wrote:
+>> Use kmemdup_nul() helper instead of open-coding it to simplify the code.
+>>
+>> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+>> ---
+>>  drivers/usb/core/message.c | 3 +--
+>>  1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+>> index 0d2bfc909019..5762fd04f0d5 100644
+>> --- a/drivers/usb/core/message.c
+>> +++ b/drivers/usb/core/message.c
+>> @@ -1029,10 +1029,9 @@ char *usb_cache_string(struct usb_device *udev, int index)
+>>  	if (buf) {
+>>  		len = usb_string(udev, index, buf, MAX_USB_STRING_SIZE);
+>>  		if (len > 0) {
+>> -			smallbuf = kmalloc(++len, GFP_NOIO);
+>> +			smallbuf = kmemdup_nul(buf, len, GFP_NOIO);
+>>  			if (!smallbuf)
+>>  				return buf;
+>> -			memcpy(smallbuf, buf, len);
 > 
-> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> ---
+> But you changed the logic here, you now added an extra \0 where the
+> existing code did not.  Are you sure you mean to do this?  If so, why,
+> and it needs to be documented in the changelog text.
 
+Right! There is a problem because of the ++len, and the logic has been
+changed. Sorry, I'll carefully check the patches issued in the future.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> What this could be is a call to kmemdup() if you really want it, but be
+> careful about the ++len usage...
+> 
+> Also, does this need to be changed at all?  How was it tested?
 
-Best regards,
-Krzysztof
+It's best to keep it as it is. Sorry, just walk through the code.
 
+> 
+> thanks,
+> 
+> greg k-h
