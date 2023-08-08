@@ -2,79 +2,108 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0DC5C05051
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Aug 2023 17:32:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27E9EC07E8B
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Aug 2023 17:32:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233161AbjHHRco (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Aug 2023 13:32:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34592 "EHLO
+        id S234713AbjHHRcp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Aug 2023 13:32:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234728AbjHHRby (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Aug 2023 13:31:54 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 1CA9421E6A
-        for <linux-usb@vger.kernel.org>; Tue,  8 Aug 2023 09:13:51 -0700 (PDT)
-Received: (qmail 162238 invoked by uid 1000); 8 Aug 2023 11:13:08 -0400
-Date:   Tue, 8 Aug 2023 11:13:08 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Xu Yang <xu.yang_2@nxp.com>
-Cc:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Jun Li <jun.li@nxp.com>
-Subject: Re: [EXT] Re: [PATCH 2/2] usb: ehci: unlink itd/sitds from hardware
- list if the controller has stopped periodic schedule
-Message-ID: <1d06506b-e610-4aba-8449-8be87c3bd5f6@rowland.harvard.edu>
-References: <20230718112600.3969141-1-xu.yang_2@nxp.com>
- <20230718112600.3969141-2-xu.yang_2@nxp.com>
- <52e62d2e-a82a-4c9f-86ce-3ddad3efffb5@rowland.harvard.edu>
- <DB7PR04MB4505A7CDE9FC53EFEFD3D9F58C07A@DB7PR04MB4505.eurprd04.prod.outlook.com>
- <fbd403ba-b6aa-47f3-a361-b122a028334e@rowland.harvard.edu>
- <DB7PR04MB45059312D4FB6ED356E0A7958C0DA@DB7PR04MB4505.eurprd04.prod.outlook.com>
+        with ESMTP id S234626AbjHHRbu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Aug 2023 13:31:50 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 645E97ED3
+        for <linux-usb@vger.kernel.org>; Tue,  8 Aug 2023 09:13:48 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-3fe4cdb72b9so31217325e9.0
+        for <linux-usb@vger.kernel.org>; Tue, 08 Aug 2023 09:13:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1691511200; x=1692116000;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aKTM65Hk6mGoUuD04O4aN5AQ3hEPhlqNZbHsqhxOlFc=;
+        b=QGeAp9bM8QDClzlyLAomcV8NbeEkiYUVnPxu6iIgrHVc15Mpn5V/XTnCWPFYcGwrGj
+         E1Ej3HeBruvfH+2wAh5DkT820ptpXNfK6gRjvdwfTCjiUODwMnaKkSs6PDpp4zI+tsrr
+         zh9+B3EPF3nsGAAXldGhLHamc/vuVvkaPdzgUjT5kxoX2uoOBHTvrRSihZhb6NqlreWg
+         0no0oDUICwP0VdgJ2zspFjJHMAnSqzdy6Tv7l2VasjvJ0pFHD9FNO9YqmfZUzG9L/B0n
+         IEEBTZzHtosm7XDao2W7DH/mo51i2iHlpwkg1BVpiu9OzUIsC3uj77ETR609zutbVpyN
+         JW0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691511200; x=1692116000;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aKTM65Hk6mGoUuD04O4aN5AQ3hEPhlqNZbHsqhxOlFc=;
+        b=QsKVUnn2P+WiZExZpJgwWqb9+kaRid1K5zSMKanRwEvkMLZLxbdj38RK5HHtYMTpdl
+         MNYsw5vLTlBZJCtKunQwzKTOqL5K2Vp74LWnFihOTlFQNnoRuSZye9SJ6jhZrWG0TcKq
+         mqME8+w4vNd8jwtFRV/MzSqfH1XG+iOiMUeQynpp15NCafTQ2LLf8Itqk1jR1qobS6xc
+         n0tAHnNnMn/75G7wRfQfmGdMhjHRB3hsjkKLR9W7UrpKpt4njP/j83BUJFpv2vtcddP6
+         ENaUc2VVivS+jgqa89xsScgFsFWXwHTzA9J+dBJ49w/zZ2SiKre+2HYBOMirq+aiQ6fj
+         sugg==
+X-Gm-Message-State: AOJu0Yxv4kvr4o1UOgBZOAZQHV7Kgc0E08/lymF18kxa5qEvp7SOPjyq
+        E7jk+3F5D4kYdfE4FF2G3wTcEWgqiyy6biKJZE8=
+X-Google-Smtp-Source: AGHT+IHCg6jK5QeAQL7ZbDp7JHMdEJbqOK7NfrBs1E2JWLSE/ov+AA3/Bp6bD/RPcGzaSByaM3IqVA==
+X-Received: by 2002:adf:ffc3:0:b0:317:5b99:d3d8 with SMTP id x3-20020adfffc3000000b003175b99d3d8mr7412543wrs.20.1691489280387;
+        Tue, 08 Aug 2023 03:08:00 -0700 (PDT)
+Received: from toaster.lan ([2a01:e0a:3c5:5fb1:efd4:f3df:2c50:1776])
+        by smtp.googlemail.com with ESMTPSA id e11-20020a5d500b000000b003143c9beeaesm13109420wrt.44.2023.08.08.03.07.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Aug 2023 03:08:00 -0700 (PDT)
+From:   Jerome Brunet <jbrunet@baylibre.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     Jerome Brunet <jbrunet@baylibre.com>, Da Xue <da@libre.computer>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] usb: misc: onboard_usb_hub: add Genesys Logic gl3510 hub support
+Date:   Tue,  8 Aug 2023 12:07:46 +0200
+Message-Id: <20230808100746.391365-3-jbrunet@baylibre.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230808100746.391365-1-jbrunet@baylibre.com>
+References: <20230808100746.391365-1-jbrunet@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DB7PR04MB45059312D4FB6ED356E0A7958C0DA@DB7PR04MB4505.eurprd04.prod.outlook.com>
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Aug 08, 2023 at 10:03:39AM +0000, Xu Yang wrote:
-> Hi Alan,
-> 
-> > On Sat, Jul 29, 2023 at 06:55:07AM +0000, Xu Yang wrote:
-> > > Many thanks for your comments and suggestions.
-> > >
-> > > Yes, there is a "live" variable in scan_isoc() to handle the case where
-> > > root hub has stopped periodic schedule. I have rechecked the root cause
-> > > of the issue , that is the USB controller has disabled the port (PE cleared)
-> > > and asserted USBERRINT when frame babble is detected, but PEC is not
-> > > asserted. Therefore, the SW didn't aware that port has been disabled.
-> > > The periodic schedule keeps running at this moment. Then the SW keeps
-> > > sending packets to this port, but all of the transfers will fail. But periodic
-> > > schedule will also be disabled after a period of time. Finally, all of the linked
-> > > itds are penging there. The code can't enter into scan_isoc() if only USBERRINT
-> > > is asserted.
-> > 
-> > That's not true.  The io_watchdog timer continues to fire periodically
-> > (at 100 ms intervals) as long as isoc_count > 0.  The timer's handler is
-> > ehci_work(), which calls scan_isoc() if isoc_count > 0.
-> 
-> Yes, the io_watchdog timer will cleanup the isoc periodically as long as
-> isoc_count > 0. 
-> 
-> I did see all of the linked itds are pending there in my case at the end. After my
-> debug, I found the chipidea/host.c had set ehci->need_io_watchdog to 0 which
-> will have impact on turn_on_io_watchdog().
-> 
-> The host has enabled 1 intr endpoint and 2 isoc endpoints from USB camera.
-> Therefore, ehci->intr_count is always 1 and ehci->isoc_count is changing from
-> time to time during camera is running. When PE is cleared by HW, isoc_count
-> may be decreased to 0 after scan_isoc(). When turn_on_io_watchdog() is called,
-> EHCI_HRTIMER_IO_WATCHDOG event will not be enabled due to isoc_count=0
-> and need_io_watchdog=0 too. When isoc urb is submited again, enable_periodic()
-> will still not enable EHCI_HRTIMER_IO_WATCHDOG event due to periodic_count>0.
+Add support for the gl3510 4 ports USB3.1 hub. This allows to control its
+reset pins with a gpio.
 
-Ooh, that's a bug.  enable_periodic() should call turn_on_io_watchdog() 
-no matter what value periodic_count has.  Would you like to fix it?
+No public documentation is available for this hub. Using the same reset
+duration as the gl852g which seems OK.
 
-Alan Stern
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+---
+ drivers/usb/misc/onboard_usb_hub.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
+index aca5f50eb0da..4b94ea375d45 100644
+--- a/drivers/usb/misc/onboard_usb_hub.h
++++ b/drivers/usb/misc/onboard_usb_hub.h
+@@ -22,6 +22,10 @@ static const struct onboard_hub_pdata ti_tusb8041_data = {
+ 	.reset_us = 3000,
+ };
+ 
++static const struct onboard_hub_pdata genesys_gl3510_data = {
++	.reset_us = 50,
++};
++
+ static const struct onboard_hub_pdata genesys_gl850g_data = {
+ 	.reset_us = 3,
+ };
+@@ -41,6 +45,7 @@ static const struct of_device_id onboard_hub_match[] = {
+ 	{ .compatible = "usb451,8142", .data = &ti_tusb8041_data, },
+ 	{ .compatible = "usb5e3,608", .data = &genesys_gl850g_data, },
+ 	{ .compatible = "usb5e3,610", .data = &genesys_gl852g_data, },
++	{ .compatible = "usb5e3,626", .data = &genesys_gl3510_data, },
+ 	{ .compatible = "usbbda,411", .data = &realtek_rts5411_data, },
+ 	{ .compatible = "usbbda,5411", .data = &realtek_rts5411_data, },
+ 	{ .compatible = "usbbda,414", .data = &realtek_rts5411_data, },
+-- 
+2.40.1
+
