@@ -2,107 +2,147 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF54CEB64DD
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Aug 2023 02:59:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC33C001DB
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Aug 2023 15:45:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbjHHC7G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Aug 2023 22:59:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39140 "EHLO
+        id S230073AbjHHPpG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Aug 2023 11:45:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230115AbjHHC7F (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Aug 2023 22:59:05 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B501E10CC;
-        Mon,  7 Aug 2023 19:59:02 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 3782wUpzD029217, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 3782wUpzD029217
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
-        Tue, 8 Aug 2023 10:58:30 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Tue, 8 Aug 2023 10:58:17 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 8 Aug 2023 10:58:17 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
- RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
- 15.01.2375.007; Tue, 8 Aug 2023 10:58:17 +0800
-From:   =?utf-8?B?U3RhbmxleSBDaGFuZ1vmmIzogrLlvrdd?= 
-        <stanley_chang@realtek.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 1/2] usb: dwc3: add Realtek DHC RTD SoC dwc3 glue layer driver
-Thread-Topic: [PATCH v2 1/2] usb: dwc3: add Realtek DHC RTD SoC dwc3 glue
- layer driver
-Thread-Index: AQHZxFokPxd4W07ijUGGBrmKl0qPKq/VrnaAgADyIuCAAIy6gIAA9MlwgACO44CABeKOsIAAc0MAgACusCA=
-Date:   Tue, 8 Aug 2023 02:58:17 +0000
-Message-ID: <f38e2a4cb00d40429bf3504a183bbc83@realtek.com>
-References: <20230801092541.25261-1-stanley_chang@realtek.com>
- <20230802011400.v4jim6ajsqc3tvei@synopsys.com>
- <ff9ca6f15936450696bff502c0047708@realtek.com>
- <20230803000417.qfuwsx5we5a7lfvd@synopsys.com>
- <7d47cbfdbc31436b89d3d92bf980c8fa@realtek.com>
- <20230803231156.laggnj5bzuhugwfd@synopsys.com>
- <ae619edfcce545b78697c6bcdadfff27@realtek.com>
- <20230807235636.mlos5tpeg5foymnz@synopsys.com>
-In-Reply-To: <20230807235636.mlos5tpeg5foymnz@synopsys.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.190.159]
-x-kse-serverinfo: RTEXMBS01.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S229931AbjHHPng (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Aug 2023 11:43:36 -0400
+Received: from h2.cmg2.smtp.forpsi.com (h2.cmg2.smtp.forpsi.com [81.2.195.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00792FB
+        for <linux-usb@vger.kernel.org>; Tue,  8 Aug 2023 08:36:27 -0700 (PDT)
+Received: from [192.168.1.166] ([91.218.190.200])
+        by cmgsmtp with ESMTPSA
+        id TIjQqMCSNv5uITIjQqVwRf; Tue, 08 Aug 2023 11:10:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
+        t=1691485825; bh=pxBPGY/8saHyrmYDg9GzSr24b1NP0Ka+vfDcTpfzL/w=;
+        h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version;
+        b=nExGr5hNsACSHIq/486b8ATCtVQfhkSRN4G+gqu26YlAlxIaGquG83tZntAgKW0zG
+         u6bnhtT00h3LJuNm90aDmh5+gAZ7j8qGgWb7T5jeQBmWEk826K7vE5XpFiLH4SJOMT
+         ZdAgy24BcsBIbGds9riyGSHwOcmh392muArlMSU5RE1gxujwAB+SWbD+rGISFBOfMA
+         g7xP0ameQdKKdwuUPxhJ9Bk27CvQ8cRWHjyD6PO3df9BkhsnyeRgFNWPi/giSNo7eb
+         bovYLWhatRST7jQvZLuACVb7htYa6Lmpkn2zfv4xeX18mvCO7MQMhqH5SrbBqS4uyB
+         +zPe44VmXSs/A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
+        t=1691485825; bh=pxBPGY/8saHyrmYDg9GzSr24b1NP0Ka+vfDcTpfzL/w=;
+        h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version;
+        b=nExGr5hNsACSHIq/486b8ATCtVQfhkSRN4G+gqu26YlAlxIaGquG83tZntAgKW0zG
+         u6bnhtT00h3LJuNm90aDmh5+gAZ7j8qGgWb7T5jeQBmWEk826K7vE5XpFiLH4SJOMT
+         ZdAgy24BcsBIbGds9riyGSHwOcmh392muArlMSU5RE1gxujwAB+SWbD+rGISFBOfMA
+         g7xP0ameQdKKdwuUPxhJ9Bk27CvQ8cRWHjyD6PO3df9BkhsnyeRgFNWPi/giSNo7eb
+         bovYLWhatRST7jQvZLuACVb7htYa6Lmpkn2zfv4xeX18mvCO7MQMhqH5SrbBqS4uyB
+         +zPe44VmXSs/A==
+Message-ID: <567bd0e0e28a4cac4ce13bb314dcf04739598fbc.camel@triops.cz>
+Subject: Re: next: mips: cavium_octeon_defconfig: gcc-8 -
+ dwc3-octeon.c:502:8: include/linux/compiler_types.h:397:38: error: call to
+ '__compiletime_assert_335' declared with attribute error: FIELD_PREP: value
+ too large for the field _compiletime_assert
+From:   Ladislav Michl <ladis@triops.cz>
+To:     Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+        lkft-triage@lists.linaro.org
+Cc:     Thinh.Nguyen@synopsys.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Anders Roxell <anders.roxell@linaro.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Date:   Tue, 08 Aug 2023 11:10:23 +0200
+In-Reply-To: <1ab766fca893588d75590d2faf624eb7d9d27a8a.camel@triops.cz>
+References: <CA+G9fYspyEdT9wmVpL04J-p0CwqA+_v_L4H+ihY9VYqpCMmQ1Q@mail.gmail.com>
+         <1ab766fca893588d75590d2faf624eb7d9d27a8a.camel@triops.cz>
+Organization: Triops, s.r.o.
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+X-CMAE-Envelope: MS4wfP3DisK3KstSzX1Mm3zYKOfoLr30Fb25YJH2esbk2sMTpCEIeraaJY+by4IOCZUiqWJRtJFmW6dOEzTD9+gozpUvY8zkGCwz+srrQejHjrCQDEJwSHy6
+ 2pW4+0Y2XhJELiSPet442CJ4kW43nKpINuE8xCa7Q3L/cOFyAfe6LIAopIO1Pjky2f6oBSxU3ufb/62bjMyqIH8Vg4aXAC5KnwILVzagZm9cxIOC9QnV0ixH
+ 6TwbVqZZFxUjMfBQrM2S6MOjhoZVjjKSdyo8fCwmnCpt/eSqKgBS05OWW/ffwSv+DspC4k7jepbmFjh5kDQ60GINPsFVzzeoS0FCU2m45wYeFwhFmkgRPh6M
+ +lo+1pdaY3ao2G24RHl8qGWNjD+7dow2M8JIgiy6pf58QmKtJlekiRMYTpVFHgD/vWHSVhqt7ke1mBuua7LEXwsOeWs6FOIsbSutYpgXyK07gEQ2b0y5AJdS
+ fNLmZ+Nupmpi5LvDG0Wb8ieIMJE1AnZz2egaHNskaILV6Q57txRoPqwyQtY=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGkgVGhpbmgsDQoNCj4gT24gTW9uLCBBdWcgMDcsIDIwMjMsIFN0YW5sZXkgQ2hhbmdb5piM6IKy
-5b63XSB3cm90ZToNCj4gPiBIaSBUaGluaCwNCj4gPg0KPiA+ID4gPiA+ID4gPiA+ICtzdGF0aWMg
-aW50IGR3YzNfcnRrX3NldHVwX3JvbGVfc3dpdGNoKHN0cnVjdCBkd2MzX3J0aw0KPiA+ID4gPiA+
-ID4gPiA+ICsqcnRrKQ0KPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiBBbnkgcmVhc29uIHdo
-eSB3ZSdyZSBkb2luZyB0aGUgcm9sZSBzd2l0Y2ggaGVyZSBhbmQgbm90DQo+ID4gPiA+ID4gPiA+
-IHdoYXQncyBpbXBsZW1lbnRlZCBmcm9tIHRoZSBjb3JlPw0KPiA+ID4gPiA+ID4gPg0KPiA+ID4g
-PiA+ID4gQmVjYXVzZSB3ZSBoYXZlIHRvIHNldCB0aGUgdXNiIDIuMCBwaHkgbW9kZSB0aHJvdWdo
-DQo+ID4gPiA+ID4gPiBzd2l0Y2hfdXNiMl9kcl9tb2RlDQo+ID4gPiA+ID4gaW4gdGhlIGZ1bmN0
-aW9uIGR3YzNfcnRrX3NldF9kcl9tb2RlLg0KPiA+ID4gPiA+ID4gSW4gZmFjdCwgc3dpdGNoX2R3
-YzNfZHJfbW9kZSB3aWxsIHVzZSB0aGUgcm9sZSBzd2l0Y2hpbmcNCj4gPiA+ID4gPiA+IGltcGxl
-bWVudGVkIGJ5DQo+ID4gPiA+ID4gY29yZS4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4NCj4gPiA+
-ID4gPiBJIGRvbid0IHRoaW5rIHRoaXMgaXMgYSBnb29kIHdheSB0byBnbyBhYm91dCBpdC4gRG8g
-eW91ICh0aGUNCj4gPiA+ID4gPiBnbHVlDQo+ID4gPiA+ID4gZHJpdmVyKSBjcmVhdGUgYSByb2xl
-IHN3aXRjaCBzdHJ1Y3R1cmUgYW5kIHJlZ2lzdGVyIHRvIHRoZSBzYW1lDQo+ID4gPiA+ID4gcm9s
-ZSBzd2l0Y2ggZGV2aWNlIHRoYXQgdGhlIGR3YzMgY29yZSB3b3VsZCByZWdpc3RlciBsYXRlcj8g
-SQ0KPiA+ID4gPiA+IGRpZCBub3QgZXhwZWN0IHRoYXQgdG8gd29yayBhdCBhbGwuDQo+ID4gPiA+
-ID4NCj4gPiA+ID4gSW4gb3VyIGFwcGxpY2F0aW9uLCB0aGlzIHJvbGUgc3dpdGNoIGluIHRoZSBn
-bHVlIGRyaXZlciB3b3JrcyBmaW5lLg0KPiA+ID4NCj4gPiA+IElzIHRoZSBvcmRlciBvZiBvcGVy
-YXRpb24gYmV0d2VlbiB0aGUgc3dpdGNoIGZyb20gdGhlIGNvcmUgdnMgdGhlDQo+ID4gPiBnbHVl
-IGRldGVybWluYXRlPyBBbHNvLCB3aGljaCBvcGVyYXRpb24gc2hvdWxkIGhhcHBlbiBmaXJzdD8g
-SXQncw0KPiA+ID4gbm90IGNsZWFyIGhvdyB5b3UgaGFuZGxlIGl0IGhlcmUuDQo+ID4NCj4gPiBX
-ZSBoYXZlIGEgdHlwZSBjIGRyaXZlciB0aGF0IGZpcnN0IGNhbGxzIHJvbGUgc3dpdGNoIGluIGds
-dWUuDQo+ID4gVGhlIHJvbGUgc3dpdGNoaW5nIGZ1bmN0aW9uIGluIGdsdWUgd2lsbCBjYWxsIHRo
-ZSByb2xlIHN3aXRjaGluZyBmdW5jdGlvbiBpbg0KPiBjb3JlLg0KPiANCj4gSG93IGRvIHdlIGtu
-b3cgdGhhdD8gWW91J3JlIHJlZ2lzdGVyaW5nIHRvIHRoZSBzYW1lIHN3aXRjaCBkZXZpY2UsIHdv
-dWxkbid0DQo+IHRoZSBzd2l0Y2ggZXZlbnQgbm90aWZ5IHRoZSBzd2l0Y2ggd29yayBpbiBib3Ro
-IHRoZSBnbHVlIGFuZCB0aGUgY29yZT8gUGVyaGFwcw0KPiBJJ20gbWlzc2luZyBzb21ldGhpbmcg
-aGVyZSwgYnV0IGlzIHRoZXJlIHNvbWUgbWVjaGFuaXNtIHRoYXQgd2FpdHMgZm9yIHRoZQ0KPiBz
-d2l0Y2ggd29yayBmcm9tIHRoZSBnbHVlIHRvIGNvbXBsZXRlIGJlZm9yZSB0aGUgY29yZS4NCg0K
-Rmlyc3QsIHRoZSBzd2l0Y2hlcyBpbiBnbHVlIGFuZCBjb3JlIGFyZSBkaWZmZXJlbnQgZGV2aWNl
-cy4NCkluIHRoZSB0eXBlLWMgZHJpdmVyLCB3ZSBvbmx5IG5vdGlmeSB0aGUgc3dpdGNoIGluIHRo
-ZSBnbHVlLg0KVGhlbiwgdGhlIHN3aXRjaCBpbiB0aGUgZ2x1ZSBjYWxscyB0aGUgc3dpdGNoIGlu
-IHRoZSBjb3JlIHRvIGNoYW5nZSByb2xlcy4NClRoaXMgaXMgYSBzZXF1ZW50aWFsIHByb2Nlc3Mu
-IFNvIHRoZXJlIGlzIG5vIG9yZGVyIHByb2JsZW0uDQoNClRoYW5rcywNClN0YW5sZXkNCg==
+On Tue, 2023-08-08 at 09:45 +0200, Ladislav Michl wrote:
+> Hi Naresh,
+>=20
+> On Tue, 2023-08-08 at 12:41 +0530, Naresh Kamboju wrote:
+> > [My two cents]
+
+seems this is going to be far more expensive ;-)
+
+> > While building Linux next-20230808 mips cavium_octeon_defconfig
+> > with gcc-8 failed with below warnings and errors.
+> >=20
+> > Build log:
+> > ----------
+> >=20
+> > In function 'dwc3_octeon_setup.isra.4',
+> > =C2=A0=C2=A0=C2=A0 inlined from 'dwc3_octeon_probe' at drivers/usb/dwc3=
+/dwc3-
+> > octeon.c:502:8:
+> > include/linux/compiler_types.h:397:38: error: call to
+> > '__compiletime_assert_335' declared with attribute error:
+> > FIELD_PREP:
+> > value too large for the field
+> > =C2=A0 _compiletime_assert(condition, msg, __compiletime_assert_,
+> > __COUNTER__)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 ^
+> > include/linux/compiler_types.h:378:4: note: in definition of macro
+> > '__compiletime_assert'
+> > =C2=A0=C2=A0=C2=A0 prefix ## suffix();=C2=A0=C2=A0=C2=A0 \
+> > =C2=A0=C2=A0=C2=A0 ^~~~~~
+>=20
+> Not sure what is really going on there. Code compiles even using
+> 32bit toochains without warnings and such an assignments are used in
+> other kernel drivers. See for example drivers/cxl/core/hdm.c:534
+> which is using the same types. Also=20
+> drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c in
+> rvu_exact_prepare_table_entry...
+
+So using gcc-8.2.1 20181130 I see the same error. However
+drivers/cxl/core/hdm.c still compiler cleanly.
+
+Now USBDRD_UCTL_CTL_H_CLKDIV_SEL is defined as GENMASK_ULL(26, 24).
+Making is GENMASK_ULL(27, 24) makes error go away. Also making clk_div
+array in dwc3_octeon_get_divider one element shorter makes error go
+away.
+
+To me it seems gcc-8 figures out the result of dwc3_octeon_get_divider
+can be greater than 7 and produces error. Cannot happen in the real
+world. Should we make gcc-8 stand corrected?
+
+> Anyway, let me setup gcc-8 toolchain :)
+>=20
+> > =C2=A0 Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> >=20
+> > Links:
+> > -----
+> > =C2=A0-
+> > https://qa-reports.linaro.org/lkft/linux-next-master/build/next-2023080=
+8/testrun/18882876/suite/build/test/gcc-8-cavium_octeon_defconfig/log
+> > =C2=A0-
+> > https://qa-reports.linaro.org/lkft/linux-next-master/build/next-2023080=
+8/testrun/18882876/suite/build/test/gcc-8-cavium_octeon_defconfig/history/
+> >=20
+> > Steps to reproduce:
+> > ------------
+> > =C2=A0 tuxmake --runtime podman --target-arch mips --toolchain gcc-8
+> > --kconfig cavium_octeon_defconfig
+> > =C2=A0=C2=A0 -
+> > https://storage.tuxsuite.com/public/linaro/lkft/builds/2TgoAZwerJ28UWHy=
+qfQUiaYYhrl/tuxmake_reproducer.sh
+> >=20
+> > --
+> > Linaro LKFT
+> > https://lkft.linaro.org
+>=20
+
