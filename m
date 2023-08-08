@@ -2,130 +2,119 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43368C04FDF
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Aug 2023 18:18:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80046C04FDF
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Aug 2023 18:43:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234981AbjHHSSd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Aug 2023 14:18:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47384 "EHLO
+        id S233748AbjHHSnh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Aug 2023 14:43:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234805AbjHHSRy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Aug 2023 14:17:54 -0400
-Received: from h2.cmg1.smtp.forpsi.com (h2.cmg1.smtp.forpsi.com [81.2.195.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79BB976BA
-        for <linux-usb@vger.kernel.org>; Tue,  8 Aug 2023 10:25:21 -0700 (PDT)
-Received: from [192.168.1.166] ([91.218.190.200])
-        by cmgsmtp with ESMTPSA
-        id THPBqHCO9Pm6CTHPBq8ssJ; Tue, 08 Aug 2023 09:45:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
-        t=1691480726; bh=dK8y32VSPfv+uSmARxH/e37aIn+O3g97fmYoKJta8qw=;
-        h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version;
-        b=HCsEgBNiY5ROL/dh0khzXv4yMIKED5HaYSQJMzZlqk2US/LX3Xj+P6DYAG/NK/j7V
-         dCTVSnhW+fns4ZlYEbXckXiMKWU0XKuStJzWRhhe8HzsGzmKHxhn+xMWlFGkL7ERk5
-         wZGRQcXu+X+aTO3EAYyjdbIk7hV1E4C+ThFI9/F5aDtnwnQqe2QBOeaCiVFioYVaOA
-         2zdfZntSBr2RE1FMJIJJ4787eV9cFvVWTgqVtSBvav+dva0dwf6PCW479oM737LrQy
-         61AOv0bgt5PKbDbiWWZGOBPWTRNeoc41+izWmy9YiONmmzuzXHjl262wez1C6OyFy9
-         G2H3d4nLng6Cg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
-        t=1691480726; bh=dK8y32VSPfv+uSmARxH/e37aIn+O3g97fmYoKJta8qw=;
-        h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version;
-        b=HCsEgBNiY5ROL/dh0khzXv4yMIKED5HaYSQJMzZlqk2US/LX3Xj+P6DYAG/NK/j7V
-         dCTVSnhW+fns4ZlYEbXckXiMKWU0XKuStJzWRhhe8HzsGzmKHxhn+xMWlFGkL7ERk5
-         wZGRQcXu+X+aTO3EAYyjdbIk7hV1E4C+ThFI9/F5aDtnwnQqe2QBOeaCiVFioYVaOA
-         2zdfZntSBr2RE1FMJIJJ4787eV9cFvVWTgqVtSBvav+dva0dwf6PCW479oM737LrQy
-         61AOv0bgt5PKbDbiWWZGOBPWTRNeoc41+izWmy9YiONmmzuzXHjl262wez1C6OyFy9
-         G2H3d4nLng6Cg==
-Message-ID: <1ab766fca893588d75590d2faf624eb7d9d27a8a.camel@triops.cz>
-Subject: Re: next: mips: cavium_octeon_defconfig: gcc-8 -
- dwc3-octeon.c:502:8: include/linux/compiler_types.h:397:38: error: call to
- '__compiletime_assert_335' declared with attribute error: FIELD_PREP: value
- too large for the field _compiletime_assert
-From:   Ladislav Michl <ladis@triops.cz>
-To:     Naresh Kamboju <naresh.kamboju@linaro.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
-        lkft-triage@lists.linaro.org
-Cc:     Thinh.Nguyen@synopsys.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Date:   Tue, 08 Aug 2023 09:45:25 +0200
-In-Reply-To: <CA+G9fYspyEdT9wmVpL04J-p0CwqA+_v_L4H+ihY9VYqpCMmQ1Q@mail.gmail.com>
-References: <CA+G9fYspyEdT9wmVpL04J-p0CwqA+_v_L4H+ihY9VYqpCMmQ1Q@mail.gmail.com>
-Organization: Triops, s.r.o.
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+        with ESMTP id S233592AbjHHSnV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Aug 2023 14:43:21 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43811387CA
+        for <linux-usb@vger.kernel.org>; Tue,  8 Aug 2023 09:37:49 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4fe10f0f4d1so9727218e87.0
+        for <linux-usb@vger.kernel.org>; Tue, 08 Aug 2023 09:37:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691512644; x=1692117444;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A6LfCAMj0DFAFgXZ5oRgcMXEYEXLBhRELRNEOdU8pto=;
+        b=gTPysjpvBSz7i325J9Uc7ujkJFq16hrEQex/LtXLbHZ+wBkB6n4RvpRnBcYPOyHPTI
+         FYNnuSvP/JfRUd5ghr7fPg5S/fCafPu9n9J2KiUUvqooUOZ6jw2kajgTSHXFMvLDmFfp
+         8/OcyKKyF+M+HEHjlrjCO43WfSGsSjAn52jLd76bBd2Ry2vT8b9HvrToIK3XnXyyiHfY
+         R3uivCerAy899iyTX+B158TVe5s90UlmwVj1+n0jV0ngYsJB3lHR+OJHiQPNrvhYQNup
+         lQ7sC5e6gC94wOOCtrOn01D5G9obAeGkzpCQjDvWOTi4SpTJbKjhAARa072wZ5XoUX+F
+         rJ6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691512644; x=1692117444;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A6LfCAMj0DFAFgXZ5oRgcMXEYEXLBhRELRNEOdU8pto=;
+        b=GQqUqOu9Bl+fXiZVpEmMQ84cIkO0AI0wYqZnuUUQAx4u4Qx0W9nAIabQ15rL+4KaK0
+         LJlzvGwyMW9XIVx7Grw8qR6dMxoBk9PoevVJtoxYez4CpLvy5YjakYTqUCGY6rxYPMmN
+         Kb5Aug8U04v5vx/a9AfVxlFpkiEBgGz1Q8OqFup2N5Zl8bop03wbpB14P90bxq1A46oi
+         0D2Z6fVFAVeDAucKrDb/OCIS42XFADawtcbwtlsDHAGRT9v7oE1ODBntxqIXNV4mjHi4
+         6/HSKr6tInKJm4FTqd6xxSoMeNSYWVZngYW9zofMAwbwGblSzfAsOCQy46bLj4L9x0S5
+         0iMg==
+X-Gm-Message-State: AOJu0Yy593MjzwPcgp67uPlxULVsMOFkuP2f2LinBWHnge1xVSFMkohx
+        jPOoAXS9WHRJYXQSNMEu7apvGxd8NShbS7cW
+X-Google-Smtp-Source: AGHT+IGW9Ialzh0UtEfgQ/NUlrxfMl+JvOwGOmx807BHruxTqgrFB1wO8FtSUuOq7S5R+/RKKpuMcQ==
+X-Received: by 2002:adf:dd83:0:b0:317:4755:9e48 with SMTP id x3-20020adfdd83000000b0031747559e48mr7053045wrl.53.1691491952555;
+        Tue, 08 Aug 2023 03:52:32 -0700 (PDT)
+Received: from localhost.localdomain ([31.145.189.2])
+        by smtp.googlemail.com with ESMTPSA id t6-20020a5d6a46000000b003142e438e8csm13265709wrw.26.2023.08.08.03.52.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Aug 2023 03:52:31 -0700 (PDT)
+From:   Alper Ak <alperyasinak1@gmail.com>
+To:     johan@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, Alper Ak <alperyasinak1@gmail.com>
+Subject: [PATCH] USB: serial: option: add Quectel EG912Y module support
+Date:   Tue,  8 Aug 2023 13:51:58 +0300
+Message-Id: <20230808105158.631761-1-alperyasinak1@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfDsx0vWaX5UBDYoWotNwmlrPCGV8ftMgIhITKomVTAP0kzNEBHBWmnQOnh5vNO60zgTtfJv993OMrbVAKAz1bRg3nHt33FGcrb76ESqsdG+MDMmT5gX+
- HK3l8DXcR0nprDy17Bg5HWZ5+9ngoY9JkkI8/QTT+QNbQcUpxWkwM59PQ931npl/c1z6LimwkleA+iDNH5USBWXGDY278fY4daKu+yWuIzSftUgUx45CW3ov
- RmxYAYkdR5chvedeuGAamHCjqkXyVqO/+vdyGApmM9nIP+8LM8m+UaxjxBU+Z5ROIJzG9KWv+oD80C1g/VnwMLRI1ZHyHRQ08nhivGDENIi35kZsD+dDUnSF
- xpbdZ6jryhY2Ivz+Dy/Nxjq9DMGx0j/J3mh7MX5JUJFhe5LdaNhRvhrpVocpBSGjkIWu8Ds2hnYMll5IY4BB2drs4QeIWvhryNs/ZXLg/zfUVKtONwwivDyL
- 2XhWDeBo7YrqyXovx7Fe2fsixnWillkBvtVPdcETWl3PhaBCxq0OBO3wRH4=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Naresh,
+Add Quectel EG912Y "DIAG, AT, MODEM"
 
-On Tue, 2023-08-08 at 12:41 +0530, Naresh Kamboju wrote:
-> [My two cents]
->=20
-> While building Linux next-20230808 mips cavium_octeon_defconfig with
-> gcc-8
-> failed with below warnings and errors.
->=20
-> Build log:
-> ----------
->=20
-> In function 'dwc3_octeon_setup.isra.4',
-> =C2=A0=C2=A0=C2=A0 inlined from 'dwc3_octeon_probe' at drivers/usb/dwc3/d=
-wc3-
-> octeon.c:502:8:
-> include/linux/compiler_types.h:397:38: error: call to
-> '__compiletime_assert_335' declared with attribute error: FIELD_PREP:
-> value too large for the field
-> =C2=A0 _compiletime_assert(condition, msg, __compiletime_assert_,
-> __COUNTER__)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- ^
-> include/linux/compiler_types.h:378:4: note: in definition of macro
-> '__compiletime_assert'
-> =C2=A0=C2=A0=C2=A0 prefix ## suffix();=C2=A0=C2=A0=C2=A0 \
-> =C2=A0=C2=A0=C2=A0 ^~~~~~
+0x6001: ECM / RNDIS + DIAG + AT + MODEM
 
-Not sure what is really going on there. Code compiles even using 32bit
-toochains without warnings and such an assignments are used in other
-kernel drivers. See for example drivers/cxl/core/hdm.c:534 which is
-using the same types. Also=20
-drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_hash.c in
-rvu_exact_prepare_table_entry...
+T:  Bus=01 Lev=02 Prnt=02 Port=00 Cnt=01 Dev#=  3 Spd=480  MxCh= 0
+D:  Ver= 2.00 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
+P:  Vendor=2c7c ProdID=6001 Rev= 3.18
+S:  Manufacturer=Android
+S:  Product=Android
+S:  SerialNumber=0000
+C:* #Ifs= 5 Cfg#= 1 Atr=e0 MxPwr=500mA
+A:  FirstIf#= 0 IfCount= 2 Cls=02(comm.) Sub=06 Prot=00
+I:* If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=06 Prot=00 Driver=cdc_ether
+E:  Ad=87(I) Atr=03(Int.) MxPS=  64 Ivl=4096ms
+I:  If#= 1 Alt= 0 #EPs= 0 Cls=0a(data ) Sub=00 Prot=00 Driver=cdc_ether
+I:* If#= 1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=cdc_ether
+E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=0c(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 2 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=0b(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=89(I) Atr=03(Int.) MxPS=  64 Ivl=4096ms
+E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=0f(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=88(I) Atr=03(Int.) MxPS=  64 Ivl=4096ms
+E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=0a(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
+---
+ drivers/usb/serial/option.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Anyway, let me setup gcc-8 toolchain :)
-
-> =C2=A0 Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
->=20
-> Links:
-> -----
-> =C2=A0-
-> https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20230808/=
-testrun/18882876/suite/build/test/gcc-8-cavium_octeon_defconfig/log
-> =C2=A0-
-> https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20230808/=
-testrun/18882876/suite/build/test/gcc-8-cavium_octeon_defconfig/history/
->=20
-> Steps to reproduce:
-> ------------
-> =C2=A0 tuxmake --runtime podman --target-arch mips --toolchain gcc-8
-> --kconfig cavium_octeon_defconfig
-> =C2=A0=C2=A0 -
-> https://storage.tuxsuite.com/public/linaro/lkft/builds/2TgoAZwerJ28UWHyqf=
-QUiaYYhrl/tuxmake_reproducer.sh
->=20
-> --
-> Linaro LKFT
-> https://lkft.linaro.org
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index 8ac98e60fff5..5a132dd0a9cf 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -274,6 +274,7 @@ static void option_instat_callback(struct urb *urb);
+ #define QUECTEL_PRODUCT_EM061K_LCN		0x6009
+ #define QUECTEL_PRODUCT_EC200T			0x6026
+ #define QUECTEL_PRODUCT_RM500K			0x7001
++#define QUECTEL_PRODUCT_EG912Y			0x6001
+ 
+ #define CMOTECH_VENDOR_ID			0x16d8
+ #define CMOTECH_PRODUCT_6001			0x6001
+@@ -1235,6 +1236,7 @@ static const struct usb_device_id option_ids[] = {
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EC200S_CN, 0xff, 0, 0) },
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EC200T, 0xff, 0, 0) },
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_RM500K, 0xff, 0x00, 0x00) },
++	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EG912Y, 0xff, 0, 0) },
+ 
+ 	{ USB_DEVICE(CMOTECH_VENDOR_ID, CMOTECH_PRODUCT_6001) },
+ 	{ USB_DEVICE(CMOTECH_VENDOR_ID, CMOTECH_PRODUCT_CMU_300) },
+-- 
+2.25.1
 
