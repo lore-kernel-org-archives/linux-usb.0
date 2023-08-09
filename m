@@ -2,148 +2,58 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21272C001E0
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Aug 2023 07:58:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54328EB64DD
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Aug 2023 08:27:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231602AbjHIH6k (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Aug 2023 03:58:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58024 "EHLO
+        id S231401AbjHII1y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Aug 2023 04:27:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229738AbjHIH6k (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Aug 2023 03:58:40 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD593173A
-        for <linux-usb@vger.kernel.org>; Wed,  9 Aug 2023 00:58:38 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-3fe2d218eedso55485165e9.0
-        for <linux-usb@vger.kernel.org>; Wed, 09 Aug 2023 00:58:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691567917; x=1692172717;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZMK/MF4QoWmTRy/7r0rvm+M3cYZZiIVGcbwV1xMbPtA=;
-        b=Vc8dhEQ337HqN7x0eJ4phDB03/f2AB2NN5lkvQCHkvLd/y/o1qMKmve35y1fmkXnXj
-         6XCOWfZ7W+iBw3WdwemShbMpzo8oJieUXB+gC2lWNvEDwQUdMjEYlSBIO8ElbkEi4yYS
-         /3QMcjzkMS0z0v6FiVnVRVgyGp1bABtgpk0w6YHK9sqMNZ8oeFq21hnd4y2ALjEeeuvG
-         fGsN9vHSFOPPE8hjRAiAd2wFRiSXxvlpEYC/vBqhsE3CWM4ImAqIFD8oLK8x2UTFcxc6
-         FfMMSxwVsNLY7rnIlSbXJiZqiKXEFl1RnlBwnXKKgeMtPVYpqanYqRJLTcNzWV+i+PUd
-         efrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691567917; x=1692172717;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZMK/MF4QoWmTRy/7r0rvm+M3cYZZiIVGcbwV1xMbPtA=;
-        b=Cqnj9aHr4Cc8sn+dwnp2fJMV0P7lWBc6gtsZXSYwFwe45yqIkBdaXI1Pzgbh4kKNLT
-         98+khZGwRM09tEvAkON6gC+fWi6+3T693dAvwb/YmJUaXszh5Vz/nKAwZUeUc5cN9GQo
-         CO9eJZA74v296v01lQN3jkj8IUu1UDfx31QQvqROdZqj+UHqBkWeMnbemtVC1UzqQSBq
-         Jq0Xyjv9I/tBIhMAO/SOjYCk+hdexDZQgugiejiHHCfbSnEcAqTsE2QMYQR+WiYNZlkb
-         qcZyL17Jd2xoy9cM9JpK71PyfhcLfVX/0yIxfpgK4uSllZvkQgSL3eCT1Q0vex5SEc2r
-         jesw==
-X-Gm-Message-State: AOJu0Yw3Rh2J5pb133PDnVMeckXp8+feqBSCW9N7d2FTzuOH6979RkBh
-        /EMj9zGn/PsmA4ZwDJ6Ley7YaA==
-X-Google-Smtp-Source: AGHT+IH6Gfg0Ox1ijcaH3Yo/doK/gmTY3rCMIO8FuqulZi8laqcGMrnU8wQH8fU1K7v2TXfqSmiz6Q==
-X-Received: by 2002:a05:600c:205a:b0:3fb:d1db:5454 with SMTP id p26-20020a05600c205a00b003fbd1db5454mr1563638wmg.35.1691567917371;
-        Wed, 09 Aug 2023 00:58:37 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q12-20020a7bce8c000000b003fe26244858sm1136784wmj.46.2023.08.09.00.58.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Aug 2023 00:58:36 -0700 (PDT)
-Date:   Wed, 9 Aug 2023 10:58:34 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     oe-kbuild@lists.linux.dev,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>
-Cc:     lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-        linux-phy@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, freedreno@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 1/3] drm/display: add transparent bridge helper
-Message-ID: <79f07f7d-1de0-4a48-961e-30b6789e3b6b@kadam.mountain>
+        with ESMTP id S229575AbjHII1w (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Aug 2023 04:27:52 -0400
+X-Greylist: delayed 604 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Aug 2023 01:27:51 PDT
+Received: from mail.profitpathwaygo.com (mail.profitpathwaygo.com [141.94.21.238])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5AA510FF
+        for <linux-usb@vger.kernel.org>; Wed,  9 Aug 2023 01:27:51 -0700 (PDT)
+Received: by mail.profitpathwaygo.com (Postfix, from userid 1002)
+        id 393BB46DD2; Wed,  9 Aug 2023 08:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=profitpathwaygo.com;
+        s=mail; t=1691569004;
+        bh=qp3Ofokho6Ql+WtI8ZPVilyHYhskXL7fod7u9CWs8W4=;
+        h=Date:From:To:Subject:From;
+        b=lPp2eE3pNbgcsNF8n3zpU3HFshEQeANziIvdrFGfLgog2JN84rn2QVZaItCMUU695
+         ok3m2yYIUNN6l0Qfb6CDbvp5gGI5OzB5+oCHCeE9E6gNx0wl3/zJWqI9EP3mOICpcG
+         8H0yjAm+dWBnZApQcTPBjhj35EK6YhPICeTYyh9yESDumMWWkTEdMKX13eT/pewXVm
+         gJM9GJljyFZ67hCDfL8nCpqXjmQeLuVP3mBP1FjJfXKsvCV5PaeLXqL3ryNHUlf/IJ
+         HMWHSrkE8s5eSFyEtbj7wf9v5ZmRMdLxSfjiabva8YwJ8s3WnUBbovF8aw5Nvbtyp5
+         iLK02J1/lx3Ww==
+Received: by mail.profitpathwaygo.com for <linux-usb@vger.kernel.org>; Wed,  9 Aug 2023 08:16:11 GMT
+Message-ID: <20230809064500-0.1.10.4sii.0.ebn7bk6v2k@profitpathwaygo.com>
+Date:   Wed,  9 Aug 2023 08:16:11 GMT
+From:   "Adam Charachuta" <adam.charachuta@profitpathwaygo.com>
+To:     <linux-usb@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania_?=
+X-Mailer: mail.profitpathwaygo.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230802011845.4176631-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Dmitry,
+Dzie=C5=84 dobry,
 
-kernel test robot noticed the following build warnings:
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-display-add-transparent-bridge-helper/20230802-091932
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230802011845.4176631-2-dmitry.baryshkov%40linaro.org
-patch subject: [PATCH v3 1/3] drm/display: add transparent bridge helper
-config: x86_64-randconfig-m001-20230808 (https://download.01.org/0day-ci/archive/20230809/202308090559.RMlH2Dl6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230809/202308090559.RMlH2Dl6-lkp@intel.com/reproduce)
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202308090559.RMlH2Dl6-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/display/drm_simple_bridge.c:41 drm_simple_bridge_register() warn: possible memory leak of 'adev'
-
-vim +/adev +41 drivers/gpu/drm/display/drm_simple_bridge.c
-
-abf701043719cd Dmitry Baryshkov 2023-08-02  30  int drm_simple_bridge_register(struct device *parent)
-abf701043719cd Dmitry Baryshkov 2023-08-02  31  {
-abf701043719cd Dmitry Baryshkov 2023-08-02  32  	struct auxiliary_device *adev;
-abf701043719cd Dmitry Baryshkov 2023-08-02  33  	int ret;
-abf701043719cd Dmitry Baryshkov 2023-08-02  34  
-abf701043719cd Dmitry Baryshkov 2023-08-02  35  	adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-abf701043719cd Dmitry Baryshkov 2023-08-02  36  	if (!adev)
-abf701043719cd Dmitry Baryshkov 2023-08-02  37  		return -ENOMEM;
-abf701043719cd Dmitry Baryshkov 2023-08-02  38  
-abf701043719cd Dmitry Baryshkov 2023-08-02  39  	ret = ida_alloc(&simple_bridge_ida, GFP_KERNEL);
-abf701043719cd Dmitry Baryshkov 2023-08-02  40  	if (ret < 0)
-abf701043719cd Dmitry Baryshkov 2023-08-02 @41  		return ret;
-
-kfree(adev);
-
-abf701043719cd Dmitry Baryshkov 2023-08-02  42  
-abf701043719cd Dmitry Baryshkov 2023-08-02  43  	adev->id = ret;
-abf701043719cd Dmitry Baryshkov 2023-08-02  44  	adev->name = "simple_bridge";
-abf701043719cd Dmitry Baryshkov 2023-08-02  45  	adev->dev.parent = parent;
-abf701043719cd Dmitry Baryshkov 2023-08-02  46  	adev->dev.of_node = parent->of_node;
-abf701043719cd Dmitry Baryshkov 2023-08-02  47  	adev->dev.release = drm_simple_bridge_release;
-abf701043719cd Dmitry Baryshkov 2023-08-02  48  
-abf701043719cd Dmitry Baryshkov 2023-08-02  49  	ret = auxiliary_device_init(adev);
-abf701043719cd Dmitry Baryshkov 2023-08-02  50  	if (ret) {
-abf701043719cd Dmitry Baryshkov 2023-08-02  51  		kfree(adev);
-
-This needs to ida_free(&simple_bridge_ida, adev->id) as well.  There is
-a smatch check for this (check_unwind.c) but I guess I plan to re-write
-it a bit before I turn that on.
-
-abf701043719cd Dmitry Baryshkov 2023-08-02  52  		return ret;
-abf701043719cd Dmitry Baryshkov 2023-08-02  53  	}
-abf701043719cd Dmitry Baryshkov 2023-08-02  54  
-abf701043719cd Dmitry Baryshkov 2023-08-02  55  	ret = auxiliary_device_add(adev);
-abf701043719cd Dmitry Baryshkov 2023-08-02  56  	if (ret) {
-abf701043719cd Dmitry Baryshkov 2023-08-02  57  		auxiliary_device_uninit(adev);
-abf701043719cd Dmitry Baryshkov 2023-08-02  58  		return ret;
-abf701043719cd Dmitry Baryshkov 2023-08-02  59  	}
-abf701043719cd Dmitry Baryshkov 2023-08-02  60  
-abf701043719cd Dmitry Baryshkov 2023-08-02  61  	return devm_add_action_or_reset(parent, drm_simple_bridge_unregister_adev, adev);
-abf701043719cd Dmitry Baryshkov 2023-08-02  62  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Pozdrawiam serdecznie
+Adam Charachuta
