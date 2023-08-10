@@ -2,86 +2,171 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4F9DC001B0
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Aug 2023 19:04:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 712DBC001DE
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Aug 2023 20:36:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236262AbjHJTEq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Aug 2023 15:04:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40650 "EHLO
+        id S234111AbjHJUgh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Aug 2023 16:36:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232642AbjHJTEp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Aug 2023 15:04:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF00FE56
-        for <linux-usb@vger.kernel.org>; Thu, 10 Aug 2023 12:04:44 -0700 (PDT)
+        with ESMTP id S230459AbjHJUgg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Aug 2023 16:36:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53E7A2735;
+        Thu, 10 Aug 2023 13:36:36 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7634A6673C
-        for <linux-usb@vger.kernel.org>; Thu, 10 Aug 2023 19:04:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8213CC433C7;
-        Thu, 10 Aug 2023 19:04:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1691694283;
-        bh=xiZfVfOUnCg0hZkWFjOFbNIE3iuFDJfURT99pDxtQno=;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E4FAA649D8;
+        Thu, 10 Aug 2023 20:36:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9907FC433C7;
+        Thu, 10 Aug 2023 20:36:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691699795;
+        bh=HLJOnK0rH2cvb7EsLtRxErU2VHJz6XAwt8dHUse6DKM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=yjqMSPWggL+L0+cjrqQzA1QgT3BB7jlWWmQ6EEPjnPJ8yQNoky6ZgMPTd/tMZmcf+
-         EHSRF7NPEaBg2swticayvzEj9kExFGZ0D1+VyBGhBZphpDZVg7VAG0IGFtwAqp8G11
-         2JhAKjdeMyCE/Bdni/LH9/hYIZPut//Z8Xna6JkI=
-Date:   Thu, 10 Aug 2023 21:04:41 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org
-Subject: Re: [usb:usb-testing 36/37] drivers/usb/core/usb.c:648:18: warning:
- variable 'root_hub' set but not used
-Message-ID: <2023081034-nanny-repacking-3f26@gregkh>
-References: <202308092350.HR4PVHUt-lkp@intel.com>
- <d814a834-de95-486b-9c97-2a4f673700f4@rowland.harvard.edu>
- <2023081032-launch-unrigged-2a4b@gregkh>
+        b=YyM5XDF2DqDCiwlhNnxzBAT3zndoLjRw0OPRa2DXJli2uuvt80VkabDTadz6BQ1uq
+         zFLg1kCd1aj/ogBJO98YbSFnIuHKZxvibVyAHYGyci87df4K3JkfE8Qll+j36W57Cm
+         u8iXCGlTEM1r1r5hQSyAhoptS5X+ubF76dMZTKNrLOquf6PH2g+nPqrkToInf+CgEH
+         a4khDadQl7wGQFxqEClwliKhphgz4H4pvteGcmNggTCGt9Uznyq0TkezqM5EgYu8IR
+         xEif6xlSHOlI3tbGZOGKH4Iq1b6AeTKdz9UAEeetN8CbCOZk5cPYscv7Y2mLXNIZdY
+         3j8Icc9O5WVnQ==
+Received: (nullmailer pid 1127760 invoked by uid 1000);
+        Thu, 10 Aug 2023 20:36:33 -0000
+Date:   Thu, 10 Aug 2023 14:36:33 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Stanley Chang <stanley_chang@realtek.com>
+Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] dt-bindings: usb: dwc3: Add Realtek DHC RTD SoC
+ DWC3 USB
+Message-ID: <20230810203633.GA1121702-robh@kernel.org>
+References: <20230810055440.3534-1-stanley_chang@realtek.com>
+ <20230810055440.3534-2-stanley_chang@realtek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2023081032-launch-unrigged-2a4b@gregkh>
+In-Reply-To: <20230810055440.3534-2-stanley_chang@realtek.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 10, 2023 at 09:03:05PM +0200, Greg KH wrote:
-> On Wed, Aug 09, 2023 at 11:35:04AM -0400, Alan Stern wrote:
-> > On Wed, Aug 09, 2023 at 11:11:29PM +0800, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-> > > head:   f176638af476c6d46257cc3303f5c7cf47d5967d
-> > > commit: 1e4c574225cc5a0553115e5eb5787d1474db5b0f [36/37] USB: Remove remnants of Wireless USB and UWB
-> > > config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230809/202308092350.HR4PVHUt-lkp@intel.com/config)
-> > > compiler: loongarch64-linux-gcc (GCC) 12.3.0
-> > > reproduce: (https://download.01.org/0day-ci/archive/20230809/202308092350.HR4PVHUt-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202308092350.HR4PVHUt-lkp@intel.com/
-> > > 
-> > > All warnings (new ones prefixed by >>):
-> > > 
-> > >    drivers/usb/core/usb.c: In function 'usb_alloc_dev':
-> > > >> drivers/usb/core/usb.c:648:18: warning: variable 'root_hub' set but not used [-Wunused-but-set-variable]
-> > >      648 |         unsigned root_hub = 0;
-> > >          |                  ^~~~~~~~
-> > 
-> > Odd.  I'm quite sure that I built this with no problems.  [Does some 
-> > checking...]  Aha!  When I built it, I didn't use W=1. 
-> > 
-> > Greg, would you prefer a new version of this patch or a separate 
-> > correction patch?
+On Thu, Aug 10, 2023 at 01:54:35PM +0800, Stanley Chang wrote:
+> Document the DWC3 USB bindings for Realtek SoCs.
 > 
-> A new version, let me go drop the three patches from you for this as you
-> found a different issue on the first one already.  Just resend a new
-> series please.
+> Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
+> ---
+> v2 to v3 change:
+>     Add description for reg
+>     Remove property for realtek,unlink-usb3-port.
+>     Remove property for realtek,disable-usb3-phy.
+>     Use the maximum-speed instead of the above two properties.
+> v1 to v2 change:
+>     Revise the subject.
+>     Rename the file.
+>     Fix dtschema warnings.
+>     Remove the property realtek,enable-l4icg.
+>     Drop status.
+> ---
+>  .../bindings/usb/realtek,rtd-dwc3.yaml        | 80 +++++++++++++++++++
+>  1 file changed, 80 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/realtek,rtd-dwc3.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/realtek,rtd-dwc3.yaml b/Documentation/devicetree/bindings/usb/realtek,rtd-dwc3.yaml
+> new file mode 100644
+> index 000000000000..cc66adc4b9da
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/realtek,rtd-dwc3.yaml
+> @@ -0,0 +1,80 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright 2023 Realtek Semiconductor Corporation
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/realtek,rtd-dwc3.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Realtek DWC3 USB SoC Controller Glue
+> +
+> +maintainers:
+> +  - Stanley Chang <stanley_chang@realtek.com>
+> +
+> +description:
+> +  The Realtek DHC SoC embeds a DWC3 USB IP Core configured for USB 2.0
+> +  and USB 3.0 in host or dual-role mode.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - realtek,rtd1295-dwc3
+> +          - realtek,rtd1315e-dwc3
+> +          - realtek,rtd1319-dwc3
+> +          - realtek,rtd1319d-dwc3
+> +          - realtek,rtd1395-dwc3
+> +          - realtek,rtd1619-dwc3
+> +          - realtek,rtd1619b-dwc3
+> +      - const: realtek,rtd-dwc3
+> +
+> +  reg:
+> +    description: Offset and length of register set for wrapper of dwc3 core.
+> +    maxItems: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 1
+> +
+> +  ranges: true
+> +
+> +patternProperties:
+> +  "^usb@[0-9a-f]+$":
+> +    $ref: snps,dwc3.yaml#
+> +    description: Required child node
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - ranges
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    usb@98013e00 {
+> +        compatible = "realtek,rtd1319d-dwc3", "realtek,rtd-dwc3";
+> +        reg = <0x98013e00 0x200>;
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges;
+> +        maximum-speed = "high-speed";
 
-Nevermind, I got confused.  Yes, a fix up is fine, I'll not drop these
-as they build fine for me.
+This should be a warning (the bot was having problems) as it is not 
+defined for this node. It belongs in the child node as you also have, so 
+drop it.
 
-thanks,
-
-greg k-h
+> +
+> +        usb@98050000 {
+> +            compatible = "snps,dwc3";
+> +            reg = <0x98050000 0x9000>;
+> +            interrupts = <0 94 4>;
+> +            phys = <&usb2phy &usb3phy>;
+> +            phy-names = "usb2-phy", "usb3-phy";
+> +            dr_mode = "otg";
+> +            usb-role-switch;
+> +            role-switch-default-mode = "host";
+> +            snps,dis_u2_susphy_quirk;
+> +            snps,parkmode-disable-ss-quirk;
+> +            snps,parkmode-disable-hs-quirk;
+> +            maximum-speed = "high-speed";
+> +        };
+> +    };
+> -- 
+> 2.34.1
+> 
