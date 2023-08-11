@@ -2,99 +2,218 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EF11C04A6A
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Aug 2023 05:58:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B32FC07E8C
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Aug 2023 10:08:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231843AbjHKF6q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Aug 2023 01:58:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57030 "EHLO
+        id S229666AbjHKKIj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Aug 2023 06:08:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjHKF6p (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Aug 2023 01:58:45 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 16BF22722;
-        Thu, 10 Aug 2023 22:58:41 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 37B5w8igD004213, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 37B5w8igD004213
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 11 Aug 2023 13:58:08 +0800
-Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Fri, 11 Aug 2023 13:58:26 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXDAG01.realtek.com.tw (172.21.6.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 11 Aug 2023 13:58:26 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
- RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
- 15.01.2375.007; Fri, 11 Aug 2023 13:58:26 +0800
-From:   =?big5?B?U3RhbmxleSBDaGFuZ1up96h8vHdd?= <stanley_chang@realtek.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3 2/2] dt-bindings: usb: dwc3: Add Realtek DHC RTD SoC DWC3 USB
-Thread-Topic: [PATCH v3 2/2] dt-bindings: usb: dwc3: Add Realtek DHC RTD SoC
- DWC3 USB
-Thread-Index: AQHZy08oIzVQuCZ6R0a3+HSHmsv8hK/jd/iAgAEgh5A=
-Date:   Fri, 11 Aug 2023 05:58:25 +0000
-Message-ID: <31c4716cd3df41418e91dd77347f8dc8@realtek.com>
-References: <20230810055440.3534-1-stanley_chang@realtek.com>
- <20230810055440.3534-2-stanley_chang@realtek.com>
- <20230810203633.GA1121702-robh@kernel.org>
-In-Reply-To: <20230810203633.GA1121702-robh@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.190.159]
-x-kse-serverinfo: RTEXDAG01.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+        with ESMTP id S233241AbjHKKIh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Aug 2023 06:08:37 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80149EA;
+        Fri, 11 Aug 2023 03:08:33 -0700 (PDT)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37B72jef008118;
+        Fri, 11 Aug 2023 12:07:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding:content-type; s=
+        selector1; bh=+UNuTiEun7FhBdsfcJqf/qnk8DNj8pRVH/wzdvv/e68=; b=LU
+        6RvEGiWjfTS5SQ1hzOvgyC9i3pIRfWwyGeWwk6cs17GkbGoMqtnrFTs/Gkcs7hB7
+        RJGWWjhcGTLUj3aZ7Jd/bRq9Hg7CZlpiMS80w58RL8hvUvLrtTpYgu6HtCWCWD/J
+        b9c27Rsix2P8RHB8sMHVQ+tJEo0vbWMK/5pBQwAnY43y49xhAH2x94MWvGIlv8zp
+        euHeaPGsZaKT/cgERxmR8hE5/BP2KMo6RWkXGlynlmsvo0RATv4tvR1TSuhDL3si
+        +vx/FnRdjpoL5NbKdyh5ydF4VnV6JdaxTK+7ZjnCdPGkq0CG3crrpqYceQX8327c
+        RlcnomF/M/DeFvVvzMow==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3sd9jrtyf3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 11 Aug 2023 12:07:44 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 6065B100058;
+        Fri, 11 Aug 2023 12:07:43 +0200 (CEST)
+Received: from Webmail-eu.st.com (eqndag1node4.st.com [10.75.129.133])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 563362138F9;
+        Fri, 11 Aug 2023 12:07:43 +0200 (CEST)
+Received: from localhost (10.201.21.121) by EQNDAG1NODE4.st.com
+ (10.75.129.133) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 11 Aug
+ 2023 12:07:42 +0200
+From:   Gatien Chevallier <gatien.chevallier@foss.st.com>
+To:     <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
+        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <alexandre.torgue@foss.st.com>,
+        <vkoul@kernel.org>, <jic23@kernel.org>,
+        <olivier.moysan@foss.st.com>, <arnaud.pouliquen@foss.st.com>,
+        <mchehab@kernel.org>, <fabrice.gasnier@foss.st.com>,
+        <andi.shyti@kernel.org>, <ulf.hansson@linaro.org>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <hugues.fruchet@foss.st.com>, <lee@kernel.org>, <will@kernel.org>,
+        <catalin.marinas@arm.com>, <arnd@kernel.org>,
+        <richardcochran@gmail.com>, Frank Rowand <frowand.list@gmail.com>,
+        <peng.fan@oss.nxp.com>
+CC:     <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
+        <linux-mmc@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>, <linux-serial@vger.kernel.org>,
+        <linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        Gatien Chevallier <gatien.chevallier@foss.st.com>
+Subject: [PATCH v4 03/11] dt-bindings: bus: document RIFSC
+Date:   Fri, 11 Aug 2023 12:07:23 +0200
+Message-ID: <20230811100731.108145-4-gatien.chevallier@foss.st.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230811100731.108145-1-gatien.chevallier@foss.st.com>
+References: <20230811100731.108145-1-gatien.chevallier@foss.st.com>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.201.21.121]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To EQNDAG1NODE4.st.com
+ (10.75.129.133)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-10_20,2023-08-10_01,2023-05-22_02
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGkgUm9iLA0KDQo+ID4gKw0KPiA+ICtleGFtcGxlczoNCj4gPiArICAtIHwNCj4gPiArICAgIHVz
-YkA5ODAxM2UwMCB7DQo+ID4gKyAgICAgICAgY29tcGF0aWJsZSA9ICJyZWFsdGVrLHJ0ZDEzMTlk
-LWR3YzMiLCAicmVhbHRlayxydGQtZHdjMyI7DQo+ID4gKyAgICAgICAgcmVnID0gPDB4OTgwMTNl
-MDAgMHgyMDA+Ow0KPiA+ICsgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Ow0KPiA+ICsgICAg
-ICAgICNzaXplLWNlbGxzID0gPDE+Ow0KPiA+ICsgICAgICAgIHJhbmdlczsNCj4gPiArICAgICAg
-ICBtYXhpbXVtLXNwZWVkID0gImhpZ2gtc3BlZWQiOw0KPiANCj4gVGhpcyBzaG91bGQgYmUgYSB3
-YXJuaW5nICh0aGUgYm90IHdhcyBoYXZpbmcgcHJvYmxlbXMpIGFzIGl0IGlzIG5vdCBkZWZpbmVk
-IGZvcg0KPiB0aGlzIG5vZGUuIEl0IGJlbG9uZ3MgaW4gdGhlIGNoaWxkIG5vZGUgYXMgeW91IGFs
-c28gaGF2ZSwgc28gZHJvcCBpdC4NCg0KQXMgSSBtZW50aW9uZWQgaW4gdGhlIHYxIHBhdGNoLCBJ
-IGhhdmUgYSBwcm9ibGVtLg0KVGhpcyBwcm9wZXJ0eSBtYXhpbXVtLXNwZWVkIGJlbG9uZ3MgdG8g
-ZHdjMy4NCldoZW4gdGhlIGR3YzMtcnRrIHNldHRpbmcgZGlzYWJsZXMgVVNCIDMuMCBwaHksIGR3
-YzMgaXMgbm90IHByb2JlZC4NClNvIEkgY2FuJ3QgdXNlIGFwaSB1c2JfZ2V0X21heGltdW1fc3Bl
-ZWQoZGV2KSB0byBnZXQgbWF4aW11bS1zcGVlZC4NCg0KSSBhZGRlZCB0aGlzIHByb3BlcnR5ICJt
-YXhpbXVtLXNwZWVkIiB0byB0aGUgZHdjMy1ydGsgbm9kZSwgd2hpY2ggaXMgdGhlIHNhbWUgYXMg
-dGhlIGR3YzMgY29yZSBub2RlLg0KSXMgdGhpcyBjb25maWd1cmF0aW9uIGFwcHJvcHJpYXRlPw0K
-T3IgZG8geW91IGhhdmUgYW55IHN1Z2dlc3Rpb24/DQoNCj4gPiArDQo+ID4gKyAgICAgICAgdXNi
-QDk4MDUwMDAwIHsNCj4gPiArICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJzbnBzLGR3YzMiOw0K
-PiA+ICsgICAgICAgICAgICByZWcgPSA8MHg5ODA1MDAwMCAweDkwMDA+Ow0KPiA+ICsgICAgICAg
-ICAgICBpbnRlcnJ1cHRzID0gPDAgOTQgND47DQo+ID4gKyAgICAgICAgICAgIHBoeXMgPSA8JnVz
-YjJwaHkgJnVzYjNwaHk+Ow0KPiA+ICsgICAgICAgICAgICBwaHktbmFtZXMgPSAidXNiMi1waHki
-LCAidXNiMy1waHkiOw0KPiA+ICsgICAgICAgICAgICBkcl9tb2RlID0gIm90ZyI7DQo+ID4gKyAg
-ICAgICAgICAgIHVzYi1yb2xlLXN3aXRjaDsNCj4gPiArICAgICAgICAgICAgcm9sZS1zd2l0Y2gt
-ZGVmYXVsdC1tb2RlID0gImhvc3QiOw0KPiA+ICsgICAgICAgICAgICBzbnBzLGRpc191Ml9zdXNw
-aHlfcXVpcms7DQo+ID4gKyAgICAgICAgICAgIHNucHMscGFya21vZGUtZGlzYWJsZS1zcy1xdWly
-azsNCj4gPiArICAgICAgICAgICAgc25wcyxwYXJrbW9kZS1kaXNhYmxlLWhzLXF1aXJrOw0KPiA+
-ICsgICAgICAgICAgICBtYXhpbXVtLXNwZWVkID0gImhpZ2gtc3BlZWQiOw0KPiA+ICsgICAgICAg
-IH07DQo+ID4gKyAgICB9Ow0KPiA+IC0tDQo+ID4gMi4zNC4xDQo+ID4NCg0KVGhhbmtzLA0KU3Rh
-bmxleQ0K
+Document RIFSC (RIF security controller). RIFSC is a firewall controller
+composed of different kinds of hardware resources.
+
+Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
+---
+
+Changes in V2: 
+	- Corrected errors highlighted by Rob's robot
+	- No longer define the maxItems for the "feature-domains"
+	  property
+	- Fix example (node name, status)
+	- Declare "feature-domain-names" as an optional
+	  property for child nodes
+	- Fix description of "feature-domains" property
+
+ .../bindings/bus/st,stm32mp25-rifsc.yaml      | 105 ++++++++++++++++++
+ 1 file changed, 105 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/bus/st,stm32mp25-rifsc.yaml
+
+diff --git a/Documentation/devicetree/bindings/bus/st,stm32mp25-rifsc.yaml b/Documentation/devicetree/bindings/bus/st,stm32mp25-rifsc.yaml
+new file mode 100644
+index 000000000000..7aeb38296616
+--- /dev/null
++++ b/Documentation/devicetree/bindings/bus/st,stm32mp25-rifsc.yaml
+@@ -0,0 +1,105 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/bus/st,stm32mp25-rifsc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: STM32 Resource isolation framework security controller
++
++maintainers:
++  - Gatien Chevallier <gatien.chevallier@foss.st.com>
++
++description: |
++  Resource isolation framework (RIF) is a comprehensive set of hardware blocks
++  designed to enforce and manage isolation of STM32 hardware resources like
++  memory and peripherals.
++
++  The RIFSC (RIF security controller) is composed of three sets of registers,
++  each managing a specific set of hardware resources:
++    - RISC registers associated with RISUP logic (resource isolation device unit
++      for peripherals), assign all non-RIF aware peripherals to zero, one or
++      any security domains (secure, privilege, compartment).
++    - RIMC registers: associated with RIMU logic (resource isolation master
++      unit), assign all non RIF-aware bus master to one security domain by
++      setting secure, privileged and compartment information on the system bus.
++      Alternatively, the RISUP logic controlling the device port access to a
++      peripheral can assign target bus attributes to this peripheral master port
++      (supported attribute: CID).
++    - RISC registers associated with RISAL logic (resource isolation device unit
++      for address space - Lite version), assign address space subregions to one
++      security domains (secure, privilege, compartment).
++
++properties:
++  compatible:
++    contains:
++      const: st,stm32mp25-rifsc
++
++  reg:
++    maxItems: 1
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 1
++
++  ranges: true
++
++  "#feature-domain-cells":
++    const: 1
++
++  feature-domain-controller: true
++
++patternProperties:
++  "^.*@[0-9a-f]+$":
++    description: Peripherals
++    type: object
++    properties:
++      feature-domains:
++        minItems: 1
++        description:
++          The phandle of the firewall controller of the peripheral and the
++          platform-specific firewall ID of the peripheral.
++
++      feature-domain-names:
++        minItems: 1
++
++    required:
++      - feature-domains
++
++required:
++  - compatible
++  - reg
++  - "#address-cells"
++  - "#size-cells"
++  - feature-domain-controller
++  - "#feature-domain-cells"
++  - ranges
++
++additionalProperties: false
++
++examples:
++  - |
++    // In this example, the usart2 device refers to rifsc as its domain
++    // controller.
++    // Access rights are verified before creating devices.
++
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    rifsc: bus@42080000 {
++        compatible = "st,stm32mp25-rifsc";
++        reg = <0x42080000 0x1000>;
++        #address-cells = <1>;
++        #size-cells = <1>;
++        feature-domain-controller;
++        #feature-domain-cells = <1>;
++        ranges;
++
++        usart2: serial@400e0000 {
++              compatible = "st,stm32h7-uart";
++              reg = <0x400e0000 0x400>;
++              interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>;
++              clocks = <&ck_flexgen_08>;
++              feature-domains = <&rifsc 32>;
++        };
++    };
+-- 
+2.25.1
+
