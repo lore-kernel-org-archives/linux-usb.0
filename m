@@ -2,141 +2,163 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FD4CC04A6A
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Aug 2023 20:52:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A13C001B0
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Aug 2023 21:37:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236849AbjHKUwl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Aug 2023 16:52:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53950 "EHLO
+        id S236972AbjHKVhz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Aug 2023 17:37:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236892AbjHKUwi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Aug 2023 16:52:38 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1690030EE;
-        Fri, 11 Aug 2023 13:52:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691787151; x=1723323151;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=tv/cNuarCVMN8q2TzmDIRA/D/urKZ6Jjo5PwLp0JXZo=;
-  b=AfEKLC/im2mta2HDSxnSjyzX+V8zN/4kpgzpvpRqnjDZ6BkXcI/ghfCv
-   ooiJ0OGqdr3Bht8c31EX9Pen8KkPgqyKRO07A+LEO63MUni25x/zsrIn3
-   BipJGZ2U3zbLBgC8KtBj6532WHhkHnBaVkpmDmBJd0aPBAcFwfp/PDaTA
-   cmgLcgWcqOYJb3p80tPTziFlIYGb/92sLZOZGb7owvdhozanYEtzNLeAf
-   Jf/rpkQU5gpU60XEUo5uJRUivZZFLQbXNU/N3by+5myWOveP2ydGAD1A7
-   IKbGqh5lv6/E1B1iBqE/HP+64+Uk8OIXXxuyRKpFolwI6KRbpL/lwyeZD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="375473045"
-X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="375473045"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 13:52:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="762322061"
-X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="762322061"
-Received: from uhpatel-desk4.jf.intel.com ([10.23.15.223])
-  by orsmga008.jf.intel.com with ESMTP; 11 Aug 2023 13:52:11 -0700
-From:   Utkarsh Patel <utkarsh.h.patel@intel.com>
-To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Cc:     heikki.krogerus@linux.intel.com, andriy.shevchenko@linux.intel.com,
-        pmalani@chromium.org, bleung@chromium.org,
-        Utkarsh Patel <utkarsh.h.patel@intel.com>
-Subject: [PATCH 3/4] platform/chrome: cros_ec_typec: Add Displayport Alternatemode 2.1 Support
-Date:   Fri, 11 Aug 2023 14:07:34 -0700
-Message-Id: <20230811210735.159529-4-utkarsh.h.patel@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230811210735.159529-1-utkarsh.h.patel@intel.com>
-References: <20230811210735.159529-1-utkarsh.h.patel@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S236965AbjHKVhw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Aug 2023 17:37:52 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF2F30C8
+        for <linux-usb@vger.kernel.org>; Fri, 11 Aug 2023 14:37:40 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-584139b6b03so27963677b3.3
+        for <linux-usb@vger.kernel.org>; Fri, 11 Aug 2023 14:37:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1691789859; x=1692394659;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=bMZsVZSnTwxLBUZ0gFEh6Z7YIIkBHuiAxRukuullP64=;
+        b=72OZU8nCPwmXMWau/bDePSdndzSri29uvu09IJBTIwz9ICBVapeWg+SDFxS7gpRIBd
+         +zoymg8oFyxYMMo4M9G0obTzeT639Wm5c+nZxA2PPVoPx6nSJ7X5SeuHxeU+U+RlN9U1
+         hjbl+ZBBf4O19aItCQ1LkQTdOQR8LZoFzMJwgXYMgGdLoymniI0bFQUGGlBoH+WYmuHb
+         uP7n+nRe8wFb8HC7UzjnjPJiAaRlFzCvpVufqlCtPkzJvmGntJ6WVu3PaNLJIwAlmwyg
+         HcwoXb2r6JaBHuENjKDKAu+9OBarskuwun5cAk4THv3SdbEQ6o/arCQw+XEJtDCebTqC
+         LXRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691789859; x=1692394659;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bMZsVZSnTwxLBUZ0gFEh6Z7YIIkBHuiAxRukuullP64=;
+        b=ATWu5dl5oCqGSwj86PYRTvh6aPDr8pvTR0fwl4AWKjo+zP/oxDRvmrY85EKtH/1I2r
+         lC8Et3P0b3W6gtcDb6luv6RFVdyezvm7PIZ014ixNZ9YiOT9pf2+upwho+Fciky2qEAX
+         36ZF8P2pkGMOeyeXszDxQIAFNie+ULhMqoI3+JLZa8N8onXyM+Nla0YTFJSLqt7hJJQs
+         fir2GetlN/IWvowErB9/jyLXefeWgHAUoQjN/BRkq9KNCw1RtT9PgPG2y/xmIrRGz7qC
+         IVHKiO+RCnlM9sdqeNRS8Hf3K3zke+BoTLR/FyIP+a4GZ8F1hasemVEcvzL97aG1Mvq6
+         7AYw==
+X-Gm-Message-State: AOJu0Yy8+ri8BThtuokiC5gQ2YydsF9SB7PvcN/cNC/1IGRrdlMLC7HW
+        BJ6LVw6Bf2NIRbjaUpAzDsqBdYrctLs4eM0=
+X-Google-Smtp-Source: AGHT+IFP1TLkOnN0mXKWfJp/bqh9cjlj0kJRsKyzdyvggLP4N2xzIVCKSkVK86ZkSomHRWVcdvm5Y14/oZ6JJ58=
+X-Received: from rdbabiera.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:18a8])
+ (user=rdbabiera job=sendgmr) by 2002:a81:ae12:0:b0:584:41b7:30e7 with SMTP id
+ m18-20020a81ae12000000b0058441b730e7mr52742ywh.0.1691789859770; Fri, 11 Aug
+ 2023 14:37:39 -0700 (PDT)
+Date:   Fri, 11 Aug 2023 21:37:32 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.640.ga95def55d0-goog
+Message-ID: <20230811213732.3325896-1-rdbabiera@google.com>
+Subject: [PATCH v3] usb: typec: bus: verify partner exists in typec_altmode_attention
+From:   RD Babiera <rdbabiera@google.com>
+To:     heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
+        linux@roeck-us.net
+Cc:     badhri@google.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, RD Babiera <rdbabiera@google.com>,
+        stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Displayport Alternatemode 2.1 requires cable capabilities such as cable
-signalling, cable type, DPAM version which then will be used by mux
-driver for displayport configuration.
+Some usb hubs will negotiate DisplayPort Alt mode with the device
+but will then negotiate a data role swap after entering the alt
+mode. The data role swap causes the device to unregister all alt
+modes, however the usb hub will still send Attention messages
+even after failing to reregister the Alt Mode. type_altmode_attention
+currently does not verify whether or not a device's altmode partner
+exists, which results in a NULL pointer error when dereferencing
+the typec_altmode and typec_altmode_ops belonging to the altmode
+partner.
 
-These capabilities can be derived from the Cable VDO data as well as from
-the existing EC PD host command interface.
+Verify the presence of a device's altmode partner before sending
+the Attention message to the Alt Mode driver.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
+Fixes: 8a37d87d72f0 ("usb: typec: Bus type for alternate modes")
+Cc: stable@vger.kernel.org
+Signed-off-by: RD Babiera <rdbabiera@google.com>
 ---
- drivers/platform/chrome/cros_ec_typec.c | 30 +++++++++++++++++++++++++
- drivers/platform/chrome/cros_ec_typec.h |  1 +
- 2 files changed, 31 insertions(+)
+Changes since v1:
+* Only assigns pdev if altmode partner exists in typec_altmode_attention
+* Removed error return in typec_altmode_attention if Alt Mode does
+  not implement Attention messages.
+* Changed tcpm_log message to indicate that altmode partner does not exist,
+  as it only logs in that case.
+---
+Changes since v2:
+* Changed tcpm_log message to accurately reflect error
+* Revised commit message
+---
+ drivers/usb/typec/bus.c           | 12 ++++++++++--
+ drivers/usb/typec/tcpm/tcpm.c     |  5 ++++-
+ include/linux/usb/typec_altmode.h |  2 +-
+ 3 files changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index d0b4d3fc40ed..eb4a1cb584a2 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -485,6 +485,32 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
- 	return typec_mux_set(port->mux, &port->state);
+diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
+index fe5b9a2e61f5..e95ec7e382bb 100644
+--- a/drivers/usb/typec/bus.c
++++ b/drivers/usb/typec/bus.c
+@@ -183,12 +183,20 @@ EXPORT_SYMBOL_GPL(typec_altmode_exit);
+  *
+  * Notifies the partner of @adev about Attention command.
+  */
+-void typec_altmode_attention(struct typec_altmode *adev, u32 vdo)
++int typec_altmode_attention(struct typec_altmode *adev, u32 vdo)
+ {
+-	struct typec_altmode *pdev = &to_altmode(adev)->partner->adev;
++	struct altmode *partner = to_altmode(adev)->partner;
++	struct typec_altmode *pdev;
++
++	if (!partner)
++		return -ENODEV;
++
++	pdev = &partner->adev;
+ 
+ 	if (pdev->ops && pdev->ops->attention)
+ 		pdev->ops->attention(pdev, vdo);
++
++	return 0;
  }
+ EXPORT_SYMBOL_GPL(typec_altmode_attention);
  
-+static int cros_typec_dp21_support(struct cros_typec_port *port,
-+				   struct typec_displayport_data dp21_data,
-+				   struct ec_response_usb_pd_control_v2 *pd_ctrl)
-+{
-+	u32 cable_vdo = cros_typec_get_cable_vdo(port, USB_TYPEC_DP_SID);
-+
-+	if (cable_vdo & DP_CAP_DPAM_VERSION) {
-+		dp21_data.conf |= cable_vdo;
-+	} else {
-+		/* Cable Speed */
-+		dp21_data.conf |= pd_ctrl->cable_speed << DP_CONF_SIGNALLING_SHIFT;
-+
-+		/* Cable Type */
-+		if (pd_ctrl->cable_gen & USB_PD_CTRL_OPTICAL_CABLE)
-+			dp21_data.conf |= DP_CONF_CABLE_TYPE_OPTICAL << DP_CONF_CABLE_TYPE_SHIFT;
-+		else if (cros_typec_get_cable_vdo(port, USB_TYPEC_TBT_SID) & TBT_CABLE_RETIMER)
-+			dp21_data.conf |= DP_CONF_CABLE_TYPE_RE_TIMER << DP_CONF_CABLE_TYPE_SHIFT;
-+		else if (pd_ctrl->cable_gen & USB_PD_CTRL_ACTIVE_CABLE)
-+			dp21_data.conf |= DP_CONF_CABLE_TYPE_RE_DRIVER << DP_CONF_CABLE_TYPE_SHIFT;
-+	}
-+
-+	port->state.data = &dp21_data;
-+
-+	return typec_mux_set(port->mux, &port->state);
-+}
-+
- /* Spoof the VDOs that were likely communicated by the partner. */
- static int cros_typec_enable_dp(struct cros_typec_data *typec,
- 				int port_num,
-@@ -524,6 +550,9 @@ static int cros_typec_enable_dp(struct cros_typec_data *typec,
- 	port->state.data = &dp_data;
- 	port->state.mode = TYPEC_MODAL_STATE(ffs(pd_ctrl->dp_mode));
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 5a7d8cc04628..97b7b22e9cf1 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -1791,6 +1791,7 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
+ 	u32 p[PD_MAX_PAYLOAD];
+ 	u32 response[8] = { };
+ 	int i, rlen = 0;
++	int ret;
  
-+	if (typec->typec_dp21_supported)
-+		return cros_typec_dp21_support(port, dp_data, pd_ctrl);
-+
- 	ret = cros_typec_retimer_set(port->retimer, port->state);
- 	if (!ret)
- 		ret = typec_mux_set(port->mux, &port->state);
-@@ -1196,6 +1225,7 @@ static int cros_typec_probe(struct platform_device *pdev)
+ 	for (i = 0; i < cnt; i++)
+ 		p[i] = le32_to_cpu(payload[i]);
+@@ -1877,7 +1878,9 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
+ 			}
+ 			break;
+ 		case ADEV_ATTENTION:
+-			typec_altmode_attention(adev, p[1]);
++			ret = typec_altmode_attention(adev, p[1]);
++			if (ret)
++				tcpm_log(port, "typec_altmode_attention NULL port partner altmode");
+ 			break;
+ 		}
+ 	}
+diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
+index 350d49012659..28aeef8f9e7b 100644
+--- a/include/linux/usb/typec_altmode.h
++++ b/include/linux/usb/typec_altmode.h
+@@ -67,7 +67,7 @@ struct typec_altmode_ops {
  
- 	typec->typec_cmd_supported = cros_ec_check_features(ec_dev, EC_FEATURE_TYPEC_CMD);
- 	typec->needs_mux_ack = cros_ec_check_features(ec_dev, EC_FEATURE_TYPEC_MUX_REQUIRE_AP_ACK);
-+	typec->typec_dp21_supported = cros_ec_check_features(ec_dev, EC_FEATURE_TYPEC_DP2_1);
- 
- 	ret = cros_ec_cmd(typec->ec, 0, EC_CMD_USB_PD_PORTS, NULL, 0,
- 			  &resp, sizeof(resp));
-diff --git a/drivers/platform/chrome/cros_ec_typec.h b/drivers/platform/chrome/cros_ec_typec.h
-index deda180a646f..a588b2780823 100644
---- a/drivers/platform/chrome/cros_ec_typec.h
-+++ b/drivers/platform/chrome/cros_ec_typec.h
-@@ -37,6 +37,7 @@ struct cros_typec_data {
- 	struct cros_typec_port *ports[EC_USB_PD_MAX_PORTS];
- 	struct notifier_block nb;
- 	struct work_struct port_work;
-+	bool typec_dp21_supported;
- 	bool typec_cmd_supported;
- 	bool needs_mux_ack;
- };
+ int typec_altmode_enter(struct typec_altmode *altmode, u32 *vdo);
+ int typec_altmode_exit(struct typec_altmode *altmode);
+-void typec_altmode_attention(struct typec_altmode *altmode, u32 vdo);
++int typec_altmode_attention(struct typec_altmode *altmode, u32 vdo);
+ int typec_altmode_vdm(struct typec_altmode *altmode,
+ 		      const u32 header, const u32 *vdo, int count);
+ int typec_altmode_notify(struct typec_altmode *altmode, unsigned long conf,
+
+base-commit: f176638af476c6d46257cc3303f5c7cf47d5967d
 -- 
-2.25.1
+2.41.0.640.ga95def55d0-goog
 
