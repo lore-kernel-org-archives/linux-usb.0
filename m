@@ -2,157 +2,253 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33DF4C41513
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Aug 2023 18:08:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D09DCC41513
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Aug 2023 18:51:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230226AbjHNSHn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Aug 2023 14:07:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52040 "EHLO
+        id S231300AbjHNSvY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Aug 2023 14:51:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230086AbjHNSHK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Aug 2023 14:07:10 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25FF2E61
-        for <linux-usb@vger.kernel.org>; Mon, 14 Aug 2023 11:07:09 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d61e9cb310dso5234022276.0
-        for <linux-usb@vger.kernel.org>; Mon, 14 Aug 2023 11:07:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692036428; x=1692641228;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ILL3/wme+Xj3iELICcc/rzQVuKV1rDXNge6KvsnjpQU=;
-        b=byqR1Ww+0r/eXw/qhFsThHdhUozBD7vXDz8QBlKVU7ODMahemj/tryCgsp4E4moyVo
-         Y6WIvCu4UBQCyYP5mYnIz14yhVEqF0KWZo78E+i/dl/n9UFjqYadCSAb3JQTWyuXtDvT
-         4UJd1fX5GS4LxUOCNLGiW26cx5vZ9VE9JB4mVqHFhkCZn5wP8QNDqPLg11wcW+C04Jz3
-         +rcvEt4yROAK69LcpGxkVyx+x5gT0zv8M+aMV5dZ4uUnSekygISfLbwjVe+6MzvzbUfG
-         F4m09HWA7nxzK5jOFjK4r6EXvYW1uUC8pipTpQCpkwumrAI+6q7TQSgAzntNvfUSGgth
-         qBDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692036428; x=1692641228;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ILL3/wme+Xj3iELICcc/rzQVuKV1rDXNge6KvsnjpQU=;
-        b=gCpc8YxHKva4ilpEpXiPqjitNmGa46FiA1KqDbyR2lXxkWU9ZRMtpGLbuv8P1yb8Tf
-         wqcKKqGdKmzvplmBnAd9DRqfeQLvx705Mbn8C0tJSzsSx2mNdOu58sfNsESHYpOeSoyF
-         dg22CQPSa7oXNu6zxusZwevYaJVGfzARWfe3IWvL3TaZqAYi3iGrOjQVkzVGDi3dSt6/
-         ETXuBSAQ//+Dl+OOB1VA2z7tw9DeLJm1oSxg9UyiuBZe3eN6A5kxGrjqdN5Sph2IskBU
-         Qf8FY4jtvsDUObtVrJ+ijJfpE6gdnCCsKzoR4D+SO7tn5JmXxUaqE0lbr3AS2D1SNRay
-         nk9Q==
-X-Gm-Message-State: AOJu0YxsHZsBtNfYMuj7VPHJ1PR+SNMrVr+FZLUlAmHum85PN7WH8Xo2
-        gda+Nc5VhJJQwdC38y86R6j+kMBHg2iPQq8=
-X-Google-Smtp-Source: AGHT+IFPcHmzG6KqaH70vqmY/Q2yqgXqnRgdvqHi7Ao2JTUETR1j90+egJ02S9qBGbxPNcRQs1E46IszPQ13uZA=
-X-Received: from rdbabiera.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:18a8])
- (user=rdbabiera job=sendgmr) by 2002:a25:d4d5:0:b0:d0f:bcfe:bc74 with SMTP id
- m204-20020a25d4d5000000b00d0fbcfebc74mr138892ybf.9.1692036428382; Mon, 14 Aug
- 2023 11:07:08 -0700 (PDT)
-Date:   Mon, 14 Aug 2023 18:05:59 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.41.0.694.ge786442a9b-goog
-Message-ID: <20230814180559.923475-1-rdbabiera@google.com>
-Subject: [PATCH v4] usb: typec: bus: verify partner exists in typec_altmode_attention
-From:   RD Babiera <rdbabiera@google.com>
-To:     heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
-        linux@roeck-us.net
-Cc:     badhri@google.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, RD Babiera <rdbabiera@google.com>,
-        stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S231336AbjHNSu6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Aug 2023 14:50:58 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB79510F7;
+        Mon, 14 Aug 2023 11:50:55 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37E8DjFW015513;
+        Mon, 14 Aug 2023 18:50:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=jVbe2XeCWv7UaQVqT4HDHH912Y0qguYXXF0TNt6HQeI=;
+ b=mr+fa1KFwi7qFydOxAXZAosotZ7Xp6Rt/7QMRGOTWFUDjNuMAqCVSFLviGnGmHA4Dz8+
+ H7n1+wdvCphqm6Bz0lRet9JL78jyIgi+MJUhLq2wvK71SoW8+Wb3SGz4blAYaa+asg5j
+ c8KlWFeiJ4gYOarkcSdxxyY8HN315cvwxtdramfkajrX9Ir7pz8eGk33+apEQW8NkDF8
+ KonzgW6TgX0PCpEQhxK+0XFl8LnR6Ql8fQBDxS1+T+cpxcbKQPNrnoeF/AdL1nOQlqGC
+ 5rO8b0UOoBMJuPBh+BMDTGx3w9c60VEVtQi2FZc0hb8MV95P49U6fhwR6+9hBmLA09yL PQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3se3tymm7b-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 14 Aug 2023 18:50:50 +0000
+Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 37EIondE016195;
+        Mon, 14 Aug 2023 18:50:49 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 3se35kvwe7-1;
+        Mon, 14 Aug 2023 18:50:49 +0000
+Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 37EIom7W016183;
+        Mon, 14 Aug 2023 18:50:48 GMT
+Received: from hu-devc-lv-u18-c.qualcomm.com (hu-eserrao-lv.qualcomm.com [10.47.235.27])
+        by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 37EIomHI016181;
+        Mon, 14 Aug 2023 18:50:48 +0000
+Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 464172)
+        id B54F65005B0; Mon, 14 Aug 2023 11:50:48 -0700 (PDT)
+From:   Elson Roy Serrao <quic_eserrao@quicinc.com>
+To:     gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
+        rogerq@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Elson Roy Serrao <quic_eserrao@quicinc.com>
+Subject: [PATCH v4 1/3] usb: function: u_ether: Handle rx requests during suspend/resume
+Date:   Mon, 14 Aug 2023 11:50:41 -0700
+Message-Id: <20230814185043.9252-2-quic_eserrao@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230814185043.9252-1-quic_eserrao@quicinc.com>
+References: <20230814185043.9252-1-quic_eserrao@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 5hTfsHOA-UkMoy9HBk4Ja21IklaRCOL_
+X-Proofpoint-ORIG-GUID: 5hTfsHOA-UkMoy9HBk4Ja21IklaRCOL_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-14_15,2023-08-10_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=914 mlxscore=0
+ lowpriorityscore=0 impostorscore=0 suspectscore=0 phishscore=0
+ adultscore=0 spamscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308140174
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some usb hubs will negotiate DisplayPort Alt mode with the device
-but will then negotiate a data role swap after entering the alt
-mode. The data role swap causes the device to unregister all alt
-modes, however the usb hub will still send Attention messages
-even after failing to reregister the Alt Mode. type_altmode_attention
-currently does not verify whether or not a device's altmode partner
-exists, which results in a NULL pointer error when dereferencing
-the typec_altmode and typec_altmode_ops belonging to the altmode
-partner.
+Some UDCs might have a vote against runtime suspend if there is any
+request queued by the function driver. This would block the UDC driver
+to enter runtime suspend state when the host sends bus suspend
+notification. While tx requests get dequeued after completion, rx
+requests always remain queued for the next OUT data to be handled. Since
+during bus suspend scenario there are no active OUT transfers we can
+dequeue these requests when the function driver suspend callback gets
+called and queue them back during resume callback. Implement this
+mechanism by adding a new list for queued requests.
 
-Verify the presence of a device's altmode partner before sending
-the Attention message to the Alt Mode driver.
+Also move the gether_wakeup_host API to work queue context to better
+align with the remote wakeup op's synchronous operation.
 
-Fixes: 8a37d87d72f0 ("usb: typec: Bus type for alternate modes")
-Cc: stable@vger.kernel.org
-Signed-off-by: RD Babiera <rdbabiera@google.com>
+Signed-off-by: Elson Roy Serrao <quic_eserrao@quicinc.com>
 ---
-Changes since v1:
-* Only assigns pdev if altmode partner exists in typec_altmode_attention
-* Removed error return in typec_altmode_attention if Alt Mode does
-  not implement Attention messages.
-* Changed tcpm_log message to indicate that altmode partner does not exist,
-  as it only logs in that case.
----
-Changes since v2:
-* Changed tcpm_log message to accurately reflect error
-* Revised commit message
----
-Changes since v3:
-* Fixed nits
----
- drivers/usb/typec/bus.c           | 12 ++++++++++--
- drivers/usb/typec/tcpm/tcpm.c     |  3 ++-
- include/linux/usb/typec_altmode.h |  2 +-
- 3 files changed, 13 insertions(+), 4 deletions(-)
+ drivers/usb/gadget/function/u_ether.c | 47 ++++++++++++++++++++++-----
+ 1 file changed, 38 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
-index fe5b9a2e61f5..e95ec7e382bb 100644
---- a/drivers/usb/typec/bus.c
-+++ b/drivers/usb/typec/bus.c
-@@ -183,12 +183,20 @@ EXPORT_SYMBOL_GPL(typec_altmode_exit);
-  *
-  * Notifies the partner of @adev about Attention command.
-  */
--void typec_altmode_attention(struct typec_altmode *adev, u32 vdo)
-+int typec_altmode_attention(struct typec_altmode *adev, u32 vdo)
- {
--	struct typec_altmode *pdev = &to_altmode(adev)->partner->adev;
-+	struct altmode *partner = to_altmode(adev)->partner;
-+	struct typec_altmode *pdev;
-+
-+	if (!partner)
-+		return -ENODEV;
-+
-+	pdev = &partner->adev;
+diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+index a366abb45623..107677b7656f 100644
+--- a/drivers/usb/gadget/function/u_ether.c
++++ b/drivers/usb/gadget/function/u_ether.c
+@@ -62,7 +62,7 @@ struct eth_dev {
+ 	struct usb_gadget	*gadget;
  
- 	if (pdev->ops && pdev->ops->attention)
- 		pdev->ops->attention(pdev, vdo);
-+
-+	return 0;
- }
- EXPORT_SYMBOL_GPL(typec_altmode_attention);
+ 	spinlock_t		req_lock;	/* guard {rx,tx}_reqs */
+-	struct list_head	tx_reqs, rx_reqs;
++	struct list_head	tx_reqs, rx_reqs, rx_queued_reqs;
+ 	atomic_t		tx_qlen;
  
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 5a7d8cc04628..77fe16190766 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -1877,7 +1877,8 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
- 			}
- 			break;
- 		case ADEV_ATTENTION:
--			typec_altmode_attention(adev, p[1]);
-+			if (typec_altmode_attention(adev, p[1]))
-+				tcpm_log(port, "typec_altmode_attention no port partner altmode");
- 			break;
- 		}
+ 	struct sk_buff_head	rx_frames;
+@@ -75,7 +75,7 @@ struct eth_dev {
+ 						struct sk_buff *skb,
+ 						struct sk_buff_head *list);
+ 
+-	struct work_struct	work;
++	struct work_struct	work, wakeup_work;
+ 
+ 	unsigned long		todo;
+ #define	WORK_RX_MEMORY		0
+@@ -213,7 +213,7 @@ rx_submit(struct eth_dev *dev, struct usb_request *req, gfp_t gfp_flags)
+ 		if (skb)
+ 			dev_kfree_skb_any(skb);
+ 		spin_lock_irqsave(&dev->req_lock, flags);
+-		list_add(&req->list, &dev->rx_reqs);
++		list_move_tail(&req->list, &dev->rx_reqs);
+ 		spin_unlock_irqrestore(&dev->req_lock, flags);
  	}
-diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
-index 350d49012659..28aeef8f9e7b 100644
---- a/include/linux/usb/typec_altmode.h
-+++ b/include/linux/usb/typec_altmode.h
-@@ -67,7 +67,7 @@ struct typec_altmode_ops {
+ 	return retval;
+@@ -303,7 +303,7 @@ static void rx_complete(struct usb_ep *ep, struct usb_request *req)
+ 	if (!netif_running(dev->net)) {
+ clean:
+ 		spin_lock(&dev->req_lock);
+-		list_add(&req->list, &dev->rx_reqs);
++		list_move_tail(&req->list, &dev->rx_reqs);
+ 		spin_unlock(&dev->req_lock);
+ 		req = NULL;
+ 	}
+@@ -378,7 +378,7 @@ static void rx_fill(struct eth_dev *dev, gfp_t gfp_flags)
+ 	spin_lock_irqsave(&dev->req_lock, flags);
+ 	while (!list_empty(&dev->rx_reqs)) {
+ 		req = list_first_entry(&dev->rx_reqs, struct usb_request, list);
+-		list_del_init(&req->list);
++		list_move_tail(&req->list, &dev->rx_queued_reqs);
+ 		spin_unlock_irqrestore(&dev->req_lock, flags);
  
- int typec_altmode_enter(struct typec_altmode *altmode, u32 *vdo);
- int typec_altmode_exit(struct typec_altmode *altmode);
--void typec_altmode_attention(struct typec_altmode *altmode, u32 vdo);
-+int typec_altmode_attention(struct typec_altmode *altmode, u32 vdo);
- int typec_altmode_vdm(struct typec_altmode *altmode,
- 		      const u32 header, const u32 *vdo, int count);
- int typec_altmode_notify(struct typec_altmode *altmode, unsigned long conf,
-
-base-commit: f176638af476c6d46257cc3303f5c7cf47d5967d
+ 		if (rx_submit(dev, req, gfp_flags) < 0) {
+@@ -438,9 +438,11 @@ static inline int is_promisc(u16 cdc_filter)
+ 	return cdc_filter & USB_CDC_PACKET_TYPE_PROMISCUOUS;
+ }
+ 
+-static int ether_wakeup_host(struct gether *port)
++static void ether_wakeup_work(struct work_struct *w)
+ {
+ 	int			ret;
++	struct eth_dev		*dev = container_of(w, struct eth_dev, wakeup_work);
++	struct gether		*port = dev->port_usb;
+ 	struct usb_function	*func = &port->func;
+ 	struct usb_gadget	*gadget = func->config->cdev->gadget;
+ 
+@@ -449,7 +451,8 @@ static int ether_wakeup_host(struct gether *port)
+ 	else
+ 		ret = usb_gadget_wakeup(gadget);
+ 
+-	return ret;
++	if (ret)
++		DBG(dev, "failed to trigger wakeup:%d\n", ret);
+ }
+ 
+ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
+@@ -476,7 +479,7 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
+ 		DBG(dev, "Port suspended. Triggering wakeup\n");
+ 		netif_stop_queue(net);
+ 		spin_unlock_irqrestore(&dev->lock, flags);
+-		ether_wakeup_host(dev->port_usb);
++		schedule_work(&dev->wakeup_work);
+ 		return NETDEV_TX_BUSY;
+ 	}
+ 
+@@ -754,8 +757,10 @@ struct eth_dev *gether_setup_name(struct usb_gadget *g,
+ 	spin_lock_init(&dev->lock);
+ 	spin_lock_init(&dev->req_lock);
+ 	INIT_WORK(&dev->work, eth_work);
++	INIT_WORK(&dev->wakeup_work, ether_wakeup_work);
+ 	INIT_LIST_HEAD(&dev->tx_reqs);
+ 	INIT_LIST_HEAD(&dev->rx_reqs);
++	INIT_LIST_HEAD(&dev->rx_queued_reqs);
+ 
+ 	skb_queue_head_init(&dev->rx_frames);
+ 
+@@ -825,8 +830,10 @@ struct net_device *gether_setup_name_default(const char *netname)
+ 	spin_lock_init(&dev->lock);
+ 	spin_lock_init(&dev->req_lock);
+ 	INIT_WORK(&dev->work, eth_work);
++	INIT_WORK(&dev->wakeup_work, ether_wakeup_work);
+ 	INIT_LIST_HEAD(&dev->tx_reqs);
+ 	INIT_LIST_HEAD(&dev->rx_reqs);
++	INIT_LIST_HEAD(&dev->rx_queued_reqs);
+ 
+ 	skb_queue_head_init(&dev->rx_frames);
+ 
+@@ -1043,6 +1050,7 @@ EXPORT_SYMBOL_GPL(gether_set_ifname);
+ void gether_suspend(struct gether *link)
+ {
+ 	struct eth_dev *dev = link->ioport;
++	struct usb_request *req;
+ 	unsigned long flags;
+ 
+ 	if (!dev)
+@@ -1053,9 +1061,20 @@ void gether_suspend(struct gether *link)
+ 		 * There is a transfer in progress. So we trigger a remote
+ 		 * wakeup to inform the host.
+ 		 */
+-		ether_wakeup_host(dev->port_usb);
++		schedule_work(&dev->wakeup_work);
+ 		return;
+ 	}
++	/* Dequeue the submitted requests. */
++	spin_lock(&dev->req_lock);
++	while (!list_empty(&dev->rx_queued_reqs)) {
++		req = list_last_entry(&dev->rx_queued_reqs, struct usb_request, list);
++		list_move_tail(&req->list, &dev->rx_reqs);
++		spin_unlock(&dev->req_lock);
++		usb_ep_dequeue(dev->port_usb->out_ep, req);
++		spin_lock(&dev->req_lock);
++	}
++	spin_unlock(&dev->req_lock);
++
+ 	spin_lock_irqsave(&dev->lock, flags);
+ 	link->is_suspend = true;
+ 	spin_unlock_irqrestore(&dev->lock, flags);
+@@ -1070,6 +1089,7 @@ void gether_resume(struct gether *link)
+ 	if (!dev)
+ 		return;
+ 
++	defer_kevent(dev, WORK_RX_MEMORY);
+ 	if (netif_queue_stopped(dev->net))
+ 		netif_start_queue(dev->net);
+ 
+@@ -1231,6 +1251,15 @@ void gether_disconnect(struct gether *link)
+ 		usb_ep_free_request(link->out_ep, req);
+ 		spin_lock(&dev->req_lock);
+ 	}
++
++	while (!list_empty(&dev->rx_queued_reqs)) {
++		req = list_first_entry(&dev->rx_queued_reqs, struct usb_request, list);
++		list_del(&req->list);
++
++		spin_unlock(&dev->req_lock);
++		usb_ep_free_request(link->out_ep, req);
++		spin_lock(&dev->req_lock);
++	}
+ 	spin_unlock(&dev->req_lock);
+ 	link->out_ep->desc = NULL;
+ 
 -- 
-2.41.0.694.ge786442a9b-goog
+2.17.1
 
