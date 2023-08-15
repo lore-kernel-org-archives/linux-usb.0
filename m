@@ -2,282 +2,174 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86495C41513
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Aug 2023 08:46:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D8EEC04A6A
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Aug 2023 09:56:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235738AbjHOIqE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Aug 2023 04:46:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58312 "EHLO
+        id S236283AbjHOJzy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Aug 2023 05:55:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235741AbjHOIpn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Aug 2023 04:45:43 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04C21E72
-        for <linux-usb@vger.kernel.org>; Tue, 15 Aug 2023 01:45:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692089141; x=1723625141;
-  h=date:from:to:cc:subject:message-id;
-  bh=wuU03MET80Q99JcOVQ6ijrw32kvl7cGWgao79K00Szs=;
-  b=chQM4C+wpORP9FoG0f9U+vBQzSGH1QgzKwre73IIxCzj9qrVtTHDzFyI
-   c6QC6zkRQlw5Il77P+U8Qizn5efB6vX5faPvVVPK1fxVMTjB0jepUjn+o
-   QcHLgYcPb5vVA5REOfEDdLLFCTUNN4n+VmIU4PDh8NE8uUAT+FOjddyX/
-   t/T/qRsvDhd0XgF9z1NTDWWHTSTQ4Wq2XXkVjA43DnpmNaJGvQl4RwV/E
-   eu9B8T9Tms/fWLQ30lODnc2wdvcxqaB+8WTEMV4PynAb+DtLTTr7uy2T/
-   pTM/uqyhwZjaqu18CRWlInGJmfhGpoe+v8RjuNVka57VceL9lPsd4QXOC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="403214415"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="403214415"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 01:45:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="1064380613"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="1064380613"
-Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 15 Aug 2023 01:45:37 -0700
-Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qVpgG-0000nt-2G;
-        Tue, 15 Aug 2023 08:45:36 +0000
-Date:   Tue, 15 Aug 2023 16:45:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- bbb9e06d2c6435af9c62074ad7048910eeb2e7bc
-Message-ID: <202308151620.KeNKOU2j-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+        with ESMTP id S236378AbjHOJzS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Aug 2023 05:55:18 -0400
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6E97B98;
+        Tue, 15 Aug 2023 02:55:14 -0700 (PDT)
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 37F9sZJV1008509, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 37F9sZJV1008509
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 15 Aug 2023 17:54:35 +0800
+Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Tue, 15 Aug 2023 17:54:54 +0800
+Received: from RTEXH36506.realtek.com.tw (172.21.6.27) by
+ RTEXDAG01.realtek.com.tw (172.21.6.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 15 Aug 2023 17:54:54 +0800
+Received: from localhost.localdomain (172.21.252.101) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server id
+ 15.1.2507.17 via Frontend Transport; Tue, 15 Aug 2023 17:54:54 +0800
+From:   Stanley Chang <stanley_chang@realtek.com>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+CC:     Stanley Chang <stanley_chang@realtek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 2/2] dt-bindings: usb: dwc3: Add Realtek DHC RTD SoC DWC3 USB
+Date:   Tue, 15 Aug 2023 17:54:38 +0800
+Message-ID: <20230815095452.4146-2-stanley_chang@realtek.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230815095452.4146-1-stanley_chang@realtek.com>
+References: <20230815095452.4146-1-stanley_chang@realtek.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-KSE-ServerInfo: RTEXDAG01.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: bbb9e06d2c6435af9c62074ad7048910eeb2e7bc  Merge 6.5-rc6 into usb-next
+Document the DWC3 USB bindings for Realtek SoCs.
 
-elapsed time: 724m
+Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
+---
+v3 to v4 change:
+    Add reg for register set for pm control.
+    Remove maximum-speed in example.
+v2 to v3 change:
+    Add description for reg
+    Remove property for realtek,unlink-usb3-port.
+    Remove property for realtek,disable-usb3-phy.
+    Use the maximum-speed instead of the above two properties.
+v1 to v2 change:
+    Revise the subject.
+    Rename the file.
+    Fix dtschema warnings.
+    Remove the property realtek,enable-l4icg.
+    Drop status.
+---
+ .../bindings/usb/realtek,rtd-dwc3.yaml        | 80 +++++++++++++++++++
+ 1 file changed, 80 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/realtek,rtd-dwc3.yaml
 
-configs tested: 212
-configs skipped: 11
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r022-20230815   gcc  
-alpha                randconfig-r024-20230815   gcc  
-alpha                randconfig-r031-20230815   gcc  
-alpha                randconfig-r033-20230815   gcc  
-alpha                randconfig-r034-20230815   gcc  
-alpha                randconfig-r036-20230815   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r005-20230815   gcc  
-arc                  randconfig-r024-20230815   gcc  
-arc                  randconfig-r043-20230815   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                           h3600_defconfig   gcc  
-arm                       imx_v6_v7_defconfig   gcc  
-arm                         lpc18xx_defconfig   gcc  
-arm                          moxart_defconfig   clang
-arm                        multi_v7_defconfig   gcc  
-arm                        mvebu_v7_defconfig   gcc  
-arm                             mxs_defconfig   clang
-arm                  randconfig-r011-20230815   clang
-arm                  randconfig-r024-20230815   clang
-arm                  randconfig-r025-20230815   clang
-arm                  randconfig-r034-20230815   gcc  
-arm                  randconfig-r046-20230815   clang
-arm                           sunxi_defconfig   gcc  
-arm                           tegra_defconfig   gcc  
-arm64                            alldefconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r014-20230815   gcc  
-arm64                randconfig-r016-20230815   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r031-20230815   gcc  
-csky                 randconfig-r033-20230815   gcc  
-csky                 randconfig-r034-20230815   gcc  
-hexagon              randconfig-r014-20230815   clang
-hexagon              randconfig-r026-20230815   clang
-hexagon              randconfig-r041-20230815   clang
-hexagon              randconfig-r045-20230815   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230815   clang
-i386         buildonly-randconfig-r005-20230815   clang
-i386         buildonly-randconfig-r006-20230815   clang
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230815   clang
-i386                 randconfig-i002-20230815   clang
-i386                 randconfig-i003-20230815   clang
-i386                 randconfig-i004-20230815   clang
-i386                 randconfig-i005-20230815   clang
-i386                 randconfig-i006-20230815   clang
-i386                 randconfig-i011-20230815   gcc  
-i386                 randconfig-i012-20230815   gcc  
-i386                 randconfig-i013-20230815   gcc  
-i386                 randconfig-i014-20230815   gcc  
-i386                 randconfig-i015-20230815   gcc  
-i386                 randconfig-i016-20230815   gcc  
-i386                 randconfig-r004-20230815   clang
-i386                 randconfig-r005-20230815   clang
-i386                 randconfig-r016-20230815   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r003-20230815   gcc  
-loongarch            randconfig-r004-20230815   gcc  
-loongarch            randconfig-r012-20230815   gcc  
-loongarch            randconfig-r013-20230815   gcc  
-loongarch            randconfig-r023-20230815   gcc  
-loongarch            randconfig-r035-20230815   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                       bvme6000_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                        mvme16x_defconfig   gcc  
-m68k                 randconfig-r013-20230815   gcc  
-m68k                 randconfig-r014-20230815   gcc  
-m68k                 randconfig-r015-20230815   gcc  
-m68k                 randconfig-r021-20230815   gcc  
-m68k                 randconfig-r025-20230815   gcc  
-m68k                 randconfig-r031-20230815   gcc  
-m68k                 randconfig-r035-20230815   gcc  
-m68k                 randconfig-r036-20230815   gcc  
-microblaze           randconfig-r015-20230815   gcc  
-microblaze           randconfig-r034-20230815   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                       lemote2f_defconfig   clang
-mips                     loongson1b_defconfig   gcc  
-mips                  maltasmvp_eva_defconfig   gcc  
-mips                 randconfig-r031-20230815   gcc  
-mips                 randconfig-r032-20230815   gcc  
-mips                 randconfig-r036-20230815   gcc  
-nios2                         3c120_defconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r001-20230815   gcc  
-nios2                randconfig-r015-20230815   gcc  
-nios2                randconfig-r023-20230815   gcc  
-nios2                randconfig-r031-20230815   gcc  
-openrisc             randconfig-r011-20230815   gcc  
-openrisc             randconfig-r012-20230815   gcc  
-parisc                           alldefconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r006-20230815   gcc  
-parisc               randconfig-r015-20230815   gcc  
-parisc               randconfig-r016-20230815   gcc  
-parisc               randconfig-r024-20230815   gcc  
-parisc               randconfig-r032-20230815   gcc  
-parisc               randconfig-r033-20230815   gcc  
-parisc               randconfig-r036-20230815   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                      arches_defconfig   gcc  
-powerpc                      cm5200_defconfig   gcc  
-powerpc                       ebony_defconfig   gcc  
-powerpc                    klondike_defconfig   gcc  
-powerpc                      mgcoge_defconfig   gcc  
-powerpc              randconfig-r002-20230815   clang
-powerpc              randconfig-r011-20230815   gcc  
-powerpc              randconfig-r023-20230815   gcc  
-powerpc              randconfig-r033-20230815   clang
-powerpc                     taishan_defconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r001-20230815   clang
-riscv                randconfig-r002-20230815   clang
-riscv                randconfig-r003-20230815   clang
-riscv                randconfig-r026-20230815   gcc  
-riscv                randconfig-r042-20230815   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r006-20230815   clang
-s390                 randconfig-r022-20230815   gcc  
-s390                 randconfig-r044-20230815   gcc  
-sh                               allmodconfig   gcc  
-sh                        edosk7760_defconfig   gcc  
-sh                               j2_defconfig   gcc  
-sh                          r7785rp_defconfig   gcc  
-sh                   randconfig-r005-20230815   gcc  
-sh                   randconfig-r011-20230815   gcc  
-sh                   randconfig-r022-20230815   gcc  
-sh                   randconfig-r025-20230815   gcc  
-sh                   randconfig-r032-20230815   gcc  
-sh                   rts7751r2dplus_defconfig   gcc  
-sh                          sdk7780_defconfig   gcc  
-sh                           se7619_defconfig   gcc  
-sh                            titan_defconfig   gcc  
-sh                              ul2_defconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r012-20230815   gcc  
-sparc                randconfig-r016-20230815   gcc  
-sparc                randconfig-r021-20230815   gcc  
-sparc                randconfig-r022-20230815   gcc  
-sparc                randconfig-r023-20230815   gcc  
-sparc                randconfig-r024-20230815   gcc  
-sparc                randconfig-r026-20230815   gcc  
-sparc                randconfig-r031-20230815   gcc  
-sparc                randconfig-r033-20230815   gcc  
-sparc                randconfig-r034-20230815   gcc  
-sparc64                             defconfig   gcc  
-sparc64              randconfig-r012-20230815   gcc  
-sparc64              randconfig-r021-20230815   gcc  
-sparc64              randconfig-r032-20230815   gcc  
-sparc64              randconfig-r036-20230815   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                   randconfig-r014-20230815   clang
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230815   clang
-x86_64       buildonly-randconfig-r002-20230815   clang
-x86_64       buildonly-randconfig-r003-20230815   clang
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-r005-20230815   clang
-x86_64               randconfig-r013-20230815   gcc  
-x86_64               randconfig-r015-20230815   gcc  
-x86_64               randconfig-r025-20230815   gcc  
-x86_64               randconfig-x001-20230815   gcc  
-x86_64               randconfig-x002-20230815   gcc  
-x86_64               randconfig-x003-20230815   gcc  
-x86_64               randconfig-x004-20230815   gcc  
-x86_64               randconfig-x005-20230815   gcc  
-x86_64               randconfig-x006-20230815   gcc  
-x86_64               randconfig-x011-20230815   clang
-x86_64               randconfig-x012-20230815   clang
-x86_64               randconfig-x013-20230815   clang
-x86_64               randconfig-x014-20230815   clang
-x86_64               randconfig-x015-20230815   clang
-x86_64               randconfig-x016-20230815   clang
-x86_64                          rhel-8.3-func   gcc  
-x86_64                    rhel-8.3-kselftests   gcc  
-x86_64                           rhel-8.3-ltp   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                  nommu_kc705_defconfig   gcc  
-xtensa               randconfig-r014-20230815   gcc  
-xtensa               randconfig-r026-20230815   gcc  
-xtensa               randconfig-r033-20230815   gcc  
-
+diff --git a/Documentation/devicetree/bindings/usb/realtek,rtd-dwc3.yaml b/Documentation/devicetree/bindings/usb/realtek,rtd-dwc3.yaml
+new file mode 100644
+index 000000000000..345d0132d4a5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/realtek,rtd-dwc3.yaml
+@@ -0,0 +1,80 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++# Copyright 2023 Realtek Semiconductor Corporation
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/realtek,rtd-dwc3.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Realtek DWC3 USB SoC Controller Glue
++
++maintainers:
++  - Stanley Chang <stanley_chang@realtek.com>
++
++description:
++  The Realtek DHC SoC embeds a DWC3 USB IP Core configured for USB 2.0
++  and USB 3.0 in host or dual-role mode.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - realtek,rtd1295-dwc3
++          - realtek,rtd1315e-dwc3
++          - realtek,rtd1319-dwc3
++          - realtek,rtd1319d-dwc3
++          - realtek,rtd1395-dwc3
++          - realtek,rtd1619-dwc3
++          - realtek,rtd1619b-dwc3
++      - const: realtek,rtd-dwc3
++
++  reg:
++    items:
++      - description: Address and length of register set for wrapper of dwc3 core.
++      - description: Address and length of register set for pm control.
++
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 1
++
++  ranges: true
++
++patternProperties:
++  "^usb@[0-9a-f]+$":
++    $ref: snps,dwc3.yaml#
++    description: Required child node
++
++required:
++  - compatible
++  - reg
++  - "#address-cells"
++  - "#size-cells"
++  - ranges
++
++additionalProperties: false
++
++examples:
++  - |
++    usb@98013e00 {
++        compatible = "realtek,rtd1319d-dwc3", "realtek,rtd-dwc3";
++        reg = <0x98013e00 0x140>, <0x98013f60 0x4>;
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges;
++
++        usb@98050000 {
++            compatible = "snps,dwc3";
++            reg = <0x98050000 0x9000>;
++            interrupts = <0 94 4>;
++            phys = <&usb2phy &usb3phy>;
++            phy-names = "usb2-phy", "usb3-phy";
++            dr_mode = "otg";
++            usb-role-switch;
++            role-switch-default-mode = "host";
++            snps,dis_u2_susphy_quirk;
++            snps,parkmode-disable-ss-quirk;
++            snps,parkmode-disable-hs-quirk;
++            maximum-speed = "high-speed";
++        };
++    };
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
