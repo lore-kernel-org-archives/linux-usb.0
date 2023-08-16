@@ -2,56 +2,87 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDF88C04A6A
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Aug 2023 14:18:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE97C41513
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Aug 2023 14:43:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343544AbjHPORk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Aug 2023 10:17:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58322 "EHLO
+        id S1343753AbjHPOnB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Aug 2023 10:43:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343521AbjHPORI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Aug 2023 10:17:08 -0400
-Received: from vps3.drown.org (vps3.drown.org [96.126.122.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE9552708
-        for <linux-usb@vger.kernel.org>; Wed, 16 Aug 2023 07:17:06 -0700 (PDT)
-X-Envelope-From: dan-netdev@drown.org
-Received: from vps3.drown.org (vps3.drown.org [IPv6:2600:3c00::f03c:91ff:fedf:5654])
-        by vps3.drown.org (Postfix) with ESMTPSA id 2B2633A0566;
-        Wed, 16 Aug 2023 09:17:06 -0500 (CDT)
-Date:   Wed, 16 Aug 2023 09:17:04 -0500
-From:   Dan Drown <dan-netdev@drown.org>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: cdc-acm: add PPS support
-Message-ID: <ZNzaYJ7CC/G280ct@vps3.drown.org>
-References: <2e5758f57081786db37482a50bc0e58b@f9ae53fa8754>
- <cf57f9ef-90f4-7ef5-405e-78f79007f7bc@suse.com>
+        with ESMTP id S1343774AbjHPOmr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Aug 2023 10:42:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E41D268F;
+        Wed, 16 Aug 2023 07:42:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2C339669E3;
+        Wed, 16 Aug 2023 14:42:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3937C433C7;
+        Wed, 16 Aug 2023 14:42:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1692196964;
+        bh=Onf8GBQ42sfUuG/X+JQV54DEIRlWJ+k2bjhvUDfua9M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NhbKHsh29N+CyM6scVJy+tK2FuiWOpM6D/FhGzi9Jl4I/e/Pz8WqmnRj6uPprhyGi
+         68prQxeoAvMRfIex1nJuOcLD/5fkIQk1Hz57+Zfl0whWIGk9VYLVSk1kvOL/F3xUuI
+         2lfkKC2/50dyHyf5pbdScxcWE9u4EbN17HSkCMuc=
+Date:   Wed, 16 Aug 2023 16:42:41 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Atul Kumar Pant <atulpant.linux@gmail.com>
+Cc:     richard.leitner@linux.dev, wsa+renesas@sang-engineering.com,
+        mhocko@suse.com, surenb@google.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, shuah@kernel.org
+Subject: Re: [PATCH v1] drivers: usb: Removes use of assignment in if
+ condition
+Message-ID: <2023081606-geology-purging-8ff1@gregkh>
+References: <20230815204141.51972-1-atulpant.linux@gmail.com>
+ <2023081550-absurd-sprint-65e5@gregkh>
+ <20230816034313.GA57824@atom0118>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cf57f9ef-90f4-7ef5-405e-78f79007f7bc@suse.com>
+In-Reply-To: <20230816034313.GA57824@atom0118>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 16, 2023 at 11:50:15AM +0200, Oliver Neukum wrote:
-> On 15.08.23 03:02, Dan Drown wrote:
-> > Looks like it was put there to protect the iocount changes in the
-> > surrounding code. Are your concerns around performance or deadlocks?
-> 
-> the lock is there for that and so that wait_serial_change()
-> will read consistent counts.
-> 
-> The latter concerns me. We are calling potentially arbitrary code. That
-> you intend it for PPS doesn't change that we'll call it for
-> every line discipline that supports that callback.
-> Line disciplines are supposed to do something with tty devices,
-> aren't they? So what methods could they call in turn?
-> Something that can end in wait_serial_change()?
+On Wed, Aug 16, 2023 at 09:13:13AM +0530, Atul Kumar Pant wrote:
+> On Tue, Aug 15, 2023 at 11:07:02PM +0200, Greg KH wrote:
+> > On Wed, Aug 16, 2023 at 02:11:41AM +0530, Atul Kumar Pant wrote:
+> > > This patch fixes following checkpatch.pl issue:
+> > > ERROR: do not use assignment in if condition
+> > > 
+> > > Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
+> > > ---
+> > >  drivers/usb/core/devio.c | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+> > > index e501a03d6c70..56899fed6bd4 100644
+> > > --- a/drivers/usb/core/devio.c
+> > > +++ b/drivers/usb/core/devio.c
+> > > @@ -2333,9 +2333,10 @@ static int proc_ioctl(struct usb_dev_state *ps, struct usbdevfs_ioctl *ctl)
+> > >  		}
+> > >  	}
+> > >  
+> > > +	intf = usb_ifnum_to_if(ps->dev, ctl->ifno);
+> > >  	if (ps->dev->state != USB_STATE_CONFIGURED)
+> > >  		retval = -EHOSTUNREACH;
+> > > -	else if (!(intf = usb_ifnum_to_if(ps->dev, ctl->ifno)))
+> > > +	else if (!intf)
+> > 
+> > Did you mean to change the logic here by doing the calculation always?
+> > Does that change functionality?
+> > 
+> 	Now the calculation of interface will be done always, which can be
+> 	redundant. But this would not change the functionality.
 
-Looking at the callers of tty_register_ldisc, the only one that passes
-in a dcd_change handler is the pps-ldisc. That's not to say that
-couldn't change in the future.
+Yes, but it is now redundant, so this change isn't really needed, the
+original code is "more correct", please leave it as-is.
 
-I could move the call to dcd_change before the read lock is acquired,
-would that work for you?
+thanks,
+
+greg k-h
