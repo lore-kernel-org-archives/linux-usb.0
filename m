@@ -2,470 +2,156 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9CD1C2FC0E
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Aug 2023 22:33:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D868C2FC02
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Aug 2023 23:35:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346958AbjHPWc6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Aug 2023 18:32:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41304 "EHLO
+        id S240733AbjHPXe4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Aug 2023 19:34:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346951AbjHPWcc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Aug 2023 18:32:32 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 392552698;
-        Wed, 16 Aug 2023 15:32:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692225148; x=1723761148;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=WB3bR3V89pNex4RljZaFIsIZ4mmYJiUxmH608A9Uaq8=;
-  b=lt3lLt+b4W5/3rYsR0sXLwxbbV+gy+uL6FimyU4MP0mZEci64K+rw/kW
-   7LVaZe0L52VblUUM3evd2KwcrdhnEZPo2oayqVqiILVJnZ1eNqfCm6mZw
-   NsCbsfJA+W7m+SOtroYrtUV3Zv3DJWoZhlO7EV0sa8x9QfcaWy9dcRYFF
-   H3v3FL83EqCJDM78v4gtqqelR+Xh4ecdVOfObbiKPTsNHszQjLtpgXA5x
-   WP3efsO1kb0jM/mHTNbgvjsJeu2YdjhpF70c5ABziDRxY8BJ6Qin2LyJd
-   40Qo9WgylebhhAca0fOzN8wNsjbivsx6jk9Gl/Kb+OExc6vTdOyp/GaB1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="376391985"
-X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="376391985"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 15:32:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="877974872"
-Received: from shsensorbuild2.sh.intel.com ([10.239.134.197])
-  by fmsmga001.fm.intel.com with ESMTP; 16 Aug 2023 15:32:26 -0700
-From:   Wentong Wu <wentong.wu@intel.com>
-To:     gregkh@linuxfoundation.org, arnd@arndb.de, mka@chromium.org,
-        oneukum@suse.com, lee@kernel.org, wsa@kernel.org,
-        kfting@nuvoton.com, broonie@kernel.org, linus.walleij@linaro.org,
-        maz@kernel.org, brgl@bgdev.pl, linux-usb@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-gpio@vger.kernel.org, andriy.shevchenko@linux.intel.com,
-        heikki.krogerus@linux.intel.com, andi.shyti@linux.intel.com,
-        sakari.ailus@linux.intel.com, srinivas.pandruvada@intel.com,
-        linux-drivers-review@eclists.intel.com
-Cc:     zhifeng.wang@intel.com, Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH v9 2/4] i2c: Add support for Intel LJCA USB I2C driver
-Date:   Thu, 17 Aug 2023 06:31:49 +0800
-Message-Id: <1692225111-19216-3-git-send-email-wentong.wu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1692225111-19216-1-git-send-email-wentong.wu@intel.com>
-References: <1692225111-19216-1-git-send-email-wentong.wu@intel.com>
+        with ESMTP id S1347190AbjHPXem (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Aug 2023 19:34:42 -0400
+Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2E412128;
+        Wed, 16 Aug 2023 16:34:37 -0700 (PDT)
+Received: from [10.0.0.200] (unknown [10.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by ixit.cz (Postfix) with ESMTPSA id 68F151608E8;
+        Thu, 17 Aug 2023 01:34:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+        t=1692228875;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+        bh=8LHQ3CYd7hs8GshdT2sa6AaBnLkj7dinKILMrmDhq6M=;
+        b=pZRZdTd9iJemCPUZgXtrZDPBeBJsqshOB06iWRFW6wYHcPuOeWd4Uz1FvYZjg97zblBRr4
+        NhtyPYTyUOLM3ySzxhLARqT7f14Y/q8h0WhyHgSR1EiNHbZmVJnwsm4PB6Hc+AKpdkCEgq
+        cD8PUoi+pLkWdCoAfndIwAlexthfFTA=
+Message-ID: <799d01c6-e256-468b-a913-5945f22b5789@ixit.cz>
+Date:   Thu, 17 Aug 2023 01:34:35 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/2] usb: serial: add support for CH348
+To:     johan@kernel.org, Corentin Labbe <clabbe@baylibre.com>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        gregkh@linuxfoundation.org
+References: <20230628133834.1527941-1-clabbe@baylibre.com>
+Content-Language: en-US
+From:   David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <20230628133834.1527941-1-clabbe@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Implements the I2C function of Intel USB-I2C/GPIO/SPI adapter device
-named "La Jolla Cove Adapter" (LJCA). It communicate with LJCA I2C
-module with specific protocol through interfaces exported by LJCA
-USB driver.
+Hello Johan,
 
-Signed-off-by: Wentong Wu <wentong.wu@intel.com>
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/i2c/busses/Kconfig    |  11 ++
- drivers/i2c/busses/Makefile   |   1 +
- drivers/i2c/busses/i2c-ljca.c | 353 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 365 insertions(+)
- create mode 100644 drivers/i2c/busses/i2c-ljca.c
+Any chance to get CH348 into 6.5?
 
-diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-index 9cfe8fc..7e2c52d 100644
---- a/drivers/i2c/busses/Kconfig
-+++ b/drivers/i2c/busses/Kconfig
-@@ -1264,6 +1264,17 @@ config I2C_DLN2
- 	 This driver can also be built as a module.  If so, the module
- 	 will be called i2c-dln2.
- 
-+config I2C_LJCA
-+	tristate "I2C functionality of Intel La Jolla Cove Adapter"
-+	depends on USB_LJCA
-+	default USB_LJCA
-+	help
-+	  If you say yes to this option, I2C functionality support of Intel
-+	  La Jolla Cove Adapter (LJCA) will be included.
-+
-+	  This driver can also be built as a module.  If so, the module
-+	  will be called i2c-ljca.
-+
- config I2C_CP2615
- 	tristate "Silicon Labs CP2615 USB sound card and I2C adapter"
- 	depends on USB
-diff --git a/drivers/i2c/busses/Makefile b/drivers/i2c/busses/Makefile
-index af56fe2..3757b93 100644
---- a/drivers/i2c/busses/Makefile
-+++ b/drivers/i2c/busses/Makefile
-@@ -133,6 +133,7 @@ obj-$(CONFIG_I2C_GXP)		+= i2c-gxp.o
- # External I2C/SMBus adapter drivers
- obj-$(CONFIG_I2C_DIOLAN_U2C)	+= i2c-diolan-u2c.o
- obj-$(CONFIG_I2C_DLN2)		+= i2c-dln2.o
-+obj-$(CONFIG_I2C_LJCA)		+= i2c-ljca.o
- obj-$(CONFIG_I2C_CP2615) += i2c-cp2615.o
- obj-$(CONFIG_I2C_PARPORT)	+= i2c-parport.o
- obj-$(CONFIG_I2C_PCI1XXXX)	+= i2c-mchp-pci1xxxx.o
-diff --git a/drivers/i2c/busses/i2c-ljca.c b/drivers/i2c/busses/i2c-ljca.c
-new file mode 100644
-index 0000000..2af8c32
---- /dev/null
-+++ b/drivers/i2c/busses/i2c-ljca.c
-@@ -0,0 +1,353 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Intel La Jolla Cove Adapter USB-I2C driver
-+ *
-+ * Copyright (c) 2023, Intel Corporation.
-+ */
-+
-+#include <linux/auxiliary_bus.h>
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/dev_printk.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/usb/ljca.h>
-+
-+/* I2C init flags */
-+#define LJCA_I2C_INIT_FLAG_MODE			BIT(0)
-+#define LJCA_I2C_INIT_FLAG_MODE_POLLING		FIELD_PREP(LJCA_I2C_INIT_FLAG_MODE, 0)
-+#define LJCA_I2C_INIT_FLAG_MODE_INTERRUPT	FIELD_PREP(LJCA_I2C_INIT_FLAG_MODE, 1)
-+
-+#define LJCA_I2C_INIT_FLAG_ADDR_16BIT		BIT(0)
-+
-+#define LJCA_I2C_INIT_FLAG_FREQ			GENMASK(2, 1)
-+#define LJCA_I2C_INIT_FLAG_FREQ_100K		FIELD_PREP(LJCA_I2C_INIT_FLAG_FREQ, 0)
-+#define LJCA_I2C_INIT_FLAG_FREQ_400K		FIELD_PREP(LJCA_I2C_INIT_FLAG_FREQ, 1)
-+#define LJCA_I2C_INIT_FLAG_FREQ_1M		FIELD_PREP(LJCA_I2C_INIT_FLAG_FREQ, 2)
-+
-+#define LJCA_I2C_BUF_SIZE			60u
-+#define LJCA_I2C_MAX_XFER_SIZE			(LJCA_I2C_BUF_SIZE - sizeof(struct ljca_i2c_rw_packet))
-+
-+/* I2C commands */
-+enum ljca_i2c_cmd {
-+	LJCA_I2C_INIT = 1,
-+	LJCA_I2C_XFER,
-+	LJCA_I2C_START,
-+	LJCA_I2C_STOP,
-+	LJCA_I2C_READ,
-+	LJCA_I2C_WRITE,
-+};
-+
-+enum ljca_xfer_type {
-+	LJCA_I2C_WRITE_XFER_TYPE,
-+	LJCA_I2C_READ_XFER_TYPE,
-+};
-+
-+/* I2C raw commands: Init/Start/Read/Write/Stop */
-+struct ljca_i2c_rw_packet {
-+	u8 id;
-+	__le16 len;
-+	u8 data[];
-+} __packed;
-+
-+struct ljca_i2c_dev {
-+	struct ljca_client *ljca;
-+	struct ljca_i2c_info *i2c_info;
-+	struct i2c_adapter adap;
-+
-+	u8 obuf[LJCA_I2C_BUF_SIZE];
-+	u8 ibuf[LJCA_I2C_BUF_SIZE];
-+};
-+
-+static u8 ljca_i2c_format_slave_addr(u8 slave_addr, u8 type)
-+{
-+	return (slave_addr << 1) | type;
-+}
-+
-+static int ljca_i2c_init(struct ljca_i2c_dev *ljca_i2c, u8 id)
-+{
-+	struct ljca_i2c_rw_packet *w_packet =
-+			(struct ljca_i2c_rw_packet *)ljca_i2c->obuf;
-+	int ret;
-+
-+	memset(w_packet, 0, sizeof(*w_packet));
-+	w_packet->id = id;
-+	w_packet->len = cpu_to_le16(sizeof(*w_packet->data));
-+	w_packet->data[0] = LJCA_I2C_INIT_FLAG_FREQ_400K;
-+
-+	ret = ljca_transfer(ljca_i2c->ljca, LJCA_I2C_INIT, w_packet,
-+			    struct_size(w_packet, data, 1), NULL, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int ljca_i2c_start(struct ljca_i2c_dev *ljca_i2c, u8 slave_addr,
-+			  enum ljca_xfer_type type)
-+{
-+	struct ljca_i2c_rw_packet *w_packet =
-+			(struct ljca_i2c_rw_packet *)ljca_i2c->obuf;
-+	struct ljca_i2c_rw_packet *r_packet =
-+			(struct ljca_i2c_rw_packet *)ljca_i2c->ibuf;
-+	s16 rp_len;
-+	int ret;
-+
-+	memset(w_packet, 0, sizeof(*w_packet));
-+	w_packet->id = ljca_i2c->i2c_info->id;
-+	w_packet->len = cpu_to_le16(sizeof(*w_packet->data));
-+	w_packet->data[0] = ljca_i2c_format_slave_addr(slave_addr, type);
-+
-+	ret = ljca_transfer(ljca_i2c->ljca, LJCA_I2C_START, w_packet,
-+			    struct_size(w_packet, data, 1), r_packet,
-+			    LJCA_I2C_BUF_SIZE);
-+	if (ret < 0)
-+		return ret;
-+	else if (ret < sizeof(*r_packet))
-+		return -EIO;
-+
-+	rp_len = le16_to_cpu(r_packet->len);
-+	if (rp_len < 0 || r_packet->id != w_packet->id) {
-+		dev_err(&ljca_i2c->adap.dev,
-+			"i2c start failed len: %d id: %d %d\n",
-+			rp_len, r_packet->id, w_packet->id);
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ljca_i2c_stop(struct ljca_i2c_dev *ljca_i2c, u8 slave_addr)
-+{
-+	struct ljca_i2c_rw_packet *w_packet =
-+			(struct ljca_i2c_rw_packet *)ljca_i2c->obuf;
-+	struct ljca_i2c_rw_packet *r_packet =
-+			(struct ljca_i2c_rw_packet *)ljca_i2c->ibuf;
-+	s16 rp_len;
-+	int ret;
-+
-+	memset(w_packet, 0, sizeof(*w_packet));
-+	w_packet->id = ljca_i2c->i2c_info->id;
-+	w_packet->len = cpu_to_le16(sizeof(*w_packet->data));
-+	w_packet->data[0] = 0;
-+
-+	ret = ljca_transfer(ljca_i2c->ljca, LJCA_I2C_STOP, w_packet,
-+			    struct_size(w_packet, data, 1), r_packet,
-+			    LJCA_I2C_BUF_SIZE);
-+	if (ret < 0)
-+		return ret;
-+	else if (ret < sizeof(*r_packet))
-+		return -EIO;
-+
-+	rp_len = le16_to_cpu(r_packet->len);
-+	if (rp_len < 0 || r_packet->id != w_packet->id) {
-+		dev_err(&ljca_i2c->adap.dev,
-+			"i2c stop failed len: %d id: %d %d\n",
-+			rp_len, r_packet->id, w_packet->id);
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ljca_i2c_pure_read(struct ljca_i2c_dev *ljca_i2c, u8 *data, u8 len)
-+{
-+	struct ljca_i2c_rw_packet *w_packet =
-+			(struct ljca_i2c_rw_packet *)ljca_i2c->obuf;
-+	struct ljca_i2c_rw_packet *r_packet =
-+			(struct ljca_i2c_rw_packet *)ljca_i2c->ibuf;
-+	s16 rp_len;
-+	int ret;
-+
-+	if (len > LJCA_I2C_MAX_XFER_SIZE)
-+		return -EINVAL;
-+
-+	memset(w_packet, 0, sizeof(*w_packet));
-+	w_packet->id = ljca_i2c->i2c_info->id;
-+	w_packet->len = cpu_to_le16(len);
-+	w_packet->data[0] = 0;
-+
-+	ret = ljca_transfer(ljca_i2c->ljca, LJCA_I2C_READ, w_packet,
-+			    struct_size(w_packet, data, 1), r_packet,
-+			    LJCA_I2C_BUF_SIZE);
-+	if (ret < 0)
-+		return ret;
-+	else if (ret < sizeof(*r_packet))
-+		return -EIO;
-+
-+	rp_len = le16_to_cpu(r_packet->len);
-+	if (rp_len != len || r_packet->id != w_packet->id) {
-+		dev_err(&ljca_i2c->adap.dev,
-+			"i2c raw read failed len: %d id: %d %d\n",
-+			rp_len, r_packet->id, w_packet->id);
-+		return -EIO;
-+	}
-+
-+	memcpy(data, r_packet->data, len);
-+
-+	return 0;
-+}
-+
-+static int ljca_i2c_read(struct ljca_i2c_dev *ljca_i2c, u8 slave_addr, u8 *data,
-+			 u8 len)
-+{
-+	int ret;
-+
-+	ret = ljca_i2c_start(ljca_i2c, slave_addr, LJCA_I2C_READ_XFER_TYPE);
-+	if (!ret)
-+		ret = ljca_i2c_pure_read(ljca_i2c, data, len);
-+
-+	ljca_i2c_stop(ljca_i2c, slave_addr);
-+
-+	return ret;
-+}
-+
-+static int ljca_i2c_pure_write(struct ljca_i2c_dev *ljca_i2c, u8 *data, u8 len)
-+{
-+	struct ljca_i2c_rw_packet *w_packet =
-+			(struct ljca_i2c_rw_packet *)ljca_i2c->obuf;
-+	struct ljca_i2c_rw_packet *r_packet =
-+			(struct ljca_i2c_rw_packet *)ljca_i2c->ibuf;
-+	s16 rplen;
-+	int ret;
-+
-+	if (len > LJCA_I2C_MAX_XFER_SIZE)
-+		return -EINVAL;
-+
-+	memset(w_packet, 0, sizeof(*w_packet));
-+	w_packet->id = ljca_i2c->i2c_info->id;
-+	w_packet->len = cpu_to_le16(len);
-+	memcpy(w_packet->data, data, len);
-+
-+	ret = ljca_transfer(ljca_i2c->ljca, LJCA_I2C_WRITE, w_packet,
-+			    struct_size(w_packet, data, len), r_packet,
-+			    LJCA_I2C_BUF_SIZE);
-+	if (ret < 0)
-+		return ret;
-+	else if (ret < sizeof(*r_packet))
-+		return -EIO;
-+
-+	rplen = le16_to_cpu(r_packet->len);
-+	if (rplen != len || r_packet->id != w_packet->id) {
-+		dev_err(&ljca_i2c->adap.dev,
-+			"i2c write failed len: %d id: %d/%d\n",
-+			rplen, r_packet->id, w_packet->id);
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ljca_i2c_write(struct ljca_i2c_dev *ljca_i2c, u8 slave_addr,
-+			  u8 *data, u8 len)
-+{
-+	int ret;
-+
-+	ret = ljca_i2c_start(ljca_i2c, slave_addr, LJCA_I2C_WRITE_XFER_TYPE);
-+	if (!ret)
-+		ret = ljca_i2c_pure_write(ljca_i2c, data, len);
-+
-+	ljca_i2c_stop(ljca_i2c, slave_addr);
-+
-+	return ret;
-+}
-+
-+static int ljca_i2c_xfer(struct i2c_adapter *adapter, struct i2c_msg *msg,
-+			 int num)
-+{
-+	struct ljca_i2c_dev *ljca_i2c;
-+	struct i2c_msg *cur_msg;
-+	int i, ret;
-+
-+	ljca_i2c = i2c_get_adapdata(adapter);
-+	if (!ljca_i2c)
-+		return -EINVAL;
-+
-+	for (i = 0; i < num; i++) {
-+		cur_msg = &msg[i];
-+		if (cur_msg->flags & I2C_M_RD)
-+			ret = ljca_i2c_read(ljca_i2c, cur_msg->addr,
-+					    cur_msg->buf, cur_msg->len);
-+		else
-+			ret = ljca_i2c_write(ljca_i2c, cur_msg->addr,
-+					     cur_msg->buf, cur_msg->len);
-+
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return num;
-+}
-+
-+static u32 ljca_i2c_func(struct i2c_adapter *adap)
-+{
-+	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL;
-+}
-+
-+static const struct i2c_adapter_quirks ljca_i2c_quirks = {
-+	.max_read_len = LJCA_I2C_MAX_XFER_SIZE,
-+	.max_write_len = LJCA_I2C_MAX_XFER_SIZE,
-+};
-+
-+static const struct i2c_algorithm ljca_i2c_algo = {
-+	.master_xfer = ljca_i2c_xfer,
-+	.functionality = ljca_i2c_func,
-+};
-+
-+static int ljca_i2c_probe(struct auxiliary_device *auxdev,
-+			  const struct auxiliary_device_id *aux_dev_id)
-+{
-+	struct ljca_client *ljca = auxiliary_dev_to_ljca_client(auxdev);
-+	struct ljca_i2c_dev *ljca_i2c;
-+	int ret;
-+
-+	ljca_i2c = devm_kzalloc(&auxdev->dev, sizeof(*ljca_i2c), GFP_KERNEL);
-+	if (!ljca_i2c)
-+		return -ENOMEM;
-+
-+	ljca_i2c->ljca = ljca;
-+	ljca_i2c->i2c_info = dev_get_platdata(&auxdev->dev);
-+
-+	ljca_i2c->adap.owner = THIS_MODULE;
-+	ljca_i2c->adap.class = I2C_CLASS_HWMON;
-+	ljca_i2c->adap.algo = &ljca_i2c_algo;
-+	ljca_i2c->adap.quirks = &ljca_i2c_quirks;
-+	ljca_i2c->adap.dev.parent = &auxdev->dev;
-+
-+	snprintf(ljca_i2c->adap.name, sizeof(ljca_i2c->adap.name), "%s-%s-%d",
-+		 dev_name(&auxdev->dev), dev_name(auxdev->dev.parent),
-+		 ljca_i2c->i2c_info->id);
-+
-+	device_set_node(&ljca_i2c->adap.dev, dev_fwnode(&auxdev->dev));
-+
-+	i2c_set_adapdata(&ljca_i2c->adap, ljca_i2c);
-+	auxiliary_set_drvdata(auxdev, ljca_i2c);
-+
-+	ret = ljca_i2c_init(ljca_i2c, ljca_i2c->i2c_info->id);
-+	if (ret) {
-+		dev_err(&auxdev->dev, "i2c init failed id: %d\n",
-+			ljca_i2c->i2c_info->id);
-+		return -EIO;
-+	}
-+
-+	return devm_i2c_add_adapter(&auxdev->dev, &ljca_i2c->adap);
-+}
-+
-+static const struct auxiliary_device_id ljca_i2c_id_table[] = {
-+	{ "usb_ljca.ljca-i2c", 0 },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(auxiliary, ljca_i2c_id_table);
-+
-+static struct auxiliary_driver ljca_i2c_driver = {
-+	.probe = ljca_i2c_probe,
-+	.id_table = ljca_i2c_id_table,
-+};
-+module_auxiliary_driver(ljca_i2c_driver);
-+
-+MODULE_AUTHOR("Wentong Wu <wentong.wu@intel.com>");
-+MODULE_AUTHOR("Zhifeng Wang <zhifeng.wang@intel.com>");
-+MODULE_AUTHOR("Lixu Zhang <lixu.zhang@intel.com>");
-+MODULE_DESCRIPTION("Intel La Jolla Cove Adapter USB-I2C driver");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(LJCA);
+I want to highlight that from all serials I have around this is the only 
+one which support 1500000 baud (needed for Rockchip devices).
+
+Thank you!
+David
+
+
+On 28/06/2023 15:38, Corentin Labbe wrote:
+> Hello
+>
+> The CH348 is an octo serial to USB adapter.
+> The following patch adds a driver for supporting it.
+> Since there is no public datasheet, unfortunatly it remains some magic values.
+>
+> It was tested with a large range of baud from 1200 to 1500000 and used with
+> success in one of our kernel CI testlab.
+>
+> Regards
+>
+> Changes since v1:
+> - use a data structure for encoding/decoding messages.
+> - check if needed endpoints exists
+> - fix URB leak in ch348_allocate_status_read error case
+> - test for maximum baud rate as stated by datasheet
+>
+> Changes since v2:
+> - specify ch348_rxbuf data length
+> - Use correct speed_t dwDTERate instead of __le32
+> - test for maximum baud rate supported according to datasheet
+> - Use a define for CH348_TX_HDRSIZE
+>
+> Changes since v3
+> - Fixed all reported problem from https://lore.kernel.org/lkml/Y5NDwEakGJbmB6+b@Red/T/#mb6234d0427cfdabf412190565e215995a41482dd
+>    Mostly reworked the endpoint mux to be the same than mx_uport
+>
+> Changes since v4:
+> - The V4 was sent against stable and next have ch348_set_termios ktermios
+>    parameter const that I forgot to change
+>
+> Changes since v5:
+> - Fixed all reported problem from https://lore.kernel.org/lkml/20230106135338.643951-1-clabbe@baylibre.com/T/#m044aab24dfb652ea34aa06f8ef704da9d6a2e036
+> - Major change is dropping of all status handling which was unused.
+>    It will be probably necessary to bring it back when using GPIO.
+>    This will be done when I will finish my next devboard.
+>
+> Corentin Labbe (2):
+>    usb: serial: add support for CH348
+>    usb: serial: add myself as maintainer of CH348
+>
+>   MAINTAINERS                 |   5 +
+>   drivers/usb/serial/Kconfig  |   9 +
+>   drivers/usb/serial/Makefile |   1 +
+>   drivers/usb/serial/ch348.c  | 491 ++++++++++++++++++++++++++++++++++++
+>   4 files changed, 506 insertions(+)
+>   create mode 100644 drivers/usb/serial/ch348.c
+>
 -- 
-2.7.4
+David Heidelberg
+Certified Linux Magician
 
