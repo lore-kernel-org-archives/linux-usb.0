@@ -2,102 +2,73 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D82A2C2FC24
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Aug 2023 13:25:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2B88C2FC32
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Aug 2023 14:04:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351385AbjHQNZM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Aug 2023 09:25:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34612 "EHLO
+        id S1351646AbjHQODk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Aug 2023 10:03:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351226AbjHQNZH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Aug 2023 09:25:07 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10856114
-        for <linux-usb@vger.kernel.org>; Thu, 17 Aug 2023 06:25:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692278705; x=1723814705;
-  h=message-id:date:mime-version:to:cc:references:from:
-   subject:in-reply-to:content-transfer-encoding;
-  bh=o6EDmqg240MBtX8eD4rr9ogXQYPS4VmZvbMlJi1qtUg=;
-  b=i6RXpCG56vGYSbgJ1cm8UDI27ZRtXR3MRWd+/uBBFvMLWE694nYjKNxD
-   wu4ChA7VU3111f30d8l3hFKZQh55ZSnYg9mCbnG/p8+JDJ7TrzrfeP/R1
-   j1UcspBu/eZVD2iQ47OsoGmeHZqx7RxycYgm7VC57b5/0ICal9r+o9L26
-   JDXPkp/E+hi0RXn6U/8+KWpCjKfoYsSoxZWiL6MuPddmE+9wWE8DXelEX
-   D3LlO3gmsdBLQDd26d86DF37fN5IuZStTSRLl66y/nclVuD+AQMeFLck4
-   o57F84IIi9oLMhoGzsUUxyPanH22PEHdrwsef347U1c2CKv6ogKHAp4Zn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="403789202"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="403789202"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 06:24:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="800041032"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="800041032"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Aug 2023 06:24:55 -0700
-Message-ID: <104cad2c-65a2-ccf5-e13c-d1cba3d5a57c@linux.intel.com>
-Date:   Thu, 17 Aug 2023 16:26:11 +0300
+        with ESMTP id S1351683AbjHQOD2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Aug 2023 10:03:28 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 9B68430E1
+        for <linux-usb@vger.kernel.org>; Thu, 17 Aug 2023 07:03:19 -0700 (PDT)
+Received: (qmail 475129 invoked by uid 1000); 17 Aug 2023 10:03:18 -0400
+Date:   Thu, 17 Aug 2023 10:03:18 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Oliver Neukum <oneukum@suse.com>, mathias.nyman@intel.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] xhci: Disable connect, disconnect and over-current
+ wakeup on system suspend
+Message-ID: <cc190b72-03cc-400b-9dc4-abef21562eff@rowland.harvard.edu>
+References: <20230817093305.212821-1-kai.heng.feng@canonical.com>
+ <cc271e17-6204-b610-b40e-5c882ad6be36@suse.com>
+ <ef189a18-98ba-52c9-13a3-ce8531fc18cf@linux.intel.com>
+ <CAAd53p67m3o1nz3cKjiSJWDMWnsoB-4=pFWwBhpaoZ+ns22-tw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
-Content-Language: en-US
-To:     Lukas Wunner <lukas@wunner.de>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org,
-        Jonathan Bell <jonathan@raspberrypi.org>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Philipp Rosenberger <p.rosenberger@kunbus.com>,
-        Lino Sanfilippo <LinoSanfilippo@gmx.de>
-References: <cover.1692085657.git.lukas@wunner.de>
- <2b2c9002fe2ec104007b7a235e240b5c82075223.1692085657.git.lukas@wunner.de>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH 1/2] xhci: Set DESI bits in ERDP register correctly
-In-Reply-To: <2b2c9002fe2ec104007b7a235e240b5c82075223.1692085657.git.lukas@wunner.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAd53p67m3o1nz3cKjiSJWDMWnsoB-4=pFWwBhpaoZ+ns22-tw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 15.8.2023 15.40, Lukas Wunner wrote:
-> When using more than one Event Ring segment (ERSTSZ > 1), software shall
-> set the DESI bits in the ERDP register to the number of the segment to
-> which the upper ERDP bits are pointing.  The xHC may use the DESI bits
-> as a shortcut to determine whether it needs to check for an Event Ring
-> Full condition:  If it's enqueueing events in a different segment, it
-> need not compare its internal Enqueue Pointer with the Dequeue Pointer
-> in the upper bits of the ERDP register (sec 5.5.2.3.3).
+On Thu, Aug 17, 2023 at 09:13:55PM +0800, Kai-Heng Feng wrote:
+> On Thu, Aug 17, 2023 at 8:52 PM Mathias Nyman
+> <mathias.nyman@linux.intel.com> wrote:
+> >
+> > On 17.8.2023 14.18, Oliver Neukum wrote:
+> > > On 17.08.23 11:33, Kai-Heng Feng wrote:
+> > >
+> > > Hi,
+> > >
+> > >> So for system-wide suspend, also disable connect, disconnect and
+> > >> over-current wakeup to prevent spurious wakeup.
+> > >
+> > > isn't this breaking the ability to effectively use your root hub
+> > > as a source of system wakeups? That is, even if you want the
+> > > system to wake up if somebody attaches a new device, it no longer works?
+> > >
+> >
+> > I got the same concern about this.
 > 
-> Not setting the DESI bits correctly can result in the xHC enqueueing
-> events past the Dequeue Pointer.  On Renesas uPD720201 host controllers,
-> incorrect DESI bits cause an interrupt storm.  For comparison, VIA VL805
-> host controllers do not exhibit such problems.  Perhaps they do not take
-> advantage of the optimization afforded by the DESI bits.
-> 
-> To fix the issue, assign the segment number to each struct xhci_segment
-> in xhci_segment_alloc().  When advancing the Dequeue Pointer in
-> xhci_update_erst_dequeue(), write the segment number to the DESI bits.
-> 
-> On driver probe, set the DESI bits to zero in xhci_set_hc_event_deq() as
-> processing starts in segment 0.  Likewise on driver teardown, clear the
-> DESI bits to zero in xhci_free_interrupter() when clearing the upper
-> bits of the ERDP register.  Previously those functions (incorrectly)
-> treated the DESI bits as if they're declared RsvdP.
-> 
-> Signed-off-by: Lukas Wunner <lukas@wunner.de>
+> Per my test, it doesn't work with or without this change. This applies
+> to disconnection too, disconnecting USB devices doesn't wake the
+> system up.
+> Furthermore, if the newly attached device is a USB keyboard, pressing
+> it doesn't wake the system up either. Probably because remote wakeup
+> isn't configured when the system is suspended.
 
-Thanks for working on this, sorting out the DESI bits
+If remote wakeup isn't enabled then the do_wakeup variable will be 0, 
+so your patch wouldn't make any difference.  The question is what 
+happens when remote wakeup _is_ enabled.
 
-The segment numbers might become useful for transfer rings as well, but with
-current transfer ring expansion support those numbers need to be adjusted
-after expansion.
+Did you check the settings in the controller's and root hub's 
+power/wakeup sysfs files?
 
-But I can make a small separate fix for that on top of this.
-
--Mathias
+Alan Stern
