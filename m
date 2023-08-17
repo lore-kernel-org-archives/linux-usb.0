@@ -2,68 +2,97 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87C33C2FC35
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Aug 2023 14:13:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE70C2FC39
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Aug 2023 14:17:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351617AbjHQONR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Aug 2023 10:13:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43376 "EHLO
+        id S236259AbjHQOQd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Aug 2023 10:16:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351733AbjHQOMy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Aug 2023 10:12:54 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id E78CC10C8
-        for <linux-usb@vger.kernel.org>; Thu, 17 Aug 2023 07:12:52 -0700 (PDT)
-Received: (qmail 475574 invoked by uid 1000); 17 Aug 2023 10:12:52 -0400
-Date:   Thu, 17 Aug 2023 10:12:52 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     syzbot <syzbot+d6b0b0ea0781c14b2ecf@syzkaller.appspotmail.com>,
-        arnd@arndb.de, christian.brauner@ubuntu.com,
-        gregkh@linuxfoundation.org, hdanton@sina.com,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        mpe@ellerman.id.au, oleg@redhat.com,
-        syzkaller-bugs@googlegroups.com, web@syzkaller.appspotmail.com
-Subject: Re: [syzbot] [usb?] KASAN: slab-use-after-free Write in
- usb_anchor_suspend_wakeups
-Message-ID: <6c58e18b-1a66-4853-af33-17bc6f9f7ebd@rowland.harvard.edu>
-References: <0000000000007c27e105faa4aa99@google.com>
- <00000000000014678c0602b6c643@google.com>
- <1134d446-3189-4f2d-81b4-10142e751320@rowland.harvard.edu>
- <5919c39c-1ee4-262b-4ba1-f0e58088611d@suse.com>
+        with ESMTP id S1351785AbjHQOQ1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Aug 2023 10:16:27 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9C302D72
+        for <linux-usb@vger.kernel.org>; Thu, 17 Aug 2023 07:16:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692281786; x=1723817786;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=Rso8rV5eVJcth/3LTIuwlVg1pfjuhmxdZo25p7CyzzU=;
+  b=DTgL7F2z7P9fGYuv+7N3eBFSYvkZZcn+H1s4z97AAt6TgMI+14feFWZm
+   qbTtNWe3U9GoJWNjVjghwssszp9cHvkpE7r9H+nRf1BMGKcNEFu/2qW2C
+   K6kwzDJ2vjUKjzMb6M3NzbOiBJZawNXCWpvm43aac8Qt55RMUFeEqoHlT
+   yo1hqOH5FycDdwF2t2uijE1/vwEW71/1HZz3D1VtIn4xonCsLjqhHbFEd
+   L2APPLR3oies39e+ZJfqJw+2qjUYTQrtP6Y8QPrgjWLpaYqbo/DroJRMb
+   SnURPXBaFOgwcpjOYffTEiSZz43Z7+IBozdUgPy8dEu0zhArolWUMhfI+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="439191872"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
+   d="scan'208";a="439191872"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 06:45:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="848890212"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
+   d="scan'208";a="848890212"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2023 06:45:31 -0700
+Message-ID: <1e881541-ec0c-1540-37c8-f8226bc30a26@linux.intel.com>
+Date:   Thu, 17 Aug 2023 16:46:47 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5919c39c-1ee4-262b-4ba1-f0e58088611d@suse.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.13.0
+Content-Language: en-US
+To:     Lukas Wunner <lukas@wunner.de>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org,
+        Jonathan Bell <jonathan@raspberrypi.org>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Philipp Rosenberger <p.rosenberger@kunbus.com>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>
+References: <cover.1692085657.git.lukas@wunner.de>
+ <97f42cbb432ed38a327f02ef37348bd07765e0f5.1692085657.git.lukas@wunner.de>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH 2/2] xhci: Use more than one Event Ring segment
+In-Reply-To: <97f42cbb432ed38a327f02ef37348bd07765e0f5.1692085657.git.lukas@wunner.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 17, 2023 at 02:16:26PM +0200, Oliver Neukum wrote:
-> On 12.08.23 17:56, Alan Stern wrote:
-> Hi,
-> > The real problem seems to be some sort of race in usbtmc and the core
-> > between URBs being added to an anchor, file I/O being stopped, and URBs
-> > being killed or scuttled when the file is flushed.
+On 15.8.2023 15.40, Lukas Wunner wrote:
+> From: Jonathan Bell <jonathan@raspberrypi.com>
 > 
-> just to make sure, you think it is failing here:
+> Users have reported log spam created by "Event Ring Full" xHC event
+> TRBs.  These are caused by interrupt latency in conjunction with a very
+> busy set of devices on the bus.  The errors are benign, but throughput
+> will suffer as the xHC will pause processing of transfers until the
+> Event Ring is drained by the kernel.
 > 
-> usb_anchor_resume_wakeups(anchor);
+> Commit dc0ffbea5729 ("usb: host: xhci: update event ring dequeue pointer
+> on purpose") mitigated the issue by advancing the Event Ring Dequeue
+> Pointer already after half a segment has been processed.  Nevertheless,
+> providing a larger Event Ring would be useful to cope with load peaks.
+> 
+> Expand the number of event TRB slots available by increasing the number
+> of Event Ring segments in the ERST.
+> 
+> Controllers have a hardware-defined limit as to the number of ERST
+> entries they can process, but with up to 32k it can be excessively high
+> (sec 5.3.4).  So cap the actual number at 8 (configurable through the
+> ERST_MAX_SEGS macro), which seems like a reasonable quantity.
 
-That's what the syzbot console log output shows in the stack dump.
+Making the new event ring default size 8 times bigger seems a bit over the top,
+especially when most systems worked fine with just one segment.
 
-> because we cannot guarantee that the anchor pointer
-> is still valid,
+How about doubling the current size as a default, and then think about
+adding more segments dynamically if we get "Event Ring Full" events?
 
-That's my conclusion.  There don't seem to be any other candidates for a 
-bad pointer.
+Thanks
+Mathias
 
->  unless we refcount anchors, which would
-> make embedding them impossible?
-
-Whether the validity is ensured by refcounting or by some other 
-mechanism is up to the implementor (i.e., you).  I'm merely trying to 
-restate and explain the syzbot results in terms understandable by 
-humans.
-
-Alan Stern
