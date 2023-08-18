@@ -2,75 +2,126 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E331C77B7A
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Aug 2023 15:39:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E2FC77B7F
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Aug 2023 17:02:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378231AbjHRPie (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Aug 2023 11:38:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51588 "EHLO
+        id S1378807AbjHRRCB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Aug 2023 13:02:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378222AbjHRPiC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Aug 2023 11:38:02 -0400
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.216])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 543C52D65;
-        Fri, 18 Aug 2023 08:38:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=S86pG
-        VvG1ilS8xvZNzcsHKbjpsGoOlDvIT+3HF+Qhyo=; b=FZA0jw+CgogS1+ec42Dof
-        emhAkmVlCn7QCMuLOBhSQLgyLv3j4SVutoUjYcio0Q8ssV151YIflKBR31Vs93I6
-        KqPwEQ48P3JO8zqtgZ/kxGgAsxUHrQnpSlopCcdj1/qwy/RCCj8+XdPYsKvvKL1x
-        g6jlmRRo9+aAL1UldRFA2E=
-Received: from sc9-mailhost2.vmware.com (unknown [114.250.138.216])
-        by zwqz-smtp-mta-g5-3 (Coremail) with SMTP id _____wD3JXLCj99kfq+CDQ--.24616S2;
-        Fri, 18 Aug 2023 23:35:30 +0800 (CST)
-From:   Dingyan Li <18500469033@163.com>
-To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] USB: add new speed value to USB debugfs
-Date:   Fri, 18 Aug 2023 23:35:09 +0800
-Message-Id: <20230818153509.38814-1-18500469033@163.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S1378934AbjHRRB4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Aug 2023 13:01:56 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDA393C2F
+        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 10:01:53 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1bf3a2f4528so6841765ad.2
+        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 10:01:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1692378113; x=1692982913;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ccOpBH+0zGB6h/+g5NT+SFG7IlLk8LZC3n5h35bndA0=;
+        b=DUF4JU4OAisFb2znDTDbV+7kSb3FgaFzFM3D0Kiebf+RV/EfREumhrpVzh/N+h+9Ts
+         egrt5cdmHUOY3QAp4RC0X5+JP8rpuaUVHjMtC9cUpRf/LArJ1QufHDVa2YMs0NuKZpFR
+         QA8B1dnxUK4HqTcn0lmKoeWwZis6D8+M6WkuM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692378113; x=1692982913;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ccOpBH+0zGB6h/+g5NT+SFG7IlLk8LZC3n5h35bndA0=;
+        b=lHIO8jCXqovKYIG2AETgVGa94p9p2KpJe0nhCui90gTIVOyn+ms5cwF/XulYmrFYw3
+         TVskWQczCpVN8JxuUBXYDGGXcoEJ/SmQWUbV3BUIvK1kVQ2D9sqEG6RVWsHzOnhzjW26
+         3vmUT6IdtVb4/qqM3Rmuc4lugPc1ZKnqcnXaK6me0rkr7GqvWZVJJSLdokqmGc2mAZ5v
+         7BnRjxl0d9ZSprKTnjOYS50pHk+6qbMopnQw3hhABeqOEbI+a1ZHvB0VAid/KzWwAYiQ
+         N20jpXcot943ooqXkJrN8XOnQTEe2EXosiQwrUoykt7lFNTnU5XfoZdDuuUpwuRYHW45
+         fLMg==
+X-Gm-Message-State: AOJu0YxrXkuCBZD+26g95FhBE+AedW2b54Lb9EdPZCWrbeUXvgvlv35s
+        W8g7SQfElUnIn+IGSGJIBQ2rcg==
+X-Google-Smtp-Source: AGHT+IFNMrMmyypjHvRkY6RVrVt1hXc/7HF9esDlXUnlbPkZjdiWgxkTl2xYg/SyumF3ZhaZmarTgQ==
+X-Received: by 2002:a17:90b:33c2:b0:269:154b:6290 with SMTP id lk2-20020a17090b33c200b00269154b6290mr2976289pjb.24.1692378113260;
+        Fri, 18 Aug 2023 10:01:53 -0700 (PDT)
+Received: from chromium.org (137.22.168.34.bc.googleusercontent.com. [34.168.22.137])
+        by smtp.gmail.com with ESMTPSA id a17-20020a17090abe1100b0026b76edd607sm1790707pjs.15.2023.08.18.10.01.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Aug 2023 10:01:52 -0700 (PDT)
+Date:   Fri, 18 Aug 2023 17:01:51 +0000
+From:   Prashant Malani <pmalani@chromium.org>
+To:     Utkarsh Patel <utkarsh.h.patel@intel.com>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        heikki.krogerus@linux.intel.com, bleung@chromium.org
+Subject: Re: [PATCH v4 1/2] platform/chrome: cros_ec_typec: Configure Retimer
+ cable type
+Message-ID: <ZN+j/z97Yy0wv/if@chromium.org>
+References: <20230718024703.1013367-1-utkarsh.h.patel@intel.com>
+ <20230718024703.1013367-2-utkarsh.h.patel@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3JXLCj99kfq+CDQ--.24616S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZr4ftFWrWF4UXryftFWrXwb_yoWfZwbEkr
-        1Uuw17Za1YyFyIqF1xu34FyryFv34I939YgFn5trn5WFZFv34kArsrWryqvr15CFy7WFs7
-        A3W8G3WqyF4xKjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU0q9aDUUUUU==
-X-Originating-IP: [114.250.138.216]
-X-CM-SenderInfo: jprykiiquwmiitt6il2tof0z/xtbB5xXPy2BHLUmpwgAAse
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230718024703.1013367-2-utkarsh.h.patel@intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Current max speed supported in USB debugfs is 10000.
-Since USB 3.2 GEN_2x2 has reached 20000, it's better
-to add it. The idea is borrowed from USB sysfs, with
-a combination of USB_SPEED_SUPER_PLUS and
-USB_SSP_GEN_2x2, the actual speed should be 20000.
+Hi Utkarsh,
 
-Signed-off-by: Dingyan Li <18500469033@163.com>
----
- drivers/usb/core/devices.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Sorry I was out on leave, so didnt get to this earlier.
 
-diff --git a/drivers/usb/core/devices.c b/drivers/usb/core/devices.c
-index a247da73f34d..78ebcb657dce 100644
---- a/drivers/usb/core/devices.c
-+++ b/drivers/usb/core/devices.c
-@@ -429,7 +429,11 @@ static ssize_t usb_device_dump(char __user **buffer, size_t *nbytes,
- 	case USB_SPEED_SUPER:
- 		speed = "5000"; break;
- 	case USB_SPEED_SUPER_PLUS:
--		speed = "10000"; break;
-+		if (usbdev->ssp_rate == USB_SSP_GEN_2x2)
-+			speed = "20000";
-+		else
-+			speed = "10000";
-+		break;
- 	default:
- 		speed = "??";
- 	}
--- 
-2.25.1
 
+On Jul 17 19:47, Utkarsh Patel wrote:
+>  
+> +/**
+> + * cros_typec_get_cable_vdo() - Get Cable VDO of the connected cable
+> + * @port: Type-C port data
+> + * @svid: Standard or Vendor ID to match
+> + *
+> + * Returns the Cable VDO if match is found and returns 0 if match is not found.
+> + */
+> +static int cros_typec_get_cable_vdo(struct cros_typec_port *port, u16 svid)
+return type should be u32.
+
+> +{
+> +	struct list_head *head = &port->plug_mode_list;
+> +	struct cros_typec_altmode_node *node;
+> +	u32 ret = 0;
+> +
+> +	list_for_each_entry(node, head, list) {
+> +		if (node->amode->svid == svid)
+> +			return node->amode->vdo;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  /*
+>   * Spoof the VDOs that were likely communicated by the partner for TBT alt
+>   * mode.
+> @@ -432,6 +453,9 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
+>  
+>  	/* Cable Discover Mode VDO */
+>  	data.cable_mode = TBT_MODE;
+> +
+> +	data.cable_mode |= cros_typec_get_cable_vdo(port, USB_TYPEC_TBT_SID);
+> +
+>  	data.cable_mode |= TBT_SET_CABLE_SPEED(pd_ctrl->cable_speed);
+>  
+>  	if (pd_ctrl->control_flags & USB_PD_CTRL_OPTICAL_CABLE)
+> @@ -522,8 +546,10 @@ static int cros_typec_enable_usb4(struct cros_typec_data *typec,
+>  	/* Cable Type */
+>  	if (pd_ctrl->control_flags & USB_PD_CTRL_OPTICAL_CABLE)
+>  		data.eudo |= EUDO_CABLE_TYPE_OPTICAL << EUDO_CABLE_TYPE_SHIFT;
+> -	else if (pd_ctrl->control_flags & USB_PD_CTRL_ACTIVE_CABLE)
+> +	else if (cros_typec_get_cable_vdo(port, USB_TYPEC_TBT_SID) & TBT_CABLE_RETIMER)
+>  		data.eudo |= EUDO_CABLE_TYPE_RE_TIMER << EUDO_CABLE_TYPE_SHIFT;
+We shouldn't need to call cros_typec_get_cable_vdo more than once. Either call it once earlier
+when you are crafting the data.cable_mode member and then re-use that variable here. Or don't
+call it there and just call it here.
+
+> +	else if (pd_ctrl->control_flags & USB_PD_CTRL_ACTIVE_CABLE)
+> +		data.eudo |= EUDO_CABLE_TYPE_RE_DRIVER << EUDO_CABLE_TYPE_SHIFT;
+>  
+>  	data.active_link_training = !!(pd_ctrl->control_flags &
+>  				       USB_PD_CTRL_ACTIVE_LINK_UNIDIR);
+> -- 
+> 2.25.1
+> 
