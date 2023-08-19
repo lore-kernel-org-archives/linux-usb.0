@@ -2,308 +2,125 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5142DEE49BF
-	for <linux-usb@archiver.kernel.org>; Sat, 19 Aug 2023 03:18:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20CA5EE49A7
+	for <linux-usb@archiver.kernel.org>; Sat, 19 Aug 2023 04:34:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245010AbjHSDSE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Aug 2023 23:18:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39688 "EHLO
+        id S234261AbjHSEdy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 19 Aug 2023 00:33:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244844AbjHSDRl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Aug 2023 23:17:41 -0400
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA1CF422D
-        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:38 -0700 (PDT)
-Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-1c11d53221cso962611fac.2
-        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692415058; x=1693019858;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+DQwNNrrtVCT1lLuabGTe5r6Le72ZgleU8XG8wqlJaU=;
-        b=KZnsI2frS8f19EqyRQwavdJnykidAx+LH2FzPONwEGalZsPbjh8DDMo6++Bw8p/kWb
-         JFunValfCFYRcWIsU4vandkZU7eWr0blqGFSQR8kJJi7LTusS8JkQQH8/N/MGy8P3FDC
-         1se/QTLNn7fXOEsrIQc6St1a92WXH54mgQnjTzjzwBmFXD5USVK6ghGkDUhod6hiCnK3
-         u++iM22rFYepHpqUMgSx44AevgdbcrhG7gxsyZErip+/NeNCbgCCvLokMOtCOGoRquy8
-         E3iixOKDXW4y1S/IEk7hI3a7LYelHPozIIGne2EU0nQJVQXGpXmEf3bhMubPVLm6r62I
-         gbDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692415058; x=1693019858;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+DQwNNrrtVCT1lLuabGTe5r6Le72ZgleU8XG8wqlJaU=;
-        b=I0xVI2F50WW3QAmUlt/qOpUd+4JXWn89nZdgznDu1G2/NfhyjhFCePWnpuMnhI9wcd
-         cOx+DUCYFzrVUk3Gr6R5oQjdNkB0kPnLiuqHwTQnEUBSzkbDoGH3aHM7weNh/C27et2K
-         dvBk4aLHmzCFyc3xAOMyXIfH6vVJI4fMu+E3DOZACtelMPljYn/hEPXVdUwq93IAhEW5
-         L5RyRs8GBRUOyc/zFQth4PscITQ+jvxzzJ893NyrYvf/qGlOKkXnt+TRT6OgLnmI9VCp
-         vMFN3Ac6teGGMHJenE812muFvb4LNUmMan4MNE31LzG8RsXnbcKiPYdYeUBtOLT1Cbs8
-         YhIQ==
-X-Gm-Message-State: AOJu0YzPFsU8VltKI9mf2wVySV4O4T+T68ZzkgWcTdrV95JZLqncmiMo
-        PyTHcnsJc7rvAi13DuGMBeABbg==
-X-Google-Smtp-Source: AGHT+IG9+tvpUlnk8cAJd8EALh9FR9Ev77lqz1NyZ7whINiZTja6Zelg0JAusKenuNC7JUynVd3GDQ==
-X-Received: by 2002:a05:6870:2188:b0:19f:6711:8e0a with SMTP id l8-20020a056870218800b0019f67118e0amr1165180oae.32.1692415058070;
-        Fri, 18 Aug 2023 20:17:38 -0700 (PDT)
-Received: from localhost ([136.49.140.41])
-        by smtp.gmail.com with ESMTPSA id r2-20020a056870878200b001c4b473581fsm1725223oam.12.2023.08.18.20.17.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Aug 2023 20:17:37 -0700 (PDT)
-From:   Sam Protsenko <semen.protsenko@linaro.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     JaeHun Jung <jh0801.jung@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Heiko Stuebner <heiko@sntech.de>,
-        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: [PATCH 6/8] phy: exynos5-usbdrd: Add Exynos850 support
-Date:   Fri, 18 Aug 2023 22:17:29 -0500
-Message-Id: <20230819031731.22618-7-semen.protsenko@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230819031731.22618-1-semen.protsenko@linaro.org>
-References: <20230819031731.22618-1-semen.protsenko@linaro.org>
+        with ESMTP id S229532AbjHSEdY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 19 Aug 2023 00:33:24 -0400
+Received: from m1319.mail.163.com (m1319.mail.163.com [220.181.13.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BBA364211;
+        Fri, 18 Aug 2023 21:33:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+        Message-ID; bh=iz1kc/+jTr35gcMc4FDnO3H2sC+Z+IBN0qSrWXZCvrc=; b=d
+        vCEAFIWMis2eTc7P/ZCwc3Kr3M9cKWhlOcPfCk3Rix+ewAyZjWabP28pyIWxwRRK
+        8gNwbP3JKX7DOL3D/+OGB/0c8uZSmIUd3f9S2cZCJ/0SvpWnmqsqlkDaUO3bGVeF
+        DUJyyzGq8rR7i3uOcukIrA9KYvrnb2BhuFZliW5V1Y=
+Received: from 18500469033$163.com ( [114.250.138.216] ) by
+ ajax-webmail-wmsvr19 (Coremail) ; Sat, 19 Aug 2023 12:32:43 +0800 (CST)
+X-Originating-IP: [114.250.138.216]
+Date:   Sat, 19 Aug 2023 12:32:43 +0800 (CST)
+From:   "Dingyan Li" <18500469033@163.com>
+To:     "Alan Stern" <stern@rowland.harvard.edu>
+Cc:     "Hans de Goede" <hdegoede@redhat.com>,
+        "Greg KH" <gregkh@linuxfoundation.org>,
+        "Xiaofan Chen" <xiaofanc@gmail.com>,
+        "Oliver Neukum" <oneukum@suse.com>,
+        "Tormod Volden" <lists.tormod@gmail.com>,
+        sebastian.reichel@collabora.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re:Re: Re: Re: [PATCH] USB: add usbfs ioctl to get specific
+ superspeedplus rates
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2023 www.mailtech.cn 163com
+In-Reply-To: <daa39dd3-4e8b-4d69-8ad3-5ec73fa12f8c@rowland.harvard.edu>
+References: <CAGjSPUCQ892adFdYm7zCuMpWujwzwoQtYimvp3xXrnnCCyN47w@mail.gmail.com>
+ <da536c80-7398-dae0-a22c-16e521be697a@suse.com>
+ <CAGjSPUDtn-YMqmNrmku+hkyXCKys4XRue4wdzQwr+yGxe2cJSQ@mail.gmail.com>
+ <2a82ba01-38dd-fad9-98b9-ac8591107921@redhat.com>
+ <151a5748.3e99.189ba07b110.Coremail.18500469033@163.com>
+ <51926ee6-ee81-4543-a1f7-338e65a26670@rowland.harvard.edu>
+ <a31ee75e-6a8e-fe7b-aadc-f118d9ab60f9@redhat.com>
+ <67b68375.80b5.189bc2653e9.Coremail.18500469033@163.com>
+ <c10dd3c1-efab-47d6-904f-3b211965be44@rowland.harvard.edu>
+ <5ccfaa7e.3180.189bec2b80e.Coremail.18500469033@163.com>
+ <daa39dd3-4e8b-4d69-8ad3-5ec73fa12f8c@rowland.harvard.edu>
+X-NTES-SC: AL_QuySAPiatk0t5SSbZelS/T5Xw5RfLaTO5axEmsQBSeEQpj7O2S0yZkBGJHjL1Pn2ppozhKLZruPb8jACaZKe
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <79f3ec25.fa3.18a0c111fa9.Coremail.18500469033@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: E8GowAAXFwHrReBkbTcXAA--.35294W
+X-CM-SenderInfo: jprykiiquwmiitt6il2tof0z/xtbB5xDQy2BHLU7TTgABs0
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Implement Exynos850 USB 2.0 DRD PHY controller support. Exynos850 has
-quite a different PHY controller than Exynos5 compatible controllers,
-but it's still possible to implement it on top of existing
-exynos5-usbdrd driver infrastructure.
-
-Only UTMI+ (USB 2.0) PHY interface is implemented, as Exynos850 doesn't
-support USB 3.0.
-
-Only two clocks are used for this controller:
-  - phy: bus clock, used for PHY registers access
-  - ref: PHY reference clock (OSCCLK)
-
-Signed-off-by: Sam Protsenko <semen.protsenko@linaro.org>
----
- drivers/phy/samsung/phy-exynos5-usbdrd.c | 169 +++++++++++++++++++++++
- 1 file changed, 169 insertions(+)
-
-diff --git a/drivers/phy/samsung/phy-exynos5-usbdrd.c b/drivers/phy/samsung/phy-exynos5-usbdrd.c
-index 41508db87b9b..3f310b28bfff 100644
---- a/drivers/phy/samsung/phy-exynos5-usbdrd.c
-+++ b/drivers/phy/samsung/phy-exynos5-usbdrd.c
-@@ -145,6 +145,34 @@
- #define LANE0_TX_DEBUG_RXDET_MEAS_TIME_62M5		(0x20 << 4)
- #define LANE0_TX_DEBUG_RXDET_MEAS_TIME_96M_100M		(0x40 << 4)
- 
-+/* Exynos850: USB DRD PHY registers */
-+#define EXYNOS850_DRD_LINKCTRL			0x04
-+#define LINKCTRL_BUS_FILTER_BYPASS(_x)		((_x) << 4)
-+#define LINKCTRL_FORCE_QACT			BIT(8)
-+
-+#define EXYNOS850_DRD_CLKRST			0x20
-+#define CLKRST_LINK_SW_RST			BIT(0)
-+#define CLKRST_PORT_RST				BIT(1)
-+#define CLKRST_PHY_SW_RST			BIT(3)
-+
-+#define EXYNOS850_DRD_UTMI			0x50
-+#define UTMI_FORCE_SLEEP			BIT(0)
-+#define UTMI_FORCE_SUSPEND			BIT(1)
-+#define UTMI_DM_PULLDOWN			BIT(2)
-+#define UTMI_DP_PULLDOWN			BIT(3)
-+#define UTMI_FORCE_BVALID			BIT(4)
-+#define UTMI_FORCE_VBUSVALID			BIT(5)
-+
-+#define EXYNOS850_DRD_HSP			0x54
-+#define HSP_COMMONONN				BIT(8)
-+#define HSP_EN_UTMISUSPEND			BIT(9)
-+#define HSP_VBUSVLDEXT				BIT(12)
-+#define HSP_VBUSVLDEXTSEL			BIT(13)
-+#define HSP_FSV_OUT_EN				BIT(24)
-+
-+#define EXYNOS850_DRD_HSP_TEST			0x5c
-+#define HSP_TEST_SIDDQ				BIT(24)
-+
- #define KHZ	1000
- #define MHZ	(KHZ * KHZ)
- 
-@@ -716,6 +744,129 @@ static const struct phy_ops exynos5_usbdrd_phy_ops = {
- 	.owner		= THIS_MODULE,
- };
- 
-+static void exynos850_usbdrd_utmi_init(struct exynos5_usbdrd_phy *phy_drd)
-+{
-+	void __iomem *regs_base = phy_drd->reg_phy;
-+	u32 reg;
-+
-+	/*
-+	 * Disable HWACG (hardware auto clock gating control). This will force
-+	 * QACTIVE signal in Q-Channel interface to HIGH level, to make sure
-+	 * the PHY clock is not gated by the hardware.
-+	 */
-+	reg = readl(regs_base + EXYNOS850_DRD_LINKCTRL);
-+	reg |= LINKCTRL_FORCE_QACT;
-+	writel(reg, regs_base + EXYNOS850_DRD_LINKCTRL);
-+
-+	/* Start PHY Reset (POR=high) */
-+	reg = readl(regs_base + EXYNOS850_DRD_CLKRST);
-+	reg |= CLKRST_PHY_SW_RST;
-+	writel(reg, regs_base + EXYNOS850_DRD_CLKRST);
-+
-+	/* Enable UTMI+ */
-+	reg = readl(regs_base + EXYNOS850_DRD_UTMI);
-+	reg &= ~(UTMI_FORCE_SUSPEND | UTMI_FORCE_SLEEP | UTMI_DP_PULLDOWN |
-+		 UTMI_DM_PULLDOWN);
-+	writel(reg, regs_base + EXYNOS850_DRD_UTMI);
-+
-+	/* Set PHY clock and control HS PHY */
-+	reg = readl(regs_base + EXYNOS850_DRD_HSP);
-+	reg |= HSP_EN_UTMISUSPEND | HSP_COMMONONN;
-+	writel(reg, regs_base + EXYNOS850_DRD_HSP);
-+
-+	/* Set VBUS Valid and D+ pull-up control by VBUS pad usage */
-+	reg = readl(regs_base + EXYNOS850_DRD_LINKCTRL);
-+	reg |= LINKCTRL_BUS_FILTER_BYPASS(0xf);
-+	writel(reg, regs_base + EXYNOS850_DRD_LINKCTRL);
-+
-+	reg = readl(regs_base + EXYNOS850_DRD_UTMI);
-+	reg |= UTMI_FORCE_BVALID | UTMI_FORCE_VBUSVALID;
-+	writel(reg, regs_base + EXYNOS850_DRD_UTMI);
-+
-+	reg = readl(regs_base + EXYNOS850_DRD_HSP);
-+	reg |= HSP_VBUSVLDEXT | HSP_VBUSVLDEXTSEL;
-+	writel(reg, regs_base + EXYNOS850_DRD_HSP);
-+
-+	/* Power up PHY analog blocks */
-+	reg = readl(regs_base + EXYNOS850_DRD_HSP_TEST);
-+	reg &= ~HSP_TEST_SIDDQ;
-+	writel(reg, regs_base + EXYNOS850_DRD_HSP_TEST);
-+
-+	/* Finish PHY reset (POR=low) */
-+	udelay(10); /* required before doing POR=low */
-+	reg = readl(regs_base + EXYNOS850_DRD_CLKRST);
-+	reg &= ~(CLKRST_PHY_SW_RST | CLKRST_PORT_RST);
-+	writel(reg, regs_base + EXYNOS850_DRD_CLKRST);
-+	udelay(75); /* required after POR=low for guaranteed PHY clock */
-+
-+	/* Disable single ended signal out */
-+	reg = readl(regs_base + EXYNOS850_DRD_HSP);
-+	reg &= ~HSP_FSV_OUT_EN;
-+	writel(reg, regs_base + EXYNOS850_DRD_HSP);
-+}
-+
-+static int exynos850_usbdrd_phy_init(struct phy *phy)
-+{
-+	struct phy_usb_instance *inst = phy_get_drvdata(phy);
-+	struct exynos5_usbdrd_phy *phy_drd = to_usbdrd_phy(inst);
-+	int ret;
-+
-+	ret = clk_prepare_enable(phy_drd->clk);
-+	if (ret)
-+		return ret;
-+
-+	/* UTMI or PIPE3 specific init */
-+	inst->phy_cfg->phy_init(phy_drd);
-+
-+	clk_disable_unprepare(phy_drd->clk);
-+
-+	return 0;
-+}
-+
-+static int exynos850_usbdrd_phy_exit(struct phy *phy)
-+{
-+	struct phy_usb_instance *inst = phy_get_drvdata(phy);
-+	struct exynos5_usbdrd_phy *phy_drd = to_usbdrd_phy(inst);
-+	void __iomem *regs_base = phy_drd->reg_phy;
-+	u32 reg;
-+	int ret;
-+
-+	ret = clk_prepare_enable(phy_drd->clk);
-+	if (ret)
-+		return ret;
-+
-+	/* Set PHY clock and control HS PHY */
-+	reg = readl(regs_base + EXYNOS850_DRD_UTMI);
-+	reg &= ~(UTMI_DP_PULLDOWN | UTMI_DM_PULLDOWN);
-+	reg |= UTMI_FORCE_SUSPEND | UTMI_FORCE_SLEEP;
-+	writel(reg, regs_base + EXYNOS850_DRD_UTMI);
-+
-+	/* Power down PHY analog blocks */
-+	reg = readl(regs_base + EXYNOS850_DRD_HSP_TEST);
-+	reg |= HSP_TEST_SIDDQ;
-+	writel(reg, regs_base + EXYNOS850_DRD_HSP_TEST);
-+
-+	/* Link reset */
-+	reg = readl(regs_base + EXYNOS850_DRD_CLKRST);
-+	reg |= CLKRST_LINK_SW_RST;
-+	writel(reg, regs_base + EXYNOS850_DRD_CLKRST);
-+	udelay(10); /* required before doing POR=low */
-+	reg &= ~CLKRST_LINK_SW_RST;
-+	writel(reg, regs_base + EXYNOS850_DRD_CLKRST);
-+
-+	clk_disable_unprepare(phy_drd->clk);
-+
-+	return 0;
-+}
-+
-+static const struct phy_ops exynos850_usbdrd_phy_ops = {
-+	.init		= exynos850_usbdrd_phy_init,
-+	.exit		= exynos850_usbdrd_phy_exit,
-+	.power_on	= exynos5_usbdrd_phy_power_on,
-+	.power_off	= exynos5_usbdrd_phy_power_off,
-+	.owner		= THIS_MODULE,
-+};
-+
- static int exynos5_usbdrd_phy_clk_handle(struct exynos5_usbdrd_phy *phy_drd)
- {
- 	unsigned long ref_rate;
-@@ -782,6 +933,14 @@ static const struct exynos5_usbdrd_phy_config phy_cfg_exynos5[] = {
- 	},
- };
- 
-+static const struct exynos5_usbdrd_phy_config phy_cfg_exynos850[] = {
-+	{
-+		.id		= EXYNOS5_DRDPHY_UTMI,
-+		.phy_isol	= exynos5_usbdrd_phy_isol,
-+		.phy_init	= exynos850_usbdrd_utmi_init,
-+	},
-+};
-+
- static const struct exynos5_usbdrd_phy_drvdata exynos5420_usbdrd_phy = {
- 	.phy_cfg		= phy_cfg_exynos5,
- 	.phy_ops		= &exynos5_usbdrd_phy_ops,
-@@ -812,6 +971,13 @@ static const struct exynos5_usbdrd_phy_drvdata exynos7_usbdrd_phy = {
- 	.has_common_clk_gate	= false,
- };
- 
-+static const struct exynos5_usbdrd_phy_drvdata exynos850_usbdrd_phy = {
-+	.phy_cfg		= phy_cfg_exynos850,
-+	.phy_ops		= &exynos850_usbdrd_phy_ops,
-+	.pmu_offset_usbdrd0_phy	= EXYNOS5_USBDRD_PHY_CONTROL,
-+	.has_common_clk_gate	= true,
-+};
-+
- static const struct of_device_id exynos5_usbdrd_phy_of_match[] = {
- 	{
- 		.compatible = "samsung,exynos5250-usbdrd-phy",
-@@ -825,6 +991,9 @@ static const struct of_device_id exynos5_usbdrd_phy_of_match[] = {
- 	}, {
- 		.compatible = "samsung,exynos7-usbdrd-phy",
- 		.data = &exynos7_usbdrd_phy
-+	}, {
-+		.compatible = "samsung,exynos850-usbdrd-phy",
-+		.data = &exynos850_usbdrd_phy
- 	},
- 	{ },
- };
--- 
-2.39.2
-
+CkF0IDIwMjMtMDgtMDQgMjI6NTU6NDksICJBbGFuIFN0ZXJuIiA8c3Rlcm5Acm93bGFuZC5oYXJ2
+YXJkLmVkdT4gd3JvdGU6Cgo+PiBBbm90aGVyIGlzc3VlIGlzIHRoYXQgVVNCX1NQRUVEX1NVUEVS
+X1BMVVMgaGFzIGJlZW4gd2lkZWx5IHVzZWQgaW4KPj4gc28gbWFueSBmaWxlcyB0byBleGVjdXRl
+IGNvbmRpdGlvbmFsIGJhbmNoZXMuIE9uY2Ugd2UgZXh0ZW5kIGFuZCBzdG9yZSBkZXZpY2Uncwo+
+PiBzcGVlZCB3aXRoIG5ldyB2YWx1ZXMgaW4gdGhlIGZpcnN0IHBsYWNlLCB3ZSBtaWdodCBuZWVk
+IHRvIGNoZWNrIGFsbCBwbGFjZXMgd2hlcmUKPj4gVVNCX1NQRUVEX1NVUEVSX1BMVVMgaXMgdXNl
+ZCBpbiBjYXNlIG9mIGFueSByZWdyZXNzaW9uLgo+Cj5DZXJ0YWlubHkuICBUaGF0J3MgcGFydCBv
+ZiBhdWRpdGluZyBhbGwgdGhlIGN1cnJlbnQgdXNlcnMgb2YgCj51c2JfZGV2aWNlX3NwZWVkLgoK
+VGhpcyBtaWdodCBub3QgYmUgYSBnb29kIGlkZWEgYW5kIGZlZWxzIGtpbmQgb2YgZHJpZnQgYXdh
+eSBmcm9tIHdoYXQgd2Ugb3JpZ2luYWxseQp3YW50IHRvIGRvLiBCZXNpZGVzLCBzdXBwb3NlIGxh
+dGVyIG5ldyBzcGVlZCB2YWx1ZXMgYXJlIGFkZGVkLCBzb21lb25lIHN0aWxsIGhhcwp0byByZXZp
+c2l0IGFsbCB0aGUgZmlsZXMgdG8gbW9kaWZ5IHRob3NlIGNoZWNrcy4gSSB0aGluayB3ZSBzaG91
+bGQgdHJ5IHRvIGF2b2lkIHRoaXMgc2l0dWF0aW9uLgoKPj4gSSB0aGluayBtYXliZSB3ZSBjYW4g
+dHJ5IHRvIHJlbW92ZSB0aGUgZGVwZW5kZW5jeSBvbiBlbnVtIHVzYl9kZXZpY2Vfc3BlZWQKPj4g
+aW4gdXNiZnMgYW5kIGRlZmluZSBhIHNlcGFyYXRlIHNldCBvZiBzcGVlZCB2YWx1ZXMgc2ltaWxh
+ciB0byBwcmV2aW91cyBkZXNpZ24KPj4gYXQgaHR0cHM6Ly93d3cuc3Bpbmljcy5uZXQvbGlzdHMv
+bGludXgtdXNiL21zZzE1NzcwOS5odG1sCj4+IEJ5IHRoaXMgd2F5LCBpbiB1c2JmcyB3ZSBnZXQg
+bW9yZSBmcmVlZG9tIHRvIGRldGVybWluZSBob3cgdG8gZXhwbGFpbgo+PiB1c2JfZGV2aWNlX3Nw
+ZWVkIGFuZCB1c2Jfc3NwX3JhdGUsIHdpdGhvdXQgdGhlIHJpc2sgb2YgYnJlYWtpbmcgYW55dGhp
+bmcKPj4gZWxzZXdoZXJlLgo+PiAKPj4gRm9yIGV4YW1wbGUsIGRlZmluZSBhbiBVU0JERVZGU19T
+UEVFRF9TVVBFUl9QTFVTIHRvIGluZGljYXRlCj4+IFVTQl9TUEVFRF9TVVBFUl9QTFVTIHdpdGgg
+c3NwIHJhdGVzIEdFTl9VTktOT1dOLCBHRU5fMngxIGFuZAo+PiBHRU5fMXgyLiBUaGV5IGFsbCBz
+dGFuZCBmb3IgMTBHYnBzIGFuZCB3ZSBkb24ndCBuZWVkIHRvIHRlbGwgb25lIGZyb20KPj4gYW5v
+dGhlciwgc2ltaWxhciB0byBob3cgaXQgd29ya3MgaW4gc3lzZnMuIFRoZW4gZGVmaW5lIGFuCj4+
+IFVTQkRFVkZTX1NQRUVEX1NVUEVSX1BMVVNfQlkyKG1heWJlIHRoZXJlIGlzIGEgbW9yZSBwcm9w
+ZXIgbmFtZSkKPj4gdG8gaW5kaWNhdGUgVVNCX1NQRUVEX1NVUEVSX1BMVVMgd2l0aCBzc3AgcmF0
+ZSBHRU5fMngyLCB3aGljaCBzdGFuZHMKPj4gZm9yIDIwR2Jwcy4KPgo+WW91IGNhbid0IHJlYWxs
+eSBkbyB0aGF0LiAgVGhlIHZhbHVlcyByZXR1cm5lZCBieSB0aGUgVVNCREVWRlNfR0VUX1NQRUVE
+IAo+aW9jdGwgYXJlIHRoZSBvbmVzIGRlZmluZWQgaW4gaW5jbHVkZS91YXBpL2xpbnV4L3VzYi9j
+aDkuaC4gIFRoZXkgYXJlIAo+VVNCX1NQRUVEX1VOS05PV04sIGV0Yy4sIG5vdCBVU0JERVZGU19T
+UEVFRF9VTktOT1dOLCBldGMuICBUaGUgb25seSB3YXkgCj50byBleHRlbmQgdGhlbSBpcyBieSBh
+ZGRpbmcgbmV3IGVudHJpZXMgdG8gZW51bSB1c2JfZGV2aWNlX3NwZWVkLgo+Cj5Gb3IgZXhhbXBs
+ZSwgeW91IG11c3Qgbm90IGRvIGFueXRoaW5nIHRoYXQgd291bGQgYnJlYWsgYSB1c2VyIHByb2dy
+YW0gCj53aGljaCBkb2VzIHNvbWV0aGluZyBsaWtlIHRoaXM6Cj4KPiNpbmNsdWRlIDxsaW51eC91
+c2JkZXZmcy5oPgo+I2luY2x1ZGUgPGxpbnV4L3VzYi9jaDkuaD4KPgo+Li4uCj4KPgllbnVtIHVz
+Yl9kZXZpY2Vfc3BlZWQgczsKPgo+CXMgPSBpb2N0bChmZCwgVVNCREVWRlNfR0VUX1NQRUVEKTsK
+PglpZiAocyA9PSBVU0JfU1BFRURfSElHSCkgLi4uCj4KPkFsYW4gU3Rlcm4KClNpbmNlIHRob3Nl
+IHNwZWVkIGRlZmluaXRpb25zIGFyZSBqdXN0IGludCB2YWx1ZXMsIHdlIGNvdWxkIG1hbmFnZSB0
+byBtYWludGFpbiB0aGUgY29tcGF0aWJpbGl0eQpieSBrZWVwaW5nIHRoZSBzYW1lIHZhbHVlLiBC
+dXQgYW55d2F5LCBteSBsYXRlc3QgaWRlYSBpcyBub3QgdG8gZXh0ZW5kIGVudW0gdXNiX2Rldmlj
+ZV9zcGVlZC4KVGhlcmUgYXJlIHRocmVlIGJhc2ljIGNhc2VzOgoxKSBXaGVuIHNwZWVkIGlzIGxl
+c3MgdGhhbiBVU0JfU1BFRURfU1VQRVJfUExVUywganVzdCByZXR1cm4gZGV2LT5zcGVlZDsKMikg
+V2hlbiBzcGVlZCBpcyBVU0JfU1BFRURfU1VQRVJfUExVUyBidXQgc3NwX3JhdGUgaXMgbGVzcyB0
+aGFuIFVTQl9TU1BfR0VOXzJ4MiwKcmV0dXJuIGRldi0+c3BlZWQ7CjMpIFdoZW4gc3BlZWQgaXMg
+VVNCX1NQRUVEX1NVUEVSX1BMVVMgYW5kIHNzcF9yYXRlIGlzIFVTQl9TU1BfR0VOXzJ4MiwgYSBu
+ZXcKc3BlZWQgZm9yIHVzYmRldmZzIHNob3VsZCBiZSAjZGVmaW5lZCBhbmQgbGV0J3MgY2FsbCBp
+dCBVU0JERVZGU19TUEVFRF9TVVBFUl9QTFVTX0JZMi4KVGhpcyB2YWx1ZSB3b24ndCBiZSBvdmVy
+bGFwcGVkIHdpdGggYW55IHZhbHVlIGluIGVudW0gdXNiX2RldmljZV9zcGVlZCwgZm9yIGV4YW1w
+bGUgNy4KSW4gdGhpcyBjYXNlLCByZXR1cm4gVVNCREVWRlNfU1BFRURfU1VQRVJfUExVU19CWTIu
+CgpUaGUgY29kZSBjb3VsZCBiZSBsaWtlOgoKICAgICAgICBjYXNlIFVTQkRFVkZTX0dFVF9TUEVF
+RDoKICAgICAgICAgICAgICAgIHJldCA9IHBzLT5kZXYtPnNwZWVkOworICAgICAgICAgICAgICAg
+aWYgKHJldCA9PSBVU0JfU1BFRURfU1VQRVJfUExVUyAmJgorICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHBzLT5kZXYtPnNzcF9yYXRlID09IFVTQl9TU1BfR0VOXzJ4MikKKyAgICAgICAg
+ICAgICAgICAgICAgICAgcmV0ID0gVVNCREVWRlNfU1BFRURfU1VQRVJfUExVU19CWTI7CiAgICAg
+ICAgICAgICAgICBicmVhazsKCkJ5IHRoaXMgd2F5LCBubyBuZWVkIHRvIGFkZCBhIG5ldyBpb2N0
+bC4gTm8gbmVlZCB0byB0b3VjaCBzbyBtYW55IGZpbGVzLiBBbmQgd2hlbiBuZXcKc3BlZWRzIGFy
+ZSBhZGRlZCBsYXRlciwganVzdCAjZGVmaW5lIG5ldyB2YWx1ZXMgYW5kIGV4dGVuZCB0aGUgY2hl
+Y2tzIGluIGFib3ZlIGNvZGUuCkNvbXBhdGliaWxpdHkgaXMgYWxzbyBtYWludGFpbmVkLiBCZWZv
+cmUgdGhpcyBjaGFuZ2UsIFVTQkRFVkZTX0dFVF9TUEVFRCBjb3VsZApyZXR1cm4gMC02LiBBZnRl
+ciB0aGlzIGNoYW5nZSwgd2UgY2FuIHN0aWxsIHJldHVybiAwLTYgZm9yIG1vc3Qgb2YgdGhlIGNh
+c2VzLCBhbmQgNyBmb3IKR0VOXzJ4MiBkZXZpY2VzLgoKUmVnYXJkcywKRGluZ3lhbgo=
