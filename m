@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01488EE49BC
-	for <linux-usb@archiver.kernel.org>; Sat, 19 Aug 2023 03:18:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30FDEEE49BD
+	for <linux-usb@archiver.kernel.org>; Sat, 19 Aug 2023 03:18:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244991AbjHSDSC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Aug 2023 23:18:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32866 "EHLO
+        id S244994AbjHSDSD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Aug 2023 23:18:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244758AbjHSDRi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Aug 2023 23:17:38 -0400
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFD1A421A
-        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:36 -0700 (PDT)
-Received: by mail-oi1-x229.google.com with SMTP id 5614622812f47-3a741f46fadso1146927b6e.0
-        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:36 -0700 (PDT)
+        with ESMTP id S244855AbjHSDRm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Aug 2023 23:17:42 -0400
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92FEA421A
+        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:40 -0700 (PDT)
+Received: by mail-oo1-xc33.google.com with SMTP id 006d021491bc7-56dd683e9b3so942386eaf.3
+        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692415056; x=1693019856;
+        d=linaro.org; s=google; t=1692415060; x=1693019860;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AMfSbR3cbUtK1t9P7HTJ1o0YtexgiyQjwWLXVl1eo+4=;
-        b=R1oYs//GweGSuLHWZvieqmFIKZokIJNVu6kKiyyCR+v3XpEl+LwHyWvwQHu81u13i/
-         3j/Ea0kzS/DbnyreA9JPGAXk3IN/ni2AaiC2Gbz+L156hgkS4zxg41Ehil/SIyz1WS/O
-         maWlg3waegRxlGFrryWqUbDrUXyYF5862m6t0ZLn/TNzW7YN8FQ5CcYRjYh8v3DICpvp
-         vyzwOvmCDPUEUD2zyiUqPWtAsGl/2LzFHdTe7JsB6jJow3E7ZYTz0VU7UldLeNsQOl8/
-         HDMpPfErCco4bRtreAxqdT77dEll6KCcbwsnwRiJt5dqh06ypbFHJEDKXQdq4m3nZlBg
-         ykFg==
+        bh=EK4lc13hsQBieya89oWIFB0P2uDWj3MviewwKrAjxRw=;
+        b=gH2yIICE5JiUkpTUs4CSGRbbH5ZMRMUR0GayY2DiaZAwbPuo7IBZOO19ZfmjRnWQow
+         WSvXRhBjmEJwhIHLbz3MLbKMue1Y73dVgaSmND3FeGzInC45hRXk62nvTmyUXvINW+kQ
+         IFLuZmM/4525WH4XAPKBdcSojq1g5646XK9kggBY2WIbpV0d59N2WSp/D0E+/wW8FsNP
+         1S4HzvMPpFtP/9BIcu927YlH+iXdQoDB/j3X5trswIRH/NUJ/8MfhXzEu5KG1vIJLGUP
+         zm8YYj1dnbrdDwzfsSGa59JPhmz07dFWmaRDzDavUZAQ8FOTt7eAQS9ZhSNAzeFjj1uu
+         Qu5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692415056; x=1693019856;
+        d=1e100.net; s=20221208; t=1692415060; x=1693019860;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AMfSbR3cbUtK1t9P7HTJ1o0YtexgiyQjwWLXVl1eo+4=;
-        b=i0cSUzDNJuFmRFQ1bt1UTbdzQeSaXa/ZS8Kii9tkcGUm6H4j+kJdneMSpnVHD9m8hv
-         QFmTIGNDu+9cdIVe1r/QaFpowzr3IdDUxXdfjIBHTkeRlYRKo3x45wMBUa6IIn0lIe5Q
-         fCUYJQJVea+Uwla3Nx2nB0HtOhCYTqi8GpWWGSj4i7nJgn3idSzk1WxlnC70R7ChEX8s
-         oVr7WcynZmEaSxZ7Zh8ynHXfi9DoIF/qBly4bPb0Yrp3qc+HHdQYkSpp+UhCXnhjcvY0
-         8igYb/XY2Ib8RO/nhD9Co3nJAcKGUIPycotabCqeXU+p7sdtxkMykNCKPXGsgGgnGEg2
-         W4Lg==
-X-Gm-Message-State: AOJu0YwR2IvKZSL6Xb1KnODvhxgL5ts5lN2lNzPWPfcfdPoH2q8Melo9
-        oSGTwHHsLeuuLM1ULsqobb20RA==
-X-Google-Smtp-Source: AGHT+IHMezewFkPEpP1PsJ5iCy1VGV0ZRdzuuxqt+6DEqaPEIdltoIxCBbgMsOnpKi6JElgySWsWJw==
-X-Received: by 2002:a54:4490:0:b0:3a4:a87:bea1 with SMTP id v16-20020a544490000000b003a40a87bea1mr1346404oiv.21.1692415056236;
-        Fri, 18 Aug 2023 20:17:36 -0700 (PDT)
+        bh=EK4lc13hsQBieya89oWIFB0P2uDWj3MviewwKrAjxRw=;
+        b=dIJx9QvUz4rqF+FBg1ADCF3K0gu/RB2IPyDwOodVsVWlLRCoBAxtQSGg075zpSVmMi
+         vP3y2PLVwvlIgGydb8tGc3Cvs4WzYAZCUr9+Hrun8Svz/CcsAwlu2PQzAMVXJ8rLVK9i
+         1cVJ7mGy8eeC8dOZBUdQPQqKvSHz8UZH5FPIyAgHq9t9YPwGeoxSFAethiJBfJPQG2Vi
+         k14g2o5lCtlHGb5eofAFY/otIMHKTYrxH3FKeogv1JTHEmMisiAq0rW0QeUFZZHnt9kO
+         2JiuqiroddQ6Oy+5tplfdgJlGHf9T9UZ/sgaFSYBzocc7o3mTTjvqTjNmkhBhUq0uSVy
+         23Aw==
+X-Gm-Message-State: AOJu0Yywvh9aCRbI9PN3oWrghP6iyYC8ZypIUx+vYUwd8Nya8pajP+Hv
+        BXh4syS/ZClXwZ+ckt4jNlLhOg==
+X-Google-Smtp-Source: AGHT+IEQ3BwqLE3HDnHpyCiEwIbHJOPXfPkwHfhNQFFL1+Q07JcVrXASX49TluX1i2SH3iY6U9p5kw==
+X-Received: by 2002:a05:6870:1d0:b0:1bb:c946:b80e with SMTP id n16-20020a05687001d000b001bbc946b80emr1102346oad.28.1692415059832;
+        Fri, 18 Aug 2023 20:17:39 -0700 (PDT)
 Received: from localhost ([136.49.140.41])
-        by smtp.gmail.com with ESMTPSA id g2-20020a0568080dc200b003a1dfa93903sm1501235oic.12.2023.08.18.20.17.35
+        by smtp.gmail.com with ESMTPSA id q2-20020a9d7c82000000b006b89dafb721sm1424375otn.78.2023.08.18.20.17.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Aug 2023 20:17:35 -0700 (PDT)
+        Fri, 18 Aug 2023 20:17:39 -0700 (PDT)
 From:   Sam Protsenko <semen.protsenko@linaro.org>
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -67,9 +67,9 @@ Cc:     JaeHun Jung <jh0801.jung@samsung.com>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org
-Subject: [PATCH 4/8] phy: exynos5-usbdrd: Make it possible to pass custom phy ops
-Date:   Fri, 18 Aug 2023 22:17:27 -0500
-Message-Id: <20230819031731.22618-5-semen.protsenko@linaro.org>
+Subject: [PATCH 8/8] arm64: dts: exynos: Enable USB support on E850-96 board
+Date:   Fri, 18 Aug 2023 22:17:31 -0500
+Message-Id: <20230819031731.22618-9-semen.protsenko@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230819031731.22618-1-semen.protsenko@linaro.org>
 References: <20230819031731.22618-1-semen.protsenko@linaro.org>
@@ -79,72 +79,135 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Provide a way to use different PHY ops for different chips. Right now
-all chips are using exynos5_usbdrd_phy_ops, but it won't always be the
-case. For example, Exynos850 has very different USB PHY block, so there
-will be another PHY ops implementation for that chip.
+The E850-96 board has a micro-USB socket and two USB 2.0 host sockets.
+The USB role (host or peripheral) is selected automatically depending on
+micro-USB cable attachment state:
+  - micro-USB cable is attached: USB device role
+  - micro-USB cable is detached: USB host role
 
-No functional change.
+USB can't act simultaneously as a device and a host, because Exynos850
+SoC has only one USB controller and there are no external USB
+controllers on the E850-96 board. So the USB switch chip (specifically
+TS3USB221A) connects SoC USB lines either to micro-USB connector or to
+USB hub chip (LAN9514), w.r.t. micro-USB cable attachment state.
+
+When USB works in the host role, Ethernet capability becomes available
+too, as LAN9514 chip (providing USB hub) also enables Ethernet PHY and
+Ethernet MAC.
+
+Dynamic role switching is done in gpio-usb-b-connector, using current
+micro-USB VBUS line level as a trigger:
+  - VBUS=high: SoC USB lines are wired to micro-USB socket
+  - VBUS=low: SoC USB lines are wired to USB hub chip
+
+In order to make USB host functional when the board is booted with
+micro-USB cable disconnected, role-switch-default-mode = "host" is used.
+
+One can look at E850-96 board schematics [1] to figure out how exactly
+all related USB hardware connections and lines reflect into
+corresponding device tree definitions.
+
+As PMIC regulators are not implemented yet, we rely on USB LDOs being
+already enabled in the bootloader, and a dummy regulator is provided to
+"usbdrd" vdd nodes for now.
+
+[1] https://www.96boards.org/documentation/consumer/e850-96b/hardware-docs/
 
 Signed-off-by: Sam Protsenko <semen.protsenko@linaro.org>
 ---
- drivers/phy/samsung/phy-exynos5-usbdrd.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ .../boot/dts/exynos/exynos850-e850-96.dts     | 58 +++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
-diff --git a/drivers/phy/samsung/phy-exynos5-usbdrd.c b/drivers/phy/samsung/phy-exynos5-usbdrd.c
-index 06484abb5705..1ece4a1a1a6e 100644
---- a/drivers/phy/samsung/phy-exynos5-usbdrd.c
-+++ b/drivers/phy/samsung/phy-exynos5-usbdrd.c
-@@ -165,6 +165,7 @@ struct exynos5_usbdrd_phy_config {
+diff --git a/arch/arm64/boot/dts/exynos/exynos850-e850-96.dts b/arch/arm64/boot/dts/exynos/exynos850-e850-96.dts
+index 6ed38912507f..8d733361ef82 100644
+--- a/arch/arm64/boot/dts/exynos/exynos850-e850-96.dts
++++ b/arch/arm64/boot/dts/exynos/exynos850-e850-96.dts
+@@ -29,6 +29,22 @@ chosen {
+ 		stdout-path = &serial_0;
+ 	};
  
- struct exynos5_usbdrd_phy_drvdata {
- 	const struct exynos5_usbdrd_phy_config *phy_cfg;
-+	const struct phy_ops *phy_ops;
- 	u32 pmu_offset_usbdrd0_phy;
- 	u32 pmu_offset_usbdrd1_phy;
- 	bool has_common_clk_gate;
-@@ -779,6 +780,7 @@ static const struct exynos5_usbdrd_phy_config phy_cfg_exynos5[] = {
- 
- static const struct exynos5_usbdrd_phy_drvdata exynos5420_usbdrd_phy = {
- 	.phy_cfg		= phy_cfg_exynos5,
-+	.phy_ops		= &exynos5_usbdrd_phy_ops,
- 	.pmu_offset_usbdrd0_phy	= EXYNOS5_USBDRD_PHY_CONTROL,
- 	.pmu_offset_usbdrd1_phy	= EXYNOS5420_USBDRD1_PHY_CONTROL,
- 	.has_common_clk_gate	= true,
-@@ -786,12 +788,14 @@ static const struct exynos5_usbdrd_phy_drvdata exynos5420_usbdrd_phy = {
- 
- static const struct exynos5_usbdrd_phy_drvdata exynos5250_usbdrd_phy = {
- 	.phy_cfg		= phy_cfg_exynos5,
-+	.phy_ops		= &exynos5_usbdrd_phy_ops,
- 	.pmu_offset_usbdrd0_phy	= EXYNOS5_USBDRD_PHY_CONTROL,
- 	.has_common_clk_gate	= true,
- };
- 
- static const struct exynos5_usbdrd_phy_drvdata exynos5433_usbdrd_phy = {
- 	.phy_cfg		= phy_cfg_exynos5,
-+	.phy_ops		= &exynos5_usbdrd_phy_ops,
- 	.pmu_offset_usbdrd0_phy	= EXYNOS5_USBDRD_PHY_CONTROL,
- 	.pmu_offset_usbdrd1_phy	= EXYNOS5433_USBHOST30_PHY_CONTROL,
- 	.has_common_clk_gate	= false,
-@@ -799,6 +803,7 @@ static const struct exynos5_usbdrd_phy_drvdata exynos5433_usbdrd_phy = {
- 
- static const struct exynos5_usbdrd_phy_drvdata exynos7_usbdrd_phy = {
- 	.phy_cfg		= phy_cfg_exynos5,
-+	.phy_ops		= &exynos5_usbdrd_phy_ops,
- 	.pmu_offset_usbdrd0_phy	= EXYNOS5_USBDRD_PHY_CONTROL,
- 	.has_common_clk_gate	= false,
- };
-@@ -906,8 +911,8 @@ static int exynos5_usbdrd_phy_probe(struct platform_device *pdev)
- 	dev_vdbg(dev, "Creating usbdrd_phy phy\n");
- 
- 	for (i = 0; i < EXYNOS5_DRDPHYS_NUM; i++) {
--		struct phy *phy = devm_phy_create(dev, NULL,
--						  &exynos5_usbdrd_phy_ops);
-+		struct phy *phy = devm_phy_create(dev, NULL, drv_data->phy_ops);
++	connector {
++		compatible = "gpio-usb-b-connector", "usb-b-connector";
++		label = "micro-USB";
++		type = "micro";
++		vbus-supply = <&reg_usb_host_vbus>;
++		id-gpios = <&gpa0 0 GPIO_ACTIVE_LOW>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&micro_usb_det_pins>;
 +
- 		if (IS_ERR(phy)) {
- 			dev_err(dev, "Failed to create usbdrd_phy phy\n");
- 			return PTR_ERR(phy);
++		port {
++			usb_dr_connector: endpoint {
++				remote-endpoint = <&usb1_drd_sw>;
++			};
++		};
++	};
++
+ 	/*
+ 	 * RAM: 4 GiB (eMCP):
+ 	 *   - 2 GiB at 0x80000000
+@@ -111,6 +127,20 @@ bt_active_led: led-5 {
+ 		};
+ 	};
+ 
++	/* TODO: Remove this once PMIC is implemented  */
++	reg_dummy: regulator-0 {
++		compatible = "regulator-fixed";
++		regulator-name = "dummy_reg";
++	};
++
++	reg_usb_host_vbus: regulator-1 {
++		compatible = "regulator-fixed";
++		regulator-name = "usb_host_vbus";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		gpio = <&gpa3 5 GPIO_ACTIVE_LOW>;
++	};
++
+ 	/*
+ 	 * RTC clock (XrtcXTI); external, must be 32.768 kHz.
+ 	 *
+@@ -172,6 +202,12 @@ key_volup_pins: key-volup-pins {
+ 		samsung,pin-pud = <EXYNOS_PIN_PULL_NONE>;
+ 		samsung,pin-drv = <EXYNOS5420_PIN_DRV_LV1>;
+ 	};
++
++	micro_usb_det_pins: micro-usb-det-pins {
++		samsung,pins = "gpa0-0";
++		samsung,pin-function = <EXYNOS_PIN_FUNC_INPUT>;
++		samsung,pin-pud = <EXYNOS_PIN_PULL_NONE>;
++	};
+ };
+ 
+ &rtc {
+@@ -186,6 +222,28 @@ &serial_0 {
+ 	pinctrl-0 = <&uart1_pins>;
+ };
+ 
++&usbdrd {
++	status = "okay";
++	vdd10-supply = <&reg_dummy>;
++	vdd33-supply = <&reg_dummy>;
++};
++
++&usbdrd_dwc3 {
++	dr_mode = "otg";
++	usb-role-switch;
++	role-switch-default-mode = "host";
++
++	port {
++		usb1_drd_sw: endpoint {
++			remote-endpoint = <&usb_dr_connector>;
++		};
++	};
++};
++
++&usbdrd_phy {
++	status = "okay";
++};
++
+ &usi_uart {
+ 	samsung,clkreq-on; /* needed for UART mode */
+ 	status = "okay";
 -- 
 2.39.2
 
