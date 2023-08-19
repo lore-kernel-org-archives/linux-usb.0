@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 972F5EE49AC
-	for <linux-usb@archiver.kernel.org>; Sat, 19 Aug 2023 03:18:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F239EE49B2
+	for <linux-usb@archiver.kernel.org>; Sat, 19 Aug 2023 03:18:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244920AbjHSDR6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Aug 2023 23:17:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32778 "EHLO
+        id S244973AbjHSDSB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Aug 2023 23:18:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244689AbjHSDRg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Aug 2023 23:17:36 -0400
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E546421A
-        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:35 -0700 (PDT)
-Received: by mail-oi1-x231.google.com with SMTP id 5614622812f47-3a7f74134e7so1082387b6e.1
-        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:35 -0700 (PDT)
+        with ESMTP id S244785AbjHSDRj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Aug 2023 23:17:39 -0400
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA4AD4223
+        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:37 -0700 (PDT)
+Received: by mail-oo1-xc30.google.com with SMTP id 006d021491bc7-56cc461f34fso1007719eaf.0
+        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692415054; x=1693019854;
+        d=linaro.org; s=google; t=1692415057; x=1693019857;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bSHQ+AygjgxqH5HVmvaPgTOe33eIHrHGDBC7hTH/La8=;
-        b=C34abAMhDmVjj+X6tuU7eWDd92FEWuhS5gRSP/sa+1L4FcZLCHkBgX6kMHXhQ0T+vQ
-         EyvCTzZaD6hyYCUXRBpz2uZ4m445iJ6+S4gdz4KUYK/LlS10Y82FzCx7K48KoYuKcS0M
-         M2E4yaNXDzYzKuHIkKyvAbtS5nRz0yNxHwooagrJsYP6UFO/FKuiSu6sDWZ7dw5VGMhu
-         jr4ZTIB0FWTw7p43ZSzKqd0g/pC81IDADqP+JzwZK0XZ+xR3UGZnKRuY+oakOPABXmkW
-         eOEK+7HAtEqwzYqoglQigMBv3WeQclG90iYHmVKWAlDtHDLSnQwbR/srhZ3ui1uvwKb+
-         2wjw==
+        bh=Wz7l2Nt7KOsakojMIBUT2YVYRMmwVU4JH/swQRaBmqA=;
+        b=mYshb+Rn/3oQMH2VIbVz1A52sXeo6UhZTI9Ci68KggWZXvpTtBDlTcTm0Zb9Rdi61i
+         sypgYsqCKqH901t+31x5FGrwLfNby8AhYS9U98qv78Dan/4Px+cVwfmWj1wl0rVRaKsY
+         B83noMDKu+V2FpxP4eAcvyy3CkP/cExFyRgtoMjIgPFXEsNS6pNgVITs942I980UNXU3
+         v/cX9Fiwp1lRO6TmBHY4HVGMDf5j2a34VRDIZwOZXiGGdqrhxgs57zJTwaBdVotwJTAp
+         WA53bknQp1yVohelRcUMrcmAE9Ys5San+fs+rdiVmiR8XQHuUzBpY6yBZr1CtwjSYNN2
+         HWow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692415054; x=1693019854;
+        d=1e100.net; s=20221208; t=1692415057; x=1693019857;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bSHQ+AygjgxqH5HVmvaPgTOe33eIHrHGDBC7hTH/La8=;
-        b=EFQbmHtXW1pxjQC7JJ7yxSYPGx6HGeZUwmpa7W+9LHrHKYVL/RihwMtK0n3E/s/1RX
-         cqmoeKfYOq5A5Sgi+hqTu7jWRYVB76KyALO9clZq6g4SiGFxkmfBgmon8UMQiUk3c8N0
-         /fHQAvmrOOScucOs0hAzpERBRi0wrG9gmBEUOLvUueiAXmx3q4LqTZKfbSJiRFeS5CPO
-         kiG7W7z6qaZYqVtXLUbTUhjO4FftZMl0CiqJiDcOwZg2bd9Zqr0MXpxIJVp6ZB2BBq6Y
-         3IdKI6lBG0xI3fsTQ8h5cnh67wy1w8puw51E7drYvTyV2wWWkFiLJBIJph9rDenCPi/1
-         D/0w==
-X-Gm-Message-State: AOJu0YywU5E4yvS0TjhHPxHFPBDogcZc+0Ato1IoWXhFbq5qM9D0etr/
-        yBXHqswMuT9Rdp+/riBxD1UGAw==
-X-Google-Smtp-Source: AGHT+IERSFZA2QdkLI3yWfYNxqRffzPPNjLP1datCDevdQ8JNtPW/yFsN0fkEWcyHCH5hK0MtlKi0w==
-X-Received: by 2002:aca:f045:0:b0:3a7:56a1:9bbe with SMTP id o66-20020acaf045000000b003a756a19bbemr1326198oih.45.1692415054421;
-        Fri, 18 Aug 2023 20:17:34 -0700 (PDT)
+        bh=Wz7l2Nt7KOsakojMIBUT2YVYRMmwVU4JH/swQRaBmqA=;
+        b=aLxrMhBCDD3aoacrNik2RmZbimPn2BaAD/N2Yaz+zwfxB7CHROzHxmPcYM2iaYmshR
+         Z5TpyULGtkRHEVYxmzEjHr0ApIdaC6texHQh5Mgg4JTuV76r2uuuSU9HhD9vIGL4TOXU
+         Q9rt9gWvQI0gpNdh/Z93AhNnOqn98sWZodILxZWChtPb974QCJehX9BB9qPj/AauqP92
+         lrGxqs7SUKAbdNrCShNDrLGBYToIYgQAJUQJ0MgKGTi/CouxnzpIGZye6s70Vs+B3jQP
+         BgnShAl5QTPAya2kI8COoIaiN8DdrfegrXH3Jrtrx6+jI6YuONi1CXEaFGhU0UJI1xst
+         ggfw==
+X-Gm-Message-State: AOJu0Yw2p4+y9gkQZBrPKwmpQkSWNzuZ+Nw/Z97+rvluJOhgJXd96PKO
+        K6sQpkfZ7Hs3MdYWLFbrmIbebg==
+X-Google-Smtp-Source: AGHT+IEHWIhbOpE4bIXnVimEwmLiWUBgqMQ3a5vV0u2jZL1ABZYcOvaZH4EGTDEVIcZmmf2p8BUZqw==
+X-Received: by 2002:a4a:9c5a:0:b0:566:f763:8fb7 with SMTP id c26-20020a4a9c5a000000b00566f7638fb7mr1434181ook.2.1692415057099;
+        Fri, 18 Aug 2023 20:17:37 -0700 (PDT)
 Received: from localhost ([136.49.140.41])
-        by smtp.gmail.com with ESMTPSA id bj38-20020a05680819a600b003a74933a1e2sm1496699oib.46.2023.08.18.20.17.33
+        by smtp.gmail.com with ESMTPSA id p127-20020a4a4885000000b00569c5eadf15sm1505569ooa.26.2023.08.18.20.17.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Aug 2023 20:17:33 -0700 (PDT)
+        Fri, 18 Aug 2023 20:17:36 -0700 (PDT)
 From:   Sam Protsenko <semen.protsenko@linaro.org>
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -67,9 +67,9 @@ Cc:     JaeHun Jung <jh0801.jung@samsung.com>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org
-Subject: [PATCH 2/8] dt-bindings: phy: samsung,usb3-drd-phy: Add Exynos850 support
-Date:   Fri, 18 Aug 2023 22:17:25 -0500
-Message-Id: <20230819031731.22618-3-semen.protsenko@linaro.org>
+Subject: [PATCH 5/8] phy: exynos5-usbdrd: Add 26MHz ref clk support
+Date:   Fri, 18 Aug 2023 22:17:28 -0500
+Message-Id: <20230819031731.22618-6-semen.protsenko@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230819031731.22618-1-semen.protsenko@linaro.org>
 References: <20230819031731.22618-1-semen.protsenko@linaro.org>
@@ -79,26 +79,44 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Document Exynos850 compatible. USB 2.0 DRD PHY on Exynos850 has two
-clocks (ref and phy), which is already described in bindings.
+Modern Exynos chips (like Exynos850) might have 26 MHz OSCCLK external
+clock, which is also used as a PHY reference clock. For some USB PHY
+controllers (e.g USB DRD PHY block on Exynos850) there is no need to set
+the refclk frequency at all (and corresponding bits in CLKRSTCTRL[7:5]
+are marked RESERVED), so that value won't be set in the driver. But
+even in that case, 26 MHz support still has to be added, otherwise
+exynos5_rate_to_clk() fails, which leads in turn to probe error.
+
+Add the correct value for 26MHz refclk to make it possible to add
+support for new Exynos USB DRD PHY controllers.
 
 Signed-off-by: Sam Protsenko <semen.protsenko@linaro.org>
 ---
- Documentation/devicetree/bindings/phy/samsung,usb3-drd-phy.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/phy/samsung/phy-exynos5-usbdrd.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/phy/samsung,usb3-drd-phy.yaml b/Documentation/devicetree/bindings/phy/samsung,usb3-drd-phy.yaml
-index 5ba55f9f20cc..452e584d9812 100644
---- a/Documentation/devicetree/bindings/phy/samsung,usb3-drd-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/samsung,usb3-drd-phy.yaml
-@@ -29,6 +29,7 @@ properties:
-       - samsung,exynos5420-usbdrd-phy
-       - samsung,exynos5433-usbdrd-phy
-       - samsung,exynos7-usbdrd-phy
-+      - samsung,exynos850-usbdrd-phy
+diff --git a/drivers/phy/samsung/phy-exynos5-usbdrd.c b/drivers/phy/samsung/phy-exynos5-usbdrd.c
+index 1ece4a1a1a6e..41508db87b9b 100644
+--- a/drivers/phy/samsung/phy-exynos5-usbdrd.c
++++ b/drivers/phy/samsung/phy-exynos5-usbdrd.c
+@@ -30,6 +30,7 @@
+ #define EXYNOS5_FSEL_19MHZ2		0x3
+ #define EXYNOS5_FSEL_20MHZ		0x4
+ #define EXYNOS5_FSEL_24MHZ		0x5
++#define EXYNOS5_FSEL_26MHZ		0x82
+ #define EXYNOS5_FSEL_50MHZ		0x7
  
-   clocks:
-     minItems: 2
+ /* Exynos5: USB 3.0 DRD PHY registers */
+@@ -244,6 +245,9 @@ static unsigned int exynos5_rate_to_clk(unsigned long rate, u32 *reg)
+ 	case 24 * MHZ:
+ 		*reg = EXYNOS5_FSEL_24MHZ;
+ 		break;
++	case 26 * MHZ:
++		*reg = EXYNOS5_FSEL_26MHZ;
++		break;
+ 	case 50 * MHZ:
+ 		*reg = EXYNOS5_FSEL_50MHZ;
+ 		break;
 -- 
 2.39.2
 
