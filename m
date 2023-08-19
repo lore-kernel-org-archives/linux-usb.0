@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F239EE49B2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71D3DEE49B8
 	for <linux-usb@archiver.kernel.org>; Sat, 19 Aug 2023 03:18:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244973AbjHSDSB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Aug 2023 23:18:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32832 "EHLO
+        id S244808AbjHSDR7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Aug 2023 23:17:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244785AbjHSDRj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Aug 2023 23:17:39 -0400
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA4AD4223
-        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:37 -0700 (PDT)
-Received: by mail-oo1-xc30.google.com with SMTP id 006d021491bc7-56cc461f34fso1007719eaf.0
-        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:37 -0700 (PDT)
+        with ESMTP id S244721AbjHSDRh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Aug 2023 23:17:37 -0400
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com [IPv6:2001:4860:4864:20::32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F744421D
+        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:36 -0700 (PDT)
+Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-1c26bb27feeso984895fac.0
+        for <linux-usb@vger.kernel.org>; Fri, 18 Aug 2023 20:17:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692415057; x=1693019857;
+        d=linaro.org; s=google; t=1692415055; x=1693019855;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Wz7l2Nt7KOsakojMIBUT2YVYRMmwVU4JH/swQRaBmqA=;
-        b=mYshb+Rn/3oQMH2VIbVz1A52sXeo6UhZTI9Ci68KggWZXvpTtBDlTcTm0Zb9Rdi61i
-         sypgYsqCKqH901t+31x5FGrwLfNby8AhYS9U98qv78Dan/4Px+cVwfmWj1wl0rVRaKsY
-         B83noMDKu+V2FpxP4eAcvyy3CkP/cExFyRgtoMjIgPFXEsNS6pNgVITs942I980UNXU3
-         v/cX9Fiwp1lRO6TmBHY4HVGMDf5j2a34VRDIZwOZXiGGdqrhxgs57zJTwaBdVotwJTAp
-         WA53bknQp1yVohelRcUMrcmAE9Ys5San+fs+rdiVmiR8XQHuUzBpY6yBZr1CtwjSYNN2
-         HWow==
+        bh=pE2SxwAc9ssHdvgA5CR8AU2aj+QN0B7Vb8/YfT44UQo=;
+        b=wsZmh2lRuqo61LoKoXTbKZ4QPkX36QOioP1vC2ZE6A2GkvQOkE9QKAmDc+wmhOFk+V
+         HxA8VFlS4bx5n/XsDD65Y+S6aUjQQX/oHxdfA/lGf8MHKZ0NiExp20GUcm9ZqO6BR/2k
+         TNiTqpf+U4NQdouPRCpwnbVUlEgxpxmsfakT9aN8MGnJDqF7maaammaf/vJEn8iAnqCk
+         o8zb+qN3XM2+3XaCYY/ZNGh8pwN75gB18CXykNsVfrj8uBUuf2qlSy6VP3aCGdmbw27a
+         qki58sjVqAmhdaNmOQQrjxdcwr+P+TKsP7vvtgnk7No3G8wSObYBffos5iJrQn3tNskm
+         2Wcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692415057; x=1693019857;
+        d=1e100.net; s=20221208; t=1692415055; x=1693019855;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Wz7l2Nt7KOsakojMIBUT2YVYRMmwVU4JH/swQRaBmqA=;
-        b=aLxrMhBCDD3aoacrNik2RmZbimPn2BaAD/N2Yaz+zwfxB7CHROzHxmPcYM2iaYmshR
-         Z5TpyULGtkRHEVYxmzEjHr0ApIdaC6texHQh5Mgg4JTuV76r2uuuSU9HhD9vIGL4TOXU
-         Q9rt9gWvQI0gpNdh/Z93AhNnOqn98sWZodILxZWChtPb974QCJehX9BB9qPj/AauqP92
-         lrGxqs7SUKAbdNrCShNDrLGBYToIYgQAJUQJ0MgKGTi/CouxnzpIGZye6s70Vs+B3jQP
-         BgnShAl5QTPAya2kI8COoIaiN8DdrfegrXH3Jrtrx6+jI6YuONi1CXEaFGhU0UJI1xst
-         ggfw==
-X-Gm-Message-State: AOJu0Yw2p4+y9gkQZBrPKwmpQkSWNzuZ+Nw/Z97+rvluJOhgJXd96PKO
-        K6sQpkfZ7Hs3MdYWLFbrmIbebg==
-X-Google-Smtp-Source: AGHT+IEHWIhbOpE4bIXnVimEwmLiWUBgqMQ3a5vV0u2jZL1ABZYcOvaZH4EGTDEVIcZmmf2p8BUZqw==
-X-Received: by 2002:a4a:9c5a:0:b0:566:f763:8fb7 with SMTP id c26-20020a4a9c5a000000b00566f7638fb7mr1434181ook.2.1692415057099;
-        Fri, 18 Aug 2023 20:17:37 -0700 (PDT)
+        bh=pE2SxwAc9ssHdvgA5CR8AU2aj+QN0B7Vb8/YfT44UQo=;
+        b=ffqqiHnDTWJj2tAmDEfWOHr3CvegH1sDbqjS2A5ZoujIclJx4aNcyp9AblOq7TY9dS
+         tUJrLFH+R0+Y/EL37Xm+ZF7dRAZjRoAjWhnbQEDxy69nXowAlA6fFKvOyvGzZrX3/5EA
+         0sesvNFA1bqzVTxo/8Dhv0Npi2hvABogltPCSQM5MpJU8KJwKBNoX9d9z70E2nzv6VSL
+         bWLT9QBbHhyfPPt2r4hqU01uY66v86q0aUvX/f3XKElIRyS9hNMSFzswr9632aFGZYXh
+         lbgu2Ty5zxkPSQrlEx+9qUgB2rjwBHLcAwg2HxMXAQYCYye09JAjAqF4axff2g7WUc+j
+         p7cQ==
+X-Gm-Message-State: AOJu0Yym3bMAbwcJUalroQfmi2fashEYgTRH/mNi59MeIbPeg+m538in
+        IZN9wWeDo1hnrKUsckvlj9QnXQ==
+X-Google-Smtp-Source: AGHT+IGwN20mZxiyx0bg2sXc9CDI9nvRQ0khtew3DAEDJbK4jTTSyqkBbLjLhbnjlq8G3ilSFSFg8g==
+X-Received: by 2002:a05:6870:e38e:b0:1c8:c27f:7d9b with SMTP id x14-20020a056870e38e00b001c8c27f7d9bmr1474715oad.27.1692415055429;
+        Fri, 18 Aug 2023 20:17:35 -0700 (PDT)
 Received: from localhost ([136.49.140.41])
-        by smtp.gmail.com with ESMTPSA id p127-20020a4a4885000000b00569c5eadf15sm1505569ooa.26.2023.08.18.20.17.36
+        by smtp.gmail.com with ESMTPSA id gq20-20020a056870d91400b001c5a3e31474sm1711347oab.45.2023.08.18.20.17.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Aug 2023 20:17:36 -0700 (PDT)
+        Fri, 18 Aug 2023 20:17:35 -0700 (PDT)
 From:   Sam Protsenko <semen.protsenko@linaro.org>
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -67,9 +67,9 @@ Cc:     JaeHun Jung <jh0801.jung@samsung.com>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org
-Subject: [PATCH 5/8] phy: exynos5-usbdrd: Add 26MHz ref clk support
-Date:   Fri, 18 Aug 2023 22:17:28 -0500
-Message-Id: <20230819031731.22618-6-semen.protsenko@linaro.org>
+Subject: [PATCH 3/8] usb: dwc3: exynos: Add support for Exynos850 variant
+Date:   Fri, 18 Aug 2023 22:17:26 -0500
+Message-Id: <20230819031731.22618-4-semen.protsenko@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230819031731.22618-1-semen.protsenko@linaro.org>
 References: <20230819031731.22618-1-semen.protsenko@linaro.org>
@@ -79,44 +79,43 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Modern Exynos chips (like Exynos850) might have 26 MHz OSCCLK external
-clock, which is also used as a PHY reference clock. For some USB PHY
-controllers (e.g USB DRD PHY block on Exynos850) there is no need to set
-the refclk frequency at all (and corresponding bits in CLKRSTCTRL[7:5]
-are marked RESERVED), so that value won't be set in the driver. But
-even in that case, 26 MHz support still has to be added, otherwise
-exynos5_rate_to_clk() fails, which leads in turn to probe error.
-
-Add the correct value for 26MHz refclk to make it possible to add
-support for new Exynos USB DRD PHY controllers.
+Add Exynos850 compatible string and associated driver data. Only two
+clocks are needed for this SoC:
+  - bus_early: bus clock needed for registers access
+  - ref: USB 2.0 DRD reference clock (50 MHz)
 
 Signed-off-by: Sam Protsenko <semen.protsenko@linaro.org>
 ---
- drivers/phy/samsung/phy-exynos5-usbdrd.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/dwc3/dwc3-exynos.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/phy/samsung/phy-exynos5-usbdrd.c b/drivers/phy/samsung/phy-exynos5-usbdrd.c
-index 1ece4a1a1a6e..41508db87b9b 100644
---- a/drivers/phy/samsung/phy-exynos5-usbdrd.c
-+++ b/drivers/phy/samsung/phy-exynos5-usbdrd.c
-@@ -30,6 +30,7 @@
- #define EXYNOS5_FSEL_19MHZ2		0x3
- #define EXYNOS5_FSEL_20MHZ		0x4
- #define EXYNOS5_FSEL_24MHZ		0x5
-+#define EXYNOS5_FSEL_26MHZ		0x82
- #define EXYNOS5_FSEL_50MHZ		0x7
+diff --git a/drivers/usb/dwc3/dwc3-exynos.c b/drivers/usb/dwc3/dwc3-exynos.c
+index f882dd647340..5d365ca51771 100644
+--- a/drivers/usb/dwc3/dwc3-exynos.c
++++ b/drivers/usb/dwc3/dwc3-exynos.c
+@@ -163,6 +163,12 @@ static const struct dwc3_exynos_driverdata exynos7_drvdata = {
+ 	.suspend_clk_idx = 1,
+ };
  
- /* Exynos5: USB 3.0 DRD PHY registers */
-@@ -244,6 +245,9 @@ static unsigned int exynos5_rate_to_clk(unsigned long rate, u32 *reg)
- 	case 24 * MHZ:
- 		*reg = EXYNOS5_FSEL_24MHZ;
- 		break;
-+	case 26 * MHZ:
-+		*reg = EXYNOS5_FSEL_26MHZ;
-+		break;
- 	case 50 * MHZ:
- 		*reg = EXYNOS5_FSEL_50MHZ;
- 		break;
++static const struct dwc3_exynos_driverdata exynos850_drvdata = {
++	.clk_names = { "bus_early", "ref" },
++	.num_clks = 2,
++	.suspend_clk_idx = -1,
++};
++
+ static const struct of_device_id exynos_dwc3_match[] = {
+ 	{
+ 		.compatible = "samsung,exynos5250-dwusb3",
+@@ -173,6 +179,9 @@ static const struct of_device_id exynos_dwc3_match[] = {
+ 	}, {
+ 		.compatible = "samsung,exynos7-dwusb3",
+ 		.data = &exynos7_drvdata,
++	}, {
++		.compatible = "samsung,exynos850-dwusb3",
++		.data = &exynos850_drvdata,
+ 	}, {
+ 	}
+ };
 -- 
 2.39.2
 
