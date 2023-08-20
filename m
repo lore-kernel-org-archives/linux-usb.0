@@ -2,25 +2,25 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57729EE49A6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCE44EE49B0
 	for <linux-usb@archiver.kernel.org>; Sun, 20 Aug 2023 18:47:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230192AbjHTSre (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S231603AbjHTSre (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Sun, 20 Aug 2023 14:47:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55896 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231520AbjHTSrd (ORCPT
+        with ESMTP id S231483AbjHTSrd (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sun, 20 Aug 2023 14:47:33 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 59EEC35A9;
-        Sun, 20 Aug 2023 11:44:12 -0700 (PDT)
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 22F603A98;
+        Sun, 20 Aug 2023 11:44:19 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.01,188,1684767600"; 
-   d="scan'208";a="173403352"
+   d="scan'208";a="177101052"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 21 Aug 2023 03:44:11 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 21 Aug 2023 03:44:18 +0900
 Received: from localhost.localdomain (unknown [10.226.92.18])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8D412406BE25;
-        Mon, 21 Aug 2023 03:44:08 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CBCB3406BF94;
+        Mon, 21 Aug 2023 03:44:15 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>
@@ -32,9 +32,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Andi Shyti <andi.shyti@kernel.org>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 1/4] usb: typec: tcpci_rt1711h: Make similar OF and ID table
-Date:   Sun, 20 Aug 2023 19:43:59 +0100
-Message-Id: <20230820184402.102486-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 3/4] usb: typec: tcpci_rt1711h: Add rxdz_sel variable to struct rt1711h_chip_info
+Date:   Sun, 20 Aug 2023 19:44:01 +0100
+Message-Id: <20230820184402.102486-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230820184402.102486-1-biju.das.jz@bp.renesas.com>
 References: <20230820184402.102486-1-biju.das.jz@bp.renesas.com>
@@ -44,31 +44,52 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Make similar OF and ID table to extend support for ID match
-using i2c_match_data()/device_get_match_data() later. Currently
-it works only for OF match tables as the driver_data is wrong for
-ID match.
+The RT1715 needs 0.35V/0.75V rx threshold for rd/rp whereas it is 0.4V/0.7V
+for RT1711H. Add rxdz_sel variable to struct rt1711h_chip_info for
+handling this difference.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/usb/typec/tcpm/tcpci_rt1711h.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/usb/typec/tcpm/tcpci_rt1711h.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/usb/typec/tcpm/tcpci_rt1711h.c b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-index 17ebc5fb684f..1e13ce3c4b35 100644
+index c9392919226a..1b1753895ca5 100644
 --- a/drivers/usb/typec/tcpm/tcpci_rt1711h.c
 +++ b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-@@ -392,8 +392,8 @@ static void rt1711h_remove(struct i2c_client *client)
- }
+@@ -53,6 +53,7 @@
+ 
+ struct rt1711h_chip_info {
+ 	u16 did;
++	u32 rxdz_sel;
+ };
+ 
+ struct rt1711h_chip {
+@@ -204,10 +205,7 @@ static inline int rt1711h_init_cc_params(struct rt1711h_chip *chip, u8 status)
+ 	if ((cc1 >= TYPEC_CC_RP_1_5 && cc2 < TYPEC_CC_RP_DEF) ||
+ 	    (cc2 >= TYPEC_CC_RP_1_5 && cc1 < TYPEC_CC_RP_DEF)) {
+ 		rxdz_en = BMCIO_RXDZEN;
+-		if (chip->info->did == RT1715_DID)
+-			rxdz_sel = RT1711H_BMCIO_RXDZSEL;
+-		else
+-			rxdz_sel = 0;
++		rxdz_sel = chip->info->rxdz_sel;
+ 	} else {
+ 		rxdz_en = 0;
+ 		rxdz_sel = RT1711H_BMCIO_RXDZSEL;
+@@ -397,10 +395,12 @@ static void rt1711h_remove(struct i2c_client *client)
+ 
+ static const struct rt1711h_chip_info rt1711h = {
+ 	.did = RT1711H_DID,
++	.rxdz_sel = 0,
+ };
+ 
+ static const struct rt1711h_chip_info rt1715 = {
+ 	.did = RT1715_DID,
++	.rxdz_sel = RT1711H_BMCIO_RXDZSEL,
+ };
  
  static const struct i2c_device_id rt1711h_id[] = {
--	{ "rt1711h", 0 },
--	{ "rt1715", 0 },
-+	{ "rt1711h", RT1711H_DID },
-+	{ "rt1715", RT1715_DID },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, rt1711h_id);
 -- 
 2.25.1
 
