@@ -2,180 +2,104 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 114F3EE49A8
-	for <linux-usb@archiver.kernel.org>; Sun, 20 Aug 2023 06:26:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B05CEE4996
+	for <linux-usb@archiver.kernel.org>; Sun, 20 Aug 2023 06:31:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229980AbjHTG0G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 20 Aug 2023 02:26:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43810 "EHLO
+        id S229869AbjHTGbO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 20 Aug 2023 02:31:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229984AbjHTGZs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 20 Aug 2023 02:25:48 -0400
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8E9F2A3A7;
-        Sat, 19 Aug 2023 22:25:15 -0700 (PDT)
-Received: by mail-qk1-x734.google.com with SMTP id af79cd13be357-76da22c090dso33536085a.2;
-        Sat, 19 Aug 2023 22:25:15 -0700 (PDT)
+        with ESMTP id S229930AbjHTGbH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 20 Aug 2023 02:31:07 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 843991A2BD
+        for <linux-usb@vger.kernel.org>; Sat, 19 Aug 2023 23:17:53 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-51d95aed33aso2812769a12.3
+        for <linux-usb@vger.kernel.org>; Sat, 19 Aug 2023 23:17:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692509115; x=1693113915;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wZpgsiXVcupEckyvtiilqx+TaORBceXJquyTxWWGa7Y=;
-        b=i+Y9xCZRsGp0xjK0wcQfERrj5CJruPSBcdnxrISp17zdZgGo3LF4Gd2snPbO48NeJC
-         nsE4t22KtQX8WyND7qFpxK2Ap4LyBqDFSUSSJxL3/Iz4tHSzLB28y10Yt1LwqkDn0ZVo
-         H/nCjhYv3XCxuwCsCKUiblA8WEL6pPiNUQNi6rofZtDgmHrYcXQ4QwSggsYYiMmY60Ej
-         tT3UvW4G53XqQ+aZwwHbV9IUaVCrRD8gFu39v50iyfPSygH0UzoAxIShKe/K0cmF3iEa
-         2oFeqKMZ1FHdRapShIhYgplQtcCcUvUFNC/FlWKARlhwTzGeS4MuskX9P8n7IlEQyOEi
-         oZtQ==
+        d=linaro.org; s=google; t=1692512272; x=1693117072;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZQ1nYRNuKzvXKSJ1ECy3gTgL6Jh2qhzHxGDRD89KDO0=;
+        b=UPnKsyXlucd7fKb/inJXMLnvSgc6dC0QJ4o6Xbk5yFefaG+r77JSWB9Fx7uto38wim
+         gYv5PN6bPkOfichetuCwBApoMwbBsM2gdmSV1oMTPXcmjE9OFmFJ7dxxGAMMdvnYsuDR
+         lsuScZch56UB4jknTSkDn0mnYyNw3hl3Fn7gUPPT57/5Qab8Jpr/7heo2Oa2yGSoOEG5
+         RUNUA7GLqxhCzw6izKqTRudQcjNuqtpLuyK8TKWoQQiatIB6mgSrNv+siDMjd8x+7s/z
+         bH+vPmKEIqqljf7IqHbVcAPSik+ufMM9HxRau4hLO5oXtVCdINhL0DV4dN4rKDiool4T
+         Drow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692509115; x=1693113915;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wZpgsiXVcupEckyvtiilqx+TaORBceXJquyTxWWGa7Y=;
-        b=MZQaHMEGUgY5ENLTXoIjJLTSdfuIvjDIOYwaSnMEY9IGf+tvNHP3hR0S8TGqWzdJ3+
-         sPoiPkDznZVAemp/hs9PkWkNORNBUCnXvgziMNwFgIdep0+pAh0oaBd/QPJkDdmcOSH/
-         1XgyXuNVYQv6cni6BsoCo2FbLvZBDTmd6BDu4wIJkFNbPdoRSoXZyIOj9KVYhsB7RDob
-         NZdPcRkgX3LGIywWafokAD7648vilqiQoasKuuK83OK3QMHeJWxc5UQEnFj5NTUujky0
-         pTONHWs6AxbYySMfI0QjIyiAB/ebwroGIQgfdsACha6aS80FShRIx0O45D3W/KGb/hfK
-         zPDQ==
-X-Gm-Message-State: AOJu0YyDdVQv3SWS/QYAyjV8XeYZKxM6N/LhMv9yPJVcyV96GH44G6VX
-        FPRXdEELqkFX5T/Hjsh1yns=
-X-Google-Smtp-Source: AGHT+IF0onSYHl1niRTUuR7vetqnuw5wA+F7lpHyFTpPugCdKVst2ts10STkgRIa07uLM29xjDgFIw==
-X-Received: by 2002:a05:620a:1a0f:b0:76c:a957:b2d6 with SMTP id bk15-20020a05620a1a0f00b0076ca957b2d6mr4393042qkb.24.1692509114893;
-        Sat, 19 Aug 2023 22:25:14 -0700 (PDT)
-Received: from localhost.localdomain ([174.95.13.129])
-        by smtp.gmail.com with ESMTPSA id c16-20020a05620a165000b0076da29c4497sm307750qko.112.2023.08.19.22.25.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Aug 2023 22:25:14 -0700 (PDT)
-From:   Abdel Alkuor <alkuor@gmail.com>
-To:     heikki.krogerus@linux.intel.com, devicetree@vger.kernel.org
+        d=1e100.net; s=20221208; t=1692512272; x=1693117072;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZQ1nYRNuKzvXKSJ1ECy3gTgL6Jh2qhzHxGDRD89KDO0=;
+        b=MBUQg0aaoCXrvf0Y1TuwA5aXd6IRm/OWkFvxVL+468n0XC3s/JTS5S6cKQ9orwmhba
+         9Awsg2dME3RMpu9KWXrOSRtFdbdBidxIi9h3kTB4CE0wjOixMIDyLKK/9SfkoSOJghDW
+         SOBtO5g7Hak7vbQ59z9RIUVVUlWFiR8wA3TmhTJd52oBfCOMZx1cycY8I3aAZBEUFds+
+         DpYUPiATlxZoVVgJuWA1SG31c1v8X/nz+j6AIMDr7hYK6BlL5hKJEnz+5oSyrx+5Owev
+         eETThNJqK5m9l5kBpTepn920VVXE2dUu05VorfmLirbke4WE7gifokEG5EvEHZ+H7LSF
+         Z11A==
+X-Gm-Message-State: AOJu0YyvaMYFilBmKMH1VgwYiIQTocOHi8O/avUMwxb1TXvYodKRaRdU
+        Og8mSL/wPmvtgJ4Zucu4OkUUlQ==
+X-Google-Smtp-Source: AGHT+IFjAhY9gZh9XQvcNI+E9OF/IidDB2rKdNsi5zZd1MIQSV1+pS6nhSrNZb9rtyxhjGkkLUVlxg==
+X-Received: by 2002:a17:906:257:b0:993:f349:c98c with SMTP id 23-20020a170906025700b00993f349c98cmr2588851ejl.4.1692512271808;
+        Sat, 19 Aug 2023 23:17:51 -0700 (PDT)
+Received: from [192.168.0.22] ([77.252.47.198])
+        by smtp.gmail.com with ESMTPSA id fy3-20020a170906b7c300b009894b476310sm3958202ejb.163.2023.08.19.23.17.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 19 Aug 2023 23:17:51 -0700 (PDT)
+Message-ID: <6f5fa43b-e9ec-ee7d-867d-c75bb0adfe6a@linaro.org>
+Date:   Sun, 20 Aug 2023 08:17:49 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v3 1/2] dt-bindings: usb: Add ti,tps25750
+To:     Abdel Alkuor <alkuor@gmail.com>, heikki.krogerus@linux.intel.com,
+        devicetree@vger.kernel.org
 Cc:     gregkh@linuxfoundation.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
         abdelalkuor@geotab.com, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/2] dt-bindings: usb: Add ti,tps25750
-Date:   Sun, 20 Aug 2023 01:23:15 -0400
-Message-Id: <fc8a793aad8a84ee4658e630b7be2b04925a66c5.1692507038.git.abdelalkuor@geotab.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1692507038.git.abdelalkuor@geotab.com>
 References: <cover.1692507038.git.abdelalkuor@geotab.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ <fc8a793aad8a84ee4658e630b7be2b04925a66c5.1692507038.git.abdelalkuor@geotab.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <fc8a793aad8a84ee4658e630b7be2b04925a66c5.1692507038.git.abdelalkuor@geotab.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Abdel Alkuor <abdelalkuor@geotab.com>
+On 20/08/2023 07:23, Abdel Alkuor wrote:
+> From: Abdel Alkuor <abdelalkuor@geotab.com>
+> 
+> TPS25750 provides power negotiation and capabilities management
+> for USB Type-C applications.
+> 
+> Signed-off-by: Abdel Alkuor <abdelalkuor@geotab.com>
+> ---
 
-TPS25750 provides power negotiation and capabilities management
-for USB Type-C applications.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Abdel Alkuor <abdelalkuor@geotab.com>
+
 ---
-v3:
- - Drop typec label
- - Use typec@21 as node name
-v2:
- - Remove redundant word 'binding' from Subject
- - Add new line before reg property
- - Remove unused description in interrupts property
- - Drop interrupt-names property
- - Add maxItems to firmware-name property
- - Use generic node name 'typec' instead of 'tps25750'
----
- .../devicetree/bindings/usb/ti,tps25750.yaml  | 81 +++++++++++++++++++
- 1 file changed, 81 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/ti,tps25750.yaml
 
-diff --git a/Documentation/devicetree/bindings/usb/ti,tps25750.yaml b/Documentation/devicetree/bindings/usb/ti,tps25750.yaml
-new file mode 100644
-index 000000000000..c658cb7ddec9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/ti,tps25750.yaml
-@@ -0,0 +1,81 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/ti,tps25750.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments 25750 Type-C Port Switch and Power Delivery controller
-+
-+maintainers:
-+  - Abdel Alkuor <abdelalkuor@geotab.com>
-+
-+description: |
-+  Texas Instruments 25750 Type-C Port Switch and Power Delivery controller
-+
-+properties:
-+  compatible:
-+    enum:
-+      - ti,tps25750
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  firmware-name:
-+    description: |
-+      Should contain the name of the default patch binary
-+      file located on the firmware search path which is
-+      used to switch the controller into APP mode
-+    maxItems: 1
-+
-+  connector:
-+    type: object
-+    $ref: ../connector/usb-connector.yaml#
-+    description:
-+      Properties for usb c connector.
-+    required:
-+      - data-role
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - connector
-+
-+additionalProperties: true
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        typec@21 {
-+            compatible = "ti,tps25750";
-+            reg = <0x21>;
-+
-+            interrupt-parent = <&msmgpio>;
-+            interrupts = <107 IRQ_TYPE_LEVEL_LOW>;
-+            interrupt-names = "irq";
-+
-+            firmware-name = "tps25750.bin";
-+
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&typec_pins>;
-+
-+            typec_con: connector {
-+                compatible = "usb-c-connector";
-+                label = "USB-C";
-+                data-role = "dual";
-+                port {
-+                    typec_ep: endpoint {
-+                        remote-endpoint = <&otg_ep>;
-+                    };
-+                };
-+            };
-+        };
-+    };
-+...
--- 
-2.34.1
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, you can skip it (please do
+not feel offended by me posting it here - no bad intentions intended).
+If you do not know the process, here is a short explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tag is "received", when
+provided in a message replied to you on the mailing list. Tools like b4
+can help here. However, there's no need to repost patches *only* to add
+the tags. The upstream maintainer will do that for tags received on the
+version they apply.
+
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+
+Best regards,
+Krzysztof
 
