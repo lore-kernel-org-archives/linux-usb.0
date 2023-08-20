@@ -2,80 +2,110 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69BEBEE49A4
-	for <linux-usb@archiver.kernel.org>; Sun, 20 Aug 2023 06:03:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7F4FEE49A8
+	for <linux-usb@archiver.kernel.org>; Sun, 20 Aug 2023 06:25:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230073AbjHTGDk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 20 Aug 2023 02:03:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38772 "EHLO
+        id S229998AbjHTGZg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 20 Aug 2023 02:25:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230052AbjHTGDW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 20 Aug 2023 02:03:22 -0400
-Received: from m1344.mail.163.com (m1344.mail.163.com [220.181.13.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 644A224C00;
-        Sat, 19 Aug 2023 22:29:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-        Message-ID; bh=fwhEx4wlFm4yYsaFszDjb6NVOhwAc7XdMehCTRFdgKs=; b=D
-        9dsWqmfKr30TXf+utt+3acrTCZ6V1S5vfldeaKnd6oBN/WKgga38og/ylc/+jFM4
-        xs87XGxaoGeP3deunM1zLKtW113FMOEfE15nKXEivU3I1P0ZCvtSgGIOa0NpV7gA
-        HyGcxUpdYW2dfkv77HAsb5vA8Yvk2IiyTcO8HV2kLA=
-Received: from 18500469033$163.com ( [114.250.138.216] ) by
- ajax-webmail-wmsvr44 (Coremail) ; Sun, 20 Aug 2023 13:29:11 +0800 (CST)
-X-Originating-IP: [114.250.138.216]
-Date:   Sun, 20 Aug 2023 13:29:11 +0800 (CST)
-From:   "Dingyan Li" <18500469033@163.com>
-To:     "Alan Stern" <stern@rowland.harvard.edu>
-Cc:     gregkh@linuxfoundation.org, hdegoede@redhat.com,
-        xiaofanc@gmail.com, oneukum@suse.com, lists.tormod@gmail.com,
-        sebastian.reichel@collabora.com, linux-usb@vger.kernel.org,
+        with ESMTP id S230001AbjHTGZX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 20 Aug 2023 02:25:23 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 912F62A3A4;
+        Sat, 19 Aug 2023 22:25:13 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id af79cd13be357-76d873c6e8aso156573785a.1;
+        Sat, 19 Aug 2023 22:25:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692509112; x=1693113912;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8LyaQ7oU9VWxzPM0ZkIDX36hxN7jVO1qAMTjMceAauI=;
+        b=OjJywNdMBckIguEQkY0LO07+EIB7V+6fzVd2GeIsHCn0nxFW/mcO+XuGpke9PTqIgP
+         D7e2G/7uR5MftQlpE3CBoNwm63QjfTnIuPEh2dgBuZwyuasfGzhSfOmC0fM+BRQuTAQO
+         +dxGKGGWNhoMMZt0XOCETiO7qtRmgIHbbnzuYpIDpGhjIamklPWUSXcRnMCU+IhuSmnW
+         Vc1lY+0bnP1qhNx38jq9a9QWFcxoh4dqPVRWKauQyxApDS9UcOsnrcVJ97YzR88pk/YC
+         F51FVft0db6wXuodeTl8EcCbMnVSgc+yOHy+6Y0YwYO8J9M5ycJdcF2ETcvCptWAaXAL
+         9ujA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692509112; x=1693113912;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8LyaQ7oU9VWxzPM0ZkIDX36hxN7jVO1qAMTjMceAauI=;
+        b=CnS/lNvx+9zJ+t/83s/d7I5GgQP3ykH/nbUcm0+tGSZosxDRapkeQQkp6DN6Nc+sru
+         KIL+6re09CgWtKeNYlbCyrsbL6WKD4eoD59xQkbTfeu3YzAGferhzUYWfxQ+NI5FeDOd
+         Gyxy2ChTAjfdJiV80UmJv4FA5ZTK6pH0cw9+FaqEGjoTrzd0AIPTxkiOB3x1v15/yQ5v
+         0OfMWdxfFZwzTYoRoqrhFdy0DLH5nYXk2E9wbxWtP8yEzBrdn4yk9jFxErEqIZRCp9J5
+         S27nrQTTV5MV7d9duBRkfxQiC+f+eA9KGNoqSk7ZMo1FMw4dxGqLI5xMCBvN16LBb5bf
+         yaaw==
+X-Gm-Message-State: AOJu0YxFEAt2/v1vL+4Du8MbiyHv5t0P7OBPlxi7nAl/CdZL+UFrExaH
+        zqPAfAqjyisSoUboN1gZuV4=
+X-Google-Smtp-Source: AGHT+IHmiDN79XXJbMYkN449EzB1GLvqqNw0J2hoPM/ZB45dIu9F687gntJ0/0QN1oJqF6B+an9Qkg==
+X-Received: by 2002:a05:620a:e9e:b0:76c:97b1:33b5 with SMTP id w30-20020a05620a0e9e00b0076c97b133b5mr3832997qkm.12.1692509112605;
+        Sat, 19 Aug 2023 22:25:12 -0700 (PDT)
+Received: from localhost.localdomain ([174.95.13.129])
+        by smtp.gmail.com with ESMTPSA id c16-20020a05620a165000b0076da29c4497sm307750qko.112.2023.08.19.22.25.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Aug 2023 22:25:12 -0700 (PDT)
+From:   Abdel Alkuor <alkuor@gmail.com>
+To:     heikki.krogerus@linux.intel.com, devicetree@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        abdelalkuor@geotab.com, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH v2] USB: Support 20Gbps speed for ioctl
- USBDEVFS_GET_SPEED
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2023 www.mailtech.cn 163com
-In-Reply-To: <07c821ae-2391-474c-aec9-65f47d3fecf2@rowland.harvard.edu>
-References: <79f3ec25.fa3.18a0c111fa9.Coremail.18500469033@163.com>
- <20230819054655.5495-1-18500469033@163.com>
- <07c821ae-2391-474c-aec9-65f47d3fecf2@rowland.harvard.edu>
-X-NTES-SC: AL_QuySAPmbtksu5ySeY+kXkkYVgew6WsC4vf4k3IReOps0hiny4CAMcER9EX322d2yNSa+iyO5dCBx98JffqdAZa3uZYmMwqyRZHH6BCd1JCpu
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+Subject: [PATCH v3 0/2] Add support for TPS25750
+Date:   Sun, 20 Aug 2023 01:23:14 -0400
+Message-Id: <cover.1692507038.git.abdelalkuor@geotab.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Message-ID: <75cfc7cb.b4c.18a116b2e2e.Coremail.18500469033@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: LMGowABHkeinpOFkqVoXAA--.11016W
-X-CM-SenderInfo: jprykiiquwmiitt6il2tof0z/xtbBZwfRy1et-+4uAwAAs8
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-CkF0IDIwMjMtMDgtMjAgMDM6MDM6MDUsICJBbGFuIFN0ZXJuIiA8c3Rlcm5Acm93bGFuZC5oYXJ2
-YXJkLmVkdT4gd3JvdGU6Cj4KPlRoaXMgd291bGQgbWFrZSBtb3JlIHNlbnNlIGlmIHlvdSBrZXB0
-IHZlcnkgY2xlYXIgdGhlIGRpc3RpbmN0aW9uIAo+YmV0d2VlbiB0aGUgb3ZlcmFsbCBzcGVlZCBh
-bmQgdGhlIHBoeXNpY2FsIGNvbW11bmljYXRpb24gbWVjaGFuaXNtLiAgSW4gCj5vdGhlciB3b3Jk
-cywgMTAwMDAgYnBzIGlzIDEwMDAwIGJwcywgbm8gbWF0dGVyIHdoZXRoZXIgdGhlIHVuZGVybHlp
-bmcgCj50ZWNobm9sb2d5IHVzZXMgb25lIGxhbmUgY2FycnlpbmcgMTAwMDAgYml0cyBwZXIgc2Vj
-b25kIG9yIHR3byBsYW5lcyAKPmVhY2ggY2FycnlpbmcgNTAwMCBiaXRzIHBlciBzZWNvbmQuCj4K
-PkknbSBub3Qgc3VyZSBpZiBhbnl0aGluZyBpbiB0aGUga2VybmVsIG9yIHVzZXJzcGFjZSByZWFs
-bHkgY2FyZXMgYWJvdXQgCj50aGUgbnVtYmVyIG9mIGxhbmVzLCBhcyBvcHBvc2VkIHRvIHRoZSB0
-b3RhbCBzcGVlZC4gIElmIGl0IHR1cm5zIG91dCAKPnRoYXQgbm90aGluZyBkb2VzLCB0aGUgdXNi
-X3NzcF9yYXRlIGVudW1lcmF0aW9uIGNvdWxkIGJlIHJlbW92ZWQuICAKPkJlc2lkZXMsIGl0IHNo
-b3VsZCBuYW1lZCBzb21ldGhpbmcgZWxzZSwgbGlrZSB1c2Jfc3NwX2dlbiBvciAKPnVzYl9zcF9n
-ZW5lcmF0aW9uLCBzaW5jZSBpdCBpc24ndCBqdXN0IGEgcmF0ZSBkZXNpZ25hdGlvbi4gIChXaGVy
-ZWFzIGFzIAo+ZW51bSB1c2JfZGV2aWNlX3NwZWVkIF9pc18ganVzdCBhIHJhdGUgZGVzaWduYXRp
-b24uKQoKSXQgc2VlbXMgdGhhdCBkd2MzIGNvZGUgaGFzIGEgc2xpZ2h0bHkgZGlmZmVyZW50IGJl
-aGF2aW9ycyBiZXR3ZWVuCkdFTl8xeDIgYW5kIEdFTl8yeDEsIHNvIGl0J3MgYmV0dGVyIHRvIGtl
-ZXAgaXQuIEJ1dCBJIGFncmVlIHdpdGggeW91LgpJbiBlbnVtIHVzYl9kZXZpY2Vfc3BlZWQsIHdl
-IG9ubHkgY2FyZSBhYm91dCBvdmVyYWxsIHNwZWVkIGluc3RlYWQgb2YKcGh5c2ljYWwgbGlua3Mu
-IEFuZCB3ZSBjb3VsZCByZW5hbWUgdXNiX3NzcF9yYXRlIHRvIGEgbW9yZSBwcm9wZXIgbmFtZS4K
-Cj5SZWdhcmRsZXNzIG9mIHdoYXQgaGFwcGVucyB0byB1c2Jfc3NwX3JhdGUsIHVzYl9kZXZpY2Vf
-c3BlZWQgc2hvdWxkIGJlIAo+ZW5sYXJnZWQgdG8gZW5jb21wYXNzIGFsbCBwb3NzaWJsZSBleGlz
-dGluZyBzcGVlZHMuICBUaGF0IHdvdWxkIAo+aW1tZWRpYXRlbHkgZml4IHRoZSBpb2N0bCBwcm9i
-bGVtLiAgRG9pbmcgdGhpcyBpbiBhbiB1cHdhcmQtY29tcGF0aWJsZSAKPndheSBtaWdodCBlbmQg
-dXAgYmVpbmcgYSBsaXR0bGUgYXdrd2FyZCBidXQgaXQgb3VnaHQgdG8gYmUgcG9zc2libGUuCgpU
-aGFua3MgZm9yIHRoZSBkZXRhaWxlZCBleHBsYW5hdGlvbiwgd2hpY2ggbWFrZXMgdGhpbmdzIG1v
-cmUgY2xlYXIuCkknbGwgdGFrZSB5b3VyIHN1Z2dlc3Rpb25zIGFuZCB0cnkgYWdhaW4uCgpSZWdh
-cmRzLApEaW5neWFu
+From: Abdel Alkuor <abdelalkuor@geotab.com>
+
+TPS25750 is USB Type-C and PD controller. The device is
+highly configurable using App Customization online Tool 
+developed by TI to generate loadable binary.
+
+TPS25750 supports three modes; PTCH, APP, and BOOT. A configuration
+can only be applied when the controller is on PTCH mode.
+
+The controller attempts to load a configuration from EEPROM on
+I2Cm bus. If no EEPROM is detected, then the driver tries to load
+a configuration on I2Cs bus using a firmware file defined
+in DT.
+
+The driver implements the binary loading sequence which 
+can be found on pg.53 in TPS25750 Host Interface Technical
+Reference Manual (Rev. A) https://tinyurl.com/y9rkhu8a
+
+The driver only supports resume pm callback as power management is
+automatically controlled by the device. See pg.47 in TPS25750
+datasheet https://tinyurl.com/3vfd2k43
+
+v3:
+ - PATCH 1: Fix node name
+ - PATCH 2: Upload tps25750 driver patch
+v2:
+ - PATCH 1: General properties clean up
+
+Abdel Alkuor (2):
+  dt-bindings: usb: Add ti,tps25750
+  USB: typec: Add TI TPS25750 USB Type-C controller
+
+ .../devicetree/bindings/usb/ti,tps25750.yaml  |   81 ++
+ drivers/usb/typec/Kconfig                     |   13 +
+ drivers/usb/typec/Makefile                    |    1 +
+ drivers/usb/typec/tps25750.c                  | 1065 +++++++++++++++++
+ drivers/usb/typec/tps25750.h                  |  162 +++
+ 5 files changed, 1322 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/ti,tps25750.yaml
+ create mode 100644 drivers/usb/typec/tps25750.c
+ create mode 100644 drivers/usb/typec/tps25750.h
+
+-- 
+2.34.1
+
