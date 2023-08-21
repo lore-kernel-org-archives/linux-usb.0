@@ -2,92 +2,156 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A0BBEE4993
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Aug 2023 09:01:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7C5EEE4996
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Aug 2023 09:55:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234249AbjHUJBL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Aug 2023 05:01:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40408 "EHLO
+        id S232270AbjHUJz5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Aug 2023 05:55:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232799AbjHUJBK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Aug 2023 05:01:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 469F5C9
-        for <linux-usb@vger.kernel.org>; Mon, 21 Aug 2023 02:01:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0179C62D05
-        for <linux-usb@vger.kernel.org>; Mon, 21 Aug 2023 09:01:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 352A1C433CA
-        for <linux-usb@vger.kernel.org>; Mon, 21 Aug 2023 09:01:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692608467;
-        bh=oIL8pwS9Qef/zVJt1/5gWUDRBCmWNDGMPT7Mq5NNgmQ=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=j3w96Fx697Do2Ude6FrKrN8F+ahIUJmkryt6/A9rZPz2y71mc24+v9McNV3sGGmdK
-         2SnrtDmalwB+lBHPvYTpV+7I6kJk3vr+lCa7RiZgtL6k7ObvqO8UdzGTj9SiQacN7B
-         C03WJVCym+DbG6HUEvJSQdnaZgfgIeXxJccz+o8U/xW3t+oF9BRzLnglDQlz9StdTq
-         RhQrTAYuREQnY/GuwNL56dVw1m0hZOTz5CEsNH5jCYPRUkIktIPwkzB0yHoJbrf8mT
-         XbLw168bOqdCJJrXpAQV8h7+loo/78tEOiRhD/nkkcGZWI5eTa1DnTakzppQe+TUPa
-         p8PPeowXbm/Yw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 126D0C4332E; Mon, 21 Aug 2023 09:01:07 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 217811] usbhid driver misses right-click event for Rapoo
- wireless mouse
-Date:   Mon, 21 Aug 2023 09:01:06 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michal.byrecki@techniline.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217811-208809-LagwoSCBWo@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217811-208809@https.bugzilla.kernel.org/>
-References: <bug-217811-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        with ESMTP id S229854AbjHUJz5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Aug 2023 05:55:57 -0400
+Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3DDEA9;
+        Mon, 21 Aug 2023 02:55:54 -0700 (PDT)
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+        by hi1smtp01.de.adit-jv.com (Postfix) with ESMTP id BD26E5202ED;
+        Mon, 21 Aug 2023 11:55:52 +0200 (CEST)
+Received: from vmlxhi-118.adit-jv.com (10.72.93.77) by hi2exch02.adit-jv.com
+ (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.32; Mon, 21 Aug
+ 2023 11:55:52 +0200
+Date:   Mon, 21 Aug 2023 11:55:47 +0200
+From:   Hardik Gajjar <hgajjar@de.adit-jv.com>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+CC:     Hardik Gajjar <hgajjar@de.adit-jv.com>,
+        <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
+        <stern@rowland.harvard.edu>, <yangyingliang@huawei.com>,
+        <jinpu.wang@ionos.com>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <erosca@de.adit-jv.com>
+Subject: Re: [PATCH] usb: hcd: xhci: Add set command timer delay API
+Message-ID: <20230821095547.GA9820@vmlxhi-118.adit-jv.com>
+References: <20230818092353.124658-1-hgajjar@de.adit-jv.com>
+ <2c029018-a926-6fda-ed71-937ac74d00b0@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <2c029018-a926-6fda-ed71-937ac74d00b0@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [10.72.93.77]
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217811
+On Fri, Aug 18, 2023 at 04:18:30PM +0300, Mathias Nyman wrote:
+> On 18.8.2023 12.23, Hardik Gajjar wrote:
+> > xHCI driver starts the response timer after sending each
+> > command to the device. The default value of this timer is
+> > 5 seconds (XHCI_CMD_DEFAULT_TIMEOUT = HZ*5). This seems
+> > too high in time crtical use case.
+> > 
+> > This patch provides an API to change the default value of
+> > the timer from the vendor USB driver.
+> > 
+> > The default value will be XHCI_CMD_DEFAULT_TIMEOUT (5 sec)
+> > 
+> > Use case:
+> > According to the Smartphone integration certification
+> > requirement in the automotive, the phone connected via USB
+> > should complete enumeration and user space handshake
+> > within 3 sec.
+> 
+> The above incorrectly makes it sound as if the command timeout
+> timer causes the delay.
+>
+Thank you, Mathias, for your prompt response. I will enhance the message
+to provide more specificity in the subsequent patch.
+> > 
+> > Reducing the response waiting time by setting the smaller
+> > command timer delay helps to speed up overall re-enumeration
+> > process of the USB device in case of device is not responding
+> > properly in first enumeration iteration.
+> 
+> So is this a case where addressing a usb device behind xHC always
+> fail on the first attempt, i.e. address device command in xhci
+> never completes. Solution proposed here is to fail faster and
+> retry?
+> 
+> Is the rootcause known why first enumeration fails?
+> 
+> Does setting old_scheme_first module parameter help?
+> 
+Yes, you are correct. The problem occurs when setting the address,
+and in such cases, this patch helps to fail faster and retry.
 
---- Comment #2 from Michal Byrecki (michal.byrecki@techniline.com) ---
-Positive, same issue with the latest mainline:
+Unfortunately, the root cause is unknown. This problem is mainly
+observed with Android phones. Upon analyzing the USB analyzer logs,
+it seems that the device is not responding to the SET_ADDRESS request.
 
-Linux crystal 6.5.0-rc7zeta #1 SMP PREEMPT_DYNAMIC Mon Aug 21 10:41:51 CEST
-2023 x86_64 GNU/Linux
+I tried using "old_scheme_first=Y," but that did not help. Below are
+the short logs of the first iteration enumeration failure.
+> > 
+> > Signed-off-by: Hardik Gajjar <hgajjar@de.adit-jv.com>
+> > ---
+> >   drivers/usb/core/hcd.c       | 23 +++++++++++++++++++++++
+> >   drivers/usb/host/xhci-ring.c | 10 +++++-----
+> >   drivers/usb/host/xhci.c      | 15 +++++++++++++++
+> >   drivers/usb/host/xhci.h      |  1 +
+> >   include/linux/usb/hcd.h      |  2 ++
+> >   5 files changed, 46 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> > index 8300baedafd2..e392e90e918c 100644
+> > --- a/drivers/usb/core/hcd.c
+> > +++ b/drivers/usb/core/hcd.c
+> > @@ -3157,6 +3157,29 @@ int usb_hcd_setup_local_mem(struct usb_hcd *hcd, phys_addr_t phys_addr,
+> >   }
+> >   EXPORT_SYMBOL_GPL(usb_hcd_setup_local_mem);
+> > +/**
+> > + * usb_hcd_set_cmd_timer_delay Set the delay of the command timer.
+> > + * @hcd - pointer to the HCD representing the controller
+> > + * @delay - Delay value to be used in command timer.
+> > + *
+> > + * wrapper function to call the set_cmd_timer_delay API of the host
+> > + * diver.
+> > + *
+> > + * return 0 on success; otherwise -ENODEV means the feature not
+> > + * supported by host driver.
+> > + */
+> > +
+> > +int usb_hcd_set_cmd_timer_delay(struct usb_hcd *hcd, int delay)
+> > +{
+> > +	int ret = -ENODEV;
+> > +
+> > +	if (hcd->driver->set_cmd_timer_delay)
+> > +		ret = hcd->driver->set_cmd_timer_delay(hcd, delay);
+> > +
+> > +	return ret;
+> > +}
+> > +EXPORT_SYMBOL_GPL(usb_hcd_set_cmd_timer_delay);
+> > +
+> 
+> The xhci command timeout is more of a xhci internal thing, not sure it's a good
+> idea to add this to hcd.
+> 
+> Would it make sense to add a timeout parameter to hcd->driver->address_device(hcd, udev)
+> instead?
+> 
+> First priority should of course be finding out why the first enumeration fails,
+> and solve that.
+> 
+> Thanks
+> Mathias
+Thanks for the suggestion to modify hcd->driver->address_device.
+I will definitely implement it.However to confirm.
 
-Just two events, for left and mid mouse clicks:
-Event: time 1692608117.921419, -------------- SYN_REPORT ------------
-Event: time 1692608118.001416, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90=
-001
-Event: time 1692608118.001416, type 1 (EV_KEY), code 272 (BTN_LEFT), value 0
-Event: time 1692608118.001416, -------------- SYN_REPORT ------------
-Event: time 1692608119.001433, type 4 (EV_MSC), code 4 (MSC_SCAN), value 90=
-003
-Event: time 1692608119.001433, type 1 (EV_KEY), code 274 (BTN_MIDDLE), valu=
-e 1
-Event: time 1692608119.001433, -------------- SYN_REPORT ------------
+So, if I understand correctly, the idea is to avoid exposing any
+API from the xhci driver, but instead, create an interface in hcd.c (such as sysfs or API)
+and incorporate the delay in address_device as an additional parameter.
 
---=20
-You may reply to this email to add a comment.
+However, in that case, modifying xhci is still necessary as the timer is controlled from there.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Thanks,
+Hardik
