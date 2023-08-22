@@ -2,102 +2,99 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4B8BEE49A8
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Aug 2023 07:34:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B29EE4993
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Aug 2023 09:45:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233462AbjHVHeb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Aug 2023 03:34:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48600 "EHLO
+        id S234461AbjHVJpD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Aug 2023 05:45:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233406AbjHVHea (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Aug 2023 03:34:30 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DEC9B133;
-        Tue, 22 Aug 2023 00:34:28 -0700 (PDT)
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 37M79e232008175, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 37M79e232008175
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 22 Aug 2023 15:09:41 +0800
-Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Tue, 22 Aug 2023 15:10:02 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXDAG01.realtek.com.tw (172.21.6.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 22 Aug 2023 15:10:02 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
- RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
- 15.01.2375.007; Tue, 22 Aug 2023 15:10:02 +0800
-From:   =?big5?B?U3RhbmxleSBDaGFuZ1up96h8vHdd?= <stanley_chang@realtek.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v4 2/2] dt-bindings: usb: dwc3: Add Realtek DHC RTD SoC DWC3 USB
-Thread-Topic: [PATCH v4 2/2] dt-bindings: usb: dwc3: Add Realtek DHC RTD SoC
- DWC3 USB
-Thread-Index: AQHZz16KCOHUUw9ObkCEILwScSxkD6/0piMAgAFJm0A=
-Date:   Tue, 22 Aug 2023 07:10:02 +0000
-Message-ID: <a2dc3ff4fe714f4a8463e3be65cd362c@realtek.com>
-References: <20230815095452.4146-1-stanley_chang@realtek.com>
- <20230815095452.4146-2-stanley_chang@realtek.com>
- <20230821192716.GA2128469-robh@kernel.org>
-In-Reply-To: <20230821192716.GA2128469-robh@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.190.159]
-x-kse-serverinfo: RTEXDAG01.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+        with ESMTP id S234458AbjHVJpC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Aug 2023 05:45:02 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B05691A1
+        for <linux-usb@vger.kernel.org>; Tue, 22 Aug 2023 02:45:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692697501; x=1724233501;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UMAvKzLwMNpPTCL9KkA1icMDxpwGzIqYVWE5BbG90rE=;
+  b=FQwNVqMvaec0UUaLMZEsAmd9hZt9veuSKqihb0NbiZeyGKgQBCzIOSTe
+   dxS5ZZb7ktU2k4juinQo8SD6r1Ujx9ardio6w9uDSlhXXe9D2GW1fN/ik
+   S6WACI4StcYyia866ZEbG4T088kT8CWN7ynHyv0QwCgLeaacuMTeIRdpI
+   NscT42jYAuCcEc+t0QFDkHL3V7DGzpglShX6PwaaV7qwDbCX4JN+T33tb
+   G956v7obGPLg5Tq0cLKB+Jf9zfcdA4/UDjh8zImkhGSREPo4JDj/WZC+Q
+   loMwEbmfRZdKA9UgIORfdpjF8f2vKTpSwBoa3ZKBZ5zVDGPhlQCGvSSFA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="460200305"
+X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
+   d="scan'208";a="460200305"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 02:45:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="826268143"
+X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
+   d="scan'208";a="826268143"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Aug 2023 02:44:59 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 93EDF2FF; Tue, 22 Aug 2023 12:44:57 +0300 (EEST)
+Date:   Tue, 22 Aug 2023 12:44:57 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        linux-usb@vger.kernel.org,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [GIT PULL] Thunderbolt/USB4 changes for v6.6 merge window
+Message-ID: <20230822094457.GL3465@black.fi.intel.com>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGkgUm9iLA0KDQo+ID4gK2V4YW1wbGVzOg0KPiA+ICsgIC0gfA0KPiA+ICsgICAgdXNiQDk4MDEz
-ZTAwIHsNCj4gPiArICAgICAgICBjb21wYXRpYmxlID0gInJlYWx0ZWsscnRkMTMxOWQtZHdjMyIs
-ICJyZWFsdGVrLHJ0ZC1kd2MzIjsNCj4gPiArICAgICAgICByZWcgPSA8MHg5ODAxM2UwMCAweDE0
-MD4sIDwweDk4MDEzZjYwIDB4ND47DQo+IA0KPiBUaGVzZSBsb29rIGxpa2UgcmVnaXN0ZXJzIGlu
-IHNvbWUgb3RoZXIgYmxvY2sgcmF0aGVyIHRoYW4gYSBzdGFuZGFsb25lIHdyYXBwZXINCj4gYmxv
-Y2suIEFyZSB0aGVzZSBwYXJ0IG9mIHNvbWUgc3lzY29uIGJsb2NrPyBJZiBzbywgSSBkb24ndCB0
-aGluayBhIHdyYXBwZXIgbm9kZQ0KPiBpcyB0aGUgcmlnaHQgYXBwcm9hY2ggaGVyZSwgYnV0IGEg
-cGhhbmRsZSB0byB0aGUgc3lzY29uIHdvdWxkIGJlIGluc3RlYWQuDQo+IA0KVGhleSBhcmUgdGhl
-IHNhbWUgYmxvY2sgb2YgcmVnaXN0ZXJzLg0KV2UgaGF2ZSB0aHJlZSBkd2MzIGNvbnRyb2xsZXJz
-IGluIG9uZSBTb0MuIFRoZSByZWdpc3RlciB3cmFwcGVyIGlzIGxvY2F0ZWQgYXQNClVTQjEuIDB4
-OTgwMTMyMDAgdG8gMHg5ODAxMzNmZg0KVVNCMi4gMHg5ODAxM2MwMCB0byAweDk4MDEzZGZmDQpV
-U0IzLiAweDk4MDEzZTAwIHRvIDB4OTgwMTNmZmYNCg0KV2h5IGFyZSB0aGV5IHNwbGl0IGludG8g
-dHdvIGJsb2Nrcz8NClNpbmNlIFVTQl9EQlVTX1BXUl9DVFJMX1JFRyBoYXMgYSBkaWZmZXJlbnQg
-b2Zmc2V0IGF0IHVzYjEgKDB4MTY0KSB0aGFuIG90aGVyIFVTQnMgKDB4MTYwKS4NCldlIHNwbGl0
-IHR3byBibG9ja3Mgb25lIDB4OTgwMTMyMDAgdG8gMHg5ODAxMzMzZiBhbmQgb25lIDB4OTgwMTMz
-NjQgdG8gMHg5ODAxMzM2NywgdG8gc29sdmUgdGhpcyBxdWVzdGlvbi4NCg0KPiBGcm9tIHRoZSBy
-ZWdpc3RlciBkZWZpbml0aW9ucywgbXVjaCBvZiBpdCBsb29rcyBwaHkgcmVsYXRlZCwgYnV0IHRo
-aXMgaXMgbm90IHBhcnQNCj4gb2YgdGhlIHBoeXM/DQoNCkluIG91ciBoYXJkd2FyZSBkZXNpZ24s
-IHRoZXNlIHBoeSBzZXR0aW5ncyBhcmUgbG9jYXRpb24gdGhlIHJlZ2lzdGVyIG9mIHdyYXBwZXIu
-DQoNClRoYW5rcywNClN0YW5sZXkNCg0KPiANCj4gPiArICAgICAgICAjYWRkcmVzcy1jZWxscyA9
-IDwxPjsNCj4gPiArICAgICAgICAjc2l6ZS1jZWxscyA9IDwxPjsNCj4gPiArICAgICAgICByYW5n
-ZXM7DQo+ID4gKw0KPiA+ICsgICAgICAgIHVzYkA5ODA1MDAwMCB7DQo+ID4gKyAgICAgICAgICAg
-IGNvbXBhdGlibGUgPSAic25wcyxkd2MzIjsNCj4gPiArICAgICAgICAgICAgcmVnID0gPDB4OTgw
-NTAwMDAgMHg5MDAwPjsNCj4gPiArICAgICAgICAgICAgaW50ZXJydXB0cyA9IDwwIDk0IDQ+Ow0K
-PiA+ICsgICAgICAgICAgICBwaHlzID0gPCZ1c2IycGh5ICZ1c2IzcGh5PjsNCj4gPiArICAgICAg
-ICAgICAgcGh5LW5hbWVzID0gInVzYjItcGh5IiwgInVzYjMtcGh5IjsNCj4gPiArICAgICAgICAg
-ICAgZHJfbW9kZSA9ICJvdGciOw0KPiA+ICsgICAgICAgICAgICB1c2Itcm9sZS1zd2l0Y2g7DQo+
-ID4gKyAgICAgICAgICAgIHJvbGUtc3dpdGNoLWRlZmF1bHQtbW9kZSA9ICJob3N0IjsNCj4gPiAr
-ICAgICAgICAgICAgc25wcyxkaXNfdTJfc3VzcGh5X3F1aXJrOw0KPiA+ICsgICAgICAgICAgICBz
-bnBzLHBhcmttb2RlLWRpc2FibGUtc3MtcXVpcms7DQo+ID4gKyAgICAgICAgICAgIHNucHMscGFy
-a21vZGUtZGlzYWJsZS1ocy1xdWlyazsNCj4gPiArICAgICAgICAgICAgbWF4aW11bS1zcGVlZCA9
-ICJoaWdoLXNwZWVkIjsNCj4gPiArICAgICAgICB9Ow0KPiA+ICsgICAgfTsNCj4gPiAtLQ0KDQo=
+Hi Greg,
+
+The following changes since commit 5d0c230f1de8c7515b6567d9afba1f196fb4e2f4:
+
+  Linux 6.5-rc4 (2023-07-30 13:23:47 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v6.6-rc1
+
+for you to fetch changes up to a3f6445842e581233fbd19baad661dbba6d1fd58:
+
+  Documentation/ABI: thunderbolt: Replace 01.org in contact (2023-08-08 08:13:22 +0300)
+
+----------------------------------------------------------------
+thunderbolt: Changes for v6.6 merge window
+
+This includes following Thunderbolt/USB4 changes for the v6.6 merge
+window:
+
+  - Replace broken mailing list address in the ABI document
+  - Small improvements.
+
+All these have been in linux-next with no reported issues.
+
+----------------------------------------------------------------
+Mika Westerberg (3):
+      thunderbolt: Log a warning if device links are not found
+      thunderbolt: Check Intel vendor ID in tb_switch_get_generation()
+      Documentation/ABI: thunderbolt: Replace 01.org in contact
+
+Tom Rix (1):
+      thunderbolt: Set variable tmu_params storage class specifier to static
+
+ Documentation/ABI/testing/sysfs-bus-thunderbolt | 38 ++++++-------
+ drivers/thunderbolt/acpi.c                      | 18 ++++--
+ drivers/thunderbolt/switch.c                    | 75 +++++++++++++------------
+ drivers/thunderbolt/tb.c                        | 24 +++++---
+ drivers/thunderbolt/tb.h                        |  4 +-
+ drivers/thunderbolt/tmu.c                       |  2 +-
+ 6 files changed, 90 insertions(+), 71 deletions(-)
