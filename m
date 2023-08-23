@@ -2,106 +2,65 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59897EE49A0
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Aug 2023 07:58:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD89EE49AE
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Aug 2023 08:10:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233424AbjHWH6U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Aug 2023 03:58:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56056 "EHLO
+        id S233786AbjHWIJ7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Aug 2023 04:09:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230480AbjHWH6U (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Aug 2023 03:58:20 -0400
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1E29FE40;
-        Wed, 23 Aug 2023 00:58:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=4OEzc
-        PLEJKBLgPCVUItzQPNgmtnXVq8BalHNQTXKBaw=; b=potgR23uMelgawyLSy58p
-        fMlEILe2zUvgOJ9vouUn/c5QNCnGIem0BXw0WgsQnGa4FivKi34VQlne8fS0jS3k
-        ELuABR5WZp5jhtFAN3zxIXv4Pi1acR0zXdTmCen6I7PQcWtdvyBMca06ZS/8MQFt
-        inXFUiUxEfO2MHtuudAG5M=
-Received: from localhost.localdomain (unknown [112.97.60.122])
-        by zwqz-smtp-mta-g1-4 (Coremail) with SMTP id _____wCHjxMCvOVkXGiQAA--.28509S2;
-        Wed, 23 Aug 2023 15:57:55 +0800 (CST)
-From:   Slark Xiao <slark_xiao@163.com>
-To:     johan@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH v2] USB: serial: option: add FOXCONN T99W368/T99W373 product
-Date:   Wed, 23 Aug 2023 15:57:51 +0800
-Message-Id: <20230823075751.4437-1-slark_xiao@163.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S233792AbjHWIJj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Aug 2023 04:09:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F29D10D9;
+        Wed, 23 Aug 2023 01:08:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DEBA6465C;
+        Wed, 23 Aug 2023 08:08:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DB9DC433C7;
+        Wed, 23 Aug 2023 08:08:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692778125;
+        bh=94WbXXcZulI55mtkDioX4pIQV1zZEAijr4XcDfOiOtk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hWOYkozfgRP+XDg/DLUtp+AUe8BIhx3J2b3emJvp/2j8udHctEG2cffkvMqnP1Ccs
+         FjLjkEoO7ACET0pJ2l5jm6dJNTtLjf6N3vWotCpxt0a3L1YMnTyf0rWMv/gWW+2EF5
+         bl/KgRLOHWRHwouCmi3cMhpdmL0CU0vRRItIgN8ebZWAfW1DQOJKkjzaG6qE5d8NOk
+         elOO6cMFG68znLF1cnSxQZJyf61SC3Af0xStWNzTVI38mCmKFr+zlTacQQD7qpFuOY
+         Pyccohqyau0YZILF0GPo8N8+pQY62p/iP3JWIqOGsk3AKCoLK4KeoBOx5PonajsHZV
+         IocXOq2rtgW/A==
+Received: from johan by theta with local (Exim 4.96)
+        (envelope-from <johan@kernel.org>)
+        id 1qYiuv-000ArQ-01;
+        Wed, 23 Aug 2023 10:08:41 +0200
+Date:   Wed, 23 Aug 2023 10:08:40 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Slark Xiao <slark_xiao@163.com>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] USB: serial: option: add FOXCONN T99W368/T99W373
+ product
+Message-ID: <ZOW-iGcVpuWp_0y-@hovoldconsulting.com>
+References: <20230823075751.4437-1-slark_xiao@163.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wCHjxMCvOVkXGiQAA--.28509S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWw4rJr4rXry5Cr47WrW5GFg_yoW5XFWfpF
-        4jyry7ZryUWayrXF97Jr1fCryrWanY9ry2kasrAw43WFWIyr4DJ3yIyryrZFnFgrs3KrnF
-        vrs8K3y7K3WDArJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zN0P6wUUUUU=
-X-Originating-IP: [112.97.60.122]
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNQXUZGI0fTx4CQAAsm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230823075751.4437-1-slark_xiao@163.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The difference of T99W368 and T99W373 is the chip solution.
-T99W368 is designed based on Qualcomm SDX65 and T99W373 is SDX62.
+On Wed, Aug 23, 2023 at 03:57:51PM +0800, Slark Xiao wrote:
+> The difference of T99W368 and T99W373 is the chip solution.
+> T99W368 is designed based on Qualcomm SDX65 and T99W373 is SDX62.
 
-Test evidence as below:
-T:  Bus=01 Lev=02 Prnt=05 Port=00 Cnt=01 Dev#=  7 Spd=480 MxCh= 0
-D:  Ver= 2.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
-P:  Vendor=0489 ProdID=e0f0 Rev=05.04
-S:  Manufacturer=FII
-S:  Product=OLYMPIC USB WWAN Adapter
-S:  SerialNumber=78ada8c4
-C:  #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=500mA
-I:  If#=0x0 Alt= 0 #EPs= 1 Cls=02(commc) Sub=0e Prot=00 Driver=cdc_mbim
-I:  If#=0x1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
-I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-I:  If#=0x3 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
-I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-I:  If#=0x5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
+> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> ---
+> v2: Remove defines of Foxconn vendor and product name.
 
-T:  Bus=01 Lev=02 Prnt=05 Port=00 Cnt=01 Dev#=  8 Spd=480 MxCh= 0
-D:  Ver= 2.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
-P:  Vendor=0489 ProdID=e0ee Rev=05.04
-S:  Manufacturer=FII
-S:  Product=OLYMPIC USB WWAN Adapter
-S:  SerialNumber=78ada8d5
-C:  #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=500mA
-I:  If#=0x0 Alt= 0 #EPs= 1 Cls=02(commc) Sub=0e Prot=00 Driver=cdc_mbim
-I:  If#=0x1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
-I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-I:  If#=0x3 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
-I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-I:  If#=0x5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
+Thanks for the update. Now applied.
 
-Both of them share the same port configuration:
-0&1: MBIM, 2: Modem, 3:GNSS, 4:NMEA, 5:Diag
-GNSS port don't use serial driver.
-
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
----
-v2: Remove defines of Foxconn vendor and product name.
----
- drivers/usb/serial/option.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index 8ac98e60fff5..d53ebe6ab2a5 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -2232,6 +2232,10 @@ static const struct usb_device_id option_ids[] = {
- 	  .driver_info = RSVD(0) | RSVD(1) | RSVD(6) },
- 	{ USB_DEVICE_INTERFACE_CLASS(0x0489, 0xe0db, 0xff),			/* Foxconn T99W265 MBIM */
- 	  .driver_info = RSVD(3) },
-+	{ USB_DEVICE_INTERFACE_CLASS(0x0489, 0xe0ee, 0xff),			/* Foxconn T99W368 MBIM */
-+	  .driver_info = RSVD(3) },
-+	{ USB_DEVICE_INTERFACE_CLASS(0x0489, 0xe0f0, 0xff),			/* Foxconn T99W373 MBIM */
-+	  .driver_info = RSVD(3) },
- 	{ USB_DEVICE(0x1508, 0x1001),						/* Fibocom NL668 (IOT version) */
- 	  .driver_info = RSVD(4) | RSVD(5) | RSVD(6) },
- 	{ USB_DEVICE(0x1782, 0x4d10) },						/* Fibocom L610 (AT mode) */
--- 
-2.25.1
-
+Johan
