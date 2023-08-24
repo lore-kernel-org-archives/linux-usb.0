@@ -2,86 +2,125 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7950CC7EE2C
-	for <linux-usb@archiver.kernel.org>; Fri, 25 Aug 2023 07:02:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D8A2EE4993
+	for <linux-usb@archiver.kernel.org>; Fri, 25 Aug 2023 08:27:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240778AbjHYHBj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 25 Aug 2023 03:01:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42614 "EHLO
+        id S233158AbjHYI0e (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 25 Aug 2023 04:26:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229793AbjHYHBJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Aug 2023 03:01:09 -0400
-X-Greylist: delayed 55692 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 25 Aug 2023 00:01:01 PDT
-Received: from server.dsmega.com (server.dsmega.com [185.186.208.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B7EDE6B
-        for <linux-usb@vger.kernel.org>; Fri, 25 Aug 2023 00:01:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=remzavod.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Sender:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=thoNrXbQv25mMK/3RviWbIqjmSGPAZCcCyNvsgRjrpM=; b=UAcH4dPzCpXcGaDu/nKuD9mcXu
-        kcGZXocFu5I7Ivmljb/i1UNcHm7yK3B5CDFUgFm/mFOVKu++xrRHNaasFJ+ZzzeAYl6s0CosBKlyp
-        Xsl++Jr58sM7K6IxExP81+jIgjP24xAIgTCexMjzCKDvUJJfW+tda50JTAwZL1XeVUbUfrqNZIEfA
-        5UfobkufWpi6rgxhNeTwY2VcBgBaSxY5rHNqb6xtDpmvRKNKZ0ebbi2qAlY7Q53l+7nh46b+YbUG4
-        aw1ofuiHM7dPKKi3dfbrU3akuTC9QqysjtGxONF1TGU2hCxMPyPJw6EH3IFDqIGzytq82P4oYQmzN
-        6ncyi5fw==;
-Received: from [85.195.105.114] (port=63090 helo=remzavod.com)
-        by server.dsmega.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <info@remzavod.com>)
-        id 1qYOGB-0000gP-BS
-        for linux-usb@vger.kernel.org; Tue, 22 Aug 2023 13:05:16 +0300
-Reply-To: robert.helmut@selectlaboratoriesltd.co.uk
-From:   info@remzavod.com
-To:     linux-usb@vger.kernel.org
-Subject: Re: Contract Supply
-Date:   22 Aug 2023 03:05:14 -0700
-Message-ID: <20230822030513.C45E97D6B415BABA@remzavod.com>
+        with ESMTP id S242831AbjHYI0W (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Aug 2023 04:26:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34FF519AD;
+        Fri, 25 Aug 2023 01:26:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BF44B62450;
+        Fri, 25 Aug 2023 08:26:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5F02C433C8;
+        Fri, 25 Aug 2023 08:26:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1692951979;
+        bh=ts5HB3fsEAvz/IHDvRXzAguzRjGtOKEZeGKIr2Jrr1c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ctm6F/jH3AqMWKu0TLsONGa9iQ2O+BSpeT3Z11mO4oibVN5lJU+BJSsMWxjfLO9+y
+         SXvYWgibzLj085+QV9NveefiiipdZ+80gLYhnvt9D03Rj8lUFDCoVCZ0A7XRyBN7U6
+         YpR36vh+tgOB2CCSRSYy7KOWzkP/4eBXmG1xKYfg=
+Date:   Thu, 24 Aug 2023 21:22:18 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Simon Arlott <simon@octiron.net>
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Subject: Re: [PATCH] USB: cdc-acm: expose serial close_delay and closing_wait
+ in sysfs
+Message-ID: <2023082442-arose-jitters-00bb@gregkh>
+References: <ea1a13ad-a1e0-540a-e97a-4c44f6d2d33b@0882a8b5-c6c3-11e9-b005-00805fc181fe.uuid.home.arpa>
+ <2023082403-masculine-scuttle-f0ad@gregkh>
+ <d313a1a9-833e-981e-b9d7-920989458d37@0882a8b5-c6c3-11e9-b005-00805fc181fe.uuid.home.arpa>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - server.dsmega.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - remzavod.com
-X-Get-Message-Sender-Via: server.dsmega.com: authenticated_id: info@remzavod.com
-X-Authenticated-Sender: server.dsmega.com: info@remzavod.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d313a1a9-833e-981e-b9d7-920989458d37@0882a8b5-c6c3-11e9-b005-00805fc181fe.uuid.home.arpa>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Greetings,
+On Thu, Aug 24, 2023 at 07:02:40PM +0100, Simon Arlott wrote:
+> On 24/08/2023 15:48, Greg Kroah-Hartman wrote:
+> > On Wed, Aug 23, 2023 at 09:37:45PM +0100, Simon Arlott wrote:
+> >> This can happen with the ESP32-H2/ESP32-C6 USB serial interface. Instead of
+> >> changing all userspace applications to flush (discard) their output in this
+> >> specific scenario it would be easier to adjust the closing_wait timeout
+> >> with udev rules but the only available interface is the TIOCGSERIAL ioctl.
+> > 
+> > Then why not use that?
+> 
+> It's not practical to use TIOCGSERIAL from a udev rule. Instead of a
+> sysfs attribute (that udev has built-in support for writing) it would
+> require a separate compiled process or other non-trivial dependencies
+> (e.g. Python) to modify the closing_wait value. There's no shell script
+> support for read-modify-write of a complex ioctl struct.
 
-I have a business plan that will benefit you from my company
-where i work as the head of research and dev. Contact me through
-my company provided email addresss and i will give you details of
-my intent for your consideration.
+It's this way for all serial ports, cdc-acm is not "special" here,
+sorry.
 
-Sincerely
-Robert Helmut
-Research & Dev Dept.
-Select Pharma Lab. Ltd .UK
----------------------------------
-Email: robert.helmut@selectlaboratoriesltd.co.uk
-Select Pharma Lab. Ltd .UK
-First Floor, Quay 2, 139 Fountain bridge, Edinburgh, EH3 9QG,
-United Kingdom
+> The ioctl can't be used without opening and closing the tty, which has
+> side effects. On open() it'll raise DTR/RTS and activate it. For cdc-acm
+> that will indicate to the device that the serial port has been opened
+> which will be visible to the software running on the USB device. On
+> close() it'll be delayed by the close_delay if any process is currently
+> doing a blocking open() and there's no carrier, then the closing_wait
+> time if there's been any incomplete transmitted data (by any process).
+> 
+> I want to be able to automatically set close_delay to 0 and closing_wait
+> to 65535 ("no waiting") on all USB serial devices without these kind of
+> side effects. I'm sure these have a purpose when connected to a real tty
+> but forcing a process to wait 30 seconds before it can close the port
+> (or exit) if the USB device isn't reading data properly is inconvenient.
+> 
+> Those two values require CAP_SYS_ADMIN to modify (which is separately
+> enforced by many of the tty drivers) so user applications can't change
+> them even if they're aware of them.
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3DDISCLAIMER NOTICE=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+So this looks like you feel there should be a way to modify serial port
+values without the ioctl api.  That's good, maybe we do need to do this,
+but then, if so, it needs to happen for all serial ports, not just one
+single device type.
 
-The content of this message is confidential. If you have received=20
-it by mistake, please inform us by an email reply and then delete=20
-the message. It is forbidden to copy, forward, or in any way=20
-reveal the contents of this message to anyone. The integrity and=20
-security of this email cannot be guaranteed over the Internet.=20
-Therefore, the sender will not be held liable for any damage=20
-caused by the message.
+Note that the tty api is really really old, so modifications and
+enhancements need to be done carefully.  And be sure that there isn't
+already another way to do this.  The open/close DTR/RTS issue has been
+brought up many times, and I thought that there was ways to prevent it
+already, are you sure that modern tools don't already take this into
+consideration?
 
-=C2=A9 Copyright 2023 Select Pharma Lab. Ltd. All Right Reserved.
+Or better yet, don't make any change until you actually open the port
+for access.  Why wory about these values until you need to use it?  Why
+insist on doing it from a udev rule when there is no real user of the
+port yet?  Who are you setting the port up for, and why can't they do it
+when they open and set the other values that they want?
 
+> > If any apis are needed, let's make them for all tty devices, through the
+> > existing ioctl api, so they work for all devices and userspace doesn't
+> > have to try to figure out just exactly what type of tty/serial device it
+> > is talking to (as that will not scale and is exactly the opposite of
+> > what common apis are for.)
+> 
+> Are you ok with adding the same two attributes to sysfs for all ttys?
 
+Why just these attributes, why not tty settings?  :)
+
+> I'd use a different name (appending "_centisecs") because serial_core
+> already uses those names on the tty device and I think it's better to
+> define "infinite wait" and "no wait" as -1 and 0 instead of 0 and 65535.
+
+Ah, so this already is an api?  Or is it a different one?
+
+confused,
+
+greg k-h
