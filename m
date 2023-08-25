@@ -2,92 +2,110 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D8DC88CB2
-	for <linux-usb@archiver.kernel.org>; Fri, 25 Aug 2023 02:10:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1AAEEE49A5
+	for <linux-usb@archiver.kernel.org>; Fri, 25 Aug 2023 05:34:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240738AbjHYCJg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Aug 2023 22:09:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56534 "EHLO
+        id S235814AbjHYFeS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 25 Aug 2023 01:34:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241164AbjHYCJP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Aug 2023 22:09:15 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 600FF2127
-        for <linux-usb@vger.kernel.org>; Thu, 24 Aug 2023 19:08:54 -0700 (PDT)
-Received: (qmail 244973 invoked by uid 1000); 24 Aug 2023 22:08:53 -0400
-Date:   Thu, 24 Aug 2023 22:08:53 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Andrey Konovalov <andreyknvl@gmail.com>
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: dwc3: unusual handling of setup requests with wLength == 0
-Message-ID: <8209aefa-5ab3-43dd-94f5-350e6d38cec2@rowland.harvard.edu>
-References: <20230818194922.ys26zrqc4pocqq7q@synopsys.com>
- <45d9ef53-e2be-4740-a93a-d36f18a49b39@rowland.harvard.edu>
- <20230819000643.7mddkitzr4aqjsms@synopsys.com>
- <e63ba783-f5a4-4442-8736-987a3b134e7f@rowland.harvard.edu>
- <CA+fCnZcmb78DMaffb3cq2JeCNxcGBeyt8hxeJq3SaTTkbZ3ewA@mail.gmail.com>
- <3f52eb94-1d8c-4233-86ac-bbc78d4efce7@rowland.harvard.edu>
- <CA+fCnZcJ0JHHY04By+PjYvofpefKtp1br63gJNsEL=J7n1_vCA@mail.gmail.com>
- <bdf69b9d-fe82-48e2-9638-d84d00d4ef1d@rowland.harvard.edu>
- <20230823171757.vegbktpkk23eg34z@synopsys.com>
- <CA+fCnZdewxqN6jaOmah4Ptz5CaJoc6iKisFBMLujBGOD_6HoiA@mail.gmail.com>
+        with ESMTP id S232037AbjHYFds (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Aug 2023 01:33:48 -0400
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE8C2198E;
+        Thu, 24 Aug 2023 22:33:45 -0700 (PDT)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5230a22cfd1so769289a12.1;
+        Thu, 24 Aug 2023 22:33:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692941624; x=1693546424;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EinPb1gqc6wVAwHvf5ANWNWV9ybtUjcZw0hI0QOAiKI=;
+        b=EqgNHxZbBLpz86PdKGLgKyKeIxibUmKq5S+UTgmso4ueXbeOQjWcq+VSUbq/mo+qUa
+         HIj30C56/cOl9lWeZftsL0XK9hIxS79V7MF1sDkT92afIIG5Foirm6T0eelIrtZ92/DQ
+         5yzBaZjALUefA4vYUwsS3bEieQWSbwnoyVPcdUe2mifmHRIFjCUszIKxWbIjGskopd63
+         lBmlXjZc+KXSlaxSuIgsjpHC1HfRVg9e0EbKRjPQM2qCImSi/yLxAN/W/b4494M0gWsn
+         l67YdTfhO/GwmLK8jnT1vEiT6SSRHyFFYkMVvpVjHuSVctF7u/q0mfBS5ktqzX/1mT2j
+         R6Cw==
+X-Gm-Message-State: AOJu0YxD8nHFh07YejCXQ453kQTTpeAs9RCO6I+Ecs8OoyOKgU2tYkaP
+        dae3Hw0Fi90XzpwN1FTcQSc=
+X-Google-Smtp-Source: AGHT+IFfeSK/0G8/XxZakxZnT8wHMuaJDVecTFoSrtldfH7WJxUJmjt9Ja+/lOgYH/YTJVSDgF3p7w==
+X-Received: by 2002:a17:906:1444:b0:99b:c845:791d with SMTP id q4-20020a170906144400b0099bc845791dmr12494645ejc.76.1692941623971;
+        Thu, 24 Aug 2023 22:33:43 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
+        by smtp.gmail.com with ESMTPSA id rk17-20020a170907215100b00988c0c175c6sm526549ejb.189.2023.08.24.22.33.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Aug 2023 22:33:41 -0700 (PDT)
+Message-ID: <2a3647bf-91a8-7a5f-9edb-c792a6031f57@kernel.org>
+Date:   Fri, 25 Aug 2023 07:33:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+fCnZdewxqN6jaOmah4Ptz5CaJoc6iKisFBMLujBGOD_6HoiA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH] docs: ABI: sysfs-tty: close times are in hundredths of a
+ second
+Content-Language: en-US
+To:     Simon Arlott <simon@octiron.net>, Oliver Neukum <oneukum@suse.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-serial@vger.kernel.org
+References: <ea1a13ad-a1e0-540a-e97a-4c44f6d2d33b@0882a8b5-c6c3-11e9-b005-00805fc181fe.uuid.home.arpa>
+ <40c5c70f-46ff-c5f3-212b-2badc47e49a3@0882a8b5-c6c3-11e9-b005-00805fc181fe.uuid.home.arpa>
+ <27304225-c8b0-9cac-94a3-e985e45aa41a@0882a8b5-c6c3-11e9-b005-00805fc181fe.uuid.home.arpa>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <27304225-c8b0-9cac-94a3-e985e45aa41a@0882a8b5-c6c3-11e9-b005-00805fc181fe.uuid.home.arpa>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Aug 25, 2023 at 03:36:36AM +0200, Andrey Konovalov wrote:
-> So to summarize the issue wrt the 0-length requests:
+On 24. 08. 23, 9:18, Simon Arlott wrote:
+> The times for close_delay and closing_wait are in hundredths of a
+> second, not milliseconds. Fix the documentation instead of trying
+> to use millisecond values (which would have to be rounded).
 > 
-> 1. UDC drivers must always delay the status stage for 0-length
-> requests until the gadget driver queues an empty request.
-
-Any request, not necessarily empty (although it should be).  The request 
-queued by the gadget driver _is_ the Status stage response; in this 
-situation the UDC driver doesn't create one automatically.
-
-> 2. Many UDC drivers do not do this, and only delay the status stage
-> when USB_GADGET_DELAYED_STATUS is returned from ->setup(). Some
-> drivers also assume that only a SET_CONFIGURATION request can be
-> delayed.
+> Signed-off-by: Simon Arlott <simon@octiron.net>
+> ---
+> If you'd prefer, I can fold the second part of this into my previous
+> patch which shouldn't have documented it as milliseconds in the first
+> place (but I copied it from the other entry).
 > 
-> 3. All such UDC drivers should be fixed and USB_GADGET_DELAYED_STATUS
-> should be contained within the composite framework.
+>   Documentation/ABI/testing/sysfs-tty | 12 ++++++++----
+>   1 file changed, 8 insertions(+), 4 deletions(-)
 > 
-> 4. Fixing all such UDC drivers is a non-trivial amount of work, but
-> this is the goal to strive towards.
-> 
-> Alan, would it be acceptable if I add custom handling of
-> USB_GADGET_DELAYED_STATUS to Raw Gadget in the meantime? It would be
+> diff --git a/Documentation/ABI/testing/sysfs-tty b/Documentation/ABI/testing/sysfs-tty
+> index e04e322af568..6ee878771f51 100644
+> --- a/Documentation/ABI/testing/sysfs-tty
+> +++ b/Documentation/ABI/testing/sysfs-tty
+> @@ -87,7 +87,8 @@ What:		/sys/class/tty/ttyS<x>/close_delay
+>   Date:		October 2012
+>   Contact:	Alan Cox <alan@linux.intel.com>
+>   Description:
+> -		 Show the closing delay time for this port in ms.
+> +		 Show the closing delay time for this port in hundredths
+> +		 of a second.
+>   
+>   		 These sysfs values expose the TIOCGSERIAL interface via
+>   		 sysfs rather than via ioctls.
+> @@ -96,7 +97,8 @@ What:		/sys/class/tty/ttyS<x>/closing_wait
+>   Date:		October 2012
+>   Contact:	Alan Cox <alan@linux.intel.com>
+>   Description:
+> -		 Show the close wait time for this port in ms.
+> +		 Show the close wait time for this port in hundredths of
+> +		 a second.
+>   
+>   		 These sysfs values expose the TIOCGSERIAL interface via
+>   		 sysfs rather than via ioctls.
 
-Sure.  It's your driver; do whatever you want with it.  :-)
+Could you send these two hunks as a separate patch? It's correct 
+regardless of your other patch.
 
-> great to keep it at least somewhat working with dwc3. I can also do it
-> for GadgetFS, if you think it's a good idea.
+And I would use "centiseconds" instead, which is used (IMO) in these cases.
 
-I suspect gadgetfs doesn't need it.  But go ahead and look through the 
-code to check for yourself; I might be wrong.
+thanks,
+-- 
+js
+suse labs
 
-> I can also add some clarifying comments for USB_GADGET_DELAYED_STATUS
-> and ->setup() to hopefully avoid having new UDC drivers being added
-> with the same issue (e.g. cdns2 and renesas_usbf with the same issue
-> were added just recently).
-
-Good idea, although mistakes like this tend to propagate more through 
-copy-and-paste than by failures of documentation.
-
-> Maybe it's also a good idea to add a checkpatch.pl check for using
-> USB_GADGET_DELAYED_STATUS in UDC drivers. Or maybe ask Greg to keep an
-> eye out for this?
-
-I wouldn't try to modify checkpatch.pl.
-
-Alan Stern
