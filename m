@@ -2,116 +2,79 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CBF4EE49BB
-	for <linux-usb@archiver.kernel.org>; Fri, 25 Aug 2023 09:37:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF609C3DA6F
+	for <linux-usb@archiver.kernel.org>; Fri, 25 Aug 2023 09:58:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244382AbjHYJhH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 25 Aug 2023 05:37:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56832 "EHLO
+        id S239489AbjHYJ6B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 25 Aug 2023 05:58:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243950AbjHYJgg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Aug 2023 05:36:36 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B72FB1FD4;
-        Fri, 25 Aug 2023 02:36:34 -0700 (PDT)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37P69f0o021968;
-        Fri, 25 Aug 2023 09:36:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=mIJoZHRqrEw01bIRFFulXrLw2/EHSvdvYAjYa2MVG3o=;
- b=Etdni2xHt8my32dnHqWAr8ysaIyZR6ZaXFNpbZ0bDa5gskqgB+wL46bqEEdA++L8nrxE
- BPCIasGhBJID8hSnkZ3OSdOfD0lEZA3q1K5O2EbV1YJJK+9TG6pBcOb1YKBnYhlCxW0a
- a+SOfX7yOkX66f9Nr2Ean5UW4zOsG/k5GZVozy/bWijfyr11xCrVCUM4uj8Zg4eNQhsf
- kQDT393LdFIrkTiDQEGEEr3GyVEemtJr+oL0lefhzfViaVT4lIBTqm1TfKMyQHq1vtaY
- qxND9b8LwOyqNo/HtRh6gcB0RFx3fL4ONP3U0pbGM8rSKIb0oDBjfahmHHiHcMo6mzbA cA== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3spmn60m39-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 25 Aug 2023 09:36:19 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37P9aI8W009099
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 25 Aug 2023 09:36:18 GMT
-Received: from nsekar-linux.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Fri, 25 Aug 2023 02:36:12 -0700
-From:   Nitheesh Sekar <quic_nsekar@quicinc.com>
-To:     <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
-        <kishon@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <gregkh@linuxfoundation.org>, <quic_srichara@quicinc.com>,
-        <quic_varada@quicinc.com>, <quic_wcheng@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>
-CC:     Nitheesh Sekar <quic_nsekar@quicinc.com>
-Subject: [PATCH 2/5] dt-bindings: usb: dwc3: Add IPQ5018 compatible
-Date:   Fri, 25 Aug 2023 15:05:28 +0530
-Message-ID: <20230825093531.7399-3-quic_nsekar@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230825093531.7399-1-quic_nsekar@quicinc.com>
-References: <20230825093531.7399-1-quic_nsekar@quicinc.com>
+        with ESMTP id S243079AbjHYJ5z (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Aug 2023 05:57:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 728D8EC;
+        Fri, 25 Aug 2023 02:57:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 09CDB65077;
+        Fri, 25 Aug 2023 09:57:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E644C433C7;
+        Fri, 25 Aug 2023 09:57:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692957472;
+        bh=wn9Jkh1bYBgb1o1HoYf8KaFX/k0+aRWiPyJQ3YOQzAM=;
+        h=Subject:From:In-Reply-To:References:To:Cc:Date:From;
+        b=Nw0z3ikUigrenXf2bcAAH5FuI3grGcJ/Xe7DRASViJrR1o4kJB/+hUzJqgKURSO24
+         d4gDQZ8daMI/6yqagTHHw2Sy7tetCjvfo1nE5QqA2+4TdZLhcMhRIz2vsVjM/Ymujs
+         hU9/rDUW05qLSXHQ35azXAZ9COpm9QChJeSNWz9GQ/zLidExkzS5RAa6Y2btS+XF50
+         IRBfI4UuJhs6SV4xI7TzCW7lueECJqbTlRqWGO/9uCYgW8v/2Qy8n0Rr5mYwAKGjR+
+         WVOJBhALsbhiuk98XcB9vi1R6mnWI85DmNRygapFg/pRVH543Yz/glQbLz0MeWQO5k
+         546Q12Ti/S5cA==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: yEb53_NVaMNCFHO01gco7tmD9okyAebN
-X-Proofpoint-ORIG-GUID: yEb53_NVaMNCFHO01gco7tmD9okyAebN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-25_07,2023-08-24_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=609
- priorityscore=1501 spamscore=0 clxscore=1015 suspectscore=0 bulkscore=0
- lowpriorityscore=0 malwarescore=0 phishscore=0 impostorscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308250082
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] Fix nomenclature for USB and PCI wireless devices
+From:   Kalle Valo <kvalo@kernel.org>
+In-Reply-To: <57da7c80-0e48-41b5-8427-884a02648f55@rowland.harvard.edu>
+References: <57da7c80-0e48-41b5-8427-884a02648f55@rowland.harvard.edu>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        USB mailing list <linux-usb@vger.kernel.org>,
+        linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org
+User-Agent: pwcli/0.1.1-git (https://github.com/kvalo/pwcli/) Python/3.11.2
+Message-ID: <169295746927.1850672.3516049215752193747.kvalo@kernel.org>
+Date:   Fri, 25 Aug 2023 09:57:51 +0000 (UTC)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Document the IPQ5018 dwc3 compatible.
+Alan Stern <stern@rowland.harvard.edu> wrote:
 
-Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
----
- Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+> A mouse that uses a USB connection is called a "USB mouse" device (or
+> "USB mouse" for short), not a "mouse USB" device.  By analogy, a WiFi
+> adapter that connects to the host computer via USB is a "USB wireless"
+> device, not a "wireless USB" device.  (The latter term more properly
+> refers to a defunct Wireless USB specification, which described a
+> technology for sending USB protocol messages over an ultra wideband
+> radio link.)
+> 
+> Similarly for a WiFi adapter card that plugs into a PCIe slot: It is a
+> "PCIe wireless" device, not a "wireless PCIe" device.
+> 
+> Rephrase the text in the kernel source where the word ordering is
+> wrong.
+> 
+> Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-index 67591057f234..1ad62e55dfe2 100644
---- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-@@ -14,6 +14,7 @@ properties:
-     items:
-       - enum:
-           - qcom,ipq4019-dwc3
-+          - qcom,ipq5018-dwc3
-           - qcom,ipq5332-dwc3
-           - qcom,ipq6018-dwc3
-           - qcom,ipq8064-dwc3
-@@ -238,6 +239,7 @@ allOf:
-         compatible:
-           contains:
-             enum:
-+              - qcom,ipq5018-dwc3
-               - qcom,ipq5332-dwc3
-               - qcom,msm8994-dwc3
-               - qcom,qcs404-dwc3
-@@ -411,6 +413,7 @@ allOf:
-         compatible:
-           contains:
-             enum:
-+              - qcom,ipq5018-dwc3
-               - qcom,ipq5332-dwc3
-               - qcom,sdm660-dwc3
-     then:
+Patch applied to wireless-next.git, thanks.
+
+5d7cf67f72ae Fix nomenclature for USB and PCI wireless devices
+
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+https://patchwork.kernel.org/project/linux-wireless/patch/57da7c80-0e48-41b5-8427-884a02648f55@rowland.harvard.edu/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
 
