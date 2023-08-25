@@ -2,41 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8419EE49A6
-	for <linux-usb@archiver.kernel.org>; Fri, 25 Aug 2023 09:36:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C416BEE49B6
+	for <linux-usb@archiver.kernel.org>; Fri, 25 Aug 2023 09:37:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243698AbjHYJg2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 25 Aug 2023 05:36:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44872 "EHLO
+        id S244057AbjHYJhF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 25 Aug 2023 05:37:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244405AbjHYJgQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Aug 2023 05:36:16 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 327AE1FEC;
-        Fri, 25 Aug 2023 02:36:13 -0700 (PDT)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37P5nXB8007988;
-        Fri, 25 Aug 2023 09:35:59 GMT
+        with ESMTP id S244000AbjHYJgk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Aug 2023 05:36:40 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E74D1FD4;
+        Fri, 25 Aug 2023 02:36:38 -0700 (PDT)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37P90g9s008013;
+        Fri, 25 Aug 2023 09:36:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=nT86no/d9+8D4gWYVInaOyKap/Q6m4xCcwXiZPiBIm4=;
- b=ny2rcvtY6lOzi0e4oglvT0R7dsS2AbYBS/Rvd34gwMH4NpmhWKIeZ0MIvEf1BFyLdjFC
- K5UJZOlfm3RcIZTzf6ajwR/IEL2DKxGrmDbX0ayNNZB3JMsOZXE5s6AhWxlccHNGp8Q9
- v9SKAmnoxjXs/EHhOryh18dek7MmXoZtMXj6KSpM7/dhlIUQY+L9KMudfVltdh5X+Wzx
- Atot40gWeceMX+mnsUnrncNpJL4fL/IFbGZ4PifhJFNT9WmopMx81AVcj/4kDk87Ufd1
- V/Am2wFoQjdZBZjKwcjUbaqqoW7OKGE+Ze1ohbAy16f6Bo8wrPjCM/K5YBcMv75SbTyj yg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3spmpv0k3w-1
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=PM5ftXXX4VwCTXje2+2+jAsSfPxDxbFo0LAMIiTVimU=;
+ b=XFWyovR/bIUaD0twmuyU01q17l/+PrCmAOQ7Wm4ngUgyLmYqoRrCMBP7/j0BGAEWVlud
+ v/MFAiAln4leMPdDbG0gLb5CmfIqPHMaY6L7QXY3b0vfiNJfLfM0bg0m9C/z4yihWKcY
+ wWIuw6APFXLTWHN6aUXhhVXBHrR7IyA22osYmbWC6DNyROHwBKV8HxWYmov9xSQMBVOr
+ 6qZXc637DNRX1OiO1y7oIA72lIfZQauLoTPNUZzXGIuyHEKSszQHl+B7NhyT/SvnR5oE
+ LYe69D+LzCGZ2LLqzfYi5nGubkycMFepkPCbUuOMMMDEh9EcUTL5zCtTEwfcuR8SAmb4 aQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3spmnm8mbq-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 25 Aug 2023 09:35:59 +0000
+        Fri, 25 Aug 2023 09:36:30 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37P9Zvlx019689
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37P9aTt9009202
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 25 Aug 2023 09:35:57 GMT
+        Fri, 25 Aug 2023 09:36:29 GMT
 Received: from nsekar-linux.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Fri, 25 Aug 2023 02:35:52 -0700
+ 15.2.1118.36; Fri, 25 Aug 2023 02:36:23 -0700
 From:   Nitheesh Sekar <quic_nsekar@quicinc.com>
 To:     <agross@kernel.org>, <andersson@kernel.org>,
         <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
@@ -47,11 +48,14 @@ To:     <agross@kernel.org>, <andersson@kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-usb@vger.kernel.org>
-CC:     Nitheesh Sekar <quic_nsekar@quicinc.com>
-Subject: [PATCH 0/5] Enable IPQ5018 USB2 support
-Date:   Fri, 25 Aug 2023 15:05:26 +0530
-Message-ID: <20230825093531.7399-1-quic_nsekar@quicinc.com>
+CC:     Nitheesh Sekar <quic_nsekar@quicinc.com>,
+        Amandeep Singh <quic_amansing@quicinc.com>
+Subject: [PATCH 4/5] arm64: dts: qcom: ipq5018: Add USB related nodes
+Date:   Fri, 25 Aug 2023 15:05:30 +0530
+Message-ID: <20230825093531.7399-5-quic_nsekar@quicinc.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230825093531.7399-1-quic_nsekar@quicinc.com>
+References: <20230825093531.7399-1-quic_nsekar@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
@@ -59,40 +63,94 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: ZUS4u44MiVWJcJzA4qHwEcuZU33pZjvb
-X-Proofpoint-ORIG-GUID: ZUS4u44MiVWJcJzA4qHwEcuZU33pZjvb
+X-Proofpoint-GUID: N--r3SX-1iiFNZ-6fR0zkSTL98ZNDYCN
+X-Proofpoint-ORIG-GUID: N--r3SX-1iiFNZ-6fR0zkSTL98ZNDYCN
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-08-25_07,2023-08-24_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 adultscore=0
- priorityscore=1501 impostorscore=0 malwarescore=0 spamscore=0 bulkscore=0
- phishscore=0 suspectscore=0 mlxscore=0 mlxlogscore=459 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
- definitions=main-2308250081
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=755 bulkscore=0 phishscore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 mlxscore=0 suspectscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308250082
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch series adds the relevant phy and controller
-DT configurations for enabling USB2 host mode support
-on IPQ5018.
+Add USB phy and controller nodes.
 
-Tested with a USB Mass storage device.
+Co-developed-by: Amandeep Singh <quic_amansing@quicinc.com>
+Signed-off-by: Amandeep Singh <quic_amansing@quicinc.com>
+Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/ipq5018.dtsi | 54 +++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
-Nitheesh Sekar (5):
-  dt-bindings: phy: qcom,m31: Add IPQ5018 compatible
-  dt-bindings: usb: dwc3: Add IPQ5018 compatible
-  phy: qcom-m31: Add compatible, phy init sequence for IPQ5018
-  arm64: dts: qcom: ipq5018: Add USB related nodes
-  arm64: dts: qcom: ipq5018: Enable USB
-
- .../bindings/phy/qcom,ipq5332-usb-hsphy.yaml  |  4 +-
- .../devicetree/bindings/usb/qcom,dwc3.yaml    |  3 +
- .../arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts | 12 ++++
- arch/arm64/boot/dts/qcom/ipq5018.dtsi         | 54 +++++++++++++++++
- drivers/phy/qualcomm/phy-qcom-m31.c           | 60 +++++++++++++++++++
- 5 files changed, 132 insertions(+), 1 deletion(-)
-
+diff --git a/arch/arm64/boot/dts/qcom/ipq5018.dtsi b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
+index 9f13d2dcdfd5..ff477923a823 100644
+--- a/arch/arm64/boot/dts/qcom/ipq5018.dtsi
++++ b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
+@@ -238,6 +238,60 @@
+ 				status = "disabled";
+ 			};
+ 		};
++
++		usbphy0: phy@5b000 {
++			compatible = "qcom,ipq5018-usb-hsphy";
++			reg = <0x0005b000 0x120>;
++
++			clocks = <&gcc GCC_USB0_PHY_CFG_AHB_CLK>;
++
++			resets = <&gcc GCC_QUSB2_0_PHY_BCR>;
++
++			#phy-cells = <0>;
++
++			status = "disabled";
++		};
++
++		usb: usb2@8a00000 {
++			compatible = "qcom,ipq5018-dwc3", "qcom,dwc3";
++			reg = <0x08af8800 0x400>;
++
++			interrupts = <GIC_SPI 62 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "hs_phy_irq";
++
++			clocks = <&gcc GCC_USB0_MASTER_CLK>,
++				 <&gcc GCC_SYS_NOC_USB0_AXI_CLK>,
++				 <&gcc GCC_USB0_SLEEP_CLK>,
++				 <&gcc GCC_USB0_MOCK_UTMI_CLK>;
++			clock-names = "core",
++				      "iface",
++				      "sleep",
++				      "mock_utmi";
++
++			resets = <&gcc GCC_USB0_BCR>;
++
++			qcom,select-utmi-as-pipe-clk;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges;
++
++			status = "disabled";
++
++			usb2_0_dwc: usb@8a00000 {
++				compatible = "snps,dwc3";
++				reg = <0x08a00000 0xe000>;
++				clocks = <&gcc GCC_USB0_MOCK_UTMI_CLK>;
++				clock-names = "ref";
++				interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
++				phy-names = "usb2-phy";
++				phys = <&usbphy0>;
++				tx-fifo-resize;
++				snps,is-utmi-l1-suspend;
++				snps,hird-threshold = /bits/ 8 <0x0>;
++				snps,dis_u2_susphy_quirk;
++				snps,dis_u3_susphy_quirk;
++			};
++		};
+ 	};
+ 
+ 	timer {
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
