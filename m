@@ -2,606 +2,262 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F8D9C83F12
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Aug 2023 03:12:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 281E5C83F11
+	for <linux-usb@archiver.kernel.org>; Sat, 26 Aug 2023 05:09:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231723AbjHZDMO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 25 Aug 2023 23:12:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36736 "EHLO
+        id S230188AbjHZFJZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 26 Aug 2023 01:09:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231604AbjHZDLj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 25 Aug 2023 23:11:39 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8536E26BF;
-        Fri, 25 Aug 2023 20:11:36 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 37Q3AtzP6031129, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 37Q3AtzP6031129
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 26 Aug 2023 11:10:55 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Sat, 26 Aug 2023 11:10:16 +0800
-Received: from RTEXH36506.realtek.com.tw (172.21.6.27) by
- RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Sat, 26 Aug 2023 11:10:29 +0800
-Received: from localhost.localdomain (172.21.252.101) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server id
- 15.1.2507.17 via Frontend Transport; Sat, 26 Aug 2023 11:10:15 +0800
-From:   Stanley Chang <stanley_chang@realtek.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-CC:     Stanley Chang <stanley_chang@realtek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 1/2] usb: dwc3: add Realtek DHC RTD SoC dwc3 glue layer driver
-Date:   Sat, 26 Aug 2023 11:10:06 +0800
-Message-ID: <20230826031028.1892-1-stanley_chang@realtek.com>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S229603AbjHZFIt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 26 Aug 2023 01:08:49 -0400
+Received: from mail-pl1-f206.google.com (mail-pl1-f206.google.com [209.85.214.206])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 373D52686
+        for <linux-usb@vger.kernel.org>; Fri, 25 Aug 2023 22:08:46 -0700 (PDT)
+Received: by mail-pl1-f206.google.com with SMTP id d9443c01a7336-1c09d82dfc7so15623855ad.0
+        for <linux-usb@vger.kernel.org>; Fri, 25 Aug 2023 22:08:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693026525; x=1693631325;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cFS8hm8LjjBHweqoBE1nJ1SrxNNm5BjNxKLsW9d8J1g=;
+        b=B+k2Twpy11CKXm8Rh0HARelYemwUPY7fMO9B0mRq6m3Hv0xfw0Mpd35bDs4blaCqdH
+         zuETFIznsZANRL471tnGukQyJIGIimdCRa2K0SlvBgly3EvlIv2Bxnc07oY+MJL3+LpQ
+         l50RAnKzd/YqGP1nq5oZ7daVxRmTRvXq0mXHar1Jefw29IyBPcvjAuPf4Q25y4UhEnpg
+         mRhqFdh8udzKt27hTtnfE8lWg5G0/yHJUB0Z489l1y2Uq8QsgQu3iWU2tVXpuHeBRyUk
+         vLfqZ/WphqxvbAF/FziUtLmLBE/m6ZlEUIJKCjC/96FmxiZOasYq9vcfivNBP1VnlRWl
+         KpQg==
+X-Gm-Message-State: AOJu0YwT4ae0grUUz3P4WO2JZFH24cezcHQijrOXXOTF0lI3QdOZc0To
+        c1ZxP33Th0GjiLZ+3Nv9/vf8wci6+m8Gdjdn2ujPQa2kBuUJ
+X-Google-Smtp-Source: AGHT+IGKR5/4TCkmzoTlf5ed7EE6+ocwY0jjHkBU90nHsJK50Kw6dUU1dpIwnRM+jsYm5ULojM0ekNuvbT6X/SJYLrt6M4Fj3MDA
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-KSE-ServerInfo: RTEXMBS04.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+X-Received: by 2002:a17:902:dace:b0:1b5:bd8:5aaa with SMTP id
+ q14-20020a170902dace00b001b50bd85aaamr7088565plx.1.1693026525655; Fri, 25 Aug
+ 2023 22:08:45 -0700 (PDT)
+Date:   Fri, 25 Aug 2023 22:08:45 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000a838aa0603cc74d6@google.com>
+Subject: [syzbot] [media?] [usb?] KASAN: slab-out-of-bounds Read in imon_probe
+From:   syzbot <syzbot+59875ffef5cb9c9b29e9@syzkaller.appspotmail.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org, sean@mess.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Realtek DHC RTD SoCs integrate dwc3 IP and has some customizations to
-support different generations of SoCs.
+Hello,
 
-The RTD1619b subclass SoC only supports USB 2.0 from dwc3. The driver
-can set a maximum speed to support this. Add role switching function,
-that can switch USB roles through other drivers, or switch USB roles
-through user space through set /sys/class/usb_role/.
+syzbot found the following issue on:
 
-Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
-Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+HEAD commit:    47d9bb711707 Add linux-next specific files for 20230821
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=123e50b7a80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=20999f779fa96017
+dashboard link: https://syzkaller.appspot.com/bug?extid=59875ffef5cb9c9b29e9
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10b08160680000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/ffbe03c733b7/disk-47d9bb71.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a61a31d6caf9/vmlinux-47d9bb71.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/37e6f882b2d9/bzImage-47d9bb71.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+59875ffef5cb9c9b29e9@syzkaller.appspotmail.com
+
+usb 1-1: 2:1 : UAC_AS_GENERAL descriptor not found
+==================================================================
+BUG: KASAN: slab-out-of-bounds in imon_init_intf1 drivers/media/rc/imon.c:2323 [inline]
+BUG: KASAN: slab-out-of-bounds in imon_probe+0x298f/0x38f0 drivers/media/rc/imon.c:2449
+Read of size 1 at addr ffff888069cbac71 by task kworker/1:3/5066
+
+CPU: 1 PID: 5066 Comm: kworker/1:3 Not tainted 6.5.0-rc7-next-20230821-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/26/2023
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xd9/0x1b0 lib/dump_stack.c:106
+ print_address_description mm/kasan/report.c:364 [inline]
+ print_report+0xc4/0x620 mm/kasan/report.c:475
+ kasan_report+0xda/0x110 mm/kasan/report.c:588
+ imon_init_intf1 drivers/media/rc/imon.c:2323 [inline]
+ imon_probe+0x298f/0x38f0 drivers/media/rc/imon.c:2449
+ usb_probe_interface+0x307/0x930 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x234/0xc90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
+ __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
+ bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x11f1/0x1b40 drivers/base/core.c:3623
+ usb_set_configuration+0x10cb/0x1c40 drivers/usb/core/message.c:2207
+ usb_generic_driver_probe+0xca/0x130 drivers/usb/core/generic.c:238
+ usb_probe_device+0xda/0x2c0 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x234/0xc90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
+ __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
+ bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x11f1/0x1b40 drivers/base/core.c:3623
+ usb_new_device+0xd80/0x1960 drivers/usb/core/hub.c:2589
+ hub_port_connect drivers/usb/core/hub.c:5440 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5580 [inline]
+ port_event drivers/usb/core/hub.c:5740 [inline]
+ hub_event+0x2daf/0x4e00 drivers/usb/core/hub.c:5822
+ process_one_work+0x887/0x15d0 kernel/workqueue.c:2630
+ process_scheduled_works kernel/workqueue.c:2703 [inline]
+ worker_thread+0x8bb/0x1290 kernel/workqueue.c:2784
+ kthread+0x33a/0x430 kernel/kthread.c:388
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:304
+ </TASK>
+
+Allocated by task 5066:
+ kasan_save_stack+0x33/0x50 mm/kasan/common.c:45
+ kasan_set_track+0x25/0x30 mm/kasan/common.c:52
+ ____kasan_kmalloc mm/kasan/common.c:374 [inline]
+ __kasan_kmalloc+0xa2/0xb0 mm/kasan/common.c:383
+ kasan_kmalloc include/linux/kasan.h:198 [inline]
+ __do_kmalloc_node mm/slab_common.c:1004 [inline]
+ __kmalloc+0x60/0x100 mm/slab_common.c:1017
+ kmalloc include/linux/slab.h:604 [inline]
+ kzalloc include/linux/slab.h:721 [inline]
+ snd_card_new+0x74/0x110 sound/core/init.c:184
+ snd_usb_audio_create sound/usb/card.c:621 [inline]
+ usb_audio_probe+0x1905/0x3c60 sound/usb/card.c:827
+ usb_probe_interface+0x307/0x930 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x234/0xc90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
+ __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
+ bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x11f1/0x1b40 drivers/base/core.c:3623
+ usb_set_configuration+0x10cb/0x1c40 drivers/usb/core/message.c:2207
+ usb_generic_driver_probe+0xca/0x130 drivers/usb/core/generic.c:238
+ usb_probe_device+0xda/0x2c0 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x234/0xc90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
+ __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
+ bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x11f1/0x1b40 drivers/base/core.c:3623
+ usb_new_device+0xd80/0x1960 drivers/usb/core/hub.c:2589
+ hub_port_connect drivers/usb/core/hub.c:5440 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5580 [inline]
+ port_event drivers/usb/core/hub.c:5740 [inline]
+ hub_event+0x2daf/0x4e00 drivers/usb/core/hub.c:5822
+ process_one_work+0x887/0x15d0 kernel/workqueue.c:2630
+ process_scheduled_works kernel/workqueue.c:2703 [inline]
+ worker_thread+0x8bb/0x1290 kernel/workqueue.c:2784
+ kthread+0x33a/0x430 kernel/kthread.c:388
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:304
+
+The buggy address belongs to the object at ffff888069cba000
+ which belongs to the cache kmalloc-4k of size 4096
+The buggy address is located 1 bytes to the right of
+ allocated 3184-byte region [ffff888069cba000, ffff888069cbac70)
+
+The buggy address belongs to the physical page:
+page:ffffea0001a72e00 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x69cb8
+head:ffffea0001a72e00 order:3 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0xfff00000000840(slab|head|node=0|zone=1|lastcpupid=0x7ff)
+page_type: 0xffffffff()
+raw: 00fff00000000840 ffff888012c42140 dead000000000122 0000000000000000
+raw: 0000000000000000 0000000000040004 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0x1d2820(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC|__GFP_HARDWALL), pid 27, tgid 27 (kworker/1:1), ts 97911259229, free_ts 34249861969
+ set_page_owner include/linux/page_owner.h:31 [inline]
+ post_alloc_hook+0x2cf/0x340 mm/page_alloc.c:1530
+ prep_new_page mm/page_alloc.c:1537 [inline]
+ get_page_from_freelist+0x10d7/0x31b0 mm/page_alloc.c:3213
+ __alloc_pages+0x1d0/0x4a0 mm/page_alloc.c:4469
+ alloc_pages+0x1a9/0x270 mm/mempolicy.c:2298
+ alloc_slab_page mm/slub.c:1870 [inline]
+ allocate_slab+0x251/0x380 mm/slub.c:2017
+ new_slab mm/slub.c:2070 [inline]
+ ___slab_alloc+0x8be/0x1570 mm/slub.c:3223
+ __slab_alloc.constprop.0+0x56/0xa0 mm/slub.c:3322
+ __slab_alloc_node mm/slub.c:3375 [inline]
+ slab_alloc_node mm/slub.c:3468 [inline]
+ __kmem_cache_alloc_node+0x137/0x350 mm/slub.c:3517
+ __do_kmalloc_node mm/slab_common.c:1003 [inline]
+ __kmalloc_node_track_caller+0x50/0x100 mm/slab_common.c:1024
+ kmalloc_reserve+0xef/0x270 net/core/skbuff.c:575
+ __alloc_skb+0x12b/0x330 net/core/skbuff.c:644
+ alloc_skb include/linux/skbuff.h:1286 [inline]
+ nsim_dev_trap_skb_build drivers/net/netdevsim/dev.c:748 [inline]
+ nsim_dev_trap_report drivers/net/netdevsim/dev.c:805 [inline]
+ nsim_dev_trap_report_work+0x29e/0xc70 drivers/net/netdevsim/dev.c:850
+ process_one_work+0x887/0x15d0 kernel/workqueue.c:2630
+ process_scheduled_works kernel/workqueue.c:2703 [inline]
+ worker_thread+0x8bb/0x1290 kernel/workqueue.c:2784
+ kthread+0x33a/0x430 kernel/kthread.c:388
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+page last free stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1130 [inline]
+ free_unref_page_prepare+0x476/0xa40 mm/page_alloc.c:2342
+ free_unref_page+0x33/0x3b0 mm/page_alloc.c:2435
+ free_contig_range+0xb6/0x190 mm/page_alloc.c:6385
+ destroy_args+0x768/0x990 mm/debug_vm_pgtable.c:1028
+ debug_vm_pgtable+0x1d7e/0x3e00 mm/debug_vm_pgtable.c:1408
+ do_one_initcall+0x117/0x630 init/main.c:1232
+ do_initcall_level init/main.c:1294 [inline]
+ do_initcalls init/main.c:1310 [inline]
+ do_basic_setup init/main.c:1329 [inline]
+ kernel_init_freeable+0x5c2/0x900 init/main.c:1547
+ kernel_init+0x1c/0x2a0 init/main.c:1437
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:304
+
+Memory state around the buggy address:
+ ffff888069cbab00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff888069cbab80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>ffff888069cbac00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fc fc
+                                                             ^
+ ffff888069cbac80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888069cbad00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
+
+
 ---
-v5 to v6 minor change:
-    1. Revised a function return check.
-    2. Add address for device name.
-    3. Change dev_info to dev_dbg.
-v4 to v5 change:
-    1. Use enumeration and define usb_role uniformly instead of
-       dr_mode to avoid confusing dr_mode and usb_role.
-    2. Split the register read and write to separate operations.
-v3 to v4 change:
-    Get max-speed from dwc3 node.
-    Add the register set for pm control.
-v2 to v3 change:
-    Remove the support_drd_mode of struct dwc3_rtk.
-    Remove unlink_usb3_port and disable_usb3_phy.
-    Disabled usb3 phy if the max speed is not super-speed.
-v1 to v2 change:
-    Remove the code about the property realtek,enable-l4icg.
-    Select USB_ROLE_SWITCH in Kconfig.
-    Add dependency OF and ARCH_REALTEK in Kconfig.
----
- drivers/usb/dwc3/Kconfig    |  11 +
- drivers/usb/dwc3/Makefile   |   1 +
- drivers/usb/dwc3/dwc3-rtk.c | 475 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 487 insertions(+)
- create mode 100644 drivers/usb/dwc3/dwc3-rtk.c
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/usb/dwc3/Kconfig b/drivers/usb/dwc3/Kconfig
-index 98efcbb76c88..5fc27b20df63 100644
---- a/drivers/usb/dwc3/Kconfig
-+++ b/drivers/usb/dwc3/Kconfig
-@@ -178,4 +178,15 @@ config USB_DWC3_OCTEON
- 	  Only the host mode is currently supported.
- 	  Say 'Y' or 'M' here if you have one such device.
- 
-+config USB_DWC3_RTK
-+	tristate "Realtek DWC3 Platform Driver"
-+	depends on OF && ARCH_REALTEK
-+	default USB_DWC3
-+	select USB_ROLE_SWITCH
-+	help
-+	  RTK DHC RTD SoCs with DesignWare Core USB3 IP inside,
-+	  and IP Core configured for USB 2.0 and USB 3.0 in host
-+	  or dual-role mode.
-+	  Say 'Y' or 'M' if you have such device.
-+
- endif
-diff --git a/drivers/usb/dwc3/Makefile b/drivers/usb/dwc3/Makefile
-index fe1493d4bbe5..124eda2522d9 100644
---- a/drivers/usb/dwc3/Makefile
-+++ b/drivers/usb/dwc3/Makefile
-@@ -55,3 +55,4 @@ obj-$(CONFIG_USB_DWC3_QCOM)		+= dwc3-qcom.o
- obj-$(CONFIG_USB_DWC3_IMX8MP)		+= dwc3-imx8mp.o
- obj-$(CONFIG_USB_DWC3_XILINX)		+= dwc3-xilinx.o
- obj-$(CONFIG_USB_DWC3_OCTEON)		+= dwc3-octeon.o
-+obj-$(CONFIG_USB_DWC3_RTK)		+= dwc3-rtk.o
-diff --git a/drivers/usb/dwc3/dwc3-rtk.c b/drivers/usb/dwc3/dwc3-rtk.c
-new file mode 100644
-index 000000000000..590028e8fdcb
---- /dev/null
-+++ b/drivers/usb/dwc3/dwc3-rtk.c
-@@ -0,0 +1,475 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * dwc3-rtk.c - Realtek DWC3 Specific Glue layer
-+ *
-+ * Copyright (C) 2023 Realtek Semiconductor Corporation
-+ *
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/platform_device.h>
-+#include <linux/of.h>
-+#include <linux/of_platform.h>
-+#include <linux/suspend.h>
-+#include <linux/sys_soc.h>
-+#include <linux/usb/otg.h>
-+#include <linux/usb/of.h>
-+#include <linux/usb/role.h>
-+
-+#include "core.h"
-+
-+#define WRAP_CTR_REG  0x0
-+#define DISABLE_MULTI_REQ BIT(1)
-+#define DESC_R2W_MULTI_DISABLE BIT(9)
-+#define FORCE_PIPE3_PHY_STATUS_TO_0 BIT(13)
-+
-+#define WRAP_USB2_PHY_UTMI_REG 0x8
-+#define TXHSVM_EN BIT(3)
-+
-+#define WRAP_PHY_PIPE_REG 0xC
-+#define RESET_DISABLE_PIPE3_P0 BIT(0)
-+#define CLOCK_ENABLE_FOR_PIPE3_PCLK BIT(1)
-+
-+#define WRAP_USB_HMAC_CTR0_REG 0x60
-+#define U3PORT_DIS BIT(8)
-+
-+#define WRAP_USB2_PHY_REG  0x70
-+#define USB2_PHY_EN_PHY_PLL_PORT0 BIT(12)
-+#define USB2_PHY_EN_PHY_PLL_PORT1 BIT(13)
-+#define USB2_PHY_SWITCH_MASK 0x707
-+#define USB2_PHY_SWITCH_DEVICE 0x0
-+#define USB2_PHY_SWITCH_HOST 0x606
-+
-+#define WRAP_APHY_REG 0x128
-+#define USB3_MBIAS_ENABLE BIT(1)
-+
-+/* pm control */
-+#define WRAP_USB_DBUS_PWR_CTRL_REG 0x160
-+#define USB_DBUS_PWR_CTRL_REG 0x0
-+#define DBUS_PWR_CTRL_EN BIT(0)
-+
-+struct dwc3_rtk {
-+	struct device *dev;
-+	void __iomem *regs;
-+	size_t regs_size;
-+	void __iomem *pm_base;
-+
-+	struct dwc3 *dwc;
-+
-+	enum usb_role cur_role;
-+	struct usb_role_switch *role_switch;
-+};
-+
-+static void switch_usb2_role(struct dwc3_rtk *rtk, enum usb_role role)
-+{
-+	void __iomem *reg;
-+	int val;
-+
-+	reg = rtk->regs + WRAP_USB2_PHY_REG;
-+	val = ~USB2_PHY_SWITCH_MASK & readl(reg);
-+
-+	switch (role) {
-+	case USB_ROLE_DEVICE:
-+		writel(USB2_PHY_SWITCH_DEVICE | val, reg);
-+		break;
-+	case USB_ROLE_HOST:
-+		writel(USB2_PHY_SWITCH_HOST | val, reg);
-+		break;
-+	default:
-+		dev_dbg(rtk->dev, "%s: role=%d\n", __func__, role);
-+		break;
-+	}
-+}
-+
-+static void switch_dwc3_role(struct dwc3_rtk *rtk, enum usb_role role)
-+{
-+	if (!rtk->dwc->role_sw)
-+		return;
-+
-+	usb_role_switch_set_role(rtk->dwc->role_sw, role);
-+}
-+
-+static enum usb_role dwc3_rtk_get_role(struct dwc3_rtk *rtk)
-+{
-+	enum usb_role role;
-+
-+	role = rtk->cur_role;
-+
-+	if (rtk->dwc && rtk->dwc->role_sw)
-+		role = usb_role_switch_get_role(rtk->dwc->role_sw);
-+	else
-+		dev_dbg(rtk->dev, "%s not usb_role_switch role=%d\n", __func__, role);
-+
-+	return role;
-+}
-+
-+static void dwc3_rtk_set_role(struct dwc3_rtk *rtk, enum usb_role role)
-+{
-+	rtk->cur_role = role;
-+
-+	switch_dwc3_role(rtk, role);
-+	mdelay(10);
-+	switch_usb2_role(rtk, role);
-+}
-+
-+#if IS_ENABLED(CONFIG_USB_ROLE_SWITCH)
-+static int dwc3_usb_role_switch_set(struct usb_role_switch *sw, enum usb_role role)
-+{
-+	struct dwc3_rtk *rtk = usb_role_switch_get_drvdata(sw);
-+
-+	dwc3_rtk_set_role(rtk, role);
-+
-+	return 0;
-+}
-+
-+static enum usb_role dwc3_usb_role_switch_get(struct usb_role_switch *sw)
-+{
-+	struct dwc3_rtk *rtk = usb_role_switch_get_drvdata(sw);
-+
-+	return dwc3_rtk_get_role(rtk);
-+}
-+
-+static int dwc3_rtk_setup_role_switch(struct dwc3_rtk *rtk)
-+{
-+	struct usb_role_switch_desc dwc3_role_switch = {NULL};
-+
-+	dwc3_role_switch.name = dev_name(rtk->dev);
-+	dwc3_role_switch.driver_data = rtk;
-+	dwc3_role_switch.allow_userspace_control = true;
-+	dwc3_role_switch.fwnode = dev_fwnode(rtk->dev);
-+	dwc3_role_switch.set = dwc3_usb_role_switch_set;
-+	dwc3_role_switch.get = dwc3_usb_role_switch_get;
-+	rtk->role_switch = usb_role_switch_register(rtk->dev, &dwc3_role_switch);
-+	if (IS_ERR(rtk->role_switch))
-+		return PTR_ERR(rtk->role_switch);
-+
-+	return 0;
-+}
-+
-+static int dwc3_rtk_remove_role_switch(struct dwc3_rtk *rtk)
-+{
-+	if (rtk->role_switch)
-+		usb_role_switch_unregister(rtk->role_switch);
-+
-+	rtk->role_switch = NULL;
-+
-+	return 0;
-+}
-+#else
-+#define dwc3_rtk_setup_role_switch(x) 0
-+#define dwc3_rtk_remove_role_switch(x) 0
-+#endif
-+
-+static const char *const speed_names[] = {
-+	[USB_SPEED_UNKNOWN] = "UNKNOWN",
-+	[USB_SPEED_LOW] = "low-speed",
-+	[USB_SPEED_FULL] = "full-speed",
-+	[USB_SPEED_HIGH] = "high-speed",
-+	[USB_SPEED_WIRELESS] = "wireless",
-+	[USB_SPEED_SUPER] = "super-speed",
-+	[USB_SPEED_SUPER_PLUS] = "super-speed-plus",
-+};
-+
-+static enum usb_device_speed __get_dwc3_maximum_speed(struct device_node *np)
-+{
-+	struct device_node *dwc3_np;
-+	const char *maximum_speed;
-+	int ret;
-+
-+	dwc3_np = of_get_compatible_child(np, "snps,dwc3");
-+	if (!dwc3_np)
-+		return USB_SPEED_UNKNOWN;
-+
-+	ret = of_property_read_string(dwc3_np, "maximum-speed", &maximum_speed);
-+	if (ret < 0)
-+		return USB_SPEED_UNKNOWN;
-+
-+	ret = match_string(speed_names, ARRAY_SIZE(speed_names), maximum_speed);
-+
-+	return (ret < 0) ? USB_SPEED_UNKNOWN : ret;
-+}
-+
-+static int dwc3_rtk_init(struct dwc3_rtk *rtk)
-+{
-+	struct device *dev = rtk->dev;
-+	void __iomem *reg;
-+	int val;
-+	enum usb_device_speed maximum_speed;
-+	const struct soc_device_attribute rtk_soc_kylin_a00[] = {
-+		{ .family = "Realtek Kylin", .revision = "A00", },
-+		{ /* empty */ } };
-+	const struct soc_device_attribute rtk_soc_hercules[] = {
-+		{ .family = "Realtek Hercules", }, { /* empty */ } };
-+	const struct soc_device_attribute rtk_soc_thor[] = {
-+		{ .family = "Realtek Thor", }, { /* empty */ } };
-+
-+	if (soc_device_match(rtk_soc_kylin_a00)) {
-+		reg = rtk->regs + WRAP_CTR_REG;
-+		val = readl(reg);
-+		writel(DISABLE_MULTI_REQ | val, reg);
-+		dev_info(dev, "[bug fixed] 1295/1296 A00: add workaround to disable multiple request for D-Bus");
-+	}
-+
-+	if (soc_device_match(rtk_soc_hercules)) {
-+		reg = rtk->regs + WRAP_USB2_PHY_REG;
-+		val = readl(reg);
-+		writel(USB2_PHY_EN_PHY_PLL_PORT1 | val, reg);
-+		dev_info(dev, "[bug fixed] 1395 add workaround to disable usb2 port 2 suspend!");
-+	}
-+
-+	reg = rtk->regs + WRAP_USB2_PHY_UTMI_REG;
-+	val = readl(reg);
-+	writel(TXHSVM_EN | val, reg);
-+
-+	maximum_speed = __get_dwc3_maximum_speed(dev->of_node);
-+	if (maximum_speed != USB_SPEED_UNKNOWN && maximum_speed <= USB_SPEED_HIGH) {
-+		if (soc_device_match(rtk_soc_thor)) {
-+			reg = rtk->regs + WRAP_USB_HMAC_CTR0_REG;
-+			val = readl(reg);
-+			writel(U3PORT_DIS | val, reg);
-+		} else {
-+			reg = rtk->regs + WRAP_CTR_REG;
-+			val = readl(reg);
-+			writel(FORCE_PIPE3_PHY_STATUS_TO_0 | val, reg);
-+
-+			reg = rtk->regs + WRAP_PHY_PIPE_REG;
-+			val = ~CLOCK_ENABLE_FOR_PIPE3_PCLK & readl(reg);
-+			writel(RESET_DISABLE_PIPE3_P0 | val, reg);
-+
-+			reg =  rtk->regs + WRAP_USB_HMAC_CTR0_REG;
-+			val = readl(reg);
-+			writel(U3PORT_DIS | val, reg);
-+
-+			reg = rtk->regs + WRAP_APHY_REG;
-+			val = readl(reg);
-+			writel(~USB3_MBIAS_ENABLE & val, reg);
-+
-+			dev_dbg(rtk->dev, "%s: disable usb 3.0 phy\n", __func__);
-+		}
-+	}
-+
-+	reg = rtk->regs + WRAP_CTR_REG;
-+	val = readl(reg);
-+	writel(DESC_R2W_MULTI_DISABLE | val, reg);
-+
-+	/* Set phy Dp/Dm initial state to host mode to avoid the Dp glitch */
-+	reg = rtk->regs + WRAP_USB2_PHY_REG;
-+	val = ~USB2_PHY_SWITCH_MASK & readl(reg);
-+	writel(USB2_PHY_SWITCH_HOST | val, reg);
-+
-+	if (rtk->pm_base) {
-+		reg = rtk->pm_base + USB_DBUS_PWR_CTRL_REG;
-+		val = DBUS_PWR_CTRL_EN | readl(reg);
-+		writel(val, reg);
-+	}
-+
-+	return 0;
-+}
-+
-+static int dwc3_rtk_probe_dwc3_core(struct dwc3_rtk *rtk)
-+{
-+	struct device *dev = rtk->dev;
-+	struct device_node *node = dev->of_node;
-+	struct platform_device *dwc3_pdev;
-+	struct device *dwc3_dev;
-+	struct device_node *dwc3_node;
-+	enum usb_dr_mode dr_mode;
-+	int ret = 0;
-+
-+	ret = dwc3_rtk_init(rtk);
-+	if (ret)
-+		return -EINVAL;
-+
-+	ret = of_platform_populate(node, NULL, NULL, dev);
-+	if (ret) {
-+		dev_err(dev, "failed to add dwc3 core\n");
-+		return ret;
-+	}
-+
-+	dwc3_node = of_get_compatible_child(node, "snps,dwc3");
-+	if (!dwc3_node) {
-+		dev_err(dev, "failed to find dwc3 core node\n");
-+		ret = -ENODEV;
-+		goto depopulate;
-+	}
-+
-+	dwc3_pdev = of_find_device_by_node(dwc3_node);
-+	if (!dwc3_pdev) {
-+		dev_err(dev, "failed to find dwc3 core platform_device\n");
-+		ret = -ENODEV;
-+		goto err_node_put;
-+	}
-+
-+	dwc3_dev = &dwc3_pdev->dev;
-+	rtk->dwc = platform_get_drvdata(dwc3_pdev);
-+	if (!rtk->dwc) {
-+		dev_err(dev, "failed to find dwc3 core\n");
-+		ret = -ENODEV;
-+		goto err_pdev_put;
-+	}
-+
-+	dr_mode = usb_get_dr_mode(dwc3_dev);
-+	if (dr_mode != rtk->dwc->dr_mode) {
-+		dev_info(dev, "dts set dr_mode=%d, but dwc3 set dr_mode=%d\n",
-+			 dr_mode, rtk->dwc->dr_mode);
-+		dr_mode = rtk->dwc->dr_mode;
-+	}
-+
-+	switch (dr_mode) {
-+	case USB_DR_MODE_PERIPHERAL:
-+		rtk->cur_role = USB_ROLE_DEVICE;
-+		break;
-+	case USB_DR_MODE_HOST:
-+		rtk->cur_role = USB_ROLE_HOST;
-+		break;
-+	default:
-+		dev_dbg(rtk->dev, "%s: dr_mode=%d\n", __func__, dr_mode);
-+		break;
-+	}
-+
-+	if (device_property_read_bool(dwc3_dev, "usb-role-switch")) {
-+		ret = dwc3_rtk_setup_role_switch(rtk);
-+		if (ret) {
-+			dev_err(dev, "dwc3_rtk_setup_role_switch fail=%d\n", ret);
-+			goto err_pdev_put;
-+		}
-+		rtk->cur_role = dwc3_rtk_get_role(rtk);
-+	}
-+
-+	switch_usb2_role(rtk, rtk->cur_role);
-+
-+	return 0;
-+
-+err_pdev_put:
-+	platform_device_put(dwc3_pdev);
-+err_node_put:
-+	of_node_put(dwc3_node);
-+depopulate:
-+	of_platform_depopulate(dev);
-+
-+	return ret;
-+}
-+
-+static int dwc3_rtk_probe(struct platform_device *pdev)
-+{
-+	struct dwc3_rtk *rtk;
-+	struct device *dev = &pdev->dev;
-+	struct resource *res;
-+	void __iomem *regs;
-+	int ret = 0;
-+
-+	rtk = devm_kzalloc(dev, sizeof(*rtk), GFP_KERNEL);
-+	if (!rtk) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	platform_set_drvdata(pdev, rtk);
-+
-+	rtk->dev = dev;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res) {
-+		dev_err(dev, "missing memory resource\n");
-+		ret = -ENODEV;
-+		goto out;
-+	}
-+
-+	regs = devm_ioremap_resource(dev, res);
-+	if (IS_ERR(regs)) {
-+		ret = PTR_ERR(regs);
-+		goto out;
-+	}
-+
-+	rtk->regs = regs;
-+	rtk->regs_size = resource_size(res);
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-+	if (res) {
-+		rtk->pm_base = devm_ioremap_resource(dev, res);
-+		if (IS_ERR(rtk->pm_base)) {
-+			ret = PTR_ERR(rtk->pm_base);
-+			goto out;
-+		}
-+	}
-+
-+	ret = dwc3_rtk_probe_dwc3_core(rtk);
-+
-+out:
-+	return ret;
-+}
-+
-+static void dwc3_rtk_remove(struct platform_device *pdev)
-+{
-+	struct dwc3_rtk *rtk = platform_get_drvdata(pdev);
-+
-+	rtk->dwc = NULL;
-+
-+	dwc3_rtk_remove_role_switch(rtk);
-+
-+	of_platform_depopulate(rtk->dev);
-+}
-+
-+static void dwc3_rtk_shutdown(struct platform_device *pdev)
-+{
-+	struct dwc3_rtk *rtk = platform_get_drvdata(pdev);
-+
-+	of_platform_depopulate(rtk->dev);
-+}
-+
-+static const struct of_device_id rtk_dwc3_match[] = {
-+	{ .compatible = "realtek,rtd-dwc3" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, rtk_dwc3_match);
-+
-+#ifdef CONFIG_PM_SLEEP
-+static int dwc3_rtk_suspend(struct device *dev)
-+{
-+	return 0;
-+}
-+
-+static int dwc3_rtk_resume(struct device *dev)
-+{
-+	struct dwc3_rtk *rtk = dev_get_drvdata(dev);
-+
-+	dwc3_rtk_init(rtk);
-+
-+	switch_usb2_role(rtk, rtk->cur_role);
-+
-+	/* runtime set active to reflect active state. */
-+	pm_runtime_disable(dev);
-+	pm_runtime_set_active(dev);
-+	pm_runtime_enable(dev);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops dwc3_rtk_dev_pm_ops = {
-+	SET_SYSTEM_SLEEP_PM_OPS(dwc3_rtk_suspend, dwc3_rtk_resume)
-+};
-+
-+#define DEV_PM_OPS	(&dwc3_rtk_dev_pm_ops)
-+#else
-+#define DEV_PM_OPS	NULL
-+#endif /* CONFIG_PM_SLEEP */
-+
-+static struct platform_driver dwc3_rtk_driver = {
-+	.probe		= dwc3_rtk_probe,
-+	.remove_new	= dwc3_rtk_remove,
-+	.driver		= {
-+		.name	= "rtk-dwc3",
-+		.of_match_table = rtk_dwc3_match,
-+		.pm	= DEV_PM_OPS,
-+	},
-+	.shutdown	= dwc3_rtk_shutdown,
-+};
-+
-+module_platform_driver(dwc3_rtk_driver);
-+
-+MODULE_AUTHOR("Stanley Chang <stanley_chang@realtek.com>");
-+MODULE_DESCRIPTION("DesignWare USB3 Realtek Glue Layer");
-+MODULE_ALIAS("platform:rtk-dwc3");
-+MODULE_LICENSE("GPL");
-+MODULE_SOFTDEP("pre: phy_rtk_usb2 phy_rtk_usb3");
--- 
-2.34.1
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
