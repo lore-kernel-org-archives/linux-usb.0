@@ -2,162 +2,132 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91E00C83F13
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Aug 2023 09:24:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FDE9C83F11
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Aug 2023 09:26:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229912AbjH1JXr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Aug 2023 05:23:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45496 "EHLO
+        id S229666AbjH1J01 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Aug 2023 05:26:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229831AbjH1JXS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Aug 2023 05:23:18 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F6929E
-        for <linux-usb@vger.kernel.org>; Mon, 28 Aug 2023 02:22:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693214556; x=1724750556;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZVwVZgRMke9BLWlQmJIUtzStiQQ1mKNI2mhRA3w/C9k=;
-  b=nezqVZXsOZbJnqVeccXzs9gENl2EN51vA9RLVK2rCwdSS+g0gUTmYyK+
-   V7uXecclNbcTiDYMrihIF7l9UDGo4ztw0wIhFV+eJarJep2ahmw/TrvKs
-   slROZAuZ/I1ZvoykfK6arPjvmL10c8tnmRysALlgy1Tw+VNYK17kbalHZ
-   mHGtXIiu0HtUp8s2ZawWYdzKZ6GJmqHdatM5E8etwCyImme2xC0dzlYqt
-   YgvI3xuep33L2UKNH3qaWBoDJMDvUoRlYoP3kb53Q/98OQ1hFU2LBPPaF
-   aGI6Qidc2J32t6xiH5Z1wjvpsZsWu9fdNJBxy3qyFNaq4pUgOdOJ8VB5A
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="461428583"
-X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
-   d="scan'208";a="461428583"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 02:21:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="881871473"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 28 Aug 2023 02:21:49 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 28 Aug 2023 12:21:43 +0300
-Date:   Mon, 28 Aug 2023 12:21:43 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Douglas Gilbert <dgilbert@interlog.com>
-Cc:     Benson Leung <bleung@google.com>,
-        Jameson Thies <jthies@google.com>,
-        Prashant Malani <pmalani@google.com>,
-        Won Chung <wonchung@google.com>, linux-usb@vger.kernel.org
-Subject: Re: [RFC PATCH 0/2] usb: Link USB devices with their USB Type-C
- partner counterparts
-Message-ID: <ZOxnJxELyjZ7I5f5@kuha.fi.intel.com>
-References: <20230822133205.2063210-1-heikki.krogerus@linux.intel.com>
- <860a352c-12da-25ce-5b9e-697382a93899@interlog.com>
- <ZOXJ2cs5dUBsSNjX@kuha.fi.intel.com>
- <58409169-dc24-accc-46e8-13402cd93f79@interlog.com>
+        with ESMTP id S229750AbjH1J0T (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Aug 2023 05:26:19 -0400
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-he1eur01on2049.outbound.protection.outlook.com [40.107.13.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C093C2
+        for <linux-usb@vger.kernel.org>; Mon, 28 Aug 2023 02:26:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OxrILR/ClTPKApw0E8i3mH0Uch9HAjH6m63Qlj1EZ2Du6LTpQDYSh7AAe7ESECLKFck2pq7WbOZlubn979OoUJgnmvyS/hmbxXHrRYUrSPIUIO3NUJEigZEtPUSUzwzlnrOMDQ8abutv/IYhM04x6jDIEx3lHkArBB5/BM9DzdUgjOSaeHEyPhw5DK7gsVwiBfOtdV4j0YCvnJyip321wDbx6qmCWOVbo8aYRGGzZWv92/3VoezftLP2+MKo4ih6lthvUaGyDjLkCEuvcPKecM64+hC8XntNycd+NR+gOqB2EWUlbgn7OrSKvTBjxKG5F1xNyoXuk2RzjPuiFmbDrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MT9syemS/1TFYVK9dzQldZPJrhmlkArm+zIAFcRUajo=;
+ b=Cba2/V3a+bZE45SpiEJf/hu2I634rwsyYcMpf8n3MVw13fmi/j/JSW/Zyf+EEXdTV7G/qLfUX5FuPNcBHN+XoegRPSGxUQQtwuXBeG3GbgljpzSNoR2BFXvNJ1ZKrXVn0h3wGTminWt7G6f02p6ufdghcs7EE0we1vQJfSb3D7OEuBo8EPLjOaGjtAK60h5My6skmVEvnOd4FpzHw5BikWGCp5kNTvT+Y7X159NGNme8+HWgyoXYlbP2k9A9f4P5mSWYg1WFrzg/uxPJ2supDOA9+abk1vlx/hRmEkb+mBCKF4zlNGeEbZPXFjP3ehn6V7I8LNhIgY4iEHTvjeqJww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MT9syemS/1TFYVK9dzQldZPJrhmlkArm+zIAFcRUajo=;
+ b=m38mikHrkmR20qjdFW/KVbokO3WGov1Tg59X+HPIED5yBUXwmhDfQ9TgvsmvPtdEqx5wqsUaWjhHXKpqCQK2Yx7zNVm7WIhRJ9ts1jyizxVDugxMPVqOfRn85jar5mQ9Gz26uRF1cTeHuZnkFkIURXNUOnXUnyzti9OvFTUrOyg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB7PR04MB4505.eurprd04.prod.outlook.com (2603:10a6:5:39::26) by
+ PA4PR04MB9246.eurprd04.prod.outlook.com (2603:10a6:102:2a1::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Mon, 28 Aug
+ 2023 09:26:15 +0000
+Received: from DB7PR04MB4505.eurprd04.prod.outlook.com
+ ([fe80::6444:e07a:e7f7:3923]) by DB7PR04MB4505.eurprd04.prod.outlook.com
+ ([fe80::6444:e07a:e7f7:3923%6]) with mapi id 15.20.6699.034; Mon, 28 Aug 2023
+ 09:26:15 +0000
+From:   Xu Yang <xu.yang_2@nxp.com>
+To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com
+Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+        jun.li@nxp.com
+Subject: [PATCH 2/2] usb: typec: tcpci: enable vSafe0v Detection and Auto Discharge Disconnect for PTN5110
+Date:   Mon, 28 Aug 2023 17:30:35 +0800
+Message-Id: <20230828093035.1556639-2-xu.yang_2@nxp.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230828093035.1556639-1-xu.yang_2@nxp.com>
+References: <20230828093035.1556639-1-xu.yang_2@nxp.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR01CA0123.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:40::27) To DB7PR04MB4505.eurprd04.prod.outlook.com
+ (2603:10a6:5:39::26)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <58409169-dc24-accc-46e8-13402cd93f79@interlog.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB7PR04MB4505:EE_|PA4PR04MB9246:EE_
+X-MS-Office365-Filtering-Correlation-Id: 41381d37-ad89-472f-7a65-08dba7a8d3f0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sT4xscZnE1/yGvkCa8zn5mD3zRrAi/5/UT81OW4CrGLLK1a4SHGf2zH3u/jkCWIHc/uF+W9lvDjQOezooXfq7E9fQxB1XAALMyQbp+C4nlNyEI/xjcqLHVVEnMy69Vbq4MuN50LHr5hSUJVgTq9/Sx6z/bsb3LeWcGhsppZgDZC8abycV/VgiAKcvuABowpRB6lhWyyB9FxpvfnwQ0ELNvOHEcqaqIHI/ccwYIDKAL3vNJoSAyiCy7RZy/4CLeVZy+SkEEuZKG1E5Lhxpngf4ISftYA0u+f9F3mjzHf7gegR5UUjaoBfz+OSgT1/g5aGkhBqD0PMHiXsdk2fZpQynL8FWeGMjKhHzB2A3/84GRYwxxjsUgP2llocYMb53IhQYvsQl16rlpJL1HLq6CUqjXIcAGBGQRFje7Gq9HbcbTzhSXhs1iyW1utqvE6yKjF9akBvJV3Re5ejk3klpR1NbJHP/pb8MTOMWRI3w2kO+9bgEFfD9N9ijcRNyCdrbkR+pozFc3NvROQQsN9sOtNZO8vv0NssaCPdvlqEU34ssHaB54Djv8KxQpYTRizfhD8Xz8IOAtatxhuNDcKs5ZSqs2iSdYOSVj/hJU2g7U5BDXTuf13nO4ACLiA2OGVDLfT4/QzU4aHc6LWXsbrvTBcaoA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR04MB4505.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(136003)(376002)(396003)(39860400002)(186009)(451199024)(1800799009)(41300700001)(38350700002)(38100700002)(6666004)(86362001)(83380400001)(478600001)(2616005)(26005)(1076003)(6512007)(52116002)(6506007)(6486002)(4744005)(66946007)(36756003)(66476007)(2906002)(316002)(66556008)(5660300002)(8676002)(8936002)(4326008)(32563001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fCkYUCgoJjRmGXJlivmDgYu28P7ok1D2QZ/8F7INAeQdaevW9GSuAIc0L3YR?=
+ =?us-ascii?Q?gBFXuORheK4Wf8Ctq7K/ueOkXpxO317V46aFLnv9apg5EhDHh9D/W8EPp/C5?=
+ =?us-ascii?Q?q0y0oe3yagL5GpCRiQMtIIVkQA1dy/3wI8y8I/tbOpqDXWqUA/wYzjG/qE2A?=
+ =?us-ascii?Q?YQ5xNINngeZ02hTUKn7vAMWlOvDhIP+Lhrcf86FF6TRYS9VnHgIDpZ9H0Cp2?=
+ =?us-ascii?Q?inlVIBLEfuEMx4zjnhYVd/Cv4vgvP/iTXrWsWgMR99kg0mqXbvIrtSYpZ8Tx?=
+ =?us-ascii?Q?xrwON46V3y5tqE17HDW0TDMVWfsmcnEAusmqtYH6XPuiT0iz+MyABXIOyQzJ?=
+ =?us-ascii?Q?aNRsGmQALLaMICkyv8Y42P3fRuGc2dtMYxIZt0r2LlnGwMseifKGnmERIL9/?=
+ =?us-ascii?Q?UKWsqBIyGeNp2ba1Mu7fUUEYdQvuZLoCvzeSxgC20pGBxZet0feYsGEn5cds?=
+ =?us-ascii?Q?Srn+cPtq6YZzE+Fwlw8/V1dwPnhtUtAMT8OCfAAIwzP6p/mMqtwjFtJonQS8?=
+ =?us-ascii?Q?8naEeaxfjviczWzE7mDL8yNF7/zLCr7lnBOmf6WcQ7A8ExddHEAnLZoLygdT?=
+ =?us-ascii?Q?IMNc/e0XLInrqPsPbRkPiUPqTfdShL4EIJGP4+NC0YeOkUncF0hOa7lk0ARz?=
+ =?us-ascii?Q?XTBfOKSAJvUTo1qMCUPDX566bFeYUE1+9pBFDF6T6MKvvvbBGXDy28dGJv1z?=
+ =?us-ascii?Q?/7kgjGeVxkBIb5b7UgnrpZ/V855lG+kNwNo0O5jgd/t19a+zn9khxOo2cD5j?=
+ =?us-ascii?Q?klG0I1WpjgHGGMaEH6dLyALskvQmNZhY9OpxA3i2X0+GZSJ7fl2isGEtAYWD?=
+ =?us-ascii?Q?wB053pxxB5hEuGo5n3F5ORaKeB1HvJiSL7S/9T/QnE2sQMJhjO+cIizoRN4k?=
+ =?us-ascii?Q?Epzqsfw16xf79IRvCV4SzsnfF5JMNFbeoqxe66LgECUYhTXuw0apOXft8MHw?=
+ =?us-ascii?Q?k3UBOJlKGvkuTSap+8heoeWyCObZ+jhBfFV82en5PYAokSBIFB2T9RPgd0sx?=
+ =?us-ascii?Q?r1nP2RFfTkA6Vr4+5TmBcauRxBDZ8cGUti4DKmnCLG9Vg9ot7rXSQpqR8mXC?=
+ =?us-ascii?Q?S23U1iNyZ1TLEVhbfvgoJbO/bWUvPsmvWdc/4WMq6LRT8K4D6a2Rpmn1ds1S?=
+ =?us-ascii?Q?FsDngvnaUdLbTNVTA7uyG86U0KVyfQ6GQ/SO6MB2BcVA4HoHAjtylGfed96q?=
+ =?us-ascii?Q?1dUjwkz6z5MfvlTZSFPFh1ShCUmrsPUl57zVopufy/8vfVcUI0EGE9hkMEMB?=
+ =?us-ascii?Q?HGgy7VNh6yAgz+x96YyfNqC4TOirm4yzYX6nCgEVTzpzzAieCEBJ9AlFRrOc?=
+ =?us-ascii?Q?0E7Yn6y/+8n7lf0t9moUJ3dSMYO+OObaGJpLz3xny/vd7zIjjLVyIuTrLJ6v?=
+ =?us-ascii?Q?BwtA/YVZWAlQ/H161GAK+ro5yYQPt/QBYmpZ4Nw9LW3lYTAGA9DQtZaHsfvo?=
+ =?us-ascii?Q?ZEwLWy3Xx1jZryom+h5xvqaXisZ1UUmJQKUN/sukg5uzRN2pTqjCHPNCBMFL?=
+ =?us-ascii?Q?tqOtB8ytE1EC6gFN5+SdkawKEwcfLnfmZguwYy1lLafSK7HOP6FbF+Z4NTQ0?=
+ =?us-ascii?Q?WzeunBC7sJzc/KnYqBbVIx9743QLhy0HfJmFgmh8?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41381d37-ad89-472f-7a65-08dba7a8d3f0
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR04MB4505.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2023 09:26:15.8703
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eFTizL5E5puN+p3Y5ndaYSux9KfnUvnsV8hB52hRZ4+Fr5w6m1kFFJwp6F+XsDRPzoSJtgBI2H5t1EJ5oV3yNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9246
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 24, 2023 at 12:51:04PM -0400, Douglas Gilbert wrote:
-> On 2023-08-23 04:56, Heikki Krogerus wrote:
-> > Hi Douglas,
-> > 
-> > On Tue, Aug 22, 2023 at 10:52:12AM -0400, Douglas Gilbert wrote:
-> > > On 2023-08-22 09:32, Heikki Krogerus wrote:
-> > > On a related matter, I wonder why there aren't symlinks between typec ports
-> > > (under /sys/class/typec ) and/or the corresponding pd objects (under
-> > > /sys/class/usb_power_delivery ) to the related power_supply objects under
-> > > /sys/class/power_supply . For example under the latter directory I see:
-> > >      $ ls | more
-> > >      AC
-> > >      BAT0
-> > >      hidpp_battery_1
-> > >      ucsi-source-psy-USBC000:001
-> > >      ucsi-source-psy-USBC000:002
-> > > 
-> > > Those last two power supplies are obviously connected to typec port0 and port1
-> > > (but offset by 1). Those power_supply objects hold inaccurate data which I hope
-> > > will improve in time. Significantly power_supply objects don't seem to report
-> > > the direction of the power. Here is a little utility I have been working on
-> > > to report the USB Type-C port/pd disposition on my machine:
-> > >      $ lsucpd
-> > >      port0 [pd0]  > {5V, 0.9A}
-> > >      port1 [pd1]  <<===  partner: [pd8]
-> > > 
-> > > My laptop (Thinkpad X13 G3) has two type-C ports and port1 is a sink with a
-> > > PD contract. I would like that second line to have 20V, 3.25A appended to it
-> > > but there are several issues:
-> > >    - no typec or pd symlink to ucsi-source-psy-USBC000:002
-> > >    - that power supply_object says it is online (correct) with a voltage_now:
-> > >      5000000 uV (incorrect) and current_now: 3000000 uA (incorrect). See below.
-> > > 
-> > >    ucsi-source-psy-USBC000:002 $ ls_name_value
-> > >      current_max : 3250000
-> > >      current_now : 3000000
-> > >      online : 1
-> > >      scope : Unknown
-> > >      type : USB
-> > >      uevent : <removed>
-> > >      usb_type : C [PD] PD_PPS
-> > >      voltage_max : 20000000
-> > >      voltage_min : 5000000
-> > >      voltage_now : 5000000
-> > 
-> > I'm glad you brought that up. The major problem with the Type-C power
-> > supplies is that the Type-C connector class does not actually take
-> > care of them. They are all registered by the device drivers, and all
-> > of them seem to expose different kind of information. In your case the
-> > power supplies are registered by the UCSI driver, and the above may
-> > indicate a bug in that driver.
-> 
-> Hi,
-> Thanks for the background.
-> 
-> My X13 Gen 3 (i5-1240P) uses the typec_ucsi and ucsi_acpi modules. Some time
-> back in a post you explained how to use debugfs with ucsi. Following that
-> procedure, just after a 20 Volt PD contract is negotiated on port 0 I see:
-> 
->     # cat /sys/kernel/debug/tracing/trace
->     ....
->      kworker/0:1-18718   [000] ..... 137813.407189: ucsi_connector_change:
->         port0 status: change=0000, opmode=5, connected=1, sourcing=0,
->         partner_flags=1, partner_type=1,
->         request_data_obj=1304b12c, BC status=1
-> 
-> That RDO is incorrect, the top nibble (1) is the index of the default Vsafe5v
-> PDO. The correct PDO index would be 4 in this case. The source is an Apple 140W
-> USB-C power adapter so I doubt that it is breaking any PD 3.0/3.1 protocol
-> rules.
+PTN5110 itself supports vSafe0V detection and auto discharge disconnect
+capabilities. This will enable these feature.
 
-The driver reads the RDO from the UCSI interface, so if it's wrong,
-there is possibly a problem in the Embedded Controller firmware :-(.
+Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+---
+ drivers/usb/typec/tcpm/tcpci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> According the a PD analyzer (km002c) only one Request is sent by the sink:
-> 82 10 d6 59 87 43 which it decodes as "Pos: 4 Fixed: 20V, 4.7A" which is
-> Accepted and 200 ms later a PS RDY is sent by the source and Vbus
-> transitions from from 5.17 Volts to 20.4 Volts. So I can see no Request for
-> PDO index 1 being sent.
-> 
-> With acpi_listen the following traffic occurs just after the power adapter
-> is plugged into port 0:
->   battery PNP0C0A:00 00000080 00000001
->   battery PNP0C0A:00 00000080 00000001
->   ibm/hotkey LEN0268:00 00000080 00006032
->   ac_adapter ACPI0003:00 00000080 00000001
->   ac_adapter ACPI0003:00 00000080 00000001
->   ibm/hotkey LEN0268:00 00000080 00006030
->   thermal_zone LNXTHERM:00 00000081 00000000
->   ibm/hotkey LEN0268:00 00000080 00006030
->   thermal_zone LNXTHERM:00 00000081 00000000
-> 
-> Hope this helps if you find time to look at this.
-
-Thank you. I'll try to reproduce the issue this week, but I don't have
-that exact model of Thinkpad available I'm afraid (UCSI tends to
-behave a little bit differently on every single platform).
-
-
+diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+index 698d00b7fce9..c128c24f8603 100644
+--- a/drivers/usb/typec/tcpm/tcpci.c
++++ b/drivers/usb/typec/tcpm/tcpci.c
+@@ -863,6 +863,9 @@ static int tcpci_probe(struct i2c_client *client)
+ 
+ 	i2c_set_clientdata(client, chip);
+ 
++	chip->data.vbus_vsafe0v = 1;
++	chip->data.auto_discharge_disconnect = 1;
++
+ 	/* Disable chip interrupts before requesting irq */
+ 	err = regmap_raw_write(chip->data.regmap, TCPC_ALERT_MASK, &val,
+ 			       sizeof(u16));
 -- 
-heikki
+2.34.1
+
