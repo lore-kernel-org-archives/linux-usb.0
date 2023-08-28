@@ -2,172 +2,94 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CE54C83F1C
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Aug 2023 13:33:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50005C83F15
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Aug 2023 14:45:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231961AbjH1NdA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Aug 2023 09:33:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49254 "EHLO
+        id S231193AbjH1Oon (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Aug 2023 10:44:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232229AbjH1Nc0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Aug 2023 09:32:26 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5250012A;
-        Mon, 28 Aug 2023 06:32:23 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37SCuPsa029973;
-        Mon, 28 Aug 2023 13:32:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=OXUmFVVUOVri+A7xeyrlxu0XGoDEkgkJkvkUCvtbXAQ=;
- b=d5JQO+IX2bXEJV8STppp24ANwk3Ed+dPQjByqwB1aKWHXp8sS+QN7JsZds6wzBidnfzb
- pTmi7t9ZwiJLY5b0F9pDIFusKJI7oZKRyWtiB4JD2633KLVYhVu0794rR+5bLdhibwM4
- qK0sOOXpYSJQVxUCFTg6dqFIHI0yWUDVB8PxGkCD7EXkSehrGNSeU4fXOk0Uks6eUjaw
- O3G/lEOuWHdf1ATkRByMUhHwAsXqDNESmx1+HNGf7pyf4bTUETFMHSlzCgFFnEQWYn0K
- oJ447j5uap/73+lSxJgh2cuTfx3c/8J54vGrfCGK6AoBLrreWalEYRrWdlW5guVOIoX1 EQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sq73n3wt0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 28 Aug 2023 13:32:09 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37SDW8TJ014494
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 28 Aug 2023 13:32:08 GMT
-Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Mon, 28 Aug 2023 06:32:02 -0700
-From:   Krishna Kurapati <quic_kriskura@quicinc.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "Andy Gross" <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        with ESMTP id S230476AbjH1OoP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Aug 2023 10:44:15 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 61922F7
+        for <linux-usb@vger.kernel.org>; Mon, 28 Aug 2023 07:44:10 -0700 (PDT)
+Received: (qmail 352516 invoked by uid 1000); 28 Aug 2023 10:44:09 -0400
+Date:   Mon, 28 Aug 2023 10:44:09 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     andrey.konovalov@linux.dev
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
         Felipe Balbi <balbi@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        Johan Hovold <johan@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <quic_pkondeti@quicinc.com>, <quic_ppratap@quicinc.com>,
-        <quic_jackp@quicinc.com>, <ahalaney@redhat.com>,
-        <quic_shazhuss@quicinc.com>,
-        Krishna Kurapati <quic_kriskura@quicinc.com>
-Subject: [PATCH v11 12/13] arm64: dts: qcom: sa8295p: Enable tertiary controller and its 4 USB ports
-Date:   Mon, 28 Aug 2023 19:00:32 +0530
-Message-ID: <20230828133033.11988-13-quic_kriskura@quicinc.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230828133033.11988-1-quic_kriskura@quicinc.com>
-References: <20230828133033.11988-1-quic_kriskura@quicinc.com>
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Justin Chen <justin.chen@broadcom.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] usb: gadget: clarify usage of
+ USB_GADGET_DELAYED_STATUS
+Message-ID: <4945ba1a-296c-49da-be09-fbbc3aba6738@rowland.harvard.edu>
+References: <5c2913d70556b03c9bb1893c6941e8ece04934b0.1693188390.git.andreyknvl@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: nMrwFsgLwe3BaDda99OqXxBgHo8OzET3
-X-Proofpoint-ORIG-GUID: nMrwFsgLwe3BaDda99OqXxBgHo8OzET3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-28_10,2023-08-28_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0
- mlxscore=0 mlxlogscore=895 lowpriorityscore=0 clxscore=1015 phishscore=0
- bulkscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308280118
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5c2913d70556b03c9bb1893c6941e8ece04934b0.1693188390.git.andreyknvl@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable tertiary controller for SA8295P (based on SC8280XP).
-Add pinctrl support for usb ports to provide VBUS to connected peripherals.
+On Mon, Aug 28, 2023 at 04:10:30AM +0200, andrey.konovalov@linux.dev wrote:
+> From: Andrey Konovalov <andreyknvl@gmail.com>
+> 
+> USB_GADGET_DELAYED_STATUS was introduced in commit 1b9ba000177e ("usb:
+> gadget: composite: Allow function drivers to pause control transfers").
+> It was initially intended for the composite framework to allow delaying
+> completing the status stage of a SET_CONFIGURATION request until all
+> functions are ready.
+> 
+> Unfortunately, that commit had an unintended side-effect of returning
+> USB_GADGET_DELAYED_STATUS from the ->setup() call of the composite
+> framework gadget driver.
+> 
+> As a result of this and the incomplete documentation, some UDC drivers
+> started relying on USB_GADGET_DELAYED_STATUS to decide when to avoid
+> autocompleting the status stage for 0-length control transfers. dwc3 was
+> the first in commit 5bdb1dcc6330 ("usb: dwc3: ep0: handle delayed_status
+> again"). And a number of other UDC drivers followed later, probably
+> relying on the dwc3 behavior as a reference.
+> 
+> Unfortunately, this violated the interface between the UDC and the
+> gadget driver for 0-length control transfers: the UDC driver must only
+> proceed with the status stage for a 0-length control transfer once the
+> gadget driver queued a response to EP0.
+> 
+> As a result, a few gadget drivers are partially broken when used with
+> a UDC that only delays the status stage for 0-length transfers when
+> USB_GADGET_DELAYED_STATUS is returned from the setup() callback.
+> 
+> This includes Raw Gadget and GadgetFS. For FunctionFS, a workaround was
+> added in commit 946ef68ad4e4 ("usb: gadget: ffs: Let setup() return
+> USB_GADGET_DELAYED_STATUS") and commit 4d644abf2569 ("usb: gadget: f_fs:
+> Only return delayed status when len is 0").
+> 
+> The proper solution to this issue would be to contain
+> USB_GADGET_DELAYED_STATUS within the composite framework and make all
+> UDC drivers to not complete the status stage for 0-length requests on
+> their own.
+> 
+> Unfortunately, there is quite a few UDC drivers that need to get fixed
+> and the required changes for some of them are not trivial.
+> 
+> For now, update the comments to clarify that USB_GADGET_DELAYED_STATUS
+> must not be used by the UDC drivers.
+> 
+> The following two commits also add workarounds to Raw Gadget and GadgetFS
+> to make them compatible with the broken UDC drivers until they are fixed.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@gmail.com>
+> ---
 
-Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
----
- arch/arm64/boot/dts/qcom/sa8295p-adp.dts | 53 ++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/sa8295p-adp.dts b/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
-index fd253942e5e5..473fe858fbed 100644
---- a/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
-+++ b/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
-@@ -9,6 +9,7 @@
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
- #include <dt-bindings/spmi/spmi.h>
-+#include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
- 
- #include "sa8540p.dtsi"
- #include "sa8540p-pmics.dtsi"
-@@ -584,6 +585,20 @@ &usb_1_qmpphy {
- 	status = "okay";
- };
- 
-+&usb_2 {
-+	pinctrl-0 = <&usb2_en_state>,
-+		    <&usb3_en_state>,
-+		    <&usb4_en_state>,
-+		    <&usb5_en_state>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
-+&usb_2_dwc3 {
-+	dr_mode = "host";
-+};
-+
- &usb_2_hsphy0 {
- 	vdda-pll-supply = <&vreg_l5a>;
- 	vdda18-supply = <&vreg_l7g>;
-@@ -729,3 +744,41 @@ wake-n-pins {
- 		};
- 	};
- };
-+
-+&pmm8540c_gpios {
-+	usb2_en_state: usb2-en-state {
-+		pins = "gpio9";
-+		function = "normal";
-+		qcom,drive-strength = <PMIC_GPIO_STRENGTH_HIGH>;
-+		output-high;
-+		power-source = <0>;
-+	};
-+};
-+
-+&pmm8540e_gpios {
-+	usb3_en_state: usb3-en-state {
-+		pins = "gpio5";
-+		function = "normal";
-+		qcom,drive-strength = <PMIC_GPIO_STRENGTH_HIGH>;
-+		output-high;
-+		power-source = <0>;
-+	};
-+};
-+
-+&pmm8540g_gpios {
-+	usb4_en_state: usb4-en-state {
-+		pins = "gpio5";
-+		function = "normal";
-+		qcom,drive-strength = <PMIC_GPIO_STRENGTH_HIGH>;
-+		output-high;
-+		power-source = <0>;
-+	};
-+
-+	usb5_en_state: usb5-en-state {
-+		pins = "gpio9";
-+		function = "normal";
-+		qcom,drive-strength = <PMIC_GPIO_STRENGTH_HIGH>;
-+		output-high;
-+		power-source = <0>;
-+	};
-+};
--- 
-2.40.0
-
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
