@@ -2,149 +2,98 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB05BC83F10
-	for <linux-usb@archiver.kernel.org>; Sun, 27 Aug 2023 18:56:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B9D0C83F10
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Aug 2023 02:16:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbjH0S4O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 27 Aug 2023 14:56:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52426 "EHLO
+        id S229490AbjH1CQB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 27 Aug 2023 22:16:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229874AbjH0Szx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Aug 2023 14:55:53 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id CF0D4F4
-        for <linux-usb@vger.kernel.org>; Sun, 27 Aug 2023 11:55:50 -0700 (PDT)
-Received: (qmail 325084 invoked by uid 1000); 27 Aug 2023 14:55:50 -0400
-Date:   Sun, 27 Aug 2023 14:55:50 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Milan Broz <gmazyland@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: usb-storage: how to extend quirks flags to 64bit?
-Message-ID: <2d580337-eaf3-47fb-afa7-1006d9a257ea@rowland.harvard.edu>
-References: <f9e8acb5-32d5-4a30-859f-d4336a86b31a@gmail.com>
- <6f8b825b-bc41-4080-8128-4a6f0a43f779@rowland.harvard.edu>
- <34aa2eea-5417-4e46-91a0-aac1a46a84cf@gmail.com>
+        with ESMTP id S230087AbjH1CPr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Aug 2023 22:15:47 -0400
+X-Greylist: delayed 255 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 27 Aug 2023 19:15:44 PDT
+Received: from out-245.mta1.migadu.com (out-245.mta1.migadu.com [IPv6:2001:41d0:203:375::f5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1293EB
+        for <linux-usb@vger.kernel.org>; Sun, 27 Aug 2023 19:15:44 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1693188643;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nn8j1xlZiIaYyk41MeUAjHTR8kw6djY6y6n4AYyo8oQ=;
+        b=wrlwc8wbRnTKtb9ELzWKJpvmI0XJrjleVVIVz4kg8r56fEO8pnD9pOR8/XkGaubISLoUnW
+        ATTS31e3wIVCX+E2p0KnOUt86TtX4co61EeXkuz3++9khWiCWdVMNDgso3pF50iZ8U5MEF
+        8EWqbJR3cVBaT5RYABn4KkAxXabW1ds=
+From:   andrey.konovalov@linux.dev
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>
+Cc:     Andrey Konovalov <andreyknvl@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Justin Chen <justin.chen@broadcom.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/3] usb: raw-gadget: return USB_GADGET_DELAYED_STATUS from setup()
+Date:   Mon, 28 Aug 2023 04:10:31 +0200
+Message-Id: <739253b1efa3469e421c869c4520284e854dc48f.1693188390.git.andreyknvl@gmail.com>
+In-Reply-To: <5c2913d70556b03c9bb1893c6941e8ece04934b0.1693188390.git.andreyknvl@gmail.com>
+References: <5c2913d70556b03c9bb1893c6941e8ece04934b0.1693188390.git.andreyknvl@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <34aa2eea-5417-4e46-91a0-aac1a46a84cf@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Aug 27, 2023 at 06:45:55PM +0200, Milan Broz wrote:
-> On 8/27/23 17:50, Alan Stern wrote:
-> > On Sun, Aug 27, 2023 at 11:32:05AM +0200, Milan Broz wrote:
-> > > Hello,
-> > > 
-> > > I tried to extend USB storage for the passthrough of Opal
-> > > security commands,
-> > 
-> > What sort of changes are needed?  Where is this passthrough mechanism
-> > documented?
-> 
-> We are currently adding support for optional OPAL hw encryption to
-> cryptsetup/LUKS2 (that uses kernel OPAL ioctl interface) and I tried
-> to make USB adapters to work with it too.
-> 
-> I'll send RFC patchset (it is quite simple) where I explain it in detail.
-> The patch for USB storage is actually one liner, the rest is in SCSI driver :)
-> 
-> Basically, USB adapters (not supporting UAS) cannot work as
-> required SCSI SECURITY IN/OUT SCSI commands do not work here.
-> 
-> But we can use ATA12 pass-thru (as used with original sedutils
-> and some other tools we used in research; it is a documented feature).
-> It works once ATA12 wrapper is added to block layer and USB storage enables
-> the "security_supported" bit.
-> 
-> > 
-> > >   and some adapters are clearly "not perfect".
-> > 
-> > Which ones?
-> 
-> Namely Realtek 9210 family (NVME to USB bridge). Everything OPAL related
-> works, but the adapter always set write-protected bit for the whole
-> drive (even if OPAL locking range is just covering part of the disk).
-> 
-> I spent quite a lot time trying new firmware versions - this issue is
-> still there.
+From: Andrey Konovalov <andreyknvl@gmail.com>
 
-It sounds like the sort of thing that should be reported as a bug to 
-Realtek.  I can't imagine their customers would be very happy about this 
-behavior.
+Return USB_GADGET_DELAYED_STATUS from the setup() callback for 0-length
+transfers as a workaround to stop some UDC drivers (e.g. dwc3) from
+automatically proceeding with the status stage.
 
-> On the other side, many other USB to SATA bridges works nicely.
-> I think this is the exact situation where we should set a new quirks flag
-> to disable it. (The nasty thing is that for unbricking it you need PSID reset
-> - PSID is a number written on the label of the drive - followed by physical
-> disconnect for recovery.)
-> 
-> 
-> Anyway, I intentionally sent this 32bit flags question separately as it
-> is actually a generic issue - we are just out of flag space now...
-> 
-> Even if the patches mentioned above are rejected, someone will need
-> a new flag for something else later.
+This workaround should be removed once all UDC drivers are fixed to
+always delay the status stage until a response is queued to EP0.
 
-Certainly.  We knew this was bound to come up eventually.
+Signed-off-by: Andrey Konovalov <andreyknvl@gmail.com>
+---
+ drivers/usb/gadget/legacy/raw_gadget.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-> > > I would need to introduce a new quirks flag to turn it off.
-> > > 
-> > > Seems that we are already out of quirks flags on 32bit
-> > > for usb storage - in usb_usual.h the last entry in mainline is
-> > >    US_FLAG(SENSE_AFTER_SYNC, 0x80000000)
-> > > 
-> > > Adding a new flag will work for 64-bit systems but not
-> > > for platforms with 32-bit unsigned long like i686.
-> > > 
-> > > How do we allow new flag definitions?
-> > > 
-> > > Struct us_data fflags can be made 64bit (defined in
-> > > drivers/usb/storage/usb.h), but the major problem is that these
-> > > are transferred through the generic driver_info field
-> > > defined in linux/mod_devicetable.h as unsigned long).
-> > > Making this 64bit is IMO an extensive API change (if even possible).
-> > > I guess this is not the way to go.
-> > > 
-> > > Could USB maintainers please help to advise what is the correct
-> > > solution? I am not familiar with the USB driver model here
-> > > and I see no easy way how it can be solved by a trivial static
-> > > allocation inside the USB storage driver.
-> > > 
-> > > Someone will need a new quirks flag in the future anyway... :)
-> > 
-> > I can think of only one way to accomplish this on 32-bit systems: Change
-> > the driver_info field from a bit array to an index into a static table
-> > of 64-bit flags values.  Each unusual_devs structure would have its own
-> > entry in this table.  As far as I can tell, the other unusual_*.h tables
-> > could retain their current driver_info interpretations, since no new
-> > quirk bits are likely to be relevant to them.
-> > 
-> > Making this change would be an awkward nuisance, but it should be
-> > doable.
-> 
-> Hm, yes, thanks for the idea,that is a possible solution.
-> It will need to modify all unusual macros, though. Just I am not sure I want
-> to spent time patching all the drivers as I have not way how to test it.
-
-I don't think it will be necessary to change all those macros, just the 
-ones in usual_tables.c.  And to create the new table containing the 
-actual flag values, of course.
-
-There will also have to be a new argument to usb_stor_probe1() 
-specifying whether the id->driver_info field is standard (i.e., it 
-contains the flags directly) or is one of the new indirect index values.  
-
-And you'll have to figure out a comparable change to the dynamic device 
-ID table mechanism.
-
-(If you want to be really fancy about it, you could design things in 
-such a way that the indirect flags approach is used only on 32-bit 
-systems.  64-bit systems can put the new flag bits directly into the 
-driver_info field.  However, it's probably best not to worry about this 
-initially.)
+diff --git a/drivers/usb/gadget/legacy/raw_gadget.c b/drivers/usb/gadget/legacy/raw_gadget.c
+index e549022642e5..b9ecc55a2ce2 100644
+--- a/drivers/usb/gadget/legacy/raw_gadget.c
++++ b/drivers/usb/gadget/legacy/raw_gadget.c
+@@ -25,6 +25,7 @@
+ #include <linux/usb/ch9.h>
+ #include <linux/usb/ch11.h>
+ #include <linux/usb/gadget.h>
++#include <linux/usb/composite.h>
  
-Alan Stern
+ #include <uapi/linux/usb/raw_gadget.h>
+ 
+@@ -363,6 +364,16 @@ static int gadget_setup(struct usb_gadget *gadget,
+ out_unlock:
+ 	spin_unlock_irqrestore(&dev->lock, flags);
+ out:
++	if (ret == 0 && ctrl->wLength == 0) {
++		/*
++		 * Return USB_GADGET_DELAYED_STATUS as a workaround to stop
++		 * some UDC drivers (e.g. dwc3) from automatically proceeding
++		 * with the status stage for 0-length transfers.
++		 * Should be removed once all UDC drivers are fixed to always
++		 * delay the status stage until a response is queued to EP0.
++		 */
++		return USB_GADGET_DELAYED_STATUS;
++	}
+ 	return ret;
+ }
+ 
+-- 
+2.25.1
+
