@@ -2,28 +2,30 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A524C83F11
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D51AC83F10
 	for <linux-usb@archiver.kernel.org>; Mon, 28 Aug 2023 02:18:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229608AbjH1CSJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 27 Aug 2023 22:18:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56226 "EHLO
+        id S229660AbjH1CSK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 27 Aug 2023 22:18:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229656AbjH1CRt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Aug 2023 22:17:49 -0400
-Received: from out-252.mta1.migadu.com (out-252.mta1.migadu.com [95.215.58.252])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82068DD
+        with ESMTP id S229654AbjH1CRs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 27 Aug 2023 22:17:48 -0400
+X-Greylist: delayed 349 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 27 Aug 2023 19:17:46 PDT
+Received: from out-246.mta1.migadu.com (out-246.mta1.migadu.com [95.215.58.246])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79EB9DA
         for <linux-usb@vger.kernel.org>; Sun, 27 Aug 2023 19:17:46 -0700 (PDT)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1693188642;
+        t=1693188644;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=s3mKfn7GAN06ou/8BCH2fRTTl02YY6jrfUlWZqgBA1E=;
-        b=S5Jlqj9UFLejHmRcgZ4/6G80Kbyo2zYmVbxS5xaHtfuC0RMPPFDzZNvT4YJIcxF8JuS/2i
-        euoJ3VV4tyyadjGnrNlWL/5ZmHIXs/uPodvi63Kf6bFOecUoGVmWpg7R12NAXrOud5dBkO
-        ekAL9kWUDhgU02qM4vhBQz5ZD3xFLVY=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=rtKvrVKkVQRnt5532V2eBTwRFEQ3kLH/lmwR/1FmH1s=;
+        b=nX51DTd6k2pYWpSmnb5tXrNcL7PyuZHU/VuPVXFkQycEyI73p4Ck5Zd3i6mIhYwxplI1OU
+        5x2GgSy80mXEG3edYDZ16LNYljPSqkJtJ54EuxeSCHqLUlv08XpVsouQghCSaIzq81AqLn
+        39nwhdXuhAOArDezqY66niYxhT+Ljmw=
 From:   andrey.konovalov@linux.dev
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Alan Stern <stern@rowland.harvard.edu>
@@ -37,9 +39,11 @@ Cc:     Andrey Konovalov <andreyknvl@gmail.com>,
         Al Cooper <alcooperx@gmail.com>,
         Herve Codina <herve.codina@bootlin.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] usb: gadget: clarify usage of USB_GADGET_DELAYED_STATUS
-Date:   Mon, 28 Aug 2023 04:10:30 +0200
-Message-Id: <5c2913d70556b03c9bb1893c6941e8ece04934b0.1693188390.git.andreyknvl@gmail.com>
+Subject: [PATCH 3/3] usb: gadgetfs: return USB_GADGET_DELAYED_STATUS from setup()
+Date:   Mon, 28 Aug 2023 04:10:32 +0200
+Message-Id: <35c01a524b2eb6c3f01bc08f16bdff2d72256a1f.1693188390.git.andreyknvl@gmail.com>
+In-Reply-To: <5c2913d70556b03c9bb1893c6941e8ece04934b0.1693188390.git.andreyknvl@gmail.com>
+References: <5c2913d70556b03c9bb1893c6941e8ece04934b0.1693188390.git.andreyknvl@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -49,96 +53,67 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Andrey Konovalov <andreyknvl@gmail.com>
 
-USB_GADGET_DELAYED_STATUS was introduced in commit 1b9ba000177e ("usb:
-gadget: composite: Allow function drivers to pause control transfers").
-It was initially intended for the composite framework to allow delaying
-completing the status stage of a SET_CONFIGURATION request until all
-functions are ready.
+Return USB_GADGET_DELAYED_STATUS from the setup() callback for 0-length
+transfers as a workaround to stop some UDC drivers (e.g. dwc3) from
+automatically proceeding with the status stage.
 
-Unfortunately, that commit had an unintended side-effect of returning
-USB_GADGET_DELAYED_STATUS from the ->setup() call of the composite
-framework gadget driver.
-
-As a result of this and the incomplete documentation, some UDC drivers
-started relying on USB_GADGET_DELAYED_STATUS to decide when to avoid
-autocompleting the status stage for 0-length control transfers. dwc3 was
-the first in commit 5bdb1dcc6330 ("usb: dwc3: ep0: handle delayed_status
-again"). And a number of other UDC drivers followed later, probably
-relying on the dwc3 behavior as a reference.
-
-Unfortunately, this violated the interface between the UDC and the
-gadget driver for 0-length control transfers: the UDC driver must only
-proceed with the status stage for a 0-length control transfer once the
-gadget driver queued a response to EP0.
-
-As a result, a few gadget drivers are partially broken when used with
-a UDC that only delays the status stage for 0-length transfers when
-USB_GADGET_DELAYED_STATUS is returned from the setup() callback.
-
-This includes Raw Gadget and GadgetFS. For FunctionFS, a workaround was
-added in commit 946ef68ad4e4 ("usb: gadget: ffs: Let setup() return
-USB_GADGET_DELAYED_STATUS") and commit 4d644abf2569 ("usb: gadget: f_fs:
-Only return delayed status when len is 0").
-
-The proper solution to this issue would be to contain
-USB_GADGET_DELAYED_STATUS within the composite framework and make all
-UDC drivers to not complete the status stage for 0-length requests on
-their own.
-
-Unfortunately, there is quite a few UDC drivers that need to get fixed
-and the required changes for some of them are not trivial.
-
-For now, update the comments to clarify that USB_GADGET_DELAYED_STATUS
-must not be used by the UDC drivers.
-
-The following two commits also add workarounds to Raw Gadget and GadgetFS
-to make them compatible with the broken UDC drivers until they are fixed.
+This workaround should be removed once all UDC drivers are fixed to
+always delay the status stage until a response is queued to EP0.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@gmail.com>
 ---
- include/linux/usb/composite.h | 8 ++++++++
- include/linux/usb/gadget.h    | 9 +++++++++
- 2 files changed, 17 insertions(+)
+ drivers/usb/gadget/legacy/inode.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/usb/composite.h b/include/linux/usb/composite.h
-index 07531c4f4350..1d2cf6a070ac 100644
---- a/include/linux/usb/composite.h
-+++ b/include/linux/usb/composite.h
-@@ -35,6 +35,14 @@
-  * are ready. The control transfer will then be kept from completing till
-  * all the function drivers that requested for USB_GADGET_DELAYED_STAUS
-  * invoke usb_composite_setup_continue().
-+ *
-+ * NOTE: USB_GADGET_DELAYED_STATUS must not be used in UDC drivers: they
-+ * must delay completing the status stage for 0-length control transfers
-+ * regardless of the whether USB_GADGET_DELAYED_STATUS is returned from
-+ * the gadget driver's setup() callback.
-+ * Currently, a number of UDC drivers rely on USB_GADGET_DELAYED_STATUS,
-+ * which is a bug. These drivers must be fixed and USB_GADGET_DELAYED_STATUS
-+ * must be contained within the composite framework.
-  */
- #define USB_GADGET_DELAYED_STATUS       0x7fff	/* Impossibly large value */
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index 28249d0bf062..154bbf578ba2 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -31,6 +31,7 @@
  
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index 75bda0783395..6532beb587b1 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -711,6 +711,15 @@ static inline int usb_gadget_check_config(struct usb_gadget *gadget)
-  * get_interface.  Setting a configuration (or interface) is where
-  * endpoints should be activated or (config 0) shut down.
-  *
-+ * The gadget driver's setup() callback does not have to queue a response to
-+ * ep0 within the setup() call, the driver can do it after setup() returns.
-+ * The UDC driver must wait until such a response is queued before proceeding
-+ * with the data/status stages of the control transfer.
-+ *
-+ * NOTE: Currently, a number of UDC drivers rely on USB_GADGET_DELAYED_STATUS
-+ * being returned from the setup() callback, which is a bug. See the comment
-+ * next to USB_GADGET_DELAYED_STATUS for details.
-+ *
-  * (Note that only the default control endpoint is supported.  Neither
-  * hosts nor devices generally support control traffic except to ep0.)
-  *
+ #include <linux/usb/gadgetfs.h>
+ #include <linux/usb/gadget.h>
++#include <linux/usb/composite.h>
+ 
+ 
+ /*
+@@ -241,6 +242,7 @@ static DEFINE_MUTEX(sb_mutex);		/* Serialize superblock operations */
+ #define xprintk(d,level,fmt,args...) \
+ 	printk(level "%s: " fmt , shortname , ## args)
+ 
++#undef DBG
+ #ifdef DEBUG
+ #define DBG(dev,fmt,args...) \
+ 	xprintk(dev , KERN_DEBUG , fmt , ## args)
+@@ -256,8 +258,10 @@ static DEFINE_MUTEX(sb_mutex);		/* Serialize superblock operations */
+ 	do { } while (0)
+ #endif /* DEBUG */
+ 
++#undef ERROR
+ #define ERROR(dev,fmt,args...) \
+ 	xprintk(dev , KERN_ERR , fmt , ## args)
++#undef INFO
+ #define INFO(dev,fmt,args...) \
+ 	xprintk(dev , KERN_INFO , fmt , ## args)
+ 
+@@ -1511,7 +1515,16 @@ gadgetfs_setup (struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 			event->u.setup = *ctrl;
+ 			ep0_readable (dev);
+ 			spin_unlock (&dev->lock);
+-			return 0;
++			/*
++			 * Return USB_GADGET_DELAYED_STATUS as a workaround to
++			 * stop some UDC drivers (e.g. dwc3) from automatically
++			 * proceeding with the status stage for 0-length
++			 * transfers.
++			 * Should be removed once all UDC drivers are fixed to
++			 * always delay the status stage until a response is
++			 * queued to EP0.
++			 */
++			return w_length == 0 ? USB_GADGET_DELAYED_STATUS : 0;
+ 		}
+ 	}
+ 
 -- 
 2.25.1
 
