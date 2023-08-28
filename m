@@ -2,148 +2,112 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C23DCC83F1C
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Aug 2023 05:54:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3131CC83F21
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Aug 2023 05:54:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229454AbjH1FxL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Aug 2023 01:53:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34230 "EHLO
+        id S229578AbjH1Fxp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Aug 2023 01:53:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjH1Fwm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Aug 2023 01:52:42 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1EE3EAA;
-        Sun, 27 Aug 2023 22:52:37 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 37S5pn5rB024725, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 37S5pn5rB024725
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 28 Aug 2023 13:51:49 +0800
-Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Mon, 28 Aug 2023 13:52:14 +0800
-Received: from RTEXH36505.realtek.com.tw (172.21.6.25) by
- RTEXDAG01.realtek.com.tw (172.21.6.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Mon, 28 Aug 2023 13:52:13 +0800
-Received: from localhost.localdomain (172.21.252.101) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server id
- 15.1.2375.32 via Frontend Transport; Mon, 28 Aug 2023 13:52:13 +0800
-From:   Stanley Chang <stanley_chang@realtek.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-CC:     Stanley Chang <stanley_chang@realtek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 RESEND 2/2] dt-bindings: usb: dwc3: Add DWC_usb3 TX/RX threshold configurable
-Date:   Mon, 28 Aug 2023 13:52:06 +0800
-Message-ID: <20230828055212.5600-2-stanley_chang@realtek.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230828055212.5600-1-stanley_chang@realtek.com>
-References: <20230828055212.5600-1-stanley_chang@realtek.com>
+        with ESMTP id S229574AbjH1FxT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Aug 2023 01:53:19 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55B9AA9;
+        Sun, 27 Aug 2023 22:53:17 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37S5ocsI029304;
+        Mon, 28 Aug 2023 05:52:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=OXYmdMy79R6QKETpCZPnezdbgFpTmEBl3XuaE+p/LbA=;
+ b=B5SBLHGcDkN1rzHh/64RNkUmbZ663XTY0tOYFUUoYgxuFxEeHSQmlu9rF5kJZ92lLNYx
+ hGnydn4+DEbSnhN7oyGsj6Cdxo4NbylAuuIUfjQR9wTE37koQxXLzdGcEROJNpTMmlMG
+ jGIOu1zj7NxU9ZpLyAaqsIiO35TO00MsId17ofNZK06OHIO7Vbx2ZSUegF258V/e86mn
+ Cb3vGQeLQLafdxphQNyMcCYOi5aMeutGxXMWabQUxCaZYXWIc+tNzBhR9FIocHkvvWMl
+ ijTCjIKBHhKe387wbeXmym9tParnmmoZt4H3aODEBVA7synKlcVbh8mO7d+r9x/mdHpX 3A== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sq8qrtnx6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 28 Aug 2023 05:52:59 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37S5qwFi016865
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 28 Aug 2023 05:52:58 GMT
+Received: from [10.238.139.231] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Sun, 27 Aug
+ 2023 22:52:54 -0700
+Message-ID: <6187e719-d1a4-4985-b43f-efaeca2dde89@quicinc.com>
+Date:   Mon, 28 Aug 2023 13:51:01 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-KSE-ServerInfo: RTEXDAG01.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] usb: typec: qcom: check regulator enable status before
+ disabling it
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+CC:     Guenter Roeck <linux@roeck-us.net>, Andy Gross <agross@kernel.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_fenglinw@quicinc.com>,
+        <subbaram@quicinc.com>
+References: <20230824-qcom-tcpc-v2-1-3dd8c3424564@quicinc.com>
+ <ZOdlOQ+N2J7jyIEZ@kuha.fi.intel.com> <ZOdt+dz7XXljFJcK@kuha.fi.intel.com>
+ <0b6b864c-3e41-4b41-ac35-9ab8edb156a0@quicinc.com>
+ <47547f9e-73d3-f4bc-e3ac-f1be42730dd6@linaro.org>
+From:   hui liu <quic_huliu@quicinc.com>
+In-Reply-To: <47547f9e-73d3-f4bc-e3ac-f1be42730dd6@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: BaoH108eblaLKkVYE-Y78KSbKPh_lkJ_
+X-Proofpoint-GUID: BaoH108eblaLKkVYE-Y78KSbKPh_lkJ_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-28_03,2023-08-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ priorityscore=1501 clxscore=1015 phishscore=0 mlxlogscore=387 bulkscore=0
+ malwarescore=0 adultscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2308280053
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In Synopsys's dwc3 data book:
-To avoid underrun and overrun during the burst, in a high-latency bus
-system (like USB), threshold and burst size control is provided through
-GTXTHRCFG and GRXTHRCFG registers.
-By default, USB TX and RX threshold are not enabled. To enable
-TX or RX threshold, both packet threshold count and max burst size
-properties must be set to a valid non-zero value.
 
-In Realtek DHC SoC, DWC3 USB 3.0 uses AHB system bus. When dwc3 is
-connected with USB 2.5G Ethernet, there will be overrun problem.
-Therefore, setting TX/RX thresholds can avoid this issue.
 
-Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
----
-v1 to v2 change:
-    Add the properties for TX/RX threshold setting
----
- .../devicetree/bindings/usb/snps,dwc3.yaml    | 56 +++++++++++++++++++
- 1 file changed, 56 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index a696f23730d3..ee5af4b381b1 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -310,6 +310,62 @@ properties:
-     maximum: 62
-     deprecated: true
- 
-+  snps,rx-thr-num-pkt:
-+    description:
-+      USB RX packet threshold count. In host mode, this field specifies
-+      the space that must be available in the RX FIFO before the core can
-+      start the corresponding USB RX transaction (burst).
-+      In device mode, this field specifies the space that must be
-+      available in the RX FIFO before the core can send ERDY for a
-+      flow-controlled endpoint. It is only used for SuperSpeed.
-+      The valid values for this field are from 1 to 15. (DWC3 SuperSpeed
-+      USB 3.0 Controller Databook)
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    minimum: 1
-+    maximum: 15
-+
-+  snps,rx-max-burst:
-+    description:
-+      Max USB RX burst size. In host mode, this field specifies the
-+      Maximum Bulk IN burst the DWC_usb3 core can perform. When the system
-+      bus is slower than the USB, RX FIFO can overrun during a long burst.
-+      You can program a smaller value to this field to limit the RX burst
-+      size that the core can perform. It only applies to SS Bulk,
-+      Isochronous, and Interrupt IN endpoints in the host mode.
-+      In device mode, this field specifies the NUMP value that is sent in
-+      ERDY for an OUT endpoint.
-+      The valid values for this field are from 1 to 16. (DWC3 SuperSpeed
-+      USB 3.0 Controller Databook)
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    minimum: 1
-+    maximum: 16
-+
-+  snps,tx-thr-num-pkt:
-+    description:
-+      USB TX packet threshold count. This field specifies the number of
-+      packets that must be in the TXFIFO before the core can start
-+      transmission for the corresponding USB transaction (burst).
-+      This count is valid in both host and device modes. It is only used
-+      for SuperSpeed operation.
-+      Valid values are from 1 to 15. (DWC3 SuperSpeed USB 3.0 Controller
-+      Databook)
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    minimum: 1
-+    maximum: 15
-+
-+  snps,tx-max-burst:
-+    description:
-+      Max USB TX burst size. When the system bus is slower than the USB,
-+      TX FIFO can underrun during a long burst. Program a smaller value
-+      to this field to limit the TX burst size that the core can execute.
-+      In Host mode, it only applies to SS Bulk, Isochronous, and Interrupt
-+      OUT endpoints. This value is not used in device mode.
-+      Valid values are from 1 to 16. (DWC3 SuperSpeed USB 3.0 Controller
-+      Databook)
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    minimum: 1
-+    maximum: 16
-+
-   snps,rx-thr-num-pkt-prd:
-     description:
-       Periodic ESS RX packet threshold count (host mode only). Set this and
--- 
-2.34.1
-
+On 8/25/2023 6:11 PM, Bryan O'Donoghue wrote:
+> On 25/08/2023 11:03, hui liu wrote:
+>> Hi Heikki,
+>>
+>> I will let Bryan to comment, I am using the driver to support the 
+>> pdphy in SMB2352 and there is no external regulator required, so I am 
+>> just using a dummy regulator device and I saw this unbalanced 
+>> regulator disabling warnings, so my intention for this change is just 
+>> fixing the warning message. However, I am fine with whatever 
+>> suggestion you have, since the logic is straightforward, and I can 
+>> make the changes once you have the agreement.
+>>
+>> Thanks,
+>> Hui
+> 
+> Err well on real hardware with a real regulator I don't see this error.
+Just a doublt, if real regulator has no this error, who enabled it 
+before it was reseted?
+> 
+> I'd say we should try the second proposed changed in pdphy_start 
+> pdphy_stop since it looks neater.
+> 
+I updated the code refer to the proposal, and it worked well,but I just 
+thought it makes code a little redundant. Why don't we only keep one 
+pdphy_enable/pdphy_disable or pdphy_start/pdphy_stop?
+> If it works then fine, else lets stick to your original fix.
+> 
+> ---
+> bod
