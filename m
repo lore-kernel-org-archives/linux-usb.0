@@ -2,120 +2,162 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4641BC83F12
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Aug 2023 12:59:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B55C83F12
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Aug 2023 13:32:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231580AbjH1M7Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Aug 2023 08:59:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35956 "EHLO
+        id S230411AbjH1Nbq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Aug 2023 09:31:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232601AbjH1M7U (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Aug 2023 08:59:20 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9F4311A
-        for <linux-usb@vger.kernel.org>; Mon, 28 Aug 2023 05:59:17 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-51e28cac164so8562954a12.1
-        for <linux-usb@vger.kernel.org>; Mon, 28 Aug 2023 05:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693227554; x=1693832354;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SXa6vdwW1rKA6FCiOnM2gWFayg+FQIarMaRqCB7nxbI=;
-        b=B8pX1c+SjOkMkGYjFGRVdXR3I1wzPJff9f3HReqrGiAry1v+ErH/9bIU9zvLxjRa9t
-         NA1cKHZtNgf5AnkX2J/EEAwy/JOLyOhissAmMnsvVH3ULGeaHKi2PYPkC7RJ5VO3Op8U
-         dWb7Xy4UpIyB4npxeF3nAtCDxxZtqVZgLDrTTvvC85zjNmf28jQ7BYsuYZRZ84vz217t
-         MGwh5mxJ1C6cwBWpX1zmqq04s3sAXqdiRLKUSZg0vbF8m2/dLG8bzd1/ojbYWD4bojUS
-         NUUmHJWp2yzyd+2Hz2IMXWv5rLXG4wYNcTFShsBWueQB+kJhcQbk1JKiFirY7WYFvEhp
-         CqsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693227554; x=1693832354;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SXa6vdwW1rKA6FCiOnM2gWFayg+FQIarMaRqCB7nxbI=;
-        b=VAC/K8Clj4DFMIdl4n5cPhMAaDao5W0d4xeaAm/y76fQACyBkhXOI5OLeTzq8YB0Ay
-         +SNpgZIzoxGE/SVI3OG3QtfK37shaKX8dlRY091arkaAyjD17I0fgEslupIn28cgG7Hh
-         4qhdR6wGlrj9NBHnt2VflgeehKH0nd7mR6Hv21nOa6ir8TaqyjkYgLCgVtk4/4oYzUky
-         31CCsDmYbAFU18iNFDNSb7P/LgLh7dSWylb9b0aqb9+Mvz73xMtb6oVDsg4i2pC2V6qN
-         iKUWKEy6tMfNV8U64SaUQwQNMWooM403eypbGQl7tjldQGIK952bNMSJIxCR/Gu0m6dm
-         EZQQ==
-X-Gm-Message-State: AOJu0YzI8OYWcLR2pZiFiRSfvtFF6XWg6fIYaPh8FeWpaMX4EHiOOQjJ
-        4z+gVHpn34YH+GIfj1a/oypRWJH0P4U=
-X-Google-Smtp-Source: AGHT+IFjO7dMdX8+01KAt1m2grWpjVdgLpefelZF0Wcix6qhDvUjJ1WUBtpXVlDzdT25m6FNRGSTVw==
-X-Received: by 2002:a17:907:7714:b0:99b:4210:cc76 with SMTP id kw20-20020a170907771400b0099b4210cc76mr25207306ejc.28.1693227554039;
-        Mon, 28 Aug 2023 05:59:14 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1983:ea0::b283? ([2a02:908:1983:ea0::b283])
-        by smtp.gmail.com with ESMTPSA id x18-20020a170906805200b0097073f1ed84sm4614903ejw.4.2023.08.28.05.59.13
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Aug 2023 05:59:13 -0700 (PDT)
-Message-ID: <deb7252f-a8b7-2a08-fe49-92e1145394dd@gmail.com>
-Date:   Mon, 28 Aug 2023 14:59:12 +0200
+        with ESMTP id S230492AbjH1NbU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Aug 2023 09:31:20 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE75B124;
+        Mon, 28 Aug 2023 06:31:17 -0700 (PDT)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37SCtkNi010563;
+        Mon, 28 Aug 2023 13:30:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=xmS11uppazM6Li9U7FLkHFszAfzDa6yOZbyvO56L6E0=;
+ b=NE/kEmbCyAXG1tRxwhYJrJeWlKblbrgKD4/pU8VyhFWNdkHKF2L8UlrhLdhbjCtW+OA1
+ YICdAet/xL+FmFjktUxlMOKo6fSusIivOAe6azdaY2eG24jzO9pA2ubARJmDZ5Cb74LA
+ ixMy4gL6AXP6gEmqWgCcdKp8lP7n9iFBEl6PjOQ+ma4qWJPM88E/duTCMM/LpL7kdndF
+ tonpyNFCSggUWqDEIuphLvBU4W4q6lWx5Czvl10kAcRkyHkKlsUsuHk7+UXQEDE8pQU4
+ AiWVZRyBOeNdCkNFQaSnkHKnhRU9UEhqYuhUBssutbW+OKm4oquB4yv7HB4pIfBHAn88 4A== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3srt8s09c2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 28 Aug 2023 13:30:57 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37SDUuYq029290
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 28 Aug 2023 13:30:56 GMT
+Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Mon, 28 Aug 2023 06:30:49 -0700
+From:   Krishna Kurapati <quic_kriskura@quicinc.com>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Andy Gross" <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Johan Hovold <johan@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <quic_pkondeti@quicinc.com>, <quic_ppratap@quicinc.com>,
+        <quic_jackp@quicinc.com>, <ahalaney@redhat.com>,
+        <quic_shazhuss@quicinc.com>,
+        Krishna Kurapati <quic_kriskura@quicinc.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v11 01/13] dt-bindings: usb: qcom,dwc3: Add bindings for SC8280 Multiport
+Date:   Mon, 28 Aug 2023 19:00:21 +0530
+Message-ID: <20230828133033.11988-2-quic_kriskura@quicinc.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230828133033.11988-1-quic_kriskura@quicinc.com>
+References: <20230828133033.11988-1-quic_kriskura@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US
-To:     USB list <linux-usb@vger.kernel.org>
-From:   Julian Sikorski <belegdol@gmail.com>
-Subject: Lacie USB3-FW needs a few resets to be detected properly
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: KvEZFENkSGh6RO2ao1ySLZ7bj6i6r7is
+X-Proofpoint-GUID: KvEZFENkSGh6RO2ao1ySLZ7bj6i6r7is
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-28_10,2023-08-28_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ priorityscore=1501 mlxlogscore=875 adultscore=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 suspectscore=0 malwarescore=0 clxscore=1011
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308280118
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+Add the compatible string for SC8280 Multiport USB controller from
+Qualcomm.
 
-I have noticed that my Lacie USB3-FW drive now needs about two minutes 
-and a few resets to actually be detected properly. It did not do that in 
-the past so it seems to be a regression:
+There are 4 power event irq interrupts supported by this controller
+(one for each port of multiport). Added all the 4 as non-optional
+interrupts for SC8280XP-MP
 
-[24854.772068] scsi 2:0:0:0: Direct-Access     LaCie    Rugged FW USB3 
-051E PQ: 0 ANSI: 6
-[24854.773042] sd 2:0:0:0: Attached scsi generic sg0 type 0
-[24854.781956] sd 2:0:0:0: [sda] 1953525168 512-byte logical blocks: 
-(1.00 TB/932 GiB)
-[24854.782035] sd 2:0:0:0: [sda] Write Protect is off
-[24854.782039] sd 2:0:0:0: [sda] Mode Sense: 43 00 00 00
-[24854.782154] sd 2:0:0:0: [sda] Write cache: enabled, read cache: 
-enabled, doesn't support DPO or FUA
-[24854.782158] sd 2:0:0:0: [sda] Preferred minimum I/O size 512 bytes
-[24854.782161] sd 2:0:0:0: [sda] Optimal transfer size 33553920 bytes
-[24884.819549] sd 2:0:0:0: [sda] tag#22 uas_eh_abort_handler 0 uas-tag 1 
-inflight: IN
-[24884.819568] sd 2:0:0:0: [sda] tag#22 CDB: Inquiry 12 01 b9 00 04 00
-[24884.825472] scsi host2: uas_eh_device_reset_handler start
-[24884.939830] usb 4-2: reset SuperSpeed USB device number 3 using xhci_hcd
-[24884.953133] scsi host2: uas_eh_device_reset_handler success
-[24915.029395] scsi host2: uas_eh_device_reset_handler start
-[24915.029460] sd 2:0:0:0: [sda] tag#1 uas_zap_pending 0 uas-tag 1 
-inflight:
-[24915.029465] sd 2:0:0:0: [sda] tag#1 CDB: Inquiry 12 01 b9 00 04 00
-[24915.143528] usb 4-2: reset SuperSpeed USB device number 3 using xhci_hcd
-[24915.157265] scsi host2: uas_eh_device_reset_handler success
-[24945.233369] scsi host2: uas_eh_device_reset_handler start
-[24945.233457] sd 2:0:0:0: [sda] tag#2 uas_zap_pending 0 uas-tag 1 
-inflight:
-[24945.233464] sd 2:0:0:0: [sda] tag#2 CDB: Inquiry 12 01 b9 00 04 00
-[24945.347775] usb 4-2: reset SuperSpeed USB device number 3 using xhci_hcd
-[24945.361485] scsi host2: uas_eh_device_reset_handler success
-[24975.446411] scsi host2: uas_eh_device_reset_handler start
-[24975.446494] sd 2:0:0:0: [sda] tag#13 uas_zap_pending 0 uas-tag 1 
-inflight:
-[24975.446504] sd 2:0:0:0: [sda] tag#13 CDB: Inquiry 12 01 b9 00 04 00
-[24975.562542] usb 4-2: reset SuperSpeed USB device number 3 using xhci_hcd
-[24975.575688] scsi host2: uas_eh_device_reset_handler success
-[24975.933649]  sda: sda1 sda2
-[24975.934132] sd 2:0:0:0: [sda] Attached SCSI disk
+Also each port of multiport has one DP and oen DM IRQ. Add all DP/DM
+IRQ's related to 4 ports of SC8280XP Teritiary controller.
 
-I only use this drive for cold backups which means it does not get 
-connected all that often. I can reproduce it on at least one different 
-machine. I am on 6.4.12 kernel now. Back in September 2021 when we 
-figured out a quirk needed to get UAS working the startup delay was not 
-there. This appears to have been in kernel 5.14-5.15 timeframe. I tested 
-with 6.0.8 on an older system and it seems to be affected too. Testing 
-earlier kernel versions is going to be difficult.
+Also added ss phy irq for both SS Ports.
 
-Best regards,
-Julian
+Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../devicetree/bindings/usb/qcom,dwc3.yaml    | 29 +++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index 67591057f234..d248f454811e 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -29,6 +29,7 @@ properties:
+           - qcom,sc7180-dwc3
+           - qcom,sc7280-dwc3
+           - qcom,sc8280xp-dwc3
++          - qcom,sc8280xp-dwc3-mp
+           - qcom,sdm660-dwc3
+           - qcom,sdm670-dwc3
+           - qcom,sdm845-dwc3
+@@ -258,6 +259,7 @@ allOf:
+           contains:
+             enum:
+               - qcom,sc8280xp-dwc3
++              - qcom,sc8280xp-dwc3-mp
+     then:
+       properties:
+         clocks:
+@@ -479,6 +481,33 @@ allOf:
+             - const: dm_hs_phy_irq
+             - const: ss_phy_irq
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sc8280xp-dwc3-mp
++    then:
++      properties:
++        interrupts:
++          maxItems: 14
++        interrupt-names:
++          items:
++            - const: pwr_event_1
++            - const: pwr_event_2
++            - const: pwr_event_3
++            - const: pwr_event_4
++            - const: dp_hs_phy_1
++            - const: dm_hs_phy_1
++            - const: dp_hs_phy_2
++            - const: dm_hs_phy_2
++            - const: dp_hs_phy_3
++            - const: dm_hs_phy_3
++            - const: dp_hs_phy_4
++            - const: dm_hs_phy_4
++            - const: ss_phy_1
++            - const: ss_phy_2
++
+ additionalProperties: false
+ 
+ examples:
+-- 
+2.40.0
+
