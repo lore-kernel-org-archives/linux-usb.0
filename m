@@ -2,145 +2,153 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3EF0C71153
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Aug 2023 15:51:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B1FDC71153
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Aug 2023 17:22:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232267AbjH1PvL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Aug 2023 11:51:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44294 "EHLO
+        id S230150AbjH1RVa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Aug 2023 13:21:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232529AbjH1Puq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Aug 2023 11:50:46 -0400
-X-Greylist: delayed 452 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 28 Aug 2023 08:50:41 PDT
-Received: from out-251.mta0.migadu.com (out-251.mta0.migadu.com [IPv6:2001:41d0:1004:224b::fb])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4A6511C
-        for <linux-usb@vger.kernel.org>; Mon, 28 Aug 2023 08:50:41 -0700 (PDT)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1693237386;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=fgBuArDAwiNDN/xzKnZN8l5Litg7iAC+I/Zd7wJe49s=;
-        b=BNyCoh6HRMfzbsXF8q19rY9vCDZ7wxDRzusDhQbA2Ievve9w3ukeqXY2o132f+XdfCpoav
-        glzEnQauP90qYoa1JgOsCRYT6jmZyupFDek+h/k0ZYinGNe/lPuC8/dOSD8rO+iKg2KmJw
-        XfS6U6M8geGx0ala/nWt4hVgyOGzw/0=
-From:   andrey.konovalov@linux.dev
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Andrey Konovalov <andreyknvl@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Felipe Balbi <balbi@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Justin Chen <justin.chen@broadcom.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/3] usb: gadget: clarify usage of USB_GADGET_DELAYED_STATUS
-Date:   Mon, 28 Aug 2023 17:43:02 +0200
-Message-Id: <7f0ee06c68c7241c844cd50f8565fdd5ead79b1b.1693237258.git.andreyknvl@gmail.com>
+        with ESMTP id S232838AbjH1RVN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Aug 2023 13:21:13 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5884DE1;
+        Mon, 28 Aug 2023 10:21:10 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37SEHFqi002313;
+        Mon, 28 Aug 2023 17:21:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=I0DTISILOn+O9DXCR29s3guG7mCG2+3VukUCjYlcKv4=;
+ b=Fw7KxbzXkrEvX4wzzS94cmtOnCx1RwBCyTkR28pkAj0kWxngEjq2R5PaW6+9nHz1MNHu
+ tp39wbN2+irmsIHkx1knsdxSSWOjidScnV9JJM9ChYbIfDMCiiu2avIN4aD8lnA1lL8W
+ iaSJXN0+S2XvW+nALrgm0ctWDJUrCmQAYrF2b/qnygb3RGQWBXe4TpojD5zuBxrcpbi4
+ X9n1/gvSLXpcQhA/VGcNGIQ96CJl5VU9TZpxurbYvHkdi63QHqL6qiqlg1FpUm+HZYkC
+ tGxqc/96MjLOb+yj7aSOS2p06bIc2xtXkVa7g+GNkLg1Yq7eJyGdNutG4afAefC+odI+ Kg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sq8qrv13g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 28 Aug 2023 17:21:02 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37SHL1LC000656
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 28 Aug 2023 17:21:01 GMT
+Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Mon, 28 Aug 2023 10:21:00 -0700
+Date:   Mon, 28 Aug 2023 10:20:59 -0700
+From:   Bjorn Andersson <quic_bjorande@quicinc.com>
+To:     Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
+CC:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Johan Hovold <johan@kernel.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>
+Subject: Re: Disconnect interrupt generation for QC targets when role switch
+ is enabled
+Message-ID: <20230828172059.GC818859@hu-bjorande-lv.qualcomm.com>
+References: <af60c05b-4a0f-51b8-486a-1fc601602515@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <af60c05b-4a0f-51b8-486a-1fc601602515@quicinc.com>
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: BUiydJTMxZ3cpzlI387FWnzhb3fiOCe3
+X-Proofpoint-GUID: BUiydJTMxZ3cpzlI387FWnzhb3fiOCe3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-28_14,2023-08-28_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ priorityscore=1501 clxscore=1011 phishscore=0 mlxlogscore=999 bulkscore=0
+ malwarescore=0 adultscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2308280152
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Andrey Konovalov <andreyknvl@gmail.com>
+On Fri, Aug 11, 2023 at 05:21:03PM +0530, Krishna Kurapati PSSNV wrote:
+> Hi Thinh, Johan, Bjorn, Konrad,
+> 
+>   On QC targets today, the disconnect event in device mode is generated by
+> controller when software writes to QSCRATCH registers in qcom glue layer
+> rather than the vbus line being routed to dwc3 core IP for it to recognize
+> and generate conndone/disconnect events.
+> 
+> We need to write '1' to  UTMI_OTG_VBUS_VALID bit of QSCRATCH_HS_PHY_CTRL
+> register to generate a connection done event and "0" if we need to generate
+> a disconnect event during cable removal or mode switch. Exactly what is done
+> by "dwc3_qcom_vbus_override_enable" call in dwc3-qcom. In case the user
+> wants to enable runtime suspend for dwc3 and we don't generate a disconnect
+> event, the dwc->connected flag will be "true" and it would block suspend
+> entry.
+> 
+> Today, in dwc3-qcom, this qscratch modification is being done only for
+> vbus/host notifiers where I assume dwc3-qcom would be receiving these
+> notifications from charger driver regarding cable connect and removal and
+> since we are receiving a copy of the information in dwc3-qcom as well, we
+> would be knowing when to set/clear the VBUS_VALID bit.
+> 
+> But, when we have role switch in play, the role_set callback goes to DRD and
+> Qcom driver is agnostic of what is actually happening. While this doesn't
+> hinder mode switch, the role change notification never really reaches
+> dwc3-qcom and we would never set this bit to "0" and disconnect event is not
+> generated upon cable plug-out. Is there a way we can properly provide this
+> notification to qcom glue driver ?
+> 
+> I had some idea on how to get the role notification reach qcom glue driver
+> but wanted your opinion on whether they can be used or not:
+> 
+> 1. Register a vendor_hook from glue driver and invoke that during
+> __dwc3_set_mode.
+> 
+> 2. Let the role notification reach dwc3-qcom first and then let qcom driver
+> invoke role_set of drd. Something similar to what was implemented by Wesley
+> on [1].
+> 
+> But both the options require dwc3_probe to be done in sync with
+> of_platform_populate or we need to defer qcom probe if dwc3_probe is
+> deferred. Since we are leaning towards async probe, not sure if the above
+> two options would be proper.
+> 
+> Couple of more reasons to ask for the above two options:
+> 
+> 1. We would know when we are in device/host mode and we can avoid having any
+> layering violations in dwc3-qcom.
+> 
+> 2. When it comes to runtime pm implementation for dwc3-qcom, an effort was
+> done by Manivannan Sadhasivam previously [2], we can avoid modifying
+> xhci-plat.c to set autosuspend delay to any specific value. We would be able
+> to enable runtime/autosuspend for dwc->xhci->dev from dwc3-qcom itself upon
+> entering host mode.
+> 
+> Can you help let know your thoughts on the above two options or if there is
+> any way we can implement the role change / cable plug in(out) callback.
+> 
 
-USB_GADGET_DELAYED_STATUS was introduced in commit 1b9ba000177e ("usb:
-gadget: composite: Allow function drivers to pause control transfers").
-It was initially intended for the composite framework to allow delaying
-completing the status stage of a SET_CONFIGURATION request until all
-functions are ready.
+As mentioned, this need has been identified a few times by now, so
+nothing strange in your request/proposal.
 
-Unfortunately, that commit had an unintended side-effect of returning
-USB_GADGET_DELAYED_STATUS from the ->setup() call of the composite
-framework gadget driver.
+But so far no one has come up with a good way to register glue code
+callbacks with the core; we can't pass arbitrary data (such as a
+function pointer to such callback), and we don't know when the core is
+registered, so we can't call a register operation when that happens.
 
-As a result of this and the incomplete documentation, some UDC drivers
-started relying on USB_GADGET_DELAYED_STATUS to decide when to avoid
-autocompleting the status stage for 0-length control transfers. dwc3 was
-the first in commit 5bdb1dcc6330 ("usb: dwc3: ep0: handle delayed_status
-again"). And a number of other UDC drivers followed later, probably
-relying on the dwc3 behavior as a reference.
+Regards,
+Bjorn
 
-Unfortunately, this violated the interface between the UDC and the
-gadget driver for 0-length control transfers: the UDC driver must only
-proceed with the status stage for a 0-length control transfer once the
-gadget driver queued a response to EP0.
-
-As a result, a few gadget drivers are partially broken when used with
-a UDC that only delays the status stage for 0-length transfers when
-USB_GADGET_DELAYED_STATUS is returned from the setup() callback.
-
-This includes Raw Gadget and GadgetFS. For FunctionFS, a workaround was
-added in commit 946ef68ad4e4 ("usb: gadget: ffs: Let setup() return
-USB_GADGET_DELAYED_STATUS") and commit 4d644abf2569 ("usb: gadget: f_fs:
-Only return delayed status when len is 0").
-
-The proper solution to this issue would be to contain
-USB_GADGET_DELAYED_STATUS within the composite framework and make all
-UDC drivers to not complete the status stage for 0-length requests on
-their own.
-
-Unfortunately, there is quite a few UDC drivers that need to get fixed
-and the required changes for some of them are not trivial.
-
-For now, update the comments to clarify that USB_GADGET_DELAYED_STATUS
-must not be used by the UDC drivers.
-
-The following two commits also add workarounds to Raw Gadget and GadgetFS
-to make them compatible with the broken UDC drivers until they are fixed.
-
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Andrey Konovalov <andreyknvl@gmail.com>
----
- include/linux/usb/composite.h | 8 ++++++++
- include/linux/usb/gadget.h    | 9 +++++++++
- 2 files changed, 17 insertions(+)
-
-diff --git a/include/linux/usb/composite.h b/include/linux/usb/composite.h
-index 07531c4f4350..1d2cf6a070ac 100644
---- a/include/linux/usb/composite.h
-+++ b/include/linux/usb/composite.h
-@@ -35,6 +35,14 @@
-  * are ready. The control transfer will then be kept from completing till
-  * all the function drivers that requested for USB_GADGET_DELAYED_STAUS
-  * invoke usb_composite_setup_continue().
-+ *
-+ * NOTE: USB_GADGET_DELAYED_STATUS must not be used in UDC drivers: they
-+ * must delay completing the status stage for 0-length control transfers
-+ * regardless of the whether USB_GADGET_DELAYED_STATUS is returned from
-+ * the gadget driver's setup() callback.
-+ * Currently, a number of UDC drivers rely on USB_GADGET_DELAYED_STATUS,
-+ * which is a bug. These drivers must be fixed and USB_GADGET_DELAYED_STATUS
-+ * must be contained within the composite framework.
-  */
- #define USB_GADGET_DELAYED_STATUS       0x7fff	/* Impossibly large value */
- 
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index 75bda0783395..6532beb587b1 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -711,6 +711,15 @@ static inline int usb_gadget_check_config(struct usb_gadget *gadget)
-  * get_interface.  Setting a configuration (or interface) is where
-  * endpoints should be activated or (config 0) shut down.
-  *
-+ * The gadget driver's setup() callback does not have to queue a response to
-+ * ep0 within the setup() call, the driver can do it after setup() returns.
-+ * The UDC driver must wait until such a response is queued before proceeding
-+ * with the data/status stages of the control transfer.
-+ *
-+ * NOTE: Currently, a number of UDC drivers rely on USB_GADGET_DELAYED_STATUS
-+ * being returned from the setup() callback, which is a bug. See the comment
-+ * next to USB_GADGET_DELAYED_STATUS for details.
-+ *
-  * (Note that only the default control endpoint is supported.  Neither
-  * hosts nor devices generally support control traffic except to ep0.)
-  *
--- 
-2.25.1
-
+> [1]: https://patchwork.kernel.org/project/linux-usb/patch/20201009082843.28503-4-wcheng@codeaurora.org/
+> [2]: https://patchwork.kernel.org/project/linux-usb/cover/20230325165217.31069-1-manivannan.sadhasivam@linaro.org/
+> 
+> Regards,
+> Krishna,
