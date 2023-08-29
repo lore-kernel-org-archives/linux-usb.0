@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA5CCA0C02
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Aug 2023 21:08:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C4E3CA0C0B
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Aug 2023 21:08:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240794AbjH2VHx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Aug 2023 17:07:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41650 "EHLO
+        id S240637AbjH2VHv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Aug 2023 17:07:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240598AbjH2VHc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Aug 2023 17:07:32 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7EDF1BB;
-        Tue, 29 Aug 2023 14:07:29 -0700 (PDT)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37TKxxG1030912;
-        Tue, 29 Aug 2023 21:07:15 GMT
+        with ESMTP id S240636AbjH2VHi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Aug 2023 17:07:38 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C241BE;
+        Tue, 29 Aug 2023 14:07:35 -0700 (PDT)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37TKi69u016674;
+        Tue, 29 Aug 2023 21:07:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=eOClxhPI1ii+XmRKgMqpCKEYNWxkx8lul9tSsvlG4A4=;
- b=HBXmlU2y0CrEHLGFZVcvVUCkZAD0u6/laGSSGcoYLl0j3akcGfklBdYXuhEoheuccHro
- y0VIc2p/0JhcaOHy7O8a9Xg3NWfHxRky7H3w5Y0CiNsfNsYOaomR/0nHaW7StUU5WzWT
- mU2Qb60sbWbVK0BSwhnEFwEZ7GI5fg/qKE3GNchF7ge+1FkMrUazPApd3uXtYjfLO6na
- lkml9xMBhYoMnpVyvqqEaZ22imSyI7sasujwrK9BxpPSB3hjPTIB0L3pcVc5Ly/GtaEt
- 7Ixbi6COAlvDCI8Slfzm7ARQFVjirL5+/8yzUEmahUiDXlwTuI/XtJ1s6Syo33HkRZ3X MA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ss4wq2jg6-1
+ bh=r31eiFMh/CBoLoST6JeTG7QMm3NUYna5E/5qOM98ZVk=;
+ b=EfYmQooCe4L8CpmQAMAa5XBSW7TFRkILBs+fkU/WLdgPBKQ6qPA7qm51+/1qfP7lH28F
+ cABS1sdGZyj4lrS49s04PYgg0Q3vi635NvclT8wnz46J5Kv45ybQJwdKN/K92HCVSYE8
+ lic86IblkGQcG9CWGJgVbnj4k3edS37evrcD/URe8JvZM/QQdGFwL/aGByMURDGj5eeP
+ 3pKcFiynu6xozXDOY/se6zNB5H6F71k6qTz3ut+3hrG8F1CzNysJJMKnQvmUMUF6ryDF
+ reFpx/3Bk4ILjnpUSCfLnHeThSO/YHg8A7vmaMe6YyUxUgFgapt/td6HRtgaoFtyrUU6 gQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ssjvb0tyd-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Aug 2023 21:07:15 +0000
+        Tue, 29 Aug 2023 21:07:09 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TL7EZ9000609
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TL79hA014461
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Aug 2023 21:07:14 GMT
+        Tue, 29 Aug 2023 21:07:09 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Tue, 29 Aug 2023 14:07:13 -0700
+ 15.2.1118.36; Tue, 29 Aug 2023 14:07:08 -0700
 From:   Wesley Cheng <quic_wcheng@quicinc.com>
 To:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <lgirdwood@gmail.com>, <andersson@kernel.org>,
@@ -49,9 +49,9 @@ CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <quic_jackp@quicinc.com>,
         <quic_plai@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v5 22/32] sound: usb: Prevent starting of audio stream if in use
-Date:   Tue, 29 Aug 2023 14:06:47 -0700
-Message-ID: <20230829210657.9904-23-quic_wcheng@quicinc.com>
+Subject: [PATCH v5 05/32] usb: host: xhci-mem: Allow for interrupter clients to choose specific index
+Date:   Tue, 29 Aug 2023 14:06:30 -0700
+Message-ID: <20230829210657.9904-6-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230829210657.9904-1-quic_wcheng@quicinc.com>
 References: <20230829210657.9904-1-quic_wcheng@quicinc.com>
@@ -62,149 +62,73 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 52GLwo0lm_YdzSVgXpVIizlyyBGxxeWR
-X-Proofpoint-ORIG-GUID: 52GLwo0lm_YdzSVgXpVIizlyyBGxxeWR
+X-Proofpoint-ORIG-GUID: kZAXBwe3ZLRQtxN1ZGsHZssKG7Nbv6sD
+X-Proofpoint-GUID: kZAXBwe3ZLRQtxN1ZGsHZssKG7Nbv6sD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-08-29_14,2023-08-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015
- spamscore=0 malwarescore=0 priorityscore=1501 mlxscore=0 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308290181
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ spamscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0 malwarescore=0
+ mlxlogscore=518 priorityscore=1501 clxscore=1015 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308290182
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-With USB audio offloading, an audio session is started from the ASoC
-platform sound card and PCM devices.  Likewise, the USB SND path is still
-readily available for use, in case the non-offload path is desired.  In
-order to prevent the two entities from attempting to use the USB bus,
-introduce a flag that determines when either paths are in use.
-
-If a PCM device is already in use, the check will return an error to
-userspace notifying that the stream is currently busy.  This ensures that
-only one path is using the USB substream.
+Some clients may operate only on a specific XHCI interrupter instance.
+Allow for the associated class driver to request for the interrupter that
+it requires.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/usb/card.h                  |  1 +
- sound/usb/pcm.c                   | 19 +++++++++++++++++--
- sound/usb/qcom/qc_audio_offload.c | 15 ++++++++++++++-
- 3 files changed, 32 insertions(+), 3 deletions(-)
+ drivers/usb/host/xhci-mem.c   | 12 ++++++------
+ include/linux/usb/xhci-intr.h |  2 +-
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/sound/usb/card.h b/sound/usb/card.h
-index e26292363cf0..01f7e10f30f4 100644
---- a/sound/usb/card.h
-+++ b/sound/usb/card.h
-@@ -164,6 +164,7 @@ struct snd_usb_substream {
- 	unsigned int pkt_offset_adj;	/* Bytes to drop from beginning of packets (for non-compliant devices) */
- 	unsigned int stream_offset_adj;	/* Bytes to drop from beginning of stream (for non-compliant devices) */
- 
-+	unsigned int opened:1;		/* pcm device opened */
- 	unsigned int running: 1;	/* running status */
- 	unsigned int period_elapsed_pending;	/* delay period handling */
- 
-diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
-index 999f66080649..08600b1aa649 100644
---- a/sound/usb/pcm.c
-+++ b/sound/usb/pcm.c
-@@ -1241,8 +1241,15 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
- 	struct snd_usb_stream *as = snd_pcm_substream_chip(substream);
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	struct snd_usb_substream *subs = &as->substream[direction];
-+	struct snd_usb_audio *chip = subs->stream->chip;
- 	int ret;
- 
-+	mutex_lock(&chip->mutex);
-+	if (subs->opened) {
-+		mutex_unlock(&chip->mutex);
-+		return -EBUSY;
-+	}
-+
- 	runtime->hw = snd_usb_hardware;
- 	/* need an explicit sync to catch applptr update in low-latency mode */
- 	if (direction == SNDRV_PCM_STREAM_PLAYBACK &&
-@@ -1259,13 +1266,17 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
- 
- 	ret = setup_hw_info(runtime, subs);
- 	if (ret < 0)
--		return ret;
-+		goto out;
- 	ret = snd_usb_autoresume(subs->stream->chip);
- 	if (ret < 0)
--		return ret;
-+		goto out;
- 	ret = snd_media_stream_init(subs, as->pcm, direction);
- 	if (ret < 0)
- 		snd_usb_autosuspend(subs->stream->chip);
-+	subs->opened = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+
- 	return ret;
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 94cbc25e77ca..9d07aea34fc6 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2328,7 +2328,7 @@ xhci_add_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
  }
  
-@@ -1274,6 +1285,7 @@ static int snd_usb_pcm_close(struct snd_pcm_substream *substream)
- 	int direction = substream->stream;
- 	struct snd_usb_stream *as = snd_pcm_substream_chip(substream);
- 	struct snd_usb_substream *subs = &as->substream[direction];
-+	struct snd_usb_audio *chip = subs->stream->chip;
- 	int ret;
+ struct xhci_interrupter *
+-xhci_create_secondary_interrupter(struct usb_hcd *hcd)
++xhci_create_secondary_interrupter(struct usb_hcd *hcd, int intr_num)
+ {
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+ 	struct xhci_interrupter *ir;
+@@ -2343,15 +2343,15 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd)
+ 		return NULL;
  
- 	snd_media_stop_pipeline(subs);
-@@ -1287,6 +1299,9 @@ static int snd_usb_pcm_close(struct snd_pcm_substream *substream)
- 
- 	subs->pcm_substream = NULL;
- 	snd_usb_autosuspend(subs->stream->chip);
-+	mutex_lock(&chip->mutex);
-+	subs->opened = 0;
-+	mutex_unlock(&chip->mutex);
- 
- 	return 0;
- }
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index f5fd6dfbcd51..7076f2bd1089 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -1400,12 +1400,17 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 		goto response;
- 	}
- 
-+	mutex_lock(&chip->mutex);
- 	if (req_msg->enable) {
--		if (info_idx < 0 || chip->system_suspend) {
-+		if (info_idx < 0 || chip->system_suspend || subs->opened) {
- 			ret = -EBUSY;
-+			mutex_unlock(&chip->mutex);
-+
- 			goto response;
+ 	spin_lock_irq(&xhci->lock);
+-
+ 	/* Find available secondary interrupter, interrupter 0 is reserverd for primary */
+ 	for (i = 1; i < xhci->max_interrupters; i++) {
+-		if (xhci->interrupters[i] == NULL) {
+-			err = xhci_add_interrupter(xhci, ir, i);
+-			break;
++		if ((intr_num > 0 && i == intr_num) || intr_num <= 0) {
++			if (xhci->interrupters[i] == NULL) {
++				err = xhci_add_interrupter(xhci, ir, i);
++				break;
++			}
  		}
-+		subs->opened = 1;
  	}
-+	mutex_unlock(&chip->mutex);
+-
+ 	spin_unlock_irq(&xhci->lock);
+ 	if (err) {
+ 		xhci_warn(xhci, "Failed to add secondary interrupter, max interrupters %d\n",
+diff --git a/include/linux/usb/xhci-intr.h b/include/linux/usb/xhci-intr.h
+index e0091ee2c73a..738b0f0481a6 100644
+--- a/include/linux/usb/xhci-intr.h
++++ b/include/linux/usb/xhci-intr.h
+@@ -81,6 +81,6 @@ struct xhci_interrupter {
+ };
  
- 	if (req_msg->service_interval_valid) {
- 		ret = get_data_interval_from_si(subs,
-@@ -1427,6 +1432,11 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 		if (!ret)
- 			ret = prepare_qmi_response(subs, req_msg, &resp,
- 					info_idx);
-+		if (ret < 0) {
-+			mutex_lock(&chip->mutex);
-+			subs->opened = 0;
-+			mutex_unlock(&chip->mutex);
-+		}
- 	} else {
- 		info = &uadev[pcm_card_num].info[info_idx];
- 		if (info->data_ep_pipe) {
-@@ -1450,6 +1460,9 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 		}
- 
- 		disable_audio_stream(subs);
-+		mutex_lock(&chip->mutex);
-+		subs->opened = 0;
-+		mutex_unlock(&chip->mutex);
- 	}
- 
- response:
+ struct xhci_interrupter *
+-xhci_create_secondary_interrupter(struct usb_hcd *hcd);
++xhci_create_secondary_interrupter(struct usb_hcd *hcd, int intr_num);
+ void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct xhci_interrupter *ir);
+ #endif
