@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D367C88CB2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF14C83F3F
 	for <linux-usb@archiver.kernel.org>; Tue, 29 Aug 2023 21:08:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240828AbjH2VH5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Aug 2023 17:07:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41708 "EHLO
+        id S240823AbjH2VH4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Aug 2023 17:07:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240605AbjH2VHd (ORCPT
+        with ESMTP id S240602AbjH2VHd (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Aug 2023 17:07:33 -0400
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06F211BE;
-        Tue, 29 Aug 2023 14:07:30 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37TKxC7m028585;
-        Tue, 29 Aug 2023 21:07:15 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDABCCC0;
+        Tue, 29 Aug 2023 14:07:29 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37TKrxkE002677;
+        Tue, 29 Aug 2023 21:07:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=6ANZFxpwb1E6/2h3bsHO/Ac0s+q1tJrilzF69+2JslE=;
- b=MjMKcqQC/cPN7BXFn4P7CS+nzK2cOrJ2+bgqtx+u1g3G+LSpw66uPh3kppKQNVhr1nAv
- ZLBORWL4UmIZ13skRhG+n4Iv4r6fr/kZdijf+xxpVNn9F3JyWWUL8xRO0pjSgEiGamhP
- B5vgDXBi0u3ptW1bdDeCjTAgST0kdY1CK5s75RnvKhcmmtMQEFhedDukLox3sAAig60W
- GMS7c/cXdP2P9+mT7i26YNr5CzgFuh1EYq5WdkfWaQjPJQirFqcpqSmoZPrJVIdiIGVH
- pibCLEm+N8nswca8XD8ToU74b1HMWLRhVyBTVRAcyhZIAYsxlYoEtYItK3/8ehEku2uC EA== 
+ bh=DJXYybKJrBl7GHgka4BmKmo4v4Wju0w3cfuDKhuRqeQ=;
+ b=au1Lk5nezphq5BsjOC7GbnaDhjIs9o+mcrr8p2OXhN1nH5ht4RZgFszYMq80V+vlJZPu
+ L1DjuAQJnU6aWtQwQ0oqWabIDOsPsoKA1Fd04INevWwG2dTQH+Uayngx9IiNbYri0vSV
+ felqaJmjm+VzfRrs7ZkVl2dnYlYKGYoSO7YTge51R7DOSFoaWQAnqqiz0GnFv1guxpTk
+ hggcFIrpoHilc67FN2ETBlPndJvGlci1JSn/lChACrcK1ipBWwHUtyjsa0yt1Z71K6Cw
+ hzkqhP3XuaHbvffQgr9B2SHEf+SqwmsKlzfWZdgiTGf1uwv0kNJtr76MJGAy0ah75/at wQ== 
 Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ss05233e3-1
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ss4g6jk41-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Aug 2023 21:07:14 +0000
+        Tue, 29 Aug 2023 21:07:16 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TL7DFB016227
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TL7F7S016231
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Aug 2023 21:07:13 GMT
+        Tue, 29 Aug 2023 21:07:15 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Tue, 29 Aug 2023 14:07:13 -0700
+ 15.2.1118.36; Tue, 29 Aug 2023 14:07:14 -0700
 From:   Wesley Cheng <quic_wcheng@quicinc.com>
 To:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <lgirdwood@gmail.com>, <andersson@kernel.org>,
@@ -49,9 +49,9 @@ CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <quic_jackp@quicinc.com>,
         <quic_plai@quicinc.com>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v5 20/32] sound: soc: soc-usb: Add PCM format check API for USB backend
-Date:   Tue, 29 Aug 2023 14:06:45 -0700
-Message-ID: <20230829210657.9904-21-quic_wcheng@quicinc.com>
+Subject: [PATCH v5 25/32] ASoC: qcom: qdsp6: q6afe: Split USB AFE dev_token param into separate API
+Date:   Tue, 29 Aug 2023 14:06:50 -0700
+Message-ID: <20230829210657.9904-26-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230829210657.9904-1-quic_wcheng@quicinc.com>
 References: <20230829210657.9904-1-quic_wcheng@quicinc.com>
@@ -62,66 +62,122 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: k0xm9EK5usFEkMH4Utz6dPWbHgXu4CcX
-X-Proofpoint-GUID: k0xm9EK5usFEkMH4Utz6dPWbHgXu4CcX
+X-Proofpoint-ORIG-GUID: Xz4hjxtL95LtsRlntqKtGUY8N_i7dU6z
+X-Proofpoint-GUID: Xz4hjxtL95LtsRlntqKtGUY8N_i7dU6z
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-08-29_14,2023-08-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
- spamscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0 impostorscore=0
- priorityscore=1501 malwarescore=0 adultscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
- definitions=main-2308290181
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ priorityscore=1501 mlxscore=0 mlxlogscore=999 malwarescore=0
+ lowpriorityscore=0 phishscore=0 clxscore=1015 spamscore=0 bulkscore=0
+ adultscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2308100000 definitions=main-2308290181
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Introduce a check for if a particular PCM format is supported by the USB
-audio device connected.  If the USB audio device does not have an audio
-profile which can support the requested format, then notify the USB
-backend.
+The Q6USB backend can carry information about the available USB SND cards
+and PCM devices discovered on the USB bus.  The dev_token field is used by
+the audio DSP to notify the USB offload driver of which card and PCM index
+to enable playback on.  Separate this into a dedicated API, so the USB
+backend can set the dev_token accordingly.  The audio DSP does not utilize
+this information until the AFE port start command is sent, which is done
+during the PCM prepare phase.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- include/sound/soc-usb.h |  3 +++
- sound/soc/soc-usb.c     | 13 +++++++++++++
- 2 files changed, 16 insertions(+)
+ sound/soc/qcom/qdsp6/q6afe.c | 49 +++++++++++++++++++++++++-----------
+ sound/soc/qcom/qdsp6/q6afe.h |  1 +
+ 2 files changed, 36 insertions(+), 14 deletions(-)
 
-diff --git a/include/sound/soc-usb.h b/include/sound/soc-usb.h
-index 1fa671924018..4785ea165e2a 100644
---- a/include/sound/soc-usb.h
-+++ b/include/sound/soc-usb.h
-@@ -37,6 +37,9 @@ struct snd_soc_usb {
- 	void *priv_data;
- };
- 
-+int snd_soc_usb_find_format(int card_idx, struct snd_pcm_hw_params *params,
-+			int direction);
-+
- int snd_soc_usb_connect(struct device *usbdev, struct snd_soc_usb_device *sdev);
- int snd_soc_usb_disconnect(struct device *usbdev, struct snd_soc_usb_device *sdev);
- void *snd_soc_usb_get_priv_data(struct device *usbdev);
-diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
-index b5ab2c1a6dd4..619f9bfd6999 100644
---- a/sound/soc/soc-usb.c
-+++ b/sound/soc/soc-usb.c
-@@ -74,6 +74,19 @@ void *snd_soc_usb_get_priv_data(struct device *dev)
+diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
+index 72c4e6fe20c4..f09a756246f8 100644
+--- a/sound/soc/qcom/qdsp6/q6afe.c
++++ b/sound/soc/qcom/qdsp6/q6afe.c
+@@ -1394,10 +1394,42 @@ void q6afe_tdm_port_prepare(struct q6afe_port *port,
  }
- EXPORT_SYMBOL_GPL(snd_soc_usb_get_priv_data);
+ EXPORT_SYMBOL_GPL(q6afe_tdm_port_prepare);
  
-+int snd_soc_usb_find_format(int card_idx, struct snd_pcm_hw_params *params,
-+			int direction)
-+{
-+	struct snd_usb_stream *as;
+-static int afe_port_send_usb_dev_param(struct q6afe_port *port, struct q6afe_usb_cfg *cfg)
++/**
++ * afe_port_send_usb_dev_param() - Send USB dev token
++ *
++ * @port: Instance of afe port
++ * @cardidx: USB SND card index to reference
++ * @pcmidx: USB SND PCM device index to reference
++ *
++ * The USB dev token carries information about which USB SND card instance and
++ * PCM device to execute the offload on.  This information is carried through
++ * to the stream enable QMI request, which is handled by the offload class
++ * driver.  The information is parsed to determine which USB device to query
++ * the required resources for.
++ */
++int afe_port_send_usb_dev_param(struct q6afe_port *port, int cardidx, int pcmidx)
+ {
+-	union afe_port_config *pcfg = &port->port_cfg;
+ 	struct afe_param_id_usb_audio_dev_params usb_dev;
++	int ret;
 +
-+	as = snd_usb_find_suppported_substream(card_idx, params, direction);
-+	if (!as)
-+		return -EOPNOTSUPP;
++	memset(&usb_dev, 0, sizeof(usb_dev));
 +
-+	return 0;
++	usb_dev.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
++	usb_dev.dev_token = (cardidx << 16) | (pcmidx << 8);
++	ret = q6afe_port_set_param_v2(port, &usb_dev,
++				AFE_PARAM_ID_USB_AUDIO_DEV_PARAMS,
++				AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(usb_dev));
++	if (ret)
++		dev_err(port->afe->dev, "%s: AFE device param cmd failed %d\n",
++			__func__, ret);
++
++	return ret;
 +}
-+EXPORT_SYMBOL_GPL(snd_soc_usb_find_format);
++EXPORT_SYMBOL_GPL(afe_port_send_usb_dev_param);
 +
- /**
-  * snd_soc_usb_add_port() - Add a USB backend port
-  * @dev: USB backend device
++static int afe_port_send_usb_params(struct q6afe_port *port, struct q6afe_usb_cfg *cfg)
++{
++	union afe_port_config *pcfg = &port->port_cfg;
+ 	struct afe_param_id_usb_audio_dev_lpcm_fmt lpcm_fmt;
+ 	struct afe_param_id_usb_audio_svc_interval svc_int;
+ 	int ret = 0;
+@@ -1408,20 +1440,9 @@ static int afe_port_send_usb_dev_param(struct q6afe_port *port, struct q6afe_usb
+ 		goto exit;
+ 	}
+ 
+-	memset(&usb_dev, 0, sizeof(usb_dev));
+ 	memset(&lpcm_fmt, 0, sizeof(lpcm_fmt));
+ 	memset(&svc_int, 0, sizeof(svc_int));
+ 
+-	usb_dev.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
+-	ret = q6afe_port_set_param_v2(port, &usb_dev,
+-				      AFE_PARAM_ID_USB_AUDIO_DEV_PARAMS,
+-				      AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(usb_dev));
+-	if (ret) {
+-		dev_err(port->afe->dev, "%s: AFE device param cmd failed %d\n",
+-			__func__, ret);
+-		goto exit;
+-	}
+-
+ 	lpcm_fmt.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
+ 	lpcm_fmt.endian = pcfg->usb_cfg.endian;
+ 	ret = q6afe_port_set_param_v2(port, &lpcm_fmt,
+@@ -1463,7 +1484,7 @@ void q6afe_usb_port_prepare(struct q6afe_port *port,
+ 	pcfg->usb_cfg.num_channels = cfg->num_channels;
+ 	pcfg->usb_cfg.bit_width = cfg->bit_width;
+ 
+-	afe_port_send_usb_dev_param(port, cfg);
++	afe_port_send_usb_params(port, cfg);
+ }
+ EXPORT_SYMBOL_GPL(q6afe_usb_port_prepare);
+ 
+diff --git a/sound/soc/qcom/qdsp6/q6afe.h b/sound/soc/qcom/qdsp6/q6afe.h
+index ef47b4ae9e27..2ce5ba9dba69 100644
+--- a/sound/soc/qcom/qdsp6/q6afe.h
++++ b/sound/soc/qcom/qdsp6/q6afe.h
+@@ -263,6 +263,7 @@ void q6afe_tdm_port_prepare(struct q6afe_port *port, struct q6afe_tdm_cfg *cfg);
+ void q6afe_cdc_dma_port_prepare(struct q6afe_port *port,
+ 				struct q6afe_cdc_dma_cfg *cfg);
+ 
++int afe_port_send_usb_dev_param(struct q6afe_port *port, int cardidx, int pcmidx);
+ int q6afe_port_set_sysclk(struct q6afe_port *port, int clk_id,
+ 			  int clk_src, int clk_root,
+ 			  unsigned int freq, int dir);
