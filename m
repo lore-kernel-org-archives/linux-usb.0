@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9724CCA0C00
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Aug 2023 21:08:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAFF6CA0C06
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Aug 2023 21:08:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230350AbjH2VIR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Aug 2023 17:08:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60790 "EHLO
+        id S236621AbjH2VIP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Aug 2023 17:08:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240622AbjH2VHn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Aug 2023 17:07:43 -0400
+        with ESMTP id S240682AbjH2VHl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Aug 2023 17:07:41 -0400
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C3061A3;
-        Tue, 29 Aug 2023 14:07:40 -0700 (PDT)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37TJLkGd026624;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 244D61A3;
+        Tue, 29 Aug 2023 14:07:37 -0700 (PDT)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37TJVp8G029722;
         Tue, 29 Aug 2023 21:07:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=eZIaIKYDkX93uc12FFvrk5rH+DwbW37vpDohQM+C1Zs=;
- b=nJLMkOqbaag5y58u21Lu3V2+62MtxTm0OP6dRHIVLPsL8IkyfWSkIu1cuWcVvGg4uFpm
- qTxs8ojnw3yhaGNMpzC24w83PDPXG6yGNqMhB3BnbIW4P3xAgFPs0t5AdQDoMju29S+Q
- 8P0QZplQLuTtkXyCa9fqO4rgFdZh6F9DyUdvPavdqiQT4lIjSwmOTJ+MDjJGRbdddIfz
- pqZ0qwjkoqtdkr+nZ7wCjUj1wFRH9YeHEpw0rQIBUCMb0QNlOHrZM6VLGlBG2q3yHlUF
- RhlEBYE/Vcs0g/4dFQx2o/A07z2q4HROZUh1YYzNzhG1JxEaooTpCua88HSO+P2RfKv1 jg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3srybqbe66-1
+ bh=85oxUKrPGtBcHt9sgFc/4IeBuQfrC3PUhd0eSeeckLU=;
+ b=ZrTy5+g2NSo0lHj9/eha+Uk1drZUFiR2J1lOwPSIArJmgLY8Dh1Tf0F2/F1s1AhcLWxM
+ sxPHJQ+Bg7ka6cf0MYH9lxVXgnMd5M3VBE7Iu1npNyoRV2qHwp7aY416wIhYiGfhImCP
+ IZnPHvqUk0cT69JucefFauTYo5zPhpmcUNhZChBo7+uTkokAf9EQEjub/zq/njuGHrH3
+ wwBajRZ3aNzf1/ddMXTG9TLCCxhAoD+yLlSpnBHgEFk0jokN3xR1I2XNONIo2XkELgpa
+ 0YcnVgn4N2qHNILtvF3rPa59S7WsMmfbKQlyjJFA41tXbGa+7yTjaZm95UPxzmY/9ANs VA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ss2xbaxtx-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Aug 2023 21:07:09 +0000
+        Tue, 29 Aug 2023 21:07:08 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TL78NH016157
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TL77Dm020679
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Aug 2023 21:07:08 GMT
+        Tue, 29 Aug 2023 21:07:07 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Tue, 29 Aug 2023 14:07:08 -0700
+ 15.2.1118.36; Tue, 29 Aug 2023 14:07:07 -0700
 From:   Wesley Cheng <quic_wcheng@quicinc.com>
 To:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <lgirdwood@gmail.com>, <andersson@kernel.org>,
@@ -51,9 +51,9 @@ CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <quic_plai@quicinc.com>,
         Mathias Nyman <mathias.nyman@linux.intel.com>,
         Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v5 03/32] xhci: sideband: add initial api to register a sideband entity
-Date:   Tue, 29 Aug 2023 14:06:28 -0700
-Message-ID: <20230829210657.9904-4-quic_wcheng@quicinc.com>
+Subject: [PATCH v5 01/32] xhci: add support to allocate several interrupters
+Date:   Tue, 29 Aug 2023 14:06:26 -0700
+Message-ID: <20230829210657.9904-2-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230829210657.9904-1-quic_wcheng@quicinc.com>
 References: <20230829210657.9904-1-quic_wcheng@quicinc.com>
@@ -64,403 +64,538 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: QAWAoMvS8ylUcqfp47duW5PkU-dvjNOD
-X-Proofpoint-GUID: QAWAoMvS8ylUcqfp47duW5PkU-dvjNOD
+X-Proofpoint-ORIG-GUID: _bIkQvRnosXnX9zVgWJBKDo7huort364
+X-Proofpoint-GUID: _bIkQvRnosXnX9zVgWJBKDo7huort364
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-08-29_15,2023-08-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
- clxscore=1015 mlxlogscore=999 lowpriorityscore=0 priorityscore=1501
- mlxscore=0 impostorscore=0 adultscore=0 suspectscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308290182
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ mlxscore=0 clxscore=1011 impostorscore=0 lowpriorityscore=0 bulkscore=0
+ spamscore=0 priorityscore=1501 mlxlogscore=631 adultscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2308290182
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-Introduce XHCI sideband, which manages the USB endpoints being requested by
-a client driver.  This is used for when client drivers are attempting to
-offload USB endpoints to another entity for handling USB transfers.  XHCI
-sideband will allow for drivers to fetch the required information about the
-transfer ring, so the user can submit transfers independently.  Expose the
-required APIs for drivers to register and request for a USB endpoint.
+Modify the XHCI drivers to accommodate for handling multiple event rings in
+case there are multiple interrupters.  Add the required APIs so clients are
+able to allocate/request for an interrupter ring, and pass this information
+back to the client driver.  This allows for users to handle the resource
+accordingly, such as passing the event ring base address to an audio DSP.
+There is no actual support for multiple MSI/MSI-X vectors.
 
-Multiple ring segment page linking and proper endpoint clean up added by
-Wesley Cheng to complete original concept code by Mathias Nyman.
+Factoring out XHCI interrupter APIs and structures done by Wesley Cheng, in
+order to allow for USB class drivers to utilze them.
 
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 Co-developed-by: Wesley Cheng <quic_wcheng@quicinc.com>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/host/Kconfig          |   9 ++
- drivers/usb/host/Makefile         |   4 +
- drivers/usb/host/xhci-sideband.c  | 195 ++++++++++++++++++++++++++++++
- drivers/usb/host/xhci.h           |  23 +---
- include/linux/usb/xhci-sideband.h |  57 +++++++++
- 5 files changed, 270 insertions(+), 18 deletions(-)
- create mode 100644 drivers/usb/host/xhci-sideband.c
- create mode 100644 include/linux/usb/xhci-sideband.h
+ drivers/usb/host/xhci-debugfs.c |  2 +-
+ drivers/usb/host/xhci-mem.c     | 93 ++++++++++++++++++++++++++++++---
+ drivers/usb/host/xhci-ring.c    |  2 +-
+ drivers/usb/host/xhci.c         | 49 ++++++++++-------
+ drivers/usb/host/xhci.h         | 77 +--------------------------
+ include/linux/usb/xhci-intr.h   | 86 ++++++++++++++++++++++++++++++
+ 6 files changed, 207 insertions(+), 102 deletions(-)
+ create mode 100644 include/linux/usb/xhci-intr.h
 
-diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
-index 4448d0ab06f0..83be56c27d64 100644
---- a/drivers/usb/host/Kconfig
-+++ b/drivers/usb/host/Kconfig
-@@ -104,6 +104,15 @@ config USB_XHCI_RZV2M
- 	  Say 'Y' to enable the support for the xHCI host controller
- 	  found in Renesas RZ/V2M SoC.
+diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
+index 99baa60ef50f..15a8402ee8a1 100644
+--- a/drivers/usb/host/xhci-debugfs.c
++++ b/drivers/usb/host/xhci-debugfs.c
+@@ -693,7 +693,7 @@ void xhci_debugfs_init(struct xhci_hcd *xhci)
+ 				     "command-ring",
+ 				     xhci->debugfs_root);
  
-+config USB_XHCI_SIDEBAND
-+	bool "xHCI support for sideband"
-+	help
-+	  Say 'Y' to enable the support for the xHCI sideband capability.
-+	  Provide a mechanism for a sideband datapath for payload associated
-+	  with audio class endpoints. This allows for an audio DSP to use
-+	  xHCI USB endpoints directly, allowing CPU to sleep while playing
-+	  audio.
-+
- config USB_XHCI_TEGRA
- 	tristate "xHCI support for NVIDIA Tegra SoCs"
- 	depends on PHY_TEGRA_XUSB
-diff --git a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
-index be4e5245c52f..4df946c05ba0 100644
---- a/drivers/usb/host/Makefile
-+++ b/drivers/usb/host/Makefile
-@@ -32,6 +32,10 @@ endif
- xhci-rcar-hcd-y				+= xhci-rcar.o
- xhci-rcar-hcd-$(CONFIG_USB_XHCI_RZV2M)	+= xhci-rzv2m.o
+-	xhci_debugfs_create_ring_dir(xhci, &xhci->interrupter->event_ring,
++	xhci_debugfs_create_ring_dir(xhci, &xhci->interrupters[0]->event_ring,
+ 				     "event-ring",
+ 				     xhci->debugfs_root);
  
-+ifneq ($(CONFIG_USB_XHCI_SIDEBAND),)
-+	xhci-hcd-y		+= xhci-sideband.o
-+endif
-+
- obj-$(CONFIG_USB_PCI)	+= pci-quirks.o
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 8714ab5bf04d..2f9228d7d22d 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -1837,6 +1837,26 @@ xhci_free_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
+ 	kfree(ir);
+ }
  
- obj-$(CONFIG_USB_EHCI_HCD)	+= ehci-hcd.o
-diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
-new file mode 100644
-index 000000000000..a077eb8783cc
---- /dev/null
-+++ b/drivers/usb/host/xhci-sideband.c
-@@ -0,0 +1,195 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * xHCI host controller sideband support
-+ *
-+ * Copyright (c) 2023, Intel Corporation.
-+ *
-+ * Author: Mathias Nyman
-+ */
-+#include <linux/usb.h>
-+#include <linux/dma-direct.h>
-+
-+#include "xhci.h"
-+
-+static int
-+xhci_ring_to_sgtable(struct xhci_sideband *sb, struct xhci_ring *ring, struct device *dev)
++void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct xhci_interrupter *ir)
 +{
-+	struct sg_table	*sgt;
-+	struct xhci_segment *seg;
-+	struct page **pages;
-+	unsigned int n_pages;
-+	size_t sz;
-+	int i;
-+
-+	sz = ring->num_segs * TRB_SEGMENT_SIZE;
-+	n_pages = PAGE_ALIGN(sz) >> PAGE_SHIFT;
-+	pages = kvmalloc_array(n_pages, sizeof(struct page *), GFP_KERNEL);
-+	if (!pages)
-+		return 0;
-+
-+	sgt = kzalloc(sizeof(struct sg_table), GFP_KERNEL);
-+	if (!sgt) {
-+		kvfree(pages);
-+		return 0;
-+	}
-+
-+	seg = ring->first_seg;
-+
-+	/*
-+	 * Rings can potentially have multiple segments, create an array that
-+	 * carries page references to allocated segments.  Utilize the
-+	 * sg_alloc_table_from_pages() to create the sg table, and to ensure
-+	 * that page links are created.
-+	 */
-+	for (i = 0; i < ring->num_segs; i++) {
-+		pages[i] = vmalloc_to_page(seg->trbs);
-+		seg = seg->next;
-+	}
-+
-+	if (sg_alloc_table_from_pages(sgt, pages, n_pages, 0, sz, GFP_KERNEL)) {
-+		kvfree(pages);
-+		kfree(sgt);
-+
-+		return 0;
-+	}
-+
-+	sb->sgt = sgt;
-+
-+	return 0;
-+}
-+
-+static int __xhci_sideband_remove_endpoint(struct xhci_sideband *sb,
-+						int idx)
-+{
-+	struct xhci_virt_ep *ep = sb->eps[idx];
-+
-+	/*
-+	 * Issue a stop endpoint command when an endpoint is removed.
-+	 * The stop ep cmd handler will handle the ring cleanup.
-+	 */
-+	xhci_stop_endpoint_sync(sb->xhci, ep, 0);
-+
-+	sg_free_table(sb->sgt);
-+	ep->sideband = NULL;
-+	sb->eps[idx] = NULL;
-+
-+	return 0;
-+}
-+
-+/* sidband api functions */
-+struct xhci_sideband *
-+xhci_sideband_register(struct usb_device *udev)
-+{
-+	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
 +	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
-+	struct xhci_virt_device *vdev;
-+	struct xhci_sideband *sb;
++	unsigned int intr_num;
 +
-+	/* make sure the usb device is connected to a xhci controller */
-+	if (!udev->slot_id)
-+		return NULL;
-+
-+	/* check this device isn't already controller via sideband */
-+	vdev = xhci->devs[udev->slot_id];
-+
-+	if (!vdev || vdev->sideband) {
-+		xhci_warn(xhci, "XHCI sideband slot already in use %d\n",
-+				udev->slot_id);
-+		return NULL;
++	/* interrupter 0 is primary interrupter, don't touch it */
++	if (!ir || !ir->intr_num || ir->intr_num >= xhci->max_interrupters) {
++		xhci_dbg(xhci, "Invalid secondary interrupter, can't remove\n");
++		return;
 +	}
 +
-+	sb = kzalloc_node(sizeof(*sb), GFP_KERNEL, dev_to_node(hcd->self.sysdev));
-+	if (!sb)
++	/* fixme, should we check xhci->interrupter[intr_num] == ir */
++	spin_lock(&xhci->lock);
++	intr_num = ir->intr_num;
++	xhci_free_interrupter(xhci, ir);
++	xhci->interrupters[intr_num] = NULL;
++	spin_unlock(&xhci->lock);
++}
++EXPORT_SYMBOL_GPL(xhci_remove_secondary_interrupter);
++
+ void xhci_mem_cleanup(struct xhci_hcd *xhci)
+ {
+ 	struct device	*dev = xhci_to_hcd(xhci)->self.sysdev;
+@@ -1844,9 +1864,13 @@ void xhci_mem_cleanup(struct xhci_hcd *xhci)
+ 
+ 	cancel_delayed_work_sync(&xhci->cmd_timer);
+ 
+-	xhci_free_interrupter(xhci, xhci->interrupter);
+-	xhci->interrupter = NULL;
+-	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed primary event ring");
++	for (i = 0; i < xhci->max_interrupters; i++) {
++		if (xhci->interrupters[i]) {
++			xhci_free_interrupter(xhci, xhci->interrupters[i]);
++			xhci->interrupters[i] = NULL;
++		}
++	}
++	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed interrupters");
+ 
+ 	if (xhci->cmd_ring)
+ 		xhci_ring_free(xhci, xhci->cmd_ring);
+@@ -1916,6 +1940,7 @@ void xhci_mem_cleanup(struct xhci_hcd *xhci)
+ 	for (i = 0; i < xhci->num_port_caps; i++)
+ 		kfree(xhci->port_caps[i].psi);
+ 	kfree(xhci->port_caps);
++	kfree(xhci->interrupters);
+ 	xhci->num_port_caps = 0;
+ 
+ 	xhci->usb2_rhub.ports = NULL;
+@@ -1924,6 +1949,7 @@ void xhci_mem_cleanup(struct xhci_hcd *xhci)
+ 	xhci->rh_bw = NULL;
+ 	xhci->ext_caps = NULL;
+ 	xhci->port_caps = NULL;
++	xhci->interrupters = NULL;
+ 
+ 	xhci->page_size = 0;
+ 	xhci->page_shift = 0;
+@@ -2276,6 +2302,13 @@ xhci_add_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
+ 		return -EINVAL;
+ 	}
+ 
++	if (xhci->interrupters[intr_num]) {
++		xhci_warn(xhci, "Interrupter %d\n already set up", intr_num);
++		return -EINVAL;
++	}
++
++	xhci->interrupters[intr_num] = ir;
++	ir->intr_num = intr_num;
+ 	ir->ir_set = &xhci->run_regs->ir_set[intr_num];
+ 
+ 	/* set ERST count with the number of entries in the segment table */
+@@ -2295,10 +2328,53 @@ xhci_add_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
+ 	return 0;
+ }
+ 
++struct xhci_interrupter *
++xhci_create_secondary_interrupter(struct usb_hcd *hcd)
++{
++	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
++	struct xhci_interrupter *ir;
++	unsigned int i;
++	int err = -ENOSPC;
++
++	if (!xhci->interrupters)
 +		return NULL;
 +
-+	sb->xhci = xhci;
-+	sb->vdev = vdev;
-+	vdev->sideband = sb;
++	ir = xhci_alloc_interrupter(xhci, GFP_KERNEL);
++	if (!ir)
++		return NULL;
 +
-+	return sb;
++	spin_lock_irq(&xhci->lock);
++
++	/* Find available secondary interrupter, interrupter 0 is reserverd for primary */
++	for (i = 1; i < xhci->max_interrupters; i++) {
++		if (xhci->interrupters[i] == NULL) {
++			err = xhci_add_interrupter(xhci, ir, i);
++			break;
++		}
++	}
++
++	spin_unlock_irq(&xhci->lock);
++	if (err) {
++		xhci_warn(xhci, "Failed to add secondary interrupter, max interrupters %d\n",
++			xhci->max_interrupters);
++		xhci_free_interrupter(xhci, ir);
++		ir = NULL;
++		goto out;
++	}
++
++	xhci_dbg(xhci, "Add secondary interrupter %d, max interrupters %d\n",
++		 i, xhci->max_interrupters);
++
++out:
++	return ir;
 +}
-+EXPORT_SYMBOL_GPL(xhci_sideband_register);
++EXPORT_SYMBOL_GPL(xhci_create_secondary_interrupter);
 +
-+void
-+xhci_sideband_unregister(struct xhci_sideband *sb)
-+{
-+	int i;
+ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
+ {
+-	dma_addr_t	dma;
++	struct xhci_interrupter *ir;
+ 	struct device	*dev = xhci_to_hcd(xhci)->self.sysdev;
++	dma_addr_t	dma;
+ 	unsigned int	val, val2;
+ 	u64		val_64;
+ 	u32		page_size, temp;
+@@ -2422,11 +2498,14 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
+ 	/* Allocate and set up primary interrupter 0 with an event ring. */
+ 	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+ 		       "Allocating primary event ring");
+-	xhci->interrupter = xhci_alloc_interrupter(xhci, flags);
+-	if (!xhci->interrupter)
++	xhci->interrupters = kcalloc_node(xhci->max_interrupters, sizeof(*xhci->interrupters),
++					  flags, dev_to_node(dev));
 +
-+	for (i = 0; i < EP_CTX_PER_DEV; i++)
-+		if (sb->eps[i])
-+			__xhci_sideband_remove_endpoint(sb, i);
++	ir = xhci_alloc_interrupter(xhci, flags);
++	if (!ir)
+ 		goto fail;
+ 
+-	if (xhci_add_interrupter(xhci, xhci->interrupter, 0))
++	if (xhci_add_interrupter(xhci, ir, 0))
+ 		goto fail;
+ 
+ 	xhci->isoc_bei_interval = AVOID_BEI_INTERVAL_MAX;
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 1dde53f6eb31..93233cf5ff21 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -3074,7 +3074,7 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
+ 	writel(status, &xhci->op_regs->status);
+ 
+ 	/* This is the handler of the primary interrupter */
+-	ir = xhci->interrupter;
++	ir = xhci->interrupters[0];
+ 	if (!hcd->msi_enabled) {
+ 		u32 irq_pending;
+ 		irq_pending = readl(&ir->ir_set->irq_pending);
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index e1b1b64a0723..3fd2b58ee1d3 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -456,7 +456,7 @@ static int xhci_init(struct usb_hcd *hcd)
+ 
+ static int xhci_run_finished(struct xhci_hcd *xhci)
+ {
+-	struct xhci_interrupter *ir = xhci->interrupter;
++	struct xhci_interrupter *ir = xhci->interrupters[0];
+ 	unsigned long	flags;
+ 	u32		temp;
+ 
+@@ -508,7 +508,7 @@ int xhci_run(struct usb_hcd *hcd)
+ 	u64 temp_64;
+ 	int ret;
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+-	struct xhci_interrupter *ir = xhci->interrupter;
++	struct xhci_interrupter *ir = xhci->interrupters[0];
+ 	/* Start the xHCI host controller running only after the USB 2.0 roothub
+ 	 * is setup.
+ 	 */
+@@ -572,7 +572,7 @@ void xhci_stop(struct usb_hcd *hcd)
+ {
+ 	u32 temp;
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+-	struct xhci_interrupter *ir = xhci->interrupter;
++	struct xhci_interrupter *ir = xhci->interrupters[0];
+ 
+ 	mutex_lock(&xhci->mutex);
+ 
+@@ -668,36 +668,49 @@ EXPORT_SYMBOL_GPL(xhci_shutdown);
+ #ifdef CONFIG_PM
+ static void xhci_save_registers(struct xhci_hcd *xhci)
+ {
+-	struct xhci_interrupter *ir = xhci->interrupter;
++	struct xhci_interrupter *ir;
++	unsigned int i;
+ 
+ 	xhci->s3.command = readl(&xhci->op_regs->command);
+ 	xhci->s3.dev_nt = readl(&xhci->op_regs->dev_notification);
+ 	xhci->s3.dcbaa_ptr = xhci_read_64(xhci, &xhci->op_regs->dcbaa_ptr);
+ 	xhci->s3.config_reg = readl(&xhci->op_regs->config_reg);
+ 
+-	if (!ir)
+-		return;
++	/* save both primary and all secondary interrupters */
++	for (i = 0; i < xhci->max_interrupters; i++) {
++		ir = xhci->interrupters[i];
++		if (!ir)
++			continue;
+ 
+-	ir->s3_erst_size = readl(&ir->ir_set->erst_size);
+-	ir->s3_erst_base = xhci_read_64(xhci, &ir->ir_set->erst_base);
+-	ir->s3_erst_dequeue = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
+-	ir->s3_irq_pending = readl(&ir->ir_set->irq_pending);
+-	ir->s3_irq_control = readl(&ir->ir_set->irq_control);
++		ir->s3_erst_size = readl(&ir->ir_set->erst_size);
++		ir->s3_erst_base = xhci_read_64(xhci, &ir->ir_set->erst_base);
++		ir->s3_erst_dequeue = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
++		ir->s3_irq_pending = readl(&ir->ir_set->irq_pending);
++		ir->s3_irq_control = readl(&ir->ir_set->irq_control);
++	}
+ }
+ 
+ static void xhci_restore_registers(struct xhci_hcd *xhci)
+ {
+-	struct xhci_interrupter *ir = xhci->interrupter;
++	struct xhci_interrupter *ir;
++	unsigned int i;
+ 
+ 	writel(xhci->s3.command, &xhci->op_regs->command);
+ 	writel(xhci->s3.dev_nt, &xhci->op_regs->dev_notification);
+ 	xhci_write_64(xhci, xhci->s3.dcbaa_ptr, &xhci->op_regs->dcbaa_ptr);
+ 	writel(xhci->s3.config_reg, &xhci->op_regs->config_reg);
+-	writel(ir->s3_erst_size, &ir->ir_set->erst_size);
+-	xhci_write_64(xhci, ir->s3_erst_base, &ir->ir_set->erst_base);
+-	xhci_write_64(xhci, ir->s3_erst_dequeue, &ir->ir_set->erst_dequeue);
+-	writel(ir->s3_irq_pending, &ir->ir_set->irq_pending);
+-	writel(ir->s3_irq_control, &ir->ir_set->irq_control);
 +
-+	sb->vdev->sideband = NULL;
-+	kfree(sb);
-+}
-+EXPORT_SYMBOL_GPL(xhci_sideband_unregister);
++	for (i = 0; i < xhci->max_interrupters; i++) {
++		ir = xhci->interrupters[i];
++		if (!ir)
++			continue;
 +
-+int
-+xhci_sideband_add_endpoint(struct xhci_sideband *sb,
-+			   struct usb_host_endpoint *host_ep)
-+{
-+	struct xhci_hcd *xhci = sb->xhci;
-+	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
-+	struct xhci_virt_ep *ep;
-+	unsigned int ep_index;
-+
-+	ep_index = xhci_get_endpoint_index(&host_ep->desc);
-+	ep = &sb->vdev->eps[ep_index];
-+
-+	/*
-+	 * Note, we don't know the DMA mask of the audio DSP device, if its
-+	 * smaller than for xhci it won't be able to access the endpoint ring
-+	 * buffer. This could be solved by not allowing the audio class driver
-+	 * to add the endpoint the normal way, but instead offload it immediately,
-+	 * and let this function add the endpoint and allocate the ring buffer
-+	 * with the smallest common DMA mask
-+	 */
-+	if (sb->eps[ep_index] || ep->sideband)
-+		return -EBUSY;
-+
-+	ep->sideband = sb;
-+	sb->eps[ep_index] = ep;
-+	sb->ring = ep->ring;
-+	xhci_ring_to_sgtable(sb, ep->ring, dev);
-+
-+	return 0;
-+
-+}
-+EXPORT_SYMBOL_GPL(xhci_sideband_add_endpoint);
-+
-+int
-+xhci_sideband_remove_endpoint(struct xhci_sideband *sb,
-+			      struct usb_host_endpoint *host_ep)
-+{
-+	struct xhci_virt_ep *ep;
-+	unsigned int ep_index;
-+
-+	ep_index = xhci_get_endpoint_index(&host_ep->desc);
-+	ep = sb->eps[ep_index];
-+
-+	if (!ep || !ep->sideband || sb->vdev != ep->sideband->vdev)
-+		return -ENODEV;
-+
-+	__xhci_sideband_remove_endpoint(sb, ep_index);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(xhci_sideband_remove_endpoint);
-+
-+int
-+xhci_sideband_stop_endpoint(struct xhci_sideband *sb,
-+			    struct usb_host_endpoint *host_ep)
-+{
-+	struct xhci_virt_ep *ep;
-+	unsigned int ep_index;
-+
-+	ep_index = xhci_get_endpoint_index(&host_ep->desc);
-+	ep = sb->eps[ep_index];
-+
-+
-+	if (!ep || ep->sideband != sb || sb->vdev != ep->sideband->vdev)
-+		return -EINVAL;
-+
-+	return xhci_stop_endpoint_sync(sb->xhci, ep, 0);
-+}
-+EXPORT_SYMBOL_GPL(xhci_sideband_stop_endpoint);
++		writel(ir->s3_erst_size, &ir->ir_set->erst_size);
++		xhci_write_64(xhci, ir->s3_erst_base, &ir->ir_set->erst_base);
++		xhci_write_64(xhci, ir->s3_erst_dequeue, &ir->ir_set->erst_dequeue);
++		writel(ir->s3_irq_pending, &ir->ir_set->irq_pending);
++		writel(ir->s3_irq_control, &ir->ir_set->irq_control);
++	}
+ }
+ 
+ static void xhci_set_cmd_ring_deq(struct xhci_hcd *xhci)
+@@ -1059,7 +1072,7 @@ int xhci_resume(struct xhci_hcd *xhci, pm_message_t msg)
+ 		xhci_dbg(xhci, "// Disabling event ring interrupts\n");
+ 		temp = readl(&xhci->op_regs->status);
+ 		writel((temp & ~0x1fff) | STS_EINT, &xhci->op_regs->status);
+-		xhci_disable_interrupter(xhci->interrupter);
++		xhci_disable_interrupter(xhci->interrupters[0]);
+ 
+ 		xhci_dbg(xhci, "cleaning up memory\n");
+ 		xhci_mem_cleanup(xhci);
 diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 898b6434dc27..15ade8ec6b6c 100644
+index 7e282b4522c0..d706a27ec0a3 100644
 --- a/drivers/usb/host/xhci.h
 +++ b/drivers/usb/host/xhci.h
-@@ -18,6 +18,7 @@
+@@ -17,6 +17,7 @@
+ #include <linux/kernel.h>
  #include <linux/usb/hcd.h>
  #include <linux/io-64-nonatomic-lo-hi.h>
- #include <linux/usb/xhci-intr.h>
-+#include <linux/usb/xhci-sideband.h>
++#include <linux/usb/xhci-intr.h>
  
  /* Code sharing between pci-quirks and xhci hcd */
  #include	"xhci-ext-caps.h"
-@@ -975,6 +976,8 @@ struct xhci_virt_ep {
- 	int			next_frame_id;
- 	/* Use new Isoch TRB layout needed for extended TBC support */
- 	bool			use_extended_tbc;
-+	/* set if this endpoint is controlled via sideband access*/
-+	struct xhci_sideband			*sideband;
- };
+@@ -1541,18 +1542,6 @@ static inline const char *xhci_trb_type_string(u8 type)
+ #define AVOID_BEI_INTERVAL_MIN	8
+ #define AVOID_BEI_INTERVAL_MAX	32
  
- enum xhci_overhead_type {
-@@ -1004,8 +1007,6 @@ struct xhci_interval_bw_table {
- 	unsigned int		ss_bw_out;
- };
- 
--#define EP_CTX_PER_DEV		31
+-struct xhci_segment {
+-	union xhci_trb		*trbs;
+-	/* private to HCD */
+-	struct xhci_segment	*next;
+-	dma_addr_t		dma;
+-	/* Max packet sized bounce buffer for td-fragmant alignment */
+-	dma_addr_t		bounce_dma;
+-	void			*bounce_buf;
+-	unsigned int		bounce_offs;
+-	unsigned int		bounce_len;
+-};
 -
- struct xhci_virt_device {
- 	int				slot_id;
- 	struct usb_device		*udev;
-@@ -1038,6 +1039,8 @@ struct xhci_virt_device {
- 	u16				current_mel;
- 	/* Used for the debugfs interfaces. */
- 	void				*debugfs_private;
-+	/* set if this device is registered for sideband access */
-+	struct xhci_sideband			*sideband;
+ enum xhci_cancelled_td_status {
+ 	TD_DIRTY = 0,
+ 	TD_HALTED,
+@@ -1585,16 +1574,6 @@ struct xhci_cd {
+ 	union xhci_trb		*cmd_trb;
  };
  
- /*
-@@ -1518,22 +1521,6 @@ static inline const char *xhci_trb_type_string(u8 type)
- #define NEC_FW_MINOR(p)		(((p) >> 0) & 0xff)
- #define NEC_FW_MAJOR(p)		(((p) >> 8) & 0xff)
+-enum xhci_ring_type {
+-	TYPE_CTRL = 0,
+-	TYPE_ISOC,
+-	TYPE_BULK,
+-	TYPE_INTR,
+-	TYPE_STREAM,
+-	TYPE_COMMAND,
+-	TYPE_EVENT,
+-};
+-
+ static inline const char *xhci_ring_type_string(enum xhci_ring_type type)
+ {
+ 	switch (type) {
+@@ -1615,46 +1594,6 @@ static inline const char *xhci_ring_type_string(enum xhci_ring_type type)
+ 	}
  
--/*
-- * TRBS_PER_SEGMENT must be a multiple of 4,
-- * since the command ring is 64-byte aligned.
-- * It must also be greater than 16.
-- */
--#define TRBS_PER_SEGMENT	256
--/* Allow two commands + a link TRB, along with any reserved command TRBs */
--#define MAX_RSVD_CMD_TRBS	(TRBS_PER_SEGMENT - 3)
--#define TRB_SEGMENT_SIZE	(TRBS_PER_SEGMENT*16)
--#define TRB_SEGMENT_SHIFT	(ilog2(TRB_SEGMENT_SIZE))
--/* TRB buffer pointers can't cross 64KB boundaries */
--#define TRB_MAX_BUFF_SHIFT		16
--#define TRB_MAX_BUFF_SIZE	(1 << TRB_MAX_BUFF_SHIFT)
--/* How much data is left before the 64KB boundary? */
--#define TRB_BUFF_LEN_UP_TO_BOUNDARY(addr)	(TRB_MAX_BUFF_SIZE - \
--					(addr & (TRB_MAX_BUFF_SIZE - 1)))
- #define MAX_SOFT_RETRY		3
+ 	return "UNKNOWN";
+-}
+-
+-struct xhci_ring {
+-	struct xhci_segment	*first_seg;
+-	struct xhci_segment	*last_seg;
+-	union  xhci_trb		*enqueue;
+-	struct xhci_segment	*enq_seg;
+-	union  xhci_trb		*dequeue;
+-	struct xhci_segment	*deq_seg;
+-	struct list_head	td_list;
+-	/*
+-	 * Write the cycle state into the TRB cycle field to give ownership of
+-	 * the TRB to the host controller (if we are the producer), or to check
+-	 * if we own the TRB (if we are the consumer).  See section 4.9.1.
+-	 */
+-	u32			cycle_state;
+-	unsigned int		stream_id;
+-	unsigned int		num_segs;
+-	unsigned int		num_trbs_free; /* used only by xhci DbC */
+-	unsigned int		bounce_buf_len;
+-	enum xhci_ring_type	type;
+-	bool			last_td_was_short;
+-	struct radix_tree_root	*trb_address_map;
+-};
+-
+-struct xhci_erst_entry {
+-	/* 64-bit event ring segment address */
+-	__le64	seg_addr;
+-	__le32	seg_size;
+-	/* Set to zero */
+-	__le32	rsvd;
+-};
+-
+-struct xhci_erst {
+-	struct xhci_erst_entry	*entries;
+-	unsigned int		num_entries;
+-	/* xhci->event_ring keeps track of segment dma addresses */
+-	dma_addr_t		erst_dma_addr;
+-	/* Num entries the ERST can contain */
+-	unsigned int		erst_size;
+ };
+ 
+ struct xhci_scratchpad {
+@@ -1707,18 +1646,6 @@ struct xhci_bus_state {
+ 	unsigned long		resuming_ports;
+ };
+ 
+-struct xhci_interrupter {
+-	struct xhci_ring	*event_ring;
+-	struct xhci_erst	erst;
+-	struct xhci_intr_reg __iomem *ir_set;
+-	unsigned int		intr_num;
+-	/* For interrupter registers save and restore over suspend/resume */
+-	u32	s3_irq_pending;
+-	u32	s3_irq_control;
+-	u32	s3_erst_size;
+-	u64	s3_erst_base;
+-	u64	s3_erst_dequeue;
+-};
  /*
-  * Limits of consecutive isoc trbs that can Block Event Interrupt (BEI) if
-diff --git a/include/linux/usb/xhci-sideband.h b/include/linux/usb/xhci-sideband.h
+  * It can take up to 20 ms to transition from RExit to U0 on the
+  * Intel Lynx Point LP xHCI host.
+@@ -1799,7 +1726,7 @@ struct xhci_hcd {
+ 	struct reset_control *reset;
+ 	/* data structures */
+ 	struct xhci_device_context_array *dcbaa;
+-	struct xhci_interrupter *interrupter;
++	struct xhci_interrupter **interrupters;
+ 	struct xhci_ring	*cmd_ring;
+ 	unsigned int            cmd_ring_state;
+ #define CMD_RING_STATE_RUNNING         (1 << 0)
+diff --git a/include/linux/usb/xhci-intr.h b/include/linux/usb/xhci-intr.h
 new file mode 100644
-index 000000000000..d6b2cc91666f
+index 000000000000..e0091ee2c73a
 --- /dev/null
-+++ b/include/linux/usb/xhci-sideband.h
-@@ -0,0 +1,57 @@
++++ b/include/linux/usb/xhci-intr.h
+@@ -0,0 +1,86 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * xHCI host controller sideband support
-+ *
-+ * Copyright (c) 2023, Intel Corporation.
-+ *
-+ * Author: Mathias Nyman <mathias.nyman@linux.intel.com>
-+ */
++#ifndef __LINUX_XHCI_INTR_H
++#define __LINUX_XHCI_INTR_H
 +
-+#ifndef __LINUX_XHCI_SIDEBAND_H  // fixme check ok
-+#define __LINUX_XHCI_SIDEBAND_H
++#include <linux/kernel.h>
 +
-+#include <linux/dma-mapping.h>
-+/*
-+ * TRBS_PER_SEGMENT must be a multiple of 4,
-+ * since the command ring is 64-byte aligned.
-+ * It must also be greater than 16.
-+ */
-+#define TRBS_PER_SEGMENT	256
-+/* Allow two commands + a link TRB, along with any reserved command TRBs */
-+#define MAX_RSVD_CMD_TRBS	(TRBS_PER_SEGMENT - 3)
-+#define TRB_SEGMENT_SIZE	(TRBS_PER_SEGMENT*16)
-+#define TRB_SEGMENT_SHIFT	(ilog2(TRB_SEGMENT_SIZE))
-+/* TRB buffer pointers can't cross 64KB boundaries */
-+#define TRB_MAX_BUFF_SHIFT		16
-+#define TRB_MAX_BUFF_SIZE	(1 << TRB_MAX_BUFF_SHIFT)
-+/* How much data is left before the 64KB boundary? */
-+#define TRB_BUFF_LEN_UP_TO_BOUNDARY(addr)	(TRB_MAX_BUFF_SIZE - \
-+					(addr & (TRB_MAX_BUFF_SIZE - 1)))
-+
-+#define EP_CTX_PER_DEV		31
-+
-+struct xhci_sideband {
-+	struct xhci_hcd                 *xhci;
-+	struct xhci_virt_device         *vdev;
-+	struct xhci_virt_ep             *eps[EP_CTX_PER_DEV];
-+	struct xhci_interrupter         *ir;
-+	struct sg_table			*sgt;
-+	struct xhci_ring		*ring;
-+	dma_addr_t dma;
++struct xhci_erst_entry {
++	/* 64-bit event ring segment address */
++	__le64	seg_addr;
++	__le32	seg_size;
++	/* Set to zero */
++	__le32	rsvd;
 +};
 +
-+struct xhci_sideband *
-+xhci_sideband_register(struct usb_device *udev);
-+void
-+xhci_sideband_unregister(struct xhci_sideband *sb);
-+int
-+xhci_sideband_add_endpoint(struct xhci_sideband *sb,
-+			   struct usb_host_endpoint *host_ep);
-+int
-+xhci_sideband_remove_endpoint(struct xhci_sideband *sb,
-+			      struct usb_host_endpoint *host_ep);
-+int
-+xhci_sideband_stop_endpoint(struct xhci_sideband *sb,
-+			    struct usb_host_endpoint *host_ep);
-+#endif /* __LINUX_XHCI_SIDEBAND_H */
++enum xhci_ring_type {
++	TYPE_CTRL = 0,
++	TYPE_ISOC,
++	TYPE_BULK,
++	TYPE_INTR,
++	TYPE_STREAM,
++	TYPE_COMMAND,
++	TYPE_EVENT,
++};
 +
++struct xhci_erst {
++	struct xhci_erst_entry	*entries;
++	unsigned int		num_entries;
++	/* xhci->event_ring keeps track of segment dma addresses */
++	dma_addr_t		erst_dma_addr;
++	/* Num entries the ERST can contain */
++	unsigned int		erst_size;
++};
++
++struct xhci_segment {
++	union xhci_trb		*trbs;
++	/* private to HCD */
++	struct xhci_segment	*next;
++	dma_addr_t		dma;
++	/* Max packet sized bounce buffer for td-fragmant alignment */
++	dma_addr_t		bounce_dma;
++	void			*bounce_buf;
++	unsigned int		bounce_offs;
++	unsigned int		bounce_len;
++};
++
++struct xhci_ring {
++	struct xhci_segment	*first_seg;
++	struct xhci_segment	*last_seg;
++	union  xhci_trb		*enqueue;
++	struct xhci_segment	*enq_seg;
++	union  xhci_trb		*dequeue;
++	struct xhci_segment	*deq_seg;
++	struct list_head	td_list;
++	/*
++	 * Write the cycle state into the TRB cycle field to give ownership of
++	 * the TRB to the host controller (if we are the producer), or to check
++	 * if we own the TRB (if we are the consumer).  See section 4.9.1.
++	 */
++	u32			cycle_state;
++	unsigned int		stream_id;
++	unsigned int		num_segs;
++	unsigned int		num_trbs_free;
++	unsigned int		num_trbs_free_temp;
++	unsigned int		bounce_buf_len;
++	enum xhci_ring_type	type;
++	bool			last_td_was_short;
++	struct radix_tree_root	*trb_address_map;
++};
++
++struct xhci_interrupter {
++	struct xhci_ring	*event_ring;
++	struct xhci_erst	erst;
++	struct xhci_intr_reg __iomem *ir_set;
++	unsigned int		intr_num;
++	/* For interrupter registers save and restore over suspend/resume */
++	u32	s3_irq_pending;
++	u32	s3_irq_control;
++	u32	s3_erst_size;
++	u64	s3_erst_base;
++	u64	s3_erst_dequeue;
++};
++
++struct xhci_interrupter *
++xhci_create_secondary_interrupter(struct usb_hcd *hcd);
++void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct xhci_interrupter *ir);
++#endif
