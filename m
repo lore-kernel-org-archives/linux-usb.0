@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE8EBC83F1C
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Aug 2023 14:00:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2601C83F1A
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Aug 2023 14:00:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236626AbjH2N7z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Aug 2023 09:59:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55236 "EHLO
+        id S236646AbjH2N74 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Aug 2023 09:59:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236727AbjH2N7g (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Aug 2023 09:59:36 -0400
+        with ESMTP id S236625AbjH2N7W (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Aug 2023 09:59:22 -0400
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FC2DD7;
-        Tue, 29 Aug 2023 06:59:34 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37TDo1DQ010097;
-        Tue, 29 Aug 2023 13:59:09 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D166EF7;
+        Tue, 29 Aug 2023 06:59:19 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37TBvbRQ009117;
+        Tue, 29 Aug 2023 13:58:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=kIlejBzYsF/A84csXRL0l0tfSiqE/VUEexcW3bCS9js=;
- b=VA9RiYRRdoIsMF1Agjsi3tWHli9mzvpSm7IaenTodNUXs39208BbvrOEN1xLIpLHWwZM
- c+MIq8+PdHxTDrH+TW8ZYnEli0TJHdI2/iHqVDiN8LZAl6jPDmY82kxQ+J6BjeewC+kM
- s+PYQhAd9T3zUT9RAH6clXaQjkVUSwVFcLNjWUVon1OtShyoeA2gYWjNofuqkPRc/waq
- /UMcAvjxqNkk6NNgp9XRXUkcRWQP+JQpTKh0ILHhcafRhURrvxoojwdEzjTNSXViOsp4
- o4eFY2zeVd3Ymz5OPKexQBAvzIFzcBCj8Xz7Av6B4c+JmykMtRwnBNtnRuxjiQIcOX5w TQ== 
+ bh=h6LCmQBCZjYiUZTFKUb5sVImFewIAym44AztjmzSBYw=;
+ b=VEZuhekY3A7olexkjpPob2/b7VKY0q1TdBD+TWahZZbzPCk2ENCg5NfJtzSV9uFEbjOx
+ v+OADOmNkhhYcn7Qvk/oGGdHaT8fDD/wsCZgPqJMrIx30PD3tnUaQJfkDlQiIgGMY7gY
+ 8Ts03ESPBWKA5eK11yptmaN7F9biIzmYBqXDbDXZQStz1iTdU43crrSmoREO6bybrs5G
+ PKiKft+de7whVH8lBH5ytkrQI+wtDxJQwMSVtF7qIcqXcBw0N0TLzElVtZ3wP2sUo4YC
+ Q98/4FgaSwow84HTGxZrLIyxXx4M9WMaRrc+6fw6BDr1sZ0saMp9QYYlNtDFaxFJGudt bg== 
 Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ss6j89ea6-1
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ss4wq1k32-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Aug 2023 13:59:09 +0000
+        Tue, 29 Aug 2023 13:58:54 +0000
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TDx7Sf002142
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TDwqFV001896
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Aug 2023 13:59:07 GMT
+        Tue, 29 Aug 2023 13:58:52 GMT
 Received: from hu-ipkumar-blr.qualcomm.com (10.80.80.8) by
  nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Tue, 29 Aug 2023 06:59:00 -0700
+ 15.2.1118.30; Tue, 29 Aug 2023 06:58:45 -0700
 From:   Praveenkumar I <quic_ipkumar@quicinc.com>
 To:     <robert.marko@sartura.hr>, <luka.perkov@sartura.hr>,
         <quic_ipkumar@quicinc.com>, <agross@kernel.org>,
@@ -52,9 +52,9 @@ To:     <robert.marko@sartura.hr>, <luka.perkov@sartura.hr>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
 CC:     <quic_varada@quicinc.com>
-Subject: [PATCH 4/9] dt-bindings: phy: qcom,uniphy: Add ipq5332 USB3 SS UNIPHY
-Date:   Tue, 29 Aug 2023 19:28:13 +0530
-Message-ID: <20230829135818.2219438-5-quic_ipkumar@quicinc.com>
+Subject: [PATCH 2/9] phy: qcom: uniphy: Rename ipq4019 USB phy driver to UNIPHY driver
+Date:   Tue, 29 Aug 2023 19:28:11 +0530
+Message-ID: <20230829135818.2219438-3-quic_ipkumar@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230829135818.2219438-1-quic_ipkumar@quicinc.com>
 References: <20230829135818.2219438-1-quic_ipkumar@quicinc.com>
@@ -66,178 +66,93 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01c.na.qualcomm.com (10.47.97.35)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 0kxMqG8lnk9vjZcGmfl46xnO_KmeIYHo
-X-Proofpoint-GUID: 0kxMqG8lnk9vjZcGmfl46xnO_KmeIYHo
+X-Proofpoint-GUID: SqdI_HzsLN3j1btFwZkiniH7JqPuL-Rl
+X-Proofpoint-ORIG-GUID: SqdI_HzsLN3j1btFwZkiniH7JqPuL-Rl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-29_10,2023-08-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
- impostorscore=0 priorityscore=1501 suspectscore=0 mlxlogscore=999
- lowpriorityscore=0 phishscore=0 malwarescore=0 spamscore=0 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ definitions=2023-08-29_11,2023-08-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015
+ spamscore=0 malwarescore=0 priorityscore=1501 mlxscore=0 adultscore=0
+ mlxlogscore=927 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2308100000 definitions=main-2308290120
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add ipq5332 USB3 SS UNIPHY support.
+UNIPHY / Combo PHY used on various qualcomm SoC's are very similar to
+ipq4019 PHY. Hence renaming this driver to uniphy driver and can be
+used for other SoC's which are having the similar UNIPHY.
 
 Signed-off-by: Praveenkumar I <quic_ipkumar@quicinc.com>
 ---
- .../devicetree/bindings/phy/qcom,uniphy.yaml  | 117 +++++++++++++++++-
- 1 file changed, 114 insertions(+), 3 deletions(-)
+ MAINTAINERS                                                | 7 ++++---
+ drivers/phy/qualcomm/Kconfig                               | 7 ++++---
+ drivers/phy/qualcomm/Makefile                              | 2 +-
+ .../qualcomm/{phy-qcom-ipq4019-usb.c => phy-qcom-uniphy.c} | 0
+ 4 files changed, 9 insertions(+), 7 deletions(-)
+ rename drivers/phy/qualcomm/{phy-qcom-ipq4019-usb.c => phy-qcom-uniphy.c} (100%)
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom,uniphy.yaml b/Documentation/devicetree/bindings/phy/qcom,uniphy.yaml
-index cbe2cc820009..17ba661b3d9b 100644
---- a/Documentation/devicetree/bindings/phy/qcom,uniphy.yaml
-+++ b/Documentation/devicetree/bindings/phy/qcom,uniphy.yaml
-@@ -19,21 +19,53 @@ properties:
-     enum:
-       - qcom,usb-ss-ipq4019-phy
-       - qcom,usb-hs-ipq4019-phy
-+      - qcom,ipq5332-usb-ssphy
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ff1f273b4f36..7f4553c1a69a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17774,13 +17774,14 @@ F:	Documentation/devicetree/bindings/mailbox/qcom-ipcc.yaml
+ F:	drivers/mailbox/qcom-ipcc.c
+ F:	include/dt-bindings/mailbox/qcom-ipcc.h
  
-   reg:
-     maxItems: 1
+-QUALCOMM IPQ4019 USB PHY DRIVER
++QUALCOMM UNIPHY DRIVER
+ M:	Robert Marko <robert.marko@sartura.hr>
+ M:	Luka Perkov <luka.perkov@sartura.hr>
++M:	Praveenkumar I <quic_ipkumar@quicinc.com>
+ L:	linux-arm-msm@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/phy/qcom-usb-ipq4019-phy.yaml
+-F:	drivers/phy/qualcomm/phy-qcom-ipq4019-usb.c
++F:	Documentation/devicetree/bindings/phy/qcom,uniphy.yaml
++F:	drivers/phy/qualcomm/phy-qcom-uniphy.c
  
-+  reg-names:
-+    items:
-+      - const: phy_base
-+
-+  clocks:
-+    maxItems: 3
-+
-+  clock-names:
-+    maxItems: 3
-+
-+  "#clock-cells":
-+    const: 0
-+
-   resets:
-+    minItems: 1
-     maxItems: 2
+ QUALCOMM IPQ4019 VQMMC REGULATOR DRIVER
+ M:	Robert Marko <robert.marko@sartura.hr>
+diff --git a/drivers/phy/qualcomm/Kconfig b/drivers/phy/qualcomm/Kconfig
+index d891058b7c39..e6981bc212b3 100644
+--- a/drivers/phy/qualcomm/Kconfig
++++ b/drivers/phy/qualcomm/Kconfig
+@@ -28,12 +28,13 @@ config PHY_QCOM_EDP
+ 	  Enable this driver to support the Qualcomm eDP PHY found in various
+ 	  Qualcomm chipsets.
  
-   reset-names:
--    items:
--      - const: por_rst
--      - const: srif_rst
-+    minItems: 1
-+    maxItems: 2
-+
-+  clock-output-names:
-+    maxItems: 1
+-config PHY_QCOM_IPQ4019_USB
+-	tristate "Qualcomm IPQ4019 USB PHY driver"
++config PHY_QCOM_UNIPHY
++	tristate "Qualcomm UNIPHY driver"
+ 	depends on OF && (ARCH_QCOM || COMPILE_TEST)
+ 	select GENERIC_PHY
+ 	help
+-	  Support for the USB PHY-s on Qualcomm IPQ40xx SoC-s.
++	  Enable this driver to support the Qualcomm UNIPHY found in various
++	  Qualcomm chipsets.
  
-   "#phy-cells":
-     const: 0
- 
-+  qcom,phy-mux-sel:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    description:
-+      PHY Mux Selection for used to select which interface is going to use the
-+      combo PHY.
-+    items:
-+      - items:
-+          - description: phandle to TCSR syscon region
-+          - description: offset to the PHY Mux selection register
-+          - description: value to write on the PHY Mux selection register
-+
-+  vdd-supply:
-+    description:
-+      Phandle to 5V regulator supply to PHY digital circuit.
-+
- required:
-   - compatible
-   - reg
-@@ -41,6 +73,68 @@ required:
-   - reset-names
-   - "#phy-cells"
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - qcom,ipq5332-usb-ssphy
-+    then:
-+      properties:
-+        clocks:
-+          maxItems: 3
-+        clock-names:
-+          items:
-+            - const: pipe
-+            - const: phy_cfg_ahb
-+            - const: phy_ahb
-+
-+        "#clock-cells":
-+          const: 0
-+
-+        clock-output-names:
-+          maxItems: 1
-+
-+        resets:
-+          maxItems: 1
-+        reset-names:
-+          items:
-+            - const: por_rst
-+
-+        vdda-supply:
-+          description:
-+            Phandle to 5V regulator supply to PHY digital circuit.
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - qcom,usb-ss-ipq4019-phy
-+    then:
-+      properties:
-+        resets:
-+          maxItems: 1
-+        reset-names:
-+          items:
-+            - const: por_rst
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - qcom,usb-hs-ipq4019-phy
-+    then:
-+      properties:
-+        resets:
-+          maxItems: 2
-+        reset-names:
-+          items:
-+            - const: por_rst
-+            - const: srif_rst
-+
- additionalProperties: false
- 
- examples:
-@@ -55,3 +149,20 @@ examples:
-                <&gcc USB2_HSPHY_S_ARES>;
-       reset-names = "por_rst", "srif_rst";
-     };
-+
-+  - |
-+    #include <dt-bindings/clock/qcom,ipq5332-gcc.h>
-+
-+    ssuniphy@4b0000 {
-+      #phy-cells = <0>;
-+      #clock-cells = <0>;
-+      compatible = "qcom,ipq5332-usb-ssphy";
-+      reg = <0x4b0000 0x800>;
-+      clocks = <&gcc GCC_USB0_PIPE_CLK>,
-+               <&gcc GCC_USB0_PHY_CFG_AHB_CLK>,
-+               <&gcc GCC_PCIE3X1_PHY_AHB_CLK>;
-+      clock-names = "pipe", "phy_cfg_ahb", "phy_ahb";
-+
-+      resets = <&gcc GCC_USB0_PHY_BCR>;
-+      reset-names = "por_rst";
-+    };
+ config PHY_QCOM_IPQ806X_SATA
+ 	tristate "Qualcomm IPQ806x SATA SerDes/PHY driver"
+diff --git a/drivers/phy/qualcomm/Makefile b/drivers/phy/qualcomm/Makefile
+index ffd609ac6233..7460e1a427d2 100644
+--- a/drivers/phy/qualcomm/Makefile
++++ b/drivers/phy/qualcomm/Makefile
+@@ -2,7 +2,7 @@
+ obj-$(CONFIG_PHY_ATH79_USB)		+= phy-ath79-usb.o
+ obj-$(CONFIG_PHY_QCOM_APQ8064_SATA)	+= phy-qcom-apq8064-sata.o
+ obj-$(CONFIG_PHY_QCOM_EDP)		+= phy-qcom-edp.o
+-obj-$(CONFIG_PHY_QCOM_IPQ4019_USB)	+= phy-qcom-ipq4019-usb.o
++obj-$(CONFIG_PHY_QCOM_UNIPHY)		+= phy-qcom-uniphy.o
+ obj-$(CONFIG_PHY_QCOM_IPQ806X_SATA)	+= phy-qcom-ipq806x-sata.o
+ obj-$(CONFIG_PHY_QCOM_M31_USB)		+= phy-qcom-m31.o
+ obj-$(CONFIG_PHY_QCOM_PCIE2)		+= phy-qcom-pcie2.o
+diff --git a/drivers/phy/qualcomm/phy-qcom-ipq4019-usb.c b/drivers/phy/qualcomm/phy-qcom-uniphy.c
+similarity index 100%
+rename from drivers/phy/qualcomm/phy-qcom-ipq4019-usb.c
+rename to drivers/phy/qualcomm/phy-qcom-uniphy.c
 -- 
 2.34.1
 
