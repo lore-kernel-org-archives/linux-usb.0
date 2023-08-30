@@ -2,117 +2,77 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5F1BC83F1D
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:31:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B6D7C83F1F
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:31:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235825AbjH3Sb0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:31:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42246 "EHLO
+        id S235905AbjH3Sb2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:31:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243634AbjH3LSV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 07:18:21 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 621A2122;
-        Wed, 30 Aug 2023 04:18:19 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37U9uCw1011135;
-        Wed, 30 Aug 2023 11:18:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=e7z5YtFaGNibUWif2AGBJC31Qg774tsEpc9J6mO2uiA=;
- b=nIvkcErb6+k8PNSC4Eocsy40/DEXXF1JzOV23wHlrB8cJvZ38WBzXrfL7SB7luUCm7gO
- YotqX4NqC9j70kxr/2kan9RKluaWRxkigndRUdXna/FKXlyZTVbAY1zXeYThaVXM4ekj
- MVDJjGzT3GgrMbL8JRdUnXXiuSuNe/XWEhybX+FMYXLyk2tQ1IheMPSxvP22/uRAUJ2I
- PFeYtndrCNFlxfOP5ylOeTA58aJJIEEWGfv2KYtoUvNvQLInu5tiDuTSwSkIUToRtlLl
- dll5spOytHIxfmwJVrJ0FfKUGX5LEFIiP2lzIy857V1JUW0WQ0nFYZ8Z/aluIc98t5GY 9w== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3st0tare55-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 30 Aug 2023 11:18:11 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37UBI9qL006894
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 30 Aug 2023 11:18:09 GMT
-Received: from nsekar-linux.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Wed, 30 Aug 2023 04:18:03 -0700
-From:   Nitheesh Sekar <quic_nsekar@quicinc.com>
-To:     <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
-        <kishon@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <gregkh@linuxfoundation.org>, <quic_srichara@quicinc.com>,
-        <quic_varada@quicinc.com>, <quic_wcheng@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>
-CC:     Nitheesh Sekar <quic_nsekar@quicinc.com>,
-        Amandeep Singh <quic_amansing@quicinc.com>
-Subject: [PATCH V2 4/4] arm64: dts: qcom: ipq5018: Enable USB
-Date:   Wed, 30 Aug 2023 16:47:22 +0530
-Message-ID: <20230830111722.19380-5-quic_nsekar@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230830111722.19380-1-quic_nsekar@quicinc.com>
-References: <20230830111722.19380-1-quic_nsekar@quicinc.com>
+        with ESMTP id S243450AbjH3LBg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 07:01:36 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 234C41BF
+        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 04:01:34 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a0c:5a83:9103:1700:2f0:bfeb:cfb7:701b])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: rcn)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id CA4896607243;
+        Wed, 30 Aug 2023 12:01:32 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1693393293;
+        bh=u4AIFFixaIy+5dBsCJN5cT89DSCxLX4zBxlmwAclQWQ=;
+        h=From:To:Cc:Subject:References:In-reply-to:Date:From;
+        b=ogB/0CKu320jYDjoDWHf8dnFYz2sYm32ZddI/6M5c+zgj9IfjakN4p62UaCt4ZMie
+         y90gyEy2JgXJF389cNr6K0l+toUXevAHsy+Ud6vyk/dxalRCDmGLgt6Kbh/mfRC1dj
+         erZyi3NeaXOHwNvLSiUJJoIPviJUAxCZI07sUzmQRkPAFLlEW07AHRDcqFTPkSRHoT
+         MpQQDNWh4e5IgWqaWPbHWdsIaMZo6f2xdfF8Ez/VVV4U+fOpqu0gZyvuuHCR5eF0/b
+         0BVRgAm0ptMXbsMJ3BJq6MOLo/LfQfJRG+HtqT4ofBbgiqyodwfwbPNvBpKqjM172A
+         8mHuCH038nUzg==
+From:   Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
+        linux@roeck-us.net, kernel@collabora.com
+Subject: Re: [PATCH] usb: hub: Guard against accesses to uninitialized BOS descriptors
+References: <20230830100418.1952143-1-ricardo.canuelo@collabora.com> <2023083007-vowed-latitude-acef@gregkh>
+In-reply-to: <2023083007-vowed-latitude-acef@gregkh>
+Date:   Wed, 30 Aug 2023 13:01:29 +0200
+Message-ID: <87cyz4hjzq.fsf@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: JuMAQh-x4OJPlcYYs15NdbZwhq6GBX5H
-X-Proofpoint-ORIG-GUID: JuMAQh-x4OJPlcYYs15NdbZwhq6GBX5H
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-29_16,2023-08-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
- spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- lowpriorityscore=0 impostorscore=0 malwarescore=0 mlxlogscore=538
- adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308300105
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable USB2 in host mode.
+Re-sending the email, the previous one was bounced, sorry for the noise.
 
-Co-developed-by: Amandeep Singh <quic_amansing@quicinc.com>
-Signed-off-by: Amandeep Singh <quic_amansing@quicinc.com>
-Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
----
-V2:
-	Sort and reorder USB related nodes.
----
- arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Hi Greg, thanks for reviewing.
 
-diff --git a/arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts b/arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts
-index e636a1cb9b77..3eb3a98e3e12 100644
---- a/arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts
-+++ b/arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts
-@@ -67,6 +67,18 @@
- 	};
- };
- 
-+&usbphy0 {
-+	status = "okay";
-+};
-+
-+&usb {
-+	status = "okay";
-+};
-+
-+&usb2_0_dwc {
-+	dr_mode = "host";
-+};
-+
- &xo_board_clk {
- 	clock-frequency = <24000000>;
- };
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+On mi=C3=A9, ago 30 2023 at 12:13:44, Greg KH <gregkh@linuxfoundation.org> =
+wrote:
+> Did you mean to loose the indentation here?
 
+This output has probably gone through some processing before I got it,
+so that's likely the cause. I don't have access to the original output,
+sorry. If I need to fix something for a v2 I can try to re-format it to
+add the indentation back in.
+
+> What commit id does this fix?
+
+This isn't linked to a particular single commit, it fixes the same
+problem in different parts of the code, introduced by different commits
+over time. The starting point for the fix was the crash output in the
+commit message but, for additional context, these are the original
+commits that introduced the unguarded struct accesses:
+
+  0cdd49a1d1a4 ("usb: Support USB 3.1 extended port status request")
+  51e0a0120661 ("USB: Calculate USB 3.0 exit latencies for LPM.")
+  25cd2882e2fc ("usb/xhci: Change how we indicate a host supports Link PM.")
+  0299809be415 ("usb: core: Track SuperSpeed Plus GenXxY")
+  ae8963adb4ad ("usb: Don't enable LPM if the exit latency is zero.")
+
+Cheers,
+Ricardo
