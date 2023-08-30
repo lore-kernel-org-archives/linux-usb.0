@@ -2,94 +2,108 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49282C6FA8F
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:30:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A18C6C83F19
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:30:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235050AbjH3Sas (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:30:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39676 "EHLO
+        id S235151AbjH3Sau (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:30:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243676AbjH3L0a (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 07:26:30 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACFF8132;
-        Wed, 30 Aug 2023 04:26:27 -0700 (PDT)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37UAKIU5021502;
-        Wed, 30 Aug 2023 11:26:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=39FSy9iMArq4qwujTHj5LNIHuUSVAhx3F/QVlkULB20=;
- b=HALMrjKWsXLkQj6ygdDezub4Y/KPZquEMvsH44LYDDN9N1HGAxLXx97o2X0lm0gq22Zh
- VcePBzMMiN/beu3hm5qSzhX9sc5y8Fjs1X5ysilJ4eh3LhOdguMlSIA04FRfIumEVG6o
- nkoztBeBCuvlZyYg/0xSvrIerfn8rxVctzAX5o92pbgcmOwjO5P83uOqXNQ/pk+E+TOp
- vMp8tUQf870o/xFpQEteWAByQsXKMl22SIHJ2IbgDdzBEIhlqT/+7O7IaqfRuZ6d3aqS
- Vl9IdJ6cl0Jxn0Ay2TNLI3dAGTiZzaOGwP4ZgH3tIvLh1XM1M2Voawrwlyw2nZ77wpSI GA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3st3whr3dt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 30 Aug 2023 11:26:23 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37UBQMqc004209
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 30 Aug 2023 11:26:22 GMT
-Received: from [10.50.47.209] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Wed, 30 Aug
- 2023 04:26:18 -0700
-Message-ID: <3f0d3997-effd-4f51-7aeb-a52428eca47e@quicinc.com>
-Date:   Wed, 30 Aug 2023 16:56:15 +0530
+        with ESMTP id S245208AbjH3OsH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 10:48:07 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id A729BFF
+        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 07:48:03 -0700 (PDT)
+Received: (qmail 423072 invoked by uid 1000); 30 Aug 2023 10:48:02 -0400
+Date:   Wed, 30 Aug 2023 10:48:02 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     Andrey Konovalov <andreyknvl@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: dwc3: unusual handling of setup requests with wLength == 0
+Message-ID: <61cf24db-9dbb-4bf3-aafe-d515fc37cca8@rowland.harvard.edu>
+References: <e63ba783-f5a4-4442-8736-987a3b134e7f@rowland.harvard.edu>
+ <20230823021429.rlgixqehry4rsqmm@synopsys.com>
+ <5d5973b9-d590-4567-b1d6-4b5f8aeca68b@rowland.harvard.edu>
+ <20230823175903.bpumanwv5fkpwc44@synopsys.com>
+ <08a3759d-4c6b-4034-8516-685e4d96a41e@rowland.harvard.edu>
+ <20230823222202.k7y7hxndsbi7h4x7@synopsys.com>
+ <9b175f9e-ab70-47a3-a943-bfd05601aa23@rowland.harvard.edu>
+ <20230826012024.mboftu3wk7fsrslp@synopsys.com>
+ <ba06679f-93d2-4cb4-9218-9e288065bdfb@rowland.harvard.edu>
+ <20230830013222.ukw5dtburjnrrjko@synopsys.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH] dt-bindings: usb: dwc3: Add IPQ5018 compatible
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <gregkh@linuxfoundation.org>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <quic_wcheng@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20230830111641.19293-1-quic_nsekar@quicinc.com>
- <3b4c873a-a091-51dd-4ce1-84b40886b5cd@linaro.org>
-From:   Nitheesh Sekar <quic_nsekar@quicinc.com>
-In-Reply-To: <3b4c873a-a091-51dd-4ce1-84b40886b5cd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Fcegh49H6YntyNDQ36BoE_Mw_vIvi6R6
-X-Proofpoint-ORIG-GUID: Fcegh49H6YntyNDQ36BoE_Mw_vIvi6R6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-29_16,2023-08-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
- bulkscore=0 lowpriorityscore=0 adultscore=0 phishscore=0 malwarescore=0
- mlxlogscore=696 priorityscore=1501 impostorscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308300107
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230830013222.ukw5dtburjnrrjko@synopsys.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On Wed, Aug 30, 2023 at 01:32:28AM +0000, Thinh Nguyen wrote:
+> That reminds me another thing, if the host (xhci in this case) does a
+> hard reset to the endpoint, it also resets the TRB pointer with dequeue
+> ep command. So, the transfer should not resume. It needs to be
+> cancelled. This xHCI behavior is the same for Windows and Linux.
 
-On 8/30/2023 4:48 PM, Krzysztof Kozlowski wrote:
-> On 30/08/2023 13:16, Nitheesh Sekar wrote:
->> Document the IPQ5018 dwc3 compatible.
->>
->> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
->> ---
->> Link: https://lore.kernel.org/all/3e4e03b6-380c-ce61-dd93-30669e6f9b5c@linaro.org/
->> As per the review comments in the above series
->> created a new series for this patchset as per subsystem.
-> Please provide changelog. This is not v1 anymore.
-ok. Will add tag "V2" and post another version.
+That's on the host side, right?  How does this affect the gadget side?
 
-Regards,
-Nitheesh
+That is, cancelling a transfer on the host doesn't necessarily mean it 
+has to be cancelled on the gadget.  Does it have any implications at all 
+for the gadget driver?
+
+> > I think it should be the opposite; the class protocol should specify
+> > how to recover from errors.  If for no other reason then to avoid the
+> > data duplication problem for USB-2.  However, if it doesn't specify a
+> > recovery procedure then there's not much else you can do.
+> 
+> Right, unfortunately that's not always the case that class protocol
+> spell out how to handle transaction error.
+
+All too true...
+
+> > But regardless, how can the gadget driver make any use of the
+> > knowledge that the UDC received a Clear-Halt?  What would it do
+> > differently?  If the intent is simply to clear an error condition and
+> > continue with the existing transfer, the gadget driver doesn't need to
+> > do anything.
+> 
+> It's not simple to clear an error. It is to notify the gadget driver to
+> cancel the active transfer and resync with the host.
+
+How does the gadget driver sync with the host if the class protocol 
+doesn't say what should be done?
+
+Also, what if there is no active transfer?  That is, what if the 
+transaction that got an error on the host appeared to be successful on 
+the gadget and it was the last transaction in the final transfer queued 
+for the endpoint?  How would the UDC driver notify the gadget driver in 
+this situation?
+
+>  This is observed in
+> UASP driver in Windows and how various consumer UASP devices handle it.
+
+I don't understand what you're saying here.  How can you observe whether 
+a transfer is cancelled in a consumer UAS device?  And how does the 
+consumer device resync with the host?
+
+> There no eqivalent of Bulk-Only Mass Storage Reset request from the
+> class protocol. We still have the USB analyzer traces for this.
+
+Can you post an example?  Not necessarily in complete detail, but enough 
+so that we can see what's going on.
+
+> Regardless whether the class protocol spells out how to handle the
+> transaction error, if there's transaction error, the host may send
+> CLEAR_FEATURE(halt_ep) as observed in Windows. The gadget driver needs
+> to know about it to cancel the active transfer and resync with the host.
+
+I'll be able to understand this better after seeing an example.  Do you 
+have any traces that were made for a High-speed connection (say, using 
+a USB-2 cable)?  It would probably be easier to follow than a SuperSpeed 
+example.
+
+Alan Stern
