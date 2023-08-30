@@ -2,96 +2,177 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63570C83F18
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:30:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B044C83F1F
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:30:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235304AbjH3Saw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:30:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57944 "EHLO
+        id S234901AbjH3Sam (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:30:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243159AbjH3KNv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 06:13:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DC4B1B0
-        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 03:13:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2D847628E6
-        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 10:13:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38F22C433C8;
-        Wed, 30 Aug 2023 10:13:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1693390427;
-        bh=lvs6fSVJlVDaE94eRD/FlJeZ9oOuL8z7xTGSQ0EB5Wg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VzRLVTGt3SpGnl6a0CG2Ms7Ihv92Kn/N9BT1LvVi/bK5u+4nJP7rolZweEiBbVbc0
-         e2qbjMDdX6J+1tsIS6RCf+tNgIqpS4zr4cG2kXH9iIE5iiGUz7ELT77lgrW44wjxtR
-         Ux9kVHFVD4ceOO3zBksog6TuWQrQxlZ8e45kRQVI=
-Date:   Wed, 30 Aug 2023 12:13:44 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
-Cc:     stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
-        linux@roeck-us.net, kernel@collabora.com
-Subject: Re: [PATCH] usb: hub: Guard against accesses to uninitialized BOS
- descriptors
-Message-ID: <2023083007-vowed-latitude-acef@gregkh>
-References: <20230830100418.1952143-1-ricardo.canuelo@collabora.com>
+        with ESMTP id S243632AbjH3LSI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 07:18:08 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72B65107;
+        Wed, 30 Aug 2023 04:18:05 -0700 (PDT)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37U7xKhP014991;
+        Wed, 30 Aug 2023 11:17:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=k6QLoHlj8WinEN6FqEZMCt5GHhCWBgjz+opIPw8+8Uo=;
+ b=UxaCSFpmpJ8lsXHkLWSGZkqcEAdBOUIUqEphbPb4L3iYo9lUmoJWAMX8/xm1xtPEFeq6
+ AgSyE20AJIC4qDf5Cnudxgphm6T7/LBwWjbPvaL6mAjFD43LPXHGNUKw0SoCPGxZzB6R
+ Ejr0yQqoBIF0/rXXOO3wO39BYGsbMSdEejtkmi6070i4VSXtfehG073LN6f7EovfBTk2
+ BSVyHhz15xDzF9wVDHeiAgbTV7F7kQ4cPu4rwvsBaleGlRneo4TGea95XfUH6MnMAhKe
+ r38nFGRrE1Lt/DIOLD/+88IngBMJ9vQsKtc04BkfYlWHJFhAqRYa7IBpGrMFks81aRMr ag== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ssmcv9nk9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 30 Aug 2023 11:17:59 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37UBHw9f026574
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 30 Aug 2023 11:17:58 GMT
+Received: from nsekar-linux.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Wed, 30 Aug 2023 04:17:53 -0700
+From:   Nitheesh Sekar <quic_nsekar@quicinc.com>
+To:     <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
+        <kishon@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <gregkh@linuxfoundation.org>, <quic_srichara@quicinc.com>,
+        <quic_varada@quicinc.com>, <quic_wcheng@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+CC:     Nitheesh Sekar <quic_nsekar@quicinc.com>
+Subject: [PATCH V2 2/4] phy: qcom-m31: Add compatible, phy init sequence for IPQ5018
+Date:   Wed, 30 Aug 2023 16:47:20 +0530
+Message-ID: <20230830111722.19380-3-quic_nsekar@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230830111722.19380-1-quic_nsekar@quicinc.com>
+References: <20230830111722.19380-1-quic_nsekar@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230830100418.1952143-1-ricardo.canuelo@collabora.com>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: WP8-f6kHTwWo8zsZBI7wV17gMv4pHl7V
+X-Proofpoint-GUID: WP8-f6kHTwWo8zsZBI7wV17gMv4pHl7V
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-29_16,2023-08-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
+ mlxlogscore=902 spamscore=0 malwarescore=0 mlxscore=0 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308300105
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 30, 2023 at 12:04:18PM +0200, Ricardo Cañuelo wrote:
-> Many functions in drivers/usb/core/hub.c and drivers/usb/core/hub.h
-> access fields inside udev->bos without checking if it was allocated and
-> initialized. If usb_get_bos_descriptor() fails for whatever
-> reason, udev->bos will be NULL and those accesses will result in a
-> crash:
-> 
-> BUG: kernel NULL pointer dereference, address: 0000000000000018
-> PGD 0 P4D 0
-> Oops: 0000 [#1] PREEMPT SMP NOPTI
-> CPU: 5 PID: 17818 Comm: kworker/5:1 Tainted: G W 5.15.108-18910-gab0e1cb584e1 #1 <HASH:1f9e 1>
-> Hardware name: Google Kindred/Kindred, BIOS Google_Kindred.12672.413.0 02/03/2021
-> Workqueue: usb_hub_wq hub_event
-> RIP: 0010:hub_port_reset+0x193/0x788
-> Code: 89 f7 e8 20 f7 15 00 48 8b 43 08 80 b8 96 03 00 00 03 75 36 0f b7 88 92 03 00 00 81 f9 10 03 00 00 72 27 48 8b 80 a8 03 00 00 <48> 83 78 18 00 74 19 48 89 df 48 8b 75 b0 ba 02 00 00 00 4c 89 e9
-> RSP: 0018:ffffab740c53fcf8 EFLAGS: 00010246
-> RAX: 0000000000000000 RBX: ffffa1bc5f678000 RCX: 0000000000000310
-> RDX: fffffffffffffdff RSI: 0000000000000286 RDI: ffffa1be9655b840
-> RBP: ffffab740c53fd70 R08: 00001b7d5edaa20c R09: ffffffffb005e060
-> R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
-> R13: ffffab740c53fd3e R14: 0000000000000032 R15: 0000000000000000
-> FS: 0000000000000000(0000) GS:ffffa1be96540000(0000) knlGS:0000000000000000
-> CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000000000000018 CR3: 000000022e80c005 CR4: 00000000003706e0
-> Call Trace:
-> hub_event+0x73f/0x156e
-> ? hub_activate+0x5b7/0x68f
-> process_one_work+0x1a2/0x487
-> worker_thread+0x11a/0x288
-> kthread+0x13a/0x152
-> ? process_one_work+0x487/0x487
-> ? kthread_associate_blkcg+0x70/0x70
-> ret_from_fork+0x1f/0x30
+Add phy init sequence and compatible string for IPQ5018
+chipset.
 
-Did you mean to loose the indentation here?
+Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
+---
+V2:
+	Updated the commit message.
+---
+ drivers/phy/qualcomm/phy-qcom-m31.c | 60 +++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
 
-> Fall back to a default behavior if the BOS descriptor isn't accessible
-> and skip all the functionalities that depend on it: LPM support checks,
-> Super Speed capabilitiy checks, U1/U2 states setup.
-> 
-> Signed-off-by: Ricardo Cañuelo <ricardo.canuelo@collabora.com>
-> Cc: stable <stable@vger.kernel.org>
+diff --git a/drivers/phy/qualcomm/phy-qcom-m31.c b/drivers/phy/qualcomm/phy-qcom-m31.c
+index ed08072ca032..81b72ebde305 100644
+--- a/drivers/phy/qualcomm/phy-qcom-m31.c
++++ b/drivers/phy/qualcomm/phy-qcom-m31.c
+@@ -82,6 +82,59 @@ struct m31_priv_data {
+ 	unsigned int			nregs;
+ };
+ 
++struct m31_phy_regs m31_ipq5018_regs[] = {
++	{
++		USB_PHY_CFG0,
++		UTMI_PHY_OVERRIDE_EN,
++		0
++	},
++	{
++		USB_PHY_UTMI_CTRL5,
++		POR_EN,
++		15
++	},
++	{
++		USB_PHY_FSEL_SEL,
++		FREQ_SEL,
++		0
++	},
++	{
++		USB_PHY_HS_PHY_CTRL_COMMON0,
++		COMMONONN | FSEL | RETENABLEN,
++		0
++	},
++	{
++		USB_PHY_REFCLK_CTRL,
++		CLKCORE,
++		0
++	},
++	{
++		USB_PHY_UTMI_CTRL5,
++		POR_EN,
++		0
++	},
++	{
++		USB_PHY_HS_PHY_CTRL2,
++		USB2_SUSPEND_N_SEL | USB2_SUSPEND_N | USB2_UTMI_CLK_EN,
++		0
++	},
++	{
++		USB_PHY_UTMI_CTRL5,
++		0x0,
++		0
++	},
++	{
++		USB_PHY_HS_PHY_CTRL2,
++		USB2_SUSPEND_N | USB2_UTMI_CLK_EN,
++		0
++	},
++	{
++		USB_PHY_CFG0,
++		0x0,
++		0
++	},
++};
++
+ struct m31_phy_regs m31_ipq5332_regs[] = {
+ 	{
+ 		USB_PHY_CFG0,
+@@ -268,6 +321,12 @@ static int m31usb_phy_probe(struct platform_device *pdev)
+ 	return PTR_ERR_OR_ZERO(phy_provider);
+ }
+ 
++static const struct m31_priv_data m31_ipq5018_data = {
++	.ulpi_mode = false,
++	.regs = m31_ipq5018_regs,
++	.nregs = ARRAY_SIZE(m31_ipq5018_regs),
++};
++
+ static const struct m31_priv_data m31_ipq5332_data = {
+ 	.ulpi_mode = false,
+ 	.regs = m31_ipq5332_regs,
+@@ -275,6 +334,7 @@ static const struct m31_priv_data m31_ipq5332_data = {
+ };
+ 
+ static const struct of_device_id m31usb_phy_id_table[] = {
++	{ .compatible = "qcom,ipq5018-usb-hsphy", .data = &m31_ipq5018_data },
+ 	{ .compatible = "qcom,ipq5332-usb-hsphy", .data = &m31_ipq5332_data },
+ 	{ },
+ };
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-What commit id does this fix?
-
-thanks,
-
-greg k-h
