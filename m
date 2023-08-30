@@ -2,104 +2,134 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63FAFC83F26
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:31:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D57B9C83F17
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:31:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235454AbjH3SbK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:31:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56830 "EHLO
+        id S229705AbjH3SbI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:31:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242450AbjH3IeD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 04:34:03 -0400
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ECCC1AE;
-        Wed, 30 Aug 2023 01:34:00 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id 46e09a7af769-6bc9811558cso3873822a34.0;
-        Wed, 30 Aug 2023 01:34:00 -0700 (PDT)
+        with ESMTP id S244154AbjH3Mhb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 08:37:31 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90292E8
+        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 05:37:28 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-500bbe3ef0eso995140e87.1
+        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 05:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693384439; x=1693989239; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=linaro.org; s=google; t=1693399047; x=1694003847; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=SNhm82/yD2XJatnGAr0vBKs9bR4mP6ICOeiAlhv3D3w=;
-        b=S9IfiC3bVXp8/08C30G84BodEDx2SGcUYTdidPUytMQpeyXgy/En4TD04Qh4Dhafk+
-         xdquH/ylJUGZKqLvjN6pFMaIyjVAuwh7a73LzIbKOJS8pr2oacDzLYSD7hAE2lgFpHxE
-         5P/Ibf/lBe4vW6Dfsw9it/cAFxzEmr629HxnUdgcMOrXV+BjGBKHMa0xPb2DblePq5z8
-         nd1oWA6XtNKI70k7CYreQ/RDCOW4TcKJC0FUKPhuoZU1u3+83de3A+RqMhUemjbsTQ5M
-         Uw07Bp5W9TIQyLIMq/GMVd/QKw1u0jEXM6rXQKqZkvp+wTZvI4u0EGTyirlUGe6UnXAk
-         yTeQ==
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=I58sq5xTxwCx/GyljuH0Q6KBHvrDLZQ7PUXbI0PsH2Y=;
+        b=m0AqtxQcGi5qN6h8Sj3jcNUWNMiue+wxcwP2SvncfVRcsuPCfGF1DA/LRJ8IIL2BYD
+         H0qY4bPC4EH39m+uNbcItKxHjDEG2zBUZnI0eO9J1J4KlwC6zXXAtnhp2RFrn1FsrldP
+         yZaA4XWIY4W1QOiW1kyBF0+6EY/dlHBNBGrwGVrf/0kTrBIAY+vfrAkMQ+Rgc3yyvcwH
+         Zz+tydSkQuNy6jJH8l/KbdvW6i4wPHcxgJoEo8jk9AxjmjNPYRrGziPRUJw2UCuTPRwL
+         GvsJav18ThdEJxON7teKubSDW7f0NO3CjS720EYA+iPFcQnKp1DvDy4qLe0KfEUCrMrv
+         e2vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693384439; x=1693989239;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=1e100.net; s=20221208; t=1693399047; x=1694003847;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SNhm82/yD2XJatnGAr0vBKs9bR4mP6ICOeiAlhv3D3w=;
-        b=ahhrJBhAEDN4f+44O7+NiaTWtV2m/j7MBnvc5KA+NSfbbdzS6I5IKlqkaWS60jws2X
-         J0iz2BdYY1mg3PfYR/qnlLPiYicPV4xKwRyLECAQXJoGCHKSH/fZQ6bMDVCWzLm4lWww
-         6wG9fj7tUVxtS09E/0Dvxiiv9uXFCDgFF13ouPLJ0IaDm8OOx3hfzPSxcwJvXq7awzRo
-         6ANQDRqpNCy34TZE++ZzzheXc4y1rEBcXONQD7pWlp1Dh1s7Mf+KO2gFHDcKVvi6o0T1
-         Yxf02I2u53Jwy8natkvtavVWByAB77a+kqKQd6gSHG4RTpsvgbNVeFkGwiNHK9PRxnV3
-         ap+w==
-X-Gm-Message-State: AOJu0YyUiZmJ103KxQlLlKJ4Sgn5Sx2fZZQYboSn+2Si4GGWNjYZnPE1
-        08Rc0tCcjtVbGnt12JxnCow=
-X-Google-Smtp-Source: AGHT+IH4ZhfEnaAkZGMykkJRKfiN3d5ACC8sCq9Mk9PI6f9+a6622SjCGiGGGMWyZcawvPU1mIWHcA==
-X-Received: by 2002:a05:6870:8a21:b0:1c0:131b:2bb8 with SMTP id p33-20020a0568708a2100b001c0131b2bb8mr1784884oaq.58.1693384439500;
-        Wed, 30 Aug 2023 01:33:59 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id t2-20020a17090a024200b002717a368efasm875416pje.12.2023.08.30.01.33.57
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I58sq5xTxwCx/GyljuH0Q6KBHvrDLZQ7PUXbI0PsH2Y=;
+        b=kic9Q9ZtVm3GfBKUraJVABVLgIiOQ7h5/eKrHqdAZG69a+a8xlj4fYi85FvRRNCRn9
+         5EAQm4pq7vTFOfuFs9h568pjiyIxjUAID0H1l8WZgJxGhmHFoH+KgCw42mITcytS60gK
+         ZZ2h8qGehB1d8o1c609EMl8wskn2YigtVQOgewla3nvA6hQg0aOyBhWMXI2ejrTQ+7rk
+         2jSM6MfufkXNizFjhgY3Tl8xLz9C0ow/1dIV6BmoNTWSPFd2sXpQFk8Z7srmpbdykcrM
+         8/e2a4vKXjOyFsvwFFKMuohpLhtnyktW3XzT3pH0F3w0fy+i3fTZ6SD8LKu4A5L5Ss65
+         RFCQ==
+X-Gm-Message-State: AOJu0Ywko4nKdZMd9sKv2OYoacvDKb1IbcCdAy/bYC2E5TTNNGQk75Pq
+        AozHiTyaeof40ZfxtFCK+65GjQ==
+X-Google-Smtp-Source: AGHT+IEp+gLK73xWw+QqO6fWJI74gXK+me05R7lOQ0QCXV4Bjz00bLArMSjq6XgfqF7mOJb8+dQrzQ==
+X-Received: by 2002:a05:6512:402a:b0:4fb:7624:85a5 with SMTP id br42-20020a056512402a00b004fb762485a5mr872461lfb.0.1693399046844;
+        Wed, 30 Aug 2023 05:37:26 -0700 (PDT)
+Received: from [192.168.1.101] (abyl195.neoplus.adsl.tpnet.pl. [83.9.31.195])
+        by smtp.gmail.com with ESMTPSA id cf5-20020a056512280500b00500b3157ec8sm1772351lfb.163.2023.08.30.05.37.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Aug 2023 01:33:58 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <c477c29c-74db-9d48-0b45-b22b70dc93c0@roeck-us.net>
-Date:   Wed, 30 Aug 2023 01:33:57 -0700
+        Wed, 30 Aug 2023 05:37:26 -0700 (PDT)
+Message-ID: <49310ff8-80ea-447d-a63e-a181afade189@linaro.org>
+Date:   Wed, 30 Aug 2023 14:37:24 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4] usb: typec: qcom: Update the logic of regulator enable
- and disable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 2/4] phy: qcom-m31: Add compatible, phy init sequence
+ for IPQ5018
 Content-Language: en-US
-To:     hui liu <quic_huliu@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, quic_fenglinw@quicinc.com,
-        subbaram@quicinc.com
-References: <20230830-qcom-tcpc-v4-1-c19b0984879b@quicinc.com>
- <a2353ce6-bd39-f5ca-ad81-63b061147400@roeck-us.net>
- <fea72c0f-f23d-493c-beae-6bc830b9c2a2@quicinc.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <fea72c0f-f23d-493c-beae-6bc830b9c2a2@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Nitheesh Sekar <quic_nsekar@quicinc.com>, agross@kernel.org,
+        andersson@kernel.org, vkoul@kernel.org, kishon@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, gregkh@linuxfoundation.org,
+        quic_srichara@quicinc.com, quic_varada@quicinc.com,
+        quic_wcheng@quicinc.com, linux-arm-msm@vger.kernel.org,
+        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+References: <20230830111722.19380-1-quic_nsekar@quicinc.com>
+ <20230830111722.19380-3-quic_nsekar@quicinc.com>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20230830111722.19380-3-quic_nsekar@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 8/29/23 23:37, hui liu wrote:
+On 30.08.2023 13:17, Nitheesh Sekar wrote:
+> Add phy init sequence and compatible string for IPQ5018
+> chipset.
 > 
+> Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
+> ---
+> V2:
+> 	Updated the commit message.
+> ---
+>  drivers/phy/qualcomm/phy-qcom-m31.c | 60 +++++++++++++++++++++++++++++
+>  1 file changed, 60 insertions(+)
 > 
-> On 8/30/2023 2:25 PM, Guenter Roeck wrote:
->> On 8/29/23 20:00, Hui Liu via B4 Relay wrote:
->>> From: Hui Liu <quic_huliu@quicinc.com>
->>>
->>> Removed the call logic of disable and enable regulator
->>> in reset function. Enable the regulator in qcom_pmic_typec_start
->>> function and disable it in qcom_pmic_typec_stop function to
->>> avoid unbalanced regulator disable warnings.
->>>
->>> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
->>
->> Please drop.
-> I didn't get your mean. would you please explain it?
+> diff --git a/drivers/phy/qualcomm/phy-qcom-m31.c b/drivers/phy/qualcomm/phy-qcom-m31.c
+> index ed08072ca032..81b72ebde305 100644
+> --- a/drivers/phy/qualcomm/phy-qcom-m31.c
+> +++ b/drivers/phy/qualcomm/phy-qcom-m31.c
+> @@ -82,6 +82,59 @@ struct m31_priv_data {
+>  	unsigned int			nregs;
+>  };
+>  
+> +struct m31_phy_regs m31_ipq5018_regs[] = {
+static const?
 
-You kept my Reviewed-by: tag even though the current version
-of the patch is completely different to the patch I reviewed.
-This is inappropriate. Please drop my Reviewed-by: tag.
-
-Guenter
-
+Konrad
