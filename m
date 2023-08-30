@@ -2,116 +2,167 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D546AC83F01
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:31:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C240C83F1A
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:31:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234498AbjH3SbQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:31:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34074 "EHLO
+        id S235652AbjH3SbR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:31:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343975AbjH3RnK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 13:43:10 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30771107;
-        Wed, 30 Aug 2023 10:43:07 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-401c90ed2ecso36481975e9.0;
-        Wed, 30 Aug 2023 10:43:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693417385; x=1694022185; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3JSXWasOYO+IgsYBMXFWCY2VQ2JeAF0ezZhUsdBIZOU=;
-        b=VxvboSVngPIpuHNXkFJjZE2g8K1qwlGOtrG/y5i4laJsjKGTMOE9C14jybMmI3Cpke
-         D3YpzLUaPV4pcIpIFU7/JbijWCxUc+BPl2f1IOJ8TyRrhrVxU9agxWJqvQz/qDOTbznC
-         HNLtXcOEb1x762GfH17WQ9dwxvnBDawFye2QTanSJkVa2aAkKV8zuIryuIbTFzEeOY6f
-         qYXHwhSJRVdF3y2neXpKrv95dE3ewOOctDhgwVS5JMg2Ye2opIOIqyjv01cIN22eXqPt
-         TJ3AkVkHm7R1b5v8U+ac13IZtVhChX79OdVb65i1P4POB0lP9MtdiRa3pPDbAFmuwuU3
-         bBXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693417385; x=1694022185;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3JSXWasOYO+IgsYBMXFWCY2VQ2JeAF0ezZhUsdBIZOU=;
-        b=NhT/uQepDv5TU6ezX5hc1qG2TeLQtXEFuPi6udrkOSyWFFQI2p+kwbTnEgD0i3PRsG
-         ZtFIwq+p3P8gb+qZvJIEeKlEmpY36dczEq7WO0URD5PVeicXleIhk4SkUoqwXcuEon2C
-         8G8NpevrTu2rVCGnOwhW2XIWu+4qOzwDfxllWyKsGA7dskoqJJnxYnfib+QbC4VVARG4
-         vrWVbekksmlXluwg4zQm0LIy3SnFKpLtN0j0r96Icuy1nBJDGMj0U5kfziuFU/eGxtLe
-         rpqIzYC/c8Ma0p+0kryqxAQ5xrTCXs2xwR9vQsxgliW9kS8aZjKC9AhmIYVt6Xcd8HIF
-         /mYA==
-X-Gm-Message-State: AOJu0Yx4rtbjuP7NQB3FO1mKiGHh5Ud8PRtaICMKnDP53bsoeshi9P8e
-        vynq8kT0o/At163/idZRRVw=
-X-Google-Smtp-Source: AGHT+IGGn543ToY4d/XKjEsPa+tBnkoKxtYRQQQgLpPrRGf7ypUN2BHLOr9JUzJFAvm4rOwksQgWTw==
-X-Received: by 2002:a7b:ca47:0:b0:401:b6f6:d8fd with SMTP id m7-20020a7bca47000000b00401b6f6d8fdmr2578193wml.6.1693417385402;
-        Wed, 30 Aug 2023 10:43:05 -0700 (PDT)
-Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
-        by smtp.gmail.com with ESMTPSA id o9-20020a05600c510900b003fbe791a0e8sm3043822wms.0.2023.08.30.10.43.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Aug 2023 10:43:04 -0700 (PDT)
-From:   Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-To:     gregkh@linuxfoundation.org, johan@kernel.org,
-        Corentin Labbe <clabbe@baylibre.com>
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        david@ixit.cz, Corentin Labbe <clabbe@baylibre.com>
-Subject: Re: [PATCH v6 0/2] usb: serial: add support for CH348
-Date:   Wed, 30 Aug 2023 19:43:03 +0200
-Message-ID: <2595072.9XhBIDAVAK@archbook>
-In-Reply-To: <20230628133834.1527941-1-clabbe@baylibre.com>
-References: <20230628133834.1527941-1-clabbe@baylibre.com>
+        with ESMTP id S243633AbjH3LSO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 07:18:14 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16D59122;
+        Wed, 30 Aug 2023 04:18:12 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37U9Yp72005930;
+        Wed, 30 Aug 2023 11:18:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=H5QQIdbJlQYTYO8tDUlmtdDYinzzUQUzvSnjvhuPV04=;
+ b=BZl598SN/TVDiyzkA6FA2EkZ9qJU6Rq8/nuLrEusmssq44ENijnI9c74NNxuCoUDHj+w
+ STwlIhGJT2Zo97nrfhf0bqTvDOLfdUxPMIkCReFxMuPQpGYxslETQbrOzOJgHVKtbac/
+ NzB9LAqDmUIBKVKVNwypcqOto05YoSzlWq7FPva3lkiEBM7bmPzOIgPsutT2QDrwmyIn
+ QFOXpyRK+3LtqNMSm2FC38WvWkfcRAOSaUhET7vkzTYgh+Fw+dmdOMBl843J77hYS+qm
+ IXfBVntjbEircs78HvUtBI5gtPJ6HlX5BRwzqyBiKxt6zj7JSnxamz+uPdOHzmik6qwI FQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ssbm2u1q9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 30 Aug 2023 11:18:05 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37UBI477026686
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 30 Aug 2023 11:18:04 GMT
+Received: from nsekar-linux.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Wed, 30 Aug 2023 04:17:58 -0700
+From:   Nitheesh Sekar <quic_nsekar@quicinc.com>
+To:     <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
+        <kishon@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <gregkh@linuxfoundation.org>, <quic_srichara@quicinc.com>,
+        <quic_varada@quicinc.com>, <quic_wcheng@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+CC:     Nitheesh Sekar <quic_nsekar@quicinc.com>,
+        Amandeep Singh <quic_amansing@quicinc.com>
+Subject: [PATCH V2 3/4] arm64: dts: qcom: ipq5018: Add USB related nodes
+Date:   Wed, 30 Aug 2023 16:47:21 +0530
+Message-ID: <20230830111722.19380-4-quic_nsekar@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230830111722.19380-1-quic_nsekar@quicinc.com>
+References: <20230830111722.19380-1-quic_nsekar@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 69ygKBzU___OzHLCUctZ9KwfZPrCF9pV
+X-Proofpoint-ORIG-GUID: 69ygKBzU___OzHLCUctZ9KwfZPrCF9pV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-29_16,2023-08-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ clxscore=1015 mlxlogscore=847 bulkscore=0 spamscore=0 malwarescore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308300105
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mittwoch, 28. Juni 2023 15:38:32 CEST Corentin Labbe wrote:
-> Hello
-> 
-> The CH348 is an octo serial to USB adapter.
-> The following patch adds a driver for supporting it.
-> Since there is no public datasheet, unfortunatly it remains some magic values.
-> 
-> It was tested with a large range of baud from 1200 to 1500000 and used with
-> success in one of our kernel CI testlab.
-> 
-> Regards
-> 
-> [...]
+Add USB phy and controller nodes.
 
-Hello,
+Co-developed-by: Amandeep Singh <quic_amansing@quicinc.com>
+Signed-off-by: Amandeep Singh <quic_amansing@quicinc.com>
+Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
+---
+V2:
+	Fix ordering of the USB related nodes and use
+	generic node names.
+---
+ arch/arm64/boot/dts/qcom/ipq5018.dtsi | 54 +++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
-thank you for your work on this. I recently made myself a CH348
-board and used this patchset with a small test application[1]
-to see how it performs. Specifically, I ran this on an RK3566
-single board computer, connecting one serial adapter to the
-other, with the test as follows:
-
- ./serialtest /dev/ttyUSB0 9600 # UART0 of 1st CH348 board
- ./serialtest /dev/ttyUSB8 9600 # UART0 of 2nd CH348 board
-
-One problem I've noticed is that writes to the tty fd never
-seem to block. On two CH340 adapters I have, they do seem to
-block, whereas here, you can see from the statistics at the
-end that magnitudes more bytes were written than read, with
-seemingly most of them being discarded. From my reading of
-the termios parameters I set, this shouldn't be the case,
-right?
-
-You can see from the error percentage that it gets less
-bad as you increase the serial baudrate; I've tested up
-to 6 mbaud like this. I assume that's because less written
-bytes get discarded.
-
-Any ideas on whether I'm relying on weird driver behaviour
-with the blocking here or if this driver actually has a
-defect whereby it never signals to userspace that less
-bytes were written than have been submitted?
-
-Kind regards,
-Nicolas Frattaroli
-
-[1]: https://github.com/CounterPillow/serialtest
-
+diff --git a/arch/arm64/boot/dts/qcom/ipq5018.dtsi b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
+index 9f13d2dcdfd5..917e4a2d8e64 100644
+--- a/arch/arm64/boot/dts/qcom/ipq5018.dtsi
++++ b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
+@@ -93,6 +93,19 @@
+ 		#size-cells = <1>;
+ 		ranges = <0 0 0 0xffffffff>;
+ 
++		usbphy0: phy@5b000 {
++			compatible = "qcom,ipq5018-usb-hsphy";
++			reg = <0x0005b000 0x120>;
++
++			clocks = <&gcc GCC_USB0_PHY_CFG_AHB_CLK>;
++
++			resets = <&gcc GCC_QUSB2_0_PHY_BCR>;
++
++			#phy-cells = <0>;
++
++			status = "disabled";
++		};
++
+ 		tlmm: pinctrl@1000000 {
+ 			compatible = "qcom,ipq5018-tlmm";
+ 			reg = <0x01000000 0x300000>;
+@@ -155,6 +168,47 @@
+ 			status = "disabled";
+ 		};
+ 
++		usb: usb@8af8800 {
++			compatible = "qcom,ipq5018-dwc3", "qcom,dwc3";
++			reg = <0x08af8800 0x400>;
++
++			interrupts = <GIC_SPI 62 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "hs_phy_irq";
++
++			clocks = <&gcc GCC_USB0_MASTER_CLK>,
++				 <&gcc GCC_SYS_NOC_USB0_AXI_CLK>,
++				 <&gcc GCC_USB0_SLEEP_CLK>,
++				 <&gcc GCC_USB0_MOCK_UTMI_CLK>;
++			clock-names = "core",
++				      "iface",
++				      "sleep",
++				      "mock_utmi";
++
++			resets = <&gcc GCC_USB0_BCR>;
++
++			qcom,select-utmi-as-pipe-clk;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges;
++
++			status = "disabled";
++
++			usb2_0_dwc: usb@8a00000 {
++				compatible = "snps,dwc3";
++				reg = <0x08a00000 0xe000>;
++				clocks = <&gcc GCC_USB0_MOCK_UTMI_CLK>;
++				clock-names = "ref";
++				interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
++				phy-names = "usb2-phy";
++				phys = <&usbphy0>;
++				tx-fifo-resize;
++				snps,is-utmi-l1-suspend;
++				snps,hird-threshold = /bits/ 8 <0x0>;
++				snps,dis_u2_susphy_quirk;
++				snps,dis_u3_susphy_quirk;
++			};
++		};
++
+ 		intc: interrupt-controller@b000000 {
+ 			compatible = "qcom,msm-qgic2";
+ 			reg = <0x0b000000 0x1000>,  /* GICD */
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
