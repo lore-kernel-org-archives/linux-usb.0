@@ -2,83 +2,137 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E21D9C6FA8F
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:32:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B17D0C83F19
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:45:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234137AbjH3SbL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:31:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57538 "EHLO
+        id S235986AbjH3Sbb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:31:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243482AbjH3LMK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 07:12:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97350CC9
-        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 04:12:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 35C7162828
-        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 11:12:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6F73C433C7;
-        Wed, 30 Aug 2023 11:12:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1693393926;
-        bh=KWfZcU7AHumv8OyiKX90Nk812YENQ8tGUR6pOhLexCM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DOuf+6WoL33WZ4k0e4+6ad1/t8ovt7ngDPCFE+/e5UQodb3CsnyuzYpCnLrZP7tuH
-         5do1973bkVgGY3FhFEBCIKmRhgwO1Vn5S0/uKfT8BYKUOYHNkHfaPtehl096XIWFNH
-         b1FBiAtInUpyGHfOR5BxCykydJyU0JU7ptP8D8qg=
-Date:   Wed, 30 Aug 2023 13:12:03 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
-Cc:     stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
-        linux@roeck-us.net, kernel@collabora.com
-Subject: Re: [PATCH] usb: hub: Guard against accesses to uninitialized BOS
- descriptors
-Message-ID: <2023083048-armrest-subtype-9b6b@gregkh>
-References: <20230830100418.1952143-1-ricardo.canuelo@collabora.com>
- <2023083007-vowed-latitude-acef@gregkh>
- <87cyz4hjzq.fsf@collabora.com>
+        with ESMTP id S242513AbjH3I5O (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 04:57:14 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1340CC9
+        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 01:57:09 -0700 (PDT)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.57])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RbJ683x9nzrSJK;
+        Wed, 30 Aug 2023 16:55:28 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
+ (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 30 Aug
+ 2023 16:57:07 +0800
+From:   Jinjie Ruan <ruanjinjie@huawei.com>
+To:     <linux-usb@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <ruanjinjie@huawei.com>
+Subject: [PATCH -next] usbmon: Use list_for_each_entry() helper
+Date:   Wed, 30 Aug 2023 16:56:58 +0800
+Message-ID: <20230830085658.527752-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87cyz4hjzq.fsf@collabora.com>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemi500008.china.huawei.com (7.221.188.139)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 30, 2023 at 01:01:29PM +0200, Ricardo Cañuelo wrote:
-> Re-sending the email, the previous one was bounced, sorry for the noise.
-> 
-> Hi Greg, thanks for reviewing.
-> 
-> On mié, ago 30 2023 at 12:13:44, Greg KH <gregkh@linuxfoundation.org> wrote:
-> > Did you mean to loose the indentation here?
-> 
-> This output has probably gone through some processing before I got it,
-> so that's likely the cause. I don't have access to the original output,
-> sorry. If I need to fix something for a v2 I can try to re-format it to
-> add the indentation back in.
-> 
-> > What commit id does this fix?
-> 
-> This isn't linked to a particular single commit, it fixes the same
-> problem in different parts of the code, introduced by different commits
-> over time. The starting point for the fix was the crash output in the
-> commit message but, for additional context, these are the original
-> commits that introduced the unguarded struct accesses:
-> 
->   0cdd49a1d1a4 ("usb: Support USB 3.1 extended port status request")
->   51e0a0120661 ("USB: Calculate USB 3.0 exit latencies for LPM.")
->   25cd2882e2fc ("usb/xhci: Change how we indicate a host supports Link PM.")
->   0299809be415 ("usb: core: Track SuperSpeed Plus GenXxY")
->   ae8963adb4ad ("usb: Don't enable LPM if the exit latency is zero.")
+Convert list_for_each() to list_for_each_entry() so that the p/pos
+list_head pointer and list_entry() call are no longer needed, which
+can reduce a few lines of code. No functional changed.
 
-As all of these are older than the oldest supported LTS kernel, we
-should be fine in taking it all the way back to 4.14.y then.
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+---
+ drivers/usb/mon/mon_main.c | 23 +++++------------------
+ 1 file changed, 5 insertions(+), 18 deletions(-)
 
-I'll queue this up after 6.6-rc1 is out, thanks.
+diff --git a/drivers/usb/mon/mon_main.c b/drivers/usb/mon/mon_main.c
+index 9812d102a005..824904abe76f 100644
+--- a/drivers/usb/mon/mon_main.c
++++ b/drivers/usb/mon/mon_main.c
+@@ -81,15 +81,12 @@ void mon_reader_del(struct mon_bus *mbus, struct mon_reader *r)
+ static void mon_bus_submit(struct mon_bus *mbus, struct urb *urb)
+ {
+ 	unsigned long flags;
+-	struct list_head *pos;
+ 	struct mon_reader *r;
+ 
+ 	spin_lock_irqsave(&mbus->lock, flags);
+ 	mbus->cnt_events++;
+-	list_for_each (pos, &mbus->r_list) {
+-		r = list_entry(pos, struct mon_reader, r_link);
++	list_for_each_entry(r, &mbus->r_list, r_link)
+ 		r->rnf_submit(r->r_data, urb);
+-	}
+ 	spin_unlock_irqrestore(&mbus->lock, flags);
+ }
+ 
+@@ -108,15 +105,12 @@ static void mon_submit(struct usb_bus *ubus, struct urb *urb)
+ static void mon_bus_submit_error(struct mon_bus *mbus, struct urb *urb, int error)
+ {
+ 	unsigned long flags;
+-	struct list_head *pos;
+ 	struct mon_reader *r;
+ 
+ 	spin_lock_irqsave(&mbus->lock, flags);
+ 	mbus->cnt_events++;
+-	list_for_each (pos, &mbus->r_list) {
+-		r = list_entry(pos, struct mon_reader, r_link);
++	list_for_each_entry(r, &mbus->r_list, r_link)
+ 		r->rnf_error(r->r_data, urb, error);
+-	}
+ 	spin_unlock_irqrestore(&mbus->lock, flags);
+ }
+ 
+@@ -135,15 +129,12 @@ static void mon_submit_error(struct usb_bus *ubus, struct urb *urb, int error)
+ static void mon_bus_complete(struct mon_bus *mbus, struct urb *urb, int status)
+ {
+ 	unsigned long flags;
+-	struct list_head *pos;
+ 	struct mon_reader *r;
+ 
+ 	spin_lock_irqsave(&mbus->lock, flags);
+ 	mbus->cnt_events++;
+-	list_for_each (pos, &mbus->r_list) {
+-		r = list_entry(pos, struct mon_reader, r_link);
++	list_for_each_entry(r, &mbus->r_list, r_link)
+ 		r->rnf_complete(r->r_data, urb, status);
+-	}
+ 	spin_unlock_irqrestore(&mbus->lock, flags);
+ }
+ 
+@@ -165,11 +156,9 @@ static void mon_complete(struct usb_bus *ubus, struct urb *urb, int status)
+ static void mon_stop(struct mon_bus *mbus)
+ {
+ 	struct usb_bus *ubus;
+-	struct list_head *p;
+ 
+ 	if (mbus == &mon_bus0) {
+-		list_for_each (p, &mon_buses) {
+-			mbus = list_entry(p, struct mon_bus, bus_link);
++		list_for_each_entry(mbus, &mon_buses, bus_link) {
+ 			/*
+ 			 * We do not change nreaders here, so rely on mon_lock.
+ 			 */
+@@ -332,14 +321,12 @@ static void mon_bus0_init(void)
+  */
+ struct mon_bus *mon_bus_lookup(unsigned int num)
+ {
+-	struct list_head *p;
+ 	struct mon_bus *mbus;
+ 
+ 	if (num == 0) {
+ 		return &mon_bus0;
+ 	}
+-	list_for_each (p, &mon_buses) {
+-		mbus = list_entry(p, struct mon_bus, bus_link);
++	list_for_each_entry(mbus, &mon_buses, bus_link) {
+ 		if (mbus->u_bus->busnum == num) {
+ 			return mbus;
+ 		}
+-- 
+2.34.1
 
-greg k-h
