@@ -2,137 +2,178 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B17D0C83F19
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:45:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E46E0C6FA8F
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 20:14:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235986AbjH3Sbb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:31:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43860 "EHLO
+        id S240196AbjH3UOk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Aug 2023 16:14:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242513AbjH3I5O (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 04:57:14 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1340CC9
-        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 01:57:09 -0700 (PDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.57])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RbJ683x9nzrSJK;
-        Wed, 30 Aug 2023 16:55:28 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 30 Aug
- 2023 16:57:07 +0800
-From:   Jinjie Ruan <ruanjinjie@huawei.com>
-To:     <linux-usb@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <ruanjinjie@huawei.com>
-Subject: [PATCH -next] usbmon: Use list_for_each_entry() helper
-Date:   Wed, 30 Aug 2023 16:56:58 +0800
-Message-ID: <20230830085658.527752-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S234112AbjH3UOV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 16:14:21 -0400
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B8F272B3
+        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 13:12:05 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-d78328bc2abso5570088276.2
+        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 13:12:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693426180; x=1694030980; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=aJIb62bEI+abOZ0+u4aCxcyg1D1ywbkZPjZNGK2GZY0=;
+        b=s524SJwWA4n133CxXLM274hx1QfewKmwGHicSWMZC/IdyhQ2snswBTExxFx3pakbYV
+         aX/6aQMQH3SXs3vDDpMoU2H4GMYm9LtdhndC3348zj6jI4ovCrS6Y7wEcJxnLpcRCuFo
+         8OhyEx+olXPOp6TYkSVIT0GtjUqfyrv7xROa62zkyixTvIju91A8dX0qGu4+u1k3nSKd
+         iJKuNoSkRRGqiRDbg0YYYBM7WtQ51TwhUozg2iw7NG7zJF73UUFW8pqmzEvoypsUwtSI
+         djg0M9PD2QLFFaQNH3TcN/BoNF+jOc2KcL7FN2d8D8w2Osg0dSvtnrf4pyPdRekSoosb
+         BbNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693426180; x=1694030980;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aJIb62bEI+abOZ0+u4aCxcyg1D1ywbkZPjZNGK2GZY0=;
+        b=G9bTx1ZhweE8PDDfl0jaT8s8flArJ/V/qBJxVyrnK4hi+BSznfb1++Ti1OASa0xipd
+         0ILDS4J4ze3g02FttIxkjtwiE6/1cnOQxdjaDhBc5oAhyo6HtpFq3EwtqCCX1WoWyhtE
+         4LYYF9qsQZycSSjDNww5RrpWtMiXyOLkddNrA5lgoWtagB+j3YayztikcW9kq2UT2VCo
+         5NUrVZj7PxBd9/bGNWy6Js5JC9WnoESZylC98EsKY/moaf2uIROAIZ0G9Y63pwbUwCz6
+         Ws5Z8z4BWo+wH7wW1PCaXkkdW8N/7P4FiiwUjZ2BCKQQC2MOg4D/jCSx/kviJUDAqlCb
+         tcBQ==
+X-Gm-Message-State: AOJu0YyHbWDZe+cTjhHXSATRYLOon44WJDD0Rjd9/6Fztr0w1ITQ7BgQ
+        ssXppO6YIxCs0ANnumcqn55So45o+o3bOJ1za/APuw==
+X-Google-Smtp-Source: AGHT+IGZVwnuEqzyqkBgaq+ePEab/gUlpPuMtKnej5Gso+diHBC4efLmP1AVk+hUUq9mcyqV6DF3d9cFfKSKASs5OEo=
+X-Received: by 2002:a25:b06:0:b0:d78:26a0:ab8b with SMTP id
+ 6-20020a250b06000000b00d7826a0ab8bmr3151567ybl.55.1693426180516; Wed, 30 Aug
+ 2023 13:09:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
+References: <20230830111722.19380-1-quic_nsekar@quicinc.com> <20230830111722.19380-3-quic_nsekar@quicinc.com>
+In-Reply-To: <20230830111722.19380-3-quic_nsekar@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Wed, 30 Aug 2023 23:09:29 +0300
+Message-ID: <CAA8EJpohi35ic7Lwb29cz17n2gLqxWQ2WUAQfkBSvX3wkOHaEA@mail.gmail.com>
+Subject: Re: [PATCH V2 2/4] phy: qcom-m31: Add compatible, phy init sequence
+ for IPQ5018
+To:     Nitheesh Sekar <quic_nsekar@quicinc.com>
+Cc:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        vkoul@kernel.org, kishon@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        gregkh@linuxfoundation.org, quic_srichara@quicinc.com,
+        quic_varada@quicinc.com, quic_wcheng@quicinc.com,
+        linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Convert list_for_each() to list_for_each_entry() so that the p/pos
-list_head pointer and list_entry() call are no longer needed, which
-can reduce a few lines of code. No functional changed.
+On Wed, 30 Aug 2023 at 21:32, Nitheesh Sekar <quic_nsekar@quicinc.com> wrote:
+>
+> Add phy init sequence and compatible string for IPQ5018
+> chipset.
+>
+> Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
+> ---
+> V2:
+>         Updated the commit message.
+> ---
+>  drivers/phy/qualcomm/phy-qcom-m31.c | 60 +++++++++++++++++++++++++++++
+>  1 file changed, 60 insertions(+)
+>
+> diff --git a/drivers/phy/qualcomm/phy-qcom-m31.c b/drivers/phy/qualcomm/phy-qcom-m31.c
+> index ed08072ca032..81b72ebde305 100644
+> --- a/drivers/phy/qualcomm/phy-qcom-m31.c
+> +++ b/drivers/phy/qualcomm/phy-qcom-m31.c
+> @@ -82,6 +82,59 @@ struct m31_priv_data {
+>         unsigned int                    nregs;
+>  };
+>
+> +struct m31_phy_regs m31_ipq5018_regs[] = {
+> +       {
+> +               USB_PHY_CFG0,
+> +               UTMI_PHY_OVERRIDE_EN,
+> +               0
+> +       },
 
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- drivers/usb/mon/mon_main.c | 23 +++++------------------
- 1 file changed, 5 insertions(+), 18 deletions(-)
+c99 initialisers? And maybe drop the 0 delay inits.
 
-diff --git a/drivers/usb/mon/mon_main.c b/drivers/usb/mon/mon_main.c
-index 9812d102a005..824904abe76f 100644
---- a/drivers/usb/mon/mon_main.c
-+++ b/drivers/usb/mon/mon_main.c
-@@ -81,15 +81,12 @@ void mon_reader_del(struct mon_bus *mbus, struct mon_reader *r)
- static void mon_bus_submit(struct mon_bus *mbus, struct urb *urb)
- {
- 	unsigned long flags;
--	struct list_head *pos;
- 	struct mon_reader *r;
- 
- 	spin_lock_irqsave(&mbus->lock, flags);
- 	mbus->cnt_events++;
--	list_for_each (pos, &mbus->r_list) {
--		r = list_entry(pos, struct mon_reader, r_link);
-+	list_for_each_entry(r, &mbus->r_list, r_link)
- 		r->rnf_submit(r->r_data, urb);
--	}
- 	spin_unlock_irqrestore(&mbus->lock, flags);
- }
- 
-@@ -108,15 +105,12 @@ static void mon_submit(struct usb_bus *ubus, struct urb *urb)
- static void mon_bus_submit_error(struct mon_bus *mbus, struct urb *urb, int error)
- {
- 	unsigned long flags;
--	struct list_head *pos;
- 	struct mon_reader *r;
- 
- 	spin_lock_irqsave(&mbus->lock, flags);
- 	mbus->cnt_events++;
--	list_for_each (pos, &mbus->r_list) {
--		r = list_entry(pos, struct mon_reader, r_link);
-+	list_for_each_entry(r, &mbus->r_list, r_link)
- 		r->rnf_error(r->r_data, urb, error);
--	}
- 	spin_unlock_irqrestore(&mbus->lock, flags);
- }
- 
-@@ -135,15 +129,12 @@ static void mon_submit_error(struct usb_bus *ubus, struct urb *urb, int error)
- static void mon_bus_complete(struct mon_bus *mbus, struct urb *urb, int status)
- {
- 	unsigned long flags;
--	struct list_head *pos;
- 	struct mon_reader *r;
- 
- 	spin_lock_irqsave(&mbus->lock, flags);
- 	mbus->cnt_events++;
--	list_for_each (pos, &mbus->r_list) {
--		r = list_entry(pos, struct mon_reader, r_link);
-+	list_for_each_entry(r, &mbus->r_list, r_link)
- 		r->rnf_complete(r->r_data, urb, status);
--	}
- 	spin_unlock_irqrestore(&mbus->lock, flags);
- }
- 
-@@ -165,11 +156,9 @@ static void mon_complete(struct usb_bus *ubus, struct urb *urb, int status)
- static void mon_stop(struct mon_bus *mbus)
- {
- 	struct usb_bus *ubus;
--	struct list_head *p;
- 
- 	if (mbus == &mon_bus0) {
--		list_for_each (p, &mon_buses) {
--			mbus = list_entry(p, struct mon_bus, bus_link);
-+		list_for_each_entry(mbus, &mon_buses, bus_link) {
- 			/*
- 			 * We do not change nreaders here, so rely on mon_lock.
- 			 */
-@@ -332,14 +321,12 @@ static void mon_bus0_init(void)
-  */
- struct mon_bus *mon_bus_lookup(unsigned int num)
- {
--	struct list_head *p;
- 	struct mon_bus *mbus;
- 
- 	if (num == 0) {
- 		return &mon_bus0;
- 	}
--	list_for_each (p, &mon_buses) {
--		mbus = list_entry(p, struct mon_bus, bus_link);
-+	list_for_each_entry(mbus, &mon_buses, bus_link) {
- 		if (mbus->u_bus->busnum == num) {
- 			return mbus;
- 		}
+> +       {
+> +               USB_PHY_UTMI_CTRL5,
+> +               POR_EN,
+> +               15
+> +       },
+> +       {
+> +               USB_PHY_FSEL_SEL,
+> +               FREQ_SEL,
+> +               0
+> +       },
+> +       {
+> +               USB_PHY_HS_PHY_CTRL_COMMON0,
+> +               COMMONONN | FSEL | RETENABLEN,
+> +               0
+> +       },
+> +       {
+> +               USB_PHY_REFCLK_CTRL,
+> +               CLKCORE,
+> +               0
+> +       },
+> +       {
+> +               USB_PHY_UTMI_CTRL5,
+> +               POR_EN,
+> +               0
+> +       },
+> +       {
+> +               USB_PHY_HS_PHY_CTRL2,
+> +               USB2_SUSPEND_N_SEL | USB2_SUSPEND_N | USB2_UTMI_CLK_EN,
+> +               0
+> +       },
+> +       {
+> +               USB_PHY_UTMI_CTRL5,
+> +               0x0,
+> +               0
+> +       },
+> +       {
+> +               USB_PHY_HS_PHY_CTRL2,
+> +               USB2_SUSPEND_N | USB2_UTMI_CLK_EN,
+> +               0
+> +       },
+> +       {
+> +               USB_PHY_CFG0,
+> +               0x0,
+> +               0
+> +       },
+> +};
+> +
+>  struct m31_phy_regs m31_ipq5332_regs[] = {
+>         {
+>                 USB_PHY_CFG0,
+> @@ -268,6 +321,12 @@ static int m31usb_phy_probe(struct platform_device *pdev)
+>         return PTR_ERR_OR_ZERO(phy_provider);
+>  }
+>
+> +static const struct m31_priv_data m31_ipq5018_data = {
+> +       .ulpi_mode = false,
+> +       .regs = m31_ipq5018_regs,
+> +       .nregs = ARRAY_SIZE(m31_ipq5018_regs),
+> +};
+> +
+>  static const struct m31_priv_data m31_ipq5332_data = {
+>         .ulpi_mode = false,
+>         .regs = m31_ipq5332_regs,
+> @@ -275,6 +334,7 @@ static const struct m31_priv_data m31_ipq5332_data = {
+>  };
+>
+>  static const struct of_device_id m31usb_phy_id_table[] = {
+> +       { .compatible = "qcom,ipq5018-usb-hsphy", .data = &m31_ipq5018_data },
+>         { .compatible = "qcom,ipq5332-usb-hsphy", .data = &m31_ipq5332_data },
+>         { },
+>  };
+> --
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+>
+
+
 -- 
-2.34.1
-
+With best wishes
+Dmitry
