@@ -2,108 +2,96 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A18C6C83F19
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:30:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63570C83F18
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:30:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235151AbjH3Sau (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:30:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41736 "EHLO
+        id S235304AbjH3Saw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:30:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245208AbjH3OsH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 10:48:07 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id A729BFF
-        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 07:48:03 -0700 (PDT)
-Received: (qmail 423072 invoked by uid 1000); 30 Aug 2023 10:48:02 -0400
-Date:   Wed, 30 Aug 2023 10:48:02 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     Andrey Konovalov <andreyknvl@gmail.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: dwc3: unusual handling of setup requests with wLength == 0
-Message-ID: <61cf24db-9dbb-4bf3-aafe-d515fc37cca8@rowland.harvard.edu>
-References: <e63ba783-f5a4-4442-8736-987a3b134e7f@rowland.harvard.edu>
- <20230823021429.rlgixqehry4rsqmm@synopsys.com>
- <5d5973b9-d590-4567-b1d6-4b5f8aeca68b@rowland.harvard.edu>
- <20230823175903.bpumanwv5fkpwc44@synopsys.com>
- <08a3759d-4c6b-4034-8516-685e4d96a41e@rowland.harvard.edu>
- <20230823222202.k7y7hxndsbi7h4x7@synopsys.com>
- <9b175f9e-ab70-47a3-a943-bfd05601aa23@rowland.harvard.edu>
- <20230826012024.mboftu3wk7fsrslp@synopsys.com>
- <ba06679f-93d2-4cb4-9218-9e288065bdfb@rowland.harvard.edu>
- <20230830013222.ukw5dtburjnrrjko@synopsys.com>
+        with ESMTP id S243159AbjH3KNv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 06:13:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DC4B1B0
+        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 03:13:48 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2D847628E6
+        for <linux-usb@vger.kernel.org>; Wed, 30 Aug 2023 10:13:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38F22C433C8;
+        Wed, 30 Aug 2023 10:13:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1693390427;
+        bh=lvs6fSVJlVDaE94eRD/FlJeZ9oOuL8z7xTGSQ0EB5Wg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VzRLVTGt3SpGnl6a0CG2Ms7Ihv92Kn/N9BT1LvVi/bK5u+4nJP7rolZweEiBbVbc0
+         e2qbjMDdX6J+1tsIS6RCf+tNgIqpS4zr4cG2kXH9iIE5iiGUz7ELT77lgrW44wjxtR
+         Ux9kVHFVD4ceOO3zBksog6TuWQrQxlZ8e45kRQVI=
+Date:   Wed, 30 Aug 2023 12:13:44 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
+Cc:     stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
+        linux@roeck-us.net, kernel@collabora.com
+Subject: Re: [PATCH] usb: hub: Guard against accesses to uninitialized BOS
+ descriptors
+Message-ID: <2023083007-vowed-latitude-acef@gregkh>
+References: <20230830100418.1952143-1-ricardo.canuelo@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230830013222.ukw5dtburjnrrjko@synopsys.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230830100418.1952143-1-ricardo.canuelo@collabora.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 30, 2023 at 01:32:28AM +0000, Thinh Nguyen wrote:
-> That reminds me another thing, if the host (xhci in this case) does a
-> hard reset to the endpoint, it also resets the TRB pointer with dequeue
-> ep command. So, the transfer should not resume. It needs to be
-> cancelled. This xHCI behavior is the same for Windows and Linux.
-
-That's on the host side, right?  How does this affect the gadget side?
-
-That is, cancelling a transfer on the host doesn't necessarily mean it 
-has to be cancelled on the gadget.  Does it have any implications at all 
-for the gadget driver?
-
-> > I think it should be the opposite; the class protocol should specify
-> > how to recover from errors.  If for no other reason then to avoid the
-> > data duplication problem for USB-2.  However, if it doesn't specify a
-> > recovery procedure then there's not much else you can do.
+On Wed, Aug 30, 2023 at 12:04:18PM +0200, Ricardo Cañuelo wrote:
+> Many functions in drivers/usb/core/hub.c and drivers/usb/core/hub.h
+> access fields inside udev->bos without checking if it was allocated and
+> initialized. If usb_get_bos_descriptor() fails for whatever
+> reason, udev->bos will be NULL and those accesses will result in a
+> crash:
 > 
-> Right, unfortunately that's not always the case that class protocol
-> spell out how to handle transaction error.
+> BUG: kernel NULL pointer dereference, address: 0000000000000018
+> PGD 0 P4D 0
+> Oops: 0000 [#1] PREEMPT SMP NOPTI
+> CPU: 5 PID: 17818 Comm: kworker/5:1 Tainted: G W 5.15.108-18910-gab0e1cb584e1 #1 <HASH:1f9e 1>
+> Hardware name: Google Kindred/Kindred, BIOS Google_Kindred.12672.413.0 02/03/2021
+> Workqueue: usb_hub_wq hub_event
+> RIP: 0010:hub_port_reset+0x193/0x788
+> Code: 89 f7 e8 20 f7 15 00 48 8b 43 08 80 b8 96 03 00 00 03 75 36 0f b7 88 92 03 00 00 81 f9 10 03 00 00 72 27 48 8b 80 a8 03 00 00 <48> 83 78 18 00 74 19 48 89 df 48 8b 75 b0 ba 02 00 00 00 4c 89 e9
+> RSP: 0018:ffffab740c53fcf8 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: ffffa1bc5f678000 RCX: 0000000000000310
+> RDX: fffffffffffffdff RSI: 0000000000000286 RDI: ffffa1be9655b840
+> RBP: ffffab740c53fd70 R08: 00001b7d5edaa20c R09: ffffffffb005e060
+> R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+> R13: ffffab740c53fd3e R14: 0000000000000032 R15: 0000000000000000
+> FS: 0000000000000000(0000) GS:ffffa1be96540000(0000) knlGS:0000000000000000
+> CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000000000018 CR3: 000000022e80c005 CR4: 00000000003706e0
+> Call Trace:
+> hub_event+0x73f/0x156e
+> ? hub_activate+0x5b7/0x68f
+> process_one_work+0x1a2/0x487
+> worker_thread+0x11a/0x288
+> kthread+0x13a/0x152
+> ? process_one_work+0x487/0x487
+> ? kthread_associate_blkcg+0x70/0x70
+> ret_from_fork+0x1f/0x30
 
-All too true...
+Did you mean to loose the indentation here?
 
-> > But regardless, how can the gadget driver make any use of the
-> > knowledge that the UDC received a Clear-Halt?  What would it do
-> > differently?  If the intent is simply to clear an error condition and
-> > continue with the existing transfer, the gadget driver doesn't need to
-> > do anything.
+> Fall back to a default behavior if the BOS descriptor isn't accessible
+> and skip all the functionalities that depend on it: LPM support checks,
+> Super Speed capabilitiy checks, U1/U2 states setup.
 > 
-> It's not simple to clear an error. It is to notify the gadget driver to
-> cancel the active transfer and resync with the host.
+> Signed-off-by: Ricardo Cañuelo <ricardo.canuelo@collabora.com>
+> Cc: stable <stable@vger.kernel.org>
 
-How does the gadget driver sync with the host if the class protocol 
-doesn't say what should be done?
+What commit id does this fix?
 
-Also, what if there is no active transfer?  That is, what if the 
-transaction that got an error on the host appeared to be successful on 
-the gadget and it was the last transaction in the final transfer queued 
-for the endpoint?  How would the UDC driver notify the gadget driver in 
-this situation?
+thanks,
 
->  This is observed in
-> UASP driver in Windows and how various consumer UASP devices handle it.
-
-I don't understand what you're saying here.  How can you observe whether 
-a transfer is cancelled in a consumer UAS device?  And how does the 
-consumer device resync with the host?
-
-> There no eqivalent of Bulk-Only Mass Storage Reset request from the
-> class protocol. We still have the USB analyzer traces for this.
-
-Can you post an example?  Not necessarily in complete detail, but enough 
-so that we can see what's going on.
-
-> Regardless whether the class protocol spells out how to handle the
-> transaction error, if there's transaction error, the host may send
-> CLEAR_FEATURE(halt_ep) as observed in Windows. The gadget driver needs
-> to know about it to cancel the active transfer and resync with the host.
-
-I'll be able to understand this better after seeing an example.  Do you 
-have any traces that were made for a High-speed connection (say, using 
-a USB-2 cable)?  It would probably be easier to follow than a SuperSpeed 
-example.
-
-Alan Stern
+greg k-h
