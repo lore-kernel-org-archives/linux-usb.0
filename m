@@ -2,284 +2,117 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A438FC83F19
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:31:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5F1BC83F1D
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:31:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235792AbjH3SbY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:31:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55818 "EHLO
+        id S235825AbjH3Sb0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:31:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244281AbjH3MvI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 08:51:08 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C228D132;
-        Wed, 30 Aug 2023 05:51:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693399864; x=1724935864;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=RSyj81n43sFmtQjzuHfNNauGPkAW6fiLijQd+FzizcA=;
-  b=iKtgWQVKbZGOI6SoRQWdACyuHirlarsbd0gH85UJJ3pFkn2wJZXVXcCP
-   JwsaxRsKfg8VmKLOPUZHEW/Y4heWbhvR1KKWi9qFQ3KdRNMeEaG23W175
-   X4nV5kvNmjGhxvTnXWPxucd1dnp/E7dGAPKQTJfleRg8AG8iKNcEHaiFF
-   mD2xWqlW7XOI+0quOAiKzsL9keBuedhLRYFs+fiN36z3AJA2rVrnEfjVB
-   15YyOTdRlTJoVMl9lIt+JHNeThJyYfNE5w9mJOm1gH+S9I8aeCJAhu7Jp
-   0anQCmwfI3m1gPbCh7HqkTOx198glpDDXFPuLiskZWAyLRKQERt9Z6guu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="365839418"
-X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
-   d="scan'208";a="365839418"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 05:51:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="739082012"
-X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
-   d="scan'208";a="739082012"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.91]) ([10.94.0.91])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 05:50:58 -0700
-Message-ID: <5a5eb3a8-1379-116b-ca17-eac573207c57@linux.intel.com>
-Date:   Wed, 30 Aug 2023 14:50:57 +0200
+        with ESMTP id S243634AbjH3LSV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 07:18:21 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 621A2122;
+        Wed, 30 Aug 2023 04:18:19 -0700 (PDT)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37U9uCw1011135;
+        Wed, 30 Aug 2023 11:18:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=e7z5YtFaGNibUWif2AGBJC31Qg774tsEpc9J6mO2uiA=;
+ b=nIvkcErb6+k8PNSC4Eocsy40/DEXXF1JzOV23wHlrB8cJvZ38WBzXrfL7SB7luUCm7gO
+ YotqX4NqC9j70kxr/2kan9RKluaWRxkigndRUdXna/FKXlyZTVbAY1zXeYThaVXM4ekj
+ MVDJjGzT3GgrMbL8JRdUnXXiuSuNe/XWEhybX+FMYXLyk2tQ1IheMPSxvP22/uRAUJ2I
+ PFeYtndrCNFlxfOP5ylOeTA58aJJIEEWGfv2KYtoUvNvQLInu5tiDuTSwSkIUToRtlLl
+ dll5spOytHIxfmwJVrJ0FfKUGX5LEFIiP2lzIy857V1JUW0WQ0nFYZ8Z/aluIc98t5GY 9w== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3st0tare55-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 30 Aug 2023 11:18:11 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37UBI9qL006894
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 30 Aug 2023 11:18:09 GMT
+Received: from nsekar-linux.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Wed, 30 Aug 2023 04:18:03 -0700
+From:   Nitheesh Sekar <quic_nsekar@quicinc.com>
+To:     <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
+        <kishon@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <gregkh@linuxfoundation.org>, <quic_srichara@quicinc.com>,
+        <quic_varada@quicinc.com>, <quic_wcheng@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+CC:     Nitheesh Sekar <quic_nsekar@quicinc.com>,
+        Amandeep Singh <quic_amansing@quicinc.com>
+Subject: [PATCH V2 4/4] arm64: dts: qcom: ipq5018: Enable USB
+Date:   Wed, 30 Aug 2023 16:47:22 +0530
+Message-ID: <20230830111722.19380-5-quic_nsekar@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230830111722.19380-1-quic_nsekar@quicinc.com>
+References: <20230830111722.19380-1-quic_nsekar@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v5 12/32] sound: usb: Export USB SND APIs for modules
-Content-Language: en-US
-To:     Wesley Cheng <quic_wcheng@quicinc.com>,
-        srinivas.kandagatla@linaro.org, mathias.nyman@intel.com,
-        perex@perex.cz, lgirdwood@gmail.com, andersson@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
-        Thinh.Nguyen@synopsys.com, broonie@kernel.org,
-        bgoswami@quicinc.com, tiwai@suse.com, robh+dt@kernel.org,
-        agross@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, quic_jackp@quicinc.com,
-        quic_plai@quicinc.com
-References: <20230829210657.9904-1-quic_wcheng@quicinc.com>
- <20230829210657.9904-13-quic_wcheng@quicinc.com>
-From:   =?UTF-8?Q?Amadeusz_S=c5=82awi=c5=84ski?= 
-        <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20230829210657.9904-13-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: JuMAQh-x4OJPlcYYs15NdbZwhq6GBX5H
+X-Proofpoint-ORIG-GUID: JuMAQh-x4OJPlcYYs15NdbZwhq6GBX5H
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-29_16,2023-08-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
+ spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
+ lowpriorityscore=0 impostorscore=0 malwarescore=0 mlxlogscore=538
+ adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308300105
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 8/29/2023 11:06 PM, Wesley Cheng wrote:
-> Some vendor modules will utilize useful parsing and endpoint management
-> APIs to start audio playback/capture.
-> 
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> ---
->   sound/usb/card.c     |  4 +++
->   sound/usb/endpoint.c |  1 +
->   sound/usb/helper.c   |  1 +
->   sound/usb/pcm.c      | 67 +++++++++++++++++++++++++++++++++-----------
->   sound/usb/pcm.h      | 11 ++++++++
->   5 files changed, 67 insertions(+), 17 deletions(-)
-> 
-> diff --git a/sound/usb/card.c b/sound/usb/card.c
-> index 067a1e82f4bf..b45b6daee7b7 100644
-> --- a/sound/usb/card.c
-> +++ b/sound/usb/card.c
-> @@ -1053,6 +1053,7 @@ int snd_usb_lock_shutdown(struct snd_usb_audio *chip)
->   		wake_up(&chip->shutdown_wait);
->   	return err;
->   }
-> +EXPORT_SYMBOL_GPL(snd_usb_lock_shutdown);
->   
->   /* autosuspend and unlock the shutdown */
->   void snd_usb_unlock_shutdown(struct snd_usb_audio *chip)
-> @@ -1061,6 +1062,7 @@ void snd_usb_unlock_shutdown(struct snd_usb_audio *chip)
->   	if (atomic_dec_and_test(&chip->usage_count))
->   		wake_up(&chip->shutdown_wait);
->   }
-> +EXPORT_SYMBOL_GPL(snd_usb_unlock_shutdown);
->   
->   int snd_usb_autoresume(struct snd_usb_audio *chip)
->   {
-> @@ -1083,6 +1085,7 @@ int snd_usb_autoresume(struct snd_usb_audio *chip)
->   	}
->   	return 0;
->   }
-> +EXPORT_SYMBOL_GPL(snd_usb_autoresume);
->   
->   void snd_usb_autosuspend(struct snd_usb_audio *chip)
->   {
-> @@ -1096,6 +1099,7 @@ void snd_usb_autosuspend(struct snd_usb_audio *chip)
->   	for (i = 0; i < chip->num_interfaces; i++)
->   		usb_autopm_put_interface(chip->intf[i]);
->   }
-> +EXPORT_SYMBOL_GPL(snd_usb_autosuspend);
->   
->   static int usb_audio_suspend(struct usb_interface *intf, pm_message_t message)
->   {
-> diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-> index a385e85c4650..aac92e0b8aa2 100644
-> --- a/sound/usb/endpoint.c
-> +++ b/sound/usb/endpoint.c
-> @@ -1503,6 +1503,7 @@ int snd_usb_endpoint_prepare(struct snd_usb_audio *chip,
->   	mutex_unlock(&chip->mutex);
->   	return err;
->   }
-> +EXPORT_SYMBOL_GPL(snd_usb_endpoint_prepare);
->   
->   /* get the current rate set to the given clock by any endpoint */
->   int snd_usb_endpoint_get_clock_rate(struct snd_usb_audio *chip, int clock)
-> diff --git a/sound/usb/helper.c b/sound/usb/helper.c
-> index bf80e55d013a..4322ae3738e6 100644
-> --- a/sound/usb/helper.c
-> +++ b/sound/usb/helper.c
-> @@ -62,6 +62,7 @@ void *snd_usb_find_csint_desc(void *buffer, int buflen, void *after, u8 dsubtype
->   	}
->   	return NULL;
->   }
-> +EXPORT_SYMBOL_GPL(snd_usb_find_csint_desc);
->   
->   /*
->    * Wrapper for usb_control_msg().
-> diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
-> index 08bf535ed163..999f66080649 100644
-> --- a/sound/usb/pcm.c
-> +++ b/sound/usb/pcm.c
-> @@ -148,6 +148,16 @@ find_format(struct list_head *fmt_list_head, snd_pcm_format_t format,
->   	return found;
->   }
->   
-> +const struct audioformat *
-> +snd_usb_find_format(struct list_head *fmt_list_head, snd_pcm_format_t format,
-> +	    unsigned int rate, unsigned int channels, bool strict_match,
-> +	    struct snd_usb_substream *subs)
-> +{
-> +	return find_format(fmt_list_head, format, rate, channels, strict_match,
-> +			subs);
-> +}
-> +EXPORT_SYMBOL_GPL(snd_usb_find_format);
-> +
->   static const struct audioformat *
->   find_substream_format(struct snd_usb_substream *subs,
->   		      const struct snd_pcm_hw_params *params)
-> @@ -157,6 +167,14 @@ find_substream_format(struct snd_usb_substream *subs,
->   			   true, subs);
->   }
->   
-> +const struct audioformat *
-> +snd_usb_find_substream_format(struct snd_usb_substream *subs,
-> +		      const struct snd_pcm_hw_params *params)
-> +{
-> +	return find_substream_format(subs, params);
-> +}
-> +EXPORT_SYMBOL_GPL(snd_usb_find_substream_format);
-> +
->   bool snd_usb_pcm_has_fixed_rate(struct snd_usb_substream *subs)
->   {
->   	const struct audioformat *fp;
-> @@ -461,20 +479,9 @@ static void close_endpoints(struct snd_usb_audio *chip,
->   	}
->   }
->   
-> -/*
-> - * hw_params callback
-> - *
-> - * allocate a buffer and set the given audio format.
-> - *
-> - * so far we use a physically linear buffer although packetize transfer
-> - * doesn't need a continuous area.
-> - * if sg buffer is supported on the later version of alsa, we'll follow
-> - * that.
-> - */
-> -static int snd_usb_hw_params(struct snd_pcm_substream *substream,
-> -			     struct snd_pcm_hw_params *hw_params)
-> +int snd_usb_attach_endpoints(struct snd_usb_substream *subs,
-> +				struct snd_pcm_hw_params *hw_params)
->   {
-> -	struct snd_usb_substream *subs = substream->runtime->private_data;
->   	struct snd_usb_audio *chip = subs->stream->chip;
->   	const struct audioformat *fmt;
->   	const struct audioformat *sync_fmt;
-> @@ -499,7 +506,7 @@ static int snd_usb_hw_params(struct snd_pcm_substream *substream,
->   	if (fmt->implicit_fb) {
->   		sync_fmt = snd_usb_find_implicit_fb_sync_format(chip, fmt,
->   								hw_params,
-> -								!substream->stream,
-> +								!subs->direction,
->   								&sync_fixed_rate);
->   		if (!sync_fmt) {
->   			usb_audio_dbg(chip,
-> @@ -579,15 +586,28 @@ static int snd_usb_hw_params(struct snd_pcm_substream *substream,
->   
->   	return ret;
->   }
-> +EXPORT_SYMBOL_GPL(snd_usb_attach_endpoints);
->   
->   /*
-> - * hw_free callback
-> + * hw_params callback
->    *
-> - * reset the audio format and release the buffer
-> + * allocate a buffer and set the given audio format.
-> + *
-> + * so far we use a physically linear buffer although packetize transfer
-> + * doesn't need a continuous area.
-> + * if sg buffer is supported on the later version of alsa, we'll follow
-> + * that.
->    */
-> -static int snd_usb_hw_free(struct snd_pcm_substream *substream)
-> +static int snd_usb_hw_params(struct snd_pcm_substream *substream,
-> +			     struct snd_pcm_hw_params *hw_params)
->   {
->   	struct snd_usb_substream *subs = substream->runtime->private_data;
-> +
-> +	return snd_usb_attach_endpoints(subs, hw_params);
-> +}
-> +
-> +int snd_usb_detach_endpoint(struct snd_usb_substream *subs)
-> +{
->   	struct snd_usb_audio *chip = subs->stream->chip;
->   
->   	snd_media_stop_pipeline(subs);
-> @@ -603,6 +623,19 @@ static int snd_usb_hw_free(struct snd_pcm_substream *substream)
->   
->   	return 0;
->   }
-> +EXPORT_SYMBOL_GPL(snd_usb_detach_endpoint);
-> +
-> +/*
-> + * hw_free callback
-> + *
-> + * reset the audio format and release the buffer
-> + */
-> +static int snd_usb_hw_free(struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_usb_substream *subs = substream->runtime->private_data;
-> +
-> +	return snd_usb_detach_endpoint(subs);
-> +}
->   
->   /* free-wheeling mode? (e.g. dmix) */
->   static int in_free_wheeling_mode(struct snd_pcm_runtime *runtime)
-> diff --git a/sound/usb/pcm.h b/sound/usb/pcm.h
-> index 388fe2ba346d..e36df3611a05 100644
-> --- a/sound/usb/pcm.h
-> +++ b/sound/usb/pcm.h
-> @@ -15,4 +15,15 @@ void snd_usb_preallocate_buffer(struct snd_usb_substream *subs);
->   int snd_usb_audioformat_set_sync_ep(struct snd_usb_audio *chip,
->   				    struct audioformat *fmt);
->   
-> +const struct audioformat *
-> +snd_usb_find_format(struct list_head *fmt_list_head, snd_pcm_format_t format,
-> +	    unsigned int rate, unsigned int channels, bool strict_match,
-> +	    struct snd_usb_substream *subs);
-> +const struct audioformat *
-> +snd_usb_find_substream_format(struct snd_usb_substream *subs,
-> +		      const struct snd_pcm_hw_params *params);
-> +
-> +int snd_usb_attach_endpoints(struct snd_usb_substream *subs,
-> +				struct snd_pcm_hw_params *hw_params);
-> +int snd_usb_detach_endpoint(struct snd_usb_substream *subs);
->   #endif /* __USBAUDIO_PCM_H */
+Enable USB2 in host mode.
 
-Why is it multiple "endpoints" when attaching, but only one "endpoint" 
-when detaching? Both seem to be getting similar arguments.
+Co-developed-by: Amandeep Singh <quic_amansing@quicinc.com>
+Signed-off-by: Amandeep Singh <quic_amansing@quicinc.com>
+Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
+---
+V2:
+	Sort and reorder USB related nodes.
+---
+ arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts b/arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts
+index e636a1cb9b77..3eb3a98e3e12 100644
+--- a/arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts
++++ b/arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts
+@@ -67,6 +67,18 @@
+ 	};
+ };
+ 
++&usbphy0 {
++	status = "okay";
++};
++
++&usb {
++	status = "okay";
++};
++
++&usb2_0_dwc {
++	dr_mode = "host";
++};
++
+ &xo_board_clk {
+ 	clock-frequency = <24000000>;
+ };
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
