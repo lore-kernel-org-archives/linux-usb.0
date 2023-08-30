@@ -2,104 +2,104 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1633EC83F20
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:31:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63FAFC83F26
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Aug 2023 18:31:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233035AbjH3SbD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Aug 2023 14:31:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41968 "EHLO
+        id S235454AbjH3SbK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:31:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243631AbjH3LSH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 07:18:07 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30B04FF;
-        Wed, 30 Aug 2023 04:18:05 -0700 (PDT)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37U7IWBC029060;
-        Wed, 30 Aug 2023 11:17:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=RVSgOjjc8Lx1PtMbNzGlpI095je4DEkWdb2qJnArQSQ=;
- b=gOFJD+0N79aQyQpvUy7dEgJjD0uABNWTJ+f8dsWh58bfLxxqbCQS+Yufj9QatOq7APdr
- oRPskpm1nwlxMzA96pq7bp4MHCnV0SwiyQIvApbSkJPxfiFINiZCG3+8+F9t4tE97g5g
- j0ugUGU1gUrzhH2/RUYhMUhOtRgDalA92OyqSD/7wViVSFtcpkVhA/TBBaVgVtPafvLg
- 4z/+jcWeHoJeiGPrxZwS3S5NHAI1Mw255vIvYs8YMtS8uFCa2ENrBo0Q98HfG6HLcO4W
- ZwRF7vwospXsO8Ay4NVYjzOhcEHlzOp6egaGL8xVSUQHziqA5n80M9xQcjwSCWzktSNP 5w== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ssjvb26pu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 30 Aug 2023 11:17:54 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37UBHq2O006335
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 30 Aug 2023 11:17:53 GMT
-Received: from nsekar-linux.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Wed, 30 Aug 2023 04:17:47 -0700
-From:   Nitheesh Sekar <quic_nsekar@quicinc.com>
-To:     <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
-        <kishon@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <gregkh@linuxfoundation.org>, <quic_srichara@quicinc.com>,
-        <quic_varada@quicinc.com>, <quic_wcheng@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>
-CC:     Nitheesh Sekar <quic_nsekar@quicinc.com>
-Subject: [PATCH V2 1/4] dt-bindings: phy: qcom,m31: Add IPQ5018 compatible
-Date:   Wed, 30 Aug 2023 16:47:19 +0530
-Message-ID: <20230830111722.19380-2-quic_nsekar@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230830111722.19380-1-quic_nsekar@quicinc.com>
-References: <20230830111722.19380-1-quic_nsekar@quicinc.com>
+        with ESMTP id S242450AbjH3IeD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Aug 2023 04:34:03 -0400
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ECCC1AE;
+        Wed, 30 Aug 2023 01:34:00 -0700 (PDT)
+Received: by mail-ot1-x32e.google.com with SMTP id 46e09a7af769-6bc9811558cso3873822a34.0;
+        Wed, 30 Aug 2023 01:34:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693384439; x=1693989239; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=SNhm82/yD2XJatnGAr0vBKs9bR4mP6ICOeiAlhv3D3w=;
+        b=S9IfiC3bVXp8/08C30G84BodEDx2SGcUYTdidPUytMQpeyXgy/En4TD04Qh4Dhafk+
+         xdquH/ylJUGZKqLvjN6pFMaIyjVAuwh7a73LzIbKOJS8pr2oacDzLYSD7hAE2lgFpHxE
+         5P/Ibf/lBe4vW6Dfsw9it/cAFxzEmr629HxnUdgcMOrXV+BjGBKHMa0xPb2DblePq5z8
+         nd1oWA6XtNKI70k7CYreQ/RDCOW4TcKJC0FUKPhuoZU1u3+83de3A+RqMhUemjbsTQ5M
+         Uw07Bp5W9TIQyLIMq/GMVd/QKw1u0jEXM6rXQKqZkvp+wTZvI4u0EGTyirlUGe6UnXAk
+         yTeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693384439; x=1693989239;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SNhm82/yD2XJatnGAr0vBKs9bR4mP6ICOeiAlhv3D3w=;
+        b=ahhrJBhAEDN4f+44O7+NiaTWtV2m/j7MBnvc5KA+NSfbbdzS6I5IKlqkaWS60jws2X
+         J0iz2BdYY1mg3PfYR/qnlLPiYicPV4xKwRyLECAQXJoGCHKSH/fZQ6bMDVCWzLm4lWww
+         6wG9fj7tUVxtS09E/0Dvxiiv9uXFCDgFF13ouPLJ0IaDm8OOx3hfzPSxcwJvXq7awzRo
+         6ANQDRqpNCy34TZE++ZzzheXc4y1rEBcXONQD7pWlp1Dh1s7Mf+KO2gFHDcKVvi6o0T1
+         Yxf02I2u53Jwy8natkvtavVWByAB77a+kqKQd6gSHG4RTpsvgbNVeFkGwiNHK9PRxnV3
+         ap+w==
+X-Gm-Message-State: AOJu0YyUiZmJ103KxQlLlKJ4Sgn5Sx2fZZQYboSn+2Si4GGWNjYZnPE1
+        08Rc0tCcjtVbGnt12JxnCow=
+X-Google-Smtp-Source: AGHT+IH4ZhfEnaAkZGMykkJRKfiN3d5ACC8sCq9Mk9PI6f9+a6622SjCGiGGGMWyZcawvPU1mIWHcA==
+X-Received: by 2002:a05:6870:8a21:b0:1c0:131b:2bb8 with SMTP id p33-20020a0568708a2100b001c0131b2bb8mr1784884oaq.58.1693384439500;
+        Wed, 30 Aug 2023 01:33:59 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id t2-20020a17090a024200b002717a368efasm875416pje.12.2023.08.30.01.33.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Aug 2023 01:33:58 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <c477c29c-74db-9d48-0b45-b22b70dc93c0@roeck-us.net>
+Date:   Wed, 30 Aug 2023 01:33:57 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: lnAGwxY71AKc02MLOtiFcVHnowwgMWdl
-X-Proofpoint-GUID: lnAGwxY71AKc02MLOtiFcVHnowwgMWdl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-29_16,2023-08-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
- spamscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0 malwarescore=0
- mlxlogscore=863 priorityscore=1501 clxscore=1015 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308300105
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4] usb: typec: qcom: Update the logic of regulator enable
+ and disable
+Content-Language: en-US
+To:     hui liu <quic_huliu@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_fenglinw@quicinc.com,
+        subbaram@quicinc.com
+References: <20230830-qcom-tcpc-v4-1-c19b0984879b@quicinc.com>
+ <a2353ce6-bd39-f5ca-ad81-63b061147400@roeck-us.net>
+ <fea72c0f-f23d-493c-beae-6bc830b9c2a2@quicinc.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <fea72c0f-f23d-493c-beae-6bc830b9c2a2@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-IPQ5332 qcom,m31 phy driver can support IPQ5018.
+On 8/29/23 23:37, hui liu wrote:
+> 
+> 
+> On 8/30/2023 2:25 PM, Guenter Roeck wrote:
+>> On 8/29/23 20:00, Hui Liu via B4 Relay wrote:
+>>> From: Hui Liu <quic_huliu@quicinc.com>
+>>>
+>>> Removed the call logic of disable and enable regulator
+>>> in reset function. Enable the regulator in qcom_pmic_typec_start
+>>> function and disable it in qcom_pmic_typec_stop function to
+>>> avoid unbalanced regulator disable warnings.
+>>>
+>>> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+>>
+>> Please drop.
+> I didn't get your mean. would you please explain it?
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
----
- .../devicetree/bindings/phy/qcom,ipq5332-usb-hsphy.yaml       | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+You kept my Reviewed-by: tag even though the current version
+of the patch is completely different to the patch I reviewed.
+This is inappropriate. Please drop my Reviewed-by: tag.
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom,ipq5332-usb-hsphy.yaml b/Documentation/devicetree/bindings/phy/qcom,ipq5332-usb-hsphy.yaml
-index 2671a048c926..e77576d06c0e 100644
---- a/Documentation/devicetree/bindings/phy/qcom,ipq5332-usb-hsphy.yaml
-+++ b/Documentation/devicetree/bindings/phy/qcom,ipq5332-usb-hsphy.yaml
-@@ -17,7 +17,9 @@ description:
- properties:
-   compatible:
-     items:
--      - const: qcom,ipq5332-usb-hsphy
-+      - enum:
-+          - qcom,ipq5018-usb-hsphy
-+          - qcom,ipq5332-usb-hsphy
- 
-   "#phy-cells":
-     const: 0
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Guenter
 
