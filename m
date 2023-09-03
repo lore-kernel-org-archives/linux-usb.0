@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2978FC88CB2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90680CA0FF7
 	for <linux-usb@archiver.kernel.org>; Sun,  3 Sep 2023 21:42:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349188AbjICVmF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 3 Sep 2023 17:42:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59342 "EHLO
+        id S1349407AbjICVmG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 3 Sep 2023 17:42:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348737AbjICVl6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 3 Sep 2023 17:41:58 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3501CF2
-        for <linux-usb@vger.kernel.org>; Sun,  3 Sep 2023 14:41:55 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-4ff8f2630e3so1429639e87.1
-        for <linux-usb@vger.kernel.org>; Sun, 03 Sep 2023 14:41:55 -0700 (PDT)
+        with ESMTP id S1349046AbjICVmE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 3 Sep 2023 17:42:04 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A8F010D
+        for <linux-usb@vger.kernel.org>; Sun,  3 Sep 2023 14:41:58 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-50087d47d4dso1455524e87.1
+        for <linux-usb@vger.kernel.org>; Sun, 03 Sep 2023 14:41:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693777313; x=1694382113; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1693777316; x=1694382116; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f4CGlwIh3CaiNYfDE8T4/N3NKVw9L1KuLHleXxMGA8k=;
-        b=sL37z1nSxapwX1ACyQwJD5J17vIMjGOlYzI20UASAIey8kqRxI4mjpOLunNTr0u6KK
-         jvpNqVkjoqjPTMONMwLwlzQKkafFdk3xRAB7v7F2C71kjfWv3RZAq0uwdXFBRgW5Ablu
-         5qEtusCHwgTRJX0jw35/YtTrrnm483NhEudimhX/Y9mY6b1ypxLsOGIV2NXg1locgBn2
-         GT8LylBHFPlCJAw9wBeuHQ564qtXwoDgreruE+BCcep2hASO7HKsC8zNooFIvAMa6b7z
-         9wXUeRsY+cFjE1kA3IgrV4pnlZhjm+i9W7t1RIK5ziozF2te0A0ydoVmTyp2VCrfh/M7
-         rszA==
+        bh=mQu1z4f66ZLko+rKDaNEqwlYcOO6KOPqUNdRGmTYflk=;
+        b=yoQftoDDcczedWpEq5MPT7EbuHO3OQRoQ0GhNSJBMxufi3KntbCaG03nOnSCAaxDB8
+         r84VlqXhzFLTwgbI599qxvakCtQgkp/aL9EnSMQFsdqLkmoNaNvGcO2t9SIU7OSZDUQs
+         uyj1C6+RlHWcBHaSv4P2bz7jD6YSSDRSUo6bZnvPX/oVRYOyI3jobnRqgwwShuKLNJhU
+         iSJnfHkg8z8NT2m1nwPybfNwNLaY566Bybvu/PCjtwqwHot5UCABnqYKa0bHw01ByAVL
+         Xj41PUI77GyELjwHISUDLoltehhd94u/kBv5JHRmc/3m/IKMBCFjDBCiLobVNy7rsc5y
+         Sj8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693777313; x=1694382113;
+        d=1e100.net; s=20221208; t=1693777316; x=1694382116;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=f4CGlwIh3CaiNYfDE8T4/N3NKVw9L1KuLHleXxMGA8k=;
-        b=gGVGCDm3F0LHZ3mnv5ogvZAZF529x5GoP4RJGZ9bvMOMm1fylz3kmOzU0hepAc1zzL
-         VG+NGuR4Q1JnqxS+N6jrXQGAgB44cgdn9Ve+1i9hid1qRNxmhwzABp1BqlMaPMnzyOn7
-         yLG066fXQIEOrTF4FFZEaT2xD/GI/1JdkOyoLdtmAmsh0La5Sy8Jfhw8SeE7Rtmjegf7
-         paOpEpWeYZ+dLxdpCGNXRD6FzM0K1kts0ytt0JdqMsXh8fSiUuYjdKeMT5BLjCZGNVnq
-         StdyQcGK/LYnGc01sGXApWXbErp60pXJmdJxU4iz2Bzu+fUn5EBD7hzK9+P81GXWZ/BO
-         Ylpg==
-X-Gm-Message-State: AOJu0YzKHMRlzRF6RcazAM9nkMq2bHVCiykmKfM28y6Aha4BpxhoYanm
-        T4fD2uIkr4oW7DTnBNrSoegGhw==
-X-Google-Smtp-Source: AGHT+IHZcZHwPmZz/G9GJYrJdaFt/yh7kFkMispc1XECmMNIp6Mo7eyJQIJfgGNG8gZdXS8BoslEpA==
-X-Received: by 2002:a05:6512:3444:b0:4fb:911b:4e19 with SMTP id j4-20020a056512344400b004fb911b4e19mr3890157lfr.35.1693777313473;
-        Sun, 03 Sep 2023 14:41:53 -0700 (PDT)
+        bh=mQu1z4f66ZLko+rKDaNEqwlYcOO6KOPqUNdRGmTYflk=;
+        b=YOwz6gaOsQPuhtriBtT+joYEusRcPh/Eba2cP7W0jGjj9b4C1Z5K0rtXP8QD1tufNa
+         H3Q1FhY+c/xUJiMolA0+MCKTkntT/NrW00VQCDQpvordiClfb2NUyhZBCl+26AfBGkpY
+         8ePnqanjLbCcNQcPY6zAuX8R8+iYvScA6K0629D8ME41de2Plkyx6OtilLRkdQta9cig
+         CimebGEHrlrwb2z4HNsKEfSbI0dVCsyHIVU+CuE/2mybh/guLRWGsSCM6hKHTCEpGwCM
+         IPKpXVlNB3XzQkjWFRTx3j5V4w1oZYDYqYQETofyJjOVyQzhJkh8JIdL8TUiexNrlUW1
+         3GyQ==
+X-Gm-Message-State: AOJu0Yx+WiAT04cwii0DDH3iiL6/dQwvBJnt1Bs4X6RxB2ECJyze49Pw
+        +GJZWTe5lwsCRc5mutmehTb+Gw==
+X-Google-Smtp-Source: AGHT+IExVQuQX3Gj81jbZ+R6ySGMUAgWZnxuPMcXW9RME/R1Qx0IzJskMS/e3HZRFl9o1BgsPXmohw==
+X-Received: by 2002:a05:6512:34d0:b0:4fe:85c:aeba with SMTP id w16-20020a05651234d000b004fe085caebamr5162568lfr.21.1693777316523;
+        Sun, 03 Sep 2023 14:41:56 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id x17-20020ac25dd1000000b004f8555f7aa1sm1422506lfq.52.2023.09.03.14.41.52
+        by smtp.gmail.com with ESMTPSA id x17-20020ac25dd1000000b004f8555f7aa1sm1422506lfq.52.2023.09.03.14.41.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Sep 2023 14:41:53 -0700 (PDT)
+        Sun, 03 Sep 2023 14:41:56 -0700 (PDT)
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -71,9 +71,9 @@ To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
 Cc:     dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         freedreno@lists.freedesktop.org
-Subject: [RFC PATCH v1 03/12] drm/connector: extend PATH property to covert Type-C case
-Date:   Mon,  4 Sep 2023 00:41:41 +0300
-Message-Id: <20230903214150.2877023-4-dmitry.baryshkov@linaro.org>
+Subject: [RFC PATCH v1 07/12] soc: qcom: pmic_glink_altmode: report that this is a Type-C connector
+Date:   Mon,  4 Sep 2023 00:41:45 +0300
+Message-Id: <20230903214150.2877023-8-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
 References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
@@ -83,48 +83,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Userspace needs to identify whether the DisplayPort connector is a
-native one or it is wrapped into the USB-C port. Moreover the userspace
-might need to point user to the exact location of this Type-C port on
-the laptop case.
+Set the bridge's path property to point out that this connector is
+wrapped into the Type-C port.
 
-Existing USB-C altmode implementations (i915, amdgpu) have used the
-DRM_MODE_CONNECTOR_DisplayPort even for such ports. To keep backwards
-compatibility we can not change this to DRM_MODE_CONNECTOR_USB.
-Therefore the kernel needs some other way to represent this information.
-
-To facilitate this, reuse the 'PATH' property, which was used to
-describe the DP port in the DP MST configuration. Use either
-'typec:portN' to point out to the Type-C port class device, or just
-'typec:' if the corresponding port can not be identified.
+We can not really identify the exact Type-C port because it is
+registered separately, by another driver, which is not mandatory and the
+corresponding device is not even present on some of platforms, like
+sc8180x or sm8350. Thus we use the shortened version of the PATH, which
+includes just the 'typec:' part.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/drm_connector.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/soc/qcom/pmic_glink_altmode.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 05fc29a54801..a326782e936e 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -1185,10 +1185,14 @@ static const u32 dp_colorspaces =
-  * 	never read back the value of "DPMS" because it can be incorrect.
-  * PATH:
-  * 	Connector path property to identify how this sink is physically
-- * 	connected. Used by DP MST. This should be set by calling
-- * 	drm_connector_set_path_property(), in the case of DP MST with the
-- * 	path property the MST manager created. Userspace cannot change this
-+ * 	connected. This should be set by calling
-+ * 	drm_connector_set_path_property(). Userspace cannot change this
-  * 	property.
-+ * 	In the case of DP MST this is equal to the path property the MST
-+ * 	manager created. It is equal to 'mst:baseID-port-port...'.
-+ * 	In the case of DP USB-C connector this is equal to the 'typec:portN',
-+ * 	pointing to the corresponding Type-C port device or just 'typec' if the
-+ * 	corresponding Type-C port can not be identified.
-  * TILE:
-  * 	Connector tile group property to indicate how a set of DRM connector
-  * 	compose together into one logical screen. This is used by both high-res
+diff --git a/drivers/soc/qcom/pmic_glink_altmode.c b/drivers/soc/qcom/pmic_glink_altmode.c
+index 974c14d1e0bf..a5b72046caaa 100644
+--- a/drivers/soc/qcom/pmic_glink_altmode.c
++++ b/drivers/soc/qcom/pmic_glink_altmode.c
+@@ -466,6 +466,7 @@ static int pmic_glink_altmode_probe(struct auxiliary_device *adev,
+ 		alt_port->bridge.of_node = to_of_node(fwnode);
+ 		alt_port->bridge.ops = DRM_BRIDGE_OP_HPD;
+ 		alt_port->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
++		alt_port->bridge.path = "typec:";
+ 
+ 		ret = devm_drm_bridge_add(dev, &alt_port->bridge);
+ 		if (ret)
 -- 
 2.39.2
 
