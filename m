@@ -2,53 +2,53 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90680CA0FF7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FEC7CA0FFB
 	for <linux-usb@archiver.kernel.org>; Sun,  3 Sep 2023 21:42:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349407AbjICVmG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1349280AbjICVmG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Sun, 3 Sep 2023 17:42:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59944 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349046AbjICVmE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 3 Sep 2023 17:42:04 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A8F010D
-        for <linux-usb@vger.kernel.org>; Sun,  3 Sep 2023 14:41:58 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-50087d47d4dso1455524e87.1
-        for <linux-usb@vger.kernel.org>; Sun, 03 Sep 2023 14:41:58 -0700 (PDT)
+        with ESMTP id S1348913AbjICVmD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 3 Sep 2023 17:42:03 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4065E5
+        for <linux-usb@vger.kernel.org>; Sun,  3 Sep 2023 14:41:55 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-50087d47d4dso1455496e87.1
+        for <linux-usb@vger.kernel.org>; Sun, 03 Sep 2023 14:41:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693777316; x=1694382116; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1693777314; x=1694382114; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mQu1z4f66ZLko+rKDaNEqwlYcOO6KOPqUNdRGmTYflk=;
-        b=yoQftoDDcczedWpEq5MPT7EbuHO3OQRoQ0GhNSJBMxufi3KntbCaG03nOnSCAaxDB8
-         r84VlqXhzFLTwgbI599qxvakCtQgkp/aL9EnSMQFsdqLkmoNaNvGcO2t9SIU7OSZDUQs
-         uyj1C6+RlHWcBHaSv4P2bz7jD6YSSDRSUo6bZnvPX/oVRYOyI3jobnRqgwwShuKLNJhU
-         iSJnfHkg8z8NT2m1nwPybfNwNLaY566Bybvu/PCjtwqwHot5UCABnqYKa0bHw01ByAVL
-         Xj41PUI77GyELjwHISUDLoltehhd94u/kBv5JHRmc/3m/IKMBCFjDBCiLobVNy7rsc5y
-         Sj8w==
+        bh=rp5vM1gl9RU86RuI50kxi2LQD61SiuVQj5J5+OGEdj8=;
+        b=LzKuaU5Io7ERItKEqZSokMqcg2iAa7++TcfdkS0yu+CR7wFonJYS7+ZdKr9DSYx/yi
+         86mmet212rmoU5Dw9VVnk7lhIeLnn0zaNTGymvSvzYzWAA4XOeWgPSdV/z/2Kqak2aZ9
+         NbOyn1woZTbkezEHcfieOJxq2Cc1qlXvrJrNNQ1QNB+y0G+02m8O98romojdQ6SNA6yY
+         tezO6y6hXQA986TSsp4iXyKAA+FVwWGyTFqhhqUKreX1L/XTG2Ke8yAaZWsJU9r08Kve
+         3ygwAjaBFUJBequ0/hBMcHsCJmbBviNfoNfReeogrLaEqJQxJit6I+6BT/IGngECh0g0
+         t9ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693777316; x=1694382116;
+        d=1e100.net; s=20221208; t=1693777314; x=1694382114;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mQu1z4f66ZLko+rKDaNEqwlYcOO6KOPqUNdRGmTYflk=;
-        b=YOwz6gaOsQPuhtriBtT+joYEusRcPh/Eba2cP7W0jGjj9b4C1Z5K0rtXP8QD1tufNa
-         H3Q1FhY+c/xUJiMolA0+MCKTkntT/NrW00VQCDQpvordiClfb2NUyhZBCl+26AfBGkpY
-         8ePnqanjLbCcNQcPY6zAuX8R8+iYvScA6K0629D8ME41de2Plkyx6OtilLRkdQta9cig
-         CimebGEHrlrwb2z4HNsKEfSbI0dVCsyHIVU+CuE/2mybh/guLRWGsSCM6hKHTCEpGwCM
-         IPKpXVlNB3XzQkjWFRTx3j5V4w1oZYDYqYQETofyJjOVyQzhJkh8JIdL8TUiexNrlUW1
-         3GyQ==
-X-Gm-Message-State: AOJu0Yx+WiAT04cwii0DDH3iiL6/dQwvBJnt1Bs4X6RxB2ECJyze49Pw
-        +GJZWTe5lwsCRc5mutmehTb+Gw==
-X-Google-Smtp-Source: AGHT+IExVQuQX3Gj81jbZ+R6ySGMUAgWZnxuPMcXW9RME/R1Qx0IzJskMS/e3HZRFl9o1BgsPXmohw==
-X-Received: by 2002:a05:6512:34d0:b0:4fe:85c:aeba with SMTP id w16-20020a05651234d000b004fe085caebamr5162568lfr.21.1693777316523;
-        Sun, 03 Sep 2023 14:41:56 -0700 (PDT)
+        bh=rp5vM1gl9RU86RuI50kxi2LQD61SiuVQj5J5+OGEdj8=;
+        b=d+QYLqPy+Gl48N51JWXpVOfmurNM/Yygv+oP7Ix43Ip6ob7WJsdwpKG7Xz0elW50Bv
+         AgKl0Y7/YFO/QzJ/GxYA7/RN92uGalzWG+rGaPZIZJUBmdyceCVQ/jncQYkh7vjY/0Kv
+         S+mu0pHUluqCsz9kdMDPrTTlYjOmjVAzRYNMVeZKTNuzFOJnewi1+92ovCFT1zznktk2
+         ctWeLXLn2Q50zkLtY5P3aKgL7eytusCmXKmAiW2Ua7xcyRpDejnqs6UKJCPFL3YZupGN
+         w7aJaAW1mQVvagZx+nXdESO8ipiXjp8g0s5N++QHGL4Cv0/XNSMTNGO0eFAMHpyPU4MV
+         QdQA==
+X-Gm-Message-State: AOJu0YxfrzitXAoLzDwb6QTcabY3r4Oz+3NDkmvF7SKPEnnaazZvKmND
+        VdSBNAFwHgT4A2v2w6Nexm9P7Q==
+X-Google-Smtp-Source: AGHT+IGDQQbfVXjBOtsl8V14iEcrDkjhs9AHs4yCZXqJ/byBpZFqNkhX6ECkcKXY9MxCWwyt+uunZA==
+X-Received: by 2002:a05:6512:711:b0:4fe:5860:7abf with SMTP id b17-20020a056512071100b004fe58607abfmr4579227lfs.13.1693777314266;
+        Sun, 03 Sep 2023 14:41:54 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id x17-20020ac25dd1000000b004f8555f7aa1sm1422506lfq.52.2023.09.03.14.41.55
+        by smtp.gmail.com with ESMTPSA id x17-20020ac25dd1000000b004f8555f7aa1sm1422506lfq.52.2023.09.03.14.41.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Sep 2023 14:41:56 -0700 (PDT)
+        Sun, 03 Sep 2023 14:41:53 -0700 (PDT)
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -71,9 +71,9 @@ To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
 Cc:     dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         freedreno@lists.freedesktop.org
-Subject: [RFC PATCH v1 07/12] soc: qcom: pmic_glink_altmode: report that this is a Type-C connector
-Date:   Mon,  4 Sep 2023 00:41:45 +0300
-Message-Id: <20230903214150.2877023-8-dmitry.baryshkov@linaro.org>
+Subject: [RFC PATCH v1 04/12] drm/bridge-connector: set the PATH property for the connector
+Date:   Mon,  4 Sep 2023 00:41:42 +0300
+Message-Id: <20230903214150.2877023-5-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
 References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
@@ -83,32 +83,71 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Set the bridge's path property to point out that this connector is
-wrapped into the Type-C port.
-
-We can not really identify the exact Type-C port because it is
-registered separately, by another driver, which is not mandatory and the
-corresponding device is not even present on some of platforms, like
-sc8180x or sm8350. Thus we use the shortened version of the PATH, which
-includes just the 'typec:' part.
+In order to properly identify connectors (in particular, DisplayPort
+connectors wrapped into USB-C) allow bridge drivers to specify the value
+to be used for connector's PATH property.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/soc/qcom/pmic_glink_altmode.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/drm_bridge_connector.c | 12 ++++++++++++
+ include/drm/drm_bridge.h               |  7 +++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/drivers/soc/qcom/pmic_glink_altmode.c b/drivers/soc/qcom/pmic_glink_altmode.c
-index 974c14d1e0bf..a5b72046caaa 100644
---- a/drivers/soc/qcom/pmic_glink_altmode.c
-+++ b/drivers/soc/qcom/pmic_glink_altmode.c
-@@ -466,6 +466,7 @@ static int pmic_glink_altmode_probe(struct auxiliary_device *adev,
- 		alt_port->bridge.of_node = to_of_node(fwnode);
- 		alt_port->bridge.ops = DRM_BRIDGE_OP_HPD;
- 		alt_port->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
-+		alt_port->bridge.path = "typec:";
+diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+index bf73960c2c2a..008d730e1c2f 100644
+--- a/drivers/gpu/drm/drm_bridge_connector.c
++++ b/drivers/gpu/drm/drm_bridge_connector.c
+@@ -331,6 +331,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 	struct drm_connector *connector;
+ 	struct i2c_adapter *ddc = NULL;
+ 	struct drm_bridge *bridge, *panel_bridge = NULL;
++	const char *path = NULL;
+ 	int connector_type;
+ 	int ret;
  
- 		ret = devm_drm_bridge_add(dev, &alt_port->bridge);
- 		if (ret)
+@@ -377,6 +378,9 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 			connector->fwnode = fwnode_handle_get(of_fwnode_handle(bridge->of_node));
+ #endif
+ 
++		if (bridge->path)
++			path = bridge->path;
++
+ 		if (bridge->ddc)
+ 			ddc = bridge->ddc;
+ 
+@@ -405,6 +409,14 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 		connector->polled = DRM_CONNECTOR_POLL_CONNECT
+ 				  | DRM_CONNECTOR_POLL_DISCONNECT;
+ 
++	if (path) {
++		drm_object_attach_property(&connector->base,
++					   drm->mode_config.path_property,
++					   0);
++
++		drm_connector_set_path_property(connector, path);
++	}
++
+ 	if (panel_bridge)
+ 		drm_panel_bridge_set_orientation(connector, panel_bridge);
+ 
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index c339fc85fd07..98e9d76474f4 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -753,6 +753,13 @@ struct drm_bridge {
+ 	 * before the peripheral.
+ 	 */
+ 	bool pre_enable_prev_first;
++	/**
++	 * @path: the 'path' of the bridge. For bridges at the end of this
++	 * chain this is used to set the 'PATH' property of the connector.
++	 * This string is not freed manually, so one either should use a static
++	 * string here or a devres-allocated one.
++	 */
++	const char *path;
+ 	/**
+ 	 * @ddc: Associated I2C adapter for DDC access, if any.
+ 	 */
 -- 
 2.39.2
 
