@@ -2,59 +2,59 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 988C3C88CB2
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Sep 2023 15:45:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E5AFC71153
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Sep 2023 15:49:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353230AbjIDPpm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 4 Sep 2023 11:45:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60790 "EHLO
+        id S241322AbjIDPtK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 4 Sep 2023 11:49:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344428AbjIDPpl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Sep 2023 11:45:41 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEBA2CDA
-        for <linux-usb@vger.kernel.org>; Mon,  4 Sep 2023 08:45:36 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2bd0a5a5abbso24102381fa.0
-        for <linux-usb@vger.kernel.org>; Mon, 04 Sep 2023 08:45:36 -0700 (PDT)
+        with ESMTP id S244184AbjIDPtJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Sep 2023 11:49:09 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32C081A7
+        for <linux-usb@vger.kernel.org>; Mon,  4 Sep 2023 08:49:05 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-500c37d479aso2461787e87.2
+        for <linux-usb@vger.kernel.org>; Mon, 04 Sep 2023 08:49:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693842335; x=1694447135; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1693842543; x=1694447343; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=0+GlJFHzb1D3XDHeV2FI4PvbcaPkKqun8UbiQUvz0aQ=;
-        b=AWKkcQ2tCv94z9lX690R+4n/bjXTUHTYZtGAGckSOHDps/9FPcg2E5/g7KXHfhXSzw
-         xlqsluIGHcge/VuN1/eQ/ya0oXH63Wb9Qa2s2DSdFZioEX+srYwgloNO1yCIDIIWm0Z3
-         pb/ZFkBv0vRqAYFhRCld1nX9AMBwN4zlWLlPuel1Z0/HTDqSaxNfECc7GEh6UUSZLBSp
-         PPlcCQCRaaUjY0dmO2an8XXdJNiZX0nX7/rW3ssUbK00IRTYickynhchd3/275kZ2uyl
-         VpDbuSOveXllggZEuiZf5kFP/73+bZDpc+zxxfOtsjQ/t5f59bcKEtNmeZPpwkK+8KRG
-         JmIA==
+        bh=1Mr4a2ALFhDpVZdNIQ8Ux/W/wDhbSFit8lx1g0WE8sQ=;
+        b=UomsvTfjstLdo/gi2Lj7h8SdYLrsnsBPIl9lWBVIdiuzPAbq7CWqR8/QyyJOJZ7My4
+         cpjgFOUDnVj69O/7o7iEtFQml2oCZzPcpNuD7HzbXi/3gSJXeh0Z7DPMvneHRHFAsg3l
+         A6eJ6/jXC+eG/p1SQyJPG4v5I5xQJGHK+xyqVuyPDq0iU8tJz1XYlsVmri/8NqHTVFw5
+         5DCCCctYRQAkyxcmanxA7qgWG0aXNVoeufj0hpqQ+PMTX/YKtg8agQdcT6kJb/oA4TF/
+         jKYRBc4eVAHzavI4B1TD3OAVNls+0u8R8vCLAiOmte/Y7IfJEJTUscoz43zN8mn7QyKn
+         sQjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693842335; x=1694447135;
+        d=1e100.net; s=20221208; t=1693842543; x=1694447343;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0+GlJFHzb1D3XDHeV2FI4PvbcaPkKqun8UbiQUvz0aQ=;
-        b=lhkS7QwUI2kXKwZxW1gzvuSfJH2ELt8ds9yFvS8L4RRew9W0whDxHuolYGLril8xN1
-         OBybmDn1oiOdwLZtNX5JTG6ifOvkyBHv1L3uE0PZGplJpQUTFp3z+td8ZpBqZPBqIoH1
-         jfn1kNlhtENqLSgWbL1LXTF1lvIpY1zfwHvLS03HP5zff5yxZhIZoepnGwIr0NEgfspX
-         yJ7htyXXFWKpyQ6ezH1yc0Y1auhLUlYNk3/GHfNyCivcQcMAJQRDnveddP+R2dgx9QKW
-         v/eIsAI92TTuqWP6bEo9nNovy9lcySLCn2zKbeMj7hlyex35KPoVoSvBMV4ZG7RM53vL
-         Rs4g==
-X-Gm-Message-State: AOJu0YzxzZff3oppMLdkwiTSYScY0dEWo6YSidbyQAJ32E6zWt4S+gW+
-        fPzuPyA0K5s0B/C4Dj1DLY8Xwg==
-X-Google-Smtp-Source: AGHT+IGjTokOv/IDyhswVsXI07leRAlQxYi93jO33A/nRd/LVlk/Glx/WNgORnNOdsXYPsYI1hwazw==
-X-Received: by 2002:a2e:9c99:0:b0:2b6:eb5a:6504 with SMTP id x25-20020a2e9c99000000b002b6eb5a6504mr8087643lji.18.1693842335157;
-        Mon, 04 Sep 2023 08:45:35 -0700 (PDT)
+        bh=1Mr4a2ALFhDpVZdNIQ8Ux/W/wDhbSFit8lx1g0WE8sQ=;
+        b=TTP7lvplOlwT5lHF7z1Eu26snm21pb5p+7uVEVxB/vc1sx5zJzXk9JiCMCK3cfS3Pf
+         OFGQCBe9Ms25eCXWyuGZxTaReXCmJ1rAEsSPU71rj+HW7OkllFAagjvVW+ZuQZ5Koxrd
+         VfCoHp9DJ0O/q6nOjEHZs3MXSzMzcgG+6uOR9XFuCuH8jF9BCp2hh6nBWjVOut09PYK9
+         gmPml1FguqXNW58+fZusjghk2HfNag5N7zqH2Ynb+Fvu89b++B1mbWp9lcE1GHEirCqu
+         MICkZNmJyn+zkUPaoUdw8HcvM5uu2o7OaB+2rD+rrsItfXYTwkv0QzPQ+x6moonSQSeN
+         sXQg==
+X-Gm-Message-State: AOJu0YxL/2RR/bUX6Ek4F7OigdOB2rpbjK6jCwkU0wRnYSQ2KmcHaK+N
+        YoxLC7uIBpMBYQ2GTf0JGnlf3Q==
+X-Google-Smtp-Source: AGHT+IE4v4l6ymY3DjZh2dEcApIj4aqYKl5Mc+y05e23cKNGlbJ9nuy4qF058Dp4ZWgy6wbza5M/ZA==
+X-Received: by 2002:a05:6512:3446:b0:500:12c6:c91b with SMTP id j6-20020a056512344600b0050012c6c91bmr6396413lfr.40.1693842543157;
+        Mon, 04 Sep 2023 08:49:03 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5? (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
-        by smtp.gmail.com with ESMTPSA id 17-20020a2eb2d1000000b002ba161bdc9asm2181266ljz.79.2023.09.04.08.45.34
+        by smtp.gmail.com with ESMTPSA id u11-20020ac2518b000000b005009920b6afsm1791519lfi.9.2023.09.04.08.49.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Sep 2023 08:45:34 -0700 (PDT)
-Message-ID: <c078ba24-df68-49f9-b38b-0ccbff493a25@linaro.org>
-Date:   Mon, 4 Sep 2023 18:45:33 +0300
+        Mon, 04 Sep 2023 08:49:02 -0700 (PDT)
+Message-ID: <11765348-1d5c-41aa-babc-7c6da68cd9f1@linaro.org>
+Date:   Mon, 4 Sep 2023 18:49:02 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 07/12] soc: qcom: pmic_glink_altmode: report that
- this is a Type-C connector
+Subject: Re: [RFC PATCH v1 00/12] drm,usb/typec: uABI for USB-C DisplayPort
+ connectors
 Content-Language: en-GB
 To:     Bjorn Andersson <andersson@kernel.org>
 Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -78,39 +78,56 @@ Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         freedreno@lists.freedesktop.org
 References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
- <20230903214150.2877023-8-dmitry.baryshkov@linaro.org>
- <skpvgxdkyciuijkv55uh4ircrrarqhdoiocqc6h5gs4dw6c2rj@zv4fwdri4mwz>
+ <tsvdc6jm7rtnqjcygn7lhzspheomqbwjejoastr7kcfs22btdr@gy2s57cuwsxy>
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <skpvgxdkyciuijkv55uh4ircrrarqhdoiocqc6h5gs4dw6c2rj@zv4fwdri4mwz>
+In-Reply-To: <tsvdc6jm7rtnqjcygn7lhzspheomqbwjejoastr7kcfs22btdr@gy2s57cuwsxy>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 04/09/2023 18:43, Bjorn Andersson wrote:
-> On Mon, Sep 04, 2023 at 12:41:45AM +0300, Dmitry Baryshkov wrote:
->> Set the bridge's path property to point out that this connector is
->> wrapped into the Type-C port.
+On 04/09/2023 18:46, Bjorn Andersson wrote:
+> On Mon, Sep 04, 2023 at 12:41:38AM +0300, Dmitry Baryshkov wrote:
+>> During the discussion regarding DisplayPort wrapped in the USB-C
+>> connectors (via the USB-C altmode) it was pointed out that currently
+>> there is no good way to let userspace know if the DRM connector in
+>> question is the 'native' DP connector or if it is the USB-C connector.
 >>
->> We can not really identify the exact Type-C port because it is
->> registered separately, by another driver, which is not mandatory and the
->> corresponding device is not even present on some of platforms, like
->> sc8180x or sm8350. Thus we use the shortened version of the PATH, which
->> includes just the 'typec:' part.
+>> An attempt to use DRM_MODE_CONNECTOR_USB for such connectors was
+>> declined, as existing DP drivers (i915, AMD) use
+>> DRM_MODE_CONNECTOR_DisplayPort. New drivers should behave in the same
+>> way.
+>>
 > 
-> How would a properly resolved path look like?
+> Sorry, didn't see the commit message before posting my complaint about
+> USB -> DisplayPort.
+> 
+>> An attempt to use subconnector property was also declined. It is defined
+>> to the type of the DP dongle connector rather than the host connector.
+>>
+>> This attempt targets reusing the connector's PATH property. Currently
+>> this property is only used for the DP MST connectors. This patchset
+>> reuses it to point out to the corresponding registered typec port
+>> device.
+>>
+> 
+> Still interested in understanding how the path string should look like.
 
-On RB5 it is 'typec:port0', as the USB-C port is registered as 
-/sys/class/typec/port0
+As wrote in the other letter, on RB5 it is 'typec:port0'. If the machine 
+has two Type-C ports and two connected DP blocks, one of them will have 
+'typec:port0', another one 'typec:port1'. This way one can further look 
+under /sys/class/typec/portN/physical_localtion/ and find corresponding 
+location, etc.
 
-> 
-> As with the other patch, I'm okay with this going through the USB tree.
-> 
-> Acked-by: Bjorn Andersson <andersson@kernel.org>
-> 
-> Regards,
-> Bjorn
+> Is the path expected to be consumed by machine, or is it only there for
+> human convenience?
+
+As with DP MST it is expected that userspace will consume this 
+information, possibly renaming the connector. For example, on my laptop 
+I have DP-1, ... DP-5 connectors (with DP-2 -- DP-5 being DP MST ones). 
+Xorg renames them to DP-1, DP-2, DP-1-1, DP-1-2, DP-1-3, because the MST 
+ones are branches for the DP-1.
 
 -- 
 With best wishes
