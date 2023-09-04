@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38362C71153
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Sep 2023 15:41:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C046C71153
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Sep 2023 15:44:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353241AbjIDPlW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 4 Sep 2023 11:41:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41540 "EHLO
+        id S235405AbjIDPo3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 4 Sep 2023 11:44:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbjIDPlW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Sep 2023 11:41:22 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9C5BCC7;
-        Mon,  4 Sep 2023 08:41:18 -0700 (PDT)
+        with ESMTP id S229492AbjIDPo3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Sep 2023 11:44:29 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4327383;
+        Mon,  4 Sep 2023 08:44:26 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 4FCD3CE0F0B;
-        Mon,  4 Sep 2023 15:41:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB5FDC433C8;
-        Mon,  4 Sep 2023 15:41:13 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CB9866147A;
+        Mon,  4 Sep 2023 15:44:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71FDFC433C8;
+        Mon,  4 Sep 2023 15:44:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693842075;
-        bh=6AHoLhPAyb0kZxC+vtd1mmVBPDeqBePGOJk9DUiE0G4=;
+        s=k20201202; t=1693842265;
+        bh=qdTA8V0KXUZLUrgT6HNemfUGewlGYuqtThrUKMyrcZ0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=V5NuA4etrWKvpIRNGsV4jkYCm2uMrcQcHBgXfVXZWFgm4dC6ueiUkQrVGm0V918Mn
-         cfc7i2J6fX6VJtROHdDeVNu+/PJaD6q8ZPF8/ijy7StB7BGTf+zEMNH68vzzvcuI6T
-         pEY5ozwRg9yGMh6iUry8OSeJkv1W2/5EUGeHHxuzIOU+vq1Of42SzWuQp481fGBeOf
-         7S+NrUubMBv9etx0hv3Yk9CDYjOnmv41SqWW5j+7am8GF272eHPbEAb6gRLM4Y7xfs
-         qd9A3PEOfkTw3FEwTQ4rW/GGdGjZbijxMdBzS/dxUuI1uW5yTwjmss6DDEH22juDJI
-         IMR6cME1sVkDg==
-Date:   Mon, 4 Sep 2023 08:43:31 -0700
+        b=dH13EUrJ64qj61MXG8wG386P+QT4XaAFmRFAw2/w72eMe0857orK3vQj6JAk6cgVn
+         iJPLJFgL4Xi2O2SNHeIBZpMEIWf4FuRG3eNTendu87z3KgGSqv9O8Xgvzm8PGCWnza
+         H4LOYfFM8wDC1Gx6gyv2CLr/GHaVHs5C72QJc28/WX0sK+r7ChVixP1RvWUSyzHQUR
+         1OnGvXh+m8TFv2dKEJ+GqWDrV/0kR0v9oG0AIVXpdl1T3EesqgAxQ/qiYHwwlKMqA0
+         Bg3WOp7I6xyGVbCc6xi+MYgY1igO4ezDYIoR+KdjLtiT/IAIgZP1ObXexiiQuvWyAw
+         HpNYGylUAzweg==
+Date:   Mon, 4 Sep 2023 08:46:40 -0700
 From:   Bjorn Andersson <andersson@kernel.org>
 To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -55,34 +55,46 @@ Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         freedreno@lists.freedesktop.org
-Subject: Re: [RFC PATCH v1 07/12] soc: qcom: pmic_glink_altmode: report that
- this is a Type-C connector
-Message-ID: <skpvgxdkyciuijkv55uh4ircrrarqhdoiocqc6h5gs4dw6c2rj@zv4fwdri4mwz>
+Subject: Re: [RFC PATCH v1 00/12] drm,usb/typec: uABI for USB-C DisplayPort
+ connectors
+Message-ID: <tsvdc6jm7rtnqjcygn7lhzspheomqbwjejoastr7kcfs22btdr@gy2s57cuwsxy>
 References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
- <20230903214150.2877023-8-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230903214150.2877023-8-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Sep 04, 2023 at 12:41:45AM +0300, Dmitry Baryshkov wrote:
-> Set the bridge's path property to point out that this connector is
-> wrapped into the Type-C port.
+On Mon, Sep 04, 2023 at 12:41:38AM +0300, Dmitry Baryshkov wrote:
+> During the discussion regarding DisplayPort wrapped in the USB-C
+> connectors (via the USB-C altmode) it was pointed out that currently
+> there is no good way to let userspace know if the DRM connector in
+> question is the 'native' DP connector or if it is the USB-C connector.
 > 
-> We can not really identify the exact Type-C port because it is
-> registered separately, by another driver, which is not mandatory and the
-> corresponding device is not even present on some of platforms, like
-> sc8180x or sm8350. Thus we use the shortened version of the PATH, which
-> includes just the 'typec:' part.
+> An attempt to use DRM_MODE_CONNECTOR_USB for such connectors was
+> declined, as existing DP drivers (i915, AMD) use
+> DRM_MODE_CONNECTOR_DisplayPort. New drivers should behave in the same
+> way.
+> 
 
-How would a properly resolved path look like?
+Sorry, didn't see the commit message before posting my complaint about
+USB -> DisplayPort.
 
-As with the other patch, I'm okay with this going through the USB tree.
+> An attempt to use subconnector property was also declined. It is defined
+> to the type of the DP dongle connector rather than the host connector.
+> 
+> This attempt targets reusing the connector's PATH property. Currently
+> this property is only used for the DP MST connectors. This patchset
+> reuses it to point out to the corresponding registered typec port
+> device.
+> 
 
-Acked-by: Bjorn Andersson <andersson@kernel.org>
+Still interested in understanding how the path string should look like.
+
+Is the path expected to be consumed by machine, or is it only there for
+human convenience?
 
 Regards,
 Bjorn
