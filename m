@@ -2,186 +2,168 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C180C83F3E
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Sep 2023 05:13:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B0BCC83F3E
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Sep 2023 05:13:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245608AbjIDFND (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 4 Sep 2023 01:13:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41766 "EHLO
+        id S1348638AbjIDFN2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 4 Sep 2023 01:13:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234125AbjIDFNC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Sep 2023 01:13:02 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 367C7ED;
-        Sun,  3 Sep 2023 22:12:57 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3844pvkw022759;
-        Mon, 4 Sep 2023 05:12:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=AwpqZ/W8iw3FSJjd3QS+6Vz0gbo9KyXxE+gvDSiDrY8=;
- b=nZUcNduliXjejSvKOJS4n2KOwWSd9OUrddm4ATe+dJa7OeGc+5fkRpBdepuh6pIbpev9
- 68+TvRRrIp79J7mJ6mMlRKQqzTazFESbHT/OAJh29lOQfL94po/Jik2pBd7zXNDDkluD
- dl74TOU4+Uf1W5eNRiNx+V2p2EBxO5JEYYefUdGkshVQsJnCFcv60ONAzQebHC93G7C9
- lc+4pYk/WHbJuW0imEqor3agDlifR2Yyv2omJD2vOqsn2P1eThiZOcT+maiu5IZROwry
- ghtZqo+osP5p28F/kDSIGMCt+qZ0GrZAnRaxvlMMEoxUbdtmSYJIt88w/4NMKD/MHckc Dg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3suvcram4t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 Sep 2023 05:12:40 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3845CcWn020480
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 4 Sep 2023 05:12:38 GMT
-Received: from [10.201.200.63] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Sun, 3 Sep
- 2023 22:12:33 -0700
-Message-ID: <6593b9d1-2632-f6da-b0c7-162b31bdca55@quicinc.com>
-Date:   Mon, 4 Sep 2023 10:42:24 +0530
+        with ESMTP id S234125AbjIDFN1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Sep 2023 01:13:27 -0400
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9C82C180;
+        Sun,  3 Sep 2023 22:13:15 -0700 (PDT)
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 3845CSkX4017014, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 3845CSkX4017014
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 4 Sep 2023 13:12:29 +0800
+Received: from RTEXMBS02.realtek.com.tw (172.21.6.95) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Mon, 4 Sep 2023 13:12:55 +0800
+Received: from RTEXH36506.realtek.com.tw (172.21.6.27) by
+ RTEXMBS02.realtek.com.tw (172.21.6.95) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Mon, 4 Sep 2023 13:12:55 +0800
+Received: from localhost.localdomain (172.21.252.101) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server id
+ 15.1.2507.17 via Frontend Transport; Mon, 4 Sep 2023 13:12:55 +0800
+From:   Stanley Chang <stanley_chang@realtek.com>
+To:     MyungJoo Ham <myungjoo.ham@samsung.com>
+CC:     Stanley Chang <stanley_chang@realtek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 2/2] dt-bindings: usb: Add Realtek DHC RTD SoC Type-C
+Date:   Mon, 4 Sep 2023 13:12:48 +0800
+Message-ID: <20230904051253.23208-2-stanley_chang@realtek.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20230904051253.23208-1-stanley_chang@realtek.com>
+References: <20230904051253.23208-1-stanley_chang@realtek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH V3 2/4] phy: qcom-m31: Add compatible, phy init sequence
- for IPQ5018
-Content-Language: en-US
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC:     <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <vkoul@kernel.org>,
-        <kishon@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <gregkh@linuxfoundation.org>, <quic_srichara@quicinc.com>,
-        <quic_varada@quicinc.com>, <quic_wcheng@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>
-References: <20230901092645.20522-1-quic_nsekar@quicinc.com>
- <20230901092645.20522-3-quic_nsekar@quicinc.com>
- <CAA8EJppej++gbrWrRU9EFBntjzck4-9xbgS_sCPBfcxEofUo3Q@mail.gmail.com>
-From:   Nitheesh Sekar <quic_nsekar@quicinc.com>
-In-Reply-To: <CAA8EJppej++gbrWrRU9EFBntjzck4-9xbgS_sCPBfcxEofUo3Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: fzLlHxhe568XBH9bgIi7f3DpMcdkZvAq
-X-Proofpoint-ORIG-GUID: fzLlHxhe568XBH9bgIi7f3DpMcdkZvAq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-04_02,2023-08-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 malwarescore=0
- priorityscore=1501 mlxlogscore=967 impostorscore=0 suspectscore=0
- lowpriorityscore=0 mlxscore=0 spamscore=0 clxscore=1015 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309040045
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-KSE-ServerInfo: RTEXMBS02.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Document the device-tree bindings for Realtek SoCs Type-C.
+Realtek DHC (digital home center) RTD SoCs support a Type-C module.
 
-On 9/2/2023 3:20 AM, Dmitry Baryshkov wrote:
-> On Fri, 1 Sept 2023 at 12:27, Nitheesh Sekar <quic_nsekar@quicinc.com> wrote:
->> Add phy init sequence and compatible string for IPQ5018
->> chipset.
->>
->> Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
->> ---
->> V3:
->>          Dropped 0 delay inits.
->>          Added static const type for m31_ipq5018_regs.
->> V2:
->>          Updated the commit message.
->> ---
->>   drivers/phy/qualcomm/phy-qcom-m31.c | 49 +++++++++++++++++++++++++++++
->>   1 file changed, 49 insertions(+)
->>
->> diff --git a/drivers/phy/qualcomm/phy-qcom-m31.c b/drivers/phy/qualcomm/phy-qcom-m31.c
->> index ed08072ca032..ceee38695d7d 100644
->> --- a/drivers/phy/qualcomm/phy-qcom-m31.c
->> +++ b/drivers/phy/qualcomm/phy-qcom-m31.c
->> @@ -82,6 +82,48 @@ struct m31_priv_data {
->>          unsigned int                    nregs;
->>   };
->>
->> +static const struct m31_phy_regs m31_ipq5018_regs[] = {
->> +       {
-> C99 initializers, please?
-Sorry. Missed it. Will update and post a new patchset.
->
->> +               USB_PHY_CFG0,
->> +               UTMI_PHY_OVERRIDE_EN
->> +       },
->> +       {
->> +               USB_PHY_UTMI_CTRL5,
->> +               POR_EN,
->> +               15
->> +       },
->> +       {
->> +               USB_PHY_FSEL_SEL,
->> +               FREQ_SEL
->> +       },
->> +       {
->> +               USB_PHY_HS_PHY_CTRL_COMMON0,
->> +               COMMONONN | FSEL | RETENABLEN
->> +       },
->> +       {
->> +               USB_PHY_REFCLK_CTRL,
->> +               CLKCORE
->> +       },
->> +       {
->> +               USB_PHY_UTMI_CTRL5,
->> +               POR_EN
->> +       },
->> +       {
->> +               USB_PHY_HS_PHY_CTRL2,
->> +               USB2_SUSPEND_N_SEL | USB2_SUSPEND_N | USB2_UTMI_CLK_EN
->> +       },
->> +       {
->> +               USB_PHY_UTMI_CTRL5
->> +       },
->> +       {
->> +               USB_PHY_HS_PHY_CTRL2,
->> +               USB2_SUSPEND_N | USB2_UTMI_CLK_EN
->> +       },
->> +       {
->> +               USB_PHY_CFG0
-> What is the value written? While it didn't make sense to write 0
-> delays, it is sensible to write 0 register values here.
-Value to be written is 0. I will update this.
->
->> +       },
->> +};
->> +
->>   struct m31_phy_regs m31_ipq5332_regs[] = {
->>          {
->>                  USB_PHY_CFG0,
->> @@ -268,6 +310,12 @@ static int m31usb_phy_probe(struct platform_device *pdev)
->>          return PTR_ERR_OR_ZERO(phy_provider);
->>   }
->>
->> +static const struct m31_priv_data m31_ipq5018_data = {
->> +       .ulpi_mode = false,
->> +       .regs = m31_ipq5018_regs,
->> +       .nregs = ARRAY_SIZE(m31_ipq5018_regs),
->> +};
->> +
->>   static const struct m31_priv_data m31_ipq5332_data = {
->>          .ulpi_mode = false,
->>          .regs = m31_ipq5332_regs,
->> @@ -275,6 +323,7 @@ static const struct m31_priv_data m31_ipq5332_data = {
->>   };
->>
->>   static const struct of_device_id m31usb_phy_id_table[] = {
->> +       { .compatible = "qcom,ipq5018-usb-hsphy", .data = &m31_ipq5018_data },
->>          { .compatible = "qcom,ipq5332-usb-hsphy", .data = &m31_ipq5332_data },
->>          { },
->>   };
->> --
->> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
->> a Linux Foundation Collaborative Project
->>
->
+Signed-off-by: Stanley Chang <stanley_chang@realtek.com>
+---
+v2 to v3 change:
+  changed the commit message (extcon to usb)
+v1 to v2 change:
+  1. moved this binding from extcon to usb.
+  2. removed the property of pinctrl.
+  3. revised the properties of nvmem and gpio.
+  4. added connector node.
+  5. revised the example.
+---
+ .../bindings/usb/realtek,rtd-type-c.yaml      | 82 +++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/realtek,rtd-type-c.yaml
+
+diff --git a/Documentation/devicetree/bindings/usb/realtek,rtd-type-c.yaml b/Documentation/devicetree/bindings/usb/realtek,rtd-type-c.yaml
+new file mode 100644
+index 000000000000..6142b0b5b534
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/realtek,rtd-type-c.yaml
+@@ -0,0 +1,82 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright 2023 Realtek Semiconductor Corporation
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/realtek,rtd-type-c.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Realtek DHC RTD SoCs USB Type-C Connector detection
++
++maintainers:
++  - Stanley Chang <stanley_chang@realtek.com>
++
++description:
++  Realtek digital home center (DHC) RTD series SoCs include a type c module.
++  This module is able to detect the state of type c connector.
++
++properties:
++  compatible:
++    enum:
++      - realtek,rtd1295-type-c
++      - realtek,rtd1312c-type-c
++      - realtek,rtd1315e-type-c
++      - realtek,rtd1319-type-c
++      - realtek,rtd1319d-type-c
++      - realtek,rtd1395-type-c
++      - realtek,rtd1619-type-c
++      - realtek,rtd1619b-type-c
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  nvmem-cell-names:
++    items:
++      - const: usb-cal
++
++  nvmem-cells:
++    maxItems: 1
++    description:
++      The phandle to nvmem cell that contains the trimming data.
++      The type c parameter trimming data specified via efuse.
++      If unspecified, default value is used.
++
++  realtek,rd-ctrl-gpios:
++    description: The gpio node to control external Rd on board.
++    maxItems: 1
++
++  connector:
++    $ref: /schemas/connector/usb-connector.yaml#
++    description: Properties for usb c connector.
++    type: object
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    type-c@7220 {
++        compatible = "realtek,rtd1619b-type-c";
++        reg = <0x7220 0x20>;
++        interrupts = <0 60 IRQ_TYPE_LEVEL_HIGH>;
++
++        pinctrl-names = "default";
++        pinctrl-0 = <&usb_cc1_pins>, <&usb_cc2_pins>;
++        nvmem-cells = <&otp_usb_cal>;
++        nvmem-cell-names = "usb-cal";
++
++        connector {
++            compatible = "usb-c-connector";
++            label = "USB-C";
++            data-role = "dual";
++            power-role = "dual";
++        };
++    };
+-- 
+2.34.1
+
