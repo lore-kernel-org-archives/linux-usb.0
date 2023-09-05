@@ -2,93 +2,99 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6462DC83F2C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5993CA0FFA
 	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:02:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235209AbjIEQB6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:01:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38710 "EHLO
+        id S232844AbjIEQCC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:02:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343910AbjIEC53 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Sep 2023 22:57:29 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A7FCC7;
-        Mon,  4 Sep 2023 19:57:25 -0700 (PDT)
-Received: from dggpemm500012.china.huawei.com (unknown [172.30.72.56])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RfqpP119MzMl5y;
-        Tue,  5 Sep 2023 10:54:05 +0800 (CST)
-Received: from localhost.localdomain (10.50.163.32) by
- dggpemm500012.china.huawei.com (7.185.36.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Tue, 5 Sep 2023 10:57:23 +0800
-From:   Xingui Yang <yangxingui@huawei.com>
-To:     <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
-        <john.g.garry@oracle.com>, <damien.lemoal@opensource.wdc.com>
-CC:     <andriy.shevchenko@linux.intel.com>, <akpm@linux-foundation.org>,
-        <viro@zeniv.linux.org.uk>, <himanshu.madhani@cavium.com>,
-        <felipe.balbi@linux.intel.com>, <gregkh@linuxfoundation.org>,
-        <uma.shankar@intel.com>, <anshuman.gupta@intel.com>,
-        <animesh.manna@intel.com>, <linux-usb@vger.kernel.org>,
-        <linux-scsi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linuxarm@huawei.com>, <yangxingui@huawei.com>,
-        <prime.zeng@hisilicon.com>, <kangfenglong@huawei.com>,
-        <chenxiang66@hisilicon.com>
-Subject: [PATCH v6 1/3] seq_file: Add helper macro to define attribute for rw file
-Date:   Tue, 5 Sep 2023 02:48:33 +0000
-Message-ID: <20230905024835.43219-2-yangxingui@huawei.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230905024835.43219-1-yangxingui@huawei.com>
-References: <20230905024835.43219-1-yangxingui@huawei.com>
+        with ESMTP id S1353596AbjIEGuB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 02:50:01 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07C5D1B4
+        for <linux-usb@vger.kernel.org>; Mon,  4 Sep 2023 23:49:58 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-99bdcade7fbso301334666b.1
+        for <linux-usb@vger.kernel.org>; Mon, 04 Sep 2023 23:49:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693896596; x=1694501396; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rTMu+0u1+GO0RL61mvq2i6DERDDrEIJ4goYljDbYbAQ=;
+        b=zAG5Rkgar3WTia2u+0QYNX+A9XVEpGQf6It0zcKEc8nyfeOgvZI/vOIW21pLvMNHrT
+         Aw0OIBAEOZpOXgRP13kpct/KnnfGOiX0bWf8Jpkn+WCs3nLC82MIZS7kuuJJzDhqYMTd
+         Dlfl1t4iOZgrvGsn1TGoTMwnM/fIj1CJrGLDEoTSrHvZ1/Z2CYIoww4eiG+0XCq1q+YS
+         PZBQl06Qmha25vFe+dHjzfCsAz9g2n8cXObyHD3ZwXP5o+JQaMKdFTB6jiiu1+Vpf2mx
+         pmnPw2fS1TxAZGwB5FBOHGAFK7Wk22wrIWR5CUowIBDaRAQ498tQc8wdCDlzle71dKNN
+         kI0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693896596; x=1694501396;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rTMu+0u1+GO0RL61mvq2i6DERDDrEIJ4goYljDbYbAQ=;
+        b=gvSwgbwjiIkfD4DYft9B8qC2oHSBiyLDrZkDYgai01xsfwgwoDn9I/sGBU8zWVa/gl
+         bvwljhaYwVWXSqUOkCuSOwdcREWxHsSF27ZAxuXIa5VDD5STLkIyxKOSbpxIOPzPZPRx
+         u9taCkDzFWOUg3gwsOrQipUjh2bXk8/umG+5lulV5DUSdlAiG+Gpxx6cxjJNPHqI3tRV
+         Ox6F93gPYhPB10FK68v06UI1rtNeGOlkHhlks9nUziFm7UmBdhT7rJ/vWpa6gPJFFOKm
+         frqS8S8osufCvAcySZr89MiL5OKChIfL/fjnlazU7lYyOklQiqyrrEcvxFvY/Uz/6MNj
+         M7Xw==
+X-Gm-Message-State: AOJu0YxMICYVOmu46rc88wKvJy5IitpdJqdmoFKiTKaCOmXpvtRH23yO
+        KwNKKAlvsQZtyuejEDKs3U4w5g==
+X-Google-Smtp-Source: AGHT+IGijYOlHUHa+7vPd8yx3B9LIbKbDQ/ea2dKVeTDc3FfNuD1fkI+KN/sbWU2UGjgA6cTDy6BZA==
+X-Received: by 2002:a17:906:209c:b0:9a6:1811:e4eb with SMTP id 28-20020a170906209c00b009a61811e4ebmr8481802ejq.38.1693896596631;
+        Mon, 04 Sep 2023 23:49:56 -0700 (PDT)
+Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
+        by smtp.gmail.com with ESMTPSA id c25-20020a170906529900b0099b42c90830sm7156243ejm.36.2023.09.04.23.49.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Sep 2023 23:49:56 -0700 (PDT)
+Message-ID: <96c76c55-d5d4-e4ef-e7c3-ee35b2d7ad78@linaro.org>
+Date:   Tue, 5 Sep 2023 08:49:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.50.163.32]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500012.china.huawei.com (7.185.36.89)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 3/5] dt-bindings: usb: dwc3: Add missing SDX65 compatible
+Content-Language: en-US
+To:     Rohit Agarwal <quic_rohiagar@quicinc.com>, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org, vkoul@kernel.org,
+        kishon@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        gregkh@linuxfoundation.org, abel.vesa@linaro.org,
+        quic_wcheng@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, kernel@quicinc.com
+References: <1693889028-6485-1-git-send-email-quic_rohiagar@quicinc.com>
+ <1693889028-6485-4-git-send-email-quic_rohiagar@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1693889028-6485-4-git-send-email-quic_rohiagar@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-We already own DEFINE_SHOW_ATTRIBUTE() helper macro for defining attribute
-for read-only file, but many of drivers want a helper macro for read-write
-file too.
+On 05/09/2023 06:43, Rohit Agarwal wrote:
+> Add missing SDX65 compatible for specifying the clocks used.
+> 
+> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+> ---
+>  Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+> index 5c13229..fa51f50 100644
+> --- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+> +++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+> @@ -186,6 +186,7 @@ allOf:
+>                - qcom,sdm670-dwc3
+>                - qcom,sdm845-dwc3
+>                - qcom,sdx55-dwc3
+> +              - qcom,sdx65-dwc3
 
-So we add DEFINE_SHOW_STORE_ATTRIBUTE() helper to reduce duplicated code.
+That's not a complete change. Update the rest of the file.
 
-Signed-off-by: Luo Jiaxing <luojiaxing@huawei.com>
-Co-developed-by: Xingui Yang <yangxingui@huawei.com>
-Signed-off-by: Xingui Yang <yangxingui@huawei.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- include/linux/seq_file.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/include/linux/seq_file.h b/include/linux/seq_file.h
-index bd023dd38ae6..e400007e410c 100644
---- a/include/linux/seq_file.h
-+++ b/include/linux/seq_file.h
-@@ -207,6 +207,21 @@ static const struct file_operations __name ## _fops = {			\
- 	.release	= single_release,				\
- }
- 
-+#define DEFINE_SHOW_STORE_ATTRIBUTE(__name)				\
-+static int __name ## _open(struct inode *inode, struct file *file)	\
-+{									\
-+	return single_open(file, __name ## _show, inode->i_private);	\
-+}									\
-+									\
-+static const struct file_operations __name ## _fops = {			\
-+	.owner		= THIS_MODULE,					\
-+	.open		= __name ## _open,				\
-+	.read		= seq_read,					\
-+	.write		= __name ## _write,				\
-+	.llseek		= seq_lseek,					\
-+	.release	= single_release,				\
-+}
-+
- #define DEFINE_PROC_SHOW_ATTRIBUTE(__name)				\
- static int __name ## _open(struct inode *inode, struct file *file)	\
- {									\
--- 
-2.17.1
+Best regards,
+Krzysztof
 
