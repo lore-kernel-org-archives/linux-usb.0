@@ -2,88 +2,201 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 512B0CA0FF3
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:03:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 141CFC83F2C
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:04:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234408AbjIEQA5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:00:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47130 "EHLO
+        id S235389AbjIEQCM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:02:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354622AbjIEM6r (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 08:58:47 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 23E5CE9;
-        Tue,  5 Sep 2023 05:58:40 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 385CvqzO7024338, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 385CvqzO7024338
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 5 Sep 2023 20:57:52 +0800
-Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Tue, 5 Sep 2023 20:58:19 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 5 Sep 2023 20:58:18 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::7445:d92b:d0b3:f79c]) by
- RTEXMBS04.realtek.com.tw ([fe80::7445:d92b:d0b3:f79c%5]) with mapi id
- 15.01.2375.007; Tue, 5 Sep 2023 20:58:18 +0800
-From:   Hayes Wang <hayeswang@realtek.com>
-To:     Paolo Abeni <pabeni@redhat.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>
-CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        nic_swsd <nic_swsd@realtek.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH net] r8152: avoid the driver drops a lot of packets
-Thread-Topic: [PATCH net] r8152: avoid the driver drops a lot of packets
-Thread-Index: AQHZ3ynCVnk5WSMfQUWpVA7+s1E7KrALfhaAgACIBVD//4uUAIAAmlPQ
-Date:   Tue, 5 Sep 2023 12:58:18 +0000
-Message-ID: <d46e648ffb2846bea6d7066673135ca0@realtek.com>
-References: <20230904121706.7132-420-nic_swsd@realtek.com>
-         <32c71d3245127b4aa02b8abd75edcb8f5767e966.camel@redhat.com>
-         <48d03f3134bf49c0b04b34464cd7487b@realtek.com>
- <223569649ad4ded66786fcc424156b2115b8ccd8.camel@redhat.com>
-In-Reply-To: <223569649ad4ded66786fcc424156b2115b8ccd8.camel@redhat.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.22.228.6]
-x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+        with ESMTP id S1348572AbjIEEoK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 00:44:10 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67D731B9;
+        Mon,  4 Sep 2023 21:44:07 -0700 (PDT)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3854OJee026425;
+        Tue, 5 Sep 2023 04:43:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=yVvaRKqMJlk3UqpP5cZkj/ICa0vGp4lU78SSR0qx4m0=;
+ b=BShcjV7/woXTvChHx25U4Z+UIDhv6f2y6/s0Dm8K4MqCgrVWWMifuvXMr9QXp1a2O2KL
+ 7vQnBmLXDyn0Vq8e6ZD+sz8dhB9LAnm08XqLlPU+9X/14yoUPb9keP0Htv/0wpHv/BnF
+ yZO7Z47E8uCQv+2QI/eT/u5J9GkOvP1aYctPkmPDZ0WIhc+u1BlsbVYsRq3oGHp+uHBj
+ 8oL+tDTIYuKSOplNEX0dpY9Ci2oHJ84kGiarjd0ZJ0b6bOmWcShv2ZZQ9O8QYelvqWhR
+ DI51y8Kr67ld7mAvAo97R9dLFN23rGDyc9eFpml3akr4KDhrYTSx1P/40rEHTvTIwzmQ hg== 
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3swfae1g7y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 05 Sep 2023 04:43:56 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3854hqu0013110;
+        Tue, 5 Sep 2023 04:43:52 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3sux4kav1g-1;
+        Tue, 05 Sep 2023 04:43:52 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3854hqnT013104;
+        Tue, 5 Sep 2023 04:43:52 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-rohiagar-hyd.qualcomm.com [10.213.106.138])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3854hpCl013099;
+        Tue, 05 Sep 2023 04:43:52 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
+        id 69BC31D04; Tue,  5 Sep 2023 10:13:51 +0530 (+0530)
+From:   Rohit Agarwal <quic_rohiagar@quicinc.com>
+To:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        vkoul@kernel.org, kishon@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        gregkh@linuxfoundation.org, abel.vesa@linaro.org,
+        quic_wcheng@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, kernel@quicinc.com,
+        Rohit Agarwal <quic_rohiagar@quicinc.com>
+Subject: [PATCH 2/5] dt-bindings: phy: Add qcom,sdx75-qmp-usb3-uni schema file
+Date:   Tue,  5 Sep 2023 10:13:45 +0530
+Message-Id: <1693889028-6485-3-git-send-email-quic_rohiagar@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1693889028-6485-1-git-send-email-quic_rohiagar@quicinc.com>
+References: <1693889028-6485-1-git-send-email-quic_rohiagar@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: EPJMKl6kyAFe1sOYpP8Y0jxTOP-Pr_Tl
+X-Proofpoint-ORIG-GUID: EPJMKl6kyAFe1sOYpP8Y0jxTOP-Pr_Tl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-05_03,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ phishscore=0 priorityscore=1501 mlxlogscore=999 suspectscore=0
+ lowpriorityscore=0 clxscore=1015 impostorscore=0 mlxscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309050041
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-UGFvbG8gQWJlbmkgPHBhYmVuaUByZWRoYXQuY29tPg0KPiBTZW50OiBUdWVzZGF5LCBTZXB0ZW1i
-ZXIgNSwgMjAyMyA3OjIxIFBNDQpbLi4uXQ0KPiBJJ20gc29ycnksIEkgaGF2ZSBhIHZlcnkgc3Vw
-ZXJmaWNpYWwga25vd2xlZGdlIG9mIHRoZSBVU0IgbGF5ZXIsIGJ1dCBpdA0KPiBsb29rcyBsaWtl
-IHRoYXQgd2hlbiBzdWNoIGNvbmRpdGlvbiBpcyByZWFjaGVkLCBpbiB0aGUgd29yc3QgY29uZGl0
-aW9uDQo+IHRoZXJlIGNvdWxkIGJlIHVwIHRvIHVyYnMgaW4gZmxpZ2h0LiBBRkFJQ1MgZWFjaCBv
-ZiB0aGVtIGNhcnJpZXMgYSAxNksNCj4gYnVmZmVyLCBjYW4gYmUgdXAgdG8gMTAgc3RhbmRhcmQt
-bXR1IHBhY2tldHMgLSBvciBtdWNoIG1vcmUgc21hbGwgb25lcy4NCj4gDQo+IFNldHRpbmcgYW4g
-dXBwZXIgbGltaXRzIHRvIHRoZSByeF9xdWV1ZSBzdGlsbCBsb29rcyBsaWtlIGEgcmVhc29uYWJs
-ZQ0KPiBzYWZlZ3VhcmQuDQoNCkkgdGhpbmsgaXQgaXMgdmVyeSBoYXJkIHRvIHF1ZXVlIG1vcmUg
-dGhhbiAxMDAwIHBhY2tldHMuIFRoZSBOQVBJIGNvbnRpbnVlcw0KY29uc3VtaW5nIHRoZSBxdWV1
-ZWQgcGFja2V0cy4gQW5kLCB0aGUgaGFyZHdhcmUgd291bGRuJ3QgY29tcGxldGUgYWxsDQp1cmJz
-IGF0IG9uZSB0aW1lLiBIb3dldmVyLCBJIHdvdWxkIGFkZCBXQVJOX09OX09OQ0UoKSB0byBvYnNl
-cnZlIGlmIA0KYW55IGV4Y2VwdGlvbiB3b3VsZCBvY2N1ci4NCg0KPiA+IEJlc2lkZXMsIGlmIHRo
-ZSBmbG93IGNvbnRyb2wgaXMgZGlzYWJsZWQsIHRoZSBwYWNrZXRzIG1heSBiZSBkcm9wcGVkIGJ5
-DQo+ID4gdGhlIGhhcmR3YXJlIHdoZW4gdGhlIEZJRk8gb2YgdGhlIGRldmljZSBpcyBmdWxsLCBh
-ZnRlciB0aGUgZHJpdmVyIHN0b3BzDQo+ID4gc3VibWl0dGluZyByeC4NCj4gDQo+IElmIHRoZSBp
-bmNvbWluZyByYXRlIGV4Y2VlZHMgdGhlIEgvVyBwcm9jZXNzaW5nIGNhcGFjaXR5LCBwYWNrZXRz
-IGFyZQ0KPiBkcm9wcGVkOiB0aGF0IGlzIGV4cGVjdGVkIGFuZCB1bmF2b2lkYWJsZS4NCj4gDQo+
-IFBvc3NpYmx5IGV4cG9zaW5nIHRoZSByb290IGNhdXNlIGZvciBzdWNoIGRyb3BzIHRvIHVzZXIg
-c3BhY2UgdmlhDQo+IGFwcHJvcHJpYXRlIHN0YXRzIHdvdWxkIGJlIHVzZWZ1bC4NCg0KVGhlIG51
-bWJlciBvZiBwYWNrZXQgd2hpY2ggdGhlIGRldmljZSBkcm9wcyBjb3VsZCBiZSBnb3QgdGhyb3Vn
-aA0KZXRodG9vbC4NCg0KQmVzdCBSZWdhcmRzLA0KSGF5ZXMNCg0KDQo=
+Add a dt-binding schema for SDX75 SoC.
+
+Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+---
+ .../bindings/phy/qcom,sdx75-qmp-usb3-uni-phy.yaml  | 106 +++++++++++++++++++++
+ 1 file changed, 106 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/phy/qcom,sdx75-qmp-usb3-uni-phy.yaml
+
+diff --git a/Documentation/devicetree/bindings/phy/qcom,sdx75-qmp-usb3-uni-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,sdx75-qmp-usb3-uni-phy.yaml
+new file mode 100644
+index 0000000..2ae0710
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/qcom,sdx75-qmp-usb3-uni-phy.yaml
+@@ -0,0 +1,106 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/qcom,sdx75-qmp-usb3-uni-phy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm QMP PHY controller (USB, SDX75)
++
++maintainers:
++  - Vinod Koul <vkoul@kernel.org>
++
++description:
++  The QMP PHY controller supports physical layer functionality for a number of
++  controllers on Qualcomm chipsets, such as, PCIe, UFS, and USB.
++
++properties:
++  compatible:
++    enum:
++      - qcom,sdx75-qmp-usb3-uni-phy
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 4
++
++  clock-names:
++    items:
++      - const: aux
++      - const: cfg_ahb
++      - const: ref
++      - const: pipe
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 2
++
++  reset-names:
++    items:
++      - const: phy
++      - const: common
++
++  vdda-phy-supply: true
++
++  vdda-pll-supply: true
++
++  "#clock-cells":
++    const: 0
++
++  clock-output-names:
++    maxItems: 1
++
++  "#phy-cells":
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - power-domains
++  - resets
++  - reset-names
++  - vdda-phy-supply
++  - vdda-pll-supply
++  - "#clock-cells"
++  - clock-output-names
++  - "#phy-cells"
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/qcom,gcc-sdx75.h>
++    #include <dt-bindings/clock/qcom,rpmh.h>
++
++    phy@ff6000 {
++      compatible = "qcom,sdx75-qmp-usb3-uni-phy";
++      reg = <0x0ff6000 0x2000>;
++
++      clocks = <&gcc GCC_USB3_PHY_AUX_CLK>,
++               <&gcc GCC_USB_PHY_CFG_AHB2PHY_CLK>,
++               <&gcc GCC_USB2_CLKREF_EN>,
++               <&gcc GCC_USB3_PHY_PIPE_CLK>;
++      clock-names = "aux",
++                    "cfg_ahb",
++                    "ref",
++                    "pipe";
++
++      power-domains = <&gcc GCC_USB3_PHY_GDSC>;
++
++      resets = <&gcc GCC_USB3PHY_PHY_BCR>,
++               <&gcc GCC_USB3_PHY_BCR>;
++      reset-names = "phy",
++                    "common";
++
++      vdda-phy-supply = <&vreg_l4b_0p88>;
++      vdda-pll-supply = <&vreg_l1b_1p2>;
++
++      #clock-cells = <0>;
++      clock-output-names = "usb3_uni_phy_pipe_clk_src";
++
++      #phy-cells = <0>;
++    };
+-- 
+2.7.4
+
