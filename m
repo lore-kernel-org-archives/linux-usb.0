@@ -2,100 +2,90 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ACE1CA0FFB
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:02:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67414CA0FF3
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:02:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235203AbjIEQBy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:01:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55908 "EHLO
+        id S235109AbjIEQBw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:01:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354277AbjIEKbC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 06:31:02 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F8C71AB;
-        Tue,  5 Sep 2023 03:30:58 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3859Et2L003539;
-        Tue, 5 Sep 2023 10:30:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=O8bqNDEzfpH4NqWhYgOAWCtFxsoIdnw/itMSNQBs1MA=;
- b=U2JtNMQ5rhOhWY0gIPrFTDtbBb2BtidO91HuZg3Mfsc1Jm6HZzYQGvJoar368pd+Eamq
- QkezLURMW6z8+5s7OydejY0MocFOU8A+FffkOfTsqyO4YhnM7e18KURbMhgOnxsPAtnm
- nQoZykbyjYoZkBna/QcaLD/TPT7CKqWiJ5gxYWuV/pbPekBhEQYPCPHIFFxF2oJiRHff
- 6MKLvNKm5rv8RtO6Esnk4cX2LcAm+x90h0CNeW+wBthVGt6lu6N5MJlU715h/PnUsm0j
- T/drzFTXGi5n09Hl9teRXtWHvBqhyZJ2Zcev2hl3StI7gIN8naiuG4QEqcKelS5LK1sa +g== 
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3swpr6h333-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 05 Sep 2023 10:30:44 +0000
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-        by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 385AUfSd018120;
-        Tue, 5 Sep 2023 10:30:41 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3sux4km16w-1;
-        Tue, 05 Sep 2023 10:30:41 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 385AUeYL018076;
-        Tue, 5 Sep 2023 10:30:41 GMT
-Received: from hu-sgudaval-hyd.qualcomm.com (hu-rohiagar-hyd.qualcomm.com [10.213.106.138])
-        by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 385AUeMn018101;
-        Tue, 05 Sep 2023 10:30:41 +0000
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
-        id 344F41D24; Tue,  5 Sep 2023 16:00:40 +0530 (+0530)
-From:   Rohit Agarwal <quic_rohiagar@quicinc.com>
-To:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        vkoul@kernel.org, kishon@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        gregkh@linuxfoundation.org, abel.vesa@linaro.org,
-        quic_wcheng@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, kernel@quicinc.com,
-        Rohit Agarwal <quic_rohiagar@quicinc.com>
-Subject: [PATCH v2 3/5] dt-bindings: usb: qcom,dwc3: Fix SDX65 clocks
-Date:   Tue,  5 Sep 2023 16:00:36 +0530
-Message-Id: <1693909838-6682-4-git-send-email-quic_rohiagar@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1693909838-6682-1-git-send-email-quic_rohiagar@quicinc.com>
-References: <1693909838-6682-1-git-send-email-quic_rohiagar@quicinc.com>
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 6HxTXBILnhRdRUf1wkKBBwYCM8dVakWF
-X-Proofpoint-GUID: 6HxTXBILnhRdRUf1wkKBBwYCM8dVakWF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-05_08,2023-08-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- impostorscore=0 mlxlogscore=564 clxscore=1015 adultscore=0
- priorityscore=1501 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2308100000 definitions=main-2309050093
+        with ESMTP id S1343917AbjIEC53 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Sep 2023 22:57:29 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C23BECC9;
+        Mon,  4 Sep 2023 19:57:25 -0700 (PDT)
+Received: from dggpemm500012.china.huawei.com (unknown [172.30.72.56])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RfqpP0YmVzMl5w;
+        Tue,  5 Sep 2023 10:54:05 +0800 (CST)
+Received: from localhost.localdomain (10.50.163.32) by
+ dggpemm500012.china.huawei.com (7.185.36.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.31; Tue, 5 Sep 2023 10:57:23 +0800
+From:   Xingui Yang <yangxingui@huawei.com>
+To:     <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
+        <john.g.garry@oracle.com>, <damien.lemoal@opensource.wdc.com>
+CC:     <andriy.shevchenko@linux.intel.com>, <akpm@linux-foundation.org>,
+        <viro@zeniv.linux.org.uk>, <himanshu.madhani@cavium.com>,
+        <felipe.balbi@linux.intel.com>, <gregkh@linuxfoundation.org>,
+        <uma.shankar@intel.com>, <anshuman.gupta@intel.com>,
+        <animesh.manna@intel.com>, <linux-usb@vger.kernel.org>,
+        <linux-scsi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linuxarm@huawei.com>, <yangxingui@huawei.com>,
+        <prime.zeng@hisilicon.com>, <kangfenglong@huawei.com>,
+        <chenxiang66@hisilicon.com>
+Subject: [PATCH v6 0/3] Add helper macro DEFINE_SHOW_STORE_ATTRIBUTE() at seq_file.c
+Date:   Tue, 5 Sep 2023 02:48:32 +0000
+Message-ID: <20230905024835.43219-1-yangxingui@huawei.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.50.163.32]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500012.china.huawei.com (7.185.36.89)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SDX65 has 5 clocks so mention in the bindings.
+We already own DEFINE_SHOW_ATTRIBUTE() helper macro for defining attribute
+for read-only file, but we found many of drivers also want a helper macro
+for read-write file too.
 
-Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
----
- Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 1 +
- 1 file changed, 1 insertion(+)
+So we add this helper macro to reduce duplicated code.
 
-diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-index 6759105..018117b 100644
---- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-@@ -180,6 +180,7 @@ allOf:
-               - qcom,sdm670-dwc3
-               - qcom,sdm845-dwc3
-               - qcom,sdx55-dwc3
-+              - qcom,sdx65-dwc3
-               - qcom,sm6350-dwc3
-     then:
-       properties:
+Changes from v5:
+- Undelete the unused macros in qla_dfs.c and rewrite them using reference
+  to the new macro on Andy's suggestion.
+- Adjust some descriptions in commit based on Andy's suggestion.
+
+Changes from v4:
+- Reduce the scope to scsi subsystem based on Andy's suggestion.
+- Remove unused macros in qla_dfs.c
+- Adjust some descriptions in commit.
+
+Changes from v3:
+- Add AI Viro's comment to v1->v2's revision description.
+- Fixed a spelling mistakes of "marco" to "macro".
+
+Changes from v2:
+- Fixed some spelling mistakes in commit.
+- Revision description are added for easy tracing.
+
+Changes from v1:
+- Rename DEFINE_STORE_ATTRIBUTE() to DEFINE_SHOW_STORE_ATTRIBUTE().
+- AI Viro points out that he doesn't like the definition of macros
+  like DEFINE_SHOW_ATTRIBUTE.
+
+Luo Jiaxing (3):
+  seq_file: Add helper macro to define attribute for rw file
+  scsi: hisi_sas: Use DEFINE_SHOW_STORE_ATTRIBUTE() helper for debugfs
+  scsi: qla2xxx: Use DEFINE_SHOW_STORE_ATTRIBUTE() helper for debugfs
+
+ drivers/scsi/hisi_sas/hisi_sas_v3_hw.c | 137 ++-----------------------
+ drivers/scsi/qla2xxx/qla_dfs.c         |  59 ++---------
+ include/linux/seq_file.h               |  15 +++
+ 3 files changed, 31 insertions(+), 180 deletions(-)
+
 -- 
-2.7.4
+2.17.1
 
