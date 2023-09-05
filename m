@@ -2,59 +2,60 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 737B3C83F2C
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:01:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A10CC83F2C
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:01:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232606AbjIEQBl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:01:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41472 "EHLO
+        id S235025AbjIEQBn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:01:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353624AbjIEGyW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 02:54:22 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC2741B4
-        for <linux-usb@vger.kernel.org>; Mon,  4 Sep 2023 23:54:18 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-99de884ad25so324579566b.3
-        for <linux-usb@vger.kernel.org>; Mon, 04 Sep 2023 23:54:18 -0700 (PDT)
+        with ESMTP id S1353702AbjIEHUq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 03:20:46 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC9CECCF
+        for <linux-usb@vger.kernel.org>; Tue,  5 Sep 2023 00:20:41 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-9a58dbd5daeso327846566b.2
+        for <linux-usb@vger.kernel.org>; Tue, 05 Sep 2023 00:20:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693896857; x=1694501657; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1693898440; x=1694503240; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=CnhlhLhE/Awy7OSGd1LKlGWZhliLjEnOAa8ccfaPRH4=;
-        b=BwFZjPsPIoA4J4JCdvGGGWdNQw9G4bMX5mJRvtHMlyB+XvcZKsbmNE5WS4oSklcOBe
-         1LVGixYBSvVroZpcYFZEDOu6TysKd4gSXgkM9LP5f0RCRbxYnO80y5bfO89nKTILkoHP
-         EtSZt8mjPTIMrllnoFzWWDC+umSQHRkG3+44A9scor8fdIFUzSKm/mhPQM4O5gIIUzut
-         XXBc+CyLx4dr+PY6cHFh9BkjCM+gsxpCAHsZtQkoYaY3E6Hs936Hs3P/7Hu+EA4Dg6Fc
-         WRMLphgw4KTeNw8hNCO55XTLCuyAXsr9IDv9LCBZhyYkAb+IhUALcQxaB0AbY+7ShEoa
-         DdCQ==
+        bh=LmUoOK0lN5gj+Il6SCFX8BT+dF5nWWi3v992EvHZxAo=;
+        b=P1i9qMJEczedLs01wLYVq8NI5mt3WQJIwNGWoizXi38CLzWPKIGMTbq5BYahV3/PCi
+         P21JLQHVWjy1Oex1EeH/rsJMODWZBgTxqNZzRwjuu7QnBlqAoDIwb55cnEjKidxeMqSX
+         t2jacKHeTSxsaNp4GoapHzEyw1mL4E9FME1lGpCm0jqN7DgTvJEbO2TKVfovV3TiYMdk
+         yKx8iKXagbKdqIvP737nyBse7Uy6sNIpRDSGV7td2jVlRh0gByNjFrKezXs7a8Un8SKE
+         cWseIC4ggV00c4Mm4RzGKsvf/YzfMIYih262Pof6TN5YbqxZlIGpSlGhlE39LAR2aNql
+         iOtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693896857; x=1694501657;
+        d=1e100.net; s=20221208; t=1693898440; x=1694503240;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CnhlhLhE/Awy7OSGd1LKlGWZhliLjEnOAa8ccfaPRH4=;
-        b=UqnMQFcCt+/TFY6YFPsKfdR5gmf2yoXFGnNGk2M++ISHdxSdc014RPggwMrjgehX55
-         0/vTf4IOLWnQjcuAfaepwz/H1EgDRHp46d/ez5plPaNkgNQW0dZpRctugu/Zq98veX7o
-         cJBjmyRtr37KfbS1LQIAuDVHm1F2bud61v/6U/M5Y5oJ/eJa3uLjwUnCTrX0rf1PY/3C
-         8+sOSbr7lxKUFphSz+0248BXC6Y+nYSyMEs1ptHalMee3LIVA133pcDS/jszG0L1ouEV
-         1DVRu74fITtEh+vrNIRIRmb/XueWyQSjzHQghbIVJqQCeDMB4X2rL7oXUhLKA7+ARiim
-         UW6g==
-X-Gm-Message-State: AOJu0YwDI7mkcF1A38gtAzuVy7sEPJXRr50BW5SD9MnbIwGKZTCtPIc9
-        csI1dXNgL9bhlWenp/4oaKAFng==
-X-Google-Smtp-Source: AGHT+IEnUt712GLa7l6H3ls8ICRUbtE/Y6r3iAIzhxkPkhXkmuW0uCxLL9ywUhnD4fUrSBpo+16v7w==
-X-Received: by 2002:a17:907:2cf1:b0:9a5:cb18:3b11 with SMTP id hz17-20020a1709072cf100b009a5cb183b11mr8093371ejc.17.1693896857246;
-        Mon, 04 Sep 2023 23:54:17 -0700 (PDT)
+        bh=LmUoOK0lN5gj+Il6SCFX8BT+dF5nWWi3v992EvHZxAo=;
+        b=Btl9xvOOkiMGwUpNj1K/7LwDwaR7kjz1lC/tZ0hZ0qKu4V8SHY4Py42rRUc5zU4Yub
+         46WXe5ib6Kx6atMVsKxtFGjWtnZUIwl0Rn0psjocOzvyc28xA2x+YvlyNHJe0260vY2b
+         eXoAdgB4FKPNAx4Ctf2UpWztFTXsFs+E9Ppw/SEKeGWZm/77tAZaNhAuDVzUHxY77tUL
+         X82MmE0PJ2JwLIDv9jZsRsPDwWKF1A4O2tSGkwOGQsRKIRmIWmoqdnut6jOT3Bxgo/Qo
+         xr9bKBR8oPuMFuO300iP01HnB2uEwX9oqBl+JS1a5mqV2zVwd9mdk7JIHhsHWcGF1yRQ
+         4jjQ==
+X-Gm-Message-State: AOJu0Yxep0s6NksL1viIaRClNkO6BTPZfj+NRtjdPYCiFjqpiuRD5xib
+        gL8+gaK6cdvpHhNq4WCLEnhhMA==
+X-Google-Smtp-Source: AGHT+IH6F3jOPjgAFKoncqqEKzF4um6HfdS5m64nKXUK90MIZJaWRctyovZeFwGPrb0l4SEs5mqa6g==
+X-Received: by 2002:a17:906:3101:b0:9a1:cd2e:212 with SMTP id 1-20020a170906310100b009a1cd2e0212mr9270422ejx.60.1693898440476;
+        Tue, 05 Sep 2023 00:20:40 -0700 (PDT)
 Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
-        by smtp.gmail.com with ESMTPSA id g24-20020a170906395800b00992e265495csm7161204eje.212.2023.09.04.23.54.15
+        by smtp.gmail.com with ESMTPSA id ox29-20020a170907101d00b00992ea405a79sm7187418ejb.166.2023.09.05.00.20.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Sep 2023 23:54:16 -0700 (PDT)
-Message-ID: <f348a896-93dc-8181-adfe-77ff73ae6c3a@linaro.org>
-Date:   Tue, 5 Sep 2023 08:54:15 +0200
+        Tue, 05 Sep 2023 00:20:40 -0700 (PDT)
+Message-ID: <4bd9e859-cbc1-6b8b-9c22-0a1745924475@linaro.org>
+Date:   Tue, 5 Sep 2023 09:20:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
-Subject: Re: [PATCH 4/5] dt-bindings: usb: dwc3: Add SDX75 compatible
+Subject: Re: [PATCH 2/5] dt-bindings: phy: Add qcom,sdx75-qmp-usb3-uni schema
+ file
 Content-Language: en-US
 To:     Rohit Agarwal <quic_rohiagar@quicinc.com>, agross@kernel.org,
         andersson@kernel.org, konrad.dybcio@linaro.org, vkoul@kernel.org,
@@ -66,22 +67,33 @@ Cc:     linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, kernel@quicinc.com
 References: <1693889028-6485-1-git-send-email-quic_rohiagar@quicinc.com>
- <1693889028-6485-5-git-send-email-quic_rohiagar@quicinc.com>
+ <1693889028-6485-3-git-send-email-quic_rohiagar@quicinc.com>
+ <0a2fcbc0-4b18-a54c-9f91-9710cc0bea1c@linaro.org>
+ <00bf888f-1501-70d6-eaf0-2592a36d1114@quicinc.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1693889028-6485-5-git-send-email-quic_rohiagar@quicinc.com>
+In-Reply-To: <00bf888f-1501-70d6-eaf0-2592a36d1114@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 05/09/2023 06:43, Rohit Agarwal wrote:
-> Document the SDX75 dwc3 compatible.
+On 05/09/2023 09:08, Rohit Agarwal wrote:
 > 
-> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
-> ---
+> On 9/5/2023 12:19 PM, Krzysztof Kozlowski wrote:
+>> On 05/09/2023 06:43, Rohit Agarwal wrote:
+>>> Add a dt-binding schema for SDX75 SoC.
+>>>
+>> It's the same as qcom,ipq9574-qmp-usb3-phy.
+> Seems like this change is not in the tree. Will rebase my change on top 
+> of it and mention the dependency.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+??? We do not talk about maintainer tree nor next. This was merged in
+mainline. You work on some old tree.
+
+Sorry, rebase and recheck all your patches on latest next. This includes
+running smatch, sparse and coccinelle. Do not develop on anything older
+than maintainer tree or next.
 
 Best regards,
 Krzysztof
