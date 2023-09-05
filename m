@@ -2,80 +2,101 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9514CA0FF7
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 18:46:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EE33C83F3E
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 19:19:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232792AbjIESqf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 14:46:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58358 "EHLO
+        id S242344AbjIETTu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 15:19:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232489AbjIESqf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 14:46:35 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1109BDD
-        for <linux-usb@vger.kernel.org>; Tue,  5 Sep 2023 11:46:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id DC511CE0FD9
-        for <linux-usb@vger.kernel.org>; Tue,  5 Sep 2023 17:48:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2A31BC433C7
-        for <linux-usb@vger.kernel.org>; Tue,  5 Sep 2023 17:48:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693936081;
-        bh=pyTsi7egmbLs1q086YhW2AOKasBANlgjatTf4BbBj2M=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=YHfUjq4flnQwO85Q9HOr/rFrHl9YR1OXDd6bzCAIccQRAQKKQNiG8+2VxoTROOsMS
-         lFG5Fc7QmHO5+14/FbdA2Xq0zPGGw9nKhdhwC1pauYo4Awo3CvNL+GPdEv3Ks5qPjw
-         v7q3T1L4a8XJK1uJQzuPMLzM1hFO0eMZaij22m+zJ4w0Uw5vt3CikO9Y+kVNCx0jEV
-         Mg/Hy8moFujR66Habw+YVmpdpT2Hj0BfV8dyCe2X11+7AKL4+2jYYHm6UhADhpVeEX
-         1jmLUTpb2LGgrBdnXbhx868GTPFyPBhr++yHI2s48AhWw10cSeN9NseW50sEAi9qGI
-         SgsMpw4EGiI4A==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 15616C4332E; Tue,  5 Sep 2023 17:48:01 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 217862] [BUG] Alauda driver causes oops when inserted with card
- in with transfer buffer is on stack, throws errors if card is inserted
- afterwards.
-Date:   Tue, 05 Sep 2023 17:48:00 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pawlick3r@proton.me
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-217862-208809-IMrxNAi3DE@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217862-208809@https.bugzilla.kernel.org/>
-References: <bug-217862-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        with ESMTP id S242732AbjIETTo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 15:19:44 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E2DBCF6;
+        Tue,  5 Sep 2023 12:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693941563; x=1725477563;
+  h=message-id:date:mime-version:subject:from:to:references:
+   in-reply-to;
+  bh=eCDMOyICFyszfGdAVFtDi08TZeaXnO9zo414HDlPeHY=;
+  b=fX/CNG7pauoaY1TnYUvxfDIENPuX7RJ+ul+BKSyy8ng65b3sr422y8g2
+   64O/P3Bw90MNz+9dJpikc7gJga2QZUepAUDi2Xacib6G6RkqN+r1qN8aC
+   YNgqVYMUsj7olcD2FebKPdL6mbxATgk/IhGqpcUzLMmQnychztaD1Oq8p
+   /fwe3Qx32E9el2lNTYw0aC7bgEhSx7fUcKI6DCeBrePxngz9lwjtVQOYY
+   AreGCBVav7HOdT7k99DWwjkR56sHzH+x787nQpJP8VRS2IQ6bqq/YqTxm
+   nOU7Birjpg0oStJbguXOTX85ZXa0zszQaSDTWPZwbFKXe9ZGK1QSQTd1N
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="376801812"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
+   d="scan'208";a="376801812"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 12:16:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="806718995"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
+   d="scan'208";a="806718995"
+Received: from gedouard-mobl1.amr.corp.intel.com (HELO [10.212.174.92]) ([10.212.174.92])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 12:16:36 -0700
+Content-Type: multipart/mixed; boundary="------------Ra3002NBvylt7RDwgJaw62gw"
+Message-ID: <911a3e8f-7adf-6089-6651-1f847e4edce6@intel.com>
+Date:   Tue, 5 Sep 2023 12:16:35 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: ucsi debugfs oops (current Linus pre-6.6-rc1)
+From:   Dave Hansen <dave.hansen@intel.com>
+To:     LKML <linux-kernel@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Saranya Gopal <saranya.gopal@intel.com>,
+        Rajaram Regupathy <rajaram.regupathy@intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Wayne Chang <waynec@nvidia.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        linux-usb@vger.kernel.org
+References: <700df3c4-2f6c-85f9-6c61-065bc5b2db3a@intel.com>
+Content-Language: en-US
+In-Reply-To: <700df3c4-2f6c-85f9-6c61-065bc5b2db3a@intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217862
+This is a multi-part message in MIME format.
+--------------Ra3002NBvylt7RDwgJaw62gw
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---- Comment #10 from pawlick3r@proton.me ---
-Created attachment 305045
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D305045&action=3Dedit
-usbmon output during oops
+On 9/5/23 12:10, Dave Hansen wrote:
+> I'm having some problems booting Linus's current tree.  It seems to have
+> happened in some content between commit 3f86ed6ec0b3 and df0383ffad.
+> 
+> I'm suspecting this commit:
+> 
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df0383ffad64dc09954a60873c1e202b47f08d90
 
---=20
-You may reply to this email to add a comment.
+The attached patch works around the problem for me and at least lets me
+get booting again.  I do see this in dmesg (from my patch):
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+[    7.818203] no ucsi->debugfs
+
+--------------Ra3002NBvylt7RDwgJaw62gw
+Content-Type: text/x-patch; charset=UTF-8; name="sillydebug.patch"
+Content-Disposition: attachment; filename="sillydebug.patch"
+Content-Transfer-Encoding: base64
+
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL3R5cGVjL3Vjc2kvZGVidWdmcy5jIGIvZHJpdmVy
+cy91c2IvdHlwZWMvdWNzaS9kZWJ1Z2ZzLmMKaW5kZXggMGM3YmY4OGQ0YTdmLi5mOTlkODQx
+NjVmM2UgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL3R5cGVjL3Vjc2kvZGVidWdmcy5jCisr
+KyBiL2RyaXZlcnMvdXNiL3R5cGVjL3Vjc2kvZGVidWdmcy5jCkBAIC04NCw2ICs4NCwxNCBA
+QCB2b2lkIHVjc2lfZGVidWdmc19yZWdpc3RlcihzdHJ1Y3QgdWNzaSAqdWNzaSkKIAogdm9p
+ZCB1Y3NpX2RlYnVnZnNfdW5yZWdpc3RlcihzdHJ1Y3QgdWNzaSAqdWNzaSkKIHsKKwlpZiAo
+IXVjc2kpIHsKKwkJcHJpbnRrKCJubyB1Y3NpIik7CisJCXJldHVybjsKKwl9CisJaWYgKCF1
+Y3NpLT5kZWJ1Z2ZzKSB7CisJCXByaW50aygibm8gdWNzaS0+ZGVidWdmcyIpOworCQlyZXR1
+cm47CisJfQogCWRlYnVnZnNfcmVtb3ZlX3JlY3Vyc2l2ZSh1Y3NpLT5kZWJ1Z2ZzLT5kZW50
+cnkpOwogCWtmcmVlKHVjc2ktPmRlYnVnZnMpOwogfQo=
+
+--------------Ra3002NBvylt7RDwgJaw62gw--
