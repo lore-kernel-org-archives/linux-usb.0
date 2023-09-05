@@ -2,86 +2,107 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 557B7C83F2C
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:02:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A2B7CA0FF3
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:02:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235878AbjIEQCh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:02:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50696 "EHLO
+        id S235974AbjIEQCo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:02:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353591AbjIEGtZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 02:49:25 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA3D1B4
-        for <linux-usb@vger.kernel.org>; Mon,  4 Sep 2023 23:49:22 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-977e0fbd742so300150566b.2
-        for <linux-usb@vger.kernel.org>; Mon, 04 Sep 2023 23:49:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693896560; x=1694501360; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VhpzS59cETDVJJl58LmIfvoLI5Ek49A+bTArNaUplrk=;
-        b=tWevKYi02/WON0f9mhhhreH5P0nmSMFBU62Axq00HvBtXtj34KRIPCp5Dh7P157hlZ
-         ou/AM8vyJHJeLJG1s7fcFDdKgGhjgA9jNftjIrk/Ws7C1xI7S+HPcpT+lwowahqpyF/A
-         XBl93/GoHc8k+Vbzezqi9jWpg9xdbb7kiG8MxVpxwzg6EO/CaAeVfTJAscAatsgK0T1n
-         9H6hkrOrrog5HnG4rskM0T6vtAthmQ1a4sZTU2c+r27msG1EGSwKFLpxDQS3Hp0a5eHG
-         ZxJYgDpzAjzwHgW0a+KUReK5iIhKFv/SRjr7ffRDbaQpOout0eUaB6Z6k8QKnpsaTBGA
-         Tnsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693896560; x=1694501360;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VhpzS59cETDVJJl58LmIfvoLI5Ek49A+bTArNaUplrk=;
-        b=j4+7zlJX6AcB2VSN7MVldyULH90h1BNweZPN3PNi9wb9r9k6jA4NKH1qT7qxyeLrGS
-         2YWafoKhsjJ/AHoYSJGOzVnqbCUohyk1DswD4H11dB47aVlQnGXiK6ObyEewJGBw3nxZ
-         PYtCzKXYD0tguSdXC3JsmL3syZ9VBSW0bFsuKwfxwmh70ve9l8laYhzzTBRT5KYJmetI
-         JhfUr7PlPGxtiT0BLau2r+jtljHTaJ4pFeyMkj3m9r+dDIrYmbp19BEyj79C9Lzt9MX4
-         NxpR+tMfZwWfS6uLVTyGsZ4aoVFCIQWyo87jVJ3BNArSP4zXW5X8k8LrAhdoWeBaybPw
-         DAqg==
-X-Gm-Message-State: AOJu0Yy/433X4XBK103ao2h3eICDg124oCfVBvKrtMcXiCoxsRy9AXpC
-        WGKgSk5TP9CWR83XZaCUiIUY9g==
-X-Google-Smtp-Source: AGHT+IHjQFBB1VJsBsu+AIJLy6rePuMEP5AF/uK5pVEQorTl4ACwpz9FCi5c3zYXBuacFMfzU5OHPQ==
-X-Received: by 2002:a17:906:3006:b0:9a1:c991:a521 with SMTP id 6-20020a170906300600b009a1c991a521mr7520272ejz.4.1693896560728;
-        Mon, 04 Sep 2023 23:49:20 -0700 (PDT)
-Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
-        by smtp.gmail.com with ESMTPSA id jo26-20020a170906f6da00b00982d0563b11sm7072419ejb.197.2023.09.04.23.49.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Sep 2023 23:49:20 -0700 (PDT)
-Message-ID: <0a2fcbc0-4b18-a54c-9f91-9710cc0bea1c@linaro.org>
-Date:   Tue, 5 Sep 2023 08:49:18 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 2/5] dt-bindings: phy: Add qcom,sdx75-qmp-usb3-uni schema
- file
-Content-Language: en-US
-To:     Rohit Agarwal <quic_rohiagar@quicinc.com>, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, vkoul@kernel.org,
-        kishon@kernel.org, robh+dt@kernel.org,
+        with ESMTP id S1348623AbjIEEoN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 00:44:13 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5283C1B9;
+        Mon,  4 Sep 2023 21:44:10 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3854P2Yg030219;
+        Tue, 5 Sep 2023 04:43:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=FMbRPrDf59qmugisH2Imhj/oST47qaA/zUfNV7t6V8o=;
+ b=Xf5cEAVbDtc7/9RZRPFZHcnUf4ngdB8IIE8K9saTOUhrUB8BFQe1kl632hGkKv/262Lq
+ EiYH14iAxZvh5mmJLm9AhgHKBReVgLJUs/G4Tn3PlvNpabM8dBqnl9IjC7xAwCAX7hts
+ kQSBKk67SaUecnyWEHdtKIlgeCMgbux9ZpIe6WW1XLYfJz9/Zt2IAjkHz9fn9Jd9fVli
+ MHnZYkboaH65KLqNRws9ESd5ema3xhnGeCsVU3vFXEyRTo9g3jl0Hg0gxa+YF12hYeRS
+ L/SzcSN6OxjCDrhXp7hxrYXfN/yaJzydJjeIZKnrgk431QFpJ+iLLY/kBOs9ttIJ9sM9 kw== 
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3swsp58a7j-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 05 Sep 2023 04:43:55 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3854hp6F013097;
+        Tue, 5 Sep 2023 04:43:51 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3sux4kav1a-1;
+        Tue, 05 Sep 2023 04:43:51 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3854hpBA013090;
+        Tue, 5 Sep 2023 04:43:51 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-rohiagar-hyd.qualcomm.com [10.213.106.138])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3854hpp9013086;
+        Tue, 05 Sep 2023 04:43:51 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
+        id E3CE41D0C; Tue,  5 Sep 2023 10:13:50 +0530 (+0530)
+From:   Rohit Agarwal <quic_rohiagar@quicinc.com>
+To:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        vkoul@kernel.org, kishon@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
         gregkh@linuxfoundation.org, abel.vesa@linaro.org,
         quic_wcheng@quicinc.com
 Cc:     linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, kernel@quicinc.com
+        linux-usb@vger.kernel.org, kernel@quicinc.com,
+        Rohit Agarwal <quic_rohiagar@quicinc.com>
+Subject: [PATCH 1/5] dt-bindings: phy: qcom,snps-eusb2-phy: Add compatible for SDX75
+Date:   Tue,  5 Sep 2023 10:13:44 +0530
+Message-Id: <1693889028-6485-2-git-send-email-quic_rohiagar@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1693889028-6485-1-git-send-email-quic_rohiagar@quicinc.com>
 References: <1693889028-6485-1-git-send-email-quic_rohiagar@quicinc.com>
- <1693889028-6485-3-git-send-email-quic_rohiagar@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1693889028-6485-3-git-send-email-quic_rohiagar@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Nn8MwlWSUSCYu99Uapcwf94xCrR_OgiI
+X-Proofpoint-GUID: Nn8MwlWSUSCYu99Uapcwf94xCrR_OgiI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-05_02,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ adultscore=0 phishscore=0 impostorscore=0 spamscore=0 malwarescore=0
+ mlxlogscore=747 clxscore=1015 mlxscore=0 priorityscore=1501 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309050039
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 05/09/2023 06:43, Rohit Agarwal wrote:
-> Add a dt-binding schema for SDX75 SoC.
-> 
+Add a dt-bindings compatible string for the SDX75 SoC that
+uses Synopsis eUSB2 PHY.
 
-It's the same as qcom,ipq9574-qmp-usb3-phy.
+Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+---
+ Documentation/devicetree/bindings/phy/qcom,snps-eusb2-phy.yaml | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Best regards,
-Krzysztof
+diff --git a/Documentation/devicetree/bindings/phy/qcom,snps-eusb2-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,snps-eusb2-phy.yaml
+index c53bab1..c958286 100644
+--- a/Documentation/devicetree/bindings/phy/qcom,snps-eusb2-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,snps-eusb2-phy.yaml
+@@ -14,7 +14,12 @@ description:
+ 
+ properties:
+   compatible:
+-    const: qcom,sm8550-snps-eusb2-phy
++    oneOf:
++      - items:
++          - enum:
++              - qcom,sdx75-snps-eusb2-phy
++          - const: qcom,sm8550-snps-eusb2-phy
++      - const: qcom,sm8550-snps-eusb2-phy
+ 
+   reg:
+     maxItems: 1
+-- 
+2.7.4
 
