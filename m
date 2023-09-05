@@ -2,87 +2,116 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8F90CA0FF8
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:03:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56970CA0FFA
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:03:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236267AbjIEQCu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:02:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43296 "EHLO
+        id S236329AbjIEQCy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:02:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354301AbjIEKiS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 06:38:18 -0400
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B3891E8;
-        Tue,  5 Sep 2023 03:38:13 -0700 (PDT)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 385AbJBS1008732, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 385AbJBS1008732
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 5 Sep 2023 18:37:19 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Tue, 5 Sep 2023 18:37:47 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 5 Sep 2023 18:37:45 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::7445:d92b:d0b3:f79c]) by
- RTEXMBS04.realtek.com.tw ([fe80::7445:d92b:d0b3:f79c%5]) with mapi id
- 15.01.2375.007; Tue, 5 Sep 2023 18:37:45 +0800
-From:   Hayes Wang <hayeswang@realtek.com>
-To:     Paolo Abeni <pabeni@redhat.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>
-CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        nic_swsd <nic_swsd@realtek.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH net] r8152: avoid the driver drops a lot of packets
-Thread-Topic: [PATCH net] r8152: avoid the driver drops a lot of packets
-Thread-Index: AQHZ3ynCVnk5WSMfQUWpVA7+s1E7KrALfhaAgACIBVA=
-Date:   Tue, 5 Sep 2023 10:37:45 +0000
-Message-ID: <48d03f3134bf49c0b04b34464cd7487b@realtek.com>
-References: <20230904121706.7132-420-nic_swsd@realtek.com>
- <32c71d3245127b4aa02b8abd75edcb8f5767e966.camel@redhat.com>
-In-Reply-To: <32c71d3245127b4aa02b8abd75edcb8f5767e966.camel@redhat.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.22.228.6]
-x-kse-serverinfo: RTEXMBS01.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+        with ESMTP id S1348575AbjIEEoM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 00:44:12 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20B851B9;
+        Mon,  4 Sep 2023 21:44:09 -0700 (PDT)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3853hVJs002466;
+        Tue, 5 Sep 2023 04:43:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=gIy5E9rIIyEzpZAAV0U85csG1L5snZkzgv67shoXEC8=;
+ b=p5fDCdIirj43MbZD2bpvTWsru3rB5ZZh6rId6zEeBTC4W9LNkxTWSbh1uAI/xUAICxyY
+ +zczgdjj+H3I3/bfB4EHvlDC0Sb9mS8CGWWUVgidgYiL+7j9ohAnt2+RQEM+W0boTbre
+ L/N3tEjOpRiOK4FJIS6rmNkNdzph2yPVDZU6IV6awUTrOG2sT7PNrnU1i/+pX4KJTaVx
+ 4E5yMnM0QMBIwM4+gAQpTvRSRWrw26rXdwygK3iffQE8tV8oX27pQL6H8owkPT0n3CAt
+ f0b0BfSPioVwQhO7d8yZ+h62DoyKNHKZDfPHYbQjkHtHa9QN/QjQSQK0DQFlwgRpgmbC nQ== 
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sweb51f3j-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 05 Sep 2023 04:43:56 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3854hrgU013135;
+        Tue, 5 Sep 2023 04:43:53 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3sux4kav1q-1;
+        Tue, 05 Sep 2023 04:43:53 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3854hqnX013104;
+        Tue, 5 Sep 2023 04:43:52 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-rohiagar-hyd.qualcomm.com [10.213.106.138])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3854hpCp013099;
+        Tue, 05 Sep 2023 04:43:52 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
+        id 384A51D16; Tue,  5 Sep 2023 10:13:52 +0530 (+0530)
+From:   Rohit Agarwal <quic_rohiagar@quicinc.com>
+To:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        vkoul@kernel.org, kishon@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        gregkh@linuxfoundation.org, abel.vesa@linaro.org,
+        quic_wcheng@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, kernel@quicinc.com,
+        Rohit Agarwal <quic_rohiagar@quicinc.com>
+Subject: [PATCH 4/5] dt-bindings: usb: dwc3: Add SDX75 compatible
+Date:   Tue,  5 Sep 2023 10:13:47 +0530
+Message-Id: <1693889028-6485-5-git-send-email-quic_rohiagar@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1693889028-6485-1-git-send-email-quic_rohiagar@quicinc.com>
+References: <1693889028-6485-1-git-send-email-quic_rohiagar@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: wwsfLwJo_TV7Cjcc95jsA4OK2-Zc0tgL
+X-Proofpoint-GUID: wwsfLwJo_TV7Cjcc95jsA4OK2-Zc0tgL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-05_02,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
+ lowpriorityscore=0 mlxscore=0 priorityscore=1501 clxscore=1015
+ mlxlogscore=557 bulkscore=0 phishscore=0 malwarescore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309050040
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-UGFvbG8gQWJlbmkgPHBhYmVuaUByZWRoYXQuY29tPg0KPiBTZW50OiBUdWVzZGF5LCBTZXB0ZW1i
-ZXIgNSwgMjAyMyA2OjExIFBNDQpbLi4uXQ0KPiA+IC0gICAgICAgICAgICAgICAgICAgICAvKiBs
-aW1pdCB0aGUgc2tiIG51bWJlcnMgZm9yIHJ4X3F1ZXVlICovDQo+ID4gLSAgICAgICAgICAgICAg
-ICAgICAgIGlmICh1bmxpa2VseShza2JfcXVldWVfbGVuKCZ0cC0+cnhfcXVldWUpID49DQo+IDEw
-MDApKQ0KPiA+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJyZWFrOw0KPiA+IC0NCj4g
-DQo+IERyb3BwaW5nIHRoaXMgY2hlY2sgbG9va3MgZGFuZ2Vyb3VzIHRvIG1lLiBXaGF0IGlmIHBh
-dXNlIGZyYW1lcyBhcmUNCj4gZGlzYWJsZWQgb24gdGhlIG90aGVyIGVuZCBvciBkcm9wcGVkPyBJ
-dCBsb29rcyBsaWtlIHRoaXMgd291bGQgY2F1c2UNCj4gdW5saW1pdGVkIG1lbW9yeSBjb25zdW1w
-dGlvbj8hPw0KDQpXaGVuIHRoZSBkcml2ZXIgc3RvcHMgc3VibWl0dGluZyByeCwgdGhlIGRyaXZl
-ciB3b3VsZG4ndCBnZXQgYW55IHBhY2tldA0KZnJvbSB0aGUgZGV2aWNlIGFmdGVyIHRoZSBwcmV2
-aW91cyB1cmJzIHdoaWNoIGhhdmUgYmVlbiBzdWJtaXR0ZWQgcmV0dXJuLg0KVGhhdCBpcywgc2ti
-X3F1ZXVlX2xlbigmdHAtPnJ4X3F1ZXVlKSB3b3VsZG4ndCBpbmNyZWFzZSBhbnkgbW9yZSB1bnRp
-bA0KdGhlIGRyaXZlciBzdGFydHMgc3VibWl0dGluZyByeCBhZ2Fpbi4NCg0KTm93LCB0aGUgZHJp
-dmVyIHN0b3BzIHN1Ym1pdHRpbmcgcnggd2hlbiB0aGUgc2tiX3F1ZXVlX2xlbiBtb3JlIHRoYW4g
-MjU2LA0Kc28gdGhlIGNoZWNrIGJlY29tZXMgcmVkdW5kYW50LiBUaGUgc2tiX3F1ZXVlX2xlbiBo
-YXMgYmVlbiBsaW1pdGVkIGxlc3MNCnRoYW4gMTAwMC4NCg0KQmVzaWRlcywgaWYgdGhlIGZsb3cg
-Y29udHJvbCBpcyBkaXNhYmxlZCwgdGhlIHBhY2tldHMgbWF5IGJlIGRyb3BwZWQgYnkNCnRoZSBo
-YXJkd2FyZSB3aGVuIHRoZSBGSUZPIG9mIHRoZSBkZXZpY2UgaXMgZnVsbCwgYWZ0ZXIgdGhlIGRy
-aXZlciBzdG9wcw0Kc3VibWl0dGluZyByeC4NCg0KQmVzdCBSZWdhcmRzLA0KSGF5ZXMNCg0K
+Document the SDX75 dwc3 compatible.
+
+Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+---
+ Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index fa51f50..30b2e20 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -32,6 +32,7 @@ properties:
+           - qcom,sdm845-dwc3
+           - qcom,sdx55-dwc3
+           - qcom,sdx65-dwc3
++          - qcom,sdx75-dwc3
+           - qcom,sm4250-dwc3
+           - qcom,sm6115-dwc3
+           - qcom,sm6125-dwc3
+@@ -187,6 +188,7 @@ allOf:
+               - qcom,sdm845-dwc3
+               - qcom,sdx55-dwc3
+               - qcom,sdx65-dwc3
++              - qcom,sdx75-dwc3
+               - qcom,sm6350-dwc3
+     then:
+       properties:
+@@ -361,6 +363,7 @@ allOf:
+               - qcom,sdm845-dwc3
+               - qcom,sdx55-dwc3
+               - qcom,sdx65-dwc3
++              - qcom,sdx75-dwc3
+               - qcom,sm4250-dwc3
+               - qcom,sm6125-dwc3
+               - qcom,sm6350-dwc3
+-- 
+2.7.4
+
