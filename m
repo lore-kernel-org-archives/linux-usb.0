@@ -2,130 +2,118 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 759A7CA0FF3
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:01:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C04FCCA0FFA
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:01:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233153AbjIEQBW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:01:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37022 "EHLO
+        id S232740AbjIEQB0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:01:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353617AbjIEGxs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 02:53:48 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E55BCC7
-        for <linux-usb@vger.kernel.org>; Mon,  4 Sep 2023 23:53:44 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-500c37d479aso3326202e87.2
-        for <linux-usb@vger.kernel.org>; Mon, 04 Sep 2023 23:53:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693896823; x=1694501623; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Izf9D/2+QCxj63n+3E1FgS/vF5uxnLmMdD6owrWKaTI=;
-        b=yS15iqhGiqR/WLZpBWmrFNX7fw4bnZ2mNwCS/ekLGW/AAi7YWdGKuRDD7yG/Ho2QXv
-         w52ltrpNfkwq7gwfUUq4MxUC2HlYd9gXAOw0vytajxaHEftVfzS0sW+26rzn5/nfX6D+
-         kWjSqFtBcswG8SwTYAyzXpxUd8HyyLNeBqfoyu0NORrH1x2vqvqw4PXO7bK2IG1nG3s9
-         ntM6X98ETztUuXLV8ioHm9zwDkwOX4SpFDGw0GNCIqHyn8XMVLfXJppqTcTLN3fNQEEO
-         ywJQT0I9k+urjng1hvqaI6jJGbXnIfRC/qYnEfZ7lBBv88MVtOu0rduQUwJzhrN5DFyR
-         myMg==
+        with ESMTP id S1354224AbjIEKLv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 06:11:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E4CE199
+        for <linux-usb@vger.kernel.org>; Tue,  5 Sep 2023 03:11:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1693908661;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=GQdWO1HDrc5GSIvIHSQgMIQsBgppoW3wramLkpYKpHg=;
+        b=eN3jc+hBb+Nu0AkQ82G8cz58B8vofRpza5wPFCal1jY9TS6hVTInVl28EuJr5Y4hbFZHG7
+        mmhPW+60xgSpAd+6xv1YWL3G8ysobl5ILlnG0qf4oFa/x9MTOAD+GahI5l+4Dow4CY12gw
+        G/Sd+rVOdSFTjWxax2n/Bp/Po2vUuek=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-436-x7tIPQi4MYC-RjISV4lSDw-1; Tue, 05 Sep 2023 06:11:00 -0400
+X-MC-Unique: x7tIPQi4MYC-RjISV4lSDw-1
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-52c0134dfcdso432685a12.1
+        for <linux-usb@vger.kernel.org>; Tue, 05 Sep 2023 03:11:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693896823; x=1694501623;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Izf9D/2+QCxj63n+3E1FgS/vF5uxnLmMdD6owrWKaTI=;
-        b=VCnC3e0L+vmMJNeWOz+xLkLTo2r64SReLGTc8hDSYIIvj6RkV1OEJt0rmlHq9GImZL
-         HpAeW/A+FibUBrH6uek/ErE5xuG+nnV9aeXRBffZRa+1WRLmUDztBsS3G0hW+TUdBHf1
-         FMfYAXr/7sAgzJLcNSI8K3dFjysoYBpVZrHKAjQXeT+7Lr0XrJVsB6BWtrTCfwSU4m49
-         F5VEf6DOGzYvszXLcT0U4/2U9fhRqbk05KJnTqajLMvG04Z7fg00DbTqhV+7L0/NxJOk
-         b0vj26+dijXg0avvGcUVUNy2JGy7qsn/VEIxDAgp2rYJF7tqGOwfi48sGkAQshSCnCA3
-         rTsw==
-X-Gm-Message-State: AOJu0YysgEQg/ocmWCM/rnhB7NInLSWKRTUma/H3qxZcK7TpLm0oeb/g
-        zIOeF4i+qKWGAlsSrq1sg7z+Bg==
-X-Google-Smtp-Source: AGHT+IFpYW2gPZ9YVcWIrdDgHaIlEODhpL1a8LmUe3Zf9ieJIDPP1nIiNG/9Jz9wjz5FFSW2ODeJJQ==
-X-Received: by 2002:a05:6512:b8c:b0:500:8725:1351 with SMTP id b12-20020a0565120b8c00b0050087251351mr10635688lfv.47.1693896822729;
-        Mon, 04 Sep 2023 23:53:42 -0700 (PDT)
-Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
-        by smtp.gmail.com with ESMTPSA id w26-20020a50fa9a000000b0052a401d8ef6sm6759359edr.71.2023.09.04.23.53.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Sep 2023 23:53:42 -0700 (PDT)
-Message-ID: <f49b9075-93b7-6f4a-ef80-543bd5b497e2@linaro.org>
-Date:   Tue, 5 Sep 2023 08:53:41 +0200
+        d=1e100.net; s=20221208; t=1693908659; x=1694513459;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GQdWO1HDrc5GSIvIHSQgMIQsBgppoW3wramLkpYKpHg=;
+        b=R8YLsl9BNMekMgzA3eDGFWFnK+en7sQHfLD8VQISc2OY+zQIY/sGXM6tJwfKcqVt7G
+         32LaDaX6zJ5nrYVH7V2IlSRfiQ4gr5hDGhE7qJfhb+mVsQbcAUq91/BAdgawywBjemDP
+         fz+/k0a7isBrGG7xB6ccdAsl/VDfmH6xn5Syps3ILKkW+nPffQIevmcRqIzND+e9Ttq8
+         2ezXAv/0MX2veNgitSdVr1dgg18NVbSWGdMqajG8im/wIcXFdua6gxC38v+61k+aWqeF
+         YhCfWf/42GF2C5ykMJlNUwll0yFwuxs/aVyZ3X5wxC9JLLzi4gJRT8i+seoiO/vmpXD5
+         B4tQ==
+X-Gm-Message-State: AOJu0YxREjd47ZVU8P+pBZ/nrg6mtRaVSn8Zwv5TRBHDQL0CTRri+q6U
+        K9Egf5PBMqztAm6mWfG3sqnOQGa/NL1JxHyFAz1farnsbGPRiVNuSCgzUYe88oNenQoJz9wGS39
+        53Cl1nWAVOjQ30IGaXjZu
+X-Received: by 2002:a05:6402:50cf:b0:523:f69:9a0d with SMTP id h15-20020a05640250cf00b005230f699a0dmr9451054edb.4.1693908659094;
+        Tue, 05 Sep 2023 03:10:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE6aGBnhekg22nlCvU2kF5kNulTXZk+b95Z2pPwYKc4FHamoUqVIRjdWI3V8NiUNW153C9yzQ==
+X-Received: by 2002:a05:6402:50cf:b0:523:f69:9a0d with SMTP id h15-20020a05640250cf00b005230f699a0dmr9451032edb.4.1693908658710;
+        Tue, 05 Sep 2023 03:10:58 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-254-194.dyn.eolo.it. [146.241.254.194])
+        by smtp.gmail.com with ESMTPSA id k22-20020a056402049600b0050488d1d376sm6940864edv.0.2023.09.05.03.10.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Sep 2023 03:10:58 -0700 (PDT)
+Message-ID: <32c71d3245127b4aa02b8abd75edcb8f5767e966.camel@redhat.com>
+Subject: Re: [PATCH net] r8152: avoid the driver drops a lot of packets
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Hayes Wang <hayeswang@realtek.com>, kuba@kernel.org,
+        davem@davemloft.net
+Cc:     netdev@vger.kernel.org, nic_swsd@realtek.com,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Date:   Tue, 05 Sep 2023 12:10:57 +0200
+In-Reply-To: <20230904121706.7132-420-nic_swsd@realtek.com>
+References: <20230904121706.7132-420-nic_swsd@realtek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 5/5] phy: qcom-qmp-usb: Add Qualcomm SDX75 USB3 PHY
- support
-Content-Language: en-US
-To:     Rohit Agarwal <quic_rohiagar@quicinc.com>, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, vkoul@kernel.org,
-        kishon@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        gregkh@linuxfoundation.org, abel.vesa@linaro.org,
-        quic_wcheng@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, kernel@quicinc.com
-References: <1693889028-6485-1-git-send-email-quic_rohiagar@quicinc.com>
- <1693889028-6485-6-git-send-email-quic_rohiagar@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1693889028-6485-6-git-send-email-quic_rohiagar@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 05/09/2023 06:43, Rohit Agarwal wrote:
-> Add support for USB3 QMP PHY found in SDX75 platform.
-> 
-> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+Hello,
+
+On Mon, 2023-09-04 at 20:17 +0800, Hayes Wang wrote:
+> Stop submitting rx, if the driver queue more than 256 packets.
+>=20
+> If the hardware is more fast than the software, the driver would start
+> queuing the packets. And, the driver starts dropping the packets, if it
+> queues more than 1000 packets.
+>=20
+> Increase the weight of NAPI could improve the situation. However, the
+> weight has been changed to 64, so we have to stop submitting rx when the
+> driver queues too many packets. Then,the device may send the pause frame
+> to slow down the receiving, when the FIFO of the device is full.
+>=20
+> Fixes: cf74eb5a5bc8 ("eth: r8152: try to use a normal budget")
+> Signed-off-by: Hayes Wang <hayeswang@realtek.com>
 > ---
+>  drivers/net/usb/r8152.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+> index 332c853ca99b..b5ed55938b1c 100644
+> --- a/drivers/net/usb/r8152.c
+> +++ b/drivers/net/usb/r8152.c
+> @@ -2484,10 +2484,6 @@ static int rx_bottom(struct r8152 *tp, int budget)
+>  			unsigned int pkt_len, rx_frag_head_sz;
+>  			struct sk_buff *skb;
+> =20
+> -			/* limit the skb numbers for rx_queue */
+> -			if (unlikely(skb_queue_len(&tp->rx_queue) >=3D 1000))
+> -				break;
+> -
 
+Dropping this check looks dangerous to me. What if pause frames are
+disabled on the other end or dropped? It looks like this would cause
+unlimited memory consumption?!?
 
+If this limit is not supposed to be reached under normal conditions,
+perhaps is worthy changing it into a WARN_ON_ONCE()?
 
->  
-> +static const struct qmp_phy_cfg sdx75_usb3_uniphy_cfg = {
-> +	.lanes			= 1,
-> +	.offsets		= &qmp_usb_offsets_v5,
-> +
-> +	.serdes_tbl		= sdx75_usb3_uniphy_serdes_tbl,
-> +	.serdes_tbl_num		= ARRAY_SIZE(sdx75_usb3_uniphy_serdes_tbl),
-> +	.tx_tbl			= sdx75_usb3_uniphy_tx_tbl,
-> +	.tx_tbl_num		= ARRAY_SIZE(sdx75_usb3_uniphy_tx_tbl),
-> +	.rx_tbl			= sdx75_usb3_uniphy_rx_tbl,
-> +	.rx_tbl_num		= ARRAY_SIZE(sdx75_usb3_uniphy_rx_tbl),
-> +	.pcs_tbl		= sdx75_usb3_uniphy_pcs_tbl,
-> +	.pcs_tbl_num		= ARRAY_SIZE(sdx75_usb3_uniphy_pcs_tbl),
-> +	.pcs_usb_tbl		= sdx75_usb3_uniphy_pcs_usb_tbl,
-> +	.pcs_usb_tbl_num	= ARRAY_SIZE(sdx75_usb3_uniphy_pcs_usb_tbl),
-> +	.clk_list		= qmp_v4_sdx55_usbphy_clk_l,
-> +	.num_clks		= ARRAY_SIZE(qmp_v4_sdx55_usbphy_clk_l),
-> +	.reset_list		= msm8996_usb3phy_reset_l,
-> +	.num_resets		= ARRAY_SIZE(msm8996_usb3phy_reset_l),
-> +	.vreg_list		= qmp_phy_vreg_l,
-> +	.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
-> +	.regs			= qmp_v5_usb3phy_regs_layout,
-> +	.pcs_usb_offset		= 0x1000,
-> +
-> +	.has_pwrdn_delay	= true,
-> +
+Thanks!
 
-Stray blank line
-
-> +};
-> +
->  static const struct qmp_phy_cfg sm8350_usb3phy_cfg = {
->  	.lanes			= 2,
->  
-> @@ -1985,6 +2141,7 @@ static int qmp_usb_init(struct phy *phy)
->  	void __iomem *dp_com = qmp->dp_com;
->  	int ret;
->  
-> +
-
-No need for this.
-
-Best regards,
-Krzysztof
+Paolo
 
