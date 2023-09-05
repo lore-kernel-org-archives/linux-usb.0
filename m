@@ -2,143 +2,130 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97162CA0FFB
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:01:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 759A7CA0FF3
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:01:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229495AbjIEQBP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:01:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53864 "EHLO
+        id S233153AbjIEQBW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:01:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354802AbjIEOaD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 10:30:03 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0FB3194;
-        Tue,  5 Sep 2023 07:29:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693924199; x=1725460199;
-  h=message-id:date:mime-version:to:cc:references:from:
-   subject:in-reply-to:content-transfer-encoding;
-  bh=8JItpMSLSaTCr2Sftp87ptn/XmH0APOBllAIBBHUkC0=;
-  b=SkhvXTmeFRUFFAeGzkLJCOh827ipbnSqweQAVX4iPV0PfwD4X+uh+dJJ
-   36wyoe+hjE83nF8QNrGjYTcm5DH78et6ACmPOiuTBqINk46q/vkr9J6FW
-   MN3loFjbppw0lUStHwO+ivrq3Y329OYbH6ojTCUTzhXH1l8VDlXbZuD47
-   Zn27tSBTt8LrqUrp5tjJ437g5iBggn8ORicVv8DyzZ9uhPS42k30pWohs
-   gqRh4Yo8k3MO5aouOQjTWSVG4zkZ0n+dgpEphLgODtE2g2KUmoCwRU6cS
-   i+TYRKboRDIr7Qs6hCTVmy4beI+YyhU8T4sXG7seEjy+BfB9w4CzO2IIZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="357114868"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="357114868"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 07:29:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="734663895"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="734663895"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by orsmga007.jf.intel.com with ESMTP; 05 Sep 2023 07:29:53 -0700
-Message-ID: <862738cd-7a48-345e-3663-5d8e7127712b@linux.intel.com>
-Date:   Tue, 5 Sep 2023 17:31:12 +0300
+        with ESMTP id S1353617AbjIEGxs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 02:53:48 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E55BCC7
+        for <linux-usb@vger.kernel.org>; Mon,  4 Sep 2023 23:53:44 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-500c37d479aso3326202e87.2
+        for <linux-usb@vger.kernel.org>; Mon, 04 Sep 2023 23:53:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693896823; x=1694501623; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Izf9D/2+QCxj63n+3E1FgS/vF5uxnLmMdD6owrWKaTI=;
+        b=yS15iqhGiqR/WLZpBWmrFNX7fw4bnZ2mNwCS/ekLGW/AAi7YWdGKuRDD7yG/Ho2QXv
+         w52ltrpNfkwq7gwfUUq4MxUC2HlYd9gXAOw0vytajxaHEftVfzS0sW+26rzn5/nfX6D+
+         kWjSqFtBcswG8SwTYAyzXpxUd8HyyLNeBqfoyu0NORrH1x2vqvqw4PXO7bK2IG1nG3s9
+         ntM6X98ETztUuXLV8ioHm9zwDkwOX4SpFDGw0GNCIqHyn8XMVLfXJppqTcTLN3fNQEEO
+         ywJQT0I9k+urjng1hvqaI6jJGbXnIfRC/qYnEfZ7lBBv88MVtOu0rduQUwJzhrN5DFyR
+         myMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693896823; x=1694501623;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Izf9D/2+QCxj63n+3E1FgS/vF5uxnLmMdD6owrWKaTI=;
+        b=VCnC3e0L+vmMJNeWOz+xLkLTo2r64SReLGTc8hDSYIIvj6RkV1OEJt0rmlHq9GImZL
+         HpAeW/A+FibUBrH6uek/ErE5xuG+nnV9aeXRBffZRa+1WRLmUDztBsS3G0hW+TUdBHf1
+         FMfYAXr/7sAgzJLcNSI8K3dFjysoYBpVZrHKAjQXeT+7Lr0XrJVsB6BWtrTCfwSU4m49
+         F5VEf6DOGzYvszXLcT0U4/2U9fhRqbk05KJnTqajLMvG04Z7fg00DbTqhV+7L0/NxJOk
+         b0vj26+dijXg0avvGcUVUNy2JGy7qsn/VEIxDAgp2rYJF7tqGOwfi48sGkAQshSCnCA3
+         rTsw==
+X-Gm-Message-State: AOJu0YysgEQg/ocmWCM/rnhB7NInLSWKRTUma/H3qxZcK7TpLm0oeb/g
+        zIOeF4i+qKWGAlsSrq1sg7z+Bg==
+X-Google-Smtp-Source: AGHT+IFpYW2gPZ9YVcWIrdDgHaIlEODhpL1a8LmUe3Zf9ieJIDPP1nIiNG/9Jz9wjz5FFSW2ODeJJQ==
+X-Received: by 2002:a05:6512:b8c:b0:500:8725:1351 with SMTP id b12-20020a0565120b8c00b0050087251351mr10635688lfv.47.1693896822729;
+        Mon, 04 Sep 2023 23:53:42 -0700 (PDT)
+Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
+        by smtp.gmail.com with ESMTPSA id w26-20020a50fa9a000000b0052a401d8ef6sm6759359edr.71.2023.09.04.23.53.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Sep 2023 23:53:42 -0700 (PDT)
+Message-ID: <f49b9075-93b7-6f4a-ef80-543bd5b497e2@linaro.org>
+Date:   Tue, 5 Sep 2023 08:53:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 5/5] phy: qcom-qmp-usb: Add Qualcomm SDX75 USB3 PHY
+ support
 Content-Language: en-US
-To:     Hardik Gajjar <hgajjar@de.adit-jv.com>
-Cc:     gregkh@linuxfoundation.org, mathias.nyman@intel.com,
-        stern@rowland.harvard.edu, yangyingliang@huawei.com,
-        jinpu.wang@ionos.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, erosca@de.adit-jv.com
-References: <20230818092353.124658-1-hgajjar@de.adit-jv.com>
- <2c029018-a926-6fda-ed71-937ac74d00b0@linux.intel.com>
- <20230821095547.GA9820@vmlxhi-118.adit-jv.com>
- <d88dbe7e-4558-970d-5601-d4d906829d47@linux.intel.com>
- <20230904095738.GA5312@vmlxhi-118.adit-jv.com>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH] usb: hcd: xhci: Add set command timer delay API
-In-Reply-To: <20230904095738.GA5312@vmlxhi-118.adit-jv.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Rohit Agarwal <quic_rohiagar@quicinc.com>, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org, vkoul@kernel.org,
+        kishon@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        gregkh@linuxfoundation.org, abel.vesa@linaro.org,
+        quic_wcheng@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, kernel@quicinc.com
+References: <1693889028-6485-1-git-send-email-quic_rohiagar@quicinc.com>
+ <1693889028-6485-6-git-send-email-quic_rohiagar@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1693889028-6485-6-git-send-email-quic_rohiagar@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 4.9.2023 12.57, Hardik Gajjar wrote:
+On 05/09/2023 06:43, Rohit Agarwal wrote:
+> Add support for USB3 QMP PHY found in SDX75 platform.
 > 
-> In our setup, we have a arm64 target with a DWC3 USB3 IP core,
-> connected through a USB hub (specifically designed for automotive use)
-> to the Android phone. Interestingly,when replicating this setup with
-> the x86 Ubuntu machine, we encountered a discrepancy.
-> 
-> The primary difference between the two setups lies in the utilization
-> of the DWC3 USB IP core.
+> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+> ---
 
-Because of the SPLIT transactions seen below it looks like phone is being
-enumerated at Full or Low speed behind the automotive High-speed HUB.
 
-> 
-> Working Case:
-> 
-> 0,HS,202,0:17.672.512,1.333 us,8 B,I,00,00,SETUP txn (SPLIT),80 06 00 01 00 00 40 00
-> 1,HS,203,0:17.672.512,83 ns,4 B,,00,00,   SPLIT packet,78 0D 03 70
-> 1,HS,204,0:17.672.513,66 ns,3 B,,00,00,   SETUP packet,2D 00 10
-> 1,HS,205,0:17.672.513,200 ns,11 B,,00,00,   DATA0 packet,C3 80 06 00 01 00 00 40 00 DD 94
-> 1,HS,206,0:17.672.514,33 ns,1 B,,00,00,   ACK packet,D2
-> 0,HS,207,0:17.672.535,5.625.983 ms,,I,00,00,[256 CSPLIT-SETUP-NYET],
-> 
 
-The working case shows a GET_DESCRIPTOR DEVICE request (80 06 00 01).
-Was the SET ADDRESS request (00 05) seen before or after this?
+>  
+> +static const struct qmp_phy_cfg sdx75_usb3_uniphy_cfg = {
+> +	.lanes			= 1,
+> +	.offsets		= &qmp_usb_offsets_v5,
+> +
+> +	.serdes_tbl		= sdx75_usb3_uniphy_serdes_tbl,
+> +	.serdes_tbl_num		= ARRAY_SIZE(sdx75_usb3_uniphy_serdes_tbl),
+> +	.tx_tbl			= sdx75_usb3_uniphy_tx_tbl,
+> +	.tx_tbl_num		= ARRAY_SIZE(sdx75_usb3_uniphy_tx_tbl),
+> +	.rx_tbl			= sdx75_usb3_uniphy_rx_tbl,
+> +	.rx_tbl_num		= ARRAY_SIZE(sdx75_usb3_uniphy_rx_tbl),
+> +	.pcs_tbl		= sdx75_usb3_uniphy_pcs_tbl,
+> +	.pcs_tbl_num		= ARRAY_SIZE(sdx75_usb3_uniphy_pcs_tbl),
+> +	.pcs_usb_tbl		= sdx75_usb3_uniphy_pcs_usb_tbl,
+> +	.pcs_usb_tbl_num	= ARRAY_SIZE(sdx75_usb3_uniphy_pcs_usb_tbl),
+> +	.clk_list		= qmp_v4_sdx55_usbphy_clk_l,
+> +	.num_clks		= ARRAY_SIZE(qmp_v4_sdx55_usbphy_clk_l),
+> +	.reset_list		= msm8996_usb3phy_reset_l,
+> +	.num_resets		= ARRAY_SIZE(msm8996_usb3phy_reset_l),
+> +	.vreg_list		= qmp_phy_vreg_l,
+> +	.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
+> +	.regs			= qmp_v5_usb3phy_regs_layout,
+> +	.pcs_usb_offset		= 0x1000,
+> +
+> +	.has_pwrdn_delay	= true,
+> +
 
-> Non-Working Case:
-> 
-> 0,HS,164,0:10.982.303,3.116 us,8 B,I,00,00,SETUP txn (SPLIT-STALL),00 05 04 00 00 00 00 00
-> 1,HS,165,0:10.982.303,83 ns,4 B,,00,00,   SPLIT packet,78 01 02 A0
-> 1,HS,166,0:10.982.303,66 ns,3 B,,00,00,   SETUP packet,2D 00 10
-> 1,HS,167,0:10.982.304,200 ns,11 B,,00,00,   DATA0 packet,C3 00 05 04 00 00 00 00 00 EB 70
-> 1,HS,168,0:10.982.304,50 ns,1 B,,00,00,   ACK packet,D2
-> 1,HS,169,0:10.982.305,866 ns,,,00,00,   CSPLIT-SETUP-STALL,
-> 2,HS,170,0:10.982.305,83 ns,4 B,,00,00,      SPLIT packet,78 81 02 78
-> 2,HS,171,0:10.982.306,66 ns,3 B,,00,00,      SETUP packet,2D 00 10
-> 2,HS,172,0:10.982.306,50 ns,1 B,,00,00,      STALL packet,1E
+Stray blank line
 
-In the failing case the SET ADDRESS (00 05) request STALLs.
-Was there a GET_DESCRIPOR request before this?
+> +};
+> +
+>  static const struct qmp_phy_cfg sm8350_usb3phy_cfg = {
+>  	.lanes			= 2,
+>  
+> @@ -1985,6 +2141,7 @@ static int qmp_usb_init(struct phy *phy)
+>  	void __iomem *dp_com = qmp->dp_com;
+>  	int ret;
+>  
+> +
 
-This could still be a case where the order of SET ADDRES and GET DESCRIPTOR
-requests matter.
+No need for this.
 
-See if you can force new scheme enumeration, it should make hub driver issue
-a GET_DESCRIPTOR request before SET ADDRESS.
+Best regards,
+Krzysztof
 
-Probably testable with some quick hack that forces use_new_scheme() to return
-  "true" in hub.c
-
-> 
-> Upon close inspection of the USB analyzer data for both cases,
-> it becomes evident that a STALL packet consistently appears in
-> the non-working scenario.
-> 
-> This stands in contrast to the working case, where the channel
-> remains open, allowing for the successful execution of the following
-> high-speed enumeration commands.
-> 
-> In the event of a stall, we require an interruption from the host to
-> resume communication.
-> Given that there is a fixed 5-second command delay, this interruption
-> can only occur after this timeout period.
-> 
-> Therefore, I would like to propose a solution: providing an additional
-> API to control this command timeout or as you suggested, adding a timeout
-> parameter to struct xhci_command, and use that when calling xhci_mod_cmd_timer()
-> without the need to address any potential bugs in the xHCI driver.
-
-Lets first see if changing enumeration scheme helps.
-
-If not, and the enumeration issue is only seen for devices behind this specific
-automotive hub, then a quirk could be set for it that adjusts the timeout.
-
-Also let me know if you find xhci driver bugs, those need to be fixed anyway.
-
-Thanks
--Mathias
