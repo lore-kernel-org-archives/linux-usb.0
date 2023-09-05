@@ -2,44 +2,39 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 337BACA1001
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 20:11:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE6B1CA100A
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 20:13:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232346AbjIEULC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 16:11:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37474 "EHLO
+        id S229934AbjIEUNB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 16:13:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231374AbjIEULA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 16:11:00 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D70DCE5
-        for <linux-usb@vger.kernel.org>; Tue,  5 Sep 2023 13:10:26 -0700 (PDT)
+        with ESMTP id S242563AbjIEUMl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 16:12:41 -0400
+X-Greylist: delayed 215 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 05 Sep 2023 13:12:12 PDT
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 7CA37CE126E
-        for <linux-usb@vger.kernel.org>; Tue,  5 Sep 2023 17:47:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 98FD5C433C8
-        for <linux-usb@vger.kernel.org>; Tue,  5 Sep 2023 17:47:25 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C6A210F5
+        for <linux-usb@vger.kernel.org>; Tue,  5 Sep 2023 13:12:12 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3155BC4AF78
+        for <linux-usb@vger.kernel.org>; Tue,  5 Sep 2023 19:43:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693936045;
-        bh=P88yCbVGjSjNye1dC3jYv+PWoR7FAnBSGl3mkSPjk0E=;
+        s=k20201202; t=1693943035;
+        bh=OYYePw820VbKCznQb8dH9Cib11ny5go+FPc3UygQXng=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=RpLaG/MByuZX5m0J0uYtTzcB7IFs8wN2z5kpCjljKUNqB+H9neBzYvx7vHNT1nfpG
-         rlyZt24JZS8n71Xvm9A6+WLpx78LUMPCoAInhJPUbeOALL3KIqFFyAtfB0GXhEP6NK
-         UE8B0dJGQVmlee2p4mvL7qHru/Wx3yRPst0XcSXHO6qh1dJU7+N81j786x9yIIgYBl
-         HHWH5Sy3NFilNWNpW5H4nDd0GoBejv/pjHz4b6bWqPNfiKx814itq00H9ytR8GEZy1
-         SGjbOSEqa/E5ZR4dCMYowKBmqmx0mFkQdgok34GYF8VmPIPvpwasQhJvIc2VbqrTEX
-         r3rgiS7yOZbkQ==
+        b=Hb0E958RIxqM4jsM+tns9PHuLg8mymjZSgykk/c4vkXBhQh1FvOxwiXkgZjNMtbOO
+         qx9UJ63ygPXgw5c7l7FUmCIK/jqIIKIjd6oMXPaphD5q0AmkFszqniEirTfMCh+id9
+         RgIgjQHVxL0WRrExFKCqJ5QYPl3t9MDtKL71KOqcL16wesEf2fCu+RUT5nZuWfFSL/
+         e+AzRkTGvLH6OV8Gec2ob+Tg3ue5btDdRBf7sxd1XneFJmO4OB9jTjlTn34e5NbBlc
+         57arZK/Gi/w/QgMCVq2gv1/Obwd89iE8/5r5leKR2bMU+Sa48P5dBLs5DrK1rlS1zl
+         xvIG/46oTjphw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 79B3EC4332E; Tue,  5 Sep 2023 17:47:25 +0000 (UTC)
+        id 17B1AC53BCD; Tue,  5 Sep 2023 19:43:55 +0000 (UTC)
 From:   bugzilla-daemon@kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 217862] [BUG] Alauda driver causes oops when inserted with card
  in with transfer buffer is on stack, throws errors if card is inserted
  afterwards.
-Date:   Tue, 05 Sep 2023 17:47:25 +0000
+Date:   Tue, 05 Sep 2023 19:43:54 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -48,14 +43,14 @@ X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pawlick3r@proton.me
+X-Bugzilla-Who: stern@rowland.harvard.edu
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-217862-208809-zY9YoR12Me@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-217862-208809-EBHJlN8wj5@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217862-208809@https.bugzilla.kernel.org/>
 References: <bug-217862-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -69,16 +64,39 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D217862
 
---- Comment #9 from pawlick3r@proton.me ---
-Created attachment 305044
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D305044&action=3Dedit
-dmesg oops with debug on
+Alan Stern (stern@rowland.harvard.edu) changed:
 
-I tested the reader in another PC with Windows XP and it did work, when I t=
-ried
-one more time on the laptop with Linux I was able to get an oops error with=
- the
-debug settings on to show more information.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |stern@rowland.harvard.edu
+
+--- Comment #11 from Alan Stern (stern@rowland.harvard.edu) ---
+It's hard to tell exactly what's happening.  There are several different odd
+things going on.
+
+In the first test, the device seems to alternate between saying that the me=
+dia
+is present and that it isn't present.  No way to tell why it's doing this.
+
+The oops in the second test results from the fact that the
+alauda_ensure_map_for_zone() routine doesn't check the return value from its
+call to alauda_read_map().  That's bad programming.  But the reason the call
+failed was because the command transferred by alauda_get_redu_data() wasn't
+accepted by the device.  Instead the command timed out and the driver had to
+cancel it and reset the device.
+
+The same thing happened with the command transferred by alauda_reset_media(=
+) in
+the first test.  I can't tell if the problem is that the command isn't being
+sent properly or that the device isn't working properly.
+
+Can you collect a USB trace on the Windows system (with Wireshark or someth=
+ing
+similar)?  If it shows the same command being sent and accepted by the devi=
+ce,
+it will mean there's something wrong with the way the commands are transfer=
+red
+on the Linux system.
 
 --=20
 You may reply to this email to add a comment.
