@@ -2,82 +2,117 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F133CA0FFB
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:03:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DDA7CA0FFA
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:03:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236418AbjIEQC4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:02:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35912 "EHLO
+        id S232285AbjIEQC7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:02:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243259AbjIEAqq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Sep 2023 20:46:46 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AF9EDD
-        for <linux-usb@vger.kernel.org>; Mon,  4 Sep 2023 17:46:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 7E92ECE021C
-        for <linux-usb@vger.kernel.org>; Tue,  5 Sep 2023 00:46:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C5033C433C8
-        for <linux-usb@vger.kernel.org>; Tue,  5 Sep 2023 00:46:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693874799;
-        bh=arDKhwtGpg2S6ieOzMKNSubdKu98Ve3ZDNBoDXUfilI=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=bcjYPpxeQtVlSM/VsCBpSNTU2yK84KK8GJqUzx7JW5pZ0kU6QRH6zDA9sCL50qsRJ
-         aWhazCpn/zCJsGZ9TMfNRu4234za01BPC4qA/hnlBvUyhIF47Da+0nUUhj2ALKIhIB
-         KGMdP9FlJunhBgbW0u5l2S2S/xYDsyBokiCdpx/bAS5utTI2mTC7uDVNu6WEzQhouK
-         C0mPeWDRHAHEV/rN2Dl0C8tV4CV8+i0dXeaZ3zsEvtap7xd7NdtrE2qZWTNCZuQ31c
-         vUaG0AJ/PM6cwZOBlxdSzP+3dyH4hKLSPXM0n1+EI8lZ0TkGX9NkcVubL9SBK4yYJ6
-         +s0oxdLAFOzYA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id AEA6FC53BC6; Tue,  5 Sep 2023 00:46:39 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 217862] [BUG] Alauda driver causes oops when inserted with card
- in with transfer buffer is on stack, throws errors if card is inserted
- afterwards.
-Date:   Tue, 05 Sep 2023 00:46:39 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stern@rowland.harvard.edu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217862-208809-J4JqsLC09w@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217862-208809@https.bugzilla.kernel.org/>
-References: <bug-217862-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+        with ESMTP id S1354274AbjIEKa7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 06:30:59 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1C71E8;
+        Tue,  5 Sep 2023 03:30:56 -0700 (PDT)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3859mW5d013785;
+        Tue, 5 Sep 2023 10:30:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=vt4HQkzBRhpNc52cASEe6rG3/9p26Oq4MI20JoPy4ZY=;
+ b=EJGo4gVsLQpSOyh+o2GHr7C+8wrOE6/TZuyIMyK/LJVkC5VdpxqtV/j+kWPnK1OBvMyg
+ F48y5Uo3Hu0qZKthIz2FwKdq23M6wV8ZnxUDcZ/CJ20PEVNGhSa8cShZv/TXPEDDqFL8
+ rLJhYFpJMhguttVX//lPbR3VKGVfWQ1hVou0uosmZtfp1q6Hkrh5ptqCTbPDML8Zb+UC
+ uucoPUZjX8U237fljpxxTpfMMujOW4IzkIUDBr7RU5OqQydwprq94sSzNYes7b55s46S
+ KHz/nhzbfQgqG+cuPD+4BKLtA0VTBN7kJY1CKuxRK1KkRSNfZIvoJuH05mlvsCrRm8PM SA== 
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sweb521t1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 05 Sep 2023 10:30:44 +0000
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+        by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 385AUfJA018133;
+        Tue, 5 Sep 2023 10:30:41 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3sux4km170-1;
+        Tue, 05 Sep 2023 10:30:41 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 385AUeHO018094;
+        Tue, 5 Sep 2023 10:30:41 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-rohiagar-hyd.qualcomm.com [10.213.106.138])
+        by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 385AUfMH018117;
+        Tue, 05 Sep 2023 10:30:41 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
+        id 856721D0C; Tue,  5 Sep 2023 16:00:40 +0530 (+0530)
+From:   Rohit Agarwal <quic_rohiagar@quicinc.com>
+To:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        vkoul@kernel.org, kishon@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        gregkh@linuxfoundation.org, abel.vesa@linaro.org,
+        quic_wcheng@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, kernel@quicinc.com,
+        Rohit Agarwal <quic_rohiagar@quicinc.com>
+Subject: [PATCH v2 4/5] dt-bindings: usb: dwc3: Add SDX75 compatible
+Date:   Tue,  5 Sep 2023 16:00:37 +0530
+Message-Id: <1693909838-6682-5-git-send-email-quic_rohiagar@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1693909838-6682-1-git-send-email-quic_rohiagar@quicinc.com>
+References: <1693909838-6682-1-git-send-email-quic_rohiagar@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: IDBf--MoXeEL5nB88w5hg8CklhE5Rl0v
+X-Proofpoint-GUID: IDBf--MoXeEL5nB88w5hg8CklhE5Rl0v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-05_08,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
+ lowpriorityscore=0 mlxscore=0 priorityscore=1501 clxscore=1015
+ mlxlogscore=582 bulkscore=0 phishscore=0 malwarescore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309050093
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217862
+Document the SDX75 dwc3 compatible.
 
---- Comment #6 from Alan Stern (stern@rowland.harvard.edu) ---
-There really isn't enough information in that crash report to tell what's g=
-oing
-wrong.  Can you rebuild the driver with CONFIG_USB_DEBUG turned on and run =
-the
-test again?
+Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
---=20
-You may reply to this email to add a comment.
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index 018117b..d78b721 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -34,6 +34,7 @@ properties:
+           - qcom,sdm845-dwc3
+           - qcom,sdx55-dwc3
+           - qcom,sdx65-dwc3
++          - qcom,sdx75-dwc3
+           - qcom,sm4250-dwc3
+           - qcom,sm6115-dwc3
+           - qcom,sm6125-dwc3
+@@ -181,6 +182,7 @@ allOf:
+               - qcom,sdm845-dwc3
+               - qcom,sdx55-dwc3
+               - qcom,sdx65-dwc3
++              - qcom,sdx75-dwc3
+               - qcom,sm6350-dwc3
+     then:
+       properties:
+@@ -364,6 +366,7 @@ allOf:
+               - qcom,sdm845-dwc3
+               - qcom,sdx55-dwc3
+               - qcom,sdx65-dwc3
++              - qcom,sdx75-dwc3
+               - qcom,sm4250-dwc3
+               - qcom,sm6125-dwc3
+               - qcom,sm6350-dwc3
+-- 
+2.7.4
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
