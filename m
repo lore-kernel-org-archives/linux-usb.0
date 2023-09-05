@@ -2,125 +2,58 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F47ECA0FFA
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:02:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88A84CA0FFC
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:02:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235576AbjIEQCU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:02:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38954 "EHLO
+        id S235599AbjIEQCX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:02:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354171AbjIEKEU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 06:04:20 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67F1E198;
-        Tue,  5 Sep 2023 03:04:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E6B0FB81104;
-        Tue,  5 Sep 2023 10:04:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 134C4C433C8;
-        Tue,  5 Sep 2023 10:04:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1693908253;
-        bh=cQTnkMhDRy5JwEJ7hQwW45cTKaEjXmpkptxk9UnTN9c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gX2uxS5VVjeEKiCCpQxqG55A1d6tr08FU879bG5+NXYZLFyFaMPppX3z5yy4yLqod
-         dNwYiKnW4TFGr/ImkTHkmpe/bve7rwiugwIiFQfqwrKvi/9HkBUuW6mmPCH3GfZ6Tf
-         q5pVNKTsBUkwS9aQg+3O3Ii2W/CsulKJysn/CMDM=
-Date:   Tue, 5 Sep 2023 11:04:10 +0100
-From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To:     "Wu, Wentong" <wentong.wu@intel.com>
-Cc:     Oliver Neukum <oneukum@suse.com>, "arnd@arndb.de" <arnd@arndb.de>,
-        "mka@chromium.org" <mka@chromium.org>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "wsa@kernel.org" <wsa@kernel.org>,
-        "kfting@nuvoton.com" <kfting@nuvoton.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "maz@kernel.org" <maz@kernel.org>, "brgl@bgdev.pl" <brgl@bgdev.pl>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>,
-        "andi.shyti@linux.intel.com" <andi.shyti@linux.intel.com>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "bartosz.golaszewski@linaro.org" <bartosz.golaszewski@linaro.org>,
-        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
-        "Wang, Zhifeng" <zhifeng.wang@intel.com>
-Subject: Re: [PATCH v14 1/4] usb: Add support for Intel LJCA device
-Message-ID: <2023090530-cleft-chivalry-b59f@gregkh>
-References: <1693806261-12958-1-git-send-email-wentong.wu@intel.com>
- <1693806261-12958-2-git-send-email-wentong.wu@intel.com>
- <a8c8af1b-9399-6ca9-ea3d-b71e6ee68cad@suse.com>
- <DM6PR11MB43166D27FB15905CB02DBC5B8DE9A@DM6PR11MB4316.namprd11.prod.outlook.com>
- <7755c3ee-9d7e-8ae5-1cf7-a5247cc4e6e5@suse.com>
- <DM6PR11MB4316C70D7C14B56ED349F01F8DE8A@DM6PR11MB4316.namprd11.prod.outlook.com>
- <f6f8a9c4-faf1-f9da-e688-a29eb267fabc@suse.com>
- <DM6PR11MB4316F903C524668BA35707398DE8A@DM6PR11MB4316.namprd11.prod.outlook.com>
+        with ESMTP id S1353539AbjIEGgB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 02:36:01 -0400
+Received: from muru.com (muru.com [72.249.23.125])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E9E4ECC7;
+        Mon,  4 Sep 2023 23:35:57 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by muru.com (Postfix) with ESMTPS id 3E087809E;
+        Tue,  5 Sep 2023 06:35:57 +0000 (UTC)
+Date:   Tue, 5 Sep 2023 09:35:55 +0300
+From:   Tony Lindgren <tony@atomide.com>
+To:     Grant B Adams <nemith592@gmail.com>
+Cc:     linux-omap@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+        Bin Liu <b-liu@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] Fix tps65217-charger vs vbus irq conflict
+Message-ID: <20230905063555.GZ11676@atomide.com>
+References: <20230823085430.6610-1-nemith592@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DM6PR11MB4316F903C524668BA35707398DE8A@DM6PR11MB4316.namprd11.prod.outlook.com>
+In-Reply-To: <20230823085430.6610-1-nemith592@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Sep 05, 2023 at 08:53:43AM +0000, Wu, Wentong wrote:
-> > From: Oliver Neukum <oneukum@suse.com>
-> > 
-> > On 05.09.23 04:20, Wu, Wentong wrote:
-> > 
-> > Hi,
-> > 
-> > >> That is that you will hang arbitrarily long in disconnect?
-> > > This routine isn't called in an interrupt context, and it allows sleep
-> > > or wait something before the real shutdown like many drivers' remove()
-> > > or
-> > > disconnect() do.
-> > 
-> > It is, however, in the context of a kernel thread. We can wait, but not for
-> > arbitrary periods.
+* Grant B Adams <nemith592@gmail.com> [230823 08:54]:
+> Both the tps65217-charger and vbus drivers are trying to allocate the same
+> TPS65217 device interrupt line (TPS65217 is a TI power management IC) 
+> which results in the following error and a probe failure:
 > 
-> AFAIK, this is very common.
+> genirq: Flags mismatch irq 148. 00002000 (vbus) vs. 00000000 
+> (tps65217-charger)
 > 
-> > 
-> > > If we want to speed up the disconnect(), below changes is to complete
-> > > the cmd_completion if usb_kill_urb() has been called, but there is
-> > > still possibility ljca client init one more transfer before
-> > > auxiliary_device_delete()
-> > >
-> > > @@ -206,7 +206,11 @@ static void ljca_recv(struct urb *urb)
-> > >
-> > >          if (urb->status) {
-> > >                  /* sync/async unlink faults aren't errors */
-> > > -               if (urb->status == -ENOENT || urb->status == -ECONNRESET ||
-> > > +               if (urb->status == -ENOENT) {
-> > > +                       complete(&adap->cmd_completion);
-> > > +                       return;
-> > 
-> > I'd say you'd break suspend() by such a change.
-> > You cannot complete in the interrupt handler, unless you can determine why the
-> > URB is killed.
+> For the Beaglebone Black's config the tps65217-charger driver is currently
+> disabled and therefore no conflict. Based on comments from Robert C Nelson
+> this driver has been disabled for a long time and he is uncertain on the
+> reasons why it was disabled. With a battery connected to the BBB, I 
+> re-enabled the tps65217-charger driver which resulted in the 
+> abovementioned.
 > 
-> With below status field in ljca_adapter to determine if it's killed by disconnect().
-> 
-> If this is preferred, I could cook the patch for review.
-> 
-> If this is fixed, could you please help merge this usb-ljca driver so that it won't
-> block others which depends on this driver?
+> The conflict is resolved by changing both driver's threaded interrupt
+> request function from IRQF_ONESHOT to IRQF_SHARED.
 
-Please relax, we can't do anything until after -rc1 is out, and for me,
-that includes reviewing the code.
+Looks good to me:
 
-There is no rush, or deadline, here at all.  It will be merged when it
-is acceptable.
-
-thanks,
-
-greg k-h
+Reviewed-by: Tony Lindgren <tony@atomide.com>
