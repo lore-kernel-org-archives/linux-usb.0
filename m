@@ -2,201 +2,162 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 141CFC83F2C
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:04:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 380DEC83F2C
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:05:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235389AbjIEQCM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:02:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41262 "EHLO
+        id S234950AbjIEQBk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:01:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348572AbjIEEoK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 00:44:10 -0400
+        with ESMTP id S1353119AbjIEGGJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 02:06:09 -0400
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67D731B9;
-        Mon,  4 Sep 2023 21:44:07 -0700 (PDT)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3854OJee026425;
-        Tue, 5 Sep 2023 04:43:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=yVvaRKqMJlk3UqpP5cZkj/ICa0vGp4lU78SSR0qx4m0=;
- b=BShcjV7/woXTvChHx25U4Z+UIDhv6f2y6/s0Dm8K4MqCgrVWWMifuvXMr9QXp1a2O2KL
- 7vQnBmLXDyn0Vq8e6ZD+sz8dhB9LAnm08XqLlPU+9X/14yoUPb9keP0Htv/0wpHv/BnF
- yZO7Z47E8uCQv+2QI/eT/u5J9GkOvP1aYctPkmPDZ0WIhc+u1BlsbVYsRq3oGHp+uHBj
- 8oL+tDTIYuKSOplNEX0dpY9Ci2oHJ84kGiarjd0ZJ0b6bOmWcShv2ZZQ9O8QYelvqWhR
- DI51y8Kr67ld7mAvAo97R9dLFN23rGDyc9eFpml3akr4KDhrYTSx1P/40rEHTvTIwzmQ hg== 
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3swfae1g7y-1
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A7A21B6;
+        Mon,  4 Sep 2023 23:06:04 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3855tPUL012448;
+        Tue, 5 Sep 2023 06:05:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=RV5FWQ73XK+f8PdBSISph3znAM1t6TuzeQNdg37F70o=;
+ b=HopkQ311ri7ivotqUbBziFSQNM5JwMQji+TPOcuaoMejSr7OZ44r7yASFrTiMIzIaRhj
+ 1WuviZ61TXj9GGVbzh18s9fJ/86EJ1ekeWaNakbWKUJczhz/05UaGCCtWxQ4MtWtkrGF
+ LL+wWuGFFk+tpauIyz+Y6H3PAFjDGfMCeLS7x1nfm59faGPHnfH4Hrhb8CSDd062WPA6
+ SeD65huM2WXiAYqD1MRzr/wapOGHcY7c8ep2pNp0KOomT4v1oqudEqKf1Py9asw6zp4+
+ 9LDJnlFElngoNsq1RQ6xV2h+/oY/mpVYb8fRoHtcTXXe+C2ec8mVbHvQ5IeL9PlxlzVC Ig== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3swtr88cv8-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 05 Sep 2023 04:43:56 +0000
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-        by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3854hqu0013110;
-        Tue, 5 Sep 2023 04:43:52 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3sux4kav1g-1;
-        Tue, 05 Sep 2023 04:43:52 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3854hqnT013104;
-        Tue, 5 Sep 2023 04:43:52 GMT
-Received: from hu-sgudaval-hyd.qualcomm.com (hu-rohiagar-hyd.qualcomm.com [10.213.106.138])
-        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3854hpCl013099;
-        Tue, 05 Sep 2023 04:43:52 +0000
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
-        id 69BC31D04; Tue,  5 Sep 2023 10:13:51 +0530 (+0530)
-From:   Rohit Agarwal <quic_rohiagar@quicinc.com>
-To:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        vkoul@kernel.org, kishon@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        gregkh@linuxfoundation.org, abel.vesa@linaro.org,
-        quic_wcheng@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, kernel@quicinc.com,
-        Rohit Agarwal <quic_rohiagar@quicinc.com>
-Subject: [PATCH 2/5] dt-bindings: phy: Add qcom,sdx75-qmp-usb3-uni schema file
-Date:   Tue,  5 Sep 2023 10:13:45 +0530
-Message-Id: <1693889028-6485-3-git-send-email-quic_rohiagar@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1693889028-6485-1-git-send-email-quic_rohiagar@quicinc.com>
-References: <1693889028-6485-1-git-send-email-quic_rohiagar@quicinc.com>
-X-QCInternal: smtphost
+        Tue, 05 Sep 2023 06:05:41 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38565elU005840
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 5 Sep 2023 06:05:40 GMT
+Received: from [10.216.31.184] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 4 Sep
+ 2023 23:05:33 -0700
+Message-ID: <3e547120-0139-92db-ba21-a5371dc49907@quicinc.com>
+Date:   Tue, 5 Sep 2023 11:35:30 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.1
+Subject: Re: [PATCH v10 06/11] usb: dwc3: qcom: Refactor IRQ handling in QCOM
+ Glue driver
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Johan Hovold <johan@kernel.org>
+CC:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Andy Gross" <agross@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <quic_pkondeti@quicinc.com>, <quic_ppratap@quicinc.com>,
+        <quic_jackp@quicinc.com>, <ahalaney@redhat.com>,
+        <quic_shazhuss@quicinc.com>
+References: <20230727223307.8096-1-quic_kriskura@quicinc.com>
+ <20230727223307.8096-7-quic_kriskura@quicinc.com>
+ <pyxerd3lirbh2p43m74ohwocjjb7uh56xxmaxbrkay3svossik@ksd3yojw5wgr>
+ <dc800b15-e35d-207b-73a8-9a3d2261f4f5@quicinc.com>
+ <30b1fe67-bab5-4add-8d89-cc8e06cd8c7f@linaro.org>
+ <3c8dff80-eec8-1721-8ab0-3cf12d4c1df4@quicinc.com>
+ <c8d77d4f-6696-4dc9-8030-daf1d10b114b@linaro.org>
+Content-Language: en-US
+From:   Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
+In-Reply-To: <c8d77d4f-6696-4dc9-8030-daf1d10b114b@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: EPJMKl6kyAFe1sOYpP8Y0jxTOP-Pr_Tl
-X-Proofpoint-ORIG-GUID: EPJMKl6kyAFe1sOYpP8Y0jxTOP-Pr_Tl
+X-Proofpoint-GUID: XG0UrPy2WDdZZS-Vmk66dhseZHUGF2Mb
+X-Proofpoint-ORIG-GUID: XG0UrPy2WDdZZS-Vmk66dhseZHUGF2Mb
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-05_03,2023-08-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
- phishscore=0 priorityscore=1501 mlxlogscore=999 suspectscore=0
- lowpriorityscore=0 clxscore=1015 impostorscore=0 mlxscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309050041
+ definitions=2023-09-05_04,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ impostorscore=0 spamscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0
+ lowpriorityscore=0 priorityscore=1501 adultscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309050054
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a dt-binding schema for SDX75 SoC.
 
-Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
----
- .../bindings/phy/qcom,sdx75-qmp-usb3-uni-phy.yaml  | 106 +++++++++++++++++++++
- 1 file changed, 106 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/phy/qcom,sdx75-qmp-usb3-uni-phy.yaml
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom,sdx75-qmp-usb3-uni-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,sdx75-qmp-usb3-uni-phy.yaml
-new file mode 100644
-index 0000000..2ae0710
---- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/qcom,sdx75-qmp-usb3-uni-phy.yaml
-@@ -0,0 +1,106 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/phy/qcom,sdx75-qmp-usb3-uni-phy.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm QMP PHY controller (USB, SDX75)
-+
-+maintainers:
-+  - Vinod Koul <vkoul@kernel.org>
-+
-+description:
-+  The QMP PHY controller supports physical layer functionality for a number of
-+  controllers on Qualcomm chipsets, such as, PCIe, UFS, and USB.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - qcom,sdx75-qmp-usb3-uni-phy
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 4
-+
-+  clock-names:
-+    items:
-+      - const: aux
-+      - const: cfg_ahb
-+      - const: ref
-+      - const: pipe
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 2
-+
-+  reset-names:
-+    items:
-+      - const: phy
-+      - const: common
-+
-+  vdda-phy-supply: true
-+
-+  vdda-pll-supply: true
-+
-+  "#clock-cells":
-+    const: 0
-+
-+  clock-output-names:
-+    maxItems: 1
-+
-+  "#phy-cells":
-+    const: 0
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - power-domains
-+  - resets
-+  - reset-names
-+  - vdda-phy-supply
-+  - vdda-pll-supply
-+  - "#clock-cells"
-+  - clock-output-names
-+  - "#phy-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/qcom,gcc-sdx75.h>
-+    #include <dt-bindings/clock/qcom,rpmh.h>
-+
-+    phy@ff6000 {
-+      compatible = "qcom,sdx75-qmp-usb3-uni-phy";
-+      reg = <0x0ff6000 0x2000>;
-+
-+      clocks = <&gcc GCC_USB3_PHY_AUX_CLK>,
-+               <&gcc GCC_USB_PHY_CFG_AHB2PHY_CLK>,
-+               <&gcc GCC_USB2_CLKREF_EN>,
-+               <&gcc GCC_USB3_PHY_PIPE_CLK>;
-+      clock-names = "aux",
-+                    "cfg_ahb",
-+                    "ref",
-+                    "pipe";
-+
-+      power-domains = <&gcc GCC_USB3_PHY_GDSC>;
-+
-+      resets = <&gcc GCC_USB3PHY_PHY_BCR>,
-+               <&gcc GCC_USB3_PHY_BCR>;
-+      reset-names = "phy",
-+                    "common";
-+
-+      vdda-phy-supply = <&vreg_l4b_0p88>;
-+      vdda-pll-supply = <&vreg_l1b_1p2>;
-+
-+      #clock-cells = <0>;
-+      clock-output-names = "usb3_uni_phy_pipe_clk_src";
-+
-+      #phy-cells = <0>;
-+    };
--- 
-2.7.4
+On 8/11/2023 10:35 PM, Konrad Dybcio wrote:
+>>>>>> +
+>>>>>> +static int dwc3_get_port_irq(struct platform_device *pdev, u8 port_index)
+>>>>>> +{
+>>>>>> +    struct dwc3_qcom *qcom = platform_get_drvdata(pdev);
+>>>>>> +    bool is_mp_supported = (qcom->data->num_ports > 1) ? true : false;
+>>>>>> +    const struct dwc3_acpi_pdata *pdata = qcom->acpi_pdata;
+>>>>>> +    char *disp_name;
+>>>>>> +    int acpi_index;
+>>>>>> +    char *dt_name;
+>>>>>> +    int ret;
+>>>>>> +    int irq;
+>>>>>> +    int i;
+>>>>>> +
+>>>>>> +    /*
+>>>>>> +     * We need to read only DP/DM/SS IRQ's here.
+>>>>>> +     * So loop over from 1->3 and accordingly modify respective phy_irq[].
+>>>>>> +     */
+>>>>>> +    for (i = 1; i < MAX_PHY_IRQ; i++) {
+>>>>>> +
+>>>>>> +        if (!is_mp_supported && (port_index == 0)) {
+>>>>>> +            if (i == DP_HS_PHY_IRQ) {
+>>>>>> +                dt_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
+>>>>>> +                    "dp_hs_phy_irq");
+>>>>>> +                disp_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
+>>>>>> +                    "qcom_dwc3 DP_HS");
+>>>>>> +            } else if (i == DM_HS_PHY_IRQ) {
+>>>>>> +                dt_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
+>>>>>> +                    "dm_hs_phy_irq");
+>>>>>> +                disp_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
+>>>>>> +                    "qcom_dwc3 DM_HS");
+>>>>>> +            } else if (i == SS_PHY_IRQ) {
+>>>>>> +                dt_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
+>>>>>> +                    "ss_phy_irq");
+>>>>>> +                disp_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
+>>>>>> +                    "qcom_dwc3 SS");
+>>>> Bjorn, Konrad,
+>>>>
+>>>> If we are to remove this repetitive loops, we might need to make a 2D array for all of Dp/Dm/Ss interrutps and make a global array of names to be used for irq lookup and use them to reduce the if-else-if stuff here. If that is fine, I can make those changes, else I would like to stick to this approach for now because if we don't add the global array of names, prepping them seperately for dp/dm/ss would again lead us to making if-else loops like above.
+>>>>
+>>>> Please let me know your thoughts on this.
+>>> Can we not just reuse the associated interrupt-names from the devicetree
+>>> if present?
+>>>
+>> Hi Konrad,
+>>
+>>   Thanks for the comments but one more confirmation.
+>> We can read the interrupts from DT but I believe the compatible would still need to stay. We need the num_ports information not just for registering interrupts but for modifying the pwr_event_irq registers during suspend/resume. If we rely on the interrupts to find the number of ports, the user is free to remove any IRQ and we might end up in a situation where glue and core are not having same view of how many number of ports present. So I believe its best to keep the compatible and get num_ports info from there and rely on reading interrupt-names to get interrupts cleanly. Can you let me know your view on the same.
+> So is "is it okay to add SoC-specific compatibles and add the port number in
+> match data" what you're asking?
+> 
+> If so, that doesn't seem right.
+> 
+> The user should not "feel free to remove any IRQ", modifying the devicetree to
+> depict a subset of the hardware is not something we want to support. The driver
+> has to work with the "full" description in accordance with the bindings.
+> 
 
+Hi Konrad, Johan,
+
+Thanks for the suggestions / review comments and taking the time out for 
+reviewing them. Pushed v11 implementing the above suggestion of 
+identifying port_count by reading through the interrupt-names. Please 
+help let know your review on the same.
+
+Regards,
+Krishna,
