@@ -2,82 +2,160 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6332ECA0FF3
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:02:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB387CA0FF8
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:02:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233795AbjIEQCI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:02:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52588 "EHLO
+        id S235332AbjIEQCK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:02:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354320AbjIEKlr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 06:41:47 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EB38199;
-        Tue,  5 Sep 2023 03:41:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693910504; x=1725446504;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vCTJM66KQGwvClf1+dcoU1IHhDUz9tVaja1XN/F3RyA=;
-  b=GYNJe5WQhpv6k82MTdiAxPOq3iC+2ytyerbfuFY+/M8LLbRIfzk5tkQ8
-   8GpzdIFSbSCCmttAXDw82DXo9LYj/IqXoLtYJ/D3WW6r9Qz1mblNn+msX
-   CmCyRCBdJ9q/ui0d2aDI81KdwnUQSyb4qQOSEY8ASG8Gz4JbwEImpvVf5
-   mxi+8PJO7mYnJ8/S15JSpf3gRAYoo8N5mHlQH4SsG3Mfm1X7x5liPPagb
-   6eBCUUdWToBvYxljcuDT3Wv4PRV3dq7BXv2I9W5rhQafdV+3drKFHgep0
-   dOsZLWHl68+aGx7TRgOg6R35BaNH3lhJbR6NXQfGn7yxc1//bujoker0L
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="443161982"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="443161982"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 03:41:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="1071930708"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="1071930708"
-Received: from unknown (HELO smile.fi.intel.com) ([10.237.72.54])
-  by fmsmga005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 03:41:38 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qdTV0-006eoC-2V;
-        Tue, 05 Sep 2023 13:41:34 +0300
-Date:   Tue, 5 Sep 2023 13:41:34 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Xingui Yang <yangxingui@huawei.com>
-Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com,
-        john.g.garry@oracle.com, damien.lemoal@opensource.wdc.com,
-        akpm@linux-foundation.org, viro@zeniv.linux.org.uk,
-        himanshu.madhani@cavium.com, felipe.balbi@linux.intel.com,
-        gregkh@linuxfoundation.org, uma.shankar@intel.com,
-        anshuman.gupta@intel.com, animesh.manna@intel.com,
-        linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linuxarm@huawei.com,
-        prime.zeng@hisilicon.com, kangfenglong@huawei.com,
-        chenxiang66@hisilicon.com
-Subject: Re: [PATCH v6 3/3] scsi: qla2xxx: Use DEFINE_SHOW_STORE_ATTRIBUTE()
- helper for debugfs
-Message-ID: <ZPcF3tAeTt66IH+A@smile.fi.intel.com>
-References: <20230905024835.43219-1-yangxingui@huawei.com>
- <20230905024835.43219-4-yangxingui@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230905024835.43219-4-yangxingui@huawei.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        with ESMTP id S1354276AbjIEKbB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 06:31:01 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1562CE8;
+        Tue,  5 Sep 2023 03:30:58 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3859GJvl020272;
+        Tue, 5 Sep 2023 10:30:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=sjI78r/3r3qjGhnVneYrGC+ayXPDVe/k7BOLmZbuPs8=;
+ b=kDhQ5TBW8YbfYpSQ7gQjiTMhi+133Rtlg7ybjJ2cWfFcMtV5w62780i4vCDm//Is6Ikw
+ WwbMY14C9SnNKoopb8EZpUz1Y+UKb1nzT+sDEN/FdU/7LDYVg6/8CZ943l2dEUMngwfy
+ scM8sASAk2OkssqS8+b2wlqHsXeNX4D0KzgEjbuVJlCkEAhKFWSGdhHJmV+PVLJsWQgF
+ ws69QPJhheUIPG3AP0/xscrEFOXVkIhnwp8AqZWQELv+JoKDne+cT3vxBzq2DGbsfGZP
+ KVohvz5lME7hA/6bHYFrs0ymvz8NV5IVSpXvhncFYAJ7XmHVcsJUHJXESPa+AF4eBodl bw== 
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3swsp58vh8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 05 Sep 2023 10:30:44 +0000
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+        by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 385AUehD018105;
+        Tue, 5 Sep 2023 10:30:40 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3sux4km16r-1;
+        Tue, 05 Sep 2023 10:30:40 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 385AUeHM018094;
+        Tue, 5 Sep 2023 10:30:40 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-rohiagar-hyd.qualcomm.com [10.213.106.138])
+        by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 385AUevn018087;
+        Tue, 05 Sep 2023 10:30:40 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
+        id D790E1D1E; Tue,  5 Sep 2023 16:00:39 +0530 (+0530)
+From:   Rohit Agarwal <quic_rohiagar@quicinc.com>
+To:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        vkoul@kernel.org, kishon@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        gregkh@linuxfoundation.org, abel.vesa@linaro.org,
+        quic_wcheng@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, kernel@quicinc.com,
+        Rohit Agarwal <quic_rohiagar@quicinc.com>
+Subject: [PATCH v2 2/5] dt-bindings: phy: qcom,qmp-usb: Add SDX75 USB3 PHY
+Date:   Tue,  5 Sep 2023 16:00:35 +0530
+Message-Id: <1693909838-6682-3-git-send-email-quic_rohiagar@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1693909838-6682-1-git-send-email-quic_rohiagar@quicinc.com>
+References: <1693909838-6682-1-git-send-email-quic_rohiagar@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: d_FpHIomEwaq70fC11UIPiL6yvUWFGzW
+X-Proofpoint-GUID: d_FpHIomEwaq70fC11UIPiL6yvUWFGzW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-05_08,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ adultscore=0 phishscore=0 impostorscore=0 spamscore=0 malwarescore=0
+ mlxlogscore=913 clxscore=1015 mlxscore=0 priorityscore=1501 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309050093
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Sep 05, 2023 at 02:48:35AM +0000, Xingui Yang wrote:
-> Use DEFINE_SHOW_STORE_ATTRIBUTE() helper for read-write file to reduce some
-> duplicated code.
+Add dt-bindings for USB3 PHY found on Qualcomm SDX75.
 
-I was talking about comment only, but okay, this is good enough, FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+---
+ .../phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml        | 40 ++++++++++++++++++++--
+ 1 file changed, 37 insertions(+), 3 deletions(-)
 
+diff --git a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+index f99fbbc..5725620 100644
+--- a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+@@ -20,6 +20,7 @@ properties:
+       - qcom,qcm2290-qmp-usb3-phy
+       - qcom,sa8775p-qmp-usb3-uni-phy
+       - qcom,sc8280xp-qmp-usb3-uni-phy
++      - qcom,sdx75-qmp-usb3-uni-phy
+       - qcom,sm6115-qmp-usb3-phy
+ 
+   reg:
+@@ -38,9 +39,7 @@ properties:
+     maxItems: 2
+ 
+   reset-names:
+-    items:
+-      - const: phy
+-      - const: phy_phy
++    maxItems: 2
+ 
+   vdda-phy-supply: true
+ 
+@@ -75,6 +74,7 @@ allOf:
+           contains:
+             enum:
+               - qcom,ipq9574-qmp-usb3-phy
++              - qcom,sdx75-qmp-usb3-uni-phy
+     then:
+       properties:
+         clock-names:
+@@ -122,6 +122,40 @@ allOf:
+       required:
+         - power-domains
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,ipq9574-qmp-usb3-phy
++              - qcom,qcm2290-qmp-usb3-phy
++              - qcom,sa8775p-qmp-usb3-uni-phy
++              - qcom,sc8280xp-qmp-usb3-uni-phy
++              - qcom,sm6115-qmp-usb3-phy
++    then:
++      properties:
++        resets:
++          maxItems: 2
++        reset-names:
++          items:
++            - const: phy
++            - const: phy_phy
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sdx75-qmp-usb3-uni-phy
++    then:
++      properties:
++        resets:
++          maxItems: 2
++        reset-names:
++          items:
++            - const: phy
++            - const: common
++
+ additionalProperties: false
+ 
+ examples:
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.7.4
 
