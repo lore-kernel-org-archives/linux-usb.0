@@ -2,115 +2,125 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB029CA0FFB
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:02:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F47ECA0FFA
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:02:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235441AbjIEQCO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Sep 2023 12:02:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56614 "EHLO
+        id S235576AbjIEQCU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:02:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353726AbjIEHhy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 03:37:54 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4820CCB;
-        Tue,  5 Sep 2023 00:37:48 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-9a1de3417acso656846066b.0;
-        Tue, 05 Sep 2023 00:37:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693899467; x=1694504267; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5xBrp9r817wKKAMfR9Mj+PoM3I6buWn6veoU7C1fA/8=;
-        b=RnGez9v7HmIkfhVJbtOwGSl6ISibrWoz+gJIuHBtPGKDyPbeCKZpko/yxt05HKOddy
-         iv/BmrAvnLld4tjJpgQLe3UcwaOvxIzez+EdsGcsyTLkHlfDTJbiAjNl3I9xkinZ9cCX
-         G0/TNu+6k1XCoL9MnDqupmszl2CBkGB7qUipy+Cm+ivlTarmS6t3sqabqOvVMnz0x2hz
-         yB3PVa34lHNaOPx7XLQnYVs9iHucOB1l6dijJo3z48WLyl2d9cvHhrU1gGACkI7CMtlL
-         8CQHMeiMwt4zFrce0Hc73Re9okzgxGsH/+lHRJUtTgNhaYlCC+gx9kCzLbg2TWqF1rgL
-         asoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693899467; x=1694504267;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5xBrp9r817wKKAMfR9Mj+PoM3I6buWn6veoU7C1fA/8=;
-        b=ib0nPDWhUeyAniL3eTCP/1nNEM5B4yT3jfWOG9/VSpJ7P9nVfRp0GOXE5v7D0L9k9V
-         vHPTOrUOVUvAWAsAM8xD50xgbAqd8PAH661nwJOw7uK4l54z2CMGyn/B4VfmfuYsrbiv
-         Hw/xh5Re4M31tTGCaLKMiXSk6HlMdynOMkRFv6hYQ3GR21zCjO0sGfS+PTeE8QQ8IGX5
-         sw6re0tQLYu4Fgn15SOT3JT+mmWZluXErptUAOEdy0FgcXVFdsiq9Mc7dufAYiTq7y71
-         cWPZwjWri6HOi/UdWgOHw3DtjQS8R5q9gtv22JlpTmZj7nxny8ocaRnkdiphFw8xMqaD
-         SCGQ==
-X-Gm-Message-State: AOJu0YyK0Lt5e/pXXhDhRfG8dLY0dAg7qmukBgQgXAhuR5xxk8qaBHmj
-        Wq7XyP+RtRrdFxdNJij6cqhRla2t2Mc=
-X-Google-Smtp-Source: AGHT+IGe2WvdHmD1qbnq9RHRDIRs44Cc6gKEuq159HR84qjJtzm/0F/zO/Yq4l6l0Pc/goMugl1M3g==
-X-Received: by 2002:a17:907:7804:b0:99b:4210:cc76 with SMTP id la4-20020a170907780400b0099b4210cc76mr12516418ejc.28.1693899467067;
-        Tue, 05 Sep 2023 00:37:47 -0700 (PDT)
-Received: from labdl-itc-sw06.tmt.telital.com (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
-        by smtp.gmail.com with ESMTPSA id vi18-20020a170907d41200b0098ec690e6d7sm7206197ejc.73.2023.09.05.00.37.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 00:37:46 -0700 (PDT)
-From:   Fabio Porcedda <fabio.porcedda@gmail.com>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, Daniele Palmas <dnlplm@gmail.com>,
-        Fabio Porcedda <fabio.porcedda@gmail.com>,
-        stable@vger.kernel.org
-Subject: [PATCH] USB: serial: option: add Telit LE910C4-WWX 0x1035 composition
-Date:   Tue,  5 Sep 2023 09:37:24 +0200
-Message-ID: <20230905073724.52272-1-fabio.porcedda@gmail.com>
-X-Mailer: git-send-email 2.42.0
+        with ESMTP id S1354171AbjIEKEU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 06:04:20 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67F1E198;
+        Tue,  5 Sep 2023 03:04:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E6B0FB81104;
+        Tue,  5 Sep 2023 10:04:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 134C4C433C8;
+        Tue,  5 Sep 2023 10:04:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1693908253;
+        bh=cQTnkMhDRy5JwEJ7hQwW45cTKaEjXmpkptxk9UnTN9c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gX2uxS5VVjeEKiCCpQxqG55A1d6tr08FU879bG5+NXYZLFyFaMPppX3z5yy4yLqod
+         dNwYiKnW4TFGr/ImkTHkmpe/bve7rwiugwIiFQfqwrKvi/9HkBUuW6mmPCH3GfZ6Tf
+         q5pVNKTsBUkwS9aQg+3O3Ii2W/CsulKJysn/CMDM=
+Date:   Tue, 5 Sep 2023 11:04:10 +0100
+From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+To:     "Wu, Wentong" <wentong.wu@intel.com>
+Cc:     Oliver Neukum <oneukum@suse.com>, "arnd@arndb.de" <arnd@arndb.de>,
+        "mka@chromium.org" <mka@chromium.org>,
+        "lee@kernel.org" <lee@kernel.org>,
+        "wsa@kernel.org" <wsa@kernel.org>,
+        "kfting@nuvoton.com" <kfting@nuvoton.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "maz@kernel.org" <maz@kernel.org>, "brgl@bgdev.pl" <brgl@bgdev.pl>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>,
+        "andi.shyti@linux.intel.com" <andi.shyti@linux.intel.com>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        "bartosz.golaszewski@linaro.org" <bartosz.golaszewski@linaro.org>,
+        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
+        "Wang, Zhifeng" <zhifeng.wang@intel.com>
+Subject: Re: [PATCH v14 1/4] usb: Add support for Intel LJCA device
+Message-ID: <2023090530-cleft-chivalry-b59f@gregkh>
+References: <1693806261-12958-1-git-send-email-wentong.wu@intel.com>
+ <1693806261-12958-2-git-send-email-wentong.wu@intel.com>
+ <a8c8af1b-9399-6ca9-ea3d-b71e6ee68cad@suse.com>
+ <DM6PR11MB43166D27FB15905CB02DBC5B8DE9A@DM6PR11MB4316.namprd11.prod.outlook.com>
+ <7755c3ee-9d7e-8ae5-1cf7-a5247cc4e6e5@suse.com>
+ <DM6PR11MB4316C70D7C14B56ED349F01F8DE8A@DM6PR11MB4316.namprd11.prod.outlook.com>
+ <f6f8a9c4-faf1-f9da-e688-a29eb267fabc@suse.com>
+ <DM6PR11MB4316F903C524668BA35707398DE8A@DM6PR11MB4316.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM6PR11MB4316F903C524668BA35707398DE8A@DM6PR11MB4316.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support for the following Telit LE910C4-WWX composition:
+On Tue, Sep 05, 2023 at 08:53:43AM +0000, Wu, Wentong wrote:
+> > From: Oliver Neukum <oneukum@suse.com>
+> > 
+> > On 05.09.23 04:20, Wu, Wentong wrote:
+> > 
+> > Hi,
+> > 
+> > >> That is that you will hang arbitrarily long in disconnect?
+> > > This routine isn't called in an interrupt context, and it allows sleep
+> > > or wait something before the real shutdown like many drivers' remove()
+> > > or
+> > > disconnect() do.
+> > 
+> > It is, however, in the context of a kernel thread. We can wait, but not for
+> > arbitrary periods.
+> 
+> AFAIK, this is very common.
+> 
+> > 
+> > > If we want to speed up the disconnect(), below changes is to complete
+> > > the cmd_completion if usb_kill_urb() has been called, but there is
+> > > still possibility ljca client init one more transfer before
+> > > auxiliary_device_delete()
+> > >
+> > > @@ -206,7 +206,11 @@ static void ljca_recv(struct urb *urb)
+> > >
+> > >          if (urb->status) {
+> > >                  /* sync/async unlink faults aren't errors */
+> > > -               if (urb->status == -ENOENT || urb->status == -ECONNRESET ||
+> > > +               if (urb->status == -ENOENT) {
+> > > +                       complete(&adap->cmd_completion);
+> > > +                       return;
+> > 
+> > I'd say you'd break suspend() by such a change.
+> > You cannot complete in the interrupt handler, unless you can determine why the
+> > URB is killed.
+> 
+> With below status field in ljca_adapter to determine if it's killed by disconnect().
+> 
+> If this is preferred, I could cook the patch for review.
+> 
+> If this is fixed, could you please help merge this usb-ljca driver so that it won't
+> block others which depends on this driver?
 
-0x1035: TTY, TTY, ECM
+Please relax, we can't do anything until after -rc1 is out, and for me,
+that includes reviewing the code.
 
-Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
-Cc: stable@vger.kernel.org
----
+There is no rush, or deadline, here at all.  It will be merged when it
+is acceptable.
 
-Output of usb-devices:
+thanks,
 
-T:  Bus=01 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  5 Spd=480 MxCh= 0
-D:  Ver= 2.00 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
-P:  Vendor=1bc7 ProdID=1035 Rev=00.00
-S:  Manufacturer=Telit
-S:  Product=LE910C4-WWX
-S:  SerialNumber=e1b117c7
-C:  #Ifs= 4 Cfg#= 1 Atr=e0 MxPwr=500mA
-I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
-E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=81(I) Atr=03(Int.) MxPS=  64 Ivl=2ms
-E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:  If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=fe Prot=ff Driver=option
-E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=83(I) Atr=03(Int.) MxPS=  64 Ivl=2ms
-E:  Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:  If#= 2 Alt= 0 #EPs= 1 Cls=02(commc) Sub=06 Prot=00 Driver=cdc_ether
-E:  Ad=85(I) Atr=03(Int.) MxPS=  64 Ivl=2ms
-I:  If#= 3 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=cdc_ether
-E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-
----
- drivers/usb/serial/option.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index 8ac98e60fff5..50c5fbe1c69c 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -1287,6 +1287,7 @@ static const struct usb_device_id option_ids[] = {
- 	 .driver_info = NCTRL(0) | RSVD(3) },
- 	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x1033, 0xff),	/* Telit LE910C1-EUX (ECM) */
- 	 .driver_info = NCTRL(0) },
-+	{ USB_DEVICE_INTERFACE_CLASS(TELIT_VENDOR_ID, 0x1035, 0xff) }, /* Telit LE910C4-WWX (ECM) */
- 	{ USB_DEVICE(TELIT_VENDOR_ID, TELIT_PRODUCT_LE922_USBCFG0),
- 	  .driver_info = RSVD(0) | RSVD(1) | NCTRL(2) | RSVD(3) },
- 	{ USB_DEVICE(TELIT_VENDOR_ID, TELIT_PRODUCT_LE922_USBCFG1),
--- 
-2.42.0
-
+greg k-h
