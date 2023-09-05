@@ -2,186 +2,104 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51B92C71153
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 00:12:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16518CA0FFC
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Sep 2023 16:01:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237910AbjIEANA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 4 Sep 2023 20:13:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44266 "EHLO
+        id S234663AbjIEQBM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Sep 2023 12:01:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237503AbjIEAM7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Sep 2023 20:12:59 -0400
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0CCFE4D;
-        Mon,  4 Sep 2023 17:12:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-        t=1693872761; bh=BdHr5xYzJaXpVVjrVQyCyMhqKo0QPrh0h1mxW+BeCdk=;
-        h=Date:From:To:Subject:X-My-GPG-KeyId:References:From;
-        b=sCAZbCxG4vDYd8PkSat1sRd/mrRSogl2lERQpDPcT0EpkfGeutxnj0JDslll30xMP
-         SUFbCkURxw4uAOAP+fSPk7VL24AZe+I1tyxIfgR1rhN8JlSWFFqNMgqUyJewpC+lih
-         w28bXq0ZLiHQhLX5YFnqIIDZjFwmoPkDKwqWh6M0=
-Date:   Tue, 5 Sep 2023 02:12:40 +0200
-From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To:     Sascha Hauer <s.hauer@pengutronix.de>, linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 1/2] usb: gadget: u_ether: Do not make UDC parent of the
- net device
-Message-ID: <gu73djslgompoxoouph337njqoe67mntrneupbqwdoy7b2sf7e@zdj5bncze6q2>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-        Sascha Hauer <s.hauer@pengutronix.de>, linux-usb@vger.kernel.org, 
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, kernel@pengutronix.de
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20221104131031.850850-1-s.hauer@pengutronix.de>
- <20221104131031.850850-2-s.hauer@pengutronix.de>
- <miiwk4pah7tgdszugqmhnnaweyt7wrw3bxmuliyva3k7nccyab@lsyhvutbuzx2>
+        with ESMTP id S1353603AbjIEGvM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Sep 2023 02:51:12 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B26BCC2
+        for <linux-usb@vger.kernel.org>; Mon,  4 Sep 2023 23:51:08 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-99c3d3c3db9so324655666b.3
+        for <linux-usb@vger.kernel.org>; Mon, 04 Sep 2023 23:51:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693896667; x=1694501467; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TI3fumOulphifA8hP0bCF3NnJrN6piRrNYQj+vzAjx4=;
+        b=wEXBzdY87CW4tWRLo/dAq+htfGT6bzlpmwGMs1f7FLDZxwLqbYMvNYtJCB5+ZP/1+F
+         erqbctpd0KednsH4IQw+iVQzGkMjKuh7A+R6+AwJc6vhy3DtFRm7dtIZUV2cr+41rfPJ
+         dJIyK6fN4pg3T0eYaQpNchp5No+uqynhm4MYXU4o2vMIzPvYqILnxGa7ZS+RM+TM9FHR
+         cEPVpSbGZl+GBFPs3Nj71pK+WXWMLmQKr221YUoKakwx28Hjh6RLbgaYD8duOrEGoPWo
+         sjuryIc8ZmzgykoOk2vSO4FN/wqwb+SPDxqy2Mev+fpQcHIfOUm/EDl5GYf3tzoYimzU
+         oT1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693896667; x=1694501467;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TI3fumOulphifA8hP0bCF3NnJrN6piRrNYQj+vzAjx4=;
+        b=GQAvbRISJ2ydbRX2aHkRkUWk54ItmjOmk3IqyXuDApvw1N9NhdaaaebjvUkKvLgvkD
+         hEClDzGBlVauw38/icl8qyEdPTNO1wZQQlRdyLveA5fgAfx8T/Im9012QvIRm1Gk479I
+         DmDDvhMuUO3eDPuVvSJ4CZMHJmZoV9o3J5QiMVEibQnU9f61sUIE9k9XP8sTo8P/cXPV
+         IDEWJG0Vvh+Gc3+kcJ0/upQVtSxJZ0nxVy8IuQB3j/DyoycyvnR1sB6k5o8mMKjTQr+h
+         Q56gnY3jlMbAq7B/bhhMuVCw/lCC3xLlzA1YIDpClCzmh8YKd7f+dwnwKjFMKWmKvXL/
+         +nuQ==
+X-Gm-Message-State: AOJu0Yw+QncWGXNkrZO5AxFkGuejJ5ToPSqWvZxdMdPRyTe4G6nMLGo4
+        hDl+1xVIduUnEA3BhR5mGZgOsQ==
+X-Google-Smtp-Source: AGHT+IFak6u0YHk+VTo55HeDc1ShrixofDnPPoc5WNdz9phuG5IwtwKskdApHe67dMkqwxTB5lNnrg==
+X-Received: by 2002:a17:907:2bf2:b0:9a1:f96c:4bb2 with SMTP id gv50-20020a1709072bf200b009a1f96c4bb2mr8684469ejc.50.1693896667119;
+        Mon, 04 Sep 2023 23:51:07 -0700 (PDT)
+Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
+        by smtp.gmail.com with ESMTPSA id mf25-20020a170906cb9900b0099d804da2e9sm7192399ejb.225.2023.09.04.23.51.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Sep 2023 23:51:06 -0700 (PDT)
+Message-ID: <b8bb019d-6832-a956-b314-e7861748d188@linaro.org>
+Date:   Tue, 5 Sep 2023 08:51:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <miiwk4pah7tgdszugqmhnnaweyt7wrw3bxmuliyva3k7nccyab@lsyhvutbuzx2>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 3/5] dt-bindings: usb: dwc3: Add missing SDX65 compatible
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Rohit Agarwal <quic_rohiagar@quicinc.com>, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org, vkoul@kernel.org,
+        kishon@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        gregkh@linuxfoundation.org, abel.vesa@linaro.org,
+        quic_wcheng@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, kernel@quicinc.com
+References: <1693889028-6485-1-git-send-email-quic_rohiagar@quicinc.com>
+ <1693889028-6485-4-git-send-email-quic_rohiagar@quicinc.com>
+ <96c76c55-d5d4-e4ef-e7c3-ee35b2d7ad78@linaro.org>
+In-Reply-To: <96c76c55-d5d4-e4ef-e7c3-ee35b2d7ad78@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Sep 04, 2023 at 03:14:30PM +0200, megi xff wrote:
+On 05/09/2023 08:49, Krzysztof Kozlowski wrote:
+> On 05/09/2023 06:43, Rohit Agarwal wrote:
+>> Add missing SDX65 compatible for specifying the clocks used.
+>>
+>> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+>> ---
+>>  Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+>> index 5c13229..fa51f50 100644
+>> --- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+>> +++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+>> @@ -186,6 +186,7 @@ allOf:
+>>                - qcom,sdm670-dwc3
+>>                - qcom,sdm845-dwc3
+>>                - qcom,sdx55-dwc3
+>> +              - qcom,sdx65-dwc3
 > 
-> Hi,
-> 
-> On Fri, Nov 04, 2022 at 02:10:30PM +0100, Sascha Hauer wrote:
-> > ing-List: linux-kernel@vger.kernel.org
-> > 
-> > The UDC is not a suitable parent of the net device as the UDC can
-> > change or vanish during the lifecycle of the ethernet gadget. This
-> > can be illustrated with the following:
-> > 
-> > mkdir -p /sys/kernel/config/usb_gadget/mygadget
-> > cd /sys/kernel/config/usb_gadget/mygadget
-> > mkdir -p configs/c.1/strings/0x409
-> > echo "C1:Composite Device" > configs/c.1/strings/0x409/configuration
-> > mkdir -p functions/ecm.usb0
-> > ln -s functions/ecm.usb0 configs/c.1/
-> > echo "dummy_udc.0" > UDC
-> > rmmod dummy_hcd
-> > 
-> > The 'rmmod' removes the UDC from the just created gadget, leaving
-> > the still existing net device with a no longer existing parent.
-> 
-> I have an even simpler reproducer on Pinephone Pro/RK3399 SoC. All it takes to
-> trigger the use after free and kernel panic in my case is to plug in a USB dock
-> to make DWC3 DRD switch to host mode and then unplug it to make it switch back to
-> peripheral mode.
-> 
-> This triggers a call to dwc3_gadget_exit and then to dwc3_gadget_init later on
-> 
-> https://elixir.bootlin.com/linux/latest/source/drivers/usb/dwc3/gadget.c#L4546
-> 
-> Then symlink to the net device becames broken in sysfs:
-> 
->   https://megous.com/dl/tmp/3d8061f1749a7b2b.png
-> 
-> And after this happens, there's a kernel panic when removing the rndis gadget
-> configuration from configfs: https://paste.mozilla.org/Z5DFP9BV
-> (and possibly other issues, but the kernel panic is the most noticable :))
-> 
-> Applaying this patch makes the issue go away. So there definitely seems to
-> be some device lifetime issue somewhere in there.
+> That's not a complete change. Update the rest of the file.
 
-Looks like this patch just masks an underlying issue. Eg. with DWC3 as UDC,
-rndis_bind/rndis_unbind is called multiple times (each time USB role switches
-from host to peripheral). This is because DWC3 re-creates the gadget device
-each time. During every call rndis_bind gets a pointer to a newly created
-gadget, but gether_set_gadget() is only called:
+Hm, your subject is confusing. The SDX65 is not missing and you do not
+add missing compatible.
 
-  if (!rndis_opts->bound) {
-  	...
-  }
+Best regards,
+Krzysztof
 
-which only happens on the first call to rndis_bind.
-
-On any further calls to rndis_bind(), gether_set_gadget is not called, because
-rndis_opts->bound is already set and thus netdev private data keep pointing to
-some old, deleted gadget device.
-
-https://elixir.bootlin.com/linux/latest/source/drivers/usb/gadget/function/f_rndis.c#L704
-https://elixir.bootlin.com/linux/latest/source/drivers/usb/gadget/function/u_ether.c#L890
-
-It looks like this whole code was not really written with assumption that
-gadget devices can be deleted and re-added like this.
-
-Not sure where the bug really is... if f_* drivers should better handle gadget changes,
-or DWC3 should not re-create the gadget like it does on mode changes, or
-elsewhere.
-
-kind regards,
-	o.
-
-> kind regards,
-> 	o.
-> 
-> > Accessing the ethernet device with commands like:
-> > 
-> > ip --details link show usb0
-> > 
-> > will result in a KASAN splat:
-> > 
-> > ==================================================================
-> > BUG: KASAN: use-after-free in if_nlmsg_size+0x3e8/0x528
-> > Read of size 4 at addr c5c84754 by task ip/357
-> > 
-> > CPU: 3 PID: 357 Comm: ip Not tainted 6.1.0-rc3-00013-gd14953726b24-dirty #324
-> > Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
-> >  unwind_backtrace from show_stack+0x10/0x14
-> >  show_stack from dump_stack_lvl+0x58/0x70
-> >  dump_stack_lvl from print_report+0x134/0x4d4
-> >  print_report from kasan_report+0x78/0x10c
-> >  kasan_report from if_nlmsg_size+0x3e8/0x528
-> >  if_nlmsg_size from rtnl_getlink+0x2b4/0x4d0
-> >  rtnl_getlink from rtnetlink_rcv_msg+0x1f4/0x674
-> >  rtnetlink_rcv_msg from netlink_rcv_skb+0xb4/0x1f8
-> >  netlink_rcv_skb from netlink_unicast+0x294/0x478
-> >  netlink_unicast from netlink_sendmsg+0x328/0x640
-> >  netlink_sendmsg from ____sys_sendmsg+0x2a4/0x3b4
-> >  ____sys_sendmsg from ___sys_sendmsg+0xc8/0x12c
-> >  ___sys_sendmsg from sys_sendmsg+0xa0/0x120
-> >  sys_sendmsg from ret_fast_syscall+0x0/0x1c
-> > 
-> > Solve this by not setting the parent of the ethernet device.
-> > 
-> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> > ---
-> >  drivers/usb/gadget/function/u_ether.c | 4 ----
-> >  1 file changed, 4 deletions(-)
-> > 
-> > diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
-> > index e06022873df16..8f12f3f8f6eeb 100644
-> > --- a/drivers/usb/gadget/function/u_ether.c
-> > +++ b/drivers/usb/gadget/function/u_ether.c
-> > @@ -798,7 +798,6 @@ struct eth_dev *gether_setup_name(struct usb_gadget *g,
-> >  	net->max_mtu = GETHER_MAX_MTU_SIZE;
-> >  
-> >  	dev->gadget = g;
-> > -	SET_NETDEV_DEV(net, &g->dev);
-> >  	SET_NETDEV_DEVTYPE(net, &gadget_type);
-> >  
-> >  	status = register_netdev(net);
-> > @@ -873,8 +872,6 @@ int gether_register_netdev(struct net_device *net)
-> >  	struct usb_gadget *g;
-> >  	int status;
-> >  
-> > -	if (!net->dev.parent)
-> > -		return -EINVAL;
-> >  	dev = netdev_priv(net);
-> >  	g = dev->gadget;
-> >  
-> > @@ -905,7 +902,6 @@ void gether_set_gadget(struct net_device *net, struct usb_gadget *g)
-> >  
-> >  	dev = netdev_priv(net);
-> >  	dev->gadget = g;
-> > -	SET_NETDEV_DEV(net, &g->dev);
-> >  }
-> >  EXPORT_SYMBOL_GPL(gether_set_gadget);
-> >  
-> > -- 
-> > 2.30.2
-> > 
