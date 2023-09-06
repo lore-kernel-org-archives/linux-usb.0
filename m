@@ -2,25 +2,25 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14759EB8FAD
-	for <linux-usb@archiver.kernel.org>; Wed,  6 Sep 2023 08:06:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8657EB8FB6
+	for <linux-usb@archiver.kernel.org>; Wed,  6 Sep 2023 08:06:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233969AbjIFIGm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 6 Sep 2023 04:06:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44532 "EHLO
+        id S234452AbjIFIGo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 6 Sep 2023 04:06:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234452AbjIFIGk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Sep 2023 04:06:40 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 264E0E52;
-        Wed,  6 Sep 2023 01:06:31 -0700 (PDT)
+        with ESMTP id S234433AbjIFIGm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Sep 2023 04:06:42 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 16356E4F;
+        Wed,  6 Sep 2023 01:06:36 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.02,231,1688396400"; 
-   d="scan'208";a="178901450"
+   d="scan'208";a="175191028"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 06 Sep 2023 17:06:30 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 06 Sep 2023 17:06:36 +0900
 Received: from localhost.localdomain (unknown [10.226.92.21])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id DBCAE41D147D;
-        Wed,  6 Sep 2023 17:06:27 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0E2AF41D147A;
+        Wed,  6 Sep 2023 17:06:33 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>
@@ -29,9 +29,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Biju Das <biju.das.au@gmail.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v3 2/5] usb: typec: tcpci_rt1711h: Convert enum->pointer for data in the match tables
-Date:   Wed,  6 Sep 2023 09:06:16 +0100
-Message-Id: <20230906080619.36930-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 4/5] usb: typec: tcpci_rt1711h: Add enable_pd30_extended_message variable to struct rt1711h_chip_info
+Date:   Wed,  6 Sep 2023 09:06:18 +0100
+Message-Id: <20230906080619.36930-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230906080619.36930-1-biju.das.jz@bp.renesas.com>
 References: <20230906080619.36930-1-biju.das.jz@bp.renesas.com>
@@ -41,15 +41,9 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently did varaible is used for HW differences between the devices which
-complicates the code by adding checks.
-
-Therefore it is better to convert enum->pointer for data match and extend
-match support for both ID and OF tables by using i2c_get_match_data().
-
-Add struct rt1711h_chip_info with did variable and replace did->info in
-struct rt1711h_chip. Later patch will add more hw differences to
-struct rt1711h_chip_info and avoid checking did for HW differences.
+The RT1715 has PD30 extended message compared to RT1711H. Add a variable
+enable_pd30_extended_message to struct rt1711h_chip_info to enable this
+feature for RT1715.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
@@ -57,100 +51,40 @@ Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 v2->v3:
  * Added Rb tag from Andy.
 v1->v2:
- * Updated commit description.
+ * Changed enable_pd30_extended_message variable type to bool.
 ---
- drivers/usb/typec/tcpm/tcpci_rt1711h.c | 30 ++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 9 deletions(-)
+ drivers/usb/typec/tcpm/tcpci_rt1711h.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/typec/tcpm/tcpci_rt1711h.c b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-index 6146bca8e55f..2b7258d3cb4e 100644
+index 40822bae9ae8..5d2dc7ead9d0 100644
 --- a/drivers/usb/typec/tcpm/tcpci_rt1711h.c
 +++ b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-@@ -51,13 +51,17 @@
- /* 1b0 as fixed rx threshold of rd/rp 0.55V, 1b1 depends on RTCRTL4[0] */
- #define BMCIO_RXDZEN	BIT(0)
- 
-+struct rt1711h_chip_info {
-+	u16 did;
-+};
-+
- struct rt1711h_chip {
- 	struct tcpci_data data;
- 	struct tcpci *tcpci;
- 	struct device *dev;
- 	struct regulator *vbus;
-+	const struct rt1711h_chip_info *info;
- 	bool src_en;
--	u16 did;
+@@ -54,6 +54,7 @@
+ struct rt1711h_chip_info {
+ 	u32 rxdz_sel;
+ 	u16 did;
++	bool enable_pd30_extended_message;
  };
  
- static int rt1711h_read16(struct rt1711h_chip *chip, unsigned int reg, u16 *val)
-@@ -105,7 +109,7 @@ static int rt1711h_init(struct tcpci *tcpci, struct tcpci_data *tdata)
+ struct rt1711h_chip {
+@@ -110,7 +111,7 @@ static int rt1711h_init(struct tcpci *tcpci, struct tcpci_data *tdata)
  		return ret;
  
  	/* Enable PD30 extended message for RT1715 */
--	if (chip->did == RT1715_DID) {
-+	if (chip->info->did == RT1715_DID) {
+-	if (chip->info->did == RT1715_DID) {
++	if (chip->info->enable_pd30_extended_message) {
  		ret = regmap_update_bits(regmap, RT1711H_RTCTRL8,
  					 RT1711H_ENEXTMSG, RT1711H_ENEXTMSG);
  		if (ret < 0)
-@@ -200,7 +204,7 @@ static inline int rt1711h_init_cc_params(struct rt1711h_chip *chip, u8 status)
- 	if ((cc1 >= TYPEC_CC_RP_1_5 && cc2 < TYPEC_CC_RP_DEF) ||
- 	    (cc2 >= TYPEC_CC_RP_1_5 && cc1 < TYPEC_CC_RP_DEF)) {
- 		rxdz_en = BMCIO_RXDZEN;
--		if (chip->did == RT1715_DID)
-+		if (chip->info->did == RT1715_DID)
- 			rxdz_sel = RT1711H_BMCIO_RXDZSEL;
- 		else
- 			rxdz_sel = 0;
-@@ -319,7 +323,7 @@ static int rt1711h_check_revision(struct i2c_client *i2c, struct rt1711h_chip *c
- 	ret = i2c_smbus_read_word_data(i2c, TCPC_BCD_DEV);
- 	if (ret < 0)
- 		return ret;
--	if (ret != chip->did) {
-+	if (ret != chip->info->did) {
- 		dev_err(&i2c->dev, "did is not correct, 0x%04x\n", ret);
- 		return -ENODEV;
- 	}
-@@ -336,7 +340,7 @@ static int rt1711h_probe(struct i2c_client *client)
- 	if (!chip)
- 		return -ENOMEM;
+@@ -400,6 +401,7 @@ static const struct rt1711h_chip_info rt1711h = {
+ static const struct rt1711h_chip_info rt1715 = {
+ 	.rxdz_sel = RT1711H_BMCIO_RXDZSEL,
+ 	.did = RT1715_DID,
++	.enable_pd30_extended_message = true,
+ };
  
--	chip->did = (size_t)device_get_match_data(&client->dev);
-+	chip->info = i2c_get_match_data(client);
- 
- 	ret = rt1711h_check_revision(client, chip);
- 	if (ret < 0) {
-@@ -391,17 +395,25 @@ static void rt1711h_remove(struct i2c_client *client)
- 	tcpci_unregister_port(chip->tcpci);
- }
- 
-+static const struct rt1711h_chip_info rt1711h = {
-+	.did = RT1711H_DID,
-+};
-+
-+static const struct rt1711h_chip_info rt1715 = {
-+	.did = RT1715_DID,
-+};
-+
  static const struct i2c_device_id rt1711h_id[] = {
--	{ "rt1711h", 0 },
--	{ "rt1715", 0 },
-+	{ "rt1711h", (kernel_ulong_t)&rt1711h },
-+	{ "rt1715", (kernel_ulong_t)&rt1715 },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, rt1711h_id);
- 
- #ifdef CONFIG_OF
- static const struct of_device_id rt1711h_of_match[] = {
--	{ .compatible = "richtek,rt1711h", .data = (void *)RT1711H_DID },
--	{ .compatible = "richtek,rt1715", .data = (void *)RT1715_DID },
-+	{ .compatible = "richtek,rt1711h", .data = &rt1711h },
-+	{ .compatible = "richtek,rt1715", .data = &rt1715 },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, rt1711h_of_match);
 -- 
 2.25.1
 
