@@ -2,111 +2,144 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 675B4EC8742
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Sep 2023 18:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7D4EEC8758
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Sep 2023 21:00:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244107AbjIGSda convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Sep 2023 14:33:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46348 "EHLO
+        id S233735AbjIGVAM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Sep 2023 17:00:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241110AbjIGSd2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Sep 2023 14:33:28 -0400
-X-Greylist: delayed 1536 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 07 Sep 2023 11:33:03 PDT
-Received: from rtits2.realtek.com.tw (211-75-126-66.hinet-ip.hinet.net [211.75.126.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 56D5F1BE6;
-        Thu,  7 Sep 2023 11:33:02 -0700 (PDT)
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 3877GN1m8002884, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-        by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 3877GN1m8002884
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 7 Sep 2023 15:16:23 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Thu, 7 Sep 2023 15:16:51 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 7 Sep 2023 15:16:50 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::7445:d92b:d0b3:f79c]) by
- RTEXMBS04.realtek.com.tw ([fe80::7445:d92b:d0b3:f79c%5]) with mapi id
- 15.01.2375.007; Thu, 7 Sep 2023 15:16:50 +0800
-From:   Hayes Wang <hayeswang@realtek.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-CC:     "davem@davemloft.net" <davem@davemloft.net>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        nic_swsd <nic_swsd@realtek.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH net v2] r8152: avoid the driver drops a lot of packets
-Thread-Topic: [PATCH net v2] r8152: avoid the driver drops a lot of packets
-Thread-Index: AQHZ4G/uLCHLeDMawES5jAj/REiJSrAN/YuAgADpM2A=
-Date:   Thu, 7 Sep 2023 07:16:50 +0000
-Message-ID: <7f8b32a91f5849c99609f78520b23535@realtek.com>
-References: <20230906031148.16774-421-nic_swsd@realtek.com>
- <20230906172847.2b3b749a@kernel.org>
-In-Reply-To: <20230906172847.2b3b749a@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.22.228.6]
-x-kse-serverinfo: RTEXMBS04.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        with ESMTP id S230091AbjIGVAL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Sep 2023 17:00:11 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 081941990
+        for <linux-usb@vger.kernel.org>; Thu,  7 Sep 2023 14:00:08 -0700 (PDT)
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qeM6f-0003mx-5w; Thu, 07 Sep 2023 23:00:06 +0200
+Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qeM6e-009Sbe-2F; Thu, 07 Sep 2023 23:00:04 +0200
+Date:   Thu, 7 Sep 2023 23:00:04 +0200
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>
+Message-ID: <ZPo51EUtBgH+qw44@pengutronix.de>
+References: <20230831221242.GC20651@pengutronix.de>
+ <20230901013118.iqpegkklfswdkoqc@synopsys.com>
+ <ZPULnRSVgd5S3Cao@pengutronix.de>
+ <20230906004144.4igr4akglxxqahc3@synopsys.com>
+ <ZPgnwlOV1XP82kAY@pengutronix.de>
+ <20230906230510.vi7d4wnjeiapgtyk@synopsys.com>
+ <20230906230900.tmyhlxomrhsm3kna@synopsys.com>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="eeEWcrWDtQ+LJLkG"
+Content-Disposition: inline
+In-Reply-To: <20230906230900.tmyhlxomrhsm3kna@synopsys.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:2:b01:1d::c5
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+Subject: Re: DWC3-Gadget: Flickering with ISOC Streaming (UVC) while
+ multiplier set on Superspeed
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on metis.whiteo.stw.pengutronix.de)
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org>
-> Sent: Thursday, September 7, 2023 8:29 AM
-[...]
-> Good to see that you can repro the problem.
 
-I don't reproduce the problem. I just find some information about it.
+--eeEWcrWDtQ+LJLkG
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Before we tweak the heuristics let's make sure rx_bottom() behaves
-> correctly. Could you make sure that
->  - we don't perform _any_ rx processing when budget is 0
->    (see the NAPI documentation under Documentation/networking)
+Hi Thinh
 
-The work_done would be 0, and napi_complete_done() wouldn't be called.
-However, skb_queue_len(&tp->rx_queue) may be increased. I think it is
-not acceptable, right?
+Thanks for the update!
 
->  - finish the current aggregate even if budget run out, return
->    work_done = budget in that case.
->    With this change the rx_queue thing should be gone completely.
+On Wed, Sep 06, 2023 at 11:09:03PM +0000, Thinh Nguyen wrote:
+>On Wed, Sep 06, 2023, Thinh Nguyen wrote:
+>> On Wed, Sep 06, 2023, Michael Grzeschik wrote:
+>> >
+>> > > 2) Burst setting
+>> > > 	I think this is self-explainatory. Large data request needs
+>> > > 	higher burst.
+>> >
+>> > I will have to find out if the burst setting can be changed on the
+>> > rk3568 somehow. This sounds very likely.
+>> >
+>>
+>> The dwc3 driver checks the endpoint descriptor from the UVC function
+>> driver to setup the burst. So just setup the max 16 bursts (or 15 in the
+>> descriptor). The dwc3 controller supports that. Whether the host would
+>> do 16 bursts is another thing. Note that there's no "mult" setting for
+>> SuperSpeed.
+>
+>Clarification: no mult setting for the dwc3 controller when operate in
+>SuperSpeed.
 
-Excuse me. I don't understand this part. I know that when the packets are
-more than budget, the maximum packets which could be handled is budget.
-That is, return work_done = budget. However, the extra packets would be queued
-to rx_queue. I don't understand what you mean about " the rx_queue thing
-should be gone completely". I think the current driver would return
-work_done = budget, and queue the other packets. I don't sure what you
-want me to change.
+I was somehow mistaken by the wording "burst setting" and thought of the
+axi-bus burst setting to the controller instead of the usb3 maxburst
+setting as you ment actually.
 
->  - instead of copying the head use napi_get_frags() + napi_gro_frags()
->    it gives you an skb, you just attach the page to it as a frag and
->    hand it back to GRO. This makes sure you never pull data into head
->    rather than just headers.
+However. This is usefull input anyway. I never thought of maximizing the
+burst and packagesize and let the host side make the decision.
+But we will probably will eat up a lot of usb bandwidth by doing so.
 
-I would study about them. Thanks.
+Before your note I was somehow mistaken that the maxpacket and maxburst
+size had to correlate with the actually transfered data we queue into
+the hardware per request.
 
-Should I include above changes for this patch?
-I think I have to submit another patches for above.
+>> I recall that UVC tries to pack a lot of data in a single request. All
+>> the while some intervals it would send 0-length data because of idle
+>> time. I would spread to more requests with a little less data to give
+>> the host a little more breathing room and bandwidth.
 
-> Please share the performance results with those changes.
+The higher load per request is due to the fact that the uvc gadget is
+using the multiplier, maxpacket and maxburst parameters for the size
+calculation of the request.
 
-I couldn't reproduce the problem, so I couldn't provide the result
-with the differences.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dri=
+vers/usb/gadget/function/uvc_video.c#n331
 
+Since it is clear now that those parameters are not necessary coupled
+it makes total sense to split the requests into smaller chunks.
 
-Best Regards,
-Hayes
+Thanks,
+Michael
 
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--eeEWcrWDtQ+LJLkG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmT6OdAACgkQC+njFXoe
+LGQ8BxAAomTiIT4C5/43fDVR1hRIcHA8PMuhTvws5qejhYz1KBBWTL9rwNBdSsaD
+x/dpqEJg7qe8Sk8kMF4BIXkyp56r9prs206vdjqzKePDJm0T+UVaFVrkuGAuZgXp
+QEHvLywCkLu/qK3Y2m/IpD0s4BMpRcmn1RWjS+Rn81VMU34qN2lD2bqngq22VyTV
+rakqRz1KCpWnroqnM1JS8/9JKgIlIXv5aLd4EBZJ+Rjsc1b6nodrLT9JwFLKbXgZ
+DjaArfLkRuZ3+S4sUbQz3rjbF+CtJ1CprfdYGoADN9XdxXUPhidDYnyVa4V1eM40
+MSq//M1q9N7eUhv6737XjClrZ9JaGx+bopp24b65Vgr5LSA/XnxQdQEe14ReGFtu
+y9mxnyhTvujdDfoeSU/5Yebdr7hZX/iQsMIyIJTHhpwW+juAtx5pAHnrO8ToPg1F
+8YGqUrQoyXAcNOdDrrmX94NdEpRLENKnnOnzi+U24YFDOhP6ziWgnsu/20PyFQCu
+0W2+yIz07H4L0jlwRV4sBJe0os331DJb3JR0HI1vgrkEcNAcaGt6LmjP0Xr64Kms
+fRkz9NHwoHr7zFYcOkd6t9FfCqLwHha084oL+4kdCof6/5RA+OQK+ejHIqtnCjvc
+A6ZxlLxhovv8OoV4X6R6O2pVQBEroblLUYb6gsqUU+aoDgciW6c=
+=gcY+
+-----END PGP SIGNATURE-----
+
+--eeEWcrWDtQ+LJLkG--
