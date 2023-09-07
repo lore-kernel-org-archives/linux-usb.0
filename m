@@ -2,63 +2,65 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53195EB8FB1
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Sep 2023 21:09:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 393FBEB8FDE
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Sep 2023 21:09:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241168AbjIGVJa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Sep 2023 17:09:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43366 "EHLO
+        id S237437AbjIGVJb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Sep 2023 17:09:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240650AbjIGVJ2 (ORCPT
+        with ESMTP id S231996AbjIGVJ2 (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Sep 2023 17:09:28 -0400
 Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1744C1BCA;
-        Thu,  7 Sep 2023 14:09:21 -0700 (PDT)
-Received: from pps.filterd (m0150242.ppops.net [127.0.0.1])
-        by mx0a-002e3701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 387H1xMs006282;
-        Thu, 7 Sep 2023 21:09:07 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 850BD1BD6;
+        Thu,  7 Sep 2023 14:09:17 -0700 (PDT)
+Received: from pps.filterd (m0134421.ppops.net [127.0.0.1])
+        by mx0b-002e3701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 387FZhKs008731;
+        Thu, 7 Sep 2023 21:09:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : subject :
- date : message-id : in-reply-to : references; s=pps0720;
- bh=GTxw/jfcBQkTByCYP+2APEihQLyx72ewkGzUOdjpTds=;
- b=iMFliCXOGHlNvxoiTy7/jXTgx8L+lkybP1RChlhX2qrb9ARiAJTDg1eIi0Vs/1SyDZQb
- 6tN1r4oV8T6CcI8rD5zbsnISyTzOt9yltpUa024XgFXe6GINao+Zd53Ffy84iSKUqNM8
- qjdPNmWLIi7xxZG6474D6/nhrDUNr0dGCJJ5OUnAkJ3U2PPEr/f2MyQKy1FU+utQVEKB
- 3vohNe5suqxmVTxJqM9/TgrKTy2t9kfTQ5m9rJfxWRO1iZrKAabjXlWT5JeFzTHPYa/S
- o4fQk+H3CEZj4p1ln9T0i+K1k40rj0LA7KOnWN3pq7T/+F31TgXmiUHPLELQWCFe4KpI Yw== 
-Received: from p1lg14879.it.hpe.com ([16.230.97.200])
-        by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 3syavw6tbv-1
+ date : message-id : in-reply-to : references : mime-version; s=pps0720;
+ bh=KKh2mp3ccJj/PzchVn9gXJeWuTjcaxZHtk32YqXVeM4=;
+ b=KEz9lEYHRjPqU95nwO9YYMu8kvQ3zFt9ZvFWtU2LUDAnc3kVo1MvDsvGCmmszfo4m4QD
+ S9EMD1a7kxZml0lLqO40/0pd2YVssRLDG8gxvPQI5hMCoKcE8KIQBciKVs7eZBPq4WN7
+ 77BiXZsw6grKapYAOB8Lrh5wni37czHRtZ3RIsmNfOtw5m95X/Jc3KAi5iadJVqVmps9
+ kwdB5zefMWiLf9c1i1hmeyf6bytV8TZgUjeKBDXBgC7UaWFj4GthAaE0sT6OXJWE55OT
+ or39z/Pet4QY9Mbn5hGqS8xGzTYMul/GLDkASmGA9usK0ISHmtn8q+T0lL0McebegPLg NA== 
+Received: from p1lg14880.it.hpe.com ([16.230.97.201])
+        by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3syafyy1ts-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 07 Sep 2023 21:09:07 +0000
+        Thu, 07 Sep 2023 21:09:04 +0000
 Received: from p1lg14885.dc01.its.hpecorp.net (unknown [10.119.18.236])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by p1lg14879.it.hpe.com (Postfix) with ESMTPS id 9AC5C13185;
-        Thu,  7 Sep 2023 21:09:04 +0000 (UTC)
+        by p1lg14880.it.hpe.com (Postfix) with ESMTPS id 9BD15800441;
+        Thu,  7 Sep 2023 21:09:03 +0000 (UTC)
 Received: from hpe.com (unknown [16.231.227.39])
-        by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTP id 1BC5A80B3BA;
-        Thu,  7 Sep 2023 21:09:04 +0000 (UTC)
+        by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTP id 21B6880A247;
+        Thu,  7 Sep 2023 21:09:03 +0000 (UTC)
 From:   richard.yu@hpe.com
 To:     verdun@hpe.com, nick.hawkins@hpe.com, gregkh@linuxfoundation.org,
         robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         conor+dt@kernel.org, richard.yu@hpe.com, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] MAINTAINERS: add USB HUB support for GXP
-Date:   Thu,  7 Sep 2023 16:06:01 -0500
-Message-Id: <20230907210601.25284-4-richard.yu@hpe.com>
+Subject: [PATCH v2 1/3] dt-bindings: usb: Add HPE GXP HUB Controller
+Date:   Thu,  7 Sep 2023 16:05:59 -0500
+Message-Id: <20230907210601.25284-2-richard.yu@hpe.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230907210601.25284-1-richard.yu@hpe.com>
 References: <20230907210601.25284-1-richard.yu@hpe.com>
-X-Proofpoint-GUID: _qUHJu7mtFnHlD8IE_utZx5-ID8CdkmE
-X-Proofpoint-ORIG-GUID: _qUHJu7mtFnHlD8IE_utZx5-ID8CdkmE
+X-Proofpoint-GUID: gX75CXe-gfZLerM0G8_oA2vg_G6RHpnZ
+X-Proofpoint-ORIG-GUID: gX75CXe-gfZLerM0G8_oA2vg_G6RHpnZ
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-HPE-SCL: -1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-07_13,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- suspectscore=0 bulkscore=0 phishscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 adultscore=0 priorityscore=1501 mlxlogscore=536
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ definitions=2023-09-07_12,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ malwarescore=0 priorityscore=1501 bulkscore=0 suspectscore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 mlxscore=0 mlxlogscore=615 clxscore=1015
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2308100000 definitions=main-2309070187
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
@@ -66,38 +68,81 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Richard Yu <richard.yu@hpe.com>
 
-Add the usb hub driver and dt-bindinng documents.
+Provide access to the two register regions for GXP HUB
+controller through the hpe,gxp-hub binding.
 
 Signed-off-by: Richard Yu <richard.yu@hpe.com>
 
 ---
 
 v2:
- *Changed file to hpe,gxp-hub.yaml
+ *Removed the term "virtual" as it is still a device.
+ *Removed the downstream port number and generic endpoints
+  number properties from device tree structure.
 ---
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+ .../devicetree/bindings/usb/hpe,gxp-hub.yaml  | 53 +++++++++++++++++++
+ 1 file changed, 53 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/hpe,gxp-hub.yaml
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 27ef11624748..e16b8b39d47f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2245,6 +2245,7 @@ F:	Documentation/devicetree/bindings/hwmon/hpe,gxp-fan-ctrl.yaml
- F:	Documentation/devicetree/bindings/i2c/hpe,gxp-i2c.yaml
- F:	Documentation/devicetree/bindings/spi/hpe,gxp-spifi.yaml
- F:	Documentation/devicetree/bindings/timer/hpe,gxp-timer.yaml
-+F:	Documentation/devicetree/bindings/usb/hpe,gxp-hub.yaml
- F:	Documentation/hwmon/gxp-fan-ctrl.rst
- F:	arch/arm/boot/dts/hpe-bmc*
- F:	arch/arm/boot/dts/hpe-gxp*
-@@ -2253,6 +2254,7 @@ F:	drivers/clocksource/timer-gxp.c
- F:	drivers/hwmon/gxp-fan-ctrl.c
- F:	drivers/i2c/busses/i2c-gxp.c
- F:	drivers/spi/spi-gxp.c
-+F:	drivers/usb/gadget/udc/gxp-udc.c
- F:	drivers/watchdog/gxp-wdt.c
- 
- ARM/IGEP MACHINE SUPPORT
+diff --git a/Documentation/devicetree/bindings/usb/hpe,gxp-hub.yaml b/Documentation/devicetree/bindings/usb/hpe,gxp-hub.yaml
+new file mode 100644
+index 000000000000..b3e7bc42d134
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/hpe,gxp-hub.yaml
+@@ -0,0 +1,53 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/hpe,gxp-hub.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: HPE GXP USB HUB controller
++
++maintainers:
++  - Nick Hawkins <nick.hawkins@hpe.com>
++  - Richard Yu <richard.yu@hpe.com>
++
++description:
++  The HPE GXP USB HUB Controller implements 1 set of USB
++  register and several sets of device and endpoint registers to support
++  the HUB's downstream USB devices.
++
++properties:
++  compatible:
++    enum:
++      - hpe,gxp-hub
++
++  reg:
++    items:
++      - description: GXP hub (gxphub) controller register set
++      - description: Several sets of Device and Endpoint registers to support
++                     the HUB's downstream USB devices.
++
++  reg-names:
++    items:
++      - const: gxphub
++      - const: udc
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    usb-hub@80400800 {
++        compatible = "hpe,gxp-hub";
++        reg = <0x80400800 0x0200>, <0x80401000 0x8000>;
++        reg-names = "gxphub", "udc";
++        interrupts = <13>;
++        interrupt-parent = <&vic1>;
++    };
 -- 
 2.17.1
 
