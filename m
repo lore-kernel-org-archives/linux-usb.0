@@ -2,52 +2,52 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A920EC873E
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Sep 2023 15:52:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B433EC873F
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Sep 2023 16:04:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237287AbjIGPwe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Sep 2023 11:52:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41528 "EHLO
+        id S237013AbjIGQEe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Sep 2023 12:04:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236232AbjIGPlX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Sep 2023 11:41:23 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42A8A2D6D;
-        Thu,  7 Sep 2023 08:37:46 -0700 (PDT)
+        with ESMTP id S236306AbjIGQDy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Sep 2023 12:03:54 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DD795FD0;
+        Thu,  7 Sep 2023 08:52:44 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 9A8A31F86B;
-        Thu,  7 Sep 2023 15:36:56 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id C27FE21862;
+        Thu,  7 Sep 2023 15:51:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1694101016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1694101893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=M0FCyN160pcl7/vGE/G6WlHC7elSb7flkJCyP5XdT5E=;
-        b=S9MltvvWBQJ3S+InPcTpe0WnVoyXnKqaDKeu+BwDHvZj60OrGXEDSShbYcomd3GtxyIZTT
-        TcrhM7Ol5ShXOYypjd7CzP+FglED+dodU3VRZtRK2n8dDSp9vOAhBBX+1HhEJDMdWIFsxf
-        Ffq7xN4Ng5kkEE+uf8/WHH9t2J3hfAY=
+        bh=tk3J/weePsTr2+puEZaryztfMldIRsL7MjS11xHNPq4=;
+        b=MG/RWiixzRUD5n21QY2yXLKv/zxycwe2jvwvqsZhnjyl0H7FMWmzreTziH5v3xUpVO2ST2
+        yu4FWXTNDRNIKjs3oZrJrIlUYo9ByzoFJFbu7uGHWT000wzW87sPlE0S3X6h6mrCb2Poln
+        jyaxTpMKrnwUimNWsKjEy53luKAW7rc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1694101016;
+        s=susede2_ed25519; t=1694101893;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=M0FCyN160pcl7/vGE/G6WlHC7elSb7flkJCyP5XdT5E=;
-        b=T7q/lXXghXAYZb3Ca5uIQsgLsYKDnlp9Dc3cyQRlMyyfjSjbLjxzbrNKR7PTjsz4yycOR4
-        OtzAVhoZN7Cz7wAw==
+        bh=tk3J/weePsTr2+puEZaryztfMldIRsL7MjS11xHNPq4=;
+        b=PgTRAY/jSIOr1hyGZbPTqd+ID749qUOYH1g8gzONDoREaJFpp8MDUTuBDrtTkNFrVzvWF8
+        MQwXRemp0OfM7WCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 231E5138FA;
-        Thu,  7 Sep 2023 15:36:56 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4946E138FA;
+        Thu,  7 Sep 2023 15:51:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id kmOwBxju+WTgAgAAMHmgww
-        (envelope-from <tiwai@suse.de>); Thu, 07 Sep 2023 15:36:56 +0000
-Date:   Thu, 07 Sep 2023 17:36:55 +0200
-Message-ID: <875y4matbc.wl-tiwai@suse.de>
+        id gkbnEIXx+WQ+CwAAMHmgww
+        (envelope-from <tiwai@suse.de>); Thu, 07 Sep 2023 15:51:33 +0000
+Date:   Thu, 07 Sep 2023 17:51:32 +0200
+Message-ID: <8734zqasmz.wl-tiwai@suse.de>
 From:   Takashi Iwai <tiwai@suse.de>
 To:     Wesley Cheng <quic_wcheng@quicinc.com>
 Cc:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
@@ -59,10 +59,10 @@ Cc:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <linux-arm-msm@vger.kernel.org>, <alsa-devel@alsa-project.org>,
         <devicetree@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <quic_jackp@quicinc.com>, <quic_plai@quicinc.com>
-Subject: Re: [PATCH v5 11/32] sound: usb: card: Introduce USB SND platform op callbacks
-In-Reply-To: <20230829210657.9904-12-quic_wcheng@quicinc.com>
+Subject: Re: [PATCH v5 18/32] sound: usb: Introduce QC USB SND offloading support
+In-Reply-To: <20230829210657.9904-19-quic_wcheng@quicinc.com>
 References: <20230829210657.9904-1-quic_wcheng@quicinc.com>
-        <20230829210657.9904-12-quic_wcheng@quicinc.com>
+        <20230829210657.9904-19-quic_wcheng@quicinc.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
@@ -70,70 +70,82 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 29 Aug 2023 23:06:36 +0200,
+On Tue, 29 Aug 2023 23:06:43 +0200,
 Wesley Cheng wrote:
 > 
-> Allow for different platforms to be notified on USB SND connect/disconnect
-> seqeunces.  This allows for platform USB SND modules to properly initialize
-> and populate internal structures with references to the USB SND chip
-> device.
+> Several Qualcomm SoCs have a dedicated audio DSP, which has the ability to
+> support USB sound devices.  This vendor driver will implement the required
+> handshaking with the DSP, in order to pass along required resources that
+> will be utilized by the DSP's USB SW.  The communication channel used for
+> this handshaking will be using the QMI protocol.  Required resources
+> include:
+> - Allocated secondary event ring address
+> - EP transfer ring address
+> - Interrupter number
+> 
+> The above information will allow for the audio DSP to execute USB transfers
+> over the USB bus.  It will also be able to support devices that have an
+> implicit feedback and sync endpoint as well.  Offloading these data
+> transfers will allow the main/applications processor to enter lower CPU
+> power modes, and sustain a longer duration in those modes.
+> 
+> Audio offloading is initiated with the following sequence:
+> 1. Userspace configures to route audio playback to USB backend and starts
+> playback on the platform soundcard.
+> 2. The Q6DSP AFE will communicate to the audio DSP to start the USB AFE
+> port.
+> 3. This results in a QMI packet with a STREAM enable command.
+> 4. The QC audio offload driver will fetch the required resources, and pass
+> this information as part of the QMI response to the STREAM enable command.
+> 5. Once the QMI response is received the audio DSP will start queuing data
+> on the USB bus.
 > 
 > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 > ---
->  sound/usb/card.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
->  sound/usb/card.h |  9 +++++++++
->  2 files changed, 54 insertions(+)
+>  sound/usb/Kconfig                 |   15 +
+>  sound/usb/Makefile                |    2 +-
+>  sound/usb/qcom/Makefile           |    2 +
+>  sound/usb/qcom/qc_audio_offload.c | 1813 +++++++++++++++++++++++++++++
+>  4 files changed, 1831 insertions(+), 1 deletion(-)
+>  create mode 100644 sound/usb/qcom/Makefile
+>  create mode 100644 sound/usb/qcom/qc_audio_offload.c
 > 
-> diff --git a/sound/usb/card.c b/sound/usb/card.c
-> index 1b2edc0fd2e9..067a1e82f4bf 100644
-> --- a/sound/usb/card.c
-> +++ b/sound/usb/card.c
-> @@ -118,6 +118,34 @@ MODULE_PARM_DESC(skip_validation, "Skip unit descriptor validation (default: no)
->  static DEFINE_MUTEX(register_mutex);
->  static struct snd_usb_audio *usb_chip[SNDRV_CARDS];
->  static struct usb_driver usb_audio_driver;
-> +static struct snd_usb_platform_ops *platform_ops;
+> diff --git a/sound/usb/Kconfig b/sound/usb/Kconfig
+> index 4a9569a3a39a..da5838656baa 100644
+> --- a/sound/usb/Kconfig
+> +++ b/sound/usb/Kconfig
+> @@ -176,6 +176,21 @@ config SND_BCD2000
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called snd-bcd2000.
+>  
+> +config QC_USB_AUDIO_OFFLOAD
+
+Keep SND_ prefix for consistency.  And, at best, align with the module
+name.
+
+> +	tristate "Qualcomm Audio Offload driver"
+> +	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND
+> +	select SND_PCM
+> +	help
+> +	  Say Y here to enable the Qualcomm USB audio offloading feature.
 > +
-> +int snd_usb_register_platform_ops(struct snd_usb_platform_ops *ops)
-> +{
-> +	int ret;
+> +	  This module sets up the required QMI stream enable/disable
+> +	  responses to requests generated by the audio DSP.  It passes the
+> +	  USB transfer resource references, so that the audio DSP can issue
+> +	  USB transfers to the host controller.
 > +
-> +	mutex_lock(&register_mutex);
-> +	if (platform_ops) {
-> +		ret = -EEXIST;
-> +		goto out;
-> +	}
-> +
-> +	platform_ops = ops;
-> +out:
-> +	mutex_unlock(&register_mutex);
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(snd_usb_register_platform_ops);
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called qc-audio-offload.
 
-For adding this kind of API, please give the proper comment.
-Especially this API is special and need a caution, to mention that it
-can be used only for a single instance.
+Hmm, you renamed it differently, no?  In the below:
 
-Also, it should be mentioned that all callbacks are exclusive under
-the global register_mutex.
+> --- /dev/null
+> +++ b/sound/usb/qcom/Makefile
+> @@ -0,0 +1,2 @@
+> +snd-usb-audio-qmi-objs := usb_audio_qmi_v01.o qc_audio_offload.o
+> +obj-$(CONFIG_QC_USB_AUDIO_OFFLOAD) += snd-usb-audio-qmi.o
 
-> @@ -910,7 +938,11 @@ static int usb_audio_probe(struct usb_interface *intf,
->  	chip->num_interfaces++;
->  	usb_set_intfdata(intf, chip);
->  	atomic_dec(&chip->active);
-> +
-> +	if (platform_ops && platform_ops->connect_cb)
-> +		platform_ops->connect_cb(chip);
->  	mutex_unlock(&register_mutex);
-
-One uncertain thing is the argument for connect_cb and disconnect_cb.
-Those take snd_usb_audio object, but the callback gets called per
-interface at each probe and disconnect.  How does the callee handle
-multiple calls?
-
-Last but not least, the patch subject should be with "ALSA:" prefix,
-and in this case, at best "ALSA: usb-audio: xxx".
+... it's called snd-usb-audio-qmi.
 
 
 thanks,
