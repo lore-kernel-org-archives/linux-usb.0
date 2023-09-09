@@ -2,47 +2,46 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB973EEB565
-	for <linux-usb@archiver.kernel.org>; Sat,  9 Sep 2023 00:39:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE367EEB565
+	for <linux-usb@archiver.kernel.org>; Sat,  9 Sep 2023 00:39:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345894AbjIIAjN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 8 Sep 2023 20:39:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51858 "EHLO
+        id S1345981AbjIIAjn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 8 Sep 2023 20:39:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345115AbjIIAjE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Sep 2023 20:39:04 -0400
+        with ESMTP id S1345873AbjIIAjK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Sep 2023 20:39:10 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20D8E26B3;
-        Fri,  8 Sep 2023 17:38:26 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ADEDC433BA;
-        Sat,  9 Sep 2023 00:37:53 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F2311FF5;
+        Fri,  8 Sep 2023 17:38:42 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9273BC4166B;
+        Sat,  9 Sep 2023 00:36:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694219874;
-        bh=pEVkiOJCRSOfp2MnbWunm3ZpZ+GuS8/4Xa3yEqbshcA=;
+        s=k20201202; t=1694219806;
+        bh=VPVJY5UV0i9/bldoHyELgoJLoaBACjBLEhC4jKEOmEI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=G9Yw8c9rGe3bVnlB9bJWpz8xqU3046vSpbwdvJ80itCd8N33/GTbTgckreMWYU7NC
-         GkiXMGacwp+IbI02KKHFeUy2JRLi/I8lKgB97h25iqRzp18Zb6LOSya/PSkNqVvfV+
-         EJ7Lu0Efz41/YkdhWOAOgDSsAk+pFamtbMaSSKAayvwyN8zPUl7FXbL656xir8R8ea
-         8ulykUanf1TR9c+CdFKbe3A4of1YYEI4KcOuglrtVZ2UjtQrN+i6uruU6WcI/ZpqY1
-         OcQqyao4tNPervJZw8jd7XBz1hERkROITxr42XCmFZ767H/zpOqrcy2q1lJ3TXczoj
-         aV1RxIvD6PRiw==
+        b=omjUVYncmrByqIrmNtXrsxDYgBdY3eHKDeS3XWU+bdHY8nstWTvbBIyPmZxe56Tnd
+         meWYG8tAqIxGtRCZJ69hW096AY1g1IGzcMSnnzTsdPSmksDf2FzaYncEDuO39JFKJt
+         wTV31/Q+PI1Z9u+Ti/zU4SvLMHZwP9eOuvlfGJnb65mwgBBS1sKwSnLiZgTz36nzGQ
+         dC2P1B1K2ziJFkEo22kBQjAI57Ne0GZCjVRzxq4Fsws/VtHVTF+Q531P9pF4tDpBuL
+         OLWwJzbm6b2+Ux6BSx9H3Ru1sSQxuKUvxuHGD8ktoUsLy6FN2LQctItgJOwc1yFylC
+         GThmGiIbo0hOQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Xu Yang <xu.yang_2@nxp.com>,
+Cc:     Xu Yang <xu.yang_2@nxp.com>, Peter Chen <peter.chen@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, peter.chen@kernel.org,
-        shawnguo@kernel.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.4 20/25] usb: chipidea: add workaround for chipidea PEC bug
-Date:   Fri,  8 Sep 2023 20:37:08 -0400
-Message-Id: <20230909003715.3579761-20-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, stern@rowland.harvard.edu,
+        linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.5 21/28] usb: ehci: add workaround for chipidea PORTSC.PEC bug
+Date:   Fri,  8 Sep 2023 20:35:55 -0400
+Message-Id: <20230909003604.3579407-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230909003715.3579761-1-sashal@kernel.org>
-References: <20230909003715.3579761-1-sashal@kernel.org>
+In-Reply-To: <20230909003604.3579407-1-sashal@kernel.org>
+References: <20230909003604.3579407-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.4.15
+X-stable-base: Linux 6.5.2
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
@@ -50,102 +49,115 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Xu Yang <xu.yang_2@nxp.com>
 
-[ Upstream commit 12e6ac69cc7e7d3367599ae26a92a0f9a18bc728 ]
+[ Upstream commit dda4b60ed70bd670eefda081f70c0cb20bbeb1fa ]
 
-Some NXP processors using ChipIdea USB IP have a bug when frame babble is
+Some NXP processor using chipidea IP has a bug when frame babble is
 detected.
 
-Issue description:
-In USB camera test, our controller is host in HS mode. In ISOC IN, when
-device sends data across the micro frame, it causes the babble in host
-controller. This will clear the PE bit. In spec, it also requires to set
-the PEC bit and then set the PCI bit. Without the PCI interrupt, the
-software does not know the PE is cleared.
+As per 4.15.1.1.1 Serial Bus Babble:
+  A babble condition also exists if IN transaction is in progress at
+High-speed SOF2 point. This is called frame babble. The host controller
+must disable the port to which the frame babble is detected.
 
-This will add a flag CI_HDRC_HAS_PORTSC_PEC_MISSED to some impacted
-platform datas. And the ehci host driver will assert PEC by SW when
-specific conditions are satisfied.
+The USB controller has disabled the port (PE cleared) and has asserted
+USBERRINT when frame babble is detected, but PEC is not asserted.
+Therefore, the SW isn't aware that port has been disabled. Then the
+SW keeps sending packets to this port, but all of the transfers will
+fail.
+
+This workaround will firstly assert PCD by SW when USBERRINT is detected
+and then judge whether port change has really occurred or not by polling
+roothub status. Because the PEC doesn't get asserted in our case, this
+patch will also assert it by SW when specific conditions are satisfied.
 
 Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
-Link: https://lore.kernel.org/r/20230809024432.535160-2-xu.yang_2@nxp.com
+Acked-by: Peter Chen <peter.chen@kernel.org>
+Link: https://lore.kernel.org/r/20230809024432.535160-1-xu.yang_2@nxp.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/chipidea/ci.h          | 1 +
- drivers/usb/chipidea/ci_hdrc_imx.c | 4 +++-
- drivers/usb/chipidea/core.c        | 2 ++
- drivers/usb/chipidea/host.c        | 1 +
- include/linux/usb/chipidea.h       | 1 +
- 5 files changed, 8 insertions(+), 1 deletion(-)
+ drivers/usb/host/ehci-hcd.c |  8 ++++++--
+ drivers/usb/host/ehci-hub.c | 10 +++++++++-
+ drivers/usb/host/ehci.h     | 10 ++++++++++
+ 3 files changed, 25 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/chipidea/ci.h b/drivers/usb/chipidea/ci.h
-index f210b7489fd5b..78cfbe621272c 100644
---- a/drivers/usb/chipidea/ci.h
-+++ b/drivers/usb/chipidea/ci.h
-@@ -257,6 +257,7 @@ struct ci_hdrc {
- 	bool				id_event;
- 	bool				b_sess_valid_event;
- 	bool				imx28_write_fix;
-+	bool				has_portsc_pec_bug;
- 	bool				supports_runtime_pm;
- 	bool				in_lpm;
- 	bool				wakeup_int;
-diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
-index f7577f2bd2c5d..4a5a4904aab6d 100644
---- a/drivers/usb/chipidea/ci_hdrc_imx.c
-+++ b/drivers/usb/chipidea/ci_hdrc_imx.c
-@@ -67,11 +67,13 @@ static const struct ci_hdrc_imx_platform_flag imx7d_usb_data = {
+diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
+index a1930db0da1c3..802bfafb1012b 100644
+--- a/drivers/usb/host/ehci-hcd.c
++++ b/drivers/usb/host/ehci-hcd.c
+@@ -755,10 +755,14 @@ static irqreturn_t ehci_irq (struct usb_hcd *hcd)
  
- static const struct ci_hdrc_imx_platform_flag imx7ulp_usb_data = {
- 	.flags = CI_HDRC_SUPPORTS_RUNTIME_PM |
-+		CI_HDRC_HAS_PORTSC_PEC_MISSED |
- 		CI_HDRC_PMQOS,
- };
+ 	/* normal [4.15.1.2] or error [4.15.1.1] completion */
+ 	if (likely ((status & (STS_INT|STS_ERR)) != 0)) {
+-		if (likely ((status & STS_ERR) == 0))
++		if (likely ((status & STS_ERR) == 0)) {
+ 			INCR(ehci->stats.normal);
+-		else
++		} else {
++			/* Force to check port status */
++			if (ehci->has_ci_pec_bug)
++				status |= STS_PCD;
+ 			INCR(ehci->stats.error);
++		}
+ 		bh = 1;
+ 	}
  
- static const struct ci_hdrc_imx_platform_flag imx8ulp_usb_data = {
--	.flags = CI_HDRC_SUPPORTS_RUNTIME_PM,
-+	.flags = CI_HDRC_SUPPORTS_RUNTIME_PM |
-+		CI_HDRC_HAS_PORTSC_PEC_MISSED,
- };
+diff --git a/drivers/usb/host/ehci-hub.c b/drivers/usb/host/ehci-hub.c
+index efe30e3be22f7..1aee392e84927 100644
+--- a/drivers/usb/host/ehci-hub.c
++++ b/drivers/usb/host/ehci-hub.c
+@@ -674,7 +674,8 @@ ehci_hub_status_data (struct usb_hcd *hcd, char *buf)
  
- static const struct of_device_id ci_hdrc_imx_dt_ids[] = {
-diff --git a/drivers/usb/chipidea/core.c b/drivers/usb/chipidea/core.c
-index 798cb077867ab..449ec7d3f0027 100644
---- a/drivers/usb/chipidea/core.c
-+++ b/drivers/usb/chipidea/core.c
-@@ -1045,6 +1045,8 @@ static int ci_hdrc_probe(struct platform_device *pdev)
- 		CI_HDRC_IMX28_WRITE_FIX);
- 	ci->supports_runtime_pm = !!(ci->platdata->flags &
- 		CI_HDRC_SUPPORTS_RUNTIME_PM);
-+	ci->has_portsc_pec_bug = !!(ci->platdata->flags &
-+		CI_HDRC_HAS_PORTSC_PEC_MISSED);
- 	platform_set_drvdata(pdev, ci);
+ 		if ((temp & mask) != 0 || test_bit(i, &ehci->port_c_suspend)
+ 				|| (ehci->reset_done[i] && time_after_eq(
+-					jiffies, ehci->reset_done[i]))) {
++					jiffies, ehci->reset_done[i]))
++				|| ehci_has_ci_pec_bug(ehci, temp)) {
+ 			if (i < 7)
+ 			    buf [0] |= 1 << (i + 1);
+ 			else
+@@ -875,6 +876,13 @@ int ehci_hub_control(
+ 		if (temp & PORT_PEC)
+ 			status |= USB_PORT_STAT_C_ENABLE << 16;
  
- 	ret = hw_device_init(ci, base);
-diff --git a/drivers/usb/chipidea/host.c b/drivers/usb/chipidea/host.c
-index ebe7400243b12..08af26b762a2d 100644
---- a/drivers/usb/chipidea/host.c
-+++ b/drivers/usb/chipidea/host.c
-@@ -151,6 +151,7 @@ static int host_start(struct ci_hdrc *ci)
- 	ehci->has_hostpc = ci->hw_bank.lpm;
- 	ehci->has_tdi_phy_lpm = ci->hw_bank.lpm;
- 	ehci->imx28_write_fix = ci->imx28_write_fix;
-+	ehci->has_ci_pec_bug = ci->has_portsc_pec_bug;
++		if (ehci_has_ci_pec_bug(ehci, temp)) {
++			status |= USB_PORT_STAT_C_ENABLE << 16;
++			ehci_info(ehci,
++				"PE is cleared by HW port:%d PORTSC:%08x\n",
++				wIndex + 1, temp);
++		}
++
+ 		if ((temp & PORT_OCC) && (!ignore_oc && !ehci->spurious_oc)){
+ 			status |= USB_PORT_STAT_C_OVERCURRENT << 16;
  
- 	priv = (struct ehci_ci_priv *)ehci->priv;
- 	priv->reg_vbus = NULL;
-diff --git a/include/linux/usb/chipidea.h b/include/linux/usb/chipidea.h
-index ee38835ed77cc..0b4f2d5faa080 100644
---- a/include/linux/usb/chipidea.h
-+++ b/include/linux/usb/chipidea.h
-@@ -63,6 +63,7 @@ struct ci_hdrc_platform_data {
- #define CI_HDRC_IMX_IS_HSIC		BIT(14)
- #define CI_HDRC_PMQOS			BIT(15)
- #define CI_HDRC_PHY_VBUS_CONTROL	BIT(16)
-+#define CI_HDRC_HAS_PORTSC_PEC_MISSED	BIT(17)
- 	enum usb_dr_mode	dr_mode;
- #define CI_HDRC_CONTROLLER_RESET_EVENT		0
- #define CI_HDRC_CONTROLLER_STOPPED_EVENT	1
+diff --git a/drivers/usb/host/ehci.h b/drivers/usb/host/ehci.h
+index c5c7f87825493..1441e34007961 100644
+--- a/drivers/usb/host/ehci.h
++++ b/drivers/usb/host/ehci.h
+@@ -207,6 +207,7 @@ struct ehci_hcd {			/* one per controller */
+ 	unsigned		has_fsl_port_bug:1; /* FreeScale */
+ 	unsigned		has_fsl_hs_errata:1;	/* Freescale HS quirk */
+ 	unsigned		has_fsl_susp_errata:1;	/* NXP SUSP quirk */
++	unsigned		has_ci_pec_bug:1;	/* ChipIdea PEC bug */
+ 	unsigned		big_endian_mmio:1;
+ 	unsigned		big_endian_desc:1;
+ 	unsigned		big_endian_capbase:1;
+@@ -707,6 +708,15 @@ ehci_port_speed(struct ehci_hcd *ehci, unsigned int portsc)
+  */
+ #define ehci_has_fsl_susp_errata(e)	((e)->has_fsl_susp_errata)
+ 
++/*
++ * Some Freescale/NXP processors using ChipIdea IP have a bug in which
++ * disabling the port (PE is cleared) does not cause PEC to be asserted
++ * when frame babble is detected.
++ */
++#define ehci_has_ci_pec_bug(e, portsc) \
++	((e)->has_ci_pec_bug && ((e)->command & CMD_PSE) \
++	 && !(portsc & PORT_PEC) && !(portsc & PORT_PE))
++
+ /*
+  * While most USB host controllers implement their registers in
+  * little-endian format, a minority (celleb companion chip) implement
 -- 
 2.40.1
 
