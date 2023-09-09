@@ -2,39 +2,38 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8165EEB57B
-	for <linux-usb@archiver.kernel.org>; Sat,  9 Sep 2023 00:40:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92CDBEEB580
+	for <linux-usb@archiver.kernel.org>; Sat,  9 Sep 2023 00:40:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345960AbjIIAkh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 8 Sep 2023 20:40:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43448 "EHLO
+        id S1346063AbjIIAku (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 8 Sep 2023 20:40:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345975AbjIIAjn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Sep 2023 20:39:43 -0400
+        with ESMTP id S1345921AbjIIAj4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Sep 2023 20:39:56 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB1252701;
-        Fri,  8 Sep 2023 17:39:08 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11106C43397;
-        Sat,  9 Sep 2023 00:38:54 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E9BC2D48;
+        Fri,  8 Sep 2023 17:39:17 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15836C116B0;
+        Sat,  9 Sep 2023 00:39:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694219935;
-        bh=JoOMw6LD+yU+fcoQVWkdeQCsPjYNqn4acnXcI4KksOA=;
+        s=k20201202; t=1694219942;
+        bh=wJ6xfI5wtwNtpNIc8qhqMs2gIRhyZ8ARzS3NOYLcKek=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oUodSgUXj0TijgjU/eSkO8IK1Z3rrerqfB3GV0YsF2d2qlCCQuESBhCephZTvg5hL
-         F5TZIej3HP4ssNyAV9C6nx65cQ/wCqfrElXO+4pGEuLya3c3YcksDKlPBAW+z4bko3
-         SEE6IrZvVwBHV7uqofSPdT65NCBOG3NbFrR5D4VcBUKGuNscvCFLpYmTv9Vd2vQIHx
-         FuNTir2LbsMttRdo3BKo+QBof6UmtNpFqNyi4xRvpUZ9ic90JQrbV5zOt54EEN3N0P
-         zhlWdzQ+plhrw9xfgRyOf378aenehNvjv1Sgdngf1PE1Y9TyzqE8Tkoe9CYAC5QHfu
-         wAPZkQFDmgKOg==
+        b=HsMR9Qvshq2mAEDSokyIIbDJFza2PEIudME2EaulrBv0jPTH4t7Cj8nCX3WtLXBH4
+         yJcyCiCzOymFULZu/lcW+ya5Wv6xJluqYEs0tzJPQl2FJ+4fb6kMFjTFuAWcy3qSyW
+         HdzovnwVoow0jR+WgAEkpYmm2qphgmPotWVyZPQZbpiDDGLZY4uSdvrbcAdJ+boj7h
+         /5aCxeKn7rUHCmiRkF5v5U2j2Ntcbi96kLrAoRMPun5MX0Qznq0qs9EiY27PnA86q8
+         G63t8TkQXmPyFtd77cBWTOetnUreyRnfpo0wrX/73gReKbNPTIWeiMaeioOZF0Rs3i
+         3QX2cV6o251aA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Xu Yang <xu.yang_2@nxp.com>, Peter Chen <peter.chen@kernel.org>,
+Cc:     Dan Drown <dan-netdev@drown.org>, Oliver Neukum <oneukum@suse.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, stern@rowland.harvard.edu,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 19/24] usb: ehci: add workaround for chipidea PORTSC.PEC bug
-Date:   Fri,  8 Sep 2023 20:38:11 -0400
-Message-Id: <20230909003818.3580081-19-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 24/24] usb: cdc-acm: move ldisc dcd notification outside of acm's read lock
+Date:   Fri,  8 Sep 2023 20:38:16 -0400
+Message-Id: <20230909003818.3580081-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230909003818.3580081-1-sashal@kernel.org>
 References: <20230909003818.3580081-1-sashal@kernel.org>
@@ -47,117 +46,43 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Xu Yang <xu.yang_2@nxp.com>
+From: Dan Drown <dan-netdev@drown.org>
 
-[ Upstream commit dda4b60ed70bd670eefda081f70c0cb20bbeb1fa ]
+[ Upstream commit f72ae60881ff685004d7de7152517607fcd9968f ]
 
-Some NXP processor using chipidea IP has a bug when frame babble is
-detected.
+dcd_change notification call moved outside of the acm->read_lock
+to protect any future tty ldisc that calls wait_serial_change()
 
-As per 4.15.1.1.1 Serial Bus Babble:
-  A babble condition also exists if IN transaction is in progress at
-High-speed SOF2 point. This is called frame babble. The host controller
-must disable the port to which the frame babble is detected.
-
-The USB controller has disabled the port (PE cleared) and has asserted
-USBERRINT when frame babble is detected, but PEC is not asserted.
-Therefore, the SW isn't aware that port has been disabled. Then the
-SW keeps sending packets to this port, but all of the transfers will
-fail.
-
-This workaround will firstly assert PCD by SW when USBERRINT is detected
-and then judge whether port change has really occurred or not by polling
-roothub status. Because the PEC doesn't get asserted in our case, this
-patch will also assert it by SW when specific conditions are satisfied.
-
-Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
-Acked-by: Peter Chen <peter.chen@kernel.org>
-Link: https://lore.kernel.org/r/20230809024432.535160-1-xu.yang_2@nxp.com
+Signed-off-by: Dan Drown <dan-netdev@drown.org>
+Acked-by: Oliver Neukum <oneukum@suse.com>
+Link: https://lore.kernel.org/r/ZN1zV/zjPgpGlHXo@vps3.drown.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/ehci-hcd.c |  8 ++++++--
- drivers/usb/host/ehci-hub.c | 10 +++++++++-
- drivers/usb/host/ehci.h     | 10 ++++++++++
- 3 files changed, 25 insertions(+), 3 deletions(-)
+ drivers/usb/class/cdc-acm.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
-index a1930db0da1c3..802bfafb1012b 100644
---- a/drivers/usb/host/ehci-hcd.c
-+++ b/drivers/usb/host/ehci-hcd.c
-@@ -755,10 +755,14 @@ static irqreturn_t ehci_irq (struct usb_hcd *hcd)
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index 36bf051b345b8..630669a27ef5e 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -318,6 +318,16 @@ static void acm_process_notification(struct acm *acm, unsigned char *buf)
+ 		}
  
- 	/* normal [4.15.1.2] or error [4.15.1.1] completion */
- 	if (likely ((status & (STS_INT|STS_ERR)) != 0)) {
--		if (likely ((status & STS_ERR) == 0))
-+		if (likely ((status & STS_ERR) == 0)) {
- 			INCR(ehci->stats.normal);
--		else
-+		} else {
-+			/* Force to check port status */
-+			if (ehci->has_ci_pec_bug)
-+				status |= STS_PCD;
- 			INCR(ehci->stats.error);
-+		}
- 		bh = 1;
- 	}
- 
-diff --git a/drivers/usb/host/ehci-hub.c b/drivers/usb/host/ehci-hub.c
-index efe30e3be22f7..1aee392e84927 100644
---- a/drivers/usb/host/ehci-hub.c
-+++ b/drivers/usb/host/ehci-hub.c
-@@ -674,7 +674,8 @@ ehci_hub_status_data (struct usb_hcd *hcd, char *buf)
- 
- 		if ((temp & mask) != 0 || test_bit(i, &ehci->port_c_suspend)
- 				|| (ehci->reset_done[i] && time_after_eq(
--					jiffies, ehci->reset_done[i]))) {
-+					jiffies, ehci->reset_done[i]))
-+				|| ehci_has_ci_pec_bug(ehci, temp)) {
- 			if (i < 7)
- 			    buf [0] |= 1 << (i + 1);
- 			else
-@@ -875,6 +876,13 @@ int ehci_hub_control(
- 		if (temp & PORT_PEC)
- 			status |= USB_PORT_STAT_C_ENABLE << 16;
- 
-+		if (ehci_has_ci_pec_bug(ehci, temp)) {
-+			status |= USB_PORT_STAT_C_ENABLE << 16;
-+			ehci_info(ehci,
-+				"PE is cleared by HW port:%d PORTSC:%08x\n",
-+				wIndex + 1, temp);
+ 		difference = acm->ctrlin ^ newctrl;
++
++		if ((difference & USB_CDC_SERIAL_STATE_DCD) && acm->port.tty) {
++			struct tty_ldisc *ld = tty_ldisc_ref(acm->port.tty);
++			if (ld) {
++				if (ld->ops->dcd_change)
++					ld->ops->dcd_change(acm->port.tty, newctrl & USB_CDC_SERIAL_STATE_DCD);
++				tty_ldisc_deref(ld);
++			}
 +		}
 +
- 		if ((temp & PORT_OCC) && (!ignore_oc && !ehci->spurious_oc)){
- 			status |= USB_PORT_STAT_C_OVERCURRENT << 16;
- 
-diff --git a/drivers/usb/host/ehci.h b/drivers/usb/host/ehci.h
-index ad3f13a3eaf1b..5c0e25742e179 100644
---- a/drivers/usb/host/ehci.h
-+++ b/drivers/usb/host/ehci.h
-@@ -207,6 +207,7 @@ struct ehci_hcd {			/* one per controller */
- 	unsigned		has_fsl_port_bug:1; /* FreeScale */
- 	unsigned		has_fsl_hs_errata:1;	/* Freescale HS quirk */
- 	unsigned		has_fsl_susp_errata:1;	/* NXP SUSP quirk */
-+	unsigned		has_ci_pec_bug:1;	/* ChipIdea PEC bug */
- 	unsigned		big_endian_mmio:1;
- 	unsigned		big_endian_desc:1;
- 	unsigned		big_endian_capbase:1;
-@@ -707,6 +708,15 @@ ehci_port_speed(struct ehci_hcd *ehci, unsigned int portsc)
-  */
- #define ehci_has_fsl_susp_errata(e)	((e)->has_fsl_susp_errata)
- 
-+/*
-+ * Some Freescale/NXP processors using ChipIdea IP have a bug in which
-+ * disabling the port (PE is cleared) does not cause PEC to be asserted
-+ * when frame babble is detected.
-+ */
-+#define ehci_has_ci_pec_bug(e, portsc) \
-+	((e)->has_ci_pec_bug && ((e)->command & CMD_PSE) \
-+	 && !(portsc & PORT_PEC) && !(portsc & PORT_PE))
-+
- /*
-  * While most USB host controllers implement their registers in
-  * little-endian format, a minority (celleb companion chip) implement
+ 		spin_lock_irqsave(&acm->read_lock, flags);
+ 		acm->ctrlin = newctrl;
+ 		acm->oldcount = acm->iocount;
 -- 
 2.40.1
 
