@@ -2,96 +2,93 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE54AEEB593
-	for <linux-usb@archiver.kernel.org>; Sat,  9 Sep 2023 16:25:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7B8CEE3EC3
+	for <linux-usb@archiver.kernel.org>; Sat,  9 Sep 2023 16:27:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231772AbjIIQZT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 9 Sep 2023 12:25:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55482 "EHLO
+        id S231309AbjIIQZR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 9 Sep 2023 12:25:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbjIIQOy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 9 Sep 2023 12:14:54 -0400
+        with ESMTP id S241079AbjIIOhC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 9 Sep 2023 10:37:02 -0400
 Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 1FC59197
-        for <linux-usb@vger.kernel.org>; Sat,  9 Sep 2023 09:14:50 -0700 (PDT)
-Received: (qmail 820116 invoked by uid 1000); 9 Sep 2023 12:14:49 -0400
-Date:   Sat, 9 Sep 2023 12:14:49 -0400
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 9B481188
+        for <linux-usb@vger.kernel.org>; Sat,  9 Sep 2023 07:36:54 -0700 (PDT)
+Received: (qmail 816565 invoked by uid 1000); 9 Sep 2023 10:36:53 -0400
+Date:   Sat, 9 Sep 2023 10:36:53 -0400
 From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Jonathan Woithe <jwoithe@just42.net>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: Samsung T5 SSD: "Synchronize Cache(10) failed" on removal
-Message-ID: <62aaef13-c782-4d18-a59e-f8c1b24b595f@rowland.harvard.edu>
-References: <ZPwnmHV6rIV7Nsg9@marvin.atrad.com.au>
+To:     Yuran Pereira <yuran.pereira@hotmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "royluo@google.com" <royluo@google.com>,
+        "christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
+        "raychi@google.com" <raychi@google.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "syzbot+c063a4e176681d2e0380@syzkaller.appspotmail.com" 
+        <syzbot+c063a4e176681d2e0380@syzkaller.appspotmail.com>
+Subject: Re: [PATCH] USB: core: Fix a NULL pointer dereference
+Message-ID: <c072b373-0368-4f49-a4da-da309955cb7a@rowland.harvard.edu>
+References: <AS8P192MB12697886EC8DF1650AD56A57E8EDA@AS8P192MB1269.EURP192.PROD.OUTLOOK.COM>
+ <d3ffde1a-e0da-4f3f-ac34-659cbcf41258@rowland.harvard.edu>
+ <AM9P192MB12670D185D208AFA51B8348EE8ECA@AM9P192MB1267.EURP192.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZPwnmHV6rIV7Nsg9@marvin.atrad.com.au>
+In-Reply-To: <AM9P192MB12670D185D208AFA51B8348EE8ECA@AM9P192MB1267.EURP192.PROD.OUTLOOK.COM>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Sep 09, 2023 at 05:36:48PM +0930, Jonathan Woithe wrote:
-> Hi all
+On Sat, Sep 09, 2023 at 06:28:12AM +0000, Yuran Pereira wrote:
+> Hello Alan,
 > 
-> Recently I became aware that my system reports a "Synchronize Cache(10)
-> failed" error whenever a Samsung T5 500 GB SSD is unplugged:
+> Thank you for elucidating that.
 > 
->      sd 11:0:0:0: [sdg] Synchronizing SCSI cache
->      sd 11:0:0:0: [sdg] Synchronize Cache(10) failed: Result: hostbyte=0x07
->                   driverbyte=DRIVER_OK
+> So, this bug is present on the mainline tree which is where syzkaller 
+> found it. My patch was also based on the mainline tree.
 > 
-> Occasionally the "hostbyte" is 0x01 instead of 0x07.  I don't think this is
-> a new problem since it's been occuring possibly since I started using the T5
-> in early 2021.  A second Samsung T5 (a 250 GB model) triggers the
-> same messages when removed.
+> I just ran the same reproducer against a kernel compiled from the usb 
+> tree, and, as you suggested, the test you mentioned does in fact, 
+> prevent the bug from occurring.
 > 
-> To produce the failure message it is necessary to simply connect the drive
-> and then remove it.  Mounting a filesystem from the drive is not required. 
-> The Linux system does not auto-mount these drives.
-> 
-> I have seen the problem under kernels 5.15.38, 5.15.72, 5.15.117 and 6.1.52.
-> 
-> The T5 uses uas by default.  I have tried forcing the use of usb-storage
-> with
-> 
->   options usb-storage quirks=04e8:61f5:u
-> 
-> This binds the device to usb-storage instead of uas (according to dmesg) but
-> the error is still reported on removal.
-> 
-> I guess the fundamental question is whether this error is significant in any
-> way.  If it's of no consequence then I'll happily ignore it and move on.
+> Please forgive my ignorance; I am a new contributor to the community. 
+> But in this situation how should I proceed? Is there even a need to 
+> submit a patch, or will the code currently present in the usb tree 
+> eventually be reflected in the mainline?
 
-The significance is this: When you remove a drive from the system, the 
-kernel tries to make sure that any data sent to the drive and still in 
-the drive's cache gets safely written out to permanent storage.  It does 
-this by sending a SYNCHRONIZE CACHE command to the drive.  Of course, if 
-you haven't written anything to the drive then there will be no data to 
-synchronize.  Also, if you unmounted a filesystem on the drive just 
-before removing it then there will be no data to synchronize, because 
-unmounting automatically performs a SYNCHRONIZE CACHE.  In either case, 
-failure of the command will have no bad effects.
+The first step is to find the difference between the mainline and USB 
+trees that is responsible for this change in behavior.  A quick check of 
+the Git logs shows that the change was caused by commit d21fdd07cea4 
+("driver core: Return proper error code when dev_set_name() fails"), 
+written by Andy Shevchenko.  As a result of this commit, the code in 
+device_add() now says:
 
-The reason the error message shows up at all is that the kernel doesn't 
-know you're removing the drive until the USB cable gets unplugged.  And 
-by then, it's too late to send anything to the drive -- the attempted 
-command fails because the computer obviously can't communicate with a 
-device that has been unplugged.
+	if (dev_name(dev))
+		error = 0;
+	/* subsystems can specify simple device enumeration */
+	else if (dev->bus && dev->bus->dev_name)
+		error = dev_set_name(dev, "%s%u", dev->bus->dev_name, dev->id);
+	if (error)
+		goto name_error;
 
-> If on the other hand it' is something best fixed, please let me know how I
-> can assist with this.
+This obviously omits a final "else" clause; it should say:
 
-The most likely situation where this would indicate a real problem would 
-be if you had mounted a filesystem on the drive, written some data, and 
-then unplugged it without unmounting first.  If you haven't done that 
-then you don't have to worry about anything.
+	if (dev_name(dev))
+		error = 0;
+	/* subsystems can specify simple device enumeration */
+	else if (dev->bus && dev->bus->dev_name)
+		error = dev_set_name(dev, "%s%u", dev->bus->dev_name, dev->id);
++	else
++		error = -EINVAL;
+	if (error)
+		goto name_error;
 
-On the other hand, if you would like to get rid of those annoying error 
-messages, you can do so by telling the kernel that the drive is about to 
-be removed before you unplug it.  You do this by writing to the "remove" 
-attribute file in the USB device's sysfs device directory; this is the 
-equivalent of using the "Safely remove a device" button in Windows.  
-Some GUIs may provide an easy-to-use mechanism for doing this, such as 
-an "eject" selection on a device menu.
+So to answer your questions: No, the code in the USB tree will not find 
+its way into mainline.  The opposite will happen: The mainline code will 
+land in the USB tree.  Which means that yes, there is a need to submit a 
+patch.  You can go ahead and write this up for submission, or I can 
+submit it for you.  Or you can check with Andy and see if he wants to 
+fix the problem in a different way.
 
 Alan Stern
