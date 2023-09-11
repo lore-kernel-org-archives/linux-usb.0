@@ -2,40 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8754EEE49A4
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 00:24:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FB07EEB580
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 00:25:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231815AbjIKAZC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S231829AbjIKAZC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Sun, 10 Sep 2023 20:25:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57722 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230083AbjIKAZB (ORCPT
+        with ESMTP id S230266AbjIKAZB (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sun, 10 Sep 2023 20:25:01 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B684E1A6
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B63151A5
         for <linux-usb@vger.kernel.org>; Sun, 10 Sep 2023 17:24:56 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1qfUjW-0008TJ-9f; Mon, 11 Sep 2023 02:24:54 +0200
+        id 1qfUjW-0008TH-9f; Mon, 11 Sep 2023 02:24:54 +0200
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <mgr@pengutronix.de>)
-        id 1qfUjV-005QgV-Nl; Mon, 11 Sep 2023 02:24:53 +0200
+        id 1qfUjV-005QgS-8s; Mon, 11 Sep 2023 02:24:53 +0200
 Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.96)
         (envelope-from <mgr@pengutronix.de>)
-        id 1qfUjU-00C037-3D;
-        Mon, 11 Sep 2023 02:24:52 +0200
+        id 1qfUjV-00C03E-05;
+        Mon, 11 Sep 2023 02:24:53 +0200
 From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
 To:     laurent.pinchart@ideasonboard.com
 Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
         dan.scally@ideasonboard.com, gregkh@linuxfoundation.org,
         nicolas@ndufresne.ca, kernel@pengutronix.de
-Subject: [PATCH 0/3] usb: gadget: uvc: restart fixes
-Date:   Mon, 11 Sep 2023 02:24:48 +0200
-Message-Id: <20230911002451.2860049-1-m.grzeschik@pengutronix.de>
+Subject: [PATCH 2/3] usb: gadget: uvc: cleanup request when not in correct state
+Date:   Mon, 11 Sep 2023 02:24:50 +0200
+Message-Id: <20230911002451.2860049-3-m.grzeschik@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230911002451.2860049-1-m.grzeschik@pengutronix.de>
+References: <20230911002451.2860049-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -46,19 +48,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series is improving the stability of the usb uvc gadget driver. On
-the unconditional event of a crash or intentional stop while using the
-uvc v4l2 userspace device and streaming to the host, the setup was
-sometimes running into use after free cases. We fix that.
+The uvc_video_enable function of the uvc-gadget driver is dequeing and
+immediately deallocs all requests on its disable codepath. This is not
+save since the dequeue function is async and does not ensure that the
+requests are left unlinked in the controller driver.
 
-Michael Grzeschik (3):
-  usb: gadget: uvc: stop pump thread on video disable
-  usb: gadget: uvc: cleanup request when not in correct state
-  usb: gadget: uvc: rework pump worker to avoid while loop
+By adding the ep_free_request into the completion path of the requests
+we ensure that the request will be properly deallocated.
 
- drivers/usb/gadget/function/uvc_video.c | 31 ++++++++++++++++++++-----
- 1 file changed, 25 insertions(+), 6 deletions(-)
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+---
+ drivers/usb/gadget/function/uvc_video.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index 4b6e854e30c58c..52e3666b51f743 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -256,6 +256,12 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
+ 	struct uvc_device *uvc = video->uvc;
+ 	unsigned long flags;
+ 
++	if (uvc->state == UVC_STATE_CONNECTED) {
++		usb_ep_free_request(video->ep, ureq->req);
++		ureq->req = NULL;
++		return;
++	}
++
+ 	switch (req->status) {
+ 	case 0:
+ 		break;
 -- 
 2.39.2
 
