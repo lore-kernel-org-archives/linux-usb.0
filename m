@@ -2,72 +2,91 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE940CA0ECE
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97738CA0ED5
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350632AbjIKVkE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:40:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56796 "EHLO
+        id S1350646AbjIKVkM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:40:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235708AbjIKJZq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 05:25:46 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E494CD3;
-        Mon, 11 Sep 2023 02:25:42 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 14996C433C9;
-        Mon, 11 Sep 2023 09:25:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694424342;
-        bh=WpA2HSmOVnDSDp9vUx/6sCnejIWAz21QU/ikOzyuZyI=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=J1bK6F0j/wB+fJQr4Kt2LbjQu31XTnJldrWV6fRSwa+M1taFaNRtmK7Retp2iW85v
-         QGnjIcPDSaM1GBi7GploYD2QGH9LX/gKrnIfTZtrZOlw/5MNF8Ayf+yNas4tQGcbG0
-         LWPnw6BjjSOEQe+b7Eo3A/zRUghv0FV9bR6fdcBCbFHLiworBLw4tpVW0x0+/O9XqR
-         oKQcs0VGmGGKl0yr8HEX4wx/FiEB8GX61ExY77SncAOG+ZsbGSKkACDS+y5wBiCdHl
-         +zGc7DeZR7ssi4fVNxh6JxMDun1HstF8CZvwLYHLePZKa/iwokQD3dnWDni7I3myN4
-         qV7PsihENvfaw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 03E26E1C280;
-        Mon, 11 Sep 2023 09:25:42 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S236257AbjIKKE5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 06:04:57 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 234BAE6B
+        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 03:04:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694426693; x=1725962693;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=XOEjvAXR5k8yZUwMcF3JSZB0woDgGcIsExvIMG5XRuc=;
+  b=mm4Ns5sbJj4KyDat7FOqniolrOXYNGiGCyJVa0NlJcPnX9fSOM4qeXCP
+   ARGyG+q5JI9VBE9ZLiGGIQR3WPo85n3qAVmzFjvrvmvjSFfe+FdG1udBJ
+   B7KFv87CxQwLl0EYu8sZKsuD4XBHXCIXv9Fp2eUhW9shf55tAjHRaUXJC
+   /K8xvqPVZeepB6RX93VwV1TcWw2ZK+jtN/4D4itz+U4zZ1kzQ3TfJO/pQ
+   Q21p/ihvzv6EtdO/xXEw07xiyHgigrQsg7SMir5ZdVITvQwx37go8y5la
+   RazAA8yppo5pyuSHUTOUyxXTEcozZat8jZvnJqasZroZQsa2fAoWPDIT1
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="442037104"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="442037104"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 03:04:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="858263757"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="858263757"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga002.fm.intel.com with ESMTP; 11 Sep 2023 03:04:47 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id DFEE8B50; Mon, 11 Sep 2023 13:04:45 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Werner Sembach <wse@tuxedocomputers.com>,
+        Konrad J Hambrick <kjhambrick@gmail.com>,
+        Calvin Walton <calvin.walton@kepstin.ca>,
+        =?UTF-8?q?Marek=20=C5=A0anta?= <teslan223@gmail.com>,
+        David Binderman <dcb314@hotmail.com>,
+        Alex Balcanquall <alex@alexbal.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 4/5] thunderbolt: Apply USB 3.x bandwidth quirk only in software connection manager
+Date:   Mon, 11 Sep 2023 13:04:44 +0300
+Message-Id: <20230911100445.3612655-5-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230911100445.3612655-1-mika.westerberg@linux.intel.com>
+References: <20230911100445.3612655-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] r8152: check budget for r8152_poll()
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <169442434201.22330.8875438731088949212.git-patchwork-notify@kernel.org>
-Date:   Mon, 11 Sep 2023 09:25:42 +0000
-References: <20230908070152.26484-422-nic_swsd@realtek.com>
-In-Reply-To: <20230908070152.26484-422-nic_swsd@realtek.com>
-To:     Hayes Wang <hayeswang@realtek.com>
-Cc:     kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org,
-        nic_swsd@realtek.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello:
+This is not needed when firmware connection manager is run so limit this
+to software connection manager.
 
-This patch was applied to netdev/net.git (main)
-by David S. Miller <davem@davemloft.net>:
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/quirks.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-On Fri, 8 Sep 2023 15:01:52 +0800 you wrote:
-> According to the document of napi, there is no rx process when the
-> budget is 0. Therefore, r8152_poll() has to return 0 directly when the
-> budget is equal to 0.
-> 
-> Fixes: d2187f8e4454 ("r8152: divide the tx and rx bottom functions")
-> Signed-off-by: Hayes Wang <hayeswang@realtek.com>
-> 
-> [...]
-
-Here is the summary with links:
-  - [net] r8152: check budget for r8152_poll()
-    https://git.kernel.org/netdev/net/c/a7b8d60b3723
-
-You are awesome, thank you!
+diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
+index 488138a28ae1..e6bfa63b40ae 100644
+--- a/drivers/thunderbolt/quirks.c
++++ b/drivers/thunderbolt/quirks.c
+@@ -31,6 +31,9 @@ static void quirk_usb3_maximum_bandwidth(struct tb_switch *sw)
+ {
+ 	struct tb_port *port;
+ 
++	if (tb_switch_is_icm(sw))
++		return;
++
+ 	tb_switch_for_each_port(sw, port) {
+ 		if (!tb_port_is_usb3_down(port))
+ 			continue;
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.40.1
 
