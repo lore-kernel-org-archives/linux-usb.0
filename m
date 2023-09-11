@@ -2,496 +2,245 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45F10CA0EC1
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:40:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49001CA0EC7
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350417AbjIKViK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:38:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58014 "EHLO
+        id S1350423AbjIKViM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:38:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237240AbjIKMRM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 08:17:12 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D7ECCEB
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 05:17:07 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B27D2C433CA;
-        Mon, 11 Sep 2023 12:17:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694434626;
-        bh=cp6gHIYpNXT6sU53jX7esw9WStY6pbDhAD+NoHu474o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=R6jODca6XIiReLppXUVfNijVNcPboWbMIV6A7UYwQPX9g7zs8KIr1zKQF5nPRg4Yc
-         QTPXys4XQ6htvQyCYmOcFJkaIh0EMaW7mje6Bc4KbiycCxoYVKdlX/HAVlxyl19/VK
-         uGEfnaU27CR3z5faMonbZkhKxZGJDgKfh3Rqk11NcJoC26OyMSEDV++4P3f+qy9+tL
-         VDzKCgsgRII7Ht5zxdTb678mHPN6IJ+9IbsJw5X5M12Ruw4Yhp583NIqKKkFSFJjc1
-         dAtwB+VHxOb5RSUwMO2pyjJVMYMesMfSddUZSUFOy3nZu5MUkgLJoGadqro/QmUTB6
-         xDNHQRyt3L3DQ==
-Date:   Mon, 11 Sep 2023 20:16:59 +0800
-From:   Peter Chen <peter.chen@kernel.org>
-To:     "tomer.maimon@nuvoton.com" <tomer.maimon@nuvoton.com>
-Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: Advise for adding Nuvoton BMC Synopsys USB 2.0 device
- controllers to Linux kernel USB Chipidea driver
-Message-ID: <20230911121659.GA1146957@nchen-desktop>
-References: <TY0PR03MB627615C146DF1CCED0BCAA2C84EEA@TY0PR03MB6276.apcprd03.prod.outlook.com>
- <20230908102618.GA1134975@nchen-desktop>
- <TY0PR03MB62768499A37E53AEB9E1306284F3A@TY0PR03MB6276.apcprd03.prod.outlook.com>
+        with ESMTP id S236301AbjIKKMH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 06:12:07 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D83CAE68;
+        Mon, 11 Sep 2023 03:12:01 -0700 (PDT)
+Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BA8h6f001974;
+        Mon, 11 Sep 2023 10:11:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=z6iXJSAk8VmaOLsZImHUbYEz4LKyvswZEgeBjuY2lOI=;
+ b=NC2nu3qsNFYty64bCThdR6LQScP43BZL598N+3iPJb/6j/GDOJVPgve66hxp6FZp0qFZ
+ Y/0VmL7/NDFu98a1u6mno1y7MBVL9039BlrfFEJcsvYEPH9IVz+DbQZLdfub9nWDZUGK
+ HSdiDgks9WqMvjx/gmMf7JgedO4LQHpZG/4ckAbo85TQ9KOpBC5H8ypalphreyseAw63
+ Jr89u7b+cu6a3m6rb5fXEhWp+tQES+G2EgL/8SeggbgSiMloj/dmdvJAWdkSuI7CdlWg
+ 6RgqxDy3j3monInrq+4wIFmUyf6kIlmf7tbr3lCviTnniK1R4ZNwdtp8eNzBydYC7Yju 7A== 
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3t1y9sjh1p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 10:11:53 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+        by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 38B9A7V1024061;
+        Mon, 11 Sep 2023 10:11:53 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+        by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3t131st1dj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 10:11:53 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+        by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 38BABp8P27460180
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 11 Sep 2023 10:11:51 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4C0702004F;
+        Mon, 11 Sep 2023 10:11:51 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 24DB02004E;
+        Mon, 11 Sep 2023 10:11:51 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Mon, 11 Sep 2023 10:11:51 +0000 (GMT)
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Heiko Carstens <hca@linux.ibm.com>,
+        Arnd Bergmann <arnd@kernel.org>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 2/3] usb: pci-quirks: handle HAS_IOPORT dependency for AMD quirk
+Date:   Mon, 11 Sep 2023 12:11:48 +0200
+Message-Id: <20230911101149.4113303-3-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230911101149.4113303-1-schnelle@linux.ibm.com>
+References: <20230911101149.4113303-1-schnelle@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <TY0PR03MB62768499A37E53AEB9E1306284F3A@TY0PR03MB6276.apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: UJ3-Be1LSfI3xyUIypOSLEPEVDuW964Q
+X-Proofpoint-ORIG-GUID: UJ3-Be1LSfI3xyUIypOSLEPEVDuW964Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 malwarescore=0
+ adultscore=0 mlxlogscore=716 lowpriorityscore=0 priorityscore=1501
+ phishscore=0 suspectscore=0 mlxscore=0 spamscore=0 impostorscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309110092
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 23-09-10 12:47:06, tomer.maimon@nuvoton.com wrote:
-> Hi Peter,
->=20
->=20
->=20
-> Thanks for your prompt response.
->=20
->=20
->=20
-> Unfortunately soft connect didn't solve the problem, because the vbus_act=
-ive is not active
->=20
-> And this is why the ci_hdrc_gadget_connect<https://elixir.bootlin.com/lin=
-ux/v6.5.2/C/ident/ci_hdrc_gadget_connect>(gadget<https://elixir.bootlin.com=
-/linux/v6.5.2/C/ident/gadget>, 1) is not called.
->=20
-> https://elixir.bootlin.com/linux/v6.5.2/source/drivers/usb/chipidea/udc.c=
-#L1950
->=20
+In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+not being declared. In the pci-quirks case the I/O port acceses are
+used in the quirks for several AMD south bridges, Add a config option
+for the AMD quirks to depend on HAS_IOPORT and #ifdef the quirk code.
 
-Please use plain text for upstream email.
+Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+ drivers/usb/Kconfig           | 10 ++++++++++
+ drivers/usb/core/hcd-pci.c    |  3 +--
+ drivers/usb/host/pci-quirks.c |  2 ++
+ drivers/usb/host/pci-quirks.h | 34 ++++++++++++++++++++++++----------
+ include/linux/usb/hcd.h       | 17 +++++++++++++++++
+ 5 files changed, 54 insertions(+), 12 deletions(-)
 
-So, for your soc, the usb role is device-only, and there is no otgsc
-register. You may try to introduce a flag like
-CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS, and using it at ci_handle_vbus_change
-for (!ci->is_otg condition), when both conditions are satisfied, call=20
-usb_gadget_vbus_connect(&ci->gadget);
+diff --git a/drivers/usb/Kconfig b/drivers/usb/Kconfig
+index 7f33bcc315f2..abf8c6cdea9e 100644
+--- a/drivers/usb/Kconfig
++++ b/drivers/usb/Kconfig
+@@ -91,6 +91,16 @@ config USB_PCI
+ 	  If you have such a device you may say N here and PCI related code
+ 	  will not be built in the USB driver.
+ 
++config USB_PCI_AMD
++	bool "AMD PCI USB host support"
++	depends on USB_PCI && HAS_IOPORT
++	default X86 || MACH_LOONGSON64 || PPC_PASEMI
++	help
++	  Enable workarounds for USB implementation quirks in SB600/SB700/SB800
++	  and later south bridge implementations. These are common on x86 PCs
++	  with AMD CPUs but rarely used elsewhere, with the exception of a few
++	  powerpc and mips desktop machines.
++
+ if USB
+ 
+ source "drivers/usb/core/Kconfig"
+diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
+index 990280688b25..ee3156f49533 100644
+--- a/drivers/usb/core/hcd-pci.c
++++ b/drivers/usb/core/hcd-pci.c
+@@ -206,8 +206,7 @@ int usb_hcd_pci_probe(struct pci_dev *dev, const struct hc_driver *driver)
+ 		goto free_irq_vectors;
+ 	}
+ 
+-	hcd->amd_resume_bug = (usb_hcd_amd_remote_wakeup_quirk(dev) &&
+-			driver->flags & (HCD_USB11 | HCD_USB3)) ? 1 : 0;
++	hcd->amd_resume_bug = usb_hcd_amd_resume_bug(dev, driver);
+ 
+ 	if (driver->flags & HCD_MEMORY) {
+ 		/* EHCI, OHCI */
+diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
+index 5e06fad82a22..10813096d00c 100644
+--- a/drivers/usb/host/pci-quirks.c
++++ b/drivers/usb/host/pci-quirks.c
+@@ -76,6 +76,7 @@
+ #define USB_INTEL_USB3_PSSEN   0xD8
+ #define USB_INTEL_USB3PRM      0xDC
+ 
++#ifdef CONFIG_USB_PCI_AMD
+ /* AMD quirk use */
+ #define	AB_REG_BAR_LOW		0xe0
+ #define	AB_REG_BAR_HIGH		0xe1
+@@ -587,6 +588,7 @@ bool usb_amd_pt_check_port(struct device *device, int port)
+ 	return !(value & BIT(port_shift));
+ }
+ EXPORT_SYMBOL_GPL(usb_amd_pt_check_port);
++#endif /* CONFIG_USB_PCI_AMD */
+ 
+ static int usb_asmedia_wait_write(struct pci_dev *pdev)
+ {
+diff --git a/drivers/usb/host/pci-quirks.h b/drivers/usb/host/pci-quirks.h
+index cde2263a9d2e..a5230b0b9e91 100644
+--- a/drivers/usb/host/pci-quirks.h
++++ b/drivers/usb/host/pci-quirks.h
+@@ -2,7 +2,7 @@
+ #ifndef __LINUX_USB_PCI_QUIRKS_H
+ #define __LINUX_USB_PCI_QUIRKS_H
+ 
+-#ifdef CONFIG_USB_PCI
++#ifdef CONFIG_USB_PCI_AMD
+ int usb_hcd_amd_remote_wakeup_quirk(struct pci_dev *pdev);
+ bool usb_amd_hang_symptom_quirk(void);
+ bool usb_amd_prefetch_quirk(void);
+@@ -12,7 +12,30 @@ void usb_amd_quirk_pll_disable(void);
+ void usb_amd_quirk_pll_enable(void);
+ void sb800_prefetch(struct device *dev, int on);
+ bool usb_amd_pt_check_port(struct device *device, int port);
++#else
++static inline bool usb_amd_hang_symptom_quirk(void)
++{
++	return false;
++};
++static inline bool usb_amd_prefetch_quirk(void)
++{
++	return false;
++}
++static inline void usb_amd_quirk_pll_disable(void) {}
++static inline void usb_amd_quirk_pll_enable(void) {}
++static inline void usb_amd_dev_put(void) {}
++static inline bool usb_amd_quirk_pll_check(void)
++{
++	return false;
++}
++static inline void sb800_prefetch(struct device *dev, int on) {}
++static inline bool usb_amd_pt_check_port(struct device *device, int port)
++{
++	return false;
++}
++#endif /* CONFIG_USB_PCI_AMD */
+ 
++#ifdef CONFIG_USB_PCI
+ void uhci_reset_hc(struct pci_dev *pdev, unsigned long base);
+ int uhci_check_and_reset_hc(struct pci_dev *pdev, unsigned long base);
+ void usb_asmedia_modifyflowcontrol(struct pci_dev *pdev);
+@@ -20,15 +43,6 @@ void usb_enable_intel_xhci_ports(struct pci_dev *xhci_pdev);
+ void usb_disable_xhci_ports(struct pci_dev *xhci_pdev);
+ #else
+ struct pci_dev;
+-static inline void usb_amd_quirk_pll_disable(void) {}
+-static inline void usb_amd_quirk_pll_enable(void) {}
+-static inline void usb_amd_dev_put(void) {}
+-static inline void sb800_prefetch(struct device *dev, int on) {}
+-static inline bool usb_amd_pt_check_port(struct device *device, int port)
+-{
+-	return false;
+-}
+-
+ static inline void usb_asmedia_modifyflowcontrol(struct pci_dev *pdev) {}
+ static inline void usb_disable_xhci_ports(struct pci_dev *xhci_pdev) {}
+ #endif  /* CONFIG_USB_PCI */
+diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
+index 61d4f0b793dc..00724b4f6e12 100644
+--- a/include/linux/usb/hcd.h
++++ b/include/linux/usb/hcd.h
+@@ -484,8 +484,25 @@ extern int usb_hcd_pci_probe(struct pci_dev *dev,
+ extern void usb_hcd_pci_remove(struct pci_dev *dev);
+ extern void usb_hcd_pci_shutdown(struct pci_dev *dev);
+ 
++#ifdef CONFIG_USB_PCI_AMD
+ extern int usb_hcd_amd_remote_wakeup_quirk(struct pci_dev *dev);
+ 
++static inline bool usb_hcd_amd_resume_bug(struct pci_dev *dev,
++					  const struct hc_driver *driver)
++{
++	if (!usb_hcd_amd_remote_wakeup_quirk(dev))
++		return false;
++	if (driver->flags & (HCD_USB11 | HCD_USB3))
++		return true;
++	return false;
++}
++#else /* CONFIG_USB_PCI_AMD */
++static inline bool usb_hcd_amd_resume_bug(struct pci_dev *dev,
++					  const struct hc_driver *driver)
++{
++	return false;
++}
++#endif
+ extern const struct dev_pm_ops usb_hcd_pci_pm_ops;
+ #endif /* CONFIG_USB_PCI */
+ 
+-- 
+2.39.2
 
-Thanks,
-Peter
-
->=20
->=20
-> In the log below we added debug print of the vbus_active status:
->=20
-> # insmod usb_f_mass_storage.ko
->=20
-> # insmod g_mass_storage.ko file=3D/tmp/backing_file removable=3D1
->=20
-> Mass Storage Function, version: 2009/09/11
->=20
-> LUN: removable file: (no medium)
->=20
-> LUN: removable file: /tmp/backing_file
->=20
-> Number of LUNs=3D1
->=20
-> g_mass_storage gadget: Mass Storage Gadget, version: 2009/09/11
->=20
-> g_mass_storage gadget: userspace failed to provide iSerialNumber
->=20
-> g_mass_storage gadget: g_mass_storage ready
->=20
->         usb_gadget_udc_start
->=20
-> ci_udc_start
->=20
-> ci_udc_start ci->vbus_active 0
->=20
-> # cd /sys/class/udc/ci_hdrc.0/
->=20
-> # echo connect > soft_connect
->=20
-> udc ci_hdrc.0: UDC had already started
->=20
-> # echo disconnect > soft_connect
->=20
-> ci_udc_stop ci->vbus_active 0
->=20
-> # echo connect > soft_connect
->=20
->         usb_gadget_udc_start
->=20
-> ci_udc_start
->=20
-> ci_udc_start ci->vbus_active 0
->=20
->=20
->=20
-> How can I active the vbus_active parameter?
->=20
->=20
->=20
-> Thanks,
->=20
->=20
->=20
-> Tomer
->=20
->=20
->=20
-> -----Original Message-----
-> From: Peter Chen <peter.chen@kernel.org>
-> Sent: Friday, 8 September 2023 13:26
-> To: IS20 Tomer Maimon <tomer.maimon@nuvoton.com>
-> Cc: linux-usb@vger.kernel.org
-> Subject: Re: Advise for adding Nuvoton BMC Synopsys USB 2.0 device contro=
-llers to Linux kernel USB Chipidea driver
->=20
->=20
->=20
-> CAUTION - External Email: Do not click links or open attachments unless y=
-ou acknowledge the sender and content.
->=20
->=20
->=20
->=20
->=20
-> On 23-09-07 14:33:29, tomer.maimon@nuvoton.com<mailto:tomer.maimon@nuvoto=
-n.com> wrote:
->=20
-> > Hi Peter
->=20
-> >
->=20
-> > My name is Tomer I am working in Nuvoton system in the Linux kernel, ou=
-r project developing BMC SoC for servers.
->=20
-> > In Nuvoton BMC (NPCM) there are ten identical Synopsys USB 2.0 device c=
-ontrollers called NPCM UDC.
->=20
-> >
->=20
-> > Lately we started to work with USB Chipidea driver to add NPCM UDC as w=
-ell.
->=20
-> > The NPCM BMC using only the UDC and not the USB host.
->=20
-> >
->=20
-> > Using the default compatible<https://apc01.safelinks.protection.outlook=
-=2Ecom/?url=3Dhttps%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv5.15.130%2FC%2Fid=
-ent%2Fcompatible&data=3D05%7C01%7Ctomer.maimon%40nuvoton.com%7C3cc95393cba4=
-4903d9fa08dbb0561155%7Ca3f24931d4034b4a94f17d83ac638e07%7C0%7C0%7C638297655=
-985252717%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBT=
-iI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DPLwJbYcd%2Fs2F2x7yXL7wp3g=
-4AxDJ8JyJIZ2TTBGFGWw%3D&reserved=3D0<https://elixir.bootlin.com/linux/v5.15=
-=2E130/C/ident/compatible>> =3D "chipidea,usb2<https://apc01.safelinks.prot=
-ection.outlook.com/?url=3Dhttps%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv5.15.=
-130%2FB%2Fident%2Fchipidea%252Cusb2&data=3D05%7C01%7Ctomer.maimon%40nuvoton=
-=2Ecom%7C3cc95393cba44903d9fa08dbb0561155%7Ca3f24931d4034b4a94f17d83ac638e0=
-7%7C0%7C0%7C638297655985408934%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAi=
-LCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DuZQe=
-mtQLmMuVP8ifpczSYtHw2Z4drLLn%2Fm2ObnpJW0Q%3D&reserved=3D0<https://elixir.bo=
-otlin.com/linux/v5.15.130/B/ident/chipidea%2Cusb2>>" didn't work for us sin=
-ce:
->=20
-> >
->=20
-> > 1.       The USB_MODE should be set at boot or after reset since the re=
-set The USB_MODE is incorrect (0x15002)
->=20
-> >
->=20
-> > [cid:image002.jpg@01D9E1B1.691030B0]
->=20
-> >
->=20
-> >
->=20
-> > It solved by setting USB_MODE during NPCM reset
->=20
-> > ci_hdrc_npcm_notify_event, now using unique npcm-udc compatible :)
->=20
-> >
->=20
-> >
->=20
-> >
->=20
-> > 2.      vbus_active parameter don't change, stay 0.
->=20
-> >
->=20
-> > The Device Control Capability Parameters Register (DCCPARAMS) is a
->=20
-> > read only register that indicate the module is only DC (Device
->=20
-> > Capable)
->=20
-> >
->=20
-> > This is why the driver didn't indicate the driver is OTG
->=20
-> >
->=20
-> > https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Feli=
-x<https://elix/>
->=20
-> > ir.bootlin.com%2Flinux%2Fv6.5.2%2Fsource%2Fdrivers%2Fusb%2Fchipidea%2F
->=20
-> > core.c%23L948&data=3D05%7C01%7Ctomer.maimon%40nuvoton.com%7C3cc95393cba4
->=20
-> > 4903d9fa08dbb0561155%7Ca3f24931d4034b4a94f17d83ac638e07%7C0%7C0%7C6382
->=20
-> > 97655985408934%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2l
->=20
-> > uMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3D%2B5yqPLl4FS
->=20
-> > YUF2Wr0fnNEGgHETE7FTmmSxVm8HCAaQ4%3D&reserved=3D0
->=20
-> >
->=20
-> >
->=20
-> > ci<https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fe
->=20
-> > lixir.bootlin.com%2Flinux%2Fv6.5.2%2FC%2Fident%2Fci&data=3D05%7C01%7Ctom
->=20
-> > er.maimon%40nuvoton.com%7C3cc95393cba44903d9fa08dbb0561155%7Ca3f24931d
->=20
-> > 4034b4a94f17d83ac638e07%7C0%7C0%7C638297655985408934%7CUnknown%7CTWFpb
->=20
-> > GZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0
->=20
-> > %3D%7C3000%7C%7C%7C&sdata=3D0l4NnlxNNGGLe%2BEG%2FXU%2B2bdMB5R%2FY%2BD3Xv
->=20
-> > ndUiAWUyE%3D&reserved=3D0>->is_otg<https://apc01.safelinks.protection.ou
->=20
-> > tlook.com/?url=3Dhttps%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv6.5.2%2FC%2
->=20
-> > Fident%2Fis_otg&data=3D05%7C01%7Ctomer.maimon%40nuvoton.com%7C3cc95393cb
->=20
-> > a44903d9fa08dbb0561155%7Ca3f24931d4034b4a94f17d83ac638e07%7C0%7C0%7C63
->=20
-> > 8297655985408934%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV
->=20
-> > 2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DrQIdSi2Uu%
->=20
-> > 2Bss84SiVOlWQkdrPXPVgJvDqPheYtPcolM%3D&reserved=3D0> =3D
->=20
-> > (hw_read<https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%
->=20
-> > 2F%2Felixir.bootlin.com%2Flinux%2Fv6.5.2%2FC%2Fident%2Fhw_read&data=3D05
->=20
-> > %7C01%7Ctomer.maimon%40nuvoton.com%7C3cc95393cba44903d9fa08dbb0561155%
->=20
-> > 7Ca3f24931d4034b4a94f17d83ac638e07%7C0%7C0%7C638297655985408934%7CUnkn
->=20
-> > own%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwi
->=20
-> > LCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DHO%2F6v4XA2bQgU9jCrya2Y%2Fv8P5%2B
->=20
-> > 3m%2Bn8ekJhtZLrq5A%3D&reserved=3D0>(ci<https://apc01.safelinks.protectio
->=20
-> > n.outlook.com/?url=3Dhttps%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv6.5.2%2
->=20
-> > FC%2Fident%2Fci&data=3D05%7C01%7Ctomer.maimon%40nuvoton.com%7C3cc95393cb
->=20
-> > a44903d9fa08dbb0561155%7Ca3f24931d4034b4a94f17d83ac638e07%7C0%7C0%7C63
->=20
-> > 8297655985408934%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV
->=20
-> > 2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3D0l4NnlxNNG
->=20
-> > GLe%2BEG%2FXU%2B2bdMB5R%2FY%2BD3XvndUiAWUyE%3D&reserved=3D0>,
->=20
-> > CAP_DCCPARAMS<https://apc01.safelinks.protection.outlook.com/?url=3Dhttp
->=20
-> > s%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv6.5.2%2FC%2Fident%2FCAP_DCCPAR
->=20
-> > AMS&data=3D05%7C01%7Ctomer.maimon%40nuvoton.com%7C3cc95393cba44903d9fa08
->=20
-> > dbb0561155%7Ca3f24931d4034b4a94f17d83ac638e07%7C0%7C0%7C63829765598540
->=20
-> > 8934%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBT
->=20
-> > iI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DXmsVmw0t55YR0wcrcTngkN
->=20
-> > 6vyBCj5sR5GYT2I8lIq2A%3D&reserved=3D0>,
->=20
-> >
->=20
-> >
->=20
-> > DCCPARAMS_DC<https://apc01.safelinks.protection.outlook.com/?url=3Dhttps
->=20
-> > %3A%2F%2Felixir.bootlin.com%2Flinux%2Fv6.5.2%2FC%2Fident%2FDCCPARAMS_D
->=20
-> > C&data=3D05%7C01%7Ctomer.maimon%40nuvoton.com%7C3cc95393cba44903d9fa08db
->=20
-> > b0561155%7Ca3f24931d4034b4a94f17d83ac638e07%7C0%7C0%7C6382976559854089
->=20
-> > 34%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI
->=20
-> > 6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3Do9trybo5aT%2BF%2Bai6eHeH
->=20
-> > %2BeQTaY5l5Jzy53u8TlLg%2Fps%3D&reserved=3D0> |
->=20
-> > DCCPARAMS_HC<https://apc01.safelinks.protection.outlook.com/?url=3Dhttps
->=20
-> > %3A%2F%2Felixir.bootlin.com%2Flinux%2Fv6.5.2%2FC%2Fident%2FDCCPARAMS_H
->=20
-> > C&data=3D05%7C01%7Ctomer.maimon%40nuvoton.com%7C3cc95393cba44903d9fa08db
->=20
-> > b0561155%7Ca3f24931d4034b4a94f17d83ac638e07%7C0%7C0%7C6382976559854089
->=20
-> > 34%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI
->=20
-> > 6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3D5Zb%2BmrV2lcQwXlz93pJtzF
->=20
-> > eRNBxqiHEgD4ywW1ed4D4%3D&reserved=3D0>)
->=20
-> >
->=20
-> >                                   =3D=3D
->=20
-> > (DCCPARAMS_DC<https://apc01.safelinks.protection.outlook.com/?url=3Dhttp
->=20
-> > s%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv6.5.2%2FC%2Fident%2FDCCPARAMS_
->=20
-> > DC&data=3D05%7C01%7Ctomer.maimon%40nuvoton.com%7C3cc95393cba44903d9fa08d
->=20
-> > bb0561155%7Ca3f24931d4034b4a94f17d83ac638e07%7C0%7C0%7C638297655985408
->=20
-> > 934%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTi
->=20
-> > I6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3Do9trybo5aT%2BF%2Bai6eHe
->=20
-> > H%2BeQTaY5l5Jzy53u8TlLg%2Fps%3D&reserved=3D0> |
->=20
-> > DCCPARAMS_HC<https://apc01.safelinks.protection.outlook.com/?url=3Dhttps
->=20
-> > %3A%2F%2Felixir.bootlin.com%2Flinux%2Fv6.5.2%2FC%2Fident%2FDCCPARAMS_H
->=20
-> > C&data=3D05%7C01%7Ctomer.maimon%40nuvoton.com%7C3cc95393cba44903d9fa08db
->=20
-> > b0561155%7Ca3f24931d4034b4a94f17d83ac638e07%7C0%7C0%7C6382976559854089
->=20
-> > 34%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI
->=20
-> > 6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3D5Zb%2BmrV2lcQwXlz93pJtzF
->=20
-> > eRNBxqiHEgD4ywW1ed4D4%3D&reserved=3D0>));
->=20
-> >
->=20
-> > Why otg is set only when DC and HC is set?
->=20
-> >
->=20
-> > By enabling ci<https://apc01.safelinks.protection.outlook.com/?url=3Dht=
-tps%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv6.5.2%2FC%2Fident%2Fci&data=3D05%=
-7C01%7Ctomer.maimon%40nuvoton.com%7C3cc95393cba44903d9fa08dbb0561155%7Ca3f2=
-4931d4034b4a94f17d83ac638e07%7C0%7C0%7C638297655985408934%7CUnknown%7CTWFpb=
-GZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7=
-C3000%7C%7C%7C&sdata=3D0l4NnlxNNGGLe%2BEG%2FXU%2B2bdMB5R%2FY%2BD3XvndUiAWUy=
-E%3D&reserved=3D0<https://elixir.bootlin.com/linux/v6.5.2/C/ident/ci>>->is_=
-otg<https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Feli=
-xir.bootlin.com%2Flinux%2Fv6.5.2%2FC%2Fident%2Fis_otg&data=3D05%7C01%7Ctome=
-r.maimon%40nuvoton.com%7C3cc95393cba44903d9fa08dbb0561155%7Ca3f24931d4034b4=
-a94f17d83ac638e07%7C0%7C0%7C638297655985408934%7CUnknown%7CTWFpbGZsb3d8eyJW=
-IjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C=
-%7C&sdata=3DrQIdSi2Uu%2Bss84SiVOlWQkdrPXPVgJvDqPheYtPcolM%3D&reserved=3D0<h=
-ttps://elixir.bootlin.com/linux/v6.5.2/C/ident/is_otg>> =3D true we see we =
-need to set the extcon in the device tree, why we need extcon to handle the=
- vbus? Can the vbus be permanent?
->=20
-> >
->=20
-> >
->=20
-> >
->=20
-> > Even after setting extcon vbus to dummy GPIO we succeed to modify the v=
-bus_active parameter to is_active but it didn't worked in the end because i=
-t a dummy GPIO that not related to the USB vbus.
->=20
-> >
->=20
-> >
->=20
-> >
->=20
-> > BTW,
->=20
-> >
->=20
-> > If we adding ci->vbus_active =3D true at probe stage the UDC Chipidea d=
-river works fine.
->=20
-> >
->=20
-> > https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Feli=
-x<https://elix/>
->=20
-> > ir.bootlin.com%2Flinux%2Fv6.5.2%2Fsource%2Fdrivers%2Fusb%2Fchipidea%2F
->=20
-> > core.c%23L1123&data=3D05%7C01%7Ctomer.maimon%40nuvoton.com%7C3cc95393cba
->=20
-> > 44903d9fa08dbb0561155%7Ca3f24931d4034b4a94f17d83ac638e07%7C0%7C0%7C638
->=20
-> > 297655985408934%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2
->=20
-> > luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DO2JoKArqqY6
->=20
-> > IaAvYAEFXrVhuPdsArba3MczPKSJsaIc%3D&reserved=3D0
->=20
-> >
->=20
-> >
->=20
-> >
->=20
-> > Appreciate if you could you advise how should we overcome this issue
->=20
->=20
->=20
-> After loading the gadget driver, try to force "connect" udc using /sys en=
-try. See the below code at file: drivers/usb/gadget/udc/core.c
->=20
->=20
->=20
-> static ssize_t soft_connect_store(struct device *dev,
->=20
->                 struct device_attribute *attr, const char *buf, size_t n)
->=20
->=20
->=20
->=20
->=20
-> Your issue is probably due to the UDC don't know it is connected, so DP i=
-s not pulled up.
->=20
->=20
->=20
-> --
->=20
->=20
->=20
-> Thanks,
->=20
-> Peter Chen
->=20
-> ________________________________
-> The privileged confidential information contained in this email is intend=
-ed for use only by the addressees as indicated by the original sender of th=
-is email. If you are not the addressee indicated in this email or are not r=
-esponsible for delivery of the email to such a person, please kindly reply =
-to the sender indicating this fact and delete all copies of it from your co=
-mputer and network server immediately. Your cooperation is highly appreciat=
-ed. It is advised that any unauthorized use of confidential information of =
-Nuvoton is strictly prohibited; and any information in this email irrelevan=
-t to the official business of Nuvoton shall be deemed as neither given nor =
-endorsed by Nuvoton.
-
---=20
-
-Thanks,
-Peter Chen
