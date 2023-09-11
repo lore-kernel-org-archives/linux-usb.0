@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17D38EE7FF4
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 04:29:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C02D6EE801F
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 04:30:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231132AbjIKE3m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 00:29:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40844 "EHLO
+        id S232654AbjIKEaF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 00:30:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjIKE3k (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 00:29:40 -0400
+        with ESMTP id S233427AbjIKE37 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 00:29:59 -0400
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CDE010C
-        for <linux-usb@vger.kernel.org>; Sun, 10 Sep 2023 21:29:36 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38B3blnc032176;
-        Mon, 11 Sep 2023 04:29:04 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2821810C
+        for <linux-usb@vger.kernel.org>; Sun, 10 Sep 2023 21:29:54 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38B3rNgU026019;
+        Mon, 11 Sep 2023 04:29:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=hlICoDiEGev4Cz0AmAVGXmrJfvbRETuIwaR+e/Q/azI=;
- b=bLAK2gQvuAfeMCaTlx4VRdO4TxSDgmnRZYLyxm4GkLmz2mLUsXmw/4TfKxM7C65FjgIj
- STOqFP2cxI/uRQz21gY1lk+GgSji0TcnRWo1HWuYuNRnlijBNC8CBOAZWTbyhIUtvtgX
- DcSprKJGO9z0MLNOfdDaA5vmoCDoCAd6hDdx7A6h0WUBwdsl2LZuBBtabLTmk1liKtfZ
- PVX8fSxlTaqFGGHWl39aIffw0qOUGl7uhTE/IY4EL4/DrHRJi7Hc0E6te4ybTbHVl6f3
- GCQTfw2mi7+kuUYFsDeVJSseoJAWhv73DTDKczmRvIN49TIA6xzLmASPAgMRyK4Uvo4i rA== 
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=B1YEQUITE/Sk1BQXOT9ElxJ0s3CIOsJ8dklYA87MdaU=;
+ b=MxjPajn/MQaKnqoOZ9aZObTwfGyUId15jBdYOytuar8nogplwhcAaiSrbzmhaxrGkF0Q
+ XMSz3gyG4/lmS7s1TFtGBqoSa2i/wOr/ByXrs9yQPZAy/AbcXrNSnzXUJVF42ZOYJ7x/
+ hjjjCEZhjcVVukMTWJikrxST+I6jZoyTcgbdg64257zfCsza2VkXb0vu6q7NprFnJHX8
+ UaVY1m4xO6n/TX7x7hD+dTnNl8JNsa0mD6BT41ZI3mo4f9rOOLVcaXfG9iLz7ps1dJ0q
+ 3dhPLGhrsUCwHCCHsQ2LO96WRdqySmlKKtYHxKhnzKPoxYXGKbfS0+agi+sHbQqgJ7+W Lg== 
 Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t0h3dtfbm-1
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t0gt1ag5u-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 04:29:04 +0000
+        Mon, 11 Sep 2023 04:29:25 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38B4T2tL012701
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38B4TONK012888
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 04:29:02 GMT
+        Mon, 11 Sep 2023 04:29:24 GMT
 Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Sun, 10 Sep 2023 21:28:55 -0700
+ 15.2.1118.36; Sun, 10 Sep 2023 21:29:16 -0700
 From:   Linyu Yuan <quic_linyyuan@quicinc.com>
 To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         Peter Chen <peter.chen@kernel.org>,
@@ -64,10 +64,12 @@ To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         "Shuah Khan" <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Linyu Yuan <quic_linyyuan@quicinc.com>
-Subject: [PATCH 00/11] reduce usb gadget trace event buffer usage
-Date:   Mon, 11 Sep 2023 12:28:32 +0800
-Message-ID: <20230911042843.2711-1-quic_linyyuan@quicinc.com>
+Subject: [PATCH 03/11] usb: gadget: add anonymous definition in struct usb_ep
+Date:   Mon, 11 Sep 2023 12:28:35 +0800
+Message-ID: <20230911042843.2711-4-quic_linyyuan@quicinc.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230911042843.2711-1-quic_linyyuan@quicinc.com>
+References: <20230911042843.2711-1-quic_linyyuan@quicinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain
@@ -76,97 +78,140 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 9mFY6OrT23d735S_3aAk6v8LPLXTYL-t
-X-Proofpoint-ORIG-GUID: 9mFY6OrT23d735S_3aAk6v8LPLXTYL-t
+X-Proofpoint-ORIG-GUID: 8NFlz1jXIjzzKi4uL0P7stabBT2DHNym
+X-Proofpoint-GUID: 8NFlz1jXIjzzKi4uL0P7stabBT2DHNym
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-09-11_01,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- bulkscore=0 phishscore=0 mlxlogscore=281 adultscore=0 spamscore=0
- suspectscore=0 impostorscore=0 malwarescore=0 mlxscore=0
- lowpriorityscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2308100000 definitions=main-2309110040
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxlogscore=999 impostorscore=0
+ suspectscore=0 malwarescore=0 clxscore=1015 mlxscore=0 adultscore=0
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309110040
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-some trace event use an interger to to save a bit field info of gadet,
-also some trace save endpoint name in string forat, it all can be
-chagned to other way at trace event store phase.
+Some UDC trace event will save usb endpoint information, but it will use
+one int size buffer to save one bit information of usb endpoint, so more
+than one int buffer to save several bit fields which is not good.
 
-bit field can be replace with a union interger member which include
-multiple bit fields.
+Add some anonymous union have three u32 members which can be used by trace
+event during fast assign stage to reduce trace buffer usage, and add
+related macro to extract bit fields from u32 members for later trace event
+output state usage.
 
-ep name stringe can be replace to a interger which contaion number
-and dir info.
+Also move exist maxpacket and other bit field into anonymous struct which
+inside anonymous union and Change them from unsigned to u32 type.
 
+Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
+---
+ include/linux/usb/gadget.h | 74 +++++++++++++++++++++++++++++---------
+ 1 file changed, 58 insertions(+), 16 deletions(-)
 
-
-
-Linyu Yuan (11):
-  usb: gadget: add anonymous definition in struct usb_gadget
-  usb: gadget: add anonymous definition in struct usb_request
-  usb: gadget: add anonymous definition in struct usb_ep
-  usb: udc: assign epnum for each usb endpoint
-  usb: udc: trace: reduce buffer usage of trace event
-  usb: cdns3: cdnsp: reduce buffer usage of trace event
-  usb: cdns3: trace: reduce buffer usage of trace event
-  usb: dwc3: trace: reduce buffer usage of trace event
-  usb: cdns2: trace: reduce buffer usage of trace event
-  usb: mtu3: trace: reduce buffer usage of trace event
-  usb: musb: trace: reduce buffer usage of trace event
-
- drivers/usb/cdns3/cdns3-gadget.c            |   1 +
- drivers/usb/cdns3/cdns3-trace.h             |  93 +++++------
- drivers/usb/cdns3/cdnsp-gadget.c            |   1 +
- drivers/usb/cdns3/cdnsp-trace.h             |  45 +++---
- drivers/usb/chipidea/udc.c                  |   1 +
- drivers/usb/dwc2/gadget.c                   |   2 +-
- drivers/usb/dwc3/gadget.c                   |   1 +
- drivers/usb/dwc3/trace.h                    |  54 +++----
- drivers/usb/fotg210/fotg210-udc.c           |   1 +
- drivers/usb/gadget/udc/aspeed-vhub/epn.c    |   1 +
- drivers/usb/gadget/udc/aspeed_udc.c         |   1 +
- drivers/usb/gadget/udc/at91_udc.c           |   1 +
- drivers/usb/gadget/udc/atmel_usba_udc.c     |   1 +
- drivers/usb/gadget/udc/bcm63xx_udc.c        |   1 +
- drivers/usb/gadget/udc/bdc/bdc_ep.c         |   1 +
- drivers/usb/gadget/udc/cdns2/cdns2-gadget.c |   2 +-
- drivers/usb/gadget/udc/cdns2/cdns2-trace.h  |  77 +++++-----
- drivers/usb/gadget/udc/dummy_hcd.c          |   1 +
- drivers/usb/gadget/udc/fsl_qe_udc.c         |   1 +
- drivers/usb/gadget/udc/fsl_udc_core.c       |   1 +
- drivers/usb/gadget/udc/fusb300_udc.c        |   1 +
- drivers/usb/gadget/udc/goku_udc.c           |   1 +
- drivers/usb/gadget/udc/gr_udc.c             |   1 +
- drivers/usb/gadget/udc/lpc32xx_udc.c        |   1 +
- drivers/usb/gadget/udc/m66592-udc.c         |   1 +
- drivers/usb/gadget/udc/max3420_udc.c        |   1 +
- drivers/usb/gadget/udc/mv_u3d_core.c        |   2 +
- drivers/usb/gadget/udc/mv_udc_core.c        |   2 +
- drivers/usb/gadget/udc/net2272.c            |   1 +
- drivers/usb/gadget/udc/net2280.c            |   2 +
- drivers/usb/gadget/udc/omap_udc.c           |   1 +
- drivers/usb/gadget/udc/pch_udc.c            |   1 +
- drivers/usb/gadget/udc/pxa25x_udc.c         |   1 +
- drivers/usb/gadget/udc/pxa27x_udc.c         |   1 +
- drivers/usb/gadget/udc/r8a66597-udc.c       |   1 +
- drivers/usb/gadget/udc/renesas_usb3.c       |   1 +
- drivers/usb/gadget/udc/renesas_usbf.c       |   1 +
- drivers/usb/gadget/udc/snps_udc_core.c      |   1 +
- drivers/usb/gadget/udc/tegra-xudc.c         |   2 +
- drivers/usb/gadget/udc/trace.h              | 106 +++++--------
- drivers/usb/gadget/udc/udc-xilinx.c         |   1 +
- drivers/usb/isp1760/isp1760-udc.c           |   1 +
- drivers/usb/mtu3/mtu3_gadget.c              |   1 +
- drivers/usb/mtu3/mtu3_trace.h               |  42 +++--
- drivers/usb/musb/musb_gadget.c              |   1 +
- drivers/usb/musb/musb_trace.h               |  14 +-
- drivers/usb/renesas_usbhs/mod_gadget.c      |   1 +
- drivers/usb/usbip/vudc_dev.c                |   1 +
- include/linux/usb/gadget.h                  | 161 +++++++++++++++-----
- 49 files changed, 344 insertions(+), 295 deletions(-)
-
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index 045ebd4637c5..8529d49ed05d 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -175,13 +175,13 @@ struct usb_ep_ops {
+  * @dir_out:Endpoint supports OUT direction.
+  */
+ struct usb_ep_caps {
+-	unsigned type_control:1;
+-	unsigned type_iso:1;
+-	unsigned type_bulk:1;
+-	unsigned type_int:1;
+-	unsigned dir_in:1;
+-	unsigned dir_out:1;
+-};
++	u8	type_control:1;
++	u8	type_iso:1;
++	u8	type_bulk:1;
++	u8	type_int:1;
++	u8	dir_in:1;
++	u8	dir_out:1;
++} __packed;
+ 
+ #define USB_EP_CAPS_TYPE_CONTROL     0x01
+ #define USB_EP_CAPS_TYPE_ISO         0x02
+@@ -211,6 +211,11 @@ struct usb_ep_caps {
+  * @caps:The structure describing types and directions supported by endpoint.
+  * @enabled: The current endpoint enabled/disabled state.
+  * @claimed: True if this endpoint is claimed by a function.
++ * @dw1: trace event purpose
++ * @dw2: trace event purpose
++ * @epnum: trace event purpose
++ * @u1: trace event purpose
++ * @u2: trace event purpose
+  * @maxpacket:The maximum packet size used on this endpoint.  The initial
+  *	value can sometimes be reduced (hardware allowing), according to
+  *	the endpoint descriptor used to configure the endpoint.
+@@ -240,19 +245,56 @@ struct usb_ep {
+ 	const char		*name;
+ 	const struct usb_ep_ops	*ops;
+ 	struct list_head	ep_list;
+-	struct usb_ep_caps	caps;
+-	bool			claimed;
+-	bool			enabled;
+-	unsigned		maxpacket:16;
+-	unsigned		maxpacket_limit:16;
+-	unsigned		max_streams:16;
+-	unsigned		mult:2;
+-	unsigned		maxburst:5;
+-	u8			address;
++	union {
++		struct {
++			u32	maxpacket:16;
++			u32	maxpacket_limit:16;
++			u32	max_streams:16;
++			u32	mult:2;
++			u32	maxburst:5;
++		} __packed;
++		struct {
++			u32	dw1;
++			u32	dw2;
++		};
++#define		USB_EP_MAXPACKET(n)		((n) & 0xffff)
++#define		USB_EP_MAXPACKET_LIMIT(n)	(((n) >> 16) & 0xffff)
++#define		USB_EP_MAX_STREAMS(n)		((n) & 0xffff)
++#define		USB_EP_MULT(n)			(((n) >> 16) & 0x3)
++#define		USB_EP_MAXBURST(n)		(((n) >> 18) & 0x1f)
++	};
++	union {
++		struct {
++			union {
++				struct usb_ep_caps	caps;
++				u8			u1;
++			};
++			union {
++				struct {
++					u8		claimed:1;
++					u8		enabled:1;
++				} __packed;
++				u8			u2;
++			};
++			u8				address;
++			u8				epnum;
++		} __packed;
++		u32	dw3;
++#define		USB_EP_NUM(n)		(((n) >> 24) & 0xff)
++#define		USB_EP_DIR_BI(n)	((((n) >> 4) & 0x3) == 0x3)
++#define		USB_EP_DIR_IN(n)	(((n) >> 4) & 0x1)
++	};
+ 	const struct usb_endpoint_descriptor	*desc;
+ 	const struct usb_ss_ep_comp_descriptor	*comp_desc;
+ };
+ 
++/* NOTE: it need UDC set epnum and dir info when init endpoints */
++#define USB_EP_NAME(n) \
++	({char __s[9]; /* max 8: ep127out */\
++	snprintf(__s, 9, "ep%d%s", USB_EP_NUM(n), \
++		USB_EP_DIR_BI(n) ? "" : (USB_EP_DIR_IN(n) ? "in" : "out"));\
++	__s; })
++
+ /*-------------------------------------------------------------------------*/
+ 
+ #if IS_ENABLED(CONFIG_USB_GADGET)
 -- 
 2.17.1
 
