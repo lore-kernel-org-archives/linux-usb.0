@@ -2,71 +2,197 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E983CA0EC8
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 443F2CA0EC2
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350474AbjIKVir (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:38:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57272 "EHLO
+        id S1350514AbjIKViy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:38:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240947AbjIKO5o (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 10:57:44 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A13E40;
-        Mon, 11 Sep 2023 07:57:40 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13E88C433C7;
-        Mon, 11 Sep 2023 14:57:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694444260;
-        bh=TYHGgYfw4hGPEdlDxDeeSN1DQgJ1JD0PfFtQts0E6TM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QGCCfGcGCLz4apUcZkKTabXRluZzKFz9nhNmweX/JyRGK/BgIhg9YEQ3mJO0b3zKD
-         yErHp0+Qp+e0Ol4OoGVvQ3XvG+O6SqwTynPz3lrUVp8GCLAJBWsoQ/ZNThXJC/LY3o
-         Mk5VI5zy0R9iHsw0aIpV7wW1qvTrG5H73efJCyNEqLwQ1xDRB+AwrKoxUjEqqvQCrP
-         a0e4poeQEZ5fsSSA0YVe9LUxEowrv9eM5m4/ogfD0UlzUnfEuqbi2vHPMZ+89RWgfi
-         19xDEDvhB2XGpxHczfm45jrMuWHlpfh5sNzNGKl2arDUe1HB4RT4lY6CXGyhOC/dUS
-         S2CJ6Y9alwtfQ==
-Received: (nullmailer pid 1245600 invoked by uid 1000);
-        Mon, 11 Sep 2023 14:57:38 -0000
-Date:   Mon, 11 Sep 2023 09:57:38 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     richard.yu@hpe.com
-Cc:     nick.hawkins@hpe.com, verdun@hpe.com, linux-usb@vger.kernel.org,
-        gregkh@linuxfoundation.org, robh+dt@kernel.org,
-        linux-kernel@vger.kernel.org, conor+dt@kernel.org,
-        devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: usb: Add HPE GXP HUB Controller
-Message-ID: <169444425764.1245553.14929888489108939275.robh@kernel.org>
-References: <20230907210601.25284-1-richard.yu@hpe.com>
- <20230907210601.25284-2-richard.yu@hpe.com>
+        with ESMTP id S236785AbjIKL0C (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 07:26:02 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D39E40
+        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 04:25:57 -0700 (PDT)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BBLidu008206;
+        Mon, 11 Sep 2023 11:25:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=HiC2v2Qi8XthrLCdKBG3Ias1T4A1MwaGgQGp8n1TTO0=;
+ b=hIPNnH9mfnBAtvxDnvvH+fGD0witft4mY2lu2RomYkLXkjKyE3hllMhiIbclbCIEjCOw
+ lDFv++4ja0SpiffDJ7Ua0saNGCW89Clbcg47dM2g4m/gBotKbE8CFoOr6qQbYV22Rc03
+ PMcs2fd9MSd3dCdJ7U5Xy5MncG3zx4uVzYGyekn+GOaffghtd9CpHLmPP/9qZOvNKTh3
+ D4ostAIIvuwMMay0ENdjhqxfpOxf0R+9DsV5MXHBkX/Fe+xFU3sx1VbV46uhaJsT89Ji
+ QXHf35LCM9KbK68MKcg6iz5279ziENsMAEtLd/i+8Jgzhr9reTiXG5WrpMuzvgnfNJAi KA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t1whx8pcg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 11:25:12 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BBPBeW029394
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 11:25:11 GMT
+Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Mon, 11 Sep 2023 04:25:04 -0700
+From:   Linyu Yuan <quic_linyyuan@quicinc.com>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Neal Liu <neal_liu@aspeedtech.com>,
+        "Cristian Birsan" <cristian.birsan@microchip.com>,
+        Bin Liu <b-liu@ti.com>, "Kevin Cernekee" <cernekee@gmail.com>,
+        Justin Chen <justin.chen@broadcom.com>,
+        "Al Cooper" <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
+        "Vladimir Zapolskiy" <vz@mleia.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        "Philipp Zabel" <p.zabel@pengutronix.de>,
+        Herve Codina <herve.codina@bootlin.com>,
+        hierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Rui Miguel Silva <rui.silva@linaro.org>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        "Shuah Khan" <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, Linyu Yuan <quic_linyyuan@quicinc.com>
+Subject: [PATCH v2 01/11] usb: gadget: add anonymous definition in struct usb_gadget
+Date:   Mon, 11 Sep 2023 19:24:36 +0800
+Message-ID: <20230911112446.1791-2-quic_linyyuan@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
+References: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230907210601.25284-2-richard.yu@hpe.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: YqqtWmAaHGcnTs_z3FD6p7ViZgFtAU4U
+X-Proofpoint-ORIG-GUID: YqqtWmAaHGcnTs_z3FD6p7ViZgFtAU4U
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ suspectscore=0 impostorscore=0 phishscore=0 adultscore=0 mlxlogscore=763
+ bulkscore=0 lowpriorityscore=0 spamscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309110104
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Some UDC trace event will save usb gadget information, but it will use
+one int size buffer to save one bit information of usb gadget, so more
+than one int buffer to save several bit fields which is not good.
 
-On Thu, 07 Sep 2023 16:05:59 -0500, richard.yu@hpe.com wrote:
-> From: Richard Yu <richard.yu@hpe.com>
-> 
-> Provide access to the two register regions for GXP HUB
-> controller through the hpe,gxp-hub binding.
-> 
-> Signed-off-by: Richard Yu <richard.yu@hpe.com>
-> 
-> ---
-> 
-> v2:
->  *Removed the term "virtual" as it is still a device.
->  *Removed the downstream port number and generic endpoints
->   number properties from device tree structure.
-> ---
->  .../devicetree/bindings/usb/hpe,gxp-hub.yaml  | 53 +++++++++++++++++++
->  1 file changed, 53 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/hpe,gxp-hub.yaml
-> 
+Add one anonymous union have three u32 members which can be used by trace
+event during fast assign stage to reduce trace buffer usage, and add
+related macro to extract bit fields from u32 members for later trace event
+output state usage.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Also move sg_supported and other bit fields into one anonymous struct
+which inside anonymous union and Change bit fields from unsigned to u32
+type, it will make sure union member have expected u32 size.
+
+Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
+---
+v2: no change
+
+ include/linux/usb/gadget.h | 63 ++++++++++++++++++++++++++------------
+ 1 file changed, 44 insertions(+), 19 deletions(-)
+
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index 75bda0783395..cdf62e7f34e7 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -357,6 +357,7 @@ struct usb_gadget_ops {
+  * @in_epnum: last used in ep number
+  * @mA: last set mA value
+  * @otg_caps: OTG capabilities of this gadget.
++ * @dw1: trace event purpose
+  * @sg_supported: true if we can handle scatter-gather
+  * @is_otg: True if the USB device port uses a Mini-AB jack, so that the
+  *	gadget driver must provide a USB OTG descriptor.
+@@ -432,25 +433,49 @@ struct usb_gadget {
+ 	unsigned			mA;
+ 	struct usb_otg_caps		*otg_caps;
+ 
+-	unsigned			sg_supported:1;
+-	unsigned			is_otg:1;
+-	unsigned			is_a_peripheral:1;
+-	unsigned			b_hnp_enable:1;
+-	unsigned			a_hnp_support:1;
+-	unsigned			a_alt_hnp_support:1;
+-	unsigned			hnp_polling_support:1;
+-	unsigned			host_request_flag:1;
+-	unsigned			quirk_ep_out_aligned_size:1;
+-	unsigned			quirk_altset_not_supp:1;
+-	unsigned			quirk_stall_not_supp:1;
+-	unsigned			quirk_zlp_not_supp:1;
+-	unsigned			quirk_avoids_skb_reserve:1;
+-	unsigned			is_selfpowered:1;
+-	unsigned			deactivated:1;
+-	unsigned			connected:1;
+-	unsigned			lpm_capable:1;
+-	unsigned			wakeup_capable:1;
+-	unsigned			wakeup_armed:1;
++	union {
++		struct {
++			u32		sg_supported:1;
++			u32		is_otg:1;
++			u32		is_a_peripheral:1;
++			u32		b_hnp_enable:1;
++			u32		a_hnp_support:1;
++			u32		a_alt_hnp_support:1;
++			u32		hnp_polling_support:1;
++			u32		host_request_flag:1;
++			u32		quirk_ep_out_aligned_size:1;
++			u32		quirk_altset_not_supp:1;
++			u32		quirk_stall_not_supp:1;
++			u32		quirk_zlp_not_supp:1;
++			u32		quirk_avoids_skb_reserve:1;
++			u32		is_selfpowered:1;
++			u32		deactivated:1;
++			u32		connected:1;
++			u32		lpm_capable:1;
++			u32		wakeup_capable:1;
++			u32		wakeup_armed:1;
++		} __packed;
++		u32			dw1;
++#define		USB_GADGET_SG_SUPPORTED(n)			((n) & BIT(0))
++#define		USB_GADGET_IS_OTG(n)				((n) & BIT(1))
++#define		USB_GADGET_IS_A_PERIPHERAL(n)			((n) & BIT(2))
++#define		USB_GADGET_B_HNP_ENABLE(n)			((n) & BIT(3))
++#define		USB_GADGET_A_HNP_SUPPORT(n)			((n) & BIT(4))
++#define		USB_GADGET_A_ALT_HNP_SUPPORT(n)			((n) & BIT(5))
++#define		USB_GADGET_HNP_POLLING_SUPPORT(n)		((n) & BIT(6))
++#define		USB_GADGET_HOST_REQUEST_FLAG(n)			((n) & BIT(7))
++#define		USB_GADGET_QUIRK_EP_OUT_ALIGNED_SIZE(n)		((n) & BIT(8))
++#define		USB_GADGET_QUIRK_ALTSET_NOT_SUPP(n)		((n) & BIT(9))
++#define		USB_GADGET_QUIRK_STALL_NOT_SUPP(n)		((n) & BIT(10))
++#define		USB_GADGET_QUIRK_ZLP_NOT_SUPP(n)		((n) & BIT(11))
++#define		USB_GADGET_QUIRK_AVOIDS_SKB_RESERVE(n)		((n) & BIT(12))
++#define		USB_GADGET_IS_SELFPOWERED(n)			((n) & BIT(13))
++#define		USB_GADGET_DEACTIVATED(n)			((n) & BIT(14))
++#define		USB_GADGET_CONNECTED(n)				((n) & BIT(15))
++#define		USB_GADGET_LPM_CAPABLE(n)			((n) & BIT(16))
++#define		USB_GADGET_WAKEUP_CAPABLE(n)			((n) & BIT(17))
++#define		USB_GADGET_WAKEUP_ARMED(n)			((n) & BIT(18))
++	};
+ 	int				irq;
+ 	int				id_number;
+ };
+-- 
+2.17.1
 
