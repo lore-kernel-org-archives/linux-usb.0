@@ -2,74 +2,208 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF6C4CA0EDA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B6ABCA0ED8
 	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350608AbjIKVjl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:39:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56350 "EHLO
+        id S1350601AbjIKVjg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:39:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237617AbjIKNBa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 09:01:30 -0400
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F8F6CD
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 06:01:25 -0700 (PDT)
-Received: by mail-il1-x130.google.com with SMTP id e9e14a558f8ab-34deefc2016so13541725ab.2
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 06:01:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694437285; x=1695042085; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vpNZPcx3bjDHiQSM0MkVh372Rmrhu59xNLcZbNnj7uQ=;
-        b=QHjDrnYQIX+ME6Itr80hHF04z0PPVnDlAwWiqaBcJW4rkmPC5Nqff1WBvL0visCW63
-         zS4rfNYDqAMDZeerkXtgRrP0o3EnbLwci98aeZK77be8BYCODkh5pRmmdMMIa9cASVEM
-         CWbme7xi52oW2A0CTwY6vhPAX/s7wioXZTltY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694437285; x=1695042085;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vpNZPcx3bjDHiQSM0MkVh372Rmrhu59xNLcZbNnj7uQ=;
-        b=GSjWTCJyxqXc5KbXme2ENk7/OF6XX2ylJH8TNUnpPMJ1ynT+KDm/77wFQT7EedfG8j
-         ukA340CK5gt+xpavDnFhBUFB0kUwOFJ3p+FUIc1ygFPyGjio+jNiYqoz8sbXmsg1ihGq
-         mxEvbt4mlqeZUWDsepr/aGK2j3t+hFko3fofTZKcMWxn3zOQ5aX5Bl6GuKeHwGUEP0X9
-         00r8ehPE/41y9TM3Qv5970cSaYGeYq9e+aaIqUuaigDm+IJk3ZDk6qjY8OkkymqottN9
-         K7fRJqyFsLaTiW7HIT6ivQavjY6FYju4IE1E7Ylb2nL2cBC1ED5mOUY25R318BA4sKoP
-         iGGg==
-X-Gm-Message-State: AOJu0YyQxnud7suywjG6q14cNeQ5IK5l+4nXLr/uao5ERzFqqLG5GYFv
-        PDdS731YDKi9MZu7MNt7ifHimg==
-X-Google-Smtp-Source: AGHT+IFGzwi1w5oe71D2cbB1u9WZWLs+LMA8N7bKRNCnsIeRjk7c07VTBcGLxjPIPYMtujZqyupEsA==
-X-Received: by 2002:a92:d34e:0:b0:348:e9e4:4902 with SMTP id a14-20020a92d34e000000b00348e9e44902mr10477274ilh.0.1694437284827;
-        Mon, 11 Sep 2023 06:01:24 -0700 (PDT)
-Received: from localhost (110.41.72.34.bc.googleusercontent.com. [34.72.41.110])
-        by smtp.gmail.com with UTF8SMTPSA id a24-20020a02ac18000000b00430245071ddsm2153329jao.176.2023.09.11.06.01.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Sep 2023 06:01:23 -0700 (PDT)
-Date:   Mon, 11 Sep 2023 13:01:21 +0000
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: misc: onboard_hub: add support for Microchip
- USB2412 USB 2.0 hub
-Message-ID: <ZP8PobwGAG+PlLQH@google.com>
-References: <20230911-topic-2412_onboard_hub-v1-1-7704181ddfff@wolfvision.net>
+        with ESMTP id S237910AbjIKNVY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 09:21:24 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB40212A
+        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 06:21:19 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BCfVHs004136;
+        Mon, 11 Sep 2023 13:20:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=5AH1pBeFQPxEQxyUy1F7efHM0yq8x/YeHbUckyklo4c=;
+ b=Cc2JGUijPjHaGFrMBmnDYQCfzK8O+KWX2LuXkIy0LNJyK9S8A6LWLE8DLIim6Ny/CdgG
+ fAYnBeb/VdbEvurNpvm3oH5q2VynL5XCInkTcZrJz1goKoZmWZM7buBXChy5YRWj4Zsi
+ mW+DyGG35MqrUrbxOaG4rulNLV14laSUb++oG8lqw1MKyqzkZvWdL2MzT7gw7yNhx+9s
+ jMfl1L+JzIl4xUJdGvzJh6rwtVrbYE6hBGUVwVeFf5O23qTLb9hj7NxEvk8Hbl+1vymF
+ Z7Rmw3PuV8oKgDVvPj0ywFCkQ1xinwuiZ5RWIFSPZw/RbtUL0V3mIBkmMC3XlU4yQUVk 5Q== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t0h3dueyf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 13:20:30 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BDKTtw001698
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 13:20:29 GMT
+Received: from [10.253.77.20] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 11 Sep
+ 2023 06:20:22 -0700
+Message-ID: <be3509d6-0dcf-0964-1566-03dd176a4820@quicinc.com>
+Date:   Mon, 11 Sep 2023 21:20:20 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230911-topic-2412_onboard_hub-v1-1-7704181ddfff@wolfvision.net>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v2 01/11] usb: gadget: add anonymous definition in struct
+ usb_gadget
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Neal Liu <neal_liu@aspeedtech.com>,
+        Cristian Birsan <cristian.birsan@microchip.com>,
+        Bin Liu <b-liu@ti.com>, Kevin Cernekee <cernekee@gmail.com>,
+        Justin Chen <justin.chen@broadcom.com>,
+        Al Cooper <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Herve Codina <herve.codina@bootlin.com>,
+        hierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Rui Miguel Silva <rui.silva@linaro.org>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
+        <linux-usb@vger.kernel.org>
+References: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
+ <20230911112446.1791-2-quic_linyyuan@quicinc.com>
+ <2023091137-babble-chaffing-553c@gregkh>
+Content-Language: en-US
+From:   Linyu Yuan <quic_linyyuan@quicinc.com>
+In-Reply-To: <2023091137-babble-chaffing-553c@gregkh>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: tyWUm4Ewz-1Q6LxXdrLMg2qEQsqC3G5I
+X-Proofpoint-ORIG-GUID: tyWUm4Ewz-1Q6LxXdrLMg2qEQsqC3G5I
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-11_07,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 phishscore=0 mlxlogscore=740 adultscore=0 spamscore=0
+ suspectscore=0 impostorscore=0 malwarescore=0 mlxscore=0
+ lowpriorityscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2308100000 definitions=main-2309110121
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Sep 11, 2023 at 10:22:38AM +0200, Javier Carrasco wrote:
-> The USB2412 is a 2-Port USB 2.0 hub controller that provides a reset pin
-> and a single 3v3 powre source, which makes it suitable to be controlled
-> by the onboard_hub driver.
-> 
-> This hub has the same reset timings as USB2514/2517 and the same
-> onboard hub specific-data can be reused for USB2412.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
 
-Acked-by: Matthias Kaehlcke <mka@chromium.org>
+On 9/11/2023 7:37 PM, Greg Kroah-Hartman wrote:
+> On Mon, Sep 11, 2023 at 07:24:36PM +0800, Linyu Yuan wrote:
+>> Some UDC trace event will save usb gadget information, but it will use
+>> one int size buffer to save one bit information of usb gadget, so more
+>> than one int buffer to save several bit fields which is not good.
+>>
+>> Add one anonymous union have three u32 members which can be used by trace
+>> event during fast assign stage to reduce trace buffer usage, and add
+>> related macro to extract bit fields from u32 members for later trace event
+>> output state usage.
+>>
+>> Also move sg_supported and other bit fields into one anonymous struct
+>> which inside anonymous union and Change bit fields from unsigned to u32
+>> type, it will make sure union member have expected u32 size.
+>>
+>> Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
+>> ---
+>> v2: no change
+>>
+>>   include/linux/usb/gadget.h | 63 ++++++++++++++++++++++++++------------
+>>   1 file changed, 44 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+>> index 75bda0783395..cdf62e7f34e7 100644
+>> --- a/include/linux/usb/gadget.h
+>> +++ b/include/linux/usb/gadget.h
+>> @@ -357,6 +357,7 @@ struct usb_gadget_ops {
+>>    * @in_epnum: last used in ep number
+>>    * @mA: last set mA value
+>>    * @otg_caps: OTG capabilities of this gadget.
+>> + * @dw1: trace event purpose
+>>    * @sg_supported: true if we can handle scatter-gather
+>>    * @is_otg: True if the USB device port uses a Mini-AB jack, so that the
+>>    *	gadget driver must provide a USB OTG descriptor.
+>> @@ -432,25 +433,49 @@ struct usb_gadget {
+>>   	unsigned			mA;
+>>   	struct usb_otg_caps		*otg_caps;
+>>   
+>> -	unsigned			sg_supported:1;
+>> -	unsigned			is_otg:1;
+>> -	unsigned			is_a_peripheral:1;
+>> -	unsigned			b_hnp_enable:1;
+>> -	unsigned			a_hnp_support:1;
+>> -	unsigned			a_alt_hnp_support:1;
+>> -	unsigned			hnp_polling_support:1;
+>> -	unsigned			host_request_flag:1;
+>> -	unsigned			quirk_ep_out_aligned_size:1;
+>> -	unsigned			quirk_altset_not_supp:1;
+>> -	unsigned			quirk_stall_not_supp:1;
+>> -	unsigned			quirk_zlp_not_supp:1;
+>> -	unsigned			quirk_avoids_skb_reserve:1;
+>> -	unsigned			is_selfpowered:1;
+>> -	unsigned			deactivated:1;
+>> -	unsigned			connected:1;
+>> -	unsigned			lpm_capable:1;
+>> -	unsigned			wakeup_capable:1;
+>> -	unsigned			wakeup_armed:1;
+>> +	union {
+>> +		struct {
+>> +			u32		sg_supported:1;
+>> +			u32		is_otg:1;
+>> +			u32		is_a_peripheral:1;
+>> +			u32		b_hnp_enable:1;
+>> +			u32		a_hnp_support:1;
+>> +			u32		a_alt_hnp_support:1;
+>> +			u32		hnp_polling_support:1;
+>> +			u32		host_request_flag:1;
+>> +			u32		quirk_ep_out_aligned_size:1;
+>> +			u32		quirk_altset_not_supp:1;
+>> +			u32		quirk_stall_not_supp:1;
+>> +			u32		quirk_zlp_not_supp:1;
+>> +			u32		quirk_avoids_skb_reserve:1;
+>> +			u32		is_selfpowered:1;
+>> +			u32		deactivated:1;
+>> +			u32		connected:1;
+>> +			u32		lpm_capable:1;
+>> +			u32		wakeup_capable:1;
+>> +			u32		wakeup_armed:1;
+>> +		} __packed;
+>> +		u32			dw1;
+>> +#define		USB_GADGET_SG_SUPPORTED(n)			((n) & BIT(0))
+>> +#define		USB_GADGET_IS_OTG(n)				((n) & BIT(1))
+>> +#define		USB_GADGET_IS_A_PERIPHERAL(n)			((n) & BIT(2))
+>> +#define		USB_GADGET_B_HNP_ENABLE(n)			((n) & BIT(3))
+>> +#define		USB_GADGET_A_HNP_SUPPORT(n)			((n) & BIT(4))
+>> +#define		USB_GADGET_A_ALT_HNP_SUPPORT(n)			((n) & BIT(5))
+>> +#define		USB_GADGET_HNP_POLLING_SUPPORT(n)		((n) & BIT(6))
+>> +#define		USB_GADGET_HOST_REQUEST_FLAG(n)			((n) & BIT(7))
+>> +#define		USB_GADGET_QUIRK_EP_OUT_ALIGNED_SIZE(n)		((n) & BIT(8))
+>> +#define		USB_GADGET_QUIRK_ALTSET_NOT_SUPP(n)		((n) & BIT(9))
+>> +#define		USB_GADGET_QUIRK_STALL_NOT_SUPP(n)		((n) & BIT(10))
+>> +#define		USB_GADGET_QUIRK_ZLP_NOT_SUPP(n)		((n) & BIT(11))
+>> +#define		USB_GADGET_QUIRK_AVOIDS_SKB_RESERVE(n)		((n) & BIT(12))
+>> +#define		USB_GADGET_IS_SELFPOWERED(n)			((n) & BIT(13))
+>> +#define		USB_GADGET_DEACTIVATED(n)			((n) & BIT(14))
+>> +#define		USB_GADGET_CONNECTED(n)				((n) & BIT(15))
+>> +#define		USB_GADGET_LPM_CAPABLE(n)			((n) & BIT(16))
+>> +#define		USB_GADGET_WAKEUP_CAPABLE(n)			((n) & BIT(17))
+>> +#define		USB_GADGET_WAKEUP_ARMED(n)			((n) & BIT(18))
+> Does this actually work on both types of endian-ness?
+
+
+sorry, only test little endian on ARM64, will consider big endian.
+
+
+>
+> thanks,
+>
+> greg k-h
