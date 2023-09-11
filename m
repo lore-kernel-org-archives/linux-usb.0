@@ -2,168 +2,98 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7236CA0ED3
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9411CA0EDA
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235927AbjIKVi1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:38:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52390 "EHLO
+        id S1350444AbjIKVic (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:38:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236879AbjIKLho (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 07:37:44 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 018DD12E
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 04:37:37 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBF81C433C7;
-        Mon, 11 Sep 2023 11:37:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1694432257;
-        bh=c5IoarIxHSYYM7hEeFEOtl1MBLW1Og0H65A+tAxlb+o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SHuSFDK3xEPgT8nsYyarBmpW+Y3Qy3i9bTKEVdVh/ntppCxpwqHBKIBv6VwHgfq8H
-         yDemvCDVa8C8cx9KD9GWN44oPrN5fyeNGeLh6gx0TSJjZPynyCC1z3Y0o9eBhiMpEm
-         +D5jXqYorAC0UZLEnxSa+xtkTo8twzkupyAcpf7Q=
-Date:   Mon, 11 Sep 2023 13:37:33 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Linyu Yuan <quic_linyyuan@quicinc.com>
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Roger Quadros <rogerq@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Neal Liu <neal_liu@aspeedtech.com>,
-        Cristian Birsan <cristian.birsan@microchip.com>,
-        Bin Liu <b-liu@ti.com>, Kevin Cernekee <cernekee@gmail.com>,
-        Justin Chen <justin.chen@broadcom.com>,
-        Al Cooper <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Herve Codina <herve.codina@bootlin.com>,
-        hierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Rui Miguel Silva <rui.silva@linaro.org>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 01/11] usb: gadget: add anonymous definition in struct
- usb_gadget
-Message-ID: <2023091137-babble-chaffing-553c@gregkh>
-References: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
- <20230911112446.1791-2-quic_linyyuan@quicinc.com>
+        with ESMTP id S235917AbjIKJq2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 05:46:28 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1526AE4B;
+        Mon, 11 Sep 2023 02:46:24 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qfdUo-00017y-87; Mon, 11 Sep 2023 11:46:18 +0200
+Message-ID: <5fe38b0a-e8de-466b-b35b-a827eae3e766@leemhuis.info>
+Date:   Mon, 11 Sep 2023 11:46:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230911112446.1791-2-quic_linyyuan@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: typec: ucsi: Fix NULL pointer dereference
+To:     Mario Limonciello <mario.limonciello@amd.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Saranya Gopal <saranya.gopal@intel.com>,
+        Rajaram Regupathy <rajaram.regupathy@intel.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        Wayne Chang <waynec@nvidia.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        linux-usb@vger.kernel.org,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+References: <20230906084842.1922052-1-heikki.krogerus@linux.intel.com>
+ <2023090638-overexert-endearing-3726@gregkh>
+ <288ac4c1-b66d-477a-ba2e-9b8d8dde4dc6@amd.com>
+Content-Language: en-US, de-DE
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <288ac4c1-b66d-477a-ba2e-9b8d8dde4dc6@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1694425584;1bc618ea;
+X-HE-SMSGID: 1qfdUo-00017y-87
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Sep 11, 2023 at 07:24:36PM +0800, Linyu Yuan wrote:
-> Some UDC trace event will save usb gadget information, but it will use
-> one int size buffer to save one bit information of usb gadget, so more
-> than one int buffer to save several bit fields which is not good.
+On 06.09.23 14:05, Mario Limonciello wrote:
+> On 9/6/2023 03:57, Greg Kroah-Hartman wrote:
+>> On Wed, Sep 06, 2023 at 11:48:42AM +0300, Heikki Krogerus wrote:
+>>> Making sure the UCSI debugfs entry actually exists before
+>>> attempting to remove it.
+>>>
+>>> Fixes: df0383ffad64 ("usb: typec: ucsi: Add debugfs for ucsi commands")
+>>> Reported-by: Dave Hansen <dave.hansen@intel.com>
+>>> Closes:
+>>> https://lore.kernel.org/linux-usb/700df3c4-2f6c-85f9-6c61-065bc5b2db3a@intel.com/
+>>> Suggested-by: Dave Hansen <dave.hansen@intel.com>
+>>> Suggested-by: Mario Limonciello <mario.limonciello@amd.com>
+>>> Cc: Saranya Gopal <saranya.gopal@intel.com>
+>>> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 > 
-> Add one anonymous union have three u32 members which can be used by trace
-> event during fast assign stage to reduce trace buffer usage, and add
-> related macro to extract bit fields from u32 members for later trace event
-> output state usage.
+> I could also reproduce it with 7733171926cc336ddf0c8f847eefaff569dbff86
+> on two different laptops.
 > 
-> Also move sg_supported and other bit fields into one anonymous struct
-> which inside anonymous union and Change bit fields from unsigned to u32
-> type, it will make sure union member have expected u32 size.
+>>> ---
+>>>   drivers/usb/typec/ucsi/debugfs.c | 3 +++
+>>>   1 file changed, 3 insertions(+)
+>>>
+>>> diff --git a/drivers/usb/typec/ucsi/debugfs.c
+>>> b/drivers/usb/typec/ucsi/debugfs.c
+>>> index 0c7bf88d4a7f..f67733cecfdf 100644
+>>> --- a/drivers/usb/typec/ucsi/debugfs.c
+>>> +++ b/drivers/usb/typec/ucsi/debugfs.c
+>>> @@ -84,6 +84,9 @@ void ucsi_debugfs_register(struct ucsi *ucsi)
+>>>     void ucsi_debugfs_unregister(struct ucsi *ucsi)
+>>>   {
+>>> +    if (IS_ERR_OR_NULL(ucsi) || !ucsi->debugfs)
+>>> +        return;
+>>> +
+>>>       debugfs_remove_recursive(ucsi->debugfs->dentry);
+>>
+>> Why are you saving the dentry at all?  Why not just have debugfs look it
+>> up when you want to remove it based on the filename?
+>>
+>> Anyway, not a big deal here, just a comment.  I'll queue this up after
+>> -rc1 is out.
 > 
-> Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
-> ---
-> v2: no change
-> 
->  include/linux/usb/gadget.h | 63 ++++++++++++++++++++++++++------------
->  1 file changed, 44 insertions(+), 19 deletions(-)
-> 
-> diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-> index 75bda0783395..cdf62e7f34e7 100644
-> --- a/include/linux/usb/gadget.h
-> +++ b/include/linux/usb/gadget.h
-> @@ -357,6 +357,7 @@ struct usb_gadget_ops {
->   * @in_epnum: last used in ep number
->   * @mA: last set mA value
->   * @otg_caps: OTG capabilities of this gadget.
-> + * @dw1: trace event purpose
->   * @sg_supported: true if we can handle scatter-gather
->   * @is_otg: True if the USB device port uses a Mini-AB jack, so that the
->   *	gadget driver must provide a USB OTG descriptor.
-> @@ -432,25 +433,49 @@ struct usb_gadget {
->  	unsigned			mA;
->  	struct usb_otg_caps		*otg_caps;
->  
-> -	unsigned			sg_supported:1;
-> -	unsigned			is_otg:1;
-> -	unsigned			is_a_peripheral:1;
-> -	unsigned			b_hnp_enable:1;
-> -	unsigned			a_hnp_support:1;
-> -	unsigned			a_alt_hnp_support:1;
-> -	unsigned			hnp_polling_support:1;
-> -	unsigned			host_request_flag:1;
-> -	unsigned			quirk_ep_out_aligned_size:1;
-> -	unsigned			quirk_altset_not_supp:1;
-> -	unsigned			quirk_stall_not_supp:1;
-> -	unsigned			quirk_zlp_not_supp:1;
-> -	unsigned			quirk_avoids_skb_reserve:1;
-> -	unsigned			is_selfpowered:1;
-> -	unsigned			deactivated:1;
-> -	unsigned			connected:1;
-> -	unsigned			lpm_capable:1;
-> -	unsigned			wakeup_capable:1;
-> -	unsigned			wakeup_armed:1;
-> +	union {
-> +		struct {
-> +			u32		sg_supported:1;
-> +			u32		is_otg:1;
-> +			u32		is_a_peripheral:1;
-> +			u32		b_hnp_enable:1;
-> +			u32		a_hnp_support:1;
-> +			u32		a_alt_hnp_support:1;
-> +			u32		hnp_polling_support:1;
-> +			u32		host_request_flag:1;
-> +			u32		quirk_ep_out_aligned_size:1;
-> +			u32		quirk_altset_not_supp:1;
-> +			u32		quirk_stall_not_supp:1;
-> +			u32		quirk_zlp_not_supp:1;
-> +			u32		quirk_avoids_skb_reserve:1;
-> +			u32		is_selfpowered:1;
-> +			u32		deactivated:1;
-> +			u32		connected:1;
-> +			u32		lpm_capable:1;
-> +			u32		wakeup_capable:1;
-> +			u32		wakeup_armed:1;
-> +		} __packed;
-> +		u32			dw1;
-> +#define		USB_GADGET_SG_SUPPORTED(n)			((n) & BIT(0))
-> +#define		USB_GADGET_IS_OTG(n)				((n) & BIT(1))
-> +#define		USB_GADGET_IS_A_PERIPHERAL(n)			((n) & BIT(2))
-> +#define		USB_GADGET_B_HNP_ENABLE(n)			((n) & BIT(3))
-> +#define		USB_GADGET_A_HNP_SUPPORT(n)			((n) & BIT(4))
-> +#define		USB_GADGET_A_ALT_HNP_SUPPORT(n)			((n) & BIT(5))
-> +#define		USB_GADGET_HNP_POLLING_SUPPORT(n)		((n) & BIT(6))
-> +#define		USB_GADGET_HOST_REQUEST_FLAG(n)			((n) & BIT(7))
-> +#define		USB_GADGET_QUIRK_EP_OUT_ALIGNED_SIZE(n)		((n) & BIT(8))
-> +#define		USB_GADGET_QUIRK_ALTSET_NOT_SUPP(n)		((n) & BIT(9))
-> +#define		USB_GADGET_QUIRK_STALL_NOT_SUPP(n)		((n) & BIT(10))
-> +#define		USB_GADGET_QUIRK_ZLP_NOT_SUPP(n)		((n) & BIT(11))
-> +#define		USB_GADGET_QUIRK_AVOIDS_SKB_RESERVE(n)		((n) & BIT(12))
-> +#define		USB_GADGET_IS_SELFPOWERED(n)			((n) & BIT(13))
-> +#define		USB_GADGET_DEACTIVATED(n)			((n) & BIT(14))
-> +#define		USB_GADGET_CONNECTED(n)				((n) & BIT(15))
-> +#define		USB_GADGET_LPM_CAPABLE(n)			((n) & BIT(16))
-> +#define		USB_GADGET_WAKEUP_CAPABLE(n)			((n) & BIT(17))
-> +#define		USB_GADGET_WAKEUP_ARMED(n)			((n) & BIT(18))
+> It might be worth sending before rc1 if it ends up being widespread.
 
-Does this actually work on both types of endian-ness?
+FWIW, as someone that afaics just ran into the regression fixed by this
+patch with -rc1, I would have liked that patch to be in -rc1 as well...
 
-thanks,
-
-greg k-h
+Ciao, Thorsten
