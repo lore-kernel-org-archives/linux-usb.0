@@ -2,104 +2,72 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ABBACA0ECD
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE940CA0ECE
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350636AbjIKVkI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:40:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42844 "EHLO
+        id S1350632AbjIKVkE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:40:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243049AbjIKQpu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 12:45:50 -0400
-Received: from mp-relay-01.fibernetics.ca (mp-relay-01.fibernetics.ca [208.85.217.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FA07E4
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 09:45:45 -0700 (PDT)
-Received: from mailpool-fe-02.fibernetics.ca (mailpool-fe-02.fibernetics.ca [208.85.217.145])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mp-relay-01.fibernetics.ca (Postfix) with ESMTPS id 306F2E1883;
-        Mon, 11 Sep 2023 16:45:44 +0000 (UTC)
-Received: from localhost (mailpool-mx-01.fibernetics.ca [208.85.217.140])
-        by mailpool-fe-02.fibernetics.ca (Postfix) with ESMTP id 0B92E60A47;
-        Mon, 11 Sep 2023 16:45:44 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at 
-Received: from mailpool-fe-02.fibernetics.ca ([208.85.217.145])
-        by localhost (mail-mx-01.fibernetics.ca [208.85.217.140]) (amavisd-new, port 10024)
-        with ESMTP id BfbOjcxbikKh; Mon, 11 Sep 2023 16:45:43 +0000 (UTC)
-Received: from [192.168.48.17] (host-104-157-209-188.dyn.295.ca [104.157.209.188])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dgilbert@interlog.com)
-        by mail.ca.inter.net (Postfix) with ESMTPSA id 2071A601E4;
-        Mon, 11 Sep 2023 16:45:42 +0000 (UTC)
-Message-ID: <b503eb21-3850-0072-65b3-977be98e58d0@interlog.com>
-Date:   Mon, 11 Sep 2023 12:45:42 -0400
+        with ESMTP id S235708AbjIKJZq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 05:25:46 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E494CD3;
+        Mon, 11 Sep 2023 02:25:42 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 14996C433C9;
+        Mon, 11 Sep 2023 09:25:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694424342;
+        bh=WpA2HSmOVnDSDp9vUx/6sCnejIWAz21QU/ikOzyuZyI=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=J1bK6F0j/wB+fJQr4Kt2LbjQu31XTnJldrWV6fRSwa+M1taFaNRtmK7Retp2iW85v
+         QGnjIcPDSaM1GBi7GploYD2QGH9LX/gKrnIfTZtrZOlw/5MNF8Ayf+yNas4tQGcbG0
+         LWPnw6BjjSOEQe+b7Eo3A/zRUghv0FV9bR6fdcBCbFHLiworBLw4tpVW0x0+/O9XqR
+         oKQcs0VGmGGKl0yr8HEX4wx/FiEB8GX61ExY77SncAOG+ZsbGSKkACDS+y5wBiCdHl
+         +zGc7DeZR7ssi4fVNxh6JxMDun1HstF8CZvwLYHLePZKa/iwokQD3dnWDni7I3myN4
+         qV7PsihENvfaw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 03E26E1C280;
+        Mon, 11 Sep 2023 09:25:42 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Reply-To: dgilbert@interlog.com
-Subject: Re: [typec] pd: fixed source capability: peak_current field
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Benson Leung <bleung@google.com>,
-        Prashant Malani <pmalani@chromium.org>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Saranya Gopal <saranya.gopal@intel.com>,
-        linux-usb@vger.kernel.org
-References: <9b87f828-cf1d-e370-f4ca-e0c53c9a35c5@interlog.com>
- <ZP8Z+1Kn+RagnFNq@kuha.fi.intel.com>
-Content-Language: en-CA
-From:   Douglas Gilbert <dgilbert@interlog.com>
-In-Reply-To: <ZP8Z+1Kn+RagnFNq@kuha.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] r8152: check budget for r8152_poll()
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <169442434201.22330.8875438731088949212.git-patchwork-notify@kernel.org>
+Date:   Mon, 11 Sep 2023 09:25:42 +0000
+References: <20230908070152.26484-422-nic_swsd@realtek.com>
+In-Reply-To: <20230908070152.26484-422-nic_swsd@realtek.com>
+To:     Hayes Wang <hayeswang@realtek.com>
+Cc:     kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org,
+        nic_swsd@realtek.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2023-09-11 09:45, Heikki Krogerus wrote:
-> +linux-usb ml, Guenter and others.
-> 
-> On Sun, Sep 10, 2023 at 09:29:04PM -0400, Douglas Gilbert wrote:
->> Hi,
->> The Peak current 2 bit field has been present in the fixed source PDO
->> since PD 2.0 . It is commented out in typec/pd.c with a note to revisit
->> as it needs the Operational current field from the active RDO.
->>
->> Not sure I agree with that: the 2 bit field is unit-less and could easily
->> be displayed as such. At the moment the active RDO is not directly
->> available through sysfs and would certainly be a useful addition for
->> many reasons.
->>
->> So my vote (not that I get one) would be to output peak_current in
->> sysfs with no unit. Then in the ABI peak_current could be explained
->> by reference to a table in the spec (e.g. "USB Power Delivery
->> Specification Revision 3.1, Version 1.8, table 6-10 Fixed Power
->> Source Peak Current Capability"). Then the issue of what it means
->> is handed off to the user space :-)
->>
->> Also of note is that the Peak current field is B21..B20 which is
->> below B23 (obviously) so all fixed source PDOs have that field
->> (and thus those unit-less values could differ), not just
->> PDO #1 .
-> 
-> I agree with you. I don't think it makes sense to try to interpret the
-> peak current value in kernel, so we could just expose the value as-is.
-> 
-> But first giving the others heads-up on this, just in case somebody
-> disagrees.
+Hello:
 
-Similar situation with fast_role_swap in the fixed sink PDO. It is not really a
-current but an index to a table embedded in the r31_v18's table 6-16.
-Importantly the value 0 implies the sink does not support FRS. So again it
-seems to be unit-less so the suffix "_current" in its sysfs name is
-questionable. The spec does help much here formally naming it: the "Fast Role
-Swap USB Type-C® Current" field in section 6.4.1.3.1.6 . The show function
-for the fast_role_swap_current is defined in typec/pd.c but I didn't see any
-invocations.
+This patch was applied to netdev/net.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-Doug Gilbert
+On Fri, 8 Sep 2023 15:01:52 +0800 you wrote:
+> According to the document of napi, there is no rx process when the
+> budget is 0. Therefore, r8152_poll() has to return 0 directly when the
+> budget is equal to 0.
+> 
+> Fixes: d2187f8e4454 ("r8152: divide the tx and rx bottom functions")
+> Signed-off-by: Hayes Wang <hayeswang@realtek.com>
+> 
+> [...]
+
+Here is the summary with links:
+  - [net] r8152: check budget for r8152_poll()
+    https://git.kernel.org/netdev/net/c/a7b8d60b3723
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
