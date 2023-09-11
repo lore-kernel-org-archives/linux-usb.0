@@ -2,140 +2,158 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EA97CA0ED6
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:48:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 195CACA0EC7
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:48:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350863AbjIKVly (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:41:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33832 "EHLO
+        id S1350901AbjIKVmJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:42:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242407AbjIKPau (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 11:30:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 80AC3FA
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 08:30:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694446199;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=beFb4jOtgVaCPAjALRMLom3ODylTFoGFqg6zPcwa1kU=;
-        b=OxVSjlRJikvRKcoUu+fre0mMhOjb3KrTbGjU8J6ap2VFe3urPH/0ZnQn4eB+0TiicD4Vms
-        7Sic+dirwFyM2nMAsuQNY94xTu1UiiUxmMrtBhb2WSFbS5W0IpLwcGVNSLadTpl1WyuXSr
-        B7nqDETrHQuGZNwAYAdVv9JIAHLVIug=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-541-tBh6nOUiPDuLsPEe3E_66w-1; Mon, 11 Sep 2023 11:29:58 -0400
-X-MC-Unique: tBh6nOUiPDuLsPEe3E_66w-1
-Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2b710c5677eso51355261fa.0
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 08:29:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694446196; x=1695050996;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=beFb4jOtgVaCPAjALRMLom3ODylTFoGFqg6zPcwa1kU=;
-        b=NxzJVvMcJjjFEN4zvxRHnP4zHVzqmI9G/eSvUBfkcz9i/U2qaxdgNtd12lRDfqQri6
-         HlxjWbYSw3IEdZnfkX0615mbFS7r5FG7szVbg6pY7xuk7Ghr0xKmJwg2vKiAxtAvNMr6
-         I1kMkW/ZD3gGqAhBEmRxsqKWGs6HLac6p3LKVMOQhn5ko6rLhVStuhAMjsgQUcFRCeEd
-         XbQI4UGozt+SlF9bTid/OA8vDUpJT0MRg4ik+SBVe8xamyJhH1l/P9hxZhGJgODsZRKW
-         YpYq1sGSLmHCwMvus0WArwUoq5FYma12+vaO+chh/ItsXPMq3OuLJTaTcxP01waDQsZs
-         ykRg==
-X-Gm-Message-State: AOJu0YynbdSKPs4yXvm2+DIVy9AsqkQBTQQDFdpZ3LcLkJETXQRB31ny
-        +bc0hSljD1HHWUQzujeLz17LAPjCQHSrsSz/lNdEkbdrN+o5B2gmTZBttkw2+6+t1YaaT/PKmVg
-        MZl6dgcIa3J0mfFLrOlvMxyrjM/Uq
-X-Received: by 2002:a2e:9a86:0:b0:2b9:d28c:9c2d with SMTP id p6-20020a2e9a86000000b002b9d28c9c2dmr7888766lji.23.1694446196339;
-        Mon, 11 Sep 2023 08:29:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFCnYmSBBt/79HOY6oG86XzJSUTORWQ+TBN3kldt1k+nkoJjPzYCmkfeSD1Dy0l69/ipFgEMw==
-X-Received: by 2002:a2e:9a86:0:b0:2b9:d28c:9c2d with SMTP id p6-20020a2e9a86000000b002b9d28c9c2dmr7888747lji.23.1694446196036;
-        Mon, 11 Sep 2023 08:29:56 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id m27-20020a1709060d9b00b009a5f7fb51d1sm5497936eji.40.2023.09.11.08.29.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Sep 2023 08:29:55 -0700 (PDT)
-Message-ID: <3c54154f-dd9d-f74c-9852-5135b4bda297@redhat.com>
-Date:   Mon, 11 Sep 2023 17:29:54 +0200
+        with ESMTP id S236786AbjIKL0H (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 07:26:07 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27DFAF5
+        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 04:26:03 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BAw0YS008957;
+        Mon, 11 Sep 2023 11:25:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=XNwydeC+d5MqPg32rwINCWGg4phGzmmf2fXJcC2XaKk=;
+ b=MwdetpQA/UoAMC7NnB/NzkCkpEqh6jX35hMmNRvk6jz2w1wK1Q5jSZjyWqW17VTZKtgl
+ foCfPPqI4fB57L4Xb6/nJptMwmGP5+KwWtQjjCtgfgaccV7QrkX/dbRwcjlh7CohOqK1
+ pfVmzCo0i57cnQ71386t9I2ZcHYhp6PrWGb+SrUf4dOqevw4iAgL7T+A2PCO2Sa1HAbc
+ 3ZzHCVzbvix9lDMBW34qKnaxdtp72ilzLCq1X1MdxczWWzw4WlBLaSh3gRPkn6yEcmQ2
+ wxr0HNE7F9DNkrvJKCkoU0jN92Ze0eYz9mN4GjdrWFkTCsmnOmLff1ttlyVCwBy//6op Tg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t1xjmrg3f-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 11:25:19 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BBPIGL005714
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Sep 2023 11:25:18 GMT
+Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Mon, 11 Sep 2023 04:25:11 -0700
+From:   Linyu Yuan <quic_linyyuan@quicinc.com>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Neal Liu <neal_liu@aspeedtech.com>,
+        "Cristian Birsan" <cristian.birsan@microchip.com>,
+        Bin Liu <b-liu@ti.com>, "Kevin Cernekee" <cernekee@gmail.com>,
+        Justin Chen <justin.chen@broadcom.com>,
+        "Al Cooper" <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
+        "Vladimir Zapolskiy" <vz@mleia.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        "Philipp Zabel" <p.zabel@pengutronix.de>,
+        Herve Codina <herve.codina@bootlin.com>,
+        hierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Rui Miguel Silva <rui.silva@linaro.org>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        "Shuah Khan" <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, Linyu Yuan <quic_linyyuan@quicinc.com>
+Subject: [PATCH v2 02/11] usb: gadget: add anonymous definition in struct usb_request
+Date:   Mon, 11 Sep 2023 19:24:37 +0800
+Message-ID: <20230911112446.1791-3-quic_linyyuan@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
+References: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] USB: add ignore remote wakeup quirk for one of Logitech's
- receivers
-To:     Hamza Mahfooz <someguy@effective-light.com>
-Cc:     linux-usb@vger.kernel.org, stable@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        =?UTF-8?Q?=c5=81ukasz_Bartosik?= <lb@semihalf.com>,
-        Nicolas Dumazet <ndumazet@google.com>,
-        Jean-Francois Le Fillatre <jflf_kernel@gmx.com>,
-        Mark Pearson <mpearson-lenovo@squebb.ca>,
-        Hannu Hartikainen <hannu@hrtk.in>, linux-kernel@vger.kernel.org
-References: <20230910163751.4210-1-someguy@effective-light.com>
- <9d2dff10-5a3b-b24a-c3d8-3c843891966d@redhat.com>
- <ZKUT0S.QB90NRXC7O1R1@effective-light.com>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ZKUT0S.QB90NRXC7O1R1@effective-light.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: kuCAx1Ytc_N-Yw7eqtIHiHrBw6cB_OQ2
+X-Proofpoint-GUID: kuCAx1Ytc_N-Yw7eqtIHiHrBw6cB_OQ2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ phishscore=0 lowpriorityscore=0 suspectscore=0 mlxlogscore=566
+ malwarescore=0 adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309110103
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Hamza,
+Some UDC trace event will save usb request information, but it will use
+one int size buffer to save one bit information of usb request, so more
+than one int buffer to save several bit fields which is not good.
 
-On 9/11/23 17:19, Hamza Mahfooz wrote:
-> Hey Hans,
-> 
-> On Mon, Sep 11 2023 at 09:32:42 AM +02:00:00, Hans de Goede <hdegoede@redhat.com> wrote:
->> Hi Hamza,
->>
->> On 9/10/23 18:37, Hamza Mahfooz wrote:
->>>  This device causes the system to wake up from suspend, as soon as it
->>>  enters it (even if the device attached to the receiver is powered off).
->>>  So, ignore remote wakeup events from it.
->>>
->>>  Cc: stable@vger.kernel.org
->>>  Signed-off-by: Hamza Mahfooz <someguy@effective-light.com>
->>>  ---
->>>   drivers/usb/core/quirks.c | 4 ++++
->>>   1 file changed, 4 insertions(+)
->>>
->>>  diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
->>>  index 15e9bd180a1d..d2e2a2873f34 100644
->>>  --- a/drivers/usb/core/quirks.c
->>>  +++ b/drivers/usb/core/quirks.c
->>>  @@ -264,6 +264,10 @@ static const struct usb_device_id usb_quirk_list[] = {
->>>       /* Logitech Harmony 700-series */
->>>       { USB_DEVICE(0x046d, 0xc122), .driver_info = USB_QUIRK_DELAY_INIT },
->>>
->>>  +    /* Logitech lightspeed receiver (0xc547) */
->>>  +    { USB_DEVICE(0x046d, 0xc547), .driver_info =
->>>  +            USB_QUIRK_IGNORE_REMOTE_WAKEUP },
->>>  +
->>>       /* Philips PSC805 audio device */
->>>       { USB_DEVICE(0x0471, 0x0155), .driver_info = USB_QUIRK_RESET_RESUME },
->>>
->>
->> If this is a lightspeed receiver then it really should be handled by
->> hid-logitech-dj.c unless this new receiver is using a new protocol ?
->>
->> I wonder if adding it there also fixes the remote
->> wakeup issue (I doubt it fixes it but worth a try) ?
-> 
-> 
-> Seems like the following series does indeed fix this issue:
-> https://lore.kernel.org/linux-input/20230716182320.85483-1-mavchatz@protonmail.com/T/#u
+First add an anonymous union which have one u32 member dw1 which can be
+used by trace event during fast assign stage to reduce trace buffer
+usage, add related macro to extract bit fields from dw1 for later trace
+event output state usage.
 
-Great, thank you for letting us know that this is resolved with
-that patch series.
+Also move exist stread_id and other bit fields into one anonymous struct
+which inside anonymous union, Change them from unsigned to u32 type,
+it will make sure union member have same memory size as dw1.
 
-Regards,
+Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
+---
+v2: no change
 
-Hans
+ include/linux/usb/gadget.h | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index cdf62e7f34e7..045ebd4637c5 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -41,6 +41,7 @@ struct usb_ep;
+  * @num_sgs: number of SG entries
+  * @num_mapped_sgs: number of SG entries mapped to DMA (internal)
+  * @length: Length of that data
++ * @dw1: trace event purpose
+  * @stream_id: The stream id, when USB3.0 bulk streams are being used
+  * @is_last: Indicates if this is the last request of a stream_id before
+  *	switching to a different stream (required for DWC3 controllers).
+@@ -105,12 +106,23 @@ struct usb_request {
+ 	unsigned		num_sgs;
+ 	unsigned		num_mapped_sgs;
+ 
+-	unsigned		stream_id:16;
+-	unsigned		is_last:1;
+-	unsigned		no_interrupt:1;
+-	unsigned		zero:1;
+-	unsigned		short_not_ok:1;
+-	unsigned		dma_mapped:1;
++	union {
++		struct {
++			u32	stream_id:16;
++			u32	is_last:1;
++			u32	no_interrupt:1;
++			u32	zero:1;
++			u32	short_not_ok:1;
++			u32	dma_mapped:1;
++		} __packed;
++		u32		dw1;
++#define		USB_REQ_STREAM_ID(n)	((n) & 0xffff)
++#define		USB_REQ_IS_LAST(n)	(((n) >> 16) & 1)
++#define		USB_REQ_NO_INTERRUPT(n)	(((n) >> 17) & 1)
++#define		USB_REQ_ZERO(n)		(((n) >> 18) & 1)
++#define		USB_REQ_SHORT_NOT_OK(n)	(((n) >> 19) & 1)
++#define		USB_REQ_DMA_MAPPED(n)	(((n) >> 20) & 1)
++	};
+ 
+ 	void			(*complete)(struct usb_ep *ep,
+ 					struct usb_request *req);
+-- 
+2.17.1
 
