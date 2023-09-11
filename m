@@ -2,114 +2,91 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21CDFCA0ECB
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:48:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD45FCA0ED3
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:48:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350807AbjIKVla (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:41:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52536 "EHLO
+        id S1350832AbjIKVll (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:41:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243842AbjIKR7K (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 13:59:10 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A495E0;
-        Mon, 11 Sep 2023 10:59:06 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BFrOYO018104;
-        Mon, 11 Sep 2023 17:58:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=w+G3DneCyl/+8+LM2jmeftpB3JPy3zCmFZHnSrYU5mU=;
- b=Ljc6fkhgtobFwtqAIDDoA1TTdsrgilgiCV1+x27KZCbuTejyk67Qe0dDVT66omP26EV6
- MDv5vdrsa5n+3LQnYmlPkBFslr5P//xEIJInSigOG38WS696gy5I/qwIuO66sgf0zE9q
- ZvHXpVqxxZikIM741tNJdOQTWhLP8Eol6R7Odc1/IUFYE2KNfZ7jwP1VGJodjkrlgjgM
- qRtKll7XWP8zE14G39vniGK7jtNQlinwSz/12IP8bRq9sdkWeu2aV4s+HiztRfguo76Y
- w7YVo2/6/qNDQoYSi653fsuNi01xRxjJRkcOYARE0BK4w+yWfyAJaVsPm5S9Vh0En5As NA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t1xjmscqx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 17:58:48 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BHwkPY013802
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 17:58:47 GMT
-Received: from [10.110.109.129] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 11 Sep
- 2023 10:58:45 -0700
-Message-ID: <6a7ff8ae-1ce5-84a9-8cec-b785e88b6fda@quicinc.com>
-Date:   Mon, 11 Sep 2023 10:58:45 -0700
+        with ESMTP id S236264AbjIKKE5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 06:04:57 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B050E6C
+        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 03:04:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694426693; x=1725962693;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=favUYh5YkCTfirv9jmPMIlJmw8GqaPLjfKiwPb8aFvA=;
+  b=axnGjplOHMQUyUMIB4cbLZmE132c2GLJPqlSb8QGm6T3J1kE1l2+04qB
+   2U3RbOFadUuLKxndTvkNUNVDMz6xHwmhWVOnfcCSksv1lCXm3tv9yDhtF
+   AamG2FDkBd8GKNutbFAaT92QObKJ2N4NBoWaI0iJKr69Q5euwxAzWyFBE
+   5dyICAhKwLCQRAk44vdAt1eq15jpoUl5XJDxbuFUPTyJz9m9LDPkF4eGg
+   BA45BzIXry6FhjSrGEJ+AusdGKphTIQmZCOLt9d4Pf6RzjCYmgpHCJXiS
+   5JeQWzrlhoqvZRvgvfwqExvcx77qYkyIlbgEIQ5j544goKxkZz5oc+Bw0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="442037125"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="442037125"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 03:04:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="858263762"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="858263762"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga002.fm.intel.com with ESMTP; 11 Sep 2023 03:04:47 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id A6CE4988; Mon, 11 Sep 2023 13:04:45 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Werner Sembach <wse@tuxedocomputers.com>,
+        Konrad J Hambrick <kjhambrick@gmail.com>,
+        Calvin Walton <calvin.walton@kepstin.ca>,
+        =?UTF-8?q?Marek=20=C5=A0anta?= <teslan223@gmail.com>,
+        David Binderman <dcb314@hotmail.com>,
+        Alex Balcanquall <alex@alexbal.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 0/5] thunderbolt: Couple of fixes and improvements
+Date:   Mon, 11 Sep 2023 13:04:40 +0300
+Message-Id: <20230911100445.3612655-1-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v5 12/32] sound: usb: Export USB SND APIs for modules
-Content-Language: en-US
-To:     Takashi Iwai <tiwai@suse.de>
-CC:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <agross@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <devicetree@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <quic_jackp@quicinc.com>, <quic_plai@quicinc.com>
-References: <20230829210657.9904-1-quic_wcheng@quicinc.com>
- <20230829210657.9904-13-quic_wcheng@quicinc.com>
- <874jk6at85.wl-tiwai@suse.de>
-From:   Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <874jk6at85.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: s0XTIQ5vwfRw4gnEAniwQbfVq5ML631d
-X-Proofpoint-GUID: s0XTIQ5vwfRw4gnEAniwQbfVq5ML631d
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_13,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
- phishscore=0 lowpriorityscore=0 suspectscore=0 mlxlogscore=709
- malwarescore=0 adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309110164
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Takashi,
+Hi all,
 
-On 9/7/2023 8:38 AM, Takashi Iwai wrote:
-> On Tue, 29 Aug 2023 23:06:37 +0200,
-> Wesley Cheng wrote:
->> -/*
->> - * hw_params callback
->> - *
->> - * allocate a buffer and set the given audio format.
->> - *
->> - * so far we use a physically linear buffer although packetize transfer
->> - * doesn't need a continuous area.
->> - * if sg buffer is supported on the later version of alsa, we'll follow
->> - * that.
->> - */
->> -static int snd_usb_hw_params(struct snd_pcm_substream *substream,
->> -			     struct snd_pcm_hw_params *hw_params)
->> +int snd_usb_attach_endpoints(struct snd_usb_substream *subs,
->> +				struct snd_pcm_hw_params *hw_params)
-> 
-> This doesn't only "attach" endpoints, but it does more other things
-> that are needed for PCM hw_params procedure.  I'd rather keep
-> hw_params in the function name instead of creating completely
-> different one.
-> 
-> Ditto for hw_free.
-> 
+This series contains fixes for various issues folks have reported and
+also a few not so critical improvements.
 
-Sure I'll keep the same nomenclature as it was previously.
+I was planning to take patches 1-3 through my fixes branch into v6.6-rc
+and the patches 4 and 5 to my next branch where they can sit some more
+time in linux-next until they go into v6.7.
 
-Thanks
-Wesley Cheng
+Mika Westerberg (5):
+  thunderbolt: Workaround an IOMMU fault on certain systems with Intel Maple Ridge
+  thunderbolt: Check that lane 1 is in CL0 before enabling lane bonding
+  thunderbolt: Correct TMU mode initialization from hardware
+  thunderbolt: Apply USB 3.x bandwidth quirk only in software connection manager
+  thunderbolt: Restart XDomain discovery handshake after failure
+
+ drivers/thunderbolt/icm.c     | 40 ++++++++++++------------
+ drivers/thunderbolt/quirks.c  |  3 ++
+ drivers/thunderbolt/switch.c  |  7 +++++
+ drivers/thunderbolt/tmu.c     |  2 +-
+ drivers/thunderbolt/xdomain.c | 58 +++++++++++++++++++++++++----------
+ 5 files changed, 72 insertions(+), 38 deletions(-)
+
+-- 
+2.40.1
+
