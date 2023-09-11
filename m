@@ -2,168 +2,289 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34A4FCA0EC4
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E01ACA0ECD
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240028AbjIKVjZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:39:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36252 "EHLO
+        id S240108AbjIKVj3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:39:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243845AbjIKSA0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 14:00:26 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3F26E0;
-        Mon, 11 Sep 2023 11:00:20 -0700 (PDT)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BEfMvf012701;
-        Mon, 11 Sep 2023 17:59:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=PeQHtPpk5JOrsMlNiiPboshfw1HH4mh9rMq+8dlgflc=;
- b=iHNrhf/9PKvS8HmRJc/rmi9cmePzZo2vLIAAOuiwsM/QYRFIAPFwvHG0n93gRVi0yw7V
- xIuKe0cdAYYi0fFU4gbnprnJGTP+yg0Q2CQxGrQJ/4PaC3s/LSSfLzjKob5b9zWkuvDR
- 6bHm5Z9movOsm/LRCf4CLZp2fvjlo+Ctgy+EEIYj4T0dRdLjurvzCzoF3bIlY4vGVLJe
- F6MqE+EoCHtvnDd20jVB6IKELKiGqSZ3RLJLtl12WRZq7rtKFGnVc3hj5Ef2H+XpwRXp
- LGKyP6+RWtYx+XAudrSAPy+HpGeVq/jgITdOjPcQ8/j7PukLl6n40c12GKk4nzedhpEu iQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t1whx9ksa-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 17:59:42 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BHxMGs022130
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 17:59:22 GMT
-Received: from [10.110.109.129] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 11 Sep
- 2023 10:59:21 -0700
-Message-ID: <cbe35766-a805-3791-3ff8-93aef4dc9f4c@quicinc.com>
-Date:   Mon, 11 Sep 2023 10:59:20 -0700
+        with ESMTP id S236255AbjIKKE5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 06:04:57 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A52E1E69
+        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 03:04:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694426691; x=1725962691;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=4pjfi5MxWXlTNHcTaKun5GOmbkqddnHY3t8pWX99838=;
+  b=XCFzjG/fG5H3Z99aIdMuWkxGRO9PhBRaP0A2fhMg5bIFaHyYblzG3Cm5
+   kku7wzvxGwsUZXSRs4Ymo02lKIAp08E+uo/FuYYdTdjVJmNY0iKRMu70D
+   GjSvPN7m6vPv59p/lZu13cdeesp7g2MyoAAbCjJeuCNVepEQXuSA2eeWV
+   umL5894n/QfgQHLyZZvo9mNiyE0IHqbpkDddTnLZ/qUc8JhudVXLDi2sF
+   5n6/nVzwmC8wyFV1+Vy4KnR4cOjgUdHfH/JJH5frFCRcfuJQz+8ou5Gte
+   ECn3GHRydeL60yhopHjK9lgwUsnKSRXgw/oNoSibFoBE7GXhq9+qL/tht
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="442037115"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="442037115"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 03:04:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="858263759"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="858263759"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga002.fm.intel.com with ESMTP; 11 Sep 2023 03:04:47 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id B75E86A6; Mon, 11 Sep 2023 13:04:45 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Werner Sembach <wse@tuxedocomputers.com>,
+        Konrad J Hambrick <kjhambrick@gmail.com>,
+        Calvin Walton <calvin.walton@kepstin.ca>,
+        =?UTF-8?q?Marek=20=C5=A0anta?= <teslan223@gmail.com>,
+        David Binderman <dcb314@hotmail.com>,
+        Alex Balcanquall <alex@alexbal.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 1/5] thunderbolt: Workaround an IOMMU fault on certain systems with Intel Maple Ridge
+Date:   Mon, 11 Sep 2023 13:04:41 +0300
+Message-Id: <20230911100445.3612655-2-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230911100445.3612655-1-mika.westerberg@linux.intel.com>
+References: <20230911100445.3612655-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v5 18/32] sound: usb: Introduce QC USB SND offloading
- support
-Content-Language: en-US
-To:     Takashi Iwai <tiwai@suse.de>
-CC:     <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <agross@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <devicetree@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <quic_jackp@quicinc.com>, <quic_plai@quicinc.com>
-References: <20230829210657.9904-1-quic_wcheng@quicinc.com>
- <20230829210657.9904-19-quic_wcheng@quicinc.com>
- <8734zqasmz.wl-tiwai@suse.de>
-From:   Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <8734zqasmz.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: U_IGeaWnzPKkXe9MF91P2eA5e-XGQJrg
-X-Proofpoint-ORIG-GUID: U_IGeaWnzPKkXe9MF91P2eA5e-XGQJrg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_13,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- suspectscore=0 impostorscore=0 phishscore=0 adultscore=0 mlxlogscore=835
- bulkscore=0 lowpriorityscore=0 spamscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309110165
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Takashi,
+On some systems the IOMMU blocks the first couple of driver ready
+messages to the connection manager firmware as can be seen in below
+excerpts:
 
-On 9/7/2023 8:51 AM, Takashi Iwai wrote:
-> On Tue, 29 Aug 2023 23:06:43 +0200,
-> Wesley Cheng wrote:
->>
->> Several Qualcomm SoCs have a dedicated audio DSP, which has the ability to
->> support USB sound devices.  This vendor driver will implement the required
->> handshaking with the DSP, in order to pass along required resources that
->> will be utilized by the DSP's USB SW.  The communication channel used for
->> this handshaking will be using the QMI protocol.  Required resources
->> include:
->> - Allocated secondary event ring address
->> - EP transfer ring address
->> - Interrupter number
->>
->> The above information will allow for the audio DSP to execute USB transfers
->> over the USB bus.  It will also be able to support devices that have an
->> implicit feedback and sync endpoint as well.  Offloading these data
->> transfers will allow the main/applications processor to enter lower CPU
->> power modes, and sustain a longer duration in those modes.
->>
->> Audio offloading is initiated with the following sequence:
->> 1. Userspace configures to route audio playback to USB backend and starts
->> playback on the platform soundcard.
->> 2. The Q6DSP AFE will communicate to the audio DSP to start the USB AFE
->> port.
->> 3. This results in a QMI packet with a STREAM enable command.
->> 4. The QC audio offload driver will fetch the required resources, and pass
->> this information as part of the QMI response to the STREAM enable command.
->> 5. Once the QMI response is received the audio DSP will start queuing data
->> on the USB bus.
->>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
->>   sound/usb/Kconfig                 |   15 +
->>   sound/usb/Makefile                |    2 +-
->>   sound/usb/qcom/Makefile           |    2 +
->>   sound/usb/qcom/qc_audio_offload.c | 1813 +++++++++++++++++++++++++++++
->>   4 files changed, 1831 insertions(+), 1 deletion(-)
->>   create mode 100644 sound/usb/qcom/Makefile
->>   create mode 100644 sound/usb/qcom/qc_audio_offload.c
->>
->> diff --git a/sound/usb/Kconfig b/sound/usb/Kconfig
->> index 4a9569a3a39a..da5838656baa 100644
->> --- a/sound/usb/Kconfig
->> +++ b/sound/usb/Kconfig
->> @@ -176,6 +176,21 @@ config SND_BCD2000
->>   	  To compile this driver as a module, choose M here: the module
->>   	  will be called snd-bcd2000.
->>   
->> +config QC_USB_AUDIO_OFFLOAD
-> 
-> Keep SND_ prefix for consistency.  And, at best, align with the module
-> name.
-> 
->> +	tristate "Qualcomm Audio Offload driver"
->> +	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND
->> +	select SND_PCM
->> +	help
->> +	  Say Y here to enable the Qualcomm USB audio offloading feature.
->> +
->> +	  This module sets up the required QMI stream enable/disable
->> +	  responses to requests generated by the audio DSP.  It passes the
->> +	  USB transfer resource references, so that the audio DSP can issue
->> +	  USB transfers to the host controller.
->> +
->> +	  To compile this driver as a module, choose M here: the module
->> +	  will be called qc-audio-offload.
-> 
-> Hmm, you renamed it differently, no?  In the below:
-> 
->> --- /dev/null
->> +++ b/sound/usb/qcom/Makefile
->> @@ -0,0 +1,2 @@
->> +snd-usb-audio-qmi-objs := usb_audio_qmi_v01.o qc_audio_offload.o
->> +obj-$(CONFIG_QC_USB_AUDIO_OFFLOAD) += snd-usb-audio-qmi.o
-> 
-> ... it's called snd-usb-audio-qmi.
-> 
+  thunderbolt 0000:06:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0010 address=0xbb0e3400 flags=0x0020]
 
-Will fix this, thanks.
+or
 
-Thanks
-Wesley Cheng
+  DMAR: DRHD: handling fault status reg 2
+  DMAR: [DMA Write] Request device [04:00.0] PASID ffffffff fault addr 69974000 [fault reason 05] PTE Write access is not set
+
+The reason is unknown and hard to debug because we were not able to
+reproduce this locally. This only happens on certain systems with Intel
+Maple Ridge Thunderbolt controller. If there is a device connected when
+the driver is loaded the issue does not happen either. Only when there
+is nothing connected (so typically when the system is booted up).
+
+We can work this around by sending the driver ready several times. After
+a couple of retries the message goes through and the controller works
+just fine. For this reason make the number of retries a parameter for
+icm_request() and then for Maple Ridge (and Titan Ridge as they us the
+same function but this should not matter) increase number of retries
+while shortening the timeout accordingly.
+
+Reported-by: Werner Sembach <wse@tuxedocomputers.com>
+Reported-by: Konrad J Hambrick <kjhambrick@gmail.com>
+Reported-by: Calvin Walton <calvin.walton@kepstin.ca>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=214259
+Cc: stable@vger.kernel.org
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/icm.c | 40 +++++++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
+index dbdcad8d73bf..d8b9c734abd3 100644
+--- a/drivers/thunderbolt/icm.c
++++ b/drivers/thunderbolt/icm.c
+@@ -41,6 +41,7 @@
+ #define PHY_PORT_CS1_LINK_STATE_SHIFT	26
+ 
+ #define ICM_TIMEOUT			5000	/* ms */
++#define ICM_RETRIES			3
+ #define ICM_APPROVE_TIMEOUT		10000	/* ms */
+ #define ICM_MAX_LINK			4
+ 
+@@ -296,10 +297,9 @@ static bool icm_copy(struct tb_cfg_request *req, const struct ctl_pkg *pkg)
+ 
+ static int icm_request(struct tb *tb, const void *request, size_t request_size,
+ 		       void *response, size_t response_size, size_t npackets,
+-		       unsigned int timeout_msec)
++		       int retries, unsigned int timeout_msec)
+ {
+ 	struct icm *icm = tb_priv(tb);
+-	int retries = 3;
+ 
+ 	do {
+ 		struct tb_cfg_request *req;
+@@ -410,7 +410,7 @@ static int icm_fr_get_route(struct tb *tb, u8 link, u8 depth, u64 *route)
+ 		return -ENOMEM;
+ 
+ 	ret = icm_request(tb, &request, sizeof(request), switches,
+-			  sizeof(*switches), npackets, ICM_TIMEOUT);
++			  sizeof(*switches), npackets, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		goto err_free;
+ 
+@@ -463,7 +463,7 @@ icm_fr_driver_ready(struct tb *tb, enum tb_security_level *security_level,
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_TIMEOUT);
++			  1, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -488,7 +488,7 @@ static int icm_fr_approve_switch(struct tb *tb, struct tb_switch *sw)
+ 	memset(&reply, 0, sizeof(reply));
+ 	/* Use larger timeout as establishing tunnels can take some time */
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_APPROVE_TIMEOUT);
++			  1, ICM_RETRIES, ICM_APPROVE_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -515,7 +515,7 @@ static int icm_fr_add_switch_key(struct tb *tb, struct tb_switch *sw)
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_TIMEOUT);
++			  1, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -543,7 +543,7 @@ static int icm_fr_challenge_switch_key(struct tb *tb, struct tb_switch *sw,
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_TIMEOUT);
++			  1, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -577,7 +577,7 @@ static int icm_fr_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_TIMEOUT);
++			  1, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1020,7 +1020,7 @@ icm_tr_driver_ready(struct tb *tb, enum tb_security_level *security_level,
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, 20000);
++			  1, 10, 2000);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1053,7 +1053,7 @@ static int icm_tr_approve_switch(struct tb *tb, struct tb_switch *sw)
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_APPROVE_TIMEOUT);
++			  1, ICM_RETRIES, ICM_APPROVE_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1081,7 +1081,7 @@ static int icm_tr_add_switch_key(struct tb *tb, struct tb_switch *sw)
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_TIMEOUT);
++			  1, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1110,7 +1110,7 @@ static int icm_tr_challenge_switch_key(struct tb *tb, struct tb_switch *sw,
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_TIMEOUT);
++			  1, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1144,7 +1144,7 @@ static int icm_tr_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_TIMEOUT);
++			  1, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1170,7 +1170,7 @@ static int icm_tr_xdomain_tear_down(struct tb *tb, struct tb_xdomain *xd,
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_TIMEOUT);
++			  1, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1496,7 +1496,7 @@ icm_ar_driver_ready(struct tb *tb, enum tb_security_level *security_level,
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_TIMEOUT);
++			  1, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1522,7 +1522,7 @@ static int icm_ar_get_route(struct tb *tb, u8 link, u8 depth, u64 *route)
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_TIMEOUT);
++			  1, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1543,7 +1543,7 @@ static int icm_ar_get_boot_acl(struct tb *tb, uuid_t *uuids, size_t nuuids)
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_TIMEOUT);
++			  1, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1604,7 +1604,7 @@ static int icm_ar_set_boot_acl(struct tb *tb, const uuid_t *uuids,
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_TIMEOUT);
++			  1, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1626,7 +1626,7 @@ icm_icl_driver_ready(struct tb *tb, enum tb_security_level *security_level,
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, 20000);
++			  1, ICM_RETRIES, 20000);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -2298,7 +2298,7 @@ static int icm_usb4_switch_op(struct tb_switch *sw, u16 opcode, u32 *metadata,
+ 
+ 	memset(&reply, 0, sizeof(reply));
+ 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
+-			  1, ICM_TIMEOUT);
++			  1, ICM_RETRIES, ICM_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+-- 
+2.40.1
+
