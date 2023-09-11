@@ -2,158 +2,122 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 195CACA0EC7
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:48:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDD77CA0EC6
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:48:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350901AbjIKVmJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:42:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43540 "EHLO
+        id S1350891AbjIKVmE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:42:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236786AbjIKL0H (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 07:26:07 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27DFAF5
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 04:26:03 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BAw0YS008957;
-        Mon, 11 Sep 2023 11:25:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=XNwydeC+d5MqPg32rwINCWGg4phGzmmf2fXJcC2XaKk=;
- b=MwdetpQA/UoAMC7NnB/NzkCkpEqh6jX35hMmNRvk6jz2w1wK1Q5jSZjyWqW17VTZKtgl
- foCfPPqI4fB57L4Xb6/nJptMwmGP5+KwWtQjjCtgfgaccV7QrkX/dbRwcjlh7CohOqK1
- pfVmzCo0i57cnQ71386t9I2ZcHYhp6PrWGb+SrUf4dOqevw4iAgL7T+A2PCO2Sa1HAbc
- 3ZzHCVzbvix9lDMBW34qKnaxdtp72ilzLCq1X1MdxczWWzw4WlBLaSh3gRPkn6yEcmQ2
- wxr0HNE7F9DNkrvJKCkoU0jN92Ze0eYz9mN4GjdrWFkTCsmnOmLff1ttlyVCwBy//6op Tg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t1xjmrg3f-1
+        with ESMTP id S237540AbjIKM5L (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 08:57:11 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 656BCCF0;
+        Mon, 11 Sep 2023 05:57:07 -0700 (PDT)
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BCrdc1032516;
+        Mon, 11 Sep 2023 12:56:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=wvGh0pNsTBLh0Kf93IhAIqmiReVVhgs4lmJ4PnxOVr0=;
+ b=LmyMekc0/Ps1Z8mmwc0IwFef84LxjsHRGAH/ydoUF6QIuf/8Q2Y6ZOSfxoTYsMjhtwfq
+ Yk6qfUttnP9KUltUCgfoN97j5GCB89m84IuQGAnDMH/uBzownfnzCWGmiAio4YsJUjgJ
+ Nx8tf9n5scLphwlHs9CZJa1hVBRsCdBEikFgYj3ZwQ6FqxrD0Pb7d/cI7mqS5N6Lnmh4
+ gMtPbXWg9u1efqwwpc78FEoqTBM9iiQNCi7VaQlQbmzIRZCsKUwlO3ZvswKxl0jAFhq2
+ JOjggBVOg8iXNdQsmV0ZoIiuzhVLgNJ1m5RNMP3aQbKApy8XdE9aZ1SFD/yI+D2qXMkG RQ== 
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3t23a402pn-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 11:25:19 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BBPIGL005714
+        Mon, 11 Sep 2023 12:56:57 +0000
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+        by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 38BBD8cN002362;
+        Mon, 11 Sep 2023 12:56:56 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+        by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3t158jt5uc-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 11:25:18 GMT
-Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Mon, 11 Sep 2023 04:25:11 -0700
-From:   Linyu Yuan <quic_linyyuan@quicinc.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Roger Quadros <rogerq@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Neal Liu <neal_liu@aspeedtech.com>,
-        "Cristian Birsan" <cristian.birsan@microchip.com>,
-        Bin Liu <b-liu@ti.com>, "Kevin Cernekee" <cernekee@gmail.com>,
-        Justin Chen <justin.chen@broadcom.com>,
-        "Al Cooper" <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
-        "Vladimir Zapolskiy" <vz@mleia.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        "Philipp Zabel" <p.zabel@pengutronix.de>,
-        Herve Codina <herve.codina@bootlin.com>,
-        hierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Rui Miguel Silva <rui.silva@linaro.org>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        "Shuah Khan" <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, Linyu Yuan <quic_linyyuan@quicinc.com>
-Subject: [PATCH v2 02/11] usb: gadget: add anonymous definition in struct usb_request
-Date:   Mon, 11 Sep 2023 19:24:37 +0800
-Message-ID: <20230911112446.1791-3-quic_linyyuan@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
-References: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
+        Mon, 11 Sep 2023 12:56:56 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+        by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 38BCurdm44433938
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 11 Sep 2023 12:56:53 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5DEBB20043;
+        Mon, 11 Sep 2023 12:56:53 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3075220040;
+        Mon, 11 Sep 2023 12:56:53 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Mon, 11 Sep 2023 12:56:53 +0000 (GMT)
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Heiko Carstens <hca@linux.ibm.com>
+Subject: [PATCH 0/3] usb: pci-quirks: Handle HAS_IOPORT depenedencies
+Date:   Mon, 11 Sep 2023 14:56:50 +0200
+Message-Id: <20230911125653.1393895-1-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: kuCAx1Ytc_N-Yw7eqtIHiHrBw6cB_OQ2
-X-Proofpoint-GUID: kuCAx1Ytc_N-Yw7eqtIHiHrBw6cB_OQ2
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 4amhqSOo1p_SR_jFK_FxRWsf5IVcSh2f
+X-Proofpoint-GUID: 4amhqSOo1p_SR_jFK_FxRWsf5IVcSh2f
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
- phishscore=0 lowpriorityscore=0 suspectscore=0 mlxlogscore=566
- malwarescore=0 adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=436 bulkscore=0
+ priorityscore=1501 suspectscore=0 clxscore=1011 lowpriorityscore=0
+ impostorscore=0 adultscore=0 malwarescore=0 phishscore=0 mlxscore=0
  spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309110103
+ engine=8.12.0-2308100000 definitions=main-2309110114
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some UDC trace event will save usb request information, but it will use
-one int size buffer to save one bit information of usb request, so more
-than one int buffer to save several bit fields which is not good.
+Hi Greg, Hi Mathias,
 
-First add an anonymous union which have one u32 member dw1 which can be
-used by trace event during fast assign stage to reduce trace buffer
-usage, add related macro to extract bit fields from dw1 for later trace
-event output state usage.
+This is a follow up to my ongoing effort of making the inb()/outb() and
+similar I/O port accessors compile-time optional. Previously I sent this
+as a treewide series titled "treewide: Remove I/O port accessors for
+HAS_IOPORT=n" with the latest being its 5th version[0]. With about half
+of the per-subsystem patches merged I'm changing over to per-subsystem
+series. These series are stand alone and should be merged via the
+relevant tree such that with all subsystems complete we can follow this
+up with the last patch[1] that will make the I/O port accessors
+compile-time optional.
 
-Also move exist stread_id and other bit fields into one anonymous struct
-which inside anonymous union, Change them from unsigned to u32 type,
-it will make sure union member have same memory size as dw1.
+As for compile-time vs runtime see Linus' reply to my first attempt[2].
 
-Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
----
-v2: no change
+This series is for the USB subsystem and incorporates the feedback
+received for the previous single patch USB subsystem change. In
+particular I split things up in a preparatory code movement patch
+followed by two independent patches for adding the HAS_IOPORT handling.
+As the pci-quirks.c and hcd-pci.c files handle a diverse set of devices
+I sadly couldn't get around ifdeffery but at least now it's contained in
+smaller patches.
 
- include/linux/usb/gadget.h | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+Thanks,
+Niklas
 
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index cdf62e7f34e7..045ebd4637c5 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -41,6 +41,7 @@ struct usb_ep;
-  * @num_sgs: number of SG entries
-  * @num_mapped_sgs: number of SG entries mapped to DMA (internal)
-  * @length: Length of that data
-+ * @dw1: trace event purpose
-  * @stream_id: The stream id, when USB3.0 bulk streams are being used
-  * @is_last: Indicates if this is the last request of a stream_id before
-  *	switching to a different stream (required for DWC3 controllers).
-@@ -105,12 +106,23 @@ struct usb_request {
- 	unsigned		num_sgs;
- 	unsigned		num_mapped_sgs;
- 
--	unsigned		stream_id:16;
--	unsigned		is_last:1;
--	unsigned		no_interrupt:1;
--	unsigned		zero:1;
--	unsigned		short_not_ok:1;
--	unsigned		dma_mapped:1;
-+	union {
-+		struct {
-+			u32	stream_id:16;
-+			u32	is_last:1;
-+			u32	no_interrupt:1;
-+			u32	zero:1;
-+			u32	short_not_ok:1;
-+			u32	dma_mapped:1;
-+		} __packed;
-+		u32		dw1;
-+#define		USB_REQ_STREAM_ID(n)	((n) & 0xffff)
-+#define		USB_REQ_IS_LAST(n)	(((n) >> 16) & 1)
-+#define		USB_REQ_NO_INTERRUPT(n)	(((n) >> 17) & 1)
-+#define		USB_REQ_ZERO(n)		(((n) >> 18) & 1)
-+#define		USB_REQ_SHORT_NOT_OK(n)	(((n) >> 19) & 1)
-+#define		USB_REQ_DMA_MAPPED(n)	(((n) >> 20) & 1)
-+	};
- 
- 	void			(*complete)(struct usb_ep *ep,
- 					struct usb_request *req);
+Niklas Schnelle (3):
+  usb: pci-quirks: group AMD specific quirk code together
+  usb: pci-quirks: handle HAS_IOPORT dependency for AMD quirk
+  usb: pci-quirks: handle HAS_IOPORT dependency for UHCI handoff
+
+ drivers/usb/Kconfig           |  10 +++
+ drivers/usb/core/hcd-pci.c    |   3 +-
+ drivers/usb/host/pci-quirks.c | 144 ++++++++++++++++++----------------
+ drivers/usb/host/pci-quirks.h |  34 +++++---
+ include/linux/usb/hcd.h       |  17 ++++
+ 5 files changed, 131 insertions(+), 77 deletions(-)
+
+
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
 -- 
-2.17.1
+2.39.2
 
