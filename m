@@ -2,99 +2,84 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54E5FCA0EC3
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:47:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E581CA0EC5
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:47:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350666AbjIKVkb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:40:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58008 "EHLO
+        id S1350669AbjIKVkg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:40:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235614AbjIKJEb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 05:04:31 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5285BCCC;
-        Mon, 11 Sep 2023 02:04:27 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38B7XMh6005610;
-        Mon, 11 Sep 2023 09:04:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=cWaDRN7ZWbf9bSgQ+TGVZpgFp59ybLzgWZRvwNOhHwM=;
- b=dHUY7rsTft988QuB2bb/z7gEprXGgOM4dN8MmnRIrSTENaD6lDGpFIhdhQ9VXX5Syu6C
- SIUwEZQ950rxUVNPrfgO3ZguZBxE9RB1/ifYb4uCOoKV5aRZYThrLpXIASsPGQDzy4Jq
- LfpCTpj7SWjo4UlrXlKuy1UHyzzVXL5fNzv1iugwdZXeAkuSodZhYwEOnVgTQNQIZf1U
- fwEhP7bwoGE485PphGW2GHvjllMebEgkN05pDtzT62CIn3L3XDiMXSp2wFF3dy+DZNKG
- UFt1/oU5nPBvg/BeVP1uJ5c37TRIWet75ij8iKUjlVPwNWZAtbvjO4hbpex9zR65SKzE 1w== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t1xjmr56a-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 09:04:24 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38B94NZB004134
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 09:04:23 GMT
-Received: from hu-prashk-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Mon, 11 Sep 2023 02:04:20 -0700
-From:   Prashanth K <quic_prashk@quicinc.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Prashanth K <quic_prashk@quicinc.com>,
-        "# 5 . 16" <stable@vger.kernel.org>
-Subject: usb: typec: ucsi: Clear EVENT_PENDING bit if ucsi_send_command fails
-Date:   Mon, 11 Sep 2023 14:34:15 +0530
-Message-ID: <1694423055-8440-1-git-send-email-quic_prashk@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+        with ESMTP id S238836AbjIKOFt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 10:05:49 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D0F0E58
+        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 07:05:44 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qfhXq-0006nq-F8; Mon, 11 Sep 2023 16:05:42 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qfhXq-005ZVA-2S; Mon, 11 Sep 2023 16:05:42 +0200
+Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.96)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qfhXp-002tVf-0u;
+        Mon, 11 Sep 2023 16:05:41 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     laurent.pinchart@ideasonboard.com
+Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        dan.scally@ideasonboard.com, gregkh@linuxfoundation.org,
+        nicolas@ndufresne.ca, kernel@pengutronix.de
+Subject: [PATCH v2 2/3] usb: gadget: uvc: cleanup request when not in correct state
+Date:   Mon, 11 Sep 2023 16:05:29 +0200
+Message-Id: <20230911140530.2995138-3-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230911140530.2995138-1-m.grzeschik@pengutronix.de>
+References: <20230911140530.2995138-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: BBC4WeTFvO5MZ6S0ePRr4g_SRmYjLD0F
-X-Proofpoint-GUID: BBC4WeTFvO5MZ6S0ePRr4g_SRmYjLD0F
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
- phishscore=0 lowpriorityscore=0 suspectscore=0 mlxlogscore=999
- malwarescore=0 adultscore=0 priorityscore=1501 clxscore=1011 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309110082
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently if ucsi_send_command() fails, then we bail out without
-clearing EVENT_PENDING flag. So when the next connector change
-event comes, ucsi_connector_change() won't queue the con->work,
-because of which none of the new events will be processed.
+The uvc_video_enable function of the uvc-gadget driver is dequeing and
+immediately deallocs all requests on its disable codepath. This is not
+save since the dequeue function is async and does not ensure that the
+requests are left unlinked in the controller driver.
 
-Fix this by clearing EVENT_PENDING flag if ucsi_send_command()
-fails.
+By adding the ep_free_request into the completion path of the requests
+we ensure that the request will be properly deallocated.
 
-Cc: <stable@vger.kernel.org> # 5.16
-Fixes: 512df95b9432 ("usb: typec: ucsi: Better fix for missing unplug events issue")
-Signed-off-by: Prashanth K <quic_prashk@quicinc.com>
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 ---
- drivers/usb/typec/ucsi/ucsi.c | 1 +
- 1 file changed, 1 insertion(+)
+v1 == v2
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index c6dfe3d..509c67c 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -884,6 +884,7 @@ static void ucsi_handle_connector_change(struct work_struct *work)
- 	if (ret < 0) {
- 		dev_err(ucsi->dev, "%s: GET_CONNECTOR_STATUS failed (%d)\n",
- 			__func__, ret);
-+		clear_bit(EVENT_PENDING, &con->ucsi->flags);
- 		goto out_unlock;
- 	}
+ drivers/usb/gadget/function/uvc_video.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index 4b68a3a9815d73..c48c904f500fff 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -256,6 +256,12 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
+ 	struct uvc_device *uvc = video->uvc;
+ 	unsigned long flags;
  
++	if (uvc->state == UVC_STATE_CONNECTED) {
++		usb_ep_free_request(video->ep, ureq->req);
++		ureq->req = NULL;
++		return;
++	}
++
+ 	switch (req->status) {
+ 	case 0:
+ 		break;
 -- 
-2.7.4
+2.39.2
 
