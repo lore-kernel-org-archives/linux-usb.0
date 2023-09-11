@@ -2,142 +2,128 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4081CCA0EC2
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B84DCA0ED5
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350434AbjIKViX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:38:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39362 "EHLO
+        id S1350440AbjIKVi3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:38:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236812AbjIKL1H (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 07:27:07 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10B57CE5
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 04:27:03 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38B9gRPp030546;
-        Mon, 11 Sep 2023 11:26:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=Mqa9M2BPHgmRE0UQkP9TXVkTdLxlhyt0L1hLlShG5V0=;
- b=MxVD34ul1x0mP09rrP53YZPF+o4ojCTX+VZrFK8hE4c2SokM9cEjFtziX6RB0TtmJjLZ
- mV+R091bAYGXajjlo6Jz3IQCR7z6qVxjh0f4KrKGOlZrm1rBVNyc0EoWf/IzbdsogEkw
- 98LNbGn2A76b6jw+0xDaobJCiJx8QPd3FZbBQCzR6biDD/Z3bB9o8oiU7Lv5NDqE9tLL
- FjbVDKsr+S21e8KP8X9egA0tkDKxJeVzA5v0mXZX3hDEcE6g04OW5TCAEoT4rTTTS97j
- sYlUvRk4hrSAbebnsYqKVwYBXVg8A8DIarQDgGgReRo5URE5KVDnhraDdTsbwQzV8PrU bg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t1xkjrg3t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 11:26:22 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BBQLkj006598
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 11:26:21 GMT
-Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Mon, 11 Sep 2023 04:26:14 -0700
-From:   Linyu Yuan <quic_linyyuan@quicinc.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Roger Quadros <rogerq@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Neal Liu <neal_liu@aspeedtech.com>,
-        "Cristian Birsan" <cristian.birsan@microchip.com>,
-        Bin Liu <b-liu@ti.com>, "Kevin Cernekee" <cernekee@gmail.com>,
-        Justin Chen <justin.chen@broadcom.com>,
-        "Al Cooper" <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
-        "Vladimir Zapolskiy" <vz@mleia.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        "Philipp Zabel" <p.zabel@pengutronix.de>,
-        Herve Codina <herve.codina@bootlin.com>,
-        hierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Rui Miguel Silva <rui.silva@linaro.org>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        "Shuah Khan" <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, Linyu Yuan <quic_linyyuan@quicinc.com>
-Subject: [PATCH v2 11/11] usb: musb: trace: reduce buffer usage of trace event
-Date:   Mon, 11 Sep 2023 19:24:46 +0800
-Message-ID: <20230911112446.1791-12-quic_linyyuan@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
-References: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
+        with ESMTP id S238829AbjIKOFt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 10:05:49 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9DCBE40
+        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 07:05:43 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qfhXq-0006np-AR; Mon, 11 Sep 2023 16:05:42 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qfhXp-005ZV7-T7; Mon, 11 Sep 2023 16:05:41 +0200
+Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.96)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qfhXp-002tVj-0x;
+        Mon, 11 Sep 2023 16:05:41 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     laurent.pinchart@ideasonboard.com
+Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        dan.scally@ideasonboard.com, gregkh@linuxfoundation.org,
+        nicolas@ndufresne.ca, kernel@pengutronix.de
+Subject: [PATCH v2 3/3] usb: gadget: uvc: rework pump worker to avoid while loop
+Date:   Mon, 11 Sep 2023 16:05:30 +0200
+Message-Id: <20230911140530.2995138-4-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230911140530.2995138-1-m.grzeschik@pengutronix.de>
+References: <20230911140530.2995138-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: VC7BD_v1Sb5Zf2h74gddjuJYujlAUhJY
-X-Proofpoint-ORIG-GUID: VC7BD_v1Sb5Zf2h74gddjuJYujlAUhJY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- suspectscore=0 phishscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
- adultscore=0 malwarescore=0 mlxlogscore=458 mlxscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
- definitions=main-2309110104
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Save u32 member into trace event ring buffer and parse it for possible
-bit information.
+The uvc_video_enable function is calling cancel_work_sync which will be
+blocking as long as new requests will be queued with the while loop. To
+ensure an earlier stop in the pumping loop in this particular case we
+rework the worker to requeue itself on every requests. Since the worker
+is already running prioritized, the scheduling overhad did not have real
+impact on the performance.
 
-Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 ---
-v2: no change
+v1 == v2
 
- drivers/usb/musb/musb_trace.h | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ drivers/usb/gadget/function/uvc_video.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/musb/musb_trace.h b/drivers/usb/musb/musb_trace.h
-index f246b14394c4..6986a89767a2 100644
---- a/drivers/usb/musb/musb_trace.h
-+++ b/drivers/usb/musb/musb_trace.h
-@@ -243,9 +243,7 @@ DECLARE_EVENT_CLASS(musb_req,
- 		__field(int, status)
- 		__field(unsigned int, buf_len)
- 		__field(unsigned int, actual_len)
--		__field(unsigned int, zero)
--		__field(unsigned int, short_not_ok)
--		__field(unsigned int, no_interrupt)
-+		__field(u32, rdw1)
- 	),
- 	TP_fast_assign(
- 		__entry->req = &req->request;
-@@ -254,16 +252,14 @@ DECLARE_EVENT_CLASS(musb_req,
- 		__entry->status = req->request.status;
- 		__entry->buf_len = req->request.length;
- 		__entry->actual_len = req->request.actual;
--		__entry->zero = req->request.zero;
--		__entry->short_not_ok = req->request.short_not_ok;
--		__entry->no_interrupt = req->request.no_interrupt;
-+		__entry->rdw1 = req->request.dw1;
- 	),
- 	TP_printk("%p, ep%d %s, %s%s%s, len %d/%d, status %d",
- 			__entry->req, __entry->epnum,
- 			__entry->is_tx ? "tx/IN" : "rx/OUT",
--			__entry->zero ? "Z" : "z",
--			__entry->short_not_ok ? "S" : "s",
--			__entry->no_interrupt ? "I" : "i",
-+			USB_REQ_ZERO(__entry->rdw1) ? "Z" : "z",
-+			USB_REQ_SHORT_NOT_OK(__entry->rdw1) ? "S" : "s",
-+			USB_REQ_NO_INTERRUPT(__entry->rdw1) ? "I" : "i",
- 			__entry->actual_len, __entry->buf_len,
- 			__entry->status
- 	)
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index c48c904f500fff..97d875c27dcf9a 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -397,7 +397,7 @@ static void uvcg_video_pump(struct work_struct *work)
+ 	bool buf_done;
+ 	int ret;
+ 
+-	while (video->ep->enabled && uvc->state == UVC_STATE_STREAMING) {
++	if (video->ep->enabled && uvc->state == UVC_STATE_STREAMING) {
+ 		/*
+ 		 * Retrieve the first available USB request, protected by the
+ 		 * request lock.
+@@ -409,6 +409,11 @@ static void uvcg_video_pump(struct work_struct *work)
+ 		}
+ 		req = list_first_entry(&video->req_free, struct usb_request,
+ 					list);
++		if (!req) {
++			spin_unlock_irqrestore(&video->req_lock, flags);
++			return;
++		}
++
+ 		list_del(&req->list);
+ 		spin_unlock_irqrestore(&video->req_lock, flags);
+ 
+@@ -437,7 +442,7 @@ static void uvcg_video_pump(struct work_struct *work)
+ 			 * further.
+ 			 */
+ 			spin_unlock_irqrestore(&queue->irqlock, flags);
+-			break;
++			goto out;
+ 		}
+ 
+ 		/*
+@@ -470,20 +475,23 @@ static void uvcg_video_pump(struct work_struct *work)
+ 		/* Queue the USB request */
+ 		ret = uvcg_video_ep_queue(video, req);
+ 		spin_unlock_irqrestore(&queue->irqlock, flags);
+-
+ 		if (ret < 0) {
+ 			uvcg_queue_cancel(queue, 0);
+-			break;
++			goto out;
+ 		}
+ 
+ 		/* Endpoint now owns the request */
+ 		req = NULL;
+ 		video->req_int_count++;
++	} else {
++		return;
+ 	}
+ 
+-	if (!req)
+-		return;
++	if (uvc->state == UVC_STATE_STREAMING)
++		queue_work(video->async_wq, &video->pump);
+ 
++	return;
++out:
+ 	spin_lock_irqsave(&video->req_lock, flags);
+ 	list_add_tail(&req->list, &video->req_free);
+ 	spin_unlock_irqrestore(&video->req_lock, flags);
 -- 
-2.17.1
+2.39.2
 
