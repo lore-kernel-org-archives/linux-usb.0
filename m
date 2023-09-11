@@ -2,197 +2,194 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 443F2CA0EC2
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 161FFCA0EC3
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350514AbjIKViy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:38:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49256 "EHLO
+        id S1350524AbjIKVi5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:38:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236785AbjIKL0C (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 07:26:02 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D39E40
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 04:25:57 -0700 (PDT)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BBLidu008206;
-        Mon, 11 Sep 2023 11:25:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=HiC2v2Qi8XthrLCdKBG3Ias1T4A1MwaGgQGp8n1TTO0=;
- b=hIPNnH9mfnBAtvxDnvvH+fGD0witft4mY2lu2RomYkLXkjKyE3hllMhiIbclbCIEjCOw
- lDFv++4ja0SpiffDJ7Ua0saNGCW89Clbcg47dM2g4m/gBotKbE8CFoOr6qQbYV22Rc03
- PMcs2fd9MSd3dCdJ7U5Xy5MncG3zx4uVzYGyekn+GOaffghtd9CpHLmPP/9qZOvNKTh3
- D4ostAIIvuwMMay0ENdjhqxfpOxf0R+9DsV5MXHBkX/Fe+xFU3sx1VbV46uhaJsT89Ji
- QXHf35LCM9KbK68MKcg6iz5279ziENsMAEtLd/i+8Jgzhr9reTiXG5WrpMuzvgnfNJAi KA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t1whx8pcg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 11:25:12 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BBPBeW029394
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 11:25:11 GMT
-Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Mon, 11 Sep 2023 04:25:04 -0700
-From:   Linyu Yuan <quic_linyyuan@quicinc.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Roger Quadros <rogerq@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Neal Liu <neal_liu@aspeedtech.com>,
-        "Cristian Birsan" <cristian.birsan@microchip.com>,
-        Bin Liu <b-liu@ti.com>, "Kevin Cernekee" <cernekee@gmail.com>,
-        Justin Chen <justin.chen@broadcom.com>,
-        "Al Cooper" <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
-        "Vladimir Zapolskiy" <vz@mleia.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        "Philipp Zabel" <p.zabel@pengutronix.de>,
-        Herve Codina <herve.codina@bootlin.com>,
-        hierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Rui Miguel Silva <rui.silva@linaro.org>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        "Shuah Khan" <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, Linyu Yuan <quic_linyyuan@quicinc.com>
-Subject: [PATCH v2 01/11] usb: gadget: add anonymous definition in struct usb_gadget
-Date:   Mon, 11 Sep 2023 19:24:36 +0800
-Message-ID: <20230911112446.1791-2-quic_linyyuan@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
-References: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
+        with ESMTP id S236267AbjIKKE7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 06:04:59 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC04DE68
+        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 03:04:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694426694; x=1725962694;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=olqd5D6SDR+8ZXuR/27r/+Aj51VW9eFTcGWbtc9x7sw=;
+  b=afKllJ9Z4tLXkGc4O5uiBZwP7M5aXsavs8pAmYvibsutSBlMLODUe0vJ
+   Fw7N3RVFyorVu52FSy8W6ZNYxy60/5sO4hZ7kWbLy3E5By5jpp8R2jH6r
+   Gn18WKJAWwUMVNNVWdYVCYckdyoULd/jOJTGOkNRSMSpkTMNmBOKMJDIs
+   peAAdS2JJ0VwbleLHxfiP0YJs8QDlEszgpn5W/oEpniHM+0A0V29zdLdT
+   CB+QeKXEQvQg4dpgBZ97woiA8xZL3ojRIi5MW0gfmLqOI1AKskN4VNcck
+   aCAQrpyDphi04LmPeH72P4sAqihyuUxjnrzlS71ZjuhEJubllf9GMdeWu
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="376956532"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="376956532"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 03:04:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="916964203"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="916964203"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga005.jf.intel.com with ESMTP; 11 Sep 2023 03:04:51 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id EE7DDB84; Mon, 11 Sep 2023 13:04:45 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Werner Sembach <wse@tuxedocomputers.com>,
+        Konrad J Hambrick <kjhambrick@gmail.com>,
+        Calvin Walton <calvin.walton@kepstin.ca>,
+        =?UTF-8?q?Marek=20=C5=A0anta?= <teslan223@gmail.com>,
+        David Binderman <dcb314@hotmail.com>,
+        Alex Balcanquall <alex@alexbal.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 5/5] thunderbolt: Restart XDomain discovery handshake after failure
+Date:   Mon, 11 Sep 2023 13:04:45 +0300
+Message-Id: <20230911100445.3612655-6-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230911100445.3612655-1-mika.westerberg@linux.intel.com>
+References: <20230911100445.3612655-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: YqqtWmAaHGcnTs_z3FD6p7ViZgFtAU4U
-X-Proofpoint-ORIG-GUID: YqqtWmAaHGcnTs_z3FD6p7ViZgFtAU4U
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- suspectscore=0 impostorscore=0 phishscore=0 adultscore=0 mlxlogscore=763
- bulkscore=0 lowpriorityscore=0 spamscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309110104
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some UDC trace event will save usb gadget information, but it will use
-one int size buffer to save one bit information of usb gadget, so more
-than one int buffer to save several bit fields which is not good.
+Alex reported that after rebooting the other host the peer-to-peer link
+does not come up anymore. The reason for this is that the host that was
+not rebooted tries to send the UUID request only 10 times according to
+the USB4 Inter-Domain spec and gives up if it does not get reply. Then
+when the other side is actually ready it cannot get the link established
+anymore. The USB4 Inter-Domain spec requires that the discovery protocol
+is restarted in that case so implement this now.
 
-Add one anonymous union have three u32 members which can be used by trace
-event during fast assign stage to reduce trace buffer usage, and add
-related macro to extract bit fields from u32 members for later trace event
-output state usage.
-
-Also move sg_supported and other bit fields into one anonymous struct
-which inside anonymous union and Change bit fields from unsigned to u32
-type, it will make sure union member have expected u32 size.
-
-Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
+Reported-by: Alex Balcanquall <alex@alexbal.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
-v2: no change
+ drivers/thunderbolt/xdomain.c | 58 +++++++++++++++++++++++++----------
+ 1 file changed, 41 insertions(+), 17 deletions(-)
 
- include/linux/usb/gadget.h | 63 ++++++++++++++++++++++++++------------
- 1 file changed, 44 insertions(+), 19 deletions(-)
-
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index 75bda0783395..cdf62e7f34e7 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -357,6 +357,7 @@ struct usb_gadget_ops {
-  * @in_epnum: last used in ep number
-  * @mA: last set mA value
-  * @otg_caps: OTG capabilities of this gadget.
-+ * @dw1: trace event purpose
-  * @sg_supported: true if we can handle scatter-gather
-  * @is_otg: True if the USB device port uses a Mini-AB jack, so that the
-  *	gadget driver must provide a USB OTG descriptor.
-@@ -432,25 +433,49 @@ struct usb_gadget {
- 	unsigned			mA;
- 	struct usb_otg_caps		*otg_caps;
+diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
+index 5b5566862318..9803f0bbf20d 100644
+--- a/drivers/thunderbolt/xdomain.c
++++ b/drivers/thunderbolt/xdomain.c
+@@ -703,6 +703,27 @@ static void update_property_block(struct tb_xdomain *xd)
+ 	mutex_unlock(&xdomain_lock);
+ }
  
--	unsigned			sg_supported:1;
--	unsigned			is_otg:1;
--	unsigned			is_a_peripheral:1;
--	unsigned			b_hnp_enable:1;
--	unsigned			a_hnp_support:1;
--	unsigned			a_alt_hnp_support:1;
--	unsigned			hnp_polling_support:1;
--	unsigned			host_request_flag:1;
--	unsigned			quirk_ep_out_aligned_size:1;
--	unsigned			quirk_altset_not_supp:1;
--	unsigned			quirk_stall_not_supp:1;
--	unsigned			quirk_zlp_not_supp:1;
--	unsigned			quirk_avoids_skb_reserve:1;
--	unsigned			is_selfpowered:1;
--	unsigned			deactivated:1;
--	unsigned			connected:1;
--	unsigned			lpm_capable:1;
--	unsigned			wakeup_capable:1;
--	unsigned			wakeup_armed:1;
-+	union {
-+		struct {
-+			u32		sg_supported:1;
-+			u32		is_otg:1;
-+			u32		is_a_peripheral:1;
-+			u32		b_hnp_enable:1;
-+			u32		a_hnp_support:1;
-+			u32		a_alt_hnp_support:1;
-+			u32		hnp_polling_support:1;
-+			u32		host_request_flag:1;
-+			u32		quirk_ep_out_aligned_size:1;
-+			u32		quirk_altset_not_supp:1;
-+			u32		quirk_stall_not_supp:1;
-+			u32		quirk_zlp_not_supp:1;
-+			u32		quirk_avoids_skb_reserve:1;
-+			u32		is_selfpowered:1;
-+			u32		deactivated:1;
-+			u32		connected:1;
-+			u32		lpm_capable:1;
-+			u32		wakeup_capable:1;
-+			u32		wakeup_armed:1;
-+		} __packed;
-+		u32			dw1;
-+#define		USB_GADGET_SG_SUPPORTED(n)			((n) & BIT(0))
-+#define		USB_GADGET_IS_OTG(n)				((n) & BIT(1))
-+#define		USB_GADGET_IS_A_PERIPHERAL(n)			((n) & BIT(2))
-+#define		USB_GADGET_B_HNP_ENABLE(n)			((n) & BIT(3))
-+#define		USB_GADGET_A_HNP_SUPPORT(n)			((n) & BIT(4))
-+#define		USB_GADGET_A_ALT_HNP_SUPPORT(n)			((n) & BIT(5))
-+#define		USB_GADGET_HNP_POLLING_SUPPORT(n)		((n) & BIT(6))
-+#define		USB_GADGET_HOST_REQUEST_FLAG(n)			((n) & BIT(7))
-+#define		USB_GADGET_QUIRK_EP_OUT_ALIGNED_SIZE(n)		((n) & BIT(8))
-+#define		USB_GADGET_QUIRK_ALTSET_NOT_SUPP(n)		((n) & BIT(9))
-+#define		USB_GADGET_QUIRK_STALL_NOT_SUPP(n)		((n) & BIT(10))
-+#define		USB_GADGET_QUIRK_ZLP_NOT_SUPP(n)		((n) & BIT(11))
-+#define		USB_GADGET_QUIRK_AVOIDS_SKB_RESERVE(n)		((n) & BIT(12))
-+#define		USB_GADGET_IS_SELFPOWERED(n)			((n) & BIT(13))
-+#define		USB_GADGET_DEACTIVATED(n)			((n) & BIT(14))
-+#define		USB_GADGET_CONNECTED(n)				((n) & BIT(15))
-+#define		USB_GADGET_LPM_CAPABLE(n)			((n) & BIT(16))
-+#define		USB_GADGET_WAKEUP_CAPABLE(n)			((n) & BIT(17))
-+#define		USB_GADGET_WAKEUP_ARMED(n)			((n) & BIT(18))
-+	};
- 	int				irq;
- 	int				id_number;
- };
++static void start_handshake(struct tb_xdomain *xd)
++{
++	xd->state = XDOMAIN_STATE_INIT;
++	queue_delayed_work(xd->tb->wq, &xd->state_work,
++			   msecs_to_jiffies(XDOMAIN_SHORT_TIMEOUT));
++}
++
++/* Can be called from state_work */
++static void __stop_handshake(struct tb_xdomain *xd)
++{
++	cancel_delayed_work_sync(&xd->properties_changed_work);
++	xd->properties_changed_retries = 0;
++	xd->state_retries = 0;
++}
++
++static void stop_handshake(struct tb_xdomain *xd)
++{
++	cancel_delayed_work_sync(&xd->state_work);
++	__stop_handshake(xd);
++}
++
+ static void tb_xdp_handle_request(struct work_struct *work)
+ {
+ 	struct xdomain_request_work *xw = container_of(work, typeof(*xw), work);
+@@ -765,6 +786,15 @@ static void tb_xdp_handle_request(struct work_struct *work)
+ 	case UUID_REQUEST:
+ 		tb_dbg(tb, "%llx: received XDomain UUID request\n", route);
+ 		ret = tb_xdp_uuid_response(ctl, route, sequence, uuid);
++		/*
++		 * If we've stopped the discovery with an error such as
++		 * timing out, we will restart the handshake now that we
++		 * received UUID request from the remote host.
++		 */
++		if (!ret && xd && xd->state == XDOMAIN_STATE_ERROR) {
++			dev_dbg(&xd->dev, "restarting handshake\n");
++			start_handshake(xd);
++		}
+ 		break;
+ 
+ 	case LINK_STATE_STATUS_REQUEST:
+@@ -1521,6 +1551,13 @@ static void tb_xdomain_queue_properties_changed(struct tb_xdomain *xd)
+ 			   msecs_to_jiffies(XDOMAIN_SHORT_TIMEOUT));
+ }
+ 
++static void tb_xdomain_failed(struct tb_xdomain *xd)
++{
++	xd->state = XDOMAIN_STATE_ERROR;
++	queue_delayed_work(xd->tb->wq, &xd->state_work,
++			   msecs_to_jiffies(XDOMAIN_DEFAULT_TIMEOUT));
++}
++
+ static void tb_xdomain_state_work(struct work_struct *work)
+ {
+ 	struct tb_xdomain *xd = container_of(work, typeof(*xd), state_work.work);
+@@ -1547,7 +1584,7 @@ static void tb_xdomain_state_work(struct work_struct *work)
+ 		if (ret) {
+ 			if (ret == -EAGAIN)
+ 				goto retry_state;
+-			xd->state = XDOMAIN_STATE_ERROR;
++			tb_xdomain_failed(xd);
+ 		} else {
+ 			tb_xdomain_queue_properties_changed(xd);
+ 			if (xd->bonding_possible)
+@@ -1612,7 +1649,7 @@ static void tb_xdomain_state_work(struct work_struct *work)
+ 		if (ret) {
+ 			if (ret == -EAGAIN)
+ 				goto retry_state;
+-			xd->state = XDOMAIN_STATE_ERROR;
++			tb_xdomain_failed(xd);
+ 		} else {
+ 			xd->state = XDOMAIN_STATE_ENUMERATED;
+ 		}
+@@ -1623,6 +1660,8 @@ static void tb_xdomain_state_work(struct work_struct *work)
+ 		break;
+ 
+ 	case XDOMAIN_STATE_ERROR:
++		dev_dbg(&xd->dev, "discovery failed, stopping handshake\n");
++		__stop_handshake(xd);
+ 		break;
+ 
+ 	default:
+@@ -1833,21 +1872,6 @@ static void tb_xdomain_release(struct device *dev)
+ 	kfree(xd);
+ }
+ 
+-static void start_handshake(struct tb_xdomain *xd)
+-{
+-	xd->state = XDOMAIN_STATE_INIT;
+-	queue_delayed_work(xd->tb->wq, &xd->state_work,
+-			   msecs_to_jiffies(XDOMAIN_SHORT_TIMEOUT));
+-}
+-
+-static void stop_handshake(struct tb_xdomain *xd)
+-{
+-	cancel_delayed_work_sync(&xd->properties_changed_work);
+-	cancel_delayed_work_sync(&xd->state_work);
+-	xd->properties_changed_retries = 0;
+-	xd->state_retries = 0;
+-}
+-
+ static int __maybe_unused tb_xdomain_suspend(struct device *dev)
+ {
+ 	stop_handshake(tb_to_xdomain(dev));
 -- 
-2.17.1
+2.40.1
 
