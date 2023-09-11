@@ -2,122 +2,103 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDD77CA0EC6
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:48:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FA32CA0EC3
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 22:59:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350891AbjIKVmE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:42:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47352 "EHLO
+        id S1350882AbjIKVmA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:42:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237540AbjIKM5L (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 08:57:11 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 656BCCF0;
-        Mon, 11 Sep 2023 05:57:07 -0700 (PDT)
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BCrdc1032516;
-        Mon, 11 Sep 2023 12:56:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=wvGh0pNsTBLh0Kf93IhAIqmiReVVhgs4lmJ4PnxOVr0=;
- b=LmyMekc0/Ps1Z8mmwc0IwFef84LxjsHRGAH/ydoUF6QIuf/8Q2Y6ZOSfxoTYsMjhtwfq
- Yk6qfUttnP9KUltUCgfoN97j5GCB89m84IuQGAnDMH/uBzownfnzCWGmiAio4YsJUjgJ
- Nx8tf9n5scLphwlHs9CZJa1hVBRsCdBEikFgYj3ZwQ6FqxrD0Pb7d/cI7mqS5N6Lnmh4
- gMtPbXWg9u1efqwwpc78FEoqTBM9iiQNCi7VaQlQbmzIRZCsKUwlO3ZvswKxl0jAFhq2
- JOjggBVOg8iXNdQsmV0ZoIiuzhVLgNJ1m5RNMP3aQbKApy8XdE9aZ1SFD/yI+D2qXMkG RQ== 
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3t23a402pn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 12:56:57 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-        by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 38BBD8cN002362;
-        Mon, 11 Sep 2023 12:56:56 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-        by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3t158jt5uc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 12:56:56 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-        by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 38BCurdm44433938
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 11 Sep 2023 12:56:53 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5DEBB20043;
-        Mon, 11 Sep 2023 12:56:53 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3075220040;
-        Mon, 11 Sep 2023 12:56:53 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Mon, 11 Sep 2023 12:56:53 +0000 (GMT)
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Heiko Carstens <hca@linux.ibm.com>
-Subject: [PATCH 0/3] usb: pci-quirks: Handle HAS_IOPORT depenedencies
-Date:   Mon, 11 Sep 2023 14:56:50 +0200
-Message-Id: <20230911125653.1393895-1-schnelle@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S236256AbjIKKE5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 06:04:57 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C64F2E68
+        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 03:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694426692; x=1725962692;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=PKr+r2A7w4fkYUGg7IwStLMBgtKmmOrekmzXaNpn630=;
+  b=cP+zszrU15f4bd6qi/su0yLI225lVZto4x7g0tY3QA8v5C8Q1TEi/eFW
+   bIW8Lqc6RwZgU+LNdPs5WMlpIxcxNBx9UlS4tOogYD9GDGuRMGrTb+oey
+   DoNMody/2TRXhVR8UcIk47rkIXB+rr6mdo3kDBfGGvB63JTJVmBxWAPOW
+   clvknoBG1t7EYNGMy5p7RaR9z8rXCT7u85WJQtoCZhnv+pr3kI4p/hrUo
+   7Oo1pdUYM+FlJRdINTTBUkOxR4E4HqFcGuvOXqjd59qdpYn2dK9ai9mod
+   ZXh6fFqOA1LgkGex+GrOg047meSGN9RU5ekDtZq9aq776HnxVNV4Qgpkf
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="442037123"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="442037123"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 03:04:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="858263763"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="858263763"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga002.fm.intel.com with ESMTP; 11 Sep 2023 03:04:47 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id C17249E2; Mon, 11 Sep 2023 13:04:45 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Werner Sembach <wse@tuxedocomputers.com>,
+        Konrad J Hambrick <kjhambrick@gmail.com>,
+        Calvin Walton <calvin.walton@kepstin.ca>,
+        =?UTF-8?q?Marek=20=C5=A0anta?= <teslan223@gmail.com>,
+        David Binderman <dcb314@hotmail.com>,
+        Alex Balcanquall <alex@alexbal.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 2/5] thunderbolt: Check that lane 1 is in CL0 before enabling lane bonding
+Date:   Mon, 11 Sep 2023 13:04:42 +0300
+Message-Id: <20230911100445.3612655-3-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230911100445.3612655-1-mika.westerberg@linux.intel.com>
+References: <20230911100445.3612655-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 4amhqSOo1p_SR_jFK_FxRWsf5IVcSh2f
-X-Proofpoint-GUID: 4amhqSOo1p_SR_jFK_FxRWsf5IVcSh2f
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=436 bulkscore=0
- priorityscore=1501 suspectscore=0 clxscore=1011 lowpriorityscore=0
- impostorscore=0 adultscore=0 malwarescore=0 phishscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309110114
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg, Hi Mathias,
+Marek reported that when BlackMagic UltraStudio device is connected the
+kernel repeatedly tries to enable lane bonding without success making
+the device non-functional. It looks like the device does not have lane 1
+connected at all so even though it is enabled we should not try to bond
+the lanes. For this reason check that lane 1 is in fact CL0 (connected,
+active) before attempting to bond the lanes.
 
-This is a follow up to my ongoing effort of making the inb()/outb() and
-similar I/O port accessors compile-time optional. Previously I sent this
-as a treewide series titled "treewide: Remove I/O port accessors for
-HAS_IOPORT=n" with the latest being its 5th version[0]. With about half
-of the per-subsystem patches merged I'm changing over to per-subsystem
-series. These series are stand alone and should be merged via the
-relevant tree such that with all subsystems complete we can follow this
-up with the last patch[1] that will make the I/O port accessors
-compile-time optional.
+Reported-by: Marek Šanta <teslan223@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=217737
+Cc: stable@vger.kernel.org
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/switch.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-As for compile-time vs runtime see Linus' reply to my first attempt[2].
-
-This series is for the USB subsystem and incorporates the feedback
-received for the previous single patch USB subsystem change. In
-particular I split things up in a preparatory code movement patch
-followed by two independent patches for adding the HAS_IOPORT handling.
-As the pci-quirks.c and hcd-pci.c files handle a diverse set of devices
-I sadly couldn't get around ifdeffery but at least now it's contained in
-smaller patches.
-
-Thanks,
-Niklas
-
-Niklas Schnelle (3):
-  usb: pci-quirks: group AMD specific quirk code together
-  usb: pci-quirks: handle HAS_IOPORT dependency for AMD quirk
-  usb: pci-quirks: handle HAS_IOPORT dependency for UHCI handoff
-
- drivers/usb/Kconfig           |  10 +++
- drivers/usb/core/hcd-pci.c    |   3 +-
- drivers/usb/host/pci-quirks.c | 144 ++++++++++++++++++----------------
- drivers/usb/host/pci-quirks.h |  34 +++++---
- include/linux/usb/hcd.h       |  17 ++++
- 5 files changed, 131 insertions(+), 77 deletions(-)
-
-
-base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index 43171cc1cc2d..bd5815f8f23b 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -2725,6 +2725,13 @@ int tb_switch_lane_bonding_enable(struct tb_switch *sw)
+ 	    !tb_port_is_width_supported(down, TB_LINK_WIDTH_DUAL))
+ 		return 0;
+ 
++	/*
++	 * Both lanes need to be in CL0. Here we assume lane 0 already be in
++	 * CL0 and check just for lane 1.
++	 */
++	if (tb_wait_for_port(down->dual_link_port, false) <= 0)
++		return -ENOTCONN;
++
+ 	ret = tb_port_lane_bonding_enable(up);
+ 	if (ret) {
+ 		tb_port_warn(up, "failed to enable lane bonding\n");
 -- 
-2.39.2
+2.40.1
 
