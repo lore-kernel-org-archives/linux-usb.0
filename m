@@ -2,289 +2,88 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E01ACA0ECD
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08EC1CA0EC7
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240108AbjIKVj3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:39:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39594 "EHLO
+        id S1350598AbjIKVjd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:39:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236255AbjIKKE5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 06:04:57 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A52E1E69
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 03:04:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694426691; x=1725962691;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=4pjfi5MxWXlTNHcTaKun5GOmbkqddnHY3t8pWX99838=;
-  b=XCFzjG/fG5H3Z99aIdMuWkxGRO9PhBRaP0A2fhMg5bIFaHyYblzG3Cm5
-   kku7wzvxGwsUZXSRs4Ymo02lKIAp08E+uo/FuYYdTdjVJmNY0iKRMu70D
-   GjSvPN7m6vPv59p/lZu13cdeesp7g2MyoAAbCjJeuCNVepEQXuSA2eeWV
-   umL5894n/QfgQHLyZZvo9mNiyE0IHqbpkDddTnLZ/qUc8JhudVXLDi2sF
-   5n6/nVzwmC8wyFV1+Vy4KnR4cOjgUdHfH/JJH5frFCRcfuJQz+8ou5Gte
-   ECn3GHRydeL60yhopHjK9lgwUsnKSRXgw/oNoSibFoBE7GXhq9+qL/tht
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="442037115"
-X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="442037115"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 03:04:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="858263759"
-X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="858263759"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga002.fm.intel.com with ESMTP; 11 Sep 2023 03:04:47 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id B75E86A6; Mon, 11 Sep 2023 13:04:45 +0300 (EEST)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Werner Sembach <wse@tuxedocomputers.com>,
-        Konrad J Hambrick <kjhambrick@gmail.com>,
-        Calvin Walton <calvin.walton@kepstin.ca>,
-        =?UTF-8?q?Marek=20=C5=A0anta?= <teslan223@gmail.com>,
-        David Binderman <dcb314@hotmail.com>,
-        Alex Balcanquall <alex@alexbal.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 1/5] thunderbolt: Workaround an IOMMU fault on certain systems with Intel Maple Ridge
-Date:   Mon, 11 Sep 2023 13:04:41 +0300
-Message-Id: <20230911100445.3612655-2-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230911100445.3612655-1-mika.westerberg@linux.intel.com>
-References: <20230911100445.3612655-1-mika.westerberg@linux.intel.com>
+        with ESMTP id S244053AbjIKS70 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 14:59:26 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 114781B6;
+        Mon, 11 Sep 2023 11:59:22 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FD79C433C8;
+        Mon, 11 Sep 2023 18:59:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1694458761;
+        bh=BiU1W+RBB06NcMTa0T9geOWsmY6i5RpjwrAWcchH+0M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=P1Xq4jwua6sz95mhYk1kGatnq68WOYHUEev4ZBkG5PzKnCunqt2cv2kz0k8lE+PW3
+         HpdFM+Z8A2sBg4zOqp+aXwpiZ7AHCUfc3Oqq4VUZ/L2fYvAKBhbkkCezeILT0AnsW2
+         i+wnMk4PG1WVRSZJhFV3hO/N1xBuGt0Wu73heduE=
+Date:   Mon, 11 Sep 2023 20:59:18 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Chen Yu <yu.c.chen@intel.com>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Saranya Gopal <saranya.gopal@intel.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: Release debugfs only if it has been
+ allocated
+Message-ID: <2023091112-elevation-immature-8f9f@gregkh>
+References: <20230911162706.2856910-1-yu.c.chen@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230911162706.2856910-1-yu.c.chen@intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On some systems the IOMMU blocks the first couple of driver ready
-messages to the connection manager firmware as can be seen in below
-excerpts:
+On Tue, Sep 12, 2023 at 12:27:06AM +0800, Chen Yu wrote:
+> The following NULL pointer exception was found during boot up:
+> 
+>  calling  ucsi_acpi_platform_driver_init+0x0/0xff0 [ucsi_acpi] @ 394
+>  initcall mac_hid_init+0x0/0xff0 [mac_hid] returned 0 after 5 usecs
+>  BUG: kernel NULL pointer dereference, address: 0000000000000020
+>  Call Trace:
+>   ? ucsi_debugfs_unregister+0x15/0x30 [typec_ucsi]
+>   ucsi_destroy+0x17/0x30 [typec_ucsi]
+>   ucsi_acpi_probe+0x1d5/0x230 [ucsi_acpi]
+> 
+> It is possible that ucsi_acpi_probe() fails to install the notifier,
+> and calls ucsi_destroy() to release the resource. However at that
+> moment the debugfs has not been registered yet, thus the NULL pointer
+> exception is triggered. Add the check for debugfs pointer.
+> 
+> Fixes: Commit df0383ffad64 ("usb: typec: ucsi: Add debugfs for ucsi commands")
 
-  thunderbolt 0000:06:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0010 address=0xbb0e3400 flags=0x0020]
+Incorrect format :(
 
-or
+> Signed-off-by: Chen Yu <yu.c.chen@intel.com>
+> ---
+>  drivers/usb/typec/ucsi/debugfs.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/ucsi/debugfs.c b/drivers/usb/typec/ucsi/debugfs.c
+> index 0c7bf88d4a7f..55533dc3d539 100644
+> --- a/drivers/usb/typec/ucsi/debugfs.c
+> +++ b/drivers/usb/typec/ucsi/debugfs.c
+> @@ -84,7 +84,8 @@ void ucsi_debugfs_register(struct ucsi *ucsi)
+>  
+>  void ucsi_debugfs_unregister(struct ucsi *ucsi)
+>  {
+> -	debugfs_remove_recursive(ucsi->debugfs->dentry);
+> +	if (ucsi->debugfs)
+> +		debugfs_remove_recursive(ucsi->debugfs->dentry);
+>  	kfree(ucsi->debugfs);
+>  }
 
-  DMAR: DRHD: handling fault status reg 2
-  DMAR: [DMA Write] Request device [04:00.0] PASID ffffffff fault addr 69974000 [fault reason 05] PTE Write access is not set
+What's wrong with this patch instead:
+	https://lore.kernel.org/all/20230906084842.1922052-1-heikki.krogerus@linux.intel.com/
 
-The reason is unknown and hard to debug because we were not able to
-reproduce this locally. This only happens on certain systems with Intel
-Maple Ridge Thunderbolt controller. If there is a device connected when
-the driver is loaded the issue does not happen either. Only when there
-is nothing connected (so typically when the system is booted up).
+thanks,
 
-We can work this around by sending the driver ready several times. After
-a couple of retries the message goes through and the controller works
-just fine. For this reason make the number of retries a parameter for
-icm_request() and then for Maple Ridge (and Titan Ridge as they us the
-same function but this should not matter) increase number of retries
-while shortening the timeout accordingly.
-
-Reported-by: Werner Sembach <wse@tuxedocomputers.com>
-Reported-by: Konrad J Hambrick <kjhambrick@gmail.com>
-Reported-by: Calvin Walton <calvin.walton@kepstin.ca>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=214259
-Cc: stable@vger.kernel.org
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/icm.c | 40 +++++++++++++++++++--------------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
-index dbdcad8d73bf..d8b9c734abd3 100644
---- a/drivers/thunderbolt/icm.c
-+++ b/drivers/thunderbolt/icm.c
-@@ -41,6 +41,7 @@
- #define PHY_PORT_CS1_LINK_STATE_SHIFT	26
- 
- #define ICM_TIMEOUT			5000	/* ms */
-+#define ICM_RETRIES			3
- #define ICM_APPROVE_TIMEOUT		10000	/* ms */
- #define ICM_MAX_LINK			4
- 
-@@ -296,10 +297,9 @@ static bool icm_copy(struct tb_cfg_request *req, const struct ctl_pkg *pkg)
- 
- static int icm_request(struct tb *tb, const void *request, size_t request_size,
- 		       void *response, size_t response_size, size_t npackets,
--		       unsigned int timeout_msec)
-+		       int retries, unsigned int timeout_msec)
- {
- 	struct icm *icm = tb_priv(tb);
--	int retries = 3;
- 
- 	do {
- 		struct tb_cfg_request *req;
-@@ -410,7 +410,7 @@ static int icm_fr_get_route(struct tb *tb, u8 link, u8 depth, u64 *route)
- 		return -ENOMEM;
- 
- 	ret = icm_request(tb, &request, sizeof(request), switches,
--			  sizeof(*switches), npackets, ICM_TIMEOUT);
-+			  sizeof(*switches), npackets, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		goto err_free;
- 
-@@ -463,7 +463,7 @@ icm_fr_driver_ready(struct tb *tb, enum tb_security_level *security_level,
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -488,7 +488,7 @@ static int icm_fr_approve_switch(struct tb *tb, struct tb_switch *sw)
- 	memset(&reply, 0, sizeof(reply));
- 	/* Use larger timeout as establishing tunnels can take some time */
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_APPROVE_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_APPROVE_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -515,7 +515,7 @@ static int icm_fr_add_switch_key(struct tb *tb, struct tb_switch *sw)
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -543,7 +543,7 @@ static int icm_fr_challenge_switch_key(struct tb *tb, struct tb_switch *sw,
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -577,7 +577,7 @@ static int icm_fr_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -1020,7 +1020,7 @@ icm_tr_driver_ready(struct tb *tb, enum tb_security_level *security_level,
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, 20000);
-+			  1, 10, 2000);
- 	if (ret)
- 		return ret;
- 
-@@ -1053,7 +1053,7 @@ static int icm_tr_approve_switch(struct tb *tb, struct tb_switch *sw)
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_APPROVE_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_APPROVE_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -1081,7 +1081,7 @@ static int icm_tr_add_switch_key(struct tb *tb, struct tb_switch *sw)
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -1110,7 +1110,7 @@ static int icm_tr_challenge_switch_key(struct tb *tb, struct tb_switch *sw,
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -1144,7 +1144,7 @@ static int icm_tr_approve_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -1170,7 +1170,7 @@ static int icm_tr_xdomain_tear_down(struct tb *tb, struct tb_xdomain *xd,
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -1496,7 +1496,7 @@ icm_ar_driver_ready(struct tb *tb, enum tb_security_level *security_level,
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -1522,7 +1522,7 @@ static int icm_ar_get_route(struct tb *tb, u8 link, u8 depth, u64 *route)
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -1543,7 +1543,7 @@ static int icm_ar_get_boot_acl(struct tb *tb, uuid_t *uuids, size_t nuuids)
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -1604,7 +1604,7 @@ static int icm_ar_set_boot_acl(struct tb *tb, const uuid_t *uuids,
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
-@@ -1626,7 +1626,7 @@ icm_icl_driver_ready(struct tb *tb, enum tb_security_level *security_level,
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, 20000);
-+			  1, ICM_RETRIES, 20000);
- 	if (ret)
- 		return ret;
- 
-@@ -2298,7 +2298,7 @@ static int icm_usb4_switch_op(struct tb_switch *sw, u16 opcode, u32 *metadata,
- 
- 	memset(&reply, 0, sizeof(reply));
- 	ret = icm_request(tb, &request, sizeof(request), &reply, sizeof(reply),
--			  1, ICM_TIMEOUT);
-+			  1, ICM_RETRIES, ICM_TIMEOUT);
- 	if (ret)
- 		return ret;
- 
--- 
-2.40.1
-
+greg k-h
