@@ -2,208 +2,247 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B6ABCA0ED8
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2140BCA0EDE
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:41:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350601AbjIKVjg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:39:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45654 "EHLO
+        id S244173AbjIKVjo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:39:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237910AbjIKNVY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 09:21:24 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB40212A
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 06:21:19 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BCfVHs004136;
-        Mon, 11 Sep 2023 13:20:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=5AH1pBeFQPxEQxyUy1F7efHM0yq8x/YeHbUckyklo4c=;
- b=Cc2JGUijPjHaGFrMBmnDYQCfzK8O+KWX2LuXkIy0LNJyK9S8A6LWLE8DLIim6Ny/CdgG
- fAYnBeb/VdbEvurNpvm3oH5q2VynL5XCInkTcZrJz1goKoZmWZM7buBXChy5YRWj4Zsi
- mW+DyGG35MqrUrbxOaG4rulNLV14laSUb++oG8lqw1MKyqzkZvWdL2MzT7gw7yNhx+9s
- jMfl1L+JzIl4xUJdGvzJh6rwtVrbYE6hBGUVwVeFf5O23qTLb9hj7NxEvk8Hbl+1vymF
- Z7Rmw3PuV8oKgDVvPj0ywFCkQ1xinwuiZ5RWIFSPZw/RbtUL0V3mIBkmMC3XlU4yQUVk 5Q== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t0h3dueyf-1
+        with ESMTP id S237542AbjIKM5M (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 08:57:12 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F5CDE4D;
+        Mon, 11 Sep 2023 05:57:07 -0700 (PDT)
+Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BCrWI9011971;
+        Mon, 11 Sep 2023 12:56:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=z6iXJSAk8VmaOLsZImHUbYEz4LKyvswZEgeBjuY2lOI=;
+ b=lxV1STxlQCwhkR+GYRo7z8ppSxeh8odjuUE92fkORbV+R4DqShFJnrK/xvssTHxYVgET
+ JFEmnpDBNE7QgOnOvpYbZRMiIXjvYleyVNuuett1MnNEU3I+xZdj49H/a4h7oDsTVE6q
+ 5ME/Eg9SuPf9zgYfHHYZI+hCkiPf3NVImI+k+mys6KO+s6NfZfvVSc7VhMPhD9eZCcN2
+ lGj2/GGcXp4oF5PP4ms80UkvRdoW+Bu135npUzbaGR5HOeOWCCcD4u9k1QqVk+/v4RkM
+ 1NRNKXV2u8zTLK0lIetIIaf8spNOEQsdhaU824/BAiyu7ci4nLmeYG4xyj95dCKkImfm yQ== 
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3t23a1g2rk-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 13:20:30 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BDKTtw001698
+        Mon, 11 Sep 2023 12:56:58 +0000
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+        by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 38BAcuVX002755;
+        Mon, 11 Sep 2023 12:56:57 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+        by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3t14hkjd2w-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 11 Sep 2023 13:20:29 GMT
-Received: from [10.253.77.20] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 11 Sep
- 2023 06:20:22 -0700
-Message-ID: <be3509d6-0dcf-0964-1566-03dd176a4820@quicinc.com>
-Date:   Mon, 11 Sep 2023 21:20:20 +0800
+        Mon, 11 Sep 2023 12:56:56 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+        by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 38BCureb36045154
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 11 Sep 2023 12:56:54 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CECBC20040;
+        Mon, 11 Sep 2023 12:56:53 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A14FE20043;
+        Mon, 11 Sep 2023 12:56:53 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Mon, 11 Sep 2023 12:56:53 +0000 (GMT)
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Heiko Carstens <hca@linux.ibm.com>
+Subject: [PATCH 2/3] usb: pci-quirks: handle HAS_IOPORT dependency for AMD quirk
+Date:   Mon, 11 Sep 2023 14:56:52 +0200
+Message-Id: <20230911125653.1393895-3-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230911125653.1393895-1-schnelle@linux.ibm.com>
+References: <20230911125653.1393895-1-schnelle@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v2 01/11] usb: gadget: add anonymous definition in struct
- usb_gadget
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Roger Quadros <rogerq@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Neal Liu <neal_liu@aspeedtech.com>,
-        Cristian Birsan <cristian.birsan@microchip.com>,
-        Bin Liu <b-liu@ti.com>, Kevin Cernekee <cernekee@gmail.com>,
-        Justin Chen <justin.chen@broadcom.com>,
-        Al Cooper <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Herve Codina <herve.codina@bootlin.com>,
-        hierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Rui Miguel Silva <rui.silva@linaro.org>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
-        <linux-usb@vger.kernel.org>
-References: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
- <20230911112446.1791-2-quic_linyyuan@quicinc.com>
- <2023091137-babble-chaffing-553c@gregkh>
-Content-Language: en-US
-From:   Linyu Yuan <quic_linyyuan@quicinc.com>
-In-Reply-To: <2023091137-babble-chaffing-553c@gregkh>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: tyWUm4Ewz-1Q6LxXdrLMg2qEQsqC3G5I
-X-Proofpoint-ORIG-GUID: tyWUm4Ewz-1Q6LxXdrLMg2qEQsqC3G5I
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: TkT6YA5maFBUQff1ElDBk_pHcG0Aq2vS
+X-Proofpoint-ORIG-GUID: TkT6YA5maFBUQff1ElDBk_pHcG0Aq2vS
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_07,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- bulkscore=0 phishscore=0 mlxlogscore=740 adultscore=0 spamscore=0
- suspectscore=0 impostorscore=0 malwarescore=0 mlxscore=0
- lowpriorityscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2308100000 definitions=main-2309110121
+ definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=705
+ clxscore=1015 priorityscore=1501 spamscore=0 malwarescore=0
+ lowpriorityscore=0 mlxscore=0 suspectscore=0 phishscore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309110114
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+not being declared. In the pci-quirks case the I/O port acceses are
+used in the quirks for several AMD south bridges, Add a config option
+for the AMD quirks to depend on HAS_IOPORT and #ifdef the quirk code.
 
-On 9/11/2023 7:37 PM, Greg Kroah-Hartman wrote:
-> On Mon, Sep 11, 2023 at 07:24:36PM +0800, Linyu Yuan wrote:
->> Some UDC trace event will save usb gadget information, but it will use
->> one int size buffer to save one bit information of usb gadget, so more
->> than one int buffer to save several bit fields which is not good.
->>
->> Add one anonymous union have three u32 members which can be used by trace
->> event during fast assign stage to reduce trace buffer usage, and add
->> related macro to extract bit fields from u32 members for later trace event
->> output state usage.
->>
->> Also move sg_supported and other bit fields into one anonymous struct
->> which inside anonymous union and Change bit fields from unsigned to u32
->> type, it will make sure union member have expected u32 size.
->>
->> Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
->> ---
->> v2: no change
->>
->>   include/linux/usb/gadget.h | 63 ++++++++++++++++++++++++++------------
->>   1 file changed, 44 insertions(+), 19 deletions(-)
->>
->> diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
->> index 75bda0783395..cdf62e7f34e7 100644
->> --- a/include/linux/usb/gadget.h
->> +++ b/include/linux/usb/gadget.h
->> @@ -357,6 +357,7 @@ struct usb_gadget_ops {
->>    * @in_epnum: last used in ep number
->>    * @mA: last set mA value
->>    * @otg_caps: OTG capabilities of this gadget.
->> + * @dw1: trace event purpose
->>    * @sg_supported: true if we can handle scatter-gather
->>    * @is_otg: True if the USB device port uses a Mini-AB jack, so that the
->>    *	gadget driver must provide a USB OTG descriptor.
->> @@ -432,25 +433,49 @@ struct usb_gadget {
->>   	unsigned			mA;
->>   	struct usb_otg_caps		*otg_caps;
->>   
->> -	unsigned			sg_supported:1;
->> -	unsigned			is_otg:1;
->> -	unsigned			is_a_peripheral:1;
->> -	unsigned			b_hnp_enable:1;
->> -	unsigned			a_hnp_support:1;
->> -	unsigned			a_alt_hnp_support:1;
->> -	unsigned			hnp_polling_support:1;
->> -	unsigned			host_request_flag:1;
->> -	unsigned			quirk_ep_out_aligned_size:1;
->> -	unsigned			quirk_altset_not_supp:1;
->> -	unsigned			quirk_stall_not_supp:1;
->> -	unsigned			quirk_zlp_not_supp:1;
->> -	unsigned			quirk_avoids_skb_reserve:1;
->> -	unsigned			is_selfpowered:1;
->> -	unsigned			deactivated:1;
->> -	unsigned			connected:1;
->> -	unsigned			lpm_capable:1;
->> -	unsigned			wakeup_capable:1;
->> -	unsigned			wakeup_armed:1;
->> +	union {
->> +		struct {
->> +			u32		sg_supported:1;
->> +			u32		is_otg:1;
->> +			u32		is_a_peripheral:1;
->> +			u32		b_hnp_enable:1;
->> +			u32		a_hnp_support:1;
->> +			u32		a_alt_hnp_support:1;
->> +			u32		hnp_polling_support:1;
->> +			u32		host_request_flag:1;
->> +			u32		quirk_ep_out_aligned_size:1;
->> +			u32		quirk_altset_not_supp:1;
->> +			u32		quirk_stall_not_supp:1;
->> +			u32		quirk_zlp_not_supp:1;
->> +			u32		quirk_avoids_skb_reserve:1;
->> +			u32		is_selfpowered:1;
->> +			u32		deactivated:1;
->> +			u32		connected:1;
->> +			u32		lpm_capable:1;
->> +			u32		wakeup_capable:1;
->> +			u32		wakeup_armed:1;
->> +		} __packed;
->> +		u32			dw1;
->> +#define		USB_GADGET_SG_SUPPORTED(n)			((n) & BIT(0))
->> +#define		USB_GADGET_IS_OTG(n)				((n) & BIT(1))
->> +#define		USB_GADGET_IS_A_PERIPHERAL(n)			((n) & BIT(2))
->> +#define		USB_GADGET_B_HNP_ENABLE(n)			((n) & BIT(3))
->> +#define		USB_GADGET_A_HNP_SUPPORT(n)			((n) & BIT(4))
->> +#define		USB_GADGET_A_ALT_HNP_SUPPORT(n)			((n) & BIT(5))
->> +#define		USB_GADGET_HNP_POLLING_SUPPORT(n)		((n) & BIT(6))
->> +#define		USB_GADGET_HOST_REQUEST_FLAG(n)			((n) & BIT(7))
->> +#define		USB_GADGET_QUIRK_EP_OUT_ALIGNED_SIZE(n)		((n) & BIT(8))
->> +#define		USB_GADGET_QUIRK_ALTSET_NOT_SUPP(n)		((n) & BIT(9))
->> +#define		USB_GADGET_QUIRK_STALL_NOT_SUPP(n)		((n) & BIT(10))
->> +#define		USB_GADGET_QUIRK_ZLP_NOT_SUPP(n)		((n) & BIT(11))
->> +#define		USB_GADGET_QUIRK_AVOIDS_SKB_RESERVE(n)		((n) & BIT(12))
->> +#define		USB_GADGET_IS_SELFPOWERED(n)			((n) & BIT(13))
->> +#define		USB_GADGET_DEACTIVATED(n)			((n) & BIT(14))
->> +#define		USB_GADGET_CONNECTED(n)				((n) & BIT(15))
->> +#define		USB_GADGET_LPM_CAPABLE(n)			((n) & BIT(16))
->> +#define		USB_GADGET_WAKEUP_CAPABLE(n)			((n) & BIT(17))
->> +#define		USB_GADGET_WAKEUP_ARMED(n)			((n) & BIT(18))
-> Does this actually work on both types of endian-ness?
+Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+ drivers/usb/Kconfig           | 10 ++++++++++
+ drivers/usb/core/hcd-pci.c    |  3 +--
+ drivers/usb/host/pci-quirks.c |  2 ++
+ drivers/usb/host/pci-quirks.h | 34 ++++++++++++++++++++++++----------
+ include/linux/usb/hcd.h       | 17 +++++++++++++++++
+ 5 files changed, 54 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/usb/Kconfig b/drivers/usb/Kconfig
+index 7f33bcc315f2..abf8c6cdea9e 100644
+--- a/drivers/usb/Kconfig
++++ b/drivers/usb/Kconfig
+@@ -91,6 +91,16 @@ config USB_PCI
+ 	  If you have such a device you may say N here and PCI related code
+ 	  will not be built in the USB driver.
+ 
++config USB_PCI_AMD
++	bool "AMD PCI USB host support"
++	depends on USB_PCI && HAS_IOPORT
++	default X86 || MACH_LOONGSON64 || PPC_PASEMI
++	help
++	  Enable workarounds for USB implementation quirks in SB600/SB700/SB800
++	  and later south bridge implementations. These are common on x86 PCs
++	  with AMD CPUs but rarely used elsewhere, with the exception of a few
++	  powerpc and mips desktop machines.
++
+ if USB
+ 
+ source "drivers/usb/core/Kconfig"
+diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
+index 990280688b25..ee3156f49533 100644
+--- a/drivers/usb/core/hcd-pci.c
++++ b/drivers/usb/core/hcd-pci.c
+@@ -206,8 +206,7 @@ int usb_hcd_pci_probe(struct pci_dev *dev, const struct hc_driver *driver)
+ 		goto free_irq_vectors;
+ 	}
+ 
+-	hcd->amd_resume_bug = (usb_hcd_amd_remote_wakeup_quirk(dev) &&
+-			driver->flags & (HCD_USB11 | HCD_USB3)) ? 1 : 0;
++	hcd->amd_resume_bug = usb_hcd_amd_resume_bug(dev, driver);
+ 
+ 	if (driver->flags & HCD_MEMORY) {
+ 		/* EHCI, OHCI */
+diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
+index 5e06fad82a22..10813096d00c 100644
+--- a/drivers/usb/host/pci-quirks.c
++++ b/drivers/usb/host/pci-quirks.c
+@@ -76,6 +76,7 @@
+ #define USB_INTEL_USB3_PSSEN   0xD8
+ #define USB_INTEL_USB3PRM      0xDC
+ 
++#ifdef CONFIG_USB_PCI_AMD
+ /* AMD quirk use */
+ #define	AB_REG_BAR_LOW		0xe0
+ #define	AB_REG_BAR_HIGH		0xe1
+@@ -587,6 +588,7 @@ bool usb_amd_pt_check_port(struct device *device, int port)
+ 	return !(value & BIT(port_shift));
+ }
+ EXPORT_SYMBOL_GPL(usb_amd_pt_check_port);
++#endif /* CONFIG_USB_PCI_AMD */
+ 
+ static int usb_asmedia_wait_write(struct pci_dev *pdev)
+ {
+diff --git a/drivers/usb/host/pci-quirks.h b/drivers/usb/host/pci-quirks.h
+index cde2263a9d2e..a5230b0b9e91 100644
+--- a/drivers/usb/host/pci-quirks.h
++++ b/drivers/usb/host/pci-quirks.h
+@@ -2,7 +2,7 @@
+ #ifndef __LINUX_USB_PCI_QUIRKS_H
+ #define __LINUX_USB_PCI_QUIRKS_H
+ 
+-#ifdef CONFIG_USB_PCI
++#ifdef CONFIG_USB_PCI_AMD
+ int usb_hcd_amd_remote_wakeup_quirk(struct pci_dev *pdev);
+ bool usb_amd_hang_symptom_quirk(void);
+ bool usb_amd_prefetch_quirk(void);
+@@ -12,7 +12,30 @@ void usb_amd_quirk_pll_disable(void);
+ void usb_amd_quirk_pll_enable(void);
+ void sb800_prefetch(struct device *dev, int on);
+ bool usb_amd_pt_check_port(struct device *device, int port);
++#else
++static inline bool usb_amd_hang_symptom_quirk(void)
++{
++	return false;
++};
++static inline bool usb_amd_prefetch_quirk(void)
++{
++	return false;
++}
++static inline void usb_amd_quirk_pll_disable(void) {}
++static inline void usb_amd_quirk_pll_enable(void) {}
++static inline void usb_amd_dev_put(void) {}
++static inline bool usb_amd_quirk_pll_check(void)
++{
++	return false;
++}
++static inline void sb800_prefetch(struct device *dev, int on) {}
++static inline bool usb_amd_pt_check_port(struct device *device, int port)
++{
++	return false;
++}
++#endif /* CONFIG_USB_PCI_AMD */
+ 
++#ifdef CONFIG_USB_PCI
+ void uhci_reset_hc(struct pci_dev *pdev, unsigned long base);
+ int uhci_check_and_reset_hc(struct pci_dev *pdev, unsigned long base);
+ void usb_asmedia_modifyflowcontrol(struct pci_dev *pdev);
+@@ -20,15 +43,6 @@ void usb_enable_intel_xhci_ports(struct pci_dev *xhci_pdev);
+ void usb_disable_xhci_ports(struct pci_dev *xhci_pdev);
+ #else
+ struct pci_dev;
+-static inline void usb_amd_quirk_pll_disable(void) {}
+-static inline void usb_amd_quirk_pll_enable(void) {}
+-static inline void usb_amd_dev_put(void) {}
+-static inline void sb800_prefetch(struct device *dev, int on) {}
+-static inline bool usb_amd_pt_check_port(struct device *device, int port)
+-{
+-	return false;
+-}
+-
+ static inline void usb_asmedia_modifyflowcontrol(struct pci_dev *pdev) {}
+ static inline void usb_disable_xhci_ports(struct pci_dev *xhci_pdev) {}
+ #endif  /* CONFIG_USB_PCI */
+diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
+index 61d4f0b793dc..00724b4f6e12 100644
+--- a/include/linux/usb/hcd.h
++++ b/include/linux/usb/hcd.h
+@@ -484,8 +484,25 @@ extern int usb_hcd_pci_probe(struct pci_dev *dev,
+ extern void usb_hcd_pci_remove(struct pci_dev *dev);
+ extern void usb_hcd_pci_shutdown(struct pci_dev *dev);
+ 
++#ifdef CONFIG_USB_PCI_AMD
+ extern int usb_hcd_amd_remote_wakeup_quirk(struct pci_dev *dev);
+ 
++static inline bool usb_hcd_amd_resume_bug(struct pci_dev *dev,
++					  const struct hc_driver *driver)
++{
++	if (!usb_hcd_amd_remote_wakeup_quirk(dev))
++		return false;
++	if (driver->flags & (HCD_USB11 | HCD_USB3))
++		return true;
++	return false;
++}
++#else /* CONFIG_USB_PCI_AMD */
++static inline bool usb_hcd_amd_resume_bug(struct pci_dev *dev,
++					  const struct hc_driver *driver)
++{
++	return false;
++}
++#endif
+ extern const struct dev_pm_ops usb_hcd_pci_pm_ops;
+ #endif /* CONFIG_USB_PCI */
+ 
+-- 
+2.39.2
 
-sorry, only test little endian on ARM64, will consider big endian.
-
-
->
-> thanks,
->
-> greg k-h
