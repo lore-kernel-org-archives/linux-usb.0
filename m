@@ -2,105 +2,77 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4964CA0ED1
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:47:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C714CA0ECD
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Sep 2023 21:48:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350765AbjIKVlK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 17:41:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36240 "EHLO
+        id S1350780AbjIKVlT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 17:41:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242003AbjIKPUQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 11:20:16 -0400
-X-Greylist: delayed 81684 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 11 Sep 2023 08:20:11 PDT
-Received: from MTA-06-4.privateemail.com (mta-06-4.privateemail.com [198.54.122.146])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50689FA;
-        Mon, 11 Sep 2023 08:20:11 -0700 (PDT)
-Received: from mta-06.privateemail.com (localhost [127.0.0.1])
-        by mta-06.privateemail.com (Postfix) with ESMTP id 2A7EB18000A4;
-        Mon, 11 Sep 2023 11:20:10 -0400 (EDT)
-Received: from [192.168.2.177] (bras-base-toroon4332w-grc-39-74-12-11-94.dsl.bell.ca [74.12.11.94])
-        by mta-06.privateemail.com (Postfix) with ESMTPA;
-        Mon, 11 Sep 2023 11:19:55 -0400 (EDT)
-Date:   Mon, 11 Sep 2023 11:19:47 -0400
-From:   Hamza Mahfooz <someguy@effective-light.com>
-Subject: Re: [PATCH] USB: add ignore remote wakeup quirk for one of Logitech's
- receivers
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     linux-usb@vger.kernel.org, stable@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        =?iso-8859-2?q?=A3ukasz?= Bartosik <lb@semihalf.com>,
-        Nicolas Dumazet <ndumazet@google.com>,
-        Jean-Francois Le Fillatre <jflf_kernel@gmx.com>,
-        Mark Pearson <mpearson-lenovo@squebb.ca>,
-        Hannu Hartikainen <hannu@hrtk.in>, linux-kernel@vger.kernel.org
-Message-Id: <ZKUT0S.QB90NRXC7O1R1@effective-light.com>
-In-Reply-To: <9d2dff10-5a3b-b24a-c3d8-3c843891966d@redhat.com>
-References: <20230910163751.4210-1-someguy@effective-light.com>
-        <9d2dff10-5a3b-b24a-c3d8-3c843891966d@redhat.com>
-X-Mailer: geary/44.1
+        with ESMTP id S238017AbjIKNdp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 09:33:45 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC284106
+        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 06:33:40 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17811C433C7;
+        Mon, 11 Sep 2023 13:33:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1694439220;
+        bh=APU2rPvlGKCplyNOf9MqgAq8riADofmCL/OcF9UgtlI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nK5vpPfwAsRAvZIb7byyRWUcdpDE0kiAJtjj1532mUTsQUnMAzBBvUD8TBk+LUQam
+         3TwWw0FTo6eTDswb3XKQvGrlBGGVtnjxjEZJ78esauddI4ZfHcw8UoGPOqudNtlis6
+         jLsIBkMYzs1d+6EMgP30ETLYpb+BtczeCags/2NI=
+Date:   Mon, 11 Sep 2023 15:33:36 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Linyu Yuan <quic_linyyuan@quicinc.com>
+Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Neal Liu <neal_liu@aspeedtech.com>,
+        Cristian Birsan <cristian.birsan@microchip.com>,
+        Bin Liu <b-liu@ti.com>, Kevin Cernekee <cernekee@gmail.com>,
+        Justin Chen <justin.chen@broadcom.com>,
+        Al Cooper <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Herve Codina <herve.codina@bootlin.com>,
+        hierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Rui Miguel Silva <rui.silva@linaro.org>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 10/11] usb: mtu3: trace: reduce buffer usage of trace
+ event
+Message-ID: <2023091157-kiwi-skydiver-b030@gregkh>
+References: <20230911112446.1791-1-quic_linyyuan@quicinc.com>
+ <20230911112446.1791-11-quic_linyyuan@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230911112446.1791-11-quic_linyyuan@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hey Hans,
+On Mon, Sep 11, 2023 at 07:24:45PM +0800, Linyu Yuan wrote:
+> Save u32 members into trace event ring buffer and parse it for possible
+> bit information.
 
-On Mon, Sep 11 2023 at 09:32:42 AM +02:00:00, Hans de Goede 
-<hdegoede@redhat.com> wrote:
-> Hi Hamza,
-> 
-> On 9/10/23 18:37, Hamza Mahfooz wrote:
->>  This device causes the system to wake up from suspend, as soon as it
->>  enters it (even if the device attached to the receiver is powered 
->> off).
->>  So, ignore remote wakeup events from it.
->> 
->>  Cc: stable@vger.kernel.org
->>  Signed-off-by: Hamza Mahfooz <someguy@effective-light.com>
->>  ---
->>   drivers/usb/core/quirks.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->> 
->>  diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
->>  index 15e9bd180a1d..d2e2a2873f34 100644
->>  --- a/drivers/usb/core/quirks.c
->>  +++ b/drivers/usb/core/quirks.c
->>  @@ -264,6 +264,10 @@ static const struct usb_device_id 
->> usb_quirk_list[] = {
->>   	/* Logitech Harmony 700-series */
->>   	{ USB_DEVICE(0x046d, 0xc122), .driver_info = USB_QUIRK_DELAY_INIT 
->> },
->> 
->>  +	/* Logitech lightspeed receiver (0xc547) */
->>  +	{ USB_DEVICE(0x046d, 0xc547), .driver_info =
->>  +			USB_QUIRK_IGNORE_REMOTE_WAKEUP },
->>  +
->>   	/* Philips PSC805 audio device */
->>   	{ USB_DEVICE(0x0471, 0x0155), .driver_info = 
->> USB_QUIRK_RESET_RESUME },
->> 
-> 
-> If this is a lightspeed receiver then it really should be handled by
-> hid-logitech-dj.c unless this new receiver is using a new protocol ?
-> 
-> I wonder if adding it there also fixes the remote
-> wakeup issue (I doubt it fixes it but worth a try) ?
+Reduce it by how much?  And now you are parsing, which takes more time
+right?  Why is this change needed?
 
+I just picked one of the patches in the series here, you need to be able
+to answer this for all of them.
 
-Seems like the following series does indeed fix this issue:
-https://lore.kernel.org/linux-input/20230716182320.85483-1-mavchatz@protonmail.com/T/#u
+thanks,
 
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
-
-
+greg k-h
