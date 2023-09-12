@@ -2,85 +2,131 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1079CA0ECF
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Sep 2023 10:50:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DD9CCA0ECF
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Sep 2023 10:51:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234292AbjILKue (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Sep 2023 06:50:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54316 "EHLO
+        id S230360AbjILKvJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Sep 2023 06:51:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229912AbjILKuc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Sep 2023 06:50:32 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B6669F
-        for <linux-usb@vger.kernel.org>; Tue, 12 Sep 2023 03:50:27 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C22DC433C7;
-        Tue, 12 Sep 2023 10:50:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1694515826;
-        bh=vn3kYt0i8broKLMSbj2WI2nhrZVxVuF92QN5By/HLxE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lgopkJCoTTHltQxzwCiZinxzp4TvTHhX4vBmo8ksIbr9c5yRQ2Wkcn3CRZZ42SrhA
-         Jg3/e3c3mzseMkChrmysF243MP+jYLQMnaB+foekJ2AwK3sJQp/XG/DYcLL3pkXBBl
-         QDRJTMX5wxfaga4LouFJR2NSSz/DtbAu6An6qIx4=
-Date:   Tue, 12 Sep 2023 12:50:24 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     "Jiazi.Li" <jqqlijiazi@gmail.com>
-Cc:     "Jiazi.Li" <jiazi.li@transsion.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: f_fs: increase eps_revmap length
-Message-ID: <2023091248-shady-wavy-847d@gregkh>
-References: <20230912103417.18839-1-jiazi.li@transsion.com>
+        with ESMTP id S231196AbjILKvH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Sep 2023 06:51:07 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D070C10D2
+        for <linux-usb@vger.kernel.org>; Tue, 12 Sep 2023 03:51:02 -0700 (PDT)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38C99EOn007549;
+        Tue, 12 Sep 2023 10:45:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=iGMPXnPlImwAMN4IQsHxH1eH4mnL+iiS6+nn1Eg3mnI=;
+ b=K0ecU2/oVCn5FrINogVosaVzKWQM2Hnl5CTl8t4HlYADcrTTvLAVYlCcW02ny4Us2tgc
+ roRrl5Yam7aG+u8HKD9gpmkOFBGOskMJnSHSThRv3Zg5N7rBl5ljsm6ZLC4ZOyJpYvAz
+ sLs/51QOZHnydaVb86cX+PtfBkGOJLNM9VWFdfekL/pNApR6tD2lHUfPHYM6RPLTyR17
+ dJLbwbApA9dEoPfPktFP/qNXsnfVyjkEbVzXOAMnj9mR9yGXx44VENZO6bjOvZFzy2/K
+ v8HF2PYDrvOYlb39YQQ2tET4RHN1GArDR3wsC+m/8mZhjRMyGTGoAY+UKH/409WTRnms Gw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t29b0hma1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 12 Sep 2023 10:45:14 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38CAjCom017826
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 12 Sep 2023 10:45:12 GMT
+Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Tue, 12 Sep 2023 03:45:05 -0700
+From:   Linyu Yuan <quic_linyyuan@quicinc.com>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Neal Liu <neal_liu@aspeedtech.com>,
+        "Cristian Birsan" <cristian.birsan@microchip.com>,
+        Bin Liu <b-liu@ti.com>, "Kevin Cernekee" <cernekee@gmail.com>,
+        Justin Chen <justin.chen@broadcom.com>,
+        "Al Cooper" <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
+        "Vladimir Zapolskiy" <vz@mleia.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        "Philipp Zabel" <p.zabel@pengutronix.de>,
+        Herve Codina <herve.codina@bootlin.com>,
+        hierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Rui Miguel Silva <rui.silva@linaro.org>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        "Shuah Khan" <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, Linyu Yuan <quic_linyyuan@quicinc.com>
+Subject: [PATCH v3 00/10] usb: gadget: reduce usb gadget trace event buffer usage
+Date:   Tue, 12 Sep 2023 18:44:45 +0800
+Message-ID: <20230912104455.7737-1-quic_linyyuan@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230912103417.18839-1-jiazi.li@transsion.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 7wKQidHNMWeo0vbC9BafstMyMN7dt131
+X-Proofpoint-ORIG-GUID: 7wKQidHNMWeo0vbC9BafstMyMN7dt131
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-12_08,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
+ adultscore=0 impostorscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=623
+ lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2309120090
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Sep 12, 2023 at 06:34:17PM +0800, Jiazi.Li wrote:
-> Commit 41dc9ac163e7 ("usb: gadget: f_fs: Accept up to 30 endpoints.")
-> increase eps_addrmap length to 31, eps_revmap also need to increase.
-> Increase it's length to 32.
+some trace event use an interger to to save a bit field info of gadget,
+also some trace save endpoint name in string forat, it all can be
+chagned to other way at trace event store phase.
 
-Why 32?
+bit field can be replace with a union interger member which include
+multiple bit fields.
 
-> 
-> For same-address, opposite-direction endpoints, will use same idx in
-> eps_revmap, so add new marco REVMAP_IDX to calculate idx for endpoints.
-> 
-> Signed-off-by: Jiazi.Li <jiazi.li@transsion.com>
+ep name stringe can be replace to a interger which contaion number
+and dir info.
 
-Please use your real name here, not your email alias.  Same for the
- From: line in your email
+v1: https://lore.kernel.org/linux-usb/20230911042843.2711-1-quic_linyyuan@quicinc.com/
+v2: fix two compile issues that COMPILE_TEST not covered
+    https://lore.kernel.org/linux-usb/20230911112446.1791-1-quic_linyyuan@quicinc.com/
+v3: fix reviewer comments, allow bit fields work on both little and big endian
 
+Linyu Yuan (10):
+  usb: gadget: add anonymous definition in struct usb_gadget
+  usb: gadget: add anonymous definition in struct usb_request
+  usb: gadget: add anonymous definition in struct usb_ep
+  usb: udc: trace: reduce buffer usage of trace event
+  usb: cdns3: cdnsp: reduce buffer usage of trace event
+  usb: cdns3: trace: reduce buffer usage of trace event
+  usb: dwc3: trace: reduce buffer usage of trace event
+  usb: cdns2: trace: reduce buffer usage of trace event
+  usb: mtu3: trace: reduce buffer usage of trace event
+  usb: musb: trace: reduce buffer usage of trace event
 
-> ---
->  drivers/usb/gadget/function/f_fs.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-> index 6e9ef35a43a7..4a210368bd33 100644
-> --- a/drivers/usb/gadget/function/f_fs.c
-> +++ b/drivers/usb/gadget/function/f_fs.c
-> @@ -71,12 +71,14 @@ struct ffs_function {
->  	struct ffs_data			*ffs;
->  
->  	struct ffs_ep			*eps;
-> -	u8				eps_revmap[16];
-> +	u8				eps_revmap[32];
->  	short				*interfaces_nums;
->  
->  	struct usb_function		function;
->  };
->  
-> +#define REVMAP_IDX(epaddr)	((epaddr & USB_ENDPOINT_NUMBER_MASK) \
-> +				* 2 + ((epaddr & USB_DIR_IN) ? 1 : 0))
+ drivers/usb/cdns3/cdns3-trace.h            |  93 ++++----
+ drivers/usb/cdns3/cdnsp-trace.h            |  45 ++--
+ drivers/usb/dwc3/trace.h                   |  54 ++---
+ drivers/usb/gadget/udc/cdns2/cdns2-trace.h |  77 +++----
+ drivers/usb/gadget/udc/trace.h             | 106 +++------
+ drivers/usb/mtu3/mtu3_trace.h              |  42 ++--
+ drivers/usb/musb/musb_trace.h              |  14 +-
+ include/linux/usb/gadget.h                 | 245 +++++++++++++++++----
+ 8 files changed, 383 insertions(+), 293 deletions(-)
 
-What is the * 2 for?  Also, this macro is hard to read, can you make
-this an inline function instead, explaining what you are trying to
-calculate?
+-- 
+2.17.1
 
-thanks,
-
-greg k-h
