@@ -2,131 +2,192 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DD9CCA0ECF
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Sep 2023 10:51:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14D75CA0ECA
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Sep 2023 11:07:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230360AbjILKvJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Sep 2023 06:51:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55322 "EHLO
+        id S234447AbjILLHQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Sep 2023 07:07:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231196AbjILKvH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Sep 2023 06:51:07 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D070C10D2
-        for <linux-usb@vger.kernel.org>; Tue, 12 Sep 2023 03:51:02 -0700 (PDT)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38C99EOn007549;
-        Tue, 12 Sep 2023 10:45:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=iGMPXnPlImwAMN4IQsHxH1eH4mnL+iiS6+nn1Eg3mnI=;
- b=K0ecU2/oVCn5FrINogVosaVzKWQM2Hnl5CTl8t4HlYADcrTTvLAVYlCcW02ny4Us2tgc
- roRrl5Yam7aG+u8HKD9gpmkOFBGOskMJnSHSThRv3Zg5N7rBl5ljsm6ZLC4ZOyJpYvAz
- sLs/51QOZHnydaVb86cX+PtfBkGOJLNM9VWFdfekL/pNApR6tD2lHUfPHYM6RPLTyR17
- dJLbwbApA9dEoPfPktFP/qNXsnfVyjkEbVzXOAMnj9mR9yGXx44VENZO6bjOvZFzy2/K
- v8HF2PYDrvOYlb39YQQ2tET4RHN1GArDR3wsC+m/8mZhjRMyGTGoAY+UKH/409WTRnms Gw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t29b0hma1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 12 Sep 2023 10:45:14 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38CAjCom017826
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 12 Sep 2023 10:45:12 GMT
-Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Tue, 12 Sep 2023 03:45:05 -0700
-From:   Linyu Yuan <quic_linyyuan@quicinc.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Roger Quadros <rogerq@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Neal Liu <neal_liu@aspeedtech.com>,
-        "Cristian Birsan" <cristian.birsan@microchip.com>,
-        Bin Liu <b-liu@ti.com>, "Kevin Cernekee" <cernekee@gmail.com>,
-        Justin Chen <justin.chen@broadcom.com>,
-        "Al Cooper" <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
-        "Vladimir Zapolskiy" <vz@mleia.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        "Philipp Zabel" <p.zabel@pengutronix.de>,
-        Herve Codina <herve.codina@bootlin.com>,
-        hierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Rui Miguel Silva <rui.silva@linaro.org>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        "Shuah Khan" <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, Linyu Yuan <quic_linyyuan@quicinc.com>
-Subject: [PATCH v3 00/10] usb: gadget: reduce usb gadget trace event buffer usage
-Date:   Tue, 12 Sep 2023 18:44:45 +0800
-Message-ID: <20230912104455.7737-1-quic_linyyuan@quicinc.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S234373AbjILLHF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Sep 2023 07:07:05 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BF75BE;
+        Tue, 12 Sep 2023 04:07:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694516820; x=1726052820;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=queqzhRbeR3Nj+YUk9K91rnEmvO6n/oprFrSvOLZ3vs=;
+  b=GSb2VgMC1l5Jt4yiVQXZyGsc0knJ7O0cIDgXoZ3n5o0OvLCcsqSFcOIj
+   YlPZFn/8EuC0z7UhQk9scMjwWxuuqIy3GZYewx5IxhBQPxGRXJUboKs75
+   nKl+kOKLx2paBAAjV5dSvoZBci62Q/DAct6gMiEYFz7s66+SHne7dFGym
+   x8Q4gEFCfte25V0X5/94X6LUX/etJW9zM3jLInsbO+WhmRgK26JAcdISh
+   hkxqfLWWL81tlE94uZJ5adHtyKQvem6Ast5TH5giWCYiwH3fs6E4gsutQ
+   A0gYqpzAVQUw17pMDBCd4FF7xqXfagujqOmFG5gKgH+eq61tTAjTjoHS6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="378252705"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
+   d="scan'208";a="378252705"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 04:05:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="1074512474"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
+   d="scan'208";a="1074512474"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga005.fm.intel.com with SMTP; 12 Sep 2023 04:05:52 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 12 Sep 2023 14:05:51 +0300
+Date:   Tue, 12 Sep 2023 14:05:51 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Janne Grunau <j@jannau.net>, Simon Ser <contact@emersion.fr>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        freedreno@lists.freedesktop.org, Won Chung <wonchung@google.com>
+Subject: Re: [RFC PATCH v1 01/12] Revert "drm/sysfs: Link DRM connectors to
+ corresponding Type-C connectors"
+Message-ID: <ZQBGD8CY5OVKYX63@kuha.fi.intel.com>
+References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
+ <20230903214150.2877023-2-dmitry.baryshkov@linaro.org>
+ <ZPbrtAlO2Y+bjDhf@kuha.fi.intel.com>
+ <CAA8EJpqUg2-k7LLBL38RHU1sThkXB54ca68xEMd1yMnHQcQ++w@mail.gmail.com>
+ <ZPh0Ps9UJ3HLzdeR@kuha.fi.intel.com>
+ <CAA8EJpratbBybgk8woD3maA=J_HuQis44Unq0n+c_UvaFs__AA@mail.gmail.com>
+ <ZPiAwOf00RREiYPr@kuha.fi.intel.com>
+ <6b6bacee-f7b6-4cfe-be3d-24bda44bfbcf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 7wKQidHNMWeo0vbC9BafstMyMN7dt131
-X-Proofpoint-ORIG-GUID: 7wKQidHNMWeo0vbC9BafstMyMN7dt131
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-12_08,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
- adultscore=0 impostorscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=623
- lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
- definitions=main-2309120090
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6b6bacee-f7b6-4cfe-be3d-24bda44bfbcf@linaro.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-some trace event use an interger to to save a bit field info of gadget,
-also some trace save endpoint name in string forat, it all can be
-chagned to other way at trace event store phase.
+On Tue, Sep 12, 2023 at 12:15:10AM +0300, Dmitry Baryshkov wrote:
+> On 06/09/2023 16:38, Heikki Krogerus wrote:
+> > On Wed, Sep 06, 2023 at 03:48:35PM +0300, Dmitry Baryshkov wrote:
+> > > On Wed, 6 Sept 2023 at 15:44, Heikki Krogerus
+> > > <heikki.krogerus@linux.intel.com> wrote:
+> > > > 
+> > > > On Tue, Sep 05, 2023 at 01:56:59PM +0300, Dmitry Baryshkov wrote:
+> > > > > Hi Heikki,
+> > > > > 
+> > > > > On Tue, 5 Sept 2023 at 11:50, Heikki Krogerus
+> > > > > <heikki.krogerus@linux.intel.com> wrote:
+> > > > > > 
+> > > > > > Hi Dmitry,
+> > > > > > 
+> > > > > > On Mon, Sep 04, 2023 at 12:41:39AM +0300, Dmitry Baryshkov wrote:
+> > > > > > > The kdev->fwnode pointer is never set in drm_sysfs_connector_add(), so
+> > > > > > > dev_fwnode() checks never succeed, making the respective commit NOP.
+> > > > > > 
+> > > > > > That's not true. The dev->fwnode is assigned when the device is
+> > > > > > created on ACPI platforms automatically. If the drm_connector fwnode
+> > > > > > member is assigned before the device is registered, then that fwnode
+> > > > > > is assigned also to the device - see drm_connector_acpi_find_companion().
+> > > > > > 
+> > > > > > But please note that even if drm_connector does not have anything in
+> > > > > > its fwnode member, the device may still be assigned fwnode, just based
+> > > > > > on some other logic (maybe in drivers/acpi/acpi_video.c?).
+> > > > > > 
+> > > > > > > And if drm_sysfs_connector_add() is modified to set kdev->fwnode, it
+> > > > > > > breaks drivers already using components (as it was pointed at [1]),
+> > > > > > > resulting in a deadlock. Lockdep trace is provided below.
+> > > > > > > 
+> > > > > > > Granted these two issues, it seems impractical to fix this commit in any
+> > > > > > > sane way. Revert it instead.
+> > > > > > 
+> > > > > > I think there is already user space stuff that relies on these links,
+> > > > > > so I'm not sure you can just remove them like that. If the component
+> > > > > > framework is not the correct tool here, then I think you need to
+> > > > > > suggest some other way of creating them.
+> > > > > 
+> > > > > The issue (that was pointed out during review) is that having a
+> > > > > component code in the framework code can lead to lockups. With the
+> > > > > patch #2 in place (which is the only logical way to set kdev->fwnode
+> > > > > for non-ACPI systems) probing of drivers which use components and set
+> > > > > drm_connector::fwnode breaks immediately.
+> > > > > 
+> > > > > Can we move the component part to the respective drivers? With the
+> > > > > patch 2 in place, connector->fwnode will be copied to the created
+> > > > > kdev's fwnode pointer.
+> > > > > 
+> > > > > Another option might be to make this drm_sysfs component registration optional.
+> > > > 
+> > > > You don't need to use the component framework at all if there is
+> > > > a better way of determining the connection between the DP and its
+> > > > Type-C connector (I'm assuming that that's what this series is about).
+> > > > You just need the symlinks, not the component.
+> > > 
+> > > The problem is that right now this component registration has become
+> > > mandatory. And if I set the kdev->fwnode manually (like in the patch
+> > > 2), the kernel hangs inside the component code.
+> > > That's why I proposed to move the components to the place where they
+> > > are really necessary, e.g. i915 and amd drivers.
+> > 
+> > So why can't we replace the component with the method you are
+> > proposing in this series of finding out the Type-C port also with
+> > i915, AMD, or whatever driver and platform (that's the only thing that
+> > component is used for)?
+> 
+> The drm/msm driver uses drm_bridge for the pipeline (including the last DP
+> entry) and the drm_bridge_connector to create the connector. I think that
+> enabling i915 and AMD drivers to use drm_bridge fells out of scope for this
+> series.
+> 
+> 
+> > Determining the connection between a DP and its Type-C connector is
+> > starting to get really important, so ideally we have a common solution
+> > for that.
+> 
+> Yes. This is what we have been discussing with Simon for quite some time on
+> #dri-devel.
+> 
+> Unfortunately I think the solution that got merged was pretty much hastened
+> in instead of being well-thought. For example, it is also not always
+> possible to provide the drm_connector / typec_connector links (as you can
+> see from the patch7. Sometimes we can only express that this is a Type-C DP
+> connector, but we can not easily point it to the particular USB-C port.
+> 
+> So, I'm not sure, how can we proceed here. Currently merged patch breaks
+> drm/msm if we even try to use it by setting kdef->fwnode to
+> drm_connector->fwnode. The pointed out `drivers/usb/typec/port-mapper.c` is
+> an ACPI-only thing, which is not expected to work in a non-ACPI cases.
 
-bit field can be replace with a union interger member which include
-multiple bit fields.
+You really have to always supply not only the Type-C ports and partners,
+but also the alt modes. You need them, firstly to keep things sane
+inside kernel, but more importantly, so they are always exposed to the
+user space, AND, always the same way. We have ABIs for all this stuff,
+including the DP alt mode. Use them. No shortcuts.
 
-ep name stringe can be replace to a interger which contaion number
-and dir info.
+So here's what you need to do. UCSI does not seem to bring you
+anything useful, so just disable it for now. You don't need it. Your
+port driver is clearly drivers/soc/qcom/pmic_glink_altmode.c, so
+that's where you need to register all these components - the ports,
+partners and alt modes. You have all the needed information there.
 
-v1: https://lore.kernel.org/linux-usb/20230911042843.2711-1-quic_linyyuan@quicinc.com/
-v2: fix two compile issues that COMPILE_TEST not covered
-    https://lore.kernel.org/linux-usb/20230911112446.1791-1-quic_linyyuan@quicinc.com/
-v3: fix reviewer comments, allow bit fields work on both little and big endian
+Only after you've done that we can start to look at how should the
+connection between the DPs and their USB Type-C connectors be handled.
 
-Linyu Yuan (10):
-  usb: gadget: add anonymous definition in struct usb_gadget
-  usb: gadget: add anonymous definition in struct usb_request
-  usb: gadget: add anonymous definition in struct usb_ep
-  usb: udc: trace: reduce buffer usage of trace event
-  usb: cdns3: cdnsp: reduce buffer usage of trace event
-  usb: cdns3: trace: reduce buffer usage of trace event
-  usb: dwc3: trace: reduce buffer usage of trace event
-  usb: cdns2: trace: reduce buffer usage of trace event
-  usb: mtu3: trace: reduce buffer usage of trace event
-  usb: musb: trace: reduce buffer usage of trace event
-
- drivers/usb/cdns3/cdns3-trace.h            |  93 ++++----
- drivers/usb/cdns3/cdnsp-trace.h            |  45 ++--
- drivers/usb/dwc3/trace.h                   |  54 ++---
- drivers/usb/gadget/udc/cdns2/cdns2-trace.h |  77 +++----
- drivers/usb/gadget/udc/trace.h             | 106 +++------
- drivers/usb/mtu3/mtu3_trace.h              |  42 ++--
- drivers/usb/musb/musb_trace.h              |  14 +-
- include/linux/usb/gadget.h                 | 245 +++++++++++++++++----
- 8 files changed, 383 insertions(+), 293 deletions(-)
+thanks,
 
 -- 
-2.17.1
-
+heikki
