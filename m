@@ -2,180 +2,155 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07297CA0EC7
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Sep 2023 01:40:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5456DCA0EC7
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Sep 2023 01:42:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235942AbjILBko (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Sep 2023 21:40:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39544 "EHLO
+        id S235758AbjILBmS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Sep 2023 21:42:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233673AbjILBkb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 21:40:31 -0400
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E0C9120D78
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 18:17:48 -0700 (PDT)
-Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-655d25f3678so20434736d6.3
-        for <linux-usb@vger.kernel.org>; Mon, 11 Sep 2023 18:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694481467; x=1695086267; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1tnjpp/lycfe/g1+o8xfnP0NivTMeUFx/cpAoWuFE18=;
-        b=EwTpPQX3oQ0mVyRHCa2uU/x7V5aozk6OidlBiGybLOAjUsaXKCfpGSsityqkPsPbk4
-         Kdc6ZcP9z5K52m2cb9pxKhv48eQBoCo7hgvrQRojSGhUvkxtbJEgxaOPI5c+g7dG59J2
-         gJ5gxnR7xQDqv/QuVZ4fdQJ6dFbR12bUVifII=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694481467; x=1695086267;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1tnjpp/lycfe/g1+o8xfnP0NivTMeUFx/cpAoWuFE18=;
-        b=rOIoQyCgRmMepTVUh8ob7yKZoxiZn+Py1NkBwqyOCz9BVbrop1bCTbw/uZQAQrJ6lJ
-         t1EtzIWxP9TYyi8YIzmqpnx++7CJeuzSXZKG9PZBqyv1KvgOemtA3oPNSxUsaYWTkwoe
-         g9V5oC5L+ElLqwfrwq1Lut3Kq2k5oEOCZYxIIH/G4zal7L0tfS2N/aPXFWwcHKt9kufe
-         5rdJP0ISwDe1siw/Q21OxPsnJc23/krPsXRZTwV4AdkkWBYOELwslv/svzFP+RvOXCHV
-         1p3r2/uHx8FPFsIi9N+m/SxuLsfdxc84ZiIGRBnQk1gprWO0L2OSX6PrjwUONABePcxk
-         RxWw==
-X-Gm-Message-State: AOJu0Yw/3NKUUkDVT7norXBpfGI8HroO6H5FvF4FlUt/TLkEQ7tJWiuc
-        hPCuyjRxPGpcKTcYrss8uCgnB3uEdggteFSn37QFOQ==
-X-Google-Smtp-Source: AGHT+IFSwRQiPkaYhhZ0TC5wbeP9A0oiMY6H8ikvZvK9LjdFbRTQGnvpAK1r/FmhosNCsVO0GGDYu3rQZ8+RCXJ9MpE=
-X-Received: by 2002:a0c:f508:0:b0:641:8e1a:d23b with SMTP id
- j8-20020a0cf508000000b006418e1ad23bmr11266928qvm.31.1694481467597; Mon, 11
- Sep 2023 18:17:47 -0700 (PDT)
+        with ESMTP id S236029AbjILBmI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Sep 2023 21:42:08 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF0E31F83BC;
+        Mon, 11 Sep 2023 18:18:38 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38C09p9A014873;
+        Tue, 12 Sep 2023 00:15:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Tr3IY+C45LoAz3w3IC6elbtVdxcGxATFiWxbw0mPWA0=;
+ b=QDCV+YTbbqa+ygA8FgU/2AoRTLDEMAbti2oW4dZdsr6pD20/sijs36DUCAKstGpzPAh8
+ v5G3NIKRD0ZQgyiHw3fNUYlYgE3zt5amuZaTnrHPX18baxrl0BV1TGxqVuXRNFH8yrQp
+ J5j1fn6Z9ASzVUP5EFJIqrhnkD4ik0184R6I+RN2WM6GrwMxO//N2RudjTXnmCGfuVAr
+ sa8snhVOvp618x2ApKZ2iME7S2rEzDH/LzbigpGsCxbab6/sTYA+FzVA9O0A7U+zdrXY
+ rFaxKr3nCdeW5wIoTs4hCfpoVWDMoEYJPuCeWBoPveS8lKelF3XJedC/0HQbMJo+jewU Hg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t268fgyq3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 12 Sep 2023 00:15:36 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38C0FZvn007683
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 12 Sep 2023 00:15:35 GMT
+Received: from [10.110.43.192] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 11 Sep
+ 2023 17:15:34 -0700
+Message-ID: <ee47814e-969b-a96c-9323-e47bbf89297e@quicinc.com>
+Date:   Mon, 11 Sep 2023 17:15:34 -0700
 MIME-Version: 1.0
-References: <20230912005752.1532888-1-utkarsh.h.patel@intel.com> <20230912005752.1532888-4-utkarsh.h.patel@intel.com>
-In-Reply-To: <20230912005752.1532888-4-utkarsh.h.patel@intel.com>
-From:   Prashant Malani <pmalani@chromium.org>
-Date:   Mon, 11 Sep 2023 18:17:35 -0700
-Message-ID: <CACeCKacmH19niA7gWTZCj89ZmFth0LWvkMYasYwUvVHrmFKCZw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] platform/chrome: cros_ec_typec: Add Displayport
- Alternatemode 2.1 Support
-To:     Utkarsh Patel <utkarsh.h.patel@intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        heikki.krogerus@linux.intel.com, chrome-platform@lists.linux.dev,
-        andriy.shevchenko@linux.intel.com, bleung@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2] usb: host: xhci: Avoid XHCI resume delay if SSUSB
+ device is not present
+Content-Language: en-US
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        <mathias.nyman@intel.com>, <gregkh@linuxfoundation.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <quic_jackp@quicinc.com>
+References: <20230901001518.25403-1-quic_wcheng@quicinc.com>
+ <8dd86cf5-6337-b8f5-34d5-dcd290dc2d38@linux.intel.com>
+From:   Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <8dd86cf5-6337-b8f5-34d5-dcd290dc2d38@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: PlwYVLTm0vguPwpHqGQ1qCPCtIXToy2p
+X-Proofpoint-ORIG-GUID: PlwYVLTm0vguPwpHqGQ1qCPCtIXToy2p
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-11_19,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 spamscore=0 adultscore=0 mlxscore=0 bulkscore=0
+ phishscore=0 malwarescore=0 impostorscore=0 priorityscore=1501
+ clxscore=1015 mlxlogscore=790 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2308100000 definitions=main-2309120001
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Utkarsh,
+Hi Mathias,
 
-On Mon, Sep 11, 2023 at 5:58=E2=80=AFPM Utkarsh Patel <utkarsh.h.patel@inte=
-l.com> wrote:
->
-> Displayport Alternatemode 2.1 requires cable capabilities such as cable
-> signalling, cable type, DPAM version which then will be used by mux
-> driver for displayport configuration. These capabilities can be derived
-> from the Cable VDO.
-> Added a helper macro to get the Type C cable speed when provided the
-> cable VDO.
->
-> Signed-off-by: Utkarsh Patel <utkarsh.h.patel@intel.com>
+On 9/11/2023 6:50 AM, Mathias Nyman wrote:
+> On 1.9.2023 3.15, Wesley Cheng wrote:
+>> There is a 120ms delay implemented for allowing the XHCI host 
+>> controller to
+>> detect a U3 wakeup pulse.  The intention is to wait for the device to 
+>> retry
+>> the wakeup event if the USB3 PORTSC doesn't reflect the RESUME link 
+>> status
+>> by the time it is checked.  As per the USB3 specification:
+>>
+>>    tU3WakeupRetryDelay ("Table 7-12. LTSSM State Transition Timeouts")
+>>
+>> This would allow the XHCI resume sequence to determine if the root hub
+>> needs to be also resumed.  However, in case there is no device connected,
+>> or if there is only a HSUSB device connected, this delay would still 
+>> affect
+>> the overall resume timing.
+>>
+>> Since this delay is solely for detecting U3 wake events (USB3 specific)
+>> then ignore this delay for the disconnected case and the HSUSB connected
+>> only case.
+> 
+> Thanks, makes sense
+> 
+>>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> ---
+>>   drivers/usb/host/xhci.c | 26 +++++++++++++++++++++++++-
+>>   1 file changed, 25 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+>> index e1b1b64a0723..640db6a4e686 100644
+>> --- a/drivers/usb/host/xhci.c
+>> +++ b/drivers/usb/host/xhci.c
+>> @@ -805,6 +805,24 @@ static void xhci_disable_hub_port_wake(struct 
+>> xhci_hcd *xhci,
+>>       spin_unlock_irqrestore(&xhci->lock, flags);
+>>   }
+>> +static bool xhci_usb3_dev_connected(struct xhci_hcd *xhci)
+>> +{
+>> +    struct xhci_port    **ports;
+>> +    int            port_index;
+>> +    u32            portsc;
+>> +
+>> +    port_index = xhci->usb3_rhub.num_ports;
+>> +    ports = xhci->usb3_rhub.ports;
+>> +
+>> +    while (port_index--) {
+>> +        portsc = readl(ports[port_index]->addr);
+>> +        if (portsc & (portsc & PORT_CONNECT))
+>> +            return true;
+>> +    }
+>> +
+>> +    return false;
+>> +}
+>> +
+> 
+> This is one way, but we can probably avoid re-reading all the usb3 
+> portsc registers
+> by checking if any bit is set in either:
+> 
+>   // bitfield, set if xhci usb3 port neatly set to U3 with a hub request
+> xhci->usb3_rhub.bus_state.suspended_ports
+> 
+> // bitfield, set if xhci usb3 port is forced to U3 during xhci suspend.
+> xhci->usb3_rhub.bus_state.bus_suspended
+> 
+> But haven't checked this works in all corner cases.
+> 
+Thanks for the suggestion.  I think I also looked at seeing if we could 
+use the suspended_ports param, and it was missing one of the use cases 
+we had.  I haven't thought on combining it with the bus_suspend param 
+also to see if it could work.  Let me give it a try, and I'll get back 
+to you.
 
-Thank you for addressing the comments. This LGTM; I have one minor suggesti=
-on,
-but I'll leave it to USB maintainers for the final call on that comment, so=
-:
-
-Acked-by: Prashant Malani <pmalani@chromium.org>
-
-> ---
-> Changes in v3:
-> - Removed use of variable cable_seepd.
-> - Added helper macro of pd_vdo.h in this patch as cros_ec_typec is the us=
-er.
->
-> Changes in v2:
-> - Remvoed feature flag specifice to DP2.1.
-> - Remvoed seperate function for DP2.1.
-> - Removed use of EC host coammnd to get cable details.
-> - TBT cable VDO is used to get cable details.
-> - Using VDO_CABLE_SPEED macro to get passive cable speed.
->
->  drivers/platform/chrome/cros_ec_typec.c | 28 +++++++++++++++++++++++++
->  include/linux/usb/pd_vdo.h              |  1 +
->  2 files changed, 29 insertions(+)
->
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/c=
-hrome/cros_ec_typec.c
-> index d0b4d3fc40ed..cca913400b39 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.c
-> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -492,6 +492,8 @@ static int cros_typec_enable_dp(struct cros_typec_dat=
-a *typec,
->  {
->         struct cros_typec_port *port =3D typec->ports[port_num];
->         struct typec_displayport_data dp_data;
-> +       u32 cable_tbt_vdo;
-> +       u32 cable_dp_vdo;
->         int ret;
->
->         if (typec->pd_ctrl_ver < 2) {
-> @@ -524,6 +526,32 @@ static int cros_typec_enable_dp(struct cros_typec_da=
-ta *typec,
->         port->state.data =3D &dp_data;
->         port->state.mode =3D TYPEC_MODAL_STATE(ffs(pd_ctrl->dp_mode));
->
-> +       /* Get cable VDO for cables with DPSID to check DPAM2.1 is suppor=
-ted */
-> +       cable_dp_vdo =3D cros_typec_get_cable_vdo(port, USB_TYPEC_DP_SID)=
-;
-> +
-> +       /**
-> +        * Get cable VDO for thunderbolt cables and cables with DPSID but=
- does not
-> +        * support DPAM2.1.
-> +        */
-> +       cable_tbt_vdo =3D cros_typec_get_cable_vdo(port, USB_TYPEC_TBT_SI=
-D);
-> +
-> +       if (cable_dp_vdo & DP_CAP_DPAM_VERSION) {
-> +               dp_data.conf |=3D cable_dp_vdo;
-> +       } else if (cable_tbt_vdo) {
-> +               dp_data.conf |=3D  TBT_CABLE_SPEED(cable_tbt_vdo) << DP_C=
-ONF_SIGNALLING_SHIFT;
-> +
-> +               /* Cable Type */
-> +               if (cable_tbt_vdo & TBT_CABLE_OPTICAL)
-> +                       dp_data.conf |=3D DP_CONF_CABLE_TYPE_OPTICAL << D=
-P_CONF_CABLE_TYPE_SHIFT;
-> +               else if (cable_tbt_vdo & TBT_CABLE_RETIMER)
-> +                       dp_data.conf |=3D DP_CONF_CABLE_TYPE_RE_TIMER << =
-DP_CONF_CABLE_TYPE_SHIFT;
-> +               else if (cable_tbt_vdo & TBT_CABLE_ACTIVE_PASSIVE)
-> +                       dp_data.conf |=3D DP_CONF_CABLE_TYPE_RE_DRIVER <<=
- DP_CONF_CABLE_TYPE_SHIFT;
-> +       } else if (PD_IDH_PTYPE(port->c_identity.id_header) =3D=3D IDH_PT=
-YPE_PCABLE) {
-> +               dp_data.conf |=3D VDO_TYPEC_CABLE_SPEED(port->c_identity.=
-vdo[0]) <<
-> +                               DP_CONF_SIGNALLING_SHIFT;
-> +       }
-> +
->         ret =3D cros_typec_retimer_set(port->retimer, port->state);
->         if (!ret)
->                 ret =3D typec_mux_set(port->mux, &port->state);
-> diff --git a/include/linux/usb/pd_vdo.h b/include/linux/usb/pd_vdo.h
-> index b057250704e8..3a747938cdab 100644
-> --- a/include/linux/usb/pd_vdo.h
-> +++ b/include/linux/usb/pd_vdo.h
-> @@ -376,6 +376,7 @@
->          | ((vbm) & 0x3) << 9 | (sbu) << 8 | (sbut) << 7 | ((cur) & 0x3) =
-<< 5   \
->          | (vbt) << 4 | (sopp) << 3 | ((spd) & 0x7))
->
-> +#define VDO_TYPEC_CABLE_SPEED(vdo)     ((vdo) & 0x7)
-
-I would suggest putting this header modification in a separate patch;
-if for some reason we have to revert
-the Chrome part of the change, then we won't rip this part out too
-(some other driver down the road may use
-the macro and would break if it were to be removed). But I'll leave it
-to Heikki to determine whether that is preferred.
-
-Thanks,
-
--Prashant
+Thanks
+Wesley Cheng
