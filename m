@@ -2,114 +2,209 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 327B6CA0ECA
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Sep 2023 10:35:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23EC8CA0EC3
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Sep 2023 10:48:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234209AbjILKgB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Sep 2023 06:36:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35526 "EHLO
+        id S234556AbjILKsH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Sep 2023 06:48:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234094AbjILKe3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Sep 2023 06:34:29 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD394210D
-        for <linux-usb@vger.kernel.org>; Tue, 12 Sep 2023 03:34:22 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1c1ff5b741cso49316265ad.2
-        for <linux-usb@vger.kernel.org>; Tue, 12 Sep 2023 03:34:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694514862; x=1695119662; darn=vger.kernel.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=25pMmv0eFGnACBWimpT959NfTJ1UsBBxTXZ9YN0t6B4=;
-        b=j+9F+muG3kteMCuLyRTFVFeD7q+LWqfubgwvrUEYuHNR1o2ea5uwmUZVNe1975Awr0
-         xQuqlHdS0eOEsgekvFk84rXRRnYBN/3SuTasPNHFTyrOxGMg0XPuBacjTgjr8KY+VUvh
-         GtfB4u848VU7xF0QdnMs21DDd5aiJagffOa+ycP5IvAVR4jrRHPTA5bJx7m1zoGcjtZ2
-         WkbjLyNr/rK5xHUGdvRHUmAh1kLqhFV9JTijnjbziWb7Jn6rslZBk3WpeydFnXmSQYq5
-         vofCjHzAuUdJ9zOu9w6CxZoJwHbCasR+Phy0TpO/lKBHrvvmgK+Gf6TODwrRueO4Vqr5
-         kIAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694514862; x=1695119662;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=25pMmv0eFGnACBWimpT959NfTJ1UsBBxTXZ9YN0t6B4=;
-        b=neN+CJ3gCqXD5fpnKU2TlMfaaGJ6xwLTOoxGgTI+V+FFRvNF8T7j+uZHCZr0AJpzD6
-         uf3Ii598hbivVOC/ZPWn3u0ZelGs0b6W34WZtf1JsoyRZ8KfwVuWv9K7QT5ef6XqgUQn
-         f2bAUH74/Dii1j9CMOBza9n5JCOACWgYZtirPZ1dibfhm52aqbXM3z9LnodntJ/tSTm8
-         qB/7o4pcbFaqc9QAEPKE8xNIwXrlCBvIEU0VXJJVRXxJH+S+EZJDH6uISZM/NvQ/l6fs
-         zbxNsTjwzqZJdZp0Zx7RoOYrH/myMn7cAKgsdaHkxg/LZ+Wfki+yjyj84ejbj8fWxhvh
-         zCPA==
-X-Gm-Message-State: AOJu0YxRKkalZ912UOuWJibSPmluB2EHQNWn4HD9eMi4szTGlvYS2YXH
-        1b4iksZjBV4a9KwxMFfJpIr+JElpvHg=
-X-Google-Smtp-Source: AGHT+IGuOvYhmrQ93u9xsBguauQ4GgdSDkipFGTYahTGZv+wk6NDgp+/M/m4q5dC/ac558uZyc2AKA==
-X-Received: by 2002:a17:902:9a4b:b0:1c0:bf62:c921 with SMTP id x11-20020a1709029a4b00b001c0bf62c921mr12617976plv.18.1694514862146;
-        Tue, 12 Sep 2023 03:34:22 -0700 (PDT)
-Received: from localhost ([103.40.76.4])
-        by smtp.gmail.com with ESMTPSA id s16-20020a170902ea1000b001bf095dfb76sm1176775plg.237.2023.09.12.03.34.21
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 12 Sep 2023 03:34:21 -0700 (PDT)
-From:   "Jiazi.Li" <jqqlijiazi@gmail.com>
-X-Google-Original-From: "Jiazi.Li" <jiazi.li@transsion.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     "Jiazi.Li" <jiazi.li@transsion.com>, linux-usb@vger.kernel.org
-Subject: [PATCH] usb: gadget: f_fs: increase eps_revmap length
-Date:   Tue, 12 Sep 2023 18:34:17 +0800
-Message-Id: <20230912103417.18839-1-jiazi.li@transsion.com>
+        with ESMTP id S234580AbjILKrb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Sep 2023 06:47:31 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C0012D49
+        for <linux-usb@vger.kernel.org>; Tue, 12 Sep 2023 03:46:13 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38C7RmCn029021;
+        Tue, 12 Sep 2023 10:45:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=GaT13gaZ5ErTcPmyi7wI80e49jYlWh55hml06Bp2juQ=;
+ b=Iq2l2sjzX9F9duzjUQcDSdLw0/B9bDVJ8uWxdOfK5A4D41jo83iYqAYIA/6UQ+SDGZCD
+ iKNgTj1vTzFSl92nrOHI2fIOJlexYDNjarB1MuX2XCCUvu1CH47MO4sjWA07emsc6hQm
+ gxN474fU0kBDB1UUdQ73mTJ9lULYLFMatrYW1oAfIpOV6IXDD4as7JdAA+zcPR/MHSz0
+ +BuSOO1nMWVJrOMIRB2V/4i6gzO8YMLfwlUh12sx8Cib9X8VKAKHGMPrdIVeX1b8aL4Z
+ iCbtNWPKzJ+oBDUGfNLQo8boUGvcwF01yfPwSUvNxSqYQJe49kCnsaJwwDdXRV7cQpLP Vg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t268fj3f3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 12 Sep 2023 10:45:28 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38CAjQwu019293
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 12 Sep 2023 10:45:27 GMT
+Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Tue, 12 Sep 2023 03:45:19 -0700
+From:   Linyu Yuan <quic_linyyuan@quicinc.com>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Neal Liu <neal_liu@aspeedtech.com>,
+        "Cristian Birsan" <cristian.birsan@microchip.com>,
+        Bin Liu <b-liu@ti.com>, "Kevin Cernekee" <cernekee@gmail.com>,
+        Justin Chen <justin.chen@broadcom.com>,
+        "Al Cooper" <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
+        "Vladimir Zapolskiy" <vz@mleia.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        "Philipp Zabel" <p.zabel@pengutronix.de>,
+        Herve Codina <herve.codina@bootlin.com>,
+        hierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Rui Miguel Silva <rui.silva@linaro.org>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        "Shuah Khan" <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, Linyu Yuan <quic_linyyuan@quicinc.com>
+Subject: [PATCH v3 02/10] usb: gadget: add anonymous definition in struct usb_request
+Date:   Tue, 12 Sep 2023 18:44:47 +0800
+Message-ID: <20230912104455.7737-3-quic_linyyuan@quicinc.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230912104455.7737-1-quic_linyyuan@quicinc.com>
+References: <20230912104455.7737-1-quic_linyyuan@quicinc.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: cWFi6nQRTGT7iEZ_IL4l-TrI_eR5kiOP
+X-Proofpoint-ORIG-GUID: cWFi6nQRTGT7iEZ_IL4l-TrI_eR5kiOP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-12_08,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 spamscore=0 adultscore=0 mlxscore=0 bulkscore=0
+ phishscore=0 malwarescore=0 impostorscore=0 priorityscore=1501
+ clxscore=1015 mlxlogscore=535 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2308100000 definitions=main-2309120090
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Commit 41dc9ac163e7 ("usb: gadget: f_fs: Accept up to 30 endpoints.")
-increase eps_addrmap length to 31, eps_revmap also need to increase.
-Increase it's length to 32.
+Some UDC trace event will save usb request information, but it will use
+one int size buffer to save one bit information of usb request, so more
+than one int buffer to save several bit fields which is not good.
 
-For same-address, opposite-direction endpoints, will use same idx in
-eps_revmap, so add new marco REVMAP_IDX to calculate idx for endpoints.
+First add an anonymous union which have one u32 member dw1 which can be
+used by trace event during fast assign stage to reduce trace buffer
+usage, add related macro to extract bit fields from dw1 for later trace
+event output state usage.
 
-Signed-off-by: Jiazi.Li <jiazi.li@transsion.com>
+Also move exist stread_id and other bit fields into one anonymous struct
+which inside anonymous union, change them from unsigned to u32 type,
+it will make sure union member have same memory size as dw1.
+
+In order to allow trace event output stage access the bit from saved u32
+'dw1', add following macros,
+define USB_REQ_BITFIELD(n, name) \
+	({\
+	union {\
+		struct {\
+			u32	stream_id:16;\
+			u32	is_last:1;\
+			u32	no_interrupt:1;\
+			u32	zero:1;\
+			u32	short_not_ok:1;\
+			u32	dma_mapped:1;\
+		} __packed;\
+		u32		dw1;\
+	} __aligned(4) __r_u_##name;\
+	u32 __r_##name; \
+	BUILD_BUG_ON(sizeof(__r_u_##name) != 4);\
+	__r_u_##name.dw1 = (n); __r_##name = __r_u_##name.name;\
+	__r_##name; })
+
+define USB_REQ_STREAM_ID(n) USB_REQ_BITFIELD((n), stream_id)
+...
+change to use this kind of macros for all related trace files later.
+
+Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
 ---
- drivers/usb/gadget/function/f_fs.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+v2: no change
+v3: change method to extract bit field
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 6e9ef35a43a7..4a210368bd33 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -71,12 +71,14 @@ struct ffs_function {
- 	struct ffs_data			*ffs;
+ include/linux/usb/gadget.h | 43 ++++++++++++++++++++++++++++++++------
+ 1 file changed, 37 insertions(+), 6 deletions(-)
+
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index f02e1bd20924..a1717c633942 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -41,6 +41,7 @@ struct usb_ep;
+  * @num_sgs: number of SG entries
+  * @num_mapped_sgs: number of SG entries mapped to DMA (internal)
+  * @length: Length of that data
++ * @dw1: trace event purpose
+  * @stream_id: The stream id, when USB3.0 bulk streams are being used
+  * @is_last: Indicates if this is the last request of a stream_id before
+  *	switching to a different stream (required for DWC3 controllers).
+@@ -105,12 +106,17 @@ struct usb_request {
+ 	unsigned		num_sgs;
+ 	unsigned		num_mapped_sgs;
  
- 	struct ffs_ep			*eps;
--	u8				eps_revmap[16];
-+	u8				eps_revmap[32];
- 	short				*interfaces_nums;
+-	unsigned		stream_id:16;
+-	unsigned		is_last:1;
+-	unsigned		no_interrupt:1;
+-	unsigned		zero:1;
+-	unsigned		short_not_ok:1;
+-	unsigned		dma_mapped:1;
++	union {
++		struct {
++			u32	stream_id:16;
++			u32	is_last:1;
++			u32	no_interrupt:1;
++			u32	zero:1;
++			u32	short_not_ok:1;
++			u32	dma_mapped:1;
++		} __packed;
++		u32		dw1;
++	} __aligned(4);
  
- 	struct usb_function		function;
+ 	void			(*complete)(struct usb_ep *ep,
+ 					struct usb_request *req);
+@@ -123,6 +129,31 @@ struct usb_request {
+ 	unsigned		actual;
  };
  
-+#define REVMAP_IDX(epaddr)	((epaddr & USB_ENDPOINT_NUMBER_MASK) \
-+				* 2 + ((epaddr & USB_DIR_IN) ? 1 : 0))
++#define USB_REQ_BITFIELD(n, name) \
++	({\
++	union {\
++		struct {\
++			u32	stream_id:16;\
++			u32	is_last:1;\
++			u32	no_interrupt:1;\
++			u32	zero:1;\
++			u32	short_not_ok:1;\
++			u32	dma_mapped:1;\
++		} __packed;\
++		u32		dw1;\
++	} __aligned(4) __r_u_##name;\
++	u32 __r_##name; \
++	BUILD_BUG_ON(sizeof(__r_u_##name) != 4);\
++	__r_u_##name.dw1 = (n); __r_##name = __r_u_##name.name;\
++	__r_##name; })
++
++#define USB_REQ_STREAM_ID(n) USB_REQ_BITFIELD((n), stream_id)
++#define USB_REQ_IS_LAST(n) USB_REQ_BITFIELD((n), stream_id)
++#define USB_REQ_NO_INTERRUPT(n) USB_REQ_BITFIELD((n), stream_id)
++#define USB_REQ_ZERO(n) USB_REQ_BITFIELD((n), stream_id)
++#define USB_REQ_SHORT_NOT_OK(n) USB_REQ_BITFIELD((n), stream_id)
++#define USB_REQ_DMA_MAPPED(n) USB_REQ_BITFIELD((n), stream_id)
++
+ /*-------------------------------------------------------------------------*/
  
- static struct ffs_function *ffs_func_from_usb(struct usb_function *f)
- {
-@@ -2843,8 +2845,7 @@ static int __ffs_func_bind_do_descs(enum ffs_entity_type type, u8 *valuep,
- 
- 		ffs_ep->ep  = ep;
- 		ffs_ep->req = req;
--		func->eps_revmap[ds->bEndpointAddress &
--				 USB_ENDPOINT_NUMBER_MASK] = idx + 1;
-+		func->eps_revmap[REVMAP_IDX(ds->bEndpointAddress)] = idx + 1;
- 		/*
- 		 * If we use virtual address mapping, we restore
- 		 * original bEndpointAddress value.
-@@ -3371,7 +3372,7 @@ static void ffs_func_resume(struct usb_function *f)
- 
- static int ffs_func_revmap_ep(struct ffs_function *func, u8 num)
- {
--	num = func->eps_revmap[num & USB_ENDPOINT_NUMBER_MASK];
-+	num = func->eps_revmap[REVMAP_IDX(num)];
- 	return num ? num : -EDOM;
- }
- 
+ /* endpoint-specific parts of the api to the usb controller hardware.
 -- 
 2.17.1
 
