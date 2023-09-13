@@ -2,32 +2,32 @@ Return-Path: <linux-usb-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED1C9EDEC40
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Sep 2023 11:10:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 211FFEDEC45
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Sep 2023 11:10:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239968AbjIMLK7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Sep 2023 07:10:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57404 "EHLO
+        id S239973AbjIMLLB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Sep 2023 07:11:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239909AbjIMLKx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Sep 2023 07:10:53 -0400
+        with ESMTP id S239922AbjIMLK4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Sep 2023 07:10:56 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B606B19A6;
-        Wed, 13 Sep 2023 04:10:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B460F19AF;
+        Wed, 13 Sep 2023 04:10:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=OvdbcAa8gNPLTScw30C0haUonfkOP4Sq+9lSIjPBcA4=; b=BepW6GlQfs7UxJI49kYyTOBmOn
-        io8rCiqoTN82fVhijBrxmh9o1TdkMXRsiAIwB5vFZMJHLLxr+CTkE5IT0bezBvw5XQkYmxJamyO7r
-        VERBZCQvvADhWdAfiqojvZf61y+XfcgyFv5rOelIFAgst08ZgJMWU4IlV3C9vz/DA8lzKsDDcCi4x
-        nTdjEjDz27Hb9ZI3K+FLVKG+rRX6BnVjvMb0SMmENeAYOBDB/ReOHHJhruLn67W3hQYc9BTZSJA4k
-        vinBnybR1nUaX6WOMp85Fn/1tILifgOb74k8iOy2N+OpXTds6npnQN1TjbBmF5AD+WCPStHhmQgb2
-        vXoPOUQw==;
+        bh=b6JdnhwIl1taCSuc4/dqYhKrJWm6XSMnTzKFUhXDk90=; b=EAZIGMEQGDmVc5b4HFMpBvbTk1
+        a87xB+v+1aNqp3SxQeGpV9pGzF8zADYqluGyqlFQa8NzUIiR/aTufGkixUmKR0TmyhHOKTVIssNrI
+        oOFCpHLiXMlmAN3iof2pWDUzqstnEJxit+dtb2dVuyYZxuftmoWr5Wuyb6w7M1b9q23kwkDHhoToo
+        1htP/cypd4seEz9gHuu1jV1u0S7HxglRFy5nb0rOrPWEZZMb1lIVKnbtY/e3M85d25kUSW3oQL2RU
+        laGeZfjve9WXYmBB4d0uFgGBFR8aDayeP5agpFwnAbORmgapveVNx3bXY8WLLNsnARaFCeGJDPCln
+        /4p8NMPw==;
 Received: from [190.210.221.22] (helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qgNlN-005hvc-2f;
-        Wed, 13 Sep 2023 11:10:30 +0000
+        id 1qgNlK-005hvJ-0S;
+        Wed, 13 Sep 2023 11:10:26 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Christian Brauner <brauner@kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>
@@ -51,9 +51,9 @@ Cc:     Heiko Carstens <hca@linux.ibm.com>,
         linux-s390@vger.kernel.org, linux-rdma@vger.kernel.org,
         linux-nfs@vger.kernel.org, linux-hardening@vger.kernel.org,
         cgroups@vger.kernel.org
-Subject: [PATCH 02/19] fs: make ->kill_sb optional
-Date:   Wed, 13 Sep 2023 08:09:56 -0300
-Message-Id: <20230913111013.77623-3-hch@lst.de>
+Subject: [PATCH 01/19] fs: reflow deactivate_locked_super
+Date:   Wed, 13 Sep 2023 08:09:55 -0300
+Message-Id: <20230913111013.77623-2-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230913111013.77623-1-hch@lst.de>
 References: <20230913111013.77623-1-hch@lst.de>
@@ -64,31 +64,64 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Call generic_shutdown_super if ->kill_sb is not provided by the file
-system.  This can't currently happen but will become common soon.
+Return early for the case where the super block isn't cleaned up to
+reduce level of indentation.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/super.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ fs/super.c | 35 ++++++++++++++++++-----------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
 
 diff --git a/fs/super.c b/fs/super.c
-index 127a17d958a482..ab234e6af48605 100644
+index 2d762ce67f6e6c..127a17d958a482 100644
 --- a/fs/super.c
 +++ b/fs/super.c
-@@ -483,7 +483,11 @@ void deactivate_locked_super(struct super_block *s)
+@@ -476,27 +476,28 @@ static void kill_super_notify(struct super_block *sb)
+ void deactivate_locked_super(struct super_block *s)
+ {
+ 	struct file_system_type *fs = s->s_type;
+-	if (atomic_dec_and_test(&s->s_active)) {
+-		unregister_shrinker(&s->s_shrink);
+-		fs->kill_sb(s);
+ 
+-		kill_super_notify(s);
+-
+-		/*
+-		 * Since list_lru_destroy() may sleep, we cannot call it from
+-		 * put_super(), where we hold the sb_lock. Therefore we destroy
+-		 * the lru lists right now.
+-		 */
+-		list_lru_destroy(&s->s_dentry_lru);
+-		list_lru_destroy(&s->s_inode_lru);
+-
+-		put_filesystem(fs);
+-		put_super(s);
+-	} else {
++	if (!atomic_dec_and_test(&s->s_active)) {
+ 		super_unlock_excl(s);
++		return;
  	}
+-}
  
- 	unregister_shrinker(&s->s_shrink);
--	fs->kill_sb(s);
++	unregister_shrinker(&s->s_shrink);
++	fs->kill_sb(s);
 +
-+	if (fs->kill_sb)
-+		fs->kill_sb(s);
-+	else
-+		generic_shutdown_super(s);
++	kill_super_notify(s);
++
++	/*
++	 * Since list_lru_destroy() may sleep, we cannot call it from
++	 * put_super(), where we hold the sb_lock. Therefore we destroy
++	 * the lru lists right now.
++	 */
++	list_lru_destroy(&s->s_dentry_lru);
++	list_lru_destroy(&s->s_inode_lru);
++
++	put_filesystem(fs);
++	put_super(s);
++}
+ EXPORT_SYMBOL(deactivate_locked_super);
  
- 	kill_super_notify(s);
- 
+ /**
 -- 
 2.39.2
 
