@@ -1,44 +1,44 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E10A611C
-	for <linux-usb@vger.kernel.org>; Fri, 15 Sep 2023 05:27:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE273611C
+	for <linux-usb@vger.kernel.org>; Fri, 15 Sep 2023 05:27:46 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 684062729
-	for <linux-usb@vger.kernel.org>; Thu, 14 Sep 2023 22:27:38 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06B17272E
+	for <linux-usb@vger.kernel.org>; Thu, 14 Sep 2023 22:27:41 -0700 (PDT)
 Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38F3bqQm022297;
-	Fri, 15 Sep 2023 05:27:31 GMT
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38F3GFus008126;
+	Fri, 15 Sep 2023 05:27:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=pyGHVjqnVgknx8VJnvjMNs6jpb/74wUv0QOm5syLwz4=;
- b=SGkxTL0pu8nPRj+visPN23YBkVTUdrm4fqs8PTt3/TuT3+em4/a8yc/31BHMhIekv1sT
- Or+O2Ygoc7HAqMNCjwcO2VvnPWxkT1oILvm4g2dAbV1QoL4bVKbW9NtQa03o9amBHu0Q
- rCvH+JW5ETgo4tO1sRmA9WSPN18IoaIb17BWD+3krg4dXYFr1Ih5MiufJeLFIIhB9Y2p
- oWgaodtxKzhsI4Etw+0VtfpWH7oM+EGj/VV83CRsVLWs+Opji9c01KiV8f/m+k70wnFm
- y47P77koBrKLVKc3qnEZ5iru2LVvlcNK6gOpetK89XhZRlcrXfgKQA5eTTNDXluOj4BC vg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t4f6v08av-1
+ bh=bS2z7S/DxBLL58CO6wnpjleM5N4ov9wpCfpeh6rV7Lc=;
+ b=O63akEuL7dKy0p5v211Xxfhw58Ka3I7yIybtEj9cUgG9CgMWGPMiyn0orJLCNNmkDbdt
+ Npbp8hy/pC2fxT3ETesjU0SzIb6mvYhxNr/i5ULg7y3sOr8KahxTqiDgENuIekqKmPhb
+ CmZMHSd3qLEmaWhlm0jC62So/bNELzfF7NQcHuPL/put0Z3woaQ/Ci8YOk7nh2QW0JT3
+ KaZfV3dEC2wFNyKjnGScWM7aZZ9u8ulvCIKpHV6ExCxlHyU+uk2R/Lj2V3mJo6b3dpSR
+ ye8G899KhWuTLv8PVchHgmBB8u7x/Db/Gkp4FRq4DvhfhxBRDPZsQoBjh8EoCo+nTleE Bw== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t4f6v08ay-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Sep 2023 05:27:31 +0000
+	Fri, 15 Sep 2023 05:27:34 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38F5RTnV011591
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38F5RX4b029107
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Sep 2023 05:27:29 GMT
+	Fri, 15 Sep 2023 05:27:33 GMT
 Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Thu, 14 Sep 2023 22:27:27 -0700
+ 15.2.1118.36; Thu, 14 Sep 2023 22:27:31 -0700
 From: Linyu Yuan <quic_linyyuan@quicinc.com>
 To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         Alan Stern
 	<stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC: <linux-usb@vger.kernel.org>, Linyu Yuan <quic_linyyuan@quicinc.com>
-Subject: [PATCH v6 1/3] usb: gadget: add anonymous definition in some struct for trace purpose
-Date: Fri, 15 Sep 2023 13:27:14 +0800
-Message-ID: <20230915052716.28540-2-quic_linyyuan@quicinc.com>
+Subject: [PATCH v6 /3] usb: dwc3: trace: reduce buffer usage of trace event
+Date: Fri, 15 Sep 2023 13:27:16 +0800
+Message-ID: <20230915052716.28540-4-quic_linyyuan@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230915052716.28540-1-quic_linyyuan@quicinc.com>
 References: <20230915052716.28540-1-quic_linyyuan@quicinc.com>
@@ -55,14 +55,14 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: eORiizD95DPosuMi1B77z2djmbhbjpC9
-X-Proofpoint-ORIG-GUID: eORiizD95DPosuMi1B77z2djmbhbjpC9
+X-Proofpoint-GUID: 27YyJcSj2qyguOSEPS59QV7ri-YimbCn
+X-Proofpoint-ORIG-GUID: 27YyJcSj2qyguOSEPS59QV7ri-YimbCn
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-09-15_05,2023-09-14_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
  lowpriorityscore=0 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
- clxscore=1015 mlxlogscore=793 spamscore=0 mlxscore=0 priorityscore=1501
+ clxscore=1015 mlxlogscore=549 spamscore=0 mlxscore=0 priorityscore=1501
  impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2308100000 definitions=main-2309150048
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -71,287 +71,169 @@ X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Some UDC trace event will save usb udc information, but it use one int
-size buffer to save one bit information of usb udc, it waste trace buffer.
+Save u32 members in __le32 format into trace event ring buffer and parse
+it for possible bit fields.
 
-Add anonymous union which have u32 members can be used by trace event
-during fast assign stage to save more entries with same trace ring buffer
-size.
-
-Also add some trace event purpose macro in this file for all possiable
-use.
+Use new common trace event macro in gadget.h for output stage.
 
 Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
 ---
- include/linux/usb/gadget.h | 201 +++++++++++++++++++++++++++++--------
- 1 file changed, 160 insertions(+), 41 deletions(-)
+ drivers/usb/dwc3/trace.h | 63 ++++++++++++++++++----------------------
+ 1 file changed, 29 insertions(+), 34 deletions(-)
 
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index 75bda0783395..2c0f7aafd2d3 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -24,6 +24,10 @@
- #include <linux/scatterlist.h>
- #include <linux/types.h>
- #include <linux/workqueue.h>
-+#include <linux/stdarg.h>
-+#include <linux/bitops.h>
-+#include <linux/sprintf.h>
-+#include <linux/bitfield.h>
- #include <linux/usb/ch9.h>
+diff --git a/drivers/usb/dwc3/trace.h b/drivers/usb/dwc3/trace.h
+index d2997d17cfbe..8df2d3ec5db6 100644
+--- a/drivers/usb/dwc3/trace.h
++++ b/drivers/usb/dwc3/trace.h
+@@ -102,30 +102,25 @@ DECLARE_EVENT_CLASS(dwc3_log_request,
+ 	TP_PROTO(struct dwc3_request *req),
+ 	TP_ARGS(req),
+ 	TP_STRUCT__entry(
+-		__string(name, req->dep->name)
++		__field(u32, edw3)
+ 		__field(struct dwc3_request *, req)
+ 		__field(unsigned int, actual)
+ 		__field(unsigned int, length)
+ 		__field(int, status)
+-		__field(int, zero)
+-		__field(int, short_not_ok)
+-		__field(int, no_interrupt)
++		__field(u32, rdw1)
+ 	),
+ 	TP_fast_assign(
+-		__assign_str(name, req->dep->name);
++		__entry->edw3 = cpu_to_le32(req->dep->endpoint.dw3);
+ 		__entry->req = req;
+ 		__entry->actual = req->request.actual;
+ 		__entry->length = req->request.length;
+ 		__entry->status = req->request.status;
+-		__entry->zero = req->request.zero;
+-		__entry->short_not_ok = req->request.short_not_ok;
+-		__entry->no_interrupt = req->request.no_interrupt;
++		__entry->rdw1 = cpu_to_le32(req->request.dw1);
+ 	),
+-	TP_printk("%s: req %p length %u/%u %s%s%s ==> %d",
+-		__get_str(name), __entry->req, __entry->actual, __entry->length,
+-		__entry->zero ? "Z" : "z",
+-		__entry->short_not_ok ? "S" : "s",
+-		__entry->no_interrupt ? "i" : "I",
++	TP_printk("%s: req %p length %u/%u %s ==> %d",
++		usb_gadget_ep_name(__get_buf(USB_EP_MAX_NAME_LEN), __entry->edw3),
++		__entry->req, __entry->actual, __entry->length,
++		__print_flags(__entry->rdw1, ":", USB_REQ_FLAGS),
+ 		__entry->status
+ 	)
+ );
+@@ -185,7 +180,7 @@ DECLARE_EVENT_CLASS(dwc3_log_gadget_ep_cmd,
+ 		struct dwc3_gadget_ep_cmd_params *params, int cmd_status),
+ 	TP_ARGS(dep, cmd, params, cmd_status),
+ 	TP_STRUCT__entry(
+-		__string(name, dep->name)
++		__field(u32, edw3)
+ 		__field(unsigned int, cmd)
+ 		__field(u32, param0)
+ 		__field(u32, param1)
+@@ -193,7 +188,7 @@ DECLARE_EVENT_CLASS(dwc3_log_gadget_ep_cmd,
+ 		__field(int, cmd_status)
+ 	),
+ 	TP_fast_assign(
+-		__assign_str(name, dep->name);
++		__entry->edw3 = cpu_to_le32(dep->endpoint.dw3);
+ 		__entry->cmd = cmd;
+ 		__entry->param0 = params->param0;
+ 		__entry->param1 = params->param1;
+@@ -201,7 +196,8 @@ DECLARE_EVENT_CLASS(dwc3_log_gadget_ep_cmd,
+ 		__entry->cmd_status = cmd_status;
+ 	),
+ 	TP_printk("%s: cmd '%s' [%x] params %08x %08x %08x --> status: %s",
+-		__get_str(name), dwc3_gadget_ep_cmd_string(__entry->cmd),
++		usb_gadget_ep_name(__get_buf(USB_EP_MAX_NAME_LEN), __entry->edw3),
++		dwc3_gadget_ep_cmd_string(__entry->cmd),
+ 		__entry->cmd, __entry->param0,
+ 		__entry->param1, __entry->param2,
+ 		dwc3_ep_cmd_status_string(__entry->cmd_status)
+@@ -218,7 +214,7 @@ DECLARE_EVENT_CLASS(dwc3_log_trb,
+ 	TP_PROTO(struct dwc3_ep *dep, struct dwc3_trb *trb),
+ 	TP_ARGS(dep, trb),
+ 	TP_STRUCT__entry(
+-		__string(name, dep->name)
++		__field(u32, edw3)
+ 		__field(struct dwc3_trb *, trb)
+ 		__field(u32, bpl)
+ 		__field(u32, bph)
+@@ -229,7 +225,7 @@ DECLARE_EVENT_CLASS(dwc3_log_trb,
+ 		__field(u32, dequeue)
+ 	),
+ 	TP_fast_assign(
+-		__assign_str(name, dep->name);
++		__entry->edw3 = cpu_to_le32(dep->endpoint.dw3);
+ 		__entry->trb = trb;
+ 		__entry->bpl = trb->bpl;
+ 		__entry->bph = trb->bph;
+@@ -240,7 +236,8 @@ DECLARE_EVENT_CLASS(dwc3_log_trb,
+ 		__entry->dequeue = dep->trb_dequeue;
+ 	),
+ 	TP_printk("%s: trb %p (E%d:D%d) buf %08x%08x size %s%d ctrl %08x sofn %08x (%c%c%c%c:%c%c:%s)",
+-		__get_str(name), __entry->trb, __entry->enqueue,
++		usb_gadget_ep_name(__get_buf(USB_EP_MAX_NAME_LEN), __entry->edw3),
++		__entry->trb, __entry->enqueue,
+ 		__entry->dequeue, __entry->bph, __entry->bpl,
+ 		({char *s;
+ 		int pcm = ((__entry->size >> 24) & 3) + 1;
+@@ -272,7 +269,7 @@ DECLARE_EVENT_CLASS(dwc3_log_trb,
+ 		__entry->ctrl & DWC3_TRB_CTRL_CSP ? 'S' : 's',
+ 		__entry->ctrl & DWC3_TRB_CTRL_ISP_IMI ? 'S' : 's',
+ 		__entry->ctrl & DWC3_TRB_CTRL_IOC ? 'C' : 'c',
+-		  dwc3_trb_type_string(DWC3_TRBCTL_TYPE(__entry->ctrl))
++		dwc3_trb_type_string(DWC3_TRBCTL_TYPE(__entry->ctrl))
+ 	)
+ );
  
- #define UDC_TRACE_STR_MAX	512
-@@ -41,6 +45,7 @@ struct usb_ep;
-  * @num_sgs: number of SG entries
-  * @num_mapped_sgs: number of SG entries mapped to DMA (internal)
-  * @length: Length of that data
-+ * @dw1: trace event purpose
-  * @stream_id: The stream id, when USB3.0 bulk streams are being used
-  * @is_last: Indicates if this is the last request of a stream_id before
-  *	switching to a different stream (required for DWC3 controllers).
-@@ -105,12 +110,17 @@ struct usb_request {
- 	unsigned		num_sgs;
- 	unsigned		num_mapped_sgs;
- 
--	unsigned		stream_id:16;
--	unsigned		is_last:1;
--	unsigned		no_interrupt:1;
--	unsigned		zero:1;
--	unsigned		short_not_ok:1;
--	unsigned		dma_mapped:1;
-+	union {
-+		struct {
-+			u32	stream_id:16;
-+			u32	is_last:1;
-+			u32	no_interrupt:1;
-+			u32	zero:1;
-+			u32	short_not_ok:1;
-+			u32	dma_mapped:1;
-+		} __packed;
-+		u32		dw1;
-+	};
- 
- 	void			(*complete)(struct usb_ep *ep,
- 					struct usb_request *req);
-@@ -163,13 +173,13 @@ struct usb_ep_ops {
-  * @dir_out:Endpoint supports OUT direction.
-  */
- struct usb_ep_caps {
--	unsigned type_control:1;
--	unsigned type_iso:1;
--	unsigned type_bulk:1;
--	unsigned type_int:1;
--	unsigned dir_in:1;
--	unsigned dir_out:1;
--};
-+	u8	type_control:1;
-+	u8	type_iso:1;
-+	u8	type_bulk:1;
-+	u8	type_int:1;
-+	u8	dir_in:1;
-+	u8	dir_out:1;
-+} __packed;
- 
- #define USB_EP_CAPS_TYPE_CONTROL     0x01
- #define USB_EP_CAPS_TYPE_ISO         0x02
-@@ -199,6 +209,9 @@ struct usb_ep_caps {
-  * @caps:The structure describing types and directions supported by endpoint.
-  * @enabled: The current endpoint enabled/disabled state.
-  * @claimed: True if this endpoint is claimed by a function.
-+ * @dw1: trace event purpose
-+ * @dw2: trace event purpose
-+ * @dw3: trace event purpose
-  * @maxpacket:The maximum packet size used on this endpoint.  The initial
-  *	value can sometimes be reduced (hardware allowing), according to
-  *	the endpoint descriptor used to configure the endpoint.
-@@ -228,15 +241,30 @@ struct usb_ep {
- 	const char		*name;
- 	const struct usb_ep_ops	*ops;
- 	struct list_head	ep_list;
--	struct usb_ep_caps	caps;
--	bool			claimed;
--	bool			enabled;
--	unsigned		maxpacket:16;
--	unsigned		maxpacket_limit:16;
--	unsigned		max_streams:16;
--	unsigned		mult:2;
--	unsigned		maxburst:5;
--	u8			address;
-+	union {
-+		struct {
-+			u32	maxpacket:16;
-+			u32	maxpacket_limit:16;
-+		} __packed;
-+		u32	dw1;
-+	};
-+	union {
-+		struct {
-+			u32	max_streams:16;
-+			u32	mult:2;
-+			u32	maxburst:5;
-+		} __packed;
-+		u32	dw2;
-+	};
-+	union {
-+		struct {
-+			struct usb_ep_caps	caps;
-+			u8			claimed:1;
-+			u8			enabled:1;
-+			u8			address;
-+		} __packed;
-+		u32	dw3;
-+	};
- 	const struct usb_endpoint_descriptor	*desc;
- 	const struct usb_ss_ep_comp_descriptor	*comp_desc;
- };
-@@ -357,6 +385,7 @@ struct usb_gadget_ops {
-  * @in_epnum: last used in ep number
-  * @mA: last set mA value
-  * @otg_caps: OTG capabilities of this gadget.
-+ * @dw1: trace event purpose
-  * @sg_supported: true if we can handle scatter-gather
-  * @is_otg: True if the USB device port uses a Mini-AB jack, so that the
-  *	gadget driver must provide a USB OTG descriptor.
-@@ -432,25 +461,31 @@ struct usb_gadget {
- 	unsigned			mA;
- 	struct usb_otg_caps		*otg_caps;
- 
--	unsigned			sg_supported:1;
--	unsigned			is_otg:1;
--	unsigned			is_a_peripheral:1;
--	unsigned			b_hnp_enable:1;
--	unsigned			a_hnp_support:1;
--	unsigned			a_alt_hnp_support:1;
--	unsigned			hnp_polling_support:1;
--	unsigned			host_request_flag:1;
--	unsigned			quirk_ep_out_aligned_size:1;
--	unsigned			quirk_altset_not_supp:1;
--	unsigned			quirk_stall_not_supp:1;
--	unsigned			quirk_zlp_not_supp:1;
--	unsigned			quirk_avoids_skb_reserve:1;
--	unsigned			is_selfpowered:1;
--	unsigned			deactivated:1;
--	unsigned			connected:1;
--	unsigned			lpm_capable:1;
--	unsigned			wakeup_capable:1;
--	unsigned			wakeup_armed:1;
-+	union {
-+		struct {
-+			u32		sg_supported:1;
-+			u32		is_otg:1;
-+			u32		is_a_peripheral:1;
-+			u32		b_hnp_enable:1;
-+			u32		a_hnp_support:1;
-+			u32		a_alt_hnp_support:1;
-+			u32		hnp_polling_support:1;
-+			u32		host_request_flag:1;
-+			u32		quirk_ep_out_aligned_size:1;
-+			u32		quirk_altset_not_supp:1;
-+			u32		quirk_stall_not_supp:1;
-+			u32		quirk_zlp_not_supp:1;
-+			u32		quirk_avoids_skb_reserve:1;
-+			u32		is_selfpowered:1;
-+			u32		deactivated:1;
-+			u32		connected:1;
-+			u32		lpm_capable:1;
-+			u32		wakeup_capable:1;
-+			u32		wakeup_armed:1;
-+		} __packed;
-+
-+		u32			dw1;
-+	};
- 	int				irq;
- 	int				id_number;
- };
-@@ -960,4 +995,88 @@ extern void usb_ep_autoconfig_release(struct usb_ep *);
- 
- extern void usb_ep_autoconfig_reset(struct usb_gadget *);
- 
-+/*-------------------------------------------------------------------------*/
-+/* trace only, data in __le32 format at trace event fast assign stage */
-+#define		USB_GADGET_SG_SUPPORTED			BIT(0)
-+#define		USB_GADGET_IS_OTG			BIT(1)
-+#define		USB_GADGET_IS_A_PERIPHERAL		BIT(2)
-+#define		USB_GADGET_B_HNP_ENABLE			BIT(3)
-+#define		USB_GADGET_A_HNP_SUPPORT		BIT(4)
-+#define		USB_GADGET_A_ALT_HNP_SUPPORT		BIT(5)
-+#define		USB_GADGET_HNP_POLLING_SUPPORT		BIT(6)
-+#define		USB_GADGET_HOST_REQUEST_FLAG		BIT(7)
-+#define		USB_GADGET_QUIRK_EP_OUT_ALIGNED_SIZE	BIT(8)
-+#define		USB_GADGET_QUIRK_ALTSET_NOT_SUPP	BIT(9)
-+#define		USB_GADGET_QUIRK_STALL_NOT_SUPP		BIT(10)
-+#define		USB_GADGET_QUIRK_ZLP_NOT_SUPP		BIT(11)
-+#define		USB_GADGET_QUIRK_AVOIDS_SKB_RESERVE	BIT(12)
-+#define		USB_GADGET_IS_SELFPOWERED		BIT(13)
-+#define		USB_GADGET_DEACTIVATED			BIT(14)
-+#define		USB_GADGET_CONNECTED			BIT(15)
-+#define		USB_GADGET_LPM_CAPABLE			BIT(16)
-+#define		USB_GADGET_WAKEUP_CAPABLE		BIT(17)
-+#define		USB_GADGET_WAKEUP_ARMED			BIT(18)
-+
-+#define USB_GADGET_FLAGS	\
-+	{USB_GADGET_SG_SUPPORTED, "sg"},\
-+	{USB_GADGET_IS_OTG, "OTG"},\
-+	{USB_GADGET_IS_A_PERIPHERAL, "a_peripheral"},\
-+	{USB_GADGET_B_HNP_ENABLE, "b_hnp"},\
-+	{USB_GADGET_A_HNP_SUPPORT, "a_hnp"},\
-+	{USB_GADGET_A_ALT_HNP_SUPPORT, "a_alt_hnp"},\
-+	{USB_GADGET_HNP_POLLING_SUPPORT, "hnp_poll"},\
-+	{USB_GADGET_HOST_REQUEST_FLAG, "hostreq"},\
-+	{USB_GADGET_QUIRK_EP_OUT_ALIGNED_SIZE, "out_aligned"},\
-+	{USB_GADGET_QUIRK_ALTSET_NOT_SUPP, "no_altset"},\
-+	{USB_GADGET_QUIRK_STALL_NOT_SUPP, "no_stall"},\
-+	{USB_GADGET_QUIRK_ZLP_NOT_SUPP, "no_zlp"},\
-+	{USB_GADGET_QUIRK_AVOIDS_SKB_RESERVE, "no_skb_reserve"},\
-+	{USB_GADGET_IS_SELFPOWERED, "self-powered"},\
-+	{USB_GADGET_DEACTIVATED, "deactivated"},\
-+	{USB_GADGET_CONNECTED, "connected"},\
-+	{USB_GADGET_LPM_CAPABLE, "lpm-capable"},\
-+	{USB_GADGET_WAKEUP_CAPABLE, "wakeup-capable"},\
-+	{USB_GADGET_WAKEUP_ARMED, "wakeup-armed"}
-+
-+#define		USB_EP_MAXPACKET		GENMASK(15, 0)
-+#define		USB_EP_MAXPACKET_LIMIT		GENMASK(31, 16)
-+#define		USB_EP_MAX_STREAMS		GENMASK(15, 0)
-+#define		USB_EP_MULT			GENMASK(17, 16)
-+#define		USB_EP_MAXBURST			GENMASK(22, 18)
-+#define		USB_EP_DIR_BI			GENMASK(5, 4)
-+#define		USB_EP_DIR_IN			BIT(4)
-+#define		USB_EP_DIR_OUT			BIT(5)
-+#define		USB_EP_CLAIMED			BIT(8)
-+#define		USB_EP_ENABLED			BIT(9)
-+#define		USB_EP_ADDRESS			GENMASK(23, 16)
-+
-+#define USB_EP_FLAGS	\
-+	{USB_EP_CLAIMED, "claimed"},\
-+	{USB_EP_ENABLED, "enabled"}
-+
-+#define USB_EP_MAX_NAME_LEN	16
-+static inline char *usb_gadget_ep_name(char *s, u32 dw)
-+{
-+	snprintf(s, USB_EP_MAX_NAME_LEN, "ep%d%s", u32_get_bits(dw, USB_EP_ADDRESS),
-+		u32_get_bits(dw, USB_EP_DIR_BI) == 3 ? "" :
-+		u32_get_bits(dw, USB_EP_DIR_IN) ? "in" : "out");
-+
-+	return s;
-+}
-+
-+#define		USB_REQ_STREAM_ID	GENMASK(15, 0)
-+#define		USB_REQ_IS_LAST		BIT(16)
-+#define		USB_REQ_NO_INTERRUPT	BIT(17)
-+#define		USB_REQ_ZERO		BIT(18)
-+#define		USB_REQ_SHORT_NOT_OK	BIT(19)
-+#define		USB_REQ_DMA_MAPPED	BIT(20)
-+
-+#define USB_REQ_FLAGS	\
-+	{USB_REQ_IS_LAST, "last"},\
-+	{USB_REQ_NO_INTERRUPT, "no-irq"},\
-+	{USB_REQ_ZERO, "zero-len"},\
-+	{USB_REQ_SHORT_NOT_OK, "short-not-ok"},\
-+	{USB_REQ_DMA_MAPPED, "dma-mapped"}
-+/*-------------------------------------------------------------------------*/
-+
- #endif /* __LINUX_USB_GADGET_H */
+@@ -290,32 +287,30 @@ DECLARE_EVENT_CLASS(dwc3_log_ep,
+ 	TP_PROTO(struct dwc3_ep *dep),
+ 	TP_ARGS(dep),
+ 	TP_STRUCT__entry(
+-		__string(name, dep->name)
+-		__field(unsigned int, maxpacket)
+-		__field(unsigned int, maxpacket_limit)
+-		__field(unsigned int, max_streams)
+-		__field(unsigned int, maxburst)
++		__field(u32, edw3)
++		__field(u32, edw1)
++		__field(u32, edw2)
+ 		__field(unsigned int, flags)
+ 		__field(unsigned int, direction)
+ 		__field(u8, trb_enqueue)
+ 		__field(u8, trb_dequeue)
+ 	),
+ 	TP_fast_assign(
+-		__assign_str(name, dep->name);
+-		__entry->maxpacket = dep->endpoint.maxpacket;
+-		__entry->maxpacket_limit = dep->endpoint.maxpacket_limit;
+-		__entry->max_streams = dep->endpoint.max_streams;
+-		__entry->maxburst = dep->endpoint.maxburst;
++		__entry->edw3 = cpu_to_le32(dep->endpoint.dw3);
++		__entry->edw1 = cpu_to_le32(dep->endpoint.dw1);
++		__entry->edw2 = cpu_to_le32(dep->endpoint.dw2);
+ 		__entry->flags = dep->flags;
+ 		__entry->direction = dep->direction;
+ 		__entry->trb_enqueue = dep->trb_enqueue;
+ 		__entry->trb_dequeue = dep->trb_dequeue;
+ 	),
+ 	TP_printk("%s: mps %d/%d streams %d burst %d ring %d/%d flags %c:%c%c%c%c:%c",
+-		__get_str(name), __entry->maxpacket,
+-		__entry->maxpacket_limit, __entry->max_streams,
+-		__entry->maxburst, __entry->trb_enqueue,
+-		__entry->trb_dequeue,
++		usb_gadget_ep_name(__get_buf(USB_EP_MAX_NAME_LEN), __entry->edw3),
++		u32_get_bits(__entry->edw1, USB_EP_MAXPACKET),
++		u32_get_bits(__entry->edw1, USB_EP_MAXPACKET_LIMIT),
++		u32_get_bits(__entry->edw2, USB_EP_MAX_STREAMS),
++		u32_get_bits(__entry->edw2, USB_EP_MAXBURST),
++		__entry->trb_enqueue, __entry->trb_dequeue,
+ 		__entry->flags & DWC3_EP_ENABLED ? 'E' : 'e',
+ 		__entry->flags & DWC3_EP_STALL ? 'S' : 's',
+ 		__entry->flags & DWC3_EP_WEDGE ? 'W' : 'w',
 -- 
 2.17.1
 
