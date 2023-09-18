@@ -1,48 +1,46 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9581E63CC;
-	Mon, 18 Sep 2023 15:57:33 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C2DD134;
-	Mon, 18 Sep 2023 08:56:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8BD1F61A
+	for <linux-usb@vger.kernel.org>; Mon, 18 Sep 2023 16:05:20 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F5C230DD;
+	Mon, 18 Sep 2023 09:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695052559; x=1726588559;
+  t=1695053114; x=1726589114;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=x/Gkehkxz6H66m4fYJwVcARK+fcXMAjRR7eSmz5gtPw=;
-  b=CaelJh/qzKinhHGKWi6K8ul8EeQhjwwrfrgeR52Be6B+12SPFAZso9cT
-   GGsQbZR2EhKJoUGn5xRXhvcDeOAqequkV6aCfclIqJfv6CW/bQPsf3e6i
-   8KPKoMzYiP62T7yFCX9yH4zqbg2Zzov8R5RGDXihiR11hzmWAMY7eLSwg
-   U9QjBYQ0HW0r2Tpik0SEnGJOUUpeRXlJ2fvHS87yV316zeJFinLZN8MFF
-   st0ck0SFirm8SveGEsVTcsoPP+S7KBhIUNkaj9OHiXZ0KXuElmomyvGVZ
-   9DrmPdIAmOnqHWX1+osOH2woVdJICetZ8SGbY7i/3imrcbId8G3ppx5Rx
+  bh=xUKO1lA8xYmCgJHL6wMNL16CXTAfwplxErKfnHb19GI=;
+  b=f1i6XjRvUTd3EiAj/632XiBuujLOiU6CwE3rfX6xJv0zvlh1ovP4iRCa
+   5T2PjGPdWbjm6KjONegS5CJGE8p4U4iV648hFc4fhHkp4b8oKvaKHizxZ
+   pZAg8didG0TZZEjlBO1rOuOj+d+wsADtwHRSEavTWM4D7HhPG1N40LZqB
+   f9TUEtwJNWXfS3KzBTdLVYcTLi+ttJTRq9i3fu1ACAbSxlxe4Ib04hkMg
+   SeffLr0mMNQ7xsjxIq+vxrM9srWO7Ue+QZH6E1Hst9V7lXz41ltqeEaq8
+   4PVvzFGjcdDD1h0UelZa9Rq71pFdpA/wxFr3uf+9xuVDvU5GU6hsZ8S4H
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="443727940"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="382417277"
 X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="443727940"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 06:29:48 -0700
+   d="scan'208";a="382417277"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 07:26:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="1076591678"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="749040284"
 X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="1076591678"
+   d="scan'208";a="749040284"
 Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga005.fm.intel.com with SMTP; 18 Sep 2023 06:29:44 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 18 Sep 2023 16:29:43 +0300
-Date: Mon, 18 Sep 2023 16:29:43 +0300
+  by fmsmga007.fm.intel.com with SMTP; 18 Sep 2023 07:26:13 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 18 Sep 2023 17:26:12 +0300
+Date: Mon, 18 Sep 2023 17:26:12 +0300
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Abdel Alkuor <alkuor@gmail.com>
-Cc: krzysztof.kozlowski+dt@linaro.org, bryan.odonoghue@linaro.org,
-	gregkh@linuxfoundation.org, robh+dt@kernel.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	conor+dt@kernel.org, linux-kernel@vger.kernel.org,
-	abdelalkuor@geotab.com
-Subject: Re: [PATCH v5 15/15] USB: typec: Do not check VID for tps25750
-Message-ID: <ZQhQxzJfJmjbR02B@kuha.fi.intel.com>
-References: <20230917152639.21443-1-alkuor@gmail.com>
- <20230917152639.21443-16-alkuor@gmail.com>
+To: Prashanth K <quic_prashk@quicinc.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"# 5 . 16" <stable@vger.kernel.org>
+Subject: Re: usb: typec: ucsi: Clear EVENT_PENDING bit if ucsi_send_command
+ fails
+Message-ID: <ZQheBL4jjXUbNQ3M@kuha.fi.intel.com>
+References: <1694423055-8440-1-git-send-email-quic_prashk@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -51,66 +49,39 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230917152639.21443-16-alkuor@gmail.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
+In-Reply-To: <1694423055-8440-1-git-send-email-quic_prashk@quicinc.com>
 
-Hi,
+On Mon, Sep 11, 2023 at 02:34:15PM +0530, Prashanth K wrote:
+> Currently if ucsi_send_command() fails, then we bail out without
+> clearing EVENT_PENDING flag. So when the next connector change
+> event comes, ucsi_connector_change() won't queue the con->work,
+> because of which none of the new events will be processed.
+> 
+> Fix this by clearing EVENT_PENDING flag if ucsi_send_command()
+> fails.
+> 
+> Cc: <stable@vger.kernel.org> # 5.16
+> Fixes: 512df95b9432 ("usb: typec: ucsi: Better fix for missing unplug events issue")
+> Signed-off-by: Prashanth K <quic_prashk@quicinc.com>
 
-On Sun, Sep 17, 2023 at 11:26:39AM -0400, Abdel Alkuor wrote:
-> From: Abdel Alkuor <abdelalkuor@geotab.com>
-> 
-> tps25750 doesn't have VID register, check VID for PD controllers
-> other than tps25750
-> 
-> Signed-off-by: Abdel Alkuor <abdelalkuor@geotab.com>
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
 > ---
->  drivers/usb/typec/tipd/core.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+>  drivers/usb/typec/ucsi/ucsi.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index 326c23bfa8e6..c1399e12a170 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -1142,10 +1142,6 @@ static int tps6598x_probe(struct i2c_client *client)
->  	if (IS_ERR(tps->regmap))
->  		return PTR_ERR(tps->regmap);
+> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+> index c6dfe3d..509c67c 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi.c
+> @@ -884,6 +884,7 @@ static void ucsi_handle_connector_change(struct work_struct *work)
+>  	if (ret < 0) {
+>  		dev_err(ucsi->dev, "%s: GET_CONNECTOR_STATUS failed (%d)\n",
+>  			__func__, ret);
+> +		clear_bit(EVENT_PENDING, &con->ucsi->flags);
+>  		goto out_unlock;
+>  	}
 >  
-> -	ret = tps6598x_read32(tps, TPS_REG_VID, &vid);
-> -	if (ret < 0 || !vid)
-> -		return -ENODEV;
-> -
->  	/*
->  	 * Checking can the adapter handle SMBus protocol. If it can not, the
->  	 * driver needs to take care of block reads separately.
-> @@ -1176,6 +1172,12 @@ static int tps6598x_probe(struct i2c_client *client)
->  
->  	tps->irq_handler = irq_handler;
->  
-> +	if (!tps->is_tps25750) {
-> +		ret = tps6598x_read32(tps, TPS_REG_VID, &vid);
-> +		if (ret < 0 || !vid)
-> +			return -ENODEV;
-> +	}
-
-You need to do this at the same time you enable tps25750, so I'm
-guessing in patch 4.
-
-You are also changing the execution order just because of that
-is_tps25750. Instead you need to make sure you have that flag set as
-soon as possible in the first place, so right after "tps" is
-allocated:
-
-        mutex_init(&tps->lock);
-        tps->dev = &client->dev;
-+       tps->is_tps25750 = of_device_is_compatible(np, "ti,tps25750");
- 
-        tps->regmap = devm_regmap_init_i2c(client, &tps6598x_regmap_config);
-        if (IS_ERR(tps->regmap))
-
 
 thanks,
 
