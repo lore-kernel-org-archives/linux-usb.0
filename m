@@ -1,37 +1,37 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C47749D
-	for <linux-usb@vger.kernel.org>; Mon, 18 Sep 2023 07:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E12B12B9D;
+	Mon, 18 Sep 2023 07:44:33 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27AA61708;
-	Mon, 18 Sep 2023 00:38:05 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC35FCF8;
+	Mon, 18 Sep 2023 00:43:08 -0700 (PDT)
 Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38I7SOD0030988;
-	Mon, 18 Sep 2023 07:37:56 GMT
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38I6ld5U014295;
+	Mon, 18 Sep 2023 07:42:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=r2hWKlEpKe/JKJubx7igl+rfCDrfvf22cMzTlHAy4t8=;
- b=XiZhIz1xqNMtaNAHZTmPN3N11LA57HogMY2oYOkI+ApYuLrvc7ZoP4cCVjrFHSCr/smM
- vZLtLppQoXrMsDNJnGSEwM9HHYwLQu9JwG61qOXeTkPaPONBfRstGE47IwIXImSpfjZw
- w/8XvdBORFna5qkHpQ7u2T47PpbhxFCY0nx80gQZ063TpeAjYUN0PXe2pLsgtRxcJnSt
- S6P0mw6OGWhpT8e8x8BWIJwwBNK8DdcmDm2imRcJ7Eulc4zAoytNJt1+qFbKGRzcSttB
- wqAcSDmR+LEzC1wLd7o6hT6RqbHZFdESpwf0WLGP1VAZ99f+X6DZeoJRscYDsB70XMhz xw== 
+ bh=kW+M14qfpcF97hoQluC9tM98hOjjeZ40Kqhq2jXRfr8=;
+ b=BGvjtnWK+Cg0TYVBbxLWhrVTI8OTU9Zs/doYmTy+ShojJHz2wvzUOTO1zwUih1hfSXE4
+ X2SugyTqUUds5ABNOvMIMwO69sp383+R3XzHQHqYBi0Uga/aWVpk+7wLcDV+S0RhfCZM
+ jSPNvQmEu4cOa0wVKSIKQ8ZxNjU8u3QuZBx+lJLXzh1tlUwABr0YwBz72R9BkJqI8ih6
+ G5sYy5UXnlAoC/SMCLPVtEvQ8fnB7Timyza7YoFyTU/rqQwLd2pey/8aEKx8k7SxLsF8
+ 6jbsPAOjPACUJSaxxorbuc8L+lxyVf2UZhuVKTdKTVa3gjCTPf/1oZUt50NGVzb0+8fF EA== 
 Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t53ayaqb1-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t53ayaqgp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Sep 2023 07:37:56 +0000
+	Mon, 18 Sep 2023 07:42:53 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38I7btsL009318
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38I7gqMm015793
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Sep 2023 07:37:55 GMT
+	Mon, 18 Sep 2023 07:42:52 GMT
 Received: from [10.216.25.71] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 18 Sep
- 2023 00:37:52 -0700
-Message-ID: <a890ac60-0562-48c3-9aa1-eb06ec21c69d@quicinc.com>
-Date: Mon, 18 Sep 2023 13:07:26 +0530
+ 2023 00:42:45 -0700
+Message-ID: <961b0ad4-baac-4ca4-bc2a-7dae6f129e6f@quicinc.com>
+Date: Mon, 18 Sep 2023 13:12:42 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -39,127 +39,112 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] usb: gadget: ncm: Handle decoding of multiple NTB's in
- unwrap call
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Linyu Yuan <quic_linyyuan@quicinc.com>,
-        =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_ppratap@quicinc.com>, <quic_wcheng@quicinc.com>,
-        <quic_jackp@quicinc.com>, <stable@vger.kernel.org>
-References: <20230915061001.18884-1-quic_kriskura@quicinc.com>
- <2023091743-tightly-drivable-4360@gregkh>
+Subject: Re: [PATCH v11 10/13] usb: dwc3: qcom: Add multiport suspend/resume
+ support for wrapper
 Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Thinh Nguyen
+	<Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>, Andy Gross <agross@kernel.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Felipe Balbi
+	<balbi@kernel.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Johan Hovold
+	<johan@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <quic_pkondeti@quicinc.com>, <quic_ppratap@quicinc.com>,
+        <quic_jackp@quicinc.com>, <ahalaney@redhat.com>,
+        <quic_shazhuss@quicinc.com>
+References: <20230828133033.11988-1-quic_kriskura@quicinc.com>
+ <20230828133033.11988-11-quic_kriskura@quicinc.com>
+ <825bc60b-2067-43e2-8b43-9d38b7cebf02@linaro.org>
 From: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-In-Reply-To: <2023091743-tightly-drivable-4360@gregkh>
+In-Reply-To: <825bc60b-2067-43e2-8b43-9d38b7cebf02@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: A_gBGT8CUmtoqORQV7dXy2fqtBhJWHR6
-X-Proofpoint-ORIG-GUID: A_gBGT8CUmtoqORQV7dXy2fqtBhJWHR6
+X-Proofpoint-GUID: CxEyHg7gQX47R1U-FyrDzTqzLzbI0dFx
+X-Proofpoint-ORIG-GUID: CxEyHg7gQX47R1U-FyrDzTqzLzbI0dFx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-09-15_20,2023-09-15_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
  spamscore=0 mlxscore=0 impostorscore=0 malwarescore=0 bulkscore=0
- clxscore=1015 priorityscore=1501 mlxlogscore=999 phishscore=0
+ clxscore=1015 priorityscore=1501 mlxlogscore=411 phishscore=0
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309180066
+ engine=8.12.0-2308100000 definitions=main-2309180067
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 
 
 
-On 9/17/2023 1:34 PM, Greg Kroah-Hartman wrote:
->> Cc: stable@vger.kernel.org
-> 
-> What commit id does this fix?
-> 
-
-Hi Greg,
-
-This fixes the initial patch that added the driver:
-9f6ce4240a2bf456402c15c06768059e5973f28c
-
->> Reviewed-by: Maciej Żenczykowski <maze@google.com>
->> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
->> ---
->>   drivers/usb/gadget/function/f_ncm.c | 26 +++++++++++++++++++-------
->>   1 file changed, 19 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/function/f_ncm.c
->> index feccf4c8cc4f..f00f051438ec 100644
->> --- a/drivers/usb/gadget/function/f_ncm.c
->> +++ b/drivers/usb/gadget/function/f_ncm.c
->> @@ -1156,7 +1156,8 @@ static int ncm_unwrap_ntb(struct gether *port,
->>   			  struct sk_buff_head *list)
->>   {
->>   	struct f_ncm	*ncm = func_to_ncm(&port->func);
->> -	__le16		*tmp = (void *) skb->data;
->> +	unsigned char	*ntb_ptr = (void *) skb->data;
-> 
-> Why persist with the extra ' ', didn't checkpatch complain about this?
-> 
-> And why the cast at all?
-> 
-My bad. I ran the checkpatch and got the following result:
-
-kriskura@hu-kriskura-hyd:/local/mnt/workspace/krishna/510/testncm/kernel$ 
-./scripts/checkpatch.pl --strict 
-0001-usb-gadget-ncm-Handle-decoding-of-multiple-NTB-s-in-.patch
-WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit 
-description?)
-#12:
-unwraps the obtained request data assuming only one NTB is present, we loose
-
-CHECK: No space is necessary after a cast
-#34: FILE: drivers/usb/gadget/function/f_ncm.c:1159:
-+       unsigned char   *ntb_ptr = (void *) skb->data;
-
-CHECK: No space is necessary after a cast
-#46: FILE: drivers/usb/gadget/function/f_ncm.c:1176:
-+       tmp = (void *) ntb_ptr;
-
-CHECK: No space is necessary after a cast
-#93: FILE: drivers/usb/gadget/function/f_ncm.c:1329:
-+               ntb_ptr = (unsigned char *) (ntb_ptr + block_len);
-
-total: 0 errors, 1 warnings, 3 checks, 67 lines checked
-
-
-I ignored the checks and saw only that errors are 0. Seems like I missed 
-fixing the commit text wrapping to 75 chars (On line 12 it has 76 
-chars). Will fix it up in v3.
-
-As per the cast, I initially didn't add any cast and saw that the code 
-was not able to parse the dwSignature of the NTH and decoding of all 
-packets was failing. Only when I added the cast, was the function able 
-to decode all packets properly.
-
->> +	__le16		*tmp;
->>   	unsigned	index, index2;
->>   	int		ndp_index;
->>   	unsigned	dg_len, dg_len2;
->> @@ -1169,6 +1170,10 @@ static int ncm_unwrap_ntb(struct gether *port,
->>   	const struct ndp_parser_opts *opts = ncm->parser_opts;
->>   	unsigned	crc_len = ncm->is_crc ? sizeof(uint32_t) : 0;
->>   	int		dgram_counter;
->> +	int		to_process = skb->len;
+On 9/15/2023 7:18 PM, Konrad Dybcio wrote:
+>>   
+>> -#define PWR_EVNT_IRQ_STAT_REG			0x58
+>> +#define PWR_EVNT_IRQ1_STAT_REG			0x58
+>> +#define PWR_EVNT_IRQ2_STAT_REG			0x1dc
+>> +#define PWR_EVNT_IRQ3_STAT_REG			0x228
+>> +#define PWR_EVNT_IRQ4_STAT_REG			0x238
 >> +
->> +parse_ntb:
->> +	tmp = (void *) ntb_ptr;
+>>   #define PWR_EVNT_LPM_IN_L2_MASK			BIT(4)
+>>   #define PWR_EVNT_LPM_OUT_L2_MASK		BIT(5)
+>>   
+>> @@ -107,6 +111,19 @@ struct dwc3_qcom {
+>>   	int			num_ports;
+>>   };
+>>   
+>> +/*
+>> + * SA8295 has 4 power event IRQ STAT registers to be checked
+>> + * during suspend resume.
+>> + */
+> But this driver supports much more than just SA8295?
 > 
-> Again, no blank space please.
-> 
-> And why the cast?
-> 
-the second cast here was just to be in sync with the original code;
-__le16		*tmp = (void *) skb->data;
+Yes. Other than SA8295, all single port controllers and SA8195(2 port 
+controller), have these reigsters.
 
-I didn't try removing this and running the test. Will check if the 
-second one is required or if decoding is proper without it or not.
+The rational behind adding this array was that depending on num_ports, 
+any controller can access its required pwr_event_irq_stat register and 
+loop in the suspend/resume code would take care of it. Perhaps I can 
+change the comments to indicate that the array would be used by all 
+controllers and not just SA8295.
+
+>> +#define NUM_PWR_EVENT_STAT_REGS	4
+>> +
+>> +static u32 pwr_evnt_irq_stat_reg_offset[NUM_PWR_EVENT_STAT_REGS] = {
+>> +	PWR_EVNT_IRQ1_STAT_REG,
+>> +	PWR_EVNT_IRQ2_STAT_REG,
+>> +	PWR_EVNT_IRQ3_STAT_REG,
+>> +	PWR_EVNT_IRQ4_STAT_REG,
+>> +};
+>> +
+>>   static inline void dwc3_qcom_setbits(void __iomem *base, u32 offset, u32 val)
+>>   {
+>>   	u32 reg;
+>> @@ -440,15 +457,19 @@ static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
+>>   
+>>   static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, bool wakeup)
+>>   {
+>> +	u8 num_ports;
+> Maybe I'm picky, but I'm not sure defining a variable for
+> a single use of an object with a rather short name
+> (qcom->num_ports) is justified, here and below..
+> 
+
+Sure, will replace num_ports with (qcom->num_ports) and remove the extra 
+variable.
 
 Regards,
 Krishna,
