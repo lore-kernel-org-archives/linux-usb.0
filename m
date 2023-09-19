@@ -1,228 +1,121 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC4844697
-	for <linux-usb@vger.kernel.org>; Tue, 19 Sep 2023 08:08:09 +0000 (UTC)
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11AD6114
-	for <linux-usb@vger.kernel.org>; Tue, 19 Sep 2023 01:08:08 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1c4194f769fso38234115ad.3
-        for <linux-usb@vger.kernel.org>; Tue, 19 Sep 2023 01:08:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695110887; x=1695715687; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Xo0QCYH4wkdMzRKO9glnSSgct/wZRd3shLKK4I8on7A=;
-        b=lc50bnf7kHB9vG2h/ethqdVRANF5+XSRUDrAb74id2uFXHd6O53xxSKzSqV3hzgNSN
-         7AyJMyzFCidTZNUzWHiZs6tClfnDvQyo5pkYW27P7TkuBogJKhTxp5xwtU+TmZHSZV0S
-         mF/T5FeOMi6UU7+Jg6GwHjj9pBahb5jRxGFMpHUavfzWj4h6ZXz5BE7DmZ+MWWuB9+8R
-         TkQbCXMxHW4k3awYKtG795s/f26+Qw57tEOIQ2+eJdbvnJGUt262rDrtUXmrIdDfAzFp
-         7nLrmRjPm3jzDB2efi6pfdVNa4FZzBugekyFTUHDv+1rfK1TUnsqMcREJcUm0rOiD2Jq
-         AX6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695110887; x=1695715687;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xo0QCYH4wkdMzRKO9glnSSgct/wZRd3shLKK4I8on7A=;
-        b=YtukCJsxEQCv29R7xQopKSUZLH7W38vyzpNscW8do55JzYRcdTbW5VrVeMly4hfAi9
-         UMjMdlrl1xJ34Csfm3E/JfAxly7cVEQbxguRZnqNxJ/+khTEbPqfE6hfuZrf/TwwO033
-         WAPsrMfWBZ+nk/4E7me690ny25LHOhtDBopL1eNwMkNUzb9B7DoJ1eUOW6z3wjH6q9sx
-         84G1diE6YZTuNY9vtPziqyeu97jPH2C2tWImd3a6ig1d2YMcP0yEwcMv6KbFhOlZvz/C
-         pT5ZV4oLi8BYNZprKxe6d2Bp7eIRprFeScMa5GKoWvRBMiT3ZhTwCG8SOTRvfR0q3Ptm
-         2kJA==
-X-Gm-Message-State: AOJu0Yx09/wiNs7Nn3kFNnlsctFWIG2p/8bIYr2gwQcwyCFUgvT4rAsI
-	Bahn2iTrDLfnnjTJ+etB7sDssg==
-X-Google-Smtp-Source: AGHT+IF6z2D97WD5NMFOHhc6nVLxCzqnbFlTtzNY4CqRtLCGmOJkoPqb3HNSC7mEeDMNgTMVyjvgMQ==
-X-Received: by 2002:a17:902:eaca:b0:1c4:2271:55c3 with SMTP id p10-20020a170902eaca00b001c4227155c3mr10212774pld.38.1695110887159;
-        Tue, 19 Sep 2023 01:08:07 -0700 (PDT)
-Received: from [192.168.60.239] (124.190.199.35.bc.googleusercontent.com. [35.199.190.124])
-        by smtp.gmail.com with ESMTPSA id e6-20020a170902d38600b001bdb167f6ebsm9510565pld.94.2023.09.19.01.08.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Sep 2023 01:08:06 -0700 (PDT)
-Message-ID: <a6a3266d-8b19-4f24-839b-4483738c728e@google.com>
-Date: Tue, 19 Sep 2023 01:08:05 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A505B30F96
+	for <linux-usb@vger.kernel.org>; Tue, 19 Sep 2023 08:23:37 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 423A7114
+	for <linux-usb@vger.kernel.org>; Tue, 19 Sep 2023 01:23:36 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qiW18-0005EM-2u; Tue, 19 Sep 2023 10:23:34 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qiW14-007PaD-3Q; Tue, 19 Sep 2023 10:23:30 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qiW13-002vrk-Q6; Tue, 19 Sep 2023 10:23:29 +0200
+Date: Tue, 19 Sep 2023 10:23:27 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Chunfeng Yun =?utf-8?B?KOS6keaYpeWzsCk=?= <Chunfeng.Yun@mediatek.com>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"kernel@pengutronix.de" <kernel@pengutronix.de>
+Subject: Re: [PATCH v2] usb: mtu3: Convert to platform remove callback
+ returning void
+Message-ID: <20230919082327.pe32kmjuiqdkorn7@pengutronix.de>
+References: <20230914200251.919584-1-u.kleine-koenig@pengutronix.de>
+ <3cdb8de0223327b820b5344945ce53c0555f4882.camel@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] usb: gadget: uvc: cleanup request when not in correct
- state
-Content-Language: en-US
-From: Avichal Rakesh <arakesh@google.com>
-To: Michael Grzeschik <mgr@pengutronix.de>,
- laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com
-Cc: linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
- gregkh@linuxfoundation.org, nicolas@ndufresne.ca, kernel@pengutronix.de,
- Jayant Chowdhary <jchowdhary@google.com>
-References: <20230911002451.2860049-1-m.grzeschik@pengutronix.de>
- <20230911002451.2860049-3-m.grzeschik@pengutronix.de>
- <a55b3b0c-2306-4591-8613-7be4927f0d4e@google.com>
- <ZQTpnJvTV+8Ye1si@pengutronix.de>
- <587c9b95-a80c-4bf9-b1a0-fe7ef0f4cd60@google.com>
- <ZQY5Ab+YB9FLHoQq@pengutronix.de>
- <d678b644-5f66-4c23-b2ba-6c84ba56012f@google.com>
- <ZQjEZlk2UFQgA0TF@pengutronix.de>
- <7cd81649-2795-45b6-8c10-b7df1055020d@google.com>
-In-Reply-To: <7cd81649-2795-45b6-8c10-b7df1055020d@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dgisloszaa65nqhb"
+Content-Disposition: inline
+In-Reply-To: <3cdb8de0223327b820b5344945ce53c0555f4882.camel@mediatek.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
 
+--dgisloszaa65nqhb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 9/18/23 16:40, Avichal Rakesh wrote:
-> 
-> 
-> On 9/18/23 14:43, Michael Grzeschik wrote:
->> On Mon, Sep 18, 2023 at 12:02:11PM -0700, Avichal Rakesh wrote:
->>> On 9/16/23 16:23, Michael Grzeschik wrote:
->>>> On Fri, Sep 15, 2023 at 07:41:05PM -0700, Avichal Rakesh wrote:
->>>>> On 9/15/23 16:32, Michael Grzeschik wrote:
->>>>>> On Mon, Sep 11, 2023 at 09:52:22PM -0700, Avichal Rakesh wrote:
->>>>>>> On 9/10/23 17:24, Michael Grzeschik wrote:
->>>>>>>> The uvc_video_enable function of the uvc-gadget driver is dequeing and
->>>>>>>> immediately deallocs all requests on its disable codepath. This is not
->>>>>>>> save since the dequeue function is async and does not ensure that the
->>>>>>>> requests are left unlinked in the controller driver.
->>>>>>>>
->>>>>>>> ...
->>>
->>> I do apologize if I've missed something obvious with your changes that
->>> prevents such interleaving. I don't currently see any locking or
->>> other synchronization mechanism in your changes. Is there something
->>> in dwc3 that prevents this situation?
->>
->> I think you have pointed it out totally clear. This is obviously the
->> case. It just did not trigger here. But the window is there and has to
->> be locked in some way.
->>
->> For now we have two options to solve it.
->>
->> 1) Trying to avoid this double code path of the complete callback and
->> uvc_video_free_requests. This is what your patches are already doing.
->>
->> But for now I am not so pleased with the timeout concept by waiting for
->> the complete interrupt to be called. This is also a shot in the dark as
->> the latency depends on the scheduler and the amount of potential
->> requests that are being handled.
-> 
-> I agree, a timeout is not the most elegant of solutions and given a
-> weird enough scheduler, will run into issues as well
+Hello,
 
-.
-Thinking about this some more: I still agree that a timeout seems arbitrary
-and will (rightly) lead to questions along the lines of "If we can safely move
-on after 500ms, why not safely move on immediately?". 
+On Tue, Sep 19, 2023 at 07:52:04AM +0000, Chunfeng Yun (=E4=BA=91=E6=98=A5=
+=E5=B3=B0) wrote:
+> On Thu, 2023-09-14 at 22:02 +0200, Uwe Kleine-K=C3=B6nig wrote:
+> > @@ -469,8 +469,17 @@ static int mtu3_remove(struct platform_device
+> > *pdev)
+> >  ssusb_gadget_exit(ssusb);
+> >  ssusb_host_exit(ssusb);
+> >  break;
+> > -default:
+> > -return -EINVAL;
+> > +case USB_DR_MODE_UNKNOWN:
+> > +/*
+> > + * This cannot happen because with dr_mode =3D=3D
+> > + * USB_DR_MODE_UNKNOWN, .probe() doesn't succeed and so
+> > + * .remove() wouldn't be called at all. However (little
+> > + * surprising) the compiler isn't smart enough to see that, so
+> > + * we explicitly have this case item to not make the compiler
+> > + * wail about an unhandled enumeration value.
+> > + */
+> > +WARN_ON(1);
+> > +break;
+> How about changing as below:
+>     defualt:
+>        break;
+> >  }
 
-However, to me it seems more reasonable to put an indefinite wait. The uvc gadget
-can wait forever for the complete callbacks to come through. This basically says
-that until the usb controller returns the usb_requests back to uvc gadget, it 
-can't guarantee a consistent memory state as it is responsible for managing the
-usb_requests it has allocated. 
+I think a warning is a good idea as today that case cannot happen
+(unless I missed something) and if it still happened, you'd want to know
+as the handling is insufficient then. And I also think that if the enum
+usb_dr_mode should ever be expanded, this code location should be
+revisited, so the explicit "case USB_DR_MODE_UNKNOWN" is better in my
+opinion.
 
-Of course there is no such thing as an indefinite wait, the watchdog will 
-eventually kick in to reap the subsystem (potentially causing a kernel panic).
-But it seems reasonable to say that if the usb controller is unable to 
-return the usb_requests in however long it takes the watchdog to bite, 
-it has no business running uvc gadget anyway.
+As you suggest this variant you seem to have some upside in mind, didn't
+put it into your message though. Would you share your thoughts?
 
-My changes in https://lore.kernel.org/20230912041910.726442-2-arakesh@google.com
-will ensure that no other control request comes in while uvc gadget is waiting,
-and it should be relatively trivial to update
-https://lore.kernel.org/20230912041910.726442-3-arakesh@google.com to wait 
-indefinitely.
+Best regards
+Uwe
 
-Laurent and Dan, does an indefinite wait seem more reasonable than an arbitrary wait,
-or would something like the suggestion in previous email be better?
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-> 
->>
->> 2) Locking both codepathes around the resource in question so the issue
->> is avoided.
->>
->> However, I am also not a fried of many locks.
->>
->> Perhaps it is possible to use a combination of wait_for_completion in
->> the uvc_video_free_requests and a complete callback in
->> uvc_video_complete for those requests that are not listed in the
->> req_free list.
->>
->> What do you think?
->>
-> There might be a way that builds on your idea of cleaning up in the complete callback. 
-> It would rely on having a uvc_requests that aren't bulk allocated, which may have a
-> performance impact. 
-> 
-> I am imagining something like the following:
->   1. Instead of allocating a bulk of uvc_requests, we allocate them
->      one at a time and add them to uvc_video.ureq
->   2. uvc_video.ureq becomes a list_head containing all the individual
->      requests
->   3. We add a sentinel flag in uvc_request that says the request is
->      now stale. This flag is protected by uvc_video->req_lock
->   4. uvc_video_complete looks at  this flag to deallocate both
->      usb_request and uvc_request.
->   5. uvcg_video_enable looks something like the following:
->        uvcg_video_enable(...) {
->          ...
->          lock(req_lock);
->          forall (uvc_requests->ureqs) {ureq->stale = true}
->          unlock(req_lock);
->          usb_ep_dequeue all reqs
-> 
->          uvc_video_free_requests(...)
->          ...
->        }
->   6. uvc_video_complete looks something like:
->        uvc_video_complete(...) {
->          // at the start
->          lock(req_lock)
->          is_stale = ureq->stale;
->          unlock(req_lock);
-> 
->          if (is_stale) {
->            usb_ep_free_request();
->            dealloc corresponding uvc_request();
->            return;
->          }
-> 
->          ...
-> 
->          lock(req_lock);
->          // possible that request became stale while we were handling stuff
->          if (!ureq->stale) {
->            list_add_tail(&req->list, &video->req_free);
->          } else {
->            usb_ep_free_request();
->            dealloc corresponding uvc_request();
->          }
->          unlock(req_lock);
->        }
->   7. uvc_video_free_requests can freely dealloc usb_requests/uvc_requests in 
->      req_free because we can be certain that uvc_video_complete won't modify 
->      it once requests have been marked stale, and the stale requests in flight 
->      will be cleaned up by the complete callback.
-> 
-> Effectively, we freeze the state of req_free before dequeuing, and all
-> inflight requests are considered the responsibility of the complete handler 
-> from that point onwards. The gadget is only responsible for freeing requests it 
-> currently owns.
-> 
-> I think this should ensure that we never have a situation where the ownership of the
-> requests are undefined, and only one thread is responsible for freeing any given request.
-> 
-> Hope that makes sense!
-> 
+--dgisloszaa65nqhb
+Content-Type: application/pgp-signature; name="signature.asc"
 
-- Avi.
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUJWn8ACgkQj4D7WH0S
+/k7KAAf6A/b5sNPF54k+Ma3oN7Fax1Z2w856jPyHME6jLc7u/AG9osjTHvunNeAA
+EcI/eIN8DKaB/uxZefCKy9Ei9fV5E/1rnExa/4VwG2HMzTkGAbIK3hMxwKFm/fkt
+BE0z61M6xMvxCj53r0SI/Zz6IlJtM1qsrzCEYJMyvsLafun/jUFHQS0mbYHtnts7
+nor6AoG83yWWrc0vd0pfjV+QnjzYVl767H9ws1I5o+3Hlu/Nat6CfGs1a2ma8ArB
+6p0tVnS1jiwzZY2R3TCOIFy2QKFJNb/vPSKvqy9MRrYrGZUIRPgDXWrkO7LLnac+
+dFxjJfjs8z+QRCJpr51crY2sjjTKXQ==
+=f/ok
+-----END PGP SIGNATURE-----
+
+--dgisloszaa65nqhb--
