@@ -1,192 +1,95 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304F6328D9;
-	Tue, 19 Sep 2023 03:14:58 +0000 (UTC)
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C57610F;
-	Mon, 18 Sep 2023 20:14:54 -0700 (PDT)
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 38J3E4jvC2932235, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.92/5.92) with ESMTPS id 38J3E4jvC2932235
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 19 Sep 2023 11:14:05 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Tue, 19 Sep 2023 11:14:05 +0800
-Received: from fc38.localdomain (172.22.228.98) by RTEXMBS04.realtek.com.tw
- (172.21.6.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.7; Tue, 19 Sep
- 2023 11:14:02 +0800
-From: Hayes Wang <hayeswang@realtek.com>
-To: <kuba@kernel.org>, <davem@davemloft.net>
-CC: <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <edumazet@google.com>, <bjorn@mork.no>, <pabeni@redhat.com>,
-        Hayes Wang
-	<hayeswang@realtek.com>
-Subject: [PATCH net-next v2 1/2] r8152: remove queuing rx packets in driver
-Date: Tue, 19 Sep 2023 11:13:50 +0800
-Message-ID: <20230919031351.7334-430-nic_swsd@realtek.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230919031351.7334-429-nic_swsd@realtek.com>
-References: <20230919031351.7334-429-nic_swsd@realtek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C41530F94
+	for <linux-usb@vger.kernel.org>; Tue, 19 Sep 2023 03:32:04 +0000 (UTC)
+Received: from SHSQR01.spreadtrum.com (mx1.unisoc.com [222.66.158.135])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F851112;
+	Mon, 18 Sep 2023 20:32:03 -0700 (PDT)
+Received: from dlp.unisoc.com ([10.29.3.86])
+	by SHSQR01.spreadtrum.com with ESMTP id 38J3VERv084976;
+	Tue, 19 Sep 2023 11:31:14 +0800 (+08)
+	(envelope-from xingxing.luo@unisoc.com)
+Received: from SHDLP.spreadtrum.com (shmbx06.spreadtrum.com [10.0.1.11])
+	by dlp.unisoc.com (SkyGuard) with ESMTPS id 4RqRv22qlzz2SGkjR;
+	Tue, 19 Sep 2023 11:27:58 +0800 (CST)
+Received: from zebjkernups01.spreadtrum.com (10.0.93.153) by
+ shmbx06.spreadtrum.com (10.0.1.11) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.23; Tue, 19 Sep 2023 11:31:13 +0800
+From: Xingxing Luo <xingxing.luo@unisoc.com>
+To: <b-liu@ti.com>, <gregkh@linuxfoundation.org>, <s.shtylyov@omp.ru>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <xingxing0070.luo@gmail.com>, <Zhiyong.Liu@unisoc.com>,
+        <Cixi.Geng1@unisoc.com>, <Orson.Zhai@unisoc.com>,
+        <zhang.lyra@gmail.com>
+Subject: [PATCH V3] usb: musb: Get the musb_qh poniter after musb_giveback
+Date: Tue, 19 Sep 2023 11:30:55 +0800
+Message-ID: <20230919033055.14085-1-xingxing.luo@unisoc.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [172.22.228.98]
-X-ClientProxiedBy: RTEXH36506.realtek.com.tw (172.21.6.27) To
- RTEXMBS04.realtek.com.tw (172.21.6.97)
-X-KSE-ServerInfo: RTEXMBS04.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+X-Originating-IP: [10.0.93.153]
+X-ClientProxiedBy: SHCAS01.spreadtrum.com (10.0.1.201) To
+ shmbx06.spreadtrum.com (10.0.1.11)
+X-MAIL:SHSQR01.spreadtrum.com 38J3VERv084976
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
 	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-A bulk transfer of the USB may contain many packets. And, the total
-number of the packets in the bulk transfer may be more than budget.
+When multiple threads are performing USB transmission, musb->lock will be
+unlocked when musb_giveback is executed. At this time, qh may be released
+in the dequeue process in other threads, resulting in a wild pointer, so
+it needs to be here get qh again, and judge whether qh is NULL, and when
+dequeue, you need to set qh to NULL.
 
-Originally, only budget packets would be handled by napi_gro_receive(),
-and the other packets would be queued in the driver for next schedule.
-
-Now, deal with all packets in the current bulk transfer through
-napi_gro_receive(), even the number is more than the budget. And, stop
-to handle the next bulk transfer until next schedule, if the budget is
-exhausted. Then, we don't need to queue the packets in the driver.
-
-Fixes: cf74eb5a5bc8 ("eth: r8152: try to use a normal budget")
-Signed-off-by: Hayes Wang <hayeswang@realtek.com>
+Fixes: dbac5d07d13e ("usb: musb: host: don't start next rx urb if current one failed")
+Cc: stable@vger.kernel.org
+Signed-off-by: Xingxing Luo <xingxing.luo@unisoc.com>
 ---
- drivers/net/usb/r8152.c | 56 ++++++++++++++---------------------------
- 1 file changed, 19 insertions(+), 37 deletions(-)
+v2 -> v3: Add Cc: stable
+v1 -> v2: - Modified the comments section.
+          - Modified "if (qh != NULL && ..." to "if (qh && ...".
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 0c13d9950cd8..03bb3a58f2a6 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -871,7 +871,7 @@ struct r8152 {
- 	struct tx_agg tx_info[RTL8152_MAX_TX];
- 	struct list_head rx_info, rx_used;
- 	struct list_head rx_done, tx_free;
--	struct sk_buff_head tx_queue, rx_queue;
-+	struct sk_buff_head tx_queue;
- 	spinlock_t rx_lock, tx_lock;
- 	struct delayed_work schedule, hw_phy_work;
- 	struct mii_if_info mii;
-@@ -2031,7 +2031,6 @@ static int alloc_all_mem(struct r8152 *tp)
- 	INIT_LIST_HEAD(&tp->tx_free);
- 	INIT_LIST_HEAD(&tp->rx_done);
- 	skb_queue_head_init(&tp->tx_queue);
--	skb_queue_head_init(&tp->rx_queue);
- 	atomic_set(&tp->rx_count, 0);
+ drivers/usb/musb/musb_host.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/musb/musb_host.c b/drivers/usb/musb/musb_host.c
+index a02c29216955..bc4507781167 100644
+--- a/drivers/usb/musb/musb_host.c
++++ b/drivers/usb/musb/musb_host.c
+@@ -321,10 +321,16 @@ static void musb_advance_schedule(struct musb *musb, struct urb *urb,
+ 	musb_giveback(musb, urb, status);
+ 	qh->is_ready = ready;
  
- 	for (i = 0; i < RTL8152_MAX_RX; i++) {
-@@ -2431,24 +2430,6 @@ static int rx_bottom(struct r8152 *tp, int budget)
- 	int ret = 0, work_done = 0;
- 	struct napi_struct *napi = &tp->napi;
- 
--	if (!skb_queue_empty(&tp->rx_queue)) {
--		while (work_done < budget) {
--			struct sk_buff *skb = __skb_dequeue(&tp->rx_queue);
--			struct net_device *netdev = tp->netdev;
--			struct net_device_stats *stats = &netdev->stats;
--			unsigned int pkt_len;
--
--			if (!skb)
--				break;
--
--			pkt_len = skb->len;
--			napi_gro_receive(napi, skb);
--			work_done++;
--			stats->rx_packets++;
--			stats->rx_bytes += pkt_len;
--		}
--	}
--
- 	if (list_empty(&tp->rx_done))
- 		goto out1;
- 
-@@ -2484,10 +2465,6 @@ static int rx_bottom(struct r8152 *tp, int budget)
- 			unsigned int pkt_len, rx_frag_head_sz;
- 			struct sk_buff *skb;
- 
--			/* limit the skb numbers for rx_queue */
--			if (unlikely(skb_queue_len(&tp->rx_queue) >= 1000))
--				break;
--
- 			pkt_len = le32_to_cpu(rx_desc->opts1) & RX_LEN_MASK;
- 			if (pkt_len < ETH_ZLEN)
- 				break;
-@@ -2525,14 +2502,10 @@ static int rx_bottom(struct r8152 *tp, int budget)
- 
- 			skb->protocol = eth_type_trans(skb, netdev);
- 			rtl_rx_vlan_tag(rx_desc, skb);
--			if (work_done < budget) {
--				work_done++;
--				stats->rx_packets++;
--				stats->rx_bytes += skb->len;
--				napi_gro_receive(napi, skb);
--			} else {
--				__skb_queue_tail(&tp->rx_queue, skb);
--			}
-+			work_done++;
-+			stats->rx_packets++;
-+			stats->rx_bytes += skb->len;
-+			napi_gro_receive(napi, skb);
- 
- find_next_rx:
- 			rx_data = rx_agg_align(rx_data + pkt_len + ETH_FCS_LEN);
-@@ -2562,16 +2535,28 @@ static int rx_bottom(struct r8152 *tp, int budget)
- 			urb->actual_length = 0;
- 			list_add_tail(&agg->list, next);
- 		}
++	/*
++	 * musb->lock had been unlocked in musb_giveback, so qh may
++	 * be freed, need to get it again
++	 */
++	qh = musb_ep_get_qh(hw_ep, is_in);
 +
-+		/* A bulk transfer of USB may contain may packets, so the
-+		 * work_done may more than the budget. Deal with all packets
-+		 * in current bulk transfer, and stop to handle the next
-+		 * bulk transfer until next schedule, if budget is exhausted.
-+		 */
-+		if (work_done >= budget)
-+			break;
- 	}
+ 	/* reclaim resources (and bandwidth) ASAP; deschedule it, and
+ 	 * invalidate qh as soon as list_empty(&hep->urb_list)
+ 	 */
+-	if (list_empty(&qh->hep->urb_list)) {
++	if (qh && list_empty(&qh->hep->urb_list)) {
+ 		struct list_head	*head;
+ 		struct dma_controller	*dma = musb->dma_controller;
  
-+	/* Splice the remained list back to rx_done for next schedule */
- 	if (!list_empty(&rx_queue)) {
- 		spin_lock_irqsave(&tp->rx_lock, flags);
--		list_splice_tail(&rx_queue, &tp->rx_done);
-+		list_splice(&rx_queue, &tp->rx_done);
- 		spin_unlock_irqrestore(&tp->rx_lock, flags);
- 	}
- 
- out1:
--	return work_done;
-+	if (work_done > budget)
-+		return budget;
-+	else
-+		return work_done;
- }
- 
- static void tx_bottom(struct r8152 *tp)
-@@ -2992,9 +2977,6 @@ static int rtl_stop_rx(struct r8152 *tp)
- 	list_splice(&tmp_list, &tp->rx_info);
- 	spin_unlock_irqrestore(&tp->rx_lock, flags);
- 
--	while (!skb_queue_empty(&tp->rx_queue))
--		dev_kfree_skb(__skb_dequeue(&tp->rx_queue));
--
- 	return 0;
- }
- 
+@@ -2398,6 +2404,7 @@ static int musb_urb_dequeue(struct usb_hcd *hcd, struct urb *urb, int status)
+ 		 * and its URB list has emptied, recycle this qh.
+ 		 */
+ 		if (ready && list_empty(&qh->hep->urb_list)) {
++			musb_ep_set_qh(qh->hw_ep, is_in, NULL);
+ 			qh->hep->hcpriv = NULL;
+ 			list_del(&qh->ring);
+ 			kfree(qh);
 -- 
-2.41.0
+2.17.1
 
