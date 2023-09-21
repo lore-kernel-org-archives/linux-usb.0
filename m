@@ -1,140 +1,119 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117714998C
-	for <linux-usb@vger.kernel.org>; Thu, 21 Sep 2023 17:50:06 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFC6E19B9;
-	Thu, 21 Sep 2023 10:49:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695318594; x=1726854594;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=blnPFyBCmuj49NnWuIH57vg9ki5lW+1BgUnV5MZfDW4=;
-  b=CmeEmsrL8xns8rbJ8J/gNtiBlayut9T5t5sXsQ13mQOAfVRStrfXJyF5
-   QaCAbPWSfM7lDUkC1qa4A/ZziJ2LDdvPaIbycW9G95RC+PrvODisflzGR
-   w8Zm+4HmJGs74QCmlfDhzz6hNuyYbXoNYfyPXJ/mqADdB4iVgLHcvv2Vx
-   AP4wSStD/9e+j3Kg+wcwlvDqhe9X9JwAkEDg8Y+C6z8gnM/MBaRnGtb0v
-   v71Rec8qkwnpRrCpeaCUl0bLV9nh5DqRmZcNyqPvTPbQ4aafsrGqZ5Ehg
-   Ho7sHCGx4Elc7aZ/i9BP3qlK7X1kJJd+W34f6h0EI2ViUVECXw2zKbUR9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="446976775"
-X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="446976775"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 05:37:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="920709593"
-X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="920709593"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by orsmga005.jf.intel.com with ESMTP; 21 Sep 2023 05:37:31 -0700
-Message-ID: <2bb2122e-e91c-868c-5385-a1b84549a154@intel.com>
-Date: Thu, 21 Sep 2023 15:38:53 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17C94BDA5
+	for <linux-usb@vger.kernel.org>; Thu, 21 Sep 2023 18:11:21 +0000 (UTC)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29DE79D45B
+	for <linux-usb@vger.kernel.org>; Thu, 21 Sep 2023 10:56:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1695318962;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GW0FxKMlEbyyqLVslDTbsm2PoLR7WFqvyt3jzMjJMK8=;
+	b=ZxZsTbgiy8MZrdvhje9koE7PDxY8+EC6ow+UufsyPt6kEwtvSyHEnN8YkPQk7C0278duGl
+	cIuqf2pKgZj9Q2xm62cNQ0Hx4T1VT6H97AsnyVwXXHnbs8v9lTrjAwkyakwGtQ4/knNlcE
+	ghfsYF/3I3AqTn9n3NBtJaBdvcXkAig=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-591-r-E3VIp8OheIT_5iukJuKA-1; Thu, 21 Sep 2023 09:39:19 -0400
+X-MC-Unique: r-E3VIp8OheIT_5iukJuKA-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3214d1d4bbcso71363f8f.0
+        for <linux-usb@vger.kernel.org>; Thu, 21 Sep 2023 06:39:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695303558; x=1695908358;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GW0FxKMlEbyyqLVslDTbsm2PoLR7WFqvyt3jzMjJMK8=;
+        b=OfhPmYOs3b/3OBXceor92jiAi77TIX250Jl03cLV7AdRDOcbwE/1bFRpf0qZ8oweZL
+         +8uVtXQcbfWglt5LreW+ygJoWK9irh+8G16pElP3+FtaHo402wt40vu1iKerfyoH/4Eg
+         NITunoJF00QbDXSSBSqY5p/xN1VEn5/GM/peZ2QjGAPAEWAy8tPQKHseToXBsP2MAOUj
+         gBEan8iauvJFlTf3ZDk2/yzelhzU4hC1rKIasR2smeNfBTFS8gw2zhQ3RieYXxQOeKIW
+         +vBonjqF4x2JXBP+Bm/TxRppVUz/rqly+oi6bqUZMFOVt2plW0SOMkYTq1lbMBDMVrWk
+         q3Ew==
+X-Gm-Message-State: AOJu0Yz29cEprtWI18dQ4VNywXErIumWgfWLVp5kRxQWt7+QR2xmK95D
+	fVGcJv/BJPImhzp+u+eqPNozIQNahQrUHDTHPFdW1SOzsgxALSn8ptwYuYa8+mUXt8Y1kZ5uTur
+	0D9exLE7+3lMfs36AHvX3
+X-Received: by 2002:adf:f688:0:b0:319:7624:4ca2 with SMTP id v8-20020adff688000000b0031976244ca2mr4576725wrp.0.1695303558368;
+        Thu, 21 Sep 2023 06:39:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF17zexuhF9lQgbUMZlJkczKiweixlp/YM0Tz4cyQ9l/8XZueYGNkMJfqJ937KA3+cIlKRGKg==
+X-Received: by 2002:adf:f688:0:b0:319:7624:4ca2 with SMTP id v8-20020adff688000000b0031976244ca2mr4576712wrp.0.1695303557921;
+        Thu, 21 Sep 2023 06:39:17 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-251-4.dyn.eolo.it. [146.241.251.4])
+        by smtp.gmail.com with ESMTPSA id y2-20020adffa42000000b0031423a8f4f7sm1824147wrr.56.2023.09.21.06.39.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Sep 2023 06:39:17 -0700 (PDT)
+Message-ID: <50a8ec7dece0100c931fd187e19e14dd1ca1a0e9.camel@redhat.com>
+Subject: Re: [PATCH net-next v2 1/2] r8152: remove queuing rx packets in
+ driver
+From: Paolo Abeni <pabeni@redhat.com>
+To: Hayes Wang <hayeswang@realtek.com>, Andrew Lunn <andrew@lunn.ch>
+Cc: "kuba@kernel.org" <kuba@kernel.org>, "davem@davemloft.net"
+ <davem@davemloft.net>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+ nic_swsd <nic_swsd@realtek.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>,  "linux-usb@vger.kernel.org"
+ <linux-usb@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>, 
+ "bjorn@mork.no" <bjorn@mork.no>
+Date: Thu, 21 Sep 2023 15:39:15 +0200
+In-Reply-To: <1a57cf3f867d4dfd991ef1d4024c931b@realtek.com>
+References: <20230919031351.7334-429-nic_swsd@realtek.com>
+	 <20230919031351.7334-430-nic_swsd@realtek.com>
+	 <369f3139-4e63-4327-8745-2d72d7dfea8f@lunn.ch>
+	 <1a57cf3f867d4dfd991ef1d4024c931b@realtek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
-Subject: Re: [PATCH v2] usb: xhci-plat: fix usb disconnect issue after s4
-Content-Language: en-US
-To: Yinbo Zhu <zhuyinbo@loongson.cn>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Jianmin Lv <lvjianmin@loongson.cn>, wanghongliang@loongson.cn,
- loongson-kernel@lists.loongnix.cn
-References: <20230809095826.18183-1-zhuyinbo@loongson.cn>
- <4862ba2c-fa6b-de12-2ad9-4099d2eddbb1@loongson.cn>
-From: Mathias Nyman <mathias.nyman@intel.com>
-In-Reply-To: <4862ba2c-fa6b-de12-2ad9-4099d2eddbb1@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+	SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On 21.9.2023 4.58, Yinbo Zhu wrote:
-> 
-> 
-> Friendly ping ?
-> 
-> 
-> 在 2023/8/9 下午5:58, Yinbo Zhu 写道:
->> The xhci retaining bogus hardware states cause usb disconnect devices
->> connected before hibernation(s4) and refer to the commit 'f3d478858be
->> ("usb: ohci-platform: fix usb disconnect issue after s4")' which set
->> flag "hibernated" as true when resume-from-hibernation and that the
->> drivers will reset the hardware to get rid of any existing state and
->> make sure resume from hibernation re-enumerates everything for xhci.
->>
->> Signed-off-by: Yinbo Zhu <zhuyinbo@loongson.cn>
->> ---
->> Change in v2:
->>         1. Add CONFIG_PM_SLEEP in xhci_plat_pm_ops that for fix
->>            compile issue when CONFIG_PM not enable.
->>
->>   drivers/usb/host/xhci-plat.c | 24 ++++++++++++++++++++----
->>   1 file changed, 20 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
->> index 28218c8f1837..112468fdcca2 100644
->> --- a/drivers/usb/host/xhci-plat.c
->> +++ b/drivers/usb/host/xhci-plat.c
->> @@ -451,7 +451,7 @@ static int __maybe_unused xhci_plat_suspend(struct device *dev)
->>       return 0;
->>   }
->> -static int __maybe_unused xhci_plat_resume(struct device *dev)
->> +static int __maybe_unused xhci_plat_resume_common(struct device *dev, struct pm_message pmsg)
->>   {
->>       struct usb_hcd    *hcd = dev_get_drvdata(dev);
->>       struct xhci_hcd    *xhci = hcd_to_xhci(hcd);
->> @@ -466,7 +466,7 @@ static int __maybe_unused xhci_plat_resume(struct device *dev)
->>       if (ret)
->>           return ret;
->> -    ret = xhci_resume(xhci, PMSG_RESUME);
->> +    ret = xhci_resume(xhci, pmsg);
->>       if (ret)
->>           return ret;
->> @@ -477,6 +477,16 @@ static int __maybe_unused xhci_plat_resume(struct device *dev)
->>       return 0;
->>   }
->> +static int __maybe_unused xhci_plat_resume(struct device *dev)
->> +{
->> +    return xhci_plat_resume_common(dev, PMSG_RESUME);
->> +}
->> +
->> +static int __maybe_unused xhci_plat_restore(struct device *dev)
->> +{
->> +    return xhci_plat_resume_common(dev, PMSG_RESTORE);
->> +}
->> +
->>   static int __maybe_unused xhci_plat_runtime_suspend(struct device *dev)
->>   {
->>       struct usb_hcd  *hcd = dev_get_drvdata(dev);
->> @@ -499,8 +509,14 @@ static int __maybe_unused xhci_plat_runtime_resume(struct device *dev)
->>   }
->>   const struct dev_pm_ops xhci_plat_pm_ops = {
->> -    SET_SYSTEM_SLEEP_PM_OPS(xhci_plat_suspend, xhci_plat_resume)
->> -
->> +#ifdef CONFIG_PM_SLEEP
->> +    .suspend = xhci_plat_suspend,
->> +    .resume = xhci_plat_resume,
->> +    .freeze = xhci_plat_suspend,
->> +    .thaw = xhci_plat_resume,
->> +    .poweroff = xhci_plat_suspend,
->> +    .restore = xhci_plat_restore,
->> +#endif
+On Tue, 2023-09-19 at 12:26 +0000, Hayes Wang wrote:
+> Andrew Lunn <andrew@lunn.ch>
+> > Sent: Tuesday, September 19, 2023 8:08 PM
+> [...]
+> > > -     return work_done;
+> > > +     if (work_done > budget)
+> > > +             return budget;
+> > > +     else
+> > > +             return work_done;
+> > >  }
+> >=20
+> > I don't know NAPI too well. Are there implications of not telling it
+> > the truth?
+>=20
+> You could check the reply from Jakub Kicinski, as following link.
+> https://www.spinics.net/lists/netdev/msg933846.html
+> https://www.spinics.net/lists/netdev/msg933923.html
+>=20
+> If the work_done is more than budget, I should return budget.
 
-How about using pm_ptr() and pm_sleep_ptr() macros instead of the #ifdef CONFIG_PM_SLEEP?
-should be able to get rif of the __maybe_unused flags as well.
+One of the key points in Jakub's reply is that the burst must exceed
+the budget by a limited number of packets:
 
-Thanks
--Mathias
+"Nothing will explode if we process a few more packets than budget
+(assuming budget > 0)"
+
+How many packets can contain at most a single URB?
+
+If that number can be significant greater then the napi budget, I think
+we are better off keeping the packet in the queue - otherwise the whole
+system latency/stability would be affected.
+
+Cheers,
+
+Paolo
 
