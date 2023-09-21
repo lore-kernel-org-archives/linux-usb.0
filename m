@@ -1,102 +1,125 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFAFA66DFC
-	for <linux-usb@vger.kernel.org>; Thu, 21 Sep 2023 18:34:53 +0000 (UTC)
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-	by lindbergh.monkeyblade.net (Postfix) with SMTP id 987E5D2B1D
-	for <linux-usb@vger.kernel.org>; Thu, 21 Sep 2023 11:23:07 -0700 (PDT)
-Received: (qmail 1274718 invoked by uid 1000); 21 Sep 2023 10:23:05 -0400
-Date: Thu, 21 Sep 2023 10:23:05 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Massimo Burcheri <massimo@burcheri.de>
-Cc: linux-usb <linux-usb@vger.kernel.org>
-Subject: Re: JMicron JMS567 and UAS
-Message-ID: <0919e02b-e395-438c-b4d6-314d7e108639@rowland.harvard.edu>
-References: <5d8cad13445172d02a371f162ceaea1a68819819.camel@gmail.com>
- <a5b48a53-9dff-4a84-9a58-1c08f0e0781b@rowland.harvard.edu>
- <072417fd7806d86e930bccb882460dbbfaa5ca52.camel@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE5A9CA5B
+	for <linux-usb@vger.kernel.org>; Thu, 21 Sep 2023 20:39:50 +0000 (UTC)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0A331EC29;
+	Thu, 21 Sep 2023 13:39:48 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1c364fb8a4cso12856295ad.1;
+        Thu, 21 Sep 2023 13:39:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695328788; x=1695933588; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=M9HdsDbH7/BYH1yt3a5xJbh+tKoPnezjQwqx5ecLr6A=;
+        b=nMxdaYdOqHw5sIaJaUL6nsLFOOPkFDdvX84JSuAozb10hOYpWDDg71aXZM8VW4MDmY
+         kMN7zrTWC/qk4mfce7b88rWT3YmfuwH5ePTX1m3b7F6vy9waJd/MuQ7+gC3zEzZYyzBl
+         Qj74BssfYnTPyqfYbtvqmVVtcpQEW1YUenmffQzx5o4OZnXkQC2fc8MKei8IA7wceSg1
+         Lb3T1rFYJ1KvkGD77Pc9/P/V2Cy5mOxI3WhVLgGl55v+rZtMoo1VGqF4GDumqjEvD7mA
+         dw/W4DTKzRKJHejt4kv08yNzX4Oa9PdU3MYa5ce8zIKlAkm4RgJUxv3xVdxvGD/uzAYV
+         CQbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695328788; x=1695933588;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M9HdsDbH7/BYH1yt3a5xJbh+tKoPnezjQwqx5ecLr6A=;
+        b=knCfW5FWVJjRt/aSLWSjw11XPP0sPC4kX/b+p+XOlNlwMOytx9vHE5FeMD//NVigJE
+         q/gyz4wHrq5M5Aoo7SSa6zx0JXk5LbHsuQuodpQaHQobmwMVQhUp/Kmvuh0gPzw9QuCa
+         AfnVRbiZ6bPuk62PQnjj6zwsTqYke/LgJYaDiMk30UNjs8vOkDyLHJSuPJtiJElz/ar/
+         l4a5TQTWccfHBicl55IBTo3isbfMFpFeQukr0EQfDZt1pVeqN1l4GY5MDd0fhTmQzabD
+         SBJqIRjugVjj8G2mkbLaMUyowkgQq3/kcmQaIG6CQiAB8+jxoSTC0/m4HpE4idFJR2IP
+         QVIw==
+X-Gm-Message-State: AOJu0YyM3MOS6NnMaSnCs4KnDkp+RxdQUiSzCQwTLu0ZevQOJ6qsapsk
+	rcCEG/eTv/OkRMCgcR7DkTDEdpHmCVo=
+X-Google-Smtp-Source: AGHT+IHtcfishFLa/SNsBGuMix9bGq/hR8kaN6+TE0j2kDBGIL6c7ZThAhEG3XamnF/y0g2Gdt2JaQ==
+X-Received: by 2002:a17:903:11cf:b0:1c1:f6d1:3118 with SMTP id q15-20020a17090311cf00b001c1f6d13118mr7273168plh.27.1695328788371;
+        Thu, 21 Sep 2023 13:39:48 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id l20-20020a170903005400b001bc18e579aesm1966828pla.101.2023.09.21.13.39.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Sep 2023 13:39:47 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <82429728-7158-ed85-975e-55739de217cb@roeck-us.net>
+Date: Thu, 21 Sep 2023 13:39:46 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <072417fd7806d86e930bccb882460dbbfaa5ca52.camel@gmail.com>
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DATE_IN_PAST_03_06,
-	HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [RESEND v2] usb:typec:tcpm:support double Rp to Vbus cable as
+ sink
+Content-Language: en-US
+To: Michael Wu <michael@allwinnertech.com>, heikki.krogerus@linux.intel.com,
+ gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230920063030.66312-1-michael@allwinnertech.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20230920063030.66312-1-michael@allwinnertech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Thu, Sep 21, 2023 at 02:22:13PM +0200, Massimo Burcheri wrote:
-> On Tue, 2023-09-19 at 11:13 -0400, Alan Stern wrote:
+On 9/19/23 23:30, Michael Wu wrote:
+> The USB Type-C Cable and Connector Specification defines the wire
+> connections for the USB Type-C to USB 2.0 Standard-A cable assembly
+> (Release 2.2, Chapter 3.5.2).
+> The Notes says that Pin A5 (CC) of the USB Type-C plug shall be connected
+> to Vbus through a resister Rp.
+> However, there is a large amount of such double Rp connected to Vbus
+> non-standard cables which produced by UGREEN circulating on the market, and
+> it can affects the normal operations of the state machine easily,
+> especially to CC1 and CC2 be pulled up at the same time.
+> In fact, we can regard those cables as sink to avoid abnormal state.
 > 
-> > > coming from https://lore.kernel.org/all/20200818041324.GA3173@Susan/
+> Message as follow:
+> [   58.900212] VBUS on
+> [   59.265433] CC1: 0 -> 3, CC2: 0 -> 3 [state TOGGLING, polarity 0, connected]
+> [   62.623308] CC1: 3 -> 0, CC2: 3 -> 0 [state TOGGLING, polarity 0, disconnected]
+> [   62.625006] VBUS off
+> [   62.625012] VBUS VSAFE0V
+> 
+> Signed-off-by: Michael Wu <michael@allwinnertech.com>
 
-That email refers to vendor & product 357d:7788.  But your device, as 
-shown in the earlier email message, is 152d:0567.  So it's puzzling why 
-you referred back to this bug report, even though the devices do have 
-similar names (JMicron J566 and J567).
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-> > > as I understand UAS was working for JMicron JMS567 in the past, then was
-> > > disabled in the kernel, now using usb-storage.
+> ---
+> v1 -> v2: Simplify expression and add a comment to the code.
 > 
-> > How did you get that idea?  After looking through the email archives, I 
-> > found this bug report from 2015:
-> > 
-> >         https://bugzilla.redhat.com/show_bug.cgi?id=1260207
+>   drivers/usb/typec/tcpm/tcpm.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> I got the idea from my original thread.
-> I did not test it on old kernel.
+> Signed-off-by: Michael Wu <michael@allwinnertech.com>
+> ---
+>   drivers/usb/typec/tcpm/tcpm.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index d962f67c95ae6..6e843c511b856 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -517,9 +517,9 @@ static const char * const pd_rev[] = {
+>   	((cc) == TYPEC_CC_RP_DEF || (cc) == TYPEC_CC_RP_1_5 || \
+>   	 (cc) == TYPEC_CC_RP_3_0)
+>   
+> +/* As long as cc is pulled up, we can consider it as sink. */
+>   #define tcpm_port_is_sink(port) \
+> -	((tcpm_cc_is_sink((port)->cc1) && !tcpm_cc_is_sink((port)->cc2)) || \
+> -	 (tcpm_cc_is_sink((port)->cc2) && !tcpm_cc_is_sink((port)->cc1)))
+> +	(tcpm_cc_is_sink((port)->cc1) || tcpm_cc_is_sink((port)->cc2))
+>   
+>   #define tcpm_cc_is_source(cc) ((cc) == TYPEC_CC_RD)
+>   #define tcpm_cc_is_audio(cc) ((cc) == TYPEC_CC_RA)
 
-In fact, I don't see anything in the current kernel that would prevent 
-your device from working with uas.  The entry in unusual_uas.h merely 
-has the BROKEN_FUA and NO_REPORT_OPCODES flags set, neither of which 
-should have a bad effect.
-
-Am I missing something?
-
-> > That bug report indicates that the device wasn't working properly with a 
-> > 4.1.4 kernel.  Of course, it's possible that the problem had more to do 
-> > with the drive inside the enclosure than the enclosure itself.
-> 
-> From the report the idProduct is different from my product, might be a different
-> bridge.
-
-Indeed.
-
-> So from what I understand it is blacklisted currently because of issues.
-> 
-> Is there a way I can bypass the blacklisting, like forcing to use uas similar to
-> the workaround by forcing usb-storage? I would like to know if there are still
-> issues in uas mode with this bridge.
-> 
-> The (chinese?) product is sold with UAS support. I know this is no warranty. The
-> JMicron bridge itself should support UASP:
-> https://pcper.com/wp-content/uploads/2014/12/0813-jms567.pdf
-> 
-> I found someone that fixed it by flashing an older firmware:
-> https://forum.openmediavault.org/index.php?user-post-list/36559-sanjager/
-> (Version 20.06.00.01, before 138.01.00.01)
-> 
-> It seems a similar device Icybox 4HDD enclosure is also using the JMS567:
-> https://answers.launchpad.net/ubuntu/+source/linux/+question/688498
-> 
-> This all sounds like UAS is not entirely missing but somehow faulty in this
-> bridge.
-> 
-> I'm going to test with a Windows machine soon, if UAS is working stable there.
-> But that won't help me on Linux, just for saying the enclosure hardware is UAS
-> capable.
-> 
-> How can I help exploring / debugging this?
-
-If you can, start by figuring out why your kernel isn't using the uas 
-driver for the JMS567.  Is the driver itself blacklisted on your 
-computer?
-
-Alan Stern
