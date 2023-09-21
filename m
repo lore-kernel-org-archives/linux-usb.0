@@ -1,48 +1,37 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA9F48EA5
-	for <linux-usb@vger.kernel.org>; Thu, 21 Sep 2023 17:49:56 +0000 (UTC)
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 097D06DE3A
-	for <linux-usb@vger.kernel.org>; Thu, 21 Sep 2023 10:32:43 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-32155a45957so1261038f8f.0
-        for <linux-usb@vger.kernel.org>; Thu, 21 Sep 2023 10:32:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695317561; x=1695922361; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uEg9oi9fsFQj5N/t7+XiCLJ8W8KXemvDmRrScebryl0=;
-        b=nfEVUno9bLRVshiVqm6BTIPCJk0JekpCSRa5QkJgG3iHaalF4DUvfNivC2rTydQOPv
-         /2oxWYvY4C5HLRrHFhusEtprUcHG++Il4cVdbED+gw5xgoDuBQ7OxQuZ0zRXFl/IFDj8
-         AZjwER6QXb4QkSTDvPmUiLFXOdm8OCnhFCA4zAkIMS1i45WWfWgvSClURtcAHhj2m/8E
-         NkRsVhf+xQ8St+E/bj5GvhAffQQVIo0FWy+0z1GRJJ5vMEDUxoOVdM+cIXbFE53VI0zo
-         bm89It++r/xbQCswSrSFU7mXpWM4kT/wFudTMCKL/QX5F2/ABg73/QKWFylCVqHzrk+/
-         pgqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695317561; x=1695922361;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uEg9oi9fsFQj5N/t7+XiCLJ8W8KXemvDmRrScebryl0=;
-        b=ryNs4a3W0Mb0VYzM1OrFU8t5yOQUnXnXp+gf/Tpwi7TVtmLmYkpySBV6dLECR9vhJI
-         UeXjA1orxZjKd1jQ3wsFwOVAsL1NlybsJQYU5t6x8lW2+hh1JpKpwWo5uLPSL4iu5cT0
-         ZejElF/vbu9t4xvNMBKc5Kqm73hBVyi9NQD0HkDna0gADkAjmTx+B3rUNpa5MiGOWI62
-         jorhfZAj/FQ723lJ9jFBjvbes6PWMuqck5/mVQMLG8AAeq3+RLIw+cyVA647e/bkpg7D
-         QArCi90CJ3oSMX3rxem32TBjGYoBlkXQlgW5Uf6R3k58iU5D+292uFLnevw4xd/pxhFt
-         dDFw==
-X-Gm-Message-State: AOJu0Yyw72OgNcWLmrsteKlETmLo+PTKS/6n6N2vxH6lmgAyXTz4iz3i
-	7I3mwtc+rxIGrNDEUvyVIYroLYOyC89wiG2snCBZ2g==
-X-Google-Smtp-Source: AGHT+IHQrrrIHyHEDSkfYu9SO7d0pvsOVdZ1oGCXmoscM6UKG4H7ogFMpzJNut6Kcge3kLh4skQepQ==
-X-Received: by 2002:a2e:86d6:0:b0:2bc:cc1a:139c with SMTP id n22-20020a2e86d6000000b002bccc1a139cmr4675996ljj.11.1695297522786;
-        Thu, 21 Sep 2023 04:58:42 -0700 (PDT)
-Received: from [172.20.24.238] (static-212-193-78-212.thenetworkfactory.nl. [212.78.193.212])
-        by smtp.gmail.com with ESMTPSA id h10-20020a17090634ca00b00997e00e78e6sm931391ejb.112.2023.09.21.04.58.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Sep 2023 04:58:41 -0700 (PDT)
-Message-ID: <707f3f85-d38d-f112-16a7-2c602c453298@linaro.org>
-Date: Thu, 21 Sep 2023 13:58:41 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117714998C
+	for <linux-usb@vger.kernel.org>; Thu, 21 Sep 2023 17:50:06 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFC6E19B9;
+	Thu, 21 Sep 2023 10:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695318594; x=1726854594;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=blnPFyBCmuj49NnWuIH57vg9ki5lW+1BgUnV5MZfDW4=;
+  b=CmeEmsrL8xns8rbJ8J/gNtiBlayut9T5t5sXsQ13mQOAfVRStrfXJyF5
+   QaCAbPWSfM7lDUkC1qa4A/ZziJ2LDdvPaIbycW9G95RC+PrvODisflzGR
+   w8Zm+4HmJGs74QCmlfDhzz6hNuyYbXoNYfyPXJ/mqADdB4iVgLHcvv2Vx
+   AP4wSStD/9e+j3Kg+wcwlvDqhe9X9JwAkEDg8Y+C6z8gnM/MBaRnGtb0v
+   v71Rec8qkwnpRrCpeaCUl0bLV9nh5DqRmZcNyqPvTPbQ4aafsrGqZ5Ehg
+   Ho7sHCGx4Elc7aZ/i9BP3qlK7X1kJJd+W34f6h0EI2ViUVECXw2zKbUR9
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="446976775"
+X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
+   d="scan'208";a="446976775"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 05:37:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="920709593"
+X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
+   d="scan'208";a="920709593"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orsmga005.jf.intel.com with ESMTP; 21 Sep 2023 05:37:31 -0700
+Message-ID: <2bb2122e-e91c-868c-5385-a1b84549a154@intel.com>
+Date: Thu, 21 Sep 2023 15:38:53 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -50,40 +39,102 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v3 2/5] dt-bindings: phy: qcom,qmp-usb: Add SDX75 USB3 PHY
-To: Rohit Agarwal <quic_rohiagar@quicinc.com>, agross@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org, vkoul@kernel.org,
- kishon@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, gregkh@linuxfoundation.org, abel.vesa@linaro.org,
- quic_wcheng@quicinc.com, dmitry.baryshkov@linaro.org
-Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, kernel@quicinc.com
-References: <1695291692-18850-1-git-send-email-quic_rohiagar@quicinc.com>
- <1695291692-18850-3-git-send-email-quic_rohiagar@quicinc.com>
+ Firefox/102.0 Thunderbird/102.13.0
+Subject: Re: [PATCH v2] usb: xhci-plat: fix usb disconnect issue after s4
 Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1695291692-18850-3-git-send-email-quic_rohiagar@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=1.4 required=5.0 tests=BAYES_00,DATE_IN_PAST_03_06,
+To: Yinbo Zhu <zhuyinbo@loongson.cn>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Jianmin Lv <lvjianmin@loongson.cn>, wanghongliang@loongson.cn,
+ loongson-kernel@lists.loongnix.cn
+References: <20230809095826.18183-1-zhuyinbo@loongson.cn>
+ <4862ba2c-fa6b-de12-2ad9-4099d2eddbb1@loongson.cn>
+From: Mathias Nyman <mathias.nyman@intel.com>
+In-Reply-To: <4862ba2c-fa6b-de12-2ad9-4099d2eddbb1@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On 21/09/2023 12:21, Rohit Agarwal wrote:
-> Add dt-bindings for USB3 PHY found on Qualcomm SDX75.
+On 21.9.2023 4.58, Yinbo Zhu wrote:
 > 
-> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
-> ---
+> 
+> Friendly ping ?
+> 
+> 
+> 在 2023/8/9 下午5:58, Yinbo Zhu 写道:
+>> The xhci retaining bogus hardware states cause usb disconnect devices
+>> connected before hibernation(s4) and refer to the commit 'f3d478858be
+>> ("usb: ohci-platform: fix usb disconnect issue after s4")' which set
+>> flag "hibernated" as true when resume-from-hibernation and that the
+>> drivers will reset the hardware to get rid of any existing state and
+>> make sure resume from hibernation re-enumerates everything for xhci.
+>>
+>> Signed-off-by: Yinbo Zhu <zhuyinbo@loongson.cn>
+>> ---
+>> Change in v2:
+>>         1. Add CONFIG_PM_SLEEP in xhci_plat_pm_ops that for fix
+>>            compile issue when CONFIG_PM not enable.
+>>
+>>   drivers/usb/host/xhci-plat.c | 24 ++++++++++++++++++++----
+>>   1 file changed, 20 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+>> index 28218c8f1837..112468fdcca2 100644
+>> --- a/drivers/usb/host/xhci-plat.c
+>> +++ b/drivers/usb/host/xhci-plat.c
+>> @@ -451,7 +451,7 @@ static int __maybe_unused xhci_plat_suspend(struct device *dev)
+>>       return 0;
+>>   }
+>> -static int __maybe_unused xhci_plat_resume(struct device *dev)
+>> +static int __maybe_unused xhci_plat_resume_common(struct device *dev, struct pm_message pmsg)
+>>   {
+>>       struct usb_hcd    *hcd = dev_get_drvdata(dev);
+>>       struct xhci_hcd    *xhci = hcd_to_xhci(hcd);
+>> @@ -466,7 +466,7 @@ static int __maybe_unused xhci_plat_resume(struct device *dev)
+>>       if (ret)
+>>           return ret;
+>> -    ret = xhci_resume(xhci, PMSG_RESUME);
+>> +    ret = xhci_resume(xhci, pmsg);
+>>       if (ret)
+>>           return ret;
+>> @@ -477,6 +477,16 @@ static int __maybe_unused xhci_plat_resume(struct device *dev)
+>>       return 0;
+>>   }
+>> +static int __maybe_unused xhci_plat_resume(struct device *dev)
+>> +{
+>> +    return xhci_plat_resume_common(dev, PMSG_RESUME);
+>> +}
+>> +
+>> +static int __maybe_unused xhci_plat_restore(struct device *dev)
+>> +{
+>> +    return xhci_plat_resume_common(dev, PMSG_RESTORE);
+>> +}
+>> +
+>>   static int __maybe_unused xhci_plat_runtime_suspend(struct device *dev)
+>>   {
+>>       struct usb_hcd  *hcd = dev_get_drvdata(dev);
+>> @@ -499,8 +509,14 @@ static int __maybe_unused xhci_plat_runtime_resume(struct device *dev)
+>>   }
+>>   const struct dev_pm_ops xhci_plat_pm_ops = {
+>> -    SET_SYSTEM_SLEEP_PM_OPS(xhci_plat_suspend, xhci_plat_resume)
+>> -
+>> +#ifdef CONFIG_PM_SLEEP
+>> +    .suspend = xhci_plat_suspend,
+>> +    .resume = xhci_plat_resume,
+>> +    .freeze = xhci_plat_suspend,
+>> +    .thaw = xhci_plat_resume,
+>> +    .poweroff = xhci_plat_suspend,
+>> +    .restore = xhci_plat_restore,
+>> +#endif
 
+How about using pm_ptr() and pm_sleep_ptr() macros instead of the #ifdef CONFIG_PM_SLEEP?
+should be able to get rif of the __maybe_unused flags as well.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
+Thanks
+-Mathias
 
