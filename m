@@ -1,35 +1,35 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF161A5AD;
-	Thu, 21 Sep 2023 21:49:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C080C20326;
+	Thu, 21 Sep 2023 21:49:36 +0000 (UTC)
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9907E270F;
-	Thu, 21 Sep 2023 14:49:33 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38LLVhZQ030717;
-	Thu, 21 Sep 2023 21:49:03 GMT
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51A48271E;
+	Thu, 21 Sep 2023 14:49:35 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38LLGdLs020622;
+	Thu, 21 Sep 2023 21:48:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=iVxHFTIcdxp/Jy4SowB2gEZbBITOj/637q7GRBYSO4k=;
- b=XSKKlJFmIFfywESzsRJVkqv2gH5HMGgJ1ITJhOnFe+CpJfIKvTl4xSO+5+3pYlH0eMuJ
- wDcnE4Oc8vtMyn2giwTCEmbrY96to2lWgvQQiNI+LgQFAw5OrAYVdmMkmUIscBVrFSwx
- EUth4vMQMlpkMqhbQnbEw4+ZPBFrp14OgwOd+njPENvx/HBoUS2bc0mXMzFW4aoDq5bC
- rv8wk7Pfgfam2XEzbmwVX84nryt7CwD7KKV53o6FaQyd81M0zkWmn5tv+Vjt19MC+CjE
- uvKzhEr2TicGOYpt6PT+if73ztoz6RcTb+fQktYci0Uo9HvEXac3OhqocyWUfngMOgaA 9Q== 
+ bh=ZseVt8TpXNsPnD9gXvZiESwKDgOnEM+cyJSdOPfVtyQ=;
+ b=lBolqkkkqztymt1dXfYc7FKe1h92tjLFV4yU0xSQan9awKeycOYYD5dEepjhSmq/FpPL
+ Wwfo46yBtn9gImVbw5F1sVTZ4ErzRW/KDZd3wUqQisKnzZJSMzmmci8qCO1wlc8C0Rf+
+ jdbJi8umOzz+cRAwB34AUPEefZed5VgFqdprijWxm+rHlBJzlsh5zRBTlIowFdFJ3MZa
+ G8hH7yyLyjXvyb5S2c2dx118dzPC/39l7C41v+B8zW+fMK1kI7PFddkK8H9Ex44zd+zn
+ Mf9Prm2mwIH1jLTiXFvHy9xwl41PfeK2FZVN1w8FJ1NVsgn+1jQjGzLt6Gg5jgaIVOTy ZA== 
 Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t8u6agbf4-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t8u0hgbuu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Sep 2023 21:49:02 +0000
+	Thu, 21 Sep 2023 21:48:54 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38LLn1hh031126
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38LLmrKo031031
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Sep 2023 21:49:01 GMT
+	Thu, 21 Sep 2023 21:48:53 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Thu, 21 Sep 2023 14:49:01 -0700
+ 15.2.1118.36; Thu, 21 Sep 2023 14:48:53 -0700
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <mathias.nyman@intel.com>, <gregkh@linuxfoundation.org>,
         <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
@@ -40,10 +40,12 @@ To: <mathias.nyman@intel.com>, <gregkh@linuxfoundation.org>,
         <Thinh.Nguyen@synopsys.com>
 CC: <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v7 28/33] ASoC: qcom: qdsp6: Add SND kcontrol to select offload device
-Date: Thu, 21 Sep 2023 14:48:38 -0700
-Message-ID: <20230921214843.18450-29-quic_wcheng@quicinc.com>
+        <devicetree@vger.kernel.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v7 02/33] xhci: add helper to stop endpoint and wait for completion
+Date: Thu, 21 Sep 2023 14:48:12 -0700
+Message-ID: <20230921214843.18450-3-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230921214843.18450-1-quic_wcheng@quicinc.com>
 References: <20230921214843.18450-1-quic_wcheng@quicinc.com>
@@ -59,15 +61,15 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: upJUm3DZH_tdsZghbTORWkppuRw1yta2
-X-Proofpoint-ORIG-GUID: upJUm3DZH_tdsZghbTORWkppuRw1yta2
+X-Proofpoint-ORIG-GUID: LgI0xRcvfOVAlYKOfwKnz2s5pci5exze
+X-Proofpoint-GUID: LgI0xRcvfOVAlYKOfwKnz2s5pci5exze
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-09-21_19,2023-09-21_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- mlxlogscore=999 priorityscore=1501 lowpriorityscore=0 spamscore=0
- suspectscore=0 clxscore=1015 malwarescore=0 mlxscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ mlxlogscore=999 clxscore=1015 lowpriorityscore=0 phishscore=0
+ priorityscore=1501 spamscore=0 adultscore=0 suspectscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2309180000 definitions=main-2309210188
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
@@ -76,215 +78,208 @@ X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Expose a kcontrol on the platform sound card, which will allow for
-userspace to determine which USB card number and PCM device to offload.
-This allows for userspace to potentially tag an alternate path for a
-specific USB SND card and PCM device.  Previously, control was absent, and
-the offload path would be enabled on the last USB SND device which was
-connected.  This logic will continue to be applicable if no mixer input is
-received for specific device selection.
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-An example to configure the offload device using tinymix:
-tinymix -D 0 set 'Q6USB offload SND device select' 1 0
+Expose xhci_stop_endpoint_sync() which is a synchronous variant of
+xhci_queue_stop_endpoint().  This is useful for client drivers that are
+using the secondary interrupters, and need to stop/clean up the current
+session.  The stop endpoint command handler will also take care of cleaning
+up the ring.
 
-The above will set the Q6AFE device token to choose offload on card#1 and
-pcm#0.  Device selection is made possible by setting the Q6AFE device
-token.  The audio DSP utilizes this parameter, and will pass this field
-back to the USB offload driver within the QMI stream requests.
+Modifications to repurpose the new API into existing stop endpoint
+sequences was implemented by Wesley Cheng.
 
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Co-developed-by: Wesley Cheng <quic_wcheng@quicinc.com>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/soc/qcom/qdsp6/q6usb.c | 125 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 122 insertions(+), 3 deletions(-)
+ drivers/usb/host/xhci-hub.c | 29 +++---------------
+ drivers/usb/host/xhci.c     | 60 +++++++++++++++++++++++++++----------
+ drivers/usb/host/xhci.h     |  2 ++
+ 3 files changed, 50 insertions(+), 41 deletions(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
-index d697cbe7f184..a95276b7d91d 100644
---- a/sound/soc/qcom/qdsp6/q6usb.c
-+++ b/sound/soc/qcom/qdsp6/q6usb.c
-@@ -14,6 +14,7 @@
- #include <linux/dma-map-ops.h>
- 
- #include <sound/pcm.h>
-+#include <sound/control.h>
- #include <sound/soc.h>
- #include <sound/soc-usb.h>
- #include <sound/pcm_params.h>
-@@ -35,9 +36,12 @@ struct q6usb_port_data {
- 	struct q6afe_usb_cfg usb_cfg;
- 	struct snd_soc_usb *usb;
- 	struct q6usb_offload priv;
-+	struct mutex mutex;
- 	unsigned long available_card_slot;
- 	struct q6usb_status status[SNDRV_CARDS];
--	int active_idx;
-+	bool idx_valid;
-+	int sel_card_idx;
-+	int sel_pcm_idx;
- };
- 
- static const struct snd_soc_dapm_widget q6usb_dai_widgets[] = {
-@@ -53,9 +57,34 @@ static int q6usb_hw_params(struct snd_pcm_substream *substream,
- 			   struct snd_soc_dai *dai)
+diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
+index 0054d02239e2..2f7309bdc922 100644
+--- a/drivers/usb/host/xhci-hub.c
++++ b/drivers/usb/host/xhci-hub.c
+@@ -489,7 +489,6 @@ EXPORT_SYMBOL_GPL(xhci_find_slot_id_by_port);
+ static int xhci_stop_device(struct xhci_hcd *xhci, int slot_id, int suspend)
  {
- 	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
-+	struct snd_soc_pcm_runtime *rtd = substream->private_data;
-+	struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
-+	struct q6afe_port *q6usb_afe;
- 	int direction = substream->stream;
-+	int chip_idx;
+ 	struct xhci_virt_device *virt_dev;
+-	struct xhci_command *cmd;
+ 	unsigned long flags;
+ 	int ret;
+ 	int i;
+@@ -501,10 +500,6 @@ static int xhci_stop_device(struct xhci_hcd *xhci, int slot_id, int suspend)
+ 
+ 	trace_xhci_stop_device(virt_dev);
+ 
+-	cmd = xhci_alloc_command(xhci, true, GFP_NOIO);
+-	if (!cmd)
+-		return -ENOMEM;
+-
+ 	spin_lock_irqsave(&xhci->lock, flags);
+ 	for (i = LAST_EP_INDEX; i > 0; i--) {
+ 		if (virt_dev->eps[i].ring && virt_dev->eps[i].ring->dequeue) {
+@@ -521,7 +516,7 @@ static int xhci_stop_device(struct xhci_hcd *xhci, int slot_id, int suspend)
+ 			if (!command) {
+ 				spin_unlock_irqrestore(&xhci->lock, flags);
+ 				ret = -ENOMEM;
+-				goto cmd_cleanup;
++				goto out;
+ 			}
+ 
+ 			ret = xhci_queue_stop_endpoint(xhci, command, slot_id,
+@@ -529,30 +524,14 @@ static int xhci_stop_device(struct xhci_hcd *xhci, int slot_id, int suspend)
+ 			if (ret) {
+ 				spin_unlock_irqrestore(&xhci->lock, flags);
+ 				xhci_free_command(xhci, command);
+-				goto cmd_cleanup;
++				goto out;
+ 			}
+ 		}
+ 	}
+-	ret = xhci_queue_stop_endpoint(xhci, cmd, slot_id, 0, suspend);
+-	if (ret) {
+-		spin_unlock_irqrestore(&xhci->lock, flags);
+-		goto cmd_cleanup;
+-	}
+-
+-	xhci_ring_cmd_db(xhci);
+ 	spin_unlock_irqrestore(&xhci->lock, flags);
++	ret = xhci_stop_endpoint_sync(xhci, &virt_dev->eps[0], suspend);
+ 
+-	/* Wait for last stop endpoint command to finish */
+-	wait_for_completion(cmd->completion);
+-
+-	if (cmd->status == COMP_COMMAND_ABORTED ||
+-	    cmd->status == COMP_COMMAND_RING_STOPPED) {
+-		xhci_warn(xhci, "Timeout while waiting for stop endpoint command\n");
+-		ret = -ETIME;
+-	}
+-
+-cmd_cleanup:
+-	xhci_free_command(xhci, cmd);
++out:
+ 	return ret;
+ }
+ 
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 3fd2b58ee1d3..163d533d6200 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -2758,6 +2758,46 @@ static int xhci_reserve_bandwidth(struct xhci_hcd *xhci,
+ 	return -ENOMEM;
+ }
+ 
++/*
++ * Synchronous XHCI stop endpoint helper.  Issues the stop endpoint command and
++ * waits for the command completion before returning.
++ */
++int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep, int suspend)
++{
++	struct xhci_command *command;
++	unsigned long flags;
 +	int ret;
 +
-+	mutex_lock(&data->mutex);
-+	chip_idx = data->status[data->sel_card_idx].chip_index;
++	command = xhci_alloc_command(xhci, true, GFP_KERNEL);
++	if (!command)
++		return -ENOMEM;
 +
-+	ret = snd_soc_usb_find_format(chip_idx, params, direction);
-+	if (ret < 0)
++	spin_lock_irqsave(&xhci->lock, flags);
++	ret = xhci_queue_stop_endpoint(xhci, command, ep->vdev->slot_id,
++				       ep->ep_index, suspend);
++	if (ret < 0) {
++		spin_unlock_irqrestore(&xhci->lock, flags);
 +		goto out;
++	}
 +
-+	q6usb_afe = q6afe_port_get_from_id(cpu_dai->dev, USB_RX);
-+	if (IS_ERR(q6usb_afe))
-+		goto out;
- 
--	return snd_soc_usb_find_format(data->active_idx, params, direction);
-+	ret = afe_port_send_usb_dev_param(q6usb_afe, data->sel_card_idx,
-+						data->sel_pcm_idx);
-+	if (ret < 0)
-+		goto out;
++	xhci_ring_cmd_db(xhci);
++	spin_unlock_irqrestore(&xhci->lock, flags);
 +
-+	data->status[data->sel_card_idx].pcm_index = data->sel_pcm_idx;
++	ret = wait_for_completion_timeout(command->completion, msecs_to_jiffies(3000));
++	if (!ret)
++		xhci_warn(xhci, "%s: Unable to stop endpoint.\n",
++				__func__);
++
++	if (command->status == COMP_COMMAND_ABORTED ||
++	    command->status == COMP_COMMAND_RING_STOPPED) {
++		xhci_warn(xhci, "Timeout while waiting for stop endpoint command\n");
++		ret = -ETIME;
++	}
 +out:
-+	mutex_unlock(&data->mutex);
++	xhci_free_command(xhci, command);
 +
 +	return ret;
- }
- 
- static const struct snd_soc_dai_ops q6usb_ops = {
-@@ -86,6 +115,89 @@ static struct snd_soc_dai_driver q6usb_be_dais[] = {
- 	},
- };
- 
-+static int q6usb_get_offload_dev(struct snd_kcontrol *kcontrol,
-+				   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct q6usb_port_data *data = dev_get_drvdata(component->dev);
-+	int pcm_idx;
-+	int card_idx;
-+
-+	mutex_lock(&data->mutex);
-+	if (!data->idx_valid) {
-+		card_idx = -1;
-+		pcm_idx = -1;
-+	} else {
-+		card_idx = data->sel_card_idx;
-+		pcm_idx = data->sel_pcm_idx;
-+	}
-+
-+	ucontrol->value.integer.value[0] = card_idx;
-+	ucontrol->value.integer.value[1] = pcm_idx;
-+	mutex_unlock(&data->mutex);
-+
-+	return 0;
 +}
-+
-+static int q6usb_put_offload_dev(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct q6usb_port_data *data = dev_get_drvdata(component->dev);
-+	int changed = 0;
-+	int pcmidx;
-+	int cardidx;
-+
-+	cardidx = ucontrol->value.integer.value[0];
-+	pcmidx = ucontrol->value.integer.value[1];
-+
-+	mutex_lock(&data->mutex);
-+	if ((cardidx >= 0 && test_bit(cardidx, &data->available_card_slot))) {
-+		data->sel_card_idx = cardidx;
-+		changed = 1;
-+	}
-+
-+	if ((pcmidx >= 0 && pcmidx < data->status[cardidx].num_pcm)) {
-+		data->sel_pcm_idx = pcmidx;
-+		data->idx_valid = true;
-+		changed = 1;
-+	}
-+	mutex_unlock(&data->mutex);
-+
-+	return changed;
-+}
-+
-+static int q6usb_offload_dev_info(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 2;
-+	uinfo->value.integer.min = -1;
-+	uinfo->value.integer.max = SNDRV_CARDS;
-+
-+	return 0;
-+}
-+
-+static const struct snd_kcontrol_new q6usb_offload_dev_ctrl = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
-+	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+	.name = "Q6USB offload SND device select",
-+	.info = q6usb_offload_dev_info,
-+	.get = q6usb_get_offload_dev,
-+	.put = q6usb_put_offload_dev,
-+};
-+
-+/* Build a mixer control for a UAC connector control (jack-detect) */
-+static void q6usb_connector_control_init(struct snd_soc_component *component)
-+{
-+	int ret;
-+
-+	ret = snd_ctl_add(component->card->snd_card,
-+				snd_ctl_new1(&q6usb_offload_dev_ctrl, component));
-+	if (ret < 0)
-+		return;
-+}
-+
- static int q6usb_audio_ports_of_xlate_dai_name(struct snd_soc_component *component,
- 					const struct of_phandle_args *args,
- 					const char **dai_name)
-@@ -115,9 +227,11 @@ static int q6usb_alsa_connection_cb(struct snd_soc_usb *usb,
  
- 	data = dev_get_drvdata(usb->component->dev);
+ /* Issue a configure endpoint command or evaluate context command
+  * and wait for it to finish.
+@@ -3078,7 +3118,7 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
+ 	struct xhci_virt_device *vdev;
+ 	struct xhci_virt_ep *ep;
+ 	struct xhci_input_control_ctx *ctrl_ctx;
+-	struct xhci_command *stop_cmd, *cfg_cmd;
++	struct xhci_command *cfg_cmd;
+ 	unsigned int ep_index;
+ 	unsigned long flags;
+ 	u32 ep_flag;
+@@ -3118,10 +3158,6 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
+ 	if (ep_flag == SLOT_FLAG || ep_flag == EP0_FLAG)
+ 		return;
  
-+	mutex_lock(&data->mutex);
- 	if (connected) {
- 		/* We only track the latest USB headset plugged in */
--		data->active_idx = sdev->card_idx;
-+		if (!data->idx_valid || data->sel_card_idx < 0)
-+			data->sel_card_idx = sdev->card_idx;
- 
- 		set_bit(sdev->card_idx, &data->available_card_slot);
- 		data->status[sdev->card_idx].num_pcm = sdev->num_playback;
-@@ -127,6 +241,7 @@ static int q6usb_alsa_connection_cb(struct snd_soc_usb *usb,
- 		data->status[sdev->card_idx].num_pcm = 0;
- 		data->status[sdev->card_idx].chip_index = 0;
+-	stop_cmd = xhci_alloc_command(xhci, true, GFP_NOWAIT);
+-	if (!stop_cmd)
+-		return;
+-
+ 	cfg_cmd = xhci_alloc_command_with_ctx(xhci, true, GFP_NOWAIT);
+ 	if (!cfg_cmd)
+ 		goto cleanup;
+@@ -3144,23 +3180,16 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
+ 		goto cleanup;
  	}
-+	mutex_unlock(&data->mutex);
  
- 	return 0;
- }
-@@ -135,6 +250,8 @@ static int q6usb_component_probe(struct snd_soc_component *component)
- {
- 	struct q6usb_port_data *data = dev_get_drvdata(component->dev);
- 
-+	q6usb_connector_control_init(component);
+-	err = xhci_queue_stop_endpoint(xhci, stop_cmd, udev->slot_id,
+-					ep_index, 0);
++	spin_unlock_irqrestore(&xhci->lock, flags);
 +
- 	data->usb = snd_soc_usb_add_port(component->dev, &data->priv, q6usb_alsa_connection_cb);
- 	if (IS_ERR(data->usb)) {
- 		dev_err(component->dev, "failed to add usb port\n");
-@@ -189,6 +306,8 @@ static int q6usb_dai_dev_probe(struct platform_device *pdev)
++	err = xhci_stop_endpoint_sync(xhci, ep, 0);
+ 	if (err < 0) {
+-		spin_unlock_irqrestore(&xhci->lock, flags);
+-		xhci_free_command(xhci, cfg_cmd);
+ 		xhci_dbg(xhci, "%s: Failed to queue stop ep command, %d ",
+ 				__func__, err);
+ 		goto cleanup;
+ 	}
  
- 	data->priv.domain = iommu_get_domain_for_dev(&pdev->dev);
+-	xhci_ring_cmd_db(xhci);
+-	spin_unlock_irqrestore(&xhci->lock, flags);
+-
+-	wait_for_completion(stop_cmd->completion);
+-
+ 	spin_lock_irqsave(&xhci->lock, flags);
+-
+ 	/* config ep command clears toggle if add and drop ep flags are set */
+ 	ctrl_ctx = xhci_get_input_control_ctx(cfg_cmd->in_ctx);
+ 	if (!ctrl_ctx) {
+@@ -3192,7 +3221,6 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
  
-+	mutex_init(&data->mutex);
-+
- 	data->priv.dev = dev;
- 	dev_set_drvdata(dev, data);
+ 	xhci_free_command(xhci, cfg_cmd);
+ cleanup:
+-	xhci_free_command(xhci, stop_cmd);
+ 	spin_lock_irqsave(&xhci->lock, flags);
+ 	if (ep->ep_state & EP_SOFT_CLEAR_TOGGLE)
+ 		ep->ep_state &= ~EP_SOFT_CLEAR_TOGGLE;
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index d706a27ec0a3..898b6434dc27 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -2125,6 +2125,8 @@ void xhci_ring_doorbell_for_active_rings(struct xhci_hcd *xhci,
+ void xhci_cleanup_command_queue(struct xhci_hcd *xhci);
+ void inc_deq(struct xhci_hcd *xhci, struct xhci_ring *ring);
+ unsigned int count_trbs(u64 addr, u64 len);
++int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
++			    int suspend);
  
+ /* xHCI roothub code */
+ void xhci_set_link_state(struct xhci_hcd *xhci, struct xhci_port *port,
