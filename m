@@ -1,35 +1,35 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1728220310;
-	Thu, 21 Sep 2023 21:49:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCC329409;
+	Thu, 21 Sep 2023 21:49:42 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 248D83C2A;
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 246DB3C0E;
 	Thu, 21 Sep 2023 14:49:40 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38LL73K6030494;
-	Thu, 21 Sep 2023 21:49:19 GMT
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38LKTAAW023350;
+	Thu, 21 Sep 2023 21:49:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=680s6K8kYHmaW6UIbNRQKTuIHSDR5nqIKTvG3Ugh8so=;
- b=EtCpCykjlsdAs9I3zHo8WpZIQwK44yI6R9ZS4nXc8DJbvD+pmumsnmEq2W5vTccdwoWp
- nbKtUYkQ+vocM/RhE9KUeYTZVU7F7kHKjkT6IA8lymM3nVh1nvG+BvRzMrZSWgMM80gV
- MuYhJDJr1TG/mrbsMaaN6P9g4MWQuD4cGViTN3rX6GVOsjFjp0YkJXOObR3Sa4MiX49W
- M83vVOkRjagRA2QEMhPmQczaMfOQi2Mr6IP5B8ZDbcaxRJpfk++jIyP6nHpgHbz4/kNF
- //cODA6n8mw0AMX6Gb6+6DBAn0TeDncOrzSTa4F/SeqUoV6b1xu+BufdKVkXcTAL11e+ gQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t8u5n0bq9-1
+ bh=nZHs65wuBxC3BjUfJ5Q1+mjrtbgySNUK60JxPD6B7FI=;
+ b=VNF0ysBc4NDwW1iPLXL1Z/eZ0uYtBBt6A1u0bi0hkrxQPzNIJRdSJBdvFLIDPJy7JcPu
+ lX9Zs3bWoCbvsDbL/pQoiwC6KDzc2uLzkAfzhGTZP8+L9vBbI8h7fWcydt3TPkx3f87E
+ YxYaSV8kzdNH2APuudVTcyLQ/hFAEz3/PHc3VbUl6J/OayOSCFC5fQExakGvthvzHI63
+ kQYCngKwUQBGVEjCAOWt6lrfuQv3LqFltdvWqI+ciRKPPCVccHoumNAi+VUgQokt5sDZ
+ dCfxkDhF1bLkbMBmzPzLNp5nzJt4wd0dQAv3hb9FzHxfNOh0eBc7NQ0Y2OGpx6LmsxSs Tg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t8uknr96y-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Sep 2023 21:49:18 +0000
+	Thu, 21 Sep 2023 21:49:21 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38LLn2ZO032184
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38LLmxvL031086
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Sep 2023 21:49:02 GMT
+	Thu, 21 Sep 2023 21:48:59 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Thu, 21 Sep 2023 14:49:01 -0700
+ 15.2.1118.36; Thu, 21 Sep 2023 14:48:59 -0700
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <mathias.nyman@intel.com>, <gregkh@linuxfoundation.org>,
         <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
@@ -41,9 +41,9 @@ To: <mathias.nyman@intel.com>, <gregkh@linuxfoundation.org>,
 CC: <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
         <devicetree@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v7 30/33] ASoC: qcom: qdsp6: Add headphone jack for offload connection status
-Date: Thu, 21 Sep 2023 14:48:40 -0700
-Message-ID: <20230921214843.18450-31-quic_wcheng@quicinc.com>
+Subject: [PATCH v7 22/33] ALSA: usb-audio: Prevent starting of audio stream if in use
+Date: Thu, 21 Sep 2023 14:48:32 -0700
+Message-ID: <20230921214843.18450-23-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230921214843.18450-1-quic_wcheng@quicinc.com>
 References: <20230921214843.18450-1-quic_wcheng@quicinc.com>
@@ -59,90 +59,151 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: ai0bEh-pGLtYGP1cLya_lgAgYwPJi8FQ
-X-Proofpoint-GUID: ai0bEh-pGLtYGP1cLya_lgAgYwPJi8FQ
+X-Proofpoint-GUID: kfcaEtSHfao10NiDg4yKa2CwXlBDiaPs
+X-Proofpoint-ORIG-GUID: kfcaEtSHfao10NiDg4yKa2CwXlBDiaPs
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-09-21_19,2023-09-21_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- priorityscore=1501 malwarescore=0 spamscore=0 bulkscore=0 impostorscore=0
- lowpriorityscore=0 mlxscore=0 clxscore=1015 adultscore=0 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2309210189
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ bulkscore=0 adultscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0
+ mlxlogscore=999 priorityscore=1501 phishscore=0 mlxscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
+ definitions=main-2309210189
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-The headphone jack framework has a well defined infrastructure for
-notifying userspace entities through input devices.  Expose a jack device
-that carries information about if an offload capable device is connected.
-Applications can further identify specific offloading information through
-other SND kcontrols.
+With USB audio offloading, an audio session is started from the ASoC
+platform sound card and PCM devices.  Likewise, the USB SND path is still
+readily available for use, in case the non-offload path is desired.  In
+order to prevent the two entities from attempting to use the USB bus,
+introduce a flag that determines when either paths are in use.
+
+If a PCM device is already in use, the check will return an error to
+userspace notifying that the stream is currently busy.  This ensures that
+only one path is using the USB substream.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/soc/qcom/qdsp6/q6usb.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ sound/usb/card.h                  |  1 +
+ sound/usb/pcm.c                   | 19 +++++++++++++++++--
+ sound/usb/qcom/qc_audio_offload.c | 15 ++++++++++++++-
+ 3 files changed, 32 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
-index d2f60ce66cf3..9fa6c4016222 100644
---- a/sound/soc/qcom/qdsp6/q6usb.c
-+++ b/sound/soc/qcom/qdsp6/q6usb.c
-@@ -20,6 +20,7 @@
- #include <sound/pcm_params.h>
- #include <sound/asound.h>
- #include <sound/q6usboffload.h>
-+#include <sound/jack.h>
+diff --git a/sound/usb/card.h b/sound/usb/card.h
+index e26292363cf0..01f7e10f30f4 100644
+--- a/sound/usb/card.h
++++ b/sound/usb/card.h
+@@ -164,6 +164,7 @@ struct snd_usb_substream {
+ 	unsigned int pkt_offset_adj;	/* Bytes to drop from beginning of packets (for non-compliant devices) */
+ 	unsigned int stream_offset_adj;	/* Bytes to drop from beginning of stream (for non-compliant devices) */
  
- #include "q6dsp-lpass-ports.h"
- #include "q6afe.h"
-@@ -37,6 +38,7 @@ struct q6usb_status {
- struct q6usb_port_data {
- 	struct q6afe_usb_cfg usb_cfg;
- 	struct snd_soc_usb *usb;
-+	struct snd_soc_jack hs_jack;
- 	struct q6usb_offload priv;
- 	struct mutex mutex;
- 	unsigned long available_card_slot;
-@@ -279,6 +281,7 @@ static const struct snd_kcontrol_new q6usb_offload_control = {
- /* Build a mixer control for a UAC connector control (jack-detect) */
- static void q6usb_connector_control_init(struct snd_soc_component *component)
- {
-+	struct q6usb_port_data *data = dev_get_drvdata(component->dev);
++	unsigned int opened:1;		/* pcm device opened */
+ 	unsigned int running: 1;	/* running status */
+ 	unsigned int period_elapsed_pending;	/* delay period handling */
+ 
+diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
+index 3adb09ce1702..c2cb52cd5d23 100644
+--- a/sound/usb/pcm.c
++++ b/sound/usb/pcm.c
+@@ -1241,8 +1241,15 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
+ 	struct snd_usb_stream *as = snd_pcm_substream_chip(substream);
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct snd_usb_substream *subs = &as->substream[direction];
++	struct snd_usb_audio *chip = subs->stream->chip;
  	int ret;
  
- 	ret = snd_ctl_add(component->card->snd_card,
-@@ -290,6 +293,11 @@ static void q6usb_connector_control_init(struct snd_soc_component *component)
- 				snd_ctl_new1(&q6usb_offload_dev_ctrl, component));
- 	if (ret < 0)
- 		return;
++	mutex_lock(&chip->mutex);
++	if (subs->opened) {
++		mutex_unlock(&chip->mutex);
++		return -EBUSY;
++	}
 +
-+	ret = snd_soc_card_jack_new(component->card, "USB offload",
-+					SND_JACK_HEADSET, &data->hs_jack);
-+	if (ret)
-+		return;
+ 	runtime->hw = snd_usb_hardware;
+ 	/* need an explicit sync to catch applptr update in low-latency mode */
+ 	if (direction == SNDRV_PCM_STREAM_PLAYBACK &&
+@@ -1259,13 +1266,17 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
+ 
+ 	ret = setup_hw_info(runtime, subs);
+ 	if (ret < 0)
+-		return ret;
++		goto out;
+ 	ret = snd_usb_autoresume(subs->stream->chip);
+ 	if (ret < 0)
+-		return ret;
++		goto out;
+ 	ret = snd_media_stream_init(subs, as->pcm, direction);
+ 	if (ret < 0)
+ 		snd_usb_autosuspend(subs->stream->chip);
++	subs->opened = 1;
++out:
++	mutex_unlock(&chip->mutex);
++
+ 	return ret;
  }
  
- static int q6usb_audio_ports_of_xlate_dai_name(struct snd_soc_component *component,
-@@ -323,6 +331,9 @@ static int q6usb_alsa_connection_cb(struct snd_soc_usb *usb,
+@@ -1274,6 +1285,7 @@ static int snd_usb_pcm_close(struct snd_pcm_substream *substream)
+ 	int direction = substream->stream;
+ 	struct snd_usb_stream *as = snd_pcm_substream_chip(substream);
+ 	struct snd_usb_substream *subs = &as->substream[direction];
++	struct snd_usb_audio *chip = subs->stream->chip;
+ 	int ret;
  
- 	mutex_lock(&data->mutex);
- 	if (connected) {
-+		if (!data->available_card_slot)
-+			snd_jack_report(data->hs_jack.jack, 1);
-+
- 		/*
- 		 * Update the latest USB headset plugged in, if session is
- 		 * idle.
-@@ -338,6 +349,9 @@ static int q6usb_alsa_connection_cb(struct snd_soc_usb *usb,
- 		clear_bit(sdev->card_idx, &data->available_card_slot);
- 		data->status[sdev->card_idx].num_pcm = 0;
- 		data->status[sdev->card_idx].chip_index = 0;
-+
-+		if (!data->available_card_slot)
-+			snd_jack_report(data->hs_jack.jack, 0);
+ 	snd_media_stop_pipeline(subs);
+@@ -1287,6 +1299,9 @@ static int snd_usb_pcm_close(struct snd_pcm_substream *substream)
+ 
+ 	subs->pcm_substream = NULL;
+ 	snd_usb_autosuspend(subs->stream->chip);
++	mutex_lock(&chip->mutex);
++	subs->opened = 0;
++	mutex_unlock(&chip->mutex);
+ 
+ 	return 0;
+ }
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index f0977bd8084f..2ce39aa26906 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -1400,12 +1400,17 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+ 		goto response;
  	}
- 	mutex_unlock(&data->mutex);
  
++	mutex_lock(&chip->mutex);
+ 	if (req_msg->enable) {
+-		if (info_idx < 0 || chip->system_suspend) {
++		if (info_idx < 0 || chip->system_suspend || subs->opened) {
+ 			ret = -EBUSY;
++			mutex_unlock(&chip->mutex);
++
+ 			goto response;
+ 		}
++		subs->opened = 1;
+ 	}
++	mutex_unlock(&chip->mutex);
+ 
+ 	if (req_msg->service_interval_valid) {
+ 		ret = get_data_interval_from_si(subs,
+@@ -1427,6 +1432,11 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+ 		if (!ret)
+ 			ret = prepare_qmi_response(subs, req_msg, &resp,
+ 					info_idx);
++		if (ret < 0) {
++			mutex_lock(&chip->mutex);
++			subs->opened = 0;
++			mutex_unlock(&chip->mutex);
++		}
+ 	} else {
+ 		info = &uadev[pcm_card_num].info[info_idx];
+ 		if (info->data_ep_pipe) {
+@@ -1450,6 +1460,9 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+ 		}
+ 
+ 		disable_audio_stream(subs);
++		mutex_lock(&chip->mutex);
++		subs->opened = 0;
++		mutex_unlock(&chip->mutex);
+ 	}
+ 
+ response:
