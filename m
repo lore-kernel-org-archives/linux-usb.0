@@ -1,46 +1,46 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CDD36135;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C01613E;
 	Sat, 23 Sep 2023 07:40:43 +0000 (UTC)
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1272C198;
-	Sat, 23 Sep 2023 00:40:37 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-31fe2c8db0dso2914513f8f.3;
-        Sat, 23 Sep 2023 00:40:36 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DBE419E;
+	Sat, 23 Sep 2023 00:40:40 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-323168869daso727110f8f.2;
+        Sat, 23 Sep 2023 00:40:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695454835; x=1696059635; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1695454839; x=1696059639; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YKrPJWkjEs+cK0uLXs72u7EPbOGJFSfMi3rQJfH1tGU=;
-        b=XpXotixH/ksLEUKAvx6sE9Ol2rUjmpxU2HR4eyOakFDtWu9vljhafL8BZwt7KceT59
-         idMdabsIse9xos+jA/3cokT7Hmp/nYgw2+Gx8THBwfZXogtueZHgebwswFEJ2f89KMCv
-         qwo+54aOUpEjSPwqsIDu1fGbuw3TmuKHiySjVoVNpoFhMiuoq1kIzwGeZLqqmkYQ0RGH
-         m6pIzG+jVqt/eRn6oSqsRryktX4X77hwLSMHvIXLU5nxGA7T2H6N8hxpHhrzZryMZ4Jv
-         8QDlpG2zmp6qIDgqSJr0xXgnIT4WqmZSwCpYRBh0XX1LkX+zOahwqk0PJx2dElI8KU5x
-         YZKg==
+        bh=a5WaQghfdBPPUPM6BGBEffjVf/GTvuPkbvL3qgXS12Q=;
+        b=jle+5t/6LOQmDrv2I7O//erp3l225mtdhWseTgfo/I0obBfZtRRRiMdRhUFUIifN1V
+         Dnc3Yo9X8MSLckYjppF3X88Q7JADdz4RuJJYQG0efQQB5aLXVPkO3ojOdXlFbAGfMTU0
+         0nuFxDiPrzYgjGliDiTUb6j0G2tM/zPtYgPoM0OSKQhoGlV/LFrN2qi1GPxmxKYTXYIl
+         OUqmwEupkY+X/lB8w3v+4K2EkNNRH+yfevBoO6ugRLmCC7aEwA8jYi2kyB1qhWTpcVBv
+         mBnbQmrOFX+PgjcHuD35f7QcmpHYl2L1sB7AK9oUzxbcOJvrnIb92BIvMVcujdS0l2bj
+         9Snw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695454835; x=1696059635;
+        d=1e100.net; s=20230601; t=1695454839; x=1696059639;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YKrPJWkjEs+cK0uLXs72u7EPbOGJFSfMi3rQJfH1tGU=;
-        b=HkrnCJdK0CpdKqidPK/txgrxGEucwNIg5gIGzQNJkdAOF/XYTlGn4NS3JzLwetT2ZV
-         5oZx2o/5eX7hFIK5sMiM+9cxL0XRxfWPXmzxtY8tHRwqGrnz/4Tgx2m7Pp0wDuAa5xcq
-         ygwN1QFvNxy8BLefESpc+KAb7pKw8Dq7CnhaPvmYdXPtmTzke4QVcF9+qLGBPwKI/28y
-         y3+TCxC1EOeAsgIKwlgV7OqPxXR58KsGhl7ZWrC8fDMtX/KsRRrvDsbSN+zb09WCUbL/
-         eT9nADR/h9T4I41xsfuAlBEHjX97klxGfbINB0S3XxSoN0OOMbITslxFHNfcnNVPewjF
-         BpJA==
-X-Gm-Message-State: AOJu0YyqwJ2o7LnYL9wFH+b0p5+vAOdn7ChaV3lGWv70dbEGfsxjbATp
-	MQzyNc1TCRSWeRxRVp2xC58=
-X-Google-Smtp-Source: AGHT+IE7+mky1P7RVLFZVXctvXF3UzbQte7wMu1FYl99R3/3im9zbOy7n8jAucRP7u+t2P/CyDALNQ==
-X-Received: by 2002:a05:6000:819:b0:323:1689:6607 with SMTP id bt25-20020a056000081900b0032316896607mr1557349wrb.5.1695454835447;
-        Sat, 23 Sep 2023 00:40:35 -0700 (PDT)
+        bh=a5WaQghfdBPPUPM6BGBEffjVf/GTvuPkbvL3qgXS12Q=;
+        b=sauF0ALJaPCjsj1CzdW81ZjQ0dzWBH2nMA4H2Uiz/+J0NQQkuVd1VRRavrFqgTA3dK
+         2q13GpjNS7dZd+fg48XRxhH2K6HQFXN5ivWNquJJKnrNVE/ku2sFfAphtJM53QStxsKH
+         puiIH3AjNZ43RtfzlVAkMApAglbAKet07Nj62ewpv6ZkFx9+39TZQA2KpfMexBXJmZuE
+         ADlT99S7t+RlwC25P26TOrQJO/A8wOuYSqyMCfe02hfynjSbd0O6oKlJxMpZghpLLFCJ
+         kcmnRS6cIP6fm1+yHBc0BUmh4nEa1HbOyx87085nAA9080TODmSTOBauegASlyM0K6Ig
+         ExVg==
+X-Gm-Message-State: AOJu0YxdfANImwPUF1xBn4opwffE0g/880if+EhN7/p72SYn+1UVq3IJ
+	ocJgx/aWbP5AWrguv2rgDZ0=
+X-Google-Smtp-Source: AGHT+IGqGD+OvqGjXb+4VjPi/pTWPjPRqbhaqoqz/0MXokUq4RUzJM94duUXzCRb4A6ht57AoqWNPg==
+X-Received: by 2002:a05:6000:51:b0:319:77dd:61f9 with SMTP id k17-20020a056000005100b0031977dd61f9mr1437890wrx.35.1695454839065;
+        Sat, 23 Sep 2023 00:40:39 -0700 (PDT)
 Received: from primary.. ([213.139.62.222])
-        by smtp.gmail.com with ESMTPSA id k6-20020adfe3c6000000b003196e992567sm6236955wrm.115.2023.09.23.00.40.33
+        by smtp.gmail.com with ESMTPSA id k6-20020adfe3c6000000b003196e992567sm6236955wrm.115.2023.09.23.00.40.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Sep 2023 00:40:35 -0700 (PDT)
+        Sat, 23 Sep 2023 00:40:38 -0700 (PDT)
 From: Abdel Alkuor <alkuor@gmail.com>
 To: heikki.krogerus@linux.intel.com,
 	krzysztof.kozlowski+dt@linaro.org,
@@ -52,10 +52,10 @@ Cc: gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
 	conor+dt@kernel.org,
 	ryan.eleceng@gmail.com,
-	Abdel Alkuor <abdelalkuor@geotab.com>
-Subject: [PATCH v6 01/14] dt-bindings: usb: tps6598x: Add tps25750
-Date: Sat, 23 Sep 2023 03:39:46 -0400
-Message-Id: <20230923073959.86660-2-alkuor@gmail.com>
+	Abdel Alkuor <alkuor@gmail.com>
+Subject: [PATCH v6 03/14] USB: typec: Add patch mode to tps6598x
+Date: Sat, 23 Sep 2023 03:39:48 -0400
+Message-Id: <20230923073959.86660-4-alkuor@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230923073959.86660-1-alkuor@gmail.com>
 References: <20230923073959.86660-1-alkuor@gmail.com>
@@ -68,132 +68,72 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-From: Abdel Alkuor <abdelalkuor@geotab.com>
+TPS25750 has a patch mode indicating the device requires
+a configuration to get the device into operational mode
 
-TPS25750 is USB TypeC PD controller which is a subset of TPS6598x.
-
-Signed-off-by: Abdel Alkuor <abdelalkuor@geotab.com>
+Signed-off-by: Abdel Alkuor <alkuor@gmail.com>
 ---
 Changes in v6:
-  - Use reg property for patch address
+  - Return current mode and check it directly
 Changes in v5:
-  - Add tps25750 bindings
+  - Incorporating tps25750 into tps6598x driver
 
- .../devicetree/bindings/usb/ti,tps6598x.yaml  | 80 ++++++++++++++++++-
- 1 file changed, 78 insertions(+), 2 deletions(-)
+ drivers/usb/typec/tipd/core.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-index 5497a60cddbc..da299a2bb19e 100644
---- a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-+++ b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-@@ -20,8 +20,7 @@ properties:
-     enum:
-       - ti,tps6598x
-       - apple,cd321x
--  reg:
--    maxItems: 1
-+      - ti,tps25750
+diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+index 32420c61660d..58679b1c0cfe 100644
+--- a/drivers/usb/typec/tipd/core.c
++++ b/drivers/usb/typec/tipd/core.c
+@@ -68,6 +68,7 @@ enum {
+ 	TPS_MODE_BOOT,
+ 	TPS_MODE_BIST,
+ 	TPS_MODE_DISC,
++	TPS_MODE_PTCH,
+ };
  
-   wakeup-source: true
+ static const char *const modes[] = {
+@@ -75,6 +76,7 @@ static const char *const modes[] = {
+ 	[TPS_MODE_BOOT]	= "BOOT",
+ 	[TPS_MODE_BIST]	= "BIST",
+ 	[TPS_MODE_DISC]	= "DISC",
++	[TPS_MODE_PTCH] = "PTCH",
+ };
  
-@@ -32,10 +31,55 @@ properties:
-     items:
-       - const: irq
+ /* Unrecognized commands will be replaced with "!CMD" */
+@@ -593,12 +595,15 @@ static int tps6598x_check_mode(struct tps6598x *tps)
+ 	if (ret)
+ 		return ret;
  
-+  firmware-name:
-+    description: |
-+      Should contain the name of the default patch binary
-+      file located on the firmware search path which is
-+      used to switch the controller into APP mode.
-+      This is used when tps25750 doesn't have an EEPROM
-+      connected to it.
-+    maxItems: 1
+-	switch (match_string(modes, ARRAY_SIZE(modes), mode)) {
++	ret = match_string(modes, ARRAY_SIZE(modes), mode);
 +
- required:
-   - compatible
-   - reg
++	switch (ret) {
+ 	case TPS_MODE_APP:
+-		return 0;
++	case TPS_MODE_PTCH:
++		return ret;
+ 	case TPS_MODE_BOOT:
+ 		dev_warn(tps->dev, "dead-battery condition\n");
+-		return 0;
++		return ret;
+ 	case TPS_MODE_BIST:
+ 	case TPS_MODE_DISC:
+ 	default:
+@@ -765,7 +770,7 @@ static int tps6598x_probe(struct i2c_client *client)
+ 	tps->irq_handler = irq_handler;
+ 	/* Make sure the controller has application firmware running */
+ 	ret = tps6598x_check_mode(tps);
+-	if (ret)
++	if (ret < 0)
+ 		return ret;
  
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: ti,tps25750
-+    then:
-+      properties:
-+        reg:
-+          maxItems: 2
-+
-+        reg-names:
-+          description: |
-+            The first reg is PD device address and the second
-+            reg is I2C slave address field in PBMs input data
-+            which is used as the device address when writing the
-+            patch for TPS25750.
-+            The patch address can be any value except 0x00, 0x20,
-+            0x21, 0x22, and 0x23
-+          items:
-+            - const: main
-+            - const: patch-address
-+
-+        connector:
-+          required:
-+            - data-role
-+
-+      required:
-+        - connector
-+        - reg-names
-+    else:
-+      properties:
-+        reg:
-+          maxItems: 1
-+
-+
- additionalProperties: true
- 
- examples:
-@@ -68,4 +112,36 @@ examples:
-             };
-         };
-     };
-+
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        typec@21 {
-+            compatible = "ti,tps25750";
-+            reg = <0x21>, <0x0f>;
-+            reg-names = "main", "patch-address";
-+
-+            interrupt-parent = <&msmgpio>;
-+            interrupts = <100 IRQ_TYPE_LEVEL_LOW>;
-+            interrupt-names = "irq";
-+            firmware-name = "tps25750.bin";
-+
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&typec_pins>;
-+
-+            typec_con0: connector {
-+                compatible = "usb-c-connector";
-+                label = "USB-C";
-+                data-role = "dual";
-+                port {
-+                    typec_ep0: endpoint {
-+                        remote-endpoint = <&otg_ep>;
-+                    };
-+                };
-+            };
-+        };
-+    };
- ...
+ 	ret = tps6598x_write64(tps, TPS_REG_INT_MASK1, mask1);
 -- 
 2.34.1
 
