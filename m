@@ -1,18 +1,18 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6624DD52C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4DBDDA0
 	for <linux-usb@vger.kernel.org>; Sun, 24 Sep 2023 17:17:21 +0000 (UTC)
 Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC008FE;
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC306FF;
 	Sun, 24 Sep 2023 10:17:18 -0700 (PDT)
 Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id 95E8482085;
-	Sun, 24 Sep 2023 19:11:33 +0200 (CEST)
+	by mx.skole.hr (mx.skole.hr) with ESMTP id BBAE082064;
+	Sun, 24 Sep 2023 19:11:25 +0200 (CEST)
 From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Sun, 24 Sep 2023 18:42:59 +0200
-Subject: [PATCH RFC 6/6] ARM: pxa: Convert gumstix Bluetooth to GPIO
- descriptors
+Subject: [PATCH RFC 0/6] ARM: pxa: GPIO descriptor conversions
+Date: Sun, 24 Sep 2023 18:42:53 +0200
+Message-Id: <20230924-pxa-gpio-v1-0-2805b87d8894@skole.hr>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -21,9 +21,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230924-pxa-gpio-v1-6-2805b87d8894@skole.hr>
-References: <20230924-pxa-gpio-v1-0-2805b87d8894@skole.hr>
-In-Reply-To: <20230924-pxa-gpio-v1-0-2805b87d8894@skole.hr>
+X-B4-Tracking: v=1; b=H4sIAA1nEGUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2MDCwNz3YKKRN30gsx8XePkVCPTFFNzEwtDEyWg8oKi1LTMCrBR0UpBbs5
+ KsbW1AHrYMDBfAAAA
 To: Daniel Mack <daniel@zonque.org>, 
  Haojian Zhuang <haojian.zhuang@gmail.com>, 
  Robert Jarzmik <robert.jarzmik@free.fr>, 
@@ -36,21 +36,21 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, 
  =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2065;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1194;
  i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=H9m5GKPOjDqHvnoQunanjp8s8qAFx4LJD9KoCMZ/UEw=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlEG28X5NLVBm4Qm0+u6B6FKoxQly/0Ciuq8Dwq
- QSFwx5tDyiJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZRBtvAAKCRCaEZ6wQi2W
- 4WIQEACd3lw4SAlg1f15xp4lmNLT7RcoKchhGt8EYTWfn55MAR/JinvBIGpVqMdgxB8EAXj+y6U
- 8K9GsDCvTXhFBwvCJzt6noLutTilUD1CzM3CJOXfS7ADUZur+AenZ9ueyN7iv4SbJYOZ5eGbEhS
- RR+wxCLltnrtnTdj7CYCbEbGVXp5Onahvon6xS1TMjaiIKJt4gT61wrXMjyHSHh69icqlMT5LKD
- +EfLU128BhOFkif3M4gkRXpKZPqn3NFKlTEfIXV6fWSR05NCWIhatqDbjJBJO/abPamHMBRr87Y
- a9FZ9Su3ElS2ePbsM7HDRChmg/WIukHYudItJYEIo1X1GfZIt8ob6NHL8BtDYwgC7BSID6s/M2O
- ngF+atGZtLGG+DMpSDqD0Db62Dor7IPgGE1GVFIV8bTQQdOWtriOa6ZS+swQnNY6Av9xV2UtBQd
- KBP7ZNp/E7wJwqUzoxOxO08Pp3b2Fqz4YoRQKSAB/pwoUCyZUaz8rEsX/YBU4yo1eRZsQhsF2o/
- zixUHhAyOSPxOyY5bh438obvqYCtMSK8TgMeAyXIFLpLnkh4796NuwLF6XS9wv7AbXB52mS1Saw
- w5Oa0t5wLzMITGy17grLQ8wf1N9W3c5XSK4CbkyH9SmHlCkcc5A7eCyWIvysZ11il4X20lF02Aa
- Rfxtr3YB8cD6uWg==
+ bh=B9DP0CxfWMcnVFBkaCnG2gUKEhrfXwj6FqG5mvPhN24=;
+ b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlEG27bNYu4Fa4414ypkowuQ+gQAtFotUwZOv2q
+ d1cTD9kvnCJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZRBtuwAKCRCaEZ6wQi2W
+ 4ZjQEACo4c4VxqU5rJUdrlr21h4lHp2LcaxM93RzM0JC/NtD2NhGy0N78D0zdx014gLbvRFYIAA
+ bZfzf8MOK5SZLUJacCUt2kfxb+wUD3AjCEuS4zjfqhTtGbmR3GFWNun3v4IWmbg1f2h/1wUCMhU
+ 6nuEx0mtnZlQGwEC8AecRbC1LEcby7IG6Jpj251OYz4xOj+KOZdS1zGpWXQj4D4GASTuTrxqwx2
+ uF4+iOkIcE/4zwB4EjYnPtLA6uJIUknSjvedyTZoJ7rD5Hx9T4NWfMl93gzKVnxztoh5di4RGb3
+ Ky+tp/JDFU3kQzn0kWbg7CqJNcu3rMF3aUbdvcwKv7qSnCiUWJwhfyElAXChEtJG2latdW2P382
+ aMVDogpHYPteq/D1rsyygF2Wi/RlyvBt1OpuQ7oNp5shyrcMigNI5KBvblMWxQRXPfH9FLeVmsU
+ aiiM+33n4pZxl2uQaEzpsV/nP1kJuiZ0i664df1bfhllpd47n0vO8b5nmKt6TR8Lb+b/Qo2skUG
+ WklpXKEHAbyPFyrrar2UeObzm7s9/1r7Kt4FWuat/+7nBA85QB1rqly/Da4LtO7LE9FnY5AYjTJ
+ VT1UfzHTr2l8XIQl/G5onxdXjlkWrYNVrO2xgiFOsCSYnyIOazi2pTb5JejNJB/En1I3rQ4Xw7g
+ FunsLXRK7+2dlbA==
 X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
  fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
@@ -59,76 +59,36 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Gumstix still uses the legacy GPIO interface for resetting the Bluetooth
-device.
+Hello,
 
-Convert it to use the GPIO descriptor interface.
+Small series to convert some of the board files in the mach-pxa directory
+to use the new GPIO descriptor interface.
+
+Most notably, the am200epd, am300epd and Spitz matrix keypad among
+others are not converted in this series.
 
 Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
 ---
- arch/arm/mach-pxa/gumstix.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+Duje Mihanović (6):
+      ARM: pxa: Convert Spitz OHCI to GPIO descriptors
+      ARM: pxa: Convert Spitz LEDs to GPIO descriptors
+      ARM: pxa: Convert Spitz CF power control to GPIO descriptors
+      ARM: pxa: Convert reset driver to GPIO descriptors
+      ARM: pxa: Convert Spitz hsync to GPIO descriptors
+      ARM: pxa: Convert gumstix Bluetooth to GPIO descriptors
 
-diff --git a/arch/arm/mach-pxa/gumstix.c b/arch/arm/mach-pxa/gumstix.c
-index c9f0f62187bd..14e1b9274d7a 100644
---- a/arch/arm/mach-pxa/gumstix.c
-+++ b/arch/arm/mach-pxa/gumstix.c
-@@ -20,8 +20,8 @@
- #include <linux/delay.h>
- #include <linux/mtd/mtd.h>
- #include <linux/mtd/partitions.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/gpio/machine.h>
--#include <linux/gpio.h>
- #include <linux/err.h>
- #include <linux/clk.h>
- 
-@@ -129,6 +129,9 @@ static void gumstix_udc_init(void)
- #endif
- 
- #ifdef CONFIG_BT
-+GPIO_LOOKUP_SINGLE(gumstix_bt_gpio_table, "pxa2xx-uart.1", "pxa-gpio",
-+		GPIO_GUMSTIX_BTRESET, "BTRST", GPIO_ACTIVE_LOW);
-+
- /* Normally, the bootloader would have enabled this 32kHz clock but many
- ** boards still have u-boot 1.1.4 so we check if it has been turned on and
- ** if not, we turn it on with a warning message. */
-@@ -153,24 +156,23 @@ static void gumstix_setup_bt_clock(void)
- 
- static void __init gumstix_bluetooth_init(void)
- {
--	int err;
-+	struct gpio_desc *desc;
-+
-+	gpiod_add_lookup_table(&gumstix_bt_gpio_table);
- 
- 	gumstix_setup_bt_clock();
- 
--	err = gpio_request(GPIO_GUMSTIX_BTRESET, "BTRST");
--	if (err) {
-+	desc = gpiod_get(&pxa_device_btuart.dev, "BTRST", GPIOD_OUT_HIGH);
-+	if (IS_ERR(desc)) {
- 		pr_err("gumstix: failed request gpio for bluetooth reset\n");
- 		return;
- 	}
- 
--	err = gpio_direction_output(GPIO_GUMSTIX_BTRESET, 1);
--	if (err) {
--		pr_err("gumstix: can't reset bluetooth\n");
--		return;
--	}
--	gpio_set_value(GPIO_GUMSTIX_BTRESET, 0);
-+	gpiod_set_value(desc, 0);
- 	udelay(100);
--	gpio_set_value(GPIO_GUMSTIX_BTRESET, 1);
-+	gpiod_set_value(desc, 1);
-+
-+	gpiod_put(desc);
- }
- #else
- static void gumstix_bluetooth_init(void)
+ arch/arm/mach-pxa/gumstix.c    | 24 ++++++++-------
+ arch/arm/mach-pxa/reset.c      | 40 +++++++++----------------
+ arch/arm/mach-pxa/reset.h      |  3 +-
+ arch/arm/mach-pxa/spitz.c      | 68 +++++++++++++++++++++++++++++++++---------
+ drivers/usb/host/ohci-pxa27x.c | 10 +++++++
+ 5 files changed, 92 insertions(+), 53 deletions(-)
+---
+base-commit: ce9ecca0238b140b88f43859b211c9fdfd8e5b70
+change-id: 20230807-pxa-gpio-3ce25d574814
 
+Best regards,
 -- 
-2.42.0
+Duje Mihanović <duje.mihanovic@skole.hr>
 
 
