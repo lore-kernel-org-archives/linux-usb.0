@@ -1,189 +1,134 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07694D511
-	for <linux-usb@vger.kernel.org>; Sun, 24 Sep 2023 17:17:49 +0000 (UTC)
-Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B013FFE;
-	Sun, 24 Sep 2023 10:17:47 -0700 (PDT)
-Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id F0497832A1;
-	Sun, 24 Sep 2023 19:11:30 +0200 (CEST)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Sun, 24 Sep 2023 18:42:57 +0200
-Subject: [PATCH RFC 4/6] ARM: pxa: Convert reset driver to GPIO descriptors
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52148DDAD
+	for <linux-usb@vger.kernel.org>; Sun, 24 Sep 2023 17:55:18 +0000 (UTC)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 284B8FE
+	for <linux-usb@vger.kernel.org>; Sun, 24 Sep 2023 10:55:16 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-5335725cf84so5013598a12.2
+        for <linux-usb@vger.kernel.org>; Sun, 24 Sep 2023 10:55:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695578114; x=1696182914; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=A03d4SenI3qoD/0mJ6J5vk9hshjA/ZI6xbIXl5MHgGs=;
+        b=NzOZCgtKVR5l1lHEl8DTbzrUjhmZgLIaOJBK2s1JFYxePtC1nDXD2i2FH1HXshAKgR
+         7GBKnKCWmkViwpVSDJUXQB7Nb8eh+ZUhnVlA1ErfM2uuZtH/igyuph1kmkk9Ac/49YRd
+         eNmUKcKgUoWNQ3jVpuIPgSbnPBvTpBgRQXhFZdTD17G8HZW7s4CpMiUPLS9uvVfGjlDk
+         5q9mHs6vmJpquNaeb0K6Pnc/m4n/6Rl0/CDaJYgTmU4+BGvw1pHkBzXEWR8VcuqK9f+Z
+         BlrrFt3SMqlm0b4PYtWK5espAibgWV7CSmsN1Fo6KHED6M7aAWNZS7Q6dXRu7i9+9su+
+         fORw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695578114; x=1696182914;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=A03d4SenI3qoD/0mJ6J5vk9hshjA/ZI6xbIXl5MHgGs=;
+        b=LbIEO7XsngsnwRk+RXbwRrFBWNqy8cjQJocX0ZkXebffKp2NOzWH1rBKMDG7EvARbK
+         6wSyAYmj7G5tnlkOWBXj2/uw360OQA84b618TPntus9lKi/aQQWkUq4m3fwrf5hp5Oth
+         drKJllKHARHntPX4Q/EBh8IyD44rY30mkr+LHBwf2CcUS/Q0ttV3UhmC3OrejJEOa+a7
+         RTbxoi67N2C1Z9iTpnDrD8vP4Rz9wU/AqHjwV7uLSwJMxIL9bLRvAzNOi4OKIXdw/sO9
+         5U/UKRz2O9uKthUp0sL8qchq1mr99UpiLjj9MbKo9C11Uni3JiVuz8ORLPT4hh9UBi9k
+         xcgw==
+X-Gm-Message-State: AOJu0YxWnoHjhPZoFRbcSpGgae0BL8K4HCfzTaGyeEzrZ2m8z+pnk5/F
+	5jVIOa0FUtbjIV45a2wpYqFQIw==
+X-Google-Smtp-Source: AGHT+IEsLlnD7P4LOstCxJ+ABgT/Jg6O64zKETnuhvnLxKGBhlVcv/9r7fU/wjyG5pPKzvU9BQm0Kg==
+X-Received: by 2002:a17:907:b12:b0:9ae:5212:e3b with SMTP id h18-20020a1709070b1200b009ae52120e3bmr3582316ejl.5.1695578114123;
+        Sun, 24 Sep 2023 10:55:14 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.100])
+        by smtp.gmail.com with ESMTPSA id gu20-20020a170906f29400b009ad8796a6aesm5238605ejb.56.2023.09.24.10.55.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 24 Sep 2023 10:55:13 -0700 (PDT)
+Message-ID: <2955af92-5471-45e1-b342-9de3d995fad6@linaro.org>
+Date: Sun, 24 Sep 2023 19:55:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20230924-pxa-gpio-v1-4-2805b87d8894@skole.hr>
-References: <20230924-pxa-gpio-v1-0-2805b87d8894@skole.hr>
-In-Reply-To: <20230924-pxa-gpio-v1-0-2805b87d8894@skole.hr>
-To: Daniel Mack <daniel@zonque.org>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Russell King <linux@armlinux.org.uk>, 
- Alan Stern <stern@rowland.harvard.edu>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3634;
- i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=GrFT9JmOR1zAt3MyVJMcvKbA7dX5Lm6oYSMpmtciw8U=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlEG27USpK03fIklpgxoF4r7AZErPkzYxfE6IT/
- 2tZaPhU9wuJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZRBtuwAKCRCaEZ6wQi2W
- 4RW3EACZMFf0i4zxCdnAKuLp1hs1yPKmYp3h7kd0qSwnkc5Wyc4iZrewxVNd73XebGxBHD0bB+B
- FgVhUpY/lt4LFRN6uCkuZefuj8q7nUX/3ljkbljlYKdvaag656rJ6FCoU7vLMXTB/xK3TP3mqD/
- UnfPjlgn0KhGiKYBz6HcZPPPS3NtACDt44XUspRwqzNIRpGpBUnKlxWQMdkqxWsQoZZ/F5iBb3I
- VMWyJHWtU5twki0kx+YLV8zpD3cmG5GGEudZXp70cc4DCZbAMorZuynp+8eq9aZIAvXV59dw5uf
- z/iv9KQInSqIBBFuNAnU1kWJhKQuQA0VwXWX1q9zhodz7b7aOCIlsOhKdgemSHRgKWUcrVhHi0L
- GX717ffWtMUsJ5rcRGLaG5yzf4CKqptqEKbBkAdqmn5G2Zr7o8SA9HYjhYFN2z/lLI6wkI/hYh9
- +Mu1CAHh151ALWrgX9JUanBZZaVdza8LhPFed6ty03fyjcbAsPcHLcIPHjp0oqUYnbkKla1t+2U
- RSG2N4fuXIQd979OYQ1iJqdJLgV+/DHEV1zEG/cZLefke+TMgyhsniuW/ydSV99zobKlEmQKVMz
- URrogilsBtjA+RIunY+HF+Cu6Ukr78/O/IhmDxYkLsO1GDh3DZF5t055yDNrd2B9m1IHn0A7fVE
- 8ymjg3RhjEGjoeQ==
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: usb: ci-hdrc-usb2: Allow "fsl,imx27-usb" to
+ be passed alone
+Content-Language: en-US
+To: Fabio Estevam <festevam@gmail.com>, gregkh@linuxfoundation.org
+Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ Fabio Estevam <festevam@denx.de>
+References: <20230924160351.692867-1-festevam@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20230924160351.692867-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-The PXA reset driver still uses the legacy GPIO interface for
-configuring and asserting the reset pin.
+On 24/09/2023 18:03, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
+> 
+> imx27.dtsi describes its usb nodes as:
+> 
+> compatible = "fsl,imx27-usb";
+> 
+> Adjust the bindings to allow it and avoid the following schema warning:
+> 
+> usb@10024000: compatible: 'oneOf' conditional failed, one must be fixed:
+> 	['fsl,imx27-usb'] is too short
 
-Convert it to use the GPIO descriptor interface.
+This probably could go with a fixes tag. In any case:
 
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
----
- arch/arm/mach-pxa/reset.c | 40 ++++++++++++++--------------------------
- arch/arm/mach-pxa/reset.h |  3 +--
- arch/arm/mach-pxa/spitz.c |  6 +++++-
- 3 files changed, 20 insertions(+), 29 deletions(-)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/arch/arm/mach-pxa/reset.c b/arch/arm/mach-pxa/reset.c
-index 27293549f8ad..1484dce1383c 100644
---- a/arch/arm/mach-pxa/reset.c
-+++ b/arch/arm/mach-pxa/reset.c
-@@ -2,7 +2,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/delay.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/io.h>
- #include <asm/proc-fns.h>
- #include <asm/system_misc.h>
-@@ -14,33 +14,21 @@
- 
- static void do_hw_reset(void);
- 
--static int reset_gpio = -1;
-+static struct gpio_desc *reset_gpio = NULL;
- 
--int init_gpio_reset(int gpio, int output, int level)
-+int init_gpio_reset(int output, int level)
- {
--	int rc;
--
--	rc = gpio_request(gpio, "reset generator");
--	if (rc) {
--		printk(KERN_ERR "Can't request reset_gpio\n");
--		goto out;
-+	reset_gpio = gpiod_get(NULL, "reset generator", GPIOD_ASIS);
-+	if (IS_ERR(reset_gpio)) {
-+		printk(KERN_ERR "Can't request reset_gpio: %ld\n",
-+				PTR_ERR(reset_gpio));
-+		return PTR_ERR(reset_gpio);
- 	}
- 
- 	if (output)
--		rc = gpio_direction_output(gpio, level);
-+		return gpiod_direction_output(reset_gpio, level);
- 	else
--		rc = gpio_direction_input(gpio);
--	if (rc) {
--		printk(KERN_ERR "Can't configure reset_gpio\n");
--		gpio_free(gpio);
--		goto out;
--	}
--
--out:
--	if (!rc)
--		reset_gpio = gpio;
--
--	return rc;
-+		return gpiod_direction_input(reset_gpio);
- }
- 
- /*
-@@ -50,16 +38,16 @@ int init_gpio_reset(int gpio, int output, int level)
-  */
- static void do_gpio_reset(void)
- {
--	BUG_ON(reset_gpio == -1);
-+	BUG_ON(IS_ERR(reset_gpio));
- 
- 	/* drive it low */
--	gpio_direction_output(reset_gpio, 0);
-+	gpiod_direction_output(reset_gpio, 0);
- 	mdelay(2);
- 	/* rising edge or drive high */
--	gpio_set_value(reset_gpio, 1);
-+	gpiod_set_value(reset_gpio, 1);
- 	mdelay(2);
- 	/* falling edge */
--	gpio_set_value(reset_gpio, 0);
-+	gpiod_set_value(reset_gpio, 0);
- 
- 	/* give it some time */
- 	mdelay(10);
-diff --git a/arch/arm/mach-pxa/reset.h b/arch/arm/mach-pxa/reset.h
-index 963dd190bc13..5864f61a0e94 100644
---- a/arch/arm/mach-pxa/reset.h
-+++ b/arch/arm/mach-pxa/reset.h
-@@ -13,10 +13,9 @@ extern void pxa_register_wdt(unsigned int reset_status);
- 
- /**
-  * init_gpio_reset() - register GPIO as reset generator
-- * @gpio: gpio nr
-  * @output: set gpio as output instead of input during normal work
-  * @level: output level
-  */
--extern int init_gpio_reset(int gpio, int output, int level);
-+extern int init_gpio_reset(int output, int level);
- 
- #endif /* __ASM_ARCH_RESET_H */
-diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
-index 616305978727..94bcb187713b 100644
---- a/arch/arm/mach-pxa/spitz.c
-+++ b/arch/arm/mach-pxa/spitz.c
-@@ -1024,9 +1024,13 @@ static void spitz_restart(enum reboot_mode mode, const char *cmd)
- 	spitz_poweroff();
- }
- 
-+GPIO_LOOKUP_SINGLE(spitz_reset_gpio_table, NULL, "pxa-gpio",
-+		SPITZ_GPIO_ON_RESET, "reset generator", GPIO_ACTIVE_HIGH);
-+
- static void __init spitz_init(void)
- {
--	init_gpio_reset(SPITZ_GPIO_ON_RESET, 1, 0);
-+	gpiod_add_lookup_table(&spitz_reset_gpio_table);
-+	init_gpio_reset(1, 0);
- 	pm_power_off = spitz_poweroff;
- 
- 	PMCR = 0x00;
-
--- 
-2.42.0
-
+Best regards,
+Krzysztof
 
