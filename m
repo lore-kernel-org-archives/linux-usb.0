@@ -1,99 +1,132 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271A1D280;
-	Sun, 24 Sep 2023 16:04:03 +0000 (UTC)
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7A15D3;
-	Sun, 24 Sep 2023 09:04:02 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-690fe1d9ba1so1231358b3a.0;
-        Sun, 24 Sep 2023 09:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695571442; x=1696176242; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=THIrqfhs66I00TgDmnjEXJn2FBMw3XbQkxYTPCLx3Kw=;
-        b=RkZbPURsSLTyPhKdwpn0J221FcsQRDu285+Iaju7p/rEU6NdjAQ76jZ70KBny5M065
-         BeshVVLKmi8/AA36twv/AY2e07aFZlLHhxja3w4rN2NqnBwcVk+mKypSfkK1Mzrcd+i3
-         uikKrd6yKzZ6x5dWA+/vHNxL2AdbmoDF76lwnw7m8vjl+tIeSvYnQIyDB97GVg7RasUz
-         z1j1bCsbfp3yOGhuhZSxZlDcPR2mm3zIYIYiAWiMETfptKInszq5ylDzGM2H+jPUReoO
-         QZGAn04JdxdxjM3jb8KtW6yhz5ncjh1mhiizTzy5RnjIgcgUTLP8i49N615X94cOH332
-         wJDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695571442; x=1696176242;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=THIrqfhs66I00TgDmnjEXJn2FBMw3XbQkxYTPCLx3Kw=;
-        b=wUOdhdPbP3+zKpl0CDIdDU1WIGZMb0hFte7irTfFGXJtDQu+Wh21OHb8Pcw9qjBvuE
-         zlJGVidY2jJN/y+K8g5IpX23MClhtZir55DMxzPnthAlLWZMnO1sff5V6R9epd1A0Akl
-         pXMPmt6AvaxLaCfxw5I7SEmDY6ogV3oWN1tecM235ztCu7+cE7Za+ji3OZblx24S4mUy
-         PvxLjKZo9VZOWbMftmffDkHd5E2VXiM/FfDgD9y0Z8N9c1/XRKzG2oJvuDQN2CMdXlEq
-         B0WDoKZNVQtR+1/g1aajLDhPQPtJj1HqtnH/R+MMQdJ9xlpyJLs0vSC9RxSTPEzpLdzN
-         siRA==
-X-Gm-Message-State: AOJu0YyS15OerdhzX0IzxBDukm27OKQ2D/JlNZcwnMoVHGZ2HUJe3Qn2
-	EVZoOA+OO7JvLwPgHxAnTZ0=
-X-Google-Smtp-Source: AGHT+IFxRc+ZWfFaXBAHy4XFr3+YtWgw2Pa1YeaH+bNugXaodCE2D27fmdKd/TLmhy+p5VdGUEwWWg==
-X-Received: by 2002:a05:6a21:999a:b0:14d:4ab5:5e3c with SMTP id ve26-20020a056a21999a00b0014d4ab55e3cmr7285528pzb.1.1695571442254;
-        Sun, 24 Sep 2023 09:04:02 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:1456:78d8:9605:879e])
-        by smtp.gmail.com with ESMTPSA id g23-20020aa78757000000b00690cd49cee2sm6461430pfo.63.2023.09.24.09.03.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Sep 2023 09:04:01 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] dt-bindings: usb: ci-hdrc-usb2: Allow "fsl,imx27-usb" to be passed alone
-Date: Sun, 24 Sep 2023 13:03:51 -0300
-Message-Id: <20230924160351.692867-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCFF633F2
+	for <linux-usb@vger.kernel.org>; Sun, 24 Sep 2023 17:17:20 +0000 (UTC)
+X-Greylist: delayed 350 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 24 Sep 2023 10:17:18 PDT
+Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBBFDFC;
+	Sun, 24 Sep 2023 10:17:18 -0700 (PDT)
+Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+	by mx.skole.hr (mx.skole.hr) with ESMTP id EB72C82071;
+	Sun, 24 Sep 2023 19:11:29 +0200 (CEST)
+From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Date: Sun, 24 Sep 2023 18:42:56 +0200
+Subject: [PATCH RFC 3/6] ARM: pxa: Convert Spitz CF power control to GPIO
+ descriptors
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Message-Id: <20230924-pxa-gpio-v1-3-2805b87d8894@skole.hr>
+References: <20230924-pxa-gpio-v1-0-2805b87d8894@skole.hr>
+In-Reply-To: <20230924-pxa-gpio-v1-0-2805b87d8894@skole.hr>
+To: Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Russell King <linux@armlinux.org.uk>, 
+ Alan Stern <stern@rowland.harvard.edu>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2162;
+ i=duje.mihanovic@skole.hr; h=from:subject:message-id;
+ bh=fHl5iSb/dE+9PwQC8nVVOcMrGaHAC690mEvxtdZMvYU=;
+ b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlEG27BuK/Gqm8cinGDVx4sQvQLQVqGvoy93Y6k
+ DWmkjG5K4uJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZRBtuwAKCRCaEZ6wQi2W
+ 4dXLEACikszO91VOu+vhakMeMrm/O3tmkrMkN8NPnGXcvL4gNyUYn1yBs4GGIwhNgqKx4BFJThM
+ qu0g4cJNxl2Xo3ZJTV1/DJUkCi77Pgg24369H9qUWfZaxYN1ib4dxG1EZtlVzUKBcs/hqIN7Oop
+ G1BDawuMi1J9vDEuKBaTUaPYHqsEgqd45Q1jGAeyuANqTHxebXGVxpOf6QQpakniCz2NgpvPcFP
+ H5yA/Mg/ZCHzUxZu7Y5dYymHsw9TcAswEsGKKn7tW0dc3nMCqxLVeKyf6k2bI/hq/HbmdRIY73O
+ S0UbqSfPKefBCsGjcwXg8r8bmO6J+aZy5XSwRBO/EhFxHsTnGQCL3vaORXDnDLxi+ZU1Io7ADPP
+ fNGRqmjPwo3UPFWe0sYdK3yHRX8jDizPplYQTaMgqWqE1/aWfS9f6DBeL7rFYhZ/uBFeGTWLGQy
+ G9F42HDvL9v+ri1rOMEZxmzxdEbB5Am73ph9LYg9WjKysUJDqJvHpFYx+p4zIUsxAFWDxuMdBeU
+ +JQOr80ouEKJq0DmW6PW+edrmPzoKPnymkae2whXJdepUikD9hDp/yRrAD52aZK3Tp0p2mQYPjt
+ gyVLQDvKE4nnKDtnSaP9T/qtpSTH9xWcV7xwFOTnhcMp38jMQQny17s2GxvjVsJFOq5eCf+JV1S
+ K44HsSzUeiy5P2g==
+X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
+ fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-From: Fabio Estevam <festevam@denx.de>
+Sharp's Spitz board still uses the legacy GPIO interface for controlling
+the power supply to its CF and SD card slots.
 
-imx27.dtsi describes its usb nodes as:
+Convert it to use the GPIO descriptor interface.
 
-compatible = "fsl,imx27-usb";
-
-Adjust the bindings to allow it and avoid the following schema warning:
-
-usb@10024000: compatible: 'oneOf' conditional failed, one must be fixed:
-	['fsl,imx27-usb'] is too short
-
-Signed-off-by: Fabio Estevam <festevam@denx.de>
+Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
 ---
- Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/mach-pxa/spitz.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
-index 1394557517b1..cd58ab3cc143 100644
---- a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
-+++ b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
-@@ -15,6 +15,7 @@ properties:
-     oneOf:
-       - enum:
-           - chipidea,usb2
-+          - fsl,imx27-usb
-           - lsi,zevio-usb
-           - nvidia,tegra20-ehci
-           - nvidia,tegra20-udc
+diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
+index 91c4b208973c..616305978727 100644
+--- a/arch/arm/mach-pxa/spitz.c
++++ b/arch/arm/mach-pxa/spitz.c
+@@ -133,6 +133,10 @@ static unsigned long spitz_pin_config[] __initdata = {
+  * Scoop GPIO expander
+  ******************************************************************************/
+ #if defined(CONFIG_SHARP_SCOOP) || defined(CONFIG_SHARP_SCOOP_MODULE)
++GPIO_LOOKUP_SINGLE(spitz_card_pwr_ctrl_gpio_table, "pxa2xx-mci.0",
++		"sharp-scoop", SPITZ_GPIO_CF_POWER, "cf_power",
++		GPIO_ACTIVE_HIGH);
++
+ /* SCOOP Device #1 */
+ static struct resource spitz_scoop_1_resources[] = {
+ 	[0] = {
+@@ -190,6 +194,7 @@ struct platform_device spitz_scoop_2_device = {
+ static void __init spitz_scoop_init(void)
+ {
+ 	platform_device_register(&spitz_scoop_1_device);
++	gpiod_add_lookup_table(&spitz_card_pwr_ctrl_gpio_table);
+ 
+ 	/* Akita doesn't have the second SCOOP chip */
+ 	if (!machine_is_akita())
+@@ -201,9 +206,18 @@ static void __maybe_unused spitz_card_pwr_ctrl(uint8_t enable, uint8_t new_cpr)
+ {
+ 	unsigned short cpr;
+ 	unsigned long flags;
++	struct gpio_desc *cf_power;
++
++	cf_power = gpiod_get(&pxa_device_mci.dev, "cf_power", GPIOD_ASIS);
++	if (IS_ERR(cf_power)) {
++		dev_err(&pxa_device_mci.dev,
++				"failed to get power control GPIO with %ld\n",
++				PTR_ERR(cf_power));
++		return;
++	}
+ 
+ 	if (new_cpr & 0x7) {
+-		gpio_set_value(SPITZ_GPIO_CF_POWER, 1);
++		gpiod_direction_output(cf_power, 1);
+ 		mdelay(5);
+ 	}
+ 
+@@ -222,8 +236,10 @@ static void __maybe_unused spitz_card_pwr_ctrl(uint8_t enable, uint8_t new_cpr)
+ 
+ 	if (!(cpr & 0x7)) {
+ 		mdelay(1);
+-		gpio_set_value(SPITZ_GPIO_CF_POWER, 0);
++		gpiod_direction_output(cf_power, 0);
+ 	}
++
++	gpiod_put(cf_power);
+ }
+ 
+ #else
+
 -- 
-2.34.1
+2.42.0
+
 
