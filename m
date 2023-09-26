@@ -1,149 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F46D107B9
-	for <linux-usb@vger.kernel.org>; Tue, 26 Sep 2023 12:12:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC5A4C433C7;
-	Tue, 26 Sep 2023 12:12:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695730323;
-	bh=4gshwzCPEkOGDm7Y/2pNlO1HGa6D9u9xDYT4Qd0MLHE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=anB5NgnuK8gXT1e0KMSbPuRVF7vfyBh4Vfc3TluzpTWr0xz+7ZYENG3hcPVQh1Dnc
-	 kl0+PnlgFhH+6WpEtywqoMRMXwcvVuU8KmkqBNb6s5DaBvTpyM2mvJH5WCm+2oLob5
-	 /RnMy9N4/f8H017Q2A3t76jYDtQtUShIXSRvjXZFhByxAfdb+NSV5xrdgtxzjVmVLD
-	 lNu3AzYPotfql5EGb/Ffzr/15zFT+zgr21ygVLxZKw5Dssgg2tJaCLsqwKzHnVljka
-	 HSIBAM5lEU1rVwWAdxJN4rJ3hvTK5MkU6R7IfjpSw5ouLFJVDNOztwusOrAWrfvg1g
-	 Y1DlI1FdYtJIQ==
-Date: Tue, 26 Sep 2023 20:11:52 +0800
-From: Peter Chen <peter.chen@kernel.org>
-To: =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thierry Reding <treding@nvidia.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Peter Geis <pgwipeout@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 1/3] usb: chipidea: Fix DMA overwrite for Tegra
-Message-ID: <20230926121152.GA2074070@nchen-desktop>
-References: <cover.1695497666.git.mirq-linux@rere.qmqm.pl>
- <d93fc79f2fcc8da5166ccb99c5703ff3fdb46259.1695497666.git.mirq-linux@rere.qmqm.pl>
- <20230925114522.GA2070044@nchen-desktop>
- <ZRIdg29ADFmKnlAQ@qmqm.qmqm.pl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F6B30CFB
+	for <linux-usb@vger.kernel.org>; Tue, 26 Sep 2023 15:46:38 +0000 (UTC)
+Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CB5C11F;
+	Tue, 26 Sep 2023 08:46:37 -0700 (PDT)
+Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+	by mx.skole.hr (mx.skole.hr) with ESMTP id E0EC982367;
+	Tue, 26 Sep 2023 17:46:35 +0200 (CEST)
+From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Date: Tue, 26 Sep 2023 17:46:26 +0200
+Subject: [PATCH RFC v2 5/6] ARM: pxa: Convert Spitz hsync to GPIO
+ descriptors
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZRIdg29ADFmKnlAQ@qmqm.qmqm.pl>
+Message-Id: <20230926-pxa-gpio-v2-5-984464d165dd@skole.hr>
+References: <20230926-pxa-gpio-v2-0-984464d165dd@skole.hr>
+In-Reply-To: <20230926-pxa-gpio-v2-0-984464d165dd@skole.hr>
+To: Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Russell King <linux@armlinux.org.uk>, 
+ Alan Stern <stern@rowland.harvard.edu>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1744;
+ i=duje.mihanovic@skole.hr; h=from:subject:message-id;
+ bh=iDSRsRvbtFOxQFJcaMgRFqBD4OPrnaTiwiEd2g9ViUU=;
+ b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlEvzWvKOK8Jgrv8cV8mXpPyIo+QydjhrRFeCDN
+ +7WkkTkiXqJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZRL81gAKCRCaEZ6wQi2W
+ 4dpyEAChUkA0UQoq4DsrWVZ3WmVhlrOJNsEfCtKC4QnJLAgF/mpUu2DRVgIUDwTq89eEU2+m1/l
+ VTF7nmWilyWNZeqaeGMRvQ9XGkoG9Iah2fCtL2JWAZbY29qdilEli4/YFWpiQOl5TN/ePfsG5dl
+ WugaqopM4eIQtgaG17n9x0VC9M/M4AxD9jaMIsAbzanPKnY8RMIn9956lBz92kK13KVgdFuTX5J
+ uZUbTQbgpUeP4DKJIkQ61DJkwcgN0l4RO3e/SYdzS5/dk0lZN7IYgLCCwHLo/mepyYDOKmBzUOi
+ j/FtoDl0A/bephgd6M6hjovOLLuSyHZVqnuPeYz+Z61vHJ+UB3Lk5OKl5U/PTSR9ueCXwgn0TTx
+ HDTp9qwvO7ivldg/O4zNqYRvBks8DB+Jr7fbVoDuIVJ2qtqlFrCN82bNeMGcfNphPkQXg/9Pe73
+ /HrRyqe0+Q5/C1xK8/eSSuoZXYF13r/LkbVL1Yle33DX4C/3VtIjoEpxCZG5f89q28WXDpHHze4
+ suYScWGXap094Jf0ekO8XPUUHAF1fhcYue840XzrC0hJGiSGz3n7fdWz15F+jd4cTbp9maM0EOx
+ PmRpAM8+Pj/d8Pv2r6meeoA6i6LihaiAqFPPncuOAwJRnZseMNvRLKUCGM2foux/FmXeU/eVMhy
+ psZq92FP0XzOeCQ==
+X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
+ fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 
-On 23-09-26 01:53:39, Michał Mirosław wrote:
-> On Mon, Sep 25, 2023 at 07:45:22PM +0800, Peter Chen wrote:
-> > On 23-09-23 21:41:55, Michał Mirosław wrote:
-> > > Tegra USB controllers seem to issue DMA in doubleword-sized chunks and thus
-> > > may write past the buffer provided. This is detected by SLUB:
-> > > 
-> > > =============================================================================
-> > > BUG kmalloc-64 (Tainted: G    B             ): kmalloc Redzone overwritten
-> > > -----------------------------------------------------------------------------
-> > > 
-> > > 0x8555cd02-0x8555cd03 @offset=3330. First byte 0x0 instead of 0xcc
-> > > Allocated in usb_get_status+0x2b/0xac age=1 cpu=3 pid=41
-> > >  __kmem_cache_alloc_node+0x12f/0x1e4
-> > >  __kmalloc+0x33/0x8c
-> > >  usb_get_status+0x2b/0xac
-> > >  hub_probe+0x5e9/0xcec
-> > >  usb_probe_interface+0xbf/0x21c
-> > >  really_probe+0xa5/0x2c4
-> > >  __driver_probe_device+0x75/0x174
-> > >  driver_probe_device+0x31/0x94
-> > >  __device_attach_driver+0x65/0xc0
-> > >  bus_for_each_drv+0x4b/0x74
-> > >  __device_attach+0x69/0x120
-> > >  bus_probe_device+0x65/0x6c
-> > >  device_add+0x48b/0x5f8
-> > >  usb_set_configuration+0x37b/0x6b4
-> > >  usb_generic_driver_probe+0x37/0x68
-> > >  usb_probe_device+0x35/0xb4
-> > > Slab 0xbf622b80 objects=21 used=18 fp=0x8555cdc0 flags=0x800(slab|zone=0)
-> > > Object 0x8555cd00 @offset=3328 fp=0x00000000
-> > > 
-> > > Redzone  8555ccc0: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-> > > Redzone  8555ccd0: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-> > > Redzone  8555cce0: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-> > > Redzone  8555ccf0: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-> > > Object   8555cd00: 01 00 00 00 cc cc cc cc cc cc cc cc cc cc cc cc  ................
-> > > Object   8555cd10: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-> > > Object   8555cd20: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-> > > Object   8555cd30: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-> > > Redzone  8555cd40: cc cc cc cc                                      ....
-> > > Padding  8555cd74: 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a              ZZZZZZZZZZZZ
-> > > CPU: 3 PID: 41 Comm: kworker/3:1 Tainted: G    B              6.6.0-rc1mq-00118-g59786f827ea1 #1115
-> > > Hardware name: NVIDIA Tegra SoC (Flattened Device Tree)
-> > > Workqueue: usb_hub_wq hub_event
-> > > [<8010ca28>] (unwind_backtrace) from [<801090a5>] (show_stack+0x11/0x14)
-> > > [<801090a5>] (show_stack) from [<805da2fb>] (dump_stack_lvl+0x4d/0x7c)
-> > > [<805da2fb>] (dump_stack_lvl) from [<8026464f>] (check_bytes_and_report+0xb3/0xe4)
-> > > [<8026464f>] (check_bytes_and_report) from [<802648e1>] (check_object+0x261/0x290)
-> > > [<802648e1>] (check_object) from [<802671b1>] (free_to_partial_list+0x105/0x3f8)
-> > > [<802671b1>] (free_to_partial_list) from [<80268613>] (__kmem_cache_free+0x103/0x128)
-> > > [<80268613>] (__kmem_cache_free) from [<80425a67>] (usb_get_status+0x73/0xac)
-> > > [<80425a67>] (usb_get_status) from [<80421b31>] (hub_probe+0x5e9/0xcec)
-> > > [<80421b31>] (hub_probe) from [<80428bbb>] (usb_probe_interface+0xbf/0x21c)
-> > > [<80428bbb>] (usb_probe_interface) from [<803ee13d>] (really_probe+0xa5/0x2c4)
-> > > [<803ee13d>] (really_probe) from [<803ee3d1>] (__driver_probe_device+0x75/0x174)
-> > > [<803ee3d1>] (__driver_probe_device) from [<803ee501>] (driver_probe_device+0x31/0x94)
-> > > usb 1-1: device descriptor read/8, error -71
-> > > 
-> > > Fixes: fc53d5279094 ("usb: chipidea: tegra: Support host mode")
-> > > Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-> > > ---
-> > >  drivers/usb/chipidea/host.c | 7 ++++---
-> > >  1 file changed, 4 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/usb/chipidea/host.c b/drivers/usb/chipidea/host.c
-> > > index 08af26b762a2..abddd39d1ff1 100644
-> > > --- a/drivers/usb/chipidea/host.c
-> > > +++ b/drivers/usb/chipidea/host.c
-> > > @@ -411,12 +411,13 @@ static int ci_hdrc_alloc_dma_aligned_buffer(struct urb *urb, gfp_t mem_flags)
-> > >  	const unsigned int ci_hdrc_usb_dma_align = 32;
-> > >  	size_t kmalloc_size;
-> > >  
-> > > -	if (urb->num_sgs || urb->sg || urb->transfer_buffer_length == 0 ||
-> > > -	    !((uintptr_t)urb->transfer_buffer & (ci_hdrc_usb_dma_align - 1)))
-> > > +	if (urb->num_sgs || urb->sg || urb->transfer_buffer_length == 0)
-> > > +		return 0;
-> > > +	if (!((uintptr_t)urb->transfer_buffer & (ci_hdrc_usb_dma_align - 1)) && !(urb->transfer_buffer_length & 3))
-> > >  		return 0;
-> > >  
-> > >  	/* Allocate a buffer with enough padding for alignment */
-> > > -	kmalloc_size = urb->transfer_buffer_length +
-> > > +	kmalloc_size = ALIGN(urb->transfer_buffer_length, 4) +
-> > >  		       sizeof(struct ci_hdrc_dma_aligned_buffer) +
-> > >  		       ci_hdrc_usb_dma_align - 1;
-> > >  
-> > 
-> > Would you please explain why you make these changes?
-> 
-> Can you point out what's unclear in the commit message?
+Sharp's Spitz still uses the legacy GPIO interface in its
+wait_for_hsync() function.
 
-You may appended below words to commit log, current commit log looks too
-simple.
+Convert it to use the GPIO descriptor interface.
 
-> This is to fix
-> a buffer overflow by DMA from the USB controller as it seems to write
-> data 32-bit word at a time. What the patch does is extend the workaround
-> code to account for the extra room needed at the tail of the buffer.
-> 
-> Best Regards
-> Michał Mirosław
+Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
+---
+ arch/arm/mach-pxa/spitz.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
+index 94bcb187713b..5c8f497b71ec 100644
+--- a/arch/arm/mach-pxa/spitz.c
++++ b/arch/arm/mach-pxa/spitz.c
+@@ -520,12 +520,14 @@ static inline void spitz_leds_init(void) {}
+  * SSP Devices
+  ******************************************************************************/
+ #if defined(CONFIG_SPI_PXA2XX) || defined(CONFIG_SPI_PXA2XX_MODULE)
++static struct gpio_desc *hsync = NULL;
++
+ static void spitz_ads7846_wait_for_hsync(void)
+ {
+-	while (gpio_get_value(SPITZ_GPIO_HSYNC))
++	while (gpiod_get_value(hsync))
+ 		cpu_relax();
+ 
+-	while (!gpio_get_value(SPITZ_GPIO_HSYNC))
++	while (!gpiod_get_value(hsync))
+ 		cpu_relax();
+ }
+ 
+@@ -543,6 +545,8 @@ static struct gpiod_lookup_table spitz_ads7846_gpio_table = {
+ 	.table = {
+ 		GPIO_LOOKUP("gpio-pxa", SPITZ_GPIO_TP_INT,
+ 			    "pendown", GPIO_ACTIVE_LOW),
++		GPIO_LOOKUP("gpio-pxa", SPITZ_GPIO_HSYNC,
++			    "hsync", GPIO_ACTIVE_LOW),
+ 		{ }
+ 	},
+ };
+@@ -622,6 +626,11 @@ static void __init spitz_spi_init(void)
+ 
+ 	gpiod_add_lookup_table(&spitz_ads7846_gpio_table);
+ 	gpiod_add_lookup_table(&spitz_spi_gpio_table);
++	hsync = gpiod_get(NULL, "hsync", GPIOD_IN);
++	if (IS_ERR(hsync)) {
++		pr_err("Failed to get hsync GPIO: %ld\n", PTR_ERR(hsync));
++		return;
++	}
+ 	pxa2xx_set_spi_info(2, &spitz_spi_info);
+ 	spi_register_board_info(ARRAY_AND_SIZE(spitz_spi_devices));
+ }
 
 -- 
+2.42.0
 
-Thanks,
-Peter Chen
+
