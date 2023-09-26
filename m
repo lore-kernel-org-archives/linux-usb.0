@@ -1,107 +1,75 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E7F30CFC
-	for <linux-usb@vger.kernel.org>; Tue, 26 Sep 2023 15:46:49 +0000 (UTC)
-Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D56127;
-	Tue, 26 Sep 2023 08:46:46 -0700 (PDT)
-Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id 3D67E833AA;
-	Tue, 26 Sep 2023 17:46:33 +0200 (CEST)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Subject: [PATCH RFC v2 0/6] ARM: pxa: GPIO descriptor conversions
-Date: Tue, 26 Sep 2023 17:46:21 +0200
-Message-Id: <20230926-pxa-gpio-v2-0-984464d165dd@skole.hr>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19D326E2A
+	for <linux-usb@vger.kernel.org>; Tue, 26 Sep 2023 15:52:29 +0000 (UTC)
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 276F1FB;
+	Tue, 26 Sep 2023 08:52:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1695743539; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=QSB/k4SM+ZPC+rXVe8CqUuiCVzZuzDRIKnTi3eSZ/uTyUPg9nJzHzHchvW+q1kANOdLsfY1S2QOSYptz65rMEs5bl6N/WvG1yCzBM/5oVgA472Z+HNQ+A4AJJwP4R8R8Edu6WSt9bwZHVSF2IsepOWwKOeFRQQ+JzGfOqBaLQG4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1695743539; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=WO8SVjTncRLx7HMaK60oW6mYfhlwoa7SM53KjXm8HCo=; 
+	b=hU/RDj/+fgfHUeP1Pq7Zb3LwxsGBAnHeuqDgHwh/sBldeKs9G7BKeaO3twyofda9fNVawIG2gl8lIQA4dW15rcUN4LgOyOp+++nUqyjPFSwEUFrBVe5ZASrY/NCPgG3E0JKXq3RWJ3LuvjC84qb6ypoB0r2AlOfBMA0ClnM0Z7w=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=marliere.net;
+	spf=pass  smtp.mailfrom=ricardo@marliere.net;
+	dmarc=pass header.from=<ricardo@marliere.net>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1695743539;
+	s=zmail; d=marliere.net; i=ricardo@marliere.net;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=WO8SVjTncRLx7HMaK60oW6mYfhlwoa7SM53KjXm8HCo=;
+	b=ghw8B2NlgiuuWqDfewUpsnPIzhQySmAs5Cs2y+PzPKTdmAXkyNv5ye3EhiRdGWnE
+	kHVCKEtqXIkKSob1Hk0Pt+VbsHr2Nes2LMz24VGIWaSs497jKLiunOHNJs7UTlVZgEk
+	o6oFDvMr8bTmCdVyuwhp0Jte1Kl1YUQPxP8/PkVU=
+Received: from localhost (177.104.93.54 [177.104.93.54]) by mx.zohomail.com
+	with SMTPS id 1695743536583822.5407712159156; Tue, 26 Sep 2023 08:52:16 -0700 (PDT)
+Date: Tue, 26 Sep 2023 12:52:19 -0300
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+To: syzbot <syzbot+1c41b2e045dc086f58be@syzkaller.appspotmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-usb@vger.kernel.org, mchehab@kernel.org, sean@mess.org, 
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [media?] [usb?] WARNING in imon_probe
+Message-ID: <kwwrx7p4nfr4qkv5xxpo5nidyyjdbytsulpu7lj6yujmzrnxb6@q63vtmlo3dqa>
+References: <00000000000019b2b105fe424f00@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAM38EmUC/0XM3QrCIBQH8FcZ5zpDnaLrKgh6gG5jF2ue5qGYQ
- 0MWY++eeNPl/4PfBgkjYYJTs0HETInCXII8NDD6YZ6QkSsZJJctt9ywZR3YtFBg7YhSO22UFQr
- KfYn4pLVSd7hdL9CX0lP6hPitfBZ1qlIn1V/KgnEmLdcPa5y1nTqnV3jj0Ufo933/AWgyee6kA
- AAA
-To: Daniel Mack <daniel@zonque.org>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Russell King <linux@armlinux.org.uk>, 
- Alan Stern <stern@rowland.harvard.edu>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1636;
- i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=kqhcIgA+c1p20ruAULqaoqV6whyH4z56OXFjmXMMryE=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlEvzWBQEqqKBPaHb7u5f9p6t5jZu+JSmFjLYIP
- ESkLEzJC66JAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZRL81gAKCRCaEZ6wQi2W
- 4frvEACSdmt58LurhpjyINqYLP8c6F4nNjDdEdaKG+h2Iha5JQ0BIbtr3evh7ZH/m0EI4uBKvok
- AsEb5gcypshbuCiTBY3bF5sOupIgiNlFtoAEyXNAbXXgjYap1GV2CXc0RUJQF5J5AJB1V6MafFB
- ZOBnwXBpvCGqTCiVFYE0d9Wp3RDR7tYbvQ2shDvXFxyg+Mw3ky2ho7jCFH10PZNh9TgJkyHA5Rz
- QZ9Q5euqdKl5XEeRT7ro1aDO65kIvrNiMTrDo0QwA3UtGdI18sPHWFSmemw5lafrUE2OMJZVE0H
- 0b5nu4qzI574hm7u7n/YqbBqdUO5h8d9EBr5inb+jcFl0hJ5hnF8S3fisUEKwdtC3q9DFghI3ZJ
- Ctrij4pjKquiz/O3W12WWe2NcN1KRKOHMVTfaHt1H3qCkXMPL5ZUQDfNNOSY+NBEtujfHOUqKh1
- YmyqXeAMjRpUyc+kjwbnNLN44+Z4SKBhnH2X4spBpvWyJOjPITU+PH3KAJV7+vlxwBdZDrMZlT3
- duwowZQHKf7IMx+jZQ+CdrK5msKFSKnYad/ebSyYwSmyLchW8euXUwMm/jEADNZrWXdvhZ7yvXk
- YeZXKMR8Rctwi/uo9iP0brtT9cG7bVV6Y2pIq6AVq7Vq8mMHUlu8kBmKle75+cWZKQTvaoN68ni
- 1UdyUM3845LLdgA==
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00000000000019b2b105fe424f00@google.com>
+X-ZohoMailClient: External
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+	RCVD_IN_MSPIKE_H2,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Hello,
+> If you want syzbot to run the reproducer, reply with:
+> #syz test: git://repo/address.git branch-or-commit-hash
+#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git a48fa7efaf1161c1c898931fe4c7f0070964233a
 
-Small series to convert some of the board files in the mach-pxa directory
-to use the new GPIO descriptor interface.
+diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+index 74546f7e3469..5719dda6e0f0 100644
+--- a/drivers/media/rc/imon.c
++++ b/drivers/media/rc/imon.c
+@@ -2427,6 +2427,12 @@ static int imon_probe(struct usb_interface *interface,
+ 		goto fail;
+ 	}
 
-Most notably, the am200epd, am300epd and Spitz matrix keypad among
-others are not converted in this series.
-
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
----
-Changes in v2:
-- Address maintainer comments:
-  - Change mentions of function to function()
-  - Drop cast in OHCI driver dev_warn() call
-  - Use %pe in OHCI and reset drivers
-  - Use GPIO _optional() API in OHCI driver
-  - Drop unnecessary not-null check in OHCI driver
-  - Use pr_err() instead of printk() in reset driver
-- Rebase on v6.6-rc3
-- Link to v1: https://lore.kernel.org/r/20230924-pxa-gpio-v1-0-2805b87d8894@skole.hr
-
----
-Duje Mihanović (6):
-      ARM: pxa: Convert Spitz OHCI to GPIO descriptors
-      ARM: pxa: Convert Spitz LEDs to GPIO descriptors
-      ARM: pxa: Convert Spitz CF power control to GPIO descriptors
-      ARM: pxa: Convert reset driver to GPIO descriptors
-      ARM: pxa: Convert Spitz hsync to GPIO descriptors
-      ARM: pxa: Convert gumstix Bluetooth to GPIO descriptors
-
- arch/arm/mach-pxa/gumstix.c    | 24 ++++++++-------
- arch/arm/mach-pxa/reset.c      | 39 ++++++++---------------
- arch/arm/mach-pxa/reset.h      |  3 +-
- arch/arm/mach-pxa/spitz.c      | 70 +++++++++++++++++++++++++++++++++---------
- drivers/usb/host/ohci-pxa27x.c |  7 +++++
- 5 files changed, 90 insertions(+), 53 deletions(-)
----
-base-commit: 6465e260f48790807eef06b583b38ca9789b6072
-change-id: 20230807-pxa-gpio-3ce25d574814
-
-Best regards,
--- 
-Duje Mihanović <duje.mihanovic@skole.hr>
-
-
++	if (first_if->dev.driver != interface->dev.driver) {
++		dev_err(&interface->dev, "inconsistent driver matching\n");
++		ret = -EINVAL;
++		goto fail;
++	}
++
+ 	if (ifnum == 0) {
+ 		ictx = imon_init_intf0(interface, id);
+ 		if (!ictx) {
