@@ -1,162 +1,82 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E72374CE
-	for <linux-usb@vger.kernel.org>; Tue, 26 Sep 2023 20:26:33 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E04C121;
-	Tue, 26 Sep 2023 13:26:31 -0700 (PDT)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38QJuTNp019157;
-	Tue, 26 Sep 2023 20:24:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=NeZCTm8fleHhjmveVpb/txWwGib1sWk+NfoC/HiRkw0=;
- b=hEcqh0dWX1SS8p5PZoUvJMZBcj3lGYkcY5uxIrDw7n/BKmsaH5RIogo3N6k8UaOEo29K
- 7wKEMqdpGSEonaflAHQCEStvwfwVKl7Hi/zk74Qe8RvUy7AepJ0A/SnJug2gZrwIRXbe
- dU2a2dkHwFDAiEZkOcK0Okck9mkYhUtQDIfcpcSXypOvbjSbG2PdOglMDIixq5ufgT+o
- 6tSCXsbGXgS91W748PIWraA5h3LJnnKRNX/C4YctTCg1MxyB0PImuFZ46ma0dybVtaNU
- bpBPESWxBxOualFLaKmGpehCSddAdA2xwlTz9MAiYbQqmU5GmNi35Kl3pqxHdw0epHYu 8A== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tbexgk417-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 Sep 2023 20:24:44 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38QKOhTu006928
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 Sep 2023 20:24:43 GMT
-Received: from [10.216.25.31] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Tue, 26 Sep
- 2023 13:24:39 -0700
-Message-ID: <f2bd7593-eff9-46ac-a94b-964eb4787740@quicinc.com>
-Date: Wed, 27 Sep 2023 01:54:34 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F919374CE
+	for <linux-usb@vger.kernel.org>; Tue, 26 Sep 2023 20:27:08 +0000 (UTC)
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCAA0121
+	for <linux-usb@vger.kernel.org>; Tue, 26 Sep 2023 13:27:07 -0700 (PDT)
+Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-59f1dff5298so109406367b3.3
+        for <linux-usb@vger.kernel.org>; Tue, 26 Sep 2023 13:27:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695760027; x=1696364827; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wgr0elKj9lSA9DaoOQmGSleBXdUJYBk6OqVSBI3fCoo=;
+        b=aawmHcirD8DsgSzYr46dSgc4RX94o0O2lew5iksT9aga1rcSVvJ/hnXDM8V6FitWsq
+         Zcuv2+/iFeZwd7H4RNkuMTTpIR7BroGfS/2DmW90GH6GPs8eNY4csyymim1Z/hfPwRYh
+         FBN9QAUERNuKBknhnJK4B/6aOMTy8eiCqnEiskfVtEG/mouwUm0iTHhHxDXF6JfMpAan
+         zZDGphm7arpqIv4aBe8pwh1VQMAy/v9ootmIrttgW/l/3e09PoEHA+oB5vxEvacZ9F/9
+         wxwwF4mWGcVCcNgVyNlNC11xRoei6//gAW5jqnQNvIPKxlGJTTqGOGAbGcY3Zt/50qT0
+         +wNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695760027; x=1696364827;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wgr0elKj9lSA9DaoOQmGSleBXdUJYBk6OqVSBI3fCoo=;
+        b=blMD1db6oh9Gf506Rkqwx2J0hZBvpYLBmqDQ7krvsaklKSiuUMxUG4BowL932jTUar
+         E2yOJBPU7Y4WhRfjjXJR82891bzSvuJ4Be4pA//vFoAQzzkvVL6Z6nHRuKECICnZuDbj
+         MwR0DzSVjEb0L5Qhc30aED7ydn5I7xXoP+JZS3I85vDQeI3l9lAz08L/K0AQnBnGIMPm
+         4ZtJ6+HkxvyuZpl5aGWuWuyAx5VJyPfaHWPDcb+f+fMmuaBZDOZXCLch8AAAPU5waJ+H
+         3UWxkGEXst7i4rTlZz/RbUiK9fsv0ZBCVV8NXBQyi/xGHeGEQbUv5d4p/glRIjRKe+Kr
+         71Zw==
+X-Gm-Message-State: AOJu0Ywj/vkfsMeXkzy3K+cCI7JGW+kdrAo4Kob27qsYGNaKilSDFXZ/
+	38K3c2zeNgpaCZZcCDIi86kW9TNWv+JnecZJZl2ycQ==
+X-Google-Smtp-Source: AGHT+IE9ToDynTpmGcT5P/uZKHvPeXXQc+bPT+qu/G4gEmvRth4jAWXdjvJ1oG4ktxEO98GYZKAnKHIrOYHNrw3dF/A=
+X-Received: by 2002:a0d:e442:0:b0:59f:4f56:59bc with SMTP id
+ n63-20020a0de442000000b0059f4f5659bcmr59412ywe.42.1695760026911; Tue, 26 Sep
+ 2023 13:27:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] usb: gadget: udc: Handle gadget_connect failure during
- bind operation
-From: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Francesco Dolcini
-	<francesco.dolcini@toradex.com>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Ivan Orlov
-	<ivan.orlov0322@gmail.com>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_ppratap@quicinc.com>,
-        <quic_wcheng@quicinc.com>, <quic_jackp@quicinc.com>
-References: <20230926193708.22405-1-quic_kriskura@quicinc.com>
- <2178cf29-5e5c-4ed6-8d1c-916bc7036589@rowland.harvard.edu>
- <62083b55-0b78-4ebc-ab78-1c1d99f92507@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <62083b55-0b78-4ebc-ab78-1c1d99f92507@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: X9VDBCtd15zBvd5hHlkyV8jIbmjBsrJY
-X-Proofpoint-GUID: X9VDBCtd15zBvd5hHlkyV8jIbmjBsrJY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-26_14,2023-09-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- phishscore=0 spamscore=0 suspectscore=0 impostorscore=0 mlxlogscore=993
- adultscore=0 clxscore=1015 bulkscore=0 mlxscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2309260174
+References: <20230926-pxa-gpio-v2-0-984464d165dd@skole.hr> <20230926-pxa-gpio-v2-3-984464d165dd@skole.hr>
+In-Reply-To: <20230926-pxa-gpio-v2-3-984464d165dd@skole.hr>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 26 Sep 2023 22:26:56 +0200
+Message-ID: <CACRpkdb8SwC=W6=Tiz0Uxk1MeQq2gBmDYQYyeKbWFzvaGA2mGQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 3/6] ARM: pxa: Convert Spitz CF power control to
+ GPIO descriptors
+To: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Cc: Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Russell King <linux@armlinux.org.uk>, 
+	Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.6
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
+On Tue, Sep 26, 2023 at 5:46=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanovic=
+@skole.hr> wrote:
 
+> Sharp's Spitz board still uses the legacy GPIO interface for controlling
+> the power supply to its CF and SD card slots.
+>
+> Convert it to use the GPIO descriptor interface.
+>
+> Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
 
-On 9/27/2023 1:36 AM, Krishna Kurapati PSSNV wrote:
->>>   drivers/usb/gadget/udc/core.c | 23 +++++++++++++++++++----
->>>   1 file changed, 19 insertions(+), 4 deletions(-)
->>>
->>>   static void vbus_event_work(struct work_struct *work)
->>> @@ -1604,12 +1608,23 @@ static int gadget_bind_driver(struct device 
->>> *dev)
->>>       }
->>>       usb_gadget_enable_async_callbacks(udc);
->>>       udc->allow_connect = true;
->>> -    usb_udc_connect_control_locked(udc);
->>> +    ret = usb_udc_connect_control_locked(udc);
->>> +    if (ret) {
->>> +        mutex_unlock(&udc->connect_lock);
->>> +        goto err_connect_control;
->>> +    }
->>> +
->>>       mutex_unlock(&udc->connect_lock);
->>>       kobject_uevent(&udc->dev.kobj, KOBJ_CHANGE);
->>>       return 0;
->>> + err_connect_control:
->>> +    usb_gadget_disable_async_callbacks(udc);
->>> +    if (gadget->irq)
->>> +        synchronize_irq(gadget->irq);
->>> +    usb_gadget_udc_stop_locked(udc);
->>
->> Not good -- usb_gadget_udc_stop_locked() expects you to be holding
->> udc->connect_lock, but you just dropped the lock!  Also, you never set
->> udc->allow_connect back to false.
->>
->> You should move the mutex_unlock() call from inside the "if" statement
->> to down here, and add a line for udc->allow_connect.
->>
-> 
-> Hi Alan,
-> 
->   Thanks for the review. Will push v5 addressing the changes.
-> 
-> 
-Hi Alan,
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-I tried out the following diff:
-
--       usb_udc_connect_control_locked(udc);
-+       ret = usb_udc_connect_control_locked(udc);
-+       if (ret)
-+               goto err_connect_control;
-+
-         mutex_unlock(&udc->connect_lock);
-
-         kobject_uevent(&udc->dev.kobj, KOBJ_CHANGE);
-         return 0;
-
-+ err_connect_control:
-+       udc->allow_connect = false;
-+       usb_gadget_disable_async_callbacks(udc);
-+       if (gadget->irq)
-+               synchronize_irq(gadget->irq);
-+       usb_gadget_udc_stop_locked(udc);
-+       mutex_unlock(&udc->connect_lock);
-+
-
-If I clear UDC and fail dwc3 soft reset on purpose, I see UDC_store failing:
-
-#echo a600000.usb > /sys/kernel/config/usb_gadget/g1/UDC
-[  127.394087] dwc3 a600000.usb: request 000000003f43f907 was not queued 
-to ep0out
-[  127.401637] udc a600000.usb: failed to start g1: -110
-[  127.406841] configfs-gadget.g1: probe of gadget.0 failed with error -110
-[  127.413809] UDC core: g1: couldn't find an available UDC or it's busy
-
-The same output came when I tested v4 as well. Every time soft_reset 
-would fail when I try to write to UDC, UDC_store fails and above log 
-will come up. Can you help confirm if the diff above is proper as I 
-don't see any diff in the logs in v4 and about to push v5.
-
-Regards,
-Krishna,
+Yours,
+Linus Walleij
