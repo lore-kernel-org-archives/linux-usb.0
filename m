@@ -1,64 +1,68 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAC6513CC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A80516D4;
 	Fri, 29 Sep 2023 14:32:24 +0000 (UTC)
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBD3F10EA;
-	Fri, 29 Sep 2023 07:32:19 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-9a9cd066db5so1980668166b.0;
-        Fri, 29 Sep 2023 07:32:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695997938; x=1696602738; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rZqo0QnMnwdkE02SOtYyzKU82ptFvmGy4+S5Awxqt5k=;
-        b=doq8e3a+mFtthrHpSNrMxzm9dsf0BJXXApRFy9dZqlKfi12eyDqa59IGlRxXsFG5VA
-         79oyrVkMiIrSLXnUvVmbo066cryXVmJsP9X+0FoxDY28pTfRbUU5eHNpWYAAZIGTbUkD
-         7ERTjk5aEvvnhV0yud54etcO+kbnZ/78VNJnn03t95kDfE0JtyMmvXV1G6V2BxEfAe35
-         RDIF/KKtjVNJGhahz4/X3YpMdtB4rnWgZFPKotdxnuj1Oarfjt+sx//Uc4Jo3JRAsMcz
-         6FG1Nopvl8MCo17li5lvbrRBbqoX4xIuk7Z8quawOhU5dCirWdcBfQliZOUTp689irar
-         fh9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695997938; x=1696602738;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rZqo0QnMnwdkE02SOtYyzKU82ptFvmGy4+S5Awxqt5k=;
-        b=f9uZTL5s7lvMvdHkP5TZTo3NqLu2h16GHXsm8b/MreGgiNIpod7T2S4g/ZBC+8wR/P
-         uE/+G5HzY9qBNX9zbAHSdrD4gB0EcmfKoejbl4sot70a6Ci96MzeBwXHmnI2zCOiJc01
-         dRUFtHwzGX+YHyr6hNNaOfubeiGjv0MfOcrvCMm4eR7p1FDS5F2r0PVA/GzXVl0o17Q6
-         mou2ffqbTEk2fE28Jhn03oNd7myNokqFoM6K9wOJeZXi/xzJe0RrT+kiujY39xwGxjQ/
-         nEEDWaMvOfywB63N2ZayPHgf0C6HRL/hF7o32bmWFGWVuRYUu6Z9XUI0Ja7exJUXVF4J
-         KxHg==
-X-Gm-Message-State: AOJu0Ywk6cEyZiFhSiVCpJ0SBPzIy7Zd66MOZ5QMppOLl7We9XVBNBcT
-	YvODkaubhnYwIQvxrentSuxeOPXwZGquG+YcMa0=
-X-Google-Smtp-Source: AGHT+IFcb3XDEqU1Cr18wIyKWKeKe2Q0uif+5jzJ9RhMhTdQPqnTZc+Rm1QjB9KA+xCYk70BkuaE8g==
-X-Received: by 2002:a17:906:104e:b0:9ad:ef08:1f32 with SMTP id j14-20020a170906104e00b009adef081f32mr4600317ejj.37.1695997937923;
-        Fri, 29 Sep 2023 07:32:17 -0700 (PDT)
-Received: from primary.. ([212.34.12.50])
-        by smtp.gmail.com with ESMTPSA id a7-20020a170906670700b0099293cdbc98sm12660105ejp.145.2023.09.29.07.32.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 07:32:17 -0700 (PDT)
-From: Abdel Alkuor <alkuor@gmail.com>
-To: heikki.krogerus@linux.intel.com,
-	krzysztof.kozlowski+dt@linaro.org,
-	bryan.odonoghue@linaro.org
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ryan.eleceng@gmail.com,
-	robh+dt@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	Abdel Alkuor <abdelalkuor@geotab.com>
-Subject: [PATCH v8 12/14] USB: typec: tps6598x: Add trace for tps25750 irq
-Date: Fri, 29 Sep 2023 10:30:53 -0400
-Message-Id: <20230929143055.31360-13-alkuor@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230929143055.31360-1-alkuor@gmail.com>
-References: <20230929143055.31360-1-alkuor@gmail.com>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E12210F2;
+	Fri, 29 Sep 2023 07:32:20 -0700 (PDT)
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38T99x38004761;
+	Fri, 29 Sep 2023 16:31:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	selector1; bh=8sWR6aJr5sYt7C3RQ6oQ2MgPutfj/Sp5VOkTkBQPOm0=; b=qW
+	SQ4k0FOHgKeIMQ1X8BYvZ6teg37qgUEulF9YrP47IlrFDuu+5JX20QG6+Aa5iCJj
+	QSpBxjiklQXcta+m/h1PY72JcMcz8VN219XZxgy7Y5rcfouGaJ8fzZFtJVXLf+dv
+	miePeCow3QDDH5Z2HNMYXzgp9fqP1b4CzEcLcC5tZqIgH3Ea9S1EKwtmspFun7JN
+	cb/RxdmL/t2feXbwPcKHeIK82/DAaf0iKAIX0QglouiihFpQ2QsOUPRRDfkCd2ky
+	xnubuGSkq6O5k/WgW/t+jzrxyU55TbpoGlA5mudyAok9FyZUQ3Btjhul0OevGxPK
+	YDGsQE8c59zv2Q/hVggw==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ta9k0s9jw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Sep 2023 16:31:50 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id DF5D8100057;
+	Fri, 29 Sep 2023 16:31:49 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D4D6A282C5F;
+	Fri, 29 Sep 2023 16:31:49 +0200 (CEST)
+Received: from localhost (10.201.20.32) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 29 Sep
+ 2023 16:31:49 +0200
+From: Gatien Chevallier <gatien.chevallier@foss.st.com>
+To: <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
+        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <alexandre.torgue@foss.st.com>,
+        <vkoul@kernel.org>, <jic23@kernel.org>, <olivier.moysan@foss.st.com>,
+        <arnaud.pouliquen@foss.st.com>, <mchehab@kernel.org>,
+        <fabrice.gasnier@foss.st.com>, <andi.shyti@kernel.org>,
+        <ulf.hansson@linaro.org>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <hugues.fruchet@foss.st.com>, <lee@kernel.org>,
+        <will@kernel.org>, <catalin.marinas@arm.com>, <arnd@kernel.org>,
+        <richardcochran@gmail.com>, Frank Rowand <frowand.list@gmail.com>,
+        <peng.fan@oss.nxp.com>
+CC: <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <dmaengine@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-media@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>,
+        Gatien Chevallier
+	<gatien.chevallier@foss.st.com>
+Subject: [PATCH v5 06/11] of: property: fw_devlink: Add support for "access-controller"
+Date: Fri, 29 Sep 2023 16:28:47 +0200
+Message-ID: <20230929142852.578394-7-gatien.chevallier@foss.st.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230929142852.578394-1-gatien.chevallier@foss.st.com>
+References: <20230929142852.578394-1-gatien.chevallier@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -66,87 +70,53 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.201.20.32]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-29_13,2023-09-28_03,2023-05-22_02
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-From: Abdel Alkuor <abdelalkuor@geotab.com>
+Allows tracking dependencies between devices and their access
+controller.
 
-tps25750 event1 register doesn't have all bits in tps6598x
-event registers, only show the events that are masked
-
-Signed-off-by: Abdel Alkuor <abdelalkuor@geotab.com>
+Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
 ---
-Changes in v8:
-  - No changes
-Changes in v7:
-  - Add driver name to commit subject
-  - Call trace_tps25750_irq directly from tps25750 interrupt
-    handler
-Changes in v6:
-  - Add trace irq to tipd callbacks factory
-Changes in v5:
-  - Incorporating tps25750 into tps6598x driver
 
- drivers/usb/typec/tipd/core.c  |  1 +
- drivers/usb/typec/tipd/trace.h | 22 ++++++++++++++++++++++
- 2 files changed, 23 insertions(+)
+Changes in V5:
+	- Rename feature-domain* to access-control*
 
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index 0955ee214eb0..9df8da8f5d4b 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -583,6 +583,7 @@ static irqreturn_t tps25750_interrupt(int irq, void *data)
- 		dev_err(tps->dev, "%s: failed to read events\n", __func__);
- 		goto err_unlock;
- 	}
-+	trace_tps25750_irq(event[0]);
+Patch not present in V1
+
+ drivers/of/property.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/of/property.c b/drivers/of/property.c
+index cf8dacf3e3b8..c86521fac06d 100644
+--- a/drivers/of/property.c
++++ b/drivers/of/property.c
+@@ -1267,6 +1267,7 @@ DEFINE_SIMPLE_PROP(resets, "resets", "#reset-cells")
+ DEFINE_SIMPLE_PROP(leds, "leds", NULL)
+ DEFINE_SIMPLE_PROP(backlight, "backlight", NULL)
+ DEFINE_SIMPLE_PROP(panel, "panel", NULL)
++DEFINE_SIMPLE_PROP(access_controller, "access-controller", "#access-controller-cells")
+ DEFINE_SUFFIX_PROP(regulators, "-supply", NULL)
+ DEFINE_SUFFIX_PROP(gpio, "-gpio", "#gpio-cells")
  
- 	if (!(event[0] | event[1]))
- 		goto err_unlock;
-diff --git a/drivers/usb/typec/tipd/trace.h b/drivers/usb/typec/tipd/trace.h
-index 12cad1bde7cc..28725234a2d8 100644
---- a/drivers/usb/typec/tipd/trace.h
-+++ b/drivers/usb/typec/tipd/trace.h
-@@ -74,6 +74,13 @@
- 		{ APPLE_CD_REG_INT_DATA_STATUS_UPDATE,		"DATA_STATUS_UPDATE" }, \
- 		{ APPLE_CD_REG_INT_STATUS_UPDATE,		"STATUS_UPDATE" })
+@@ -1361,6 +1362,7 @@ static const struct supplier_bindings of_supplier_bindings[] = {
+ 	{ .parse_prop = parse_regulators, },
+ 	{ .parse_prop = parse_gpio, },
+ 	{ .parse_prop = parse_gpios, },
++	{ .parse_prop = parse_access_controller, },
+ 	{}
+ };
  
-+#define show_tps25750_irq_flags(flags) \
-+	__print_flags_u64(flags, "|", \
-+		{ TPS_REG_INT_PLUG_EVENT,			"PLUG_EVENT" }, \
-+		{ TPS_REG_INT_POWER_STATUS_UPDATE,		"POWER_STATUS_UPDATE" }, \
-+		{ TPS_REG_INT_STATUS_UPDATE,			"STATUS_UPDATE" }, \
-+		{ TPS_REG_INT_PD_STATUS_UPDATE,			"PD_STATUS_UPDATE" })
-+
- #define TPS6598X_STATUS_FLAGS_MASK (GENMASK(31, 0) ^ (TPS_STATUS_CONN_STATE_MASK | \
- 						      TPS_STATUS_PP_5V0_SWITCH_MASK | \
- 						      TPS_STATUS_PP_HV_SWITCH_MASK | \
-@@ -230,6 +237,21 @@ TRACE_EVENT(cd321x_irq,
- 		      show_cd321x_irq_flags(__entry->event))
- );
- 
-+TRACE_EVENT(tps25750_irq,
-+	    TP_PROTO(u64 event),
-+	    TP_ARGS(event),
-+
-+	    TP_STRUCT__entry(
-+			     __field(u64, event)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->event = event;
-+			   ),
-+
-+	    TP_printk("event=%s", show_tps25750_irq_flags(__entry->event))
-+);
-+
- TRACE_EVENT(tps6598x_status,
- 	    TP_PROTO(u32 status),
- 	    TP_ARGS(status),
 -- 
-2.34.1
+2.25.1
 
