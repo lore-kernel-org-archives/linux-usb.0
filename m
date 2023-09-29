@@ -1,68 +1,61 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45DE513A1;
-	Fri, 29 Sep 2023 14:31:23 +0000 (UTC)
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AF701B1;
-	Fri, 29 Sep 2023 07:31:19 -0700 (PDT)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38TAOfjm029808;
-	Fri, 29 Sep 2023 16:30:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	selector1; bh=apmR9NexQ/8WbLPgYVyxeXpYfq/o9RQRCXymLFPMQxI=; b=iN
-	B/hU4VJJMZ6ThUdLl9cICPc8C1QE/QGarir/cUgnwcREDSS5FTzWsVv2pcPGYsr2
-	ljKXfU3ijPtlZlJUZgpAHoTzp1/wNTZOwm3ak5TcpdjNAiDTwqcC8qjPH8HdZ49R
-	U+KdApy+oBLND5C3ItdvnVLHpju3coa3PH+7WKuYHHNVPBiCZzVSDbzV8bckvB5L
-	tlgwp3P1SdoM67y9uZRfzBqeoh4RyN8RUGP5RmOm23AkJjJ7U/4654kchSdYjsXy
-	iD/gIiU6c4LrdQI4u8CimZM2bgxZdxIgLRrMrfOJBnBGZqU5vPbni6areTz7mVqF
-	aNkAnqvWq83J1K9Ui3dA==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3tcq63h6m5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Sep 2023 16:30:37 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 8823510005D;
-	Fri, 29 Sep 2023 16:30:36 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 78B1625AF10;
-	Fri, 29 Sep 2023 16:30:36 +0200 (CEST)
-Received: from localhost (10.201.20.32) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 29 Sep
- 2023 16:30:36 +0200
-From: Gatien Chevallier <gatien.chevallier@foss.st.com>
-To: <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <alexandre.torgue@foss.st.com>,
-        <vkoul@kernel.org>, <jic23@kernel.org>, <olivier.moysan@foss.st.com>,
-        <arnaud.pouliquen@foss.st.com>, <mchehab@kernel.org>,
-        <fabrice.gasnier@foss.st.com>, <andi.shyti@kernel.org>,
-        <ulf.hansson@linaro.org>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <hugues.fruchet@foss.st.com>, <lee@kernel.org>,
-        <will@kernel.org>, <catalin.marinas@arm.com>, <arnd@kernel.org>,
-        <richardcochran@gmail.com>, Frank Rowand <frowand.list@gmail.com>,
-        <peng.fan@oss.nxp.com>
-CC: <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <dmaengine@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-media@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
-        <netdev@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>,
-        Gatien Chevallier
-	<gatien.chevallier@foss.st.com>
-Subject: [PATCH v5 02/11] dt-bindings: treewide: add access-controller description
-Date: Fri, 29 Sep 2023 16:28:43 +0200
-Message-ID: <20230929142852.578394-3-gatien.chevallier@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230929142852.578394-1-gatien.chevallier@foss.st.com>
-References: <20230929142852.578394-1-gatien.chevallier@foss.st.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79B05122A;
+	Fri, 29 Sep 2023 14:31:59 +0000 (UTC)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD710CE8;
+	Fri, 29 Sep 2023 07:31:56 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9b275afb6abso164525266b.1;
+        Fri, 29 Sep 2023 07:31:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695997915; x=1696602715; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=et/0hI7eloXpfKr3HRtoG3/NWnoM3qRd9cvK/7WGxCU=;
+        b=Sv0L+yigxvpui4mWm89GpgeBi6+Ol/uDiRk/meGDbBdahduQAW83DcNrUPKgdoJV8E
+         lVYpGNHqfDJy9P/n7FXGSsvJYTQ/7NchM/IFww9nNP57HqZHqX4SyHzC9gG1pvKoI7tp
+         Zy0cSKfGuDiDmdHP8QBpC4uhWimnphNBJuZ2sYIpriZFXb/yJv75c1yH7SlyuroatqC2
+         i4R3bKNi68t6L/fkB2ApwPy+nJwKnH9qNM1XcpokCraTF4MKaQYoHJfh7/QuchNkk3ay
+         0CDSoPyD6NHmMasL87R6NrbYKyQ9NrtJzbDHUtMA0rXG8JGi98xYp/1OCQNMGZSr9A3Z
+         dq4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695997915; x=1696602715;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=et/0hI7eloXpfKr3HRtoG3/NWnoM3qRd9cvK/7WGxCU=;
+        b=KSJSEmmMoKU5g/WsBwTKOGg7PNgMR+njmLlG7/A6tIm43u7dAfc9afuMmwP9TEMlOz
+         Xe3wjjjDWQBngqhMwfGPk545DPZDsIy2WxQHlz1tBwDJVen0jrS4HRwEhaqJIPQURMg2
+         1Rb1DQ7HEYkt1MPPPiWnfGcXf0eK6GRvGvKXjhWManAfJrgSswb4FQIC2sMa+W1vtCpT
+         7ASYlodWXJaQ+CF3vraEdT4jLOxcnWCvvU9DOs176zSekUY44kkDxfRV8PvzFBJPnYI6
+         2HB2Op/Avt2k752zAHHMmhlsh96iQLF/vag9L+eac+ylogUFyW+l6D2eiWBNfT2BNFf1
+         c/oA==
+X-Gm-Message-State: AOJu0YwhEMMl/IT5e5yx2wHgxYA1Wi4zEwDxXVwtvV4K7Zt7v3BV/ARz
+	HKrDLDYCTunEE9KmNPFI2uY=
+X-Google-Smtp-Source: AGHT+IF1EOfp/a9dNMtOIaZL08JxiWgI8+Nba9Dp9Ae85pGd5xTZ/ALpuEcHD2vDkpDyIN6DafvNuQ==
+X-Received: by 2002:a17:906:20d8:b0:9ae:659f:4d2f with SMTP id c24-20020a17090620d800b009ae659f4d2fmr4067983ejc.26.1695997914771;
+        Fri, 29 Sep 2023 07:31:54 -0700 (PDT)
+Received: from primary.. ([212.34.12.50])
+        by smtp.gmail.com with ESMTPSA id a7-20020a170906670700b0099293cdbc98sm12660105ejp.145.2023.09.29.07.31.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Sep 2023 07:31:54 -0700 (PDT)
+From: Abdel Alkuor <alkuor@gmail.com>
+To: heikki.krogerus@linux.intel.com,
+	krzysztof.kozlowski+dt@linaro.org,
+	bryan.odonoghue@linaro.org
+Cc: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ryan.eleceng@gmail.com,
+	robh+dt@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	Abdel Alkuor <abdelalkuor@geotab.com>
+Subject: [PATCH v8 00/14] Add TPS25750 USB type-C PD controller support
+Date: Fri, 29 Sep 2023 10:30:41 -0400
+Message-Id: <20230929143055.31360-1-alkuor@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -70,461 +63,154 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.201.20.32]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-29_13,2023-09-28_03,2023-05-22_02
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-access-controller is an optional property that allows a peripheral to
-refer to one or more domain access controller(s).
+From: Abdel Alkuor <abdelalkuor@geotab.com>
 
-Description of this property is added to all peripheral binding files of
-the peripheral under the STM32 firewall controllers. It allows an accurate
-representation of the hardware, where various peripherals are connected
-to this firewall bus. The firewall can then check the peripheral accesses
-before allowing it to probe.
+TPS25750 USB type-C PD controller has the same register offsets as
+tps6598x. The following is a summary of incorporating TPS25750 into
+TPS6598x driver:
 
-Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
----
+- Only Check VID register (0x00) for TPS6598x and cd321x, as TPS25750 doesn't
+  have VID register.
 
-Changes in V5:
-	- Discarded review tags as the content has changed
-	- Renamed feature-domains to access-controller
-	- Removed extra blank line in st,stm32-timers.yaml
+- TypeC port registration will be registered differently for each PD
+  controller. TPS6598x uses system configuration register (0x28) to get
+  pr/dr capabilities. On the other hand, TPS25750 will use data role property
+  and PD status register (0x40) to get pr/dr capabilities as TPS25750 doesn't
+  have register 0x28 supported.
 
-Changes in V4:
-	- Added Jonathan's tag for IIO
+- TPS25750 requires writing a binary configuration to switch PD
+  controller from PTCH mode to APP mode which needs the following changes:
+  - Add PTCH mode to the modes list.
+  - Add an argument to tps6598x_check_mode to return the current mode.
+  - Currently, tps6598x_exec_cmd has cmd timeout hardcoded to 1 second,
+    and doesn't wait before checking DATA_OUT response. In TPS25750, patch 4CCs
+    take longer than 1 second to execute and some requires a delay before
+    checking DATA_OUT. To accommodate that, cmd_timeout and response_delay will
+    be added as arguments to tps6598x_exec_cmd.
+  - Implement applying patch sequence for TPS25750.
 
-Changes in V2:
-	- Add missing "feature-domains" property declaration
-	  in bosch,m_can.yaml and st,stm32-cryp.yaml files
+- In pm suspend callback, patch mode needs to be checked and the binary
+  configuration should be applied if needed.
 
- Documentation/devicetree/bindings/crypto/st,stm32-cryp.yaml   | 4 ++++
- Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml   | 4 ++++
- Documentation/devicetree/bindings/dma/st,stm32-dma.yaml       | 4 ++++
- Documentation/devicetree/bindings/dma/st,stm32-dmamux.yaml    | 4 ++++
- Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml       | 4 ++++
- Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml   | 4 ++++
- .../devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml       | 4 ++++
- Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml   | 4 ++++
- Documentation/devicetree/bindings/media/cec/st,stm32-cec.yaml | 4 ++++
- Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml    | 4 ++++
- .../bindings/memory-controllers/st,stm32-fmc2-ebi.yaml        | 4 ++++
- Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml   | 4 ++++
- Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml    | 4 ++++
- Documentation/devicetree/bindings/mmc/arm,pl18x.yaml          | 4 ++++
- Documentation/devicetree/bindings/net/can/bosch,m_can.yaml    | 4 ++++
- Documentation/devicetree/bindings/net/stm32-dwmac.yaml        | 4 ++++
- Documentation/devicetree/bindings/phy/phy-stm32-usbphyc.yaml  | 4 ++++
- .../devicetree/bindings/regulator/st,stm32-vrefbuf.yaml       | 4 ++++
- Documentation/devicetree/bindings/rng/st,stm32-rng.yaml       | 4 ++++
- Documentation/devicetree/bindings/serial/st,stm32-uart.yaml   | 4 ++++
- Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml     | 4 ++++
- Documentation/devicetree/bindings/sound/st,stm32-sai.yaml     | 4 ++++
- Documentation/devicetree/bindings/sound/st,stm32-spdifrx.yaml | 4 ++++
- Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml      | 4 ++++
- Documentation/devicetree/bindings/spi/st,stm32-spi.yaml       | 4 ++++
- Documentation/devicetree/bindings/usb/dwc2.yaml               | 4 ++++
- 26 files changed, 104 insertions(+)
+- For interrupt, TPS25750 has only one event register (0x14) and one mask
+  register (0x16) of 11 bytes each, where TPS6598x has two event
+  and two mask registers of 8 bytes each. Both TPS25750 and TPS65986x
+  shares the same bit field offsets for events/masks/clear but many of
+  there fields are reserved in TPS25750, the following needs to be done in
+  tps6598x_interrupt:
+  - Read EVENT1 register as a block of 11 bytes when tps25750 is present
+  - Write CLEAR1 register as a block of 11 bytes when tps25750 is present
+  - Add trace_tps25750_irq
+  - During testing, I noticed that when a cable is plugged into the PD
+    controller and before PD controller switches to APP mode, there is a
+    lag between dr/pr updates and PlugInsertOrRemoval Event, so a check
+    for dr/pr change needs to be added along TPS_REG_INT_PLUG_EVENT check
 
-diff --git a/Documentation/devicetree/bindings/crypto/st,stm32-cryp.yaml b/Documentation/devicetree/bindings/crypto/st,stm32-cryp.yaml
-index 0ddeb8a9a7a0..509f446163d7 100644
---- a/Documentation/devicetree/bindings/crypto/st,stm32-cryp.yaml
-+++ b/Documentation/devicetree/bindings/crypto/st,stm32-cryp.yaml
-@@ -46,6 +46,10 @@ properties:
-   power-domains:
-     maxItems: 1
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml b/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
-index ac480765cde0..65f6d66a67f8 100644
---- a/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
-+++ b/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
-@@ -51,6 +51,10 @@ properties:
-   power-domains:
-     maxItems: 1
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/dma/st,stm32-dma.yaml b/Documentation/devicetree/bindings/dma/st,stm32-dma.yaml
-index 329847ef096a..3fbdef2f44e1 100644
---- a/Documentation/devicetree/bindings/dma/st,stm32-dma.yaml
-+++ b/Documentation/devicetree/bindings/dma/st,stm32-dma.yaml
-@@ -82,6 +82,10 @@ properties:
-     description: if defined, it indicates that the controller
-       supports memory-to-memory transfer
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/dma/st,stm32-dmamux.yaml b/Documentation/devicetree/bindings/dma/st,stm32-dmamux.yaml
-index e722fbcd8a5f..d9d50d06117d 100644
---- a/Documentation/devicetree/bindings/dma/st,stm32-dmamux.yaml
-+++ b/Documentation/devicetree/bindings/dma/st,stm32-dmamux.yaml
-@@ -28,6 +28,10 @@ properties:
-   resets:
-     maxItems: 1
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml b/Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml
-index 94b75d9f66cd..a5b487e597ba 100644
---- a/Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml
-+++ b/Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml
-@@ -99,6 +99,10 @@ properties:
- 
-   wakeup-source: true
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml b/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml
-index 995cbf8cefc6..f6990267b7ef 100644
---- a/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml
-@@ -93,6 +93,10 @@ properties:
-   '#size-cells':
-     const: 0
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- allOf:
-   - if:
-       properties:
-diff --git a/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml b/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml
-index 1970503389aa..f23b43531dbb 100644
---- a/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml
-@@ -59,6 +59,10 @@ properties:
-       If not, SPI CLKOUT frequency will not be accurate.
-     maximum: 20000000
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml b/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml
-index 04045b932bd2..de76b4d168e3 100644
---- a/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml
-+++ b/Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml
-@@ -45,6 +45,10 @@ properties:
-   '#size-cells':
-     const: 0
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- additionalProperties: false
- 
- required:
-diff --git a/Documentation/devicetree/bindings/media/cec/st,stm32-cec.yaml b/Documentation/devicetree/bindings/media/cec/st,stm32-cec.yaml
-index 2314a9a14650..91614846f062 100644
---- a/Documentation/devicetree/bindings/media/cec/st,stm32-cec.yaml
-+++ b/Documentation/devicetree/bindings/media/cec/st,stm32-cec.yaml
-@@ -29,6 +29,10 @@ properties:
-       - const: cec
-       - const: hdmi-cec
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml b/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
-index 6b3e413cedb2..1d0d10a80417 100644
---- a/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
-+++ b/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
-@@ -36,6 +36,10 @@ properties:
-   resets:
-     maxItems: 1
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
-   port:
-     $ref: /schemas/graph.yaml#/$defs/port-base
-     unevaluatedProperties: false
-diff --git a/Documentation/devicetree/bindings/memory-controllers/st,stm32-fmc2-ebi.yaml b/Documentation/devicetree/bindings/memory-controllers/st,stm32-fmc2-ebi.yaml
-index 14f1833d37c9..96544f58e52f 100644
---- a/Documentation/devicetree/bindings/memory-controllers/st,stm32-fmc2-ebi.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/st,stm32-fmc2-ebi.yaml
-@@ -45,6 +45,10 @@ properties:
-       Reflects the memory layout with four integer values per bank. Format:
-       <bank-number> 0 <address of the bank> <size>
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- patternProperties:
-   "^.*@[0-4],[a-f0-9]+$":
-     additionalProperties: true
-diff --git a/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml b/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml
-index 27329c5dc38e..3de122231e4c 100644
---- a/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml
-+++ b/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml
-@@ -44,6 +44,10 @@ properties:
- 
-   wakeup-source: true
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
-   pwm:
-     type: object
-     additionalProperties: false
-diff --git a/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml b/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
-index f84e09a5743b..36718087b894 100644
---- a/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
-+++ b/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
-@@ -67,6 +67,10 @@ properties:
-   "#size-cells":
-     const: 0
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
-   pwm:
-     type: object
-     additionalProperties: false
-diff --git a/Documentation/devicetree/bindings/mmc/arm,pl18x.yaml b/Documentation/devicetree/bindings/mmc/arm,pl18x.yaml
-index 2459a55ed540..abd61e1e79ff 100644
---- a/Documentation/devicetree/bindings/mmc/arm,pl18x.yaml
-+++ b/Documentation/devicetree/bindings/mmc/arm,pl18x.yaml
-@@ -79,6 +79,10 @@ properties:
-           - const: rx
-           - const: tx
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
-   power-domains: true
- 
-   resets:
-diff --git a/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml b/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml
-index f9ffb963d6b1..9b7d2757f257 100644
---- a/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml
-+++ b/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml
-@@ -118,6 +118,10 @@ properties:
-   phys:
-     maxItems: 1
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/net/stm32-dwmac.yaml b/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
-index fc8c96b08d7d..7a9c46228fb0 100644
---- a/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
-@@ -93,6 +93,10 @@ properties:
-       select RCC clock instead of ETH_REF_CLK.
-     type: boolean
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - clocks
-diff --git a/Documentation/devicetree/bindings/phy/phy-stm32-usbphyc.yaml b/Documentation/devicetree/bindings/phy/phy-stm32-usbphyc.yaml
-index 24a3dbde223b..07c698030c4a 100644
---- a/Documentation/devicetree/bindings/phy/phy-stm32-usbphyc.yaml
-+++ b/Documentation/devicetree/bindings/phy/phy-stm32-usbphyc.yaml
-@@ -55,6 +55,10 @@ properties:
-     description: number of clock cells for ck_usbo_48m consumer
-     const: 0
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- # Required child nodes:
- 
- patternProperties:
-diff --git a/Documentation/devicetree/bindings/regulator/st,stm32-vrefbuf.yaml b/Documentation/devicetree/bindings/regulator/st,stm32-vrefbuf.yaml
-index 05f4ad2c7d3a..76ad07daac3c 100644
---- a/Documentation/devicetree/bindings/regulator/st,stm32-vrefbuf.yaml
-+++ b/Documentation/devicetree/bindings/regulator/st,stm32-vrefbuf.yaml
-@@ -30,6 +30,10 @@ properties:
-   vdda-supply:
-     description: phandle to the vdda input analog voltage.
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/rng/st,stm32-rng.yaml b/Documentation/devicetree/bindings/rng/st,stm32-rng.yaml
-index 187b172d0cca..0a73731bab16 100644
---- a/Documentation/devicetree/bindings/rng/st,stm32-rng.yaml
-+++ b/Documentation/devicetree/bindings/rng/st,stm32-rng.yaml
-@@ -30,6 +30,10 @@ properties:
-     type: boolean
-     description: If set enable the clock detection management
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/serial/st,stm32-uart.yaml b/Documentation/devicetree/bindings/serial/st,stm32-uart.yaml
-index 1df8ffe95fc6..6d8d58e81088 100644
---- a/Documentation/devicetree/bindings/serial/st,stm32-uart.yaml
-+++ b/Documentation/devicetree/bindings/serial/st,stm32-uart.yaml
-@@ -70,6 +70,10 @@ properties:
-     enum: [1, 2, 4, 8, 12, 14, 16]
-     default: 8
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- allOf:
-   - $ref: rs485.yaml#
-   - $ref: serial.yaml#
-diff --git a/Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml b/Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml
-index b9111d375b93..eb0daa776870 100644
---- a/Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml
-+++ b/Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml
-@@ -65,6 +65,10 @@ properties:
-     $ref: audio-graph-port.yaml#
-     unevaluatedProperties: false
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - "#sound-dai-cells"
-diff --git a/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml b/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
-index 59df8a832310..b92a08cbce35 100644
---- a/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
-+++ b/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
-@@ -48,6 +48,10 @@ properties:
-   clock-names:
-     maxItems: 3
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/sound/st,stm32-spdifrx.yaml b/Documentation/devicetree/bindings/sound/st,stm32-spdifrx.yaml
-index bc48151b9adb..0b364d07d693 100644
---- a/Documentation/devicetree/bindings/sound/st,stm32-spdifrx.yaml
-+++ b/Documentation/devicetree/bindings/sound/st,stm32-spdifrx.yaml
-@@ -50,6 +50,10 @@ properties:
-   resets:
-     maxItems: 1
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - "#sound-dai-cells"
-diff --git a/Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml b/Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml
-index 8bba965a9ae6..1216341e7cc9 100644
---- a/Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml
-+++ b/Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml
-@@ -46,6 +46,10 @@ properties:
-       - const: tx
-       - const: rx
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-index 9ca1a843c820..9cf6768d475d 100644
---- a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-+++ b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-@@ -59,6 +59,10 @@ properties:
-       - const: rx
-       - const: tx
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- patternProperties:
-   "^[a-zA-Z][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-f]+$":
-     type: object
-diff --git a/Documentation/devicetree/bindings/usb/dwc2.yaml b/Documentation/devicetree/bindings/usb/dwc2.yaml
-index 0a5c98ea711d..56962d0d26fb 100644
---- a/Documentation/devicetree/bindings/usb/dwc2.yaml
-+++ b/Documentation/devicetree/bindings/usb/dwc2.yaml
-@@ -172,6 +172,10 @@ properties:
- 
-   tpl-support: true
- 
-+  access-controller:
-+    minItems: 1
-+    maxItems: 2
-+
- dependencies:
-   port: [ usb-role-switch ]
-   role-switch-default-mode: [ usb-role-switch ]
+- Add TPS25750 traces for status and power status registers. Trace for
+  data register won't be added as it doesn't exist in the device.
+
+- Configure sleep mode for TPS25750.
+
+v8:
+ - PATCH 1: 
+    - Define reg-names at top-level
+ - PATCH 2:
+    - Add Reviewed-by
+ - PATCH 3:
+    - Revert mode check return
+ - PATCH 4:
+    - Return mode when mode is checked
+    - Use device_is_compatible instead of of_device_is_compatible
+ - PATCH 5,6:
+    - No changes
+ - PATCH 7:
+    - Use device_is_compatible instead of of_device_is_compatible
+ - PATCH 8,9:
+    - No changes
+ - PATCH 10:
+    - Change tps->cb to tps->data
+ - PATCH 11,12:
+    - No changes
+ - PATCH 13,14:
+    - Change tps->cb to tps->data
+
+v7:
+ - PATCH 1: 
+    - Define reg at top-level
+    - Remove description from reg-names
+ - PATCH 2..7: Add tps6598x to the subject
+ - PATCH 8:
+    - Add tps6598x to the subject
+    - Create tps25750 interrupt handler
+ - PATCH 9..11: Add tps6598x to the subject
+ - PATCH 12: 
+    - Add driver name to commit subject
+    - Call trace_tps25750_irq directly from tps25750 interrupt
+      handler
+ - PATCH 13-14: Add tps6598x to the subject
+      
+v6:
+ - PATCH 1: Use reg property for patch address
+ - PATCH 2: Use tps6598x_exec_cmd as a wrapper
+ - PATCH 3: Return current mode and check it directly
+ - PATCH 4:
+    - Don't check VID for tps25750 as the VID register doesn't exist
+    - Remove is_tps25750 flag from tps6598x struct
+    - Get patch address from reg property
+ - PATCH 5: Update eeprom macro to use TPS instead
+ - PATCH 6: No changes
+ - PATCH 7: Check tps25750 using is_compatiable device node
+ - PATCH 8: Create tipd callbacks factory 
+ - PATCH 9: No changes
+ - PATCH 10: Add port registration to tipd data factory
+ - PATCH 11: Use tps25750_init instead of tps25750_apply_patch in resume
+    	     as it initializes sleep mode
+ - PATCH 12: Add trace irq to tipd callbacks factory
+ - PATCH 13: Add trace power status to tipd data factory
+ - PATCH 14: Add trace status to tipd data factory
+v5:
+ - PATCH 1: Add tps25750 bindings to tps6598x
+ - PATCH 2: Remove tps25750 driver and incorperate tps25750
+ 	    into tps6598x driver
+ - PATCH [3..15]: Incorporating tps25750 into tps6598x driver
+v4:
+ - PATCH 1: No change
+ - PATCH 2: Fix comments style and drop of_match_ptr
+v3:
+ - PATCH 1: Fix node name
+ - PATCH 2: Upload tps25750 driver patch
+v2:
+ - PATCH 1: General properties clean up
+
+Abdel Alkuor (14):
+  dt-bindings: usb: tps6598x: Add tps25750
+  USB: typec: tsp6598x: Add cmd timeout and response delay
+  USB: typec: tps6598x: Add patch mode to tps6598x
+  USB: typec: tps6598x: Load TPS25750 patch bundle
+  USB: typec: tps6598x: Check for EEPROM present
+  USB: typec: tps6598x: Clear dead battery flag
+  USB: typec: tps6598x: Apply patch again after power resume
+  USB: typec: tps6598x: Add interrupt support for TPS25750
+  USB: typec: tps6598x: Refactor tps6598x port registration
+  USB: typec: tps6598x: Add port registration for tps25750
+  USB: typec: tps6598x: Enable sleep mode for tps25750
+  USB: typec: tps6598x: Add trace for tps25750 irq
+  USB: typec: tps6598x: Add power status trace for tps25750
+  USB: typec: tps6598x: Add status trace for tps25750
+
+ .../devicetree/bindings/usb/ti,tps6598x.yaml  |  81 ++-
+ drivers/usb/typec/tipd/core.c                 | 637 +++++++++++++++---
+ drivers/usb/typec/tipd/tps6598x.h             |  36 +
+ drivers/usb/typec/tipd/trace.h                |  92 +++
+ 4 files changed, 770 insertions(+), 76 deletions(-)
+
 -- 
-2.25.1
+2.34.1
 
