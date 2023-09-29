@@ -1,190 +1,151 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE6D1A59A
-	for <linux-usb@vger.kernel.org>; Fri, 29 Sep 2023 13:15:14 +0000 (UTC)
-Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4931F1B4;
-	Fri, 29 Sep 2023 06:15:10 -0700 (PDT)
-Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id D4E488475E;
-	Fri, 29 Sep 2023 15:15:08 +0200 (CEST)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Fri, 29 Sep 2023 15:14:02 +0200
-Subject: [PATCH RFC v3 4/6] ARM: pxa: Convert reset driver to GPIO
- descriptors
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503A51A58E;
+	Fri, 29 Sep 2023 13:19:33 +0000 (UTC)
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B74EE7;
+	Fri, 29 Sep 2023 06:19:31 -0700 (PDT)
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38TABSom007571;
+	Fri, 29 Sep 2023 15:18:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	message-id:date:mime-version:subject:from:to:cc:references
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	selector1; bh=KMM5HFfGi3/V+NX/zIj16MtndrNJ3wjO6VBqQEWwOzE=; b=ga
+	rM6WT7soC9Qg5lgEynlNIDEz19ICFxdBxx8K4WKaa81yBoo69ZoqQgPtPJrk+yqH
+	6Ke+T4tgb/wvQ7+D6b8/REeHXj+x3qhuVXstjmlbfDXVsD7fnq1otz0IBlMfWVfL
+	E4pait5J8DRp751sajaRVoUu+IBQuOKISwGGaDU+w8jkYTr9fXxKlpYDQovtoe8f
+	gElrQ2fdRogxsh24zwaguSO+d3txrH3Ag2t7373pPcvxthqul803q1iHU52Zkj5N
+	HDkK8wgJgLFXVxL19kvPUsq9yAyQ76DfuoiJhXjgKUsphyNPOIYM5JXL5gCdij8s
+	EmQ/SdD52jWC2koKfFGg==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ta9k0s0fb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Sep 2023 15:18:50 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AE29710002A;
+	Fri, 29 Sep 2023 15:18:48 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4AB3A2865FC;
+	Fri, 29 Sep 2023 15:18:48 +0200 (CEST)
+Received: from [10.201.20.32] (10.201.20.32) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 29 Sep
+ 2023 15:18:46 +0200
+Message-ID: <6e419e89-10f1-e448-10fe-64f1ea9ff862@foss.st.com>
+Date: Fri, 29 Sep 2023 15:18:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [IGNORE][PATCH v4 01/11] dt-bindings: Document common device
+ controller bindings
+From: Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <Oleksii_Moisieiev@epam.com>, <herbert@gondor.apana.org.au>,
+        <davem@davemloft.net>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <alexandre.torgue@foss.st.com>, <vkoul@kernel.org>, <jic23@kernel.org>,
+        <olivier.moysan@foss.st.com>, <arnaud.pouliquen@foss.st.com>,
+        <mchehab@kernel.org>, <fabrice.gasnier@foss.st.com>,
+        <andi.shyti@kernel.org>, <ulf.hansson@linaro.org>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <hugues.fruchet@foss.st.com>, <lee@kernel.org>, <will@kernel.org>,
+        <catalin.marinas@arm.com>, <arnd@kernel.org>,
+        <richardcochran@gmail.com>, Frank Rowand <frowand.list@gmail.com>,
+        <peng.fan@oss.nxp.com>, <linux-crypto@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <dmaengine@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-media@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+References: <20230811100731.108145-1-gatien.chevallier@foss.st.com>
+ <20230811100731.108145-2-gatien.chevallier@foss.st.com>
+ <2023081117-sprout-cruncher-862c@gregkh>
+ <4f0f9d6c-ce4d-73a2-60bf-801c1a1d6cc3@foss.st.com>
+Content-Language: en-US
+In-Reply-To: <4f0f9d6c-ce4d-73a2-60bf-801c1a1d6cc3@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230929-pxa-gpio-v3-4-af8d5e5d1f34@skole.hr>
-References: <20230929-pxa-gpio-v3-0-af8d5e5d1f34@skole.hr>
-In-Reply-To: <20230929-pxa-gpio-v3-0-af8d5e5d1f34@skole.hr>
-To: Daniel Mack <daniel@zonque.org>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Russell King <linux@armlinux.org.uk>, 
- Alan Stern <stern@rowland.harvard.edu>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3654;
- i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=P+Mn+7rnZeSrsHrXwwh73RzIYGjBVvhAgESHp6DzA+A=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlFs3XoAQyb355PIO8PgTe7++rLbalmrVzqHDm8
- mkrj5qE87mJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZRbN1wAKCRCaEZ6wQi2W
- 4aqND/9rFsjp6O60B7TMyvYW6Tf2lAPf1RU4Ns043Xeko6Ire3TxG6VnLRVZ4M+TIDLJkvZmvk/
- 926OKxCZ3BLSmgvIb5tgXY8eNv8KEARMBPUW1+688Mpg6ffqBqa+P9NFcu66P2jiaaPno6hAdrp
- 3SqxsXMp9WIL50+5eNx00ZglLGkPcX8sedQEV+YzInL7+SyQGTL1DfArAy1dZBfD0At9r9XBn/Q
- VJw/EKPPCYaulj49PCHy+h6uz8qBjbb2uTX8u8oioFoFGezNBsc4XiQWzI90EO7Bmnq2phjfvS0
- MpwcXb40eS6VqudVDrYWAF7DMuvQdCe5QowJDBnoi/1r4dohgCSyfgv2EjQK8YiI/WP4io4d/s7
- NfsY2Cc5E17y0G5e+57ssJjUOUbF3qtyOHNkTGV+2P/jalpxgC0kLhMBM5zYoNXcx3wg4UAkQRV
- aSrZWMj5lq5RCDrt5rJhjN5J1v+PAke1M4V7J24u5AvEZlVB00Zlh4fNnRu8jADD+9qOk/fSBmo
- Exw41SSrTaEY2ZXu6Wl6QQqM8fxKipD+rY08k8Q3rr1pNoNR++7WjzGJcXBpZo6mqQlj1rt6njn
- BmNDzJ2SJz+HZIHuRDQPYKqFPJrQlJXKE4IXoTn1t+YmbmLFoph3MCI34nOwJ473qXYAWvWdvgf
- DwIMd8Zp/VxVRNg==
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.6
+X-Originating-IP: [10.201.20.32]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-29_11,2023-09-28_03,2023-05-22_02
+X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-The PXA reset driver still uses the legacy GPIO interface for
-configuring and asserting the reset pin.
-
-Convert it to use the GPIO descriptor interface.
-
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
----
- arch/arm/mach-pxa/reset.c | 39 +++++++++++++--------------------------
- arch/arm/mach-pxa/reset.h |  3 +--
- arch/arm/mach-pxa/spitz.c |  6 +++++-
- 3 files changed, 19 insertions(+), 29 deletions(-)
-
-diff --git a/arch/arm/mach-pxa/reset.c b/arch/arm/mach-pxa/reset.c
-index 27293549f8ad..2bfa66f99555 100644
---- a/arch/arm/mach-pxa/reset.c
-+++ b/arch/arm/mach-pxa/reset.c
-@@ -2,7 +2,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/delay.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/io.h>
- #include <asm/proc-fns.h>
- #include <asm/system_misc.h>
-@@ -14,33 +14,20 @@
- 
- static void do_hw_reset(void);
- 
--static int reset_gpio = -1;
-+static struct gpio_desc *reset_gpio;
- 
--int init_gpio_reset(int gpio, int output, int level)
-+int init_gpio_reset(int output, int level)
- {
--	int rc;
--
--	rc = gpio_request(gpio, "reset generator");
--	if (rc) {
--		printk(KERN_ERR "Can't request reset_gpio\n");
--		goto out;
-+	reset_gpio = gpiod_get(NULL, "reset generator", GPIOD_ASIS);
-+	if (IS_ERR(reset_gpio)) {
-+		pr_err("Can't request reset_gpio: %pe\n", reset_gpio);
-+		return PTR_ERR(reset_gpio);
- 	}
- 
- 	if (output)
--		rc = gpio_direction_output(gpio, level);
-+		return gpiod_direction_output(reset_gpio, level);
- 	else
--		rc = gpio_direction_input(gpio);
--	if (rc) {
--		printk(KERN_ERR "Can't configure reset_gpio\n");
--		gpio_free(gpio);
--		goto out;
--	}
--
--out:
--	if (!rc)
--		reset_gpio = gpio;
--
--	return rc;
-+		return gpiod_direction_input(reset_gpio);
- }
- 
- /*
-@@ -50,16 +37,16 @@ int init_gpio_reset(int gpio, int output, int level)
-  */
- static void do_gpio_reset(void)
- {
--	BUG_ON(reset_gpio == -1);
-+	BUG_ON(IS_ERR(reset_gpio));
- 
- 	/* drive it low */
--	gpio_direction_output(reset_gpio, 0);
-+	gpiod_direction_output(reset_gpio, 0);
- 	mdelay(2);
- 	/* rising edge or drive high */
--	gpio_set_value(reset_gpio, 1);
-+	gpiod_set_value(reset_gpio, 1);
- 	mdelay(2);
- 	/* falling edge */
--	gpio_set_value(reset_gpio, 0);
-+	gpiod_set_value(reset_gpio, 0);
- 
- 	/* give it some time */
- 	mdelay(10);
-diff --git a/arch/arm/mach-pxa/reset.h b/arch/arm/mach-pxa/reset.h
-index 963dd190bc13..5864f61a0e94 100644
---- a/arch/arm/mach-pxa/reset.h
-+++ b/arch/arm/mach-pxa/reset.h
-@@ -13,10 +13,9 @@ extern void pxa_register_wdt(unsigned int reset_status);
- 
- /**
-  * init_gpio_reset() - register GPIO as reset generator
-- * @gpio: gpio nr
-  * @output: set gpio as output instead of input during normal work
-  * @level: output level
-  */
--extern int init_gpio_reset(int gpio, int output, int level);
-+extern int init_gpio_reset(int output, int level);
- 
- #endif /* __ASM_ARCH_RESET_H */
-diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
-index 59a4a439e3d2..c789eeaf3c2c 100644
---- a/arch/arm/mach-pxa/spitz.c
-+++ b/arch/arm/mach-pxa/spitz.c
-@@ -1024,9 +1024,13 @@ static void spitz_restart(enum reboot_mode mode, const char *cmd)
- 	spitz_poweroff();
- }
- 
-+GPIO_LOOKUP_SINGLE(spitz_reset_gpio_table, NULL, "pxa-gpio",
-+		SPITZ_GPIO_ON_RESET, "reset generator", GPIO_ACTIVE_HIGH);
-+
- static void __init spitz_init(void)
- {
--	init_gpio_reset(SPITZ_GPIO_ON_RESET, 1, 0);
-+	gpiod_add_lookup_table(&spitz_reset_gpio_table);
-+	init_gpio_reset(1, 0);
- 	pm_power_off = spitz_poweroff;
- 
- 	PMCR = 0x00;
-
--- 
-2.42.0
 
 
+On 8/11/23 14:00, Gatien CHEVALLIER wrote:
+> 
+> 
+> On 8/11/23 12:16, Greg KH wrote:
+>> On Fri, Aug 11, 2023 at 12:07:21PM +0200, Gatien Chevallier wrote:
+>>> From: Oleksii Moisieiev <Oleksii_Moisieiev@epam.com>
+>>>
+>>> Introducing of the common device controller bindings for the controller
+>>> provider and consumer devices. Those bindings are intended to allow
+>>> divided system on chip into multiple domains, that can be used to
+>>> configure hardware permissions.
+>>>
+>>> Signed-off-by: Oleksii Moisieiev <oleksii_moisieiev@epam.com>
+>>> [Gatien: Fix typos and YAML error]
+>>> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
+>>> ---
+>>>
+>>> Changes in V4:
+>>>     Corrected typos and YAML errors
+>>
+>> Why are we supposed to ignore the first patch in this series, but pay
+>> attention to the 10 after this that depend on it?
+>>
+>> totally confused,
+>>
+>> greg k-h
+> 
+> Hello Greg,
+> 
+> I'm sorry that this tag troubles your review. It was first suggested
+> in [1]. The "IGNORE" means ignore review on this thread, as it is still
+> under review in another thread (Link in the cover letter). It does not
+> mean that the content should be ignored for the series. I will change
+> this to something else as this is obviously confusing the review.
+> 
+> @Oleksii, can we imagine integrating this patch to this series or do
+> you prefer to keep it apart?
+> 
+
+Hi,
+
+after a discussion with Oleksii: I'll rename the binding to narrow
+down its scope and integrate the patch in my series. This way, I'll drop
+the [IGNORE] tag.
+
+=> I'll stick with the generic binding for V5 (Sorry for the misleading
+    information in the previous mail)
+
+Best regards,
+Gatien
+
+> Should I consider a resend with another tag if Oleksii prefers to keep
+> this patch apart?
+> 
+> [1] 
+> https://lore.kernel.org/all/1e498b93-d3bd-bd12-e991-e3f4bedf632d@linaro.org/
+> 
+> Best regards,
+> Gatien
