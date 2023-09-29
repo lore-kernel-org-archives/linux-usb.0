@@ -1,68 +1,64 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D73513DB;
-	Fri, 29 Sep 2023 14:32:20 +0000 (UTC)
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D96CCEB;
-	Fri, 29 Sep 2023 07:32:15 -0700 (PDT)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38T9xPiN015169;
-	Fri, 29 Sep 2023 16:31:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	selector1; bh=i13NBK7EHeEtuU2Mw6kBlnENPxeQHsB+gjMLZrz/aRc=; b=7w
-	MNE5kCbxFCk+fNn390H5EPKukh6ZAHA5dlTR/jO05R/LsNWWLuobYojdjPN1R+Fq
-	NSadl8t7GXgMDjVeClDZZgQJJoVPPSoZWlB7p24rTBWQ4wemznMG6YNhHGXlUn2Y
-	qNguQPXYbut7tZ1etY1ZUmgccm1Ycpx7+V/htCtJ+e6VKeaTzxc8AXcEorzGxfsV
-	1vAjGiAMxBg4M/qgaxYFuOLqRT2xwhdtzjqRrinlh4l59CnpPTDwStg58TzBJCyw
-	FOd/swNx/in82HO+McgnJp210Gc7Mif1IbksLFsdY5lKi+m/bLPiFYq8qhGKCtRu
-	52vlQF/tnO71k5nsTS9A==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3t9neg3ss9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Sep 2023 16:31:48 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 3C8AA100057;
-	Fri, 29 Sep 2023 16:31:48 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2FEE6282C5F;
-	Fri, 29 Sep 2023 16:31:48 +0200 (CEST)
-Received: from localhost (10.201.20.32) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 29 Sep
- 2023 16:31:47 +0200
-From: Gatien Chevallier <gatien.chevallier@foss.st.com>
-To: <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <alexandre.torgue@foss.st.com>,
-        <vkoul@kernel.org>, <jic23@kernel.org>, <olivier.moysan@foss.st.com>,
-        <arnaud.pouliquen@foss.st.com>, <mchehab@kernel.org>,
-        <fabrice.gasnier@foss.st.com>, <andi.shyti@kernel.org>,
-        <ulf.hansson@linaro.org>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <hugues.fruchet@foss.st.com>, <lee@kernel.org>,
-        <will@kernel.org>, <catalin.marinas@arm.com>, <arnd@kernel.org>,
-        <richardcochran@gmail.com>, Frank Rowand <frowand.list@gmail.com>,
-        <peng.fan@oss.nxp.com>
-CC: <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <dmaengine@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-media@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
-        <netdev@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>,
-        Gatien Chevallier
-	<gatien.chevallier@foss.st.com>
-Subject: [PATCH v5 04/11] dt-bindings: bus: document ETZPC
-Date: Fri, 29 Sep 2023 16:28:45 +0200
-Message-ID: <20230929142852.578394-5-gatien.chevallier@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230929142852.578394-1-gatien.chevallier@foss.st.com>
-References: <20230929142852.578394-1-gatien.chevallier@foss.st.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D92F513D5;
+	Fri, 29 Sep 2023 14:32:22 +0000 (UTC)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB80710D7;
+	Fri, 29 Sep 2023 07:32:17 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-9a9cd066db5so1980664066b.0;
+        Fri, 29 Sep 2023 07:32:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695997936; x=1696602736; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RAp+55201wmFdbMkBq6EDZPiYVA++xP36p4l1BsD1I0=;
+        b=j0D3gFJMwrx3TBoOdUeWS3AzBxoxCMVb3Gc4ous9WQXmeQfBqSsXl7/8j2mnLguO/v
+         ZM28DvVCKQ2ecEju/6k/IZGiy13jqD9Qq1eo+KnBWKC5hrnyC+A4olYCdeS5VCut33DM
+         J1SSfKjgWQ13ptcNI+xnoHIyLK9FeRgsK3Z1ZfQSKwmTszYj8axZ7OjGOXYZIa98QAPz
+         UpaAX8eS5ePzAAHL6rcKXKAYCU1gDz1hwvnkMMcdZvdWagG8bpxrD2LBOolUAizPslyN
+         /pZPxypzHoyUVR/P48AQ44pOIUGLYlOavjiphdO5rWLnMcgFWVEvpoXKOdAp3KLyKoYH
+         Rzuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695997936; x=1696602736;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RAp+55201wmFdbMkBq6EDZPiYVA++xP36p4l1BsD1I0=;
+        b=kiTb2TZ4NQ6XNq9j0gvMLL87tNaMt1/5FWkLoLzsVn6HmxHx0NratbX1wFiilwVI3T
+         wH8BZN+5infi9CTH+YF/gkHk74usSQLFw/QcLEERPVDU6OhUvYDUoM/tQTA7PyjgGWKt
+         1zVGqd82DvQ+HG05FTaryQBGyvHvwD+pC8BqMsWdWVkIrVkM/EHuWMiRXxnYnMbyEmUM
+         w1rtYKVmNXEl6SDEBIEh5F5iivR31fCWAFNljB2jHgyF/LKhhRbYMxS3KDKBTGqgJCN1
+         gRlYlchOIsZrhG0JtZDBCaIgUiYK/GNfsMsZ/9l9ZWYk/FhSOGRs3Gp9xQjUzPV28WIW
+         yjmQ==
+X-Gm-Message-State: AOJu0YwfM2yrKJ/ReCJNLSH29fHxUIMEGRwbhXoIufCZVOsL2Z6MkKkq
+	4EJZtD8gChbktHGJf2nBnQU=
+X-Google-Smtp-Source: AGHT+IFBs+BUCowowRueys6pTpDxKOBF2uVMinIqLEqXzkLlS35nhH4MBL9rNw3A5St2dD7M76T+Gg==
+X-Received: by 2002:a17:906:32cb:b0:9aa:e07:d421 with SMTP id k11-20020a17090632cb00b009aa0e07d421mr3750670ejk.43.1695997936147;
+        Fri, 29 Sep 2023 07:32:16 -0700 (PDT)
+Received: from primary.. ([212.34.12.50])
+        by smtp.gmail.com with ESMTPSA id a7-20020a170906670700b0099293cdbc98sm12660105ejp.145.2023.09.29.07.32.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Sep 2023 07:32:15 -0700 (PDT)
+From: Abdel Alkuor <alkuor@gmail.com>
+To: heikki.krogerus@linux.intel.com,
+	krzysztof.kozlowski+dt@linaro.org,
+	bryan.odonoghue@linaro.org
+Cc: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ryan.eleceng@gmail.com,
+	robh+dt@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	Abdel Alkuor <abdelalkuor@geotab.com>
+Subject: [PATCH v8 11/14] USB: typec: tps6598x: Enable sleep mode for tps25750
+Date: Fri, 29 Sep 2023 10:30:52 -0400
+Message-Id: <20230929143055.31360-12-alkuor@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230929143055.31360-1-alkuor@gmail.com>
+References: <20230929143055.31360-1-alkuor@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -70,145 +66,101 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.201.20.32]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-29_13,2023-09-28_03,2023-05-22_02
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Document ETZPC (Extended TrustZone protection controller). ETZPC is a
-firewall controller.
+From: Abdel Alkuor <abdelalkuor@geotab.com>
 
-Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
+Allow controller to enter sleep mode after the device
+is idle for sleep time.
+
+Signed-off-by: Abdel Alkuor <abdelalkuor@geotab.com>
 ---
+Changes in v8:
+  - No changes
+Changes in v7:
+  - Add driver name to commit subject
+Changes in v6:
+  - Use tps25750_init instead of tps25750_apply_patch in resume
+    as it initializes sleep mode
+Changes in v5:
+  - Incorporating tps25750 into tps6598x driver
 
-Changes in V5:
-	- Renamed feature-domain* to access-control*
+ drivers/usb/typec/tipd/core.c     | 23 +++++++++++++++++++++--
+ drivers/usb/typec/tipd/tps6598x.h |  3 +++
+ 2 files changed, 24 insertions(+), 2 deletions(-)
 
-Changes in V2:
-	- Corrected errors highlighted by Rob's robot
-	- No longer define the maxItems for the "feature-domains"
-	  property
-	- Fix example (node name, status)
-	- Declare "feature-domain-names" as an optional
-	  property for child nodes
-	- Fix description of "feature-domains" property
-	- Reordered the properties so it matches ETZPC
-	- Add missing "feature-domain-controller" property
-
- .../bindings/bus/st,stm32-etzpc.yaml          | 96 +++++++++++++++++++
- 1 file changed, 96 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml
-
-diff --git a/Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml b/Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml
-new file mode 100644
-index 000000000000..ddc54286ab4c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml
-@@ -0,0 +1,96 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/bus/st,stm32-etzpc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+index dd2ecbea8031..0955ee214eb0 100644
+--- a/drivers/usb/typec/tipd/core.c
++++ b/drivers/usb/typec/tipd/core.c
+@@ -43,6 +43,7 @@
+ #define TPS_REG_PD_STATUS		0x40
+ #define TPS_REG_RX_IDENTITY_SOP		0x48
+ #define TPS_REG_DATA_STATUS		0x5f
++#define TPS_REG_SLEEP_CONF		0x70
+ 
+ /* TPS_REG_SYSTEM_CONF bits */
+ #define TPS_SYSCONF_PORTINFO(c)		((c) & 7)
+@@ -1041,6 +1042,24 @@ static int tps25750_apply_patch(struct tps6598x *tps)
+ 	return 0;
+ };
+ 
++static int tps25750_init(struct tps6598x *tps)
++{
++	int ret;
 +
-+title: STM32 Extended TrustZone protection controller
++	ret = tps25750_apply_patch(tps);
++	if (ret)
++		return ret;
 +
-+description: |
-+  The ETZPC configures TrustZone security in a SoC having bus masters and
-+  devices with programmable-security attributes (securable resources).
++	ret = tps6598x_write8(tps, TPS_REG_SLEEP_CONF,
++			      TPS_SLEEP_CONF_SLEEP_MODE_ALLOWED);
++	if (ret)
++		dev_warn(tps->dev,
++			 "%s: failed to enable sleep mode: %d\n",
++			 __func__, ret);
 +
-+maintainers:
-+  - Gatien Chevallier <gatien.chevallier@foss.st.com>
++	return 0;
++}
 +
-+properties:
-+  compatible:
-+    contains:
-+      const: st,stm32-etzpc
+ static int
+ tps6598x_register_port(struct tps6598x *tps, struct fwnode_handle *fwnode)
+ {
+@@ -1237,7 +1256,7 @@ static int tps6598x_probe(struct i2c_client *client)
+ 		return ret;
+ 
+ 	if (is_tps25750 && ret == TPS_MODE_PTCH) {
+-		ret = tps25750_apply_patch(tps);
++		ret = tps25750_init(tps);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -1374,7 +1393,7 @@ static int __maybe_unused tps6598x_resume(struct device *dev)
+ 		return ret;
+ 
+ 	if (device_is_compatible(tps->dev, "ti,tps25750") && ret == TPS_MODE_PTCH) {
+-		ret = tps25750_apply_patch(tps);
++		ret = tps25750_init(tps);
+ 		if (ret)
+ 			return ret;
+ 	}
+diff --git a/drivers/usb/typec/tipd/tps6598x.h b/drivers/usb/typec/tipd/tps6598x.h
+index 3a9a43394134..f86b5e96efba 100644
+--- a/drivers/usb/typec/tipd/tps6598x.h
++++ b/drivers/usb/typec/tipd/tps6598x.h
+@@ -213,4 +213,7 @@
+ #define TPS_PD_STATUS_PORT_TYPE_SOURCE		2
+ #define TPS_PD_STATUS_PORT_TYPE_SOURCE_SINK	3
+ 
++/* SLEEP CONF REG */
++#define TPS_SLEEP_CONF_SLEEP_MODE_ALLOWED	BIT(0)
 +
-+  reg:
-+    maxItems: 1
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 1
-+
-+  ranges: true
-+
-+  "#access-controller-cells":
-+    const: 1
-+
-+  access-control-provider: true
-+
-+patternProperties:
-+  "^.*@[0-9a-f]+$":
-+    description: Peripherals
-+    type: object
-+    properties:
-+      access-controller:
-+        minItems: 1
-+        description:
-+          The phandle of the firewall controller of the peripheral and the
-+          platform-specific firewall ID of the peripheral.
-+
-+      access-controller-names:
-+        minItems: 1
-+
-+    required:
-+      - access-controller
-+
-+required:
-+  - compatible
-+  - reg
-+  - "#address-cells"
-+  - "#size-cells"
-+  - access-control-provider
-+  - "#access-controller-cells"
-+  - ranges
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    // In this example, the usart2 device refers to rifsc as its access
-+    // controller.
-+    // Access rights are verified before creating devices.
-+
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/stm32mp13-clks.h>
-+    #include <dt-bindings/reset/stm32mp13-resets.h>
-+
-+    etzpc: bus@5c007000 {
-+        compatible = "st,stm32-etzpc";
-+        reg = <0x5c007000 0x400>;
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+        access-control-provider;
-+        #access-controller-cells = <1>;
-+        ranges;
-+
-+        usart2: serial@4c001000 {
-+            compatible = "st,stm32h7-uart";
-+            reg = <0x4c001000 0x400>;
-+            interrupts-extended = <&exti 27 IRQ_TYPE_LEVEL_HIGH>;
-+            clocks = <&rcc USART2_K>;
-+            resets = <&rcc USART2_R>;
-+            wakeup-source;
-+            dmas = <&dmamux1 43 0x400 0x5>,
-+                    <&dmamux1 44 0x400 0x1>;
-+            dma-names = "rx", "tx";
-+            access-controller = <&etzpc 17>;
-+        };
-+    };
+ #endif /* __TPS6598X_H__ */
 -- 
-2.25.1
+2.34.1
 
