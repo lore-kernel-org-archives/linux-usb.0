@@ -1,57 +1,67 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9716151BB3
-	for <linux-usb@vger.kernel.org>; Fri, 29 Sep 2023 19:15:06 +0000 (UTC)
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAABA1AA
-	for <linux-usb@vger.kernel.org>; Fri, 29 Sep 2023 12:15:04 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1bd9b4f8e0eso112296775ad.1
-        for <linux-usb@vger.kernel.org>; Fri, 29 Sep 2023 12:15:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F6C6669F
+	for <linux-usb@vger.kernel.org>; Fri, 29 Sep 2023 19:21:20 +0000 (UTC)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB2671BB
+	for <linux-usb@vger.kernel.org>; Fri, 29 Sep 2023 12:21:18 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1c3d8fb23d9so110624085ad.0
+        for <linux-usb@vger.kernel.org>; Fri, 29 Sep 2023 12:21:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1696014904; x=1696619704; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1696015278; x=1696620078; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YMR6LUwPftHKv0r5/Li6NluEAeTRiPtbXaPEQ4+PpRg=;
-        b=UBVYx32GUgxii2P9VeGDr1XxGqw9do4g2/tM3vjpNC9nG0EjDE7tes9gRDeaZHKBu4
-         vp/hpV3A98dMo62Yzx1vECGtQPuK3Nv3gnvw5cEFwMGP9gwVXJI2GuLKMMLElp7+edWi
-         1mpveEyxLXzmsn2Llw8qGt8RBDcp/y/f4Fpuc=
+        bh=ilE7Vn1v/6L1xjJiSnZJWIX4iPYebLM1xUgfMUUBIXI=;
+        b=l1xKYYCO0814xfitFFg3tTO2AT9+9UZgRImRulirJNri6/R8G48vt7MVrsxzwN/yb9
+         yZcK5RIeg2Dnra8ZA5VYQ6jsSEfwkHjIdSx/M3JiS3KW6skKsLi+OoDS799kphCDvFul
+         f55bYSu/I95TCgrsNLDFkV1d4tO7/oQKR06NA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696014904; x=1696619704;
+        d=1e100.net; s=20230601; t=1696015278; x=1696620078;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YMR6LUwPftHKv0r5/Li6NluEAeTRiPtbXaPEQ4+PpRg=;
-        b=nStETjhgjq7VEFXdVMsrpMRwGfAmrm+lqbmL2dxOUlZEbv7YSyO8r1E+HKuWDUyLQN
-         ThPxA03YeY1fh7GVRaoYiqOveB5X6fkwNDAxjpSkWCM0q9O7RxO63npB6QzH6kcFX/SO
-         TolyPn7VgBhueAcd3OoVgG8b3yF0dmX/RPT/0u+ZoBXrxqDL0v+cssnwPE8OCCSGDtTs
-         nm8pwNDKiF51Q2/Mlr4fNJip57Imit5zZFDcp3dH9pqKIjCqItC40Fm0dIpd3+gBCkTq
-         p/qgP/esV2eA+ogjCgqk/mUNcy5/4VONuXW6ISVllQgFOCHg2yLACGmaIGoDBkPMSFIe
-         CGeA==
-X-Gm-Message-State: AOJu0Yw21tQi3mMhDCmTOpi487mEGBryn8HdYwgzHtVV8MQMjyOHBZIb
-	5AkJiybs1zwAtLYRf+WdJL1YUe44v6EWyUmSHm0=
-X-Google-Smtp-Source: AGHT+IEBopBak8B7MGmd1sJZ3Lf8ZG5V73oh21Tehv4+8J8dAWg7SRzxgWm5FohLg5EVdZWMSxbroA==
-X-Received: by 2002:a17:90a:f2c1:b0:279:47d0:d923 with SMTP id gt1-20020a17090af2c100b0027947d0d923mr439775pjb.17.1696014904230;
-        Fri, 29 Sep 2023 12:15:04 -0700 (PDT)
+        bh=ilE7Vn1v/6L1xjJiSnZJWIX4iPYebLM1xUgfMUUBIXI=;
+        b=HCvOoL57B8LD1nwN1UmU1x1DEedTyndUtg/y3oeS0vUw0fCNeoVTDHk5tDw+Uzs/vZ
+         1dM8jCm7LT9zEyCUD6YeCxuzSAmpZS5RzKgWO/soyrTSAJ0dlLv8so/rLW7wHHwF/c/i
+         yWmxqNIkAeiogJtJD0SKhRC+BpY9c+2rsnIdEd/C/+bVhO/2jcO99c4Xle2E5mPWMfKG
+         tQ7MmDm0Qm5jjGYzTG7epfvMC8Y7k4YK3ILyFR76khZYgBDhV9qjeiJtFnoxpZWZcUGp
+         VFEiPXjIyz+xzdTxY1MOWhwIGGpfkIId8ZVWMogbVjciMWkGWHM8dhvw7ZDuK2YDCrQJ
+         +B8w==
+X-Gm-Message-State: AOJu0YxXS9sFyyjLPqtuBxTaXAZXigvO1CeglV1FPGP3Q5daymaQAEjh
+	0Y7mshq4+XFVaTJHDolb7c1CRA==
+X-Google-Smtp-Source: AGHT+IF0tQMM6MXJc6XxNKRi0sTdKpt1DN5cZbXrTlB5Mp1e+iC1EFDxKCNZm0dE3mY+fujU5z55eQ==
+X-Received: by 2002:a17:902:e549:b0:1c3:d07f:39f7 with SMTP id n9-20020a170902e54900b001c3d07f39f7mr5943508plf.62.1696015278370;
+        Fri, 29 Sep 2023 12:21:18 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id i6-20020a17090a2ac600b0027360359b70sm1974742pjg.48.2023.09.29.12.15.03
+        by smtp.gmail.com with ESMTPSA id x4-20020a170902ec8400b001c5f62a639asm13455348plg.196.2023.09.29.12.21.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 12:15:03 -0700 (PDT)
+        Fri, 29 Sep 2023 12:21:16 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
-To: Duncan Sands <duncan.sands@free.fr>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Kees Cook <keescook@chromium.org>,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kees Cook <keescook@chromium.org>
+Cc: John Keeping <john@keeping.me.uk>,
+	Peter Chen <peter.chen@nxp.com>,
+	Hulk Robot <hulkci@huawei.com>,
+	Allen Pais <allen.lkml@gmail.com>,
+	Will McVicker <willmcvicker@google.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Zhang Qilong <zhangqilong3@huawei.com>,
 	linux-usb@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>,
+	Linyu Yuan <quic_linyyuan@quicinc.com>,
 	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
 	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] usb: atm: Use size_add() in call to struct_size()
-Date: Fri, 29 Sep 2023 12:15:01 -0700
-Message-Id: <169601489954.3012131.16051231116010521718.b4-ty@chromium.org>
+Subject: Re: [PATCH] usb: gadget: f_midi: Annotate struct f_midi with __counted_by
+Date: Fri, 29 Sep 2023 12:21:12 -0700
+Message-Id: <169601526970.3013632.470911371867487341.b4-ty@chromium.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <ZQSuboEIhvATAdxN@work>
-References: <ZQSuboEIhvATAdxN@work>
+In-Reply-To: <20230915195938.never.611-kees@kernel.org>
+References: <20230915195938.never.611-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -62,23 +72,27 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.6
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Fri, 15 Sep 2023 13:20:14 -0600, Gustavo A. R. Silva wrote:
-> If, for any reason, the open-coded arithmetic causes a wraparound,
-> the protection that `struct_size()` adds against potential integer
-> overflows is defeated. Fix this by hardening call to `struct_size()`
-> with `size_add()`.
+On Fri, 15 Sep 2023 12:59:39 -0700, Kees Cook wrote:
+> Prepare for the coming implementation by GCC and Clang of the __counted_by
+> attribute. Flexible array members annotated with __counted_by can have
+> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> functions).
 > 
+> As found with Coccinelle[1], add __counted_by for struct f_midi.
+> Additionally, since the element count member must be set before accessing
+> the annotated flexible array member, move its initialization earlier.
 > 
+> [...]
 
 Applied to for-next/hardening, thanks!
 
-[1/1] usb: atm: Use size_add() in call to struct_size()
-      https://git.kernel.org/kees/c/13f1a60fe04f
+[1/1] usb: gadget: f_midi: Annotate struct f_midi with __counted_by
+      https://git.kernel.org/kees/c/cfe2af2d553f
 
 Take care,
 
