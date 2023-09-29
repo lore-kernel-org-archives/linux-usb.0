@@ -1,64 +1,68 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9C8516C6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D73513DB;
 	Fri, 29 Sep 2023 14:32:20 +0000 (UTC)
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CB09CF5;
-	Fri, 29 Sep 2023 07:32:16 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-9b2a3fd5764so944989966b.3;
-        Fri, 29 Sep 2023 07:32:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695997934; x=1696602734; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UTbK6qkYutHvyFXWyfDTAiatmpQU1PAd9FUpYTZg5YI=;
-        b=BrZD3Dnda2F8jjxRxst95DX2myvUGzLebpKUUPnXLpNdpcV9sfDgrsKkM13v5LbQ+m
-         tXI8627AhaXaNhqzVke1CnJOCR9AANcXQdIRF2R6foohkudm+TNEKW9EY17tnexrvXnM
-         mGnbtpClmc3pW+NFU6QY3xBl1cB3AqjyibDuBxg6y4s/IbiU9G2HBwKh7bf38Dnu/2Hg
-         k+srCKX6akoA3gIde9FRE7uvE6cydJzqcv6lHljJTixhxIztzKfGOPGtqbqRcCvB4OL6
-         dl7vgCifcxlnYh9Oea2wMb/EQ9hUeswdVF9oFHcCGD7zs9oLe2uELX1HM6hsHv56Iiyf
-         DPpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695997934; x=1696602734;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UTbK6qkYutHvyFXWyfDTAiatmpQU1PAd9FUpYTZg5YI=;
-        b=CIEZhJzY8l/UkLsc5L5E+QCq3CWdtNpl+aJ4yzuizr6tClI32swyoN/XdF3IXMtX+b
-         TuS6AKTIwuc6xruqHFsCXQ0kYnRB2rmXxzgQXFQvCeHlfuBWSuKQh8zRmbB8pZUhE+qe
-         761q58I2cM1pJmHoy8tyXHDrJJmZ2Ds7pets7ivnkvAVcq/LPE51G06v43HWUEw9tZe4
-         k36KVAqbOD/IkcteVoFXjHQNpeZeSmwNTxk1ed4HYniLrsGIlxOxa+X5uyc8xKmAuP1D
-         uoPdM2YfJAyiO4hXMefuNObWmoXJY+aiwWI3PVm1w+o8NrDaaY117aA6u6NQzwm2eFqc
-         CANw==
-X-Gm-Message-State: AOJu0YyFZVXroN3QMSW2sewDkDj7m8OSN5KUmG3bPQsN23yHFBrLM5IM
-	x3HHMCCgyenhXVokXiJVY7SNadBg2oQtp/saK7o=
-X-Google-Smtp-Source: AGHT+IHfZmyhhLpczgJPKXbTVI9PCoCXc7+vBRQPe8RWoQf16ZMFUznFYwfJpjBYB34xUrb7O+K3YQ==
-X-Received: by 2002:a17:906:224c:b0:9b2:93c1:72dd with SMTP id 12-20020a170906224c00b009b293c172ddmr4402324ejr.36.1695997934318;
-        Fri, 29 Sep 2023 07:32:14 -0700 (PDT)
-Received: from primary.. ([212.34.12.50])
-        by smtp.gmail.com with ESMTPSA id a7-20020a170906670700b0099293cdbc98sm12660105ejp.145.2023.09.29.07.32.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 07:32:14 -0700 (PDT)
-From: Abdel Alkuor <alkuor@gmail.com>
-To: heikki.krogerus@linux.intel.com,
-	krzysztof.kozlowski+dt@linaro.org,
-	bryan.odonoghue@linaro.org
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ryan.eleceng@gmail.com,
-	robh+dt@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	Abdel Alkuor <abdelalkuor@geotab.com>
-Subject: [PATCH v8 10/14] USB: typec: tps6598x: Add port registration for tps25750
-Date: Fri, 29 Sep 2023 10:30:51 -0400
-Message-Id: <20230929143055.31360-11-alkuor@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230929143055.31360-1-alkuor@gmail.com>
-References: <20230929143055.31360-1-alkuor@gmail.com>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D96CCEB;
+	Fri, 29 Sep 2023 07:32:15 -0700 (PDT)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38T9xPiN015169;
+	Fri, 29 Sep 2023 16:31:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	selector1; bh=i13NBK7EHeEtuU2Mw6kBlnENPxeQHsB+gjMLZrz/aRc=; b=7w
+	MNE5kCbxFCk+fNn390H5EPKukh6ZAHA5dlTR/jO05R/LsNWWLuobYojdjPN1R+Fq
+	NSadl8t7GXgMDjVeClDZZgQJJoVPPSoZWlB7p24rTBWQ4wemznMG6YNhHGXlUn2Y
+	qNguQPXYbut7tZ1etY1ZUmgccm1Ycpx7+V/htCtJ+e6VKeaTzxc8AXcEorzGxfsV
+	1vAjGiAMxBg4M/qgaxYFuOLqRT2xwhdtzjqRrinlh4l59CnpPTDwStg58TzBJCyw
+	FOd/swNx/in82HO+McgnJp210Gc7Mif1IbksLFsdY5lKi+m/bLPiFYq8qhGKCtRu
+	52vlQF/tnO71k5nsTS9A==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3t9neg3ss9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Sep 2023 16:31:48 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 3C8AA100057;
+	Fri, 29 Sep 2023 16:31:48 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2FEE6282C5F;
+	Fri, 29 Sep 2023 16:31:48 +0200 (CEST)
+Received: from localhost (10.201.20.32) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 29 Sep
+ 2023 16:31:47 +0200
+From: Gatien Chevallier <gatien.chevallier@foss.st.com>
+To: <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
+        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <alexandre.torgue@foss.st.com>,
+        <vkoul@kernel.org>, <jic23@kernel.org>, <olivier.moysan@foss.st.com>,
+        <arnaud.pouliquen@foss.st.com>, <mchehab@kernel.org>,
+        <fabrice.gasnier@foss.st.com>, <andi.shyti@kernel.org>,
+        <ulf.hansson@linaro.org>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <hugues.fruchet@foss.st.com>, <lee@kernel.org>,
+        <will@kernel.org>, <catalin.marinas@arm.com>, <arnd@kernel.org>,
+        <richardcochran@gmail.com>, Frank Rowand <frowand.list@gmail.com>,
+        <peng.fan@oss.nxp.com>
+CC: <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <dmaengine@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-media@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>,
+        Gatien Chevallier
+	<gatien.chevallier@foss.st.com>
+Subject: [PATCH v5 04/11] dt-bindings: bus: document ETZPC
+Date: Fri, 29 Sep 2023 16:28:45 +0200
+Message-ID: <20230929142852.578394-5-gatien.chevallier@foss.st.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230929142852.578394-1-gatien.chevallier@foss.st.com>
+References: <20230929142852.578394-1-gatien.chevallier@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -66,173 +70,145 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.201.20.32]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-29_13,2023-09-28_03,2023-05-22_02
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-From: Abdel Alkuor <abdelalkuor@geotab.com>
+Document ETZPC (Extended TrustZone protection controller). ETZPC is a
+firewall controller.
 
-TPS25750 doesn't have system configuration register to get dr/pr of the
-current applied binary configuration.
-
-Get data role from the device node and power role from PD status register.
-
-Signed-off-by: Abdel Alkuor <abdelalkuor@geotab.com>
+Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
 ---
-Changes in v8:
-  - Change tps->cb to tps->data
-Changes in v7:
-  - Add driver name to commit subject
-Changes in v6:
-  - Add port registration to tipd data factory
-Changes in v5:
-  - Incorporating tps25750 into tps6598x driver
 
- drivers/usb/typec/tipd/core.c     | 68 ++++++++++++++++++++++++++++++-
- drivers/usb/typec/tipd/tps6598x.h | 10 +++++
- 2 files changed, 77 insertions(+), 1 deletion(-)
+Changes in V5:
+	- Renamed feature-domain* to access-control*
 
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index 580680986f66..dd2ecbea8031 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -40,6 +40,7 @@
- #define TPS_REG_CTRL_CONF		0x29
- #define TPS_REG_BOOT_STATUS		0x2D
- #define TPS_REG_POWER_STATUS		0x3f
-+#define TPS_REG_PD_STATUS		0x40
- #define TPS_REG_RX_IDENTITY_SOP		0x48
- #define TPS_REG_DATA_STATUS		0x5f
- 
-@@ -102,8 +103,11 @@ static const char *const modes[] = {
- /* Unrecognized commands will be replaced with "!CMD" */
- #define INVALID_CMD(_cmd_)		(_cmd_ == 0x444d4321)
- 
-+struct tps6598x;
+Changes in V2:
+	- Corrected errors highlighted by Rob's robot
+	- No longer define the maxItems for the "feature-domains"
+	  property
+	- Fix example (node name, status)
+	- Declare "feature-domain-names" as an optional
+	  property for child nodes
+	- Fix description of "feature-domains" property
+	- Reordered the properties so it matches ETZPC
+	- Add missing "feature-domain-controller" property
+
+ .../bindings/bus/st,stm32-etzpc.yaml          | 96 +++++++++++++++++++
+ 1 file changed, 96 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml
+
+diff --git a/Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml b/Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml
+new file mode 100644
+index 000000000000..ddc54286ab4c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml
+@@ -0,0 +1,96 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/bus/st,stm32-etzpc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- struct tipd_data {
- 	irq_handler_t irq_handler;
-+	int (*register_port)(struct tps6598x *tps, struct fwnode_handle *node);
- };
- 
- struct tps6598x {
-@@ -208,6 +212,11 @@ static inline int tps6598x_read64(struct tps6598x *tps, u8 reg, u64 *val)
- 	return tps6598x_block_read(tps, reg, val, sizeof(u64));
- }
- 
-+static inline int tps6598x_write8(struct tps6598x *tps, u8 reg, u8 val)
-+{
-+	return tps6598x_block_write(tps, reg, &val, sizeof(u8));
-+}
++title: STM32 Extended TrustZone protection controller
 +
- static inline int tps6598x_write64(struct tps6598x *tps, u8 reg, u64 val)
- {
- 	return tps6598x_block_write(tps, reg, &val, sizeof(u64));
-@@ -1084,16 +1093,73 @@ tps6598x_register_port(struct tps6598x *tps, struct fwnode_handle *fwnode)
- 	return 0;
- }
- 
-+static int
-+tps25750_register_port(struct tps6598x *tps, struct fwnode_handle *fwnode)
-+{
-+	struct typec_capability typec_cap = { };
-+	const char *data_role;
-+	u8 pd_status;
-+	int ret;
++description: |
++  The ETZPC configures TrustZone security in a SoC having bus masters and
++  devices with programmable-security attributes (securable resources).
 +
-+	ret = tps6598x_read8(tps, TPS_REG_PD_STATUS, &pd_status);
-+	if (ret)
-+		return ret;
++maintainers:
++  - Gatien Chevallier <gatien.chevallier@foss.st.com>
 +
-+	ret = fwnode_property_read_string(fwnode, "data-role", &data_role);
-+	if (ret) {
-+		dev_err(tps->dev, "data-role not found: %d\n", ret);
-+		return ret;
-+	}
++properties:
++  compatible:
++    contains:
++      const: st,stm32-etzpc
 +
-+	ret = typec_find_port_data_role(data_role);
-+	if (ret < 0) {
-+		dev_err(tps->dev, "unknown data-role: %s\n", data_role);
-+		return ret;
-+	}
++  reg:
++    maxItems: 1
 +
-+	typec_cap.data = ret;
-+	typec_cap.revision = USB_TYPEC_REV_1_3;
-+	typec_cap.pd_revision = 0x300;
-+	typec_cap.driver_data = tps;
-+	typec_cap.ops = &tps6598x_ops;
-+	typec_cap.fwnode = fwnode;
-+	typec_cap.prefer_role = TYPEC_NO_PREFERRED_ROLE;
++  "#address-cells":
++    const: 1
 +
-+	switch (TPS_PD_STATUS_PORT_TYPE(pd_status)) {
-+	case TPS_PD_STATUS_PORT_TYPE_SINK_SOURCE:
-+	case TPS_PD_STATUS_PORT_TYPE_SOURCE_SINK:
-+		typec_cap.type = TYPEC_PORT_DRP;
-+		break;
-+	case TPS_PD_STATUS_PORT_TYPE_SINK:
-+		typec_cap.type = TYPEC_PORT_SNK;
-+		break;
-+	case TPS_PD_STATUS_PORT_TYPE_SOURCE:
-+		typec_cap.type = TYPEC_PORT_SRC;
-+		break;
-+	default:
-+		return -ENODEV;
-+	}
++  "#size-cells":
++    const: 1
 +
-+	tps->port = typec_register_port(tps->dev, &typec_cap);
-+	if (IS_ERR(tps->port))
-+		return PTR_ERR(tps->port);
++  ranges: true
 +
-+	return 0;
-+}
++  "#access-controller-cells":
++    const: 1
 +
- static const struct tipd_data cd321x_data = {
- 	.irq_handler = cd321x_interrupt,
-+	.register_port = tps6598x_register_port,
- };
- 
- static const struct tipd_data tps6598x_data = {
- 	.irq_handler = tps6598x_interrupt,
-+	.register_port = tps6598x_register_port,
- };
- 
- static const struct tipd_data tps25750_data = {
- 	.irq_handler = tps25750_interrupt,
-+	.register_port = tps25750_register_port,
- };
- 
- static const struct of_device_id tps6598x_of_match[] = {
-@@ -1206,7 +1272,7 @@ static int tps6598x_probe(struct i2c_client *client)
- 	if (ret)
- 		goto err_role_put;
- 
--	ret = tps6598x_register_port(tps, fwnode);
-+	ret = tps->data->register_port(tps, fwnode);
- 	if (ret)
- 		goto err_role_put;
- 
-diff --git a/drivers/usb/typec/tipd/tps6598x.h b/drivers/usb/typec/tipd/tps6598x.h
-index c000170f4547..3a9a43394134 100644
---- a/drivers/usb/typec/tipd/tps6598x.h
-+++ b/drivers/usb/typec/tipd/tps6598x.h
-@@ -203,4 +203,14 @@
- #define TPS_BOOT_STATUS_DEAD_BATTERY_FLAG	BIT(2)
- #define TPS_BOOT_STATUS_I2C_EEPROM_PRESENT	BIT(3)
- 
-+/* PD STATUS REG */
-+#define TPS_REG_PD_STATUS_PORT_TYPE_MASK	GENMASK(5, 4)
-+#define TPS_PD_STATUS_PORT_TYPE(x) \
-+	TPS_FIELD_GET(TPS_REG_PD_STATUS_PORT_TYPE_MASK, x)
++  access-control-provider: true
 +
-+#define TPS_PD_STATUS_PORT_TYPE_SINK_SOURCE	0
-+#define TPS_PD_STATUS_PORT_TYPE_SINK		1
-+#define TPS_PD_STATUS_PORT_TYPE_SOURCE		2
-+#define TPS_PD_STATUS_PORT_TYPE_SOURCE_SINK	3
++patternProperties:
++  "^.*@[0-9a-f]+$":
++    description: Peripherals
++    type: object
++    properties:
++      access-controller:
++        minItems: 1
++        description:
++          The phandle of the firewall controller of the peripheral and the
++          platform-specific firewall ID of the peripheral.
 +
- #endif /* __TPS6598X_H__ */
++      access-controller-names:
++        minItems: 1
++
++    required:
++      - access-controller
++
++required:
++  - compatible
++  - reg
++  - "#address-cells"
++  - "#size-cells"
++  - access-control-provider
++  - "#access-controller-cells"
++  - ranges
++
++additionalProperties: false
++
++examples:
++  - |
++    // In this example, the usart2 device refers to rifsc as its access
++    // controller.
++    // Access rights are verified before creating devices.
++
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/stm32mp13-clks.h>
++    #include <dt-bindings/reset/stm32mp13-resets.h>
++
++    etzpc: bus@5c007000 {
++        compatible = "st,stm32-etzpc";
++        reg = <0x5c007000 0x400>;
++        #address-cells = <1>;
++        #size-cells = <1>;
++        access-control-provider;
++        #access-controller-cells = <1>;
++        ranges;
++
++        usart2: serial@4c001000 {
++            compatible = "st,stm32h7-uart";
++            reg = <0x4c001000 0x400>;
++            interrupts-extended = <&exti 27 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&rcc USART2_K>;
++            resets = <&rcc USART2_R>;
++            wakeup-source;
++            dmas = <&dmamux1 43 0x400 0x5>,
++                    <&dmamux1 44 0x400 0x1>;
++            dma-names = "rx", "tx";
++            access-controller = <&etzpc 17>;
++        };
++    };
 -- 
-2.34.1
+2.25.1
 
