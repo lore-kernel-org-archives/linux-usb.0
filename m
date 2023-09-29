@@ -1,64 +1,68 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9BD4516E8;
-	Fri, 29 Sep 2023 14:32:25 +0000 (UTC)
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E870610FB;
-	Fri, 29 Sep 2023 07:32:21 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-9ad8d47ef2fso1850782166b.1;
-        Fri, 29 Sep 2023 07:32:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695997940; x=1696602740; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a4cA+mZWyPkCkV/BDJlpA7F0WPLb7gs/FrHfljohURs=;
-        b=HY3sGX96P4QoQ4faJEt8f8sREXCBNcb6H5QDd4jkeCbRPGKC8e8gR+YKoszoSqkJdd
-         1NqhZsZk4rEGNQzhxPdRBmDTWZcgiRkXm2hPs8Bgkm+XY/VqB30yRzcMf1pqMy+qCGmK
-         eVbuAjtP1+PJdU3h6W/Io6UtSQqpWxQ4aaVxz1XJDNwyM69bKFOIl2hHbZ0OEJQtomYJ
-         zN7hTlV7zeyac3PbJ0YiSW7CmfTKDXMk1C5xY3fFrnJaK9Un4eImw3Vc5Zjihq1p0XAK
-         ksGwULld/DgwyXewtD5vdDpoUUJdx+c9NTr2ykn10ASZ7z/NjWnLSXgVipOShyvWUQ0p
-         7gWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695997940; x=1696602740;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a4cA+mZWyPkCkV/BDJlpA7F0WPLb7gs/FrHfljohURs=;
-        b=KBQ1nwwIY9Y9CmkPUbTM8uRJPYOjWrYKvhTZ1sMiejkJRd+RbJGNIyIaYOrFmH4w/k
-         TcB2jkghbQO034Dpyxpvv+Fy/rvTfJJHHKCvpNrNcA/lFUZ8liKZjAdfyI35ZgnDkCDC
-         aTjy1RENWhloh+VKK9hExznqjHSuMXElChHByQ1Xha5aGlE0BYgG6qSPDBCdlRbCBXDu
-         zHYpU5sQPtGCXGKFoohU0V9BL1cDiu4WdoATJZkEKR3VXZEO9SOgxg7rHmOhnJJzvmla
-         BytBQ6urxtxrNjZUlGnRBi0ZpkBIwpscWZDq+32RQF4hFuyPktbfr1qvnyTULgpVZM91
-         R3sw==
-X-Gm-Message-State: AOJu0Yx8B56DuEe4wSiPoXiLQjLRW+wwwL3qzznsZbS73IF9fzFr40Gi
-	roFqxwDpRkVYzriJQIiApEI6E6OIx0gg3CbkPuM=
-X-Google-Smtp-Source: AGHT+IEK2xcTO7nEqzY0Peys4rr2D4BDgq+55/sVDzcTi3VngfWXi99H59iSclgYNhg2BVtdzw+kVQ==
-X-Received: by 2002:a17:906:854b:b0:9ae:54c3:c627 with SMTP id h11-20020a170906854b00b009ae54c3c627mr3503943ejy.71.1695997940123;
-        Fri, 29 Sep 2023 07:32:20 -0700 (PDT)
-Received: from primary.. ([212.34.12.50])
-        by smtp.gmail.com with ESMTPSA id a7-20020a170906670700b0099293cdbc98sm12660105ejp.145.2023.09.29.07.32.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 07:32:19 -0700 (PDT)
-From: Abdel Alkuor <alkuor@gmail.com>
-To: heikki.krogerus@linux.intel.com,
-	krzysztof.kozlowski+dt@linaro.org,
-	bryan.odonoghue@linaro.org
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ryan.eleceng@gmail.com,
-	robh+dt@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	Abdel Alkuor <abdelalkuor@geotab.com>
-Subject: [PATCH v8 13/14] USB: typec: tps6598x: Add power status trace for tps25750
-Date: Fri, 29 Sep 2023 10:30:54 -0400
-Message-Id: <20230929143055.31360-14-alkuor@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230929143055.31360-1-alkuor@gmail.com>
-References: <20230929143055.31360-1-alkuor@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C84F513AD;
+	Fri, 29 Sep 2023 14:32:27 +0000 (UTC)
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53CEB1704;
+	Fri, 29 Sep 2023 07:32:22 -0700 (PDT)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38TE7Y4m010471;
+	Fri, 29 Sep 2023 16:31:51 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	selector1; bh=2pdfEk8dsiqvTVYK2M0a243VtRmV+dPmYv5RHhZh1RU=; b=7Q
+	sdCNa0HuwEQVqaFDeElyUFu1/qvHZlElXRFpvkogZOI1pPktXAcNKyXJpDA7UCDa
+	0NOyRSjRoBcHCSAAR6CJElD2uBy0+6WTdcDIdAgECJel2qxGdovLA6DgflitZjnq
+	rh0nxyRyoWtFx8zeCp+icHjTaDluAv6tkg2pbzqGhEwVOe8CTIajRU2jG2zegxQl
+	Iv3aM/x/JgM9ydj8rmmObCL1YtC0tfQbms4qxXljBFhXkZK6ktJM5P36JZEN6kMp
+	Kz3DPsJaw2fqi+nQSCEHpGj5mfbMBkAN/kNUFH9F7KEGFItQUOAHEZ46Btz4IKn3
+	JsXl49qgEka2dOyVMzYw==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3tdtx1hjg7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Sep 2023 16:31:51 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C4016100058;
+	Fri, 29 Sep 2023 16:31:50 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B8F732865F0;
+	Fri, 29 Sep 2023 16:31:50 +0200 (CEST)
+Received: from localhost (10.201.20.32) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 29 Sep
+ 2023 16:31:50 +0200
+From: Gatien Chevallier <gatien.chevallier@foss.st.com>
+To: <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
+        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <alexandre.torgue@foss.st.com>,
+        <vkoul@kernel.org>, <jic23@kernel.org>, <olivier.moysan@foss.st.com>,
+        <arnaud.pouliquen@foss.st.com>, <mchehab@kernel.org>,
+        <fabrice.gasnier@foss.st.com>, <andi.shyti@kernel.org>,
+        <ulf.hansson@linaro.org>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <hugues.fruchet@foss.st.com>, <lee@kernel.org>,
+        <will@kernel.org>, <catalin.marinas@arm.com>, <arnd@kernel.org>,
+        <richardcochran@gmail.com>, Frank Rowand <frowand.list@gmail.com>,
+        <peng.fan@oss.nxp.com>
+CC: <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <dmaengine@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-media@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>,
+        Gatien Chevallier
+	<gatien.chevallier@foss.st.com>
+Subject: [PATCH v5 07/11] bus: rifsc: introduce RIFSC firewall controller driver
+Date: Fri, 29 Sep 2023 16:28:48 +0200
+Message-ID: <20230929142852.578394-8-gatien.chevallier@foss.st.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230929142852.578394-1-gatien.chevallier@foss.st.com>
+References: <20230929142852.578394-1-gatien.chevallier@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -66,158 +70,325 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.201.20.32]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-29_13,2023-09-28_03,2023-05-22_02
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-From: Abdel Alkuor <abdelalkuor@geotab.com>
+RIFSC is a peripheral firewall controller that filter accesses based on
+Arm TrustZone secure state, Arm CPU privilege execution level and
+Compartment IDentification of the STM32 SoC subsystems.
 
-tps25750 power status register is a subset of tps6598x power status
-register.
-
-Signed-off-by: Abdel Alkuor <abdelalkuor@geotab.com>
+Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
 ---
-Changes in v8:
-  - Change tps->cb to tps->data
-Changes in v7:
-  - Add driver name to commit subject
-Changes in v6:
-  - Add trace power status to tipd data factory
-Changes in v5:
-  - Incorporating tps25750 into tps6598x driver
 
- drivers/usb/typec/tipd/core.c     |  8 +++++++-
- drivers/usb/typec/tipd/tps6598x.h | 19 ++++++++++++++++++
- drivers/usb/typec/tipd/trace.h    | 33 +++++++++++++++++++++++++++++++
- 3 files changed, 59 insertions(+), 1 deletion(-)
+Changes in V4:
+	- Fix incorrect use of __set_bit() in
+	- stm32_rif_acquire_semaphore()
 
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index 9df8da8f5d4b..c7bec4464b8e 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -109,6 +109,7 @@ struct tps6598x;
- struct tipd_data {
- 	irq_handler_t irq_handler;
- 	int (*register_port)(struct tps6598x *tps, struct fwnode_handle *node);
-+	void (*trace_power_status)(u16 status);
- };
+Changes in V2:
+	- Add controller name
+	- Driver is now a module_platform_driver
+	- Use error code returned by stm32_firewall_populate_bus()
+	- Fix license
+
+ MAINTAINERS               |   1 +
+ drivers/bus/Makefile      |   2 +-
+ drivers/bus/stm32_rifsc.c | 252 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 254 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/bus/stm32_rifsc.c
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c2c362929673..47e360fd715a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20303,6 +20303,7 @@ ST STM32 FIREWALL
+ M:	Gatien Chevallier <gatien.chevallier@foss.st.com>
+ S:	Maintained
+ F:	drivers/bus/stm32_firewall.c
++F:	drivers/bus/stm32_rifsc.c
  
- struct tps6598x {
-@@ -499,7 +500,9 @@ static bool tps6598x_read_power_status(struct tps6598x *tps)
- 		return false;
- 	}
- 	tps->pwr_status = pwr_status;
--	trace_tps6598x_power_status(pwr_status);
+ ST STM32 I2C/SMBUS DRIVER
+ M:	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>
+diff --git a/drivers/bus/Makefile b/drivers/bus/Makefile
+index fc0511450ec2..e50d18e1d141 100644
+--- a/drivers/bus/Makefile
++++ b/drivers/bus/Makefile
+@@ -26,7 +26,7 @@ obj-$(CONFIG_OMAP_INTERCONNECT)	+= omap_l3_smx.o omap_l3_noc.o
+ obj-$(CONFIG_OMAP_OCP2SCP)	+= omap-ocp2scp.o
+ obj-$(CONFIG_QCOM_EBI2)		+= qcom-ebi2.o
+ obj-$(CONFIG_QCOM_SSC_BLOCK_BUS)	+= qcom-ssc-block-bus.o
+-obj-$(CONFIG_STM32_FIREWALL)	+= stm32_firewall.o
++obj-$(CONFIG_STM32_FIREWALL)	+= stm32_firewall.o stm32_rifsc.o
+ obj-$(CONFIG_SUN50I_DE2_BUS)	+= sun50i-de2.o
+ obj-$(CONFIG_SUNXI_RSB)		+= sunxi-rsb.o
+ obj-$(CONFIG_OF)		+= simple-pm-bus.o
+diff --git a/drivers/bus/stm32_rifsc.c b/drivers/bus/stm32_rifsc.c
+new file mode 100644
+index 000000000000..4cf1b60014b7
+--- /dev/null
++++ b/drivers/bus/stm32_rifsc.c
+@@ -0,0 +1,252 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2023, STMicroelectronics - All Rights Reserved
++ */
 +
-+	if (tps->data->trace_power_status)
-+		tps->data->trace_power_status(pwr_status);
- 
- 	return true;
- }
-@@ -1170,16 +1173,19 @@ tps25750_register_port(struct tps6598x *tps, struct fwnode_handle *fwnode)
- static const struct tipd_data cd321x_data = {
- 	.irq_handler = cd321x_interrupt,
- 	.register_port = tps6598x_register_port,
-+	.trace_power_status = trace_tps6598x_power_status,
- };
- 
- static const struct tipd_data tps6598x_data = {
- 	.irq_handler = tps6598x_interrupt,
- 	.register_port = tps6598x_register_port,
-+	.trace_power_status = trace_tps6598x_power_status,
- };
- 
- static const struct tipd_data tps25750_data = {
- 	.irq_handler = tps25750_interrupt,
- 	.register_port = tps25750_register_port,
-+	.trace_power_status = trace_tps25750_power_status,
- };
- 
- static const struct of_device_id tps6598x_of_match[] = {
-diff --git a/drivers/usb/typec/tipd/tps6598x.h b/drivers/usb/typec/tipd/tps6598x.h
-index f86b5e96efba..01609bf509e4 100644
---- a/drivers/usb/typec/tipd/tps6598x.h
-+++ b/drivers/usb/typec/tipd/tps6598x.h
-@@ -161,6 +161,25 @@
- #define TPS_POWER_STATUS_BC12_STATUS_CDP 2
- #define TPS_POWER_STATUS_BC12_STATUS_DCP 3
- 
-+/* TPS25750_REG_POWER_STATUS bits */
-+#define TPS25750_POWER_STATUS_CHARGER_DETECT_STATUS_MASK	GENMASK(7, 4)
-+#define TPS25750_POWER_STATUS_CHARGER_DETECT_STATUS(p) \
-+	TPS_FIELD_GET(TPS25750_POWER_STATUS_CHARGER_DETECT_STATUS_MASK, (p))
-+#define TPS25750_POWER_STATUS_CHARGER_ADVERTISE_STATUS_MASK	GENMASK(9, 8)
-+#define TPS25750_POWER_STATUS_CHARGER_ADVERTISE_STATUS(p) \
-+	TPS_FIELD_GET(TPS25750_POWER_STATUS_CHARGER_ADVERTISE_STATUS_MASK, (p))
++#include <linux/bitfield.h>
++#include <linux/bits.h>
++#include <linux/device.h>
++#include <linux/err.h>
++#include <linux/init.h>
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_platform.h>
++#include <linux/platform_device.h>
++#include <linux/types.h>
 +
-+#define TPS25750_POWER_STATUS_CHARGER_DET_STATUS_DISABLED	0
-+#define TPS25750_POWER_STATUS_CHARGER_DET_STATUS_IN_PROGRESS	1
-+#define TPS25750_POWER_STATUS_CHARGER_DET_STATUS_NONE		2
-+#define TPS25750_POWER_STATUS_CHARGER_DET_STATUS_SPD		3
-+#define TPS25750_POWER_STATUS_CHARGER_DET_STATUS_BC_1_2_CPD	4
-+#define TPS25750_POWER_STATUS_CHARGER_DET_STATUS_BC_1_2_DPD	5
-+#define TPS25750_POWER_STATUS_CHARGER_DET_STATUS_DIV_1_DCP	6
-+#define TPS25750_POWER_STATUS_CHARGER_DET_STATUS_DIV_2_DCP	7
-+#define TPS25750_POWER_STATUS_CHARGER_DET_STATUS_DIV_3_DCP	8
-+#define TPS25750_POWER_STATUS_CHARGER_DET_STATUS_1_2V_DCP	9
++#include "stm32_firewall.h"
 +
- /* TPS_REG_DATA_STATUS bits */
- #define TPS_DATA_STATUS_DATA_CONNECTION	     BIT(0)
- #define TPS_DATA_STATUS_UPSIDE_DOWN	     BIT(1)
-diff --git a/drivers/usb/typec/tipd/trace.h b/drivers/usb/typec/tipd/trace.h
-index 28725234a2d8..739b0a2a867d 100644
---- a/drivers/usb/typec/tipd/trace.h
-+++ b/drivers/usb/typec/tipd/trace.h
-@@ -166,6 +166,19 @@
- 		{ TPS_POWER_STATUS_BC12_STATUS_CDP, "cdp" }, \
- 		{ TPS_POWER_STATUS_BC12_STATUS_SDP, "sdp" })
- 
-+#define show_tps25750_power_status_charger_detect_status(power_status) \
-+	__print_symbolic(TPS25750_POWER_STATUS_CHARGER_DETECT_STATUS(power_status), \
-+		{ TPS25750_POWER_STATUS_CHARGER_DET_STATUS_DISABLED,	"disabled"}, \
-+		{ TPS25750_POWER_STATUS_CHARGER_DET_STATUS_IN_PROGRESS,	"in progress"}, \
-+		{ TPS25750_POWER_STATUS_CHARGER_DET_STATUS_NONE,	"none"}, \
-+		{ TPS25750_POWER_STATUS_CHARGER_DET_STATUS_SPD,		"spd"}, \
-+		{ TPS25750_POWER_STATUS_CHARGER_DET_STATUS_BC_1_2_CPD,	"cpd"}, \
-+		{ TPS25750_POWER_STATUS_CHARGER_DET_STATUS_BC_1_2_DPD,	"dpd"}, \
-+		{ TPS25750_POWER_STATUS_CHARGER_DET_STATUS_DIV_1_DCP,	"divider 1 dcp"}, \
-+		{ TPS25750_POWER_STATUS_CHARGER_DET_STATUS_DIV_2_DCP,	"divider 2 dcp"}, \
-+		{ TPS25750_POWER_STATUS_CHARGER_DET_STATUS_DIV_3_DCP,	"divider 3 dpc"}, \
-+		{ TPS25750_POWER_STATUS_CHARGER_DET_STATUS_1_2V_DCP,	"1.2V dpc"})
++/*
++ * RIFSC offset register
++ */
++#define RIFSC_RISC_SECCFGR0		0x10
++#define RIFSC_RISC_PRIVCFGR0		0x30
++#define RIFSC_RISC_PER0_CIDCFGR		0x100
++#define RIFSC_RISC_PER0_SEMCR		0x104
++#define RIFSC_RISC_HWCFGR2		0xFEC
 +
- #define TPS_DATA_STATUS_FLAGS_MASK (GENMASK(31, 0) ^ (TPS_DATA_STATUS_DP_PIN_ASSIGNMENT_MASK | \
- 						      TPS_DATA_STATUS_TBT_CABLE_SPEED_MASK | \
- 						      TPS_DATA_STATUS_TBT_CABLE_GEN_MASK))
-@@ -299,6 +312,26 @@ TRACE_EVENT(tps6598x_power_status,
- 		    )
- );
- 
-+TRACE_EVENT(tps25750_power_status,
-+	    TP_PROTO(u16 power_status),
-+	    TP_ARGS(power_status),
++/*
++ * SEMCR register
++ */
++#define SEMCR_MUTEX			BIT(0)
 +
-+	    TP_STRUCT__entry(
-+			     __field(u16, power_status)
-+			     ),
++/*
++ * HWCFGR2 register
++ */
++#define HWCFGR2_CONF1_MASK		GENMASK(15, 0)
++#define HWCFGR2_CONF2_MASK		GENMASK(23, 16)
++#define HWCFGR2_CONF3_MASK		GENMASK(31, 24)
 +
-+	    TP_fast_assign(
-+			   __entry->power_status = power_status;
-+			   ),
++/*
++ * RIFSC miscellaneous
++ */
++#define RIFSC_RISC_CFEN_MASK		BIT(0)
++#define RIFSC_RISC_SEM_EN_MASK		BIT(1)
++#define RIFSC_RISC_SCID_MASK		GENMASK(6, 4)
++#define RIFSC_RISC_SEML_SHIFT		16
++#define RIFSC_RISC_SEMWL_MASK		GENMASK(23, 16)
++#define RIFSC_RISC_PER_ID_MASK		GENMASK(31, 24)
 +
-+	    TP_printk("conn: %d, pwr-role: %s, typec: %s, charger detect: %s",
-+		      !!TPS_POWER_STATUS_CONNECTION(__entry->power_status),
-+		      show_power_status_source_sink(__entry->power_status),
-+		      show_power_status_typec_status(__entry->power_status),
-+		      show_tps25750_power_status_charger_detect_status(__entry->power_status)
-+		    )
-+);
++#define RIFSC_RISC_PERx_CID_MASK	(RIFSC_RISC_CFEN_MASK | \
++					 RIFSC_RISC_SEM_EN_MASK | \
++					 RIFSC_RISC_SCID_MASK | \
++					 RIFSC_RISC_SEMWL_MASK)
 +
- TRACE_EVENT(tps6598x_data_status,
- 	    TP_PROTO(u32 data_status),
- 	    TP_ARGS(data_status),
++#define IDS_PER_RISC_SEC_PRIV_REGS	32
++
++/* RIF miscellaneous */
++/*
++ * CIDCFGR register fields
++ */
++#define CIDCFGR_CFEN			BIT(0)
++#define CIDCFGR_SEMEN			BIT(1)
++#define CIDCFGR_SEMWL(x)		BIT(RIFSC_RISC_SEML_SHIFT + (x))
++
++#define SEMWL_SHIFT			16
++
++/* Compartiment IDs */
++#define RIF_CID0			0x0
++#define RIF_CID1			0x1
++
++static bool stm32_rifsc_is_semaphore_available(void __iomem *addr)
++{
++	return !(readl(addr) & SEMCR_MUTEX);
++}
++
++static int stm32_rif_acquire_semaphore(struct stm32_firewall_controller *stm32_firewall_controller,
++				       int id)
++{
++	void __iomem *addr = stm32_firewall_controller->mmio + RIFSC_RISC_PER0_SEMCR + 0x8 * id;
++
++	writel(SEMCR_MUTEX, addr);
++
++	/* Check that CID1 has the semaphore */
++	if (stm32_rifsc_is_semaphore_available(addr) ||
++	    FIELD_GET(RIFSC_RISC_SCID_MASK, readl(addr)) != RIF_CID1)
++		return -EACCES;
++
++	return 0;
++}
++
++static void stm32_rif_release_semaphore(struct stm32_firewall_controller *stm32_firewall_controller,
++					int id)
++{
++	void __iomem *addr = stm32_firewall_controller->mmio + RIFSC_RISC_PER0_SEMCR + 0x8 * id;
++
++	if (stm32_rifsc_is_semaphore_available(addr))
++		return;
++
++	writel(SEMCR_MUTEX, addr);
++
++	/* Ok if another compartment takes the semaphore before the check */
++	WARN_ON(!stm32_rifsc_is_semaphore_available(addr) &&
++		FIELD_GET(RIFSC_RISC_SCID_MASK, readl(addr)) == RIF_CID1);
++}
++
++static int stm32_rifsc_grant_access(struct stm32_firewall_controller *ctrl, u32 firewall_id)
++{
++	struct stm32_firewall_controller *rifsc_controller = ctrl;
++	u32 reg_offset, reg_id, sec_reg_value, cid_reg_value;
++	int rc;
++
++	if (firewall_id >= rifsc_controller->max_entries) {
++		dev_err(rifsc_controller->dev, "Invalid sys bus ID %u", firewall_id);
++		return -EINVAL;
++	}
++
++	/*
++	 * RIFSC_RISC_PRIVCFGRx and RIFSC_RISC_SECCFGRx both handle configuration access for
++	 * 32 peripherals. On the other hand, there is one _RIFSC_RISC_PERx_CIDCFGR register
++	 * per peripheral
++	 */
++	reg_id = firewall_id / IDS_PER_RISC_SEC_PRIV_REGS;
++	reg_offset = firewall_id % IDS_PER_RISC_SEC_PRIV_REGS;
++	sec_reg_value = readl(rifsc_controller->mmio + RIFSC_RISC_SECCFGR0 + 0x4 * reg_id);
++	cid_reg_value = readl(rifsc_controller->mmio + RIFSC_RISC_PER0_CIDCFGR + 0x8 * firewall_id);
++
++	/* First check conditions for semaphore mode, which doesn't take into account static CID. */
++	if ((cid_reg_value & CIDCFGR_SEMEN) && (cid_reg_value & CIDCFGR_CFEN)) {
++		if (cid_reg_value & BIT(RIF_CID1 + SEMWL_SHIFT)) {
++			/* Static CID is irrelevant if semaphore mode */
++			goto skip_cid_check;
++		} else {
++			dev_dbg(rifsc_controller->dev,
++				"Invalid bus semaphore configuration: index %d\n", firewall_id);
++			return -EACCES;
++		}
++	}
++
++	/*
++	 * Skip CID check if CID filtering isn't enabled or filtering is enabled on CID0, which
++	 * corresponds to whatever CID.
++	 */
++	if (!(cid_reg_value & CIDCFGR_CFEN) ||
++	    FIELD_GET(RIFSC_RISC_SCID_MASK, cid_reg_value) == RIF_CID0)
++		goto skip_cid_check;
++
++	/* Coherency check with the CID configuration */
++	if (FIELD_GET(RIFSC_RISC_SCID_MASK, cid_reg_value) != RIF_CID1) {
++		dev_dbg(rifsc_controller->dev, "Invalid CID configuration for peripheral: %d\n",
++			firewall_id);
++		return -EACCES;
++	}
++
++skip_cid_check:
++	/* Check security configuration */
++	if (sec_reg_value & BIT(reg_offset)) {
++		dev_dbg(rifsc_controller->dev,
++			"Invalid security configuration for peripheral: %d\n", firewall_id);
++		return -EACCES;
++	}
++
++	/*
++	 * If the peripheral is in semaphore mode, take the semaphore so that
++	 * the CID1 has the ownership.
++	 */
++	if ((cid_reg_value & CIDCFGR_SEMEN) && (cid_reg_value & CIDCFGR_CFEN)) {
++		rc = stm32_rif_acquire_semaphore(rifsc_controller, firewall_id);
++		if (rc) {
++			dev_err(rifsc_controller->dev,
++				"Couldn't acquire semaphore for peripheral: %d\n", firewall_id);
++			return rc;
++		}
++	}
++
++	return 0;
++}
++
++static void stm32_rifsc_release_access(struct stm32_firewall_controller *ctrl, u32 firewall_id)
++{
++	stm32_rif_release_semaphore(ctrl, firewall_id);
++}
++
++static int stm32_rifsc_probe(struct platform_device *pdev)
++{
++	struct stm32_firewall_controller *rifsc_controller;
++	struct device_node *np = pdev->dev.of_node;
++	u32 nb_risup, nb_rimu, nb_risal;
++	struct resource *res;
++	void __iomem *mmio;
++	int rc;
++
++	rifsc_controller = devm_kzalloc(&pdev->dev, sizeof(*rifsc_controller), GFP_KERNEL);
++	if (!rifsc_controller)
++		return -ENOMEM;
++
++	mmio = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
++	if (IS_ERR(mmio))
++		return PTR_ERR(mmio);
++
++	rifsc_controller->dev = &pdev->dev;
++	rifsc_controller->mmio = mmio;
++	rifsc_controller->name = dev_driver_string(rifsc_controller->dev);
++	rifsc_controller->type = STM32_PERIPHERAL_FIREWALL | STM32_MEMORY_FIREWALL;
++	rifsc_controller->grant_access = stm32_rifsc_grant_access;
++	rifsc_controller->release_access = stm32_rifsc_release_access;
++
++	/* Get number of RIFSC entries*/
++	nb_risup = readl(rifsc_controller->mmio + RIFSC_RISC_HWCFGR2) & HWCFGR2_CONF1_MASK;
++	nb_rimu = readl(rifsc_controller->mmio + RIFSC_RISC_HWCFGR2) & HWCFGR2_CONF2_MASK;
++	nb_risal = readl(rifsc_controller->mmio + RIFSC_RISC_HWCFGR2) & HWCFGR2_CONF3_MASK;
++	rifsc_controller->max_entries = nb_risup + nb_rimu + nb_risal;
++
++	platform_set_drvdata(pdev, rifsc_controller);
++
++	rc = stm32_firewall_controller_register(rifsc_controller);
++	if (rc) {
++		dev_err(rifsc_controller->dev, "Couldn't register as a firewall controller: %d",
++			rc);
++		return rc;
++	}
++
++	rc = stm32_firewall_populate_bus(rifsc_controller);
++	if (rc) {
++		dev_err(rifsc_controller->dev, "Couldn't populate RIFSC bus: %d",
++			rc);
++		return rc;
++	}
++
++	/* Populate all allowed nodes */
++	return of_platform_populate(np, NULL, NULL, &pdev->dev);
++}
++
++static const struct of_device_id stm32_rifsc_of_match[] = {
++	{ .compatible = "st,stm32mp25-rifsc" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, stm32_rifsc_of_match);
++
++static struct platform_driver stm32_rifsc_driver = {
++	.probe  = stm32_rifsc_probe,
++	.driver = {
++		.name = "stm32-rifsc",
++		.of_match_table = stm32_rifsc_of_match,
++	},
++};
++module_platform_driver(stm32_rifsc_driver);
++
++MODULE_AUTHOR("Gatien Chevallier <gatien.chevallier@foss.st.com>");
++MODULE_DESCRIPTION("STMicroelectronics RIFSC driver");
++MODULE_LICENSE("GPL");
 -- 
-2.34.1
+2.25.1
 
