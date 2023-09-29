@@ -1,48 +1,48 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E25D1864F
-	for <linux-usb@vger.kernel.org>; Fri, 29 Sep 2023 12:56:33 +0000 (UTC)
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B289C1AB
-	for <linux-usb@vger.kernel.org>; Fri, 29 Sep 2023 05:56:30 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-9b281a2aa94so1279382966b.2
-        for <linux-usb@vger.kernel.org>; Fri, 29 Sep 2023 05:56:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CAC11737
+	for <linux-usb@vger.kernel.org>; Fri, 29 Sep 2023 13:14:42 +0000 (UTC)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 481CEE7
+	for <linux-usb@vger.kernel.org>; Fri, 29 Sep 2023 06:14:41 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9b0168a9e05so1595998366b.3
+        for <linux-usb@vger.kernel.org>; Fri, 29 Sep 2023 06:14:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695992189; x=1696596989; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1695993280; x=1696598080; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=o0O2iHOSU6V8QBcjMfQhVcZbNkje+8n8sZpqQP6ki2o=;
-        b=vof3UYNoL8/fwTNAHMD97O5BuhU1oULce64wvDw2C28TX8zUPwJ1bsvvF4aum/z4kI
-         i9dFQcYjEKHz0nrUKToYaSl/d7U5Sz44k/Z91Pq+urumzedCCikXbJD8AloKaLlzy/aH
-         +JdYKpFExX8GtM+T0IqNjd2egKgv8wUL2d0ZgLGlw79tpj0/vZUO5xpKkOG9P9Ry8G+r
-         25V2vsngWatCalmttBFp+YZLPUzPSSxeeMfiATwmVHz28CdnWPLGablpFQIQSiS+kbHr
-         hYA5FV7//GGoQ2sdC6mAH7zGo7aWS/ECoc4ylTeJES4RChG1G8CrjvOrlDtdkIiARLP0
-         benA==
+        bh=6hm8M8P0E044zsXKxzjnzQHb9jlx7F15tmg44YiTQE4=;
+        b=pzSe6wpNj8bF6T/3dC0WgKQDaRToW9rYy2i89VzKeaCdK9L3CpqHH0woMA6u3dQ6AR
+         SVNT/OPpyJVYC/OUAtNY36RFi45xdnd606AJMc2DSSZmK5v8jo5icWcEuXO+s5Lhauy4
+         7Q45VTtrVhAQAYaLOd1SeJjuxGD/zlLTkL9R7RahEDHXDBZyxbjy5cQXalfe7i+2i+CY
+         PJ5N2TyFrYy/CGXVJDJ68BoWT5H3nBb7yIItbGAbWslfhczlmH7d8II5tzkeCJKA4GYh
+         tHl8UatRJcJrB0BodA77NIRIVnWxwWCHHNBv1Qi291fNI8plSUiUxhyayH3r5O17/ysY
+         Hgrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695992189; x=1696596989;
+        d=1e100.net; s=20230601; t=1695993280; x=1696598080;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o0O2iHOSU6V8QBcjMfQhVcZbNkje+8n8sZpqQP6ki2o=;
-        b=AFv8r/nvzcK2yH46oCQTzi0dmVmExNuP2fk/BUH0YSayCxszdXcgPO79dYYu9j/j45
-         ZvUA2bjV3iVJMTNwne0y0iIL4WuRTEuM57V47qCO4oPdZ1mqfm5NTM8vkxhfYhbXzved
-         X+yxvpkhn57jLSBW048WUz5Gl2vmcsoDEJbOsFDiJyYv05mUlcMYn7dxPIAeq/mOsz63
-         EZvZy/3t5THxOqvP0DMpXwKBKsQM7Q44hHO3Q6dwbYUA2m+EO//ibKNqjamNmUZkUZzL
-         Oj3vuddYhPM3XngCIycLetxSoZXOhkeWcY8PXXm3/KASXFBmnqL+UzPdnyM5XeJKTMli
-         auKQ==
-X-Gm-Message-State: AOJu0YxmoqwLEaAJCVYqbuV2L+nrb+l6wGDu2oSdFQii1FOl193xX2eG
-	g8hEddsYZn5UIWDy3wqIL2IuMQ==
-X-Google-Smtp-Source: AGHT+IHJ+1khKqYJgtx/TnRmZpfflJN1BDfF2euEg3cfsBufY9K4aOGjhkXxyT6TleFCuZml4id7GQ==
-X-Received: by 2002:a17:906:783:b0:9ae:5fe1:ef00 with SMTP id l3-20020a170906078300b009ae5fe1ef00mr3371589ejc.45.1695992189069;
-        Fri, 29 Sep 2023 05:56:29 -0700 (PDT)
+        bh=6hm8M8P0E044zsXKxzjnzQHb9jlx7F15tmg44YiTQE4=;
+        b=Wow4/8u1n4r/JpRhszhTkML2aQyAA6WxFXcGxT3rDIwjtlRWiCetld4GGw/XZdhsC1
+         ngomdKtBcLzeSeV/aAxdyP6oNFug6WVZv1YUYoJipci7vdC8jz1wu25XILWrYQDQYjw9
+         8km5+wZz9Q5OjyKQQrGIRyM06Ch6TTcXKB++TzU8kWkDLlOLZ8Yh3Uo8xhyoKJd/qaVn
+         EJvrbYsKYnw8dgp2EYSuDKcBgiIZNXqlshzXAg2RQCTujOmC2eg1RtlOCgNTHWPmGEXo
+         u+cepyZM0typWd6GpNsO3aOLr0DMX1qLZyv+hg8OvZzRwqt3nzOdv4BuURGsDanWVs4W
+         90XA==
+X-Gm-Message-State: AOJu0YxWQqKj6rVj39o9FpGbcEa1hmHJWAMXxfdpYe6czboPxcXkaG4P
+	oW/UVAm2WICCPLp9hffh7uQMHw==
+X-Google-Smtp-Source: AGHT+IFaIr967H1qvXJ1+Ob/sEixHAE4zeLZGWkN/0aZsxP/QyOHMrbD2cXfX4HadkUjPIshupFt/w==
+X-Received: by 2002:a17:906:101a:b0:9b2:babb:5fe9 with SMTP id 26-20020a170906101a00b009b2babb5fe9mr3831539ejm.23.1695993279692;
+        Fri, 29 Sep 2023 06:14:39 -0700 (PDT)
 Received: from [192.168.33.189] (178235177217.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.217])
-        by smtp.gmail.com with ESMTPSA id k15-20020a1709062a4f00b009ad8084e08asm12328286eje.0.2023.09.29.05.56.26
+        by smtp.gmail.com with ESMTPSA id k22-20020a170906129600b009aa292a2df2sm12352258ejb.217.2023.09.29.06.14.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Sep 2023 05:56:28 -0700 (PDT)
-Message-ID: <9e5ad332-2c04-4024-8321-3a9c66586b64@linaro.org>
-Date: Fri, 29 Sep 2023 14:56:25 +0200
+        Fri, 29 Sep 2023 06:14:39 -0700 (PDT)
+Message-ID: <618992fe-4c76-42ef-af47-ee66f74c5bb6@linaro.org>
+Date: Fri, 29 Sep 2023 15:14:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/8] arm64: dts: qcom: ipq5332: Add USB Super-Speed PHY
- node
+Subject: Re: [PATCH 6/8] arm64: dts: qcom: ipq5332: Add Super-Speed UNIPHY in
+ USB node
 Content-Language: en-US
 To: Praveenkumar I <quic_ipkumar@quicinc.com>, agross@kernel.org,
  andersson@kernel.org, vkoul@kernel.org, kishon@kernel.org,
@@ -66,7 +66,7 @@ To: Praveenkumar I <quic_ipkumar@quicinc.com>, agross@kernel.org,
 Cc: quic_kathirav@quicinc.com, quic_nsekar@quicinc.com,
  quic_srichara@quicinc.com
 References: <20230929084209.3033093-1-quic_ipkumar@quicinc.com>
- <20230929084209.3033093-4-quic_ipkumar@quicinc.com>
+ <20230929084209.3033093-7-quic_ipkumar@quicinc.com>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -103,47 +103,23 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20230929084209.3033093-4-quic_ipkumar@quicinc.com>
+In-Reply-To: <20230929084209.3033093-7-quic_ipkumar@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.6
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
 On 29.09.2023 10:42, Praveenkumar I wrote:
-> Add USB Super-Speed UNIPHY node and populate the phandle on
-> gcc node for the parent clock map.
+> Add UNIPHY node in USB to support Super-speed. As the SS PHY has
+> pipe clock, removed "qcom,select-utmi-as-pipe-clk" flag.
 > 
 > Signed-off-by: Praveenkumar I <quic_ipkumar@quicinc.com>
 > ---
->  arch/arm64/boot/dts/qcom/ipq5332.dtsi | 25 ++++++++++++++++++++++++-
->  1 file changed, 24 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/ipq5332.dtsi b/arch/arm64/boot/dts/qcom/ipq5332.dtsi
-> index d3fef2f80a81..b08ffd8c094e 100644
-> --- a/arch/arm64/boot/dts/qcom/ipq5332.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/ipq5332.dtsi
-> @@ -158,6 +158,29 @@ usbphy0: phy@7b000 {
->  			status = "disabled";
->  		};
->  
-> +		usbphy1: phy@4b0000 {
-> +			compatible = "qcom,ipq5332-usb-uniphy";
-> +			reg = <0x4b0000 0x800>;
-Please pad the address part to 8 hex digits with leading zeroes.
-
-> +
-> +			clocks = <&gcc GCC_PCIE3X1_PHY_AHB_CLK>,
-> +				 <&gcc GCC_USB0_PHY_CFG_AHB_CLK>,
-> +				 <&gcc GCC_USB0_PIPE_CLK>;
-> +			clock-names = "ahb",
-> +				      "cfg_ahb",
-> +				      "pipe";
-> +
-> +			resets =  <&gcc GCC_USB0_PHY_BCR>;
-Looks like there's a double space after '='
+Patches 6 and 7 should be swapped, otherwise you may get no
+USB with this commit. Incremental patches must not break
+functionality, unless it is truly inevitable.
 
 Konrad
