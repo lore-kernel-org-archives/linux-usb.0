@@ -1,312 +1,99 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA963513CC;
-	Fri, 29 Sep 2023 15:05:20 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C90371B8;
-	Fri, 29 Sep 2023 08:05:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695999918; x=1727535918;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DelZcJpWUMjBxW0kniBQFBqsUl9nBj42W0wbOGMzgEg=;
-  b=Uat0SRcrzM+CQAGjhVRNGlowINnh88LxEJsTEcMG8o8kj7Za4AISe5Qp
-   gdymAJwBgrQa08ThaE4jjLACURb0BkpDLlBy/zwtYVXSuTni5DhdzZc84
-   D7IM+PBOzEzTOZHewRuBS20VL6wuMirap8MWxSUYQYxA49PcJMsb5vbta
-   6Z3B+q3wbzXcow/l6BXVD2eMmzr2oqH5MpAyjFL/J/khVZM2e3vJ1rstG
-   zimJDm7ZTt/3sr3JQBfkmnYLlMSKs/jglUV5gEf/CxCyXL/bgbFiN2vP0
-   SfRBYEMYFnbTxfgkDq/zyADDU6w/Xd6tTqnEIDji7TWxBOcBAkV30QKWX
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="361693914"
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="361693914"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 08:05:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="865737509"
-X-IronPort-AV: E=Sophos;i="6.03,187,1694761200"; 
-   d="scan'208";a="865737509"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga002.fm.intel.com with SMTP; 29 Sep 2023 08:05:14 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 29 Sep 2023 18:05:13 +0300
-Date: Fri, 29 Sep 2023 18:05:13 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Abdel Alkuor <alkuor@gmail.com>
-Cc: krzysztof.kozlowski+dt@linaro.org, bryan.odonoghue@linaro.org,
-	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ryan.eleceng@gmail.com,
-	robh+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
-	Abdel Alkuor <abdelalkuor@geotab.com>
-Subject: Re: [PATCH v8 08/14] USB: typec: tps6598x: Add interrupt support for
- TPS25750
-Message-ID: <ZRbnqUpsoK3v1BRH@kuha.fi.intel.com>
-References: <20230929143055.31360-1-alkuor@gmail.com>
- <20230929143055.31360-9-alkuor@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4748E18631;
+	Fri, 29 Sep 2023 15:35:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4186C433C7;
+	Fri, 29 Sep 2023 15:35:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696001729;
+	bh=n8c5VPqof5cSz/xeEzUcmLspOpPdFu7ZTPAoFiNDi+g=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=dLE9nEAz7xekqFIavm5dEJULK3Af4aiyLsSYoYDepzYMqvw4BVd56r19mCA7b5ove
+	 YEWaLF6IxaIZpcLVg07pFTX5C8bu2DWEUlQy2TM3PZMnRVQ1eHzv7tZChTjYGAUpYK
+	 5rjIOl+kGt9fV0ruN3IkDiHN78H0wW6m4rxcLIxHP5bueH1MbBWdJXCW8KclvSlw/E
+	 NyyDtTE8ZoMz1nJRKZNonHppUVkdK7mv+8Px297LBx1RECgAPUEcg8MHOP+sQ7uVJd
+	 hyYm5Soq2Y0bJvcEGJBidVI1rjZAkeY+3gKimZgrdAkVdAKaNqrCsbYjhbO2zPKadh
+	 ox3UJzGXhqyQQ==
+Received: (nullmailer pid 3601354 invoked by uid 1000);
+	Fri, 29 Sep 2023 15:35:24 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230929143055.31360-9-alkuor@gmail.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
+From: Rob Herring <robh@kernel.org>
+To: Gatien Chevallier <gatien.chevallier@foss.st.com>
+Cc: arnd@kernel.org, linux-phy@lists.infradead.org, linux-mmc@vger.kernel.org, dmaengine@vger.kernel.org, robh+dt@kernel.org, jic23@kernel.org, davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org, olivier.moysan@foss.st.com, linux-media@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org, Oleksii Moisieiev <oleksii_moisieiev@epam.com>, edumazet@google.com, linux-stm32@st-md-mailman.stormreply.com, ulf.hansson@linaro.org, richardcochran@gmail.com, will@kernel.org, linux-crypto@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, arnaud.pouliquen@foss.st.com, linux-serial@vger.kernel.org, alexandre.torgue@foss.st.com, Frank Rowand <frowand.list@gmail.com>, andi.shyti@kernel.org, linux-usb@vger.kernel.org, peng.fan@oss.nxp.com, lee@kernel.org, fabrice.gasnier@foss.st.com, conor+dt@kernel.org, Oleksii_Moisieiev@epam.com, herbert@gondor.apana.org.au, linux-arm-kernel@lists.infradead.org, catalin.marinas@arm.com, al
+ sa-devel@alsa-project.org, hugues.fruchet@foss.st.com, devicetree@vger.kernel.org, linux-iio@vger.kernel.org, mchehab@kernel.org, vkoul@kernel.org, gregkh@linuxfoundation.org
+In-Reply-To: <20230929142852.578394-2-gatien.chevallier@foss.st.com>
+References: <20230929142852.578394-1-gatien.chevallier@foss.st.com>
+ <20230929142852.578394-2-gatien.chevallier@foss.st.com>
+Message-Id: <169600172184.3601218.2121908606358610119.robh@kernel.org>
+Subject: Re: [PATCH v5 01/11] dt-bindings: document generic access
+ controller
+Date: Fri, 29 Sep 2023 10:35:24 -0500
 
-On Fri, Sep 29, 2023 at 10:30:49AM -0400, Abdel Alkuor wrote:
-> From: Abdel Alkuor <abdelalkuor@geotab.com>
+
+On Fri, 29 Sep 2023 16:28:42 +0200, Gatien Chevallier wrote:
+> From: Oleksii Moisieiev <Oleksii_Moisieiev@epam.com>
 > 
-> tps25750 event registers structure is different than tps6598x's,
-> tps25750 has 11 bytes of events which are read at once where
-> tps6598x has two event registers of 8 bytes each which are read
-> separately. Likewise MASK event registers. Also, not all events
-> are supported in both devices.
+> Introducing of the generic access controller bindings for the
+> access controller provider and consumer devices. Those bindings are
+> intended to allow a better handling of accesses to resources in a
+> hardware architecture supporting several compartments.
 > 
-> - Create a new handler to accommodate tps25750 interrupt
-> - Add device data to of_device_id
+> This patch is based on [1]. It is integrated in this patchset as it
+> provides a use-case for it.
 > 
-> Signed-off-by: Abdel Alkuor <abdelalkuor@geotab.com>
+> Diffs with [1]:
+> 	- Rename feature-domain* properties to access-control* to narrow
+> 	  down the scope of the binding
+> 	- YAML errors and typos corrected.
+> 	- Example updated
+> 	- Some rephrasing in the binding description
+> 
+> [1]: https://lore.kernel.org/lkml/0c0a82bb-18ae-d057-562b
+> 
+> Signed-off-by: Oleksii Moisieiev <oleksii_moisieiev@epam.com>
+> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
+> 
 > ---
-> Changes in v8:
->   - Populate of_device_id with device data
->   - Change tps->cb to tps->data
->   - Assign matched data to tps data
-> Changes in v7:
->   - Add driver name to commit subject
->   - Create tps25750 interrupt handler
-> Changes in v6:
->   - Create tipd callbacks factory 
-> Changes in v5:
->   - Incorporating tps25750 into tps6598x driver
+> Changes in V5:
+> 	- Diffs with [1]
+> 	- Discarded the [IGNORE] tag as the patch is now part of the
+> 	  patchset
 > 
->  drivers/usb/typec/tipd/core.c | 109 +++++++++++++++++++++++++++++-----
->  1 file changed, 95 insertions(+), 14 deletions(-)
+>  .../access-controllers/access-controller.yaml | 90 +++++++++++++++++++
+>  1 file changed, 90 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/access-controllers/access-controller.yaml
 > 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index 32e42798688f..9dc4c3ae5c60 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -18,6 +18,7 @@
->  #include <linux/usb/role.h>
->  #include <linux/workqueue.h>
->  #include <linux/firmware.h>
-> +#include <linux/of_device.h>
->  
->  #include "tps6598x.h"
->  #include "trace.h"
-> @@ -101,6 +102,10 @@ static const char *const modes[] = {
->  /* Unrecognized commands will be replaced with "!CMD" */
->  #define INVALID_CMD(_cmd_)		(_cmd_ == 0x444d4321)
->  
-> +struct tipd_data {
-> +	irq_handler_t irq_handler;
-> +};
-> +
->  struct tps6598x {
->  	struct device *dev;
->  	struct regmap *regmap;
-> @@ -118,9 +123,11 @@ struct tps6598x {
->  	enum power_supply_usb_type usb_type;
->  
->  	int wakeup;
-> +	u32 status; /* status reg */
->  	u16 pwr_status;
->  	struct delayed_work	wq_poll;
-> -	irq_handler_t irq_handler;
-> +
-> +	const struct tipd_data *data;
->  };
->  
->  static enum power_supply_property tps6598x_psy_props[] = {
-> @@ -545,6 +552,64 @@ static irqreturn_t cd321x_interrupt(int irq, void *data)
->  	return IRQ_NONE;
->  }
->  
-> +static bool tps6598x_has_role_changed(struct tps6598x *tps, u32 status)
-> +{
-> +	status ^= tps->status;
-> +
-> +	return status & (TPS_STATUS_PORTROLE | TPS_STATUS_DATAROLE);
-> +}
-> +
-> +static irqreturn_t tps25750_interrupt(int irq, void *data)
-> +{
-> +	struct tps6598x *tps = data;
-> +	u64 event[2] = { };
-> +	u32 status;
-> +	int ret;
-> +
-> +	mutex_lock(&tps->lock);
-> +
-> +	ret = tps6598x_block_read(tps, TPS_REG_INT_EVENT1, event, 11);
-> +	if (ret) {
-> +		dev_err(tps->dev, "%s: failed to read events\n", __func__);
-> +		goto err_unlock;
-> +	}
-> +
-> +	if (!(event[0] | event[1]))
-> +		goto err_unlock;
-> +
-> +	if (!tps6598x_read_status(tps, &status))
-> +		goto err_clear_ints;
-> +
-> +	if ((event[0] | event[1]) & TPS_REG_INT_POWER_STATUS_UPDATE)
-> +		if (!tps6598x_read_power_status(tps))
-> +			goto err_clear_ints;
-> +
-> +	if ((event[0] | event[1]) & TPS_REG_INT_DATA_STATUS_UPDATE)
-> +		if (!tps6598x_read_data_status(tps))
-> +			goto err_clear_ints;
-> +
-> +	/*
-> +	 * data/port roles could be updated independently after
-> +	 * a plug event. Therefore, we need to check
-> +	 * for pr/dr status change to set TypeC dr/pr accordingly.
-> +	 */
-> +	if ((event[0] | event[1]) & TPS_REG_INT_PLUG_EVENT ||
-> +	    tps6598x_has_role_changed(tps, status))
-> +		tps6598x_handle_plug_event(tps, status);
-> +
-> +	tps->status = status;
-> +
-> +err_clear_ints:
-> +	tps6598x_block_write(tps, TPS_REG_INT_CLEAR1, event, 11);
-> +
-> +err_unlock:
-> +	mutex_unlock(&tps->lock);
-> +
-> +	if (event[0] | event[1])
-> +		return IRQ_HANDLED;
-> +	return IRQ_NONE;
-> +}
-> +
->  static irqreturn_t tps6598x_interrupt(int irq, void *data)
->  {
->  	struct tps6598x *tps = data;
-> @@ -600,7 +665,7 @@ static void tps6598x_poll_work(struct work_struct *work)
->  	struct tps6598x *tps = container_of(to_delayed_work(work),
->  					    struct tps6598x, wq_poll);
->  
-> -	tps->irq_handler(0, tps);
-> +	tps->data->irq_handler(0, tps);
->  	queue_delayed_work(system_power_efficient_wq,
->  			   &tps->wq_poll, msecs_to_jiffies(POLL_INTERVAL));
->  }
-> @@ -967,13 +1032,33 @@ static int tps25750_apply_patch(struct tps6598x *tps)
->  	return 0;
->  };
->  
-> +static const struct tipd_data cd321x_data = {
-> +	.irq_handler = cd321x_interrupt,
-> +};
-> +
-> +static const struct tipd_data tps6598x_data = {
-> +	.irq_handler = tps6598x_interrupt,
-> +};
-> +
-> +static const struct tipd_data tps25750_data = {
-> +	.irq_handler = tps25750_interrupt,
-> +};
-> +
-> +static const struct of_device_id tps6598x_of_match[] = {
-> +	{ .compatible = "ti,tps6598x", &tps6598x_data},
-> +	{ .compatible = "apple,cd321x", &cd321x_data},
-> +	{ .compatible = "ti,tps25750", &tps25750_data},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, tps6598x_of_match);
 
-There is no reason to move that here.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Keep all of those below where tps6598x_of_match was originally.
+yamllint warnings/errors:
 
->  static int tps6598x_probe(struct i2c_client *client)
->  {
-> -	irq_handler_t irq_handler = tps6598x_interrupt;
->  	struct device_node *np = client->dev.of_node;
->  	struct typec_capability typec_cap = { };
->  	struct tps6598x *tps;
->  	struct fwnode_handle *fwnode;
-> +	const struct of_device_id *match;
->  	u32 status;
->  	u32 conf;
->  	u32 vid;
-> @@ -1017,7 +1102,6 @@ static int tps6598x_probe(struct i2c_client *client)
->  			APPLE_CD_REG_INT_DATA_STATUS_UPDATE |
->  			APPLE_CD_REG_INT_PLUG_EVENT;
->  
-> -		irq_handler = cd321x_interrupt;
->  	} else {
->  		/* Enable power status, data status and plug event interrupts */
->  		mask1 = TPS_REG_INT_POWER_STATUS_UPDATE |
-> @@ -1025,7 +1109,12 @@ static int tps6598x_probe(struct i2c_client *client)
->  			TPS_REG_INT_PLUG_EVENT;
->  	}
->  
-> -	tps->irq_handler = irq_handler;
-> +	match = of_match_device(tps6598x_of_match, tps->dev);
-> +	if (!match)
-> +		return -EINVAL;
-> +
-> +	tps->data = match->data;
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/access-controllers/access-controller.yaml: access-control-provider: missing type definition
 
-        tps->data = device_get_match_data(tps->dev);
+doc reference errors (make refcheckdocs):
 
->  	/* Make sure the controller has application firmware running */
->  	ret = tps6598x_check_mode(tps);
->  	if (ret < 0)
-> @@ -1125,7 +1214,7 @@ static int tps6598x_probe(struct i2c_client *client)
->  
->  	if (client->irq) {
->  		ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
-> -						irq_handler,
-> +						tps->data->irq_handler,
->  						IRQF_SHARED | IRQF_ONESHOT,
->  						dev_name(&client->dev), tps);
->  	} else {
-> @@ -1231,14 +1320,6 @@ static const struct dev_pm_ops tps6598x_pm_ops = {
->  	SET_SYSTEM_SLEEP_PM_OPS(tps6598x_suspend, tps6598x_resume)
->  };
->  
-> -static const struct of_device_id tps6598x_of_match[] = {
-> -	{ .compatible = "ti,tps6598x", },
-> -	{ .compatible = "apple,cd321x", },
-> -	{ .compatible = "ti,tps25750", },
-> -	{}
-> -};
-> -MODULE_DEVICE_TABLE(of, tps6598x_of_match);
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230929142852.578394-2-gatien.chevallier@foss.st.com
 
-static const struct tipd_data cd321x_data = {
-	.irq_handler = cd321x_interrupt,
-};
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-static const struct tipd_data tps6598x_data = {
-	.irq_handler = tps6598x_interrupt,
-};
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-static const struct tipd_data tps25750_data = {
-	.irq_handler = tps25750_interrupt,
-};
+pip3 install dtschema --upgrade
 
-static const struct of_device_id tps6598x_of_match[] = {
-	{ .compatible = "apple,cd321x", &cd321x_data},
-	{ .compatible = "ti,tps25750", &tps25750_data},
-	{ .compatible = "ti,tps6598x", &tps6598x_data},
-	{}
-};
-MODULE_DEVICE_TABLE(of, tps6598x_of_match);
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
->  static const struct i2c_device_id tps6598x_id[] = {
->  	{ "tps6598x" },
->  	{ }
-
-thanks,
-
--- 
-heikki
