@@ -1,246 +1,135 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139781367;
-	Sun,  1 Oct 2023 05:39:21 +0000 (UTC)
-X-Greylist: delayed 2207 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 30 Sep 2023 22:39:18 PDT
-Received: from mx08-006a4e02.pphosted.com (mx08-006a4e02.pphosted.com [143.55.148.243])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AD9FC5;
-	Sat, 30 Sep 2023 22:39:18 -0700 (PDT)
-Received: from pps.filterd (m0316693.ppops.net [127.0.0.1])
-	by mx08-006a4e02.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3913gioS006695;
-	Sun, 1 Oct 2023 07:02:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iram.es; h=date
-	:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to:content-transfer-encoding; s=dkim3;
-	 bh=5JgHwkJ5bZA+PRufvniyMuRJN1Jr6719sKCuadOAMmw=; b=hDNmwqgug1An
-	fvwB2cRTfoutFDu+tai+5nrTyDJGpD0Pkv+UoD9dDHnHHIAd09gz+r02mse1Cs9K
-	ZCgOca/WGL5QjFanXXswWHZ9gsDFv9HUsGVbSl0NWG9zgx7F1IrS1vcyAC4I2TBu
-	vtCiSXblwT2BOKB168GcAoNAG3zywK5ZIdX9TFP4bHS8GBFExgd9NXibijGF4eid
-	NlYGioPXJRFaYlb2eKu0casy5f5iNW/FoS1c0RbxZP9tWhnpwN4+plV0Uq3PyrZu
-	vjfbiPtJ7zPzKAVMjvhFWJMgaNJzLRSZANzAdWFrm7A8N1ie1vidQt1Dp6QldrsP
-	8q3fZB20SA==
-Received: from sim.rediris.es (mta-out04.sim.rediris.es [130.206.24.46])
-	by mx08-006a4e02.pphosted.com (PPS) with ESMTPS id 3tewvarrd8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 01 Oct 2023 07:02:17 +0200 (MEST)
-Received: from sim.rediris.es (localhost.localdomain [127.0.0.1])
-	by sim.rediris.es (Postfix) with ESMTPS id 0AB0D182CCF;
-	Sun,  1 Oct 2023 07:02:16 +0200 (CEST)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by sim.rediris.es (Postfix) with ESMTP id 86FFB182CCC;
-	Sun,  1 Oct 2023 07:02:15 +0200 (CEST)
-X-Amavis-Modified: Mail body modified (using disclaimer) -
- mta-out04.sim.rediris.es
-Received: from sim.rediris.es ([127.0.0.1])
- by localhost (mta-out04.sim.rediris.es [127.0.0.1]) (amavis, port 10026)
- with ESMTP id qO51DSuhuoLH; Sun,  1 Oct 2023 07:02:14 +0200 (CEST)
-Received: from gp-workstation.iram.es (haproxy01.sim.rediris.es [130.206.24.69])
-	by sim.rediris.es (Postfix) with ESMTPA id 96282180084;
-	Sun,  1 Oct 2023 07:01:58 +0200 (CEST)
-Date: Sun, 1 Oct 2023 07:01:56 +0200
-From: Gabriel Paubert <paubert@iram.es>
-To: Steve French <smfrench@gmail.com>
-Cc: David Howells <dhowells@redhat.com>, Latchesar Ionkov <lucho@ionkov.net>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        "Darrick J. Wong" <djwong@kernel.org>, Anders Larsen <al@alarsen.net>,
-        Carlos Llamas <cmllamas@google.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Mattia Dongili <malattia@linux.it>,
-        Yonghong Song <yonghong.song@linux.dev>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christoph Hellwig <hch@lst.de>, Mike Marshall <hubcap@omnibond.com>,
-        Paulo Alcantara <pc@manguebit.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        James Morris <jmorris@namei.org>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        devel@lists.orangefs.org, Shyam Prasad N <sprasad@microsoft.com>,
-        Jan Harkes <jaharkes@cs.cmu.edu>, linux-um@lists.infradead.org,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Eric Van Hensbergen <ericvh@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anton Altaparmakov <anton@tuxera.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Greg Kr oah-Hartman <gregkh@linuxfoundation.org>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ronnie Sahlberg <lsahlber@redhat.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
-        Jan Kara <jack@suse.com>, Tejun Heo <tj@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Dave Kleikamp <shaggy@kernel.org>, samba-technical@lists.samba.org,
-        Marc Dionne <marc.dionne@auristor.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Stanislav Fomichev <sdf@google.com>, linux-s390@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, Paul Moore <paul@paul-moore.com>,
-        Leon Romanovsky <leon@kernel.org>, Hugh Dickins <hughd@google.com>,
-        Andrii Nakryiko <andrii@kernel.org>, codalist@coda.cs.cmu.edu,
-        Iurii Zaikin <yzaikin@google.com>, Namjae Jeon <linkinjeon@kernel.org>,
-        linux-trace-kernel@vger.kernel.org, Todd Kjos <tkjos@android.com>,
-        Vasily Gorbik <gor@linux.ibm.com>, selinux@vger.kernel.org,
-        reiserfs-devel@vger.kernel.org, Sungjong Seo <sj1557.seo@samsung.com>,
-        ocfs2-devel@lists.linux.dev, Yue Hu <huyue2@coolpad.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Martijn Coenen <maco@android.com>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Hao Luo <haoluo@google.com>, Tony Luck <tony.luck@intel.com>,
-        Theodore Ts'o <tytso@mit.edu>, Nicolas Pitre <nico@fluxnic.net>,
-        linux-ntfs-dev@lists.sourceforge.net,
-        Muchun Song <muchun.song@linux.dev>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Anna Schumaker <anna@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brad Warrum <bwarrum@linux.ibm.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>, linux-efi@vger.kernel.org,
-        Martin Brandenburg <martin@omnibond.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        platform-driver-x86@vger.kernel.or.g,
-        Joseph Qi <joseph.qi@linux.alibaba.com>, Chris Mason <clm@fb.com>,
-        linux-mtd@lists.infradead.org, linux-hardening@vger.kernel.org,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-afs@lists.infradead.org,
-        Ian Kent <raven@themaw.net>, Naohiro Aota <naohiro.aota@wdc.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Miklos Szeredi <miklos@szeredi.hu>, linux-rdma@vger.kernel.org,
-        coda@cs.cmu.edu,
-        Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Ilya Dryomov <idryomov@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Amir Goldstein <amir73il@gmail.com>, Kees Cook <keescook@chromium.org>,
-        Arnd Bergmann <arnd@arndb.de>, autofs@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mark Gross <markgross@kernel.org>, Damien Le Moal <dlemoal@kernel.org>,
-        Eric Paris <eparis@parisplace.org>, ceph-devel@vger.kernel.org,
-        Gao Xiang <xiang@kernel.org>, gfs2@lists.linux.dev,
-        linux-nfs@vger.kernel.org, linux-ext4@vger.ker.nel.org,
-        Olga Kornievskaia <kolga@netapp.com>, Song Liu <song@kernel.org>,
-        Jeff Layton <jlayton@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>, linux-xfs@vger.kernel.org,
-        Jeremy Kerr <jk@ozlabs.org>, Bob Peterson <rpeterso@redhat.com>,
-        linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
-        ntfs3@lists.linux.dev, linux-erofs@lists.ozlabs.org,
-        "David S . Miller" <davem@davemloft.net>,
-        Chandan Babu R <chandan.babu@oracle.com>,
-        jfs-discussion@lists.sourceforge.net, Jan Kara <jack@suse.cz>,
-        Neil Brown <neilb@suse.de>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Christian Schoenebeck <linux_oss@crudebyte.com>,
-        Bob Copeland <me@bobcopeland.com>, KP Singh <kpsingh@kernel.org>,
-        David Sterba <dsterba@suse.cz>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        linux-mm@kvack.org, Andreas Dilger <adilger.kernel@dilger.ca>,
-        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
-        Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Andreas Gruenbacher <agruenba@redhat.com>,
-        Richard Weinberger <richard@nod.at>, Mark Fasheh <mark@fasheh.com>,
-        Dai Ngo <Dai.Ngo@oracle.com>, Steve French <sfrench@samba.org>,
-        linux-serial@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        Salah Triki <salah.triki@gmail.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Evgeniy Dushistov <dushistov@mail.ru>, linux-cifs@vger.kernel.org,
-        Heiko Carstens <hca@linux.ibm.com>, Chao Yu <chao@kernel.org>,
-        apparmor@lists.ubuntu.com, Josef Bacik <josef@toxicpanda.com>,
-        Tom Talpey <tom@talpey.com>, Hans de Goede <hdegoede@redhat.com>,
-        "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-        David Sterba <dsterba@suse.com>, Xiubo Li <xiubli@redhat.com>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Ritu Agarwal <rituagar@linux.ibm.com>,
-        Luis de Bethencourt <luisbg@kernel.org>,
-        Netdev <netdev@vger.kernel.org>, v9fs@li.sts.linux.dev,
-        linux-unionfs@vger.kernel.org, linux-security-module@vger.kernel.org,
-        Jeffle Xu <jefflexu@linux.alibaba.com>,
-        Phillip Lougher <phillip@squashfs.org.uk>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Johannes Thumshirn <jth@kernel.org>, linuxppc-dev@lists.ozlabs.org,
-        linux-karma-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org,
-        Joel Becker <jlbec@evilplan.org>
-Subject: [OT] Re: [PATCH 86/87] fs: switch timespec64 fields in inode to
- discrete integers
-Message-ID: <20231001050156.GA3366643@gp-workstation.iram.es>
-References: <20230928110554.34758-1-jlayton@kernel.org>
- <20230928110554.34758-2-jlayton@kernel.org>
- <6020d6e7-b187-4abb-bf38-dc09d8bd0f6d@app.fastmail.com>
- <af047e4a1c6947c59d4a13d4ae221c784a5386b4.camel@kernel.org>
- <20230928171943.GK11439@frogsfrogsfrogs>
- <6a6f37d16b55a3003af3f3dbb7778a367f68cd8d.camel@kernel.org>
- <636661.1695969129@warthog.procyon.org.uk>
- <CAH2r5ms14hPaz=Ex2a=Dj0Hz3XxYLRKFj_rHHekznTbNJ_wABQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F77945F;
+	Sun,  1 Oct 2023 05:53:35 +0000 (UTC)
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C57A4C6;
+	Sat, 30 Sep 2023 22:53:34 -0700 (PDT)
+Received: by mail-ot1-x335.google.com with SMTP id 46e09a7af769-6c49f781855so9137676a34.3;
+        Sat, 30 Sep 2023 22:53:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696139614; x=1696744414; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ePzrbSK5zIWLB/POBpdNRqPyVo624yH+IKEEXcTja4A=;
+        b=Lv/43Mx1D0upFMXufDSkJPQW/ttFoNb2F8L3yUKvQQK626qLnN9Qv4O//J4Tv2n3Ij
+         5pfKUxcmRcknhm4t9Kfepdw2orrJXXAlh1dV8mkbgndXR1UxXqOYnzjs27/lR3sdeIes
+         N7CeZYN76Skttut1xmtl7V1RAf7PAKMA4PD4k9MKSz2oluhsRjEkSTBtDYTp5LMOwMmV
+         VR0J9jNJ20zvLOh5pkn+lQH4JeRvqnwqPzbzix+4/RBnrsjpBzaPY+AsrM2/euCNCBg0
+         XpEdDNmTPSwAsH8OX4nA3wKiognEzAPL41qbFHxPTfp8Dn3NLud3ewsKD9wDcIfIu+Hb
+         GKPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696139614; x=1696744414;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ePzrbSK5zIWLB/POBpdNRqPyVo624yH+IKEEXcTja4A=;
+        b=lhlE4uaQ5GF3Z8V3Uo9qLFHm+BWsw2a4jKuW5KfV/ch3i95tiJUoeksajZGGDxnybx
+         51F3AH2x1CDzexTUn2iUwuFXJWEMMK8PnqhXT/7fsEoRFo1pX96j213Q+FSR/CQJe+rU
+         Ds0s6UEcj+wmlyeN9UEUDU/69OJDvzeHFlLBo0GGqmaa7L+JVgCkmKoWogbcsE3bMLZY
+         2qjcQxN5B3kSxVQVs42P76y7k+l84MOBY7BEQDX3czeAMjfgt6uG4pAEuj3gM/fpT3Oc
+         UUQS0gNOxo0fBPnVrQY7ZXyC6NP+6RXtle3Ihw+q+Az6Cei+r5hGdFxPJcUeiqZs9l7U
+         c/bg==
+X-Gm-Message-State: AOJu0YwC3Mdem3nVRxly9JpGlBcOYfZAx/fTqRz2s2Lnb+4BMCB7mp4O
+	Syg/+0w6UOTGLQ7cDiUESeM=
+X-Google-Smtp-Source: AGHT+IFdgLbyqA1IdKObOtUzDGkBSktGTpC4TDWsdy0Y5ilnYn/s05Yx9ZCg7ChzNCeroywcu2oUXQ==
+X-Received: by 2002:a05:6358:1ca:b0:14a:e8af:1227 with SMTP id e10-20020a05635801ca00b0014ae8af1227mr9156051rwa.22.1696139613846;
+        Sat, 30 Sep 2023 22:53:33 -0700 (PDT)
+Received: from [192.168.0.106] ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id 9-20020a17090a018900b002772faee740sm4492143pjc.5.2023.09.30.22.53.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 Sep 2023 22:53:33 -0700 (PDT)
+Message-ID: <3d246a72-2755-484f-8274-0c61fc185592@gmail.com>
+Date: Sun, 1 Oct 2023 12:53:22 +0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAH2r5ms14hPaz=Ex2a=Dj0Hz3XxYLRKFj_rHHekznTbNJ_wABQ@mail.gmail.com>
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: 7g7M4VduddtlWYRAuFdJHm-pjLCEd0SM
-X-Proofpoint-GUID: 7g7M4VduddtlWYRAuFdJHm-pjLCEd0SM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-01_02,2023-09-28_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=salida_notspam policy=salida score=0 bulkscore=0 impostorscore=0
- mlxlogscore=544 suspectscore=0 malwarescore=0 mlxscore=0 spamscore=0
- adultscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1011
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2309180000 definitions=main-2310010040
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_RDNS_DYNAMIC_FP,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,RDNS_DYNAMIC,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: rt8000usb driver issue (maybe interaction with other drivers)
+To: enc0der <enc0der@gmail.com>
+Cc: Linux Regressions <regressions@lists.linux.dev>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Wireless <linux-wireless@vger.kernel.org>,
+ Linux Networking <netdev@vger.kernel.org>,
+ Linux USB <linux-usb@vger.kernel.org>, Linux RCU <rcu@vger.kernel.org>,
+ Stanislaw Gruszka <stf_xl@wp.pl>, Helmut Schaa
+ <helmut.schaa@googlemail.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Hayes Wang <hayeswang@realtek.com>,
+ Simon Horman <horms@kernel.org>, Andre Przywara <andre.przywara@arm.com>,
+ Andrew Gaul <gaul@gaul.org>, =?UTF-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>
+References: <CAEXpi5Rd6Y4umKOWRsCjX0kit=W5ZrVhn=MuRkyvJPwmjjDVnA@mail.gmail.com>
+ <ZRj_ovMi-Xbb8i-D@debian.me>
+ <CAEXpi5RiLbma5cb-ctEvvb7LGRn78VTOh5HDmreC2hYgtBEQog@mail.gmail.com>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <CAEXpi5RiLbma5cb-ctEvvb7LGRn78VTOh5HDmreC2hYgtBEQog@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Sat, Sep 30, 2023 at 09:50:41AM -0500, Steve French wrote:
-> On Fri, Sep 29, 2023 at 3:06=E2=80=AFAM David Howells via samba-technic=
-al
-> <samba-technical@lists.samba.org> wrote:
-> >
-> >
-> > Jeff Layton <jlayton@kernel.org> wrote:
-> >
-> > > Correct. We'd lose some fidelity in currently stored timestamps, bu=
-t as
-> > > Linus and Ted pointed out, anything below ~100ns granularity is
-> > > effectively just noise, as that's the floor overhead for calling in=
-to
-> > > the kernel. It's hard to argue that any application needs that sort=
- of
-> > > timestamp resolution, at least with contemporary hardware.
-> >
-> > Albeit with the danger of making Steve French very happy;-), would it=
- make
-> > sense to switch internally to Microsoft-style 64-bit timestamps with =
-their
-> > 100ns granularity?
->=20
-> 100ns granularity does seem to make sense and IIRC was used by various
-> DCE standards in the 90s and 2000s (not just used for SMB2/SMB3 protoco=
-l and
-> various Windows filesystems)
+On 01/10/2023 12:33, enc0der wrote:
+> Hello Bagas,
+> 
+> The distro I am using is:
+> Jetson Linux 35.4.1 which is is part of JetPack 5.1.2
+> 
+> Supported Linux Kernel version: 5.10 LTS
+> aarch64
+> sample root fs built from: Ubuntu 20.04
+> 
+> When I asked Nvidia directly, their response was "Most likely it could
+> be wifi driver issue because it gives."
+> 
 
-Historically it probably comes from VMS, where system time and file
-timestamps were a 64 bit integer counting in 100ns units starting on MJD
-2400000.5 (Nov 17th 1858).
+So you have to report upstream here, right?
 
-Gabriel
+> These are the drivers being loaded:
+> 
+> rt2800usb              36864  0
+> rt2x00usb              24576  1 rt2800usb
+> rt2800lib             122880  1 rt2800usb
+> rt2x00lib              77824  3 rt2800usb,rt2x00usb,rt2800lib
+> mac80211              811008  3 rt2x00lib,rt2x00usb,rt2800lib
+> cfg80211              724992  2 rt2x00lib,mac80211
+> 
 
->=20
->=20
-> --=20
-> Thanks,
->=20
-> Steve
- 
+I don't see rt2800usb module in the mainline kernel. Is it out-of-tree?
+(no wonder why it taints your kernel)
+
+> I've not worked with driver code before, so I am out of my element
+> here.  I saw in the git history for rt2800usb some changes went in
+> since I was using the USB wifi adapter on an older system that has a
+> linux version older than 2019 (when the OS was compiled and flashed on
+> the machine).
+> 
+
+Where is the repo?
+
+Last but not least, please don't top-post; reply inline with appropriate
+context instead.
+
+Confused...
+
+-- 
+An old man doll... just what I always wanted! - Clara
 
