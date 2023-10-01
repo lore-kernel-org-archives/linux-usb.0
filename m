@@ -1,46 +1,46 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A3AE565;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34715EEBF;
 	Sun,  1 Oct 2023 08:15:24 +0000 (UTC)
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 001D4C2;
-	Sun,  1 Oct 2023 01:15:19 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9b2cee40de8so464555766b.1;
-        Sun, 01 Oct 2023 01:15:19 -0700 (PDT)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A80DDD9;
+	Sun,  1 Oct 2023 01:15:23 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-533cbbd0153so17263171a12.0;
+        Sun, 01 Oct 2023 01:15:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696148118; x=1696752918; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1696148122; x=1696752922; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OGpDxcT5aeITQfH2zI83I7bXWv8lEzILwF0J/4qGo+Y=;
-        b=KkOyL5ES7i9q8GzliIAxFb+3VPZ8uBJloVMnbZ0baox7njgRc+AGRULZSxqpr0zxDf
-         fq6NgCyTH+eMoemcSzF30STP1EQc4sZYLSYfXQ14CxvNd8l0bjer8pjUMOLIsiOrSNCd
-         bdM55YDq4KHY3I4msyk2StjgOP7O151EQo3Zw7uwJ64Z24SuepvxXCVy+rpe60wCEVGv
-         IsJmJoi3oSbTU6X6PntX4UL/AEOtbEiDJViD3y3i/+9zzGy3glixT7OCZyWQsJ6DHSc1
-         GUghF21vuSDQ2taKKgWLzJzU53KquoZkz54chZ/YCxod06hqUIY85OWM71/JzNQocHTW
-         dQpQ==
+        bh=mihHJZYDvrxcQ5UWKrmIwqyKIitG/AHmGkKzI/r7wpg=;
+        b=bnYj5FEgAmk1BgeiWFBgWzz/0pCHiLEN7QBq6AqkCzvWNxzGewutXHk+b6mIFZLfTr
+         LGZz44xWDnvhwXw+DKacCopDhKyWrZIfGd7IsVvVIF95mAnWJ+87ZS05BCjkNdrewkBp
+         mVbXCYUuo8dqtPBEH13X+jGGGeOg1VVleWAQac5MtnzUymJI7KlykcfHRREiUXBcPknv
+         QYK/88BtI+SINbRra+IWKdxo4BL4kCPR9aZs7m1IQfbyQq/aqhK3WI0LMlKgF7VDbU47
+         X40zHS+q+S6SME07b/bDSSRFVLeNYQcuZ1xubxeMaoswa7jSMHA9RAOBrYbWT70yc3J0
+         rD6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696148118; x=1696752918;
+        d=1e100.net; s=20230601; t=1696148122; x=1696752922;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OGpDxcT5aeITQfH2zI83I7bXWv8lEzILwF0J/4qGo+Y=;
-        b=gAUAcUyis8gx3+0Y790WtTTz3svF4VmRE49Q0bowVaBLDms4D9BZEsn/iBJBvNOuzV
-         fKIL4haDuKqxTqMs6lGjc8tIeziTUzbxShYSriqwTMvUtXcN4KJ8l0sjvmsRJ7alx0Gf
-         smOfLInfzJ2j45d1Y6WGJs59e6NfQcvQ3cvoEa48XzN1ktiuY4Y/3mMBBJebgLmGVszc
-         +UijejVNqiEMPOO0wv7s38q1ITgYqwgNSnqabXfKLoU4/QWmcgBSrxo1m//qxj70OLUa
-         yE6fvwGZgqp+gFqmrRIiAss6KjtI81vnotS/MPPMjx8ENLDYwiStYxdU+KbNPH/1YMJR
-         szRw==
-X-Gm-Message-State: AOJu0Yxzpeq6SPyw/isI2fBvoglg3QxwFwHZGUimUi+1xcSsrYf9B15t
-	BMg6ICN4g1U+zeAZ4W8dsbk=
-X-Google-Smtp-Source: AGHT+IHIKuKziaTPs/SvMhhF5Zkuf6L4ps6cFZ7uLtEsBgaVjFj11OU6BXG0g3PD77GfV9LSmBb3Ew==
-X-Received: by 2002:a17:906:225c:b0:9a1:f1b2:9f2e with SMTP id 28-20020a170906225c00b009a1f1b29f2emr7570192ejr.2.1696148118076;
-        Sun, 01 Oct 2023 01:15:18 -0700 (PDT)
+        bh=mihHJZYDvrxcQ5UWKrmIwqyKIitG/AHmGkKzI/r7wpg=;
+        b=R5UzYvvJhJtA1JUAGn4SraUAB11J+obDwQwJr2ZcBoXCNv8pF/uSd6jQ6oko0lYi22
+         Kve0a8W3DHz2H8hDH8uriFXbYmK74/RlfvmbfkESvaA10Y0nairLfCGW9OxDkapGYTzb
+         Tq5BO9nKaXQaghMPH0bDz1KX+Qm8tykBl7EJ/JXwAYIUMu870dgWk+AmvociYs9siKeL
+         fvo3AKzodVB6MmJvHyUqIwHbOmBe1ohyQy2rLUrX/013xX+iTq+wkFiU1p7y7YGreMHZ
+         +m11kqdJm9dAs8IfzWEpeaMzHO+Vk0t1JakWtlcWhO8tlCACtYKDIx8KFf+xtq8frsha
+         JqOQ==
+X-Gm-Message-State: AOJu0YyOXI4a1PigIAUhminUQbTEA6NASun+AjyyYNBgQr2mT7T9Ibj3
+	Y8aCLTb2wPvFL3PUHloh4f4=
+X-Google-Smtp-Source: AGHT+IHzDx2piFqqgaYdYhqPPK1NpONfc40MUoVq2Qx52/WVVBSQSKfljnsEWnkofoKKZVZeG4BZEQ==
+X-Received: by 2002:a17:906:76d1:b0:9ae:729c:f651 with SMTP id q17-20020a17090676d100b009ae729cf651mr7386783ejn.17.1696148121928;
+        Sun, 01 Oct 2023 01:15:21 -0700 (PDT)
 Received: from primary.. ([213.139.52.198])
-        by smtp.gmail.com with ESMTPSA id e8-20020a170906374800b0099cf840527csm15121841ejc.153.2023.10.01.01.15.16
+        by smtp.gmail.com with ESMTPSA id e8-20020a170906374800b0099cf840527csm15121841ejc.153.2023.10.01.01.15.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 01:15:17 -0700 (PDT)
+        Sun, 01 Oct 2023 01:15:21 -0700 (PDT)
 From: Abdel Alkuor <alkuor@gmail.com>
 To: heikki.krogerus@linux.intel.com,
 	krzysztof.kozlowski+dt@linaro.org,
@@ -52,11 +52,10 @@ Cc: gregkh@linuxfoundation.org,
 	robh+dt@kernel.org,
 	conor+dt@kernel.org,
 	devicetree@vger.kernel.org,
-	Abdel Alkuor <abdelalkuor@geotab.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v9 01/14] dt-bindings: usb: tps6598x: Add tps25750
-Date: Sun,  1 Oct 2023 04:11:21 -0400
-Message-Id: <20231001081134.37101-2-alkuor@gmail.com>
+	Abdel Alkuor <abdelalkuor@geotab.com>
+Subject: [PATCH v9 03/14] USB: typec: tps6598x: Add patch mode to tps6598x
+Date: Sun,  1 Oct 2023 04:11:23 -0400
+Message-Id: <20231001081134.37101-4-alkuor@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231001081134.37101-1-alkuor@gmail.com>
 References: <20231001081134.37101-1-alkuor@gmail.com>
@@ -76,135 +75,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 
 From: Abdel Alkuor <abdelalkuor@geotab.com>
 
-TPS25750 is USB TypeC PD controller which is a subset of TPS6598x.
+TPS25750 has a patch mode indicating the device requires
+a configuration to get the device into operational mode
 
 Signed-off-by: Abdel Alkuor <abdelalkuor@geotab.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
 Changes in v9:
-  - Add Reviewed-by
+  - No changes
 Changes in v8:
-  - Define reg-names at top-level
+  - Revert mode check return
 Changes in v7:
-  - Define reg at top-level
-  - Remove description from reg-names
+  - Add driver name to commit subject
 Changes in v6:
-  - Use reg property for patch address
+  - Return current mode and check it directly
 Changes in v5:
-  - Add tps25750 bindings
- .../devicetree/bindings/usb/ti,tps6598x.yaml  | 81 ++++++++++++++++++-
- .../devicetree/bindings/usb/ti,tps6598x.yaml  | 81 ++++++++++++++++++-
- 1 file changed, 80 insertions(+), 1 deletion(-)
+  - Incorporating tps25750 into tps6598x driver
 
-diff --git a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-index 5497a60cddbc..72ac534e6ed2 100644
---- a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-+++ b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-@@ -20,8 +20,23 @@ properties:
-     enum:
-       - ti,tps6598x
-       - apple,cd321x
-+      - ti,tps25750
-+
-   reg:
--    maxItems: 1
-+    minItems: 1
-+    items:
-+      - description: main PD controller address
-+      - description: |
-+          I2C slave address field in PBMs input data
-+          which is used as the device address when writing the
-+          patch for TPS25750.
-+          The patch address can be any value except 0x00, 0x20,
-+          0x21, 0x22, and 0x23
-+
-+  reg-names:
-+    items:
-+      - const: main
-+      - const: patch-address
+ drivers/usb/typec/tipd/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+index 32420c61660d..c5bbf03cb74a 100644
+--- a/drivers/usb/typec/tipd/core.c
++++ b/drivers/usb/typec/tipd/core.c
+@@ -68,6 +68,7 @@ enum {
+ 	TPS_MODE_BOOT,
+ 	TPS_MODE_BIST,
+ 	TPS_MODE_DISC,
++	TPS_MODE_PTCH,
+ };
  
-   wakeup-source: true
+ static const char *const modes[] = {
+@@ -75,6 +76,7 @@ static const char *const modes[] = {
+ 	[TPS_MODE_BOOT]	= "BOOT",
+ 	[TPS_MODE_BIST]	= "BIST",
+ 	[TPS_MODE_DISC]	= "DISC",
++	[TPS_MODE_PTCH] = "PTCH",
+ };
  
-@@ -32,10 +47,42 @@ properties:
-     items:
-       - const: irq
+ /* Unrecognized commands will be replaced with "!CMD" */
+@@ -595,6 +597,7 @@ static int tps6598x_check_mode(struct tps6598x *tps)
  
-+  firmware-name:
-+    description: |
-+      Should contain the name of the default patch binary
-+      file located on the firmware search path which is
-+      used to switch the controller into APP mode.
-+      This is used when tps25750 doesn't have an EEPROM
-+      connected to it.
-+    maxItems: 1
-+
- required:
-   - compatible
-   - reg
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: ti,tps25750
-+    then:
-+      properties:
-+        reg:
-+          maxItems: 2
-+
-+        connector:
-+          required:
-+            - data-role
-+
-+      required:
-+        - connector
-+        - reg-names
-+    else:
-+      properties:
-+        reg:
-+          maxItems: 1
-+
- additionalProperties: true
- 
- examples:
-@@ -68,4 +115,36 @@ examples:
-             };
-         };
-     };
-+
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        typec@21 {
-+            compatible = "ti,tps25750";
-+            reg = <0x21>, <0x0f>;
-+            reg-names = "main", "patch-address";
-+
-+            interrupt-parent = <&msmgpio>;
-+            interrupts = <100 IRQ_TYPE_LEVEL_LOW>;
-+            interrupt-names = "irq";
-+            firmware-name = "tps25750.bin";
-+
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&typec_pins>;
-+
-+            typec_con0: connector {
-+                compatible = "usb-c-connector";
-+                label = "USB-C";
-+                data-role = "dual";
-+                port {
-+                    typec_ep0: endpoint {
-+                        remote-endpoint = <&otg_ep>;
-+                    };
-+                };
-+            };
-+        };
-+    };
- ...
+ 	switch (match_string(modes, ARRAY_SIZE(modes), mode)) {
+ 	case TPS_MODE_APP:
++	case TPS_MODE_PTCH:
+ 		return 0;
+ 	case TPS_MODE_BOOT:
+ 		dev_warn(tps->dev, "dead-battery condition\n");
 -- 
 2.34.1
 
