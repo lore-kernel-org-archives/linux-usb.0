@@ -1,167 +1,130 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FD129B2;
-	Sun,  1 Oct 2023 09:13:35 +0000 (UTC)
-Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E818BC6;
-	Sun,  1 Oct 2023 02:13:33 -0700 (PDT)
-Received: from eig-obgw-5004a.ext.cloudfilter.net ([10.0.29.221])
-	by cmsmtp with ESMTP
-	id mKShqDMZSMZBkmsW5q6tIg; Sun, 01 Oct 2023 09:13:33 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id msW4qwZeCXQGamsW4qvGiu; Sun, 01 Oct 2023 09:13:32 +0000
-X-Authority-Analysis: v=2.4 cv=DJGcXgBb c=1 sm=1 tr=0 ts=6519383c
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=P7XfKmiOJ4/qXqHZrN7ymg==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=bhdUkHdE2iEA:10 a=wYkD_t78qR0A:10 a=VwQbUJbxAAAA:8
- a=LGO97N6URhV1HzgtwBkA:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=4g2DqY1HQzg9VHDk8bpfbsxVxIS5o6CwTE1YY6fEQ3g=; b=AUvFBCRUB7J4vAcINYNmf8AedX
-	vVjpv9aSEIHk6sHw8Z03zs4zmYb0n26Zz4ENctk+kwTyZxdREssUFaiHh8iqt6+n/F+XAhbguP5BD
-	xaNImehj3L+M6hDG4ekFPG/4y7kZ3s3INLLpGO1fHDVcSHmzSDjdFU4Uv9WNlnE8CZhxYqCKbYa1k
-	kHRn2OZVJde+6EotWeVQ1c+fvtrEzNM2GpiRQAw4lBWyEv1zZqipiev6SRBPmUSRAH/o8PqVYwLNt
-	j1UDYIofGl95WzJ1RNGbqD6ZBURjfRP8+JfsHaSEhS1X7fGgFBS1iZDhwXJVDacDFbnAc1e0Grd3Y
-	UhEt5mXQ==;
-Received: from [94.239.20.48] (port=48332 helo=[192.168.1.98])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1qmqOy-001eje-0E;
-	Sun, 01 Oct 2023 01:58:04 -0500
-Message-ID: <d81a2187-a2ff-c741-8f35-a1af54652ebd@embeddedor.com>
-Date: Sun, 1 Oct 2023 08:58:00 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D4D258C
+	for <linux-usb@vger.kernel.org>; Sun,  1 Oct 2023 09:22:04 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D09AC;
+	Sun,  1 Oct 2023 02:22:03 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="385340058"
+X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
+   d="scan'208";a="385340058"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 02:22:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="816030252"
+X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
+   d="scan'208";a="816030252"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 02:21:58 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC0)
+	(envelope-from <andy@kernel.org>)
+	id 1qmseA-00000001rYi-08n0;
+	Sun, 01 Oct 2023 12:21:54 +0300
+Date: Sun, 1 Oct 2023 12:21:53 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Kent Gibson <warthog618@gmail.com>,
+	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Russell King <linux@armlinux.org.uk>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH RFC 1/6] ARM: pxa: Convert Spitz OHCI to GPIO descriptors
+Message-ID: <ZRk6MQllYmgxV0fu@smile.fi.intel.com>
+References: <20230924-pxa-gpio-v1-0-2805b87d8894@skole.hr>
+ <20230924-pxa-gpio-v1-1-2805b87d8894@skole.hr>
+ <ZRE3JNVNqFN0knHl@smile.fi.intel.com>
+ <CACRpkdZdSTCeobuFdXNbJcHTKJp1V=t1sfp2tp25Mb0FBh74pA@mail.gmail.com>
+ <ZRkrYChL0hKZwQGp@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH][next] media: usb: siano: Fix undefined behavior bug in
- struct smsusb_urb_t
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jann Horn <jannh@google.com>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- USB list <linux-usb@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <ZRbwU8Qnx28gpbuO@work>
- <CAG48ez2SJMJSYrJQ9RVC44hbj3uNYBZeN0yfxWa7pqX9Fp2L7g@mail.gmail.com>
- <2023093029-primary-likewise-9579@gregkh>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <2023093029-primary-likewise-9579@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 94.239.20.48
-X-Source-L: No
-X-Exim-ID: 1qmqOy-001eje-0E
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.1.98]) [94.239.20.48]:48332
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 0
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfOBNRepxkbBW5oTCh0rxhMzN0x/4rQbyN1ExUDG0Yn4Z0S/O6iJ5NDER4VYcRRTP8KkhuIasKPH6ssj+2egE8I/6bhavg1i0ATX0Pr+V8xuB5nbP2YZw
- jvTPnVrtac/gAWvCY+3fLsfzha6We/4v0SNJQ2zRoY6aA15gutLLCZuiibW9S+ir8m4uL0/sjjTCzmd7TD9BJG657sK3uqDl1Wd00RLvgNjfHWjaltJk76qA
- wx583CU3F+a2OSCPcXq0esn8Fxnf1qjkD8+uNjTyEK/ZLxuZw+53u5xZHKQqtzFm3FvfhgNx4kCTZgEEsh3f+uY+pv9jAJF57PUsb0U1lk/3yWoiJqrrFugq
- zpyf009w
-X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <ZRkrYChL0hKZwQGp@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+	SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no autolearn_force=no
+	version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
+On Sun, Oct 01, 2023 at 11:18:41AM +0300, Andy Shevchenko wrote:
+> On Wed, Sep 27, 2023 at 04:01:58PM +0200, Linus Walleij wrote:
+> > On Mon, Sep 25, 2023 at 9:30 AM Andy Shevchenko <andy@kernel.org> wrote:
 
+...
 
-On 9/30/23 09:01, Greg Kroah-Hartman wrote:
-> On Fri, Sep 29, 2023 at 06:20:10PM +0200, Jann Horn wrote:
->> On Fri, Sep 29, 2023 at 5:42 PM Gustavo A. R. Silva
->> <gustavoars@kernel.org> wrote:
->>> `struct urb` is a flexible structure, which means that it contains a
->>> flexible-array member at the bottom. This could potentially lead to an
->>> overwrite of the object `wq` at run-time with the contents of `urb`.
->>>
->>> Fix this by placing object `urb` at the end of `struct smsusb_urb_t`.
->>
->> Does this really change the situation? "struct smsusb_device_t"
->> contains an array of "struct smsusb_urb_t", so it seems to be like
-
-Yeah. I noticed that too.
-
-Probably what Greg suggests (dynamically create the urb) can fix this, too.
-
-I haven't taken a deep dive into this particular case. So, let me go and
-figure something out.
-
->> you're just shifting the "VLA inside a non-final member of a struct"
->> thing around so that there is one more layer of abstraction in
->> between.
->>
->> Comments on "struct urb" say:
->>
->>   * Isochronous URBs have a different data transfer model, in part because
->>   * the quality of service is only "best effort".  Callers provide specially
->>   * allocated URBs, with number_of_packets worth of iso_frame_desc structures
->>   * at the end.
->>
->> and:
->>
->> /* (in) ISO ONLY */
->>
->> And it looks like smsusb only uses that URB as a bulk URB, so the flex
->> array is unused and we can't have an overflow here?
->>
->> If this is intended to make it possible to enable some kinda compiler
->> warning, it might be worth talking to the USB folks to figure out the
->> right approach here.
->>
->>> Fixes: dd47fbd40e6e ("[media] smsusb: don't sleep while atomic")
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
->>> ---
->>>   drivers/media/usb/siano/smsusb.c | 4 ++--
->>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
->>> index 9d9e14c858e6..2c048f8e8371 100644
->>> --- a/drivers/media/usb/siano/smsusb.c
->>> +++ b/drivers/media/usb/siano/smsusb.c
->>> @@ -40,10 +40,10 @@ struct smsusb_urb_t {
->>>          struct smscore_buffer_t *cb;
->>>          struct smsusb_device_t *dev;
->>>
->>> -       struct urb urb;
->>> -
->>>          /* For the bottom half */
->>>          struct work_struct wq;
->>> +
->>> +       struct urb urb;
->>>   };
+> > > > +     if (pxa_ohci->usb_host)
+> > > > +             gpiod_put(pxa_ohci->usb_host);
+> > >
+> > > Linus, Bart, do we have misdesigned _optinal() GPIO APIs?
+> > >
+> > > In GPIOLIB=n, the above requires that redundant check. Shouldn't we replace
+> > > gpiod_put() stub to be simply no-op?
+> > 
+> > You mean the WARN_ON(desc) in gpiod_put() in the static inline
+> > stub version?
+> > 
+> > I thought about it for a bit, drafted a patch removing them, and then
+> > realized the following:
+> > 
+> > If someone is making the gpiolib optional for a driver, i.e. neither
+> > DEPENDS ON GPIOLIB nor SELECT GPIOLIB, they are a quite
+> > narrow segment. I would say in 9 cases out of 10 or more this is
+> > just a driver that should depend on or select GPIOLIB.
+> > 
+> > I think such drivers should actually do the NULL checks and not be
+> > too convenient, the reason is readability: someone reading that
+> > driver will be thinking gpios are not optional if they can call
+> > gpiod_set_value(), gpiod_put() etc without any sign that the
+> > desc is optional.
+> > 
+> > If the driver uses [devm_]gpiod_get_optional() the library is not
+> > using the stubs and does the right thing, and it is clear that
+> > the GPIO is *runtime* optional.
+> > 
+> > But *compile time* optional, *combined* with runtime optional -
+> > I'm not so happy if we try to avoid warnings around that. I think
+> > it leads to confusing configs and code that looks like gpiolib is
+> > around despite it wasn't selected.
+> > 
+> > If the code isn't depending on or selecting GPIOLIB and still
+> > use _optional() calls, it better be ready to do some extra checks,
+> > because this is a weird combo, it can't be common.
+> > 
+> > Could be a documentation update making this clear though.
+> > 
+> > What do you other people think?
 > 
-> Yeah, this is going to get messy.  Ideally, just dynamically create the
-> urb and change this to a "struct urb *urb;" instead.
+> The problem here indeed if the code is not selecting or being dependent on
+> GPIOLIB and uses _optional() calls.
+> 
+> I agree that this is quite a niche that should be addressed on the driver side.
 
-Probably, yes.
+One more thing, though. I think those warnings are incomplete or actually
+reversed, and we outta use WARN_ON(IS_ERR(desc)), no?
 
-Thanks
---
-Gustavo
+This way it will fix my concerns and your concerns will be satisfied, right?
+So, if gpiod_get() returns an error pointer and then we are trying to
+free it with GPIOLIB=n, _then_ we will got a warning and it's obvious that
+driver has to be prepared for that, otherwise if we have it NULL and
+call for gpiod_get_optional(), even with GPIOLIB=n, it's fine to free, we
+don't care.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
