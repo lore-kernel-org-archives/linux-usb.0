@@ -1,45 +1,46 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA6D18025
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857D318032
 	for <linux-usb@vger.kernel.org>; Mon,  2 Oct 2023 12:29:20 +0000 (UTC)
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA61FD8
-	for <linux-usb@vger.kernel.org>; Mon,  2 Oct 2023 05:29:16 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-31f71b25a99so16397320f8f.2
-        for <linux-usb@vger.kernel.org>; Mon, 02 Oct 2023 05:29:16 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88744D9
+	for <linux-usb@vger.kernel.org>; Mon,  2 Oct 2023 05:29:18 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-4054f790190so156450885e9.2
+        for <linux-usb@vger.kernel.org>; Mon, 02 Oct 2023 05:29:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696249755; x=1696854555; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cTJqVBoOgLxU8zj+PMnKpZEI8SgRr76FsWuJmkP+inE=;
-        b=b2VPz+shcLvZudZI8QobsNHgb6qOWj52cycG3QPRipuvqqDSu3Kqtw9lX7bILuDQ87
-         QMUoYRoOF2Ag3HZRxdpuk/g3BMq4uzyFxg0mkARllB5VUKHfF+jMv5ckgkwUSgkxVdTD
-         XRxgbU9pu8ReZIYLQfHiiZdj/IE9k288a8dicWmUVrpoGNRfPYVOm9qkAVAOn9O2sEe7
-         626TTlAP3oIC5w5GEJP5z3b0r+mM8QINTelUfHz3xvbL/1SYeCdUg0x1M5BSGqONqJqb
-         zfn39ogNReXv4zmK+/iekfVaHtHou+63H0FGRoRUa7XlI7O4ZVhRdR4YsACazO/jtfgj
-         47NA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696249756; x=1696854556; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TjtZbkwdpi5si6/60UmQ8elk6PzuUnVoXbmSTS24hh4=;
+        b=kvzDiVPBJcoM0lxiTfEdxRfR1uzNe3zxlkE1wmUHzAeppa1FzTCYmkmQxLfpNNJlqd
+         ydks87WYg0n7cgpNZaF5RWMPJrLSUyWI/qdov4FCWc0PRCThuQ/+L4L7hirS7Q93i+jE
+         SX/cImg5iFnWgZAixyqdQnxgar5FnNWTqxCOjEoIWN0zhwh9DKlQzy4H18KyoftdmgM0
+         SNhJrFucAOFf4vplQQbGzksqDIkmYSDMHVDeBdDDmRjuAB5/lCmtu0rNNy4BpX8GeBQW
+         0UwRRUIOspcdPSN5C7qZaida+gQZS2QFJYePA09EGOMsMi6z5WlDxg6naFtv4VPZKCpb
+         VL9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696249755; x=1696854555;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cTJqVBoOgLxU8zj+PMnKpZEI8SgRr76FsWuJmkP+inE=;
-        b=NnPqtxVKrRtfG9sStv+srHBk0zAYi3hmvsfv/P1ns+OOhEE5ZrTGonE9TJ66F/+Y4r
-         c0MlCKtRLw3yG4/kMtJRVRBfipmazYYSPWYEM3FZ5rl+pEYUoUigvh3rhKpZYSQEf/cg
-         1+ypDRdYhDq6+/R26NgF+6dbKh7eJneO/wBGLB1XbP0sG1QM3V9dxdL3ro+oKKuFgj1H
-         EA47BSpbFvH1D/Nw3SwTsGdb9ShEcelqF9rPbEXz1wJYt+sRKB6RMeX3SU9ndA46fPHb
-         bY1ORCXh1z/rGuSQriCL5TLDgKQpGSfm6bUnfCV3rPAaHbeCry2zb3GQ03lNJQaR9f82
-         l6ZQ==
-X-Gm-Message-State: AOJu0YxlBO4/KzdNV1kU3GDS/RcnCnW41RenpWA9Ax+Hs+sJs0chQ+Nm
-	qMiacmA91Ppul2qms56y10bHIA==
-X-Google-Smtp-Source: AGHT+IFRHHZHyI7q31hR72m2ZJJLYi9dW2DnTOfh6M0zxWL5XbDOqS+zPZ63hr6D6g2MpN9MwxCxSQ==
-X-Received: by 2002:a5d:60cd:0:b0:320:38:9e14 with SMTP id x13-20020a5d60cd000000b0032000389e14mr10225432wrt.7.1696249755020;
-        Mon, 02 Oct 2023 05:29:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696249756; x=1696854556;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TjtZbkwdpi5si6/60UmQ8elk6PzuUnVoXbmSTS24hh4=;
+        b=SJAA0Mzmml4qgK16tvyLhRf7UkMrGVNPk4nrZpZI7tlAPnvxi0fl2sD+1PNTIZImj7
+         3x9IceEFXNdYlWuwVCFo14asQF2+pD6ZGi35Dev6TnXhsOfVd7aZWC1PK9/b3HjyZiNk
+         UK+yJ7VpYYhZEFH6kiCw5SHOJDVfuuFUVkzT2QeUMR8qVu9XY+jxgJ1/VzNFRaP+QQ9S
+         uwWeNyXWISjucHY1Q1/8nx59f0T/m0NG1az+9lhCoGsvpLgyyBwITaOtc1KbE3EE6izO
+         Ew+VmqAyKQ1/b5xBmesHEVljGqGw0TkJBjGz5SXM8za5ksM9xfQyu7CE903xbcSBo/cL
+         IclQ==
+X-Gm-Message-State: AOJu0Yzfy/MaXCIsXJHIeNy/jTjclJosW1v2TKst5mWSSr/2hvKuVi7w
+	l0Sq6E6TOrqyBtPE45/U7Eeo4nBcR8BBqB9NocpVNw==
+X-Google-Smtp-Source: AGHT+IH8isDJwI38R+Jr+Y0fVPCC1GD2OBeFxwa7NTNH6jyRP11hujd1uNryVGx6f0C1STiu8GM1/A==
+X-Received: by 2002:a05:600c:1c1a:b0:406:53c0:3c71 with SMTP id j26-20020a05600c1c1a00b0040653c03c71mr9496024wms.37.1696249756516;
+        Mon, 02 Oct 2023 05:29:16 -0700 (PDT)
 Received: from toaster.lan ([2a01:e0a:3c5:5fb1:fcf2:65f1:853c:13be])
-        by smtp.googlemail.com with ESMTPSA id s16-20020a05600c045000b0040536dcec17sm7144819wmb.27.2023.10.02.05.29.14
+        by smtp.googlemail.com with ESMTPSA id s16-20020a05600c045000b0040536dcec17sm7144819wmb.27.2023.10.02.05.29.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Oct 2023 05:29:14 -0700 (PDT)
+        Mon, 02 Oct 2023 05:29:16 -0700 (PDT)
 From: Jerome Brunet <jbrunet@baylibre.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -49,10 +50,12 @@ Cc: Jerome Brunet <jbrunet@baylibre.com>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v2 0/2] usb: misc: onboard_usb_hub: add gl3510 support
-Date: Mon,  2 Oct 2023 14:29:07 +0200
-Message-Id: <20231002122909.2338049-1-jbrunet@baylibre.com>
+Subject: [PATCH v2 2/2] usb: misc: onboard_usb_hub: add Genesys Logic gl3510 hub support
+Date: Mon,  2 Oct 2023 14:29:09 +0200
+Message-Id: <20231002122909.2338049-3-jbrunet@baylibre.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20231002122909.2338049-1-jbrunet@baylibre.com>
+References: <20231002122909.2338049-1-jbrunet@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,23 +70,29 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-This patchset adds the bindings and driver support to trigger the reset
-pin of the Genesys Logic gl3510 usb hub.
+Add support for the gl3510 4 ports USB3.1 hub. This allows to control its
+reset pins with a gpio.
 
-Changes since v1: [0]
- - fix typo, replacing '.' with ',' in the bindings
- - use existing gl852g data structure
+No public documentation is available for this hub. Using the same reset
+duration as the gl852g which seems OK.
 
-[0]: https://lore.kernel.org/all/20230808100746.391365-1-jbrunet@baylibre.com/
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+---
+ drivers/usb/misc/onboard_usb_hub.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Jerome Brunet (2):
-  dt-bindings: usb: add device for Genesys Logic hub gl3510
-  usb: misc: onboard_usb_hub: add Genesys Logic gl3510 hub support
-
- Documentation/devicetree/bindings/usb/genesys,gl850g.yaml | 3 ++-
- drivers/usb/misc/onboard_usb_hub.h                        | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
+diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
+index 4026ba64c592..a9e2f6023c1c 100644
+--- a/drivers/usb/misc/onboard_usb_hub.h
++++ b/drivers/usb/misc/onboard_usb_hub.h
+@@ -56,6 +56,7 @@ static const struct of_device_id onboard_hub_match[] = {
+ 	{ .compatible = "usb5e3,608", .data = &genesys_gl850g_data, },
+ 	{ .compatible = "usb5e3,610", .data = &genesys_gl852g_data, },
+ 	{ .compatible = "usb5e3,620", .data = &genesys_gl852g_data, },
++	{ .compatible = "usb5e3,626", .data = &genesys_gl852g_data, },
+ 	{ .compatible = "usbbda,411", .data = &realtek_rts5411_data, },
+ 	{ .compatible = "usbbda,5411", .data = &realtek_rts5411_data, },
+ 	{ .compatible = "usbbda,414", .data = &realtek_rts5411_data, },
 -- 
 2.40.1
 
