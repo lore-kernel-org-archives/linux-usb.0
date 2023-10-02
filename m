@@ -1,59 +1,56 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4A51C693;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01CB1D52C;
 	Mon,  2 Oct 2023 15:59:01 +0000 (UTC)
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01hn2232.outbound.protection.outlook.com [52.100.223.232])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 632E8D9;
-	Mon,  2 Oct 2023 08:58:59 -0700 (PDT)
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01hn2224.outbound.protection.outlook.com [52.100.164.224])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A79C1B3;
+	Mon,  2 Oct 2023 08:58:58 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d6M600Rehy/azHfzHLAAgD1xxGwMpO1SE9xxTgYYamEWniiqM5LOpITEvk+jofI7q4CidO0W2Nn77V7cnOFjDe4XgDtm5M6dG5ZLcmNojQNF5ad9RLeowwMa0yFcBR6FuItOwFhEV0e6HFU2MPfesGhDAlO4OUYJbNFDXZDbzkGw8kXQGtcmngjgCFhotTt9iQ1gOaqWh1fZ8P/3J3OkiNRPzflJLcGRimBhVe12NlUDdEDUr+Ltf912fNyAkfNaeh3awtKlDK4D8M1ApE3zrTyQHlV7PlcUEMc6moveksogGiNfbWGNIYKlchytKNQIFvZUtt1GI+wYsl71Oda0qw==
+ b=b6NwQW3ivnSW2j1Es0EM5sFUPoyqQOfp/HpjqS3lDwfCSVaGRHnC/waxgDBimUSkuRhA15r/JbEhRNzMVxtVHmh8Cyfd6JMuXAKGXRDDc44Stms30r6131jfWxCrAwOOOMNjMrJvsnUDeZSkK90m2tOLE2qPpBeTeLKNHa9vJl8SISCYDi/i9ZSSsPTT/+x1s9ro+j2CMWtXuWqYs5gZUmHJdflh4kfDJDE+1Yc7oTVaFjGzqR9DBFV/lKWPl+n9nJARmEMi3yDUS4OTXZJKSRTi6Mk7Gq0Bj9Ivv+3cySAGOQ5NOyAoPlLKYxkzjQnizRzbFFuDH9h8OfADg9fivA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ha7N9+kxyJqPvCwXnGMv0DWCxgnCvthjbFMurCUrm2A=;
- b=lcTxd3KWXihAXw4uOBhrk0VKhAU/SEUV1syXwamwHLPk/A/qsEfO4GFLJS00BD6EX+qtWfo6sMoAyMsHr9WAoMMqEtM3ZvgcWCq3mIZLzPZWND8Jct6TNIHrQuf7SqYkuol1SviuXbSUVqZsAdFB1/zfjCxt6YDFLBDrwv45rQl1p1tYyT67syUrlSBymhZ+JhcS+5DX+EBt0XC0NslgL28p+/0hixJShiK6hcaFDVNntihtXQYWamaZnEgUe8DD3qVYNqMS1OHv3FASkdSKfl8lsYSM9x85ob93Idr5h713KS+aE8CzgNb9bCStQUXWUQ9+wFz8OSqW9BMhlRsn/w==
+ bh=uY3mmZOX6+NuVUK0TfSQk+Zm3wTl+hP59tz8YV4141A=;
+ b=hSAuvMJGWcAEpNARLUQY1SpWhvOdGH7ZUUCem/svoP7e+B2ys8bR8/vIvWCuj6riu84l14ikzQfFTWpZpkN1DxWi3Z2uww6lfU4TAAFgjxy7LoyCk3oG7GRBswEoTzREk0zLBnC4rPz4cagGb1KhfeqLoDB6ysRAWUB46yu0IOCUQI+p/oyRaxMzLdTFLI5qGViVK218ECTElXyB+o/HQUA6DB16d2a2wEOiOcPu+gJxuELf0fkIcFf6ilO8fP1z9PCsuD3WgDJta4OlKVjnnNrV6QoAdpqVxeE8RXxTWKdTsVivLu42YDFxC8NDGkYP9rEu7ELJ1HGvV8Tb0axo2Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 175.98.123.7) smtp.rcpttodomain=gmail.com smtp.mailfrom=nuvoton.com;
+ 211.75.126.7) smtp.rcpttodomain=gmail.com smtp.mailfrom=nuvoton.com;
  dmarc=fail (p=none sp=quarantine pct=100) action=none header.from=gmail.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=nuvoton.onmicrosoft.com; s=selector2-nuvoton-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ha7N9+kxyJqPvCwXnGMv0DWCxgnCvthjbFMurCUrm2A=;
- b=rk84jmaJjJB61IeKewWZZW2pJlxDGsSX/b9/6uq/oKBzmxBvkST9Fzt3HL1cQ5CEPcMB6jvF9dpduqoLA4rwMPPpuBrZ3b6FMD/iNW9rTwq6dyVqmeQEn1F6YQFUSjcmsppEVebHDwyDcCAnqCKc+M0lTJhBX3+bFpqGquKMqvA=
-Received: from SG2PR04CA0188.apcprd04.prod.outlook.com (2603:1096:4:14::26) by
- PUZPR03MB6968.apcprd03.prod.outlook.com (2603:1096:301:f7::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6813.28; Mon, 2 Oct 2023 15:58:54 +0000
-Received: from SG1PEPF000082E7.apcprd02.prod.outlook.com
- (2603:1096:4:14:cafe::7d) by SG2PR04CA0188.outlook.office365.com
- (2603:1096:4:14::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.30 via Frontend
- Transport; Mon, 2 Oct 2023 15:58:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 175.98.123.7)
+ bh=uY3mmZOX6+NuVUK0TfSQk+Zm3wTl+hP59tz8YV4141A=;
+ b=dlP9Lg7IWw+hnDM94zbadwL3vUd9fCqHbHIstaShyBKVW4oUYFyiLaJmluCzj+d+vaG1RFpuOf5oJTcs/r6i0NxRaaaw+RARU83JaxY3AGf0K51+6J0SmyHckY8MO31rMAwLvMkQglwgssbIaKTSZ4wmFozEVr6Bx0mI1mKdV0I=
+Received: from SG2PR01CA0139.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:8f::19) by TYSPR03MB8027.apcprd03.prod.outlook.com
+ (2603:1096:400:478::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.28; Mon, 2 Oct
+ 2023 15:58:54 +0000
+Received: from SG2PEPF000B66CF.apcprd03.prod.outlook.com
+ (2603:1096:4:8f:cafe::64) by SG2PR01CA0139.outlook.office365.com
+ (2603:1096:4:8f::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.31 via Frontend
+ Transport; Mon, 2 Oct 2023 15:58:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 211.75.126.7)
  smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=gmail.com;
 Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
- 175.98.123.7 as permitted sender) receiver=protection.outlook.com;
- client-ip=175.98.123.7; helo=NTHCCAS04.nuvoton.com; pr=C
-Received: from NTHCCAS04.nuvoton.com (175.98.123.7) by
- SG1PEPF000082E7.mail.protection.outlook.com (10.167.240.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.6838.14 via Frontend Transport; Mon, 2 Oct 2023 15:58:53 +0000
-Received: from NTHCML01A.nuvoton.com (10.1.8.177) by NTHCCAS04.nuvoton.com
- (10.1.8.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.14; Mon, 2
- Oct 2023 23:58:52 +0800
-Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCML01A.nuvoton.com
- (10.1.8.177) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Mon, 2 Oct
- 2023 23:58:52 +0800
+ 211.75.126.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.75.126.7; helo=NTHCCAS01.nuvoton.com; pr=C
+Received: from NTHCCAS01.nuvoton.com (211.75.126.7) by
+ SG2PEPF000B66CF.mail.protection.outlook.com (10.167.240.23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6838.14 via Frontend Transport; Mon, 2 Oct 2023 15:58:54 +0000
+Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCCAS01.nuvoton.com
+ (10.1.8.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 2 Oct
+ 2023 23:58:53 +0800
 Received: from taln60.nuvoton.co.il (10.191.1.180) by NTHCCAS01.nuvoton.com
  (10.1.8.28) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
  Transport; Mon, 2 Oct 2023 23:58:52 +0800
 Received: by taln60.nuvoton.co.il (Postfix, from userid 10070)
-	id 3549464741; Mon,  2 Oct 2023 18:58:51 +0300 (IDT)
+	id 0725664743; Mon,  2 Oct 2023 18:58:52 +0300 (IDT)
 From: Tomer Maimon <tmaimon77@gmail.com>
 To: <peter.chen@kernel.org>, <gregkh@linuxfoundation.org>,
 	<robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
@@ -63,9 +60,9 @@ To: <peter.chen@kernel.org>, <gregkh@linuxfoundation.org>,
 CC: <openbmc@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>, Tomer Maimon
 	<tmaimon77@gmail.com>
-Subject: [PATCH v3 1/3] usb: chipidea: add CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS flag
-Date: Mon, 2 Oct 2023 18:58:46 +0300
-Message-ID: <20231002155848.62198-2-tmaimon77@gmail.com>
+Subject: [PATCH v3 3/3] usb: chipidea: Add support for NPCM
+Date: Mon, 2 Oct 2023 18:58:48 +0300
+Message-ID: <20231002155848.62198-4-tmaimon77@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20231002155848.62198-1-tmaimon77@gmail.com>
 References: <20231002155848.62198-1-tmaimon77@gmail.com>
@@ -79,45 +76,43 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-NotSetDelaration: True
 X-EOPAttributedMessage: 0
-X-MS-Exchange-SkipListedInternetSender:
- ip=[175.98.123.7];domain=NTHCCAS04.nuvoton.com
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SG1PEPF000082E7:EE_|PUZPR03MB6968:EE_
-X-MS-Office365-Filtering-Correlation-Id: 29e6cdb2-a410-4954-e30a-08dbc36079ee
+X-MS-TrafficTypeDiagnostic: SG2PEPF000B66CF:EE_|TYSPR03MB8027:EE_
+X-MS-Office365-Filtering-Correlation-Id: b90eaa14-acb8-4318-7796-08dbc3607a89
 X-MS-Exchange-SenderADCheck: 0
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ogH/I8gqTVmYkA47Gb96ZGtBN8qKasaZ1t2+f6+dP17k04FyK2Dhp2/yxqQd?=
- =?us-ascii?Q?r9RpGpBqQdV2I/X85hMPQOVSXitqp+umPVgDPZRijLPL+9T+W9FRSyajqY/r?=
- =?us-ascii?Q?8rt1A+klFjbWLB0NTnOH5+zJoBPJR2wg7jkXtn2xFuA0hWdDt99/AHAQ4YOU?=
- =?us-ascii?Q?ELz206cT96x7LqJuQBmO5vxtOz1nYr2lN30+WtEruAVs52sLn/xPuR0OF0E4?=
- =?us-ascii?Q?b1rbYY5FEKbMaYBnSGLgn7S3HZLFhOIqGc1/pJOVSDnLh4rCm+MjVlOSKUxZ?=
- =?us-ascii?Q?5aXJMDKbZ5oZ44q9ucw06itgaLugV3hYQt+4p+uZMm6dexeekn2n0qMrG80Q?=
- =?us-ascii?Q?q69Xe01fEzQ5TWid/myj9D4Wsdtyu0ViBFPqIF1Krn2Ks9x+gWEPBf0L5kHG?=
- =?us-ascii?Q?y3fT9LKVRNStQ9NGrDsY02xLP/jAzXzw6a4L8cZ9orZfu/2/v673LXPrWjsZ?=
- =?us-ascii?Q?38072obCrK2+WM5BOmFdB4Vv4hxrgcOc5ivgA1/tY0RFrhBu/pkpl7FQHRQF?=
- =?us-ascii?Q?9KWku+MsOcy8x1fb7md8TtxOCTjHVbXBpfR0h0gYKprluV6lMCWGckp3w7iD?=
- =?us-ascii?Q?9SUal4FoI6KMH49026/bcJq9eLaV0bB8SunMoRwHR99WM7lT7ffhE6iVupVJ?=
- =?us-ascii?Q?KZ0J96D46FKTvzC26RJVN4MjSuWYsZmQMPwS867qOLoZw/fs4EYC5Vc8P4bd?=
- =?us-ascii?Q?sNZIp4Npy/+Moo3AD68qiTsAjb2aWD3FTgw3Tu8lYIATzapgmj6arUPVHFWe?=
- =?us-ascii?Q?EsMcgSxtPO+0NezhlMdsORPkLQYM/eSSXpYqDFLdQyI89yTEpdorPSDq5GBj?=
- =?us-ascii?Q?79G/mxaKZpBkp+Ni46XXmJle+r/vGnYWp/AOVRHcKrhupRbbAFgxdSFDfzG1?=
- =?us-ascii?Q?uKurw/QBVs2m9W5WY8lt6UqMZOny5x9xets/JDw+a+CVVzrtJXno5srEqOtr?=
- =?us-ascii?Q?1eSbYYXPA5r8D5QRGFujNOr05FJ3tApLFAC0H1OLGmY=3D?=
+	=?us-ascii?Q?eivbs6KvISzbUI3diMU5+kuvk51dBiOXCI0wKix34Y64fkgHUvQvAsGExD00?=
+ =?us-ascii?Q?DzDY2+cnt9mFHx3ZRWcCkcc6YR1a66dJhP0vUdydrKRko0NelyxFxemCGttA?=
+ =?us-ascii?Q?Z5eO8WwgjGgFq1z5lPBSJ07L7CzknCOpNit7oAS1wnSfB0r0GwknE83NjuzF?=
+ =?us-ascii?Q?VIm8i6NwXx8BmlgbvO9vkwz/1NcTmI7vYV42aphqnEXGbPF3pp19l4DU2iBG?=
+ =?us-ascii?Q?IX1CYt2Ha7Sy6Ic8gkUvFuECfcHVUi7slWVPNf6SA1RzO0tjfLdUuQBPRJdV?=
+ =?us-ascii?Q?TlWr0FR0IlbU/eSv/67AZ+11GCIibyNt3J1bZvVUp+UKxvlI4WRtIHJV2QRT?=
+ =?us-ascii?Q?RKRPPpfIVSiilrNo+768mfmt413GGE2o7dIp2lzKvg66WVlOPGg0i/v+FxST?=
+ =?us-ascii?Q?vt6dLUrNTTA6bd/t81q/hNQ93GuftFmBT0RzqMogEgbdiDgAuCu8S+XF1YwZ?=
+ =?us-ascii?Q?xHphMrdy3UgwP7zitT80Ct8iHGuU5cE6u9JjFGQETdrxSBrfvwTsktfHApln?=
+ =?us-ascii?Q?7I1J6LjLPPDcClJzpGMOVpRgKYoPgexM6XbVb1x5M0MguMDK1t1kx36BZRdI?=
+ =?us-ascii?Q?0JNtgAhshO1BY2oG2noW0AKeERocGCcy2/MmgJRe43reBxsQNoIpN57XjZem?=
+ =?us-ascii?Q?jkVTVBZfFioSullt+3dEWdpnbvVZbt8qmrCGf0JihQwchZFiRv5S/GXezGke?=
+ =?us-ascii?Q?vwRc+7SzcFgqC8pJ0W9KovjF7+pLa4FyeiYOu/cUVSCYzt2hI6rQnO3/x6cz?=
+ =?us-ascii?Q?YK0PiNk/NxccZpTZPnka5CgXuGibkczT5VZ27mm313qCQo+YZ9/Kvz+Iu3Ik?=
+ =?us-ascii?Q?sU6I3JDaZpGGRrUuskB1qAyYUJpkxB06+3vZVihVT3OsrcHH78GX9YTrqZPH?=
+ =?us-ascii?Q?Ry70DtH20Wh1OdgK3xuBEzArfXp4je0mMCnVQlb9kYAEeBNIaTt1ndvqdlMv?=
+ =?us-ascii?Q?x2wzMREoJbOmAo4ZvAIl/zmDxgzPEGlb8MU63LDJHho=3D?=
 X-Forefront-Antispam-Report:
-	CIP:175.98.123.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS04.nuvoton.com;PTR:175-98-123-7.static.tfn.net.tw;CAT:NONE;SFS:(13230031)(4636009)(136003)(346002)(39860400002)(376002)(396003)(230922051799003)(5400799018)(186009)(48200799006)(61400799006)(64100799003)(451199024)(82310400011)(40470700004)(46966006)(36840700001)(54906003)(356005)(336012)(7416002)(83170400001)(82740400003)(6266002)(55446002)(82202003)(42882007)(26005)(34020700004)(73392003)(76482006)(1076003)(6666004)(110136005)(36860700001)(2906002)(81166007)(478600001)(40460700003)(70586007)(40480700001)(42186006)(8936002)(316002)(8676002)(5660300002)(47076005)(2616005)(36756003)(921005)(70206006)(4326008)(83380400001)(41300700001)(45356006)(35450700002)(84790400001)(12100799045);DIR:OUT;SFP:1501;
+	CIP:211.75.126.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS01.nuvoton.com;PTR:211-75-126-7.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(396003)(346002)(376002)(136003)(230922051799003)(186009)(64100799003)(451199024)(5400799018)(48200799006)(82310400011)(61400799006)(36840700001)(46966006)(40470700004)(83380400001)(40460700003)(40480700001)(478600001)(6666004)(34020700004)(36860700001)(55446002)(336012)(921005)(356005)(82740400003)(81166007)(83170400001)(7416002)(2616005)(47076005)(6266002)(1076003)(26005)(73392003)(316002)(82202003)(42882007)(36756003)(2906002)(8676002)(41300700001)(4326008)(8936002)(54906003)(42186006)(110136005)(5660300002)(76482006)(70586007)(70206006)(45356006)(35450700002)(84790400001)(12100799045);DIR:OUT;SFP:1501;
 X-OriginatorOrg: nuvoton.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2023 15:58:53.1938
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2023 15:58:54.2069
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29e6cdb2-a410-4954-e30a-08dbc36079ee
+X-MS-Exchange-CrossTenant-Network-Message-Id: b90eaa14-acb8-4318-7796-08dbc3607a89
 X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[175.98.123.7];Helo=[NTHCCAS04.nuvoton.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[211.75.126.7];Helo=[NTHCCAS01.nuvoton.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SG1PEPF000082E7.apcprd02.prod.outlook.com
+	SG2PEPF000B66CF.apcprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR03MB6968
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB8027
 X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FORGED_GMAIL_RCVD,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,NML_ADSP_CUSTOM_MED,
@@ -126,45 +121,165 @@ X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Adding CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS flag to modify the vbus_active
-parameter to active in case the ChipIdea USB IP role is device-only and
-there is no otgsc register.
+Add Nuvoton NPCM BMC SoCs support to USB ChipIdea driver.
+NPCM SoC include ChipIdea IP block that used for USB device controller
+mode.
 
 Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
 ---
- drivers/usb/chipidea/otg.c   | 5 ++++-
- include/linux/usb/chipidea.h | 1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ drivers/usb/chipidea/Kconfig        |   4 +
+ drivers/usb/chipidea/Makefile       |   1 +
+ drivers/usb/chipidea/ci_hdrc_npcm.c | 114 ++++++++++++++++++++++++++++
+ 3 files changed, 119 insertions(+)
+ create mode 100644 drivers/usb/chipidea/ci_hdrc_npcm.c
 
-diff --git a/drivers/usb/chipidea/otg.c b/drivers/usb/chipidea/otg.c
-index f5490f2a5b6b..647e98f4e351 100644
---- a/drivers/usb/chipidea/otg.c
-+++ b/drivers/usb/chipidea/otg.c
-@@ -130,8 +130,11 @@ enum ci_role ci_otg_role(struct ci_hdrc *ci)
+diff --git a/drivers/usb/chipidea/Kconfig b/drivers/usb/chipidea/Kconfig
+index c815824a0b2d..bab45bc62361 100644
+--- a/drivers/usb/chipidea/Kconfig
++++ b/drivers/usb/chipidea/Kconfig
+@@ -43,6 +43,10 @@ config USB_CHIPIDEA_MSM
+ 	tristate "Enable MSM hsusb glue driver" if EXPERT
+ 	default USB_CHIPIDEA
  
- void ci_handle_vbus_change(struct ci_hdrc *ci)
- {
--	if (!ci->is_otg)
-+	if (!ci->is_otg) {
-+		if (ci->platdata->flags & CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS)
-+			usb_gadget_vbus_connect(&ci->gadget);
- 		return;
++config USB_CHIPIDEA_NPCM
++	tristate "Enable NPCM hsusb glue driver" if EXPERT
++	default USB_CHIPIDEA
++
+ config USB_CHIPIDEA_IMX
+ 	tristate "Enable i.MX USB glue driver" if EXPERT
+ 	depends on OF
+diff --git a/drivers/usb/chipidea/Makefile b/drivers/usb/chipidea/Makefile
+index 71afeab97e83..718cb24603dd 100644
+--- a/drivers/usb/chipidea/Makefile
++++ b/drivers/usb/chipidea/Makefile
+@@ -13,6 +13,7 @@ ci_hdrc-$(CONFIG_USB_OTG_FSM)		+= otg_fsm.o
+ 
+ obj-$(CONFIG_USB_CHIPIDEA_GENERIC)	+= ci_hdrc_usb2.o
+ obj-$(CONFIG_USB_CHIPIDEA_MSM)		+= ci_hdrc_msm.o
++obj-$(CONFIG_USB_CHIPIDEA_NPCM)		+= ci_hdrc_npcm.o
+ obj-$(CONFIG_USB_CHIPIDEA_PCI)		+= ci_hdrc_pci.o
+ obj-$(CONFIG_USB_CHIPIDEA_IMX)		+= usbmisc_imx.o ci_hdrc_imx.o
+ obj-$(CONFIG_USB_CHIPIDEA_TEGRA)	+= ci_hdrc_tegra.o
+diff --git a/drivers/usb/chipidea/ci_hdrc_npcm.c b/drivers/usb/chipidea/ci_hdrc_npcm.c
+new file mode 100644
+index 000000000000..37b64a3dbd96
+--- /dev/null
++++ b/drivers/usb/chipidea/ci_hdrc_npcm.c
+@@ -0,0 +1,114 @@
++// SPDX-License-Identifier: GPL-2.0
++// Copyright (c) 2023 Nuvoton Technology corporation.
++
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++#include <linux/usb/chipidea.h>
++#include <linux/clk.h>
++#include <linux/io.h>
++#include <linux/reset-controller.h>
++#include <linux/of.h>
++
++#include "ci.h"
++
++struct npcm_udc_data {
++	struct platform_device	*ci;
++	struct clk		*core_clk;
++	struct ci_hdrc_platform_data pdata;
++};
++
++static int npcm_udc_notify_event(struct ci_hdrc *ci, unsigned event)
++{
++	struct device *dev = ci->dev->parent;
++
++	switch (event) {
++	case CI_HDRC_CONTROLLER_RESET_EVENT:
++		/* clear all mode bits */
++		hw_write(ci, OP_USBMODE, 0xffffffff, 0x0);
++		break;
++	default:
++		dev_dbg(dev, "unknown ci_hdrc event\n");
++		break;
 +	}
- 
- 	if (hw_read_otgsc(ci, OTGSC_BSV) && !ci->vbus_active)
- 		usb_gadget_vbus_connect(&ci->gadget);
-diff --git a/include/linux/usb/chipidea.h b/include/linux/usb/chipidea.h
-index 0b4f2d5faa08..5a7f96684ea2 100644
---- a/include/linux/usb/chipidea.h
-+++ b/include/linux/usb/chipidea.h
-@@ -64,6 +64,7 @@ struct ci_hdrc_platform_data {
- #define CI_HDRC_PMQOS			BIT(15)
- #define CI_HDRC_PHY_VBUS_CONTROL	BIT(16)
- #define CI_HDRC_HAS_PORTSC_PEC_MISSED	BIT(17)
-+#define CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS	BIT(18)
- 	enum usb_dr_mode	dr_mode;
- #define CI_HDRC_CONTROLLER_RESET_EVENT		0
- #define CI_HDRC_CONTROLLER_STOPPED_EVENT	1
++
++	return 0;
++}
++
++static int npcm_udc_probe(struct platform_device *pdev)
++{
++	int ret;
++	struct npcm_udc_data *ci;
++	struct platform_device *plat_ci;
++	struct device *dev = &pdev->dev;
++
++	ci = devm_kzalloc(&pdev->dev, sizeof(*ci), GFP_KERNEL);
++	if (!ci)
++		return -ENOMEM;
++	platform_set_drvdata(pdev, ci);
++
++	ci->core_clk = devm_clk_get_optional(dev, NULL);
++	if (IS_ERR(ci->core_clk))
++		return PTR_ERR(ci->core_clk);
++
++	ret = clk_prepare_enable(ci->core_clk);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to enable the clock: %d\n", ret);
++
++	ci->pdata.name = dev_name(dev);
++	ci->pdata.capoffset = DEF_CAPOFFSET;
++	ci->pdata.flags	= CI_HDRC_REQUIRES_ALIGNED_DMA |
++		CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS;
++	ci->pdata.phy_mode = USBPHY_INTERFACE_MODE_UTMI;
++	ci->pdata.notify_event = npcm_udc_notify_event;
++
++	plat_ci = ci_hdrc_add_device(dev, pdev->resource, pdev->num_resources,
++				     &ci->pdata);
++	if (IS_ERR(plat_ci)) {
++		ret = PTR_ERR(plat_ci);
++		dev_err(dev, "failed to register HDRC NPCM device: %d\n", ret);
++		goto clk_err;
++	}
++
++	pm_runtime_no_callbacks(dev);
++	pm_runtime_enable(dev);
++
++	return 0;
++
++clk_err:
++	clk_disable_unprepare(ci->core_clk);
++	return ret;
++}
++
++static int npcm_udc_remove(struct platform_device *pdev)
++{
++	struct npcm_udc_data *ci = platform_get_drvdata(pdev);
++
++	pm_runtime_disable(&pdev->dev);
++	ci_hdrc_remove_device(ci->ci);
++	clk_disable_unprepare(ci->core_clk);
++
++	return 0;
++}
++
++static const struct of_device_id npcm_udc_dt_match[] = {
++	{ .compatible = "nuvoton,npcm750-udc", },
++	{ .compatible = "nuvoton,npcm845-udc", },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, npcm_udc_dt_match);
++
++static struct platform_driver npcm_udc_driver = {
++	.probe = npcm_udc_probe,
++	.remove = npcm_udc_remove,
++	.driver = {
++		.name = "npcm_udc",
++		.of_match_table = npcm_udc_dt_match,
++	},
++};
++
++module_platform_driver(npcm_udc_driver);
++
++MODULE_DESCRIPTION("NPCM USB device controller driver");
++MODULE_AUTHOR("Tomer Maimon <tomer.maimon@nuvoton.com>");
++MODULE_LICENSE("GPL v2");
 -- 
 2.33.0
 
