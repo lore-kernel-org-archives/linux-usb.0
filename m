@@ -1,37 +1,37 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CA6101D0
-	for <linux-usb@vger.kernel.org>; Tue,  3 Oct 2023 09:40:14 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F8E1AC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7F611C8B
+	for <linux-usb@vger.kernel.org>; Tue,  3 Oct 2023 09:40:16 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2675FAB
 	for <linux-usb@vger.kernel.org>; Tue,  3 Oct 2023 02:40:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1696326013; x=1727862013;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=HEL0m2dWBurodwM41+UOBc7R3d5i/8usNLtN4ekxlHY=;
-  b=k1m1KWonVRXUOa8TzEcTGv75LAMEVxoEFrdpcmo4MLUrm+d1Bt3sLIbE
-   51pwTfHHN0JMfO8FS38xTcsDbRWaxgFuT4rSEZ5xUIr8S8kWQ9miOTuri
-   7zDNoujmjH7Xl8HBsc5HIWX5+w/3NoftLm6/eyy0ukxpqrNZEkb/ICQfa
-   Sb3SqGbKdYGXncqY4ApzGHScmAZiD5r69yS0GaEMmXDf7MMaG1FDQ8/j7
-   mSR1XmHlMzwAcD7ki166I+GuBP2vk6XXDsp8kVE4AZoLkLICMbWJtBSvx
-   sI970Jg3rG4qWps+FBAZXXrbC9ZhmjsWhlhBAdYj+D68enxonqWFjWoo9
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1424892"
+  bh=kki/1BQHi8+I+o6kzCt0a7t7cPCxcxYW5iAwFIdxdOU=;
+  b=LusfjsQaeryEjs5suuyWBimB2125/RlmuD0SW/YXVVglUvJ5JDYa/5C2
+   WItaL1vAUx+k8FeWO5l3q5Vu7IFGfXTcTHQg8+vJGxYaR9qaDOzusUHso
+   UJhOK3os657ht8xD7/eK5ARra1izTzyPimUvj8WtAnIXjGNwqfC+tizNF
+   odA3Tls6U2C09Pn8HnxqHBfsfJD6d60Dvnr3lbzR9QcMBafZONZm/dqOy
+   QxzpW5VpqayoL91yGCBtF5hsLRLjUGqwe+wh5sq3mJVPiSbhOSc8TgR0n
+   LcbkZJNgz4VPLhMdpcx2KQ0jPT4z9eeuzw5HiS3dK+Fm1Qy0xEX2QMyNQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="362204853"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="1424892"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 02:40:13 -0700
+   d="scan'208";a="362204853"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 02:40:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="997945477"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="727558513"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="997945477"
+   d="scan'208";a="727558513"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga006.fm.intel.com with ESMTP; 03 Oct 2023 02:40:10 -0700
+  by orsmga006.jf.intel.com with ESMTP; 03 Oct 2023 02:40:10 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id B35ED1A77; Tue,  3 Oct 2023 12:40:05 +0300 (EEST)
+	id C32951B01; Tue,  3 Oct 2023 12:40:05 +0300 (EEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -40,9 +40,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Andreas Noever <andreas.noever@gmail.com>,
 	Gil Fine <gil.fine@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 07/13] thunderbolt: Fix typo of HPD bit for Hot Plug Detect
-Date: Tue,  3 Oct 2023 12:39:59 +0300
-Message-Id: <20231003094005.2676823-8-mika.westerberg@linux.intel.com>
+Subject: [PATCH 09/13] thunderbolt: Expose tb_tunnel_xxx() log macros to the rest of the driver
+Date: Tue,  3 Oct 2023 12:40:01 +0300
+Message-Id: <20231003094005.2676823-10-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231003094005.2676823-1-mika.westerberg@linux.intel.com>
 References: <20231003094005.2676823-1-mika.westerberg@linux.intel.com>
@@ -59,78 +59,89 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-From: Gil Fine <gil.fine@linux.intel.com>
+In order to allow more consistent logging of tunnel related information
+make these logging macros available to the rest of the driver.
 
-Fix typo of HPD bit stands for Hot Plug Detect.
-
-Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/switch.c  | 8 ++++----
- drivers/thunderbolt/tb_regs.h | 4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/thunderbolt/tunnel.c | 26 +++++---------------------
+ drivers/thunderbolt/tunnel.h | 24 +++++++++++++++++++++++-
+ 2 files changed, 28 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index bd5815f8f23b..7d3c7e73a020 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -1332,7 +1332,7 @@ int tb_pci_port_enable(struct tb_port *port, bool enable)
-  * tb_dp_port_hpd_is_active() - Is HPD already active
-  * @port: DP out port to check
-  *
-- * Checks if the DP OUT adapter port has HDP bit already set.
-+ * Checks if the DP OUT adapter port has HPD bit already set.
-  */
- int tb_dp_port_hpd_is_active(struct tb_port *port)
- {
-@@ -1344,14 +1344,14 @@ int tb_dp_port_hpd_is_active(struct tb_port *port)
- 	if (ret)
- 		return ret;
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 85b1cccf518f..9775332dee0e 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -58,27 +58,6 @@ MODULE_PARM_DESC(bw_alloc_mode,
  
--	return !!(data & ADP_DP_CS_2_HDP);
-+	return !!(data & ADP_DP_CS_2_HPD);
+ static const char * const tb_tunnel_names[] = { "PCI", "DP", "DMA", "USB3" };
+ 
+-#define __TB_TUNNEL_PRINT(level, tunnel, fmt, arg...)                   \
+-	do {                                                            \
+-		struct tb_tunnel *__tunnel = (tunnel);                  \
+-		level(__tunnel->tb, "%llx:%u <-> %llx:%u (%s): " fmt,   \
+-		      tb_route(__tunnel->src_port->sw),                 \
+-		      __tunnel->src_port->port,                         \
+-		      tb_route(__tunnel->dst_port->sw),                 \
+-		      __tunnel->dst_port->port,                         \
+-		      tb_tunnel_names[__tunnel->type],			\
+-		      ## arg);                                          \
+-	} while (0)
+-
+-#define tb_tunnel_WARN(tunnel, fmt, arg...) \
+-	__TB_TUNNEL_PRINT(tb_WARN, tunnel, fmt, ##arg)
+-#define tb_tunnel_warn(tunnel, fmt, arg...) \
+-	__TB_TUNNEL_PRINT(tb_warn, tunnel, fmt, ##arg)
+-#define tb_tunnel_info(tunnel, fmt, arg...) \
+-	__TB_TUNNEL_PRINT(tb_info, tunnel, fmt, ##arg)
+-#define tb_tunnel_dbg(tunnel, fmt, arg...) \
+-	__TB_TUNNEL_PRINT(tb_dbg, tunnel, fmt, ##arg)
+-
+ static inline unsigned int tb_usable_credits(const struct tb_port *port)
+ {
+ 	return port->total_credits - port->ctl_credits;
+@@ -2375,3 +2354,8 @@ void tb_tunnel_reclaim_available_bandwidth(struct tb_tunnel *tunnel,
+ 		tunnel->reclaim_available_bandwidth(tunnel, available_up,
+ 						    available_down);
+ }
++
++const char *tb_tunnel_type_name(const struct tb_tunnel *tunnel)
++{
++	return tb_tunnel_names[tunnel->type];
++}
+diff --git a/drivers/thunderbolt/tunnel.h b/drivers/thunderbolt/tunnel.h
+index bf690f7beeee..750ebb570d99 100644
+--- a/drivers/thunderbolt/tunnel.h
++++ b/drivers/thunderbolt/tunnel.h
+@@ -137,5 +137,27 @@ static inline bool tb_tunnel_is_usb3(const struct tb_tunnel *tunnel)
+ 	return tunnel->type == TB_TUNNEL_USB3;
  }
  
- /**
-  * tb_dp_port_hpd_clear() - Clear HPD from DP IN port
-  * @port: Port to clear HPD
-  *
-- * If the DP IN port has HDP set, this function can be used to clear it.
-+ * If the DP IN port has HPD set, this function can be used to clear it.
-  */
- int tb_dp_port_hpd_clear(struct tb_port *port)
- {
-@@ -1363,7 +1363,7 @@ int tb_dp_port_hpd_clear(struct tb_port *port)
- 	if (ret)
- 		return ret;
+-#endif
++const char *tb_tunnel_type_name(const struct tb_tunnel *tunnel);
++
++#define __TB_TUNNEL_PRINT(level, tunnel, fmt, arg...)                   \
++	do {                                                            \
++		struct tb_tunnel *__tunnel = (tunnel);                  \
++		level(__tunnel->tb, "%llx:%u <-> %llx:%u (%s): " fmt,   \
++		      tb_route(__tunnel->src_port->sw),                 \
++		      __tunnel->src_port->port,                         \
++		      tb_route(__tunnel->dst_port->sw),                 \
++		      __tunnel->dst_port->port,                         \
++		      tb_tunnel_type_name(__tunnel),			\
++		      ## arg);                                          \
++	} while (0)
  
--	data |= ADP_DP_CS_3_HDPC;
-+	data |= ADP_DP_CS_3_HPDC;
- 	return tb_port_write(port, &data, TB_CFG_PORT,
- 			     port->cap_adap + ADP_DP_CS_3, 1);
- }
-diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
-index b6893a5093a5..32839315948b 100644
---- a/drivers/thunderbolt/tb_regs.h
-+++ b/drivers/thunderbolt/tb_regs.h
-@@ -400,7 +400,7 @@ struct tb_regs_port_header {
- #define ADP_DP_CS_1_AUX_RX_HOPID_SHIFT		11
- #define ADP_DP_CS_2				0x02
- #define ADP_DP_CS_2_NRD_MLC_MASK		GENMASK(2, 0)
--#define ADP_DP_CS_2_HDP				BIT(6)
-+#define ADP_DP_CS_2_HPD				BIT(6)
- #define ADP_DP_CS_2_NRD_MLR_MASK		GENMASK(9, 7)
- #define ADP_DP_CS_2_NRD_MLR_SHIFT		7
- #define ADP_DP_CS_2_CA				BIT(10)
-@@ -417,7 +417,7 @@ struct tb_regs_port_header {
- #define ADP_DP_CS_2_ESTIMATED_BW_MASK		GENMASK(31, 24)
- #define ADP_DP_CS_2_ESTIMATED_BW_SHIFT		24
- #define ADP_DP_CS_3				0x03
--#define ADP_DP_CS_3_HDPC			BIT(9)
-+#define ADP_DP_CS_3_HPDC			BIT(9)
- #define DP_LOCAL_CAP				0x04
- #define DP_REMOTE_CAP				0x05
- /* For DP IN adapter */
++#define tb_tunnel_WARN(tunnel, fmt, arg...) \
++	__TB_TUNNEL_PRINT(tb_WARN, tunnel, fmt, ##arg)
++#define tb_tunnel_warn(tunnel, fmt, arg...) \
++	__TB_TUNNEL_PRINT(tb_warn, tunnel, fmt, ##arg)
++#define tb_tunnel_info(tunnel, fmt, arg...) \
++	__TB_TUNNEL_PRINT(tb_info, tunnel, fmt, ##arg)
++#define tb_tunnel_dbg(tunnel, fmt, arg...) \
++	__TB_TUNNEL_PRINT(tb_dbg, tunnel, fmt, ##arg)
++
++#endif
 -- 
 2.40.1
 
