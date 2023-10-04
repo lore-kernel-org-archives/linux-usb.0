@@ -1,140 +1,203 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD2C21371
-	for <linux-usb@vger.kernel.org>; Wed,  4 Oct 2023 18:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4252A18E29
+	for <linux-usb@vger.kernel.org>; Wed,  4 Oct 2023 18:55:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lMzzUiYm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58CB9C433CC;
-	Wed,  4 Oct 2023 18:54:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696445641;
-	bh=aL1npQRaDyxdHQaKUM6htVz4FWw9EZM92Fgw5A+XXLA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lMzzUiYmge9Kq/nics+ARjGwK5zm37X+AARlUtLSvvB84nkLMgyhLoFLrqdZS2FI5
-	 TTKxgfHNAYt0gynJx2ek5ZMptrQWACq6lcQNDaZ0D93HlWy8gFwf7HL4TFJXvRkub5
-	 T33ZENW1Fad0h1irMmnfTzYogqAcFbkOaFqdd2nBqn2JJbEPzZBAZb2XzWbjpTzLtr
-	 6bcWEGpEeCu1RgsLF6AQ+SF1N3Jw5vUZme8hDoEMXlyMcChB+jbsqcKLjh2xCaTc06
-	 f+jDTaaiRn2qThPmXfI3fzj1clZ9RjHOpyZrHJ3cuTNiBuTQFZieRqlSzDqFTOVa7F
-	 pDLFPWpXKyLGQ==
-From: Jeff Layton <jlayton@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A3iTXvh9"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E0C219AA
+	for <linux-usb@vger.kernel.org>; Wed,  4 Oct 2023 11:55:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696445702; x=1727981702;
+  h=date:from:to:cc:subject:message-id;
+  bh=BUAPhzwFB4iombyJFm5ut6juV06uhKA6uXzzwb+SnZs=;
+  b=A3iTXvh9LwkEhVvBbSuu+cjAMPGMmBl24UH3m/tCGQZhZRaS/lUB1k1r
+   wU1r2Un/hSZbduqICQcZc9nYWTJkdKAm/NZZEQj7wL68PyroRv9ysC2gB
+   T/nhzRgu2aho/SAD6uNXRWmBUpGg48kacQoCGjDcaIuzpchQrwvho6kZs
+   /UDor4ElPIqgsCBx/g5OYz0xRDwI9y0y2pphK0JBTRuJ7FShrpEA38KkU
+   88OJGA7cCL1gy/Cmwu++0ykGeD83wR26InNjzjGTf7ku6PbqbOpuvxmeh
+   amrlu36Mt7IkX4XKB1PCOJ1NAhsawaxmSXlpDi/jE77yC47MOonDff8Hp
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="383174160"
+X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
+   d="scan'208";a="383174160"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 11:55:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="780912218"
+X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
+   d="scan'208";a="780912218"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 04 Oct 2023 11:54:57 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qo71L-000KWM-1a;
+	Wed, 04 Oct 2023 18:54:55 +0000
+Date: Thu, 05 Oct 2023 02:54:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org
-Subject: [PATCH v2 14/89] usb: convert to new timestamp accessors
-Date: Wed,  4 Oct 2023 14:51:59 -0400
-Message-ID: <20231004185347.80880-12-jlayton@kernel.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231004185347.80880-1-jlayton@kernel.org>
-References: <20231004185221.80802-1-jlayton@kernel.org>
- <20231004185347.80880-1-jlayton@kernel.org>
+Subject: [usb:usb-next] BUILD SUCCESS
+ 03cf2af41b37daa96635a31a012b86d0053e0670
+Message-ID: <202310050225.fiNXBVMe-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+	SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Convert to using the new inode timestamp accessor functions.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
+branch HEAD: 03cf2af41b37daa96635a31a012b86d0053e0670  Revert "phy: qcom-qmp-usb: Add Qualcomm SDX75 USB3 PHY support"
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- drivers/usb/core/devio.c | 26 +++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
+elapsed time: 720m
 
-diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-index 4f68f6ef3cc1..3beb6a862e80 100644
---- a/drivers/usb/core/devio.c
-+++ b/drivers/usb/core/devio.c
-@@ -2642,21 +2642,24 @@ static long usbdev_do_ioctl(struct file *file, unsigned int cmd,
- 		snoop(&dev->dev, "%s: CONTROL\n", __func__);
- 		ret = proc_control(ps, p);
- 		if (ret >= 0)
--			inode->i_mtime = inode_set_ctime_current(inode);
-+			inode_set_mtime_to_ts(inode,
-+					      inode_set_ctime_current(inode));
- 		break;
- 
- 	case USBDEVFS_BULK:
- 		snoop(&dev->dev, "%s: BULK\n", __func__);
- 		ret = proc_bulk(ps, p);
- 		if (ret >= 0)
--			inode->i_mtime = inode_set_ctime_current(inode);
-+			inode_set_mtime_to_ts(inode,
-+					      inode_set_ctime_current(inode));
- 		break;
- 
- 	case USBDEVFS_RESETEP:
- 		snoop(&dev->dev, "%s: RESETEP\n", __func__);
- 		ret = proc_resetep(ps, p);
- 		if (ret >= 0)
--			inode->i_mtime = inode_set_ctime_current(inode);
-+			inode_set_mtime_to_ts(inode,
-+					      inode_set_ctime_current(inode));
- 		break;
- 
- 	case USBDEVFS_RESET:
-@@ -2668,7 +2671,8 @@ static long usbdev_do_ioctl(struct file *file, unsigned int cmd,
- 		snoop(&dev->dev, "%s: CLEAR_HALT\n", __func__);
- 		ret = proc_clearhalt(ps, p);
- 		if (ret >= 0)
--			inode->i_mtime = inode_set_ctime_current(inode);
-+			inode_set_mtime_to_ts(inode,
-+					      inode_set_ctime_current(inode));
- 		break;
- 
- 	case USBDEVFS_GETDRIVER:
-@@ -2695,7 +2699,8 @@ static long usbdev_do_ioctl(struct file *file, unsigned int cmd,
- 		snoop(&dev->dev, "%s: SUBMITURB\n", __func__);
- 		ret = proc_submiturb(ps, p);
- 		if (ret >= 0)
--			inode->i_mtime = inode_set_ctime_current(inode);
-+			inode_set_mtime_to_ts(inode,
-+					      inode_set_ctime_current(inode));
- 		break;
- 
- #ifdef CONFIG_COMPAT
-@@ -2703,14 +2708,16 @@ static long usbdev_do_ioctl(struct file *file, unsigned int cmd,
- 		snoop(&dev->dev, "%s: CONTROL32\n", __func__);
- 		ret = proc_control_compat(ps, p);
- 		if (ret >= 0)
--			inode->i_mtime = inode_set_ctime_current(inode);
-+			inode_set_mtime_to_ts(inode,
-+					      inode_set_ctime_current(inode));
- 		break;
- 
- 	case USBDEVFS_BULK32:
- 		snoop(&dev->dev, "%s: BULK32\n", __func__);
- 		ret = proc_bulk_compat(ps, p);
- 		if (ret >= 0)
--			inode->i_mtime = inode_set_ctime_current(inode);
-+			inode_set_mtime_to_ts(inode,
-+					      inode_set_ctime_current(inode));
- 		break;
- 
- 	case USBDEVFS_DISCSIGNAL32:
-@@ -2722,7 +2729,8 @@ static long usbdev_do_ioctl(struct file *file, unsigned int cmd,
- 		snoop(&dev->dev, "%s: SUBMITURB32\n", __func__);
- 		ret = proc_submiturb_compat(ps, p);
- 		if (ret >= 0)
--			inode->i_mtime = inode_set_ctime_current(inode);
-+			inode_set_mtime_to_ts(inode,
-+					      inode_set_ctime_current(inode));
- 		break;
- 
- 	case USBDEVFS_IOCTL32:
-@@ -2804,7 +2812,7 @@ static long usbdev_do_ioctl(struct file *file, unsigned int cmd,
-  done:
- 	usb_unlock_device(dev);
- 	if (ret >= 0)
--		inode->i_atime = current_time(inode);
-+		inode_set_atime_to_ts(inode, current_time(inode));
- 	return ret;
- }
- 
+configs tested: 130
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231004   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                         at91_dt_defconfig   gcc  
+arm                                 defconfig   gcc  
+arm                       multi_v4t_defconfig   gcc  
+arm                   randconfig-001-20231004   gcc  
+arm                         s5pv210_defconfig   clang
+arm                           sama7_defconfig   clang
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20231004   gcc  
+i386         buildonly-randconfig-002-20231004   gcc  
+i386         buildonly-randconfig-003-20231004   gcc  
+i386         buildonly-randconfig-004-20231004   gcc  
+i386         buildonly-randconfig-005-20231004   gcc  
+i386         buildonly-randconfig-006-20231004   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231004   gcc  
+i386                  randconfig-002-20231004   gcc  
+i386                  randconfig-003-20231004   gcc  
+i386                  randconfig-004-20231004   gcc  
+i386                  randconfig-005-20231004   gcc  
+i386                  randconfig-006-20231004   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231004   gcc  
+loongarch             randconfig-001-20231005   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                      bmips_stb_defconfig   clang
+mips                     decstation_defconfig   gcc  
+mips                       rbtx49xx_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+powerpc                     asp8347_defconfig   gcc  
+powerpc                      cm5200_defconfig   gcc  
+powerpc                   currituck_defconfig   gcc  
+powerpc                       holly_defconfig   gcc  
+powerpc                     kmeter1_defconfig   clang
+powerpc                 mpc834x_itx_defconfig   gcc  
+powerpc                     tqm8555_defconfig   gcc  
+powerpc                      walnut_defconfig   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                    nommu_k210_defconfig   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                             espt_defconfig   gcc  
+sh                          rsk7269_defconfig   gcc  
+sh                     sh7710voipgw_defconfig   gcc  
+sparc                            alldefconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                       sparc32_defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231004   gcc  
+x86_64                randconfig-002-20231004   gcc  
+x86_64                randconfig-003-20231004   gcc  
+x86_64                randconfig-004-20231004   gcc  
+x86_64                randconfig-005-20231004   gcc  
+x86_64                randconfig-006-20231004   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                  nommu_kc705_defconfig   gcc  
+
 -- 
-2.41.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
