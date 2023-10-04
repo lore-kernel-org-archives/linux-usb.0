@@ -1,133 +1,178 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8793D1CA96
-	for <linux-usb@vger.kernel.org>; Wed,  4 Oct 2023 16:59:55 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DFCCBD;
-	Wed,  4 Oct 2023 09:59:53 -0700 (PDT)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 394FFpCM002355;
-	Wed, 4 Oct 2023 16:59:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=9ALIUoz1vkM6MhoUdR9nJ++NWyOo4YGcWioNI82djYU=;
- b=BHESrBFtrLR1GyZA4Q6wWxsFFcGwy5dv8haL4bg8L9EMu/2rVtyDyp7CjG8A4lB024Rn
- jBh3UE0AjYGS33bny1SOv4W/6pFGMyi5LKvUHF3uxHQlz0k73SpKzp3EDuMUqp/k/D6Z
- 9ME9X9M877z4lJfU7qDYNypcj1vSJJ+YIRWqwpyJCGFKfRdaS25EbQPmYDrz+fWH9bEy
- V2fd08Unlx5rpflrWYVLXcRQ3u6LeypLgJrKMmQ2MasXJmZ6MlZSx1nw/i7U94m4JAvo
- Wf8WuldyesEwKpRWDZpyvei1N38FR5Uf7DkvDiFlUdbGxAtLOBavBDAogFur4RT9+wuf 1g== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tghsjumxx-1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83391C291;
+	Wed,  4 Oct 2023 18:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="AfcnYAjL"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8487A7;
+	Wed,  4 Oct 2023 11:36:26 -0700 (PDT)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 394FBLvr028282;
+	Wed, 4 Oct 2023 18:35:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=6M3YAebF9rrs3opK3mpTD1jmedIyRT/cMOQ6DDH1tyM=;
+ b=AfcnYAjLVk8hVxmWmdF/yylUGqfIZ7FeD1F4DB9WeY2hh1UuUaO8K8wzGq8ENxXacTBv
+ +rXSm3UKVxoh9zjzKMby24VOV44iXS4UiH+RgCqYC8p/eg4/8vz4et4tjPoOwYPM4B4q
+ duDpI5J0Dr9MHLh4hLwsjAQZOps3/HLypCaDY9fIcuMU6YyyGj6OgzDanbRsqcki2GAi
+ 2ujp+RKWMC8xWFH56kRquJsGwybxookOCZVxSPiNqMMm/Z89gpgUGFNEdLbTr4ZyTIdm
+ WvAqoiCoOL9fA3OTtsRUCuK3AydDvMiu0GhTgKM0stQKqOcKGtZuH+vz4/U4Wny8iARN Jw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3th2gq1t4n-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Oct 2023 16:59:43 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 394Gxg43032102
+	Wed, 04 Oct 2023 18:35:45 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 394IZhC3025160
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 4 Oct 2023 16:59:42 GMT
-Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Wed, 4 Oct 2023 09:59:38 -0700
-From: Krishna Kurapati <quic_kriskura@quicinc.com>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        Bjorn Andersson <andersson@kernel.org>
-CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_ppratap@quicinc.com>, <quic_wcheng@quicinc.com>,
-        <quic_jackp@quicinc.com>, Krishna Kurapati <quic_kriskura@quicinc.com>,
-        "Johan Hovold" <johan@kernel.org>
-Subject: [PATCH v12 2/3] usb: dwc3: core: Skip setting event buffers for host only controllers
-Date: Wed, 4 Oct 2023 22:29:21 +0530
-Message-ID: <20231004165922.25642-3-quic_kriskura@quicinc.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231004165922.25642-1-quic_kriskura@quicinc.com>
-References: <20231004165922.25642-1-quic_kriskura@quicinc.com>
+	Wed, 4 Oct 2023 18:35:44 GMT
+Received: from [10.71.112.36] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Wed, 4 Oct
+ 2023 11:35:10 -0700
+Message-ID: <2127ef61-e263-2a0e-438a-6baa125aa70d@quicinc.com>
+Date: Wed, 4 Oct 2023 11:35:06 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v7 01/33] xhci: add support to allocate several
+ interrupters
+Content-Language: en-US
+To: Mathias Nyman <mathias.nyman@intel.com>,
+        Mathias Nyman
+	<mathias.nyman@linux.intel.com>,
+        <gregkh@linuxfoundation.org>, <lgirdwood@gmail.com>,
+        <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <srinivas.kandagatla@linaro.org>, <bgoswami@quicinc.com>,
+        <Thinh.Nguyen@synopsys.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+References: <20230921214843.18450-1-quic_wcheng@quicinc.com>
+ <20230921214843.18450-2-quic_wcheng@quicinc.com>
+ <10ad0613-7e88-dbe8-c5a2-d535f8e9db03@linux.intel.com>
+ <e3f3c8cd-6338-da08-d988-4d2ed68280e6@quicinc.com>
+ <843897f1-3ce5-f8da-5f10-7d8a68849fd2@intel.com>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <843897f1-3ce5-f8da-5f10-7d8a68849fd2@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: yGfWHI3jeTDEvFlGisQeJGni3rfGCBFv
-X-Proofpoint-ORIG-GUID: yGfWHI3jeTDEvFlGisQeJGni3rfGCBFv
+X-Proofpoint-GUID: 6qI8t9feb8uXz-ckzPnXYaJeZ5ViYC9L
+X-Proofpoint-ORIG-GUID: 6qI8t9feb8uXz-ckzPnXYaJeZ5ViYC9L
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-04_08,2023-10-02_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
- mlxlogscore=890 bulkscore=0 impostorscore=0 adultscore=0 clxscore=1011
- spamscore=0 suspectscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
- definitions=main-2310040123
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+ definitions=2023-10-04_10,2023-10-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ lowpriorityscore=0 phishscore=0 mlxlogscore=598 mlxscore=0 impostorscore=0
+ malwarescore=0 suspectscore=0 clxscore=1015 bulkscore=0 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310040136
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On some SoC's like SA8295P where the tertiary controller is host-only
-capable, GEVTADDRHI/LO, GEVTSIZ, GEVTCOUNT registers are not accessible.
-Trying to access them leads to a crash.
+Hi Mathias,
 
-For DRD/Peripheral supported controllers, event buffer setup is done
-again in gadget_pullup. Skip setup or cleanup of event buffers if
-controller is host-only capable.
+On 10/4/2023 7:02 AM, Mathias Nyman wrote:
+> On 2.10.2023 23.07, Wesley Cheng wrote:
+>> Hi Mathias,
+>>
+>> On 9/28/2023 3:31 AM, Mathias Nyman wrote:
+>>> On 22.9.2023 0.48, Wesley Cheng wrote:
+>>>> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+>>>>
+>>>> Modify the XHCI drivers to accommodate for handling multiple event 
+>>>> rings in
+>>>> case there are multiple interrupters.  Add the required APIs so 
+>>>> clients are
+>>>> able to allocate/request for an interrupter ring, and pass this 
+>>>> information
+>>>> back to the client driver.  This allows for users to handle the 
+>>>> resource
+>>>> accordingly, such as passing the event ring base address to an audio 
+>>>> DSP.
+>>>> There is no actual support for multiple MSI/MSI-X vectors.
+>>>>
+>>>> Factoring out XHCI interrupter APIs and structures done by Wesley 
+>>>> Cheng, in
+>>>> order to allow for USB class drivers to utilze them.
+>>>>
+>>>>   }
+>>>> +void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct 
+>>>> xhci_interrupter *ir)
+>>>> +{
+>>>> +    struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+>>>> +    unsigned int intr_num;
+>>>> +
+>>>> +    /* interrupter 0 is primary interrupter, don't touchit */
+>>>> +    if (!ir || !ir->intr_num || ir->intr_num >= 
+>>>> xhci->max_interrupters) {
+>>>> +        xhci_dbg(xhci, "Invalid secondary interrupter, can't 
+>>>> remove\n");
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    /* fixme, should we check xhci->interrupter[intr_num] == ir */
+>>>> +    spin_lock(&xhci->lock);
+>>>
+>>> Needs to be spin_lock_irq() ir spin_lock_irqsave() as xhci->lock is 
+>>> used in interrupt handler.
+>>>
+>>>
+>>>> +    intr_num = ir->intr_num;
+>>>> +    xhci_free_interrupter(xhci, ir);
+>>>> +    xhci->interrupters[intr_num] = NULL;
+>>>> +    spin_unlock(&xhci->lock);
+>>>
+>>> likewise
+>>>
+>>
+>> Let me check these again.  In general, I think I will use both the 
+>> xhci->mutex and xhci->lock where needed, because I believe we'd run 
+>> into sleep while atomic issues
+>> while freeing the DMA memory.  Will rework this and submit in the next 
+>> rev.
+>>
+> 
+> Maybe we need to split xhci_free_interrupter() into separate remove and 
+> free functions
+> 
 
-Suggested-by: Johan Hovold <johan@kernel.org>
-Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
----
- drivers/usb/dwc3/core.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Thanks for sharing the work you've been doing.  Yes, I did something 
+similar as well on my end, but will refactor in your code and re-test.
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index d7c5669ebd06..3e507e4cc542 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -486,6 +486,13 @@ static void dwc3_free_event_buffers(struct dwc3 *dwc)
- static int dwc3_alloc_event_buffers(struct dwc3 *dwc, unsigned int length)
- {
- 	struct dwc3_event_buffer *evt;
-+	unsigned int hw_mode;
-+
-+	hw_mode = DWC3_GHWPARAMS0_MODE(dwc->hwparams.hwparams0);
-+	if (hw_mode == DWC3_GHWPARAMS0_MODE_HOST) {
-+		dwc->ev_buf = NULL;
-+		return 0;
-+	}
- 
- 	evt = dwc3_alloc_one_event_buffer(dwc, length);
- 	if (IS_ERR(evt)) {
-@@ -507,6 +514,9 @@ int dwc3_event_buffers_setup(struct dwc3 *dwc)
- {
- 	struct dwc3_event_buffer	*evt;
- 
-+	if (!dwc->ev_buf)
-+		return 0;
-+
- 	evt = dwc->ev_buf;
- 	evt->lpos = 0;
- 	dwc3_writel(dwc->regs, DWC3_GEVNTADRLO(0),
-@@ -524,6 +534,9 @@ void dwc3_event_buffers_cleanup(struct dwc3 *dwc)
- {
- 	struct dwc3_event_buffer	*evt;
- 
-+	if (!dwc->ev_buf)
-+		return;
-+
- 	evt = dwc->ev_buf;
- 
- 	evt->lpos = 0;
--- 
-2.42.0
+> Did some work on this, and on the sideband api in general.
+> 
+> Code still has a lot of FIXMEs, and it's completely untested, but to 
+> avoid us
+> from doing duplicate work I pushed it to my feature_interrupters branch 
+> anyway
+> 
+> git://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git 
+> feature_interrupters
+> https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=feature_interrupters 
+> 
 
+Ok.  Initial look at it seems like it will be fine, but will integrate 
+and make changes where needed.
+
+Thanks
+Wesley Cheng
