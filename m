@@ -1,148 +1,160 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A1427725
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:05:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B44C28E29
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:23:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="6zqsob4W";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ot8Hp2ir"
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AB794F6F0
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 07:02:52 -0700 (PDT)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-	by mailout.nyi.internal (Postfix) with ESMTP id B553C5C0398;
-	Thu,  5 Oct 2023 03:20:13 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Thu, 05 Oct 2023 03:20:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1696490413; x=1696576813; bh=uf
-	aGcSs5vDPG+rSC5/4FkEENRtFqKyrJ/T6RM1RwL3U=; b=6zqsob4WBSij7QjbWc
-	8sWNjiNy0ocF3DS7Z7QXvQcc2htBW1hM1gm05bistcgBtAB4fqQN+pw9M3nRCFhk
-	O19vXFvoCzEDcwnLQkAYJaiwxHh2vJ/C8YzNwFhaYDH2SoTkL+lf7wP8ZE8iyiYT
-	HpMrpmBybjlU5dOXJO/YCs0uKabBrxiQZli065dMwG3MdKKyCucbEuQS6ON7+g0/
-	vwr03QS5ZfqZfr+kW5avhuJPhOtC0UV1zZunBrAcx4Hs6GPxEwqBD1XbAQQkUgwc
-	eULz4qdUV0dk8OQxxVdxsMP+nzhcbmuqDQ3zVMthgeIw786PwL5Gr+JTEUoCWar+
-	4zVQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1696490413; x=1696576813; bh=ufaGcSs5vDPG+
-	rSC5/4FkEENRtFqKyrJ/T6RM1RwL3U=; b=Ot8Hp2irKnsenXfUm2jLUaGUFertV
-	TZYrjloDb3YPZtClCRZzhyWJUvMu2+HoJ5x7owzNT3W0pF/N05PPAOtLCrWJEBhS
-	KyPBti4P+xb0RPWmKBXqwQ3jpFelqTmewotNxZUniR6w99wd4PwbgLnKcFY6ZlEm
-	Mbqw2Jst1NxzQMlgG6Becw2mxXaJ6Gvx8CNty1bbX9kwIM7ji/e4clWQZAlZeH1z
-	5OM1HTwXkG0AnfCjGXYxIL2ZTyFVJwSmbYGuUhzXVE0N1HP4ZITpo09iaYtR8EEy
-	WwRefQiXRiK+G2NDWCz0gkj7/cloziwqaodmCHqOCzG2WwcUuAC6RWUgg==
-X-ME-Sender: <xms:rWMeZSkFF7A-O4p2fw8CU0O_btQHEy-8U2j9yviBvKTaxbjrp7E1zA>
-    <xme:rWMeZZ0kMkAsBMc3fAww_exYAchCcTQhABN9yZ-QsMuzk_k0QL1UOAV9imP8ZUHZB
-    tWrv9YEawiABQ>
-X-ME-Received: <xmr:rWMeZQr9WkA3zvSrvOKNtnSmRB6OE1oSGAGhObGsevU1PtsxQKSImzEUPGYQnq_YD1P_3KRUPUVCWUQe5bojUZxaLxzMmF08cfoqnw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrgeefgdduudelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttd
-    ertddttddvnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhm
-    qeenucggtffrrghtthgvrhhnpeehgedvvedvleejuefgtdduudfhkeeltdeihfevjeekje
-    euhfdtueefhffgheekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
-    ihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
-X-ME-Proxy: <xmx:rWMeZWklMFxfDwVMkh18ymIFK8_dXMhHZueW9ISJfXZ3GaIvgAcWbg>
-    <xmx:rWMeZQ0ILElfdRvJAUIBqMO-IWSzI0eSiv_SXsZfyaKPDXilZR8QIA>
-    <xmx:rWMeZdu33el89dws-Vpe5IW9XI2RxXzaeaSSjtl_j8GiIWJvWLmbTw>
-    <xmx:rWMeZaoG5EVUL6uDrKUXdakEcupDMkPO5FQyZBPWuJ-s88IxNKiIDQ>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 5 Oct 2023 03:20:12 -0400 (EDT)
-Date: Thu, 5 Oct 2023 09:20:10 +0200
-From: Greg KH <greg@kroah.com>
-To: linux-dev@sensoray.com
-Cc: balbi@kernel.org, linux-usb@vger.kernel.org, dean@sensoray.com
-Subject: Re: [PATCH] usb/gadget: function fs req_match endpoint address fix
-Message-ID: <2023100506-veteran-foil-cec0@gregkh>
-References: <20231003221103.1607964-1-linux-dev@sensoray.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="gRuy9eh3"
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2064.outbound.protection.outlook.com [40.107.93.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A5A02B915;
+	Thu,  5 Oct 2023 07:22:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kkMeoBuVLyhrobZeEkSu6fhBiuO5bG1dnRfVONqMcgknzKMkN84tSr1a+ba0ZIxEZOv9f/kxZvy+Y6WKwCxLvDoAXuUuGiGyJxmFw7WDtBcBJ7Rm77Mcb70eF7MK3Hk8VxcFxZ3UfXN6vwoqT7KE7DUAd0hltu3X55wgeY4PyUkoTc63KJ0DAhhLiAJRadsYuuGlng5YEt42l+nxmzDY4QNGeJkEEDES9A7HoNbe1ZCTcVyymwKCLb1vJqa1pRPlYwm7kfBzErh/H/+ZsccE7AL5y9ewDuTLOv/nG8LH8KSooq1/vzCqH+4Ecp13iYN1UMnkwVqlFHAq0/vsjcgpTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xZmxiXzEO19QM2XmvIEFIwZKQdGn7QT9D65OteTQosY=;
+ b=BN9gptm6eHkwoiJAEYtbjDACMyS6rMTCRqTrpSWs3caJ4KzbgnMrDFGNhNgCNVKi4butRHLEr3B/mWRVLiw2OXJQmxVZQ5wq9Fm/g15VjZD9foojUPpuWQpdo8zAtJcIdi7mZSaKYIq0zZu5gR6q1oZgvCFlTnkAB5hKu4IuoED9eT3d/hVqq505lW9REsjQ1Do08GfsQP7gThHlGK8tUOs/NgNCjY5eVxgIrRz9cZ3AbOwDWi6uYw/mPzJv5dZa/flhiS7+FHRVmTFyV7FQLRRR56mNQlYhLKZrXP/5EpLVvbA/jm3jyDOZwtP/PRx93lAZuM0HLpdiF8jLa/wpUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linuxfoundation.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xZmxiXzEO19QM2XmvIEFIwZKQdGn7QT9D65OteTQosY=;
+ b=gRuy9eh3ZjP9a6KoniDf1lRPhO8mHC5G1o6dLsKzz6ypmcuGyT0slfBUy2zprRoA2KSYa/mQaJN/Wa91S/d0x8JemigwpyLQacouPz3Hmb99kKqiSDFnL8uU5oqR7HWQ1ZkRx4mXH6Hbca8FZ2Yt9+A1vwWtLk4HxRFt/fARMXo=
+Received: from CH0PR03CA0296.namprd03.prod.outlook.com (2603:10b6:610:e6::31)
+ by IA0PR12MB8423.namprd12.prod.outlook.com (2603:10b6:208:3dc::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.37; Thu, 5 Oct
+ 2023 14:22:50 +0000
+Received: from DS3PEPF000099D7.namprd04.prod.outlook.com
+ (2603:10b6:610:e6:cafe::a) by CH0PR03CA0296.outlook.office365.com
+ (2603:10b6:610:e6::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.29 via Frontend
+ Transport; Thu, 5 Oct 2023 14:22:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS3PEPF000099D7.mail.protection.outlook.com (10.167.17.8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6838.14 via Frontend Transport; Thu, 5 Oct 2023 14:22:49 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 5 Oct
+ 2023 09:22:26 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 5 Oct
+ 2023 09:22:25 -0500
+Received: from xhdpiyushm40.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.27 via Frontend
+ Transport; Thu, 5 Oct 2023 09:22:23 -0500
+From: Piyush Mehta <piyush.mehta@amd.com>
+To: <gregkh@linuxfoundation.org>, <michal.simek@amd.com>,
+	<Thinh.Nguyen@synopsys.com>, <p.zabel@pengutronix.de>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<git@amd.com>, Piyush Mehta <piyush.mehta@amd.com>
+Subject: [PATCH] usb: dwc3: xilinx: add reset-controller support
+Date: Thu, 5 Oct 2023 19:52:15 +0530
+Message-ID: <20231005142215.1530-1-piyush.mehta@amd.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231003221103.1607964-1-linux-dev@sensoray.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099D7:EE_|IA0PR12MB8423:EE_
+X-MS-Office365-Filtering-Correlation-Id: 961e7c36-2e9a-40b6-77f4-08dbc5ae8de7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	/Zjxz8vgrVO9pqohwJYptmAsYjA35p2VBpz1ccA2NSNTppJPSzjj/tZLE/ZsneJRlYJO+d6hybXcXsqLVrMJ1U/q7DPwcpfZs1yGzRpHo3UQbhShSSiG6IcDX/mhS8C9V5ZJHUGgkqHnVu5p+lq9YQejrQXLv8HYTdk8uCQf629AbKg2fwsBz8BQIRVtUnSdjCjkbmDdjCS4F0Lj+tPW3vWKzWtG0CfdY2g7R9SrtpfsJdgoP7YtJNsefq+BPsHGKc2Le46DWjrIoBD6P3NMn1aQW4ZotjWPn6Cy4QWIiIboHTz6/Tut6smTFxaZG3Xb0UhSSl4B7TGr4eqIDapr5+C2Wo+e9ixdpnvyAt2VpBOkDmGxg96olgBLis7FOLmsGFdV1bHUdPlQlnhStcybxPBBvYf85+vs+bnY1XCZZQyJcpI+PlcYWTLqxQX8RYd7zBHIJLIUuiDkow/oqwc4zNNAY+db7ecAIIMSqZX60ZMNC9hf7yCilWi7naIBs/1iH4IXIztWeg+RjHyhv1vqQtgyYKSwnPsNXzOuybeDdkOA+ejODZruIBs3ihj7xm+Lx3OucpI9EFWo+T28WZfYT+ggxGIrHhVhc+qGccWVjxhWyzU/dqcV/kqadNF9U83XgerZdcwjJEl1MK5O1RBCUfG34uOL+5gtUXK33xOT2wJMrrkkRV81X5i4Lhb/fkWAu2usTqrDLq9X7HGP34CnUi6gzZZ6jiUkDzCOonwu31Ef0Vmy0KvhFkyQN8OM1424Y8gBmTE9xTsH6Z5+lUmhFw==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(39860400002)(136003)(396003)(346002)(230922051799003)(186009)(82310400011)(451199024)(1800799009)(64100799003)(36840700001)(40470700004)(46966006)(2906002)(44832011)(8676002)(8936002)(5660300002)(4326008)(41300700001)(40460700003)(316002)(70586007)(2616005)(70206006)(54906003)(36860700001)(40480700001)(110136005)(26005)(336012)(426003)(36756003)(6666004)(1076003)(82740400003)(81166007)(356005)(83380400001)(86362001)(47076005)(478600001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2023 14:22:49.8014
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 961e7c36-2e9a-40b6-77f4-08dbc5ae8de7
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS3PEPF000099D7.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8423
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Tue, Oct 03, 2023 at 03:11:03PM -0700, linux-dev@sensoray.com wrote:
-> From: Dean Anderson <linux-dev@sensoray.com>
-> 
-> Fixes f_fs.c handling USB_RECIP_ENDPOINT request types incorrectly for
-> endpoints not belonging to it. f_fs.c needs to distinguish between IN
-> and OUT endpoints, not just the endpoint number. Otherwise, f_fs may
-> handle endpoints belonging to other functions. This occurs in the
-> gadget/composite.c composite_setup function in the req_match callback.
-> 
-> Signed-off-by: Dean Anderson <linux-dev@sensoray.com>
+Add a reset-controller for supporting Xilinx versal platforms. To reset
+the USB controller, get the reset ID from device-tree and using ID trigger
+the reset, with the assert and deassert reset controller APIs for USB
+controller initialization. Delay of microseconds is added in between assert
+and deassert to meet the setup and hold the time requirement of the reset.
 
-What commit id does this fix?
+Signed-off-by: Piyush Mehta <piyush.mehta@amd.com>
+---
+ drivers/usb/dwc3/dwc3-xilinx.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-> ---
->  drivers/usb/gadget/function/f_fs.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-> index c727cb5de871..fb95ca4aa025 100644
-> --- a/drivers/usb/gadget/function/f_fs.c
-> +++ b/drivers/usb/gadget/function/f_fs.c
-> @@ -71,7 +71,7 @@ struct ffs_function {
->  	struct ffs_data			*ffs;
->  
->  	struct ffs_ep			*eps;
-> -	u8				eps_revmap[16];
-> +	u8				eps_revmap[32]; /* 16 in endpoints, 16 out endpoints*/
+diff --git a/drivers/usb/dwc3/dwc3-xilinx.c b/drivers/usb/dwc3/dwc3-xilinx.c
+index 19307d24f3a0..d0780bf231fb 100644
+--- a/drivers/usb/dwc3/dwc3-xilinx.c
++++ b/drivers/usb/dwc3/dwc3-xilinx.c
+@@ -32,9 +32,6 @@
+ #define XLNX_USB_TRAFFIC_ROUTE_CONFIG		0x005C
+ #define XLNX_USB_TRAFFIC_ROUTE_FPD		0x1
+ 
+-/* Versal USB Reset ID */
+-#define VERSAL_USB_RESET_ID			0xC104036
+-
+ #define XLNX_USB_FPD_PIPE_CLK			0x7c
+ #define PIPE_CLK_DESELECT			1
+ #define PIPE_CLK_SELECT				0
+@@ -72,20 +69,26 @@ static void dwc3_xlnx_mask_phy_rst(struct dwc3_xlnx *priv_data, bool mask)
+ static int dwc3_xlnx_init_versal(struct dwc3_xlnx *priv_data)
+ {
+ 	struct device		*dev = priv_data->dev;
++	struct reset_control	*crst;
+ 	int			ret;
+ 
++	crst = devm_reset_control_get_exclusive(dev, NULL);
++	if (IS_ERR(crst))
++		return dev_err_probe(dev, PTR_ERR(crst), "failed to get reset signal\n");
++
+ 	dwc3_xlnx_mask_phy_rst(priv_data, false);
+ 
+ 	/* Assert and De-assert reset */
+-	ret = zynqmp_pm_reset_assert(VERSAL_USB_RESET_ID,
+-				     PM_RESET_ACTION_ASSERT);
++	ret = reset_control_assert(crst);
+ 	if (ret < 0) {
+ 		dev_err_probe(dev, ret, "failed to assert Reset\n");
+ 		return ret;
+ 	}
+ 
+-	ret = zynqmp_pm_reset_assert(VERSAL_USB_RESET_ID,
+-				     PM_RESET_ACTION_RELEASE);
++	/* reset hold time */
++	usleep_range(5, 10);
++
++	ret = reset_control_deassert(crst);
+ 	if (ret < 0) {
+ 		dev_err_probe(dev, ret, "failed to De-assert Reset\n");
+ 		return ret;
+-- 
+2.17.1
 
-Can't this be two separate arrays so you don't have to do fun masks to
-pick out which is an in and which is an out?
-
->  	short				*interfaces_nums;
->  
->  	struct usb_function		function;
-> @@ -2847,6 +2847,7 @@ static int __ffs_func_bind_do_descs(enum ffs_entity_type type, u8 *valuep,
->  		struct usb_ep *ep;
->  		u8 bEndpointAddress;
->  		u16 wMaxPacketSize;
-> +		u8 addr;
->  
->  		/*
->  		 * We back up bEndpointAddress because autoconfig overwrites
-> @@ -2870,8 +2871,9 @@ static int __ffs_func_bind_do_descs(enum ffs_entity_type type, u8 *valuep,
->  
->  		ffs_ep->ep  = ep;
->  		ffs_ep->req = req;
-> -		func->eps_revmap[ds->bEndpointAddress &
-> -				 USB_ENDPOINT_NUMBER_MASK] = idx + 1;
-> +		addr = ((ds->bEndpointAddress & USB_ENDPOINT_DIR_MASK) >> 3)
-> +			| (ds->bEndpointAddress & USB_ENDPOINT_NUMBER_MASK);
-> +		func->eps_revmap[addr] = idx + 1;
->  		/*
->  		 * If we use virtual address mapping, we restore
->  		 * original bEndpointAddress value.
-> @@ -3403,7 +3405,9 @@ static void ffs_func_resume(struct usb_function *f)
->  
->  static int ffs_func_revmap_ep(struct ffs_function *func, u8 num)
->  {
-> -	num = func->eps_revmap[num & USB_ENDPOINT_NUMBER_MASK];
-> +	u8 addr = ((num & USB_ENDPOINT_DIR_MASK) >> 3)
-> +		| (num & USB_ENDPOINT_NUMBER_MASK);
-> +	num = func->eps_revmap[addr];
-
-That's messy, again, 2 arrays would make this much simpler I think?
-
-thanks,
-
-greg k-h
