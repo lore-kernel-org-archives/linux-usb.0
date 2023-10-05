@@ -1,57 +1,53 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2096627ED1
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:04:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30F327725
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:04:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="ivbGpObT"
-X-Greylist: delayed 435 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 05 Oct 2023 07:03:36 PDT
-Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com [203.205.221.242])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16DA759E6;
-	Thu,  5 Oct 2023 07:03:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1696514613;
-	bh=SXOUgbldgZBCY3GyES22l+Ixl/lk+hf9+Aq9JS/F44U=;
-	h=From:To:Cc:Subject:Date;
-	b=ivbGpObTfpcXyvTA6pLrkKVYM8ddZpZLIkVIaEDUv+4b6FjjRZSAdcNZlsATIjqdk
-	 6UgwiIQRZLoS+Lu5cp3PZht1bRkuAt4lNYy+LyYO4wSX9V9jQElNQgbsJs0vWG8xuq
-	 0JLrHcH9CcmmjICvxGFqeBfA2XjHGiO2+cUGpaKQ=
-Received: from KernelDevBox.byted.org ([180.184.103.200])
-	by newxmesmtplogicsvrsza12-0.qq.com (NewEsmtp) with SMTP
-	id C7005A1E; Thu, 05 Oct 2023 21:49:48 +0800
-X-QQ-mid: xmsmtpt1696513788t2552ounz
-Message-ID: <tencent_6BA8EA125537CBB5D65B05605E1E960AA708@qq.com>
-X-QQ-XMAILINFO: MILSKRzDrLPb9EuLXmTn57oGreBCkYaFwc9IUcG6/5HF5vHFojYNqHhnEx5ycG
-	 J2FoBqQxKuVm8bD5TlMpxToHTmBj3N0FQjHU/8vHoMtdHdOSLuixdQxVWyJ+QASvQbAEIbkvO4/j
-	 r8H3zEEUWGT6D2p5kIYAN+HnOUEi1LVD/hskoQvnIELONuoJpgGFylV/wLa6XQMUe6u3F4lSZ+LJ
-	 uk/Jv0sSJcmkNQ+u4ZsTsIVepEX1QcdbUJWKulmeY9O3p5u9rbe1lk+MICpeZJqVctfi5IwnXjTh
-	 FBJe3AqbZD7cyQ5M2BE+4mq8nDiRwGgxjPbCAQkzVQ6PkeyrvzTr2UkB8i0pE4A40r07HvrRVm6r
-	 4rIvBSBj7OsXv+n7vei0du/773JvOUm4G+SRKlU6CMP7XZykKFlKkSnAcqF0sva20v+0+LhEEj8N
-	 s6kNU+GmOSEYFh8E+O/d9Y3dOF7J4WbU19Zn0kFPPGUpi9vWwmMNrYnO04iW/aDXI4FEwEzVHAt4
-	 QekwZSY4LAfLvKyULVuzneot2gOTQE8zqwNMxYyoHN3yC/nl9h6k0XvqAkEPVCYmbvZnRPO9vPhV
-	 7+73//LgD6yaYmcm6MtgAB7nq+E5dUaARkw4ej5nXbT5do34NKD8PLCLT4qIu50k4lPx3Sp+4jGK
-	 lkawqTtY9IAlLqSQX7txS6BqP02Cti421bKZ28iJN/4er0xIqJ0QlPhua+ZnJFcx0KYJh+TiblbM
-	 cZrOIdNEfj0mpvLx3yfxoMUu2xE4v0caVCFitQb4NJHmgrFqB7L/NKroOdjzAQKvawFmvn3ImT4P
-	 q+gd2Gm9MvdrvXW9vEKdJPd97/SC+sDM9Qk/kKORdaKJZmpekb5WRT+r1RoTEbK+intAVmIN22J9
-	 NPyUDx1Sx0HtnWTfKxgReIK610bhXSe6uAZdcG+j4jAUXD0hxifiPyP/yN3HHl4ASwKvF4dseb58
-	 Sn+yaI7fCm9bhDyfGCaD7GMi4qkt/MvwStO0GFPlboTnIWb8l8yznghXiqFvMQHXppFVc2kac=
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-From: Zhang Shurong <zhang_shurong@foxmail.com>
-To: Thinh.Nguyen@synopsys.com
-Cc: gregkh@linuxfoundation.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	linux-imx@nxp.com,
-	linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Shurong <zhang_shurong@foxmail.com>
-Subject: [PATCH] usb: dwc3: fix possible object reference leak
-Date: Thu,  5 Oct 2023 21:49:46 +0800
-X-OQ-MSGID: <20231005134946.2197459-1-zhang_shurong@foxmail.com>
-X-Mailer: git-send-email 2.30.2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JPHNFOXb"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F06CC4E368
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 07:04:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696514657; x=1728050657;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Wa6t2DTFXJa4tkylw9tYrxfqlqGaswEZ8RJPzfie9Sw=;
+  b=JPHNFOXbKaneIxpDj1foR+r/00sXsRdRfwlqhH2Og8gwz3HwAyBBINyV
+   2rr/UDpHlATOun+eeQaol2KpU+DEsXKCHWFeIALJCFgjaeUcvo7q46AQb
+   75BtMuUhFy347xreSatoiwYrNPWGfJBFnn0pCWAAVLHD2vbiz9DAW/7b2
+   pGl+Lwepxm/K+xZ+krQxOVEA0MviNWRklmmoeSU5Gqhf4wiG3xm/QdCAr
+   P31Yn+EPfEaxUDw+UzmfKtm54G1Ct/P6kU7MgoYgf7bzp0myTypmiAjU+
+   U3zjElN2KMOKqPTOlyW0BSsmX3fyhIm4u9um83tVcFanLzAvkJp6IhNZa
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="380732071"
+X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
+   d="scan'208";a="380732071"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 02:27:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="817511730"
+X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
+   d="scan'208";a="817511730"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga008.fm.intel.com with ESMTP; 05 Oct 2023 02:27:31 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+	id D771A345; Thu,  5 Oct 2023 12:27:29 +0300 (EEST)
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Gil Fine <gil.fine@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 01/10] thunderbolt: Use constants for path weight and priority
+Date: Thu,  5 Oct 2023 12:27:20 +0300
+Message-Id: <20231005092729.3595447-2-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20231005092729.3595447-1-mika.westerberg@linux.intel.com>
+References: <20231005092729.3595447-1-mika.westerberg@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -59,45 +55,132 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	HELO_DYNAMIC_IPADDR,RCVD_IN_DNSWL_BLOCKED,RDNS_DYNAMIC,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+	SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-The of_find_device_by_node takes a reference to the struct device
-when find the match device,we should release it when fail.
+Makes it easier to follow and update. No functional changes.
 
-Fix it by calling by calling platform_device_put when error returns.
-
-Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/usb/dwc3/dwc3-imx8mp.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/thunderbolt/tunnel.c | 39 +++++++++++++++++++++++++-----------
+ 1 file changed, 27 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-imx8mp.c b/drivers/usb/dwc3/dwc3-imx8mp.c
-index a1e15f2fffdb..af5302c3f7a9 100644
---- a/drivers/usb/dwc3/dwc3-imx8mp.c
-+++ b/drivers/usb/dwc3/dwc3-imx8mp.c
-@@ -244,7 +244,7 @@ static int dwc3_imx8mp_probe(struct platform_device *pdev)
- 					IRQF_ONESHOT, dev_name(dev), dwc3_imx);
- 	if (err) {
- 		dev_err(dev, "failed to request IRQ #%d --> %d\n", irq, err);
--		goto depopulate;
-+		goto err_device_put;
- 	}
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 9775332dee0e..c53df06dd5df 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -21,12 +21,18 @@
+ #define TB_PCI_PATH_DOWN		0
+ #define TB_PCI_PATH_UP			1
  
- 	device_set_wakeup_capable(dev, true);
-@@ -252,6 +252,8 @@ static int dwc3_imx8mp_probe(struct platform_device *pdev)
++#define TB_PCI_PRIORITY			3
++#define TB_PCI_WEIGHT			1
++
+ /* USB3 adapters use always HopID of 8 for both directions */
+ #define TB_USB3_HOPID			8
  
- 	return 0;
+ #define TB_USB3_PATH_DOWN		0
+ #define TB_USB3_PATH_UP			1
  
-+err_device_put:
-+	platform_device_put(dwc3_imx->dwc3);
- depopulate:
- 	of_platform_depopulate(dev);
- err_node_put:
++#define TB_USB3_PRIORITY		3
++#define TB_USB3_WEIGHT			3
++
+ /* DP adapters use HopID 8 for AUX and 9 for Video */
+ #define TB_DP_AUX_TX_HOPID		8
+ #define TB_DP_AUX_RX_HOPID		8
+@@ -36,6 +42,12 @@
+ #define TB_DP_AUX_PATH_OUT		1
+ #define TB_DP_AUX_PATH_IN		2
+ 
++#define TB_DP_VIDEO_PRIORITY		1
++#define TB_DP_VIDEO_WEIGHT		1
++
++#define TB_DP_AUX_PRIORITY		2
++#define TB_DP_AUX_WEIGHT		1
++
+ /* Minimum number of credits needed for PCIe path */
+ #define TB_MIN_PCIE_CREDITS		6U
+ /*
+@@ -46,6 +58,9 @@
+ /* Minimum number of credits for DMA path */
+ #define TB_MIN_DMA_CREDITS		1
+ 
++#define TB_DMA_PRIORITY			5
++#define TB_DMA_WEIGHT			1
++
+ static unsigned int dma_credits = TB_DMA_CREDITS;
+ module_param(dma_credits, uint, 0444);
+ MODULE_PARM_DESC(dma_credits, "specify custom credits for DMA tunnels (default: "
+@@ -213,8 +228,8 @@ static int tb_pci_init_path(struct tb_path *path)
+ 	path->egress_shared_buffer = TB_PATH_NONE;
+ 	path->ingress_fc_enable = TB_PATH_ALL;
+ 	path->ingress_shared_buffer = TB_PATH_NONE;
+-	path->priority = 3;
+-	path->weight = 1;
++	path->priority = TB_PCI_PRIORITY;
++	path->weight = TB_PCI_WEIGHT;
+ 	path->drop_packages = 0;
+ 
+ 	tb_path_for_each_hop(path, hop) {
+@@ -1152,8 +1167,8 @@ static void tb_dp_init_aux_path(struct tb_path *path)
+ 	path->egress_shared_buffer = TB_PATH_NONE;
+ 	path->ingress_fc_enable = TB_PATH_ALL;
+ 	path->ingress_shared_buffer = TB_PATH_NONE;
+-	path->priority = 2;
+-	path->weight = 1;
++	path->priority = TB_DP_AUX_PRIORITY;
++	path->weight = TB_DP_AUX_WEIGHT;
+ 
+ 	tb_path_for_each_hop(path, hop)
+ 		tb_dp_init_aux_credits(hop);
+@@ -1196,8 +1211,8 @@ static int tb_dp_init_video_path(struct tb_path *path)
+ 	path->egress_shared_buffer = TB_PATH_NONE;
+ 	path->ingress_fc_enable = TB_PATH_NONE;
+ 	path->ingress_shared_buffer = TB_PATH_NONE;
+-	path->priority = 1;
+-	path->weight = 1;
++	path->priority = TB_DP_VIDEO_PRIORITY;
++	path->weight = TB_DP_VIDEO_WEIGHT;
+ 
+ 	tb_path_for_each_hop(path, hop) {
+ 		int ret;
+@@ -1471,8 +1486,8 @@ static int tb_dma_init_rx_path(struct tb_path *path, unsigned int credits)
+ 	path->ingress_fc_enable = TB_PATH_ALL;
+ 	path->egress_shared_buffer = TB_PATH_NONE;
+ 	path->ingress_shared_buffer = TB_PATH_NONE;
+-	path->priority = 5;
+-	path->weight = 1;
++	path->priority = TB_DMA_PRIORITY;
++	path->weight = TB_DMA_WEIGHT;
+ 	path->clear_fc = true;
+ 
+ 	/*
+@@ -1505,8 +1520,8 @@ static int tb_dma_init_tx_path(struct tb_path *path, unsigned int credits)
+ 	path->ingress_fc_enable = TB_PATH_ALL;
+ 	path->egress_shared_buffer = TB_PATH_NONE;
+ 	path->ingress_shared_buffer = TB_PATH_NONE;
+-	path->priority = 5;
+-	path->weight = 1;
++	path->priority = TB_DMA_PRIORITY;
++	path->weight = TB_DMA_WEIGHT;
+ 	path->clear_fc = true;
+ 
+ 	tb_path_for_each_hop(path, hop) {
+@@ -1838,8 +1853,8 @@ static void tb_usb3_init_path(struct tb_path *path)
+ 	path->egress_shared_buffer = TB_PATH_NONE;
+ 	path->ingress_fc_enable = TB_PATH_ALL;
+ 	path->ingress_shared_buffer = TB_PATH_NONE;
+-	path->priority = 3;
+-	path->weight = 3;
++	path->priority = TB_USB3_PRIORITY;
++	path->weight = TB_USB3_WEIGHT;
+ 	path->drop_packages = 0;
+ 
+ 	tb_path_for_each_hop(path, hop)
 -- 
-2.30.2
+2.40.1
 
