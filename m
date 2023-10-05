@@ -1,88 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9591F134C0;
-	Thu,  5 Oct 2023 12:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wy1ZGUj8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7865C32795;
-	Thu,  5 Oct 2023 12:17:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696508268;
-	bh=lt8rgcQEJlDrGU6JPLN6b36Bd1lxVPb7SqK2tFsmxNs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wy1ZGUj8g0lZuAa/Mf5s6ynt8YbAA2rzcibqUjdO7aa9CUefrurLP6t6s45dA1Py4
-	 baG81XSuv32pJeeVAjFstIrcutK6B75HC5W1dmsOVoYsxnOxyh0ywDrETvtEPNco3C
-	 9Hj1KJN5u2Qf+PpJCUO5hTvx2BiG/Ls8oU4sauehQIY3nz+D0aicUDotR0DpbjUBoe
-	 bdhnPMf7JgVwxlFb+T5vUIX5FL+dT6gjzSIIOqm7dqDRfOFIdeB7iPObGfXbZtDeLH
-	 Y4ZH1t5ByOOOO4cYAreqSrDH0wGXgBpB6WoRvd08tTgZwiWERsQvxt31BZUAvm1DRf
-	 DWJCziqm3INHQ==
-Date: Thu, 5 Oct 2023 14:17:43 +0200
-From: Simon Horman <horms@kernel.org>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, Hayes Wang <hayeswang@realtek.com>,
-	"David S . Miller" <davem@davemloft.net>, linux-usb@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE9526E1D
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 13:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D7651BFC;
+	Thu,  5 Oct 2023 06:50:01 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="383353480"
+X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
+   d="scan'208";a="383353480"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 02:14:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="728365949"
+X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
+   d="scan'208";a="728365949"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 02:14:09 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC1)
+	(envelope-from <andy@kernel.org>)
+	id 1qoKQn-00000002z4r-1f1n;
+	Thu, 05 Oct 2023 12:14:05 +0300
+Date: Thu, 5 Oct 2023 12:14:05 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Cc: Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Russell King <linux@armlinux.org.uk>,
 	Alan Stern <stern@rowland.harvard.edu>,
-	Grant Grundler <grundler@chromium.org>,
-	Edward Hill <ecgh@chromium.org>,
-	=?utf-8?B?QmrDuHJu?= Mork <bjorn@mork.no>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] r8152: Block future register access if register
- access fails
-Message-ID: <ZR6pZ5R14xHkW3zT@kernel.org>
-References: <20231004192622.1093964-1-dianders@chromium.org>
- <20231004122435.v2.5.Ib2affdbfdc2527aaeef9b46d4f23f7c04147faeb@changeid>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-spi@vger.kernel.org
+Subject: Re: [PATCH RFC v5 0/6] ARM: pxa: GPIO descriptor conversions
+Message-ID: <ZR5+XWBmg0I7joOg@smile.fi.intel.com>
+References: <20231004-pxa-gpio-v5-0-d99ae6fceea8@skole.hr>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231004122435.v2.5.Ib2affdbfdc2527aaeef9b46d4f23f7c04147faeb@changeid>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231004-pxa-gpio-v5-0-d99ae6fceea8@skole.hr>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+	autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 
-On Wed, Oct 04, 2023 at 12:24:42PM -0700, Douglas Anderson wrote:
-
-...
-
-> @@ -9784,7 +9904,29 @@ static int rtl8152_probe(struct usb_interface *intf,
->  	else
->  		device_set_wakeup_enable(&udev->dev, false);
->  
-> -	netif_info(tp, probe, netdev, "%s\n", DRIVER_VERSION);
-> +	mutex_lock(&tp->control);
-> +	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags)) {
-> +		/* If the device is marked inaccessible before probe even
-> +		 * finished then one of two things happened. Either we got a
-> +		 * USB error during probe or the user already unplugged the
-> +		 * device.
-> +		 *
-> +		 * If we got a USB error during probe then we skipped doing a
-> +		 * reset in r8152_control_msg() and deferred it to here. This
-> +		 * is because the queued reset will give up after 1 second
-> +		 * (see usb_lock_device_for_reset()) and we want to make sure
-> +		 * that we queue things up right before probe finishes.
-> +		 *
-> +		 * If the user already unplugged the device then the USB
-> +		 * farmework will call unbind right away for us. The extra
-
-Hi Douglas,
-
-As you are planning to re-spin anyway: farmework -> framework
-
-> +		 * reset we queue up here will be harmless.
-> +		 */
-> +		usb_queue_reset_device(tp->intf);
-> +	} else {
-> +		set_bit(PROBED_WITH_NO_ERRORS, &tp->flags);
-> +		netif_info(tp, probe, netdev, "%s\n", DRIVER_VERSION);
-> +	}
-> +	mutex_unlock(&tp->control);
->  
->  	return 0;
->  
-> -- 
-> 2.42.0.582.g8ccd20d70d-goog
+On Wed, Oct 04, 2023 at 04:56:24PM +0200, Duje Mihanović wrote:
+> Hello,
 > 
+> Small series to convert some of the board files in the mach-pxa directory
+> to use the new GPIO descriptor interface.
+> 
+> Most notably, the am200epd, am300epd and Spitz matrix keypad among
+> others are not converted in this series.
+
+Why is it still RFC?
+I believe it's already good enough to be considered as a real material.
+OTOH "RFT" might make sense. I'm not sure there are any users on the
+planet Earth that have this Sharp device up and running with newest
+kernels.
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
