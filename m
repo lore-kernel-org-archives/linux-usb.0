@@ -1,20 +1,20 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA21266D5;
-	Thu,  5 Oct 2023 19:25:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FF941751;
+	Thu,  5 Oct 2023 19:25:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nuvoton.onmicrosoft.com header.i=@nuvoton.onmicrosoft.com header.b="SMckb2zq"
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01hn2247.outbound.protection.outlook.com [52.100.0.247])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26247FC;
-	Thu,  5 Oct 2023 12:25:36 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=nuvoton.onmicrosoft.com header.i=@nuvoton.onmicrosoft.com header.b="G9zqK4eb"
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01hn2218.outbound.protection.outlook.com [52.100.164.218])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEA91FD;
+	Thu,  5 Oct 2023 12:25:37 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TPYPgWQmLfQqLjcfFPaHDpqg7YzlwrUuSmDMiNfIhAKObYtO5yb4mS7pJtlUerP9H6qEkaavEUXno+EmmfscVcqNOEfWr4LRZW/OqnqM0FbnAkmyfSWooTuIiYtAP8GDFxPfxq5PUqJucg6WZBGdDa3RPdUxuArgEPThJ7rKPgZu3RYxwJ3qTsaR10uGtJCnjy13f9iXg6SkZmgxG/I3yH1LF9DZ9nV5ubfl86JyD6EGJDe+qqRWH7BO39KKt+V32mj+JGXKaXqh8qfO51+HtKZ9MszY9vZWSwwPF7VJFyL+Aoqa8lL8GmiyZHzqMSjTWca1XOXFq2RInDXqS5c8FA==
+ b=MhbTqlGR/wtketlbybabYwX/qDtX+m7lm9ATRl5jcXMOJ1OkpI6NoLrIfDnmWSM/d2l0ddSAPu7jInz5//XZtS6E4vPLKCxu7A3vhGQrT1EGC7rbnYtI+p7SK8XU0h5b0HcSHl872Arncjwc2QSjHbHvIUbSf0Q4L4VBR4+eul5vd/c9JaPuUsDmODEeL7FHKrdzReEK0nuwueL6mWXfQZecMyVnuSSC91duftUe3ZbDzn8gT7f/Fco3x/c2iimTp+VxD3l42OlHM7o5ZqwiRlZLsuTzlshhCzlPaIqm9Q++MKsGgoED0jXhXTFQHLdc4Kht+VAJPRYdSqk0hakUwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=60l/P/bwOWdg2MkoncNt9iPmES2WMDnbSSJxCzK/2sM=;
- b=d9FylyFR9/250wqsNC3Bmp55vhnx1sDnPMEnalks4Jm0s7j5F4r6FBBOPO5AamuyZBD13ogxSYOtdQvDo73m7Os/jO/4xtdqVJz/6ccO/SCZEwP3f3lD+PBffz5T1hgUwHwOftuNXfEMTyv3TDjZiRBE1iI5S0TZ4Y4xOsP9Wwnn7mHRfLvFYViPCt5sUuRx5IjEOuzHmeidbdcn98/pn+d1dRhPfxme7Cr7m/KFqmavG2rWXfWVDPzVXprGfSK9MPyJ0YK49rK+OOGUPt0flpu2PxVYmx0FFWTRULZByIee2yTk1wszYXJ8z3Bhz+GuviEnsUSseAAJnH54WGqHUw==
+ bh=1ga4nxXaSRjk2FEtgsMqYOL1T0U4hiQE2m7Uq+3F5eM=;
+ b=NEpSC45a1U/gJjr+TzZi6YAD6K4934w5A96mNbQw7JMc2YAxcCU9Sykb5nKHXNElO39oVyaj+ULcR9t+MMDonPr9cYSdCVJT1POgtRpwIfMVM8abLWXWGOxbtEGS7EHKR9+jrUx75790+cyfou2Tbk3ItIOzldA3K3RiBDE+LNREenKioyDJND53uKHA19K6spybF06v/WZGthqekscTsaGyAaTJ9d7aBbPOQkEXCWD3xjBjsHnG2bq+fIqVVpZlHYECQfi6hq2D1I3b7TGHz2aUBvJk5K5nrNZCE+srkbFTVwjARS9gwRwJpcAe3ivrv2levgIpTgGTARNfJfEeFQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  211.75.126.7) smtp.rcpttodomain=gmail.com smtp.mailfrom=nuvoton.com;
  dmarc=fail (p=none sp=quarantine pct=100) action=none header.from=gmail.com;
@@ -22,18 +22,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=nuvoton.onmicrosoft.com; s=selector2-nuvoton-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=60l/P/bwOWdg2MkoncNt9iPmES2WMDnbSSJxCzK/2sM=;
- b=SMckb2zqcc0cow0S3kpl1n2EdFrEyYiWragAY0TnhYYIpcsr7L79lUkIKFp6n7ykp8hoTza82lf49OGoUokgd/x/mmStjdsmXr3FY2efbvsXHEHwnvTuZiaQbJ11aRxtfk+d3fm7scLWs6Mi1/m2PW3IaH6gtPRr2GzBgmbm44I=
-Received: from PS2PR06CA0007.apcprd06.prod.outlook.com (2603:1096:300:56::19)
- by TYZPR03MB5374.apcprd03.prod.outlook.com (2603:1096:400:8::11) with
+ bh=1ga4nxXaSRjk2FEtgsMqYOL1T0U4hiQE2m7Uq+3F5eM=;
+ b=G9zqK4eb/TE86mdDBY/MQ+755bxz2+0qJYbc9UzEyY4FIv8SbbYkiVJKEVourAaP68N7FSV1rj7oLXSlz6RGVcWCWPors+o8DYCU6bs6SwjaQW3zFTzdUHEJGCgNtjXGPmj4r+BbR86z6Ae+RpxrzCHV0YFa3rUMAOgGuV5va3A=
+Received: from PS2PR06CA0004.apcprd06.prod.outlook.com (2603:1096:300:56::16)
+ by TYUPR03MB7177.apcprd03.prod.outlook.com (2603:1096:400:347::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.35; Thu, 5 Oct
- 2023 19:25:33 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.28; Thu, 5 Oct
+ 2023 19:25:34 +0000
 Received: from HK3PEPF0000021C.apcprd03.prod.outlook.com
- (2603:1096:300:56:cafe::af) by PS2PR06CA0007.outlook.office365.com
- (2603:1096:300:56::19) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:1096:300:56:cafe::fb) by PS2PR06CA0004.outlook.office365.com
+ (2603:1096:300:56::16) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.29 via Frontend
- Transport; Thu, 5 Oct 2023 19:25:33 +0000
+ Transport; Thu, 5 Oct 2023 19:25:34 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 211.75.126.7)
  smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=gmail.com;
@@ -44,19 +44,19 @@ Received: from NTHCCAS01.nuvoton.com (211.75.126.7) by
  HK3PEPF0000021C.mail.protection.outlook.com (10.167.8.38) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.20.6838.14 via Frontend Transport; Thu, 5 Oct 2023 19:25:33 +0000
-Received: from NTHCCAS02.nuvoton.com (10.1.9.121) by NTHCCAS01.nuvoton.com
+Received: from NTHCML01A.nuvoton.com (10.1.8.177) by NTHCCAS01.nuvoton.com
  (10.1.8.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 6 Oct
- 2023 03:25:32 +0800
-Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCCAS02.nuvoton.com
- (10.1.9.121) with Microsoft SMTP Server (version=TLS1_2,
+ 2023 03:25:33 +0800
+Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCML01A.nuvoton.com
+ (10.1.8.177) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Fri, 6 Oct
  2023 03:25:32 +0800
 Received: from taln60.nuvoton.co.il (10.191.1.180) by NTHCCAS01.nuvoton.com
  (10.1.8.28) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
  Transport; Fri, 6 Oct 2023 03:25:32 +0800
 Received: by taln60.nuvoton.co.il (Postfix, from userid 10070)
-	id 1CDC363A26; Thu,  5 Oct 2023 22:25:31 +0300 (IDT)
+	id D36B063A28; Thu,  5 Oct 2023 22:25:31 +0300 (IDT)
 From: Tomer Maimon <tmaimon77@gmail.com>
 To: <peter.chen@kernel.org>, <gregkh@linuxfoundation.org>,
 	<robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
@@ -66,10 +66,12 @@ To: <peter.chen@kernel.org>, <gregkh@linuxfoundation.org>,
 CC: <openbmc@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>, Tomer Maimon
 	<tmaimon77@gmail.com>
-Subject: [PATCH v5 0/3] usb: ChipIdea: add Nuvoton NPCM UDC support
-Date: Thu, 5 Oct 2023 22:25:26 +0300
-Message-ID: <20231005192529.162785-1-tmaimon77@gmail.com>
+Subject: [PATCH v5 2/3] dt-bindings: usb: ci-hdrc-usb2: add npcm750 and npcm845 compatible
+Date: Thu, 5 Oct 2023 22:25:28 +0300
+Message-ID: <20231005192529.162785-3-tmaimon77@gmail.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20231005192529.162785-1-tmaimon77@gmail.com>
+References: <20231005192529.162785-1-tmaimon77@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -81,95 +83,89 @@ Content-Type: text/plain
 X-NotSetDelaration: True
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: HK3PEPF0000021C:EE_|TYZPR03MB5374:EE_
-X-MS-Office365-Filtering-Correlation-Id: ca7edeb0-c9fa-4115-49ec-08dbc5d8d833
+X-MS-TrafficTypeDiagnostic: HK3PEPF0000021C:EE_|TYUPR03MB7177:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8d9d9d7d-9cd7-47fd-59f1-08dbc5d8d884
 X-MS-Exchange-SenderADCheck: 0
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?72afFOGRcCUM0pso/Wob/aCvkH6Bnu3BJcEBpUtgyaQJVeZqkGuoxdP/Y46E?=
- =?us-ascii?Q?4ZaZ13/0uUVVifVoxIt0SbWMuoA2w3eeO0RaqZTnoJcy1TjtMT8XQaB5FOjE?=
- =?us-ascii?Q?o82HainDxoxld8H2ZP1txS+w8fxq6VpfZGotDZUC0TO4EwgazjGgD+OwKWgi?=
- =?us-ascii?Q?fAJSgp+veX0SvYYpoDYbA+5SMeH2KFWDrQO36WX3RHrxEa/kj2P5NjiIZogb?=
- =?us-ascii?Q?VgOi4RhZYGDeyoCneov+idocwtP1e0c78hLh1WpNOm/RSYbbml04fLsJbruZ?=
- =?us-ascii?Q?HLpXSM/EMLhrbv0bXx+BCtOvrxlHCuu7xOeppejb05yL3mkMHWk65EvpOtue?=
- =?us-ascii?Q?Q6I9/eqYXCW3Wlruq5kb55gRBIEphQWwtXo6P5H3FS7cix6Ds4wviNJmOqfz?=
- =?us-ascii?Q?boGacvYsUS4UJeK6Vrk9vSZEA/mFttwR2znk/P2I/q4ogbc8zPHx3ZGazeQN?=
- =?us-ascii?Q?0DFV1HmUKpmLO1GDvrJ98UhrehuJPOfLL0etQcav4E/0XMH8bo4+b9OQ1HsO?=
- =?us-ascii?Q?cIw/Nzbo+iiE5FitLNuGinUjYxATshQKJ4reR86dxAo8z4g8LOv7G5drQYiJ?=
- =?us-ascii?Q?IkVG33bTTpgJE6zbEWRav28CrMe5PLMHbJkf2/gK/eYxB+9+u+EpacobXzGw?=
- =?us-ascii?Q?uEPHKL7BNWXoLO0G1kw4dM+eb2SLdV/AE07OxsVKvxPkpn+b78jR1E7OifUY?=
- =?us-ascii?Q?U4uNr4dcvoa77mBXkJsyU8VCMxINj0wIZdPO9REZoSd6nY2s+bGmIunz3tmz?=
- =?us-ascii?Q?5qaq0CSAC/bOC1GhZ261FUIIlND4baAMa8TkZZGtjvyDR9hu8Qr9ERIOBq15?=
- =?us-ascii?Q?ZAwpMjyvfzArkyOXp3tlXdI6pDTFaldl2G4ksIdVsGXa3V4jvRBEWzEuX3jx?=
- =?us-ascii?Q?3D4Triye031YFfI0QeX7x/M4GvOBBomEmQRIUlbh4zAo22+aJzZN63Dvz07F?=
- =?us-ascii?Q?bOBnChBHt2VgLC8akwhbjg=3D=3D?=
+	=?us-ascii?Q?SVag7QkPHQ9kDeM6+QeGsZR3hvn9NkdLWBoeW23cqa4db87bBEo03p9rJXAn?=
+ =?us-ascii?Q?IY9tywFONjLjPj0zCJz79dev6cvQeXMWG3V6Fvxcc1ZwvTMXIAkDqn/HopQv?=
+ =?us-ascii?Q?UhfOP/l6q29+ufndf4vm+DO+Us0Dbj75gG9PiG481xRoS7bYCIXmBVz81jfx?=
+ =?us-ascii?Q?0IPkkJPPYzDmzbk1fxcJPZphdrvDMMg6f6ydXVAIT+0Gqcn1VXOKDPoPlCxs?=
+ =?us-ascii?Q?31IoTgCzU/EzRlM5Ge8ruonMkAgsddk7MgxpOJlNcpllomyknpxzgF/Pkdzb?=
+ =?us-ascii?Q?idrUWYVLoasZ+fxz3tJkjdKIHOBjsv/bTCw32tvLelo8Bfjq6bnBIoKy8s9x?=
+ =?us-ascii?Q?HggEaSApxNgOvSQltoeP2026663+Vb3l6kB9Q1Q/jR2qqYAJx4Uh3zAKwHd4?=
+ =?us-ascii?Q?4BOJvlSPcnh1TbI5Ps8I7G3hsYGOv/lvNUbPcZf7kTdLOKGFEM+CRaIqUNrs?=
+ =?us-ascii?Q?C2iX0UhAoNatybpojb6lfyq/h9OSobZPipf6kLPc89v8aEszuYUJjQfOXUF1?=
+ =?us-ascii?Q?LLpAbNoTZe0zqfjnJJQmJop2Q0cdVdNkWEtnBVjzB53Wfzwth958XvbLrDsF?=
+ =?us-ascii?Q?K8mLbIPK957OIu2e4P3Ujvz2VHYl8oYD1nFg6wgdljzvBg1EZ1w67v0MJMpT?=
+ =?us-ascii?Q?LZTHPvGVJ6Q7vfLYShwwG37XaPPonNzp95qBxjAAP18mkGB8aDQHzR8JA2HR?=
+ =?us-ascii?Q?rhlZx8dWICBYmrI6dpKDnsxFj5M/sG0Np9F9SzAE86hqBTqqy7IxhXYwW2I/?=
+ =?us-ascii?Q?7DdLTV0Irx19Uj4zWYdp4+67dUiIK/hgumIxHH2NXkfY6kPUsDPxgiTJnBNb?=
+ =?us-ascii?Q?dZUE8NQAYWF/4Zx3vgUUZ5LIT5JhUdmAT33+aVvu8tn1ZVfFqcB90KYEtNBe?=
+ =?us-ascii?Q?0thq+P3ACbavSHLFXKChMyFs2wPndfr6JtPb7zX8Z9diSFKfDAtOPebQxLQz?=
+ =?us-ascii?Q?Mxfxm4nnD2m/iG0VziEeiekEZbDMY8fXDaYDuiQY1lU=3D?=
 X-Forefront-Antispam-Report:
-	CIP:211.75.126.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS01.nuvoton.com;PTR:211-75-126-7.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(4636009)(376002)(136003)(396003)(39860400002)(346002)(230922051799003)(5400799018)(82310400011)(451199024)(64100799003)(48200799006)(61400799006)(186009)(40470700004)(36840700001)(46966006)(40460700003)(40480700001)(6666004)(478600001)(76482006)(966005)(34020700004)(47076005)(36860700001)(55446002)(81166007)(83170400001)(356005)(82740400003)(921005)(2906002)(7416002)(110136005)(336012)(83380400001)(6266002)(73392003)(82202003)(26005)(2616005)(1076003)(42882007)(316002)(36756003)(54906003)(42186006)(70206006)(5660300002)(70586007)(41300700001)(8676002)(4326008)(8936002)(45356006)(35450700002)(84790400001)(12100799045);DIR:OUT;SFP:1501;
+	CIP:211.75.126.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS01.nuvoton.com;PTR:211-75-126-7.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(346002)(136003)(396003)(376002)(230922051799003)(64100799003)(451199024)(48200799006)(5400799018)(61400799006)(186009)(82310400011)(36840700001)(46966006)(40470700004)(6266002)(40460700003)(40480700001)(478600001)(6666004)(76482006)(921005)(81166007)(336012)(2616005)(47076005)(356005)(55446002)(83170400001)(36860700001)(82740400003)(34020700004)(41300700001)(7416002)(2906002)(36756003)(73392003)(54906003)(42882007)(1076003)(110136005)(82202003)(26005)(8676002)(5660300002)(316002)(8936002)(70206006)(42186006)(70586007)(4326008)(45356006)(84790400001)(35450700002)(12100799045);DIR:OUT;SFP:1501;
 X-OriginatorOrg: nuvoton.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2023 19:25:33.3592
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2023 19:25:33.8748
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca7edeb0-c9fa-4115-49ec-08dbc5d8d833
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d9d9d7d-9cd7-47fd-59f1-08dbc5d8d884
 X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[211.75.126.7];Helo=[NTHCCAS01.nuvoton.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	HK3PEPF0000021C.apcprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB5374
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYUPR03MB7177
 X-Spam-Status: No, score=0.0 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FORGED_GMAIL_RCVD,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,NML_ADSP_CUSTOM_MED,
-	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-This patch set add USB device controller for the NPCM Baseboard
-Management Controllers (BMC).
+Add a compatible string for Nuvoton BMC NPCM750 and Nuvoton BMC NPCM845.
 
-NPCM UDC driver is a part of the USB ChipIdea driver.
+Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
+---
+ Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Adding CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS flag to modify the vbus_active
-parameter to active in case the ChipIdea USB IP role is device-only and
-there is no otgsc register.
-
-BMC NPCM7XX and BMC NPCM8XX has ten identical NPCM UDC modules,
-
-The NPCM UDC were tested on NPCM845 evaluation board.
-
-Addressed comments from:
- - Krzysztof Kozlowski : https://www.spinics.net/lists/devicetree/msg638451.html
-
-Changes since version 4:
- - Modify npcm845-udc compatible.
-
-Changes since version 3:
- - Add Acked-by Peter Chen.
+diff --git a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
+index 1394557517b1..57780f8340ea 100644
+--- a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
++++ b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
+@@ -16,6 +16,7 @@ properties:
+       - enum:
+           - chipidea,usb2
+           - lsi,zevio-usb
++          - nuvoton,npcm750-udc
+           - nvidia,tegra20-ehci
+           - nvidia,tegra20-udc
+           - nvidia,tegra30-ehci
+@@ -66,6 +67,10 @@ properties:
+       - items:
+           - const: xlnx,zynq-usb-2.20a
+           - const: chipidea,usb2
++      - items:
++          - enum:
++              - nuvoton,npcm845-udc
++          - const: nuvoton,npcm750-udc
  
-Changes since version 2:
- - Use dev_err_probe.
- - Remove MODULE_ALIAS.
-
-Changes since version 1:
- - Add SoC specific compatible.
- - Remove USB phy mux property from dt-binding, will be handled differently.
- - Add CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS commit to this patch set.
-
-Tomer Maimon (3):
-  usb: chipidea: add CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS flag
-  dt-bindings: usb: ci-hdrc-usb2: add npcm750 and npcm845 compatible
-  usb: chipidea: Add support for NPCM
-
- .../devicetree/bindings/usb/ci-hdrc-usb2.yaml |   7 ++
- drivers/usb/chipidea/Kconfig                  |   4 +
- drivers/usb/chipidea/Makefile                 |   1 +
- drivers/usb/chipidea/ci_hdrc_npcm.c           | 114 ++++++++++++++++++
- drivers/usb/chipidea/otg.c                    |   5 +-
- include/linux/usb/chipidea.h                  |   1 +
- 6 files changed, 131 insertions(+), 1 deletion(-)
- create mode 100644 drivers/usb/chipidea/ci_hdrc_npcm.c
-
+   reg:
+     minItems: 1
+@@ -388,6 +393,8 @@ allOf:
+             enum:
+               - chipidea,usb2
+               - lsi,zevio-usb
++              - nuvoton,npcm750-udc
++              - nuvoton,npcm845-udc
+               - nvidia,tegra20-udc
+               - nvidia,tegra30-udc
+               - nvidia,tegra114-udc
 -- 
 2.33.0
 
