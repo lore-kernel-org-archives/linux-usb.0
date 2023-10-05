@@ -1,172 +1,142 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B305441760;
-	Thu,  5 Oct 2023 19:25:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4CD1266D5
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 19:33:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nuvoton.onmicrosoft.com header.i=@nuvoton.onmicrosoft.com header.b="eVBFEZPM"
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01hn2219.outbound.protection.outlook.com [52.100.164.219])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E57A136;
-	Thu,  5 Oct 2023 12:25:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gz84XqxANPtAsnH2mfh2lDjh9YShfCZ6U0wLHHSWBrfj+YrNoZANYD6Dn5dsg8T4r6PSm50Z9uhvgT0PItsVJH5gObTG+cHDA2FW/vkbxoYLngkjsm5E6ouoxTzacrzEbrX+s9bHFrHXW0k2Gn4JxwhIy1FUfq5KPxq+tSQaJSkuTYK5kCDOMsF5NyYcMeUkMB2cNiBzbYUmCBF4MnAzMm2iUBQ3nqhZ+/Om+fgok6e4kOtNgvpYQXpv3jv3teZoa9teuU5MlyPgFdjJ831PKEguIDKN1mWnRhwj57lLDWnXYAKGq3SdlbHxN0q9CWQkTAWDXsp0MsOHe5rBksKbxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HJPlBtL4X/T/9aSDc4JYtiVWMLfmJVy5DVI0D2TM3mA=;
- b=janHLuVxg5V374sU7zA0HAPVzdQlKB50QZo5SXwpsODPCeOvDRx/9HvvrFwRmB+wlsShDYg/5deZRwNrXRCWZ2DM+h59vXArpKL6dBLNzrSIi5uXefHngTrfRx2qMZAe+lTruEacmKij/4fjn3vAxV+mr/qHtSyuRRWwqGHmbsz4is+p6qRSHfdEQYrUiPae/qrQu2B5n9RCRQB6Pd++G5SpIlTNL4dl1ozW2zrIdiTln6UoSkU+C+xPunT6bzP/PpFNMS7y7SwwBm5YxTihdheWHzjop++qT78Ru16u5BSzN332QdnL3AaicigKJCOLachO7QOgrQf2vygtaTYEhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 175.98.123.7) smtp.rcpttodomain=gmail.com smtp.mailfrom=nuvoton.com;
- dmarc=fail (p=none sp=quarantine pct=100) action=none header.from=gmail.com;
- dkim=none (message not signed); arc=none
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ocw7yrGy"
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59805CE
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 12:33:27 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-9936b3d0286so254955466b.0
+        for <linux-usb@vger.kernel.org>; Thu, 05 Oct 2023 12:33:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuvoton.onmicrosoft.com; s=selector2-nuvoton-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HJPlBtL4X/T/9aSDc4JYtiVWMLfmJVy5DVI0D2TM3mA=;
- b=eVBFEZPM/i4P1EzYAbQxDsAE3zveq0crZpBFeSdCUcpwfUu/CJa2vZKbbr9BD5uL/2+yk26STVZwY8UsGZKY70AseHyoUDaLKlw2/NjToB6KssLuWYEVPwAIVKlvw/rNJcgzycS0KzcarvDvvYmeotJEgVBSghGEf22tkZCLLgI=
-Received: from SG2PR02CA0126.apcprd02.prod.outlook.com (2603:1096:4:188::11)
- by SEYPR03MB7700.apcprd03.prod.outlook.com (2603:1096:101:146::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.33; Thu, 5 Oct
- 2023 19:25:39 +0000
-Received: from SG1PEPF000082E7.apcprd02.prod.outlook.com
- (2603:1096:4:188:cafe::5d) by SG2PR02CA0126.outlook.office365.com
- (2603:1096:4:188::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.29 via Frontend
- Transport; Thu, 5 Oct 2023 19:25:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 175.98.123.7)
- smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=gmail.com;
-Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
- 175.98.123.7 as permitted sender) receiver=protection.outlook.com;
- client-ip=175.98.123.7; helo=NTHCCAS04.nuvoton.com; pr=C
-Received: from NTHCCAS04.nuvoton.com (175.98.123.7) by
- SG1PEPF000082E7.mail.protection.outlook.com (10.167.240.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.6838.14 via Frontend Transport; Thu, 5 Oct 2023 19:25:38 +0000
-Received: from NTHCML01A.nuvoton.com (10.1.8.177) by NTHCCAS04.nuvoton.com
- (10.1.8.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.14; Fri, 6
- Oct 2023 03:25:32 +0800
-Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCML01A.nuvoton.com
- (10.1.8.177) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Fri, 6 Oct
- 2023 03:25:32 +0800
-Received: from taln60.nuvoton.co.il (10.191.1.180) by NTHCCAS01.nuvoton.com
- (10.1.8.28) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Fri, 6 Oct 2023 03:25:32 +0800
-Received: by taln60.nuvoton.co.il (Postfix, from userid 10070)
-	id 74E7C63A27; Thu,  5 Oct 2023 22:25:31 +0300 (IDT)
-From: Tomer Maimon <tmaimon77@gmail.com>
-To: <peter.chen@kernel.org>, <gregkh@linuxfoundation.org>,
-	<robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-	<xu.yang_2@nxp.com>, <peng.fan@nxp.com>, <avifishman70@gmail.com>,
-	<tali.perry1@gmail.com>, <joel@jms.id.au>, <venture@google.com>,
-	<yuenn@google.com>, <benjaminfair@google.com>, <j.neuschaefer@gmx.net>
-CC: <openbmc@lists.ozlabs.org>, <linux-usb@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>, Tomer Maimon
-	<tmaimon77@gmail.com>
-Subject: [PATCH v5 1/3] usb: chipidea: add CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS flag
-Date: Thu, 5 Oct 2023 22:25:27 +0300
-Message-ID: <20231005192529.162785-2-tmaimon77@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20231005192529.162785-1-tmaimon77@gmail.com>
-References: <20231005192529.162785-1-tmaimon77@gmail.com>
+        d=linaro.org; s=google; t=1696534405; x=1697139205; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=y4UEE65lFhOrzbPGl/iOYRgYQaGHQyg6aoZ6ztKtIPY=;
+        b=Ocw7yrGyzbIkUjLPKRvUQ0aVCutGiTXNzsZUVz72FwjvWTpczojE43gPzQDnhj/9ks
+         bkJ0vSqLmkJcvKGoQKc1guaZmpPQ33Pr8bFKyIR3UAcXNMCL2hDYy5ct/+Ep54M2oE4s
+         pu7Y5jinyKTJqkRRdUqBGfFZkzmFWe3HBWAdtqD7vzApAv6xsFEOJOMTLxoMtePeqR/y
+         LhksyfEu6Y7O+jKOVsDYzyITAhwEUOPzO7Uzgxb/gwH2Gw9EJQwVpjQ5iBeUOgS6sKLM
+         DbT/+xr1GZpUlCQqG5xLgMvIasNCXZmkw8l/aKUdYYX2iNNzZ5MOx65PiizpvUxGeVg2
+         epmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696534405; x=1697139205;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y4UEE65lFhOrzbPGl/iOYRgYQaGHQyg6aoZ6ztKtIPY=;
+        b=tdJmpISDM8S3FYpY+2CdFIjg3a58VgRXtREirvLWksZkXdbbb+PJ1m6jJDPiPYAHRe
+         X71Wbi4qnLcdy570WLohXvjEdCpsu995BrDZJpNNcjeADl8q3DGNVI7yO/SPjRRx1fK9
+         kYNUqswTe5F/srhoF/whSnP9lS0WFLd87eolSoKd6Be5Y6koHPgeM98g0zZREUp+wf4E
+         EIX+rpx4obX+A7dYB6CppTtD7KqZc+f8CdmdVt7k0cRQ1tglypxzaw/Yc8SmMaztFuKk
+         yQmAp1/Nxo7bv1FlhxeJl9lp068ZwPZ4dNn5yopiNRuwmBA6w9iGIDZYxMNyADNocmxJ
+         zYHg==
+X-Gm-Message-State: AOJu0YxfGcGvOobaW0un6KzSUhEGyDLtGOdwBqDUbMrI+UBP8P5DJBBW
+	wXE8J3cMwHNy9MKtoWCOby/syg==
+X-Google-Smtp-Source: AGHT+IFVcF6eMuOo4470ukhp0qoJNX+1XfTItQET+m4tKusw8t8TfXQ8nWf5qTgCie/0Qim4HEHaDQ==
+X-Received: by 2002:a17:907:2724:b0:9ae:6196:a410 with SMTP id d4-20020a170907272400b009ae6196a410mr5550030ejl.43.1696534405657;
+        Thu, 05 Oct 2023 12:33:25 -0700 (PDT)
+Received: from [192.168.1.197] (5-157-101-10.dyn.eolo.it. [5.157.101.10])
+        by smtp.gmail.com with ESMTPSA id y18-20020a170906559200b009ad75d318ffsm1656981ejp.17.2023.10.05.12.33.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Oct 2023 12:33:25 -0700 (PDT)
+Message-ID: <4eac8a89-c188-40c4-b179-6229ea87b65e@linaro.org>
+Date: Thu, 5 Oct 2023 21:33:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NotSetDelaration: True
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SG1PEPF000082E7:EE_|SEYPR03MB7700:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1603d0c3-00cc-4325-2e94-08dbc5d8db97
-X-MS-Exchange-SenderADCheck: 0
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?aknA4LBbd0GyF4vT74FLwFtaoEoEMRqrH51Omld1B8CF57s5o7GOjggel86A?=
- =?us-ascii?Q?qJBKHrp8rEtBTUVMmWHc1NsuqFGKsHOXRvj91XloccKZMgb9A115VDJ73JT/?=
- =?us-ascii?Q?w/o468lCfWyJe4O/80ZTrgkwBjJriE/1iTvR9vXAzw8Jh32b7kj5HsRxOQu/?=
- =?us-ascii?Q?44qjNEJJiLO5RvtmpJBNSFPt67WYhzcvw+oYnDG+n3+mGadq7EcPp2AjP0vq?=
- =?us-ascii?Q?gyoSx+iGVaxvU3DIOTGi0Zw1tuNHiFvyFo2cXwmKF/pjEbq/ldsy+Egis/on?=
- =?us-ascii?Q?EslDTgh/+FSUn19N1EH51Pkhq7NXahBsY2clFXuX5oqVAmJl0e/dPReO/dOY?=
- =?us-ascii?Q?iLIUrvW9g7QWu/ECaTLOLTRpuoKqzmafeQEVyDsHUl4uRK86DoXbzxEb7OG8?=
- =?us-ascii?Q?C5hGJJTspQ5W/2cs7vqaAWbDAQKBgRYnLG8/8qIBC2sgow05C/oOZSvpggNM?=
- =?us-ascii?Q?o4a2sZzEyrK+bqSDmzS5/F2dJsFEXNdgQUvO/T4ppMqV35gO5c1ih3GLde6D?=
- =?us-ascii?Q?XzF1VHnvecBsVHEDPcglGQJrVmuC4q7QDel7MpoI6VCpbPs9XC7TMXiqx33p?=
- =?us-ascii?Q?gmsDlngDqwo4VBZtLKDwleNdeOn9hMYNtU5iGd3+SBM51DLJxS3P9ALSAquq?=
- =?us-ascii?Q?cNwFJOC1q017WXyFKhgiANGyVAmPmgPkREQj9QI/zFbrPFNKFmL0NwASq1I6?=
- =?us-ascii?Q?IkUUmnTGUoplfjTH9ZqgkSa738QmCHkLIf42vTAEFKLYBEdaTmsSPUsR66D5?=
- =?us-ascii?Q?rggqMQN4dKeAziTbRPoNYk5AtnfXCSnhVwIhntKZCVlM69yDCHYhjLmj/NNu?=
- =?us-ascii?Q?IBMimyU3ybvOa7u2ZRDgHZh33ViMF2casa+gzkMFhmuV9QVLxLpIvvYiS9Hk?=
- =?us-ascii?Q?tunx4axmOWskzhT3f413h5PFje63FOAR54t+mjNYJpeRm2FrAoOz7aTGwoLL?=
- =?us-ascii?Q?XtqO6UiM9ap8HwkfIh29tCdRcUlcvrSLbSHznWbENIg=3D?=
-X-Forefront-Antispam-Report:
-	CIP:175.98.123.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS04.nuvoton.com;PTR:175-98-123-7.static.tfn.net.tw;CAT:NONE;SFS:(13230031)(4636009)(136003)(39860400002)(346002)(376002)(396003)(230922051799003)(64100799003)(82310400011)(61400799006)(48200799006)(5400799018)(186009)(451199024)(36840700001)(40470700004)(46966006)(356005)(1076003)(82740400003)(83170400001)(26005)(921005)(8936002)(83380400001)(5660300002)(82202003)(4326008)(8676002)(47076005)(34020700004)(73392003)(42882007)(6266002)(36860700001)(2616005)(336012)(6666004)(81166007)(478600001)(70206006)(316002)(76482006)(110136005)(70586007)(54906003)(41300700001)(40480700001)(42186006)(7416002)(55446002)(36756003)(2906002)(40460700003)(45356006)(35450700002)(84790400001)(12100799045);DIR:OUT;SFP:1501;
-X-OriginatorOrg: nuvoton.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2023 19:25:38.9689
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1603d0c3-00cc-4325-2e94-08dbc5d8db97
-X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[175.98.123.7];Helo=[NTHCCAS04.nuvoton.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SG1PEPF000082E7.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB7700
-X-Spam-Status: No, score=0.0 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FORGED_GMAIL_RCVD,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,NML_ADSP_CUSTOM_MED,
-	RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/3] dt-bindings: usb: ci-hdrc-usb2: add npcm750 and
+ npcm845 compatible
+Content-Language: en-US
+To: Tomer Maimon <tmaimon77@gmail.com>, peter.chen@kernel.org,
+ gregkh@linuxfoundation.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, xu.yang_2@nxp.com, peng.fan@nxp.com,
+ avifishman70@gmail.com, tali.perry1@gmail.com, joel@jms.id.au,
+ venture@google.com, yuenn@google.com, benjaminfair@google.com,
+ j.neuschaefer@gmx.net
+Cc: openbmc@lists.ozlabs.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20231005192529.162785-1-tmaimon77@gmail.com>
+ <20231005192529.162785-3-tmaimon77@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231005192529.162785-3-tmaimon77@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Adding CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS flag to modify the vbus_active
-parameter to active in case the ChipIdea USB IP role is device-only and
-there is no otgsc register.
+On 05/10/2023 21:25, Tomer Maimon wrote:
+> Add a compatible string for Nuvoton BMC NPCM750 and Nuvoton BMC NPCM845.
+> 
+> Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
+> ---
 
-Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
-Acked-by: Peter Chen <peter.chen@kernel.org>
----
- drivers/usb/chipidea/otg.c   | 5 ++++-
- include/linux/usb/chipidea.h | 1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
+>    reg:
+>      minItems: 1
+> @@ -388,6 +393,8 @@ allOf:
+>              enum:
+>                - chipidea,usb2
+>                - lsi,zevio-usb
+> +              - nuvoton,npcm750-udc
+> +              - nuvoton,npcm845-udc
 
-diff --git a/drivers/usb/chipidea/otg.c b/drivers/usb/chipidea/otg.c
-index f5490f2a5b6b..647e98f4e351 100644
---- a/drivers/usb/chipidea/otg.c
-+++ b/drivers/usb/chipidea/otg.c
-@@ -130,8 +130,11 @@ enum ci_role ci_otg_role(struct ci_hdrc *ci)
- 
- void ci_handle_vbus_change(struct ci_hdrc *ci)
- {
--	if (!ci->is_otg)
-+	if (!ci->is_otg) {
-+		if (ci->platdata->flags & CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS)
-+			usb_gadget_vbus_connect(&ci->gadget);
- 		return;
-+	}
- 
- 	if (hw_read_otgsc(ci, OTGSC_BSV) && !ci->vbus_active)
- 		usb_gadget_vbus_connect(&ci->gadget);
-diff --git a/include/linux/usb/chipidea.h b/include/linux/usb/chipidea.h
-index 0b4f2d5faa08..5a7f96684ea2 100644
---- a/include/linux/usb/chipidea.h
-+++ b/include/linux/usb/chipidea.h
-@@ -64,6 +64,7 @@ struct ci_hdrc_platform_data {
- #define CI_HDRC_PMQOS			BIT(15)
- #define CI_HDRC_PHY_VBUS_CONTROL	BIT(16)
- #define CI_HDRC_HAS_PORTSC_PEC_MISSED	BIT(17)
-+#define CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS	BIT(18)
- 	enum usb_dr_mode	dr_mode;
- #define CI_HDRC_CONTROLLER_RESET_EVENT		0
- #define CI_HDRC_CONTROLLER_STOPPED_EVENT	1
--- 
-2.33.0
+npcm845 is not needed here.
+
+Best regards,
+Krzysztof
 
