@@ -1,51 +1,52 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D52012B74
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 21:05:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D2041E37
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 21:55:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fMQnFN7l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X800UsZI"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99A2493
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:05:30 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 915E59E
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:55:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696539931; x=1728075931;
+  t=1696542911; x=1728078911;
   h=date:from:to:cc:subject:message-id;
-  bh=EX8lLHm74rU3XtjmvNh4rKczzYfwnvm9B3+f07yGlpA=;
-  b=fMQnFN7lp2B9Z/gZdoKgxG9C9f2klNPT7ABiWAq3CPzTxndzZCWsDaG2
-   5p2Vyd7tSpPlj5cLye8zn1GiFxMGlN8PTHFJibysuAUlCWcij+xENNkfu
-   HN1Yy4gFUlhz2bnRR3HeHtGDNOtBBs1uGxGHiB4krGcvmLD6cFmdIN0vk
-   Hkc5vqCZ1XZE6dtTMd5hhRORY0uZ2HpQOfMOHZHDHNezZf/TLePRi+4VB
-   pR9P9Xh9lGEZOCy/V5k4RIKpP0b54IX+pAt72NFYY+GnqFWlfqJhXJqLg
-   1MdkZ1UZe2cAnYC7v92y4/rnAqMjqCY3I3X9qNKy6RnDNgstD36gPSHw2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="2220600"
+  bh=aFRZc5JCdSgkmGMWciwsKOFLreqNKpeP7ercxrBPKXI=;
+  b=X800UsZIDRMIH8yUqwIAl88dwQLoJfcCu/i7MVIixqRf+glvAWb8CPQV
+   QNz+DqK/p4YWZkN+VqVgkcfLh8ORTDlH0Nh12XBccQYYV812kWrpa84Cf
+   S46XK7M4HF0ExTMj97UviRLrvC/TrGDtz0aLRW69E5LBl7E3hpP/2GCAN
+   ug8cjvtt75GaU+WGHb8L0x/6yDraMXYQ0RWvOzapDLpzx7wgE1rroEAT0
+   ojr4qxak7tTeUGTmgkbXjy1jyOWXfT7lKI5aVrEHpW5cc3e7UTOp/uGoD
+   rgdt4pmREduIFT16RuubiaMOzmpDAoJx+3MTfY7PN+uuZnvlhVjf3QXeG
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="2233895"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="2220600"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 14:05:31 -0700
+   d="scan'208";a="2233895"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 14:55:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="1083171580"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="895628018"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="1083171580"
+   d="scan'208";a="895628018"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 05 Oct 2023 14:05:28 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 05 Oct 2023 14:53:39 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoVWw-000Lu1-1P;
-	Thu, 05 Oct 2023 21:05:11 +0000
-Date: Fri, 06 Oct 2023 05:04:53 +0800
+	id 1qoWJG-000Lvz-2Z;
+	Thu, 05 Oct 2023 21:55:06 +0000
+Date: Fri, 06 Oct 2023 05:54:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- 1053c4a4b8fcbd28386e80347e7c82d4d617e352
-Message-ID: <202310060550.rPzMMHSw-lkp@intel.com>
+Subject: [westeri-thunderbolt:fixes] BUILD SUCCESS
+ ec4405ed92036f5bb487b5c2f9a28f9e36a3e3d5
+Message-ID: <202310060551.wwxtbYud-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-	SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 Precedence: bulk
@@ -54,10 +55,10 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: 1053c4a4b8fcbd28386e80347e7c82d4d617e352  Revert "usb: gadget: uvc: stop pump thread on video disable"
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git fixes
+branch HEAD: ec4405ed92036f5bb487b5c2f9a28f9e36a3e3d5  thunderbolt: Call tb_switch_put() once DisplayPort bandwidth request is finished
 
-elapsed time: 725m
+elapsed time: 731m
 
 configs tested: 133
 configs skipped: 2
@@ -81,11 +82,10 @@ arm                               allnoconfig   gcc
 arm                              allyesconfig   gcc  
 arm                         bcm2835_defconfig   clang
 arm                                 defconfig   gcc  
-arm                      footbridge_defconfig   gcc  
 arm                         orion5x_defconfig   clang
 arm                          pxa168_defconfig   clang
 arm                   randconfig-001-20231005   gcc  
-arm                           sunxi_defconfig   gcc  
+arm                   randconfig-001-20231006   gcc  
 arm                         vf610m4_defconfig   gcc  
 arm64                            allmodconfig   gcc  
 arm64                             allnoconfig   gcc  
@@ -99,11 +99,17 @@ i386                             allmodconfig   gcc
 i386                              allnoconfig   gcc  
 i386                             allyesconfig   gcc  
 i386         buildonly-randconfig-001-20231005   gcc  
+i386         buildonly-randconfig-001-20231006   gcc  
 i386         buildonly-randconfig-002-20231005   gcc  
+i386         buildonly-randconfig-002-20231006   gcc  
 i386         buildonly-randconfig-003-20231005   gcc  
+i386         buildonly-randconfig-003-20231006   gcc  
 i386         buildonly-randconfig-004-20231005   gcc  
+i386         buildonly-randconfig-004-20231006   gcc  
 i386         buildonly-randconfig-005-20231005   gcc  
+i386         buildonly-randconfig-005-20231006   gcc  
 i386         buildonly-randconfig-006-20231005   gcc  
+i386         buildonly-randconfig-006-20231006   gcc  
 i386                              debian-10.3   gcc  
 i386                                defconfig   gcc  
 i386                  randconfig-001-20231005   gcc  
@@ -134,12 +140,10 @@ microblaze                          defconfig   gcc
 mips                             allmodconfig   gcc  
 mips                              allnoconfig   gcc  
 mips                             allyesconfig   gcc  
-mips                  decstation_64_defconfig   gcc  
 nios2                            allmodconfig   gcc  
 nios2                             allnoconfig   gcc  
 nios2                            allyesconfig   gcc  
 nios2                               defconfig   gcc  
-openrisc                         alldefconfig   gcc  
 openrisc                         allmodconfig   gcc  
 openrisc                          allnoconfig   gcc  
 openrisc                         allyesconfig   gcc  
@@ -154,7 +158,6 @@ powerpc                           allnoconfig   gcc
 powerpc                          allyesconfig   gcc  
 powerpc                      bamboo_defconfig   gcc  
 powerpc                      ep88xc_defconfig   gcc  
-powerpc                         wii_defconfig   gcc  
 riscv                            allmodconfig   gcc  
 riscv                             allnoconfig   clang
 riscv                             allnoconfig   gcc  
@@ -170,9 +173,7 @@ sh                               allmodconfig   gcc
 sh                                allnoconfig   gcc  
 sh                               allyesconfig   gcc  
 sh                                  defconfig   gcc  
-sh                   rts7751r2dplus_defconfig   gcc  
 sh                          sdk7780_defconfig   gcc  
-sh                             sh03_defconfig   gcc  
 sparc                            allmodconfig   gcc  
 sparc                             allnoconfig   gcc  
 sparc                            allyesconfig   gcc  
