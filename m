@@ -1,92 +1,103 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0CF273DE
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:02:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2096627ED1
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:04:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KKrci8db"
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F20441640
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 07:01:33 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-406609df1a6so9326225e9.3
-        for <linux-usb@vger.kernel.org>; Thu, 05 Oct 2023 07:01:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696514469; x=1697119269; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EEBsoHti+XFvDHXO7qEwI1whIGP245jboTAo/jjD/QE=;
-        b=KKrci8db8VRy3JFiNy+IZkV0W7Q/sa3mLAmCPkqXzvuUsYdQYoa2s9Gf3h2F6SZnOg
-         m/cgxtqrpDBqc6TkMBcciSx1IsDXsoLD40FEbsflmpi12IJrh4PU3w0LHyylFeo+3+Lx
-         ZMO8Hxgk4WnqAZh0FooXSjv7aaOBC98sxUJ2WObUyNPXx1xaWhrqBO9Vl4hK8g0mehP8
-         luig5mMA25vLPH1srIt3PmsRVBnCgB6Suv5LxtvtT3GU5xxLH1dRhP6ZpSgTKchXJnu4
-         xGWVkHNagosGEq95hf5z8DvhYyIA2dbE78RAjhjVnxw5jDTidJs0fUS/R7kfsJUG2jbU
-         f9lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696514469; x=1697119269;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EEBsoHti+XFvDHXO7qEwI1whIGP245jboTAo/jjD/QE=;
-        b=rg7CzOFHByfUnGwBzbvNicqEuLbOGX+pvuSpaaUPNdw4QXaKBpb5Ezdh1fqD7gHJeb
-         K29JE09nvTQyV33VcqDneXoZTVUTzdf31gr+T8HUwpPflp9VlfOCz8BDzcn4RZ8jLiM8
-         IZ20Qoz7gUk2TK40N5ukMdoXBraHew0JcGETxHYJEgrxtb1h84r6hSxWFSJcGbgAnFjA
-         J/x2yT7lFujPZdVM33DwsKoyj6o2muDRfzRQChua5bezbafm/3xMAnc4tMU1/pW63OFk
-         LLPZ+Mjw/SCpXFn961ViUifUWrlW6O2TY8V5ymXCm2vAqDyoe7vTBEb0uZH7UGtNOhLm
-         8Vzg==
-X-Gm-Message-State: AOJu0YzAMKH4bArfAwXW6H2G3koon8M/mjLvFmfZVAYgG1HKUUx0V59+
-	+qsJinRPPdDYXNHYsNtHnUVBEA==
-X-Google-Smtp-Source: AGHT+IGzlifFWTIjaG638PhGniL1vFxzx5LlNFebcJmya8nSpTFh0K36mX5cGJufCOfMbbweh6tN1A==
-X-Received: by 2002:a7b:cc8e:0:b0:401:38dc:8916 with SMTP id p14-20020a7bcc8e000000b0040138dc8916mr5000549wma.10.1696514469148;
-        Thu, 05 Oct 2023 07:01:09 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l1-20020adffe81000000b0031779a6b451sm1854809wrr.83.2023.10.05.07.01.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Oct 2023 07:01:08 -0700 (PDT)
-Date: Thu, 5 Oct 2023 17:01:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] usb: usbtest: fix a type promotion bug
-Message-ID: <506f7935-2cba-41d9-ab5d-ddb6ad6320bd@moroto.mountain>
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="ivbGpObT"
+X-Greylist: delayed 435 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 05 Oct 2023 07:03:36 PDT
+Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com [203.205.221.242])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16DA759E6;
+	Thu,  5 Oct 2023 07:03:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1696514613;
+	bh=SXOUgbldgZBCY3GyES22l+Ixl/lk+hf9+Aq9JS/F44U=;
+	h=From:To:Cc:Subject:Date;
+	b=ivbGpObTfpcXyvTA6pLrkKVYM8ddZpZLIkVIaEDUv+4b6FjjRZSAdcNZlsATIjqdk
+	 6UgwiIQRZLoS+Lu5cp3PZht1bRkuAt4lNYy+LyYO4wSX9V9jQElNQgbsJs0vWG8xuq
+	 0JLrHcH9CcmmjICvxGFqeBfA2XjHGiO2+cUGpaKQ=
+Received: from KernelDevBox.byted.org ([180.184.103.200])
+	by newxmesmtplogicsvrsza12-0.qq.com (NewEsmtp) with SMTP
+	id C7005A1E; Thu, 05 Oct 2023 21:49:48 +0800
+X-QQ-mid: xmsmtpt1696513788t2552ounz
+Message-ID: <tencent_6BA8EA125537CBB5D65B05605E1E960AA708@qq.com>
+X-QQ-XMAILINFO: MILSKRzDrLPb9EuLXmTn57oGreBCkYaFwc9IUcG6/5HF5vHFojYNqHhnEx5ycG
+	 J2FoBqQxKuVm8bD5TlMpxToHTmBj3N0FQjHU/8vHoMtdHdOSLuixdQxVWyJ+QASvQbAEIbkvO4/j
+	 r8H3zEEUWGT6D2p5kIYAN+HnOUEi1LVD/hskoQvnIELONuoJpgGFylV/wLa6XQMUe6u3F4lSZ+LJ
+	 uk/Jv0sSJcmkNQ+u4ZsTsIVepEX1QcdbUJWKulmeY9O3p5u9rbe1lk+MICpeZJqVctfi5IwnXjTh
+	 FBJe3AqbZD7cyQ5M2BE+4mq8nDiRwGgxjPbCAQkzVQ6PkeyrvzTr2UkB8i0pE4A40r07HvrRVm6r
+	 4rIvBSBj7OsXv+n7vei0du/773JvOUm4G+SRKlU6CMP7XZykKFlKkSnAcqF0sva20v+0+LhEEj8N
+	 s6kNU+GmOSEYFh8E+O/d9Y3dOF7J4WbU19Zn0kFPPGUpi9vWwmMNrYnO04iW/aDXI4FEwEzVHAt4
+	 QekwZSY4LAfLvKyULVuzneot2gOTQE8zqwNMxYyoHN3yC/nl9h6k0XvqAkEPVCYmbvZnRPO9vPhV
+	 7+73//LgD6yaYmcm6MtgAB7nq+E5dUaARkw4ej5nXbT5do34NKD8PLCLT4qIu50k4lPx3Sp+4jGK
+	 lkawqTtY9IAlLqSQX7txS6BqP02Cti421bKZ28iJN/4er0xIqJ0QlPhua+ZnJFcx0KYJh+TiblbM
+	 cZrOIdNEfj0mpvLx3yfxoMUu2xE4v0caVCFitQb4NJHmgrFqB7L/NKroOdjzAQKvawFmvn3ImT4P
+	 q+gd2Gm9MvdrvXW9vEKdJPd97/SC+sDM9Qk/kKORdaKJZmpekb5WRT+r1RoTEbK+intAVmIN22J9
+	 NPyUDx1Sx0HtnWTfKxgReIK610bhXSe6uAZdcG+j4jAUXD0hxifiPyP/yN3HHl4ASwKvF4dseb58
+	 Sn+yaI7fCm9bhDyfGCaD7GMi4qkt/MvwStO0GFPlboTnIWb8l8yznghXiqFvMQHXppFVc2kac=
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+From: Zhang Shurong <zhang_shurong@foxmail.com>
+To: Thinh.Nguyen@synopsys.com
+Cc: gregkh@linuxfoundation.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Shurong <zhang_shurong@foxmail.com>
+Subject: [PATCH] usb: dwc3: fix possible object reference leak
+Date: Thu,  5 Oct 2023 21:49:46 +0800
+X-OQ-MSGID: <20231005134946.2197459-1-zhang_shurong@foxmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	HELO_DYNAMIC_IPADDR,RCVD_IN_DNSWL_BLOCKED,RDNS_DYNAMIC,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-The "len" here is sometimes negative error codes from
-usb_get_descriptor(), so we don't want to type promote them to unsigned
-long.
+The of_find_device_by_node takes a reference to the struct device
+when find the match device,we should release it when fail.
 
-This bug pre-dates the invention of git.
+Fix it by calling by calling platform_device_put when error returns.
 
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
 ---
- drivers/usb/misc/usbtest.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/dwc3/dwc3-imx8mp.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/misc/usbtest.c b/drivers/usb/misc/usbtest.c
-index ac0d75ac2d2f..caf65f8294db 100644
---- a/drivers/usb/misc/usbtest.c
-+++ b/drivers/usb/misc/usbtest.c
-@@ -705,7 +705,7 @@ static int is_good_config(struct usbtest_dev *tdev, int len)
- {
- 	struct usb_config_descriptor	*config;
+diff --git a/drivers/usb/dwc3/dwc3-imx8mp.c b/drivers/usb/dwc3/dwc3-imx8mp.c
+index a1e15f2fffdb..af5302c3f7a9 100644
+--- a/drivers/usb/dwc3/dwc3-imx8mp.c
++++ b/drivers/usb/dwc3/dwc3-imx8mp.c
+@@ -244,7 +244,7 @@ static int dwc3_imx8mp_probe(struct platform_device *pdev)
+ 					IRQF_ONESHOT, dev_name(dev), dwc3_imx);
+ 	if (err) {
+ 		dev_err(dev, "failed to request IRQ #%d --> %d\n", irq, err);
+-		goto depopulate;
++		goto err_device_put;
+ 	}
  
--	if (len < sizeof(*config))
-+	if (len < (int)sizeof(*config))
- 		return 0;
- 	config = (struct usb_config_descriptor *) tdev->buf;
+ 	device_set_wakeup_capable(dev, true);
+@@ -252,6 +252,8 @@ static int dwc3_imx8mp_probe(struct platform_device *pdev)
  
+ 	return 0;
+ 
++err_device_put:
++	platform_device_put(dwc3_imx->dwc3);
+ depopulate:
+ 	of_platform_depopulate(dev);
+ err_node_put:
 -- 
-2.39.2
+2.30.2
 
