@@ -1,764 +1,148 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DB527725
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:04:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A1427725
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:05:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OH0WFnQ1"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D39F14EE9
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 07:04:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696514674; x=1728050674;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=kw3ZTI80qGcTRh/GhVex+CLwgJo17A110gMC0vtZPB0=;
-  b=OH0WFnQ1HwNALIO2WMwEHhxEYYYOXQYTlYNeigL8TTLEM45fD0IuNyGm
-   xalI1/6G5Qo7jSESL71BKcK5ZHvM3Uc3A/H7IO8QiYqD6HD3xRvfD/IVl
-   tKB3+PNjlUTvvJMsOPEuJ1Sy7KVxCfag7Ew5MO4JXcBN1Y4nROsoTgqUw
-   kOCYeAO5OYUZ29JdW9NV0LxtaSY9pCvogbiyI0unLIUwc8y9TN41/ZTkm
-   i8pznlq90P+dhcQSFonUA24KtMh0t66Gv3G5Yc6jm2nVb/TMJgwcqmpso
-   bWpffXcOU6ONx9KOVjwiIp3O81fM9VHzQI/7Urp6Ewuuzrcpe/igQYWt9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="380732094"
-X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="380732094"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 02:27:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="817511758"
-X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="817511758"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga008.fm.intel.com with ESMTP; 05 Oct 2023 02:27:34 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id 5005765E; Thu,  5 Oct 2023 12:27:30 +0300 (EEST)
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: linux-usb@vger.kernel.org
-Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Michael Jamet <michael.jamet@intel.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Gil Fine <gil.fine@linux.intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 09/10] thunderbolt: Add support for asymmetric link
-Date: Thu,  5 Oct 2023 12:27:28 +0300
-Message-Id: <20231005092729.3595447-10-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231005092729.3595447-1-mika.westerberg@linux.intel.com>
-References: <20231005092729.3595447-1-mika.westerberg@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="6zqsob4W";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ot8Hp2ir"
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AB794F6F0
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 07:02:52 -0700 (PDT)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailout.nyi.internal (Postfix) with ESMTP id B553C5C0398;
+	Thu,  5 Oct 2023 03:20:13 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Thu, 05 Oct 2023 03:20:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1696490413; x=1696576813; bh=uf
+	aGcSs5vDPG+rSC5/4FkEENRtFqKyrJ/T6RM1RwL3U=; b=6zqsob4WBSij7QjbWc
+	8sWNjiNy0ocF3DS7Z7QXvQcc2htBW1hM1gm05bistcgBtAB4fqQN+pw9M3nRCFhk
+	O19vXFvoCzEDcwnLQkAYJaiwxHh2vJ/C8YzNwFhaYDH2SoTkL+lf7wP8ZE8iyiYT
+	HpMrpmBybjlU5dOXJO/YCs0uKabBrxiQZli065dMwG3MdKKyCucbEuQS6ON7+g0/
+	vwr03QS5ZfqZfr+kW5avhuJPhOtC0UV1zZunBrAcx4Hs6GPxEwqBD1XbAQQkUgwc
+	eULz4qdUV0dk8OQxxVdxsMP+nzhcbmuqDQ3zVMthgeIw786PwL5Gr+JTEUoCWar+
+	4zVQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1696490413; x=1696576813; bh=ufaGcSs5vDPG+
+	rSC5/4FkEENRtFqKyrJ/T6RM1RwL3U=; b=Ot8Hp2irKnsenXfUm2jLUaGUFertV
+	TZYrjloDb3YPZtClCRZzhyWJUvMu2+HoJ5x7owzNT3W0pF/N05PPAOtLCrWJEBhS
+	KyPBti4P+xb0RPWmKBXqwQ3jpFelqTmewotNxZUniR6w99wd4PwbgLnKcFY6ZlEm
+	Mbqw2Jst1NxzQMlgG6Becw2mxXaJ6Gvx8CNty1bbX9kwIM7ji/e4clWQZAlZeH1z
+	5OM1HTwXkG0AnfCjGXYxIL2ZTyFVJwSmbYGuUhzXVE0N1HP4ZITpo09iaYtR8EEy
+	WwRefQiXRiK+G2NDWCz0gkj7/cloziwqaodmCHqOCzG2WwcUuAC6RWUgg==
+X-ME-Sender: <xms:rWMeZSkFF7A-O4p2fw8CU0O_btQHEy-8U2j9yviBvKTaxbjrp7E1zA>
+    <xme:rWMeZZ0kMkAsBMc3fAww_exYAchCcTQhABN9yZ-QsMuzk_k0QL1UOAV9imP8ZUHZB
+    tWrv9YEawiABQ>
+X-ME-Received: <xmr:rWMeZQr9WkA3zvSrvOKNtnSmRB6OE1oSGAGhObGsevU1PtsxQKSImzEUPGYQnq_YD1P_3KRUPUVCWUQe5bojUZxaLxzMmF08cfoqnw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrgeefgdduudelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttd
+    ertddttddvnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhm
+    qeenucggtffrrghtthgvrhhnpeehgedvvedvleejuefgtdduudfhkeeltdeihfevjeekje
+    euhfdtueefhffgheekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
+    ihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:rWMeZWklMFxfDwVMkh18ymIFK8_dXMhHZueW9ISJfXZ3GaIvgAcWbg>
+    <xmx:rWMeZQ0ILElfdRvJAUIBqMO-IWSzI0eSiv_SXsZfyaKPDXilZR8QIA>
+    <xmx:rWMeZdu33el89dws-Vpe5IW9XI2RxXzaeaSSjtl_j8GiIWJvWLmbTw>
+    <xmx:rWMeZaoG5EVUL6uDrKUXdakEcupDMkPO5FQyZBPWuJ-s88IxNKiIDQ>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 5 Oct 2023 03:20:12 -0400 (EDT)
+Date: Thu, 5 Oct 2023 09:20:10 +0200
+From: Greg KH <greg@kroah.com>
+To: linux-dev@sensoray.com
+Cc: balbi@kernel.org, linux-usb@vger.kernel.org, dean@sensoray.com
+Subject: Re: [PATCH] usb/gadget: function fs req_match endpoint address fix
+Message-ID: <2023100506-veteran-foil-cec0@gregkh>
+References: <20231003221103.1607964-1-linux-dev@sensoray.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231003221103.1607964-1-linux-dev@sensoray.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+	RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-From: Gil Fine <gil.fine@linux.intel.com>
+On Tue, Oct 03, 2023 at 03:11:03PM -0700, linux-dev@sensoray.com wrote:
+> From: Dean Anderson <linux-dev@sensoray.com>
+> 
+> Fixes f_fs.c handling USB_RECIP_ENDPOINT request types incorrectly for
+> endpoints not belonging to it. f_fs.c needs to distinguish between IN
+> and OUT endpoints, not just the endpoint number. Otherwise, f_fs may
+> handle endpoints belonging to other functions. This occurs in the
+> gadget/composite.c composite_setup function in the req_match callback.
+> 
+> Signed-off-by: Dean Anderson <linux-dev@sensoray.com>
 
-USB4 v2 spec defines a Gen 4 link that can operate as an aggregated
-symmetric (80/80G) or asymmetric (120/40G). When the link is asymmetric,
-the USB4 port on one side of the link operates with three TX lanes and
-one RX lane, while the USB4 port on the opposite side of the link
-operates with three RX lanes and one TX lane.
+What commit id does this fix?
 
-Add support for the asymmetric link and provide functions that can be
-used to transition the link to asymmetric and back.
+> ---
+>  drivers/usb/gadget/function/f_fs.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+> index c727cb5de871..fb95ca4aa025 100644
+> --- a/drivers/usb/gadget/function/f_fs.c
+> +++ b/drivers/usb/gadget/function/f_fs.c
+> @@ -71,7 +71,7 @@ struct ffs_function {
+>  	struct ffs_data			*ffs;
+>  
+>  	struct ffs_ep			*eps;
+> -	u8				eps_revmap[16];
+> +	u8				eps_revmap[32]; /* 16 in endpoints, 16 out endpoints*/
 
-Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
-Co-developed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/switch.c  | 294 +++++++++++++++++++++++++++++-----
- drivers/thunderbolt/tb.c      |  11 +-
- drivers/thunderbolt/tb.h      |  16 +-
- drivers/thunderbolt/tb_regs.h |   9 +-
- drivers/thunderbolt/usb4.c    | 106 ++++++++++++
- 5 files changed, 381 insertions(+), 55 deletions(-)
+Can't this be two separate arrays so you don't have to do fun masks to
+pick out which is an in and which is an out?
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index bd987935d9c9..1e15ffa79295 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -941,6 +941,22 @@ int tb_port_get_link_generation(struct tb_port *port)
- 	}
- }
- 
-+static const char *width_name(enum tb_link_width width)
-+{
-+	switch (width) {
-+	case TB_LINK_WIDTH_SINGLE:
-+		return "symmetric, single lane";
-+	case TB_LINK_WIDTH_DUAL:
-+		return "symmetric, dual lanes";
-+	case TB_LINK_WIDTH_ASYM_TX:
-+		return "asymmetric, 3 transmitters, 1 receiver";
-+	case TB_LINK_WIDTH_ASYM_RX:
-+		return "asymmetric, 3 receivers, 1 transmitter";
-+	default:
-+		return "unknown";
-+	}
-+}
-+
- /**
-  * tb_port_get_link_width() - Get current link width
-  * @port: Port to check (USB4 or CIO)
-@@ -966,8 +982,15 @@ int tb_port_get_link_width(struct tb_port *port)
- 		LANE_ADP_CS_1_CURRENT_WIDTH_SHIFT;
- }
- 
--static bool tb_port_is_width_supported(struct tb_port *port,
--				       unsigned int width_mask)
-+/**
-+ * tb_port_width_supported() - Is the given link width supported
-+ * @port: Port to check
-+ * @width: Widths to check (bitmask)
-+ *
-+ * Can be called to any lane adapter. Checks if given @width is
-+ * supported by the hardware and returns %true if it is.
-+ */
-+bool tb_port_width_supported(struct tb_port *port, unsigned int width)
- {
- 	u32 phy, widths;
- 	int ret;
-@@ -975,15 +998,23 @@ static bool tb_port_is_width_supported(struct tb_port *port,
- 	if (!port->cap_phy)
- 		return false;
- 
-+	if (width & (TB_LINK_WIDTH_ASYM_TX | TB_LINK_WIDTH_ASYM_RX)) {
-+		if (tb_port_get_link_generation(port) < 4 ||
-+		    !usb4_port_asym_supported(port))
-+			return false;
-+	}
-+
- 	ret = tb_port_read(port, &phy, TB_CFG_PORT,
- 			   port->cap_phy + LANE_ADP_CS_0, 1);
- 	if (ret)
- 		return false;
- 
--	widths = (phy & LANE_ADP_CS_0_SUPPORTED_WIDTH_MASK) >>
--		LANE_ADP_CS_0_SUPPORTED_WIDTH_SHIFT;
--
--	return widths & width_mask;
-+	/*
-+	 * The field encoding is the same as &enum tb_link_width (which is
-+	 * passed to @width).
-+	 */
-+	widths = FIELD_GET(LANE_ADP_CS_0_SUPPORTED_WIDTH_MASK, phy);
-+	return widths & width;
- }
- 
- /**
-@@ -1018,10 +1049,18 @@ int tb_port_set_link_width(struct tb_port *port, enum tb_link_width width)
- 		val |= LANE_ADP_CS_1_TARGET_WIDTH_SINGLE <<
- 			LANE_ADP_CS_1_TARGET_WIDTH_SHIFT;
- 		break;
-+
- 	case TB_LINK_WIDTH_DUAL:
-+		if (tb_port_get_link_generation(port) >= 4)
-+			return usb4_port_asym_set_link_width(port, width);
- 		val |= LANE_ADP_CS_1_TARGET_WIDTH_DUAL <<
- 			LANE_ADP_CS_1_TARGET_WIDTH_SHIFT;
- 		break;
-+
-+	case TB_LINK_WIDTH_ASYM_TX:
-+	case TB_LINK_WIDTH_ASYM_RX:
-+		return usb4_port_asym_set_link_width(port, width);
-+
- 	default:
- 		return -EINVAL;
- 	}
-@@ -1146,7 +1185,7 @@ void tb_port_lane_bonding_disable(struct tb_port *port)
- /**
-  * tb_port_wait_for_link_width() - Wait until link reaches specific width
-  * @port: Port to wait for
-- * @width_mask: Expected link width mask
-+ * @width: Expected link width (bitmask)
-  * @timeout_msec: Timeout in ms how long to wait
-  *
-  * Should be used after both ends of the link have been bonded (or
-@@ -1155,14 +1194,14 @@ void tb_port_lane_bonding_disable(struct tb_port *port)
-  * within the given timeout, %0 if it did. Can be passed a mask of
-  * expected widths and succeeds if any of the widths is reached.
-  */
--int tb_port_wait_for_link_width(struct tb_port *port, unsigned int width_mask,
-+int tb_port_wait_for_link_width(struct tb_port *port, unsigned int width,
- 				int timeout_msec)
- {
- 	ktime_t timeout = ktime_add_ms(ktime_get(), timeout_msec);
- 	int ret;
- 
- 	/* Gen 4 link does not support single lane */
--	if ((width_mask & TB_LINK_WIDTH_SINGLE) &&
-+	if ((width & TB_LINK_WIDTH_SINGLE) &&
- 	    tb_port_get_link_generation(port) >= 4)
- 		return -EOPNOTSUPP;
- 
-@@ -1176,7 +1215,7 @@ int tb_port_wait_for_link_width(struct tb_port *port, unsigned int width_mask,
- 			 */
- 			if (ret != -EACCES)
- 				return ret;
--		} else if (ret & width_mask) {
-+		} else if (ret & width) {
- 			return 0;
- 		}
- 
-@@ -2720,6 +2759,38 @@ static int tb_switch_update_link_attributes(struct tb_switch *sw)
- 	return 0;
- }
- 
-+/* Must be called after tb_switch_update_link_attributes() */
-+static void tb_switch_link_init(struct tb_switch *sw)
-+{
-+	struct tb_port *up, *down;
-+	bool bonded;
-+
-+	if (!tb_route(sw) || tb_switch_is_icm(sw))
-+		return;
-+
-+	tb_sw_dbg(sw, "current link speed %u.0 Gb/s\n", sw->link_speed);
-+	tb_sw_dbg(sw, "current link width %s\n", width_name(sw->link_width));
-+
-+	bonded = sw->link_width >= TB_LINK_WIDTH_DUAL;
-+
-+	/*
-+	 * Gen 4 links come up as bonded so update the port structures
-+	 * accordingly.
-+	 */
-+	up = tb_upstream_port(sw);
-+	down = tb_switch_downstream_port(sw);
-+
-+	up->bonded = bonded;
-+	if (up->dual_link_port)
-+		up->dual_link_port->bonded = bonded;
-+	tb_port_update_credits(up);
-+
-+	down->bonded = bonded;
-+	if (down->dual_link_port)
-+		down->dual_link_port->bonded = bonded;
-+	tb_port_update_credits(down);
-+}
-+
- /**
-  * tb_switch_lane_bonding_enable() - Enable lane bonding
-  * @sw: Switch to enable lane bonding
-@@ -2728,24 +2799,20 @@ static int tb_switch_update_link_attributes(struct tb_switch *sw)
-  * switch. If conditions are correct and both switches support the feature,
-  * lanes are bonded. It is safe to call this to any switch.
-  */
--int tb_switch_lane_bonding_enable(struct tb_switch *sw)
-+static int tb_switch_lane_bonding_enable(struct tb_switch *sw)
- {
- 	struct tb_port *up, *down;
--	u64 route = tb_route(sw);
--	unsigned int width_mask;
-+	unsigned int width;
- 	int ret;
- 
--	if (!route)
--		return 0;
--
- 	if (!tb_switch_lane_bonding_possible(sw))
- 		return 0;
- 
- 	up = tb_upstream_port(sw);
- 	down = tb_switch_downstream_port(sw);
- 
--	if (!tb_port_is_width_supported(up, TB_LINK_WIDTH_DUAL) ||
--	    !tb_port_is_width_supported(down, TB_LINK_WIDTH_DUAL))
-+	if (!tb_port_width_supported(up, TB_LINK_WIDTH_DUAL) ||
-+	    !tb_port_width_supported(down, TB_LINK_WIDTH_DUAL))
- 		return 0;
- 
- 	/*
-@@ -2769,21 +2836,10 @@ int tb_switch_lane_bonding_enable(struct tb_switch *sw)
- 	}
- 
- 	/* Any of the widths are all bonded */
--	width_mask = TB_LINK_WIDTH_DUAL | TB_LINK_WIDTH_ASYM_TX |
--		     TB_LINK_WIDTH_ASYM_RX;
-+	width = TB_LINK_WIDTH_DUAL | TB_LINK_WIDTH_ASYM_TX |
-+		TB_LINK_WIDTH_ASYM_RX;
- 
--	ret = tb_port_wait_for_link_width(down, width_mask, 100);
--	if (ret) {
--		tb_port_warn(down, "timeout enabling lane bonding\n");
--		return ret;
--	}
--
--	tb_port_update_credits(down);
--	tb_port_update_credits(up);
--	tb_switch_update_link_attributes(sw);
--
--	tb_sw_dbg(sw, "lane bonding enabled\n");
--	return ret;
-+	return tb_port_wait_for_link_width(down, width, 100);
- }
- 
- /**
-@@ -2793,20 +2849,27 @@ int tb_switch_lane_bonding_enable(struct tb_switch *sw)
-  * Disables lane bonding between @sw and parent. This can be called even
-  * if lanes were not bonded originally.
-  */
--void tb_switch_lane_bonding_disable(struct tb_switch *sw)
-+static int tb_switch_lane_bonding_disable(struct tb_switch *sw)
- {
- 	struct tb_port *up, *down;
- 	int ret;
- 
--	if (!tb_route(sw))
--		return;
--
- 	up = tb_upstream_port(sw);
- 	if (!up->bonded)
--		return;
-+		return 0;
- 
--	down = tb_switch_downstream_port(sw);
-+	/*
-+	 * If the link is Gen 4 there is no way to switch the link to
-+	 * two single lane links so avoid that here. Also don't bother
-+	 * if the link is not up anymore (sw is unplugged).
-+	 */
-+	ret = tb_port_get_link_generation(up);
-+	if (ret < 0)
-+		return ret;
-+	if (ret >= 4)
-+		return -EOPNOTSUPP;
- 
-+	down = tb_switch_downstream_port(sw);
- 	tb_port_lane_bonding_disable(up);
- 	tb_port_lane_bonding_disable(down);
- 
-@@ -2814,15 +2877,160 @@ void tb_switch_lane_bonding_disable(struct tb_switch *sw)
- 	 * It is fine if we get other errors as the router might have
- 	 * been unplugged.
- 	 */
--	ret = tb_port_wait_for_link_width(down, TB_LINK_WIDTH_SINGLE, 100);
--	if (ret == -ETIMEDOUT)
--		tb_sw_warn(sw, "timeout disabling lane bonding\n");
-+	return tb_port_wait_for_link_width(down, TB_LINK_WIDTH_SINGLE, 100);
-+}
-+
-+static int tb_switch_asym_enable(struct tb_switch *sw, enum tb_link_width width)
-+{
-+	struct tb_port *up, *down, *port;
-+	enum tb_link_width down_width;
-+	int ret;
-+
-+	up = tb_upstream_port(sw);
-+	down = tb_switch_downstream_port(sw);
-+
-+	if (width == TB_LINK_WIDTH_ASYM_TX) {
-+		down_width = TB_LINK_WIDTH_ASYM_RX;
-+		port = down;
-+	} else {
-+		down_width = TB_LINK_WIDTH_ASYM_TX;
-+		port = up;
-+	}
-+
-+	ret = tb_port_set_link_width(up, width);
-+	if (ret)
-+		return ret;
-+
-+	ret = tb_port_set_link_width(down, down_width);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Initiate the change in the router that one of its TX lanes is
-+	 * changing to RX but do so only if there is an actual change.
-+	 */
-+	if (sw->link_width != width) {
-+		ret = usb4_port_asym_start(port);
-+		if (ret)
-+			return ret;
-+
-+		ret = tb_port_wait_for_link_width(up, width, 100);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	sw->link_width = width;
-+	return 0;
-+}
-+
-+static int tb_switch_asym_disable(struct tb_switch *sw)
-+{
-+	struct tb_port *up, *down;
-+	int ret;
-+
-+	up = tb_upstream_port(sw);
-+	down = tb_switch_downstream_port(sw);
-+
-+	ret = tb_port_set_link_width(up, TB_LINK_WIDTH_DUAL);
-+	if (ret)
-+		return ret;
-+
-+	ret = tb_port_set_link_width(down, TB_LINK_WIDTH_DUAL);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Initiate the change in the router that has three TX lanes and
-+	 * is changing one of its TX lanes to RX but only if there is a
-+	 * change in the link width.
-+	 */
-+	if (sw->link_width > TB_LINK_WIDTH_DUAL) {
-+		if (sw->link_width == TB_LINK_WIDTH_ASYM_TX)
-+			ret = usb4_port_asym_start(up);
-+		else
-+			ret = usb4_port_asym_start(down);
-+		if (ret)
-+			return ret;
-+
-+		ret = tb_port_wait_for_link_width(up, TB_LINK_WIDTH_DUAL, 100);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	sw->link_width = TB_LINK_WIDTH_DUAL;
-+	return 0;
-+}
-+
-+/**
-+ * tb_switch_set_link_width() - Configure router link width
-+ * @sw: Router to configure
-+ * @width: The new link width
-+ *
-+ * Set device router link width to @width from router upstream port
-+ * perspective. Supports also asymmetric links if the routers boths side
-+ * of the link supports it.
-+ *
-+ * Does nothing for host router.
-+ *
-+ * Returns %0 in case of success, negative errno otherwise.
-+ */
-+int tb_switch_set_link_width(struct tb_switch *sw, enum tb_link_width width)
-+{
-+	struct tb_port *up, *down;
-+	int ret = 0;
-+
-+	if (!tb_route(sw))
-+		return 0;
-+
-+	up = tb_upstream_port(sw);
-+	down = tb_switch_downstream_port(sw);
-+
-+	switch (width) {
-+	case TB_LINK_WIDTH_SINGLE:
-+		ret = tb_switch_lane_bonding_disable(sw);
-+		break;
-+
-+	case TB_LINK_WIDTH_DUAL:
-+		if (sw->link_width == TB_LINK_WIDTH_ASYM_TX ||
-+		    sw->link_width == TB_LINK_WIDTH_ASYM_RX) {
-+			ret = tb_switch_asym_disable(sw);
-+			if (ret)
-+				break;
-+		}
-+		ret = tb_switch_lane_bonding_enable(sw);
-+		break;
-+
-+	case TB_LINK_WIDTH_ASYM_TX:
-+	case TB_LINK_WIDTH_ASYM_RX:
-+		ret = tb_switch_asym_enable(sw, width);
-+		break;
-+	}
-+
-+	switch (ret) {
-+	case 0:
-+		break;
-+
-+	case -ETIMEDOUT:
-+		tb_sw_warn(sw, "timeout changing link width\n");
-+		return ret;
-+
-+	case -ENOTCONN:
-+	case -EOPNOTSUPP:
-+	case -ENODEV:
-+		return ret;
-+
-+	default:
-+		tb_sw_dbg(sw, "failed to change link width: %d\n", ret);
-+		return ret;
-+	}
- 
- 	tb_port_update_credits(down);
- 	tb_port_update_credits(up);
-+
- 	tb_switch_update_link_attributes(sw);
- 
--	tb_sw_dbg(sw, "lane bonding disabled\n");
-+	tb_sw_dbg(sw, "link width set to %s\n", width_name(width));
-+	return ret;
- }
- 
- /**
-@@ -2982,6 +3190,8 @@ int tb_switch_add(struct tb_switch *sw)
- 		if (ret)
- 			return ret;
- 
-+		tb_switch_link_init(sw);
-+
- 		ret = tb_switch_clx_init(sw);
- 		if (ret)
- 			return ret;
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 9efe0b1435e8..67c56337a4d2 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -985,7 +985,7 @@ static void tb_scan_port(struct tb_port *port)
- 	}
- 
- 	/* Enable lane bonding if supported */
--	tb_switch_lane_bonding_enable(sw);
-+	tb_switch_set_link_width(sw, TB_LINK_WIDTH_DUAL);
- 	/* Set the link configured */
- 	tb_switch_configure_link(sw);
- 	/*
-@@ -1103,7 +1103,8 @@ static void tb_free_unplugged_children(struct tb_switch *sw)
- 			tb_retimer_remove_all(port);
- 			tb_remove_dp_resources(port->remote->sw);
- 			tb_switch_unconfigure_link(port->remote->sw);
--			tb_switch_lane_bonding_disable(port->remote->sw);
-+			tb_switch_set_link_width(port->remote->sw,
-+						 TB_LINK_WIDTH_SINGLE);
- 			tb_switch_remove(port->remote->sw);
- 			port->remote = NULL;
- 			if (port->dual_link_port)
-@@ -1721,7 +1722,8 @@ static void tb_handle_hotplug(struct work_struct *work)
- 			tb_remove_dp_resources(port->remote->sw);
- 			tb_switch_tmu_disable(port->remote->sw);
- 			tb_switch_unconfigure_link(port->remote->sw);
--			tb_switch_lane_bonding_disable(port->remote->sw);
-+			tb_switch_set_link_width(port->remote->sw,
-+						 TB_LINK_WIDTH_SINGLE);
- 			tb_switch_remove(port->remote->sw);
- 			port->remote = NULL;
- 			if (port->dual_link_port)
-@@ -2205,7 +2207,8 @@ static void tb_restore_children(struct tb_switch *sw)
- 			continue;
- 
- 		if (port->remote) {
--			tb_switch_lane_bonding_enable(port->remote->sw);
-+			tb_switch_set_link_width(port->remote->sw,
-+						 port->remote->sw->link_width);
- 			tb_switch_configure_link(port->remote->sw);
- 
- 			tb_restore_children(port->remote->sw);
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 80e28124f583..e299e53473ae 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -162,11 +162,6 @@ struct tb_switch_tmu {
-  * switches) you need to have domain lock held.
-  *
-  * In USB4 terminology this structure represents a router.
-- *
-- * Note @link_width is not the same as whether link is bonded or not.
-- * For Gen 4 links the link is also bonded when it is asymmetric. The
-- * correct way to find out whether the link is bonded or not is to look
-- * @bonded field of the upstream port.
-  */
- struct tb_switch {
- 	struct device dev;
-@@ -967,8 +962,7 @@ static inline bool tb_switch_is_icm(const struct tb_switch *sw)
- 	return !sw->config.enabled;
- }
- 
--int tb_switch_lane_bonding_enable(struct tb_switch *sw);
--void tb_switch_lane_bonding_disable(struct tb_switch *sw);
-+int tb_switch_set_link_width(struct tb_switch *sw, enum tb_link_width width);
- int tb_switch_configure_link(struct tb_switch *sw);
- void tb_switch_unconfigure_link(struct tb_switch *sw);
- 
-@@ -1100,10 +1094,11 @@ static inline bool tb_port_use_credit_allocation(const struct tb_port *port)
- int tb_port_get_link_speed(struct tb_port *port);
- int tb_port_get_link_generation(struct tb_port *port);
- int tb_port_get_link_width(struct tb_port *port);
-+bool tb_port_width_supported(struct tb_port *port, unsigned int width);
- int tb_port_set_link_width(struct tb_port *port, enum tb_link_width width);
- int tb_port_lane_bonding_enable(struct tb_port *port);
- void tb_port_lane_bonding_disable(struct tb_port *port);
--int tb_port_wait_for_link_width(struct tb_port *port, unsigned int width_mask,
-+int tb_port_wait_for_link_width(struct tb_port *port, unsigned int width,
- 				int timeout_msec);
- int tb_port_update_credits(struct tb_port *port);
- 
-@@ -1297,6 +1292,11 @@ int usb4_port_router_online(struct tb_port *port);
- int usb4_port_enumerate_retimers(struct tb_port *port);
- bool usb4_port_clx_supported(struct tb_port *port);
- int usb4_port_margining_caps(struct tb_port *port, u32 *caps);
-+
-+bool usb4_port_asym_supported(struct tb_port *port);
-+int usb4_port_asym_set_link_width(struct tb_port *port, enum tb_link_width width);
-+int usb4_port_asym_start(struct tb_port *port);
-+
- int usb4_port_hw_margin(struct tb_port *port, unsigned int lanes,
- 			unsigned int ber_level, bool timing, bool right_high,
- 			u32 *results);
-diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
-index c14a1c3bc992..87e4795275fe 100644
---- a/drivers/thunderbolt/tb_regs.h
-+++ b/drivers/thunderbolt/tb_regs.h
-@@ -346,10 +346,14 @@ struct tb_regs_port_header {
- #define LANE_ADP_CS_1				0x01
- #define LANE_ADP_CS_1_TARGET_SPEED_MASK		GENMASK(3, 0)
- #define LANE_ADP_CS_1_TARGET_SPEED_GEN3		0xc
--#define LANE_ADP_CS_1_TARGET_WIDTH_MASK		GENMASK(9, 4)
-+#define LANE_ADP_CS_1_TARGET_WIDTH_MASK		GENMASK(5, 4)
- #define LANE_ADP_CS_1_TARGET_WIDTH_SHIFT	4
- #define LANE_ADP_CS_1_TARGET_WIDTH_SINGLE	0x1
- #define LANE_ADP_CS_1_TARGET_WIDTH_DUAL		0x3
-+#define LANE_ADP_CS_1_TARGET_WIDTH_ASYM_MASK	GENMASK(7, 6)
-+#define LANE_ADP_CS_1_TARGET_WIDTH_ASYM_TX	0x1
-+#define LANE_ADP_CS_1_TARGET_WIDTH_ASYM_RX	0x2
-+#define LANE_ADP_CS_1_TARGET_WIDTH_ASYM_DUAL	0x0
- #define LANE_ADP_CS_1_CL0S_ENABLE		BIT(10)
- #define LANE_ADP_CS_1_CL1_ENABLE		BIT(11)
- #define LANE_ADP_CS_1_CL2_ENABLE		BIT(12)
-@@ -382,12 +386,15 @@ struct tb_regs_port_header {
- #define PORT_CS_18_WOCS				BIT(16)
- #define PORT_CS_18_WODS				BIT(17)
- #define PORT_CS_18_WOU4S			BIT(18)
-+#define PORT_CS_18_CSA				BIT(22)
-+#define PORT_CS_18_TIP				BIT(24)
- #define PORT_CS_19				0x13
- #define PORT_CS_19_PC				BIT(3)
- #define PORT_CS_19_PID				BIT(4)
- #define PORT_CS_19_WOC				BIT(16)
- #define PORT_CS_19_WOD				BIT(17)
- #define PORT_CS_19_WOU4				BIT(18)
-+#define PORT_CS_19_START_ASYM			BIT(24)
- 
- /* Display Port adapter registers */
- #define ADP_DP_CS_0				0x00
-diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
-index 86d6b7b5471b..4277733d0021 100644
---- a/drivers/thunderbolt/usb4.c
-+++ b/drivers/thunderbolt/usb4.c
-@@ -1454,6 +1454,112 @@ bool usb4_port_clx_supported(struct tb_port *port)
- 	return !!(val & PORT_CS_18_CPS);
- }
- 
-+/**
-+ * usb4_port_asym_supported() - If the port supports asymmetric link
-+ * @port: USB4 port
-+ *
-+ * Checks if the port and the cable supports asymmetric link and returns
-+ * %true in that case.
-+ */
-+bool usb4_port_asym_supported(struct tb_port *port)
-+{
-+	u32 val;
-+
-+	if (!port->cap_usb4)
-+		return false;
-+
-+	if (tb_port_read(port, &val, TB_CFG_PORT, port->cap_usb4 + PORT_CS_18, 1))
-+		return false;
-+
-+	return !!(val & PORT_CS_18_CSA);
-+}
-+
-+/**
-+ * usb4_port_asym_set_link_width() - Set link width to asymmetric or symmetric
-+ * @port: USB4 port
-+ * @width: Asymmetric width to configure
-+ *
-+ * Sets USB4 port link width to @width. Can be called for widths where
-+ * usb4_port_asym_width_supported() returned @true.
-+ */
-+int usb4_port_asym_set_link_width(struct tb_port *port, enum tb_link_width width)
-+{
-+	u32 val;
-+	int ret;
-+
-+	if (!port->cap_phy)
-+		return -EINVAL;
-+
-+	ret = tb_port_read(port, &val, TB_CFG_PORT,
-+			   port->cap_phy + LANE_ADP_CS_1, 1);
-+	if (ret)
-+		return ret;
-+
-+	val &= ~LANE_ADP_CS_1_TARGET_WIDTH_ASYM_MASK;
-+	switch (width) {
-+	case TB_LINK_WIDTH_DUAL:
-+		val |= FIELD_PREP(LANE_ADP_CS_1_TARGET_WIDTH_ASYM_MASK,
-+				  LANE_ADP_CS_1_TARGET_WIDTH_ASYM_DUAL);
-+		break;
-+	case TB_LINK_WIDTH_ASYM_TX:
-+		val |= FIELD_PREP(LANE_ADP_CS_1_TARGET_WIDTH_ASYM_MASK,
-+				  LANE_ADP_CS_1_TARGET_WIDTH_ASYM_TX);
-+		break;
-+	case TB_LINK_WIDTH_ASYM_RX:
-+		val |= FIELD_PREP(LANE_ADP_CS_1_TARGET_WIDTH_ASYM_MASK,
-+				  LANE_ADP_CS_1_TARGET_WIDTH_ASYM_RX);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return tb_port_write(port, &val, TB_CFG_PORT,
-+			     port->cap_phy + LANE_ADP_CS_1, 1);
-+}
-+
-+/**
-+ * usb4_port_asym_start() - Start symmetry change and wait for completion
-+ * @port: USB4 port
-+ *
-+ * Start symmetry change of the link to asymmetric or symmetric
-+ * (according to what was previously set in tb_port_set_link_width().
-+ * Wait for completion of the change.
-+ *
-+ * Returns %0 in case of success, %-ETIMEDOUT if case of timeout or
-+ * a negative errno in case of a failure.
-+ */
-+int usb4_port_asym_start(struct tb_port *port)
-+{
-+	int ret;
-+	u32 val;
-+
-+	ret = tb_port_read(port, &val, TB_CFG_PORT,
-+			   port->cap_usb4 + PORT_CS_19, 1);
-+	if (ret)
-+		return ret;
-+
-+	val &= ~PORT_CS_19_START_ASYM;
-+	val |= FIELD_PREP(PORT_CS_19_START_ASYM, 1);
-+
-+	ret = tb_port_write(port, &val, TB_CFG_PORT,
-+			    port->cap_usb4 + PORT_CS_19, 1);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Wait for PORT_CS_19_START_ASYM to be 0. This means the USB4
-+	 * port started the symmetry transition.
-+	 */
-+	ret = usb4_port_wait_for_bit(port, port->cap_usb4 + PORT_CS_19,
-+				     PORT_CS_19_START_ASYM, 0, 1000);
-+	if (ret)
-+		return ret;
-+
-+	/* Then wait for the transtion to be completed */
-+	return usb4_port_wait_for_bit(port, port->cap_usb4 + PORT_CS_18,
-+				      PORT_CS_18_TIP, 0, 5000);
-+}
-+
- /**
-  * usb4_port_margining_caps() - Read USB4 port marginig capabilities
-  * @port: USB4 port
--- 
-2.40.1
+>  	short				*interfaces_nums;
+>  
+>  	struct usb_function		function;
+> @@ -2847,6 +2847,7 @@ static int __ffs_func_bind_do_descs(enum ffs_entity_type type, u8 *valuep,
+>  		struct usb_ep *ep;
+>  		u8 bEndpointAddress;
+>  		u16 wMaxPacketSize;
+> +		u8 addr;
+>  
+>  		/*
+>  		 * We back up bEndpointAddress because autoconfig overwrites
+> @@ -2870,8 +2871,9 @@ static int __ffs_func_bind_do_descs(enum ffs_entity_type type, u8 *valuep,
+>  
+>  		ffs_ep->ep  = ep;
+>  		ffs_ep->req = req;
+> -		func->eps_revmap[ds->bEndpointAddress &
+> -				 USB_ENDPOINT_NUMBER_MASK] = idx + 1;
+> +		addr = ((ds->bEndpointAddress & USB_ENDPOINT_DIR_MASK) >> 3)
+> +			| (ds->bEndpointAddress & USB_ENDPOINT_NUMBER_MASK);
+> +		func->eps_revmap[addr] = idx + 1;
+>  		/*
+>  		 * If we use virtual address mapping, we restore
+>  		 * original bEndpointAddress value.
+> @@ -3403,7 +3405,9 @@ static void ffs_func_resume(struct usb_function *f)
+>  
+>  static int ffs_func_revmap_ep(struct ffs_function *func, u8 num)
+>  {
+> -	num = func->eps_revmap[num & USB_ENDPOINT_NUMBER_MASK];
+> +	u8 addr = ((num & USB_ENDPOINT_DIR_MASK) >> 3)
+> +		| (num & USB_ENDPOINT_NUMBER_MASK);
+> +	num = func->eps_revmap[addr];
 
+That's messy, again, 2 arrays would make this much simpler I think?
+
+thanks,
+
+greg k-h
