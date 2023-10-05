@@ -1,39 +1,39 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED00125DD
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:34:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA261D698
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:41:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="B55Mkgca"
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F7A3A8B;
-	Thu,  5 Oct 2023 07:34:02 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 395CslCb008997;
-	Thu, 5 Oct 2023 14:33:53 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iJK+h5Uu"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E276D085;
+	Thu,  5 Oct 2023 07:41:04 -0700 (PDT)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3958tp9X011945;
+	Thu, 5 Oct 2023 09:03:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=YCoqfRfci803TAuA+uObCUn+qGJg5RKtRXjOeiZfK9k=;
- b=B55MkgcaOrIqHhjMdlym+xDBLWuWI70fTSRR+UPsCzdji6soDNscZB9CMpzzS5y/uv+s
- IZ7WUww80LuQbymlVFI+jtDsLdBLtGdhzsmKysDaDsLx3pSWxLlBRG7fATexCLNGnenB
- qiE3XTe49bHzeUyq7oTGK64fwUEym7KmRYH+py89QHJ9/cgk13V7N82274x4zMbTtuWQ
- 2KxEIuToEtz2ehfgc7t/yYPBdzWf+eSkWrXhE5yr0YJ0v5JceKrBcLNBfIddTZZ40NWs
- jWetd6PI4optHKFdkOBgRXP6+P6bK4M+AH/IzlBLIYfzZqf7aqukugsey0kUBbCeWLZA xg== 
+ bh=khXMauHaN37WlQI4QDMEvQGmqZEu2LmWzhZ2mcPvDZE=;
+ b=iJK+h5UuvXGORfn3Su1l5sNOStXWzdWo2SX732Gm5YR0hV00KAsUHE5TrqBapDYIrba4
+ vvKQWwhVgWSq3RqZHHkpA8egeIqltIXNsVQjREFtaaW9/EHhSU/n5gPODR5wv4NZ70kR
+ GK17VR6RR9YB62Tlk1e+5PfvImxIqSCQfnYTBsi0EmMZL3z/XFPQN3Kbo1+JtxWDovHB
+ vRvFhkWevWwzKqTPwM3CkaoEcOk3larNK1rWmCyTmN6pvIvp77gzi2oaxPenuQNjCSiT
+ /a1booBASbHnQoWd0xgEOCYgvU8fhcDAiVXtgxoujUQAwPx/DR3gfvo/bbZCa0/bAtrs rA== 
 Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3thrjdrt9x-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3thfkh155e-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Oct 2023 14:33:53 +0000
+	Thu, 05 Oct 2023 09:03:01 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 395EXqb2010454
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 395931mm029885
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Oct 2023 14:33:52 GMT
-Received: from [10.216.55.130] (10.80.80.8) by nalasex01a.na.qualcomm.com
+	Thu, 5 Oct 2023 09:03:01 GMT
+Received: from [10.216.33.24] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 5 Oct
- 2023 07:33:48 -0700
-Message-ID: <7a4cf85f-c221-41c5-bc3d-7b00c88aff36@quicinc.com>
-Date: Thu, 5 Oct 2023 20:03:44 +0530
+ 2023 02:02:58 -0700
+Message-ID: <d6974352-e157-421b-aa2d-e4a6c791ca2b@quicinc.com>
+Date: Thu, 5 Oct 2023 14:32:54 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -61,20 +61,19 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: wjd4U7B_MpgIcUrCV8sjvUzrM0-anjfe
-X-Proofpoint-GUID: wjd4U7B_MpgIcUrCV8sjvUzrM0-anjfe
+X-Proofpoint-GUID: PYKGrIw-0QHMrmDtdXhsl-lWKvnsWBm5
+X-Proofpoint-ORIG-GUID: PYKGrIw-0QHMrmDtdXhsl-lWKvnsWBm5
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-05_08,2023-10-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 priorityscore=1501 phishscore=0
- mlxscore=0 mlxlogscore=999 impostorscore=0 bulkscore=0 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2310050112
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.6
+ definitions=2023-10-05_06,2023-10-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=889
+ malwarescore=0 phishscore=0 impostorscore=0 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 clxscore=1015 spamscore=0
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310050069
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
@@ -107,7 +106,9 @@ On 10/5/2023 12:06 PM, Johan Hovold wrote:
 > evaluated without the context of the larger series.
 > 
 > Just work on getting the multiport series in shape and include any acks
-> you've received so far when submitting new revisions
+> you've received so far when submitting new revisions.
+> 
+
 Hi Johan,
 
   This may be partially true for first patch of this series, (where we 
@@ -120,10 +121,6 @@ this week. I am actually blocked on [1]. Not able to repro the compile
 error on my end. That's what stopped me from sending all at once.
 
 [1]: https://lore.kernel.org/all/202309200156.CxQ3yaLY-lkp@intel.com/
-
-PS: I sent this mail once but some issue with my mail client and the 
-mail didn't reach the mailing list. If two copies of same mail comes up, 
-pls ignore it.
 
 Thanks,
 Krishna,
