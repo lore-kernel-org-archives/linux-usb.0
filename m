@@ -1,39 +1,43 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA261D698
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:41:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7562E626
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 15:01:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iJK+h5Uu"
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E276D085;
-	Thu,  5 Oct 2023 07:41:04 -0700 (PDT)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3958tp9X011945;
-	Thu, 5 Oct 2023 09:03:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=khXMauHaN37WlQI4QDMEvQGmqZEu2LmWzhZ2mcPvDZE=;
- b=iJK+h5UuvXGORfn3Su1l5sNOStXWzdWo2SX732Gm5YR0hV00KAsUHE5TrqBapDYIrba4
- vvKQWwhVgWSq3RqZHHkpA8egeIqltIXNsVQjREFtaaW9/EHhSU/n5gPODR5wv4NZ70kR
- GK17VR6RR9YB62Tlk1e+5PfvImxIqSCQfnYTBsi0EmMZL3z/XFPQN3Kbo1+JtxWDovHB
- vRvFhkWevWwzKqTPwM3CkaoEcOk3larNK1rWmCyTmN6pvIvp77gzi2oaxPenuQNjCSiT
- /a1booBASbHnQoWd0xgEOCYgvU8fhcDAiVXtgxoujUQAwPx/DR3gfvo/bbZCa0/bAtrs rA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3thfkh155e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Oct 2023 09:03:01 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 395931mm029885
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Oct 2023 09:03:01 GMT
-Received: from [10.216.33.24] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 5 Oct
- 2023 02:02:58 -0700
-Message-ID: <d6974352-e157-421b-aa2d-e4a6c791ca2b@quicinc.com>
-Date: Thu, 5 Oct 2023 14:32:54 +0530
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="Q1EOr3sP"
+Received: from out203-205-221-239.mail.qq.com (out203-205-221-239.mail.qq.com [203.205.221.239])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47FAC658E;
+	Thu,  5 Oct 2023 08:01:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1696518098;
+	bh=j7v78EfYr5kWBGVx9Q0yeHqQ9MIDixPPetJ6nvLJ2nc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Q1EOr3sPF+C02Z9y8KIbwTZOG7fwnZjX9n5Dq2v2HiP7FvMH2e6y01F4d46nYbBRq
+	 RmU0WuCxgaFsugA6hmrUewisTEQf2E5scs+XGcRQNzDwS3CEXc1Wu6EUIthmO6Vgro
+	 QkhRSqA5VFY/hwCYxKtZG5om5LSSrC89JfBLhGpc=
+Received: from [10.255.87.57] ([122.14.229.252])
+	by newxmesmtplogicsvrszb6-0.qq.com (NewEsmtp) with SMTP
+	id 6299CF5; Thu, 05 Oct 2023 23:01:34 +0800
+X-QQ-mid: xmsmtpt1696518094tyxh55cxd
+Message-ID: <tencent_21B5235BC260E91E030A10A8E112D037EC08@qq.com>
+X-QQ-XMAILINFO: N8kVz9D657mRghfTFuheWxMrr0xSlkTJvrM9oKOp5NOWHliJN+ctqLKGt97tFL
+	 m3fz4DS2pnsYA+PNV3STpG+lWIHV6mz2eVcyPT+9ZVSohw4YhsVGOVorP60vX9itD6HRWouswlkP
+	 uqd+5yAcNqjUdBVs78KFqerqFLjQ2FSNBa10zhueGXzVJL8/OQlfUUg7au0y2QybffnXu0hPhM2D
+	 AseFv1dzmfBf/XLrmLBTHB93y02qKt2rBCKfDLJMiPJ8VrO456vwkvyjscNVB3rhk/6UC/44sf/K
+	 aVmpVa+Kgi1UUDCTKHTbLoodV5599fXSes7B4vCu30JrrOzugSlXUBcOu89RnvTTAUNzO3TNtslQ
+	 tN/JFsRxV7QvmWGXbtWo0lzkNx0xHgq2ydXIeyM/O/Y0v00gG+PtT+VxAIL3xXCeFzOr+KCKsl1r
+	 uit6OEIuteYr1LjFseTW2i6q8ih+Enz5kQlZGf6iflGNi4Jwtd6p2doE+5C8FKpfcnLkCdqVLg/8
+	 6vjGeuHWSab2VU4uREAq66UhZRHPt8TJqUsPyLkOKDOYXwTdlUji0x+gmfhj/0c0IV/5jkblu5Hl
+	 XpcZnjxZw0MUKCgP0DG/DvinadUuCF3AV50GW7so5uCiIAh6BWu61b5NzjfCDwO/CgxPN/xm2haq
+	 LBTHzesSnCb6/CwKy4CouVSmftE6Ht59ZGHzXvOHcp3dM+UiQzFutnVNnR2ChydntH2GrtyW5IZQ
+	 ZHmU6XkE6zLIJZDCytV0P8OpeA951BDqxY2ZycevqV9bjPRhcWFfrVPjB3x9nWLklFwNmBvjstYS
+	 20xYf0e76yFi/knHIwg2fC/7r6W6M+/Bm3MnlSLnzleMX2m25ukWoxqkVcfGLf7fm5MIprDEDiwn
+	 DKRAPamy2c6D7bHAKgIAl3XNqPoJFyxzOzc9z5iRB4TBVCLJxe/lPTT7JAbJU2mtql+YnNlA9AZw
+	 jNRFrcHZiIeIrrGHVCquNHflmyBM6um1vycxdgyW7+c/3i9WMzKZgDIvlE514MlzI0S/XH/lWq0e
+	 NVJX5tdjj9BltgNfA18GRmQAjW2fYhdc98wvQRSH0vEI+i1gMDiRFXqkncaMy104LkRpk45Q==
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+X-OQ-MSGID: <3e289937-f216-4ead-abac-28d35d644f9c@foxmail.com>
+Date: Thu, 5 Oct 2023 23:01:34 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,86 +45,51 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 0/3] Add multiport support for DWC3 controllers
-To: Johan Hovold <johan@kernel.org>
-CC: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        Bjorn Andersson <andersson@kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_ppratap@quicinc.com>,
-        <quic_wcheng@quicinc.com>, <quic_jackp@quicinc.com>
-References: <20231004165922.25642-1-quic_kriskura@quicinc.com>
- <ZR5ZUaWcyRj5sZKx@hovoldconsulting.com>
+Subject: Re: [PATCH] usb: dwc3: fix possible object reference leak
 Content-Language: en-US
-From: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-In-Reply-To: <ZR5ZUaWcyRj5sZKx@hovoldconsulting.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: PYKGrIw-0QHMrmDtdXhsl-lWKvnsWBm5
-X-Proofpoint-ORIG-GUID: PYKGrIw-0QHMrmDtdXhsl-lWKvnsWBm5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-05_06,2023-10-02_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=889
- malwarescore=0 phishscore=0 impostorscore=0 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 spamscore=0
- bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2310050069
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Thinh.Nguyen@synopsys.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+ linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <tencent_6BA8EA125537CBB5D65B05605E1E960AA708@qq.com>
+ <2023100512-crayon-prowess-0f27@gregkh>
+From: Zhang Shurong <zhang_shurong@foxmail.com>
+In-Reply-To: <2023100512-crayon-prowess-0f27@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_MUA_MOZILLA,
+	FREEMAIL_FROM,HELO_DYNAMIC_IPADDR,RCVD_IN_DNSWL_BLOCKED,RDNS_DYNAMIC,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
+I apologize for the poorly formatted patch.
+I will make the necessary revisions and send it to you again.
+Additionally, I thought that it may not be straightforward
+to test but I will try.
 
+Kind regards,
+Shurong
 
-On 10/5/2023 12:06 PM, Johan Hovold wrote:
-> On Wed, Oct 04, 2023 at 10:29:19PM +0530, Krishna Kurapati wrote:
->> This series is a set of picked up acks and split from larger series [1]
->> The series is rebased on top of:
->> Repo: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
->> Branch: usb-testing
->> commit 03cf2af41b37 ("Revert "phy: qcom-qmp-usb: Add Qualcomm SDX75 USB3 PHY support"")
+在 2023/10/5 21:59, Greg KH 写道:
+> On Thu, Oct 05, 2023 at 09:49:46PM +0800, Zhang Shurong wrote:
+>> The of_find_device_by_node takes a reference to the struct device
+>> when find the match device,we should release it when fail.
 >>
->> The patches present in series have been reviewed and acked by respective
->> maintainers. They dont break any existing implementation and is just a
->> subset of merge ready multiport code. The rest of the patches will be
->> rebased on top of the usb branch once this series is merged.
+>> Fix it by calling by calling platform_device_put when error returns.
 >>
->> [1]: https://patchwork.kernel.org/project/linux-usb/cover/20230828133033.11988-1-quic_kriskura@quicinc.com/
->>
->> Krishna Kurapati (3):
->>    usb: dwc3: core: Access XHCI address space temporarily to read port
->>      info
->>    usb: dwc3: core: Skip setting event buffers for host only controllers
->>    usb: dwc3: qcom: Add helper function to request threaded IRQ
-> 
-> NAK.
-> 
-> These patches make very little sense on their own and can't really be
-> evaluated without the context of the larger series.
-> 
-> Just work on getting the multiport series in shape and include any acks
-> you've received so far when submitting new revisions.
-> 
+>> Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
+>> ---
+> What commit id does this fix?
+>
+> And how did you find this?  How was it tested?
+>
+> thanks,
+>
+> greg k-h
 
-Hi Johan,
 
-  This may be partially true for first patch of this series, (where we 
-read num_ports), but the other two patches are self explanatory and are 
-applicable for non-mp controllers as well. Intention was to ensure we 
-make the next rebase easy.
-
-  Will try to address all comments and send v12 again as a whole series 
-this week. I am actually blocked on [1]. Not able to repro the compile 
-error on my end. That's what stopped me from sending all at once.
-
-[1]: https://lore.kernel.org/all/202309200156.CxQ3yaLY-lkp@intel.com/
-
-Thanks,
-Krishna,
