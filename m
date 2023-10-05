@@ -1,127 +1,122 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AFAF51C
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:31:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA741125DD
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 14:34:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="RM728GTz";
-	dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="RM728GTz"
-Received: from mail.insite.cz (smtp.ivitera.com [88.101.85.59])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5441BD
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 07:30:49 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.insite.cz (Postfix) with ESMTP id A27798234;
-	Thu,  5 Oct 2023 16:30:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-	t=1696516246; bh=DoFeQ6eBTcgaK/XpIiIY5JInXpjcMVs2sQEJX4E1LaY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RM728GTzVC/Fbdg8QrsjqKsZLv1y7Sp4bFfSjeFPuFvA1fLqNTjQX3z1BgOz90WST
-	 Uz1+YwMkzMpCw/SPkwdasSUQoHBlGvL9/9ga1HyiXkhH55Vl2QKsizcNmcWVAYPdPc
-	 WQhudcdhHpiYETF7AWMF0gwLm+LQuQqHVxAPCxrw=
-Received: from mail.insite.cz ([127.0.0.1])
-	by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ha4U18s2QCdN; Thu,  5 Oct 2023 16:30:46 +0200 (CEST)
-Received: from [192.168.40.6] (unknown [192.168.100.40])
-	(Authenticated sender: pavel)
-	by mail.insite.cz (Postfix) with ESMTPSA id 3A7048334;
-	Thu,  5 Oct 2023 16:30:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-	t=1696516246; bh=DoFeQ6eBTcgaK/XpIiIY5JInXpjcMVs2sQEJX4E1LaY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RM728GTzVC/Fbdg8QrsjqKsZLv1y7Sp4bFfSjeFPuFvA1fLqNTjQX3z1BgOz90WST
-	 Uz1+YwMkzMpCw/SPkwdasSUQoHBlGvL9/9ga1HyiXkhH55Vl2QKsizcNmcWVAYPdPc
-	 WQhudcdhHpiYETF7AWMF0gwLm+LQuQqHVxAPCxrw=
-Message-ID: <004494f2-bd2b-9bdb-8f45-61b6aed6432b@ivitera.com>
-Date: Thu, 5 Oct 2023 16:30:45 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Fr2fR6/s"
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A11E065AE
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 07:33:56 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id ca18e2360f4ac-7a2874d2820so14365139f.1
+        for <linux-usb@vger.kernel.org>; Thu, 05 Oct 2023 07:33:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1696516435; x=1697121235; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QXhhPLEbAH2Co1vOCJVLpu3VNCebYxHTaxUBPSL3m/A=;
+        b=Fr2fR6/sJIOJCoOuJUi58GJngqPaA/HSFSa0fJhJ0ldiySmGOcjhyPTuaUVI/U5Oz3
+         rYl1vLlsXhNp/pZMBiIupFFan+bOh+xkTqM08MXOQBWjFlimRsqPrdAHQUQ22p33Wtbq
+         kHoNN8ycuVZA6lpw3qhZdgawSzehMgB8tchYk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696516435; x=1697121235;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QXhhPLEbAH2Co1vOCJVLpu3VNCebYxHTaxUBPSL3m/A=;
+        b=PCXxXtRyVSh4vdAnZR8NOzBi9iT9TEJ18pHtFqub9Kf0mv5er6Q7ZdOexgAqnNLpH3
+         kgm2O4FLBUV5o8Vxa/KjOVS4z6Ij7bjdipYMpt6lz618Y3g+RU29DCE4OOA+Kzkv972t
+         sEsB3APPBOMHSPLnqMIaB2ZX3Es6d2fJPLlSxe683BkrHN099LyJhEYsj0Myu0vI64if
+         FsJxrM8x3LjSIGYPBi5f1tf95YEBRfl7CPaB9AvytxDd1zbc1Ee39syt+YTiCMFIAT7l
+         2ohtFMoucrwllMcXAGVnLH7yc6/a84BAb8ogalPEc1LAJuoehed32P3ODoXCzODGDeq/
+         2deA==
+X-Gm-Message-State: AOJu0Yztn3XbqB9w/V7VjWTtyiwNG9qr8UDpwTwngaokXFYfiIEcvcfm
+	jkYEMzjcb5xYPcgPFOGg3JDSNw==
+X-Google-Smtp-Source: AGHT+IHO+aFM7ha6XCEPzgrAXCsvNjRwxGCPHmreI2zNmrs7Itj3mlYvL2vecXZPtwUHFZ4V9sHWOw==
+X-Received: by 2002:a05:6602:140c:b0:79f:a8c2:290d with SMTP id t12-20020a056602140c00b0079fa8c2290dmr6926134iov.0.1696516435724;
+        Thu, 05 Oct 2023 07:33:55 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id y10-20020a02bb0a000000b0043e8735ea85sm461243jan.144.2023.10.05.07.33.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Oct 2023 07:33:55 -0700 (PDT)
+Message-ID: <e56353b2-a814-4a81-9516-63736d12abba@linuxfoundation.org>
+Date: Thu, 5 Oct 2023 08:33:54 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: RFC: usb: gadget: u_audio: Notifying gadget that host started
- playback/capture?
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] USB: usbip: fix stub_dev hub disconnect
+To: Greg KH <gregkh@linuxfoundation.org>, Jonas Blixt <jonas.blixt@actia.se>
+Cc: shuah@kernel.org, valentina.manea.m@gmail.com, stern@rowland.harvard.edu,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20230615092810.1215490-1-jonas.blixt@actia.se>
+ <2023100548-kleenex-deceased-624e@gregkh>
 Content-Language: en-US
-To: Arun Raghavan <arun@arunraghavan.net>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>
-Cc: Julian Scheel <julian@jusst.de>, Takashi Iwai <tiwai@suse.de>,
- Ruslan Bilovol <ruslan.bilovol@gmail.com>,
- Jerome Brunet <jbrunet@baylibre.com>
-References: <6ebc2456-a46b-bc47-da76-7a341414c1fb@ivitera.com>
- <35766f0f-784d-d37a-6d07-665f9ee88331@ivitera.com>
- <27b4b607-5d71-4e5d-a0ff-530c25752213@app.fastmail.com>
- <4154b125-35c8-b15a-8706-54b9eb3cb5e0@ivitera.com>
- <2504b014-08b2-4f39-83f6-5072b5ec4ea8@app.fastmail.com>
-From: Pavel Hofman <pavel.hofman@ivitera.com>
-In-Reply-To: <2504b014-08b2-4f39-83f6-5072b5ec4ea8@app.fastmail.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <2023100548-kleenex-deceased-624e@gregkh>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-
-Dne 05. 10. 23 v 1:15 Arun Raghavan napsal(a):
-> On Fri, 22 Sep 2023, at 3:09 AM, Pavel Hofman wrote:
->> Dne 21. 09. 23 v 3:30 Arun Raghavan napsal(a):
->>> Hi folks,
->>>
->>> On Fri, 1 Oct 2021, at 8:38 AM, Pavel Hofman wrote:
->>>> Hi,
->>>>
->>>
->>> Resurrecting this one -- is there any input on how we want to deal wit letting UAC gadgets know when the host is sending/receiving data?
+On 10/5/23 01:22, Greg KH wrote:
+> On Thu, Jun 15, 2023 at 11:28:10AM +0200, Jonas Blixt wrote:
+>> If a hub is disconnected that has device(s) that's attached to the usbip layer
+>> the disconnect function might fail because it tries to release the port
+>> on an already disconnected hub.
 >>
->> The current version uses the Playback/Capture Rate alsa ctls with
->> notifications
->> https://lore.kernel.org/all/20220121155308.48794-8-pavel.hofman@ivitera.com/
+>> Fixes: 6080cd0e9239 ("staging: usbip: claim ports used by shared devices")
+>> Signed-off-by: Jonas Blixt <jonas.blixt@actia.se>
+>> ---
+>> v2:
+>>   - Clarify comment
+>> v1:
+>>   Link to v1: https://lore.kernel.org/linux-usb/20230615092205.GA1212960@W388ANL/T/#m575e37dc404067797eadf4444857366c73ba3420
+>> ---
+>>   drivers/usb/usbip/stub_dev.c | 9 +++++++--
+>>   1 file changed, 7 insertions(+), 2 deletions(-)
 >>
->> Example of handling is e.g. https://github.com/pavhofman/gaudio_ctl ,
->> the controller is being used in a number of projects, mostly DIY.
+>> diff --git a/drivers/usb/usbip/stub_dev.c b/drivers/usb/usbip/stub_dev.c
+>> index 2305d425e6c9..2170c95c8dab 100644
+>> --- a/drivers/usb/usbip/stub_dev.c
+>> +++ b/drivers/usb/usbip/stub_dev.c
+>> @@ -427,8 +427,13 @@ static void stub_disconnect(struct usb_device *udev)
+>>   	/* release port */
+>>   	rc = usb_hub_release_port(udev->parent, udev->portnum,
+>>   				  (struct usb_dev_state *) udev);
+>> -	if (rc) {
+>> -		dev_dbg(&udev->dev, "unable to release port\n");
+>> +	/*
+>> +	 * NOTE: If a HUB disconnect triggered disconnect of the down stream
+>> +	 * device usb_hub_release_port will return -ENODEV so we can safely ignore
+>> +	 * that error here.
+>> +	 */
+>> +	if (rc && (rc != -ENODEV)) {
+>> +		dev_dbg(&udev->dev, "unable to release port (%i)\n", rc);
+>>   		return;
+>>   	}
+>>   
+>> -- 
+>> 2.25.1
 >>
->> Recently Qualcomm devs have submitted patches for alternative approach
->> using uevents
->> https://lore.kernel.org/lkml/2023050801-handshake-refusing-0367@gregkh/T/#mcd6b346f3ddab6ab34792be0141633bb362d168f
->> and later versions. The detection is identical, monitoring change in
->> altsetting from 0 to non zero and back (methods
->> u_audio_[start/stop]_[capture/playback]), just a different means of
->> communicating the events to userspace.
->>
->> Both methods (using the same principle) suffer from not knowing what's
->> going on the host side and cannot differentiate between player really
->> starting playback vs. UAC2 host driver or Pulseaudio shortly checking
->> device availability. That's why the gaudio_ctl controller can debounce
->> the playback/capture start
->> https://github.com/pavhofman/gaudio_ctl#debouncing . But that is just an
->> ugly workaround...
 > 
-> Thank you for the links, Pavel! This all makes sense.
+> Shuah, what ever happened to this change, is it correct or was something
+> else applied to fix it?
 > 
-> I guess the uevent mechanism is more "general" than the ALSA ctl for clients that want to plug in, listen and do $something. Not sure if there are other pros/cons of either approach.
 
-If the gadget defines multiple samplerates, the client must look at the 
-RATE alsa ctls for learn the actual rate requested by the host. The ctls 
-provide both the rate and notification of playback/capture start/stop at 
-the same time.
+Sorry for the delay. I thought I took care of acking this one. :(
 
-For gadgets with a single fixed samplerate, the alsa ctl vs. uevents 
-methods are equivalent. Both may find their users and can be in the 
-gadget code, IMO.
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
 
-> 
-> I wonder if it might not be good to have some debouncing in the kernel rather than having every client have to implement this.
-
-I am afraid this would be a large feature (debouncing requires extra 
-threads), I have not even tried to push it through. Much better would be 
-having some nice solution instead of a workaround :-)
-
-With regards,
-
-Pavel.
-
+thanks,
+-- Shuah
 
