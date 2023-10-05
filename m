@@ -1,39 +1,39 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6356826E20
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 13:50:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368E42629F
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 13:50:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f05dpAPT"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10D161FCB
-	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 06:50:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SafQk0VP"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8EC9270F
+	for <linux-usb@vger.kernel.org>; Thu,  5 Oct 2023 06:50:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696513802; x=1728049802;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=PRLDJpulHO5glhwAGuRn4xH+3DYzQ6TTjBENgD6LQqc=;
-  b=f05dpAPTuSGhD+x968bnsH7+HiEHToQT3V3AD+OqhYzu9NpqUiSAsu2Y
-   I9X5dkXjsh+twVuDv4xp2QoTFefw9707YGegufXlvC79l+jpV8zTWCNRw
-   R0Vfh0Tvwco0cfgpGucgFafZX/5d4CsJLoX0QuPSygRJF2qiXoVnIHdJS
-   DJZElg+owiMXF78C1TFx159RzPvxyKai1QetOQJP55+pmwY9zkA3Di/VB
-   LLlb1oLHWOWyrxHIVZY7bl5Hx34wTudiTX9Z4P83HPc4bI4u9Fl2y1KNJ
-   czA/cDcyPDwD4RtI8VkfJ4+I6cpJF6Jroov0H42pBgK2dBrkUrQQiRxGm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="383355551"
+  t=1696513851; x=1728049851;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=0ybxOwvsXDTDSEkpkSKGU1Ujru0iOFnktjSDoVuX5rk=;
+  b=SafQk0VPUuO34SofSbqgi4IyCDjT+thw+4sM5K3SnqH9ht1T2+1YerZs
+   gFceeFaWZcfCplZRa5BA4y0Met7IYkfdE0VfJ4H9tMo+gsepnPKDGac3J
+   M2km1tY9hOpBsQYNrRDaos5kxC+QspYwgd3C9hi4sN12Oug5mZWbPmS1I
+   ti99TvRPboMzq2s5IKQWROJvgOUr/twSC58zkxVvnAwGOxzPPSRs6vXG5
+   3cRLR4fd+Zx0ZPF8vP0Kwro/ZhO8Y/3UPd6fmR7GdYOUhOvxHKj8GaEoa
+   EdXdo49k+Tg8u8Nh/tVWN19OjdYnTw3r8UBEZQ25jSdDZMohm7m4svTWy
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="368524190"
 X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="383355551"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 02:27:33 -0700
+   d="scan'208";a="368524190"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 02:27:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="728369857"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="822054747"
 X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="728369857"
+   d="scan'208";a="822054747"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga006.jf.intel.com with ESMTP; 05 Oct 2023 02:27:31 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 05 Oct 2023 02:27:34 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-	id C967235A; Thu,  5 Oct 2023 12:27:29 +0300 (EEST)
+	id 286EC574; Thu,  5 Oct 2023 12:27:30 +0300 (EEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -42,10 +42,12 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Andreas Noever <andreas.noever@gmail.com>,
 	Gil Fine <gil.fine@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 00/10] thunderbolt: USB4 v2 asymmetric switching and more
-Date: Thu,  5 Oct 2023 12:27:19 +0300
-Message-Id: <20231005092729.3595447-1-mika.westerberg@linux.intel.com>
+Subject: [PATCH 07/10] thunderbolt: Introduce tb_for_each_upstream_port_on_path()
+Date: Thu,  5 Oct 2023 12:27:26 +0300
+Message-Id: <20231005092729.3595447-8-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20231005092729.3595447-1-mika.westerberg@linux.intel.com>
+References: <20231005092729.3595447-1-mika.westerberg@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -60,41 +62,39 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Hi all,
+This is useful when walking over upstream lane adapters over given path.
 
-This series adds more USB4 v2 features. First it makes the bandwidth
-reservation to comply with the v2 connection manager guide, adds the
-PMPS packet support bit and enables asymmetric 120/40G switching to
-support the Ultra-High Bitrate DisplayPort modes.
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/tb.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-Applies on top of the cleanup series I sent out this week [1].
-
-[1] https://lore.kernel.org/linux-usb/20231003094005.2676823-1-mika.westerberg@linux.intel.com/
-
-Gil Fine (5):
-  thunderbolt: Make is_gen4_link() available to the rest of the driver
-  thunderbolt: Change bandwidth reservations to comply USB4 v2
-  thunderbolt: Introduce tb_port_path_direction_downstream()
-  thunderbolt: Add support for asymmetric link
-  thunderbolt: Configure asymmetric link if needed and bandwidth allows
-
-Mika Westerberg (5):
-  thunderbolt: Use constants for path weight and priority
-  thunderbolt: Use weight constants in tb_usb3_consumed_bandwidth()
-  thunderbolt: Set path power management packet support bit for USB4 v2 routers
-  thunderbolt: Introduce tb_for_each_upstream_port_on_path()
-  thunderbolt: Introduce tb_switch_depth()
-
- drivers/thunderbolt/path.c    |   7 +-
- drivers/thunderbolt/switch.c  | 328 +++++++++++++---
- drivers/thunderbolt/tb.c      | 682 ++++++++++++++++++++++++++++------
- drivers/thunderbolt/tb.h      |  58 ++-
- drivers/thunderbolt/tb_regs.h |  12 +-
- drivers/thunderbolt/tunnel.c  | 161 ++++++--
- drivers/thunderbolt/tunnel.h  |   2 +
- drivers/thunderbolt/usb4.c    | 106 ++++++
- 8 files changed, 1142 insertions(+), 214 deletions(-)
-
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index 6d49510eea09..869ac360e1b5 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -1073,6 +1073,21 @@ static inline bool tb_port_use_credit_allocation(const struct tb_port *port)
+ 	for ((p) = tb_next_port_on_path((src), (dst), NULL); (p);	\
+ 	     (p) = tb_next_port_on_path((src), (dst), (p)))
+ 
++/**
++ * tb_for_each_upstream_port_on_path() - Iterate over each upstreamm port on path
++ * @src: Source port
++ * @dst: Destination port
++ * @p: Port used as iterator
++ *
++ * Walks over each upstream lane adapter on path from @src to @dst.
++ */
++#define tb_for_each_upstream_port_on_path(src, dst, p)			\
++	for ((p) = tb_next_port_on_path((src), (dst), NULL); (p);	\
++	     (p) = tb_next_port_on_path((src), (dst), (p)))		\
++		if (!tb_port_is_null((p)) || !tb_is_upstream_port((p))) {\
++			continue;					\
++		} else
++
+ int tb_port_get_link_speed(struct tb_port *port);
+ int tb_port_get_link_generation(struct tb_port *port);
+ int tb_port_get_link_width(struct tb_port *port);
 -- 
 2.40.1
 
