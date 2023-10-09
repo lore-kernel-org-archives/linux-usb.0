@@ -1,29 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E096B2569
-	for <linux-usb@vger.kernel.org>; Mon,  9 Oct 2023 08:59:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417F42569
+	for <linux-usb@vger.kernel.org>; Mon,  9 Oct 2023 09:00:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rSdCZSMQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2FA3C433C8;
-	Mon,  9 Oct 2023 08:59:41 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0Q4ho771"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F0B0C433C8;
+	Mon,  9 Oct 2023 09:00:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1696841982;
-	bh=yla6if91DgxfzcR1E+8xpqEziU1Qqf8NpvdMKk61CO4=;
+	s=korg; t=1696842030;
+	bh=t1V4BAkQgXIR9Ww5nCZWBAd42oqGKxOVLjku+bf6d4A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rSdCZSMQEUvHMZ6nxZPjVMGjIj2PE83o1AqZAGsihrVjbyaK2lqL32ogGc+hvFSNL
-	 S/Se+zbTnv0OhkxiZX25G9OeB6tyK7xKUiq6cX9Akmv43hqe6eLBQjFMdehA7U9Xsp
-	 OmzsRwVnRV+vZX2p4+0bFu1wpJXWMbZSc8XpeAXM=
-Date: Mon, 9 Oct 2023 10:59:39 +0200
+	b=0Q4ho771aQfDDMBTFlakBuBJPwrJYGSLoMggMbtGiZ3JHEnqqPAMB6IYmDHaNV26m
+	 6yCvarj26Vt/I1gr7c5LoTsw3PnB8ZYhYaQEgbuduuaoOI9/5ai5Ii7nsl7WqIr2/6
+	 i7K5cLn8IpzXNedxun9dhoEkmcVg6Ky9Bbm89Nrw=
+Date: Mon, 9 Oct 2023 11:00:28 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Brian Kloppenborg <bkloppenborg@gmail.com>
 Cc: Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
 	Brian Kloppenborg <brian@kloppenborg.net>
-Subject: Re: [PATCH 1/2] Make cp210x respond to modem status changes (CTS,
- DSR, RI, DCD) by default.
-Message-ID: <2023100909-catlike-apron-8b70@gregkh>
+Subject: Re: [PATCH 2/2] Make cp210x register GPS PPS signals on the RI pin.
+Message-ID: <2023100942-percent-unbaked-7c93@gregkh>
 References: <20231009023425.366783-1-brian@kloppenborg.net>
- <20231009023425.366783-2-brian@kloppenborg.net>
+ <20231009023425.366783-3-brian@kloppenborg.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -32,13 +31,14 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231009023425.366783-2-brian@kloppenborg.net>
+In-Reply-To: <20231009023425.366783-3-brian@kloppenborg.net>
 
-On Sun, Oct 08, 2023 at 08:34:24PM -0600, Brian Kloppenborg wrote:
+On Sun, Oct 08, 2023 at 08:34:25PM -0600, Brian Kloppenborg wrote:
 > ---
->  drivers/usb/serial/cp210x.c | 62 ++++++++++++++++++++++++++++++-------
->  1 file changed, 51 insertions(+), 11 deletions(-)
+>  drivers/usb/serial/cp210x.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
+
 
 Hi,
 
