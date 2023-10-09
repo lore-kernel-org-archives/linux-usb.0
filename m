@@ -1,98 +1,155 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0C93B296
-	for <linux-usb@vger.kernel.org>; Mon,  9 Oct 2023 19:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-	by lindbergh.monkeyblade.net (Postfix) with SMTP id AB861B6
-	for <linux-usb@vger.kernel.org>; Mon,  9 Oct 2023 12:16:26 -0700 (PDT)
-Received: (qmail 155547 invoked by uid 1000); 9 Oct 2023 15:16:25 -0400
-Date: Mon, 9 Oct 2023 15:16:25 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Hardik Gajjar <hgajjar@de.adit-jv.com>
-Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
-  yangyingliang@huawei.com, jinpu.wang@ionos.com, linux-usb@vger.kernel.org,
-  linux-kernel@vger.kernel.org, erosca@de.adit-jv.com
-Subject: Re: [PATCH v2] usb: core: hub: Add quirks for reducing device
- address timeout
-Message-ID: <66f874d3-b480-4748-8732-d0cdce3ab4b7@rowland.harvard.edu>
-References: <--in-reply-to=20231006153808.9758-1-hgajjar@de.adit-jv.com>
- <20231009161402.104224-1-hgajjar@de.adit-jv.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3947FBA4B
+	for <linux-usb@vger.kernel.org>; Mon,  9 Oct 2023 19:24:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="XGAZHhWq"
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2056.outbound.protection.outlook.com [40.107.94.56])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 940BCAF;
+	Mon,  9 Oct 2023 12:24:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z8KGXr2DL3YJsdTnStkGnnGtJRSCIWOMEgeCO/Hgg5hXGsBbUrKL0MbL2jzzAzxXyyfqr0qDdbQfEJCI9Usbl1cAu8YmOSsJjLe0HQow4a0B3QOJcgszfQWybjwOuVXm6oQXK2IckE9fKhGmsGuDegpPgLGqCDQxyLVgBFARyrLoTZ7HT7BAI09dj12vmDZ16nMTUqYO2BFqN0zs4hPauCAg0kqbHr54rnVZhf/ZLBIuIsvwhjxsJQoyYtVJ2L1rAptlJMnybj3kt8rSRPxz9QOuBmL6jCo2Nqwc5LmK8aQVvYdEfOtzyRBLGXXb4H6FyFqVg/9z9bHlc1rOGoXrVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Pw+R3r5K6BXXcay1Rryj1r8v2jKH7ogIduw5kZ+F+qM=;
+ b=FFYuvIZts2BWZpD22kngxwCcKSvckzeRRzleLMJ8TMq6hiomhwTotLiI63NPHaSjviWHSXHjGnY4Ww3mLW+1mr5E7wjxCGTLZJADYtF3ux8k39UCbxUScFW/hUiEaFAU6T7dxUnJIzKUHx+EwNOPhkYLShCNz52kiCM7es2OLqYnN2sRlkDYoAZDmlopPlqJVZCFEGK/V32cTopAgc9QN9Pvcc+2hMfL3QNp2YNWgcIBe7AUJrUWrcaYw3p5OIdBGWj7emEk7wkpMkDBgsSjuZ75tsJUnOUEL9ClykMWUraqz2fsydQs3k4BtOcNYo4rIdnihec7MLHklzyYmJjBEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pw+R3r5K6BXXcay1Rryj1r8v2jKH7ogIduw5kZ+F+qM=;
+ b=XGAZHhWqU6ZbxVkEsbhlO7lExWeEaWyTq4nQ0rEXHHLTQ20o8D+mITLKuCtOwOLKo96uuw6LrJLAYT3gGM45MnSlEaAUE5AoV43L2YIXSPP2oAXVifEvf/QEkluBzvisBcQ506ftuKhA4B11AdZVt+Q1LxRXHPEMg3c2I+Lsr+A=
+Received: from DS7PR05CA0057.namprd05.prod.outlook.com (2603:10b6:8:2f::21) by
+ PH8PR12MB7157.namprd12.prod.outlook.com (2603:10b6:510:22b::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6863.36; Mon, 9 Oct 2023 19:24:34 +0000
+Received: from CY4PEPF0000FCC5.namprd03.prod.outlook.com
+ (2603:10b6:8:2f:cafe::5) by DS7PR05CA0057.outlook.office365.com
+ (2603:10b6:8:2f::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.19 via Frontend
+ Transport; Mon, 9 Oct 2023 19:24:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000FCC5.mail.protection.outlook.com (10.167.242.107) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6838.21 via Frontend Transport; Mon, 9 Oct 2023 19:24:33 +0000
+Received: from AUS-P9-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 9 Oct
+ 2023 14:24:32 -0500
+From: Mario Limonciello <mario.limonciello@amd.com>
+To: <heikki.krogerus@linux.intel.com>, <gregkh@linuxfoundation.org>
+CC: <wsa@kernel.org>, <linux-usb@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <Alexander.Deucher@amd.com>,
+	<Richard.Gong@amd.com>, <kai.heng.feng@canonical.com>,
+	<sebastian.reichel@collabora.com>, Mario Limonciello
+	<mario.limonciello@amd.com>
+Subject: [PATCH v3] usb: typec: ucsi: Use GET_CAPABILITY attributes data to set power supply scope
+Date: Mon, 9 Oct 2023 13:46:43 -0500
+Message-ID: <20231009184643.129986-1-mario.limonciello@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231009161402.104224-1-hgajjar@de.adit-jv.com>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC5:EE_|PH8PR12MB7157:EE_
+X-MS-Office365-Filtering-Correlation-Id: fa96d12b-0d49-4104-2239-08dbc8fd5e71
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	aCnPKAIXwLsyKPJ92ClvPkLnTdj9o8uPdgXUuc2ndC1f20hzM0rX0SusrUccqx8QRVCkrq012ZQV1si9oivxh7uMbOUAAOAvOmCZG4Z8LfSVTik96AeFRiHGuW/nUKU+kuVBfTuJ0Dj5NFt//GjZyh7PMEXtkx8MUwNS0dY8NIPXStllhhk6p1hV+eMJW+/TVeNJPjOy0qULqd21L/dVoHW/6qLu2VQdZW3EfELcs7YhBsxeXo0pYqOHMpxRxx3cBh/vdj3zPt/gyTDzWBK4JoW/e/ZoLVFrg462T0+uiJ/0UYADbvGLG5iU3v/v1GO2xE5yv2s8EonbP5Bwc2RbNLzUNSPCq7EmHW07YBzdGFnR3AU8EEur3ttPAJGYeI5Z6fnw9pEFzruuwr5RRVTxwW8vS7gnFkaWQ3XE2DNLIAT0fibpRQ2SkVAG1iD9pQcXAveWuvDVW/dgVcwixddGSAFsRaJain0QwCNhjx27X1SuzeQqEMYMK5jKb9yrGKRBguYixk8HSlBSqMxDmgbbr78aFNak3+4PXjKaBHZ64Mk3jtT6TzHv9pPMU/LBjSHiKY5r+wJ/41WvzKeCcjdETO+86Ye91+iA5/Y2u23EiwvdNxit+Ip3XAZkKVdoy90YFEv36ah5+b0xBDQlvKfMn5/klV80uT9RiTTa5E6YalXfsH6AnZiUzbuVSoxK09BC75C2XDOIPCwyOKetwWPWWZTtVTLgFWgCeACn2hyjGH9KNyMlVZGZ26VMb9tJlN7U5N+A17/UzRhgNxazAFS5hw==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(39860400002)(346002)(376002)(136003)(230922051799003)(82310400011)(451199024)(64100799003)(1800799009)(186009)(36840700001)(40470700004)(46966006)(1076003)(426003)(16526019)(336012)(2616005)(26005)(8936002)(6666004)(8676002)(47076005)(478600001)(36860700001)(4326008)(83380400001)(2906002)(110136005)(54906003)(5660300002)(70206006)(70586007)(44832011)(316002)(966005)(41300700001)(81166007)(36756003)(86362001)(356005)(82740400003)(40480700001)(40460700003)(7696005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2023 19:24:33.8717
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa96d12b-0d49-4104-2239-08dbc8fd5e71
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000FCC5.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7157
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+	autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Mon, Oct 09, 2023 at 06:14:02PM +0200, Hardik Gajjar wrote:
-> Currently, the timeout for the set address command is fixed at
-> 5 seconds in the xhci driver. This means the host waits up to 5
-> seconds to receive a response for the set_address command from
-> the device.
-> 
-> In the automotive context, most smartphone enumerations, including
-> screen projection, should ideally complete within 3 seconds.
-> Achieving this is impossible in scenarios where the set_address is
-> not successful and waits for a timeout.
+On some OEM systems, adding a W7900 dGPU triggers RAS errors and hangs
+at a black screen on startup.  This issue occurs only if `ucsi_acpi` has
+loaded before `amdgpu` has loaded.  The reason for this failure is that
+`amdgpu` uses power_supply_is_system_supplied() to determine if running
+on AC or DC power at startup. If this value is reported incorrectly the
+dGPU will also be programmed incorrectly and trigger errors.
 
-What will you do about scenarios where the Set-Address completes very 
-quickly but the following Get-Device-Descriptor times out after 5 
-seconds?  Or any of the other transfers involved in device 
-initialization and enumeration?
+power_supply_is_system_supplied() reports the wrong value because UCSI
+power supplies provided as part of the system don't properly report the
+scope as "DEVICE" scope (not powering the system).
 
-> The shortened address device timeout quirks provide the flexibility
-> to align with a 3-second time limit in the event of errors.
-> By swiftly triggering a failure response and swiftly initiating
-> retry procedures, these quirks ensure efficient and rapid recovery,
-> particularly in automotive contexts where rapid smartphone enumeration
-> and screen projection are vital.
-> 
-> The quirk will set the timeout to 500 ms from 5 seconds.
-> 
-> To use the quirk, please write "vendor_id:product_id:p" to
-> /sys/bus/usb/drivers/hub/module/parameter/quirks
-> 
-> For example,
-> echo "0x2c48:0x0132:p" > /sys/bus/usb/drivers/hub/module/parameter/quirks"
-> 
-> Signed-off-by: Hardik Gajjar <hgajjar@de.adit-jv.com>
-> ---
-> changes since version 1:
-> 	- implement quirk instead of new API in xhci driver
-> ---
->  drivers/usb/core/hub.c       | 15 +++++++++++++--
->  drivers/usb/core/quirks.c    |  3 +++
->  drivers/usb/host/xhci-mem.c  |  1 +
->  drivers/usb/host/xhci-ring.c |  3 ++-
->  drivers/usb/host/xhci.c      |  9 +++++----
->  drivers/usb/host/xhci.h      |  1 +
->  include/linux/usb/hcd.h      |  3 ++-
->  include/linux/usb/quirks.h   |  3 +++
->  8 files changed, 30 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 3c54b218301c..975449b03426 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -54,6 +54,9 @@
->  #define USB_TP_TRANSMISSION_DELAY_MAX	65535	/* ns */
->  #define USB_PING_RESPONSE_TIME		400	/* ns */
->  
-> +#define USB_DEFAULT_ADDR_DEVICE_TIMEOUT		(HZ * 5) /* 5000ms */
-> +#define USB_SHORT_ADDR_DEVICE_TIMEOUT		125  /* ~500ms */
+In order to fix this issue check the capabilities reported from the UCSI
+power supply to ensure that it supports charging a battery and that it can
+be powered by AC.  Mark the scope accordingly.
 
-That number, 125, is meaningless.  It's in units of jiffies, which vary 
-from one system to another.  If you want the timeout to be about 500 ms, 
-you should write it as (HZ / 2).
+Cc: stable@vger.kernel.org
+Fixes: a7fbfd44c020 ("usb: typec: ucsi: Mark dGPUs as DEVICE scope")
+Link: https://www.intel.com/content/www/us/en/products/docs/io/universal-serial-bus/usb-type-c-ucsi-spec.html p28
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc: Alex Deucher <Alexander.Deucher@amd.com>>
+Cc: Richard Gong <Richard.Gong@amd.com>
 
-Alan Stern
+v2->v3:
+ * Pick up tag
+ * Add missing stable tag
+ * Drop patch 2, we'll just avoid upstreaming it.
+---
+ drivers/usb/typec/ucsi/psy.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/usb/typec/ucsi/psy.c b/drivers/usb/typec/ucsi/psy.c
+index 384b42267f1f..b35c6e07911e 100644
+--- a/drivers/usb/typec/ucsi/psy.c
++++ b/drivers/usb/typec/ucsi/psy.c
+@@ -37,6 +37,15 @@ static int ucsi_psy_get_scope(struct ucsi_connector *con,
+ 	struct device *dev = con->ucsi->dev;
+ 
+ 	device_property_read_u8(dev, "scope", &scope);
++	if (scope == POWER_SUPPLY_SCOPE_UNKNOWN) {
++		u32 mask = UCSI_CAP_ATTR_POWER_AC_SUPPLY |
++			   UCSI_CAP_ATTR_BATTERY_CHARGING;
++
++		if (con->ucsi->cap.attributes & mask)
++			scope = POWER_SUPPLY_SCOPE_SYSTEM;
++		else
++			scope = POWER_SUPPLY_SCOPE_DEVICE;
++	}
+ 	val->intval = scope;
+ 	return 0;
+ }
+-- 
+2.34.1
+
