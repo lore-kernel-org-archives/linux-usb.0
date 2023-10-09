@@ -1,150 +1,139 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736CD374C3;
-	Mon,  9 Oct 2023 17:21:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8C0374FD;
+	Mon,  9 Oct 2023 17:24:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="EDVCim5f"
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A9799E;
-	Mon,  9 Oct 2023 10:21:35 -0700 (PDT)
-Received: from jupiter.universe (dyndsl-091-248-211-168.ewe-ip-backbone.de [91.248.211.168])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sre)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 64A3D6605957;
-	Mon,  9 Oct 2023 18:21:33 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1696872093;
-	bh=s7FE/b1fcBNIH4A6hktCDg2vLgbpSRvBVa0VKAg76eM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EDVCim5fvMuwaOLLTG2Qd/qLN0+mZ6XWoBb52i4pzBAQYwe1usAtZv93PcLC3tI3Z
-	 /4xk6mWxuvfezwp1T0nE/YSu0oH/fzMqvDHfxqezzDsriPusOsYxyI3sCExIkBIJ11
-	 bfASep9RBk9rCQnIPDjK8xewAxLWGWTEKZO2AxTE5gTcufkeafGZ3kMOsPGwoM3NlV
-	 +umN/CkcsQGte+9iMXapph8U7VAvFIg47kVItQInB3VORPjNq2nKEDkK8SPIb6aPE7
-	 gsV/ja/0S1YKniUdNBeqOy+rE5U2Jf3wBv0ds8jMG7He8oBLs/2yDVe8Xtuz2kMiN0
-	 dXfXUs1k2Rxqg==
-Received: by jupiter.universe (Postfix, from userid 1000)
-	id 1E591480104; Mon,  9 Oct 2023 19:21:31 +0200 (CEST)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Heiko Stuebner <heiko@sntech.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-rockchip@lists.infradead.org,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	kernel@collabora.com
-Subject: [PATCH v3 2/3] usb: dwc3: add optional PHY interface clocks
-Date: Mon,  9 Oct 2023 19:20:10 +0200
-Message-ID: <20231009172129.43568-3-sebastian.reichel@collabora.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231009172129.43568-1-sebastian.reichel@collabora.com>
-References: <20231009172129.43568-1-sebastian.reichel@collabora.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VcdmRB5J"
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C569A3;
+	Mon,  9 Oct 2023 10:24:51 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-578d0d94986so3492567a12.2;
+        Mon, 09 Oct 2023 10:24:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696872290; x=1697477090; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hzAdnPv6S7wemZW2LOvDdjej33oUOA4jt9qFcygegX8=;
+        b=VcdmRB5Jyqw8aqvnps3ZcNESprEZdvjdfZIHohOck7OQ+ebTQDRRCAy5hDXxTGcBdW
+         JEWThpfElMZZN6U7JsjnB5HH54J80NACyeKE3UbKbZCn6+bgBpt9Aa1leQHU85YufaMy
+         iQbTWQUTq0Vw6PZIvJa8rUjjqanvgZw0ric83OoIZNRhValzcMsodZT/47Hl3oaBzBMQ
+         lkWwnvITABSzqb1v73HekQEZSg75DYG95nUNBS76vzSMiaO355GiFoXRORwaIzvHlSY/
+         lezXmO1mxVPjyoBpb0fCiRcp1Wj/dvqoRpvGHK2Ym2SJmFrC5rORF6cLNIyUSGCYQpUH
+         sQ+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696872290; x=1697477090;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hzAdnPv6S7wemZW2LOvDdjej33oUOA4jt9qFcygegX8=;
+        b=E75aMKFKTiQieeU28mkZ0AbzQI0IkhDi/5k6iSZUO4uEQRPyndpw/RP/bMRy0LatgT
+         WNjaqRl9zR00QX9R+2jNiyfnX/le48V2g+BqCl82r4X7Imz28nfLbdxAWXcLZEWB2Sie
+         mgHCOp5O5xt3SzjydAT2LU0bEv7O9xG7HoTZIIu4MQvm+PvS1SDmVpqPVTIGwgQBQLxx
+         bZwHFAQi1F9kX1yw7i//D3ZrID6KW4ovplI0wQHJkUw5DldcGPS+WXy/yeKc77nhD7T1
+         fj463MYoENIbQb8wN/hHa5UfvECy2Js/lAGt+dVVqNynDrGbDnfSEWJz5KRs0y5wEmg1
+         P4+A==
+X-Gm-Message-State: AOJu0YwljsRwStMLikM9hRsaj+osT/BPLN2bOmDZ3tRZgPgxdpg2A6mM
+	3vXfkBbcyOkgLonNJwuH7Qw=
+X-Google-Smtp-Source: AGHT+IH+tyPqS70qDikWknMDjzYLaNh8XUrbid6v4dI3mkvPqY7I02GkSEKBPm73V9X3Q4ayZd0Azg==
+X-Received: by 2002:a05:6a20:8e05:b0:162:4f45:b415 with SMTP id y5-20020a056a208e0500b001624f45b415mr20823608pzj.51.1696872290343;
+        Mon, 09 Oct 2023 10:24:50 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id m24-20020a17090a7f9800b0027b168cb011sm8557487pjl.56.2023.10.09.10.24.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Oct 2023 10:24:49 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 9 Oct 2023 10:24:48 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Max Kellermann <max.kellermann@ionos.com>
+Cc: Jens Axboe <axboe@kernel.dk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+	James Morse <james.morse@arm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Robert Richter <rric@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	James Clark <james.clark@arm.com>, Leo Yan <leo.yan@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Bjorn Helgaas <bhelgaas@google.com>, Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	nvdimm@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-leds@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-scsi@vger.kernel.org
+Subject: Re: [PATCH 6/7] fs/sysfs/group: make attribute_group pointers const
+Message-ID: <264fa39d-aed6-4a54-a085-107997078f8d@roeck-us.net>
+References: <20231009165741.746184-1-max.kellermann@ionos.com>
+ <20231009165741.746184-6-max.kellermann@ionos.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231009165741.746184-6-max.kellermann@ionos.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-On Rockchip RK3588 one of the DWC3 cores is integrated weirdly and
-requires two extra clocks to be enabled. Without these extra clocks
-hot-plugging USB devices is broken.
+On Mon, Oct 09, 2023 at 06:57:39PM +0200, Max Kellermann wrote:
+> This allows passing arrays of const pointers.  The goal is to make
+> lots of global variables "const" to allow them to live in the
+> ".rodata" section.
+> 
+> Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
 
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
- drivers/usb/dwc3/core.c | 26 ++++++++++++++++++++++++++
- drivers/usb/dwc3/core.h |  4 ++++
- 2 files changed, 30 insertions(+)
+In my opinion this touches way too many subsystems in a single patch.
+If someting is wrong with just one of the changes, it will be all but
+impossible to revert the whole thing.
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 9c6bf054f15d..fc60d5f564dd 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -817,8 +817,20 @@ static int dwc3_clk_enable(struct dwc3 *dwc)
- 	if (ret)
- 		goto disable_ref_clk;
- 
-+	ret = clk_prepare_enable(dwc->utmi_clk);
-+	if (ret)
-+		goto disable_susp_clk;
-+
-+	ret = clk_prepare_enable(dwc->pipe_clk);
-+	if (ret)
-+		goto disable_utmi_clk;
-+
- 	return 0;
- 
-+disable_utmi_clk:
-+	clk_disable_unprepare(dwc->utmi_clk);
-+disable_susp_clk:
-+	clk_disable_unprepare(dwc->susp_clk);
- disable_ref_clk:
- 	clk_disable_unprepare(dwc->ref_clk);
- disable_bus_clk:
-@@ -828,6 +840,8 @@ static int dwc3_clk_enable(struct dwc3 *dwc)
- 
- static void dwc3_clk_disable(struct dwc3 *dwc)
- {
-+	clk_disable_unprepare(dwc->pipe_clk);
-+	clk_disable_unprepare(dwc->utmi_clk);
- 	clk_disable_unprepare(dwc->susp_clk);
- 	clk_disable_unprepare(dwc->ref_clk);
- 	clk_disable_unprepare(dwc->bus_clk);
-@@ -1748,6 +1762,18 @@ static int dwc3_get_clocks(struct dwc3 *dwc)
- 		}
- 	}
- 
-+	dwc->utmi_clk = devm_clk_get_optional(dev, "utmi");
-+	if (IS_ERR(dwc->utmi_clk)) {
-+		return dev_err_probe(dev, PTR_ERR(dwc->utmi_clk),
-+				"could not get utmi clock\n");
-+	}
-+
-+	dwc->pipe_clk = devm_clk_get_optional(dev, "pipe");
-+	if (IS_ERR(dwc->pipe_clk)) {
-+		return dev_err_probe(dev, PTR_ERR(dwc->pipe_clk),
-+				"could not get pipe clock\n");
-+	}
-+
- 	return 0;
- }
- 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index a69ac67d89fe..f5e6ae6e394e 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -991,6 +991,8 @@ struct dwc3_scratchpad_array {
-  * @bus_clk: clock for accessing the registers
-  * @ref_clk: reference clock
-  * @susp_clk: clock used when the SS phy is in low power (S3) state
-+ * @utmi_clk: clock used for USB2 PHY communication
-+ * @pipe_clk: clock used for USB3 PHY communication
-  * @reset: reset control
-  * @regs: base address for our registers
-  * @regs_size: address space size
-@@ -1156,6 +1158,8 @@ struct dwc3 {
- 	struct clk		*bus_clk;
- 	struct clk		*ref_clk;
- 	struct clk		*susp_clk;
-+	struct clk		*utmi_clk;
-+	struct clk		*pipe_clk;
- 
- 	struct reset_control	*reset;
- 
--- 
-2.42.0
+Also, I don't know why checkpatch is happy with all the
 
+	const struct attribute_group *const*groups;
+
+instead of
+
+	const struct attribute_group *const *groups;
+
+but I still don't like it.
+
+Guenter
