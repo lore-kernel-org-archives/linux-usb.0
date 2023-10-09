@@ -1,19 +1,51 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F3A3B7AF
-	for <linux-usb@vger.kernel.org>; Mon,  9 Oct 2023 18:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE263A4;
-	Mon,  9 Oct 2023 11:34:21 -0700 (PDT)
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id 6460084F8D;
-	Mon,  9 Oct 2023 20:34:20 +0200 (CEST)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Mon, 09 Oct 2023 20:34:03 +0200
-Subject: [PATCH RFT v7 6/6] input: ads7846: Move wait_for_sync() logic to
- driver
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208FE35880;
+	Mon,  9 Oct 2023 18:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lv21Hteb"
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A05A0AF;
+	Mon,  9 Oct 2023 11:53:00 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id a640c23a62f3a-991c786369cso814835966b.1;
+        Mon, 09 Oct 2023 11:53:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696877579; x=1697482379; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4iEFw2KWu0uLaXIWh95J9DkXgQ94Tm3AGN4RoICln98=;
+        b=Lv21Htebuds0cZAr+gOXmTjJMSbr2Z3yuu4bb9jt0U2CPeab+yAh31yIXeBTjmBrZb
+         Ujn7HtoPX3MzXJQKyj4ozksyVnoMVyMsfV0JXF2FKLv7y7QHt0omlDDjWeu473ubdS3N
+         eD2bQORfMkDZVNd9fj+kfUiwO3BKuYuKdZt5wE94D+Y9lYyJ5dgZ7GjbRGbh80ATREUE
+         lFakJ2AvQc5RZlXz5zIJ7+DrG6pi3NypNek1LcjwdZKRvFP6k4+XrYXQeSTMI8vOCdJ9
+         NKGVT0hpAUFpsLcIwcyIdIncG+yRHgZn7rYjeDbt+bdChLpERT7H5lN0IQd5bGf4YoEq
+         EDXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696877579; x=1697482379;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4iEFw2KWu0uLaXIWh95J9DkXgQ94Tm3AGN4RoICln98=;
+        b=InXUxhHfQJx2sKjVFTjVIhgJkxqYnW1D79Oiaxs7lHQc9uy6mpFn0Nq2WFs436irET
+         rH1oiioYu3xDHHVyQBUTbMe+rWr5nGbW2PMUhKyEW+bWiFbMZPCayw4jR9UkrMjUbWmE
+         pXd72odMF5xacHwGe5lNrgG6+803c563E0+2FEo9H4ih55VllQaPDHcJ2KMfsMa0lA1M
+         fSqqNq5Re7eyP+DkR0hJO0fDuwi1W/HVOmDGW6eA97uudFH4hlk+EZRnsorScntayFLr
+         8fETbZ9ywRa1qZwF5THzbrzQY5wchl0/CTN/B1NncFy4P0PMYiHEcdFkVd4jIo8ZsIdy
+         +9/w==
+X-Gm-Message-State: AOJu0YyarLPo8JIHT1XR0xSc+Ms1htpK4JoXAls4kCUzFslCYw8jSY7X
+	2RKwjy5amKTnsOP00TDDkY0=
+X-Google-Smtp-Source: AGHT+IHstENxO/CXBuztPUegYH2i+Eluu2FwXYIb3oRGpR+JbD37gpX5p6/pDya5W/Q4FEg4oGasbA==
+X-Received: by 2002:a17:906:fe4a:b0:9ae:5120:5147 with SMTP id wz10-20020a170906fe4a00b009ae51205147mr17596835ejb.38.1696877579020;
+        Mon, 09 Oct 2023 11:52:59 -0700 (PDT)
+Received: from [127.0.1.1] (2a02-8389-41cf-e200-0d7c-652f-4e74-10b8.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:d7c:652f:4e74:10b8])
+        by smtp.gmail.com with ESMTPSA id dc4-20020a170906c7c400b0098e34446464sm7115079ejb.25.2023.10.09.11.52.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Oct 2023 11:52:58 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Date: Mon, 09 Oct 2023 20:52:55 +0200
+Subject: [PATCH] net: usb: dm9601: fix uninitialized variable use in
+ dm9601_mdio_read
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -21,178 +53,83 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20231009-pxa-gpio-v7-6-c8f5f403e856@skole.hr>
-References: <20231009-pxa-gpio-v7-0-c8f5f403e856@skole.hr>
-In-Reply-To: <20231009-pxa-gpio-v7-0-c8f5f403e856@skole.hr>
-To: Daniel Mack <daniel@zonque.org>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Russell King <linux@armlinux.org.uk>, 
- Alan Stern <stern@rowland.harvard.edu>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Mark Brown <broonie@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-spi@vger.kernel.org, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4335;
- i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=NcbDmKIXdGdWL8XSS8YJEjNbViubL11WglEHV7KUeoM=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlJEebyeOXePkL+aYreAXfS84hKPxe/toDWYaiA
- EkA/bPFQkGJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZSRHmwAKCRCaEZ6wQi2W
- 4VQgEACDVvtipcfd9IumqldOY0O+UDknBZPOMqclvchmm27kuH/w4yf9VcBBfFYIUsYdjTt9Z+J
- PxGgKjf1AIwJEwqnXeWkh+v5S0IBhZ9cZ7PeG4uavj/bCuSbo0y51EC32bfvj/x+mVlCmBgCP1R
- W0MmCbgfdevP5nlGK+vfwxchz0abE0ga171R16RmRTPac8XxdV/1LzdwSRzGq76Iw+oCDd2hQFn
- LtwnUbu4MvRcR/lSlBZiV9OCDx+Dcp+qF1DeWAq5YQn4kHkZ8xHu2I2OItOyvdQ5xPD0r+mc2rA
- Nm7SxpCstNy4N/tszrA9yrOnK9T2/ma451e1TZZOtsOarQNJil757769VzQTPhbBSQ6HyziO0wW
- 4Us80MDfg/aB8jib/KsLtHlcceLSaVxr51/XcZyswHmOXpDuHXzS0Z2lr1YQlzgxpxgEa37k0ej
- JWnIbA6hyVX1qfbC1WpKVt5XrJI31RlR2Mhlw3Q2VqPHFrNOvAeOrOPDZWu4ZCURvJxJi6BI2hV
- L1pKN99cD6OrGE9npk85vEa9rPvXRoGxqgYgke2iGSLOyJAWKRWA6dDz8MP1NS5IbzXiLu4rftS
- rkh2ye+OKNAdVw4ojBGrVoxTOBrzWWzo9o56veT7ZhaXrCx7NClPeFowOSAkuobOOL6gT9MwDNj
- xTtTUuxbQ0P0CrQ==
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+Message-Id: <20231009-topic-dm9601_uninit_mdio_read-v1-1-d4d775e24e3b@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAZMJGUC/x2NQQrDIBAAvxL2XEFTGmq/UoqscW32oIbVlELI3
+ 2t6HAZmdqgkTBUeww5CH65ccgdzGWBeML9JcegMox6vRmurWll5ViHZSRu3Zc7cXApcnBAGheZ
+ mzT1GH6YIveGxkvKCeV7OSsLaSE6xCkX+/sfP13H8APazsqmIAAAA
+To: Peter Korsgaard <peter@korsgaard.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ syzbot+1f53a30781af65d2c955@syzkaller.appspotmail.com
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1696877577; l=1746;
+ i=javier.carrasco.cruz@gmail.com; s=20230509; h=from:subject:message-id;
+ bh=mr8zo8GkO8oFsYnOO1Ir3z/Ohnh9ZkCWi74Q+XjdrAw=;
+ b=Ci4voJZHNqhGCYzpafxEBwQNK2Id3/J6q0wWFflh/IM3YXHIfzqgqFA9hmTzXxoS1OJAXksGz
+ LWVNIUycrJ1C1HWJbFsXM1X/UmIAfk6Gh9utnaVXx36HBu1VipFOaVJ
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=tIGJV7M+tCizagNijF0eGMBGcOsPD+0cWGfKjl4h6K8=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-If this code is left in the board file, the sync GPIO would have to be
-separated into another lookup table during conversion to the GPIO
-descriptor API (which is also done in this patch).
+syzbot has found an uninit-value bug triggered by the dm9601 driver [1].
 
-The only user of this code (Sharp Spitz) is also converted in this
-patch.
+This error happens because the variable res is not updated if the call
+to dm_read_shared_word returns an error or if no data is read (see
+__usbnet_read_cmd()). In this particular case -EPROTO was returned and
+res stayed uninitialized.
 
-Suggested-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Acked-by: Mark Brown <broonie@kernel.org>
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
+This can be avoided by checking the return value of dm_read_shared_word
+and returning an error if the read operation failed or no data was read.
+
+[1] https://syzkaller.appspot.com/bug?extid=1f53a30781af65d2c955
+
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Reported-and-tested-by: syzbot+1f53a30781af65d2c955@syzkaller.appspotmail.com
 ---
- arch/arm/mach-pxa/spitz.c           | 12 ++----------
- drivers/input/touchscreen/ads7846.c | 22 +++++++++++++++-------
- include/linux/spi/ads7846.h         |  1 -
- 3 files changed, 17 insertions(+), 18 deletions(-)
+ drivers/net/usb/dm9601.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
-index 4b6360821396..44336a498699 100644
---- a/arch/arm/mach-pxa/spitz.c
-+++ b/arch/arm/mach-pxa/spitz.c
-@@ -522,22 +522,12 @@ static inline void spitz_leds_init(void) {}
-  * SSP Devices
-  ******************************************************************************/
- #if defined(CONFIG_SPI_PXA2XX) || defined(CONFIG_SPI_PXA2XX_MODULE)
--static void spitz_ads7846_wait_for_hsync(void)
--{
--	while (gpio_get_value(SPITZ_GPIO_HSYNC))
--		cpu_relax();
--
--	while (!gpio_get_value(SPITZ_GPIO_HSYNC))
--		cpu_relax();
--}
--
- static struct ads7846_platform_data spitz_ads7846_info = {
- 	.model			= 7846,
- 	.vref_delay_usecs	= 100,
- 	.x_plate_ohms		= 419,
- 	.y_plate_ohms		= 486,
- 	.pressure_max		= 1024,
--	.wait_for_sync		= spitz_ads7846_wait_for_hsync,
- };
+diff --git a/drivers/net/usb/dm9601.c b/drivers/net/usb/dm9601.c
+index 48d7d278631e..e223daa93229 100644
+--- a/drivers/net/usb/dm9601.c
++++ b/drivers/net/usb/dm9601.c
+@@ -222,13 +222,20 @@ static int dm9601_mdio_read(struct net_device *netdev, int phy_id, int loc)
+ 	struct usbnet *dev = netdev_priv(netdev);
  
- static struct gpiod_lookup_table spitz_ads7846_gpio_table = {
-@@ -545,6 +535,8 @@ static struct gpiod_lookup_table spitz_ads7846_gpio_table = {
- 	.table = {
- 		GPIO_LOOKUP("gpio-pxa", SPITZ_GPIO_TP_INT,
- 			    "pendown", GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP("gpio-pxa", SPITZ_GPIO_HSYNC,
-+			    "sync", GPIO_ACTIVE_LOW),
- 		{ }
- 	},
- };
-diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-index faea40dd66d0..139b0f3735d0 100644
---- a/drivers/input/touchscreen/ads7846.c
-+++ b/drivers/input/touchscreen/ads7846.c
-@@ -138,8 +138,7 @@ struct ads7846 {
- 	void			*filter_data;
- 	int			(*get_pendown_state)(void);
- 	struct gpio_desc	*gpio_pendown;
--
--	void			(*wait_for_sync)(void);
-+	struct gpio_desc	*sync;
- };
+ 	__le16 res;
++	int err;
  
- enum ads7846_filter {
-@@ -636,9 +635,15 @@ static const struct attribute_group ads784x_attr_group = {
- };
+ 	if (phy_id) {
+ 		netdev_dbg(dev->net, "Only internal phy supported\n");
+ 		return 0;
+ 	}
  
- /*--------------------------------------------------------------------------*/
--
--static void null_wait_for_sync(void)
-+static void ads7846_wait_for_sync_gpio(struct ads7846 *ts)
- {
-+	if (!ts->sync)
-+		return;
-+	while (!gpiod_get_value(ts->sync))
-+		cpu_relax();
-+
-+	while (gpiod_get_value(ts->sync))
-+		cpu_relax();
- }
+-	dm_read_shared_word(dev, 1, loc, &res);
++	err = dm_read_shared_word(dev, 1, loc, &res);
++	if (err <= 0) {
++		if (err == 0)
++			err = -ENODATA;
++		netdev_err(dev->net, "MDIO read error: %d\n", err);
++		return err;
++	}
  
- static int ads7846_debounce_filter(void *ads, int data_idx, int *val)
-@@ -803,7 +808,7 @@ static void ads7846_read_state(struct ads7846 *ts)
- 	packet->last_cmd_idx = 0;
- 
- 	while (true) {
--		ts->wait_for_sync();
-+		ads7846_wait_for_sync_gpio(ts);
- 
- 		m = &ts->msg[msg_idx];
- 		error = spi_sync(ts->spi, m);
-@@ -1261,8 +1266,6 @@ static int ads7846_probe(struct spi_device *spi)
- 		ts->penirq_recheck_delay_usecs =
- 				pdata->penirq_recheck_delay_usecs;
- 
--	ts->wait_for_sync = pdata->wait_for_sync ? : null_wait_for_sync;
--
- 	snprintf(ts->phys, sizeof(ts->phys), "%s/input0", dev_name(dev));
- 	snprintf(ts->name, sizeof(ts->name), "ADS%d Touchscreen", ts->model);
- 
-@@ -1361,6 +1364,11 @@ static int ads7846_probe(struct spi_device *spi)
- 	if (err)
- 		return err;
- 
-+	ts->sync = devm_gpiod_get_optional(dev, "sync", GPIOD_IN);
-+	if (IS_ERR(ts->sync))
-+		return dev_err_probe(dev, PTR_ERR(ts->sync),
-+				"Failed to get sync GPIO");
-+
- 	err = input_register_device(input_dev);
- 	if (err)
- 		return err;
-diff --git a/include/linux/spi/ads7846.h b/include/linux/spi/ads7846.h
-index a04c1c34c344..fa7c4f119023 100644
---- a/include/linux/spi/ads7846.h
-+++ b/include/linux/spi/ads7846.h
-@@ -38,7 +38,6 @@ struct ads7846_platform_data {
- 	int	gpio_pendown_debounce;	/* platform specific debounce time for
- 					 * the gpio_pendown */
- 	int	(*get_pendown_state)(void);
--	void	(*wait_for_sync)(void);
- 	bool	wakeup;
- 	unsigned long irq_flags;
- };
+ 	netdev_dbg(dev->net,
+ 		   "dm9601_mdio_read() phy_id=0x%02x, loc=0x%02x, returns=0x%04x\n",
 
+---
+base-commit: 94f6f0550c625fab1f373bb86a6669b45e9748b3
+change-id: 20231009-topic-dm9601_uninit_mdio_read-a15918ffbd6f
+
+Best regards,
 -- 
-2.42.0
-
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
