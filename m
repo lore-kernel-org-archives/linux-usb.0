@@ -1,35 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D7A65C;
-	Tue, 10 Oct 2023 06:33:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B87B9463
+	for <linux-usb@vger.kernel.org>; Tue, 10 Oct 2023 06:56:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="18+KabpN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C131EC433C7;
-	Tue, 10 Oct 2023 06:33:37 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aYtJLJWq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC8C8C433C8;
+	Tue, 10 Oct 2023 06:56:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1696919618;
-	bh=M9p2Y7LB/cIXEwnNrOz2eXKKA/1TPc0wjQK8giZOwMw=;
+	s=korg; t=1696921017;
+	bh=oqvJgyKTmDYPOyjRjWVCgsn+8ih5SG2Zh4gHJ1IAof8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=18+KabpN5HcVivpxLnDaNFK21429BKXqzT8XHlySL1WbusIukZOznlgNQSnYuo3hX
-	 H5m9r8/cI0WK7WahKHEx05eJB92zeOQO4X9dnOSswzDi/8Q4EGziREg8HdfhixbMYZ
-	 an7bGurprT+k2u+fZ0PK4ao0LhFhTu1ii/EfU/ww=
-Date: Tue, 10 Oct 2023 08:33:35 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Peter Korsgaard <peter@korsgaard.com>
-Cc: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	syzbot+1f53a30781af65d2c955@syzkaller.appspotmail.com,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] net: usb: dm9601: fix uninitialized variable use in
- dm9601_mdio_read
-Message-ID: <2023101018-venomous-uncured-47cf@gregkh>
-References: <20231009-topic-dm9601_uninit_mdio_read-v2-1-f2fe39739b6c@gmail.com>
- <2023101036-fleshy-dude-aec0@gregkh>
- <87v8bfc83f.fsf@48ers.dk>
+	b=aYtJLJWq3YUa/1rhtyyIZ9Cx48UWR+444TVNvSlMeeMybkCssdqzNZgwRF8izFq/G
+	 Unbsgs77e97z8S2/XMxRtjcdpoFJVe1U1AVb3VGrwKX6v3zAL4UlbXZDz7qd19HZ1p
+	 8B7URps2qVuahS41c5TkpB1mlFL+6kf6wzWh9Zn4=
+Date: Tue, 10 Oct 2023 08:56:54 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] usb: misc: onboard_usb_hub: extend gl3510 reset duration
+Message-ID: <2023101036-ambiance-precision-657c@gregkh>
+References: <20231006101028.1973730-1-jbrunet@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -38,42 +30,27 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87v8bfc83f.fsf@48ers.dk>
+In-Reply-To: <20231006101028.1973730-1-jbrunet@baylibre.com>
 
-On Tue, Oct 10, 2023 at 08:19:48AM +0200, Peter Korsgaard wrote:
-> >>>>> "Greg" == Greg KH <gregkh@linuxfoundation.org> writes:
+On Fri, Oct 06, 2023 at 12:10:28PM +0200, Jerome Brunet wrote:
+> Initial tests with the gl3510 has been done on libretech aml-a311d-cc.
+> A 50us reset was fine as long as the hub node was under the usb phy node it
+> DT. DT schema does not allow that. Moving the hub under the dwc3 controller
+> caused issues, such as:
 > 
->  > On Tue, Oct 10, 2023 at 12:26:14AM +0200, Javier Carrasco wrote:
->  >> syzbot has found an uninit-value bug triggered by the dm9601 driver [1].
->  >> 
->  >> This error happens because the variable res is not updated if the call
->  >> to dm_read_shared_word returns an error. In this particular case -EPROTO
->  >> was returned and res stayed uninitialized.
->  >> 
->  >> This can be avoided by checking the return value of dm_read_shared_word
->  >> and propagating the error if the read operation failed.
->  >> 
->  >> [1] https://syzkaller.appspot.com/bug?extid=1f53a30781af65d2c955
->  >> 
->  >> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
->  >> Reported-and-tested-by: syzbot+1f53a30781af65d2c955@syzkaller.appspotmail.com
->  >> ---
->  >> Changes in v2:
->  >> - Remove unnecessary 'err == 0' case
->  >> - Link to v1: https://lore.kernel.org/r/20231009-topic-dm9601_uninit_mdio_read-v1-1-d4d775e24e3b@gmail.com
->  >> ---
->  >> drivers/net/usb/dm9601.c | 7 ++++++-
->  >> 1 file changed, 6 insertions(+), 1 deletion(-)
+> onboard-usb-hub 1-1: Failed to suspend device, error -32
+> onboard-usb-hub 1-1: can't set config #1, error -71
+> onboard-usb-hub 1-1: Failed to suspend device, error -32
+> onboard-usb-hub 1-1: USB disconnect, device number 2
 > 
->  > What commit id does this fix?
+> Extending the reset duration solves the problem.
+> Since there is no documentation available for this hub, it is difficult to
+> know the actual required reset duration. 200us seems to work fine so far.
 > 
-> It has been there since the beginning, so:
-> 
-> Fixes: d0374f4f9c35cdfbee0 ("USB: Davicom DM9601 usbnet driver")
-> 
-> Acked-by: Peter Korsgaard <peter@korsgaard.com>
+> Suggested-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Fixes: 65009ccf7e8f ("usb: misc: onboard_usb_hub: add Genesys Logic gl3510 hub support")
 
-Great, can someone add a cc: stable@ tag for this too please?
+I can't find this git id, what tree is it in?
 
 thanks,
 
