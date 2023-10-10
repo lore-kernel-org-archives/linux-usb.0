@@ -1,40 +1,40 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3275437CB7;
-	Tue, 10 Oct 2023 12:59:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83118F58;
+	Tue, 10 Oct 2023 13:00:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="lIqVHGSB"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="COQa+/oE"
 Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9544EAF;
-	Tue, 10 Oct 2023 05:59:31 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42DE112E;
+	Tue, 10 Oct 2023 06:00:32 -0700 (PDT)
 Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39ACrwM5016233;
-	Tue, 10 Oct 2023 14:58:51 +0200
+	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39A87wkA016203;
+	Tue, 10 Oct 2023 15:00:03 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:content-type; s=
-	selector1; bh=iI5H47zvcA4f2T9X0SOLjyUIMcFUo42eiKhj9yV6NCc=; b=lI
-	qVHGSB+vWxBhvBVCvKZOk7NvDu3/mut7PSOn88IcilkXD2ZxKgdeAlMn9616LKD/
-	4Wjd+NWXWqpvmmJk0gOIZrX/MLzEEFI/OgaH6wsMR5d23p6jvwJsKNvZijvQQ3Ib
-	1V2qwIy8bDHLCxi5J9zcoBU18PXkez0zNj5NkQyUNpKA2MFot8I2uU4wpSO8WlZN
-	JJtHqQBIwrN5kF5TciEI7/KGrtMut/bKWbkPlaCoSHl3yQhKR283grlKCRyLYiWs
-	eiH2ArHx1GeJ4IlCkVy4kF7wZ7FuCZV1Jiezyt8Ke+6OlO1TIoA1gtrg7/JFKz3E
-	hBSlfwYgvLZ0XvPULiug==
+	selector1; bh=lvP3dmuhkIf/knpRjN1yqXwLEBLpNtJwbWSZxmVIpyo=; b=CO
+	Qa+/oEU6xYlwnkIK/AUujPpinXk5qZ9ya3Mnu/URSIIyFCU4pFN1TF9EPxPw1+9m
+	B8sG90JeLA4vtP1WSvsXfQ6yBU0phOT2Xw2yAwjdwHwm5ESwDYVU99Y32X43Pr4I
+	9ujoAWiruFsXdkL/pKEOcuZT7Pno3DhElQw96SjFwTCXi6SKgcDmsz04hlAMW0HE
+	WKaFzUiMnz2o/tu9xPbNCfKPzQDfN+93x6I9K/iZzTLeciIQ1Bxd76tv/tIjoQEO
+	AC0JlDKBGFWeJpQvsxRJkZb4ClkqllYyvhWH0idfDAhm0sYZZoq80R50YB6KcgHA
+	kyVVZ9h9ZufupbfRtz0w==
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3tkhf7j5c0-1
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3tkhf7j5jq-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Oct 2023 14:58:51 +0200 (MEST)
+	Tue, 10 Oct 2023 15:00:03 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 95FE4100058;
-	Tue, 10 Oct 2023 14:58:50 +0200 (CEST)
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 2FF18100058;
+	Tue, 10 Oct 2023 15:00:03 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 89FB2231506;
-	Tue, 10 Oct 2023 14:58:50 +0200 (CEST)
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2454D23150B;
+	Tue, 10 Oct 2023 15:00:03 +0200 (CEST)
 Received: from localhost (10.201.20.32) by SHFDAG1NODE1.st.com (10.75.129.69)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 10 Oct
- 2023 14:58:50 +0200
+ 2023 15:00:02 +0200
 From: Gatien Chevallier <gatien.chevallier@foss.st.com>
 To: <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
         <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
@@ -59,9 +59,9 @@ CC: <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>,
         Gatien Chevallier
 	<gatien.chevallier@foss.st.com>
-Subject: [PATCH v6 03/11] dt-bindings: bus: document RIFSC
-Date: Tue, 10 Oct 2023 14:57:11 +0200
-Message-ID: <20231010125719.784627-4-gatien.chevallier@foss.st.com>
+Subject: [PATCH v6 06/11] of: property: fw_devlink: Add support for "access-controller"
+Date: Tue, 10 Oct 2023 14:57:14 +0200
+Message-ID: <20231010125719.784627-7-gatien.chevallier@foss.st.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231010125719.784627-1-gatien.chevallier@foss.st.com>
 References: <20231010125719.784627-1-gatien.chevallier@foss.st.com>
@@ -85,137 +85,43 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Document RIFSC (RIF security controller). RIFSC is a firewall controller
-composed of different kinds of hardware resources.
+Allows tracking dependencies between devices and their access
+controller.
 
 Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
 ---
 
 Changes in V6:
-	- Renamed access-controller to access-controllers
-	- Removal of access-control-provider property
-	- Removal of access-controller and access-controller-names
-	  declaration in the patternProperties field. Add
-	  additionalProperties: true in this field.
+    	- Renamed access-controller to access-controllers
 
 Changes in V5:
-	- Renamed feature-domain* to access-control*
+	- Rename feature-domain* to access-control*
 
-Changes in V2:
-	- Corrected errors highlighted by Rob's robot
-	- No longer define the maxItems for the "feature-domains"
-	  property
-	- Fix example (node name, status)
-	- Declare "feature-domain-names" as an optional
-	  property for child nodes
-	- Fix description of "feature-domains" property
+Patch not present in V1
 
- .../bindings/bus/st,stm32mp25-rifsc.yaml      | 96 +++++++++++++++++++
- 1 file changed, 96 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/bus/st,stm32mp25-rifsc.yaml
+ drivers/of/property.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/bus/st,stm32mp25-rifsc.yaml b/Documentation/devicetree/bindings/bus/st,stm32mp25-rifsc.yaml
-new file mode 100644
-index 000000000000..95aa7f04c739
---- /dev/null
-+++ b/Documentation/devicetree/bindings/bus/st,stm32mp25-rifsc.yaml
-@@ -0,0 +1,96 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/bus/st,stm32mp25-rifsc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: STM32 Resource isolation framework security controller
-+
-+maintainers:
-+  - Gatien Chevallier <gatien.chevallier@foss.st.com>
-+
-+description: |
-+  Resource isolation framework (RIF) is a comprehensive set of hardware blocks
-+  designed to enforce and manage isolation of STM32 hardware resources like
-+  memory and peripherals.
-+
-+  The RIFSC (RIF security controller) is composed of three sets of registers,
-+  each managing a specific set of hardware resources:
-+    - RISC registers associated with RISUP logic (resource isolation device unit
-+      for peripherals), assign all non-RIF aware peripherals to zero, one or
-+      any security domains (secure, privilege, compartment).
-+    - RIMC registers: associated with RIMU logic (resource isolation master
-+      unit), assign all non RIF-aware bus master to one security domain by
-+      setting secure, privileged and compartment information on the system bus.
-+      Alternatively, the RISUP logic controlling the device port access to a
-+      peripheral can assign target bus attributes to this peripheral master port
-+      (supported attribute: CID).
-+    - RISC registers associated with RISAL logic (resource isolation device unit
-+      for address space - Lite version), assign address space subregions to one
-+      security domains (secure, privilege, compartment).
-+
-+properties:
-+  compatible:
-+    contains:
-+      const: st,stm32mp25-rifsc
-+
-+  reg:
-+    maxItems: 1
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 1
-+
-+  ranges: true
-+
-+  "#access-controller-cells":
-+    const: 1
-+    description:
-+      Contains the firewall ID associated to the peripheral.
-+
-+patternProperties:
-+  "^.*@[0-9a-f]+$":
-+    description: Peripherals
-+    type: object
-+
-+    additionalProperties: true
-+
-+    required:
-+      - access-controllers
-+
-+required:
-+  - compatible
-+  - reg
-+  - "#address-cells"
-+  - "#size-cells"
-+  - "#access-controller-cells"
-+  - ranges
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    // In this example, the usart2 device refers to rifsc as its domain
-+    // controller.
-+    // Access rights are verified before creating devices.
-+
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    rifsc: bus@42080000 {
-+        compatible = "st,stm32mp25-rifsc";
-+        reg = <0x42080000 0x1000>;
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+        #access-controller-cells = <1>;
-+        ranges;
-+
-+        usart2: serial@400e0000 {
-+              compatible = "st,stm32h7-uart";
-+              reg = <0x400e0000 0x400>;
-+              interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>;
-+              clocks = <&ck_flexgen_08>;
-+              access-controllers = <&rifsc 32>;
-+        };
-+    };
+diff --git a/drivers/of/property.c b/drivers/of/property.c
+index cf8dacf3e3b8..2a11ec78ef1b 100644
+--- a/drivers/of/property.c
++++ b/drivers/of/property.c
+@@ -1267,6 +1267,7 @@ DEFINE_SIMPLE_PROP(resets, "resets", "#reset-cells")
+ DEFINE_SIMPLE_PROP(leds, "leds", NULL)
+ DEFINE_SIMPLE_PROP(backlight, "backlight", NULL)
+ DEFINE_SIMPLE_PROP(panel, "panel", NULL)
++DEFINE_SIMPLE_PROP(access_controllers, "access-controllers", "#access-controller-cells")
+ DEFINE_SUFFIX_PROP(regulators, "-supply", NULL)
+ DEFINE_SUFFIX_PROP(gpio, "-gpio", "#gpio-cells")
+ 
+@@ -1361,6 +1362,7 @@ static const struct supplier_bindings of_supplier_bindings[] = {
+ 	{ .parse_prop = parse_regulators, },
+ 	{ .parse_prop = parse_gpio, },
+ 	{ .parse_prop = parse_gpios, },
++	{ .parse_prop = parse_access_controllers, },
+ 	{}
+ };
+ 
 -- 
 2.35.3
 
