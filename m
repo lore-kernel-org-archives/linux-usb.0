@@ -1,141 +1,80 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE73E1F929
-	for <linux-usb@vger.kernel.org>; Wed, 11 Oct 2023 13:24:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676DE2031C
+	for <linux-usb@vger.kernel.org>; Wed, 11 Oct 2023 14:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 001C798;
-	Wed, 11 Oct 2023 06:24:04 -0700 (PDT)
-Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id 452218512A;
-	Wed, 11 Oct 2023 15:24:03 +0200 (CEST)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Wed, 11 Oct 2023 15:23:45 +0200
-Subject: [PATCH RFT v8 1/6] ARM: pxa: Convert Spitz OHCI to GPIO
- descriptors
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+	by lindbergh.monkeyblade.net (Postfix) with SMTP id A2102BA
+	for <linux-usb@vger.kernel.org>; Wed, 11 Oct 2023 07:15:51 -0700 (PDT)
+Received: (qmail 224905 invoked by uid 1000); 11 Oct 2023 10:15:48 -0400
+Date: Wed, 11 Oct 2023 10:15:48 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Hardik Gajjar <hgajjar@de.adit-jv.com>
+Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
+  yangyingliang@huawei.com, jinpu.wang@ionos.com, linux-usb@vger.kernel.org,
+  linux-kernel@vger.kernel.org, erosca@de.adit-jv.com
+Subject: Re: [PATCH v3] usb: core: hub: Add quirks for reducing device
+ address timeout
+Message-ID: <c9014f9c-ea2b-4263-a7b1-03c92639118a@rowland.harvard.edu>
+References: <6b26db15-89a0-d455-5740-9abb1befa3a8@intel.com>
+ <20231011085011.89198-1-hgajjar@de.adit-jv.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20231011-pxa-gpio-v8-1-eed08a0fcac8@skole.hr>
-References: <20231011-pxa-gpio-v8-0-eed08a0fcac8@skole.hr>
-In-Reply-To: <20231011-pxa-gpio-v8-0-eed08a0fcac8@skole.hr>
-To: Daniel Mack <daniel@zonque.org>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Russell King <linux@armlinux.org.uk>, 
- Alan Stern <stern@rowland.harvard.edu>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Mark Brown <broonie@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-spi@vger.kernel.org, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2657;
- i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=zHIGWEQGCiE1zSNvEhtQVSEdtgexWa/26DLuLj0DdAg=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlJqHo8U/oDDGVmpQuaq0MopWeWdiFnptQa9hHX
- 6tb2n1kJ/SJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZSah6AAKCRCaEZ6wQi2W
- 4YkHEACEPb/4fQ5UpVI8kK9axj3syvJdHg/w+qDRipT8i1L7e4A0qKEVjhREzyzQj0XYUe/IQP/
- dabPR/plJ2b+UqnARMxEJQilukAxLaxquK75LEKT81pqD4+uUKXmK3qaXslpErOynWxMikmFnoZ
- SElWyncMBIuiWiQF1lXzATRzjbGUkxJ2ukQfcVYiPb0QA/dFl8ufx8j/cjs1l/xg4kSmBPUBuor
- qflDA2qqVnURejf1xDyiOlqNusO2PzWRZU3jnosvvVXAQV/WRZQJW4HOQBG87cGg/1doWu1ONZL
- csVT2mDAEtSiWGgTpBIeRYcWiARmHN9cI3HR21C25hxP19F1UT26KpfummxTsmmS2FVx8VXm9dE
- lGvzilQmg8V+tKCaYpsbCgAB80unV3e/FJGixaMo+OYMvKp+qrsS47+fHtbNKSUDkLZEP6D6j3l
- AgsHq5ZjXBPmBG4ap4hDvRGoI/dOmLE64LtYzjHNCeum6q7FUfaHRlx9+fdR+Q2AZ82uXre27Eg
- SBUo849OIz9cyafQCX4GbAM49EhQ8+8YyJerXhxQv/y2TfVZBbH0ss8uJuOUoxJ9LpkCKgVQGcI
- QayB9rwPqcA+Kjcb0O0qzFj8+Ket1sm1fmhRhxiUolZ5etTDWJ8uRr9OAjvWQDlyDWPGv28CioB
- vItrvn4D2aJszww==
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231011085011.89198-1-hgajjar@de.adit-jv.com>
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Sharp's Spitz board still uses the legacy GPIO interface for controlling
-a GPIO pin related to the USB host controller.
+On Wed, Oct 11, 2023 at 10:50:11AM +0200, Hardik Gajjar wrote:
 
-Convert this function to use the new GPIO descriptor interface.
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -54,6 +54,9 @@
+>  #define USB_TP_TRANSMISSION_DELAY_MAX	65535	/* ns */
+>  #define USB_PING_RESPONSE_TIME		400	/* ns */
+>  
+> +#define USB_DEFAULT_ADDR_DEVICE_TIMEOUT_MS	5000 /* 5000ms */
+> +#define USB_SHORT_ADDR_DEVICE_TIMEOUT_MS	500  /* 500ms */
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
----
- arch/arm/mach-pxa/spitz.c      | 13 ++++++-------
- drivers/usb/host/ohci-pxa27x.c |  5 +++++
- 2 files changed, 11 insertions(+), 7 deletions(-)
+You don't have to repeat the numbers in the comments.  You can just 
+write /* ms */ -- just like in the comments immediately above.
 
-diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
-index cc691b199429..535e2b2e997b 100644
---- a/arch/arm/mach-pxa/spitz.c
-+++ b/arch/arm/mach-pxa/spitz.c
-@@ -649,23 +649,22 @@ static inline void spitz_mmc_init(void) {}
-  * USB Host
-  ******************************************************************************/
- #if defined(CONFIG_USB_OHCI_HCD) || defined(CONFIG_USB_OHCI_HCD_MODULE)
-+GPIO_LOOKUP_SINGLE(spitz_usb_host_gpio_table, "pxa27x-ohci", "gpio-pxa",
-+		SPITZ_GPIO_USB_HOST, "usb-host", GPIO_ACTIVE_LOW);
-+
- static int spitz_ohci_init(struct device *dev)
- {
--	int err;
--
--	err = gpio_request(SPITZ_GPIO_USB_HOST, "USB_HOST");
--	if (err)
--		return err;
-+	gpiod_add_lookup_table(&spitz_usb_host_gpio_table);
- 
- 	/* Only Port 2 is connected, setup USB Port 2 Output Control Register */
- 	UP2OCR = UP2OCR_HXS | UP2OCR_HXOE | UP2OCR_DPPDE | UP2OCR_DMPDE;
- 
--	return gpio_direction_output(SPITZ_GPIO_USB_HOST, 1);
-+	return 0;
- }
- 
- static void spitz_ohci_exit(struct device *dev)
- {
--	gpio_free(SPITZ_GPIO_USB_HOST);
-+	gpiod_remove_lookup_table(&spitz_usb_host_gpio_table);
- }
- 
- static struct pxaohci_platform_data spitz_ohci_platform_data = {
-diff --git a/drivers/usb/host/ohci-pxa27x.c b/drivers/usb/host/ohci-pxa27x.c
-index 357d9aee38a3..a809ba0bb25e 100644
---- a/drivers/usb/host/ohci-pxa27x.c
-+++ b/drivers/usb/host/ohci-pxa27x.c
-@@ -121,6 +121,7 @@ struct pxa27x_ohci {
- 	void __iomem	*mmio_base;
- 	struct regulator *vbus[3];
- 	bool		vbus_enabled[3];
-+	struct gpio_desc *usb_host;
- };
- 
- #define to_pxa27x_ohci(hcd)	(struct pxa27x_ohci *)(hcd_to_ohci(hcd)->priv)
-@@ -447,6 +448,10 @@ static int ohci_hcd_pxa27x_probe(struct platform_device *pdev)
- 	pxa_ohci = to_pxa27x_ohci(hcd);
- 	pxa_ohci->clk = usb_clk;
- 	pxa_ohci->mmio_base = (void __iomem *)hcd->regs;
-+	pxa_ohci->usb_host = devm_gpiod_get_optional(&pdev->dev, "usb-host", GPIOD_OUT_LOW);
-+	if (IS_ERR(pxa_ohci->usb_host))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(pxa_ohci->usb_host),
-+				"failed to get USB host GPIO\n");
- 
- 	for (i = 0; i < 3; ++i) {
- 		char name[6];
+>  		return -EINVAL;
+>  	if (hcd->driver->address_device)
+> -		retval = hcd->driver->address_device(hcd, udev);
+> +		retval = hcd->driver->address_device(hcd, udev, timeout_ms);
+>  	else
+>  		retval = usb_control_msg(udev, usb_sndaddr0pipe(),
+> --- a/drivers/usb/core/quirks.c
+> +++ b/drivers/usb/core/quirks.c
+> @@ -138,6 +138,9 @@ static int quirks_param_set(const char *value, const struct kernel_param *kp)
+>  			case 'o':
+>  				flags |= USB_QUIRK_HUB_SLOW_RESET;
+>  				break;
+> +			case 'p':
+> +				flags |= USB_QUIRK_SHORT_DEVICE_ADDR_TIMEOUT;
+> +				break;
+>  			/* Ignore unrecognized flag characters */
+>  			}
+>  		}
+> @@ -542,6 +545,9 @@ static const struct usb_device_id usb_quirk_list[] = {
+>  	/* INTEL VALUE SSD */
+>  	{ USB_DEVICE(0x8086, 0xf1a5), .driver_info = USB_QUIRK_RESET_RESUME },
+>  
+> +	/* APTIV AUTOMOTIVE HUB */
+> +	{ USB_DEVICE(0x2c48, 0x0132), .driver_info = USB_QUIRK_SHORT_DEVICE_ADDR_TIMEOUT },
 
--- 
-2.42.0
+This table is sorted by Vendor ID, then Product ID, then Class ID, as 
+stated in the comment at the beginning of the definition.  Your new 
+entry is in the wrong position.
 
-
+Alan Stern
