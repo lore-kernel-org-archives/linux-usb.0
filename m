@@ -1,66 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A364C1F5E2;
-	Wed, 11 Oct 2023 13:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HDNMP1fz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D715C433CC;
-	Wed, 11 Oct 2023 13:10:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697029829;
-	bh=sIFPlEfgw5Tgf4SaAgi4BkayV92E8UWXht7jOG8M/TY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HDNMP1fzW+mkOxIiBZGym3lqDR2cgtvoaMKjRJvkI8WQ4cCGsqw33axMJVGoFr+aY
-	 OnWmpIUSZPBmCpKpdZ2RFRATbXEe+jGwoeX94J3NfGYImgePxT6Wf6qg3vBB3+mYTs
-	 eOAR8kV6FlnZBrgJzC2xIwJ3Q1FV9x2z847w8FtfM53XQkH/8R0gprgJjsftiKU4o5
-	 JYbG8quTIfH8eWOEoiJmar6Fa2Lq89UmVwk1WVex4hSbmx3IUZa2UrcVbyFWBWD4iu
-	 h/NjWizQ/dEjy42TU5iX91+E/OYXMgqyat7DV5L2v5R92CH5f7LsrHhlHVoFuMaN/1
-	 rMcJ2ck3FIZ+A==
-Received: (nullmailer pid 4114505 invoked by uid 1000);
-	Wed, 11 Oct 2023 13:10:26 -0000
-Date: Wed, 11 Oct 2023 08:10:26 -0500
-From: Rob Herring <robh@kernel.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: konrad.dybcio@linaro.org, agross@kernel.org, devicetree@vger.kernel.org, bgoswami@quicinc.com, broonie@kernel.org, krzysztof.kozlowski+dt@linaro.org, lgirdwood@gmail.com, gregkh@linuxfoundation.org, andersson@kernel.org, conor+dt@kernel.org, linux-usb@vger.kernel.org, mathias.nyman@intel.com, perex@perex.cz, tiwai@suse.com, Thinh.Nguyen@synopsys.com, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, srinivas.kandagatla@linaro.org
-Subject: Re: [PATCH v8 14/34] dt-bindings: usb: dwc3: Limit
- num-hc-interrupters definition
-Message-ID: <20231011131026.GA4103742-robh@kernel.org>
-References: <20231011002146.1821-1-quic_wcheng@quicinc.com>
- <20231011002146.1821-15-quic_wcheng@quicinc.com>
- <169699146356.2560906.8654324582682669209.robh@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DEB1F17E
+	for <linux-usb@vger.kernel.org>; Wed, 11 Oct 2023 13:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 027389E;
+	Wed, 11 Oct 2023 06:24:05 -0700 (PDT)
+Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+	by mx.skole.hr (mx.skole.hr) with ESMTP id 27B6E83D9B;
+	Wed, 11 Oct 2023 15:24:04 +0200 (CEST)
+From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Date: Wed, 11 Oct 2023 15:23:46 +0200
+Subject: [PATCH RFT v8 2/6] ARM: pxa: Convert Spitz LEDs to GPIO
+ descriptors
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <169699146356.2560906.8654324582682669209.robh@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20231011-pxa-gpio-v8-2-eed08a0fcac8@skole.hr>
+References: <20231011-pxa-gpio-v8-0-eed08a0fcac8@skole.hr>
+In-Reply-To: <20231011-pxa-gpio-v8-0-eed08a0fcac8@skole.hr>
+To: Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Russell King <linux@armlinux.org.uk>, 
+ Alan Stern <stern@rowland.harvard.edu>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-spi@vger.kernel.org, 
+ =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1628;
+ i=duje.mihanovic@skole.hr; h=from:subject:message-id;
+ bh=2i2mzqzeK5dKls1oQllrI2VaEq4mqrMjUDr4Yj1khYo=;
+ b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlJqHoeXC5/SuJUFyiywTo7tDbkBQsYucN+zAMe
+ ts4o/BsUE6JAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZSah6AAKCRCaEZ6wQi2W
+ 4UYHD/49wIrHmeNOmaf6udOGaV3KZpISkBwOENe5AldQXqVIw5VAGUWTUGSvzElbHdFFoXvX5u2
+ vPNhfGKDzjEkzNoJ24IxCAF4J8Q5TtgISR1s+/pYB3EQ1+jUJswQy7bDv9oQlQT+ZvL8RgPV2Jc
+ 56GQ7LFh4or+WvAVp4RLgs085tF35aR0g75QT6Ovq1+RaUKzbUUyhbcL4WwFPpB5GYXsKl3lVr4
+ xhVsnFtSicfeieZTFr6jAe8Jr1O2jZnVU1u6WCSO8rnHLG3FZXVDBnrNtqAQyONwXvQtqaTikW6
+ aqfaQxJ5PM0eAZFfsGhCg1GIBzccUrjwzt7doP9F4YhFaE7cRUgsqTU6a22/s/RQtjFRaAgSm0d
+ +hFe9aaQutooNStUV3WriC/LXSmddJq7y8IybNfZnyHHhiHkgR9K+pJyQqzYyVcQLjk+tThMx3e
+ tGEl2hzV3/V1nkihQWTGFoUrE0HoYyJockIehjpv1IkS2K9CxN7up8UEEtUaPVYCVcwdt5WQL8o
+ r2UNgVMJDHfPumDZNjiEu5Wnjehga0jJH+sN/oob1cPK2DfSpkE1k+PiU3txzGUyR1qELKTqEAs
+ II5/plNTxcCtsbBi79QsaqjJ7bCFfeo54Q3bUJONdo5pXoJR6lMXLJyOnQnhCW2nqlC4vvjAA5S
+ iCno2CxAKmDTxdA==
+X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
+ fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 
-On Tue, Oct 10, 2023 at 09:31:04PM -0500, Rob Herring wrote:
-> 
-> On Tue, 10 Oct 2023 17:21:26 -0700, Wesley Cheng wrote:
-> > Ensure that the number of XHCI secondary interrupters defined for a DWC3
-> > based implementation is limited to 8.  XHCI in general can potentially
-> > support up to 1024 interrupters.
-> > 
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> > ---
-> >  Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/usb/snps,dwc3.yaml: num-hc-interrupters: missing type definition
+Sharp's Spitz board still uses the legacy GPIO interface for configuring
+its two onboard LEDs.
 
-Patch 15 should come first.
+Convert them to use the GPIO descriptor interface.
 
-Rob
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
+---
+ arch/arm/mach-pxa/spitz.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
+index 535e2b2e997b..9efd603c715a 100644
+--- a/arch/arm/mach-pxa/spitz.c
++++ b/arch/arm/mach-pxa/spitz.c
+@@ -452,16 +452,25 @@ static inline void spitz_keys_init(void) {}
+  * LEDs
+  ******************************************************************************/
+ #if defined(CONFIG_LEDS_GPIO) || defined(CONFIG_LEDS_GPIO_MODULE)
++static struct gpiod_lookup_table spitz_led_gpio_table = {
++	.dev_id = "leds-gpio",
++	.table = {
++		GPIO_LOOKUP_IDX("pxa-gpio", SPITZ_GPIO_LED_ORANGE, NULL, 0,
++				GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("pxa-gpio", SPITZ_GPIO_LED_GREEN, NULL, 1,
++				GPIO_ACTIVE_HIGH),
++		{ }
++	}
++};
++
+ static struct gpio_led spitz_gpio_leds[] = {
+ 	{
+ 		.name			= "spitz:amber:charge",
+ 		.default_trigger	= "sharpsl-charge",
+-		.gpio			= SPITZ_GPIO_LED_ORANGE,
+ 	},
+ 	{
+ 		.name			= "spitz:green:hddactivity",
+ 		.default_trigger	= "disk-activity",
+-		.gpio			= SPITZ_GPIO_LED_GREEN,
+ 	},
+ };
+ 
+@@ -480,6 +489,7 @@ static struct platform_device spitz_led_device = {
+ 
+ static void __init spitz_leds_init(void)
+ {
++	gpiod_add_lookup_table(&spitz_led_gpio_table);
+ 	platform_device_register(&spitz_led_device);
+ }
+ #else
+
+-- 
+2.42.0
+
+
