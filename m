@@ -1,420 +1,263 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8F826296
-	for <linux-usb@vger.kernel.org>; Thu, 12 Oct 2023 19:19:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C96374CD
+	for <linux-usb@vger.kernel.org>; Thu, 12 Oct 2023 19:25:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=triops.cz header.i=@triops.cz header.b="Yi/11JiK";
-	dkim=pass (2048-bit key) header.d=triops.cz header.i=@triops.cz header.b="Yi/11JiK"
-X-Greylist: delayed 60 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 Oct 2023 12:19:56 PDT
-Received: from h2.cmg2.smtp.forpsi.com (h2.cmg2.smtp.forpsi.com [81.2.195.189])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C4FAB7
-	for <linux-usb@vger.kernel.org>; Thu, 12 Oct 2023 12:19:56 -0700 (PDT)
-Received: from lenoch ([91.218.190.200])
-	by cmgsmtp with ESMTPSA
-	id r1Ctqq4BISqGRr1Cvqj2Ll; Thu, 12 Oct 2023 21:18:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
-	t=1697138334; bh=EkhSnxUlbwTbGUl+43trl5xby2UZ1UC/eFAd9sMIHIY=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	b=Yi/11JiK6mGGPyI1F2K3wXQn0sFW8ag+YGPRzsbMrN7fmWr9WuH3q4Pi3lTeu5pQw
-	 XB0NucT/DEReYtLFK0NOmclBefnYLSORbaAj0dE+pFDrUW//8zZAcYWL+tOEicFqoU
-	 63OIThLl42vdD0fjVkWmQLR3CM5UkJrzKSCDuCmkqwv+xsJ9GZAQbnE69tgl/Y62JN
-	 iJB3gHJWv8ykV7u/oyv8xygbRFQ4xH8un+hXZvWIkjgiVWDmGxxgU4MyQ9T3eBGTCq
-	 /+ZrO0QG9jJbo1drEzoNJhkwbK/+d3xdm5DB+Z/j9DzeLog4HJu4EMCd783vaoYlZN
-	 Wu9g3bCUnPDFw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
-	t=1697138334; bh=EkhSnxUlbwTbGUl+43trl5xby2UZ1UC/eFAd9sMIHIY=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	b=Yi/11JiK6mGGPyI1F2K3wXQn0sFW8ag+YGPRzsbMrN7fmWr9WuH3q4Pi3lTeu5pQw
-	 XB0NucT/DEReYtLFK0NOmclBefnYLSORbaAj0dE+pFDrUW//8zZAcYWL+tOEicFqoU
-	 63OIThLl42vdD0fjVkWmQLR3CM5UkJrzKSCDuCmkqwv+xsJ9GZAQbnE69tgl/Y62JN
-	 iJB3gHJWv8ykV7u/oyv8xygbRFQ4xH8un+hXZvWIkjgiVWDmGxxgU4MyQ9T3eBGTCq
-	 /+ZrO0QG9jJbo1drEzoNJhkwbK/+d3xdm5DB+Z/j9DzeLog4HJu4EMCd783vaoYlZN
-	 Wu9g3bCUnPDFw==
-Date: Thu, 12 Oct 2023 21:18:48 +0200
-From: Ladislav Michl <oss-lists@triops.cz>
-To: linux-usb@vger.kernel.org
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: [RFC] usb: dwc3: dwc3-octeon: Fix USB PHY High-Speed PLL
- Initialization
-Message-ID: <ZShGmL4mph91Ncib@lenoch>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Lj7LFbae"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B9BBC0;
+	Thu, 12 Oct 2023 12:25:36 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39CHmqBa022129;
+	Thu, 12 Oct 2023 19:25:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=U6CHnxhmbie1MniY9mLh7MjnBVn+zWwHS+KdgGitcEQ=;
+ b=Lj7LFbae0VIKQW6cUfKxX9i7J40fAko4uGYwlQpiRxgf+k8seBqhW0M96rqsShc+9ZQq
+ z1ObH7W9TOP1Cho2vIjxT6PNDVCwJoH3jh1uOHPFEKSxC9wmAbmnWNN3bnMlxuPzzN2L
+ rGcR7afqjoHbl9rkqqjcHv+4bRhZJq+J5F5vBlDVQ68vrgkLbkyG6iW0Xq8aaDQzEFSz
+ rRqL5rOrVgi8ZKwpProfvKVxyBm4KESTbfxRaG0YkhLda7Ru02loaCaN7dwVtb8Mnw70
+ G3p2dYnt1wiGf9ov1EvWNjRuTdr0u56jldvbi/7RcdbHe/AER4lSpXDuEsmXvTfizchF Vw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tp9dp1tu4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Oct 2023 19:25:32 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39CJPVkW008144
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Oct 2023 19:25:31 GMT
+Received: from [10.71.115.198] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 12 Oct
+ 2023 12:25:30 -0700
+Message-ID: <1e8d6d63-f5e5-3e69-ae8e-cf3cd1b90ad8@quicinc.com>
+Date: Thu, 12 Oct 2023 12:25:26 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-CMAE-Envelope: MS4wfCxBvFhPfpU3ckdap6k++7mQtasoJncYFdNdbyFRettnbwcBkiS6+kSGoPBwrIBlzjCLbfe7Ck1TMkyPHxwXYmC+nqVY2+PTJ8Ep5rj7Yyr/5G0OqE5z
- jsU1qBQbqvlfMWwdC1rNkqwBRQ1g36is/SjM65mnVOcH1YG8iQRIbKw2TwHwtZBdCP+eOwJogcRfT9lSgbC1s/Y/rmt7nx4cZLI=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-	RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [RFC] usb: dwc3: core: Fix RAM interface getting stuck during
+ enumeration
+Content-Language: en-US
+To: Krishna Kurapati <quic_kriskura@quicinc.com>,
+        Thinh Nguyen
+	<Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_ppratap@quicinc.com>, <quic_jackp@quicinc.com>,
+        <quic_ugoswami@quicinc.com>
+References: <20231011100214.25720-1-quic_kriskura@quicinc.com>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <20231011100214.25720-1-quic_kriskura@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: J3G5IDxh8OqOn7biv9BCRHRxsyb8-VQh
+X-Proofpoint-GUID: J3G5IDxh8OqOn7biv9BCRHRxsyb8-VQh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-12_11,2023-10-12_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 mlxlogscore=999 priorityscore=1501 spamscore=0 bulkscore=0
+ mlxscore=0 clxscore=1015 adultscore=0 impostorscore=0 malwarescore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310120161
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-From: Ladislav Michl <ladis@linux-mips.org>
+Hi Krishna,
 
-Implement workaround for Octeon Known Issue Id 29206:
-| The USB high speed logic contains a PLL that must lock during
-| initialization for correct operation. In very rare circumstances,
-| it is possible for the PLL to fail to start correctly.
-| Workaround
-| After initialization, check the USB PLL lock register via the
-| UPHY CR interface. If the PLL is not running, power it down and
-| back up and restart the initialization.
+On 10/11/2023 3:02 AM, Krishna Kurapati wrote:
+> This implementation is to fix RAM interface getting stuck during
+> enumeration and controller not responding to any command.
+> 
+> During plug-out test cases, it is sometimes seen that no events
+> are generated by the controller and all CSR register reads give "0"
+> and CSR_Timeout bit gets set indicating that CSR reads/writes are
+> timing out or timed out.
+> 
+> The issue comes up on different instnaces of enumeration on different
+> platforms. On one platform, the debug log is as follows:
+> 
+> Prepared a TRB on ep0out and did start transfer to get set
+> address request from host:
+> 
+> <...>-7191    [000] D..1.    66.421006: dwc3_gadget_ep_cmd: ep0out:
+> cmd 'Start Transfer' [406] params 00000000 efffa000 00000000 -->
+> status: Successful
+> 
+> <...>-7191    [000] D..1.    66.421196: dwc3_event: event (0000c040):
+> ep0out: Transfer Complete (sIL) [Setup Phase]
+> 
+> <...>-7191    [000] D..1.    66.421197: dwc3_ctrl_req: Set
+> Address(Addr = 01)
+> 
+> Then XFER NRDY received on ep0in for zero length status phase and
+> a Start Transfer was done on ep0in with 0-length packet in 2 Stage
+> status phase:
+> 
+> <...>-7191    [000] D..1.    66.421249: dwc3_event: event (000020c2):
+> ep0in: Transfer Not Ready [00000000] (Not Active) [Status Phase]
+> 
+> <...>-7191    [000] D..1.    66.421266: dwc3_prepare_trb: ep0in: trb
+> ffffffc00fcfd000 (E0:D0) buf 00000000efffa000 size 0 ctrl 00000c33
+> sofn 00000000 (HLcs:SC:status2)
+> 
+> <...>-7191    [000] D..1.    66.421387: dwc3_gadget_ep_cmd: ep0in: cmd
+> 'Start Transfer' [406] params 00000000 efffa000 00000000 -->status:
+> Successful
+> 
+> Then a bus reset was received directly after 500 msec. Software never
+> got the cmd complete for the start transfer done in status phase. Here
+> the RAM interface is stuck. So host issues a bus reset as link is
+> idle for 500 msec:
+> 
+> <...>-7191    [000] D..1.    66.935603: dwc3_event: event (00000101):
+> Reset [U0]
+> 
+> Then software sees that it is in status phase and we issue an ENDXFER
+> on ep0in and it gets timedout waiting for the CMDACT to go '0':
+> 
+> <...>-7191    [000] D..1.    66.958249: dwc3_gadget_ep_cmd: ep0in: cmd
+> 'End Transfer' [10508] params 00000000 00000000 00000000 --> status:
+> Timed Out
+> 
+> Upon debug with Synopsys, it turns out that the root cause is as
+> follows:
+> 
+> During any transfer, if the data is not successfully transmitted,
+> then a Done (with failure) handshake is returned, so that the BMU
+> can re-attempt the same data again by rewinding its data pointers.
+> 
+> But, if the USB IN is a 0-length payload (which is what is happening
+> in this case - 2 stage status phase of set_address), then there is no
+> need to rewind the pointers and the Done (with failure) handshake is
+> not returned for failure case. This keeps the Request-Done interface
+> busy till the next Done handshake. The MAC sends the 0-length payload
+> again when the host requests. If the transmission is successful this
+> time, the Done (with success) handshake is provided back. Otherwise,
+> it repeats the same steps again.
+> 
+> If the cable is disconnected or if the Host aborts the transfer on 3
+> consecutive failed attempts, the Request-Done handshake is not
+> complete. This keeps the interface busy.
+> 
+> The subsequent RAM access cannot proceed until the above pending
+> transfer is complete. This results in failure of any access to RAM
+> address locations. Many of the EndPoint commands need to access the
+> RAM and they would fail to complete successfully.
+> 
+> Furthermore when cable removal happens, this would not generate a
+> disconnect event and the "connected" flag remains true always blockin
+> suspend.
+> 
+> Synopsys confirmed that the issue is present on all USB3 devices and
+> as a workaround, suggested to re-initialize device mode.
+> 
+> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+> ---
+>   drivers/usb/dwc3/core.c   | 20 ++++++++++++++++++++
+>   drivers/usb/dwc3/core.h   |  4 ++++
+>   drivers/usb/dwc3/drd.c    |  5 +++++
+>   drivers/usb/dwc3/gadget.c |  6 ++++--
+>   4 files changed, 33 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+> index 44ee8526dc28..d18b81cccdc5 100644
+> --- a/drivers/usb/dwc3/core.c
+> +++ b/drivers/usb/dwc3/core.c
+> @@ -122,6 +122,7 @@ static void __dwc3_set_mode(struct work_struct *work)
+>   	unsigned long flags;
+>   	int ret;
+>   	u32 reg;
+> +	u8 timeout = 100;
+>   	u32 desired_dr_role;
+>   
+>   	mutex_lock(&dwc->mutex);
+> @@ -137,6 +138,25 @@ static void __dwc3_set_mode(struct work_struct *work)
+>   	if (!desired_dr_role)
+>   		goto out;
+>   
+> +	/*
+> +	 * STAR 5001544 - If cable disconnect doesn't generate
+> +	 * disconnect event in device mode, then re-initialize the
+> +	 * controller.
+> +	 */
+> +	if ((dwc->cable_disconnected == true) &&
+> +		(dwc->current_dr_role == DWC3_GCTL_PRTCAP_DEVICE)) {
+> +		while (dwc->connected == true && timeout != 0) {
+> +			mdelay(10);
+> +			timeout--;
+> +		}
+> +
+> +		if (timeout == 0) {
+> +			dwc3_gadget_soft_disconnect(dwc);
+> +			udelay(100);
+> +			dwc3_gadget_soft_connect(dwc);
+> +		}
+> +	}
+> +
+>   	if (desired_dr_role == dwc->current_dr_role)
+>   		goto out;
+>   
+> diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+> index c6c87acbd376..7642330cf608 100644
+> --- a/drivers/usb/dwc3/core.h
+> +++ b/drivers/usb/dwc3/core.h
+> @@ -1355,6 +1355,7 @@ struct dwc3 {
+>   	int			last_fifo_depth;
+>   	int			num_ep_resized;
+>   	struct dentry		*debug_root;
+> +	bool			cable_disconnected;
+>   };
+>   
+>   #define INCRX_BURST_MODE 0
+> @@ -1568,6 +1569,9 @@ void dwc3_event_buffers_cleanup(struct dwc3 *dwc);
+>   
+>   int dwc3_core_soft_reset(struct dwc3 *dwc);
+>   
+> +int dwc3_gadget_soft_disconnect(struct dwc3 *dwc);
+> +int dwc3_gadget_soft_connect(struct dwc3 *dwc);
+> +
+>   #if IS_ENABLED(CONFIG_USB_DWC3_HOST) || IS_ENABLED(CONFIG_USB_DWC3_DUAL_ROLE)
+>   int dwc3_host_init(struct dwc3 *dwc);
+>   void dwc3_host_exit(struct dwc3 *dwc);
+> diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+> index 039bf241769a..593c023fc39a 100644
+> --- a/drivers/usb/dwc3/drd.c
+> +++ b/drivers/usb/dwc3/drd.c
+> @@ -446,6 +446,8 @@ static int dwc3_usb_role_switch_set(struct usb_role_switch *sw,
+>   	struct dwc3 *dwc = usb_role_switch_get_drvdata(sw);
+>   	u32 mode;
+>   
+> +	dwc->cable_disconnected = false;
+> +
+>   	switch (role) {
+>   	case USB_ROLE_HOST:
+>   		mode = DWC3_GCTL_PRTCAP_HOST;
+> @@ -454,6 +456,9 @@ static int dwc3_usb_role_switch_set(struct usb_role_switch *sw,
+>   		mode = DWC3_GCTL_PRTCAP_DEVICE;
+>   		break;
+>   	default:
+> +		if (role == USB_ROLE_NONE)
+> +			dwc->cable_disconnected = true;
+> +
 
-PLL initialization code taken from Cavium's vendor bootloader:
-u-boot/drivers/usb/host/xhci-octeon.c:octeon3_usb_clocks_start
+How do we handle cases where role switch isn't used? (ie extcon or maybe 
+no cable connection notification at all)
 
-Signed-off-by: Ladislav Michl <ladis@linux-mips.org>
----
- NOTE:
- This patch fixes initialization issue found on some CN7020 based boards.
- Without this patch, controller sometimes fails to detect devices connected.
- Original code comes from Cavium released u-boot monster patch, which seems
- to suffer from mistakes made while resolving merge conflicts when upgrading
- to newer u-boot.
- Testing revealed that only single reinit is needed to properly lock PLL,
- this agrees with comment in Cavium's u-boot code, which is claiming the
- same. However, same as in u-boot code, reinit is attempted three times.
- (in could be done using while loop instead of goto, just let me know
- which way do you prefer)
- SoCs suffering from this problem would fail to initialize PHY about
- several tens times of thousand boots. This patch always restored
- functional state.
-
- drivers/usb/dwc3/dwc3-octeon.c | 285 ++++++++++++++++++++++++++++++++-
- 1 file changed, 284 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/dwc3/dwc3-octeon.c b/drivers/usb/dwc3/dwc3-octeon.c
-index d45d62c72b2d..497c18e19c73 100644
---- a/drivers/usb/dwc3/dwc3-octeon.c
-+++ b/drivers/usb/dwc3/dwc3-octeon.c
-@@ -122,8 +122,32 @@
- #define USBDRD_UCTL_INTSTAT			0x30
- #define USBDRD_UCTL_PORT_CFG_HS(port)		(0x40 + (0x20 * port))
- #define USBDRD_UCTL_PORT_CFG_SS(port)		(0x48 + (0x20 * port))
-+
-+/*
-+ * UCTL Port Debug Configuration Registers
-+ */
- #define USBDRD_UCTL_PORT_CR_DBG_CFG(port)	(0x50 + (0x20 * port))
-+/* Rising edge triggers a register write operation of the captured
-+ * address with the captured data
-+ */
-+# define USBDRD_UCTL_PORT_CR_DBG_CFG_WRITE	BIT_ULL(0)
-+/* Rising edge triggers a register read operation of the capture address */
-+# define USBDRD_UCTL_PORT_CR_DBG_CFG_READ	BIT_ULL(1)
-+/* Rising edge triggers the [DATA_IN] field to be captured as the write data */
-+# define USBDRD_UCTL_PORT_CR_DBG_CFG_CAP_DATA	BIT_ULL(2)
-+/* Rising edge triggers the [DATA_IN] field to be captured as the address */
-+# define USBDRD_UCTL_PORT_CR_DBG_CFG_CAP_ADDR	BIT_ULL(3)
-+/* Address or data to be written to the CR interface */
-+# define USBDRD_UCTL_PORT_CR_DBG_CFG_DATA_IN	GENMASK_ULL(47, 32)
-+
-+/*
-+ * UCTL Port Debug Status Registers
-+ */
- #define USBDRD_UCTL_PORT_CR_DBG_STATUS(port)	(0x58 + (0x20 * port))
-+/* Acknowledge that the CAP_ADDR, CAP_DATA, READ, WRITE commands have completed */
-+# define USBDRD_UCTL_PORT_CR_DBG_STATUS_ACK	BIT_ULL(0)
-+/* Last data read from the CR interface */
-+# define USBDRD_UCTL_PORT_CR_DBG_STATUS_DATA_OUT GENMASK_ULL(47, 32)
- 
- /*
-  * UCTL Configuration Register
-@@ -410,6 +434,252 @@ static void dwc3_octeon_phy_reset(struct dwc3_octeon *octeon)
- 	dwc3_octeon_writeq(uctl_ctl_reg, val);
- }
- 
-+/* Internal indirect register that reports if the phy PLL has lock.
-+ * This will be 1 if lock, 0 if no lock.
-+ */
-+#define DWC3_INT_IND_PLL_LOCK_REG			0x200b
-+
-+/* Internal indirect UPHY register that controls the power to the UPHY PLL. */
-+#define DWC3_INT_IND_UPHY_PLL_PU			0x2012
-+/* Write enable bit for DWC3_INT_IND_PLL_POWER_CTL */
-+# define DWC3_INT_IND_UPHY_PLL_PU_WE			BIT(5)
-+/* Power enable bit for DWC3_INT_IND_PLL_POWER_CTL */
-+# define DWC3_INT_IND_UPHY_PLL_PU_POWER_EN		BIT(2)
-+
-+/* Internal indirect UPHY PLL register */
-+#define DWC3_INT_IND_UPHY_PLL_RESET			0x201C
-+/* Write enable bit */
-+# define DWC3_INT_IND_UPHY_PLL_RESET_WE			BIT(4)
-+/* VCO reset bit */
-+# define DWC3_INT_IND_UPHY_PLL_RESET_VCO_RST		BIT(0)
-+
-+static int dwc3_octeon_indirect_read(struct dwc3_octeon *octeon, u32 addr)
-+{
-+	int ret;
-+	u64 val;
-+	unsigned long timeout;
-+	struct device *dev = octeon->dev;
-+	void __iomem *cfg_reg = octeon->base + USBDRD_UCTL_PORT_CR_DBG_CFG(0);
-+	void __iomem *status_reg = octeon->base + USBDRD_UCTL_PORT_CR_DBG_STATUS(0);
-+
-+	/* 1 */
-+	val = FIELD_PREP(USBDRD_UCTL_PORT_CR_DBG_CFG_DATA_IN, addr);
-+	dwc3_octeon_writeq(cfg_reg, val);
-+	/* 2 */
-+	val |= USBDRD_UCTL_PORT_CR_DBG_CFG_CAP_ADDR;
-+	dwc3_octeon_writeq(cfg_reg, val);
-+	/* 3 */
-+	timeout = jiffies + msecs_to_jiffies(1000);
-+	while (!(dwc3_octeon_readq(status_reg) & USBDRD_UCTL_PORT_CR_DBG_STATUS_ACK)) {
-+                if (time_after(jiffies, timeout)) {
-+			dev_warn(dev, "set read address timeout (%x)\n", addr);
-+                        return -ETIMEDOUT;
-+		}
-+                cpu_relax();
-+        }
-+	/* 4 */
-+	dwc3_octeon_writeq(cfg_reg, 0);
-+	/* 5 */
-+	timeout = jiffies + msecs_to_jiffies(1000);
-+	while (dwc3_octeon_readq(status_reg) & USBDRD_UCTL_PORT_CR_DBG_STATUS_ACK) {
-+                if (time_after(jiffies, timeout)) {
-+			dev_warn(dev, "read ack address clear timeout (%x)\n", addr);
-+                        return -ETIMEDOUT;
-+		}
-+                cpu_relax();
-+        }
-+	/* 6 */
-+	dwc3_octeon_writeq(cfg_reg, USBDRD_UCTL_PORT_CR_DBG_CFG_READ);
-+	/* 7 */
-+	timeout = jiffies + msecs_to_jiffies(1000);
-+	while (!((val = dwc3_octeon_readq(status_reg)) & USBDRD_UCTL_PORT_CR_DBG_STATUS_ACK)) {
-+                if (time_after(jiffies, timeout)) {
-+			dev_warn(dev, "read data timeout (%x)\n", addr);
-+                        return -ETIMEDOUT;
-+		}
-+                cpu_relax();
-+        }
-+	/* 8 */
-+	ret = FIELD_GET(USBDRD_UCTL_PORT_CR_DBG_STATUS_DATA_OUT, val);
-+	/* 9 */
-+	dwc3_octeon_writeq(cfg_reg, 0);
-+	/* 10 */
-+	while (dwc3_octeon_readq(status_reg) & USBDRD_UCTL_PORT_CR_DBG_STATUS_ACK) {
-+                if (time_after(jiffies, timeout)) {
-+			dev_warn(dev, "read ack data clear timeout (%x)\n", addr);
-+                        return -ETIMEDOUT;
-+		}
-+                cpu_relax();
-+        }
-+
-+	return ret;
-+}
-+
-+static int dwc3_octeon_indirect_write(struct dwc3_octeon *octeon, u32 addr, u16 value)
-+{
-+	u64 val;
-+	unsigned long timeout;
-+	struct device *dev = octeon->dev;
-+	void __iomem *cfg_reg = octeon->base + USBDRD_UCTL_PORT_CR_DBG_CFG(0);
-+	void __iomem *status_reg = octeon->base + USBDRD_UCTL_PORT_CR_DBG_STATUS(0);
-+
-+	/* 1 */
-+	val = FIELD_PREP(USBDRD_UCTL_PORT_CR_DBG_CFG_DATA_IN, addr);
-+	dwc3_octeon_writeq(cfg_reg, val);
-+	/* 2 */
-+	val |= USBDRD_UCTL_PORT_CR_DBG_CFG_CAP_ADDR;
-+	dwc3_octeon_writeq(cfg_reg, val);
-+	/* 3 */
-+	timeout = jiffies + msecs_to_jiffies(1000);
-+	while (!(dwc3_octeon_readq(status_reg) & USBDRD_UCTL_PORT_CR_DBG_STATUS_ACK)) {
-+                if (time_after(jiffies, timeout)) {
-+			dev_warn(dev, "set write address timeout (%x)\n", addr);
-+                        return -ETIMEDOUT;
-+		}
-+                cpu_relax();
-+        }
-+	/* 4 */
-+	dwc3_octeon_writeq(cfg_reg, 0);
-+	/* 5 */
-+	timeout = jiffies + msecs_to_jiffies(1000);
-+	while (dwc3_octeon_readq(status_reg) & USBDRD_UCTL_PORT_CR_DBG_STATUS_ACK) {
-+                if (time_after(jiffies, timeout)) {
-+			dev_warn(dev, "write ack address clear timeout (%x)\n", addr);
-+                        return -ETIMEDOUT;
-+		}
-+                cpu_relax();
-+        }
-+	/* 6 */
-+	val = FIELD_PREP(USBDRD_UCTL_PORT_CR_DBG_CFG_DATA_IN, value);
-+	dwc3_octeon_writeq(cfg_reg, FIELD_PREP(USBDRD_UCTL_PORT_CR_DBG_CFG_DATA_IN, value));
-+	/* 7 */
-+	val |= USBDRD_UCTL_PORT_CR_DBG_CFG_CAP_DATA;
-+	dwc3_octeon_writeq(cfg_reg, val);
-+	/* 8 */
-+	timeout = jiffies + msecs_to_jiffies(1000);
-+	while (!(dwc3_octeon_readq(status_reg) & USBDRD_UCTL_PORT_CR_DBG_STATUS_ACK)) {
-+                if (time_after(jiffies, timeout)) {
-+			dev_warn(dev, "write set data timeout (%x)\n", addr);
-+                        return -ETIMEDOUT;
-+		}
-+                cpu_relax();
-+        }
-+	/* 9 */
-+	dwc3_octeon_writeq(cfg_reg, 0);
-+	/* 10 */
-+	timeout = jiffies + msecs_to_jiffies(1000);
-+	while (dwc3_octeon_readq(status_reg) & USBDRD_UCTL_PORT_CR_DBG_STATUS_ACK) {
-+                if (time_after(jiffies, timeout)) {
-+			dev_warn(dev, "write ack clear timeout (%x)\n", addr);
-+                        return -ETIMEDOUT;
-+		}
-+                cpu_relax();
-+        }
-+	/* 11 */
-+	dwc3_octeon_writeq(cfg_reg, USBDRD_UCTL_PORT_CR_DBG_CFG_WRITE);
-+	/* 12 */
-+	timeout = jiffies + msecs_to_jiffies(1000);
-+	while (!(dwc3_octeon_readq(status_reg) & USBDRD_UCTL_PORT_CR_DBG_STATUS_ACK)) {
-+                if (time_after(jiffies, timeout)) {
-+			dev_warn(dev, "write data timeout (%x)\n", addr);
-+                        return -ETIMEDOUT;
-+		}
-+                cpu_relax();
-+        }
-+	/* 13 */
-+	dwc3_octeon_writeq(cfg_reg, 0);
-+	/* 14 */
-+	timeout = jiffies + msecs_to_jiffies(1000);
-+	while (dwc3_octeon_readq(status_reg) & USBDRD_UCTL_PORT_CR_DBG_STATUS_ACK) {
-+                if (time_after(jiffies, timeout)) {
-+			dev_warn(dev, "write ack clear timeout (%x)\n", addr);
-+                        return -ETIMEDOUT;
-+		}
-+                cpu_relax();
-+        }
-+
-+	return 0;
-+}
-+
-+static int dwc3_octeon_pll_locked(struct dwc3_octeon *octeon)
-+{
-+	int ret = dwc3_octeon_indirect_read(octeon, DWC3_INT_IND_PLL_LOCK_REG);
-+
-+	if (ret < 0)
-+		return ret;
-+	return ret & 1;
-+}
-+
-+/**
-+ * Performs a full reset of the UPHY PLL. Note that this is normally done
-+ * internally by a state machine when the UPHY is brought out of reset but this
-+ * version gives far more time for things to settle before continuing.
-+ */
-+static int dwc3_uphy_pll_reset(struct dwc3_octeon *octeon)
-+{
-+	u16 ctrl, pwr;
-+
-+	/* 1. Turn on write enable so we can assert reset to the PLL VCO */
-+	ctrl = dwc3_octeon_indirect_read(octeon, DWC3_INT_IND_UPHY_PLL_RESET);
-+	ctrl |= DWC3_INT_IND_UPHY_PLL_RESET_WE;
-+	dwc3_octeon_indirect_write(octeon, DWC3_INT_IND_UPHY_PLL_RESET, ctrl);
-+
-+	/* 2. Turn on write enable for PLL power control */
-+	pwr = dwc3_octeon_indirect_read(octeon, DWC3_INT_IND_UPHY_PLL_PU);
-+	pwr |= DWC3_INT_IND_UPHY_PLL_PU_WE;
-+	dwc3_octeon_indirect_write(octeon, DWC3_INT_IND_UPHY_PLL_PU, pwr);
-+
-+	/* 3. Assert VCO reset */
-+	ctrl |= DWC3_INT_IND_UPHY_PLL_RESET_VCO_RST;
-+	dwc3_octeon_indirect_write(octeon, DWC3_INT_IND_UPHY_PLL_RESET, ctrl);
-+
-+	/* 4. Power off the PLL */
-+	pwr &= ~DWC3_INT_IND_UPHY_PLL_PU_POWER_EN;
-+	dwc3_octeon_indirect_write(octeon, DWC3_INT_IND_UPHY_PLL_PU, pwr);
-+	usleep_range(1000, 2000);
-+
-+	/* 5. Power on the PLL while VCO is held in reset */
-+	pwr |= DWC3_INT_IND_UPHY_PLL_PU_POWER_EN;
-+	dwc3_octeon_indirect_write(octeon, DWC3_INT_IND_UPHY_PLL_PU, pwr);
-+
-+	/* Wait for things to stabilize before taking VCO out of reset */
-+	usleep_range(1000, 2000);
-+
-+	/* 6. Take the VCO out of reset */
-+	ctrl &= ~DWC3_INT_IND_UPHY_PLL_RESET_VCO_RST;
-+	dwc3_octeon_indirect_write(octeon, DWC3_INT_IND_UPHY_PLL_RESET, ctrl);
-+	usleep_range(1000, 2000);
-+
-+	/* 7. Put the VCO back in reset */
-+	ctrl |= ~DWC3_INT_IND_UPHY_PLL_RESET_VCO_RST;
-+	dwc3_octeon_indirect_write(octeon, DWC3_INT_IND_UPHY_PLL_RESET, ctrl);
-+
-+	/* 8. Power off the PLL */
-+	pwr &= ~DWC3_INT_IND_UPHY_PLL_PU_POWER_EN;
-+	dwc3_octeon_indirect_write(octeon, DWC3_INT_IND_UPHY_PLL_PU, pwr);
-+	usleep_range(1000, 2000);
-+
-+	/* 9. Power on the PLL while VCO is held in reset */
-+	pwr |= DWC3_INT_IND_UPHY_PLL_PU_POWER_EN;
-+	dwc3_octeon_indirect_write(octeon, DWC3_INT_IND_UPHY_PLL_PU, pwr);
-+
-+	/* 10. Take the VCO out of reset */
-+	ctrl &= ~DWC3_INT_IND_UPHY_PLL_RESET_VCO_RST;
-+	dwc3_octeon_indirect_write(octeon, DWC3_INT_IND_UPHY_PLL_RESET, ctrl);
-+
-+	/* 11. Turn off write enables */
-+	pwr &= ~DWC3_INT_IND_UPHY_PLL_PU_WE;
-+	dwc3_octeon_indirect_write(octeon, DWC3_INT_IND_UPHY_PLL_PU, pwr);
-+
-+	ctrl &= ~DWC3_INT_IND_UPHY_PLL_RESET_WE;
-+	dwc3_octeon_indirect_write(octeon, DWC3_INT_IND_UPHY_PLL_RESET, ctrl);
-+
-+	usleep_range(1000, 2000);
-+
-+	/* Return if we have lock or not */
-+	return dwc3_octeon_pll_locked(octeon);
-+}
-+
- static int dwc3_octeon_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -418,7 +688,7 @@ static int dwc3_octeon_probe(struct platform_device *pdev)
- 	const char *hs_clock_type, *ss_clock_type;
- 	int ref_clk_sel, ref_clk_fsel, mpll_mul;
- 	int power_active_low, power_gpio;
--	int err, len;
-+	int err, len, tries = 0;
- 	u32 clock_rate;
- 
- 	if (of_property_read_u32(node, "refclk-frequency", &clock_rate)) {
-@@ -503,6 +773,7 @@ static int dwc3_octeon_probe(struct platform_device *pdev)
- 	if (IS_ERR(octeon->base))
- 		return PTR_ERR(octeon->base);
- 
-+retry:
- 	err = dwc3_octeon_setup(octeon, ref_clk_sel, ref_clk_fsel, mpll_mul,
- 				power_gpio, power_active_low);
- 	if (err)
-@@ -511,6 +782,18 @@ static int dwc3_octeon_probe(struct platform_device *pdev)
- 	dwc3_octeon_set_endian_mode(octeon);
- 	dwc3_octeon_phy_reset(octeon);
- 
-+	usleep_range(50, 100);
-+	if (dwc3_octeon_pll_locked(octeon) == 0) {
-+		dev_warn(dev, "PLL unlocked, reseting (%d of 3)\n", ++tries);
-+		err = dwc3_uphy_pll_reset(octeon);
-+		if (err < 0)
-+			return err;
-+		if (tries < 3)
-+			goto retry;
-+		dev_err(dev, "PLL lock failed\n");
-+		return -EIO;
-+	}
-+
- 	platform_set_drvdata(pdev, octeon);
- 
- 	return of_platform_populate(node, NULL, NULL, dev);
--- 
-2.39.2
-
+Thanks
+Wesley Cheng
