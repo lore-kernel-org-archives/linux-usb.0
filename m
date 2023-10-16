@@ -1,48 +1,48 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C781C16438
-	for <linux-usb@vger.kernel.org>; Mon, 16 Oct 2023 07:26:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7763171BF
+	for <linux-usb@vger.kernel.org>; Mon, 16 Oct 2023 07:26:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l1KWvGub"
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DAE1C5;
-	Mon, 16 Oct 2023 00:26:17 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-9ada2e6e75fso724280166b.2;
-        Mon, 16 Oct 2023 00:26:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TlUmt8hZ"
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A5B0E1;
+	Mon, 16 Oct 2023 00:26:19 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9bf0ac97fdeso216514166b.2;
+        Mon, 16 Oct 2023 00:26:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697441175; x=1698045975; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1697441177; x=1698045977; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MpEK+6I3PpgTQZdQO8LItkPIzXzeXnEoEvyoBxG3EVo=;
-        b=l1KWvGubtZBzkrkOsUzbmWzHdLyIw8QsXMDfGMcU4QFtTNlF5Lgm8pXJGlUR6hohzI
-         Vt3eFGgKgZ4LRNoatSCs9g1JRilQiUIgXeTRRXnPuaUs1Ys9pyAnb9tdNxj1QxaZBml+
-         I+Hqr9D2YGj38lLfif5cXKLO7PrWvBdXEsgAn6LEKb8uj1x7KEo8wBdSXxsaFkE6Z1r5
-         uOEvZGdIKmQeSdZuN04m9L12mATMOgaq7mLJgET1UJtmEFcQIqqnH++f18Twoz1Hqx2L
-         GUkZzBhqE+5ddFA6xtWpbOhTmfXokbE/YoVwOc8+EaOC2ewfYahfn7ptdR8vRaBvkZye
-         30jw==
+        bh=xnxVJqIRdQtouvx5n5R9hP/D5oVVipLHSJQwRP3ossw=;
+        b=TlUmt8hZ4LVdRAf781E3554vUA8EVfRwwmGzOD5eA7/8B7f4WsmPiM3YfqytxtS4YX
+         LO3k3/nMSmnx0qh00U3dmHG6mE7wjOItSX2Sfb4tzizdQupVInJMB3G26PZ5pLfVum60
+         HLjhubNwo1YtVXWayYuvZceL765Gm+yZDuvHlMkrAR+ijWPmegB1M8sfVYSct1DD1aAN
+         b8pcm4D4tZ8feAzlTeKDYYEL/O6pDM0bI0dli4sV+pQ2qvERueHCl+HQvaKlNe4ic8aS
+         uNfQiBC5LouSln7uuoPRmg4YwkOlUhxLLBPxkP06wU+6O1NxW4ZvoqbK8rsy9McL7zup
+         QWBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697441175; x=1698045975;
+        d=1e100.net; s=20230601; t=1697441177; x=1698045977;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MpEK+6I3PpgTQZdQO8LItkPIzXzeXnEoEvyoBxG3EVo=;
-        b=Dtm9trzRfrrUqvR0Aw++9fpTEYj7uB8pIBRBlFRhhkCxo6bBolpARsV5dzk940cNNM
-         nPFrKPglB4BuUGX1QpoSM20HlgtBh7/AYRdX/2Xdx79uCOGZX097r2HoWTeSUWHFgxUe
-         AwXA63hbMAsoAImk1e1wolqcq80lP4skUoPqfKWDr90Xc3v9vwpxA5RAg1B5NnNUie3b
-         2Ex+sRDTFBxD8F8P1FIKPPRi5+MnFDyutvg03pEF5lEY4YIk9FBADibFpLuzusph5mzz
-         lQVwgeYK5Zs+F/5S/ztvwdzHvxI2qpY7xKVaMu31aZrpLAorTsNkAw4HU1jnJPP4CijO
-         C1xQ==
-X-Gm-Message-State: AOJu0Yxy1hGDoJnpNDxC4pak4BWjmtLuxIO6ryg6YGnGWFJQtdoDajMY
-	/JJWCOuGN2rViRZ4E6M9zMqmgeEwzVnQ7g==
-X-Google-Smtp-Source: AGHT+IF+QTecaI8s++ZdNtThXURHqlDpXG7ymAOWDnhf3SnjyC6yCabi85An3ZWkr/F3WDvLFIf9Zg==
-X-Received: by 2002:a17:906:308b:b0:9b6:50cd:a222 with SMTP id 11-20020a170906308b00b009b650cda222mr25617284ejv.54.1697441175280;
-        Mon, 16 Oct 2023 00:26:15 -0700 (PDT)
+        bh=xnxVJqIRdQtouvx5n5R9hP/D5oVVipLHSJQwRP3ossw=;
+        b=FA3c3f3/ifnlOzJe67tiq7bXgRhgOXDHmipYB2Q0gOmcegjETOMRGKpg0zn12jjjIA
+         L4IL4NOfVlZYklWZ3xwC7i4XTKOtDX7MCRVN3JEHC9mOdM2Fop32JMvqW41CSxKO02WS
+         BWefSKJ+nAhqNsF9fRm3PrhyEOAO9XugpT/ac/wbIriP59RIcF1X3mVoNTUw0Q0qumsx
+         YdkJjdhZT6tsuW/G90e+IrqTu+d6JZ0NRlqBlj4P9SqMNSipD1tVNGiagq73bd1JNUYJ
+         BQ+Etx9pwnccZFEuztfGRxsLzjXFU2G5AAo9VVmAsTcg/G5975NYbM38mfqKOGyN3pne
+         AhEQ==
+X-Gm-Message-State: AOJu0Yw3jBKkdMUpKpJfVylP/hQImkN8U65MYvGQjxqxJA5tzmQqoAGB
+	ZszxrxxPz9L1FaqATS2Fp0ne63gm4R5rLg==
+X-Google-Smtp-Source: AGHT+IH9KvZqYihmyg2FnPlR7/ZYAkszc3cWqEXIzdLn9JoffIMrIfjfZIs0poWr0ZmOjTinLnsjuA==
+X-Received: by 2002:a17:906:9c1:b0:9b2:89ec:d701 with SMTP id r1-20020a17090609c100b009b289ecd701mr32086734eje.27.1697441177480;
+        Mon, 16 Oct 2023 00:26:17 -0700 (PDT)
 Received: from sauvignon.fi.muni.cz ([2001:718:801:22c:bdcb:518:be8f:6a76])
-        by smtp.gmail.com with ESMTPSA id n25-20020a17090673d900b0099297782aa9sm3399980ejl.49.2023.10.16.00.26.14
+        by smtp.gmail.com with ESMTPSA id n25-20020a17090673d900b0099297782aa9sm3399980ejl.49.2023.10.16.00.26.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Oct 2023 00:26:14 -0700 (PDT)
+        Mon, 16 Oct 2023 00:26:17 -0700 (PDT)
 From: Milan Broz <gmazyland@gmail.com>
 To: linux-usb@vger.kernel.org
 Cc: usb-storage@lists.one-eyed-alien.net,
@@ -51,9 +51,9 @@ Cc: usb-storage@lists.one-eyed-alien.net,
 	gregkh@linuxfoundation.org,
 	oneukum@suse.com,
 	Milan Broz <gmazyland@gmail.com>
-Subject: [PATCH 3/7] usb-storage: use fflags index only in usb-storage driver
-Date: Mon, 16 Oct 2023 09:26:00 +0200
-Message-ID: <20231016072604.40179-4-gmazyland@gmail.com>
+Subject: [PATCH 5/7] usb-storage,uas: do not convert device_info for 64-bit platforms
+Date: Mon, 16 Oct 2023 09:26:02 +0200
+Message-ID: <20231016072604.40179-6-gmazyland@gmail.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231016072604.40179-1-gmazyland@gmail.com>
 References: <20231006125445.122380-1-gmazyland@gmail.com>
@@ -72,256 +72,92 @@ X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-This patch adds a parameter to use driver_info translation function
-(which will be defined in the following patch).
-
-Only USB storage driver will use it, as other drivers do not need
-more than 32-bit quirk flags.
+This patch optimizes the previous one for 64-bit platforms, where
+unsigned long is 64-bit, so we do not need to convert quirk flags
+to 32-bit index.
 
 Signed-off-by: Milan Broz <gmazyland@gmail.com>
-Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
 ---
- drivers/usb/storage/alauda.c        | 2 +-
- drivers/usb/storage/cypress_atacb.c | 2 +-
- drivers/usb/storage/datafab.c       | 2 +-
- drivers/usb/storage/ene_ub6250.c    | 2 +-
- drivers/usb/storage/freecom.c       | 2 +-
- drivers/usb/storage/isd200.c        | 2 +-
- drivers/usb/storage/jumpshot.c      | 2 +-
- drivers/usb/storage/karma.c         | 2 +-
- drivers/usb/storage/onetouch.c      | 2 +-
- drivers/usb/storage/realtek_cr.c    | 2 +-
- drivers/usb/storage/sddr09.c        | 2 +-
- drivers/usb/storage/sddr55.c        | 2 +-
- drivers/usb/storage/shuttle_usbat.c | 2 +-
- drivers/usb/storage/usb.c           | 9 +++++----
- drivers/usb/storage/usb.h           | 3 ++-
- 15 files changed, 20 insertions(+), 18 deletions(-)
+ drivers/usb/storage/Makefile  | 3 +++
+ drivers/usb/storage/mkflags.c | 9 +++++++++
+ drivers/usb/storage/usb-ids.h | 4 ++++
+ 3 files changed, 16 insertions(+)
 
-diff --git a/drivers/usb/storage/alauda.c b/drivers/usb/storage/alauda.c
-index 115f05a6201a..74e293981ab1 100644
---- a/drivers/usb/storage/alauda.c
-+++ b/drivers/usb/storage/alauda.c
-@@ -1241,7 +1241,7 @@ static int alauda_probe(struct usb_interface *intf,
+diff --git a/drivers/usb/storage/Makefile b/drivers/usb/storage/Makefile
+index 612678f108d0..62ebaa76ef95 100644
+--- a/drivers/usb/storage/Makefile
++++ b/drivers/usb/storage/Makefile
+@@ -57,6 +57,9 @@ $(obj)/usual-tables.o: $(obj)/usb-ids.c
+ $(obj)/uas.o: $(obj)/usb-ids-uas.c
+ clean-files		:= usb-ids.c usb-ids-uas.c
+ HOSTCFLAGS_mkflags.o	:= -I $(srctree)/include/
++ifdef CONFIG_64BIT
++HOSTCFLAGS_mkflags.o	+= -D CONFIG_64BIT
++endif
+ hostprogs		+= mkflags
  
- 	result = usb_stor_probe1(&us, intf, id,
- 			(id - alauda_usb_ids) + alauda_unusual_dev_list,
--			&alauda_host_template);
-+			&alauda_host_template, 0);
- 	if (result)
- 		return result;
+ quiet_cmd_mkflag_storage = FLAGS   $@
+diff --git a/drivers/usb/storage/mkflags.c b/drivers/usb/storage/mkflags.c
+index 2514ffef0154..08c37d2e52d6 100644
+--- a/drivers/usb/storage/mkflags.c
++++ b/drivers/usb/storage/mkflags.c
+@@ -89,11 +89,15 @@ static struct svals vals[] = {
  
-diff --git a/drivers/usb/storage/cypress_atacb.c b/drivers/usb/storage/cypress_atacb.c
-index 98b3ec352a13..2fc939f709b0 100644
---- a/drivers/usb/storage/cypress_atacb.c
-+++ b/drivers/usb/storage/cypress_atacb.c
-@@ -246,7 +246,7 @@ static int cypress_probe(struct usb_interface *intf,
- 
- 	result = usb_stor_probe1(&us, intf, id,
- 			(id - cypress_usb_ids) + cypress_unusual_dev_list,
--			&cypress_host_template);
-+			&cypress_host_template, 0);
- 	if (result)
- 		return result;
- 
-diff --git a/drivers/usb/storage/datafab.c b/drivers/usb/storage/datafab.c
-index bcc4a2fad863..fad9eca3cad9 100644
---- a/drivers/usb/storage/datafab.c
-+++ b/drivers/usb/storage/datafab.c
-@@ -727,7 +727,7 @@ static int datafab_probe(struct usb_interface *intf,
- 
- 	result = usb_stor_probe1(&us, intf, id,
- 			(id - datafab_usb_ids) + datafab_unusual_dev_list,
--			&datafab_host_template);
-+			&datafab_host_template, 0);
- 	if (result)
- 		return result;
- 
-diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
-index 97c66c0d91f4..6985d3419b3c 100644
---- a/drivers/usb/storage/ene_ub6250.c
-+++ b/drivers/usb/storage/ene_ub6250.c
-@@ -2331,7 +2331,7 @@ static int ene_ub6250_probe(struct usb_interface *intf,
- 
- 	result = usb_stor_probe1(&us, intf, id,
- 		   (id - ene_ub6250_usb_ids) + ene_ub6250_unusual_dev_list,
--		   &ene_ub6250_host_template);
-+		   &ene_ub6250_host_template, 0);
- 	if (result)
- 		return result;
- 
-diff --git a/drivers/usb/storage/freecom.c b/drivers/usb/storage/freecom.c
-index 2b098b55c4cb..6d971bd711d8 100644
---- a/drivers/usb/storage/freecom.c
-+++ b/drivers/usb/storage/freecom.c
-@@ -548,7 +548,7 @@ static int freecom_probe(struct usb_interface *intf,
- 
- 	result = usb_stor_probe1(&us, intf, id,
- 			(id - freecom_usb_ids) + freecom_unusual_dev_list,
--			&freecom_host_template);
-+			&freecom_host_template, 0);
- 	if (result)
- 		return result;
- 
-diff --git a/drivers/usb/storage/isd200.c b/drivers/usb/storage/isd200.c
-index 4e0eef1440b7..ecdc494756a2 100644
---- a/drivers/usb/storage/isd200.c
-+++ b/drivers/usb/storage/isd200.c
-@@ -1545,7 +1545,7 @@ static int isd200_probe(struct usb_interface *intf,
- 
- 	result = usb_stor_probe1(&us, intf, id,
- 			(id - isd200_usb_ids) + isd200_unusual_dev_list,
--			&isd200_host_template);
-+			&isd200_host_template, 0);
- 	if (result)
- 		return result;
- 
-diff --git a/drivers/usb/storage/jumpshot.c b/drivers/usb/storage/jumpshot.c
-index 229bf0c1afc9..1ade1e45c81d 100644
---- a/drivers/usb/storage/jumpshot.c
-+++ b/drivers/usb/storage/jumpshot.c
-@@ -653,7 +653,7 @@ static int jumpshot_probe(struct usb_interface *intf,
- 
- 	result = usb_stor_probe1(&us, intf, id,
- 			(id - jumpshot_usb_ids) + jumpshot_unusual_dev_list,
--			&jumpshot_host_template);
-+			&jumpshot_host_template, 0);
- 	if (result)
- 		return result;
- 
-diff --git a/drivers/usb/storage/karma.c b/drivers/usb/storage/karma.c
-index 38ddfedef629..60868be0e38c 100644
---- a/drivers/usb/storage/karma.c
-+++ b/drivers/usb/storage/karma.c
-@@ -205,7 +205,7 @@ static int karma_probe(struct usb_interface *intf,
- 
- 	result = usb_stor_probe1(&us, intf, id,
- 			(id - karma_usb_ids) + karma_unusual_dev_list,
--			&karma_host_template);
-+			&karma_host_template, 0);
- 	if (result)
- 		return result;
- 
-diff --git a/drivers/usb/storage/onetouch.c b/drivers/usb/storage/onetouch.c
-index 01f3c2779ccf..fe34f20cce03 100644
---- a/drivers/usb/storage/onetouch.c
-+++ b/drivers/usb/storage/onetouch.c
-@@ -280,7 +280,7 @@ static int onetouch_probe(struct usb_interface *intf,
- 
- 	result = usb_stor_probe1(&us, intf, id,
- 			(id - onetouch_usb_ids) + onetouch_unusual_dev_list,
--			&onetouch_host_template);
-+			&onetouch_host_template, 0);
- 	if (result)
- 		return result;
- 
-diff --git a/drivers/usb/storage/realtek_cr.c b/drivers/usb/storage/realtek_cr.c
-index 0c423916d7bf..892b26714b5f 100644
---- a/drivers/usb/storage/realtek_cr.c
-+++ b/drivers/usb/storage/realtek_cr.c
-@@ -1041,7 +1041,7 @@ static int realtek_cr_probe(struct usb_interface *intf,
- 	result = usb_stor_probe1(&us, intf, id,
- 				 (id - realtek_cr_ids) +
- 				 realtek_cr_unusual_dev_list,
--				 &realtek_cr_host_template);
-+				 &realtek_cr_host_template, 0);
- 	if (result)
- 		return result;
- 
-diff --git a/drivers/usb/storage/sddr09.c b/drivers/usb/storage/sddr09.c
-index 51bcd4a43690..107eeb7fda04 100644
---- a/drivers/usb/storage/sddr09.c
-+++ b/drivers/usb/storage/sddr09.c
-@@ -1753,7 +1753,7 @@ static int sddr09_probe(struct usb_interface *intf,
- 
- 	result = usb_stor_probe1(&us, intf, id,
- 			(id - sddr09_usb_ids) + sddr09_unusual_dev_list,
--			&sddr09_host_template);
-+			&sddr09_host_template, 0);
- 	if (result)
- 		return result;
- 
-diff --git a/drivers/usb/storage/sddr55.c b/drivers/usb/storage/sddr55.c
-index 15dc25801cdc..c64b72de453f 100644
---- a/drivers/usb/storage/sddr55.c
-+++ b/drivers/usb/storage/sddr55.c
-@@ -985,7 +985,7 @@ static int sddr55_probe(struct usb_interface *intf,
- 
- 	result = usb_stor_probe1(&us, intf, id,
- 			(id - sddr55_usb_ids) + sddr55_unusual_dev_list,
--			&sddr55_host_template);
-+			&sddr55_host_template, 0);
- 	if (result)
- 		return result;
- 
-diff --git a/drivers/usb/storage/shuttle_usbat.c b/drivers/usb/storage/shuttle_usbat.c
-index f0d0ca37163d..3ac82f49401c 100644
---- a/drivers/usb/storage/shuttle_usbat.c
-+++ b/drivers/usb/storage/shuttle_usbat.c
-@@ -1838,7 +1838,7 @@ static int usbat_probe(struct usb_interface *intf,
- 
- 	result = usb_stor_probe1(&us, intf, id,
- 			(id - usbat_usb_ids) + usbat_unusual_dev_list,
--			&usbat_host_template);
-+			&usbat_host_template, 0);
- 	if (result)
- 		return result;
- 
-diff --git a/drivers/usb/storage/usb.c b/drivers/usb/storage/usb.c
-index d1ad6a2509ab..db8c4d2c8d11 100644
---- a/drivers/usb/storage/usb.c
-+++ b/drivers/usb/storage/usb.c
-@@ -574,7 +574,7 @@ EXPORT_SYMBOL_GPL(usb_stor_adjust_quirks);
- 
- /* Get the unusual_devs entries and the string descriptors */
- static int get_device_info(struct us_data *us, const struct usb_device_id *id,
--		const struct us_unusual_dev *unusual_dev)
-+		const struct us_unusual_dev *unusual_dev, int fflags_use_index)
+ static unsigned long get_device_info(uint64_t flags, unsigned int idx)
  {
- 	struct usb_device *dev = us->pusb_dev;
- 	struct usb_interface_descriptor *idesc =
-@@ -925,7 +925,8 @@ int usb_stor_probe1(struct us_data **pus,
- 		struct usb_interface *intf,
- 		const struct usb_device_id *id,
- 		const struct us_unusual_dev *unusual_dev,
--		const struct scsi_host_template *sht)
-+		const struct scsi_host_template *sht,
-+		int fflags_use_index)
++#ifndef CONFIG_64BIT
+ 	if (flags < HI32)
+ 		return (unsigned long)flags;
+ 
+ 	/* Use index that will be processed in usb_stor_di2flags */
+ 	return HI32 + idx;
++#else
++	return flags;
++#endif
+ }
+ 
+ static void print_class(uint8_t bDeviceSubClass, uint8_t bDeviceProtocol)
+@@ -123,6 +127,10 @@ static void print_type(unsigned int type)
+ 
+ static void print_usb_flags(const char *type)
  {
- 	struct Scsi_Host *host;
- 	struct us_data *us;
-@@ -962,7 +963,7 @@ int usb_stor_probe1(struct us_data **pus,
- 		goto BadDevice;
++#ifdef CONFIG_64BIT
++	printf("const u64 usb_%s_di_to_u64[] = {};\n", type);
++	printf("const unsigned long usb_%s_di_idx_size = 0;\n\n", type);
++#else
+ 	int i, count;
  
- 	/* Get the unusual_devs entries and the descriptors */
--	result = get_device_info(us, id, unusual_dev);
-+	result = get_device_info(us, id, unusual_dev, fflags_use_index);
- 	if (result)
- 		goto BadDevice;
- 
-@@ -1120,7 +1121,7 @@ static int storage_probe(struct usb_interface *intf,
+ 	printf("const u64 usb_%s_di_to_u64[] = {\n", type);
+@@ -134,6 +142,7 @@ static void print_usb_flags(const char *type)
  	}
+ 	printf("};\n\n");
+ 	printf("const unsigned long usb_%s_di_idx_size = %i;\n\n", type, count);
++#endif
+ }
  
- 	result = usb_stor_probe1(&us, intf, id, unusual_dev,
--				 &usb_stor_host_template);
-+				 &usb_stor_host_template, 1);
- 	if (result)
- 		return result;
+ static void print_usb_storage(void)
+diff --git a/drivers/usb/storage/usb-ids.h b/drivers/usb/storage/usb-ids.h
+index 8bfd84e07f96..4abe1a6d3a66 100644
+--- a/drivers/usb/storage/usb-ids.h
++++ b/drivers/usb/storage/usb-ids.h
+@@ -15,6 +15,9 @@ extern const u64 usb_uas_di_to_u64[];
+ static u64 usb_stor_di2flags(const u64 *di_to_u64,
+ 		unsigned long idx_size, unsigned long idx)
+ {
++#if IS_ENABLED(CONFIG_64BIT)
++	return idx;
++#else
+ 	u64 flags = 0;
  
-diff --git a/drivers/usb/storage/usb.h b/drivers/usb/storage/usb.h
-index 97c6196d639b..975c47efcce7 100644
---- a/drivers/usb/storage/usb.h
-+++ b/drivers/usb/storage/usb.h
-@@ -187,7 +187,8 @@ extern int usb_stor_probe1(struct us_data **pus,
- 		struct usb_interface *intf,
- 		const struct usb_device_id *id,
- 		const struct us_unusual_dev *unusual_dev,
--		const struct scsi_host_template *sht);
-+		const struct scsi_host_template *sht,
-+		int fflags_use_index);
- extern int usb_stor_probe2(struct us_data *us);
- extern void usb_stor_disconnect(struct usb_interface *intf);
+ 	if (idx < (1UL << 31))
+@@ -28,6 +31,7 @@ static u64 usb_stor_di2flags(const u64 *di_to_u64,
+ 		WARN_ONCE(true, "usb_stor_di_to_u64 table not updated");
  
+ 	return flags;
++#endif
+ }
+ 
+ #endif
 -- 
 2.42.0
 
