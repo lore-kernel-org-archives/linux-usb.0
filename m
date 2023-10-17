@@ -1,39 +1,37 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CBFB2E3EA
-	for <linux-usb@vger.kernel.org>; Tue, 17 Oct 2023 20:47:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E432EB02
+	for <linux-usb@vger.kernel.org>; Tue, 17 Oct 2023 20:47:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43467C6
-	for <linux-usb@vger.kernel.org>; Tue, 17 Oct 2023 13:47:15 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E419C4
+	for <linux-usb@vger.kernel.org>; Tue, 17 Oct 2023 13:47:19 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qsqy1-0001nz-Cc; Tue, 17 Oct 2023 22:47:05 +0200
+	id 1qsqy2-0001nj-6N; Tue, 17 Oct 2023 22:47:06 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qsqy0-002OlE-5j; Tue, 17 Oct 2023 22:47:04 +0200
+	id 1qsqxz-002Ol7-ML; Tue, 17 Oct 2023 22:47:03 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qsqxz-000U0j-Si; Tue, 17 Oct 2023 22:47:03 +0200
+	id 1qsqxz-000U0b-DL; Tue, 17 Oct 2023 22:47:03 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Paolo Abeni <pabeni@redhat.com>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
+Cc: Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Gaosheng Cui <cuigaosheng1@huawei.com>,
 	linux-usb@vger.kernel.org,
 	kernel@pengutronix.de,
 	Arnd Bergmann <arnd@arndb.de>,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH 5/6] usb: gadget: m66592-udc: Convert to use module_platform_driver()
-Date: Tue, 17 Oct 2023 22:44:48 +0200
-Message-ID: <20231017204442.1625925-13-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 3/6] usb: gadget: fusb300-udc: Convert to use module_platform_driver()
+Date: Tue, 17 Oct 2023 22:44:46 +0200
+Message-ID: <20231017204442.1625925-11-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231017204442.1625925-8-u.kleine-koenig@pengutronix.de>
 References: <20231017204442.1625925-8-u.kleine-koenig@pengutronix.de>
@@ -44,7 +42,7 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1272; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=7iG+7YHkjXyb8dJ/SKwln8ra7wbimjCSB/o9LaESEkQ=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlLvJERJ72oT7SW8wEwuuhuHcE3wi8xb8q9D/ee QOxBJIyzvCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZS7yRAAKCRCPgPtYfRL+ TtNsB/9+pKqFO/XZfoq5tUTRiQ1TFiQZ/sqwT5ehdbyhQ/MhejSVDwtIbUm7sb7qPYwc9b5yUMW KAdfFml7DB93X8KSdafB9mEwOz6mrD4dz/hcjrg4Ay7zv801n9fCk/ixDfnbDQSC67UUOfsLL7D bVKvznCDgysFI1PCS59syr+9ENlevrs3bV0D2e2efcQutaZeZr0IL4fnf9KTG4M2R3Jh36N4IT9 FjoTQuV7v35VW9V7JGgyyozCIayu3vuPFyIvsyp5ZnMqYldmpjZDliVtFop5J+eJ4nZb7YCyHmj yo7dl3n2N0Hp+zS+mJII9WsjY6HNB8yhfgn/o4t/Tj0ir+94
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1261; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=nA2k8+j8+D4z5GBlUssDGp0rfWBJ2q7zdJlKJ35Bjnk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlLvJBlm7SGIyK6eD8l5OC3JZ1txsePVhZfCzsr fcuCfjxwPiJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZS7yQQAKCRCPgPtYfRL+ TmEPB/0XAwdwe67usH5WOer+xfpx2lF6TLwn88Vp0LUlSucitf1fIQQXToDJ5tMifGcZCKMhxHb 7mG9IHvbUSKw8z/0mODB0upgxekVibWvIQngqPRYo3zuyEejp9zG+y9qIFJYghmV31dVGAhNMCq hFUH+ZT6Xc7FkemxO9kew1rs1xobKVt2VnJSypehql64+fQYem3C3cLZx5V9nbHfR43FPaNqsHt Z2Rm49pcBqonS1w0XYL78FswLSkY60zzCWTVWn1Bkgw73mtgfsbNW1dTeiGrlEetXMd3QZWUHHP FlxbgnOezHHpVYfR9/0BsSefw1N+uxZl++6P7Dqe0nnQTGwW
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -67,26 +65,28 @@ module_platform_driver_probe().
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/usb/gadget/udc/m66592-udc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/usb/gadget/udc/fusb300_udc.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/m66592-udc.c b/drivers/usb/gadget/udc/m66592-udc.c
-index e05f45a4b56b..bfaa5291e6c8 100644
---- a/drivers/usb/gadget/udc/m66592-udc.c
-+++ b/drivers/usb/gadget/udc/m66592-udc.c
-@@ -1687,10 +1687,11 @@ static int m66592_probe(struct platform_device *pdev)
+diff --git a/drivers/usb/gadget/udc/fusb300_udc.c b/drivers/usb/gadget/udc/fusb300_udc.c
+index bd03d475f927..873265634ccc 100644
+--- a/drivers/usb/gadget/udc/fusb300_udc.c
++++ b/drivers/usb/gadget/udc/fusb300_udc.c
+@@ -1506,10 +1506,11 @@ static int fusb300_probe(struct platform_device *pdev)
+ }
  
- /*-------------------------------------------------------------------------*/
- static struct platform_driver m66592_driver = {
-+	.probe =	m66592_probe,
- 	.remove_new =	m66592_remove,
- 	.driver		= {
+ static struct platform_driver fusb300_driver = {
+-	.remove_new =	fusb300_remove,
+-	.driver		= {
++	.probe = fusb300_probe,
++	.remove_new = fusb300_remove,
++	.driver = {
  		.name =	udc_name,
  	},
  };
  
--module_platform_driver_probe(m66592_driver, m66592_probe);
-+module_platform_driver(m66592_driver);
+-module_platform_driver_probe(fusb300_driver, fusb300_probe);
++module_platform_driver(fusb300_driver);
 -- 
 2.42.0
 
