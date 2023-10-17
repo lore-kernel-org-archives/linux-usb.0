@@ -1,37 +1,37 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C858335B2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794FD335AC;
 	Tue, 17 Oct 2023 20:01:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="kjEmS+nf"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RDIB8WBm"
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 051D8125;
-	Tue, 17 Oct 2023 13:01:51 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39HJUktf001428;
-	Tue, 17 Oct 2023 20:01:32 GMT
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C343118;
+	Tue, 17 Oct 2023 13:01:50 -0700 (PDT)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39HIxnRr024165;
+	Tue, 17 Oct 2023 20:01:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=LBxkFDyqOnh2+G6P+KTcb0gzdJn618PndBANwN/CVtk=;
- b=kjEmS+nf3+i/3Z4dgz87pbughqaJW2oWoEqNwfnknvGku2QyFhGjoiy0BilK4QRTW1LY
- 7wEltMmxPLLhnkoc6t+CFnwnjqs3b0V+M32oKPLcH07nNGBYjbb9fQq4Ww7hscL3EWgz
- jBJfC9ZhnFavlzW8IgXkrKhGh/iMaR7Z7ygK1Qk3si8jHcOJ7/74f/TBZDPd7InXnD+8
- wwZ0eefdLKo9aSGLLXwYnJ5bHC1i99mHBFA2QzQKZpyb5MFHHMvScPS+ocTISFSoL2+Q
- go55MODrzoktrEhgyX7EYIehbuo8PJdx/6uhTDh5aypqg0EvMcbWRj31olS3UigHu1Wa CA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tsr7c1bbf-1
+ bh=3j13j2rrZ3UV04oDLmrFUBVsxR/5a8SvVCUFaK/h1NM=;
+ b=RDIB8WBmMG7wqFo7oyDdo25jr0EBHnEZt9zDkx08wnVOalDgm7ldTAr3N0plmgg3jQCO
+ PiGn5g75gB0u5L+6IbslndNcLF/EKi03ISHpt39gR++VcbnHX5X1YkLhaMg4T5zM7Fg8
+ +l0JkMg/q5/HFbu7oC23p6qGQWcvTAKXU9uv17HCyLhBzOeCa0ATqfy4HWkR+Zd2jQm9
+ EP5DuqKqgh9AntP1HCI43fnlm/sGIur7GLDzTXOJWYQcWa3ALz0PExGO4xol+QA+lMg8
+ uanyecTzvDxAOrfUdWnqMdC+JgOtkA5W9xpO6sGYHa7QzaaD2ckYb+Zw+GFA2JSqN95G Ug== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tsb7xjxtc-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Oct 2023 20:01:31 +0000
+	Tue, 17 Oct 2023 20:01:25 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39HK1Sd0027396
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39HK1O0s018688
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Oct 2023 20:01:28 GMT
+	Tue, 17 Oct 2023 20:01:24 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Tue, 17 Oct 2023 13:01:28 -0700
+ 15.2.1118.39; Tue, 17 Oct 2023 13:01:23 -0700
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <mathias.nyman@intel.com>, <gregkh@linuxfoundation.org>,
         <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
@@ -43,9 +43,9 @@ To: <mathias.nyman@intel.com>, <gregkh@linuxfoundation.org>,
 CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
         <devicetree@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v9 30/34] ASoC: qcom: qdsp6: Add SND kcontrol for fetching offload status
-Date: Tue, 17 Oct 2023 13:01:05 -0700
-Message-ID: <20231017200109.11407-31-quic_wcheng@quicinc.com>
+Subject: [PATCH v9 16/34] usb: dwc3: Specify maximum number of XHCI interrupters
+Date: Tue, 17 Oct 2023 13:00:51 -0700
+Message-ID: <20231017200109.11407-17-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20231017200109.11407-1-quic_wcheng@quicinc.com>
 References: <20231017200109.11407-1-quic_wcheng@quicinc.com>
@@ -61,15 +61,15 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: dJZu6458L5rLdfwNOhwEV5QVgq_lg4uL
-X-Proofpoint-GUID: dJZu6458L5rLdfwNOhwEV5QVgq_lg4uL
+X-Proofpoint-ORIG-GUID: 3AL2LhVB9mPQvjeWvbFAiNnXc2CobzXM
+X-Proofpoint-GUID: 3AL2LhVB9mPQvjeWvbFAiNnXc2CobzXM
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-10-17_03,2023-10-17_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- lowpriorityscore=0 spamscore=0 clxscore=1015 bulkscore=0 adultscore=0
- impostorscore=0 mlxscore=0 priorityscore=1501 mlxlogscore=999
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ mlxlogscore=715 suspectscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
+ mlxscore=0 phishscore=0 malwarescore=0 impostorscore=0 clxscore=1015
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2309180000 definitions=main-2310170170
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
@@ -77,186 +77,103 @@ X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Add a kcontrol to the platform sound card to fetch the current offload
-status.  This can allow for userspace to ensure/check which USB SND
-resources are actually busy versus having to attempt opening the USB SND
-devices, which will result in an error if offloading is active.
+Allow for the DWC3 host driver to pass along XHCI property that defines
+how many interrupters to allocate.  This is in relation for the number of
+event rings that can be potentially used by other processors within the
+system.
 
+Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/soc/qcom/qdsp6/q6usb.c | 104 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 101 insertions(+), 3 deletions(-)
+ drivers/usb/dwc3/core.c | 12 ++++++++++++
+ drivers/usb/dwc3/core.h |  2 ++
+ drivers/usb/dwc3/host.c |  5 ++++-
+ 3 files changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
-index a95276b7d91d..d2f60ce66cf3 100644
---- a/sound/soc/qcom/qdsp6/q6usb.c
-+++ b/sound/soc/qcom/qdsp6/q6usb.c
-@@ -30,6 +30,8 @@ struct q6usb_status {
- 	unsigned int num_pcm;
- 	unsigned int chip_index;
- 	unsigned int pcm_index;
-+	bool prepared;
-+	bool running;
- };
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index d25490965b27..0fa986fd34ca 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1496,6 +1496,7 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	u8			tx_thr_num_pkt_prd = 0;
+ 	u8			tx_max_burst_prd = 0;
+ 	u8			tx_fifo_resize_max_num;
++	u16			num_hc_interrupters;
+ 	const char		*usb_psy_name;
+ 	int			ret;
  
- struct q6usb_port_data {
-@@ -52,6 +54,17 @@ static const struct snd_soc_dapm_route q6usb_dapm_routes[] = {
- 	{"USB Playback", NULL, "USB_RX_BE"},
- };
+@@ -1518,6 +1519,9 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	 */
+ 	tx_fifo_resize_max_num = 6;
  
-+static int q6usb_find_running(struct q6usb_port_data *data)
-+{
-+	int i;
++	/* default to a single XHCI interrupter */
++	num_hc_interrupters = 1;
 +
-+	for (i = 0; i < SNDRV_CARDS; i++) {
-+		if (data->status[i].running)
-+			return i;
-+	}
-+	return -ENODEV;
-+}
+ 	dwc->maximum_speed = usb_get_maximum_speed(dev);
+ 	dwc->max_ssp_rate = usb_get_maximum_ssp_rate(dev);
+ 	dwc->dr_mode = usb_get_dr_mode(dev);
+@@ -1569,6 +1573,12 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 				&tx_thr_num_pkt_prd);
+ 	device_property_read_u8(dev, "snps,tx-max-burst-prd",
+ 				&tx_max_burst_prd);
++	device_property_read_u16(dev, "num-hc-interrupters",
++				&num_hc_interrupters);
++	/* DWC3 core allowed to have a max of 8 interrupters */
++	if (num_hc_interrupters > 8)
++		num_hc_interrupters = 8;
 +
- static int q6usb_hw_params(struct snd_pcm_substream *substream,
- 			   struct snd_pcm_hw_params *params,
- 			   struct snd_soc_dai *dai)
-@@ -81,14 +94,40 @@ static int q6usb_hw_params(struct snd_pcm_substream *substream,
- 		goto out;
+ 	dwc->do_fifo_resize = device_property_read_bool(dev,
+ 							"tx-fifo-resize");
+ 	if (dwc->do_fifo_resize)
+@@ -1657,6 +1667,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	dwc->imod_interval = 0;
  
- 	data->status[data->sel_card_idx].pcm_index = data->sel_pcm_idx;
-+	data->status[data->sel_card_idx].prepared = true;
- out:
- 	mutex_unlock(&data->mutex);
- 
- 	return ret;
+ 	dwc->tx_fifo_resize_max_num = tx_fifo_resize_max_num;
++
++	dwc->num_hc_interrupters = num_hc_interrupters;
  }
  
-+static int q6usb_prepare(struct snd_pcm_substream *substream,
-+		struct snd_soc_dai *dai)
-+{
-+	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
-+
-+	mutex_lock(&data->mutex);
-+	data->status[data->sel_card_idx].running = true;
-+	mutex_unlock(&data->mutex);
-+
-+	return 0;
-+}
-+
-+static void q6usb_shutdown(struct snd_pcm_substream *substream,
-+				struct snd_soc_dai *dai)
-+{
-+	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
-+
-+	mutex_lock(&data->mutex);
-+	data->status[data->sel_card_idx].running = false;
-+	data->status[data->sel_card_idx].prepared = false;
-+	mutex_unlock(&data->mutex);
-+}
-+
- static const struct snd_soc_dai_ops q6usb_ops = {
- 	.hw_params = q6usb_hw_params,
-+	.prepare = q6usb_prepare,
-+	.shutdown = q6usb_shutdown,
- };
+ /* check whether the core supports IMOD */
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index c6c87acbd376..2ce5e1e59380 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1060,6 +1060,7 @@ struct dwc3_scratchpad_array {
+  * @tx_max_burst_prd: max periodic ESS transmit burst size
+  * @tx_fifo_resize_max_num: max number of fifos allocated during txfifo resize
+  * @clear_stall_protocol: endpoint number that requires a delayed status phase
++ * @num_hc_interrupters: number of host controller interrupters
+  * @hsphy_interface: "utmi" or "ulpi"
+  * @connected: true when we're connected to a host, false otherwise
+  * @softconnect: true when gadget connect is called, false when disconnect runs
+@@ -1294,6 +1295,7 @@ struct dwc3 {
+ 	u8			tx_max_burst_prd;
+ 	u8			tx_fifo_resize_max_num;
+ 	u8			clear_stall_protocol;
++	u16			num_hc_interrupters;
  
- static struct snd_soc_dai_driver q6usb_be_dais[] = {
-@@ -148,10 +187,15 @@ static int q6usb_put_offload_dev(struct snd_kcontrol *kcontrol,
- 	int pcmidx;
- 	int cardidx;
+ 	const char		*hsphy_interface;
  
-+	mutex_lock(&data->mutex);
-+
-+	/* Don't allow changes to the offloading devices if session is busy */
-+	if (data->sel_card_idx >= 0 && data->status[data->sel_card_idx].prepared)
-+		goto out;
-+
- 	cardidx = ucontrol->value.integer.value[0];
- 	pcmidx = ucontrol->value.integer.value[1];
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index 61f57fe5bb78..79ce359c342a 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -61,7 +61,7 @@ static int dwc3_host_get_irq(struct dwc3 *dwc)
  
--	mutex_lock(&data->mutex);
- 	if ((cardidx >= 0 && test_bit(cardidx, &data->available_card_slot))) {
- 		data->sel_card_idx = cardidx;
- 		changed = 1;
-@@ -162,6 +206,8 @@ static int q6usb_put_offload_dev(struct snd_kcontrol *kcontrol,
- 		data->idx_valid = true;
- 		changed = 1;
- 	}
-+
-+out:
- 	mutex_unlock(&data->mutex);
- 
- 	return changed;
-@@ -187,11 +233,59 @@ static const struct snd_kcontrol_new q6usb_offload_dev_ctrl = {
- 	.put = q6usb_put_offload_dev,
- };
- 
-+static int q6usb_mixer_get_offload_status(struct snd_kcontrol *kcontrol,
-+				   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct q6usb_port_data *data = dev_get_drvdata(component->dev);
-+	int running;
-+	int card_idx;
-+	int pcm_idx;
-+
-+	running = q6usb_find_running(data);
-+	if (running < 0) {
-+		card_idx = -1;
-+		pcm_idx = -1;
-+	} else {
-+		card_idx = running;
-+		pcm_idx = data->status[running].pcm_index;
-+	}
-+
-+	ucontrol->value.integer.value[0] = card_idx;
-+	ucontrol->value.integer.value[1] = pcm_idx;
-+	return 0;
-+}
-+
-+static int q6usb_offload_ctl_info(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 2;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = SNDRV_CARDS;
-+
-+	return 0;
-+}
-+
-+static const struct snd_kcontrol_new q6usb_offload_control = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
-+	.access = SNDRV_CTL_ELEM_ACCESS_READ,
-+	.name = "Q6USB offload status",
-+	.info = q6usb_offload_ctl_info,
-+	.get = q6usb_mixer_get_offload_status,
-+	.put = NULL,
-+};
-+
- /* Build a mixer control for a UAC connector control (jack-detect) */
- static void q6usb_connector_control_init(struct snd_soc_component *component)
+ int dwc3_host_init(struct dwc3 *dwc)
  {
- 	int ret;
+-	struct property_entry	props[4];
++	struct property_entry	props[5];
+ 	struct platform_device	*xhci;
+ 	int			ret, irq;
+ 	int			prop_idx = 0;
+@@ -107,6 +107,9 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 	if (DWC3_VER_IS_WITHIN(DWC3, ANY, 300A))
+ 		props[prop_idx++] = PROPERTY_ENTRY_BOOL("quirk-broken-port-ped");
  
-+	ret = snd_ctl_add(component->card->snd_card,
-+				snd_ctl_new1(&q6usb_offload_control, component));
-+	if (ret < 0)
-+		return;
++	props[prop_idx++] = PROPERTY_ENTRY_U16("num-hc-interrupters",
++						dwc->num_hc_interrupters);
 +
- 	ret = snd_ctl_add(component->card->snd_card,
- 				snd_ctl_new1(&q6usb_offload_dev_ctrl, component));
- 	if (ret < 0)
-@@ -229,8 +323,12 @@ static int q6usb_alsa_connection_cb(struct snd_soc_usb *usb,
- 
- 	mutex_lock(&data->mutex);
- 	if (connected) {
--		/* We only track the latest USB headset plugged in */
--		if (!data->idx_valid || data->sel_card_idx < 0)
-+		/*
-+		 * Update the latest USB headset plugged in, if session is
-+		 * idle.
-+		 */
-+		if ((!data->idx_valid || data->sel_card_idx < 0) &&
-+			!data->status[data->sel_card_idx].prepared)
- 			data->sel_card_idx = sdev->card_idx;
- 
- 		set_bit(sdev->card_idx, &data->available_card_slot);
+ 	if (prop_idx) {
+ 		ret = device_create_managed_software_node(&xhci->dev, props, NULL);
+ 		if (ret) {
