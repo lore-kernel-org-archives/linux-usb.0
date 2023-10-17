@@ -1,98 +1,123 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3512B3B2B1
-	for <linux-usb@vger.kernel.org>; Tue, 17 Oct 2023 16:14:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11A847340;
+	Tue, 17 Oct 2023 16:14:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jDPFaQj8"
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 747B1F1
-	for <linux-usb@vger.kernel.org>; Tue, 17 Oct 2023 09:14:10 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-407da05f05aso6107015e9.3
-        for <linux-usb@vger.kernel.org>; Tue, 17 Oct 2023 09:14:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697559249; x=1698164049; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AKmQY7BLgBndXsxrNKxMvIo95aL00rRTN4PkHuTiB8Q=;
-        b=jDPFaQj81Cg+o3/JqhA2Fjvipk6Qi9gIAUB0qDnPFsNldAL/h4vp7C6B02d98kO+2p
-         Xcnom30EmF9EGdCWVk3op4GX1E712IOfSXLgFGKNBpAL+YPC/j3wsVImHWGOI3H+hOB7
-         eadExD/JejqnECMLUE6RWnfihC5KLVbiAcwI+g4H1LbrSt8ZbVvQECQwPrVyBEeWzv60
-         mRV0+5xSkHiBKt5orZZbu+spPWXlfE/XskZp96DWpTYwL1pKjoClS9Qhexv6SR8qXWYb
-         jeVPThbzCTcSpuQReUHkFebutfMF2HUbcuagqryP32fvFNw06KnwrLEQ3sOuIfuSScPd
-         BfBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697559249; x=1698164049;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AKmQY7BLgBndXsxrNKxMvIo95aL00rRTN4PkHuTiB8Q=;
-        b=pGGouCFdh5QmLa6XeGUzTNs7NA0vl/PR/BZV6vRQ4GZsJVbLIGd/a3OIgytX+BQLp4
-         3m4PQ4Zsq+CpYvi7CBBum7dM3IjVkRG7gVt2z/YE016ZuQsnYDnKi+eGC+X/MxP9B5vS
-         p8k59Q26SOmYeXN/5VPqY1UKf+/WKrservYAyqnlt/cRcnC2e07diq0EX6bUBV3ko2+p
-         P17k6MhH7P5grNCig59hKhSX+5MSLbZ8appLAZU88tb8FnrJiOzmg09iyAChlXbEnpwv
-         j0HSZxGY9/D3bCxpvQo/dtHHIHxy5OblyZ1ENSa5PBbUxnJ1LAl0b3/OOzWUOfxWCcdJ
-         MoNA==
-X-Gm-Message-State: AOJu0Yz+QPnYtzoLnoERMdH6VROh1TRnJLxF91pt7ZxPE4lARAHR/Nhh
-	/42bCZ9mD5+BgRKy52+9dtW0AA==
-X-Google-Smtp-Source: AGHT+IHwbJv6j6ptrNMYA09wWv9S10K/f+EjOxDnfiiQo8bvQ8vYVhH6fnAwUJNi9K2IWSbOMWqomA==
-X-Received: by 2002:a05:600c:6021:b0:407:536d:47ae with SMTP id az33-20020a05600c602100b00407536d47aemr2085070wmb.38.1697559248879;
-        Tue, 17 Oct 2023 09:14:08 -0700 (PDT)
-Received: from [172.30.204.57] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id q28-20020adfab1c000000b003248a490e3asm101189wrc.39.2023.10.17.09.14.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Oct 2023 09:14:08 -0700 (PDT)
-Message-ID: <013b76ea-82d1-4bb2-9842-b47cc4ccfc55@linaro.org>
-Date: Tue, 17 Oct 2023 18:14:05 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qx23junq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89D25C433CA;
+	Tue, 17 Oct 2023 16:14:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697559254;
+	bh=Ye90HBHDZzB2aDp/S5UGI++JNCzZ7q1PX2LEgBDO3FA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qx23junqDkaU3YjKyYdbbhUyl6RLIT071nSnCTOJMkBDZHvV4szsntrGDj3OEDqEj
+	 S897OKmOGZfSvjmRBVYtCU5LPOFJtMX6OJ82xXXEgA9Go4HgUsrSH/WNRLxFm58O8f
+	 ZUGjc4jgUhf1hAAv7P4kejGqwOn95zb7UDdwHe5jGFc/VkkSJxel6Mw98eYqq+Rcc4
+	 tBK+OWo+yQhKO7JIk3NlSwDXApMJ1XBfqcDzzy/hOuQFWXCMLlVaVtnCNqYoT9Pa/g
+	 YzIH4zPCVPoff2t6r9ayWW3UQfdZm/HSJfCmPpvxm89cLOBoVT8Iku16qe2NZVa9L9
+	 7FyQzoGAsPMNA==
+From: Jisheng Zhang <jszhang@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Anand Moon <linux.amoon@gmail.com>
+Cc: linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: usb: vialab,vl817: remove reset-gpios from required list
+Date: Wed, 18 Oct 2023 00:01:58 +0800
+Message-Id: <20231017160158.1065-1-jszhang@kernel.org>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/12] usb: dwc3: Override end of dwc3 memory resource
-Content-Language: en-US
-To: Bjorn Andersson <quic_bjorande@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Felipe Balbi <balbi@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Johan Hovold <johan@kernel.org>,
- Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-References: <20231016-dwc3-refactor-v1-0-ab4a84165470@quicinc.com>
- <20231016-dwc3-refactor-v1-5-ab4a84165470@quicinc.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20231016-dwc3-refactor-v1-5-ab4a84165470@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.6
-X-Spam-Level: *
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
+Content-Transfer-Encoding: 8bit
 
+The "reset-gpios" is optional in real case, for example reset pin is
+is hard wired to "high". And this fact is also reflected by the
+devm_gpio_get_optional() calling in driver code.
 
+Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+---
+ .../bindings/usb/thead,th1520-usb.yaml        | 42 ++++++++++---------
+ .../devicetree/bindings/usb/vialab,vl817.yaml |  1 -
+ 2 files changed, 23 insertions(+), 20 deletions(-)
 
-On 10/17/23 05:11, Bjorn Andersson wrote:
-> In the case that the dwc3 core driver is instantiated from the same
-> memory resource information as the glue driver, the dwc_res memory
-> region will overlap with the memory region already mapped by the glue.
-> 
-> As the DWC3 core driver already does math on the passed memory region to
-> exclude the XHCI region, also adjust the end address, to avoid having to
-> pass an adjusted region from the glue explicitly.
-> 
-> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> ---
-Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+diff --git a/Documentation/devicetree/bindings/usb/thead,th1520-usb.yaml b/Documentation/devicetree/bindings/usb/thead,th1520-usb.yaml
+index afb618eb5013..ce1cab75f0ff 100644
+--- a/Documentation/devicetree/bindings/usb/thead,th1520-usb.yaml
++++ b/Documentation/devicetree/bindings/usb/thead,th1520-usb.yaml
+@@ -28,6 +28,10 @@ properties:
+ 
+   ranges: true
+ 
++  thead,misc-syscon:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: a phandle to the misc system register controller syscon node.
++
+   '#address-cells':
+     enum: [ 1, 2 ]
+ 
+@@ -51,23 +55,23 @@ additionalProperties: false
+ 
+ examples:
+   - |
+-
+-    usb {
+-          compatible = "thead,th1520-usb";
+-          reg = <0xec03f000 0x1000>;
+-          clocks = <&clk 1>,
+-                   <&clk 2>,
+-                   <&clk 3>,
+-                   <&clk 4>;
+-          clock-names = "ref", "bus_early", "phy", "suspend";
+-          ranges;
+-          #address-cells = <1>;
+-          #size-cells = <1>;
+-
+-          usb@e7040000 {
+-                compatible = "snps,dwc3";
+-                reg = <0xe7040000 0x10000>;
+-                interrupts = <68>;
+-                dr_mode = "host";
+-          };
++    usb@ec03f000 {
++        compatible = "thead,th1520-usb";
++        reg = <0xec03f000 0x1000>;
++        thead,misc-syscon = <&misc_syscon>;
++        clocks = <&clk 1>,
++                 <&clk 2>,
++                 <&clk 3>,
++                 <&clk 4>;
++        clock-names = "ref", "bus_early", "phy", "suspend";
++        ranges;
++        #address-cells = <1>;
++        #size-cells = <1>;
++
++        usb@e7040000 {
++            compatible = "snps,dwc3";
++            reg = <0xe7040000 0x10000>;
++            interrupts = <68>;
++            dr_mode = "host";
++        };
+     };
+diff --git a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+index 76db9071b352..c815010ba9c2 100644
+--- a/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
++++ b/Documentation/devicetree/bindings/usb/vialab,vl817.yaml
+@@ -37,7 +37,6 @@ properties:
+ required:
+   - compatible
+   - reg
+-  - reset-gpios
+   - vdd-supply
+   - peer-hub
+ 
+-- 
+2.40.1
 
-Konrad
