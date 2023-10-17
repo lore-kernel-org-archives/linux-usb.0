@@ -1,180 +1,265 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB54928E13;
-	Mon,  6 Nov 2023 16:59:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB0629420
+	for <linux-usb@vger.kernel.org>; Mon,  6 Nov 2023 17:39:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Kd2m+dcb"
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2044.outbound.protection.outlook.com [40.107.244.44])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67AAA1BC;
-	Mon,  6 Nov 2023 08:59:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="PEoxXRZV";
+	dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="VI+zli8P"
+Received: from mx0a-0014ca01.pphosted.com (mx0a-0014ca01.pphosted.com [208.84.65.235])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE39B7;
+	Mon,  6 Nov 2023 09:38:58 -0800 (PST)
+Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
+	by mx0a-0014ca01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3A6DZqkf010888;
+	Mon, 6 Nov 2023 09:38:57 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=proofpoint; bh=bM3emn
+	e8aZofXYNPRzpzPf1uwjrMSPbJCRQrESdcHNo=; b=PEoxXRZVqf6gWYePtkiig8
+	N59tm8/92zDJxb9PFnHup6SzZVvxwxg2gL2KD33PuGz4STzUF1y4ONFo8ZtHjTpV
+	AGSbnJhMnDGiiulu0mK0fqZx958hOormVDGYrfeQlWuprKifhGu8dVjb5EL3KXUp
+	Sr0+8S35vJcTZx0nV3uVC6CbfUwF+m7BEheHqZAbT8q/6qcrQ5rOWW1E6pnd4hdz
+	shOOTgwFwYou6pL9oij80/nQLrTHz4odTIVPgmmzF+1M+HngdD0jIGvPd2JGifFq
+	nJxGfHlO/1/ttEGkngsjawvs2po00nJ2O+1oUfHP0M9D74svktvK+aq0zjrNHZmA
+	==
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+	by mx0a-0014ca01.pphosted.com (PPS) with ESMTPS id 3u5jgsewuk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Nov 2023 09:38:56 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OhTyLHssfhKx5JSglgv6018yRunxO8nlSFl87F66CtEpaV6nQG9sjerfFT7qLsd8WfN6Z+ghLPYlK8hOf0sZatG5aYMb3zWQWhczD3FR9XM8qCXHBwbQ+Ck/sXGnZqAhFYT0ZvQuVPQoBZ2bK/MiQfZPK6HFkpW06hZ86FbUXzzuSJ5+R/1ncrUSGqqCguLB+ES3lYMGLSbujxqCtQ6KNXxlSM6+3h1Vg92D/lyeO989aKF3SGzBRqZIxcMj1IGz2xB/F+eEPDv5H/lbqh44/rMCvHw6CFKU/WZxC7TgZq17J47uuw8ZO+JUwJ33vGOgm+Birca0EcWskEMcoP6YOg==
+ b=mF5RRuGXkcNN7xXiV/Sx+r63q6ke2TNZpNF6J6gXYyQmx72cPz1a3EIxq7WxL8i7XVwZCWeZcsD7DymSc1lMFBjkiib+ly0ClKMdMAJRIHCx5s9iN+IRKMaggDN7Ibw9WS6M2X5joEhvdZ2f+hfTENizWfALilCTlqxIH8Wr/ODGuvtpfcHtMqUjoNWNimiIU5JDSiPQe3MhK7vOAK/H1VgVvijGwxScaGDswavm/+isF/YLnTfIMnL4QyFEwbolHXPKwFMu3r5NqVFP6oq6SVNDW/58bUlTYakYdTMG6029TFbzv5qhOZYlvQCU9i/VYzhvqZVkAy51V9FE73cSag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uFO9DUFf8Xo9CLO/loZ4PgLcz6BCj+RthB9zzIvOQ08=;
- b=CBvUGoJH6ul9fF4iZ3901oF/2NEbvv0Rxsi4tlS++lDe0QLRv11Gh196E59NjmQ2Xkd8qpMDj+FSZvz7nSfkyHQcrPc0aiEqPDc9W0kMVST5JFSkta+vAiVeuc4T2ANx5lkhvHPUjRToK9sHiXyCy43XaoBDFqcG32xHlsN3KRFiv37Hn4bAQJG/NTy4KNsPq/n+FfbxCxImsvXcBaWSZH1RDqXYPTaoxe3pNsB94M8Jr7mtL5kLc7fEeKeXVs+sxkNrhyUmKRPUYqCsBq/UXrqXJm5lpCaaxI723dJIvtjGqoF8i7r0lPTa07jnpxnx7XwYolTAKvQiIuS1bsLpMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=bM3emne8aZofXYNPRzpzPf1uwjrMSPbJCRQrESdcHNo=;
+ b=EfN1yzc/McxjT/Tdj/+xo3DvUdWvD2JPdESkMqwbJXzQMw5B8N1au0/gjh16GexI5MPSzapTMKPhSARLZ6GpDljAlTDTWqAm6DfxfkjxIfpheAc2Vkp0RwqURmV1bm8h3ZSYI8Xk7b16ZwDMkPaZ2rgAwGZtYpxMjXLCHBkmIquZt1umwmzo7ZqQxc4hGETjlQY9/U1Iqw4XLRHqd1CSrd21f91U6N72ROxREymBUGbsYbx+ZNVCbCaX0YJP7eefsoL0V7QZ4Y/TcSlcYxvzwsxTsFTfcA+aZ4qM81nwbymo7CBE6Ji/H/o0Ld5YFLqgkmR2isyCwSkzeFd2QiZWXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
+ is 64.207.220.244) smtp.rcpttodomain=vger.kernel.org
+ smtp.mailfrom=cadence.com; dmarc=temperror action=none
+ header.from=cadence.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uFO9DUFf8Xo9CLO/loZ4PgLcz6BCj+RthB9zzIvOQ08=;
- b=Kd2m+dcb7hPaR3eSm9fvxDbye71O2P2OtyQoMvWB6BnTqpaoGw2t9St79mVu/tHZ4Gj4ZAQPItOA7P5Vd/OVE5VR9ezSSasPCOxRZisz3+FTMDwOtpRavqwJufuD+7LldJzRdfaJfbESu3MsAz9M1QCkiWW3bjRvDe/SA0bI9ok=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by PH7PR12MB5806.namprd12.prod.outlook.com (2603:10b6:510:1d2::10) with
+ bh=bM3emne8aZofXYNPRzpzPf1uwjrMSPbJCRQrESdcHNo=;
+ b=VI+zli8PSGBcqI33zaUWjxtQGiv/bKKFZWkfgGEcmalkyRQpDVUT0psC/gi7M0RqdoaYkoGRrQPKl+Dt+2M7Hwt04V/4cTcvqu5XfaTSnC9gBTwwCVkdRd/ljQFh7xLC0mSsR2OgX7VoPolw3EZSnS4GK229BlpgFSJif1nnGAM=
+Received: from BN9PR03CA0751.namprd03.prod.outlook.com (2603:10b6:408:13a::6)
+ by CH0PR07MB8346.namprd07.prod.outlook.com (2603:10b6:610:c3::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
- 2023 16:59:18 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::83d7:9c4f:4d9b:1f2a]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::83d7:9c4f:4d9b:1f2a%5]) with mapi id 15.20.6954.027; Mon, 6 Nov 2023
- 16:59:18 +0000
-Message-ID: <9b1a5e36-337b-4750-9dad-b54e28cde03a@amd.com>
-Date: Mon, 6 Nov 2023 10:59:13 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/9] PCI: Rename is_thunderbolt to is_tunneled
-Content-Language: en-US
-To: Lukas Wunner <lukas@wunner.de>
-Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Xinhui Pan <Xinhui.Pan@amd.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Mark Gross <markgross@kernel.org>,
- Andreas Noever <andreas.noever@gmail.com>,
- Michael Jamet <michael.jamet@intel.com>,
- Yehezkel Bernat <YehezkelShB@gmail.com>, =?UTF-8?Q?Pali_Roh=C3=A1r?=
- <pali@kernel.org>, =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
- "Maciej W . Rozycki" <macro@orcam.me.uk>,
- Manivannan Sadhasivam <mani@kernel.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:ACPI" <linux-acpi@vger.kernel.org>,
- "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
- "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>
-References: <20231103190758.82911-1-mario.limonciello@amd.com>
- <20231103190758.82911-7-mario.limonciello@amd.com>
- <20231105173946.GA31955@wunner.de>
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20231105173946.GA31955@wunner.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM6PR06CA0004.namprd06.prod.outlook.com
- (2603:10b6:5:120::17) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+ 2023 17:38:39 +0000
+Received: from BN8NAM12FT111.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:408:13a:cafe::2f) by BN9PR03CA0751.outlook.office365.com
+ (2603:10b6:408:13a::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28 via Frontend
+ Transport; Mon, 6 Nov 2023 17:38:38 +0000
+X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
+ 64.207.220.244) smtp.mailfrom=cadence.com; dkim=none (message not signed)
+ header.d=none;dmarc=temperror action=none header.from=cadence.com;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of cadence.com: DNS Timeout)
+Received: from wcmailrelayl01.cadence.com (64.207.220.244) by
+ BN8NAM12FT111.mail.protection.outlook.com (10.13.182.91) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6977.10 via Frontend Transport; Mon, 6 Nov 2023 17:38:37 +0000
+Received: from maileu5.global.cadence.com (eudvw-maileu5.cadence.com [10.160.110.202])
+	by wcmailrelayl01.cadence.com (8.14.7/8.14.4) with ESMTP id 3A6HcZ5q117610
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+	Mon, 6 Nov 2023 09:38:36 -0800
+Received: from maileu4.global.cadence.com (10.160.110.201) by
+ maileu5.global.cadence.com (10.160.110.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 6 Nov 2023 18:38:34 +0100
+Received: from eu-cn01.cadence.com (10.160.89.184) by
+ maileu4.global.cadence.com (10.160.110.201) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.7
+ via Frontend Transport; Mon, 6 Nov 2023 18:38:34 +0100
+Received: from eu-cn01.cadence.com (localhost.localdomain [127.0.0.1])
+	by eu-cn01.cadence.com (8.14.7/8.14.7) with ESMTP id 3A6HcOid400191;
+	Mon, 6 Nov 2023 18:38:29 +0100
+Received: (from pawell@localhost)
+	by eu-cn01.cadence.com (8.14.7/8.14.7/Submit) id 39H7eTUF353314;
+	Tue, 17 Oct 2023 09:40:29 +0200
+From: Pawel Laszczak <pawell@cadence.com>
+To: <gregkh@linuxfoundation.org>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <pawell@cadence.com>
+Subject: [PATCH] usb:cdnsp: remove TRB_FLUSH_ENDPOINT command
+Date: Tue, 17 Oct 2023 09:40:18 +0200
+Message-ID: <20231017074018.353205-1-pawell@cadence.com>
+X-Mailer: git-send-email 2.30.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-CrossPremisesHeadersFilteredBySendConnector: maileu5.global.cadence.com
+X-OrganizationHeadersPreserved: maileu5.global.cadence.com
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|PH7PR12MB5806:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97f51e6b-f870-4531-a580-08dbdee9b6d6
+X-MS-TrafficTypeDiagnostic: BN8NAM12FT111:EE_|CH0PR07MB8346:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72578b14-abe2-4148-f36f-08dbdeef352d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	HSCpNuaRHs+Qu6xyQBT0sgz9oh4LtSPSr6mxqQeLQGMZDzErGUnq1Vd7B/ejJzAvqAkfh+akERGpwjLophlrFEjsXBjriFLkx2FsFjKqHDFZKys+3qbRrCFjEn7NeWQokAIcCeeZJC8WKLU2RB5mFNheQoggq8T+w32Osx5MeOiDxvy4akBbZy8YCCsYFjbdgZNBTQ5CyRnOBkNFu/vZ8ohpBPvLz9GnKdcpqZXfmgComrP+xyzCeWYlVCyRcwrZN3v3ju3Z9KpvILJ3sgoP3R6hjK8DFa+BPavX7DihbKJNtsUQDIuCWIeEmSGP2+t0dElS1s23CU58UM4+VTzJ2VF9JUlhHgLgI5lmfX3wDGO1LElKhJnnPPh0ja7HmftMWV0+JpGXKLHjv37F4+gYudrRRhzBQUhSXdu4KvzDMwWiLdxzDzKR94psAfhAwTKN7ooNb4uDjHgL3VYQGXjZ0VF1lZxYYeaq09EfcNPBr7YOvqz1wR9WlmrKYfAwSLk4EsspWjvZV0KoGbNFwgy/M4RPuGOz+oB7itdiT3hoZayO0IP7AV0NK3FWisQh9gdiEUwD1sFzifUV5+7kTTIZhv/kYOdaQAZ9LtAV9hNTbjQ6Lmhg8KQ45eZ3hxE9r+MMQfsRPkuqclfxkjVzWrvnHg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(376002)(346002)(136003)(396003)(230922051799003)(1800799009)(64100799003)(451199024)(186009)(54906003)(41300700001)(66946007)(44832011)(4326008)(8676002)(8936002)(66556008)(66476007)(6486002)(478600001)(31686004)(5660300002)(6916009)(316002)(2906002)(7416002)(6512007)(6666004)(6506007)(2616005)(26005)(36756003)(53546011)(38100700002)(31696002)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NVo1WDJOVUtGS3h3cER2Z292U0RGbXFBMVoySHV0Mlp3bXBLR2dwWjlwM3I4?=
- =?utf-8?B?Y2lGblhTckRLZnRyM0ZSQzhaVkRtYW1MUzNNNkx6UkpVUVJSM1FaV3lQMkFF?=
- =?utf-8?B?UWQ4Qm01T1gxNGRoM1RkVUdQUStVZEsrYXorRmRvZDNqdGUzamxGQnRnTVg4?=
- =?utf-8?B?dFljT0FBcjJDM0hpR2xEU3VzZ2N0UG5MRCs5ajJMQ09DVTB4eHFIR2NiT0hn?=
- =?utf-8?B?VHgwTkRGN29KOFNCTTdRampmQk5VNU83SW84dzNtd2xiYjU4MFc2RytRY2x3?=
- =?utf-8?B?a3ZHYm1ORlBqN3dRQm4weERsSTgxK2VlQTVQZ253S1o0K1Yyay9JeWt5UkdH?=
- =?utf-8?B?N2lIZ2xSWEQzaDlKeGdjZlJ6S0hQdlQyb1cxbElhR3VuMXZkV0dxUWZrUnZM?=
- =?utf-8?B?YVdQT3NTV0VEeWw4TThwVUZtdjk5YzcyQlFpMXd6ck5USDZZTG9qUDZUY0dq?=
- =?utf-8?B?MUsvVlVhVDM1dGhLemJtMTAwMGtqN2FDRDAwd1BqODZ5eUlKcVZ2MzYrRmEz?=
- =?utf-8?B?WHlDcXFPQTNqVVNQTkZ2djJwc3puNDBhclpQZEtzZDJCVG45TmNwb0lnc0pi?=
- =?utf-8?B?dXBjYVEzTDRaVlBmN3VZZzMzZXpFQVNRRDMwZzVtdHNKY3JXY2tRc3pTT29w?=
- =?utf-8?B?a2Z1Qld6aXkxT3R2Y2tmQW5nNjRiTGxwdGhLU3N0ek5wZG9hOEUyT1ljWXZE?=
- =?utf-8?B?VFF5bjk3ZjFMd3ZCMnZhV0wvQWlOREFqaDFLN3RjS05abTNCNXFoZU9nOWdX?=
- =?utf-8?B?anByMGt6YXRxYWlBSGR0WHRRYmlCVHV1ckRrdFJ3SXpUWkQwbUhwcjFpLzg4?=
- =?utf-8?B?L2VxdndlemlMb0hZL0RBVndjWWtoenJYd1I2UjVYVHJ5OHU3VFBvQ3hPaElV?=
- =?utf-8?B?REZGRzI3NXZrVWM3M09UNkRmRFFrR0x1NmRhcnVUeldIOUtsN1JEUHg1ckZp?=
- =?utf-8?B?OTUwUlhiQlpXYVkwQVNJcVE2OFh0MXc2anlVclFzOEQ5aWJ4SDJybFlrOTJW?=
- =?utf-8?B?L0kweU16ZDZzcG5vSkVOUE12bS9jSUhJY1lnK2lxdHJlbDFMWVljWm9YSUNm?=
- =?utf-8?B?MFhtd0o5ai9VcUFOVngxbFlmaWtkTklWY1BXdGduaENYRkRkQm4zZFhINmlm?=
- =?utf-8?B?VDlYb3RtR1ZVemdSSm1OVnN2Vm1ycVR5NGFONm5uVlpJUmFaNTAvSWVTaTVq?=
- =?utf-8?B?OWcwWDA1cnpFMXBPcjhLWDhZNEpuUzJ2R0RuOVN0a2pLa2lDQVBaUVg5clc4?=
- =?utf-8?B?TDczR1RaZGNDTmtPSXh2OEdTelBKK2JZeGdSVC8xQUpPMitrdlJidFVWdDJv?=
- =?utf-8?B?T25FNndWUW0vbE5QRU5oRk5UdkxDWEh0ejEwMTl4Q1U3VkdBV3BUOXZWOTky?=
- =?utf-8?B?Q2IrZFFXV0QxbnZ2alpqV1YwWE9ZTjFpNVMwSGJ4YXlxZkZRT1hGci9tNmZN?=
- =?utf-8?B?RFF5MXZxTmN1TWU5a2RScTJEVE9la1VlZGJ2S0ptUEF1T1ZwNkdMR1FxVWZC?=
- =?utf-8?B?Vm5nYWJrcWdKYjhYMmtmME9nbTBhZ2V6K0xmaE1QSDRsZmhLWXI4WHRDZDlY?=
- =?utf-8?B?dDFNWmFVd2dKZTJQVnVaZmZ4VktxUXJFdXBQbURjNjFxY2g1OHQyWFdVYnF1?=
- =?utf-8?B?dVRKNk9XOEVaVDZDZmhNZUZWL0E4cjMxS3ZBNVFCNGxKTklUeWJsTlRvZXRx?=
- =?utf-8?B?d3g1TXRialRJdVNIS21QU0dTSFN0QWtWWFZQeXBSdHJQd1d3QnZTZVBXekJh?=
- =?utf-8?B?a1hUSWVDdE95TnJTVDFZRXRKNmMrMUhUZ3JHaHREL09nclpPbEJVSVQzdGdQ?=
- =?utf-8?B?dkw4a3BwTlhpWDNTRkhqME92L0hQSmJtNUtoVXRhM0F6WlpjdWowcmY5TzdI?=
- =?utf-8?B?Y0pRTDViWmV5NnlydVFhem1HL3ZHVWFLcUhtSkw1UU5sYnNXb0pJWm81SWQw?=
- =?utf-8?B?UmRwdGl5cHBqSW9yeUg0c0l4ZXEwRFlnRWZ5V252T0lIR2JGd1RhdUFLWUVK?=
- =?utf-8?B?L2lraUlrczV0eXVRV0JuNGFQZXV2d25uQUJEbFZOMEU5NTlEMlZBZGxaVitT?=
- =?utf-8?B?WVEwelg2djNXaW5CMGZKNjBNL081bHF3Yzh0R1FqdldsZGJXT3UwaU50enE3?=
- =?utf-8?Q?V9fHI8bLiebJdylVPqUglJ6hO?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97f51e6b-f870-4531-a580-08dbdee9b6d6
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 16:59:18.0995
+X-Microsoft-Antispam-Message-Info: 
+	0KNopJkgjLmCButftImxtZ67rODTFwK4WkZZNhTLN04z94d3wzk86MrwM2VLhA0Ds6Tswpqyh9xXiWec6dliR1/Tf/frbvx0xOKw/tbDegWJe4i+JV3lqps0qNeqY0lwz2miEIAtVyV3pl/eyvXKNT5mV46FrNBR+fck685TM7IdHlYYHvoLxwXRSawg0D2Gf8kbFUQ2JCZ5XVlQxd2WLmxnjg43uM46Yx2dSN1ozJm3Xm8HsZhrWcWV7JaZM0r633QhnEDbMVdChvvBbm2p8+ivoA/tUo6xsb4jy7oEKGsZuQijl8aVV58LVXaThPPuQ2Le14GV6ndyaufz1natAiHmAMqikxk7H1KJxmxSLEM0AFmIO1PUfXYmFLG36D/m/S1Scw8FWzMVHieL+LPDI+HLwyj/jzUexRAuXOYmkcywGHQVF47usXK3KcGeXcHeAW9c8pTXhdmLATYrv1hCAxbc7WtM077aK+xoPrBHCs8BvE9v5TSyVJ3saTfwbUnXmW+9NceC27IRvDEy1LJjOSi2oYiC4es07IL2PopsYSDhNVVkEtx11T7vQnHtviJQBK8W0HwDjRUO/t7z6wNPTQmwXUOv1HDfkcPgAUqH/CpTGQYomOAmSoj4RvjOVe8Z2ueivKBVxhI9HBv9CyPDQ18WDnkXa3lge7W0a/Z3T32oVae55HoFFWF3XGhD3kkUpA3aef6EjyeHUAEgwdUwWqWNTMKwuSndDg68fHHWuGRx+O5ReRDdQbA2/VixVEp1A+JR0lIP7qdCfnfIYJqpGQ==
+X-Forefront-Antispam-Report: 
+	CIP:64.207.220.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:wcmailrelayl01.cadence.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230031)(4636009)(346002)(39860400002)(396003)(136003)(376002)(230922051799003)(82310400011)(64100799003)(186009)(1800799009)(451199024)(46966006)(36840700001)(40470700004)(336012)(426003)(2616005)(81166007)(63370400001)(83380400001)(63350400001)(6666004)(107886003)(82740400003)(26005)(1076003)(40480700001)(478600001)(47076005)(356005)(36860700001)(70586007)(70206006)(8936002)(8676002)(316002)(6916009)(54906003)(42186006)(4326008)(5660300002)(86362001)(2906002)(41300700001)(36756003)(40460700003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: cadence.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 17:38:37.2404
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nmKEfuiiQxg97LxE1t/pGMHuA/Qfw/C0XLsYQR8X4IOI+/ZGRJYwrW8E6grWW6AU0a6qMHpVxmQ1b4DibyXBjw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5806
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72578b14-abe2-4148-f36f-08dbdeef352d
+X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[64.207.220.244];Helo=[wcmailrelayl01.cadence.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	BN8NAM12FT111.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR07MB8346
+X-Proofpoint-ORIG-GUID: wTw4LCvPf3uCrUo1ll_93drv2ETyr0_0
+X-Proofpoint-GUID: wTw4LCvPf3uCrUo1ll_93drv2ETyr0_0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-06_13,2023-11-02_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 phishscore=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 lowpriorityscore=0
+ bulkscore=0 mlxscore=0 spamscore=0 mlxlogscore=760 malwarescore=0
+ adultscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2310240000 definitions=main-2311060144
 
-On 11/5/2023 11:39, Lukas Wunner wrote:
-> On Fri, Nov 03, 2023 at 02:07:55PM -0500, Mario Limonciello wrote:
->> The `is_thunderbolt` bit has been used to indicate that a PCIe device
->> contained the Intel VSEC which is used by various parts of the kernel
->> to change behavior. To later allow usage with USB4 controllers as well,
->> rename this to `is_tunneled`.
-> 
-> This doesn't seem to make sense.  is_thunderbolt indicates that a device
-> is part of a Thunderbolt controller.  See the code comment:
-> 
->> -	unsigned int	is_thunderbolt:1;	/* Thunderbolt controller */
-> 
-> A Thunderbolt controller is not necessarily tunneled.  The PCIe switch,
-> NHI and XHCI of the Thunderbolt host controller are not tunneled at all.
-> 
-> Thanks,
-> 
-> Lukas
+Patch removes TRB_FLUSH_ENDPOINT command from driver.
+This command is not supported by controller and
+USBSSP returns TRB Error completion code for it.
 
-I could really use some clarification which PCIe devices actually 
-contain the Intel VSEC.
+Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+---
+ drivers/usb/cdns3/cdnsp-debug.h  |  3 ---
+ drivers/usb/cdns3/cdnsp-gadget.c |  6 +-----
+ drivers/usb/cdns3/cdnsp-gadget.h |  5 -----
+ drivers/usb/cdns3/cdnsp-ring.c   | 24 ------------------------
+ 4 files changed, 1 insertion(+), 37 deletions(-)
 
-Is it in all 3 of those PCIe devices and not just the switch?
-
-If so, I think I would rather introduce a separate bit.  So after this 
-series we would have:
-
-is_tunneled:1
-is_thunderbolt:1
-no_command_complete:1
-
-* TBT1 devices would set no_command_complete
-   - The consumer would be pcie_init()
-* All devices with the Intel VSEC would set is_thunderbolt and the two 
-consumers would be:
-  - apple-gmux.c
-  - pci_bridge_d3_possible()
-* USB4 devices and PCIe switches with the VSEC would set is_tunneled.
+diff --git a/drivers/usb/cdns3/cdnsp-debug.h b/drivers/usb/cdns3/cdnsp-debug.h
+index f0ca865cce2a..ad617b7455b9 100644
+--- a/drivers/usb/cdns3/cdnsp-debug.h
++++ b/drivers/usb/cdns3/cdnsp-debug.h
+@@ -131,8 +131,6 @@ static inline const char *cdnsp_trb_type_string(u8 type)
+ 		return "Endpoint Not ready";
+ 	case TRB_HALT_ENDPOINT:
+ 		return "Halt Endpoint";
+-	case TRB_FLUSH_ENDPOINT:
+-		return "FLush Endpoint";
+ 	default:
+ 		return "UNKNOWN";
+ 	}
+@@ -328,7 +326,6 @@ static inline const char *cdnsp_decode_trb(char *str, size_t size, u32 field0,
+ 		break;
+ 	case TRB_RESET_EP:
+ 	case TRB_HALT_ENDPOINT:
+-	case TRB_FLUSH_ENDPOINT:
+ 		ret = snprintf(str, size,
+ 			       "%s: ep%d%s(%d) ctx %08x%08x slot %ld flags %c",
+ 			       cdnsp_trb_type_string(type),
+diff --git a/drivers/usb/cdns3/cdnsp-gadget.c b/drivers/usb/cdns3/cdnsp-gadget.c
+index 4b67749edb99..4a3f0f958256 100644
+--- a/drivers/usb/cdns3/cdnsp-gadget.c
++++ b/drivers/usb/cdns3/cdnsp-gadget.c
+@@ -1024,10 +1024,8 @@ static int cdnsp_gadget_ep_disable(struct usb_ep *ep)
+ 	pep->ep_state |= EP_DIS_IN_RROGRESS;
+ 
+ 	/* Endpoint was unconfigured by Reset Device command. */
+-	if (!(pep->ep_state & EP_UNCONFIGURED)) {
++	if (!(pep->ep_state & EP_UNCONFIGURED))
+ 		cdnsp_cmd_stop_ep(pdev, pep);
+-		cdnsp_cmd_flush_ep(pdev, pep);
+-	}
+ 
+ 	/* Remove all queued USB requests. */
+ 	while (!list_empty(&pep->pending_list)) {
+@@ -1424,8 +1422,6 @@ static void cdnsp_stop(struct cdnsp_device *pdev)
+ {
+ 	u32 temp;
+ 
+-	cdnsp_cmd_flush_ep(pdev, &pdev->eps[0]);
+-
+ 	/* Remove internally queued request for ep0. */
+ 	if (!list_empty(&pdev->eps[0].pending_list)) {
+ 		struct cdnsp_request *req;
+diff --git a/drivers/usb/cdns3/cdnsp-gadget.h b/drivers/usb/cdns3/cdnsp-gadget.h
+index e1b5801fdddf..dbee6f085277 100644
+--- a/drivers/usb/cdns3/cdnsp-gadget.h
++++ b/drivers/usb/cdns3/cdnsp-gadget.h
+@@ -1128,8 +1128,6 @@ union cdnsp_trb {
+ #define TRB_HALT_ENDPOINT	54
+ /* Doorbell Overflow Event. */
+ #define TRB_DRB_OVERFLOW	57
+-/* Flush Endpoint Command. */
+-#define TRB_FLUSH_ENDPOINT	58
+ 
+ #define TRB_TYPE_LINK(x)	(((x) & TRB_TYPE_BITMASK) == TRB_TYPE(TRB_LINK))
+ #define TRB_TYPE_LINK_LE32(x)	(((x) & cpu_to_le32(TRB_TYPE_BITMASK)) == \
+@@ -1539,8 +1537,6 @@ void cdnsp_queue_configure_endpoint(struct cdnsp_device *pdev,
+ void cdnsp_queue_reset_ep(struct cdnsp_device *pdev, unsigned int ep_index);
+ void cdnsp_queue_halt_endpoint(struct cdnsp_device *pdev,
+ 			       unsigned int ep_index);
+-void cdnsp_queue_flush_endpoint(struct cdnsp_device *pdev,
+-				unsigned int ep_index);
+ void cdnsp_force_header_wakeup(struct cdnsp_device *pdev, int intf_num);
+ void cdnsp_queue_reset_device(struct cdnsp_device *pdev);
+ void cdnsp_queue_new_dequeue_state(struct cdnsp_device *pdev,
+@@ -1574,7 +1570,6 @@ void cdnsp_irq_reset(struct cdnsp_device *pdev);
+ int cdnsp_halt_endpoint(struct cdnsp_device *pdev,
+ 			struct cdnsp_ep *pep, int value);
+ int cdnsp_cmd_stop_ep(struct cdnsp_device *pdev, struct cdnsp_ep *pep);
+-int cdnsp_cmd_flush_ep(struct cdnsp_device *pdev, struct cdnsp_ep *pep);
+ void cdnsp_setup_analyze(struct cdnsp_device *pdev);
+ int cdnsp_status_stage(struct cdnsp_device *pdev);
+ int cdnsp_reset_device(struct cdnsp_device *pdev);
+diff --git a/drivers/usb/cdns3/cdnsp-ring.c b/drivers/usb/cdns3/cdnsp-ring.c
+index 07f6068342d4..af981778382d 100644
+--- a/drivers/usb/cdns3/cdnsp-ring.c
++++ b/drivers/usb/cdns3/cdnsp-ring.c
+@@ -2123,19 +2123,6 @@ int cdnsp_cmd_stop_ep(struct cdnsp_device *pdev, struct cdnsp_ep *pep)
+ 	return ret;
+ }
+ 
+-int cdnsp_cmd_flush_ep(struct cdnsp_device *pdev, struct cdnsp_ep *pep)
+-{
+-	int ret;
+-
+-	cdnsp_queue_flush_endpoint(pdev, pep->idx);
+-	cdnsp_ring_cmd_db(pdev);
+-	ret = cdnsp_wait_for_cmd_compl(pdev);
+-
+-	trace_cdnsp_handle_cmd_flush_ep(pep->out_ctx);
+-
+-	return ret;
+-}
+-
+ /*
+  * The transfer burst count field of the isochronous TRB defines the number of
+  * bursts that are required to move all packets in this TD. Only SuperSpeed
+@@ -2465,17 +2452,6 @@ void cdnsp_queue_halt_endpoint(struct cdnsp_device *pdev, unsigned int ep_index)
+ 			    EP_ID_FOR_TRB(ep_index));
+ }
+ 
+-/*
+- * Queue a flush endpoint request on the command ring.
+- */
+-void  cdnsp_queue_flush_endpoint(struct cdnsp_device *pdev,
+-				 unsigned int ep_index)
+-{
+-	cdnsp_queue_command(pdev, 0, 0, 0, TRB_TYPE(TRB_FLUSH_ENDPOINT) |
+-			    SLOT_ID_FOR_TRB(pdev->slot_id) |
+-			    EP_ID_FOR_TRB(ep_index));
+-}
+-
+ void cdnsp_force_header_wakeup(struct cdnsp_device *pdev, int intf_num)
+ {
+ 	u32 lo, mid;
+-- 
+2.25.1
 
