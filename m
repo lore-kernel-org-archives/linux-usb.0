@@ -1,147 +1,137 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7BB1DA2D;
-	Fri, 20 Oct 2023 15:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="f4aNpQIa"
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA31FD5D;
-	Fri, 20 Oct 2023 08:00:27 -0700 (PDT)
-Received: from jupiter.universe (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sre)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 64C32660737B;
-	Fri, 20 Oct 2023 16:00:26 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697814026;
-	bh=K+0lTyZ8qgIAV5y3w5nBjySn4RnIUfEpHKakMzY0RXw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=f4aNpQIay1c/DlzV39XL7teswYsy+XOUcc6z2UhE9Z5b9Mmh9Jcaahk5ZEY1Snm4R
-	 TF2F0t8cjWTU+QdC0g/fGt+UOp4yDhKsLds9ntXcqJjCvSD31qyiuokFEtIT0CIoxj
-	 CnHuFvYferPRoOLD8r6kuIEpl+QWX6jpgHAin9kALEvQkEYcS7xfQZ/J/iN49v301f
-	 sjabKyb+/fzyqAaMpKyzfM50Ihv51fes7Dgrd1ZrLqYLTXK+yJPB5J8upWLkaPYRwK
-	 QQTNh5UMVo53kvxJUzCq9x5GLudUr5uTX8vBfWwNe5Ea6CLkVuy5qqby9+D2Q4g+fX
-	 D7yJwz8RtA4CA==
-Received: by jupiter.universe (Postfix, from userid 1000)
-	id 087F2480104; Fri, 20 Oct 2023 17:00:24 +0200 (CEST)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Heiko Stuebner <heiko@sntech.de>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B951DA43
+	for <linux-usb@vger.kernel.org>; Fri, 20 Oct 2023 15:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DBDAD52
+	for <linux-usb@vger.kernel.org>; Fri, 20 Oct 2023 08:15:47 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qtrE1-0000gr-7N; Fri, 20 Oct 2023 17:15:45 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qtrDz-0033cB-Rt; Fri, 20 Oct 2023 17:15:43 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qtrDz-002aWP-Hr; Fri, 20 Oct 2023 17:15:43 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-rockchip@lists.infradead.org,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	kernel@collabora.com
-Subject: [PATCH v4 2/3] usb: dwc3: add optional PHY interface clocks
-Date: Fri, 20 Oct 2023 16:11:41 +0200
-Message-ID: <20231020150022.48725-3-sebastian.reichel@collabora.com>
+Cc: linux-usb@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	kernel@pengutronix.de
+Subject: [PATCH v3] usb: mtu3: Convert to platform remove callback returning void
+Date: Fri, 20 Oct 2023 17:15:38 +0200
+Message-ID: <20231020151537.2202675-2-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231020150022.48725-1-sebastian.reichel@collabora.com>
-References: <20231020150022.48725-1-sebastian.reichel@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3276; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=5te6rft8Xh5PpQ5BujZTLunAUrXlCOfxv6+ytIbWu1s=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlMpmavi4cw3Qhslrae61n6rVTXG6x9s3KACxnO hzTEfBb3TyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZTKZmgAKCRCPgPtYfRL+ TtGSCACF02KJb7auDo0h7N6WUMVosNAziZMu/RGTzB2lD48oG18EHIe8hC6/GAuDSo4w/vJnNY4 KbFLZudnARtOcfCG9DV7R0d6LwhBz+jxag4CkQknvRTSIoBn4eeRA2BF7evsTLgAGO6ol/OH/SU D5Z56+U3CP2SRd+SDybUgG98JY1mZzUNhjRPi/fWFOVHi+rneeW3C/01SKTfCHoaI68g3wiZU11 NF/2FjRw7uDHKQQNQa7fCgibq4NBXII4wvp4eVETqmzpUPPqCQ28Hhc/yddBCwcbHKC39OWVzuX MiO3QQ07y/tqZeuu+d7R9CHBFBuwAPc0nm4mgsuriEFKKUjl
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-On Rockchip RK3588 one of the DWC3 cores is integrated weirdly and
-requires two extra clocks to be enabled. Without these extra clocks
-hot-plugging USB devices is broken.
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+The function mtu3_remove() can only return a non-zero value if
+ssusb->dr_mode is neiter USB_DR_MODE_PERIPHERAL nor USB_DR_MODE_HOST nor
+USB_DR_MODE_OTG. In this case however the probe callback doesn't succeed
+and so the remove callback isn't called at all. So the code branch
+resulting in this error path could just be dropped were it not for the
+compiler choking on "enumeration value 'USB_DR_MODE_UNKNOWN' not handled
+in switch [-Werror=switch]". So instead replace this code path by a
+WARN_ON and then mtu3_remove() be converted to return void trivially.
+
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/usb/dwc3/core.c | 28 ++++++++++++++++++++++++++++
- drivers/usb/dwc3/core.h |  4 ++++
- 2 files changed, 32 insertions(+)
+Changes since v2 that sent with Message-Id:
+20230914200251.919584-1-u.kleine-koenig@pengutronix.de:
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 343d2570189f..639b768c3386 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -854,8 +854,20 @@ static int dwc3_clk_enable(struct dwc3 *dwc)
- 	if (ret)
- 		goto disable_ref_clk;
- 
-+	ret = clk_prepare_enable(dwc->utmi_clk);
-+	if (ret)
-+		goto disable_susp_clk;
-+
-+	ret = clk_prepare_enable(dwc->pipe_clk);
-+	if (ret)
-+		goto disable_utmi_clk;
-+
- 	return 0;
- 
-+disable_utmi_clk:
-+	clk_disable_unprepare(dwc->utmi_clk);
-+disable_susp_clk:
-+	clk_disable_unprepare(dwc->susp_clk);
- disable_ref_clk:
- 	clk_disable_unprepare(dwc->ref_clk);
- disable_bus_clk:
-@@ -865,6 +877,8 @@ static int dwc3_clk_enable(struct dwc3 *dwc)
- 
- static void dwc3_clk_disable(struct dwc3 *dwc)
- {
-+	clk_disable_unprepare(dwc->pipe_clk);
-+	clk_disable_unprepare(dwc->utmi_clk);
- 	clk_disable_unprepare(dwc->susp_clk);
- 	clk_disable_unprepare(dwc->ref_clk);
- 	clk_disable_unprepare(dwc->bus_clk);
-@@ -1785,6 +1799,20 @@ static int dwc3_get_clocks(struct dwc3 *dwc)
- 		}
- 	}
- 
-+	/* specific to Rockchip RK3588 */
-+	dwc->utmi_clk = devm_clk_get_optional(dev, "utmi");
-+	if (IS_ERR(dwc->utmi_clk)) {
-+		return dev_err_probe(dev, PTR_ERR(dwc->utmi_clk),
-+				"could not get utmi clock\n");
-+	}
-+
-+	/* specific to Rockchip RK3588 */
-+	dwc->pipe_clk = devm_clk_get_optional(dev, "pipe");
-+	if (IS_ERR(dwc->pipe_clk)) {
-+		return dev_err_probe(dev, PTR_ERR(dwc->pipe_clk),
-+				"could not get pipe clock\n");
-+	}
-+
- 	return 0;
+ - Drop WARN_ON
+ - Rebase to a newer tree
+
+Changes since (implicit) v1 sent with Message-Id:
+20230709163335.3458886-1-u.kleine-koenig@pengutronix.de:
+
+ - Keep case USB_DR_MODE_UNKNOWN to cope for the compiler being called
+   with -Werror=switch.
+ - Rebase to a newer tree
+
+ drivers/usb/mtu3/mtu3_plat.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/usb/mtu3/mtu3_plat.c b/drivers/usb/mtu3/mtu3_plat.c
+index 6f264b129243..6858ed9fc3b2 100644
+--- a/drivers/usb/mtu3/mtu3_plat.c
++++ b/drivers/usb/mtu3/mtu3_plat.c
+@@ -451,7 +451,7 @@ static int mtu3_probe(struct platform_device *pdev)
+ 	return ret;
  }
  
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index a69ac67d89fe..f5e6ae6e394e 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -991,6 +991,8 @@ struct dwc3_scratchpad_array {
-  * @bus_clk: clock for accessing the registers
-  * @ref_clk: reference clock
-  * @susp_clk: clock used when the SS phy is in low power (S3) state
-+ * @utmi_clk: clock used for USB2 PHY communication
-+ * @pipe_clk: clock used for USB3 PHY communication
-  * @reset: reset control
-  * @regs: base address for our registers
-  * @regs_size: address space size
-@@ -1156,6 +1158,8 @@ struct dwc3 {
- 	struct clk		*bus_clk;
- 	struct clk		*ref_clk;
- 	struct clk		*susp_clk;
-+	struct clk		*utmi_clk;
-+	struct clk		*pipe_clk;
+-static int mtu3_remove(struct platform_device *pdev)
++static void mtu3_remove(struct platform_device *pdev)
+ {
+ 	struct ssusb_mtk *ssusb = platform_get_drvdata(pdev);
  
- 	struct reset_control	*reset;
+@@ -469,8 +469,16 @@ static int mtu3_remove(struct platform_device *pdev)
+ 		ssusb_gadget_exit(ssusb);
+ 		ssusb_host_exit(ssusb);
+ 		break;
+-	default:
+-		return -EINVAL;
++	case USB_DR_MODE_UNKNOWN:
++		/*
++		 * This cannot happen because with dr_mode ==
++		 * USB_DR_MODE_UNKNOWN, .probe() doesn't succeed and so
++		 * .remove() wouldn't be called at all. However (little
++		 * surprising) the compiler isn't smart enough to see that, so
++		 * we explicitly have this case item to not make the compiler
++		 * wail about an unhandled enumeration value.
++		 */
++		break;
+ 	}
  
+ 	ssusb_rscs_exit(ssusb);
+@@ -478,8 +486,6 @@ static int mtu3_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ 	pm_runtime_put_noidle(&pdev->dev);
+ 	pm_runtime_set_suspended(&pdev->dev);
+-
+-	return 0;
+ }
+ 
+ static int resume_ip_and_ports(struct ssusb_mtk *ssusb, pm_message_t msg)
+@@ -615,7 +621,7 @@ MODULE_DEVICE_TABLE(of, mtu3_of_match);
+ 
+ static struct platform_driver mtu3_driver = {
+ 	.probe = mtu3_probe,
+-	.remove = mtu3_remove,
++	.remove_new = mtu3_remove,
+ 	.driver = {
+ 		.name = MTU3_DRIVER_NAME,
+ 		.pm = DEV_PM_OPS,
+
+base-commit: 2030579113a1b1b5bfd7ff24c0852847836d8fd1
 -- 
 2.42.0
 
