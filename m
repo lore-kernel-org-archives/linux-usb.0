@@ -1,97 +1,101 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE178F5A;
-	Fri, 20 Oct 2023 13:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169E21DA28
+	for <linux-usb@vger.kernel.org>; Fri, 20 Oct 2023 14:33:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qmk8fTcm"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E29D1A4;
-	Fri, 20 Oct 2023 06:24:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697808279; x=1729344279;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=n9FPj37TUa187KHzBLooUs4gDeQupW8sJoyGo3Mm6Yw=;
-  b=Qmk8fTcmjSTcbH4EFYwbONXXjDCTedR0dul8UCdtq5mBcz1kGOoj/Gnq
-   BKXyA0EZaHgGHhZMq7s4l/csWCAY2+5B/8Pj9Y27m4vSdce5Jplqk0gGx
-   Yq8R1t8KaDbUKj4y0KymajqcmFVtnPz1KeGrtl9UBnOS++WmPyf/MStTn
-   ClhlzWEmOTW+MtE83KTBiRhDfZGLJ2dEyHY3hdpOtsFB/UGoUkShfg46r
-   VR81AY4UlXeO22T01IniXHOtS/8f/I071r6x64BKs2169hiG6iRarH4RD
-   WTKq0VJlNGnqY81sfHKHIStlZHY4IFVIlD3von5FaoYOTYvYp2/MSE1OK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="385372627"
-X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="385372627"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 06:24:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="881083831"
-X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
-   d="scan'208";a="881083831"
-Received: from mtadesse-mobl.amr.corp.intel.com (HELO [10.209.140.77]) ([10.209.140.77])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 06:24:37 -0700
-Message-ID: <1840ba70-279b-499a-ad42-e7659a9a6ad1@linux.intel.com>
-Date: Thu, 19 Oct 2023 15:39:26 -0500
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vaidQ2/A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08FC6C433C7;
+	Fri, 20 Oct 2023 14:33:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1697812418;
+	bh=OQ/SwO6+aCaGvq+wHdqRuqJZ3IwVSwwQr1DeRuGWHUg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vaidQ2/AwzPR3ZDhWoNyRO5/RMWbojeOimU4dnTV9hlxZFYtVabK3EZ8/sKdfb0Nk
+	 f5grS0/wL4/uz8mE2p1GLiaSeK1FNTCZ139Uous1egdmIResk5m1ZFVdRdgZwHJp6c
+	 /mTS9fK26JLoKle0HFiib1prqwQ66HUO3bDcNbpE=
+Date: Fri, 20 Oct 2023 16:33:34 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-usb@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, kernel@pengutronix.de
+Subject: Re: [PATCH v2] usb: mtu3: Convert to platform remove callback
+ returning void
+Message-ID: <2023102012-snowbird-trapezoid-1f3a@gregkh>
+References: <20230914200251.919584-1-u.kleine-koenig@pengutronix.de>
+ <2023100219-variety-genre-befe@gregkh>
+ <20231002144959.jc6wwfrvwd4cyu2l@pengutronix.de>
+ <2023100253-amino-pencil-9a96@gregkh>
+ <20231002214158.wvhals4ywezftepo@pengutronix.de>
+ <2023100530-degree-overlap-6aff@gregkh>
+ <20231020095325.qgymq46sj4isaoqa@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 30/34] ASoC: qcom: qdsp6: Add SND kcontrol for fetching
- offload status
-Content-Language: en-US
-To: Wesley Cheng <quic_wcheng@quicinc.com>, mathias.nyman@intel.com,
- gregkh@linuxfoundation.org, lgirdwood@gmail.com, broonie@kernel.org,
- perex@perex.cz, tiwai@suse.com, agross@kernel.org, andersson@kernel.org,
- konrad.dybcio@linaro.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- srinivas.kandagatla@linaro.org, bgoswami@quicinc.com,
- Thinh.Nguyen@synopsys.com
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20231017200109.11407-1-quic_wcheng@quicinc.com>
- <20231017200109.11407-31-quic_wcheng@quicinc.com>
- <92971bbf-b890-4e41-8ef1-9213e15d81b2@linux.intel.com>
- <c9c5f13f-b3e7-6591-f277-cd86162152e4@quicinc.com>
- <2e300bef-3722-8b00-2bdf-e9386796f38f@quicinc.com>
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <2e300bef-3722-8b00-2bdf-e9386796f38f@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231020095325.qgymq46sj4isaoqa@pengutronix.de>
 
-
->>>> Add a kcontrol to the platform sound card to fetch the current offload
->>>> status.Â  This can allow for userspace to ensure/check which USB SND
->>>> resources are actually busy versus having to attempt opening the USB
->>>> SND
->>>> devices, which will result in an error if offloading is active.
->>>
->>> I think I mentioned this a while back, but why not add the status in the
->>> USB card itself? That's a generic component that all userspace agent
->>> could query. Having a QCOM-specific control doesn't make the life of
->>> userspace easier IMHO.
->>>
->>>
->>
->> Will take a look at this based on the comments you had in the other
->> kcontrol patch.Â  Seeing if we can move it to a more generic layer.
->>
+On Fri, Oct 20, 2023 at 11:53:25AM +0200, Uwe Kleine-König wrote:
+> Hello Greg,
 > 
-> I think it would make more sense to see if we can keep all the offload
-> kcontrols under the sound card exposed by the platform.Â  Especially, if
-> we are going to modify the components string of the card to signify that
-> it supports USB offload.
+> On Thu, Oct 05, 2023 at 09:13:18AM +0200, Greg Kroah-Hartman wrote:
+> > On Mon, Oct 02, 2023 at 11:41:58PM +0200, Uwe Kleine-König wrote:
+> > > On Mon, Oct 02, 2023 at 04:53:05PM +0200, Greg Kroah-Hartman wrote:
+> > > > On Mon, Oct 02, 2023 at 04:49:59PM +0200, Uwe Kleine-König wrote:
+> > > > > On Mon, Oct 02, 2023 at 04:39:47PM +0200, Greg Kroah-Hartman wrote:
+> > > > > > On Thu, Sep 14, 2023 at 10:02:51PM +0200, Uwe Kleine-König wrote:
+> > > > > > > @@ -469,8 +469,17 @@ static int mtu3_remove(struct platform_device *pdev)
+> > > > > > >  		ssusb_gadget_exit(ssusb);
+> > > > > > >  		ssusb_host_exit(ssusb);
+> > > > > > >  		break;
+> > > > > > > -	default:
+> > > > > > > -		return -EINVAL;
+> > > > > > > +	case USB_DR_MODE_UNKNOWN:
+> > > > > > > +		/*
+> > > > > > > +		 * This cannot happen because with dr_mode ==
+> > > > > > > +		 * USB_DR_MODE_UNKNOWN, .probe() doesn't succeed and so
+> > > > > > > +		 * .remove() wouldn't be called at all. However (little
+> > > > > > > +		 * surprising) the compiler isn't smart enough to see that, so
+> > > > > > > +		 * we explicitly have this case item to not make the compiler
+> > > > > > > +		 * wail about an unhandled enumeration value.
+> > > > > > > +		 */
+> > > > > > > +		WARN_ON(1);
+> > > > > > 
+> > > > > > Please don't add new WARN_ON() calls to the kernel, print out a big
+> > > > > > error message and return, don't reboot the machine.
+> > > > > 
+> > > > > Huh, printing out an loud error message was my intention. It's news to
+> > > > > me that WARN_ON() reboots the machine?! I thought BUG_ON() was the one
+> > > > > with the effects you describe that I shouldn't use.
+> > > > 
+> > > > panic-on-warn is set for zillions[1] of Linux systems out there, so systems
+> > > > will reboot.
+> > > 
+> > > The people enabling panic-on-warn *ask* for a reboot if something
+> > > strange happens, right? If ssusb->dr_mode is USB_DR_MODE_UNKNOWN in
+> > > .remove() but wasn't in .probe(), that's strange, right? If I don't
+> > > enable panic-on-warn, my system just emits a warning and then the driver
+> > > copes with what it has, right? Sounds to me as if WARN_ON does exactly
+> > > what is the right thing here.
+> > 
+> > I really don't want to add more WARN_ON() to the kernel if at all
+> > possible.
+> > 
+> > If this "can not happen" then just don't even add code for it, why have
+> > this at all?  The compiler warning can be handled a different way,
+> > right?
+> 
+> Sure, what do you suggest? A dev_warn()?
 
-A two-way relationship would be ideal, i.e.
-- the USB card has an indicator that it's currently bound with another
-"platform" card that offers optimized offloaded capabilities.
-- the platform card has a indicator that it exposes one or more PCM
-devices routed to the USB card endpoint.
+Sure.  but again, if this can not happen, why do anything?
 
-Android/HAL would typically start with the latter while other more
-generic solutions would start from the former.
+> ..ooOO(But maybe there are people who reboot on dev_warn(), too?)
+
+No, that's not a thing, thankfully :)
+
+greg k-h
