@@ -1,282 +1,120 @@
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614CD199B0;
-	Fri, 20 Oct 2023 11:44:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4198E1A711;
+	Fri, 20 Oct 2023 12:30:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bO5ue8tm"
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABCF246B3;
-	Fri, 20 Oct 2023 04:43:05 -0700 (PDT)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39K7a7Pe002540;
-	Fri, 20 Oct 2023 11:41:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Bm51Om3gZzpa1v/vxVMnh6BhiJMwyK7YZWgdIj9tKfc=;
- b=bO5ue8tmhYDYsaePp6uQ9DbiUgwiFIbqVlRbqjwidbu1epYkSWWo8DPuue0rLFYw5Qms
- 7dGi/QnthVEJFm1MKAONsATel7Q24KzlfyekYbmYh/KY0u7QNf7T11JkMDP9nwMyEX4u
- 9ngF/C/socdHK3KfcPA1k6mlJuzNBW5JWFXSd1Ebg0Y8INjIH8clNKIb0qnbo7lJ/hJV
- RQzQg2OZ0c9aLCzPYL4YQyT/1O7IgINZBnBxrWSL9ugNR8VgBHRQwyHIo7MO7cOWTBuD
- hWTiAYrR476QZkmq5G4M31kitn03oC21CkXGGF/EA4kGd3TMjBNysHWN53TlltzcgdLg Jg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tubwr9qvv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Oct 2023 11:41:58 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39KBfvs4025304
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Oct 2023 11:41:57 GMT
-Received: from [10.216.47.159] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 20 Oct
- 2023 04:41:49 -0700
-Message-ID: <157d1c8d-5aa4-4488-bf85-7806c8fb00bc@quicinc.com>
-Date: Fri, 20 Oct 2023 17:11:46 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AdIZAzR2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A12F2C433C9;
+	Fri, 20 Oct 2023 12:30:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697805022;
+	bh=+uf6l8qxqJVbft1lkynnlas3Eiq4n3dk8l8L9rbR2KU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AdIZAzR2SeCY5X7Hmq7TjcXV2kOHMK1xcGYHqfbP/9kBYVoQauINtdOB2nGXFewPS
+	 CGu4T/rYw8gHr5+ezTZCMSC78sKZE3tyFg8VrNCfH+ctrcT/SJJoSUQT6rxjz4JdPc
+	 aAtNHlqzvU3/LPg+hZwVJv8egBBGZsufQhfmq0jDW5Czt0oyqjUKXQ4RwTNbow4zkr
+	 nlHIfXwI8fBP5KTzRcJw1NYUyRBZdRUg9qpRLx2TMIZVetvgaDe9qGk5UTvQCrskEx
+	 qwGD8+MTgCZX1CgYEdWa8TM5x05Gc3y0w+XWlx29FR3rnnksWvyQN+ixMjX4MuiUbl
+	 4lSNYOHxpMZvg==
+Received: from johan by xi.lan with local (Exim 4.96)
+	(envelope-from <johan@kernel.org>)
+	id 1qtoe3-0002Q9-1s;
+	Fri, 20 Oct 2023 14:30:28 +0200
+Date: Fri, 20 Oct 2023 14:30:27 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Krishna Kurapati <quic_kriskura@quicinc.com>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Felipe Balbi <balbi@kernel.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, quic_pkondeti@quicinc.com,
+	quic_ppratap@quicinc.com, quic_jackp@quicinc.com,
+	ahalaney@redhat.com, quic_shazhuss@quicinc.com,
+	Bjorn Andersson <quic_bjorande@quicinc.com>
+Subject: Re: [PATCH v13 04/10] usb: dwc3: qcom: Add helper function to
+ request threaded IRQ
+Message-ID: <ZTJy456413VVT8Uv@hovoldconsulting.com>
+References: <20231007154806.605-1-quic_kriskura@quicinc.com>
+ <20231007154806.605-5-quic_kriskura@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 03/10] usb: dwc3: core: Refactor PHY logic to support
- Multiport Controller
-Content-Language: en-US
-To: Johan Hovold <johan@kernel.org>
-CC: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "Andy
- Gross" <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad
- Dybcio" <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Felipe Balbi
-	<balbi@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
-        <quic_ppratap@quicinc.com>, <quic_jackp@quicinc.com>,
-        <ahalaney@redhat.com>, <quic_shazhuss@quicinc.com>,
-        Harsh Agarwal <quic_harshq@quicinc.com>,
-        kernel test robot <lkp@intel.com>
-References: <20231007154806.605-1-quic_kriskura@quicinc.com>
- <20231007154806.605-4-quic_kriskura@quicinc.com>
- <ZTJPBcyZ_zLXbgE5@hovoldconsulting.com>
-From: Krishna Kurapati PSSNV <quic_kriskura@quicinc.com>
-In-Reply-To: <ZTJPBcyZ_zLXbgE5@hovoldconsulting.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: pUAqABDTDCaqWova7_OUswvp6OdFJFzK
-X-Proofpoint-GUID: pUAqABDTDCaqWova7_OUswvp6OdFJFzK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-20_10,2023-10-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- priorityscore=1501 impostorscore=0 spamscore=0 clxscore=1015 bulkscore=0
- mlxscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2310170001
- definitions=main-2310200097
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231007154806.605-5-quic_kriskura@quicinc.com>
 
+On Sat, Oct 07, 2023 at 09:18:00PM +0530, Krishna Kurapati wrote:
+> Cleanup setup irq call by implementing a new prep_irq helper function
+> and using it to request threaded IRQ's.
 
+Please replace this with:
 
-On 10/20/2023 3:27 PM, Johan Hovold wrote:
-> On Sat, Oct 07, 2023 at 09:17:59PM +0530, Krishna Kurapati wrote:
->> From: Harsh Agarwal <quic_harshq@quicinc.com>
->>
->> Currently the DWC3 driver supports only single port controller
->> which requires at most one HS and one SS PHY.
-> 
-> Should that not be "at least one HS PHY and at most one SS PHY"?
->   
->> But the DWC3 USB controller can be connected to multiple ports and
->> each port can have their own PHYs. Each port of the multiport
->> controller can either be HS+SS capable or HS only capable
->> Proper quantification of them is required to modify GUSB2PHYCFG
->> and GUSB3PIPECTL registers appropriately.
->>
->> Add support for detecting, obtaining and configuring phy's supported
-> 
-> "PHYs" for consistency, no apostrophe
-> 
->> by a multiport controller and. Limit the max number of ports
-> 
-> "and." what? Looks like part of the sentence is missing? Or just drop
-> " and"?
-> 
->> supported to 4 as only SC8280 which is a quad port controller supports
-> 
-> s/4/four/
-> 
-> Just change this to
-> 
-> 	Limit support to multiport controllers with up to four ports for
-> 	now (e.g. as needed for SC8280XP).
-> 
->> Multiport currently.
-> 
-> You use capitalised "Multiport" in several places it seems. Is this an
-> established term for these controllers or should it just be "multiport"
-> or "multiple ports"?
-> 
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202309200156.CxQ3yaLY-lkp@intel.com/
-> 
-> Drop these two lines, as people have already suggested.
-> 
->> Co-developed-by: Harsh Agarwal <quic_harshq@quicinc.com>
->> Signed-off-by: Harsh Agarwal <quic_harshq@quicinc.com>
->> Co-developed-by:Krishna Kurapati <quic_kriskura@quicinc.com>
->> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-> 
-> Thinh pointed out the problems with the above which were also reported
-> by checkpatch.pl.
-> 
+	Refactor interrupt setup by adding a new helper function for
+	requesting the wakeup interrupts.
 
-I see that removing Co-Developed by tag for Harsh is helping with one 
-checkpatch issue. From what I know, although I made Harsh the Primary 
-author for the patch, should we still mention his Co-Developed-by along 
-with this Signed-Of by ?
+and similarly for Subject ("wakeup interrupts").
 
->> ---
->> Changes in v13:
->> Compiler issues found by kernel test robot have been fixed and tags added.
->> So removing maintainers reviewed-by tag as we have made a minor change
->> in the patch.
+> Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+> Reviewed-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+> ---
+>  drivers/usb/dwc3/dwc3-qcom.c | 59 ++++++++++++++++--------------------
+>  1 file changed, 26 insertions(+), 33 deletions(-)
 > 
-> In general this is the right thing to do when the change in question was
-> non-trivial. I'm not sure that's the case here, but the robots tend to
-> complain about smaller (but sometimes important) things.
-> 
+> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+> index 3de43df6bbe8..ef2006db7601 100644
+> --- a/drivers/usb/dwc3/dwc3-qcom.c
+> +++ b/drivers/usb/dwc3/dwc3-qcom.c
+> @@ -535,6 +535,24 @@ static int dwc3_qcom_get_irq(struct platform_device *pdev,
+>  	return ret;
+>  }
+>  
+> +static int dwc3_qcom_prep_irq(struct dwc3_qcom *qcom, char *irq_name,
+> +				char *disp_name, int irq)
 
-I too had this uncertainity, but I see that we must not add maintainers 
-reviewed by tag if we even make one letter of change. Wanted to adhere 
-to these rules and so removed Thinh's tag and asked for re-review.
+Please rename this one dwc3_qcom_request_irq() so that is obvious what
+it does without having to look at the implementation.
 
->> @@ -748,23 +781,32 @@ static int dwc3_phy_setup(struct dwc3 *dwc)
->>   static int dwc3_phy_init(struct dwc3 *dwc)
->>   {
->>   	int ret;
->> +	int i;
->> +	int j;
-> 
-> These could be declared on one line (same throughout).
-> 
+This series eventually makes the driver only call this with irq_name ==
+disp_name so just drop the latter and rename the parameter as "name" and
+mention that in the commit message.
 
-I did so in v7, but was asked to put them in separate lines:
-https://lore.kernel.org/all/20230502221100.ecska23anlzv3iwq@synopsys.com/
+Also move irq before name and add the missing const. That is:
 
+	static int dwc3_qcom_request_irq(struct dwc3_qcom *qcom, int irq, const char *name);
 
->>   	usb_phy_init(dwc->usb2_phy);
->>   	usb_phy_init(dwc->usb3_phy);
+> +{
+> +	int ret;
+> +
+> +	/* Keep wakeup interrupts disabled until suspend */
+> +	irq_set_status_flags(irq, IRQ_NOAUTOEN);
+> +	ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
+> +					qcom_dwc3_resume_irq,
+> +					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+> +					disp_name, qcom);
+> +
 
-				dwc->usb2_generic_phy[i] = NULL;
->> +			else
->> +				return dev_err_probe(dev, ret,
->> +					"failed to lookup phy %s\n", phy_name);
-> 
-> Continuation lines should be intented at least two tabs further.
-> 
-> I generally suggest adding brackets around blocks with multiline
-> statements to improve readability but if you move the string to the
-> previous line and intend the continuation line (phy_name) one tab more I
-> guess that's fine.
-> 
->> +		}
->> +
->> +		if (dwc->num_usb2_ports == 1)
->> +			sprintf(phy_name, "usb3-phy");
->>   		else
->> -			return dev_err_probe(dev, ret, "no usb3 phy configured\n");
->> +			sprintf(phy_name, "usb3-port%d", i);
->> +
->> +		dwc->usb3_generic_phy[i] = devm_phy_get(dev, phy_name);
->> +		if (IS_ERR(dwc->usb3_generic_phy[i])) {
->> +			ret = PTR_ERR(dwc->usb3_generic_phy[i]);
->> +			if (ret == -ENOSYS || ret == -ENODEV)
->> +				dwc->usb3_generic_phy[i] = NULL;
->> +			else
->> +				return dev_err_probe(dev, ret,
->> +					"failed to lookup phy %s\n", phy_name);
-> 
-> Same here.
-> 
->> +		}
->>   	}
->>   
->>   	return 0;
-> 
->> @@ -1892,9 +1975,12 @@ static int dwc3_read_port_info(struct dwc3 *dwc)
->>   
->>   	dev_dbg(dwc->dev, "hs-ports: %u ss-ports: %u\n",
->>   			dwc->num_usb2_ports, dwc->num_usb3_ports);
->> -
-> 
-> Drop this random change.
+Drop stray newline.
 
-The removal of extra line here done you mean ?
+> +	if (ret)
+> +		dev_err(qcom->dev, "%s failed: %d\n", irq_name, ret);
 
-> 
->>   	iounmap(base);
->>   
->> +	if ((dwc->num_usb2_ports > DWC3_MAX_PORTS) ||
->> +		(dwc->num_usb3_ports > DWC3_MAX_PORTS))
-> 
-> Again, continuation lines should be indented at least two tabs further.
-> 
->> +		return -ENOMEM;
->> +
->>   	return 0;
->>   }
-> 
->> diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
->> index 2ea6df7e6571..fc5d15edab1c 100644
->> --- a/drivers/usb/dwc3/core.h
->> +++ b/drivers/usb/dwc3/core.h
->> @@ -33,6 +33,9 @@
->>   
->>   #include <linux/power_supply.h>
->>   
->> +/* Number of ports supported by a multiport controller */
-> 
-> 	/*
-> 	 * Maximum number of ports currently supported for multiport
-> 	 * controllers.
-> 	 */
-> 
->> +#define DWC3_MAX_PORTS 4
->> +
->>   #define DWC3_MSG_MAX	500
->>   
->>   /* Global constants */
->> @@ -1029,8 +1032,8 @@ struct dwc3_scratchpad_array {
->>    * @usb_psy: pointer to power supply interface.
->>    * @usb2_phy: pointer to USB2 PHY
->>    * @usb3_phy: pointer to USB3 PHY
->> - * @usb2_generic_phy: pointer to USB2 PHY
->> - * @usb3_generic_phy: pointer to USB3 PHY
->> + * @usb2_generic_phy: pointer to array of USB2 PHY
->> + * @usb3_generic_phy: pointer to array of USB3 PHY
-> 
-> s/PHY/PHYs/
-> 
->>    * @num_usb2_ports: number of USB2 ports
->>    * @num_usb3_ports: number of USB3 ports
->>    * @phys_ready: flag to indicate that PHYs are ready
-> 
-> Johan
+Please spell out
 
-Thanks for the review. Will fix these nits in v14.
+	"failed to request irq %s: %d\n"
 
-Regards,
-Krishna,
+> +
+> +	return ret;
+> +}
+
+Johan
