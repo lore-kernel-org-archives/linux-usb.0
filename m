@@ -1,167 +1,339 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24AC42628F
-	for <linux-usb@vger.kernel.org>; Tue, 24 Oct 2023 10:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="CubgwKke"
-X-Greylist: delayed 909 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 24 Oct 2023 03:30:24 PDT
-Received: from m136.mail.163.com (m136.mail.163.com [220.181.13.6])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9A264E8
-	for <linux-usb@vger.kernel.org>; Tue, 24 Oct 2023 03:30:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=c9APA7M9pl5uM9TQ4r4QMcu6W23SoZEcx/CrE5WuWYo=; b=C
-	ubgwKkeVZa7jxhZuX5zbGFIqg1S+T5ir3vkMX/eY5EITbq6IFk8/Y7KXkY7QL+MG
-	zuUi7Y2mZUWnE4oZ1gKVhZS92+PDF09uIwVTt2LasXba88b89FKkwhbb74M5fE3N
-	vyWX9GqQ19bTMdWBHWwRKMkYH6vBDGS9Nbl+UEz42M=
-Received: from be286$163.com ( [171.113.147.155] ) by ajax-webmail-wmsvr6
- (Coremail) ; Tue, 24 Oct 2023 18:14:24 +0800 (CST)
-X-Originating-IP: [171.113.147.155]
-Date: Tue, 24 Oct 2023 18:14:24 +0800 (CST)
-From: be286  <be286@163.com>
-To: "Pavel Hofman" <pavel.hofman@ivitera.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH V2] usb: gadget: f_uac1: add adaptive sync support
- for capture
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2023 www.mailtech.cn 163com
-In-Reply-To: <ff75dd5a-7c32-577b-9ac0-b2aecab3d02c@ivitera.com>
-References: <20231018074739.1234394-1-be286@163.com>
- <ff75dd5a-7c32-577b-9ac0-b2aecab3d02c@ivitera.com>
-X-NTES-SC: AL_QuySCv2fvUwt4iGcZOkWnkwahec9XsK3vPQi349TN5k0uSn0ywIieFFhJGfs3/+jMyWqnjavcjlg+vZjZJRmX4grB7MJjKDnWnZrWQNAP+MM
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4FA273C1
+	for <linux-usb@vger.kernel.org>; Tue, 24 Oct 2023 12:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C224186
+	for <linux-usb@vger.kernel.org>; Tue, 24 Oct 2023 05:33:33 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1qvGb8-0005TU-Pf; Tue, 24 Oct 2023 14:33:26 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1qvGb7-003wTs-Lk; Tue, 24 Oct 2023 14:33:25 +0200
+Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1qvGb7-007Tfp-CI; Tue, 24 Oct 2023 14:33:25 +0200
+Date: Tue, 24 Oct 2023 14:33:25 +0200
+From: Michael Grzeschik <mgr@pengutronix.de>
+To: Jayant Chowdhary <jchowdhary@google.com>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+	"dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
+	"kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"etalvala@google.com" <etalvala@google.com>,
+	"arakesh@google.com" <arakesh@google.com>
+Subject: Re: uvc gadget: Making upper bound of number of usb requests
+ allocated configurable through configfs
+Message-ID: <ZTe5leI7Hvk2/cl9@pengutronix.de>
+References: <edad1597-48da-49d2-a089-da2487cac889@google.com>
+ <2023100834-statistic-richly-49ef@gregkh>
+ <7ed46b3c-bd42-468e-b28d-860dc8a6c7e6@google.com>
+ <20231012184954.ech7kfpqjkunq6eu@synopsys.com>
+ <c47e864b-4b9e-4a21-afea-af121a4d7771@google.com>
+ <20231020233044.dh63nu3tkbmrtfl4@synopsys.com>
+ <69609645-fa20-4987-981d-1ab264e80b9b@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <58292dd5.6385.18b612da88f.Coremail.be286@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:BsGowAD3XwcAmTdlJfsSAA--.62866W
-X-CM-SenderInfo: dehsmli6rwjhhfrp/1tbiWxoT0mI0cd0IdgADsH
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="800O9bjXdhEWNslw"
+Content-Disposition: inline
+In-Reply-To: <69609645-fa20-4987-981d-1ab264e80b9b@google.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 
-CkhpIFBhdmVsLAoKRmVlZGJhY2sgZW5kcG9pbnQgd29ya3MgZm9yIHVjYTEgY2FwdHVyZSwgbWVh
-bnMgIkVQT1VUX0VOIi4KCiBDaGFybGVzIFlpCgoKCgoKCgoKQXQgMjAyMy0xMC0xOCAxNzo1Mjoy
-MCwgIlBhdmVsIEhvZm1hbiIgPHBhdmVsLmhvZm1hbkBpdml0ZXJhLmNvbT4gd3JvdGU6Cj4KPgo+
-RG5lIDE4LiAxMC4gMjMgdiA5OjQ3IENoYXJsZXMgWWkgbmFwc2FsKGEpOgo+PiBVQUMxIGhhcyBp
-dCdzIG93biBmcmVlcnVubmluZyBjbG9jayBhbmQgY2FuIHVwZGF0ZSBIb3N0IGFib3V0Cj4+IHJl
-YWwgY2xvY2sgZnJlcXVlbmN5IHRocm91Z2ggZmVlZGJhY2sgZW5kcG9pbnQgc28gSG9zdCBjYW4g
-YWxpZ24KPj4gbnVtYmVyIG9mIHNhbXBsZXMgc2VudCB0byB0aGUgVUFDMSB0byBwcmV2ZW50IG92
-ZXJydW5zL3VuZGVycnVucy4KPj4gCj4+IENoYW5nZSBVQUMxIGRyaXZlciB0byBtYWtlIGl0IGNv
-bmZpZ3VyYWJsZSB0aHJvdWdoIGFkZGl0aW9uYWwKPj4gJ2Nfc3luYycgY29uZmlnZnMgZmlsZS4K
-Pj4gCj4+IERlZmF1bHQgcmVtYWlucyAnYXN5bmNocm9ub3VzJyB3aXRoIHBvc3NpYmlsaXR5IHRv
-IHN3aXRjaCBpdAo+PiB0byAnYWRhcHRpdmUnLgo+Cj4KPkhpIENoYXJsZXMsCj4KPlBsZWFzZSBj
-YW4geW91IGNsYXJpZnkgbW9yZSB0aGUgYWRhcHRpdmUgRVAgSU4gc2NlbmFyaW8/IEkgYW0gYXdh
-cmUgdGhhdCAKPnRoZSBmX3VhYzIuYyBhbHNvIGFsbG93cyBkZWZpbmluZyBjX3N5bmMgdHlwZSAo
-dGhhdCdzIHdoYXQgeW91ciBwYXRjaCBpcyAKPmJhc2VkIG9uKS4KPgo+SUlVQyB0aGUgZGF0YSBw
-cm9kdWN0aW9uIHJhdGUgb2YgYWRhcHRpdmUgc291cmNlIGVuZHBvaW50IChpLmUuIEVQIElOKSAK
-PmlzIGNvbnRyb2xsZWQgYnkgZmVlZCBmb3J3YXJkIG1lc3NhZ2VzIGZyb20gdGhlIGhvc3QKPlF1
-b3RpbmcgaHR0cDovL3NkcGhhMi51Y3NkLmVkdS9MYWJfRXF1aXBfTWFudWFscy91c2JfMjAucGRm
-IHBhZ2UgNzM6Cj4KPiJBZGFwdGl2ZSBzb3VyY2UgZW5kcG9pbnRzIHByb2R1Y2UgZGF0YSBhdCBh
-IHJhdGUgdGhhdCBpcyBjb250cm9sbGVkIGJ5IAo+dGhlIGRhdGEgc2luay4gVGhlIHNpbmsgcHJv
-dmlkZXMgZmVlZGJhY2sgKHJlZmVyIHRvIFNlY3Rpb24gNS4xMi40LjIpIHRvIAo+dGhlIHNvdXJj
-ZSwgd2hpY2ggYWxsb3dzIHRoZSBzb3VyY2UgdG8ga25vdyB0aGUgZGVzaXJlZCBkYXRhIHJhdGUg
-b2YgdGhlIAo+c2luay4iCj4KPldoaWxlIHRoZSBjdXJyZW50IGZfdWFjMiBpbXBsZW1lbnRhdGlv
-biBnZW5lcmF0ZXMgZmVlZGJhY2sgZm9yIEVQIE9VVCAKPmFzeW5jICh1bmxpa2UgZl91YWMxKSwg
-SSBjYW5ub3QgZmluZCBhbnkgc3VwcG9ydCBmb3IgaW5jb21pbmcgCj5mZWVkLWZvcndhcmQgbWVz
-c2FnZXMgZnJvbSB0aGUgaG9zdCBmb3IgRVAgSU4gYWRhcHRpdmUgY2FzZS4gTmVpdGhlciBpbiAK
-PmZfdWFjMSwgb2YgY291cnNlLgo+Cj5JIGFtIG5vdCBzdXJlIGlmIGxpbnV4IHN1cHBvcnRzIElO
-IEVQIGFkYXB0aXZlLCBidXQgdGhlIE1TIFVBQzIgZHJpdmVyIAo+ZG9lcyBub3QgCj5odHRwczov
-L2xlYXJuLm1pY3Jvc29mdC5jb20vZW4tdXMvd2luZG93cy1oYXJkd2FyZS9kcml2ZXJzL2F1ZGlv
-L3VzYi0yLTAtYXVkaW8tZHJpdmVycyNhdWRpby1zdHJlYW1pbmc6Cj4KPiJGb3IgdGhlIEFkYXB0
-aXZlIElOIGNhc2UgdGhlIGRyaXZlciBkb2Vzbid0IHN1cHBvcnQgYSBmZWVkIGZvcndhcmQgCj5l
-bmRwb2ludC4gSWYgc3VjaCBhbiBlbmRwb2ludCBpcyBwcmVzZW50IGluIHRoZSBhbHRlcm5hdGUg
-c2V0dGluZywgaXQgCj53aWxsIGJlIGlnbm9yZWQuIFRoZSBkcml2ZXIgaGFuZGxlcyB0aGUgQWRh
-cHRpdmUgSU4gc3RyZWFtIGluIHRoZSBzYW1lIAo+d2F5IGFzIGFuIEFzeW5jaHJvbm91cyBJTiBz
-dHJlYW0uIgo+Cj5JSVVDIChhbmQgSSBtYXkgYmUgd3JvbmcpIGFsbCB0aGUgY19zeW5jIHBhcmFt
-IGRvZXMgaW4gZl91YWMyIChhbmQgCj5mX3VhYzEgaW4geW91ciBwYXRjaCkgaXMganVzdCBjaGFu
-Z2luZyB0aGUgRVAgSU4gY29uZmlndXJhdGlvbiBmbGFnLCBidXQgCj50aGUgYWN0dWFsIHN1cHBv
-cnQgZm9yIHRydWx5IGFkYXB0aXZlIEVQIElOIGlzIG5vdCBpbXBsZW1lbnRlZC4gSU1PIAo+dGhl
-cmUgaXMgbm8gY29kZSB3aGljaCB3b3VsZCBhY2NlcHQgdGhlIGZlZWQtZm9yd2FyZCBtZXNzYWdl
-IGZyb20gdGhlIAo+aG9zdCBhbmQgYWRqdXN0IHRoZSByYXRlIGF0IHdoaWNoIHNhbXBsZXMgYXJl
-IGNvbnN1bWVkIGZyb20gdGhlIGFsc2EgCj5idWZmZXIgdG8gRVAgSU4gcGFja2V0cyAobWV0aG9k
-IHVfYXVkaW9faXNvX2NvbXBsZXRlIAo+aHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgv
-bGF0ZXN0L3NvdXJjZS9kcml2ZXJzL3VzYi9nYWRnZXQvZnVuY3Rpb24vdV9hdWRpby5jI0wxOTMg
-Cj4pCj4KPlRoYXQgcGVydGFpbnMgYSBiaXQgdG8gdGhlIGZpcnN0IHNlbnRlbmNlIG9mIHlvdXIg
-cGF0Y2ggLSBJTU8gaXQgCj5kZXNjcmliZXMgRVAgT1VUIGFzeW5jLCBidXQgbm90IEVQIElOIGFk
-YXB0aXZlLgo+Cj5UaGFua3MgYSBsb3QgZm9yIGEgYml0IG9mIGNsYXJpZmljYXRpb24uCj4KPlBh
-dmVsLgo+Cj4KPj4gCj4+IENoYW5nZXMgaW4gVjI6Cj4+IC0gVXBkYXRlZCB0aGUgaW5kZW50YXRp
-b24gb2YgY29tbWl0IG1lc3NhZ2UuCj4+IAo+PiBTaWduZWQtb2ZmLWJ5OiBDaGFybGVzIFlpIDxi
-ZTI4NkAxNjMuY29tPgo+PiAtLS0KPj4gICBkcml2ZXJzL3VzYi9nYWRnZXQvZnVuY3Rpb24vZl91
-YWMxLmMgfCAzMCArKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4+ICAgZHJpdmVycy91c2Iv
-Z2FkZ2V0L2Z1bmN0aW9uL3VfdWFjMS5oIHwgIDIgKysKPj4gICAyIGZpbGVzIGNoYW5nZWQsIDMy
-IGluc2VydGlvbnMoKykKPj4gCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9nYWRnZXQvZnVu
-Y3Rpb24vZl91YWMxLmMgYi9kcml2ZXJzL3VzYi9nYWRnZXQvZnVuY3Rpb24vZl91YWMxLmMKPj4g
-aW5kZXggNmYwZTFkODAzZGMyLi43YTZmY2I0MGJiNDYgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMv
-dXNiL2dhZGdldC9mdW5jdGlvbi9mX3VhYzEuYwo+PiArKysgYi9kcml2ZXJzL3VzYi9nYWRnZXQv
-ZnVuY3Rpb24vZl91YWMxLmMKPj4gQEAgLTMzLDYgKzMzLDggQEAKPj4gICAjZGVmaW5lIEZVT1VU
-X0VOKF9vcHRzKSAoKF9vcHRzKS0+Y19tdXRlX3ByZXNlbnQgXAo+PiAgIAkJCXx8IChfb3B0cykt
-PmNfdm9sdW1lX3ByZXNlbnQpCj4+ICAgCj4+ICsjZGVmaW5lIEVQT1VUX0ZCQUNLX0lOX0VOKF9v
-cHRzKSAoKF9vcHRzKS0+Y19zeW5jID09IFVTQl9FTkRQT0lOVF9TWU5DX0FTWU5DKQo+PiArCj4+
-ICAgc3RydWN0IGZfdWFjMSB7Cj4+ICAgCXN0cnVjdCBnX2F1ZGlvIGdfYXVkaW87Cj4+ICAgCXU4
-IGFjX2ludGYsIGFzX2luX2ludGYsIGFzX291dF9pbnRmOwo+PiBAQCAtMjI3LDYgKzIyOSwxNiBA
-QCBzdGF0aWMgc3RydWN0IHVhY19pc29fZW5kcG9pbnRfZGVzY3JpcHRvciBhc19pc29fb3V0X2Rl
-c2MgPSB7Cj4+ICAgCS53TG9ja0RlbGF5ID0JCWNwdV90b19sZTE2KDEpLAo+PiAgIH07Cj4+ICAg
-Cj4+ICtzdGF0aWMgc3RydWN0IHVzYl9lbmRwb2ludF9kZXNjcmlwdG9yIGFzX2ZiYWNrX2VwX2Rl
-c2MgPSB7Cj4+ICsJLmJMZW5ndGggPSBVU0JfRFRfRU5EUE9JTlRfU0laRSwKPj4gKwkuYkRlc2Ny
-aXB0b3JUeXBlID0gVVNCX0RUX0VORFBPSU5ULAo+PiArCj4+ICsJLmJFbmRwb2ludEFkZHJlc3Mg
-PSBVU0JfRElSX0lOLAo+PiArCS5ibUF0dHJpYnV0ZXMgPSBVU0JfRU5EUE9JTlRfWEZFUl9JU09D
-IHwgVVNCX0VORFBPSU5UX1VTQUdFX0ZFRURCQUNLLAo+PiArCS53TWF4UGFja2V0U2l6ZSA9IGNw
-dV90b19sZTE2KDMpLAo+PiArCS5iSW50ZXJ2YWwgPSAxLAo+PiArfTsKPj4gKwo+PiAgIHN0YXRp
-YyBzdHJ1Y3QgdWFjX2Zvcm1hdF90eXBlX2lfZGlzY3JldGVfZGVzY3JpcHRvciBhc19pbl90eXBl
-X2lfZGVzYyA9IHsKPj4gICAJLmJMZW5ndGggPQkJMCwgLyogZmlsbGVkIG9uIHJhdGUgc2V0dXAg
-Ki8KPj4gICAJLmJEZXNjcmlwdG9yVHlwZSA9CVVTQl9EVF9DU19JTlRFUkZBQ0UsCj4+IEBAIC0y
-ODAsNiArMjkyLDcgQEAgc3RhdGljIHN0cnVjdCB1c2JfZGVzY3JpcHRvcl9oZWFkZXIgKmZfYXVk
-aW9fZGVzY1tdID0gewo+PiAgIAo+PiAgIAkoc3RydWN0IHVzYl9kZXNjcmlwdG9yX2hlYWRlciAq
-KSZhc19vdXRfZXBfZGVzYywKPj4gICAJKHN0cnVjdCB1c2JfZGVzY3JpcHRvcl9oZWFkZXIgKikm
-YXNfaXNvX291dF9kZXNjLAo+PiArCShzdHJ1Y3QgdXNiX2Rlc2NyaXB0b3JfaGVhZGVyICopJmFz
-X2ZiYWNrX2VwX2Rlc2MsCj4+ICAgCj4+ICAgCShzdHJ1Y3QgdXNiX2Rlc2NyaXB0b3JfaGVhZGVy
-ICopJmFzX2luX2ludGVyZmFjZV9hbHRfMF9kZXNjLAo+PiAgIAkoc3RydWN0IHVzYl9kZXNjcmlw
-dG9yX2hlYWRlciAqKSZhc19pbl9pbnRlcmZhY2VfYWx0XzFfZGVzYywKPj4gQEAgLTExMDcsNiAr
-MTEyMCw5IEBAIHN0YXRpYyB2b2lkIHNldHVwX2Rlc2NyaXB0b3Ioc3RydWN0IGZfdWFjMV9vcHRz
-ICpvcHRzKQo+PiAgIAkJZl9hdWRpb19kZXNjW2krK10gPSBVU0JESERSKCZhc19vdXRfdHlwZV9p
-X2Rlc2MpOwo+PiAgIAkJZl9hdWRpb19kZXNjW2krK10gPSBVU0JESERSKCZhc19vdXRfZXBfZGVz
-Yyk7Cj4+ICAgCQlmX2F1ZGlvX2Rlc2NbaSsrXSA9IFVTQkRIRFIoJmFzX2lzb19vdXRfZGVzYyk7
-Cj4+ICsJCWlmIChFUE9VVF9GQkFDS19JTl9FTihvcHRzKSkgewo+PiArCQkJZl9hdWRpb19kZXNj
-W2krK10gPSBVU0JESERSKCZhc19mYmFja19lcF9kZXNjKTsKPj4gKwkJfQo+PiAgIAl9Cj4+ICAg
-CWlmIChFUElOX0VOKG9wdHMpKSB7Cj4+ICAgCQlmX2F1ZGlvX2Rlc2NbaSsrXSA9IFVTQkRIRFIo
-JmFzX2luX2ludGVyZmFjZV9hbHRfMF9kZXNjKTsKPj4gQEAgLTEzMTcsNiArMTMzMywxMiBAQCBz
-dGF0aWMgaW50IGZfYXVkaW9fYmluZChzdHJ1Y3QgdXNiX2NvbmZpZ3VyYXRpb24gKmMsIHN0cnVj
-dCB1c2JfZnVuY3Rpb24gKmYpCj4+ICAgCQlhY19oZWFkZXJfZGVzYy0+YmFJbnRlcmZhY2VOclti
-YV9pZmFjZV9pZCsrXSA9IHN0YXR1czsKPj4gICAJCXVhYzEtPmFzX291dF9pbnRmID0gc3RhdHVz
-Owo+PiAgIAkJdWFjMS0+YXNfb3V0X2FsdCA9IDA7Cj4+ICsKPj4gKwkJaWYgKEVQT1VUX0ZCQUNL
-X0lOX0VOKGF1ZGlvX29wdHMpKSB7Cj4+ICsJCQlhc19vdXRfZXBfZGVzYy5ibUF0dHJpYnV0ZXMg
-PQo+PiArCQkJVVNCX0VORFBPSU5UX1hGRVJfSVNPQyB8IFVTQl9FTkRQT0lOVF9TWU5DX0FTWU5D
-Owo+PiArCQkJYXNfb3V0X2ludGVyZmFjZV9hbHRfMV9kZXNjLmJOdW1FbmRwb2ludHMrKzsKPj4g
-KwkJfQo+PiAgIAl9Cj4+ICAgCj4+ICAgCWlmIChFUElOX0VOKGF1ZGlvX29wdHMpKSB7Cj4+IEBA
-IC0xMzU0LDYgKzEzNzYsMTIgQEAgc3RhdGljIGludCBmX2F1ZGlvX2JpbmQoc3RydWN0IHVzYl9j
-b25maWd1cmF0aW9uICpjLCBzdHJ1Y3QgdXNiX2Z1bmN0aW9uICpmKQo+PiAgIAkJCWdvdG8gZXJy
-X2ZyZWVfZnU7Cj4+ICAgCQlhdWRpby0+b3V0X2VwID0gZXA7Cj4+ICAgCQlhdWRpby0+b3V0X2Vw
-LT5kZXNjID0gJmFzX291dF9lcF9kZXNjOwo+PiArCQlpZiAoRVBPVVRfRkJBQ0tfSU5fRU4oYXVk
-aW9fb3B0cykpIHsKPj4gKwkJCWF1ZGlvLT5pbl9lcF9mYmFjayA9IHVzYl9lcF9hdXRvY29uZmln
-KGdhZGdldCwgJmFzX2ZiYWNrX2VwX2Rlc2MpOwo+PiArCQkJaWYgKCFhdWRpby0+aW5fZXBfZmJh
-Y2spIHsKPj4gKwkJCQlnb3RvIGVycl9mcmVlX2Z1Owo+PiArCQkJfQo+PiArCQl9Cj4+ICAgCX0K
-Pj4gICAKPj4gICAJaWYgKEVQSU5fRU4oYXVkaW9fb3B0cykpIHsKPj4gQEAgLTE2ODUsNiArMTcx
-Myw4IEBAIHN0YXRpYyBzdHJ1Y3QgdXNiX2Z1bmN0aW9uX2luc3RhbmNlICpmX2F1ZGlvX2FsbG9j
-X2luc3Qodm9pZCkKPj4gICAKPj4gICAJb3B0cy0+cmVxX251bWJlciA9IFVBQzFfREVGX1JFUV9O
-VU07Cj4+ICAgCj4+ICsJb3B0cy0+Y19zeW5jID0gVUFDMV9ERUZfQ1NZTkM7Cj4+ICsKPj4gICAJ
-c25wcmludGYob3B0cy0+ZnVuY3Rpb25fbmFtZSwgc2l6ZW9mKG9wdHMtPmZ1bmN0aW9uX25hbWUp
-LCAiQUMgSW50ZXJmYWNlIik7Cj4+ICAgCj4+ICAgCXJldHVybiAmb3B0cy0+ZnVuY19pbnN0Owo+
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZ2FkZ2V0L2Z1bmN0aW9uL3VfdWFjMS5oIGIvZHJp
-dmVycy91c2IvZ2FkZ2V0L2Z1bmN0aW9uL3VfdWFjMS5oCj4+IGluZGV4IGY3YTYxNjc2MGUzMS4u
-YzZlMjI3MWU4Y2RkIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL3VzYi9nYWRnZXQvZnVuY3Rpb24v
-dV91YWMxLmgKPj4gKysrIGIvZHJpdmVycy91c2IvZ2FkZ2V0L2Z1bmN0aW9uL3VfdWFjMS5oCj4+
-IEBAIC0yNyw2ICsyNyw3IEBACj4+ICAgI2RlZmluZSBVQUMxX0RFRl9NQVhfREIJCTAJCS8qIDAg
-ZEIgKi8KPj4gICAjZGVmaW5lIFVBQzFfREVGX1JFU19EQgkJKDEqMjU2KQkvKiAxIGRCICovCj4+
-ICAgCj4+ICsjZGVmaW5lIFVBQzFfREVGX0NTWU5DCQlVU0JfRU5EUE9JTlRfU1lOQ19BU1lOQwo+
-PiAgIAo+PiAgIHN0cnVjdCBmX3VhYzFfb3B0cyB7Cj4+ICAgCXN0cnVjdCB1c2JfZnVuY3Rpb25f
-aW5zdGFuY2UJZnVuY19pbnN0Owo+PiBAQCAtNTYsNiArNTcsNyBAQCBzdHJ1Y3QgZl91YWMxX29w
-dHMgewo+PiAgIAo+PiAgIAlzdHJ1Y3QgbXV0ZXgJCQlsb2NrOwo+PiAgIAlpbnQJCQkJcmVmY250
-Owo+PiArCWludAkJCQljX3N5bmM7Cj4+ICAgfTsKPj4gICAKPj4gICAjZW5kaWYgLyogX19VX1VB
-QzFfSCAqLwo=
+
+--800O9bjXdhEWNslw
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Oct 23, 2023 at 11:13:03AM -0700, Jayant Chowdhary wrote:
+>Hi Thinh, Michael,
+>
+>On 10/20/23 16:30, Thinh Nguyen wrote:
+>> Sorry for the delay response.
+>>
+>> On Sun, Oct 15, 2023, Jayant Chowdhary wrote:
+>>> On 10/12/23 11:50, Thinh Nguyen wrote:
+>>>> The frequency of the request submission should not depend on the
+>>>> video_pump() work thread since it can vary. The frequency of request
+>>>> submission should match with the request completion. We know that
+>>>> request completion rate should be fixed (1 uframe/request + when you
+>>>> don't set no_interrupt). Base on this you can do your calculation on h=
+ow
+>>>> often you should set no_interrupt and how many requests you must submi=
+t.
+>>>> You don't have to wait for the video_pump() to submit 0-length request=
+s.
+>>>>
+>>>> The only variable here is the completion handler delay or system
+>>>> latency, which should not be much and should be within your calculatio=
+n.
+>>>
+>>> Thanks for the suggestion. It indeed makes sense that we do not complet=
+ely depend on
+>>> video_pump() for sending 0 length requests. I was concerned about
+>>> synchronization needed when we send requests to the dwc3 controller from
+>>> different threads. I see that the dwc3 controller code does internally =
+serialize
+>>> queueing requests, can we expect this from other controllers as well ?
+>> While it's not explicitly documented, when the gadget driver uses
+>> usb_ep_queue(), the order in which the gadget recieves the request
+>> should be maintained and serialized. Because the order the transfer go
+>> out for the same endpoint can be critical, breaking this will cause
+>> issue.
+>>
+>Thanks for clarifying this. Keeping this in mind - I made a slight modific=
+ation to
+>your test patch - I removed the uvc_video_pump() function call from uvc_v4=
+l2_qbuf(). We just
+>call it in uvcg_video_enable(). That should just queue 0 length requests t=
+ill the first qbuf
+>is called. There-after only the complete handler running uvcg_video_comple=
+te() calls video_pump(),
+>which sends usb requests to the endpoint. While I do see that we hold the =
+queue->irqlock while
+>getting the uvc buffer to encode and sending it to the ep, I feel like its=
+ just logically safer
+>for future changes if we can restrict the pumping of requests to one threa=
+d.
+>
+>Does that seem okay to you ? I can formalize it if it does.
+
+I tested this, and it looks good so far.
+
+Since your changes are minimal you could send this with me as the author
+and add your Suggested-by Tag. You should also add your Tested-by Tag in
+that case.
+
+Regards,
+Michael
+
+>The patch would look something like (on top of: https://lore.kernel.org/li=
+nux-usb/20230930184821.310143-1-arakesh@google.com/T/#t)
+>
+>---
+> drivers/usb/gadget/function/f_uvc.c     |  4 ----
+> drivers/usb/gadget/function/uvc.h       |  3 ---
+> drivers/usb/gadget/function/uvc_v4l2.c  |  3 ---
+> drivers/usb/gadget/function/uvc_video.c | 19 +++++++------------
+> 4 files changed, 7 insertions(+), 22 deletions(-)
+>
+>diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/func=
+tion/f_uvc.c
+>index 44c36e40e943..7d78fc8c00c5 100644
+>--- a/drivers/usb/gadget/function/f_uvc.c
+>+++ b/drivers/usb/gadget/function/f_uvc.c
+>@@ -907,14 +907,10 @@ static void uvc_function_unbind(struct usb_configura=
+tion *c,
+> {
+> 	struct usb_composite_dev *cdev =3D c->cdev;
+> 	struct uvc_device *uvc =3D to_uvc(f);
+>-	struct uvc_video *video =3D &uvc->video;
+> 	long wait_ret =3D 1;
+>
+> 	uvcg_info(f, "%s()\n", __func__);
+>
+>-	if (video->async_wq)
+>-		destroy_workqueue(video->async_wq);
+>-
+> 	/*
+> 	 * If we know we're connected via v4l2, then there should be a cleanup
+> 	 * of the device from userspace either via UVC_EVENT_DISCONNECT or
+>diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/functi=
+on/uvc.h
+>index e8d4c87f1e09..b33211c92c02 100644
+>--- a/drivers/usb/gadget/function/uvc.h
+>+++ b/drivers/usb/gadget/function/uvc.h
+>@@ -88,9 +88,6 @@ struct uvc_video {
+> 	struct uvc_device *uvc;
+> 	struct usb_ep *ep;
+>
+>-	struct work_struct pump;
+>-	struct workqueue_struct *async_wq;
+>-
+> 	/* Frame parameters */
+> 	u8 bpp;
+> 	u32 fcc;
+>diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/f=
+unction/uvc_v4l2.c
+>index 68bb18bdef81..ef4305f79cfe 100644
+>--- a/drivers/usb/gadget/function/uvc_v4l2.c
+>+++ b/drivers/usb/gadget/function/uvc_v4l2.c
+>@@ -421,9 +421,6 @@ uvc_v4l2_qbuf(struct file *file, void *fh, struct v4l2=
+_buffer *b)
+> 	if (ret < 0)
+> 		return ret;
+>
+>-	if (uvc->state =3D=3D UVC_STATE_STREAMING)
+>-		queue_work(video->async_wq, &video->pump);
+>-
+> 	return ret;
+> }
+>
+>diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/=
+function/uvc_video.c
+>index 54a1c36e879e..35fb6a185b6e 100644
+>--- a/drivers/usb/gadget/function/uvc_video.c
+>+++ b/drivers/usb/gadget/function/uvc_video.c
+>@@ -24,6 +24,8 @@
+>  * Video codecs
+>  */
+>
+>+static void uvcg_video_pump(struct uvc_video *video);
+>+
+> static int
+> uvc_video_encode_header(struct uvc_video *video, struct uvc_buffer *buf,
+> 		u8 *data, int len)
+>@@ -329,7 +331,9 @@ uvc_video_complete(struct usb_ep *ep, struct usb_reque=
+st *req)
+> 	 */
+> 	if (video->is_enabled) {
+> 		list_add_tail(&req->list, &video->req_free);
+>-		queue_work(video->async_wq, &video->pump);
+>+		spin_unlock_irqrestore(&video->req_lock, flags);
+>+		uvcg_video_pump(video);
+>+		return;
+> 	} else {
+> 		uvc_video_free_request(ureq, ep);
+> 	}
+>@@ -415,9 +419,8 @@ uvc_video_alloc_requests(struct uvc_video *video)
+>  * This function fills the available USB requests (listed in req_free) wi=
+th
+>  * video data from the queued buffers.
+>  */
+>-static void uvcg_video_pump(struct work_struct *work)
+>+static void uvcg_video_pump(struct uvc_video *video)
+> {
+>-	struct uvc_video *video =3D container_of(work, struct uvc_video, pump);
+> 	struct uvc_video_queue *queue =3D &video->queue;
+> 	struct usb_request *req =3D NULL;
+> 	struct uvc_buffer *buf;
+>@@ -545,7 +548,6 @@ uvcg_video_disable(struct uvc_video *video)
+> 	}
+> 	spin_unlock_irqrestore(&video->req_lock, flags);
+>
+>-	cancel_work_sync(&video->pump);
+> 	uvcg_queue_cancel(&video->queue, 0);
+>
+> 	spin_lock_irqsave(&video->req_lock, flags);
+>@@ -621,8 +623,7 @@ int uvcg_video_enable(struct uvc_video *video, int ena=
+ble)
+>
+> 	video->req_int_count =3D 0;
+>
+>-	queue_work(video->async_wq, &video->pump);
+>-
+>+	uvcg_video_pump(video);
+> 	return ret;
+> }
+>
+>@@ -635,12 +636,6 @@ int uvcg_video_init(struct uvc_video *video, struct u=
+vc_device *uvc)
+> 	INIT_LIST_HEAD(&video->ureqs);
+> 	INIT_LIST_HEAD(&video->req_free);
+> 	spin_lock_init(&video->req_lock);
+>-	INIT_WORK(&video->pump, uvcg_video_pump);
+>-
+>-	/* Allocate a work queue for asynchronous video pump handler. */
+>-	video->async_wq =3D alloc_workqueue("uvcgadget", WQ_UNBOUND | WQ_HIGHPRI=
+, 0);
+>-	if (!video->async_wq)
+>-		return -EINVAL;
+>
+> 	video->uvc =3D uvc;
+> 	video->fcc =3D V4L2_PIX_FMT_YUYV;
+>--=20
+>
+>>> This brings me to another question for Michael - I see
+>>> that we introduced a worker thread for pumping  usb requests to the usb=
+ endpoint
+>>> in https://urldefense.com/v3/__https://lore.kernel.org/all/202004271516=
+14.10868-1-m.grzeschik@pengutronix.de/__;!!A4F2R9G_pg!aAnzCopbTbZtUxBK6a6r6=
+_QzV-b2Z2J5o5esPaartZ2jogKijmhqj6OyiKDg-BPhxq8pJHR3HS1Hf8z6YnqfWTon$
+>>> (I see multiple email addresses, so apologies if I used the incorrect o=
+ne).
+>>>
+>>> Did we introduce the worker thread to solve some specific deadlock scen=
+arios ?
+>>> Or was it a general mitigation against racy usb request submission from=
+ v4l2 buffer
+>>> queuing, stream enable and the video complete handler firing ?
+>>>
+>>> I was chatting with Avi about this, what if we submit requests to the e=
+ndpoint
+>>> only at two points in the streaming lifecycle -
+>>> 1) The whole 64 (or however many usb requests are allocated) when
+>>>    uvcg_video_enable() is called - with 0 length usb_requests.
+>>> 2) In the video complete handler - if a video buffer is available, we e=
+ncode it
+>>>    and submit it to the endpoint. If not, we send a 0 length request.
+>>>
+>>> This way we're really maintaining back pressure and sending requests as=
+ soon
+>>> as we can to the dwc3 controller. Encoding is mostly memcpys from what =
+I see
+>>> so hopefully not too heavy on the interrupt handler. I will work on pro=
+totyping
+>>> this meanwhile.
+>>>
+>> That sounds good to me. I believe Michael already provided some test
+>> patches and you've already done some preliminary tests for that right?
+>
+>Yes that is correct. I tested out the patch above as well and it seems to
+>work for my setup. I haven't seen flickers in over an hour of streaming.
+>
+>Thanks,
+>Jayant
+>
+>
+>
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--800O9bjXdhEWNslw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmU3uZIACgkQC+njFXoe
+LGRcag/5ARWgAB2jrhi5NHwzq2+jykr30BdyKIdzmP5+OpRIxg3ATfd7YPMjCzhY
+cSG+n6LjKJ3ctpLiYg2SPZJHAyMYkAVjEtf/1yMGhWz8r34J1fsh+dK1EWaqgBy7
+ERLcRX8Kzo3OyY2PZvnolSn4ny5bInwxnUk/LRP3sh1R/5Qdh5VPGEvwPfpZoNaR
+2x2oP0ALLlUZStpjPED02xq+kdKjokHTkBRUAAQanmqwSojZpy0G6mVGljrF6KTj
+gKZ5XeoHkoD7PWgI5seh+Eok8cgdMVLeJSUtHpIS/aFFUIajpDqQv3lKqppfTOMD
+m7l00/+rAumBfi+fRCyCSQgQLMNcIz9YY50OAKeK8nh6PiFia6mCNpspMfJpKnqC
+d1yFP8tWPIwcIKWZNfiz1pWeVdKLcIT8VBB1KSNAFLBqIB2Ff14jfnSI/4POHOZh
+kxbvrJhmOk9RQV8ZHq1PDY8Lr11tlZT0KHU4Q2uchxyoc8dm/BIELT23c3addD0J
+5tT0UjupcEwt1cpUQzhWwr5qCx7HSATR9u2YVPjQe1wuaHTND1eZIQFcC0T7ATCU
+DQLNzYpAp5ae91ot7POKGgnnMWjgn6foFSrz421Hx+xKfMoAiHr0fu/s2XsbyQxY
+2LNnvh1BryPoQqDJvF1wl6I0VYPe+MWm3Hw9dSWvWwctPy4abo8=
+=JKDq
+-----END PGP SIGNATURE-----
+
+--800O9bjXdhEWNslw--
