@@ -1,45 +1,45 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B65353A2
-	for <linux-usb@vger.kernel.org>; Tue, 31 Oct 2023 03:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D91636A
+	for <linux-usb@vger.kernel.org>; Tue, 31 Oct 2023 04:40:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hUMsp+3Q"
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18E8FFC
-	for <linux-usb@vger.kernel.org>; Mon, 30 Oct 2023 20:54:11 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5a7cfdacf8fso52771237b3.0
-        for <linux-usb@vger.kernel.org>; Mon, 30 Oct 2023 20:54:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JzMzwDj5"
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DB6098
+	for <linux-usb@vger.kernel.org>; Mon, 30 Oct 2023 21:40:28 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5a7be940fe1so54452317b3.2
+        for <linux-usb@vger.kernel.org>; Mon, 30 Oct 2023 21:40:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698724450; x=1699329250; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1698727227; x=1699332027; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=2cP+jDgw/2kP2sqdhKr1b6gogBv0upq1OLhtOXXb4qE=;
-        b=hUMsp+3QTspn4HUPM16z6tezTZjk0W3dKrjhgyZj0xhrDpWfO8quLgRh4qDfzsfXWR
-         /VemPdm0axb9IIEgcy5VUBYtoCWFtj9porV94st3kEAHCpDyZHR09Y7IbKQpgk9BRyxG
-         M/eKDMc18yVf3xmBUOIWsTL5e3Vm44JGb3k9yJFYyEZDiYFSrbkfU2BQ/4+0bXe8aQka
-         5mzIJtTaK+XsXuc/AhQxM5nz97o2yh1El/nTcwU/mbvQvP/3MklDgFzXYIV8YJ0sAtPD
-         Yw6cv2++sX9PaggHpx4A6fo8UPA4oe0CByzz8HJQkDVDa8TEOTb0BaCCu8mFyu2u5PB9
-         cVIg==
+        bh=B+4M8qUb5+K1a/FyErFSr70ByarKTZl/dAflxdGEIYs=;
+        b=JzMzwDj5rCwDFltmypSuAq/A9ZtimnuGg2cEStD9jOCqE4t+vwow2ZEltyfT/lW7h4
+         zgZsfhxNsegXqwIhGmV2ha1Yo3vaeWvr2Cyo3bKaguvr+SJszL61TzIpP0cCRyYJ2Bt0
+         3viXEXhHMyI9QYnMvFLw+87DoHlFIzFi0xaHdJCicUHgq6meC2kNQXbGcRu83L9MsvMq
+         vO0IWxb1iuwCJbHT63rpnFv1UsrOyIYKVrao1SDrO39dck7XzPanC3wHxNFuDnwN0JSY
+         9XrIKQuzssN9+J4fMBoFPpHeLqgfjsTibrealaKVyiT2Gy4CI3lJd8TkcOcFZqkA8yfb
+         0Fow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698724450; x=1699329250;
+        d=1e100.net; s=20230601; t=1698727227; x=1699332027;
         h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=2cP+jDgw/2kP2sqdhKr1b6gogBv0upq1OLhtOXXb4qE=;
-        b=uEozPHykavvq0DAfwJlc+6DFK4kfvFUh1pFz1DLSrUNs5ckYCx7aVYL5plUH7PII+d
-         IRLXAHHezBbwWZzCS129mtbcJ84kyb+EgItIRAPSEbgz51r4spPHzPz8aF0tIqVuwQ06
-         FDUMJYzzIAcY770YcA8p8T3Dhfi4zRshG2MOyrzBG/YPqwDA9Ce2Kpj1amr2jY+a8FhP
-         wm5pWiI/AeZsl+Ft2/grwc9wmp/bb5FCDhdK1F3FaEDv/35EuCUkle1DVHYOhVb/nCTF
-         4Qu7jpplCDaQUQZmNM8qbASaBSjraGDFPzmYM47GflWZyeh5/G+ELGEOq6B+EZaN+juX
-         g6mQ==
-X-Gm-Message-State: AOJu0Yzn+3uUAa2R+NdBwhsYI6uVJi40B25yLZJfFaA8fdlYY5xGdElg
-	7HI2GdZTYuZNaVNCZNKP1fjsa+VWC3e/
-X-Google-Smtp-Source: AGHT+IHGg0y7OU+iyHQXVt+LK3C1hQ4yiq0V2qpg6y69gt9i7uZwJItKrRflBjP8X+XmHUqg3XuSC9o3kcoZ
-X-Received: from maurora-apa.c.googlers.com ([fda3:e722:ac3:cc00:3:22c1:c0a8:1184])
- (user=maurora job=sendgmr) by 2002:a5b:e83:0:b0:da0:6876:a8f4 with SMTP id
- z3-20020a5b0e83000000b00da06876a8f4mr37799ybr.2.1698724450352; Mon, 30 Oct
- 2023 20:54:10 -0700 (PDT)
-Date: Tue, 31 Oct 2023 03:54:02 +0000
+        bh=B+4M8qUb5+K1a/FyErFSr70ByarKTZl/dAflxdGEIYs=;
+        b=ZyuDVezgZna+x3VuQha4ajDJNfj1WH9a4bezqDVJK+XQdRqy+weo5m6W/8tkVxZ8p7
+         OTCVz8OqNDqkG2JRnDdgz4gPDpy7TMd51kb+jpuTg0DV3iH7KuQBMKpc9risbJWqzt8s
+         fRz/1IX/soLE54OZEqXzqwIS4yba8kYG2ps3t78F3UZDs4R8ezZ8NBCsJqq5rnmBG9jr
+         yMft7vY//GFMTx++KulPw5fxVhpd3pAoxcQE6OD1WDtInUFw7msiHXCsfUoUrbkMF03X
+         4MYUvaIfUinRSP3fGzBEsOkVJBuVASmWES/lRpbShq3yQeUtK364VSrFUXzz2W+9LArV
+         pfeg==
+X-Gm-Message-State: AOJu0YxEa5tT8UPNeCHFPl2549ulymF8hakBEfjP+vU8YkQEf03UCrIH
+	B3rchQlz1IVtCEfUaPBjm9oUyHrv6U6F
+X-Google-Smtp-Source: AGHT+IFmi1MxN7IGA0HwSD8daE7NbfCukvyuvVk1gsK7/fnUQW91z567nVv1UgqB+zjOJBkLtdh1RavIrgGp
+X-Received: from mnkumar0.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:313a])
+ (user=mnkumar job=sendgmr) by 2002:a0d:ca12:0:b0:59b:f138:c845 with SMTP id
+ m18-20020a0dca12000000b0059bf138c845mr224715ywd.2.1698727227457; Mon, 30 Oct
+ 2023 21:40:27 -0700 (PDT)
+Date: Tue, 31 Oct 2023 04:40:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,65 +47,32 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 X-Mailer: git-send-email 2.42.0.820.g83a721a137-goog
-Message-ID: <20231031035403.661938-1-maurora@google.com>
-Subject: [PATCH] usb: gadget: Support transfers from device memory
-From: Manan Aurora <maurora@google.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Badhri Jagan Sridharan <badhri@google.com>, Francesco Dolcini <francesco.dolcini@toradex.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	manugautam@google.com, Manan Aurora <maurora@google.com>
+Message-ID: <20231031044021.1162403-1-mnkumar@google.com>
+Subject: [PATCH 0/2] Add a quirk in xhci-plat for parent nodes to specify no
+ 64 bit support
+From: Naveen Kumar <mnkumar@google.com>
+To: Mathias Nyman <mathias.nyman@intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, royluo@google.com, 
+	Naveen Kumar M <mnkumar@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-USB gadget stack only supports usb_request objects that point to buffers
-located in memory. Support use cases where data is transferred from
-physical addresses in device mmio regions
+From: Naveen Kumar M <mnkumar@google.com>
 
-Added a bit "pre_mapped" to usb_request to bypass dma_map_single and
-dma_map_sg for such requests
+This patch aims to expose the XHCI_NO_64BIT_SUPPORT flag to the parent
+nodes of xhci for clients to specify if they can not support 64 bit DMA
+memory pointers. This issue was observed with a Google SoC that uses
+a DWC3 controller where the virtual address's higher order bits are
+truncated
 
-The caller must determine the dma address for the request before queuing
-it
+Naveen Kumar M (2):
+  usb: host: xhci-plat: Add quirk-no-64-bit-support
+  dt-bindings: usb: add no-64-bit-support property
 
-Signed-off-by: Manan Aurora <maurora@google.com>
----
- drivers/usb/gadget/udc/core.c | 4 ++--
- include/linux/usb/gadget.h    | 1 +
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ Documentation/devicetree/bindings/usb/usb-xhci.yaml | 4 ++++
+ drivers/usb/host/xhci-plat.c                        | 3 +++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
-index ded9531f141b..236165ba08f4 100644
---- a/drivers/usb/gadget/udc/core.c
-+++ b/drivers/usb/gadget/udc/core.c
-@@ -900,7 +900,7 @@ EXPORT_SYMBOL_GPL(usb_gadget_activate);
- int usb_gadget_map_request_by_dev(struct device *dev,
- 		struct usb_request *req, int is_in)
- {
--	if (req->length == 0)
-+	if (req->pre_mapped || req->length == 0)
- 		return 0;
- 
- 	if (req->num_sgs) {
-@@ -948,7 +948,7 @@ EXPORT_SYMBOL_GPL(usb_gadget_map_request);
- void usb_gadget_unmap_request_by_dev(struct device *dev,
- 		struct usb_request *req, int is_in)
- {
--	if (req->length == 0)
-+	if (req->pre_mapped || req->length == 0)
- 		return;
- 
- 	if (req->num_mapped_sgs) {
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index a771ccc038ac..6bc035439098 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -111,6 +111,7 @@ struct usb_request {
- 	unsigned		zero:1;
- 	unsigned		short_not_ok:1;
- 	unsigned		dma_mapped:1;
-+	unsigned		pre_mapped:1;
- 
- 	void			(*complete)(struct usb_ep *ep,
- 					struct usb_request *req);
 -- 
 2.42.0.820.g83a721a137-goog
 
