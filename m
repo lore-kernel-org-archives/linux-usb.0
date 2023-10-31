@@ -1,45 +1,45 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CB119BB1
-	for <linux-usb@vger.kernel.org>; Tue, 31 Oct 2023 12:12:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC94E1D53B
+	for <linux-usb@vger.kernel.org>; Tue, 31 Oct 2023 12:17:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kGWnSfcf"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E49E6A2
-	for <linux-usb@vger.kernel.org>; Tue, 31 Oct 2023 05:12:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P7uzoast"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 923C2BB
+	for <linux-usb@vger.kernel.org>; Tue, 31 Oct 2023 05:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698754354; x=1730290354;
+  t=1698754672; x=1730290672;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=BfzqNsJ/81n9XCew6EOx1KwzUAG5X91XrMLw+53+eM0=;
-  b=kGWnSfcflFnDpEROqBW8xo2Rqq60VfwQEhiK6OhJKHznpQVf/MTEd9pZ
-   l67kfJ9+kcJMHTRvxFNZ+gAduMD4yj5I6tAmb4bEdVdQGnlr10cdq3Uud
-   W83CFGe7EHJ2wWKvk4NN5bBy3jOd671wTuAEmQgXj1fXXxvbVgsF9Sl+X
-   02+yO2Ssx2MmblOvM5vZrmGLQsHkse4WTnuEaJpWnEMwDt1PVlC05jVaB
-   NLy7Pjnq2Lns+HIMhywUgmNhdLVRilE95VGVKF2RDw80rJt+3DBAuHKxd
-   tAeJmwd5JU2eLw5eNNYMs4p4L9CvJ9AP1jVEvfLnXjkyLTZMH9XQrlTFB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="419383539"
+  bh=XSKu3NhlILhnD0kGRCHtejpj2/bd9tHd95I6BAi7F7E=;
+  b=P7uzoastHFu9yFSVUH1Lh2xhGIIXe0d4ixe9gp66NVgTpcIqvZQOFMVE
+   iVApyzEBUvaRheKSIpKmqKx5AWfQheYE1TqwftKFwFpcxueK82GcKbmSv
+   VgIISJ7S+V/7nz/8n0p+geoPntc6TD4dKUNcXPSgvWxOoIqMr1AteMm+t
+   ONhII/TZ6KSVZ7EaJpjGSbcGWb4AK9J+3P1fYouDTQG2NzbbrbnMhuVqt
+   vL4WqalC0WKTIz3FPdryESeqncoDi4YlNFFz3SVQ/ryknXV+Shw9jb5hO
+   befspYXYceQ9gyC+6L8cBCzwXaJElgJZar9zyCzlPt2wzvuQDyqGkclY7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="368480391"
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="419383539"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 05:12:34 -0700
+   d="scan'208";a="368480391"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 05:17:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="851226145"
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="934088584"
 X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="851226145"
+   d="scan'208";a="934088584"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by FMSMGA003.fm.intel.com with ESMTP; 31 Oct 2023 05:12:33 -0700
+  by orsmga005.jf.intel.com with ESMTP; 31 Oct 2023 05:17:51 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1058)
-	id B32E552F; Tue, 31 Oct 2023 14:12:32 +0200 (EET)
+	id ACB1052A; Tue, 31 Oct 2023 14:12:03 +0200 (EET)
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 To: mathias.nyman@linux.intel.com
 Cc: linux-usb@vger.kernel.org
-Subject: [PATCH 7/7] xhci: minor coding style cleanup in 'xhci_try_enable_msi()'
-Date: Tue, 31 Oct 2023 14:10:17 +0200
-Message-ID: <20231031121017.41487-8-niklas.neronin@linux.intel.com>
+Subject: [PATCH 5/7] xhci: change 'msix_count' to encompass MSI or MSI-X vectors
+Date: Tue, 31 Oct 2023 14:10:15 +0200
+Message-ID: <20231031121017.41487-6-niklas.neronin@linux.intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231031121017.41487-2-niklas.neronin@linux.intel.com>
 References: <20231031121017.41487-2-niklas.neronin@linux.intel.com>
@@ -51,34 +51,68 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove extra spaces/indentation and add spaces where required.
-This commit does not change any functionality.
+Instead of variable 'msix_count' containing the number of MSI-X vectors,
+now it can contains MSI or MSI-X vector amount. Because both interrupt
+methods allow several vectors. Thus, 'msix_count' is renamed to 'nvecs'.
+
+Additionally, instead of storing the maximum possible vector amount,
+now it stores the amount of successfully allocated vectors, or negative
+integer on allocation failure.
 
 Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 ---
- drivers/usb/host/xhci-pci.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/usb/host/xhci-pci.c | 14 +++++++-------
+ drivers/usb/host/xhci.h     |  4 ++--
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 742dd7f026e9..7fc6797c17ac 100644
+index 79c4eccd7ae3..3ee3943db867 100644
 --- a/drivers/usb/host/xhci-pci.c
 +++ b/drivers/usb/host/xhci-pci.c
-@@ -178,12 +178,10 @@ static int xhci_try_enable_msi(struct usb_hcd *hcd)
- 		snprintf(hcd->irq_descr, sizeof(hcd->irq_descr), "%s:usb%d",
- 			 hcd->driver->description, hcd->self.busnum);
+@@ -142,12 +142,12 @@ static int xhci_try_enable_msi(struct usb_hcd *hcd)
+ 	 * - num_online_cpus: maximum MSI-X vectors per CPUs core.
+ 	 *   Add additional 1 vector to ensure always available interrupt.
+ 	 */
+-	xhci->msix_count = min(num_online_cpus() + 1,
+-			       HCS_MAX_INTRS(xhci->hcs_params1));
++	xhci->nvecs = min(num_online_cpus() + 1,
++			  HCS_MAX_INTRS(xhci->hcs_params1));
  
--	/* fall back to legacy interrupt*/
--	ret = request_irq(pdev->irq, &usb_hcd_irq, IRQF_SHARED,
--			hcd->irq_descr, hcd);
-+	/* fall back to legacy interrupt */
-+	ret = request_irq(pdev->irq, &usb_hcd_irq, IRQF_SHARED, hcd->irq_descr, hcd);
- 	if (ret) {
--		xhci_err(xhci, "request interrupt %d failed\n",
--				pdev->irq);
-+		xhci_err(xhci, "request interrupt %d failed\n", pdev->irq);
- 		return ret;
+-	ret = pci_alloc_irq_vectors(pdev, xhci->msix_count, xhci->msix_count,
+-				    PCI_IRQ_MSIX);
+-	if (ret < 0) {
++	xhci->nvecs = pci_alloc_irq_vectors(pdev, xhci->nvecs, xhci->nvecs,
++					    PCI_IRQ_MSIX);
++	if (xhci->nvecs < 0) {
+ 		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Failed to enable MSI-X");
+ 		goto setup_msi;
  	}
- 	hcd->irq = pdev->irq;
+@@ -166,8 +166,8 @@ static int xhci_try_enable_msi(struct usb_hcd *hcd)
+ 
+ setup_msi:
+ 	/* TODO: Check with MSI Soc for sysdev */
+-	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI);
+-	if (ret < 0) {
++	xhci->nvecs = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI);
++	if (xhci->nvecs < 0) {
+ 		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "failed to allocate MSI entry");
+ 		goto legacy_irq;
+ 	}
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 5df370482521..999914711ef5 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1790,8 +1790,8 @@ struct xhci_hcd {
+ 	int		page_size;
+ 	/* Valid values are 12 to 20, inclusive */
+ 	int		page_shift;
+-	/* msi-x vectors */
+-	int		msix_count;
++	/* MSI-X/MSI vectors */
++	int		nvecs;
+ 	/* optional clocks */
+ 	struct clk		*clk;
+ 	struct clk		*reg_clk;
 -- 
 2.40.1
 
