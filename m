@@ -1,219 +1,110 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D0ECA68
-	for <linux-usb@vger.kernel.org>; Tue, 31 Oct 2023 05:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-X-Greylist: delayed 3451 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 30 Oct 2023 22:17:42 PDT
-Received: from msr17.hinet.net (msr17.hinet.net [IPv6:2001:b000:1c9:10:168:95:4:117])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15AF8D8
-	for <linux-usb@vger.kernel.org>; Mon, 30 Oct 2023 22:17:41 -0700 (PDT)
-Received: from initramfs.io (2001-b011-4002-3b71-0000-0000-0000-000a.dynamic-ip6.hinet.net [IPv6:2001:b011:4002:3b71:0:0:0:a])
-	by msr17.hinet.net (8.15.2/8.15.2) with ESMTPS id 39V4K8Jr021716
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO)
-	for <linux-usb@vger.kernel.org>; Tue, 31 Oct 2023 12:20:08 +0800
-Received: from howl.home.internal.initramfs.io ([10.0.96.176])
-	by initramfs.io with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <initramfs@initramfs.io>)
-	id 1qxgEa-0001Er-JB
-	for linux-usb@vger.kernel.org; Tue, 31 Oct 2023 04:20:08 +0000
-Message-ID: <2fd4b2b0-0526-4946-ad05-058366f3127a@initramfs.io>
-Date: Tue, 31 Oct 2023 12:20:08 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7BE2109
+	for <linux-usb@vger.kernel.org>; Tue, 31 Oct 2023 05:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=zenithal.me header.i=@zenithal.me header.b="NoBkz1vw"
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2125.outbound.protection.outlook.com [40.107.113.125])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFDBEBD;
+	Mon, 30 Oct 2023 22:39:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jsMBPn7SO5LkO5J9Q0h9W2+2frLEAmS99p+FiyCBGFxg6CaR8VGwz9s4pnjEU/e7Uhrbad/J5+aurWNjNiYLuBv0rXvl4+ulSiEN/2dR/63DsQZajR0An7CJuQ46Gsuep9LWp7MFtAiA4a9SS+ocXEtQMcnhAhlTVd6tH8IckgcHLD1eiD1xkGjg5rhH1Zoch95yXHgs+P33XWlcy8cli5E+KYbiLOCbSwPjrvsQ14doViIyQwiTyj2P4/oath+npcigojQ26804seNSG1sxKMXwakwUHVxudiUSBvUroRgnZ7FJ3od3XF+6ohYcbcNGoCa/L/QOST6JLtz9D+Gjow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bms9+JO3fKAnaN6LGCZzXbJWhjc/Ny5b/nY/FUZqd1E=;
+ b=CrvUOC6s+n8YAwhAcA0wPRcdW8M90mNP0otPXOx2AwlY7HsIMguGyhE14PFqK1BDjyY1AjtqQltRoU/1Ntps/iYytm4BtYXrj4pqqwa7OAw6M5dr3UH5y0YVrv4QTmHFZet3iSMnBtU1GFVGibIYNS/6zGl78ZuS6pfOZzDtMacdgMFA4fb35vMjNxADK1GnlvDppyDpzx+gY08URtZF2R95tdB5EvewFCj3Lu0mq5qQtlTmUSdafHUDnioL5gXLQ1Hb86/msWqyeSj/DW9HAhepiOE0c46pAwk5DUgoXeHJ889ZwbdPPxF/1iQ/JxC2Oc86bt4KXC0Wa4IeY/02oQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
+ dkim=pass header.d=zenithal.me; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bms9+JO3fKAnaN6LGCZzXbJWhjc/Ny5b/nY/FUZqd1E=;
+ b=NoBkz1vw7WJRoDO2szQxWOZ8jMNcc1/q0vSV74LhOoEfz8HP3f2vz8G6R6z+Yi1PhOM4lbZJU7rqnKLxryYyA4LlPt6wsQpZglKbKKZIVYLQqcpcgQy/yB71KVoeV1PCM6xoI/S+TrdKqeib4CfkCBRk7cY2JEKPtR5wgEuXjeE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=zenithal.me;
+Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
+ TY1P286MB3280.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:2e4::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6933.29; Tue, 31 Oct 2023 05:39:22 +0000
+Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::ecbe:414e:2a07:b355]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::ecbe:414e:2a07:b355%5]) with mapi id 15.20.6933.029; Tue, 31 Oct 2023
+ 05:39:22 +0000
+Date: Tue, 31 Oct 2023 13:39:16 +0800
+From: Hongren Zheng <i@zenithal.me>
+To: syzbot <syzbot+6867a9777f4b8dc4e256@syzkaller.appspotmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [usb?] linux-next boot error: KASAN: slab-out-of-bounds
+ Write in vhci_setup
+Message-ID: <ZUCTBMazbx41wmrO@Sun>
+References: <0000000000007634c1060793197c@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0000000000007634c1060793197c@google.com>
+X-Operating-System: Linux Sun 5.15.67
+X-Mailer: Mutt 2.2.7 (2022-08-07)
+X-ClientProxiedBy: BY3PR10CA0007.namprd10.prod.outlook.com
+ (2603:10b6:a03:255::12) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:c0::6)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-usb@vger.kernel.org
-From: initramfs <initramfs@initramfs.io>
-Subject: ASMedia 2464PD-based SSD enclosure hotplug failure
-Autocrypt: addr=initramfs@initramfs.io; keydata=
- xjMEXU2jtxYJKwYBBAHaRw8BAQdA32TNgwBRB8zKTUDw+OD3EMHH6l7/9BctyPJZg7flyZrN
- JEFtaXQgQWduYW5pIDxpbml0cmFtZnNAaW5pdHJhbWZzLmlvPsKxBBMWCgBZAhsDBAsJCAcF
- FQoJCAsFFgIDAQACHgECF4ACGQEFCQomf3UWIQTmBUi9vIJeEJq2Q9jQE1WLzz4A7QUCXX/Y
- XBgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQ0BNVi88+AO2eqgEAhxrvCxHqcWYCjEl3
- RtK1uMI5Vl78ADXimnIO3Zx2ZygBAK7SL/m0A87AZOj1x/xMjFqYOfSMfe6a8Up//XB0av8M
- zjgEXU2k1BIKKwYBBAGXVQEFAQEHQEnBKEjJUS59EzqqgBWZE3/2Q0BIXmGqreBXzeDMizs+
- AwEIB8J+BBgWCgAmAhsMFiEE5gVIvbyCXhCatkPY0BNVi88+AO0FAl/QqPQFCQomJKAACgkQ
- 0BNVi88+AO2kRQEAiznrjgTNzeNfudqZz8MzyQqPEj3F0XeiloYOCbsrm8sA/jwF56ff7aRi
- HfhNFwJQJWzduZL3kmlkCrPxf9EGcvIP
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.4 cv=YqrK+6UX c=1 sm=1 tr=0 ts=65408079
-	a=IkcTkHD0fZMA:10 a=bhdUkHdE2iEA:10 a=Br9LfDWDAAAA:8
-	a=LRk9riVR5MzU9P2ol8IA:9 a=duj9LQwQeY0GMJFp:21 a=QEXdDO2ut3YA:10
-	a=TRW-o2S9CEoA:10 a=Bg5cootq7XEA:10 a=gR_RJRYUad_6_ruzA8cR:22
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCP286MB1393:EE_|TY1P286MB3280:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6c2ce7f2-b3e6-496f-3c2a-08dbd9d3bbfb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	dDoOkZVaD8EvKRKly9YpJQlP+ma/nymGDS4qtLPflID+49YrE8zhFpIt/tG9PS8e66xkB1G+nW4m7juUOOSsHrwHF/qFLzr++9eWFICmhBuB0OjiMkeoeXSzoUNiJe/xyAh7Ew+x6McOD13STviKmKbM4XZzsvePRMV3uf3nzZCQxc7i+VqU85UdbJ+gUON6U05B0HgqSxong+mnFIveVRhXEM47vQrn71cxmkgKT2576bCyenWpEiv96iUbWSJILAuGx8gaIOyZajXdHMTSpblh6PYbsN7RUIQY8ATcFUHkC6FNVr5KLYznfp4XTshRg6wxmly6DoIBRjTF0r0aOZ4cdhNUMPwpbhZ3JKiXDyJr/5f2QpKnrDGDXyahYNik3SHI4r5HtgVB9kiEnfeqOs51ihmYUnYxyUKS43BUUhsB6ETKnE8ZV9IcTsoisDplcJr3Jjg4+KkaX11Fmwu6+jNCDOOxQMORaQ86eDpAvw3e6WUWifQrAF1D9U4Ml2eAhd+Ey6VQoH0DkT1elqud9YnQxh4inTAuXbX5tbHGsKachnoe3nWq+UIcVW01DcgwtYxJ9p6fGXkNs/pVzq0Yfj0MTbMsKT3vz9um7yeWM04=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(396003)(39840400004)(136003)(346002)(376002)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(6512007)(6506007)(9686003)(38100700002)(41320700001)(558084003)(33716001)(86362001)(5660300002)(41300700001)(316002)(786003)(66556008)(66476007)(66946007)(6666004)(4326008)(8676002)(8936002)(2906002)(508600001)(6486002)(49092004);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?53fG6bsiNTIgBTj1TaXerF0fscdF8zSOLRM7oHYqHyJ1b3D+9GB24esqTtXt?=
+ =?us-ascii?Q?PFDQHcKMYJLgzio57uYcaya+Tf/anj7cHlpGPbKe5dFjBBskdbur0aJNckFj?=
+ =?us-ascii?Q?qU7ONvSjIHv2mcXGeOB4u66GLHrSAy4mmUxcWLj6iMQnfZhS4NhL5dTCworb?=
+ =?us-ascii?Q?civc+brED5S+wTdUabA8iPu1re4cXPmW3Jmv0qsPdUBrMjcYK3NSDn7SKTJS?=
+ =?us-ascii?Q?g7DKbxMEcqjCn5+7V7/i2YFky4i1jOy7iQ8JBxuEliNTL17gaYf0hYEo7ITU?=
+ =?us-ascii?Q?XhfMeh/BIgnROTid9dT7AVrdELSHBDdt9a1JkXN2cvXwh3qjfM6oI+fGHZsg?=
+ =?us-ascii?Q?Gg8NRgLcrSFhB7pm0H+fFowIqY+dlDPJDm/FSYwVUQyVYXn6lSfItqFrJC8W?=
+ =?us-ascii?Q?bpbNBoimp6J1P+3IetuF7turosGOJx0tZTGNbz6Afp1PUXrQ6MXSLTqclW2o?=
+ =?us-ascii?Q?5gGFOukLWDSutLGsKBbg/yi9Z570B7UgqBa+7Ox3g9XpkaaKN62z8udjbGUI?=
+ =?us-ascii?Q?y6SeZw1uGGGIpibWicaMQFINp/kH7unLqtbG0M9EUTqPHq3+LncWeaX9WPnh?=
+ =?us-ascii?Q?oLIe7frehE/tofXuLG42+JnWyoTZjVjJVHtlamUYI8QH41+DvLALSS+doXYZ?=
+ =?us-ascii?Q?JP34LTgsa0qHeIrTU+FQW/T1iy17kjQY/M6SJ833lV29SDi5i+Oyv2NJXdpr?=
+ =?us-ascii?Q?MkAeVerUWSrtjaBRK1YylhjZpUXzc3NsuhQIti3OoS7piLy+sgjh157lfjnZ?=
+ =?us-ascii?Q?gu/N97HlwMz6vYf+BlpEMuSJpj225hH7+TgPjicWWsWGenXVthYv2GAjGz4g?=
+ =?us-ascii?Q?PKPLUKIaCePdeyUeeuVb1y23v9WTP0dyLalmRXWGyCOb5t1ZqmDEN2UAYC4C?=
+ =?us-ascii?Q?8KzqmADlvpSrefI2oJ07V/GvNIRxx+VgvBfi4sH5UD5H3RUlUSA5nvs8rKCs?=
+ =?us-ascii?Q?IRw3VgK5PN6tRRUamsWIYgXHMEs2P1kbPRHGuOmfo4VS/i1Hfyj7q0OS0RX7?=
+ =?us-ascii?Q?H501uQ5doemkIslhRSVA6SC8XcvG5W21I0cZPm+KwodWEUJ4HbbhqaGUPTzL?=
+ =?us-ascii?Q?toz/6serSdbTbc3xmeHge0M0Qyz/ibSJa/WOSakDURdW3bmnT/aTt4tyvU+5?=
+ =?us-ascii?Q?JqLKIqC6BSg47K6uB0lZNRD11uF1Gm84LmBglf+kuiV0kOTzNsgFw1stcqB4?=
+ =?us-ascii?Q?lfWSt3CDMkn15G7OxTor4z9pRY7ftXsre6MEe7pCqonP6Z79RwEgP9TxlzaG?=
+ =?us-ascii?Q?qBWJVfNAItbkJu/NfeigzmXOb4nWM0RSOt1Z72Yy3464igYNdU9OFSQGclKB?=
+ =?us-ascii?Q?EM67mLo2cs7il6CRWBbOpWPuxFku2IDUREQ6EPr88QTkGNleyHIUL08jBCmm?=
+ =?us-ascii?Q?k8golmTabTiRzMtULPS9B8WWrNQ4hwOe/C3q6Z7r1/G2vg23dW5F/ZuxGB47?=
+ =?us-ascii?Q?yihtPVnlNm5oRQQSYvkkC9inx0zjPL7zAACfLQeyhFcAqGqIzgBCZLS9CcM/?=
+ =?us-ascii?Q?IZHMmi5KdGrs4XzAF/BfDKTAr5HBZAIo1Hkgz2SJ+5UgxtTNF6K9ByY+lqtV?=
+ =?us-ascii?Q?shZIvi3NlK+ZIuzt+xd7n09oAHOBmu/E1Ch16i8N?=
+X-OriginatorOrg: zenithal.me
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c2ce7f2-b3e6-496f-3c2a-08dbd9d3bbfb
+X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 05:39:22.0539
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WT8pwvSz0NIRuA2+LksRv+/JC5xQMzctFOJgHUrjOP5t4sbA0hQucxuKLblPjVH+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1P286MB3280
 
-Hi all,
-
-I own a ZikeDrive USB4 NVMe SSD enclosure and noticed that upon
-hotplugging the enclosure I receive the following kernel oops (6.6.0):
-
-    [  138.597027] thunderbolt 0-0:1.1: new retimer found, vendor=0x8087
-    device=0x15ee
-    [  138.626031] thunderbolt 0-1: new device found, vendor=0x187
-    device=0xd666
-    [  138.626046] thunderbolt 0-1: Gopod Group Limited. USB4 SSD Drive
-    Enclosure
-    [  138.736546] thunderbolt 0000:00:0d.2: 1:1: failed to enable lane
-    bonding
-    [  138.736888] thunderbolt 0000:00:0d.2: 1: failed to enable CL states
-    [  138.737874] thunderbolt 0000:00:0d.2: 1: failed to enable TMU
-    [  138.739417] thunderbolt 0000:00:0d.2: 1:1: hop deactivation
-    failed for hop 1, index 8
-    [  138.739421] ------------[ cut here ]------------
-    [  138.739422] thunderbolt 0000:00:0d.2: path activation failed
-    [  138.739462] WARNING: CPU: 6 PID: 3845 at
-    drivers/thunderbolt/path.c:573 tb_path_activate+0x10f/0x480
-    [thunderbolt]
-    [  138.739495] Modules linked in: ccm rfcomm snd_seq_dummy
-    snd_hrtimer snd_seq snd_seq_device cmac algif_hash algif_skcipher
-    af_alg nft_ct nf_conntrack nf_defrag_ipv4 nf_defrag_ipv6 bnep
-    nf_tables nfnetlink ntfs3 snd_sof_pci_intel_tgl
-    snd_sof_intel_hda_common soundwire_intel snd_sof_intel_hda_mlink
-    soundwire_cadence snd_sof_intel_hda snd_sof_pci snd_sof_xtensa_dsp
-    snd_sof snd_sof_utils snd_soc_hdac_hda snd_hda_ext_core
-    snd_soc_acpi_intel_match snd_soc_acpi soundwire_generic_allocation
-    soundwire_bus iwlmvm intel_uncore_frequency snd_soc_core
-    intel_uncore_frequency_common intel_tcc_cooling snd_compress
-    snd_hda_codec_realtek ac97_bus x86_pkg_temp_thermal intel_powerclamp
-    snd_hda_codec_generic snd_hda_codec_hdmi snd_pcm_dmaengine coretemp
-    mac80211 snd_hda_intel hid_multitouch kvm_intel snd_intel_dspcfg
-    snd_intel_sdw_acpi libarc4 mei_pxp kvm btusb uvcvideo mei_hdcp
-    snd_hda_codec btrtl uvc processor_thermal_device_pci videobuf2_v4l2
-    btbcm irqbypass snd_hda_core iTCO_wdt processor_thermal_device
-    dm_zero btintel videodev btmtk
-    [  138.739535]  iTCO_vendor_support processor_thermal_rapl snd_hwdep
-    r8169 rapl ucsi_acpi intel_pmc_bxt intel_rapl_msr iwlwifi bluetooth
-    realtek videobuf2_vmalloc pmt_telemetry typec_ucsi snd_pcm spi_nor
-    intel_cstate vfat mei_me intel_rapl_common intel_lpss_pci
-    mdio_devres videobuf2_memops pmt_class snd_timer videobuf2_common
-    i2c_i801 intel_lpss intel_uncore wmi_bmof asus_nb_wmi pcspkr typec
-    ecdh_generic cfg80211 libphy mtd fat processor_thermal_rfim mc mei
-    idma64 i2c_smbus snd thunderbolt crc16 roles i2c_hid_acpi soundcore
-    intel_vsec processor_thermal_mbox igen6_edac i2c_hid int3403_thermal
-    int340x_thermal_zone int3400_thermal acpi_thermal_rel acpi_tad
-    mousedev acpi_pad joydev mac_hid pkcs8_key_parser dm_multipath
-    i2c_dev crypto_user fuse loop ip_tables x_tables btrfs
-    blake2b_generic libcrc32c crc32c_generic xor raid6_pq dm_crypt cbc
-    encrypted_keys trusted tee asn1_encoder hid_asus asus_wmi
-    ledtrig_audio sparse_keymap rfkill platform_profile usbhid i915
-    crct10dif_pclmul crc32_pclmul crc32c_intel polyval_clmulni
-    [  138.739592]  polyval_generic gf128mul serio_raw
-    ghash_clmulni_intel drm_buddy dm_mod sha512_ssse3 intel_gtt atkbd
-    ttm sdhci_pci vivaldi_fmap aesni_intel libps2 i2c_algo_bit cqhci
-    nvme sdhci crypto_simd drm_display_helper nvme_core xhci_pci cryptd
-    spi_intel_pci mmc_core xhci_pci_renesas nvme_common spi_intel cec
-    video i8042 serio wmi
-    [  138.739610] CPU: 6 PID: 3845 Comm: pool-/usr/lib/b Tainted: G
-    S                 6.6.0-1-mainline #1
-    a243c5e3c83e72fc2b2243b5ea465e514d6c24c1
-    [  138.739614] Hardware name: ASUSTeK COMPUTER INC. ROG Zephyrus M16
-    GU603ZW_GU603ZW/GU603ZW, BIOS GU603ZW.311 12/22/2022
-    [  138.739615] RIP: 0010:tb_path_activate+0x10f/0x480 [thunderbolt]
-    [  138.739637] Code: 01 00 00 48 85 ed 0f 84 d7 00 00 00 48 81 c7 c0
-    00 00 00 e8 93 24 7b f8 48 89 ea 48 c7 c7 20 95 db c0 48 89 c6 e8 f1
-    78 f4 f7 <0f> 0b 48 8b 44 24 08 65 48 2b 04 25 28 00 00 00 0f 85 54
-    03 00 00
-    [  138.739639] RSP: 0018:ffffc90005937d30 EFLAGS: 00010282
-    [  138.739641] RAX: 0000000000000000 RBX: 00000000ffffff95 RCX:
-    0000000000000027
-    [  138.739642] RDX: ffff88886b3a1708 RSI: 0000000000000001 RDI:
-    ffff88886b3a1700
-    [  138.739644] RBP: ffff88810310edc0 R08: 0000000000000000 R09:
-    ffffc90005937bb8
-    [  138.739644] R10: 0000000000000003 R11: ffff88888b7aac28 R12:
-    0000000000000028
-    [  138.739645] R13: ffff88813ebc9100 R14: ffff888103fe5800 R15:
-    ffff8881701d8fe0
-    [  138.739647] FS:  00007fd6231fe6c0(0000) GS:ffff88886b380000(0000)
-    knlGS:0000000000000000
-    [  138.739648] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-    [  138.739650] CR2: 000055d0bbfe6610 CR3: 0000000141210000 CR4:
-    0000000000f50ee0
-    [  138.739651] PKRU: 55555554
-    [  138.739652] Call Trace:
-    [  138.739654]  <TASK>
-    [  138.739655]  ? tb_path_activate+0x10f/0x480 [thunderbolt
-    c85481cfb2695e02347db36bb54248816593d261]
-    [  138.739676]  ? __warn+0x81/0x130
-    [  138.739681]  ? tb_path_activate+0x10f/0x480 [thunderbolt
-    c85481cfb2695e02347db36bb54248816593d261]
-    [  138.739702]  ? report_bug+0x171/0x1a0
-    [  138.739706]  ? console_unlock+0x78/0x120
-    [  138.739710]  ? handle_bug+0x3c/0x80
-    [  138.739718]  ? exc_invalid_op+0x17/0x70
-    [  138.739721]  ? asm_exc_invalid_op+0x1a/0x20
-    [  138.739725]  ? tb_path_activate+0x10f/0x480 [thunderbolt
-    c85481cfb2695e02347db36bb54248816593d261]
-    [  138.739746]  tb_tunnel_restart+0xb3/0x220 [thunderbolt
-    c85481cfb2695e02347db36bb54248816593d261]
-    [  138.739767]  tb_tunnel_pci+0x1b2/0x480 [thunderbolt
-    c85481cfb2695e02347db36bb54248816593d261]
-    [  138.739787]  authorized_store+0x289/0x2d0 [thunderbolt
-    c85481cfb2695e02347db36bb54248816593d261]
-    [  138.739806]  kernfs_fop_write_iter+0x133/0x1d0
-    [  138.739810]  vfs_write+0x23b/0x420
-    [  138.739815]  ksys_write+0x6f/0xf0
-    [  138.739818]  do_syscall_64+0x5d/0x90
-    [  138.739820]  ? syscall_exit_to_user_mode+0x2b/0x40
-    [  138.739824]  ? do_syscall_64+0x6c/0x90
-    [  138.739826]  ? do_syscall_64+0x6c/0x90
-    [  138.739828]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
-    [  138.739830] RIP: 0033:0x7fd628ec406f
-    [  138.739876] Code: 89 54 24 18 48 89 74 24 10 89 7c 24 08 e8 19 4d
-    f8 ff 48 8b 54 24 18 48 8b 74 24 10 41 89 c0 8b 7c 24 08 b8 01 00 00
-    00 0f 05 <48> 3d 00 f0 ff ff 77 31 44 89 c7 48 89 44 24 08 e8 6c 4d
-    f8 ff 48
-    [  138.739877] RSP: 002b:00007fd6231fdc90 EFLAGS: 00000293 ORIG_RAX:
-    0000000000000001
-    [  138.739880] RAX: ffffffffffffffda RBX: 00007fd614008c40 RCX:
-    00007fd628ec406f
-    [  138.739881] RDX: 0000000000000001 RSI: 00007fd6231fdd30 RDI:
-    000000000000000a
-    [  138.739882] RBP: 00007fd6231fdd70 R08: 0000000000000000 R09:
-    00007fd6231fdba0
-    [  138.739883] R10: 0000000000000000 R11: 0000000000000293 R12:
-    00007fd614002e20
-    [  138.739884] R13: 000000000000000a R14: 0000000000000000 R15:
-    00007fd6231fdd28
-    [  138.739886]  </TASK>
-    [  138.739887] ---[ end trace 0000000000000000 ]---
-    [  138.739888] thunderbolt 0000:00:0d.2: 0:8 <-> 1:3 (PCI):
-    activation failed
-    [  138.740586] thunderbolt 0000:00:0d.2: 1:3: PCIe tunnel activation
-    failed, aborting
-    [  138.740697] thunderbolt 0-0:1.1: retimer disconnected
-    [  138.740791] thunderbolt 0-1: device disconnected
-
-the device is then rediscovered and the kernel oops reoccurs ad
-infinitum (device remaining non-functional the whole time).
-
-If the device was plugged in during system boot, no such error occurs
-and the device is fully functional.
-If the device is then unplugged/replugged, the above kernel oops appears
-and the device remains unusable.
-
-I have also tried enrolling the device prior to connect as well as
-enabling auto-authorization via udev rules as described in the "USB4 and
-Thunderbolt" admin guide, both to no avail.
-
-The system under test is an Asus ROG Zephyrus M16 GU603ZW (Intel
-i9-12900H [Alder Lake]) loaded with Arch Linux (tested under
-6.5.2-arch1-1, 6.5.3-arch1-1, and 6.6.0-1-mainline [vanilla]).
-
-The external enclosure is fully functional with the same kernel on a
-system with a TB3-only port (Intel i7-8750H [Coffee Lake] + Intel® HM370
-chipset), including hotplugging support.
-The external enclosure is also fully functional on the test system
-described above booted into Windows 11 x64.
-
-The bug was first reported to the Arch Linux forums with no response
-(https://bbs.archlinux.org/viewtopic.php?id=288731), more details can be
-found there too.
-
+#syz fix: usb/usbip: fix wrong data added to platform device
